@@ -1,0 +1,12 @@
+c:\users\zachary\documents\visual studio 2015\Projects\Anathema\Anathema\bin\Debug\Anathema.exe.config
+c:\users\zachary\documents\visual studio 2015\Projects\Anathema\Anathema\bin\Debug\Anathema.exe
+c:\users\zachary\documents\visual studio 2015\Projects\Anathema\Anathema\bin\Debug\Anathema.pdb
+c:\users\zachary\documents\visual studio 2015\Projects\Anathema\Anathema\obj\Debug\Anathema.csprojResolveAssemblyReference.cache
+c:\users\zachary\documents\visual studio 2015\Projects\Anathema\Anathema\obj\Debug\Anathema.Anathema.resources
+c:\users\zachary\documents\visual studio 2015\Projects\Anathema\Anathema\obj\Debug\Anathema.Properties.Resources.resources
+c:\users\zachary\documents\visual studio 2015\Projects\Anathema\Anathema\obj\Debug\Anathema.csproj.GenerateResource.Cache
+c:\users\zachary\documents\visual studio 2015\Projects\Anathema\Anathema\obj\Debug\Anathema.exe
+c:\users\zachary\documents\visual studio 2015\Projects\Anathema\Anathema\obj\Debug\Anathema.pdb
+c:\users\zachary\documents\visual studio 2015\Projects\Anathema\Anathema\obj\Debug\Anathema.ProcessSelector.resources
+c:\users\zachary\documents\visual studio 2015\Projects\Anathema\Anathema\obj\Debug\Anathema.AdvancedSettings.resources
+C:\Users\Zachary\Documents\Visual Studio 2015\Projects\Anathema\Anathema\obj\Debug\Anathema.PageVisualizer.resources
