@@ -11,14 +11,14 @@ using System.Windows.Forms;
 
 namespace Anathema
 {
-    public partial class PageVisualizer : Form
+    partial class PageVisualizer : Form
     {
-        private List<List<BitArray>> ChangeHistory;
+        private List<SearchSpaceAnalyzer.MemoryChangeData> MemoryChangeData;
         private bool[] HideItem;
 
-        public PageVisualizer(List<List<BitArray>> ChangeHistory)
+        public PageVisualizer(List<SearchSpaceAnalyzer.MemoryChangeData> MemoryChangeData)
         {
-            this.ChangeHistory = ChangeHistory;
+            this.MemoryChangeData = MemoryChangeData;
             InitializeComponent();
         }
 
@@ -31,31 +31,24 @@ namespace Anathema
         {
             PageChart.Series.Clear();
 
-            int[] HideShift = new int[ChangeHistory.Count];
-            HideItem = new bool[ChangeHistory.Count];
+            int[] HideShift = new int[MemoryChangeData.Count];
+            HideItem = new bool[MemoryChangeData.Count];
 
             // Filter out pages that never change or change every single cycle (if the settings ask to do so)
-            for (int PageIndex = 0; PageIndex < ChangeHistory.Count; PageIndex++)
+            for (int PageIndex = 0; PageIndex < MemoryChangeData.Count; PageIndex++)
             {
                 bool IsDynamic = true;
-                bool IsConstant = true;
+                bool IsConstant = false; // TEMP TEMP TEMP TEMP (should be true)
 
-                for (int BitPageIndex = 0; BitPageIndex < ChangeHistory[PageIndex].Count; BitPageIndex++)
+                for (int ChangeIndex = 0; ChangeIndex < MemoryChangeData[PageIndex].ChangeHistory.Count; ChangeIndex++)
                 {
-                    for (int ChangeIndex = 0; ChangeIndex < ChangeHistory[PageIndex][BitPageIndex].Count; ChangeIndex++)
+                    if (MemoryChangeData[PageIndex].ChangeHistory[ChangeIndex] == true)
                     {
-                        // Ignore first page -- we can't be certain if it truly changed or was unchanged
-                        if (BitPageIndex == 0 && ChangeIndex == 0)
-                            continue;
-
-                        if (ChangeHistory[PageIndex][BitPageIndex][ChangeIndex] == true)
-                        {
-                            IsConstant = false;
-                        }
-                        else
-                        {
-                            IsDynamic = false;
-                        }
+                        IsConstant = false;
+                    }
+                    else
+                    {
+                        IsDynamic = false;
                     }
                 }
 
@@ -73,7 +66,7 @@ namespace Anathema
             }
 
             // Add each page and configure it
-            for (int PageIndex = 0; PageIndex < ChangeHistory.Count; PageIndex++)
+            for (int PageIndex = 0; PageIndex < MemoryChangeData.Count; PageIndex++)
             {
                 if (HideItem[PageIndex])
                     continue;
@@ -88,20 +81,19 @@ namespace Anathema
                 PageChart.Series[ItemID].ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.StepLine;
             }
 
-            for (int PageIndex = 0; PageIndex < ChangeHistory.Count; PageIndex++)
+            for (int PageIndex = 0; PageIndex < MemoryChangeData.Count; PageIndex++)
             {
                 if (HideItem[PageIndex])
                     continue;
 
                 String ItemID = (PageIndex - HideShift[PageIndex]).ToString();
 
-                for (int BitPageIndex = 0; BitPageIndex < ChangeHistory[PageIndex].Count; BitPageIndex++)
-                {
-                    for (int ChangeIndex = 0; ChangeIndex < ChangeHistory[PageIndex][BitPageIndex].Count; ChangeIndex++)
+                    for (int ChangeIndex = 0; ChangeIndex < MemoryChangeData[PageIndex].ChangeHistory.Count; ChangeIndex++)
                     {
-                        PageChart.Series[ItemID].Points.AddXY(BitPageIndex * SearchSpaceAnalyzer.BitArraySize + ChangeIndex, Convert.ToSingle(ChangeHistory[PageIndex][BitPageIndex][ChangeIndex]) + (Single)(PageIndex - HideShift[PageIndex]) * 1.1f);
+                        PageChart.Series[ItemID].Points.AddXY(ChangeIndex,
+                            Convert.ToSingle(MemoryChangeData[PageIndex].ChangeHistory[ChangeIndex]) +
+                            (Single)(PageIndex - HideShift[PageIndex]) * 1.1f);
                     }
-                }
             }
 
             //PageChart.Series["Changed"].Points.AddXY(1, 1);

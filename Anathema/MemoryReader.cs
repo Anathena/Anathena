@@ -24,7 +24,7 @@ namespace Anathema
 
         public List<VirtualPageData> GetPages()
         {
-            const Int32 MaxIterations = 5000; // TODO Make this configurable and find a good default
+            const Int32 MaxIterations = 9000; // TODO Make this configurable and find a good default
 
             List<VirtualPageData> PageDataList = new List<VirtualPageData>();
 
@@ -107,6 +107,22 @@ namespace Anathema
                 this.State = (MEMORY_STATE)MemoryInfo.State;
                 this.Protection = (MEMORY_PROTECTION)MemoryInfo.AllocationProtect;
                 this.LType = (MEMORY_TYPE)MemoryInfo.lType;
+            }
+
+            public VirtualPageData(DateTime TimeStamp, UInt64 BaseAddress, UInt64 RegionSize, MEMORY_STATE State,
+                MEMORY_PROTECTION Protection, MEMORY_TYPE LType)
+            {
+                this.TimeStamp = TimeStamp;
+                this.BaseAddress = BaseAddress;
+                this.RegionSize = RegionSize;
+                this.State = State;
+                this.Protection = Protection;
+                this.LType = LType;
+            }
+
+            public VirtualPageData Clone()
+            {
+                return new VirtualPageData(TimeStamp, BaseAddress, RegionSize, State, Protection, LType);
             }
         }
 

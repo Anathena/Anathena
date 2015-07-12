@@ -36,7 +36,7 @@ namespace Anathema
 
         private void StartSSAButton_Click(object sender, EventArgs e)
         {
-            SearchSpaceAnalyzer.Begin();
+            SearchSpaceAnalyzer.Begin(0x800); // 0x400 found experimentally to be the most optimal power of 2
         }
 
         private void EndSSAButton_Click(object sender, EventArgs e)
