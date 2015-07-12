@@ -25,14 +25,9 @@ namespace Anathema
     /// to determine which half is of interest with subsequent loop iterations
     /// Repeat for a decent amount of time. Preferably enough time to split the pages all the way down to the threshold size.
     /// 
-    /// 3) Determine which pages are changing in correspondence to the input(s) of interest. Time stamps will be required,
-    /// though perhaps pages can be split into n groups and sampled round robin and keep ALL time stamps;
-    /// 4) Once the search space has been reduced, we can then perform a similar course of action for each individual byte,
-    /// keeping a record of changes
-    /// 5) Using an input log history, determine which bytes are of interest to the user (unsupervised learning problem?)
-    /// 
-    /// OR perhaps a binary checksum tree (down to a certain granularity), with splitting occuring on checksum mismatches
-    /// Then we can simply cull pages according to some parameters (ie unchanged for > 2s)
+    /// // TODO
+    /// After initial reduction, determine which pages are changing in correspondence to the input(s) of interest.
+    /// Allow the user to specify certain constraints (data types, allignment, float E format filter...)
     /// </summary>
     class SearchSpaceAnalyzer : MemoryReader
     {
