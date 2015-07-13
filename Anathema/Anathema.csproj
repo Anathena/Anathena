@@ -56,6 +56,47 @@
       <DependentUpon>Anathema.cs</DependentUpon>
     </Compile>
     <Compile Include="CheckSyntax.cs" />
+    <Compile Include="InputRecorder.cs" />
+    <Compile Include="MouseKeyHook\Hook.cs" />
+    <Compile Include="MouseKeyHook\HotKeys\HotKeyArgs.cs" />
+    <Compile Include="MouseKeyHook\HotKeys\HotKeySet.cs" />
+    <Compile Include="MouseKeyHook\HotKeys\HotKeySetCollection.cs" />
+    <Compile Include="MouseKeyHook\HotKeys\HotKeySetsListener.cs" />
+    <Compile Include="MouseKeyHook\IKeyboardEvents.cs" />
+    <Compile Include="MouseKeyHook\IKeyboardMouseEvents.cs" />
+    <Compile Include="MouseKeyHook\IMouseEvents.cs" />
+    <Compile Include="MouseKeyHook\Implementation\AppEventFacade.cs" />
+    <Compile Include="MouseKeyHook\Implementation\AppKeyListener.cs" />
+    <Compile Include="MouseKeyHook\Implementation\AppMouseListener.cs" />
+    <Compile Include="MouseKeyHook\Implementation\BaseListener.cs" />
+    <Compile Include="MouseKeyHook\Implementation\ButtonSet.cs" />
+    <Compile Include="MouseKeyHook\Implementation\Callback.cs" />
+    <Compile Include="MouseKeyHook\Implementation\EventFacade.cs" />
+    <Compile Include="MouseKeyHook\Implementation\GlobalEventFacade.cs" />
+    <Compile Include="MouseKeyHook\Implementation\GlobalKeyListener.cs" />
+    <Compile Include="MouseKeyHook\Implementation\GlobalMouseListener.cs" />
+    <Compile Include="MouseKeyHook\Implementation\KeyboardState.cs" />
+    <Compile Include="MouseKeyHook\Implementation\KeyListener.cs" />
+    <Compile Include="MouseKeyHook\Implementation\MouseListener.cs" />
+    <Compile Include="MouseKeyHook\Implementation\Subscribe.cs" />
+    <Compile Include="MouseKeyHook\KeyEventArgsExt.cs" />
+    <Compile Include="MouseKeyHook\KeyPressEventArgsExt.cs" />
+    <Compile Include="MouseKeyHook\MouseEventExtArgs.cs" />
+    <Compile Include="MouseKeyHook\WinApi\AppMouseStruct.cs" />
+    <Compile Include="MouseKeyHook\WinApi\CallbackData.cs" />
+    <Compile Include="MouseKeyHook\WinApi\HookHelper.cs" />
+    <Compile Include="MouseKeyHook\WinApi\HookIds.cs" />
+    <Compile Include="MouseKeyHook\WinApi\HookNativeMethods.cs" />
+    <Compile Include="MouseKeyHook\WinApi\HookProcedure.cs" />
+    <Compile Include="MouseKeyHook\WinApi\HookProcedureHandle.cs" />
+    <Compile Include="MouseKeyHook\WinApi\HookResult.cs" />
+    <Compile Include="MouseKeyHook\WinApi\KeyboardHookStruct.cs" />
+    <Compile Include="MouseKeyHook\WinApi\KeyboardNativeMethods.cs" />
+    <Compile Include="MouseKeyHook\WinApi\Messages.cs" />
+    <Compile Include="MouseKeyHook\WinApi\MouseNativeMethods.cs" />
+    <Compile Include="MouseKeyHook\WinApi\MouseStruct.cs" />
+    <Compile Include="MouseKeyHook\WinApi\Point.cs" />
+    <Compile Include="MouseKeyHook\WinApi\ThreadNativeMethods.cs" />
     <Compile Include="PageVisualizer.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -116,6 +157,10 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <Content Include="MouseKeyHook\HotKeys\ReadMe.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

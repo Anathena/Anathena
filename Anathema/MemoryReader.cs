@@ -87,6 +87,7 @@ namespace Anathema
             return PageDataList;
         }
 
+        
         /// <summary>
         /// Structure defining the important details of a memory page
         /// </summary>

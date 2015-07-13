@@ -113,8 +113,8 @@
             this.SnapshotListBox = new System.Windows.Forms.ListBox();
             this.SaveSnapshotButton = new System.Windows.Forms.Button();
             this.RestoreSnapshotButton = new System.Windows.Forms.Button();
-            this.button1 = new System.Windows.Forms.Button();
-            this.button2 = new System.Windows.Forms.Button();
+            this.EndRSSAButton = new System.Windows.Forms.Button();
+            this.StartRSSAButton = new System.Windows.Forms.Button();
             this.AddConstraintButton = new System.Windows.Forms.Button();
             this.MainToolStrip.SuspendLayout();
             this.GUIMenuStrip.SuspendLayout();
@@ -859,25 +859,25 @@
             this.RestoreSnapshotButton.Text = "Restore Snapshot";
             this.RestoreSnapshotButton.UseVisualStyleBackColor = true;
             // 
-            // button1
+            // EndRSSAButton
             // 
-            this.button1.Location = new System.Drawing.Point(609, 195);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 23);
-            this.button1.TabIndex = 128;
-            this.button1.Text = "End RSSA";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.EndSSAButton_Click);
+            this.EndRSSAButton.Location = new System.Drawing.Point(609, 195);
+            this.EndRSSAButton.Name = "EndRSSAButton";
+            this.EndRSSAButton.Size = new System.Drawing.Size(75, 23);
+            this.EndRSSAButton.TabIndex = 128;
+            this.EndRSSAButton.Text = "End RSSA";
+            this.EndRSSAButton.UseVisualStyleBackColor = true;
+            this.EndRSSAButton.Click += new System.EventHandler(this.EndRSSAButton_Click);
             // 
-            // button2
+            // StartRSSAButton
             // 
-            this.button2.Location = new System.Drawing.Point(528, 195);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(75, 23);
-            this.button2.TabIndex = 127;
-            this.button2.Text = "Start RSSA";
-            this.button2.UseVisualStyleBackColor = true;
-            this.button2.Click += new System.EventHandler(this.StartSSAButton_Click);
+            this.StartRSSAButton.Location = new System.Drawing.Point(528, 195);
+            this.StartRSSAButton.Name = "StartRSSAButton";
+            this.StartRSSAButton.Size = new System.Drawing.Size(75, 23);
+            this.StartRSSAButton.TabIndex = 127;
+            this.StartRSSAButton.Text = "Start RSSA";
+            this.StartRSSAButton.UseVisualStyleBackColor = true;
+            this.StartRSSAButton.Click += new System.EventHandler(this.StartRSSAButton_Click);
             // 
             // AddConstraintButton
             // 
@@ -901,8 +901,8 @@
             this.Controls.Add(this.AddConstraintButton);
             this.Controls.Add(this.PageVisualizerButton);
             this.Controls.Add(this.ScanToolStrip);
-            this.Controls.Add(this.button2);
-            this.Controls.Add(this.button1);
+            this.Controls.Add(this.StartRSSAButton);
+            this.Controls.Add(this.EndRSSAButton);
             this.Controls.Add(this.StartSSAButton);
             this.Controls.Add(this.EndSSAButton);
             this.Controls.Add(this.ScanValueUpperTB);
@@ -1019,8 +1019,8 @@
         private System.Windows.Forms.ListBox SnapshotListBox;
         private System.Windows.Forms.Button SaveSnapshotButton;
         private System.Windows.Forms.Button RestoreSnapshotButton;
-        private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.Button EndRSSAButton;
+        private System.Windows.Forms.Button StartRSSAButton;
         private System.Windows.Forms.Button AddConstraintButton;
     }
 }
