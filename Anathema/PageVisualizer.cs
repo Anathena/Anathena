@@ -13,12 +13,12 @@ namespace Anathema
 {
     partial class PageVisualizer : Form
     {
-        private List<SearchSpaceAnalyzer.MemoryChangeData> MemoryChangeData;
+        private List<SearchSpaceAnalyzer.MemoryChangeLogger> MemoryChangeLogs;
         private bool[] HideItem;
 
-        public PageVisualizer(List<SearchSpaceAnalyzer.MemoryChangeData> MemoryChangeData)
+        public PageVisualizer(List<SearchSpaceAnalyzer.MemoryChangeLogger> MemoryChangeData)
         {
-            this.MemoryChangeData = MemoryChangeData;
+            this.MemoryChangeLogs = MemoryChangeData;
             InitializeComponent();
         }
 
@@ -31,15 +31,16 @@ namespace Anathema
         {
             PageChart.Series.Clear();
 
-            int[] HideShift = new int[MemoryChangeData.Count];
-            HideItem = new bool[MemoryChangeData.Count];
+            int[] HideShift = new int[MemoryChangeLogs.Count];
+            HideItem = new bool[MemoryChangeLogs.Count];
 
             // Filter out pages that never change or change every single cycle (if the settings ask to do so)
-            for (int PageIndex = 0; PageIndex < MemoryChangeData.Count; PageIndex++)
+            for (int PageIndex = 0; PageIndex < MemoryChangeLogs.Count; PageIndex++)
             {
                 bool IsDynamic = true;
                 bool IsConstant = false; // TEMP TEMP TEMP TEMP (should be true)
 
+                /*
                 for (int ChangeIndex = 0; ChangeIndex < MemoryChangeData[PageIndex].ChangeHistory.Count; ChangeIndex++)
                 {
                     if (MemoryChangeData[PageIndex].ChangeHistory[ChangeIndex] == true)
@@ -50,7 +51,7 @@ namespace Anathema
                     {
                         IsDynamic = false;
                     }
-                }
+                }*/
 
                 if ((CheckBoxHideConstant.Checked && IsConstant) || (CheckBoxHideDynamic.Checked && IsDynamic))
                 {
@@ -66,7 +67,7 @@ namespace Anathema
             }
 
             // Add each page and configure it
-            for (int PageIndex = 0; PageIndex < MemoryChangeData.Count; PageIndex++)
+            for (int PageIndex = 0; PageIndex < MemoryChangeLogs.Count; PageIndex++)
             {
                 if (HideItem[PageIndex])
                     continue;
@@ -81,19 +82,20 @@ namespace Anathema
                 PageChart.Series[ItemID].ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.StepLine;
             }
 
-            for (int PageIndex = 0; PageIndex < MemoryChangeData.Count; PageIndex++)
+            for (int PageIndex = 0; PageIndex < MemoryChangeLogs.Count; PageIndex++)
             {
                 if (HideItem[PageIndex])
                     continue;
 
                 String ItemID = (PageIndex - HideShift[PageIndex]).ToString();
-
-                    for (int ChangeIndex = 0; ChangeIndex < MemoryChangeData[PageIndex].ChangeHistory.Count; ChangeIndex++)
-                    {
-                        PageChart.Series[ItemID].Points.AddXY(ChangeIndex,
-                            Convert.ToSingle(MemoryChangeData[PageIndex].ChangeHistory[ChangeIndex]) +
-                            (Single)(PageIndex - HideShift[PageIndex]) * 1.1f);
-                    }
+                /*
+                for (int ChangeIndex = 0; ChangeIndex < MemoryChangeData[PageIndex].ChangeHistory.Count; ChangeIndex++)
+                {
+                    PageChart.Series[ItemID].Points.AddXY(ChangeIndex,
+                        Convert.ToSingle(MemoryChangeData[PageIndex].ChangeHistory[ChangeIndex]) +
+                        (Single)(PageIndex - HideShift[PageIndex]) * 1.1f);
+                }
+                */
             }
 
             //PageChart.Series["Changed"].Points.AddXY(1, 1);

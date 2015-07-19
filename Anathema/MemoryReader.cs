@@ -14,11 +14,17 @@ namespace Anathema
 
         }
 
-        public Byte[] ReadArrayOfBytes(IntPtr MemoryAddress, uint BytesToRead)
+        public Byte[] ReadArrayOfBytes(IntPtr MemoryAddress, UInt32 BytesToRead, out Boolean Success)
         {
             byte[] ByteBuffer = new byte[BytesToRead];
             IntPtr PtrBytesRead;
             ReadProcessMemory(TargetProcess.Handle, MemoryAddress, ByteBuffer, BytesToRead, out PtrBytesRead);
+
+            if (PtrBytesRead == IntPtr.Zero)
+                Success = false;
+            else
+                Success = true;
+
             return ByteBuffer;
         }
 

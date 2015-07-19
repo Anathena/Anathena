@@ -41,7 +41,7 @@ namespace Anathema
 
         private void EndSSAButton_Click(object sender, EventArgs e)
         {
-            SearchSpaceAnalyzer.End();
+            SearchSpaceAnalyzer.EndScan();
         }
         
         private void StartRSSAButton_Click(object sender, EventArgs e)
@@ -51,7 +51,7 @@ namespace Anathema
 
         private void EndRSSAButton_Click(object sender, EventArgs e)
         {
-            SearchSpaceAnalyzer.End();
+            SearchSpaceAnalyzer.BeginScan();
         }
 
         private void PageVisualizerButton_Click(object sender, EventArgs e)

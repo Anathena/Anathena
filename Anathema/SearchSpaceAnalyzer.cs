@@ -2,13 +2,15 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Timers;
-using System.Security.Cryptography;
 using System.Runtime.InteropServices;
-using System.Threading;
 using System.Windows.Forms;
 using Gma.System.MouseKeyHook;
+using System.Diagnostics;
+using System.Threading.Tasks;
+using System.IO;
+using System.Security.Cryptography;
+using System.Threading;
 
 namespace Anathema
 {
@@ -21,50 +23,33 @@ namespace Anathema
     /// 0) An instance of this class is made, and the Begin function is called with a specified page threshold.
     /// 1) Query all active memory pages running on the target process and save their metadata (page properties, address, size, etc)
     /// 
-    /// On a timer:
-    /// 2) Perform a MD5 hash on each memory page. A total of 2 will be kept for each page (for comparison purposes)
+    /// REPEAT:
+    /// 2) Perform a 64 bit hash on each memory page. A total of 2 will be kept for each page (for comparison purposes)
     /// 3) Once 2 have been collected, we can compare to determine if the pages have changed and store this in the history.
     /// 4) If a page has changed, we can then split that page into two (if it is larger than the given threshold), allowing us
     /// to determine which half is of interest with subsequent loop iterations
-    /// Repeat for a decent amount of time. Preferably enough time to split the pages all the way down to the threshold size.
+    /// END ON USER REQUEST. Preferably after enough time to split the pages all the way down to the threshold size.
     /// 
-    /// // TODO
-    /// After initial reduction, determine which pages are changing in correspondence to the input(s) of interest.
-    /// Allow the user to specify certain constraints (data types, allignment, float E format filter...)
     /// </summary>
     class SearchSpaceAnalyzer : MemoryReader
     {
-        private List<MemoryChangeData> MemoryPages;     // List of memory pages and their boolean change history
-
-        // Thread related TODO
-        //private List<Thread> Threads = new List<Thread>();
-        //private const Int32 ThreadCount = 4;
-
         // Search space reduction related
+        private List<MemoryChangeLogger> MemoryPages;   // List of memory pages and their change history
         public const Int32 BitArraySize = 64;           // Size of the number of change bits to keep before allocating more
-        private bool FinishedAnalyzing = false;         // Flag indicating the user wishes for the analysis to stop
-        private System.Timers.Timer UpdateTimer;        // Timer to query for memory and process changes
-        private float TimerDelay = 250f;                // Delay between update cycles
-        private UInt64 PageSplitThreshold;              // User specified minimum page size for dynamic pages
-
-        // Reduction Statistics
-        private UInt64 QueriedMemorySize;               // Size of the initial memory query
-        private UInt64 FilteredMemorySize;              // Size of the memory after search space reduction
-        private Double ReductionPercentage;             // Percent reduction of search space
+        private CancellationTokenSource CancelRequest;  // Tells the scan task to cancel (ie finish)
+        private Task ChangeScanner;                     // Event that constantly checks the target process for changes
+        private const Int32 WaitTime = 100;             // Time to wait (in ms) for a cancel request between each scan
 
         // Input correlation related
         private readonly IKeyboardMouseEvents InputHook;            // Input Capturing instance
-        private const Double DelayBuffer = 250.0;
         private Dictionary<Keys, Double> PhiCoefficientCorrelation; // Correlation of input and memory changes
         private Dictionary<Keys, List<DateTime>> KeyBoardDown;      // List of keyboard down events
         private Dictionary<Keys, List<DateTime>> KeyBoardUp;        // List of keyboard up events
-        // private List<>                                           // List of mouse events
-
 
         #region Public Methods
         public SearchSpaceAnalyzer()
         {
-            MemoryPages = new List<MemoryChangeData>();
+            MemoryPages = new List<MemoryChangeLogger>();
 
             KeyBoardUp = new Dictionary<Keys, List<DateTime>>();
             KeyBoardDown = new Dictionary<Keys, List<DateTime>>();
@@ -73,7 +58,7 @@ namespace Anathema
             InputHook = Hook.GlobalEvents();
         }
 
-        public List<MemoryChangeData> GetHistory()
+        public List<MemoryChangeLogger> GetHistory()
         {
             return MemoryPages;
         }
@@ -83,27 +68,22 @@ namespace Anathema
             MemoryPages.Clear();
         }
 
-        public void Begin(UInt64 PageSplitThreshold = UInt64.MaxValue)
+        public void Begin(UInt32 PageSplitThreshold = UInt32.MaxValue)
         {
-            FinishedAnalyzing = false;
-
-            this.PageSplitThreshold = PageSplitThreshold;
+            MemoryChangeLogger.PageSplitThreshold = PageSplitThreshold;
 
             // Create input hook events
-            InputHook.MouseDownExt += GlobalHookMouseDownExt;
-            InputHook.KeyUp += GlobalHookKeyUp;
-            InputHook.KeyDown += GlobalHookKeyDown;
+            //InputHook.MouseDownExt += GlobalHookMouseDownExt;
+            //InputHook.KeyUp += GlobalHookKeyUp;
+            //InputHook.KeyDown += GlobalHookKeyDown;
 
             // Get the active pages from the target
             List<VirtualPageData> Pages = GetPages();
             for (int Index = 0; Index < Pages.Count; Index++)
-                MemoryPages.Add(new MemoryChangeData(Pages[Index]));
-            QueriedMemorySize = QueryMemorySize();
+                MemoryPages.Add(new MemoryChangeLogger(Pages[Index]));
 
-            // Create timer event
-            UpdateTimer = new System.Timers.Timer(TimerDelay);
-            UpdateTimer.Elapsed += new ElapsedEventHandler(Tick);
-            UpdateTimer.Start();
+            // Start recording changes in the process memory
+            BeginScan();
         }
 
         #endregion
@@ -175,22 +155,26 @@ namespace Anathema
 
             // Create a single list which combines the list of key presses (down) and releases (up)
             var KeyBoardDurations = KeyBoardDown.Zip(KeyBoardUp, (D, U) => new { Down = D, Up = U });
-            
+
             foreach (var NextItem in KeyBoardDurations)
             {
                 List<DateTime> KeyDownHistory = NextItem.Down.Value;
                 List<DateTime> KeyUpHistory = NextItem.Up.Value;
-
+                /*
                 // Test every recorded memory change (or lack thereof) against the input change logs
                 for (int PageIndex = 0; PageIndex < MemoryPages.Count; PageIndex++)
                 {
-                    Single Count00 = 0;
-                    Single Count01 = 0;
-                    Single Count10 = 0;
-                    Single Count11 = 0;
+                    // https://en.wikipedia.org/wiki/Point-biserial_correlation_coefficient
 
-                    Single Count1 = 0;
                     Single Count0 = 0;
+                    Single Count1 = 0;
+                    Single M0 = 0;
+                    Single M1 = 0;
+                    Single Sn = 0;
+
+                    Single ActivationRatio = 0;
+                    Single Duration = 0;
+                    Single InputActivatedDuration = 0;
 
                     for (int ChangeIndex = 0; ChangeIndex < MemoryPages[PageIndex].ChangeHistory.Count; ChangeIndex++)
                     {
@@ -206,319 +190,258 @@ namespace Anathema
 
                             // We found a match indicating the input was active at the same time (or at least within DelayBuffer ms)
                             InputActive = true;
-                            break;
+
+                            // Add to the total time activated
+                            InputActivatedDuration += (Single)(KeyUpHistory[InputIndex].Ticks - KeyDownHistory[InputIndex].Ticks);
+
+                            // Compute the difference between the start and end to get the total time
+                            if (InputIndex == KeyDownHistory.Count - 1)
+                                Duration = (Single)(KeyUpHistory[InputIndex].Ticks - KeyDownHistory[0].Ticks);
                         }
+
+                        if (InputActive)
+                            M1++;
+                        else
+                            M0++;
+
 
                         if (PageChanged || InputActive)
                             Count1++;
                         else
                             Count0++;
-
-                        // Use the change booleans to count the occurence of each binary relationship
-                        if (!PageChanged && !InputActive)
-                            Count00++;
-                        else if (!PageChanged && InputActive)
-                            Count01++;
-                        else if (PageChanged && !InputActive)
-                            Count10++;
-                        else if (PageChanged && InputActive)
-                            Count11++;
                     }
 
-                    MemoryPages[PageIndex].PhiCoefficient = (Count11 * Count00 - Count10 * Count01) /
-                        (Single)Math.Sqrt(Count0 * Count0 * Count1 * Count1);
-                }
+                    M0 /= Count0;
+                    M1 /= Count1;
+
+                    ActivationRatio = InputActivatedDuration / Duration;
+                    Sn = (Single)Math.Sqrt(ActivationRatio * (1.0f - ActivationRatio));
+
+                    MemoryPages[PageIndex].PhiCoefficient = (M1 - M0) / Sn *
+                        (Single)Math.Sqrt(Count0 * Count1 / (Count0 + Count1) * (Count0 + Count1));
+
+                    //MemoryPages[PageIndex].PhiCoefficient = (Count11 * Count00 - Count10 * Count01) /
+                    //    (Single)Math.Sqrt(Count0 * Count0 * Count1 * Count1);
+                }*/
             }
         }
         #endregion
 
-        private void Finalization()
+        public void BeginScan()
         {
-            // Disable the timer that queries for memory changes
-            UpdateTimer.Enabled = false;
-            UpdateTimer.Stop();
+            CancelRequest = new CancellationTokenSource();
 
-            // Truncate the final bit array to the correct size (future space is allocated, not all of it is used)
-            for (int Index = 0; Index < MemoryPages.Count; Index++)
-                MemoryPages[Index].TruncateHistory();
-
-            // Remove pages that have not changed at all through the entire scan
-            for (int PageIndex = 0; PageIndex < MemoryPages.Count; PageIndex++)
+            ChangeScanner = Task.Run(async () =>
             {
-                bool IsConstant = true;
-
-                for (int ChangeIndex = 0; ChangeIndex < MemoryPages[PageIndex].ChangeHistory.Count; ChangeIndex++)
+                while (true)
                 {
-                    if (MemoryPages[PageIndex].ChangeHistory[ChangeIndex] == true)
-                        IsConstant = false;
+                    // Query the target process for memory changes
+                    QueryChanges();
+                    await Task.Delay(WaitTime, CancelRequest.Token); // Await with cancellation
                 }
-
-                // Remove the page if there have been no (known) memory changes
-                if (!MemoryPages[PageIndex].StateUnknown && IsConstant)
-                    MemoryPages.RemoveAt(PageIndex--);
-            }
-
-            // Measure the input correlation
-            MeasurePhiCoefficients();
-            
-            FilteredMemorySize = QueryMemorySize();
-            if (QueriedMemorySize > 0)
-                ReductionPercentage = 1.0 - (Double)FilteredMemorySize / (Double)QueriedMemorySize;
-            else
-                ReductionPercentage = 0;
+            }, CancelRequest.Token);
         }
-
-        private UInt64 QueryMemorySize()
-        {
-            UInt64 TotalSize = 0;
-            for (int Index = 0; Index < MemoryPages.Count; Index++)
-                TotalSize += MemoryPages[Index].ActiveMemoryPages.RegionSize;
-
-            return TotalSize;
-        }
-
-        // Determine which memory pages change
+        
         private void QueryChanges()
         {
-            // Get a list of current pages
-            List<VirtualPageData> Pages = GetPages();
+            Stopwatch StopWatch = new Stopwatch();
+            StopWatch.Start();
 
+            //for (int PageIndex = 0; PageIndex < MemoryPages.Count; PageIndex++)
+            Parallel.For(0, MemoryPages.Count, PageIndex => // Upwards of a x16 increase in speed
+            {
+                Boolean Success = false;
+                Byte[] PageData = ReadArrayOfBytes((IntPtr)MemoryPages[PageIndex].ActiveMemoryPage.BaseAddress,
+                    (UInt32)MemoryPages[PageIndex].ActiveMemoryPage.RegionSize, out Success);
+
+                // Process the changes that have occurred since the last sampling for this memory page
+                if (Success)
+                    MemoryPages[PageIndex].ProcessChanges(PageData);
+                // Error reading this page -- delete it (may have been deallocated)
+                else
+                    MemoryPages[PageIndex].IsDead = true;
+            });
+
+            // Remove dead (deallocated) pages
             for (int Index = 0; Index < MemoryPages.Count; Index++)
             {
-                // Determine which current page corresponds to the active page under consideration
-                int PageIndex;
-                for (PageIndex = 0; PageIndex < Pages.Count; PageIndex++)
-                {
-                    if (MemoryPages[Index].ActiveMemoryPages.BaseAddress >= Pages[PageIndex].BaseAddress &&
-                        MemoryPages[Index].ActiveMemoryPages.BaseAddress + MemoryPages[Index].ActiveMemoryPages.RegionSize <=
-                        Pages[PageIndex].BaseAddress + Pages[PageIndex].RegionSize)
-                    {
-                        break;
-                    }
-                }
-
-                // Check if the page could not be found (deallocated)
-                if (PageIndex < 0 || PageIndex >= MemoryPages.Count)
-                {
-                    // Delete this page from the active list
+                if (MemoryPages[Index].IsDead)
                     MemoryPages.RemoveAt(Index--);
-                    continue;
-                }
-
-                // Read the memory from the next page
-                Byte[] PageData = ReadArrayOfBytes((IntPtr)MemoryPages[Index].ActiveMemoryPages.BaseAddress,
-                    (UInt32)MemoryPages[Index].ActiveMemoryPages.RegionSize);
-
-                // Calculate the checksum for the page for this iteration (only two kept at any given time)
-                MemoryPages[Index].AddCheckSum(CalculateCheckSum(PageData));
-
-                // Use the checksum data to determine if there were any changes in the memory page
-                MemoryPages[Index].AddHistory();
             }
+
+            // Get the elapsed time as a TimeSpan value.
+            StopWatch.Stop();
+            Int32 ts = StopWatch.Elapsed.Milliseconds;
         }
 
-        private void SplitPages()
+        public void EndScan()
         {
-            // Do not waste processing time when the threshold is at its max (ie splitting disabled)
-            if (PageSplitThreshold == UInt64.MaxValue)
-                return;
-
-            // List of new pages that come from splitting an old one
-            List<MemoryChangeData> SplitPages = new List<MemoryChangeData>();
-
-            for (int Index = 0; Index < MemoryPages.Count; Index++)
+            CancelRequest.Cancel();
+            try
             {
-                // Ignore pages below/equal to the threshold size
-                if (MemoryPages[Index].ActiveMemoryPages.RegionSize <= PageSplitThreshold)
-                    continue;
+                ChangeScanner.Wait();
 
-                // Ignore pages that are constant (ie no need to split them)
-                if (!MemoryPages[Index].HasChanged())
-                    continue;
-
-                // Page has changed and is above the threshold, so we must split it into two pages
-                MemoryChangeData SplitPage = MemoryPages[Index].Clone();
-
-                // Adjust split page to be the upper half
-                SplitPage.SetToUpperHalf();
-                SplitPage.ClearState();
-                SplitPages.Add(SplitPage);
-
-                // Adjust this page to be the lower half
-                MemoryPages[Index].SetToLowerHalf();
-                MemoryPages[Index].ClearState();
+                // Remove pages that have not changed at all through the entire scan
+                for (int PageIndex = 0; PageIndex < MemoryPages.Count; PageIndex++)
+                    MemoryPages[PageIndex].Finalization();
             }
-
-            // Add the new pages to the main list
-            MemoryPages.AddRange(SplitPages);
+            catch (AggregateException) { }
         }
 
-        private void Tick(object Sender, ElapsedEventArgs Event)
+        static UInt64 CalculateCheckSum(byte[] MemoryValues, int Start, int Length)
         {
-            // Disable the timer while we do all of the heavy lifting
-            UpdateTimer.Stop();
+            if (MemoryValues == null)
+                return 0;
 
-            QueryChanges();
-            SplitPages();
+            return FastHash.ComputeHash(MemoryValues, Start, Start + Length);
+        }
 
-            // If the user has specified that we are finished, then finalize and do not restart the timer
-            if (FinishedAnalyzing)
+        public class MemoryChangeLogger
+        {
+            public VirtualPageData ActiveMemoryPage;    // Virtual memory page for which this class is tracking changes
+            public List<DateTime> DateHistory;          // History of timestamps for queried memory
+            public MemoryChangeTree Child;              // Root for data structure that processes changes
+
+            public static UInt32 PageSplitThreshold;    // User specified minimum page size for dynamic pages
+
+            public bool IsDead = false;
+
+            public MemoryChangeLogger(VirtualPageData ActiveMemoryPage)
             {
-                Finalization();
-                return;
+                this.ActiveMemoryPage = ActiveMemoryPage;
+                Child = new MemoryChangeTree();
+                DateHistory = new List<DateTime>();
             }
 
-            // Enable the timer and repeat the process
-            UpdateTimer.Start();
+            public void Finalization()
+            {
+                Child.TruncateChanges();
+            }
+
+            public List<Int32> GetValidPages()
+            {
+                List<Int32> Pages = new List<Int32>();
+                Child.AddPages(Pages);
+                return Pages;
+            }
+
+            public void ProcessChanges(Byte[] PageData)
+            {
+                // Add the time stamp
+                DateHistory.Add(DateTime.Now);
+
+                // Have the change tree root process the changes in the data
+                Child.ProcessChanges(PageData, 0, PageData.Length - 1);
+            }
         }
 
-        public void End()
+        public class MemoryChangeTree
         {
-            // Set a flag indicating the update timer should only do one more final sample
-            FinishedAnalyzing = true;
-        }
-
-        private static MD5 MD5Hash = MD5.Create();
-        static byte[] CalculateCheckSum(byte[] MemoryValues)
-        {
-            if (MemoryValues == null || MemoryValues.Length <= 0)
-                return null;
-
-            return MD5Hash.ComputeHash(MemoryValues);
-        }
-
-        [DllImport("msvcrt.dll", CallingConvention = CallingConvention.Cdecl)]
-        static extern int memcmp(byte[] b1, byte[] b2, long count);
-        static bool CompareCheckSums(byte[] ArrayA, byte[] ArrayB)
-        {
-            // Determine if the two byte arrays are identical 
-            return !(ArrayA.Length == ArrayB.Length && memcmp(ArrayA, ArrayB, ArrayA.Length) == 0);
-        }
-
-        public class MemoryChangeData
-        {
-            public VirtualPageData ActiveMemoryPages;
+            public UInt64[] CheckSums;      // Can look into UInt32 if memory is a large concern for these trees
             public BitArray ChangeHistory;
-            public List<DateTime> DateHistory;
-            public byte[][] CheckSums;
-            public float PhiCoefficient;
+            public Int32 ChangeCount = 0;
 
-            public int CurrentDepth;
+            public MemoryChangeTree ChildLeft = null;
+            public MemoryChangeTree ChildRight = null;
 
-            public bool LogHistory;
             public bool LastChangeState = false;
-            public bool StateUnknown;
+            public bool StateUnknown = true;
 
-            public MemoryChangeData(VirtualPageData ActiveMemoryPages, BitArray ChangeHistory = null, List<DateTime> DateHistory = null,
-                byte[][] CheckSums = null, bool LogHistory = false, int CurrentDepth = 0, float PhiCoefficient = 0.0f)
+            //public float PhiCoefficient; // stupid TODO: perhaps its not terrible for each tree to keep track of a Dict<> of this
+
+            public MemoryChangeTree()
             {
-                this.ActiveMemoryPages = ActiveMemoryPages;
-                this.ChangeHistory = ChangeHistory;
-                this.DateHistory = DateHistory;
-                this.CheckSums = CheckSums;
-
-                this.LogHistory = LogHistory;
-                this.CurrentDepth = CurrentDepth;
-                this.StateUnknown = false;
-
-                if (this.CheckSums == null)
-                    this.CheckSums = new byte[2][];
-
-                if (this.ChangeHistory == null)
-                    this.ChangeHistory = new BitArray(BitArraySize);
-
-                if (this.DateHistory == null)
-                    this.DateHistory = new List<DateTime>();
+                CheckSums = new UInt64[2];
+                ChangeHistory = new BitArray(BitArraySize);
             }
 
-            public void AddCheckSum(byte[] CheckSum)
+            /// <summary>
+            /// Extra space is allocated to keep track of changes in the form of a bit array (ie 10100xxxxxxxx)
+            /// where x represents an allocated bit that was not used yet. If the user stops analysis prior to filling the array,
+            /// the extra bits are chopped off.
+            /// </summary>
+            public void TruncateChanges()
             {
-                // Handle null case first
-                if (CheckSums[CurrentDepth % 2] == null)
-                {
-                    CheckSums[CurrentDepth % 2] = CheckSum;
-                }
-                // The idea is to always be setting CurrentDepth % 2, so we are gonna have to switch things around
-                else if (CheckSums[(CurrentDepth + 1) % 2] == null)
-                {
-                    CheckSums[(CurrentDepth + 1) % 2] = CheckSums[CurrentDepth % 2];
-                    CheckSums[CurrentDepth % 2] = CheckSum;
-                }
-                // Standard case
-                else
-                {
-                    CheckSums[CurrentDepth % 2] = CheckSum;
-                }
+                // Propagate the call to children nodes
+                if (ChildLeft != null)
+                    ChildLeft.TruncateChanges();
+                if (ChildRight != null)
+                    ChildRight.TruncateChanges();
+
+                // Truncate the history if we have history
+                if (ChangeHistory != null)
+                    ChangeHistory.Length = ChangeCount;
             }
 
-            public void AddHistory()
+            public void AddPages(List<Int32> Pages)
             {
-                // Expand our change history if we go over the cap
-                if (CurrentDepth >= ChangeHistory.Length)
-                    ChangeHistory.Length = ChangeHistory.Length + BitArraySize;
+                if (ChangeHistory != null)
+                {
+                    bool ContainsChange = true;
 
-                // Return if there is not enough information to determine changes yet
-                if (CheckSums[0] == null || CheckSums[1] == null)
+                    for (int ChangeIndex = 0; ChangeIndex < ChangeHistory.Count; ChangeIndex++)
+                    {
+                        if (ChangeHistory[ChangeIndex] == true)
+                        {
+                            ContainsChange = true;
+                            break;
+                        }
+                    }
+
+                    if (ContainsChange)
+                    {
+
+                    }
+
                     return;
+                }
 
-                // Determine if there was a change in the checksums
-                LastChangeState = CompareCheckSums(CheckSums[0], CheckSums[1]);
-
-                // Add the current time stamp
-                if (CurrentDepth < DateHistory.Count)
-                    DateHistory[CurrentDepth] = DateTime.Now;
-                else
-                    DateHistory.Add(DateTime.Now);
-
-                ChangeHistory[CurrentDepth++] = LastChangeState;
+                if (ChildLeft != null)
+                    ChildLeft.AddPages(Pages);
+                if (ChildRight != null)
+                    ChildRight.AddPages(Pages);
             }
 
-            public bool HasChanged()
+            public void ProcessChanges(Byte[] Data, Int32 Start, Int32 Length)
             {
-                // Return if there is not enough information to determine changes yet
-                if (CheckSums[0] == null || CheckSums[1] == null)
-                    return false;
+                // Process pages if they are small enough
+                if (Length <= MemoryChangeLogger.PageSplitThreshold)
+                {
+                    // Calculate changes for this page
+                    CheckSums[ChangeCount % 2] = CalculateCheckSum(Data, Start, Length);
 
-                return LastChangeState;
+                    // Expand our change history if we go over the size limit
+                    if (ChangeCount >= ChangeHistory.Length)
+                        ChangeHistory.Length = ChangeHistory.Length + BitArraySize;
+
+                    // Update the history, given that 2 checksums have been collected
+                    if (ChangeCount > 0)
+                        ChangeHistory[ChangeCount++] = CheckSums[0] == CheckSums[1];
+
+                    // Update state variables
+                    StateUnknown = false;
+                    ChangeCount++;
+                    return;
+                }
+
+                // Create child nodes if they do not exist
+                if (ChildLeft == null && ChildRight == null)
+                {
+                    ChildLeft = new MemoryChangeTree();
+                    ChildRight = new MemoryChangeTree();
+
+                    // We no longer need the history for this page since we split it (and thus can no longer use the history)
+                    ChangeHistory = null;
+                    CheckSums = null;
+                }
+
+                // For pages that are too large, pass them on to the children, splitting the page in half
+                ChildLeft.ProcessChanges(Data, Start, Length / 2);
+                ChildLeft.ProcessChanges(Data, Start + Length / 2, Length / 2);
             }
 
-            public void TruncateHistory()
-            {
-                // More space is generally allocated than is used in the end and must be removed
-                ChangeHistory.Length = CurrentDepth - 1;
-            }
+        } // End class
 
-            // Called to create a copy of the memory page data before splitting it in half
-            public MemoryChangeData Clone()
-            {
-                // Clone all of the important data (not including checksums)
-                VirtualPageData NewActiveMemoryPages = ActiveMemoryPages.Clone();
-                BitArray NewChangeHistory = new BitArray(ChangeHistory);
-                List<DateTime> NewDateHistory = new List<DateTime>(DateHistory);
+    } // End class
 
-                return new MemoryChangeData(NewActiveMemoryPages, NewChangeHistory,
-                    NewDateHistory, null, LogHistory, CurrentDepth, PhiCoefficient);
-            }
-
-            public void ClearState()
-            {
-                // Erase the most recent history
-                CurrentDepth--;
-                StateUnknown = true;
-            }
-
-            public void SetToLowerHalf()
-            {
-                // Lower half is easily split -- simply cut the region size in half
-                ActiveMemoryPages.RegionSize /= 2;
-            }
-
-            public void SetToUpperHalf()
-            {
-                // Upper half needs a bit more work -- must shift the base address and subtract the lower half size
-                ActiveMemoryPages.BaseAddress = ActiveMemoryPages.BaseAddress + ActiveMemoryPages.RegionSize / 2;
-                ActiveMemoryPages.RegionSize -= ActiveMemoryPages.RegionSize / 2;
-            }
-        }
-    }
-}
+} // End namespace
