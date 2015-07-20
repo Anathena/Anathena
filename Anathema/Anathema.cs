@@ -46,18 +46,18 @@ namespace Anathema
         
         private void StartRSSAButton_Click(object sender, EventArgs e)
         {
-            SearchSpaceAnalyzer.Begin(0x400); // 0x400 found experimentally to be very good
+            SearchSpaceAnalyzer.Begin(0x40); // 0x400 good for size, 0x40 good for reduction
         }
 
         private void EndRSSAButton_Click(object sender, EventArgs e)
         {
-            SearchSpaceAnalyzer.BeginScan();
+            SearchSpaceAnalyzer.Begin();
         }
 
         private void PageVisualizerButton_Click(object sender, EventArgs e)
         {
-            PageVisualizer PageVisualizer = new PageVisualizer(SearchSpaceAnalyzer.GetHistory());
-            PageVisualizer.ShowDialog();
+            //PageVisualizer PageVisualizer = new PageVisualizer(SearchSpaceAnalyzer.GetHistory());
+            //PageVisualizer.ShowDialog();
         }
     }
 }

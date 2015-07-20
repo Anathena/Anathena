@@ -13,10 +13,10 @@ namespace Anathema
 {
     partial class PageVisualizer : Form
     {
-        private List<SearchSpaceAnalyzer.MemoryChangeLogger> MemoryChangeLogs;
+        private List<SearchSpaceAnalyzer.MemoryChangeTree> MemoryChangeLogs;
         private bool[] HideItem;
 
-        public PageVisualizer(List<SearchSpaceAnalyzer.MemoryChangeLogger> MemoryChangeData)
+        public PageVisualizer(List<SearchSpaceAnalyzer.MemoryChangeTree> MemoryChangeData)
         {
             this.MemoryChangeLogs = MemoryChangeData;
             InitializeComponent();

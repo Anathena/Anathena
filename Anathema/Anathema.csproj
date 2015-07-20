@@ -57,6 +57,7 @@
     </Compile>
     <Compile Include="CheckSyntax.cs" />
     <Compile Include="FastHash.cs" />
+    <Compile Include="InputCorrelator.cs" />
     <Compile Include="InputRecorder.cs" />
     <Compile Include="MouseKeyHook\Hook.cs" />
     <Compile Include="MouseKeyHook\HotKeys\HotKeyArgs.cs" />

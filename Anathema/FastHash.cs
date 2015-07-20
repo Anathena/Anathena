@@ -30,10 +30,17 @@ namespace Anathema
                     }
                 }
 
-                // Handle remaining bytes
+                // Handle remaining bytes (TODO: this could use some optimization)
                 if (Start % 8 != 0)
                 {
-                    throw new NotImplementedException("Stuuuupid");
+                    UInt64 RemainderValue = 0;
+                    Int32 Ugh = Start % 8;
+                    Start -= Ugh;
+                    for (int Index = 0; Index < Ugh; Index++)
+                    {
+                        RemainderValue |= (UInt64)Data[Start - Index - 1] << Index * 8;
+                    }
+                    Hash = (Hash ^ RemainderValue) * P;
                 }
 
                 // Final hashing magic
