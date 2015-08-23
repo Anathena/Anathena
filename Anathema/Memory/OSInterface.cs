@@ -17,9 +17,8 @@ namespace Anathema
         {
             Settings = new Settings();
         }
-
-
-        public void SetTargetProcess(Process TargetProcess)
+        
+        public virtual void SetTargetProcess(Process TargetProcess)
         {
             this.TargetProcess = TargetProcess;
         }

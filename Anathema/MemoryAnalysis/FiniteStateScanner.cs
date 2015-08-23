@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace Anathema
 {
-    class ScanSettings
+    class FiniteStateScanner : MemoryReader
     {
-        public ScanSettings()
+        public FiniteStateScanner()
         {
 
         }

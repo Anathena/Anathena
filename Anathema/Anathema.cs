@@ -36,28 +36,22 @@ namespace Anathema
 
         private void StartSSAButton_Click(object sender, EventArgs e)
         {
-            SearchSpaceAnalyzer.Begin();
+            SearchSpaceAnalyzer.Begin(SearchSpaceAnalyzer.AnalysisModeEnum.SearchSpaceReduction, 0x40); // 0x400 good for size, 0x40 good for reduction (64 bytes)
         }
 
         private void EndSSAButton_Click(object sender, EventArgs e)
         {
             SearchSpaceAnalyzer.EndScan();
         }
-        
-        private void StartRSSAButton_Click(object sender, EventArgs e)
+
+        private void StartInputCorrelationButton_Click(object sender, EventArgs e)
         {
-            SearchSpaceAnalyzer.Begin(0x40); // 0x400 good for size, 0x40 good for reduction
+            SearchSpaceAnalyzer.Begin(SearchSpaceAnalyzer.AnalysisModeEnum.InputCorrelator);
         }
 
-        private void EndRSSAButton_Click(object sender, EventArgs e)
+        private void EndInputCorrelationButton_Click(object sender, EventArgs e)
         {
-            SearchSpaceAnalyzer.Begin();
-        }
-
-        private void PageVisualizerButton_Click(object sender, EventArgs e)
-        {
-            //PageVisualizer PageVisualizer = new PageVisualizer(SearchSpaceAnalyzer.GetHistory());
-            //PageVisualizer.ShowDialog();
+            SearchSpaceAnalyzer.EndScan();
         }
     }
 }

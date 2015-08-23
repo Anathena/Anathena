@@ -55,10 +55,11 @@
     <Compile Include="Anathema.Designer.cs">
       <DependentUpon>Anathema.cs</DependentUpon>
     </Compile>
-    <Compile Include="CheckSyntax.cs" />
-    <Compile Include="FastHash.cs" />
-    <Compile Include="InputCorrelator.cs" />
-    <Compile Include="InputRecorder.cs" />
+    <Compile Include="MemoryAnalysis\FiniteStateScanner.cs" />
+    <Compile Include="HelperClasses\CheckSyntax.cs" />
+    <Compile Include="HelperClasses\FastHash.cs" />
+    <Compile Include="MemoryAnalysis\InputCorrelator.cs" />
+    <Compile Include="MemoryAnalysis\InputRecorder.cs" />
     <Compile Include="MouseKeyHook\Hook.cs" />
     <Compile Include="MouseKeyHook\HotKeys\HotKeyArgs.cs" />
     <Compile Include="MouseKeyHook\HotKeys\HotKeySet.cs" />
@@ -111,14 +112,13 @@
     <Compile Include="ProcessSelector.Designer.cs">
       <DependentUpon>ProcessSelector.cs</DependentUpon>
     </Compile>
-    <Compile Include="SearchSpaceAnalyzer.cs" />
-    <Compile Include="Conversions.cs" />
-    <Compile Include="MemoryReader.cs" />
-    <Compile Include="MemoryWriter.cs" />
-    <Compile Include="OSInterface.cs" />
+    <Compile Include="MemoryAnalysis\SearchSpaceAnalyzer.cs" />
+    <Compile Include="HelperClasses\Conversions.cs" />
+    <Compile Include="Memory\MemoryReader.cs" />
+    <Compile Include="Memory\MemoryWriter.cs" />
+    <Compile Include="Memory\OSInterface.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ScanSettings.cs" />
     <Compile Include="AdvancedSettings.cs">
       <SubType>Form</SubType>
     </Compile>

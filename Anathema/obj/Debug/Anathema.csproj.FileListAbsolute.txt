@@ -28,9 +28,9 @@ F:\Users\Zachary\Documents\Visual Studio 2015\Projects\Anathema\Anathema\obj\Deb
 F:\Users\Zachary\Documents\Visual Studio 2015\Projects\Anathema\Anathema\bin\Debug\Anathema.exe
 F:\Users\Zachary\Documents\Visual Studio 2015\Projects\Anathema\Anathema\bin\Debug\Anathema.pdb
 F:\Users\Zachary\Documents\Visual Studio 2015\Projects\Anathema\Anathema\obj\Debug\Anathema.csprojResolveAssemblyReference.cache
-F:\Users\Zachary\Documents\Visual Studio 2015\Projects\Anathema\Anathema\obj\Debug\Anathema.Anathema.resources
 F:\Users\Zachary\Documents\Visual Studio 2015\Projects\Anathema\Anathema\obj\Debug\Anathema.PageVisualizer.resources
 F:\Users\Zachary\Documents\Visual Studio 2015\Projects\Anathema\Anathema\obj\Debug\Anathema.ProcessSelector.resources
 F:\Users\Zachary\Documents\Visual Studio 2015\Projects\Anathema\Anathema\obj\Debug\Anathema.Properties.Resources.resources
 F:\Users\Zachary\Documents\Visual Studio 2015\Projects\Anathema\Anathema\obj\Debug\Anathema.AdvancedSettings.resources
 F:\Users\Zachary\Documents\Visual Studio 2015\Projects\Anathema\Anathema\obj\Debug\Anathema.csproj.GenerateResource.Cache
+F:\Users\Zachary\Documents\Visual Studio 2015\Projects\Anathema\Anathema\obj\Debug\Anathema.Anathema.resources

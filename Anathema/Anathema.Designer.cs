@@ -68,66 +68,54 @@
             this.AddressListView = new System.Windows.Forms.ListView();
             this._AddressHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this._ValueHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this._LastValueHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.ProgressBar = new System.Windows.Forms.ProgressBar();
             this.ScanTypeWorldStrip = new System.Windows.Forms.ToolStrip();
             this.NotEqualValButton = new System.Windows.Forms.ToolStripButton();
-            this.toolStripSeparator6 = new System.Windows.Forms.ToolStripSeparator();
-            this.UnknownValButton = new System.Windows.Forms.ToolStripButton();
-            this.ChangedValButton = new System.Windows.Forms.ToolStripButton();
             this.IncreasedValButton = new System.Windows.Forms.ToolStripButton();
             this.DecreasedValButton = new System.Windows.Forms.ToolStripButton();
             this.EqualValButton = new System.Windows.Forms.ToolStripButton();
             this.GreaterThanValButton = new System.Windows.Forms.ToolStripButton();
             this.LessThanValButton = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator7 = new System.Windows.Forms.ToolStripSeparator();
-            this.ResetScanCompareButton = new System.Windows.Forms.ToolStripButton();
-            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
-            this.AddSettingsToFilterButton = new System.Windows.Forms.ToolStripButton();
-            this.ClearFilterButton = new System.Windows.Forms.ToolStripButton();
+            this.AddConstraintButton = new System.Windows.Forms.ToolStripButton();
+            this.ClearConstraintsButton = new System.Windows.Forms.ToolStripButton();
+            this.ENotationButton = new System.Windows.Forms.ToolStripButton();
             this.AddressCount = new System.Windows.Forms.Label();
             this.ScanValueTB = new System.Windows.Forms.TextBox();
-            this.ScanTimeLabel = new System.Windows.Forms.Label();
             this.DataTypeCBB = new System.Windows.Forms.ComboBox();
             this.CompareTypeLabel = new System.Windows.Forms.Label();
             this.ScanValueUpperTB = new System.Windows.Forms.TextBox();
             this.ScanToolStrip = new System.Windows.Forms.ToolStrip();
             this.SelectProcessButton = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
-            this.NewScanButton = new System.Windows.Forms.ToolStripButton();
             this.StartScanButton = new System.Windows.Forms.ToolStripButton();
             this.NextScanButton = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.UndoScanButton = new System.Windows.Forms.ToolStripButton();
-            this.AbortScanButton = new System.Windows.Forms.ToolStripButton();
+            this.NewScanButton = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator8 = new System.Windows.Forms.ToolStripSeparator();
             this.ConvertToHexBinButton = new System.Windows.Forms.ToolStripButton();
             this.ScanOptionsButton = new System.Windows.Forms.ToolStripButton();
-            this.ToggleCompareFirstScanButton = new System.Windows.Forms.ToolStripButton();
-            this.ScanHistoryButton = new System.Windows.Forms.ToolStripButton();
-            this.toolStripButton2 = new System.Windows.Forms.ToolStripButton();
             this.EndSSAButton = new System.Windows.Forms.Button();
-            this.StartSSAButton = new System.Windows.Forms.Button();
-            this.PageVisualizerButton = new System.Windows.Forms.Button();
-            this.TakeSnapshotButton = new System.Windows.Forms.Button();
-            this.SnapshotListBox = new System.Windows.Forms.ListBox();
-            this.SaveSnapshotButton = new System.Windows.Forms.Button();
-            this.RestoreSnapshotButton = new System.Windows.Forms.Button();
-            this.EndRSSAButton = new System.Windows.Forms.Button();
             this.StartRSSAButton = new System.Windows.Forms.Button();
-            this.AddConstraintButton = new System.Windows.Forms.Button();
+            this.ConstraintsListBox = new System.Windows.Forms.ListBox();
+            this.ConstraintsGroupBox = new System.Windows.Forms.GroupBox();
+            this.GranularityTrackBar = new System.Windows.Forms.TrackBar();
+            this.StartInputCorrelationButton = new System.Windows.Forms.Button();
+            this.EndInputCorrelationButton = new System.Windows.Forms.Button();
             this.MainToolStrip.SuspendLayout();
             this.GUIMenuStrip.SuspendLayout();
             this.AddressListViewRightClickMenu.SuspendLayout();
             this.ScanTypeWorldStrip.SuspendLayout();
             this.ScanToolStrip.SuspendLayout();
+            this.ConstraintsGroupBox.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.GranularityTrackBar)).BeginInit();
             this.SuspendLayout();
             // 
             // label3
             // 
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Courier New", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.Location = new System.Drawing.Point(268, 308);
+            this.label3.Location = new System.Drawing.Point(233, 308);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(48, 16);
             this.label3.TabIndex = 114;
@@ -148,7 +136,7 @@
             this.TableListView.Location = new System.Drawing.Point(12, 327);
             this.TableListView.Name = "TableListView";
             this.TableListView.ShowGroups = false;
-            this.TableListView.Size = new System.Drawing.Size(561, 265);
+            this.TableListView.Size = new System.Drawing.Size(494, 257);
             this.TableListView.TabIndex = 112;
             this.TableListView.UseCompatibleStateImageBehavior = false;
             this.TableListView.View = System.Windows.Forms.View.Details;
@@ -276,7 +264,7 @@
             this.GUIMenuStrip.Location = new System.Drawing.Point(0, 0);
             this.GUIMenuStrip.Name = "GUIMenuStrip";
             this.GUIMenuStrip.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
-            this.GUIMenuStrip.Size = new System.Drawing.Size(811, 24);
+            this.GUIMenuStrip.Size = new System.Drawing.Size(513, 24);
             this.GUIMenuStrip.TabIndex = 126;
             this.GUIMenuStrip.Text = "menuStrip1";
             // 
@@ -323,7 +311,7 @@
             this.MemoryRegionsToolStripMenuItem,
             this.MemoryViewerToolStripMenuItem});
             this.ToolsToolStripMenuItem.Name = "ToolsToolStripMenuItem";
-            this.ToolsToolStripMenuItem.Size = new System.Drawing.Size(48, 20);
+            this.ToolsToolStripMenuItem.Size = new System.Drawing.Size(47, 20);
             this.ToolsToolStripMenuItem.Text = "Tools";
             // 
             // CPUInfoToolStripMenuItem
@@ -402,13 +390,12 @@
             this.AddressListView.BackColor = System.Drawing.SystemColors.Control;
             this.AddressListView.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this._AddressHeader,
-            this._ValueHeader,
-            this._LastValueHeader});
+            this._ValueHeader});
             this.AddressListView.Font = new System.Drawing.Font("Courier New", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.AddressListView.FullRowSelect = true;
-            this.AddressListView.Location = new System.Drawing.Point(12, 46);
+            this.AddressListView.Location = new System.Drawing.Point(12, 27);
             this.AddressListView.Name = "AddressListView";
-            this.AddressListView.Size = new System.Drawing.Size(283, 243);
+            this.AddressListView.Size = new System.Drawing.Size(212, 256);
             this.AddressListView.TabIndex = 116;
             this.AddressListView.UseCompatibleStateImageBehavior = false;
             this.AddressListView.View = System.Windows.Forms.View.Details;
@@ -424,46 +411,24 @@
             this._ValueHeader.Text = "Value";
             this._ValueHeader.Width = 86;
             // 
-            // _LastValueHeader
-            // 
-            this._LastValueHeader.Text = "Last Value";
-            this._LastValueHeader.Width = 97;
-            // 
-            // ProgressBar
-            // 
-            this.ProgressBar.BackColor = System.Drawing.Color.LightSteelBlue;
-            this.ProgressBar.ForeColor = System.Drawing.Color.SteelBlue;
-            this.ProgressBar.Location = new System.Drawing.Point(12, 27);
-            this.ProgressBar.Name = "ProgressBar";
-            this.ProgressBar.Size = new System.Drawing.Size(283, 16);
-            this.ProgressBar.Step = 1;
-            this.ProgressBar.Style = System.Windows.Forms.ProgressBarStyle.Continuous;
-            this.ProgressBar.TabIndex = 115;
-            // 
             // ScanTypeWorldStrip
             // 
-            this.ScanTypeWorldStrip.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.ScanTypeWorldStrip.Dock = System.Windows.Forms.DockStyle.None;
             this.ScanTypeWorldStrip.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
             this.ScanTypeWorldStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.NotEqualValButton,
-            this.toolStripSeparator6,
-            this.UnknownValButton,
-            this.ChangedValButton,
             this.IncreasedValButton,
             this.DecreasedValButton,
             this.EqualValButton,
             this.GreaterThanValButton,
             this.LessThanValButton,
             this.toolStripSeparator7,
-            this.ResetScanCompareButton,
-            this.toolStripSeparator1,
-            this.AddSettingsToFilterButton,
-            this.ClearFilterButton});
-            this.ScanTypeWorldStrip.Location = new System.Drawing.Point(529, 109);
+            this.AddConstraintButton,
+            this.ClearConstraintsButton,
+            this.ENotationButton});
+            this.ScanTypeWorldStrip.Location = new System.Drawing.Point(3, 16);
             this.ScanTypeWorldStrip.Name = "ScanTypeWorldStrip";
             this.ScanTypeWorldStrip.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
-            this.ScanTypeWorldStrip.Size = new System.Drawing.Size(274, 25);
+            this.ScanTypeWorldStrip.Size = new System.Drawing.Size(270, 25);
             this.ScanTypeWorldStrip.TabIndex = 122;
             this.ScanTypeWorldStrip.Text = "toolStrip1";
             // 
@@ -475,31 +440,6 @@
             this.NotEqualValButton.Name = "NotEqualValButton";
             this.NotEqualValButton.Size = new System.Drawing.Size(23, 22);
             this.NotEqualValButton.Text = "Negate Property";
-            // 
-            // toolStripSeparator6
-            // 
-            this.toolStripSeparator6.Name = "toolStripSeparator6";
-            this.toolStripSeparator6.Size = new System.Drawing.Size(6, 25);
-            // 
-            // UnknownValButton
-            // 
-            this.UnknownValButton.Checked = true;
-            this.UnknownValButton.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.UnknownValButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.UnknownValButton.Image = ((System.Drawing.Image)(resources.GetObject("UnknownValButton.Image")));
-            this.UnknownValButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.UnknownValButton.Name = "UnknownValButton";
-            this.UnknownValButton.Size = new System.Drawing.Size(23, 22);
-            this.UnknownValButton.Text = "Unknown Value";
-            // 
-            // ChangedValButton
-            // 
-            this.ChangedValButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.ChangedValButton.Image = ((System.Drawing.Image)(resources.GetObject("ChangedValButton.Image")));
-            this.ChangedValButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.ChangedValButton.Name = "ChangedValButton";
-            this.ChangedValButton.Size = new System.Drawing.Size(23, 22);
-            this.ChangedValButton.Text = "Changed Value";
             // 
             // IncreasedValButton
             // 
@@ -551,63 +491,49 @@
             this.toolStripSeparator7.Name = "toolStripSeparator7";
             this.toolStripSeparator7.Size = new System.Drawing.Size(6, 25);
             // 
-            // ResetScanCompareButton
+            // AddConstraintButton
             // 
-            this.ResetScanCompareButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.ResetScanCompareButton.Image = ((System.Drawing.Image)(resources.GetObject("ResetScanCompareButton.Image")));
-            this.ResetScanCompareButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.ResetScanCompareButton.Name = "ResetScanCompareButton";
-            this.ResetScanCompareButton.Size = new System.Drawing.Size(23, 22);
-            this.ResetScanCompareButton.Text = "Clear Selections";
+            this.AddConstraintButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.AddConstraintButton.Image = ((System.Drawing.Image)(resources.GetObject("AddConstraintButton.Image")));
+            this.AddConstraintButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.AddConstraintButton.Name = "AddConstraintButton";
+            this.AddConstraintButton.Size = new System.Drawing.Size(23, 22);
+            this.AddConstraintButton.Text = "Add to Filter";
             // 
-            // toolStripSeparator1
+            // ClearConstraintsButton
             // 
-            this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 25);
+            this.ClearConstraintsButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.ClearConstraintsButton.Image = ((System.Drawing.Image)(resources.GetObject("ClearConstraintsButton.Image")));
+            this.ClearConstraintsButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.ClearConstraintsButton.Name = "ClearConstraintsButton";
+            this.ClearConstraintsButton.Size = new System.Drawing.Size(23, 22);
+            this.ClearConstraintsButton.Text = "Clear Selections";
             // 
-            // AddSettingsToFilterButton
+            // ENotationButton
             // 
-            this.AddSettingsToFilterButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.AddSettingsToFilterButton.Image = ((System.Drawing.Image)(resources.GetObject("AddSettingsToFilterButton.Image")));
-            this.AddSettingsToFilterButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.AddSettingsToFilterButton.Name = "AddSettingsToFilterButton";
-            this.AddSettingsToFilterButton.Size = new System.Drawing.Size(23, 22);
-            this.AddSettingsToFilterButton.Text = "Add to Filter";
-            // 
-            // ClearFilterButton
-            // 
-            this.ClearFilterButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.ClearFilterButton.Image = ((System.Drawing.Image)(resources.GetObject("ClearFilterButton.Image")));
-            this.ClearFilterButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.ClearFilterButton.Name = "ClearFilterButton";
-            this.ClearFilterButton.Size = new System.Drawing.Size(23, 22);
-            this.ClearFilterButton.Text = "Clear Filter";
+            this.ENotationButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.ENotationButton.Image = ((System.Drawing.Image)(resources.GetObject("ENotationButton.Image")));
+            this.ENotationButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.ENotationButton.Name = "ENotationButton";
+            this.ENotationButton.Size = new System.Drawing.Size(23, 22);
+            this.ENotationButton.Text = "toolStripButton1";
             // 
             // AddressCount
             // 
             this.AddressCount.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.AddressCount.Location = new System.Drawing.Point(12, 288);
+            this.AddressCount.Location = new System.Drawing.Point(12, 282);
             this.AddressCount.Name = "AddressCount";
-            this.AddressCount.Size = new System.Drawing.Size(214, 17);
+            this.AddressCount.Size = new System.Drawing.Size(212, 17);
             this.AddressCount.TabIndex = 123;
             this.AddressCount.Text = "Items: 0";
             // 
             // ScanValueTB
             // 
             this.ScanValueTB.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.ScanValueTB.Location = new System.Drawing.Point(528, 55);
+            this.ScanValueTB.Location = new System.Drawing.Point(9, 44);
             this.ScanValueTB.Name = "ScanValueTB";
             this.ScanValueTB.Size = new System.Drawing.Size(128, 20);
             this.ScanValueTB.TabIndex = 117;
-            // 
-            // ScanTimeLabel
-            // 
-            this.ScanTimeLabel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.ScanTimeLabel.Location = new System.Drawing.Point(207, 288);
-            this.ScanTimeLabel.Name = "ScanTimeLabel";
-            this.ScanTimeLabel.Size = new System.Drawing.Size(88, 17);
-            this.ScanTimeLabel.TabIndex = 124;
-            this.ScanTimeLabel.Text = "Time: 0";
             // 
             // DataTypeCBB
             // 
@@ -615,6 +541,7 @@
             this.DataTypeCBB.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.DataTypeCBB.FormattingEnabled = true;
             this.DataTypeCBB.Items.AddRange(new object[] {
+            "All",
             "Binary",
             "Byte",
             "Int 16",
@@ -623,9 +550,8 @@
             "Single",
             "Double",
             "Text",
-            "Array of Bytes",
-            "All (Byte to Double)"});
-            this.DataTypeCBB.Location = new System.Drawing.Point(532, 85);
+            "Array of Bytes"});
+            this.DataTypeCBB.Location = new System.Drawing.Point(9, 67);
             this.DataTypeCBB.Name = "DataTypeCBB";
             this.DataTypeCBB.Size = new System.Drawing.Size(101, 21);
             this.DataTypeCBB.TabIndex = 119;
@@ -633,7 +559,7 @@
             // CompareTypeLabel
             // 
             this.CompareTypeLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.CompareTypeLabel.Location = new System.Drawing.Point(639, 88);
+            this.CompareTypeLabel.Location = new System.Drawing.Point(116, 70);
             this.CompareTypeLabel.Name = "CompareTypeLabel";
             this.CompareTypeLabel.Size = new System.Drawing.Size(160, 13);
             this.CompareTypeLabel.TabIndex = 120;
@@ -643,7 +569,7 @@
             // ScanValueUpperTB
             // 
             this.ScanValueUpperTB.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.ScanValueUpperTB.Location = new System.Drawing.Point(671, 55);
+            this.ScanValueUpperTB.Location = new System.Drawing.Point(142, 44);
             this.ScanValueUpperTB.Name = "ScanValueUpperTB";
             this.ScanValueUpperTB.Size = new System.Drawing.Size(131, 20);
             this.ScanValueUpperTB.TabIndex = 118;
@@ -656,22 +582,18 @@
             this.ScanToolStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.SelectProcessButton,
             this.toolStripSeparator4,
-            this.NewScanButton,
             this.StartScanButton,
             this.NextScanButton,
             this.toolStripSeparator2,
             this.UndoScanButton,
-            this.AbortScanButton,
+            this.NewScanButton,
             this.toolStripSeparator8,
             this.ConvertToHexBinButton,
-            this.ScanOptionsButton,
-            this.ToggleCompareFirstScanButton,
-            this.ScanHistoryButton,
-            this.toolStripButton2});
-            this.ScanToolStrip.Location = new System.Drawing.Point(528, 27);
+            this.ScanOptionsButton});
+            this.ScanToolStrip.Location = new System.Drawing.Point(322, 27);
             this.ScanToolStrip.Name = "ScanToolStrip";
             this.ScanToolStrip.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
-            this.ScanToolStrip.Size = new System.Drawing.Size(274, 25);
+            this.ScanToolStrip.Size = new System.Drawing.Size(182, 25);
             this.ScanToolStrip.TabIndex = 121;
             this.ScanToolStrip.Text = "toolStrip1";
             // 
@@ -689,15 +611,6 @@
             // 
             this.toolStripSeparator4.Name = "toolStripSeparator4";
             this.toolStripSeparator4.Size = new System.Drawing.Size(6, 25);
-            // 
-            // NewScanButton
-            // 
-            this.NewScanButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.NewScanButton.Image = ((System.Drawing.Image)(resources.GetObject("NewScanButton.Image")));
-            this.NewScanButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.NewScanButton.Name = "NewScanButton";
-            this.NewScanButton.Size = new System.Drawing.Size(23, 22);
-            this.NewScanButton.Text = "New Scan";
             // 
             // StartScanButton
             // 
@@ -731,14 +644,14 @@
             this.UndoScanButton.Size = new System.Drawing.Size(23, 22);
             this.UndoScanButton.Text = "Undo Scan";
             // 
-            // AbortScanButton
+            // NewScanButton
             // 
-            this.AbortScanButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.AbortScanButton.Image = ((System.Drawing.Image)(resources.GetObject("AbortScanButton.Image")));
-            this.AbortScanButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.AbortScanButton.Name = "AbortScanButton";
-            this.AbortScanButton.Size = new System.Drawing.Size(23, 22);
-            this.AbortScanButton.Text = "Abort Scan";
+            this.NewScanButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.NewScanButton.Image = ((System.Drawing.Image)(resources.GetObject("NewScanButton.Image")));
+            this.NewScanButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.NewScanButton.Name = "NewScanButton";
+            this.NewScanButton.Size = new System.Drawing.Size(23, 22);
+            this.NewScanButton.Text = "New Scan";
             // 
             // toolStripSeparator8
             // 
@@ -764,39 +677,9 @@
             this.ScanOptionsButton.Size = new System.Drawing.Size(23, 22);
             this.ScanOptionsButton.Text = "Scan Options";
             // 
-            // ToggleCompareFirstScanButton
-            // 
-            this.ToggleCompareFirstScanButton.CheckOnClick = true;
-            this.ToggleCompareFirstScanButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.ToggleCompareFirstScanButton.Image = ((System.Drawing.Image)(resources.GetObject("ToggleCompareFirstScanButton.Image")));
-            this.ToggleCompareFirstScanButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.ToggleCompareFirstScanButton.Name = "ToggleCompareFirstScanButton";
-            this.ToggleCompareFirstScanButton.Size = new System.Drawing.Size(23, 22);
-            this.ToggleCompareFirstScanButton.Text = "Toggle Compare to First Scan";
-            // 
-            // ScanHistoryButton
-            // 
-            this.ScanHistoryButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.ScanHistoryButton.Image = ((System.Drawing.Image)(resources.GetObject("ScanHistoryButton.Image")));
-            this.ScanHistoryButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.ScanHistoryButton.Name = "ScanHistoryButton";
-            this.ScanHistoryButton.Size = new System.Drawing.Size(23, 22);
-            this.ScanHistoryButton.Text = "Scan History";
-            this.ScanHistoryButton.ToolTipText = "Scan history for this scan session";
-            // 
-            // toolStripButton2
-            // 
-            this.toolStripButton2.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripButton2.Enabled = false;
-            this.toolStripButton2.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton2.Image")));
-            this.toolStripButton2.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton2.Name = "toolStripButton2";
-            this.toolStripButton2.Size = new System.Drawing.Size(23, 22);
-            this.toolStripButton2.Text = "toolStripButton2";
-            // 
             // EndSSAButton
             // 
-            this.EndSSAButton.Location = new System.Drawing.Point(609, 166);
+            this.EndSSAButton.Location = new System.Drawing.Point(403, 61);
             this.EndSSAButton.Name = "EndSSAButton";
             this.EndSSAButton.Size = new System.Drawing.Size(75, 23);
             this.EndSSAButton.TabIndex = 128;
@@ -804,120 +687,87 @@
             this.EndSSAButton.UseVisualStyleBackColor = true;
             this.EndSSAButton.Click += new System.EventHandler(this.EndSSAButton_Click);
             // 
-            // StartSSAButton
-            // 
-            this.StartSSAButton.Location = new System.Drawing.Point(528, 166);
-            this.StartSSAButton.Name = "StartSSAButton";
-            this.StartSSAButton.Size = new System.Drawing.Size(75, 23);
-            this.StartSSAButton.TabIndex = 127;
-            this.StartSSAButton.Text = "Start SSA";
-            this.StartSSAButton.UseVisualStyleBackColor = true;
-            this.StartSSAButton.Click += new System.EventHandler(this.StartSSAButton_Click);
-            // 
-            // PageVisualizerButton
-            // 
-            this.PageVisualizerButton.Location = new System.Drawing.Point(724, 195);
-            this.PageVisualizerButton.Name = "PageVisualizerButton";
-            this.PageVisualizerButton.Size = new System.Drawing.Size(75, 23);
-            this.PageVisualizerButton.TabIndex = 130;
-            this.PageVisualizerButton.Text = "Graph";
-            this.PageVisualizerButton.UseVisualStyleBackColor = true;
-            this.PageVisualizerButton.Click += new System.EventHandler(this.PageVisualizerButton_Click);
-            // 
-            // TakeSnapshotButton
-            // 
-            this.TakeSnapshotButton.Location = new System.Drawing.Point(528, 137);
-            this.TakeSnapshotButton.Name = "TakeSnapshotButton";
-            this.TakeSnapshotButton.Size = new System.Drawing.Size(70, 23);
-            this.TakeSnapshotButton.TabIndex = 131;
-            this.TakeSnapshotButton.Text = "Snapshot";
-            this.TakeSnapshotButton.UseVisualStyleBackColor = true;
-            // 
-            // SnapshotListBox
-            // 
-            this.SnapshotListBox.FormattingEnabled = true;
-            this.SnapshotListBox.Location = new System.Drawing.Point(301, 27);
-            this.SnapshotListBox.Name = "SnapshotListBox";
-            this.SnapshotListBox.Size = new System.Drawing.Size(221, 95);
-            this.SnapshotListBox.TabIndex = 132;
-            // 
-            // SaveSnapshotButton
-            // 
-            this.SaveSnapshotButton.Location = new System.Drawing.Point(601, 137);
-            this.SaveSnapshotButton.Name = "SaveSnapshotButton";
-            this.SaveSnapshotButton.Size = new System.Drawing.Size(92, 23);
-            this.SaveSnapshotButton.TabIndex = 131;
-            this.SaveSnapshotButton.Text = "Save Snapshot";
-            this.SaveSnapshotButton.UseVisualStyleBackColor = true;
-            // 
-            // RestoreSnapshotButton
-            // 
-            this.RestoreSnapshotButton.Location = new System.Drawing.Point(699, 137);
-            this.RestoreSnapshotButton.Name = "RestoreSnapshotButton";
-            this.RestoreSnapshotButton.Size = new System.Drawing.Size(104, 23);
-            this.RestoreSnapshotButton.TabIndex = 131;
-            this.RestoreSnapshotButton.Text = "Restore Snapshot";
-            this.RestoreSnapshotButton.UseVisualStyleBackColor = true;
-            // 
-            // EndRSSAButton
-            // 
-            this.EndRSSAButton.Location = new System.Drawing.Point(609, 195);
-            this.EndRSSAButton.Name = "EndRSSAButton";
-            this.EndRSSAButton.Size = new System.Drawing.Size(75, 23);
-            this.EndRSSAButton.TabIndex = 128;
-            this.EndRSSAButton.Text = "End RSSA";
-            this.EndRSSAButton.UseVisualStyleBackColor = true;
-            this.EndRSSAButton.Click += new System.EventHandler(this.EndRSSAButton_Click);
-            // 
             // StartRSSAButton
             // 
-            this.StartRSSAButton.Location = new System.Drawing.Point(528, 195);
+            this.StartRSSAButton.Location = new System.Drawing.Point(322, 61);
             this.StartRSSAButton.Name = "StartRSSAButton";
             this.StartRSSAButton.Size = new System.Drawing.Size(75, 23);
             this.StartRSSAButton.TabIndex = 127;
-            this.StartRSSAButton.Text = "Start RSSA";
+            this.StartRSSAButton.Text = "Start SSA";
             this.StartRSSAButton.UseVisualStyleBackColor = true;
-            this.StartRSSAButton.Click += new System.EventHandler(this.StartRSSAButton_Click);
+            this.StartRSSAButton.Click += new System.EventHandler(this.StartSSAButton_Click);
             // 
-            // AddConstraintButton
+            // ConstraintsListBox
             // 
-            this.AddConstraintButton.Location = new System.Drawing.Point(724, 166);
-            this.AddConstraintButton.Name = "AddConstraintButton";
-            this.AddConstraintButton.Size = new System.Drawing.Size(75, 23);
-            this.AddConstraintButton.TabIndex = 130;
-            this.AddConstraintButton.Text = "Add Constr";
-            this.AddConstraintButton.UseVisualStyleBackColor = true;
-            this.AddConstraintButton.Click += new System.EventHandler(this.PageVisualizerButton_Click);
+            this.ConstraintsListBox.FormattingEnabled = true;
+            this.ConstraintsListBox.Location = new System.Drawing.Point(9, 94);
+            this.ConstraintsListBox.Name = "ConstraintsListBox";
+            this.ConstraintsListBox.Size = new System.Drawing.Size(258, 56);
+            this.ConstraintsListBox.TabIndex = 131;
+            // 
+            // ConstraintsGroupBox
+            // 
+            this.ConstraintsGroupBox.Controls.Add(this.DataTypeCBB);
+            this.ConstraintsGroupBox.Controls.Add(this.ConstraintsListBox);
+            this.ConstraintsGroupBox.Controls.Add(this.ScanTypeWorldStrip);
+            this.ConstraintsGroupBox.Controls.Add(this.CompareTypeLabel);
+            this.ConstraintsGroupBox.Controls.Add(this.ScanValueTB);
+            this.ConstraintsGroupBox.Controls.Add(this.ScanValueUpperTB);
+            this.ConstraintsGroupBox.Location = new System.Drawing.Point(230, 123);
+            this.ConstraintsGroupBox.Name = "ConstraintsGroupBox";
+            this.ConstraintsGroupBox.Size = new System.Drawing.Size(276, 160);
+            this.ConstraintsGroupBox.TabIndex = 132;
+            this.ConstraintsGroupBox.TabStop = false;
+            this.ConstraintsGroupBox.Text = "Constraints";
+            // 
+            // GranularityTrackBar
+            // 
+            this.GranularityTrackBar.Location = new System.Drawing.Point(230, 27);
+            this.GranularityTrackBar.Maximum = 64;
+            this.GranularityTrackBar.Minimum = 4;
+            this.GranularityTrackBar.Name = "GranularityTrackBar";
+            this.GranularityTrackBar.Size = new System.Drawing.Size(89, 45);
+            this.GranularityTrackBar.TabIndex = 133;
+            this.GranularityTrackBar.Value = 16;
+            // 
+            // StartInputCorrelationButton
+            // 
+            this.StartInputCorrelationButton.Location = new System.Drawing.Point(322, 94);
+            this.StartInputCorrelationButton.Name = "StartInputCorrelationButton";
+            this.StartInputCorrelationButton.Size = new System.Drawing.Size(75, 23);
+            this.StartInputCorrelationButton.TabIndex = 134;
+            this.StartInputCorrelationButton.Text = "Start Phi";
+            this.StartInputCorrelationButton.UseVisualStyleBackColor = true;
+            this.StartInputCorrelationButton.Click += new System.EventHandler(this.StartInputCorrelationButton_Click);
+            // 
+            // EndInputCorrelationButton
+            // 
+            this.EndInputCorrelationButton.Location = new System.Drawing.Point(403, 94);
+            this.EndInputCorrelationButton.Name = "EndInputCorrelationButton";
+            this.EndInputCorrelationButton.Size = new System.Drawing.Size(75, 23);
+            this.EndInputCorrelationButton.TabIndex = 135;
+            this.EndInputCorrelationButton.Text = "End Phi";
+            this.EndInputCorrelationButton.UseVisualStyleBackColor = true;
+            this.EndInputCorrelationButton.Click += new System.EventHandler(this.EndInputCorrelationButton_Click);
             // 
             // Anathema
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(811, 629);
-            this.Controls.Add(this.SnapshotListBox);
-            this.Controls.Add(this.RestoreSnapshotButton);
-            this.Controls.Add(this.SaveSnapshotButton);
-            this.Controls.Add(this.TakeSnapshotButton);
-            this.Controls.Add(this.AddConstraintButton);
-            this.Controls.Add(this.PageVisualizerButton);
+            this.ClientSize = new System.Drawing.Size(513, 589);
+            this.Controls.Add(this.EndInputCorrelationButton);
+            this.Controls.Add(this.StartInputCorrelationButton);
+            this.Controls.Add(this.GranularityTrackBar);
+            this.Controls.Add(this.ConstraintsGroupBox);
             this.Controls.Add(this.ScanToolStrip);
             this.Controls.Add(this.StartRSSAButton);
-            this.Controls.Add(this.EndRSSAButton);
-            this.Controls.Add(this.StartSSAButton);
             this.Controls.Add(this.EndSSAButton);
-            this.Controls.Add(this.ScanValueUpperTB);
-            this.Controls.Add(this.ScanValueTB);
-            this.Controls.Add(this.ScanTypeWorldStrip);
             this.Controls.Add(this.SelectedProcessLabel);
-            this.Controls.Add(this.CompareTypeLabel);
             this.Controls.Add(this.GUIMenuStrip);
-            this.Controls.Add(this.DataTypeCBB);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.TableListView);
-            this.Controls.Add(this.ScanTimeLabel);
             this.Controls.Add(this.MainToolStrip);
             this.Controls.Add(this.AddressCount);
-            this.Controls.Add(this.ProgressBar);
             this.Controls.Add(this.AddressListView);
             this.Name = "Anathema";
             this.Text = "Anathema";
@@ -930,6 +780,9 @@
             this.ScanTypeWorldStrip.PerformLayout();
             this.ScanToolStrip.ResumeLayout(false);
             this.ScanToolStrip.PerformLayout();
+            this.ConstraintsGroupBox.ResumeLayout(false);
+            this.ConstraintsGroupBox.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.GranularityTrackBar)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -979,49 +832,35 @@
         private System.Windows.Forms.ToolStripButton NextScanButton;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
         private System.Windows.Forms.ToolStripButton UndoScanButton;
-        private System.Windows.Forms.ToolStripButton AbortScanButton;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator8;
         private System.Windows.Forms.ToolStripButton ConvertToHexBinButton;
         private System.Windows.Forms.ToolStripButton ScanOptionsButton;
-        private System.Windows.Forms.ToolStripButton ToggleCompareFirstScanButton;
-        private System.Windows.Forms.ToolStripButton ScanHistoryButton;
-        private System.Windows.Forms.ToolStripButton toolStripButton2;
         private System.Windows.Forms.TextBox ScanValueUpperTB;
         private System.Windows.Forms.TextBox ScanValueTB;
         private System.Windows.Forms.ToolStrip ScanTypeWorldStrip;
         private System.Windows.Forms.ToolStripButton NotEqualValButton;
-        private System.Windows.Forms.ToolStripSeparator toolStripSeparator6;
-        private System.Windows.Forms.ToolStripButton UnknownValButton;
-        private System.Windows.Forms.ToolStripButton ChangedValButton;
         private System.Windows.Forms.ToolStripButton IncreasedValButton;
         private System.Windows.Forms.ToolStripButton DecreasedValButton;
         private System.Windows.Forms.ToolStripButton EqualValButton;
         private System.Windows.Forms.ToolStripButton GreaterThanValButton;
         private System.Windows.Forms.ToolStripButton LessThanValButton;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator7;
-        private System.Windows.Forms.ToolStripButton ResetScanCompareButton;
-        private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
-        private System.Windows.Forms.ToolStripButton AddSettingsToFilterButton;
-        private System.Windows.Forms.ToolStripButton ClearFilterButton;
+        private System.Windows.Forms.ToolStripButton AddConstraintButton;
         private System.Windows.Forms.Label CompareTypeLabel;
         private System.Windows.Forms.ComboBox DataTypeCBB;
-        private System.Windows.Forms.Label ScanTimeLabel;
         private System.Windows.Forms.Label AddressCount;
-        private System.Windows.Forms.ProgressBar ProgressBar;
         private System.Windows.Forms.ListView AddressListView;
         private System.Windows.Forms.ColumnHeader _AddressHeader;
         private System.Windows.Forms.ColumnHeader _ValueHeader;
-        private System.Windows.Forms.ColumnHeader _LastValueHeader;
-        private System.Windows.Forms.Button PageVisualizerButton;
-        private System.Windows.Forms.Button StartSSAButton;
         private System.Windows.Forms.Button EndSSAButton;
-        private System.Windows.Forms.Button TakeSnapshotButton;
-        private System.Windows.Forms.ListBox SnapshotListBox;
-        private System.Windows.Forms.Button SaveSnapshotButton;
-        private System.Windows.Forms.Button RestoreSnapshotButton;
-        private System.Windows.Forms.Button EndRSSAButton;
         private System.Windows.Forms.Button StartRSSAButton;
-        private System.Windows.Forms.Button AddConstraintButton;
+        private System.Windows.Forms.ListBox ConstraintsListBox;
+        private System.Windows.Forms.ToolStripButton ClearConstraintsButton;
+        private System.Windows.Forms.GroupBox ConstraintsGroupBox;
+        private System.Windows.Forms.ToolStripButton ENotationButton;
+        private System.Windows.Forms.TrackBar GranularityTrackBar;
+        private System.Windows.Forms.Button StartInputCorrelationButton;
+        private System.Windows.Forms.Button EndInputCorrelationButton;
     }
 }
 

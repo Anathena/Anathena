@@ -14,7 +14,7 @@ namespace Anathema
 
     class FastHash
     {
-        public unsafe static UInt64 ComputeHash(byte[] Data, int Start, int End)
+        public unsafe static UInt64 ComputeHash(byte[] Data, UInt64 Start, UInt64 End)
         {
             unchecked
             {
@@ -34,11 +34,11 @@ namespace Anathema
                 if (Start % 8 != 0)
                 {
                     UInt64 RemainderValue = 0;
-                    Int32 Ugh = Start % 8;
+                    UInt32 Ugh = (UInt32)(Start % 8);
                     Start -= Ugh;
                     for (int Index = 0; Index < Ugh; Index++)
                     {
-                        RemainderValue |= (UInt64)Data[Start - Index - 1] << Index * 8;
+                        RemainderValue |= (UInt64)Data[Start - (UInt64)Index - 1] << Index * 8;
                     }
                     Hash = (Hash ^ RemainderValue) * P;
                 }

@@ -29,38 +29,41 @@ namespace Anathema
     /// 4) If a page has changed, we can then split that page into two (if it is larger than the given threshold), allowing us
     /// to determine which half is of interest with subsequent loop iterations
     /// END ON USER REQUEST. Preferably after enough time to split the pages all the way down to the threshold size.
-    /// 
-    /// 5) Data type casting with alignment and filters (ie value range, discard floats with E notation, etc)
-    /// 6) Input correlation (only with small granularity -- 4 or 8 bytes generally)
     ///
+    /// TODO: Grow regions by 7 bytes (max for any data type - 1) after re-merging
     /// 
     /// </summary>
     class SearchSpaceAnalyzer : MemoryReader
     {
         // Search space reduction related
         private List<MemoryChangeRoot> CandidateTree;       // List of memory pages that we may be interested in
-        private List<MemoryChangeRoot> AcceptedPages;       // List of memory regions that contain changes
-        public const Int32 BitArraySize = 64;               // Size of the number of change bits to keep before allocating more
+        private List<MemoryRegion> CurrentScanResults;      // List of memory regions after scanning
         private CancellationTokenSource CancelRequest;      // Tells the scan task to cancel (ie finish)
         private Task ChangeScanner;                         // Event that constantly checks the target process for changes
-        private const Int32 WaitTime = 100;                 // Time to wait (in ms) for a cancel request between each scan
+        private const Int32 BitArraySize = 64;              // Size of the number of change bits to keep before allocating more
+        private const Int32 WaitTime = 500;                 // Time to wait (in ms) for a cancel request between each scan
 
-        struct Range
+        private InputCorrelator InputCorrelator;
+        private FiniteStateScanner FiniteStateScanner;
+
+        // Scan statistics
+        private UInt64 InitialSize = 0;
+        private UInt64 EndSize = 0;
+
+        private AnalysisModeEnum AnalysisMode;
+
+
+        public enum AnalysisModeEnum
         {
-            public UInt64 Start;
-            public UInt32 Size;
-
-            public Range(UInt64 Start, UInt32 Size)
-            {
-                this.Start = Start;
-                this.Size = Size;
-            }
+            SearchSpaceReduction,
+            InputCorrelator,
         }
 
         public SearchSpaceAnalyzer()
         {
             CandidateTree = new List<MemoryChangeRoot>();
-            AcceptedPages = new List<MemoryChangeRoot>();
+            InputCorrelator = new InputCorrelator();
+            FiniteStateScanner = new FiniteStateScanner();
         }
 
         public List<MemoryChangeRoot> GetHistory()
@@ -73,17 +76,31 @@ namespace Anathema
             CandidateTree.Clear();
         }
 
-        public void Begin(UInt32 PageSplitThreshold = UInt32.MaxValue)
+        public void Begin(AnalysisModeEnum AnalysisMode, UInt32 PageSplitThreshold = UInt32.MaxValue)
         {
-            MemoryChangeTree.PageSplitThreshold = PageSplitThreshold;
+            this.AnalysisMode = AnalysisMode;
 
-            // Get the active pages from the target
-            List<VirtualPageData> Pages = GetPages();
-            for (int Index = 0; Index < Pages.Count; Index++)
-                CandidateTree.Add(new MemoryChangeRoot(Pages[Index]));
+            switch (AnalysisMode)
+            {
+                case AnalysisModeEnum.SearchSpaceReduction:
 
-            // Start recording changes in the process memory
-            BeginScan();
+                    // Update the theshold for splitting pages during hash scans
+                    MemoryChangeTree.PageSplitThreshold = PageSplitThreshold;
+
+                    // Get the active pages from the target
+                    List<MemoryRegion> Regions = GetPages().ConvertAll(Page => (MemoryRegion)Page);
+
+                    for (int Index = 0; Index < Regions.Count; Index++)
+                        CandidateTree.Add(new MemoryChangeRoot(Regions[Index]));
+
+                    // Start recording changes in the process memory
+                    BeginScan();
+                    break;
+
+                case AnalysisModeEnum.InputCorrelator:
+                    InputCorrelator.Begin(CurrentScanResults);
+                    break;
+            }
         }
 
         private void BeginScan()
@@ -110,8 +127,8 @@ namespace Anathema
             Parallel.For(0, CandidateTree.Count, PageIndex => // Upwards of a x2 increase in speed
             {
                 Boolean Success = false;
-                Byte[] PageData = ReadArrayOfBytes((IntPtr)CandidateTree[PageIndex].ActiveMemoryPage.BaseAddress,
-                    (UInt32)CandidateTree[PageIndex].ActiveMemoryPage.RegionSize, out Success);
+                Byte[] PageData = ReadArrayOfBytes((IntPtr)CandidateTree[PageIndex].BaseAddress,
+                    (UInt32)CandidateTree[PageIndex].RegionSize, out Success);
 
                 // Process the changes that have occurred since the last sampling for this memory page
                 if (Success)
@@ -129,14 +146,7 @@ namespace Anathema
             for (int Index = 0; Index < CandidateTree.Count; Index++)
             {
                 if (CandidateTree[Index].Dead)
-                {
                     CandidateTree.RemoveAt(Index--);
-                }
-                else if (CandidateTree[Index].HasChanged)
-                {
-                    //AcceptedPages.Add(CandidateTree[Index]);
-                    //CandidateTree.RemoveAt(Index--);
-                }
             }
 
             // Get the elapsed time as a TimeSpan value.
@@ -153,57 +163,111 @@ namespace Anathema
             }
             catch (AggregateException) { }
 
-            for (int Index = 0; Index < CandidateTree.Count; Index++)
+
+            switch (AnalysisMode)
             {
-                CandidateTree[Index].GetPageList(AcceptedPages);
+                case AnalysisModeEnum.SearchSpaceReduction:
+
+                    // Collect the pages that have changed
+                    List<MemoryChangeRoot> AcceptedPages = new List<MemoryChangeRoot>();
+                    for (int Index = 0; Index < CandidateTree.Count; Index++)
+                        CandidateTree[Index].GetPageList(AcceptedPages);
+
+                    InitialSize = GetSize(CandidateTree);
+
+                    Single DebugTest = GetSize(AcceptedPages);
+
+                    CandidateTree = null;
+
+                    // Merge and collect any adjacent regions from the accepted list of memory pages
+                    CurrentScanResults = CombineRegions(AcceptedPages);
+
+                    EndSize = GetSize(CurrentScanResults);
+                    break;
+
+                case AnalysisModeEnum.InputCorrelator:
+                    InputCorrelator.End();
+                    break;
             }
-
-
-            UInt64 TempA = QuerySC();
-            UInt64 TempB = QuerySS();
-
-            CandidateTree = null;
 
         }
 
-        private UInt64 QuerySC()
+        // Merging regions the naïve way is O(n^2) and can take upwards of 15 seconds. A faster approach is a stack based algorithm (<20 ms)
+        private List<MemoryRegion> CombineRegions(List<MemoryChangeRoot> AcceptedPages)
+        {
+            // Collect memory pages from the filtered results
+            List<MemoryRegion> Regions = AcceptedPages.ConvertAll(Page => (MemoryRegion)Page);
+
+            if (Regions.Count == 0)
+                return Regions;
+
+            // First, sort by start address
+            Regions.OrderBy(x => x.BaseAddress);
+
+            // Prepare the stack
+            Stack<MemoryRegion> MergedRegions = new Stack<MemoryRegion>();
+            MergedRegions.Push(Regions[0]);
+
+            // Build the regions
+            for (int Index = 1; Index < Regions.Count; Index++)
+            {
+                MemoryRegion Top = MergedRegions.Peek();
+
+                // If the interval does not overlap, put it on the top of the stack
+                if (Top.EndAddress < Regions[Index].BaseAddress)
+                {
+                    MergedRegions.Push(Regions[Index]);
+                }
+                // The interval overlaps; just merge it with the current top of the stack
+                else if (Top.EndAddress < Regions[Index].EndAddress)
+                {
+                    Top.RegionSize = Regions[Index].EndAddress - Top.BaseAddress;
+                    MergedRegions.Pop();
+                    MergedRegions.Push(Top);
+                }
+            }
+
+            return MergedRegions.ToList();
+        }
+
+        public override void SetTargetProcess(Process TargetProcess)
+        {
+            // Update target process for all analysis components
+            base.SetTargetProcess(TargetProcess);
+            InputCorrelator.SetTargetProcess(TargetProcess);
+            FiniteStateScanner.SetTargetProcess(TargetProcess);
+        }
+
+        private UInt64 GetSize(List<MemoryChangeRoot> Regions)
         {
             UInt64 Value = 0;
-            for (int Index = 0; Index < CandidateTree.Count; Index++)
-            {
-                Value += CandidateTree[Index].ActiveMemoryPage.RegionSize;
-            }
+            for (int Index = 0; Index < Regions.Count; Index++)
+                Value += Regions[Index].RegionSize;
             return Value;
         }
 
-        private UInt64 QuerySS()
+        private UInt64 GetSize(List<MemoryRegion> Regions)
         {
             UInt64 Value = 0;
-            for (int Index = 0; Index < AcceptedPages.Count; Index++)
-            {
-                Value += AcceptedPages[Index].ActiveMemoryPage.RegionSize;
-            }
+            for (int Index = 0; Index < Regions.Count; Index++)
+                Value += Regions[Index].RegionSize;
             return Value;
         }
 
-        // TODO: The splits on the region sizes could very well be off by 1, which would be annoying. Double check this.
-        public class MemoryChangeRoot
+        public class MemoryChangeRoot : MemoryRegion
         {
             public MemoryChangeTree Child = null;
-            public VirtualPageData ActiveMemoryPage;
             public Boolean Dead = false;
             public Boolean HasChanged = false;
 
-            public MemoryChangeRoot(VirtualPageData ActiveMemoryPage)
+            public MemoryChangeRoot(MemoryRegion MemoryRegion) : base(MemoryRegion.BaseAddress, MemoryRegion.RegionSize)
             {
-                this.ActiveMemoryPage = ActiveMemoryPage;
-
                 Child = new MemoryChangeTree();
             }
 
-            public MemoryChangeRoot CopyRange(UInt32 Start, UInt32 Length)
+            public MemoryChangeRoot CopyRange(UInt64 Start, UInt64 Length)
             {
-                VirtualPageData NewPage = ActiveMemoryPage.Clone();
+                MemoryRegion NewPage = base.Clone();
 
                 NewPage.BaseAddress += Start;  // Start is an offset from 0, so we can simply add it
                 NewPage.RegionSize = Length;   // The length must be assigned
@@ -213,18 +277,18 @@ namespace Anathema
 
             public void GetPageList(List<MemoryChangeRoot> AcceptedPages)
             {
-                Child.GetPageList(this, AcceptedPages, 0, (UInt32)ActiveMemoryPage.RegionSize);
+                Child.GetPageList(this, AcceptedPages, 0, RegionSize);
             }
 
             public void ProcessChanges(Byte[] Data)
             {
-                HasChanged = Child.ProcessChanges(Data, 0, Data.Length);
+                HasChanged = Child.ProcessChanges(Data, 0, (UInt64)Data.Length);
             }
         }
 
         public class MemoryChangeTree
         {
-            public static UInt32 PageSplitThreshold;    // User specified minimum page size for dynamic pages
+            public static UInt64 PageSplitThreshold;    // User specified minimum page size for dynamic pages
 
             public UInt64[] Hashes;         // Can look into UInt32 if memory is a large concern for these trees
             public Int32 QueryCount = 0;    // Number of times changes have been queried
@@ -240,7 +304,7 @@ namespace Anathema
                 Hashes = new UInt64[2];
             }
 
-            public void GetPageList(MemoryChangeRoot Root, List<MemoryChangeRoot> AcceptedPages, UInt32 Start, UInt32 Length)
+            public void GetPageList(MemoryChangeRoot Root, List<MemoryChangeRoot> AcceptedPages, UInt64 Start, UInt64 Length)
             {
                 // Add this page to the accepted list if we are a leaf on the tree structure
                 if (ChildLeft == null && ChildRight == null)
@@ -254,11 +318,11 @@ namespace Anathema
                 else
                 {
                     ChildLeft.GetPageList(Root, AcceptedPages, Start, Length / 2);
-                    ChildRight.GetPageList(Root, AcceptedPages, Start + Length / 2, Length / 2);
+                    ChildRight.GetPageList(Root, AcceptedPages, Start + Length / 2, Length - Length / 2);
                 }
             }
 
-            public Boolean ProcessChanges(Byte[] Data, Int32 Start, Int32 Length)
+            public Boolean ProcessChanges(Byte[] Data, UInt64 Start, UInt64 Length)
             {
                 // No need to process a page that has already changed
                 if (Length <= PageSplitThreshold && HasChanged)
@@ -295,7 +359,7 @@ namespace Anathema
                 {
                     return (
                         ChildLeft.ProcessChanges(Data, Start, Length / 2) &
-                        ChildRight.ProcessChanges(Data, Start + Length / 2, Length / 2)
+                        ChildRight.ProcessChanges(Data, Start + Length / 2, Length - Length / 2)
                     );
                 }
 

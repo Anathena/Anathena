@@ -32,12 +32,11 @@ namespace Anathema
         {
             const Int32 MaxIterations = 9000; // TODO Make this configurable and find a good default
 
-            List<VirtualPageData> PageDataList = new List<VirtualPageData>();
+            List<VirtualPageData> MemoryPageList = new List<VirtualPageData>();
 
             UIntPtr CurrentAddress = UIntPtr.Zero;
             UIntPtr PreviousAddress = UIntPtr.Zero;
             UIntPtr MaximumAddress = (UIntPtr)(UInt32.MaxValue / 2); // TODO make accurate reflection of max address instead of defaulting to 2GB
-            DateTime StartTime = DateTime.Now;
 
             // Query pages with VirtualQueryEx until we hit a proper stopping condition, or we have too many iterations
             for (int Count = 0; Count < MaxIterations; Count++)
@@ -87,41 +86,113 @@ namespace Anathema
                 }
 
                 // This page passed all of the setting constraints, add it to the list
-                PageDataList.Add(new VirtualPageData(StartTime, MemoryInformation));
+                MemoryPageList.Add(new VirtualPageData(MemoryInformation));
             }
 
-            return PageDataList;
+            return MemoryPageList;
         }
 
-        
         /// <summary>
-        /// Structure defining the important details of a memory page
+        /// Defines a mapping of addresses to values. This could be scan results, correlation coefficients, etc
         /// </summary>
-        public struct VirtualPageData
+        public class MemoryRegionMapping<MappedType> : MemoryRegion
         {
-            public DateTime TimeStamp;
+            public const Byte AllBytesMapped = 0;   // Indicates all bytes in the region should be mapped to a single value
+            public const Byte DefaultStride = 0;    // Indicates the stride should be equal to the BytesPerMap value
+
+            public MappedType[] MappedValues;
+
+            public Byte BytesPerMap;
+            public Byte Stride;
+
+            public MemoryRegionMapping(UInt64 BaseAddress, UInt64 RegionSize,
+                Byte BytesPerMap = AllBytesMapped, Byte Stride = DefaultStride) : base(BaseAddress, RegionSize)
+            {
+                this.BytesPerMap = BytesPerMap;
+                this.Stride = Stride;
+            }
+
+            public MemoryRegionMapping(MemoryRegion MemoryRegion,
+                Byte BytesPerMap = AllBytesMapped, Byte Stride = DefaultStride) : base(MemoryRegion)
+            {
+                this.BytesPerMap = BytesPerMap;
+                this.Stride = Stride;
+            }
+
+            public void SetMappedValues(MappedType[] MappedValues)
+            {
+                this.MappedValues = MappedValues;
+            }
+        }
+
+        /// <summary>
+        /// Defines the start and end of a region of memory, potentially ignoring page boundaries
+        /// </summary>
+        public class MemoryRegion
+        {
             public UInt64 BaseAddress;
             public UInt64 RegionSize;
+
+            public MemoryRegion(UInt64 BaseAddress, UInt64 RegionSize)
+            {
+                this.BaseAddress = BaseAddress;
+                this.RegionSize = RegionSize;
+            }
+
+            public MemoryRegion(MemoryRegion MemoryRegion)
+            {
+                this.BaseAddress = MemoryRegion.BaseAddress;
+                this.RegionSize = MemoryRegion.RegionSize;
+            }
+
+            public UInt64 EndAddress
+            {
+                get
+                {
+                    return BaseAddress + RegionSize;
+                }
+            }
+
+            // Break a region up into a list of addresses
+            public List<UInt64> Shatter(Int32 Stride = 1, UInt64 Alignment = 0)
+            {
+                List<UInt64> NewList = new List<UInt64>();
+
+                for (Int32 Index = 0; Index < (Int32)RegionSize; Index += Stride)
+                {
+                    if (!(Alignment == 0 || (BaseAddress + (UInt64)Index) % Alignment == 0))
+                        continue;
+
+                    NewList.Add((BaseAddress + (UInt64)Index));
+                }
+
+                return NewList;
+            }
+
+            public MemoryRegion Clone()
+            {
+                return new MemoryRegion(BaseAddress, RegionSize);
+            }
+        }
+
+        /// <summary>
+        /// Class defining the important details of a memory page
+        /// </summary>
+        public class VirtualPageData : MemoryRegion
+        {
             public MEMORY_STATE State;
             public MEMORY_PROTECTION Protection;
             public MEMORY_TYPE LType;
 
-            public VirtualPageData(DateTime TimeStamp, MEMORY_BASIC_INFORMATION64 MemoryInfo)
+            public VirtualPageData(MEMORY_BASIC_INFORMATION64 MemoryInfo) : base(MemoryInfo.BaseAddress, MemoryInfo.RegionSize)
             {
-                this.TimeStamp = TimeStamp;
-                this.BaseAddress = MemoryInfo.BaseAddress;
-                this.RegionSize = MemoryInfo.RegionSize;
                 this.State = (MEMORY_STATE)MemoryInfo.State;
                 this.Protection = (MEMORY_PROTECTION)MemoryInfo.AllocationProtect;
                 this.LType = (MEMORY_TYPE)MemoryInfo.lType;
             }
 
-            public VirtualPageData(DateTime TimeStamp, UInt64 BaseAddress, UInt64 RegionSize, MEMORY_STATE State,
-                MEMORY_PROTECTION Protection, MEMORY_TYPE LType)
+            /*public VirtualPageData(UInt64 BaseAddress, UInt64 RegionSize, MEMORY_STATE State, MEMORY_PROTECTION Protection, MEMORY_TYPE LType) : base(BaseAddress, RegionSize)
             {
-                this.TimeStamp = TimeStamp;
-                this.BaseAddress = BaseAddress;
-                this.RegionSize = RegionSize;
                 this.State = State;
                 this.Protection = Protection;
                 this.LType = LType;
@@ -129,8 +200,8 @@ namespace Anathema
 
             public VirtualPageData Clone()
             {
-                return new VirtualPageData(TimeStamp, BaseAddress, RegionSize, State, Protection, LType);
-            }
+                return new VirtualPageData(State, Protection, LType);
+            }*/
         }
 
     }
