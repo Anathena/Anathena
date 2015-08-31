@@ -9,8 +9,9 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Anathema</RootNamespace>
     <AssemblyName>Anathema</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -33,6 +34,26 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x86\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <OutputPath>bin\x86\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -49,17 +70,42 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Anathema.cs">
+    <Compile Include="GUI\GUIAnathema.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Anathema.Designer.cs">
-      <DependentUpon>Anathema.cs</DependentUpon>
+    <Compile Include="GUI\GUIAnathema.Designer.cs">
+      <DependentUpon>GUIAnathema.cs</DependentUpon>
     </Compile>
-    <Compile Include="MemoryAnalysis\FiniteStateScanner.cs" />
-    <Compile Include="HelperClasses\CheckSyntax.cs" />
-    <Compile Include="HelperClasses\FastHash.cs" />
-    <Compile Include="MemoryAnalysis\InputCorrelator.cs" />
-    <Compile Include="MemoryAnalysis\InputRecorder.cs" />
+    <Compile Include="GUI\GUIManualScanPanel.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="GUI\GUIManualScanPanel.Designer.cs">
+      <DependentUpon>GUIManualScanPanel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GUI\GUIInputCorrelator.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="GUI\GUIInputCorrelator.Designer.cs">
+      <DependentUpon>GUIInputCorrelator.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GUI\GUIFiniteStateMachine.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="GUI\GUIFiniteStateMachine.Designer.cs">
+      <DependentUpon>GUIFiniteStateMachine.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Anathema.cs" />
+    <Compile Include="IMemoryEditTool.cs" />
+    <Compile Include="IMemoryEditor.cs" />
+    <Compile Include="MemoryFilter\IMemoryLabel.cs" />
+    <Compile Include="MemoryFilter\MemoryFilter.cs" />
+    <Compile Include="MemoryFilter\FiniteStateTransition.cs" />
+    <Compile Include="MemoryFilter\FiniteStateFilter.cs" />
+    <Compile Include="Helpers\CheckSyntax.cs" />
+    <Compile Include="Helpers\FastHash.cs" />
+    <Compile Include="MemoryLabeler\IMemoryLabeler.cs" />
+    <Compile Include="MemoryLabeler\InputCorrelator.cs" />
+    <Compile Include="MemoryFilter\IMemoryFilter.cs" />
     <Compile Include="MouseKeyHook\Hook.cs" />
     <Compile Include="MouseKeyHook\HotKeys\HotKeyArgs.cs" />
     <Compile Include="MouseKeyHook\HotKeys\HotKeySet.cs" />
@@ -100,40 +146,42 @@
     <Compile Include="MouseKeyHook\WinApi\MouseStruct.cs" />
     <Compile Include="MouseKeyHook\WinApi\Point.cs" />
     <Compile Include="MouseKeyHook\WinApi\ThreadNativeMethods.cs" />
-    <Compile Include="PageVisualizer.cs">
-      <SubType>Form</SubType>
+    <Compile Include="MemoryFilter\MemoryTreeFilter.cs" />
+    <Compile Include="Helpers\Conversions.cs" />
+    <Compile Include="GUI\GUIProcessSelectorPanel.cs">
+      <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="PageVisualizer.Designer.cs">
-      <DependentUpon>PageVisualizer.cs</DependentUpon>
+    <Compile Include="GUI\GUIProcessSelectorPanel.Designer.cs">
+      <DependentUpon>GUIProcessSelectorPanel.cs</DependentUpon>
     </Compile>
-    <Compile Include="ProcessSelector.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="ProcessSelector.Designer.cs">
-      <DependentUpon>ProcessSelector.cs</DependentUpon>
-    </Compile>
-    <Compile Include="MemoryAnalysis\SearchSpaceAnalyzer.cs" />
-    <Compile Include="HelperClasses\Conversions.cs" />
-    <Compile Include="Memory\MemoryReader.cs" />
-    <Compile Include="Memory\MemoryWriter.cs" />
-    <Compile Include="Memory\OSInterface.cs" />
+    <Compile Include="OSInterface.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="AdvancedSettings.cs">
-      <SubType>Form</SubType>
+    <Compile Include="GUI\GUIMemoryTreeFilter.cs">
+      <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="AdvancedSettings.Designer.cs">
-      <DependentUpon>AdvancedSettings.cs</DependentUpon>
+    <Compile Include="GUI\GUIMemoryTreeFilter.Designer.cs">
+      <DependentUpon>GUIMemoryTreeFilter.cs</DependentUpon>
     </Compile>
     <Compile Include="Settings.cs" />
-    <EmbeddedResource Include="Anathema.resx">
-      <DependentUpon>Anathema.cs</DependentUpon>
+    <Compile Include="MemoryFilter\FiniteState.cs" />
+    <EmbeddedResource Include="GUI\GUIAnathema.resx">
+      <DependentUpon>GUIAnathema.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="PageVisualizer.resx">
-      <DependentUpon>PageVisualizer.cs</DependentUpon>
+    <EmbeddedResource Include="GUI\GUIManualScanPanel.resx">
+      <DependentUpon>GUIManualScanPanel.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="ProcessSelector.resx">
-      <DependentUpon>ProcessSelector.cs</DependentUpon>
+    <EmbeddedResource Include="GUI\GUIInputCorrelator.resx">
+      <DependentUpon>GUIInputCorrelator.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\GUIFiniteStateMachine.resx">
+      <DependentUpon>GUIFiniteStateMachine.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\GUIMemoryTreeFilter.resx">
+      <DependentUpon>GUIMemoryTreeFilter.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\GUIProcessSelectorPanel.resx">
+      <DependentUpon>GUIProcessSelectorPanel.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -143,10 +191,8 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
-    <EmbeddedResource Include="AdvancedSettings.resx">
-      <DependentUpon>AdvancedSettings.cs</DependentUpon>
-    </EmbeddedResource>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -160,9 +206,14 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
     <Content Include="MouseKeyHook\HotKeys\ReadMe.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\MemorySharp\MemorySharp\MemorySharp.csproj">
+      <Project>{78a6f97d-5ca8-4e92-8e17-2545983c9555}</Project>
+      <Name>MemorySharp</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -1,57 +1,61 @@
-﻿using System;
+﻿using Binarysharp.MemoryManagement;
+using Binarysharp.MemoryManagement.Memory;
+using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Diagnostics;
-using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Windows.Forms;
 
 namespace Anathema
 {
-    public partial class Anathema : Form
+    /// <summary>
+    /// Controls the main memory editor. Individual tools subscribe to this tool to recieve updates to
+    /// changes in the target process.
+    /// </summary>
+    class Anathema
     {
-        private SearchSpaceAnalyzer SearchSpaceAnalyzer = new SearchSpaceAnalyzer();
+        private MemorySharp MemoryEditor;
+
+        private List<RemoteRegion> MemoryRegions;
+        private List<IMemoryLabeler> MemoryLabels;
 
         public Anathema()
         {
-            InitializeComponent();
+            MemoryRegions = new List<RemoteRegion>();
+            MemoryLabels = new List<IMemoryLabeler>();
         }
 
-        private void ProcessSelected(Process TargetProcess)
+        /// <summary>
+        /// Discards the old memory regions and gathers all regions from the target process
+        /// </summary>
+        public void GatherMemoryRegions()
         {
-            SelectedProcessLabel.Text = TargetProcess.ProcessName;
-
-            // Pass the target process through to all components
-            SearchSpaceAnalyzer.SetTargetProcess(TargetProcess);
+            List<RemoteVirtualPage> VirtualPages = MemoryEditor.Memory.VirtualPages.ToList();
+            List<RemoteRegion> MemoryRegions = new List<RemoteRegion>();
+            for (int PageIndex = 0; PageIndex < VirtualPages.Count; PageIndex++)
+                MemoryRegions.Add(new RemoteRegion(MemoryEditor, VirtualPages[PageIndex].Information.BaseAddress, VirtualPages[PageIndex].Information.RegionSize));
+            UpdateMemoryRegions(MemoryRegions);
         }
 
-        private void SelectProcessButton_Click(object sender, EventArgs e)
+        /// <summary>
+        /// Update the target process 
+        /// </summary>
+        /// <param name="TargetProcess"></param>
+        public void UpdateTargetProcess(Process TargetProcess)
         {
-            ProcessSelector SelectProcess = new ProcessSelector(ProcessSelected);
-            SelectProcess.ShowDialog();
+            // Instantiate a new memory editor with the new target process
+            MemoryEditor = new MemorySharp(TargetProcess);
         }
 
-        private void StartSSAButton_Click(object sender, EventArgs e)
+        /// <summary>
+        /// Update the remote memory regions and notify all dependent tools of the change
+        /// </summary>
+        /// <param name="MemoryRegions"></param>
+        public void UpdateMemoryRegions(List<RemoteRegion> MemoryRegions)
         {
-            SearchSpaceAnalyzer.Begin(SearchSpaceAnalyzer.AnalysisModeEnum.SearchSpaceReduction, 0x40); // 0x400 good for size, 0x40 good for reduction (64 bytes)
-        }
-
-        private void EndSSAButton_Click(object sender, EventArgs e)
-        {
-            SearchSpaceAnalyzer.EndScan();
-        }
-
-        private void StartInputCorrelationButton_Click(object sender, EventArgs e)
-        {
-            SearchSpaceAnalyzer.Begin(SearchSpaceAnalyzer.AnalysisModeEnum.InputCorrelator);
-        }
-
-        private void EndInputCorrelationButton_Click(object sender, EventArgs e)
-        {
-            SearchSpaceAnalyzer.EndScan();
+            // Instantiate a new memory editor with the new target process
+            this.MemoryRegions = MemoryRegions;
         }
     }
 }

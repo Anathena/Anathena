@@ -1,0 +1,10 @@
+﻿extensions: .cs .cpp .h
+/*
+* Fasm.NET
+* https://github.com/ZenLulz/Fasm.NET
+*
+* Copyright 2013 ZenLulz ~ Jämes Ménétrey
+* Released under the MIT license
+*
+* Date: 2013-07-10
+*/
