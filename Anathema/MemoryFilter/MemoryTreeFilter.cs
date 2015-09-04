@@ -35,17 +35,21 @@ namespace Anathema
     /// TODO: Grow regions by 7 bytes (max for any data type - 1) after re-merging (via probing?)
     /// 
     /// </summary>
-    class MemoryTreeFilter : MemoryFilter
+    class MemoryTreeFilter : IMemoryFilter
     {
         // Search space reduction related
+        protected MemorySharp MemoryEditor;
+        protected List<RemoteRegion> MemoryRegions;
         private List<MemoryChangeRoot> CandidateTree;       // List of memory pages that we may be interested in
-        private List<RemoteRegion> CurrentScanResults;      // List of memory regions after scanning
+        private List<RemoteRegion> FilteredMemoryRegions;      // List of memory regions after scanning
         private CancellationTokenSource CancelRequest;      // Tells the scan task to cancel (ie finish)
         private Task ChangeScanner;                         // Event that constantly checks the target process for changes
 
         // Constants
         private const Int32 BitArraySize = 64;              // Size of the number of change bits to keep before allocating more
         private const Int32 WaitTime = 500;                 // Time to wait (in ms) for a cancel request between each scan
+
+        private static UInt64 PageSplitThreshold;    // User specified minimum page size for dynamic pages
 
         // Scan statistics
         private UInt64 InitialSize = 0;
@@ -54,21 +58,19 @@ namespace Anathema
         public MemoryTreeFilter()
         {
             CandidateTree = new List<MemoryChangeRoot>();
-            MemoryChangeTree.PageSplitThreshold = UInt32.MaxValue;
+            PageSplitThreshold = (UInt64)(Math.Pow(2, 16));
         }
 
-        public List<MemoryChangeRoot> GetHistory()
+        public static void UpdatePageSplitThreshold(UInt64 NewPageSplitThreshold)
         {
-            return CandidateTree;
-        }
-
-        public void Reset()
-        {
-            CandidateTree.Clear();
+            PageSplitThreshold = NewPageSplitThreshold;
         }
         
-        public override void BeginFilter()
+        public void BeginFilter(MemorySharp MemoryEditor, List<RemoteRegion> MemoryRegions)
         {
+            this.MemoryEditor = MemoryEditor;
+            this.MemoryRegions = MemoryRegions;
+
             for (int PageIndex = 0; PageIndex < MemoryRegions.Count; PageIndex++)
                 CandidateTree.Add(new MemoryChangeRoot(MemoryEditor, MemoryRegions[PageIndex].BaseAddress, MemoryRegions[PageIndex].RegionSize));
             
@@ -85,9 +87,27 @@ namespace Anathema
             }, CancelRequest.Token);
         }
 
-        public override List<RemoteRegion> EndFilter()
+        public List<RemoteRegion> EndFilter()
         {
-            return null;
+            EndScan();
+
+            return FilteredMemoryRegions;
+        }
+
+        public void AbortFilter()
+        {
+            // TODO: just cancel the task, dont do any other work
+            EndScan();
+        }
+
+        private List<MemoryChangeRoot> GetHistory()
+        {
+            return CandidateTree;
+        }
+
+        private void Reset()
+        {
+            CandidateTree.Clear();
         }
 
         private void QueryChanges()
@@ -98,11 +118,8 @@ namespace Anathema
             //for (int PageIndex = 0; PageIndex < MemoryPages.Count; PageIndex++)
             Parallel.For(0, CandidateTree.Count, PageIndex => // Upwards of a x2 increase in speed
             {
-                Boolean Success = false;
-                Byte[] PageData = MemoryEditor.ReadBytes(CandidateTree[PageIndex].BaseAddress, CandidateTree[PageIndex].RegionSize);
-
-                // TODO: There needs to be an out param on read memory...
-                Success = true;
+                Boolean Success;
+                Byte[] PageData = MemoryEditor.ReadBytes(CandidateTree[PageIndex].BaseAddress, CandidateTree[PageIndex].RegionSize, out Success, false);
 
                 // Process the changes that have occurred since the last sampling for this memory page
                 if (Success)
@@ -149,9 +166,9 @@ namespace Anathema
             CandidateTree = null;
 
             // Merge and collect any adjacent regions from the accepted list of memory pages
-            CurrentScanResults = CombineRegions(AcceptedPages);
+            FilteredMemoryRegions = CombineRegions(AcceptedPages);
 
-            EndSize = GetSize(CurrentScanResults);
+            EndSize = GetSize(FilteredMemoryRegions);
         }
 
         // Merging regions the naïve way is O(n^2) and can take upwards of 15 seconds. A faster approach is a stack based algorithm (<20 ms)
@@ -240,16 +257,16 @@ namespace Anathema
 
         public class MemoryChangeTree
         {
-            public static UInt64 PageSplitThreshold;    // User specified minimum page size for dynamic pages
+            
 
-            public UInt64[] Hashes;         // Can look into UInt32 if memory is a large concern for these trees
-            public Int32 QueryCount = 0;    // Number of times changes have been queried
+            private UInt64[] Hashes;         // Can look into UInt32 if memory is a large concern for these trees
+            private Int32 QueryCount = 0;    // Number of times changes have been queried
 
-            public MemoryChangeTree ChildLeft = null;
-            public MemoryChangeTree ChildRight = null;
+            private MemoryChangeTree ChildLeft = null;
+            private MemoryChangeTree ChildRight = null;
 
-            public Boolean HasChanged = false;
-            public Boolean StateUnknown = true;
+            private Boolean HasChanged = false;
+            private Boolean StateUnknown = true;
 
             public MemoryChangeTree()
             {
@@ -277,7 +294,7 @@ namespace Anathema
             public Boolean ProcessChanges(Byte[] Data, UInt64 Start, UInt64 Length)
             {
                 // No need to process a page that has already changed
-                if (Length <= PageSplitThreshold && HasChanged)
+                if (Length <= MemoryTreeFilter.PageSplitThreshold && HasChanged)
                     return HasChanged;
 
                 // If this node has no children, this node is a leaf and thus does the processing
@@ -294,7 +311,7 @@ namespace Anathema
                     }
 
                     // This page needs to be split if a change was detected and the size is above the threshold
-                    if (HasChanged && Length > PageSplitThreshold)
+                    if (HasChanged && Length > MemoryTreeFilter.PageSplitThreshold)
                     {
                         ChildLeft = new MemoryChangeTree();
                         ChildRight = new MemoryChangeTree();

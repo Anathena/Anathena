@@ -8,9 +8,10 @@ using System.Threading.Tasks;
 
 namespace Anathema
 {
-    interface IMemoryLabeler : IMemoryEditTool
+    interface IMemoryLabeler
     {
-        void BeginFilter(MemorySharp MemorySharp, List<RemoteRegion> Regions);
-        List<RemoteRegion> EndFilter();
+        void BeginLabeler(MemorySharp MemoryEditor, List<RemoteRegion> MemoryRegions);
+        List<RemoteRegion> EndLabeler();
+        void AbortLabeler();
     }
 }

@@ -13,9 +13,10 @@ using System.Windows.Forms;
 
 namespace Anathema
 {
-    class InputCorrelator : MemorySharp
+    class InputCorrelator : IMemoryLabeler
     {
         // Scanning related
+        private MemorySharp MemoryEditor;
         private List<RemoteRegion> MemoryRegions;           // Regions we are scanning (isolated via SearchSpaceAnalyzer)
         private List<IntPtr> Addresses;
         private Dictionary<IntPtr, IntPtr> ScanIndicies;    // Maps literal addresses to indexes
@@ -82,14 +83,15 @@ namespace Anathema
             Nearest
         }
 
-        public InputCorrelator(Process Process) : base(Process)
+        public InputCorrelator()
         {
             // TODO: App hook option? From author: "Note: for the application hook, use the Hook.AppEvents() instead" unless app hook is internal
             InputHook = Hook.GlobalEvents();
         }
 
-        public void Begin(List<RemoteRegion> MemoryRegions)
+        public void BeginLabeler(MemorySharp MemoryEditor, List<RemoteRegion> MemoryRegions)
         {
+            this.MemoryEditor = MemoryEditor;
             this.MemoryRegions = MemoryRegions;
 
             if (MemoryRegions == null)
@@ -104,8 +106,8 @@ namespace Anathema
                 ScanIndicies.Add(MemoryRegions[RegionIndex].BaseAddress, MappedIndex);
                 MappedIndex = (IntPtr)((UInt64)MappedIndex + (UInt64)MemoryRegions[RegionIndex].RegionSize);
 
-                throw new NotImplementedException();
-                //Addresses.AddRange(MemoryRegions[RegionIndex].Shatter());
+                for (Int32 ElementIndex = 0; ElementIndex < MemoryRegions[RegionIndex].RegionSize; ElementIndex++)
+                    Addresses.Add(MemoryRegions[RegionIndex].BaseAddress + ElementIndex);
             }
 
             IntPtr AddressCount = MappedIndex;
@@ -145,6 +147,35 @@ namespace Anathema
             }, CancelRequest.Token);
         }
 
+        public List<RemoteRegion> EndLabeler()
+        {
+            CancelRequest.Cancel();
+            try
+            {
+                ChangeScanner.Wait();
+            }
+            catch (AggregateException) { }
+
+            // Remove the first time step since there is one more time step than there are change logs
+            if (ScanHistoryTime.Count >= 1)
+                ScanHistoryTime.RemoveAt(0);
+
+            // Cleanup for the input hook
+            InputHook.KeyUp -= GlobalHookKeyUp;
+            InputHook.MouseDownExt -= GlobalHookMouseDownExt;
+            InputHook.KeyDown -= GlobalHookKeyDown;
+            InputHook.Dispose();
+
+            CollectCoefficients();
+
+            throw new NotImplementedException();
+        }
+
+        public void AbortLabeler()
+        {
+
+        }
+
         private void QueryChanges()
         {
             ChangeHistory.Add(new BitArray(ScanHistoryValues.Length));
@@ -153,16 +184,11 @@ namespace Anathema
             //for (int RegionIndex = 0; RegionIndex < MemoryRegions.Count; RegionIndex++)
             Parallel.For(0, MemoryRegions.Count, RegionIndex =>
             {
-                Boolean Success = false;
+                Boolean Success;
                 IntPtr MappedIndex;
 
                 // Read the memory from this page
-                Byte[] PageData = ReadBytes(MemoryRegions[RegionIndex].BaseAddress, MemoryRegions[RegionIndex].RegionSize);
-                //Byte[] PageData = ReadArrayOfBytes((IntPtr)MemoryRegions[RegionIndex].BaseAddress,
-                //    (UInt32)MemoryRegions[RegionIndex].RegionSize, out Success);
-
-                // TODO: This is stupid
-                Success = true;
+                Byte[] PageData = MemoryEditor.ReadBytes(MemoryRegions[RegionIndex].BaseAddress, MemoryRegions[RegionIndex].RegionSize, out Success, false);
 
                 // TODO: Clever use of logical AND can allow us to combine these changes for different data type
                 // Calculate changes for this region
@@ -185,29 +211,6 @@ namespace Anathema
             // Get the scan time stamp
             ScanHistoryTime.Add(DateTime.Now);
         }
-
-        public void End()
-        {
-            CancelRequest.Cancel();
-            try
-            {
-                ChangeScanner.Wait();
-            }
-            catch (AggregateException) { }
-
-            // Remove the first time step since there is one more time step than there are change logs
-            if (ScanHistoryTime.Count >= 1)
-                ScanHistoryTime.RemoveAt(0);
-
-            // Cleanup for the input hook
-            InputHook.KeyUp -= GlobalHookKeyUp;
-            InputHook.MouseDownExt -= GlobalHookMouseDownExt;
-            InputHook.KeyDown -= GlobalHookKeyDown;
-            InputHook.Dispose();
-
-            CollectCoefficients();
-        }
-
 
         private void RegisterKey(Keys Key)
         {
@@ -265,7 +268,6 @@ namespace Anathema
             foreach (KeyValuePair<Keys, List<DateTime>> NextInput in KeyBoardDown)
             {
                 Single[] Correlations;
-                UInt64 MappedIndex;
 
                 Correlations = CalculateCorrelations(NextInput.Value, MaxDifference);
 
@@ -406,9 +408,9 @@ namespace Anathema
                 }
             });
 
-            List<Tuple<Single, IntPtr>> sortedPairs = Correlations
-              .Zip(Addresses, (s, f) => Tuple.Create(s, f))
-              .OrderByDescending(x => x.Item1)
+            List<Tuple<IntPtr, Single>> SortedAddresses = Addresses
+              .Zip(Correlations, (A, C) => Tuple.Create(A, C))
+              .OrderByDescending(x => x.Item2)
               .ToList();
 
             //Correlations = sortedPairs.Select(x => x.Item1).ToList();
@@ -417,6 +419,7 @@ namespace Anathema
             return Correlations;
         }
 
+        
     } // End class
 
 } // End namespace

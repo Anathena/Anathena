@@ -14,21 +14,42 @@ namespace Anathema
     public partial class GUIAnathema : Form
     {
         private Anathema Anathema { get; set; }
+        private const Int32 MarginSize = 12;
 
         public GUIAnathema()
         {
             InitializeComponent();
-            Anathema = new Anathema();
+            Anathema = Anathema.GetAnathemaInstance();
+            HandleGUIResize();
         }
 
         /// <summary>
-        /// Updates the main display panel to show the given user control
+        /// Updates the filter display panel to show the given user control
         /// </summary>
         /// <param name="UserControl"></param>
-        private void UpdatePanelDisplay(UserControl UserControl)
+        private void UpdateFilterPanelDisplay(UserControl UserControl)
         {
-            ModePanel.Controls.Clear();
-            ModePanel.Controls.Add(UserControl);
+            for (Int32 Index = 0; Index < FilterPanel.Controls.Count; Index++)
+            {
+                if (FilterPanel.Controls[Index] != FilterToolStrip)
+                    FilterPanel.Controls.RemoveAt(Index--);
+            }
+            FilterPanel.Controls.Add(UserControl);
+            HandleGUIResize();
+        }
+
+        /// <summary>
+        /// Updates the labeler display panel to show the given user control
+        /// </summary>
+        /// <param name="UserControl"></param>
+        private void UpdateLabelerPanelDisplay(UserControl UserControl)
+        {
+            for (Int32 Index = 0; Index < LabelerPanel.Controls.Count; Index++)
+            {
+                if (LabelerPanel.Controls[Index] != LabelerToolStrip)
+                    LabelerPanel.Controls.RemoveAt(Index--);
+            }
+            LabelerPanel.Controls.Add(UserControl);
             HandleGUIResize();
         }
 
@@ -37,10 +58,22 @@ namespace Anathema
         /// </summary>
         private void HandleGUIResize()
         {
-            for (Int32 Index = 0; Index < ModePanel.Controls.Count; Index++)
+            // This code assumes that all controls are properly docked and are already placed
+            // the default margin size away from the side of the screen.
+
+            FilterPanel.Width = LabelerPanel.Location.X - FilterPanel.Location.X - MarginSize;
+            TableListView.Width = this.ClientRectangle.Width - MarginSize * 2;
+
+            for (Int32 Index = 0; Index < FilterPanel.Controls.Count; Index++)
             {
-                ModePanel.Controls[Index].Width = ModePanel.Width;
-                ModePanel.Controls[Index].Height = ModePanel.Height;
+                FilterPanel.Controls[Index].Width = FilterPanel.Width;
+                FilterPanel.Controls[Index].Height = FilterPanel.Height;
+            }
+
+            for (Int32 Index = 0; Index < LabelerPanel.Controls.Count; Index++)
+            {
+                LabelerPanel.Controls[Index].Width = LabelerPanel.Width;
+                LabelerPanel.Controls[Index].Height = LabelerPanel.Height;
             }
         }
 
@@ -52,7 +85,7 @@ namespace Anathema
         {
             Anathema.UpdateTargetProcess(TargetProcess);
             SelectedProcessLabel.Text = TargetProcess.ProcessName;
-            UpdatePanelDisplay(new GUIMemoryTreeFilter());
+            UpdateFilterPanelDisplay(new GUIMemoryTreeFilter());
         }
 
         #region Event Handlers
@@ -69,27 +102,27 @@ namespace Anathema
 
         private void SelectProcessButton_Click(object sender, EventArgs e)
         {
-            UpdatePanelDisplay(new GUIProcessSelector(ProcessSelected));
+            UpdateFilterPanelDisplay(new GUIProcessSelector(ProcessSelected));
         }
 
         private void SearchSpaceAnalysisButton_Click(object sender, EventArgs e)
         {
-            UpdatePanelDisplay(new GUIMemoryTreeFilter());
+            UpdateFilterPanelDisplay(new GUIMemoryTreeFilter());
         }
 
         private void FiniteStateMachineButton_Click(object sender, EventArgs e)
         {
-            UpdatePanelDisplay(new GUIFiniteStateMachinePanel());
+            UpdateFilterPanelDisplay(new GUIFiniteStateMachinePanel());
         }
 
         private void InputCorrelatorButton_Click(object sender, EventArgs e)
         {
-            UpdatePanelDisplay(new GUIInputCorrelator());
+            UpdateLabelerPanelDisplay(new GUIInputCorrelator());
         }
 
         private void ManualScanButton_Click(object sender, EventArgs e)
         {
-            UpdatePanelDisplay(new GUIManualScan());
+            UpdateFilterPanelDisplay(new GUIManualScan());
         }
 
         #endregion

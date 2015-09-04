@@ -19,7 +19,7 @@ namespace Anathema
         private const Int32 GripCount = 8;                  // Number of grips on each state circle
         public const Int32 InvalidGrip = -1;
 
-        private const Int32 StateRadius = 16;               // Radius for a state's graphical circle
+        public const Int32 StateRadius = 24;               // Radius for a state's graphical circle
         private const Int32 StatePenWidth = 3;              // Width for drawing state circles
         private const Int32 GripRadius = 4;                 // Radius for the grips on the side of a state circle
         private const Int32 GripPenWidth = 4;               // Width for drawing the grips

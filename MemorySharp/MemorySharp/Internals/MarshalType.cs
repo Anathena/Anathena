@@ -208,9 +208,10 @@ namespace Binarysharp.MemoryManagement.Internals
         /// <returns>The return value is the pointer converted to the given data type.</returns>
         public static T PtrToObject(MemorySharp memorySharp, IntPtr pointer)
         {
+            bool success;
             return ByteArrayToObject(CanBeStoredInRegisters
                                       ? BitConverter.GetBytes(pointer.ToInt64())
-                                      : memorySharp.Read<byte>(pointer, Size, false));
+                                      : memorySharp.Read<byte>(pointer, Size, out success, false));
         }
         #endregion
         #endregion

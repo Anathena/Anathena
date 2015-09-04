@@ -811,14 +811,16 @@ namespace Binarysharp.MemoryManagement.Native
         /// To determine the size of a page on the host computer, use the GetSystemInfo function. 
         /// If lpAddress specifies an address above the highest memory address accessible to the process, the function fails with ERROR_INVALID_PARAMETER.
         /// </param>
-        /// <param name="lpBuffer">[Out] A pointer to a <see cref="MemoryBasicInformation"/> structure in which information about the specified page range is returned.</param>
+        /// <param name="lpBuffer">[Out] A pointer to a <see cref="MemoryBasicInformation32"/> structure in which information about the specified page range is returned.</param>
         /// <param name="dwLength">The size of the buffer pointed to by the lpBuffer parameter, in bytes.</param>
         /// <returns>
         /// The return value is the actual number of bytes returned in the information buffer. 
         /// If the function fails, the return value is zero. To get extended error information, call <see cref="Marshal.GetLastWin32Error"/>.
         /// </returns>
         [DllImport("kernel32.dll", SetLastError = true)]
-        public static extern int VirtualQueryEx(SafeMemoryHandle hProcess, IntPtr lpAddress, out MemoryBasicInformation lpBuffer, int dwLength);
+        public static extern int VirtualQueryEx(SafeMemoryHandle hProcess, IntPtr lpAddress, out MemoryBasicInformation32 lpBuffer, int dwLength);
+        [DllImport("kernel32.dll", SetLastError = true)]
+        public static extern int VirtualQueryEx(SafeMemoryHandle hProcess, IntPtr lpAddress, out MemoryBasicInformation64 lpBuffer, int dwLength);
         #endregion
 
         #region WaitForSingleObject

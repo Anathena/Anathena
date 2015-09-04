@@ -57,7 +57,7 @@
             this.ProcessListView.TabIndex = 24;
             this.ProcessListView.TileSize = new System.Drawing.Size(16, 16);
             this.ProcessListView.UseCompatibleStateImageBehavior = false;
-            this.ProcessListView.View = System.Windows.Forms.View.SmallIcon;
+            this.ProcessListView.View = System.Windows.Forms.View.Details;
             this.ProcessListView.DoubleClick += new System.EventHandler(this.ProcessListView_DoubleClick);
             // 
             // RightClickMenu
@@ -113,15 +113,16 @@
             this.RefreshButton.Text = "Refresh Processes";
             this.RefreshButton.Click += new System.EventHandler(this.RefreshButton_Click);
             // 
-            // ProcessSelector
+            // GUIProcessSelector
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.ProcessListView);
             this.Controls.Add(this.ScanToolStrip);
-            this.Name = "ProcessSelector";
+            this.Name = "GUIProcessSelector";
             this.Size = new System.Drawing.Size(240, 277);
             this.Load += new System.EventHandler(this.GUIProcessSelector_Load);
+            this.Resize += new System.EventHandler(this.GUIProcessSelector_Resize);
             this.RightClickMenu.ResumeLayout(false);
             this.ScanToolStrip.ResumeLayout(false);
             this.ScanToolStrip.PerformLayout();

@@ -61,10 +61,11 @@ namespace MemorySharpTests
             // Arrange
             var sharp = Resources.MemorySharp;
             var value = new byte[] {0x90,0x90,0x90};
+            bool success;
 
             // Act
             sharp.Write(IntPtr.Zero, value);
-            var ret = sharp.Read<byte>(IntPtr.Zero, value.Length);
+            var ret = sharp.Read<byte>(IntPtr.Zero, value.Length, out success);
 
             // Assert
             CollectionAssert.AreEqual(value, ret, "Both collections are not equal.");
@@ -80,10 +81,11 @@ namespace MemorySharpTests
             // Arrange
             var sharp = Resources.MemorySharp;
             var value = new[] { 0x90, 0x90, 0x90 };
+            bool success;
 
             // Act
             sharp.Write(IntPtr.Zero, value);
-            var ret = sharp.Read<int>(IntPtr.Zero, value.Length);
+            var ret = sharp.Read<int>(IntPtr.Zero, value.Length, out success);
 
             // Assert
             CollectionAssert.AreEqual(value, ret, "Both collections are not equal.");
@@ -99,10 +101,11 @@ namespace MemorySharpTests
             // Arrange
             var sharp = Resources.MemorySharp;
             const string value = "I love cookies";
+            bool success;
 
             // Act
             sharp.WriteString(IntPtr.Zero, value);
-            var ret = sharp.ReadString(IntPtr.Zero);
+            var ret = sharp.ReadString(IntPtr.Zero, out success);
 
             // Assert
             Assert.AreEqual(value, ret, "Both strings are not equal.");

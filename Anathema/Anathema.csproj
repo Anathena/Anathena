@@ -76,6 +76,12 @@
     <Compile Include="GUI\GUIAnathema.Designer.cs">
       <DependentUpon>GUIAnathema.cs</DependentUpon>
     </Compile>
+    <Compile Include="GUI\GUILabelSelector.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="GUI\GUILabelSelector.Designer.cs">
+      <DependentUpon>GUILabelSelector.cs</DependentUpon>
+    </Compile>
     <Compile Include="GUI\GUIManualScanPanel.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -95,14 +101,11 @@
       <DependentUpon>GUIFiniteStateMachine.cs</DependentUpon>
     </Compile>
     <Compile Include="Anathema.cs" />
-    <Compile Include="IMemoryEditTool.cs" />
-    <Compile Include="IMemoryEditor.cs" />
-    <Compile Include="MemoryFilter\IMemoryLabel.cs" />
-    <Compile Include="MemoryFilter\MemoryFilter.cs" />
     <Compile Include="MemoryFilter\FiniteStateTransition.cs" />
     <Compile Include="MemoryFilter\FiniteStateFilter.cs" />
     <Compile Include="Helpers\CheckSyntax.cs" />
     <Compile Include="Helpers\FastHash.cs" />
+    <Compile Include="MemoryLabeler\ILabel.cs" />
     <Compile Include="MemoryLabeler\IMemoryLabeler.cs" />
     <Compile Include="MemoryLabeler\InputCorrelator.cs" />
     <Compile Include="MemoryFilter\IMemoryFilter.cs" />
@@ -167,6 +170,9 @@
     <Compile Include="MemoryFilter\FiniteState.cs" />
     <EmbeddedResource Include="GUI\GUIAnathema.resx">
       <DependentUpon>GUIAnathema.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\GUILabelSelector.resx">
+      <DependentUpon>GUILabelSelector.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\GUIManualScanPanel.resx">
       <DependentUpon>GUIManualScanPanel.cs</DependentUpon>

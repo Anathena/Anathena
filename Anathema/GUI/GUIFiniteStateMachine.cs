@@ -24,16 +24,16 @@ namespace Anathema
         {
             this.DoubleBuffered = true;
             this.SetStyle(ControlStyles.DoubleBuffer, true);
-
             InitializeDefaultStates();
         }
 
         private void InitializeDefaultStates()
         {
             States = new List<FiniteState>();
-            States.Add(new FiniteState(this.ClientRectangle.Width / 3, this.ClientRectangle.Height / 2));
-            States.Add(new FiniteState(this.ClientRectangle.Width / 2, this.ClientRectangle.Height / 2));
-            States.Add(new FiniteState(this.ClientRectangle.Width * 2 / 3, this.ClientRectangle.Height / 2));
+            // The first three states are the states that must always exist (initial, accepted, rejected)
+            States.Add(new FiniteState(FiniteState.StateRadius * 2, FiniteState.StateRadius * 9));
+            States.Add(new FiniteState(FiniteState.StateRadius * 2, FiniteState.StateRadius * 6));
+            States.Add(new FiniteState(FiniteState.StateRadius * 2, FiniteState.StateRadius * 3));
         }
 
         private void TryDeleteStatesAtPoint(Point DeleteLocation)

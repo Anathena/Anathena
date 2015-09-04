@@ -57,7 +57,8 @@ namespace MemorySharpTests.Memory
             {
                 MemoryCore.ChangeProtection(handle, memory, 5, MemoryProtectionFlags.ExecuteReadWrite);
                 MemoryCore.WriteBytes(handle, memory, expected);
-                var actual = MemoryCore.ReadBytes(handle, memory, 5);
+                bool success;
+                var actual = MemoryCore.ReadBytes(handle, memory, 5, out success);
 
                 // Assert
                 CollectionAssert.AreEqual(expected, actual, "The collections are not equal.");

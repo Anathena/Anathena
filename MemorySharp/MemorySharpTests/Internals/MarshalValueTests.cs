@@ -128,11 +128,11 @@ namespace MemorySharpTests.Internals
             // Act
             using (var pointer = MarshalValue.Marshal(sharp, value))
             {
-
+                bool success;
                 // Assert
-                Assert.AreEqual(Resources.CustomStruct.X, pointer.Allocated.Read<int>(0));
-                Assert.AreEqual(Resources.CustomStruct.Y, pointer.Allocated.Read<int>(4));
-                Assert.AreEqual(Resources.CustomStruct.Z, pointer.Allocated.Read<int>(8));
+                Assert.AreEqual(Resources.CustomStruct.X, pointer.Allocated.Read<int>(0, out success));
+                Assert.AreEqual(Resources.CustomStruct.Y, pointer.Allocated.Read<int>(4, out success));
+                Assert.AreEqual(Resources.CustomStruct.Z, pointer.Allocated.Read<int>(8, out success));
             }
 
             Resources.EndTests(sharp);
@@ -151,8 +151,9 @@ namespace MemorySharpTests.Internals
             // Act
             using (var pointer = MarshalValue.Marshal(sharp, path))
             {
+                bool success;
                 // Assert
-                Assert.AreEqual(path, pointer.Allocated.ReadString(0));
+                Assert.AreEqual(path, pointer.Allocated.ReadString(0, out success));
             }
 
             Resources.EndTests(sharp);

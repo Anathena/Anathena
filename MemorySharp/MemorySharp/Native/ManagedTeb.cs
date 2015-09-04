@@ -19,12 +19,13 @@ namespace Binarysharp.MemoryManagement.Native
     public class ManagedTeb : RemotePointer
     {
         #region Properties
+        public bool success;
         /// <summary>
         /// Current Structured Exception Handling (SEH) frame.
         /// </summary>
         public IntPtr CurrentSehFrame
         {
-            get { return Read<IntPtr>(TebStructure.CurrentSehFrame); }
+            get { return Read<IntPtr>(TebStructure.CurrentSehFrame, out success); }
             set { Write(TebStructure.CurrentSehFrame, value); }
         }
         /// <summary>
@@ -32,7 +33,7 @@ namespace Binarysharp.MemoryManagement.Native
         /// </summary>
         public IntPtr TopOfStack
         {
-            get { return Read<IntPtr>(TebStructure.TopOfStack); }
+            get { return Read<IntPtr>(TebStructure.TopOfStack, out success); }
             set { Write(TebStructure.TopOfStack, value); }
         }
         /// <summary>
@@ -40,7 +41,7 @@ namespace Binarysharp.MemoryManagement.Native
         /// </summary>
         public IntPtr BottomOfStack
         {
-            get { return Read<IntPtr>(TebStructure.BottomOfStack); }
+            get { return Read<IntPtr>(TebStructure.BottomOfStack, out success); }
             set { Write(TebStructure.BottomOfStack, value); }
         }
         /// <summary>
@@ -48,7 +49,7 @@ namespace Binarysharp.MemoryManagement.Native
         /// </summary>
         public IntPtr SubSystemTeb
         {
-            get { return Read<IntPtr>(TebStructure.SubSystemTeb); }
+            get { return Read<IntPtr>(TebStructure.SubSystemTeb, out success); }
             set { Write(TebStructure.SubSystemTeb, value); }
         }
         /// <summary>
@@ -56,7 +57,7 @@ namespace Binarysharp.MemoryManagement.Native
         /// </summary>
         public IntPtr FiberData
         {
-            get { return Read<IntPtr>(TebStructure.FiberData); }
+            get { return Read<IntPtr>(TebStructure.FiberData, out success); }
             set { Write(TebStructure.FiberData, value); }
         }
         /// <summary>
@@ -64,7 +65,7 @@ namespace Binarysharp.MemoryManagement.Native
         /// </summary>
         public IntPtr ArbitraryDataSlot
         {
-            get { return Read<IntPtr>(TebStructure.ArbitraryDataSlot); }
+            get { return Read<IntPtr>(TebStructure.ArbitraryDataSlot, out success); }
             set { Write(TebStructure.ArbitraryDataSlot, value); }
         }
         /// <summary>
@@ -72,7 +73,7 @@ namespace Binarysharp.MemoryManagement.Native
         /// </summary>
         public IntPtr Teb
         {
-            get { return Read<IntPtr>(TebStructure.Teb); }
+            get { return Read<IntPtr>(TebStructure.Teb, out success); }
             set { Write(TebStructure.Teb, value); }
         }
         /// <summary>
@@ -80,7 +81,7 @@ namespace Binarysharp.MemoryManagement.Native
         /// </summary>
         public IntPtr EnvironmentPointer
         {
-            get { return Read<IntPtr>(TebStructure.EnvironmentPointer); }
+            get { return Read<IntPtr>(TebStructure.EnvironmentPointer, out success); }
             set { Write(TebStructure.EnvironmentPointer, value); }
         }
         /// <summary>
@@ -88,7 +89,7 @@ namespace Binarysharp.MemoryManagement.Native
         /// </summary>
         public int ProcessId
         {
-            get { return Read<int>(TebStructure.ProcessId); }
+            get { return Read<int>(TebStructure.ProcessId, out success); }
             set { Write(TebStructure.ProcessId, value); }
         }
         /// <summary>
@@ -96,7 +97,7 @@ namespace Binarysharp.MemoryManagement.Native
         /// </summary>
         public int ThreadId
         {
-            get { return Read<int>(TebStructure.ThreadId); }
+            get { return Read<int>(TebStructure.ThreadId, out success); }
             set { Write(TebStructure.ThreadId, value); }
         }
         /// <summary>
@@ -104,7 +105,7 @@ namespace Binarysharp.MemoryManagement.Native
         /// </summary>
         public IntPtr RpcHandle
         {
-            get { return Read<IntPtr>(TebStructure.RpcHandle); }
+            get { return Read<IntPtr>(TebStructure.RpcHandle, out success); }
             set { Write(TebStructure.RpcHandle, value); }
         }
         /// <summary>
@@ -112,7 +113,7 @@ namespace Binarysharp.MemoryManagement.Native
         /// </summary>
         public IntPtr Tls
         {
-            get { return Read<IntPtr>(TebStructure.Tls); }
+            get { return Read<IntPtr>(TebStructure.Tls, out success); }
             set { Write(TebStructure.Tls, value); }
         }
         /// <summary>
@@ -120,7 +121,7 @@ namespace Binarysharp.MemoryManagement.Native
         /// </summary>
         public IntPtr Peb
         {
-            get { return Read<IntPtr>(TebStructure.Peb); }
+            get { return Read<IntPtr>(TebStructure.Peb, out success); }
             set { Write(TebStructure.Peb, value); }
         }
         /// <summary>
@@ -128,7 +129,7 @@ namespace Binarysharp.MemoryManagement.Native
         /// </summary>
         public int LastErrorNumber
         {
-            get { return Read<int>(TebStructure.LastErrorNumber); }
+            get { return Read<int>(TebStructure.LastErrorNumber, out success); }
             set { Write(TebStructure.LastErrorNumber, value); }
         }
         /// <summary>
@@ -136,7 +137,7 @@ namespace Binarysharp.MemoryManagement.Native
         /// </summary>
         public int CriticalSectionsCount
         {
-            get { return Read<int>(TebStructure.CriticalSectionsCount); }
+            get { return Read<int>(TebStructure.CriticalSectionsCount, out success); }
             set { Write(TebStructure.CriticalSectionsCount, value); }
         }
         /// <summary>
@@ -144,7 +145,7 @@ namespace Binarysharp.MemoryManagement.Native
         /// </summary>
         public IntPtr CsrClientThread
         {
-            get { return Read<IntPtr>(TebStructure.CsrClientThread); }
+            get { return Read<IntPtr>(TebStructure.CsrClientThread, out success); }
             set { Write(TebStructure.CsrClientThread, value); }
         }
         /// <summary>
@@ -152,7 +153,7 @@ namespace Binarysharp.MemoryManagement.Native
         /// </summary>
         public IntPtr Win32ThreadInfo
         {
-            get { return Read<IntPtr>(TebStructure.Win32ThreadInfo); }
+            get { return Read<IntPtr>(TebStructure.Win32ThreadInfo, out success); }
             set { Write(TebStructure.Win32ThreadInfo, value); }
         }
         /// <summary>
@@ -160,7 +161,7 @@ namespace Binarysharp.MemoryManagement.Native
         /// </summary>
         public byte[] Win32ClientInfo
         {
-            get { return Read<byte>(TebStructure.Win32ClientInfo, 124); }
+            get { return Read<byte>(TebStructure.Win32ClientInfo, 124, out success); }
             set { Write(TebStructure.Win32ClientInfo, value); }
         }
         /// <summary>
@@ -168,7 +169,7 @@ namespace Binarysharp.MemoryManagement.Native
         /// </summary>
         public IntPtr WoW64Reserved
         {
-            get { return Read<IntPtr>(TebStructure.WoW64Reserved); }
+            get { return Read<IntPtr>(TebStructure.WoW64Reserved, out success); }
             set { Write(TebStructure.WoW64Reserved, value); }
         }
         /// <summary>
@@ -176,7 +177,7 @@ namespace Binarysharp.MemoryManagement.Native
         /// </summary>
         public IntPtr CurrentLocale
         {
-            get { return Read<IntPtr>(TebStructure.CurrentLocale); }
+            get { return Read<IntPtr>(TebStructure.CurrentLocale, out success); }
             set { Write(TebStructure.CurrentLocale, value); }
         }
         /// <summary>
@@ -184,7 +185,7 @@ namespace Binarysharp.MemoryManagement.Native
         /// </summary>
         public IntPtr FpSoftwareStatusRegister
         {
-            get { return Read<IntPtr>(TebStructure.FpSoftwareStatusRegister); }
+            get { return Read<IntPtr>(TebStructure.FpSoftwareStatusRegister, out success); }
             set { Write(TebStructure.FpSoftwareStatusRegister, value); }
         }
         /// <summary>
@@ -193,7 +194,7 @@ namespace Binarysharp.MemoryManagement.Native
         /// </summary>
         public byte[] SystemReserved1
         {
-            get { return Read<byte>(TebStructure.SystemReserved1, 216); }
+            get { return Read<byte>(TebStructure.SystemReserved1, 216, out success); }
             set { Write(TebStructure.SystemReserved1, value); }
         }
         /// <summary>
@@ -201,7 +202,7 @@ namespace Binarysharp.MemoryManagement.Native
         /// </summary>
         public IntPtr ExceptionCode
         {
-            get { return Read<IntPtr>(TebStructure.ExceptionCode); }
+            get { return Read<IntPtr>(TebStructure.ExceptionCode, out success); }
             set { Write(TebStructure.ExceptionCode, value); }
         }
         /// <summary>
@@ -209,7 +210,7 @@ namespace Binarysharp.MemoryManagement.Native
         /// </summary>
         public byte[] ActivationContextStack
         {
-            get { return Read<byte>(TebStructure.ActivationContextStack, 18); }
+            get { return Read<byte>(TebStructure.ActivationContextStack, 18, out success); }
             set { Write(TebStructure.ActivationContextStack, value); }
         }
         /// <summary>
@@ -217,7 +218,7 @@ namespace Binarysharp.MemoryManagement.Native
         /// </summary>
         public byte[] SpareBytes
         {
-            get { return Read<byte>(TebStructure.SpareBytes, 26); }
+            get { return Read<byte>(TebStructure.SpareBytes, 26, out success); }
             set { Write(TebStructure.SpareBytes, value); }
         }
         /// <summary>
@@ -225,7 +226,7 @@ namespace Binarysharp.MemoryManagement.Native
         /// </summary>
         public byte[] SystemReserved2
         {
-            get { return Read<byte>(TebStructure.SystemReserved2, 40); }
+            get { return Read<byte>(TebStructure.SystemReserved2, 40, out success); }
             set { Write(TebStructure.SystemReserved2, value); }
         }
         /// <summary>
@@ -233,7 +234,7 @@ namespace Binarysharp.MemoryManagement.Native
         /// </summary>
         public byte[] GdiTebBatch
         {
-            get { return Read<byte>(TebStructure.GdiTebBatch, 1248); }
+            get { return Read<byte>(TebStructure.GdiTebBatch, 1248, out success); }
             set { Write(TebStructure.GdiTebBatch, value); }
         }
         /// <summary>
@@ -241,7 +242,7 @@ namespace Binarysharp.MemoryManagement.Native
         /// </summary>
         public IntPtr GdiRegion
         {
-            get { return Read<IntPtr>(TebStructure.GdiRegion); }
+            get { return Read<IntPtr>(TebStructure.GdiRegion, out success); }
             set { Write(TebStructure.GdiRegion, value); }
         }
         /// <summary>
@@ -249,7 +250,7 @@ namespace Binarysharp.MemoryManagement.Native
         /// </summary>
         public IntPtr GdiPen
         {
-            get { return Read<IntPtr>(TebStructure.GdiPen); }
+            get { return Read<IntPtr>(TebStructure.GdiPen, out success); }
             set { Write(TebStructure.GdiPen, value); }
         }
         /// <summary>
@@ -257,7 +258,7 @@ namespace Binarysharp.MemoryManagement.Native
         /// </summary>
         public IntPtr GdiBrush
         {
-            get { return Read<IntPtr>(TebStructure.GdiBrush); }
+            get { return Read<IntPtr>(TebStructure.GdiBrush, out success); }
             set { Write(TebStructure.GdiBrush, value); }
         }
         /// <summary>
@@ -265,7 +266,7 @@ namespace Binarysharp.MemoryManagement.Native
         /// </summary>
         public int RealProcessId
         {
-            get { return Read<int>(TebStructure.RealProcessId); }
+            get { return Read<int>(TebStructure.RealProcessId, out success); }
             set { Write(TebStructure.RealProcessId, value); }
         }
         /// <summary>
@@ -273,7 +274,7 @@ namespace Binarysharp.MemoryManagement.Native
         /// </summary>
         public int RealThreadId
         {
-            get { return Read<int>(TebStructure.RealThreadId); }
+            get { return Read<int>(TebStructure.RealThreadId, out success); }
             set { Write(TebStructure.RealThreadId, value); }
         }
         /// <summary>
@@ -281,7 +282,7 @@ namespace Binarysharp.MemoryManagement.Native
         /// </summary>
         public IntPtr GdiCachedProcessHandle
         {
-            get { return Read<IntPtr>(TebStructure.GdiCachedProcessHandle); }
+            get { return Read<IntPtr>(TebStructure.GdiCachedProcessHandle, out success); }
             set { Write(TebStructure.GdiCachedProcessHandle, value); }
         }
         /// <summary>
@@ -289,7 +290,7 @@ namespace Binarysharp.MemoryManagement.Native
         /// </summary>
         public IntPtr GdiClientProcessId
         {
-            get { return Read<IntPtr>(TebStructure.GdiClientProcessId); }
+            get { return Read<IntPtr>(TebStructure.GdiClientProcessId, out success); }
             set { Write(TebStructure.GdiClientProcessId, value); }
         }
         /// <summary>
@@ -297,7 +298,7 @@ namespace Binarysharp.MemoryManagement.Native
         /// </summary>
         public IntPtr GdiClientThreadId
         {
-            get { return Read<IntPtr>(TebStructure.GdiClientThreadId); }
+            get { return Read<IntPtr>(TebStructure.GdiClientThreadId, out success); }
             set { Write(TebStructure.GdiClientThreadId, value); }
         }
         /// <summary>
@@ -305,7 +306,7 @@ namespace Binarysharp.MemoryManagement.Native
         /// </summary>
         public IntPtr GdiThreadLocalInfo
         {
-            get { return Read<IntPtr>(TebStructure.GdiThreadLocalInfo); }
+            get { return Read<IntPtr>(TebStructure.GdiThreadLocalInfo, out success); }
             set { Write(TebStructure.GdiThreadLocalInfo, value); }
         }
         /// <summary>
@@ -313,7 +314,7 @@ namespace Binarysharp.MemoryManagement.Native
         /// </summary>
         public byte[] UserReserved1
         {
-            get { return Read<byte>(TebStructure.UserReserved1, 20); }
+            get { return Read<byte>(TebStructure.UserReserved1, 20, out success); }
             set { Write(TebStructure.UserReserved1, value); }
         }
         /// <summary>
@@ -321,7 +322,7 @@ namespace Binarysharp.MemoryManagement.Native
         /// </summary>
         public byte[] GlReserved1
         {
-            get { return Read<byte>(TebStructure.GlReserved1, 1248); }
+            get { return Read<byte>(TebStructure.GlReserved1, 1248, out success); }
             set { Write(TebStructure.GlReserved1, value); }
         }
         /// <summary>
@@ -329,7 +330,7 @@ namespace Binarysharp.MemoryManagement.Native
         /// </summary>
         public int LastStatusValue
         {
-            get { return Read<int>(TebStructure.LastStatusValue); }
+            get { return Read<int>(TebStructure.LastStatusValue, out success); }
             set { Write(TebStructure.LastStatusValue, value); }
         }
         /// <summary>
@@ -337,7 +338,7 @@ namespace Binarysharp.MemoryManagement.Native
         /// </summary>
         public byte[] StaticUnicodeString
         {
-            get { return Read<byte>(TebStructure.StaticUnicodeString, 532); }
+            get { return Read<byte>(TebStructure.StaticUnicodeString, 532, out success); }
             set { Write(TebStructure.StaticUnicodeString, value); }
         }
         /// <summary>
@@ -345,7 +346,7 @@ namespace Binarysharp.MemoryManagement.Native
         /// </summary>
         public IntPtr DeallocationStack
         {
-            get { return Read<IntPtr>(TebStructure.DeallocationStack); }
+            get { return Read<IntPtr>(TebStructure.DeallocationStack, out success); }
             set { Write(TebStructure.DeallocationStack, value); }
         }
         /// <summary>
@@ -353,7 +354,7 @@ namespace Binarysharp.MemoryManagement.Native
         /// </summary>
         public IntPtr[] TlsSlots
         {
-            get { return Read<IntPtr>(TebStructure.TlsSlots, 64); }
+            get { return Read<IntPtr>(TebStructure.TlsSlots, 64, out success); }
             set { Write(TebStructure.TlsSlots, value); }
         }
         /// <summary>
@@ -361,7 +362,7 @@ namespace Binarysharp.MemoryManagement.Native
         /// </summary>
         public long TlsLinks
         {
-            get { return Read<long>(TebStructure.TlsLinks); }
+            get { return Read<long>(TebStructure.TlsLinks, out success); }
             set { Write(TebStructure.TlsLinks, value); }
         }
         /// <summary>
@@ -369,7 +370,7 @@ namespace Binarysharp.MemoryManagement.Native
         /// </summary>
         public IntPtr Vdm
         {
-            get { return Read<IntPtr>(TebStructure.Vdm); }
+            get { return Read<IntPtr>(TebStructure.Vdm, out success); }
             set { Write(TebStructure.Vdm, value); }
         }
         /// <summary>
@@ -377,7 +378,7 @@ namespace Binarysharp.MemoryManagement.Native
         /// </summary>
         public IntPtr RpcReserved
         {
-            get { return Read<IntPtr>(TebStructure.RpcReserved); }
+            get { return Read<IntPtr>(TebStructure.RpcReserved, out success); }
             set { Write(TebStructure.RpcReserved, value); }
         }
         /// <summary>
@@ -385,7 +386,7 @@ namespace Binarysharp.MemoryManagement.Native
         /// </summary>
         public IntPtr ThreadErrorMode
         {
-            get { return Read<IntPtr>(TebStructure.ThreadErrorMode); }
+            get { return Read<IntPtr>(TebStructure.ThreadErrorMode, out success); }
             set { Write(TebStructure.ThreadErrorMode, value); }
         }
         #endregion

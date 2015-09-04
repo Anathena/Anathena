@@ -22,7 +22,7 @@ namespace Binarysharp.MemoryManagement.Memory
         /// <summary>
         /// Contains information about the memory.
         /// </summary>
-        public MemoryBasicInformation Information
+        public MemoryBasicInformation32 Information
         {
             get { return MemoryCore.Query(MemorySharp.Handle, BaseAddress); }
         }

@@ -27,7 +27,7 @@ namespace Anathema
      * 4) Merge lists into one list, placing the 'standard' before the 'session0'.
      * 5) Loop over the 'standard' portion of the list, fetching icons.
      * Here it is also worth noting that there are issues trying to access an icon of a 64-bit process from a 32-bit
-     * version of AE. If we are 64-bit, we call a function that doesn't have to worry about this stuff. If we are
+     * version of A. If we are 64-bit, we call a function that doesn't have to worry about this stuff. If we are
      * 32-bit, again try/catches again create too much overhead, so we use the function IsWow64Process to determine if
      * each process is compatable (also 32-bit), and if so THEN we can make a proper request.
      * 6) Update the target process in the static class TargetProcess
@@ -41,26 +41,31 @@ namespace Anathema
     public partial class GUIProcessSelector : UserControl
     {
         #region Variables & Initialization
-
-        private List<Process> ProcessList;                   // Complete list of running processes
         public delegate void SelectCallBack(Process TargetProcess); // CallBack after making process selection
         private SelectCallBack CallBack;
+        private List<Process> ProcessList;                   // Complete list of running processes
 
         public unsafe GUIProcessSelector(SelectCallBack CallBack = null)
         {
             InitializeComponent();
+
+            // Set non standard process list view properties
+            ProcessListView.Columns.Add("     Processes"); // TODO: I don't like this
+            ProcessListView.View = View.Details;
+            
             this.CallBack = CallBack;
             GatherProcessInfo();
-        }
-
-        private void GUIProcessSelector_Load(object sender, EventArgs e)
-        {
-            
+            UpdateResize();
         }
 
         #endregion
 
         #region Methods
+
+        private void UpdateResize()
+        {
+            ProcessListView.Columns[0].Width = ProcessListView.Width - 24;
+        }
 
         private void GatherProcessInfo()
         {
@@ -183,16 +188,20 @@ namespace Anathema
 
         private void AddProcessToList(String ProcessName, String MainWindowTitle, Int32 Id)
         {
+            String ProcessString = "";
+
             if (MainWindowTitle != "")
             {
                 // Include title window name
-                ProcessListView.Items.Add(Conversions.ToAddress(Convert.ToString(Id)) + " - " + ProcessName + " - (" + MainWindowTitle + ")");
+                ProcessString = Conversions.ToAddress(Convert.ToString(Id)) + " - " + ProcessName + " - (" + MainWindowTitle + ")";
             }
             else
             {
                 // No name, just add process name
-                ProcessListView.Items.Add(Conversions.ToAddress(Convert.ToString(Id)) + " - " + ProcessName);
+                ProcessString = Conversions.ToAddress(Convert.ToString(Id)) + " - " + ProcessName;
             }
+
+            ProcessListView.Items.Add(ProcessString);
         }
 
         // Applies a selection made either via
@@ -234,6 +243,16 @@ namespace Anathema
 
         #region Events
 
+        private void GUIProcessSelector_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void GUIProcessSelector_Resize(object sender, EventArgs e)
+        {
+            UpdateResize();
+        }
+
         private void RefreshButton_Click(object sender, EventArgs e)
         {
             // Refresh via refresh button
@@ -274,6 +293,8 @@ namespace Anathema
         public static extern IntPtr ExtractIcon(IntPtr hInst, string lpszExeFileName, int nIconIndex);
 
         #endregion
+
+        
     }
 
     #region Process comparer classes

@@ -239,8 +239,8 @@ namespace Binarysharp.MemoryManagement
         public IntPtr MakeAbsolute(IntPtr address)
         {
             // Check if the relative address is not greater than the main module size
-            if (address.ToInt64() > Modules.MainModule.Size)
-                throw new ArgumentOutOfRangeException("address", "The relative address cannot be greater than the main module size.");
+            //if (address.ToInt64() > Modules.MainModule.Size)
+            //    throw new ArgumentOutOfRangeException("address", "The relative address cannot be greater than the main module size.");
             // Compute the absolute address
             return new IntPtr(Modules.MainModule.BaseAddress.ToInt64() + address.ToInt64());
         }
@@ -279,9 +279,9 @@ namespace Binarysharp.MemoryManagement
         /// <param name="address">The address where the value is read.</param>
         /// <param name="isRelative">[Optional] State if the address is relative to the main module.</param>
         /// <returns>A value.</returns>
-        public T Read<T>(IntPtr address, bool isRelative = true)
+        public T Read<T>(IntPtr address, out bool success, bool isRelative = true)
         {
-            return MarshalType<T>.ByteArrayToObject(ReadBytes(address, MarshalType<T>.Size, isRelative));
+            return MarshalType<T>.ByteArrayToObject(ReadBytes(address, MarshalType<T>.Size, out success, isRelative));
         }
         /// <summary>
         /// Reads the value of a specified type in the remote process.
@@ -290,9 +290,9 @@ namespace Binarysharp.MemoryManagement
         /// <param name="address">The address where the value is read.</param>
         /// <param name="isRelative">[Optional] State if the address is relative to the main module.</param>
         /// <returns>A value.</returns>
-        public T Read<T>(Enum address, bool isRelative = true)
+        public T Read<T>(Enum address, out bool success, bool isRelative = true)
         {
-            return Read<T>(new IntPtr(Convert.ToInt64(address)), isRelative);
+            return Read<T>(new IntPtr(Convert.ToInt64(address)), out success, isRelative);
         }
         /// <summary>
         /// Reads an array of a specified type in the remote process.
@@ -302,14 +302,17 @@ namespace Binarysharp.MemoryManagement
         /// <param name="count">The number of cells in the array.</param>
         /// <param name="isRelative">[Optional] State if the address is relative to the main module.</param>
         /// <returns>An array.</returns>
-        public T[] Read<T>(IntPtr address, int count, bool isRelative = true)
+        public T[] Read<T>(IntPtr address, int count, out bool success, bool isRelative = true)
         {
             // Allocate an array to store the results
             var array = new T[count];
+            success = true;
             // Read the array in the remote process
             for (var i = 0; i < count; i++)
             {
-                array[i] = Read<T>(address + MarshalType<T>.Size * i, isRelative);
+                bool result;
+                array[i] = Read<T>(address + MarshalType<T>.Size * i, out result, isRelative);
+                success &= result;
             }
             return array;
         }
@@ -321,9 +324,9 @@ namespace Binarysharp.MemoryManagement
         /// <param name="count">The number of cells in the array.</param>
         /// <param name="isRelative">[Optional] State if the address is relative to the main module.</param>
         /// <returns>An array.</returns>
-        public T[] Read<T>(Enum address, int count, bool isRelative = true)
+        public T[] Read<T>(Enum address, int count, out bool success, bool isRelative = true)
         {
-            return Read<T>(new IntPtr(Convert.ToInt64(address)), count, isRelative);
+            return Read<T>(new IntPtr(Convert.ToInt64(address)), count, out success, isRelative);
         }
         #endregion
         #region ReadBytes (protected)
@@ -334,9 +337,9 @@ namespace Binarysharp.MemoryManagement
         /// <param name="count">The number of cells.</param>
         /// <param name="isRelative">[Optional] State if the address is relative to the main module.</param>
         /// <returns>The array of bytes.</returns>
-        public byte[] ReadBytes(IntPtr address, int count, bool isRelative = true)
+        public byte[] ReadBytes(IntPtr address, int count, out bool success, bool isRelative = true)
         {
-            return MemoryCore.ReadBytes(Handle, isRelative ? MakeAbsolute(address) : address, count);
+            return MemoryCore.ReadBytes(Handle, isRelative ? MakeAbsolute(address) : address, count, out success);
         }
         #endregion
         #region ReadString
@@ -348,10 +351,10 @@ namespace Binarysharp.MemoryManagement
         /// <param name="isRelative">[Optional] State if the address is relative to the main module.</param>
         /// <param name="maxLength">[Optional] The number of maximum bytes to read. The string is automatically cropped at this end ('\0' char).</param>
         /// <returns>The string.</returns>
-        public string ReadString(IntPtr address, Encoding encoding, bool isRelative = true, int maxLength = 512)
+        public string ReadString(IntPtr address, Encoding encoding, out bool success, bool isRelative = true, int maxLength = 512)
         {
             // Read the string
-            var data = encoding.GetString(ReadBytes(address, maxLength, isRelative));
+            var data = encoding.GetString(ReadBytes(address, maxLength, out success, isRelative));
             // Search the end of the string
             var end = data.IndexOf('\0');
             // Crop the string with this end
@@ -365,9 +368,9 @@ namespace Binarysharp.MemoryManagement
         /// <param name="isRelative">[Optional] State if the address is relative to the main module.</param>
         /// <param name="maxLength">[Optional] The number of maximum bytes to read. The string is automatically cropped at this end ('\0' char).</param>
         /// <returns>The string.</returns>
-        public string ReadString(Enum address, Encoding encoding, bool isRelative = true, int maxLength = 512)
+        public string ReadString(Enum address, Encoding encoding, out bool success, bool isRelative = true, int maxLength = 512)
         {
-            return ReadString(new IntPtr(Convert.ToInt64(address)), encoding, isRelative, maxLength);
+            return ReadString(new IntPtr(Convert.ToInt64(address)), encoding, out success, isRelative, maxLength);
         }
         /// <summary>
         /// Reads a string using the encoding UTF8 in the remote process.
@@ -376,9 +379,9 @@ namespace Binarysharp.MemoryManagement
         /// <param name="isRelative">[Optional] State if the address is relative to the main module.</param>
         /// <param name="maxLength">[Optional] The number of maximum bytes to read. The string is automatically cropped at this end ('\0' char).</param>
         /// <returns>The string.</returns>
-        public string ReadString(IntPtr address, bool isRelative = true, int maxLength = 512)
+        public string ReadString(IntPtr address, out bool success, bool isRelative = true, int maxLength = 512)
         {
-            return ReadString(address, Encoding.UTF8, isRelative, maxLength);
+            return ReadString(address, Encoding.UTF8, out success, isRelative, maxLength);
         }
         /// <summary>
         /// Reads a string using the encoding UTF8 in the remote process.
@@ -387,9 +390,9 @@ namespace Binarysharp.MemoryManagement
         /// <param name="isRelative">[Optional] State if the address is relative to the main module.</param>
         /// <param name="maxLength">[Optional] The number of maximum bytes to read. The string is automatically cropped at this end ('\0' char).</param>
         /// <returns>The string.</returns>
-        public string ReadString(Enum address, bool isRelative = true, int maxLength = 512)
+        public string ReadString(Enum address, out bool success, bool isRelative = true, int maxLength = 512)
         {
-            return ReadString(new IntPtr(Convert.ToInt64(address)), isRelative, maxLength);
+            return ReadString(new IntPtr(Convert.ToInt64(address)), out success, isRelative, maxLength);
         }
         #endregion
         #region Write

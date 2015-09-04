@@ -35,7 +35,7 @@ namespace Binarysharp.MemoryManagement.Memory
         {
             // Check if the handle is valid
             HandleManipulator.ValidateAsArgument(processHandle, "processHandle");
-            
+
             // Allocate a memory page
             var ret = NativeMethods.VirtualAllocEx(processHandle, IntPtr.Zero, size, allocationFlags, protectionFlags);
 
@@ -83,7 +83,7 @@ namespace Binarysharp.MemoryManagement.Memory
             {
                 // If the memory wasn't correctly freed, throws an exception
                 throw new Win32Exception(string.Format("The memory page 0x{0} cannot be freed.", address.ToString("X")));
-            }    
+            }
         }
         #endregion
 
@@ -142,22 +142,22 @@ namespace Binarysharp.MemoryManagement.Memory
         /// <param name="address">A pointer to the base address in the specified process from which to read.</param>
         /// <param name="size">The number of bytes to be read from the specified process.</param>
         /// <returns>The collection of read bytes.</returns>
-        public static byte[] ReadBytes(SafeMemoryHandle processHandle, IntPtr address, int size)
+        public static byte[] ReadBytes(SafeMemoryHandle processHandle, IntPtr address, int size, out bool success)
         {
             // Check if the handles are valid
             HandleManipulator.ValidateAsArgument(processHandle, "processHandle");
             HandleManipulator.ValidateAsArgument(address, "address");
-            
+
             // Allocate the buffer
             var buffer = new byte[size];
             int nbBytesRead;
 
             // Read the data from the target process
-            if (NativeMethods.ReadProcessMemory(processHandle, address, buffer, size, out nbBytesRead) && size == nbBytesRead)
-                return buffer;
+            success = (NativeMethods.ReadProcessMemory(processHandle, address, buffer, size, out nbBytesRead) && size == nbBytesRead);
+            return buffer;
 
             // Else the data couldn't be read, throws an exception
-            throw new Win32Exception(string.Format("Couldn't read {0} byte(s) from 0x{1}.", size, address.ToString("X")));
+            // throw new Win32Exception(string.Format("Couldn't read {0} byte(s) from 0x{1}.", size, address.ToString("X")));
         }
         #endregion
 
@@ -169,18 +169,18 @@ namespace Binarysharp.MemoryManagement.Memory
         /// <param name="address">A pointer to the base address of the region of pages whose access protection attributes are to be changed.</param>
         /// <param name="size">The size of the region whose access protection attributes are changed, in bytes.</param>
         /// <param name="protection">The memory protection option.</param>
-        /// <returns>The old protection of the region in a <see cref="Native.MemoryBasicInformation"/> structure.</returns>
+        /// <returns>The old protection of the region in a <see cref="Native.MemoryBasicInformation32"/> structure.</returns>
         public static MemoryProtectionFlags ChangeProtection(SafeMemoryHandle processHandle, IntPtr address, int size, MemoryProtectionFlags protection)
         {
             // Check if the handles are valid
             HandleManipulator.ValidateAsArgument(processHandle, "processHandle");
             HandleManipulator.ValidateAsArgument(address, "address");
-            
+
             // Create the variable storing the old protection of the memory page
             MemoryProtectionFlags oldProtection;
 
             // Change the protection in the target process
-            if(NativeMethods.VirtualProtectEx(processHandle, address, size, protection, out oldProtection))
+            if (NativeMethods.VirtualProtectEx(processHandle, address, size, protection, out oldProtection))
             {
                 // Return the old protection
                 return oldProtection;
@@ -197,15 +197,35 @@ namespace Binarysharp.MemoryManagement.Memory
         /// </summary>
         /// <param name="processHandle">A handle to the process whose memory information is queried.</param>
         /// <param name="baseAddress">A pointer to the base address of the region of pages to be queried.</param>
-        /// <returns>A <see cref="Native.MemoryBasicInformation"/> structures in which information about the specified page range is returned.</returns>
-        public static MemoryBasicInformation Query(SafeMemoryHandle processHandle, IntPtr baseAddress)
+        /// <returns>A <see cref="Native.MemoryBasicInformation32"/> structures in which information about the specified page range is returned.</returns>
+        public static MemoryBasicInformation32 Query(SafeMemoryHandle processHandle, IntPtr baseAddress)
         {
             // Allocate the structure to store information of memory
-            MemoryBasicInformation memoryInfo;
+            MemoryBasicInformation32 memoryInfo;
+
+#if x86
+                // Query the memory region
+                if(NativeMethods.VirtualQueryEx(processHandle, baseAddress, out memoryInfo, MarshalType<MemoryBasicInformation32>.Size) != 0)
+                    return memoryInfo;
+#else
+            // 64 Bit struct is not the same
+            MemoryBasicInformation64 memoryInfo64;
 
             // Query the memory region
-            if(NativeMethods.VirtualQueryEx(processHandle, baseAddress, out memoryInfo, MarshalType<MemoryBasicInformation>.Size) != 0)
+            if (NativeMethods.VirtualQueryEx(processHandle, baseAddress, out memoryInfo64, MarshalType<MemoryBasicInformation64>.Size) != 0)
+            {
+                // Copy from the 64 bit struct to the 32 bit struct
+                memoryInfo.AllocationBase = memoryInfo64.AllocationBase;
+                memoryInfo.AllocationProtect = memoryInfo64.AllocationProtect;
+                memoryInfo.BaseAddress = memoryInfo64.BaseAddress;
+                memoryInfo.Protect = memoryInfo64.Protect;
+                memoryInfo.RegionSize = (int)memoryInfo64.RegionSize; // TODO: Determine if this is a bad idea and should be the other way around
+                memoryInfo.State = memoryInfo64.State;
+                memoryInfo.Type = memoryInfo64.Type;
+
                 return memoryInfo;
+            }
+#endif
 
             // Else the information couldn't be got
             throw new Win32Exception(string.Format("Couldn't query information about the memory region 0x{0}", baseAddress.ToString("X")));
@@ -216,12 +236,12 @@ namespace Binarysharp.MemoryManagement.Memory
         /// <param name="processHandle">A handle to the process whose memory information is queried.</param>
         /// <param name="addressFrom">A pointer to the starting address of the region of pages to be queried.</param>
         /// <param name="addressTo">A pointer to the ending address of the region of pages to be queried.</param>
-        /// <returns>A collection of <see cref="Native.MemoryBasicInformation"/> structures.</returns>
-        public static IEnumerable<MemoryBasicInformation> Query(SafeMemoryHandle processHandle, IntPtr addressFrom, IntPtr addressTo)
+        /// <returns>A collection of <see cref="Native.MemoryBasicInformation32"/> structures.</returns>
+        public static IEnumerable<MemoryBasicInformation32> Query(SafeMemoryHandle processHandle, IntPtr addressFrom, IntPtr addressTo)
         {
             // Check if the handle is valid
             HandleManipulator.ValidateAsArgument(processHandle, "processHandle");
-            
+
             // Convert the addresses to Int64
             var numberFrom = addressFrom.ToInt64();
             var numberTo = addressTo.ToInt64();
@@ -229,7 +249,7 @@ namespace Binarysharp.MemoryManagement.Memory
             // The first address must be lower than the second
             if (numberFrom >= numberTo)
                 throw new ArgumentException("The starting address must be lower than the ending address.", "addressFrom");
-            
+
             // Create the variable storing the result of the call of VirtualQueryEx
             int ret;
 
@@ -237,16 +257,33 @@ namespace Binarysharp.MemoryManagement.Memory
             do
             {
                 // Allocate the structure to store information of memory
-                MemoryBasicInformation memoryInfo;
-
+                MemoryBasicInformation32 memoryInfo;
+#if x86
                 // Get the next memory page
-                ret = NativeMethods.VirtualQueryEx(processHandle, new IntPtr(numberFrom), out memoryInfo, MarshalType<MemoryBasicInformation>.Size);
+                ret = NativeMethods.VirtualQueryEx(processHandle, new IntPtr(numberFrom), out memoryInfo, MarshalType<MemoryBasicInformation32>.Size);
+#else
+                // 64 Bit struct is not the same
+                MemoryBasicInformation64 memoryInfo64;
+
+                // Query the memory region
+                ret = NativeMethods.VirtualQueryEx(processHandle, new IntPtr(numberFrom), out memoryInfo64, MarshalType<MemoryBasicInformation64>.Size);
+
+                // Copy from the 64 bit struct to the 32 bit struct
+                memoryInfo.AllocationBase = memoryInfo64.AllocationBase;
+                memoryInfo.AllocationProtect = memoryInfo64.AllocationProtect;
+                memoryInfo.BaseAddress = memoryInfo64.BaseAddress;
+                memoryInfo.Protect = memoryInfo64.Protect;
+                memoryInfo.RegionSize = (int)memoryInfo64.RegionSize; // TODO: Determine if this is a bad idea and should be the other way around
+                memoryInfo.State = memoryInfo64.State;
+                memoryInfo.Type = memoryInfo64.Type;
+
+#endif
 
                 // Increment the starting address with the size of the page
                 numberFrom += memoryInfo.RegionSize;
 
                 // Return the memory page
-                if(memoryInfo.State != MemoryStateFlags.Free)
+                if (memoryInfo.State != MemoryStateFlags.Free)
                     yield return memoryInfo;
 
             } while (numberFrom < numberTo && ret != 0);

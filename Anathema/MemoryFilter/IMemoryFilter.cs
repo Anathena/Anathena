@@ -8,9 +8,10 @@ using System.Threading.Tasks;
 
 namespace Anathema
 {
-    interface IMemoryFilter : IMemoryEditTool
+    interface IMemoryFilter
     {
-        void BeginFilter();
+        void BeginFilter(MemorySharp MemoryEditor, List<RemoteRegion> MemoryRegions);
         List<RemoteRegion> EndFilter();
+        void AbortFilter();
     }
 }

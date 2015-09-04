@@ -13,11 +13,30 @@ namespace Anathema
     public partial class GUIMemoryTreeFilter : UserControl
     {
         private MemoryTreeFilter MemoryTreeFilter;
+        private readonly Anathema Anathema;
 
         public GUIMemoryTreeFilter()
         {
             InitializeComponent();
+
             MemoryTreeFilter = new MemoryTreeFilter();
+            Anathema = Anathema.GetAnathemaInstance();
+            UpdateFragmentSizeLabel();
+        }
+
+        private void UpdateFragmentSizeLabel()
+        {
+            UInt64 Value = (UInt64)Math.Pow(2, GranularityTrackBar.Value);
+            string LabelText = Value.ToString();
+
+            if (Value == 1)
+                LabelText += " Byte";
+            else
+                LabelText += " Bytes";
+
+            FragmentSizeValueLabel.Text = LabelText;
+
+            MemoryTreeFilter.UpdatePageSplitThreshold(Value);
         }
 
         private void GUIMemoryTreeFilter_Load(object sender, EventArgs e)
@@ -27,12 +46,17 @@ namespace Anathema
 
         private void StartButton_Click(object sender, EventArgs e)
         {
-            MemoryTreeFilter.BeginFilter();
+            Anathema.BeginFilter(MemoryTreeFilter);
         }
 
         private void StopButton_Click(object sender, EventArgs e)
         {
-            MemoryTreeFilter.EndFilter();
+            Anathema.EndFilter();
+        }
+
+        private void GranularityTrackBar_Scroll(object sender, EventArgs e)
+        {
+            UpdateFragmentSizeLabel();
         }
     }
 }

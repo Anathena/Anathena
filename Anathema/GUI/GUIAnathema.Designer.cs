@@ -30,7 +30,6 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(GUIAnathema));
-            this.label3 = new System.Windows.Forms.Label();
             this.TableListView = new System.Windows.Forms.ListView();
             this.CheckBoxHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.DescriptionHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
@@ -65,35 +64,23 @@
             this.addItemToTableToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.showItemsAsSignedToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.SelectedProcessLabel = new System.Windows.Forms.Label();
-            this.AddressListView = new System.Windows.Forms.ListView();
-            this._AddressHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this._ValueHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.AddressCount = new System.Windows.Forms.Label();
-            this.ScanToolStrip = new System.Windows.Forms.ToolStrip();
+            this.FilterToolStrip = new System.Windows.Forms.ToolStrip();
             this.SelectProcessButton = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.SearchSpaceAnalysisButton = new System.Windows.Forms.ToolStripButton();
             this.FiniteStateMachineButton = new System.Windows.Forms.ToolStripButton();
-            this.InputCorrelatorButton = new System.Windows.Forms.ToolStripButton();
             this.ManualScanButton = new System.Windows.Forms.ToolStripButton();
-            this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
-            this.ScanOptionsButton = new System.Windows.Forms.ToolStripButton();
-            this.ModePanel = new System.Windows.Forms.Panel();
+            this.FilterPanel = new System.Windows.Forms.Panel();
+            this.LabelerToolStrip = new System.Windows.Forms.ToolStrip();
+            this.InputCorrelatorButton = new System.Windows.Forms.ToolStripButton();
+            this.LabelSelectorButton = new System.Windows.Forms.ToolStripButton();
+            this.LabelerPanel = new System.Windows.Forms.Panel();
             this.MainToolStrip.SuspendLayout();
             this.GUIMenuStrip.SuspendLayout();
             this.AddressListViewRightClickMenu.SuspendLayout();
-            this.ScanToolStrip.SuspendLayout();
+            this.FilterToolStrip.SuspendLayout();
+            this.LabelerToolStrip.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Font = new System.Drawing.Font("Courier New", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.Location = new System.Drawing.Point(233, 308);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(48, 16);
-            this.label3.TabIndex = 114;
-            this.label3.Text = "Table";
             // 
             // TableListView
             // 
@@ -107,10 +94,10 @@
             this.ValueHeader});
             this.TableListView.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.TableListView.FullRowSelect = true;
-            this.TableListView.Location = new System.Drawing.Point(12, 327);
+            this.TableListView.Location = new System.Drawing.Point(12, 331);
             this.TableListView.Name = "TableListView";
             this.TableListView.ShowGroups = false;
-            this.TableListView.Size = new System.Drawing.Size(494, 257);
+            this.TableListView.Size = new System.Drawing.Size(493, 246);
             this.TableListView.TabIndex = 112;
             this.TableListView.UseCompatibleStateImageBehavior = false;
             this.TableListView.View = System.Windows.Forms.View.Details;
@@ -154,7 +141,7 @@
             this.toolStripSeparator5,
             this.ClearTableButton,
             this.UndoTableDeleteButton});
-            this.MainToolStrip.Location = new System.Drawing.Point(12, 305);
+            this.MainToolStrip.Location = new System.Drawing.Point(264, 305);
             this.MainToolStrip.Name = "MainToolStrip";
             this.MainToolStrip.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
             this.MainToolStrip.Size = new System.Drawing.Size(176, 25);
@@ -358,62 +345,22 @@
             this.SelectedProcessLabel.Text = "No Process Selected";
             this.SelectedProcessLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // AddressListView
+            // FilterToolStrip
             // 
-            this.AddressListView.Activation = System.Windows.Forms.ItemActivation.TwoClick;
-            this.AddressListView.BackColor = System.Drawing.SystemColors.Control;
-            this.AddressListView.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this._AddressHeader,
-            this._ValueHeader});
-            this.AddressListView.Font = new System.Drawing.Font("Courier New", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.AddressListView.FullRowSelect = true;
-            this.AddressListView.Location = new System.Drawing.Point(12, 27);
-            this.AddressListView.Name = "AddressListView";
-            this.AddressListView.Size = new System.Drawing.Size(212, 256);
-            this.AddressListView.TabIndex = 116;
-            this.AddressListView.UseCompatibleStateImageBehavior = false;
-            this.AddressListView.View = System.Windows.Forms.View.Details;
-            this.AddressListView.VirtualMode = true;
-            // 
-            // _AddressHeader
-            // 
-            this._AddressHeader.Text = "Address";
-            this._AddressHeader.Width = 86;
-            // 
-            // _ValueHeader
-            // 
-            this._ValueHeader.Text = "Value";
-            this._ValueHeader.Width = 86;
-            // 
-            // AddressCount
-            // 
-            this.AddressCount.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.AddressCount.Location = new System.Drawing.Point(12, 282);
-            this.AddressCount.Name = "AddressCount";
-            this.AddressCount.Size = new System.Drawing.Size(212, 17);
-            this.AddressCount.TabIndex = 123;
-            this.AddressCount.Text = "Items: 0";
-            // 
-            // ScanToolStrip
-            // 
-            this.ScanToolStrip.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.ScanToolStrip.Dock = System.Windows.Forms.DockStyle.None;
-            this.ScanToolStrip.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
-            this.ScanToolStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.FilterToolStrip.Dock = System.Windows.Forms.DockStyle.None;
+            this.FilterToolStrip.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
+            this.FilterToolStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.SelectProcessButton,
             this.toolStripSeparator1,
             this.SearchSpaceAnalysisButton,
             this.FiniteStateMachineButton,
-            this.InputCorrelatorButton,
-            this.ManualScanButton,
-            this.toolStripSeparator4,
-            this.ScanOptionsButton});
-            this.ScanToolStrip.Location = new System.Drawing.Point(230, 27);
-            this.ScanToolStrip.Name = "ScanToolStrip";
-            this.ScanToolStrip.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
-            this.ScanToolStrip.Size = new System.Drawing.Size(153, 25);
-            this.ScanToolStrip.TabIndex = 121;
-            this.ScanToolStrip.Text = "toolStrip1";
+            this.ManualScanButton});
+            this.FilterToolStrip.Location = new System.Drawing.Point(12, 28);
+            this.FilterToolStrip.Name = "FilterToolStrip";
+            this.FilterToolStrip.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
+            this.FilterToolStrip.Size = new System.Drawing.Size(101, 25);
+            this.FilterToolStrip.TabIndex = 121;
+            this.FilterToolStrip.Text = "toolStrip1";
             // 
             // SelectProcessButton
             // 
@@ -438,7 +385,7 @@
             this.SearchSpaceAnalysisButton.Name = "SearchSpaceAnalysisButton";
             this.SearchSpaceAnalysisButton.Size = new System.Drawing.Size(23, 22);
             this.SearchSpaceAnalysisButton.Text = "Search Space Analysis";
-            this.SearchSpaceAnalysisButton.ToolTipText = "Search Space Analysis";
+            this.SearchSpaceAnalysisButton.ToolTipText = "Hash Trees";
             this.SearchSpaceAnalysisButton.Click += new System.EventHandler(this.SearchSpaceAnalysisButton_Click);
             // 
             // FiniteStateMachineButton
@@ -452,16 +399,6 @@
             this.FiniteStateMachineButton.ToolTipText = "Finite State Scanner";
             this.FiniteStateMachineButton.Click += new System.EventHandler(this.FiniteStateMachineButton_Click);
             // 
-            // InputCorrelatorButton
-            // 
-            this.InputCorrelatorButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.InputCorrelatorButton.Image = ((System.Drawing.Image)(resources.GetObject("InputCorrelatorButton.Image")));
-            this.InputCorrelatorButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.InputCorrelatorButton.Name = "InputCorrelatorButton";
-            this.InputCorrelatorButton.Size = new System.Drawing.Size(23, 22);
-            this.InputCorrelatorButton.Text = "Input Correlator";
-            this.InputCorrelatorButton.Click += new System.EventHandler(this.InputCorrelatorButton_Click);
-            // 
             // ManualScanButton
             // 
             this.ManualScanButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
@@ -473,43 +410,69 @@
             this.ManualScanButton.ToolTipText = "Manual Scan";
             this.ManualScanButton.Click += new System.EventHandler(this.ManualScanButton_Click);
             // 
-            // toolStripSeparator4
+            // FilterPanel
             // 
-            this.toolStripSeparator4.Name = "toolStripSeparator4";
-            this.toolStripSeparator4.Size = new System.Drawing.Size(6, 25);
+            this.FilterPanel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.FilterPanel.Location = new System.Drawing.Point(12, 54);
+            this.FilterPanel.Name = "FilterPanel";
+            this.FilterPanel.Size = new System.Drawing.Size(241, 248);
+            this.FilterPanel.TabIndex = 137;
             // 
-            // ScanOptionsButton
+            // LabelerToolStrip
             // 
-            this.ScanOptionsButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.ScanOptionsButton.Image = ((System.Drawing.Image)(resources.GetObject("ScanOptionsButton.Image")));
-            this.ScanOptionsButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.ScanOptionsButton.Name = "ScanOptionsButton";
-            this.ScanOptionsButton.Size = new System.Drawing.Size(23, 22);
-            this.ScanOptionsButton.Text = "Scan Options";
+            this.LabelerToolStrip.Dock = System.Windows.Forms.DockStyle.None;
+            this.LabelerToolStrip.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
+            this.LabelerToolStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.LabelSelectorButton,
+            this.InputCorrelatorButton});
+            this.LabelerToolStrip.Location = new System.Drawing.Point(264, 28);
+            this.LabelerToolStrip.Name = "LabelerToolStrip";
+            this.LabelerToolStrip.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
+            this.LabelerToolStrip.Size = new System.Drawing.Size(49, 25);
+            this.LabelerToolStrip.TabIndex = 140;
+            this.LabelerToolStrip.Text = "Labeler Tool Strip";
             // 
-            // ModePanel
+            // InputCorrelatorButton
             // 
-            this.ModePanel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.ModePanel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.ModePanel.Location = new System.Drawing.Point(230, 49);
-            this.ModePanel.Name = "ModePanel";
-            this.ModePanel.Size = new System.Drawing.Size(276, 250);
-            this.ModePanel.TabIndex = 137;
+            this.InputCorrelatorButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.InputCorrelatorButton.Image = ((System.Drawing.Image)(resources.GetObject("InputCorrelatorButton.Image")));
+            this.InputCorrelatorButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.InputCorrelatorButton.Name = "InputCorrelatorButton";
+            this.InputCorrelatorButton.Size = new System.Drawing.Size(23, 22);
+            this.InputCorrelatorButton.Text = "Input Correlator";
+            this.InputCorrelatorButton.Click += new System.EventHandler(this.InputCorrelatorButton_Click);
+            // 
+            // LabelSelectorButton
+            // 
+            this.LabelSelectorButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.LabelSelectorButton.Image = ((System.Drawing.Image)(resources.GetObject("LabelSelectorButton.Image")));
+            this.LabelSelectorButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.LabelSelectorButton.Name = "LabelSelectorButton";
+            this.LabelSelectorButton.Size = new System.Drawing.Size(23, 22);
+            this.LabelSelectorButton.Text = "Label Selector";
+            // 
+            // LabelerPanel
+            // 
+            this.LabelerPanel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.LabelerPanel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.LabelerPanel.Location = new System.Drawing.Point(264, 54);
+            this.LabelerPanel.Name = "LabelerPanel";
+            this.LabelerPanel.Size = new System.Drawing.Size(241, 248);
+            this.LabelerPanel.TabIndex = 138;
             // 
             // GUIAnathema
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(517, 589);
-            this.Controls.Add(this.ModePanel);
-            this.Controls.Add(this.ScanToolStrip);
+            this.Controls.Add(this.FilterToolStrip);
+            this.Controls.Add(this.LabelerPanel);
+            this.Controls.Add(this.LabelerToolStrip);
+            this.Controls.Add(this.FilterPanel);
             this.Controls.Add(this.SelectedProcessLabel);
             this.Controls.Add(this.GUIMenuStrip);
-            this.Controls.Add(this.label3);
             this.Controls.Add(this.TableListView);
             this.Controls.Add(this.MainToolStrip);
-            this.Controls.Add(this.AddressCount);
-            this.Controls.Add(this.AddressListView);
             this.Name = "GUIAnathema";
             this.Text = "Anathema";
             this.Load += new System.EventHandler(this.GUIAnathema_Load);
@@ -519,15 +482,16 @@
             this.GUIMenuStrip.ResumeLayout(false);
             this.GUIMenuStrip.PerformLayout();
             this.AddressListViewRightClickMenu.ResumeLayout(false);
-            this.ScanToolStrip.ResumeLayout(false);
-            this.ScanToolStrip.PerformLayout();
+            this.FilterToolStrip.ResumeLayout(false);
+            this.FilterToolStrip.PerformLayout();
+            this.LabelerToolStrip.ResumeLayout(false);
+            this.LabelerToolStrip.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
         }
 
         #endregion
-        private System.Windows.Forms.Label label3;
         private System.Windows.Forms.ListView TableListView;
         private System.Windows.Forms.ColumnHeader CheckBoxHeader;
         private System.Windows.Forms.ColumnHeader DescriptionHeader;
@@ -562,20 +526,17 @@
         private System.Windows.Forms.ToolStripMenuItem addItemToTableToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem showItemsAsSignedToolStripMenuItem;
         private System.Windows.Forms.Label SelectedProcessLabel;
-        private System.Windows.Forms.ToolStrip ScanToolStrip;
+        private System.Windows.Forms.ToolStrip FilterToolStrip;
         private System.Windows.Forms.ToolStripButton SelectProcessButton;
-        private System.Windows.Forms.ToolStripSeparator toolStripSeparator4;
         private System.Windows.Forms.ToolStripButton SearchSpaceAnalysisButton;
         private System.Windows.Forms.ToolStripButton FiniteStateMachineButton;
-        private System.Windows.Forms.ToolStripButton InputCorrelatorButton;
-        private System.Windows.Forms.ToolStripButton ScanOptionsButton;
-        private System.Windows.Forms.Label AddressCount;
-        private System.Windows.Forms.ListView AddressListView;
-        private System.Windows.Forms.ColumnHeader _AddressHeader;
-        private System.Windows.Forms.ColumnHeader _ValueHeader;
-        private System.Windows.Forms.Panel ModePanel;
+        private System.Windows.Forms.Panel FilterPanel;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.ToolStripButton ManualScanButton;
+        private System.Windows.Forms.ToolStrip LabelerToolStrip;
+        private System.Windows.Forms.ToolStripButton InputCorrelatorButton;
+        private System.Windows.Forms.ToolStripButton LabelSelectorButton;
+        private System.Windows.Forms.Panel LabelerPanel;
     }
 }
 

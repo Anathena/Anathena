@@ -160,7 +160,7 @@ namespace Binarysharp.MemoryManagement.Native
     /// Contains information about a range of pages in the virtual address space of a process. The VirtualQuery and <see cref="NativeMethods.VirtualQueryEx"/> functions use this structure.
     /// </summary>
     [StructLayout(LayoutKind.Sequential)]
-    public struct MemoryBasicInformation
+    public struct MemoryBasicInformation32
     {
         /// <summary>
         /// A pointer to the base address of the region of pages.
@@ -177,7 +177,7 @@ namespace Binarysharp.MemoryManagement.Native
         /// <summary>
         /// The size of the region beginning at the base address in which all pages have identical attributes, in bytes.
         /// </summary>
-        public readonly int RegionSize;
+        public int RegionSize;
         /// <summary>
         /// The state of the pages in the region.
         /// </summary>
@@ -191,6 +191,20 @@ namespace Binarysharp.MemoryManagement.Native
         /// </summary>
         public MemoryTypeFlags Type;
     }
+    [StructLayout(LayoutKind.Sequential)]
+    // TODO: Documentation
+    public struct MemoryBasicInformation64
+    {
+        public IntPtr BaseAddress;
+        public IntPtr AllocationBase;
+        public MemoryProtectionFlags AllocationProtect;
+        public UInt32 __alignment1;
+        public long RegionSize;
+        public MemoryStateFlags State;
+        public MemoryProtectionFlags Protect;
+        public MemoryTypeFlags Type;
+        public UInt32 __alignment2;
+    };
     #endregion
 
     #region MouseInput

@@ -12,9 +12,61 @@ namespace Anathema
 {
     public partial class GUIInputCorrelator : UserControl
     {
+        private InputCorrelator InputCorrelator;
+        private readonly Anathema Anathema;
+
         public GUIInputCorrelator()
         {
             InitializeComponent();
+            InputCorrelator = new InputCorrelator();
+            Anathema = Anathema.GetAnathemaInstance();
+
+            UpdateVariableSizeLabel();
+
+            HandleResize();
+        }
+
+        private void HandleResize()
+        {
+
+        }
+
+        private void UpdateVariableSizeLabel()
+        {
+            int Value = (int)Math.Pow(2, GranularityTrackBar.Value);
+            string LabelText = Value.ToString();
+
+            if (Value == 1)
+                LabelText += " Byte";
+            else
+                LabelText += " Bytes";
+
+            FragmentSizeValueLabel.Text = LabelText;
+        }
+
+        private void GranularityTrackBar_Scroll(object sender, EventArgs e)
+        {
+            UpdateVariableSizeLabel();
+        }
+
+        private void GUIInputCorrelator_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void GUIInputCorrelator_Resize(object sender, EventArgs e)
+        {
+            HandleResize();
+        }
+
+        private void StartSSAButton_Click(object sender, EventArgs e)
+        {
+            Anathema.BeginLabeler(InputCorrelator);
+        }
+
+        private void StopSSAButton_Click(object sender, EventArgs e)
+        {
+            Anathema.EndLabeler();
         }
     }
 }

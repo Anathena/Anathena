@@ -163,10 +163,11 @@ namespace MemorySharpTests.Memory
             // Allocate a chunk of memory for testing purpose
             using (var memory = sharp.Memory.Allocate(1))
             {
+                bool success;
                 memory.Write(66);
 
                 // Assert
-                Assert.AreEqual(66, memory.Read<int>(), "Error when the memory was writen/read.");
+                Assert.AreEqual(66, memory.Read<int>(out success), "Error when the memory was writen/read.");
             }
 
             Resources.EndTests(sharp);

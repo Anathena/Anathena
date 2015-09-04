@@ -33,8 +33,8 @@
             this.StartSSAButton = new System.Windows.Forms.ToolStripButton();
             this.StopSSAButton = new System.Windows.Forms.ToolStripButton();
             this.GranularityTrackBar = new System.Windows.Forms.TrackBar();
-            this.EndInputCorrelationButton = new System.Windows.Forms.Button();
-            this.StartInputCorrelationButton = new System.Windows.Forms.Button();
+            this.FragmentSizeValueLabel = new System.Windows.Forms.Label();
+            this.VariableSizeLabel = new System.Windows.Forms.Label();
             this.ScanToolStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.GranularityTrackBar)).BeginInit();
             this.SuspendLayout();
@@ -60,6 +60,7 @@
             this.StartSSAButton.Name = "StartSSAButton";
             this.StartSSAButton.Size = new System.Drawing.Size(23, 22);
             this.StartSSAButton.Text = "Start Scan";
+            this.StartSSAButton.Click += new System.EventHandler(this.StartSSAButton_Click);
             // 
             // StopSSAButton
             // 
@@ -69,46 +70,52 @@
             this.StopSSAButton.Name = "StopSSAButton";
             this.StopSSAButton.Size = new System.Drawing.Size(23, 22);
             this.StopSSAButton.Text = "New Scan";
+            this.StopSSAButton.Click += new System.EventHandler(this.StopSSAButton_Click);
             // 
             // GranularityTrackBar
             // 
             this.GranularityTrackBar.Dock = System.Windows.Forms.DockStyle.Top;
+            this.GranularityTrackBar.LargeChange = 2;
             this.GranularityTrackBar.Location = new System.Drawing.Point(0, 25);
-            this.GranularityTrackBar.Maximum = 4;
-            this.GranularityTrackBar.Minimum = 1;
+            this.GranularityTrackBar.Maximum = 3;
             this.GranularityTrackBar.Name = "GranularityTrackBar";
             this.GranularityTrackBar.Size = new System.Drawing.Size(259, 45);
             this.GranularityTrackBar.TabIndex = 138;
             this.GranularityTrackBar.Value = 2;
+            this.GranularityTrackBar.Scroll += new System.EventHandler(this.GranularityTrackBar_Scroll);
             // 
-            // EndInputCorrelationButton
+            // FragmentSizeValueLabel
             // 
-            this.EndInputCorrelationButton.Location = new System.Drawing.Point(132, 115);
-            this.EndInputCorrelationButton.Name = "EndInputCorrelationButton";
-            this.EndInputCorrelationButton.Size = new System.Drawing.Size(75, 23);
-            this.EndInputCorrelationButton.TabIndex = 141;
-            this.EndInputCorrelationButton.Text = "End Phi";
-            this.EndInputCorrelationButton.UseVisualStyleBackColor = true;
+            this.FragmentSizeValueLabel.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.FragmentSizeValueLabel.AutoSize = true;
+            this.FragmentSizeValueLabel.Location = new System.Drawing.Point(144, 5);
+            this.FragmentSizeValueLabel.Name = "FragmentSizeValueLabel";
+            this.FragmentSizeValueLabel.Size = new System.Drawing.Size(42, 13);
+            this.FragmentSizeValueLabel.TabIndex = 141;
+            this.FragmentSizeValueLabel.Text = "0 Bytes";
             // 
-            // StartInputCorrelationButton
+            // VariableSizeLabel
             // 
-            this.StartInputCorrelationButton.Location = new System.Drawing.Point(51, 115);
-            this.StartInputCorrelationButton.Name = "StartInputCorrelationButton";
-            this.StartInputCorrelationButton.Size = new System.Drawing.Size(75, 23);
-            this.StartInputCorrelationButton.TabIndex = 140;
-            this.StartInputCorrelationButton.Text = "Start Phi";
-            this.StartInputCorrelationButton.UseVisualStyleBackColor = true;
+            this.VariableSizeLabel.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.VariableSizeLabel.AutoSize = true;
+            this.VariableSizeLabel.Location = new System.Drawing.Point(69, 5);
+            this.VariableSizeLabel.Name = "VariableSizeLabel";
+            this.VariableSizeLabel.Size = new System.Drawing.Size(71, 13);
+            this.VariableSizeLabel.TabIndex = 140;
+            this.VariableSizeLabel.Text = "Variable Size:";
             // 
-            // InputCorrelatorPanel
+            // GUIInputCorrelator
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Controls.Add(this.EndInputCorrelationButton);
-            this.Controls.Add(this.StartInputCorrelationButton);
+            this.Controls.Add(this.FragmentSizeValueLabel);
+            this.Controls.Add(this.VariableSizeLabel);
             this.Controls.Add(this.GranularityTrackBar);
             this.Controls.Add(this.ScanToolStrip);
-            this.Name = "InputCorrelatorPanel";
+            this.Name = "GUIInputCorrelator";
             this.Size = new System.Drawing.Size(259, 252);
+            this.Load += new System.EventHandler(this.GUIInputCorrelator_Load);
+            this.Resize += new System.EventHandler(this.GUIInputCorrelator_Resize);
             this.ScanToolStrip.ResumeLayout(false);
             this.ScanToolStrip.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.GranularityTrackBar)).EndInit();
@@ -122,7 +129,7 @@
         private System.Windows.Forms.ToolStripButton StartSSAButton;
         private System.Windows.Forms.ToolStripButton StopSSAButton;
         private System.Windows.Forms.TrackBar GranularityTrackBar;
-        private System.Windows.Forms.Button EndInputCorrelationButton;
-        private System.Windows.Forms.Button StartInputCorrelationButton;
+        private System.Windows.Forms.Label FragmentSizeValueLabel;
+        private System.Windows.Forms.Label VariableSizeLabel;
     }
 }

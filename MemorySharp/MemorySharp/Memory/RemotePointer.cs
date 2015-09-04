@@ -230,9 +230,9 @@ namespace Binarysharp.MemoryManagement.Memory
         /// <typeparam name="T">The type of the value.</typeparam>
         /// <param name="offset">The offset where the value is read from the pointer.</param>
         /// <returns>A value.</returns>
-        public T Read<T>(int offset)
+        public T Read<T>(int offset, out bool success)
         {
-            return MemorySharp.Read<T>(BaseAddress + offset, false);
+            return MemorySharp.Read<T>(BaseAddress + offset, out success, false);
         }
         /// <summary>
         /// Reads the value of a specified type in the remote process.
@@ -240,18 +240,18 @@ namespace Binarysharp.MemoryManagement.Memory
         /// <typeparam name="T">The type of the value.</typeparam>
         /// <param name="offset">The offset where the value is read from the pointer.</param>
         /// <returns>A value.</returns>
-        public T Read<T>(Enum offset)
+        public T Read<T>(Enum offset, out bool success)
         {
-            return Read<T>(Convert.ToInt32(offset));
+            return Read<T>(Convert.ToInt32(offset), out success);
         }
         /// <summary>
         /// Reads the value of a specified type in the remote process.
         /// </summary>
         /// <typeparam name="T">The type of the value.</typeparam>
         /// <returns>A value.</returns>
-        public T Read<T>()
+        public T Read<T>(out bool success)
         {
-            return Read<T>(0);
+            return Read<T>(0, out success);
         }
         /// <summary>
         /// Reads an array of a specified type in the remote process.
@@ -260,9 +260,9 @@ namespace Binarysharp.MemoryManagement.Memory
         /// <param name="offset">The offset where the values is read from the pointer.</param>
         /// <param name="count">The number of cells in the array.</param>
         /// <returns>An array.</returns>
-        public T[] Read<T>(int offset, int count)
+        public T[] Read<T>(int offset, int count, out bool success)
         {
-            return MemorySharp.Read<T>(BaseAddress + offset, count, false);
+            return MemorySharp.Read<T>(BaseAddress + offset, count, out success, false);
         }
         /// <summary>
         /// Reads an array of a specified type in the remote process.
@@ -271,9 +271,9 @@ namespace Binarysharp.MemoryManagement.Memory
         /// <param name="offset">The offset where the values is read from the pointer.</param>
         /// <param name="count">The number of cells in the array.</param>
         /// <returns>An array.</returns>
-        public T[] Read<T>(Enum offset, int count)
+        public T[] Read<T>(Enum offset, int count, out bool success)
         {
-            return Read<T>(Convert.ToInt32(offset), count);
+            return Read<T>(Convert.ToInt32(offset), count, out success);
         }
         #endregion
         #region ReadString
@@ -284,9 +284,9 @@ namespace Binarysharp.MemoryManagement.Memory
         /// <param name="encoding">The encoding used.</param>
         /// <param name="maxLength">[Optional] The number of maximum bytes to read. The string is automatically cropped at this end ('\0' char).</param>
         /// <returns>The string.</returns>
-        public string ReadString(int offset, Encoding encoding, int maxLength = 512)
+        public string ReadString(int offset, Encoding encoding, out bool success, int maxLength = 512)
         {
-            return MemorySharp.ReadString(BaseAddress + offset, encoding, false, maxLength);
+            return MemorySharp.ReadString(BaseAddress + offset, encoding, out success, false, maxLength);
         }
         /// <summary>
         /// Reads a string with a specified encoding in the remote process.
@@ -295,9 +295,9 @@ namespace Binarysharp.MemoryManagement.Memory
         /// <param name="encoding">The encoding used.</param>
         /// <param name="maxLength">[Optional] The number of maximum bytes to read. The string is automatically cropped at this end ('\0' char).</param>
         /// <returns>The string.</returns>
-        public string ReadString(Enum offset, Encoding encoding, int maxLength = 512)
+        public string ReadString(Enum offset, Encoding encoding, out bool success, int maxLength = 512)
         {
-            return ReadString(Convert.ToInt32(offset), encoding, maxLength);
+            return ReadString(Convert.ToInt32(offset), encoding, out success, maxLength);
         }
         /// <summary>
         /// Reads a string with a specified encoding in the remote process.
@@ -305,9 +305,9 @@ namespace Binarysharp.MemoryManagement.Memory
         /// <param name="encoding">The encoding used.</param>
         /// <param name="maxLength">[Optional] The number of maximum bytes to read. The string is automatically cropped at this end ('\0' char).</param>
         /// <returns>The string.</returns>
-        public string ReadString(Encoding encoding, int maxLength = 512)
+        public string ReadString(Encoding encoding, out bool success, int maxLength = 512)
         {
-            return ReadString(0, encoding, maxLength);
+            return ReadString(0, encoding, out success, maxLength);
         }
         /// <summary>
         /// Reads a string using the encoding UTF8 in the remote process.
@@ -315,9 +315,9 @@ namespace Binarysharp.MemoryManagement.Memory
         /// <param name="offset">The offset where the string is read from the pointer.</param>
         /// <param name="maxLength">[Optional] The number of maximum bytes to read. The string is automatically cropped at this end ('\0' char).</param>
         /// <returns>The string.</returns>
-        public string ReadString(int offset, int maxLength = 512)
+        public string ReadString(int offset, out bool success, int maxLength = 512)
         {
-            return MemorySharp.ReadString(BaseAddress + offset, false, maxLength);
+            return MemorySharp.ReadString(BaseAddress + offset, out success, false, maxLength);
         }
         /// <summary>
         /// Reads a string using the encoding UTF8 in the remote process.
@@ -325,9 +325,9 @@ namespace Binarysharp.MemoryManagement.Memory
         /// <param name="offset">The offset where the string is read from the pointer.</param>
         /// <param name="maxLength">[Optional] The number of maximum bytes to read. The string is automatically cropped at this end ('\0' char).</param>
         /// <returns>The string.</returns>
-        public string ReadString(Enum offset, int maxLength = 512)
+        public string ReadString(Enum offset, out bool success, int maxLength = 512)
         {
-            return ReadString(Convert.ToInt32(offset), maxLength);
+            return ReadString(Convert.ToInt32(offset), out success, maxLength);
         }
         #endregion
         #region ToString (override)
