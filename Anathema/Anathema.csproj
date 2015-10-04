@@ -76,6 +76,12 @@
     <Compile Include="GUI\GUIAnathema.Designer.cs">
       <DependentUpon>GUIAnathema.cs</DependentUpon>
     </Compile>
+    <Compile Include="GUI\GUIFiniteStateBuilder.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI\GUIFiniteStateBuilder.Designer.cs">
+      <DependentUpon>GUIFiniteStateBuilder.cs</DependentUpon>
+    </Compile>
     <Compile Include="GUI\GUILabelSelector.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -100,56 +106,61 @@
     <Compile Include="GUI\GUIFiniteStateMachine.Designer.cs">
       <DependentUpon>GUIFiniteStateMachine.cs</DependentUpon>
     </Compile>
-    <Compile Include="Anathema.cs" />
-    <Compile Include="MemoryFilter\FiniteStateTransition.cs" />
-    <Compile Include="MemoryFilter\FiniteStateFilter.cs" />
+    <Compile Include="Anathema\Anathema.cs" />
+    <Compile Include="Anathema\MemoryFilter\FiniteStateFilter.cs" />
     <Compile Include="Helpers\CheckSyntax.cs" />
     <Compile Include="Helpers\FastHash.cs" />
-    <Compile Include="MemoryLabeler\ILabel.cs" />
-    <Compile Include="MemoryLabeler\IMemoryLabeler.cs" />
-    <Compile Include="MemoryLabeler\InputCorrelator.cs" />
-    <Compile Include="MemoryFilter\IMemoryFilter.cs" />
-    <Compile Include="MouseKeyHook\Hook.cs" />
-    <Compile Include="MouseKeyHook\HotKeys\HotKeyArgs.cs" />
-    <Compile Include="MouseKeyHook\HotKeys\HotKeySet.cs" />
-    <Compile Include="MouseKeyHook\HotKeys\HotKeySetCollection.cs" />
-    <Compile Include="MouseKeyHook\HotKeys\HotKeySetsListener.cs" />
-    <Compile Include="MouseKeyHook\IKeyboardEvents.cs" />
-    <Compile Include="MouseKeyHook\IKeyboardMouseEvents.cs" />
-    <Compile Include="MouseKeyHook\IMouseEvents.cs" />
-    <Compile Include="MouseKeyHook\Implementation\AppEventFacade.cs" />
-    <Compile Include="MouseKeyHook\Implementation\AppKeyListener.cs" />
-    <Compile Include="MouseKeyHook\Implementation\AppMouseListener.cs" />
-    <Compile Include="MouseKeyHook\Implementation\BaseListener.cs" />
-    <Compile Include="MouseKeyHook\Implementation\ButtonSet.cs" />
-    <Compile Include="MouseKeyHook\Implementation\Callback.cs" />
-    <Compile Include="MouseKeyHook\Implementation\EventFacade.cs" />
-    <Compile Include="MouseKeyHook\Implementation\GlobalEventFacade.cs" />
-    <Compile Include="MouseKeyHook\Implementation\GlobalKeyListener.cs" />
-    <Compile Include="MouseKeyHook\Implementation\GlobalMouseListener.cs" />
-    <Compile Include="MouseKeyHook\Implementation\KeyboardState.cs" />
-    <Compile Include="MouseKeyHook\Implementation\KeyListener.cs" />
-    <Compile Include="MouseKeyHook\Implementation\MouseListener.cs" />
-    <Compile Include="MouseKeyHook\Implementation\Subscribe.cs" />
-    <Compile Include="MouseKeyHook\KeyEventArgsExt.cs" />
-    <Compile Include="MouseKeyHook\KeyPressEventArgsExt.cs" />
-    <Compile Include="MouseKeyHook\MouseEventExtArgs.cs" />
-    <Compile Include="MouseKeyHook\WinApi\AppMouseStruct.cs" />
-    <Compile Include="MouseKeyHook\WinApi\CallbackData.cs" />
-    <Compile Include="MouseKeyHook\WinApi\HookHelper.cs" />
-    <Compile Include="MouseKeyHook\WinApi\HookIds.cs" />
-    <Compile Include="MouseKeyHook\WinApi\HookNativeMethods.cs" />
-    <Compile Include="MouseKeyHook\WinApi\HookProcedure.cs" />
-    <Compile Include="MouseKeyHook\WinApi\HookProcedureHandle.cs" />
-    <Compile Include="MouseKeyHook\WinApi\HookResult.cs" />
-    <Compile Include="MouseKeyHook\WinApi\KeyboardHookStruct.cs" />
-    <Compile Include="MouseKeyHook\WinApi\KeyboardNativeMethods.cs" />
-    <Compile Include="MouseKeyHook\WinApi\Messages.cs" />
-    <Compile Include="MouseKeyHook\WinApi\MouseNativeMethods.cs" />
-    <Compile Include="MouseKeyHook\WinApi\MouseStruct.cs" />
-    <Compile Include="MouseKeyHook\WinApi\Point.cs" />
-    <Compile Include="MouseKeyHook\WinApi\ThreadNativeMethods.cs" />
-    <Compile Include="MemoryFilter\MemoryTreeFilter.cs" />
+    <Compile Include="Anathema\MemoryLabeler\IMemoryLabeler.cs" />
+    <Compile Include="Anathema\MemoryLabeler\InputCorrelator.cs" />
+    <Compile Include="Anathema\MemoryFilter\IMemoryFilter.cs" />
+    <Compile Include="GUI\GUIMemoryViewer.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI\GUIMemoryViewer.Designer.cs">
+      <DependentUpon>GUIMemoryViewer.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Benediction\Benediction.cs" />
+    <Compile Include="Anathema\InputHook\Hook.cs" />
+    <Compile Include="Anathema\InputHook\HotKeys\HotKeyArgs.cs" />
+    <Compile Include="Anathema\InputHook\HotKeys\HotKeySet.cs" />
+    <Compile Include="Anathema\InputHook\HotKeys\HotKeySetCollection.cs" />
+    <Compile Include="Anathema\InputHook\HotKeys\HotKeySetsListener.cs" />
+    <Compile Include="Anathema\InputHook\IKeyboardEvents.cs" />
+    <Compile Include="Anathema\InputHook\IKeyboardMouseEvents.cs" />
+    <Compile Include="Anathema\InputHook\IMouseEvents.cs" />
+    <Compile Include="Anathema\InputHook\Implementation\AppEventFacade.cs" />
+    <Compile Include="Anathema\InputHook\Implementation\AppKeyListener.cs" />
+    <Compile Include="Anathema\InputHook\Implementation\AppMouseListener.cs" />
+    <Compile Include="Anathema\InputHook\Implementation\BaseListener.cs" />
+    <Compile Include="Anathema\InputHook\Implementation\ButtonSet.cs" />
+    <Compile Include="Anathema\InputHook\Implementation\Callback.cs" />
+    <Compile Include="Anathema\InputHook\Implementation\EventFacade.cs" />
+    <Compile Include="Anathema\InputHook\Implementation\GlobalEventFacade.cs" />
+    <Compile Include="Anathema\InputHook\Implementation\GlobalKeyListener.cs" />
+    <Compile Include="Anathema\InputHook\Implementation\GlobalMouseListener.cs" />
+    <Compile Include="Anathema\InputHook\Implementation\KeyboardState.cs" />
+    <Compile Include="Anathema\InputHook\Implementation\KeyListener.cs" />
+    <Compile Include="Anathema\InputHook\Implementation\MouseListener.cs" />
+    <Compile Include="Anathema\InputHook\Implementation\Subscribe.cs" />
+    <Compile Include="Anathema\InputHook\KeyEventArgsExt.cs" />
+    <Compile Include="Anathema\InputHook\KeyPressEventArgsExt.cs" />
+    <Compile Include="Anathema\InputHook\MouseEventExtArgs.cs" />
+    <Compile Include="Anathema\InputHook\WinApi\AppMouseStruct.cs" />
+    <Compile Include="Anathema\InputHook\WinApi\CallbackData.cs" />
+    <Compile Include="Anathema\InputHook\WinApi\HookHelper.cs" />
+    <Compile Include="Anathema\InputHook\WinApi\HookIds.cs" />
+    <Compile Include="Anathema\InputHook\WinApi\HookNativeMethods.cs" />
+    <Compile Include="Anathema\InputHook\WinApi\HookProcedure.cs" />
+    <Compile Include="Anathema\InputHook\WinApi\HookProcedureHandle.cs" />
+    <Compile Include="Anathema\InputHook\WinApi\HookResult.cs" />
+    <Compile Include="Anathema\InputHook\WinApi\KeyboardHookStruct.cs" />
+    <Compile Include="Anathema\InputHook\WinApi\KeyboardNativeMethods.cs" />
+    <Compile Include="Anathema\InputHook\WinApi\Messages.cs" />
+    <Compile Include="Anathema\InputHook\WinApi\MouseNativeMethods.cs" />
+    <Compile Include="Anathema\InputHook\WinApi\MouseStruct.cs" />
+    <Compile Include="Anathema\InputHook\WinApi\Point.cs" />
+    <Compile Include="Anathema\InputHook\WinApi\ThreadNativeMethods.cs" />
+    <Compile Include="Anathema\MemoryFilter\MemoryTreeFilter.cs" />
     <Compile Include="Helpers\Conversions.cs" />
     <Compile Include="GUI\GUIProcessSelectorPanel.cs">
       <SubType>UserControl</SubType>
@@ -157,7 +168,7 @@
     <Compile Include="GUI\GUIProcessSelectorPanel.Designer.cs">
       <DependentUpon>GUIProcessSelectorPanel.cs</DependentUpon>
     </Compile>
-    <Compile Include="OSInterface.cs" />
+    <Compile Include="Helpers\OSInterface.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="GUI\GUIMemoryTreeFilter.cs">
@@ -166,10 +177,14 @@
     <Compile Include="GUI\GUIMemoryTreeFilter.Designer.cs">
       <DependentUpon>GUIMemoryTreeFilter.cs</DependentUpon>
     </Compile>
-    <Compile Include="Settings.cs" />
-    <Compile Include="MemoryFilter\FiniteState.cs" />
+    <Compile Include="Helpers\Settings.cs" />
+    <Compile Include="Benediction\TestByteProvider.cs" />
+    <Compile Include="Anathema\SnapshotManager.cs" />
     <EmbeddedResource Include="GUI\GUIAnathema.resx">
       <DependentUpon>GUIAnathema.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\GUIFiniteStateBuilder.resx">
+      <DependentUpon>GUIFiniteStateBuilder.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\GUILabelSelector.resx">
       <DependentUpon>GUILabelSelector.cs</DependentUpon>
@@ -188,6 +203,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\GUIProcessSelectorPanel.resx">
       <DependentUpon>GUIProcessSelectorPanel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\GUIMemoryViewer.resx">
+      <DependentUpon>GUIMemoryViewer.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -213,9 +231,13 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="MouseKeyHook\HotKeys\ReadMe.txt" />
+    <Content Include="Anathema\InputHook\HotKeys\ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\HexEditor\Be.Windows.Forms.HexBox\Be.Windows.Forms.HexBox.csproj">
+      <Project>{26c5f25f-b450-4caf-ad8b-b8d11ae73457}</Project>
+      <Name>Be.Windows.Forms.HexBox</Name>
+    </ProjectReference>
     <ProjectReference Include="..\MemorySharp\MemorySharp\MemorySharp.csproj">
       <Project>{78a6f97d-5ca8-4e92-8e17-2545983c9555}</Project>
       <Name>MemorySharp</Name>

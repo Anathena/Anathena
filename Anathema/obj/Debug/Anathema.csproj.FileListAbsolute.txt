@@ -40,4 +40,8 @@ F:\Users\Zachary\Documents\Visual Studio 2015\Projects\Anathema\Anathema\bin\Deb
 F:\Users\Zachary\Documents\Visual Studio 2015\Projects\Anathema\Anathema\bin\Debug\MemorySharp.pdb
 F:\Users\Zachary\Documents\Visual Studio 2015\Projects\Anathema\Anathema\bin\Debug\Fasm.NET.xml
 F:\Users\Zachary\Documents\Visual Studio 2015\Projects\Anathema\Anathema\obj\Debug\Anathema.GUIMemoryTreeFilter.resources
-F:\Users\Zachary\Documents\Visual Studio 2015\Projects\Anathema\Anathema\obj\Debug\Anathema.GUI.GUILabelSelector.resources
+F:\Users\Zachary\Documents\Visual Studio 2015\Projects\Anathema\Anathema\obj\Debug\Anathema.GUILabelSelector.resources
+F:\Users\Zachary\Documents\Visual Studio 2015\Projects\Anathema\Anathema\obj\Debug\Anathema.GUIMemoryViewer.resources
+F:\Users\Zachary\Documents\Visual Studio 2015\Projects\Anathema\Anathema\bin\Debug\Be.Windows.Forms.HexBox.dll
+F:\Users\Zachary\Documents\Visual Studio 2015\Projects\Anathema\Anathema\bin\Debug\Be.Windows.Forms.HexBox.pdb
+F:\Users\Zachary\Documents\Visual Studio 2015\Projects\Anathema\Anathema\bin\Debug\Be.Windows.Forms.HexBox.xml

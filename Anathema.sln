@@ -1,4 +1,3 @@
-﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
 VisualStudioVersion = 14.0.22823.1
@@ -12,6 +11,10 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Fasm.NET", "Fasm\Fasm.NET\Fasm.NET.vcxproj", "{2DAC1A31-EF28-499A-B67A-963B5343D778}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fasm.NET.Tests", "Fasm\Fasm.NET.Tests\Fasm.NET.Tests.csproj", "{87C6E1E9-D714-498A-BFF6-883645A0630A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Be.HexEditor", "HexEditor\Be.HexEditor\Be.HexEditor.csproj", "{FF4ADB46-210E-429E-9176-68613F5CBE90}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Be.Windows.Forms.HexBox", "HexEditor\Be.Windows.Forms.HexBox\Be.Windows.Forms.HexBox.csproj", "{26C5F25F-B450-4CAF-AD8B-B8D11AE73457}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -113,6 +116,46 @@ Global
 		{87C6E1E9-D714-498A-BFF6-883645A0630A}.Release|x64.ActiveCfg = Release|x86
 		{87C6E1E9-D714-498A-BFF6-883645A0630A}.Release|x86.ActiveCfg = Release|x86
 		{87C6E1E9-D714-498A-BFF6-883645A0630A}.Release|x86.Build.0 = Release|x86
+		{FF4ADB46-210E-429E-9176-68613F5CBE90}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FF4ADB46-210E-429E-9176-68613F5CBE90}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FF4ADB46-210E-429E-9176-68613F5CBE90}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{FF4ADB46-210E-429E-9176-68613F5CBE90}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{FF4ADB46-210E-429E-9176-68613F5CBE90}.Debug|Win32.ActiveCfg = Debug|Any CPU
+		{FF4ADB46-210E-429E-9176-68613F5CBE90}.Debug|Win32.Build.0 = Debug|Any CPU
+		{FF4ADB46-210E-429E-9176-68613F5CBE90}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{FF4ADB46-210E-429E-9176-68613F5CBE90}.Debug|x64.Build.0 = Debug|Any CPU
+		{FF4ADB46-210E-429E-9176-68613F5CBE90}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{FF4ADB46-210E-429E-9176-68613F5CBE90}.Debug|x86.Build.0 = Debug|Any CPU
+		{FF4ADB46-210E-429E-9176-68613F5CBE90}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FF4ADB46-210E-429E-9176-68613F5CBE90}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FF4ADB46-210E-429E-9176-68613F5CBE90}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{FF4ADB46-210E-429E-9176-68613F5CBE90}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{FF4ADB46-210E-429E-9176-68613F5CBE90}.Release|Win32.ActiveCfg = Release|Any CPU
+		{FF4ADB46-210E-429E-9176-68613F5CBE90}.Release|Win32.Build.0 = Release|Any CPU
+		{FF4ADB46-210E-429E-9176-68613F5CBE90}.Release|x64.ActiveCfg = Release|Any CPU
+		{FF4ADB46-210E-429E-9176-68613F5CBE90}.Release|x64.Build.0 = Release|Any CPU
+		{FF4ADB46-210E-429E-9176-68613F5CBE90}.Release|x86.ActiveCfg = Release|Any CPU
+		{FF4ADB46-210E-429E-9176-68613F5CBE90}.Release|x86.Build.0 = Release|Any CPU
+		{26C5F25F-B450-4CAF-AD8B-B8D11AE73457}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{26C5F25F-B450-4CAF-AD8B-B8D11AE73457}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{26C5F25F-B450-4CAF-AD8B-B8D11AE73457}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{26C5F25F-B450-4CAF-AD8B-B8D11AE73457}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{26C5F25F-B450-4CAF-AD8B-B8D11AE73457}.Debug|Win32.ActiveCfg = Debug|Any CPU
+		{26C5F25F-B450-4CAF-AD8B-B8D11AE73457}.Debug|Win32.Build.0 = Debug|Any CPU
+		{26C5F25F-B450-4CAF-AD8B-B8D11AE73457}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{26C5F25F-B450-4CAF-AD8B-B8D11AE73457}.Debug|x64.Build.0 = Debug|Any CPU
+		{26C5F25F-B450-4CAF-AD8B-B8D11AE73457}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{26C5F25F-B450-4CAF-AD8B-B8D11AE73457}.Debug|x86.Build.0 = Debug|Any CPU
+		{26C5F25F-B450-4CAF-AD8B-B8D11AE73457}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{26C5F25F-B450-4CAF-AD8B-B8D11AE73457}.Release|Any CPU.Build.0 = Release|Any CPU
+		{26C5F25F-B450-4CAF-AD8B-B8D11AE73457}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{26C5F25F-B450-4CAF-AD8B-B8D11AE73457}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{26C5F25F-B450-4CAF-AD8B-B8D11AE73457}.Release|Win32.ActiveCfg = Release|Any CPU
+		{26C5F25F-B450-4CAF-AD8B-B8D11AE73457}.Release|Win32.Build.0 = Release|Any CPU
+		{26C5F25F-B450-4CAF-AD8B-B8D11AE73457}.Release|x64.ActiveCfg = Release|Any CPU
+		{26C5F25F-B450-4CAF-AD8B-B8D11AE73457}.Release|x64.Build.0 = Release|Any CPU
+		{26C5F25F-B450-4CAF-AD8B-B8D11AE73457}.Release|x86.ActiveCfg = Release|Any CPU
+		{26C5F25F-B450-4CAF-AD8B-B8D11AE73457}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

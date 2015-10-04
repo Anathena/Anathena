@@ -19,6 +19,20 @@ namespace Anathema
                 return "??";
         }
 
+        public static String ByteToMetricSize(UInt64 byteCount)
+        {
+            string[] suf = { "B", "KB", "MB", "GB", "TB", "PB", "EB" }; // Longs run out around EB
+
+            if (byteCount == 0)
+                return "0" + suf[0];
+
+            int place = Convert.ToInt32(Math.Floor(Math.Log(byteCount, 1024)));
+
+            double num = Math.Round(byteCount / Math.Pow(1024, place), 1);
+
+            return (num.ToString() + suf[place]);
+        }
+
         public static UIntPtr IntPtrToUIntPtr(IntPtr Value)
         {
             if (IntPtr.Size == 4)

@@ -15,12 +15,24 @@ namespace Anathema
     {
         private Anathema Anathema { get; set; }
         private const Int32 MarginSize = 12;
+        private const Int32 MaximumDisplayed = 4000;
 
         public GUIAnathema()
         {
             InitializeComponent();
             Anathema = Anathema.GetAnathemaInstance();
             HandleGUIResize();
+        }
+
+        public void UpdateMemoryLabels(List<Tuple<IntPtr, Object>> MemoryLabels)
+        {
+            for (Int32 Index = 0; Index < Math.Min(MemoryLabels.Count, MaximumDisplayed); Index++)
+            {
+                ListViewItem NextEntry = new ListViewItem(MemoryLabels[Index].Item1.ToString());
+                NextEntry.SubItems.Add(MemoryLabels[Index].Item2.ToString());
+                NextEntry.SubItems.Add("");
+                AddressListView.Items.Add(NextEntry);
+            }
         }
 
         /// <summary>
@@ -39,21 +51,6 @@ namespace Anathema
         }
 
         /// <summary>
-        /// Updates the labeler display panel to show the given user control
-        /// </summary>
-        /// <param name="UserControl"></param>
-        private void UpdateLabelerPanelDisplay(UserControl UserControl)
-        {
-            for (Int32 Index = 0; Index < LabelerPanel.Controls.Count; Index++)
-            {
-                if (LabelerPanel.Controls[Index] != LabelerToolStrip)
-                    LabelerPanel.Controls.RemoveAt(Index--);
-            }
-            LabelerPanel.Controls.Add(UserControl);
-            HandleGUIResize();
-        }
-
-        /// <summary>
         /// Properly places and resizes necessary controls when the GUI is resized
         /// </summary>
         private void HandleGUIResize()
@@ -61,19 +58,13 @@ namespace Anathema
             // This code assumes that all controls are properly docked and are already placed
             // the default margin size away from the side of the screen.
 
-            FilterPanel.Width = LabelerPanel.Location.X - FilterPanel.Location.X - MarginSize;
+            FilterPanel.Width = AddressListView.Location.X - FilterPanel.Location.X - MarginSize;
             TableListView.Width = this.ClientRectangle.Width - MarginSize * 2;
 
             for (Int32 Index = 0; Index < FilterPanel.Controls.Count; Index++)
             {
                 FilterPanel.Controls[Index].Width = FilterPanel.Width;
                 FilterPanel.Controls[Index].Height = FilterPanel.Height;
-            }
-
-            for (Int32 Index = 0; Index < LabelerPanel.Controls.Count; Index++)
-            {
-                LabelerPanel.Controls[Index].Width = LabelerPanel.Width;
-                LabelerPanel.Controls[Index].Height = LabelerPanel.Height;
             }
         }
 
@@ -117,7 +108,7 @@ namespace Anathema
 
         private void InputCorrelatorButton_Click(object sender, EventArgs e)
         {
-            UpdateLabelerPanelDisplay(new GUIInputCorrelator());
+            UpdateFilterPanelDisplay(new GUIInputCorrelator());
         }
 
         private void ManualScanButton_Click(object sender, EventArgs e)
@@ -126,5 +117,16 @@ namespace Anathema
         }
 
         #endregion
+
+        private void LabelSelectorButton_Click(object sender, EventArgs e)
+        {
+            UpdateMemoryLabels(Anathema.GetMemoryLabels());
+        }
+
+        private void MemoryViewerButton_Click(object sender, EventArgs e)
+        {
+            GUIMemoryViewer GUIMemoryViewer = new GUIMemoryViewer();
+            GUIMemoryViewer.Show();
+        }
     }
 }

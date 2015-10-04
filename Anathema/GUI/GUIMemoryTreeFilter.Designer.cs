@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(GUIMemoryTreeFilter));
             this.GranularityTrackBar = new System.Windows.Forms.TrackBar();
             this.ScanToolStrip = new System.Windows.Forms.ToolStrip();
@@ -35,18 +36,25 @@
             this.StopButton = new System.Windows.Forms.ToolStripButton();
             this.FragmentSizeLabel = new System.Windows.Forms.Label();
             this.FragmentSizeValueLabel = new System.Windows.Forms.Label();
+            this.AdvancedSettingsGroupBox = new System.Windows.Forms.GroupBox();
+            this.UpdateGUITimer = new System.Windows.Forms.Timer(this.components);
+            this.TreeSplitsValueLabel = new System.Windows.Forms.Label();
+            this.TreeSplitsLabel = new System.Windows.Forms.Label();
+            this.HashSizeLabel = new System.Windows.Forms.Label();
+            this.HashTreeSizeValueLabel = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.GranularityTrackBar)).BeginInit();
             this.ScanToolStrip.SuspendLayout();
+            this.AdvancedSettingsGroupBox.SuspendLayout();
             this.SuspendLayout();
             // 
             // GranularityTrackBar
             // 
             this.GranularityTrackBar.Dock = System.Windows.Forms.DockStyle.Top;
             this.GranularityTrackBar.LargeChange = 4;
-            this.GranularityTrackBar.Location = new System.Drawing.Point(0, 25);
+            this.GranularityTrackBar.Location = new System.Drawing.Point(3, 16);
             this.GranularityTrackBar.Maximum = 16;
             this.GranularityTrackBar.Name = "GranularityTrackBar";
-            this.GranularityTrackBar.Size = new System.Drawing.Size(267, 45);
+            this.GranularityTrackBar.Size = new System.Drawing.Size(255, 45);
             this.GranularityTrackBar.TabIndex = 136;
             this.GranularityTrackBar.Value = 6;
             this.GranularityTrackBar.Scroll += new System.EventHandler(this.GranularityTrackBar_Scroll);
@@ -71,7 +79,7 @@
             this.StartButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.StartButton.Name = "StartButton";
             this.StartButton.Size = new System.Drawing.Size(23, 22);
-            this.StartButton.Text = "Start Scan";
+            this.StartButton.Text = "Start Tree Scan";
             this.StartButton.Click += new System.EventHandler(this.StartButton_Click);
             // 
             // StopButton
@@ -82,14 +90,13 @@
             this.StopButton.Name = "StopButton";
             this.StopButton.Size = new System.Drawing.Size(23, 22);
             this.StopButton.Text = "Stop";
-            this.StopButton.ToolTipText = "Stop Button";
+            this.StopButton.ToolTipText = "Stop Tree Scan";
             this.StopButton.Click += new System.EventHandler(this.StopButton_Click);
             // 
             // FragmentSizeLabel
             // 
-            this.FragmentSizeLabel.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.FragmentSizeLabel.AutoSize = true;
-            this.FragmentSizeLabel.Location = new System.Drawing.Point(67, 9);
+            this.FragmentSizeLabel.Location = new System.Drawing.Point(6, 48);
             this.FragmentSizeLabel.Name = "FragmentSizeLabel";
             this.FragmentSizeLabel.Size = new System.Drawing.Size(77, 13);
             this.FragmentSizeLabel.TabIndex = 138;
@@ -97,28 +104,85 @@
             // 
             // FragmentSizeValueLabel
             // 
-            this.FragmentSizeValueLabel.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.FragmentSizeValueLabel.AutoSize = true;
-            this.FragmentSizeValueLabel.Location = new System.Drawing.Point(142, 9);
+            this.FragmentSizeValueLabel.Location = new System.Drawing.Point(81, 48);
             this.FragmentSizeValueLabel.Name = "FragmentSizeValueLabel";
             this.FragmentSizeValueLabel.Size = new System.Drawing.Size(42, 13);
             this.FragmentSizeValueLabel.TabIndex = 139;
             this.FragmentSizeValueLabel.Text = "0 Bytes";
             // 
+            // AdvancedSettingsGroupBox
+            // 
+            this.AdvancedSettingsGroupBox.Controls.Add(this.FragmentSizeValueLabel);
+            this.AdvancedSettingsGroupBox.Controls.Add(this.FragmentSizeLabel);
+            this.AdvancedSettingsGroupBox.Controls.Add(this.GranularityTrackBar);
+            this.AdvancedSettingsGroupBox.Location = new System.Drawing.Point(3, 117);
+            this.AdvancedSettingsGroupBox.Name = "AdvancedSettingsGroupBox";
+            this.AdvancedSettingsGroupBox.Size = new System.Drawing.Size(261, 114);
+            this.AdvancedSettingsGroupBox.TabIndex = 143;
+            this.AdvancedSettingsGroupBox.TabStop = false;
+            this.AdvancedSettingsGroupBox.Text = "Advanced Settings";
+            // 
+            // UpdateGUITimer
+            // 
+            this.UpdateGUITimer.Interval = 500;
+            this.UpdateGUITimer.Tick += new System.EventHandler(this.UpdateGUITimer_Tick);
+            // 
+            // TreeSplitsValueLabel
+            // 
+            this.TreeSplitsValueLabel.AutoSize = true;
+            this.TreeSplitsValueLabel.Location = new System.Drawing.Point(85, 34);
+            this.TreeSplitsValueLabel.Name = "TreeSplitsValueLabel";
+            this.TreeSplitsValueLabel.Size = new System.Drawing.Size(13, 13);
+            this.TreeSplitsValueLabel.TabIndex = 147;
+            this.TreeSplitsValueLabel.Text = "0";
+            // 
+            // TreeSplitsLabel
+            // 
+            this.TreeSplitsLabel.AutoSize = true;
+            this.TreeSplitsLabel.Location = new System.Drawing.Point(9, 34);
+            this.TreeSplitsLabel.Name = "TreeSplitsLabel";
+            this.TreeSplitsLabel.Size = new System.Drawing.Size(60, 13);
+            this.TreeSplitsLabel.TabIndex = 146;
+            this.TreeSplitsLabel.Text = "Tree Splits:";
+            // 
+            // HashSizeLabel
+            // 
+            this.HashSizeLabel.AutoSize = true;
+            this.HashSizeLabel.Location = new System.Drawing.Point(9, 47);
+            this.HashSizeLabel.Name = "HashSizeLabel";
+            this.HashSizeLabel.Size = new System.Drawing.Size(70, 13);
+            this.HashSizeLabel.TabIndex = 144;
+            this.HashSizeLabel.Text = "Memory Size:";
+            // 
+            // HashTreeSizeValueLabel
+            // 
+            this.HashTreeSizeValueLabel.AutoSize = true;
+            this.HashTreeSizeValueLabel.Location = new System.Drawing.Point(85, 47);
+            this.HashTreeSizeValueLabel.Name = "HashTreeSizeValueLabel";
+            this.HashTreeSizeValueLabel.Size = new System.Drawing.Size(13, 13);
+            this.HashTreeSizeValueLabel.TabIndex = 145;
+            this.HashTreeSizeValueLabel.Text = "0";
+            // 
             // GUIMemoryTreeFilter
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Controls.Add(this.FragmentSizeValueLabel);
-            this.Controls.Add(this.FragmentSizeLabel);
-            this.Controls.Add(this.GranularityTrackBar);
+            this.Controls.Add(this.TreeSplitsValueLabel);
+            this.Controls.Add(this.TreeSplitsLabel);
+            this.Controls.Add(this.HashTreeSizeValueLabel);
+            this.Controls.Add(this.HashSizeLabel);
+            this.Controls.Add(this.AdvancedSettingsGroupBox);
             this.Controls.Add(this.ScanToolStrip);
             this.Name = "GUIMemoryTreeFilter";
             this.Size = new System.Drawing.Size(267, 234);
             this.Load += new System.EventHandler(this.GUIMemoryTreeFilter_Load);
+            this.Resize += new System.EventHandler(this.GUIMemoryTreeFilter_Resize);
             ((System.ComponentModel.ISupportInitialize)(this.GranularityTrackBar)).EndInit();
             this.ScanToolStrip.ResumeLayout(false);
             this.ScanToolStrip.PerformLayout();
+            this.AdvancedSettingsGroupBox.ResumeLayout(false);
+            this.AdvancedSettingsGroupBox.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -132,5 +196,11 @@
         private System.Windows.Forms.ToolStripButton StopButton;
         private System.Windows.Forms.Label FragmentSizeLabel;
         private System.Windows.Forms.Label FragmentSizeValueLabel;
+        private System.Windows.Forms.GroupBox AdvancedSettingsGroupBox;
+        private System.Windows.Forms.Timer UpdateGUITimer;
+        private System.Windows.Forms.Label TreeSplitsValueLabel;
+        private System.Windows.Forms.Label TreeSplitsLabel;
+        private System.Windows.Forms.Label HashSizeLabel;
+        private System.Windows.Forms.Label HashTreeSizeValueLabel;
     }
 }

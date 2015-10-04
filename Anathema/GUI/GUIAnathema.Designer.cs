@@ -66,20 +66,23 @@
             this.SelectedProcessLabel = new System.Windows.Forms.Label();
             this.FilterToolStrip = new System.Windows.Forms.ToolStrip();
             this.SelectProcessButton = new System.Windows.Forms.ToolStripButton();
-            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.SearchSpaceAnalysisButton = new System.Windows.Forms.ToolStripButton();
             this.FiniteStateMachineButton = new System.Windows.Forms.ToolStripButton();
             this.ManualScanButton = new System.Windows.Forms.ToolStripButton();
-            this.FilterPanel = new System.Windows.Forms.Panel();
-            this.LabelerToolStrip = new System.Windows.Forms.ToolStrip();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.InputCorrelatorButton = new System.Windows.Forms.ToolStripButton();
-            this.LabelSelectorButton = new System.Windows.Forms.ToolStripButton();
-            this.LabelerPanel = new System.Windows.Forms.Panel();
+            this.FilterPanel = new System.Windows.Forms.Panel();
+            this.AddressCount = new System.Windows.Forms.Label();
+            this.AddressListView = new System.Windows.Forms.ListView();
+            this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.LabelHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnHeader2 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.MemoryViewerButton = new System.Windows.Forms.ToolStripButton();
             this.MainToolStrip.SuspendLayout();
             this.GUIMenuStrip.SuspendLayout();
             this.AddressListViewRightClickMenu.SuspendLayout();
             this.FilterToolStrip.SuspendLayout();
-            this.LabelerToolStrip.SuspendLayout();
             this.SuspendLayout();
             // 
             // TableListView
@@ -129,6 +132,7 @@
             // 
             // MainToolStrip
             // 
+            this.MainToolStrip.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.MainToolStrip.Dock = System.Windows.Forms.DockStyle.None;
             this.MainToolStrip.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
             this.MainToolStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -140,11 +144,12 @@
             this.AddSpecificButton,
             this.toolStripSeparator5,
             this.ClearTableButton,
-            this.UndoTableDeleteButton});
-            this.MainToolStrip.Location = new System.Drawing.Point(264, 305);
+            this.UndoTableDeleteButton,
+            this.MemoryViewerButton});
+            this.MainToolStrip.Location = new System.Drawing.Point(210, 305);
             this.MainToolStrip.Name = "MainToolStrip";
             this.MainToolStrip.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
-            this.MainToolStrip.Size = new System.Drawing.Size(176, 25);
+            this.MainToolStrip.Size = new System.Drawing.Size(230, 25);
             this.MainToolStrip.TabIndex = 113;
             // 
             // OpenATButton
@@ -351,14 +356,16 @@
             this.FilterToolStrip.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
             this.FilterToolStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.SelectProcessButton,
-            this.toolStripSeparator1,
+            this.toolStripSeparator2,
             this.SearchSpaceAnalysisButton,
             this.FiniteStateMachineButton,
-            this.ManualScanButton});
+            this.ManualScanButton,
+            this.toolStripSeparator1,
+            this.InputCorrelatorButton});
             this.FilterToolStrip.Location = new System.Drawing.Point(12, 28);
             this.FilterToolStrip.Name = "FilterToolStrip";
             this.FilterToolStrip.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
-            this.FilterToolStrip.Size = new System.Drawing.Size(101, 25);
+            this.FilterToolStrip.Size = new System.Drawing.Size(130, 25);
             this.FilterToolStrip.TabIndex = 121;
             this.FilterToolStrip.Text = "toolStrip1";
             // 
@@ -372,10 +379,10 @@
             this.SelectProcessButton.Text = "Select Process";
             this.SelectProcessButton.Click += new System.EventHandler(this.SelectProcessButton_Click);
             // 
-            // toolStripSeparator1
+            // toolStripSeparator2
             // 
-            this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 25);
+            this.toolStripSeparator2.Name = "toolStripSeparator2";
+            this.toolStripSeparator2.Size = new System.Drawing.Size(6, 25);
             // 
             // SearchSpaceAnalysisButton
             // 
@@ -410,27 +417,10 @@
             this.ManualScanButton.ToolTipText = "Manual Scan";
             this.ManualScanButton.Click += new System.EventHandler(this.ManualScanButton_Click);
             // 
-            // FilterPanel
+            // toolStripSeparator1
             // 
-            this.FilterPanel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.FilterPanel.Location = new System.Drawing.Point(12, 54);
-            this.FilterPanel.Name = "FilterPanel";
-            this.FilterPanel.Size = new System.Drawing.Size(241, 248);
-            this.FilterPanel.TabIndex = 137;
-            // 
-            // LabelerToolStrip
-            // 
-            this.LabelerToolStrip.Dock = System.Windows.Forms.DockStyle.None;
-            this.LabelerToolStrip.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
-            this.LabelerToolStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.LabelSelectorButton,
-            this.InputCorrelatorButton});
-            this.LabelerToolStrip.Location = new System.Drawing.Point(264, 28);
-            this.LabelerToolStrip.Name = "LabelerToolStrip";
-            this.LabelerToolStrip.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
-            this.LabelerToolStrip.Size = new System.Drawing.Size(49, 25);
-            this.LabelerToolStrip.TabIndex = 140;
-            this.LabelerToolStrip.Text = "Labeler Tool Strip";
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 25);
             // 
             // InputCorrelatorButton
             // 
@@ -442,32 +432,74 @@
             this.InputCorrelatorButton.Text = "Input Correlator";
             this.InputCorrelatorButton.Click += new System.EventHandler(this.InputCorrelatorButton_Click);
             // 
-            // LabelSelectorButton
+            // FilterPanel
             // 
-            this.LabelSelectorButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.LabelSelectorButton.Image = ((System.Drawing.Image)(resources.GetObject("LabelSelectorButton.Image")));
-            this.LabelSelectorButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.LabelSelectorButton.Name = "LabelSelectorButton";
-            this.LabelSelectorButton.Size = new System.Drawing.Size(23, 22);
-            this.LabelSelectorButton.Text = "Label Selector";
+            this.FilterPanel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.FilterPanel.Location = new System.Drawing.Point(12, 54);
+            this.FilterPanel.Name = "FilterPanel";
+            this.FilterPanel.Size = new System.Drawing.Size(241, 248);
+            this.FilterPanel.TabIndex = 137;
             // 
-            // LabelerPanel
+            // AddressCount
             // 
-            this.LabelerPanel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.LabelerPanel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.LabelerPanel.Location = new System.Drawing.Point(264, 54);
-            this.LabelerPanel.Name = "LabelerPanel";
-            this.LabelerPanel.Size = new System.Drawing.Size(241, 248);
-            this.LabelerPanel.TabIndex = 138;
+            this.AddressCount.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.AddressCount.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.AddressCount.Location = new System.Drawing.Point(259, 38);
+            this.AddressCount.Name = "AddressCount";
+            this.AddressCount.Size = new System.Drawing.Size(246, 17);
+            this.AddressCount.TabIndex = 139;
+            this.AddressCount.Text = "Items: 0";
+            // 
+            // AddressListView
+            // 
+            this.AddressListView.Activation = System.Windows.Forms.ItemActivation.TwoClick;
+            this.AddressListView.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.AddressListView.BackColor = System.Drawing.SystemColors.Control;
+            this.AddressListView.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.columnHeader1,
+            this.LabelHeader,
+            this.columnHeader2});
+            this.AddressListView.Font = new System.Drawing.Font("Courier New", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.AddressListView.FullRowSelect = true;
+            this.AddressListView.Location = new System.Drawing.Point(259, 54);
+            this.AddressListView.Name = "AddressListView";
+            this.AddressListView.Size = new System.Drawing.Size(246, 248);
+            this.AddressListView.TabIndex = 138;
+            this.AddressListView.UseCompatibleStateImageBehavior = false;
+            this.AddressListView.View = System.Windows.Forms.View.Details;
+            // 
+            // columnHeader1
+            // 
+            this.columnHeader1.Text = "Address";
+            this.columnHeader1.Width = 86;
+            // 
+            // LabelHeader
+            // 
+            this.LabelHeader.Text = "Label";
+            this.LabelHeader.Width = 86;
+            // 
+            // columnHeader2
+            // 
+            this.columnHeader2.Text = "Value";
+            // 
+            // MemoryViewerButton
+            // 
+            this.MemoryViewerButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.MemoryViewerButton.Image = ((System.Drawing.Image)(resources.GetObject("MemoryViewerButton.Image")));
+            this.MemoryViewerButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.MemoryViewerButton.Name = "MemoryViewerButton";
+            this.MemoryViewerButton.Size = new System.Drawing.Size(23, 22);
+            this.MemoryViewerButton.Text = "Memory Viewer";
+            this.MemoryViewerButton.Click += new System.EventHandler(this.MemoryViewerButton_Click);
             // 
             // GUIAnathema
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(517, 589);
+            this.Controls.Add(this.AddressCount);
+            this.Controls.Add(this.AddressListView);
             this.Controls.Add(this.FilterToolStrip);
-            this.Controls.Add(this.LabelerPanel);
-            this.Controls.Add(this.LabelerToolStrip);
             this.Controls.Add(this.FilterPanel);
             this.Controls.Add(this.SelectedProcessLabel);
             this.Controls.Add(this.GUIMenuStrip);
@@ -484,8 +516,6 @@
             this.AddressListViewRightClickMenu.ResumeLayout(false);
             this.FilterToolStrip.ResumeLayout(false);
             this.FilterToolStrip.PerformLayout();
-            this.LabelerToolStrip.ResumeLayout(false);
-            this.LabelerToolStrip.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -533,10 +563,14 @@
         private System.Windows.Forms.Panel FilterPanel;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.ToolStripButton ManualScanButton;
-        private System.Windows.Forms.ToolStrip LabelerToolStrip;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
         private System.Windows.Forms.ToolStripButton InputCorrelatorButton;
-        private System.Windows.Forms.ToolStripButton LabelSelectorButton;
-        private System.Windows.Forms.Panel LabelerPanel;
+        private System.Windows.Forms.Label AddressCount;
+        private System.Windows.Forms.ListView AddressListView;
+        private System.Windows.Forms.ColumnHeader columnHeader1;
+        private System.Windows.Forms.ColumnHeader LabelHeader;
+        private System.Windows.Forms.ColumnHeader columnHeader2;
+        private System.Windows.Forms.ToolStripButton MemoryViewerButton;
     }
 }
 

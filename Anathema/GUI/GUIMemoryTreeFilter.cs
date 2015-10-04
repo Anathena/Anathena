@@ -1,11 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
-using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Anathema
@@ -21,7 +14,13 @@ namespace Anathema
 
             MemoryTreeFilter = new MemoryTreeFilter();
             Anathema = Anathema.GetAnathemaInstance();
+
             UpdateFragmentSizeLabel();
+        }
+
+        private void GUIMemoryTreeFilter_Load(object sender, EventArgs e)
+        {
+
         }
 
         private void UpdateFragmentSizeLabel()
@@ -39,24 +38,61 @@ namespace Anathema
             MemoryTreeFilter.UpdatePageSplitThreshold(Value);
         }
 
-        private void GUIMemoryTreeFilter_Load(object sender, EventArgs e)
+        private void UpdateHashTreeSize(UInt64 Size)
         {
+            HashTreeSizeValueLabel.Text = Conversions.ByteToMetricSize(Size).ToString();
 
+            // Force a redraw
+            Invalidate();
+            Update();
+            Refresh();
+            Application.DoEvents();
         }
 
+        private void UpdateTreeSplits(Int32 Splits)
+        {
+            TreeSplitsValueLabel.Text = Splits.ToString();
+        }
+
+        private void GUIMemoryTreeFilter_Resize(object sender, EventArgs e)
+        {
+            AdvancedSettingsGroupBox.SetBounds(4, this.Height / 2 + 4, this.Width - 8, this.Height / 2 - 8);
+        }
+
+        private void DisableGUI()
+        {
+            AdvancedSettingsGroupBox.Enabled = false;
+        }
+
+        private void EnableGUI()
+        {
+            AdvancedSettingsGroupBox.Enabled = true;
+        }
+        
         private void StartButton_Click(object sender, EventArgs e)
         {
             Anathema.BeginFilter(MemoryTreeFilter);
+            UpdateGUITimer.Start();
+            DisableGUI();
         }
 
         private void StopButton_Click(object sender, EventArgs e)
         {
             Anathema.EndFilter();
+            UpdateGUITimer.Stop();
+            UpdateHashTreeSize(MemoryTreeFilter.GetFinalSize());
+            EnableGUI();
         }
 
         private void GranularityTrackBar_Scroll(object sender, EventArgs e)
         {
             UpdateFragmentSizeLabel();
+        }
+
+        private void UpdateGUITimer_Tick(object sender, EventArgs e)
+        {
+            UpdateHashTreeSize(MemoryTreeFilter.GetHashTreeSize());
+            UpdateTreeSplits(MemoryTreeFilter.GetHashTreeSplits());
         }
     }
 }
