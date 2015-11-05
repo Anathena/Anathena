@@ -55,6 +55,18 @@
     <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Be.Windows.Forms.HexBox, Version=1.6.0.41334, Culture=neutral, PublicKeyToken=e0e5adf0ebc99863, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Libraries\HexBox\Be.Windows.Forms.HexBox.dll</HintPath>
+    </Reference>
+    <Reference Include="Fasm.NET, Version=1.0.4939.27955, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Libraries\FASM\Fasm.NET.dll</HintPath>
+    </Reference>
+    <Reference Include="MemorySharp, Version=1.1.0.0, Culture=neutral, processorArchitecture=AMD64">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Libraries\MemorySharp\MemorySharp.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Security" />
@@ -70,11 +82,24 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Anathema\MemorySnapshot\Snapshot.cs" />
+    <Compile Include="GUI\GUIBenediction.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="GUI\GUIBenediction.Designer.cs">
+      <DependentUpon>GUIBenediction.cs</DependentUpon>
+    </Compile>
     <Compile Include="GUI\GUIAnathema.cs">
-      <SubType>Form</SubType>
+      <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="GUI\GUIAnathema.Designer.cs">
       <DependentUpon>GUIAnathema.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GUI\GUIMain.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI\GUIMain.Designer.cs">
+      <DependentUpon>GUIMain.cs</DependentUpon>
     </Compile>
     <Compile Include="GUI\GUIFiniteStateBuilder.cs">
       <SubType>Form</SubType>
@@ -88,11 +113,11 @@
     <Compile Include="GUI\GUILabelSelector.Designer.cs">
       <DependentUpon>GUILabelSelector.cs</DependentUpon>
     </Compile>
-    <Compile Include="GUI\GUIManualScanPanel.cs">
+    <Compile Include="GUI\GUIManualScan.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="GUI\GUIManualScanPanel.Designer.cs">
-      <DependentUpon>GUIManualScanPanel.cs</DependentUpon>
+    <Compile Include="GUI\GUIManualScan.Designer.cs">
+      <DependentUpon>GUIManualScan.cs</DependentUpon>
     </Compile>
     <Compile Include="GUI\GUIInputCorrelator.cs">
       <SubType>UserControl</SubType>
@@ -107,11 +132,12 @@
       <DependentUpon>GUIFiniteStateMachine.cs</DependentUpon>
     </Compile>
     <Compile Include="Anathema\Anathema.cs" />
-    <Compile Include="Anathema\MemoryFilter\FiniteStateFilter.cs" />
+    <Compile Include="Anathema\MemoryFilter\MFFiniteState.cs" />
+    <Compile Include="GUI\GUIUpdatableControl.cs" />
     <Compile Include="Helpers\CheckSyntax.cs" />
     <Compile Include="Helpers\FastHash.cs" />
     <Compile Include="Anathema\MemoryLabeler\IMemoryLabeler.cs" />
-    <Compile Include="Anathema\MemoryLabeler\InputCorrelator.cs" />
+    <Compile Include="Anathema\MemoryLabeler\MLInputCorrelator.cs" />
     <Compile Include="Anathema\MemoryFilter\IMemoryFilter.cs" />
     <Compile Include="GUI\GUIMemoryViewer.cs">
       <SubType>Form</SubType>
@@ -160,15 +186,19 @@
     <Compile Include="Anathema\InputHook\WinApi\MouseStruct.cs" />
     <Compile Include="Anathema\InputHook\WinApi\Point.cs" />
     <Compile Include="Anathema\InputHook\WinApi\ThreadNativeMethods.cs" />
-    <Compile Include="Anathema\MemoryFilter\MemoryTreeFilter.cs" />
+    <Compile Include="Anathema\MemoryFilter\MFHashTrees.cs" />
     <Compile Include="Helpers\Conversions.cs" />
-    <Compile Include="GUI\GUIProcessSelectorPanel.cs">
+    <Compile Include="GUI\GUIProcessSelector.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="GUI\GUIProcessSelectorPanel.Designer.cs">
-      <DependentUpon>GUIProcessSelectorPanel.cs</DependentUpon>
+    <Compile Include="GUI\GUIProcessSelector.Designer.cs">
+      <DependentUpon>GUIProcessSelector.cs</DependentUpon>
     </Compile>
     <Compile Include="Helpers\OSInterface.cs" />
+    <Compile Include="Anathema\MemoryFilter\MFManualScan.cs" />
+    <Compile Include="Anathema\MemoryFilter\MFLabelThesholder.cs" />
+    <Compile Include="Anathema\MemoryFilter\MFMultiScanner.cs" />
+    <Compile Include="Anathema\MemoryLabeler\MLValueReader.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="GUI\GUIMemoryTreeFilter.cs">
@@ -179,9 +209,9 @@
     </Compile>
     <Compile Include="Helpers\Settings.cs" />
     <Compile Include="Benediction\TestByteProvider.cs" />
-    <Compile Include="Anathema\SnapshotManager.cs" />
-    <EmbeddedResource Include="GUI\GUIAnathema.resx">
-      <DependentUpon>GUIAnathema.cs</DependentUpon>
+    <Compile Include="Anathema\MemorySnapshot\SnapshotManager.cs" />
+    <EmbeddedResource Include="GUI\GUIMain.resx">
+      <DependentUpon>GUIMain.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\GUIFiniteStateBuilder.resx">
       <DependentUpon>GUIFiniteStateBuilder.cs</DependentUpon>
@@ -189,8 +219,8 @@
     <EmbeddedResource Include="GUI\GUILabelSelector.resx">
       <DependentUpon>GUILabelSelector.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="GUI\GUIManualScanPanel.resx">
-      <DependentUpon>GUIManualScanPanel.cs</DependentUpon>
+    <EmbeddedResource Include="GUI\GUIManualScan.resx">
+      <DependentUpon>GUIManualScan.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\GUIInputCorrelator.resx">
       <DependentUpon>GUIInputCorrelator.cs</DependentUpon>
@@ -201,8 +231,8 @@
     <EmbeddedResource Include="GUI\GUIMemoryTreeFilter.resx">
       <DependentUpon>GUIMemoryTreeFilter.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="GUI\GUIProcessSelectorPanel.resx">
-      <DependentUpon>GUIProcessSelectorPanel.cs</DependentUpon>
+    <EmbeddedResource Include="GUI\GUIProcessSelector.resx">
+      <DependentUpon>GUIProcessSelector.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\GUIMemoryViewer.resx">
       <DependentUpon>GUIMemoryViewer.cs</DependentUpon>
@@ -232,16 +262,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Anathema\InputHook\HotKeys\ReadMe.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\HexEditor\Be.Windows.Forms.HexBox\Be.Windows.Forms.HexBox.csproj">
-      <Project>{26c5f25f-b450-4caf-ad8b-b8d11ae73457}</Project>
-      <Name>Be.Windows.Forms.HexBox</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\MemorySharp\MemorySharp\MemorySharp.csproj">
-      <Project>{78a6f97d-5ca8-4e92-8e17-2545983c9555}</Project>
-      <Name>MemorySharp</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

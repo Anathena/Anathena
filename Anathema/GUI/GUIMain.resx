@@ -118,7 +118,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <metadata name="MainToolStrip.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>146, 54</value>
+    <value>145, 17</value>
   </metadata>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="OpenATButton.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
@@ -197,9 +197,9 @@
   <data name="ClearTableButton.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
-        YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAMSSURBVDhPbVNZTFNBFJ24QBMKbdnaQhdKWktL+9pXWqC1
-        pIVSAcuigaIFGjY1WIIaMIi4PEVMJHyoQDCKQsKHHxrQL4lfxg/5kmhAEI2ooKGJMZpAWMTAdfp4LBpP
-        Mpk3955z78yZeWg7rprLNPVE9uRFW23lU2d7CBNGaoTCM4M5LV6pafSUqaSGspVzmdQWzhIuTWtK2eTw
+        YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAMSSURBVDhPbVNrSJNRGD500YHTbd626S5Otubm9m3f3NSt
+        yaZzqc1LobOmDm8VNrFCw8wuX5lB4o9KxShLwR8FgdavpF/Rj/yVFJpmkZUWDiIKFC8Z+nb2+XkpeuBw
+        vvO+z/O+5zznfGg7rprLNPVE9uRFW23lU2d7CBNGaoTCM4M5LV6pafSUqaSGspVzmdQWzhIuTWtK2eTw
         Hg08cp709zub3Exql53Fbjytcs2+0Bih1+pZaCSLKpncOijdfn2TumByhEwDEHLgmc6yOpReN2qLSvQK
         WKHeGqn9yxtTNs6FwbRSAx1a53grkV91LcnNQQ18IuSy3vVpIkEHIGADiASwKowEv9EGvam5K1VE4YdX
         ZAZATATO8fEcCbOSOKBSPWuNajuFjstIgrLkriwotQCxmBQbTZOAHwpfDWkwbj6IY3iNC4MoBn+HwzLm
@@ -208,9 +208,9 @@
         hHhkcFhdldzhf56cj8mB7oyQPhKe8fbHTPugQ180lRStOsBIETKinTkZQewztXLH55cE9oDePiPG5q1J
         xIwXuBCfDTP6vb+uE3mvB5317j4bxUKO3ayuepn1+wxpx8RthmHxkkQKP81ZeI2vLzAChcQCmCeSoS+z
         br7T7LmEKgXKojabZ+FHXPy643S3CFiUSOBxUgHcUGVNvVfiN4KvD2LxLgQcWBbwoNtWBT6F4QRqJ5wh
-        lLXC1y3N+f1OpgCQxMASLjagd4FDaLilCYuvoRIccxNyNZ1bEcfCA5UZ2iyeLsYF/JTVbnZjYl71HWPB
-        22mFCoYsHsjjEz2BHAchrk+R5blNFo49VJFrg0YX1GkLOmnhvzifWnqESlAvHhabB5h73sSVFO+hVrnO
-        f85c/n9xAE1aF8/JFfmMKDieCW2iAR+1WET+/RcihP4AeNx0BCW1qpQAAAAASUVORK5CYII=
+        lLXC1y3N+f1OpgCQxMASLjagd4FDaLilCYuvoRIccxNyNZ1bEcfCQ5UZ2iyeLsYF/JTVbnZjYl71HWPB
+        22mFCoYsHsjjEz2BHAchrk+R5blNFo49UJFrg0YX1GkLOmnhvzifWnqESlAvHhabB5h73sSVFO+hVrnO
+        f85c/n9xAE1aF8/JFfmMKDieCW2iAR+1WET+/RcihP4AdoR0APWsf8UAAAAASUVORK5CYII=
 </value>
   </data>
   <data name="UndoTableDeleteButton.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
@@ -238,19 +238,16 @@
 </value>
   </data>
   <metadata name="GUIMenuStrip.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>274, 54</value>
-  </metadata>
-  <metadata name="UpdateFoundTimer.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>404, 54</value>
+    <value>273, 17</value>
   </metadata>
   <metadata name="WriteTimer.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>562, 54</value>
+    <value>559, 17</value>
   </metadata>
   <metadata name="AddressListViewRightClickMenu.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>17, 91</value>
+    <value>814, 17</value>
   </metadata>
   <metadata name="FilterToolStrip.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>17, 54</value>
+    <value>17, 17</value>
   </metadata>
   <data name="SelectProcessButton.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
@@ -296,4 +293,10 @@
         POO0BCvAopB4A4i2BRsYeZoZGAD/6CfZpyqKDwAAAABJRU5ErkJggg==
 </value>
   </data>
+  <metadata name="UpdateFoundTimer.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>402, 17</value>
+  </metadata>
+  <metadata name="GUIUpdateTimer.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>671, 17</value>
+  </metadata>
 </root>

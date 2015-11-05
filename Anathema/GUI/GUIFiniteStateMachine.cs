@@ -10,10 +10,10 @@ using System.Windows.Forms;
 
 namespace Anathema
 {
-    public partial class GUIFiniteStateMachinePanel : UserControl
+    public partial class GUIFiniteStateMachinePanel : UserControl, GUIUpdateableControl
     {
-        private List<FiniteState> States;
-        private FiniteState SelectedState;
+        //private List<FiniteState> States;
+        //private FiniteState SelectedState;
 
         public GUIFiniteStateMachinePanel()
         {
@@ -27,17 +27,24 @@ namespace Anathema
             InitializeDefaultStates();
         }
 
+        public void UpdateGUI()
+        {
+
+        }
+
         private void InitializeDefaultStates()
         {
+            /*
             States = new List<FiniteState>();
             // The first three states are the states that must always exist (initial, accepted, rejected)
             States.Add(new FiniteState(FiniteState.StateRadius * 2, FiniteState.StateRadius * 9));
             States.Add(new FiniteState(FiniteState.StateRadius * 2, FiniteState.StateRadius * 6));
-            States.Add(new FiniteState(FiniteState.StateRadius * 2, FiniteState.StateRadius * 3));
+            States.Add(new FiniteState(FiniteState.StateRadius * 2, FiniteState.StateRadius * 3));*/
         }
 
         private void TryDeleteStatesAtPoint(Point DeleteLocation)
         {
+            /*
             for (Int32 Index = Enum.GetNames(typeof(FiniteState.RequiredStates)).Length; Index < States.Count; Index++)
             {
                 if (States[Index].IsPointInCircle(DeleteLocation))
@@ -46,11 +53,12 @@ namespace Anathema
                     this.Invalidate();
                     break;
                 }
-            }
+            }*/
         }
 
         private void TrySelectState(Point ClickLocation)
         {
+            /*
             // Reset the selected state object
             SelectedState = null;
 
@@ -89,11 +97,12 @@ namespace Anathema
                 SelectedState.BeginPlace();
                 States.Add(SelectedState);
                 this.Invalidate();
-            }
+            }*/
         }
 
         private void GUIFiniteStateMachine_MouseDown(object sender, MouseEventArgs e)
         {
+            /*
             if (e.Button != MouseButtons.Left && e.Button != MouseButtons.Right)
                 return;
 
@@ -104,11 +113,12 @@ namespace Anathema
             // Left click drag or connect
             if (e.Button == MouseButtons.Left)
                 TrySelectState(e.Location);
-
+                */
         } // end mouse down
 
         private void GUIFiniteStateMachine_MouseMove(object sender, MouseEventArgs e)
         {
+            /*
             // Handle mouse over events
             for (Int32 Index = 0; Index < States.Count; Index++)
             {
@@ -127,11 +137,11 @@ namespace Anathema
             else if (SelectedState.IsConnecting())
             {
                 this.Invalidate();
-            }
+            }*/
         }
 
         private void GUIFiniteStateMachine_MouseUp(object sender, MouseEventArgs e)
-        {
+        {/*
             if (SelectedState == null)
                 return;
 
@@ -161,16 +171,17 @@ namespace Anathema
                     SelectedState = null;
                     this.Invalidate();
                 }
-            }
+            }*/
         }
 
         protected override void OnPaint(PaintEventArgs e)
         {
-            base.OnPaint(e);
 
+            base.OnPaint(e);
+            /*
             // Draw all states
             for (Int32 Index = 0; Index < States.Count; Index++)
-                States[Index].Draw(e.Graphics, Index, this.PointToClient(Cursor.Position));
+                States[Index].Draw(e.Graphics, Index, this.PointToClient(Cursor.Position));*/
         }
     }
 }

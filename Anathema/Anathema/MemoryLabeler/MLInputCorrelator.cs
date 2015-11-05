@@ -270,7 +270,7 @@ namespace Anathema
                 List<Tuple<IntPtr, Object>> Correlations;
 
                 Correlations = CalculateCorrelations(NextInput.Value, MaxDifference);
-                Anathema.UpdateMemoryLabels(Correlations);
+                //Anathema.UpdateMemoryLabels(Correlations);
                 //PhiCorrelationDown.Add(NextInput.Key, Correlations);
             }
 

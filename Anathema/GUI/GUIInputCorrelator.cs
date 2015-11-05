@@ -10,7 +10,7 @@ using System.Windows.Forms;
 
 namespace Anathema
 {
-    public partial class GUIInputCorrelator : UserControl
+    public partial class GUIInputCorrelator : UserControl, GUIUpdateableControl
     {
         private InputCorrelator InputCorrelator;
         private readonly Anathema Anathema;
@@ -24,6 +24,11 @@ namespace Anathema
             UpdateVariableSizeLabel();
 
             HandleResize();
+        }
+
+        public void UpdateGUI()
+        {
+
         }
 
         private void HandleResize()

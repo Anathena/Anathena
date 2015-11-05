@@ -17,7 +17,6 @@ namespace Anathema
     - Multiprocess Scan
     - Plugin Support
     - File sharing
-
     */
     /// <summary>
     /// Singleton class to controls the main memory editor. Individual tools subscribe to this tool to recieve updates to
@@ -25,73 +24,16 @@ namespace Anathema
     /// </summary>
     class Anathema
     {
-        private static Anathema AnathemaInstance;
-        private MemorySharp MemoryEditor;
+        private static Anathema AnathemaInstance;   // Static reference to this class
+        private MemorySharp MemoryEditor;           // Memory editor instance
 
-        private IMemoryFilter MemoryFilter;
-        private IMemoryLabeler MemoryLabeler;
-
-        // These do not need to be here. These are managed by snapshots
-        private List<RemoteRegion> MemoryRegions;
-        private List<Tuple<IntPtr, Object>> MemoryLabels;
-
+        private IMemoryFilter MemoryFilter;         // Current memory filter
+        private IMemoryLabeler MemoryLabeler;       // Current memory labeler
+        private SnapshotManager SnapshotManager;    // Memory snapshot manager instance
+        
         private Anathema()
         {
-            MemoryRegions = new List<RemoteRegion>();
-            MemoryLabels = new List<Tuple<IntPtr, Object>>();
-        }
-
-        public void BeginFilter(IMemoryFilter MemoryFilter)
-        {
-            this.MemoryFilter = MemoryFilter;
-
-            if (MemoryRegions == null || MemoryRegions.Count == 0)
-                GatherMemoryRegions();
-
-            if (MemoryFilter != null)
-                MemoryFilter.BeginFilter(MemoryEditor, MemoryRegions);
-        }
-
-        public void EndFilter()
-        {
-            if (MemoryFilter != null)
-                MemoryRegions = MemoryFilter.EndFilter();
-            MemoryFilter = null;
-        }
-
-        public void AbortFilter()
-        {
-            if (MemoryFilter != null)
-                MemoryFilter.AbortFilter();
-        }
-
-        public void BeginLabeler(IMemoryLabeler MemoryLabeler)
-        {
-            this.MemoryLabeler = MemoryLabeler;
-
-            if (MemoryRegions == null || MemoryRegions.Count == 0)
-                GatherMemoryRegions();
-
-            if (MemoryLabeler != null)
-                MemoryLabeler.BeginLabeler(MemoryEditor, MemoryRegions);
-        }
-
-        public void EndLabeler()
-        {
-            if (MemoryLabeler != null)
-                MemoryLabeler.EndLabeler();
-            MemoryLabeler = null;
-        }
-
-        public void AbortLabeler()
-        {
-            if (MemoryLabeler != null)
-                MemoryLabeler.AbortLabeler();
-        }
-
-        public List<Tuple<IntPtr, Object>> GetMemoryLabels()
-        {
-            return MemoryLabels;
+            SnapshotManager = new SnapshotManager();
         }
 
         /// <summary>
@@ -105,22 +47,6 @@ namespace Anathema
         }
 
         /// <summary>
-        /// Discards the old memory regions and gathers all regions from the target process
-        /// </summary>
-        public void GatherMemoryRegions()
-        {
-            List<RemoteVirtualPage> VirtualPages = new List<RemoteVirtualPage>();
-
-            foreach (RemoteVirtualPage Page in MemoryEditor.Memory.VirtualPages)
-                VirtualPages.Add(Page);
-
-            List<RemoteRegion> MemoryRegions = new List<RemoteRegion>();
-            for (int PageIndex = 0; PageIndex < VirtualPages.Count; PageIndex++)
-                MemoryRegions.Add(new RemoteRegion(MemoryEditor, VirtualPages[PageIndex].Information.BaseAddress, VirtualPages[PageIndex].Information.RegionSize));
-            UpdateMemoryRegions(MemoryRegions);
-        }
-
-        /// <summary>
         /// Update the target process 
         /// </summary>
         /// <param name="TargetProcess"></param>
@@ -131,23 +57,67 @@ namespace Anathema
         }
 
         /// <summary>
-        /// Updates the remote memory regions
+        /// Begin the filtering process with the specified filter
         /// </summary>
-        /// <param name="MemoryRegions"></param>
-        public void UpdateMemoryRegions(List<RemoteRegion> MemoryRegions)
+        /// <param name="MemoryFilter"></param>
+        public void BeginFilter(IMemoryFilter MemoryFilter)
         {
-            // Instantiate a new memory editor with the new target process
-            this.MemoryRegions = MemoryRegions;
+            if (MemoryFilter == null)
+                return;
+
+            this.MemoryFilter = MemoryFilter;
+
+            // Start scanning with the active memory snapshot
+            MemoryFilter.BeginFilter(MemoryEditor, SnapshotManager.GetActiveSnapshot(MemoryEditor));
+        }
+
+        public void EndFilter()
+        {
+            if (MemoryFilter == null)
+                return;
+
+            MemoryFilter.EndFilter();
+            MemoryFilter = null;
+        }
+
+        public void AbortFilter()
+        {
+            if (MemoryFilter == null)
+                return;
+
+            MemoryFilter.AbortFilter();
         }
 
         /// <summary>
-        /// Updates the remote memory labels
+        /// Begin the labeling process with the specified labeler
         /// </summary>
-        /// <param name="MemoryLabels"></param>
-        public void UpdateMemoryLabels(List<Tuple<IntPtr, Object>> MemoryLabels)
+        /// <param name="MemoryLabeler"></param>
+        public void BeginLabeler(IMemoryLabeler MemoryLabeler)
         {
-            // Instantiate a new memory editor with the new target process
-            this.MemoryLabels = MemoryLabels;
+            if (MemoryLabeler == null)
+                return;
+
+            this.MemoryLabeler = MemoryLabeler;
+
+            // Start labeling the active memory snapshot
+            MemoryLabeler.BeginLabeler(MemoryEditor, SnapshotManager.GetActiveSnapshot(MemoryEditor));
+        }
+
+        public void EndLabeler()
+        {
+            if (MemoryLabeler == null)
+                return;
+
+            MemoryLabeler.EndLabeler();
+            MemoryLabeler = null;
+        }
+
+        public void AbortLabeler()
+        {
+            if (MemoryLabeler == null)
+                return;
+
+            MemoryLabeler.AbortLabeler();
         }
     }
 }

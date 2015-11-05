@@ -3,16 +3,16 @@ using System.Windows.Forms;
 
 namespace Anathema
 {
-    public partial class GUIMemoryTreeFilter : UserControl
+    public partial class GUIMemoryTreeFilter : UserControl, GUIUpdateableControl
     {
-        private MemoryTreeFilter MemoryTreeFilter;
+        private MFHashTrees MemoryTreeFilter;
         private readonly Anathema Anathema;
 
         public GUIMemoryTreeFilter()
         {
             InitializeComponent();
 
-            MemoryTreeFilter = new MemoryTreeFilter();
+            MemoryTreeFilter = new MFHashTrees();
             Anathema = Anathema.GetAnathemaInstance();
 
             UpdateFragmentSizeLabel();
@@ -35,7 +35,7 @@ namespace Anathema
 
             FragmentSizeValueLabel.Text = LabelText;
 
-            MemoryTreeFilter.UpdatePageSplitThreshold(Value);
+            MFHashTrees.UpdatePageSplitThreshold(Value);
         }
 
         private void UpdateHashTreeSize(UInt64 Size)
@@ -89,7 +89,7 @@ namespace Anathema
             UpdateFragmentSizeLabel();
         }
 
-        private void UpdateGUITimer_Tick(object sender, EventArgs e)
+        public void UpdateGUI()
         {
             UpdateHashTreeSize(MemoryTreeFilter.GetHashTreeSize());
             UpdateTreeSplits(MemoryTreeFilter.GetHashTreeSplits());

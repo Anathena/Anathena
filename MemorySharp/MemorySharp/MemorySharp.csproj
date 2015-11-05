@@ -71,6 +71,10 @@
     <Compile Include="Assembly\CallingConvention\StdcallCallingConvention.cs" />
     <Compile Include="Assembly\CallingConvention\ICallingConvention.cs" />
     <Compile Include="Assembly\CallingConvention\Enumerations.cs" />
+    <Compile Include="Debugger\Debugger.cs" />
+    <Compile Include="Debugger\DebuggerException.cs" />
+    <Compile Include="Debugger\DebuggerSettings.cs" />
+    <Compile Include="Debugger\ErrorCode.cs" />
     <Compile Include="Helpers\ApplicationFinder.cs" />
     <Compile Include="Helpers\HandleManipulator.cs" />
     <Compile Include="Helpers\Randomizer.cs" />

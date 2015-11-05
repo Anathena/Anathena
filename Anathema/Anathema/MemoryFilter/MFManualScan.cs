@@ -6,12 +6,7 @@ using System.Threading.Tasks;
 
 namespace Anathema
 {
-    class SnapshotManager
+    class MFManualScan
     {
-
-        public SnapshotManager()
-        {
-
-        }
     }
 }

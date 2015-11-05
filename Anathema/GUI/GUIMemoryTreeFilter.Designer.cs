@@ -123,11 +123,6 @@
             this.AdvancedSettingsGroupBox.TabStop = false;
             this.AdvancedSettingsGroupBox.Text = "Advanced Settings";
             // 
-            // UpdateGUITimer
-            // 
-            this.UpdateGUITimer.Interval = 500;
-            this.UpdateGUITimer.Tick += new System.EventHandler(this.UpdateGUITimer_Tick);
-            // 
             // TreeSplitsValueLabel
             // 
             this.TreeSplitsValueLabel.AutoSize = true;

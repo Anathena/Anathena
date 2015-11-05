@@ -10,11 +10,20 @@ using System.Windows.Forms;
 
 namespace Anathema
 {
-    public partial class GUIAnathema : UserControl
+    public partial class GUIManualScan : UserControl, GUIUpdateableControl
     {
-        public GUIAnathema()
+        private Anathema AnathemaInstance;
+
+        public GUIManualScan()
         {
             InitializeComponent();
+
+            AnathemaInstance = Anathema.GetAnathemaInstance();
+        }
+
+        public void UpdateGUI()
+        {
+
         }
     }
 }

@@ -10,7 +10,7 @@ using System.Windows.Forms;
 
 namespace Anathema
 {
-    public partial class GUILabelSelector : UserControl
+    public partial class GUILabelSelector : UserControl, GUIUpdateableControl
     {
         private const Int32 MaximumDisplayed = 4000;
         public GUILabelSelector(List<Tuple<IntPtr, Object>> MemoryLabels)
@@ -18,6 +18,11 @@ namespace Anathema
             InitializeComponent();
 
             UpdateMemoryLabels(MemoryLabels);
+        }
+
+        public void UpdateGUI()
+        {
+
         }
 
         public void UpdateMemoryLabels(List<Tuple<IntPtr, Object>> MemoryLabels)

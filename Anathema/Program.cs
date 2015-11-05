@@ -16,7 +16,7 @@ namespace Anathema
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new GUIAnathema());
+            Application.Run(new GUIMain());
         }
     }
 }

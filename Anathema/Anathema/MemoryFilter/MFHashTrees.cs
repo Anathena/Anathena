@@ -35,7 +35,7 @@ namespace Anathema
     /// TODO: Grow regions by [max variable size] bytes
     /// 
     /// </summary>
-    class MemoryTreeFilter : IMemoryFilter
+    class MFHashTrees : IMemoryFilter
     {
         // Search space reduction related
         protected MemorySharp MemoryEditor;
@@ -55,7 +55,7 @@ namespace Anathema
         private UInt64 InitialSize = 0;
         private UInt64 EndSize = 0;
 
-        public MemoryTreeFilter()
+        public MFHashTrees()
         {
             
         }
@@ -199,7 +199,7 @@ namespace Anathema
             FilteredMemoryRegions = CombineRegions(AcceptedPages);
         }
 
-        // Merging regions the naïve way is O(n^2) and can take upwards of 15 seconds. A faster approach is a stack based algorithm (<20 ms)
+        // Merging regions the naïve way is O(n^2) and can take upwards of 15 seconds. A faster approach is a stack based algorithm O(??) (<20 ms)
         private List<RemoteRegion> CombineRegions(List<MemoryChangeRoot> AcceptedPages)
         {
             // Collect memory pages from the filtered results
@@ -320,7 +320,7 @@ namespace Anathema
             public Boolean ProcessChanges(Byte[] Data, UInt64 Start, UInt64 Length)
             {
                 // No need to process a page that has already changed
-                if (Length <= MemoryTreeFilter.PageSplitThreshold && HasChanged)
+                if (Length <= MFHashTrees.PageSplitThreshold && HasChanged)
                     return HasChanged;
 
                 // If this node has no children, this node is a leaf and thus does the processing
@@ -337,7 +337,7 @@ namespace Anathema
                     }
 
                     // This page needs to be split if a change was detected and the size is above the threshold
-                    if (HasChanged && Length > MemoryTreeFilter.PageSplitThreshold)
+                    if (HasChanged && Length > MFHashTrees.PageSplitThreshold)
                     {
                         ChildLeft = new MemoryChangeTree();
                         ChildRight = new MemoryChangeTree();

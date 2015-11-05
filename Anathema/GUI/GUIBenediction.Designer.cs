@@ -1,6 +1,6 @@
 ﻿namespace Anathema
 {
-    partial class GUIAnathema
+    partial class GUIBenediction
     {
         /// <summary> 
         /// Required designer variable.

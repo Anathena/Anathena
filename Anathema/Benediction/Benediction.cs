@@ -1,6 +1,7 @@
 ﻿using Binarysharp.MemoryManagement;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -9,25 +10,32 @@ namespace Anathema
 {
     class Benediction
     {
-        private MemorySharp MemoryEditor;
+        private static Benediction BenedictionInstance; // Static reference to this class
+        private MemorySharp MemoryEditor;               // Memory editor instance
 
-        private IntPtr DisassemblerStart;
-
-        public Benediction()
+        private Benediction()
         {
 
         }
 
-        private void UpdateDisassembler()
+        /// <summary>
+        /// Returns the instance of the singleton anathema object
+        /// </summary>
+        public static Benediction GetAnathemaInstance()
         {
-            var hrmm = MemoryEditor.Modules;
-
-
+            if (BenedictionInstance == null)
+                BenedictionInstance = new Benediction();
+            return BenedictionInstance;
         }
 
-        private void UpdateHexValues()
+        /// <summary>
+        /// Update the target process 
+        /// </summary>
+        /// <param name="TargetProcess"></param>
+        public void UpdateTargetProcess(Process TargetProcess)
         {
-
+            // Instantiate a new memory editor with the new target process
+            MemoryEditor = new MemorySharp(TargetProcess);
         }
     }
 }

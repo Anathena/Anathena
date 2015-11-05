@@ -10,9 +10,9 @@ using System.Windows.Forms;
 
 namespace Anathema
 {
-    public partial class GUIAnathema : UserControl
+    public partial class GUIBenediction : UserControl
     {
-        public GUIAnathema()
+        public GUIBenediction()
         {
             InitializeComponent();
         }

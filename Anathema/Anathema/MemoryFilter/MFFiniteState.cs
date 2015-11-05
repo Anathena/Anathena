@@ -9,8 +9,9 @@ using System.Threading.Tasks;
 
 namespace Anathema
 {
-    class FiniteStateFilter : MemorySharp
+    class MFFiniteState : MemorySharp
     {
+        
         private List<RemoteVirtualPage> RemoteRegions;
 
         public enum RequiredStates
@@ -34,7 +35,7 @@ namespace Anathema
             ExponentialNotation,
         }
 
-        public FiniteStateFilter(Process Process) : base(Process)
+        public MFFiniteState(Process Process) : base(Process)
         {
 
         }
