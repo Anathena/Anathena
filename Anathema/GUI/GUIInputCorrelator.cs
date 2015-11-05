@@ -10,7 +10,7 @@ using System.Windows.Forms;
 
 namespace Anathema
 {
-    public partial class GUIInputCorrelator : UserControl, GUIUpdateableControl
+    public partial class GUIInputCorrelator : UserControl
     {
         private InputCorrelator InputCorrelator;
         private readonly Anathema Anathema;

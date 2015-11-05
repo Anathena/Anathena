@@ -38,7 +38,7 @@ namespace Anathema
      * - Icon fetching for session0 items (~3-5 have icons)
      */
 
-    public partial class GUIProcessSelector : UserControl, GUIUpdateableControl
+    public partial class GUIProcessSelector : UserControl
     {
         #region Variables & Initialization
         public delegate void SelectCallBack(Process TargetProcess); // CallBack after making process selection

@@ -10,7 +10,7 @@ using System.Windows.Forms;
 
 namespace Anathema
 {
-    public partial class GUIFiniteStateMachinePanel : UserControl, GUIUpdateableControl
+    public partial class GUIFiniteStateMachinePanel : UserControl
     {
         //private List<FiniteState> States;
         //private FiniteState SelectedState;

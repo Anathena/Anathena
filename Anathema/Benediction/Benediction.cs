@@ -21,7 +21,7 @@ namespace Anathema
         /// <summary>
         /// Returns the instance of the singleton anathema object
         /// </summary>
-        public static Benediction GetAnathemaInstance()
+        public static Benediction GetBenedictionInstance()
         {
             if (BenedictionInstance == null)
                 BenedictionInstance = new Benediction();

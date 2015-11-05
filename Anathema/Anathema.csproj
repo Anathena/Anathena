@@ -82,7 +82,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Anathema\IAnathemaModel.cs" />
+    <Compile Include="Anathema\IAnathemaView.cs" />
+    <Compile Include="Benediction\BenedictionController.cs" />
     <Compile Include="Anathema\MemorySnapshot\Snapshot.cs" />
+    <Compile Include="GUI\GUICelestial.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="GUI\GUICelestial.Designer.cs">
+      <DependentUpon>GUICelestial.cs</DependentUpon>
+    </Compile>
     <Compile Include="GUI\GUIBenediction.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -133,7 +142,6 @@
     </Compile>
     <Compile Include="Anathema\Anathema.cs" />
     <Compile Include="Anathema\MemoryFilter\MFFiniteState.cs" />
-    <Compile Include="GUI\GUIUpdatableControl.cs" />
     <Compile Include="Helpers\CheckSyntax.cs" />
     <Compile Include="Helpers\FastHash.cs" />
     <Compile Include="Anathema\MemoryLabeler\IMemoryLabeler.cs" />
@@ -199,6 +207,7 @@
     <Compile Include="Anathema\MemoryFilter\MFLabelThesholder.cs" />
     <Compile Include="Anathema\MemoryFilter\MFMultiScanner.cs" />
     <Compile Include="Anathema\MemoryLabeler\MLValueReader.cs" />
+    <Compile Include="Anathema\IAnathemaController.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="GUI\GUIMemoryTreeFilter.cs">
@@ -210,6 +219,9 @@
     <Compile Include="Helpers\Settings.cs" />
     <Compile Include="Benediction\TestByteProvider.cs" />
     <Compile Include="Anathema\MemorySnapshot\SnapshotManager.cs" />
+    <EmbeddedResource Include="GUI\GUIAnathema.resx">
+      <DependentUpon>GUIAnathema.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="GUI\GUIMain.resx">
       <DependentUpon>GUIMain.cs</DependentUpon>
     </EmbeddedResource>

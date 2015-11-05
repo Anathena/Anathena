@@ -3,7 +3,7 @@ using System.Windows.Forms;
 
 namespace Anathema
 {
-    public partial class GUIMemoryTreeFilter : UserControl, GUIUpdateableControl
+    public partial class GUIMemoryTreeFilter : UserControl
     {
         private MFHashTrees MemoryTreeFilter;
         private readonly Anathema Anathema;
