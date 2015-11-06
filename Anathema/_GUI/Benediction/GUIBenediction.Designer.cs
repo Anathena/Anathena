@@ -126,7 +126,6 @@
             // 
             // FilterToolStrip
             // 
-            this.FilterToolStrip.Dock = System.Windows.Forms.DockStyle.None;
             this.FilterToolStrip.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
             this.FilterToolStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.SearchSpaceAnalysisButton,
@@ -137,7 +136,7 @@
             this.FilterToolStrip.Location = new System.Drawing.Point(0, 0);
             this.FilterToolStrip.Name = "FilterToolStrip";
             this.FilterToolStrip.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
-            this.FilterToolStrip.Size = new System.Drawing.Size(101, 25);
+            this.FilterToolStrip.Size = new System.Drawing.Size(307, 25);
             this.FilterToolStrip.TabIndex = 142;
             this.FilterToolStrip.Text = "toolStrip1";
             // 
@@ -150,6 +149,7 @@
             this.SearchSpaceAnalysisButton.Size = new System.Drawing.Size(23, 22);
             this.SearchSpaceAnalysisButton.Text = "Search Space Analysis";
             this.SearchSpaceAnalysisButton.ToolTipText = "Hash Trees";
+            this.SearchSpaceAnalysisButton.Click += new System.EventHandler(this.SearchSpaceAnalysisButton_Click);
             // 
             // FiniteStateMachineButton
             // 
@@ -160,6 +160,7 @@
             this.FiniteStateMachineButton.Size = new System.Drawing.Size(23, 22);
             this.FiniteStateMachineButton.Text = "Finite State Scanner";
             this.FiniteStateMachineButton.ToolTipText = "Finite State Scanner";
+            this.FiniteStateMachineButton.Click += new System.EventHandler(this.FiniteStateMachineButton_Click);
             // 
             // ManualScanButton
             // 
@@ -170,6 +171,7 @@
             this.ManualScanButton.Size = new System.Drawing.Size(23, 22);
             this.ManualScanButton.Text = "Manual Scan";
             this.ManualScanButton.ToolTipText = "Manual Scan";
+            this.ManualScanButton.Click += new System.EventHandler(this.ManualScanButton_Click);
             // 
             // toolStripSeparator1
             // 
@@ -184,6 +186,7 @@
             this.InputCorrelatorButton.Name = "InputCorrelatorButton";
             this.InputCorrelatorButton.Size = new System.Drawing.Size(23, 22);
             this.InputCorrelatorButton.Text = "Input Correlator";
+            this.InputCorrelatorButton.Click += new System.EventHandler(this.InputCorrelatorButton_Click);
             // 
             // FilterPanel
             // 
@@ -350,7 +353,7 @@
             this.DisplayPanel.Size = new System.Drawing.Size(244, 219);
             this.DisplayPanel.TabIndex = 144;
             // 
-            // GUIAnathema
+            // GUIBenediction
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -359,7 +362,7 @@
             this.Controls.Add(this.LabelerPanel);
             this.Controls.Add(this.FilterPanel);
             this.Controls.Add(this.TableListView);
-            this.Name = "GUIAnathema";
+            this.Name = "GUIBenediction";
             this.Size = new System.Drawing.Size(781, 410);
             this.Resize += new System.EventHandler(this.GUIBenediction_Resize);
             this.FilterToolStrip.ResumeLayout(false);

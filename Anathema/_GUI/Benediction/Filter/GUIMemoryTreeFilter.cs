@@ -5,14 +5,14 @@ namespace Anathema
 {
     public partial class GUIMemoryTreeFilter : UserControl
     {
-        private MFHashTrees MemoryTreeFilter;
+        private FilterHashTrees MemoryTreeFilter;
         private readonly Benediction Anathema;
 
         public GUIMemoryTreeFilter()
         {
             InitializeComponent();
 
-            MemoryTreeFilter = new MFHashTrees();
+            MemoryTreeFilter = new FilterHashTrees();
             Anathema = Benediction.GetBenedictionInstance();
 
             UpdateFragmentSizeLabel();
@@ -35,7 +35,7 @@ namespace Anathema
 
             FragmentSizeValueLabel.Text = LabelText;
 
-            MFHashTrees.UpdatePageSplitThreshold(Value);
+            FilterHashTrees.UpdatePageSplitThreshold(Value);
         }
 
         private void UpdateHashTreeSize(UInt64 Size)

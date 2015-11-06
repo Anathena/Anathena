@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Anathema
 {
-    class MFFiniteState : MemorySharp
+    class FilterFiniteState : MemorySharp
     {
         
         private List<RemoteVirtualPage> RemoteRegions;
@@ -35,7 +35,7 @@ namespace Anathema
             ExponentialNotation,
         }
 
-        public MFFiniteState(Process Process) : base(Process)
+        public FilterFiniteState(Process Process) : base(Process)
         {
 
         }

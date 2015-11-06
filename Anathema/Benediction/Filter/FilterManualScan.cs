@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Anathema
 {
-    class MFManualScan
+    class FilterManualScan
     {
     }
 }

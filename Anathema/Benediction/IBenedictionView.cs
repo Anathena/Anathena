@@ -6,17 +6,19 @@ using System.Threading.Tasks;
 
 namespace Anathema
 {
-    public delegate void ViewHandler<IView>(IView sender, ViewEventArgs e);
+    public delegate void BenedictionViewHandler<IView>(IView sender, BenedictionViewEventArgs e);
 
-    public class ViewEventArgs : EventArgs
+    // The event arguments class that will be used while firing the events
+    // for this program, we have only one value which the user changed.
+    public class BenedictionViewEventArgs : EventArgs
     {
-        public int value;
-        public ViewEventArgs(int v) { value = v; }
+        public String TableEntry;
+        public BenedictionViewEventArgs(String TableEntry) { this.TableEntry = TableEntry; }
     }
 
     interface IBenedictionView
     {
-        event ViewHandler<IBenedictionView> changed;
-        void SetBenedictionControler(IBenedictionController cont);
+        event BenedictionViewHandler<IBenedictionView> UpdateTargetProcess;
+        void SetBenedictionController(IBenedictionController BenedictionController);
     }
 }

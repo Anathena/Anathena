@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Binarysharp.MemoryManagement;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -11,19 +12,21 @@ using System.Windows.Forms;
 
 namespace Anathema
 {
-    public partial class GUIMain : Form
+    partial class GUIMain : Form
     {
-        private UserControl GUIProcessSelector;
-        private UserControl GUIAnathema;
-        private UserControl GUIBenediction;
-        private UserControl GUICelestial;
-        
+        private MemorySharp MemoryEditor;
+
+        private GUIProcessSelector GUIProcessSelector;
+        private GUIAnathema GUIAnathema;
+        private GUIBenediction GUIBenediction;
+        private GUICelestial GUICelestial;
+
         public GUIMain()
         {
             InitializeComponent();
 
             // Instantiate all primary GUI components
-            GUIProcessSelector = new GUIProcessSelector();
+            GUIProcessSelector = new GUIProcessSelector(UpdateTargetProcess);
             GUIAnathema = new GUIAnathema();
             GUIBenediction = new GUIBenediction();
             GUICelestial = new GUICelestial();
@@ -35,12 +38,27 @@ namespace Anathema
             GUICelestial.Dock = DockStyle.Fill;
         }
 
-        private void GUIMain_Load(object sender, EventArgs e)
+        /// <summary>
+        /// Update the target process 
+        /// </summary>
+        /// <param name="TargetProcess"></param>
+        public void UpdateTargetProcess(Process TargetProcess)
         {
+            // Instantiate a new memory editor with the new target process
+            MemoryEditor = new MemorySharp(TargetProcess);
 
+            // Update components with new process
+            GUIBenediction.UpdateProcess(MemoryEditor);
+            GUICelestial.UpdateProcess(MemoryEditor);
+
+            // Switch selection to benediction
+            MakeSelection(ViewBenedictionButton, GUIBenediction);
+
+            // Update process text
+            ProcessSelectedLabel.Text = TargetProcess.ProcessName;
         }
 
-        private void DeselectAll(ToolStripButton Sender)
+        private void MakeSelection(ToolStripButton Sender, UserControl NewView)
         {
             // Clear GUI elements in main panel
             foreach (Control NextControl in ComponentPanel.Controls)
@@ -53,36 +71,33 @@ namespace Anathema
             ViewCelestialButton.Checked = false;
 
             // Check selection
-            Sender.Checked = true;
+            if (Sender != null)
+                Sender.Checked = true;
+
+            // Add the new view
+            if (NewView != null)
+                ComponentPanel.Controls.Add(NewView);
         }
 
-        private void MakeSelection(UserControl CurrentView)
-        {
-            ComponentPanel.Controls.Add(CurrentView);
-        }
 
         private void SelectProcessButton_Click(object sender, EventArgs e)
         {
-            DeselectAll((ToolStripButton)sender);
-            MakeSelection(GUIProcessSelector);
+            MakeSelection((ToolStripButton)sender, GUIProcessSelector);
         }
 
         private void ViewAnathemaButton_Click(object sender, EventArgs e)
         {
-            DeselectAll((ToolStripButton)sender);
-            MakeSelection(GUIAnathema);
+            MakeSelection((ToolStripButton)sender, GUIAnathema);
         }
 
         private void ViewBenedictionButton_Click(object sender, EventArgs e)
         {
-            DeselectAll((ToolStripButton)sender);
-            MakeSelection(GUIBenediction);
+            MakeSelection((ToolStripButton)sender, GUIBenediction);
         }
 
         private void ViewCelestialButton_Click(object sender, EventArgs e)
         {
-            DeselectAll((ToolStripButton)sender);
-            MakeSelection(GUICelestial);
+            MakeSelection((ToolStripButton)sender, GUICelestial);
         }
     }
 }

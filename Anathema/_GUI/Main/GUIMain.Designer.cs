@@ -49,6 +49,7 @@
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.ProcessSelectedLabel = new System.Windows.Forms.ToolStripLabel();
             this.ComponentPanel = new System.Windows.Forms.Panel();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.GUIMenuStrip.SuspendLayout();
             this.FilterToolStrip.SuspendLayout();
             this.SuspendLayout();
@@ -148,6 +149,7 @@
             this.FilterToolStrip.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
             this.FilterToolStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.SelectProcessButton,
+            this.toolStripSeparator1,
             this.ViewAnathemaButton,
             this.ViewBenedictionButton,
             this.ViewCelestialButton,
@@ -226,6 +228,11 @@
             this.ComponentPanel.Size = new System.Drawing.Size(875, 454);
             this.ComponentPanel.TabIndex = 144;
             // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 25);
+            // 
             // GUIMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -237,7 +244,6 @@
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "GUIMain";
             this.Text = "Anathema";
-            this.Load += new System.EventHandler(this.GUIMain_Load);
             this.GUIMenuStrip.ResumeLayout(false);
             this.GUIMenuStrip.PerformLayout();
             this.FilterToolStrip.ResumeLayout(false);
@@ -268,6 +274,7 @@
         private System.Windows.Forms.ToolStripButton ViewCelestialButton;
         private System.Windows.Forms.Panel ComponentPanel;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
     }
 }
 

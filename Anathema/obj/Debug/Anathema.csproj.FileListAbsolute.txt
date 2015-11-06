@@ -23,13 +23,11 @@ C:\Users\Zachary\Documents\Users\Anathema\Documents\Visual Studio 2015\Projects\
 C:\Users\Zachary\Documents\Users\Anathema\Documents\Visual Studio 2015\Projects\Anathema\Anathema\obj\Debug\Anathema.AdvancedSettings.resources
 C:\Users\Zachary\Documents\Users\Anathema\Documents\Visual Studio 2015\Projects\Anathema\Anathema\obj\Debug\Anathema.csproj.GenerateResource.Cache
 F:\Users\Zachary\Documents\Visual Studio 2015\Projects\Anathema\Anathema\obj\Debug\Anathema.GUI.GUIFiniteStateBuilder.resources
-F:\Users\Zachary\Documents\Visual Studio 2015\Projects\Anathema\Anathema\obj\Debug\Anathema.GUILabelSelector.resources
 F:\Users\Zachary\Documents\Visual Studio 2015\Projects\Anathema\Anathema\obj\Debug\Anathema.GUIManualScan.resources
 F:\Users\Zachary\Documents\Visual Studio 2015\Projects\Anathema\Anathema\obj\Debug\Anathema.GUIInputCorrelator.resources
 F:\Users\Zachary\Documents\Visual Studio 2015\Projects\Anathema\Anathema\obj\Debug\Anathema.GUIFiniteStateMachinePanel.resources
 F:\Users\Zachary\Documents\Visual Studio 2015\Projects\Anathema\Anathema\obj\Debug\Anathema.GUIMemoryTreeFilter.resources
 F:\Users\Zachary\Documents\Visual Studio 2015\Projects\Anathema\Anathema\obj\Debug\Anathema.GUIProcessSelector.resources
-F:\Users\Zachary\Documents\Visual Studio 2015\Projects\Anathema\Anathema\obj\Debug\Anathema.GUIMemoryViewer.resources
 F:\Users\Zachary\Documents\Visual Studio 2015\Projects\Anathema\Anathema\obj\Debug\Anathema.Properties.Resources.resources
 F:\Users\Zachary\Documents\Visual Studio 2015\Projects\Anathema\Anathema\obj\Debug\Anathema.csproj.GenerateResource.Cache
 F:\Users\Zachary\Documents\Visual Studio 2015\Projects\Anathema\Anathema\obj\Debug\Anathema.csprojResolveAssemblyReference.cache
@@ -43,3 +41,4 @@ F:\Users\Zachary\Documents\Visual Studio 2015\Projects\Anathema\Anathema\bin\Deb
 F:\Users\Zachary\Documents\Visual Studio 2015\Projects\Anathema\Anathema\bin\Debug\MemorySharp.dll
 F:\Users\Zachary\Documents\Visual Studio 2015\Projects\Anathema\Anathema\obj\Debug\Anathema.GUIMain.resources
 F:\Users\Zachary\Documents\Visual Studio 2015\Projects\Anathema\Anathema\obj\Debug\Anathema.GUIBenediction.resources
+F:\Users\Zachary\Documents\Visual Studio 2015\Projects\Anathema\Anathema\obj\Debug\Anathema.GUICelestial.resources

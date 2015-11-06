@@ -8,17 +8,39 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Diagnostics;
+using Binarysharp.MemoryManagement;
 
 namespace Anathema
 {
-    public partial class GUIBenediction : UserControl
+    partial class GUIBenediction : UserControl, IBenedictionView, IBenedictionModelObserver, IProcessObserver
     {
         const Int32 MarginSize = 4;
         const Int32 MaximumDisplayed = 4000;
 
+        IBenedictionController BenedictionController;
+
         public GUIBenediction()
         {
             InitializeComponent();
+
+            BenedictionController = new BenedictionController(this, new Benediction());
+        }
+
+        public event BenedictionViewHandler<IBenedictionView> UpdateTargetProcess;
+
+        public void ProcessSelected(IBenedictionModel m, BenedictionModelEventArgs e)
+        {
+
+        }
+
+        public void SetBenedictionController(IBenedictionController BenedictionController)
+        {
+            this.BenedictionController = BenedictionController;
+        }
+
+        public void UpdateProcess(MemorySharp MemoryEditor)
+        {
+            BenedictionController.UpdateProcess(MemoryEditor);
         }
 
         /// <summary>
@@ -52,6 +74,26 @@ namespace Anathema
         private void GUIBenediction_Resize(object sender, EventArgs e)
         {
             HandleGUIResize();
+        }
+
+        private void SearchSpaceAnalysisButton_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void FiniteStateMachineButton_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void ManualScanButton_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void InputCorrelatorButton_Click(object sender, EventArgs e)
+        {
+
         }
 
         /*

@@ -13,7 +13,7 @@ using System.Windows.Forms;
 
 namespace Anathema
 {
-    class InputCorrelator : IMemoryLabeler
+    class LabelerInputCorrelator : IMemoryLabeler
     {
         private MemorySharp MemoryEditor;
         private Benediction Anathema;
@@ -85,7 +85,7 @@ namespace Anathema
             Nearest
         }
 
-        public InputCorrelator()
+        public LabelerInputCorrelator()
         {
             // TODO: App hook option? From author: "Note: for the application hook, use the Hook.AppEvents() instead" unless app hook is internal
             InputHook = Hook.GlobalEvents();

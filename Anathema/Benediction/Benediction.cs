@@ -9,6 +9,29 @@ using System.Threading.Tasks;
 
 namespace Anathema
 {
+
+    public delegate void BenedictionModelHandler<IBenedictionModel>(IBenedictionModel sender, BenedictionModelEventArgs e);
+
+    public class BenedictionModelEventArgs : EventArgs
+    {
+        public MemorySharp MemoryEditor;
+        public BenedictionModelEventArgs(MemorySharp MemoryEditor)
+        {
+            this.MemoryEditor = MemoryEditor;
+        }
+    }
+
+    public interface IBenedictionModelObserver
+    {
+        void ProcessSelected(IBenedictionModel model, BenedictionModelEventArgs e);
+    }
+
+    public interface IBenedictionModel
+    {
+        void Attach(IBenedictionModelObserver BenedictionModelObserver);
+        void UpdateProcess(MemorySharp MemoryEditor);
+    }
+
     /*
     TODO:
     - Speedhack
@@ -22,16 +45,18 @@ namespace Anathema
     /// Singleton class to controls the main memory editor. Individual tools subscribe to this tool to recieve updates to
     /// changes in the target process.
     /// </summary>
-    class Benediction
+    class Benediction : IBenedictionModel
     {
         private static Benediction BenedictionInstance; // Static reference to this class
         private MemorySharp MemoryEditor;               // Memory editor instance
+        
+        public event BenedictionModelHandler<Benediction> Changed;
 
         private IMemoryFilter MemoryFilter;         // Current memory filter
         private IMemoryLabeler MemoryLabeler;       // Current memory labeler
         private SnapshotManager SnapshotManager;    // Memory snapshot manager instance
-        
-        private Benediction()
+
+        public Benediction()
         {
             SnapshotManager = new SnapshotManager();
         }
@@ -46,14 +71,15 @@ namespace Anathema
             return BenedictionInstance;
         }
 
-        /// <summary>
-        /// Update the target process 
-        /// </summary>
-        /// <param name="TargetProcess"></param>
-        public void UpdateTargetProcess(Process TargetProcess)
+        public void Attach(IBenedictionModelObserver BenedictionModelObserver)
         {
-            // Instantiate a new memory editor with the new target process
-            MemoryEditor = new MemorySharp(TargetProcess);
+            Changed += new BenedictionModelHandler<Benediction>(BenedictionModelObserver.ProcessSelected);
+        }
+
+        public void UpdateProcess(MemorySharp MemoryEditor)
+        {
+            this.MemoryEditor = MemoryEditor;
+            Changed.Invoke(this, new BenedictionModelEventArgs(MemoryEditor));
         }
 
         /// <summary>

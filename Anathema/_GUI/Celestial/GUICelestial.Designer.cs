@@ -1,13 +1,13 @@
 ﻿namespace Anathema
 {
-    partial class GUIMemoryViewer
+    partial class GUICelestial
     {
-        /// <summary>
+        /// <summary> 
         /// Required designer variable.
         /// </summary>
         private System.ComponentModel.IContainer components = null;
 
-        /// <summary>
+        /// <summary> 
         /// Clean up any resources being used.
         /// </summary>
         /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
@@ -20,10 +20,10 @@
             base.Dispose(disposing);
         }
 
-        #region Windows Form Designer generated code
+        #region Component Designer generated code
 
-        /// <summary>
-        /// Required method for Designer support - do not modify
+        /// <summary> 
+        /// Required method for Designer support - do not modify 
         /// the contents of this method with the code editor.
         /// </summary>
         private void InitializeComponent()
@@ -49,11 +49,11 @@
             this.CommentHeader});
             this.DisassemblerListView.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.DisassemblerListView.FullRowSelect = true;
-            this.DisassemblerListView.Location = new System.Drawing.Point(12, 12);
+            this.DisassemblerListView.Location = new System.Drawing.Point(3, 3);
             this.DisassemblerListView.Name = "DisassemblerListView";
             this.DisassemblerListView.ShowGroups = false;
-            this.DisassemblerListView.Size = new System.Drawing.Size(722, 210);
-            this.DisassemblerListView.TabIndex = 113;
+            this.DisassemblerListView.Size = new System.Drawing.Size(571, 177);
+            this.DisassemblerListView.TabIndex = 114;
             this.DisassemblerListView.UseCompatibleStateImageBehavior = false;
             this.DisassemblerListView.View = System.Windows.Forms.View.Details;
             // 
@@ -95,25 +95,23 @@
             this.HexEditorBox.Font = new System.Drawing.Font("Consolas", 9F);
             this.HexEditorBox.HexCasing = Be.Windows.Forms.HexCasing.Lower;
             this.HexEditorBox.LineInfoVisible = true;
-            this.HexEditorBox.Location = new System.Drawing.Point(13, 228);
+            this.HexEditorBox.Location = new System.Drawing.Point(3, 186);
             this.HexEditorBox.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.HexEditorBox.Name = "HexEditorBox";
             this.HexEditorBox.ShadowSelectionColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(60)))), ((int)(((byte)(188)))), ((int)(((byte)(255)))));
-            this.HexEditorBox.Size = new System.Drawing.Size(720, 164);
+            this.HexEditorBox.Size = new System.Drawing.Size(570, 154);
             this.HexEditorBox.StringViewVisible = true;
-            this.HexEditorBox.TabIndex = 115;
+            this.HexEditorBox.TabIndex = 116;
             this.HexEditorBox.VScrollBarVisible = true;
             // 
-            // GUIMemoryViewer
+            // GUICelestial
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(746, 404);
             this.Controls.Add(this.HexEditorBox);
             this.Controls.Add(this.DisassemblerListView);
-            this.Name = "GUIMemoryViewer";
-            this.Text = "MemoryViewer";
-            this.Load += new System.EventHandler(this.MemoryViewer_Load);
+            this.Name = "GUICelestial";
+            this.Size = new System.Drawing.Size(577, 343);
             this.ResumeLayout(false);
 
         }

@@ -13,7 +13,7 @@ namespace Anathema
     /// (live processes really do solve this issue since we can do fingerprinting on things like
     /// page sizes and whatnot to initially reduce SS, never having to worry about stupid bullshit)
     /// </summary>
-    class MFMultiScanner
+    class FilterMultiScanner
     {
     }
 }
