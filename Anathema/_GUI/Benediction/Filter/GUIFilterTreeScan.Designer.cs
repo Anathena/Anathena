@@ -1,6 +1,6 @@
 ﻿namespace Anathema
 {
-    partial class GUIMemoryTreeFilter
+    partial class GUIFilterTreeScan
     {
         /// <summary> 
         /// Required designer variable.
@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(GUIMemoryTreeFilter));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(GUIFilterTreeScan));
             this.GranularityTrackBar = new System.Windows.Forms.TrackBar();
             this.ScanToolStrip = new System.Windows.Forms.ToolStrip();
             this.StartButton = new System.Windows.Forms.ToolStripButton();
@@ -61,11 +61,12 @@
             // 
             // ScanToolStrip
             // 
+            this.ScanToolStrip.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.ScanToolStrip.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
             this.ScanToolStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.StartButton,
             this.StopButton});
-            this.ScanToolStrip.Location = new System.Drawing.Point(0, 0);
+            this.ScanToolStrip.Location = new System.Drawing.Point(0, 209);
             this.ScanToolStrip.Name = "ScanToolStrip";
             this.ScanToolStrip.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
             this.ScanToolStrip.Size = new System.Drawing.Size(267, 25);
@@ -118,7 +119,7 @@
             this.AdvancedSettingsGroupBox.Controls.Add(this.GranularityTrackBar);
             this.AdvancedSettingsGroupBox.Location = new System.Drawing.Point(3, 117);
             this.AdvancedSettingsGroupBox.Name = "AdvancedSettingsGroupBox";
-            this.AdvancedSettingsGroupBox.Size = new System.Drawing.Size(261, 114);
+            this.AdvancedSettingsGroupBox.Size = new System.Drawing.Size(261, 89);
             this.AdvancedSettingsGroupBox.TabIndex = 143;
             this.AdvancedSettingsGroupBox.TabStop = false;
             this.AdvancedSettingsGroupBox.Text = "Advanced Settings";
@@ -159,17 +160,17 @@
             this.HashTreeSizeValueLabel.TabIndex = 145;
             this.HashTreeSizeValueLabel.Text = "0";
             // 
-            // GUIMemoryTreeFilter
+            // GUIFilterTreeScan
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.ScanToolStrip);
             this.Controls.Add(this.TreeSplitsValueLabel);
             this.Controls.Add(this.TreeSplitsLabel);
             this.Controls.Add(this.HashTreeSizeValueLabel);
             this.Controls.Add(this.HashSizeLabel);
             this.Controls.Add(this.AdvancedSettingsGroupBox);
-            this.Controls.Add(this.ScanToolStrip);
-            this.Name = "GUIMemoryTreeFilter";
+            this.Name = "GUIFilterTreeScan";
             this.Size = new System.Drawing.Size(267, 234);
             this.Load += new System.EventHandler(this.GUIMemoryTreeFilter_Load);
             this.Resize += new System.EventHandler(this.GUIMemoryTreeFilter_Resize);

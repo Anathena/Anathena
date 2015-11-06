@@ -40,8 +40,6 @@
             this.SearchSpaceAnalysisButton = new System.Windows.Forms.ToolStripButton();
             this.FiniteStateMachineButton = new System.Windows.Forms.ToolStripButton();
             this.ManualScanButton = new System.Windows.Forms.ToolStripButton();
-            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
-            this.InputCorrelatorButton = new System.Windows.Forms.ToolStripButton();
             this.FilterPanel = new System.Windows.Forms.Panel();
             this.TableListView = new System.Windows.Forms.ListView();
             this.CheckBoxHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
@@ -130,9 +128,7 @@
             this.FilterToolStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.SearchSpaceAnalysisButton,
             this.FiniteStateMachineButton,
-            this.ManualScanButton,
-            this.toolStripSeparator1,
-            this.InputCorrelatorButton});
+            this.ManualScanButton});
             this.FilterToolStrip.Location = new System.Drawing.Point(0, 0);
             this.FilterToolStrip.Name = "FilterToolStrip";
             this.FilterToolStrip.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
@@ -172,21 +168,6 @@
             this.ManualScanButton.Text = "Manual Scan";
             this.ManualScanButton.ToolTipText = "Manual Scan";
             this.ManualScanButton.Click += new System.EventHandler(this.ManualScanButton_Click);
-            // 
-            // toolStripSeparator1
-            // 
-            this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 25);
-            // 
-            // InputCorrelatorButton
-            // 
-            this.InputCorrelatorButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.InputCorrelatorButton.Image = ((System.Drawing.Image)(resources.GetObject("InputCorrelatorButton.Image")));
-            this.InputCorrelatorButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.InputCorrelatorButton.Name = "InputCorrelatorButton";
-            this.InputCorrelatorButton.Size = new System.Drawing.Size(23, 22);
-            this.InputCorrelatorButton.Text = "Input Correlator";
-            this.InputCorrelatorButton.Click += new System.EventHandler(this.InputCorrelatorButton_Click);
             // 
             // FilterPanel
             // 
@@ -390,8 +371,6 @@
         private System.Windows.Forms.ToolStripButton SearchSpaceAnalysisButton;
         private System.Windows.Forms.ToolStripButton FiniteStateMachineButton;
         private System.Windows.Forms.ToolStripButton ManualScanButton;
-        private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
-        private System.Windows.Forms.ToolStripButton InputCorrelatorButton;
         private System.Windows.Forms.Panel FilterPanel;
         private System.Windows.Forms.ListView TableListView;
         private System.Windows.Forms.ColumnHeader CheckBoxHeader;

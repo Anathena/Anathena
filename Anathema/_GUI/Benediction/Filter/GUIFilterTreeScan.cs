@@ -3,17 +3,17 @@ using System.Windows.Forms;
 
 namespace Anathema
 {
-    public partial class GUIMemoryTreeFilter : UserControl
+    public partial class GUIFilterTreeScan : UserControl
     {
-        private FilterHashTrees MemoryTreeFilter;
-        private readonly Benediction Anathema;
+        private FilterHashTrees FilterTreeScan;
+        private readonly Benediction BenedictionInstance;
 
-        public GUIMemoryTreeFilter()
+        public GUIFilterTreeScan()
         {
             InitializeComponent();
 
-            MemoryTreeFilter = new FilterHashTrees();
-            Anathema = Benediction.GetBenedictionInstance();
+            FilterTreeScan = new FilterHashTrees();
+            BenedictionInstance = Benediction.GetBenedictionInstance();
 
             UpdateFragmentSizeLabel();
         }
@@ -71,16 +71,16 @@ namespace Anathema
         
         private void StartButton_Click(object sender, EventArgs e)
         {
-            Anathema.BeginFilter(MemoryTreeFilter);
+            BenedictionInstance.BeginFilter(FilterTreeScan);
             UpdateGUITimer.Start();
             DisableGUI();
         }
 
         private void StopButton_Click(object sender, EventArgs e)
         {
-            Anathema.EndFilter();
+            BenedictionInstance.EndFilter();
             UpdateGUITimer.Stop();
-            UpdateHashTreeSize(MemoryTreeFilter.GetFinalSize());
+            UpdateHashTreeSize(FilterTreeScan.GetFinalSize());
             EnableGUI();
         }
 
@@ -91,8 +91,8 @@ namespace Anathema
 
         public void UpdateGUI()
         {
-            UpdateHashTreeSize(MemoryTreeFilter.GetHashTreeSize());
-            UpdateTreeSplits(MemoryTreeFilter.GetHashTreeSplits());
+            UpdateHashTreeSize(FilterTreeScan.GetHashTreeSize());
+            UpdateTreeSplits(FilterTreeScan.GetHashTreeSplits());
         }
     }
 }

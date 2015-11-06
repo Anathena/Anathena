@@ -10,12 +10,12 @@ using System.Windows.Forms;
 
 namespace Anathema
 {
-    public partial class GUIFiniteStateMachinePanel : UserControl
+    public partial class GUIFilterFSM : UserControl
     {
         //private List<FiniteState> States;
         //private FiniteState SelectedState;
 
-        public GUIFiniteStateMachinePanel()
+        public GUIFilterFSM()
         {
             InitializeComponent();
         }

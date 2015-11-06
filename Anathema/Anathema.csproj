@@ -115,11 +115,11 @@
     <Compile Include="_GUI\Benediction\GUIFiniteStateBuilder.Designer.cs">
       <DependentUpon>GUIFiniteStateBuilder.cs</DependentUpon>
     </Compile>
-    <Compile Include="_GUI\Benediction\Filter\GUIManualScan.cs">
+    <Compile Include="_GUI\Benediction\Filter\GUIFilterManualScan.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="_GUI\Benediction\Filter\GUIManualScan.Designer.cs">
-      <DependentUpon>GUIManualScan.cs</DependentUpon>
+    <Compile Include="_GUI\Benediction\Filter\GUIFilterManualScan.Designer.cs">
+      <DependentUpon>GUIFilterManualScan.cs</DependentUpon>
     </Compile>
     <Compile Include="_GUI\Benediction\Labeler\GUIInputCorrelator.cs">
       <SubType>UserControl</SubType>
@@ -127,11 +127,11 @@
     <Compile Include="_GUI\Benediction\Labeler\GUIInputCorrelator.Designer.cs">
       <DependentUpon>GUIInputCorrelator.cs</DependentUpon>
     </Compile>
-    <Compile Include="_GUI\Benediction\Filter\GUIFiniteStateMachine.cs">
+    <Compile Include="_GUI\Benediction\Filter\GUIFilterFSM.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="_GUI\Benediction\Filter\GUIFiniteStateMachine.Designer.cs">
-      <DependentUpon>GUIFiniteStateMachine.cs</DependentUpon>
+    <Compile Include="_GUI\Benediction\Filter\GUIFilterFSM.Designer.cs">
+      <DependentUpon>GUIFilterFSM.cs</DependentUpon>
     </Compile>
     <Compile Include="Benediction\Benediction.cs" />
     <Compile Include="Benediction\Filter\FilterFiniteState.cs" />
@@ -200,11 +200,11 @@
     <Compile Include="ProcessSelector\IProcessObserver.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="_GUI\Benediction\Filter\GUIMemoryTreeFilter.cs">
+    <Compile Include="_GUI\Benediction\Filter\GUIFilterTreeScan.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="_GUI\Benediction\Filter\GUIMemoryTreeFilter.Designer.cs">
-      <DependentUpon>GUIMemoryTreeFilter.cs</DependentUpon>
+    <Compile Include="_GUI\Benediction\Filter\GUIFilterTreeScan.Designer.cs">
+      <DependentUpon>GUIFilterTreeScan.cs</DependentUpon>
     </Compile>
     <Compile Include="Helpers\Settings.cs" />
     <Compile Include="Celestial\TestByteProvider.cs" />
@@ -221,17 +221,17 @@
     <EmbeddedResource Include="_GUI\Benediction\GUIFiniteStateBuilder.resx">
       <DependentUpon>GUIFiniteStateBuilder.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="_GUI\Benediction\Filter\GUIManualScan.resx">
-      <DependentUpon>GUIManualScan.cs</DependentUpon>
+    <EmbeddedResource Include="_GUI\Benediction\Filter\GUIFilterManualScan.resx">
+      <DependentUpon>GUIFilterManualScan.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="_GUI\Benediction\Labeler\GUIInputCorrelator.resx">
       <DependentUpon>GUIInputCorrelator.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="_GUI\Benediction\Filter\GUIFiniteStateMachine.resx">
-      <DependentUpon>GUIFiniteStateMachine.cs</DependentUpon>
+    <EmbeddedResource Include="_GUI\Benediction\Filter\GUIFilterFSM.resx">
+      <DependentUpon>GUIFilterFSM.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="_GUI\Benediction\Filter\GUIMemoryTreeFilter.resx">
-      <DependentUpon>GUIMemoryTreeFilter.cs</DependentUpon>
+    <EmbeddedResource Include="_GUI\Benediction\Filter\GUIFilterTreeScan.resx">
+      <DependentUpon>GUIFilterTreeScan.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="_GUI\ProcessSelector\GUIProcessSelector.resx">
       <DependentUpon>GUIProcessSelector.cs</DependentUpon>

@@ -1,6 +1,6 @@
 ﻿namespace Anathema
 {
-    partial class GUIManualScan
+    partial class GUIFilterManualScan
     {
         /// <summary> 
         /// Required designer variable.
@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(GUIManualScan));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(GUIFilterManualScan));
             this.ScanToolStrip = new System.Windows.Forms.ToolStrip();
             this.SearchSpaceAnalysisButton = new System.Windows.Forms.ToolStripButton();
             this.FiniteStateMachineButton = new System.Windows.Forms.ToolStripButton();
@@ -57,6 +57,7 @@
             // 
             // ScanToolStrip
             // 
+            this.ScanToolStrip.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.ScanToolStrip.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
             this.ScanToolStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.SearchSpaceAnalysisButton,
@@ -65,7 +66,7 @@
             this.ManualScanButton,
             this.toolStripSeparator4,
             this.ScanOptionsButton});
-            this.ScanToolStrip.Location = new System.Drawing.Point(0, 0);
+            this.ScanToolStrip.Location = new System.Drawing.Point(0, 244);
             this.ScanToolStrip.Name = "ScanToolStrip";
             this.ScanToolStrip.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
             this.ScanToolStrip.Size = new System.Drawing.Size(231, 25);
@@ -139,13 +140,14 @@
             "Double",
             "Text",
             "Array of Bytes"});
-            this.DataTypeCBB.Location = new System.Drawing.Point(6, 103);
+            this.DataTypeCBB.Location = new System.Drawing.Point(6, 81);
             this.DataTypeCBB.Name = "DataTypeCBB";
             this.DataTypeCBB.Size = new System.Drawing.Size(101, 21);
             this.DataTypeCBB.TabIndex = 136;
             // 
             // ScanTypeWorldStrip
             // 
+            this.ScanTypeWorldStrip.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.ScanTypeWorldStrip.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
             this.ScanTypeWorldStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.NotEqualValButton,
@@ -158,7 +160,7 @@
             this.AddConstraintButton,
             this.ClearConstraintsButton,
             this.ENotationButton});
-            this.ScanTypeWorldStrip.Location = new System.Drawing.Point(0, 25);
+            this.ScanTypeWorldStrip.Location = new System.Drawing.Point(0, 219);
             this.ScanTypeWorldStrip.Name = "ScanTypeWorldStrip";
             this.ScanTypeWorldStrip.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
             this.ScanTypeWorldStrip.Size = new System.Drawing.Size(231, 25);
@@ -254,7 +256,7 @@
             // CompareTypeLabel
             // 
             this.CompareTypeLabel.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.CompareTypeLabel.Location = new System.Drawing.Point(3, 61);
+            this.CompareTypeLabel.Location = new System.Drawing.Point(3, 39);
             this.CompareTypeLabel.Name = "CompareTypeLabel";
             this.CompareTypeLabel.Size = new System.Drawing.Size(160, 13);
             this.CompareTypeLabel.TabIndex = 137;
@@ -264,7 +266,7 @@
             // ScanValueTB
             // 
             this.ScanValueTB.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.ScanValueTB.Location = new System.Drawing.Point(6, 77);
+            this.ScanValueTB.Location = new System.Drawing.Point(6, 55);
             this.ScanValueTB.Name = "ScanValueTB";
             this.ScanValueTB.Size = new System.Drawing.Size(101, 20);
             this.ScanValueTB.TabIndex = 134;
@@ -272,12 +274,12 @@
             // ScanValueUpperTB
             // 
             this.ScanValueUpperTB.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.ScanValueUpperTB.Location = new System.Drawing.Point(113, 77);
+            this.ScanValueUpperTB.Location = new System.Drawing.Point(113, 55);
             this.ScanValueUpperTB.Name = "ScanValueUpperTB";
             this.ScanValueUpperTB.Size = new System.Drawing.Size(101, 20);
             this.ScanValueUpperTB.TabIndex = 135;
             // 
-            // GUIManualScan
+            // GUIFilterManualScan
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -287,7 +289,7 @@
             this.Controls.Add(this.ScanValueUpperTB);
             this.Controls.Add(this.ScanTypeWorldStrip);
             this.Controls.Add(this.ScanToolStrip);
-            this.Name = "GUIManualScan";
+            this.Name = "GUIFilterManualScan";
             this.Size = new System.Drawing.Size(231, 269);
             this.ScanToolStrip.ResumeLayout(false);
             this.ScanToolStrip.PerformLayout();

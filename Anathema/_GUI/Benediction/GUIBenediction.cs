@@ -14,16 +14,33 @@ namespace Anathema
 {
     partial class GUIBenediction : UserControl, IBenedictionView, IBenedictionModelObserver, IProcessObserver
     {
-        const Int32 MarginSize = 4;
-        const Int32 MaximumDisplayed = 4000;
+        // Controller to separate GUI logic and program logic
+        private IBenedictionController BenedictionController;
 
-        IBenedictionController BenedictionController;
+        // Display constants
+        private const Int32 MarginSize = 4;
+        private const Int32 MaximumDisplayed = 4000;
+        
+        // Filter GUI options
+        private GUIFilterManualScan GUIFilterManualScan;
+        private GUIFilterTreeScan GUIFilterTreeScan;
+        private GUIFilterFSM GUIFilterFSM;
 
         public GUIBenediction()
         {
             InitializeComponent();
 
-            BenedictionController = new BenedictionController(this, new Benediction());
+            // Create filter panel options
+            GUIFilterManualScan = new GUIFilterManualScan();
+            GUIFilterTreeScan = new GUIFilterTreeScan();
+            GUIFilterFSM = new GUIFilterFSM();
+
+            // Set the dock properties to fill their panel
+            GUIFilterManualScan.Dock = DockStyle.Fill;
+            GUIFilterTreeScan.Dock = DockStyle.Fill;
+            GUIFilterFSM.Dock = DockStyle.Fill;
+
+            BenedictionController = new BenedictionController(this, Benediction.GetBenedictionInstance());
         }
 
         public event BenedictionViewHandler<IBenedictionView> UpdateTargetProcess;
@@ -41,6 +58,40 @@ namespace Anathema
         public void UpdateProcess(MemorySharp MemoryEditor)
         {
             BenedictionController.UpdateProcess(MemoryEditor);
+        }
+
+        public void UpdateMemoryLabels(List<Tuple<IntPtr, Object>> MemoryLabels)
+        {
+            for (Int32 Index = 0; Index < Math.Min(MemoryLabels.Count, MaximumDisplayed); Index++)
+            {
+                ListViewItem NextEntry = new ListViewItem(MemoryLabels[Index].Item1.ToString());
+                NextEntry.SubItems.Add(MemoryLabels[Index].Item2.ToString());
+                NextEntry.SubItems.Add("");
+                AddressListView.Items.Add(NextEntry);
+            }
+        }
+
+        /// <summary>
+        /// Updates the filter display panel to show the given user control
+        /// </summary>
+        /// <param name="UserControl"></param>
+        private void UpdateFilterPanelDisplay(UserControl UserControl)
+        {
+            foreach (Object Next in FilterPanel.Controls)
+            {
+                if (Next.Equals(FilterToolStrip))
+                    continue;
+
+                FilterPanel.Controls.Remove((UserControl)Next);
+            }
+
+            FilterPanel.Controls.Add(UserControl);
+            HandleGUIResize();
+        }
+
+        private void UpdateSnapshotManagerDisplay()
+        {
+
         }
 
         /// <summary>
@@ -78,99 +129,18 @@ namespace Anathema
 
         private void SearchSpaceAnalysisButton_Click(object sender, EventArgs e)
         {
-
+            UpdateFilterPanelDisplay(GUIFilterTreeScan);
         }
 
         private void FiniteStateMachineButton_Click(object sender, EventArgs e)
         {
-
+            UpdateFilterPanelDisplay(GUIFilterFSM);
         }
 
         private void ManualScanButton_Click(object sender, EventArgs e)
         {
-
+            UpdateFilterPanelDisplay(GUIFilterManualScan);
         }
-
-        private void InputCorrelatorButton_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        /*
-        public void UpdateMemoryLabels(List<Tuple<IntPtr, Object>> MemoryLabels)
-        {
-            for (Int32 Index = 0; Index < Math.Min(MemoryLabels.Count, MaximumDisplayed); Index++)
-            {
-                ListViewItem NextEntry = new ListViewItem(MemoryLabels[Index].Item1.ToString());
-                NextEntry.SubItems.Add(MemoryLabels[Index].Item2.ToString());
-                NextEntry.SubItems.Add("");
-                AddressListView.Items.Add(NextEntry);
-            }
-        }
-
-        /// <summary>
-        /// Updates the filter display panel to show the given user control
-        /// </summary>
-        /// <param name="UserControl"></param>
-        private void UpdateFilterPanelDisplay(UserControl UserControl)
-        {
-            for (Int32 Index = 0; Index < FilterPanel.Controls.Count; Index++)
-            {
-                if (FilterPanel.Controls[Index] != FilterToolStrip)
-                    FilterPanel.Controls.RemoveAt(Index--);
-            }
-            FilterPanel.Controls.Add(UserControl);
-            HandleGUIResize();
-        }
-
-        private void UpdateSnapshotManagerDisplay()
-        {
-
-        }
-
         
-
-        /// <summary>
-        /// Informs that a new process has been selected
-        /// </summary>
-        /// <param name="TargetProcess"></param>
-        private void ProcessSelected(Process TargetProcess)
-        {
-            //Anathema.UpdateTargetProcess(TargetProcess);
-            //SelectedProcessLabel.Text = TargetProcess.ProcessName;
-            //UpdateFilterPanelDisplay(new GUIMemoryTreeFilter());
-        }
-
-        private void GUIMain_Load(object sender, EventArgs e)
-        {
-            // I will not use this load event, but I usually double click my forms to quickly
-            // get to my code, which will auto generate this function, so I will keep it here
-        }
-
-        private void SelectProcessButton_Click(object sender, EventArgs e)
-        {
-            UpdateFilterPanelDisplay(new GUIProcessSelector(ProcessSelected));
-        }
-
-        private void SearchSpaceAnalysisButton_Click(object sender, EventArgs e)
-        {
-            UpdateFilterPanelDisplay(new GUIMemoryTreeFilter());
-        }
-
-        private void FiniteStateMachineButton_Click(object sender, EventArgs e)
-        {
-            UpdateFilterPanelDisplay(new GUIFiniteStateMachinePanel());
-        }
-
-        private void InputCorrelatorButton_Click(object sender, EventArgs e)
-        {
-            UpdateFilterPanelDisplay(new GUIInputCorrelator());
-        }
-
-        private void ManualScanButton_Click(object sender, EventArgs e)
-        {
-            UpdateFilterPanelDisplay(new GUIManualScan());
-        }
-        */
     }
 }

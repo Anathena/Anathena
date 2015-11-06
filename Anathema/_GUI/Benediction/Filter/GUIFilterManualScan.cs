@@ -10,15 +10,15 @@ using System.Windows.Forms;
 
 namespace Anathema
 {
-    public partial class GUIManualScan : UserControl
+    public partial class GUIFilterManualScan : UserControl
     {
-        private Benediction AnathemaInstance;
+        private Benediction BenedictionInstance;
 
-        public GUIManualScan()
+        public GUIFilterManualScan()
         {
             InitializeComponent();
 
-            AnathemaInstance = Benediction.GetBenedictionInstance();
+            BenedictionInstance = Benediction.GetBenedictionInstance();
         }
 
         public void UpdateGUI()
