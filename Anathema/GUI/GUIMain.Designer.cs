@@ -162,12 +162,14 @@
             // 
             // SelectProcessButton
             // 
+            this.SelectProcessButton.CheckOnClick = true;
             this.SelectProcessButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
             this.SelectProcessButton.Image = ((System.Drawing.Image)(resources.GetObject("SelectProcessButton.Image")));
             this.SelectProcessButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.SelectProcessButton.Name = "SelectProcessButton";
             this.SelectProcessButton.Size = new System.Drawing.Size(23, 22);
             this.SelectProcessButton.Text = "Select Process";
+            this.SelectProcessButton.Click += new System.EventHandler(this.SelectProcessButton_Click);
             // 
             // ViewAnathemaButton
             // 
@@ -177,7 +179,8 @@
             this.ViewAnathemaButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.ViewAnathemaButton.Name = "ViewAnathemaButton";
             this.ViewAnathemaButton.Size = new System.Drawing.Size(23, 22);
-            this.ViewAnathemaButton.ToolTipText = "Memory Editor";
+            this.ViewAnathemaButton.ToolTipText = "File Sharing";
+            this.ViewAnathemaButton.Click += new System.EventHandler(this.ViewAnathemaButton_Click);
             // 
             // ViewBenedictionButton
             // 
@@ -188,7 +191,8 @@
             this.ViewBenedictionButton.Name = "ViewBenedictionButton";
             this.ViewBenedictionButton.Size = new System.Drawing.Size(23, 22);
             this.ViewBenedictionButton.Text = "toolStripButton2";
-            this.ViewBenedictionButton.ToolTipText = "Debugger";
+            this.ViewBenedictionButton.ToolTipText = "Memory Editor";
+            this.ViewBenedictionButton.Click += new System.EventHandler(this.ViewBenedictionButton_Click);
             // 
             // ViewCelestialButton
             // 
@@ -199,7 +203,8 @@
             this.ViewCelestialButton.Name = "ViewCelestialButton";
             this.ViewCelestialButton.Size = new System.Drawing.Size(23, 22);
             this.ViewCelestialButton.Text = "toolStripButton3";
-            this.ViewCelestialButton.ToolTipText = "File Sharing";
+            this.ViewCelestialButton.ToolTipText = "Debugger";
+            this.ViewCelestialButton.Click += new System.EventHandler(this.ViewCelestialButton_Click);
             // 
             // toolStripSeparator2
             // 
@@ -209,8 +214,8 @@
             // ProcessSelectedLabel
             // 
             this.ProcessSelectedLabel.Name = "ProcessSelectedLabel";
-            this.ProcessSelectedLabel.Size = new System.Drawing.Size(156, 22);
-            this.ProcessSelectedLabel.Text = "Select a Process to Continue";
+            this.ProcessSelectedLabel.Size = new System.Drawing.Size(113, 22);
+            this.ProcessSelectedLabel.Text = "No Process Selected";
             // 
             // ComponentPanel
             // 
@@ -231,7 +236,7 @@
             this.Controls.Add(this.GUIMenuStrip);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "GUIMain";
-            this.Text = "Divine";
+            this.Text = "Anathema";
             this.Load += new System.EventHandler(this.GUIMain_Load);
             this.GUIMenuStrip.ResumeLayout(false);
             this.GUIMenuStrip.PerformLayout();

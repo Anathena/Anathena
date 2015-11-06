@@ -4,14 +4,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Benediction
+namespace Anathema
 {
-    interface IBenedictionController
+    interface ICelestialController
     {
         
     }
 
-    public class BenedictionController : IBenedictionController
+    public class CelestialController : ICelestialController
     {
 
     }

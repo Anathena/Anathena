@@ -6,14 +6,14 @@ namespace Anathema
     public partial class GUIMemoryTreeFilter : UserControl
     {
         private MFHashTrees MemoryTreeFilter;
-        private readonly Anathema Anathema;
+        private readonly Benediction Anathema;
 
         public GUIMemoryTreeFilter()
         {
             InitializeComponent();
 
             MemoryTreeFilter = new MFHashTrees();
-            Anathema = Anathema.GetAnathemaInstance();
+            Anathema = Benediction.GetBenedictionInstance();
 
             UpdateFragmentSizeLabel();
         }

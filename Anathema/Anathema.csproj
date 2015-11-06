@@ -82,10 +82,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Anathema\IAnathemaModel.cs" />
-    <Compile Include="Anathema\IAnathemaView.cs" />
-    <Compile Include="Benediction\BenedictionController.cs" />
-    <Compile Include="Anathema\MemorySnapshot\Snapshot.cs" />
+    <Compile Include="Benediction\IBenedictionModel.cs" />
+    <Compile Include="Benediction\IBenedictionView.cs" />
+    <Compile Include="Celestial\CelestialController.cs" />
+    <Compile Include="Benediction\MemorySnapshot\Snapshot.cs" />
+    <Compile Include="GUI\GUIAnathema.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="GUI\GUIAnathema.Designer.cs">
+      <DependentUpon>GUIAnathema.cs</DependentUpon>
+    </Compile>
     <Compile Include="GUI\GUICelestial.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -97,12 +103,6 @@
     </Compile>
     <Compile Include="GUI\GUIBenediction.Designer.cs">
       <DependentUpon>GUIBenediction.cs</DependentUpon>
-    </Compile>
-    <Compile Include="GUI\GUIAnathema.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="GUI\GUIAnathema.Designer.cs">
-      <DependentUpon>GUIAnathema.cs</DependentUpon>
     </Compile>
     <Compile Include="GUI\GUIMain.cs">
       <SubType>Form</SubType>
@@ -140,61 +140,61 @@
     <Compile Include="GUI\GUIFiniteStateMachine.Designer.cs">
       <DependentUpon>GUIFiniteStateMachine.cs</DependentUpon>
     </Compile>
-    <Compile Include="Anathema\Anathema.cs" />
-    <Compile Include="Anathema\MemoryFilter\MFFiniteState.cs" />
+    <Compile Include="Benediction\Benediction.cs" />
+    <Compile Include="Benediction\MemoryFilter\MFFiniteState.cs" />
     <Compile Include="Helpers\CheckSyntax.cs" />
     <Compile Include="Helpers\FastHash.cs" />
-    <Compile Include="Anathema\MemoryLabeler\IMemoryLabeler.cs" />
-    <Compile Include="Anathema\MemoryLabeler\MLInputCorrelator.cs" />
-    <Compile Include="Anathema\MemoryFilter\IMemoryFilter.cs" />
+    <Compile Include="Benediction\MemoryLabeler\IMemoryLabeler.cs" />
+    <Compile Include="Benediction\MemoryLabeler\MLInputCorrelator.cs" />
+    <Compile Include="Benediction\MemoryFilter\IMemoryFilter.cs" />
     <Compile Include="GUI\GUIMemoryViewer.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="GUI\GUIMemoryViewer.Designer.cs">
       <DependentUpon>GUIMemoryViewer.cs</DependentUpon>
     </Compile>
-    <Compile Include="Benediction\Benediction.cs" />
-    <Compile Include="Anathema\InputHook\Hook.cs" />
-    <Compile Include="Anathema\InputHook\HotKeys\HotKeyArgs.cs" />
-    <Compile Include="Anathema\InputHook\HotKeys\HotKeySet.cs" />
-    <Compile Include="Anathema\InputHook\HotKeys\HotKeySetCollection.cs" />
-    <Compile Include="Anathema\InputHook\HotKeys\HotKeySetsListener.cs" />
-    <Compile Include="Anathema\InputHook\IKeyboardEvents.cs" />
-    <Compile Include="Anathema\InputHook\IKeyboardMouseEvents.cs" />
-    <Compile Include="Anathema\InputHook\IMouseEvents.cs" />
-    <Compile Include="Anathema\InputHook\Implementation\AppEventFacade.cs" />
-    <Compile Include="Anathema\InputHook\Implementation\AppKeyListener.cs" />
-    <Compile Include="Anathema\InputHook\Implementation\AppMouseListener.cs" />
-    <Compile Include="Anathema\InputHook\Implementation\BaseListener.cs" />
-    <Compile Include="Anathema\InputHook\Implementation\ButtonSet.cs" />
-    <Compile Include="Anathema\InputHook\Implementation\Callback.cs" />
-    <Compile Include="Anathema\InputHook\Implementation\EventFacade.cs" />
-    <Compile Include="Anathema\InputHook\Implementation\GlobalEventFacade.cs" />
-    <Compile Include="Anathema\InputHook\Implementation\GlobalKeyListener.cs" />
-    <Compile Include="Anathema\InputHook\Implementation\GlobalMouseListener.cs" />
-    <Compile Include="Anathema\InputHook\Implementation\KeyboardState.cs" />
-    <Compile Include="Anathema\InputHook\Implementation\KeyListener.cs" />
-    <Compile Include="Anathema\InputHook\Implementation\MouseListener.cs" />
-    <Compile Include="Anathema\InputHook\Implementation\Subscribe.cs" />
-    <Compile Include="Anathema\InputHook\KeyEventArgsExt.cs" />
-    <Compile Include="Anathema\InputHook\KeyPressEventArgsExt.cs" />
-    <Compile Include="Anathema\InputHook\MouseEventExtArgs.cs" />
-    <Compile Include="Anathema\InputHook\WinApi\AppMouseStruct.cs" />
-    <Compile Include="Anathema\InputHook\WinApi\CallbackData.cs" />
-    <Compile Include="Anathema\InputHook\WinApi\HookHelper.cs" />
-    <Compile Include="Anathema\InputHook\WinApi\HookIds.cs" />
-    <Compile Include="Anathema\InputHook\WinApi\HookNativeMethods.cs" />
-    <Compile Include="Anathema\InputHook\WinApi\HookProcedure.cs" />
-    <Compile Include="Anathema\InputHook\WinApi\HookProcedureHandle.cs" />
-    <Compile Include="Anathema\InputHook\WinApi\HookResult.cs" />
-    <Compile Include="Anathema\InputHook\WinApi\KeyboardHookStruct.cs" />
-    <Compile Include="Anathema\InputHook\WinApi\KeyboardNativeMethods.cs" />
-    <Compile Include="Anathema\InputHook\WinApi\Messages.cs" />
-    <Compile Include="Anathema\InputHook\WinApi\MouseNativeMethods.cs" />
-    <Compile Include="Anathema\InputHook\WinApi\MouseStruct.cs" />
-    <Compile Include="Anathema\InputHook\WinApi\Point.cs" />
-    <Compile Include="Anathema\InputHook\WinApi\ThreadNativeMethods.cs" />
-    <Compile Include="Anathema\MemoryFilter\MFHashTrees.cs" />
+    <Compile Include="Celestial\Celestial.cs" />
+    <Compile Include="Benediction\InputHook\Hook.cs" />
+    <Compile Include="Benediction\InputHook\HotKeys\HotKeyArgs.cs" />
+    <Compile Include="Benediction\InputHook\HotKeys\HotKeySet.cs" />
+    <Compile Include="Benediction\InputHook\HotKeys\HotKeySetCollection.cs" />
+    <Compile Include="Benediction\InputHook\HotKeys\HotKeySetsListener.cs" />
+    <Compile Include="Benediction\InputHook\IKeyboardEvents.cs" />
+    <Compile Include="Benediction\InputHook\IKeyboardMouseEvents.cs" />
+    <Compile Include="Benediction\InputHook\IMouseEvents.cs" />
+    <Compile Include="Benediction\InputHook\Implementation\AppEventFacade.cs" />
+    <Compile Include="Benediction\InputHook\Implementation\AppKeyListener.cs" />
+    <Compile Include="Benediction\InputHook\Implementation\AppMouseListener.cs" />
+    <Compile Include="Benediction\InputHook\Implementation\BaseListener.cs" />
+    <Compile Include="Benediction\InputHook\Implementation\ButtonSet.cs" />
+    <Compile Include="Benediction\InputHook\Implementation\Callback.cs" />
+    <Compile Include="Benediction\InputHook\Implementation\EventFacade.cs" />
+    <Compile Include="Benediction\InputHook\Implementation\GlobalEventFacade.cs" />
+    <Compile Include="Benediction\InputHook\Implementation\GlobalKeyListener.cs" />
+    <Compile Include="Benediction\InputHook\Implementation\GlobalMouseListener.cs" />
+    <Compile Include="Benediction\InputHook\Implementation\KeyboardState.cs" />
+    <Compile Include="Benediction\InputHook\Implementation\KeyListener.cs" />
+    <Compile Include="Benediction\InputHook\Implementation\MouseListener.cs" />
+    <Compile Include="Benediction\InputHook\Implementation\Subscribe.cs" />
+    <Compile Include="Benediction\InputHook\KeyEventArgsExt.cs" />
+    <Compile Include="Benediction\InputHook\KeyPressEventArgsExt.cs" />
+    <Compile Include="Benediction\InputHook\MouseEventExtArgs.cs" />
+    <Compile Include="Benediction\InputHook\WinApi\AppMouseStruct.cs" />
+    <Compile Include="Benediction\InputHook\WinApi\CallbackData.cs" />
+    <Compile Include="Benediction\InputHook\WinApi\HookHelper.cs" />
+    <Compile Include="Benediction\InputHook\WinApi\HookIds.cs" />
+    <Compile Include="Benediction\InputHook\WinApi\HookNativeMethods.cs" />
+    <Compile Include="Benediction\InputHook\WinApi\HookProcedure.cs" />
+    <Compile Include="Benediction\InputHook\WinApi\HookProcedureHandle.cs" />
+    <Compile Include="Benediction\InputHook\WinApi\HookResult.cs" />
+    <Compile Include="Benediction\InputHook\WinApi\KeyboardHookStruct.cs" />
+    <Compile Include="Benediction\InputHook\WinApi\KeyboardNativeMethods.cs" />
+    <Compile Include="Benediction\InputHook\WinApi\Messages.cs" />
+    <Compile Include="Benediction\InputHook\WinApi\MouseNativeMethods.cs" />
+    <Compile Include="Benediction\InputHook\WinApi\MouseStruct.cs" />
+    <Compile Include="Benediction\InputHook\WinApi\Point.cs" />
+    <Compile Include="Benediction\InputHook\WinApi\ThreadNativeMethods.cs" />
+    <Compile Include="Benediction\MemoryFilter\MFHashTrees.cs" />
     <Compile Include="Helpers\Conversions.cs" />
     <Compile Include="GUI\GUIProcessSelector.cs">
       <SubType>UserControl</SubType>
@@ -203,11 +203,11 @@
       <DependentUpon>GUIProcessSelector.cs</DependentUpon>
     </Compile>
     <Compile Include="Helpers\OSInterface.cs" />
-    <Compile Include="Anathema\MemoryFilter\MFManualScan.cs" />
-    <Compile Include="Anathema\MemoryFilter\MFLabelThesholder.cs" />
-    <Compile Include="Anathema\MemoryFilter\MFMultiScanner.cs" />
-    <Compile Include="Anathema\MemoryLabeler\MLValueReader.cs" />
-    <Compile Include="Anathema\IAnathemaController.cs" />
+    <Compile Include="Benediction\MemoryFilter\MFManualScan.cs" />
+    <Compile Include="Benediction\MemoryFilter\MFLabelThesholder.cs" />
+    <Compile Include="Benediction\MemoryFilter\MFMultiScanner.cs" />
+    <Compile Include="Benediction\MemoryLabeler\MLValueReader.cs" />
+    <Compile Include="Benediction\IBenedictionController.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="GUI\GUIMemoryTreeFilter.cs">
@@ -217,10 +217,10 @@
       <DependentUpon>GUIMemoryTreeFilter.cs</DependentUpon>
     </Compile>
     <Compile Include="Helpers\Settings.cs" />
-    <Compile Include="Benediction\TestByteProvider.cs" />
-    <Compile Include="Anathema\MemorySnapshot\SnapshotManager.cs" />
-    <EmbeddedResource Include="GUI\GUIAnathema.resx">
-      <DependentUpon>GUIAnathema.cs</DependentUpon>
+    <Compile Include="Celestial\TestByteProvider.cs" />
+    <Compile Include="Benediction\MemorySnapshot\SnapshotManager.cs" />
+    <EmbeddedResource Include="GUI\GUIBenediction.resx">
+      <DependentUpon>GUIBenediction.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\GUIMain.resx">
       <DependentUpon>GUIMain.cs</DependentUpon>
@@ -273,7 +273,7 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Anathema\InputHook\HotKeys\ReadMe.txt" />
+    <Content Include="Benediction\InputHook\HotKeys\ReadMe.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -16,7 +16,7 @@ namespace Anathema
     class InputCorrelator : IMemoryLabeler
     {
         private MemorySharp MemoryEditor;
-        private Anathema Anathema;
+        private Benediction Anathema;
 
         // Scanning related
         private List<RemoteRegion> MemoryRegions;           // Regions we are scanning (isolated via SearchSpaceAnalyzer)
@@ -90,7 +90,7 @@ namespace Anathema
             // TODO: App hook option? From author: "Note: for the application hook, use the Hook.AppEvents() instead" unless app hook is internal
             InputHook = Hook.GlobalEvents();
 
-            Anathema = Anathema.GetAnathemaInstance();
+            Anathema = Benediction.GetBenedictionInstance();
         }
 
         public void BeginLabeler(MemorySharp MemoryEditor, List<RemoteRegion> MemoryRegions)

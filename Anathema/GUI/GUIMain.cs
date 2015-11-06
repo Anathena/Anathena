@@ -13,39 +13,26 @@ namespace Anathema
 {
     public partial class GUIMain : Form
     {
+        private UserControl GUIProcessSelector;
         private UserControl GUIAnathema;
         private UserControl GUIBenediction;
         private UserControl GUICelestial;
-
-        private enum CurrentViewEnum
-        {
-            SelectProcess,
-            Anathema,
-            Benediction,
-            Celestial
-        }
-
-        CurrentViewEnum CurrentView;
         
         public GUIMain()
         {
             InitializeComponent();
 
             // Instantiate all primary GUI components
+            GUIProcessSelector = new GUIProcessSelector();
             GUIAnathema = new GUIAnathema();
             GUIBenediction = new GUIBenediction();
             GUICelestial = new GUICelestial();
 
             // All GUI components should fill the panel
+            GUIProcessSelector.Dock = DockStyle.Fill;
             GUIAnathema.Dock = DockStyle.Fill;
             GUIBenediction.Dock = DockStyle.Fill;
             GUICelestial.Dock = DockStyle.Fill;
-
-            // Default view will be Anathema
-            CurrentView = CurrentViewEnum.Anathema;
-
-            // Apply view
-            UpdateDisplay();
         }
 
         private void GUIMain_Load(object sender, EventArgs e)
@@ -53,27 +40,49 @@ namespace Anathema
 
         }
 
-        private void UpdateDisplay()
+        private void DeselectAll(ToolStripButton Sender)
         {
             // Clear GUI elements in main panel
             foreach (Control NextControl in ComponentPanel.Controls)
                 ComponentPanel.Controls.Remove(NextControl);
 
-            switch (CurrentView)
-            {
-                case CurrentViewEnum.SelectProcess:
+            // Uncheck all GUI options
+            SelectProcessButton.Checked = false;
+            ViewAnathemaButton.Checked = false;
+            ViewBenedictionButton.Checked = false;
+            ViewCelestialButton.Checked = false;
 
-                    break;
-                case CurrentViewEnum.Anathema:
-                    ComponentPanel.Controls.Add(GUIAnathema);
-                    break;
-                case CurrentViewEnum.Benediction:
-                    ComponentPanel.Controls.Add(GUIBenediction);
-                    break;
-                case CurrentViewEnum.Celestial:
-                    ComponentPanel.Controls.Add(GUICelestial);
-                    break;
-            }
+            // Check selection
+            Sender.Checked = true;
+        }
+
+        private void MakeSelection(UserControl CurrentView)
+        {
+            ComponentPanel.Controls.Add(CurrentView);
+        }
+
+        private void SelectProcessButton_Click(object sender, EventArgs e)
+        {
+            DeselectAll((ToolStripButton)sender);
+            MakeSelection(GUIProcessSelector);
+        }
+
+        private void ViewAnathemaButton_Click(object sender, EventArgs e)
+        {
+            DeselectAll((ToolStripButton)sender);
+            MakeSelection(GUIAnathema);
+        }
+
+        private void ViewBenedictionButton_Click(object sender, EventArgs e)
+        {
+            DeselectAll((ToolStripButton)sender);
+            MakeSelection(GUIBenediction);
+        }
+
+        private void ViewCelestialButton_Click(object sender, EventArgs e)
+        {
+            DeselectAll((ToolStripButton)sender);
+            MakeSelection(GUICelestial);
         }
     }
 }

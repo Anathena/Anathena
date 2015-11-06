@@ -132,6 +132,10 @@ namespace Anathema
                     {
                         SystemProcessBag.Add(UnsortedProcesses[ProcessIndex]); // Collect any missed session0 targets
                     }
+                    catch (InvalidOperationException)
+                    {
+
+                    }
                 }
             }//);
 

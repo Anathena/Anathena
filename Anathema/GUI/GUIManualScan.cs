@@ -12,13 +12,13 @@ namespace Anathema
 {
     public partial class GUIManualScan : UserControl
     {
-        private Anathema AnathemaInstance;
+        private Benediction AnathemaInstance;
 
         public GUIManualScan()
         {
             InitializeComponent();
 
-            AnathemaInstance = Anathema.GetAnathemaInstance();
+            AnathemaInstance = Benediction.GetBenedictionInstance();
         }
 
         public void UpdateGUI()

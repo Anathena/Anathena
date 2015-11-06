@@ -13,13 +13,13 @@ namespace Anathema
     public partial class GUIInputCorrelator : UserControl
     {
         private InputCorrelator InputCorrelator;
-        private readonly Anathema Anathema;
+        private readonly Benediction Anathema;
 
         public GUIInputCorrelator()
         {
             InitializeComponent();
             InputCorrelator = new InputCorrelator();
-            Anathema = Anathema.GetAnathemaInstance();
+            Anathema = Benediction.GetBenedictionInstance();
 
             UpdateVariableSizeLabel();
 

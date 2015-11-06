@@ -14,9 +14,9 @@ namespace Anathema
         public ViewEventArgs(int v) { value = v; }
     }
 
-    interface IAnathemaView
+    interface IBenedictionView
     {
-        event ViewHandler<IAnathemaView> changed;
-        void SetAnathemaControler(IAnathemaController cont);
+        event ViewHandler<IBenedictionView> changed;
+        void SetBenedictionControler(IBenedictionController cont);
     }
 }
