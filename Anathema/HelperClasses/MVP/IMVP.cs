@@ -7,6 +7,22 @@ using System.Threading.Tasks;
 namespace Anathema
 {
     /// <summary>
+    /// Interface for GUI components
+    /// </summary>
+    public interface IView
+    {
+        // Nothing here yet, may not be needed.
+    }
+
+    /// <summary>
+    /// Interface for backend code
+    /// </summary>
+    public interface IModel
+    {
+        // Nothing here yet, may not be needed.
+    }
+
+    /// <summary>
     /// Base class for classes which connect a GUI component to back end logic.
     /// </summary>
     /// <typeparam name="TView"></typeparam>

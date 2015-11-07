@@ -35,7 +35,7 @@ namespace Anathema
     /// TODO: Grow regions by [max variable size] bytes
     /// 
     /// </summary>
-    class FilterHashTrees : IMemoryFilter
+    class FilterHashTrees : IFilterHashTreesModel
     {
         // Search space reduction related
         protected MemorySharp MemoryEditor;
@@ -55,9 +55,18 @@ namespace Anathema
         private UInt64 InitialSize = 0;
         private UInt64 EndSize = 0;
 
+        // Event stubs
+        public event EventHandler EventFilterFinished;
+        public event EventHandler EventSplitCountChanged;
+
         public FilterHashTrees()
         {
-            
+
+        }
+
+        public void UpdateProcess(MemorySharp MemoryEditor)
+        {
+            this.MemoryEditor = MemoryEditor;
         }
 
         public static void UpdatePageSplitThreshold(UInt64 NewPageSplitThreshold)
@@ -98,10 +107,9 @@ namespace Anathema
             return Value;
         }
 
-        public void BeginFilter(MemorySharp MemoryEditor, List<RemoteRegion> MemoryRegions)
+        public void BeginFilter()
         {
-            this.MemoryEditor = MemoryEditor;
-            this.MemoryRegions = MemoryRegions;
+            this.MemoryRegions = SnapshotManager.GetSnapshotManagerInstance().GetActiveSnapshot(MemoryEditor).GetMemoryRegions();
 
             CandidateTree = new List<MemoryChangeRoot>();
 
@@ -121,11 +129,11 @@ namespace Anathema
             }, CancelRequest.Token);
         }
 
-        public List<RemoteRegion> EndFilter()
+        public Snapshot EndFilter()
         {
             EndScan();
 
-            return FilteredMemoryRegions;
+            return new Snapshot(FilteredMemoryRegions);
         }
 
         public void AbortFilter()

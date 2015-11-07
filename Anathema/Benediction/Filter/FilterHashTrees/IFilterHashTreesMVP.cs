@@ -10,36 +10,38 @@ namespace Anathema
 {
     interface IFilterHashTreesView : IFilterView
     {
+        // Methods invoked by the presenter (upstream)
 
+        void DisplaySplitCount(UInt64 SplitCount);
     }
 
     interface IFilterHashTreesModel : IFilterModel
     {
 
+        // Events triggered by the model (upstream)
+        event EventHandler EventSplitCountChanged;
+
+        // Functions invoked by presenter (downstream)
+
     }
 
     class FilterHashTreesPresenter : FilterPresenter
     {
-        public FilterHashTreesPresenter(IFilterView View, IFilterModel Model) : base(View, Model)
+        public FilterHashTreesPresenter(IFilterHashTreesView View, IFilterHashTreesModel Model) : base(View, Model)
         {
             // Bind events triggered by the model
-            //Model.EndFilterRequired += EndFilterRequired;
+            Model.EventSplitCountChanged += EventSplitCountChanged;
         }
 
         #region Method definitions called by the view (downstream)
-
-        public void k(MemorySharp MemoryEditor)
-        {
-            Model.UpdateProcess(MemoryEditor);
-        }
 
         #endregion
 
         #region Event definitions for events triggered by the model (upstream)
 
-        private void Nice(object sender, EventArgs e)
+        private void EventSplitCountChanged(object sender, EventArgs e)
         {
-            View.EndFilterRequired();
+            View.EventFilterFinished(null);
         }
 
         #endregion

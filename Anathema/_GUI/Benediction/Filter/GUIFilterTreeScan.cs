@@ -1,26 +1,43 @@
-﻿using System;
+﻿using Binarysharp.MemoryManagement;
+using Binarysharp.MemoryManagement.Memory;
+using System;
+using System.Collections.Generic;
 using System.Windows.Forms;
 
 namespace Anathema
 {
-    public partial class GUIFilterTreeScan : UserControl
+    public partial class GUIFilterTreeScan : UserControl, IFilterHashTreesView, IProcessObserver
     {
-        private FilterHashTrees FilterTreeScan;
-        private readonly Benediction BenedictionInstance;
+        private FilterHashTreesPresenter FilterHashTreesPresenter;
+        private const Int32 MarginSize = 4;
 
         public GUIFilterTreeScan()
         {
             InitializeComponent();
-
-            FilterTreeScan = new FilterHashTrees();
-            //BenedictionInstance = Benediction.GetBenedictionInstance();
+            
+            FilterHashTreesPresenter = new FilterHashTreesPresenter(this, new FilterHashTrees());
 
             UpdateFragmentSizeLabel();
         }
 
-        private void GUIMemoryTreeFilter_Load(object sender, EventArgs e)
+        public void UpdateProcess(MemorySharp MemoryEditor)
+        {
+            FilterHashTreesPresenter.UpdateProcess(MemoryEditor);
+        }
+
+        public void EventFilterFinished(List<RemoteRegion> MemoryRegions)
         {
 
+        }
+
+        public void DisplaySplitCount(UInt64 SplitCount)
+        {
+            HashTreeSizeValueLabel.Text = Conversions.ByteToMetricSize(SplitCount).ToString();
+        }
+
+        private void UpdateTreeSplits(Int32 Splits)
+        {
+            TreeSplitsValueLabel.Text = Splits.ToString();
         }
 
         private void UpdateFragmentSizeLabel()
@@ -38,25 +55,10 @@ namespace Anathema
             FilterHashTrees.UpdatePageSplitThreshold(Value);
         }
 
-        private void UpdateHashTreeSize(UInt64 Size)
-        {
-            HashTreeSizeValueLabel.Text = Conversions.ByteToMetricSize(Size).ToString();
-
-            // Force a redraw
-            Invalidate();
-            Update();
-            Refresh();
-            Application.DoEvents();
-        }
-
-        private void UpdateTreeSplits(Int32 Splits)
-        {
-            TreeSplitsValueLabel.Text = Splits.ToString();
-        }
-
         private void GUIMemoryTreeFilter_Resize(object sender, EventArgs e)
         {
-            AdvancedSettingsGroupBox.SetBounds(4, this.Height / 2 + 4, this.Width - 8, this.Height / 2 - 8);
+            AdvancedSettingsGroupBox.SetBounds(MarginSize, this.Height / 2 + MarginSize,
+                this.Width - MarginSize * 2, this.Height / 2 - MarginSize * 2);
         }
 
         private void DisableGUI()
@@ -71,28 +73,19 @@ namespace Anathema
         
         private void StartButton_Click(object sender, EventArgs e)
         {
-            BenedictionInstance.BeginFilter(FilterTreeScan);
-            UpdateGUITimer.Start();
+            FilterHashTreesPresenter.BeginFilter();
             DisableGUI();
         }
 
         private void StopButton_Click(object sender, EventArgs e)
         {
-            BenedictionInstance.EndFilter();
-            UpdateGUITimer.Stop();
-            UpdateHashTreeSize(FilterTreeScan.GetFinalSize());
+            FilterHashTreesPresenter.EndFilter();
             EnableGUI();
         }
 
         private void GranularityTrackBar_Scroll(object sender, EventArgs e)
         {
             UpdateFragmentSizeLabel();
-        }
-
-        public void UpdateGUI()
-        {
-            UpdateHashTreeSize(FilterTreeScan.GetHashTreeSize());
-            UpdateTreeSplits(FilterTreeScan.GetHashTreeSplits());
         }
     }
 }

@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(GUIFilterTreeScan));
             this.GranularityTrackBar = new System.Windows.Forms.TrackBar();
             this.ScanToolStrip = new System.Windows.Forms.ToolStrip();
@@ -37,7 +36,6 @@
             this.FragmentSizeLabel = new System.Windows.Forms.Label();
             this.FragmentSizeValueLabel = new System.Windows.Forms.Label();
             this.AdvancedSettingsGroupBox = new System.Windows.Forms.GroupBox();
-            this.UpdateGUITimer = new System.Windows.Forms.Timer(this.components);
             this.TreeSplitsValueLabel = new System.Windows.Forms.Label();
             this.TreeSplitsLabel = new System.Windows.Forms.Label();
             this.HashSizeLabel = new System.Windows.Forms.Label();
@@ -172,7 +170,6 @@
             this.Controls.Add(this.AdvancedSettingsGroupBox);
             this.Name = "GUIFilterTreeScan";
             this.Size = new System.Drawing.Size(267, 234);
-            this.Load += new System.EventHandler(this.GUIMemoryTreeFilter_Load);
             this.Resize += new System.EventHandler(this.GUIMemoryTreeFilter_Resize);
             ((System.ComponentModel.ISupportInitialize)(this.GranularityTrackBar)).EndInit();
             this.ScanToolStrip.ResumeLayout(false);
@@ -193,7 +190,6 @@
         private System.Windows.Forms.Label FragmentSizeLabel;
         private System.Windows.Forms.Label FragmentSizeValueLabel;
         private System.Windows.Forms.GroupBox AdvancedSettingsGroupBox;
-        private System.Windows.Forms.Timer UpdateGUITimer;
         private System.Windows.Forms.Label TreeSplitsValueLabel;
         private System.Windows.Forms.Label TreeSplitsLabel;
         private System.Windows.Forms.Label HashSizeLabel;

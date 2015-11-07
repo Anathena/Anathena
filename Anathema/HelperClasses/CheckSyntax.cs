@@ -8,7 +8,7 @@ namespace Anathema
 {
     public static class CheckSyntax
     {
-        private static unsafe int MaxAddressLength = sizeof(IntPtr) * 2;
+        private static unsafe int MaxHexAddressLength = sizeof(IntPtr) * 2;
 
         // Determines if a string contains all zeros
         private static bool IsZeroX(string Value)
@@ -42,11 +42,11 @@ namespace Anathema
                 Address = Address.Substring(2);
 
             // Out of bounds
-            if (Address.Length > MaxAddressLength || IsBlank(Address))
+            if (Address.Length > MaxHexAddressLength || IsBlank(Address))
                 return false;
 
             // Too short: assume preceding 0s are intended
-            while (Address.Length < MaxAddressLength)
+            while (Address.Length < MaxHexAddressLength)
                 Address = "0" + Address;
 
             int Result;

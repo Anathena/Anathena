@@ -22,10 +22,7 @@ namespace Anathema
         private GUIFilterManualScan GUIFilterManualScan;
         private GUIFilterTreeScan GUIFilterTreeScan;
         private GUIFilterFSM GUIFilterFSM;
-
-        // Event stubs
-        public event EventHandler Initialize;
-
+        
         // Presenter
         private BenedictionPresenter BenedictionPresenter;
 
@@ -44,7 +41,7 @@ namespace Anathema
             GUIFilterFSM.Dock = DockStyle.Fill;
 
             // Initialize presenter
-            BenedictionPresenter = new BenedictionPresenter(this, new Benediction());
+            BenedictionPresenter = new BenedictionPresenter(this, Benediction.GetBenedictionInstance());
         }
 
         public void EventCallbackTest()
@@ -55,6 +52,7 @@ namespace Anathema
         public void UpdateProcess(MemorySharp MemoryEditor)
         {
             BenedictionPresenter.UpdateProcess(MemoryEditor);
+            GUIFilterTreeScan.UpdateProcess(MemoryEditor);
         }
 
         public void UpdateMemoryLabels(List<Tuple<IntPtr, Object>> MemoryLabels)

@@ -12,22 +12,31 @@ namespace Anathema
     // TODO: - Batch read/write function (automatic API call minimization)
 
     /// <summary>
-    /// Class to controls the main memory editor. Individual tools subscribe to this tool to recieve updates to
+    /// Static class to control the main memory editor. Individual tools subscribe to this tool to recieve updates to
     /// changes in the target process.
     /// </summary>
     class Benediction : IBenedictionModel
     {
+        private static Benediction BenedictionInstance; // Static self reference
         private MemorySharp MemoryEditor;               // Memory editor instance
 
-        private IMemoryFilter MemoryFilter;         // Current memory filter
+        private IFilterModel MemoryFilter;         // Current memory filter
         private IMemoryLabeler MemoryLabeler;       // Current memory labeler
         private SnapshotManager SnapshotManager;    // Memory snapshot manager instance
 
         public event EventHandler EventCallbackTest;
 
-        public Benediction()
+        private Benediction()
         {
-            SnapshotManager = new SnapshotManager();
+            SnapshotManager = SnapshotManager.GetSnapshotManagerInstance();
+        }
+
+        public static Benediction GetBenedictionInstance()
+        {
+            if (BenedictionInstance == null)
+                BenedictionInstance = new Benediction();
+
+            return BenedictionInstance;
         }
 
         public void UpdateProcess(MemorySharp MemoryEditor)
@@ -41,7 +50,7 @@ namespace Anathema
         /// Begin the filtering process with the specified filter
         /// </summary>
         /// <param name="MemoryFilter"></param>
-        public void BeginFilter(IMemoryFilter MemoryFilter)
+        public void BeginFilter(IFilterModel MemoryFilter)
         {
             if (MemoryFilter == null)
                 return;
@@ -49,7 +58,7 @@ namespace Anathema
             this.MemoryFilter = MemoryFilter;
 
             // Start scanning with the active memory snapshot
-            MemoryFilter.BeginFilter(MemoryEditor, SnapshotManager.GetActiveSnapshot(MemoryEditor));
+            MemoryFilter.BeginFilter();
         }
 
         public void EndFilter()
@@ -81,7 +90,7 @@ namespace Anathema
             this.MemoryLabeler = MemoryLabeler;
 
             // Start labeling the active memory snapshot
-            MemoryLabeler.BeginLabeler(MemoryEditor, SnapshotManager.GetActiveSnapshot(MemoryEditor));
+            //MemoryLabeler.BeginLabeler(MemoryEditor, SnapshotManager.GetActiveSnapshot(MemoryEditor));
         }
 
         public void EndLabeler()

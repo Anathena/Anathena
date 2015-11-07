@@ -10,13 +10,22 @@ namespace Anathema
 {
     class SnapshotManager
     {
+        private static SnapshotManager SnapshotManagerInstance;
         private List<Snapshot> Snapshots;   // Snapshots being managed
         private Snapshot ActiveSnapshot;    // Reference to the active snapshot being used by Anathema
 
-        public SnapshotManager()
+        private SnapshotManager()
         {
             Snapshots = new List<Snapshot>();
             ActiveSnapshot = null;
+        }
+
+        public static SnapshotManager GetSnapshotManagerInstance()
+        {
+            if (SnapshotManagerInstance == null)
+                SnapshotManagerInstance = new SnapshotManager();
+
+            return SnapshotManagerInstance;
         }
 
         public void SaveSnapshot(List<RemoteRegion> MemoryRegions)
@@ -32,14 +41,14 @@ namespace Anathema
         /// </summary>
         /// <param name="MemoryEditor"></param>
         /// <returns></returns>
-        public List<RemoteRegion> GetActiveSnapshot(MemorySharp MemoryEditor)
+        public Snapshot GetActiveSnapshot(MemorySharp MemoryEditor)
         {
             // Take a snapshot if there are none
             if (ActiveSnapshot == null)
                 SnapshotAllMemory(MemoryEditor);
 
             // Return the snapshot
-            return ActiveSnapshot.GetMemoryRegions();
+            return ActiveSnapshot;
         }
 
         /// <summary>
