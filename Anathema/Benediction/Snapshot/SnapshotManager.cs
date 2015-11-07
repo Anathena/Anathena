@@ -8,11 +8,17 @@ using System.Threading.Tasks;
 
 namespace Anathema
 {
-    class SnapshotManager
+    class SnapshotManager : ISnapshotManagerModel
     {
         private static SnapshotManager SnapshotManagerInstance;
+
+        private MemorySharp MemoryEditor;
+
         private List<Snapshot> Snapshots;   // Snapshots being managed
         private Snapshot ActiveSnapshot;    // Reference to the active snapshot being used by Anathema
+
+        // Event stubs
+        public event EventHandler UpdateSnapshotDisplay;
 
         private SnapshotManager()
         {
@@ -26,6 +32,16 @@ namespace Anathema
                 SnapshotManagerInstance = new SnapshotManager();
 
             return SnapshotManagerInstance;
+        }
+
+        public void UpdateProcess(MemorySharp MemoryEditor)
+        {
+            this.MemoryEditor = MemoryEditor;
+        }
+
+        public void DeleteSnapshot()
+        {
+
         }
 
         public void SaveSnapshot(List<RemoteRegion> MemoryRegions)
@@ -45,7 +61,7 @@ namespace Anathema
         {
             // Take a snapshot if there are none
             if (ActiveSnapshot == null)
-                SnapshotAllMemory(MemoryEditor);
+                SnapshotAllMemory();
 
             // Return the snapshot
             return ActiveSnapshot;
@@ -54,7 +70,7 @@ namespace Anathema
         /// <summary>
         /// Take a snapshot of all memory regions in the target process
         /// </summary>
-        public void SnapshotAllMemory(MemorySharp MemoryEditor)
+        public void SnapshotAllMemory()
         {
             // Query all virtual pages
             List<RemoteVirtualPage> VirtualPages = new List<RemoteVirtualPage>();

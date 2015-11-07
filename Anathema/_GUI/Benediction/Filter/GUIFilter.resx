@@ -117,4 +117,32 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <metadata name="FilterToolStrip.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>17, 17</value>
+  </metadata>
+  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="SearchSpaceAnalysisButton.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
+        YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAABESURBVDhPvYxBCgAgCAT9/6ctQhY9WGbmwBwUHZrwo8AM
+        QnS3aA1ogXcc5lvgJDDDBveuNaAF0YBLSSDjNaknTUlAJB40J0i4fuqqFgAAAABJRU5ErkJggg==
+</value>
+  </data>
+  <data name="FiniteStateMachineButton.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
+        YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAACtSURBVDhPpZPBDcIwDEV7QF0JhqiYg1HgBlOwRbeAMwvA
+        AFzK+04ipSFpLfVXT3Js122in66hHm7whk+MlXPrClPBGdzSl3lpitgA5dzaPKC2hQu4dYAX6ACF4j24
+        NcIphCbFyrk0wBN2tgpSrJxqi1pqPMID8sF/WvvVcmum3HVfuMdcKeVUU8/MnV7XNfvMNKyMWKiZJpgr
+        PVnf5gFe1zX70iEm17WubqWv638XgGok1P09sAAAAABJRU5ErkJggg==
+</value>
+  </data>
+  <data name="ManualScanButton.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
+        YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAABVSURBVDhPY6AaSEgL/k8KhmqDAJDApmwGkjCKITAD/s8i
+        DuM34Pos/JgYA0B8bJgkA6BScDASDcCGiTYALyZoABEYpwGkYBQDQAAkQAqGaqMUMDAAAKrgqMT5IRmp
+        AAAAAElFTkSuQmCC
+</value>
+  </data>
 </root>

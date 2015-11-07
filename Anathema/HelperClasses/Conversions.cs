@@ -19,7 +19,7 @@ namespace Anathema
                 return "??";
         }
 
-        public static String ByteToMetricSize(UInt64 byteCount)
+        public static String ByteCountToMetricSize(UInt64 byteCount)
         {
             string[] suf = { "B", "KB", "MB", "GB", "TB", "PB", "EB" }; // Longs run out around EB
 

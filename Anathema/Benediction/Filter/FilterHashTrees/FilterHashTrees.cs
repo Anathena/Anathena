@@ -57,7 +57,8 @@ namespace Anathema
 
         // Event stubs
         public event EventHandler EventFilterFinished;
-        public event EventHandler EventSplitCountChanged;
+        public event FilterHashTreesEventHandler EventSplitCountChanged;
+        public event FilterHashTreesEventHandler EventTreeSizeChanged;
 
         public FilterHashTrees()
         {
@@ -85,13 +86,13 @@ namespace Anathema
             return Value;
         }
 
-        public Int32 GetHashTreeSplits()
+        public UInt64 GetHashTreeSplits()
         {
-            Int32 Value = 0;
+            UInt64 Value = 0;
 
             if (CandidateTree != null)
                 for (Int32 Index = 0; Index < CandidateTree.Count; Index++)
-                    Value += (Int32)CandidateTree[Index].GetSplitCount();
+                    Value += (UInt64)CandidateTree[Index].GetSplitCount();
 
             return Value;
         }
@@ -182,6 +183,12 @@ namespace Anathema
                     CandidateTree.RemoveAt(Index--);
             }
 
+            FilterHashTreesEventArgs Args = new FilterHashTreesEventArgs();
+            Args.SplitCount = GetHashTreeSplits();
+            Args.TreeSize = GetHashTreeSize();
+            EventSplitCountChanged.Invoke(this, Args);
+            EventTreeSizeChanged.Invoke(this, Args);
+
             // Get the elapsed time as a TimeSpan value.
             //StopWatch.Stop();
             //Int32 ts = StopWatch.Elapsed.Milliseconds;
@@ -264,7 +271,7 @@ namespace Anathema
                 return new MemoryChangeRoot(this.MemorySharp, CopyBaseAddress, CopyRegionSize);
             }
 
-            public Int32 GetSplitCount()
+            public UInt64 GetSplitCount()
             {
                 return Child.GetSplitCount();
             }
@@ -296,7 +303,7 @@ namespace Anathema
                 Hashes = new UInt64[2];
             }
 
-            public Int32 GetSplitCount()
+            public UInt64 GetSplitCount()
             {
                 // Add this page to the accepted list if we are a leaf on the tree structure
                 if (!(ChildLeft == null && ChildRight == null))

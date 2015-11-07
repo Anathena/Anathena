@@ -39,7 +39,7 @@
             this.TreeSplitsValueLabel = new System.Windows.Forms.Label();
             this.TreeSplitsLabel = new System.Windows.Forms.Label();
             this.HashSizeLabel = new System.Windows.Forms.Label();
-            this.HashTreeSizeValueLabel = new System.Windows.Forms.Label();
+            this.MemorySizeValueLabel = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.GranularityTrackBar)).BeginInit();
             this.ScanToolStrip.SuspendLayout();
             this.AdvancedSettingsGroupBox.SuspendLayout();
@@ -149,14 +149,14 @@
             this.HashSizeLabel.TabIndex = 144;
             this.HashSizeLabel.Text = "Memory Size:";
             // 
-            // HashTreeSizeValueLabel
+            // MemorySizeValueLabel
             // 
-            this.HashTreeSizeValueLabel.AutoSize = true;
-            this.HashTreeSizeValueLabel.Location = new System.Drawing.Point(85, 47);
-            this.HashTreeSizeValueLabel.Name = "HashTreeSizeValueLabel";
-            this.HashTreeSizeValueLabel.Size = new System.Drawing.Size(13, 13);
-            this.HashTreeSizeValueLabel.TabIndex = 145;
-            this.HashTreeSizeValueLabel.Text = "0";
+            this.MemorySizeValueLabel.AutoSize = true;
+            this.MemorySizeValueLabel.Location = new System.Drawing.Point(85, 47);
+            this.MemorySizeValueLabel.Name = "MemorySizeValueLabel";
+            this.MemorySizeValueLabel.Size = new System.Drawing.Size(13, 13);
+            this.MemorySizeValueLabel.TabIndex = 145;
+            this.MemorySizeValueLabel.Text = "0";
             // 
             // GUIFilterTreeScan
             // 
@@ -165,7 +165,7 @@
             this.Controls.Add(this.ScanToolStrip);
             this.Controls.Add(this.TreeSplitsValueLabel);
             this.Controls.Add(this.TreeSplitsLabel);
-            this.Controls.Add(this.HashTreeSizeValueLabel);
+            this.Controls.Add(this.MemorySizeValueLabel);
             this.Controls.Add(this.HashSizeLabel);
             this.Controls.Add(this.AdvancedSettingsGroupBox);
             this.Name = "GUIFilterTreeScan";
@@ -193,6 +193,6 @@
         private System.Windows.Forms.Label TreeSplitsValueLabel;
         private System.Windows.Forms.Label TreeSplitsLabel;
         private System.Windows.Forms.Label HashSizeLabel;
-        private System.Windows.Forms.Label HashTreeSizeValueLabel;
+        private System.Windows.Forms.Label MemorySizeValueLabel;
     }
 }

@@ -83,15 +83,47 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Benediction\Filter\FilterHashTrees\IFilterHashTreesMVP.cs" />
+    <Compile Include="Benediction\Snapshot\ISnapshotManagerMVP.cs" />
     <Compile Include="Benediction\Filter\IFilterMVP.cs" />
     <Compile Include="Benediction\IBenedictionMVP.cs" />
     <Compile Include="Benediction\Snapshot\Snapshot.cs" />
+    <Compile Include="HelperClasses\ControlThreadingHelper.cs" />
     <Compile Include="HelperClasses\MVP\IMVP.cs" />
     <Compile Include="_GUI\Anathema\GUIAnathema.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="_GUI\Anathema\GUIAnathema.Designer.cs">
       <DependentUpon>GUIAnathema.cs</DependentUpon>
+    </Compile>
+    <Compile Include="_GUI\Benediction\Display\GUIDisplay.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="_GUI\Benediction\Display\GUIDisplay.Designer.cs">
+      <DependentUpon>GUIDisplay.cs</DependentUpon>
+    </Compile>
+    <Compile Include="_GUI\Benediction\Filter\GUIFilter.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="_GUI\Benediction\Filter\GUIFilter.Designer.cs">
+      <DependentUpon>GUIFilter.cs</DependentUpon>
+    </Compile>
+    <Compile Include="_GUI\Benediction\Labeler\GUILabeler.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="_GUI\Benediction\Labeler\GUILabeler.Designer.cs">
+      <DependentUpon>GUILabeler.cs</DependentUpon>
+    </Compile>
+    <Compile Include="_GUI\Benediction\Snapshot\GUISnapshotManager.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="_GUI\Benediction\Snapshot\GUISnapshotManager.Designer.cs">
+      <DependentUpon>GUISnapshotManager.cs</DependentUpon>
+    </Compile>
+    <Compile Include="_GUI\Benediction\Table\GUITable.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="_GUI\Benediction\Table\GUITable.Designer.cs">
+      <DependentUpon>GUITable.cs</DependentUpon>
     </Compile>
     <Compile Include="_GUI\Celestial\GUICelestial.cs">
       <SubType>UserControl</SubType>
@@ -198,7 +230,7 @@
     <Compile Include="Main\IMainController.cs" />
     <Compile Include="Main\IMainModel.cs" />
     <Compile Include="Main\IMainView.cs" />
-    <Compile Include="ProcessSelector\IProcessObserver.cs" />
+    <Compile Include="Process\IProcessObserver.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="_GUI\Benediction\Filter\GUIFilterTreeScan.cs">
@@ -210,8 +242,23 @@
     <Compile Include="HelperClasses\Settings.cs" />
     <Compile Include="Celestial\TestByteProvider.cs" />
     <Compile Include="Benediction\Snapshot\SnapshotManager.cs" />
+    <EmbeddedResource Include="_GUI\Benediction\Display\GUIDisplay.resx">
+      <DependentUpon>GUIDisplay.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="_GUI\Benediction\Filter\GUIFilter.resx">
+      <DependentUpon>GUIFilter.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="_GUI\Benediction\GUIBenediction.resx">
       <DependentUpon>GUIBenediction.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="_GUI\Benediction\Labeler\GUILabeler.resx">
+      <DependentUpon>GUILabeler.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="_GUI\Benediction\Snapshot\GUISnapshotManager.resx">
+      <DependentUpon>GUISnapshotManager.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="_GUI\Benediction\Table\GUITable.resx">
+      <DependentUpon>GUITable.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="_GUI\Celestial\GUICelestial.resx">
       <DependentUpon>GUICelestial.cs</DependentUpon>

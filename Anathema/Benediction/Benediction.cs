@@ -24,8 +24,6 @@ namespace Anathema
         private IMemoryLabeler MemoryLabeler;       // Current memory labeler
         private SnapshotManager SnapshotManager;    // Memory snapshot manager instance
 
-        public event EventHandler EventCallbackTest;
-
         private Benediction()
         {
             SnapshotManager = SnapshotManager.GetSnapshotManagerInstance();
@@ -42,8 +40,6 @@ namespace Anathema
         public void UpdateProcess(MemorySharp MemoryEditor)
         {
             this.MemoryEditor = MemoryEditor;
-
-            EventCallbackTest.Invoke(this, new EventArgs());
         }
 
         /// <summary>

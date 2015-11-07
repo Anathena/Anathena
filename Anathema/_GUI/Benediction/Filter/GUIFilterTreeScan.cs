@@ -14,7 +14,7 @@ namespace Anathema
         public GUIFilterTreeScan()
         {
             InitializeComponent();
-            
+
             FilterHashTreesPresenter = new FilterHashTreesPresenter(this, new FilterHashTrees());
 
             UpdateFragmentSizeLabel();
@@ -32,7 +32,18 @@ namespace Anathema
 
         public void DisplaySplitCount(UInt64 SplitCount)
         {
-            HashTreeSizeValueLabel.Text = Conversions.ByteToMetricSize(SplitCount).ToString();
+            ControlThreadingHelper.InvokeControlAction(TreeSplitsValueLabel, () =>
+            {
+                TreeSplitsValueLabel.Text = SplitCount.ToString();
+            });
+        }
+
+        public void DisplayTreeSize(UInt64 TreeSize)
+        {
+            ControlThreadingHelper.InvokeControlAction(MemorySizeValueLabel, () =>
+            {
+                MemorySizeValueLabel.Text = Conversions.ByteCountToMetricSize(TreeSize).ToString();
+            });
         }
 
         private void UpdateTreeSplits(Int32 Splits)
@@ -43,12 +54,7 @@ namespace Anathema
         private void UpdateFragmentSizeLabel()
         {
             UInt64 Value = (UInt64)Math.Pow(2, GranularityTrackBar.Value);
-            string LabelText = Value.ToString();
-
-            if (Value == 1)
-                LabelText += " Byte";
-            else
-                LabelText += " Bytes";
+            string LabelText = Conversions.ByteCountToMetricSize(Value).ToString();
 
             FragmentSizeValueLabel.Text = LabelText;
 
@@ -70,7 +76,7 @@ namespace Anathema
         {
             AdvancedSettingsGroupBox.Enabled = true;
         }
-        
+
         private void StartButton_Click(object sender, EventArgs e)
         {
             FilterHashTreesPresenter.BeginFilter();

@@ -1,4 +1,5 @@
 ﻿using Binarysharp.MemoryManagement;
+using Binarysharp.MemoryManagement.Memory;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,26 +8,27 @@ using System.Threading.Tasks;
 
 namespace Anathema
 {
-    interface IBenedictionView : IView
+    interface ISnapshotManagerView : IView
     {
         // Methods invoked by the presenter (upstream)
-
+        void UpdateSnapshotDisplay();
     }
 
-    interface IBenedictionModel : IModel
+    interface ISnapshotManagerModel : IModel, IProcessObserver
     {
         // Events triggered by the model (upstream)
+        event EventHandler UpdateSnapshotDisplay;
 
         // Functions invoked by presenter (downstream)
-        void UpdateProcess(MemorySharp MemoryEditor);
+        void DeleteSnapshot();
     }
 
-    class BenedictionPresenter : Presenter<IBenedictionView, IBenedictionModel>
+    class SnapshotManagerPresenter : Presenter<ISnapshotManagerView, ISnapshotManagerModel>, IProcessObserver
     {
-        public BenedictionPresenter(IBenedictionView View, IBenedictionModel Model) : base(View, Model)
+        public SnapshotManagerPresenter(ISnapshotManagerView View, ISnapshotManagerModel Model) : base(View, Model)
         {
             // Bind events triggered by the model
-
+            Model.UpdateSnapshotDisplay += UpdateSnapshotDisplay;
         }
 
         #region Method definitions called by the view (downstream)
@@ -35,10 +37,15 @@ namespace Anathema
         {
             Model.UpdateProcess(MemoryEditor);
         }
-
+        
         #endregion
 
         #region Event definitions for events triggered by the model (upstream)
+
+        private void UpdateSnapshotDisplay(object sender, EventArgs e)
+        {
+
+        }
 
         #endregion
     }
