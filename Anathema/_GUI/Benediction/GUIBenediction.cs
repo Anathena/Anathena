@@ -12,11 +12,8 @@ using Binarysharp.MemoryManagement;
 
 namespace Anathema
 {
-    partial class GUIBenediction : UserControl, IBenedictionView, IBenedictionModelObserver, IProcessObserver
+    partial class GUIBenediction : UserControl, IBenedictionView, IProcessObserver
     {
-        // Controller to separate GUI logic and program logic
-        private IBenedictionController BenedictionController;
-
         // Display constants
         private const Int32 MarginSize = 4;
         private const Int32 MaximumDisplayed = 4000;
@@ -25,6 +22,12 @@ namespace Anathema
         private GUIFilterManualScan GUIFilterManualScan;
         private GUIFilterTreeScan GUIFilterTreeScan;
         private GUIFilterFSM GUIFilterFSM;
+
+        // Event stubs
+        public event EventHandler Initialize;
+
+        // Presenter
+        private BenedictionPresenter BenedictionPresenter;
 
         public GUIBenediction()
         {
@@ -40,24 +43,18 @@ namespace Anathema
             GUIFilterTreeScan.Dock = DockStyle.Fill;
             GUIFilterFSM.Dock = DockStyle.Fill;
 
-            BenedictionController = new BenedictionController(this, Benediction.GetBenedictionInstance());
+            // Initialize presenter
+            BenedictionPresenter = new BenedictionPresenter(this, new Benediction());
         }
 
-        public event BenedictionViewHandler<IBenedictionView> UpdateTargetProcess;
-
-        public void ProcessSelected(IBenedictionModel m, BenedictionModelEventArgs e)
+        public void EventCallbackTest()
         {
-
-        }
-
-        public void SetBenedictionController(IBenedictionController BenedictionController)
-        {
-            this.BenedictionController = BenedictionController;
+            int i = 0;
         }
 
         public void UpdateProcess(MemorySharp MemoryEditor)
         {
-            BenedictionController.UpdateProcess(MemoryEditor);
+            BenedictionPresenter.UpdateProcess(MemoryEditor);
         }
 
         public void UpdateMemoryLabels(List<Tuple<IntPtr, Object>> MemoryLabels)

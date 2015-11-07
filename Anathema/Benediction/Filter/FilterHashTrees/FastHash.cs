@@ -11,7 +11,6 @@ namespace Anathema
     /// Modified FNV Hash to support a start and end index
     /// </summary>
     ///
-
     class FastHash
     {
         public unsafe static UInt64 ComputeHash(byte[] Data, UInt64 Start, UInt64 End)

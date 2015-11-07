@@ -13,7 +13,7 @@ namespace Anathema
             InitializeComponent();
 
             FilterTreeScan = new FilterHashTrees();
-            BenedictionInstance = Benediction.GetBenedictionInstance();
+            //BenedictionInstance = Benediction.GetBenedictionInstance();
 
             UpdateFragmentSizeLabel();
         }

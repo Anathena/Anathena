@@ -7,10 +7,12 @@ using System.Threading.Tasks;
 namespace Anathema
 {
     /// <summary>
-    /// THIS NEEDS UPDATING UPON REMOVAL OF OSINTERFACE.
+    /// TODO: RENABLE AND USE SETTINGS (Although to my astonishment binary hashing trees are so efficient this almost
+    /// doesnt even matter)
     /// </summary>
     class Settings
     {
+        /*
         public UInt32[] StateSettings = new UInt32[Enum.GetNames(typeof(OSInterface.MEMORY_STATE)).Length];
         public UInt32[] TypeSettings = new UInt32[Enum.GetNames(typeof(OSInterface.MEMORY_TYPE)).Length];
         public UInt32[] ProtectionSettings = new UInt32[Enum.GetNames(typeof(OSInterface.MEMORY_PROTECTION)).Length];
@@ -48,6 +50,6 @@ namespace Anathema
             ProtectionSettings[Array.IndexOf(EnumValues, OSInterface.MEMORY_PROTECTION.GUARD)] = 0;
             ProtectionSettings[Array.IndexOf(EnumValues, OSInterface.MEMORY_PROTECTION.NO_CACHE)] = 0;
             ProtectionSettings[Array.IndexOf(EnumValues, OSInterface.MEMORY_PROTECTION.WRITE_COMBINE)] = 0;
-        }
+        }*/
     }
 }

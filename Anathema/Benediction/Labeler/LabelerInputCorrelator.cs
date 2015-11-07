@@ -90,7 +90,7 @@ namespace Anathema
             // TODO: App hook option? From author: "Note: for the application hook, use the Hook.AppEvents() instead" unless app hook is internal
             InputHook = Hook.GlobalEvents();
 
-            Anathema = Benediction.GetBenedictionInstance();
+            //Anathema = Benediction.GetBenedictionInstance();
         }
 
         public void BeginLabeler(MemorySharp MemoryEditor, List<RemoteRegion> MemoryRegions)

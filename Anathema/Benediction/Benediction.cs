@@ -9,77 +9,32 @@ using System.Threading.Tasks;
 
 namespace Anathema
 {
+    // TODO: - Batch read/write function (automatic API call minimization)
 
-    public delegate void BenedictionModelHandler<IBenedictionModel>(IBenedictionModel sender, BenedictionModelEventArgs e);
-
-    public class BenedictionModelEventArgs : EventArgs
-    {
-        public MemorySharp MemoryEditor;
-        public BenedictionModelEventArgs(MemorySharp MemoryEditor)
-        {
-            this.MemoryEditor = MemoryEditor;
-        }
-    }
-
-    public interface IBenedictionModelObserver
-    {
-        void ProcessSelected(IBenedictionModel model, BenedictionModelEventArgs e);
-    }
-
-    public interface IBenedictionModel
-    {
-        void Attach(IBenedictionModelObserver BenedictionModelObserver);
-        void UpdateProcess(MemorySharp MemoryEditor);
-    }
-
-    /*
-    TODO:
-    - Speedhack
-    - Manual Scan
-    - Batch read/write function (automatic API call minimization)
-    - Multiprocess Scan
-    - Plugin Support
-    - File sharing
-    */
     /// <summary>
-    /// Singleton class to controls the main memory editor. Individual tools subscribe to this tool to recieve updates to
+    /// Class to controls the main memory editor. Individual tools subscribe to this tool to recieve updates to
     /// changes in the target process.
     /// </summary>
     class Benediction : IBenedictionModel
     {
-        private static Benediction BenedictionInstance; // Static reference to this class
         private MemorySharp MemoryEditor;               // Memory editor instance
-        
-        public event BenedictionModelHandler<Benediction> Changed;
 
         private IMemoryFilter MemoryFilter;         // Current memory filter
         private IMemoryLabeler MemoryLabeler;       // Current memory labeler
         private SnapshotManager SnapshotManager;    // Memory snapshot manager instance
+
+        public event EventHandler EventCallbackTest;
 
         public Benediction()
         {
             SnapshotManager = new SnapshotManager();
         }
 
-        /// <summary>
-        /// Returns the instance of the singleton anathema object
-        /// </summary>
-        public static Benediction GetBenedictionInstance()
-        {
-            if (BenedictionInstance == null)
-                BenedictionInstance = new Benediction();
-            return BenedictionInstance;
-        }
-
-        public void Attach(IBenedictionModelObserver BenedictionModelObserver)
-        {
-            Changed += new BenedictionModelHandler<Benediction>(BenedictionModelObserver.ProcessSelected);
-        }
-
         public void UpdateProcess(MemorySharp MemoryEditor)
         {
             this.MemoryEditor = MemoryEditor;
-            Changed.Invoke(this, new BenedictionModelEventArgs(MemoryEditor));
+
+            EventCallbackTest.Invoke(this, new EventArgs());
         }
 
         /// <summary>

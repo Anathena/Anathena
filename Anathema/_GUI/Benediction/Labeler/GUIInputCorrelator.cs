@@ -13,13 +13,11 @@ namespace Anathema
     public partial class GUIInputCorrelator : UserControl
     {
         private LabelerInputCorrelator InputCorrelator;
-        private readonly Benediction Anathema;
 
         public GUIInputCorrelator()
         {
             InitializeComponent();
             InputCorrelator = new LabelerInputCorrelator();
-            Anathema = Benediction.GetBenedictionInstance();
 
             UpdateVariableSizeLabel();
 
@@ -66,12 +64,12 @@ namespace Anathema
 
         private void StartSSAButton_Click(object sender, EventArgs e)
         {
-            Anathema.BeginLabeler(InputCorrelator);
+
         }
 
         private void StopSSAButton_Click(object sender, EventArgs e)
         {
-            Anathema.EndLabeler();
+
         }
     }
 }
