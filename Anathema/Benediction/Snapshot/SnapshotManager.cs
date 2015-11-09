@@ -46,10 +46,15 @@ namespace Anathema
 
         public void SaveSnapshot(List<RemoteRegion> MemoryRegions)
         {
-            Snapshots.Add(new Snapshot(MemoryRegions));
+            SaveSnapshot(new Snapshot(MemoryRegions));
+        }
+
+        public void SaveSnapshot(Snapshot Snapshot)
+        {
+            Snapshots.Add(Snapshot);
             
             // Set the most recently saved snapshot as the active snapshot
-            ActiveSnapshot = Snapshots[Snapshots.Count - 1];
+            ActiveSnapshot = Snapshot;
         }
 
         /// <summary>

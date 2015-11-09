@@ -28,22 +28,36 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.DummyToolStrip = new System.Windows.Forms.ToolStrip();
             this.SuspendLayout();
             // 
-            // GUIFiniteStateMachinePanel
+            // DummyToolStrip
+            // 
+            this.DummyToolStrip.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
+            this.DummyToolStrip.Location = new System.Drawing.Point(0, 0);
+            this.DummyToolStrip.Name = "DummyToolStrip";
+            this.DummyToolStrip.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
+            this.DummyToolStrip.Size = new System.Drawing.Size(287, 25);
+            this.DummyToolStrip.TabIndex = 150;
+            // 
+            // GUIFilterFSM
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Name = "GUIFiniteStateMachinePanel";
+            this.Controls.Add(this.DummyToolStrip);
+            this.Name = "GUIFilterFSM";
             this.Size = new System.Drawing.Size(287, 282);
             this.Load += new System.EventHandler(this.GUIFiniteStateMachine_Load);
             this.MouseDown += new System.Windows.Forms.MouseEventHandler(this.GUIFiniteStateMachine_MouseDown);
             this.MouseMove += new System.Windows.Forms.MouseEventHandler(this.GUIFiniteStateMachine_MouseMove);
             this.MouseUp += new System.Windows.Forms.MouseEventHandler(this.GUIFiniteStateMachine_MouseUp);
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
         #endregion
+
+        private System.Windows.Forms.ToolStrip DummyToolStrip;
     }
 }

@@ -174,7 +174,6 @@ namespace Anathema
         }
 
         // Checks if passed value is a valid value for a int
-        // TODO: There is likely repetition between this and other methods, can probably condense these
         public static bool Int32Value(string Value, bool IsHex = false)
         {
             if (IsHex)

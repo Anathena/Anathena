@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Binarysharp.MemoryManagement;
 
 namespace Anathema
 {
@@ -25,6 +26,11 @@ namespace Anathema
             this.DoubleBuffered = true;
             this.SetStyle(ControlStyles.DoubleBuffer, true);
             InitializeDefaultStates();
+        }
+
+        public void UpdateProcess(MemorySharp MemoryEditor)
+        {
+
         }
 
         public void UpdateGUI()

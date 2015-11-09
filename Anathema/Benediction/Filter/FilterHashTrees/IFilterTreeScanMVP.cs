@@ -8,14 +8,14 @@ using System.Threading.Tasks;
 
 namespace Anathema
 {
-    delegate void FilterHashTreesEventHandler(object sender, FilterHashTreesEventArgs args);
+    delegate void FilterTreeScanEventHandler(object sender, FilterHashTreesEventArgs args);
     class FilterHashTreesEventArgs : EventArgs
     {
         public UInt64? SplitCount = null;
         public UInt64? TreeSize = null;
     }
 
-    interface IFilterHashTreesView : IFilterView
+    interface IFilterTreeScanView : IFilterView
     {
         // Methods invoked by the presenter (upstream)
         void DisplaySplitCount(UInt64 SplitCount);
@@ -23,26 +23,48 @@ namespace Anathema
         void DisplayTreeSize(UInt64 SplitCount);
     }
 
-    interface IFilterHashTreesModel : IFilterModel
+    interface IFilterTreeScanModel : IFilterModel
     {
         // Events triggered by the model (upstream)
-        event FilterHashTreesEventHandler EventSplitCountChanged;
-        event FilterHashTreesEventHandler EventTreeSizeChanged;
+        event FilterTreeScanEventHandler EventSplitCountChanged;
+        event FilterTreeScanEventHandler EventTreeSizeChanged;
 
         // Functions invoked by presenter (downstream)
-
+        void SetLeafSize(UInt64 LeafSize);
+        void SetVariableSize(UInt64 VariableSize);
     }
 
-    class FilterHashTreesPresenter : FilterPresenter
+    class FilterTreeScanPresenter : FilterPresenter
     {
-        public FilterHashTreesPresenter(IFilterHashTreesView View, IFilterHashTreesModel Model) : base(View, Model)
+        new IFilterTreeScanView View;
+        new IFilterTreeScanModel Model;
+
+        public FilterTreeScanPresenter(IFilterTreeScanView View, IFilterTreeScanModel Model) : base(View, Model)
         {
+            this.View = View;
+            this.Model = Model;
             // Bind events triggered by the model
             Model.EventSplitCountChanged += EventSplitCountChanged;
             Model.EventTreeSizeChanged += EventTreeSizeChanged;
         }
 
         #region Method definitions called by the view (downstream)
+
+        public void SetLeafSize(UInt64 LeafSize)
+        {
+            if (LeafSize <= 0)
+                return;
+
+            Model.SetLeafSize(LeafSize);
+        }
+
+        public void SetVariableSize(UInt64 VariableSize)
+        {
+            if (VariableSize <= 0)
+                return;
+
+            Model.SetVariableSize(VariableSize);
+        }
 
         #endregion
 
@@ -51,13 +73,13 @@ namespace Anathema
         private void EventSplitCountChanged(object sender, FilterHashTreesEventArgs e)
         {
             if (e.SplitCount.HasValue)
-                ((IFilterHashTreesView)View).DisplaySplitCount(e.SplitCount.Value);
+                View.DisplaySplitCount(e.SplitCount.Value);
         }
 
         private void EventTreeSizeChanged(object sender, FilterHashTreesEventArgs e)
         {
             if (e.TreeSize.HasValue)
-                ((IFilterHashTreesView)View).DisplayTreeSize(e.TreeSize.Value);
+                View.DisplayTreeSize(e.TreeSize.Value);
         }
 
         #endregion

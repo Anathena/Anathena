@@ -9,8 +9,6 @@ using System.Threading.Tasks;
 
 namespace Anathema
 {
-    // TODO: - Batch read/write function (automatic API call minimization)
-
     /// <summary>
     /// Static class to control the main memory editor. Individual tools subscribe to this tool to recieve updates to
     /// changes in the target process.

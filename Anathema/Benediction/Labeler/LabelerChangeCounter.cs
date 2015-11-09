@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace Anathema
 {
-    class LabelerValueReader
+    class LabelerChangeCounter
     {
+        // Count increases, decreases, changes...
     }
 }

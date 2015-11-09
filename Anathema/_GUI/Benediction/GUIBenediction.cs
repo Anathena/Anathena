@@ -32,6 +32,7 @@ namespace Anathema
         {
             BenedictionPresenter.UpdateProcess(MemoryEditor);
             GUIFilter.UpdateProcess(MemoryEditor);
+            GUISnapshotManager.UpdateProcess(MemoryEditor);
         }
 
         /// <summary>
@@ -40,31 +41,30 @@ namespace Anathema
         private void HandleGUIResize()
         {
             // Position the snapshot GUI
-            GUISnapshotManager.Location = new Point(MarginSize, MarginSize);
-            GUISnapshotManager.Height = GUITable.Location.Y - GUISnapshotManager.Location.Y - MarginSize;
-
-            // Position the labeler GUI
-            GUILabeler.Location = new Point(this.Width - GUILabeler.Width - MarginSize, MarginSize);
-            GUILabeler.Height = GUITable.Location.Y - GUILabeler.Location.Y - MarginSize;
-
-            // Position the filter GUI
-            GUIFilter.Location = new Point(GUISnapshotManager.Location.X + GUISnapshotManager.Width + MarginSize, MarginSize);
-            GUIFilter.Width = GUILabeler.Location.X - GUIFilter.Location.X - MarginSize;
-            GUIFilter.Height = GUITable.Location.Y - GUIFilter.Location.Y - MarginSize;
+            GUISnapshotManager.Location = new Point(this.Width - GUISnapshotManager.Width - MarginSize, MarginSize);
 
             // Position the display GUI
-            GUIDisplay.Location = new Point(MarginSize, GUIDisplay.Location.Y);
-            GUIDisplay.Height = this.Height - GUIDisplay.Location.Y - MarginSize;
-
+            GUIDisplay.Location = new Point(GUISnapshotManager.Location.X - GUIDisplay.Width - MarginSize, MarginSize);
+            
             // Position the table GUI
-            GUITable.Location = new Point(GUIDisplay.Location.X + GUIDisplay.Width + MarginSize, GUITable.Location.Y);
+            GUITable.Location = new Point(GUIDisplay.Location.X, GUIDisplay.Location.Y + GUIDisplay.Height + MarginSize);
             GUITable.Width = this.Width - GUITable.Location.X - MarginSize;
             GUITable.Height = this.Height - GUITable.Location.Y - MarginSize;
+
+            // Position Filter/Labeler GUI
+            GUIFilterLabeler.Location = new Point(MarginSize, MarginSize);
+            GUIFilterLabeler.Height = this.Height - GUIFilterLabeler.Location.Y - MarginSize;
+            GUIFilterLabeler.Width = GUITable.Location.X - GUIFilterLabeler.Location.X - MarginSize;
         }
 
         private void GUIBenediction_Resize(object sender, EventArgs e)
         {
             HandleGUIResize();
+        }
+
+        private void GUIFilter_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }

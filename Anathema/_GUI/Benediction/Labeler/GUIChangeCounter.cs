@@ -7,25 +7,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using Binarysharp.MemoryManagement;
 
 namespace Anathema
 {
-    public partial class GUIFilterManualScan : UserControl
+    public partial class GUIChangeCounter : UserControl
     {
-        public GUIFilterManualScan()
+        public GUIChangeCounter()
         {
             InitializeComponent();
         }
-
-        public void UpdateProcess(MemorySharp MemoryEditor)
-        {
-
-        }
-
-        public void UpdateGUI()
-        {
-
-        }
+        
     }
 }

@@ -32,10 +32,8 @@ namespace Anathema
     /// to determine which half is of interest with subsequent loop iterations
     /// END ON USER REQUEST. Preferably after enough time to split the pages all the way down to the threshold size.
     ///
-    /// TODO: Grow regions by [max variable size] bytes
-    /// 
     /// </summary>
-    class FilterHashTrees : IFilterHashTreesModel
+    class FilterTreeScan : IFilterTreeScanModel
     {
         // Search space reduction related
         protected MemorySharp MemoryEditor;
@@ -50,17 +48,14 @@ namespace Anathema
         private const Int32 WaitTime = 100;                 // Time to wait (in ms) for a cancel request between each scan
 
         private static UInt64 PageSplitThreshold;    // User specified minimum page size for dynamic pages
-
-        // Scan statistics
-        private UInt64 InitialSize = 0;
-        private UInt64 EndSize = 0;
+        private UInt64 VariableSize;
 
         // Event stubs
         public event EventHandler EventFilterFinished;
-        public event FilterHashTreesEventHandler EventSplitCountChanged;
-        public event FilterHashTreesEventHandler EventTreeSizeChanged;
+        public event FilterTreeScanEventHandler EventSplitCountChanged;
+        public event FilterTreeScanEventHandler EventTreeSizeChanged;
 
-        public FilterHashTrees()
+        public FilterTreeScan()
         {
 
         }
@@ -70,9 +65,14 @@ namespace Anathema
             this.MemoryEditor = MemoryEditor;
         }
 
-        public static void UpdatePageSplitThreshold(UInt64 NewPageSplitThreshold)
+        public void SetLeafSize(UInt64 LeafSize)
         {
-            PageSplitThreshold = NewPageSplitThreshold;
+            PageSplitThreshold = LeafSize;
+        }
+
+        public void SetVariableSize(UInt64 VariableSize)
+        {
+            this.VariableSize = VariableSize;
         }
 
         public UInt64 GetHashTreeSize()
@@ -139,7 +139,6 @@ namespace Anathema
 
         public void AbortFilter()
         {
-            // TODO: just cancel the task instead of a clean exit
             EndScan();
         }
 
@@ -209,7 +208,7 @@ namespace Anathema
                 CandidateTree[Index].GetPageList(AcceptedPages);
 
             CandidateTree = null;
-
+            
             // Merge and collect any adjacent regions from the accepted list of memory pages
             FilteredMemoryRegions = CombineRegions(AcceptedPages);
         }
@@ -335,7 +334,7 @@ namespace Anathema
             public Boolean ProcessChanges(Byte[] Data, UInt64 Start, UInt64 Length)
             {
                 // No need to process a page that has already changed
-                if (Length <= FilterHashTrees.PageSplitThreshold && HasChanged)
+                if (Length <= FilterTreeScan.PageSplitThreshold && HasChanged)
                     return HasChanged;
 
                 // If this node has no children, this node is a leaf and thus does the processing
@@ -352,7 +351,7 @@ namespace Anathema
                     }
 
                     // This page needs to be split if a change was detected and the size is above the threshold
-                    if (HasChanged && Length > FilterHashTrees.PageSplitThreshold)
+                    if (HasChanged && Length > FilterTreeScan.PageSplitThreshold)
                     {
                         ChildLeft = new MemoryChangeTree();
                         ChildRight = new MemoryChangeTree();

@@ -43,7 +43,6 @@
             this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
             this.ClearTableButton = new System.Windows.Forms.ToolStripButton();
             this.UndoTableDeleteButton = new System.Windows.Forms.ToolStripButton();
-            this.MemoryViewerButton = new System.Windows.Forms.ToolStripButton();
             this.AddressCount = new System.Windows.Forms.Label();
             this.MainToolStrip.SuspendLayout();
             this.SuspendLayout();
@@ -93,8 +92,7 @@
             this.AddSpecificButton,
             this.toolStripSeparator5,
             this.ClearTableButton,
-            this.UndoTableDeleteButton,
-            this.MemoryViewerButton});
+            this.UndoTableDeleteButton});
             this.MainToolStrip.Location = new System.Drawing.Point(0, 196);
             this.MainToolStrip.Name = "MainToolStrip";
             this.MainToolStrip.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
@@ -169,15 +167,6 @@
             this.UndoTableDeleteButton.Name = "UndoTableDeleteButton";
             this.UndoTableDeleteButton.Size = new System.Drawing.Size(23, 22);
             // 
-            // MemoryViewerButton
-            // 
-            this.MemoryViewerButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.MemoryViewerButton.Image = ((System.Drawing.Image)(resources.GetObject("MemoryViewerButton.Image")));
-            this.MemoryViewerButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.MemoryViewerButton.Name = "MemoryViewerButton";
-            this.MemoryViewerButton.Size = new System.Drawing.Size(23, 22);
-            this.MemoryViewerButton.Text = "Memory Viewer";
-            // 
             // AddressCount
             // 
             this.AddressCount.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
@@ -220,7 +209,6 @@
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator5;
         private System.Windows.Forms.ToolStripButton ClearTableButton;
         private System.Windows.Forms.ToolStripButton UndoTableDeleteButton;
-        private System.Windows.Forms.ToolStripButton MemoryViewerButton;
         private System.Windows.Forms.Label AddressCount;
     }
 }

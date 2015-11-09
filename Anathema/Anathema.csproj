@@ -82,7 +82,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Benediction\Filter\FilterHashTrees\IFilterHashTreesMVP.cs" />
+    <Compile Include="Benediction\Filter\FilterHashTrees\IFilterTreeScanMVP.cs" />
     <Compile Include="Benediction\Snapshot\ISnapshotManagerMVP.cs" />
     <Compile Include="Benediction\Filter\IFilterMVP.cs" />
     <Compile Include="Benediction\IBenedictionMVP.cs" />
@@ -106,6 +106,12 @@
     </Compile>
     <Compile Include="_GUI\Benediction\Filter\GUIFilter.Designer.cs">
       <DependentUpon>GUIFilter.cs</DependentUpon>
+    </Compile>
+    <Compile Include="_GUI\Benediction\Labeler\GUIChangeCounter.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="_GUI\Benediction\Labeler\GUIChangeCounter.Designer.cs">
+      <DependentUpon>GUIChangeCounter.cs</DependentUpon>
     </Compile>
     <Compile Include="_GUI\Benediction\Labeler\GUILabeler.cs">
       <SubType>UserControl</SubType>
@@ -172,7 +178,7 @@
     <Compile Include="HelperClasses\CheckSyntax.cs" />
     <Compile Include="Benediction\Filter\FilterHashTrees\FastHash.cs" />
     <Compile Include="Benediction\Labeler\IMemoryLabeler.cs" />
-    <Compile Include="Benediction\Labeler\LabelerInputCorrelator.cs" />
+    <Compile Include="Benediction\Labeler\LabelerInputCorrelator\LabelerInputCorrelator.cs" />
     <Compile Include="Celestial\Celestial.cs" />
     <Compile Include="Benediction\Filter\InputHook\Hook.cs" />
     <Compile Include="Benediction\Filter\InputHook\HotKeys\HotKeyArgs.cs" />
@@ -214,7 +220,7 @@
     <Compile Include="Benediction\Filter\InputHook\WinApi\MouseStruct.cs" />
     <Compile Include="Benediction\Filter\InputHook\WinApi\Point.cs" />
     <Compile Include="Benediction\Filter\InputHook\WinApi\ThreadNativeMethods.cs" />
-    <Compile Include="Benediction\Filter\FilterHashTrees\FilterHashTrees.cs" />
+    <Compile Include="Benediction\Filter\FilterHashTrees\FilterTreeScan.cs" />
     <Compile Include="HelperClasses\Conversions.cs" />
     <Compile Include="_GUI\ProcessSelector\GUIProcessSelector.cs">
       <SubType>UserControl</SubType>
@@ -222,11 +228,10 @@
     <Compile Include="_GUI\ProcessSelector\GUIProcessSelector.Designer.cs">
       <DependentUpon>GUIProcessSelector.cs</DependentUpon>
     </Compile>
-    <Compile Include="HelperClasses\OSInterface.cs" />
     <Compile Include="Benediction\Filter\FilterManualScan\FilterManualScan.cs" />
     <Compile Include="Benediction\Filter\FilterLabelThresholder\FilterLabelThesholder.cs" />
     <Compile Include="Benediction\Filter\FilterMultiScanner\FilterMultiScanner.cs" />
-    <Compile Include="Benediction\Labeler\LabelerValueReader.cs" />
+    <Compile Include="Benediction\Labeler\LabelerChangeCounter.cs" />
     <Compile Include="Main\IMainController.cs" />
     <Compile Include="Main\IMainModel.cs" />
     <Compile Include="Main\IMainView.cs" />
@@ -250,6 +255,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="_GUI\Benediction\GUIBenediction.resx">
       <DependentUpon>GUIBenediction.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="_GUI\Benediction\Labeler\GUIChangeCounter.resx">
+      <DependentUpon>GUIChangeCounter.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="_GUI\Benediction\Labeler\GUILabeler.resx">
       <DependentUpon>GUILabeler.cs</DependentUpon>

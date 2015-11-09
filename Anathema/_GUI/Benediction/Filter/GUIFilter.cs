@@ -35,7 +35,9 @@ namespace Anathema
 
         public void UpdateProcess(MemorySharp MemoryEditor)
         {
-            //GUIFilterManualScan.UpdateProcess(MemoryEditor);
+            GUIFilterManualScan.UpdateProcess(MemoryEditor);
+            GUIFilterTreeScan.UpdateProcess(MemoryEditor);
+            GUIFilterFSM.UpdateProcess(MemoryEditor);
         }
 
         /// <summary>

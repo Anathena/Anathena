@@ -192,7 +192,6 @@ namespace Binarysharp.MemoryManagement.Native
         public MemoryTypeFlags Type;
     }
     [StructLayout(LayoutKind.Sequential)]
-    // TODO: Documentation
     public struct MemoryBasicInformation64
     {
         public IntPtr BaseAddress;

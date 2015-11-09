@@ -219,7 +219,7 @@ namespace Binarysharp.MemoryManagement.Memory
                 memoryInfo.AllocationProtect = memoryInfo64.AllocationProtect;
                 memoryInfo.BaseAddress = memoryInfo64.BaseAddress;
                 memoryInfo.Protect = memoryInfo64.Protect;
-                memoryInfo.RegionSize = (int)memoryInfo64.RegionSize; // TODO: Determine if this is a bad idea and should be the other way around
+                memoryInfo.RegionSize = (int)memoryInfo64.RegionSize;
                 memoryInfo.State = memoryInfo64.State;
                 memoryInfo.Type = memoryInfo64.Type;
 
@@ -273,7 +273,7 @@ namespace Binarysharp.MemoryManagement.Memory
                 memoryInfo.AllocationProtect = memoryInfo64.AllocationProtect;
                 memoryInfo.BaseAddress = memoryInfo64.BaseAddress;
                 memoryInfo.Protect = memoryInfo64.Protect;
-                memoryInfo.RegionSize = (int)memoryInfo64.RegionSize; // TODO: Determine if this is a bad idea and should be the other way around
+                memoryInfo.RegionSize = (int)memoryInfo64.RegionSize;
                 memoryInfo.State = memoryInfo64.State;
                 memoryInfo.Type = memoryInfo64.Type;
 

@@ -31,7 +31,6 @@
             this.TableListView = new System.Windows.Forms.ListView();
             this.CheckBoxHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.DescriptionHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.AddressHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.TypeHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.ValueHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.SuspendLayout();
@@ -43,7 +42,6 @@
             this.TableListView.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.CheckBoxHeader,
             this.DescriptionHeader,
-            this.AddressHeader,
             this.TypeHeader,
             this.ValueHeader});
             this.TableListView.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -52,7 +50,7 @@
             this.TableListView.Location = new System.Drawing.Point(0, 0);
             this.TableListView.Name = "TableListView";
             this.TableListView.ShowGroups = false;
-            this.TableListView.Size = new System.Drawing.Size(555, 234);
+            this.TableListView.Size = new System.Drawing.Size(389, 181);
             this.TableListView.TabIndex = 142;
             this.TableListView.UseCompatibleStateImageBehavior = false;
             this.TableListView.View = System.Windows.Forms.View.Details;
@@ -67,11 +65,6 @@
             this.DescriptionHeader.Text = "Description";
             this.DescriptionHeader.Width = 146;
             // 
-            // AddressHeader
-            // 
-            this.AddressHeader.Text = "Address";
-            this.AddressHeader.Width = 93;
-            // 
             // TypeHeader
             // 
             this.TypeHeader.Text = "Type";
@@ -80,15 +73,15 @@
             // ValueHeader
             // 
             this.ValueHeader.Text = "Value";
-            this.ValueHeader.Width = 204;
+            this.ValueHeader.Width = 143;
             // 
-            // GUILabeler
+            // GUITable
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.TableListView);
-            this.Name = "GUILabeler";
-            this.Size = new System.Drawing.Size(555, 234);
+            this.Name = "GUITable";
+            this.Size = new System.Drawing.Size(389, 181);
             this.ResumeLayout(false);
 
         }
@@ -98,7 +91,6 @@
         private System.Windows.Forms.ListView TableListView;
         private System.Windows.Forms.ColumnHeader CheckBoxHeader;
         private System.Windows.Forms.ColumnHeader DescriptionHeader;
-        private System.Windows.Forms.ColumnHeader AddressHeader;
         private System.Windows.Forms.ColumnHeader TypeHeader;
         private System.Windows.Forms.ColumnHeader ValueHeader;
     }

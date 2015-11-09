@@ -6,18 +6,19 @@ using System.Windows.Forms;
 
 namespace Anathema
 {
-    public partial class GUIFilterTreeScan : UserControl, IFilterHashTreesView, IProcessObserver
+    public partial class GUIFilterTreeScan : UserControl, IFilterTreeScanView, IProcessObserver
     {
-        private FilterHashTreesPresenter FilterHashTreesPresenter;
+        private FilterTreeScanPresenter FilterHashTreesPresenter;
         private const Int32 MarginSize = 4;
 
         public GUIFilterTreeScan()
         {
             InitializeComponent();
 
-            FilterHashTreesPresenter = new FilterHashTreesPresenter(this, new FilterHashTrees());
+            FilterHashTreesPresenter = new FilterTreeScanPresenter(this, new FilterTreeScan());
 
             UpdateFragmentSizeLabel();
+            UpdateVariableSizeLabel();
         }
 
         public void UpdateProcess(MemorySharp MemoryEditor)
@@ -53,18 +54,28 @@ namespace Anathema
 
         private void UpdateFragmentSizeLabel()
         {
-            UInt64 Value = (UInt64)Math.Pow(2, GranularityTrackBar.Value);
+            UInt64 Value = (UInt64)Math.Pow(2, FragmentSizeTrackBar.Value);
             string LabelText = Conversions.ByteCountToMetricSize(Value).ToString();
 
             FragmentSizeValueLabel.Text = LabelText;
 
-            FilterHashTrees.UpdatePageSplitThreshold(Value);
+            FilterHashTreesPresenter.SetLeafSize(Value);
+        }
+
+        private void UpdateVariableSizeLabel()
+        {
+            UInt64 Value = (UInt64)Math.Pow(2, VariableSizeTrackBar.Value);
+            string LabelText = Conversions.ByteCountToMetricSize(Value).ToString();
+
+            VariableSizeValueLabel.Text = LabelText;
+
+            FilterHashTreesPresenter.SetVariableSize(Value);
         }
 
         private void GUIMemoryTreeFilter_Resize(object sender, EventArgs e)
         {
-            AdvancedSettingsGroupBox.SetBounds(MarginSize, this.Height / 2 + MarginSize,
-                this.Width - MarginSize * 2, this.Height / 2 - MarginSize * 2);
+            //AdvancedSettingsGroupBox.SetBounds(MarginSize, this.Height / 2 + MarginSize,
+            //    this.Width - MarginSize * 2, this.Height / 2 - MarginSize * 2);
         }
 
         private void DisableGUI()
@@ -92,6 +103,11 @@ namespace Anathema
         private void GranularityTrackBar_Scroll(object sender, EventArgs e)
         {
             UpdateFragmentSizeLabel();
+        }
+
+        private void VariableSizeTrackBar_Scroll(object sender, EventArgs e)
+        {
+            UpdateVariableSizeLabel();
         }
     }
 }

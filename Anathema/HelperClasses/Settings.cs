@@ -6,10 +6,6 @@ using System.Threading.Tasks;
 
 namespace Anathema
 {
-    /// <summary>
-    /// TODO: RENABLE AND USE SETTINGS (Although to my astonishment binary hashing trees are so efficient this almost
-    /// doesnt even matter)
-    /// </summary>
     class Settings
     {
         /*
@@ -19,7 +15,6 @@ namespace Anathema
 
         public Settings()
         {
-            // TODO saving/loading user settings
             SetDefaults();
         }
 

@@ -14,8 +14,7 @@ using System.Collections.Concurrent;
 
 namespace Anathema
 {
-    /*  TODO: Remove functionality from GUI and move to a separate class
-     * In this class we fetch a process and store it in the target process passed by reference. The method of grabbing
+    /* In this class we fetch a process and store it in the target process passed by reference. The method of grabbing
      * processes and sorting them based on time since execution is as follows:
      * 1) Grab all available processes
      * 2) Sort them into two categories -- 'session0' (important system processes) and 'standard'.
@@ -50,7 +49,7 @@ namespace Anathema
             InitializeComponent();
 
             // Set non standard process list view properties
-            ProcessListView.Columns.Add("     Processes"); // TODO: I don't like this
+            ProcessListView.Columns.Add("     Processes");
             ProcessListView.View = View.Details;
             
             this.CallBack = CallBack;
@@ -90,10 +89,10 @@ namespace Anathema
         // Determines if Anathema is able to perform certain actions on the target process, such as fetching icons
         public static bool IsProcessOSCompatable(IntPtr ProcessHandle)
         {
-            if (OSInterface.IsAnthema64Bit())
+            if (IsAnthema64Bit())
                 return true;
 
-            if (OSInterface.IsProcess64Bit(ProcessHandle))
+            if (IsProcess64Bit(ProcessHandle))
                 return true;
 
             // Target uses higher addressing than Anathema, thus Anathema is not compatable
@@ -248,6 +247,42 @@ namespace Anathema
             return null;
         }
 
+        public static bool IsProcess64Bit(IntPtr ProcessHandle)
+        {
+            // First do the simple check if seeing if the OS is 32 bit, in which case the process wont be 64 bit
+            if (!IsOS64Bit())
+                return false;
+
+            // OS is 64 bit. Must determine if target is 32 bit or 64 bit.
+            bool Result;
+            IsWow64Process(ProcessHandle, out Result);
+            return Result;
+        }
+
+        /// <summary>
+        /// Determines if the OS is 32 bit or 64 bit windows
+        /// </summary>
+        /// <returns></returns>
+        public static bool IsOS64Bit()
+        {
+            return Environment.Is64BitOperatingSystem;
+        }
+
+        /// <summary>
+        /// Determines if Anathema is running as 32 bit or 64 bit
+        /// </summary>
+        /// <returns></returns>
+        public static bool IsAnthema64Bit()
+        {
+            return Environment.Is64BitProcess;
+        }
+
+        #endregion
+        
+        #region P/Invokes
+        [DllImport("kernel32.dll", SetLastError = true, CallingConvention = CallingConvention.Winapi)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        private static extern bool IsWow64Process([In] IntPtr ProcessHandle, [Out, MarshalAs(UnmanagedType.Bool)] out bool Wow64Process);
         #endregion
 
         #region Events

@@ -36,15 +36,11 @@ namespace Anathema
         private Dictionary<Keys, CorrelationValues[]> PhiCorrelationSustain;
         private Dictionary<Keys, CorrelationValues[]> PhiCorrelationDown;
         private Dictionary<Keys, CorrelationValues[]> PhiCorrelationUp;
-
-        // TODO: Figure out how to abstract all boolean inputs to the same 3 dictionaries
+        
         private Dictionary<Keys, DateTime> KeyBoardPending;         // List of keyboard down events (waiting for an up event)
         private Dictionary<Keys, List<DateTime>> KeyBoardDown;      // List of keyboard down events
         private Dictionary<Keys, List<DateTime>> KeyBoardUp;        // List of keyboard up events
-
-        // TODO: Mouse movement history correlation
-        // TODO: UI change history correlation
-
+        
         // http://www.ucl.ac.uk/english-usage/staff/sean/resources/phimeasures.pdf
         // https://en.wikipedia.org/wiki/Contingency_table#Measures_of_association
         public struct CorrelationValues
@@ -87,7 +83,6 @@ namespace Anathema
 
         public LabelerInputCorrelator()
         {
-            // TODO: App hook option? From author: "Note: for the application hook, use the Hook.AppEvents() instead" unless app hook is internal
             InputHook = Hook.GlobalEvents();
 
             //Anathema = Benediction.GetBenedictionInstance();
@@ -312,14 +307,12 @@ namespace Anathema
                         if (TimeStepIndex > 0 && Input[InputIndex] < ScanHistoryTime[TimeStepIndex - 1])
                             continue;
 
-                        // We do not care about looking into the future
+                        // We do not care about looking into the future (for now?)
                         if (Input[InputIndex] > ScanHistoryTime[TimeStepIndex])
                             break;
 
                         TimeDifference = ScanHistoryTime[TimeStepIndex] - Input[InputIndex];
-
-                        // TODO: Forward/backward/nearest searching
-
+                        
                         if (TimeDifference <= MaxDifference)
                         {
                             InputChanged = true;

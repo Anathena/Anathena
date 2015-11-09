@@ -10,7 +10,7 @@ using System.Windows.Forms;
 
 namespace Anathema
 {
-    public partial class GUIDisplay : UserControl
+    partial class GUIDisplay : UserControl
     {
         // Display constants
         private const Int32 MarginSize = 4;
@@ -21,12 +21,14 @@ namespace Anathema
             InitializeComponent();
         }
 
-        public void UpdateMemoryLabels(List<Tuple<IntPtr, Object>> MemoryLabels)
+        public void UpdateMemoryLabels(Snapshot Snapshot)
         {
-            for (Int32 Index = 0; Index < Math.Min(MemoryLabels.Count, MaximumDisplayed); Index++)
+            List<Object> Labels = Snapshot.GetMemoryLabels();
+            Int32 LabelCount = Math.Min(Snapshot.GetMemoryLabels().Count, MaximumDisplayed);
+            for (Int32 Index = 0; Index < LabelCount; Index++)
             {
-                ListViewItem NextEntry = new ListViewItem(MemoryLabels[Index].Item1.ToString());
-                NextEntry.SubItems.Add(MemoryLabels[Index].Item2.ToString());
+                ListViewItem NextEntry = new ListViewItem(Labels[Index].ToString());
+                NextEntry.SubItems.Add(Labels[Index].ToString());
                 NextEntry.SubItems.Add("");
                 AddressListView.Items.Add(NextEntry);
             }

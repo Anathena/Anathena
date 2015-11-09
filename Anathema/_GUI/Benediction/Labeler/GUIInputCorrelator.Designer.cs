@@ -42,7 +42,7 @@
             this.CustomSizeNumericUpDown = new System.Windows.Forms.NumericUpDown();
             this.AlignmentNumericUpDown = new System.Windows.Forms.NumericUpDown();
             this.AlignmentLabel = new System.Windows.Forms.Label();
-            this.toolStripButton2 = new System.Windows.Forms.ToolStripButton();
+            this.DummyToolStrip = new System.Windows.Forms.ToolStrip();
             this.ScanToolStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.GranularityTrackBar)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.CustomSizeNumericUpDown)).BeginInit();
@@ -54,9 +54,8 @@
             this.ScanToolStrip.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
             this.ScanToolStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.StartSSAButton,
-            this.StopSSAButton,
-            this.toolStripButton2});
-            this.ScanToolStrip.Location = new System.Drawing.Point(0, 0);
+            this.StopSSAButton});
+            this.ScanToolStrip.Location = new System.Drawing.Point(0, 25);
             this.ScanToolStrip.Name = "ScanToolStrip";
             this.ScanToolStrip.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
             this.ScanToolStrip.Size = new System.Drawing.Size(259, 25);
@@ -85,12 +84,11 @@
             // 
             // GranularityTrackBar
             // 
-            this.GranularityTrackBar.Dock = System.Windows.Forms.DockStyle.Top;
             this.GranularityTrackBar.LargeChange = 2;
-            this.GranularityTrackBar.Location = new System.Drawing.Point(0, 25);
+            this.GranularityTrackBar.Location = new System.Drawing.Point(3, 53);
             this.GranularityTrackBar.Maximum = 3;
             this.GranularityTrackBar.Name = "GranularityTrackBar";
-            this.GranularityTrackBar.Size = new System.Drawing.Size(259, 45);
+            this.GranularityTrackBar.Size = new System.Drawing.Size(253, 45);
             this.GranularityTrackBar.TabIndex = 138;
             this.GranularityTrackBar.Value = 2;
             this.GranularityTrackBar.Scroll += new System.EventHandler(this.GranularityTrackBar_Scroll);
@@ -99,7 +97,7 @@
             // 
             this.FragmentSizeValueLabel.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.FragmentSizeValueLabel.AutoSize = true;
-            this.FragmentSizeValueLabel.Location = new System.Drawing.Point(161, 7);
+            this.FragmentSizeValueLabel.Location = new System.Drawing.Point(80, 85);
             this.FragmentSizeValueLabel.Name = "FragmentSizeValueLabel";
             this.FragmentSizeValueLabel.Size = new System.Drawing.Size(42, 13);
             this.FragmentSizeValueLabel.TabIndex = 141;
@@ -109,7 +107,7 @@
             // 
             this.VariableSizeLabel.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.VariableSizeLabel.AutoSize = true;
-            this.VariableSizeLabel.Location = new System.Drawing.Point(84, 7);
+            this.VariableSizeLabel.Location = new System.Drawing.Point(3, 85);
             this.VariableSizeLabel.Name = "VariableSizeLabel";
             this.VariableSizeLabel.Size = new System.Drawing.Size(71, 13);
             this.VariableSizeLabel.TabIndex = 140;
@@ -119,7 +117,7 @@
             // 
             this.ReactVariableToInputRadioButton.AutoSize = true;
             this.ReactVariableToInputRadioButton.Checked = true;
-            this.ReactVariableToInputRadioButton.Location = new System.Drawing.Point(3, 127);
+            this.ReactVariableToInputRadioButton.Location = new System.Drawing.Point(3, 177);
             this.ReactVariableToInputRadioButton.Name = "ReactVariableToInputRadioButton";
             this.ReactVariableToInputRadioButton.Size = new System.Drawing.Size(143, 17);
             this.ReactVariableToInputRadioButton.TabIndex = 142;
@@ -130,7 +128,7 @@
             // ReactUserToInputRadioButton
             // 
             this.ReactUserToInputRadioButton.AutoSize = true;
-            this.ReactUserToInputRadioButton.Location = new System.Drawing.Point(3, 150);
+            this.ReactUserToInputRadioButton.Location = new System.Drawing.Point(3, 200);
             this.ReactUserToInputRadioButton.Name = "ReactUserToInputRadioButton";
             this.ReactUserToInputRadioButton.Size = new System.Drawing.Size(137, 17);
             this.ReactUserToInputRadioButton.TabIndex = 143;
@@ -140,7 +138,7 @@
             // ReactUnsureRadioButton
             // 
             this.ReactUnsureRadioButton.AutoSize = true;
-            this.ReactUnsureRadioButton.Location = new System.Drawing.Point(3, 173);
+            this.ReactUnsureRadioButton.Location = new System.Drawing.Point(3, 223);
             this.ReactUnsureRadioButton.Name = "ReactUnsureRadioButton";
             this.ReactUnsureRadioButton.Size = new System.Drawing.Size(59, 17);
             this.ReactUnsureRadioButton.TabIndex = 144;
@@ -150,7 +148,7 @@
             // CustomSizeCheckBox
             // 
             this.CustomSizeCheckBox.AutoSize = true;
-            this.CustomSizeCheckBox.Location = new System.Drawing.Point(3, 76);
+            this.CustomSizeCheckBox.Location = new System.Drawing.Point(3, 126);
             this.CustomSizeCheckBox.Name = "CustomSizeCheckBox";
             this.CustomSizeCheckBox.Size = new System.Drawing.Size(84, 17);
             this.CustomSizeCheckBox.TabIndex = 145;
@@ -159,14 +157,14 @@
             // 
             // CustomSizeNumericUpDown
             // 
-            this.CustomSizeNumericUpDown.Location = new System.Drawing.Point(87, 75);
+            this.CustomSizeNumericUpDown.Location = new System.Drawing.Point(87, 125);
             this.CustomSizeNumericUpDown.Name = "CustomSizeNumericUpDown";
             this.CustomSizeNumericUpDown.Size = new System.Drawing.Size(120, 20);
             this.CustomSizeNumericUpDown.TabIndex = 146;
             // 
             // AlignmentNumericUpDown
             // 
-            this.AlignmentNumericUpDown.Location = new System.Drawing.Point(87, 101);
+            this.AlignmentNumericUpDown.Location = new System.Drawing.Point(87, 151);
             this.AlignmentNumericUpDown.Maximum = new decimal(new int[] {
             15,
             0,
@@ -189,20 +187,20 @@
             // AlignmentLabel
             // 
             this.AlignmentLabel.AutoSize = true;
-            this.AlignmentLabel.Location = new System.Drawing.Point(28, 103);
+            this.AlignmentLabel.Location = new System.Drawing.Point(28, 153);
             this.AlignmentLabel.Name = "AlignmentLabel";
             this.AlignmentLabel.Size = new System.Drawing.Size(53, 13);
             this.AlignmentLabel.TabIndex = 148;
             this.AlignmentLabel.Text = "Alignment";
             // 
-            // toolStripButton2
+            // DummyToolStrip
             // 
-            this.toolStripButton2.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripButton2.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton2.Image")));
-            this.toolStripButton2.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton2.Name = "toolStripButton2";
-            this.toolStripButton2.Size = new System.Drawing.Size(23, 22);
-            this.toolStripButton2.Text = "toolStripButton2";
+            this.DummyToolStrip.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
+            this.DummyToolStrip.Location = new System.Drawing.Point(0, 0);
+            this.DummyToolStrip.Name = "DummyToolStrip";
+            this.DummyToolStrip.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
+            this.DummyToolStrip.Size = new System.Drawing.Size(259, 25);
+            this.DummyToolStrip.TabIndex = 150;
             // 
             // GUIInputCorrelator
             // 
@@ -219,6 +217,7 @@
             this.Controls.Add(this.VariableSizeLabel);
             this.Controls.Add(this.GranularityTrackBar);
             this.Controls.Add(this.ScanToolStrip);
+            this.Controls.Add(this.DummyToolStrip);
             this.Name = "GUIInputCorrelator";
             this.Size = new System.Drawing.Size(259, 252);
             this.Load += new System.EventHandler(this.GUIInputCorrelator_Load);
@@ -247,6 +246,6 @@
         private System.Windows.Forms.NumericUpDown CustomSizeNumericUpDown;
         private System.Windows.Forms.NumericUpDown AlignmentNumericUpDown;
         private System.Windows.Forms.Label AlignmentLabel;
-        private System.Windows.Forms.ToolStripButton toolStripButton2;
+        private System.Windows.Forms.ToolStrip DummyToolStrip;
     }
 }

@@ -38,10 +38,7 @@ namespace Be.HexEditor
 			// Required for Windows Form Designer support
 			//
 			InitializeComponent();
-
-			//
-			// TODO: Add any constructor code after InitializeComponent call
-			//
+            
 			rbString.CheckedChanged += new EventHandler(rb_CheckedChanged);
 			rbHex.CheckedChanged += new EventHandler(rb_CheckedChanged);
 

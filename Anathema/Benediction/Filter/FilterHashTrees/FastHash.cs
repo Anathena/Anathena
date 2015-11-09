@@ -29,13 +29,13 @@ namespace Anathema
                     }
                 }
 
-                // Handle remaining bytes (TODO: this could use some optimization)
+                // Handle remaining bytes
                 if (Start % 8 != 0)
                 {
                     UInt64 RemainderValue = 0;
-                    UInt32 Ugh = (UInt32)(Start % 8);
-                    Start -= Ugh;
-                    for (int Index = 0; Index < Ugh; Index++)
+                    UInt32 Remainder = (UInt32)(Start % 8);
+                    Start -= Remainder;
+                    for (int Index = 0; Index < Remainder; Index++)
                     {
                         RemainderValue |= (UInt64)Data[Start - (UInt64)Index - 1] << Index * 8;
                     }
