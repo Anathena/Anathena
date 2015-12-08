@@ -119,7 +119,7 @@
     <Content Include="ThemeVS2013Blue\Resources\LostFocusTab_Close.png" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="WinFormsUI.csproj">
+    <ProjectReference Include="DockingSuite.csproj">
       <Project>{C75532C4-765B-418E-B09B-46D36B2ABDB1}</Project>
       <Name>WinFormsUI</Name>
     </ProjectReference>

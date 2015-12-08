@@ -89,66 +89,78 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Benediction\Filter\FilterHashTrees\IFilterTreeScanMVP.cs" />
-    <Compile Include="Benediction\Snapshot\ISnapshotManagerMVP.cs" />
-    <Compile Include="Benediction\Filter\IFilterMVP.cs" />
-    <Compile Include="Benediction\IBenedictionMVP.cs" />
-    <Compile Include="Benediction\Snapshot\Snapshot.cs" />
+    <Compile Include="Tools\Filter\FilterHashTrees\IFilterTreeScanMVP.cs" />
+    <Compile Include="Tools\Snapshot\ISnapshotManagerMVP.cs" />
+    <Compile Include="Tools\Filter\IFilterMVP.cs" />
+    <Compile Include="Tools\IBenedictionMVP.cs" />
+    <Compile Include="Tools\Snapshot\Snapshot.cs" />
     <Compile Include="HelperClasses\ControlThreadingHelper.cs" />
     <Compile Include="HelperClasses\MVP\IMVP.cs" />
-    <Compile Include="_GUI\Anathema\GUIAnathema.cs">
-      <SubType>UserControl</SubType>
+    <Compile Include="_GUI\Tools\GUIFiniteStateBuilder.cs">
+      <SubType>Form</SubType>
     </Compile>
-    <Compile Include="_GUI\Anathema\GUIAnathema.Designer.cs">
-      <DependentUpon>GUIAnathema.cs</DependentUpon>
+    <Compile Include="_GUI\Tools\GUIFiniteStateBuilder.Designer.cs">
+      <DependentUpon>GUIFiniteStateBuilder.cs</DependentUpon>
     </Compile>
-    <Compile Include="_GUI\Benediction\Display\GUIDisplay.cs">
-      <SubType>UserControl</SubType>
+    <Compile Include="_GUI\Tools\ProcessSelector\GUIProcessSelector.cs">
+      <SubType>Form</SubType>
     </Compile>
-    <Compile Include="_GUI\Benediction\Display\GUIDisplay.Designer.cs">
-      <DependentUpon>GUIDisplay.cs</DependentUpon>
+    <Compile Include="_GUI\Tools\ProcessSelector\GUIProcessSelector.Designer.cs">
+      <DependentUpon>GUIProcessSelector.cs</DependentUpon>
     </Compile>
-    <Compile Include="_GUI\Benediction\Filter\GUIFilter.cs">
-      <SubType>UserControl</SubType>
+    <Compile Include="_GUI\Tools\Debugger\GUIDebugger.cs">
+      <SubType>Form</SubType>
     </Compile>
-    <Compile Include="_GUI\Benediction\Filter\GUIFilter.Designer.cs">
-      <DependentUpon>GUIFilter.cs</DependentUpon>
+    <Compile Include="_GUI\Tools\Debugger\GUIDebugger.Designer.cs">
+      <DependentUpon>GUIDebugger.cs</DependentUpon>
     </Compile>
-    <Compile Include="_GUI\Benediction\Labeler\GUIChangeCounter.cs">
-      <SubType>UserControl</SubType>
+    <Compile Include="_GUI\Tools\Filter\GUIFilterTree.cs">
+      <SubType>Form</SubType>
     </Compile>
-    <Compile Include="_GUI\Benediction\Labeler\GUIChangeCounter.Designer.cs">
-      <DependentUpon>GUIChangeCounter.cs</DependentUpon>
+    <Compile Include="_GUI\Tools\Filter\GUIFilterTree.Designer.cs">
+      <DependentUpon>GUIFilterTree.cs</DependentUpon>
     </Compile>
-    <Compile Include="_GUI\Benediction\Labeler\GUILabeler.cs">
-      <SubType>UserControl</SubType>
+    <Compile Include="_GUI\Tools\Filter\GUIFilterManual.cs">
+      <SubType>Form</SubType>
     </Compile>
-    <Compile Include="_GUI\Benediction\Labeler\GUILabeler.Designer.cs">
-      <DependentUpon>GUILabeler.cs</DependentUpon>
+    <Compile Include="_GUI\Tools\Filter\GUIFilterManual.Designer.cs">
+      <DependentUpon>GUIFilterManual.cs</DependentUpon>
     </Compile>
-    <Compile Include="_GUI\Benediction\Snapshot\GUISnapshotManager.cs">
-      <SubType>UserControl</SubType>
+    <Compile Include="_GUI\Tools\Filter\GUIFilterFSM.cs">
+      <SubType>Form</SubType>
     </Compile>
-    <Compile Include="_GUI\Benediction\Snapshot\GUISnapshotManager.Designer.cs">
+    <Compile Include="_GUI\Tools\Filter\GUIFilterFSM.Designer.cs">
+      <DependentUpon>GUIFilterFSM.cs</DependentUpon>
+    </Compile>
+    <Compile Include="_GUI\Tools\Labeler\GUILabelerInputCorrelator.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="_GUI\Tools\Labeler\GUILabelerInputCorrelator.Designer.cs">
+      <DependentUpon>GUILabelerInputCorrelator.cs</DependentUpon>
+    </Compile>
+    <Compile Include="_GUI\Tools\Labeler\GUILabelerChangeCounter.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="_GUI\Tools\Labeler\GUILabelerChangeCounter.Designer.cs">
+      <DependentUpon>GUILabelerChangeCounter.cs</DependentUpon>
+    </Compile>
+    <Compile Include="_GUI\Tools\Results\GUIResults.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="_GUI\Tools\Results\GUIResults.Designer.cs">
+      <DependentUpon>GUIResults.cs</DependentUpon>
+    </Compile>
+    <Compile Include="_GUI\Tools\Snapshot\GUISnapshotManager.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="_GUI\Tools\Snapshot\GUISnapshotManager.Designer.cs">
       <DependentUpon>GUISnapshotManager.cs</DependentUpon>
     </Compile>
-    <Compile Include="_GUI\Benediction\Table\GUITable.cs">
-      <SubType>UserControl</SubType>
+    <Compile Include="_GUI\Tools\Table\GUITable.cs">
+      <SubType>Form</SubType>
     </Compile>
-    <Compile Include="_GUI\Benediction\Table\GUITable.Designer.cs">
+    <Compile Include="_GUI\Tools\Table\GUITable.Designer.cs">
       <DependentUpon>GUITable.cs</DependentUpon>
-    </Compile>
-    <Compile Include="_GUI\Celestial\GUICelestial.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="_GUI\Celestial\GUICelestial.Designer.cs">
-      <DependentUpon>GUICelestial.cs</DependentUpon>
-    </Compile>
-    <Compile Include="_GUI\Benediction\GUIBenediction.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="_GUI\Benediction\GUIBenediction.Designer.cs">
-      <DependentUpon>GUIBenediction.cs</DependentUpon>
     </Compile>
     <Compile Include="_GUI\Main\DockableWindow.cs">
       <SubType>Form</SubType>
@@ -162,151 +174,106 @@
     <Compile Include="_GUI\Main\GUIMain.Designer.cs">
       <DependentUpon>GUIMain.cs</DependentUpon>
     </Compile>
-    <Compile Include="_GUI\Benediction\GUIFiniteStateBuilder.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="_GUI\Benediction\GUIFiniteStateBuilder.Designer.cs">
-      <DependentUpon>GUIFiniteStateBuilder.cs</DependentUpon>
-    </Compile>
-    <Compile Include="_GUI\Benediction\Filter\GUIFilterManualScan.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="_GUI\Benediction\Filter\GUIFilterManualScan.Designer.cs">
-      <DependentUpon>GUIFilterManualScan.cs</DependentUpon>
-    </Compile>
-    <Compile Include="_GUI\Benediction\Labeler\GUIInputCorrelator.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="_GUI\Benediction\Labeler\GUIInputCorrelator.Designer.cs">
-      <DependentUpon>GUIInputCorrelator.cs</DependentUpon>
-    </Compile>
-    <Compile Include="_GUI\Benediction\Filter\GUIFilterFSM.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="_GUI\Benediction\Filter\GUIFilterFSM.Designer.cs">
-      <DependentUpon>GUIFilterFSM.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Benediction\Benediction.cs" />
-    <Compile Include="Benediction\Filter\FilterFiniteState\FilterFiniteState.cs" />
+    <Compile Include="Tools\Benediction.cs" />
+    <Compile Include="Tools\Filter\FilterFiniteState\FilterFiniteState.cs" />
     <Compile Include="HelperClasses\CheckSyntax.cs" />
-    <Compile Include="Benediction\Filter\FilterHashTrees\FastHash.cs" />
-    <Compile Include="Benediction\Labeler\IMemoryLabeler.cs" />
-    <Compile Include="Benediction\Labeler\LabelerInputCorrelator\LabelerInputCorrelator.cs" />
-    <Compile Include="Celestial\Celestial.cs" />
-    <Compile Include="Benediction\Filter\InputHook\Hook.cs" />
-    <Compile Include="Benediction\Filter\InputHook\HotKeys\HotKeyArgs.cs" />
-    <Compile Include="Benediction\Filter\InputHook\HotKeys\HotKeySet.cs" />
-    <Compile Include="Benediction\Filter\InputHook\HotKeys\HotKeySetCollection.cs" />
-    <Compile Include="Benediction\Filter\InputHook\HotKeys\HotKeySetsListener.cs" />
-    <Compile Include="Benediction\Filter\InputHook\IKeyboardEvents.cs" />
-    <Compile Include="Benediction\Filter\InputHook\IKeyboardMouseEvents.cs" />
-    <Compile Include="Benediction\Filter\InputHook\IMouseEvents.cs" />
-    <Compile Include="Benediction\Filter\InputHook\Implementation\AppEventFacade.cs" />
-    <Compile Include="Benediction\Filter\InputHook\Implementation\AppKeyListener.cs" />
-    <Compile Include="Benediction\Filter\InputHook\Implementation\AppMouseListener.cs" />
-    <Compile Include="Benediction\Filter\InputHook\Implementation\BaseListener.cs" />
-    <Compile Include="Benediction\Filter\InputHook\Implementation\ButtonSet.cs" />
-    <Compile Include="Benediction\Filter\InputHook\Implementation\Callback.cs" />
-    <Compile Include="Benediction\Filter\InputHook\Implementation\EventFacade.cs" />
-    <Compile Include="Benediction\Filter\InputHook\Implementation\GlobalEventFacade.cs" />
-    <Compile Include="Benediction\Filter\InputHook\Implementation\GlobalKeyListener.cs" />
-    <Compile Include="Benediction\Filter\InputHook\Implementation\GlobalMouseListener.cs" />
-    <Compile Include="Benediction\Filter\InputHook\Implementation\KeyboardState.cs" />
-    <Compile Include="Benediction\Filter\InputHook\Implementation\KeyListener.cs" />
-    <Compile Include="Benediction\Filter\InputHook\Implementation\MouseListener.cs" />
-    <Compile Include="Benediction\Filter\InputHook\Implementation\Subscribe.cs" />
-    <Compile Include="Benediction\Filter\InputHook\KeyEventArgsExt.cs" />
-    <Compile Include="Benediction\Filter\InputHook\KeyPressEventArgsExt.cs" />
-    <Compile Include="Benediction\Filter\InputHook\MouseEventExtArgs.cs" />
-    <Compile Include="Benediction\Filter\InputHook\WinApi\AppMouseStruct.cs" />
-    <Compile Include="Benediction\Filter\InputHook\WinApi\CallbackData.cs" />
-    <Compile Include="Benediction\Filter\InputHook\WinApi\HookHelper.cs" />
-    <Compile Include="Benediction\Filter\InputHook\WinApi\HookIds.cs" />
-    <Compile Include="Benediction\Filter\InputHook\WinApi\HookNativeMethods.cs" />
-    <Compile Include="Benediction\Filter\InputHook\WinApi\HookProcedure.cs" />
-    <Compile Include="Benediction\Filter\InputHook\WinApi\HookProcedureHandle.cs" />
-    <Compile Include="Benediction\Filter\InputHook\WinApi\HookResult.cs" />
-    <Compile Include="Benediction\Filter\InputHook\WinApi\KeyboardHookStruct.cs" />
-    <Compile Include="Benediction\Filter\InputHook\WinApi\KeyboardNativeMethods.cs" />
-    <Compile Include="Benediction\Filter\InputHook\WinApi\Messages.cs" />
-    <Compile Include="Benediction\Filter\InputHook\WinApi\MouseNativeMethods.cs" />
-    <Compile Include="Benediction\Filter\InputHook\WinApi\MouseStruct.cs" />
-    <Compile Include="Benediction\Filter\InputHook\WinApi\Point.cs" />
-    <Compile Include="Benediction\Filter\InputHook\WinApi\ThreadNativeMethods.cs" />
-    <Compile Include="Benediction\Filter\FilterHashTrees\FilterTreeScan.cs" />
+    <Compile Include="Tools\Filter\FilterHashTrees\FastHash.cs" />
+    <Compile Include="Tools\Labeler\IMemoryLabeler.cs" />
+    <Compile Include="Tools\Labeler\LabelerInputCorrelator\LabelerInputCorrelator.cs" />
+    <Compile Include="Tools\Debugger\Celestial.cs" />
+    <Compile Include="Tools\Filter\InputHook\Hook.cs" />
+    <Compile Include="Tools\Filter\InputHook\HotKeys\HotKeyArgs.cs" />
+    <Compile Include="Tools\Filter\InputHook\HotKeys\HotKeySet.cs" />
+    <Compile Include="Tools\Filter\InputHook\HotKeys\HotKeySetCollection.cs" />
+    <Compile Include="Tools\Filter\InputHook\HotKeys\HotKeySetsListener.cs" />
+    <Compile Include="Tools\Filter\InputHook\IKeyboardEvents.cs" />
+    <Compile Include="Tools\Filter\InputHook\IKeyboardMouseEvents.cs" />
+    <Compile Include="Tools\Filter\InputHook\IMouseEvents.cs" />
+    <Compile Include="Tools\Filter\InputHook\Implementation\AppEventFacade.cs" />
+    <Compile Include="Tools\Filter\InputHook\Implementation\AppKeyListener.cs" />
+    <Compile Include="Tools\Filter\InputHook\Implementation\AppMouseListener.cs" />
+    <Compile Include="Tools\Filter\InputHook\Implementation\BaseListener.cs" />
+    <Compile Include="Tools\Filter\InputHook\Implementation\ButtonSet.cs" />
+    <Compile Include="Tools\Filter\InputHook\Implementation\Callback.cs" />
+    <Compile Include="Tools\Filter\InputHook\Implementation\EventFacade.cs" />
+    <Compile Include="Tools\Filter\InputHook\Implementation\GlobalEventFacade.cs" />
+    <Compile Include="Tools\Filter\InputHook\Implementation\GlobalKeyListener.cs" />
+    <Compile Include="Tools\Filter\InputHook\Implementation\GlobalMouseListener.cs" />
+    <Compile Include="Tools\Filter\InputHook\Implementation\KeyboardState.cs" />
+    <Compile Include="Tools\Filter\InputHook\Implementation\KeyListener.cs" />
+    <Compile Include="Tools\Filter\InputHook\Implementation\MouseListener.cs" />
+    <Compile Include="Tools\Filter\InputHook\Implementation\Subscribe.cs" />
+    <Compile Include="Tools\Filter\InputHook\KeyEventArgsExt.cs" />
+    <Compile Include="Tools\Filter\InputHook\KeyPressEventArgsExt.cs" />
+    <Compile Include="Tools\Filter\InputHook\MouseEventExtArgs.cs" />
+    <Compile Include="Tools\Filter\InputHook\WinApi\AppMouseStruct.cs" />
+    <Compile Include="Tools\Filter\InputHook\WinApi\CallbackData.cs" />
+    <Compile Include="Tools\Filter\InputHook\WinApi\HookHelper.cs" />
+    <Compile Include="Tools\Filter\InputHook\WinApi\HookIds.cs" />
+    <Compile Include="Tools\Filter\InputHook\WinApi\HookNativeMethods.cs" />
+    <Compile Include="Tools\Filter\InputHook\WinApi\HookProcedure.cs" />
+    <Compile Include="Tools\Filter\InputHook\WinApi\HookProcedureHandle.cs" />
+    <Compile Include="Tools\Filter\InputHook\WinApi\HookResult.cs" />
+    <Compile Include="Tools\Filter\InputHook\WinApi\KeyboardHookStruct.cs" />
+    <Compile Include="Tools\Filter\InputHook\WinApi\KeyboardNativeMethods.cs" />
+    <Compile Include="Tools\Filter\InputHook\WinApi\Messages.cs" />
+    <Compile Include="Tools\Filter\InputHook\WinApi\MouseNativeMethods.cs" />
+    <Compile Include="Tools\Filter\InputHook\WinApi\MouseStruct.cs" />
+    <Compile Include="Tools\Filter\InputHook\WinApi\Point.cs" />
+    <Compile Include="Tools\Filter\InputHook\WinApi\ThreadNativeMethods.cs" />
+    <Compile Include="Tools\Filter\FilterHashTrees\FilterTreeScan.cs" />
     <Compile Include="HelperClasses\Conversions.cs" />
-    <Compile Include="_GUI\ProcessSelector\GUIProcessSelector.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="_GUI\ProcessSelector\GUIProcessSelector.Designer.cs">
-      <DependentUpon>GUIProcessSelector.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Benediction\Filter\FilterManualScan\FilterManualScan.cs" />
-    <Compile Include="Benediction\Filter\FilterLabelThresholder\FilterLabelThesholder.cs" />
-    <Compile Include="Benediction\Filter\FilterMultiScanner\FilterMultiScanner.cs" />
-    <Compile Include="Benediction\Labeler\LabelerChangeCounter.cs" />
+    <Compile Include="Tools\Filter\FilterManualScan\FilterManualScan.cs" />
+    <Compile Include="Tools\Filter\FilterLabelThresholder\FilterLabelThesholder.cs" />
+    <Compile Include="Tools\Filter\FilterMultiScanner\FilterMultiScanner.cs" />
+    <Compile Include="Tools\Labeler\LabelerChangeCounter.cs" />
     <Compile Include="Main\IMainController.cs" />
     <Compile Include="Main\IMainModel.cs" />
     <Compile Include="Main\IMainView.cs" />
     <Compile Include="Process\IProcessObserver.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="_GUI\Benediction\Filter\GUIFilterTreeScan.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="_GUI\Benediction\Filter\GUIFilterTreeScan.Designer.cs">
-      <DependentUpon>GUIFilterTreeScan.cs</DependentUpon>
-    </Compile>
     <Compile Include="HelperClasses\Settings.cs" />
-    <Compile Include="Celestial\TestByteProvider.cs" />
-    <Compile Include="Benediction\Snapshot\SnapshotManager.cs" />
-    <EmbeddedResource Include="_GUI\Benediction\Display\GUIDisplay.resx">
-      <DependentUpon>GUIDisplay.cs</DependentUpon>
+    <Compile Include="Tools\Debugger\TestByteProvider.cs" />
+    <Compile Include="Tools\Snapshot\SnapshotManager.cs" />
+    <EmbeddedResource Include="_GUI\Tools\GUIFiniteStateBuilder.resx">
+      <DependentUpon>GUIFiniteStateBuilder.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="_GUI\Benediction\Filter\GUIFilter.resx">
-      <DependentUpon>GUIFilter.cs</DependentUpon>
+    <EmbeddedResource Include="_GUI\Tools\ProcessSelector\GUIProcessSelector.resx">
+      <DependentUpon>GUIProcessSelector.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="_GUI\Benediction\GUIBenediction.resx">
-      <DependentUpon>GUIBenediction.cs</DependentUpon>
+    <EmbeddedResource Include="_GUI\Tools\Debugger\GUIDebugger.resx">
+      <DependentUpon>GUIDebugger.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="_GUI\Benediction\Labeler\GUIChangeCounter.resx">
-      <DependentUpon>GUIChangeCounter.cs</DependentUpon>
+    <EmbeddedResource Include="_GUI\Tools\Filter\GUIFilterTree.resx">
+      <DependentUpon>GUIFilterTree.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="_GUI\Benediction\Labeler\GUILabeler.resx">
-      <DependentUpon>GUILabeler.cs</DependentUpon>
+    <EmbeddedResource Include="_GUI\Tools\Filter\GUIFilterManual.resx">
+      <DependentUpon>GUIFilterManual.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="_GUI\Benediction\Snapshot\GUISnapshotManager.resx">
+    <EmbeddedResource Include="_GUI\Tools\Filter\GUIFilterFSM.resx">
+      <DependentUpon>GUIFilterFSM.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="_GUI\Tools\Labeler\GUILabelerInputCorrelator.resx">
+      <DependentUpon>GUILabelerInputCorrelator.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="_GUI\Tools\Labeler\GUILabelerChangeCounter.resx">
+      <DependentUpon>GUILabelerChangeCounter.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="_GUI\Tools\Results\GUIResults.resx">
+      <DependentUpon>GUIResults.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="_GUI\Tools\Snapshot\GUISnapshotManager.resx">
       <DependentUpon>GUISnapshotManager.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="_GUI\Benediction\Table\GUITable.resx">
+    <EmbeddedResource Include="_GUI\Tools\Table\GUITable.resx">
       <DependentUpon>GUITable.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="_GUI\Celestial\GUICelestial.resx">
-      <DependentUpon>GUICelestial.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="_GUI\Main\DockableWindow.resx">
       <DependentUpon>DockableWindow.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="_GUI\Main\GUIMain.resx">
       <DependentUpon>GUIMain.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="_GUI\Benediction\GUIFiniteStateBuilder.resx">
-      <DependentUpon>GUIFiniteStateBuilder.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="_GUI\Benediction\Filter\GUIFilterManualScan.resx">
-      <DependentUpon>GUIFilterManualScan.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="_GUI\Benediction\Labeler\GUIInputCorrelator.resx">
-      <DependentUpon>GUIInputCorrelator.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="_GUI\Benediction\Filter\GUIFilterFSM.resx">
-      <DependentUpon>GUIFilterFSM.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="_GUI\Benediction\Filter\GUIFilterTreeScan.resx">
-      <DependentUpon>GUIFilterTreeScan.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="_GUI\ProcessSelector\GUIProcessSelector.resx">
-      <DependentUpon>GUIProcessSelector.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -332,12 +299,12 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Benediction\Filter\InputHook\HotKeys\ReadMe.txt" />
+    <Content Include="Tools\Filter\InputHook\HotKeys\ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Anathema\" />
     <Folder Include="Divinity\" />
     <Folder Include="Ethereal\" />
+    <Folder Include="Tools\ProcessSelector\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

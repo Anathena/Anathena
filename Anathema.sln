@@ -1,5 +1,5 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Blend for Visual Studio 14
+# Visual Studio 14
 VisualStudioVersion = 14.0.23107.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Anathema", "Anathema\Anathema.csproj", "{DC9EB93D-7973-4A32-826F-F441B3DA9F9B}"
@@ -17,6 +17,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Be.Windows.Forms.HexBox", "HexEditor\Be.Windows.Forms.HexBox\Be.Windows.Forms.HexBox.csproj", "{26C5F25F-B450-4CAF-AD8B-B8D11AE73457}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DockingSuite", "DockingSuite\DockingSuite.csproj", "{C75532C4-765B-418E-B09B-46D36B2ABDB1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ThemeVS2013Blue", "DockingSuite\ThemeVS2013Blue.csproj", "{245E07F6-10D5-4CFA-B003-0DEB06B223DA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -178,6 +180,26 @@ Global
 		{C75532C4-765B-418E-B09B-46D36B2ABDB1}.Release|x64.Build.0 = Release|Any CPU
 		{C75532C4-765B-418E-B09B-46D36B2ABDB1}.Release|x86.ActiveCfg = Release|Any CPU
 		{C75532C4-765B-418E-B09B-46D36B2ABDB1}.Release|x86.Build.0 = Release|Any CPU
+		{245E07F6-10D5-4CFA-B003-0DEB06B223DA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{245E07F6-10D5-4CFA-B003-0DEB06B223DA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{245E07F6-10D5-4CFA-B003-0DEB06B223DA}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{245E07F6-10D5-4CFA-B003-0DEB06B223DA}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{245E07F6-10D5-4CFA-B003-0DEB06B223DA}.Debug|Win32.ActiveCfg = Debug|Any CPU
+		{245E07F6-10D5-4CFA-B003-0DEB06B223DA}.Debug|Win32.Build.0 = Debug|Any CPU
+		{245E07F6-10D5-4CFA-B003-0DEB06B223DA}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{245E07F6-10D5-4CFA-B003-0DEB06B223DA}.Debug|x64.Build.0 = Debug|Any CPU
+		{245E07F6-10D5-4CFA-B003-0DEB06B223DA}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{245E07F6-10D5-4CFA-B003-0DEB06B223DA}.Debug|x86.Build.0 = Debug|Any CPU
+		{245E07F6-10D5-4CFA-B003-0DEB06B223DA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{245E07F6-10D5-4CFA-B003-0DEB06B223DA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{245E07F6-10D5-4CFA-B003-0DEB06B223DA}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{245E07F6-10D5-4CFA-B003-0DEB06B223DA}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{245E07F6-10D5-4CFA-B003-0DEB06B223DA}.Release|Win32.ActiveCfg = Release|Any CPU
+		{245E07F6-10D5-4CFA-B003-0DEB06B223DA}.Release|Win32.Build.0 = Release|Any CPU
+		{245E07F6-10D5-4CFA-B003-0DEB06B223DA}.Release|x64.ActiveCfg = Release|Any CPU
+		{245E07F6-10D5-4CFA-B003-0DEB06B223DA}.Release|x64.Build.0 = Release|Any CPU
+		{245E07F6-10D5-4CFA-B003-0DEB06B223DA}.Release|x86.ActiveCfg = Release|Any CPU
+		{245E07F6-10D5-4CFA-B003-0DEB06B223DA}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
