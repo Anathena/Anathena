@@ -43,13 +43,14 @@
             this.MemoryViewerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.FilterToolStrip = new System.Windows.Forms.ToolStrip();
             this.SelectProcessButton = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.ViewAnathemaButton = new System.Windows.Forms.ToolStripButton();
             this.ViewBenedictionButton = new System.Windows.Forms.ToolStripButton();
             this.ViewCelestialButton = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.ProcessSelectedLabel = new System.Windows.Forms.ToolStripLabel();
+            this.ContentPanel = new WeifenLuo.WinFormsUI.Docking.DockPanel();
             this.ComponentPanel = new System.Windows.Forms.Panel();
-            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.GUIMenuStrip.SuspendLayout();
             this.FilterToolStrip.SuspendLayout();
             this.SuspendLayout();
@@ -173,6 +174,11 @@
             this.SelectProcessButton.Text = "Select Process";
             this.SelectProcessButton.Click += new System.EventHandler(this.SelectProcessButton_Click);
             // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 25);
+            // 
             // ViewAnathemaButton
             // 
             this.ViewAnathemaButton.CheckOnClick = true;
@@ -219,29 +225,33 @@
             this.ProcessSelectedLabel.Size = new System.Drawing.Size(113, 22);
             this.ProcessSelectedLabel.Text = "No Process Selected";
             // 
+            // ContentPanel
+            // 
+            this.ContentPanel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.ContentPanel.Location = new System.Drawing.Point(12, 52);
+            this.ContentPanel.Name = "ContentPanel";
+            this.ContentPanel.Size = new System.Drawing.Size(200, 100);
+            this.ContentPanel.TabIndex = 145;
+            // 
             // ComponentPanel
             // 
             this.ComponentPanel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.ComponentPanel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.ComponentPanel.Location = new System.Drawing.Point(0, 49);
+            this.ComponentPanel.Location = new System.Drawing.Point(258, 96);
             this.ComponentPanel.Name = "ComponentPanel";
-            this.ComponentPanel.Size = new System.Drawing.Size(875, 454);
+            this.ComponentPanel.Size = new System.Drawing.Size(131, 147);
             this.ComponentPanel.TabIndex = 144;
-            // 
-            // toolStripSeparator1
-            // 
-            this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 25);
             // 
             // GUIMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(875, 503);
+            this.Controls.Add(this.ContentPanel);
             this.Controls.Add(this.ComponentPanel);
             this.Controls.Add(this.FilterToolStrip);
             this.Controls.Add(this.GUIMenuStrip);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.IsMdiContainer = true;
             this.Name = "GUIMain";
             this.Text = "Anathema";
             this.GUIMenuStrip.ResumeLayout(false);
@@ -272,9 +282,10 @@
         private System.Windows.Forms.ToolStripButton ViewAnathemaButton;
         private System.Windows.Forms.ToolStripButton ViewBenedictionButton;
         private System.Windows.Forms.ToolStripButton ViewCelestialButton;
-        private System.Windows.Forms.Panel ComponentPanel;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
+        private WeifenLuo.WinFormsUI.Docking.DockPanel ContentPanel;
+        private System.Windows.Forms.Panel ComponentPanel;
     }
 }
 

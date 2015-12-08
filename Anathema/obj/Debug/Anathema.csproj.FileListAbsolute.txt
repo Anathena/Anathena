@@ -47,3 +47,10 @@ F:\Users\Zachary\Documents\Visual Studio 2015\Projects\Anathema\Anathema\obj\Deb
 F:\Users\Zachary\Documents\Visual Studio 2015\Projects\Anathema\Anathema\obj\Debug\Anathema.GUIDisplay.resources
 F:\Users\Zachary\Documents\Visual Studio 2015\Projects\Anathema\Anathema\obj\Debug\Anathema.GUILabeler.resources
 F:\Users\Zachary\Documents\Visual Studio 2015\Projects\Anathema\Anathema\obj\Debug\Anathema.GUITable.resources
+F:\Users\Zachary\Documents\Visual Studio 2015\Projects\Anathema\Anathema\obj\Debug\Anathema.GUIChangeCounter.resources
+F:\Users\Zachary\Documents\Visual Studio 2015\Projects\Anathema_Pre_WPF\Anathema\bin\Debug\Anathema.exe.config
+F:\Users\Zachary\Documents\Visual Studio 2015\Projects\Anathema_Pre_WPF\Anathema\obj\Debug\Anathema.exe
+F:\Users\Zachary\Documents\Visual Studio 2015\Projects\Anathema_Pre_WPF\Anathema\obj\Debug\Anathema.pdb
+F:\Users\Zachary\Documents\Visual Studio 2015\Projects\Anathema\Anathema\bin\Debug\ThemeVS2013Blue.dll
+F:\Users\Zachary\Documents\Visual Studio 2015\Projects\Anathema\Anathema\bin\Debug\WeifenLuo.WinFormsUI.Docking.dll
+F:\Users\Zachary\Documents\Visual Studio 2015\Projects\Anathema\Anathema\obj\Debug\Anathema.DockableWindow.resources

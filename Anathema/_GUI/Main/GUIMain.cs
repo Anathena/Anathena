@@ -9,6 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using WeifenLuo.WinFormsUI.Docking;
 
 namespace Anathema
 {
@@ -36,6 +37,11 @@ namespace Anathema
             GUIAnathema.Dock = DockStyle.Fill;
             GUIBenediction.Dock = DockStyle.Fill;
             GUICelestial.Dock = DockStyle.Fill;
+
+            DockableWindow Test = new DockableWindow();
+            //Test.MdiParent = this;
+            Test.Show(ContentPanel, DockState.DockLeft);
+            
         }
 
         /// <summary>

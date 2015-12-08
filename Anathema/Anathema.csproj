@@ -80,6 +80,13 @@
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
+    <Reference Include="ThemeVS2013Blue">
+      <HintPath>..\Libraries\DockingSuite\ThemeVS2013Blue.dll</HintPath>
+    </Reference>
+    <Reference Include="WeifenLuo.WinFormsUI.Docking, Version=2.9.0.0, Culture=neutral, PublicKeyToken=5cded1a1a0a7b481, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Libraries\DockingSuite\WeifenLuo.WinFormsUI.Docking.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Benediction\Filter\FilterHashTrees\IFilterTreeScanMVP.cs" />
@@ -142,6 +149,12 @@
     </Compile>
     <Compile Include="_GUI\Benediction\GUIBenediction.Designer.cs">
       <DependentUpon>GUIBenediction.cs</DependentUpon>
+    </Compile>
+    <Compile Include="_GUI\Main\DockableWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="_GUI\Main\DockableWindow.Designer.cs">
+      <DependentUpon>DockableWindow.cs</DependentUpon>
     </Compile>
     <Compile Include="_GUI\Main\GUIMain.cs">
       <SubType>Form</SubType>
@@ -270,6 +283,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="_GUI\Celestial\GUICelestial.resx">
       <DependentUpon>GUICelestial.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="_GUI\Main\DockableWindow.resx">
+      <DependentUpon>DockableWindow.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="_GUI\Main\GUIMain.resx">
       <DependentUpon>GUIMain.cs</DependentUpon>
