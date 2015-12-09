@@ -52,7 +52,7 @@
             this.DisassemblerListView.Location = new System.Drawing.Point(0, 0);
             this.DisassemblerListView.Name = "DisassemblerListView";
             this.DisassemblerListView.ShowGroups = false;
-            this.DisassemblerListView.Size = new System.Drawing.Size(687, 164);
+            this.DisassemblerListView.Size = new System.Drawing.Size(683, 164);
             this.DisassemblerListView.TabIndex = 117;
             this.DisassemblerListView.UseCompatibleStateImageBehavior = false;
             this.DisassemblerListView.View = System.Windows.Forms.View.Details;
@@ -99,12 +99,12 @@
             this.HexEditorBox.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.HexEditorBox.Name = "HexEditorBox";
             this.HexEditorBox.ShadowSelectionColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(60)))), ((int)(((byte)(188)))), ((int)(((byte)(255)))));
-            this.HexEditorBox.Size = new System.Drawing.Size(687, 148);
+            this.HexEditorBox.Size = new System.Drawing.Size(683, 148);
             this.HexEditorBox.StringViewVisible = true;
             this.HexEditorBox.TabIndex = 118;
             this.HexEditorBox.VScrollBarVisible = true;
             // 
-            // DockableWindow
+            // GUIDebugger
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -112,7 +112,8 @@
             this.Controls.Add(this.DisassemblerListView);
             this.Controls.Add(this.HexEditorBox);
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Name = "DockableWindow";
+            this.Name = "GUIDebugger";
+            this.Text = "Debugger";
             this.ResumeLayout(false);
 
         }

@@ -31,6 +31,8 @@ namespace Anathema
 
         private GUISnapshotManager GUISnapshotManager;
 
+        private GUIResults GUIResults;
+
         private GUITable GUITable;
 
         public GUIMain()
@@ -55,13 +57,15 @@ namespace Anathema
             // Instantiate a new memory editor with the new target process
             MemoryEditor = new MemorySharp(TargetProcess);
 
+            GUIProcessSelector.Hide();
+
             // Update components with new process
 
             // Switch selection to benediction
             //MakeSelection(ViewBenedictionButton, GUIBenediction);
 
             // Update process text
-            //ProcessSelectedLabel.Text = TargetProcess.ProcessName;
+            TargetProcessLabel.Text = TargetProcess.ProcessName;
         }
 
         private void MakeSelection(ToolStripButton Sender, UserControl NewView)
@@ -95,8 +99,11 @@ namespace Anathema
 
         private void CreateDefaultTools()
         {
+            CreateDebugger();
+            CreateInputCorrelator();
             CreateTreeScanner();
             CreateSnapshotManager();
+            CreateResults();
             CreateTable();
         }
 
@@ -125,7 +132,7 @@ namespace Anathema
         {
             if (GUIFilterTree == null)
                 GUIFilterTree = new GUIFilterTree();
-            GUIFilterTree.Show(ContentPanel);
+            GUIFilterTree.Show(ContentPanel, DockState.DockLeft);
         }
 
         private void CreateInputCorrelator()
@@ -149,11 +156,25 @@ namespace Anathema
             GUISnapshotManager.Show(ContentPanel, DockState.DockRight);
         }
 
+        private void CreateResults()
+        {
+            if (GUIResults == null)
+                GUIResults = new GUIResults();
+            GUIResults.Show(ContentPanel, DockState.DockRight);
+        }
+
         private void CreateTable()
         {
             if (GUITable == null)
                 GUITable = new GUITable();
             GUITable.Show(ContentPanel, DockState.DockBottom);
+        }
+
+        private void CreateProcessSelector()
+        {
+            if (GUIProcessSelector == null)
+                GUIProcessSelector = new GUIProcessSelector(UpdateTargetProcess);
+            GUIProcessSelector.Show(ContentPanel);
         }
 
         #endregion
@@ -194,11 +215,29 @@ namespace Anathema
             CreateSnapshotManager();
         }
 
+        private void ResultsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            CreateResults();
+        }
+
         private void TableToolStripMenuItem_Click(object sender, EventArgs e)
         {
             CreateTable();
         }
 
+        private void ProcessSelectorToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            CreateProcessSelector();
+        }
+
+
+        private void ProcessSelectorButton_Click(object sender, EventArgs e)
+        {
+            CreateProcessSelector();
+        }
+
         #endregion
+
+        
     }
 }

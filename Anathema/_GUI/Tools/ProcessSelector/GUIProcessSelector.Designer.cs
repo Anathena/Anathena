@@ -58,6 +58,7 @@
             this.ProcessListView.TileSize = new System.Drawing.Size(16, 16);
             this.ProcessListView.UseCompatibleStateImageBehavior = false;
             this.ProcessListView.View = System.Windows.Forms.View.Details;
+            this.ProcessListView.DoubleClick += new System.EventHandler(this.AcceptProcessButton_Click);
             // 
             // RightClickMenu
             // 
@@ -121,6 +122,7 @@
             this.Controls.Add(this.ScanToolStrip);
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Name = "GUIProcessSelector";
+            this.Text = "Process Selector";
             this.RightClickMenu.ResumeLayout(false);
             this.ScanToolStrip.ResumeLayout(false);
             this.ScanToolStrip.PerformLayout();

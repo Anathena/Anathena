@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(DockableWindow));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(GUILabelerInputCorrelator));
             this.AlignmentLabel = new System.Windows.Forms.Label();
             this.AlignmentNumericUpDown = new System.Windows.Forms.NumericUpDown();
             this.CustomSizeNumericUpDown = new System.Windows.Forms.NumericUpDown();

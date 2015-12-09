@@ -43,7 +43,6 @@ F:\Users\Zachary\Documents\Visual Studio 2015\Projects\Anathema_Pre_WPF\Anathema
 F:\Users\Zachary\Documents\Visual Studio 2015\Projects\Anathema_Pre_WPF\Anathema\obj\Debug\Anathema.pdb
 F:\Users\Zachary\Documents\Visual Studio 2015\Projects\Anathema\Anathema\bin\Debug\ThemeVS2013Blue.dll
 F:\Users\Zachary\Documents\Visual Studio 2015\Projects\Anathema\Anathema\bin\Debug\WeifenLuo.WinFormsUI.Docking.dll
-F:\Users\Zachary\Documents\Visual Studio 2015\Projects\Anathema\Anathema\obj\Debug\Anathema.DockableWindow.resources
 F:\Users\Zachary\Documents\Visual Studio 2015\Projects\Anathema\Anathema\obj\Debug\Anathema.GUIResults.resources
 F:\Users\Zachary\Documents\Visual Studio 2015\Projects\Anathema\Anathema\obj\Debug\Anathema.GUIDebugger.resources
 F:\Users\Zachary\Documents\Visual Studio 2015\Projects\Anathema\Anathema\obj\Debug\Anathema.GUIFilterTree.resources
