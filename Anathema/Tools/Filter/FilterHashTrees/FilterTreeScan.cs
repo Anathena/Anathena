@@ -57,10 +57,10 @@ namespace Anathema
 
         public FilterTreeScan()
         {
-
+            InitializeObserver();
         }
 
-        public void NotifyProcessSelectorCreated()
+        public void InitializeObserver()
         {
             ProcessSelector.GetInstance().Subscribe(this);
         }

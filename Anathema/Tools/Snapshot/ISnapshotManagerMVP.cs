@@ -23,19 +23,14 @@ namespace Anathema
         void DeleteSnapshot();
     }
 
-    class SnapshotManagerPresenter : Presenter<ISnapshotManagerView, ISnapshotManagerModel>, IProcessObserver
+    class SnapshotManagerPresenter : Presenter<ISnapshotManagerView, ISnapshotManagerModel>
     {
         public SnapshotManagerPresenter(ISnapshotManagerView View, ISnapshotManagerModel Model) : base(View, Model)
         {
             // Bind events triggered by the model
             Model.UpdateSnapshotDisplay += UpdateSnapshotDisplay;
         }
-
-        public void NotifyProcessSelectorCreated()
-        {
-            Model.NotifyProcessSelectorCreated();
-        }
-
+        
         #region Method definitions called by the view (downstream)
 
         public void UpdateMemoryEditor(MemorySharp MemoryEditor)

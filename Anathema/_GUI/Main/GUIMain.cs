@@ -169,6 +169,7 @@ namespace Anathema
         {
             if (GUIProcessSelector == null || GUIProcessSelector.IsDisposed)
                 GUIProcessSelector = new GUIProcessSelector();
+            
             GUIProcessSelector.Show(ContentPanel);
         }
 

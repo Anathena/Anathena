@@ -24,9 +24,11 @@ namespace Anathema
         {
             Snapshots = new List<Snapshot>();
             ActiveSnapshot = null;
+
+            InitializeObserver();
         }
 
-        public void NotifyProcessSelectorCreated()
+        public void InitializeObserver()
         {
             ProcessSelector.GetInstance().Subscribe(this);
         }

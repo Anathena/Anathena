@@ -12,7 +12,7 @@ using Binarysharp.MemoryManagement.Memory;
 
 namespace Anathema
 {
-    public partial class GUIFilterTree : DockContent, IFilterTreeScanView, IProcessObserver
+    public partial class GUIFilterTree : DockContent, IFilterTreeScanView
     {
         private FilterTreeScanPresenter FilterHashTreesPresenter;
         private const Int32 MarginSize = 4;
@@ -20,23 +20,13 @@ namespace Anathema
         public GUIFilterTree()
         {
             InitializeComponent();
-
+            
             FilterHashTreesPresenter = new FilterTreeScanPresenter(this, new FilterTreeScan());
 
             UpdateFragmentSizeLabel();
             UpdateVariableSizeLabel();
         }
-
-        public void UpdateMemoryEditor(MemorySharp MemoryEditor)
-        {
-            FilterHashTreesPresenter.UpdateMemoryEditor(MemoryEditor);
-        }
-
-        public void NotifyProcessSelectorCreated()
-        {
-            ProcessSelector.GetInstance().Subscribe(this);
-        }
-
+        
         public void EventFilterFinished(List<RemoteRegion> MemoryRegions)
         {
 

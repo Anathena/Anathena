@@ -25,25 +25,15 @@ namespace Anathema
         void AbortFilter();
     }
 
-    class FilterPresenter : Presenter<IFilterView, IFilterModel>, IProcessObserver
+    class FilterPresenter : Presenter<IFilterView, IFilterModel>
     {
         public FilterPresenter(IFilterView View, IFilterModel Model) : base(View, Model)
         {
             // Bind events triggered by the model
             Model.EventFilterFinished += EndFilterRequired;
         }
-
+        
         #region Method definitions called by the view (downstream)
-
-        public void UpdateMemoryEditor(MemorySharp MemoryEditor)
-        {
-            Model.UpdateMemoryEditor(MemoryEditor);
-        }
-
-        public void NotifyProcessSelectorCreated()
-        {
-            Model.NotifyProcessSelectorCreated();
-        }
 
         public void BeginFilter()
         {

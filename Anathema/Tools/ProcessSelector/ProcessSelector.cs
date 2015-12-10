@@ -46,6 +46,8 @@ namespace Anathema
         // Observers that must be notified of a process selection change
         private List<IProcessObserver> ProcessObservers;
 
+        private MemorySharp MemoryEditor;
+
         private ProcessSelector()
         {
             ProcessObservers = new List<IProcessObserver>();
@@ -63,8 +65,10 @@ namespace Anathema
         {
             if (ProcessObservers.Contains(Observer))
                 return;
-            
+
             ProcessObservers.Add(Observer);
+
+            Notify();
         }
 
         public void Unsubscribe(IProcessObserver Observer)
@@ -75,9 +79,13 @@ namespace Anathema
             ProcessObservers.Remove(Observer);
         }
 
-        public void Notify(Process Process)
+        public void Notify(Process Process = null)
         {
-            MemorySharp MemoryEditor = new MemorySharp(Process);
+            // Update memory editor if applicable
+            if (Process != null)
+                MemoryEditor = new MemorySharp(Process);
+
+            // Notify subscribers
             for (Int32 Index = 0; Index < ProcessObservers.Count; Index++)
                 ProcessObservers[Index].UpdateMemoryEditor(MemoryEditor);
         }
