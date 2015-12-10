@@ -18,21 +18,16 @@ namespace Anathema
     {
         private MemorySharp MemoryEditor;
 
-
+        // All GUI Components
         private GUIProcessSelector GUIProcessSelector;
         private GUIDebugger GUIDebugger;
-
         private GUIFilterFSM GUIFilterFSM;
         private GUIFilterManual GUIFilterManual;
         private GUIFilterTree GUIFilterTree;
-
         private GUILabelerChangeCounter GUILabelerChangeCounter;
         private GUILabelerInputCorrelator GUILabelerInputCorrelator;
-
         private GUISnapshotManager GUISnapshotManager;
-
         private GUIResults GUIResults;
-
         private GUITable GUITable;
 
         public GUIMain()
@@ -99,8 +94,8 @@ namespace Anathema
 
         private void CreateDefaultTools()
         {
-            CreateDebugger();
             CreateInputCorrelator();
+            CreateDebugger();
             CreateTreeScanner();
             CreateSnapshotManager();
             CreateResults();
@@ -109,71 +104,71 @@ namespace Anathema
 
         private void CreateDebugger()
         {
-            if (GUIDebugger == null)
+            if (GUIDebugger == null || GUIDebugger.IsDisposed)
                 GUIDebugger = new GUIDebugger();
             GUIDebugger.Show(ContentPanel);
         }
 
         private void CreateStateScanner()
         {
-            if (GUIFilterFSM == null)
+            if (GUIFilterFSM == null || GUIFilterFSM.IsDisposed)
                 GUIFilterFSM = new GUIFilterFSM();
             GUIFilterFSM.Show(ContentPanel);
         }
 
         private void CreateManualScanner()
         {
-            if (GUIFilterManual == null)
+            if (GUIFilterManual == null || GUIFilterManual.IsDisposed)
                 GUIFilterManual = new GUIFilterManual();
             GUIFilterManual.Show(ContentPanel);
         }
 
         private void CreateTreeScanner()
         {
-            if (GUIFilterTree == null)
+            if (GUIFilterTree == null || GUIFilterTree.IsDisposed)
                 GUIFilterTree = new GUIFilterTree();
             GUIFilterTree.Show(ContentPanel, DockState.DockLeft);
         }
 
         private void CreateInputCorrelator()
         {
-            if (GUILabelerInputCorrelator == null)
+            if (GUILabelerInputCorrelator == null || GUILabelerInputCorrelator.IsDisposed)
                 GUILabelerInputCorrelator = new GUILabelerInputCorrelator();
             GUILabelerInputCorrelator.Show(ContentPanel);
         }
 
         private void CreateChangeCounter()
         {
-            if (GUILabelerChangeCounter == null)
+            if (GUILabelerChangeCounter == null || GUILabelerChangeCounter.IsDisposed)
                 GUILabelerChangeCounter = new GUILabelerChangeCounter();
             GUILabelerChangeCounter.Show(ContentPanel);
         }
 
         private void CreateSnapshotManager()
         {
-            if (GUISnapshotManager == null)
+            if (GUISnapshotManager == null || GUISnapshotManager.IsDisposed)
                 GUISnapshotManager = new GUISnapshotManager();
             GUISnapshotManager.Show(ContentPanel, DockState.DockRight);
         }
 
         private void CreateResults()
         {
-            if (GUIResults == null)
+            if (GUIResults == null || GUIResults.IsDisposed)
                 GUIResults = new GUIResults();
             GUIResults.Show(ContentPanel, DockState.DockRight);
         }
 
         private void CreateTable()
         {
-            if (GUITable == null)
+            if (GUITable == null || GUITable.IsDisposed)
                 GUITable = new GUITable();
             GUITable.Show(ContentPanel, DockState.DockBottom);
         }
 
         private void CreateProcessSelector()
         {
-            if (GUIProcessSelector == null)
-                GUIProcessSelector = new GUIProcessSelector(UpdateTargetProcess);
+            if (GUIProcessSelector == null || GUIProcessSelector.IsDisposed)
+                GUIProcessSelector = new GUIProcessSelector();
             GUIProcessSelector.Show(ContentPanel);
         }
 

@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Anathema
 {
-    delegate void FilterTreeScanEventHandler(object sender, FilterHashTreesEventArgs args);
+    delegate void FilterTreeScanEventHandler(Object Sender, FilterHashTreesEventArgs Args);
     class FilterHashTreesEventArgs : EventArgs
     {
         public UInt64? SplitCount = null;
