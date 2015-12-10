@@ -21,7 +21,7 @@ namespace Anathema
         void SelectProcess(Process TargetProcess);
     }
 
-    interface IProcessSelectorModel : IModel
+    interface IProcessSelectorModel : IModel, IProcessSubject
     {
         // Events triggered by the model (upstream)
         event ProcessSelectorEventHandler EventDisplayProcesses;

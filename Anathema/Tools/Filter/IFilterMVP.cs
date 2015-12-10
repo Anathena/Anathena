@@ -35,9 +35,14 @@ namespace Anathema
 
         #region Method definitions called by the view (downstream)
 
-        public void UpdateProcess(MemorySharp MemoryEditor)
+        public void UpdateMemoryEditor(MemorySharp MemoryEditor)
         {
-            Model.UpdateProcess(MemoryEditor);
+            Model.UpdateMemoryEditor(MemoryEditor);
+        }
+
+        public void NotifyProcessSelectorCreated()
+        {
+            Model.NotifyProcessSelectorCreated();
         }
 
         public void BeginFilter()

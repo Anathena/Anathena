@@ -6,6 +6,7 @@ using System.Windows.Forms;
 using System.Diagnostics;
 using System.Collections.Concurrent;
 using System.Runtime.InteropServices;
+using Binarysharp.MemoryManagement;
 
 namespace Anathema
 {
@@ -33,16 +34,54 @@ namespace Anathema
      */
     class ProcessSelector : IProcessSelectorModel
     {
-        private List<Process> ProcessList;  // Complete list of running processes
+        // Singleton instance of the process selector. There is no reason to have more than one of these active at once.
+        private static ProcessSelector _ProcessSelector;
+
+        // Complete list of running processes
+        private List<Process> ProcessList;
 
         public event ProcessSelectorEventHandler EventDisplayProcesses;
         public event ProcessSelectorEventHandler EventSelectProcess;
 
-        public ProcessSelector()
-        {
+        // Observers that must be notified of a process selection change
+        private List<IProcessObserver> ProcessObservers;
 
+        private ProcessSelector()
+        {
+            ProcessObservers = new List<IProcessObserver>();
         }
-        
+
+        public static ProcessSelector GetInstance()
+        {
+            if (_ProcessSelector == null)
+                _ProcessSelector = new ProcessSelector();
+
+            return _ProcessSelector;
+        }
+
+        public void Subscribe(IProcessObserver Observer)
+        {
+            if (ProcessObservers.Contains(Observer))
+                return;
+            
+            ProcessObservers.Add(Observer);
+        }
+
+        public void Unsubscribe(IProcessObserver Observer)
+        {
+            if (!ProcessObservers.Contains(Observer))
+                return;
+
+            ProcessObservers.Remove(Observer);
+        }
+
+        public void Notify(Process Process)
+        {
+            MemorySharp MemoryEditor = new MemorySharp(Process);
+            for (Int32 Index = 0; Index < ProcessObservers.Count; Index++)
+                ProcessObservers[Index].UpdateMemoryEditor(MemoryEditor);
+        }
+
         public void SelectProcess(Int32 Index)
         {
             // Check if this is a valid index into the process list
@@ -53,6 +92,8 @@ namespace Anathema
             ProcessSelectorEventArgs ProcessSelectorEventArgs = new ProcessSelectorEventArgs();
             ProcessSelectorEventArgs.SelectedProcess = ProcessList[Index];
             EventSelectProcess(this, ProcessSelectorEventArgs);
+
+            Notify(ProcessList[Index]);
         }
 
         public void RefreshProcesses(IntPtr ProcessSelectorHandle)
@@ -136,7 +177,7 @@ namespace Anathema
             List<Process> ProcessList = new List<Process>();
             ProcessList.AddRange(StandardProcessList); // Start by copying all standard processes first
             ProcessList.AddRange(SystemProcessList);   // Copy in session0 / system processes last
-            
+
             return ProcessList;
         }
 
@@ -145,7 +186,7 @@ namespace Anathema
         {
             // Icons to correspond to our processes
             List<Icon> ImageList = new List<Icon>();
-            
+
             // Try to grab icons for the main list only
             for (Int32 ProcessIndex = 0; ProcessIndex < ProcessList.Count; ProcessIndex++)
                 ImageList.Add(GetIcon(ProcessSelectorHandle, ProcessList[ProcessIndex]));
@@ -207,6 +248,7 @@ namespace Anathema
 
         [DllImport("shell32.dll", SetLastError = true)]
         public static extern IntPtr ExtractIcon(IntPtr hInst, string lpszExeFileName, int nIconIndex);
+
     }
 
     #region Process comparer classes

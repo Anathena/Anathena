@@ -27,9 +27,14 @@ namespace Anathema
             UpdateVariableSizeLabel();
         }
 
-        public void UpdateProcess(MemorySharp MemoryEditor)
+        public void UpdateMemoryEditor(MemorySharp MemoryEditor)
         {
-            FilterHashTreesPresenter.UpdateProcess(MemoryEditor);
+            FilterHashTreesPresenter.UpdateMemoryEditor(MemoryEditor);
+        }
+
+        public void NotifyProcessSelectorCreated()
+        {
+            ProcessSelector.GetInstance().Subscribe(this);
         }
 
         public void EventFilterFinished(List<RemoteRegion> MemoryRegions)

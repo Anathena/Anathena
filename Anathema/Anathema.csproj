@@ -90,7 +90,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Tools\Filter\FilterHashTrees\IFilterTreeScanMVP.cs" />
-    <Compile Include="Tools\ProcessSelector\IProcessSubject.cs" />
+    <Compile Include="Tools\ProcessSelector\IProcessObserver.cs" />
     <Compile Include="Tools\ProcessSelector\IProcessSelectorMVP.cs" />
     <Compile Include="Tools\ProcessSelector\ProcessSelector.cs" />
     <Compile Include="Tools\Snapshot\ISnapshotManagerMVP.cs" />
@@ -225,7 +225,7 @@
     <Compile Include="Tools\Filter\FilterMultiScanner\FilterMultiScanner.cs" />
     <Compile Include="Tools\Labeler\LabelerChangeCounter.cs" />
     <Compile Include="Main\IMainMVP.cs" />
-    <Compile Include="Tools\ProcessSelector\IProcessObserver.cs" />
+    <Compile Include="Tools\ProcessSelector\IProcessSubject.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="HelperClasses\Settings.cs" />

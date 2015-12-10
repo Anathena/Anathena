@@ -26,6 +26,11 @@ namespace Anathema
             ActiveSnapshot = null;
         }
 
+        public void NotifyProcessSelectorCreated()
+        {
+            ProcessSelector.GetInstance().Subscribe(this);
+        }
+
         public static SnapshotManager GetSnapshotManagerInstance()
         {
             if (SnapshotManagerInstance == null)
@@ -34,7 +39,7 @@ namespace Anathema
             return SnapshotManagerInstance;
         }
 
-        public void UpdateProcess(MemorySharp MemoryEditor)
+        public void UpdateMemoryEditor(MemorySharp MemoryEditor)
         {
             this.MemoryEditor = MemoryEditor;
         }

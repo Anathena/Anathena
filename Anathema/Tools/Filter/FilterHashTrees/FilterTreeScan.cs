@@ -60,7 +60,12 @@ namespace Anathema
 
         }
 
-        public void UpdateProcess(MemorySharp MemoryEditor)
+        public void NotifyProcessSelectorCreated()
+        {
+            ProcessSelector.GetInstance().Subscribe(this);
+        }
+
+        public void UpdateMemoryEditor(MemorySharp MemoryEditor)
         {
             this.MemoryEditor = MemoryEditor;
         }

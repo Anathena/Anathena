@@ -29,15 +29,10 @@ namespace Anathema
             ProcessListView.View = View.Details;
 
             // Initialize presenter
-            ProcessSelectorPresenter = new ProcessSelectorPresenter(this, new ProcessSelector());
+            ProcessSelectorPresenter = new ProcessSelectorPresenter(this, ProcessSelector.GetInstance());
 
             // Initialize process list
             RefreshProcesses();
-        }
-        
-        private void HandleResize()
-        {
-            ProcessListView.Columns[0].Width = ProcessListView.Width - 24;
         }
 
         public void SelectProcess(Process TargetProcess)
@@ -58,11 +53,11 @@ namespace Anathema
 
         private void TrySelectingProcess()
         {
+            if (ProcessListView.SelectedIndices.Count <= 0)
+                return;
+
             try
             {
-                if (ProcessListView.SelectedIndices.Count <= 0)
-                    return;
-
                 ProcessSelectorPresenter.SelectProcess(ProcessListView.SelectedIndices[0]);
             }
             catch (Exception Ex)
@@ -76,6 +71,11 @@ namespace Anathema
             ProcessSelectorPresenter.RefreshProcesses(this.Handle);
         }
         
+        private void HandleResize()
+        {
+            ProcessListView.Columns[0].Width = ProcessListView.Width - 24;
+        }
+
         #region Events
 
         private void SelectProcessToolStripMenuItem_Click(object sender, EventArgs e)

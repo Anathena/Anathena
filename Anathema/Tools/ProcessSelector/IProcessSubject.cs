@@ -1,14 +1,11 @@
-﻿using Binarysharp.MemoryManagement;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Diagnostics;
 
 namespace Anathema
 {
-    interface IProcessObserver
+    interface IProcessSubject
     {
-        void UpdateProcess(MemorySharp MemoryEditor);
+        void Subscribe(IProcessObserver Observer);
+        void Unsubscribe(IProcessObserver Observer);
+        void Notify(Process Process);
     }
 }
