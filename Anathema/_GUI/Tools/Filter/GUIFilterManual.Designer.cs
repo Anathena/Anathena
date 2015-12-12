@@ -31,7 +31,6 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(GUIFilterManual));
             this.CompareTypeLabel = new System.Windows.Forms.Label();
             this.ScanValueTB = new System.Windows.Forms.TextBox();
-            this.DummyToolStrip = new System.Windows.Forms.ToolStrip();
             this.ENotationButton = new System.Windows.Forms.ToolStripButton();
             this.ClearConstraintsButton = new System.Windows.Forms.ToolStripButton();
             this.AddConstraintButton = new System.Windows.Forms.ToolStripButton();
@@ -45,13 +44,12 @@
             this.DataTypeCBB = new System.Windows.Forms.ComboBox();
             this.ScanTypeWorldStrip = new System.Windows.Forms.ToolStrip();
             this.IncreasedValButton = new System.Windows.Forms.ToolStripButton();
-            this.ScanOptionsButton = new System.Windows.Forms.ToolStripButton();
-            this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
-            this.ManualScanButton = new System.Windows.Forms.ToolStripButton();
-            this.InputCorrelatorButton = new System.Windows.Forms.ToolStripButton();
             this.FiniteStateMachineButton = new System.Windows.Forms.ToolStripButton();
             this.SearchSpaceAnalysisButton = new System.Windows.Forms.ToolStripButton();
             this.ScanToolStrip = new System.Windows.Forms.ToolStrip();
+            this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.ScanTypeWorldStrip.SuspendLayout();
             this.ScanToolStrip.SuspendLayout();
             this.SuspendLayout();
@@ -59,7 +57,7 @@
             // CompareTypeLabel
             // 
             this.CompareTypeLabel.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.CompareTypeLabel.Location = new System.Drawing.Point(0, 140);
+            this.CompareTypeLabel.Location = new System.Drawing.Point(12, 60);
             this.CompareTypeLabel.Name = "CompareTypeLabel";
             this.CompareTypeLabel.Size = new System.Drawing.Size(160, 13);
             this.CompareTypeLabel.TabIndex = 154;
@@ -69,19 +67,10 @@
             // ScanValueTB
             // 
             this.ScanValueTB.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.ScanValueTB.Location = new System.Drawing.Point(3, 156);
+            this.ScanValueTB.Location = new System.Drawing.Point(15, 76);
             this.ScanValueTB.Name = "ScanValueTB";
             this.ScanValueTB.Size = new System.Drawing.Size(101, 20);
             this.ScanValueTB.TabIndex = 151;
-            // 
-            // DummyToolStrip
-            // 
-            this.DummyToolStrip.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
-            this.DummyToolStrip.Location = new System.Drawing.Point(0, 50);
-            this.DummyToolStrip.Name = "DummyToolStrip";
-            this.DummyToolStrip.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
-            this.DummyToolStrip.Size = new System.Drawing.Size(284, 25);
-            this.DummyToolStrip.TabIndex = 156;
             // 
             // ENotationButton
             // 
@@ -145,7 +134,7 @@
             // ScanValueUpperTB
             // 
             this.ScanValueUpperTB.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.ScanValueUpperTB.Location = new System.Drawing.Point(110, 156);
+            this.ScanValueUpperTB.Location = new System.Drawing.Point(122, 76);
             this.ScanValueUpperTB.Name = "ScanValueUpperTB";
             this.ScanValueUpperTB.Size = new System.Drawing.Size(101, 20);
             this.ScanValueUpperTB.TabIndex = 152;
@@ -184,7 +173,7 @@
             "Double",
             "Text",
             "Array of Bytes"});
-            this.DataTypeCBB.Location = new System.Drawing.Point(3, 182);
+            this.DataTypeCBB.Location = new System.Drawing.Point(15, 102);
             this.DataTypeCBB.Name = "DataTypeCBB";
             this.DataTypeCBB.Size = new System.Drawing.Size(101, 21);
             this.DataTypeCBB.TabIndex = 153;
@@ -219,39 +208,6 @@
             this.IncreasedValButton.Size = new System.Drawing.Size(23, 22);
             this.IncreasedValButton.Text = "Increased Value";
             // 
-            // ScanOptionsButton
-            // 
-            this.ScanOptionsButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.ScanOptionsButton.Image = ((System.Drawing.Image)(resources.GetObject("ScanOptionsButton.Image")));
-            this.ScanOptionsButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.ScanOptionsButton.Name = "ScanOptionsButton";
-            this.ScanOptionsButton.Size = new System.Drawing.Size(23, 22);
-            this.ScanOptionsButton.Text = "Scan Options";
-            // 
-            // toolStripSeparator4
-            // 
-            this.toolStripSeparator4.Name = "toolStripSeparator4";
-            this.toolStripSeparator4.Size = new System.Drawing.Size(6, 25);
-            // 
-            // ManualScanButton
-            // 
-            this.ManualScanButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.ManualScanButton.Image = ((System.Drawing.Image)(resources.GetObject("ManualScanButton.Image")));
-            this.ManualScanButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.ManualScanButton.Name = "ManualScanButton";
-            this.ManualScanButton.Size = new System.Drawing.Size(23, 22);
-            this.ManualScanButton.Text = "Manual Scan";
-            this.ManualScanButton.ToolTipText = "Manual Scan";
-            // 
-            // InputCorrelatorButton
-            // 
-            this.InputCorrelatorButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.InputCorrelatorButton.Image = ((System.Drawing.Image)(resources.GetObject("InputCorrelatorButton.Image")));
-            this.InputCorrelatorButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.InputCorrelatorButton.Name = "InputCorrelatorButton";
-            this.InputCorrelatorButton.Size = new System.Drawing.Size(23, 22);
-            this.InputCorrelatorButton.Text = "Undo Scan";
-            // 
             // FiniteStateMachineButton
             // 
             this.FiniteStateMachineButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
@@ -274,18 +230,36 @@
             // 
             this.ScanToolStrip.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
             this.ScanToolStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripButton1,
+            this.toolStripSeparator1,
             this.SearchSpaceAnalysisButton,
             this.FiniteStateMachineButton,
-            this.InputCorrelatorButton,
-            this.ManualScanButton,
-            this.toolStripSeparator4,
-            this.ScanOptionsButton});
+            this.toolStripSeparator2});
             this.ScanToolStrip.Location = new System.Drawing.Point(0, 0);
             this.ScanToolStrip.Name = "ScanToolStrip";
             this.ScanToolStrip.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
             this.ScanToolStrip.Size = new System.Drawing.Size(284, 25);
             this.ScanToolStrip.TabIndex = 150;
             this.ScanToolStrip.Text = "toolStrip1";
+            // 
+            // toolStripButton1
+            // 
+            this.toolStripButton1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripButton1.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton1.Image")));
+            this.toolStripButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButton1.Name = "toolStripButton1";
+            this.toolStripButton1.Size = new System.Drawing.Size(23, 22);
+            this.toolStripButton1.Text = "toolStripButton1";
+            // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 25);
+            // 
+            // toolStripSeparator2
+            // 
+            this.toolStripSeparator2.Name = "toolStripSeparator2";
+            this.toolStripSeparator2.Size = new System.Drawing.Size(6, 25);
             // 
             // GUIFilterManual
             // 
@@ -294,7 +268,6 @@
             this.ClientSize = new System.Drawing.Size(284, 261);
             this.Controls.Add(this.CompareTypeLabel);
             this.Controls.Add(this.ScanValueTB);
-            this.Controls.Add(this.DummyToolStrip);
             this.Controls.Add(this.ScanValueUpperTB);
             this.Controls.Add(this.DataTypeCBB);
             this.Controls.Add(this.ScanTypeWorldStrip);
@@ -315,7 +288,6 @@
 
         private System.Windows.Forms.Label CompareTypeLabel;
         private System.Windows.Forms.TextBox ScanValueTB;
-        private System.Windows.Forms.ToolStrip DummyToolStrip;
         private System.Windows.Forms.ToolStripButton ENotationButton;
         private System.Windows.Forms.ToolStripButton ClearConstraintsButton;
         private System.Windows.Forms.ToolStripButton AddConstraintButton;
@@ -329,12 +301,11 @@
         private System.Windows.Forms.ComboBox DataTypeCBB;
         private System.Windows.Forms.ToolStrip ScanTypeWorldStrip;
         private System.Windows.Forms.ToolStripButton IncreasedValButton;
-        private System.Windows.Forms.ToolStripButton ScanOptionsButton;
-        private System.Windows.Forms.ToolStripSeparator toolStripSeparator4;
-        private System.Windows.Forms.ToolStripButton ManualScanButton;
-        private System.Windows.Forms.ToolStripButton InputCorrelatorButton;
         private System.Windows.Forms.ToolStripButton FiniteStateMachineButton;
         private System.Windows.Forms.ToolStripButton SearchSpaceAnalysisButton;
         private System.Windows.Forms.ToolStrip ScanToolStrip;
+        private System.Windows.Forms.ToolStripButton toolStripButton1;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
     }
 }

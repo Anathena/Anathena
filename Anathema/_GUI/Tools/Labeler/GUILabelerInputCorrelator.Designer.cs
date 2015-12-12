@@ -30,117 +30,40 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(GUILabelerInputCorrelator));
             this.AlignmentLabel = new System.Windows.Forms.Label();
-            this.AlignmentNumericUpDown = new System.Windows.Forms.NumericUpDown();
-            this.CustomSizeNumericUpDown = new System.Windows.Forms.NumericUpDown();
-            this.CustomSizeCheckBox = new System.Windows.Forms.CheckBox();
-            this.ReactUnsureRadioButton = new System.Windows.Forms.RadioButton();
-            this.ReactUserToInputRadioButton = new System.Windows.Forms.RadioButton();
-            this.ReactVariableToInputRadioButton = new System.Windows.Forms.RadioButton();
-            this.FragmentSizeValueLabel = new System.Windows.Forms.Label();
+            this.VariableSizeValueLabel = new System.Windows.Forms.Label();
             this.VariableSizeLabel = new System.Windows.Forms.Label();
-            this.GranularityTrackBar = new System.Windows.Forms.TrackBar();
+            this.VariableSizeTrackBar = new System.Windows.Forms.TrackBar();
             this.ScanToolStrip = new System.Windows.Forms.ToolStrip();
             this.StartSSAButton = new System.Windows.Forms.ToolStripButton();
             this.StopSSAButton = new System.Windows.Forms.ToolStripButton();
-            ((System.ComponentModel.ISupportInitialize)(this.AlignmentNumericUpDown)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.CustomSizeNumericUpDown)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.GranularityTrackBar)).BeginInit();
+            this.AlignmentSizeValueLabel = new System.Windows.Forms.Label();
+            this.AlignmentSizeTrackBar = new System.Windows.Forms.TrackBar();
+            ((System.ComponentModel.ISupportInitialize)(this.VariableSizeTrackBar)).BeginInit();
             this.ScanToolStrip.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.AlignmentSizeTrackBar)).BeginInit();
             this.SuspendLayout();
             // 
             // AlignmentLabel
             // 
+            this.AlignmentLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.AlignmentLabel.AutoSize = true;
-            this.AlignmentLabel.Location = new System.Drawing.Point(25, 128);
+            this.AlignmentLabel.Location = new System.Drawing.Point(221, 60);
             this.AlignmentLabel.Name = "AlignmentLabel";
-            this.AlignmentLabel.Size = new System.Drawing.Size(53, 13);
+            this.AlignmentLabel.Size = new System.Drawing.Size(56, 13);
             this.AlignmentLabel.TabIndex = 159;
-            this.AlignmentLabel.Text = "Alignment";
+            this.AlignmentLabel.Text = "Alignment:";
             // 
-            // AlignmentNumericUpDown
+            // VariableSizeValueLabel
             // 
-            this.AlignmentNumericUpDown.Location = new System.Drawing.Point(84, 126);
-            this.AlignmentNumericUpDown.Maximum = new decimal(new int[] {
-            15,
-            0,
-            0,
-            0});
-            this.AlignmentNumericUpDown.Minimum = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-            this.AlignmentNumericUpDown.Name = "AlignmentNumericUpDown";
-            this.AlignmentNumericUpDown.Size = new System.Drawing.Size(120, 20);
-            this.AlignmentNumericUpDown.TabIndex = 158;
-            this.AlignmentNumericUpDown.Value = new decimal(new int[] {
-            4,
-            0,
-            0,
-            0});
-            // 
-            // CustomSizeNumericUpDown
-            // 
-            this.CustomSizeNumericUpDown.Location = new System.Drawing.Point(84, 100);
-            this.CustomSizeNumericUpDown.Name = "CustomSizeNumericUpDown";
-            this.CustomSizeNumericUpDown.Size = new System.Drawing.Size(120, 20);
-            this.CustomSizeNumericUpDown.TabIndex = 157;
-            // 
-            // CustomSizeCheckBox
-            // 
-            this.CustomSizeCheckBox.AutoSize = true;
-            this.CustomSizeCheckBox.Location = new System.Drawing.Point(0, 101);
-            this.CustomSizeCheckBox.Name = "CustomSizeCheckBox";
-            this.CustomSizeCheckBox.Size = new System.Drawing.Size(84, 17);
-            this.CustomSizeCheckBox.TabIndex = 156;
-            this.CustomSizeCheckBox.Text = "Custom Size";
-            this.CustomSizeCheckBox.UseVisualStyleBackColor = true;
-            // 
-            // ReactUnsureRadioButton
-            // 
-            this.ReactUnsureRadioButton.AutoSize = true;
-            this.ReactUnsureRadioButton.Location = new System.Drawing.Point(0, 198);
-            this.ReactUnsureRadioButton.Name = "ReactUnsureRadioButton";
-            this.ReactUnsureRadioButton.Size = new System.Drawing.Size(59, 17);
-            this.ReactUnsureRadioButton.TabIndex = 155;
-            this.ReactUnsureRadioButton.Text = "Unsure";
-            this.ReactUnsureRadioButton.UseVisualStyleBackColor = true;
-            // 
-            // ReactUserToInputRadioButton
-            // 
-            this.ReactUserToInputRadioButton.AutoSize = true;
-            this.ReactUserToInputRadioButton.Location = new System.Drawing.Point(0, 175);
-            this.ReactUserToInputRadioButton.Name = "ReactUserToInputRadioButton";
-            this.ReactUserToInputRadioButton.Size = new System.Drawing.Size(137, 17);
-            this.ReactUserToInputRadioButton.TabIndex = 154;
-            this.ReactUserToInputRadioButton.Text = "User Reacts to Variable";
-            this.ReactUserToInputRadioButton.UseVisualStyleBackColor = true;
-            // 
-            // ReactVariableToInputRadioButton
-            // 
-            this.ReactVariableToInputRadioButton.AutoSize = true;
-            this.ReactVariableToInputRadioButton.Checked = true;
-            this.ReactVariableToInputRadioButton.Location = new System.Drawing.Point(0, 152);
-            this.ReactVariableToInputRadioButton.Name = "ReactVariableToInputRadioButton";
-            this.ReactVariableToInputRadioButton.Size = new System.Drawing.Size(143, 17);
-            this.ReactVariableToInputRadioButton.TabIndex = 153;
-            this.ReactVariableToInputRadioButton.TabStop = true;
-            this.ReactVariableToInputRadioButton.Text = "Variable Reacts To Input";
-            this.ReactVariableToInputRadioButton.UseVisualStyleBackColor = true;
-            // 
-            // FragmentSizeValueLabel
-            // 
-            this.FragmentSizeValueLabel.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            this.FragmentSizeValueLabel.AutoSize = true;
-            this.FragmentSizeValueLabel.Location = new System.Drawing.Point(77, 60);
-            this.FragmentSizeValueLabel.Name = "FragmentSizeValueLabel";
-            this.FragmentSizeValueLabel.Size = new System.Drawing.Size(42, 13);
-            this.FragmentSizeValueLabel.TabIndex = 152;
-            this.FragmentSizeValueLabel.Text = "0 Bytes";
+            this.VariableSizeValueLabel.AutoSize = true;
+            this.VariableSizeValueLabel.Location = new System.Drawing.Point(67, 60);
+            this.VariableSizeValueLabel.Name = "VariableSizeValueLabel";
+            this.VariableSizeValueLabel.Size = new System.Drawing.Size(20, 13);
+            this.VariableSizeValueLabel.TabIndex = 152;
+            this.VariableSizeValueLabel.Text = "0B";
             // 
             // VariableSizeLabel
             // 
-            this.VariableSizeLabel.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.VariableSizeLabel.AutoSize = true;
             this.VariableSizeLabel.Location = new System.Drawing.Point(0, 60);
             this.VariableSizeLabel.Name = "VariableSizeLabel";
@@ -148,15 +71,16 @@
             this.VariableSizeLabel.TabIndex = 151;
             this.VariableSizeLabel.Text = "Variable Size:";
             // 
-            // GranularityTrackBar
+            // VariableSizeTrackBar
             // 
-            this.GranularityTrackBar.LargeChange = 2;
-            this.GranularityTrackBar.Location = new System.Drawing.Point(0, 28);
-            this.GranularityTrackBar.Maximum = 3;
-            this.GranularityTrackBar.Name = "GranularityTrackBar";
-            this.GranularityTrackBar.Size = new System.Drawing.Size(253, 45);
-            this.GranularityTrackBar.TabIndex = 149;
-            this.GranularityTrackBar.Value = 2;
+            this.VariableSizeTrackBar.LargeChange = 2;
+            this.VariableSizeTrackBar.Location = new System.Drawing.Point(0, 28);
+            this.VariableSizeTrackBar.Maximum = 3;
+            this.VariableSizeTrackBar.Name = "VariableSizeTrackBar";
+            this.VariableSizeTrackBar.Size = new System.Drawing.Size(140, 45);
+            this.VariableSizeTrackBar.TabIndex = 149;
+            this.VariableSizeTrackBar.Value = 2;
+            this.VariableSizeTrackBar.Scroll += new System.EventHandler(this.VariableSizeTrackBar_Scroll);
             // 
             // ScanToolStrip
             // 
@@ -167,7 +91,7 @@
             this.ScanToolStrip.Location = new System.Drawing.Point(0, 0);
             this.ScanToolStrip.Name = "ScanToolStrip";
             this.ScanToolStrip.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
-            this.ScanToolStrip.Size = new System.Drawing.Size(284, 25);
+            this.ScanToolStrip.Size = new System.Drawing.Size(304, 25);
             this.ScanToolStrip.TabIndex = 150;
             this.ScanToolStrip.Text = "toolStrip1";
             // 
@@ -189,30 +113,48 @@
             this.StopSSAButton.Size = new System.Drawing.Size(23, 22);
             this.StopSSAButton.Text = "New Scan";
             // 
-            // DockableWindow
+            // AlignmentSizeValueLabel
+            // 
+            this.AlignmentSizeValueLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.AlignmentSizeValueLabel.AutoSize = true;
+            this.AlignmentSizeValueLabel.Location = new System.Drawing.Point(273, 60);
+            this.AlignmentSizeValueLabel.Name = "AlignmentSizeValueLabel";
+            this.AlignmentSizeValueLabel.Size = new System.Drawing.Size(13, 13);
+            this.AlignmentSizeValueLabel.TabIndex = 162;
+            this.AlignmentSizeValueLabel.Text = "0";
+            // 
+            // AlignmentSizeTrackBar
+            // 
+            this.AlignmentSizeTrackBar.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.AlignmentSizeTrackBar.LargeChange = 2;
+            this.AlignmentSizeTrackBar.Location = new System.Drawing.Point(166, 28);
+            this.AlignmentSizeTrackBar.Maximum = 3;
+            this.AlignmentSizeTrackBar.Name = "AlignmentSizeTrackBar";
+            this.AlignmentSizeTrackBar.Size = new System.Drawing.Size(138, 45);
+            this.AlignmentSizeTrackBar.TabIndex = 160;
+            this.AlignmentSizeTrackBar.Value = 2;
+            this.AlignmentSizeTrackBar.Scroll += new System.EventHandler(this.AlignmentTrackBar_Scroll);
+            // 
+            // GUILabelerInputCorrelator
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(284, 261);
+            this.ClientSize = new System.Drawing.Size(304, 217);
+            this.Controls.Add(this.AlignmentSizeValueLabel);
             this.Controls.Add(this.AlignmentLabel);
-            this.Controls.Add(this.AlignmentNumericUpDown);
-            this.Controls.Add(this.CustomSizeNumericUpDown);
-            this.Controls.Add(this.CustomSizeCheckBox);
-            this.Controls.Add(this.ReactUnsureRadioButton);
-            this.Controls.Add(this.ReactUserToInputRadioButton);
-            this.Controls.Add(this.ReactVariableToInputRadioButton);
-            this.Controls.Add(this.FragmentSizeValueLabel);
+            this.Controls.Add(this.AlignmentSizeTrackBar);
+            this.Controls.Add(this.VariableSizeValueLabel);
             this.Controls.Add(this.VariableSizeLabel);
-            this.Controls.Add(this.GranularityTrackBar);
+            this.Controls.Add(this.VariableSizeTrackBar);
             this.Controls.Add(this.ScanToolStrip);
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Name = "DockableWindow";
+            this.Name = "GUILabelerInputCorrelator";
             this.Text = "Input Correlator";
-            ((System.ComponentModel.ISupportInitialize)(this.AlignmentNumericUpDown)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.CustomSizeNumericUpDown)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.GranularityTrackBar)).EndInit();
+            this.Resize += new System.EventHandler(this.GUILabelerInputCorrelator_Resize);
+            ((System.ComponentModel.ISupportInitialize)(this.VariableSizeTrackBar)).EndInit();
             this.ScanToolStrip.ResumeLayout(false);
             this.ScanToolStrip.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.AlignmentSizeTrackBar)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -221,17 +163,13 @@
         #endregion
 
         private System.Windows.Forms.Label AlignmentLabel;
-        private System.Windows.Forms.NumericUpDown AlignmentNumericUpDown;
-        private System.Windows.Forms.NumericUpDown CustomSizeNumericUpDown;
-        private System.Windows.Forms.CheckBox CustomSizeCheckBox;
-        private System.Windows.Forms.RadioButton ReactUnsureRadioButton;
-        private System.Windows.Forms.RadioButton ReactUserToInputRadioButton;
-        private System.Windows.Forms.RadioButton ReactVariableToInputRadioButton;
-        private System.Windows.Forms.Label FragmentSizeValueLabel;
+        private System.Windows.Forms.Label VariableSizeValueLabel;
         private System.Windows.Forms.Label VariableSizeLabel;
-        private System.Windows.Forms.TrackBar GranularityTrackBar;
+        private System.Windows.Forms.TrackBar VariableSizeTrackBar;
         private System.Windows.Forms.ToolStrip ScanToolStrip;
         private System.Windows.Forms.ToolStripButton StartSSAButton;
         private System.Windows.Forms.ToolStripButton StopSSAButton;
+        private System.Windows.Forms.Label AlignmentSizeValueLabel;
+        private System.Windows.Forms.TrackBar AlignmentSizeTrackBar;
     }
 }

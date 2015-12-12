@@ -15,18 +15,18 @@ namespace Anathema
     public partial class GUIFilterTree : DockContent, IFilterTreeScanView
     {
         private FilterTreeScanPresenter FilterHashTreesPresenter;
-        private const Int32 MarginSize = 4;
 
         public GUIFilterTree()
         {
             InitializeComponent();
-            
+
             FilterHashTreesPresenter = new FilterTreeScanPresenter(this, new FilterTreeScan());
 
-            UpdateFragmentSizeLabel();
-            UpdateVariableSizeLabel();
+            UpdateVariableSize();
+            UpdateMinChanges();
+            UpdateMaxChanges();
         }
-        
+
         public void EventFilterFinished(List<RemoteRegion> MemoryRegions)
         {
 
@@ -34,13 +34,14 @@ namespace Anathema
 
         public void DisplaySplitCount(UInt64 SplitCount)
         {
+            /*
             ControlThreadingHelper.InvokeControlAction(TreeSplitsValueLabel, () =>
             {
                 TreeSplitsValueLabel.Text = SplitCount.ToString();
-            });
+            });*/
         }
 
-        public void DisplayTreeSize(UInt64 TreeSize)
+        public void DisplayResultSize(UInt64 TreeSize)
         {
             ControlThreadingHelper.InvokeControlAction(MemorySizeValueLabel, () =>
             {
@@ -50,65 +51,103 @@ namespace Anathema
 
         private void UpdateTreeSplits(Int32 Splits)
         {
-            TreeSplitsValueLabel.Text = Splits.ToString();
+            // TreeSplitsValueLabel.Text = Splits.ToString();
         }
 
-        private void UpdateFragmentSizeLabel()
-        {
-            UInt64 Value = (UInt64)Math.Pow(2, FragmentSizeTrackBar.Value);
-            string LabelText = Conversions.ByteCountToMetricSize(Value).ToString();
-
-            FragmentSizeValueLabel.Text = LabelText;
-
-            FilterHashTreesPresenter.SetLeafSize(Value);
-        }
-
-        private void UpdateVariableSizeLabel()
+        private void UpdateVariableSize()
         {
             UInt64 Value = (UInt64)Math.Pow(2, VariableSizeTrackBar.Value);
-            string LabelText = Conversions.ByteCountToMetricSize(Value).ToString();
+            String LabelText = Conversions.ByteCountToMetricSize(Value).ToString();
 
             VariableSizeValueLabel.Text = LabelText;
 
             FilterHashTreesPresenter.SetVariableSize(Value);
         }
 
-        private void GUIMemoryTreeFilter_Resize(object sender, EventArgs e)
+        private void UpdateMinChanges()
         {
-            //AdvancedSettingsGroupBox.SetBounds(MarginSize, this.Height / 2 + MarginSize,
-            //    this.Width - MarginSize * 2, this.Height / 2 - MarginSize * 2);
+            UInt64 Value = (UInt64)MinChangesTrackBar.Value;
+            MinChangesValueLabel.Text = Value.ToString();
+        }
+
+        private void UpdateMaxChanges()
+        {
+            Int32 Value = MaxChangesTrackBar.Value;
+            if (Value == MaxChangesTrackBar.Maximum)
+            {
+                Value = Int32.MaxValue;
+                MaxChangesValueLabel.Text = "Infinity";
+            }
+            else
+                MaxChangesValueLabel.Text = Value.ToString();
+        }
+
+        private void HandleResize()
+        {
+            MaxChangesTrackBar.Location = new Point(this.Width / 2, MaxChangesTrackBar.Location.Y);
+            MaxChangesTrackBar.Width = this.Width - MaxChangesTrackBar.Location.X;
+            MinChangesTrackBar.Width = MaxChangesTrackBar.Location.X - MinChangesTrackBar.Location.X;
+
+            VariableSizeTrackBar.Width = (this.Width - VariableSizeTrackBar.Location.X) / 2;
         }
 
         private void DisableGUI()
         {
-            AdvancedSettingsGroupBox.Enabled = false;
+            //AdvancedSettingsGroupBox.Enabled = false;
         }
 
         private void EnableGUI()
         {
-            AdvancedSettingsGroupBox.Enabled = true;
+            //AdvancedSettingsGroupBox.Enabled = true;
         }
 
-        private void StartButton_Click(object sender, EventArgs e)
+        #region Events
+
+        private void StartScanButton_Click(object sender, EventArgs e)
         {
             FilterHashTreesPresenter.BeginFilter();
             DisableGUI();
         }
 
-        private void StopButton_Click(object sender, EventArgs e)
+        private void StopScanButton_Click(object sender, EventArgs e)
         {
-            FilterHashTreesPresenter.EndFilter();
+            Snapshot Result = FilterHashTreesPresenter.EndFilter();
+            SnapshotManager.GetSnapshotManagerInstance().SaveSnapshot(Result);
             EnableGUI();
         }
 
-        private void GranularityTrackBar_Scroll(object sender, EventArgs e)
+        private void GUIFilterTree_Resize(object sender, EventArgs e)
         {
-            UpdateFragmentSizeLabel();
+            HandleResize();
         }
 
         private void VariableSizeTrackBar_Scroll(object sender, EventArgs e)
         {
-            UpdateVariableSizeLabel();
+            UpdateVariableSize();
         }
+
+        private void MinChangesTrackBar_Scroll(object sender, EventArgs e)
+        {
+            UpdateMinChanges();
+
+            if (MinChangesTrackBar.Value > MaxChangesTrackBar.Value)
+            {
+                MaxChangesTrackBar.Value = MinChangesTrackBar.Value;
+                MaxChangesTrackBar_Scroll(sender, e);
+            }
+        }
+
+        private void MaxChangesTrackBar_Scroll(object sender, EventArgs e)
+        {
+            UpdateMaxChanges();
+
+            if (MaxChangesTrackBar.Value < MinChangesTrackBar.Value)
+            {
+                MinChangesTrackBar.Value = MaxChangesTrackBar.Value;
+                MinChangesTrackBar_Scroll(sender, e);
+            }
+        }
+        #endregion
+
     }
 }

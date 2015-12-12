@@ -10,27 +10,22 @@ namespace Anathema
 {
     class SnapshotManager : ISnapshotManagerModel
     {
+        // Singleton class instance
         private static SnapshotManager SnapshotManagerInstance;
 
         private MemorySharp MemoryEditor;
 
-        private List<Snapshot> Snapshots;   // Snapshots being managed
+        private List<Snapshot> SnapshotList;   // Snapshots being managed
         private Snapshot ActiveSnapshot;    // Reference to the active snapshot being used by Anathema
-
-        // Event stubs
-        public event EventHandler UpdateSnapshotDisplay;
+        
+        public event SnapshotManagerEventHandler UpdateSnapshotDisplay;
 
         private SnapshotManager()
         {
-            Snapshots = new List<Snapshot>();
+            SnapshotList = new List<Snapshot>();
             ActiveSnapshot = null;
 
             InitializeObserver();
-        }
-
-        public void InitializeObserver()
-        {
-            ProcessSelector.GetInstance().Subscribe(this);
         }
 
         public static SnapshotManager GetSnapshotManagerInstance()
@@ -39,6 +34,11 @@ namespace Anathema
                 SnapshotManagerInstance = new SnapshotManager();
 
             return SnapshotManagerInstance;
+        }
+
+        public void InitializeObserver()
+        {
+            ProcessSelector.GetInstance().Subscribe(this);
         }
 
         public void UpdateMemoryEditor(MemorySharp MemoryEditor)
@@ -58,10 +58,16 @@ namespace Anathema
 
         public void SaveSnapshot(Snapshot Snapshot)
         {
-            Snapshots.Add(Snapshot);
+            Snapshot.SetTimeStampToNow();
+
+            SnapshotList.Add(Snapshot);
             
             // Set the most recently saved snapshot as the active snapshot
             ActiveSnapshot = Snapshot;
+
+            SnapshotManagerEventArgs SnapshotManagerEventArgs = new SnapshotManagerEventArgs();
+            SnapshotManagerEventArgs.SnapshotList = SnapshotList;
+            UpdateSnapshotDisplay.Invoke(this, SnapshotManagerEventArgs);
         }
 
         /// <summary>
@@ -69,7 +75,7 @@ namespace Anathema
         /// </summary>
         /// <param name="MemoryEditor"></param>
         /// <returns></returns>
-        public Snapshot GetActiveSnapshot(MemorySharp MemoryEditor)
+        public Snapshot GetActiveSnapshot()
         {
             // Take a snapshot if there are none
             if (ActiveSnapshot == null)
@@ -84,6 +90,9 @@ namespace Anathema
         /// </summary>
         public void SnapshotAllMemory()
         {
+            if (MemoryEditor == null)
+                return;
+
             // Query all virtual pages
             List<RemoteVirtualPage> VirtualPages = new List<RemoteVirtualPage>();
             foreach (RemoteVirtualPage Page in MemoryEditor.Memory.VirtualPages)

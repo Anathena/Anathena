@@ -54,7 +54,7 @@ namespace Anathema
 
         #region Event definitions for events triggered by the model (upstream)
 
-        private void EndFilterRequired(object sender, EventArgs e)
+        private void EndFilterRequired(Object Sender, EventArgs E)
         {
             View.EventFilterFinished(null);
         }

@@ -1,15 +1,7 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Timers;
-using System.Runtime.InteropServices;
-using System.Windows.Forms;
-using Gma.System.MouseKeyHook;
-using System.Diagnostics;
 using System.Threading.Tasks;
-using System.IO;
-using System.Security.Cryptography;
 using System.Threading;
 using Binarysharp.MemoryManagement;
 using Binarysharp.MemoryManagement.Memory;
@@ -45,7 +37,7 @@ namespace Anathema
 
         // Constants
         private const Int32 BitArraySize = 64;              // Size of the number of change bits to keep before allocating more
-        private const Int32 WaitTime = 100;                 // Time to wait (in ms) for a cancel request between each scan
+        private const Int32 WaitTime = 500;                 // Time to wait (in ms) for a cancel request between each scan
 
         private static UInt64 PageSplitThreshold;    // User specified minimum page size for dynamic pages
         private UInt64 VariableSize;
@@ -57,6 +49,7 @@ namespace Anathema
 
         public FilterTreeScan()
         {
+            SetLeafSize(64);
             InitializeObserver();
         }
 
@@ -80,24 +73,13 @@ namespace Anathema
             this.VariableSize = VariableSize;
         }
 
-        public UInt64 GetHashTreeSize()
+        public UInt64 GetCurrentMemorySize()
         {
             UInt64 Value = 0;
 
             if (CandidateTree != null)
                 for (Int32 Index = 0; Index < CandidateTree.Count; Index++)
                     Value += (UInt64)CandidateTree[Index].RegionSize;
-
-            return Value;
-        }
-
-        public UInt64 GetHashTreeSplits()
-        {
-            UInt64 Value = 0;
-
-            if (CandidateTree != null)
-                for (Int32 Index = 0; Index < CandidateTree.Count; Index++)
-                    Value += (UInt64)CandidateTree[Index].GetSplitCount();
 
             return Value;
         }
@@ -115,9 +97,8 @@ namespace Anathema
 
         public void BeginFilter()
         {
-            this.MemoryRegions = SnapshotManager.GetSnapshotManagerInstance().GetActiveSnapshot(MemoryEditor).GetMemoryRegions();
-
-            CandidateTree = new List<MemoryChangeRoot>();
+            this.MemoryRegions = SnapshotManager.GetSnapshotManagerInstance().GetActiveSnapshot().GetMemoryRegions();
+            this.CandidateTree = new List<MemoryChangeRoot>();
 
             for (int PageIndex = 0; PageIndex < MemoryRegions.Count; PageIndex++)
                 CandidateTree.Add(new MemoryChangeRoot(MemoryEditor, MemoryRegions[PageIndex].BaseAddress, MemoryRegions[PageIndex].RegionSize));
@@ -139,6 +120,10 @@ namespace Anathema
         {
             EndScan();
 
+            FilterHashTreesEventArgs Args = new FilterHashTreesEventArgs();
+            Args.FilterResultSize = GetFinalSize();
+            EventTreeSizeChanged.Invoke(this, Args);
+            
             return new Snapshot(FilteredMemoryRegions);
         }
 
@@ -159,11 +144,8 @@ namespace Anathema
 
         private void QueryChanges()
         {
-            //Stopwatch StopWatch = new Stopwatch();
-            //StopWatch.Start();
-
-            //for (int PageIndex = 0; PageIndex < MemoryPages.Count; PageIndex++)
-            Parallel.For(0, CandidateTree.Count, PageIndex => // Upwards of a x2 increase in speed
+            for (Int32 PageIndex = 0; PageIndex < CandidateTree.Count; PageIndex++)
+            //Parallel.For(0, CandidateTree.Count, PageIndex => // Upwards of a x2 increase in speed
             {
                 Boolean Success;
                 Byte[] PageData = MemoryEditor.ReadBytes(CandidateTree[PageIndex].BaseAddress, CandidateTree[PageIndex].RegionSize, out Success, false);
@@ -174,11 +156,13 @@ namespace Anathema
                     CandidateTree[PageIndex].ProcessChanges(PageData);
                 }
                 // Error reading this page -- delete it (may have been deallocated)
+                // TODO: This page should be ANDED(&) with regions in a VirtualQueryEx call
+                // And the outlying memory removed, just to avoid deleting useful memory.
                 else
                 {
                     CandidateTree[PageIndex].Dead = true;
                 }
-            });
+            }//);
 
             // Remove dead (deallocated) pages
             for (Int32 Index = 0; Index < CandidateTree.Count; Index++)
@@ -187,15 +171,10 @@ namespace Anathema
                     CandidateTree.RemoveAt(Index--);
             }
 
+            // Raise event indicating the current memory size of our results to the GUI
             FilterHashTreesEventArgs Args = new FilterHashTreesEventArgs();
-            Args.SplitCount = GetHashTreeSplits();
-            Args.TreeSize = GetHashTreeSize();
-            EventSplitCountChanged.Invoke(this, Args);
-            EventTreeSizeChanged.Invoke(this, Args);
-
-            // Get the elapsed time as a TimeSpan value.
-            //StopWatch.Stop();
-            //Int32 ts = StopWatch.Elapsed.Milliseconds;
+            Args.FilterResultSize = GetCurrentMemorySize();
+            //EventTreeSizeChanged.Invoke(this, Args);
         }
 
         public void EndScan()
@@ -203,9 +182,10 @@ namespace Anathema
             CancelRequest.Cancel();
             try
             {
-                ChangeScanner.Wait();
+                ChangeScanner.Wait(3000);
             }
-            catch (AggregateException) { }
+            catch (AggregateException){ }
+            catch (Exception Ex) { }
 
             // Collect the pages that have changed
             List<MemoryChangeRoot> AcceptedPages = new List<MemoryChangeRoot>();
@@ -230,12 +210,12 @@ namespace Anathema
             // First, sort by start address
             Regions.OrderBy(x => x.BaseAddress);
 
-            // Prepare the stack
+            // Create and initialize the stack with the first region
             Stack<RemoteRegion> MergedRegions = new Stack<RemoteRegion>();
             MergedRegions.Push(Regions[0]);
 
-            // Build the regions
-            for (int Index = 1; Index < Regions.Count; Index++)
+            // Build the remaining regions
+            for (Int32 Index = MergedRegions.Count; Index < Regions.Count; Index++)
             {
                 RemoteRegion Top = MergedRegions.Peek();
 
@@ -346,7 +326,7 @@ namespace Anathema
                 if (ChildLeft == null && ChildRight == null)
                 {
                     // Calculate changes for this page
-                    Hashes[QueryCount % 2] = FastHash.ComputeHash(Data, Start, Start + Length);
+                    Hashes[QueryCount % 2] = ComputeHash(Data, Start, Start + Length);
 
                     // Update the history, given that 2 checksums have been collected
                     if (QueryCount > 0)
@@ -378,6 +358,48 @@ namespace Anathema
                 }
 
                 return HasChanged;
+            }
+
+            /// <summary>
+            /// Modified FNV Hash to support a start and end index
+            /// </summary>
+            public unsafe static UInt64 ComputeHash(byte[] Data, UInt64 Start, UInt64 End)
+            {
+                unchecked
+                {
+                    const UInt64 P = 16777619;
+                    UInt64 Hash = (UInt64)2166136261;
+
+                    // Main hash function
+                    for (; Start < End; Start += 8)
+                    {
+                        fixed (byte* Value = &Data[Start])
+                        {
+                            Hash = (Hash ^ *((UInt64*)Value)) * P;
+                        }
+                    }
+
+                    // Handle remaining bytes
+                    if (Start % 8 != 0)
+                    {
+                        UInt64 RemainderValue = 0;
+                        UInt32 Remainder = (UInt32)(Start % 8);
+                        Start -= Remainder;
+                        for (int Index = 0; Index < Remainder; Index++)
+                        {
+                            RemainderValue |= (UInt64)Data[Start - (UInt64)Index - 1] << Index * 8;
+                        }
+                        Hash = (Hash ^ RemainderValue) * P;
+                    }
+
+                    // Final hashing magic
+                    Hash += Hash << 13;
+                    Hash ^= Hash >> 7;
+                    Hash += Hash << 3;
+                    Hash ^= Hash >> 17;
+                    Hash += Hash << 5;
+                    return Hash;
+                }
             }
 
         } // End class

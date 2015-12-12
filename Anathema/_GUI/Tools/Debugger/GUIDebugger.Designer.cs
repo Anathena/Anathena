@@ -99,7 +99,7 @@
             this.HexEditorBox.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.HexEditorBox.Name = "HexEditorBox";
             this.HexEditorBox.ShadowSelectionColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(60)))), ((int)(((byte)(188)))), ((int)(((byte)(255)))));
-            this.HexEditorBox.Size = new System.Drawing.Size(683, 148);
+            this.HexEditorBox.Size = new System.Drawing.Size(683, 168);
             this.HexEditorBox.StringViewVisible = true;
             this.HexEditorBox.TabIndex = 118;
             this.HexEditorBox.VScrollBarVisible = true;
@@ -108,7 +108,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(683, 316);
+            this.ClientSize = new System.Drawing.Size(683, 336);
             this.Controls.Add(this.DisassemblerListView);
             this.Controls.Add(this.HexEditorBox);
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));

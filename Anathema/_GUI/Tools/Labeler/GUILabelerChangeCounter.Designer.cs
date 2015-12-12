@@ -66,14 +66,14 @@
             this.StopButton.Size = new System.Drawing.Size(23, 22);
             this.StopButton.Text = "New Scan";
             // 
-            // GUIChangeCounter
+            // GUILabelerChangeCounter
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(284, 261);
             this.Controls.Add(this.ScanToolStrip);
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Name = "GUIChangeCounter";
+            this.Name = "GUILabelerChangeCounter";
             this.Text = "Change Counter";
             this.ScanToolStrip.ResumeLayout(false);
             this.ScanToolStrip.PerformLayout();

@@ -52,7 +52,7 @@
             this.GUIToolStrip = new System.Windows.Forms.ToolStrip();
             this.ProcessSelectorButton = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
-            this.TargetProcessLabel = new System.Windows.Forms.ToolStripLabel();
+            this.ProcessTitleLabel = new System.Windows.Forms.ToolStripLabel();
             this.GUIMenuStrip.SuspendLayout();
             this.GUIToolStrip.SuspendLayout();
             this.SuspendLayout();
@@ -223,7 +223,7 @@
             this.GUIToolStrip.BackColor = System.Drawing.SystemColors.Control;
             this.GUIToolStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.ProcessSelectorButton,
-            this.TargetProcessLabel,
+            this.ProcessTitleLabel,
             this.toolStripSeparator1});
             this.GUIToolStrip.Location = new System.Drawing.Point(0, 24);
             this.GUIToolStrip.Name = "GUIToolStrip";
@@ -248,9 +248,9 @@
             // 
             // TargetProcessLabel
             // 
-            this.TargetProcessLabel.Name = "TargetProcessLabel";
-            this.TargetProcessLabel.Size = new System.Drawing.Size(113, 22);
-            this.TargetProcessLabel.Text = "No Process Selected";
+            this.ProcessTitleLabel.Name = "TargetProcessLabel";
+            this.ProcessTitleLabel.Size = new System.Drawing.Size(113, 22);
+            this.ProcessTitleLabel.Text = "No Process Selected";
             // 
             // GUIMain
             // 
@@ -297,7 +297,7 @@
         private System.Windows.Forms.ToolStripButton ProcessSelectorButton;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.ToolStripMenuItem ProcessSelectorToolStripMenuItem;
-        private System.Windows.Forms.ToolStripLabel TargetProcessLabel;
+        private System.Windows.Forms.ToolStripLabel ProcessTitleLabel;
     }
 }
 

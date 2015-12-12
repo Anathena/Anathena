@@ -11,16 +11,13 @@ namespace Anathema
     delegate void FilterTreeScanEventHandler(Object Sender, FilterHashTreesEventArgs Args);
     class FilterHashTreesEventArgs : EventArgs
     {
-        public UInt64? SplitCount = null;
-        public UInt64? TreeSize = null;
+        public UInt64? FilterResultSize = null;
     }
 
     interface IFilterTreeScanView : IFilterView
     {
         // Methods invoked by the presenter (upstream)
-        void DisplaySplitCount(UInt64 SplitCount);
-
-        void DisplayTreeSize(UInt64 SplitCount);
+        void DisplayResultSize(UInt64 FilterResultSize);
     }
 
     interface IFilterTreeScanModel : IFilterModel
@@ -44,7 +41,6 @@ namespace Anathema
             this.View = View;
             this.Model = Model;
             // Bind events triggered by the model
-            Model.EventSplitCountChanged += EventSplitCountChanged;
             Model.EventTreeSizeChanged += EventTreeSizeChanged;
         }
 
@@ -70,16 +66,10 @@ namespace Anathema
 
         #region Event definitions for events triggered by the model (upstream)
 
-        private void EventSplitCountChanged(object sender, FilterHashTreesEventArgs e)
-        {
-            if (e.SplitCount.HasValue)
-                View.DisplaySplitCount(e.SplitCount.Value);
-        }
-
         private void EventTreeSizeChanged(object sender, FilterHashTreesEventArgs e)
         {
-            if (e.TreeSize.HasValue)
-                View.DisplayTreeSize(e.TreeSize.Value);
+            if (e.FilterResultSize.HasValue)
+                View.DisplayResultSize(e.FilterResultSize.Value);
         }
 
         #endregion

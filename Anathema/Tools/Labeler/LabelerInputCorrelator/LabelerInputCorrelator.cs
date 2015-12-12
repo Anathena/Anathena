@@ -16,7 +16,6 @@ namespace Anathema
     class LabelerInputCorrelator : IMemoryLabeler
     {
         private MemorySharp MemoryEditor;
-        private Benediction Anathema;
 
         // Scanning related
         private List<RemoteRegion> MemoryRegions;           // Regions we are scanning (isolated via SearchSpaceAnalyzer)

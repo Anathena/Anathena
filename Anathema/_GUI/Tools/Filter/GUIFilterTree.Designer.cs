@@ -29,285 +29,218 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(GUIFilterTree));
-            this.TreeSplitsValueLabel = new System.Windows.Forms.Label();
-            this.TreeSplitsLabel = new System.Windows.Forms.Label();
             this.MemorySizeValueLabel = new System.Windows.Forms.Label();
             this.HashSizeLabel = new System.Windows.Forms.Label();
             this.VariableSizeValueLabel = new System.Windows.Forms.Label();
             this.VariableSizeLabel = new System.Windows.Forms.Label();
             this.VariableSizeTrackBar = new System.Windows.Forms.TrackBar();
-            this.ChangeRangeLabel = new System.Windows.Forms.Label();
-            this.NumericMaxDepth = new System.Windows.Forms.NumericUpDown();
-            this.NumberOfChangesLabel = new System.Windows.Forms.Label();
-            this.NumericMinDepth = new System.Windows.Forms.NumericUpDown();
-            this.FragmentSizeValueLabel = new System.Windows.Forms.Label();
-            this.FragmentSizeLabel = new System.Windows.Forms.Label();
-            this.StopButton = new System.Windows.Forms.ToolStripButton();
-            this.StartButton = new System.Windows.Forms.ToolStripButton();
-            this.AdvancedSettingsGroupBox = new System.Windows.Forms.GroupBox();
-            this.FragmentSizeTrackBar = new System.Windows.Forms.TrackBar();
+            this.StopScanButton = new System.Windows.Forms.ToolStripButton();
+            this.StartScanButton = new System.Windows.Forms.ToolStripButton();
             this.ScanToolStrip = new System.Windows.Forms.ToolStrip();
+            this.MaxChangesValueLabel = new System.Windows.Forms.Label();
+            this.MaxChangesLabel = new System.Windows.Forms.Label();
+            this.MaxChangesTrackBar = new System.Windows.Forms.TrackBar();
+            this.MinChangesValueLabel = new System.Windows.Forms.Label();
+            this.MinChangesLabel = new System.Windows.Forms.Label();
+            this.MinChangesTrackBar = new System.Windows.Forms.TrackBar();
             ((System.ComponentModel.ISupportInitialize)(this.VariableSizeTrackBar)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.NumericMaxDepth)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.NumericMinDepth)).BeginInit();
-            this.AdvancedSettingsGroupBox.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.FragmentSizeTrackBar)).BeginInit();
             this.ScanToolStrip.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.MaxChangesTrackBar)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.MinChangesTrackBar)).BeginInit();
             this.SuspendLayout();
-            // 
-            // TreeSplitsValueLabel
-            // 
-            this.TreeSplitsValueLabel.AutoSize = true;
-            this.TreeSplitsValueLabel.Location = new System.Drawing.Point(88, 25);
-            this.TreeSplitsValueLabel.Name = "TreeSplitsValueLabel";
-            this.TreeSplitsValueLabel.Size = new System.Drawing.Size(13, 13);
-            this.TreeSplitsValueLabel.TabIndex = 154;
-            this.TreeSplitsValueLabel.Text = "0";
-            // 
-            // TreeSplitsLabel
-            // 
-            this.TreeSplitsLabel.AutoSize = true;
-            this.TreeSplitsLabel.Location = new System.Drawing.Point(12, 25);
-            this.TreeSplitsLabel.Name = "TreeSplitsLabel";
-            this.TreeSplitsLabel.Size = new System.Drawing.Size(60, 13);
-            this.TreeSplitsLabel.TabIndex = 153;
-            this.TreeSplitsLabel.Text = "Tree Splits:";
             // 
             // MemorySizeValueLabel
             // 
+            this.MemorySizeValueLabel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
             this.MemorySizeValueLabel.AutoSize = true;
-            this.MemorySizeValueLabel.Location = new System.Drawing.Point(88, 38);
+            this.MemorySizeValueLabel.Location = new System.Drawing.Point(67, 26);
             this.MemorySizeValueLabel.Name = "MemorySizeValueLabel";
-            this.MemorySizeValueLabel.Size = new System.Drawing.Size(13, 13);
+            this.MemorySizeValueLabel.Size = new System.Drawing.Size(20, 13);
             this.MemorySizeValueLabel.TabIndex = 152;
-            this.MemorySizeValueLabel.Text = "0";
+            this.MemorySizeValueLabel.Text = "0B";
             // 
             // HashSizeLabel
             // 
-            this.HashSizeLabel.AutoSize = true;
-            this.HashSizeLabel.Location = new System.Drawing.Point(12, 38);
+            this.HashSizeLabel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.HashSizeLabel.Dock = System.Windows.Forms.DockStyle.Top;
+            this.HashSizeLabel.Location = new System.Drawing.Point(0, 25);
             this.HashSizeLabel.Name = "HashSizeLabel";
-            this.HashSizeLabel.Size = new System.Drawing.Size(70, 13);
+            this.HashSizeLabel.Size = new System.Drawing.Size(266, 15);
             this.HashSizeLabel.TabIndex = 151;
             this.HashSizeLabel.Text = "Memory Size:";
             // 
             // VariableSizeValueLabel
             // 
             this.VariableSizeValueLabel.AutoSize = true;
-            this.VariableSizeValueLabel.Location = new System.Drawing.Point(216, 48);
+            this.VariableSizeValueLabel.Location = new System.Drawing.Point(96, 126);
             this.VariableSizeValueLabel.Name = "VariableSizeValueLabel";
-            this.VariableSizeValueLabel.Size = new System.Drawing.Size(42, 13);
+            this.VariableSizeValueLabel.Size = new System.Drawing.Size(20, 13);
             this.VariableSizeValueLabel.TabIndex = 147;
-            this.VariableSizeValueLabel.Text = "0 Bytes";
+            this.VariableSizeValueLabel.Text = "0B";
             // 
             // VariableSizeLabel
             // 
             this.VariableSizeLabel.AutoSize = true;
-            this.VariableSizeLabel.Location = new System.Drawing.Point(139, 48);
+            this.VariableSizeLabel.Location = new System.Drawing.Point(6, 126);
             this.VariableSizeLabel.Name = "VariableSizeLabel";
-            this.VariableSizeLabel.Size = new System.Drawing.Size(71, 13);
+            this.VariableSizeLabel.Size = new System.Drawing.Size(94, 13);
             this.VariableSizeLabel.TabIndex = 146;
-            this.VariableSizeLabel.Text = "Variable Size:";
+            this.VariableSizeLabel.Text = "Max Variable Size:";
             // 
             // VariableSizeTrackBar
             // 
             this.VariableSizeTrackBar.LargeChange = 4;
-            this.VariableSizeTrackBar.Location = new System.Drawing.Point(129, 16);
-            this.VariableSizeTrackBar.Maximum = 5;
+            this.VariableSizeTrackBar.Location = new System.Drawing.Point(4, 94);
+            this.VariableSizeTrackBar.Maximum = 3;
             this.VariableSizeTrackBar.Name = "VariableSizeTrackBar";
             this.VariableSizeTrackBar.Size = new System.Drawing.Size(132, 45);
             this.VariableSizeTrackBar.TabIndex = 145;
             this.VariableSizeTrackBar.Value = 3;
+            this.VariableSizeTrackBar.Scroll += new System.EventHandler(this.VariableSizeTrackBar_Scroll);
             // 
-            // ChangeRangeLabel
+            // StopScanButton
             // 
-            this.ChangeRangeLabel.AutoSize = true;
-            this.ChangeRangeLabel.Location = new System.Drawing.Point(122, 84);
-            this.ChangeRangeLabel.Name = "ChangeRangeLabel";
-            this.ChangeRangeLabel.Size = new System.Drawing.Size(16, 13);
-            this.ChangeRangeLabel.TabIndex = 143;
-            this.ChangeRangeLabel.Text = "to";
+            this.StopScanButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.StopScanButton.Image = ((System.Drawing.Image)(resources.GetObject("StopScanButton.Image")));
+            this.StopScanButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.StopScanButton.Name = "StopScanButton";
+            this.StopScanButton.Size = new System.Drawing.Size(23, 22);
+            this.StopScanButton.Text = "Stop";
+            this.StopScanButton.ToolTipText = "Stop Tree Scan";
+            this.StopScanButton.Click += new System.EventHandler(this.StopScanButton_Click);
             // 
-            // NumericMaxDepth
+            // StartScanButton
             // 
-            this.NumericMaxDepth.Location = new System.Drawing.Point(144, 82);
-            this.NumericMaxDepth.Maximum = new decimal(new int[] {
-            10000,
-            0,
-            0,
-            0});
-            this.NumericMaxDepth.Minimum = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-            this.NumericMaxDepth.Name = "NumericMaxDepth";
-            this.NumericMaxDepth.Size = new System.Drawing.Size(59, 20);
-            this.NumericMaxDepth.TabIndex = 142;
-            this.NumericMaxDepth.Value = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-            // 
-            // NumberOfChangesLabel
-            // 
-            this.NumberOfChangesLabel.AutoSize = true;
-            this.NumberOfChangesLabel.Location = new System.Drawing.Point(57, 66);
-            this.NumberOfChangesLabel.Name = "NumberOfChangesLabel";
-            this.NumberOfChangesLabel.Size = new System.Drawing.Size(152, 13);
-            this.NumberOfChangesLabel.TabIndex = 141;
-            this.NumberOfChangesLabel.Text = "Expected Number of Changes:";
-            // 
-            // NumericMinDepth
-            // 
-            this.NumericMinDepth.Location = new System.Drawing.Point(57, 82);
-            this.NumericMinDepth.Maximum = new decimal(new int[] {
-            10000,
-            0,
-            0,
-            0});
-            this.NumericMinDepth.Minimum = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-            this.NumericMinDepth.Name = "NumericMinDepth";
-            this.NumericMinDepth.Size = new System.Drawing.Size(59, 20);
-            this.NumericMinDepth.TabIndex = 140;
-            this.NumericMinDepth.Value = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-            // 
-            // FragmentSizeValueLabel
-            // 
-            this.FragmentSizeValueLabel.AutoSize = true;
-            this.FragmentSizeValueLabel.Location = new System.Drawing.Point(81, 48);
-            this.FragmentSizeValueLabel.Name = "FragmentSizeValueLabel";
-            this.FragmentSizeValueLabel.Size = new System.Drawing.Size(42, 13);
-            this.FragmentSizeValueLabel.TabIndex = 139;
-            this.FragmentSizeValueLabel.Text = "0 Bytes";
-            // 
-            // FragmentSizeLabel
-            // 
-            this.FragmentSizeLabel.AutoSize = true;
-            this.FragmentSizeLabel.Location = new System.Drawing.Point(6, 48);
-            this.FragmentSizeLabel.Name = "FragmentSizeLabel";
-            this.FragmentSizeLabel.Size = new System.Drawing.Size(77, 13);
-            this.FragmentSizeLabel.TabIndex = 138;
-            this.FragmentSizeLabel.Text = "Fragment Size:";
-            // 
-            // StopButton
-            // 
-            this.StopButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.StopButton.Image = ((System.Drawing.Image)(resources.GetObject("StopButton.Image")));
-            this.StopButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.StopButton.Name = "StopButton";
-            this.StopButton.Size = new System.Drawing.Size(23, 22);
-            this.StopButton.Text = "Stop";
-            this.StopButton.ToolTipText = "Stop Tree Scan";
-            // 
-            // StartButton
-            // 
-            this.StartButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.StartButton.Image = ((System.Drawing.Image)(resources.GetObject("StartButton.Image")));
-            this.StartButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.StartButton.Name = "StartButton";
-            this.StartButton.Size = new System.Drawing.Size(23, 22);
-            this.StartButton.Text = "Start Tree Scan";
-            // 
-            // AdvancedSettingsGroupBox
-            // 
-            this.AdvancedSettingsGroupBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.AdvancedSettingsGroupBox.Controls.Add(this.VariableSizeValueLabel);
-            this.AdvancedSettingsGroupBox.Controls.Add(this.VariableSizeLabel);
-            this.AdvancedSettingsGroupBox.Controls.Add(this.VariableSizeTrackBar);
-            this.AdvancedSettingsGroupBox.Controls.Add(this.ChangeRangeLabel);
-            this.AdvancedSettingsGroupBox.Controls.Add(this.NumericMaxDepth);
-            this.AdvancedSettingsGroupBox.Controls.Add(this.NumberOfChangesLabel);
-            this.AdvancedSettingsGroupBox.Controls.Add(this.NumericMinDepth);
-            this.AdvancedSettingsGroupBox.Controls.Add(this.FragmentSizeValueLabel);
-            this.AdvancedSettingsGroupBox.Controls.Add(this.FragmentSizeLabel);
-            this.AdvancedSettingsGroupBox.Controls.Add(this.FragmentSizeTrackBar);
-            this.AdvancedSettingsGroupBox.Location = new System.Drawing.Point(9, 54);
-            this.AdvancedSettingsGroupBox.Name = "AdvancedSettingsGroupBox";
-            this.AdvancedSettingsGroupBox.Size = new System.Drawing.Size(270, 108);
-            this.AdvancedSettingsGroupBox.TabIndex = 150;
-            this.AdvancedSettingsGroupBox.TabStop = false;
-            this.AdvancedSettingsGroupBox.Text = "Advanced Settings";
-            // 
-            // FragmentSizeTrackBar
-            // 
-            this.FragmentSizeTrackBar.LargeChange = 4;
-            this.FragmentSizeTrackBar.Location = new System.Drawing.Point(6, 16);
-            this.FragmentSizeTrackBar.Maximum = 16;
-            this.FragmentSizeTrackBar.Name = "FragmentSizeTrackBar";
-            this.FragmentSizeTrackBar.Size = new System.Drawing.Size(127, 45);
-            this.FragmentSizeTrackBar.TabIndex = 136;
-            this.FragmentSizeTrackBar.Value = 6;
+            this.StartScanButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.StartScanButton.Image = ((System.Drawing.Image)(resources.GetObject("StartScanButton.Image")));
+            this.StartScanButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.StartScanButton.Name = "StartScanButton";
+            this.StartScanButton.Size = new System.Drawing.Size(23, 22);
+            this.StartScanButton.Text = "Start Tree Scan";
+            this.StartScanButton.Click += new System.EventHandler(this.StartScanButton_Click);
             // 
             // ScanToolStrip
             // 
             this.ScanToolStrip.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
             this.ScanToolStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.StartButton,
-            this.StopButton});
+            this.StartScanButton,
+            this.StopScanButton});
             this.ScanToolStrip.Location = new System.Drawing.Point(0, 0);
             this.ScanToolStrip.Name = "ScanToolStrip";
             this.ScanToolStrip.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
-            this.ScanToolStrip.Size = new System.Drawing.Size(284, 25);
+            this.ScanToolStrip.Size = new System.Drawing.Size(266, 25);
             this.ScanToolStrip.TabIndex = 149;
             this.ScanToolStrip.Text = "toolStrip1";
+            // 
+            // MaxChangesValueLabel
+            // 
+            this.MaxChangesValueLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.MaxChangesValueLabel.AutoSize = true;
+            this.MaxChangesValueLabel.Location = new System.Drawing.Point(223, 75);
+            this.MaxChangesValueLabel.Name = "MaxChangesValueLabel";
+            this.MaxChangesValueLabel.Size = new System.Drawing.Size(37, 13);
+            this.MaxChangesValueLabel.TabIndex = 158;
+            this.MaxChangesValueLabel.Text = "Infinity";
+            // 
+            // MaxChangesLabel
+            // 
+            this.MaxChangesLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.MaxChangesLabel.AutoSize = true;
+            this.MaxChangesLabel.Location = new System.Drawing.Point(152, 75);
+            this.MaxChangesLabel.Name = "MaxChangesLabel";
+            this.MaxChangesLabel.Size = new System.Drawing.Size(75, 13);
+            this.MaxChangesLabel.TabIndex = 157;
+            this.MaxChangesLabel.Text = "Max Changes:";
+            // 
+            // MaxChangesTrackBar
+            // 
+            this.MaxChangesTrackBar.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.MaxChangesTrackBar.LargeChange = 4;
+            this.MaxChangesTrackBar.Location = new System.Drawing.Point(128, 43);
+            this.MaxChangesTrackBar.Maximum = 17;
+            this.MaxChangesTrackBar.Minimum = 1;
+            this.MaxChangesTrackBar.Name = "MaxChangesTrackBar";
+            this.MaxChangesTrackBar.Size = new System.Drawing.Size(132, 45);
+            this.MaxChangesTrackBar.TabIndex = 156;
+            this.MaxChangesTrackBar.Value = 17;
+            this.MaxChangesTrackBar.Scroll += new System.EventHandler(this.MaxChangesTrackBar_Scroll);
+            // 
+            // MinChangesValueLabel
+            // 
+            this.MinChangesValueLabel.AutoSize = true;
+            this.MinChangesValueLabel.Location = new System.Drawing.Point(74, 75);
+            this.MinChangesValueLabel.Name = "MinChangesValueLabel";
+            this.MinChangesValueLabel.Size = new System.Drawing.Size(13, 13);
+            this.MinChangesValueLabel.TabIndex = 155;
+            this.MinChangesValueLabel.Text = "0";
+            // 
+            // MinChangesLabel
+            // 
+            this.MinChangesLabel.AutoSize = true;
+            this.MinChangesLabel.Location = new System.Drawing.Point(6, 75);
+            this.MinChangesLabel.Name = "MinChangesLabel";
+            this.MinChangesLabel.Size = new System.Drawing.Size(72, 13);
+            this.MinChangesLabel.TabIndex = 154;
+            this.MinChangesLabel.Text = "Min Changes:";
+            // 
+            // MinChangesTrackBar
+            // 
+            this.MinChangesTrackBar.LargeChange = 4;
+            this.MinChangesTrackBar.Location = new System.Drawing.Point(0, 43);
+            this.MinChangesTrackBar.Maximum = 16;
+            this.MinChangesTrackBar.Minimum = 1;
+            this.MinChangesTrackBar.Name = "MinChangesTrackBar";
+            this.MinChangesTrackBar.Size = new System.Drawing.Size(136, 45);
+            this.MinChangesTrackBar.TabIndex = 153;
+            this.MinChangesTrackBar.Value = 1;
+            this.MinChangesTrackBar.Scroll += new System.EventHandler(this.MinChangesTrackBar_Scroll);
             // 
             // GUIFilterTree
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(284, 261);
-            this.Controls.Add(this.TreeSplitsValueLabel);
-            this.Controls.Add(this.TreeSplitsLabel);
+            this.ClientSize = new System.Drawing.Size(266, 173);
+            this.Controls.Add(this.VariableSizeValueLabel);
+            this.Controls.Add(this.MaxChangesValueLabel);
+            this.Controls.Add(this.VariableSizeLabel);
+            this.Controls.Add(this.MaxChangesLabel);
+            this.Controls.Add(this.MinChangesValueLabel);
+            this.Controls.Add(this.MinChangesLabel);
+            this.Controls.Add(this.VariableSizeTrackBar);
             this.Controls.Add(this.MemorySizeValueLabel);
             this.Controls.Add(this.HashSizeLabel);
-            this.Controls.Add(this.AdvancedSettingsGroupBox);
             this.Controls.Add(this.ScanToolStrip);
+            this.Controls.Add(this.MaxChangesTrackBar);
+            this.Controls.Add(this.MinChangesTrackBar);
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Name = "GUIFilterTree";
             this.Text = "Tree Scanner";
+            this.Resize += new System.EventHandler(this.GUIFilterTree_Resize);
             ((System.ComponentModel.ISupportInitialize)(this.VariableSizeTrackBar)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.NumericMaxDepth)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.NumericMinDepth)).EndInit();
-            this.AdvancedSettingsGroupBox.ResumeLayout(false);
-            this.AdvancedSettingsGroupBox.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.FragmentSizeTrackBar)).EndInit();
             this.ScanToolStrip.ResumeLayout(false);
             this.ScanToolStrip.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.MaxChangesTrackBar)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.MinChangesTrackBar)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
         }
 
         #endregion
-
-        private System.Windows.Forms.Label TreeSplitsValueLabel;
-        private System.Windows.Forms.Label TreeSplitsLabel;
         private System.Windows.Forms.Label MemorySizeValueLabel;
         private System.Windows.Forms.Label HashSizeLabel;
         private System.Windows.Forms.Label VariableSizeValueLabel;
         private System.Windows.Forms.Label VariableSizeLabel;
         private System.Windows.Forms.TrackBar VariableSizeTrackBar;
-        private System.Windows.Forms.Label ChangeRangeLabel;
-        private System.Windows.Forms.NumericUpDown NumericMaxDepth;
-        private System.Windows.Forms.Label NumberOfChangesLabel;
-        private System.Windows.Forms.NumericUpDown NumericMinDepth;
-        private System.Windows.Forms.Label FragmentSizeValueLabel;
-        private System.Windows.Forms.Label FragmentSizeLabel;
-        private System.Windows.Forms.ToolStripButton StopButton;
-        private System.Windows.Forms.ToolStripButton StartButton;
-        private System.Windows.Forms.GroupBox AdvancedSettingsGroupBox;
-        private System.Windows.Forms.TrackBar FragmentSizeTrackBar;
+        private System.Windows.Forms.ToolStripButton StopScanButton;
+        private System.Windows.Forms.ToolStripButton StartScanButton;
         private System.Windows.Forms.ToolStrip ScanToolStrip;
+        private System.Windows.Forms.Label MaxChangesValueLabel;
+        private System.Windows.Forms.Label MaxChangesLabel;
+        private System.Windows.Forms.TrackBar MaxChangesTrackBar;
+        private System.Windows.Forms.Label MinChangesValueLabel;
+        private System.Windows.Forms.Label MinChangesLabel;
+        private System.Windows.Forms.TrackBar MinChangesTrackBar;
     }
 }

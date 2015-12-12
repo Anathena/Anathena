@@ -50,7 +50,7 @@
             this.TableListView.Location = new System.Drawing.Point(0, 0);
             this.TableListView.Name = "TableListView";
             this.TableListView.ShowGroups = false;
-            this.TableListView.Size = new System.Drawing.Size(562, 219);
+            this.TableListView.Size = new System.Drawing.Size(562, 251);
             this.TableListView.TabIndex = 143;
             this.TableListView.UseCompatibleStateImageBehavior = false;
             this.TableListView.View = System.Windows.Forms.View.Details;
@@ -75,14 +75,14 @@
             this.ValueHeader.Text = "Value";
             this.ValueHeader.Width = 143;
             // 
-            // DockableWindow
+            // GUITable
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(562, 219);
+            this.ClientSize = new System.Drawing.Size(562, 251);
             this.Controls.Add(this.TableListView);
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Name = "DockableWindow";
+            this.Name = "GUITable";
             this.Text = "Table";
             this.ResumeLayout(false);
 

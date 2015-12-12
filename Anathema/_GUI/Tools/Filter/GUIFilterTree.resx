@@ -118,22 +118,19 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
-  <data name="StopButton.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+  <data name="StopScanButton.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
-        YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAAiSURBVDhPYwCC/xRihv9Akiw8asCoASA8agA1DSAfM/wH
-        AGnYwkw8xtonAAAAAElFTkSuQmCC
+        YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAA2SURBVDhPY6AW+E8mhoP/s69+IwmD9EC0QsB/hiX/ScOj
+        BowaAMLUN6B4E2kYwwDyMKWAgQEA69WyOHykj48AAAAASUVORK5CYII=
 </value>
   </data>
-  <data name="StartButton.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+  <data name="StartScanButton.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
-        YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAEdSURBVDhPpZOxTsMwEIYtlDgubpySxrRxmhRQBTwAA2tR
-        GdlgY+ERWJEQD8GKeAUGBiQWdlYeggEJoezwc1dZQkgIVfUfnWPH/r/YyZ1gRSp6cG5wNB8so/gghr7q
-        QCt9Y4TJ/ePFpU7UR4MKq48J4r3oPV/JL/zUYkqmsl1HHzl6yJBCXsdQY/VihD70S/5XMpNtgTW6MjBo
-        gAL9twzd8w6UUfeFLLb90r/FADYxpCREhSEaOGxRWz1b9I5pV0JeWmu73vJbySxpHRk5akLU1BvRnSG7
-        hOGo74bI9s2rFvrU237EgDG9lw0jb+aoKEo6kKMdTbCBnc9NNLcl0mn6ZCfuzNvngK9QQOgRgj9i6G8M
-        TaTgVA4upuXLWYhvSlTTUbuh6WkAAAAASUVORK5CYII=
+        YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAABrSURBVDhPnY/RCcAgDAWzc7fpdyfoOh0mNdZXtD5skoMH
+        Ityh0tC2NAikQ7pfWmfnthAqR5HLsqE30IfqvTM0BRDxhmgA83yLit+tQlSYtp3PwoGFCLwilQ0uO0Qw
+        ij/PZaRF0Ith2UiKIjc/HP92NiZ7OQAAAABJRU5ErkJggg==
 </value>
   </data>
   <metadata name="ScanToolStrip.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">

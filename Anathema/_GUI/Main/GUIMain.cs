@@ -14,11 +14,9 @@ using WeifenLuo.WinFormsUI.Docking;
 
 namespace Anathema
 {
-    partial class GUIMain : Form
+    partial class GUIMain : Form, IMainView
     {
-        private MemorySharp MemoryEditor;
-
-        // All GUI Components
+        // All GUI components that can be created
         private GUIProcessSelector GUIProcessSelector;
         private GUIDebugger GUIDebugger;
         private GUIFilterFSM GUIFilterFSM;
@@ -29,65 +27,28 @@ namespace Anathema
         private GUISnapshotManager GUISnapshotManager;
         private GUIResults GUIResults;
         private GUITable GUITable;
-
+        
         public GUIMain()
         {
             InitializeComponent();
 
+            MainPresenter MainPresenter = new MainPresenter(this, new Main());
+
             // Update theme so that everything looks cool
             this.ContentPanel.Theme = new VS2013BlueTheme();
 
-            // Instantiate all primary GUI components
-            // GUIProcessSelector = new GUIProcessSelector(UpdateTargetProcess);
-
+            // Initialize tools that are commonly used
             CreateDefaultTools();
         }
 
         /// <summary>
         /// Update the target process 
         /// </summary>
-        /// <param name="TargetProcess"></param>
-        public void UpdateTargetProcess(Process TargetProcess)
+        /// <param name="ProcessTitle"></param>
+        public void UpdateProcessTitle(String ProcessTitle)
         {
-            // Instantiate a new memory editor with the new target process
-            MemoryEditor = new MemorySharp(TargetProcess);
-
-            GUIProcessSelector.Hide();
-
-            // Update components with new process
-
-            // Switch selection to benediction
-            //MakeSelection(ViewBenedictionButton, GUIBenediction);
-
             // Update process text
-            TargetProcessLabel.Text = TargetProcess.ProcessName;
-        }
-
-        private void MakeSelection(ToolStripButton Sender, UserControl NewView)
-        {
-            // Clear GUI elements in main panel
-            //foreach (Control NextControl in ComponentPanel.Controls)
-            //    ComponentPanel.Controls.Remove(NextControl);
-
-            // Uncheck all GUI options
-            //SelectProcessButton.Checked = false;
-            //ViewAnathemaButton.Checked = false;
-            //ViewBenedictionButton.Checked = false;
-            //ViewCelestialButton.Checked = false;
-
-            // Check selection
-            if (Sender != null)
-                Sender.Checked = true;
-
-            // Add the new view
-            //if (NewView != null)
-            //    ComponentPanel.Controls.Add(NewView);
-        }
-
-
-        private void SelectProcessButton_Click(object sender, EventArgs e)
-        {
-            //MakeSelection((ToolStripButton)sender, GUIProcessSelector);
+            ProcessTitleLabel.Text = ProcessTitle;
         }
 
         #region Methods
@@ -176,6 +137,7 @@ namespace Anathema
         #endregion
 
         #region Events
+
         private void DebuggerToolStripMenuItem_Click(object sender, EventArgs e)
         {
             CreateDebugger();
@@ -225,15 +187,12 @@ namespace Anathema
         {
             CreateProcessSelector();
         }
-
-
+        
         private void ProcessSelectorButton_Click(object sender, EventArgs e)
         {
             CreateProcessSelector();
         }
 
         #endregion
-
-        
     }
 }

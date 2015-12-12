@@ -85,6 +85,9 @@ namespace Anathema
             if (Process != null)
                 MemoryEditor = new MemorySharp(Process);
 
+            if (MemoryEditor == null)
+                return;
+
             // Notify subscribers
             for (Int32 Index = 0; Index < ProcessObservers.Count; Index++)
                 ProcessObservers[Index].UpdateMemoryEditor(MemoryEditor);
