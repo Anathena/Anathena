@@ -27,29 +27,26 @@ namespace Anathema
     /// </summary>
     class FilterTreeScan : IFilterTreeScanModel
     {
-        // Search space reduction related
-        protected MemorySharp MemoryEditor;
-        protected List<RemoteRegion> MemoryRegions;
-        private List<MemoryChangeRoot> CandidateTree;       // List of memory pages that we may be interested in
-        private List<RemoteRegion> FilteredMemoryRegions;   // List of memory regions after scanning
+        private MemorySharp MemoryEditor;
+
+        private List<RemoteRegion> MemoryRegions;
+        private List<MemoryChangeRoot> FilterTrees;         // List of memory pages that we may be interested in
         private CancellationTokenSource CancelRequest;      // Tells the scan task to cancel (ie finish)
         private Task ChangeScanner;                         // Event that constantly checks the target process for changes
 
-        // Constants
-        private const Int32 BitArraySize = 64;              // Size of the number of change bits to keep before allocating more
-        private const Int32 WaitTime = 500;                 // Time to wait (in ms) for a cancel request between each scan
-
-        private static UInt64 PageSplitThreshold;    // User specified minimum page size for dynamic pages
+        // Variables
+        private const Int32 AbortTime = 3000;       // Time to wait before giving up when ending scan
+        private Int32 WaitTime = 200;               // Time to wait (in ms) for a cancel request between each scan
+        private static UInt64 PageSplitThreshold;   // User specified minimum page size for dynamic pages
         private UInt64 VariableSize;
 
         // Event stubs
         public event EventHandler EventFilterFinished;
-        public event FilterTreeScanEventHandler EventSplitCountChanged;
-        public event FilterTreeScanEventHandler EventTreeSizeChanged;
+        public event FilterTreeScanEventHandler EventUpdateMemorySize;
 
         public FilterTreeScan()
         {
-            SetLeafSize(64);
+            FilterTreeScan.PageSplitThreshold = 64;
             InitializeObserver();
         }
 
@@ -63,28 +60,12 @@ namespace Anathema
             this.MemoryEditor = MemoryEditor;
         }
 
-        public void SetLeafSize(UInt64 LeafSize)
-        {
-            PageSplitThreshold = LeafSize;
-        }
-
         public void SetVariableSize(UInt64 VariableSize)
         {
             this.VariableSize = VariableSize;
         }
 
-        public UInt64 GetCurrentMemorySize()
-        {
-            UInt64 Value = 0;
-
-            if (CandidateTree != null)
-                for (Int32 Index = 0; Index < CandidateTree.Count; Index++)
-                    Value += (UInt64)CandidateTree[Index].RegionSize;
-
-            return Value;
-        }
-
-        public UInt64 GetFinalSize()
+        public UInt64 GetFinalSize(List<RemoteRegion> FilteredMemoryRegions)
         {
             UInt64 Value = 0;
 
@@ -98,104 +79,80 @@ namespace Anathema
         public void BeginFilter()
         {
             this.MemoryRegions = SnapshotManager.GetSnapshotManagerInstance().GetActiveSnapshot().GetMemoryRegions();
-            this.CandidateTree = new List<MemoryChangeRoot>();
+            this.FilterTrees = new List<MemoryChangeRoot>();
 
+            // Initialize filter tree roots
             for (int PageIndex = 0; PageIndex < MemoryRegions.Count; PageIndex++)
-                CandidateTree.Add(new MemoryChangeRoot(MemoryEditor, MemoryRegions[PageIndex].BaseAddress, MemoryRegions[PageIndex].RegionSize));
+                FilterTrees.Add(new MemoryChangeRoot(MemoryEditor, MemoryRegions[PageIndex].BaseAddress, MemoryRegions[PageIndex].RegionSize));
 
             CancelRequest = new CancellationTokenSource();
-
             ChangeScanner = Task.Run(async () =>
             {
                 while (true)
                 {
                     // Query the target process for memory changes
-                    QueryChanges();
+                    ApplyFilter();
                     await Task.Delay(WaitTime, CancelRequest.Token); // Await with cancellation
                 }
             }, CancelRequest.Token);
         }
 
-        public Snapshot EndFilter()
+        private void ApplyFilter()
         {
-            EndScan();
-
-            FilterHashTreesEventArgs Args = new FilterHashTreesEventArgs();
-            Args.FilterResultSize = GetFinalSize();
-            EventTreeSizeChanged.Invoke(this, Args);
-            
-            return new Snapshot(FilteredMemoryRegions);
-        }
-
-        public void AbortFilter()
-        {
-            EndScan();
-        }
-
-        private List<MemoryChangeRoot> GetHistory()
-        {
-            return CandidateTree;
-        }
-
-        private void Reset()
-        {
-            CandidateTree.Clear();
-        }
-
-        private void QueryChanges()
-        {
-            for (Int32 PageIndex = 0; PageIndex < CandidateTree.Count; PageIndex++)
-            //Parallel.For(0, CandidateTree.Count, PageIndex => // Upwards of a x2 increase in speed
+            // for (Int32 PageIndex = 0; PageIndex < CandidateTree.Count; PageIndex++)
+            Parallel.For(0, FilterTrees.Count, PageIndex => // Upwards of a x2 increase in speed
             {
                 Boolean Success;
-                Byte[] PageData = MemoryEditor.ReadBytes(CandidateTree[PageIndex].BaseAddress, CandidateTree[PageIndex].RegionSize, out Success, false);
+                Byte[] PageData = MemoryEditor.ReadBytes(FilterTrees[PageIndex].BaseAddress, FilterTrees[PageIndex].RegionSize, out Success, false);
 
                 // Process the changes that have occurred since the last sampling for this memory page
                 if (Success)
                 {
-                    CandidateTree[PageIndex].ProcessChanges(PageData);
+                    FilterTrees[PageIndex].ProcessChanges(PageData);
                 }
                 // Error reading this page -- delete it (may have been deallocated)
-                // TODO: This page should be ANDED(&) with regions in a VirtualQueryEx call
-                // And the outlying memory removed, just to avoid deleting useful memory.
                 else
                 {
-                    CandidateTree[PageIndex].Dead = true;
+                    FilterTrees[PageIndex].Dead = true;
                 }
-            }//);
+            });
+
+            //foreach (MemoryChangeRoot Tree in FilterTrees)
+            //{
+            //    if (Tree.Dead)
+            //        FilterTrees.Remove(Tree);
+            //}
 
             // Remove dead (deallocated) pages
-            for (Int32 Index = 0; Index < CandidateTree.Count; Index++)
+            for (Int32 Index = 0; Index < FilterTrees.Count; Index++)
             {
-                if (CandidateTree[Index].Dead)
-                    CandidateTree.RemoveAt(Index--);
+                if (FilterTrees[Index].Dead)
+                    FilterTrees.RemoveAt(Index--);
             }
-
-            // Raise event indicating the current memory size of our results to the GUI
-            FilterHashTreesEventArgs Args = new FilterHashTreesEventArgs();
-            Args.FilterResultSize = GetCurrentMemorySize();
-            //EventTreeSizeChanged.Invoke(this, Args);
         }
 
-        public void EndScan()
+        public Snapshot EndFilter()
         {
+            // Wait for the filter to finish
             CancelRequest.Cancel();
-            try
-            {
-                ChangeScanner.Wait(3000);
-            }
-            catch (AggregateException){ }
-            catch (Exception Ex) { }
+            try { ChangeScanner.Wait(AbortTime); }
+            catch (AggregateException) { }
 
             // Collect the pages that have changed
             List<MemoryChangeRoot> AcceptedPages = new List<MemoryChangeRoot>();
-            for (int Index = 0; Index < CandidateTree.Count; Index++)
-                CandidateTree[Index].GetPageList(AcceptedPages);
+            for (int Index = 0; Index < FilterTrees.Count; Index++)
+                FilterTrees[Index].GetPageList(AcceptedPages);
+            FilterTrees = null;
 
-            CandidateTree = null;
-            
             // Merge and collect any adjacent regions from the accepted list of memory pages
-            FilteredMemoryRegions = CombineRegions(AcceptedPages);
+            List<RemoteRegion> FilteredMemoryRegions = CombineRegions(AcceptedPages);
+
+            // Send the size of the filtered memory to the GUI
+            FilterHashTreesEventArgs Args = new FilterHashTreesEventArgs();
+            Args.FilterResultSize = GetFinalSize(FilteredMemoryRegions);
+            EventUpdateMemorySize.Invoke(this, Args);
+
+            return new Snapshot(FilteredMemoryRegions);
         }
 
         // Merging regions the naïve way is O(n^2) and can take upwards of 15 seconds. A faster approach is a stack based algorithm O(??) (<20 ms)
@@ -240,24 +197,15 @@ namespace Anathema
         {
             public MemoryChangeTree Child = null;
             public Boolean Dead = false;
-            public Boolean HasChanged = false;
-
+            
             public MemoryChangeRoot(MemorySharp MemorySharp, IntPtr BaseAddress, Int32 RegionSize) : base(MemorySharp, BaseAddress, RegionSize)
             {
                 Child = new MemoryChangeTree();
             }
 
-            public MemoryChangeRoot CopyRange(UInt64 Start, Int32 Length)
+            public void ProcessChanges(Byte[] Data)
             {
-                IntPtr CopyBaseAddress = (IntPtr)((UInt64)BaseAddress + Start);  // Start is an offset from 0, so we can simply add it
-                Int32 CopyRegionSize = Length;   // The length must be assigned
-
-                return new MemoryChangeRoot(this.MemorySharp, CopyBaseAddress, CopyRegionSize);
-            }
-
-            public UInt64 GetSplitCount()
-            {
-                return Child.GetSplitCount();
+                Child.ProcessChanges(Data, 0, (UInt64)Data.Length);
             }
 
             public void GetPageList(List<MemoryChangeRoot> AcceptedPages)
@@ -265,16 +213,19 @@ namespace Anathema
                 Child.GetPageList(this, AcceptedPages, 0, RegionSize);
             }
 
-            public void ProcessChanges(Byte[] Data)
+            public MemoryChangeRoot CopyRange(UInt64 Start, Int32 Length)
             {
-                HasChanged = Child.ProcessChanges(Data, 0, (UInt64)Data.Length);
+                IntPtr CopyBaseAddress = (IntPtr)((UInt64)BaseAddress + Start);  // Start is an offset from 0, so we can simply add it
+                Int32 CopyRegionSize = Length;
+
+                return new MemoryChangeRoot(this.MemorySharp, CopyBaseAddress, CopyRegionSize);
             }
         }
 
         public class MemoryChangeTree
         {
-            private UInt64[] Hashes;         // Can look into UInt32 if memory is a large concern for these trees
-            private Int32 QueryCount = 0;    // Number of times changes have been queried
+            private UInt64[] Checksums;     // Can look into UInt32 if memory is a large concern for these trees
+            private Int32 QueryCount = 0;   // Number of times changes have been queried
 
             private MemoryChangeTree ChildLeft = null;
             private MemoryChangeTree ChildRight = null;
@@ -284,18 +235,7 @@ namespace Anathema
 
             public MemoryChangeTree()
             {
-                Hashes = new UInt64[2];
-            }
-
-            public UInt64 GetSplitCount()
-            {
-                // Add this page to the accepted list if we are a leaf on the tree structure
-                if (!(ChildLeft == null && ChildRight == null))
-                {
-                    return 1 + ChildLeft.GetSplitCount() + ChildRight.GetSplitCount();
-                }
-
-                return 0;
+                Checksums = new UInt64[2];
             }
 
             public void GetPageList(MemoryChangeRoot Root, List<MemoryChangeRoot> AcceptedPages, UInt64 Start, Int32 Length)
@@ -326,12 +266,12 @@ namespace Anathema
                 if (ChildLeft == null && ChildRight == null)
                 {
                     // Calculate changes for this page
-                    Hashes[QueryCount % 2] = ComputeHash(Data, Start, Start + Length);
+                    Checksums[QueryCount % 2] = ComputeCheckSum(Data, Start, Start + Length);
 
                     // Update the history, given that 2 checksums have been collected
-                    if (QueryCount > 0)
+                    if (QueryCount++ != 0)
                     {
-                        HasChanged = Hashes[0] != Hashes[1];
+                        HasChanged = Checksums[0] != Checksums[1];
                         StateUnknown = false;
                     }
 
@@ -342,10 +282,8 @@ namespace Anathema
                         ChildRight = new MemoryChangeTree();
 
                         // We no longer need the history for this page since we split it (and thus can no longer use the history)
-                        Hashes = null;
+                        Checksums = null;
                     }
-
-                    QueryCount++;
                 }
 
                 // Pass the data down to the children if they exist
@@ -361,43 +299,30 @@ namespace Anathema
             }
 
             /// <summary>
-            /// Modified FNV Hash to support a start and end index
+            /// This should be replaced with a real checksum function with better collision avoidance
             /// </summary>
-            public unsafe static UInt64 ComputeHash(byte[] Data, UInt64 Start, UInt64 End)
+            public unsafe static UInt64 ComputeCheckSum(Byte[] Data, UInt64 Start, UInt64 End)
             {
                 unchecked
                 {
-                    const UInt64 P = 16777619;
-                    UInt64 Hash = (UInt64)2166136261;
+                    UInt64 Hash = 0;
 
-                    // Main hash function
-                    for (; Start < End; Start += 8)
+                    // Hashing function
+                    for (; Start < End; Start += sizeof(UInt64))
                     {
-                        fixed (byte* Value = &Data[Start])
+                        fixed (Byte* Value = &Data[Start])
                         {
-                            Hash = (Hash ^ *((UInt64*)Value)) * P;
+                            Hash += *(UInt64*)(Value);
+                        }
+                    }
+                    for (; Start < End; Start ++)
+                    {
+                        fixed (Byte* Value = &Data[Start])
+                        {
+                            Hash += *(Value);
                         }
                     }
 
-                    // Handle remaining bytes
-                    if (Start % 8 != 0)
-                    {
-                        UInt64 RemainderValue = 0;
-                        UInt32 Remainder = (UInt32)(Start % 8);
-                        Start -= Remainder;
-                        for (int Index = 0; Index < Remainder; Index++)
-                        {
-                            RemainderValue |= (UInt64)Data[Start - (UInt64)Index - 1] << Index * 8;
-                        }
-                        Hash = (Hash ^ RemainderValue) * P;
-                    }
-
-                    // Final hashing magic
-                    Hash += Hash << 13;
-                    Hash ^= Hash >> 7;
-                    Hash += Hash << 3;
-                    Hash ^= Hash >> 17;
-                    Hash += Hash << 5;
                     return Hash;
                 }
             }

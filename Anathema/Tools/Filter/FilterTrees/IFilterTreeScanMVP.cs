@@ -23,11 +23,9 @@ namespace Anathema
     interface IFilterTreeScanModel : IFilterModel
     {
         // Events triggered by the model (upstream)
-        event FilterTreeScanEventHandler EventSplitCountChanged;
-        event FilterTreeScanEventHandler EventTreeSizeChanged;
+        event FilterTreeScanEventHandler EventUpdateMemorySize;
 
         // Functions invoked by presenter (downstream)
-        void SetLeafSize(UInt64 LeafSize);
         void SetVariableSize(UInt64 VariableSize);
     }
 
@@ -41,18 +39,10 @@ namespace Anathema
             this.View = View;
             this.Model = Model;
             // Bind events triggered by the model
-            Model.EventTreeSizeChanged += EventTreeSizeChanged;
+            Model.EventUpdateMemorySize += EventUpdateMemorySize;
         }
 
         #region Method definitions called by the view (downstream)
-
-        public void SetLeafSize(UInt64 LeafSize)
-        {
-            if (LeafSize <= 0)
-                return;
-
-            Model.SetLeafSize(LeafSize);
-        }
 
         public void SetVariableSize(UInt64 VariableSize)
         {
@@ -66,7 +56,7 @@ namespace Anathema
 
         #region Event definitions for events triggered by the model (upstream)
 
-        private void EventTreeSizeChanged(object sender, FilterHashTreesEventArgs e)
+        private void EventUpdateMemorySize(object sender, FilterHashTreesEventArgs e)
         {
             if (e.FilterResultSize.HasValue)
                 View.DisplayResultSize(e.FilterResultSize.Value);

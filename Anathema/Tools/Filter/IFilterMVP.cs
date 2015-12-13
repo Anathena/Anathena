@@ -22,7 +22,6 @@ namespace Anathema
         // Functions invoked by presenter (downstream)
         void BeginFilter();
         Snapshot EndFilter();
-        void AbortFilter();
     }
 
     class FilterPresenter : Presenter<IFilterView, IFilterModel>
@@ -43,11 +42,6 @@ namespace Anathema
         public Snapshot EndFilter()
         {
             return Model.EndFilter();
-        }
-
-        public void AbortFilter()
-        {
-            Model.AbortFilter();
         }
 
         #endregion
