@@ -320,8 +320,8 @@ namespace Be.HexEditor
 
 			if (res == -1) // -1 = no match
 			{
-				MessageBox.Show(strings.FindOperationEndOfFile, Program.SoftwareName,
-					MessageBoxButtons.OK, MessageBoxIcon.Information);
+				//MessageBox.Show(strings.FindOperationEndOfFile, Program.SoftwareName,
+				//	MessageBoxButtons.OK, MessageBoxIcon.Information);
 			}
 			else if (res == -2) // -2 = find was aborted
 			{

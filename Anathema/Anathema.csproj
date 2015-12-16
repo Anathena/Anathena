@@ -55,10 +55,6 @@
     <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Be.Windows.Forms.HexBox, Version=1.6.0.41334, Culture=neutral, PublicKeyToken=e0e5adf0ebc99863, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Libraries\HexBox\Be.Windows.Forms.HexBox.dll</HintPath>
-    </Reference>
     <Reference Include="Fasm.NET, Version=1.0.4939.27955, Culture=neutral, processorArchitecture=x86">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Libraries\FASM\Fasm.NET.dll</HintPath>
@@ -85,240 +81,499 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Main\Main.cs" />
-    <Compile Include="OS\Windows\Assembly\Assembler\Fasm32Assembler.cs" />
-    <Compile Include="OS\Windows\Assembly\Assembler\IAssembler.cs" />
-    <Compile Include="OS\Windows\Assembly\AssemblyFactory.cs" />
-    <Compile Include="OS\Windows\Assembly\AssemblyTransaction.cs" />
-    <Compile Include="OS\Windows\Assembly\CallingConvention\CallingConventionSelector.cs" />
-    <Compile Include="OS\Windows\Assembly\CallingConvention\CdeclCallingConvention.cs" />
-    <Compile Include="OS\Windows\Assembly\CallingConvention\Enumerations.cs" />
-    <Compile Include="OS\Windows\Assembly\CallingConvention\FastcallCallingConvention.cs" />
-    <Compile Include="OS\Windows\Assembly\CallingConvention\ICallingConvention.cs" />
-    <Compile Include="OS\Windows\Assembly\CallingConvention\StdcallCallingConvention.cs" />
-    <Compile Include="OS\Windows\Assembly\CallingConvention\ThiscallCallingConvention.cs" />
-    <Compile Include="OS\Windows\Debugger\Debugger.cs" />
-    <Compile Include="OS\Windows\Debugger\DebuggerException.cs" />
-    <Compile Include="OS\Windows\Debugger\DebuggerSettings.cs" />
-    <Compile Include="OS\Windows\Debugger\ErrorCode.cs" />
-    <Compile Include="OS\Windows\Helpers\ApplicationFinder.cs" />
-    <Compile Include="OS\Windows\Helpers\HandleManipulator.cs" />
-    <Compile Include="OS\Windows\Helpers\Randomizer.cs" />
-    <Compile Include="OS\Windows\Helpers\SerializationHelper.cs" />
-    <Compile Include="OS\Windows\Helpers\Singleton.cs" />
-    <Compile Include="OS\Windows\Internals\IApplicableElement.cs" />
-    <Compile Include="OS\Windows\Internals\IDisposableState.cs" />
-    <Compile Include="OS\Windows\Internals\IFactory.cs" />
-    <Compile Include="OS\Windows\Internals\IMarshalledValue.cs" />
-    <Compile Include="OS\Windows\Internals\INamedElement.cs" />
-    <Compile Include="OS\Windows\Internals\Manager.cs" />
-    <Compile Include="OS\Windows\Internals\MarshalType.cs" />
-    <Compile Include="OS\Windows\Internals\MarshalValue.cs" />
-    <Compile Include="OS\MemorySharp.cs" />
-    <Compile Include="OS\Windows\Memory\LocalUnmanagedMemory.cs" />
-    <Compile Include="OS\Windows\Memory\MemoryCore.cs" />
-    <Compile Include="OS\Windows\Memory\MemoryFactory.cs" />
-    <Compile Include="OS\Windows\Memory\MemoryProtection.cs" />
-    <Compile Include="OS\Windows\Memory\RemoteAllocation.cs" />
-    <Compile Include="OS\Windows\Memory\RemotePointer.cs" />
-    <Compile Include="OS\Windows\Memory\RemoteRegion.cs" />
-    <Compile Include="OS\Windows\Memory\RemoteVirtualPage.cs" />
-    <Compile Include="OS\Windows\Modules\InjectedModule.cs" />
-    <Compile Include="OS\Windows\Modules\ModuleCore.cs" />
-    <Compile Include="OS\Windows\Modules\ModuleFactory.cs" />
-    <Compile Include="OS\Windows\Modules\RemoteFunction.cs" />
-    <Compile Include="OS\Windows\Modules\RemoteModule.cs" />
-    <Compile Include="OS\Windows\Native\Enumerations.cs" />
-    <Compile Include="OS\Windows\Native\ManagedPeb.cs" />
-    <Compile Include="OS\Windows\Native\ManagedTeb.cs" />
-    <Compile Include="OS\Windows\Native\NativeMethods.cs" />
-    <Compile Include="OS\Windows\Native\SafeMemoryHandle.cs" />
-    <Compile Include="OS\Windows\Native\Structures.cs" />
-    <Compile Include="OS\Windows\Threading\Enumerations.cs" />
-    <Compile Include="OS\Windows\Threading\FrozenThread.cs" />
-    <Compile Include="OS\Windows\Threading\RemoteThread.cs" />
-    <Compile Include="OS\Windows\Threading\ThreadCore.cs" />
-    <Compile Include="OS\Windows\Threading\ThreadFactory.cs" />
-    <Compile Include="OS\Windows\Windows\Keyboard\BaseKeyboard.cs" />
-    <Compile Include="OS\Windows\Windows\Keyboard\MessageKeyboard.cs" />
-    <Compile Include="OS\Windows\Windows\Mouse\BaseMouse.cs" />
-    <Compile Include="OS\Windows\Windows\Mouse\SendInputMouse.cs" />
-    <Compile Include="OS\Windows\Windows\RemoteWindow.cs" />
-    <Compile Include="OS\Windows\Windows\WindowCore.cs" />
-    <Compile Include="OS\Windows\Windows\WindowFactory.cs" />
-    <Compile Include="Tools\Filter\FilterTrees\IFilterTreeScanMVP.cs" />
-    <Compile Include="Tools\ProcessSelector\IProcessObserver.cs" />
-    <Compile Include="Tools\ProcessSelector\IProcessSelectorMVP.cs" />
-    <Compile Include="Tools\ProcessSelector\ProcessSelector.cs" />
-    <Compile Include="Tools\SnapshotManager\ISnapshotManagerMVP.cs" />
-    <Compile Include="Tools\Filter\IFilterMVP.cs" />
-    <Compile Include="Tools\SnapshotManager\Snapshot.cs" />
-    <Compile Include="HelperClasses\MVP\ControlThreadingHelper.cs" />
-    <Compile Include="HelperClasses\MVP\IMVP.cs" />
-    <Compile Include="_GUI\Tools\GUIFiniteStateBuilder.cs">
+    <Compile Include="GUI\HexEditor\BitControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="GUI\HexEditor\BitControl.designer.cs">
+      <DependentUpon>BitControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GUI\HexEditor\BitInfo.cs" />
+    <Compile Include="GUI\HexEditor\Core\CoreUtil.cs" />
+    <Compile Include="GUI\HexEditor\Core\FormEx.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="_GUI\Tools\GUIFiniteStateBuilder.Designer.cs">
+    <Compile Include="GUI\HexEditor\Core\IScalingItem.cs" />
+    <Compile Include="GUI\HexEditor\Core\MenuStripEx.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="GUI\HexEditor\Core\ToolStripButtonEx.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="GUI\HexEditor\Core\ToolStripEx.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="GUI\HexEditor\Core\ToolStripMenuItemEx.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="GUI\HexEditor\Core\ToolStripSplitButtonEx.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="GUI\HexEditor\FormAbout.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI\HexEditor\FormFind.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI\HexEditor\FormGoTo.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI\HexEditor\FormHexEditor.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI\HexEditor\FormHexEditor.Designer.cs">
+      <DependentUpon>FormHexEditor.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GUI\HexEditor\FormOptions.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI\HexEditor\FormOptions.Designer.cs">
+      <DependentUpon>FormOptions.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GUI\HexEditor\HexBox\BuiltInContextMenu.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="GUI\HexEditor\HexBox\ByteCharConverters.cs" />
+    <Compile Include="GUI\HexEditor\HexBox\ByteCollection.cs" />
+    <Compile Include="GUI\HexEditor\HexBox\BytePositionInfo.cs" />
+    <Compile Include="GUI\HexEditor\HexBox\DataBlock.cs" />
+    <Compile Include="GUI\HexEditor\HexBox\DataMap.cs" />
+    <Compile Include="GUI\HexEditor\HexBox\DynamicByteProvider.cs" />
+    <Compile Include="GUI\HexEditor\HexBox\DynamicFileByteProvider.cs" />
+    <Compile Include="GUI\HexEditor\HexBox\FileByteProvider.cs" />
+    <Compile Include="GUI\HexEditor\HexBox\FileDataBlock.cs" />
+    <Compile Include="GUI\HexEditor\HexBox\FindOptions.cs" />
+    <Compile Include="GUI\HexEditor\HexBox\HexBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="GUI\HexEditor\HexBox\HexCasing.cs" />
+    <Compile Include="GUI\HexEditor\HexBox\IByteProvider.cs" />
+    <Compile Include="GUI\HexEditor\HexBox\MemoryDataBlock.cs" />
+    <Compile Include="GUI\HexEditor\HexBox\NativeMethods.cs" />
+    <Compile Include="GUI\HexEditor\HexBox\Util.cs" />
+    <Compile Include="GUI\HexEditor\images.Designer.cs">
+      <DependentUpon>images.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="GUI\HexEditor\Properties\Settings.Designer.cs" />
+    <Compile Include="GUI\HexEditor\RecentFileHandler.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="GUI\HexEditor\RecentFileHandler.Designer.cs">
+      <DependentUpon>RecentFileHandler.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GUI\HexEditor\ScalingImages.Designer.cs">
+      <DependentUpon>ScalingImages.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="GUI\HexEditor\strings.Designer.cs">
+      <DependentUpon>strings.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="GUI\HexEditor\UCAbout.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="GUI\HexEditor\Util.cs" />
+    <Compile Include="GUI\HexEditor\W32.cs" />
+    <Compile Include="Source\Main\Main.cs" />
+    <Compile Include="Source\OS\Windows\Assembly\Assembler\Fasm32Assembler.cs" />
+    <Compile Include="Source\OS\Windows\Assembly\Assembler\IAssembler.cs" />
+    <Compile Include="Source\OS\Windows\Assembly\AssemblyFactory.cs" />
+    <Compile Include="Source\OS\Windows\Assembly\AssemblyTransaction.cs" />
+    <Compile Include="Source\OS\Windows\Assembly\CallingConvention\CallingConventionSelector.cs" />
+    <Compile Include="Source\OS\Windows\Assembly\CallingConvention\CdeclCallingConvention.cs" />
+    <Compile Include="Source\OS\Windows\Assembly\CallingConvention\Enumerations.cs" />
+    <Compile Include="Source\OS\Windows\Assembly\CallingConvention\FastcallCallingConvention.cs" />
+    <Compile Include="Source\OS\Windows\Assembly\CallingConvention\ICallingConvention.cs" />
+    <Compile Include="Source\OS\Windows\Assembly\CallingConvention\StdcallCallingConvention.cs" />
+    <Compile Include="Source\OS\Windows\Assembly\CallingConvention\ThiscallCallingConvention.cs" />
+    <Compile Include="Source\OS\Windows\Debugger\Debugger.cs" />
+    <Compile Include="Source\OS\Windows\Debugger\DebuggerException.cs" />
+    <Compile Include="Source\OS\Windows\Debugger\DebuggerSettings.cs" />
+    <Compile Include="Source\OS\Windows\Debugger\ErrorCode.cs" />
+    <Compile Include="Source\OS\Windows\Helpers\ApplicationFinder.cs" />
+    <Compile Include="Source\OS\Windows\Helpers\HandleManipulator.cs" />
+    <Compile Include="Source\OS\Windows\Helpers\Randomizer.cs" />
+    <Compile Include="Source\OS\Windows\Helpers\SerializationHelper.cs" />
+    <Compile Include="Source\OS\Windows\Helpers\Singleton.cs" />
+    <Compile Include="Source\OS\Windows\Internals\IApplicableElement.cs" />
+    <Compile Include="Source\OS\Windows\Internals\IDisposableState.cs" />
+    <Compile Include="Source\OS\Windows\Internals\IFactory.cs" />
+    <Compile Include="Source\OS\Windows\Internals\IMarshalledValue.cs" />
+    <Compile Include="Source\OS\Windows\Internals\INamedElement.cs" />
+    <Compile Include="Source\OS\Windows\Internals\Manager.cs" />
+    <Compile Include="Source\OS\Windows\Internals\MarshalType.cs" />
+    <Compile Include="Source\OS\Windows\Internals\MarshalValue.cs" />
+    <Compile Include="Source\OS\MemorySharp.cs" />
+    <Compile Include="Source\OS\Windows\Memory\LocalUnmanagedMemory.cs" />
+    <Compile Include="Source\OS\Windows\Memory\MemoryCore.cs" />
+    <Compile Include="Source\OS\Windows\Memory\MemoryFactory.cs" />
+    <Compile Include="Source\OS\Windows\Memory\MemoryProtection.cs" />
+    <Compile Include="Source\OS\Windows\Memory\RemoteAllocation.cs" />
+    <Compile Include="Source\OS\Windows\Memory\RemotePointer.cs" />
+    <Compile Include="Source\OS\Windows\Memory\RemoteRegion.cs" />
+    <Compile Include="Source\OS\Windows\Memory\RemoteVirtualPage.cs" />
+    <Compile Include="Source\OS\Windows\Modules\InjectedModule.cs" />
+    <Compile Include="Source\OS\Windows\Modules\ModuleCore.cs" />
+    <Compile Include="Source\OS\Windows\Modules\ModuleFactory.cs" />
+    <Compile Include="Source\OS\Windows\Modules\RemoteFunction.cs" />
+    <Compile Include="Source\OS\Windows\Modules\RemoteModule.cs" />
+    <Compile Include="Source\OS\Windows\Native\Enumerations.cs" />
+    <Compile Include="Source\OS\Windows\Native\ManagedPeb.cs" />
+    <Compile Include="Source\OS\Windows\Native\ManagedTeb.cs" />
+    <Compile Include="Source\OS\Windows\Native\NativeMethods.cs" />
+    <Compile Include="Source\OS\Windows\Native\SafeMemoryHandle.cs" />
+    <Compile Include="Source\OS\Windows\Native\Structures.cs" />
+    <Compile Include="Source\OS\Windows\Threading\Enumerations.cs" />
+    <Compile Include="Source\OS\Windows\Threading\FrozenThread.cs" />
+    <Compile Include="Source\OS\Windows\Threading\RemoteThread.cs" />
+    <Compile Include="Source\OS\Windows\Threading\ThreadCore.cs" />
+    <Compile Include="Source\OS\Windows\Threading\ThreadFactory.cs" />
+    <Compile Include="Source\OS\Windows\Windows\Keyboard\BaseKeyboard.cs" />
+    <Compile Include="Source\OS\Windows\Windows\Keyboard\MessageKeyboard.cs" />
+    <Compile Include="Source\OS\Windows\Windows\Mouse\BaseMouse.cs" />
+    <Compile Include="Source\OS\Windows\Windows\Mouse\SendInputMouse.cs" />
+    <Compile Include="Source\OS\Windows\Windows\RemoteWindow.cs" />
+    <Compile Include="Source\OS\Windows\Windows\WindowCore.cs" />
+    <Compile Include="Source\OS\Windows\Windows\WindowFactory.cs" />
+    <Compile Include="Source\Tools\Filter\FilterTrees\IFilterTreeScanMVP.cs" />
+    <Compile Include="Source\Tools\ProcessSelector\IProcessObserver.cs" />
+    <Compile Include="Source\Tools\ProcessSelector\IProcessSelectorMVP.cs" />
+    <Compile Include="Source\Tools\ProcessSelector\ProcessSelector.cs" />
+    <Compile Include="Source\Tools\SnapshotManager\ISnapshotManagerMVP.cs" />
+    <Compile Include="Source\Tools\Filter\IFilterMVP.cs" />
+    <Compile Include="Source\Tools\SnapshotManager\Snapshot.cs" />
+    <Compile Include="Source\HelperClasses\MVP\ControlThreadingHelper.cs" />
+    <Compile Include="Source\HelperClasses\MVP\IMVP.cs" />
+    <Compile Include="GUI\Tools\GUIFiniteStateBuilder.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI\Tools\GUIFiniteStateBuilder.Designer.cs">
       <DependentUpon>GUIFiniteStateBuilder.cs</DependentUpon>
     </Compile>
-    <Compile Include="_GUI\Tools\ProcessSelector\GUIProcessSelector.cs">
+    <Compile Include="GUI\Tools\ProcessSelector\GUIProcessSelector.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="_GUI\Tools\ProcessSelector\GUIProcessSelector.Designer.cs">
+    <Compile Include="GUI\Tools\ProcessSelector\GUIProcessSelector.Designer.cs">
       <DependentUpon>GUIProcessSelector.cs</DependentUpon>
     </Compile>
-    <Compile Include="_GUI\Tools\Debugger\GUIDebugger.cs">
+    <Compile Include="GUI\Tools\Debugger\GUIDebugger.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="_GUI\Tools\Debugger\GUIDebugger.Designer.cs">
+    <Compile Include="GUI\Tools\Debugger\GUIDebugger.Designer.cs">
       <DependentUpon>GUIDebugger.cs</DependentUpon>
     </Compile>
-    <Compile Include="_GUI\Tools\Filter\GUIFilterTree.cs">
+    <Compile Include="GUI\Tools\Filter\GUIFilterTree.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="_GUI\Tools\Filter\GUIFilterTree.Designer.cs">
+    <Compile Include="GUI\Tools\Filter\GUIFilterTree.Designer.cs">
       <DependentUpon>GUIFilterTree.cs</DependentUpon>
     </Compile>
-    <Compile Include="_GUI\Tools\Filter\GUIFilterManual.cs">
+    <Compile Include="GUI\Tools\Filter\GUIFilterManual.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="_GUI\Tools\Filter\GUIFilterManual.Designer.cs">
+    <Compile Include="GUI\Tools\Filter\GUIFilterManual.Designer.cs">
       <DependentUpon>GUIFilterManual.cs</DependentUpon>
     </Compile>
-    <Compile Include="_GUI\Tools\Filter\GUIFilterFSM.cs">
+    <Compile Include="GUI\Tools\Filter\GUIFilterFSM.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="_GUI\Tools\Filter\GUIFilterFSM.Designer.cs">
+    <Compile Include="GUI\Tools\Filter\GUIFilterFSM.Designer.cs">
       <DependentUpon>GUIFilterFSM.cs</DependentUpon>
     </Compile>
-    <Compile Include="_GUI\Tools\Labeler\GUILabelerInputCorrelator.cs">
+    <Compile Include="GUI\Tools\Labeler\GUILabelerInputCorrelator.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="_GUI\Tools\Labeler\GUILabelerInputCorrelator.Designer.cs">
+    <Compile Include="GUI\Tools\Labeler\GUILabelerInputCorrelator.Designer.cs">
       <DependentUpon>GUILabelerInputCorrelator.cs</DependentUpon>
     </Compile>
-    <Compile Include="_GUI\Tools\Labeler\GUILabelerChangeCounter.cs">
+    <Compile Include="GUI\Tools\Labeler\GUILabelerChangeCounter.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="_GUI\Tools\Labeler\GUILabelerChangeCounter.Designer.cs">
+    <Compile Include="GUI\Tools\Labeler\GUILabelerChangeCounter.Designer.cs">
       <DependentUpon>GUILabelerChangeCounter.cs</DependentUpon>
     </Compile>
-    <Compile Include="_GUI\Tools\Results\GUIResults.cs">
+    <Compile Include="GUI\Tools\Results\GUIResults.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="_GUI\Tools\Results\GUIResults.Designer.cs">
+    <Compile Include="GUI\Tools\Results\GUIResults.Designer.cs">
       <DependentUpon>GUIResults.cs</DependentUpon>
     </Compile>
-    <Compile Include="_GUI\Tools\SnapshotManager\GUISnapshotManager.cs">
+    <Compile Include="GUI\Tools\SnapshotManager\GUISnapshotManager.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="_GUI\Tools\SnapshotManager\GUISnapshotManager.Designer.cs">
+    <Compile Include="GUI\Tools\SnapshotManager\GUISnapshotManager.Designer.cs">
       <DependentUpon>GUISnapshotManager.cs</DependentUpon>
     </Compile>
-    <Compile Include="_GUI\Tools\Table\GUITable.cs">
+    <Compile Include="GUI\Tools\Table\GUITable.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="_GUI\Tools\Table\GUITable.Designer.cs">
+    <Compile Include="GUI\Tools\Table\GUITable.Designer.cs">
       <DependentUpon>GUITable.cs</DependentUpon>
     </Compile>
-    <Compile Include="_GUI\Main\GUIMain.cs">
+    <Compile Include="GUI\Main\GUIMain.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="_GUI\Main\GUIMain.Designer.cs">
+    <Compile Include="GUI\Main\GUIMain.Designer.cs">
       <DependentUpon>GUIMain.cs</DependentUpon>
     </Compile>
-    <Compile Include="Tools\Filter\FilterFiniteState\FilterFiniteState.cs" />
-    <Compile Include="HelperClasses\CheckSyntax.cs" />
-    <Compile Include="Tools\Labeler\IMemoryLabeler.cs" />
-    <Compile Include="Tools\Labeler\LabelerInputCorrelator\LabelerInputCorrelator.cs" />
-    <Compile Include="Tools\Debugger\Celestial.cs" />
-    <Compile Include="Tools\Filter\InputHook\Hook.cs" />
-    <Compile Include="Tools\Filter\InputHook\HotKeys\HotKeyArgs.cs" />
-    <Compile Include="Tools\Filter\InputHook\HotKeys\HotKeySet.cs" />
-    <Compile Include="Tools\Filter\InputHook\HotKeys\HotKeySetCollection.cs" />
-    <Compile Include="Tools\Filter\InputHook\HotKeys\HotKeySetsListener.cs" />
-    <Compile Include="Tools\Filter\InputHook\IKeyboardEvents.cs" />
-    <Compile Include="Tools\Filter\InputHook\IKeyboardMouseEvents.cs" />
-    <Compile Include="Tools\Filter\InputHook\IMouseEvents.cs" />
-    <Compile Include="Tools\Filter\InputHook\Implementation\AppEventFacade.cs" />
-    <Compile Include="Tools\Filter\InputHook\Implementation\AppKeyListener.cs" />
-    <Compile Include="Tools\Filter\InputHook\Implementation\AppMouseListener.cs" />
-    <Compile Include="Tools\Filter\InputHook\Implementation\BaseListener.cs" />
-    <Compile Include="Tools\Filter\InputHook\Implementation\ButtonSet.cs" />
-    <Compile Include="Tools\Filter\InputHook\Implementation\Callback.cs" />
-    <Compile Include="Tools\Filter\InputHook\Implementation\EventFacade.cs" />
-    <Compile Include="Tools\Filter\InputHook\Implementation\GlobalEventFacade.cs" />
-    <Compile Include="Tools\Filter\InputHook\Implementation\GlobalKeyListener.cs" />
-    <Compile Include="Tools\Filter\InputHook\Implementation\GlobalMouseListener.cs" />
-    <Compile Include="Tools\Filter\InputHook\Implementation\KeyboardState.cs" />
-    <Compile Include="Tools\Filter\InputHook\Implementation\KeyListener.cs" />
-    <Compile Include="Tools\Filter\InputHook\Implementation\MouseListener.cs" />
-    <Compile Include="Tools\Filter\InputHook\Implementation\Subscribe.cs" />
-    <Compile Include="Tools\Filter\InputHook\KeyEventArgsExt.cs" />
-    <Compile Include="Tools\Filter\InputHook\KeyPressEventArgsExt.cs" />
-    <Compile Include="Tools\Filter\InputHook\MouseEventExtArgs.cs" />
-    <Compile Include="Tools\Filter\InputHook\WinApi\AppMouseStruct.cs" />
-    <Compile Include="Tools\Filter\InputHook\WinApi\CallbackData.cs" />
-    <Compile Include="Tools\Filter\InputHook\WinApi\HookHelper.cs" />
-    <Compile Include="Tools\Filter\InputHook\WinApi\HookIds.cs" />
-    <Compile Include="Tools\Filter\InputHook\WinApi\HookNativeMethods.cs" />
-    <Compile Include="Tools\Filter\InputHook\WinApi\HookProcedure.cs" />
-    <Compile Include="Tools\Filter\InputHook\WinApi\HookProcedureHandle.cs" />
-    <Compile Include="Tools\Filter\InputHook\WinApi\HookResult.cs" />
-    <Compile Include="Tools\Filter\InputHook\WinApi\KeyboardHookStruct.cs" />
-    <Compile Include="Tools\Filter\InputHook\WinApi\KeyboardNativeMethods.cs" />
-    <Compile Include="Tools\Filter\InputHook\WinApi\Messages.cs" />
-    <Compile Include="Tools\Filter\InputHook\WinApi\MouseNativeMethods.cs" />
-    <Compile Include="Tools\Filter\InputHook\WinApi\MouseStruct.cs" />
-    <Compile Include="Tools\Filter\InputHook\WinApi\Point.cs" />
-    <Compile Include="Tools\Filter\InputHook\WinApi\ThreadNativeMethods.cs" />
-    <Compile Include="Tools\Filter\FilterTrees\FilterTreeScan.cs" />
-    <Compile Include="HelperClasses\Conversions.cs" />
-    <Compile Include="Tools\Filter\FilterManualScan\FilterManualScan.cs" />
-    <Compile Include="Tools\Filter\FilterLabelThresholder\FilterLabelThesholder.cs" />
-    <Compile Include="Tools\Filter\FilterMultiScanner\FilterMultiScanner.cs" />
-    <Compile Include="Tools\Labeler\LabelerChangeCounter.cs" />
-    <Compile Include="Main\IMainMVP.cs" />
-    <Compile Include="Tools\ProcessSelector\IProcessSubject.cs" />
+    <Compile Include="Source\Tools\Filter\FilterFiniteState\FilterFiniteState.cs" />
+    <Compile Include="Source\HelperClasses\CheckSyntax.cs" />
+    <Compile Include="Source\Tools\Labeler\IMemoryLabeler.cs" />
+    <Compile Include="Source\Tools\Labeler\LabelerInputCorrelator\LabelerInputCorrelator.cs" />
+    <Compile Include="Source\Tools\Debugger\Celestial.cs" />
+    <Compile Include="Source\Tools\Filter\InputHook\Hook.cs" />
+    <Compile Include="Source\Tools\Filter\InputHook\HotKeys\HotKeyArgs.cs" />
+    <Compile Include="Source\Tools\Filter\InputHook\HotKeys\HotKeySet.cs" />
+    <Compile Include="Source\Tools\Filter\InputHook\HotKeys\HotKeySetCollection.cs" />
+    <Compile Include="Source\Tools\Filter\InputHook\HotKeys\HotKeySetsListener.cs" />
+    <Compile Include="Source\Tools\Filter\InputHook\IKeyboardEvents.cs" />
+    <Compile Include="Source\Tools\Filter\InputHook\IKeyboardMouseEvents.cs" />
+    <Compile Include="Source\Tools\Filter\InputHook\IMouseEvents.cs" />
+    <Compile Include="Source\Tools\Filter\InputHook\Implementation\AppEventFacade.cs" />
+    <Compile Include="Source\Tools\Filter\InputHook\Implementation\AppKeyListener.cs" />
+    <Compile Include="Source\Tools\Filter\InputHook\Implementation\AppMouseListener.cs" />
+    <Compile Include="Source\Tools\Filter\InputHook\Implementation\BaseListener.cs" />
+    <Compile Include="Source\Tools\Filter\InputHook\Implementation\ButtonSet.cs" />
+    <Compile Include="Source\Tools\Filter\InputHook\Implementation\Callback.cs" />
+    <Compile Include="Source\Tools\Filter\InputHook\Implementation\EventFacade.cs" />
+    <Compile Include="Source\Tools\Filter\InputHook\Implementation\GlobalEventFacade.cs" />
+    <Compile Include="Source\Tools\Filter\InputHook\Implementation\GlobalKeyListener.cs" />
+    <Compile Include="Source\Tools\Filter\InputHook\Implementation\GlobalMouseListener.cs" />
+    <Compile Include="Source\Tools\Filter\InputHook\Implementation\KeyboardState.cs" />
+    <Compile Include="Source\Tools\Filter\InputHook\Implementation\KeyListener.cs" />
+    <Compile Include="Source\Tools\Filter\InputHook\Implementation\MouseListener.cs" />
+    <Compile Include="Source\Tools\Filter\InputHook\Implementation\Subscribe.cs" />
+    <Compile Include="Source\Tools\Filter\InputHook\KeyEventArgsExt.cs" />
+    <Compile Include="Source\Tools\Filter\InputHook\KeyPressEventArgsExt.cs" />
+    <Compile Include="Source\Tools\Filter\InputHook\MouseEventExtArgs.cs" />
+    <Compile Include="Source\Tools\Filter\InputHook\WinApi\AppMouseStruct.cs" />
+    <Compile Include="Source\Tools\Filter\InputHook\WinApi\CallbackData.cs" />
+    <Compile Include="Source\Tools\Filter\InputHook\WinApi\HookHelper.cs" />
+    <Compile Include="Source\Tools\Filter\InputHook\WinApi\HookIds.cs" />
+    <Compile Include="Source\Tools\Filter\InputHook\WinApi\HookNativeMethods.cs" />
+    <Compile Include="Source\Tools\Filter\InputHook\WinApi\HookProcedure.cs" />
+    <Compile Include="Source\Tools\Filter\InputHook\WinApi\HookProcedureHandle.cs" />
+    <Compile Include="Source\Tools\Filter\InputHook\WinApi\HookResult.cs" />
+    <Compile Include="Source\Tools\Filter\InputHook\WinApi\KeyboardHookStruct.cs" />
+    <Compile Include="Source\Tools\Filter\InputHook\WinApi\KeyboardNativeMethods.cs" />
+    <Compile Include="Source\Tools\Filter\InputHook\WinApi\Messages.cs" />
+    <Compile Include="Source\Tools\Filter\InputHook\WinApi\MouseNativeMethods.cs" />
+    <Compile Include="Source\Tools\Filter\InputHook\WinApi\MouseStruct.cs" />
+    <Compile Include="Source\Tools\Filter\InputHook\WinApi\Point.cs" />
+    <Compile Include="Source\Tools\Filter\InputHook\WinApi\ThreadNativeMethods.cs" />
+    <Compile Include="Source\Tools\Filter\FilterTrees\FilterTreeScan.cs" />
+    <Compile Include="Source\HelperClasses\Conversions.cs" />
+    <Compile Include="Source\Tools\Filter\FilterManualScan\FilterManualScan.cs" />
+    <Compile Include="Source\Tools\Filter\FilterLabelThresholder\FilterLabelThesholder.cs" />
+    <Compile Include="Source\Tools\Filter\FilterMultiScanner\FilterMultiScanner.cs" />
+    <Compile Include="Source\Tools\Labeler\LabelerChangeCounter.cs" />
+    <Compile Include="Source\Main\IMainMVP.cs" />
+    <Compile Include="Source\Tools\ProcessSelector\IProcessSubject.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="HelperClasses\Settings.cs" />
-    <Compile Include="Tools\Debugger\TestByteProvider.cs" />
-    <Compile Include="Tools\SnapshotManager\SnapshotManager.cs" />
-    <EmbeddedResource Include="_GUI\Tools\GUIFiniteStateBuilder.resx">
+    <Compile Include="Source\HelperClasses\Settings.cs" />
+    <Compile Include="Source\Tools\Debugger\TestByteProvider.cs" />
+    <Compile Include="Source\Tools\SnapshotManager\SnapshotManager.cs" />
+    <EmbeddedResource Include="GUI\HexEditor\BitControl.de.resx">
+      <DependentUpon>BitControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\HexEditor\BitControl.resx">
+      <DependentUpon>BitControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\HexEditor\FormAbout.de.resx">
+      <DependentUpon>FormAbout.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\HexEditor\FormAbout.it.resx">
+      <DependentUpon>FormAbout.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\HexEditor\FormAbout.ja.resx">
+      <DependentUpon>FormAbout.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\HexEditor\FormAbout.resx">
+      <DependentUpon>FormAbout.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\HexEditor\FormAbout.ru.resx">
+      <DependentUpon>FormAbout.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\HexEditor\FormAbout.zh-Hans.resx">
+      <DependentUpon>FormAbout.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\HexEditor\FormFind.de.resx">
+      <DependentUpon>FormFind.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\HexEditor\FormFind.it.resx">
+      <DependentUpon>FormFind.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\HexEditor\FormFind.ja.resx">
+      <DependentUpon>FormFind.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\HexEditor\FormFind.resx">
+      <DependentUpon>FormFind.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\HexEditor\FormFind.ru.resx">
+      <DependentUpon>FormFind.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\HexEditor\FormFind.zh-Hans.resx">
+      <DependentUpon>FormFind.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\HexEditor\FormGoTo.de.resx">
+      <DependentUpon>FormGoTo.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\HexEditor\FormGoTo.it.resx">
+      <DependentUpon>FormGoTo.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\HexEditor\FormGoTo.ja.resx">
+      <DependentUpon>FormGoTo.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\HexEditor\FormGoTo.resx">
+      <DependentUpon>FormGoTo.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\HexEditor\FormGoTo.ru.resx">
+      <DependentUpon>FormGoTo.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\HexEditor\FormGoTo.zh-Hans.resx">
+      <DependentUpon>FormGoTo.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\HexEditor\FormHexEditor.de.resx">
+      <DependentUpon>FormHexEditor.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\HexEditor\FormHexEditor.it.resx">
+      <DependentUpon>FormHexEditor.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\HexEditor\FormHexEditor.ja.resx">
+      <DependentUpon>FormHexEditor.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\HexEditor\FormHexEditor.resx">
+      <DependentUpon>FormHexEditor.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\HexEditor\FormHexEditor.ru.resx">
+      <DependentUpon>FormHexEditor.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\HexEditor\FormHexEditor.zh-Hans.resx">
+      <DependentUpon>FormHexEditor.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\HexEditor\FormOptions.de.resx">
+      <DependentUpon>FormOptions.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\HexEditor\FormOptions.it.resx">
+      <DependentUpon>FormOptions.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\HexEditor\FormOptions.ja.resx">
+      <DependentUpon>FormOptions.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\HexEditor\FormOptions.resx">
+      <DependentUpon>FormOptions.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\HexEditor\FormOptions.ru.resx">
+      <DependentUpon>FormOptions.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\HexEditor\FormOptions.zh-Hans.resx">
+      <DependentUpon>FormOptions.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\HexEditor\HexBox\HexBox.resx">
+      <DependentUpon>HexBox.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\HexEditor\images.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>images.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\HexEditor\ScalingImages.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>ScalingImages.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\HexEditor\strings.de.resx">
+      <LastGenOutput>strings.de.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\HexEditor\strings.it.resx">
+      <LastGenOutput>strings.it.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\HexEditor\strings.ja.resx">
+      <LastGenOutput>strings.ja.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\HexEditor\strings.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>strings.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\HexEditor\strings.ru.resx">
+      <LastGenOutput>strings.ru.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\HexEditor\strings.zh-Hans.resx">
+      <LastGenOutput>strings.zh-Hans.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\HexEditor\UCAbout.de.resx">
+      <DependentUpon>UCAbout.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\HexEditor\UCAbout.it.resx">
+      <DependentUpon>UCAbout.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\HexEditor\UCAbout.ja.resx">
+      <DependentUpon>UCAbout.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\HexEditor\UCAbout.resx">
+      <DependentUpon>UCAbout.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\HexEditor\UCAbout.zh-Hans.resx">
+      <DependentUpon>UCAbout.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\Tools\GUIFiniteStateBuilder.resx">
       <DependentUpon>GUIFiniteStateBuilder.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="_GUI\Tools\ProcessSelector\GUIProcessSelector.resx">
+    <EmbeddedResource Include="GUI\Tools\ProcessSelector\GUIProcessSelector.resx">
       <DependentUpon>GUIProcessSelector.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="_GUI\Tools\Debugger\GUIDebugger.resx">
+    <EmbeddedResource Include="GUI\Tools\Debugger\GUIDebugger.resx">
       <DependentUpon>GUIDebugger.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="_GUI\Tools\Filter\GUIFilterTree.resx">
+    <EmbeddedResource Include="GUI\Tools\Filter\GUIFilterTree.resx">
       <DependentUpon>GUIFilterTree.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="_GUI\Tools\Filter\GUIFilterManual.resx">
+    <EmbeddedResource Include="GUI\Tools\Filter\GUIFilterManual.resx">
       <DependentUpon>GUIFilterManual.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="_GUI\Tools\Filter\GUIFilterFSM.resx">
+    <EmbeddedResource Include="GUI\Tools\Filter\GUIFilterFSM.resx">
       <DependentUpon>GUIFilterFSM.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="_GUI\Tools\Labeler\GUILabelerInputCorrelator.resx">
+    <EmbeddedResource Include="GUI\Tools\Labeler\GUILabelerInputCorrelator.resx">
       <DependentUpon>GUILabelerInputCorrelator.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="_GUI\Tools\Labeler\GUILabelerChangeCounter.resx">
+    <EmbeddedResource Include="GUI\Tools\Labeler\GUILabelerChangeCounter.resx">
       <DependentUpon>GUILabelerChangeCounter.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="_GUI\Tools\Results\GUIResults.resx">
+    <EmbeddedResource Include="GUI\Tools\Results\GUIResults.resx">
       <DependentUpon>GUIResults.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="_GUI\Tools\SnapshotManager\GUISnapshotManager.resx">
+    <EmbeddedResource Include="GUI\Tools\SnapshotManager\GUISnapshotManager.resx">
       <DependentUpon>GUISnapshotManager.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="_GUI\Tools\Table\GUITable.resx">
+    <EmbeddedResource Include="GUI\Tools\Table\GUITable.resx">
       <DependentUpon>GUITable.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="_GUI\Main\GUIMain.resx">
+    <EmbeddedResource Include="GUI\Main\GUIMain.resx">
       <DependentUpon>GUIMain.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
@@ -331,7 +586,18 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
-    <None Include="OS\MemorySharp.licenseheader" />
+    <None Include="GUI\HexEditor\app.config">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="GUI\HexEditor\app.manifest">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="GUI\HexEditor\Be.HexEditor.snk" />
+    <None Include="GUI\HexEditor\Be.pfx" />
+    <None Include="GUI\HexEditor\HexBox\HexBox.snk" />
+    <EmbeddedResource Include="GUI\HexEditor\Resources\ThanksTo.rtf" />
+    <None Include="GUI\HexEditor\Properties\Settings.settings" />
+    <None Include="Source\OS\MemorySharp.licenseheader" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -346,7 +612,38 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Tools\Filter\InputHook\HotKeys\ReadMe.txt" />
+    <EmbeddedResource Include="GUI\HexEditor\HexBox\HexBox.bmp" />
+    <None Include="GUI\HexEditor\Images\CopyHS.png" />
+    <None Include="GUI\HexEditor\Images\CutHS.png" />
+    <None Include="GUI\HexEditor\Images\FindHS.png" />
+    <None Include="GUI\HexEditor\Images\FindNextHS.png" />
+    <EmbeddedResource Include="GUI\HexEditor\Images\Logo.png" />
+    <None Include="GUI\HexEditor\Images\openHS.png" />
+    <None Include="GUI\HexEditor\Images\PasteHS.png" />
+    <None Include="GUI\HexEditor\Images\saveHS.png" />
+    <None Include="GUI\HexEditor\Resources\Copy16.png" />
+    <None Include="GUI\HexEditor\Resources\Copy24.png" />
+    <None Include="GUI\HexEditor\Resources\Copy32.png" />
+    <None Include="GUI\HexEditor\Resources\Cut16.png" />
+    <None Include="GUI\HexEditor\Resources\Cut24.png" />
+    <None Include="GUI\HexEditor\Resources\Cut32.png" />
+    <None Include="GUI\HexEditor\Resources\Find16.png" />
+    <None Include="GUI\HexEditor\Resources\Find24.png" />
+    <None Include="GUI\HexEditor\Resources\Find32.png" />
+    <None Include="GUI\HexEditor\Resources\FindNext16.png" />
+    <None Include="GUI\HexEditor\Resources\FindNext24.png" />
+    <None Include="GUI\HexEditor\Resources\FindNext32.png" />
+    <None Include="GUI\HexEditor\Resources\FolderOpen_16.png" />
+    <None Include="GUI\HexEditor\Resources\FolderOpen_24.png" />
+    <None Include="GUI\HexEditor\Resources\FolderOpen_32.png" />
+    <None Include="GUI\HexEditor\Resources\Paste16.png" />
+    <None Include="GUI\HexEditor\Resources\Paste24.png" />
+    <None Include="GUI\HexEditor\Resources\Paste32.png" />
+    <None Include="GUI\HexEditor\Resources\save16.png" />
+    <None Include="GUI\HexEditor\Resources\Save24.png" />
+    <None Include="GUI\HexEditor\Resources\Save32.png" />
+    <EmbeddedResource Include="GUI\HexEditor\App.ico" />
+    <Content Include="Source\Tools\Filter\InputHook\HotKeys\ReadMe.txt" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

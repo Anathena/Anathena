@@ -70,7 +70,7 @@ namespace Be.HexEditor
 
         void clearRecentFilesButton_Click(object sender, EventArgs e)
         {
-            Program.ApplictionForm.RecentFileHandler.Clear();
+            //Program.ApplictionForm.RecentFileHandler.Clear();
         }
 
         void okButton_Click(object sender, EventArgs e)
@@ -88,7 +88,7 @@ namespace Be.HexEditor
                 Settings.Default.UseSystemLanguage = this.UseSystemLanguage;
                 Settings.Default.SelectedLanguage = (string)this.languageComboBox.SelectedValue;
 
-                Program.ShowMessage(strings.ProgramRestartSettings);
+                //Program.ShowMessage(strings.ProgramRestartSettings);
 
                 changed = true;
             }
