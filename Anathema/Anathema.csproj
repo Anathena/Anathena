@@ -63,10 +63,6 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Libraries\FASM\Fasm.NET.dll</HintPath>
     </Reference>
-    <Reference Include="MemorySharp, Version=1.1.0.0, Culture=neutral, processorArchitecture=AMD64">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Libraries\MemorySharp\MemorySharp.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Security" />
@@ -90,6 +86,66 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Main\Main.cs" />
+    <Compile Include="OS\Windows\Assembly\Assembler\Fasm32Assembler.cs" />
+    <Compile Include="OS\Windows\Assembly\Assembler\IAssembler.cs" />
+    <Compile Include="OS\Windows\Assembly\AssemblyFactory.cs" />
+    <Compile Include="OS\Windows\Assembly\AssemblyTransaction.cs" />
+    <Compile Include="OS\Windows\Assembly\CallingConvention\CallingConventionSelector.cs" />
+    <Compile Include="OS\Windows\Assembly\CallingConvention\CdeclCallingConvention.cs" />
+    <Compile Include="OS\Windows\Assembly\CallingConvention\Enumerations.cs" />
+    <Compile Include="OS\Windows\Assembly\CallingConvention\FastcallCallingConvention.cs" />
+    <Compile Include="OS\Windows\Assembly\CallingConvention\ICallingConvention.cs" />
+    <Compile Include="OS\Windows\Assembly\CallingConvention\StdcallCallingConvention.cs" />
+    <Compile Include="OS\Windows\Assembly\CallingConvention\ThiscallCallingConvention.cs" />
+    <Compile Include="OS\Windows\Debugger\Debugger.cs" />
+    <Compile Include="OS\Windows\Debugger\DebuggerException.cs" />
+    <Compile Include="OS\Windows\Debugger\DebuggerSettings.cs" />
+    <Compile Include="OS\Windows\Debugger\ErrorCode.cs" />
+    <Compile Include="OS\Windows\Helpers\ApplicationFinder.cs" />
+    <Compile Include="OS\Windows\Helpers\HandleManipulator.cs" />
+    <Compile Include="OS\Windows\Helpers\Randomizer.cs" />
+    <Compile Include="OS\Windows\Helpers\SerializationHelper.cs" />
+    <Compile Include="OS\Windows\Helpers\Singleton.cs" />
+    <Compile Include="OS\Windows\Internals\IApplicableElement.cs" />
+    <Compile Include="OS\Windows\Internals\IDisposableState.cs" />
+    <Compile Include="OS\Windows\Internals\IFactory.cs" />
+    <Compile Include="OS\Windows\Internals\IMarshalledValue.cs" />
+    <Compile Include="OS\Windows\Internals\INamedElement.cs" />
+    <Compile Include="OS\Windows\Internals\Manager.cs" />
+    <Compile Include="OS\Windows\Internals\MarshalType.cs" />
+    <Compile Include="OS\Windows\Internals\MarshalValue.cs" />
+    <Compile Include="OS\MemorySharp.cs" />
+    <Compile Include="OS\Windows\Memory\LocalUnmanagedMemory.cs" />
+    <Compile Include="OS\Windows\Memory\MemoryCore.cs" />
+    <Compile Include="OS\Windows\Memory\MemoryFactory.cs" />
+    <Compile Include="OS\Windows\Memory\MemoryProtection.cs" />
+    <Compile Include="OS\Windows\Memory\RemoteAllocation.cs" />
+    <Compile Include="OS\Windows\Memory\RemotePointer.cs" />
+    <Compile Include="OS\Windows\Memory\RemoteRegion.cs" />
+    <Compile Include="OS\Windows\Memory\RemoteVirtualPage.cs" />
+    <Compile Include="OS\Windows\Modules\InjectedModule.cs" />
+    <Compile Include="OS\Windows\Modules\ModuleCore.cs" />
+    <Compile Include="OS\Windows\Modules\ModuleFactory.cs" />
+    <Compile Include="OS\Windows\Modules\RemoteFunction.cs" />
+    <Compile Include="OS\Windows\Modules\RemoteModule.cs" />
+    <Compile Include="OS\Windows\Native\Enumerations.cs" />
+    <Compile Include="OS\Windows\Native\ManagedPeb.cs" />
+    <Compile Include="OS\Windows\Native\ManagedTeb.cs" />
+    <Compile Include="OS\Windows\Native\NativeMethods.cs" />
+    <Compile Include="OS\Windows\Native\SafeMemoryHandle.cs" />
+    <Compile Include="OS\Windows\Native\Structures.cs" />
+    <Compile Include="OS\Windows\Threading\Enumerations.cs" />
+    <Compile Include="OS\Windows\Threading\FrozenThread.cs" />
+    <Compile Include="OS\Windows\Threading\RemoteThread.cs" />
+    <Compile Include="OS\Windows\Threading\ThreadCore.cs" />
+    <Compile Include="OS\Windows\Threading\ThreadFactory.cs" />
+    <Compile Include="OS\Windows\Windows\Keyboard\BaseKeyboard.cs" />
+    <Compile Include="OS\Windows\Windows\Keyboard\MessageKeyboard.cs" />
+    <Compile Include="OS\Windows\Windows\Mouse\BaseMouse.cs" />
+    <Compile Include="OS\Windows\Windows\Mouse\SendInputMouse.cs" />
+    <Compile Include="OS\Windows\Windows\RemoteWindow.cs" />
+    <Compile Include="OS\Windows\Windows\WindowCore.cs" />
+    <Compile Include="OS\Windows\Windows\WindowFactory.cs" />
     <Compile Include="Tools\Filter\FilterTrees\IFilterTreeScanMVP.cs" />
     <Compile Include="Tools\ProcessSelector\IProcessObserver.cs" />
     <Compile Include="Tools\ProcessSelector\IProcessSelectorMVP.cs" />
@@ -275,6 +331,7 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
+    <None Include="OS\MemorySharp.licenseheader" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

@@ -121,7 +121,7 @@
   <ItemGroup>
     <ProjectReference Include="DockingSuite.csproj">
       <Project>{C75532C4-765B-418E-B09B-46D36B2ABDB1}</Project>
-      <Name>WinFormsUI</Name>
+      <Name>DockingSuite</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
