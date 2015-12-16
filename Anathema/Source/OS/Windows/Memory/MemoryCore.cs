@@ -236,15 +236,15 @@ namespace Binarysharp.MemoryManagement.Memory
         /// <param name="processHandle">A handle to the process whose memory information is queried.</param>
         /// <param name="addressFrom">A pointer to the starting address of the region of pages to be queried.</param>
         /// <param name="addressTo">A pointer to the ending address of the region of pages to be queried.</param>
-        /// <returns>A collection of <see cref="Native.MemoryBasicInformation32"/> structures.</returns>
-        public static IEnumerable<MemoryBasicInformation32> Query(SafeMemoryHandle processHandle, IntPtr addressFrom, IntPtr addressTo)
+        /// <returns>A collection of <see cref="Native.MemoryBasicInformation64"/> structures.</returns>
+        public static IEnumerable<MemoryBasicInformation64> Query(SafeMemoryHandle processHandle, IntPtr addressFrom, IntPtr addressTo)
         {
             // Check if the handle is valid
             HandleManipulator.ValidateAsArgument(processHandle, "processHandle");
 
             // Convert the addresses to Int64
-            var numberFrom = addressFrom.ToInt64();
-            var numberTo = addressTo.ToInt64();
+            UInt64 numberFrom = (UInt64)addressFrom.ToInt64();
+            UInt64 numberTo = (UInt64)addressTo.ToInt64();
 
             // The first address must be lower than the second
             if (numberFrom >= numberTo)
@@ -257,34 +257,53 @@ namespace Binarysharp.MemoryManagement.Memory
             do
             {
                 // Allocate the structure to store information of memory
-                MemoryBasicInformation32 memoryInfo;
+                MemoryBasicInformation64 memoryInfo;
 #if x86
+                // 32 Bit struct is not the same
+                MemoryBasicInformation32 memoryInfo32;
+
                 // Get the next memory page
                 ret = NativeMethods.VirtualQueryEx(processHandle, new IntPtr(numberFrom), out memoryInfo, MarshalType<MemoryBasicInformation32>.Size);
+
+                 // Copy from the 64 bit struct to the 32 bit struct
+                memoryInfo.AllocationBase = memoryInfo32.AllocationBase;
+                memoryInfo.AllocationProtect = memoryInfo32.AllocationProtect;
+                memoryInfo.BaseAddress = memoryInfo32.BaseAddress;
+                memoryInfo.Protect = memoryInfo32.Protect;
+                memoryInfo.RegionSize = memoryInfo32.RegionSize;
+                memoryInfo.State = memoryInfo32.State;
+                memoryInfo.Type = memoryInfo32.Type;
 #else
-                // 64 Bit struct is not the same
-                MemoryBasicInformation64 memoryInfo64;
 
                 // Query the memory region
-                ret = NativeMethods.VirtualQueryEx(processHandle, new IntPtr(numberFrom), out memoryInfo64, MarshalType<MemoryBasicInformation64>.Size);
-
-                // Copy from the 64 bit struct to the 32 bit struct
-                memoryInfo.AllocationBase = memoryInfo64.AllocationBase;
-                memoryInfo.AllocationProtect = memoryInfo64.AllocationProtect;
-                memoryInfo.BaseAddress = memoryInfo64.BaseAddress;
-                memoryInfo.Protect = memoryInfo64.Protect;
-                memoryInfo.RegionSize = (int)memoryInfo64.RegionSize;
-                memoryInfo.State = memoryInfo64.State;
-                memoryInfo.Type = memoryInfo64.Type;
-
+                ret = NativeMethods.VirtualQueryEx(processHandle, new IntPtr((Int64)numberFrom), out memoryInfo, MarshalType<MemoryBasicInformation64>.Size);
 #endif
 
                 // Increment the starting address with the size of the page
-                numberFrom += memoryInfo.RegionSize;
+                numberFrom += (UInt64)memoryInfo.RegionSize;
+
+                // Ignore states we are not interested in querying
+                if (memoryInfo.Type == MemoryTypeFlags.Mapped)
+                    continue;
+
+                if (memoryInfo.AllocationProtect == MemoryProtectionFlags.ReadOnly)
+                    continue;
+                if (memoryInfo.AllocationProtect == MemoryProtectionFlags.NoAccess)
+                    continue;
+                if (memoryInfo.AllocationProtect == MemoryProtectionFlags.ZeroAccess)
+                    continue;
+
+                if (memoryInfo.Protect == MemoryProtectionFlags.WriteCopy)
+                    continue;
+
+                if (memoryInfo.State == MemoryStateFlags.Free)
+                    continue;
+
+                if (memoryInfo.State == MemoryStateFlags.Reserve)
+                    continue;
 
                 // Return the memory page
-                if (memoryInfo.State != MemoryStateFlags.Free)
-                    yield return memoryInfo;
+                yield return memoryInfo;
 
             } while (numberFrom < numberTo && ret != 0);
         }

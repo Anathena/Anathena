@@ -30,15 +30,17 @@ namespace Anathema
         private MemorySharp MemoryEditor;
 
         private List<RemoteRegion> MemoryRegions;
-        private List<MemoryChangeRoot> FilterTrees;         // List of memory pages that we may be interested in
+        private List<MemoryChangeTree> FilterTrees;         // List of memory pages that we may be interested in
         private CancellationTokenSource CancelRequest;      // Tells the scan task to cancel (ie finish)
         private Task ChangeScanner;                         // Event that constantly checks the target process for changes
 
         // Variables
         private const Int32 AbortTime = 3000;       // Time to wait before giving up when ending scan
         private Int32 WaitTime = 200;               // Time to wait (in ms) for a cancel request between each scan
-        private static UInt64 PageSplitThreshold;   // User specified minimum page size for dynamic pages
-        private UInt64 VariableSize;
+        private static Int32 PageSplitThreshold;    // User specified minimum page size for dynamic pages
+
+        // User-tuned variables
+        private Int32 VariableSize;
 
         // Event stubs
         public event EventHandler EventFilterFinished;
@@ -60,7 +62,7 @@ namespace Anathema
             this.MemoryEditor = MemoryEditor;
         }
 
-        public void SetVariableSize(UInt64 VariableSize)
+        public void SetVariableSize(Int32 VariableSize)
         {
             this.VariableSize = VariableSize;
         }
@@ -79,11 +81,11 @@ namespace Anathema
         public void BeginFilter()
         {
             this.MemoryRegions = SnapshotManager.GetSnapshotManagerInstance().GetActiveSnapshot().GetMemoryRegions();
-            this.FilterTrees = new List<MemoryChangeRoot>();
+            this.FilterTrees = new List<MemoryChangeTree>();
 
             // Initialize filter tree roots
             for (int PageIndex = 0; PageIndex < MemoryRegions.Count; PageIndex++)
-                FilterTrees.Add(new MemoryChangeRoot(MemoryEditor, MemoryRegions[PageIndex].BaseAddress, MemoryRegions[PageIndex].RegionSize));
+                FilterTrees.Add(new MemoryChangeTree(MemoryRegions[PageIndex].BaseAddress, MemoryRegions[PageIndex].RegionSize));
 
             CancelRequest = new CancellationTokenSource();
             ChangeScanner = Task.Run(async () =>
@@ -99,31 +101,25 @@ namespace Anathema
 
         private void ApplyFilter()
         {
-            // for (Int32 PageIndex = 0; PageIndex < CandidateTree.Count; PageIndex++)
-            Parallel.For(0, FilterTrees.Count, PageIndex => // Upwards of a x2 increase in speed
+            foreach (MemoryChangeTree Tree in FilterTrees)
+            // Parallel.For(0, FilterTrees.Count, PageIndex => // Upwards of a x2 increase in speed
+           /// Parallel.ForEach(FilterTrees, (Tree) =>
             {
                 Boolean Success;
-                Byte[] PageData = MemoryEditor.ReadBytes(FilterTrees[PageIndex].BaseAddress, FilterTrees[PageIndex].RegionSize, out Success, false);
+                Byte[] PageData = MemoryEditor.ReadBytes(Tree.BaseAddress, Tree.RegionSize, out Success, false);
 
                 // Process the changes that have occurred since the last sampling for this memory page
                 if (Success)
                 {
-                    FilterTrees[PageIndex].ProcessChanges(PageData);
+                    Tree.ProcessChanges(PageData, Tree.BaseAddress.ToInt64());
                 }
                 // Error reading this page -- delete it (may have been deallocated)
                 else
                 {
-                    FilterTrees[PageIndex].Dead = true;
+                    Tree.Dead = true;
                 }
-            });
+            }//);
 
-            //foreach (MemoryChangeRoot Tree in FilterTrees)
-            //{
-            //    if (Tree.Dead)
-            //        FilterTrees.Remove(Tree);
-            //}
-
-            // Remove dead (deallocated) pages
             for (Int32 Index = 0; Index < FilterTrees.Count; Index++)
             {
                 if (FilterTrees[Index].Dead)
@@ -139,28 +135,28 @@ namespace Anathema
             catch (AggregateException) { }
 
             // Collect the pages that have changed
-            List<MemoryChangeRoot> AcceptedPages = new List<MemoryChangeRoot>();
-            for (int Index = 0; Index < FilterTrees.Count; Index++)
-                FilterTrees[Index].GetPageList(AcceptedPages);
+            List<MemoryChangeTree> ChangedRegions = new List<MemoryChangeTree>();
+            for (Int32 Index = 0; Index < FilterTrees.Count; Index++)
+                FilterTrees[Index].GetChangedRegions(ChangedRegions);
             FilterTrees = null;
 
+            // Convert 
+            List<RemoteRegion> FilteredRegions = ChangedRegions.ConvertAll(Page => (RemoteRegion)Page);
+
             // Merge and collect any adjacent regions from the accepted list of memory pages
-            List<RemoteRegion> FilteredMemoryRegions = CombineRegions(AcceptedPages);
+            //FilteredRegions = CombineRegions(FilteredRegions);
 
             // Send the size of the filtered memory to the GUI
             FilterHashTreesEventArgs Args = new FilterHashTreesEventArgs();
-            Args.FilterResultSize = GetFinalSize(FilteredMemoryRegions);
+            Args.FilterResultSize = GetFinalSize(FilteredRegions);
             EventUpdateMemorySize.Invoke(this, Args);
 
-            return new Snapshot(FilteredMemoryRegions);
+            return new Snapshot(FilteredRegions);
         }
 
         // Merging regions the naïve way is O(n^2) and can take upwards of 15 seconds. A faster approach is a stack based algorithm O(??) (<20 ms)
-        private List<RemoteRegion> CombineRegions(List<MemoryChangeRoot> AcceptedPages)
+        private List<RemoteRegion> CombineRegions(List<RemoteRegion> Regions)
         {
-            // Collect memory pages from the filtered results
-            List<RemoteRegion> Regions = AcceptedPages.ConvertAll(Page => (RemoteRegion)Page);
-
             if (Regions.Count == 0)
                 return Regions;
 
@@ -193,95 +189,75 @@ namespace Anathema
             return MergedRegions.ToList();
         }
 
-        public class MemoryChangeRoot : RemoteRegion
+        public class MemoryChangeTree : RemoteRegion
         {
-            public MemoryChangeTree Child = null;
-            public Boolean Dead = false;
+            public bool Dead;
+
+            private Int64[] Checksums;  // Can look into UInt32 if memory is a large concern for these trees
+            private Int32 QueryCount;   // Number of times changes have been queried
+
+            private MemoryChangeTree ChildLeft;
+            private MemoryChangeTree ChildRight;
+
+            private Boolean HasChanged;
+            private Boolean StateUnknown;
             
-            public MemoryChangeRoot(MemorySharp MemorySharp, IntPtr BaseAddress, Int32 RegionSize) : base(MemorySharp, BaseAddress, RegionSize)
+            public MemoryChangeTree(IntPtr BaseAddress, Int32 RegionSize) : base(null, BaseAddress, RegionSize)
             {
-                Child = new MemoryChangeTree();
+                // Initialize state variables
+                Checksums = new Int64[2];
+                QueryCount = 0;
+
+                StateUnknown = true;
+                HasChanged = false;
+                ChildLeft = null;
+                ChildRight = null;
             }
 
-            public void ProcessChanges(Byte[] Data)
+            public void GetChangedRegions(List<MemoryChangeTree> AcceptedPages)
             {
-                Child.ProcessChanges(Data, 0, (UInt64)Data.Length);
-            }
-
-            public void GetPageList(List<MemoryChangeRoot> AcceptedPages)
-            {
-                Child.GetPageList(this, AcceptedPages, 0, RegionSize);
-            }
-
-            public MemoryChangeRoot CopyRange(UInt64 Start, Int32 Length)
-            {
-                IntPtr CopyBaseAddress = (IntPtr)((UInt64)BaseAddress + Start);  // Start is an offset from 0, so we can simply add it
-                Int32 CopyRegionSize = Length;
-
-                return new MemoryChangeRoot(this.MemorySharp, CopyBaseAddress, CopyRegionSize);
-            }
-        }
-
-        public class MemoryChangeTree
-        {
-            private UInt64[] Checksums;     // Can look into UInt32 if memory is a large concern for these trees
-            private Int32 QueryCount = 0;   // Number of times changes have been queried
-
-            private MemoryChangeTree ChildLeft = null;
-            private MemoryChangeTree ChildRight = null;
-
-            private Boolean HasChanged = false;
-            private Boolean StateUnknown = true;
-
-            public MemoryChangeTree()
-            {
-                Checksums = new UInt64[2];
-            }
-
-            public void GetPageList(MemoryChangeRoot Root, List<MemoryChangeRoot> AcceptedPages, UInt64 Start, Int32 Length)
-            {
-                // Add this page to the accepted list if we are a leaf on the tree structure
+                // Add this page to the accepted list if we are a leaf on the tree structure with changes (or we are unsure)
                 if (ChildLeft == null && ChildRight == null)
                 {
                     if (HasChanged || StateUnknown)
                     {
-                        AcceptedPages.Add(Root.CopyRange(Start, Length));
+                        AcceptedPages.Add(this);
                     }
                 }
                 // This node has children; propagate the request (in equal halves) downwards
                 else
                 {
-                    ChildLeft.GetPageList(Root, AcceptedPages, Start, Length / 2);
-                    ChildRight.GetPageList(Root, AcceptedPages, Start + (UInt64)Length / 2, Length - Length / 2);
+                    ChildLeft.GetChangedRegions(AcceptedPages);
+                    ChildRight.GetChangedRegions(AcceptedPages);
                 }
             }
 
-            public Boolean ProcessChanges(Byte[] Data, UInt64 Start, UInt64 Length)
+            public Boolean ProcessChanges(Byte[] Data, Int64 RootBaseAddress)
             {
                 // No need to process a page that has already changed
-                if (Length <= FilterTreeScan.PageSplitThreshold && HasChanged)
+                if (RegionSize <= FilterTreeScan.PageSplitThreshold && HasChanged)
                     return HasChanged;
 
                 // If this node has no children, this node is a leaf and thus does the processing
                 if (ChildLeft == null && ChildRight == null)
                 {
                     // Calculate changes for this page
-                    Checksums[QueryCount % 2] = ComputeCheckSum(Data, Start, Start + Length);
+                    Checksums[QueryCount % 2] = ComputeCheckSum(Data, (Int32)(BaseAddress.ToInt64() - RootBaseAddress), RegionSize);
 
                     // Update the history, given that 2 checksums have been collected
                     if (QueryCount++ != 0)
                     {
-                        HasChanged = Checksums[0] != Checksums[1];
+                        HasChanged = HasChanged | (Checksums[0] != Checksums[1]);
                         StateUnknown = false;
                     }
 
                     // This page needs to be split if a change was detected and the size is above the threshold
-                    if (HasChanged && Length > FilterTreeScan.PageSplitThreshold)
+                    if (HasChanged && RegionSize > FilterTreeScan.PageSplitThreshold)
                     {
-                        ChildLeft = new MemoryChangeTree();
-                        ChildRight = new MemoryChangeTree();
+                        ChildLeft = new MemoryChangeTree(BaseAddress, RegionSize / 2);
+                        ChildRight = new MemoryChangeTree(BaseAddress + RegionSize / 2, RegionSize - RegionSize / 2);
 
-                        // We no longer need the history for this page since we split it (and thus can no longer use the history)
+                        // We no longer need the history for this page since we split it
                         Checksums = null;
                     }
                 }
@@ -289,10 +265,7 @@ namespace Anathema
                 // Pass the data down to the children if they exist
                 if (ChildLeft != null && ChildRight != null)
                 {
-                    return (
-                        ChildLeft.ProcessChanges(Data, Start, Length / 2) &
-                        ChildRight.ProcessChanges(Data, Start + Length / 2, Length - Length / 2)
-                    );
+                    return (ChildLeft.ProcessChanges(Data, RootBaseAddress) & ChildRight.ProcessChanges(Data, RootBaseAddress));
                 }
 
                 return HasChanged;
@@ -301,21 +274,21 @@ namespace Anathema
             /// <summary>
             /// This should be replaced with a real checksum function with better collision avoidance
             /// </summary>
-            public unsafe static UInt64 ComputeCheckSum(Byte[] Data, UInt64 Start, UInt64 End)
+            public unsafe static Int64 ComputeCheckSum(Byte[] Data, Int64 Start, Int64 End)
             {
                 unchecked
                 {
-                    UInt64 Hash = 0;
+                    Int64 Hash = 0;
 
                     // Hashing function
-                    for (; Start < End; Start += sizeof(UInt64))
+                    for (; Start < End; Start += sizeof(Int64))
                     {
                         fixed (Byte* Value = &Data[Start])
                         {
-                            Hash += *(UInt64*)(Value);
+                            Hash += *(Int64*)(Value);
                         }
                     }
-                    for (; Start < End; Start ++)
+                    for (; Start < End; Start++)
                     {
                         fixed (Byte* Value = &Data[Start])
                         {

@@ -26,7 +26,7 @@ namespace Anathema
         event FilterTreeScanEventHandler EventUpdateMemorySize;
 
         // Functions invoked by presenter (downstream)
-        void SetVariableSize(UInt64 VariableSize);
+        void SetVariableSize(Int32 VariableSize);
     }
 
     class FilterTreeScanPresenter : FilterPresenter
@@ -44,7 +44,7 @@ namespace Anathema
 
         #region Method definitions called by the view (downstream)
 
-        public void SetVariableSize(UInt64 VariableSize)
+        public void SetVariableSize(Int32 VariableSize)
         {
             if (VariableSize <= 0)
                 return;

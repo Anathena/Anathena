@@ -37,16 +37,8 @@
             this.StopScanButton = new System.Windows.Forms.ToolStripButton();
             this.StartScanButton = new System.Windows.Forms.ToolStripButton();
             this.ScanToolStrip = new System.Windows.Forms.ToolStrip();
-            this.MaxChangesValueLabel = new System.Windows.Forms.Label();
-            this.MaxChangesLabel = new System.Windows.Forms.Label();
-            this.MaxChangesTrackBar = new System.Windows.Forms.TrackBar();
-            this.MinChangesValueLabel = new System.Windows.Forms.Label();
-            this.MinChangesLabel = new System.Windows.Forms.Label();
-            this.MinChangesTrackBar = new System.Windows.Forms.TrackBar();
             ((System.ComponentModel.ISupportInitialize)(this.VariableSizeTrackBar)).BeginInit();
             this.ScanToolStrip.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.MaxChangesTrackBar)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.MinChangesTrackBar)).BeginInit();
             this.SuspendLayout();
             // 
             // MemorySizeValueLabel
@@ -73,7 +65,7 @@
             // VariableSizeValueLabel
             // 
             this.VariableSizeValueLabel.AutoSize = true;
-            this.VariableSizeValueLabel.Location = new System.Drawing.Point(96, 126);
+            this.VariableSizeValueLabel.Location = new System.Drawing.Point(92, 75);
             this.VariableSizeValueLabel.Name = "VariableSizeValueLabel";
             this.VariableSizeValueLabel.Size = new System.Drawing.Size(20, 13);
             this.VariableSizeValueLabel.TabIndex = 147;
@@ -82,7 +74,7 @@
             // VariableSizeLabel
             // 
             this.VariableSizeLabel.AutoSize = true;
-            this.VariableSizeLabel.Location = new System.Drawing.Point(6, 126);
+            this.VariableSizeLabel.Location = new System.Drawing.Point(2, 75);
             this.VariableSizeLabel.Name = "VariableSizeLabel";
             this.VariableSizeLabel.Size = new System.Drawing.Size(94, 13);
             this.VariableSizeLabel.TabIndex = 146;
@@ -91,7 +83,7 @@
             // VariableSizeTrackBar
             // 
             this.VariableSizeTrackBar.LargeChange = 4;
-            this.VariableSizeTrackBar.Location = new System.Drawing.Point(4, 94);
+            this.VariableSizeTrackBar.Location = new System.Drawing.Point(0, 43);
             this.VariableSizeTrackBar.Maximum = 3;
             this.VariableSizeTrackBar.Name = "VariableSizeTrackBar";
             this.VariableSizeTrackBar.Size = new System.Drawing.Size(132, 45);
@@ -133,86 +125,17 @@
             this.ScanToolStrip.TabIndex = 149;
             this.ScanToolStrip.Text = "toolStrip1";
             // 
-            // MaxChangesValueLabel
-            // 
-            this.MaxChangesValueLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.MaxChangesValueLabel.AutoSize = true;
-            this.MaxChangesValueLabel.Location = new System.Drawing.Point(223, 75);
-            this.MaxChangesValueLabel.Name = "MaxChangesValueLabel";
-            this.MaxChangesValueLabel.Size = new System.Drawing.Size(37, 13);
-            this.MaxChangesValueLabel.TabIndex = 158;
-            this.MaxChangesValueLabel.Text = "Infinity";
-            // 
-            // MaxChangesLabel
-            // 
-            this.MaxChangesLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.MaxChangesLabel.AutoSize = true;
-            this.MaxChangesLabel.Location = new System.Drawing.Point(152, 75);
-            this.MaxChangesLabel.Name = "MaxChangesLabel";
-            this.MaxChangesLabel.Size = new System.Drawing.Size(75, 13);
-            this.MaxChangesLabel.TabIndex = 157;
-            this.MaxChangesLabel.Text = "Max Changes:";
-            // 
-            // MaxChangesTrackBar
-            // 
-            this.MaxChangesTrackBar.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.MaxChangesTrackBar.LargeChange = 4;
-            this.MaxChangesTrackBar.Location = new System.Drawing.Point(128, 43);
-            this.MaxChangesTrackBar.Maximum = 17;
-            this.MaxChangesTrackBar.Minimum = 1;
-            this.MaxChangesTrackBar.Name = "MaxChangesTrackBar";
-            this.MaxChangesTrackBar.Size = new System.Drawing.Size(132, 45);
-            this.MaxChangesTrackBar.TabIndex = 156;
-            this.MaxChangesTrackBar.Value = 17;
-            this.MaxChangesTrackBar.Scroll += new System.EventHandler(this.MaxChangesTrackBar_Scroll);
-            // 
-            // MinChangesValueLabel
-            // 
-            this.MinChangesValueLabel.AutoSize = true;
-            this.MinChangesValueLabel.Location = new System.Drawing.Point(74, 75);
-            this.MinChangesValueLabel.Name = "MinChangesValueLabel";
-            this.MinChangesValueLabel.Size = new System.Drawing.Size(13, 13);
-            this.MinChangesValueLabel.TabIndex = 155;
-            this.MinChangesValueLabel.Text = "0";
-            // 
-            // MinChangesLabel
-            // 
-            this.MinChangesLabel.AutoSize = true;
-            this.MinChangesLabel.Location = new System.Drawing.Point(6, 75);
-            this.MinChangesLabel.Name = "MinChangesLabel";
-            this.MinChangesLabel.Size = new System.Drawing.Size(72, 13);
-            this.MinChangesLabel.TabIndex = 154;
-            this.MinChangesLabel.Text = "Min Changes:";
-            // 
-            // MinChangesTrackBar
-            // 
-            this.MinChangesTrackBar.LargeChange = 4;
-            this.MinChangesTrackBar.Location = new System.Drawing.Point(0, 43);
-            this.MinChangesTrackBar.Maximum = 16;
-            this.MinChangesTrackBar.Minimum = 1;
-            this.MinChangesTrackBar.Name = "MinChangesTrackBar";
-            this.MinChangesTrackBar.Size = new System.Drawing.Size(136, 45);
-            this.MinChangesTrackBar.TabIndex = 153;
-            this.MinChangesTrackBar.Value = 1;
-            this.MinChangesTrackBar.Scroll += new System.EventHandler(this.MinChangesTrackBar_Scroll);
-            // 
             // GUIFilterTree
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(266, 173);
             this.Controls.Add(this.VariableSizeValueLabel);
-            this.Controls.Add(this.MaxChangesValueLabel);
             this.Controls.Add(this.VariableSizeLabel);
-            this.Controls.Add(this.MaxChangesLabel);
-            this.Controls.Add(this.MinChangesValueLabel);
-            this.Controls.Add(this.MinChangesLabel);
             this.Controls.Add(this.VariableSizeTrackBar);
             this.Controls.Add(this.MemorySizeValueLabel);
             this.Controls.Add(this.HashSizeLabel);
             this.Controls.Add(this.ScanToolStrip);
-            this.Controls.Add(this.MaxChangesTrackBar);
-            this.Controls.Add(this.MinChangesTrackBar);
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Name = "GUIFilterTree";
             this.Text = "Tree Scanner";
@@ -220,8 +143,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.VariableSizeTrackBar)).EndInit();
             this.ScanToolStrip.ResumeLayout(false);
             this.ScanToolStrip.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.MaxChangesTrackBar)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.MinChangesTrackBar)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -236,11 +157,5 @@
         private System.Windows.Forms.ToolStripButton StopScanButton;
         private System.Windows.Forms.ToolStripButton StartScanButton;
         private System.Windows.Forms.ToolStrip ScanToolStrip;
-        private System.Windows.Forms.Label MaxChangesValueLabel;
-        private System.Windows.Forms.Label MaxChangesLabel;
-        private System.Windows.Forms.TrackBar MaxChangesTrackBar;
-        private System.Windows.Forms.Label MinChangesValueLabel;
-        private System.Windows.Forms.Label MinChangesLabel;
-        private System.Windows.Forms.TrackBar MinChangesTrackBar;
     }
 }

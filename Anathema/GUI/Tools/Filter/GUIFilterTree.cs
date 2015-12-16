@@ -23,8 +23,8 @@ namespace Anathema
             FilterHashTreesPresenter = new FilterTreeScanPresenter(this, new FilterTreeScan());
 
             UpdateVariableSize();
-            UpdateMinChanges();
-            UpdateMaxChanges();
+
+            EnableGUI();
         }
 
         public void EventFilterFinished(List<RemoteRegion> MemoryRegions)
@@ -56,49 +56,29 @@ namespace Anathema
 
         private void UpdateVariableSize()
         {
-            UInt64 Value = (UInt64)Math.Pow(2, VariableSizeTrackBar.Value);
-            String LabelText = Conversions.ByteCountToMetricSize(Value).ToString();
+            Int32 Value = (Int32)Math.Pow(2, VariableSizeTrackBar.Value);
+            String LabelText = Conversions.ByteCountToMetricSize((UInt64)Value).ToString();
 
             VariableSizeValueLabel.Text = LabelText;
 
             FilterHashTreesPresenter.SetVariableSize(Value);
         }
 
-        private void UpdateMinChanges()
-        {
-            UInt64 Value = (UInt64)MinChangesTrackBar.Value;
-            MinChangesValueLabel.Text = Value.ToString();
-        }
-
-        private void UpdateMaxChanges()
-        {
-            Int32 Value = MaxChangesTrackBar.Value;
-            if (Value == MaxChangesTrackBar.Maximum)
-            {
-                Value = Int32.MaxValue;
-                MaxChangesValueLabel.Text = "Infinity";
-            }
-            else
-                MaxChangesValueLabel.Text = Value.ToString();
-        }
-
         private void HandleResize()
         {
-            MaxChangesTrackBar.Location = new Point(this.Width / 2, MaxChangesTrackBar.Location.Y);
-            MaxChangesTrackBar.Width = this.Width - MaxChangesTrackBar.Location.X;
-            MinChangesTrackBar.Width = MaxChangesTrackBar.Location.X - MinChangesTrackBar.Location.X;
-
             VariableSizeTrackBar.Width = (this.Width - VariableSizeTrackBar.Location.X) / 2;
         }
 
         private void DisableGUI()
         {
-            //AdvancedSettingsGroupBox.Enabled = false;
+            StartScanButton.Enabled = false;
+            StopScanButton.Enabled = true;
         }
 
         private void EnableGUI()
         {
-            //AdvancedSettingsGroupBox.Enabled = true;
+            StartScanButton.Enabled = true;
+            StopScanButton.Enabled = false;
         }
 
         #region Events
@@ -124,28 +104,6 @@ namespace Anathema
         private void VariableSizeTrackBar_Scroll(object sender, EventArgs e)
         {
             UpdateVariableSize();
-        }
-
-        private void MinChangesTrackBar_Scroll(object sender, EventArgs e)
-        {
-            UpdateMinChanges();
-
-            if (MinChangesTrackBar.Value > MaxChangesTrackBar.Value)
-            {
-                MaxChangesTrackBar.Value = MinChangesTrackBar.Value;
-                MaxChangesTrackBar_Scroll(sender, e);
-            }
-        }
-
-        private void MaxChangesTrackBar_Scroll(object sender, EventArgs e)
-        {
-            UpdateMaxChanges();
-
-            if (MaxChangesTrackBar.Value < MinChangesTrackBar.Value)
-            {
-                MinChangesTrackBar.Value = MaxChangesTrackBar.Value;
-                MinChangesTrackBar_Scroll(sender, e);
-            }
         }
         #endregion
 

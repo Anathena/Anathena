@@ -49,10 +49,10 @@ namespace Binarysharp.MemoryManagement.Memory
         {
             get
             {
-#if x64
-                var adresseTo = new IntPtr(0x7fffffffffffffff);
-#else
+#if x86
                 var adresseTo = new IntPtr(0x7fffffff);
+#else
+                var adresseTo = new IntPtr(0x7fffffffffffffff);
 #endif
                 return MemoryCore.Query(MemorySharp.Handle, IntPtr.Zero, adresseTo).Select(page => new RemoteVirtualPage(MemorySharp, page.BaseAddress));
             }
