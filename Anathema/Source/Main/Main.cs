@@ -16,7 +16,6 @@ namespace Anathema
         public Main()
         {
             InitializeObserver();
-            
         }
         
         public void InitializeObserver()

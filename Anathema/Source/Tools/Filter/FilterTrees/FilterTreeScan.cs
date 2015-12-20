@@ -9,20 +9,14 @@ using Binarysharp.MemoryManagement.Memory;
 namespace Anathema
 {
     /// <summary>
-    /// Consantly queries the OS for all of the memory of the target program to determine if any of it has changed.
-    /// This information is stored in an extremely compact way, as a series of bit arrays (0 = unchanged, 1 = changed)
+    /// Consantly queries the OS for all of the memory of the target program to determine if any of it has changed via chunk hashing.
     /// This information can then be used to drastically reduce the search space of a target process (95% is a reasonable amount)
     /// 
-    /// Ideally this class will be used as follows
-    /// 0) An instance of this class is made, and the Begin function is called with a specified page threshold.
-    /// 1) Query all active memory pages running on the target process and save their metadata (page properties, address, size, etc)
-    /// 
     /// REPEAT:
-    /// 2) Perform a 64 bit hash on each memory page. A total of 2 will be kept for each page (for comparison purposes)
-    /// 3) Once 2 have been collected, we can compare to determine if the pages have changed and store this in the history.
-    /// 4) If a page has changed, we can then split that page into two (if it is larger than the given threshold), allowing us
-    /// to determine which half is of interest with subsequent loop iterations
-    /// END ON USER REQUEST. Preferably after enough time to split the pages all the way down to the threshold size.
+    /// 1) Perform a check sum on each memory page. A total of 2 will be kept for each page (for comparison purposes)
+    /// 2) Once 2 have been collected, we can compare to determine if the pages have changed and store this in the history.
+    /// 3) If a page has changed, we can then split that page into two if it is larger than the given threshold (mark halves as unknown)
+    /// 4) End on user request. Keep all leaves marked as changed, or all leaves marked as unknown. Discard unchanged blocks.
     ///
     /// </summary>
     class FilterTreeScan : IFilterTreeScanModel
@@ -35,7 +29,7 @@ namespace Anathema
         private Task ChangeScanner;                         // Event that constantly checks the target process for changes
 
         // Variables
-        private const Int32 AbortTime = 3000;       // Time to wait before giving up when ending scan
+        private const Int32 AbortTime = 3000;       // Time to wait (in ms) before giving up when ending scan
         private Int32 WaitTime = 200;               // Time to wait (in ms) for a cancel request between each scan
         private static Int32 PageSplitThreshold;    // User specified minimum page size for dynamic pages
 
@@ -94,16 +88,18 @@ namespace Anathema
                 {
                     // Query the target process for memory changes
                     ApplyFilter();
-                    await Task.Delay(WaitTime, CancelRequest.Token); // Await with cancellation
+
+                    // Await with cancellation
+                    await Task.Delay(WaitTime, CancelRequest.Token);
                 }
             }, CancelRequest.Token);
         }
 
         private void ApplyFilter()
         {
-            foreach (MemoryChangeTree Tree in FilterTrees)
+            //foreach (MemoryChangeTree Tree in FilterTrees)
             // Parallel.For(0, FilterTrees.Count, PageIndex => // Upwards of a x2 increase in speed
-           /// Parallel.ForEach(FilterTrees, (Tree) =>
+            Parallel.ForEach(FilterTrees, (Tree) =>
             {
                 Boolean Success;
                 Byte[] PageData = MemoryEditor.ReadBytes(Tree.BaseAddress, Tree.RegionSize, out Success, false);
@@ -118,7 +114,7 @@ namespace Anathema
                 {
                     Tree.Dead = true;
                 }
-            }//);
+            });
 
             for (Int32 Index = 0; Index < FilterTrees.Count; Index++)
             {

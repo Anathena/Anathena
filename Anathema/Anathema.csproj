@@ -242,6 +242,8 @@
     <Compile Include="Source\Tools\ProcessSelector\IProcessObserver.cs" />
     <Compile Include="Source\Tools\ProcessSelector\IProcessSelectorMVP.cs" />
     <Compile Include="Source\Tools\ProcessSelector\ProcessSelector.cs" />
+    <Compile Include="Source\Tools\Results\IResultsMVP.cs" />
+    <Compile Include="Source\Tools\Results\Results.cs" />
     <Compile Include="Source\Tools\SnapshotManager\ISnapshotManagerMVP.cs" />
     <Compile Include="Source\Tools\Filter\IFilterMVP.cs" />
     <Compile Include="Source\Tools\SnapshotManager\Snapshot.cs" />
@@ -645,7 +647,9 @@
     <EmbeddedResource Include="GUI\HexEditor\App.ico" />
     <Content Include="Source\Tools\Filter\InputHook\HotKeys\ReadMe.txt" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Resources\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
