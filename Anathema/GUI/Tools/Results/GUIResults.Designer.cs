@@ -29,9 +29,9 @@
         private void InitializeComponent()
         {
             this.ResultsListView = new System.Windows.Forms.ListView();
-            this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.AddressHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.ValueHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.LabelHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.columnHeader2 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.AddressCount = new System.Windows.Forms.Label();
             this.VariableSizeValueLabel = new System.Windows.Forms.Label();
             this.SuspendLayout();
@@ -41,9 +41,9 @@
             this.ResultsListView.Activation = System.Windows.Forms.ItemActivation.TwoClick;
             this.ResultsListView.BackColor = System.Drawing.SystemColors.Control;
             this.ResultsListView.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.columnHeader1,
-            this.LabelHeader,
-            this.columnHeader2});
+            this.AddressHeader,
+            this.ValueHeader,
+            this.LabelHeader});
             this.ResultsListView.Dock = System.Windows.Forms.DockStyle.Fill;
             this.ResultsListView.Font = new System.Drawing.Font("Courier New", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.ResultsListView.FullRowSelect = true;
@@ -54,19 +54,20 @@
             this.ResultsListView.UseCompatibleStateImageBehavior = false;
             this.ResultsListView.View = System.Windows.Forms.View.Details;
             // 
-            // columnHeader1
+            // AddressHeader
             // 
-            this.columnHeader1.Text = "Address";
-            this.columnHeader1.Width = 86;
+            this.AddressHeader.Text = "Address";
+            this.AddressHeader.Width = 86;
+            // 
+            // ValueHeader
+            // 
+            this.ValueHeader.Text = "Value";
+            this.ValueHeader.Width = 104;
             // 
             // LabelHeader
             // 
             this.LabelHeader.Text = "Label";
-            this.LabelHeader.Width = 86;
-            // 
-            // columnHeader2
-            // 
-            this.columnHeader2.Text = "Value";
+            this.LabelHeader.Width = 88;
             // 
             // AddressCount
             // 
@@ -107,9 +108,9 @@
         #endregion
 
         private System.Windows.Forms.ListView ResultsListView;
-        private System.Windows.Forms.ColumnHeader columnHeader1;
+        private System.Windows.Forms.ColumnHeader AddressHeader;
+        private System.Windows.Forms.ColumnHeader ValueHeader;
         private System.Windows.Forms.ColumnHeader LabelHeader;
-        private System.Windows.Forms.ColumnHeader columnHeader2;
         private System.Windows.Forms.Label AddressCount;
         private System.Windows.Forms.Label VariableSizeValueLabel;
     }

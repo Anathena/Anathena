@@ -15,17 +15,36 @@ namespace Anathema
         public GUIResults()
         {
             InitializeComponent();
+            this.DoubleBuffered = true;
 
             ResultsPresenter ResultsPresenter = new ResultsPresenter(this, new Results());
         }
 
         public void DisplayResults(List<String> Addresses, List<String> Values)
         {
-            ResultsListView.Items.Clear();
-            for (Int32 Index = 0; Index < Addresses.Count; Index++)
+            ControlThreadingHelper.InvokeControlAction(ResultsListView, () =>
             {
-                ResultsListView.Items.Add(Addresses[Index]).SubItems.Add(Values[Index]);
-            }
+                int topItemIndex = 0;
+                try
+                {
+                    topItemIndex = ResultsListView.TopItem.Index;
+                }
+                catch (Exception ex)
+                { }
+                ResultsListView.BeginUpdate();
+                ResultsListView.Items.Clear();
+                for (Int32 Index = 0; Index < Addresses.Count; Index++)
+                {
+                    ResultsListView.Items.Add(Addresses[Index]).SubItems.Add(Values[Index]);
+                }
+                ResultsListView.EndUpdate();
+                try
+                {
+                    ResultsListView.TopItem = ResultsListView.Items[topItemIndex];
+                }
+                catch (Exception ex)
+                { }
+            });
         }
     }
 }

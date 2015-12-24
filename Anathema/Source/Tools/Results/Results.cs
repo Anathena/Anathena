@@ -15,7 +15,7 @@ namespace Anathema
     class Results : IResultsModel
     {
         private MemorySharp MemoryEditor;
-
+        private SnapshotManager SnapshotManager;
         private CancellationTokenSource CancelRequest;  // Tells the updates to stop
         private Task ValueScanner;                      // Event that constantly checks the target process for changes
 
@@ -27,6 +27,7 @@ namespace Anathema
         public Results()
         {
             InitializeObserver();
+            SnapshotManager = SnapshotManager.GetSnapshotManagerInstance();
         }
 
         ~Results()
@@ -64,7 +65,10 @@ namespace Anathema
 
         private void QueryValues()
         {
-            List<RemoteRegion> Regions = SnapshotManager.GetSnapshotManagerInstance().GetActiveSnapshot().GetMemoryRegions();
+            if (!SnapshotManager.HasActiveSnapshot())
+                return;
+
+            List<RemoteRegion> Regions = SnapshotManager.GetActiveSnapshot().GetMemoryRegions();
 
             List<UInt64> Addresses = new List<UInt64>();
             List<String> AddressStrings = new List<String>();
@@ -76,7 +80,7 @@ namespace Anathema
                 for (UInt64 Address = (UInt64)Region.BaseAddress; Address < (UInt64)Region.EndAddress; Address++)
                 {
                     Addresses.Add(Address);
-                    AddressStrings.Add(Address.ToString());
+                    AddressStrings.Add(Conversions.ToAddress(Address.ToString()));
                     if (Addresses.Count >= 1000)
                         break;
                 }
@@ -100,6 +104,7 @@ namespace Anathema
             ResultsEventArgs Args = new ResultsEventArgs();
             Args.Addresses = AddressStrings;
             Args.Values = Values;
+            EventUpdateDisplay.Invoke(this, Args);
         }
 
         public void EndQueries()

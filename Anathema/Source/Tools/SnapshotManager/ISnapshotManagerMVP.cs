@@ -32,8 +32,14 @@ namespace Anathema
 
     class SnapshotManagerPresenter : Presenter<ISnapshotManagerView, ISnapshotManagerModel>
     {
+        new ISnapshotManagerView View;
+        new ISnapshotManagerModel Model;
+
         public SnapshotManagerPresenter(ISnapshotManagerView View, ISnapshotManagerModel Model) : base(View, Model)
         {
+            this.View = View;
+            this.Model = Model;
+
             // Bind events triggered by the model
             Model.UpdateSnapshotDisplay += UpdateSnapshotDisplay;
         }
@@ -55,7 +61,7 @@ namespace Anathema
 
             for (Int32 Index = 0; Index < E.SnapshotList.Count; Index++)
                 TreeNodes.Add(new TreeNode(E.SnapshotList[Index].GetTimeStamp().ToLongTimeString()));
-
+            
             View.UpdateSnapshotDisplay(TreeNodes.ToArray());
         }
 

@@ -51,11 +51,6 @@ namespace Anathema
 
         }
 
-        public void SaveSnapshot(List<RemoteRegion> MemoryRegions)
-        {
-            SaveSnapshot(new Snapshot(MemoryRegions));
-        }
-
         public void SaveSnapshot(Snapshot Snapshot)
         {
             Snapshot.SetTimeStampToNow();
@@ -70,6 +65,14 @@ namespace Anathema
             UpdateSnapshotDisplay.Invoke(this, SnapshotManagerEventArgs);
         }
 
+        public Boolean HasActiveSnapshot()
+        {
+            if (ActiveSnapshot == null)
+                return false;
+
+            return true;
+        }
+
         /// <summary>
         /// Returns the memory regions associated with the current snapshot. If none exist, a query will be done.
         /// </summary>
@@ -78,8 +81,8 @@ namespace Anathema
         public Snapshot GetActiveSnapshot()
         {
             // Take a snapshot if there are none
-            if (ActiveSnapshot == null)
-                SnapshotAllMemory();
+            if (!HasActiveSnapshot())
+                return SnapshotAllMemory();
 
             // Return the snapshot
             return ActiveSnapshot;
@@ -88,10 +91,10 @@ namespace Anathema
         /// <summary>
         /// Take a snapshot of all memory regions in the target process
         /// </summary>
-        public void SnapshotAllMemory()
+        public Snapshot SnapshotAllMemory()
         {
             if (MemoryEditor == null)
-                return;
+                return new Snapshot();
 
             // Query all virtual pages
             List<RemoteVirtualPage> VirtualPages = new List<RemoteVirtualPage>();
@@ -103,7 +106,7 @@ namespace Anathema
             for (int PageIndex = 0; PageIndex < VirtualPages.Count; PageIndex++)
                 MemoryRegions.Add(new RemoteRegion(MemoryEditor, VirtualPages[PageIndex].Information.BaseAddress, VirtualPages[PageIndex].Information.RegionSize));
 
-            SaveSnapshot(MemoryRegions);
+            return new Snapshot(MemoryRegions);
         }
     }
 }

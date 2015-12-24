@@ -9,14 +9,14 @@ namespace Anathema
     class Conversions
     {
 
-        public static string ToAddress(string Value)
+        public static String ToAddress(String Value)
         {
             if (CheckSyntax.Int32Value(Value))
                 return String.Format("{0:X8}", Convert.ToUInt32(Value));
             else if (CheckSyntax.Int64Value(Value))
                 return String.Format("{0:X16}", Convert.ToUInt64(Value));
             else
-                return "??";
+                return "!!";
         }
 
         public static String ByteCountToMetricSize(UInt64 byteCount)

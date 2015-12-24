@@ -15,16 +15,22 @@ namespace Anathema
         public GUISnapshotManager()
         {
             InitializeComponent();
+        }
 
+        private void GUISnapshotManager_Load(object sender, EventArgs e)
+        {
             // Initialize presenter
             SnapshotManagerPresenter SnapshotManagerPresenter = new SnapshotManagerPresenter(this, SnapshotManager.GetSnapshotManagerInstance());
         }
 
         public void UpdateSnapshotDisplay(TreeNode[] Snapshots)
         {
-            SnapshotTreeView.Nodes.Clear();
-
-            SnapshotTreeView.Nodes.AddRange(Snapshots);
+            ControlThreadingHelper.InvokeControlAction(SnapshotTreeView, () =>
+            {
+                SnapshotTreeView.Nodes.Clear();
+                SnapshotTreeView.Nodes.AddRange(Snapshots);
+            });
         }
+
     }
 }

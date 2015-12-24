@@ -32,8 +32,14 @@ namespace Anathema
 
     class ResultsPresenter : Presenter<IResultsView, IResultsModel>
     {
+        new IResultsView View;
+        new IResultsModel Model;
+
         public ResultsPresenter(IResultsView View, IResultsModel Model) : base(View, Model)
         {
+            this.View = View;
+            this.Model = Model;
+
             // Bind events triggered by the model
             Model.EventUpdateDisplay += EventUpdateDisplay;
         }
@@ -49,12 +55,12 @@ namespace Anathema
 
         #region Event definitions for events triggered by the model (upstream)
 
-        private void EventUpdateDisplay(Object sender, ResultsEventArgs e)
+        private void EventUpdateDisplay(Object Sender, ResultsEventArgs E)
         {
-            if (e.Addresses.Count != e.Values.Count)
+            if (E.Addresses.Count != E.Values.Count)
                 return;
 
-            View.DisplayResults(e.Addresses, e.Values);
+            View.DisplayResults(E.Addresses, E.Values);
         }
 
         #endregion
