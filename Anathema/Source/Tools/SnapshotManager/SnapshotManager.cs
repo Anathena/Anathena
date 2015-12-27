@@ -108,5 +108,6 @@ namespace Anathema
 
             return new Snapshot(MemoryRegions);
         }
+        
     }
 }
