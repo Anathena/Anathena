@@ -81,6 +81,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Source\Tools\Filter\Hashing.cs" />
     <Compile Include="GUI\HexEditor\BitControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -177,6 +178,12 @@
     </Compile>
     <Compile Include="GUI\HexEditor\Util.cs" />
     <Compile Include="GUI\HexEditor\W32.cs" />
+    <Compile Include="GUI\Tools\Filter\GUIFilterChunks.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI\Tools\Filter\GUIFilterChunks.Designer.cs">
+      <DependentUpon>GUIFilterChunks.cs</DependentUpon>
+    </Compile>
     <Compile Include="Source\Main\Main.cs" />
     <Compile Include="Source\OS\Windows\Assembly\Assembler\Fasm32Assembler.cs" />
     <Compile Include="Source\OS\Windows\Assembly\Assembler\IAssembler.cs" />
@@ -238,6 +245,8 @@
     <Compile Include="Source\OS\Windows\Windows\RemoteWindow.cs" />
     <Compile Include="Source\OS\Windows\Windows\WindowCore.cs" />
     <Compile Include="Source\OS\Windows\Windows\WindowFactory.cs" />
+    <Compile Include="Source\Tools\Filter\FilterChunks\FilterChunkScan.cs" />
+    <Compile Include="Source\Tools\Filter\FilterChunks\IFilterChunkScanMVP.cs" />
     <Compile Include="Source\Tools\Filter\FilterTrees\IFilterTreeScanMVP.cs" />
     <Compile Include="Source\Tools\ProcessSelector\IProcessObserver.cs" />
     <Compile Include="Source\Tools\ProcessSelector\IProcessSelectorMVP.cs" />
@@ -541,6 +550,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\HexEditor\UCAbout.zh-Hans.resx">
       <DependentUpon>UCAbout.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\Tools\Filter\GUIFilterChunks.resx">
+      <DependentUpon>GUIFilterChunks.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\Tools\GUIFiniteStateBuilder.resx">
       <DependentUpon>GUIFiniteStateBuilder.cs</DependentUpon>

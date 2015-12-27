@@ -8,23 +8,12 @@ using Binarysharp.MemoryManagement.Memory;
 
 namespace Anathema
 {
-    /// <summary>
-    /// Consantly queries the OS for all of the memory of the target program to determine if any of it has changed via chunk hashing.
-    /// This information can then be used to drastically reduce the search space of a target process (95% is a reasonable amount)
-    /// 
-    /// REPEAT:
-    /// 1) Perform a check sum on each memory page. A total of 2 will be kept for each page (for comparison purposes)
-    /// 2) Once 2 have been collected, we can compare to determine if the pages have changed and store this in the history.
-    /// 3) If a page has changed, we can then split that page into two if it is larger than the given threshold (mark halves as unknown)
-    /// 4) End on user request. Keep all leaves marked as changed, or all leaves marked as unknown. Discard unchanged blocks.
-    ///
-    /// </summary>
-    class FilterTreeScan : IFilterTreeScanModel
+    class FilterChunkScan : IFilterChunkScanModel
     {
         private MemorySharp MemoryEditor;
 
         private List<RemoteRegion> MemoryRegions;
-        private List<MemoryChangeTree> FilterTrees;         // List of memory pages that we may be interested in
+        private List<MemoryChunkRoots> ChunkRoots;          // List of memory pages that we may be interested in
         private CancellationTokenSource CancelRequest;      // Tells the scan task to cancel (ie finish)
         private Task ChangeScanner;                         // Event that constantly checks the target process for changes
 
@@ -32,14 +21,14 @@ namespace Anathema
         private const Int32 AbortTime = 3000;       // Time to wait (in ms) before giving up when ending scan
         private Int32 WaitTime = 200;               // Time to wait (in ms) for a cancel request between each scan
         private static Int32 PageSplitThreshold;    // User specified minimum page size for dynamic pages
+        private Int32 ChunkSize = 256;
 
         // Event stubs
         public event EventHandler EventFilterFinished;
-        public event FilterTreeScanEventHandler EventUpdateMemorySize;
+        public event FilterChunkScanEventHandler EventUpdateMemorySize;
 
-        public FilterTreeScan()
+        public FilterChunkScan()
         {
-            FilterTreeScan.PageSplitThreshold = 64;
             InitializeObserver();
         }
 
@@ -51,6 +40,11 @@ namespace Anathema
         public void UpdateMemoryEditor(MemorySharp MemoryEditor)
         {
             this.MemoryEditor = MemoryEditor;
+        }
+
+        public void SetChunkSize(Int32 ChunkSize)
+        {
+            this.ChunkSize = ChunkSize;
         }
 
         public UInt64 GetFinalSize(List<RemoteRegion> FilteredMemoryRegions)
@@ -67,11 +61,11 @@ namespace Anathema
         public void BeginFilter()
         {
             this.MemoryRegions = SnapshotManager.GetSnapshotManagerInstance().GetActiveSnapshot().GetMemoryRegions();
-            this.FilterTrees = new List<MemoryChangeTree>();
+            this.ChunkRoots = new List<MemoryChunkRoots>();
 
             // Initialize filter tree roots
             for (int PageIndex = 0; PageIndex < MemoryRegions.Count; PageIndex++)
-                FilterTrees.Add(new MemoryChangeTree(MemoryRegions[PageIndex].BaseAddress, MemoryRegions[PageIndex].RegionSize));
+                ChunkRoots.Add(new MemoryChunkRoots(MemoryRegions[PageIndex].BaseAddress, MemoryRegions[PageIndex].RegionSize));
 
             CancelRequest = new CancellationTokenSource();
             ChangeScanner = Task.Run(async () =>
@@ -91,7 +85,7 @@ namespace Anathema
         {
             //foreach (MemoryChangeTree Tree in FilterTrees)
             // Parallel.For(0, FilterTrees.Count, PageIndex => // Upwards of a x2 increase in speed
-            Parallel.ForEach(FilterTrees, (Tree) =>
+            Parallel.ForEach(ChunkRoots, (Tree) =>
             {
                 if (Tree.IsDead())
                     return; // Works as 'continue' in a parallel foreach
@@ -120,16 +114,16 @@ namespace Anathema
             catch (AggregateException) { }
 
             // Collect the pages that have changed
-            List<MemoryChangeTree> ChangedRegions = new List<MemoryChangeTree>();
-            for (Int32 Index = 0; Index < FilterTrees.Count; Index++)
-                FilterTrees[Index].GetChangedRegions(ChangedRegions);
-            FilterTrees = null;
+            List<MemoryChunkRoots> ChangedRegions = new List<MemoryChunkRoots>();
+            for (Int32 Index = 0; Index < ChunkRoots.Count; Index++)
+                ChunkRoots[Index].GetChangedRegions(ChangedRegions);
+            ChunkRoots = null;
 
             // Convert trees to a list of memory regions
             List<RemoteRegion> FilteredRegions = ChangedRegions.ConvertAll(Page => (RemoteRegion)Page);
 
             // Send the size of the filtered memory to the GUI
-            FilterTreesEventArgs Args = new FilterTreesEventArgs();
+            FilterChunksEventArgs Args = new FilterChunksEventArgs();
             Args.FilterResultSize = GetFinalSize(FilteredRegions);
             EventUpdateMemorySize.Invoke(this, Args);
 
@@ -143,7 +137,7 @@ namespace Anathema
             return FilteredSnapshot;
         }
 
-        public class MemoryChangeTree : RemoteRegion
+        public class MemoryChunkRoots : RemoteRegion
         {
             private enum StateEnum
             {
@@ -152,12 +146,12 @@ namespace Anathema
                 Deallocated
             }
 
-            private MemoryChangeTree ChildRight;
-            private MemoryChangeTree ChildLeft;
+            private MemoryChunkRoots ChildRight;
+            private MemoryChunkRoots ChildLeft;
             private UInt64? Checksum;
             private StateEnum State;
 
-            public MemoryChangeTree(IntPtr BaseAddress, Int32 RegionSize) : base(null, BaseAddress, RegionSize)
+            public MemoryChunkRoots(IntPtr BaseAddress, Int32 RegionSize) : base(null, BaseAddress, RegionSize)
             {
                 // Initialize state variables
                 State = StateEnum.Unchanged;
@@ -182,7 +176,7 @@ namespace Anathema
                 State = StateEnum.Deallocated;
             }
 
-            public void GetChangedRegions(List<MemoryChangeTree> AcceptedPages)
+            public void GetChangedRegions(List<MemoryChunkRoots> AcceptedPages)
             {
                 // Add this page to the accepted list if we are a leaf on the tree structure with changes (or we are unsure)
                 if (ChildLeft == null && ChildRight == null)
@@ -203,7 +197,7 @@ namespace Anathema
             public Boolean ProcessChanges(Byte[] Data, IntPtr RootBaseAddress)
             {
                 // No need to process a page that has already changed
-                if (RegionSize <= FilterTreeScan.PageSplitThreshold && State == StateEnum.HasChanged)
+                if (RegionSize <= FilterChunkScan.PageSplitThreshold && State == StateEnum.HasChanged)
                     return HasChanged();
 
                 if (State == StateEnum.Deallocated)
@@ -227,10 +221,10 @@ namespace Anathema
                     Checksum = NewChecksum;
 
                     // This page needs to be split if a change was detected and the size is above the threshold
-                    if (State == StateEnum.HasChanged && RegionSize > FilterTreeScan.PageSplitThreshold)
+                    if (State == StateEnum.HasChanged && RegionSize > FilterChunkScan.PageSplitThreshold)
                     {
-                        ChildLeft = new MemoryChangeTree(BaseAddress, RegionSize / 2);
-                        ChildRight = new MemoryChangeTree(BaseAddress + RegionSize / 2, RegionSize - RegionSize / 2);
+                        ChildLeft = new MemoryChunkRoots(BaseAddress, RegionSize / 2);
+                        ChildRight = new MemoryChunkRoots(BaseAddress + RegionSize / 2, RegionSize - RegionSize / 2);
                     }
                 }
 

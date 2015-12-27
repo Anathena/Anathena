@@ -104,3 +104,4 @@ F:\Users\Zachary\Documents\Visual Studio 2015\Projects\Anathema\Anathema\obj\Deb
 F:\Users\Zachary\Documents\Visual Studio 2015\Projects\Anathema\Anathema\obj\Debug\ja\Anathema.resources.dll
 F:\Users\Zachary\Documents\Visual Studio 2015\Projects\Anathema\Anathema\obj\Debug\ru\Anathema.resources.dll
 F:\Users\Zachary\Documents\Visual Studio 2015\Projects\Anathema\Anathema\obj\Debug\zh-Hans\Anathema.resources.dll
+F:\Users\Zachary\Documents\Visual Studio 2015\Projects\Anathema\Anathema\obj\Debug\Anathema.GUIFilterChunks.resources

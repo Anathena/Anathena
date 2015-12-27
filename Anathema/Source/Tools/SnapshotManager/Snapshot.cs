@@ -91,6 +91,8 @@ namespace Anathema
             if (MemoryRegions.Count == 0)
                 return;
 
+            return;
+
             // First, sort by start address
             MemoryRegions.OrderBy(x => x.BaseAddress);
 

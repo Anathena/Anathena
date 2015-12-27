@@ -1,6 +1,6 @@
 ﻿namespace Anathema
 {
-    partial class GUIFilterTree
+    partial class GUIFilterChunks
     {
         /// <summary>
         /// Required designer variable.
@@ -28,12 +28,16 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(GUIFilterTree));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(GUIFilterChunks));
             this.MemorySizeValueLabel = new System.Windows.Forms.Label();
             this.HashSizeLabel = new System.Windows.Forms.Label();
+            this.ChunkSizeValueLabel = new System.Windows.Forms.Label();
+            this.ChunkSizeLabel = new System.Windows.Forms.Label();
+            this.ChunkSizeTrackBar = new System.Windows.Forms.TrackBar();
             this.StopScanButton = new System.Windows.Forms.ToolStripButton();
             this.StartScanButton = new System.Windows.Forms.ToolStripButton();
             this.ScanToolStrip = new System.Windows.Forms.ToolStrip();
+            ((System.ComponentModel.ISupportInitialize)(this.ChunkSizeTrackBar)).BeginInit();
             this.ScanToolStrip.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -57,6 +61,34 @@
             this.HashSizeLabel.Size = new System.Drawing.Size(266, 15);
             this.HashSizeLabel.TabIndex = 151;
             this.HashSizeLabel.Text = "Memory Size:";
+            // 
+            // ChunkSizeValueLabel
+            // 
+            this.ChunkSizeValueLabel.AutoSize = true;
+            this.ChunkSizeValueLabel.Location = new System.Drawing.Point(72, 75);
+            this.ChunkSizeValueLabel.Name = "ChunkSizeValueLabel";
+            this.ChunkSizeValueLabel.Size = new System.Drawing.Size(20, 13);
+            this.ChunkSizeValueLabel.TabIndex = 147;
+            this.ChunkSizeValueLabel.Text = "0B";
+            // 
+            // ChunkSizeLabel
+            // 
+            this.ChunkSizeLabel.AutoSize = true;
+            this.ChunkSizeLabel.Location = new System.Drawing.Point(2, 75);
+            this.ChunkSizeLabel.Name = "ChunkSizeLabel";
+            this.ChunkSizeLabel.Size = new System.Drawing.Size(64, 13);
+            this.ChunkSizeLabel.TabIndex = 146;
+            this.ChunkSizeLabel.Text = "Chunk Size:";
+            // 
+            // ChunkSizeTrackBar
+            // 
+            this.ChunkSizeTrackBar.Location = new System.Drawing.Point(0, 43);
+            this.ChunkSizeTrackBar.Minimum = 4;
+            this.ChunkSizeTrackBar.Name = "ChunkSizeTrackBar";
+            this.ChunkSizeTrackBar.Size = new System.Drawing.Size(104, 45);
+            this.ChunkSizeTrackBar.TabIndex = 148;
+            this.ChunkSizeTrackBar.Value = 4;
+            this.ChunkSizeTrackBar.Scroll += new System.EventHandler(this.ChunkSizeTrackBar_Scroll);
             // 
             // StopScanButton
             // 
@@ -92,18 +124,22 @@
             this.ScanToolStrip.TabIndex = 149;
             this.ScanToolStrip.Text = "toolStrip1";
             // 
-            // GUIFilterTree
+            // GUIFilterChunks
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(266, 173);
+            this.Controls.Add(this.ChunkSizeValueLabel);
+            this.Controls.Add(this.ChunkSizeLabel);
+            this.Controls.Add(this.ChunkSizeTrackBar);
             this.Controls.Add(this.MemorySizeValueLabel);
             this.Controls.Add(this.HashSizeLabel);
             this.Controls.Add(this.ScanToolStrip);
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Name = "GUIFilterTree";
-            this.Text = "Tree Scanner";
-            this.Resize += new System.EventHandler(this.GUIFilterTree_Resize);
+            this.Name = "GUIFilterChunks";
+            this.Text = "Chunk Scanner";
+            this.Resize += new System.EventHandler(this.GUIFilterChunks_Resize);
+            ((System.ComponentModel.ISupportInitialize)(this.ChunkSizeTrackBar)).EndInit();
             this.ScanToolStrip.ResumeLayout(false);
             this.ScanToolStrip.PerformLayout();
             this.ResumeLayout(false);
@@ -114,6 +150,9 @@
         #endregion
         private System.Windows.Forms.Label MemorySizeValueLabel;
         private System.Windows.Forms.Label HashSizeLabel;
+        private System.Windows.Forms.Label ChunkSizeValueLabel;
+        private System.Windows.Forms.Label ChunkSizeLabel;
+        private System.Windows.Forms.TrackBar ChunkSizeTrackBar;
         private System.Windows.Forms.ToolStripButton StopScanButton;
         private System.Windows.Forms.ToolStripButton StartScanButton;
         private System.Windows.Forms.ToolStrip ScanToolStrip;

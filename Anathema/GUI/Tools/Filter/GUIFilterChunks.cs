@@ -12,15 +12,15 @@ using Binarysharp.MemoryManagement.Memory;
 
 namespace Anathema
 {
-    public partial class GUIFilterTree : DockContent, IFilterTreeScanView
+    public partial class GUIFilterChunks : DockContent, IFilterChunkScanView
     {
-        private FilterTreeScanPresenter FilterTreeScanPresenter;
+        private FilterChunkScanPresenter FilterChunkScanPresenter;
 
-        public GUIFilterTree()
+        public GUIFilterChunks()
         {
             InitializeComponent();
-
-            FilterTreeScanPresenter = new FilterTreeScanPresenter(this, new FilterTreeScan());
+            FilterChunkScanPresenter = new FilterChunkScanPresenter(this, new FilterChunkScan());
+            
             EnableGUI();
         }
 
@@ -37,9 +37,15 @@ namespace Anathema
             });
         }
 
-        private void UpdateTreeSplits(Int32 Splits)
+        private void SetChunkSize(Int32 Value)
         {
-            // TreeSplitsValueLabel.Text = Splits.ToString();
+            MemorySizeValueLabel.Text = Conversions.ByteCountToMetricSize((UInt64)Value).ToString();
+            FilterChunkScanPresenter.SetChunkSize(Value);
+        }
+
+        private void HandleResize()
+        { 
+            ChunkSizeTrackBar.Width = (this.Width - ChunkSizeTrackBar.Location.X) / 2;
         }
 
         private void DisableGUI()
@@ -56,25 +62,29 @@ namespace Anathema
 
         #region Events
 
-        private void StartScanButton_Click(object sender, EventArgs e)
+        private void StartScanButton_Click(Object Sender, EventArgs E)
         {
-            FilterTreeScanPresenter.BeginFilter();
+            FilterChunkScanPresenter.BeginFilter();
             DisableGUI();
         }
 
-        private void StopScanButton_Click(object sender, EventArgs e)
+        private void StopScanButton_Click(Object Sender, EventArgs E)
         {
-            Snapshot Result = FilterTreeScanPresenter.EndFilter();
+            Snapshot Result = FilterChunkScanPresenter.EndFilter();
             SnapshotManager.GetSnapshotManagerInstance().SaveSnapshot(Result);
             EnableGUI();
         }
 
-        private void GUIFilterTree_Resize(object sender, EventArgs e)
+        private void GUIFilterChunks_Resize(object sender, EventArgs e)
         {
-
+            HandleResize();
+        }
+        
+        private void ChunkSizeTrackBar_Scroll(Object Sender, EventArgs E)
+        {
+            SetChunkSize((Int32)Math.Pow(2, ChunkSizeTrackBar.Value));
         }
 
         #endregion
-
     }
 }

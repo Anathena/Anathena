@@ -22,12 +22,13 @@ namespace Anathema
         private GUIFilterFSM GUIFilterFSM;
         private GUIFilterManual GUIFilterManual;
         private GUIFilterTree GUIFilterTree;
+        private GUIFilterChunks GUIFilterChunks;
         private GUILabelerChangeCounter GUILabelerChangeCounter;
         private GUILabelerInputCorrelator GUILabelerInputCorrelator;
         private GUISnapshotManager GUISnapshotManager;
         private GUIResults GUIResults;
         private GUITable GUITable;
-        
+
         public GUIMain()
         {
             InitializeComponent();
@@ -57,7 +58,7 @@ namespace Anathema
         {
             CreateInputCorrelator();
             CreateDebugger();
-            CreateTreeScanner();
+            CreateChunkScanner();
             CreateSnapshotManager();
             CreateResults();
             CreateTable();
@@ -91,6 +92,12 @@ namespace Anathema
             GUIFilterTree.Show(ContentPanel, DockState.DockLeft);
         }
 
+        private void CreateChunkScanner()
+        {
+          if (GUIFilterChunks == null || GUIFilterChunks.IsDisposed)
+                GUIFilterChunks = new GUIFilterChunks();
+            GUIFilterChunks.Show(ContentPanel, DockState.DockLeft);
+        }
         private void CreateInputCorrelator()
         {
             if (GUILabelerInputCorrelator == null || GUILabelerInputCorrelator.IsDisposed)
@@ -130,7 +137,7 @@ namespace Anathema
         {
             if (GUIProcessSelector == null || GUIProcessSelector.IsDisposed)
                 GUIProcessSelector = new GUIProcessSelector();
-            
+
             GUIProcessSelector.Show(ContentPanel);
         }
 
@@ -157,7 +164,12 @@ namespace Anathema
         {
             CreateTreeScanner();
         }
-        
+
+        private void ChunkScannerToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            CreateChunkScanner();
+        }
+
         private void InputCorrelatorToolStripMenuItem_Click(object sender, EventArgs e)
         {
             CreateInputCorrelator();
@@ -187,12 +199,13 @@ namespace Anathema
         {
             CreateProcessSelector();
         }
-        
+
         private void ProcessSelectorButton_Click(object sender, EventArgs e)
         {
             CreateProcessSelector();
         }
 
         #endregion
+
     }
 }

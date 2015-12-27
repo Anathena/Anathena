@@ -8,32 +8,33 @@ using System.Threading.Tasks;
 
 namespace Anathema
 {
-    delegate void FilterTreeScanEventHandler(Object Sender, FilterTreesEventArgs Args);
-    class FilterTreesEventArgs : EventArgs
+    delegate void FilterChunkScanEventHandler(Object Sender, FilterChunksEventArgs Args);
+    class FilterChunksEventArgs : EventArgs
     {
         public UInt64? FilterResultSize = null;
     }
 
-    interface IFilterTreeScanView : IFilterView
+    interface IFilterChunkScanView : IFilterView
     {
         // Methods invoked by the presenter (upstream)
         void DisplayResultSize(UInt64 FilterResultSize);
     }
 
-    interface IFilterTreeScanModel : IFilterModel
+    interface IFilterChunkScanModel : IFilterModel
     {
         // Events triggered by the model (upstream)
-        event FilterTreeScanEventHandler EventUpdateMemorySize;
+        event FilterChunkScanEventHandler EventUpdateMemorySize;
 
         // Functions invoked by presenter (downstream)
+        void SetChunkSize(Int32 ChunkSize);
     }
 
-    class FilterTreeScanPresenter : FilterPresenter
+    class FilterChunkScanPresenter : FilterPresenter
     {
-        new IFilterTreeScanView View;
-        new IFilterTreeScanModel Model;
+        new IFilterChunkScanView View;
+        new IFilterChunkScanModel Model;
 
-        public FilterTreeScanPresenter(IFilterTreeScanView View, IFilterTreeScanModel Model) : base(View, Model)
+        public FilterChunkScanPresenter(IFilterChunkScanView View, IFilterChunkScanModel Model) : base(View, Model)
         {
             this.View = View;
             this.Model = Model;
@@ -43,11 +44,19 @@ namespace Anathema
 
         #region Method definitions called by the view (downstream)
 
+        public void SetChunkSize(Int32 ChunkSize)
+        {
+            if (ChunkSize <= 0)
+                return;
+
+            Model.SetChunkSize(ChunkSize);
+        }
+
         #endregion
 
         #region Event definitions for events triggered by the model (upstream)
 
-        private void EventUpdateMemorySize(Object sender, FilterTreesEventArgs e)
+        private void EventUpdateMemorySize(Object sender, FilterChunksEventArgs e)
         {
             if (e.FilterResultSize.HasValue)
                 View.DisplayResultSize(e.FilterResultSize.Value);

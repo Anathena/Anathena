@@ -43,6 +43,7 @@
             this.StateScannerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ManualScannerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.TreeScannerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.ChunkScannerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.LabelerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.InputCorrelatorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ChangeCounterToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -51,8 +52,8 @@
             this.ContentPanel = new WeifenLuo.WinFormsUI.Docking.DockPanel();
             this.GUIToolStrip = new System.Windows.Forms.ToolStrip();
             this.ProcessSelectorButton = new System.Windows.Forms.ToolStripButton();
-            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.ProcessTitleLabel = new System.Windows.Forms.ToolStripLabel();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.GUIMenuStrip.SuspendLayout();
             this.GUIToolStrip.SuspendLayout();
             this.SuspendLayout();
@@ -84,19 +85,19 @@
             // openToolStripMenuItem
             // 
             this.openToolStripMenuItem.Name = "openToolStripMenuItem";
-            this.openToolStripMenuItem.Size = new System.Drawing.Size(103, 22);
+            this.openToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.openToolStripMenuItem.Text = "Open";
             // 
             // dieToolStripMenuItem
             // 
             this.dieToolStripMenuItem.Name = "dieToolStripMenuItem";
-            this.dieToolStripMenuItem.Size = new System.Drawing.Size(103, 22);
+            this.dieToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.dieToolStripMenuItem.Text = "Save";
             // 
             // ExitToolStripMenuItem
             // 
             this.ExitToolStripMenuItem.Name = "ExitToolStripMenuItem";
-            this.ExitToolStripMenuItem.Size = new System.Drawing.Size(103, 22);
+            this.ExitToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.ExitToolStripMenuItem.Text = "Exit";
             // 
             // EditToolStripMenuItem
@@ -145,7 +146,8 @@
             this.FilterToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.StateScannerToolStripMenuItem,
             this.ManualScannerToolStripMenuItem,
-            this.TreeScannerToolStripMenuItem});
+            this.TreeScannerToolStripMenuItem,
+            this.ChunkScannerToolStripMenuItem});
             this.FilterToolStripMenuItem.Name = "FilterToolStripMenuItem";
             this.FilterToolStripMenuItem.Size = new System.Drawing.Size(159, 22);
             this.FilterToolStripMenuItem.Text = "Filter";
@@ -170,6 +172,13 @@
             this.TreeScannerToolStripMenuItem.Size = new System.Drawing.Size(159, 22);
             this.TreeScannerToolStripMenuItem.Text = "Tree Scanner";
             this.TreeScannerToolStripMenuItem.Click += new System.EventHandler(this.TreeScannerToolStripMenuItem_Click);
+            // 
+            // ChunkScannerToolStripMenuItem
+            // 
+            this.ChunkScannerToolStripMenuItem.Name = "ChunkScannerToolStripMenuItem";
+            this.ChunkScannerToolStripMenuItem.Size = new System.Drawing.Size(159, 22);
+            this.ChunkScannerToolStripMenuItem.Text = "Chunk Scanner";
+            this.ChunkScannerToolStripMenuItem.Click += new System.EventHandler(this.ChunkScannerToolStripMenuItem_Click);
             // 
             // LabelerToolStripMenuItem
             // 
@@ -241,16 +250,16 @@
             this.ProcessSelectorButton.Text = "SelectProcessButton";
             this.ProcessSelectorButton.Click += new System.EventHandler(this.ProcessSelectorButton_Click);
             // 
+            // ProcessTitleLabel
+            // 
+            this.ProcessTitleLabel.Name = "ProcessTitleLabel";
+            this.ProcessTitleLabel.Size = new System.Drawing.Size(113, 22);
+            this.ProcessTitleLabel.Text = "No Process Selected";
+            // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
             this.toolStripSeparator1.Size = new System.Drawing.Size(6, 25);
-            // 
-            // TargetProcessLabel
-            // 
-            this.ProcessTitleLabel.Name = "TargetProcessLabel";
-            this.ProcessTitleLabel.Size = new System.Drawing.Size(113, 22);
-            this.ProcessTitleLabel.Text = "No Process Selected";
             // 
             // GUIMain
             // 
@@ -298,6 +307,7 @@
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.ToolStripMenuItem ProcessSelectorToolStripMenuItem;
         private System.Windows.Forms.ToolStripLabel ProcessTitleLabel;
+        private System.Windows.Forms.ToolStripMenuItem ChunkScannerToolStripMenuItem;
     }
 }
 
