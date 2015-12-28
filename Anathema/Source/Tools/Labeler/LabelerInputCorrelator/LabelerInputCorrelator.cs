@@ -396,7 +396,7 @@ namespace Anathema
             throw new NotImplementedException();
         }
 
-        Snapshot ILabelerModel.EndLabeler()
+        Snapshot<Object> ILabelerModel.EndLabeler()
         {
             throw new NotImplementedException();
         }

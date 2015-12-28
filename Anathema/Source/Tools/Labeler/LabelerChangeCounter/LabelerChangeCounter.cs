@@ -10,9 +10,7 @@ namespace Anathema
 {
     class LabelerChangeCounter : ILabelerChangeCounterModel
     {
-        private MemorySharp MemoryEditor;
-
-        private Snapshot InitialSnapshot;
+        private Snapshot<UInt16> CurrentSnapshot;
         private CancellationTokenSource CancelRequest;      // Tells the scan task to cancel (ie finish)
         private Task ChangeScanner;                         // Event that constantly checks the target process for changes
 
@@ -29,17 +27,7 @@ namespace Anathema
 
         public LabelerChangeCounter()
         {
-            InitializeObserver();
-        }
 
-        public void InitializeObserver()
-        {
-            ProcessSelector.GetInstance().Subscribe(this);
-        }
-
-        public void UpdateMemoryEditor(MemorySharp MemoryEditor)
-        {
-            this.MemoryEditor = MemoryEditor;
         }
 
         public void SetMinChanges(Int32 MinChanges)
@@ -59,7 +47,11 @@ namespace Anathema
 
         public void BeginFilter()
         {
-            InitialSnapshot = SnapshotManager.GetSnapshotManagerInstance().GetActiveSnapshot();
+            // Grab the current snapshot and assign counts of 0 to all addresses
+            Snapshot InitialSnapshot = SnapshotManager.GetSnapshotManagerInstance().GetActiveSnapshot();
+            List<UInt16> Counts = new List<UInt16>(new UInt16[InitialSnapshot.GetSize()]);
+            CurrentSnapshot = new Snapshot<UInt16>(InitialSnapshot.GetMemoryRegions());
+            CurrentSnapshot.AssignLabels(Counts);
 
             CancelRequest = new CancellationTokenSource();
             ChangeScanner = Task.Run(async () =>
@@ -77,10 +69,18 @@ namespace Anathema
 
         private void ApplyFilter()
         {
+            List<Int32> IndexMapping = CurrentSnapshot.GetLabelMapping();
+            List<UInt16> Labels = CurrentSnapshot.GetMemoryLabels();
 
+            if (!CurrentSnapshot.HasLabels())
+                throw new Exception("Count labels missing");
+
+
+
+            //CurrentSnapshot.AssignLabels(PageData);
         }
 
-        public Snapshot EndFilter()
+        public Snapshot<Object> EndFilter()
         {
             // Wait for the filter to finish
             CancelRequest.Cancel();
@@ -95,7 +95,7 @@ namespace Anathema
             throw new NotImplementedException();
         }
 
-        public Snapshot EndLabeler()
+        public Snapshot<Object> EndLabeler()
         {
             throw new NotImplementedException();
         }

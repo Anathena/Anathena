@@ -47,10 +47,10 @@ namespace Anathema
 
         #region Event definitions for events triggered by the model (upstream)
 
-        private void EventUpdateMemorySize(Object sender, FilterTreesEventArgs e)
+        private void EventUpdateMemorySize(Object Sender, FilterTreesEventArgs E)
         {
-            if (e.FilterResultSize.HasValue)
-                View.DisplayResultSize(e.FilterResultSize.Value);
+            if (E.FilterResultSize.HasValue)
+                View.DisplayResultSize(E.FilterResultSize.Value);
         }
 
         #endregion

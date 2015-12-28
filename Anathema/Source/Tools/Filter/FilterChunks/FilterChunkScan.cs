@@ -12,7 +12,7 @@ namespace Anathema
     {
         private MemorySharp MemoryEditor;
 
-        private List<RemoteRegion> MemoryRegions;
+        private Snapshot InitialSnapshot;
         private List<MemoryChunkRoots> ChunkRoots;          // List of memory pages that we may be interested in
         private CancellationTokenSource CancelRequest;      // Tells the scan task to cancel (ie finish)
         private Task ChangeScanner;                         // Event that constantly checks the target process for changes
@@ -54,12 +54,13 @@ namespace Anathema
 
         public void BeginFilter()
         {
-            this.MemoryRegions = SnapshotManager.GetSnapshotManagerInstance().GetActiveSnapshot().GetMemoryRegions();
+            InitialSnapshot = SnapshotManager.GetSnapshotManagerInstance().GetActiveSnapshot();
             this.ChunkRoots = new List<MemoryChunkRoots>();
 
             // Initialize filter tree roots
+            List<RemoteRegion> MemoryRegions = InitialSnapshot.GetMemoryRegions();
             for (int PageIndex = 0; PageIndex < MemoryRegions.Count; PageIndex++)
-                ChunkRoots.Add(new MemoryChunkRoots(MemoryRegions[PageIndex].BaseAddress, MemoryRegions[PageIndex].RegionSize, ChunkSize));
+                ChunkRoots.Add(new MemoryChunkRoots(MemoryRegions[PageIndex], ChunkSize));
 
             CancelRequest = new CancellationTokenSource();
             ChangeScanner = Task.Run(async () =>
@@ -121,7 +122,7 @@ namespace Anathema
 
             // Grow regions by the size of the largest standard variable and mask this with the original memory list.
             FilteredSnapshot.GrowRegions(sizeof(UInt64));
-            FilteredSnapshot.MaskRegions(MemoryRegions);
+            FilteredSnapshot.MaskRegions(InitialSnapshot.GetMemoryRegions());
 
             // Send the size of the filtered memory to the GUI
             FilterChunksEventArgs Args = new FilterChunksEventArgs();
@@ -138,7 +139,7 @@ namespace Anathema
             private UInt16[] ChangeCounts;
             private UInt32?[] Checksums;
 
-            public MemoryChunkRoots(IntPtr BaseAddress, Int32 RegionSize, Int32 ChunkSize) : base(null, BaseAddress, RegionSize)
+            public MemoryChunkRoots(RemoteRegion Region, Int32 ChunkSize) : base(null, Region.BaseAddress, Region.RegionSize)
             {
                 // Initialize state variables
                 Dead = false;

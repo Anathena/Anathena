@@ -15,8 +15,8 @@ namespace Anathema
 
         private MemorySharp MemoryEditor;
 
-        private List<Snapshot> SnapshotList;   // Snapshots being managed
-        private Snapshot ActiveSnapshot;    // Reference to the active snapshot being used by Anathema
+        private List<Snapshot> SnapshotList;    // Snapshots being managed
+        private Snapshot ActiveSnapshot;        // Reference to the active snapshot being used by Anathema
         
         public event SnapshotManagerEventHandler UpdateSnapshotDisplay;
 

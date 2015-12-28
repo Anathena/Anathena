@@ -14,14 +14,14 @@ namespace Anathema
         void EventLabelerFinished(List<RemoteRegion> MemoryRegions);
     }
 
-    interface ILabelerModel : IModel, IProcessObserver
+    interface ILabelerModel : IModel
     {
         // Events triggered by the model (upstream)
         event EventHandler EventLabelerFinished;
 
         // Functions invoked by presenter (downstream)
         void BeginLabeler();
-        Snapshot EndLabeler();
+        Snapshot<Object> EndLabeler();
     }
 
     class LabelerPresenter : Presenter<ILabelerView, ILabelerModel>
@@ -39,7 +39,7 @@ namespace Anathema
             Model.BeginLabeler();
         }
 
-        public Snapshot EndLabeler()
+        public Snapshot<Object> EndLabeler()
         {
             return Model.EndLabeler();
         }

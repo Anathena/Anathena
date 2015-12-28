@@ -11,7 +11,6 @@ namespace Anathema
     interface ILabelerChangeCounterView : ILabelerView
     {
         // Methods invoked by the presenter (upstream)
-        void DisplayResultSize(UInt64 FilterResultSize);
     }
 
     interface ILabelerChangeCounterModel : ILabelerModel

@@ -1,4 +1,5 @@
-﻿using Binarysharp.MemoryManagement.Memory;
+﻿using Binarysharp.MemoryManagement;
+using Binarysharp.MemoryManagement.Memory;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,30 +11,35 @@ namespace Anathema
     /// <summary>
     /// Defines the data contained in a single snapshot
     /// </summary>
-    class Snapshot
+    class Snapshot : IProcessObserver
     {
+        private MemorySharp MemoryEditor;
+
         private DateTime TimeStamp;
+
         private List<RemoteRegion> MemoryRegions;
-        private List<Object> MemoryLabels;
+        private List<Int32> LabelMapping;
+        private List<Byte[]> MemoryValues;
 
         public Snapshot()
         {
+            InitializeObserver();
             MemoryRegions = new List<RemoteRegion>();
-            MemoryLabels = new List<Object>();
+        }
+
+        public void InitializeObserver()
+        {
+            ProcessSelector.GetInstance().Subscribe(this);
+        }
+
+        public void UpdateMemoryEditor(MemorySharp MemoryEditor)
+        {
+            this.MemoryEditor = MemoryEditor;
         }
 
         public Snapshot(List<RemoteRegion> MemoryRegions)
         {
             this.MemoryRegions = MemoryRegions;
-            MemoryLabels = new List<Object>();
-
-            MergeRegions();
-        }
-
-        public Snapshot(List<RemoteRegion> MemoryRegions, List<Object> MemoryLabels)
-        {
-            this.MemoryRegions = MemoryRegions;
-            this.MemoryLabels = MemoryLabels;
 
             MergeRegions();
         }
@@ -47,10 +53,24 @@ namespace Anathema
         {
             return TimeStamp;
         }
-        
-        public void AssignLabels(List<Object> MemoryLabels)
+
+        public void ReadAllMemory()
         {
-            this.MemoryLabels = MemoryLabels;
+            MemoryValues = new List<Byte[]>(MemoryRegions.Count);
+
+            Parallel.For(0, MemoryValues.Count, Index =>
+            {
+                Boolean SuccessReading = false;
+                MemoryValues[Index] = MemoryEditor.ReadBytes(MemoryRegions[Index].BaseAddress, MemoryRegions[Index].RegionSize, out SuccessReading, false);
+
+                if (!SuccessReading)
+                    MemoryValues[Index] = null;
+            });
+        }
+
+        public List<Byte[]> GetReadMemory()
+        {
+            return MemoryValues;
         }
 
         public List<RemoteRegion> GetMemoryRegions()
@@ -58,9 +78,9 @@ namespace Anathema
             return MemoryRegions;
         }
 
-        public List<Object> GetMemoryLabels()
+        public List<Int32> GetLabelMapping()
         {
-            return MemoryLabels;
+            return LabelMapping;
         }
 
         public UInt64 GetSize()
@@ -68,7 +88,7 @@ namespace Anathema
             UInt64 Size = 0;
 
             if (MemoryRegions != null)
-                for (int Index = 0; Index < MemoryRegions.Count; Index++)
+                for (Int32 Index = 0; Index < MemoryRegions.Count; Index++)
                     Size += (UInt64)MemoryRegions[Index].RegionSize;
 
             return Size;
@@ -93,7 +113,22 @@ namespace Anathema
         {
 
         }
-        
+
+        private void MapIndecies()
+        {
+            if (LabelMapping == null)
+                LabelMapping = new List<Int32>();
+            LabelMapping.Clear();
+
+            Int32 Mapping = 0;
+            for (Int32 PageIndex = 0; PageIndex < MemoryRegions.Count; PageIndex++)
+            {
+                LabelMapping.Add(Mapping);
+
+                Mapping += MemoryRegions[PageIndex].RegionSize;
+            }
+        }
+
         /// <summary>
         /// Merges continguous regions in the current list of memory regions using a fast stack based algorithm O(nlogn) + O(n)
         /// </summary>
@@ -101,7 +136,7 @@ namespace Anathema
         {
             if (MemoryRegions.Count == 0)
                 return;
-            
+
             // First, sort by start address
             MemoryRegions.OrderBy(x => x.BaseAddress);
 
@@ -131,6 +166,44 @@ namespace Anathema
             // Replace memory regions with merged memory regions
             MemoryRegions = CombinedRegions.ToList();
             MemoryRegions.Reverse();
+            MapIndecies();
+        }
+    }
+
+    class Snapshot<T> : Snapshot
+    {
+        private List<T> MemoryLabels;
+
+        public Snapshot() : base()
+        {
+            MemoryLabels = new List<T>();
+        }
+
+        public Snapshot(List<RemoteRegion> MemoryRegions) : base(MemoryRegions)
+        {
+
+        }
+
+        public Snapshot(List<RemoteRegion> MemoryRegions, List<T> MemoryLabels) : base(MemoryRegions)
+        {
+            this.MemoryLabels = MemoryLabels;
+        }
+
+        public Boolean HasLabels()
+        {
+            if (MemoryLabels == null)
+                return false;
+            return true;
+        }
+
+        public void AssignLabels(List<T> MemoryLabels)
+        {
+            this.MemoryLabels = MemoryLabels;
+        }
+
+        public List<T> GetMemoryLabels()
+        {
+            return MemoryLabels;
         }
     }
 }
