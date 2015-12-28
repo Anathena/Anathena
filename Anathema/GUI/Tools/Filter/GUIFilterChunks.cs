@@ -20,7 +20,9 @@ namespace Anathema
         {
             InitializeComponent();
             FilterChunkScanPresenter = new FilterChunkScanPresenter(this, new FilterChunkScan());
-            
+
+            SetChunkSize();
+            SetMinChanges();
             EnableGUI();
         }
 
@@ -37,15 +39,27 @@ namespace Anathema
             });
         }
 
-        private void SetChunkSize(Int32 Value)
+        private void SetChunkSize()
         {
-            MemorySizeValueLabel.Text = Conversions.ByteCountToMetricSize((UInt64)Value).ToString();
-            FilterChunkScanPresenter.SetChunkSize(Value);
+            Int32 ChunkSize = (Int32)Math.Pow(2, ChunkSizeTrackBar.Value);
+
+            ChunkSizeValueLabel.Text = Conversions.ByteCountToMetricSize((UInt64)ChunkSize).ToString();
+            FilterChunkScanPresenter.SetChunkSize(ChunkSize);
+        }
+
+        private void SetMinChanges()
+        {
+            Int32 MinChanges = MinChangesTrackBar.Value;
+            MinChangesValueLabel.Text = MinChanges.ToString();
+
+            FilterChunkScanPresenter.SetMinChanges(MinChanges);
         }
 
         private void HandleResize()
-        { 
+        {
             ChunkSizeTrackBar.Width = (this.Width - ChunkSizeTrackBar.Location.X) / 2;
+            MinChangesTrackBar.Location = new Point(ChunkSizeTrackBar.Location.X + ChunkSizeTrackBar.Width, MinChangesTrackBar.Location.Y);
+            MinChangesTrackBar.Width = ChunkSizeTrackBar.Width;
         }
 
         private void DisableGUI()
@@ -79,12 +93,18 @@ namespace Anathema
         {
             HandleResize();
         }
-        
+
         private void ChunkSizeTrackBar_Scroll(Object Sender, EventArgs E)
         {
-            SetChunkSize((Int32)Math.Pow(2, ChunkSizeTrackBar.Value));
+            SetChunkSize();
+        }
+
+        private void MinChangesTrackBar_Scroll(object sender, EventArgs e)
+        {
+            SetMinChanges();
         }
 
         #endregion
+
     }
 }

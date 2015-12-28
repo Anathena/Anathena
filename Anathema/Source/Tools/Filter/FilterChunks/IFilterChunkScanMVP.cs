@@ -27,6 +27,7 @@ namespace Anathema
 
         // Functions invoked by presenter (downstream)
         void SetChunkSize(Int32 ChunkSize);
+        void SetMinChanges(Int32 MinChanges);
     }
 
     class FilterChunkScanPresenter : FilterPresenter
@@ -50,6 +51,14 @@ namespace Anathema
                 return;
 
             Model.SetChunkSize(ChunkSize);
+        }
+
+        public void SetMinChanges(Int32 MinChanges)
+        {
+            if (MinChanges <= 0)
+                return;
+
+            Model.SetMinChanges(MinChanges);
         }
 
         #endregion

@@ -37,8 +37,12 @@
             this.StopScanButton = new System.Windows.Forms.ToolStripButton();
             this.StartScanButton = new System.Windows.Forms.ToolStripButton();
             this.ScanToolStrip = new System.Windows.Forms.ToolStrip();
+            this.MinChangesValueLabel = new System.Windows.Forms.Label();
+            this.MinChangesLabel = new System.Windows.Forms.Label();
+            this.MinChangesTrackBar = new System.Windows.Forms.TrackBar();
             ((System.ComponentModel.ISupportInitialize)(this.ChunkSizeTrackBar)).BeginInit();
             this.ScanToolStrip.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.MinChangesTrackBar)).BeginInit();
             this.SuspendLayout();
             // 
             // MemorySizeValueLabel
@@ -65,7 +69,7 @@
             // ChunkSizeValueLabel
             // 
             this.ChunkSizeValueLabel.AutoSize = true;
-            this.ChunkSizeValueLabel.Location = new System.Drawing.Point(72, 75);
+            this.ChunkSizeValueLabel.Location = new System.Drawing.Point(63, 75);
             this.ChunkSizeValueLabel.Name = "ChunkSizeValueLabel";
             this.ChunkSizeValueLabel.Size = new System.Drawing.Size(20, 13);
             this.ChunkSizeValueLabel.TabIndex = 147;
@@ -83,11 +87,11 @@
             // ChunkSizeTrackBar
             // 
             this.ChunkSizeTrackBar.Location = new System.Drawing.Point(0, 43);
-            this.ChunkSizeTrackBar.Minimum = 4;
+            this.ChunkSizeTrackBar.Minimum = 5;
             this.ChunkSizeTrackBar.Name = "ChunkSizeTrackBar";
-            this.ChunkSizeTrackBar.Size = new System.Drawing.Size(104, 45);
+            this.ChunkSizeTrackBar.Size = new System.Drawing.Size(119, 45);
             this.ChunkSizeTrackBar.TabIndex = 148;
-            this.ChunkSizeTrackBar.Value = 4;
+            this.ChunkSizeTrackBar.Value = 10;
             this.ChunkSizeTrackBar.Scroll += new System.EventHandler(this.ChunkSizeTrackBar_Scroll);
             // 
             // StopScanButton
@@ -124,11 +128,43 @@
             this.ScanToolStrip.TabIndex = 149;
             this.ScanToolStrip.Text = "toolStrip1";
             // 
+            // MinChangesValueLabel
+            // 
+            this.MinChangesValueLabel.AutoSize = true;
+            this.MinChangesValueLabel.Location = new System.Drawing.Point(193, 75);
+            this.MinChangesValueLabel.Name = "MinChangesValueLabel";
+            this.MinChangesValueLabel.Size = new System.Drawing.Size(13, 13);
+            this.MinChangesValueLabel.TabIndex = 154;
+            this.MinChangesValueLabel.Text = "0";
+            // 
+            // MinChangesLabel
+            // 
+            this.MinChangesLabel.AutoSize = true;
+            this.MinChangesLabel.Location = new System.Drawing.Point(125, 75);
+            this.MinChangesLabel.Name = "MinChangesLabel";
+            this.MinChangesLabel.Size = new System.Drawing.Size(72, 13);
+            this.MinChangesLabel.TabIndex = 153;
+            this.MinChangesLabel.Text = "Min Changes:";
+            // 
+            // MinChangesTrackBar
+            // 
+            this.MinChangesTrackBar.Location = new System.Drawing.Point(128, 43);
+            this.MinChangesTrackBar.Maximum = 16;
+            this.MinChangesTrackBar.Minimum = 1;
+            this.MinChangesTrackBar.Name = "MinChangesTrackBar";
+            this.MinChangesTrackBar.Size = new System.Drawing.Size(126, 45);
+            this.MinChangesTrackBar.TabIndex = 155;
+            this.MinChangesTrackBar.Value = 3;
+            this.MinChangesTrackBar.Scroll += new System.EventHandler(this.MinChangesTrackBar_Scroll);
+            // 
             // GUIFilterChunks
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(266, 173);
+            this.Controls.Add(this.MinChangesValueLabel);
+            this.Controls.Add(this.MinChangesLabel);
+            this.Controls.Add(this.MinChangesTrackBar);
             this.Controls.Add(this.ChunkSizeValueLabel);
             this.Controls.Add(this.ChunkSizeLabel);
             this.Controls.Add(this.ChunkSizeTrackBar);
@@ -142,6 +178,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.ChunkSizeTrackBar)).EndInit();
             this.ScanToolStrip.ResumeLayout(false);
             this.ScanToolStrip.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.MinChangesTrackBar)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -156,5 +193,8 @@
         private System.Windows.Forms.ToolStripButton StopScanButton;
         private System.Windows.Forms.ToolStripButton StartScanButton;
         private System.Windows.Forms.ToolStrip ScanToolStrip;
+        private System.Windows.Forms.Label MinChangesValueLabel;
+        private System.Windows.Forms.Label MinChangesLabel;
+        private System.Windows.Forms.TrackBar MinChangesTrackBar;
     }
 }

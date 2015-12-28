@@ -20,8 +20,8 @@ namespace Anathema
         // Variables
         private const Int32 AbortTime = 3000;       // Time to wait (in ms) before giving up when ending scan
         private Int32 WaitTime = 200;               // Time to wait (in ms) for a cancel request between each scan
-        private static Int32 PageSplitThreshold;    // User specified minimum page size for dynamic pages
-        private Int32 ChunkSize = 256;
+        private Int32 ChunkSize;
+        private Int32 MinChanges;
 
         // Event stubs
         public event EventHandler EventFilterFinished;
@@ -47,15 +47,9 @@ namespace Anathema
             this.ChunkSize = ChunkSize;
         }
 
-        public UInt64 GetFinalSize(List<RemoteRegion> FilteredMemoryRegions)
+        public void SetMinChanges(Int32 MinChanges)
         {
-            UInt64 Value = 0;
-
-            if (FilteredMemoryRegions != null)
-                for (int Index = 0; Index < FilteredMemoryRegions.Count; Index++)
-                    Value += (UInt64)FilteredMemoryRegions[Index].RegionSize;
-
-            return Value;
+            this.MinChanges = MinChanges;
         }
 
         public void BeginFilter()
@@ -65,7 +59,7 @@ namespace Anathema
 
             // Initialize filter tree roots
             for (int PageIndex = 0; PageIndex < MemoryRegions.Count; PageIndex++)
-                ChunkRoots.Add(new MemoryChunkRoots(MemoryRegions[PageIndex].BaseAddress, MemoryRegions[PageIndex].RegionSize));
+                ChunkRoots.Add(new MemoryChunkRoots(MemoryRegions[PageIndex].BaseAddress, MemoryRegions[PageIndex].RegionSize, ChunkSize));
 
             CancelRequest = new CancellationTokenSource();
             ChangeScanner = Task.Run(async () =>
@@ -96,12 +90,12 @@ namespace Anathema
                 // Process the changes that have occurred since the last sampling for this memory page
                 if (SuccessReading)
                 {
-                    Tree.ProcessChanges(PageData, Tree.BaseAddress);
+                    Tree.ProcessChanges(PageData);
                 }
                 // Error reading this page -- kill it (may have been deallocated)
                 else
                 {
-                    Tree.KillTree();
+                    Tree.KillRegion();
                 }
             });
         }
@@ -114,18 +108,13 @@ namespace Anathema
             catch (AggregateException) { }
 
             // Collect the pages that have changed
-            List<MemoryChunkRoots> ChangedRegions = new List<MemoryChunkRoots>();
+            List<RemoteRegion> ChangedRegions = new List<RemoteRegion>();
             for (Int32 Index = 0; Index < ChunkRoots.Count; Index++)
-                ChunkRoots[Index].GetChangedRegions(ChangedRegions);
+                ChunkRoots[Index].GetChangedRegions(ChangedRegions, MinChanges);
             ChunkRoots = null;
 
             // Convert trees to a list of memory regions
             List<RemoteRegion> FilteredRegions = ChangedRegions.ConvertAll(Page => (RemoteRegion)Page);
-
-            // Send the size of the filtered memory to the GUI
-            FilterChunksEventArgs Args = new FilterChunksEventArgs();
-            Args.FilterResultSize = GetFinalSize(FilteredRegions);
-            EventUpdateMemorySize.Invoke(this, Args);
 
             // Create snapshot with results
             Snapshot FilteredSnapshot = new Snapshot(FilteredRegions);
@@ -134,107 +123,83 @@ namespace Anathema
             FilteredSnapshot.GrowRegions(sizeof(UInt64));
             FilteredSnapshot.MaskRegions(MemoryRegions);
 
+            // Send the size of the filtered memory to the GUI
+            FilterChunksEventArgs Args = new FilterChunksEventArgs();
+            Args.FilterResultSize = FilteredSnapshot.GetSize();
+            EventUpdateMemorySize.Invoke(this, Args);
+
             return FilteredSnapshot;
         }
 
         public class MemoryChunkRoots : RemoteRegion
         {
-            private enum StateEnum
-            {
-                Unchanged,
-                HasChanged,
-                Deallocated
-            }
+            private Boolean Dead;
+            private RemoteRegion[] Chunks;
+            private UInt16[] ChangeCounts;
+            private UInt32?[] Checksums;
 
-            private MemoryChunkRoots ChildRight;
-            private MemoryChunkRoots ChildLeft;
-            private UInt64? Checksum;
-            private StateEnum State;
-
-            public MemoryChunkRoots(IntPtr BaseAddress, Int32 RegionSize) : base(null, BaseAddress, RegionSize)
+            public MemoryChunkRoots(IntPtr BaseAddress, Int32 RegionSize, Int32 ChunkSize) : base(null, BaseAddress, RegionSize)
             {
                 // Initialize state variables
-                State = StateEnum.Unchanged;
-                Checksum = null;
+                Dead = false;
 
-                ChildRight = null;
-                ChildLeft = null;
+                Int32 ChunkCount = RegionSize / ChunkSize + 1;
+
+                Chunks = new RemoteRegion[ChunkCount];
+                ChangeCounts = new UInt16[ChunkCount];
+                Checksums = new UInt32?[ChunkCount];
+
+                // Initialize all chunks and checksums
+                for (Int32 Index = 0; Index < ChunkCount; Index++)
+                {
+                    Int32 ChunkRegionSize = ChunkSize;
+
+                    if (Index == ChunkCount - 1)
+                        ChunkRegionSize = RegionSize % ChunkSize;
+
+                    Chunks[Index] = new RemoteRegion(null, BaseAddress, ChunkRegionSize);
+                    ChangeCounts[Index] = 0;
+                    Checksums[Index] = 0;
+
+                    BaseAddress += ChunkSize;
+                }
             }
 
-            private Boolean HasChanged()
+            public void GetChangedRegions(List<RemoteRegion> AcceptedRegions, Int32 MinChanges)
             {
-                return (State == StateEnum.HasChanged);
+                if (IsDead())
+                    return;
+
+                for (Int32 Index = 0; Index < Chunks.Length; Index++)
+                {
+                    if (ChangeCounts[Index] >= MinChanges)
+                        AcceptedRegions.Add(Chunks[Index]);
+                }
+            }
+
+            public void KillRegion()
+            {
+                Dead = true;
             }
 
             public Boolean IsDead()
             {
-                return (State == StateEnum.Deallocated);
+                return Dead;
             }
 
-            public void KillTree()
+            public void ProcessChanges(Byte[] Data)
             {
-                State = StateEnum.Deallocated;
-            }
-
-            public void GetChangedRegions(List<MemoryChunkRoots> AcceptedPages)
-            {
-                // Add this page to the accepted list if we are a leaf on the tree structure with changes (or we are unsure)
-                if (ChildLeft == null && ChildRight == null)
+                for (Int32 Index = 0; Index < Chunks.Length; Index++)
                 {
-                    if (State == StateEnum.HasChanged)
-                    {
-                        AcceptedPages.Add(this);
-                    }
+                    UInt32 NewChecksum = Hashing.ComputeCheckSum(Data, 
+                        (UInt32)((UInt64)Chunks[Index].BaseAddress - (UInt64)this.BaseAddress),
+                        (UInt32)((UInt64)Chunks[Index].EndAddress - (UInt64)this.BaseAddress));
+
+                    if (Checksums[Index].HasValue && Checksums[Index] != NewChecksum)
+                        ChangeCounts[Index]++;
+
+                    Checksums[Index] = NewChecksum;
                 }
-                // This node has children; propagate the request (in equal halves) downwards
-                else
-                {
-                    ChildLeft.GetChangedRegions(AcceptedPages);
-                    ChildRight.GetChangedRegions(AcceptedPages);
-                }
-            }
-
-            public Boolean ProcessChanges(Byte[] Data, IntPtr RootBaseAddress)
-            {
-                // No need to process a page that has already changed
-                if (RegionSize <= FilterChunkScan.PageSplitThreshold && State == StateEnum.HasChanged)
-                    return HasChanged();
-
-                if (State == StateEnum.Deallocated)
-                    return HasChanged();
-
-                // If this node has no children, this node is a leaf and thus does the processing
-                if (ChildLeft == null && ChildRight == null)
-                {
-                    // Calculate changes for this page
-                    UInt64 StartIndex = (UInt64)BaseAddress - (UInt64)RootBaseAddress;
-                    UInt64 NewChecksum = Hashing.ComputeCheckSum(Data, StartIndex, StartIndex + (UInt64)RegionSize);
-
-                    // Determine if state has changed after collecting 2 or more checksums
-                    if (Checksum.HasValue)
-                    {
-                        if (Checksum != NewChecksum)
-                            State = StateEnum.HasChanged;
-                    }
-
-                    // Save most recent checksum
-                    Checksum = NewChecksum;
-
-                    // This page needs to be split if a change was detected and the size is above the threshold
-                    if (State == StateEnum.HasChanged && RegionSize > FilterChunkScan.PageSplitThreshold)
-                    {
-                        ChildLeft = new MemoryChunkRoots(BaseAddress, RegionSize / 2);
-                        ChildRight = new MemoryChunkRoots(BaseAddress + RegionSize / 2, RegionSize - RegionSize / 2);
-                    }
-                }
-
-                // Pass the data down to the children if they exist
-                if (ChildLeft != null && ChildRight != null)
-                {
-                    return (ChildLeft.ProcessChanges(Data, RootBaseAddress) & ChildRight.ProcessChanges(Data, RootBaseAddress));
-                }
-
-                return HasChanged();
             }
 
         } // End class

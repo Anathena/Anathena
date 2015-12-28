@@ -31,15 +31,13 @@ namespace Anathema
         // Variables
         private const Int32 AbortTime = 3000;       // Time to wait (in ms) before giving up when ending scan
         private Int32 WaitTime = 200;               // Time to wait (in ms) for a cancel request between each scan
-        private static Int32 PageSplitThreshold;    // User specified minimum page size for dynamic pages
-
+        
         // Event stubs
         public event EventHandler EventFilterFinished;
         public event FilterTreeScanEventHandler EventUpdateMemorySize;
 
         public FilterTreeScan()
         {
-            FilterTreeScan.PageSplitThreshold = 64;
             InitializeObserver();
         }
 
@@ -51,17 +49,6 @@ namespace Anathema
         public void UpdateMemoryEditor(MemorySharp MemoryEditor)
         {
             this.MemoryEditor = MemoryEditor;
-        }
-
-        public UInt64 GetFinalSize(List<RemoteRegion> FilteredMemoryRegions)
-        {
-            UInt64 Value = 0;
-
-            if (FilteredMemoryRegions != null)
-                for (int Index = 0; Index < FilteredMemoryRegions.Count; Index++)
-                    Value += (UInt64)FilteredMemoryRegions[Index].RegionSize;
-
-            return Value;
         }
 
         public void BeginFilter()
@@ -128,23 +115,26 @@ namespace Anathema
             // Convert trees to a list of memory regions
             List<RemoteRegion> FilteredRegions = ChangedRegions.ConvertAll(Page => (RemoteRegion)Page);
 
-            // Send the size of the filtered memory to the GUI
-            FilterTreesEventArgs Args = new FilterTreesEventArgs();
-            Args.FilterResultSize = GetFinalSize(FilteredRegions);
-            EventUpdateMemorySize.Invoke(this, Args);
-
             // Create snapshot with results
             Snapshot FilteredSnapshot = new Snapshot(FilteredRegions);
 
             // Grow regions by the size of the largest standard variable and mask this with the original memory list.
             FilteredSnapshot.GrowRegions(sizeof(UInt64));
             FilteredSnapshot.MaskRegions(MemoryRegions);
+            
+            // Send the size of the filtered memory to the GUI
+            FilterTreesEventArgs Args = new FilterTreesEventArgs();
+            Args.FilterResultSize = FilteredSnapshot.GetSize();
+            EventUpdateMemorySize.Invoke(this, Args);
 
             return FilteredSnapshot;
         }
 
         public class MemoryChangeTree : RemoteRegion
         {
+            // Experimentally found that splitting pages on boundaries of 64 or 128 works best.
+            private const Int32 PageSplitThreshold = 64;
+
             private enum StateEnum
             {
                 Unchanged,
@@ -165,11 +155,6 @@ namespace Anathema
 
                 ChildRight = null;
                 ChildLeft = null;
-            }
-
-            private Boolean HasChanged()
-            {
-                return (State == StateEnum.HasChanged);
             }
 
             public Boolean IsDead()
@@ -200,14 +185,14 @@ namespace Anathema
                 }
             }
 
-            public Boolean ProcessChanges(Byte[] Data, IntPtr RootBaseAddress)
+            public void ProcessChanges(Byte[] Data, IntPtr RootBaseAddress)
             {
                 // No need to process a page that has already changed
-                if (RegionSize <= FilterTreeScan.PageSplitThreshold && State == StateEnum.HasChanged)
-                    return HasChanged();
+                if (RegionSize <= PageSplitThreshold && State == StateEnum.HasChanged)
+                    return;
 
                 if (State == StateEnum.Deallocated)
-                    return HasChanged();
+                    return;
 
                 // If this node has no children, this node is a leaf and thus does the processing
                 if (ChildLeft == null && ChildRight == null)
@@ -227,7 +212,7 @@ namespace Anathema
                     Checksum = NewChecksum;
 
                     // This page needs to be split if a change was detected and the size is above the threshold
-                    if (State == StateEnum.HasChanged && RegionSize > FilterTreeScan.PageSplitThreshold)
+                    if (State == StateEnum.HasChanged && RegionSize > PageSplitThreshold)
                     {
                         ChildLeft = new MemoryChangeTree(BaseAddress, RegionSize / 2);
                         ChildRight = new MemoryChangeTree(BaseAddress + RegionSize / 2, RegionSize - RegionSize / 2);
@@ -237,10 +222,9 @@ namespace Anathema
                 // Pass the data down to the children if they exist
                 if (ChildLeft != null && ChildRight != null)
                 {
-                    return (ChildLeft.ProcessChanges(Data, RootBaseAddress) & ChildRight.ProcessChanges(Data, RootBaseAddress));
+                    ChildLeft.ProcessChanges(Data, RootBaseAddress);
+                    ChildRight.ProcessChanges(Data, RootBaseAddress);
                 }
-
-                return HasChanged();
             }
 
         } // End class

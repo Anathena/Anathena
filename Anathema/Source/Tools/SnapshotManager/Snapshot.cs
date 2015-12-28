@@ -63,6 +63,17 @@ namespace Anathema
             return MemoryLabels;
         }
 
+        public UInt64 GetSize()
+        {
+            UInt64 Size = 0;
+
+            if (MemoryRegions != null)
+                for (int Index = 0; Index < MemoryRegions.Count; Index++)
+                    Size += (UInt64)MemoryRegions[Index].RegionSize;
+
+            return Size;
+        }
+
         /// <summary>
         /// Expands all memory regions in both directions by the specified amount. Useful for filtering methods that isolate
         /// changing bytes (ie 1 byte of an 8 byte integer), where we would want to grow to recover the other 7 bytes.
@@ -90,9 +101,7 @@ namespace Anathema
         {
             if (MemoryRegions.Count == 0)
                 return;
-
-            return;
-
+            
             // First, sort by start address
             MemoryRegions.OrderBy(x => x.BaseAddress);
 
@@ -106,12 +115,12 @@ namespace Anathema
                 RemoteRegion Top = CombinedRegions.Peek();
 
                 // If the interval does not overlap, put it on the top of the stack
-                if ((UInt64)Top.EndAddress + 1 < (UInt64)MemoryRegions[Index].EndAddress)
+                if ((UInt64)Top.EndAddress < (UInt64)MemoryRegions[Index].BaseAddress - 1)
                 {
                     CombinedRegions.Push(MemoryRegions[Index]);
                 }
                 // The interval overlaps; just merge it with the current top of the stack
-                else if ((UInt64)(Top.EndAddress) < (UInt64)MemoryRegions[Index].EndAddress)
+                else if ((UInt64)Top.EndAddress <= (UInt64)MemoryRegions[Index].EndAddress)
                 {
                     Top.RegionSize = (Int32)((UInt64)MemoryRegions[Index].EndAddress - (UInt64)Top.BaseAddress);
                     CombinedRegions.Pop();
@@ -120,8 +129,8 @@ namespace Anathema
             }
 
             // Replace memory regions with merged memory regions
-            CombinedRegions.OrderBy(x => x.BaseAddress);
             MemoryRegions = CombinedRegions.ToList();
+            MemoryRegions.Reverse();
         }
     }
 }

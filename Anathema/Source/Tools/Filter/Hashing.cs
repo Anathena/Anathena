@@ -36,5 +36,33 @@ namespace Anathema
                 return Hash;
             }
         }
-    }
-}
+
+        public unsafe static UInt32 ComputeCheckSum(Byte[] Data, UInt32 Start, UInt32 End)
+        {
+            unchecked
+            {
+                UInt32 Hash = 0;
+
+                // Hashing function
+                for (; Start < End; Start += sizeof(UInt32))
+                {
+                    fixed (Byte* Value = &Data[Start])
+                    {
+                        Hash ^= *(UInt32*)(Value);
+                    }
+                }
+                for (; Start < End; Start++)
+                {
+                    fixed (Byte* Value = &Data[Start])
+                    {
+                        Hash ^= (UInt32)(*(Value));
+                    }
+                }
+
+                return Hash;
+            }
+        }
+
+    } // End class
+
+} // End namespace
