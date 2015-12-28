@@ -130,8 +130,9 @@
             // 
             // MinChangesValueLabel
             // 
+            this.MinChangesValueLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.MinChangesValueLabel.AutoSize = true;
-            this.MinChangesValueLabel.Location = new System.Drawing.Point(193, 75);
+            this.MinChangesValueLabel.Location = new System.Drawing.Point(232, 75);
             this.MinChangesValueLabel.Name = "MinChangesValueLabel";
             this.MinChangesValueLabel.Size = new System.Drawing.Size(13, 13);
             this.MinChangesValueLabel.TabIndex = 154;
@@ -139,8 +140,9 @@
             // 
             // MinChangesLabel
             // 
+            this.MinChangesLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.MinChangesLabel.AutoSize = true;
-            this.MinChangesLabel.Location = new System.Drawing.Point(125, 75);
+            this.MinChangesLabel.Location = new System.Drawing.Point(164, 75);
             this.MinChangesLabel.Name = "MinChangesLabel";
             this.MinChangesLabel.Size = new System.Drawing.Size(72, 13);
             this.MinChangesLabel.TabIndex = 153;

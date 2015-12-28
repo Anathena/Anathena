@@ -248,6 +248,8 @@
     <Compile Include="Source\Tools\Filter\FilterChunks\FilterChunkScan.cs" />
     <Compile Include="Source\Tools\Filter\FilterChunks\IFilterChunkScanMVP.cs" />
     <Compile Include="Source\Tools\Filter\FilterTrees\IFilterTreeScanMVP.cs" />
+    <Compile Include="Source\Tools\Labeler\LabelerChangeCounter\LabelerChangeCounter.cs" />
+    <Compile Include="Source\Tools\Labeler\LabelerChangeCounter\ILabelerChangeCounterMVP.cs" />
     <Compile Include="Source\Tools\ProcessSelector\IProcessObserver.cs" />
     <Compile Include="Source\Tools\ProcessSelector\IProcessSelectorMVP.cs" />
     <Compile Include="Source\Tools\ProcessSelector\ProcessSelector.cs" />
@@ -332,7 +334,7 @@
     </Compile>
     <Compile Include="Source\Tools\Filter\FilterFiniteState\FilterFiniteState.cs" />
     <Compile Include="Source\HelperClasses\CheckSyntax.cs" />
-    <Compile Include="Source\Tools\Labeler\IMemoryLabeler.cs" />
+    <Compile Include="Source\Tools\Labeler\ILabelerMVP.cs" />
     <Compile Include="Source\Tools\Labeler\LabelerInputCorrelator\LabelerInputCorrelator.cs" />
     <Compile Include="Source\Tools\Debugger\Celestial.cs" />
     <Compile Include="Source\Tools\Filter\InputHook\Hook.cs" />
@@ -380,7 +382,6 @@
     <Compile Include="Source\Tools\Filter\FilterManualScan\FilterManualScan.cs" />
     <Compile Include="Source\Tools\Filter\FilterLabelThresholder\FilterLabelThesholder.cs" />
     <Compile Include="Source\Tools\Filter\FilterMultiScanner\FilterMultiScanner.cs" />
-    <Compile Include="Source\Tools\Labeler\LabelerChangeCounter.cs" />
     <Compile Include="Source\Main\IMainMVP.cs" />
     <Compile Include="Source\Tools\ProcessSelector\IProcessSubject.cs" />
     <Compile Include="Program.cs" />

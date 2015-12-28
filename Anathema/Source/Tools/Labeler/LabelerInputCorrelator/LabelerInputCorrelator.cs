@@ -13,18 +13,18 @@ using System.Windows.Forms;
 
 namespace Anathema
 {
-    class LabelerInputCorrelator : IMemoryLabeler
+    class LabelerInputCorrelator : ILabelerModel
     {
         private MemorySharp MemoryEditor;
-
-        // Scanning related
+        
         private List<RemoteRegion> MemoryRegions;           // Regions we are scanning (isolated via SearchSpaceAnalyzer)
         private List<IntPtr> Addresses;
         private Dictionary<IntPtr, IntPtr> ScanIndicies;    // Maps literal addresses to indexes
         private List<DateTime> ScanHistoryTime;             // Time stamps for each of the scans
         private Byte[] ScanHistoryValues;                   // Values for each of the scans for each memory page
         private List<BitArray> ChangeHistory;
-        private Int32 TotalAddressSize;
+
+        private Int32 VariableSize;                         // Number of bytes to correlate at a time
 
         private CancellationTokenSource CancelRequest;      // Tells the scan task to cancel (ie finish)
         private Task ChangeScanner;                         // Event that constantly checks the target process for changes
@@ -32,14 +32,14 @@ namespace Anathema
 
         // Input correlation related
         private readonly IKeyboardMouseEvents InputHook;    // Input capturing class
-        private Dictionary<Keys, CorrelationValues[]> PhiCorrelationSustain;
-        private Dictionary<Keys, CorrelationValues[]> PhiCorrelationDown;
-        private Dictionary<Keys, CorrelationValues[]> PhiCorrelationUp;
+        private Dictionary<Keys, CorrelationValues[]> Correlation;
         
         private Dictionary<Keys, DateTime> KeyBoardPending;         // List of keyboard down events (waiting for an up event)
         private Dictionary<Keys, List<DateTime>> KeyBoardDown;      // List of keyboard down events
         private Dictionary<Keys, List<DateTime>> KeyBoardUp;        // List of keyboard up events
-        
+
+        public event EventHandler EventLabelerFinished;
+
         // http://www.ucl.ac.uk/english-usage/staff/sean/resources/phimeasures.pdf
         // https://en.wikipedia.org/wiki/Contingency_table#Measures_of_association
         public struct CorrelationValues
@@ -83,8 +83,6 @@ namespace Anathema
         public LabelerInputCorrelator()
         {
             InputHook = Hook.GlobalEvents();
-
-            //Anathema = Benediction.GetBenedictionInstance();
         }
 
         public void BeginLabeler(MemorySharp MemoryEditor, List<RemoteRegion> MemoryRegions)
@@ -122,10 +120,8 @@ namespace Anathema
             KeyBoardPending = new Dictionary<Keys, DateTime>();
             KeyBoardUp = new Dictionary<Keys, List<DateTime>>();
             KeyBoardDown = new Dictionary<Keys, List<DateTime>>();
-
-            PhiCorrelationUp = new Dictionary<Keys, CorrelationValues[]>();
-            PhiCorrelationDown = new Dictionary<Keys, CorrelationValues[]>();
-            PhiCorrelationSustain = new Dictionary<Keys, CorrelationValues[]>();
+            
+            Correlation = new Dictionary<Keys, CorrelationValues[]>();
 
             // Create input hook events
             InputHook.MouseDownExt += GlobalHookMouseDownExt;
@@ -395,7 +391,25 @@ namespace Anathema
             return SortedAddresses;
         }
 
+        public void BeginLabeler()
+        {
+            throw new NotImplementedException();
+        }
 
+        Snapshot ILabelerModel.EndLabeler()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void InitializeObserver()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void UpdateMemoryEditor(MemorySharp MemoryEditor)
+        {
+            throw new NotImplementedException();
+        }
     } // End class
 
 } // End namespace
