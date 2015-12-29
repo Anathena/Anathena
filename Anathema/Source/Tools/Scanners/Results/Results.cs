@@ -50,9 +50,14 @@ namespace Anathema
             this.MemoryEditor = MemoryEditor;
         }
 
-        public void UpdateScanType(Type ScanType)
+        public override void UpdateScanType(Type ScanType)
         {
             this.ScanType = ScanType;
+        }
+
+        public override Type GetScanType()
+        {
+            return ScanType;
         }
 
         public override void BeginScan()

@@ -12,13 +12,13 @@ namespace Anathema
 {
     public partial class GUIResults : DockContent, IResultsView
     {
+        private ResultsPresenter ResultsPresenter;
+
         public GUIResults()
         {
             InitializeComponent();
-            this.SetStyle(ControlStyles.OptimizedDoubleBuffer | ControlStyles.UserPaint | ControlStyles.AllPaintingInWmPaint, true);
-            this.DoubleBuffered = true;
 
-            ResultsPresenter ResultsPresenter = new ResultsPresenter(this, Results.GetInstance());
+            ResultsPresenter = new ResultsPresenter(this, Results.GetInstance());
         }
 
         public void DisplayResults(ListViewItem[] Items)
@@ -47,6 +47,41 @@ namespace Anathema
                 ResultsListView.ResumeLayout();
 
             });
+        }
+
+        private void ByteToolStripMenuItem_Click(Object Sender, EventArgs E)
+        {
+            ResultsPresenter.UpdateScanType(typeof(SByte));
+        }
+
+        private void Int16ToolStripMenuItem_Click(Object Sender, EventArgs E)
+        {
+            ResultsPresenter.UpdateScanType(typeof(Int16));
+        }
+
+        private void Int32ToolStripMenuItem_Click(Object Sender, EventArgs E)
+        {
+            ResultsPresenter.UpdateScanType(typeof(Int32));
+        }
+
+        private void Int64ToolStripMenuItem_Click(Object Sender, EventArgs E)
+        {
+            ResultsPresenter.UpdateScanType(typeof(Int64));
+        }
+
+        private void SingleToolStripMenuItem_Click(Object Sender, EventArgs E)
+        {
+            ResultsPresenter.UpdateScanType(typeof(Single));
+        }
+
+        private void DoubleToolStripMenuItem_Click(Object Sender, EventArgs E)
+        {
+            ResultsPresenter.UpdateScanType(typeof(Double));
+        }
+
+        private void ChangeSignToolStripMenuItem_Click(Object Sender, EventArgs E)
+        {
+            ResultsPresenter.ChangeSign();
         }
     }
 }

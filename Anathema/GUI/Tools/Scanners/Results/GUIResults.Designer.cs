@@ -28,12 +28,23 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.AddressCount = new System.Windows.Forms.Label();
             this.VariableSizeValueLabel = new System.Windows.Forms.Label();
             this.ResultsListView = new Anathema.FlickerFreeListView();
             this.AddressHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.ValueHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.LabelHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.RightClickMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.ChangeTypeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.ByteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.Int16ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.Int32ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.Int64ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.ChangeSignToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.SingleToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.DoubleToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.RightClickMenu.SuspendLayout();
             this.SuspendLayout();
             // 
             // AddressCount
@@ -64,6 +75,7 @@
             this.AddressHeader,
             this.ValueHeader,
             this.LabelHeader});
+            this.ResultsListView.ContextMenuStrip = this.RightClickMenu;
             this.ResultsListView.Dock = System.Windows.Forms.DockStyle.Fill;
             this.ResultsListView.Font = new System.Drawing.Font("Courier New", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.ResultsListView.FullRowSelect = true;
@@ -89,6 +101,76 @@
             this.LabelHeader.Text = "Label";
             this.LabelHeader.Width = 88;
             // 
+            // RightClickMenu
+            // 
+            this.RightClickMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.ChangeTypeToolStripMenuItem,
+            this.ChangeSignToolStripMenuItem});
+            this.RightClickMenu.Name = "RightClickMenu";
+            this.RightClickMenu.Size = new System.Drawing.Size(153, 70);
+            // 
+            // ChangeTypeToolStripMenuItem
+            // 
+            this.ChangeTypeToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.ByteToolStripMenuItem,
+            this.Int16ToolStripMenuItem,
+            this.Int32ToolStripMenuItem,
+            this.Int64ToolStripMenuItem,
+            this.SingleToolStripMenuItem,
+            this.DoubleToolStripMenuItem});
+            this.ChangeTypeToolStripMenuItem.Name = "ChangeTypeToolStripMenuItem";
+            this.ChangeTypeToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.ChangeTypeToolStripMenuItem.Text = "Change Type";
+            // 
+            // ByteToolStripMenuItem
+            // 
+            this.ByteToolStripMenuItem.Name = "ByteToolStripMenuItem";
+            this.ByteToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.ByteToolStripMenuItem.Text = "Byte";
+            this.ByteToolStripMenuItem.Click += new System.EventHandler(this.ByteToolStripMenuItem_Click);
+            // 
+            // Int16ToolStripMenuItem
+            // 
+            this.Int16ToolStripMenuItem.Name = "Int16ToolStripMenuItem";
+            this.Int16ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.Int16ToolStripMenuItem.Text = "Int16";
+            this.Int16ToolStripMenuItem.Click += new System.EventHandler(this.Int16ToolStripMenuItem_Click);
+            // 
+            // Int32ToolStripMenuItem
+            // 
+            this.Int32ToolStripMenuItem.Name = "Int32ToolStripMenuItem";
+            this.Int32ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.Int32ToolStripMenuItem.Text = "Int32";
+            this.Int32ToolStripMenuItem.Click += new System.EventHandler(this.Int32ToolStripMenuItem_Click);
+            // 
+            // Int64ToolStripMenuItem
+            // 
+            this.Int64ToolStripMenuItem.Name = "Int64ToolStripMenuItem";
+            this.Int64ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.Int64ToolStripMenuItem.Text = "Int64";
+            this.Int64ToolStripMenuItem.Click += new System.EventHandler(this.Int64ToolStripMenuItem_Click);
+            // 
+            // ChangeSignToolStripMenuItem
+            // 
+            this.ChangeSignToolStripMenuItem.Name = "ChangeSignToolStripMenuItem";
+            this.ChangeSignToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.ChangeSignToolStripMenuItem.Text = "Change Sign";
+            this.ChangeSignToolStripMenuItem.Click += new System.EventHandler(this.ChangeSignToolStripMenuItem_Click);
+            // 
+            // SingleToolStripMenuItem
+            // 
+            this.SingleToolStripMenuItem.Name = "SingleToolStripMenuItem";
+            this.SingleToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.SingleToolStripMenuItem.Text = "Single";
+            this.SingleToolStripMenuItem.Click += new System.EventHandler(this.SingleToolStripMenuItem_Click);
+            // 
+            // DoubleToolStripMenuItem
+            // 
+            this.DoubleToolStripMenuItem.Name = "DoubleToolStripMenuItem";
+            this.DoubleToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.DoubleToolStripMenuItem.Text = "Double";
+            this.DoubleToolStripMenuItem.Click += new System.EventHandler(this.DoubleToolStripMenuItem_Click);
+            // 
             // GUIResults
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -100,6 +182,7 @@
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Name = "GUIResults";
             this.Text = "Results";
+            this.RightClickMenu.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -113,5 +196,14 @@
         private System.Windows.Forms.ColumnHeader LabelHeader;
         private System.Windows.Forms.Label AddressCount;
         private System.Windows.Forms.Label VariableSizeValueLabel;
+        private System.Windows.Forms.ContextMenuStrip RightClickMenu;
+        private System.Windows.Forms.ToolStripMenuItem ChangeTypeToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem ByteToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem Int16ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem Int32ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem Int64ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem SingleToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem DoubleToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem ChangeSignToolStripMenuItem;
     }
 }
