@@ -8,41 +8,26 @@ using Binarysharp.MemoryManagement.Memory;
 
 namespace Anathema
 {
-    class FilterChunkScan : Scanner, IFilterChunkScanModel
+    class FilterChunkScan : IFilterChunkScanModel
     {
-        private MemorySharp MemoryEditor;
-        private Snapshot InitialSnapshot;
         
         // Variables
         private List<MemoryChunkRoots> ChunkRoots;
+        private Snapshot InitialSnapshot;
         private Int32 ChunkSize;
         private Int32 MinChanges;
 
-        // Event stubs
-        public event EventHandler EventFilterFinished;
-        public event FilterChunkScanEventHandler EventUpdateMemorySize;
-
         public FilterChunkScan()
         {
-            InitializeObserver();
+
         }
 
-        public void InitializeObserver()
-        {
-            ProcessSelector.GetInstance().Subscribe(this);
-        }
-
-        public void UpdateMemoryEditor(MemorySharp MemoryEditor)
-        {
-            this.MemoryEditor = MemoryEditor;
-        }
-
-        public void SetChunkSize(Int32 ChunkSize)
+        public override void SetChunkSize(Int32 ChunkSize)
         {
             this.ChunkSize = ChunkSize;
         }
 
-        public void SetMinChanges(Int32 MinChanges)
+        public override void SetMinChanges(Int32 MinChanges)
         {
             this.MinChanges = MinChanges;
         }
@@ -62,23 +47,21 @@ namespace Anathema
 
         protected override void UpdateScan()
         {
-            Parallel.ForEach(ChunkRoots, (Tree) =>
-            {
-                if (Tree.IsDead())
-                    return; // Works as 'continue' in a parallel foreach
+            InitialSnapshot.ReadAllMemory();
 
-                Boolean SuccessReading;
-                Byte[] PageData = MemoryEditor.ReadBytes(Tree.BaseAddress, Tree.RegionSize, out SuccessReading, false);
+            Parallel.ForEach(ChunkRoots, (ChunkRoot) =>
+            {
+                Byte[] PageData = InitialSnapshot.GetReadMemory()[ChunkRoots.IndexOf(ChunkRoot)];
 
                 // Process the changes that have occurred since the last sampling for this memory page
-                if (SuccessReading)
+                if (PageData != null)
                 {
-                    Tree.ProcessChanges(PageData);
+                    ChunkRoot.ProcessChanges(PageData);
                 }
                 // Error reading this page -- kill it (may have been deallocated)
                 else
                 {
-                    Tree.KillRegion();
+                    ChunkRoot.KillRegion();
                 }
             });
         }
@@ -107,7 +90,7 @@ namespace Anathema
             // Send the size of the filtered memory to the GUI
             FilterChunksEventArgs Args = new FilterChunksEventArgs();
             Args.FilterResultSize = FilteredSnapshot.GetSize();
-            EventUpdateMemorySize.Invoke(this, Args);
+            OnEventUpdateMemorySize(Args);
 
             // Save result
             SnapshotManager.GetSnapshotManagerInstance().SaveSnapshot(FilteredSnapshot);

@@ -257,7 +257,7 @@
     <Compile Include="Source\Tools\Results\IResultsMVP.cs" />
     <Compile Include="Source\Tools\Results\Results.cs" />
     <Compile Include="Source\Tools\SnapshotManager\ISnapshotManagerMVP.cs" />
-    <Compile Include="Source\Tools\Scanners\Filter\IFilterMVP.cs" />
+    <Compile Include="Source\Tools\Scanners\IScannerMVP.cs" />
     <Compile Include="Source\Tools\SnapshotManager\Snapshot.cs" />
     <Compile Include="Source\HelperClasses\MVP\ControlThreadingHelper.cs" />
     <Compile Include="Source\HelperClasses\MVP\IMVP.cs" />
@@ -335,7 +335,6 @@
     </Compile>
     <Compile Include="Source\Tools\Scanners\Filter\FilterFiniteState\FilterFiniteState.cs" />
     <Compile Include="Source\HelperClasses\CheckSyntax.cs" />
-    <Compile Include="Source\Tools\Scanners\Labeler\ILabelerMVP.cs" />
     <Compile Include="Source\Tools\Scanners\Labeler\LabelerInputCorrelator\LabelerInputCorrelator.cs" />
     <Compile Include="Source\Tools\Debugger\Celestial.cs" />
     <Compile Include="Source\Tools\Scanners\Filter\InputHook\Hook.cs" />

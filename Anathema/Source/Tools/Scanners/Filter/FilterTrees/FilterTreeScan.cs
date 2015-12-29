@@ -19,31 +19,15 @@ namespace Anathema
     /// 4) End on user request. Keep all leaves marked as changed, or all leaves marked as unknown. Discard unchanged blocks.
     ///
     /// </summary>
-    class FilterTreeScan : Scanner, IFilterTreeScanModel
+    class FilterTreeScan : IFilterTreeScanModel
     {
-        private MemorySharp MemoryEditor;
-        private Snapshot InitialSnapshot;
-
         // Variables
+        private Snapshot InitialSnapshot;
         private List<MemoryChangeTree> FilterTrees; // Trees to grow to search for changes
-
-        // Event stubs
-        public event EventHandler EventFilterFinished;
-        public event FilterTreeScanEventHandler EventUpdateMemorySize;
-
+        
         public FilterTreeScan()
         {
-            InitializeObserver();
-        }
 
-        public void InitializeObserver()
-        {
-            ProcessSelector.GetInstance().Subscribe(this);
-        }
-
-        public void UpdateMemoryEditor(MemorySharp MemoryEditor)
-        {
-            this.MemoryEditor = MemoryEditor;
         }
 
         public override void BeginScan()
@@ -61,18 +45,17 @@ namespace Anathema
 
         protected override void UpdateScan()
         {
-            //foreach (MemoryChangeTree Tree in FilterTrees)
-            // Parallel.For(0, FilterTrees.Count, PageIndex => // Upwards of a x2 increase in speed
+            InitialSnapshot.ReadAllMemory();
+
             Parallel.ForEach(FilterTrees, (Tree) =>
             {
                 if (Tree.IsDead())
                     return; // Works as 'continue' in a parallel foreach
-
-                Boolean SuccessReading;
-                Byte[] PageData = MemoryEditor.ReadBytes(Tree.BaseAddress, Tree.RegionSize, out SuccessReading, false);
+                
+                Byte[] PageData = InitialSnapshot.GetReadMemory()[FilterTrees.IndexOf(Tree)];
 
                 // Process the changes that have occurred since the last sampling for this memory page
-                if (SuccessReading)
+                if (PageData != null)
                 {
                     Tree.ProcessChanges(PageData, Tree.BaseAddress);
                 }
@@ -108,7 +91,7 @@ namespace Anathema
             // Send the size of the filtered memory to the GUI
             FilterTreesEventArgs Args = new FilterTreesEventArgs();
             Args.FilterResultSize = FilteredSnapshot.GetSize();
-            EventUpdateMemorySize.Invoke(this, Args);
+            OnEventUpdateMemorySize(Args);
 
             // Save the snapshot
             SnapshotManager.GetSnapshotManagerInstance().SaveSnapshot(FilteredSnapshot);

@@ -14,21 +14,25 @@ namespace Anathema
         public UInt64? FilterResultSize = null;
     }
 
-    interface IFilterTreeScanView : IFilterView
+    interface IFilterTreeScanView : IScannerView
     {
         // Methods invoked by the presenter (upstream)
         void DisplayResultSize(UInt64 FilterResultSize);
     }
 
-    interface IFilterTreeScanModel : IFilterModel
+    abstract class IFilterTreeScanModel : IScannerModel
     {
         // Events triggered by the model (upstream)
-        event FilterTreeScanEventHandler EventUpdateMemorySize;
+        public event FilterTreeScanEventHandler EventUpdateMemorySize;
+        protected virtual void OnEventUpdateMemorySize(FilterTreesEventArgs E)
+        {
+            EventUpdateMemorySize(this, E);
+        }
 
         // Functions invoked by presenter (downstream)
     }
 
-    class FilterTreeScanPresenter : FilterPresenter
+    class FilterTreeScanPresenter : ScannerPresenter
     {
         new IFilterTreeScanView View;
         new IFilterTreeScanModel Model;

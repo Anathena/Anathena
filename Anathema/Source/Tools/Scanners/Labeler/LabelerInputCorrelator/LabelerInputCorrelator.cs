@@ -13,7 +13,7 @@ using System.Windows.Forms;
 
 namespace Anathema
 {
-    class LabelerInputCorrelator : ILabelerModel
+    class LabelerInputCorrelator : IScannerModel
     {
         private MemorySharp MemoryEditor;
         
@@ -38,7 +38,7 @@ namespace Anathema
         private Dictionary<Keys, List<DateTime>> KeyBoardDown;      // List of keyboard down events
         private Dictionary<Keys, List<DateTime>> KeyBoardUp;        // List of keyboard up events
 
-        public event EventHandler EventLabelerFinished;
+        public event EventHandler EventScannerFinished;
 
         // http://www.ucl.ac.uk/english-usage/staff/sean/resources/phimeasures.pdf
         // https://en.wikipedia.org/wiki/Contingency_table#Measures_of_association
@@ -85,7 +85,7 @@ namespace Anathema
             InputHook = Hook.GlobalEvents();
         }
 
-        public void BeginLabeler(MemorySharp MemoryEditor, List<RemoteRegion> MemoryRegions)
+        public override void BeginScan()
         {
             this.MemoryEditor = MemoryEditor;
             this.MemoryRegions = MemoryRegions;
@@ -128,20 +128,10 @@ namespace Anathema
             InputHook.KeyUp += GlobalHookKeyUp;
             InputHook.KeyDown += GlobalHookKeyDown;
 
-            // Begin scanning memory until the user cancels
-            CancelRequest = new CancellationTokenSource();
-            ChangeScanner = Task.Run(async () =>
-            {
-                while (true)
-                {
-                    // Query the target process for memory changes
-                    QueryChanges();
-                    await Task.Delay(WaitTime, CancelRequest.Token); // Await with cancellation
-                }
-            }, CancelRequest.Token);
+            //base.BeginScan();
         }
 
-        public void EndLabeler()
+        public override void EndScan()
         {
             CancelRequest.Cancel();
             try
@@ -168,7 +158,7 @@ namespace Anathema
 
         }
 
-        private void QueryChanges()
+        protected override void UpdateScan()
         {
             ChangeHistory.Add(new BitArray(ScanHistoryValues.Length));
 
@@ -396,20 +386,6 @@ namespace Anathema
             throw new NotImplementedException();
         }
 
-        Snapshot ILabelerModel.EndLabeler()
-        {
-            throw new NotImplementedException();
-        }
-
-        public void InitializeObserver()
-        {
-            throw new NotImplementedException();
-        }
-
-        public void UpdateMemoryEditor(MemorySharp MemoryEditor)
-        {
-            throw new NotImplementedException();
-        }
     } // End class
 
 } // End namespace

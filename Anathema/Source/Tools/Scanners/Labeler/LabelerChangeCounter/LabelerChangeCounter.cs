@@ -11,42 +11,31 @@ namespace Anathema
     class LabelerChangeCounter : ILabelerChangeCounterModel
     {
         private Snapshot<UInt16> LabeledSnapshot;
-
-        private CancellationTokenSource CancelRequest;      // Tells the scan task to cancel (ie finish)
-        private Task ChangeScanner;                         // Event that constantly checks the target process for changes
-
-        // Variables
-        private const Int32 AbortTime = 3000;       // Time to wait (in ms) before giving up when ending scan
-        private Int32 WaitTime = 200;               // Time to wait (in ms) for a cancel request between each scan
-
         private Int32 MinChanges;
         private Int32 MaxChanges;
         private Int32 VariableSize;
-
-        // Event stubs
-        public event EventHandler EventLabelerFinished;
-
+        
         public LabelerChangeCounter()
         {
 
         }
 
-        public void SetMinChanges(Int32 MinChanges)
+        public override void SetMinChanges(Int32 MinChanges)
         {
             this.MinChanges = MinChanges;
         }
 
-        public void SetMaxChanges(Int32 MaxChanges)
+        public override void SetMaxChanges(Int32 MaxChanges)
         {
             this.MaxChanges = MaxChanges;
         }
 
-        public void SetVariableSize(Int32 VariableSize)
+        public override void SetVariableSize(Int32 VariableSize)
         {
             this.VariableSize = VariableSize;
         }
 
-        public void BeginLabeler()
+        public override void BeginScan()
         {
             // Grab the current snapshot and assign counts of 0 to all addresses
             Snapshot InitialSnapshot = SnapshotManager.GetSnapshotManagerInstance().GetActiveSnapshot();
@@ -54,21 +43,10 @@ namespace Anathema
             LabeledSnapshot = new Snapshot<UInt16>(InitialSnapshot.GetMemoryRegions());
             LabeledSnapshot.AssignLabels(Counts);
 
-            CancelRequest = new CancellationTokenSource();
-            ChangeScanner = Task.Run(async () =>
-            {
-                while (true)
-                {
-                    // Query the target process for memory changes
-                    ApplyFilter();
-
-                    // Await with cancellation
-                    await Task.Delay(WaitTime, CancelRequest.Token);
-                }
-            }, CancelRequest.Token);
+            base.BeginScan();
         }
 
-        private void ApplyFilter()
+        protected override void UpdateScan()
         {
             if (!LabeledSnapshot.HasLabels())
                 throw new Exception("Count labels missing");
@@ -102,14 +80,9 @@ namespace Anathema
             LabeledSnapshot.AssignLabels(Labels);
         }
 
-        public Snapshot EndLabeler()
+        public override void EndScan()
         {
-            // Wait for the filter to finish
-            CancelRequest.Cancel();
-            try { ChangeScanner.Wait(AbortTime); }
-            catch (AggregateException) { }
-
-            return null;
+            base.EndScan();
         }
 
     } // End class

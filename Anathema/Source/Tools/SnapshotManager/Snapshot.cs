@@ -23,8 +23,17 @@ namespace Anathema
 
         public Snapshot()
         {
+            this.MemoryRegions = new List<RemoteRegion>();
+
             InitializeObserver();
-            MemoryRegions = new List<RemoteRegion>();
+        }
+        
+        public Snapshot(List<RemoteRegion> MemoryRegions)
+        {
+            this.MemoryRegions = MemoryRegions;
+
+            InitializeObserver();
+            MergeRegions();
         }
 
         public void InitializeObserver()
@@ -35,13 +44,6 @@ namespace Anathema
         public void UpdateMemoryEditor(MemorySharp MemoryEditor)
         {
             this.MemoryEditor = MemoryEditor;
-        }
-
-        public Snapshot(List<RemoteRegion> MemoryRegions)
-        {
-            this.MemoryRegions = MemoryRegions;
-
-            MergeRegions();
         }
 
         public void SetTimeStampToNow()
@@ -56,10 +58,10 @@ namespace Anathema
 
         public void ReadAllMemory()
         {
-            MemoryValues = new List<Byte[]>(MemoryRegions.Count);
+            MemoryValues = Enumerable.Repeat((Byte[])null, MemoryRegions.Count).ToList();
             Boolean InvalidRead = false;
 
-            Parallel.For(0, MemoryValues.Count, Index =>
+            Parallel.For(0, MemoryRegions.Count, Index =>
             {
                 Boolean SuccessReading = false;
                 MemoryValues[Index] = MemoryEditor.ReadBytes(MemoryRegions[Index].BaseAddress, MemoryRegions[Index].RegionSize, out SuccessReading, false);

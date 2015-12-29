@@ -104,14 +104,12 @@ namespace Anathema
 
         private void StartScanButton_Click(object sender, EventArgs e)
         {
-            LabelerChangeCounterPresenter.BeginLabeler();
+            LabelerChangeCounterPresenter.BeginScan();
         }
 
         private void StopScanButton_Click(object sender, EventArgs e)
         {
-            Snapshot Result = LabelerChangeCounterPresenter.EndLabeler();
-
-            SnapshotManager.GetSnapshotManagerInstance().SaveSnapshot(Result);
+            LabelerChangeCounterPresenter.EndScan();
         }
 
         #endregion

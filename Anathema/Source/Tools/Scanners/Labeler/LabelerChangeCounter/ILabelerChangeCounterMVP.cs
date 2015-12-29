@@ -8,22 +8,22 @@ using System.Threading.Tasks;
 
 namespace Anathema
 {
-    interface ILabelerChangeCounterView : ILabelerView
+    interface ILabelerChangeCounterView : IScannerView
     {
         // Methods invoked by the presenter (upstream)
     }
 
-    interface ILabelerChangeCounterModel : ILabelerModel
+    abstract class ILabelerChangeCounterModel : IScannerModel
     {
         // Events triggered by the model (upstream)
 
         // Functions invoked by presenter (downstream)
-        void SetMinChanges(Int32 MinChanges);
-        void SetMaxChanges(Int32 MaxChanges);
-        void SetVariableSize(Int32 VariableSize);
+        public abstract void SetMinChanges(Int32 MinChanges);
+        public abstract void SetMaxChanges(Int32 MaxChanges);
+        public abstract void SetVariableSize(Int32 VariableSize);
     }
 
-    class LabelerChangeCounterPresenter : LabelerPresenter
+    class LabelerChangeCounterPresenter : ScannerPresenter
     {
         new ILabelerChangeCounterView View;
         new ILabelerChangeCounterModel Model;

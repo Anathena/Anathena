@@ -58,13 +58,13 @@ namespace Anathema
 
         private void StartScanButton_Click(object sender, EventArgs e)
         {
-            FilterTreeScanPresenter.BeginFilter();
+            FilterTreeScanPresenter.BeginScan();
             DisableGUI();
         }
 
         private void StopScanButton_Click(object sender, EventArgs e)
         {
-            FilterTreeScanPresenter.EndFilter();
+            FilterTreeScanPresenter.EndScan();
             EnableGUI();
         }
 

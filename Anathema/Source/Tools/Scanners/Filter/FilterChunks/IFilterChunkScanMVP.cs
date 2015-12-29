@@ -14,23 +14,27 @@ namespace Anathema
         public UInt64? FilterResultSize = null;
     }
 
-    interface IFilterChunkScanView : IFilterView
+    interface IFilterChunkScanView : IScannerView
     {
         // Methods invoked by the presenter (upstream)
         void DisplayResultSize(UInt64 FilterResultSize);
     }
 
-    interface IFilterChunkScanModel : IFilterModel
+    abstract class IFilterChunkScanModel : IScannerModel
     {
         // Events triggered by the model (upstream)
-        event FilterChunkScanEventHandler EventUpdateMemorySize;
+        public event FilterChunkScanEventHandler EventUpdateMemorySize;
+        protected virtual void OnEventUpdateMemorySize(FilterChunksEventArgs E)
+        {
+            EventUpdateMemorySize(this, E);
+        }
 
         // Functions invoked by presenter (downstream)
-        void SetChunkSize(Int32 ChunkSize);
-        void SetMinChanges(Int32 MinChanges);
+        public abstract void SetChunkSize(Int32 ChunkSize);
+        public abstract void SetMinChanges(Int32 MinChanges);
     }
 
-    class FilterChunkScanPresenter : FilterPresenter
+    class FilterChunkScanPresenter : ScannerPresenter
     {
         new IFilterChunkScanView View;
         new IFilterChunkScanModel Model;

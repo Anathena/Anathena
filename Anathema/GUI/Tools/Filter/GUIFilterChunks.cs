@@ -78,13 +78,13 @@ namespace Anathema
 
         private void StartScanButton_Click(Object Sender, EventArgs E)
         {
-            FilterChunkScanPresenter.BeginFilter();
+            FilterChunkScanPresenter.BeginScan();
             DisableGUI();
         }
 
         private void StopScanButton_Click(Object Sender, EventArgs E)
         {
-            FilterChunkScanPresenter.EndFilter();
+            FilterChunkScanPresenter.EndScan();
             EnableGUI();
         }
 
