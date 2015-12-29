@@ -64,8 +64,7 @@ namespace Anathema
 
         private void StopScanButton_Click(object sender, EventArgs e)
         {
-            Snapshot Result = FilterTreeScanPresenter.EndFilter();
-            SnapshotManager.GetSnapshotManagerInstance().SaveSnapshot(Result);
+            FilterTreeScanPresenter.EndFilter();
             EnableGUI();
         }
 

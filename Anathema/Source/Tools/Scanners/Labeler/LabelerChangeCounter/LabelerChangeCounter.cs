@@ -10,7 +10,8 @@ namespace Anathema
 {
     class LabelerChangeCounter : ILabelerChangeCounterModel
     {
-        private Snapshot<UInt16> CurrentSnapshot;
+        private Snapshot<UInt16> LabeledSnapshot;
+
         private CancellationTokenSource CancelRequest;      // Tells the scan task to cancel (ie finish)
         private Task ChangeScanner;                         // Event that constantly checks the target process for changes
 
@@ -45,13 +46,13 @@ namespace Anathema
             this.VariableSize = VariableSize;
         }
 
-        public void BeginFilter()
+        public void BeginLabeler()
         {
             // Grab the current snapshot and assign counts of 0 to all addresses
             Snapshot InitialSnapshot = SnapshotManager.GetSnapshotManagerInstance().GetActiveSnapshot();
             List<UInt16> Counts = new List<UInt16>(new UInt16[InitialSnapshot.GetSize()]);
-            CurrentSnapshot = new Snapshot<UInt16>(InitialSnapshot.GetMemoryRegions());
-            CurrentSnapshot.AssignLabels(Counts);
+            LabeledSnapshot = new Snapshot<UInt16>(InitialSnapshot.GetMemoryRegions());
+            LabeledSnapshot.AssignLabels(Counts);
 
             CancelRequest = new CancellationTokenSource();
             ChangeScanner = Task.Run(async () =>
@@ -69,18 +70,39 @@ namespace Anathema
 
         private void ApplyFilter()
         {
-            List<Int32> IndexMapping = CurrentSnapshot.GetLabelMapping();
-            List<UInt16> Labels = CurrentSnapshot.GetMemoryLabels();
-
-            if (!CurrentSnapshot.HasLabels())
+            if (!LabeledSnapshot.HasLabels())
                 throw new Exception("Count labels missing");
 
+            // Get previous values
+            List<Byte[]> PreviousScan = LabeledSnapshot.GetReadMemory();
 
+            // Read memory to get current values
+            LabeledSnapshot.ReadAllMemory();
+            List<Byte[]> CurrentScan = LabeledSnapshot.GetReadMemory();
 
-            //CurrentSnapshot.AssignLabels(PageData);
+            if (CurrentScan == null || PreviousScan == null)
+                return;
+            
+            List<Int32> LabelMapping = LabeledSnapshot.GetLabelMapping();
+            List<UInt16> Labels = LabeledSnapshot.GetMemoryLabels();
+
+            // Update the labels with the new count of number of changes
+            for (Int32 RegionIndex = 0; RegionIndex < CurrentScan.Count; RegionIndex++)
+            {
+                for (Int32 ElementIndex = 0; ElementIndex < CurrentScan[RegionIndex].Length; ElementIndex++)
+                {
+                    if (CurrentScan[RegionIndex][ElementIndex] != PreviousScan[RegionIndex][ElementIndex])
+                    {
+                        Labels[LabelMapping[RegionIndex] + ElementIndex]++;
+                    }
+                }
+            }
+
+            // Save new labels
+            LabeledSnapshot.AssignLabels(Labels);
         }
 
-        public Snapshot<Object> EndFilter()
+        public Snapshot EndLabeler()
         {
             // Wait for the filter to finish
             CancelRequest.Cancel();
@@ -88,16 +110,6 @@ namespace Anathema
             catch (AggregateException) { }
 
             return null;
-        }
-
-        public void BeginLabeler()
-        {
-            throw new NotImplementedException();
-        }
-
-        public Snapshot<Object> EndLabeler()
-        {
-            throw new NotImplementedException();
         }
 
     } // End class

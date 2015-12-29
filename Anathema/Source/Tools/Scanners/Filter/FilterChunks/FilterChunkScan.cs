@@ -8,18 +8,13 @@ using Binarysharp.MemoryManagement.Memory;
 
 namespace Anathema
 {
-    class FilterChunkScan : IFilterChunkScanModel
+    class FilterChunkScan : Scanner, IFilterChunkScanModel
     {
         private MemorySharp MemoryEditor;
-
         private Snapshot InitialSnapshot;
-        private List<MemoryChunkRoots> ChunkRoots;          // List of memory pages that we may be interested in
-        private CancellationTokenSource CancelRequest;      // Tells the scan task to cancel (ie finish)
-        private Task ChangeScanner;                         // Event that constantly checks the target process for changes
-
+        
         // Variables
-        private const Int32 AbortTime = 3000;       // Time to wait (in ms) before giving up when ending scan
-        private Int32 WaitTime = 200;               // Time to wait (in ms) for a cancel request between each scan
+        private List<MemoryChunkRoots> ChunkRoots;
         private Int32 ChunkSize;
         private Int32 MinChanges;
 
@@ -52,7 +47,7 @@ namespace Anathema
             this.MinChanges = MinChanges;
         }
 
-        public void BeginFilter()
+        public override void BeginScan()
         {
             InitialSnapshot = SnapshotManager.GetSnapshotManagerInstance().GetActiveSnapshot();
             this.ChunkRoots = new List<MemoryChunkRoots>();
@@ -61,25 +56,12 @@ namespace Anathema
             List<RemoteRegion> MemoryRegions = InitialSnapshot.GetMemoryRegions();
             for (int PageIndex = 0; PageIndex < MemoryRegions.Count; PageIndex++)
                 ChunkRoots.Add(new MemoryChunkRoots(MemoryRegions[PageIndex], ChunkSize));
-
-            CancelRequest = new CancellationTokenSource();
-            ChangeScanner = Task.Run(async () =>
-            {
-                while (true)
-                {
-                    // Query the target process for memory changes
-                    ApplyFilter();
-
-                    // Await with cancellation
-                    await Task.Delay(WaitTime, CancelRequest.Token);
-                }
-            }, CancelRequest.Token);
+            
+            base.BeginScan();
         }
 
-        private void ApplyFilter()
+        protected override void UpdateScan()
         {
-            //foreach (MemoryChangeTree Tree in FilterTrees)
-            // Parallel.For(0, FilterTrees.Count, PageIndex => // Upwards of a x2 increase in speed
             Parallel.ForEach(ChunkRoots, (Tree) =>
             {
                 if (Tree.IsDead())
@@ -101,12 +83,10 @@ namespace Anathema
             });
         }
 
-        public Snapshot EndFilter()
+        public override void EndScan()
         {
             // Wait for the filter to finish
-            CancelRequest.Cancel();
-            try { ChangeScanner.Wait(AbortTime); }
-            catch (AggregateException) { }
+            base.EndScan();
 
             // Collect the pages that have changed
             List<RemoteRegion> ChangedRegions = new List<RemoteRegion>();
@@ -122,14 +102,15 @@ namespace Anathema
 
             // Grow regions by the size of the largest standard variable and mask this with the original memory list.
             FilteredSnapshot.GrowRegions(sizeof(UInt64));
-            FilteredSnapshot.MaskRegions(InitialSnapshot.GetMemoryRegions());
+            FilteredSnapshot.MaskRegions(InitialSnapshot);
 
             // Send the size of the filtered memory to the GUI
             FilterChunksEventArgs Args = new FilterChunksEventArgs();
             Args.FilterResultSize = FilteredSnapshot.GetSize();
             EventUpdateMemorySize.Invoke(this, Args);
 
-            return FilteredSnapshot;
+            // Save result
+            SnapshotManager.GetSnapshotManagerInstance().SaveSnapshot(FilteredSnapshot);
         }
 
         public class MemoryChunkRoots : RemoteRegion
@@ -142,13 +123,12 @@ namespace Anathema
             public MemoryChunkRoots(RemoteRegion Region, Int32 ChunkSize) : base(null, Region.BaseAddress, Region.RegionSize)
             {
                 // Initialize state variables
-                Dead = false;
-
                 Int32 ChunkCount = RegionSize / ChunkSize + 1;
-
+                IntPtr CurrentBase = Region.BaseAddress;
                 Chunks = new RemoteRegion[ChunkCount];
                 ChangeCounts = new UInt16[ChunkCount];
                 Checksums = new UInt32?[ChunkCount];
+                Dead = false;
 
                 // Initialize all chunks and checksums
                 for (Int32 Index = 0; Index < ChunkCount; Index++)
@@ -158,11 +138,11 @@ namespace Anathema
                     if (Index == ChunkCount - 1)
                         ChunkRegionSize = RegionSize % ChunkSize;
 
-                    Chunks[Index] = new RemoteRegion(null, BaseAddress, ChunkRegionSize);
+                    Chunks[Index] = new RemoteRegion(null, CurrentBase, ChunkRegionSize);
                     ChangeCounts[Index] = 0;
                     Checksums[Index] = 0;
 
-                    BaseAddress += ChunkSize;
+                    CurrentBase += ChunkSize;
                 }
             }
 

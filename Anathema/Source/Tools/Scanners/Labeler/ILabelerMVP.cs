@@ -21,7 +21,7 @@ namespace Anathema
 
         // Functions invoked by presenter (downstream)
         void BeginLabeler();
-        Snapshot<Object> EndLabeler();
+        Snapshot EndLabeler();
     }
 
     class LabelerPresenter : Presenter<ILabelerView, ILabelerModel>
@@ -39,7 +39,7 @@ namespace Anathema
             Model.BeginLabeler();
         }
 
-        public Snapshot<Object> EndLabeler()
+        public Snapshot EndLabeler()
         {
             return Model.EndLabeler();
         }

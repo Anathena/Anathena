@@ -19,19 +19,14 @@ namespace Anathema
     /// 4) End on user request. Keep all leaves marked as changed, or all leaves marked as unknown. Discard unchanged blocks.
     ///
     /// </summary>
-    class FilterTreeScan : IFilterTreeScanModel
+    class FilterTreeScan : Scanner, IFilterTreeScanModel
     {
         private MemorySharp MemoryEditor;
-
-        private List<RemoteRegion> MemoryRegions;
-        private List<MemoryChangeTree> FilterTrees;         // List of memory pages that we may be interested in
-        private CancellationTokenSource CancelRequest;      // Tells the scan task to cancel (ie finish)
-        private Task ChangeScanner;                         // Event that constantly checks the target process for changes
+        private Snapshot InitialSnapshot;
 
         // Variables
-        private const Int32 AbortTime = 3000;       // Time to wait (in ms) before giving up when ending scan
-        private Int32 WaitTime = 200;               // Time to wait (in ms) for a cancel request between each scan
-        
+        private List<MemoryChangeTree> FilterTrees; // Trees to grow to search for changes
+
         // Event stubs
         public event EventHandler EventFilterFinished;
         public event FilterTreeScanEventHandler EventUpdateMemorySize;
@@ -51,30 +46,20 @@ namespace Anathema
             this.MemoryEditor = MemoryEditor;
         }
 
-        public void BeginFilter()
+        public override void BeginScan()
         {
-            this.MemoryRegions = SnapshotManager.GetSnapshotManagerInstance().GetActiveSnapshot().GetMemoryRegions();
+            this.InitialSnapshot = SnapshotManager.GetSnapshotManagerInstance().GetActiveSnapshot();
             this.FilterTrees = new List<MemoryChangeTree>();
 
             // Initialize filter tree roots
+            List<RemoteRegion> MemoryRegions = InitialSnapshot.GetMemoryRegions();
             for (int PageIndex = 0; PageIndex < MemoryRegions.Count; PageIndex++)
                 FilterTrees.Add(new MemoryChangeTree(MemoryRegions[PageIndex].BaseAddress, MemoryRegions[PageIndex].RegionSize));
 
-            CancelRequest = new CancellationTokenSource();
-            ChangeScanner = Task.Run(async () =>
-            {
-                while (true)
-                {
-                    // Query the target process for memory changes
-                    ApplyFilter();
-
-                    // Await with cancellation
-                    await Task.Delay(WaitTime, CancelRequest.Token);
-                }
-            }, CancelRequest.Token);
+            base.BeginScan();
         }
 
-        private void ApplyFilter()
+        protected override void UpdateScan()
         {
             //foreach (MemoryChangeTree Tree in FilterTrees)
             // Parallel.For(0, FilterTrees.Count, PageIndex => // Upwards of a x2 increase in speed
@@ -99,12 +84,10 @@ namespace Anathema
             });
         }
 
-        public Snapshot EndFilter()
+        public override void EndScan()
         {
             // Wait for the filter to finish
-            CancelRequest.Cancel();
-            try { ChangeScanner.Wait(AbortTime); }
-            catch (AggregateException) { }
+            base.EndScan();
 
             // Collect the pages that have changed
             List<MemoryChangeTree> ChangedRegions = new List<MemoryChangeTree>();
@@ -120,14 +103,15 @@ namespace Anathema
 
             // Grow regions by the size of the largest standard variable and mask this with the original memory list.
             FilteredSnapshot.GrowRegions(sizeof(UInt64));
-            FilteredSnapshot.MaskRegions(MemoryRegions);
+            FilteredSnapshot.MaskRegions(InitialSnapshot);
             
             // Send the size of the filtered memory to the GUI
             FilterTreesEventArgs Args = new FilterTreesEventArgs();
             Args.FilterResultSize = FilteredSnapshot.GetSize();
             EventUpdateMemorySize.Invoke(this, Args);
 
-            return FilteredSnapshot;
+            // Save the snapshot
+            SnapshotManager.GetSnapshotManagerInstance().SaveSnapshot(FilteredSnapshot);
         }
 
         public class MemoryChangeTree : RemoteRegion

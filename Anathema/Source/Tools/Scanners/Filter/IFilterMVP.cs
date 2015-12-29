@@ -20,8 +20,8 @@ namespace Anathema
         event EventHandler EventFilterFinished;
 
         // Functions invoked by presenter (downstream)
-        void BeginFilter();
-        Snapshot EndFilter();
+        void BeginScan();
+        void EndScan();
     }
 
     class FilterPresenter : Presenter<IFilterView, IFilterModel>
@@ -36,12 +36,12 @@ namespace Anathema
 
         public void BeginFilter()
         {
-            Model.BeginFilter();
+            Model.BeginScan();
         }
 
-        public Snapshot EndFilter()
+        public void EndFilter()
         {
-            return Model.EndFilter();
+            Model.EndScan();
         }
 
         #endregion

@@ -57,6 +57,7 @@ namespace Anathema
         public void ReadAllMemory()
         {
             MemoryValues = new List<Byte[]>(MemoryRegions.Count);
+            Boolean InvalidRead = false;
 
             Parallel.For(0, MemoryValues.Count, Index =>
             {
@@ -64,8 +65,16 @@ namespace Anathema
                 MemoryValues[Index] = MemoryEditor.ReadBytes(MemoryRegions[Index].BaseAddress, MemoryRegions[Index].RegionSize, out SuccessReading, false);
 
                 if (!SuccessReading)
-                    MemoryValues[Index] = null;
+                    InvalidRead = true;
             });
+
+            // Deallocated page, we need to mask the current virtual pages with this snapshot
+            if (InvalidRead)
+            {
+                // MaskRegions(SnapshotManager.GetSnapshotManagerInstance().SnapshotAllMemory());
+            }
+
+            // Things that call this may expect a 1 to 1 with the previous ReadAllMemory
         }
 
         public List<Byte[]> GetReadMemory()
@@ -103,22 +112,22 @@ namespace Anathema
         {
             Int32 GrowSize = VariableSize - 1;
 
+            // MergeRegions();
         }
 
         /// <summary>
         /// Masks the current memory regions against another memory region, keeping the common elements of the two.
         /// </summary>
-        /// <param name="MaskingRegions"></param>
-        public void MaskRegions(List<RemoteRegion> MaskingRegions)
+        /// <param name="Mask"></param>
+        public void MaskRegions(Snapshot Mask)
         {
 
+            // MergeRegions(); // Just for the sort
         }
 
-        private void MapIndecies()
+        private void MapIndicies()
         {
-            if (LabelMapping == null)
-                LabelMapping = new List<Int32>();
-            LabelMapping.Clear();
+            LabelMapping = new List<Int32>();
 
             Int32 Mapping = 0;
             for (Int32 PageIndex = 0; PageIndex < MemoryRegions.Count; PageIndex++)
@@ -130,7 +139,7 @@ namespace Anathema
         }
 
         /// <summary>
-        /// Merges continguous regions in the current list of memory regions using a fast stack based algorithm O(nlogn) + O(n)
+        /// Merges continguous regions in the current list of memory regions using a fast stack based algorithm O(nlogn + n)
         /// </summary>
         private void MergeRegions()
         {
@@ -166,7 +175,7 @@ namespace Anathema
             // Replace memory regions with merged memory regions
             MemoryRegions = CombinedRegions.ToList();
             MemoryRegions.Reverse();
-            MapIndecies();
+            MapIndicies();
         }
     }
 
