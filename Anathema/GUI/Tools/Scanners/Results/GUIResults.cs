@@ -18,7 +18,7 @@ namespace Anathema
             this.SetStyle(ControlStyles.OptimizedDoubleBuffer | ControlStyles.UserPaint | ControlStyles.AllPaintingInWmPaint, true);
             this.DoubleBuffered = true;
 
-            ResultsPresenter ResultsPresenter = new ResultsPresenter(this, new Results());
+            ResultsPresenter ResultsPresenter = new ResultsPresenter(this, Results.GetInstance());
         }
 
         public void DisplayResults(ListViewItem[] Items)

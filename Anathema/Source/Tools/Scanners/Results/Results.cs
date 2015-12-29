@@ -15,15 +15,26 @@ namespace Anathema
     /// </summary>
     class Results : IResultsModel, IProcessObserver
     {
+        private static Results ResultsInstance;
         private MemorySharp MemoryEditor;
-        private const Int32 DisplayCount = 1000;
 
-        public Results()
+        private const Int32 DisplayCount = 1000;
+        private Type ScanType;
+
+        private Results()
         {
             InitializeObserver();
+            UpdateScanType(typeof(Int32));
             BeginScan();
         }
-        
+
+        public static Results GetInstance()
+        {
+            if (ResultsInstance == null)
+                ResultsInstance = new Results();
+            return ResultsInstance;
+        }
+
         ~Results()
         {
             EndScan();
@@ -37,6 +48,11 @@ namespace Anathema
         public void UpdateMemoryEditor(MemorySharp MemoryEditor)
         {
             this.MemoryEditor = MemoryEditor;
+        }
+
+        public void UpdateScanType(Type ScanType)
+        {
+            this.ScanType = ScanType;
         }
 
         public override void BeginScan()
@@ -77,13 +93,29 @@ namespace Anathema
             // Gather values to display
             foreach (IntPtr Address in AccessedAddresses)
             {
-                Boolean ReadSuccess;
-                var Value = MemoryEditor.Read<Byte> (Address, out ReadSuccess, false);
+                Boolean ReadSuccess = false;
+
+                dynamic Value = "?";
+                var @switch = new Dictionary<Type, Action> {
+                    { typeof(Byte), () => Value = MemoryEditor.Read<Byte>(Address, out ReadSuccess, false) },
+                    { typeof(SByte), () => Value = MemoryEditor.Read<SByte>(Address, out ReadSuccess, false) },
+                    { typeof(Int16), () => Value = MemoryEditor.Read<Int16>(Address, out ReadSuccess, false) },
+                    { typeof(Int32), () => Value = MemoryEditor.Read<Int32>(Address, out ReadSuccess, false) },
+                    { typeof(Int64), () => Value = MemoryEditor.Read<Int64>(Address, out ReadSuccess, false) },
+                    { typeof(UInt16), () => Value = MemoryEditor.Read<UInt16>(Address, out ReadSuccess, false) },
+                    { typeof(UInt32), () => Value = MemoryEditor.Read<UInt32>(Address, out ReadSuccess, false) },
+                    { typeof(UInt64), () => Value = MemoryEditor.Read<UInt64>(Address, out ReadSuccess, false) },
+                    { typeof(Single), () => Value = MemoryEditor.Read<Single>(Address, out ReadSuccess, false) },
+                    { typeof(Double), () => Value = MemoryEditor.Read<Double>(Address, out ReadSuccess, false) },
+                };
+
+                if (@switch.ContainsKey(ScanType))
+                    @switch[ScanType]();
 
                 if (ReadSuccess)
                     Values.Add(Value.ToString());
                 else
-                    Values.Add("??");
+                    Values.Add("-");
             }
 
             // Gather labels to display
@@ -93,7 +125,7 @@ namespace Anathema
                 foreach (var RegionLabels in LabeledSnapshot.GetMemoryLabels())
                 {
                     foreach (var Lables in RegionLabels)
-                    { 
+                    {
                         Labels.Add(Lables.ToString());
 
                         if (Labels.Count >= DisplayCount)
@@ -109,7 +141,7 @@ namespace Anathema
                 for (Int32 Index = 0; Index < DisplayCount; Index++)
                     Labels.Add("");
             }
-            
+
             // Send the size of the filtered memory to the GUI
             ResultsEventArgs Args = new ResultsEventArgs();
             Args.Addresses = Addresses;
