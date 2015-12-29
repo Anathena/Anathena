@@ -34,7 +34,7 @@ namespace Anathema
 
         public override void BeginScan()
         {
-            InitialSnapshot = SnapshotManager.GetSnapshotManagerInstance().GetActiveSnapshot();
+            InitialSnapshot = SnapshotManager.GetInstance().GetActiveSnapshot();
             this.ChunkRoots = new List<MemoryChunkRoots>();
 
             // Initialize filter tree roots
@@ -93,7 +93,7 @@ namespace Anathema
             OnEventUpdateMemorySize(Args);
 
             // Save result
-            SnapshotManager.GetSnapshotManagerInstance().SaveSnapshot(FilteredSnapshot);
+            SnapshotManager.GetInstance().SaveSnapshot(FilteredSnapshot);
         }
 
         public class MemoryChunkRoots : RemoteRegion

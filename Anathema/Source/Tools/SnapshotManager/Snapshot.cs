@@ -27,7 +27,7 @@ namespace Anathema
 
             InitializeObserver();
         }
-        
+
         public Snapshot(List<RemoteRegion> MemoryRegions)
         {
             this.MemoryRegions = MemoryRegions;
@@ -58,16 +58,35 @@ namespace Anathema
 
         public void ReadAllMemory()
         {
-            MemoryValues = Enumerable.Repeat((Byte[])null, MemoryRegions.Count).ToList();
+            ReadMemoryRegions(MemoryRegions);
+        }
+
+        public void ReadSpecifiedRegions(List<RemoteRegion> TargetRegions)
+        {
+            ReadMemoryRegions(TargetRegions);
+        }
+
+        private void ReadMemoryRegions(List<RemoteRegion> TargetRegions)
+        {
+            if (MemoryValues == null)
+                MemoryValues = Enumerable.Repeat((Byte[])null, TargetRegions.Count).ToList();
+
             Boolean InvalidRead = false;
 
-            Parallel.For(0, MemoryRegions.Count, Index =>
+            Parallel.ForEach(TargetRegions, (TargetRegion) =>
             {
-                Boolean SuccessReading = false;
-                MemoryValues[Index] = MemoryEditor.ReadBytes(MemoryRegions[Index].BaseAddress, MemoryRegions[Index].RegionSize, out SuccessReading, false);
+                Int32 Index = MemoryRegions.IndexOf(TargetRegion);
 
+                if (Index < 0 || Index >= MemoryRegions.Count)
+                    return;
+
+                Boolean SuccessReading = false;
+                MemoryValues[Index] = MemoryEditor.ReadBytes(TargetRegions[Index].BaseAddress, TargetRegions[Index].RegionSize, out SuccessReading, false);
                 if (!SuccessReading)
+                {
+                    MemoryValues[Index] = null;
                     InvalidRead = true;
+                }
             });
 
             // Deallocated page, we need to mask the current virtual pages with this snapshot
@@ -79,16 +98,16 @@ namespace Anathema
             // Things that call this may expect a 1 to 1 with the previous ReadAllMemory
         }
 
-        public List<Byte[]> GetReadMemory()
-        {
-            return MemoryValues;
-        }
-
         public List<RemoteRegion> GetMemoryRegions()
         {
             return MemoryRegions;
         }
 
+        public List<Byte[]> GetReadMemory()
+        {
+            return MemoryValues;
+        }
+        
         public List<Int32> GetLabelMapping()
         {
             return LabelMapping;

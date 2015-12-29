@@ -14,6 +14,7 @@ namespace Anathema
     {
         public List<String> Addresses = null;
         public List<String> Values = null;
+        public List<String> Labels = null;
     }
 
     interface IResultsView : IView
@@ -21,10 +22,14 @@ namespace Anathema
         void DisplayResults(List<String> Addresses, List<String> Values);
     }
 
-    interface IResultsModel : IModel, IProcessObserver
+    abstract class IResultsModel : IScannerModel
     {
         // Events triggered by the model (upstream)
-        event ResultsEventHandler EventUpdateDisplay;
+        public event ResultsEventHandler EventUpdateDisplay;
+        protected virtual void OnEventUpdateDisplay(ResultsEventArgs E)
+        {
+            EventUpdateDisplay(this, E);
+        }
 
         // Functions invoked by presenter (downstream)
 
@@ -45,12 +50,7 @@ namespace Anathema
         }
         
         #region Method definitions called by the view (downstream)
-
-        public void UpdateMemoryEditor(MemorySharp MemoryEditor)
-        {
-            Model.UpdateMemoryEditor(MemoryEditor);
-        }
-
+        
         #endregion
 
         #region Event definitions for events triggered by the model (upstream)

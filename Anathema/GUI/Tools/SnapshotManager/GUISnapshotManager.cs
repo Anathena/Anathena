@@ -20,7 +20,7 @@ namespace Anathema
         private void GUISnapshotManager_Load(object sender, EventArgs e)
         {
             // Initialize presenter
-            SnapshotManagerPresenter SnapshotManagerPresenter = new SnapshotManagerPresenter(this, SnapshotManager.GetSnapshotManagerInstance());
+            SnapshotManagerPresenter SnapshotManagerPresenter = new SnapshotManagerPresenter(this, SnapshotManager.GetInstance());
         }
 
         public void UpdateSnapshotDisplay(TreeNode[] Snapshots)

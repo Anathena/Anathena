@@ -38,7 +38,7 @@ namespace Anathema
         public override void BeginScan()
         {
             // Grab the current snapshot and assign counts of 0 to all addresses
-            Snapshot InitialSnapshot = SnapshotManager.GetSnapshotManagerInstance().GetActiveSnapshot();
+            Snapshot InitialSnapshot = SnapshotManager.GetInstance().GetActiveSnapshot();
             List<UInt16> Counts = new List<UInt16>(new UInt16[InitialSnapshot.GetSize()]);
             LabeledSnapshot = new Snapshot<UInt16>(InitialSnapshot.GetMemoryRegions());
             LabeledSnapshot.AssignLabels(Counts);

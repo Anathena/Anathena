@@ -32,7 +32,7 @@ namespace Anathema
 
         public override void BeginScan()
         {
-            this.InitialSnapshot = SnapshotManager.GetSnapshotManagerInstance().GetActiveSnapshot();
+            this.InitialSnapshot = SnapshotManager.GetInstance().GetActiveSnapshot();
             this.FilterTrees = new List<MemoryChangeTree>();
 
             // Initialize filter tree roots
@@ -94,7 +94,7 @@ namespace Anathema
             OnEventUpdateMemorySize(Args);
 
             // Save the snapshot
-            SnapshotManager.GetSnapshotManagerInstance().SaveSnapshot(FilteredSnapshot);
+            SnapshotManager.GetInstance().SaveSnapshot(FilteredSnapshot);
         }
 
         public class MemoryChangeTree : RemoteRegion

@@ -28,7 +28,7 @@ namespace Anathema
             InitializeObserver();
         }
 
-        public static SnapshotManager GetSnapshotManagerInstance()
+        public static SnapshotManager GetInstance()
         {
             if (SnapshotManagerInstance == null)
                 SnapshotManagerInstance = new SnapshotManager();

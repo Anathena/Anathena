@@ -13,28 +13,25 @@ using System.Windows.Forms;
 
 namespace Anathema
 {
+    /// <summary>
+    /// http://www.ucl.ac.uk/english-usage/staff/sean/resources/phimeasures.pdf
+    /// https://en.wikipedia.org/wiki/Contingency_table#Measures_of_association
+    /// </summary>
     class LabelerInputCorrelator : IScannerModel
     {
         private Snapshot<Single> LabeledSnapshot;
 
-        private List<DateTime> ScanHistoryTime;             // Time stamps for each of the scans
-        private Byte[] ScanHistoryValues;                   // Values for each of the scans for each memory page
-        private List<BitArray> ChangeHistory;
-
-        private Int32 VariableSize;                         // Number of bytes to correlate at a time
-
-        // Input correlation related
-        private readonly IKeyboardMouseEvents InputHook;    // Input capturing class
-        private Dictionary<Keys, CorrelationValues[]> Correlation;
+        private List<DateTime> ScanHistoryTime; // Time stamps for each of the scans
+        private Byte[] ScanHistoryValues;       // Values for each of the scans for each memory page
+        private List<BitArray> ChangeHistory;   // Obvious
+        private Int32 VariableSize;             // Number of bytes to correlate at a time
         
+        private readonly IKeyboardMouseEvents InputHook;            // Input capturing class
+        private Dictionary<Keys, CorrelationValues[]> Correlation;
         private Dictionary<Keys, DateTime> KeyBoardPending;         // List of keyboard down events (waiting for an up event)
         private Dictionary<Keys, List<DateTime>> KeyBoardDown;      // List of keyboard down events
         private Dictionary<Keys, List<DateTime>> KeyBoardUp;        // List of keyboard up events
-
-        public event EventHandler EventScannerFinished;
-
-        // http://www.ucl.ac.uk/english-usage/staff/sean/resources/phimeasures.pdf
-        // https://en.wikipedia.org/wiki/Contingency_table#Measures_of_association
+        
         public struct CorrelationValues
         {
             public Single WeightedImpact;
@@ -80,7 +77,7 @@ namespace Anathema
 
         public override void BeginScan()
         {
-            Snapshot InitialSnapshot = SnapshotManager.GetSnapshotManagerInstance().GetActiveSnapshot();
+            Snapshot InitialSnapshot = SnapshotManager.GetInstance().GetActiveSnapshot();
             List<Single> Correlations = new List<Single>(new Single[InitialSnapshot.GetSize()]);
             LabeledSnapshot = new Snapshot<Single>(InitialSnapshot.GetMemoryRegions());
             LabeledSnapshot.AssignLabels(Correlations);
