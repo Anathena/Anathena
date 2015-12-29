@@ -19,7 +19,7 @@ namespace Anathema
 
     interface IResultsView : IView
     {
-        void DisplayResults(List<String> Addresses, List<String> Values);
+        void DisplayResults(ListViewItem[] Items);
     }
 
     abstract class IResultsModel : IScannerModel
@@ -57,10 +57,18 @@ namespace Anathema
 
         private void EventUpdateDisplay(Object Sender, ResultsEventArgs E)
         {
-            if (E.Addresses.Count != E.Values.Count)
+            if (E.Addresses == null || E.Values == null || E.Labels == null)
                 return;
 
-            View.DisplayResults(E.Addresses, E.Values);
+            if (E.Addresses.Count != E.Values.Count && E.Addresses.Count != E.Labels.Count)
+                return;
+
+            List<ListViewItem> Items = new List<ListViewItem>();
+
+            for (Int32 Index = 0; Index < E.Addresses.Count; Index++)
+                Items.Add(new ListViewItem(new String[] { E.Addresses[Index], E.Values[Index], E.Labels[Index] }));
+
+            View.DisplayResults(Items.ToArray());
         }
 
         #endregion

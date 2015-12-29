@@ -28,13 +28,33 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.ResultsListView = new System.Windows.Forms.ListView();
+            this.AddressCount = new System.Windows.Forms.Label();
+            this.VariableSizeValueLabel = new System.Windows.Forms.Label();
+            this.ResultsListView = new Anathema.FlickerFreeListView();
             this.AddressHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.ValueHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.LabelHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.AddressCount = new System.Windows.Forms.Label();
-            this.VariableSizeValueLabel = new System.Windows.Forms.Label();
             this.SuspendLayout();
+            // 
+            // AddressCount
+            // 
+            this.AddressCount.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.AddressCount.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.AddressCount.Location = new System.Drawing.Point(0, 244);
+            this.AddressCount.Name = "AddressCount";
+            this.AddressCount.Size = new System.Drawing.Size(284, 17);
+            this.AddressCount.TabIndex = 152;
+            this.AddressCount.Text = "Active Snapshot Size:";
+            // 
+            // VariableSizeValueLabel
+            // 
+            this.VariableSizeValueLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.VariableSizeValueLabel.AutoSize = true;
+            this.VariableSizeValueLabel.Location = new System.Drawing.Point(109, 245);
+            this.VariableSizeValueLabel.Name = "VariableSizeValueLabel";
+            this.VariableSizeValueLabel.Size = new System.Drawing.Size(20, 13);
+            this.VariableSizeValueLabel.TabIndex = 154;
+            this.VariableSizeValueLabel.Text = "0B";
             // 
             // ResultsListView
             // 
@@ -69,26 +89,6 @@
             this.LabelHeader.Text = "Label";
             this.LabelHeader.Width = 88;
             // 
-            // AddressCount
-            // 
-            this.AddressCount.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.AddressCount.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.AddressCount.Location = new System.Drawing.Point(0, 244);
-            this.AddressCount.Name = "AddressCount";
-            this.AddressCount.Size = new System.Drawing.Size(284, 17);
-            this.AddressCount.TabIndex = 152;
-            this.AddressCount.Text = "Selected Snapshot Size:";
-            // 
-            // VariableSizeValueLabel
-            // 
-            this.VariableSizeValueLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.VariableSizeValueLabel.AutoSize = true;
-            this.VariableSizeValueLabel.Location = new System.Drawing.Point(120, 245);
-            this.VariableSizeValueLabel.Name = "VariableSizeValueLabel";
-            this.VariableSizeValueLabel.Size = new System.Drawing.Size(20, 13);
-            this.VariableSizeValueLabel.TabIndex = 154;
-            this.VariableSizeValueLabel.Text = "0B";
-            // 
             // GUIResults
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -107,7 +107,7 @@
 
         #endregion
 
-        private System.Windows.Forms.ListView ResultsListView;
+        private FlickerFreeListView ResultsListView;
         private System.Windows.Forms.ColumnHeader AddressHeader;
         private System.Windows.Forms.ColumnHeader ValueHeader;
         private System.Windows.Forms.ColumnHeader LabelHeader;

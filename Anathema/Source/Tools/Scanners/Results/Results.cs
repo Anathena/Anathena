@@ -3,6 +3,7 @@ using Binarysharp.MemoryManagement.Memory;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -22,7 +23,7 @@ namespace Anathema
             InitializeObserver();
             BeginScan();
         }
-
+        
         ~Results()
         {
             EndScan();
@@ -66,18 +67,19 @@ namespace Anathema
                     AccessedAddresses.Add((IntPtr)Address);
 
                     Addresses.Add(Conversions.ToAddress(Address.ToString()));
-                    if (AccessedAddresses.Count >= DisplayCount)
+                    if (Addresses.Count >= DisplayCount)
                         break;
                 }
                 if (Addresses.Count >= DisplayCount)
                     break;
             }
-            
+
             // Gather values to display
             foreach (IntPtr Address in AccessedAddresses)
             {
                 Boolean ReadSuccess;
-                Single Value = MemoryEditor.Read<Single>(Address, out ReadSuccess, false);
+                var Value = MemoryEditor.Read<Byte> (Address, out ReadSuccess, false);
+
                 if (ReadSuccess)
                     Values.Add(Value.ToString());
                 else
@@ -85,7 +87,29 @@ namespace Anathema
             }
 
             // Gather labels to display
+            if (ActiveSnapshot.GetType() != typeof(Snapshot))
+            {
+                dynamic LabeledSnapshot = ActiveSnapshot;
+                foreach (var RegionLabels in LabeledSnapshot.GetMemoryLabels())
+                {
+                    foreach (var Lables in RegionLabels)
+                    { 
+                        Labels.Add(Lables.ToString());
 
+                        if (Labels.Count >= DisplayCount)
+                            break;
+                    }
+
+                    if (Labels.Count >= DisplayCount)
+                        break;
+                }
+            }
+            else
+            {
+                for (Int32 Index = 0; Index < DisplayCount; Index++)
+                    Labels.Add("");
+            }
+            
             // Send the size of the filtered memory to the GUI
             ResultsEventArgs Args = new ResultsEventArgs();
             Args.Addresses = Addresses;

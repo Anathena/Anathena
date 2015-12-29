@@ -15,35 +15,37 @@ namespace Anathema
         public GUIResults()
         {
             InitializeComponent();
+            this.SetStyle(ControlStyles.OptimizedDoubleBuffer | ControlStyles.UserPaint | ControlStyles.AllPaintingInWmPaint, true);
             this.DoubleBuffered = true;
 
             ResultsPresenter ResultsPresenter = new ResultsPresenter(this, new Results());
         }
 
-        public void DisplayResults(List<String> Addresses, List<String> Values)
+        public void DisplayResults(ListViewItem[] Items)
         {
             ControlThreadingHelper.InvokeControlAction(ResultsListView, () =>
             {
-                int topItemIndex = 0;
-                try
-                {
-                    topItemIndex = ResultsListView.TopItem.Index;
-                }
-                catch (Exception ex)
-                { }
+                // Pause drawing and updating (removes flicker)
+                ResultsListView.SuspendLayout();
                 ResultsListView.BeginUpdate();
+
+                // Save the top item in the list
+                Int32 TopItemIndex = 0;
+                if (ResultsListView.TopItem != null)
+                    TopItemIndex = ResultsListView.TopItem.Index;
+                
+                // Update current results
                 ResultsListView.Items.Clear();
-                for (Int32 Index = 0; Index < Addresses.Count; Index++)
-                {
-                    ResultsListView.Items.Add(Addresses[Index]).SubItems.Add(Values[Index]);
-                }
+                ResultsListView.Items.AddRange(Items);
+
+                // Restore scroll location
+                if (TopItemIndex >= 0 && TopItemIndex < ResultsListView.Items.Count)
+                    ResultsListView.TopItem = ResultsListView.Items[TopItemIndex];
+                
+                // Resume drawing and updating
                 ResultsListView.EndUpdate();
-                try
-                {
-                    ResultsListView.TopItem = ResultsListView.Items[topItemIndex];
-                }
-                catch (Exception ex)
-                { }
+                ResultsListView.ResumeLayout();
+
             });
         }
     }
