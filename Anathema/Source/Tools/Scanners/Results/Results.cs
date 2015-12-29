@@ -12,18 +12,30 @@ namespace Anathema
     /// <summary>
     /// Handles the displaying of results
     /// </summary>
-    class Results : IResultsModel
+    class Results : IResultsModel, IProcessObserver
     {
+        private MemorySharp MemoryEditor;
         private const Int32 DisplayCount = 1000;
 
         public Results()
         {
+            InitializeObserver();
             BeginScan();
         }
 
         ~Results()
         {
             EndScan();
+        }
+
+        public void InitializeObserver()
+        {
+            ProcessSelector.GetInstance().Subscribe(this);
+        }
+
+        public void UpdateMemoryEditor(MemorySharp MemoryEditor)
+        {
+            this.MemoryEditor = MemoryEditor;
         }
 
         public override void BeginScan()
@@ -38,8 +50,10 @@ namespace Anathema
 
             Snapshot ActiveSnapshot = SnapshotManager.GetInstance().GetActiveSnapshot();
 
-            List<RemoteRegion> AccessedRegions = new List<RemoteRegion>();
+            // Addresses to read
+            List<IntPtr> AccessedAddresses = new List<IntPtr>();
 
+            // Labels to be passed to the GUI
             List<String> Addresses = new List<String>();
             List<String> Values = new List<String>();
             List<String> Labels = new List<String>();
@@ -47,30 +61,30 @@ namespace Anathema
             // Gather addresses to display
             foreach (RemoteRegion Region in ActiveSnapshot.GetMemoryRegions())
             {
-                AccessedRegions.Add(Region);
-
                 for (UInt64 Address = (UInt64)Region.BaseAddress; Address < (UInt64)Region.EndAddress; Address++)
                 {
+                    AccessedAddresses.Add((IntPtr)Address);
+
                     Addresses.Add(Conversions.ToAddress(Address.ToString()));
-                    if (AccessedRegions.Count >= DisplayCount)
+                    if (AccessedAddresses.Count >= DisplayCount)
                         break;
                 }
                 if (Addresses.Count >= DisplayCount)
                     break;
             }
-
-            // Read and get an update on the regions that are being shown
-            ActiveSnapshot.ReadSpecifiedRegions(AccessedRegions);
             
-            List<Byte[]> MemoryValues = ActiveSnapshot.GetReadMemory();
-            List<Int32> LabelMapping = ActiveSnapshot.GetLabelMapping();
-
             // Gather values to display
-            foreach (RemoteRegion Region in AccessedRegions)
+            foreach (IntPtr Address in AccessedAddresses)
             {
-                //Values.Add(Value.ToString());
-                Values.Add("??");
+                Boolean ReadSuccess;
+                Single Value = MemoryEditor.Read<Single>(Address, out ReadSuccess, false);
+                if (ReadSuccess)
+                    Values.Add(Value.ToString());
+                else
+                    Values.Add("??");
             }
+
+            // Gather labels to display
 
             // Send the size of the filtered memory to the GUI
             ResultsEventArgs Args = new ResultsEventArgs();

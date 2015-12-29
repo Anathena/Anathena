@@ -37,10 +37,13 @@ namespace Anathema
 
         public override void BeginScan()
         {
-            // Grab the current snapshot and assign counts of 0 to all addresses
             Snapshot InitialSnapshot = SnapshotManager.GetInstance().GetActiveSnapshot();
-            List<UInt16> Counts = new List<UInt16>(new UInt16[InitialSnapshot.GetSize()]);
+
+            // Initialize labeled snapshot with counts set to 0
             LabeledSnapshot = new Snapshot<UInt16>(InitialSnapshot.GetMemoryRegions());
+            List<UInt16[]> Counts = new List<UInt16[]>();
+            for (Int32 RegionIndex = 0; RegionIndex < LabeledSnapshot.GetMemoryRegions().Count; RegionIndex++)
+                Counts.Add(new UInt16[LabeledSnapshot.GetMemoryRegions()[RegionIndex].RegionSize]);
             LabeledSnapshot.AssignLabels(Counts);
 
             base.BeginScan();
@@ -51,18 +54,15 @@ namespace Anathema
             if (!LabeledSnapshot.HasLabels())
                 throw new Exception("Count labels missing");
 
-            // Get previous values
-            List<Byte[]> PreviousScan = LabeledSnapshot.GetReadMemory();
-
             // Read memory to get current values
             LabeledSnapshot.ReadAllMemory();
-            List<Byte[]> CurrentScan = LabeledSnapshot.GetReadMemory();
+            List<Byte[]> PreviousScan = LabeledSnapshot.GetPreviousMemoryValues();
+            List<Byte[]> CurrentScan = LabeledSnapshot.GetCurrentMemoryValues();
 
             if (CurrentScan == null || PreviousScan == null)
                 return;
             
-            List<Int32> LabelMapping = LabeledSnapshot.GetLabelMapping();
-            List<UInt16> Labels = LabeledSnapshot.GetMemoryLabels();
+            List<UInt16[]> Labels = LabeledSnapshot.GetMemoryLabels();
 
             // Update the labels with the new count of number of changes
             for (Int32 RegionIndex = 0; RegionIndex < CurrentScan.Count; RegionIndex++)
@@ -71,7 +71,7 @@ namespace Anathema
                 {
                     if (CurrentScan[RegionIndex][ElementIndex] != PreviousScan[RegionIndex][ElementIndex])
                     {
-                        Labels[LabelMapping[RegionIndex] + ElementIndex]++;
+                        Labels[RegionIndex][ElementIndex]++;
                     }
                 }
             }
@@ -83,6 +83,8 @@ namespace Anathema
         public override void EndScan()
         {
             base.EndScan();
+
+            SnapshotManager.GetInstance().SaveSnapshot(LabeledSnapshot);
         }
 
     } // End class

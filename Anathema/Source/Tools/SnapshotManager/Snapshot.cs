@@ -18,8 +18,8 @@ namespace Anathema
         private DateTime TimeStamp;
 
         private List<RemoteRegion> MemoryRegions;
-        private List<Int32> LabelMapping;
-        private List<Byte[]> MemoryValues;
+        private List<Byte[]> CurrentMemoryValues;
+        private List<Byte[]> PreviousMemoryValues;
 
         public Snapshot()
         {
@@ -58,33 +58,20 @@ namespace Anathema
 
         public void ReadAllMemory()
         {
-            ReadMemoryRegions(MemoryRegions);
-        }
-
-        public void ReadSpecifiedRegions(List<RemoteRegion> TargetRegions)
-        {
-            ReadMemoryRegions(TargetRegions);
-        }
-
-        private void ReadMemoryRegions(List<RemoteRegion> TargetRegions)
-        {
-            if (MemoryValues == null)
-                MemoryValues = Enumerable.Repeat((Byte[])null, TargetRegions.Count).ToList();
+            PreviousMemoryValues = CurrentMemoryValues;
+            CurrentMemoryValues = Enumerable.Repeat((Byte[])null, MemoryRegions.Count).ToList();
 
             Boolean InvalidRead = false;
 
-            Parallel.ForEach(TargetRegions, (TargetRegion) =>
+            Parallel.For(0, MemoryRegions.Count, Index =>
             {
-                Int32 Index = MemoryRegions.IndexOf(TargetRegion);
-
                 if (Index < 0 || Index >= MemoryRegions.Count)
                     return;
 
                 Boolean SuccessReading = false;
-                MemoryValues[Index] = MemoryEditor.ReadBytes(TargetRegions[Index].BaseAddress, TargetRegions[Index].RegionSize, out SuccessReading, false);
+                CurrentMemoryValues[Index] = MemoryEditor.ReadBytes(MemoryRegions[Index].BaseAddress, MemoryRegions[Index].RegionSize, out SuccessReading, false);
                 if (!SuccessReading)
                 {
-                    MemoryValues[Index] = null;
                     InvalidRead = true;
                 }
             });
@@ -103,14 +90,14 @@ namespace Anathema
             return MemoryRegions;
         }
 
-        public List<Byte[]> GetReadMemory()
+        public List<Byte[]> GetCurrentMemoryValues()
         {
-            return MemoryValues;
+            return CurrentMemoryValues;
         }
-        
-        public List<Int32> GetLabelMapping()
+
+        public List<Byte[]> GetPreviousMemoryValues()
         {
-            return LabelMapping;
+            return PreviousMemoryValues;
         }
 
         public UInt64 GetSize()
@@ -144,19 +131,6 @@ namespace Anathema
         {
 
             // MergeRegions(); // Just for the sort
-        }
-
-        private void MapIndicies()
-        {
-            LabelMapping = new List<Int32>();
-
-            Int32 Mapping = 0;
-            for (Int32 PageIndex = 0; PageIndex < MemoryRegions.Count; PageIndex++)
-            {
-                LabelMapping.Add(Mapping);
-
-                Mapping += MemoryRegions[PageIndex].RegionSize;
-            }
         }
 
         /// <summary>
@@ -196,17 +170,17 @@ namespace Anathema
             // Replace memory regions with merged memory regions
             MemoryRegions = CombinedRegions.ToList();
             MemoryRegions.Reverse();
-            MapIndicies();
         }
     }
 
     class Snapshot<T> : Snapshot
     {
-        private List<T> MemoryLabels;
+        // Same format as values. MemoryLabels[Region][Element]
+        private List<T[]> MemoryLabels;
 
         public Snapshot() : base()
         {
-            MemoryLabels = new List<T>();
+            MemoryLabels = new List<T[]>();
         }
 
         public Snapshot(List<RemoteRegion> MemoryRegions) : base(MemoryRegions)
@@ -214,7 +188,7 @@ namespace Anathema
 
         }
 
-        public Snapshot(List<RemoteRegion> MemoryRegions, List<T> MemoryLabels) : base(MemoryRegions)
+        public Snapshot(List<RemoteRegion> MemoryRegions, List<T[]> MemoryLabels) : base(MemoryRegions)
         {
             this.MemoryLabels = MemoryLabels;
         }
@@ -226,12 +200,12 @@ namespace Anathema
             return true;
         }
 
-        public void AssignLabels(List<T> MemoryLabels)
+        public void AssignLabels(List<T[]> MemoryLabels)
         {
             this.MemoryLabels = MemoryLabels;
         }
 
-        public List<T> GetMemoryLabels()
+        public List<T[]> GetMemoryLabels()
         {
             return MemoryLabels;
         }

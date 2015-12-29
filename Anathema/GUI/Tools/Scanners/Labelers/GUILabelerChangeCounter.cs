@@ -24,20 +24,8 @@ namespace Anathema
             SetMinChanges();
             SetMaxChanges();
             SetVariableSize();
-        }
 
-        public void EventLabelerFinished(List<RemoteRegion> MemoryRegions)
-        {
-            throw new NotImplementedException();
-        }
-        
-        private void HandleResize()
-        {
-            MinChangesTrackBar.Width = (this.Width - MinChangesTrackBar.Location.X) / 2;
-            MaxChangesTrackBar.Location = new Point(MinChangesTrackBar.Location.X + MinChangesTrackBar.Width, MaxChangesTrackBar.Location.Y);
-            MaxChangesTrackBar.Width = MinChangesTrackBar.Width;
-
-            VariableSizeTrackBar.Width = (this.Width - VariableSizeTrackBar.Location.X) / 2;
+            EnableGUI();
         }
 
         private void SetMinChanges()
@@ -67,6 +55,33 @@ namespace Anathema
             Int32 VariableSize = (Int32)Math.Pow(2, VariableSizeTrackBar.Value);
             VariableSizeValueLabel.Text = VariableSize.ToString();
             LabelerChangeCounterPresenter.SetMaxChanges(VariableSize);
+        }
+
+        private void EnableGUI()
+        {
+            StartScanButton.Enabled = true;
+            StopScanButton.Enabled = false;
+            MinChangesTrackBar.Enabled = true;
+            MaxChangesTrackBar.Enabled = true;
+            VariableSizeTrackBar.Enabled = true;
+        }
+
+        private void DisableGUI()
+        {
+            StartScanButton.Enabled = false;
+            StopScanButton.Enabled = true;
+            MinChangesTrackBar.Enabled = false;
+            MaxChangesTrackBar.Enabled = false;
+            VariableSizeTrackBar.Enabled = false;
+        }
+
+        private void HandleResize()
+        {
+            MinChangesTrackBar.Width = (this.Width - MinChangesTrackBar.Location.X) / 2;
+            MaxChangesTrackBar.Location = new Point(MinChangesTrackBar.Location.X + MinChangesTrackBar.Width, MaxChangesTrackBar.Location.Y);
+            MaxChangesTrackBar.Width = MinChangesTrackBar.Width;
+
+            VariableSizeTrackBar.Width = (this.Width - VariableSizeTrackBar.Location.X) / 2;
         }
 
         #region Events
@@ -105,11 +120,13 @@ namespace Anathema
         private void StartScanButton_Click(object sender, EventArgs e)
         {
             LabelerChangeCounterPresenter.BeginScan();
+            DisableGUI();
         }
 
         private void StopScanButton_Click(object sender, EventArgs e)
         {
             LabelerChangeCounterPresenter.EndScan();
+            EnableGUI();
         }
 
         #endregion

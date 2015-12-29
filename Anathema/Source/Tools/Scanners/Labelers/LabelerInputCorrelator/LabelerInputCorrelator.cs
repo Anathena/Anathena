@@ -78,7 +78,7 @@ namespace Anathema
         public override void BeginScan()
         {
             Snapshot InitialSnapshot = SnapshotManager.GetInstance().GetActiveSnapshot();
-            List<Single> Correlations = new List<Single>(new Single[InitialSnapshot.GetSize()]);
+            List<Single[]> Correlations = new List<Single[]>();
             LabeledSnapshot = new Snapshot<Single>(InitialSnapshot.GetMemoryRegions());
             LabeledSnapshot.AssignLabels(Correlations);
 

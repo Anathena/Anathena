@@ -51,7 +51,7 @@ namespace Anathema
 
             Parallel.ForEach(ChunkRoots, (ChunkRoot) =>
             {
-                Byte[] PageData = InitialSnapshot.GetReadMemory()[ChunkRoots.IndexOf(ChunkRoot)];
+                Byte[] PageData = InitialSnapshot.GetCurrentMemoryValues()[ChunkRoots.IndexOf(ChunkRoot)];
 
                 // Process the changes that have occurred since the last sampling for this memory page
                 if (PageData != null)

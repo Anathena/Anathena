@@ -52,7 +52,7 @@ namespace Anathema
                 if (Tree.IsDead())
                     return; // Works as 'continue' in a parallel foreach
                 
-                Byte[] PageData = InitialSnapshot.GetReadMemory()[FilterTrees.IndexOf(Tree)];
+                Byte[] PageData = InitialSnapshot.GetCurrentMemoryValues()[FilterTrees.IndexOf(Tree)];
 
                 // Process the changes that have occurred since the last sampling for this memory page
                 if (PageData != null)
