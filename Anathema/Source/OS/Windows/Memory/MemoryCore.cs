@@ -197,33 +197,34 @@ namespace Binarysharp.MemoryManagement.Memory
         /// </summary>
         /// <param name="processHandle">A handle to the process whose memory information is queried.</param>
         /// <param name="baseAddress">A pointer to the base address of the region of pages to be queried.</param>
-        /// <returns>A <see cref="Native.MemoryBasicInformation32"/> structures in which information about the specified page range is returned.</returns>
-        public static MemoryBasicInformation32 Query(SafeMemoryHandle processHandle, IntPtr baseAddress)
+        /// <returns>A <see cref="Native.MemoryBasicInformation64"/> structures in which information about the specified page range is returned.</returns>
+        public static MemoryBasicInformation64 Query(SafeMemoryHandle processHandle, IntPtr baseAddress)
         {
             // Allocate the structure to store information of memory
-            MemoryBasicInformation32 memoryInfo;
+
+            MemoryBasicInformation64 MemoryInfo64 = new MemoryBasicInformation64();
 
 #if x86
-                // Query the memory region
-                if(NativeMethods.VirtualQueryEx(processHandle, baseAddress, out memoryInfo, MarshalType<MemoryBasicInformation32>.Size) != 0)
-                    return memoryInfo;
-#else
-            // 64 Bit struct is not the same
-            MemoryBasicInformation64 memoryInfo64;
-
+            MemoryBasicInformation32 MemoryInfo32;
             // Query the memory region
-            if (NativeMethods.VirtualQueryEx(processHandle, baseAddress, out memoryInfo64, MarshalType<MemoryBasicInformation64>.Size) != 0)
+            if(NativeMethods.VirtualQueryEx(processHandle, baseAddress, out MemoryInfo32, MarshalType<MemoryBasicInformation32>.Size) != 0)
             {
-                // Copy from the 64 bit struct to the 32 bit struct
-                memoryInfo.AllocationBase = memoryInfo64.AllocationBase;
-                memoryInfo.AllocationProtect = memoryInfo64.AllocationProtect;
-                memoryInfo.BaseAddress = memoryInfo64.BaseAddress;
-                memoryInfo.Protect = memoryInfo64.Protect;
-                memoryInfo.RegionSize = (int)memoryInfo64.RegionSize;
-                memoryInfo.State = memoryInfo64.State;
-                memoryInfo.Type = memoryInfo64.Type;
+                // Copy from the 32 bit struct to the 64 bit struct
+                MemoryInfo64.AllocationBase = MemoryInfo32.AllocationBase;
+                MemoryInfo64.AllocationProtect = MemoryInfo32.AllocationProtect;
+                MemoryInfo64.BaseAddress = MemoryInfo32.BaseAddress;
+                MemoryInfo64.Protect = MemoryInfo32.Protect;
+                MemoryInfo64.RegionSize = MemoryInfo32.RegionSize;
+                MemoryInfo64.State = MemoryInfo32.State;
+                MemoryInfo64.Type = MemoryInfo32.Type;
 
-                return memoryInfo;
+                return MemoryInfo64;
+            }
+#else
+            // Query the memory region
+            if (NativeMethods.VirtualQueryEx(processHandle, baseAddress, out MemoryInfo64, MarshalType<MemoryBasicInformation64>.Size) != 0)
+            {
+                return MemoryInfo64;
             }
 #endif
 
@@ -265,7 +266,7 @@ namespace Binarysharp.MemoryManagement.Memory
                 // Get the next memory page
                 ret = NativeMethods.VirtualQueryEx(processHandle, new IntPtr(numberFrom), out memoryInfo, MarshalType<MemoryBasicInformation32>.Size);
 
-                 // Copy from the 64 bit struct to the 32 bit struct
+                 // Copy from the 32 bit struct to the 64 bit struct
                 memoryInfo.AllocationBase = memoryInfo32.AllocationBase;
                 memoryInfo.AllocationProtect = memoryInfo32.AllocationProtect;
                 memoryInfo.BaseAddress = memoryInfo32.BaseAddress;

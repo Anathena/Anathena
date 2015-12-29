@@ -81,7 +81,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Source\Tools\Scanners\Scanner.cs" />
     <Compile Include="Source\Tools\Scanners\Filter\Hashing.cs" />
     <Compile Include="GUI\HexEditor\BitControl.cs">
       <SubType>UserControl</SubType>

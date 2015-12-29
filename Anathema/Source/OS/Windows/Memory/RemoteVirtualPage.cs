@@ -22,7 +22,7 @@ namespace Binarysharp.MemoryManagement.Memory
         /// <summary>
         /// Contains information about the memory.
         /// </summary>
-        public MemoryBasicInformation32 Information
+        public MemoryBasicInformation64 Information
         {
             get { return MemoryCore.Query(MemorySharp.Handle, BaseAddress); }
         }
@@ -59,7 +59,7 @@ namespace Binarysharp.MemoryManagement.Memory
         /// <returns>A new instance of the <see cref="MemoryProtection"/> class.</returns>
         public MemoryProtection ChangeProtection(MemoryProtectionFlags protection = MemoryProtectionFlags.ExecuteReadWrite, bool mustBeDisposed = true)
         {
-            return new MemoryProtection(MemorySharp, BaseAddress, Information.RegionSize, protection, mustBeDisposed);
+            return new MemoryProtection(MemorySharp, BaseAddress, (Int32)Information.RegionSize, protection, mustBeDisposed);
         }
         #endregion
         #region Equals (override)

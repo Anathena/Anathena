@@ -104,7 +104,7 @@ namespace Anathema
             // Convert each virtual page to a remote region (a more condensed representation of the information)
             List<RemoteRegion> MemoryRegions = new List<RemoteRegion>();
             for (int PageIndex = 0; PageIndex < VirtualPages.Count; PageIndex++)
-                MemoryRegions.Add(new RemoteRegion(MemoryEditor, VirtualPages[PageIndex].Information.BaseAddress, VirtualPages[PageIndex].Information.RegionSize));
+                MemoryRegions.Add(new RemoteRegion(MemoryEditor, VirtualPages[PageIndex].Information.BaseAddress, (Int32)VirtualPages[PageIndex].Information.RegionSize));
 
             return new Snapshot(MemoryRegions);
         }

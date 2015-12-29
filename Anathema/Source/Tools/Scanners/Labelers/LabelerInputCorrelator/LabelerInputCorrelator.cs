@@ -15,20 +15,13 @@ namespace Anathema
 {
     class LabelerInputCorrelator : IScannerModel
     {
-        private MemorySharp MemoryEditor;
-        
-        private List<RemoteRegion> MemoryRegions;           // Regions we are scanning (isolated via SearchSpaceAnalyzer)
-        private List<IntPtr> Addresses;
-        private Dictionary<IntPtr, IntPtr> ScanIndicies;    // Maps literal addresses to indexes
+        private Snapshot<Single> LabeledSnapshot;
+
         private List<DateTime> ScanHistoryTime;             // Time stamps for each of the scans
         private Byte[] ScanHistoryValues;                   // Values for each of the scans for each memory page
         private List<BitArray> ChangeHistory;
 
         private Int32 VariableSize;                         // Number of bytes to correlate at a time
-
-        private CancellationTokenSource CancelRequest;      // Tells the scan task to cancel (ie finish)
-        private Task ChangeScanner;                         // Event that constantly checks the target process for changes
-        private const Int32 WaitTime = 100;                 // Time to wait (in ms) for a cancel request between each scan
 
         // Input correlation related
         private readonly IKeyboardMouseEvents InputHook;    // Input capturing class
@@ -87,34 +80,15 @@ namespace Anathema
 
         public override void BeginScan()
         {
-            this.MemoryEditor = MemoryEditor;
-            this.MemoryRegions = MemoryRegions;
-
-            if (MemoryRegions == null)
-                return;
-
-            // Map each base address in the memory regions to a unique sequential index. Idk how to explain better than this.
-            IntPtr MappedIndex = IntPtr.Zero;
-            ScanIndicies = new Dictionary<IntPtr, IntPtr>();
-            Addresses = new List<IntPtr>();
-            for (Int32 RegionIndex = 0; RegionIndex < MemoryRegions.Count; RegionIndex++)
-            {
-                ScanIndicies.Add(MemoryRegions[RegionIndex].BaseAddress, MappedIndex);
-                MappedIndex = (IntPtr)((UInt64)MappedIndex + (UInt64)MemoryRegions[RegionIndex].RegionSize);
-
-                for (Int32 ElementIndex = 0; ElementIndex < MemoryRegions[RegionIndex].RegionSize; ElementIndex++)
-                    Addresses.Add(MemoryRegions[RegionIndex].BaseAddress + ElementIndex);
-            }
-
-            IntPtr AddressCount = MappedIndex;
-
-            if (AddressCount.Equals(IntPtr.Zero))
-                return;
+            Snapshot InitialSnapshot = SnapshotManager.GetSnapshotManagerInstance().GetActiveSnapshot();
+            List<Single> Correlations = new List<Single>(new Single[InitialSnapshot.GetSize()]);
+            LabeledSnapshot = new Snapshot<Single>(InitialSnapshot.GetMemoryRegions());
+            LabeledSnapshot.AssignLabels(Correlations);
 
             // Initialize objects used in scanning
             ScanHistoryTime = new List<DateTime>();
             ChangeHistory = new List<BitArray>();
-            ScanHistoryValues = new Byte[(UInt64)AddressCount];
+            ScanHistoryValues = new Byte[LabeledSnapshot.GetSize()];
 
             // Initialize input dictionaries
             KeyBoardPending = new Dictionary<Keys, DateTime>();
@@ -133,12 +107,7 @@ namespace Anathema
 
         public override void EndScan()
         {
-            CancelRequest.Cancel();
-            try
-            {
-                ChangeScanner.Wait();
-            }
-            catch (AggregateException) { }
+            base.EndScan();
 
             // Remove the first time step since there is one more time step than there are change logs
             if (ScanHistoryTime.Count >= 1)
@@ -164,8 +133,9 @@ namespace Anathema
 
             // Read memory from all processes
             //for (int RegionIndex = 0; RegionIndex < MemoryRegions.Count; RegionIndex++)
-            Parallel.For(0, MemoryRegions.Count, RegionIndex =>
+            Parallel.For(0, LabeledSnapshot.GetMemoryRegions().Count, RegionIndex =>
             {
+                /*
                 Boolean Success;
                 IntPtr MappedIndex;
 
@@ -185,7 +155,7 @@ namespace Anathema
                 }
 
                 // Copy the read bytes in memory to the saved list
-                Array.Copy(RegionData, 0, ScanHistoryValues, (Int32)MappedIndex, RegionData.Length);
+                Array.Copy(RegionData, 0, ScanHistoryValues, (Int32)MappedIndex, RegionData.Length);*/
             });
 
             // Get the scan time stamp
@@ -370,15 +340,15 @@ namespace Anathema
                 Correlations[ElementIndex] = WeightedImpact; // new CorrelationValues(CramerV);
             });
 
-            List<Tuple<IntPtr, Object>> SortedAddresses = Addresses
-              .Zip(Correlations, (A, C) => Tuple.Create(A, C))
-              .OrderByDescending(x => x.Item2)
-              .ToList();
+            //List<Tuple<IntPtr, Object>> SortedAddresses = Addresses
+            //  .Zip(Correlations, (A, C) => Tuple.Create(A, C))
+            //  .OrderByDescending(x => x.Item2)
+            //  .ToList();
             
             // Correlations = sortedPairs.Select(x => x.Item1).ToList();
             // Addresses = sortedPairs.Select(x => x.Item2).ToList();
 
-            return SortedAddresses;
+            return null;
         }
 
         public void BeginLabeler()
