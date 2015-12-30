@@ -54,12 +54,12 @@ namespace Anathema
 
             foreach (LabeledRegion<UInt16> Region in LabeledSnapshot.GetSnapshotData())
             {
-                if (Region.PreviousRegionValues == null || Region.CurrentRegionValues == null)
+                if (Region.PreviousValues == null || Region.PreviousValues == null)
                     continue;
-                
-                for (Int32 ElementIndex = 0; ElementIndex < Region.CurrentRegionValues.Length; ElementIndex++)
+
+                for (Int32 ElementIndex = 0; ElementIndex < Region.CurrentValues.Length; ElementIndex++)
                 {
-                    if (Region.CurrentRegionValues[ElementIndex] != Region.PreviousRegionValues[ElementIndex])
+                    if (Region.CurrentValues[ElementIndex] != Region.PreviousValues[ElementIndex])
                     {
                         Region.MemoryLabels[ElementIndex]++;
                     }

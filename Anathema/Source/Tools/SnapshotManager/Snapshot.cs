@@ -5,44 +5,63 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Collections;
 
 namespace Anathema
 {
-    /*
+    public class SnapshotElement
+    {
+        public Byte CurrentValue;
+        public Byte PreviousValue;
+
+        protected SnapshotElement() { }
+        public SnapshotElement(Byte CurrentValue, Byte PreviousValue)
+        {
+            this.CurrentValue = CurrentValue;
+            this.PreviousValue = PreviousValue;
+        }
+    }
+
     public class SnapshotRegion : RemoteRegion
     {
+        public Byte[] CurrentValues;
+        public Byte[] PreviousValues;
+
         public SnapshotRegion(IntPtr BaseAddress, Int32 RegionSize) : base(null, BaseAddress, RegionSize) { }
         public SnapshotRegion(RemoteRegion RemoteRegion) : base(null, RemoteRegion.BaseAddress, RemoteRegion.RegionSize) { }
-        public struct RegionElements { Byte CurrentValue; Byte PreviousValue; }
-        public RegionElements[] Elements;
+        public SnapshotElement this[Int32 Index]
+        {
+            get { return new SnapshotElement(CurrentValues[Index], PreviousValues[Index]); }
+            set { CurrentValues[Index] = value.CurrentValue; PreviousValues[Index] = value.PreviousValue; }
+        }
+    }
+
+    public class SnapshotElement<T> : SnapshotElement
+    {
+        public T Label;
+
+        public SnapshotElement(Byte CurrentValue, Byte PreviousValue, T Label) : base(CurrentValue, PreviousValue)
+        {
+            this.Label = Label;
+        }
     }
 
     public class LabeledRegion<T> : SnapshotRegion
     {
-        public LabeledRegion(IntPtr BaseAddress, Int32 RegionSize) : base(BaseAddress, RegionSize) { }
-        public LabeledRegion(RemoteRegion RemoteRegion) : base(RemoteRegion) { }
-        public new struct RegionElements { Byte CurrentValue; Byte PreviousValue; T Label; }
-        public new RegionElements[] Elements;
-    }
-    */
-    public class SnapshotRegion : RemoteRegion
-    {
-        public SnapshotRegion(IntPtr BaseAddress, Int32 RegionSize) : base(null, BaseAddress, RegionSize) { }
-        public SnapshotRegion(RemoteRegion RemoteRegion) : base(null, RemoteRegion.BaseAddress, RemoteRegion.RegionSize) { }
-        public Byte[] CurrentRegionValues;
-        public Byte[] PreviousRegionValues;
-    }
+        public T[] MemoryLabels;
 
-    public class LabeledRegion<T> : SnapshotRegion
-    {
         public LabeledRegion(IntPtr BaseAddress, Int32 RegionSize) : base(BaseAddress, RegionSize) { }
         public LabeledRegion(RemoteRegion RemoteRegion) : base(RemoteRegion) { }
         public LabeledRegion(SnapshotRegion SnapshotRegion) : base(SnapshotRegion)
         {
-            CurrentRegionValues = SnapshotRegion.CurrentRegionValues == null ? null : (Byte[])SnapshotRegion.CurrentRegionValues.Clone();
-            PreviousRegionValues = SnapshotRegion.PreviousRegionValues == null ? null : (Byte[])SnapshotRegion.PreviousRegionValues.Clone();
+            CurrentValues = SnapshotRegion.CurrentValues == null ? null : (Byte[])SnapshotRegion.CurrentValues.Clone();
+            PreviousValues = SnapshotRegion.PreviousValues == null ? null : (Byte[])SnapshotRegion.PreviousValues.Clone();
         }
-        public T[] MemoryLabels;
+        public new SnapshotElement<T> this[Int32 Index]
+        {
+            get { return new SnapshotElement<T>(CurrentValues[Index], PreviousValues[Index], MemoryLabels[Index]); }
+            set { CurrentValues[Index] = value.CurrentValue; PreviousValues[Index] = value.PreviousValue; MemoryLabels[Index] = value.Label; }
+        }
     }
 
     /// <summary>
@@ -102,10 +121,11 @@ namespace Anathema
 
             Parallel.ForEach(SnapshotData, (Data) =>
             {
-                Data.PreviousRegionValues = Data.CurrentRegionValues;
+                Data.PreviousValues = Data.CurrentValues;
 
                 Boolean SuccessReading = false;
-                Data.CurrentRegionValues = MemoryEditor.ReadBytes(Data.BaseAddress, Data.RegionSize, out SuccessReading, false);
+                Data.CurrentValues = MemoryEditor.ReadBytes(Data.BaseAddress, Data.RegionSize, out SuccessReading, false);
+
                 if (!SuccessReading)
                 {
                     InvalidRead = true;
@@ -151,7 +171,7 @@ namespace Anathema
         {
             // MergeRegions(); // Just for the sort
         }
-        
+
         /// <summary>
         /// Merges continguous regions in the current list of memory regions using a fast stack based algorithm O(nlogn + n)
         /// </summary>
