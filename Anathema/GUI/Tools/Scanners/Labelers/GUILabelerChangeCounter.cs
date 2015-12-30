@@ -39,7 +39,7 @@ namespace Anathema
         {
             Int32 MaxChanges = MaxChangesTrackBar.Value;
             String MaxChangesString = MaxChanges.ToString();
-
+            
             if (MaxChanges == MaxChangesTrackBar.Maximum)
             {
                 MaxChanges = Int32.MaxValue;

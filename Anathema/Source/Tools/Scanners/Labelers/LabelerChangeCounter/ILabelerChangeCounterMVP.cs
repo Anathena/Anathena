@@ -39,7 +39,7 @@ namespace Anathema
 
         public void SetMinChanges(Int32 MinChanges)
         {
-            if (MinChanges <= 0)
+            if (MinChanges < 0)
                 return;
 
             Model.SetMinChanges(MinChanges);
@@ -47,7 +47,7 @@ namespace Anathema
 
         public void SetMaxChanges(Int32 MaxChanges)
         {
-            if (MaxChanges <= 0)
+            if (MaxChanges < 0)
                 return;
 
             Model.SetMaxChanges(MaxChanges);
