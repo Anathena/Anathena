@@ -38,9 +38,8 @@ namespace Anathema
             this.ChunkRoots = new List<MemoryChunkRoots>();
 
             // Initialize filter tree roots
-            SnapshotRegion[] MemoryRegions = InitialSnapshot.GetSnapshotData();
-            for (int PageIndex = 0; PageIndex < MemoryRegions.Length; PageIndex++)
-                ChunkRoots.Add(new MemoryChunkRoots(MemoryRegions[PageIndex], ChunkSize));
+            foreach (dynamic MemoryRegion in InitialSnapshot)
+                ChunkRoots.Add(new MemoryChunkRoots(MemoryRegion, ChunkSize));
             
             base.BeginScan();
         }
@@ -89,7 +88,7 @@ namespace Anathema
 
             // Send the size of the filtered memory to the GUI
             FilterChunksEventArgs Args = new FilterChunksEventArgs();
-            Args.FilterResultSize = FilteredSnapshot.GetSize();
+            Args.FilterResultSize = FilteredSnapshot.GetMemorySize();
             OnEventUpdateMemorySize(Args);
 
             // Save result

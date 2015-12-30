@@ -60,7 +60,7 @@ namespace Anathema
             List<TreeNode> TreeNodes = new List<TreeNode>();
 
             for (Int32 Index = 0; Index < E.SnapshotList.Count; Index++)
-                TreeNodes.Add(new TreeNode(E.SnapshotList[Index].GetTimeStamp().ToLongTimeString() + " - " + Conversions.ByteCountToMetricSize(E.SnapshotList[Index].GetSize())));
+                TreeNodes.Add(new TreeNode(E.SnapshotList[Index].GetTimeStamp().ToLongTimeString() + " - " + Conversions.ByteCountToMetricSize(E.SnapshotList[Index].GetMemorySize())));
             
             View.UpdateSnapshotDisplay(TreeNodes.ToArray());
         }

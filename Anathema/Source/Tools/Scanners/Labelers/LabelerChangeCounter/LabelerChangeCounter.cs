@@ -41,10 +41,13 @@ namespace Anathema
         {
             Snapshot InitialSnapshot = SnapshotManager.GetInstance().GetActiveSnapshot();
 
-            // Initialize labeled snapshot with counts set to 0
+            // Initialize labeled snapshot
             LabeledSnapshot = new Snapshot<UInt16>(InitialSnapshot);
-            foreach (LabeledRegion<UInt16> Region in LabeledSnapshot.GetSnapshotData())
-                Region.MemoryLabels = new UInt16[Region.RegionSize];
+
+            // Initialize labels to a value of 0
+            foreach (SnapshotRegion<UInt16> Region in LabeledSnapshot)
+                foreach (SnapshotElement<UInt16> Element in Region)
+                    Element.MemoryLabel = 0;
 
             base.BeginScan();
         }
@@ -54,15 +57,15 @@ namespace Anathema
             // Read memory to get current values
             LabeledSnapshot.ReadAllMemory();
 
-            foreach (LabeledRegion<UInt16> Region in LabeledSnapshot.GetSnapshotData())
+            foreach (SnapshotRegion<UInt16> Region in LabeledSnapshot)
             {
                 foreach (SnapshotElement<UInt16> Element in Region)
                 {
-                    if (!Element.CurrentValue.HasValue || !Element.PreviousValue.HasValue)
+                    if (Element.CurrentValue == null || Element.PreviousValue == null)
                         continue;
 
                     if (Element.CurrentValue != Element.PreviousValue)
-                        Element.Label++;
+                        Element.MemoryLabel++;
                 }
             }
         }

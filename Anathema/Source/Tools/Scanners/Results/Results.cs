@@ -81,9 +81,9 @@ namespace Anathema
             List<String> Labels = new List<String>();
 
             // Gather addresses to display
-            foreach (RemoteRegion Region in ActiveSnapshot.GetSnapshotData())
+            foreach (RemoteRegion MemoryRegion in ActiveSnapshot)
             {
-                for (UInt64 Address = (UInt64)Region.BaseAddress; Address < (UInt64)Region.EndAddress; Address++)
+                for (UInt64 Address = (UInt64)MemoryRegion.BaseAddress; Address < (UInt64)MemoryRegion.EndAddress; Address++)
                 {
                     AccessedAddresses.Add((IntPtr)Address);
 
@@ -127,11 +127,11 @@ namespace Anathema
             if (ActiveSnapshot.GetType() != typeof(Snapshot))
             {
                 dynamic LabeledSnapshot = ActiveSnapshot;
-                foreach (var Region in LabeledSnapshot.GetSnapshotData())
+                foreach (dynamic Region in LabeledSnapshot)
                 {
-                    foreach (var Lable in Region.MemoryLabels)
+                    foreach (dynamic Element in Region)
                     {
-                        Labels.Add(Lable.ToString());
+                        Labels.Add(Element.MemoryLabel.ToString());
 
                         if (Labels.Count >= DisplayCount)
                             break;

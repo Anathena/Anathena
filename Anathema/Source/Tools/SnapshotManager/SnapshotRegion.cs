@@ -25,14 +25,15 @@ namespace Anathema
             get
             {
                 return new SnapshotElement(
-                CurrentValues == null ? (Byte?)null : CurrentValues[Index],
-                PreviousValues == null ? (Byte?)null : PreviousValues[Index]
+                this, Index,
+                CurrentValues == null ? new Byte?() : CurrentValues[Index],
+                PreviousValues == null ? new Byte?() : PreviousValues[Index]
                 );
             }
             set
             {
-                CurrentValues[Index] = value.CurrentValue.Value;
-                PreviousValues[Index] = value.PreviousValue.Value;
+                if (value.CurrentValue != null) CurrentValues[Index] = value.CurrentValue.Value;
+                if (value.PreviousValue != null) PreviousValues[Index] = value.PreviousValue.Value;
             }
         }
 
@@ -54,7 +55,7 @@ namespace Anathema
 
         public virtual IEnumerator GetEnumerator()
         {
-            for (Int32 Index = 0; Index < CurrentValues.Length; Index++)
+            for (Int32 Index = 0; Index < RegionSize; Index++)
                 yield return this[Index];
         }
     }
@@ -62,16 +63,22 @@ namespace Anathema
     /// <summary>
     /// Defines a snapshot of memory in an external process, as well as assigned labels to this memory.
     /// </summary>
-    public class LabeledRegion<T> : SnapshotRegion where T : struct
+    public class SnapshotRegion<T> : SnapshotRegion where T : struct
     {
-        public T[] MemoryLabels;
+        private T?[] MemoryLabels;
 
-        public LabeledRegion(IntPtr BaseAddress, Int32 RegionSize) : base(BaseAddress, RegionSize) { }
-        public LabeledRegion(RemoteRegion RemoteRegion) : base(RemoteRegion) { }
-        public LabeledRegion(SnapshotRegion SnapshotRegion) : base(SnapshotRegion)
+        public SnapshotRegion(IntPtr BaseAddress, Int32 RegionSize) : base(BaseAddress, RegionSize) { }
+        public SnapshotRegion(RemoteRegion RemoteRegion) : base(RemoteRegion) { }
+        public SnapshotRegion(SnapshotRegion SnapshotRegion) : base(SnapshotRegion)
         {
             CurrentValues = SnapshotRegion.GetCurrentValues() == null ? null : (Byte[])SnapshotRegion.GetCurrentValues().Clone();
             PreviousValues = SnapshotRegion.GetPreviousValues() == null ? null : (Byte[])SnapshotRegion.GetPreviousValues().Clone();
+            MemoryLabels = new T?[SnapshotRegion.RegionSize];
+        }
+
+        public T?[] GetMemoryLabels()
+        {
+            return MemoryLabels;
         }
 
         /// <summary>
@@ -84,22 +91,23 @@ namespace Anathema
             get
             {
                 return new SnapshotElement<T>(
-                CurrentValues == null ? (Byte?)null : CurrentValues[Index],
-                PreviousValues == null ? (Byte?)null : PreviousValues[Index],
-                MemoryLabels == null ? (T?)null : MemoryLabels[Index]
+                (SnapshotRegion<T>)this, Index,
+                CurrentValues == null ? new Byte?() : CurrentValues[Index],
+                PreviousValues == null ? new Byte?() : PreviousValues[Index],
+                MemoryLabels == null ? new T?() : MemoryLabels[Index]
                 );
             }
             set
             {
-                CurrentValues[Index] = value.CurrentValue.Value;
-                PreviousValues[Index] = value.PreviousValue.Value;
-                MemoryLabels[Index] = value.Label.Value;
+                if (value.CurrentValue != null) CurrentValues[Index] = value.CurrentValue.Value;
+                if (value.PreviousValue != null) PreviousValues[Index] = value.PreviousValue.Value;
+                if (value.MemoryLabel != null) MemoryLabels[Index] = value.MemoryLabel.Value;
             }
         }
 
         public override IEnumerator GetEnumerator()
         {
-            for (Int32 Index = 0; Index < CurrentValues.Length; Index++)
+            for (Int32 Index = 0; Index < RegionSize; Index++)
                 yield return this[Index];
         }
     }

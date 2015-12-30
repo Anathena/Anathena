@@ -87,7 +87,7 @@ namespace Anathema
             
             // Send the size of the filtered memory to the GUI
             FilterTreesEventArgs Args = new FilterTreesEventArgs();
-            Args.FilterResultSize = FilteredSnapshot.GetSize();
+            Args.FilterResultSize = FilteredSnapshot.GetMemorySize();
             OnEventUpdateMemorySize(Args);
 
             // Save the snapshot

@@ -7,24 +7,34 @@ namespace Anathema
     /// </summary>
     public class SnapshotElement
     {
-        public Byte? CurrentValue;
-        public Byte? PreviousValue;
+        protected SnapshotRegion Parent;
+        protected Int32 Index;
+
+        private Byte? _CurrentValue;
+        private Byte? _PreviousValue;
+        public Byte? CurrentValue { get { return _CurrentValue; } set { _CurrentValue = value; Parent[Index] = this; } }
+        public Byte? PreviousValue { get { return _PreviousValue; } set { _PreviousValue = value; Parent[Index] = this; } }
 
         protected SnapshotElement() { }
-        public SnapshotElement(Byte? CurrentValue, Byte? PreviousValue)
+        public SnapshotElement(SnapshotRegion Parent, Int32 Index, Byte? CurrentValue, Byte? PreviousValue)
         {
-            this.CurrentValue = CurrentValue;
-            this.PreviousValue = PreviousValue;
+            this.Parent = Parent;
+            this.Index = Index;
+            this._CurrentValue = CurrentValue;
+            this._PreviousValue = PreviousValue;
         }
     }
 
     public class SnapshotElement<T> : SnapshotElement where T : struct
     {
-        public T? Label;
+        private new SnapshotRegion<T> Parent;
+        private T? _MemoryLabel;
+        public T? MemoryLabel { get { return _MemoryLabel; } set { _MemoryLabel = value; Parent[Index] = this; } }
 
-        public SnapshotElement(Byte? CurrentValue, Byte? PreviousValue, T? Label) : base(CurrentValue, PreviousValue)
+        public SnapshotElement(SnapshotRegion<T> Parent, Int32 Index, Byte? CurrentValue, Byte? PreviousValue, T? Label) : base(Parent, Index, CurrentValue, PreviousValue)
         {
-            this.Label = Label;
+            this.Parent = Parent;
+            this._MemoryLabel = Label;
         }
     }
 }

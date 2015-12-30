@@ -12,7 +12,7 @@ namespace Anathema
     /// <summary>
     /// Defines data contained in a single snapshot
     /// </summary>
-    class Snapshot : IProcessObserver
+    class Snapshot : IEnumerable, IProcessObserver
     {
         private MemorySharp MemoryEditor;
 
@@ -88,7 +88,12 @@ namespace Anathema
             return SnapshotData;
         }
 
-        public UInt64 GetSize()
+        public Int32 GetRegionCount()
+        {
+            return SnapshotData.Length;
+        }
+
+        public UInt64 GetMemorySize()
         {
             return (UInt64)SnapshotData.AsEnumerable().Sum(x => (Int64)x.RegionSize);
         }
@@ -152,6 +157,11 @@ namespace Anathema
             SnapshotData = CombinedRegions.ToArray();
             Array.Sort(SnapshotData, (x, y) => ((UInt64)x.BaseAddress).CompareTo((UInt64)y.BaseAddress));
         }
+
+        public IEnumerator GetEnumerator()
+        {
+            return SnapshotData.GetEnumerator();
+        }
     }
 
     /// <summary>
@@ -167,22 +177,22 @@ namespace Anathema
         public Snapshot(Snapshot BaseSnapshot)
         {
             // Copy and convert the snapshot data to a labeled format
-            SnapshotData = new LabeledRegion<T>[BaseSnapshot.GetSnapshotData().Length];
+            SnapshotData = new SnapshotRegion<T>[BaseSnapshot.GetRegionCount()];
             for (Int32 RegionIndex = 0; RegionIndex < SnapshotData.Length; RegionIndex++)
-                SnapshotData[RegionIndex] = new LabeledRegion<T>(BaseSnapshot.GetSnapshotData()[RegionIndex]);
+                SnapshotData[RegionIndex] = new SnapshotRegion<T>(BaseSnapshot.GetSnapshotData()[RegionIndex]);
 
             Initialize();
         }
 
-        public Snapshot(LabeledRegion<T>[] SnapshotData)
+        public Snapshot(SnapshotRegion<T>[] SnapshotData)
         {
             this.SnapshotData = SnapshotData;
             Initialize();
         }
 
-        public new LabeledRegion<T>[] GetSnapshotData()
+        public new SnapshotRegion<T>[] GetSnapshotData()
         {
-            return (LabeledRegion<T>[])SnapshotData;
+            return (SnapshotRegion<T>[])SnapshotData;
         }
     }
 }

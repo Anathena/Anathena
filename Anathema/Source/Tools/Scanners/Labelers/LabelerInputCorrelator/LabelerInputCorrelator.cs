@@ -85,7 +85,7 @@ namespace Anathema
             // Initialize objects used in scanning
             ScanHistoryTime = new List<DateTime>();
             ChangeHistory = new List<BitArray>();
-            ScanHistoryValues = new Byte[LabeledSnapshot.GetSize()];
+            ScanHistoryValues = new Byte[LabeledSnapshot.GetMemorySize()];
 
             // Initialize input dictionaries
             KeyBoardPending = new Dictionary<Keys, DateTime>();
