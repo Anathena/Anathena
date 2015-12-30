@@ -15,11 +15,13 @@ namespace Anathema
         public List<String> Addresses = null;
         public List<String> Values = null;
         public List<String> Labels = null;
+        public UInt64 MemorySize = 0;
     }
 
     interface IResultsView : IView
     {
         void DisplayResults(ListViewItem[] Items);
+        void UpdateMemorySize(String MemorySize);
     }
 
     abstract class IResultsModel : IScannerModel
@@ -29,6 +31,11 @@ namespace Anathema
         protected virtual void OnEventUpdateDisplay(ResultsEventArgs E)
         {
             EventUpdateDisplay(this, E);
+        }
+        public event ResultsEventHandler EventUpdateMemorySize;
+        protected virtual void OnEventUpdateMemorySize(ResultsEventArgs E)
+        {
+            EventUpdateMemorySize(this, E);
         }
 
         // Functions invoked by presenter (downstream)
@@ -48,6 +55,7 @@ namespace Anathema
 
             // Bind events triggered by the model
             Model.EventUpdateDisplay += EventUpdateDisplay;
+            Model.EventUpdateMemorySize += EventUpdateMemorySize;
         }
 
         #region Method definitions called by the view (downstream)
@@ -100,18 +108,27 @@ namespace Anathema
 
         private void EventUpdateDisplay(Object Sender, ResultsEventArgs E)
         {
-            if (E.Addresses == null || E.Values == null || E.Labels == null)
-                return;
+            if (E.Addresses == null || E.Values == null)
+                throw new Exception("Addresses and values reqiured to pass to result display.");
 
-            if (E.Addresses.Count != E.Values.Count && E.Addresses.Count != E.Labels.Count)
-                return;
+            if (E.Addresses.Count != E.Values.Count)
+                    throw new Exception("Unequal number of addresses and values being passed to result display");
+            
+            // Create empty labels if none specified
+            if (E.Labels == null || E.Labels.Count != E.Addresses.Count)
+                E.Labels = Enumerable.Repeat("", E.Addresses.Count).ToList();
 
+            // Transform items to list view format to pass to the GUI
             List<ListViewItem> Items = new List<ListViewItem>();
-
             for (Int32 Index = 0; Index < E.Addresses.Count; Index++)
                 Items.Add(new ListViewItem(new String[] { E.Addresses[Index], E.Values[Index], E.Labels[Index] }));
 
             View.DisplayResults(Items.ToArray());
+        }
+
+        private void EventUpdateMemorySize(Object Sender, ResultsEventArgs E)
+        {
+            View.UpdateMemorySize(Conversions.ByteCountToMetricSize(E.MemorySize));
         }
 
         #endregion

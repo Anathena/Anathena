@@ -74,7 +74,20 @@ namespace Anathema
         {
             base.EndScan();
 
-            SnapshotManager.GetInstance().SaveSnapshot(LabeledSnapshot);
+            List<SnapshotRegion<UInt16>> FilteredElements = new List<SnapshotRegion<UInt16>>();
+
+            foreach (SnapshotRegion<UInt16> Region in LabeledSnapshot)
+            {
+                foreach (SnapshotElement<UInt16> Element in Region)
+                {
+                    if (Element.MemoryLabel.Value >= MinChanges && Element.MemoryLabel.Value <= MaxChanges)
+                        FilteredElements.Add(new SnapshotRegion<UInt16>(Element));
+                }
+            }
+
+            Snapshot<UInt16> FilteredSnapshot = new Snapshot<UInt16>(FilteredElements.ToArray());
+            
+            SnapshotManager.GetInstance().SaveSnapshot(FilteredSnapshot);
         }
 
     } // End class

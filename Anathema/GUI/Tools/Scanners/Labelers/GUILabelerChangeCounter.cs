@@ -54,7 +54,7 @@ namespace Anathema
         {
             Int32 VariableSize = (Int32)Math.Pow(2, VariableSizeTrackBar.Value);
             VariableSizeValueLabel.Text = VariableSize.ToString();
-            LabelerChangeCounterPresenter.SetMaxChanges(VariableSize);
+            LabelerChangeCounterPresenter.SetVariableSize(VariableSize);
         }
 
         private void EnableGUI()

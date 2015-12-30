@@ -21,6 +21,14 @@ namespace Anathema
             ResultsPresenter = new ResultsPresenter(this, Results.GetInstance());
         }
 
+        public void UpdateMemorySize(String MemorySize)
+        {
+            ControlThreadingHelper.InvokeControlAction(SnapshotSizeValueLabel, () =>
+            {
+                this.SnapshotSizeValueLabel.Text = MemorySize;
+            });
+        }
+
         public void DisplayResults(ListViewItem[] Items)
         {
             ControlThreadingHelper.InvokeControlAction(ResultsListView, () =>

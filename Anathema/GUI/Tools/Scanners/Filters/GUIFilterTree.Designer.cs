@@ -29,34 +29,11 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(GUIFilterTree));
-            this.MemorySizeValueLabel = new System.Windows.Forms.Label();
-            this.HashSizeLabel = new System.Windows.Forms.Label();
             this.StopScanButton = new System.Windows.Forms.ToolStripButton();
             this.StartScanButton = new System.Windows.Forms.ToolStripButton();
             this.ScanToolStrip = new System.Windows.Forms.ToolStrip();
             this.ScanToolStrip.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // MemorySizeValueLabel
-            // 
-            this.MemorySizeValueLabel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left)));
-            this.MemorySizeValueLabel.AutoSize = true;
-            this.MemorySizeValueLabel.Location = new System.Drawing.Point(67, 26);
-            this.MemorySizeValueLabel.Name = "MemorySizeValueLabel";
-            this.MemorySizeValueLabel.Size = new System.Drawing.Size(20, 13);
-            this.MemorySizeValueLabel.TabIndex = 152;
-            this.MemorySizeValueLabel.Text = "0B";
-            // 
-            // HashSizeLabel
-            // 
-            this.HashSizeLabel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.HashSizeLabel.Dock = System.Windows.Forms.DockStyle.Top;
-            this.HashSizeLabel.Location = new System.Drawing.Point(0, 25);
-            this.HashSizeLabel.Name = "HashSizeLabel";
-            this.HashSizeLabel.Size = new System.Drawing.Size(266, 15);
-            this.HashSizeLabel.TabIndex = 151;
-            this.HashSizeLabel.Text = "Memory Size:";
             // 
             // StopScanButton
             // 
@@ -97,8 +74,6 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(266, 173);
-            this.Controls.Add(this.MemorySizeValueLabel);
-            this.Controls.Add(this.HashSizeLabel);
             this.Controls.Add(this.ScanToolStrip);
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Name = "GUIFilterTree";
@@ -112,8 +87,6 @@
         }
 
         #endregion
-        private System.Windows.Forms.Label MemorySizeValueLabel;
-        private System.Windows.Forms.Label HashSizeLabel;
         private System.Windows.Forms.ToolStripButton StopScanButton;
         private System.Windows.Forms.ToolStripButton StartScanButton;
         private System.Windows.Forms.ToolStrip ScanToolStrip;

@@ -25,7 +25,7 @@ namespace Anathema
             get
             {
                 return new SnapshotElement(
-                this, Index,
+                BaseAddress + Index, this, Index,
                 CurrentValues == null ? new Byte?() : CurrentValues[Index],
                 PreviousValues == null ? new Byte?() : PreviousValues[Index]
                 );
@@ -75,6 +75,10 @@ namespace Anathema
             PreviousValues = SnapshotRegion.GetPreviousValues() == null ? null : (Byte[])SnapshotRegion.GetPreviousValues().Clone();
             MemoryLabels = new T?[SnapshotRegion.RegionSize];
         }
+        public SnapshotRegion(SnapshotElement<T> SnapshotElement) : base(SnapshotElement.BaseAddress, 1)
+        {
+            MemoryLabels = new T?[] { SnapshotElement.MemoryLabel };
+        }
 
         public T?[] GetMemoryLabels()
         {
@@ -91,7 +95,7 @@ namespace Anathema
             get
             {
                 return new SnapshotElement<T>(
-                (SnapshotRegion<T>)this, Index,
+                BaseAddress + Index, this, Index,
                 CurrentValues == null ? new Byte?() : CurrentValues[Index],
                 PreviousValues == null ? new Byte?() : PreviousValues[Index],
                 MemoryLabels == null ? new T?() : MemoryLabels[Index]

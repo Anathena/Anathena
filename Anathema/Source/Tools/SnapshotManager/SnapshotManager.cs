@@ -51,18 +51,27 @@ namespace Anathema
 
         }
 
-        public void SaveSnapshot(Snapshot Snapshot)
+        public void SetActiveSnapshot(Snapshot Snapshot)
         {
-            Snapshot.SetTimeStampToNow();
+            if (!SnapshotList.Contains(Snapshot))
+                SnapshotList.Add(Snapshot);
 
-            SnapshotList.Add(Snapshot);
-            
-            // Set the most recently saved snapshot as the active snapshot
             ActiveSnapshot = Snapshot;
-
+            
             SnapshotManagerEventArgs SnapshotManagerEventArgs = new SnapshotManagerEventArgs();
             SnapshotManagerEventArgs.SnapshotList = SnapshotList;
             UpdateSnapshotDisplay.Invoke(this, SnapshotManagerEventArgs);
+        }
+
+        public void SaveSnapshot(Snapshot Snapshot)
+        {
+            if (!SnapshotList.Contains(Snapshot))
+                SnapshotList.Add(Snapshot);
+
+            Snapshot.SetTimeStampToNow();
+
+            // Set the most recently saved snapshot as the active snapshot
+            SetActiveSnapshot(Snapshot);
         }
 
         public Boolean HasActiveSnapshot()

@@ -9,6 +9,7 @@ namespace Anathema
     {
         protected SnapshotRegion Parent;
         protected Int32 Index;
+        public IntPtr BaseAddress;
 
         private Byte? _CurrentValue;
         private Byte? _PreviousValue;
@@ -16,8 +17,9 @@ namespace Anathema
         public Byte? PreviousValue { get { return _PreviousValue; } set { _PreviousValue = value; Parent[Index] = this; } }
 
         protected SnapshotElement() { }
-        public SnapshotElement(SnapshotRegion Parent, Int32 Index, Byte? CurrentValue, Byte? PreviousValue)
+        public SnapshotElement(IntPtr BaseAddress, SnapshotRegion Parent, Int32 Index, Byte? CurrentValue, Byte? PreviousValue)
         {
+            this.BaseAddress = BaseAddress;
             this.Parent = Parent;
             this.Index = Index;
             this._CurrentValue = CurrentValue;
@@ -31,7 +33,7 @@ namespace Anathema
         private T? _MemoryLabel;
         public T? MemoryLabel { get { return _MemoryLabel; } set { _MemoryLabel = value; Parent[Index] = this; } }
 
-        public SnapshotElement(SnapshotRegion<T> Parent, Int32 Index, Byte? CurrentValue, Byte? PreviousValue, T? Label) : base(Parent, Index, CurrentValue, PreviousValue)
+        public SnapshotElement(IntPtr BaseAddress, SnapshotRegion<T> Parent, Int32 Index, Byte? CurrentValue, Byte? PreviousValue, T? Label) : base(BaseAddress, Parent, Index, CurrentValue, PreviousValue)
         {
             this.Parent = Parent;
             this._MemoryLabel = Label;

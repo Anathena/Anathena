@@ -141,23 +141,17 @@ namespace Anathema
                         break;
                 }
             }
-            else
-            {
-                for (Int32 Index = 0; Index < DisplayCount; Index++)
-                    Labels.Add("");
-            }
 
-            // Send the size of the filtered memory to the GUI
+            // Send the labels to the display
             ResultsEventArgs Args = new ResultsEventArgs();
             Args.Addresses = Addresses;
             Args.Values = Values;
             Args.Labels = Labels;
             OnEventUpdateDisplay(Args);
-        }
 
-        public override void EndScan()
-        {
-            base.EndScan();
+            // Send the size of the filtered memory to the display
+            Args.MemorySize = ActiveSnapshot.GetMemorySize();
+            OnEventUpdateMemorySize(Args);
         }
     }
 }

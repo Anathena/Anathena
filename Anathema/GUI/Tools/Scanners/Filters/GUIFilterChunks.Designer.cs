@@ -29,8 +29,6 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(GUIFilterChunks));
-            this.MemorySizeValueLabel = new System.Windows.Forms.Label();
-            this.HashSizeLabel = new System.Windows.Forms.Label();
             this.ChunkSizeValueLabel = new System.Windows.Forms.Label();
             this.ChunkSizeLabel = new System.Windows.Forms.Label();
             this.ChunkSizeTrackBar = new System.Windows.Forms.TrackBar();
@@ -45,31 +43,10 @@
             ((System.ComponentModel.ISupportInitialize)(this.MinChangesTrackBar)).BeginInit();
             this.SuspendLayout();
             // 
-            // MemorySizeValueLabel
-            // 
-            this.MemorySizeValueLabel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left)));
-            this.MemorySizeValueLabel.AutoSize = true;
-            this.MemorySizeValueLabel.Location = new System.Drawing.Point(67, 26);
-            this.MemorySizeValueLabel.Name = "MemorySizeValueLabel";
-            this.MemorySizeValueLabel.Size = new System.Drawing.Size(20, 13);
-            this.MemorySizeValueLabel.TabIndex = 152;
-            this.MemorySizeValueLabel.Text = "0B";
-            // 
-            // HashSizeLabel
-            // 
-            this.HashSizeLabel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.HashSizeLabel.Dock = System.Windows.Forms.DockStyle.Top;
-            this.HashSizeLabel.Location = new System.Drawing.Point(0, 25);
-            this.HashSizeLabel.Name = "HashSizeLabel";
-            this.HashSizeLabel.Size = new System.Drawing.Size(266, 15);
-            this.HashSizeLabel.TabIndex = 151;
-            this.HashSizeLabel.Text = "Memory Size:";
-            // 
             // ChunkSizeValueLabel
             // 
             this.ChunkSizeValueLabel.AutoSize = true;
-            this.ChunkSizeValueLabel.Location = new System.Drawing.Point(63, 75);
+            this.ChunkSizeValueLabel.Location = new System.Drawing.Point(63, 60);
             this.ChunkSizeValueLabel.Name = "ChunkSizeValueLabel";
             this.ChunkSizeValueLabel.Size = new System.Drawing.Size(20, 13);
             this.ChunkSizeValueLabel.TabIndex = 147;
@@ -78,7 +55,7 @@
             // ChunkSizeLabel
             // 
             this.ChunkSizeLabel.AutoSize = true;
-            this.ChunkSizeLabel.Location = new System.Drawing.Point(2, 75);
+            this.ChunkSizeLabel.Location = new System.Drawing.Point(2, 60);
             this.ChunkSizeLabel.Name = "ChunkSizeLabel";
             this.ChunkSizeLabel.Size = new System.Drawing.Size(64, 13);
             this.ChunkSizeLabel.TabIndex = 146;
@@ -86,7 +63,7 @@
             // 
             // ChunkSizeTrackBar
             // 
-            this.ChunkSizeTrackBar.Location = new System.Drawing.Point(0, 43);
+            this.ChunkSizeTrackBar.Location = new System.Drawing.Point(0, 28);
             this.ChunkSizeTrackBar.Minimum = 5;
             this.ChunkSizeTrackBar.Name = "ChunkSizeTrackBar";
             this.ChunkSizeTrackBar.Size = new System.Drawing.Size(119, 45);
@@ -132,7 +109,7 @@
             // 
             this.MinChangesValueLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.MinChangesValueLabel.AutoSize = true;
-            this.MinChangesValueLabel.Location = new System.Drawing.Point(232, 75);
+            this.MinChangesValueLabel.Location = new System.Drawing.Point(232, 60);
             this.MinChangesValueLabel.Name = "MinChangesValueLabel";
             this.MinChangesValueLabel.Size = new System.Drawing.Size(13, 13);
             this.MinChangesValueLabel.TabIndex = 154;
@@ -142,7 +119,7 @@
             // 
             this.MinChangesLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.MinChangesLabel.AutoSize = true;
-            this.MinChangesLabel.Location = new System.Drawing.Point(164, 75);
+            this.MinChangesLabel.Location = new System.Drawing.Point(164, 60);
             this.MinChangesLabel.Name = "MinChangesLabel";
             this.MinChangesLabel.Size = new System.Drawing.Size(72, 13);
             this.MinChangesLabel.TabIndex = 153;
@@ -150,7 +127,7 @@
             // 
             // MinChangesTrackBar
             // 
-            this.MinChangesTrackBar.Location = new System.Drawing.Point(128, 43);
+            this.MinChangesTrackBar.Location = new System.Drawing.Point(128, 28);
             this.MinChangesTrackBar.Maximum = 16;
             this.MinChangesTrackBar.Minimum = 1;
             this.MinChangesTrackBar.Name = "MinChangesTrackBar";
@@ -170,8 +147,6 @@
             this.Controls.Add(this.ChunkSizeValueLabel);
             this.Controls.Add(this.ChunkSizeLabel);
             this.Controls.Add(this.ChunkSizeTrackBar);
-            this.Controls.Add(this.MemorySizeValueLabel);
-            this.Controls.Add(this.HashSizeLabel);
             this.Controls.Add(this.ScanToolStrip);
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Name = "GUIFilterChunks";
@@ -187,8 +162,6 @@
         }
 
         #endregion
-        private System.Windows.Forms.Label MemorySizeValueLabel;
-        private System.Windows.Forms.Label HashSizeLabel;
         private System.Windows.Forms.Label ChunkSizeValueLabel;
         private System.Windows.Forms.Label ChunkSizeLabel;
         private System.Windows.Forms.TrackBar ChunkSizeTrackBar;

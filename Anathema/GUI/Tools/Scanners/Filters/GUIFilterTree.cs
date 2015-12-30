@@ -31,15 +31,10 @@ namespace Anathema
 
         public void DisplayResultSize(UInt64 TreeSize)
         {
-            ControlThreadingHelper.InvokeControlAction(MemorySizeValueLabel, () =>
+            /*ControlThreadingHelper.InvokeControlAction(MemorySizeValueLabel, () =>
             {
                 MemorySizeValueLabel.Text = Conversions.ByteCountToMetricSize(TreeSize).ToString();
-            });
-        }
-
-        private void UpdateTreeSplits(Int32 Splits)
-        {
-            // TreeSplitsValueLabel.Text = Splits.ToString();
+            });*/
         }
 
         private void DisableGUI()
