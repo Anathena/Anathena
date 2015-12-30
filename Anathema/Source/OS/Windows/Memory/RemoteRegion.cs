@@ -16,7 +16,7 @@ using System.Threading.Tasks;
 namespace Binarysharp.MemoryManagement.Memory
 {
     /// <summary>
-    /// Represents a contiguous block of memory in a remote process.
+    /// Represents a contiguous range of memory in a remote process.
     /// </summary>
     public class RemoteRegion : RemotePointer, IEquatable<RemoteRegion>
     {

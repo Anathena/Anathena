@@ -84,6 +84,8 @@
     <Compile Include="GUI\Tools\FlickerFreeListView.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Source\Tools\SnapshotManager\SnapshotRegion.cs" />
+    <Compile Include="Source\Tools\SnapshotManager\SnapshotElement.cs" />
     <Compile Include="Source\Tools\Scanners\Filters\Hashing.cs" />
     <Compile Include="GUI\HexEditor\BitControl.cs">
       <SubType>UserControl</SubType>

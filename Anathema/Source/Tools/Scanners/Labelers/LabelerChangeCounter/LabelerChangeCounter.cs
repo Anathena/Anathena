@@ -11,6 +11,8 @@ namespace Anathema
     class LabelerChangeCounter : ILabelerChangeCounterModel
     {
         private Snapshot<UInt16> LabeledSnapshot;
+
+        // User controlled variables
         private Int32 MinChanges;
         private Int32 MaxChanges;
         private Int32 VariableSize;
@@ -54,15 +56,13 @@ namespace Anathema
 
             foreach (LabeledRegion<UInt16> Region in LabeledSnapshot.GetSnapshotData())
             {
-                if (Region.PreviousValues == null || Region.PreviousValues == null)
-                    continue;
-
-                for (Int32 ElementIndex = 0; ElementIndex < Region.CurrentValues.Length; ElementIndex++)
+                foreach (SnapshotElement<UInt16> Element in Region)
                 {
-                    if (Region.CurrentValues[ElementIndex] != Region.PreviousValues[ElementIndex])
-                    {
-                        Region.MemoryLabels[ElementIndex]++;
-                    }
+                    if (!Element.CurrentValue.HasValue || !Element.PreviousValue.HasValue)
+                        continue;
+
+                    if (Element.CurrentValue != Element.PreviousValue)
+                        Element.Label++;
                 }
             }
         }

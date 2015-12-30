@@ -9,63 +9,8 @@ using System.Collections;
 
 namespace Anathema
 {
-    public class SnapshotElement
-    {
-        public Byte CurrentValue;
-        public Byte PreviousValue;
-
-        protected SnapshotElement() { }
-        public SnapshotElement(Byte CurrentValue, Byte PreviousValue)
-        {
-            this.CurrentValue = CurrentValue;
-            this.PreviousValue = PreviousValue;
-        }
-    }
-
-    public class SnapshotRegion : RemoteRegion
-    {
-        public Byte[] CurrentValues;
-        public Byte[] PreviousValues;
-
-        public SnapshotRegion(IntPtr BaseAddress, Int32 RegionSize) : base(null, BaseAddress, RegionSize) { }
-        public SnapshotRegion(RemoteRegion RemoteRegion) : base(null, RemoteRegion.BaseAddress, RemoteRegion.RegionSize) { }
-        public SnapshotElement this[Int32 Index]
-        {
-            get { return new SnapshotElement(CurrentValues[Index], PreviousValues[Index]); }
-            set { CurrentValues[Index] = value.CurrentValue; PreviousValues[Index] = value.PreviousValue; }
-        }
-    }
-
-    public class SnapshotElement<T> : SnapshotElement
-    {
-        public T Label;
-
-        public SnapshotElement(Byte CurrentValue, Byte PreviousValue, T Label) : base(CurrentValue, PreviousValue)
-        {
-            this.Label = Label;
-        }
-    }
-
-    public class LabeledRegion<T> : SnapshotRegion
-    {
-        public T[] MemoryLabels;
-
-        public LabeledRegion(IntPtr BaseAddress, Int32 RegionSize) : base(BaseAddress, RegionSize) { }
-        public LabeledRegion(RemoteRegion RemoteRegion) : base(RemoteRegion) { }
-        public LabeledRegion(SnapshotRegion SnapshotRegion) : base(SnapshotRegion)
-        {
-            CurrentValues = SnapshotRegion.CurrentValues == null ? null : (Byte[])SnapshotRegion.CurrentValues.Clone();
-            PreviousValues = SnapshotRegion.PreviousValues == null ? null : (Byte[])SnapshotRegion.PreviousValues.Clone();
-        }
-        public new SnapshotElement<T> this[Int32 Index]
-        {
-            get { return new SnapshotElement<T>(CurrentValues[Index], PreviousValues[Index], MemoryLabels[Index]); }
-            set { CurrentValues[Index] = value.CurrentValue; PreviousValues[Index] = value.PreviousValue; MemoryLabels[Index] = value.Label; }
-        }
-    }
-
     /// <summary>
-    /// Defines the data contained in a single snapshot
+    /// Defines data contained in a single snapshot
     /// </summary>
     class Snapshot : IProcessObserver
     {
@@ -119,12 +64,11 @@ namespace Anathema
         {
             Boolean InvalidRead = false;
 
-            Parallel.ForEach(SnapshotData, (Data) =>
+            Parallel.ForEach(SnapshotData, (Snapshot) =>
             {
-                Data.PreviousValues = Data.CurrentValues;
-
                 Boolean SuccessReading = false;
-                Data.CurrentValues = MemoryEditor.ReadBytes(Data.BaseAddress, Data.RegionSize, out SuccessReading, false);
+                Byte[] CurrentValues = MemoryEditor.ReadBytes(Snapshot.BaseAddress, Snapshot.RegionSize, out SuccessReading, false);
+                Snapshot.SetCurrentValues(CurrentValues);
 
                 if (!SuccessReading)
                 {
@@ -137,8 +81,6 @@ namespace Anathema
             {
                 // MaskRegions(SnapshotManager.GetSnapshotManagerInstance().SnapshotAllMemory());
             }
-
-            // Things that call this may expect a 1 to 1 with the previous ReadAllMemory
         }
 
         public SnapshotRegion[] GetSnapshotData()
@@ -212,7 +154,10 @@ namespace Anathema
         }
     }
 
-    class Snapshot<T> : Snapshot
+    /// <summary>
+    /// Defines labeled data contained in a single snapshot
+    /// </summary>
+    class Snapshot<T> : Snapshot where T : struct
     {
         public Snapshot() : base()
         {
