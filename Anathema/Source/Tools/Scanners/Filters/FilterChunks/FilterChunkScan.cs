@@ -38,8 +38,8 @@ namespace Anathema
             this.ChunkRoots = new List<MemoryChunkRoots>();
 
             // Initialize filter tree roots
-            List<RemoteRegion> MemoryRegions = InitialSnapshot.GetMemoryRegions();
-            for (int PageIndex = 0; PageIndex < MemoryRegions.Count; PageIndex++)
+            SnapshotRegion[] MemoryRegions = InitialSnapshot.GetSnapshotData();
+            for (int PageIndex = 0; PageIndex < MemoryRegions.Length; PageIndex++)
                 ChunkRoots.Add(new MemoryChunkRoots(MemoryRegions[PageIndex], ChunkSize));
             
             base.BeginScan();
@@ -51,7 +51,7 @@ namespace Anathema
 
             Parallel.ForEach(ChunkRoots, (ChunkRoot) =>
             {
-                Byte[] PageData = InitialSnapshot.GetCurrentMemoryValues()[ChunkRoots.IndexOf(ChunkRoot)];
+                Byte[] PageData = InitialSnapshot.GetSnapshotData()[ChunkRoots.IndexOf(ChunkRoot)].CurrentRegionValues;
 
                 // Process the changes that have occurred since the last sampling for this memory page
                 if (PageData != null)
@@ -72,16 +72,16 @@ namespace Anathema
             base.EndScan();
 
             // Collect the pages that have changed
-            List<RemoteRegion> ChangedRegions = new List<RemoteRegion>();
+            List<SnapshotRegion> ChangedRegions = new List<SnapshotRegion>();
             for (Int32 Index = 0; Index < ChunkRoots.Count; Index++)
                 ChunkRoots[Index].GetChangedRegions(ChangedRegions, MinChanges);
             ChunkRoots = null;
 
             // Convert trees to a list of memory regions
-            List<RemoteRegion> FilteredRegions = ChangedRegions.ConvertAll(Page => (RemoteRegion)Page);
+            List<SnapshotRegion> FilteredRegions = ChangedRegions.ConvertAll(Page => (SnapshotRegion)Page);
 
             // Create snapshot with results
-            Snapshot FilteredSnapshot = new Snapshot(FilteredRegions);
+            Snapshot FilteredSnapshot = new Snapshot(FilteredRegions.ToArray());
 
             // Grow regions by the size of the largest standard variable and mask this with the original memory list.
             FilteredSnapshot.GrowRegions(sizeof(UInt64));
@@ -96,19 +96,19 @@ namespace Anathema
             SnapshotManager.GetInstance().SaveSnapshot(FilteredSnapshot);
         }
 
-        public class MemoryChunkRoots : RemoteRegion
+        public class MemoryChunkRoots : SnapshotRegion
         {
             private Boolean Dead;
-            private RemoteRegion[] Chunks;
+            private SnapshotRegion[] Chunks;
             private UInt16[] ChangeCounts;
             private UInt32?[] Checksums;
 
-            public MemoryChunkRoots(RemoteRegion Region, Int32 ChunkSize) : base(null, Region.BaseAddress, Region.RegionSize)
+            public MemoryChunkRoots(SnapshotRegion Region, Int32 ChunkSize) : base(Region.BaseAddress, Region.RegionSize)
             {
                 // Initialize state variables
                 Int32 ChunkCount = RegionSize / ChunkSize + 1;
                 IntPtr CurrentBase = Region.BaseAddress;
-                Chunks = new RemoteRegion[ChunkCount];
+                Chunks = new SnapshotRegion[ChunkCount];
                 ChangeCounts = new UInt16[ChunkCount];
                 Checksums = new UInt32?[ChunkCount];
                 Dead = false;
@@ -121,7 +121,7 @@ namespace Anathema
                     if (Index == ChunkCount - 1)
                         ChunkRegionSize = RegionSize % ChunkSize;
 
-                    Chunks[Index] = new RemoteRegion(null, CurrentBase, ChunkRegionSize);
+                    Chunks[Index] = new SnapshotRegion(CurrentBase, ChunkRegionSize);
                     ChangeCounts[Index] = 0;
                     Checksums[Index] = 0;
 
@@ -129,7 +129,7 @@ namespace Anathema
                 }
             }
 
-            public void GetChangedRegions(List<RemoteRegion> AcceptedRegions, Int32 MinChanges)
+            public void GetChangedRegions(List<SnapshotRegion> AcceptedRegions, Int32 MinChanges)
             {
                 if (IsDead())
                     return;

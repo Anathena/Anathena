@@ -14,7 +14,7 @@ namespace Anathema
         private Int32 MinChanges;
         private Int32 MaxChanges;
         private Int32 VariableSize;
-        
+
         public LabelerChangeCounter()
         {
 
@@ -40,44 +40,31 @@ namespace Anathema
             Snapshot InitialSnapshot = SnapshotManager.GetInstance().GetActiveSnapshot();
 
             // Initialize labeled snapshot with counts set to 0
-            LabeledSnapshot = new Snapshot<UInt16>(InitialSnapshot.GetMemoryRegions());
-            List<UInt16[]> Counts = new List<UInt16[]>();
-            for (Int32 RegionIndex = 0; RegionIndex < LabeledSnapshot.GetMemoryRegions().Count; RegionIndex++)
-                Counts.Add(new UInt16[LabeledSnapshot.GetMemoryRegions()[RegionIndex].RegionSize]);
-            LabeledSnapshot.AssignLabels(Counts);
+            LabeledSnapshot = new Snapshot<UInt16>(InitialSnapshot);
+            foreach (LabeledRegion<UInt16> Region in LabeledSnapshot.GetSnapshotData())
+                Region.MemoryLabels = new UInt16[Region.RegionSize];
 
             base.BeginScan();
         }
 
         protected override void UpdateScan()
         {
-            if (!LabeledSnapshot.HasLabels())
-                throw new Exception("Count labels missing");
-
             // Read memory to get current values
             LabeledSnapshot.ReadAllMemory();
-            List<Byte[]> PreviousScan = LabeledSnapshot.GetPreviousMemoryValues();
-            List<Byte[]> CurrentScan = LabeledSnapshot.GetCurrentMemoryValues();
 
-            if (CurrentScan == null || PreviousScan == null)
-                return;
-            
-            List<UInt16[]> Labels = LabeledSnapshot.GetMemoryLabels();
-
-            // Update the labels with the new count of number of changes
-            for (Int32 RegionIndex = 0; RegionIndex < CurrentScan.Count; RegionIndex++)
+            foreach (LabeledRegion<UInt16> Region in LabeledSnapshot.GetSnapshotData())
             {
-                for (Int32 ElementIndex = 0; ElementIndex < CurrentScan[RegionIndex].Length; ElementIndex++)
+                if (Region.PreviousRegionValues == null || Region.CurrentRegionValues == null)
+                    continue;
+                
+                for (Int32 ElementIndex = 0; ElementIndex < Region.CurrentRegionValues.Length; ElementIndex++)
                 {
-                    if (CurrentScan[RegionIndex][ElementIndex] != PreviousScan[RegionIndex][ElementIndex])
+                    if (Region.CurrentRegionValues[ElementIndex] != Region.PreviousRegionValues[ElementIndex])
                     {
-                        Labels[RegionIndex][ElementIndex]++;
+                        Region.MemoryLabels[ElementIndex]++;
                     }
                 }
             }
-
-            // Save new labels
-            LabeledSnapshot.AssignLabels(Labels);
         }
 
         public override void EndScan()

@@ -76,6 +76,7 @@ namespace Anathema
         public void ChangeSign()
         {
             Type ScanType = Model.GetScanType();
+
             var @switch = new Dictionary<Type, Action> {
                     { typeof(Byte), () => ScanType = typeof(SByte) },
                     { typeof(SByte), () => ScanType = typeof(Byte) },

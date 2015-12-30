@@ -82,7 +82,7 @@ namespace Anathema
         {
             // Take a snapshot if there are none
             if (!HasActiveSnapshot())
-                return SnapshotAllMemory();
+                return SnapshotAllRegions();
 
             // Return the snapshot
             return ActiveSnapshot;
@@ -91,7 +91,7 @@ namespace Anathema
         /// <summary>
         /// Take a snapshot of all memory regions in the target process
         /// </summary>
-        public Snapshot SnapshotAllMemory()
+        public Snapshot SnapshotAllRegions()
         {
             if (MemoryEditor == null)
                 return new Snapshot();
@@ -102,11 +102,11 @@ namespace Anathema
                 VirtualPages.Add(Page);
 
             // Convert each virtual page to a remote region (a more condensed representation of the information)
-            List<RemoteRegion> MemoryRegions = new List<RemoteRegion>();
+            List<SnapshotRegion> MemoryRegions = new List<SnapshotRegion>();
             for (int PageIndex = 0; PageIndex < VirtualPages.Count; PageIndex++)
-                MemoryRegions.Add(new RemoteRegion(MemoryEditor, VirtualPages[PageIndex].Information.BaseAddress, (Int32)VirtualPages[PageIndex].Information.RegionSize));
+                MemoryRegions.Add(new SnapshotRegion(VirtualPages[PageIndex].Information.BaseAddress, (Int32)VirtualPages[PageIndex].Information.RegionSize));
 
-            return new Snapshot(MemoryRegions);
+            return new Snapshot(MemoryRegions.ToArray());
         }
         
     }

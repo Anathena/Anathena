@@ -8,6 +8,43 @@ using System.Threading.Tasks;
 
 namespace Anathema
 {
+    /*
+    public class SnapshotRegion : RemoteRegion
+    {
+        public SnapshotRegion(IntPtr BaseAddress, Int32 RegionSize) : base(null, BaseAddress, RegionSize) { }
+        public SnapshotRegion(RemoteRegion RemoteRegion) : base(null, RemoteRegion.BaseAddress, RemoteRegion.RegionSize) { }
+        public struct RegionElements { Byte CurrentValue; Byte PreviousValue; }
+        public RegionElements[] Elements;
+    }
+
+    public class LabeledRegion<T> : SnapshotRegion
+    {
+        public LabeledRegion(IntPtr BaseAddress, Int32 RegionSize) : base(BaseAddress, RegionSize) { }
+        public LabeledRegion(RemoteRegion RemoteRegion) : base(RemoteRegion) { }
+        public new struct RegionElements { Byte CurrentValue; Byte PreviousValue; T Label; }
+        public new RegionElements[] Elements;
+    }
+    */
+    public class SnapshotRegion : RemoteRegion
+    {
+        public SnapshotRegion(IntPtr BaseAddress, Int32 RegionSize) : base(null, BaseAddress, RegionSize) { }
+        public SnapshotRegion(RemoteRegion RemoteRegion) : base(null, RemoteRegion.BaseAddress, RemoteRegion.RegionSize) { }
+        public Byte[] CurrentRegionValues;
+        public Byte[] PreviousRegionValues;
+    }
+
+    public class LabeledRegion<T> : SnapshotRegion
+    {
+        public LabeledRegion(IntPtr BaseAddress, Int32 RegionSize) : base(BaseAddress, RegionSize) { }
+        public LabeledRegion(RemoteRegion RemoteRegion) : base(RemoteRegion) { }
+        public LabeledRegion(SnapshotRegion SnapshotRegion) : base(SnapshotRegion)
+        {
+            CurrentRegionValues = SnapshotRegion.CurrentRegionValues == null ? null : (Byte[])SnapshotRegion.CurrentRegionValues.Clone();
+            PreviousRegionValues = SnapshotRegion.PreviousRegionValues == null ? null : (Byte[])SnapshotRegion.PreviousRegionValues.Clone();
+        }
+        public T[] MemoryLabels;
+    }
+
     /// <summary>
     /// Defines the data contained in a single snapshot
     /// </summary>
@@ -15,25 +52,28 @@ namespace Anathema
     {
         private MemorySharp MemoryEditor;
 
+        protected SnapshotRegion[] SnapshotData;
         private DateTime TimeStamp;
-
-        private List<RemoteRegion> MemoryRegions;
-        private List<Byte[]> CurrentMemoryValues;
-        private List<Byte[]> PreviousMemoryValues;
 
         public Snapshot()
         {
-            this.MemoryRegions = new List<RemoteRegion>();
+            this.SnapshotData = null;
 
-            InitializeObserver();
+            Initialize();
+            MergeRegions();
         }
 
-        public Snapshot(List<RemoteRegion> MemoryRegions)
+        public Snapshot(SnapshotRegion[] SnapshotData)
         {
-            this.MemoryRegions = MemoryRegions;
+            this.SnapshotData = SnapshotData;
 
-            InitializeObserver();
+            Initialize();
             MergeRegions();
+        }
+
+        public void Initialize()
+        {
+            InitializeObserver();
         }
 
         public void InitializeObserver()
@@ -58,18 +98,14 @@ namespace Anathema
 
         public void ReadAllMemory()
         {
-            PreviousMemoryValues = CurrentMemoryValues;
-            CurrentMemoryValues = Enumerable.Repeat((Byte[])null, MemoryRegions.Count).ToList();
-
             Boolean InvalidRead = false;
 
-            Parallel.For(0, MemoryRegions.Count, Index =>
+            Parallel.ForEach(SnapshotData, (Data) =>
             {
-                if (Index < 0 || Index >= MemoryRegions.Count)
-                    return;
+                Data.PreviousRegionValues = Data.CurrentRegionValues;
 
                 Boolean SuccessReading = false;
-                CurrentMemoryValues[Index] = MemoryEditor.ReadBytes(MemoryRegions[Index].BaseAddress, MemoryRegions[Index].RegionSize, out SuccessReading, false);
+                Data.CurrentRegionValues = MemoryEditor.ReadBytes(Data.BaseAddress, Data.RegionSize, out SuccessReading, false);
                 if (!SuccessReading)
                 {
                     InvalidRead = true;
@@ -85,30 +121,14 @@ namespace Anathema
             // Things that call this may expect a 1 to 1 with the previous ReadAllMemory
         }
 
-        public List<RemoteRegion> GetMemoryRegions()
+        public SnapshotRegion[] GetSnapshotData()
         {
-            return MemoryRegions;
-        }
-
-        public List<Byte[]> GetCurrentMemoryValues()
-        {
-            return CurrentMemoryValues;
-        }
-
-        public List<Byte[]> GetPreviousMemoryValues()
-        {
-            return PreviousMemoryValues;
+            return SnapshotData;
         }
 
         public UInt64 GetSize()
         {
-            UInt64 Size = 0;
-
-            if (MemoryRegions != null)
-                for (Int32 Index = 0; Index < MemoryRegions.Count; Index++)
-                    Size += (UInt64)MemoryRegions[Index].RegionSize;
-
-            return Size;
+            return (UInt64)SnapshotData.AsEnumerable().Sum(x => (Int64)x.RegionSize);
         }
 
         /// <summary>
@@ -129,85 +149,75 @@ namespace Anathema
         /// <param name="Mask"></param>
         public void MaskRegions(Snapshot Mask)
         {
-
             // MergeRegions(); // Just for the sort
         }
-
+        
         /// <summary>
         /// Merges continguous regions in the current list of memory regions using a fast stack based algorithm O(nlogn + n)
         /// </summary>
         private void MergeRegions()
         {
-            if (MemoryRegions.Count == 0)
+            if (SnapshotData == null || SnapshotData.Length == 0)
                 return;
 
             // First, sort by start address
-            MemoryRegions.OrderBy(x => x.BaseAddress);
+            Array.Sort(SnapshotData, (x, y) => ((UInt64)x.BaseAddress).CompareTo((UInt64)y.BaseAddress));
 
             // Create and initialize the stack with the first region
-            Stack<RemoteRegion> CombinedRegions = new Stack<RemoteRegion>();
-            CombinedRegions.Push(MemoryRegions[0]);
+            Stack<SnapshotRegion> CombinedRegions = new Stack<SnapshotRegion>();
+            CombinedRegions.Push(SnapshotData[0]);
 
             // Build the remaining regions
-            for (Int32 Index = CombinedRegions.Count; Index < MemoryRegions.Count; Index++)
+            for (Int32 Index = CombinedRegions.Count; Index < SnapshotData.Length; Index++)
             {
-                RemoteRegion Top = CombinedRegions.Peek();
+                SnapshotRegion Top = CombinedRegions.Peek();
 
                 // If the interval does not overlap, put it on the top of the stack
-                if ((UInt64)Top.EndAddress < (UInt64)MemoryRegions[Index].BaseAddress - 1)
+                if ((UInt64)Top.EndAddress < (UInt64)SnapshotData[Index].BaseAddress - 1)
                 {
-                    CombinedRegions.Push(MemoryRegions[Index]);
+                    CombinedRegions.Push(SnapshotData[Index]);
                 }
                 // The interval overlaps; just merge it with the current top of the stack
-                else if ((UInt64)Top.EndAddress <= (UInt64)MemoryRegions[Index].EndAddress)
+                else if ((UInt64)Top.EndAddress <= (UInt64)SnapshotData[Index].EndAddress)
                 {
-                    Top.RegionSize = (Int32)((UInt64)MemoryRegions[Index].EndAddress - (UInt64)Top.BaseAddress);
+                    Top.RegionSize = (Int32)((UInt64)SnapshotData[Index].EndAddress - (UInt64)Top.BaseAddress);
                     CombinedRegions.Pop();
                     CombinedRegions.Push(Top);
                 }
             }
 
             // Replace memory regions with merged memory regions
-            MemoryRegions = CombinedRegions.ToList();
-            MemoryRegions.Reverse();
+            SnapshotData = CombinedRegions.ToArray();
+            Array.Sort(SnapshotData, (x, y) => ((UInt64)x.BaseAddress).CompareTo((UInt64)y.BaseAddress));
         }
     }
 
     class Snapshot<T> : Snapshot
     {
-        // Same format as values. MemoryLabels[Region][Element]
-        private List<T[]> MemoryLabels;
-
         public Snapshot() : base()
         {
-            MemoryLabels = new List<T[]>();
-        }
-
-        public Snapshot(List<RemoteRegion> MemoryRegions) : base(MemoryRegions)
-        {
 
         }
 
-        public Snapshot(List<RemoteRegion> MemoryRegions, List<T[]> MemoryLabels) : base(MemoryRegions)
+        public Snapshot(Snapshot BaseSnapshot)
         {
-            this.MemoryLabels = MemoryLabels;
+            // Copy and convert the snapshot data to a labeled format
+            SnapshotData = new LabeledRegion<T>[BaseSnapshot.GetSnapshotData().Length];
+            for (Int32 RegionIndex = 0; RegionIndex < SnapshotData.Length; RegionIndex++)
+                SnapshotData[RegionIndex] = new LabeledRegion<T>(BaseSnapshot.GetSnapshotData()[RegionIndex]);
+
+            Initialize();
         }
 
-        public Boolean HasLabels()
+        public Snapshot(LabeledRegion<T>[] SnapshotData)
         {
-            if (MemoryLabels == null)
-                return false;
-            return true;
+            this.SnapshotData = SnapshotData;
+            Initialize();
         }
 
-        public void AssignLabels(List<T[]> MemoryLabels)
+        public new LabeledRegion<T>[] GetSnapshotData()
         {
-            this.MemoryLabels = MemoryLabels;
-        }
-
-        public List<T[]> GetMemoryLabels()
-        {
-            return MemoryLabels;
+            return (LabeledRegion<T>[])SnapshotData;
         }
     }
 }

@@ -79,8 +79,8 @@ namespace Anathema
         {
             Snapshot InitialSnapshot = SnapshotManager.GetInstance().GetActiveSnapshot();
             List<Single[]> Correlations = new List<Single[]>();
-            LabeledSnapshot = new Snapshot<Single>(InitialSnapshot.GetMemoryRegions());
-            LabeledSnapshot.AssignLabels(Correlations);
+            LabeledSnapshot = new Snapshot<Single>(InitialSnapshot);
+            // LabeledSnapshot.AssignLabels(Correlations);
 
             // Initialize objects used in scanning
             ScanHistoryTime = new List<DateTime>();
@@ -130,8 +130,8 @@ namespace Anathema
 
             // Read memory from all processes
             //for (int RegionIndex = 0; RegionIndex < MemoryRegions.Count; RegionIndex++)
-            Parallel.For(0, LabeledSnapshot.GetMemoryRegions().Count, RegionIndex =>
-            {
+            //Parallel.For(0, LabeledSnapshot.GetMemoryRegions().Count, RegionIndex =>
+            //{
                 /*
                 Boolean Success;
                 IntPtr MappedIndex;
@@ -153,7 +153,7 @@ namespace Anathema
 
                 // Copy the read bytes in memory to the saved list
                 Array.Copy(RegionData, 0, ScanHistoryValues, (Int32)MappedIndex, RegionData.Length);*/
-            });
+            //});
 
             // Get the scan time stamp
             ScanHistoryTime.Add(DateTime.Now);

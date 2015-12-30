@@ -36,8 +36,8 @@ namespace Anathema
             this.FilterTrees = new List<MemoryChangeTree>();
 
             // Initialize filter tree roots
-            List<RemoteRegion> MemoryRegions = InitialSnapshot.GetMemoryRegions();
-            for (int PageIndex = 0; PageIndex < MemoryRegions.Count; PageIndex++)
+            SnapshotRegion[] MemoryRegions = InitialSnapshot.GetSnapshotData();
+            for (int PageIndex = 0; PageIndex < MemoryRegions.Length; PageIndex++)
                 FilterTrees.Add(new MemoryChangeTree(MemoryRegions[PageIndex].BaseAddress, MemoryRegions[PageIndex].RegionSize));
 
             base.BeginScan();
@@ -52,7 +52,7 @@ namespace Anathema
                 if (Tree.IsDead())
                     return; // Works as 'continue' in a parallel foreach
                 
-                Byte[] PageData = InitialSnapshot.GetCurrentMemoryValues()[FilterTrees.IndexOf(Tree)];
+                Byte[] PageData = InitialSnapshot.GetSnapshotData()[FilterTrees.IndexOf(Tree)].CurrentRegionValues;
 
                 // Process the changes that have occurred since the last sampling for this memory page
                 if (PageData != null)
@@ -73,16 +73,13 @@ namespace Anathema
             base.EndScan();
 
             // Collect the pages that have changed
-            List<MemoryChangeTree> ChangedRegions = new List<MemoryChangeTree>();
+            List<SnapshotRegion> FilteredRegions = new List<SnapshotRegion>();
             for (Int32 Index = 0; Index < FilterTrees.Count; Index++)
-                FilterTrees[Index].GetChangedRegions(ChangedRegions);
+                FilterTrees[Index].GetChangedRegions(FilteredRegions);
             FilterTrees = null;
-
-            // Convert trees to a list of memory regions
-            List<RemoteRegion> FilteredRegions = ChangedRegions.ConvertAll(Page => (RemoteRegion)Page);
-
+            
             // Create snapshot with results
-            Snapshot FilteredSnapshot = new Snapshot(FilteredRegions);
+            Snapshot FilteredSnapshot = new Snapshot(FilteredRegions.ToArray());
 
             // Grow regions by the size of the largest standard variable and mask this with the original memory list.
             FilteredSnapshot.GrowRegions(sizeof(UInt64));
@@ -97,7 +94,7 @@ namespace Anathema
             SnapshotManager.GetInstance().SaveSnapshot(FilteredSnapshot);
         }
 
-        public class MemoryChangeTree : RemoteRegion
+        public class MemoryChangeTree : SnapshotRegion
         {
             // Experimentally found that splitting pages on boundaries of 64 or 128 works best.
             private const Int32 PageSplitThreshold = 64;
@@ -114,7 +111,7 @@ namespace Anathema
             private UInt64? Checksum;
             private StateEnum State;
 
-            public MemoryChangeTree(IntPtr BaseAddress, Int32 RegionSize) : base(null, BaseAddress, RegionSize)
+            public MemoryChangeTree(IntPtr BaseAddress, Int32 RegionSize) : base(BaseAddress, RegionSize)
             {
                 // Initialize state variables
                 State = StateEnum.Unchanged;
@@ -134,7 +131,7 @@ namespace Anathema
                 State = StateEnum.Deallocated;
             }
 
-            public void GetChangedRegions(List<MemoryChangeTree> AcceptedPages)
+            public void GetChangedRegions(List<SnapshotRegion> AcceptedPages)
             {
                 // Add this page to the accepted list if we are a leaf on the tree structure with changes (or we are unsure)
                 if (ChildLeft == null && ChildRight == null)
