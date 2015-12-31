@@ -84,6 +84,7 @@
     <Compile Include="GUI\Tools\FlickerFreeListView.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Source\Tools\Scanners\Labelers\LabelerInputCorrelator\ILabelerInputCorrelatorMVP.cs" />
     <Compile Include="Source\Tools\SnapshotManager\SnapshotRegion.cs" />
     <Compile Include="Source\Tools\SnapshotManager\SnapshotElement.cs" />
     <Compile Include="Source\Tools\Scanners\Filters\Hashing.cs" />

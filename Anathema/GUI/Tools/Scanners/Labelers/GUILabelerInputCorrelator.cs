@@ -10,54 +10,59 @@ using System.IO;
 
 namespace Anathema
 {
-    public partial class GUILabelerInputCorrelator : DockContent
+    public partial class GUILabelerInputCorrelator : DockContent, ILabelerInputCorrelatorView
     {
-        /*
-        May want in the future:
-
-        Control on variable reactivity (before, after, both)
-
-        Custom variable size? If we are looking for chunk correlation this could be useful.
-        Honestly who would need this though?
-
-        Custom alignment? Probably not, the users don't need this. I have been using
-        CE for 10 years and have only ever done: No alignment, or 4 byte alignment.
-        */
-
+        LabelerInputCorrelatorPresenter LabelerInputCorrelatorPresenter;
+       
         public GUILabelerInputCorrelator()
         {
             InitializeComponent();
 
+            LabelerInputCorrelatorPresenter = new LabelerInputCorrelatorPresenter(this, new LabelerInputCorrelator());
+
             SetVariableSize();
-            SetAlignmentSizeVariable();
+            EnableGUI();
         }
 
         private void SetVariableSize()
         {
-            UInt64 Value = (UInt64)Math.Pow(2, VariableSizeTrackBar.Value);
-            String LabelText = Conversions.ByteCountToMetricSize(Value).ToString();
+            Int32 VariableSize = (Int32)Math.Pow(2, VariableSizeTrackBar.Value);
+            VariableSizeValueLabel.Text = Conversions.ByteCountToMetricSize((UInt64)VariableSize).ToString();
 
-            VariableSizeValueLabel.Text = LabelText;
+            LabelerInputCorrelatorPresenter.SetVariableSize(VariableSize);
         }
 
-        private void SetAlignmentSizeVariable()
+        private void EnableGUI()
         {
-            UInt64 Value = (UInt64)Math.Pow(2, AlignmentSizeTrackBar.Value);
-            String LabelText = Value.ToString();
+            StartScanButton.Enabled = true;
+            StopScanButton.Enabled = false;
+            VariableSizeTrackBar.Enabled = true;
+        }
 
-            AlignmentSizeValueLabel.Text = LabelText;
+        private void DisableGUI()
+        {
+            StartScanButton.Enabled = false;
+            StopScanButton.Enabled = true;
+            VariableSizeTrackBar.Enabled = false;
+        }
+
+        #region Events
+
+        private void StartScanButton_Click(object sender, EventArgs e)
+        {
+            DisableGUI();
+            LabelerInputCorrelatorPresenter.BeginScan();
+        }
+
+        private void StopScanButton_Click(object sender, EventArgs e)
+        {
+            EnableGUI();
+            LabelerInputCorrelatorPresenter.EndScan();
         }
 
         private void HandleResize()
         {
-            AlignmentSizeTrackBar.Location = new Point(this.Width / 2, AlignmentSizeTrackBar.Location.Y);
-            AlignmentSizeTrackBar.Width = this.Width - AlignmentSizeTrackBar.Location.X;
-            VariableSizeTrackBar.Width = AlignmentSizeTrackBar.Location.X - VariableSizeTrackBar.Location.X;
-        }
-
-        private void CustomSizeCheckBox_CheckedChanged(object sender, EventArgs e)
-        {
-
+            VariableSizeTrackBar.Width = this.Width / 2 - VariableSizeTrackBar.Location.X;
         }
 
         private void VariableSizeTrackBar_Scroll(object sender, EventArgs e)
@@ -65,14 +70,11 @@ namespace Anathema
             SetVariableSize();
         }
 
-        private void AlignmentTrackBar_Scroll(object sender, EventArgs e)
-        {
-            SetAlignmentSizeVariable();
-        }
-
         private void GUILabelerInputCorrelator_Resize(object sender, EventArgs e)
         {
             HandleResize();
         }
+
+        #endregion
     }
 }

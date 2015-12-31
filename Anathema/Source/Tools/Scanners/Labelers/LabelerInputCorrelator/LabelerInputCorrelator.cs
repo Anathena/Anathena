@@ -17,98 +17,83 @@ namespace Anathema
     /// http://www.ucl.ac.uk/english-usage/staff/sean/resources/phimeasures.pdf
     /// https://en.wikipedia.org/wiki/Contingency_table#Measures_of_association
     /// </summary>
-    class LabelerInputCorrelator : IScannerModel
+    class LabelerInputCorrelator : ILabelerInputCorrelatorModel
     {
         private Snapshot<Single> LabeledSnapshot;
 
-        private List<DateTime> ScanHistoryTime; // Time stamps for each of the scans
-        private Byte[] ScanHistoryValues;       // Values for each of the scans for each memory page
-        private List<BitArray> ChangeHistory;   // Obvious
-        private Int32 VariableSize;             // Number of bytes to correlate at a time
-        
-        private readonly IKeyboardMouseEvents InputHook;            // Input capturing class
-        private Dictionary<Keys, CorrelationValues[]> Correlation;
-        private Dictionary<Keys, DateTime> KeyBoardPending;         // List of keyboard down events (waiting for an up event)
-        private Dictionary<Keys, List<DateTime>> KeyBoardDown;      // List of keyboard down events
-        private Dictionary<Keys, List<DateTime>> KeyBoardUp;        // List of keyboard up events
-        
-        public struct CorrelationValues
-        {
-            public Single WeightedImpact;
-            public CorrelationValues(Single WeightedImpact)
-            {
-                this.WeightedImpact = WeightedImpact;
-            }
-            /*
-            public Single WeightedImpact;
-            public Single CramerPhi;
-            public Single Phi;
-            public Single AdjustedC;
-            public Single ContingencyC;
-            public Single CramerV;
-            public Single Tetrachoric;
-            public Single Fisher;
+        private readonly IKeyboardMouseEvents InputHook;        // Input capturing class
 
-            public CorrelationValues(Single WeightedImpact, Single CramerPhi, Single Phi, Single AdjustedC, Single ContingencyC,
-                Single CramerV, Single Tetrachoric, Single Fisher)
-            {
-                this.WeightedImpact = WeightedImpact;
-                this.CramerPhi = CramerPhi;
-                this.Phi = Phi;
-                this.AdjustedC = AdjustedC;
-                this.ContingencyC = ContingencyC;
-                this.CramerV = CramerV;
-                this.Tetrachoric = Tetrachoric;
-                this.Fisher = Fisher;
-            }*/
-        }
+        private Dictionary<Keys, DateTime> KeyBoardDown;    // List of keyboard down events
+        private Dictionary<Keys, DateTime> KeyBoardUp;      // List of keyboard up events
 
-        public enum SearchMethodEnum
-        {
-            Backwards,
-            Forward,
-            Nearest
-        }
+        // User specified variables:
+        private Int32 VariableSize; // Number of bytes to correlate at a time
+        private Int32 WaitTime;     // Time (ms) to process new changes as correlations
+        private Keys UserInput;     // Whatever
 
         public LabelerInputCorrelator()
         {
             InputHook = Hook.GlobalEvents();
         }
 
+        public override void SetVariableSize(int VariableSize)
+        {
+            this.VariableSize = VariableSize;
+        }
+
         public override void BeginScan()
         {
-            Snapshot InitialSnapshot = SnapshotManager.GetInstance().GetActiveSnapshot();
-            List<Single[]> Correlations = new List<Single[]>();
-            LabeledSnapshot = new Snapshot<Single>(InitialSnapshot);
-            // LabeledSnapshot.AssignLabels(Correlations);
+            // Initialize labeled snapshot
+            LabeledSnapshot = new Snapshot<Single>(SnapshotManager.GetInstance().GetActiveSnapshot());
+            LabeledSnapshot.SetVariableSize(VariableSize);
 
-            // Initialize objects used in scanning
-            ScanHistoryTime = new List<DateTime>();
-            ChangeHistory = new List<BitArray>();
-            ScanHistoryValues = new Byte[LabeledSnapshot.GetMemorySize()];
+            // TEMP: variables that should be user-tuned
+            UserInput = Keys.Space;
+            WaitTime = 800;
+
+            // Initialize with no correlation
+            foreach (SnapshotRegion<Single> Region in LabeledSnapshot)
+                foreach (SnapshotElement<Single> Element in Region)
+                    Element.MemoryLabel = 0.0f;
 
             // Initialize input dictionaries
-            KeyBoardPending = new Dictionary<Keys, DateTime>();
-            KeyBoardUp = new Dictionary<Keys, List<DateTime>>();
-            KeyBoardDown = new Dictionary<Keys, List<DateTime>>();
-            
-            Correlation = new Dictionary<Keys, CorrelationValues[]>();
+            KeyBoardUp = new Dictionary<Keys, DateTime>();
+            KeyBoardDown = new Dictionary<Keys, DateTime>();
 
             // Create input hook events
             InputHook.MouseDownExt += GlobalHookMouseDownExt;
             InputHook.KeyUp += GlobalHookKeyUp;
             InputHook.KeyDown += GlobalHookKeyDown;
 
-            //base.BeginScan();
+            base.BeginScan();
+        }
+
+        protected override void UpdateScan()
+        {
+            // Read memory to get current values
+            LabeledSnapshot.ReadAllMemory();
+
+            foreach (SnapshotRegion<Single> Region in LabeledSnapshot)
+            {
+                foreach (SnapshotElement<Single> Element in Region)
+                {
+                    if (!Element.CanCompare())
+                        continue;
+
+                    if (Element.Changed())
+                    {
+                        if (InputConditionValid())
+                            Element.MemoryLabel += 1.0f;
+                        else
+                            Element.MemoryLabel -= 1.0f;
+                    }
+                }
+            }
         }
 
         public override void EndScan()
         {
             base.EndScan();
-
-            // Remove the first time step since there is one more time step than there are change logs
-            if (ScanHistoryTime.Count >= 1)
-                ScanHistoryTime.RemoveAt(0);
 
             // Cleanup for the input hook
             InputHook.KeyUp -= GlobalHookKeyUp;
@@ -116,241 +101,67 @@ namespace Anathema
             InputHook.KeyDown -= GlobalHookKeyDown;
             InputHook.Dispose();
 
-            CollectCoefficients();
-        }
+            List<SnapshotRegion<Single>> FilteredElements = new List<SnapshotRegion<Single>>();
 
-        public void AbortLabeler()
-        {
+            Single MaxValue = 1.0f;
+            foreach (SnapshotRegion<Single> Region in LabeledSnapshot)
+                foreach (SnapshotElement<Single> Element in Region)
+                    if (Element.MemoryLabel.Value > MaxValue)
+                        MaxValue = Element.MemoryLabel.Value;
 
-        }
-
-        protected override void UpdateScan()
-        {
-            ChangeHistory.Add(new BitArray(ScanHistoryValues.Length));
-
-            // Read memory from all processes
-            //for (int RegionIndex = 0; RegionIndex < MemoryRegions.Count; RegionIndex++)
-            //Parallel.For(0, LabeledSnapshot.GetMemoryRegions().Count, RegionIndex =>
-            //{
-                /*
-                Boolean Success;
-                IntPtr MappedIndex;
-
-                // Read the memory from this page
-                Byte[] RegionData = MemoryEditor.ReadBytes(MemoryRegions[RegionIndex].BaseAddress, MemoryRegions[RegionIndex].RegionSize, out Success, false);
-
-                if (!ScanIndicies.TryGetValue(MemoryRegions[RegionIndex].BaseAddress, out MappedIndex))
-                    return; // break; // Return is valid for parallel for loops
-
-                if (ScanHistoryTime.Count > 0 && Success)
+            foreach (SnapshotRegion<Single> Region in LabeledSnapshot)
+            {
+                foreach (SnapshotElement<Single> Element in Region)
                 {
-                    // Calculate changes if memory successfully read (otherwise comparison array is all 0s)
-                    for (Int32 CompareIndex = 0; CompareIndex < RegionData.Length; CompareIndex++)
-                    {
-                        ChangeHistory[ChangeHistory.Count - 1][(Int32)MappedIndex + CompareIndex] = RegionData[CompareIndex] != ScanHistoryValues[(Int32)MappedIndex + CompareIndex];
-                    }
+                    Element.MemoryLabel = Element.MemoryLabel / MaxValue;
+                    if (Element.MemoryLabel.Value > 0.80f)
+                        FilteredElements.Add(new SnapshotRegion<Single>(Element));
                 }
+            }
 
-                // Copy the read bytes in memory to the saved list
-                Array.Copy(RegionData, 0, ScanHistoryValues, (Int32)MappedIndex, RegionData.Length);*/
-            //});
+            Snapshot<Single> FilteredSnapshot = new Snapshot<Single>(FilteredElements.ToArray());
+            SnapshotManager.GetInstance().SaveSnapshot(FilteredSnapshot);
+        }
 
-            // Get the scan time stamp
-            ScanHistoryTime.Add(DateTime.Now);
+        private Boolean InputConditionValid()
+        {
+            if (!KeyBoardUp.ContainsKey(UserInput))
+                return false;
+
+            // Key pressed within
+            if ((DateTime.Now - KeyBoardUp[UserInput]).Milliseconds < WaitTime)
+                return true;
+
+            return false;
         }
 
         private void RegisterKey(Keys Key)
         {
-            if (!KeyBoardPending.ContainsKey(Key))
-                KeyBoardPending.Add(Key, DateTime.MinValue);
-
             if (!KeyBoardDown.ContainsKey(Key))
-                KeyBoardDown.Add(Key, new List<DateTime>());
+                KeyBoardDown.Add(Key, DateTime.MinValue);
 
             if (!KeyBoardUp.ContainsKey(Key))
-                KeyBoardUp.Add(Key, new List<DateTime>());
+                KeyBoardUp.Add(Key, DateTime.MinValue);
         }
 
-        private void GlobalHookKeyUp(object sender, KeyEventArgs e)
+        private void GlobalHookKeyUp(Object Sender, KeyEventArgs E)
         {
-            RegisterKey(e.KeyCode);
-
-            // Check if there is a pending key that was pressed of the same type
-            if (KeyBoardPending[e.KeyCode] != DateTime.MinValue)
-            {
-                // Add the key to the up and down lists
-                KeyBoardDown[e.KeyCode].Add(KeyBoardPending[e.KeyCode]);
-                KeyBoardUp[e.KeyCode].Add(DateTime.Now);
-
-                // Clear the pending list
-                KeyBoardPending[e.KeyCode] = DateTime.MinValue;
-            }
+            RegisterKey(E.KeyCode);
+            KeyBoardUp[E.KeyCode] = DateTime.Now;
         }
 
-        private void GlobalHookKeyDown(object sender, KeyEventArgs e)
+        private void GlobalHookKeyDown(Object Sender, KeyEventArgs E)
         {
-            RegisterKey(e.KeyCode);
-            KeyBoardPending[e.KeyCode] = DateTime.Now;
+            RegisterKey(E.KeyCode);
+            KeyBoardDown[E.KeyCode] = DateTime.Now;
         }
 
-        private void GlobalHookMouseDownExt(object sender, MouseEventExtArgs e)
+        private void GlobalHookMouseDownExt(Object Sender, MouseEventExtArgs E)
         {
-            Console.WriteLine("MouseDown: \t{0}; \t System Timestamp: \t{1}", e.Button, e.Timestamp);
+            Console.WriteLine("MouseDown: \t{0}; \t System Timestamp: \t{1}", E.Button, E.Timestamp);
 
             // uncommenting the following line will suppress the middle mouse button click
             // if (e.Buttons == MouseButtons.Middle) { e.Handled = true; }
-        }
-
-        private void CollectCoefficients()
-        {
-            TimeSpan MaxDifference = TimeSpan.FromMilliseconds(300);
-
-            // Sustained input
-            foreach (var NextItem in KeyBoardDown.Zip(KeyBoardUp, (D, U) => new { Down = D, Up = U }))
-            {
-
-            }
-
-            // Pressed input
-            foreach (KeyValuePair<Keys, List<DateTime>> NextInput in KeyBoardDown)
-            {
-                List<Tuple<IntPtr, Object>> Correlations;
-
-                Correlations = CalculateCorrelations(NextInput.Value, MaxDifference);
-                //Anathema.UpdateMemoryLabels(Correlations);
-                //PhiCorrelationDown.Add(NextInput.Key, Correlations);
-            }
-
-            // Released input
-            foreach (KeyValuePair<Keys, List<DateTime>> NextItem in KeyBoardDown)
-            {
-
-            }
-        }
-
-        private List<Tuple<IntPtr, Object>> CalculateCorrelations(List<DateTime> Input, TimeSpan MaxDifference,
-            SearchMethodEnum SearchMethod = SearchMethodEnum.Backwards)
-        {
-            Object[] Correlations = new Object[ScanHistoryValues.Length];
-
-            //if (ScanHistoryTime.Count != ChangeHistory[RegionIndex].Count)
-            //    return Correlation;
-
-            Parallel.For(0, Correlations.Length, ElementIndex =>
-            //for (Int32 ElementIndex = 0; ElementIndex < Correlations.Length; ElementIndex++)
-            {
-                TimeSpan TimeDifference;
-
-                // Occurences of each boolean pair of memory change and input engaged (false, false), (true, false) ... etc
-                Int32 A00 = 0;
-                Int32 B01 = 0;
-                Int32 C10 = 0;
-                Int32 D11 = 0;
-
-                for (Int32 TimeStepIndex = 0; TimeStepIndex < ScanHistoryTime.Count; TimeStepIndex++)
-                {
-                    Boolean MemoryChanged = ChangeHistory[TimeStepIndex][(Int32)ElementIndex];
-                    Boolean InputChanged = false;
-
-                    // Find the nearest input to this memory change based on the search method
-                    for (Int32 InputIndex = 0; InputIndex < Input.Count; InputIndex++)
-                    {
-                        // Ignore inputs that occurred before previous scans
-                        if (TimeStepIndex > 0 && Input[InputIndex] < ScanHistoryTime[TimeStepIndex - 1])
-                            continue;
-
-                        // We do not care about looking into the future (for now?)
-                        if (Input[InputIndex] > ScanHistoryTime[TimeStepIndex])
-                            break;
-
-                        TimeDifference = ScanHistoryTime[TimeStepIndex] - Input[InputIndex];
-                        
-                        if (TimeDifference <= MaxDifference)
-                        {
-                            InputChanged = true;
-                            break;
-                        }
-                    }
-
-                    if (!MemoryChanged && !InputChanged)
-                        A00++;
-                    else if (!MemoryChanged && InputChanged)
-                        B01++;
-                    else if (MemoryChanged && !InputChanged)
-                        C10++;
-                    else if (MemoryChanged && InputChanged)
-                        D11++;
-                }
-
-                // Calculate the X squared statistic from the contingency table values (A, B, C, and D)
-                Int32 Total = A00 + B01 + C10 + D11;
-                /* Single Denominator = (A00 + B01) * (C10 + D11) * (B01 + D11) * (A00 + C10);
-                 Single XSquared = 0;
-                 Single MinValue = Math.Min(A00, Math.Min(B01, Math.Min(C10, D11)));
-
-                 if (Denominator != 0)
-                     XSquared = (A00 * D11 - B01 * C10) * (A00 * D11 - B01 * C10) * (A00 + B01 + C10 + D11) / Denominator;
-                     */
-                Single WeightedImpact = 0;  // Unknown if this will work at all. Could potentially outperform all methods.
-                                            /*
-                                            Single CramerPhi = 0;       // Rates things poorly (worst one) and finds nothing but garbage.
-                                            Single Phi = 0;             // Seems to find things that correlate well. Useful stuff doesnt seem to get highly rated.
-                                            Single AdjustedC = 0;       // Same as contingency. Seemed to rate useful stuff worse than garbage variables.
-                                            Single ContingencyC = 0;    // Doesn't find shit except for a few garbage variables. Might be broken.
-                                            Single CramerV = 0;         // High amount of 0s. Rates things quite lowly. Finds useful things though.
-                                            Single Tetrachoric = 0;     // Tends to rate bad things quite highly, tends to pick up garbage variables.
-                                            Single Fisher = 0;
-                                            */
-                if (Total > 0)
-                    WeightedImpact = WeightedImpact = (Single)(Total - (C10 + B01)) * (Single)D11;
-
-                /*
-                if (Total > 0 && MinValue > 1)
-                    CramerPhi = XSquared / ((Single)Total * (MinValue - 1));
-
-                if (Denominator != 0)
-                    Phi = (A00 * D11 - B01 * C10) / (Single)Math.Sqrt(Denominator);
-
-                if (Total > 0 && MinValue > 1)
-                    AdjustedC = (Single)Math.Sqrt(XSquared * MinValue / ((XSquared + (Single)Total) * (MinValue - 1)));
-
-                if (Total > 0)
-                    ContingencyC = (Single)Math.Sqrt(XSquared / ((Single)Total + XSquared));
-
-                if (Total > 0 && MinValue > 1)
-                    CramerV = (Single)Math.Sqrt(XSquared / ((Single)Total * (MinValue - 1)));
-
-                if (B01 + C10 != 0)
-                    Tetrachoric = (Single)(Math.Cos(180.0 / (1.0 + Math.Sqrt(D11 * A00 / (B01 + C10)))));
-                    */
-                //Single A = NChooseK(A00 + B01, A00);
-                //Single B = NChooseK(C10 + D11, C10);
-                //Single C = NChooseK(Total, A00 + C10);
-
-                //if (MinValue != 0)
-                //Fisher = (A + B) / C;
-
-                //Fisher = (Single)(Fact(A00 + B01) * Fact(C10 + D11) * Fact(A00 + C10) * Fact(B01 + D11)) / (Single)(Fact(A00) * Fact(B01) * Fact(C10) * Fact(D11) * Fact(Total));
-
-                //Correlation[ElementIndex] = new CorrelationValues(WeightedImpact, CramerPhi,
-                //    Phi, AdjustedC, ContingencyC, CramerV, Tetrachoric, Fisher);
-                Correlations[ElementIndex] = WeightedImpact; // new CorrelationValues(CramerV);
-            });
-
-            //List<Tuple<IntPtr, Object>> SortedAddresses = Addresses
-            //  .Zip(Correlations, (A, C) => Tuple.Create(A, C))
-            //  .OrderByDescending(x => x.Item2)
-            //  .ToList();
-            
-            // Correlations = sortedPairs.Select(x => x.Item1).ToList();
-            // Addresses = sortedPairs.Select(x => x.Item2).ToList();
-
-            return null;
-        }
-
-        public void BeginLabeler()
-        {
-            throw new NotImplementedException();
         }
 
     } // End class

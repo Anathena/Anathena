@@ -56,7 +56,7 @@ namespace Anathema
 
         private void CreateDefaultTools()
         {
-            CreateChangeCounter();
+            CreateInputCorrelator();
             CreateDebugger();
             CreateChunkScanner();
             CreateSnapshotManager();

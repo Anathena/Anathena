@@ -44,7 +44,7 @@ namespace Anathema
             LabeledSnapshot = new Snapshot<UInt16>(SnapshotManager.GetInstance().GetActiveSnapshot());
             LabeledSnapshot.SetVariableSize(VariableSize);
 
-            // Initialize labels to a value of 0
+            // Initialize change counts to zero
             foreach (SnapshotRegion<UInt16> Region in LabeledSnapshot)
                 foreach (SnapshotElement<UInt16> Element in Region)
                     Element.MemoryLabel = 0;
@@ -86,7 +86,6 @@ namespace Anathema
             }
 
             Snapshot<UInt16> FilteredSnapshot = new Snapshot<UInt16>(FilteredElements.ToArray());
-
             SnapshotManager.GetInstance().SaveSnapshot(FilteredSnapshot);
         }
 
