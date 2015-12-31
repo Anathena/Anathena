@@ -259,8 +259,8 @@
     <Compile Include="Source\Tools\ProcessSelector\IProcessObserver.cs" />
     <Compile Include="Source\Tools\ProcessSelector\IProcessSelectorMVP.cs" />
     <Compile Include="Source\Tools\ProcessSelector\ProcessSelector.cs" />
-    <Compile Include="Source\Tools\Scanners\Results\IResultsMVP.cs" />
-    <Compile Include="Source\Tools\Scanners\Results\Results.cs" />
+    <Compile Include="Source\Tools\Results\IResultsMVP.cs" />
+    <Compile Include="Source\Tools\Results\Results.cs" />
     <Compile Include="Source\Tools\SnapshotManager\ISnapshotManagerMVP.cs" />
     <Compile Include="Source\Tools\Scanners\IScannerMVP.cs" />
     <Compile Include="Source\Tools\SnapshotManager\Snapshot.cs" />
@@ -314,10 +314,10 @@
     <Compile Include="GUI\Tools\Scanners\Labelers\GUILabelerChangeCounter.Designer.cs">
       <DependentUpon>GUILabelerChangeCounter.cs</DependentUpon>
     </Compile>
-    <Compile Include="GUI\Tools\Scanners\Results\GUIResults.cs">
+    <Compile Include="GUI\Tools\Results\GUIResults.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="GUI\Tools\Scanners\Results\GUIResults.Designer.cs">
+    <Compile Include="GUI\Tools\Results\GUIResults.Designer.cs">
       <DependentUpon>GUIResults.cs</DependentUpon>
     </Compile>
     <Compile Include="GUI\Tools\SnapshotManager\GUISnapshotManager.cs">
@@ -585,7 +585,7 @@
     <EmbeddedResource Include="GUI\Tools\Scanners\Labelers\GUILabelerChangeCounter.resx">
       <DependentUpon>GUILabelerChangeCounter.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="GUI\Tools\Scanners\Results\GUIResults.resx">
+    <EmbeddedResource Include="GUI\Tools\Results\GUIResults.resx">
       <DependentUpon>GUIResults.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\Tools\SnapshotManager\GUISnapshotManager.resx">

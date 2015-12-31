@@ -154,6 +154,8 @@
             this.ResultsListView.TabIndex = 151;
             this.ResultsListView.UseCompatibleStateImageBehavior = false;
             this.ResultsListView.View = System.Windows.Forms.View.Details;
+            this.ResultsListView.VirtualMode = true;
+            this.ResultsListView.RetrieveVirtualItem += new System.Windows.Forms.RetrieveVirtualItemEventHandler(this.ResultsListView_RetrieveVirtualItem);
             // 
             // AddressHeader
             // 
