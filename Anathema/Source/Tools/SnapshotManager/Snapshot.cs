@@ -16,28 +16,27 @@ namespace Anathema
     {
         private MemorySharp MemoryEditor;
 
-        protected SnapshotRegion[] SnapshotData;
+        protected SnapshotRegion[] SnapshotRegions;
         private DateTime TimeStamp;
 
         public Snapshot()
         {
-            this.SnapshotData = null;
+            this.SnapshotRegions = null;
 
             Initialize();
-            MergeRegions();
         }
 
         public Snapshot(SnapshotRegion[] SnapshotData)
         {
-            this.SnapshotData = SnapshotData;
+            this.SnapshotRegions = SnapshotData;
 
             Initialize();
-            MergeRegions();
         }
 
         public void Initialize()
         {
             InitializeObserver();
+            MergeRegions();
         }
 
         public void InitializeObserver()
@@ -64,11 +63,11 @@ namespace Anathema
         {
             Boolean InvalidRead = false;
 
-            Parallel.ForEach(SnapshotData, (Snapshot) =>
+            Parallel.ForEach(SnapshotRegions, (SnapshotRegion) =>
             {
                 Boolean SuccessReading = false;
-                Byte[] CurrentValues = MemoryEditor.ReadBytes(Snapshot.BaseAddress, Snapshot.RegionSize, out SuccessReading, false);
-                Snapshot.SetCurrentValues(CurrentValues);
+                Byte[] CurrentValues = MemoryEditor.ReadBytes(SnapshotRegion.BaseAddress, SnapshotRegion.RegionSize, out SuccessReading, false);
+                SnapshotRegion.SetCurrentValues(CurrentValues);
 
                 if (!SuccessReading)
                 {
@@ -93,10 +92,10 @@ namespace Anathema
             {
                 switch (VariableSize)
                 {
-                    case 1: MemoryRegion.SetElementType(typeof(SByte)); break;
-                    case 2: MemoryRegion.SetElementType(typeof(Int16)); break;
-                    case 4: MemoryRegion.SetElementType(typeof(Int32)); break;
-                    case 8: MemoryRegion.SetElementType(typeof(Int64)); break;
+                    case sizeof(SByte): MemoryRegion.SetElementType(typeof(SByte)); break;
+                    case sizeof(Int16): MemoryRegion.SetElementType(typeof(Int16)); break;
+                    case sizeof(Int32): MemoryRegion.SetElementType(typeof(Int32)); break;
+                    case sizeof(Int64): MemoryRegion.SetElementType(typeof(Int64)); break;
                 }
             }
         }
@@ -109,17 +108,17 @@ namespace Anathema
 
         public SnapshotRegion[] GetSnapshotData()
         {
-            return SnapshotData;
+            return SnapshotRegions;
         }
 
         public Int32 GetRegionCount()
         {
-            return SnapshotData.Length;
+            return SnapshotRegions.Length;
         }
 
         public UInt64 GetMemorySize()
         {
-            return (UInt64)SnapshotData.AsEnumerable().Sum(x => (Int64)x.RegionSize);
+            return (UInt64)SnapshotRegions.AsEnumerable().Sum(x => (Int64)x.RegionSize);
         }
 
         /// <summary>
@@ -146,45 +145,45 @@ namespace Anathema
         /// <summary>
         /// Merges continguous regions in the current list of memory regions using a fast stack based algorithm O(nlogn + n)
         /// </summary>
-        private void MergeRegions()
+        protected virtual void MergeRegions()
         {
-            if (SnapshotData == null || SnapshotData.Length == 0)
+            if (SnapshotRegions == null || SnapshotRegions.Length == 0)
                 return;
 
             // First, sort by start address
-            Array.Sort(SnapshotData, (x, y) => ((UInt64)x.BaseAddress).CompareTo((UInt64)y.BaseAddress));
+            Array.Sort(SnapshotRegions, (x, y) => ((UInt64)x.BaseAddress).CompareTo((UInt64)y.BaseAddress));
 
             // Create and initialize the stack with the first region
             Stack<SnapshotRegion> CombinedRegions = new Stack<SnapshotRegion>();
-            CombinedRegions.Push(SnapshotData[0]);
+            CombinedRegions.Push(SnapshotRegions[0]);
 
             // Build the remaining regions
-            for (Int32 Index = CombinedRegions.Count; Index < SnapshotData.Length; Index++)
+            for (Int32 Index = CombinedRegions.Count; Index < SnapshotRegions.Length; Index++)
             {
                 SnapshotRegion Top = CombinedRegions.Peek();
 
                 // If the interval does not overlap, put it on the top of the stack
-                if ((UInt64)Top.EndAddress < (UInt64)SnapshotData[Index].BaseAddress - 1)
+                if ((UInt64)Top.EndAddress < (UInt64)SnapshotRegions[Index].BaseAddress)
                 {
-                    CombinedRegions.Push(SnapshotData[Index]);
+                    CombinedRegions.Push(SnapshotRegions[Index]);
                 }
                 // The interval overlaps; just merge it with the current top of the stack
-                else if ((UInt64)Top.EndAddress <= (UInt64)SnapshotData[Index].EndAddress)
+                else if ((UInt64)Top.EndAddress <= (UInt64)SnapshotRegions[Index].EndAddress)
                 {
-                    Top.RegionSize = (Int32)((UInt64)SnapshotData[Index].EndAddress - (UInt64)Top.BaseAddress);
+                    Top.RegionSize = (Int32)((UInt64)SnapshotRegions[Index].EndAddress - (UInt64)Top.BaseAddress);
                     CombinedRegions.Pop();
                     CombinedRegions.Push(Top);
                 }
             }
 
             // Replace memory regions with merged memory regions
-            SnapshotData = CombinedRegions.ToArray();
-            Array.Sort(SnapshotData, (x, y) => ((UInt64)x.BaseAddress).CompareTo((UInt64)y.BaseAddress));
+            SnapshotRegions = CombinedRegions.ToArray();
+            Array.Sort(SnapshotRegions, (x, y) => ((UInt64)x.BaseAddress).CompareTo((UInt64)y.BaseAddress));
         }
 
         public IEnumerator GetEnumerator()
         {
-            return SnapshotData.GetEnumerator();
+            return SnapshotRegions.GetEnumerator();
         }
     }
 
@@ -201,22 +200,71 @@ namespace Anathema
         public Snapshot(Snapshot BaseSnapshot)
         {
             // Copy and convert the snapshot data to a labeled format
-            SnapshotData = new SnapshotRegion<T>[BaseSnapshot.GetRegionCount()];
-            for (Int32 RegionIndex = 0; RegionIndex < SnapshotData.Length; RegionIndex++)
-                SnapshotData[RegionIndex] = new SnapshotRegion<T>(BaseSnapshot.GetSnapshotData()[RegionIndex]);
+            SnapshotRegions = new SnapshotRegion<T>[BaseSnapshot.GetRegionCount()];
+            for (Int32 RegionIndex = 0; RegionIndex < SnapshotRegions.Length; RegionIndex++)
+                SnapshotRegions[RegionIndex] = new SnapshotRegion<T>(BaseSnapshot.GetSnapshotData()[RegionIndex]);
 
             Initialize();
         }
 
         public Snapshot(SnapshotRegion<T>[] SnapshotData)
         {
-            this.SnapshotData = SnapshotData;
+            this.SnapshotRegions = SnapshotData;
             Initialize();
         }
 
         public new SnapshotRegion<T>[] GetSnapshotData()
         {
-            return (SnapshotRegion<T>[])SnapshotData;
+            return (SnapshotRegion<T>[])SnapshotRegions;
         }
-    }
-}
+        
+        /// <summary>
+        /// Merges labeled, non-overlapping regions in the current list of memory regions using a fast stack based algorithm O(nlogn + n)
+        /// </summary>
+        protected override void MergeRegions()
+        {
+            SnapshotRegion<T>[] SnapshotRegions = GetSnapshotData();
+
+            if (SnapshotRegions == null || SnapshotRegions.Length == 0)
+                return;
+
+            // First, sort by start address
+            Array.Sort(SnapshotRegions, (x, y) => ((UInt64)x.BaseAddress).CompareTo((UInt64)y.BaseAddress));
+
+            // Create and initialize the stack with the first region
+            Stack<SnapshotRegion<T>> CombinedRegions = new Stack<SnapshotRegion<T>>();
+            CombinedRegions.Push(SnapshotRegions[0]);
+
+            // Build the remaining regions
+            for (Int32 Index = CombinedRegions.Count; Index < SnapshotRegions.Length; Index++)
+            {
+                SnapshotRegion<T> Top = CombinedRegions.Peek();
+
+                // If the interval does not overlap, put it on the top of the stack
+                if ((UInt64)Top.EndAddress < (UInt64)SnapshotRegions[Index].BaseAddress)
+                {
+                    CombinedRegions.Push(SnapshotRegions[Index]);
+                }
+                // The regions are adjacent; merge them
+                else if ((UInt64)Top.EndAddress == (UInt64)SnapshotRegions[Index].BaseAddress)
+                {
+                    Top.RegionSize = (Int32)((UInt64)SnapshotRegions[Index].EndAddress - (UInt64)Top.BaseAddress);
+                    Top.SetMemoryLabels(Top.GetMemoryLabels().Concat(SnapshotRegions[Index].GetMemoryLabels()));
+
+                    CombinedRegions.Pop();
+                    CombinedRegions.Push(Top);
+                }
+                else if ((UInt64)Top.EndAddress <= (UInt64)SnapshotRegions[Index].EndAddress)
+                {
+                    throw new Exception("The labeled regions overlap and can not be merged.");
+                }
+            }
+
+            // Replace memory regions with merged memory regions
+            SnapshotRegions = CombinedRegions.ToArray();
+            Array.Sort(SnapshotRegions, (x, y) => ((UInt64)x.BaseAddress).CompareTo((UInt64)y.BaseAddress));
+        }
+
+    } // End class
+
+} // End namespace

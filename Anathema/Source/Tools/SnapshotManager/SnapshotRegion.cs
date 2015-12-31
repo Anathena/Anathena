@@ -26,15 +26,10 @@ namespace Anathema
             get
             {
                 return new SnapshotElement(
-                BaseAddress + Index, ElementType, this, Index,
+                BaseAddress + Index, ElementType,
                 CurrentValues == null ? (Byte[])null : CurrentValues.SubArray(Index, System.Runtime.InteropServices.Marshal.SizeOf(ElementType)),
                 PreviousValues == null ? (Byte[])null : PreviousValues.SubArray(Index, System.Runtime.InteropServices.Marshal.SizeOf(ElementType))
                 );
-            }
-            set
-            {
-                //if (value.CurrentValue != null) Array.Copy(value.CurrentValue, 0, CurrentValues, Index, value.CurrentValue.Length);
-                //if (value.PreviousValue != null) Array.Copy(value.PreviousValue, 0, PreviousValues, Index, value.PreviousValue.Length);
             }
         }
 
@@ -91,6 +86,11 @@ namespace Anathema
             return MemoryLabels;
         }
 
+        public void SetMemoryLabels(T?[] MemoryLabels)
+        {
+            this.MemoryLabels = MemoryLabels;
+        }
+
         /// <summary>
         /// Indexer to access a labeled unified snapshot element at the specified index
         /// </summary>
@@ -107,12 +107,7 @@ namespace Anathema
                 MemoryLabels == null ? (T?)null : MemoryLabels[Index]
                 );
             }
-            set
-            {
-                //if (value.CurrentValue != null) Array.Copy(value.CurrentValue, 0, CurrentValues, Index, value.CurrentValue.Length);
-                //if (value.PreviousValue != null) Array.Copy(value.PreviousValue, 0, PreviousValues, Index, value.PreviousValue.Length);
-                if (value.MemoryLabel != null) MemoryLabels[Index] = value.MemoryLabel.Value;
-            }
+            set { if (value.MemoryLabel != null) MemoryLabels[Index] = value.MemoryLabel.Value; else MemoryLabels[Index] = null; }
         }
 
         public override IEnumerator GetEnumerator()

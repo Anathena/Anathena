@@ -9,27 +9,20 @@ namespace Anathema
     /// </summary>
     public class SnapshotElement
     {
-        public IntPtr BaseAddress;
+        public IntPtr BaseAddress;  // Address of this Element
+        private Type ElementType;   // Type for interpreting the stored values
 
-        protected SnapshotRegion Parent;
-        protected Int32 Index;
-
-        private Type ElementType;
-
-        private Byte[] _CurrentValue;
-        private Byte[] _PreviousValue;
-        public Byte[] CurrentValue { get { return _CurrentValue; } set { _CurrentValue = value; Parent[Index] = this; } }
-        public Byte[] PreviousValue { get { return _PreviousValue; } set { _PreviousValue = value; Parent[Index] = this; } }
+        // Raw previous and current values which are updated when the SnapshotRegion reads all memory
+        public readonly Byte[] PreviousValue;
+        public readonly Byte[] CurrentValue;
 
         protected SnapshotElement() { }
-        public SnapshotElement(IntPtr BaseAddress, Type ElementType, SnapshotRegion Parent, Int32 Index, Byte[] CurrentValue, Byte[] PreviousValue)
+        public SnapshotElement(IntPtr BaseAddress, Type ElementType, Byte[] CurrentValue, Byte[] PreviousValue)
         {
             this.BaseAddress = BaseAddress;
             this.ElementType = ElementType;
-            this.Parent = Parent;
-            this.Index = Index;
-            this._CurrentValue = CurrentValue;
-            this._PreviousValue = PreviousValue;
+            this.CurrentValue = CurrentValue;
+            this.PreviousValue = PreviousValue;
         }
 
         private dynamic GetValue(Byte[] Array)
@@ -98,14 +91,18 @@ namespace Anathema
 
     public class SnapshotElement<T> : SnapshotElement where T : struct
     {
-        private new SnapshotRegion<T> Parent;
+        // Variables required for committing changes back to the region from which this element comes
+        private SnapshotRegion<T> Parent;
+        private Int32 Index;
+
         private T? _MemoryLabel;
         public T? MemoryLabel { get { return _MemoryLabel; } set { _MemoryLabel = value; Parent[Index] = this; } }
 
         public SnapshotElement(IntPtr BaseAddress, Type ElementType, SnapshotRegion<T> Parent, Int32 Index, Byte[] CurrentValue, Byte[] PreviousValue, T? Label)
-            : base(BaseAddress, ElementType, Parent, Index, CurrentValue, PreviousValue)
+            : base(BaseAddress, ElementType, CurrentValue, PreviousValue)
         {
             this.Parent = Parent;
+            this.Index = Index;
             this._MemoryLabel = Label;
         }
     }
