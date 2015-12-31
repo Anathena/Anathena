@@ -10,6 +10,7 @@ namespace Anathema
 {
     class LabelerChangeCounter : ILabelerChangeCounterModel
     {
+        // Snapshot being labeled with change counts
         private Snapshot<UInt16> LabeledSnapshot;
 
         // User controlled variables
@@ -39,10 +40,9 @@ namespace Anathema
 
         public override void BeginScan()
         {
-            Snapshot InitialSnapshot = SnapshotManager.GetInstance().GetActiveSnapshot();
-
             // Initialize labeled snapshot
-            LabeledSnapshot = new Snapshot<UInt16>(InitialSnapshot);
+            LabeledSnapshot = new Snapshot<UInt16>(SnapshotManager.GetInstance().GetActiveSnapshot());
+            LabeledSnapshot.SetVariableSize(VariableSize);
 
             // Initialize labels to a value of 0
             foreach (SnapshotRegion<UInt16> Region in LabeledSnapshot)
@@ -61,10 +61,10 @@ namespace Anathema
             {
                 foreach (SnapshotElement<UInt16> Element in Region)
                 {
-                    if (Element.CurrentValue == null || Element.PreviousValue == null)
+                    if (!Element.CanCompare())
                         continue;
 
-                    if (Element.CurrentValue != Element.PreviousValue)
+                    if (Element.Changed())
                         Element.MemoryLabel++;
                 }
             }
@@ -86,7 +86,7 @@ namespace Anathema
             }
 
             Snapshot<UInt16> FilteredSnapshot = new Snapshot<UInt16>(FilteredElements.ToArray());
-            
+
             SnapshotManager.GetInstance().SaveSnapshot(FilteredSnapshot);
         }
 

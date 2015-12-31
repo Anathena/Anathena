@@ -11,12 +11,13 @@ namespace Anathema
     {
         protected Byte[] CurrentValues;
         protected Byte[] PreviousValues;
+        protected Type ElementType;
 
         public SnapshotRegion(IntPtr BaseAddress, Int32 RegionSize) : base(null, BaseAddress, RegionSize) { }
         public SnapshotRegion(RemoteRegion RemoteRegion) : base(null, RemoteRegion.BaseAddress, RemoteRegion.RegionSize) { }
 
         /// <summary>
-        /// Access a unified snapshot element at the specified index
+        /// Indexer to access a unified snapshot element at the specified index
         /// </summary>
         /// <param name="Index"></param>
         /// <returns></returns>
@@ -25,16 +26,21 @@ namespace Anathema
             get
             {
                 return new SnapshotElement(
-                BaseAddress + Index, this, Index,
-                CurrentValues == null ? new Byte?() : CurrentValues[Index],
-                PreviousValues == null ? new Byte?() : PreviousValues[Index]
+                BaseAddress + Index, ElementType, this, Index,
+                CurrentValues == null ? (Byte[])null : CurrentValues.SubArray(Index, System.Runtime.InteropServices.Marshal.SizeOf(ElementType)),
+                PreviousValues == null ? (Byte[])null : PreviousValues.SubArray(Index, System.Runtime.InteropServices.Marshal.SizeOf(ElementType))
                 );
             }
             set
             {
-                if (value.CurrentValue != null) CurrentValues[Index] = value.CurrentValue.Value;
-                if (value.PreviousValue != null) PreviousValues[Index] = value.PreviousValue.Value;
+                //if (value.CurrentValue != null) Array.Copy(value.CurrentValue, 0, CurrentValues, Index, value.CurrentValue.Length);
+                //if (value.PreviousValue != null) Array.Copy(value.PreviousValue, 0, PreviousValues, Index, value.PreviousValue.Length);
             }
+        }
+
+        public void SetElementType(Type ElementTYpe)
+        {
+            this.ElementType = ElementTYpe;
         }
 
         public void SetCurrentValues(Byte[] NewValues)
@@ -86,7 +92,7 @@ namespace Anathema
         }
 
         /// <summary>
-        /// Access a labeled unified snapshot element at the specified index
+        /// Indexer to access a labeled unified snapshot element at the specified index
         /// </summary>
         /// <param name="Index"></param>
         /// <returns></returns>
@@ -95,16 +101,16 @@ namespace Anathema
             get
             {
                 return new SnapshotElement<T>(
-                BaseAddress + Index, this, Index,
-                CurrentValues == null ? new Byte?() : CurrentValues[Index],
-                PreviousValues == null ? new Byte?() : PreviousValues[Index],
-                MemoryLabels == null ? new T?() : MemoryLabels[Index]
+                BaseAddress + Index, ElementType, this, Index,
+                CurrentValues == null ? (Byte[])null : CurrentValues.SubArray(Index, System.Runtime.InteropServices.Marshal.SizeOf(ElementType)),
+                PreviousValues == null ? (Byte[])null : PreviousValues.SubArray(Index, System.Runtime.InteropServices.Marshal.SizeOf(ElementType)),
+                MemoryLabels == null ? (T?)null : MemoryLabels[Index]
                 );
             }
             set
             {
-                if (value.CurrentValue != null) CurrentValues[Index] = value.CurrentValue.Value;
-                if (value.PreviousValue != null) PreviousValues[Index] = value.PreviousValue.Value;
+                //if (value.CurrentValue != null) Array.Copy(value.CurrentValue, 0, CurrentValues, Index, value.CurrentValue.Length);
+                //if (value.PreviousValue != null) Array.Copy(value.PreviousValue, 0, PreviousValues, Index, value.PreviousValue.Length);
                 if (value.MemoryLabel != null) MemoryLabels[Index] = value.MemoryLabel.Value;
             }
         }

@@ -393,6 +393,7 @@
     <Compile Include="Source\HelperClasses\Settings.cs" />
     <Compile Include="Source\Tools\Debugger\TestByteProvider.cs" />
     <Compile Include="Source\Tools\SnapshotManager\SnapshotManager.cs" />
+    <Compile Include="Source\HelperClasses\SubArray.cs" />
     <EmbeddedResource Include="GUI\HexEditor\BitControl.de.resx">
       <DependentUpon>BitControl.cs</DependentUpon>
     </EmbeddedResource>

@@ -83,6 +83,30 @@ namespace Anathema
             }
         }
 
+        /// <summary>
+        /// Sets the underlying data type of the element to an arbitrary data type of the specified size
+        /// </summary>
+        /// <param name="VariableSize"></param>
+        public void SetVariableSize(Int32 VariableSize)
+        {
+            foreach (SnapshotRegion MemoryRegion in this)
+            {
+                switch (VariableSize)
+                {
+                    case 1: MemoryRegion.SetElementType(typeof(SByte)); break;
+                    case 2: MemoryRegion.SetElementType(typeof(Int16)); break;
+                    case 4: MemoryRegion.SetElementType(typeof(Int32)); break;
+                    case 8: MemoryRegion.SetElementType(typeof(Int64)); break;
+                }
+            }
+        }
+
+        public void SetElementType(Type ElementType)
+        {
+            foreach (SnapshotRegion MemoryRegion in this)
+                MemoryRegion.SetElementType(ElementType);
+        }
+
         public SnapshotRegion[] GetSnapshotData()
         {
             return SnapshotData;
