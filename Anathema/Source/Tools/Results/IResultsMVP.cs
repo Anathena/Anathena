@@ -9,23 +9,6 @@ using System.Windows.Forms;
 
 namespace Anathema
 {
-    /*
-    if (E.Addresses == null || E.Values == null)
-                throw new Exception("Addresses and values reqiured to pass to result display.");
-
-            if (E.Addresses.Count != E.Values.Count)
-                    throw new Exception("Unequal number of addresses and values being passed to result display");
-            
-            // Create empty labels if none specified
-            if (E.Labels == null || E.Labels.Count != E.Addresses.Count)
-                E.Labels = Enumerable.Repeat("", E.Addresses.Count).ToList();
-
-            // Transform items to list view format to pass to the GUI
-            List<ListViewItem> Items = new List<ListViewItem>();
-            for (Int32 Index = 0; Index < E.Addresses.Count; Index++)
-                Items.Add(new ListViewItem(new String[] { E.Addresses[Index], E.Values[Index], E.Labels[Index] }));
-    */
-
     delegate void ResultsEventHandler(Object Sender, ResultsEventArgs Args);
     class ResultsEventArgs : EventArgs
     {
@@ -58,7 +41,9 @@ namespace Anathema
         }
 
         // Functions invoked by presenter (downstream)
-        public abstract String[] GetResultAtIndex(Int32 Index);
+        public abstract IntPtr GetAddressAtIndex(Int32 Index);
+        public abstract dynamic GetValueAtIndex(Int32 Index);
+        public abstract dynamic GetLabelAtIndex(Int32 Index);
         public abstract void UpdateScanType(Type ScanType);
         public abstract Type GetScanType();
     }
@@ -82,7 +67,12 @@ namespace Anathema
 
         public ListViewItem GetItemAt(Int32 Index)
         {
-            return new ListViewItem(Model.GetResultAtIndex(Index));
+            IntPtr Address = Model.GetAddressAtIndex(Index);
+            dynamic Value = Model.GetValueAtIndex(Index);
+            dynamic Label = Model.GetLabelAtIndex(Index);
+
+            String[] Result = new String[] { Conversions.ToAddress(Address.ToString()), Value.ToString(), Label.ToString() };
+            return new ListViewItem(Result);
         }
 
         public void UpdateScanType(Type ScanType)

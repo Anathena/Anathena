@@ -15,88 +15,6 @@ namespace Anathema
     /// </summary>
     class Results : IResultsModel, IProcessObserver
     {
-        /*
-
-    if (!SnapshotManager.GetInstance().HasActiveSnapshot())
-                return;
-
-            Snapshot ActiveSnapshot = SnapshotManager.GetInstance().GetActiveSnapshot();
-
-            // Addresses to read
-            List<IntPtr> AccessedAddresses = new List<IntPtr>();
-
-            // Labels to be passed to the GUI
-            List<String> Addresses = new List<String>();
-            List<String> Values = new List<String>();
-            List<String> Labels = new List<String>();
-
-            // Gather addresses to display
-            foreach (RemoteRegion MemoryRegion in ActiveSnapshot)
-            {
-                for (UInt64 Address = (UInt64)MemoryRegion.BaseAddress; Address < (UInt64)MemoryRegion.EndAddress; Address++)
-                {
-                    AccessedAddresses.Add((IntPtr)Address);
-
-                    Addresses.Add(Conversions.ToAddress(Address.ToString()));
-                    if (Addresses.Count >= DisplayCount)
-                        break;
-                }
-                if (Addresses.Count >= DisplayCount)
-                    break;
-            }
-
-            // Gather values to display
-            foreach (IntPtr Address in AccessedAddresses)
-            {
-                Boolean ReadSuccess = false;
-
-                dynamic Value = "?";
-                var @switch = new Dictionary<Type, Action> {
-                    { typeof(Byte), () => Value = MemoryEditor.Read<Byte>(Address, out ReadSuccess, false) },
-                    { typeof(SByte), () => Value = MemoryEditor.Read<SByte>(Address, out ReadSuccess, false) },
-                    { typeof(Int16), () => Value = MemoryEditor.Read<Int16>(Address, out ReadSuccess, false) },
-                    { typeof(Int32), () => Value = MemoryEditor.Read<Int32>(Address, out ReadSuccess, false) },
-                    { typeof(Int64), () => Value = MemoryEditor.Read<Int64>(Address, out ReadSuccess, false) },
-                    { typeof(UInt16), () => Value = MemoryEditor.Read<UInt16>(Address, out ReadSuccess, false) },
-                    { typeof(UInt32), () => Value = MemoryEditor.Read<UInt32>(Address, out ReadSuccess, false) },
-                    { typeof(UInt64), () => Value = MemoryEditor.Read<UInt64>(Address, out ReadSuccess, false) },
-                    { typeof(Single), () => Value = MemoryEditor.Read<Single>(Address, out ReadSuccess, false) },
-                    { typeof(Double), () => Value = MemoryEditor.Read<Double>(Address, out ReadSuccess, false) },
-                };
-
-                if (@switch.ContainsKey(ScanType))
-                    @switch[ScanType]();
-
-                if (ReadSuccess)
-                    Values.Add(Value.ToString());
-                else
-                    Values.Add("-");
-            }
-
-            // Gather labels to display
-            if (ActiveSnapshot.GetType() != typeof(Snapshot))
-            {
-                dynamic LabeledSnapshot = ActiveSnapshot;
-                foreach (dynamic Region in LabeledSnapshot)
-                {
-                    foreach (dynamic Element in Region)
-                    {
-                        Labels.Add(Element.MemoryLabel.ToString());
-
-                        if (Labels.Count >= DisplayCount)
-                            break;
-                    }
-
-                    if (Labels.Count >= DisplayCount)
-                        break;
-                }
-            }
-            ResultsEventArgs Args = new ResultsEventArgs();
-            Args.Addresses = Addresses;
-            Args.Values = Values;
-            Args.Labels = Labels;
-            OnEventRefreshDisplay(Args);
-            */
         private static Results ResultsInstance;
         private MemorySharp MemoryEditor;
 
@@ -147,42 +65,21 @@ namespace Anathema
             base.BeginScan();
         }
 
-        public override String[] GetResultAtIndex(Int32 Index)
+        public override IntPtr GetAddressAtIndex(Int32 Index)
         {
             if (!SnapshotManager.GetInstance().HasActiveSnapshot())
-                return new String[] { "", "", "" };
+                return IntPtr.Zero;
 
             Snapshot ActiveSnapshot = SnapshotManager.GetInstance().GetActiveSnapshot();
+            return ActiveSnapshot[Index].BaseAddress;
+        }
 
-            IntPtr Address = IntPtr.Zero;
+        public override dynamic GetValueAtIndex(Int32 Index)
+        {
             dynamic Value = "-";
-            dynamic Label = "";
-
-            Int32 CurrentIndex = 0;
-            foreach (RemoteRegion MemoryRegion in ActiveSnapshot)
-            {
-                if (CurrentIndex + MemoryRegion.RegionSize <= Index)
-                {
-                    CurrentIndex += MemoryRegion.RegionSize;
-                    continue;
-                }
-                else
-                {
-                    Int32 AddressOffset = Index - CurrentIndex;
-                    Address = MemoryRegion.BaseAddress + AddressOffset;
-
-                    if (ActiveSnapshot.GetType() != typeof(Snapshot))
-                    {
-                        dynamic Region = MemoryRegion;
-                        Label = Region[AddressOffset].MemoryLabel;
-                    }
-                    break;
-                }
-            }
-
+            IntPtr Address = GetAddressAtIndex(Index);
 
             Boolean ReadSuccess = false;
-
             var @switch = new Dictionary<Type, Action> {
                     { typeof(Byte), () => Value = MemoryEditor.Read<Byte>(Address, out ReadSuccess, false) },
                     { typeof(SByte), () => Value = MemoryEditor.Read<SByte>(Address, out ReadSuccess, false) },
@@ -202,9 +99,25 @@ namespace Anathema
             if (!ReadSuccess)
                 Value = "?";
 
-            String[] Result = new String[] { Conversions.ToAddress(Address.ToString()), Value.ToString(), Label.ToString() };
+            return Value;
+        }
 
-            return Result;
+        public override dynamic GetLabelAtIndex(Int32 Index)
+        {
+            if (!SnapshotManager.GetInstance().HasActiveSnapshot())
+                return IntPtr.Zero;
+
+            Snapshot ActiveSnapshot = SnapshotManager.GetInstance().GetActiveSnapshot();
+
+            dynamic Label = "";
+
+            if (ActiveSnapshot.GetType() != typeof(Snapshot))
+            {
+                dynamic LabeledSnapshot = ActiveSnapshot;
+                Label = LabeledSnapshot[Index].MemoryLabel;
+            }
+
+            return Label;
         }
 
         protected override void UpdateScan()

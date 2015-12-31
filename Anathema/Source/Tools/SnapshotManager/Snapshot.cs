@@ -33,6 +33,21 @@ namespace Anathema
             Initialize();
         }
 
+        public SnapshotElement this[Int32 Index]
+        {
+            get
+            {
+                foreach (SnapshotRegion MemoryRegion in this)
+                {
+                    if (Index - MemoryRegion.RegionSize >= 0)
+                        Index -= MemoryRegion.RegionSize;
+                    else
+                        return MemoryRegion[Index];
+                }
+                return null;
+            }
+        }
+
         public void Initialize()
         {
             InitializeObserver();
@@ -212,18 +227,13 @@ namespace Anathema
             this.SnapshotRegions = SnapshotData;
             Initialize();
         }
-
-        public new SnapshotRegion<T>[] GetSnapshotData()
-        {
-            return (SnapshotRegion<T>[])SnapshotRegions;
-        }
         
         /// <summary>
         /// Merges labeled, non-overlapping regions in the current list of memory regions using a fast stack based algorithm O(nlogn + n)
         /// </summary>
         protected override void MergeRegions()
         {
-            SnapshotRegion<T>[] SnapshotRegions = GetSnapshotData();
+            SnapshotRegion<T>[] SnapshotRegions = (SnapshotRegion<T>[])this.SnapshotRegions;
 
             if (SnapshotRegions == null || SnapshotRegions.Length == 0)
                 return;
@@ -260,7 +270,7 @@ namespace Anathema
 
             // Replace memory regions with merged memory regions
             this.SnapshotRegions = CombinedRegions.ToArray();
-            Array.Sort(SnapshotRegions, (x, y) => ((UInt64)x.BaseAddress).CompareTo((UInt64)y.BaseAddress));
+            Array.Sort(this.SnapshotRegions, (x, y) => ((UInt64)x.BaseAddress).CompareTo((UInt64)y.BaseAddress));
         }
 
     } // End class
