@@ -48,7 +48,7 @@ namespace Anathema
             LabeledSnapshot.SetVariableSize(VariableSize);
 
             // TEMP: variables that should be user-tuned
-            UserInput = Keys.Space;
+            UserInput = Keys.D;
             WaitTime = 800;
 
             // Initialize with no correlation
@@ -70,7 +70,7 @@ namespace Anathema
 
         protected override void UpdateScan()
         {
-            // Read memory to get current values
+            // Read memory to update previous and current values
             LabeledSnapshot.ReadAllMemory();
 
             foreach (SnapshotRegion<Single> Region in LabeledSnapshot)
@@ -79,13 +79,13 @@ namespace Anathema
                 {
                     if (!Element.CanCompare())
                         continue;
-
+                    
                     if (Element.Changed())
                     {
-                        if (InputConditionValid())
+                        if (InputConditionValid(LabeledSnapshot.GetTimeStamp()))
                             Element.MemoryLabel += 1.0f;
                         else
-                            Element.MemoryLabel -= 1.0f;
+                            Element.MemoryLabel -= 0.05f;
                     }
                 }
             }
@@ -117,19 +117,19 @@ namespace Anathema
                     if (Element.MemoryLabel.Value > 0.80f)
                         FilteredElements.Add(new SnapshotRegion<Single>(Element));
                 }
-            }
+            } 
 
             Snapshot<Single> FilteredSnapshot = new Snapshot<Single>(FilteredElements.ToArray());
             SnapshotManager.GetInstance().SaveSnapshot(FilteredSnapshot);
         }
 
-        private Boolean InputConditionValid()
+        private Boolean InputConditionValid(DateTime ScanTime)
         {
-            if (!KeyBoardUp.ContainsKey(UserInput))
+            if (!KeyBoardDown.ContainsKey(UserInput))
                 return false;
 
-            // Key pressed within
-            if ((DateTime.Now - KeyBoardUp[UserInput]).Milliseconds < WaitTime)
+            // Determine if key was pressed within specified time
+            if (Math.Abs((ScanTime - KeyBoardDown[UserInput]).TotalMilliseconds) < WaitTime)
                 return true;
 
             return false;

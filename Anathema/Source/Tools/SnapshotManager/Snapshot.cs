@@ -61,6 +61,8 @@ namespace Anathema
 
         public void ReadAllMemory()
         {
+            SetTimeStampToNow(); // Best afterwards?
+
             Boolean InvalidRead = false;
 
             Parallel.ForEach(SnapshotRegions, (SnapshotRegion) =>
@@ -171,8 +173,6 @@ namespace Anathema
                 else if ((UInt64)Top.EndAddress <= (UInt64)SnapshotRegions[Index].EndAddress)
                 {
                     Top.RegionSize = (Int32)((UInt64)SnapshotRegions[Index].EndAddress - (UInt64)Top.BaseAddress);
-                    CombinedRegions.Pop();
-                    CombinedRegions.Push(Top);
                 }
             }
 
@@ -250,18 +250,16 @@ namespace Anathema
                 {
                     Top.RegionSize = (Int32)((UInt64)SnapshotRegions[Index].EndAddress - (UInt64)Top.BaseAddress);
                     Top.SetMemoryLabels(Top.GetMemoryLabels().Concat(SnapshotRegions[Index].GetMemoryLabels()));
-
-                    CombinedRegions.Pop();
-                    CombinedRegions.Push(Top);
                 }
-                else if ((UInt64)Top.EndAddress <= (UInt64)SnapshotRegions[Index].EndAddress)
+                // The regions overlap, which should not happen
+                else if ((UInt64)Top.EndAddress > (UInt64)SnapshotRegions[Index].BaseAddress)
                 {
                     throw new Exception("The labeled regions overlap and can not be merged.");
                 }
             }
 
             // Replace memory regions with merged memory regions
-            SnapshotRegions = CombinedRegions.ToArray();
+            this.SnapshotRegions = CombinedRegions.ToArray();
             Array.Sort(SnapshotRegions, (x, y) => ((UInt64)x.BaseAddress).CompareTo((UInt64)y.BaseAddress));
         }
 
