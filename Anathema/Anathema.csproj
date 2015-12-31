@@ -395,6 +395,9 @@
     <Compile Include="Source\Tools\Debugger\TestByteProvider.cs" />
     <Compile Include="Source\Tools\SnapshotManager\SnapshotManager.cs" />
     <Compile Include="Source\HelperClasses\ArrayExtensions.cs" />
+    <Compile Include="Source\Tools\Table\ITableMVP.cs" />
+    <Compile Include="Source\Tools\Table\Table.cs" />
+    <Compile Include="Source\Tools\Table\TableItem.cs" />
     <EmbeddedResource Include="GUI\HexEditor\BitControl.de.resx">
       <DependentUpon>BitControl.cs</DependentUpon>
     </EmbeddedResource>

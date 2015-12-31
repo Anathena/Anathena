@@ -33,6 +33,11 @@ namespace Anathema
             Initialize();
         }
 
+        /// <summary>
+        /// Indexer to allow the retrieval of the element at the specified index
+        /// </summary>
+        /// <param name="Index"></param>
+        /// <returns></returns>
         public SnapshotElement this[Int32 Index]
         {
             get
@@ -76,7 +81,7 @@ namespace Anathema
 
         public void ReadAllMemory()
         {
-            SetTimeStampToNow(); // Best afterwards?
+            SetTimeStampToNow();
 
             Boolean InvalidRead = false;
 
