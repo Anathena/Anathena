@@ -1,0 +1,67 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.21005.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharpDisasm", "SharpDisasm\SharpDisasm.csproj", "{D828384E-0251-44C4-8BF2-3608FD3DD2CD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharpDisasm.Tests", "SharpDisasm.Tests\SharpDisasm.Tests.csproj", "{B6D56F79-3660-4D3A-B2DB-5AB322DCA750}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Examples", "Examples", "{BBBAE0A1-F4E7-4485-8570-60F3686EC748}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "disasmcli", "Examples\disasmcli\disasmcli.csproj", "{C58BAE3B-C316-48C5-AFB8-46AAD3C54994}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Net35Debug|Any CPU = Net35Debug|Any CPU
+		Net35Release|Any CPU = Net35Release|Any CPU
+		Net40Debug|Any CPU = Net40Debug|Any CPU
+		Net40Release|Any CPU = Net40Release|Any CPU
+		Net45Debug|Any CPU = Net45Debug|Any CPU
+		Net45Release|Any CPU = Net45Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D828384E-0251-44C4-8BF2-3608FD3DD2CD}.Net35Debug|Any CPU.ActiveCfg = Net35Debug|Any CPU
+		{D828384E-0251-44C4-8BF2-3608FD3DD2CD}.Net35Debug|Any CPU.Build.0 = Net35Debug|Any CPU
+		{D828384E-0251-44C4-8BF2-3608FD3DD2CD}.Net35Release|Any CPU.ActiveCfg = Net35Release|Any CPU
+		{D828384E-0251-44C4-8BF2-3608FD3DD2CD}.Net35Release|Any CPU.Build.0 = Net35Release|Any CPU
+		{D828384E-0251-44C4-8BF2-3608FD3DD2CD}.Net40Debug|Any CPU.ActiveCfg = Net40Debug|Any CPU
+		{D828384E-0251-44C4-8BF2-3608FD3DD2CD}.Net40Debug|Any CPU.Build.0 = Net40Debug|Any CPU
+		{D828384E-0251-44C4-8BF2-3608FD3DD2CD}.Net40Release|Any CPU.ActiveCfg = Net40Release|Any CPU
+		{D828384E-0251-44C4-8BF2-3608FD3DD2CD}.Net40Release|Any CPU.Build.0 = Net40Release|Any CPU
+		{D828384E-0251-44C4-8BF2-3608FD3DD2CD}.Net45Debug|Any CPU.ActiveCfg = Net45Debug|Any CPU
+		{D828384E-0251-44C4-8BF2-3608FD3DD2CD}.Net45Debug|Any CPU.Build.0 = Net45Debug|Any CPU
+		{D828384E-0251-44C4-8BF2-3608FD3DD2CD}.Net45Release|Any CPU.ActiveCfg = Net45Release|Any CPU
+		{D828384E-0251-44C4-8BF2-3608FD3DD2CD}.Net45Release|Any CPU.Build.0 = Net45Release|Any CPU
+		{B6D56F79-3660-4D3A-B2DB-5AB322DCA750}.Net35Debug|Any CPU.ActiveCfg = Net45Debug|Any CPU
+		{B6D56F79-3660-4D3A-B2DB-5AB322DCA750}.Net35Debug|Any CPU.Build.0 = Net45Debug|Any CPU
+		{B6D56F79-3660-4D3A-B2DB-5AB322DCA750}.Net35Release|Any CPU.ActiveCfg = Net45Release|Any CPU
+		{B6D56F79-3660-4D3A-B2DB-5AB322DCA750}.Net35Release|Any CPU.Build.0 = Net45Release|Any CPU
+		{B6D56F79-3660-4D3A-B2DB-5AB322DCA750}.Net40Debug|Any CPU.ActiveCfg = Net45Debug|Any CPU
+		{B6D56F79-3660-4D3A-B2DB-5AB322DCA750}.Net40Debug|Any CPU.Build.0 = Net45Debug|Any CPU
+		{B6D56F79-3660-4D3A-B2DB-5AB322DCA750}.Net40Release|Any CPU.ActiveCfg = Net45Release|Any CPU
+		{B6D56F79-3660-4D3A-B2DB-5AB322DCA750}.Net40Release|Any CPU.Build.0 = Net45Release|Any CPU
+		{B6D56F79-3660-4D3A-B2DB-5AB322DCA750}.Net45Debug|Any CPU.ActiveCfg = Net45Debug|Any CPU
+		{B6D56F79-3660-4D3A-B2DB-5AB322DCA750}.Net45Debug|Any CPU.Build.0 = Net45Debug|Any CPU
+		{B6D56F79-3660-4D3A-B2DB-5AB322DCA750}.Net45Release|Any CPU.ActiveCfg = Net45Release|Any CPU
+		{B6D56F79-3660-4D3A-B2DB-5AB322DCA750}.Net45Release|Any CPU.Build.0 = Net45Release|Any CPU
+		{C58BAE3B-C316-48C5-AFB8-46AAD3C54994}.Net35Debug|Any CPU.ActiveCfg = Net35Debug|Any CPU
+		{C58BAE3B-C316-48C5-AFB8-46AAD3C54994}.Net35Debug|Any CPU.Build.0 = Net35Debug|Any CPU
+		{C58BAE3B-C316-48C5-AFB8-46AAD3C54994}.Net35Release|Any CPU.ActiveCfg = Net35Release|Any CPU
+		{C58BAE3B-C316-48C5-AFB8-46AAD3C54994}.Net35Release|Any CPU.Build.0 = Net35Release|Any CPU
+		{C58BAE3B-C316-48C5-AFB8-46AAD3C54994}.Net40Debug|Any CPU.ActiveCfg = Net40Debug|Any CPU
+		{C58BAE3B-C316-48C5-AFB8-46AAD3C54994}.Net40Debug|Any CPU.Build.0 = Net40Debug|Any CPU
+		{C58BAE3B-C316-48C5-AFB8-46AAD3C54994}.Net40Release|Any CPU.ActiveCfg = Net40Release|Any CPU
+		{C58BAE3B-C316-48C5-AFB8-46AAD3C54994}.Net40Release|Any CPU.Build.0 = Net40Release|Any CPU
+		{C58BAE3B-C316-48C5-AFB8-46AAD3C54994}.Net45Debug|Any CPU.ActiveCfg = Net45Debug|Any CPU
+		{C58BAE3B-C316-48C5-AFB8-46AAD3C54994}.Net45Debug|Any CPU.Build.0 = Net45Debug|Any CPU
+		{C58BAE3B-C316-48C5-AFB8-46AAD3C54994}.Net45Release|Any CPU.ActiveCfg = Net45Release|Any CPU
+		{C58BAE3B-C316-48C5-AFB8-46AAD3C54994}.Net45Release|Any CPU.Build.0 = Net45Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{C58BAE3B-C316-48C5-AFB8-46AAD3C54994} = {BBBAE0A1-F4E7-4485-8570-60F3686EC748}
+	EndGlobalSection
+EndGlobal

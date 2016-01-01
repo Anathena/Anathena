@@ -1,0 +1,89 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <Import Project="$(SolutionDir)\SharpDisasm.PreSettings.targets" />
+  <PropertyGroup>
+    <ProjectGuid>{D828384E-0251-44C4-8BF2-3608FD3DD2CD}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>SharpDisasm</RootNamespace>
+    <AssemblyName>SharpDisasm</AssemblyName>
+    <DocumentationFile>$(AssemblyName).XML</DocumentationFile>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(APPVEYOR)' == 'True' ">
+    <SignAssembly>true</SignAssembly>
+    <AssemblyOriginatorKeyFile>$(StrongNameKeyPath)</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(APPVEYOR)' == '' ">
+    <SignAssembly>true</SignAssembly>
+    <AssemblyOriginatorKeyFile>publickey.snk</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="ArchitectureMode.cs" />
+    <Compile Include="Translators\ATTTranslator.cs" />
+    <Compile Include="Translators\IntelTranslator.cs" />
+    <Compile Include="Translators\SymbolResolverDelegate.cs" />
+    <Compile Include="Translators\Translator.cs" />
+    <Compile Include="Disassembler.cs" />
+    <Compile Include="Instruction.cs" />
+    <Compile Include="Operand.cs" />
+    <Compile Include="AutoPinner.cs" />
+    <Compile Include="Udis86\Decode.cs" />
+    <Compile Include="Udis86\OpTable.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>OpTable.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Udis86\BitOps.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Udis86\reg_class.cs" />
+    <Compile Include="Udis86\syn.cs" />
+    <Compile Include="Udis86\syn_intel.cs" />
+    <Compile Include="Udis86\ud.cs" />
+    <Compile Include="Udis86\udis86.cs" />
+    <Compile Include="Udis86\ud_itab_entry.cs" />
+    <Compile Include="Udis86\ud_itab_entry_operand.cs" />
+    <Compile Include="Udis86\ud_lookup_table_list_entry.cs" />
+    <Compile Include="Udis86\ud_lval.cs" />
+    <Compile Include="Udis86\ud_operand.cs" />
+    <Compile Include="Udis86\ud_operand_code.cs" />
+    <Compile Include="Udis86\ud_operand_size.cs" />
+    <Compile Include="Udis86\ud_type.cs" />
+    <Compile Include="Vendor.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="publickey.snk" />
+    <None Include="..\SharpDisasm.licenseheader">
+      <Link>SharpDisasm.licenseheader</Link>
+    </None>
+    <None Include="Udis86\OpTable.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>OpTable.cs</LastGenOutput>
+    </None>
+    <None Include="Udis86\optable.xsl" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Udis86\optable.xml">
+      <SubType>Designer</SubType>
+    </None>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
