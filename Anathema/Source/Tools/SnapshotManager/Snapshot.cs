@@ -232,7 +232,27 @@ namespace Anathema
             this.SnapshotRegions = SnapshotData;
             Initialize();
         }
-        
+
+        /// <summary>
+        /// Indexer to allow the retrieval of the element at the specified index
+        /// </summary>
+        /// <param name="Index"></param>
+        /// <returns></returns>
+        public new SnapshotElement<T> this[Int32 Index]
+        {
+            get
+            {
+                foreach (SnapshotRegion<T> MemoryRegion in this)
+                {
+                    if (Index - MemoryRegion.RegionSize >= 0)
+                        Index -= MemoryRegion.RegionSize;
+                    else
+                        return MemoryRegion[Index];
+                }
+                return null;
+            }
+        }
+
         /// <summary>
         /// Merges labeled, non-overlapping regions in the current list of memory regions using a fast stack based algorithm O(nlogn + n)
         /// </summary>

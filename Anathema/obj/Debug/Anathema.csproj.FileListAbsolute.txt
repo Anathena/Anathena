@@ -31,7 +31,6 @@ F:\Users\Zachary\Documents\Visual Studio 2015\Projects\Anathema\Anathema\obj\Deb
 F:\Users\Zachary\Documents\Visual Studio 2015\Projects\Anathema\Anathema\bin\Debug\Anathema.exe.config
 F:\Users\Zachary\Documents\Visual Studio 2015\Projects\Anathema\Anathema\bin\Debug\Anathema.exe
 F:\Users\Zachary\Documents\Visual Studio 2015\Projects\Anathema\Anathema\bin\Debug\Anathema.pdb
-F:\Users\Zachary\Documents\Visual Studio 2015\Projects\Anathema\Anathema\bin\Debug\Fasm.NET.dll
 F:\Users\Zachary\Documents\Visual Studio 2015\Projects\Anathema\Anathema\obj\Debug\Anathema.GUIMain.resources
 F:\Users\Zachary\Documents\Visual Studio 2015\Projects\Anathema\Anathema\obj\Debug\Anathema.GUIFilterFSM.resources
 F:\Users\Zachary\Documents\Visual Studio 2015\Projects\Anathema\Anathema\obj\Debug\Anathema.GUISnapshotManager.resources

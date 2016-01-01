@@ -54,7 +54,7 @@ namespace Anathema
 
         public void AddSnapshotElement(SnapshotElement Element)
         {
-            AddressTable.Add(new AddressItem(Element.BaseAddress, Element.GetElementType()));
+            AddressTable.Add(new AddressItem(Element.BaseAddress, Element.ElementType));
         }
 
         public void AddSnapshotElementAtIndex(Int32 Index)

@@ -17,8 +17,9 @@ namespace Anathema
         public GUITable()
         {
             InitializeComponent();
-
             TablePresenter = new TablePresenter(this, new Table());
+
+            ViewCheatTable();
         }
 
         public void RefreshResults()
@@ -28,6 +29,22 @@ namespace Anathema
 
             ScriptTableListView.BeginUpdate();
             ScriptTableListView.EndUpdate();
+        }
+
+        private void ViewCheatTable()
+        {
+            CheatTableButton.Checked = true;
+            FSMTableButton.Checked = false;
+            CheatTableSplitContainer.Visible = true;
+            FSMTableListView.Visible = false;
+        }
+
+        private void ViewFSMTable()
+        {
+            CheatTableButton.Checked = false;
+            FSMTableButton.Checked = true;
+            CheatTableSplitContainer.Visible = false;
+            FSMTableListView.Visible = true;
         }
 
         private void SaveTableButton_Click(Object Sender, EventArgs E)
@@ -48,6 +65,16 @@ namespace Anathema
         private void ScriptTableListView_RetrieveVirtualItem(Object Sender, RetrieveVirtualItemEventArgs E)
         {
 
+        }
+
+        private void CheatTableButton_Click(object sender, EventArgs e)
+        {
+            ViewCheatTable();
+        }
+
+        private void FSMTableButton_Click(object sender, EventArgs e)
+        {
+            ViewFSMTable();
         }
     }
 }
