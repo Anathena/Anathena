@@ -18,6 +18,8 @@ namespace Anathema
     public partial class GUIProcessSelector : DockContent, IProcessSelectorView
     {
         private ProcessSelectorPresenter ProcessSelectorPresenter;
+
+        // Column text alignment. Without this the column title lines up with the icon rather than text
         private const string Alignment = "     ";
 
         public GUIProcessSelector()

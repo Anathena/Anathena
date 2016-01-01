@@ -9,12 +9,10 @@ namespace Anathema
     /// </summary>
     public class SnapshotElement
     {
-        public IntPtr BaseAddress;  // Address of this Element
-        private Type ElementType;   // Type for interpreting the stored values
-
-        // Raw previous and current values which are updated when the SnapshotRegion reads all memory
-        public readonly Byte[] PreviousValue;
-        public readonly Byte[] CurrentValue;
+        public readonly IntPtr BaseAddress;     // Address of this Element
+        public readonly Byte[] PreviousValue;   // Raw previous and values
+        public readonly Byte[] CurrentValue;    // Raw current values
+        private Type ElementType;               // Type for interpreting the stored values
 
         protected SnapshotElement() { }
         public SnapshotElement(IntPtr BaseAddress, Type ElementType, Byte[] CurrentValue, Byte[] PreviousValue)
@@ -45,6 +43,16 @@ namespace Anathema
                 @switch[ElementType]();
 
             return Value;
+        }
+
+        public void SetElementType(Type ElementType)
+        {
+            this.ElementType = ElementType;
+        }
+
+        public Type GetElementType()
+        {
+            return ElementType;
         }
 
         public Boolean Changed()

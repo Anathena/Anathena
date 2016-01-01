@@ -17,14 +17,14 @@ namespace Anathema
     {
         private static Results ResultsInstance;
         private MemorySharp MemoryEditor;
-
-        private const Int32 DisplayCount = 1000;
+        
+        // User specified variables
         private Type ScanType;
 
         private Results()
         {
             InitializeObserver();
-            UpdateScanType(typeof(Int32));
+            SetScanType(typeof(Int32));
             BeginScan();
         }
 
@@ -50,7 +50,7 @@ namespace Anathema
             this.MemoryEditor = MemoryEditor;
         }
 
-        public override void UpdateScanType(Type ScanType)
+        public override void SetScanType(Type ScanType)
         {
             this.ScanType = ScanType;
         }

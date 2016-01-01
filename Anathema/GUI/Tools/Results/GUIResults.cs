@@ -13,34 +13,7 @@ namespace Anathema
     public partial class GUIResults : DockContent, IResultsView
     {
         private ResultsPresenter ResultsPresenter;
-
-        /*
-        ControlThreadingHelper.InvokeControlAction(ResultsListView, () =>
-            {
-                // Pause drawing and updating (removes flicker)
-                ResultsListView.SuspendLayout();
-                ResultsListView.BeginUpdate();
-
-                // Save the top item in the list
-                Int32 TopItemIndex = 0;
-                if (ResultsListView.TopItem != null)
-                    TopItemIndex = ResultsListView.TopItem.Index;
-
-                // Update current results
-                ResultsListView.Items.Clear();
-                ResultsListView.Items.AddRange(Items);
-
-                // Restore scroll location
-                if (TopItemIndex >= 0 && TopItemIndex < ResultsListView.Items.Count)
-                    ResultsListView.TopItem = ResultsListView.Items[TopItemIndex];
-
-                // Resume drawing and updating
-                ResultsListView.EndUpdate();
-                ResultsListView.ResumeLayout();
-
-            });
-        */
-
+        
         public GUIResults()
         {
             InitializeComponent();
@@ -73,7 +46,15 @@ namespace Anathema
                 ResultsListView.EndUpdate();
             });
         }
-        
+
+        private void AddSelectedElements()
+        {
+            foreach (Int32 Index in ResultsListView.SelectedIndices)
+                Table.GetInstance().AddSnapshotElementAtIndex(Index);
+        }
+
+        #region Events
+
         private void ByteToolStripMenuItem_Click(Object Sender, EventArgs E)
         {
             ResultsPresenter.UpdateScanType(typeof(SByte));
@@ -113,5 +94,12 @@ namespace Anathema
         {
             E.Item = ResultsPresenter.GetItemAt(E.ItemIndex);
         }
+
+        private void ResultsListView_DoubleClick(Object sender, EventArgs E)
+        {
+            AddSelectedElements();
+        }
+
+        #endregion
     }
 }

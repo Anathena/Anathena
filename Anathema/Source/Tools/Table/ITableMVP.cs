@@ -12,18 +12,14 @@ namespace Anathema
     delegate void TableEventHandler(Object Sender, TableEventArgs Args);
     class TableEventArgs : EventArgs
     {
-        public List<String> Addresses = null;
-        public List<String> Values = null;
-        public List<String> Labels = null;
-        public UInt64 MemorySize = 0;
+        public UInt64 AddressTableItemCount = 0;
+        public UInt64 ScriptTableItemCount = 0;
     }
 
     interface ITableView : IScannerView
     {
         // Methods invoked by the presenter (upstream)
         void RefreshResults();
-        void UpdateMemorySize(String MemorySize);
-        void UpdateItemCount(Int32 ItemCount);
     }
 
     abstract class ITableModel : IScannerModel
@@ -34,18 +30,15 @@ namespace Anathema
         {
             EventRefreshDisplay(this, E);
         }
-        public event TableEventHandler EventUpdateMemorySize;
-        protected virtual void OnEventUpdateMemorySize(TableEventArgs E)
-        {
-            EventUpdateMemorySize(this, E);
-        }
 
         // Functions invoked by presenter (downstream)
-        public abstract IntPtr GetAddressAtIndex(Int32 Index);
-        public abstract dynamic GetValueAtIndex(Int32 Index);
-        public abstract dynamic GetLabelAtIndex(Int32 Index);
-        public abstract void UpdateScanType(Type ScanType);
-        public abstract Type GetScanType();
+        public abstract AddressItem GetAddressItemAt(Int32 Index);
+        public abstract dynamic GetAddressValueAt(Int32 Index);
+        public abstract void SetAddressItemAt(Int32 Index, AddressItem AddressItem);
+        public abstract void SetAddressValueAt(Int32 Index, dynamic Value);
+
+        public abstract ScriptItem GetScriptItemAt(Int32 Index);
+        public abstract void SetScriptItemAt(Int32 Index, ScriptItem ScriptItem);
     }
 
     class TablePresenter : Presenter<ITableView, ITableModel>
@@ -60,61 +53,35 @@ namespace Anathema
 
             // Bind events triggered by the model
             Model.EventRefreshDisplay += EventUpdateDisplay;
-            Model.EventUpdateMemorySize += EventUpdateMemorySize;
         }
 
         #region Method definitions called by the view (downstream)
 
-        public ListViewItem GetItemAt(Int32 Index)
+        public ListViewItem GetAddressTableItemAt(Int32 Index)
         {
-            IntPtr Address = Model.GetAddressAtIndex(Index);
-            dynamic Value = Model.GetValueAtIndex(Index);
-            dynamic Label = Model.GetLabelAtIndex(Index);
+            AddressItem AddressItem = Model.GetAddressItemAt(Index);
+            dynamic Value = Model.GetAddressValueAt(Index);
 
-            String[] Result = new String[] { Conversions.ToAddress(Address.ToString()), Value.ToString(), Label.ToString() };
-            return new ListViewItem(Result);
+            ListViewItem Result = new ListViewItem(new String[] {
+                AddressItem.Address.ToString(), Value.ToString(), AddressItem.Description.ToString(), AddressItem.ElementType.ToString() });
+            Result.Checked = AddressItem.GetActivationState();
+
+            return Result;
         }
 
-        public void UpdateScanType(Type ScanType)
+        public ListViewItem GetScriptTableItemAt(Int32 Index)
         {
-            if (ScanType == typeof(Byte) || ScanType == typeof(UInt16) || ScanType == typeof(UInt32) || ScanType == typeof(UInt64))
-                throw new Exception("Invalid type. ScanType parameter assumes signed type.");
+            ScriptItem ScriptItem = Model.GetScriptItemAt(Index);
+            
+            ListViewItem Result = new ListViewItem(ScriptItem.Description.ToString());
+            Result.Checked = ScriptItem.GetActivationState();
 
-            // Apply type change
-            Type PreviousScanType = Model.GetScanType();
-            Model.UpdateScanType(ScanType);
-
-            // Enforce same sign as previous type
-            var @switch = new Dictionary<Type, Action> {
-                    { typeof(Byte), () => ChangeSign() },
-                    { typeof(UInt16), () => ChangeSign() },
-                    { typeof(UInt32), () => ChangeSign() },
-                    { typeof(UInt64), () => ChangeSign() },
-                };
-
-            if (@switch.ContainsKey(PreviousScanType))
-                @switch[PreviousScanType]();
+            return Result;
         }
 
-        public void ChangeSign()
+        public String GetScriptTableScriptAt(Int32 Index)
         {
-            Type ScanType = Model.GetScanType();
-
-            var @switch = new Dictionary<Type, Action> {
-                    { typeof(Byte), () => ScanType = typeof(SByte) },
-                    { typeof(SByte), () => ScanType = typeof(Byte) },
-                    { typeof(Int16), () => ScanType = typeof(UInt16) },
-                    { typeof(Int32), () => ScanType = typeof(UInt32) },
-                    { typeof(Int64), () => ScanType = typeof(UInt64) },
-                    { typeof(UInt16), () => ScanType = typeof(Int16) },
-                    { typeof(UInt32), () => ScanType = typeof(Int32) },
-                    { typeof(UInt64), () => ScanType = typeof(Int64) },
-                };
-
-            if (@switch.ContainsKey(ScanType))
-                @switch[ScanType]();
-
-            Model.UpdateScanType(ScanType);
+            return Model.GetScriptItemAt(Index).Script;
         }
 
         #endregion
@@ -124,12 +91,6 @@ namespace Anathema
         private void EventUpdateDisplay(Object Sender, TableEventArgs E)
         {
             View.RefreshResults();
-        }
-
-        private void EventUpdateMemorySize(Object Sender, TableEventArgs E)
-        {
-            View.UpdateMemorySize(Conversions.ByteCountToMetricSize(E.MemorySize));
-            View.UpdateItemCount((Int32)Math.Min(E.MemorySize, Int32.MaxValue));
         }
 
         #endregion

@@ -44,6 +44,7 @@
             this.AddressHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.ValueHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.LabelHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.AddToCheatsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.RightClickMenu.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -69,10 +70,11 @@
             // RightClickMenu
             // 
             this.RightClickMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.AddToCheatsToolStripMenuItem,
             this.ChangeTypeToolStripMenuItem,
             this.ChangeSignToolStripMenuItem});
             this.RightClickMenu.Name = "RightClickMenu";
-            this.RightClickMenu.Size = new System.Drawing.Size(144, 48);
+            this.RightClickMenu.Size = new System.Drawing.Size(153, 92);
             // 
             // ChangeTypeToolStripMenuItem
             // 
@@ -84,7 +86,7 @@
             this.SingleToolStripMenuItem,
             this.DoubleToolStripMenuItem});
             this.ChangeTypeToolStripMenuItem.Name = "ChangeTypeToolStripMenuItem";
-            this.ChangeTypeToolStripMenuItem.Size = new System.Drawing.Size(143, 22);
+            this.ChangeTypeToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.ChangeTypeToolStripMenuItem.Text = "Change Type";
             // 
             // ByteToolStripMenuItem
@@ -132,7 +134,7 @@
             // ChangeSignToolStripMenuItem
             // 
             this.ChangeSignToolStripMenuItem.Name = "ChangeSignToolStripMenuItem";
-            this.ChangeSignToolStripMenuItem.Size = new System.Drawing.Size(143, 22);
+            this.ChangeSignToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.ChangeSignToolStripMenuItem.Text = "Change Sign";
             this.ChangeSignToolStripMenuItem.Click += new System.EventHandler(this.ChangeSignToolStripMenuItem_Click);
             // 
@@ -156,6 +158,7 @@
             this.ResultsListView.View = System.Windows.Forms.View.Details;
             this.ResultsListView.VirtualMode = true;
             this.ResultsListView.RetrieveVirtualItem += new System.Windows.Forms.RetrieveVirtualItemEventHandler(this.ResultsListView_RetrieveVirtualItem);
+            this.ResultsListView.DoubleClick += new System.EventHandler(this.ResultsListView_DoubleClick);
             // 
             // AddressHeader
             // 
@@ -171,6 +174,12 @@
             // 
             this.LabelHeader.Text = "Label";
             this.LabelHeader.Width = 88;
+            // 
+            // AddToCheatsToolStripMenuItem
+            // 
+            this.AddToCheatsToolStripMenuItem.Name = "AddToCheatsToolStripMenuItem";
+            this.AddToCheatsToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.AddToCheatsToolStripMenuItem.Text = "Add To Cheats";
             // 
             // GUIResults
             // 
@@ -206,5 +215,6 @@
         private System.Windows.Forms.ToolStripMenuItem SingleToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem DoubleToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem ChangeSignToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem AddToCheatsToolStripMenuItem;
     }
 }

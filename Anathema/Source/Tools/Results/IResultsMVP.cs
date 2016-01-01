@@ -12,9 +12,6 @@ namespace Anathema
     delegate void ResultsEventHandler(Object Sender, ResultsEventArgs Args);
     class ResultsEventArgs : EventArgs
     {
-        public List<String> Addresses = null;
-        public List<String> Values = null;
-        public List<String> Labels = null;
         public UInt64 MemorySize = 0;
     }
 
@@ -44,8 +41,8 @@ namespace Anathema
         public abstract IntPtr GetAddressAtIndex(Int32 Index);
         public abstract dynamic GetValueAtIndex(Int32 Index);
         public abstract dynamic GetLabelAtIndex(Int32 Index);
-        public abstract void UpdateScanType(Type ScanType);
         public abstract Type GetScanType();
+        public abstract void SetScanType(Type ScanType);
     }
 
     class ResultsPresenter : Presenter<IResultsView, IResultsModel>
@@ -82,7 +79,7 @@ namespace Anathema
 
             // Apply type change
             Type PreviousScanType = Model.GetScanType();
-            Model.UpdateScanType(ScanType);
+            Model.SetScanType(ScanType);
 
             // Enforce same sign as previous type
             var @switch = new Dictionary<Type, Action> {
@@ -114,7 +111,7 @@ namespace Anathema
             if (@switch.ContainsKey(ScanType))
                 @switch[ScanType]();
 
-            Model.UpdateScanType(ScanType);
+            Model.SetScanType(ScanType);
         }
 
         #endregion
