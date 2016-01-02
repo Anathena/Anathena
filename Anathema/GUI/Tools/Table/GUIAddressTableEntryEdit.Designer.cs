@@ -47,9 +47,11 @@
             // 
             // DescriptionTextBox
             // 
+            this.DescriptionTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.DescriptionTextBox.Location = new System.Drawing.Point(80, 12);
             this.DescriptionTextBox.Name = "DescriptionTextBox";
-            this.DescriptionTextBox.Size = new System.Drawing.Size(286, 20);
+            this.DescriptionTextBox.Size = new System.Drawing.Size(212, 20);
             this.DescriptionTextBox.TabIndex = 0;
             // 
             // ValueTypeComboBox
@@ -57,7 +59,7 @@
             this.ValueTypeComboBox.FormattingEnabled = true;
             this.ValueTypeComboBox.Location = new System.Drawing.Point(80, 38);
             this.ValueTypeComboBox.Name = "ValueTypeComboBox";
-            this.ValueTypeComboBox.Size = new System.Drawing.Size(124, 21);
+            this.ValueTypeComboBox.Size = new System.Drawing.Size(131, 21);
             this.ValueTypeComboBox.TabIndex = 1;
             // 
             // DescriptionLabel
@@ -80,9 +82,11 @@
             // 
             // AddressTextBox
             // 
+            this.AddressTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.AddressTextBox.Location = new System.Drawing.Point(80, 92);
             this.AddressTextBox.Name = "AddressTextBox";
-            this.AddressTextBox.Size = new System.Drawing.Size(286, 20);
+            this.AddressTextBox.Size = new System.Drawing.Size(212, 20);
             this.AddressTextBox.TabIndex = 4;
             // 
             // AddressLabel
@@ -105,23 +109,31 @@
             // 
             // OffsetListBox
             // 
+            this.OffsetListBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.OffsetListBox.FormattingEnabled = true;
+            this.OffsetListBox.IntegralHeight = false;
             this.OffsetListBox.Location = new System.Drawing.Point(80, 144);
             this.OffsetListBox.Name = "OffsetListBox";
-            this.OffsetListBox.Size = new System.Drawing.Size(286, 43);
+            this.OffsetListBox.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
+            this.OffsetListBox.Size = new System.Drawing.Size(212, 80);
             this.OffsetListBox.TabIndex = 8;
             // 
             // OffsetTextBox
             // 
+            this.OffsetTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.OffsetTextBox.Location = new System.Drawing.Point(80, 117);
             this.OffsetTextBox.Name = "OffsetTextBox";
-            this.OffsetTextBox.Size = new System.Drawing.Size(124, 20);
+            this.OffsetTextBox.Size = new System.Drawing.Size(50, 20);
             this.OffsetTextBox.TabIndex = 9;
             this.OffsetTextBox.TextChanged += new System.EventHandler(this.OffsetTextBox_TextChanged);
             // 
             // AddOffsetButton
             // 
-            this.AddOffsetButton.Location = new System.Drawing.Point(291, 115);
+            this.AddOffsetButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.AddOffsetButton.Location = new System.Drawing.Point(217, 115);
             this.AddOffsetButton.Name = "AddOffsetButton";
             this.AddOffsetButton.Size = new System.Drawing.Size(75, 23);
             this.AddOffsetButton.TabIndex = 10;
@@ -131,7 +143,8 @@
             // 
             // RemoveOffsetButton
             // 
-            this.RemoveOffsetButton.Location = new System.Drawing.Point(210, 115);
+            this.RemoveOffsetButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.RemoveOffsetButton.Location = new System.Drawing.Point(136, 115);
             this.RemoveOffsetButton.Name = "RemoveOffsetButton";
             this.RemoveOffsetButton.Size = new System.Drawing.Size(75, 23);
             this.RemoveOffsetButton.TabIndex = 11;
@@ -150,7 +163,8 @@
             // 
             // AcceptButton
             // 
-            this.AcceptButton.Location = new System.Drawing.Point(80, 193);
+            this.AcceptButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.AcceptButton.Location = new System.Drawing.Point(136, 230);
             this.AcceptButton.Name = "AcceptButton";
             this.AcceptButton.Size = new System.Drawing.Size(75, 23);
             this.AcceptButton.TabIndex = 13;
@@ -160,8 +174,9 @@
             // 
             // CancelButton
             // 
+            this.CancelButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.CancelButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.CancelButton.Location = new System.Drawing.Point(161, 193);
+            this.CancelButton.Location = new System.Drawing.Point(217, 230);
             this.CancelButton.Name = "CancelButton";
             this.CancelButton.Size = new System.Drawing.Size(75, 23);
             this.CancelButton.TabIndex = 14;
@@ -171,20 +186,21 @@
             // 
             // ValueTextBox
             // 
-            this.ValueTextBox.ForeColor = System.Drawing.Color.Gray;
-            this.ValueTextBox.Location = new System.Drawing.Point(80, 66);
+            this.ValueTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.ValueTextBox.Location = new System.Drawing.Point(80, 65);
             this.ValueTextBox.Name = "ValueTextBox";
-            this.ValueTextBox.Size = new System.Drawing.Size(286, 20);
-            this.ValueTextBox.TabIndex = 15;
-            this.ValueTextBox.Text = "(Insert A Value to Overwrite Current Value)";
-            this.ValueTextBox.WatermarkActive = true;
-            this.ValueTextBox.WatermarkText = "";
+            this.ValueTextBox.Size = new System.Drawing.Size(212, 20);
+            this.ValueTextBox.TabIndex = 16;
+            this.ValueTextBox.WatermarkColor = System.Drawing.Color.LightGray;
+            this.ValueTextBox.WaterMarkFont = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.ValueTextBox.WaterMarkText = "(Insert Value to Overwrite Current Value)";
             // 
             // GUIAddressTableEntryEdit
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(378, 220);
+            this.ClientSize = new System.Drawing.Size(304, 257);
             this.Controls.Add(this.ValueTextBox);
             this.Controls.Add(this.CancelButton);
             this.Controls.Add(this.AcceptButton);

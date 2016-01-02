@@ -8,18 +8,23 @@ namespace Anathema
 {
     public partial class GUIAddressTableEntryEdit : Form
     {
-        public GUIAddressTableEntryEdit(String Description, String ValueType, String Address, String[] Offsets)
+        public GUIAddressTableEntryEdit(Int32 AddressTableItemIndex)
         {
             InitializeComponent();
 
+            this.MinimumSize = new Size(this.Width, this.Height);
+
+            //String Description, String ValueType, String Address, String[] Offsets
             InitializeValueTypeComboBox();
 
+            AddressItem AddressItem = Table.GetInstance().GetAddressItemAt(AddressTableItemIndex);
+
             // Add initial items
-            DescriptionTextBox.Text = Description;
-            ValueTypeComboBox.SelectedIndex = ValueTypeComboBox.Items.IndexOf(ValueType);
-            AddressTextBox.Text = Address;
-            if (Offsets != null)
-                foreach (String Offset in Offsets)
+            DescriptionTextBox.Text = AddressItem.Description;
+            ValueTypeComboBox.SelectedIndex = ValueTypeComboBox.Items.IndexOf(AddressItem.ElementType.Name);
+            AddressTextBox.Text = Conversions.ToAddress(AddressItem.Address.ToString());
+            if (AddressItem.Offsets != null)
+                foreach (Int32 Offset in AddressItem.Offsets)
                     OffsetListBox.Items.Add(Offset);
 
             UpdateOffset();
@@ -35,7 +40,7 @@ namespace Anathema
 
         private void UpdateOffset()
         {
-            if (CheckSyntax.Int32Value(OffsetTextBox.Text) || CheckSyntax.Address(OffsetTextBox.Text))
+            if (CheckSyntax.Int64Value(OffsetTextBox.Text) || CheckSyntax.Address(OffsetTextBox.Text))
             {
                 OffsetTextBox.ForeColor = Color.Black;
                 AddOffsetButton.Enabled = true;
@@ -46,19 +51,22 @@ namespace Anathema
                 AddOffsetButton.Enabled = false;
             }
         }
-
+        
         #region Events
 
         private void AddOffsetButton_Click(Object Sender, EventArgs E)
         {
-            if (CheckSyntax.Int32Value(OffsetTextBox.Text) || CheckSyntax.Address(OffsetListBox.Text))
-                OffsetListBox.Items.Add(OffsetListBox.Text);
+            if (CheckSyntax.Int64Value(OffsetTextBox.Text) || CheckSyntax.Address(OffsetTextBox.Text))
+            {
+                OffsetListBox.Items.Add(OffsetTextBox.Text);
+                OffsetTextBox.Text = String.Empty;
+            }
         }
 
         private void RemoveOffsetButton_Click(Object Sender, EventArgs E)
         {
-            foreach (Int32 Index in OffsetListBox.SelectedIndices)
-                OffsetListBox.Items.Remove(Index);
+            foreach (Int32 Item in OffsetListBox.SelectedIndices.Cast<Int32>().Select(x => x).Reverse())
+                OffsetListBox.Items.RemoveAt(Item);
         }
 
         private void AcceptButton_Click(Object Sender, EventArgs E)
@@ -77,6 +85,5 @@ namespace Anathema
         }
 
         #endregion
-
     }
 }

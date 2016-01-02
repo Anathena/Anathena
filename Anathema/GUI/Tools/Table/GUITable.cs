@@ -122,8 +122,8 @@ namespace Anathema
             if (AddressTableListView.HitTest(E.Location).Item == null)
                 return;
 
-            GUIAddressTableEntryEdit test = new GUIAddressTableEntryEdit("", "Int32", "", null);
-            test.ShowDialog();
+            GUIAddressTableEntryEdit Test = new GUIAddressTableEntryEdit(AddressTableListView.HitTest(E.Location).Item.Index);
+            Test.ShowDialog();
         }
 
         private void CheatTableButton_Click(Object Sender, EventArgs E)
