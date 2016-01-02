@@ -18,7 +18,7 @@ namespace Anathema
     interface ISnapshotManagerView : IView
     {
         // Methods invoked by the presenter (upstream)
-        void UpdateSnapshotDisplay(TreeNode[] Snapshots);
+        void UpdateSnapshotDisplay(ListViewItem[] Snapshots);
     }
 
     interface ISnapshotManagerModel : IModel, IProcessObserver
@@ -57,12 +57,12 @@ namespace Anathema
 
         private void UpdateSnapshotDisplay(Object Sender, SnapshotManagerEventArgs E)
         {
-            List<TreeNode> TreeNodes = new List<TreeNode>();
+            List<ListViewItem> ListViewItems = new List<ListViewItem>();
 
-            for (Int32 Index = 0; Index < E.SnapshotList.Count; Index++)
-                TreeNodes.Add(new TreeNode(E.SnapshotList[Index].GetTimeStamp().ToLongTimeString() + " - " + Conversions.ByteCountToMetricSize(E.SnapshotList[Index].GetMemorySize())));
+            foreach (Snapshot Snapshot in E.SnapshotList)
+                ListViewItems.Add(new ListViewItem(Snapshot.GetTimeStamp().ToLongTimeString() + " - " + Conversions.ByteCountToMetricSize(Snapshot.GetMemorySize())));
             
-            View.UpdateSnapshotDisplay(TreeNodes.ToArray());
+            View.UpdateSnapshotDisplay(ListViewItems.ToArray());
         }
 
         #endregion

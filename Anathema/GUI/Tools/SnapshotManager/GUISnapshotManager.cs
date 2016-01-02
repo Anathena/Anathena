@@ -23,14 +23,18 @@ namespace Anathema
             SnapshotManagerPresenter SnapshotManagerPresenter = new SnapshotManagerPresenter(this, SnapshotManager.GetInstance());
         }
 
-        public void UpdateSnapshotDisplay(TreeNode[] Snapshots)
+        public void UpdateSnapshotDisplay(ListViewItem[] Snapshots)
         {
-            ControlThreadingHelper.InvokeControlAction(SnapshotTreeView, () =>
+            ControlThreadingHelper.InvokeControlAction(SnapshotListView, () =>
             {
-                SnapshotTreeView.Nodes.Clear();
-                SnapshotTreeView.Nodes.AddRange(Snapshots);
+                SnapshotListView.Items.Clear();
+                SnapshotListView.Items.AddRange(Snapshots);
             });
         }
 
+        private void ClearSnapshotsButton_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

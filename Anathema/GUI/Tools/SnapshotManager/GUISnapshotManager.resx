@@ -130,14 +130,14 @@
         YpvXAAAAAElFTkSuQmCC
 </value>
   </data>
-  <data name="toolStripButton1.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+  <data name="SelectPreviousSnapshotButton.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
         YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAABJSURBVDhPYxj+4D8UkwX+z7r9H4xBbIgQ8QCicQkEk2oI
         imZSDcGqGYYJGYJXMwzjMoQozTCMbgiEU7yJNAzTh8QgF49wwMAAAI5Is++cSDsHAAAAAElFTkSuQmCC
 </value>
   </data>
-  <data name="toolStripButton2.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+  <data name="SelectNextSnapshotButton.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
         YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAABQSURBVDhPYxgFYPCfQgxhzLr9nySMbAAI/Gco3vSfYQlQ
@@ -148,9 +148,9 @@
   <data name="ClearSnapshotsButton.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
-        YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAACCSURBVDhPzY5BDoAgDAR78cW+xnjUF/gXv6IHD5gWCy2V
-        wk0n2QS62wX4HUGoxPMIMuf9ID13ppxLLxEDayDJcGVuSCHSdFIYNSyX9ioFiCowaiwz78uojmXELnZ8
-        nfG/3yjRy+OmxQVOSQzya3iOQV2Q54YctqFyLj2FF/C8zwC4Adr36VOXWAi9AAAAAElFTkSuQmCC
+        YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAACBSURBVDhPzY5BDoAwCAR78cW+xnjUF/gXv6IHDzWAtFAs
+        7U0n2aRldwnhd0ShEs9D0Jz3A/X8mXIuvQQF1oiS4crckEKo6cQwaFgu7VUWAGqBUaPMvJdBHWXAFjtO
+        Z/zzG0tsedxIcoGzRIfhTUF6cznPDTlsQ+Vcegov4HmfEcINBc/qKb18hwkAAAAASUVORK5CYII=
 </value>
   </data>
 </root>
