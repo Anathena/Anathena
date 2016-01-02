@@ -24,6 +24,7 @@ namespace Anathema
             SetMinChanges();
             SetMaxChanges();
             SetVariableSize();
+            SetChangeCountingMode();
 
             EnableGUI();
         }
@@ -55,6 +56,16 @@ namespace Anathema
             Int32 VariableSize = (Int32)Math.Pow(2, VariableSizeTrackBar.Value);
             VariableSizeValueLabel.Text = Conversions.ByteCountToMetricSize((UInt64)VariableSize);
             LabelerChangeCounterPresenter.SetVariableSize(VariableSize);
+        }
+
+        private void SetChangeCountingMode()
+        {
+            if (ChangingRadioButton.Checked)
+                LabelerChangeCounterPresenter.SetScanModeChanging();
+            else if (IncreasingRadioButton.Checked)
+                LabelerChangeCounterPresenter.SetScanModeIncreasing();
+            else if (DecreasingRadioButton.Checked)
+                LabelerChangeCounterPresenter.SetScanModeDecreasing();
         }
 
         private void EnableGUI()
@@ -115,6 +126,21 @@ namespace Anathema
         private void GUILabelerChangeCounter_Resize(Object Sender, EventArgs E)
         {
             HandleResize();
+        }
+
+        private void ChangingRadioButton_CheckedChanged(object sender, EventArgs e)
+        {
+            SetChangeCountingMode();
+        }
+
+        private void IncreasingRadioButton_CheckedChanged(object sender, EventArgs e)
+        {
+            SetChangeCountingMode();
+        }
+
+        private void DecreasingRadioButton_CheckedChanged(object sender, EventArgs e)
+        {
+            SetChangeCountingMode();
         }
 
         private void StartScanButton_Click(object sender, EventArgs e)

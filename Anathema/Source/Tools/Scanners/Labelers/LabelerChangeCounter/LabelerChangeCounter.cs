@@ -10,6 +10,13 @@ namespace Anathema
 {
     class LabelerChangeCounter : ILabelerChangeCounterModel
     {
+        private enum ChangeCountingModeEnum
+        {
+            Changing,
+            Increasing,
+            Decreasing,
+        }
+
         // Snapshot being labeled with change counts
         private Snapshot<UInt16> LabeledSnapshot;
 
@@ -17,6 +24,7 @@ namespace Anathema
         private Int32 MinChanges;
         private Int32 MaxChanges;
         private Int32 VariableSize;
+        private ChangeCountingModeEnum ChangeCountingMode;
 
         public LabelerChangeCounter()
         {
@@ -36,6 +44,21 @@ namespace Anathema
         public override void SetVariableSize(Int32 VariableSize)
         {
             this.VariableSize = VariableSize;
+        }
+
+        public override void SetScanModeChanging()
+        {
+            ChangeCountingMode = ChangeCountingModeEnum.Changing;
+        }
+
+        public override void SetScanModeIncreasing()
+        {
+            ChangeCountingMode = ChangeCountingModeEnum.Increasing;
+        }
+
+        public override void SetScanModeDecreasing()
+        {
+            ChangeCountingMode = ChangeCountingModeEnum.Decreasing;
         }
 
         public override void BeginScan()
@@ -64,8 +87,21 @@ namespace Anathema
                     if (!Element.CanCompare())
                         continue;
 
-                    if (Element.Changed())
-                        Element.MemoryLabel++;
+                    switch (ChangeCountingMode)
+                    {
+                        case ChangeCountingModeEnum.Changing:
+                            if (Element.Changed())
+                                Element.MemoryLabel++;
+                            break;
+                        case ChangeCountingModeEnum.Increasing:
+                            if (Element.Increased())
+                                Element.MemoryLabel++;
+                            break;
+                        case ChangeCountingModeEnum.Decreasing:
+                            if (Element.Decreased())
+                                Element.MemoryLabel++;
+                            break;
+                    }
                 }
             }
         }

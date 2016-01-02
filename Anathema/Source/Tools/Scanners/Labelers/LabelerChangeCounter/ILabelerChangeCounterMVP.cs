@@ -21,6 +21,9 @@ namespace Anathema
         public abstract void SetMinChanges(Int32 MinChanges);
         public abstract void SetMaxChanges(Int32 MaxChanges);
         public abstract void SetVariableSize(Int32 VariableSize);
+        public abstract void SetScanModeChanging();
+        public abstract void SetScanModeIncreasing();
+        public abstract void SetScanModeDecreasing();
     }
 
     class LabelerChangeCounterPresenter : ScannerPresenter
@@ -60,6 +63,22 @@ namespace Anathema
 
             Model.SetVariableSize(VariableSize);
         }
+        
+        public void SetScanModeChanging()
+        {
+            Model.SetScanModeChanging();
+        }
+
+        public void SetScanModeIncreasing()
+        {
+            Model.SetScanModeIncreasing();
+        }
+
+        public void SetScanModeDecreasing()
+        {
+            Model.SetScanModeDecreasing();
+        }
+
 
         #endregion
 
