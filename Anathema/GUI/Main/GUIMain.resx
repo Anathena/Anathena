@@ -137,6 +137,31 @@
         Mr8HjTiRSCgQCPEAtkTS6+zs7qoAAAAASUVORK5CYII=
 </value>
   </data>
+  <data name="NewScanButton.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
+        YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAACUSURBVDhPlZHBDYAwCEXZ2W28qhePruMmHkQgUKlpoZK8
+        QIH/Q1JADQBIaYV0eTifmNIyKQawUk5omdQGnCN0x8evC4TQgHOPIYMRQgPOno/Q8JFfsBM0731n/wJ+
+        L5fUIrI5ZW8SX+DF+rbaTOILWn3D+tkFMB3122rupwbbXZvYnopFWwy42eM7VzFHqWRpkDcQH1WMXSc7
+        YpvXAAAAAElFTkSuQmCC
+</value>
+  </data>
+  <data name="UndoScanButton.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
+        YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAJNSURBVDhPjZJdSJNhFMfPNte2pm5u1tIsMtHWBzbdGGTO
+        iEKsiyJFZQlFDe2iCyuiD8pgaRcWIUGJtBCia7vLCy/cVQ3pA1tJ2EiDUaMPzSm0TOe/87yPWIuR/eEH
+        z3vO/3943+e89A+ZmVv7anTTVqv6rCz9v3wlxfqvg4PHABwBP3fJ8vLaodWqgh1+J7Dg5fAJzCYqceaU
+        42fZdtso968yFsWZRrsPHsjmUAVTyeQwxBiYnUw1+h+5UZCvn2SvU0ZStc3jMcwMDGQtBgmfJghTM/Is
+        KUZ8cgsKN+iT7M+XsVQZmRt79xCGQjI0HCa0+wnj44TYF1Ez4vlTG9+Lqk9G0svB9F/rIISekLjEYZeT
+        EmM85NlLMUSHukMrRH1ZHV5XQLFME9Xx2eU7TohECB9ihEBA9b2s1PZNcZlMqvbVueZOi9nSaTBoOrm0
+        RmlIaRidONhLaCjMnzTKQ7q7aXppgLdRg8mJcsSnPOi6mSlerVZp/KWtdnoRjRI+fib09PwxwFFKr+eS
+        hAW+tMhbrRgwojRSdbrtspo9GgjvnduUWBqgUdED8WpJZVUr8bBvIzRqeswtsW/xOVca63ORTObhx7zc
+        zq4qEqtcUnlNtWhkKDcMrMebkQq0XdqMC+eK5gN33VxzMEZGj2BQ2cx9Gf0t/8XzWjZsYsTfuJ9pWqSe
+        8TAuvIuYYM2hOPutMpaq601ePV6FxYCjzEmmlWnB3Gwteu+tRXYWjbGvSNrTy830Vnm075t9hdGWZnu0
+        oWFVNC+PQlxvZTKESYroF348QW5aBuTiAAAAAElFTkSuQmCC
+</value>
+  </data>
   <metadata name="$this.TrayHeight" type="System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>55</value>
   </metadata>

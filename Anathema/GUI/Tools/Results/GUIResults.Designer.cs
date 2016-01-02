@@ -29,9 +29,9 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            this.SnapshotSizeLabel = new System.Windows.Forms.Label();
-            this.SnapshotSizeValueLabel = new System.Windows.Forms.Label();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(GUIResults));
             this.RightClickMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.AddToCheatsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ChangeTypeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ByteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.Int16ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -40,32 +40,18 @@
             this.SingleToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.DoubleToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ChangeSignToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.GUIToolStrip = new System.Windows.Forms.ToolStrip();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.AddSelectedResultsButton = new System.Windows.Forms.ToolStripButton();
+            this.SnapshotSizeValueLabel = new System.Windows.Forms.ToolStripLabel();
+            this.SnapshotSizeLabel = new System.Windows.Forms.ToolStripLabel();
             this.ResultsListView = new Anathema.FlickerFreeListView();
             this.AddressHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.ValueHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.LabelHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.AddToCheatsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.RightClickMenu.SuspendLayout();
+            this.GUIToolStrip.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // SnapshotSizeLabel
-            // 
-            this.SnapshotSizeLabel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.SnapshotSizeLabel.Dock = System.Windows.Forms.DockStyle.Top;
-            this.SnapshotSizeLabel.Location = new System.Drawing.Point(0, 0);
-            this.SnapshotSizeLabel.Name = "SnapshotSizeLabel";
-            this.SnapshotSizeLabel.Size = new System.Drawing.Size(284, 17);
-            this.SnapshotSizeLabel.TabIndex = 152;
-            this.SnapshotSizeLabel.Text = "Active Snapshot Size:";
-            // 
-            // SnapshotSizeValueLabel
-            // 
-            this.SnapshotSizeValueLabel.AutoSize = true;
-            this.SnapshotSizeValueLabel.Location = new System.Drawing.Point(108, 1);
-            this.SnapshotSizeValueLabel.Name = "SnapshotSizeValueLabel";
-            this.SnapshotSizeValueLabel.Size = new System.Drawing.Size(20, 13);
-            this.SnapshotSizeValueLabel.TabIndex = 154;
-            this.SnapshotSizeValueLabel.Text = "0B";
             // 
             // RightClickMenu
             // 
@@ -74,7 +60,13 @@
             this.ChangeTypeToolStripMenuItem,
             this.ChangeSignToolStripMenuItem});
             this.RightClickMenu.Name = "RightClickMenu";
-            this.RightClickMenu.Size = new System.Drawing.Size(153, 92);
+            this.RightClickMenu.Size = new System.Drawing.Size(152, 70);
+            // 
+            // AddToCheatsToolStripMenuItem
+            // 
+            this.AddToCheatsToolStripMenuItem.Name = "AddToCheatsToolStripMenuItem";
+            this.AddToCheatsToolStripMenuItem.Size = new System.Drawing.Size(151, 22);
+            this.AddToCheatsToolStripMenuItem.Text = "Add To Cheats";
             // 
             // ChangeTypeToolStripMenuItem
             // 
@@ -86,7 +78,7 @@
             this.SingleToolStripMenuItem,
             this.DoubleToolStripMenuItem});
             this.ChangeTypeToolStripMenuItem.Name = "ChangeTypeToolStripMenuItem";
-            this.ChangeTypeToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.ChangeTypeToolStripMenuItem.Size = new System.Drawing.Size(151, 22);
             this.ChangeTypeToolStripMenuItem.Text = "Change Type";
             // 
             // ByteToolStripMenuItem
@@ -134,9 +126,49 @@
             // ChangeSignToolStripMenuItem
             // 
             this.ChangeSignToolStripMenuItem.Name = "ChangeSignToolStripMenuItem";
-            this.ChangeSignToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.ChangeSignToolStripMenuItem.Size = new System.Drawing.Size(151, 22);
             this.ChangeSignToolStripMenuItem.Text = "Change Sign";
             this.ChangeSignToolStripMenuItem.Click += new System.EventHandler(this.ChangeSignToolStripMenuItem_Click);
+            // 
+            // GUIToolStrip
+            // 
+            this.GUIToolStrip.BackColor = System.Drawing.SystemColors.Control;
+            this.GUIToolStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.AddSelectedResultsButton,
+            this.toolStripSeparator1,
+            this.SnapshotSizeLabel,
+            this.SnapshotSizeValueLabel});
+            this.GUIToolStrip.Location = new System.Drawing.Point(0, 0);
+            this.GUIToolStrip.Name = "GUIToolStrip";
+            this.GUIToolStrip.Size = new System.Drawing.Size(284, 25);
+            this.GUIToolStrip.TabIndex = 155;
+            this.GUIToolStrip.Text = "toolStrip1";
+            // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 25);
+            // 
+            // AddSelectedResultsButton
+            // 
+            this.AddSelectedResultsButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.AddSelectedResultsButton.Image = ((System.Drawing.Image)(resources.GetObject("AddSelectedResultsButton.Image")));
+            this.AddSelectedResultsButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.AddSelectedResultsButton.Name = "AddSelectedResultsButton";
+            this.AddSelectedResultsButton.Size = new System.Drawing.Size(23, 22);
+            this.AddSelectedResultsButton.Text = "Add Selected to Table";
+            // 
+            // SnapshotSizeValueLabel
+            // 
+            this.SnapshotSizeValueLabel.Name = "SnapshotSizeValueLabel";
+            this.SnapshotSizeValueLabel.Size = new System.Drawing.Size(20, 22);
+            this.SnapshotSizeValueLabel.Text = "0B";
+            // 
+            // SnapshotSizeLabel
+            // 
+            this.SnapshotSizeLabel.Name = "SnapshotSizeLabel";
+            this.SnapshotSizeLabel.Size = new System.Drawing.Size(118, 22);
+            this.SnapshotSizeLabel.Text = "Active Snapshot Size:";
             // 
             // ResultsListView
             // 
@@ -150,9 +182,9 @@
             this.ResultsListView.Dock = System.Windows.Forms.DockStyle.Fill;
             this.ResultsListView.Font = new System.Drawing.Font("Courier New", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.ResultsListView.FullRowSelect = true;
-            this.ResultsListView.Location = new System.Drawing.Point(0, 17);
+            this.ResultsListView.Location = new System.Drawing.Point(0, 25);
             this.ResultsListView.Name = "ResultsListView";
-            this.ResultsListView.Size = new System.Drawing.Size(284, 244);
+            this.ResultsListView.Size = new System.Drawing.Size(284, 236);
             this.ResultsListView.TabIndex = 151;
             this.ResultsListView.UseCompatibleStateImageBehavior = false;
             this.ResultsListView.View = System.Windows.Forms.View.Details;
@@ -175,24 +207,19 @@
             this.LabelHeader.Text = "Label";
             this.LabelHeader.Width = 88;
             // 
-            // AddToCheatsToolStripMenuItem
-            // 
-            this.AddToCheatsToolStripMenuItem.Name = "AddToCheatsToolStripMenuItem";
-            this.AddToCheatsToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.AddToCheatsToolStripMenuItem.Text = "Add To Cheats";
-            // 
             // GUIResults
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(284, 261);
             this.Controls.Add(this.ResultsListView);
-            this.Controls.Add(this.SnapshotSizeValueLabel);
-            this.Controls.Add(this.SnapshotSizeLabel);
+            this.Controls.Add(this.GUIToolStrip);
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Name = "GUIResults";
             this.Text = "Results";
             this.RightClickMenu.ResumeLayout(false);
+            this.GUIToolStrip.ResumeLayout(false);
+            this.GUIToolStrip.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -204,8 +231,6 @@
         private System.Windows.Forms.ColumnHeader AddressHeader;
         private System.Windows.Forms.ColumnHeader ValueHeader;
         private System.Windows.Forms.ColumnHeader LabelHeader;
-        private System.Windows.Forms.Label SnapshotSizeLabel;
-        private System.Windows.Forms.Label SnapshotSizeValueLabel;
         private System.Windows.Forms.ContextMenuStrip RightClickMenu;
         private System.Windows.Forms.ToolStripMenuItem ChangeTypeToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem ByteToolStripMenuItem;
@@ -216,5 +241,10 @@
         private System.Windows.Forms.ToolStripMenuItem DoubleToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem ChangeSignToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem AddToCheatsToolStripMenuItem;
+        private System.Windows.Forms.ToolStrip GUIToolStrip;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
+        private System.Windows.Forms.ToolStripButton AddSelectedResultsButton;
+        private System.Windows.Forms.ToolStripLabel SnapshotSizeLabel;
+        private System.Windows.Forms.ToolStripLabel SnapshotSizeValueLabel;
     }
 }

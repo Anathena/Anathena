@@ -54,6 +54,8 @@
             this.ProcessSelectorButton = new System.Windows.Forms.ToolStripButton();
             this.ProcessTitleLabel = new System.Windows.Forms.ToolStripLabel();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.NewScanButton = new System.Windows.Forms.ToolStripButton();
+            this.UndoScanButton = new System.Windows.Forms.ToolStripButton();
             this.GUIMenuStrip.SuspendLayout();
             this.GUIToolStrip.SuspendLayout();
             this.SuspendLayout();
@@ -233,7 +235,9 @@
             this.GUIToolStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.ProcessSelectorButton,
             this.ProcessTitleLabel,
-            this.toolStripSeparator1});
+            this.toolStripSeparator1,
+            this.NewScanButton,
+            this.UndoScanButton});
             this.GUIToolStrip.Location = new System.Drawing.Point(0, 24);
             this.GUIToolStrip.Name = "GUIToolStrip";
             this.GUIToolStrip.Size = new System.Drawing.Size(818, 25);
@@ -260,6 +264,24 @@
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
             this.toolStripSeparator1.Size = new System.Drawing.Size(6, 25);
+            // 
+            // NewScanButton
+            // 
+            this.NewScanButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.NewScanButton.Image = ((System.Drawing.Image)(resources.GetObject("NewScanButton.Image")));
+            this.NewScanButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.NewScanButton.Name = "NewScanButton";
+            this.NewScanButton.Size = new System.Drawing.Size(23, 22);
+            this.NewScanButton.Text = "New Scan";
+            // 
+            // UndoScanButton
+            // 
+            this.UndoScanButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.UndoScanButton.Image = ((System.Drawing.Image)(resources.GetObject("UndoScanButton.Image")));
+            this.UndoScanButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.UndoScanButton.Name = "UndoScanButton";
+            this.UndoScanButton.Size = new System.Drawing.Size(23, 22);
+            this.UndoScanButton.Text = "Undo Scan";
             // 
             // GUIMain
             // 
@@ -308,6 +330,8 @@
         private System.Windows.Forms.ToolStripMenuItem ProcessSelectorToolStripMenuItem;
         private System.Windows.Forms.ToolStripLabel ProcessTitleLabel;
         private System.Windows.Forms.ToolStripMenuItem ChunkScannerToolStripMenuItem;
+        private System.Windows.Forms.ToolStripButton NewScanButton;
+        private System.Windows.Forms.ToolStripButton UndoScanButton;
     }
 }
 

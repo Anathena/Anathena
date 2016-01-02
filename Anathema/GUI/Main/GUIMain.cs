@@ -49,7 +49,10 @@ namespace Anathema
         public void UpdateProcessTitle(String ProcessTitle)
         {
             // Update process text
-            ProcessTitleLabel.Text = ProcessTitle;
+            ControlThreadingHelper.InvokeControlAction(GUIToolStrip, () =>
+            {
+                ProcessTitleLabel.Text = ProcessTitle;
+            });
         }
 
         #region Methods
@@ -94,7 +97,7 @@ namespace Anathema
 
         private void CreateChunkScanner()
         {
-          if (GUIFilterChunks == null || GUIFilterChunks.IsDisposed)
+            if (GUIFilterChunks == null || GUIFilterChunks.IsDisposed)
                 GUIFilterChunks = new GUIFilterChunks();
             GUIFilterChunks.Show(ContentPanel, DockState.DockLeft);
         }

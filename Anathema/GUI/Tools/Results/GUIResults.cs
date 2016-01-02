@@ -23,7 +23,7 @@ namespace Anathema
 
         public void UpdateMemorySizeLabel(String MemorySize)
         {
-            ControlThreadingHelper.InvokeControlAction(SnapshotSizeValueLabel, () =>
+            ControlThreadingHelper.InvokeControlAction(GUIToolStrip, () =>
             {
                 this.SnapshotSizeValueLabel.Text = MemorySize;
             });

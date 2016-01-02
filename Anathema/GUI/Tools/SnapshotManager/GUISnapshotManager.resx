@@ -117,4 +117,40 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <metadata name="ScanToolStrip.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>17, 17</value>
+  </metadata>
+  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="NewSnapshotButton.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
+        YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAACUSURBVDhPlZHBDYAwCEXZ2W28qhePruMmHkQgUKlpoZK8
+        QIH/Q1JADQBIaYV0eTifmNIyKQawUk5omdQGnCN0x8evC4TQgHOPIYMRQgPOno/Q8JFfsBM0731n/wJ+
+        L5fUIrI5ZW8SX+DF+rbaTOILWn3D+tkFMB3122rupwbbXZvYnopFWwy42eM7VzFHqWRpkDcQH1WMXSc7
+        YpvXAAAAAElFTkSuQmCC
+</value>
+  </data>
+  <data name="toolStripButton1.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
+        YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAABJSURBVDhPYxj+4D8UkwX+z7r9H4xBbIgQ8QCicQkEk2oI
+        imZSDcGqGYYJGYJXMwzjMoQozTCMbgiEU7yJNAzTh8QgF49wwMAAAI5Is++cSDsHAAAAAElFTkSuQmCC
+</value>
+  </data>
+  <data name="toolStripButton2.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
+        YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAABQSURBVDhPYxgFYPCfQgxhzLr9nySMbAAI/Gco3vSfYQlQ
+        ghgMUoukGQaIMwSHZhjAbwgBzTCA3RAiNcMAqiEkaoYBiEYyNcMARZqHBGBgAACQGbPvH68E/wAAAABJ
+        RU5ErkJggg==
+</value>
+  </data>
+  <data name="ClearSnapshotsButton.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
+        YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAACCSURBVDhPzY5BDoAgDAR78cW+xnjUF/gXv6IHD5gWCy2V
+        wk0n2QS62wX4HUGoxPMIMuf9ID13ppxLLxEDayDJcGVuSCHSdFIYNSyX9ioFiCowaiwz78uojmXELnZ8
+        nfG/3yjRy+OmxQVOSQzya3iOQV2Q54YctqFyLj2FF/C8zwC4Adr36VOXWAi9AAAAAElFTkSuQmCC
+</value>
+  </data>
 </root>
