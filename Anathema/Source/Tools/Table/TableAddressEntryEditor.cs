@@ -11,14 +11,16 @@ using System.Threading.Tasks;
 namespace Anathema
 {
     /// <summary>
-    /// Handles the displaying of results
+    /// Handles the updating of address table items
     /// </summary>
     class TableAddressEntryEditor : ITableAddressEntryEditorModel
     {
 
-        public TableAddressEntryEditor()
-        {
+        public TableAddressEntryEditor()  { }
 
+        public void AddTableEntryItem(Int32 MainSelection, Int32[] SelectedIndicies, AddressItem AddressItem)
+        {
+            Table.GetInstance().SetAddressItemAt(MainSelection, AddressItem);
         }
         
     }

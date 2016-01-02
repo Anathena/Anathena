@@ -119,7 +119,8 @@ namespace Anathema
 
         private void AddressTableListView_MouseDoubleClick(Object Sender, MouseEventArgs E)
         {
-            if (AddressTableListView.HitTest(E.Location).Item == null)
+            ListViewItem SelectedItem = AddressTableListView.HitTest(E.Location).Item;
+            if (SelectedItem == null)
                 return;
 
             List<Int32> Indicies = new List<int>();
@@ -128,8 +129,8 @@ namespace Anathema
 
             if (Indicies.Count == 0)
                 return;
-
-            GUIAddressTableEntryEdit AddressEntryEditor = new GUIAddressTableEntryEdit(Indicies.ToArray());
+            
+            GUIAddressTableEntryEdit AddressEntryEditor = new GUIAddressTableEntryEdit(SelectedItem.Index, Indicies.ToArray());
             AddressEntryEditor.ShowDialog();
         }
 

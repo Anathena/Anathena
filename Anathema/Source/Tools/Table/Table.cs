@@ -93,6 +93,9 @@ namespace Anathema
         public override void SetAddressItemAt(Int32 Index, AddressItem AddressItem)
         {
             AddressTable[Index] = AddressItem;
+
+            if (AddressTable[Index].Value != null)
+                MemoryEditor.Write(AddressTable[Index].ElementType, AddressTable[Index].Address, AddressTable[Index].Value, false);
         }
 
         public override ScriptItem GetScriptItemAt(Int32 Index)

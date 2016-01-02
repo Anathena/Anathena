@@ -287,16 +287,16 @@ namespace Binarysharp.MemoryManagement
 
             bool readSuccess = false;
             var @switch = new Dictionary<Type, Action> {
-                    { typeof(Byte), () => Value = Read<Byte>(address, out readSuccess, false) },
-                    { typeof(SByte), () => Value = Read<SByte>(address, out readSuccess, false) },
-                    { typeof(Int16), () => Value = Read<Int16>(address, out readSuccess, false) },
-                    { typeof(Int32), () => Value = Read<Int32>(address, out readSuccess, false) },
-                    { typeof(Int64), () => Value = Read<Int64>(address, out readSuccess, false) },
-                    { typeof(UInt16), () => Value = Read<UInt16>(address, out readSuccess, false) },
-                    { typeof(UInt32), () => Value = Read<UInt32>(address, out readSuccess, false) },
-                    { typeof(UInt64), () => Value = Read<UInt64>(address, out readSuccess, false) },
-                    { typeof(Single), () => Value = Read<Single>(address, out readSuccess, false) },
-                    { typeof(Double), () => Value = Read<Double>(address, out readSuccess, false) },
+                    { typeof(Byte), () => Value = Read<Byte>(address, out readSuccess, isRelative) },
+                    { typeof(SByte), () => Value = Read<SByte>(address, out readSuccess, isRelative) },
+                    { typeof(Int16), () => Value = Read<Int16>(address, out readSuccess, isRelative) },
+                    { typeof(Int32), () => Value = Read<Int32>(address, out readSuccess, isRelative) },
+                    { typeof(Int64), () => Value = Read<Int64>(address, out readSuccess, isRelative) },
+                    { typeof(UInt16), () => Value = Read<UInt16>(address, out readSuccess, isRelative) },
+                    { typeof(UInt32), () => Value = Read<UInt32>(address, out readSuccess, isRelative) },
+                    { typeof(UInt64), () => Value = Read<UInt64>(address, out readSuccess, isRelative) },
+                    { typeof(Single), () => Value = Read<Single>(address, out readSuccess, isRelative) },
+                    { typeof(Double), () => Value = Read<Double>(address, out readSuccess, isRelative) },
                 };
 
             if (@switch.ContainsKey(ValueType))
@@ -308,7 +308,6 @@ namespace Binarysharp.MemoryManagement
                 Value = "?";
 
             return Value;
-
         }
 
         /// <summary>
@@ -435,6 +434,26 @@ namespace Binarysharp.MemoryManagement
         }
         #endregion
         #region Write
+
+        public void Write(Type ValueType, IntPtr address, dynamic value, bool isRelative = true)
+        {
+            var @switch = new Dictionary<Type, Action> {
+                    { typeof(Byte), () => Write<Byte>(address, value, isRelative) },
+                    { typeof(SByte), () => Write<SByte>(address, value, isRelative) },
+                    { typeof(Int16), () => Write<Int16>(address, value, isRelative) },
+                    { typeof(Int32), () => Write<Int32>(address, value, isRelative) },
+                    { typeof(Int64), () => Write<Int64>(address, value, isRelative) },
+                    { typeof(UInt16), () => Write<UInt16>(address, value, isRelative) },
+                    { typeof(UInt32), () => Write<UInt32>(address, value, isRelative) },
+                    { typeof(UInt64), () => Write<UInt64>(address, value, isRelative) },
+                    { typeof(Single), () => Write<Single>(address, value, isRelative) },
+                    { typeof(Double), () => Write<Double>(address, value, isRelative) },
+                };
+
+            if (@switch.ContainsKey(ValueType))
+                @switch[ValueType]();
+        }
+
         /// <summary>
         /// Writes the values of a specified type in the remote process.
         /// </summary>

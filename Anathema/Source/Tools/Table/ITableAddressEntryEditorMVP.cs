@@ -25,13 +25,14 @@ namespace Anathema
         // Events triggered by the model (upstream)
 
         // Functions invoked by presenter (downstream)
+        void AddTableEntryItem(Int32 MainSelection, Int32[] SelectedIndicies, AddressItem AddressItem);
     }
 
     class TableAddressEntryEditorPresenter : Presenter<ITableAddressEntryEditorView, ITableAddressEntryEditorModel>
     {
         protected new ITableAddressEntryEditorView View { get; set; }
         protected new ITableAddressEntryEditorModel Model { get; set; }
-        
+
         public TableAddressEntryEditorPresenter(ITableAddressEntryEditorView View, ITableAddressEntryEditorModel Model) : base(View, Model)
         {
             this.View = View;
@@ -39,16 +40,27 @@ namespace Anathema
         }
 
         #region Method definitions called by the view (downstream)
-        
-        public void AcceptChanges(String Description, String Address, String Value, String[] Offsets)
-        {
 
+        public void AcceptChanges(Int32 MainSelection, Int32[] SelectedIndicies, String Description, String Address, String ValueType, String Value, String[] Offsets)
+        {
+            // Convert passed parameters to the appropriate types to construct an AddressItem
+            List<Int32> OffsetsInt = new List<int>();
+            foreach (String Offset in Offsets)
+                OffsetsInt.Add(Conversions.HexToInt(Offset));
+
+            AddressItem AddressItem = new AddressItem((IntPtr)Conversions.AddressToValue(Address), Description,
+                Conversions.StringToPrimitiveType(ValueType), OffsetsInt.ToArray());
+            
+            AddressItem.Value = Conversions.ParseValue(Conversions.StringToPrimitiveType(ValueType), Value);
+
+            // Pass constructed item to model to send to the table
+            Model.AddTableEntryItem(MainSelection, SelectedIndicies, AddressItem);
         }
 
         #endregion
 
         #region Event definitions for events triggered by the model (upstream)
-        
+
         #endregion
     }
 }

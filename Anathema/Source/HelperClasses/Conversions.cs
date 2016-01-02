@@ -6,8 +6,38 @@ using System.Threading.Tasks;
 
 namespace Anathema
 {
+    /// <summary>
+    /// Converts a value from one format to another format. No validation checking is done.
+    /// </summary>
     class Conversions
     {
+        public static Type StringToPrimitiveType(String Value)
+        {
+            return PrimitiveTypes.GetPrimitiveTypes().Where(x => x.Name == Value).First();
+        }
+
+        public static dynamic ParseValue(Type ValueType, String Value)
+        {
+            dynamic ParsedValue = null;
+
+            var @switch = new Dictionary<Type, Action> {
+                    { typeof(Byte), () => ParsedValue = Byte.Parse(Value) },
+                    { typeof(SByte), () => ParsedValue = SByte.Parse(Value) },
+                    { typeof(Int16), () => ParsedValue = Int16.Parse(Value) },
+                    { typeof(Int32), () => ParsedValue = Int32.Parse(Value) },
+                    { typeof(Int64), () => ParsedValue = Int64.Parse(Value) },
+                    { typeof(UInt16), () => ParsedValue = UInt16.Parse(Value) },
+                    { typeof(UInt32), () => ParsedValue = UInt32.Parse(Value) },
+                    { typeof(UInt64), () => ParsedValue = UInt64.Parse(Value) },
+                    { typeof(Single), () => ParsedValue = Single.Parse(Value) },
+                    { typeof(Double), () => ParsedValue = Double.Parse(Value) },
+                };
+
+            if (@switch.ContainsKey(ValueType))
+                @switch[ValueType]();
+
+            return ParsedValue;
+        }
 
         public static String ToAddress(String Value)
         {
@@ -17,6 +47,15 @@ namespace Anathema
                 return String.Format("{0:X16}", Convert.ToUInt64(Value));
             else
                 return "!!";
+        }
+
+        public static UInt64 AddressToValue(String Address)
+        {
+            return UInt64.Parse(Address, System.Globalization.NumberStyles.HexNumber);
+        }
+        public static Int32 HexToInt(String Address)
+        {
+            return Int32.Parse(Address, System.Globalization.NumberStyles.HexNumber);
         }
 
         public static String ByteCountToMetricSize(UInt64 byteCount)

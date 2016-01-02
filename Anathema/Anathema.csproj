@@ -96,6 +96,7 @@
     <Compile Include="GUI\Tools\Table\GUIAddressTableEntryEdit.Designer.cs">
       <DependentUpon>GUIAddressTableEntryEdit.cs</DependentUpon>
     </Compile>
+    <Compile Include="Source\HelperClasses\PrimitiveTypes.cs" />
     <Compile Include="Source\Tools\Scanners\Labelers\LabelerInputCorrelator\ILabelerInputCorrelatorMVP.cs" />
     <Compile Include="Source\Tools\SnapshotManager\SnapshotRegion.cs" />
     <Compile Include="Source\Tools\SnapshotManager\SnapshotElement.cs" />
@@ -414,9 +415,11 @@
     <Compile Include="Source\Tools\Table\TableItem.cs" />
     <EmbeddedResource Include="GUI\CustomControls\HexEditor\BitControl.de.resx">
       <DependentUpon>BitControl.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\CustomControls\HexEditor\BitControl.resx">
       <DependentUpon>BitControl.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\CustomControls\HexEditor\FormAbout.de.resx">
       <DependentUpon>FormAbout.cs</DependentUpon>

@@ -40,7 +40,7 @@
             this.AddOffsetButton = new System.Windows.Forms.Button();
             this.RemoveOffsetButton = new System.Windows.Forms.Button();
             this.OffsetLabel = new System.Windows.Forms.Label();
-            this.AcceptButton = new System.Windows.Forms.Button();
+            this.OkButton = new System.Windows.Forms.Button();
             this.CancelButton = new System.Windows.Forms.Button();
             this.ValueTextBox = new Anathema.WatermarkTextBox();
             this.SuspendLayout();
@@ -161,16 +161,16 @@
             this.OffsetLabel.TabIndex = 12;
             this.OffsetLabel.Text = "Offset:";
             // 
-            // AcceptButton
+            // OkButton
             // 
-            this.AcceptButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.AcceptButton.Location = new System.Drawing.Point(136, 230);
-            this.AcceptButton.Name = "AcceptButton";
-            this.AcceptButton.Size = new System.Drawing.Size(75, 23);
-            this.AcceptButton.TabIndex = 13;
-            this.AcceptButton.Text = "Accept";
-            this.AcceptButton.UseVisualStyleBackColor = true;
-            this.AcceptButton.Click += new System.EventHandler(this.AcceptButton_Click);
+            this.OkButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.OkButton.Location = new System.Drawing.Point(136, 230);
+            this.OkButton.Name = "OkButton";
+            this.OkButton.Size = new System.Drawing.Size(75, 23);
+            this.OkButton.TabIndex = 13;
+            this.OkButton.Text = "Ok";
+            this.OkButton.UseVisualStyleBackColor = true;
+            this.OkButton.Click += new System.EventHandler(this.OkButton_Click);
             // 
             // CancelButton
             // 
@@ -182,7 +182,6 @@
             this.CancelButton.TabIndex = 14;
             this.CancelButton.Text = "Cancel";
             this.CancelButton.UseVisualStyleBackColor = true;
-            this.CancelButton.Click += new System.EventHandler(this.CancelButton_Click);
             // 
             // ValueTextBox
             // 
@@ -198,12 +197,13 @@
             // 
             // GUIAddressTableEntryEdit
             // 
+            this.AcceptButton = this.OkButton;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(304, 257);
             this.Controls.Add(this.ValueTextBox);
             this.Controls.Add(this.CancelButton);
-            this.Controls.Add(this.AcceptButton);
+            this.Controls.Add(this.OkButton);
             this.Controls.Add(this.OffsetLabel);
             this.Controls.Add(this.RemoveOffsetButton);
             this.Controls.Add(this.AddOffsetButton);
@@ -238,7 +238,7 @@
         private System.Windows.Forms.Button AddOffsetButton;
         private System.Windows.Forms.Button RemoveOffsetButton;
         private System.Windows.Forms.Label OffsetLabel;
-        private System.Windows.Forms.Button AcceptButton;
+        private System.Windows.Forms.Button OkButton;
         private System.Windows.Forms.Button CancelButton;
         private WatermarkTextBox ValueTextBox;
     }

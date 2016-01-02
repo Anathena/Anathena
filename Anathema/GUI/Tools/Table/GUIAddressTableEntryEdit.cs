@@ -9,27 +9,32 @@ namespace Anathema
     public partial class GUIAddressTableEntryEdit : Form, ITableAddressEntryEditorView
     {
         private TableAddressEntryEditorPresenter TableAddressEntryEditorPresenter;
+        private Int32[] AddressTableItemIndicies;
+        private Int32 MainSelection;
 
-        public GUIAddressTableEntryEdit(Int32[] AddressTableItemIndicies)
+        public GUIAddressTableEntryEdit(Int32 MainSelection, Int32[] AddressTableItemIndicies)
         {
             InitializeComponent();
 
             this.MinimumSize = new Size(this.Width, this.Height);
-            
+            this.AddressTableItemIndicies = AddressTableItemIndicies;
+            this.MainSelection = MainSelection;
+
             InitializeValueTypeComboBox();
-            InitializeDefaultItems(AddressTableItemIndicies);
+            InitializeDefaultItems();
 
             ValidateCurrentOffset();
 
             this.TableAddressEntryEditorPresenter = new TableAddressEntryEditorPresenter(this, new TableAddressEntryEditor());
         }
 
-        private void InitializeDefaultItems(Int32[] AddressTableItemIndicies)
+        private void InitializeDefaultItems()
         {
             AddressItem AddressItem = Table.GetInstance().GetAddressItemAt(AddressTableItemIndicies.Last());
             DescriptionTextBox.Text = AddressItem.Description;
             ValueTypeComboBox.SelectedIndex = ValueTypeComboBox.Items.IndexOf(AddressItem.ElementType.Name);
             AddressTextBox.Text = Conversions.ToAddress(AddressItem.Address.ToString());
+
             if (AddressItem.Offsets != null)
                 foreach (Int32 Offset in AddressItem.Offsets)
                     OffsetListBox.Items.Add(Offset);
@@ -37,9 +42,7 @@ namespace Anathema
 
         private void InitializeValueTypeComboBox()
         {
-            Type[] Primitives = typeof(Int32).Assembly.GetTypes().Where(Type => Type.IsPrimitive && Type != typeof(Boolean) && Type != typeof(IntPtr) && Type != typeof(UIntPtr)).ToArray();
-
-            foreach (Type Primitive in Primitives)
+            foreach (Type Primitive in PrimitiveTypes.GetPrimitiveTypes())
                 ValueTypeComboBox.Items.Add(Primitive.Name);
         }
 
@@ -56,7 +59,7 @@ namespace Anathema
                 AddOffsetButton.Enabled = false;
             }
         }
-        
+
         #region Events
 
         private void AddOffsetButton_Click(Object Sender, EventArgs E)
@@ -74,14 +77,12 @@ namespace Anathema
                 OffsetListBox.Items.RemoveAt(Item);
         }
 
-        private void AcceptButton_Click(Object Sender, EventArgs E)
+        private void OkButton_Click(Object Sender, EventArgs E)
         {
-            
-        }
+            TableAddressEntryEditorPresenter.AcceptChanges(MainSelection, AddressTableItemIndicies, DescriptionTextBox.Text, AddressTextBox.Text, 
+                ValueTypeComboBox.SelectedItem.ToString(), ValueTextBox.Text, OffsetListBox.Items.OfType<String>().ToArray());
 
-        private void CancelButton_Click(Object Sender, EventArgs E)
-        {
-
+            this.Close();
         }
 
         private void OffsetTextBox_TextChanged(object sender, EventArgs e)
