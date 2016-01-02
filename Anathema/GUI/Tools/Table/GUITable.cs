@@ -112,14 +112,21 @@ namespace Anathema
             E.Item = TablePresenter.GetFSMTableItemAt(E.ItemIndex);
         }
 
-        private void AddressTableListView_ItemChecked(Object Sender, ItemCheckedEventArgs E)
+        private void AddressTableListView_MouseClick(Object Sender, MouseEventArgs E)
         {
+            ListViewItem ListViewItem = AddressTableListView.GetItemAt(E.X, E.Y);
 
+            if (ListViewItem == null)
+                return;
+
+            if (E.X < (ListViewItem.Bounds.Left + 16))
+                TablePresenter.SetFrozenAt(ListViewItem.Index, !ListViewItem.Checked);
         }
 
         private void AddressTableListView_MouseDoubleClick(Object Sender, MouseEventArgs E)
         {
             ListViewItem SelectedItem = AddressTableListView.HitTest(E.Location).Item;
+
             if (SelectedItem == null)
                 return;
 
@@ -129,7 +136,7 @@ namespace Anathema
 
             if (Indicies.Count == 0)
                 return;
-            
+
             GUIAddressTableEntryEdit AddressEntryEditor = new GUIAddressTableEntryEdit(SelectedItem.Index, Indicies.ToArray());
             AddressEntryEditor.ShowDialog();
         }

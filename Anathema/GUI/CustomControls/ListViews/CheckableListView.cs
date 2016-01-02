@@ -41,13 +41,14 @@ namespace Anathema
         void CheckableListView_MouseClick(Object Sender, MouseEventArgs E)
         {
             ListViewItem ListViewItem = this.GetItemAt(E.X, E.Y);
-            if (ListViewItem != null)
+
+            if (ListViewItem == null)
+                return;
+
+            if (E.X < (ListViewItem.Bounds.Left + 16))
             {
-                if (E.X < (ListViewItem.Bounds.Left + 16))
-                {
-                    ListViewItem.Checked = !ListViewItem.Checked;
-                    this.Invalidate(ListViewItem.Bounds);
-                }
+                ListViewItem.Checked = !ListViewItem.Checked;
+                this.Invalidate(ListViewItem.Bounds);
             }
         }
 

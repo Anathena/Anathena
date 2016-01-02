@@ -61,9 +61,9 @@ namespace Anathema
             OnEventUpdateAddressTableItemCount(Args);
         }
 
-        public void AddPointer(RemotePointer Pointer, Type ElementType)
+        public override void SetFrozenAt(Int32 Index, Boolean Activated)
         {
-            // ??
+            AddressTable[Index].SetActivationState(Activated);
         }
 
         public void AddScript(String Script)
@@ -92,7 +92,14 @@ namespace Anathema
 
         public override void SetAddressItemAt(Int32 Index, AddressItem AddressItem)
         {
-            AddressTable[Index] = AddressItem;
+            // Copy over attributes from the new item
+            AddressTable[Index].Description = AddressItem.Description;
+            AddressTable[Index].ElementType = AddressItem.ElementType;
+            AddressTable[Index].Address = AddressItem.Address;
+            AddressTable[Index].Offsets = AddressItem.Offsets;
+
+            // Force update of value, regardless if frozen or not
+            AddressTable[Index].ForceUpdateValue(AddressItem.Value);
 
             if (AddressTable[Index].Value != null)
                 MemoryEditor.Write(AddressTable[Index].ElementType, AddressTable[Index].Address, AddressTable[Index].Value, false);

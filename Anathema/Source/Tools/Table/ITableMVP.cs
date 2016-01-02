@@ -56,6 +56,7 @@ namespace Anathema
         // Functions invoked by presenter (downstream)
         public abstract AddressItem GetAddressItemAt(Int32 Index);
         public abstract void SetAddressItemAt(Int32 Index, AddressItem AddressItem);
+        public abstract void SetFrozenAt(Int32 Index, Boolean Activated);
 
         public abstract ScriptItem GetScriptItemAt(Int32 Index);
         public abstract void SetScriptItemAt(Int32 Index, ScriptItem ScriptItem);
@@ -101,7 +102,7 @@ namespace Anathema
             // Update properties
             AddressTableCache[Index].SubItems[0].Text = String.Empty;
             AddressTableCache[Index].SubItems[1].Text = AddressItem.Description.ToString();
-            AddressTableCache[Index].SubItems[2].Text = AddressItem.Address.ToString();
+            AddressTableCache[Index].SubItems[2].Text = Conversions.ToAddress(AddressItem.Address.ToString());
             AddressTableCache[Index].SubItems[3].Text = AddressItem.ElementType.Name.ToString();
             AddressTableCache[Index].SubItems[4].Text = AddressItem.Value.ToString();
             AddressTableCache[Index].Checked = AddressItem.GetActivationState();
@@ -119,6 +120,11 @@ namespace Anathema
             ListViewItem Result = new ListViewItem(ScriptItem.Description.ToString());
             Result.Checked = ScriptItem.GetActivationState();
             return Result;
+        }
+
+        public void SetFrozenAt(Int32 Index, Boolean Activated)
+        {
+            Model.SetFrozenAt(Index, Activated);
         }
 
         public String GetScriptTableScriptAt(Int32 Index)

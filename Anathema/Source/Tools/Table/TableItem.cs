@@ -21,8 +21,9 @@ namespace Anathema
         public IntPtr Address { get; set; }
         public Int32[] Offsets { get; set; }
         public Type ElementType { get; set; }
-        
-        public dynamic Value { get; set; }
+
+        private dynamic _Value;
+        public dynamic Value { get { return _Value; } set { if (!Activated) _Value = value; } }
 
         public AddressItem(IntPtr Address, Type ElementType)
         {
@@ -37,6 +38,12 @@ namespace Anathema
             this.Description = Description;
             this.ElementType = ElementType;
             this.Offsets = Offsets;
+        }
+
+        public void ForceUpdateValue(dynamic Value)
+        {
+            if (Value != null)
+                this._Value = Value;
         }
     }
 
@@ -61,19 +68,9 @@ namespace Anathema
             Activated = false;
         }
 
-        public virtual void Toggle()
+        public virtual void SetActivationState(Boolean Activated)
         {
-            Activated = !Activated;
-        }
-
-        public virtual void Activate()
-        {
-            Activated = true;
-        }
-
-        public virtual void Disactivate()
-        {
-            Activated = false;
+            this.Activated = Activated;
         }
 
         public Boolean GetActivationState()
