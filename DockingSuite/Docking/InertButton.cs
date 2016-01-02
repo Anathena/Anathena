@@ -42,7 +42,7 @@ namespace WeifenLuo.WinFormsUI.Docking
         private int m_imageIndexDisabled = -1;
         private bool m_monochrom = true;
         private ToolTip m_toolTip = null;
-        private string m_toolTipText = "";
+        private string m_toolTipText = String.Empty;
         private Color m_borderColor = Color.Empty;
 
         public InertButton()

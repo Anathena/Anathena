@@ -65,6 +65,15 @@ namespace Anathema
             base.BeginScan();
         }
 
+        public override void AddSelectionToTable(Int32 Index)
+        {
+            Snapshot ActiveSnapshot = SnapshotManager.GetInstance().GetActiveSnapshot();
+            dynamic Element = ActiveSnapshot[Index];
+            Element.ElementType = ScanType;
+
+            Table.GetInstance().AddSnapshotElement(Element);
+        }
+
         public override IntPtr GetAddressAtIndex(Int32 Index)
         {
             if (!SnapshotManager.GetInstance().HasActiveSnapshot())
@@ -109,7 +118,7 @@ namespace Anathema
 
             Snapshot ActiveSnapshot = SnapshotManager.GetInstance().GetActiveSnapshot();
 
-            dynamic Label = "";
+            dynamic Label = String.Empty;
 
             if (ActiveSnapshot.GetType() != typeof(Snapshot))
             {

@@ -323,7 +323,7 @@ namespace WeifenLuo.WinFormsUI.Docking
         private string m_tabText = null;
         public string TabText
         {
-            get { return m_tabText == null || m_tabText == "" ? Form.Text : m_tabText; }
+            get { return m_tabText == null || m_tabText == String.Empty ? Form.Text : m_tabText; }
             set
             {
                 if (m_tabText == value)

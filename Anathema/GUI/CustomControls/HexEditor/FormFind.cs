@@ -382,7 +382,7 @@ namespace Be.HexEditor
 		private void timer_Tick(object sender, EventArgs e)
 		{
 			if (lblFinding.Text.Length == 13)
-				lblFinding.Text = "";
+				lblFinding.Text = String.Empty;
 
 			lblFinding.Text += ".";
 		}

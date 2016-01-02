@@ -104,7 +104,7 @@ namespace Be.HexEditor
             {
                 string textFormat = "{0}{1} - {2}";
                 string readOnly = ((DynamicFileByteProvider)hexBox.ByteProvider).ReadOnly
-                    ? strings.Readonly : "";
+                    ? strings.Readonly : String.Empty;
                 string text = Path.GetFileName(_fileName);
                 //this.Text = string.Format(textFormat, text, readOnly, Program.SoftwareName);
             }

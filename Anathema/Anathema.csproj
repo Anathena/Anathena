@@ -81,109 +81,112 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="GUI\Tools\FlickerFreeListView.cs">
+    <Compile Include="GUI\CustomControls\ListViews\CheckableListView.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="GUI\CustomControls\ListViews\FlickerFreeListView.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Source\Tools\Scanners\Labelers\LabelerInputCorrelator\ILabelerInputCorrelatorMVP.cs" />
     <Compile Include="Source\Tools\SnapshotManager\SnapshotRegion.cs" />
     <Compile Include="Source\Tools\SnapshotManager\SnapshotElement.cs" />
     <Compile Include="Source\Tools\Scanners\Filters\Hashing.cs" />
-    <Compile Include="GUI\HexEditor\BitControl.cs">
+    <Compile Include="GUI\CustomControls\HexEditor\BitControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="GUI\HexEditor\BitControl.designer.cs">
+    <Compile Include="GUI\CustomControls\HexEditor\BitControl.designer.cs">
       <DependentUpon>BitControl.cs</DependentUpon>
     </Compile>
-    <Compile Include="GUI\HexEditor\BitInfo.cs" />
-    <Compile Include="GUI\HexEditor\Core\CoreUtil.cs" />
-    <Compile Include="GUI\HexEditor\Core\FormEx.cs">
+    <Compile Include="GUI\CustomControls\HexEditor\BitInfo.cs" />
+    <Compile Include="GUI\CustomControls\HexEditor\Core\CoreUtil.cs" />
+    <Compile Include="GUI\CustomControls\HexEditor\Core\FormEx.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="GUI\HexEditor\Core\IScalingItem.cs" />
-    <Compile Include="GUI\HexEditor\Core\MenuStripEx.cs">
+    <Compile Include="GUI\CustomControls\HexEditor\Core\IScalingItem.cs" />
+    <Compile Include="GUI\CustomControls\HexEditor\Core\MenuStripEx.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="GUI\HexEditor\Core\ToolStripButtonEx.cs">
+    <Compile Include="GUI\CustomControls\HexEditor\Core\ToolStripButtonEx.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="GUI\HexEditor\Core\ToolStripEx.cs">
+    <Compile Include="GUI\CustomControls\HexEditor\Core\ToolStripEx.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="GUI\HexEditor\Core\ToolStripMenuItemEx.cs">
+    <Compile Include="GUI\CustomControls\HexEditor\Core\ToolStripMenuItemEx.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="GUI\HexEditor\Core\ToolStripSplitButtonEx.cs">
+    <Compile Include="GUI\CustomControls\HexEditor\Core\ToolStripSplitButtonEx.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="GUI\HexEditor\FormAbout.cs">
+    <Compile Include="GUI\CustomControls\HexEditor\FormAbout.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="GUI\HexEditor\FormFind.cs">
+    <Compile Include="GUI\CustomControls\HexEditor\FormFind.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="GUI\HexEditor\FormGoTo.cs">
+    <Compile Include="GUI\CustomControls\HexEditor\FormGoTo.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="GUI\HexEditor\FormHexEditor.cs">
+    <Compile Include="GUI\CustomControls\HexEditor\FormHexEditor.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="GUI\HexEditor\FormHexEditor.Designer.cs">
+    <Compile Include="GUI\CustomControls\HexEditor\FormHexEditor.Designer.cs">
       <DependentUpon>FormHexEditor.cs</DependentUpon>
     </Compile>
-    <Compile Include="GUI\HexEditor\FormOptions.cs">
+    <Compile Include="GUI\CustomControls\HexEditor\FormOptions.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="GUI\HexEditor\FormOptions.Designer.cs">
+    <Compile Include="GUI\CustomControls\HexEditor\FormOptions.Designer.cs">
       <DependentUpon>FormOptions.cs</DependentUpon>
     </Compile>
-    <Compile Include="GUI\HexEditor\HexBox\BuiltInContextMenu.cs">
+    <Compile Include="GUI\CustomControls\HexEditor\HexBox\BuiltInContextMenu.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="GUI\HexEditor\HexBox\ByteCharConverters.cs" />
-    <Compile Include="GUI\HexEditor\HexBox\ByteCollection.cs" />
-    <Compile Include="GUI\HexEditor\HexBox\BytePositionInfo.cs" />
-    <Compile Include="GUI\HexEditor\HexBox\DataBlock.cs" />
-    <Compile Include="GUI\HexEditor\HexBox\DataMap.cs" />
-    <Compile Include="GUI\HexEditor\HexBox\DynamicByteProvider.cs" />
-    <Compile Include="GUI\HexEditor\HexBox\DynamicFileByteProvider.cs" />
-    <Compile Include="GUI\HexEditor\HexBox\FileByteProvider.cs" />
-    <Compile Include="GUI\HexEditor\HexBox\FileDataBlock.cs" />
-    <Compile Include="GUI\HexEditor\HexBox\FindOptions.cs" />
-    <Compile Include="GUI\HexEditor\HexBox\HexBox.cs">
+    <Compile Include="GUI\CustomControls\HexEditor\HexBox\ByteCharConverters.cs" />
+    <Compile Include="GUI\CustomControls\HexEditor\HexBox\ByteCollection.cs" />
+    <Compile Include="GUI\CustomControls\HexEditor\HexBox\BytePositionInfo.cs" />
+    <Compile Include="GUI\CustomControls\HexEditor\HexBox\DataBlock.cs" />
+    <Compile Include="GUI\CustomControls\HexEditor\HexBox\DataMap.cs" />
+    <Compile Include="GUI\CustomControls\HexEditor\HexBox\DynamicByteProvider.cs" />
+    <Compile Include="GUI\CustomControls\HexEditor\HexBox\DynamicFileByteProvider.cs" />
+    <Compile Include="GUI\CustomControls\HexEditor\HexBox\FileByteProvider.cs" />
+    <Compile Include="GUI\CustomControls\HexEditor\HexBox\FileDataBlock.cs" />
+    <Compile Include="GUI\CustomControls\HexEditor\HexBox\FindOptions.cs" />
+    <Compile Include="GUI\CustomControls\HexEditor\HexBox\HexBox.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="GUI\HexEditor\HexBox\HexCasing.cs" />
-    <Compile Include="GUI\HexEditor\HexBox\IByteProvider.cs" />
-    <Compile Include="GUI\HexEditor\HexBox\MemoryDataBlock.cs" />
-    <Compile Include="GUI\HexEditor\HexBox\NativeMethods.cs" />
-    <Compile Include="GUI\HexEditor\HexBox\Util.cs" />
-    <Compile Include="GUI\HexEditor\images.Designer.cs">
+    <Compile Include="GUI\CustomControls\HexEditor\HexBox\HexCasing.cs" />
+    <Compile Include="GUI\CustomControls\HexEditor\HexBox\IByteProvider.cs" />
+    <Compile Include="GUI\CustomControls\HexEditor\HexBox\MemoryDataBlock.cs" />
+    <Compile Include="GUI\CustomControls\HexEditor\HexBox\NativeMethods.cs" />
+    <Compile Include="GUI\CustomControls\HexEditor\HexBox\Util.cs" />
+    <Compile Include="GUI\CustomControls\HexEditor\images.Designer.cs">
       <DependentUpon>images.resx</DependentUpon>
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>
-    <Compile Include="GUI\HexEditor\Properties\Settings.Designer.cs" />
-    <Compile Include="GUI\HexEditor\RecentFileHandler.cs">
+    <Compile Include="GUI\CustomControls\HexEditor\Properties\Settings.Designer.cs" />
+    <Compile Include="GUI\CustomControls\HexEditor\RecentFileHandler.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="GUI\HexEditor\RecentFileHandler.Designer.cs">
+    <Compile Include="GUI\CustomControls\HexEditor\RecentFileHandler.Designer.cs">
       <DependentUpon>RecentFileHandler.cs</DependentUpon>
     </Compile>
-    <Compile Include="GUI\HexEditor\ScalingImages.Designer.cs">
+    <Compile Include="GUI\CustomControls\HexEditor\ScalingImages.Designer.cs">
       <DependentUpon>ScalingImages.resx</DependentUpon>
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>
-    <Compile Include="GUI\HexEditor\strings.Designer.cs">
+    <Compile Include="GUI\CustomControls\HexEditor\strings.Designer.cs">
       <DependentUpon>strings.resx</DependentUpon>
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>
-    <Compile Include="GUI\HexEditor\UCAbout.cs">
+    <Compile Include="GUI\CustomControls\HexEditor\UCAbout.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="GUI\HexEditor\Util.cs" />
-    <Compile Include="GUI\HexEditor\W32.cs" />
+    <Compile Include="GUI\CustomControls\HexEditor\Util.cs" />
+    <Compile Include="GUI\CustomControls\HexEditor\W32.cs" />
     <Compile Include="GUI\Tools\Scanners\Filters\GUIFilterChunks.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -398,167 +401,167 @@
     <Compile Include="Source\Tools\Table\ITableMVP.cs" />
     <Compile Include="Source\Tools\Table\Table.cs" />
     <Compile Include="Source\Tools\Table\TableItem.cs" />
-    <EmbeddedResource Include="GUI\HexEditor\BitControl.de.resx">
+    <EmbeddedResource Include="GUI\CustomControls\HexEditor\BitControl.de.resx">
       <DependentUpon>BitControl.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="GUI\HexEditor\BitControl.resx">
+    <EmbeddedResource Include="GUI\CustomControls\HexEditor\BitControl.resx">
       <DependentUpon>BitControl.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="GUI\HexEditor\FormAbout.de.resx">
+    <EmbeddedResource Include="GUI\CustomControls\HexEditor\FormAbout.de.resx">
       <DependentUpon>FormAbout.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="GUI\HexEditor\FormAbout.it.resx">
+    <EmbeddedResource Include="GUI\CustomControls\HexEditor\FormAbout.it.resx">
       <DependentUpon>FormAbout.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="GUI\HexEditor\FormAbout.ja.resx">
+    <EmbeddedResource Include="GUI\CustomControls\HexEditor\FormAbout.ja.resx">
       <DependentUpon>FormAbout.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="GUI\HexEditor\FormAbout.resx">
+    <EmbeddedResource Include="GUI\CustomControls\HexEditor\FormAbout.resx">
       <DependentUpon>FormAbout.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="GUI\HexEditor\FormAbout.ru.resx">
+    <EmbeddedResource Include="GUI\CustomControls\HexEditor\FormAbout.ru.resx">
       <DependentUpon>FormAbout.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="GUI\HexEditor\FormAbout.zh-Hans.resx">
+    <EmbeddedResource Include="GUI\CustomControls\HexEditor\FormAbout.zh-Hans.resx">
       <DependentUpon>FormAbout.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="GUI\HexEditor\FormFind.de.resx">
+    <EmbeddedResource Include="GUI\CustomControls\HexEditor\FormFind.de.resx">
       <DependentUpon>FormFind.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="GUI\HexEditor\FormFind.it.resx">
+    <EmbeddedResource Include="GUI\CustomControls\HexEditor\FormFind.it.resx">
       <DependentUpon>FormFind.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="GUI\HexEditor\FormFind.ja.resx">
+    <EmbeddedResource Include="GUI\CustomControls\HexEditor\FormFind.ja.resx">
       <DependentUpon>FormFind.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="GUI\HexEditor\FormFind.resx">
+    <EmbeddedResource Include="GUI\CustomControls\HexEditor\FormFind.resx">
       <DependentUpon>FormFind.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="GUI\HexEditor\FormFind.ru.resx">
+    <EmbeddedResource Include="GUI\CustomControls\HexEditor\FormFind.ru.resx">
       <DependentUpon>FormFind.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="GUI\HexEditor\FormFind.zh-Hans.resx">
+    <EmbeddedResource Include="GUI\CustomControls\HexEditor\FormFind.zh-Hans.resx">
       <DependentUpon>FormFind.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="GUI\HexEditor\FormGoTo.de.resx">
+    <EmbeddedResource Include="GUI\CustomControls\HexEditor\FormGoTo.de.resx">
       <DependentUpon>FormGoTo.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="GUI\HexEditor\FormGoTo.it.resx">
+    <EmbeddedResource Include="GUI\CustomControls\HexEditor\FormGoTo.it.resx">
       <DependentUpon>FormGoTo.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="GUI\HexEditor\FormGoTo.ja.resx">
+    <EmbeddedResource Include="GUI\CustomControls\HexEditor\FormGoTo.ja.resx">
       <DependentUpon>FormGoTo.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="GUI\HexEditor\FormGoTo.resx">
+    <EmbeddedResource Include="GUI\CustomControls\HexEditor\FormGoTo.resx">
       <DependentUpon>FormGoTo.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="GUI\HexEditor\FormGoTo.ru.resx">
+    <EmbeddedResource Include="GUI\CustomControls\HexEditor\FormGoTo.ru.resx">
       <DependentUpon>FormGoTo.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="GUI\HexEditor\FormGoTo.zh-Hans.resx">
+    <EmbeddedResource Include="GUI\CustomControls\HexEditor\FormGoTo.zh-Hans.resx">
       <DependentUpon>FormGoTo.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="GUI\HexEditor\FormHexEditor.de.resx">
+    <EmbeddedResource Include="GUI\CustomControls\HexEditor\FormHexEditor.de.resx">
       <DependentUpon>FormHexEditor.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="GUI\HexEditor\FormHexEditor.it.resx">
+    <EmbeddedResource Include="GUI\CustomControls\HexEditor\FormHexEditor.it.resx">
       <DependentUpon>FormHexEditor.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="GUI\HexEditor\FormHexEditor.ja.resx">
+    <EmbeddedResource Include="GUI\CustomControls\HexEditor\FormHexEditor.ja.resx">
       <DependentUpon>FormHexEditor.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="GUI\HexEditor\FormHexEditor.resx">
+    <EmbeddedResource Include="GUI\CustomControls\HexEditor\FormHexEditor.resx">
       <DependentUpon>FormHexEditor.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="GUI\HexEditor\FormHexEditor.ru.resx">
+    <EmbeddedResource Include="GUI\CustomControls\HexEditor\FormHexEditor.ru.resx">
       <DependentUpon>FormHexEditor.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="GUI\HexEditor\FormHexEditor.zh-Hans.resx">
+    <EmbeddedResource Include="GUI\CustomControls\HexEditor\FormHexEditor.zh-Hans.resx">
       <DependentUpon>FormHexEditor.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="GUI\HexEditor\FormOptions.de.resx">
+    <EmbeddedResource Include="GUI\CustomControls\HexEditor\FormOptions.de.resx">
       <DependentUpon>FormOptions.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="GUI\HexEditor\FormOptions.it.resx">
+    <EmbeddedResource Include="GUI\CustomControls\HexEditor\FormOptions.it.resx">
       <DependentUpon>FormOptions.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="GUI\HexEditor\FormOptions.ja.resx">
+    <EmbeddedResource Include="GUI\CustomControls\HexEditor\FormOptions.ja.resx">
       <DependentUpon>FormOptions.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="GUI\HexEditor\FormOptions.resx">
+    <EmbeddedResource Include="GUI\CustomControls\HexEditor\FormOptions.resx">
       <DependentUpon>FormOptions.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="GUI\HexEditor\FormOptions.ru.resx">
+    <EmbeddedResource Include="GUI\CustomControls\HexEditor\FormOptions.ru.resx">
       <DependentUpon>FormOptions.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="GUI\HexEditor\FormOptions.zh-Hans.resx">
+    <EmbeddedResource Include="GUI\CustomControls\HexEditor\FormOptions.zh-Hans.resx">
       <DependentUpon>FormOptions.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="GUI\HexEditor\HexBox\HexBox.resx">
+    <EmbeddedResource Include="GUI\CustomControls\HexEditor\HexBox\HexBox.resx">
       <DependentUpon>HexBox.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="GUI\HexEditor\images.resx">
+    <EmbeddedResource Include="GUI\CustomControls\HexEditor\images.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>images.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="GUI\HexEditor\ScalingImages.resx">
+    <EmbeddedResource Include="GUI\CustomControls\HexEditor\ScalingImages.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>ScalingImages.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="GUI\HexEditor\strings.de.resx">
+    <EmbeddedResource Include="GUI\CustomControls\HexEditor\strings.de.resx">
       <LastGenOutput>strings.de.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="GUI\HexEditor\strings.it.resx">
+    <EmbeddedResource Include="GUI\CustomControls\HexEditor\strings.it.resx">
       <LastGenOutput>strings.it.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="GUI\HexEditor\strings.ja.resx">
+    <EmbeddedResource Include="GUI\CustomControls\HexEditor\strings.ja.resx">
       <LastGenOutput>strings.ja.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="GUI\HexEditor\strings.resx">
+    <EmbeddedResource Include="GUI\CustomControls\HexEditor\strings.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>strings.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="GUI\HexEditor\strings.ru.resx">
+    <EmbeddedResource Include="GUI\CustomControls\HexEditor\strings.ru.resx">
       <LastGenOutput>strings.ru.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="GUI\HexEditor\strings.zh-Hans.resx">
+    <EmbeddedResource Include="GUI\CustomControls\HexEditor\strings.zh-Hans.resx">
       <LastGenOutput>strings.zh-Hans.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="GUI\HexEditor\UCAbout.de.resx">
+    <EmbeddedResource Include="GUI\CustomControls\HexEditor\UCAbout.de.resx">
       <DependentUpon>UCAbout.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="GUI\HexEditor\UCAbout.it.resx">
+    <EmbeddedResource Include="GUI\CustomControls\HexEditor\UCAbout.it.resx">
       <DependentUpon>UCAbout.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="GUI\HexEditor\UCAbout.ja.resx">
+    <EmbeddedResource Include="GUI\CustomControls\HexEditor\UCAbout.ja.resx">
       <DependentUpon>UCAbout.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="GUI\HexEditor\UCAbout.resx">
+    <EmbeddedResource Include="GUI\CustomControls\HexEditor\UCAbout.resx">
       <DependentUpon>UCAbout.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="GUI\HexEditor\UCAbout.zh-Hans.resx">
+    <EmbeddedResource Include="GUI\CustomControls\HexEditor\UCAbout.zh-Hans.resx">
       <DependentUpon>UCAbout.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\Tools\Scanners\Filters\GUIFilterChunks.resx">
@@ -610,17 +613,17 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
-    <None Include="GUI\HexEditor\app.config">
+    <None Include="GUI\CustomControls\HexEditor\app.config">
       <SubType>Designer</SubType>
     </None>
-    <None Include="GUI\HexEditor\app.manifest">
+    <None Include="GUI\CustomControls\HexEditor\app.manifest">
       <SubType>Designer</SubType>
     </None>
-    <None Include="GUI\HexEditor\Be.HexEditor.snk" />
-    <None Include="GUI\HexEditor\Be.pfx" />
-    <None Include="GUI\HexEditor\HexBox\HexBox.snk" />
-    <EmbeddedResource Include="GUI\HexEditor\Resources\ThanksTo.rtf" />
-    <None Include="GUI\HexEditor\Properties\Settings.settings" />
+    <None Include="GUI\CustomControls\HexEditor\Be.HexEditor.snk" />
+    <None Include="GUI\CustomControls\HexEditor\Be.pfx" />
+    <None Include="GUI\CustomControls\HexEditor\HexBox\HexBox.snk" />
+    <EmbeddedResource Include="GUI\CustomControls\HexEditor\Resources\ThanksTo.rtf" />
+    <None Include="GUI\CustomControls\HexEditor\Properties\Settings.settings" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -635,37 +638,37 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="GUI\HexEditor\HexBox\HexBox.bmp" />
-    <None Include="GUI\HexEditor\Images\CopyHS.png" />
-    <None Include="GUI\HexEditor\Images\CutHS.png" />
-    <None Include="GUI\HexEditor\Images\FindHS.png" />
-    <None Include="GUI\HexEditor\Images\FindNextHS.png" />
-    <EmbeddedResource Include="GUI\HexEditor\Images\Logo.png" />
-    <None Include="GUI\HexEditor\Images\openHS.png" />
-    <None Include="GUI\HexEditor\Images\PasteHS.png" />
-    <None Include="GUI\HexEditor\Images\saveHS.png" />
-    <None Include="GUI\HexEditor\Resources\Copy16.png" />
-    <None Include="GUI\HexEditor\Resources\Copy24.png" />
-    <None Include="GUI\HexEditor\Resources\Copy32.png" />
-    <None Include="GUI\HexEditor\Resources\Cut16.png" />
-    <None Include="GUI\HexEditor\Resources\Cut24.png" />
-    <None Include="GUI\HexEditor\Resources\Cut32.png" />
-    <None Include="GUI\HexEditor\Resources\Find16.png" />
-    <None Include="GUI\HexEditor\Resources\Find24.png" />
-    <None Include="GUI\HexEditor\Resources\Find32.png" />
-    <None Include="GUI\HexEditor\Resources\FindNext16.png" />
-    <None Include="GUI\HexEditor\Resources\FindNext24.png" />
-    <None Include="GUI\HexEditor\Resources\FindNext32.png" />
-    <None Include="GUI\HexEditor\Resources\FolderOpen_16.png" />
-    <None Include="GUI\HexEditor\Resources\FolderOpen_24.png" />
-    <None Include="GUI\HexEditor\Resources\FolderOpen_32.png" />
-    <None Include="GUI\HexEditor\Resources\Paste16.png" />
-    <None Include="GUI\HexEditor\Resources\Paste24.png" />
-    <None Include="GUI\HexEditor\Resources\Paste32.png" />
-    <None Include="GUI\HexEditor\Resources\save16.png" />
-    <None Include="GUI\HexEditor\Resources\Save24.png" />
-    <None Include="GUI\HexEditor\Resources\Save32.png" />
-    <EmbeddedResource Include="GUI\HexEditor\App.ico" />
+    <EmbeddedResource Include="GUI\CustomControls\HexEditor\HexBox\HexBox.bmp" />
+    <None Include="GUI\CustomControls\HexEditor\Images\CopyHS.png" />
+    <None Include="GUI\CustomControls\HexEditor\Images\CutHS.png" />
+    <None Include="GUI\CustomControls\HexEditor\Images\FindHS.png" />
+    <None Include="GUI\CustomControls\HexEditor\Images\FindNextHS.png" />
+    <EmbeddedResource Include="GUI\CustomControls\HexEditor\Images\Logo.png" />
+    <None Include="GUI\CustomControls\HexEditor\Images\openHS.png" />
+    <None Include="GUI\CustomControls\HexEditor\Images\PasteHS.png" />
+    <None Include="GUI\CustomControls\HexEditor\Images\saveHS.png" />
+    <None Include="GUI\CustomControls\HexEditor\Resources\Copy16.png" />
+    <None Include="GUI\CustomControls\HexEditor\Resources\Copy24.png" />
+    <None Include="GUI\CustomControls\HexEditor\Resources\Copy32.png" />
+    <None Include="GUI\CustomControls\HexEditor\Resources\Cut16.png" />
+    <None Include="GUI\CustomControls\HexEditor\Resources\Cut24.png" />
+    <None Include="GUI\CustomControls\HexEditor\Resources\Cut32.png" />
+    <None Include="GUI\CustomControls\HexEditor\Resources\Find16.png" />
+    <None Include="GUI\CustomControls\HexEditor\Resources\Find24.png" />
+    <None Include="GUI\CustomControls\HexEditor\Resources\Find32.png" />
+    <None Include="GUI\CustomControls\HexEditor\Resources\FindNext16.png" />
+    <None Include="GUI\CustomControls\HexEditor\Resources\FindNext24.png" />
+    <None Include="GUI\CustomControls\HexEditor\Resources\FindNext32.png" />
+    <None Include="GUI\CustomControls\HexEditor\Resources\FolderOpen_16.png" />
+    <None Include="GUI\CustomControls\HexEditor\Resources\FolderOpen_24.png" />
+    <None Include="GUI\CustomControls\HexEditor\Resources\FolderOpen_32.png" />
+    <None Include="GUI\CustomControls\HexEditor\Resources\Paste16.png" />
+    <None Include="GUI\CustomControls\HexEditor\Resources\Paste24.png" />
+    <None Include="GUI\CustomControls\HexEditor\Resources\Paste32.png" />
+    <None Include="GUI\CustomControls\HexEditor\Resources\save16.png" />
+    <None Include="GUI\CustomControls\HexEditor\Resources\Save24.png" />
+    <None Include="GUI\CustomControls\HexEditor\Resources\Save32.png" />
+    <EmbeddedResource Include="GUI\CustomControls\HexEditor\App.ico" />
     <Content Include="Source\Tools\Scanners\Filters\InputHook\HotKeys\ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>

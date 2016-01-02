@@ -20,7 +20,7 @@ namespace BinarySharp.MemoryManagement.Debugger
         public bool HideDebugger = false;
         public bool WaitForFullStartup = false;
         public bool EnableKillAlso = false;
-        public string KillAlso = "";
+        public string KillAlso = String.Empty;
         public bool OnlyClosedIfButtonClick = false;
 
         public bool IgnoreExceptions = false;

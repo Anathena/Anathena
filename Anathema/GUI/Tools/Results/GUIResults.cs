@@ -21,7 +21,7 @@ namespace Anathema
             ResultsPresenter = new ResultsPresenter(this, Results.GetInstance());
         }
 
-        public void UpdateMemorySize(String MemorySize)
+        public void UpdateMemorySizeLabel(String MemorySize)
         {
             ControlThreadingHelper.InvokeControlAction(SnapshotSizeValueLabel, () =>
             {
@@ -37,7 +37,7 @@ namespace Anathema
             });
         }
 
-        public void RefreshResults()
+        public void RefreshDisplay()
         {
             // Force the list view to retrieve items again by signaling an update
             ControlThreadingHelper.InvokeControlAction(ResultsListView, () =>
@@ -50,7 +50,7 @@ namespace Anathema
         private void AddSelectedElements()
         {
             foreach (Int32 Index in ResultsListView.SelectedIndices)
-                Table.GetInstance().AddSnapshotElementAtIndex(Index);
+                ResultsPresenter.AddSelectionToTable(Index);
         }
 
         #region Events

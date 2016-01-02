@@ -12,14 +12,18 @@ namespace Anathema
     delegate void TableEventHandler(Object Sender, TableEventArgs Args);
     class TableEventArgs : EventArgs
     {
-        public UInt64 AddressTableItemCount = 0;
-        public UInt64 ScriptTableItemCount = 0;
+        public Int32 AddressTableItemCount = 0;
+        public Int32 ScriptTableItemCount = 0;
+        public Int32 FSMTableItemCount = 0;
     }
 
     interface ITableView : IScannerView
     {
         // Methods invoked by the presenter (upstream)
-        void RefreshResults();
+        void RefreshDisplay();
+        void UpdateAddressTableItemCount(Int32 ItemCount);
+        void UpdateScriptTableItemCount(Int32 ItemCount);
+        void UpdateFSMTableItemCount(Int32 ItemCount);
     }
 
     abstract class ITableModel : IScannerModel
@@ -29,6 +33,24 @@ namespace Anathema
         protected virtual void OnEventRefreshDisplay(TableEventArgs E)
         {
             EventRefreshDisplay(this, E);
+        }
+
+        public event TableEventHandler EventUpdateAddressTableItemCount;
+        protected virtual void OnEventUpdateAddressTableItemCount(TableEventArgs E)
+        {
+            EventUpdateAddressTableItemCount(this, E);
+        }
+
+        public event TableEventHandler EventUpdateScriptTableItemCount;
+        protected virtual void OnEventUpdateScriptTableItemCount(TableEventArgs E)
+        {
+            EventUpdateScriptTableItemCount(this, E);
+        }
+
+        public event TableEventHandler EventUpdateFSMTableItemCount;
+        protected virtual void OnEventUpdateFSMTableItemCount(TableEventArgs E)
+        {
+            EventUpdateFSMTableItemCount(this, E);
         }
 
         // Functions invoked by presenter (downstream)
@@ -52,7 +74,10 @@ namespace Anathema
             this.Model = Model;
 
             // Bind events triggered by the model
-            Model.EventRefreshDisplay += EventUpdateDisplay;
+            Model.EventRefreshDisplay += EventRefreshDisplay;
+            Model.EventUpdateAddressTableItemCount += EventUpdateAddressTableItemCount;
+            Model.EventUpdateScriptTableItemCount += EventUpdateScriptTableItemCount;
+            Model.EventUpdateFSMTableItemCount += EventUpdateFSMTableItemCount;
         }
 
         #region Method definitions called by the view (downstream)
@@ -62,17 +87,16 @@ namespace Anathema
             AddressItem AddressItem = Model.GetAddressItemAt(Index);
             dynamic Value = Model.GetAddressValueAt(Index);
 
-            ListViewItem Result = new ListViewItem(new String[] {
-                AddressItem.Address.ToString(), Value.ToString(), AddressItem.Description.ToString(), AddressItem.ElementType.ToString() });
+            ListViewItem Result = new ListViewItem(new String[] { String.Empty,
+               AddressItem.Description.ToString(),  AddressItem.ElementType.Name.ToString(), AddressItem.Address.ToString(), Value.ToString() });
             Result.Checked = AddressItem.GetActivationState();
-
             return Result;
         }
 
         public ListViewItem GetScriptTableItemAt(Int32 Index)
         {
             ScriptItem ScriptItem = Model.GetScriptItemAt(Index);
-            
+
             ListViewItem Result = new ListViewItem(ScriptItem.Description.ToString());
             Result.Checked = ScriptItem.GetActivationState();
 
@@ -84,13 +108,33 @@ namespace Anathema
             return Model.GetScriptItemAt(Index).Script;
         }
 
+        public ListViewItem GetFSMTableItemAt(Int32 Index)
+        {
+            throw new NotImplementedException();
+        }
+
         #endregion
 
         #region Event definitions for events triggered by the model (upstream)
 
-        private void EventUpdateDisplay(Object Sender, TableEventArgs E)
+        private void EventRefreshDisplay(Object Sender, TableEventArgs E)
         {
-            View.RefreshResults();
+            View.RefreshDisplay();
+        }
+
+        private void EventUpdateAddressTableItemCount(Object Sender, TableEventArgs E)
+        {
+            View.UpdateAddressTableItemCount(E.AddressTableItemCount);
+        }
+
+        private void EventUpdateScriptTableItemCount(Object Sender, TableEventArgs E)
+        {
+            View.UpdateAddressTableItemCount(E.ScriptTableItemCount);
+        }
+
+        private void EventUpdateFSMTableItemCount(Object Sender, TableEventArgs E)
+        {
+            View.UpdateAddressTableItemCount(E.FSMTableItemCount);
         }
 
         #endregion

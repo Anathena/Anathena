@@ -29,13 +29,13 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(GUITable));
-            this.AddressTableListView = new System.Windows.Forms.ListView();
-            this.CheckBoxHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.DescriptionHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.AddressTableListView = new CheckableListView();
+            this.FrozenHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.AddressDescriptionHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.AddressHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.TypeHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.ValueHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.ScriptTableListView = new System.Windows.Forms.ListView();
+            this.ScriptTableListView = new CheckableListView();
             this.ScriptActiveHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.ScriptDescriptionHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.CheatTableSplitContainer = new System.Windows.Forms.SplitContainer();
@@ -45,7 +45,7 @@
             this.ToolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.CheatTableButton = new System.Windows.Forms.ToolStripButton();
             this.FSMTableButton = new System.Windows.Forms.ToolStripButton();
-            this.FSMTableListView = new Anathema.FlickerFreeListView();
+            this.FSMTableListView = new System.Windows.Forms.ListView();
             ((System.ComponentModel.ISupportInitialize)(this.CheatTableSplitContainer)).BeginInit();
             this.CheatTableSplitContainer.Panel1.SuspendLayout();
             this.CheatTableSplitContainer.Panel2.SuspendLayout();
@@ -58,8 +58,8 @@
             this.AddressTableListView.BackColor = System.Drawing.SystemColors.Control;
             this.AddressTableListView.CheckBoxes = true;
             this.AddressTableListView.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.CheckBoxHeader,
-            this.DescriptionHeader,
+            this.FrozenHeader,
+            this.AddressDescriptionHeader,
             this.AddressHeader,
             this.TypeHeader,
             this.ValueHeader});
@@ -76,15 +76,15 @@
             this.AddressTableListView.VirtualMode = true;
             this.AddressTableListView.RetrieveVirtualItem += new System.Windows.Forms.RetrieveVirtualItemEventHandler(this.AddressTableListView_RetrieveVirtualItem);
             // 
-            // CheckBoxHeader
+            // FrozenHeader
             // 
-            this.CheckBoxHeader.Text = "Frozen";
-            this.CheckBoxHeader.Width = 54;
+            this.FrozenHeader.Text = "Frozen";
+            this.FrozenHeader.Width = 54;
             // 
-            // DescriptionHeader
+            // AddressDescriptionHeader
             // 
-            this.DescriptionHeader.Text = "Description";
-            this.DescriptionHeader.Width = 146;
+            this.AddressDescriptionHeader.Text = "Description";
+            this.AddressDescriptionHeader.Width = 146;
             // 
             // AddressHeader
             // 
@@ -183,7 +183,7 @@
             this.LoadTableButton.Image = ((System.Drawing.Image)(resources.GetObject("LoadTableButton.Image")));
             this.LoadTableButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.LoadTableButton.Name = "LoadTableButton";
-            this.LoadTableButton.Size = new System.Drawing.Size(29, 20);
+            this.LoadTableButton.Size = new System.Drawing.Size(21, 20);
             this.LoadTableButton.Text = "Open Table";
             this.LoadTableButton.ToolTipText = "Stop Tree Scan";
             this.LoadTableButton.Click += new System.EventHandler(this.LoadTableButton_Click);
@@ -191,7 +191,7 @@
             // ToolStripSeparator1
             // 
             this.ToolStripSeparator1.Name = "ToolStripSeparator1";
-            this.ToolStripSeparator1.Size = new System.Drawing.Size(29, 6);
+            this.ToolStripSeparator1.Size = new System.Drawing.Size(21, 6);
             // 
             // CheatTableButton
             // 
@@ -199,7 +199,7 @@
             this.CheatTableButton.Image = ((System.Drawing.Image)(resources.GetObject("CheatTableButton.Image")));
             this.CheatTableButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.CheatTableButton.Name = "CheatTableButton";
-            this.CheatTableButton.Size = new System.Drawing.Size(29, 20);
+            this.CheatTableButton.Size = new System.Drawing.Size(21, 20);
             this.CheatTableButton.Text = "Cheat Table";
             this.CheatTableButton.Click += new System.EventHandler(this.CheatTableButton_Click);
             // 
@@ -209,7 +209,7 @@
             this.FSMTableButton.Image = ((System.Drawing.Image)(resources.GetObject("FSMTableButton.Image")));
             this.FSMTableButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.FSMTableButton.Name = "FSMTableButton";
-            this.FSMTableButton.Size = new System.Drawing.Size(29, 20);
+            this.FSMTableButton.Size = new System.Drawing.Size(21, 20);
             this.FSMTableButton.Text = "FSM Table";
             this.FSMTableButton.Click += new System.EventHandler(this.FSMTableButton_Click);
             // 
@@ -221,6 +221,8 @@
             this.FSMTableListView.Size = new System.Drawing.Size(722, 225);
             this.FSMTableListView.TabIndex = 144;
             this.FSMTableListView.UseCompatibleStateImageBehavior = false;
+            this.FSMTableListView.VirtualMode = true;
+            this.FSMTableListView.RetrieveVirtualItem += new System.Windows.Forms.RetrieveVirtualItemEventHandler(this.FSMTableListView_RetrieveVirtualItem);
             // 
             // GUITable
             // 
@@ -246,13 +248,13 @@
 
         #endregion
 
-        private System.Windows.Forms.ListView AddressTableListView;
-        private System.Windows.Forms.ColumnHeader CheckBoxHeader;
-        private System.Windows.Forms.ColumnHeader DescriptionHeader;
+        private CheckableListView AddressTableListView;
+        private System.Windows.Forms.ColumnHeader FrozenHeader;
+        private System.Windows.Forms.ColumnHeader AddressDescriptionHeader;
         private System.Windows.Forms.ColumnHeader TypeHeader;
         private System.Windows.Forms.ColumnHeader ValueHeader;
         private System.Windows.Forms.ColumnHeader AddressHeader;
-        private System.Windows.Forms.ListView ScriptTableListView;
+        private CheckableListView ScriptTableListView;
         private System.Windows.Forms.ColumnHeader ScriptActiveHeader;
         private System.Windows.Forms.ColumnHeader ScriptDescriptionHeader;
         private System.Windows.Forms.SplitContainer CheatTableSplitContainer;
@@ -262,6 +264,6 @@
         private System.Windows.Forms.ToolStripSeparator ToolStripSeparator1;
         private System.Windows.Forms.ToolStripButton CheatTableButton;
         private System.Windows.Forms.ToolStripButton FSMTableButton;
-        private FlickerFreeListView FSMTableListView;
+        private System.Windows.Forms.ListView FSMTableListView;
     }
 }

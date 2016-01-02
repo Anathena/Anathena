@@ -17,18 +17,56 @@ namespace Anathema
         public GUITable()
         {
             InitializeComponent();
-            TablePresenter = new TablePresenter(this, new Table());
+            TablePresenter = new TablePresenter(this, Table.GetInstance());
 
             ViewCheatTable();
         }
 
-        public void RefreshResults()
+        public void UpdateAddressTableItemCount(Int32 ItemCount)
         {
-            AddressTableListView.BeginUpdate();
-            AddressTableListView.EndUpdate();
+            ControlThreadingHelper.InvokeControlAction(AddressTableListView, () =>
+            {
+                AddressTableListView.VirtualListSize = ItemCount;
+            });
+        }
 
-            ScriptTableListView.BeginUpdate();
-            ScriptTableListView.EndUpdate();
+        public void UpdateScriptTableItemCount(Int32 ItemCount)
+        {
+            ControlThreadingHelper.InvokeControlAction(ScriptTableListView, () =>
+            {
+                ScriptTableListView.VirtualListSize = ItemCount;
+            });
+        }
+
+        public void UpdateFSMTableItemCount(Int32 ItemCount)
+        {
+            ControlThreadingHelper.InvokeControlAction(FSMTableListView, () =>
+            {
+                FSMTableListView.VirtualListSize = ItemCount;
+            });
+        }
+
+        public void RefreshDisplay()
+        {
+            ControlThreadingHelper.InvokeControlAction(AddressTableListView, () =>
+            {
+                AddressTableListView.BeginUpdate();
+                AddressTableListView.EndUpdate();
+            });
+            ControlThreadingHelper.InvokeControlAction(CheatTableSplitContainer, () =>
+            {
+                ControlThreadingHelper.InvokeControlAction(ScriptTableListView, () =>
+                {
+                    ScriptTableListView.BeginUpdate();
+                    ScriptTableListView.EndUpdate();
+                });
+
+                ControlThreadingHelper.InvokeControlAction(FSMTableListView, () =>
+                {
+                    FSMTableListView.BeginUpdate();
+                    FSMTableListView.EndUpdate();
+                });
+            });
         }
 
         private void ViewCheatTable()
@@ -47,6 +85,8 @@ namespace Anathema
             FSMTableListView.Visible = true;
         }
 
+        #region Events
+
         private void SaveTableButton_Click(Object Sender, EventArgs E)
         {
 
@@ -59,12 +99,17 @@ namespace Anathema
 
         private void AddressTableListView_RetrieveVirtualItem(Object Sender, RetrieveVirtualItemEventArgs E)
         {
-
+            E.Item = TablePresenter.GetAddressTableItemAt(E.ItemIndex);
         }
 
         private void ScriptTableListView_RetrieveVirtualItem(Object Sender, RetrieveVirtualItemEventArgs E)
         {
+            E.Item = TablePresenter.GetScriptTableItemAt(E.ItemIndex);
+        }
 
+        private void FSMTableListView_RetrieveVirtualItem(Object Sender, RetrieveVirtualItemEventArgs E)
+        {
+            E.Item = TablePresenter.GetFSMTableItemAt(E.ItemIndex);
         }
 
         private void CheatTableButton_Click(object sender, EventArgs e)
@@ -76,5 +121,8 @@ namespace Anathema
         {
             ViewFSMTable();
         }
+
+        #endregion
+
     }
 }

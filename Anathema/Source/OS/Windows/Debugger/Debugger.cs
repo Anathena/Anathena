@@ -31,7 +31,7 @@ namespace BinarySharp.MemoryManagement.Debugger
 		private bool doneStarting = true;
 
 		// Debugger information
-		private StringBuilder ErrorInformation = new StringBuilder("");
+		private StringBuilder ErrorInformation = new StringBuilder(String.Empty);
 
 		// Positive Response Buttons to click - list of regex patterns to match against buttons on.
 		private List<string> PositiveResponses = new List<string> { @"(&|)[Oo][Kk]", @"(&|)[Yy][Ee][Ss]", @"(&|)[Tt][Rr][Yy]", @"(&|)[Nn][Ee][Xx][Tt]", @"(&|)[Cc][Oo][Nn][Tt][Ii][Nn][Uu][Ee]" };

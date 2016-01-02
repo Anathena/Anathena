@@ -21,7 +21,7 @@ namespace Anathema
         private List<AddressItem> AddressTable;
         private List<ScriptItem> ScriptTable;
 
-        public Table()
+        private Table()
         {
             InitializeObserver();
             AddressTable = new List<AddressItem>();
@@ -55,14 +55,10 @@ namespace Anathema
         public void AddSnapshotElement(SnapshotElement Element)
         {
             AddressTable.Add(new AddressItem(Element.BaseAddress, Element.ElementType));
-        }
 
-        public void AddSnapshotElementAtIndex(Int32 Index)
-        {
-            Snapshot SnapshotInstance = SnapshotManager.GetInstance().GetActiveSnapshot();
-            AddSnapshotElement(SnapshotInstance[Index]);
-
-            // UPDATE DISPLAY
+            TableEventArgs Args = new TableEventArgs();
+            Args.AddressTableItemCount = AddressTable.Count;
+            OnEventUpdateAddressTableItemCount(Args);
         }
 
         public void AddPointer(RemotePointer Pointer, Type ElementType)
@@ -94,7 +90,30 @@ namespace Anathema
 
         public override dynamic GetAddressValueAt(Int32 Index)
         {
-            throw new NotImplementedException();
+            dynamic Value = "-";
+            IntPtr Address = AddressTable[Index].Address;
+
+            Boolean ReadSuccess = false;
+            var @switch = new Dictionary<Type, Action> {
+                    { typeof(Byte), () => Value = MemoryEditor.Read<Byte>(Address, out ReadSuccess, false) },
+                    { typeof(SByte), () => Value = MemoryEditor.Read<SByte>(Address, out ReadSuccess, false) },
+                    { typeof(Int16), () => Value = MemoryEditor.Read<Int16>(Address, out ReadSuccess, false) },
+                    { typeof(Int32), () => Value = MemoryEditor.Read<Int32>(Address, out ReadSuccess, false) },
+                    { typeof(Int64), () => Value = MemoryEditor.Read<Int64>(Address, out ReadSuccess, false) },
+                    { typeof(UInt16), () => Value = MemoryEditor.Read<UInt16>(Address, out ReadSuccess, false) },
+                    { typeof(UInt32), () => Value = MemoryEditor.Read<UInt32>(Address, out ReadSuccess, false) },
+                    { typeof(UInt64), () => Value = MemoryEditor.Read<UInt64>(Address, out ReadSuccess, false) },
+                    { typeof(Single), () => Value = MemoryEditor.Read<Single>(Address, out ReadSuccess, false) },
+                    { typeof(Double), () => Value = MemoryEditor.Read<Double>(Address, out ReadSuccess, false) },
+                };
+
+            if (@switch.ContainsKey(AddressTable[Index].ElementType))
+                @switch[AddressTable[Index].ElementType]();
+
+            if (!ReadSuccess)
+                Value = "?";
+
+            return Value;
         }
 
         public override void SetAddressItemAt(Int32 Index, AddressItem AddressItem)

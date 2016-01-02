@@ -18,8 +18,8 @@ namespace Anathema
     interface IResultsView : IScannerView
     {
         // Methods invoked by the presenter (upstream)
-        void RefreshResults();
-        void UpdateMemorySize(String MemorySize);
+        void RefreshDisplay();
+        void UpdateMemorySizeLabel(String MemorySize);
         void UpdateItemCount(Int32 ItemCount);
     }
 
@@ -38,6 +38,8 @@ namespace Anathema
         }
 
         // Functions invoked by presenter (downstream)
+        public abstract void AddSelectionToTable(Int32 Index);
+
         public abstract IntPtr GetAddressAtIndex(Int32 Index);
         public abstract dynamic GetValueAtIndex(Int32 Index);
         public abstract dynamic GetLabelAtIndex(Int32 Index);
@@ -56,7 +58,7 @@ namespace Anathema
             this.Model = Model;
 
             // Bind events triggered by the model
-            Model.EventRefreshDisplay += EventUpdateDisplay;
+            Model.EventRefreshDisplay += EventRefreshDisplay;
             Model.EventUpdateMemorySize += EventUpdateMemorySize;
         }
 
@@ -70,6 +72,11 @@ namespace Anathema
 
             String[] Result = new String[] { Conversions.ToAddress(Address.ToString()), Value.ToString(), Label.ToString() };
             return new ListViewItem(Result);
+        }
+
+        public void AddSelectionToTable(Int32 Index)
+        {
+            Model.AddSelectionToTable(Index);
         }
 
         public void UpdateScanType(Type ScanType)
@@ -118,14 +125,14 @@ namespace Anathema
 
         #region Event definitions for events triggered by the model (upstream)
 
-        private void EventUpdateDisplay(Object Sender, ResultsEventArgs E)
+        private void EventRefreshDisplay(Object Sender, ResultsEventArgs E)
         {
-            View.RefreshResults();
+            View.RefreshDisplay();
         }
 
         private void EventUpdateMemorySize(Object Sender, ResultsEventArgs E)
         {
-            View.UpdateMemorySize(Conversions.ByteCountToMetricSize(E.MemorySize));
+            View.UpdateMemorySizeLabel(Conversions.ByteCountToMetricSize(E.MemorySize));
             View.UpdateItemCount((Int32)Math.Min(E.MemorySize, Int32.MaxValue));
         }
 
