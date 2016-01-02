@@ -90,11 +90,11 @@
     <Compile Include="GUI\CustomControls\Textbox\WatermarkTextBox.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="GUI\Tools\Table\GUIAddressTableEdit.cs">
+    <Compile Include="GUI\Tools\Table\GUIAddressTableEntryEdit.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="GUI\Tools\Table\GUIAddressTableEdit.Designer.cs">
-      <DependentUpon>GUIAddressTableEdit.cs</DependentUpon>
+    <Compile Include="GUI\Tools\Table\GUIAddressTableEntryEdit.Designer.cs">
+      <DependentUpon>GUIAddressTableEntryEdit.cs</DependentUpon>
     </Compile>
     <Compile Include="Source\Tools\Scanners\Labelers\LabelerInputCorrelator\ILabelerInputCorrelatorMVP.cs" />
     <Compile Include="Source\Tools\SnapshotManager\SnapshotRegion.cs" />
@@ -407,6 +407,7 @@
     <Compile Include="Source\Tools\Debugger\TestByteProvider.cs" />
     <Compile Include="Source\Tools\SnapshotManager\SnapshotManager.cs" />
     <Compile Include="Source\HelperClasses\ArrayExtensions.cs" />
+    <Compile Include="Source\Tools\Table\ITableAddressEntryEditorMVP.cs" />
     <Compile Include="Source\Tools\Table\ITableMVP.cs" />
     <Compile Include="Source\Tools\Table\Table.cs" />
     <Compile Include="Source\Tools\Table\TableItem.cs" />
@@ -606,8 +607,8 @@
     <EmbeddedResource Include="GUI\Tools\SnapshotManager\GUISnapshotManager.resx">
       <DependentUpon>GUISnapshotManager.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="GUI\Tools\Table\GUIAddressTableEdit.resx">
-      <DependentUpon>GUIAddressTableEdit.cs</DependentUpon>
+    <EmbeddedResource Include="GUI\Tools\Table\GUIAddressTableEntryEdit.resx">
+      <DependentUpon>GUIAddressTableEntryEdit.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\Tools\Table\GUITable.resx">
       <DependentUpon>GUITable.cs</DependentUpon>

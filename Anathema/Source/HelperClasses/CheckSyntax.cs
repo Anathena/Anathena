@@ -11,7 +11,7 @@ namespace Anathema
         private static unsafe int MaxHexAddressLength = sizeof(IntPtr) * 2;
 
         // Determines if a string contains all zeros
-        private static bool IsZeroX(string Value)
+        private static Boolean IsZeros(String Value)
         {
             for (int Index = 0; Index < Value.Length; Index++)
             {
@@ -27,39 +27,35 @@ namespace Anathema
             return false;
         }
 
-        // Determines if a string is empty (easy check, but cleaner looking as a method)
-        private static bool IsBlank(string Value)
-        {
-            if (Value.Length == 0)
-                return true;
-            return false;
-        }
-
         // Checks if passed value is a valid address
-        public static bool Address(string Address)
+        public static Boolean Address(String Address)
         {
             if (Address.StartsWith("0x", StringComparison.OrdinalIgnoreCase))
                 Address = Address.Substring(2);
 
             // Out of bounds
-            if (Address.Length > MaxHexAddressLength || IsBlank(Address))
+            if (Address == String.Empty || Address.Length > MaxHexAddressLength)
                 return false;
 
             // Too short: assume preceding 0s are intended
             while (Address.Length < MaxHexAddressLength)
                 Address = "0" + Address;
 
-            int Result;
-            if (Int32.TryParse(Address, System.Globalization.NumberStyles.HexNumber, null, out Result))
+            UInt64 Result;
+            if (UInt64.TryParse(Address, System.Globalization.NumberStyles.HexNumber, null, out Result))
                 return true; // Valid
             return false;
         }
 
         // Checks if passed value is a valid hex value
-        public static bool HexValue(string Value, int Bytes)
+        public static Boolean HexValue(String Value, Int32 Bytes)
         {
             if (Value.StartsWith("0x", StringComparison.OrdinalIgnoreCase))
                 Value = Value.Substring(2);
+
+            // Check if string is empty
+            if (Value == String.Empty)
+                return false;
 
             // Remove leading 0s and check if out of bounds
             while (Value.Length > Bytes)
@@ -70,12 +66,8 @@ namespace Anathema
                     return false;
             }
 
-            // Check if string is empty
-            if (IsBlank(Value))
-                return false;
-
             // Try to read value from hex string
-            int result;
+            Int32 result;
             if (Int32.TryParse(Value, System.Globalization.NumberStyles.HexNumber, null, out result))
                 return true;
 
@@ -83,7 +75,7 @@ namespace Anathema
         }
 
         // Checks if passed value is a valid binary value
-        public static bool BinaryValue(string Value)
+        public static Boolean BinaryValue(String Value)
         {
             for (int Index = 0; Index < Value.Length; Index++)
             {
@@ -99,39 +91,37 @@ namespace Anathema
         }
 
         // Checks if passed value is a valid value for a byte
-        public static bool ByteValue(string Value, bool IsHex = false)
+        public static Boolean ByteValue(String Value, Boolean IsHex = false)
         {
-            // Remove 0x notation
-            if (IsHex)
-                if (Value.StartsWith("0x", StringComparison.OrdinalIgnoreCase))
-                    Value = Value.Substring(2);
+            if (IsHex && Value.StartsWith("0x", StringComparison.OrdinalIgnoreCase))
+                Value = Value.Substring(2);
 
             // Check if string is empty
-            if (IsBlank(Value))
+            if (Value == String.Empty)
                 return false;
 
             // Try to read a signed value
-            SByte result;
+            SByte SignedResult;
             if (IsHex)
             {
                 // Try to read value from hex string
-                if (SByte.TryParse(Value, System.Globalization.NumberStyles.HexNumber, null, out result))
+                if (SByte.TryParse(Value, System.Globalization.NumberStyles.HexNumber, null, out SignedResult))
                     return true;
             }
             else
-                if (SByte.TryParse(Value, out result))
+                if (SByte.TryParse(Value, out SignedResult))
                 return true;
 
             // Try to read an unsigned value
-            Byte _result;
+            Byte UnsignedResult;
             if (IsHex)
             {
                 // Try to read value from hex string
-                if (Byte.TryParse(Value, System.Globalization.NumberStyles.HexNumber, null, out _result))
+                if (Byte.TryParse(Value, System.Globalization.NumberStyles.HexNumber, null, out UnsignedResult))
                     return true;
             }
             else
-                if (Byte.TryParse(Value, out _result))
+                if (Byte.TryParse(Value, out UnsignedResult))
                 return true;
 
 
@@ -139,160 +129,154 @@ namespace Anathema
         }
 
         // Checks if passed value is a valid value for a short
-        public static bool Int16Value(string Value, bool IsHex = false)
+        public static Boolean Int16Value(String Value, Boolean IsHex = false)
         {
-            if (IsHex)
-                if (Value.StartsWith("0x", StringComparison.OrdinalIgnoreCase))
-                    Value = Value.Substring(2);
+            if (IsHex && Value.StartsWith("0x", StringComparison.OrdinalIgnoreCase))
+                Value = Value.Substring(2);
 
-            if (IsBlank(Value))
+            if (Value == String.Empty)
                 return false;
 
             // Try to read a signed value
-            Int16 result;
+            Int16 SignedResult;
             if (IsHex)
             {
-                if (Int16.TryParse(Value, System.Globalization.NumberStyles.HexNumber, null, out result))
+                if (Int16.TryParse(Value, System.Globalization.NumberStyles.HexNumber, null, out SignedResult))
                     return true;
             }
             else
-                if (Int16.TryParse(Value, out result))
+                if (Int16.TryParse(Value, out SignedResult))
                 return true;
 
             // Try to read unsigned value
-            UInt16 _result;
+            UInt16 UnsignedResult;
             if (IsHex)
             {
-                if (UInt16.TryParse(Value, System.Globalization.NumberStyles.HexNumber, null, out _result))
+                if (UInt16.TryParse(Value, System.Globalization.NumberStyles.HexNumber, null, out UnsignedResult))
                     return true;
             }
             else
-                if (UInt16.TryParse(Value, out _result))
+                if (UInt16.TryParse(Value, out UnsignedResult))
                 return true;
 
             return false; // Invalid
         }
 
         // Checks if passed value is a valid value for a int
-        public static bool Int32Value(string Value, bool IsHex = false)
+        public static Boolean Int32Value(String Value, Boolean IsHex = false)
         {
-            if (IsHex)
-                if (Value.StartsWith("0x", StringComparison.OrdinalIgnoreCase))
-                    Value = Value.Substring(2);
+            if (IsHex && Value.StartsWith("0x", StringComparison.OrdinalIgnoreCase))
+                Value = Value.Substring(2);
 
-            if (IsBlank(Value))
+            if (Value == String.Empty)
                 return false;
 
             // Try to read signed value
-            Int32 result;
+            Int32 SignedResult;
             if (IsHex)
             {
-                if (Int32.TryParse(Value, System.Globalization.NumberStyles.HexNumber, null, out result))
+                if (Int32.TryParse(Value, System.Globalization.NumberStyles.HexNumber, null, out SignedResult))
                     return true;
             }
             else
-                if (Int32.TryParse(Value, out result))
+                if (Int32.TryParse(Value, out SignedResult))
                 return true;
 
             // Try to read unsigned value
-            UInt32 _result;
+            UInt32 UnsignedResult;
             if (IsHex)
             {
-                if (UInt32.TryParse(Value, System.Globalization.NumberStyles.HexNumber, null, out _result))
+                if (UInt32.TryParse(Value, System.Globalization.NumberStyles.HexNumber, null, out UnsignedResult))
                     return true;
             }
             else
-                if (UInt32.TryParse(Value, out _result))
+                if (UInt32.TryParse(Value, out UnsignedResult))
                 return true;
 
             return false; // Invalid
         }
 
         // Checks if passed value is a valid value for a long
-        public static bool Int64Value(string Value, bool IsHex = false)
+        public static Boolean Int64Value(String Value, Boolean IsHex = false)
         {
-            if (IsHex)
-                if (Value.StartsWith("0x", StringComparison.OrdinalIgnoreCase))
-                    Value = Value.Substring(2);
+            if (IsHex && Value.StartsWith("0x", StringComparison.OrdinalIgnoreCase))
+                Value = Value.Substring(2);
 
-            if (IsBlank(Value))
+            if (Value == String.Empty)
                 return false;
 
             // Try to read signed value
-            Int64 result;
+            Int64 SignedResult;
             if (IsHex)
             {
-                if (Int64.TryParse(Value, System.Globalization.NumberStyles.HexNumber, null, out result))
+                if (Int64.TryParse(Value, System.Globalization.NumberStyles.HexNumber, null, out SignedResult))
                     return true;
             }
             else
-                if (Int64.TryParse(Value, out result))
+                if (Int64.TryParse(Value, out SignedResult))
                 return true;
 
             // Try to read unsigned value
-            UInt64 _result;
+            UInt64 UnsignedResult;
             if (IsHex)
             {
-                if (UInt64.TryParse(Value, System.Globalization.NumberStyles.HexNumber, null, out _result))
+                if (UInt64.TryParse(Value, System.Globalization.NumberStyles.HexNumber, null, out UnsignedResult))
                     return true;
             }
             else
-                if (UInt64.TryParse(Value, out _result))
+                if (UInt64.TryParse(Value, out UnsignedResult))
                 return true;
 
             return false; // Invalid
         }
 
         // Checks if passed value is a valid value for a single
-        public static bool SingleValue(string Value, bool IsHex = false)
+        public static Boolean SingleValue(String Value, Boolean IsHex = false)
         {
-            if (IsHex)
-                if (Value.StartsWith("0x", StringComparison.OrdinalIgnoreCase))
-                    Value = Value.Substring(2);
+            if (IsHex && Value.StartsWith("0x", StringComparison.OrdinalIgnoreCase))
+                Value = Value.Substring(2);
 
-            if (IsBlank(Value))
+            if (Value == String.Empty)
                 return false;
 
-            Single resultS = 0;
-            Int32 result32 = 0;
+            Single ResultSingle = 0;
 
             if (IsHex)
             {
-                // Grab int32 value (int32 has same bytes as a single), and since this
-                // is checking to see if there is any data, we don't care how those bytes are read
-                if (Int32.TryParse(Value, System.Globalization.NumberStyles.HexNumber, null, out result32))
-                    return true;
+                // If single is in hex, validify as Int32 since they use the same number of bytes
+                return Int32Value(Value, IsHex);
             }
             else
-                if (Single.TryParse(Value, out resultS))
-                return true;
+            {
+                if (Single.TryParse(Value, out ResultSingle))
+                    return true;
+            }
 
             return false; //Invalid
         }
 
         // Checks if passed value is a valid value for a double
-        public static bool DoubleValue(string Value, bool IsHex = false)
+        public static Boolean DoubleValue(String Value, Boolean IsHex = false)
         {
-            if (IsHex)
-                if (Value.StartsWith("0x", StringComparison.OrdinalIgnoreCase))
-                    Value = Value.Substring(2);
+            if (IsHex && Value.StartsWith("0x", StringComparison.OrdinalIgnoreCase))
+                Value = Value.Substring(2);
 
-            if (IsBlank(Value))
+            if (Value == String.Empty)
                 return false;
 
             // Try to read value from hex string
             Double ResultDouble = 0;
-            Int64 ResultInt64 = 0;
+
             if (IsHex)
             {
-                // Grab int64 value (int64 has same bytes as a double), and since this
-                // is checking to see if there is any data, we don't care how those bytes are interpreted
-                if (Int64.TryParse(Value, System.Globalization.NumberStyles.HexNumber, null, out ResultInt64))
-                    return true;
+                // If single is in hex, validify as Int64 since they use the same number of bytes
+                return Int64Value(Value, IsHex);
             }
             else
+            {
                 if (Double.TryParse(Value, out ResultDouble))
-                return true;
+                    return true;
+            }
 
             return false;
         }

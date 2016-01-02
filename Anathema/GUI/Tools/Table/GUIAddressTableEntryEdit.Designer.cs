@@ -1,6 +1,6 @@
 ﻿namespace Anathema
 {
-    partial class GUIAddressTableEdit
+    partial class GUIAddressTableEntryEdit
     {
         /// <summary>
         /// Required designer variable.
@@ -47,7 +47,7 @@
             // 
             // DescriptionTextBox
             // 
-            this.DescriptionTextBox.Location = new System.Drawing.Point(81, 12);
+            this.DescriptionTextBox.Location = new System.Drawing.Point(80, 12);
             this.DescriptionTextBox.Name = "DescriptionTextBox";
             this.DescriptionTextBox.Size = new System.Drawing.Size(286, 20);
             this.DescriptionTextBox.TabIndex = 0;
@@ -55,7 +55,7 @@
             // ValueTypeComboBox
             // 
             this.ValueTypeComboBox.FormattingEnabled = true;
-            this.ValueTypeComboBox.Location = new System.Drawing.Point(81, 39);
+            this.ValueTypeComboBox.Location = new System.Drawing.Point(80, 38);
             this.ValueTypeComboBox.Name = "ValueTypeComboBox";
             this.ValueTypeComboBox.Size = new System.Drawing.Size(124, 21);
             this.ValueTypeComboBox.TabIndex = 1;
@@ -63,7 +63,7 @@
             // DescriptionLabel
             // 
             this.DescriptionLabel.AutoSize = true;
-            this.DescriptionLabel.Location = new System.Drawing.Point(12, 15);
+            this.DescriptionLabel.Location = new System.Drawing.Point(11, 15);
             this.DescriptionLabel.Name = "DescriptionLabel";
             this.DescriptionLabel.Size = new System.Drawing.Size(63, 13);
             this.DescriptionLabel.TabIndex = 2;
@@ -80,7 +80,7 @@
             // 
             // AddressTextBox
             // 
-            this.AddressTextBox.Location = new System.Drawing.Point(81, 107);
+            this.AddressTextBox.Location = new System.Drawing.Point(80, 92);
             this.AddressTextBox.Name = "AddressTextBox";
             this.AddressTextBox.Size = new System.Drawing.Size(286, 20);
             this.AddressTextBox.TabIndex = 4;
@@ -88,7 +88,7 @@
             // AddressLabel
             // 
             this.AddressLabel.AutoSize = true;
-            this.AddressLabel.Location = new System.Drawing.Point(27, 110);
+            this.AddressLabel.Location = new System.Drawing.Point(26, 95);
             this.AddressLabel.Name = "AddressLabel";
             this.AddressLabel.Size = new System.Drawing.Size(48, 13);
             this.AddressLabel.TabIndex = 5;
@@ -97,7 +97,7 @@
             // ValueLabel
             // 
             this.ValueLabel.AutoSize = true;
-            this.ValueLabel.Location = new System.Drawing.Point(38, 75);
+            this.ValueLabel.Location = new System.Drawing.Point(37, 69);
             this.ValueLabel.Name = "ValueLabel";
             this.ValueLabel.Size = new System.Drawing.Size(37, 13);
             this.ValueLabel.TabIndex = 7;
@@ -106,40 +106,43 @@
             // OffsetListBox
             // 
             this.OffsetListBox.FormattingEnabled = true;
-            this.OffsetListBox.Location = new System.Drawing.Point(81, 168);
+            this.OffsetListBox.Location = new System.Drawing.Point(80, 144);
             this.OffsetListBox.Name = "OffsetListBox";
             this.OffsetListBox.Size = new System.Drawing.Size(286, 43);
             this.OffsetListBox.TabIndex = 8;
             // 
             // OffsetTextBox
             // 
-            this.OffsetTextBox.Location = new System.Drawing.Point(81, 142);
+            this.OffsetTextBox.Location = new System.Drawing.Point(80, 117);
             this.OffsetTextBox.Name = "OffsetTextBox";
             this.OffsetTextBox.Size = new System.Drawing.Size(124, 20);
             this.OffsetTextBox.TabIndex = 9;
+            this.OffsetTextBox.TextChanged += new System.EventHandler(this.OffsetTextBox_TextChanged);
             // 
             // AddOffsetButton
             // 
-            this.AddOffsetButton.Location = new System.Drawing.Point(292, 140);
+            this.AddOffsetButton.Location = new System.Drawing.Point(291, 115);
             this.AddOffsetButton.Name = "AddOffsetButton";
             this.AddOffsetButton.Size = new System.Drawing.Size(75, 23);
             this.AddOffsetButton.TabIndex = 10;
             this.AddOffsetButton.Text = "Add";
             this.AddOffsetButton.UseVisualStyleBackColor = true;
+            this.AddOffsetButton.Click += new System.EventHandler(this.AddOffsetButton_Click);
             // 
             // RemoveOffsetButton
             // 
-            this.RemoveOffsetButton.Location = new System.Drawing.Point(211, 140);
+            this.RemoveOffsetButton.Location = new System.Drawing.Point(210, 115);
             this.RemoveOffsetButton.Name = "RemoveOffsetButton";
             this.RemoveOffsetButton.Size = new System.Drawing.Size(75, 23);
             this.RemoveOffsetButton.TabIndex = 11;
             this.RemoveOffsetButton.Text = "Remove";
             this.RemoveOffsetButton.UseVisualStyleBackColor = true;
+            this.RemoveOffsetButton.Click += new System.EventHandler(this.RemoveOffsetButton_Click);
             // 
             // OffsetLabel
             // 
             this.OffsetLabel.AutoSize = true;
-            this.OffsetLabel.Location = new System.Drawing.Point(37, 145);
+            this.OffsetLabel.Location = new System.Drawing.Point(36, 120);
             this.OffsetLabel.Name = "OffsetLabel";
             this.OffsetLabel.Size = new System.Drawing.Size(38, 13);
             this.OffsetLabel.TabIndex = 12;
@@ -147,41 +150,41 @@
             // 
             // AcceptButton
             // 
-            this.AcceptButton.Location = new System.Drawing.Point(81, 217);
+            this.AcceptButton.Location = new System.Drawing.Point(80, 193);
             this.AcceptButton.Name = "AcceptButton";
             this.AcceptButton.Size = new System.Drawing.Size(75, 23);
             this.AcceptButton.TabIndex = 13;
             this.AcceptButton.Text = "Accept";
             this.AcceptButton.UseVisualStyleBackColor = true;
+            this.AcceptButton.Click += new System.EventHandler(this.AcceptButton_Click);
             // 
             // CancelButton
             // 
             this.CancelButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.CancelButton.Location = new System.Drawing.Point(162, 217);
+            this.CancelButton.Location = new System.Drawing.Point(161, 193);
             this.CancelButton.Name = "CancelButton";
             this.CancelButton.Size = new System.Drawing.Size(75, 23);
             this.CancelButton.TabIndex = 14;
             this.CancelButton.Text = "Cancel";
             this.CancelButton.UseVisualStyleBackColor = true;
+            this.CancelButton.Click += new System.EventHandler(this.CancelButton_Click);
             // 
             // ValueTextBox
             // 
             this.ValueTextBox.ForeColor = System.Drawing.Color.Gray;
-            this.ValueTextBox.Location = new System.Drawing.Point(81, 72);
+            this.ValueTextBox.Location = new System.Drawing.Point(80, 66);
             this.ValueTextBox.Name = "ValueTextBox";
-            this.ValueTextBox.Size = new System.Drawing.Size(285, 20);
+            this.ValueTextBox.Size = new System.Drawing.Size(286, 20);
             this.ValueTextBox.TabIndex = 15;
             this.ValueTextBox.Text = "(Insert A Value to Overwrite Current Value)";
             this.ValueTextBox.WatermarkActive = true;
             this.ValueTextBox.WatermarkText = "";
             // 
-            // GUIAddressTableEdit
+            // GUIAddressTableEntryEdit
             // 
-            this.AcceptButton = this.AcceptButton;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.CancelButton = this.CancelButton;
-            this.ClientSize = new System.Drawing.Size(378, 247);
+            this.ClientSize = new System.Drawing.Size(378, 220);
             this.Controls.Add(this.ValueTextBox);
             this.Controls.Add(this.CancelButton);
             this.Controls.Add(this.AcceptButton);
@@ -198,7 +201,7 @@
             this.Controls.Add(this.ValueTypeComboBox);
             this.Controls.Add(this.DescriptionTextBox);
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Name = "GUIAddressTableEdit";
+            this.Name = "GUIAddressTableEntryEdit";
             this.Text = "Edit Address Table Entry";
             this.ResumeLayout(false);
             this.PerformLayout();

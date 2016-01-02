@@ -117,6 +117,15 @@ namespace Anathema
 
         }
 
+        private void AddressTableListView_MouseDoubleClick(Object Sender, MouseEventArgs E)
+        {
+            if (AddressTableListView.HitTest(E.Location).Item == null)
+                return;
+
+            GUIAddressTableEntryEdit test = new GUIAddressTableEntryEdit("", "Int32", "", null);
+            test.ShowDialog();
+        }
+
         private void CheatTableButton_Click(Object Sender, EventArgs E)
         {
             ViewCheatTable();
