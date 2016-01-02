@@ -96,7 +96,7 @@ namespace Anathema
         {
 
         }
-        
+
         private void AddressTableListView_RetrieveVirtualItem(Object Sender, RetrieveVirtualItemEventArgs E)
         {
             E.Item = TablePresenter.GetAddressTableItemAt(E.ItemIndex);
@@ -122,8 +122,15 @@ namespace Anathema
             if (AddressTableListView.HitTest(E.Location).Item == null)
                 return;
 
-            GUIAddressTableEntryEdit Test = new GUIAddressTableEntryEdit(AddressTableListView.HitTest(E.Location).Item.Index);
-            Test.ShowDialog();
+            List<Int32> Indicies = new List<int>();
+            foreach (Int32 Index in AddressTableListView.SelectedIndices)
+                Indicies.Add(Index);
+
+            if (Indicies.Count == 0)
+                return;
+
+            GUIAddressTableEntryEdit AddressEntryEditor = new GUIAddressTableEntryEdit(Indicies.ToArray());
+            AddressEntryEditor.ShowDialog();
         }
 
         private void CheatTableButton_Click(Object Sender, EventArgs E)

@@ -6,28 +6,33 @@ using System.Linq;
 
 namespace Anathema
 {
-    public partial class GUIAddressTableEntryEdit : Form
+    public partial class GUIAddressTableEntryEdit : Form, ITableAddressEntryEditorView
     {
-        public GUIAddressTableEntryEdit(Int32 AddressTableItemIndex)
+        private TableAddressEntryEditorPresenter TableAddressEntryEditorPresenter;
+
+        public GUIAddressTableEntryEdit(Int32[] AddressTableItemIndicies)
         {
             InitializeComponent();
 
             this.MinimumSize = new Size(this.Width, this.Height);
-
-            //String Description, String ValueType, String Address, String[] Offsets
+            
             InitializeValueTypeComboBox();
+            InitializeDefaultItems(AddressTableItemIndicies);
 
-            AddressItem AddressItem = Table.GetInstance().GetAddressItemAt(AddressTableItemIndex);
+            ValidateCurrentOffset();
 
-            // Add initial items
+            this.TableAddressEntryEditorPresenter = new TableAddressEntryEditorPresenter(this, new TableAddressEntryEditor());
+        }
+
+        private void InitializeDefaultItems(Int32[] AddressTableItemIndicies)
+        {
+            AddressItem AddressItem = Table.GetInstance().GetAddressItemAt(AddressTableItemIndicies.Last());
             DescriptionTextBox.Text = AddressItem.Description;
             ValueTypeComboBox.SelectedIndex = ValueTypeComboBox.Items.IndexOf(AddressItem.ElementType.Name);
             AddressTextBox.Text = Conversions.ToAddress(AddressItem.Address.ToString());
             if (AddressItem.Offsets != null)
                 foreach (Int32 Offset in AddressItem.Offsets)
                     OffsetListBox.Items.Add(Offset);
-
-            UpdateOffset();
         }
 
         private void InitializeValueTypeComboBox()
@@ -38,7 +43,7 @@ namespace Anathema
                 ValueTypeComboBox.Items.Add(Primitive.Name);
         }
 
-        private void UpdateOffset()
+        private void ValidateCurrentOffset()
         {
             if (CheckSyntax.Int64Value(OffsetTextBox.Text) || CheckSyntax.Address(OffsetTextBox.Text))
             {
@@ -71,7 +76,7 @@ namespace Anathema
 
         private void AcceptButton_Click(Object Sender, EventArgs E)
         {
-
+            
         }
 
         private void CancelButton_Click(Object Sender, EventArgs E)
@@ -81,7 +86,7 @@ namespace Anathema
 
         private void OffsetTextBox_TextChanged(object sender, EventArgs e)
         {
-            UpdateOffset();
+            ValidateCurrentOffset();
         }
 
         #endregion

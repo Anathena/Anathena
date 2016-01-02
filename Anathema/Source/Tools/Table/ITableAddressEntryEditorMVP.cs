@@ -27,12 +27,12 @@ namespace Anathema
         // Functions invoked by presenter (downstream)
     }
 
-    class TableEntryEditorPresenter : Presenter<ITableAddressEntryEditorView, ITableAddressEntryEditorModel>
+    class TableAddressEntryEditorPresenter : Presenter<ITableAddressEntryEditorView, ITableAddressEntryEditorModel>
     {
         protected new ITableAddressEntryEditorView View { get; set; }
         protected new ITableAddressEntryEditorModel Model { get; set; }
         
-        public TableEntryEditorPresenter(ITableAddressEntryEditorView View, ITableAddressEntryEditorModel Model) : base(View, Model)
+        public TableAddressEntryEditorPresenter(ITableAddressEntryEditorView View, ITableAddressEntryEditorModel Model) : base(View, Model)
         {
             this.View = View;
             this.Model = Model;
@@ -40,6 +40,11 @@ namespace Anathema
 
         #region Method definitions called by the view (downstream)
         
+        public void AcceptChanges(String Description, String Address, String Value, String[] Offsets)
+        {
+
+        }
+
         #endregion
 
         #region Event definitions for events triggered by the model (upstream)
