@@ -32,7 +32,7 @@ namespace Anathema
         public event TableEventHandler EventRefreshDisplay;
         protected virtual void OnEventRefreshDisplay(TableEventArgs E)
         {
-            EventRefreshDisplay(this, E);
+            if (EventRefreshDisplay != null) EventRefreshDisplay(this, E);
         }
 
         public event TableEventHandler EventUpdateAddressTableItemCount;
@@ -55,9 +55,7 @@ namespace Anathema
 
         // Functions invoked by presenter (downstream)
         public abstract AddressItem GetAddressItemAt(Int32 Index);
-        public abstract dynamic GetAddressValueAt(Int32 Index);
         public abstract void SetAddressItemAt(Int32 Index, AddressItem AddressItem);
-        public abstract void SetAddressValueAt(Int32 Index, dynamic Value);
 
         public abstract ScriptItem GetScriptItemAt(Int32 Index);
         public abstract void SetScriptItemAt(Int32 Index, ScriptItem ScriptItem);
@@ -65,13 +63,20 @@ namespace Anathema
 
     class TablePresenter : Presenter<ITableView, ITableModel>
     {
-        new ITableView View;
-        new ITableModel Model;
+        protected new ITableView View { get; set; }
+        protected new ITableModel Model { get; set; }
+
+        private Int32 CacheLimit = 2048;
+        private Dictionary<Int32, ListViewItem> AddressTableCache;
+        private Dictionary<Int32, ListViewItem> ScriptTableCache;
 
         public TablePresenter(ITableView View, ITableModel Model) : base(View, Model)
         {
             this.View = View;
             this.Model = Model;
+
+            AddressTableCache = new Dictionary<Int32, ListViewItem>();
+            ScriptTableCache = new Dictionary<Int32, ListViewItem>();
 
             // Bind events triggered by the model
             Model.EventRefreshDisplay += EventRefreshDisplay;
@@ -85,21 +90,34 @@ namespace Anathema
         public ListViewItem GetAddressTableItemAt(Int32 Index)
         {
             AddressItem AddressItem = Model.GetAddressItemAt(Index);
-            dynamic Value = Model.GetAddressValueAt(Index);
 
-            ListViewItem Result = new ListViewItem(new String[] { String.Empty,
-               AddressItem.Description.ToString(),  AddressItem.ElementType.Name.ToString(), AddressItem.Address.ToString(), Value.ToString() });
-            Result.Checked = AddressItem.GetActivationState();
-            return Result;
+            if (AddressTableCache.Count > CacheLimit)
+                AddressTableCache.Clear();
+
+            // Insert item into cache if not present
+            if (!AddressTableCache.ContainsKey(Index))
+                AddressTableCache.Add(Index, new ListViewItem(new String[] { String.Empty, String.Empty, String.Empty, String.Empty, String.Empty }));
+
+            // Update properties
+            AddressTableCache[Index].SubItems[0].Text = String.Empty;
+            AddressTableCache[Index].SubItems[1].Text = AddressItem.Description.ToString();
+            AddressTableCache[Index].SubItems[2].Text = AddressItem.Address.ToString();
+            AddressTableCache[Index].SubItems[3].Text = AddressItem.ElementType.Name.ToString();
+            AddressTableCache[Index].SubItems[4].Text = AddressItem.Value.ToString();
+            AddressTableCache[Index].Checked = AddressItem.GetActivationState();
+
+            return AddressTableCache[Index];
         }
 
         public ListViewItem GetScriptTableItemAt(Int32 Index)
         {
             ScriptItem ScriptItem = Model.GetScriptItemAt(Index);
 
+            if (ScriptTableCache.Count > CacheLimit)
+                ScriptTableCache.Clear();
+
             ListViewItem Result = new ListViewItem(ScriptItem.Description.ToString());
             Result.Checked = ScriptItem.GetActivationState();
-
             return Result;
         }
 

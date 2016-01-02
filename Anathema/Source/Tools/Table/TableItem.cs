@@ -22,6 +22,8 @@ namespace Anathema
         public Int32[] Offsets { get; set; }
         public Type ElementType { get; set; }
 
+        public dynamic Value { get; set; }
+
         public AddressItem(IntPtr Address, Type ElementType)
         {
             this.Address = Address;
@@ -57,7 +59,7 @@ namespace Anathema
             this.Description = Description;
             Activated = false;
         }
-        
+
         public virtual void Toggle()
         {
             Activated = !Activated;

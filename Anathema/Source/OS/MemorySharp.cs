@@ -272,6 +272,45 @@ namespace Binarysharp.MemoryManagement
         }
         #endregion
         #region Read
+
+        /// <summary>
+        /// Reads the value of a specified type in the remote process.
+        /// </summary>
+        /// <typeparam name="T">The type of the value.</typeparam>
+        /// <param name="ValueType">Type of value being read.</param>
+        /// <param name="address">The address where the value is read.</param>
+        /// <param name="isRelative">[Optional] State if the address is relative to the main module.</param>
+        /// <returns>A value.</returns>
+        public dynamic Read(Type ValueType, IntPtr address, out bool success, bool isRelative = true)
+        {
+            dynamic Value = "-";
+
+            bool readSuccess = false;
+            var @switch = new Dictionary<Type, Action> {
+                    { typeof(Byte), () => Value = Read<Byte>(address, out readSuccess, false) },
+                    { typeof(SByte), () => Value = Read<SByte>(address, out readSuccess, false) },
+                    { typeof(Int16), () => Value = Read<Int16>(address, out readSuccess, false) },
+                    { typeof(Int32), () => Value = Read<Int32>(address, out readSuccess, false) },
+                    { typeof(Int64), () => Value = Read<Int64>(address, out readSuccess, false) },
+                    { typeof(UInt16), () => Value = Read<UInt16>(address, out readSuccess, false) },
+                    { typeof(UInt32), () => Value = Read<UInt32>(address, out readSuccess, false) },
+                    { typeof(UInt64), () => Value = Read<UInt64>(address, out readSuccess, false) },
+                    { typeof(Single), () => Value = Read<Single>(address, out readSuccess, false) },
+                    { typeof(Double), () => Value = Read<Double>(address, out readSuccess, false) },
+                };
+
+            if (@switch.ContainsKey(ValueType))
+                @switch[ValueType]();
+
+            success = readSuccess;
+
+            if (!success)
+                Value = "?";
+
+            return Value;
+
+        }
+
         /// <summary>
         /// Reads the value of a specified type in the remote process.
         /// </summary>

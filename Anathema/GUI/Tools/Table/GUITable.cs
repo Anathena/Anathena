@@ -96,7 +96,7 @@ namespace Anathema
         {
 
         }
-
+        
         private void AddressTableListView_RetrieveVirtualItem(Object Sender, RetrieveVirtualItemEventArgs E)
         {
             E.Item = TablePresenter.GetAddressTableItemAt(E.ItemIndex);
@@ -112,6 +112,11 @@ namespace Anathema
             E.Item = TablePresenter.GetFSMTableItemAt(E.ItemIndex);
         }
 
+        private void AddressTableListView_ItemChecked(Object Sender, ItemCheckedEventArgs E)
+        {
+
+        }
+
         private void CheatTableButton_Click(object sender, EventArgs e)
         {
             ViewCheatTable();
@@ -123,6 +128,5 @@ namespace Anathema
         }
 
         #endregion
-
     }
 }

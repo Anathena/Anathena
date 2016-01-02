@@ -85,45 +85,14 @@ namespace Anathema
 
         public override AddressItem GetAddressItemAt(Int32 Index)
         {
+            Boolean ReadSuccess;
+            AddressTable[Index].Value = MemoryEditor.Read(AddressTable[Index].ElementType, AddressTable[Index].Address, out ReadSuccess, false);
             return AddressTable[Index];
-        }
-
-        public override dynamic GetAddressValueAt(Int32 Index)
-        {
-            dynamic Value = "-";
-            IntPtr Address = AddressTable[Index].Address;
-
-            Boolean ReadSuccess = false;
-            var @switch = new Dictionary<Type, Action> {
-                    { typeof(Byte), () => Value = MemoryEditor.Read<Byte>(Address, out ReadSuccess, false) },
-                    { typeof(SByte), () => Value = MemoryEditor.Read<SByte>(Address, out ReadSuccess, false) },
-                    { typeof(Int16), () => Value = MemoryEditor.Read<Int16>(Address, out ReadSuccess, false) },
-                    { typeof(Int32), () => Value = MemoryEditor.Read<Int32>(Address, out ReadSuccess, false) },
-                    { typeof(Int64), () => Value = MemoryEditor.Read<Int64>(Address, out ReadSuccess, false) },
-                    { typeof(UInt16), () => Value = MemoryEditor.Read<UInt16>(Address, out ReadSuccess, false) },
-                    { typeof(UInt32), () => Value = MemoryEditor.Read<UInt32>(Address, out ReadSuccess, false) },
-                    { typeof(UInt64), () => Value = MemoryEditor.Read<UInt64>(Address, out ReadSuccess, false) },
-                    { typeof(Single), () => Value = MemoryEditor.Read<Single>(Address, out ReadSuccess, false) },
-                    { typeof(Double), () => Value = MemoryEditor.Read<Double>(Address, out ReadSuccess, false) },
-                };
-
-            if (@switch.ContainsKey(AddressTable[Index].ElementType))
-                @switch[AddressTable[Index].ElementType]();
-
-            if (!ReadSuccess)
-                Value = "?";
-
-            return Value;
         }
 
         public override void SetAddressItemAt(Int32 Index, AddressItem AddressItem)
         {
             AddressTable[Index] = AddressItem;
-        }
-
-        public override void SetAddressValueAt(Int32 Index, dynamic Value)
-        {
-            throw new NotImplementedException();
         }
 
         public override ScriptItem GetScriptItemAt(Int32 Index)

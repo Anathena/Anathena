@@ -28,8 +28,8 @@ namespace Anathema
     /// <typeparam name="TView"></typeparam>
     public class Presenter<TView, TModel> where TView : class, IView where TModel : class, IModel
     {
-        public TView View { get; private set; }
-        public TModel Model { get; private set; }
+        protected TView View { get; private set; }
+        protected TModel Model { get; private set; }
 
         public Presenter(TView View, TModel Model)
         {
