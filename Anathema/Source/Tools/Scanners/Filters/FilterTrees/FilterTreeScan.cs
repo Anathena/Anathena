@@ -45,7 +45,7 @@ namespace Anathema
 
         protected override void UpdateScan()
         {
-            InitialSnapshot.ReadAllMemory();
+            InitialSnapshot.ReadAllMemory(true);
 
             Parallel.ForEach(FilterTrees, (Tree) =>
             {

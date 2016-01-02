@@ -79,7 +79,7 @@ namespace Anathema
             return TimeStamp;
         }
 
-        public void ReadAllMemory()
+        public void ReadAllMemory(Boolean KeepPreviousValues = true)
         {
             SetTimeStampToNow();
 
@@ -89,7 +89,7 @@ namespace Anathema
             {
                 Boolean SuccessReading = false;
                 Byte[] CurrentValues = MemoryEditor.ReadBytes(SnapshotRegion.BaseAddress, SnapshotRegion.RegionSize, out SuccessReading, false);
-                SnapshotRegion.SetCurrentValues(CurrentValues);
+                SnapshotRegion.SetCurrentValues(CurrentValues, KeepPreviousValues);
 
                 if (!SuccessReading)
                 {

@@ -38,10 +38,13 @@ namespace Anathema
             this.ElementType = ElementTYpe;
         }
 
-        public void SetCurrentValues(Byte[] NewValues)
+        public void SetCurrentValues(Byte[] NewValues, Boolean KeepPreviousValues)
         {
             PreviousValues = CurrentValues;
             CurrentValues = NewValues;
+
+            if (!KeepPreviousValues)
+                PreviousValues = null;
         }
 
         public Byte[] GetCurrentValues()

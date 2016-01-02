@@ -46,7 +46,7 @@ namespace Anathema
 
         protected override void UpdateScan()
         {
-            InitialSnapshot.ReadAllMemory();
+            InitialSnapshot.ReadAllMemory(false);
 
             Parallel.ForEach(ChunkRoots, (ChunkRoot) =>
             {
