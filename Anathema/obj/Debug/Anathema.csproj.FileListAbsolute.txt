@@ -104,3 +104,4 @@ F:\Users\Zachary\Documents\Visual Studio 2015\Projects\Anathema\Anathema\obj\Deb
 F:\Users\Zachary\Documents\Visual Studio 2015\Projects\Anathema\Anathema\obj\Debug\Anathema.GUI.CustomControls.HexEditor.strings.ja.resources
 F:\Users\Zachary\Documents\Visual Studio 2015\Projects\Anathema\Anathema\obj\Debug\Anathema.GUI.CustomControls.HexEditor.strings.ru.resources
 F:\Users\Zachary\Documents\Visual Studio 2015\Projects\Anathema\Anathema\obj\Debug\Anathema.GUI.CustomControls.HexEditor.strings.zh-Hans.resources
+F:\Users\Zachary\Documents\Visual Studio 2015\Projects\Anathema\Anathema\obj\Debug\Anathema.GUIAddressTableEdit.resources

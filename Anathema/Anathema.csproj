@@ -87,6 +87,15 @@
     <Compile Include="GUI\CustomControls\ListViews\FlickerFreeListView.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="GUI\CustomControls\Textbox\WatermarkTextBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="GUI\Tools\Table\GUIAddressTableEdit.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI\Tools\Table\GUIAddressTableEdit.Designer.cs">
+      <DependentUpon>GUIAddressTableEdit.cs</DependentUpon>
+    </Compile>
     <Compile Include="Source\Tools\Scanners\Labelers\LabelerInputCorrelator\ILabelerInputCorrelatorMVP.cs" />
     <Compile Include="Source\Tools\SnapshotManager\SnapshotRegion.cs" />
     <Compile Include="Source\Tools\SnapshotManager\SnapshotElement.cs" />
@@ -269,10 +278,10 @@
     <Compile Include="Source\Tools\SnapshotManager\Snapshot.cs" />
     <Compile Include="Source\HelperClasses\MVP\ControlThreadingHelper.cs" />
     <Compile Include="Source\HelperClasses\MVP\IMVP.cs" />
-    <Compile Include="GUI\Tools\GUIFiniteStateBuilder.cs">
+    <Compile Include="GUI\Tools\FSMBuilder\GUIFiniteStateBuilder.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="GUI\Tools\GUIFiniteStateBuilder.Designer.cs">
+    <Compile Include="GUI\Tools\FSMBuilder\GUIFiniteStateBuilder.Designer.cs">
       <DependentUpon>GUIFiniteStateBuilder.cs</DependentUpon>
     </Compile>
     <Compile Include="GUI\Tools\ProcessSelector\GUIProcessSelector.cs">
@@ -567,7 +576,7 @@
     <EmbeddedResource Include="GUI\Tools\Scanners\Filters\GUIFilterChunks.resx">
       <DependentUpon>GUIFilterChunks.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="GUI\Tools\GUIFiniteStateBuilder.resx">
+    <EmbeddedResource Include="GUI\Tools\FSMBuilder\GUIFiniteStateBuilder.resx">
       <DependentUpon>GUIFiniteStateBuilder.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\Tools\ProcessSelector\GUIProcessSelector.resx">
@@ -596,6 +605,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\Tools\SnapshotManager\GUISnapshotManager.resx">
       <DependentUpon>GUISnapshotManager.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\Tools\Table\GUIAddressTableEdit.resx">
+      <DependentUpon>GUIAddressTableEdit.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\Tools\Table\GUITable.resx">
       <DependentUpon>GUITable.cs</DependentUpon>

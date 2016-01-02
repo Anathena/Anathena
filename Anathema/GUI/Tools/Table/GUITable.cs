@@ -117,12 +117,12 @@ namespace Anathema
 
         }
 
-        private void CheatTableButton_Click(object sender, EventArgs e)
+        private void CheatTableButton_Click(Object Sender, EventArgs E)
         {
             ViewCheatTable();
         }
 
-        private void FSMTableButton_Click(object sender, EventArgs e)
+        private void FSMTableButton_Click(Object Sender, EventArgs E)
         {
             ViewFSMTable();
         }
