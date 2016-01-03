@@ -30,15 +30,14 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(GUIFilterManual));
             this.CompareTypeLabel = new System.Windows.Forms.Label();
-            this.ScanValueTB = new System.Windows.Forms.TextBox();
-            this.ENotationButton = new System.Windows.Forms.ToolStripButton();
+            this.ValueLeftTextBox = new System.Windows.Forms.TextBox();
             this.ClearConstraintsButton = new System.Windows.Forms.ToolStripButton();
             this.AddConstraintButton = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator7 = new System.Windows.Forms.ToolStripSeparator();
             this.LessThanValButton = new System.Windows.Forms.ToolStripButton();
             this.GreaterThanValButton = new System.Windows.Forms.ToolStripButton();
             this.EqualValButton = new System.Windows.Forms.ToolStripButton();
-            this.ScanValueUpperTB = new System.Windows.Forms.TextBox();
+            this.ValueRightTextBox = new System.Windows.Forms.TextBox();
             this.DecreasedValButton = new System.Windows.Forms.ToolStripButton();
             this.NotEqualValButton = new System.Windows.Forms.ToolStripButton();
             this.ValueTypeComboBox = new System.Windows.Forms.ComboBox();
@@ -51,36 +50,27 @@
             this.ValueLeftHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.ValueRightHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.ConstraintHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.FilterScientificNotationCheckBox = new System.Windows.Forms.CheckBox();
             this.ScanTypeWorldStrip.SuspendLayout();
             this.SuspendLayout();
             // 
             // CompareTypeLabel
             // 
-            this.CompareTypeLabel.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.CompareTypeLabel.Location = new System.Drawing.Point(12, 25);
+            this.CompareTypeLabel.Location = new System.Drawing.Point(9, 25);
             this.CompareTypeLabel.Name = "CompareTypeLabel";
             this.CompareTypeLabel.Size = new System.Drawing.Size(160, 13);
             this.CompareTypeLabel.TabIndex = 154;
             this.CompareTypeLabel.Text = "Not Between or Equal to Values";
             this.CompareTypeLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
-            // ScanValueTB
+            // ValueLeftTextBox
             // 
-            this.ScanValueTB.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.ValueLeftTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.ScanValueTB.Location = new System.Drawing.Point(12, 68);
-            this.ScanValueTB.Name = "ScanValueTB";
-            this.ScanValueTB.Size = new System.Drawing.Size(124, 20);
-            this.ScanValueTB.TabIndex = 151;
-            // 
-            // ENotationButton
-            // 
-            this.ENotationButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.ENotationButton.Image = ((System.Drawing.Image)(resources.GetObject("ENotationButton.Image")));
-            this.ENotationButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.ENotationButton.Name = "ENotationButton";
-            this.ENotationButton.Size = new System.Drawing.Size(23, 22);
-            this.ENotationButton.Text = "toolStripButton1";
+            this.ValueLeftTextBox.Location = new System.Drawing.Point(12, 68);
+            this.ValueLeftTextBox.Name = "ValueLeftTextBox";
+            this.ValueLeftTextBox.Size = new System.Drawing.Size(124, 20);
+            this.ValueLeftTextBox.TabIndex = 151;
             // 
             // ClearConstraintsButton
             // 
@@ -132,13 +122,13 @@
             this.EqualValButton.Size = new System.Drawing.Size(23, 22);
             this.EqualValButton.Text = "Exact Value";
             // 
-            // ScanValueUpperTB
+            // ValueRightTextBox
             // 
-            this.ScanValueUpperTB.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.ScanValueUpperTB.Location = new System.Drawing.Point(142, 68);
-            this.ScanValueUpperTB.Name = "ScanValueUpperTB";
-            this.ScanValueUpperTB.Size = new System.Drawing.Size(127, 20);
-            this.ScanValueUpperTB.TabIndex = 152;
+            this.ValueRightTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.ValueRightTextBox.Location = new System.Drawing.Point(142, 68);
+            this.ValueRightTextBox.Name = "ValueRightTextBox";
+            this.ValueRightTextBox.Size = new System.Drawing.Size(127, 20);
+            this.ValueRightTextBox.TabIndex = 152;
             // 
             // DecreasedValButton
             // 
@@ -160,7 +150,6 @@
             // 
             // ValueTypeComboBox
             // 
-            this.ValueTypeComboBox.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.ValueTypeComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.ValueTypeComboBox.FormattingEnabled = true;
             this.ValueTypeComboBox.Location = new System.Drawing.Point(12, 41);
@@ -182,8 +171,7 @@
             this.LessThanValButton,
             this.toolStripSeparator1,
             this.AddConstraintButton,
-            this.ClearConstraintsButton,
-            this.ENotationButton});
+            this.ClearConstraintsButton});
             this.ScanTypeWorldStrip.Location = new System.Drawing.Point(0, 0);
             this.ScanTypeWorldStrip.Name = "ScanTypeWorldStrip";
             this.ScanTypeWorldStrip.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
@@ -224,7 +212,7 @@
             this.ValueRightHeader,
             this.ConstraintHeader});
             this.ConstraintsListView.FullRowSelect = true;
-            this.ConstraintsListView.Location = new System.Drawing.Point(12, 154);
+            this.ConstraintsListView.Location = new System.Drawing.Point(12, 130);
             this.ConstraintsListView.Name = "ConstraintsListView";
             this.ConstraintsListView.Size = new System.Drawing.Size(257, 102);
             this.ConstraintsListView.TabIndex = 157;
@@ -244,21 +232,32 @@
             // ValueRightHeader
             // 
             this.ValueRightHeader.Text = "Value Right";
-            this.ValueRightHeader.Width = 76;
+            this.ValueRightHeader.Width = 71;
             // 
             // ConstraintHeader
             // 
             this.ConstraintHeader.Text = "Constraint";
             // 
+            // FilterScientificNotationCheckBox
+            // 
+            this.FilterScientificNotationCheckBox.AutoSize = true;
+            this.FilterScientificNotationCheckBox.Location = new System.Drawing.Point(12, 105);
+            this.FilterScientificNotationCheckBox.Name = "FilterScientificNotationCheckBox";
+            this.FilterScientificNotationCheckBox.Size = new System.Drawing.Size(137, 17);
+            this.FilterScientificNotationCheckBox.TabIndex = 158;
+            this.FilterScientificNotationCheckBox.Text = "Filter Scientific Notation";
+            this.FilterScientificNotationCheckBox.UseVisualStyleBackColor = true;
+            // 
             // GUIFilterManual
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(281, 268);
+            this.ClientSize = new System.Drawing.Size(281, 244);
+            this.Controls.Add(this.FilterScientificNotationCheckBox);
             this.Controls.Add(this.ConstraintsListView);
             this.Controls.Add(this.CompareTypeLabel);
-            this.Controls.Add(this.ScanValueTB);
-            this.Controls.Add(this.ScanValueUpperTB);
+            this.Controls.Add(this.ValueLeftTextBox);
+            this.Controls.Add(this.ValueRightTextBox);
             this.Controls.Add(this.ValueTypeComboBox);
             this.Controls.Add(this.ScanTypeWorldStrip);
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -274,15 +273,14 @@
         #endregion
 
         private System.Windows.Forms.Label CompareTypeLabel;
-        private System.Windows.Forms.TextBox ScanValueTB;
-        private System.Windows.Forms.ToolStripButton ENotationButton;
+        private System.Windows.Forms.TextBox ValueLeftTextBox;
         private System.Windows.Forms.ToolStripButton ClearConstraintsButton;
         private System.Windows.Forms.ToolStripButton AddConstraintButton;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator7;
         private System.Windows.Forms.ToolStripButton LessThanValButton;
         private System.Windows.Forms.ToolStripButton GreaterThanValButton;
         private System.Windows.Forms.ToolStripButton EqualValButton;
-        private System.Windows.Forms.TextBox ScanValueUpperTB;
+        private System.Windows.Forms.TextBox ValueRightTextBox;
         private System.Windows.Forms.ToolStripButton DecreasedValButton;
         private System.Windows.Forms.ToolStripButton NotEqualValButton;
         private System.Windows.Forms.ComboBox ValueTypeComboBox;
@@ -295,5 +293,6 @@
         private System.Windows.Forms.ColumnHeader ValueLeftHeader;
         private System.Windows.Forms.ColumnHeader ValueRightHeader;
         private System.Windows.Forms.ColumnHeader ConstraintHeader;
+        private System.Windows.Forms.CheckBox FilterScientificNotationCheckBox;
     }
 }

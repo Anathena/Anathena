@@ -39,14 +39,11 @@
             this.ProcessSelectorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.DebuggerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ResultsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.FilterToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.ScansToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.StateScannerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ManualScannerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.TreeScannerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ChunkScannerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.LabelerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.InputCorrelatorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.ChangeCounterToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.SnapshotsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.TableToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ContentPanel = new WeifenLuo.WinFormsUI.Docking.DockPanel();
@@ -56,7 +53,8 @@
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.NewScanButton = new System.Windows.Forms.ToolStripButton();
             this.UndoScanButton = new System.Windows.Forms.ToolStripButton();
-            this.SnapshotLabel = new System.Windows.Forms.ToolStripLabel();
+            this.InputCorrelatorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.ChangeCounterToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.GUIMenuStrip.SuspendLayout();
             this.GUIToolStrip.SuspendLayout();
             this.SuspendLayout();
@@ -115,8 +113,7 @@
             this.ProcessSelectorToolStripMenuItem,
             this.DebuggerToolStripMenuItem,
             this.ResultsToolStripMenuItem,
-            this.FilterToolStripMenuItem,
-            this.LabelerToolStripMenuItem,
+            this.ScansToolStripMenuItem,
             this.SnapshotsToolStripMenuItem,
             this.TableToolStripMenuItem});
             this.ViewToolStripMenuItem.Name = "ViewToolStripMenuItem";
@@ -144,67 +141,46 @@
             this.ResultsToolStripMenuItem.Text = "Results";
             this.ResultsToolStripMenuItem.Click += new System.EventHandler(this.ResultsToolStripMenuItem_Click);
             // 
-            // FilterToolStripMenuItem
+            // ScansToolStripMenuItem
             // 
-            this.FilterToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.StateScannerToolStripMenuItem,
+            this.ScansToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.ChangeCounterToolStripMenuItem,
+            this.ChunkScannerToolStripMenuItem,
+            this.InputCorrelatorToolStripMenuItem,
             this.ManualScannerToolStripMenuItem,
-            this.TreeScannerToolStripMenuItem,
-            this.ChunkScannerToolStripMenuItem});
-            this.FilterToolStripMenuItem.Name = "FilterToolStripMenuItem";
-            this.FilterToolStripMenuItem.Size = new System.Drawing.Size(159, 22);
-            this.FilterToolStripMenuItem.Text = "Filter";
+            this.StateScannerToolStripMenuItem,
+            this.TreeScannerToolStripMenuItem});
+            this.ScansToolStripMenuItem.Name = "ScansToolStripMenuItem";
+            this.ScansToolStripMenuItem.Size = new System.Drawing.Size(159, 22);
+            this.ScansToolStripMenuItem.Text = "Scans";
             // 
             // StateScannerToolStripMenuItem
             // 
             this.StateScannerToolStripMenuItem.Name = "StateScannerToolStripMenuItem";
-            this.StateScannerToolStripMenuItem.Size = new System.Drawing.Size(159, 22);
+            this.StateScannerToolStripMenuItem.Size = new System.Drawing.Size(161, 22);
             this.StateScannerToolStripMenuItem.Text = "State Scanner";
             this.StateScannerToolStripMenuItem.Click += new System.EventHandler(this.StateScannerToolStripMenuItem_Click);
             // 
             // ManualScannerToolStripMenuItem
             // 
             this.ManualScannerToolStripMenuItem.Name = "ManualScannerToolStripMenuItem";
-            this.ManualScannerToolStripMenuItem.Size = new System.Drawing.Size(159, 22);
+            this.ManualScannerToolStripMenuItem.Size = new System.Drawing.Size(161, 22);
             this.ManualScannerToolStripMenuItem.Text = "Manual Scanner";
             this.ManualScannerToolStripMenuItem.Click += new System.EventHandler(this.ManualScannerToolStripMenuItem_Click);
             // 
             // TreeScannerToolStripMenuItem
             // 
             this.TreeScannerToolStripMenuItem.Name = "TreeScannerToolStripMenuItem";
-            this.TreeScannerToolStripMenuItem.Size = new System.Drawing.Size(159, 22);
+            this.TreeScannerToolStripMenuItem.Size = new System.Drawing.Size(161, 22);
             this.TreeScannerToolStripMenuItem.Text = "Tree Scanner";
             this.TreeScannerToolStripMenuItem.Click += new System.EventHandler(this.TreeScannerToolStripMenuItem_Click);
             // 
             // ChunkScannerToolStripMenuItem
             // 
             this.ChunkScannerToolStripMenuItem.Name = "ChunkScannerToolStripMenuItem";
-            this.ChunkScannerToolStripMenuItem.Size = new System.Drawing.Size(159, 22);
+            this.ChunkScannerToolStripMenuItem.Size = new System.Drawing.Size(161, 22);
             this.ChunkScannerToolStripMenuItem.Text = "Chunk Scanner";
             this.ChunkScannerToolStripMenuItem.Click += new System.EventHandler(this.ChunkScannerToolStripMenuItem_Click);
-            // 
-            // LabelerToolStripMenuItem
-            // 
-            this.LabelerToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.InputCorrelatorToolStripMenuItem,
-            this.ChangeCounterToolStripMenuItem});
-            this.LabelerToolStripMenuItem.Name = "LabelerToolStripMenuItem";
-            this.LabelerToolStripMenuItem.Size = new System.Drawing.Size(159, 22);
-            this.LabelerToolStripMenuItem.Text = "Labeler";
-            // 
-            // InputCorrelatorToolStripMenuItem
-            // 
-            this.InputCorrelatorToolStripMenuItem.Name = "InputCorrelatorToolStripMenuItem";
-            this.InputCorrelatorToolStripMenuItem.Size = new System.Drawing.Size(161, 22);
-            this.InputCorrelatorToolStripMenuItem.Text = "Input Correlator";
-            this.InputCorrelatorToolStripMenuItem.Click += new System.EventHandler(this.InputCorrelatorToolStripMenuItem_Click);
-            // 
-            // ChangeCounterToolStripMenuItem
-            // 
-            this.ChangeCounterToolStripMenuItem.Name = "ChangeCounterToolStripMenuItem";
-            this.ChangeCounterToolStripMenuItem.Size = new System.Drawing.Size(161, 22);
-            this.ChangeCounterToolStripMenuItem.Text = "Change Counter";
-            this.ChangeCounterToolStripMenuItem.Click += new System.EventHandler(this.ChangeCounterToolStripMenuItem_Click);
             // 
             // SnapshotsToolStripMenuItem
             // 
@@ -238,8 +214,7 @@
             this.ProcessTitleLabel,
             this.toolStripSeparator1,
             this.NewScanButton,
-            this.UndoScanButton,
-            this.SnapshotLabel});
+            this.UndoScanButton});
             this.GUIToolStrip.Location = new System.Drawing.Point(0, 24);
             this.GUIToolStrip.Name = "GUIToolStrip";
             this.GUIToolStrip.Size = new System.Drawing.Size(818, 25);
@@ -287,11 +262,17 @@
             this.UndoScanButton.Text = "Undo Scan";
             this.UndoScanButton.Click += new System.EventHandler(this.UndoScanButton_Click);
             // 
-            // SnapshotLabel
+            // InputCorrelatorToolStripMenuItem
             // 
-            this.SnapshotLabel.Name = "SnapshotLabel";
-            this.SnapshotLabel.Size = new System.Drawing.Size(111, 22);
-            this.SnapshotLabel.Text = "No Active Snapshot";
+            this.InputCorrelatorToolStripMenuItem.Name = "InputCorrelatorToolStripMenuItem";
+            this.InputCorrelatorToolStripMenuItem.Size = new System.Drawing.Size(161, 22);
+            this.InputCorrelatorToolStripMenuItem.Text = "Input Correlator";
+            // 
+            // ChangeCounterToolStripMenuItem
+            // 
+            this.ChangeCounterToolStripMenuItem.Name = "ChangeCounterToolStripMenuItem";
+            this.ChangeCounterToolStripMenuItem.Size = new System.Drawing.Size(161, 22);
+            this.ChangeCounterToolStripMenuItem.Text = "Change Counter";
             // 
             // GUIMain
             // 
@@ -325,15 +306,12 @@
         private System.Windows.Forms.ToolStripMenuItem ExitToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem DebuggerToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem ResultsToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem FilterToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem LabelerToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem ScansToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem SnapshotsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem TableToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem StateScannerToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem ManualScannerToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem TreeScannerToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem InputCorrelatorToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem ChangeCounterToolStripMenuItem;
         private System.Windows.Forms.ToolStrip GUIToolStrip;
         private System.Windows.Forms.ToolStripButton ProcessSelectorButton;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
@@ -342,7 +320,8 @@
         private System.Windows.Forms.ToolStripMenuItem ChunkScannerToolStripMenuItem;
         private System.Windows.Forms.ToolStripButton NewScanButton;
         private System.Windows.Forms.ToolStripButton UndoScanButton;
-        private System.Windows.Forms.ToolStripLabel SnapshotLabel;
+        private System.Windows.Forms.ToolStripMenuItem ChangeCounterToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem InputCorrelatorToolStripMenuItem;
     }
 }
 

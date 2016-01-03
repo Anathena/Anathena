@@ -96,7 +96,10 @@
     <Compile Include="GUI\Tools\Table\GUIAddressTableEntryEdit.Designer.cs">
       <DependentUpon>GUIAddressTableEntryEdit.cs</DependentUpon>
     </Compile>
+    <Compile Include="Source\Tools\Scanners\ScanConstraints.cs" />
     <Compile Include="Source\HelperClasses\PrimitiveTypes.cs" />
+    <Compile Include="Source\Tools\Scanners\Filters\FilterManualScan\IFilterManualScanMVP.cs" />
+    <Compile Include="Source\Tools\Scanners\Filters\FilterManualScan\FilterManualScan.cs" />
     <Compile Include="Source\Tools\Scanners\Labelers\LabelerInputCorrelator\ILabelerInputCorrelatorMVP.cs" />
     <Compile Include="Source\Tools\SnapshotManager\SnapshotRegion.cs" />
     <Compile Include="Source\Tools\SnapshotManager\SnapshotElement.cs" />
@@ -397,7 +400,6 @@
     <Compile Include="Source\Tools\Scanners\Filters\InputHook\WinApi\ThreadNativeMethods.cs" />
     <Compile Include="Source\Tools\Scanners\Filters\FilterTrees\FilterTreeScan.cs" />
     <Compile Include="Source\HelperClasses\Conversions.cs" />
-    <Compile Include="Source\Tools\Scanners\Filters\FilterManualScan\FilterManualScan.cs" />
     <Compile Include="Source\Tools\Scanners\Filters\FilterLabelThresholder\FilterLabelThesholder.cs" />
     <Compile Include="Source\Tools\Scanners\Filters\FilterMultiScanner\FilterMultiScanner.cs" />
     <Compile Include="Source\Main\IMainMVP.cs" />
