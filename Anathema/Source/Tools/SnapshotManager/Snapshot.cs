@@ -29,6 +29,16 @@ namespace Anathema
             Initialize();
         }
 
+        public Snapshot(Snapshot BaseSnapshot)
+        {
+            // Copy and convert the snapshot data to a labeled format
+            SnapshotRegions = new SnapshotRegion[BaseSnapshot.GetRegionCount()];
+            for (Int32 RegionIndex = 0; RegionIndex < SnapshotRegions.Length; RegionIndex++)
+                SnapshotRegions[RegionIndex] = new SnapshotRegion(BaseSnapshot.GetSnapshotData()[RegionIndex]);
+
+            Initialize();
+        }
+
         public Snapshot(SnapshotRegion[] SnapshotData)
         {
             this.SnapshotRegions = SnapshotData;

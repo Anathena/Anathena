@@ -53,10 +53,10 @@
             this.ToolStripSeparator1,
             this.ClearSnapshotsButton});
             this.ScanToolStrip.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.VerticalStackWithOverflow;
-            this.ScanToolStrip.Location = new System.Drawing.Point(216, 0);
+            this.ScanToolStrip.Location = new System.Drawing.Point(224, 0);
             this.ScanToolStrip.Name = "ScanToolStrip";
             this.ScanToolStrip.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
-            this.ScanToolStrip.Size = new System.Drawing.Size(32, 199);
+            this.ScanToolStrip.Size = new System.Drawing.Size(24, 199);
             this.ScanToolStrip.TabIndex = 151;
             // 
             // NewSnapshotButton
@@ -65,7 +65,7 @@
             this.NewSnapshotButton.Image = ((System.Drawing.Image)(resources.GetObject("NewSnapshotButton.Image")));
             this.NewSnapshotButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.NewSnapshotButton.Name = "NewSnapshotButton";
-            this.NewSnapshotButton.Size = new System.Drawing.Size(29, 20);
+            this.NewSnapshotButton.Size = new System.Drawing.Size(21, 20);
             this.NewSnapshotButton.Text = "New Snapshot";
             this.NewSnapshotButton.Click += new System.EventHandler(this.NewSnapshotButton_Click);
             // 
@@ -75,7 +75,7 @@
             this.UndoSnapshotButton.Image = ((System.Drawing.Image)(resources.GetObject("UndoSnapshotButton.Image")));
             this.UndoSnapshotButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.UndoSnapshotButton.Name = "UndoSnapshotButton";
-            this.UndoSnapshotButton.Size = new System.Drawing.Size(21, 20);
+            this.UndoSnapshotButton.Size = new System.Drawing.Size(29, 20);
             this.UndoSnapshotButton.Text = "Undo";
             this.UndoSnapshotButton.Click += new System.EventHandler(this.UndoSnapshotButton_Click);
             // 
@@ -85,14 +85,14 @@
             this.RedoSnapshotButton.Image = ((System.Drawing.Image)(resources.GetObject("RedoSnapshotButton.Image")));
             this.RedoSnapshotButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.RedoSnapshotButton.Name = "RedoSnapshotButton";
-            this.RedoSnapshotButton.Size = new System.Drawing.Size(21, 20);
+            this.RedoSnapshotButton.Size = new System.Drawing.Size(29, 20);
             this.RedoSnapshotButton.Text = "Redo";
             this.RedoSnapshotButton.Click += new System.EventHandler(this.RedoSnapshotButton_Click);
             // 
             // ToolStripSeparator1
             // 
             this.ToolStripSeparator1.Name = "ToolStripSeparator1";
-            this.ToolStripSeparator1.Size = new System.Drawing.Size(21, 6);
+            this.ToolStripSeparator1.Size = new System.Drawing.Size(29, 6);
             // 
             // ClearSnapshotsButton
             // 
@@ -111,9 +111,10 @@
             this.SizeHeader,
             this.TimeStampHeader});
             this.SnapshotListView.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.SnapshotListView.FullRowSelect = true;
             this.SnapshotListView.Location = new System.Drawing.Point(0, 0);
             this.SnapshotListView.Name = "SnapshotListView";
-            this.SnapshotListView.Size = new System.Drawing.Size(216, 199);
+            this.SnapshotListView.Size = new System.Drawing.Size(224, 199);
             this.SnapshotListView.TabIndex = 152;
             this.SnapshotListView.UseCompatibleStateImageBehavior = false;
             this.SnapshotListView.View = System.Windows.Forms.View.Details;

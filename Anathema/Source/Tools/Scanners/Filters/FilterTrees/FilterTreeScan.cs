@@ -22,7 +22,7 @@ namespace Anathema
     class FilterTreeScan : IFilterTreeScanModel
     {
         // Variables
-        private Snapshot InitialSnapshot;
+        private Snapshot Snapshot;
         private List<MemoryChangeTree> FilterTrees; // Trees to grow to search for changes
         
         public FilterTreeScan()
@@ -32,11 +32,11 @@ namespace Anathema
 
         public override void BeginScan()
         {
-            this.InitialSnapshot = SnapshotManager.GetInstance().GetActiveSnapshot();
+            this.Snapshot = new Snapshot(SnapshotManager.GetInstance().GetActiveSnapshot());
             this.FilterTrees = new List<MemoryChangeTree>();
 
             // Initialize filter tree roots
-            SnapshotRegion[] MemoryRegions = InitialSnapshot.GetSnapshotData();
+            SnapshotRegion[] MemoryRegions = Snapshot.GetSnapshotData();
             for (int PageIndex = 0; PageIndex < MemoryRegions.Length; PageIndex++)
                 FilterTrees.Add(new MemoryChangeTree(MemoryRegions[PageIndex].BaseAddress, MemoryRegions[PageIndex].RegionSize));
 
@@ -45,14 +45,14 @@ namespace Anathema
 
         protected override void UpdateScan()
         {
-            InitialSnapshot.ReadAllMemory(true);
+            Snapshot.ReadAllMemory(true);
 
             Parallel.ForEach(FilterTrees, (Tree) =>
             {
                 if (Tree.IsDead())
                     return; // Works as 'continue' in a parallel foreach
                 
-                Byte[] PageData = InitialSnapshot.GetSnapshotData()[FilterTrees.IndexOf(Tree)].GetCurrentValues();
+                Byte[] PageData = Snapshot.GetSnapshotData()[FilterTrees.IndexOf(Tree)].GetCurrentValues();
 
                 // Process the changes that have occurred since the last sampling for this memory page
                 if (PageData != null)
@@ -84,7 +84,7 @@ namespace Anathema
 
             // Grow regions by the size of the largest standard variable and mask this with the original memory list.
             FilteredSnapshot.GrowRegions(sizeof(UInt64));
-            FilteredSnapshot.MaskRegions(InitialSnapshot);
+            FilteredSnapshot.MaskRegions(Snapshot);
             
             // Send the size of the filtered memory to the GUI
             FilterTreesEventArgs Args = new FilterTreesEventArgs();

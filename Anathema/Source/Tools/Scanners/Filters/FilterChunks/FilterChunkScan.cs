@@ -13,7 +13,7 @@ namespace Anathema
         
         // Variables
         private List<MemoryChunkRoots> ChunkRoots;
-        private Snapshot InitialSnapshot;
+        private Snapshot Snapshot;
         private Int32 ChunkSize;
         private Int32 MinChanges;
 
@@ -34,11 +34,11 @@ namespace Anathema
 
         public override void BeginScan()
         {
-            InitialSnapshot = SnapshotManager.GetInstance().GetActiveSnapshot();
+            this.Snapshot = new Snapshot(SnapshotManager.GetInstance().GetActiveSnapshot());
             this.ChunkRoots = new List<MemoryChunkRoots>();
 
             // Initialize filter tree roots
-            foreach (dynamic MemoryRegion in InitialSnapshot)
+            foreach (dynamic MemoryRegion in Snapshot)
                 ChunkRoots.Add(new MemoryChunkRoots(MemoryRegion, ChunkSize));
             
             base.BeginScan();
@@ -46,11 +46,11 @@ namespace Anathema
 
         protected override void UpdateScan()
         {
-            InitialSnapshot.ReadAllMemory(false);
+            Snapshot.ReadAllMemory(false);
 
             Parallel.ForEach(ChunkRoots, (ChunkRoot) =>
             {
-                Byte[] PageData = InitialSnapshot.GetSnapshotData()[ChunkRoots.IndexOf(ChunkRoot)].GetCurrentValues();
+                Byte[] PageData = Snapshot.GetSnapshotData()[ChunkRoots.IndexOf(ChunkRoot)].GetCurrentValues();
 
                 // Process the changes that have occurred since the last sampling for this memory page
                 if (PageData != null)
@@ -85,7 +85,7 @@ namespace Anathema
 
             // Grow regions by the size of the largest standard variable and mask this with the original memory list.
             FilteredSnapshot.GrowRegions(sizeof(UInt64));
-            FilteredSnapshot.MaskRegions(InitialSnapshot);
+            FilteredSnapshot.MaskRegions(Snapshot);
 
             // Send the size of the filtered memory to the GUI
             FilterChunksEventArgs Args = new FilterChunksEventArgs();
