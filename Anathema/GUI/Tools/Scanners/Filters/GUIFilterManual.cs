@@ -15,6 +15,14 @@ namespace Anathema
         public GUIFilterManual()
         {
             InitializeComponent();
+
+            InitializeValueTypeComboBox();
+        }
+
+        private void InitializeValueTypeComboBox()
+        {
+            foreach (Type Primitive in PrimitiveTypes.GetPrimitiveTypes())
+                ValueTypeComboBox.Items.Add(Primitive.Name);
         }
     }
 }

@@ -15,6 +15,7 @@ namespace Anathema
 
         public SnapshotRegion(IntPtr BaseAddress, Int32 RegionSize) : base(null, BaseAddress, RegionSize) { }
         public SnapshotRegion(RemoteRegion RemoteRegion) : base(null, RemoteRegion.BaseAddress, RemoteRegion.RegionSize) { }
+        public SnapshotRegion(SnapshotElement SnapshotElement) : base(null, SnapshotElement.BaseAddress, 1) { }
 
         /// <summary>
         /// Indexer to access a unified snapshot element at the specified index
