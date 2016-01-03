@@ -1,6 +1,7 @@
 ﻿using Binarysharp.MemoryManagement.Memory;
 using System;
 using System.Collections;
+using System.Linq;
 
 namespace Anathema
 {
@@ -11,7 +12,7 @@ namespace Anathema
     {
         protected Byte[] CurrentValues;
         protected Byte[] PreviousValues;
-        protected Type ElementType;
+        protected Type[] ElementTypes;
 
         public SnapshotRegion(IntPtr BaseAddress, Int32 RegionSize) : base(null, BaseAddress, RegionSize) { }
         public SnapshotRegion(RemoteRegion RemoteRegion) : base(null, RemoteRegion.BaseAddress, RemoteRegion.RegionSize) { }
@@ -27,16 +28,18 @@ namespace Anathema
             get
             {
                 return new SnapshotElement(
-                BaseAddress + Index, ElementType,
-                CurrentValues == null ? (Byte[])null : CurrentValues.SubArray(Index, System.Runtime.InteropServices.Marshal.SizeOf(ElementType)),
-                PreviousValues == null ? (Byte[])null : PreviousValues.SubArray(Index, System.Runtime.InteropServices.Marshal.SizeOf(ElementType))
+                BaseAddress + Index,
+                ElementTypes == null ? (Type)null : ElementTypes[Index],
+                CurrentValues == null ? (Byte[])null : CurrentValues.SubArray(Index, System.Runtime.InteropServices.Marshal.SizeOf(ElementTypes[Index])),
+                PreviousValues == null ? (Byte[])null : PreviousValues.SubArray(Index, System.Runtime.InteropServices.Marshal.SizeOf(ElementTypes[Index]))
                 );
             }
+            set { if (value.ElementType != null) ElementTypes[Index] = value.ElementType; else ElementTypes[Index] = null; }
         }
 
-        public void SetElementType(Type ElementTYpe)
+        public void SetElementTypes(Type ElementType)
         {
-            this.ElementType = ElementTYpe;
+            this.ElementTypes = Enumerable.Repeat(ElementType, RegionSize).ToArray();
         }
 
         public void SetCurrentValues(Byte[] NewValues, Boolean KeepPreviousValues)
@@ -105,13 +108,18 @@ namespace Anathema
             get
             {
                 return new SnapshotElement<T>(
-                BaseAddress + Index, ElementType, this, Index,
-                CurrentValues == null ? (Byte[])null : CurrentValues.SubArray(Index, System.Runtime.InteropServices.Marshal.SizeOf(ElementType)),
-                PreviousValues == null ? (Byte[])null : PreviousValues.SubArray(Index, System.Runtime.InteropServices.Marshal.SizeOf(ElementType)),
+                BaseAddress + Index, this, Index,
+                ElementTypes == null ? (Type)null : ElementTypes[Index],
+                CurrentValues == null ? (Byte[])null : CurrentValues.SubArray(Index, System.Runtime.InteropServices.Marshal.SizeOf(ElementTypes[Index])),
+                PreviousValues == null ? (Byte[])null : PreviousValues.SubArray(Index, System.Runtime.InteropServices.Marshal.SizeOf(ElementTypes[Index])),
                 MemoryLabels == null ? (T?)null : MemoryLabels[Index]
                 );
             }
-            set { if (value.MemoryLabel != null) MemoryLabels[Index] = value.MemoryLabel.Value; else MemoryLabels[Index] = null; }
+            set
+            {
+                if (value.ElementType != null) ElementTypes[Index] = value.ElementType; else ElementTypes[Index] = null;
+                if (value.MemoryLabel != null) MemoryLabels[Index] = value.MemoryLabel.Value; else MemoryLabels[Index] = null;
+            }
         }
 
         public override IEnumerator GetEnumerator()

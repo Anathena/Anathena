@@ -14,10 +14,10 @@ namespace Anathema
         private static SnapshotManager SnapshotManagerInstance;
 
         private MemorySharp MemoryEditor;
-
         private Stack<Snapshot> Snapshots;          // Snapshots being managed
         private Stack<Snapshot> DeletedSnapshots;   // Deleted snapshots for the capability of redoing after undo
 
+        // Event stubs
         public event SnapshotManagerEventHandler UpdateSnapshotDisplay;
 
         private SnapshotManager()
@@ -46,76 +46,6 @@ namespace Anathema
             this.MemoryEditor = MemoryEditor;
         }
 
-        public void CreateNewSnapshot()
-        {
-            if (Snapshots.Count != 0 && Snapshots.Peek() == null)
-                return;
-
-            SaveSnapshot(null);
-        }
-
-        public void RedoSnapshot()
-        {
-            if (DeletedSnapshots.Count == 0)
-                return;
-
-            Snapshots.Push(DeletedSnapshots.Pop());
-
-            UpdateDisplay();
-        }
-
-        public void UndoSnapshot()
-        {
-            if (Snapshots.Count == 0)
-                return;
-
-            DeletedSnapshots.Push(Snapshots.Pop());
-
-            if (DeletedSnapshots.Peek() == null)
-                DeletedSnapshots.Pop();
-
-            UpdateDisplay();
-        }
-
-        public void ClearSnapshots()
-        {
-            Snapshots.Clear();
-            DeletedSnapshots.Clear();
-
-            UpdateDisplay();
-        }
-
-        public void SaveSnapshot(Snapshot Snapshot)
-        {
-            if (Snapshot != null)
-                Snapshot.SetTimeStampToNow();
-
-            if (Snapshots.Count != 0 && Snapshots.Peek() == null)
-                Snapshots.Pop();
-
-            Snapshots.Push(Snapshot);
-
-            DeletedSnapshots.Clear();
-
-            UpdateDisplay();
-        }
-
-        private void UpdateDisplay()
-        {
-            SnapshotManagerEventArgs SnapshotManagerEventArgs = new SnapshotManagerEventArgs();
-            SnapshotManagerEventArgs.Snapshots = Snapshots;
-            SnapshotManagerEventArgs.DeletedSnapshots = DeletedSnapshots;
-            UpdateSnapshotDisplay.Invoke(this, SnapshotManagerEventArgs);
-        }
-
-        public Boolean HasActiveSnapshot()
-        {
-            if (Snapshots.Count == 0 || Snapshots.Peek() == null)
-                return false;
-
-            return true;
-        }
-
         /// <summary>
         /// Returns the memory regions associated with the current snapshot. If none exist, a query will be done.
         /// </summary>
@@ -129,6 +59,18 @@ namespace Anathema
 
             // Return the snapshot
             return Snapshots.Peek();
+        }
+
+        /// <summary>
+        /// Determines if there is a valid snapshot saved
+        /// </summary>
+        /// <returns></returns>
+        public Boolean HasActiveSnapshot()
+        {
+            if (Snapshots.Count == 0 || Snapshots.Peek() == null)
+                return false;
+
+            return true;
         }
 
         /// <summary>
@@ -150,6 +92,87 @@ namespace Anathema
                 MemoryRegions.Add(new SnapshotRegion(VirtualPages[PageIndex].Information.BaseAddress, (Int32)VirtualPages[PageIndex].Information.RegionSize));
 
             return new Snapshot(MemoryRegions.ToArray());
+        }
+
+        /// <summary>
+        /// Creates a new empty snapshot, which becomes the new active snapshot
+        /// </summary>
+        public void CreateNewSnapshot()
+        {
+            if (Snapshots.Count != 0 && Snapshots.Peek() == null)
+                return;
+
+            SaveSnapshot(null);
+        }
+
+        /// <summary>
+        /// Reverses an undo action
+        /// </summary>
+        public void RedoSnapshot()
+        {
+            if (DeletedSnapshots.Count == 0)
+                return;
+
+            Snapshots.Push(DeletedSnapshots.Pop());
+
+            UpdateDisplay();
+        }
+
+        /// <summary>
+        /// Undoes the current active snapshot, reverting to the previous snapshot
+        /// </summary>
+        public void UndoSnapshot()
+        {
+            if (Snapshots.Count == 0)
+                return;
+
+            DeletedSnapshots.Push(Snapshots.Pop());
+
+            if (DeletedSnapshots.Peek() == null)
+                DeletedSnapshots.Pop();
+
+            UpdateDisplay();
+        }
+
+        /// <summary>
+        /// Clears all snapshot records
+        /// </summary>
+        public void ClearSnapshots()
+        {
+            Snapshots.Clear();
+            DeletedSnapshots.Clear();
+
+            UpdateDisplay();
+        }
+
+        /// <summary>
+        /// Saves a new snapshot, which becomes the current active snapshot
+        /// </summary>
+        /// <param name="Snapshot"></param>
+        public void SaveSnapshot(Snapshot Snapshot)
+        {
+            if (Snapshot != null)
+                Snapshot.SetTimeStampToNow();
+
+            if (Snapshots.Count != 0 && Snapshots.Peek() == null)
+                Snapshots.Pop();
+
+            Snapshots.Push(Snapshot);
+
+            DeletedSnapshots.Clear();
+
+            UpdateDisplay();
+        }
+
+        /// <summary>
+        /// Updates display with current snapshot information
+        /// </summary>
+        private void UpdateDisplay()
+        {
+            SnapshotManagerEventArgs SnapshotManagerEventArgs = new SnapshotManagerEventArgs();
+            SnapshotManagerEventArgs.Snapshots = Snapshots;
+            SnapshotManagerEventArgs.DeletedSnapshots = DeletedSnapshots;
+            UpdateSnapshotDisplay.Invoke(this, SnapshotManagerEventArgs);
         }
     }
 }

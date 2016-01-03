@@ -22,6 +22,9 @@ namespace Anathema
         private String ScanMethod;
         private DateTime TimeStamp;
 
+        /// <summary>
+        /// Constructor for creating an empty snapshot
+        /// </summary>
         public Snapshot()
         {
             this.SnapshotRegions = null;
@@ -31,23 +34,23 @@ namespace Anathema
 
         public Snapshot(Snapshot BaseSnapshot)
         {
-            // Copy and convert the snapshot data to a labeled format
-            SnapshotRegions = new SnapshotRegion[BaseSnapshot.GetRegionCount()];
-            for (Int32 RegionIndex = 0; RegionIndex < SnapshotRegions.Length; RegionIndex++)
-                SnapshotRegions[RegionIndex] = new SnapshotRegion(BaseSnapshot.GetSnapshotData()[RegionIndex]);
+            List<SnapshotRegion> Regions = new List<SnapshotRegion>();
+            foreach (SnapshotRegion Region in BaseSnapshot.GetSnapshotData())
+                Regions.Add(new SnapshotRegion(Region));
+            SnapshotRegions = Regions.ToArray();
 
             Initialize();
         }
 
-        public Snapshot(SnapshotRegion[] SnapshotData)
+        public Snapshot(SnapshotRegion[] SnapshotRegions)
         {
-            this.SnapshotRegions = SnapshotData;
+            this.SnapshotRegions = SnapshotRegions;
 
             Initialize();
         }
 
         /// <summary>
-        /// Indexer to allow the retrieval of the element at the specified index
+        /// Indexer to allow the retrieval of the element at the specified index. Note that this does NOT index into a region.
         /// </summary>
         /// <param name="Index"></param>
         /// <returns></returns>
@@ -137,18 +140,22 @@ namespace Anathema
             {
                 switch (VariableSize)
                 {
-                    case sizeof(SByte): MemoryRegion.SetElementType(typeof(SByte)); break;
-                    case sizeof(Int16): MemoryRegion.SetElementType(typeof(Int16)); break;
-                    case sizeof(Int32): MemoryRegion.SetElementType(typeof(Int32)); break;
-                    case sizeof(Int64): MemoryRegion.SetElementType(typeof(Int64)); break;
+                    case sizeof(SByte): SetElementType(typeof(SByte)); break;
+                    case sizeof(Int16): SetElementType(typeof(Int16)); break;
+                    case sizeof(Int32): SetElementType(typeof(Int32)); break;
+                    case sizeof(Int64): SetElementType(typeof(Int64)); break;
                 }
             }
         }
 
+        /// <summary>
+        /// Updates type of every element with the specified type
+        /// </summary>
+        /// <param name="ElementType"></param>
         public void SetElementType(Type ElementType)
         {
-            foreach (SnapshotRegion MemoryRegion in this)
-                MemoryRegion.SetElementType(ElementType);
+            foreach (SnapshotRegion Region in this)
+                Region.SetElementTypes(ElementType);
         }
 
         public SnapshotRegion[] GetSnapshotData()

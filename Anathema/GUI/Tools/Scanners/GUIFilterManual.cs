@@ -52,6 +52,18 @@ namespace Anathema
             ScanOptionButtons.Add(DecreasedByXButton);
         }
 
+        private void AddCurrentConstraint()
+        {
+            FilterManualScanPresenter.AddCurrentConstraint(ValueTypeComboBox.SelectedItem.ToString(), ValueTextBox.Text.ToString());
+        }
+
+        public void UpdateDisplay(List<String[]> ScanConstraintItems)
+        {
+            ConstraintsListView.Items.Clear();
+            foreach (String[] Item in ScanConstraintItems)
+                ConstraintsListView.Items.Add(new ListViewItem(Item));
+        }
+
         private void EvaluateScanOptions(ToolStripButton Sender)
         {
             ValueConstraintsEnum ValueConstraint = ValueConstraintsEnum.Invalid;
@@ -186,12 +198,11 @@ namespace Anathema
             EvaluateScanOptions((ToolStripButton)Sender);
         }
 
-        private void AddConstraintButton_Click(object sender, EventArgs e)
+        private void AddConstraintButton_Click(Object Sender, EventArgs E)
         {
-
+            AddCurrentConstraint();
         }
 
         #endregion
-
     }
 }

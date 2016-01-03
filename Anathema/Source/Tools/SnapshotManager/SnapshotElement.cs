@@ -65,14 +65,34 @@ namespace Anathema
             return (GetValue(CurrentValue) < GetValue(PreviousValue));
         }
 
-        public Boolean IncreasedInclusive()
+        public Boolean EqualToValue(dynamic Value)
         {
-            return (GetValue(CurrentValue) >= GetValue(PreviousValue));
+            return (GetValue(CurrentValue) == Value);
         }
 
-        public Boolean DecreasedInclusive()
+        public Boolean NotEqualToValue(dynamic Value)
         {
-            return (GetValue(CurrentValue) <= GetValue(PreviousValue));
+            return (GetValue(CurrentValue) != Value);
+        }
+
+        public Boolean GreaterThanValue(dynamic Value)
+        {
+            return (GetValue(CurrentValue) > Value);
+        }
+
+        public Boolean LessThanValue(dynamic Value)
+        {
+            return (GetValue(CurrentValue) < Value);
+        }
+
+        public Boolean IncreasedByValue(dynamic Value)
+        {
+            return (GetValue(CurrentValue) == GetValue(PreviousValue) + Value);
+        }
+
+        public Boolean DecreasedByValue(dynamic Value)
+        {
+            return (GetValue(CurrentValue) == GetValue(PreviousValue) - Value);
         }
 
         /// <summary>
@@ -96,7 +116,7 @@ namespace Anathema
         private T? _MemoryLabel;
         public T? MemoryLabel { get { return _MemoryLabel; } set { _MemoryLabel = value; Parent[Index] = this; } }
 
-        public SnapshotElement(IntPtr BaseAddress, Type ElementType, SnapshotRegion<T> Parent, Int32 Index, Byte[] CurrentValue, Byte[] PreviousValue, T? Label)
+        public SnapshotElement(IntPtr BaseAddress, SnapshotRegion<T> Parent, Int32 Index, Type ElementType, Byte[] CurrentValue, Byte[] PreviousValue, T? Label)
             : base(BaseAddress, ElementType, CurrentValue, PreviousValue)
         {
             this.Parent = Parent;
