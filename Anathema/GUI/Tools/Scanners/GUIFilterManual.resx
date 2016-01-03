@@ -134,7 +134,7 @@
         FDLwI00ZrJFNGah4KINCJhqBNV+oXRfC8QAAAABJRU5ErkJggg==
 </value>
   </data>
-  <data name="LessThanValButton.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+  <data name="LessThanButton.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
         YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAB6SURBVDhP1Y/RDYAwCAXZUWdwAbfx2wm6jsPUQqFC0yKf
@@ -142,7 +142,7 @@
         ZkFWH0xEbxIcRhAJecF2i6BjJJVIWO5pkQ8BcAMlbQ8kuZbOEQAAAABJRU5ErkJggg==
 </value>
   </data>
-  <data name="GreaterThanValButton.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+  <data name="GreaterThanButton.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
         YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAB8SURBVDhPzY/REUBADETTIzVoQDe+VaAdxYRELpa73Dg/
@@ -150,7 +150,7 @@
         CcIBfL7GxhcBDksDTDYW/GVl4DcRWrYMSrwafQzRBuSaDyS+das4AAAAAElFTkSuQmCC
 </value>
   </data>
-  <data name="EqualValButton.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+  <data name="EqualButton.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
         YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAABgSURBVDhPYxg8ICQ47T8pGKoNAkACs27/JwmjGALmLPlP
@@ -158,14 +158,14 @@
         DAwA2AtAONnN7GAAAAAASUVORK5CYII=
 </value>
   </data>
-  <data name="DecreasedValButton.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+  <data name="DecreasedButton.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
         YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAA3SURBVDhPYxgF1AX/ScQo4P+s2/9JwiA9EK0Q8J9hCVCQ
         FIxhQPEm0jCaASAAEyQWj4JBAhgYACd1gI8nMP7dAAAAAElFTkSuQmCC
 </value>
   </data>
-  <data name="NotEqualValButton.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+  <data name="NegateButton.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
         YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAABUSURBVDhPY8AFQoLT/sMwVIh4ANZUvOk/w5L//2fd/k+6
@@ -176,7 +176,7 @@
   <metadata name="ScanTypeWorldStrip.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>17, 130</value>
   </metadata>
-  <data name="toolStripButton1.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+  <data name="StartScanButton.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
         YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAABrSURBVDhPnY/RCcAgDAWzc7fpdyfoOh0mNdZXtD5skoMH
@@ -184,7 +184,15 @@
         ij/PZaRF0Ith2UiKIjc/HP92NiZ7OQAAAABJRU5ErkJggg==
 </value>
   </data>
-  <data name="IncreasedValueButton.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+  <data name="ChangedButton.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
+        YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAABwSURBVDhPnZHBEYAgDATTs934tgLbsZhowkQhRMhxM/vA
+        HIsDVIVBmvB+cQo6Hrazk3zDATmBDH/IC8qwAxX4TDv20Qb1Wkkc8kbLEZBAyxGQQMoRkKCUPdNAZR/o
+        d6O0l7YisGfTu1gQSGzjYDPRDUSLL+RRq63QAAAAAElFTkSuQmCC
+</value>
+  </data>
+  <data name="IncreasedButton.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
         YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAABkSURBVDhPvY/RCcAgDESzs9v0uxO4ToeJlRAwFyVpsX1w

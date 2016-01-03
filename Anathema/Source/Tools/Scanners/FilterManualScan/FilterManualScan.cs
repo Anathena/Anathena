@@ -26,8 +26,8 @@ namespace Anathema
             Snapshot = new Snapshot(SnapshotManager.GetInstance().GetActiveSnapshot());
 
             // Initialize change counts to zero
-            foreach (SnapshotRegion<UInt16> Region in Snapshot)
-                foreach (SnapshotElement<UInt16> Element in Region)
+            foreach (SnapshotRegion Region in Snapshot)
+                foreach (SnapshotElement Element in Region)
                     Element.MemoryLabel = 0;
 
             base.BeginScan();

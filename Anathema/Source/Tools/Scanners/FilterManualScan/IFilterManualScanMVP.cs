@@ -34,6 +34,11 @@ namespace Anathema
 
         #region Method definitions called by the view (downstream)
         
+        public void SetValueConstraints(ValueConstraintsEnum ValueConstraints)
+        {
+
+        }
+
         #endregion
 
         #region Event definitions for events triggered by the model (upstream)

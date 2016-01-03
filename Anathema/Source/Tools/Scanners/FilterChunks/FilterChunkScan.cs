@@ -10,7 +10,6 @@ namespace Anathema
 {
     class FilterChunkScan : IFilterChunkScanModel
     {
-        
         // Variables
         private List<MemoryChunkRoots> ChunkRoots;
         private Snapshot Snapshot;
