@@ -67,6 +67,9 @@ namespace Anathema
 
         public override void AddSelectionToTable(Int32 Index)
         {
+            if (!SnapshotManager.GetInstance().HasActiveSnapshot())
+                return;
+
             Snapshot ActiveSnapshot = SnapshotManager.GetInstance().GetActiveSnapshot();
             dynamic Element = ActiveSnapshot[Index];
             Element.ElementType = ScanType;
@@ -86,6 +89,11 @@ namespace Anathema
         public override dynamic GetValueAtIndex(Int32 Index)
         {
             dynamic Value = "-";
+
+
+            if (!SnapshotManager.GetInstance().HasActiveSnapshot())
+                return Value;
+
             IntPtr Address = GetAddressAtIndex(Index);
 
             Boolean ReadSuccess = false;
@@ -131,14 +139,16 @@ namespace Anathema
 
         protected override void UpdateScan()
         {
-            if (!SnapshotManager.GetInstance().HasActiveSnapshot())
-                return;
+            UInt64 MemorySize;
 
-            Snapshot ActiveSnapshot = SnapshotManager.GetInstance().GetActiveSnapshot();
+            if (!SnapshotManager.GetInstance().HasActiveSnapshot())
+                MemorySize = 0;
+            else
+                MemorySize = SnapshotManager.GetInstance().GetActiveSnapshot().GetMemorySize();
 
             // Send the size of the filtered memory to the display
             ResultsEventArgs Args = new ResultsEventArgs();
-            Args.MemorySize = ActiveSnapshot.GetMemorySize();
+            Args.MemorySize = MemorySize;
             OnEventUpdateMemorySize(Args);
             OnEventRefreshDisplay(Args);
         }

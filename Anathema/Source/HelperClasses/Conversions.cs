@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace Anathema
 {
     /// <summary>
-    /// Converts a value from one format to another format. No validation checking is done.
+    /// Converts a value from one format to another format. No validation checking is done, see CheckSyntax class for this
     /// </summary>
     class Conversions
     {

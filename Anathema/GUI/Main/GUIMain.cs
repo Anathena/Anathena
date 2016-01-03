@@ -59,9 +59,8 @@ namespace Anathema
 
         private void CreateDefaultTools()
         {
-            CreateInputCorrelator();
-            CreateDebugger();
             CreateChunkScanner();
+            CreateInputCorrelator();
             CreateSnapshotManager();
             CreateResults();
             CreateTable();
@@ -92,14 +91,14 @@ namespace Anathema
         {
             if (GUIFilterTree == null || GUIFilterTree.IsDisposed)
                 GUIFilterTree = new GUIFilterTree();
-            GUIFilterTree.Show(ContentPanel, DockState.DockLeft);
+            GUIFilterTree.Show(ContentPanel);
         }
 
         private void CreateChunkScanner()
         {
             if (GUIFilterChunks == null || GUIFilterChunks.IsDisposed)
                 GUIFilterChunks = new GUIFilterChunks();
-            GUIFilterChunks.Show(ContentPanel, DockState.DockLeft);
+            GUIFilterChunks.Show(ContentPanel);
         }
         private void CreateInputCorrelator()
         {
@@ -148,72 +147,73 @@ namespace Anathema
 
         #region Events
 
-        private void DebuggerToolStripMenuItem_Click(object sender, EventArgs e)
+        private void DebuggerToolStripMenuItem_Click(Object Sender, EventArgs E)
         {
             CreateDebugger();
         }
 
-        private void StateScannerToolStripMenuItem_Click(object sender, EventArgs e)
+        private void StateScannerToolStripMenuItem_Click(Object Sender, EventArgs E)
         {
             CreateStateScanner();
         }
 
-        private void ManualScannerToolStripMenuItem_Click(object sender, EventArgs e)
+        private void ManualScannerToolStripMenuItem_Click(Object Sender, EventArgs E)
         {
             CreateManualScanner();
         }
 
-        private void TreeScannerToolStripMenuItem_Click(object sender, EventArgs e)
+        private void TreeScannerToolStripMenuItem_Click(Object Sender, EventArgs E)
         {
             CreateTreeScanner();
         }
 
-        private void ChunkScannerToolStripMenuItem_Click(object sender, EventArgs e)
+        private void ChunkScannerToolStripMenuItem_Click(Object Sender, EventArgs E)
         {
             CreateChunkScanner();
         }
 
-        private void InputCorrelatorToolStripMenuItem_Click(object sender, EventArgs e)
+        private void InputCorrelatorToolStripMenuItem_Click(Object Sender, EventArgs E)
         {
             CreateInputCorrelator();
         }
 
-        private void ChangeCounterToolStripMenuItem_Click(object sender, EventArgs e)
+        private void ChangeCounterToolStripMenuItem_Click(Object Sender, EventArgs E)
         {
+
             CreateChangeCounter();
         }
 
-        private void SnapshotsToolStripMenuItem_Click(object sender, EventArgs e)
+        private void SnapshotsToolStripMenuItem_Click(Object Sender, EventArgs E)
         {
             CreateSnapshotManager();
         }
 
-        private void ResultsToolStripMenuItem_Click(object sender, EventArgs e)
+        private void ResultsToolStripMenuItem_Click(Object Sender, EventArgs E)
         {
             CreateResults();
         }
 
-        private void TableToolStripMenuItem_Click(object sender, EventArgs e)
+        private void TableToolStripMenuItem_Click(Object Sender, EventArgs E)
         {
             CreateTable();
         }
 
-        private void ProcessSelectorToolStripMenuItem_Click(object sender, EventArgs e)
+        private void ProcessSelectorToolStripMenuItem_Click(Object Sender, EventArgs E)
         {
             CreateProcessSelector();
         }
 
-        private void ProcessSelectorButton_Click(object sender, EventArgs e)
+        private void ProcessSelectorButton_Click(Object Sender, EventArgs E)
         {
             CreateProcessSelector();
         }
         
-        private void NewScanButton_Click(object sender, EventArgs e)
+        private void NewScanButton_Click(Object Sender, EventArgs E)
         {
             GUISnapshotManager.CreateNewSnapshot();
         }
 
-        private void UndoScanButton_Click(object sender, EventArgs e)
+        private void UndoScanButton_Click(Object Sender, EventArgs E)
         {
             GUISnapshotManager.UndoSnapshot();
         }
