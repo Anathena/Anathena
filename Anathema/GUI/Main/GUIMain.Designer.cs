@@ -56,6 +56,7 @@
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.NewScanButton = new System.Windows.Forms.ToolStripButton();
             this.UndoScanButton = new System.Windows.Forms.ToolStripButton();
+            this.SnapshotLabel = new System.Windows.Forms.ToolStripLabel();
             this.GUIMenuStrip.SuspendLayout();
             this.GUIToolStrip.SuspendLayout();
             this.SuspendLayout();
@@ -87,19 +88,19 @@
             // openToolStripMenuItem
             // 
             this.openToolStripMenuItem.Name = "openToolStripMenuItem";
-            this.openToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.openToolStripMenuItem.Size = new System.Drawing.Size(103, 22);
             this.openToolStripMenuItem.Text = "Open";
             // 
             // dieToolStripMenuItem
             // 
             this.dieToolStripMenuItem.Name = "dieToolStripMenuItem";
-            this.dieToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.dieToolStripMenuItem.Size = new System.Drawing.Size(103, 22);
             this.dieToolStripMenuItem.Text = "Save";
             // 
             // ExitToolStripMenuItem
             // 
             this.ExitToolStripMenuItem.Name = "ExitToolStripMenuItem";
-            this.ExitToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.ExitToolStripMenuItem.Size = new System.Drawing.Size(103, 22);
             this.ExitToolStripMenuItem.Text = "Exit";
             // 
             // EditToolStripMenuItem
@@ -237,7 +238,8 @@
             this.ProcessTitleLabel,
             this.toolStripSeparator1,
             this.NewScanButton,
-            this.UndoScanButton});
+            this.UndoScanButton,
+            this.SnapshotLabel});
             this.GUIToolStrip.Location = new System.Drawing.Point(0, 24);
             this.GUIToolStrip.Name = "GUIToolStrip";
             this.GUIToolStrip.Size = new System.Drawing.Size(818, 25);
@@ -273,6 +275,7 @@
             this.NewScanButton.Name = "NewScanButton";
             this.NewScanButton.Size = new System.Drawing.Size(23, 22);
             this.NewScanButton.Text = "New Scan";
+            this.NewScanButton.Click += new System.EventHandler(this.NewScanButton_Click);
             // 
             // UndoScanButton
             // 
@@ -282,6 +285,13 @@
             this.UndoScanButton.Name = "UndoScanButton";
             this.UndoScanButton.Size = new System.Drawing.Size(23, 22);
             this.UndoScanButton.Text = "Undo Scan";
+            this.UndoScanButton.Click += new System.EventHandler(this.UndoScanButton_Click);
+            // 
+            // SnapshotLabel
+            // 
+            this.SnapshotLabel.Name = "SnapshotLabel";
+            this.SnapshotLabel.Size = new System.Drawing.Size(111, 22);
+            this.SnapshotLabel.Text = "No Active Snapshot";
             // 
             // GUIMain
             // 
@@ -332,6 +342,7 @@
         private System.Windows.Forms.ToolStripMenuItem ChunkScannerToolStripMenuItem;
         private System.Windows.Forms.ToolStripButton NewScanButton;
         private System.Windows.Forms.ToolStripButton UndoScanButton;
+        private System.Windows.Forms.ToolStripLabel SnapshotLabel;
     }
 }
 

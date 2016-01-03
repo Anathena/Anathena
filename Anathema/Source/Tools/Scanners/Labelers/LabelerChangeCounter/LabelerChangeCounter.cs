@@ -122,6 +122,7 @@ namespace Anathema
             }
 
             Snapshot<UInt16> FilteredSnapshot = new Snapshot<UInt16>(FilteredElements.ToArray());
+            FilteredSnapshot.SetScanMethod("Change Counter");
             SnapshotManager.GetInstance().SaveSnapshot(FilteredSnapshot);
         }
 

@@ -191,23 +191,7 @@
   <metadata name="ScanTypeWorldStrip.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>17, 130</value>
   </metadata>
-  <data name="IncreasedValButton.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-    <value>
-        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
-        YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAABqSURBVDhPY6AZCAlO+4+MocLEAbCG4k3/GZb8B+NZt/+T
-        ZsjAGABSgIyxGYAijwxAAiBFpGAUQ8AcqG3EYhoYAPIzCRjFABAACSBjsEKobTA/o8jjA7gMgEoTBgNv
-        AAiANCBjqDC1AQMDADhbMzw7Y8KDAAAAAElFTkSuQmCC
-</value>
-  </data>
-  <data name="FiniteStateMachineButton.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-    <value>
-        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
-        YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAB0SURBVDhPpYzJDcAwCATpOd3knQrSToohIj604EVC8Uh8
-        xjuWjvZDmEsZYwyYS9Hz0Rgwl6JyaQyYS/nGS8Bcwhz//cR9sATMBVyMwYyYA1w477jb4Ts6wIdj2Ebc
-        BbZiYys22LAcG2xYjg02ZC6FDQuxyAsBZxxiBHvLXwAAAABJRU5ErkJggg==
-</value>
-  </data>
-  <data name="SearchSpaceAnalysisButton.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+  <data name="toolStripButton1.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
         YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAABrSURBVDhPnY/RCcAgDAWzc7fpdyfoOh0mNdZXtD5skoMH
@@ -215,15 +199,12 @@
         ij/PZaRF0Ith2UiKIjc/HP92NiZ7OQAAAABJRU5ErkJggg==
 </value>
   </data>
-  <metadata name="ScanToolStrip.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>179, 130</value>
-  </metadata>
-  <data name="toolStripButton1.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+  <data name="IncreasedValButton.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
-        YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAABtSURBVDhPnYzBDYAwDMSyM9vwZgLWYZhWLTlBohDSs3SP
-        KrWFpOmWgUgFprRfbU7fJax46AoBfLJiIWDEUE4C/yLmAnURiwKynfciwc8FQD30ERjgmIeSALAhIgCe
-        yDu0EAA2RAQGEOkA0IBIB+j5/3bPS+LYAAAAAElFTkSuQmCC
+        YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAABqSURBVDhPY6AZCAlO+4+MocLEAbCG4k3/GZb8B+NZt/+T
+        ZsjAGABSgIyxGYAijwxAAiBFpGAUQ8AcqG3EYhoYAPIzCRjFABAACSBjsEKobTA/o8jjA7gMgEoTBgNv
+        AAiANCBjqDC1AQMDADhbMzw7Y8KDAAAAAElFTkSuQmCC
 </value>
   </data>
 </root>

@@ -130,14 +130,14 @@
         YpvXAAAAAElFTkSuQmCC
 </value>
   </data>
-  <data name="SelectPreviousSnapshotButton.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+  <data name="UndoSnapshotButton.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
         YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAABJSURBVDhPYxj+4D8UkwX+z7r9H4xBbIgQ8QCicQkEk2oI
         imZSDcGqGYYJGYJXMwzjMoQozTCMbgiEU7yJNAzTh8QgF49wwMAAAI5Is++cSDsHAAAAAElFTkSuQmCC
 </value>
   </data>
-  <data name="SelectNextSnapshotButton.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+  <data name="RedoSnapshotButton.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
         YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAABQSURBVDhPYxgFYPCfQgxhzLr9nySMbAAI/Gco3vSfYQlQ

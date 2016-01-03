@@ -43,7 +43,7 @@ namespace Anathema
         {
             Int32 ChunkSize = (Int32)Math.Pow(2, ChunkSizeTrackBar.Value);
 
-            ChunkSizeValueLabel.Text = Conversions.ByteCountToMetricSize((UInt64)ChunkSize).ToString();
+            ChunkSizeValueLabel.Text = Conversions.BytesToMetric((UInt64)ChunkSize).ToString();
             FilterChunkScanPresenter.SetChunkSize(ChunkSize);
         }
 

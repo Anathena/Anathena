@@ -78,8 +78,8 @@
             this.StopScanButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.StopScanButton.Name = "StopScanButton";
             this.StopScanButton.Size = new System.Drawing.Size(23, 22);
-            this.StopScanButton.Text = "Stop";
-            this.StopScanButton.ToolTipText = "Stop Tree Scan";
+            this.StopScanButton.Text = "Stop Scan";
+            this.StopScanButton.ToolTipText = "Stop Scan";
             this.StopScanButton.Click += new System.EventHandler(this.StopScanButton_Click);
             // 
             // StartScanButton
@@ -89,7 +89,7 @@
             this.StartScanButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.StartScanButton.Name = "StartScanButton";
             this.StartScanButton.Size = new System.Drawing.Size(23, 22);
-            this.StartScanButton.Text = "Start Tree Scan";
+            this.StartScanButton.Text = "Start Scan";
             this.StartScanButton.Click += new System.EventHandler(this.StartScanButton_Click);
             // 
             // ScanToolStrip

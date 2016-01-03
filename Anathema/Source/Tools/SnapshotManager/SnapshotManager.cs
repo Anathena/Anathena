@@ -15,15 +15,15 @@ namespace Anathema
 
         private MemorySharp MemoryEditor;
 
-        private List<Snapshot> SnapshotList;    // Snapshots being managed
-        private Snapshot ActiveSnapshot;        // Reference to the active snapshot being used by Anathema
-        
+        private Stack<Snapshot> Snapshots;          // Snapshots being managed
+        private Stack<Snapshot> DeletedSnapshots;   // Deleted snapshots for the capability of redoing after undo
+
         public event SnapshotManagerEventHandler UpdateSnapshotDisplay;
 
         private SnapshotManager()
         {
-            SnapshotList = new List<Snapshot>();
-            ActiveSnapshot = null;
+            Snapshots = new Stack<Snapshot>();
+            DeletedSnapshots = new Stack<Snapshot>();
 
             InitializeObserver();
         }
@@ -46,37 +46,71 @@ namespace Anathema
             this.MemoryEditor = MemoryEditor;
         }
 
-        public void DeleteSnapshot()
+        public void CreateNewSnapshot()
         {
+            if (Snapshots.Count != 0 && Snapshots.Peek() == null)
+                return;
 
+            SaveSnapshot(null);
         }
 
-        public void SetActiveSnapshot(Snapshot Snapshot)
+        public void RedoSnapshot()
         {
-            if (!SnapshotList.Contains(Snapshot))
-                SnapshotList.Add(Snapshot);
+            if (DeletedSnapshots.Count == 0)
+                return;
 
-            ActiveSnapshot = Snapshot;
-            
-            SnapshotManagerEventArgs SnapshotManagerEventArgs = new SnapshotManagerEventArgs();
-            SnapshotManagerEventArgs.SnapshotList = SnapshotList;
-            UpdateSnapshotDisplay.Invoke(this, SnapshotManagerEventArgs);
+            Snapshots.Push(DeletedSnapshots.Pop());
+
+            UpdateDisplay();
+        }
+
+        public void UndoSnapshot()
+        {
+            if (Snapshots.Count == 0)
+                return;
+
+            DeletedSnapshots.Push(Snapshots.Pop());
+
+            if (DeletedSnapshots.Peek() == null)
+                DeletedSnapshots.Pop();
+
+            UpdateDisplay();
+        }
+
+        public void ClearSnapshots()
+        {
+            Snapshots.Clear();
+            DeletedSnapshots.Clear();
+
+            UpdateDisplay();
         }
 
         public void SaveSnapshot(Snapshot Snapshot)
         {
-            if (!SnapshotList.Contains(Snapshot))
-                SnapshotList.Add(Snapshot);
+            if (Snapshot != null)
+                Snapshot.SetTimeStampToNow();
 
-            Snapshot.SetTimeStampToNow();
+            if (Snapshots.Count != 0 && Snapshots.Peek() == null)
+                Snapshots.Pop();
 
-            // Set the most recently saved snapshot as the active snapshot
-            SetActiveSnapshot(Snapshot);
+            Snapshots.Push(Snapshot);
+
+            DeletedSnapshots.Clear();
+
+            UpdateDisplay();
+        }
+
+        private void UpdateDisplay()
+        {
+            SnapshotManagerEventArgs SnapshotManagerEventArgs = new SnapshotManagerEventArgs();
+            SnapshotManagerEventArgs.Snapshots = Snapshots;
+            SnapshotManagerEventArgs.DeletedSnapshots = DeletedSnapshots;
+            UpdateSnapshotDisplay.Invoke(this, SnapshotManagerEventArgs);
         }
 
         public Boolean HasActiveSnapshot()
         {
-            if (ActiveSnapshot == null)
+            if (Snapshots.Count == 0 || Snapshots.Peek() == null)
                 return false;
 
             return true;
@@ -94,7 +128,7 @@ namespace Anathema
                 return SnapshotAllRegions();
 
             // Return the snapshot
-            return ActiveSnapshot;
+            return Snapshots.Peek();
         }
 
         /// <summary>
@@ -117,6 +151,5 @@ namespace Anathema
 
             return new Snapshot(MemoryRegions.ToArray());
         }
-        
     }
 }

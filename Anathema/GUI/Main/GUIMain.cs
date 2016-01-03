@@ -207,8 +207,17 @@ namespace Anathema
         {
             CreateProcessSelector();
         }
+        
+        private void NewScanButton_Click(object sender, EventArgs e)
+        {
+            GUISnapshotManager.CreateNewSnapshot();
+        }
+
+        private void UndoScanButton_Click(object sender, EventArgs e)
+        {
+            GUISnapshotManager.UndoSnapshot();
+        }
 
         #endregion
-
     }
 }

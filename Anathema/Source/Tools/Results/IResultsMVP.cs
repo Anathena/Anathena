@@ -132,7 +132,7 @@ namespace Anathema
 
         private void EventUpdateMemorySize(Object Sender, ResultsEventArgs E)
         {
-            View.UpdateMemorySizeLabel(Conversions.ByteCountToMetricSize(E.MemorySize));
+            View.UpdateMemorySizeLabel(Conversions.BytesToMetric(E.MemorySize));
             View.UpdateItemCount((Int32)Math.Min(E.MemorySize, Int32.MaxValue));
         }
 

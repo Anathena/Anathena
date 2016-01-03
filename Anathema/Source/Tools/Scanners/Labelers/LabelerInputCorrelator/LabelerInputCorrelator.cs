@@ -120,6 +120,7 @@ namespace Anathema
             } 
 
             Snapshot<Single> FilteredSnapshot = new Snapshot<Single>(FilteredElements.ToArray());
+            FilteredSnapshot.SetScanMethod("Input Correlator");
             SnapshotManager.GetInstance().SaveSnapshot(FilteredSnapshot);
         }
 

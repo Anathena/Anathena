@@ -27,7 +27,7 @@ namespace Anathema
         private void SetVariableSize()
         {
             Int32 VariableSize = (Int32)Math.Pow(2, VariableSizeTrackBar.Value);
-            VariableSizeValueLabel.Text = Conversions.ByteCountToMetricSize((UInt64)VariableSize).ToString();
+            VariableSizeValueLabel.Text = Conversions.BytesToMetric((UInt64)VariableSize).ToString();
 
             LabelerInputCorrelatorPresenter.SetVariableSize(VariableSize);
         }

@@ -58,7 +58,7 @@ namespace Anathema
             return Int32.Parse(Address, System.Globalization.NumberStyles.HexNumber);
         }
 
-        public static String ByteCountToMetricSize(UInt64 byteCount)
+        public static String BytesToMetric(UInt64 byteCount)
         {
             string[] suf = { "B", "KB", "MB", "GB", "TB", "PB", "EB" }; // Longs run out around EB
 

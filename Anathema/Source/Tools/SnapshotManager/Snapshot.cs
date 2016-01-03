@@ -17,12 +17,15 @@ namespace Anathema
         private MemorySharp MemoryEditor;
 
         protected SnapshotRegion[] SnapshotRegions;
+
+        // Variables to send to the display when displaying this snapshot
+        private String ScanMethod;
         private DateTime TimeStamp;
 
         public Snapshot()
         {
             this.SnapshotRegions = null;
-
+            
             Initialize();
         }
 
@@ -77,6 +80,16 @@ namespace Anathema
         public DateTime GetTimeStamp()
         {
             return TimeStamp;
+        }
+
+        public void SetScanMethod(String ScanMethod)
+        {
+            this.ScanMethod = ScanMethod;
+        }
+
+        public String GetScanMethod()
+        {
+            return ScanMethod;
         }
 
         public void ReadAllMemory(Boolean KeepPreviousValues = true)

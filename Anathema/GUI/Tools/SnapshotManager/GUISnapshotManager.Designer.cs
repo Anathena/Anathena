@@ -31,11 +31,14 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(GUISnapshotManager));
             this.ScanToolStrip = new System.Windows.Forms.ToolStrip();
             this.NewSnapshotButton = new System.Windows.Forms.ToolStripButton();
-            this.SelectPreviousSnapshotButton = new System.Windows.Forms.ToolStripButton();
-            this.SelectNextSnapshotButton = new System.Windows.Forms.ToolStripButton();
+            this.UndoSnapshotButton = new System.Windows.Forms.ToolStripButton();
+            this.RedoSnapshotButton = new System.Windows.Forms.ToolStripButton();
             this.ToolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.ClearSnapshotsButton = new System.Windows.Forms.ToolStripButton();
             this.SnapshotListView = new System.Windows.Forms.ListView();
+            this.ScanMethodHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.SizeHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.TimeStampHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.ScanToolStrip.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -45,8 +48,8 @@
             this.ScanToolStrip.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
             this.ScanToolStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.NewSnapshotButton,
-            this.SelectPreviousSnapshotButton,
-            this.SelectNextSnapshotButton,
+            this.UndoSnapshotButton,
+            this.RedoSnapshotButton,
             this.ToolStripSeparator1,
             this.ClearSnapshotsButton});
             this.ScanToolStrip.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.VerticalStackWithOverflow;
@@ -64,29 +67,32 @@
             this.NewSnapshotButton.Name = "NewSnapshotButton";
             this.NewSnapshotButton.Size = new System.Drawing.Size(29, 20);
             this.NewSnapshotButton.Text = "New Snapshot";
+            this.NewSnapshotButton.Click += new System.EventHandler(this.NewSnapshotButton_Click);
             // 
-            // SelectPreviousSnapshotButton
+            // UndoSnapshotButton
             // 
-            this.SelectPreviousSnapshotButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.SelectPreviousSnapshotButton.Image = ((System.Drawing.Image)(resources.GetObject("SelectPreviousSnapshotButton.Image")));
-            this.SelectPreviousSnapshotButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.SelectPreviousSnapshotButton.Name = "SelectPreviousSnapshotButton";
-            this.SelectPreviousSnapshotButton.Size = new System.Drawing.Size(29, 20);
-            this.SelectPreviousSnapshotButton.Text = "Select Previous";
+            this.UndoSnapshotButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.UndoSnapshotButton.Image = ((System.Drawing.Image)(resources.GetObject("UndoSnapshotButton.Image")));
+            this.UndoSnapshotButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.UndoSnapshotButton.Name = "UndoSnapshotButton";
+            this.UndoSnapshotButton.Size = new System.Drawing.Size(21, 20);
+            this.UndoSnapshotButton.Text = "Undo";
+            this.UndoSnapshotButton.Click += new System.EventHandler(this.UndoSnapshotButton_Click);
             // 
-            // SelectNextSnapshotButton
+            // RedoSnapshotButton
             // 
-            this.SelectNextSnapshotButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.SelectNextSnapshotButton.Image = ((System.Drawing.Image)(resources.GetObject("SelectNextSnapshotButton.Image")));
-            this.SelectNextSnapshotButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.SelectNextSnapshotButton.Name = "SelectNextSnapshotButton";
-            this.SelectNextSnapshotButton.Size = new System.Drawing.Size(29, 20);
-            this.SelectNextSnapshotButton.Text = "Select Next";
+            this.RedoSnapshotButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.RedoSnapshotButton.Image = ((System.Drawing.Image)(resources.GetObject("RedoSnapshotButton.Image")));
+            this.RedoSnapshotButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.RedoSnapshotButton.Name = "RedoSnapshotButton";
+            this.RedoSnapshotButton.Size = new System.Drawing.Size(21, 20);
+            this.RedoSnapshotButton.Text = "Redo";
+            this.RedoSnapshotButton.Click += new System.EventHandler(this.RedoSnapshotButton_Click);
             // 
             // ToolStripSeparator1
             // 
             this.ToolStripSeparator1.Name = "ToolStripSeparator1";
-            this.ToolStripSeparator1.Size = new System.Drawing.Size(29, 6);
+            this.ToolStripSeparator1.Size = new System.Drawing.Size(21, 6);
             // 
             // ClearSnapshotsButton
             // 
@@ -95,18 +101,37 @@
             this.ClearSnapshotsButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.ClearSnapshotsButton.Name = "ClearSnapshotsButton";
             this.ClearSnapshotsButton.Size = new System.Drawing.Size(29, 20);
-            this.ClearSnapshotsButton.Text = "Open Table";
-            this.ClearSnapshotsButton.ToolTipText = "Stop Tree Scan";
+            this.ClearSnapshotsButton.Text = "Clear Snapshots";
             this.ClearSnapshotsButton.Click += new System.EventHandler(this.ClearSnapshotsButton_Click);
             // 
             // SnapshotListView
             // 
+            this.SnapshotListView.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.ScanMethodHeader,
+            this.SizeHeader,
+            this.TimeStampHeader});
             this.SnapshotListView.Dock = System.Windows.Forms.DockStyle.Fill;
             this.SnapshotListView.Location = new System.Drawing.Point(0, 0);
             this.SnapshotListView.Name = "SnapshotListView";
             this.SnapshotListView.Size = new System.Drawing.Size(216, 199);
             this.SnapshotListView.TabIndex = 152;
             this.SnapshotListView.UseCompatibleStateImageBehavior = false;
+            this.SnapshotListView.View = System.Windows.Forms.View.Details;
+            // 
+            // ScanMethodHeader
+            // 
+            this.ScanMethodHeader.Text = "Scan Method";
+            this.ScanMethodHeader.Width = 86;
+            // 
+            // SizeHeader
+            // 
+            this.SizeHeader.Text = "Size";
+            this.SizeHeader.Width = 45;
+            // 
+            // TimeStampHeader
+            // 
+            this.TimeStampHeader.Text = "Time Stamp";
+            this.TimeStampHeader.Width = 76;
             // 
             // GUISnapshotManager
             // 
@@ -118,7 +143,6 @@
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Name = "GUISnapshotManager";
             this.Text = "Snapshot Manager";
-            this.Load += new System.EventHandler(this.GUISnapshotManager_Load);
             this.ScanToolStrip.ResumeLayout(false);
             this.ScanToolStrip.PerformLayout();
             this.ResumeLayout(false);
@@ -131,8 +155,11 @@
         private System.Windows.Forms.ToolStripButton NewSnapshotButton;
         private System.Windows.Forms.ToolStripSeparator ToolStripSeparator1;
         private System.Windows.Forms.ToolStripButton ClearSnapshotsButton;
-        private System.Windows.Forms.ToolStripButton SelectPreviousSnapshotButton;
-        private System.Windows.Forms.ToolStripButton SelectNextSnapshotButton;
+        private System.Windows.Forms.ToolStripButton UndoSnapshotButton;
+        private System.Windows.Forms.ToolStripButton RedoSnapshotButton;
         private System.Windows.Forms.ListView SnapshotListView;
+        private System.Windows.Forms.ColumnHeader ScanMethodHeader;
+        private System.Windows.Forms.ColumnHeader SizeHeader;
+        private System.Windows.Forms.ColumnHeader TimeStampHeader;
     }
 }
