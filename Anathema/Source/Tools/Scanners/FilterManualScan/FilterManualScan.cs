@@ -14,6 +14,7 @@ namespace Anathema
         private Snapshot Snapshot;
 
         // User controlled variables
+        private ScanConstraints ScanConstraints;
 
         public FilterManualScan()
         {
@@ -24,11 +25,6 @@ namespace Anathema
         {
             // Initialize labeled snapshot
             Snapshot = new Snapshot(SnapshotManager.GetInstance().GetActiveSnapshot());
-
-            // Initialize change counts to zero
-            foreach (SnapshotRegion Region in Snapshot)
-                foreach (SnapshotElement Element in Region)
-                    Element.MemoryLabel = 0;
 
             base.BeginScan();
         }
@@ -44,8 +40,40 @@ namespace Anathema
                 {
                     if (!Element.CanCompare())
                         continue;
+
+                    // Enforce each constraint
+                    foreach (ScanConstraintItem ScanConstraint in ScanConstraints)
+                    {
+                        Element.ElementType = ScanConstraint.ElementType;
+
+                        switch (ScanConstraint.ValueConstraints)
+                        {
+                            case ValueConstraintsEnum.Unchanged:
+                                break;
+                            case ValueConstraintsEnum.Changed:
+                                break;
+                            case ValueConstraintsEnum.Increased:
+                                break;
+                            case ValueConstraintsEnum.Decreased:
+                                break;
+                            case ValueConstraintsEnum.IncreasedByX:
+                                break;
+                            case ValueConstraintsEnum.DecreasedByX:
+                                break;
+                            case ValueConstraintsEnum.Equal:
+                                break;
+                            case ValueConstraintsEnum.NotEqual:
+                                break;
+                            case ValueConstraintsEnum.GreaterThan:
+                                break;
+                            case ValueConstraintsEnum.LessThan:
+                                break;
+                        }
+                    }
                 }
             }
+
+            EndScan();
         }
 
         public override void EndScan()

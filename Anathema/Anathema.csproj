@@ -415,7 +415,7 @@
     <Compile Include="Source\Tools\Table\TableAddressEntryEditor.cs" />
     <Compile Include="Source\Tools\Table\Table.cs" />
     <Compile Include="Source\Tools\Table\TableItem.cs" />
-    <Compile Include="Source\Tools\Scanners\ValueConstraintsItem.cs" />
+    <Compile Include="Source\Tools\Scanners\ScanConstraintItem.cs" />
     <EmbeddedResource Include="GUI\CustomControls\HexEditor\BitControl.de.resx">
       <DependentUpon>BitControl.cs</DependentUpon>
       <SubType>Designer</SubType>

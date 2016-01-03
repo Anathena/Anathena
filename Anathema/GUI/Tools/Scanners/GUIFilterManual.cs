@@ -26,6 +26,8 @@ namespace Anathema
             InitializeScanOptionButtons();
 
             FilterManualScanPresenter = new FilterManualScanPresenter(this, new FilterManualScan());
+
+            EvaluateScanOptions(EqualButton);
         }
 
         private void InitializeValueTypeComboBox()
@@ -38,86 +40,67 @@ namespace Anathema
 
         private void InitializeScanOptionButtons()
         {
-            ScanOptionButtons.Add(NegateButton);
+            ScanOptionButtons.Add(UnchangedButton);
             ScanOptionButtons.Add(ChangedButton);
             ScanOptionButtons.Add(IncreasedButton);
             ScanOptionButtons.Add(DecreasedButton);
+            ScanOptionButtons.Add(NotEqualButton);
             ScanOptionButtons.Add(EqualButton);
             ScanOptionButtons.Add(GreaterThanButton);
             ScanOptionButtons.Add(LessThanButton);
+            ScanOptionButtons.Add(IncreasedByXButton);
+            ScanOptionButtons.Add(DecreasedByXButton);
         }
 
         private void EvaluateScanOptions(ToolStripButton Sender)
         {
             ValueConstraintsEnum ValueConstraint = ValueConstraintsEnum.Invalid;
 
-            if (IsCurrentScanSetting(EqualButton))
+            foreach (ToolStripButton Button in ScanOptionButtons)
+                if (Button != Sender)
+                    Button.Checked = false;
+                else
+                    Button.Checked = true;
+            
+            if (Sender == EqualButton)
             {
                 ValueConstraint = ValueConstraintsEnum.Equal;
             }
-            else if (IsCurrentScanSetting(NegateButton, EqualButton))
+            else if (Sender == NotEqualButton)
             {
                 ValueConstraint = ValueConstraintsEnum.NotEqual;
             }
-            else if (IsCurrentScanSetting(ChangedButton))
+            else if (Sender == ChangedButton)
             {
                 ValueConstraint = ValueConstraintsEnum.Changed;
             }
-            else if (IsCurrentScanSetting(NegateButton, ChangedButton))
+            else if (Sender == UnchangedButton)
             {
                 ValueConstraint = ValueConstraintsEnum.Unchanged;
             }
-            else if (IsCurrentScanSetting(IncreasedButton) || IsCurrentScanSetting(NegateButton, DecreasedButton))
+            else if (Sender == IncreasedButton)
             {
                 ValueConstraint = ValueConstraintsEnum.Increased;
             }
-            else if (IsCurrentScanSetting(DecreasedButton) || IsCurrentScanSetting(NegateButton, IncreasedButton))
+            else if (Sender == DecreasedButton)
             {
                 ValueConstraint = ValueConstraintsEnum.Decreased;
             }
-            else if (IsCurrentScanSetting(IncreasedButton, EqualButton))
+            else if (Sender == GreaterThanButton)
+            {
+                ValueConstraint = ValueConstraintsEnum.GreaterThan;
+            }
+            else if (Sender == LessThanButton)
+            {
+                ValueConstraint = ValueConstraintsEnum.LessThan;
+            }
+            else if (Sender == IncreasedByXButton)
             {
                 ValueConstraint = ValueConstraintsEnum.IncreasedByX;
             }
-            else if (IsCurrentScanSetting(DecreasedButton, EqualButton))
+            else if (Sender == DecreasedByXButton)
             {
                 ValueConstraint = ValueConstraintsEnum.DecreasedByX;
-            }
-            else if (IsCurrentScanSetting(GreaterThanButton))
-            {
-                ValueConstraint = ValueConstraintsEnum.GreaterThanExclusive;
-            }
-            else if (IsCurrentScanSetting(LessThanButton))
-            {
-                ValueConstraint = ValueConstraintsEnum.LessThanExclusive;
-            }
-            else if (IsCurrentScanSetting(GreaterThanButton, EqualButton) || IsCurrentScanSetting(LessThanButton, NegateButton))
-            {
-                ValueConstraint = ValueConstraintsEnum.GreaterThanInclusive;
-            }
-            else if (IsCurrentScanSetting(LessThanButton, EqualButton) || IsCurrentScanSetting(GreaterThanButton, NegateButton))
-            {
-                ValueConstraint = ValueConstraintsEnum.LessThanInclusive;
-            }
-            else if (IsCurrentScanSetting(GreaterThanButton, LessThanButton))
-            {
-                ValueConstraint = ValueConstraintsEnum.BetweenExclusive;
-            }
-            else if (IsCurrentScanSetting(GreaterThanButton, LessThanButton, EqualButton))
-            {
-                ValueConstraint = ValueConstraintsEnum.BetweenInclusive;
-            }
-            else if (Sender != null)
-            {
-                if (Sender == null)
-                    return;
-
-                foreach (ToolStripButton Button in ScanOptionButtons)
-                    if (Button != Sender)
-                        Button.Checked = false;
-
-                EvaluateScanOptions(null);
-                return;
             }
 
             FilterManualScanPresenter.SetValueConstraints(ValueConstraint);
@@ -158,7 +141,12 @@ namespace Anathema
             EvaluateScanOptions((ToolStripButton)Sender);
         }
 
-        private void NegateButton_Click(Object Sender, EventArgs E)
+        private void NotEqualButton_Click(Object Sender, EventArgs E)
+        {
+            EvaluateScanOptions((ToolStripButton)Sender);
+        }
+
+        private void UnchangedButton_Click(Object Sender, EventArgs E)
         {
             EvaluateScanOptions((ToolStripButton)Sender);
         }
@@ -188,6 +176,22 @@ namespace Anathema
             EvaluateScanOptions((ToolStripButton)Sender);
         }
 
+        private void IncreasedByXButton_Click(Object Sender, EventArgs E)
+        {
+            EvaluateScanOptions((ToolStripButton)Sender);
+        }
+
+        private void DecreasedByXButton_Click(Object Sender, EventArgs E)
+        {
+            EvaluateScanOptions((ToolStripButton)Sender);
+        }
+
+        private void AddConstraintButton_Click(object sender, EventArgs e)
+        {
+
+        }
+
         #endregion
+
     }
 }

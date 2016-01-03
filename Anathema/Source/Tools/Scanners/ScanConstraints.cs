@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,18 +10,18 @@ namespace Anathema
     /// <summary>
     /// Class for storing a collection of constraints to be used in a scan that applies more than one constraint per update
     /// </summary>
-    class ScanConstraints
+    class ScanConstraints : IEnumerable
     {
-        private List<ValueConstraintsItem> ValueConstraints;
+        private List<ScanConstraintItem> ValueConstraints;
         private Boolean FilterScientificNotation;
 
         public ScanConstraints()
         {
             FilterScientificNotation = false;
-            ValueConstraints = new List<ValueConstraintsItem>();
+            ValueConstraints = new List<ScanConstraintItem>();
         }
 
-        public void AddConstraint(ValueConstraintsItem ValueConstraintsItem)
+        public void AddConstraint(ScanConstraintItem ValueConstraintsItem)
         {
             this.ValueConstraints.Add(ValueConstraintsItem);
         }
@@ -34,7 +35,12 @@ namespace Anathema
         {
             this.FilterScientificNotation = FilterScientificNotation;
         }
-        
+
+        public IEnumerator GetEnumerator()
+        {
+            return ((IEnumerable)ValueConstraints).GetEnumerator();
+        }
+
     } // End class
 
 } // End namespace
