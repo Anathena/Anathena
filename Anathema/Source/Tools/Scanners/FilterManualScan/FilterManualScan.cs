@@ -37,7 +37,7 @@ namespace Anathema
 
             Snapshot.MarkAllValid();
 
-            base.BeginScan();
+            base.BeginScanRunOnce();
         }
 
         protected override void UpdateScan()
@@ -113,13 +113,11 @@ namespace Anathema
                 }); // End foreach Region
 
             } // End foreach Constraint
-
-            EndScan();
         }
 
         public override void EndScan()
         {
-            base.EndScan();
+            // base.EndScan();
 
             Snapshot FilteredSnapshot = new Snapshot(Snapshot.GetValidRegions());
             FilteredSnapshot.SetScanMethod("Manual Scan");

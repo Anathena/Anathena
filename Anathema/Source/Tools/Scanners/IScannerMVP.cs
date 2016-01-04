@@ -23,6 +23,13 @@ namespace Anathema
         private const Int32 AbortTime = 3000;   // Time to wait (in ms) before giving up when ending scan
         private Int32 WaitTime = 400;           // Time to wait (in ms) for a cancel request between each scan
 
+
+        public virtual void BeginScanRunOnce()
+        {
+            UpdateScan();
+            EndScan();
+        }
+
         public virtual void BeginScan()
         {
             CancelRequest = new CancellationTokenSource();
