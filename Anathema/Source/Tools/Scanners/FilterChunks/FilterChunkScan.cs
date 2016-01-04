@@ -31,15 +31,32 @@ namespace Anathema
             this.MinChanges = MinChanges;
         }
 
+        /// <summary>
+        /// Heuristic algorithm to determine the proper chunk size for this chunk scan based on the current region size.
+        /// Chunks vary in powers of 2 from 32B to 1024B
+        /// </summary>
+        /// <param name="MemorySize"></param>
+        /// <returns></returns>
+        private Int32 SetChunkSizeDoe(UInt64 MemorySize)
+        {
+            UInt32 Value = (UInt32)(Snapshot.GetMemorySize() >> 20);
+            Int32 Bits = 0;
+            while ((Value >>= 1) != 0) { Bits++; }
+            Bits = (Bits <= 5 ? 5 : (Bits >= 10 ? 10 : Bits));
+            return (Int32)(1 << Bits);
+        }
+
         public override void BeginScan()
         {
             this.Snapshot = new Snapshot(SnapshotManager.GetInstance().GetActiveSnapshot());
             this.ChunkRoots = new List<MemoryChunkRoots>();
 
+            this.ChunkSize = SetChunkSizeDoe(Snapshot.GetMemorySize());
+
             // Initialize filter tree roots
             foreach (dynamic MemoryRegion in Snapshot)
                 ChunkRoots.Add(new MemoryChunkRoots(MemoryRegion, ChunkSize));
-            
+
             base.BeginScan();
         }
 
@@ -157,7 +174,7 @@ namespace Anathema
             {
                 for (Int32 Index = 0; Index < Chunks.Length; Index++)
                 {
-                    UInt32 NewChecksum = Hashing.ComputeCheckSum(Data, 
+                    UInt32 NewChecksum = Hashing.ComputeCheckSum(Data,
                         (UInt32)((UInt64)Chunks[Index].BaseAddress - (UInt64)this.BaseAddress),
                         (UInt32)((UInt64)Chunks[Index].EndAddress - (UInt64)this.BaseAddress));
 

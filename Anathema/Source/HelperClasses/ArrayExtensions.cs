@@ -9,7 +9,7 @@ namespace Anathema
     static class ArrayExtensions
     {
         /// <summary>
-        /// Extention method
+        /// Returns the specified subarray. Returns null if the specified index is out of bounds.
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="ArrayA"></param>
@@ -19,6 +19,26 @@ namespace Anathema
         public static T[] SubArray<T>(this T[] ArrayA, Int32 Index, Int32 Length)
         {
             if (ArrayA.Length - Index < Length)
+                return null;
+
+            T[] Result = new T[Length];
+            Array.Copy(ArrayA, Index, Result, 0, Length);
+            return Result;
+        }
+        /// <summary>
+        /// Returns the specified subarray. Attempts to return a smaller subarray if the specified length is out of bounds.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="ArrayA"></param>
+        /// <param name="Index"></param>
+        /// <param name="Length"></param>
+        /// <returns></returns>
+        public static T[] LargestSubArray<T>(this T[] ArrayA, Int32 Index, Int32 Length)
+        {
+            if (ArrayA.Length - Index < Length)
+                Length = ArrayA.Length - Index;
+
+            if (Length == 0)
                 return null;
 
             T[] Result = new T[Length];

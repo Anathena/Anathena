@@ -55,12 +55,14 @@ namespace Anathema
                 if (!Valid[StartIndex])
                     continue;
 
+                // Determine length of this segment of valid regions
                 Int32 ValidRegionSize = 0;
                 while (StartIndex + (++ValidRegionSize) < Valid.Length && Valid[StartIndex + ValidRegionSize]) { }
-
+                
+                // Create the subregion from this segment
                 SnapshotRegion SubRegion = new SnapshotRegion(this.BaseAddress + StartIndex, ValidRegionSize);
                 if (CurrentValues != null)
-                    SubRegion.SetCurrentValues(CurrentValues.SubArray(StartIndex, ValidRegionSize));
+                    SubRegion.SetCurrentValues(CurrentValues.LargestSubArray(StartIndex, ValidRegionSize + Marshal.SizeOf(ElementTypes)));
                 SubRegion.SetElementTypes(ElementTypes);
 
                 ValidRegions.Add(SubRegion);
@@ -193,9 +195,14 @@ namespace Anathema
                 if (!Valid[StartIndex])
                     continue;
 
+                // Get the length of this valid region
                 Int32 ValidRegionSize = 0;
                 while (StartIndex + (++ValidRegionSize) < Valid.Length && Valid[StartIndex + ValidRegionSize]) { }
 
+                // Extend this region by the size of our variable type
+                ValidRegionSize += Marshal.SizeOf(ElementTypes) - 1;
+                
+                // Create new subregion from this valid region
                 SnapshotRegion<T> SubRegion = new SnapshotRegion<T>(this.BaseAddress + StartIndex, ValidRegionSize);
                 if (CurrentValues != null)
                     SubRegion.SetCurrentValues(CurrentValues.SubArray(StartIndex, ValidRegionSize));

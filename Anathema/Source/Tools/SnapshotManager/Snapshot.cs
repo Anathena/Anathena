@@ -217,7 +217,10 @@ namespace Anathema
         /// <param name="Mask"></param>
         public void MaskRegions(Snapshot Mask)
         {
-            // MergeRegions(); // Just for the sort
+            foreach (SnapshotRegion MaskRegion in Mask)
+            {
+
+            }
         }
 
         /// <summary>
