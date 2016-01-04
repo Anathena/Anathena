@@ -10,22 +10,17 @@ namespace Anathema
 {
     class FilterChunkScan : IFilterChunkScanModel
     {
-        // Variables
         private List<MemoryChunkRoots> ChunkRoots;
         private Snapshot Snapshot;
         private Int32 ChunkSize;
+
+        // User controlled variables
         private Int32 MinChanges;
 
         public FilterChunkScan()
         {
 
         }
-
-        public override void SetChunkSize(Int32 ChunkSize)
-        {
-            this.ChunkSize = ChunkSize;
-        }
-
         public override void SetMinChanges(Int32 MinChanges)
         {
             this.MinChanges = MinChanges;
@@ -105,11 +100,6 @@ namespace Anathema
 
             // Read memory so that there are values for the next scan to process
             FilteredSnapshot.ReadAllMemory();
-
-            // Send the size of the filtered memory to the GUI
-            FilterChunksEventArgs Args = new FilterChunksEventArgs();
-            Args.FilterResultSize = FilteredSnapshot.GetMemorySize();
-            OnEventUpdateMemorySize(Args);
 
             // Save result
             SnapshotManager.GetInstance().SaveSnapshot(FilteredSnapshot);
