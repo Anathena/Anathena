@@ -12,13 +12,22 @@ namespace Anathema
         public readonly IntPtr BaseAddress;     // Address of this Element
         public readonly Byte[] PreviousValue;   // Raw previous and values
         public readonly Byte[] CurrentValue;    // Raw current values
+
+        private SnapshotRegion Parent;
+        private Int32 Index;
+
+        private Boolean _Valid;
+        public Boolean Valid { get { return _Valid; } set { _Valid = value; Parent[Index] = this; } }
         public Type ElementType { get; set; }   // Type for interpreting the stored values
 
         protected SnapshotElement() { }
-        public SnapshotElement(IntPtr BaseAddress, Type ElementType, Byte[] CurrentValue, Byte[] PreviousValue)
+        public SnapshotElement(IntPtr BaseAddress, SnapshotRegion Parent, Int32 Index, Type ElementType, Boolean Valid, Byte[] CurrentValue, Byte[] PreviousValue)
         {
             this.BaseAddress = BaseAddress;
+            this.Parent = Parent;
+            this.Index = Index; 
             this.ElementType = ElementType;
+            this.Valid = Valid;
             this.CurrentValue = CurrentValue;
             this.PreviousValue = PreviousValue;
         }
@@ -94,17 +103,6 @@ namespace Anathema
         {
             return (GetValue(CurrentValue) == GetValue(PreviousValue) - Value);
         }
-
-        /// <summary>
-        /// Returns true if an element can be compared with itself: previous and current values are initialized
-        /// </summary>
-        /// <returns></returns>
-        public Boolean CanCompare()
-        {
-            if (PreviousValue == null || CurrentValue == null || PreviousValue.Length != CurrentValue.Length)
-                return false;
-            return true;
-        }
     }
 
     public class SnapshotElement<T> : SnapshotElement where T : struct
@@ -116,8 +114,8 @@ namespace Anathema
         private T? _MemoryLabel;
         public T? MemoryLabel { get { return _MemoryLabel; } set { _MemoryLabel = value; Parent[Index] = this; } }
 
-        public SnapshotElement(IntPtr BaseAddress, SnapshotRegion<T> Parent, Int32 Index, Type ElementType, Byte[] CurrentValue, Byte[] PreviousValue, T? Label)
-            : base(BaseAddress, ElementType, CurrentValue, PreviousValue)
+        public SnapshotElement(IntPtr BaseAddress, SnapshotRegion<T> Parent, Int32 Index, Type ElementType, Boolean Valid, Byte[] CurrentValue, Byte[] PreviousValue, T? Label)
+            : base(BaseAddress, Parent, Index, ElementType, Valid, CurrentValue, PreviousValue)
         {
             this.Parent = Parent;
             this.Index = Index;

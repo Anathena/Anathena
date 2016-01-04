@@ -83,6 +83,10 @@ namespace Anathema
                 return IntPtr.Zero;
 
             Snapshot ActiveSnapshot = SnapshotManager.GetInstance().GetActiveSnapshot();
+
+            if (Index >= (Int32)ActiveSnapshot.GetMemorySize())
+                return IntPtr.Zero;
+
             return ActiveSnapshot[Index].BaseAddress;
         }
 

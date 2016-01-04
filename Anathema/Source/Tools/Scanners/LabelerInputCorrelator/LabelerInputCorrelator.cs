@@ -75,11 +75,11 @@ namespace Anathema
 
             foreach (SnapshotRegion<Single> Region in LabeledSnapshot)
             {
+                if (!Region.CanCompare())
+                    continue;
+
                 foreach (SnapshotElement<Single> Element in Region)
                 {
-                    if (!Element.CanCompare())
-                        continue;
-                    
                     if (Element.Changed())
                     {
                         if (InputConditionValid(LabeledSnapshot.GetTimeStamp()))
@@ -109,13 +109,14 @@ namespace Anathema
                     if (Element.MemoryLabel.Value > MaxValue)
                         MaxValue = Element.MemoryLabel.Value;
 
+            LabeledSnapshot.MarkAllValid();
             foreach (SnapshotRegion<Single> Region in LabeledSnapshot)
             {
                 foreach (SnapshotElement<Single> Element in Region)
                 {
                     Element.MemoryLabel = Element.MemoryLabel / MaxValue;
                     if (Element.MemoryLabel.Value > 0.80f)
-                        FilteredElements.Add(new SnapshotRegion<Single>(Element));
+                        Element.Valid = true;
                 }
             } 
 

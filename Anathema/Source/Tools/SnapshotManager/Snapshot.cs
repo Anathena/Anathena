@@ -36,7 +36,11 @@ namespace Anathema
         {
             List<SnapshotRegion> Regions = new List<SnapshotRegion>();
             foreach (SnapshotRegion Region in BaseSnapshot.GetSnapshotData())
+            { 
                 Regions.Add(new SnapshotRegion(Region));
+                Regions.Last().SetCurrentValues(Region.GetCurrentValues());
+                Regions.Last().SetElementTypes(Region.GetElementTypes());
+            }
             SnapshotRegions = Regions.ToArray();
 
             Initialize();
@@ -103,6 +107,28 @@ namespace Anathema
         public String GetScanMethod()
         {
             return ScanMethod;
+        }
+
+        public virtual SnapshotRegion[] GetValidRegions()
+        {
+            List<SnapshotRegion> ValidRegions = new List<SnapshotRegion>();
+
+            foreach (SnapshotRegion Region in this)
+                ValidRegions.AddRange(Region.GetValidRegions());
+
+            return ValidRegions.ToArray();
+        }
+
+        public void MarkAllValid()
+        {
+            foreach (SnapshotRegion Region in this)
+                Region.MarkAllValid();
+        }
+
+        public void MarkAllInvalid()
+        {
+            foreach (SnapshotRegion Region in this)
+                Region.MarkAllInvalid();
         }
 
         public void ReadAllMemory(Boolean KeepPreviousValues = true)
@@ -281,6 +307,22 @@ namespace Anathema
                 }
                 return null;
             }
+        }
+
+        public new SnapshotRegion<T>[] GetValidRegions()
+        {
+            List<SnapshotRegion<T>> ValidRegions = new List<SnapshotRegion<T>>();
+
+            foreach (SnapshotRegion<T> Region in this)
+                ValidRegions.AddRange(Region.GetValidRegions());
+
+            return ValidRegions.ToArray();
+        }
+
+        public void SetMemoryLabels(T Value)
+        {
+            foreach (SnapshotRegion<T> Region in this)
+                Region.SetMemoryLabels(Value);
         }
 
         /// <summary>

@@ -68,9 +68,8 @@ namespace Anathema
             LabeledSnapshot.SetVariableSize(VariableSize);
 
             // Initialize change counts to zero
-            foreach (SnapshotRegion<UInt16> Region in LabeledSnapshot)
-                foreach (SnapshotElement<UInt16> Element in Region)
-                    Element.MemoryLabel = 0;
+            LabeledSnapshot.SetMemoryLabels(0);
+            LabeledSnapshot.MarkAllInvalid();
 
             base.BeginScan();
         }
@@ -79,14 +78,13 @@ namespace Anathema
         {
             // Read memory to get current values
             LabeledSnapshot.ReadAllMemory();
-
             foreach (SnapshotRegion<UInt16> Region in LabeledSnapshot)
             {
+                if (!Region.CanCompare())
+                    continue;
+
                 foreach (SnapshotElement<UInt16> Element in Region)
                 {
-                    if (!Element.CanCompare())
-                        continue;
-
                     switch (ChangeCountingMode)
                     {
                         case ChangeCountingModeEnum.Changing:
@@ -110,18 +108,14 @@ namespace Anathema
         {
             base.EndScan();
 
-            List<SnapshotRegion<UInt16>> FilteredElements = new List<SnapshotRegion<UInt16>>();
-
+            // Mark regions as valid or invalid based on label value
             foreach (SnapshotRegion<UInt16> Region in LabeledSnapshot)
-            {
                 foreach (SnapshotElement<UInt16> Element in Region)
-                {
                     if (Element.MemoryLabel.Value >= MinChanges && Element.MemoryLabel.Value <= MaxChanges)
-                        FilteredElements.Add(new SnapshotRegion<UInt16>(Element));
-                }
-            }
+                        Element.Valid = true;
 
-            Snapshot<UInt16> FilteredSnapshot = new Snapshot<UInt16>(FilteredElements.ToArray());
+            // Create a snapshot from the valid regions
+            Snapshot<UInt16> FilteredSnapshot = new Snapshot<UInt16>(LabeledSnapshot.GetValidRegions());
             FilteredSnapshot.SetScanMethod("Change Counter");
             SnapshotManager.GetInstance().SaveSnapshot(FilteredSnapshot);
         }

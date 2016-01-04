@@ -1,7 +1,9 @@
 ﻿using Binarysharp.MemoryManagement.Memory;
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 
 namespace Anathema
 {
@@ -12,11 +14,11 @@ namespace Anathema
     {
         protected Byte[] CurrentValues;
         protected Byte[] PreviousValues;
-        protected Type[] ElementTypes;
+        protected Type ElementTypes;
+        protected BitArray Valid;
 
         public SnapshotRegion(IntPtr BaseAddress, Int32 RegionSize) : base(null, BaseAddress, RegionSize) { }
         public SnapshotRegion(RemoteRegion RemoteRegion) : base(null, RemoteRegion.BaseAddress, RemoteRegion.RegionSize) { }
-        public SnapshotRegion(SnapshotElement SnapshotElement) : base(null, SnapshotElement.BaseAddress, 1) { }
 
         /// <summary>
         /// Indexer to access a unified snapshot element at the specified index
@@ -28,21 +30,63 @@ namespace Anathema
             get
             {
                 return new SnapshotElement(
-                BaseAddress + Index,
-                ElementTypes == null ? (Type)null : ElementTypes[Index],
-                CurrentValues == null ? (Byte[])null : CurrentValues.SubArray(Index, System.Runtime.InteropServices.Marshal.SizeOf(ElementTypes[Index])),
-                PreviousValues == null ? (Byte[])null : PreviousValues.SubArray(Index, System.Runtime.InteropServices.Marshal.SizeOf(ElementTypes[Index]))
+                BaseAddress + Index, this, Index,
+                ElementTypes,
+                Valid == null ? false : Valid[Index],
+                CurrentValues == null ? (Byte[])null : CurrentValues.SubArray(Index, Marshal.SizeOf(ElementTypes)),
+                PreviousValues == null ? (Byte[])null : PreviousValues.SubArray(Index, Marshal.SizeOf(ElementTypes))
                 );
             }
-            set { if (value.ElementType != null) ElementTypes[Index] = value.ElementType; else ElementTypes[Index] = null; }
+            set
+            {
+                if (this.Valid != null) Valid[Index] = value.Valid;
+            }
+        }
+
+        /// <summary>
+        /// Returns all subregions of this region which are marked as valid
+        /// </summary>
+        /// <returns></returns>
+        public List<SnapshotRegion> GetValidRegions()
+        {
+            List<SnapshotRegion> ValidRegions = new List<SnapshotRegion>();
+            for (Int32 StartIndex = 0; StartIndex < Valid.Length; StartIndex++)
+            {
+                if (!Valid[StartIndex])
+                    continue;
+
+                Int32 ValidRegionSize = 0;
+                while (StartIndex + (++ValidRegionSize) < Valid.Length && Valid[StartIndex + ValidRegionSize]) { }
+
+                SnapshotRegion SubRegion = new SnapshotRegion(this.BaseAddress + StartIndex, ValidRegionSize);
+                if (CurrentValues != null)
+                    SubRegion.SetCurrentValues(CurrentValues.SubArray(StartIndex, ValidRegionSize));
+                SubRegion.SetElementTypes(ElementTypes);
+
+                ValidRegions.Add(SubRegion);
+
+                StartIndex += ValidRegionSize;
+            }
+
+            return ValidRegions;
+        }
+
+        public void MarkAllValid()
+        {
+            Valid = new BitArray(RegionSize, true);
+        }
+
+        public void MarkAllInvalid()
+        {
+            Valid = new BitArray(RegionSize, false);
         }
 
         public void SetElementTypes(Type ElementType)
         {
-            this.ElementTypes = Enumerable.Repeat(ElementType, RegionSize).ToArray();
+            this.ElementTypes = ElementType;
         }
 
-        public void SetCurrentValues(Byte[] NewValues, Boolean KeepPreviousValues)
+        public void SetCurrentValues(Byte[] NewValues, Boolean KeepPreviousValues = true)
         {
             PreviousValues = CurrentValues;
             CurrentValues = NewValues;
@@ -59,6 +103,22 @@ namespace Anathema
         public Byte[] GetPreviousValues()
         {
             return PreviousValues;
+        }
+
+        public Type GetElementTypes()
+        {
+            return ElementTypes;
+        }
+
+        /// <summary>
+        /// Returns true if an region can be compared with itself: previous and current values are initialized
+        /// </summary>
+        /// <returns></returns>
+        public Boolean CanCompare()
+        {
+            if (PreviousValues == null || CurrentValues == null || PreviousValues.Length != CurrentValues.Length)
+                return false;
+            return true;
         }
 
         public virtual IEnumerator GetEnumerator()
@@ -83,14 +143,15 @@ namespace Anathema
             PreviousValues = SnapshotRegion.GetPreviousValues() == null ? null : (Byte[])SnapshotRegion.GetPreviousValues().Clone();
             MemoryLabels = new T?[SnapshotRegion.RegionSize];
         }
-        public SnapshotRegion(SnapshotElement<T> SnapshotElement) : base(SnapshotElement.BaseAddress, 1)
-        {
-            MemoryLabels = new T?[] { SnapshotElement.MemoryLabel };
-        }
 
         public T?[] GetMemoryLabels()
         {
             return MemoryLabels;
+        }
+
+        public void SetMemoryLabels(T? MemoryLabel)
+        {
+            this.MemoryLabels = Enumerable.Repeat(MemoryLabel, RegionSize).ToArray();
         }
 
         public void SetMemoryLabels(T?[] MemoryLabels)
@@ -109,17 +170,45 @@ namespace Anathema
             {
                 return new SnapshotElement<T>(
                 BaseAddress + Index, this, Index,
-                ElementTypes == null ? (Type)null : ElementTypes[Index],
-                CurrentValues == null ? (Byte[])null : CurrentValues.SubArray(Index, System.Runtime.InteropServices.Marshal.SizeOf(ElementTypes[Index])),
-                PreviousValues == null ? (Byte[])null : PreviousValues.SubArray(Index, System.Runtime.InteropServices.Marshal.SizeOf(ElementTypes[Index])),
+                ElementTypes,
+                Valid == null ? false : Valid[Index],
+                CurrentValues == null ? (Byte[])null : CurrentValues.SubArray(Index, System.Runtime.InteropServices.Marshal.SizeOf(ElementTypes)),
+                PreviousValues == null ? (Byte[])null : PreviousValues.SubArray(Index, System.Runtime.InteropServices.Marshal.SizeOf(ElementTypes)),
                 MemoryLabels == null ? (T?)null : MemoryLabels[Index]
                 );
             }
             set
             {
-                if (value.ElementType != null) ElementTypes[Index] = value.ElementType; else ElementTypes[Index] = null;
+                if (value.ElementType != null) ElementTypes = value.ElementType; else ElementTypes = null;
+                if (this.Valid != null) Valid[Index] = value.Valid;
                 if (value.MemoryLabel != null) MemoryLabels[Index] = value.MemoryLabel.Value; else MemoryLabels[Index] = null;
             }
+        }
+
+        public new List<SnapshotRegion<T>> GetValidRegions()
+        {
+            List<SnapshotRegion<T>> ValidRegions = new List<SnapshotRegion<T>>();
+            for (Int32 StartIndex = 0; StartIndex < Valid.Length; StartIndex++)
+            {
+                if (!Valid[StartIndex])
+                    continue;
+
+                Int32 ValidRegionSize = 0;
+                while (StartIndex + (++ValidRegionSize) < Valid.Length && Valid[StartIndex + ValidRegionSize]) { }
+
+                SnapshotRegion<T> SubRegion = new SnapshotRegion<T>(this.BaseAddress + StartIndex, ValidRegionSize);
+                if (CurrentValues != null)
+                    SubRegion.SetCurrentValues(CurrentValues.SubArray(StartIndex, ValidRegionSize));
+                SubRegion.SetElementTypes(ElementTypes);
+                if (MemoryLabels != null)
+                    SubRegion.SetMemoryLabels(MemoryLabels.SubArray(StartIndex, ValidRegionSize));
+
+                ValidRegions.Add(SubRegion);
+
+                StartIndex += ValidRegionSize;
+            }
+
+            return ValidRegions;
         }
 
         public override IEnumerator GetEnumerator()
