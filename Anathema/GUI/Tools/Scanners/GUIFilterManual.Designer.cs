@@ -162,7 +162,7 @@
             this.StartScanButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.StartScanButton.Name = "StartScanButton";
             this.StartScanButton.Size = new System.Drawing.Size(23, 22);
-            this.StartScanButton.Text = "toolStripButton1";
+            this.StartScanButton.Text = "Start Scan";
             this.StartScanButton.Click += new System.EventHandler(this.StartScanButton_Click);
             // 
             // AddConstraintButton
