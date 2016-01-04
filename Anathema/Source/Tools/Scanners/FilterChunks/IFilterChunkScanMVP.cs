@@ -41,7 +41,6 @@ namespace Anathema
         {
             if (ChunkSize <= 0)
                 return;
-            
         }
 
         public void SetMinChanges(Int32 MinChanges)
