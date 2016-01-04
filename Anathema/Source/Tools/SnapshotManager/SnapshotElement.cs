@@ -30,6 +30,11 @@ namespace Anathema
             this.Valid = Valid;
             this.CurrentValue = CurrentValue;
             this.PreviousValue = PreviousValue;
+
+            // Mark invalid automatically if the value initialized to null -- this is likely due to reading passed the value buffer
+            // For example trying to read a Int32 at byte 1021 of a 1024 byte region
+            if (CurrentValue == null)
+                this.Valid = false;
         }
 
         private dynamic GetValue(Byte[] Array)

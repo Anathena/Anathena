@@ -86,6 +86,9 @@ namespace Anathema
             FilteredSnapshot.GrowRegions(sizeof(UInt64));
             FilteredSnapshot.MaskRegions(Snapshot);
 
+            // Read memory so that there are values for the next scan to process
+            FilteredSnapshot.ReadAllMemory();
+
             // Send the size of the filtered memory to the GUI
             FilterChunksEventArgs Args = new FilterChunksEventArgs();
             Args.FilterResultSize = FilteredSnapshot.GetMemorySize();

@@ -33,8 +33,8 @@ namespace Anathema
                 BaseAddress + Index, this, Index,
                 ElementTypes,
                 Valid == null ? false : Valid[Index],
-                CurrentValues == null ? (Byte[])null : CurrentValues.SubArray(Index, Marshal.SizeOf(ElementTypes)),
-                PreviousValues == null ? (Byte[])null : PreviousValues.SubArray(Index, Marshal.SizeOf(ElementTypes))
+                (CurrentValues == null || ElementTypes == null) ? (Byte[])null : CurrentValues.SubArray(Index, Marshal.SizeOf(ElementTypes)),
+                (PreviousValues == null || ElementTypes == null) ? (Byte[])null : PreviousValues.SubArray(Index, Marshal.SizeOf(ElementTypes))
                 );
             }
             set
@@ -172,8 +172,8 @@ namespace Anathema
                 BaseAddress + Index, this, Index,
                 ElementTypes,
                 Valid == null ? false : Valid[Index],
-                CurrentValues == null ? (Byte[])null : CurrentValues.SubArray(Index, System.Runtime.InteropServices.Marshal.SizeOf(ElementTypes)),
-                PreviousValues == null ? (Byte[])null : PreviousValues.SubArray(Index, System.Runtime.InteropServices.Marshal.SizeOf(ElementTypes)),
+                (CurrentValues == null || ElementTypes == null) ? (Byte[])null : CurrentValues.SubArray(Index, System.Runtime.InteropServices.Marshal.SizeOf(ElementTypes)),
+                (PreviousValues == null || ElementTypes == null) ? (Byte[])null : PreviousValues.SubArray(Index, System.Runtime.InteropServices.Marshal.SizeOf(ElementTypes)),
                 MemoryLabels == null ? (T?)null : MemoryLabels[Index]
                 );
             }

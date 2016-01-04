@@ -38,8 +38,6 @@ namespace Anathema
             Snapshot.MarkAllValid();
 
             base.BeginScan();
-            
-            EndScan();
         }
 
         protected override void UpdateScan()
@@ -50,10 +48,12 @@ namespace Anathema
             // Enforce each value constraint
             foreach (ScanConstraintItem ScanConstraint in ScanConstraints)
             {
-                foreach (SnapshotRegion Region in Snapshot)
+                Parallel.ForEach(Snapshot.Cast<Object>(), (RegionObject) =>
                 {
+                    SnapshotRegion Region = (SnapshotRegion)RegionObject;
+
                     if (!Region.CanCompare())
-                        continue;
+                        return;
 
                     Region.SetElementTypes(ScanConstraint.ElementType);
 
@@ -110,9 +110,11 @@ namespace Anathema
 
                     } // End foreach Element
 
-                } // End foreach Region
+                }); // End foreach Region
 
             } // End foreach Constraint
+
+            EndScan();
         }
 
         public override void EndScan()

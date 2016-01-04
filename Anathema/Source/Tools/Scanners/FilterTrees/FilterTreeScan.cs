@@ -12,8 +12,8 @@ namespace Anathema
     /// Consantly queries the OS for all of the memory of the target program to determine if any of it has changed via chunk hashing.
     /// This information can then be used to drastically reduce the search space of a target process (95% is a reasonable amount)
     /// 
-    /// REPEAT:
-    /// 1) Perform a check sum on each memory page. A total of 2 will be kept for each page (for comparison purposes)
+    /// Scan cycle:
+    /// 1) Perform a checksum on each memory page. A total of 2 will be kept for each page (for comparison purposes)
     /// 2) Once 2 have been collected, we can compare to determine if the pages have changed and store this in the history.
     /// 3) If a page has changed, we can then split that page into two if it is larger than the given threshold (mark halves as unknown)
     /// 4) End on user request. Keep all leaves marked as changed, or all leaves marked as unknown. Discard unchanged blocks.
@@ -85,7 +85,10 @@ namespace Anathema
             // Grow regions by the size of the largest standard variable and mask this with the original memory list.
             FilteredSnapshot.GrowRegions(sizeof(UInt64));
             FilteredSnapshot.MaskRegions(Snapshot);
-            
+
+            // Read memory so that there are values for the next scan to process
+            FilteredSnapshot.ReadAllMemory();
+
             // Send the size of the filtered memory to the GUI
             FilterTreesEventArgs Args = new FilterTreesEventArgs();
             Args.FilterResultSize = FilteredSnapshot.GetMemorySize();
