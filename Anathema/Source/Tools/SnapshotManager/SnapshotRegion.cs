@@ -75,14 +75,16 @@ namespace Anathema
 
         public void ExpandValidRegions(Int32 ExpandSize)
         {
-            for (Int32 StartIndex = 0; StartIndex < Valid.Length; StartIndex++)
+            for (Int32 StartIndex = 1; StartIndex < Valid.Length; StartIndex++)
             {
-                if (Valid[StartIndex])
-                    continue;
+                if (Valid[StartIndex - 1] && !Valid[StartIndex])
+                {
+                    // Region is not valid! Mark proceeding elements as valid
+                    for (Int32 ExpandIndex = StartIndex; ExpandIndex < Math.Min(Valid.Length, StartIndex + ExpandSize); ExpandIndex++)
+                        Valid[ExpandIndex] = true;
 
-                // Region is not valid! Mark proceeding elements as valid
-                for (Int32 ExpandIndex = StartIndex; ExpandIndex < Math.Min(Valid.Length, StartIndex + ExpandSize); ExpandIndex++)
-                    Valid[ExpandIndex] = true;
+                    StartIndex += ExpandSize;
+                }
             }
         }
 

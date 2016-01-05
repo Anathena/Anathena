@@ -14,11 +14,22 @@ namespace Anathema
     {
         private List<ScanConstraintItem> ValueConstraints;
         private Boolean FilterScientificNotation;
+        private Type ElementType;
 
         public ScanConstraints()
         {
             FilterScientificNotation = false;
             ValueConstraints = new List<ScanConstraintItem>();
+        }
+
+        public Type GetElementType()
+        {
+            return ElementType;
+        }
+
+        public void SetElementType(Type ElementType)
+        {
+            this.ElementType = ElementType;
         }
 
         public void AddConstraint(ScanConstraintItem ValueConstraintsItem)

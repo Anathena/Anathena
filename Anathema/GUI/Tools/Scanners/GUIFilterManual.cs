@@ -22,12 +22,10 @@ namespace Anathema
             InitializeComponent();
 
             ScanOptionButtons = new List<ToolStripButton>();
+            FilterManualScanPresenter = new FilterManualScanPresenter(this, new FilterManualScan());
 
             InitializeValueTypeComboBox();
             InitializeScanOptionButtons();
-
-            FilterManualScanPresenter = new FilterManualScanPresenter(this, new FilterManualScan());
-
             EvaluateScanOptions(EqualButton);
         }
 
@@ -196,10 +194,10 @@ namespace Anathema
 
         private void AddConstraintButton_Click(Object Sender, EventArgs E)
         {
-            FilterManualScanPresenter.AddConstraint(ValueTypeComboBox.SelectedItem.ToString(), ValueTextBox.Text.ToString());
+            FilterManualScanPresenter.AddConstraint(ValueTextBox.Text.ToString());
         }
 
-        private void button2_Click(Object Sender, EventArgs E)
+        private void ClearConstraintsButton_Click(Object Sender, EventArgs E)
         {
             FilterManualScanPresenter.ClearConstraints();
         }
@@ -209,7 +207,11 @@ namespace Anathema
             FilterManualScanPresenter.RemoveConstraints(ConstraintsListView.SelectedIndices.Cast<Int32>().ToArray());
         }
 
-        #endregion
+        private void ValueTypeComboBox_SelectedIndexChanged(Object Sender, EventArgs E)
+        {
+            FilterManualScanPresenter.SetElementType(ValueTypeComboBox.SelectedItem.ToString());
+        }
 
+        #endregion
     }
 }

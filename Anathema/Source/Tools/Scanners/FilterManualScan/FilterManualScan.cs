@@ -21,9 +21,19 @@ namespace Anathema
             ScanConstraints = new ScanConstraints();
         }
 
-        public override void AddConstraint(ValueConstraintsEnum ValueConstraint, Type ElementType, dynamic Value)
+        public override void SetElementType(Type ElementType)
         {
-            ScanConstraints.AddConstraint(new ScanConstraintItem(ValueConstraint, ElementType, Value));
+            ScanConstraints.SetElementType(ElementType);
+        }
+
+        public override Type GetElementType()
+        {
+            return ScanConstraints.GetElementType();
+        }
+
+        public override void AddConstraint(ValueConstraintsEnum ValueConstraint, dynamic Value)
+        {
+            ScanConstraints.AddConstraint(new ScanConstraintItem(ValueConstraint, Value));
             UpdateDisplay();
         }
 
@@ -50,8 +60,8 @@ namespace Anathema
         {
             // Initialize snapshot
             Snapshot = new Snapshot(SnapshotManager.GetInstance().GetActiveSnapshot());
-
             Snapshot.MarkAllValid();
+            Snapshot.SetElementType(ScanConstraints.GetElementType());
 
             base.BeginScanRunOnce();
         }
@@ -64,6 +74,7 @@ namespace Anathema
             // Enforce each value constraint
             foreach (ScanConstraintItem ScanConstraint in ScanConstraints)
             {
+
                 Parallel.ForEach(Snapshot.Cast<Object>(), (RegionObject) =>
                 {
                     SnapshotRegion Region = (SnapshotRegion)RegionObject;
@@ -71,15 +82,11 @@ namespace Anathema
                     if (!Region.CanCompare())
                         return;
 
-                    Region.SetElementType(ScanConstraint.ElementType);
-
                     foreach (SnapshotElement Element in Region)
                     {
                         if (!Element.Valid)
                             continue;
-
-                        Element.ElementType = ScanConstraint.ElementType;
-
+                        
                         switch (ScanConstraint.ValueConstraints)
                         {
                             case ValueConstraintsEnum.Unchanged:
@@ -134,9 +141,10 @@ namespace Anathema
         public override void EndScan()
         {
             // base.EndScan();
-
+            Snapshot.ExpandValidRegions();
             Snapshot FilteredSnapshot = new Snapshot(Snapshot.GetValidRegions());
             FilteredSnapshot.SetScanMethod("Manual Scan");
+            
             SnapshotManager.GetInstance().SaveSnapshot(FilteredSnapshot);
         }
 

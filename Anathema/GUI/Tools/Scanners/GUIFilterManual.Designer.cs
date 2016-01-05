@@ -46,7 +46,6 @@
             this.IncreasedByXButton = new System.Windows.Forms.ToolStripButton();
             this.DecreasedByXButton = new System.Windows.Forms.ToolStripButton();
             this.ConstraintsListView = new System.Windows.Forms.ListView();
-            this.ValueTypeHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.ValueHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.ConstraintHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.FilterScientificNotationCheckBox = new System.Windows.Forms.CheckBox();
@@ -130,6 +129,7 @@
             this.ValueTypeComboBox.Name = "ValueTypeComboBox";
             this.ValueTypeComboBox.Size = new System.Drawing.Size(94, 21);
             this.ValueTypeComboBox.TabIndex = 153;
+            this.ValueTypeComboBox.SelectedIndexChanged += new System.EventHandler(this.ValueTypeComboBox_SelectedIndexChanged);
             // 
             // ScanTypeWorldStrip
             // 
@@ -231,7 +231,6 @@
             this.ConstraintsListView.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.ConstraintsListView.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.ValueTypeHeader,
             this.ValueHeader,
             this.ConstraintHeader});
             this.ConstraintsListView.FullRowSelect = true;
@@ -242,20 +241,15 @@
             this.ConstraintsListView.UseCompatibleStateImageBehavior = false;
             this.ConstraintsListView.View = System.Windows.Forms.View.Details;
             // 
-            // ValueTypeHeader
-            // 
-            this.ValueTypeHeader.Text = "Type";
-            this.ValueTypeHeader.Width = 77;
-            // 
             // ValueHeader
             // 
             this.ValueHeader.Text = "Value";
-            this.ValueHeader.Width = 76;
+            this.ValueHeader.Width = 147;
             // 
             // ConstraintHeader
             // 
             this.ConstraintHeader.Text = "Constraint";
-            this.ConstraintHeader.Width = 112;
+            this.ConstraintHeader.Width = 144;
             // 
             // FilterScientificNotationCheckBox
             // 
@@ -287,7 +281,7 @@
             this.ClearConstraintsButton.TabIndex = 160;
             this.ClearConstraintsButton.Text = "Clear Constraints";
             this.ClearConstraintsButton.UseVisualStyleBackColor = true;
-            this.ClearConstraintsButton.Click += new System.EventHandler(this.button2_Click);
+            this.ClearConstraintsButton.Click += new System.EventHandler(this.ClearConstraintsButton_Click);
             // 
             // RemoveConstraintButton
             // 
@@ -338,7 +332,6 @@
         private System.Windows.Forms.ToolStripButton IncreasedButton;
         private System.Windows.Forms.ToolStripButton StartScanButton;
         private System.Windows.Forms.ListView ConstraintsListView;
-        private System.Windows.Forms.ColumnHeader ValueTypeHeader;
         private System.Windows.Forms.ColumnHeader ValueHeader;
         private System.Windows.Forms.ColumnHeader ConstraintHeader;
         private System.Windows.Forms.CheckBox FilterScientificNotationCheckBox;

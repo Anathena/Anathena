@@ -30,7 +30,9 @@ namespace Anathema
         }
 
         // Functions invoked by presenter (downstream)
-        public abstract void AddConstraint(ValueConstraintsEnum ValueConstraint, Type ElementType, dynamic Value);
+        public abstract void SetElementType(Type ElementType);
+        public abstract Type GetElementType();
+        public abstract void AddConstraint(ValueConstraintsEnum ValueConstraint, dynamic Value);
         public abstract void RemoveConstraints(Int32[] ConstraintIndicies);
         public abstract void ClearConstraints();
     }
@@ -58,12 +60,16 @@ namespace Anathema
             this.ValueConstraint = ValueConstraint;
         }
 
-        public void AddConstraint(String ElementTypeString, String ValueString)
+        public void SetElementType(String ElementType)
         {
-            Type ElementType = Conversions.StringToPrimitiveType(ElementTypeString);
-            dynamic Value = Conversions.ParseValue(ElementType, ValueString);
+            Model.SetElementType(Conversions.StringToPrimitiveType(ElementType));
+        }
 
-            Model.AddConstraint(ValueConstraint, ElementType, Value);
+        public void AddConstraint(String ValueString)
+        {
+            dynamic Value = Conversions.ParseValue(Model.GetElementType(), ValueString);
+
+            Model.AddConstraint(ValueConstraint, Value);
         }
 
         public void RemoveConstraints(Int32[] ConstraintIndicies)
@@ -87,7 +93,7 @@ namespace Anathema
             foreach (ScanConstraintItem ScanConstraint in E.ScanConstraints)
             {
                 String Value = ScanConstraint.Value == null ? null : ScanConstraint.Value.ToString();
-                ScanConstraintItems.Add(new String[] { ScanConstraint.ElementType.Name, Value, ScanConstraint.ValueConstraints.ToString() });
+                ScanConstraintItems.Add(new String[] { Value, ScanConstraint.ValueConstraints.ToString() });
             }
 
             View.UpdateDisplay(ScanConstraintItems);
