@@ -56,11 +56,9 @@ namespace Anathema
 
         protected override void UpdateScan()
         {
-            Snapshot.ReadAllMemory(false);
-
             Parallel.ForEach(ChunkRoots, (ChunkRoot) =>
             {
-                Byte[] PageData = Snapshot.GetSnapshotRegions()[ChunkRoots.IndexOf(ChunkRoot)].GetCurrentValues();
+                Byte[] PageData = Snapshot.ReadSnapshotMemoryOfRegion(ChunkRoot);
 
                 // Process the changes that have occurred since the last sampling for this memory page
                 if (PageData != null)
@@ -94,7 +92,7 @@ namespace Anathema
             FilteredSnapshot.SetScanMethod("Chunk Scan");
 
             // Read memory so that there are values for the next scan to process
-            FilteredSnapshot.ReadAllMemory();
+            FilteredSnapshot.ReadAllSnapshotMemory();
 
             // Save result
             SnapshotManager.GetInstance().SaveSnapshot(FilteredSnapshot);

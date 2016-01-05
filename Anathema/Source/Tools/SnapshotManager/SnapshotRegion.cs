@@ -1,4 +1,5 @@
-﻿using Binarysharp.MemoryManagement.Memory;
+﻿using Binarysharp.MemoryManagement;
+using Binarysharp.MemoryManagement.Memory;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -40,6 +41,18 @@ namespace Anathema
             set
             {
                 if (this.Valid != null) Valid[Index] = value.Valid;
+            }
+        }
+
+        public void ReadAllSnapshotMemory(MemorySharp MemoryEditor, Boolean KeepPreviousValues)
+        {
+            Boolean SuccessReading = false;
+            Byte[] CurrentValues = MemoryEditor.ReadBytes(this.BaseAddress, this.RegionSize, out SuccessReading, false);
+            SetCurrentValues(CurrentValues, KeepPreviousValues);
+
+            if (!SuccessReading)
+            {
+                // This region needs masking!
             }
         }
 
@@ -140,7 +153,7 @@ namespace Anathema
 
         public virtual IEnumerator GetEnumerator()
         {
-            for (Int32 Index = 0; Index < RegionSize; Index ++)
+            for (Int32 Index = 0; Index < RegionSize; Index++)
                 yield return this[Index];
         }
     }

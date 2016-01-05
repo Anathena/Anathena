@@ -45,14 +45,12 @@ namespace Anathema
 
         protected override void UpdateScan()
         {
-            Snapshot.ReadAllMemory(true);
-
             Parallel.ForEach(FilterTrees, (Tree) =>
             {
                 if (Tree.IsDead())
                     return; // Works as 'continue' in a parallel foreach
-                
-                Byte[] PageData = Snapshot.GetSnapshotRegions()[FilterTrees.IndexOf(Tree)].GetCurrentValues();
+
+                Byte[] PageData = Snapshot.ReadSnapshotMemoryOfRegion(Tree);
 
                 // Process the changes that have occurred since the last sampling for this memory page
                 if (PageData != null)
@@ -87,7 +85,7 @@ namespace Anathema
             FilteredSnapshot = new Snapshot(FilteredSnapshot.MaskRegions(Snapshot, FilteredSnapshot.GetSnapshotRegions()));
 
             // Read memory so that there are values for the next scan to process
-            FilteredSnapshot.ReadAllMemory();
+            FilteredSnapshot.ReadAllSnapshotMemory();
             FilteredSnapshot.SetScanMethod("Tree Scan");
 
             // Send the size of the filtered memory to the GUI

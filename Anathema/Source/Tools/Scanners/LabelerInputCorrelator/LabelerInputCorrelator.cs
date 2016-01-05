@@ -71,7 +71,7 @@ namespace Anathema
         protected override void UpdateScan()
         {
             // Read memory to update previous and current values
-            LabeledSnapshot.ReadAllMemory();
+            LabeledSnapshot.ReadAllSnapshotMemory();
 
             foreach (SnapshotRegion<Single> Region in LabeledSnapshot)
             {

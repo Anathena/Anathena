@@ -69,7 +69,7 @@ namespace Anathema
         protected override void UpdateScan()
         {
             // Read memory to get current values
-            Snapshot.ReadAllMemory();
+            Snapshot.ReadAllSnapshotMemory();
 
             // Enforce each value constraint
             foreach (ScanConstraintItem ScanConstraint in ScanConstraints)

@@ -177,29 +177,32 @@ namespace Anathema
 
         #endregion
 
-        public void ReadAllMemory(Boolean KeepPreviousValues = true)
+        /// <summary>
+        /// Reads memory for every snapshot, with each region storing the current and previous read values.
+        /// </summary>
+        /// <param name="KeepPreviousValues"></param>
+        public void ReadAllSnapshotMemory()
         {
-            SetTimeStampToNow();
-
-            Boolean InvalidRead = false;
-
             Parallel.ForEach(SnapshotRegions, (SnapshotRegion) =>
             {
-                Boolean SuccessReading = false;
-                Byte[] CurrentValues = MemoryEditor.ReadBytes(SnapshotRegion.BaseAddress, SnapshotRegion.RegionSize, out SuccessReading, false);
-                SnapshotRegion.SetCurrentValues(CurrentValues, KeepPreviousValues);
-
-                if (!SuccessReading)
-                {
-                    InvalidRead = true;
-                }
+                SnapshotRegion.ReadAllSnapshotMemory(MemoryEditor, true);
             });
 
-            // Deallocated page, we need to mask the current virtual pages with this snapshot
-            if (InvalidRead)
-            {
-                // MaskRegions(SnapshotManager.GetSnapshotManagerInstance().SnapshotAllMemory());
-            }
+            SetTimeStampToNow();
+        }
+
+        /// <summary>
+        /// Reads and returns the memory of the specified region. Does not store the memory. Used for scans that
+        /// just need to quickly grab memory with no use for it afterwards (chunk scan, tree scan).
+        /// </summary>
+        /// <param name="SnapshotRegion"></param>
+        /// <returns></returns>
+        public Byte[] ReadSnapshotMemoryOfRegion(SnapshotRegion SnapshotRegion)
+        {
+            SnapshotRegion.ReadAllSnapshotMemory(MemoryEditor, false);
+            Byte[] RegionData = SnapshotRegion.GetCurrentValues();
+            SnapshotRegion.SetCurrentValues(null, false);
+            return RegionData;
         }
 
         public virtual SnapshotRegion[] GetValidRegions()

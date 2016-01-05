@@ -77,7 +77,7 @@ namespace Anathema
         protected override void UpdateScan()
         {
             // Read memory to get current values
-            LabeledSnapshot.ReadAllMemory();
+            LabeledSnapshot.ReadAllSnapshotMemory();
             foreach (SnapshotRegion<UInt16> Region in LabeledSnapshot)
             {
                 if (!Region.CanCompare())
