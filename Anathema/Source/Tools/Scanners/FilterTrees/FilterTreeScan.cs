@@ -80,15 +80,15 @@ namespace Anathema
             
             // Create snapshot with results
             Snapshot FilteredSnapshot = new Snapshot(FilteredRegions.ToArray());
-            FilteredSnapshot.SetScanMethod("Tree Scan");
 
             // Grow regions by the size of the largest standard variable and mask this with the original memory list.
             FilteredSnapshot.SetVariableSize(sizeof(UInt64));
             FilteredSnapshot.GrowAllRegions();
-            FilteredSnapshot.MaskRegions(Snapshot, FilteredSnapshot.GetSnapshotRegions());
+            FilteredSnapshot = new Snapshot(FilteredSnapshot.MaskRegions(Snapshot, FilteredSnapshot.GetSnapshotRegions()));
 
             // Read memory so that there are values for the next scan to process
             FilteredSnapshot.ReadAllMemory();
+            FilteredSnapshot.SetScanMethod("Tree Scan");
 
             // Send the size of the filtered memory to the GUI
             FilterTreesEventArgs Args = new FilterTreesEventArgs();

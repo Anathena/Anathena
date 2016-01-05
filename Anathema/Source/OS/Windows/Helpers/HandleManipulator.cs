@@ -122,15 +122,17 @@ namespace Binarysharp.MemoryManagement.Helpers
         /// </summary>
         /// <param name="handle">A handle to validate.</param>
         /// <param name="argumentName">The name of the argument that represents the handle in its original function.</param>
-        public static void ValidateAsArgument(IntPtr handle, string argumentName)
+        public static Boolean ValidateAsArgument(IntPtr handle, string argumentName)
         {
             // Check if the handle is not null
-            if(handle == null)
-                throw new ArgumentNullException(argumentName);
+            if (handle == null)
+                return false;// throw new ArgumentNullException(argumentName);
 
             // Check if the handle is valid
-            if(handle == IntPtr.Zero)
-                throw new ArgumentException("The handle is not valid.", argumentName);
+            if (handle == IntPtr.Zero)
+                return false;// throw new ArgumentException("The handle is not valid.", argumentName);
+
+            return true;
         }
 
         /// <summary>

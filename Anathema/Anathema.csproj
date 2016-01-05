@@ -267,13 +267,6 @@
     <Compile Include="Source\OS\Windows\Threading\RemoteThread.cs" />
     <Compile Include="Source\OS\Windows\Threading\ThreadCore.cs" />
     <Compile Include="Source\OS\Windows\Threading\ThreadFactory.cs" />
-    <Compile Include="Source\OS\Windows\Windows\Keyboard\BaseKeyboard.cs" />
-    <Compile Include="Source\OS\Windows\Windows\Keyboard\MessageKeyboard.cs" />
-    <Compile Include="Source\OS\Windows\Windows\Mouse\BaseMouse.cs" />
-    <Compile Include="Source\OS\Windows\Windows\Mouse\SendInputMouse.cs" />
-    <Compile Include="Source\OS\Windows\Windows\RemoteWindow.cs" />
-    <Compile Include="Source\OS\Windows\Windows\WindowCore.cs" />
-    <Compile Include="Source\OS\Windows\Windows\WindowFactory.cs" />
     <Compile Include="Source\Tools\Scanners\FilterChunks\FilterChunkScan.cs" />
     <Compile Include="Source\Tools\Scanners\FilterChunks\IFilterChunkScanMVP.cs" />
     <Compile Include="Source\Tools\Scanners\FilterTrees\IFilterTreeScanMVP.cs" />

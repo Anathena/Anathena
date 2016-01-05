@@ -18,7 +18,6 @@ using Binarysharp.MemoryManagement.Memory;
 using Binarysharp.MemoryManagement.Modules;
 using Binarysharp.MemoryManagement.Native;
 using Binarysharp.MemoryManagement.Threading;
-using Binarysharp.MemoryManagement.Windows;
 
 namespace Binarysharp.MemoryManagement
 {
@@ -133,12 +132,6 @@ namespace Binarysharp.MemoryManagement
         /// </summary>
         public ThreadFactory Threads { get; protected set; }
         #endregion
-        #region Windows
-        /// <summary>
-        /// Factory for manipulating windows.
-        /// </summary>
-        public WindowFactory Windows { get; protected set; }
-        #endregion
         #endregion
 
         #region Constructors/Destructor
@@ -162,7 +155,6 @@ namespace Binarysharp.MemoryManagement
                     Memory = new MemoryFactory(this),
                     Modules = new ModuleFactory(this),
                     Threads = new ThreadFactory(this),
-                    Windows = new WindowFactory(this)
                 });
         }
         /// <summary>
