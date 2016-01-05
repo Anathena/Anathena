@@ -45,7 +45,6 @@ namespace Anathema
         {
             this.Snapshot = new Snapshot(SnapshotManager.GetInstance().GetActiveSnapshot());
             this.ChunkRoots = new List<MemoryChunkRoots>();
-
             this.ChunkSize = SetChunkSizeDoe(Snapshot.GetMemorySize());
 
             // Initialize filter tree roots
@@ -61,7 +60,7 @@ namespace Anathema
 
             Parallel.ForEach(ChunkRoots, (ChunkRoot) =>
             {
-                Byte[] PageData = Snapshot.GetSnapshotData()[ChunkRoots.IndexOf(ChunkRoot)].GetCurrentValues();
+                Byte[] PageData = Snapshot.GetSnapshotRegions()[ChunkRoots.IndexOf(ChunkRoot)].GetCurrentValues();
 
                 // Process the changes that have occurred since the last sampling for this memory page
                 if (PageData != null)
@@ -95,8 +94,9 @@ namespace Anathema
             FilteredSnapshot.SetScanMethod("Chunk Scan");
 
             // Grow regions by the size of the largest standard variable and mask this with the original memory list.
+            FilteredSnapshot.SetVariableSize(sizeof(UInt64));
             FilteredSnapshot.GrowAllRegions();
-            FilteredSnapshot.MaskRegions(Snapshot);
+            FilteredSnapshot.MaskRegions(Snapshot, FilteredSnapshot.GetSnapshotRegions());
 
             // Read memory so that there are values for the next scan to process
             FilteredSnapshot.ReadAllMemory();

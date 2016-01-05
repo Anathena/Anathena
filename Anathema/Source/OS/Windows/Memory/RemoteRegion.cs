@@ -29,7 +29,7 @@ namespace Binarysharp.MemoryManagement.Memory
         /// <summary>
         /// The span of the pointer in the target process
         /// </summary>
-        public IntPtr EndAddress { get { return BaseAddress + RegionSize; } }
+        public IntPtr EndAddress { get { return BaseAddress + RegionSize; }  set { this.RegionSize = (Int32)((UInt64)value - (UInt64)BaseAddress); } }
 
         #endregion
 

@@ -36,7 +36,7 @@ namespace Anathema
             this.FilterTrees = new List<MemoryChangeTree>();
 
             // Initialize filter tree roots
-            SnapshotRegion[] MemoryRegions = Snapshot.GetSnapshotData();
+            SnapshotRegion[] MemoryRegions = Snapshot.GetSnapshotRegions();
             for (int PageIndex = 0; PageIndex < MemoryRegions.Length; PageIndex++)
                 FilterTrees.Add(new MemoryChangeTree(MemoryRegions[PageIndex].BaseAddress, MemoryRegions[PageIndex].RegionSize));
 
@@ -52,7 +52,7 @@ namespace Anathema
                 if (Tree.IsDead())
                     return; // Works as 'continue' in a parallel foreach
                 
-                Byte[] PageData = Snapshot.GetSnapshotData()[FilterTrees.IndexOf(Tree)].GetCurrentValues();
+                Byte[] PageData = Snapshot.GetSnapshotRegions()[FilterTrees.IndexOf(Tree)].GetCurrentValues();
 
                 // Process the changes that have occurred since the last sampling for this memory page
                 if (PageData != null)
@@ -83,8 +83,9 @@ namespace Anathema
             FilteredSnapshot.SetScanMethod("Tree Scan");
 
             // Grow regions by the size of the largest standard variable and mask this with the original memory list.
+            FilteredSnapshot.SetVariableSize(sizeof(UInt64));
             FilteredSnapshot.GrowAllRegions();
-            FilteredSnapshot.MaskRegions(Snapshot);
+            FilteredSnapshot.MaskRegions(Snapshot, FilteredSnapshot.GetSnapshotRegions());
 
             // Read memory so that there are values for the next scan to process
             FilteredSnapshot.ReadAllMemory();

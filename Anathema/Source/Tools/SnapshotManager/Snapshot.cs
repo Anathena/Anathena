@@ -43,11 +43,11 @@ namespace Anathema
         public Snapshot(Snapshot BaseSnapshot)
         {
             List<SnapshotRegion> Regions = new List<SnapshotRegion>();
-            foreach (SnapshotRegion Region in BaseSnapshot.GetSnapshotData())
+            foreach (SnapshotRegion Region in BaseSnapshot.GetSnapshotRegions())
             {
                 Regions.Add(new SnapshotRegion(Region));
                 Regions.Last().SetCurrentValues(Region.GetCurrentValues());
-                Regions.Last().SetElementType(Region.GetElementTypes());
+                Regions.Last().SetElementType(Region.GetElementType());
             }
             SnapshotRegions = Regions.ToArray();
 
@@ -115,15 +115,12 @@ namespace Anathema
         /// <param name="VariableSize"></param>
         public void SetVariableSize(Int32 VariableSize)
         {
-            foreach (SnapshotRegion MemoryRegion in this)
+            switch (VariableSize)
             {
-                switch (VariableSize)
-                {
-                    case sizeof(SByte): SetElementType(typeof(SByte)); break;
-                    case sizeof(Int16): SetElementType(typeof(Int16)); break;
-                    case sizeof(Int32): SetElementType(typeof(Int32)); break;
-                    case sizeof(Int64): SetElementType(typeof(Int64)); break;
-                }
+                case sizeof(SByte): SetElementType(typeof(SByte)); break;
+                case sizeof(Int16): SetElementType(typeof(Int16)); break;
+                case sizeof(Int32): SetElementType(typeof(Int32)); break;
+                case sizeof(Int64): SetElementType(typeof(Int64)); break;
             }
         }
 
@@ -163,7 +160,7 @@ namespace Anathema
             return ScanMethod;
         }
 
-        public SnapshotRegion[] GetSnapshotData()
+        public SnapshotRegion[] GetSnapshotRegions()
         {
             return SnapshotRegions;
         }
@@ -238,8 +235,8 @@ namespace Anathema
 
             foreach (SnapshotRegion Region in this)
             {
-                Region.RegionSize += ExpandSize;
                 Region.BaseAddress -= ExpandSize;
+                Region.RegionSize += ExpandSize * 2;
             }
         }
 
@@ -258,34 +255,65 @@ namespace Anathema
         }
 
         /// <summary>
-        /// Masks the current memory regions against another memory region, keeping the common elements of the two.
+        /// Masks the given memory regions against the memory regions of a given snapshot, keeping the common elements of the two.
         /// </summary>
         /// <param name="Mask"></param>
-        public void MaskRegions(Snapshot Mask)
+        public SnapshotRegion[] MaskRegions(Snapshot Mask, SnapshotRegion[] TargetRegions)
         {
+            List<SnapshotRegion> ResultRegions = new List<SnapshotRegion>();
+
             // Initialize stacks with regions and masking regions
-            Queue<SnapshotRegion> Regions = new Queue<SnapshotRegion>();
+            Queue<SnapshotRegion> CandidateRegions = new Queue<SnapshotRegion>();
             Queue<SnapshotRegion> MaskingRegions = new Queue<SnapshotRegion>();
 
-            foreach (SnapshotRegion Region in this)
-                Regions.Enqueue(Region);
+            foreach (SnapshotRegion Region in TargetRegions)
+                CandidateRegions.Enqueue(Region);
 
             foreach (SnapshotRegion MaskRegion in Mask)
                 MaskingRegions.Enqueue(MaskRegion);
 
-            if (Regions.Count == 0 || MaskingRegions.Count == 0)
-                return;
+            if (CandidateRegions.Count == 0 || MaskingRegions.Count == 0)
+                return null;
 
-            SnapshotRegion CurrentRegion = Regions.Dequeue();
+            SnapshotRegion CurrentRegion;
             SnapshotRegion CurrentMask = MaskingRegions.Dequeue();
 
-            // Locate next applicable masking region
-            while((UInt64)CurrentMask.EndAddress < (UInt64)CurrentRegion.BaseAddress)
+            while (CandidateRegions.Count > 0)
             {
+                // Grab next region
+                CurrentRegion = CandidateRegions.Dequeue();
 
+                // Grab the next mask following the current region
+                while ((UInt64)CurrentMask.EndAddress < (UInt64)CurrentRegion.BaseAddress)
+                    CurrentMask = MaskingRegions.Dequeue();
+
+                // Check for mask completely removing this region
+                if ((UInt64)CurrentMask.BaseAddress > (UInt64)CurrentRegion.EndAddress)
+                    continue;
+
+                // Mask completely overlaps, just use the original region
+                if (CurrentMask.BaseAddress == CurrentRegion.BaseAddress && CurrentMask.EndAddress == CurrentRegion.EndAddress)
+                {
+                    ResultRegions.Add(CurrentRegion);
+                    continue;
+                }
+
+                // Mask is within bounds; Grab the masked portion of this region
+                Int32 BaseOffset = 0;
+                if ((UInt64)CurrentMask.BaseAddress > (UInt64)CurrentRegion.BaseAddress)
+                    BaseOffset = (Int32)((UInt64)CurrentMask.BaseAddress - (UInt64)CurrentRegion.BaseAddress);
+
+
+                //(Int32)(Math.Max(/*(UInt64)CurrentMask.BaseAddress*/, (UInt64)CurrentRegion.BaseAddress) - Math.Min((UInt64)CurrentMask.BaseAddress, (UInt64)CurrentRegion.BaseAddress));
+
+                ResultRegions.Add(new SnapshotRegion(CurrentRegion));
+                ResultRegions.Last().BaseAddress = CurrentRegion.BaseAddress + BaseOffset;
+                ResultRegions.Last().EndAddress = (IntPtr)Math.Min((UInt64)CurrentMask.EndAddress, (UInt64)CurrentRegion.EndAddress);
+                ResultRegions.Last().SetCurrentValues(CurrentRegion.GetCurrentValues().SubArray(BaseOffset, ResultRegions.Last().RegionSize));
+                ResultRegions.Last().SetElementType(CurrentRegion.GetElementType());
             }
 
-
+            return ResultRegions.ToArray();
         }
 
         /// <summary>
@@ -346,7 +374,7 @@ namespace Anathema
             // Copy and convert the snapshot data to a labeled format
             SnapshotRegions = new SnapshotRegion<T>[BaseSnapshot.GetRegionCount()];
             for (Int32 RegionIndex = 0; RegionIndex < SnapshotRegions.Length; RegionIndex++)
-                SnapshotRegions[RegionIndex] = new SnapshotRegion<T>(BaseSnapshot.GetSnapshotData()[RegionIndex]);
+                SnapshotRegions[RegionIndex] = new SnapshotRegion<T>(BaseSnapshot.GetSnapshotRegions()[RegionIndex]);
 
             Initialize();
         }

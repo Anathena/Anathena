@@ -18,7 +18,7 @@ namespace Anathema
         /// <returns></returns>
         public static T[] SubArray<T>(this T[] ArrayA, Int32 Index, Int32 Length)
         {
-            if (ArrayA.Length - Index < Length)
+            if (ArrayA == null || ArrayA.Length - Index < Length)
                 return null;
 
             T[] Result = new T[Length];

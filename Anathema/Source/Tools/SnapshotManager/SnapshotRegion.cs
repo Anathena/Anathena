@@ -120,7 +120,7 @@ namespace Anathema
             return PreviousValues;
         }
 
-        public Type GetElementTypes()
+        public Type GetElementType()
         {
             return ElementType;
         }
