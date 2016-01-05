@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Collections;
+using System.Runtime.InteropServices;
 
 namespace Anathema
 {
@@ -21,6 +22,9 @@ namespace Anathema
         // Variables to send to the display when displaying this snapshot
         private String ScanMethod;
         private DateTime TimeStamp;
+        private Type ElementType;
+
+        #region Constructors
 
         /// <summary>
         /// Constructor for creating an empty snapshot
@@ -28,30 +32,40 @@ namespace Anathema
         public Snapshot()
         {
             this.SnapshotRegions = null;
-            
+
             Initialize();
         }
 
+        /// <summary>
+        /// Constructor to clone a snapshot from another snapshot
+        /// </summary>
+        /// <param name="BaseSnapshot"></param>
         public Snapshot(Snapshot BaseSnapshot)
         {
             List<SnapshotRegion> Regions = new List<SnapshotRegion>();
             foreach (SnapshotRegion Region in BaseSnapshot.GetSnapshotData())
-            { 
+            {
                 Regions.Add(new SnapshotRegion(Region));
                 Regions.Last().SetCurrentValues(Region.GetCurrentValues());
-                Regions.Last().SetElementTypes(Region.GetElementTypes());
+                Regions.Last().SetElementType(Region.GetElementTypes());
             }
             SnapshotRegions = Regions.ToArray();
 
             Initialize();
         }
 
+        /// <summary>
+        /// Constructor to create a snapshot from various regions
+        /// </summary>
+        /// <param name="SnapshotRegions"></param>
         public Snapshot(SnapshotRegion[] SnapshotRegions)
         {
             this.SnapshotRegions = SnapshotRegions;
 
             Initialize();
         }
+
+        #endregion
 
         /// <summary>
         /// Indexer to allow the retrieval of the element at the specified index. Note that this does NOT index into a region.
@@ -73,6 +87,8 @@ namespace Anathema
             }
         }
 
+        #region Initialization
+
         public void Initialize()
         {
             InitializeObserver();
@@ -89,6 +105,28 @@ namespace Anathema
             this.MemoryEditor = MemoryEditor;
         }
 
+        #endregion
+
+        #region Property Accessors
+
+        /// <summary>
+        /// Sets the underlying data type of the element to an arbitrary data type of the specified size
+        /// </summary>
+        /// <param name="VariableSize"></param>
+        public void SetVariableSize(Int32 VariableSize)
+        {
+            foreach (SnapshotRegion MemoryRegion in this)
+            {
+                switch (VariableSize)
+                {
+                    case sizeof(SByte): SetElementType(typeof(SByte)); break;
+                    case sizeof(Int16): SetElementType(typeof(Int16)); break;
+                    case sizeof(Int32): SetElementType(typeof(Int32)); break;
+                    case sizeof(Int64): SetElementType(typeof(Int64)); break;
+                }
+            }
+        }
+
         public void SetTimeStampToNow()
         {
             TimeStamp = DateTime.Now;
@@ -97,6 +135,22 @@ namespace Anathema
         public DateTime GetTimeStamp()
         {
             return TimeStamp;
+        }
+
+        public Type GetElementType()
+        {
+            return ElementType;
+        }
+
+        /// <summary>
+        /// Updates type of every element with the specified type
+        /// </summary>
+        /// <param name="ElementType"></param>
+        public void SetElementType(Type ElementType)
+        {
+            this.ElementType = ElementType;
+            foreach (SnapshotRegion Region in this)
+                Region.SetElementType(ElementType);
         }
 
         public void SetScanMethod(String ScanMethod)
@@ -109,27 +163,22 @@ namespace Anathema
             return ScanMethod;
         }
 
-        public virtual SnapshotRegion[] GetValidRegions()
+        public SnapshotRegion[] GetSnapshotData()
         {
-            List<SnapshotRegion> ValidRegions = new List<SnapshotRegion>();
-
-            foreach (SnapshotRegion Region in this)
-                ValidRegions.AddRange(Region.GetValidRegions());
-
-            return ValidRegions.ToArray();
+            return SnapshotRegions;
         }
 
-        public void MarkAllValid()
+        public Int32 GetRegionCount()
         {
-            foreach (SnapshotRegion Region in this)
-                Region.MarkAllValid();
+            return SnapshotRegions.Length;
         }
 
-        public void MarkAllInvalid()
+        public UInt64 GetMemorySize()
         {
-            foreach (SnapshotRegion Region in this)
-                Region.MarkAllInvalid();
+            return (UInt64)SnapshotRegions.AsEnumerable().Sum(x => (Int64)x.RegionSize);
         }
+
+        #endregion
 
         public void ReadAllMemory(Boolean KeepPreviousValues = true)
         {
@@ -156,59 +205,56 @@ namespace Anathema
             }
         }
 
-        /// <summary>
-        /// Sets the underlying data type of the element to an arbitrary data type of the specified size
-        /// </summary>
-        /// <param name="VariableSize"></param>
-        public void SetVariableSize(Int32 VariableSize)
+        public virtual SnapshotRegion[] GetValidRegions()
         {
-            foreach (SnapshotRegion MemoryRegion in this)
+            List<SnapshotRegion> ValidRegions = new List<SnapshotRegion>();
+
+            foreach (SnapshotRegion Region in this)
+                ValidRegions.AddRange(Region.GetValidRegions());
+
+            return ValidRegions.ToArray();
+        }
+
+        public void MarkAllValid()
+        {
+            foreach (SnapshotRegion Region in this)
+                Region.MarkAllValid();
+        }
+
+        public void MarkAllInvalid()
+        {
+            foreach (SnapshotRegion Region in this)
+                Region.MarkAllInvalid();
+        }
+
+        /// <summary>
+        /// Expands all memory regions in both directions based on the size of the current element type.
+        /// Useful for filtering methods that isolate changing bytes (ie 1 byte of an 8 byte integer), where we would want to grow to recover the other 7 bytes.
+        /// </summary>
+        /// <param name="GrowAmount"></param>
+        public void GrowAllRegions()
+        {
+            Int32 ExpandSize = Marshal.SizeOf(ElementType) - 1;
+
+            foreach (SnapshotRegion Region in this)
             {
-                switch (VariableSize)
-                {
-                    case sizeof(SByte): SetElementType(typeof(SByte)); break;
-                    case sizeof(Int16): SetElementType(typeof(Int16)); break;
-                    case sizeof(Int32): SetElementType(typeof(Int32)); break;
-                    case sizeof(Int64): SetElementType(typeof(Int64)); break;
-                }
+                Region.RegionSize += ExpandSize;
+                Region.BaseAddress -= ExpandSize;
             }
         }
 
         /// <summary>
-        /// Updates type of every element with the specified type
+        /// Expands all snapshot region's valid element ranges forward by the size of the current element type. This ensures
+        /// That for multi-byte element types, that the elements following the address in question
         /// </summary>
-        /// <param name="ElementType"></param>
-        public void SetElementType(Type ElementType)
+        public void ExpandValidRegions()
         {
+            Int32 ExpandSize = Marshal.SizeOf(ElementType) - 1;
+
             foreach (SnapshotRegion Region in this)
-                Region.SetElementTypes(ElementType);
-        }
-
-        public SnapshotRegion[] GetSnapshotData()
-        {
-            return SnapshotRegions;
-        }
-
-        public Int32 GetRegionCount()
-        {
-            return SnapshotRegions.Length;
-        }
-
-        public UInt64 GetMemorySize()
-        {
-            return (UInt64)SnapshotRegions.AsEnumerable().Sum(x => (Int64)x.RegionSize);
-        }
-
-        /// <summary>
-        /// Expands all memory regions in both directions by the specified amount. Useful for filtering methods that isolate
-        /// changing bytes (ie 1 byte of an 8 byte integer), where we would want to grow to recover the other 7 bytes.
-        /// </summary>
-        /// <param name="GrowAmount"></param>
-        public void GrowRegions(Int32 VariableSize)
-        {
-            Int32 GrowSize = VariableSize - 1;
-
-            // MergeRegions();
+            {
+                Region.ExpandValidRegions(ExpandSize);
+            }
         }
 
         /// <summary>
@@ -217,10 +263,29 @@ namespace Anathema
         /// <param name="Mask"></param>
         public void MaskRegions(Snapshot Mask)
         {
+            // Initialize stacks with regions and masking regions
+            Queue<SnapshotRegion> Regions = new Queue<SnapshotRegion>();
+            Queue<SnapshotRegion> MaskingRegions = new Queue<SnapshotRegion>();
+
+            foreach (SnapshotRegion Region in this)
+                Regions.Enqueue(Region);
+
             foreach (SnapshotRegion MaskRegion in Mask)
+                MaskingRegions.Enqueue(MaskRegion);
+
+            if (Regions.Count == 0 || MaskingRegions.Count == 0)
+                return;
+
+            SnapshotRegion CurrentRegion = Regions.Dequeue();
+            SnapshotRegion CurrentMask = MaskingRegions.Dequeue();
+
+            // Locate next applicable masking region
+            while((UInt64)CurrentMask.EndAddress < (UInt64)CurrentRegion.BaseAddress)
             {
 
             }
+
+
         }
 
         /// <summary>

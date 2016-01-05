@@ -71,7 +71,7 @@ namespace Anathema
                     if (!Region.CanCompare())
                         return;
 
-                    Region.SetElementTypes(ScanConstraint.ElementType);
+                    Region.SetElementType(ScanConstraint.ElementType);
 
                     foreach (SnapshotElement Element in Region)
                     {

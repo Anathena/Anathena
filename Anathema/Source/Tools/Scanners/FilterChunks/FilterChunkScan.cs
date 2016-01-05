@@ -95,7 +95,7 @@ namespace Anathema
             FilteredSnapshot.SetScanMethod("Chunk Scan");
 
             // Grow regions by the size of the largest standard variable and mask this with the original memory list.
-            FilteredSnapshot.GrowRegions(sizeof(UInt64));
+            FilteredSnapshot.GrowAllRegions();
             FilteredSnapshot.MaskRegions(Snapshot);
 
             // Read memory so that there are values for the next scan to process

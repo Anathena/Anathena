@@ -14,7 +14,7 @@ namespace Anathema
     {
         protected Byte[] CurrentValues;
         protected Byte[] PreviousValues;
-        protected Type ElementTypes;
+        protected Type ElementType;
         protected BitArray Valid;
 
         public SnapshotRegion(IntPtr BaseAddress, Int32 RegionSize) : base(null, BaseAddress, RegionSize) { }
@@ -31,10 +31,10 @@ namespace Anathema
             {
                 return new SnapshotElement(
                 BaseAddress + Index, this, Index,
-                ElementTypes,
+                ElementType,
                 Valid == null ? false : Valid[Index],
-                (CurrentValues == null || ElementTypes == null) ? (Byte[])null : CurrentValues.SubArray(Index, Marshal.SizeOf(ElementTypes)),
-                (PreviousValues == null || ElementTypes == null) ? (Byte[])null : PreviousValues.SubArray(Index, Marshal.SizeOf(ElementTypes))
+                (CurrentValues == null || ElementType == null) ? (Byte[])null : CurrentValues.SubArray(Index, Marshal.SizeOf(ElementType)),
+                (PreviousValues == null || ElementType == null) ? (Byte[])null : PreviousValues.SubArray(Index, Marshal.SizeOf(ElementType))
                 );
             }
             set
@@ -58,12 +58,12 @@ namespace Anathema
                 // Determine length of this segment of valid regions
                 Int32 ValidRegionSize = 0;
                 while (StartIndex + (++ValidRegionSize) < Valid.Length && Valid[StartIndex + ValidRegionSize]) { }
-                
+
                 // Create the subregion from this segment
                 SnapshotRegion SubRegion = new SnapshotRegion(this.BaseAddress + StartIndex, ValidRegionSize);
                 if (CurrentValues != null)
                     SubRegion.SetCurrentValues(CurrentValues.LargestSubArray(StartIndex, ValidRegionSize /*+ Marshal.SizeOf(ElementTypes)*/));
-                SubRegion.SetElementTypes(ElementTypes);
+                SubRegion.SetElementType(ElementType);
 
                 ValidRegions.Add(SubRegion);
 
@@ -71,6 +71,19 @@ namespace Anathema
             }
 
             return ValidRegions;
+        }
+
+        public void ExpandValidRegions(Int32 ExpandSize)
+        {
+            for (Int32 StartIndex = 0; StartIndex < Valid.Length; StartIndex++)
+            {
+                if (Valid[StartIndex])
+                    continue;
+
+                // Region is not valid! Mark proceeding elements as valid
+                for (Int32 ExpandIndex = StartIndex; ExpandIndex < Math.Min(Valid.Length, StartIndex + ExpandSize); ExpandIndex++)
+                    Valid[ExpandIndex] = true;
+            }
         }
 
         public void MarkAllValid()
@@ -83,9 +96,9 @@ namespace Anathema
             Valid = new BitArray(RegionSize, false);
         }
 
-        public void SetElementTypes(Type ElementType)
+        public void SetElementType(Type ElementType)
         {
-            this.ElementTypes = ElementType;
+            this.ElementType = ElementType;
         }
 
         public void SetCurrentValues(Byte[] NewValues, Boolean KeepPreviousValues = true)
@@ -109,7 +122,7 @@ namespace Anathema
 
         public Type GetElementTypes()
         {
-            return ElementTypes;
+            return ElementType;
         }
 
         /// <summary>
@@ -172,16 +185,16 @@ namespace Anathema
             {
                 return new SnapshotElement<T>(
                 BaseAddress + Index, this, Index,
-                ElementTypes,
+                ElementType,
                 Valid == null ? false : Valid[Index],
-                (CurrentValues == null || ElementTypes == null) ? (Byte[])null : CurrentValues.SubArray(Index, System.Runtime.InteropServices.Marshal.SizeOf(ElementTypes)),
-                (PreviousValues == null || ElementTypes == null) ? (Byte[])null : PreviousValues.SubArray(Index, System.Runtime.InteropServices.Marshal.SizeOf(ElementTypes)),
+                (CurrentValues == null || ElementType == null) ? (Byte[])null : CurrentValues.SubArray(Index, System.Runtime.InteropServices.Marshal.SizeOf(ElementType)),
+                (PreviousValues == null || ElementType == null) ? (Byte[])null : PreviousValues.SubArray(Index, System.Runtime.InteropServices.Marshal.SizeOf(ElementType)),
                 MemoryLabels == null ? (T?)null : MemoryLabels[Index]
                 );
             }
             set
             {
-                if (value.ElementType != null) ElementTypes = value.ElementType; else ElementTypes = null;
+                if (value.ElementType != null) ElementType = value.ElementType; else ElementType = null;
                 if (this.Valid != null) Valid[Index] = value.Valid;
                 if (value.MemoryLabel != null) MemoryLabels[Index] = value.MemoryLabel.Value; else MemoryLabels[Index] = null;
             }
@@ -200,13 +213,13 @@ namespace Anathema
                 while (StartIndex + (++ValidRegionSize) < Valid.Length && Valid[StartIndex + ValidRegionSize]) { }
 
                 // Extend this region by the size of our variable type
-                ValidRegionSize += Marshal.SizeOf(ElementTypes) - 1;
-                
+                ValidRegionSize += Marshal.SizeOf(ElementType) - 1;
+
                 // Create new subregion from this valid region
                 SnapshotRegion<T> SubRegion = new SnapshotRegion<T>(this.BaseAddress + StartIndex, ValidRegionSize);
                 if (CurrentValues != null)
                     SubRegion.SetCurrentValues(CurrentValues.SubArray(StartIndex, ValidRegionSize));
-                SubRegion.SetElementTypes(ElementTypes);
+                SubRegion.SetElementType(ElementType);
                 if (MemoryLabels != null)
                     SubRegion.SetMemoryLabels(MemoryLabels.SubArray(StartIndex, ValidRegionSize));
 
