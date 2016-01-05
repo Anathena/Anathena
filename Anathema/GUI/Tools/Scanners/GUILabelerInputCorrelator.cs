@@ -70,11 +70,27 @@ namespace Anathema
             SetVariableSize();
         }
 
+        private void VariableToUserRadioButton_CheckedChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void UserToVariableRadioButton_CheckedChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void EitherRadioButton_CheckedChanged(object sender, EventArgs e)
+        {
+
+        }
+
         private void GUILabelerInputCorrelator_Resize(object sender, EventArgs e)
         {
             HandleResize();
         }
 
         #endregion
+
     }
 }

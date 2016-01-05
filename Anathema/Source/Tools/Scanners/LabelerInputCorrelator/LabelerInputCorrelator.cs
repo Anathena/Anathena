@@ -19,9 +19,9 @@ namespace Anathema
     /// </summary>
     class LabelerInputCorrelator : ILabelerInputCorrelatorModel
     {
-        private Snapshot<Single> LabeledSnapshot;
+        private Snapshot<Single> Snapshot;
 
-        private readonly IKeyboardMouseEvents InputHook;        // Input capturing class
+        private readonly IKeyboardMouseEvents InputHook;    // Input capturing class
 
         private Dictionary<Keys, DateTime> KeyBoardDown;    // List of keyboard down events
         private Dictionary<Keys, DateTime> KeyBoardUp;      // List of keyboard up events
@@ -44,17 +44,16 @@ namespace Anathema
         public override void BeginScan()
         {
             // Initialize labeled snapshot
-            LabeledSnapshot = new Snapshot<Single>(SnapshotManager.GetInstance().GetActiveSnapshot());
-            LabeledSnapshot.SetVariableSize(VariableSize);
+            Snapshot = new Snapshot<Single>(SnapshotManager.GetInstance().GetActiveSnapshot());
+            Snapshot.SetVariableSize(VariableSize);
+            Snapshot.MarkAllValid();
 
             // TEMP: variables that should be user-tuned
             UserInput = Keys.D;
             WaitTime = 800;
 
             // Initialize with no correlation
-            foreach (SnapshotRegion<Single> Region in LabeledSnapshot)
-                foreach (SnapshotElement<Single> Element in Region)
-                    Element.MemoryLabel = 0.0f;
+            Snapshot.SetMemoryLabels(0.0f);
 
             // Initialize input dictionaries
             KeyBoardUp = new Dictionary<Keys, DateTime>();
@@ -71,24 +70,31 @@ namespace Anathema
         protected override void UpdateScan()
         {
             // Read memory to update previous and current values
-            LabeledSnapshot.ReadAllSnapshotMemory();
+            Snapshot.ReadAllSnapshotMemory();
 
-            foreach (SnapshotRegion<Single> Region in LabeledSnapshot)
+            Boolean ConditionValid = InputConditionValid(Snapshot.GetTimeStamp());
+
+            Parallel.ForEach(Snapshot.Cast<Object>(), (RegionObject) =>
             {
+                SnapshotRegion<Single> Region = (SnapshotRegion<Single>)RegionObject;
+
                 if (!Region.CanCompare())
-                    continue;
+                    return;
 
                 foreach (SnapshotElement<Single> Element in Region)
                 {
+                    if (!Element.Valid)
+                        continue;
+
                     if (Element.Changed())
                     {
-                        if (InputConditionValid(LabeledSnapshot.GetTimeStamp()))
+                        if (ConditionValid)
                             Element.MemoryLabel += 1.0f;
                         else
-                            Element.MemoryLabel -= 0.05f;
+                            Element.MemoryLabel -= 1.0f;
                     }
                 }
-            }
+            });
         }
 
         public override void EndScan()
@@ -101,16 +107,14 @@ namespace Anathema
             InputHook.KeyDown -= GlobalHookKeyDown;
             InputHook.Dispose();
 
-            List<SnapshotRegion<Single>> FilteredElements = new List<SnapshotRegion<Single>>();
-
             Single MaxValue = 1.0f;
-            foreach (SnapshotRegion<Single> Region in LabeledSnapshot)
+            foreach (SnapshotRegion<Single> Region in Snapshot)
                 foreach (SnapshotElement<Single> Element in Region)
                     if (Element.MemoryLabel.Value > MaxValue)
                         MaxValue = Element.MemoryLabel.Value;
 
-            LabeledSnapshot.MarkAllValid();
-            foreach (SnapshotRegion<Single> Region in LabeledSnapshot)
+            Snapshot.MarkAllInvalid();
+            foreach (SnapshotRegion<Single> Region in Snapshot)
             {
                 foreach (SnapshotElement<Single> Element in Region)
                 {
@@ -118,10 +122,11 @@ namespace Anathema
                     if (Element.MemoryLabel.Value > 0.80f)
                         Element.Valid = true;
                 }
-            } 
-
-            Snapshot<Single> FilteredSnapshot = new Snapshot<Single>(FilteredElements.ToArray());
+            }
+            Snapshot.ExpandValidRegions();
+            Snapshot<Single> FilteredSnapshot = new Snapshot<Single>(Snapshot.GetValidRegions());
             FilteredSnapshot.SetScanMethod("Input Correlator");
+
             SnapshotManager.GetInstance().SaveSnapshot(FilteredSnapshot);
         }
 

@@ -35,6 +35,9 @@
             this.ScanToolStrip = new System.Windows.Forms.ToolStrip();
             this.StartScanButton = new System.Windows.Forms.ToolStripButton();
             this.StopScanButton = new System.Windows.Forms.ToolStripButton();
+            this.EitherRadioButton = new System.Windows.Forms.RadioButton();
+            this.UserToVariableRadioButton = new System.Windows.Forms.RadioButton();
+            this.VariableToUserRadioButton = new System.Windows.Forms.RadioButton();
             ((System.ComponentModel.ISupportInitialize)(this.VariableSizeTrackBar)).BeginInit();
             this.ScanToolStrip.SuspendLayout();
             this.SuspendLayout();
@@ -101,11 +104,49 @@
             this.StopScanButton.Text = "New Scan";
             this.StopScanButton.Click += new System.EventHandler(this.StopScanButton_Click);
             // 
+            // EitherRadioButton
+            // 
+            this.EitherRadioButton.AutoSize = true;
+            this.EitherRadioButton.Location = new System.Drawing.Point(12, 124);
+            this.EitherRadioButton.Name = "EitherRadioButton";
+            this.EitherRadioButton.Size = new System.Drawing.Size(52, 17);
+            this.EitherRadioButton.TabIndex = 170;
+            this.EitherRadioButton.Text = "Either";
+            this.EitherRadioButton.UseVisualStyleBackColor = true;
+            this.EitherRadioButton.CheckedChanged += new System.EventHandler(this.EitherRadioButton_CheckedChanged);
+            // 
+            // UserToVariableRadioButton
+            // 
+            this.UserToVariableRadioButton.AutoSize = true;
+            this.UserToVariableRadioButton.Location = new System.Drawing.Point(12, 107);
+            this.UserToVariableRadioButton.Name = "UserToVariableRadioButton";
+            this.UserToVariableRadioButton.Size = new System.Drawing.Size(151, 17);
+            this.UserToVariableRadioButton.TabIndex = 169;
+            this.UserToVariableRadioButton.Text = "User Responds to Variable";
+            this.UserToVariableRadioButton.UseVisualStyleBackColor = true;
+            this.UserToVariableRadioButton.CheckedChanged += new System.EventHandler(this.UserToVariableRadioButton_CheckedChanged);
+            // 
+            // VariableToUserRadioButton
+            // 
+            this.VariableToUserRadioButton.AutoSize = true;
+            this.VariableToUserRadioButton.Checked = true;
+            this.VariableToUserRadioButton.Location = new System.Drawing.Point(12, 90);
+            this.VariableToUserRadioButton.Name = "VariableToUserRadioButton";
+            this.VariableToUserRadioButton.Size = new System.Drawing.Size(151, 17);
+            this.VariableToUserRadioButton.TabIndex = 168;
+            this.VariableToUserRadioButton.TabStop = true;
+            this.VariableToUserRadioButton.Text = "Variable Responds to User";
+            this.VariableToUserRadioButton.UseVisualStyleBackColor = true;
+            this.VariableToUserRadioButton.CheckedChanged += new System.EventHandler(this.VariableToUserRadioButton_CheckedChanged);
+            // 
             // GUILabelerInputCorrelator
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(304, 217);
+            this.Controls.Add(this.EitherRadioButton);
+            this.Controls.Add(this.UserToVariableRadioButton);
+            this.Controls.Add(this.VariableToUserRadioButton);
             this.Controls.Add(this.VariableSizeValueLabel);
             this.Controls.Add(this.VariableSizeLabel);
             this.Controls.Add(this.VariableSizeTrackBar);
@@ -129,5 +170,8 @@
         private System.Windows.Forms.ToolStrip ScanToolStrip;
         private System.Windows.Forms.ToolStripButton StartScanButton;
         private System.Windows.Forms.ToolStripButton StopScanButton;
+        private System.Windows.Forms.RadioButton EitherRadioButton;
+        private System.Windows.Forms.RadioButton UserToVariableRadioButton;
+        private System.Windows.Forms.RadioButton VariableToUserRadioButton;
     }
 }

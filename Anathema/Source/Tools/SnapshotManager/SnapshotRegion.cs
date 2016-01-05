@@ -202,8 +202,8 @@ namespace Anathema
                 BaseAddress + Index, this, Index,
                 ElementType,
                 Valid == null ? false : Valid[Index],
-                (CurrentValues == null || ElementType == null) ? (Byte[])null : CurrentValues.SubArray(Index, System.Runtime.InteropServices.Marshal.SizeOf(ElementType)),
-                (PreviousValues == null || ElementType == null) ? (Byte[])null : PreviousValues.SubArray(Index, System.Runtime.InteropServices.Marshal.SizeOf(ElementType)),
+                (CurrentValues == null || ElementType == null) ? (Byte[])null : CurrentValues.SubArray(Index, Marshal.SizeOf(ElementType)),
+                (PreviousValues == null || ElementType == null) ? (Byte[])null : PreviousValues.SubArray(Index, Marshal.SizeOf(ElementType)),
                 MemoryLabels == null ? (T?)null : MemoryLabels[Index]
                 );
             }
