@@ -10,13 +10,6 @@ namespace Anathema
 {
     class LabelerChangeCounter : ILabelerChangeCounterModel
     {
-        private enum ChangeCountingModeEnum
-        {
-            Changing,
-            Increasing,
-            Decreasing,
-        }
-
         // Snapshot being labeled with change counts
         private Snapshot<UInt16> Snapshot;
 
@@ -24,7 +17,6 @@ namespace Anathema
         private Int32 MinChanges;
         private Int32 MaxChanges;
         private Int32 VariableSize;
-        private ChangeCountingModeEnum ChangeCountingMode;
 
         public LabelerChangeCounter()
         {
@@ -46,21 +38,6 @@ namespace Anathema
             this.VariableSize = VariableSize;
         }
 
-        public override void SetScanModeChanging()
-        {
-            ChangeCountingMode = ChangeCountingModeEnum.Changing;
-        }
-
-        public override void SetScanModeIncreasing()
-        {
-            ChangeCountingMode = ChangeCountingModeEnum.Increasing;
-        }
-
-        public override void SetScanModeDecreasing()
-        {
-            ChangeCountingMode = ChangeCountingModeEnum.Decreasing;
-        }
-
         public override void BeginScan()
         {
             // Initialize labeled snapshot
@@ -69,7 +46,7 @@ namespace Anathema
 
             // Initialize change counts to zero
             Snapshot.SetMemoryLabels(0);
-            Snapshot.MarkAllInvalid();
+            Snapshot.MarkAllValid();
 
             base.BeginScan();
         }
@@ -88,21 +65,11 @@ namespace Anathema
 
                 foreach (SnapshotElement<UInt16> Element in Region)
                 {
-                    switch (ChangeCountingMode)
-                    {
-                        case ChangeCountingModeEnum.Changing:
-                            if (Element.Changed())
-                                Element.MemoryLabel++;
-                            break;
-                        case ChangeCountingModeEnum.Increasing:
-                            if (Element.Increased())
-                                Element.MemoryLabel++;
-                            break;
-                        case ChangeCountingModeEnum.Decreasing:
-                            if (Element.Decreased())
-                                Element.MemoryLabel++;
-                            break;
-                    }
+                    if (!Element.Valid)
+                        continue;
+
+                    if (Element.Changed())
+                        Element.MemoryLabel++;
                 }
             }); // End regions
         }
@@ -110,16 +77,19 @@ namespace Anathema
         public override void EndScan()
         {
             base.EndScan();
-
-            // Mark regions as valid or invalid based on label value
+            
+            // Mark regions as valid or invalid based on number of changes
+            Snapshot.MarkAllInvalid();
             foreach (SnapshotRegion<UInt16> Region in Snapshot)
                 foreach (SnapshotElement<UInt16> Element in Region)
                     if (Element.MemoryLabel.Value >= MinChanges && Element.MemoryLabel.Value <= MaxChanges)
                         Element.Valid = true;
 
             // Create a snapshot from the valid regions
+            Snapshot.ExpandValidRegions();
             Snapshot<UInt16> FilteredSnapshot = new Snapshot<UInt16>(Snapshot.GetValidRegions());
             FilteredSnapshot.SetScanMethod("Change Counter");
+
             SnapshotManager.GetInstance().SaveSnapshot(FilteredSnapshot);
         }
 

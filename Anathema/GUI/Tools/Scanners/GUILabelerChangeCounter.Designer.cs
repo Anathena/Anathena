@@ -41,9 +41,6 @@
             this.VariableSizeValueLabel = new System.Windows.Forms.Label();
             this.VariableSizeLabel = new System.Windows.Forms.Label();
             this.VariableSizeTrackBar = new System.Windows.Forms.TrackBar();
-            this.ChangingRadioButton = new System.Windows.Forms.RadioButton();
-            this.IncreasingRadioButton = new System.Windows.Forms.RadioButton();
-            this.DecreasingRadioButton = new System.Windows.Forms.RadioButton();
             this.ScanToolStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.MaxChangesTrackBar)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.MinChangesTrackBar)).BeginInit();
@@ -169,49 +166,11 @@
             this.VariableSizeTrackBar.Value = 2;
             this.VariableSizeTrackBar.Scroll += new System.EventHandler(this.VariableSizeTrackBar_Scroll);
             // 
-            // ChangingRadioButton
-            // 
-            this.ChangingRadioButton.AutoSize = true;
-            this.ChangingRadioButton.Checked = true;
-            this.ChangingRadioButton.Location = new System.Drawing.Point(10, 142);
-            this.ChangingRadioButton.Name = "ChangingRadioButton";
-            this.ChangingRadioButton.Size = new System.Drawing.Size(70, 17);
-            this.ChangingRadioButton.TabIndex = 165;
-            this.ChangingRadioButton.TabStop = true;
-            this.ChangingRadioButton.Text = "Changing";
-            this.ChangingRadioButton.UseVisualStyleBackColor = true;
-            this.ChangingRadioButton.CheckedChanged += new System.EventHandler(this.ChangingRadioButton_CheckedChanged);
-            // 
-            // IncreasingRadioButton
-            // 
-            this.IncreasingRadioButton.AutoSize = true;
-            this.IncreasingRadioButton.Location = new System.Drawing.Point(10, 159);
-            this.IncreasingRadioButton.Name = "IncreasingRadioButton";
-            this.IncreasingRadioButton.Size = new System.Drawing.Size(74, 17);
-            this.IncreasingRadioButton.TabIndex = 166;
-            this.IncreasingRadioButton.Text = "Increasing";
-            this.IncreasingRadioButton.UseVisualStyleBackColor = true;
-            this.IncreasingRadioButton.CheckedChanged += new System.EventHandler(this.IncreasingRadioButton_CheckedChanged);
-            // 
-            // DecreasingRadioButton
-            // 
-            this.DecreasingRadioButton.AutoSize = true;
-            this.DecreasingRadioButton.Location = new System.Drawing.Point(10, 176);
-            this.DecreasingRadioButton.Name = "DecreasingRadioButton";
-            this.DecreasingRadioButton.Size = new System.Drawing.Size(79, 17);
-            this.DecreasingRadioButton.TabIndex = 167;
-            this.DecreasingRadioButton.Text = "Decreasing";
-            this.DecreasingRadioButton.UseVisualStyleBackColor = true;
-            this.DecreasingRadioButton.CheckedChanged += new System.EventHandler(this.DecreasingRadioButton_CheckedChanged);
-            // 
             // GUILabelerChangeCounter
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(284, 212);
-            this.Controls.Add(this.DecreasingRadioButton);
-            this.Controls.Add(this.IncreasingRadioButton);
-            this.Controls.Add(this.ChangingRadioButton);
+            this.ClientSize = new System.Drawing.Size(284, 146);
             this.Controls.Add(this.VariableSizeValueLabel);
             this.Controls.Add(this.VariableSizeLabel);
             this.Controls.Add(this.VariableSizeTrackBar);
@@ -250,8 +209,5 @@
         private System.Windows.Forms.Label VariableSizeValueLabel;
         private System.Windows.Forms.Label VariableSizeLabel;
         private System.Windows.Forms.TrackBar VariableSizeTrackBar;
-        private System.Windows.Forms.RadioButton ChangingRadioButton;
-        private System.Windows.Forms.RadioButton IncreasingRadioButton;
-        private System.Windows.Forms.RadioButton DecreasingRadioButton;
     }
 }

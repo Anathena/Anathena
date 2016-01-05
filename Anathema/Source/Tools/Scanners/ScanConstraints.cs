@@ -12,9 +12,9 @@ namespace Anathema
     /// </summary>
     class ScanConstraints : IEnumerable
     {
-        private List<ScanConstraintItem> ValueConstraints;
-        private Boolean FilterScientificNotation;
-        private Type ElementType;
+        protected List<ScanConstraintItem> ValueConstraints;
+        protected Boolean FilterScientificNotation;
+        protected Type ElementType;
 
         public ScanConstraints()
         {

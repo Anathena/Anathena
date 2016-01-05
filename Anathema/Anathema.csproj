@@ -103,6 +103,8 @@
       <DependentUpon>GUIAddressTableEntryEdit.cs</DependentUpon>
     </Compile>
     <Compile Include="Source\Settings\ISettingsMVP.cs" />
+    <Compile Include="Source\Tools\Scanners\FilterFiniteState\IFilterFSMMVP.cs" />
+    <Compile Include="Source\Tools\Scanners\ScanTransitionConstraints.cs" />
     <Compile Include="Source\Tools\Scanners\ScanConstraints.cs" />
     <Compile Include="Source\HelperClasses\PrimitiveTypes.cs" />
     <Compile Include="Source\Tools\Scanners\FilterManualScan\IFilterManualScanMVP.cs" />
@@ -354,7 +356,7 @@
     <Compile Include="GUI\Main\GUIMain.Designer.cs">
       <DependentUpon>GUIMain.cs</DependentUpon>
     </Compile>
-    <Compile Include="Source\Tools\Scanners\FilterFiniteState\FilterFiniteState.cs" />
+    <Compile Include="Source\Tools\Scanners\FilterFiniteState\FilterFSM.cs" />
     <Compile Include="Source\HelperClasses\CheckSyntax.cs" />
     <Compile Include="Source\Tools\Scanners\LabelerInputCorrelator\LabelerInputCorrelator.cs" />
     <Compile Include="Source\Tools\Debugger\Celestial.cs" />

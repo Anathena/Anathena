@@ -100,7 +100,7 @@ namespace Anathema
         public class MemoryChangeTree : SnapshotRegion
         {
             // Experimentally found that splitting pages on boundaries of 64 or 128 works best.
-            private const Int32 PageSplitThreshold = 64;
+            private const Int32 PageSplitThreshold = 128;
 
             private enum StateEnum
             {
