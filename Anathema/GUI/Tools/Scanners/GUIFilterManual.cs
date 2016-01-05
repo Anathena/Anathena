@@ -109,6 +109,35 @@ namespace Anathema
                 ValueConstraint = ValueConstraintsEnum.DecreasedByX;
             }
 
+            switch (ValueConstraint)
+            {
+                case ValueConstraintsEnum.Changed:
+                case ValueConstraintsEnum.Unchanged:
+                case ValueConstraintsEnum.Decreased:
+                case ValueConstraintsEnum.Increased:
+                    ValueTextBox.Enabled = false;
+                    break;
+                case ValueConstraintsEnum.Invalid:
+                case ValueConstraintsEnum.GreaterThan:
+                case ValueConstraintsEnum.LessThan:
+                case ValueConstraintsEnum.Equal:
+                case ValueConstraintsEnum.NotEqual:
+                case ValueConstraintsEnum.IncreasedByX:
+                case ValueConstraintsEnum.DecreasedByX:
+                    ValueTextBox.Enabled = true;
+                    break;
+            }
+
+            if (Conversions.StringToPrimitiveType(ValueTypeComboBox.SelectedItem.ToString()) == typeof(Single) ||
+                Conversions.StringToPrimitiveType(ValueTypeComboBox.SelectedItem.ToString()) == typeof(Double))
+            {
+                FilterScientificNotationCheckBox.Visible = true;
+            }
+            else
+            {
+                FilterScientificNotationCheckBox.Visible = false;
+            }
+
             FilterManualScanPresenter.SetValueConstraints(ValueConstraint);
             this.CompareTypeLabel.Text = ValueConstraint.ToString();
         }

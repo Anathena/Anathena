@@ -160,6 +160,32 @@
         ij/PZaRF0Ith2UiKIjc/HP92NiZ7OQAAAABJRU5ErkJggg==
 </value>
   </data>
+  <data name="AddConstraintButton.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
+        YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAABuSURBVDhPpZHtCYAwDAWzs9v42wlcx2HShvAghXy1HjwQ
+        6h1UacI/pw/3x1uzAYHpepmeedCZvGtk0IsEMsgjhQz8SFMGa6SQcXg6ffB+VTYbEPx7Rwuu1IuU3yOL
+        FDLwI00ZrJFNGah4KINCJhqBNV+oXRfC8QAAAABJRU5ErkJggg==
+</value>
+  </data>
+  <data name="RemoveConstraintButton.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
+        YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAACISURBVDhPzZBBEkAwDEWzcWKnMZacwF1chYVFSSpN2mh0
+        x5v5M5r8/xX4HUGpxNsRtBzXjXSfmXKud4lomANJmytzQ4B+SUYYdjKjuumQOXoqBYiUXAVGL2HmOYxq
+        CCM2yNdvenvt+g0lNozfjNIFTklulh8Wnzksc4OYramc612GZ/B2nwFwAgYM6DEdp7b7AAAAAElFTkSu
+        QmCC
+</value>
+  </data>
+  <data name="ClearConstraintsButton.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
+        YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAACWSURBVDhPlZPRCYAwDETzJTiv04hbuIur6Gc1tLmaNGn1
+        4Cgkdw8LlQKlwF1N5UzbcbrmXY7QXE5IlWm9Ei279jMzEOlAupyD1TxvIZBXfgsADzIsYx9A6qJXfl/L
+        5CNA9GWfAL1rDQG9MssBcPAZcHFUjvaAwD/KIg3JAXhUxlMWiFxH7JSbp6whnmu5+ZmsJGxtRHQDcpVU
+        ZGGpaAQAAAAASUVORK5CYII=
+</value>
+  </data>
   <data name="UnchangedButton.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8

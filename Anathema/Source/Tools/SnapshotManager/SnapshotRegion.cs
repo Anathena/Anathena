@@ -140,7 +140,7 @@ namespace Anathema
 
         public virtual IEnumerator GetEnumerator()
         {
-            for (Int32 Index = 0; Index < RegionSize; Index++)
+            for (Int32 Index = 0; Index < RegionSize; Index ++)
                 yield return this[Index];
         }
     }
