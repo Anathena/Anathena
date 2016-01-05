@@ -39,8 +39,6 @@
             this.ValueTypeComboBox = new System.Windows.Forms.ComboBox();
             this.ScanTypeWorldStrip = new System.Windows.Forms.ToolStrip();
             this.StartScanButton = new System.Windows.Forms.ToolStripButton();
-            this.AddConstraintButton = new System.Windows.Forms.ToolStripButton();
-            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.UnchangedButton = new System.Windows.Forms.ToolStripButton();
             this.ChangedButton = new System.Windows.Forms.ToolStripButton();
             this.IncreasedButton = new System.Windows.Forms.ToolStripButton();
@@ -52,6 +50,9 @@
             this.ValueHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.ConstraintHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.FilterScientificNotationCheckBox = new System.Windows.Forms.CheckBox();
+            this.AddConstraintButton = new System.Windows.Forms.Button();
+            this.ClearConstraintsButton = new System.Windows.Forms.Button();
+            this.RemoveConstraintButton = new System.Windows.Forms.Button();
             this.ScanTypeWorldStrip.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -136,8 +137,6 @@
             this.ScanTypeWorldStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.StartScanButton,
             this.toolStripSeparator7,
-            this.AddConstraintButton,
-            this.toolStripSeparator1,
             this.UnchangedButton,
             this.ChangedButton,
             this.IncreasedButton,
@@ -164,21 +163,6 @@
             this.StartScanButton.Size = new System.Drawing.Size(23, 22);
             this.StartScanButton.Text = "Start Scan";
             this.StartScanButton.Click += new System.EventHandler(this.StartScanButton_Click);
-            // 
-            // AddConstraintButton
-            // 
-            this.AddConstraintButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.AddConstraintButton.Image = ((System.Drawing.Image)(resources.GetObject("AddConstraintButton.Image")));
-            this.AddConstraintButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.AddConstraintButton.Name = "AddConstraintButton";
-            this.AddConstraintButton.Size = new System.Drawing.Size(23, 22);
-            this.AddConstraintButton.Text = "Add Constraint";
-            this.AddConstraintButton.Click += new System.EventHandler(this.AddConstraintButton_Click);
-            // 
-            // toolStripSeparator1
-            // 
-            this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 25);
             // 
             // UnchangedButton
             // 
@@ -283,11 +267,47 @@
             this.FilterScientificNotationCheckBox.Text = "Filter Scientific Notation";
             this.FilterScientificNotationCheckBox.UseVisualStyleBackColor = true;
             // 
+            // AddConstraintButton
+            // 
+            this.AddConstraintButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.AddConstraintButton.Location = new System.Drawing.Point(12, 101);
+            this.AddConstraintButton.Name = "AddConstraintButton";
+            this.AddConstraintButton.Size = new System.Drawing.Size(94, 23);
+            this.AddConstraintButton.TabIndex = 159;
+            this.AddConstraintButton.Text = "Add Constraint";
+            this.AddConstraintButton.UseVisualStyleBackColor = true;
+            this.AddConstraintButton.Click += new System.EventHandler(this.AddConstraintButton_Click);
+            // 
+            // ClearConstraintsButton
+            // 
+            this.ClearConstraintsButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.ClearConstraintsButton.Location = new System.Drawing.Point(237, 101);
+            this.ClearConstraintsButton.Name = "ClearConstraintsButton";
+            this.ClearConstraintsButton.Size = new System.Drawing.Size(94, 23);
+            this.ClearConstraintsButton.TabIndex = 160;
+            this.ClearConstraintsButton.Text = "Clear Constraints";
+            this.ClearConstraintsButton.UseVisualStyleBackColor = true;
+            this.ClearConstraintsButton.Click += new System.EventHandler(this.button2_Click);
+            // 
+            // RemoveConstraintButton
+            // 
+            this.RemoveConstraintButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.RemoveConstraintButton.Location = new System.Drawing.Point(112, 101);
+            this.RemoveConstraintButton.Name = "RemoveConstraintButton";
+            this.RemoveConstraintButton.Size = new System.Drawing.Size(119, 23);
+            this.RemoveConstraintButton.TabIndex = 161;
+            this.RemoveConstraintButton.Text = "Remove Selected";
+            this.RemoveConstraintButton.UseVisualStyleBackColor = true;
+            this.RemoveConstraintButton.Click += new System.EventHandler(this.RemoveConstraintButton_Click);
+            // 
             // GUIFilterManual
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(343, 244);
+            this.Controls.Add(this.RemoveConstraintButton);
+            this.Controls.Add(this.ClearConstraintsButton);
+            this.Controls.Add(this.AddConstraintButton);
             this.Controls.Add(this.FilterScientificNotationCheckBox);
             this.Controls.Add(this.ConstraintsListView);
             this.Controls.Add(this.CompareTypeLabel);
@@ -327,7 +347,8 @@
         private System.Windows.Forms.ToolStripButton NotEqualButton;
         private System.Windows.Forms.ToolStripButton DecreasedByXButton;
         private System.Windows.Forms.ToolStripButton IncreasedByXButton;
-        private System.Windows.Forms.ToolStripButton AddConstraintButton;
-        private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
+        private System.Windows.Forms.Button AddConstraintButton;
+        private System.Windows.Forms.Button ClearConstraintsButton;
+        private System.Windows.Forms.Button RemoveConstraintButton;
     }
 }

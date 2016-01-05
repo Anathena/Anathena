@@ -62,7 +62,7 @@ namespace Anathema
                 // Create the subregion from this segment
                 SnapshotRegion SubRegion = new SnapshotRegion(this.BaseAddress + StartIndex, ValidRegionSize);
                 if (CurrentValues != null)
-                    SubRegion.SetCurrentValues(CurrentValues.LargestSubArray(StartIndex, ValidRegionSize + Marshal.SizeOf(ElementTypes)));
+                    SubRegion.SetCurrentValues(CurrentValues.LargestSubArray(StartIndex, ValidRegionSize /*+ Marshal.SizeOf(ElementTypes)*/));
                 SubRegion.SetElementTypes(ElementTypes);
 
                 ValidRegions.Add(SubRegion);

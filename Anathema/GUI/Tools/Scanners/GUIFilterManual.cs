@@ -7,6 +7,7 @@ using System.Text;
 using System.Windows.Forms;
 using WeifenLuo.WinFormsUI.Docking;
 using System.IO;
+using System.Linq;
 
 namespace Anathema
 {
@@ -52,11 +53,6 @@ namespace Anathema
             ScanOptionButtons.Add(DecreasedByXButton);
         }
 
-        private void AddCurrentConstraint()
-        {
-            FilterManualScanPresenter.AddCurrentConstraint(ValueTypeComboBox.SelectedItem.ToString(), ValueTextBox.Text.ToString());
-        }
-
         public void UpdateDisplay(List<String[]> ScanConstraintItems)
         {
             ConstraintsListView.Items.Clear();
@@ -73,7 +69,7 @@ namespace Anathema
                     Button.Checked = false;
                 else
                     Button.Checked = true;
-            
+
             if (Sender == EqualButton)
             {
                 ValueConstraint = ValueConstraintsEnum.Equal;
@@ -200,9 +196,20 @@ namespace Anathema
 
         private void AddConstraintButton_Click(Object Sender, EventArgs E)
         {
-            AddCurrentConstraint();
+            FilterManualScanPresenter.AddConstraint(ValueTypeComboBox.SelectedItem.ToString(), ValueTextBox.Text.ToString());
+        }
+
+        private void button2_Click(Object Sender, EventArgs E)
+        {
+            FilterManualScanPresenter.ClearConstraints();
+        }
+
+        private void RemoveConstraintButton_Click(Object Sender, EventArgs E)
+        {
+            FilterManualScanPresenter.RemoveConstraints(ConstraintsListView.SelectedIndices.Cast<Int32>().ToArray());
         }
 
         #endregion
+
     }
 }

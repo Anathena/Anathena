@@ -31,6 +31,8 @@ namespace Anathema
 
         // Functions invoked by presenter (downstream)
         public abstract void AddConstraint(ValueConstraintsEnum ValueConstraint, Type ElementType, dynamic Value);
+        public abstract void RemoveConstraints(Int32[] ConstraintIndicies);
+        public abstract void ClearConstraints();
     }
 
     class FilterManualScanPresenter : ScannerPresenter
@@ -50,8 +52,13 @@ namespace Anathema
         }
 
         #region Method definitions called by the view (downstream)
-        
-        public void AddCurrentConstraint(String ElementTypeString, String ValueString)
+
+        public void SetValueConstraints(ValueConstraintsEnum ValueConstraint)
+        {
+            this.ValueConstraint = ValueConstraint;
+        }
+
+        public void AddConstraint(String ElementTypeString, String ValueString)
         {
             Type ElementType = Conversions.StringToPrimitiveType(ElementTypeString);
             dynamic Value = Conversions.ParseValue(ElementType, ValueString);
@@ -59,9 +66,14 @@ namespace Anathema
             Model.AddConstraint(ValueConstraint, ElementType, Value);
         }
 
-        public void SetValueConstraints(ValueConstraintsEnum ValueConstraint)
+        public void RemoveConstraints(Int32[] ConstraintIndicies)
         {
-            this.ValueConstraint = ValueConstraint;
+            Model.RemoveConstraints(ConstraintIndicies);
+        }
+
+        public void ClearConstraints()
+        {
+            Model.ClearConstraints();
         }
 
         #endregion

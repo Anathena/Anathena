@@ -26,9 +26,15 @@ namespace Anathema
             this.ValueConstraints.Add(ValueConstraintsItem);
         }
 
-        public void RemoveConstraint(Int32 Index)
+        public void RemoveConstraints(Int32[] ConstraintIndicies)
         {
+            foreach (Int32 Index in ConstraintIndicies.ToList().Select(x => x).Reverse())
+                this.ValueConstraints.RemoveAt(Index);
+        }
 
+        public void ClearConstraints()
+        {
+            this.ValueConstraints.Clear();
         }
 
         public void SetFilterScientificNotation(Boolean FilterScientificNotation)

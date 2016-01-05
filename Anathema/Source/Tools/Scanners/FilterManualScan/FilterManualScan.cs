@@ -24,7 +24,23 @@ namespace Anathema
         public override void AddConstraint(ValueConstraintsEnum ValueConstraint, Type ElementType, dynamic Value)
         {
             ScanConstraints.AddConstraint(new ScanConstraintItem(ValueConstraint, ElementType, Value));
+            UpdateDisplay();
+        }
 
+        public override void RemoveConstraints(Int32[] ConstraintIndicies)
+        {
+            ScanConstraints.RemoveConstraints(ConstraintIndicies);
+            UpdateDisplay();
+        }
+
+        public override void ClearConstraints()
+        {
+            ScanConstraints.ClearConstraints();
+            UpdateDisplay();
+        }
+
+        private void UpdateDisplay()
+        {
             FilterManualScanEventArgs FilterManualScanEventArgs = new FilterManualScanEventArgs();
             FilterManualScanEventArgs.ScanConstraints = ScanConstraints;
             OnEventUpdateDisplay(FilterManualScanEventArgs);
