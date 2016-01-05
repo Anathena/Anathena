@@ -74,6 +74,29 @@ namespace Anathema
             return false; // Invalid
         }
 
+        public static Boolean CanParseValue(Type ValueType, String Value)
+        {
+            Boolean CanParse = false;
+
+            var @switch = new Dictionary<Type, Action> {
+                    { typeof(Byte), () => CanParse = ByteValue(Value) },
+                    { typeof(SByte), () => CanParse = ByteValue(Value) },
+                    { typeof(Int16), () => CanParse = Int16Value(Value) },
+                    { typeof(Int32), () => CanParse = Int32Value(Value) },
+                    { typeof(Int64), () => CanParse = Int64Value(Value) },
+                    { typeof(UInt16), () => CanParse = Int16Value(Value) },
+                    { typeof(UInt32), () => CanParse = Int32Value(Value) },
+                    { typeof(UInt64), () => CanParse = Int64Value(Value) },
+                    { typeof(Single), () => CanParse = SingleValue(Value) },
+                    { typeof(Double), () => CanParse = DoubleValue(Value) },
+                };
+
+            if (@switch.ContainsKey(ValueType))
+                @switch[ValueType]();
+
+            return CanParse;
+        }
+
         // Checks if passed value is a valid binary value
         public static Boolean BinaryValue(String Value)
         {

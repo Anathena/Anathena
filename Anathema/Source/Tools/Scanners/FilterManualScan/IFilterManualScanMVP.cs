@@ -67,7 +67,28 @@ namespace Anathema
 
         public void AddConstraint(String ValueString)
         {
-            dynamic Value = Conversions.ParseValue(Model.GetElementType(), ValueString);
+            dynamic Value = String.Empty;
+            
+            switch (ValueConstraint)
+            {
+                case ValueConstraintsEnum.Changed:
+                case ValueConstraintsEnum.Unchanged:
+                case ValueConstraintsEnum.Decreased:
+                case ValueConstraintsEnum.Increased:
+                    break;
+                case ValueConstraintsEnum.Invalid:
+                case ValueConstraintsEnum.GreaterThan:
+                case ValueConstraintsEnum.LessThan:
+                case ValueConstraintsEnum.Equal:
+                case ValueConstraintsEnum.NotEqual:
+                case ValueConstraintsEnum.IncreasedByX:
+                case ValueConstraintsEnum.DecreasedByX:
+                    if (CheckSyntax.CanParseValue(Model.GetElementType(), ValueString))
+                        Value = Conversions.ParseValue(Model.GetElementType(), ValueString);
+                    else
+                        return;
+                    break;
+            }
 
             Model.AddConstraint(ValueConstraint, Value);
         }

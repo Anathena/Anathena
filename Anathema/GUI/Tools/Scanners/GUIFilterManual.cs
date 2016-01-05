@@ -116,6 +116,7 @@ namespace Anathema
                 case ValueConstraintsEnum.Decreased:
                 case ValueConstraintsEnum.Increased:
                     ValueTextBox.Enabled = false;
+                    ValueTextBox.Text = "";
                     break;
                 case ValueConstraintsEnum.Invalid:
                 case ValueConstraintsEnum.GreaterThan:
