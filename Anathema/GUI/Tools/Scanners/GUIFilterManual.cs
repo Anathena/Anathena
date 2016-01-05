@@ -60,7 +60,7 @@ namespace Anathema
 
         private void EvaluateScanOptions(ToolStripButton Sender)
         {
-            ValueConstraintsEnum ValueConstraint = ValueConstraintsEnum.Invalid;
+            ConstraintsEnum ValueConstraint = ConstraintsEnum.Invalid;
 
             foreach (ToolStripButton Button in ScanOptionButtons)
                 if (Button != Sender)
@@ -70,61 +70,61 @@ namespace Anathema
 
             if (Sender == EqualButton)
             {
-                ValueConstraint = ValueConstraintsEnum.Equal;
+                ValueConstraint = ConstraintsEnum.Equal;
             }
             else if (Sender == NotEqualButton)
             {
-                ValueConstraint = ValueConstraintsEnum.NotEqual;
+                ValueConstraint = ConstraintsEnum.NotEqual;
             }
             else if (Sender == ChangedButton)
             {
-                ValueConstraint = ValueConstraintsEnum.Changed;
+                ValueConstraint = ConstraintsEnum.Changed;
             }
             else if (Sender == UnchangedButton)
             {
-                ValueConstraint = ValueConstraintsEnum.Unchanged;
+                ValueConstraint = ConstraintsEnum.Unchanged;
             }
             else if (Sender == IncreasedButton)
             {
-                ValueConstraint = ValueConstraintsEnum.Increased;
+                ValueConstraint = ConstraintsEnum.Increased;
             }
             else if (Sender == DecreasedButton)
             {
-                ValueConstraint = ValueConstraintsEnum.Decreased;
+                ValueConstraint = ConstraintsEnum.Decreased;
             }
             else if (Sender == GreaterThanButton)
             {
-                ValueConstraint = ValueConstraintsEnum.GreaterThan;
+                ValueConstraint = ConstraintsEnum.GreaterThan;
             }
             else if (Sender == LessThanButton)
             {
-                ValueConstraint = ValueConstraintsEnum.LessThan;
+                ValueConstraint = ConstraintsEnum.LessThan;
             }
             else if (Sender == IncreasedByXButton)
             {
-                ValueConstraint = ValueConstraintsEnum.IncreasedByX;
+                ValueConstraint = ConstraintsEnum.IncreasedByX;
             }
             else if (Sender == DecreasedByXButton)
             {
-                ValueConstraint = ValueConstraintsEnum.DecreasedByX;
+                ValueConstraint = ConstraintsEnum.DecreasedByX;
             }
 
             switch (ValueConstraint)
             {
-                case ValueConstraintsEnum.Changed:
-                case ValueConstraintsEnum.Unchanged:
-                case ValueConstraintsEnum.Decreased:
-                case ValueConstraintsEnum.Increased:
+                case ConstraintsEnum.Changed:
+                case ConstraintsEnum.Unchanged:
+                case ConstraintsEnum.Decreased:
+                case ConstraintsEnum.Increased:
                     ValueTextBox.Enabled = false;
                     ValueTextBox.Text = "";
                     break;
-                case ValueConstraintsEnum.Invalid:
-                case ValueConstraintsEnum.GreaterThan:
-                case ValueConstraintsEnum.LessThan:
-                case ValueConstraintsEnum.Equal:
-                case ValueConstraintsEnum.NotEqual:
-                case ValueConstraintsEnum.IncreasedByX:
-                case ValueConstraintsEnum.DecreasedByX:
+                case ConstraintsEnum.Invalid:
+                case ConstraintsEnum.GreaterThan:
+                case ConstraintsEnum.LessThan:
+                case ConstraintsEnum.Equal:
+                case ConstraintsEnum.NotEqual:
+                case ConstraintsEnum.IncreasedByX:
+                case ConstraintsEnum.DecreasedByX:
                     ValueTextBox.Enabled = true;
                     break;
             }

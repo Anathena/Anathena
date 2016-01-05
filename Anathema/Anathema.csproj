@@ -104,8 +104,9 @@
     </Compile>
     <Compile Include="Source\Settings\ISettingsMVP.cs" />
     <Compile Include="Source\Tools\Scanners\FilterFiniteState\IFilterFSMMVP.cs" />
-    <Compile Include="Source\Tools\Scanners\ScanTransitionConstraints.cs" />
-    <Compile Include="Source\Tools\Scanners\ScanConstraints.cs" />
+    <Compile Include="Source\Tools\Scanners\FilterFiniteState\StateMachine.cs" />
+    <Compile Include="Source\Tools\Scanners\FilterFiniteState\State.cs" />
+    <Compile Include="Source\Tools\Scanners\ScanConstraintManager.cs" />
     <Compile Include="Source\HelperClasses\PrimitiveTypes.cs" />
     <Compile Include="Source\Tools\Scanners\FilterManualScan\IFilterManualScanMVP.cs" />
     <Compile Include="Source\Tools\Scanners\FilterManualScan\FilterManualScan.cs" />
@@ -417,7 +418,7 @@
     <Compile Include="Source\Tools\Table\TableAddressEntryEditor.cs" />
     <Compile Include="Source\Tools\Table\Table.cs" />
     <Compile Include="Source\Tools\Table\TableItem.cs" />
-    <Compile Include="Source\Tools\Scanners\ScanConstraintItem.cs" />
+    <Compile Include="Source\Tools\Scanners\ScanConstraint.cs" />
     <EmbeddedResource Include="GUI\CustomControls\HexEditor\BitControl.de.resx">
       <DependentUpon>BitControl.cs</DependentUpon>
       <SubType>Designer</SubType>

@@ -10,16 +10,14 @@ namespace Anathema
     /// <summary>
     /// Class for storing a collection of constraints to be used in a scan that applies more than one constraint per update
     /// </summary>
-    class ScanConstraints : IEnumerable
+    class ScanConstraintManager : IEnumerable
     {
-        protected List<ScanConstraintItem> ValueConstraints;
-        protected Boolean FilterScientificNotation;
+        protected List<ScanConstraint> ValueConstraints;
         protected Type ElementType;
 
-        public ScanConstraints()
+        public ScanConstraintManager()
         {
-            FilterScientificNotation = false;
-            ValueConstraints = new List<ScanConstraintItem>();
+            ValueConstraints = new List<ScanConstraint>();
         }
 
         public Type GetElementType()
@@ -32,7 +30,7 @@ namespace Anathema
             this.ElementType = ElementType;
         }
 
-        public void AddConstraint(ScanConstraintItem ValueConstraintsItem)
+        public void AddConstraint(ScanConstraint ValueConstraintsItem)
         {
             this.ValueConstraints.Add(ValueConstraintsItem);
         }
@@ -50,7 +48,7 @@ namespace Anathema
 
         public void SetFilterScientificNotation(Boolean FilterScientificNotation)
         {
-            this.FilterScientificNotation = FilterScientificNotation;
+            //this.FilterScientificNotation = FilterScientificNotation;
         }
 
         public IEnumerator GetEnumerator()

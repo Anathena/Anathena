@@ -14,11 +14,11 @@ namespace Anathema
         private Snapshot Snapshot;
 
         // User controlled variables
-        private ScanConstraints ScanConstraints;
+        private ScanConstraintManager ScanConstraints;
 
         public FilterManualScan()
         {
-            ScanConstraints = new ScanConstraints();
+            ScanConstraints = new ScanConstraintManager();
         }
 
         public override void SetElementType(Type ElementType)
@@ -31,9 +31,9 @@ namespace Anathema
             return ScanConstraints.GetElementType();
         }
 
-        public override void AddConstraint(ValueConstraintsEnum ValueConstraint, dynamic Value)
+        public override void AddConstraint(ConstraintsEnum ValueConstraint, dynamic Value)
         {
-            ScanConstraints.AddConstraint(new ScanConstraintItem(ValueConstraint, Value));
+            ScanConstraints.AddConstraint(new ScanConstraint(ValueConstraint, Value));
             UpdateDisplay();
         }
 
@@ -72,7 +72,7 @@ namespace Anathema
             Snapshot.ReadAllSnapshotMemory();
 
             // Enforce each value constraint
-            foreach (ScanConstraintItem ScanConstraint in ScanConstraints)
+            foreach (ScanConstraint ScanConstraint in ScanConstraints)
             {
 
                 Parallel.ForEach(Snapshot.Cast<Object>(), (RegionObject) =>
@@ -87,45 +87,45 @@ namespace Anathema
                         if (!Element.Valid)
                             continue;
                         
-                        switch (ScanConstraint.ValueConstraints)
+                        switch (ScanConstraint.Constraint)
                         {
-                            case ValueConstraintsEnum.Unchanged:
+                            case ConstraintsEnum.Unchanged:
                                 if (!Element.Unchanged())
                                     Element.Valid = false;
                                 break;
-                            case ValueConstraintsEnum.Changed:
+                            case ConstraintsEnum.Changed:
                                 if (!Element.Changed())
                                     Element.Valid = false;
                                 break;
-                            case ValueConstraintsEnum.Increased:
+                            case ConstraintsEnum.Increased:
                                 if (!Element.Increased())
                                     Element.Valid = false;
                                 break;
-                            case ValueConstraintsEnum.Decreased:
+                            case ConstraintsEnum.Decreased:
                                 if (!Element.Decreased())
                                     Element.Valid = false;
                                 break;
-                            case ValueConstraintsEnum.IncreasedByX:
+                            case ConstraintsEnum.IncreasedByX:
                                 if (!Element.IncreasedByValue(ScanConstraint.Value))
                                     Element.Valid = false;
                                 break;
-                            case ValueConstraintsEnum.DecreasedByX:
+                            case ConstraintsEnum.DecreasedByX:
                                 if (!Element.DecreasedByValue(ScanConstraint.Value))
                                     Element.Valid = false;
                                 break;
-                            case ValueConstraintsEnum.Equal:
+                            case ConstraintsEnum.Equal:
                                 if (!Element.EqualToValue(ScanConstraint.Value))
                                     Element.Valid = false;
                                 break;
-                            case ValueConstraintsEnum.NotEqual:
+                            case ConstraintsEnum.NotEqual:
                                 if (!Element.NotEqualToValue(ScanConstraint.Value))
                                     Element.Valid = false;
                                 break;
-                            case ValueConstraintsEnum.GreaterThan:
+                            case ConstraintsEnum.GreaterThan:
                                 if (!Element.GreaterThanValue(ScanConstraint.Value))
                                     Element.Valid = false;
                                 break;
-                            case ValueConstraintsEnum.LessThan:
+                            case ConstraintsEnum.LessThan:
                                 if (!Element.LessThanValue(ScanConstraint.Value))
                                     Element.Valid = false;
                                 break;

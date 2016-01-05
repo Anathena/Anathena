@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Anathema
 {
-    public enum ValueConstraintsEnum
+    public enum ConstraintsEnum
     {
         Invalid,
         Equal,
@@ -21,20 +21,20 @@ namespace Anathema
         LessThan,
     }
 
-    public class ScanConstraintItem
+    public class ScanConstraint
     {
-        public ValueConstraintsEnum ValueConstraints { get; set; }
+        public ConstraintsEnum Constraint { get; set; }
         public dynamic Value { get; set; }
 
-        public ScanConstraintItem()
+        public ScanConstraint()
         {
-            ValueConstraints = ValueConstraintsEnum.Changed;
+            Constraint = ConstraintsEnum.Changed;
             Value = null;
         }
 
-        public ScanConstraintItem(ValueConstraintsEnum ValueConstraint, dynamic Value = null)
+        public ScanConstraint(ConstraintsEnum ValueConstraint, dynamic Value = null)
         {
-            this.ValueConstraints = ValueConstraint;
+            this.Constraint = ValueConstraint;
             this.Value = Value;
         }
     }
