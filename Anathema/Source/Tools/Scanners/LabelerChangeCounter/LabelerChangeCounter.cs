@@ -18,7 +18,7 @@ namespace Anathema
         }
 
         // Snapshot being labeled with change counts
-        private Snapshot<UInt16> LabeledSnapshot;
+        private Snapshot<UInt16> Snapshot;
 
         // User controlled variables
         private Int32 MinChanges;
@@ -64,12 +64,12 @@ namespace Anathema
         public override void BeginScan()
         {
             // Initialize labeled snapshot
-            LabeledSnapshot = new Snapshot<UInt16>(SnapshotManager.GetInstance().GetActiveSnapshot());
-            LabeledSnapshot.SetVariableSize(VariableSize);
+            Snapshot = new Snapshot<UInt16>(SnapshotManager.GetInstance().GetActiveSnapshot());
+            Snapshot.SetVariableSize(VariableSize);
 
             // Initialize change counts to zero
-            LabeledSnapshot.SetMemoryLabels(0);
-            LabeledSnapshot.MarkAllInvalid();
+            Snapshot.SetMemoryLabels(0);
+            Snapshot.MarkAllInvalid();
 
             base.BeginScan();
         }
@@ -77,11 +77,14 @@ namespace Anathema
         protected override void UpdateScan()
         {
             // Read memory to get current values
-            LabeledSnapshot.ReadAllSnapshotMemory();
-            foreach (SnapshotRegion<UInt16> Region in LabeledSnapshot)
+            Snapshot.ReadAllSnapshotMemory();
+
+            Parallel.ForEach(Snapshot.Cast<Object>(), (object RegionObject) =>
             {
+                SnapshotRegion Region = (SnapshotRegion)RegionObject;
+
                 if (!Region.CanCompare())
-                    continue;
+                    return;
 
                 foreach (SnapshotElement<UInt16> Element in Region)
                 {
@@ -101,7 +104,7 @@ namespace Anathema
                             break;
                     }
                 }
-            }
+            }); // End regions
         }
 
         public override void EndScan()
@@ -109,13 +112,13 @@ namespace Anathema
             base.EndScan();
 
             // Mark regions as valid or invalid based on label value
-            foreach (SnapshotRegion<UInt16> Region in LabeledSnapshot)
+            foreach (SnapshotRegion<UInt16> Region in Snapshot)
                 foreach (SnapshotElement<UInt16> Element in Region)
                     if (Element.MemoryLabel.Value >= MinChanges && Element.MemoryLabel.Value <= MaxChanges)
                         Element.Valid = true;
 
             // Create a snapshot from the valid regions
-            Snapshot<UInt16> FilteredSnapshot = new Snapshot<UInt16>(LabeledSnapshot.GetValidRegions());
+            Snapshot<UInt16> FilteredSnapshot = new Snapshot<UInt16>(Snapshot.GetValidRegions());
             FilteredSnapshot.SetScanMethod("Change Counter");
             SnapshotManager.GetInstance().SaveSnapshot(FilteredSnapshot);
         }
