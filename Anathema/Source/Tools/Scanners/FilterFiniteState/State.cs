@@ -9,11 +9,17 @@ using System.Threading.Tasks;
 namespace Anathema
 {
     /// <summary>
-    /// Extension of scan constraints, however this keeps track of transition events
+    /// Extension of scan constraints, however this keeps track of transitions and their resulting actions for FSM scans
     /// </summary>
     class State : ScanConstraintManager
     {
-        private Dictionary<ScanConstraint, State> TransitionStates;
+        private enum StateEventsEnum
+        {
+            MarkInvalid,
+            MarkValid,
+        }
+
+        private Dictionary<ScanConstraint, State> TransitionStates; // Maps constraints to states
         private Point DisplayLocation;
 
         public State() : base()

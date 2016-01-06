@@ -46,7 +46,7 @@
             this.LessThanButton = new System.Windows.Forms.ToolStripButton();
             this.IncreasedByXButton = new System.Windows.Forms.ToolStripButton();
             this.DecreasedByXButton = new System.Windows.Forms.ToolStripButton();
-            this.FSMBuilderPanel = new System.Windows.Forms.Panel();
+            this.FSMBuilderPanel = new FlickerFreePanel();
             this.ScanTypeWorldStrip.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -281,6 +281,6 @@
         private System.Windows.Forms.ToolStripButton IncreasedByXButton;
         private System.Windows.Forms.ToolStripButton DecreasedByXButton;
         private System.Windows.Forms.ToolStripButton RemoveConstraintButton;
-        private System.Windows.Forms.Panel FSMBuilderPanel;
+        private FlickerFreePanel FSMBuilderPanel;
     }
 }
