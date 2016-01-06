@@ -13,7 +13,7 @@ namespace Anathema
 
         public StateTransitions()
         {
-
+            States = new List<State>();
         }
 
     } // End class

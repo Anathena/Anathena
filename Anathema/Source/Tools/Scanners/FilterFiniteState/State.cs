@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -13,6 +14,7 @@ namespace Anathema
     class State : ScanConstraintManager
     {
         private Dictionary<ScanConstraint, State> TransitionStates;
+        private Point DisplayLocation;
 
         public State() : base()
         {

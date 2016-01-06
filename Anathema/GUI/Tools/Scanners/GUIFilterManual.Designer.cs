@@ -39,6 +39,10 @@
             this.ValueTypeComboBox = new System.Windows.Forms.ComboBox();
             this.ScanTypeWorldStrip = new System.Windows.Forms.ToolStrip();
             this.StartScanButton = new System.Windows.Forms.ToolStripButton();
+            this.AddConstraintButton = new System.Windows.Forms.ToolStripButton();
+            this.RemoveConstraintButton = new System.Windows.Forms.ToolStripButton();
+            this.ClearConstraintsButton = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.UnchangedButton = new System.Windows.Forms.ToolStripButton();
             this.ChangedButton = new System.Windows.Forms.ToolStripButton();
             this.IncreasedButton = new System.Windows.Forms.ToolStripButton();
@@ -49,18 +53,14 @@
             this.ValueHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.ConstraintHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.FilterScientificNotationCheckBox = new System.Windows.Forms.CheckBox();
-            this.AddConstraintButton = new System.Windows.Forms.ToolStripButton();
-            this.RemoveConstraintButton = new System.Windows.Forms.ToolStripButton();
-            this.ClearConstraintsButton = new System.Windows.Forms.ToolStripButton();
-            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.ScanTypeWorldStrip.SuspendLayout();
             this.SuspendLayout();
             // 
             // CompareTypeLabel
             // 
-            this.CompareTypeLabel.Location = new System.Drawing.Point(9, 27);
+            this.CompareTypeLabel.Location = new System.Drawing.Point(275, 55);
             this.CompareTypeLabel.Name = "CompareTypeLabel";
-            this.CompareTypeLabel.Size = new System.Drawing.Size(191, 13);
+            this.CompareTypeLabel.Size = new System.Drawing.Size(95, 13);
             this.CompareTypeLabel.TabIndex = 154;
             this.CompareTypeLabel.Text = "Invalid";
             // 
@@ -68,7 +68,7 @@
             // 
             this.ValueTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.ValueTextBox.Location = new System.Drawing.Point(12, 43);
+            this.ValueTextBox.Location = new System.Drawing.Point(12, 28);
             this.ValueTextBox.Name = "ValueTextBox";
             this.ValueTextBox.Size = new System.Drawing.Size(358, 20);
             this.ValueTextBox.TabIndex = 151;
@@ -126,7 +126,7 @@
             // 
             this.ValueTypeComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.ValueTypeComboBox.FormattingEnabled = true;
-            this.ValueTypeComboBox.Location = new System.Drawing.Point(12, 67);
+            this.ValueTypeComboBox.Location = new System.Drawing.Point(12, 52);
             this.ValueTypeComboBox.Name = "ValueTypeComboBox";
             this.ValueTypeComboBox.Size = new System.Drawing.Size(94, 21);
             this.ValueTypeComboBox.TabIndex = 153;
@@ -168,6 +168,41 @@
             this.StartScanButton.Size = new System.Drawing.Size(23, 22);
             this.StartScanButton.Text = "Start Scan";
             this.StartScanButton.Click += new System.EventHandler(this.StartScanButton_Click);
+            // 
+            // AddConstraintButton
+            // 
+            this.AddConstraintButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.AddConstraintButton.Image = ((System.Drawing.Image)(resources.GetObject("AddConstraintButton.Image")));
+            this.AddConstraintButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.AddConstraintButton.Name = "AddConstraintButton";
+            this.AddConstraintButton.Size = new System.Drawing.Size(23, 22);
+            this.AddConstraintButton.Text = "Add Constraint";
+            this.AddConstraintButton.Click += new System.EventHandler(this.AddConstraintButton_Click);
+            // 
+            // RemoveConstraintButton
+            // 
+            this.RemoveConstraintButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.RemoveConstraintButton.Image = ((System.Drawing.Image)(resources.GetObject("RemoveConstraintButton.Image")));
+            this.RemoveConstraintButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.RemoveConstraintButton.Name = "RemoveConstraintButton";
+            this.RemoveConstraintButton.Size = new System.Drawing.Size(23, 22);
+            this.RemoveConstraintButton.Text = "Remove Selected Constraints";
+            this.RemoveConstraintButton.Click += new System.EventHandler(this.RemoveConstraintButton_Click);
+            // 
+            // ClearConstraintsButton
+            // 
+            this.ClearConstraintsButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.ClearConstraintsButton.Image = ((System.Drawing.Image)(resources.GetObject("ClearConstraintsButton.Image")));
+            this.ClearConstraintsButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.ClearConstraintsButton.Name = "ClearConstraintsButton";
+            this.ClearConstraintsButton.Size = new System.Drawing.Size(23, 22);
+            this.ClearConstraintsButton.Text = "toolStripButton3";
+            this.ClearConstraintsButton.Click += new System.EventHandler(this.ClearConstraintsButton_Click);
+            // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 25);
             // 
             // UnchangedButton
             // 
@@ -260,47 +295,12 @@
             // FilterScientificNotationCheckBox
             // 
             this.FilterScientificNotationCheckBox.AutoSize = true;
-            this.FilterScientificNotationCheckBox.Location = new System.Drawing.Point(132, 69);
+            this.FilterScientificNotationCheckBox.Location = new System.Drawing.Point(132, 54);
             this.FilterScientificNotationCheckBox.Name = "FilterScientificNotationCheckBox";
             this.FilterScientificNotationCheckBox.Size = new System.Drawing.Size(137, 17);
             this.FilterScientificNotationCheckBox.TabIndex = 158;
             this.FilterScientificNotationCheckBox.Text = "Filter Scientific Notation";
             this.FilterScientificNotationCheckBox.UseVisualStyleBackColor = true;
-            // 
-            // AddConstraintButton
-            // 
-            this.AddConstraintButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.AddConstraintButton.Image = ((System.Drawing.Image)(resources.GetObject("AddConstraintButton.Image")));
-            this.AddConstraintButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.AddConstraintButton.Name = "AddConstraintButton";
-            this.AddConstraintButton.Size = new System.Drawing.Size(23, 22);
-            this.AddConstraintButton.Text = "Add Constraint";
-            this.AddConstraintButton.Click += new System.EventHandler(this.AddConstraintButton_Click);
-            // 
-            // RemoveConstraintButton
-            // 
-            this.RemoveConstraintButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.RemoveConstraintButton.Image = ((System.Drawing.Image)(resources.GetObject("RemoveConstraintButton.Image")));
-            this.RemoveConstraintButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.RemoveConstraintButton.Name = "RemoveConstraintButton";
-            this.RemoveConstraintButton.Size = new System.Drawing.Size(23, 22);
-            this.RemoveConstraintButton.Text = "Remove Selected Constraints";
-            this.RemoveConstraintButton.Click += new System.EventHandler(this.RemoveConstraintButton_Click);
-            // 
-            // ClearConstraintsButton
-            // 
-            this.ClearConstraintsButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.ClearConstraintsButton.Image = ((System.Drawing.Image)(resources.GetObject("ClearConstraintsButton.Image")));
-            this.ClearConstraintsButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.ClearConstraintsButton.Name = "ClearConstraintsButton";
-            this.ClearConstraintsButton.Size = new System.Drawing.Size(23, 22);
-            this.ClearConstraintsButton.Text = "toolStripButton3";
-            this.ClearConstraintsButton.Click += new System.EventHandler(this.ClearConstraintsButton_Click);
-            // 
-            // toolStripSeparator1
-            // 
-            this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 25);
             // 
             // GUIFilterManual
             // 
