@@ -7,6 +7,7 @@ using System.Text;
 using System.Windows.Forms;
 using WeifenLuo.WinFormsUI.Docking;
 using System.IO;
+using Anathema.Properties;
 
 namespace Anathema
 {
@@ -175,10 +176,23 @@ namespace Anathema
         protected void FSMBuilderPanel_Paint(Object Sender, PaintEventArgs E)
         {
             foreach (GraphicalState State in States)
-                State.Draw(E.Graphics);
+            {
+                GraphicalState.StyleEnum Style;
+                if (States.IndexOf(State) == 0)
+                    Style = GraphicalState.StyleEnum.StartState;
+                else if (States.IndexOf(State) == States.Count - 1)
+                    Style = GraphicalState.StyleEnum.EndState;
+                else
+                    Style = GraphicalState.StyleEnum.IntermediateState;
+
+                State.Draw(E.Graphics, Style);
+
+            }
 
             if (PendingState != null)
-                PendingState.Draw(E.Graphics);
+                PendingState.Draw(E.Graphics, States.Count == 0 ? GraphicalState.StyleEnum.StartState : GraphicalState.StyleEnum.IntermediateState);
+
+
         }
 
         private void FSMBuilderPanel_MouseUp(Object Sender, MouseEventArgs E)
@@ -294,8 +308,15 @@ namespace Anathema
 
     class GraphicalState
     {
+        public enum StyleEnum
+        {
+            StartState,
+            IntermediateState,
+            EndState
+        }
+
         private const Int32 PenWidth = 2;
-        private static Int32 Size = 24;
+        private static Int32 Size = 32;
         private static Color Color = Color.Black;
 
         private Point Location;
@@ -311,10 +332,26 @@ namespace Anathema
         }
 
         // Paint ourselves with the specified Graphics object
-        public void Draw(Graphics Graphics)
+        public void Draw(Graphics Graphics, StyleEnum Style)
         {
-            using (Pen Pen = new Pen(Color, PenWidth))
-                Graphics.DrawEllipse(Pen, Location.X - Size / 2, Location.Y - Size / 2, Size, Size);
+            Image DrawImage;
+            switch(Style)
+            {
+                case StyleEnum.StartState:
+                    DrawImage = Resources.StartState;
+                    break;
+                case StyleEnum.EndState:
+                    DrawImage = Resources.EndState;
+                    break;
+                default:
+                case StyleEnum.IntermediateState:
+                    DrawImage = Resources.IntermediateState;
+                    break;
+            }
+            Graphics.DrawImage(DrawImage, Location.X - Resources.StartState.Width / 2, Location.Y - Resources.StartState.Height / 2);
+
+            //using (Pen Pen = new Pen(Color, PenWidth))
+            //    Graphics.DrawEllipse(Pen, Location.X - Size / 2, Location.Y - Size / 2, Size, Size);
         }
     }
 } // End namespace

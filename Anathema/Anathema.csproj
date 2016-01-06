@@ -686,11 +686,13 @@
     <None Include="GUI\CustomControls\HexEditor\Resources\Save24.png" />
     <None Include="GUI\CustomControls\HexEditor\Resources\Save32.png" />
     <EmbeddedResource Include="GUI\CustomControls\HexEditor\App.ico" />
+    <None Include="Resources\StartState.png" />
+    <None Include="Content\FSM\EndState.png" />
+    <None Include="Content\FSM\IntermediateState.png" />
+    <None Include="Content\FSM\StartState.png" />
     <Content Include="Source\Tools\Scanners\LabelerInputCorrelator\InputHook\HotKeys\ReadMe.txt" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Resources\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
