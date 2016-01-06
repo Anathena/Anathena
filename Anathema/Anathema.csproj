@@ -689,7 +689,6 @@
     <None Include="GUI\CustomControls\HexEditor\Resources\Save24.png" />
     <None Include="GUI\CustomControls\HexEditor\Resources\Save32.png" />
     <EmbeddedResource Include="GUI\CustomControls\HexEditor\App.ico" />
-    <None Include="Resources\StartState.png" />
     <None Include="Content\FSM\EndState.png" />
     <None Include="Content\FSM\IntermediateState.png" />
     <None Include="Content\FSM\StartState.png" />

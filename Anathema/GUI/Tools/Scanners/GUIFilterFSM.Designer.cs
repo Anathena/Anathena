@@ -46,7 +46,7 @@
             this.LessThanButton = new System.Windows.Forms.ToolStripButton();
             this.IncreasedByXButton = new System.Windows.Forms.ToolStripButton();
             this.DecreasedByXButton = new System.Windows.Forms.ToolStripButton();
-            this.FSMBuilderPanel = new FlickerFreePanel();
+            this.FSMBuilderPanel = new Anathema.FlickerFreePanel();
             this.ScanTypeWorldStrip.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -234,10 +234,9 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.FSMBuilderPanel.BackColor = System.Drawing.SystemColors.ControlDark;
-            this.FSMBuilderPanel.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.FSMBuilderPanel.Location = new System.Drawing.Point(12, 55);
+            this.FSMBuilderPanel.Location = new System.Drawing.Point(98, 55);
             this.FSMBuilderPanel.Name = "FSMBuilderPanel";
-            this.FSMBuilderPanel.Size = new System.Drawing.Size(445, 203);
+            this.FSMBuilderPanel.Size = new System.Drawing.Size(359, 203);
             this.FSMBuilderPanel.TabIndex = 163;
             this.FSMBuilderPanel.MouseClick += new System.Windows.Forms.MouseEventHandler(this.FSMBuilderPanel_MouseClick);
             this.FSMBuilderPanel.MouseDown += new System.Windows.Forms.MouseEventHandler(this.FSMBuilderPanel_MouseDown);

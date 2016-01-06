@@ -199,7 +199,7 @@ namespace Anathema
         {
             if (PendingState != null)
             {
-                PendingState.SetLocation(E.Location);
+                PendingState.SetLocation(FSMBuilderPanel.PointToClient(Cursor.Position));
                 States.Add(PendingState);
                 PendingState = null;
 
@@ -211,12 +211,12 @@ namespace Anathema
         {
             if (PendingState != null)
             {
-                PendingState.SetLocation(E.Location);
+                PendingState.SetLocation(FSMBuilderPanel.PointToClient(Cursor.Position));
                 FSMBuilderPanel.Invalidate();
             }
             foreach (GraphicalState State in States)
             {
-                if (State.IsEdgeMousedOver(E.Location))
+                if (State.IsEdgeMousedOver(FSMBuilderPanel.PointToClient(Cursor.Position)))
                 {
                     FSMBuilderPanel.Invalidate();
                 }
@@ -230,7 +230,7 @@ namespace Anathema
             {
                 foreach (GraphicalState State in States)
                 {
-                    if (State.IsMousedOver(E.Location))
+                    if (State.IsMousedOver(FSMBuilderPanel.PointToClient(Cursor.Position)))
                     {
                         PendingState = State;
                         States.Remove(State);
@@ -240,7 +240,7 @@ namespace Anathema
             }
 
             if (PendingState == null)
-                PendingState = new GraphicalState(E.Location);
+                PendingState = new GraphicalState(FSMBuilderPanel.PointToClient(Cursor.Position));
         }
 
         private void FSMBuilderPanel_MouseClick(Object Sender, MouseEventArgs E)
@@ -336,36 +336,47 @@ namespace Anathema
             EndState
         }
 
-        private const Int32 SelectionWidth = 24;
+        private const Int32 FUCKWINDOWSOFFSET = 5;  // Thanks for being a piece of shit, windows
+        private const Int32 FUCKWINDOWSOFFSET2 = 8; // Fuck windows fuck windows fuck windows
+        private const Int32 SelectionWidth = 8;
         private Point Location;
         private Boolean MousedOver;
 
         public GraphicalState(Point Location)
         {
+            Location.X -= FUCKWINDOWSOFFSET;
+            Location.Y -= FUCKWINDOWSOFFSET;
             this.Location = Location;
         }
 
         public void SetLocation(Point Location)
         {
+            Location.X -= FUCKWINDOWSOFFSET;
+            Location.Y -= FUCKWINDOWSOFFSET;
             this.Location = Location;
         }
 
         public Boolean IsMousedOver(Point MouseLocation)
         {
+            return false;
+            MouseLocation.X -= FUCKWINDOWSOFFSET;
+            MouseLocation.Y -= FUCKWINDOWSOFFSET;
             Single Distance = (Single)Math.Sqrt((MouseLocation.X - Location.X) * (MouseLocation.X - Location.X) + (MouseLocation.Y - Location.Y) * (MouseLocation.Y - Location.Y));
 
-            if (Distance < Resources.StateHighlighted.Width - SelectionWidth)
+            if (Distance <= Resources.StateHighlighted.Width / 2 - SelectionWidth)
                 return true;
             return false;
         }
 
         public Boolean IsEdgeMousedOver(Point MouseLocation)
         {
+            MouseLocation.X -= FUCKWINDOWSOFFSET;
+            MouseLocation.Y -= FUCKWINDOWSOFFSET;
             Boolean NewMouseOverState = false;
 
             Single Distance = (Single)Math.Sqrt((MouseLocation.X - Location.X) * (MouseLocation.X - Location.X) + (MouseLocation.Y - Location.Y) * (MouseLocation.Y - Location.Y));
 
-            if (Distance <= Resources.StateHighlighted.Width && Distance >= Resources.StateHighlighted.Width - SelectionWidth)
+            if (Distance <= (Single)Resources.StateHighlighted.Width / 2.0f + FUCKWINDOWSOFFSET2 && Distance >= (Single)Resources.StateHighlighted.Width / 2.0f + FUCKWINDOWSOFFSET2 - SelectionWidth)
                 NewMouseOverState = true;
 
             if (NewMouseOverState != MousedOver)
@@ -395,9 +406,10 @@ namespace Anathema
                     DrawImage = Resources.IntermediateState;
                     break;
             }
-            Graphics.DrawImage(DrawImage, Location.X - Resources.StartState.Width / 2, Location.Y - Resources.StartState.Height / 2);
+
+            Graphics.DrawImage(DrawImage, Location.X - Resources.StateHighlighted.Width / 2, Location.Y - Resources.StateHighlighted.Height / 2);
             if (MousedOver)
-                Graphics.DrawImage(Resources.StateHighlighted, Location.X - Resources.StartState.Width / 2, Location.Y - Resources.StartState.Height / 2);
+                Graphics.DrawImage(Resources.StateHighlighted, Location.X - Resources.StateHighlighted.Width / 2, Location.Y - Resources.StateHighlighted.Height / 2);
         }
     }
 } // End namespace
