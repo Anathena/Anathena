@@ -633,6 +633,9 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
+    <None Include="Content\Font\MonoSpace.ttf" />
+    <None Include="Content\FSM\States.psd" />
+    <None Include="Content\Icons\Thumbs.db" />
     <None Include="GUI\CustomControls\HexEditor\app.config">
       <SubType>Designer</SubType>
     </None>
@@ -689,10 +692,59 @@
     <None Include="GUI\CustomControls\HexEditor\Resources\Save24.png" />
     <None Include="GUI\CustomControls\HexEditor\Resources\Save32.png" />
     <EmbeddedResource Include="GUI\CustomControls\HexEditor\App.ico" />
-    <None Include="Content\FSM\EndState.png" />
-    <None Include="Content\FSM\IntermediateState.png" />
-    <None Include="Content\FSM\StartState.png" />
-    <None Include="Content\FSM\StateHighlighted.png" />
+    <Content Include="Content\FSM\EndState.png" />
+    <Content Include="Content\FSM\IntermediateState.png" />
+    <Content Include="Content\FSM\StartState.png" />
+    <Content Include="Content\FSM\StateHighlighted.png" />
+    <Content Include="Content\Icons\AddAddress.png" />
+    <Content Include="Content\Icons\AnathemaIcon.png" />
+    <Content Include="Content\Icons\BenedictionIcon.png" />
+    <Content Include="Content\Icons\Cancel.png" />
+    <Content Include="Content\Icons\CelestialIcon.png" />
+    <Content Include="Content\Icons\Changed.png" />
+    <Content Include="Content\Icons\Close.png" />
+    <Content Include="Content\Icons\Convert.png" />
+    <Content Include="Content\Icons\Decreased.png" />
+    <Content Include="Content\Icons\Disable.png" />
+    <Content Include="Content\Icons\DownArrows.png" />
+    <Content Include="Content\Icons\Enable.png" />
+    <Content Include="Content\Icons\Equal.png" />
+    <Content Include="Content\Icons\FiniteStateMachine.png" />
+    <Content Include="Content\Icons\GreaterThan.png" />
+    <Content Include="Content\Icons\Hide.png" />
+    <Content Include="Content\Icons\Increased.png" />
+    <Content Include="Content\Icons\InputCorrelator.png" />
+    <Content Include="Content\Icons\LeftArrow.png" />
+    <Content Include="Content\Icons\LessThan.png" />
+    <Content Include="Content\Icons\MainIcon.ico" />
+    <Content Include="Content\Icons\ManualScan.png" />
+    <Content Include="Content\Icons\Maximize.png" />
+    <Content Include="Content\Icons\MemoryTree.png" />
+    <Content Include="Content\Icons\Merge.png" />
+    <Content Include="Content\Icons\Minimize.png" />
+    <Content Include="Content\Icons\MinusX.png" />
+    <Content Include="Content\Icons\MoveDown.png" />
+    <Content Include="Content\Icons\MoveUp.png" />
+    <Content Include="Content\Icons\Negation.png" />
+    <Content Include="Content\Icons\New.png" />
+    <Content Include="Content\Icons\NextScan.png" />
+    <Content Include="Content\Icons\NotEqual.png" />
+    <Content Include="Content\Icons\OnBottom.png" />
+    <Content Include="Content\Icons\OnTop.png" />
+    <Content Include="Content\Icons\Open.png" />
+    <Content Include="Content\Icons\Options.png" />
+    <Content Include="Content\Icons\PlusX.png" />
+    <Content Include="Content\Icons\Restore.png" />
+    <Content Include="Content\Icons\RightArrow.png" />
+    <Content Include="Content\Icons\Save.png" />
+    <Content Include="Content\Icons\ScanHistory.png" />
+    <Content Include="Content\Icons\SelectProcess.png" />
+    <Content Include="Content\Icons\Stop.png" />
+    <Content Include="Content\Icons\Unchanged.png" />
+    <Content Include="Content\Icons\Undo.png" />
+    <Content Include="Content\Icons\UnknownValue.png" />
+    <Content Include="Content\Icons\Visible.png" />
+    <Content Include="Content\Icons\X.png" />
     <Content Include="Source\Tools\Scanners\LabelerInputCorrelator\InputHook\HotKeys\ReadMe.txt" />
   </ItemGroup>
   <ItemGroup />

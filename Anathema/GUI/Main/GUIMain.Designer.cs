@@ -258,7 +258,7 @@
             // NewScanButton
             // 
             this.NewScanButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.NewScanButton.Image = ((System.Drawing.Image)(resources.GetObject("NewScanButton.Image")));
+            this.NewScanButton.Image = global::Anathema.Properties.Resources.New;
             this.NewScanButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.NewScanButton.Name = "NewScanButton";
             this.NewScanButton.Size = new System.Drawing.Size(23, 22);
@@ -268,7 +268,7 @@
             // UndoScanButton
             // 
             this.UndoScanButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.UndoScanButton.Image = ((System.Drawing.Image)(resources.GetObject("UndoScanButton.Image")));
+            this.UndoScanButton.Image = global::Anathema.Properties.Resources.Undo;
             this.UndoScanButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.UndoScanButton.Name = "UndoScanButton";
             this.UndoScanButton.Size = new System.Drawing.Size(23, 22);

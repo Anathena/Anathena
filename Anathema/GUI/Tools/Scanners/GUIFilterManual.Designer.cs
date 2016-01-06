@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(GUIFilterManual));
             this.CompareTypeLabel = new System.Windows.Forms.Label();
             this.ValueTextBox = new System.Windows.Forms.TextBox();
             this.toolStripSeparator7 = new System.Windows.Forms.ToolStripSeparator();
@@ -82,7 +81,7 @@
             // 
             this.LessThanButton.CheckOnClick = true;
             this.LessThanButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.LessThanButton.Image = ((System.Drawing.Image)(resources.GetObject("LessThanButton.Image")));
+            this.LessThanButton.Image = global::Anathema.Properties.Resources.LessThan;
             this.LessThanButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.LessThanButton.Name = "LessThanButton";
             this.LessThanButton.Size = new System.Drawing.Size(23, 22);
@@ -93,7 +92,7 @@
             // 
             this.GreaterThanButton.CheckOnClick = true;
             this.GreaterThanButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.GreaterThanButton.Image = ((System.Drawing.Image)(resources.GetObject("GreaterThanButton.Image")));
+            this.GreaterThanButton.Image = global::Anathema.Properties.Resources.GreaterThan;
             this.GreaterThanButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.GreaterThanButton.Name = "GreaterThanButton";
             this.GreaterThanButton.Size = new System.Drawing.Size(23, 22);
@@ -104,7 +103,7 @@
             // 
             this.EqualButton.CheckOnClick = true;
             this.EqualButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.EqualButton.Image = ((System.Drawing.Image)(resources.GetObject("EqualButton.Image")));
+            this.EqualButton.Image = global::Anathema.Properties.Resources.Equal;
             this.EqualButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.EqualButton.Name = "EqualButton";
             this.EqualButton.Size = new System.Drawing.Size(23, 22);
@@ -115,7 +114,7 @@
             // 
             this.DecreasedButton.CheckOnClick = true;
             this.DecreasedButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.DecreasedButton.Image = ((System.Drawing.Image)(resources.GetObject("DecreasedButton.Image")));
+            this.DecreasedButton.Image = global::Anathema.Properties.Resources.Decreased;
             this.DecreasedButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.DecreasedButton.Name = "DecreasedButton";
             this.DecreasedButton.Size = new System.Drawing.Size(23, 22);
@@ -162,7 +161,7 @@
             // StartScanButton
             // 
             this.StartScanButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.StartScanButton.Image = ((System.Drawing.Image)(resources.GetObject("StartScanButton.Image")));
+            this.StartScanButton.Image = global::Anathema.Properties.Resources.RightArrow;
             this.StartScanButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.StartScanButton.Name = "StartScanButton";
             this.StartScanButton.Size = new System.Drawing.Size(23, 22);
@@ -172,7 +171,7 @@
             // AddConstraintButton
             // 
             this.AddConstraintButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.AddConstraintButton.Image = ((System.Drawing.Image)(resources.GetObject("AddConstraintButton.Image")));
+            this.AddConstraintButton.Image = global::Anathema.Properties.Resources.DownArrows;
             this.AddConstraintButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.AddConstraintButton.Name = "AddConstraintButton";
             this.AddConstraintButton.Size = new System.Drawing.Size(23, 22);
@@ -182,7 +181,7 @@
             // RemoveConstraintButton
             // 
             this.RemoveConstraintButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.RemoveConstraintButton.Image = ((System.Drawing.Image)(resources.GetObject("RemoveConstraintButton.Image")));
+            this.RemoveConstraintButton.Image = global::Anathema.Properties.Resources.X;
             this.RemoveConstraintButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.RemoveConstraintButton.Name = "RemoveConstraintButton";
             this.RemoveConstraintButton.Size = new System.Drawing.Size(23, 22);
@@ -192,7 +191,7 @@
             // ClearConstraintsButton
             // 
             this.ClearConstraintsButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.ClearConstraintsButton.Image = ((System.Drawing.Image)(resources.GetObject("ClearConstraintsButton.Image")));
+            this.ClearConstraintsButton.Image = global::Anathema.Properties.Resources.Cancel;
             this.ClearConstraintsButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.ClearConstraintsButton.Name = "ClearConstraintsButton";
             this.ClearConstraintsButton.Size = new System.Drawing.Size(23, 22);
@@ -207,7 +206,7 @@
             // UnchangedButton
             // 
             this.UnchangedButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.UnchangedButton.Image = ((System.Drawing.Image)(resources.GetObject("UnchangedButton.Image")));
+            this.UnchangedButton.Image = global::Anathema.Properties.Resources.Unchanged;
             this.UnchangedButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.UnchangedButton.Name = "UnchangedButton";
             this.UnchangedButton.Size = new System.Drawing.Size(23, 22);
@@ -218,7 +217,7 @@
             // 
             this.ChangedButton.CheckOnClick = true;
             this.ChangedButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.ChangedButton.Image = ((System.Drawing.Image)(resources.GetObject("ChangedButton.Image")));
+            this.ChangedButton.Image = global::Anathema.Properties.Resources.Changed;
             this.ChangedButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.ChangedButton.Name = "ChangedButton";
             this.ChangedButton.Size = new System.Drawing.Size(23, 22);
@@ -229,7 +228,7 @@
             // 
             this.IncreasedButton.CheckOnClick = true;
             this.IncreasedButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.IncreasedButton.Image = ((System.Drawing.Image)(resources.GetObject("IncreasedButton.Image")));
+            this.IncreasedButton.Image = global::Anathema.Properties.Resources.Increased;
             this.IncreasedButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.IncreasedButton.Name = "IncreasedButton";
             this.IncreasedButton.Size = new System.Drawing.Size(23, 22);
@@ -239,7 +238,7 @@
             // NotEqualButton
             // 
             this.NotEqualButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.NotEqualButton.Image = ((System.Drawing.Image)(resources.GetObject("NotEqualButton.Image")));
+            this.NotEqualButton.Image = global::Anathema.Properties.Resources.NotEqual;
             this.NotEqualButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.NotEqualButton.Name = "NotEqualButton";
             this.NotEqualButton.Size = new System.Drawing.Size(23, 22);
@@ -249,7 +248,7 @@
             // IncreasedByXButton
             // 
             this.IncreasedByXButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.IncreasedByXButton.Image = ((System.Drawing.Image)(resources.GetObject("IncreasedByXButton.Image")));
+            this.IncreasedByXButton.Image = global::Anathema.Properties.Resources.PlusX;
             this.IncreasedByXButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.IncreasedByXButton.Name = "IncreasedByXButton";
             this.IncreasedByXButton.Size = new System.Drawing.Size(23, 22);
@@ -259,7 +258,7 @@
             // DecreasedByXButton
             // 
             this.DecreasedByXButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.DecreasedByXButton.Image = ((System.Drawing.Image)(resources.GetObject("DecreasedByXButton.Image")));
+            this.DecreasedByXButton.Image = global::Anathema.Properties.Resources.MinusX;
             this.DecreasedByXButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.DecreasedByXButton.Name = "DecreasedByXButton";
             this.DecreasedByXButton.Size = new System.Drawing.Size(23, 22);

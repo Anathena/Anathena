@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(GUITable));
             this.CheatTableSplitContainer = new System.Windows.Forms.SplitContainer();
             this.AddressTableListView = new Anathema.CheckableListView();
             this.FrozenHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
@@ -174,7 +173,7 @@
             // SaveTableButton
             // 
             this.SaveTableButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.SaveTableButton.Image = ((System.Drawing.Image)(resources.GetObject("SaveTableButton.Image")));
+            this.SaveTableButton.Image = global::Anathema.Properties.Resources.Save;
             this.SaveTableButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.SaveTableButton.Name = "SaveTableButton";
             this.SaveTableButton.Size = new System.Drawing.Size(29, 20);
@@ -184,7 +183,7 @@
             // LoadTableButton
             // 
             this.LoadTableButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.LoadTableButton.Image = ((System.Drawing.Image)(resources.GetObject("LoadTableButton.Image")));
+            this.LoadTableButton.Image = global::Anathema.Properties.Resources.Open;
             this.LoadTableButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.LoadTableButton.Name = "LoadTableButton";
             this.LoadTableButton.Size = new System.Drawing.Size(29, 20);
@@ -200,7 +199,7 @@
             // CheatTableButton
             // 
             this.CheatTableButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.CheatTableButton.Image = ((System.Drawing.Image)(resources.GetObject("CheatTableButton.Image")));
+            this.CheatTableButton.Image = global::Anathema.Properties.Resources.BenedictionIcon;
             this.CheatTableButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.CheatTableButton.Name = "CheatTableButton";
             this.CheatTableButton.Size = new System.Drawing.Size(29, 20);
@@ -210,7 +209,7 @@
             // FSMTableButton
             // 
             this.FSMTableButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.FSMTableButton.Image = ((System.Drawing.Image)(resources.GetObject("FSMTableButton.Image")));
+            this.FSMTableButton.Image = global::Anathema.Properties.Resources.CelestialIcon;
             this.FSMTableButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.FSMTableButton.Name = "FSMTableButton";
             this.FSMTableButton.Size = new System.Drawing.Size(29, 20);

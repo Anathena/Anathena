@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(GUIFilterTree));
             this.StopScanButton = new System.Windows.Forms.ToolStripButton();
             this.StartScanButton = new System.Windows.Forms.ToolStripButton();
             this.ScanToolStrip = new System.Windows.Forms.ToolStrip();
@@ -38,7 +37,7 @@
             // StopScanButton
             // 
             this.StopScanButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.StopScanButton.Image = ((System.Drawing.Image)(resources.GetObject("StopScanButton.Image")));
+            this.StopScanButton.Image = global::Anathema.Properties.Resources.Stop;
             this.StopScanButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.StopScanButton.Name = "StopScanButton";
             this.StopScanButton.Size = new System.Drawing.Size(23, 22);
@@ -49,7 +48,7 @@
             // StartScanButton
             // 
             this.StartScanButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.StartScanButton.Image = ((System.Drawing.Image)(resources.GetObject("StartScanButton.Image")));
+            this.StartScanButton.Image = global::Anathema.Properties.Resources.RightArrow;
             this.StartScanButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.StartScanButton.Name = "StartScanButton";
             this.StartScanButton.Size = new System.Drawing.Size(23, 22);

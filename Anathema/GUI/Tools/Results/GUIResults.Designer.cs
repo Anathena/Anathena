@@ -29,7 +29,6 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(GUIResults));
             this.RightClickMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.AddToCheatsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ChangeTypeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -41,10 +40,10 @@
             this.DoubleToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ChangeSignToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.GUIToolStrip = new System.Windows.Forms.ToolStrip();
-            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.AddSelectedResultsButton = new System.Windows.Forms.ToolStripButton();
-            this.SnapshotSizeValueLabel = new System.Windows.Forms.ToolStripLabel();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.SnapshotSizeLabel = new System.Windows.Forms.ToolStripLabel();
+            this.SnapshotSizeValueLabel = new System.Windows.Forms.ToolStripLabel();
             this.ResultsListView = new Anathema.FlickerFreeListView();
             this.AddressHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.ValueHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
@@ -144,31 +143,31 @@
             this.GUIToolStrip.TabIndex = 155;
             this.GUIToolStrip.Text = "toolStrip1";
             // 
-            // toolStripSeparator1
-            // 
-            this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 25);
-            // 
             // AddSelectedResultsButton
             // 
             this.AddSelectedResultsButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.AddSelectedResultsButton.Image = ((System.Drawing.Image)(resources.GetObject("AddSelectedResultsButton.Image")));
+            this.AddSelectedResultsButton.Image = global::Anathema.Properties.Resources.DownArrows;
             this.AddSelectedResultsButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.AddSelectedResultsButton.Name = "AddSelectedResultsButton";
             this.AddSelectedResultsButton.Size = new System.Drawing.Size(23, 22);
             this.AddSelectedResultsButton.Text = "Add Selected to Table";
             // 
-            // SnapshotSizeValueLabel
+            // toolStripSeparator1
             // 
-            this.SnapshotSizeValueLabel.Name = "SnapshotSizeValueLabel";
-            this.SnapshotSizeValueLabel.Size = new System.Drawing.Size(20, 22);
-            this.SnapshotSizeValueLabel.Text = "0B";
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 25);
             // 
             // SnapshotSizeLabel
             // 
             this.SnapshotSizeLabel.Name = "SnapshotSizeLabel";
             this.SnapshotSizeLabel.Size = new System.Drawing.Size(118, 22);
             this.SnapshotSizeLabel.Text = "Active Snapshot Size:";
+            // 
+            // SnapshotSizeValueLabel
+            // 
+            this.SnapshotSizeValueLabel.Name = "SnapshotSizeValueLabel";
+            this.SnapshotSizeValueLabel.Size = new System.Drawing.Size(20, 22);
+            this.SnapshotSizeValueLabel.Text = "0B";
             // 
             // ResultsListView
             // 
