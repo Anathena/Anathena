@@ -104,8 +104,8 @@
     </Compile>
     <Compile Include="Source\Settings\ISettingsMVP.cs" />
     <Compile Include="Source\Tools\Scanners\FilterFiniteState\IFilterFSMMVP.cs" />
-    <Compile Include="Source\Tools\FSMBuilder\StateMachine.cs" />
-    <Compile Include="Source\Tools\FSMBuilder\State.cs" />
+    <Compile Include="Source\Tools\Scanners\FilterFiniteState\StateMachine.cs" />
+    <Compile Include="Source\Tools\Scanners\FilterFiniteState\State.cs" />
     <Compile Include="Source\Tools\Scanners\ScanConstraintManager.cs" />
     <Compile Include="Source\HelperClasses\PrimitiveTypes.cs" />
     <Compile Include="Source\Tools\Scanners\FilterManualScan\IFilterManualScanMVP.cs" />
@@ -285,12 +285,6 @@
     <Compile Include="Source\Tools\SnapshotManager\Snapshot.cs" />
     <Compile Include="Source\HelperClasses\MVP\ControlThreadingHelper.cs" />
     <Compile Include="Source\HelperClasses\MVP\IMVP.cs" />
-    <Compile Include="GUI\Tools\FSMBuilder\GUIFiniteStateBuilder.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="GUI\Tools\FSMBuilder\GUIFiniteStateBuilder.Designer.cs">
-      <DependentUpon>GUIFiniteStateBuilder.cs</DependentUpon>
-    </Compile>
     <Compile Include="GUI\Tools\ProcessSelector\GUIProcessSelector.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -589,9 +583,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\Tools\Scanners\GUIFilterChunks.resx">
       <DependentUpon>GUIFilterChunks.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="GUI\Tools\FSMBuilder\GUIFiniteStateBuilder.resx">
-      <DependentUpon>GUIFiniteStateBuilder.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\Tools\ProcessSelector\GUIProcessSelector.resx">
       <DependentUpon>GUIProcessSelector.cs</DependentUpon>

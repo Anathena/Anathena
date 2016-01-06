@@ -34,6 +34,7 @@
             this.ScanTypeWorldStrip = new System.Windows.Forms.ToolStrip();
             this.StartScanButton = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator7 = new System.Windows.Forms.ToolStripSeparator();
+            this.RemoveConstraintButton = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.UnchangedButton = new System.Windows.Forms.ToolStripButton();
             this.ChangedButton = new System.Windows.Forms.ToolStripButton();
@@ -45,7 +46,6 @@
             this.LessThanButton = new System.Windows.Forms.ToolStripButton();
             this.IncreasedByXButton = new System.Windows.Forms.ToolStripButton();
             this.DecreasedByXButton = new System.Windows.Forms.ToolStripButton();
-            this.RemoveConstraintButton = new System.Windows.Forms.ToolStripButton();
             this.FSMBuilderPanel = new System.Windows.Forms.Panel();
             this.ScanTypeWorldStrip.SuspendLayout();
             this.SuspendLayout();
@@ -107,6 +107,15 @@
             // 
             this.toolStripSeparator7.Name = "toolStripSeparator7";
             this.toolStripSeparator7.Size = new System.Drawing.Size(6, 25);
+            // 
+            // RemoveConstraintButton
+            // 
+            this.RemoveConstraintButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.RemoveConstraintButton.Image = ((System.Drawing.Image)(resources.GetObject("RemoveConstraintButton.Image")));
+            this.RemoveConstraintButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.RemoveConstraintButton.Name = "RemoveConstraintButton";
+            this.RemoveConstraintButton.Size = new System.Drawing.Size(23, 22);
+            this.RemoveConstraintButton.Text = "Remove Selected Constraints";
             // 
             // toolStripSeparator1
             // 
@@ -219,15 +228,6 @@
             this.DecreasedByXButton.Text = "Decrease By X";
             this.DecreasedByXButton.Click += new System.EventHandler(this.DecreasedByXButton_Click);
             // 
-            // RemoveConstraintButton
-            // 
-            this.RemoveConstraintButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.RemoveConstraintButton.Image = ((System.Drawing.Image)(resources.GetObject("RemoveConstraintButton.Image")));
-            this.RemoveConstraintButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.RemoveConstraintButton.Name = "RemoveConstraintButton";
-            this.RemoveConstraintButton.Size = new System.Drawing.Size(23, 22);
-            this.RemoveConstraintButton.Text = "Remove Selected Constraints";
-            // 
             // FSMBuilderPanel
             // 
             this.FSMBuilderPanel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
@@ -240,6 +240,9 @@
             this.FSMBuilderPanel.Size = new System.Drawing.Size(445, 203);
             this.FSMBuilderPanel.TabIndex = 163;
             this.FSMBuilderPanel.MouseClick += new System.Windows.Forms.MouseEventHandler(this.FSMBuilderPanel_MouseClick);
+            this.FSMBuilderPanel.MouseDown += new System.Windows.Forms.MouseEventHandler(this.FSMBuilderPanel_MouseDown);
+            this.FSMBuilderPanel.MouseMove += new System.Windows.Forms.MouseEventHandler(this.FSMBuilderPanel_MouseMove);
+            this.FSMBuilderPanel.MouseUp += new System.Windows.Forms.MouseEventHandler(this.FSMBuilderPanel_MouseUp);
             // 
             // GUIFilterFSM
             // 

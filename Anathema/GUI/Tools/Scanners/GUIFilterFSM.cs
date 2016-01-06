@@ -16,16 +16,19 @@ namespace Anathema
 
         private List<ToolStripButton> ScanOptionButtons;
 
-        private List<Point> States;
-        
+        private List<GraphicalState> States;
+        private GraphicalState PendingState;
+
         public GUIFilterFSM()
         {
             InitializeComponent();
 
+            FSMBuilderPanel.Paint += new PaintEventHandler(FSMBuilderPanel_Paint);
+
             FilterFSMPresenter = new FilterFSMPresenter(this, new FilterFSM());
 
             ScanOptionButtons = new List<ToolStripButton>();
-            States = new List<Point>();
+            States = new List<GraphicalState>();
 
             InitializeValueTypeComboBox();
             InitializeScanOptionButtons();
@@ -57,7 +60,7 @@ namespace Anathema
         {
             //ConstraintsListView.Items.Clear();
             //foreach (String[] Item in ScanConstraintItems)
-               // ConstraintsListView.Items.Add(new ListViewItem(Item));
+            // ConstraintsListView.Items.Add(new ListViewItem(Item));
         }
 
         private void EvaluateScanOptions(ToolStripButton Sender)
@@ -169,6 +172,47 @@ namespace Anathema
 
         #region Events
 
+        protected void FSMBuilderPanel_Paint(Object Sender, PaintEventArgs E)
+        {
+            foreach (GraphicalState State in States)
+                State.Draw(E.Graphics);
+
+            if (PendingState != null)
+                PendingState.Draw(E.Graphics);
+        }
+
+        private void FSMBuilderPanel_MouseUp(Object Sender, MouseEventArgs E)
+        {
+            if (PendingState != null)
+            {
+                PendingState.SetLocation(E.Location);
+                States.Add(PendingState);
+                PendingState = null;
+
+                FSMBuilderPanel.Invalidate();
+            }
+        }
+
+        private void FSMBuilderPanel_MouseMove(Object Sender, MouseEventArgs E)
+        {
+            if (PendingState != null)
+            {
+                PendingState.SetLocation(E.Location);
+                FSMBuilderPanel.Invalidate();
+            }
+        }
+
+        private void FSMBuilderPanel_MouseDown(Object Sender, MouseEventArgs E)
+        {
+            if (PendingState == null)
+                PendingState = new GraphicalState(E.Location);
+        }
+
+        private void FSMBuilderPanel_MouseClick(Object Sender, MouseEventArgs E)
+        {
+
+        }
+
         private void StartScanButton_Click(Object Sender, EventArgs E)
         {
             FilterFSMPresenter.BeginScan();
@@ -244,11 +288,33 @@ namespace Anathema
             FilterFSMPresenter.SetElementType(ValueTypeComboBox.SelectedItem.ToString());
         }
 
-        private void FSMBuilderPanel_MouseClick(object sender, MouseEventArgs e)
-        {
+        #endregion
 
+    } // End class
+
+    class GraphicalState
+    {
+        private const Int32 PenWidth = 2;
+        private static Int32 Size = 24;
+        private static Color Color = Color.Black;
+
+        private Point Location;
+
+        public GraphicalState(Point Location)
+        {
+            this.Location = Location;
         }
 
-        #endregion
+        public void SetLocation(Point Location)
+        {
+            this.Location = Location;
+        }
+
+        // Paint ourselves with the specified Graphics object
+        public void Draw(Graphics Graphics)
+        {
+            using (Pen Pen = new Pen(Color, PenWidth))
+                Graphics.DrawEllipse(Pen, Location.X - Size / 2, Location.Y - Size / 2, Size, Size);
+        }
     }
-}
+} // End namespace
