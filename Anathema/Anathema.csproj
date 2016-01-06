@@ -697,6 +697,10 @@
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PreBuildEvent>(if exist "$(TargetDir)*old.pdb" del "$(TargetDir)*old.pdb") &amp; (if exist "$(TargetDir)*.pdb" ren "$(TargetDir)*.pdb" *.old.pdb)
+(if exist "$(TargetDir)*old.exe" del "$(TargetDir)*old.exe") &amp; (if exist "$(TargetDir)*.exe" ren "$(TargetDir)*.exe" *.old.exe)</PreBuildEvent>
+  </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

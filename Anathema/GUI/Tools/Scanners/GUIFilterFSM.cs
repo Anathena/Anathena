@@ -193,6 +193,10 @@ namespace Anathema
             if (PendingState != null)
                 PendingState.Draw(E.Graphics, States.Count == 0 ? GraphicalState.StyleEnum.StartState : GraphicalState.StyleEnum.IntermediateState);
 
+            if (SelectedState != null)
+            {
+                E.Graphics.DrawLine(Pens.Red, SelectedState.GetEdgePoint(FSMBuilderPanel.PointToClient(Cursor.Position)), FSMBuilderPanel.PointToClient(Cursor.Position));
+            }
 
         }
 
@@ -206,12 +210,13 @@ namespace Anathema
                         continue;
 
                     if (State.IsMousedOver(E.Location))
-                    { 
+                    {
                         SelectedState.AddTransition(FilterFSMPresenter.GetValueConstraint(), State);
                         break;
                     }
                 }
 
+                FSMBuilderPanel.Invalidate();
                 SelectedState = null;
             }
 
@@ -241,6 +246,9 @@ namespace Anathema
                     FSMBuilderPanel.Invalidate();
                 }
             }
+
+            if (SelectedState != null)
+                FSMBuilderPanel.Invalidate();
         }
 
         private void FSMBuilderPanel_MouseDown(Object Sender, MouseEventArgs E)
@@ -361,6 +369,7 @@ namespace Anathema
             EndState
         }
 
+        private static Pen TransitionLine = new Pen(Color.Black, 2);
         private const Int32 FUCKWINDOWSOFFSET = 5;  // Thanks for being a piece of shit, windows
         private const Int32 FUCKWINDOWSOFFSET2 = 8; // Fuck windows fuck windows fuck windows
         private const Int32 SelectionWidth = 8;
@@ -385,17 +394,33 @@ namespace Anathema
             this.Location = Location;
         }
 
+        public Point GetLocation()
+        {
+            return Location;
+        }
+
         public void AddTransition(ConstraintsEnum Constraint, GraphicalState DestinationState)
         {
-            Transitions.Add(Constraint, DestinationState);
+            if (!Transitions.ContainsKey(Constraint))
+                Transitions.Add(Constraint, DestinationState);
         }
 
         public Point GetEdgePoint(Point Location)
         {
-            Location.X -= FUCKWINDOWSOFFSET;
-            Location.Y -= FUCKWINDOWSOFFSET;
+            Single Ax = Location.X == 0 ? Single.Epsilon : (Single)Location.X;
+            Single Ay = Location.Y == 0 ? Single.Epsilon : (Single)Location.Y;
+            Single Bx = this.Location.X == 0 ? Single.Epsilon : (Single)this.Location.X;
+            Single By = this.Location.Y == 0 ? Single.Epsilon : (Single)this.Location.Y;
 
-            Point EdgePoint = new Point();
+            Single Radius = (Single)(Resources.StateHighlighted.Width / 2);
+
+            Single vX = Ax - Bx;
+            Single vY = Ay - By;
+            Single magV = (Single)Math.Sqrt(vX * vX + vY * vY);
+            Single EdgeX = Bx + vX / magV * Radius;
+            Single EdgeY = By + vY / magV * Radius;
+
+            Point EdgePoint = new Point((Int32)EdgeX + FUCKWINDOWSOFFSET, (Int32)EdgeY + FUCKWINDOWSOFFSET);
 
             return EdgePoint;
         }
@@ -460,6 +485,11 @@ namespace Anathema
             Graphics.DrawImage(DrawImage, Location.X - Resources.StateHighlighted.Width / 2, Location.Y - Resources.StateHighlighted.Height / 2);
             if (MousedOver)
                 Graphics.DrawImage(Resources.StateHighlighted, Location.X - Resources.StateHighlighted.Width / 2, Location.Y - Resources.StateHighlighted.Height / 2);
+
+            foreach (var Transition in Transitions)
+            {
+                Graphics.DrawLine(TransitionLine, this.GetEdgePoint(Transition.Value.GetLocation()), Transition.Value.GetEdgePoint(this.Location));
+            }
         }
     }
 } // End namespace
