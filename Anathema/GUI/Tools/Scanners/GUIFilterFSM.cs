@@ -19,6 +19,7 @@ namespace Anathema
 
         private List<GraphicalState> States;
         private GraphicalState PendingState;
+        private GraphicalState SelectedState;
 
         public GUIFilterFSM()
         {
@@ -197,9 +198,26 @@ namespace Anathema
 
         private void FSMBuilderPanel_MouseUp(Object Sender, MouseEventArgs E)
         {
+            if (SelectedState != null)
+            {
+                foreach (GraphicalState State in States)
+                {
+                    if (State == SelectedState)
+                        continue;
+
+                    if (State.IsMousedOver(E.Location))
+                    { 
+                        SelectedState.AddTransition(FilterFSMPresenter.GetValueConstraint(), State);
+                        break;
+                    }
+                }
+
+                SelectedState = null;
+            }
+
             if (PendingState != null)
             {
-                PendingState.SetLocation(FSMBuilderPanel.PointToClient(Cursor.Position));
+                PendingState.SetLocation(E.Location);
                 States.Add(PendingState);
                 PendingState = null;
 
@@ -211,12 +229,14 @@ namespace Anathema
         {
             if (PendingState != null)
             {
-                PendingState.SetLocation(FSMBuilderPanel.PointToClient(Cursor.Position));
+                PendingState.SetLocation(E.Location);
                 FSMBuilderPanel.Invalidate();
             }
             foreach (GraphicalState State in States)
             {
-                if (State.IsEdgeMousedOver(FSMBuilderPanel.PointToClient(Cursor.Position)))
+                State.IsEdgeMousedOver(E.Location);
+
+                if (State.IsInvalidationRequired())
                 {
                     FSMBuilderPanel.Invalidate();
                 }
@@ -230,7 +250,12 @@ namespace Anathema
             {
                 foreach (GraphicalState State in States)
                 {
-                    if (State.IsMousedOver(FSMBuilderPanel.PointToClient(Cursor.Position)))
+                    if (State.IsEdgeMousedOver(E.Location))
+                    {
+                        SelectedState = State;
+                        return;
+                    }
+                    else if (State.IsMousedOver(E.Location))
                     {
                         PendingState = State;
                         States.Remove(State);
@@ -240,7 +265,7 @@ namespace Anathema
             }
 
             if (PendingState == null)
-                PendingState = new GraphicalState(FSMBuilderPanel.PointToClient(Cursor.Position));
+                PendingState = new GraphicalState(E.Location);
         }
 
         private void FSMBuilderPanel_MouseClick(Object Sender, MouseEventArgs E)
@@ -341,9 +366,13 @@ namespace Anathema
         private const Int32 SelectionWidth = 8;
         private Point Location;
         private Boolean MousedOver;
+        private Boolean InvalidationRequired;
+
+        private Dictionary<ConstraintsEnum, GraphicalState> Transitions;
 
         public GraphicalState(Point Location)
         {
+            Transitions = new Dictionary<ConstraintsEnum, GraphicalState>();
             Location.X -= FUCKWINDOWSOFFSET;
             Location.Y -= FUCKWINDOWSOFFSET;
             this.Location = Location;
@@ -356,14 +385,28 @@ namespace Anathema
             this.Location = Location;
         }
 
+        public void AddTransition(ConstraintsEnum Constraint, GraphicalState DestinationState)
+        {
+            Transitions.Add(Constraint, DestinationState);
+        }
+
+        public Point GetEdgePoint(Point Location)
+        {
+            Location.X -= FUCKWINDOWSOFFSET;
+            Location.Y -= FUCKWINDOWSOFFSET;
+
+            Point EdgePoint = new Point();
+
+            return EdgePoint;
+        }
+
         public Boolean IsMousedOver(Point MouseLocation)
         {
-            return false;
             MouseLocation.X -= FUCKWINDOWSOFFSET;
             MouseLocation.Y -= FUCKWINDOWSOFFSET;
             Single Distance = (Single)Math.Sqrt((MouseLocation.X - Location.X) * (MouseLocation.X - Location.X) + (MouseLocation.Y - Location.Y) * (MouseLocation.Y - Location.Y));
 
-            if (Distance <= Resources.StateHighlighted.Width / 2 - SelectionWidth)
+            if (Distance < Resources.StateHighlighted.Width / 2 + FUCKWINDOWSOFFSET2)
                 return true;
             return false;
         }
@@ -382,11 +425,18 @@ namespace Anathema
             if (NewMouseOverState != MousedOver)
             {
                 MousedOver = NewMouseOverState;
-                return true;
+                InvalidationRequired = true;
             }
 
             MousedOver = NewMouseOverState;
-            return false;
+            return MousedOver;
+        }
+
+        public Boolean IsInvalidationRequired()
+        {
+            Boolean Temp = InvalidationRequired;
+            InvalidationRequired = false;
+            return Temp;
         }
 
         // Paint ourselves with the specified Graphics object
@@ -395,12 +445,12 @@ namespace Anathema
             Image DrawImage;
             switch (Style)
             {
-                case StyleEnum.StartState:
+                /*case StyleEnum.StartState:
                     DrawImage = Resources.StartState;
                     break;
                 case StyleEnum.EndState:
                     DrawImage = Resources.EndState;
-                    break;
+                    break;*/
                 default:
                 case StyleEnum.IntermediateState:
                     DrawImage = Resources.IntermediateState;
