@@ -214,10 +214,31 @@ namespace Anathema
                 PendingState.SetLocation(E.Location);
                 FSMBuilderPanel.Invalidate();
             }
+            foreach (GraphicalState State in States)
+            {
+                if (State.IsEdgeMousedOver(E.Location))
+                {
+                    FSMBuilderPanel.Invalidate();
+                }
+            }
         }
 
         private void FSMBuilderPanel_MouseDown(Object Sender, MouseEventArgs E)
         {
+
+            if (PendingState == null)
+            {
+                foreach (GraphicalState State in States)
+                {
+                    if (State.IsMousedOver(E.Location))
+                    {
+                        PendingState = State;
+                        States.Remove(State);
+                        break;
+                    }
+                }
+            }
+
             if (PendingState == null)
                 PendingState = new GraphicalState(E.Location);
         }
@@ -315,11 +336,9 @@ namespace Anathema
             EndState
         }
 
-        private const Int32 PenWidth = 2;
-        private static Int32 Size = 32;
-        private static Color Color = Color.Black;
-
+        private const Int32 SelectionWidth = 24;
         private Point Location;
+        private Boolean MousedOver;
 
         public GraphicalState(Point Location)
         {
@@ -331,11 +350,39 @@ namespace Anathema
             this.Location = Location;
         }
 
+        public Boolean IsMousedOver(Point MouseLocation)
+        {
+            Single Distance = (Single)Math.Sqrt((MouseLocation.X - Location.X) * (MouseLocation.X - Location.X) + (MouseLocation.Y - Location.Y) * (MouseLocation.Y - Location.Y));
+
+            if (Distance < Resources.StateHighlighted.Width - SelectionWidth)
+                return true;
+            return false;
+        }
+
+        public Boolean IsEdgeMousedOver(Point MouseLocation)
+        {
+            Boolean NewMouseOverState = false;
+
+            Single Distance = (Single)Math.Sqrt((MouseLocation.X - Location.X) * (MouseLocation.X - Location.X) + (MouseLocation.Y - Location.Y) * (MouseLocation.Y - Location.Y));
+
+            if (Distance <= Resources.StateHighlighted.Width && Distance >= Resources.StateHighlighted.Width - SelectionWidth)
+                NewMouseOverState = true;
+
+            if (NewMouseOverState != MousedOver)
+            {
+                MousedOver = NewMouseOverState;
+                return true;
+            }
+
+            MousedOver = NewMouseOverState;
+            return false;
+        }
+
         // Paint ourselves with the specified Graphics object
         public void Draw(Graphics Graphics, StyleEnum Style)
         {
             Image DrawImage;
-            switch(Style)
+            switch (Style)
             {
                 case StyleEnum.StartState:
                     DrawImage = Resources.StartState;
@@ -349,9 +396,8 @@ namespace Anathema
                     break;
             }
             Graphics.DrawImage(DrawImage, Location.X - Resources.StartState.Width / 2, Location.Y - Resources.StartState.Height / 2);
-
-            //using (Pen Pen = new Pen(Color, PenWidth))
-            //    Graphics.DrawEllipse(Pen, Location.X - Size / 2, Location.Y - Size / 2, Size, Size);
+            if (MousedOver)
+                Graphics.DrawImage(Resources.StateHighlighted, Location.X - Resources.StartState.Width / 2, Location.Y - Resources.StartState.Height / 2);
         }
     }
 } // End namespace

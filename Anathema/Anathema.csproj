@@ -693,6 +693,7 @@
     <None Include="Content\FSM\EndState.png" />
     <None Include="Content\FSM\IntermediateState.png" />
     <None Include="Content\FSM\StartState.png" />
+    <None Include="Content\FSM\StateHighlighted.png" />
     <Content Include="Source\Tools\Scanners\LabelerInputCorrelator\InputHook\HotKeys\ReadMe.txt" />
   </ItemGroup>
   <ItemGroup />
