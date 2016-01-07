@@ -238,6 +238,7 @@
             this.FSMBuilderPanel.Name = "FSMBuilderPanel";
             this.FSMBuilderPanel.Size = new System.Drawing.Size(445, 203);
             this.FSMBuilderPanel.TabIndex = 163;
+            this.FSMBuilderPanel.MouseClick += new System.Windows.Forms.MouseEventHandler(this.FSMBuilderPanel_MouseClick);
             this.FSMBuilderPanel.MouseDown += new System.Windows.Forms.MouseEventHandler(this.FSMBuilderPanel_MouseDown);
             this.FSMBuilderPanel.MouseMove += new System.Windows.Forms.MouseEventHandler(this.FSMBuilderPanel_MouseMove);
             this.FSMBuilderPanel.MouseUp += new System.Windows.Forms.MouseEventHandler(this.FSMBuilderPanel_MouseUp);

@@ -2,6 +2,7 @@
 using Binarysharp.MemoryManagement.Memory;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -11,13 +12,13 @@ namespace Anathema
     delegate void FilterFSMEventHandler(Object Sender, FilterFSMEventArgs Args);
     class FilterFSMEventArgs : EventArgs
     {
-        public ScanConstraintManager ScanConstraints = null;
+
     }
 
     interface IFilterFSMView : IScannerView
     {
         // Methods invoked by the presenter (upstream)
-        void UpdateDisplay(List<String[]> ScanConstraintItems);
+        void UpdateDisplay();
     }
 
     abstract class IFilterFSMModel : IScannerModel
@@ -30,11 +31,10 @@ namespace Anathema
         }
 
         // Functions invoked by presenter (downstream)
+        public abstract void AddState(Point Location);
+        public abstract void AddTransition();
         public abstract void SetElementType(Type ElementType);
         public abstract Type GetElementType();
-        public abstract void AddConstraint(ConstraintsEnum ValueConstraint, dynamic Value);
-        public abstract void RemoveConstraints(Int32[] ConstraintIndicies);
-        public abstract void ClearConstraints();
     }
 
     class FilterFSMPresenter : ScannerPresenter
@@ -42,7 +42,7 @@ namespace Anathema
         new IFilterFSMView View;
         new IFilterFSMModel Model;
 
-        private ConstraintsEnum ValueConstraint;
+        private ConstraintsEnum ValueConstraintSelection;
 
         public FilterFSMPresenter(IFilterFSMView View, IFilterFSMModel Model) : base(View, Model)
         {
@@ -55,14 +55,14 @@ namespace Anathema
 
         #region Method definitions called by the view (downstream)
 
-        public void SetValueConstraints(ConstraintsEnum ValueConstraint)
+        public void SetValueConstraintSelection(ConstraintsEnum ValueConstraintSelection)
         {
-            this.ValueConstraint = ValueConstraint;
+            this.ValueConstraintSelection = ValueConstraintSelection;
         }
 
-        public ConstraintsEnum GetValueConstraint()
+        public ConstraintsEnum GetValueConstraintSelection()
         {
-            return ValueConstraint;
+            return ValueConstraintSelection;
         }
 
         public void SetElementType(String ElementType)
@@ -75,42 +75,14 @@ namespace Anathema
             return Model.GetElementType();
         }
 
-        public void AddConstraint(String ValueString)
+        public void AddState(Point Location)
         {
-            dynamic Value = String.Empty;
-            
-            switch (ValueConstraint)
-            {
-                case ConstraintsEnum.Changed:
-                case ConstraintsEnum.Unchanged:
-                case ConstraintsEnum.Decreased:
-                case ConstraintsEnum.Increased:
-                    break;
-                case ConstraintsEnum.Invalid:
-                case ConstraintsEnum.GreaterThan:
-                case ConstraintsEnum.LessThan:
-                case ConstraintsEnum.Equal:
-                case ConstraintsEnum.NotEqual:
-                case ConstraintsEnum.IncreasedByX:
-                case ConstraintsEnum.DecreasedByX:
-                    if (CheckSyntax.CanParseValue(Model.GetElementType(), ValueString))
-                        Value = Conversions.ParseValue(Model.GetElementType(), ValueString);
-                    else
-                        return;
-                    break;
-            }
-
-            Model.AddConstraint(ValueConstraint, Value);
+            Model.AddState(Location);
         }
 
-        public void RemoveConstraints(Int32[] ConstraintIndicies)
+        public void GetStateAt(Point Location)
         {
-            Model.RemoveConstraints(ConstraintIndicies);
-        }
 
-        public void ClearConstraints()
-        {
-            Model.ClearConstraints();
         }
 
         #endregion
@@ -119,15 +91,7 @@ namespace Anathema
 
         public void EventUpdateDisplay(Object Sender, FilterFSMEventArgs E)
         {
-            List<String[]> ScanConstraintItems = new List<String[]>();
-
-            foreach (ScanConstraint ScanConstraint in E.ScanConstraints)
-            {
-                String Value = ScanConstraint.Value == null ? null : ScanConstraint.Value.ToString();
-                ScanConstraintItems.Add(new String[] { Value, ScanConstraint.Constraint.ToString() });
-            }
-
-            View.UpdateDisplay(ScanConstraintItems);
+            View.UpdateDisplay();
         }
 
         #endregion

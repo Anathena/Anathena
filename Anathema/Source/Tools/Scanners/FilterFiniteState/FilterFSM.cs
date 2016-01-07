@@ -6,6 +6,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Drawing;
 
 namespace Anathema
 {
@@ -15,45 +16,36 @@ namespace Anathema
         private Snapshot Snapshot;
 
         // User controlled variables
-        private ScanConstraintManager ScanConstraints;
+        private FiniteStateMachine FiniteStateMachine;
 
         public FilterFSM()
         {
-            ScanConstraints = new ScanConstraintManager();
+            FiniteStateMachine = new FiniteStateMachine();
         }
 
         public override void SetElementType(Type ElementType)
         {
-            ScanConstraints.SetElementType(ElementType);
+            FiniteStateMachine.SetElementType(ElementType);
         }
 
         public override Type GetElementType()
         {
-            return ScanConstraints.GetElementType();
+            return FiniteStateMachine.GetElementType();
         }
 
-        public override void AddConstraint(ConstraintsEnum ValueConstraint, dynamic Value)
+        public override void AddState(Point Location)
         {
-            ScanConstraints.AddConstraint(new ScanConstraint(ValueConstraint, Value));
-            UpdateDisplay();
+            throw new NotImplementedException();
         }
 
-        public override void RemoveConstraints(Int32[] ConstraintIndicies)
+        public override void AddTransition()
         {
-            ScanConstraints.RemoveConstraints(ConstraintIndicies);
-            UpdateDisplay();
-        }
-
-        public override void ClearConstraints()
-        {
-            ScanConstraints.ClearConstraints();
-            UpdateDisplay();
+            throw new NotImplementedException();
         }
 
         private void UpdateDisplay()
         {
             FilterFSMEventArgs FilterFSMEventArgs = new FilterFSMEventArgs();
-            FilterFSMEventArgs.ScanConstraints = ScanConstraints;
             OnEventUpdateDisplay(FilterFSMEventArgs);
         }
 
@@ -62,7 +54,7 @@ namespace Anathema
             // Initialize snapshot
             Snapshot = new Snapshot(SnapshotManager.GetInstance().GetActiveSnapshot());
             Snapshot.MarkAllValid();
-            Snapshot.SetElementType(ScanConstraints.GetElementType());
+            Snapshot.SetElementType(FiniteStateMachine.GetElementType());
 
             base.BeginScanRunOnce();
         }
@@ -73,7 +65,7 @@ namespace Anathema
             Snapshot.ReadAllSnapshotMemory();
 
             // Enforce each value constraint
-            foreach (ScanConstraint ScanConstraint in ScanConstraints)
+            foreach (FiniteState State in FiniteStateMachine)
             {
 
                 Parallel.ForEach(Snapshot.Cast<Object>(), (RegionObject) =>
@@ -88,7 +80,7 @@ namespace Anathema
                         if (!Element.Valid)
                             continue;
 
-                        switch (ScanConstraint.Constraint)
+                        /*switch (State.)
                         {
                             case ConstraintsEnum.Unchanged:
                                 if (!Element.Unchanged())
@@ -130,7 +122,7 @@ namespace Anathema
                                 if (!Element.LessThanValue(ScanConstraint.Value))
                                     Element.Valid = false;
                                 break;
-                        }
+                        }*/
 
                     } // End foreach Element
 

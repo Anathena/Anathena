@@ -11,7 +11,7 @@ namespace Anathema
     /// <summary>
     /// Extension of scan constraints, however this keeps track of transitions and their resulting actions for FSM scans
     /// </summary>
-    class State : ScanConstraintManager
+    class FiniteState : ScanConstraintManager
     {
         private enum StateEventsEnum
         {
@@ -19,20 +19,20 @@ namespace Anathema
             MarkValid,
         }
 
-        private Dictionary<ScanConstraint, State> TransitionStates; // Maps constraints to states
+        private Dictionary<ScanConstraint, FiniteState> TransitionStates; // Maps constraints to states
         private Point DisplayLocation;
 
-        public State() : base()
+        public FiniteState() : base()
         {
-            TransitionStates = new Dictionary<ScanConstraint, State>();
+            TransitionStates = new Dictionary<ScanConstraint, FiniteState>();
         }
 
-        public void AddTransition(ScanConstraint Constraint, State State)
+        public void AddTransition(ScanConstraint Constraint, FiniteState State)
         {
             TransitionStates.Add(Constraint, State);
         }
 
-        public void RemoveTransition(ScanConstraint Constraint, State State)
+        public void RemoveTransition(ScanConstraint Constraint, FiniteState State)
         {
             if (TransitionStates.ContainsKey(Constraint))
                 TransitionStates.Remove(Constraint);
