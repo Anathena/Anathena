@@ -19,7 +19,7 @@ namespace Anathema
 
         private List<GraphicalState> States;
         private GraphicalState PendingState;
-        private GraphicalState SelectedState;
+        private GraphicalState EdgeSelectedState;
 
         public GUIFilterFSM()
         {
@@ -148,32 +148,11 @@ namespace Anathema
             FilterFSMPresenter.SetValueConstraints(ValueConstraint);
         }
 
-        private Boolean IsCurrentScanSetting(params ToolStripButton[] Controls)
-        {
-            List<ToolStripButton> CandidateControls = new List<ToolStripButton>(Controls);
-
-            // Controls in consideration must be checked
-            foreach (ToolStripButton Button in CandidateControls)
-                if (!Button.Checked)
-                    return false;
-
-            // Controls not in consideration must not be checked.
-            foreach (ToolStripButton Button in ScanOptionButtons)
-            {
-                if (CandidateControls.Contains(Button))
-                    continue;
-
-                if (Button.Checked)
-                    return false;
-            }
-
-            return true;
-        }
-
         #region Events
 
         protected void FSMBuilderPanel_Paint(Object Sender, PaintEventArgs E)
         {
+            // Draw every state and each of their transitions
             foreach (GraphicalState State in States)
             {
                 GraphicalState.StyleEnum Style;
@@ -188,37 +167,37 @@ namespace Anathema
 
             }
 
+            // Draw pending state
             if (PendingState != null)
                 PendingState.Draw(E.Graphics, States.Count == 0 ? GraphicalState.StyleEnum.StartState : GraphicalState.StyleEnum.IntermediateState);
 
-            if (SelectedState != null)
-            {
-                E.Graphics.DrawLine(Pens.Red, SelectedState.GetEdgePoint(FSMBuilderPanel.PointToClient(Cursor.Position)), FSMBuilderPanel.PointToClient(Cursor.Position));
-            }
+            // Draw pending transition line
+            if (EdgeSelectedState != null)
+                E.Graphics.DrawLine(Pens.Red, EdgeSelectedState.GetEdgePoint(FSMBuilderPanel.PointToClient(Cursor.Position)), FSMBuilderPanel.PointToClient(Cursor.Position));
 
         }
 
         private void FSMBuilderPanel_MouseUp(Object Sender, MouseEventArgs E)
         {
-            if (SelectedState != null)
+            if (EdgeSelectedState != null)
             {
                 foreach (GraphicalState State in States)
                 {
-                    if (State == SelectedState)
+                    if (State == EdgeSelectedState)
                         continue;
 
                     if (State.IsMousedOver(E.Location))
                     {
                         if (CheckSyntax.CanParseValue(FilterFSMPresenter.GetElementType(), ValueTextBox.Text.ToString()))
-                            SelectedState.AddTransition(new ScanConstraint(FilterFSMPresenter.GetValueConstraint(), Conversions.ParseValue(FilterFSMPresenter.GetElementType(), ValueTextBox.Text.ToString())), State);
+                            EdgeSelectedState.AddTransition(new ScanConstraint(FilterFSMPresenter.GetValueConstraint(), Conversions.ParseValue(FilterFSMPresenter.GetElementType(), ValueTextBox.Text.ToString())), State);
                         else
-                            SelectedState.AddTransition(new ScanConstraint(FilterFSMPresenter.GetValueConstraint()), State);
+                            EdgeSelectedState.AddTransition(new ScanConstraint(FilterFSMPresenter.GetValueConstraint()), State);
                         break;
                     }
                 }
 
                 FSMBuilderPanel.Invalidate();
-                SelectedState = null;
+                EdgeSelectedState = null;
             }
 
             if (PendingState != null)
@@ -248,7 +227,7 @@ namespace Anathema
                 }
             }
 
-            if (SelectedState != null)
+            if (EdgeSelectedState != null)
                 FSMBuilderPanel.Invalidate();
         }
 
@@ -261,7 +240,7 @@ namespace Anathema
                 {
                     if (State.IsEdgeMousedOver(E.Location))
                     {
-                        SelectedState = State;
+                        EdgeSelectedState = State;
                         return;
                     }
                     else if (State.IsMousedOver(E.Location))
@@ -275,11 +254,6 @@ namespace Anathema
 
             if (PendingState == null)
                 PendingState = new GraphicalState(E.Location);
-        }
-
-        private void FSMBuilderPanel_MouseClick(Object Sender, MouseEventArgs E)
-        {
-
         }
 
         private void StartScanButton_Click(Object Sender, EventArgs E)
@@ -360,7 +334,9 @@ namespace Anathema
 
         // Offset Variables:
         private static Int32 LineOffset = (Int32)TransitionLine.Width / 2;
-        private const Int32 SelectionWidth = 8;
+        private const Int32 LineFloatOffset = 8;
+        private const Int32 EdgeSelectionWidth = 8;
+        private const Int32 VariableBorderSize = 4;
 
         private Point Location;
         private Boolean MousedOver;
@@ -386,7 +362,7 @@ namespace Anathema
 
         public void AddTransition(ScanConstraint Constraint, GraphicalState DestinationState)
         {
-            foreach (var Transition in Transitions)
+            foreach (KeyValuePair<ScanConstraint, GraphicalState> Transition in Transitions)
                 if (Transition.Key.Constraint == Constraint.Constraint)
                     return;
 
@@ -429,7 +405,7 @@ namespace Anathema
 
             Single Distance = (Single)Math.Sqrt((MouseLocation.X - Location.X) * (MouseLocation.X - Location.X) + (MouseLocation.Y - Location.Y) * (MouseLocation.Y - Location.Y));
 
-            if (Distance <= (Single)Resources.StateHighlighted.Width / 2.0f && Distance >= (Single)Resources.StateHighlighted.Width / 2.0f - SelectionWidth)
+            if (Distance <= (Single)Resources.StateHighlighted.Width / 2.0f && Distance >= (Single)Resources.StateHighlighted.Width / 2.0f - EdgeSelectionWidth)
                 NewMouseOverState = true;
 
             if (NewMouseOverState != MousedOver)
@@ -471,20 +447,22 @@ namespace Anathema
             if (MousedOver)
                 Graphics.DrawImage(Resources.StateHighlighted, Location.X - Resources.StateHighlighted.Width / 2, Location.Y - Resources.StateHighlighted.Height / 2, Resources.StateHighlighted.Width, Resources.StateHighlighted.Height);
 
-            foreach (var Transition in Transitions)
+            foreach (KeyValuePair<ScanConstraint, GraphicalState> Transition in Transitions)
             {
+                // Calculate start and end points of the transitio line
                 Point StartPoint = this.GetEdgePoint(Transition.Value.GetLocation());
                 Point EndPoint = Transition.Value.GetEdgePoint(this.Location);
-
                 StartPoint.Y += LineOffset;
                 EndPoint.Y += LineOffset;
 
+                // Draw transition line
                 Point MidPoint = new Point((StartPoint.X + EndPoint.X) / 2, (StartPoint.Y + EndPoint.Y) / 2);
                 Graphics.DrawLine(TransitionLine, StartPoint, EndPoint);
 
-                Point ImageLocation = new Point(MidPoint.X - Resources.Equal.Width / 2, MidPoint.Y - Resources.Equal.Height - 8);
-                PointF TextLocation = new PointF(MidPoint.X - 14, MidPoint.Y + 4);
+                // Draw arrow head
 
+                // Draw comparison image
+                Point ImageLocation = new Point(MidPoint.X - Resources.Equal.Width / 2, MidPoint.Y - Resources.Equal.Height - LineFloatOffset);
                 switch (Transition.Key.Constraint)
                 {
                     case ConstraintsEnum.Changed:
@@ -522,9 +500,15 @@ namespace Anathema
                         break;
                 }
 
-
+                // Draw transition value if applicable
                 if (Transition.Key.Value != null)
-                    Graphics.DrawString(Transition.Key.Value.ToString(), DrawFont, Brushes.Black, TextLocation);
+                {
+                    String DrawText = Transition.Key.Value.ToString();
+                    SizeF TextSize = Graphics.MeasureString(DrawText, DrawFont);
+                    PointF TextLocation = new PointF(MidPoint.X - TextSize.Width / 2, MidPoint.Y + LineFloatOffset);
+                    Graphics.FillEllipse(Brushes.Black, TextLocation.X - VariableBorderSize, TextLocation.Y - VariableBorderSize, TextSize.Width + VariableBorderSize * 2, TextSize.Height + VariableBorderSize);
+                    Graphics.DrawString(DrawText, DrawFont, Brushes.White, TextLocation);
+                }
             }
         }
     }

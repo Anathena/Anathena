@@ -143,28 +143,6 @@ namespace Anathema
             this.CompareTypeLabel.Text = ValueConstraint.ToString();
         }
 
-        private Boolean IsCurrentScanSetting(params ToolStripButton[] Controls)
-        {
-            List<ToolStripButton> CandidateControls = new List<ToolStripButton>(Controls);
-
-            // Controls in consideration must be checked
-            foreach (ToolStripButton Button in CandidateControls)
-                if (!Button.Checked)
-                    return false;
-
-            // Controls not in consideration must not be checked.
-            foreach (ToolStripButton Button in ScanOptionButtons)
-            {
-                if (CandidateControls.Contains(Button))
-                    continue;
-
-                if (Button.Checked)
-                    return false;
-            }
-
-            return true;
-        }
-
         #region Events
 
         private void StartScanButton_Click(Object Sender, EventArgs E)
