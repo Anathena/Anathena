@@ -69,7 +69,7 @@
             this.GUIMenuStrip.Location = new System.Drawing.Point(0, 0);
             this.GUIMenuStrip.Name = "GUIMenuStrip";
             this.GUIMenuStrip.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
-            this.GUIMenuStrip.Size = new System.Drawing.Size(656, 24);
+            this.GUIMenuStrip.Size = new System.Drawing.Size(732, 24);
             this.GUIMenuStrip.TabIndex = 126;
             this.GUIMenuStrip.Text = "menuStrip1";
             // 
@@ -216,7 +216,7 @@
             this.ContentPanel.DockBackColor = System.Drawing.SystemColors.AppWorkspace;
             this.ContentPanel.Location = new System.Drawing.Point(0, 49);
             this.ContentPanel.Name = "ContentPanel";
-            this.ContentPanel.Size = new System.Drawing.Size(656, 432);
+            this.ContentPanel.Size = new System.Drawing.Size(732, 492);
             this.ContentPanel.TabIndex = 145;
             // 
             // GUIToolStrip
@@ -230,7 +230,7 @@
             this.UndoScanButton});
             this.GUIToolStrip.Location = new System.Drawing.Point(0, 24);
             this.GUIToolStrip.Name = "GUIToolStrip";
-            this.GUIToolStrip.Size = new System.Drawing.Size(656, 25);
+            this.GUIToolStrip.Size = new System.Drawing.Size(732, 25);
             this.GUIToolStrip.TabIndex = 148;
             this.GUIToolStrip.Text = "toolStrip1";
             // 
@@ -279,7 +279,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(656, 481);
+            this.ClientSize = new System.Drawing.Size(732, 541);
             this.Controls.Add(this.ContentPanel);
             this.Controls.Add(this.GUIToolStrip);
             this.Controls.Add(this.GUIMenuStrip);

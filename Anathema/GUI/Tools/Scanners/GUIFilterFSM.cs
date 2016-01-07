@@ -369,7 +369,7 @@ namespace Anathema
             EndState
         }
 
-        private static Pen TransitionLine = new Pen(Color.Black, 2);
+        private static Pen TransitionLine = new Pen(Color.Black, 3);
         private const Int32 FUCKWINDOWSOFFSET = 5;  // Thanks for being a piece of shit, windows
         private const Int32 FUCKWINDOWSOFFSET2 = 8; // Fuck windows fuck windows fuck windows
         private const Int32 SelectionWidth = 8;
@@ -488,7 +488,23 @@ namespace Anathema
 
             foreach (var Transition in Transitions)
             {
-                Graphics.DrawLine(TransitionLine, this.GetEdgePoint(Transition.Value.GetLocation()), Transition.Value.GetEdgePoint(this.Location));
+                Point StartPoint = this.GetEdgePoint(Transition.Value.GetLocation());
+                Point EndPoint = Transition.Value.GetEdgePoint(this.Location);
+
+                Int32 LineOffset = (Int32)TransitionLine.Width / 2;
+                StartPoint.Y += LineOffset;
+                EndPoint.Y += LineOffset;
+
+                Point MidPoint = new Point((StartPoint.X + EndPoint.X) / 2, (StartPoint.Y + EndPoint.Y) / 2);
+                Graphics.DrawLine(TransitionLine, StartPoint, EndPoint);
+
+                switch (Transition.Key)
+                {
+                    case ConstraintsEnum.Equal:
+                        Graphics.DrawImage(Resources.Equal, new Point(MidPoint.X - Resources.Equal.Width / 2, MidPoint.Y - Resources.Equal.Height - 8));
+                        Graphics.DrawString("500", new Font(FontFamily.GenericSerif, 10.0f), Brushes.Black, new PointF(MidPoint.X - 14, MidPoint.Y + 4));
+                        break;
+                }
             }
         }
     }
