@@ -26,6 +26,7 @@ namespace Anathema
             InitializeComponent();
 
             FSMBuilderPanel.Paint += new PaintEventHandler(FSMBuilderPanel_Paint);
+            FSMBuilderPanel.Scale(new SizeF(0.0f, 0.0f));
 
             FilterFSMPresenter = new FilterFSMPresenter(this, new FilterFSM());
 
@@ -60,9 +61,7 @@ namespace Anathema
 
         public void UpdateDisplay(List<String[]> ScanConstraintItems)
         {
-            //ConstraintsListView.Items.Clear();
-            //foreach (String[] Item in ScanConstraintItems)
-            // ConstraintsListView.Items.Add(new ListViewItem(Item));
+
         }
 
         private void EvaluateScanOptions(ToolStripButton Sender)
@@ -147,7 +146,6 @@ namespace Anathema
             }
 
             FilterFSMPresenter.SetValueConstraints(ValueConstraint);
-            //this.CompareTypeLabel.Text = ValueConstraint.ToString();
         }
 
         private Boolean IsCurrentScanSetting(params ToolStripButton[] Controls)
@@ -211,7 +209,10 @@ namespace Anathema
 
                     if (State.IsMousedOver(E.Location))
                     {
-                        SelectedState.AddTransition(FilterFSMPresenter.GetValueConstraint(), State);
+                        if (CheckSyntax.CanParseValue(FilterFSMPresenter.GetElementType(), ValueTextBox.Text.ToString()))
+                            SelectedState.AddTransition(new ScanConstraint(FilterFSMPresenter.GetValueConstraint(), Conversions.ParseValue(FilterFSMPresenter.GetElementType(), ValueTextBox.Text.ToString())), State);
+                        else
+                            SelectedState.AddTransition(new ScanConstraint(FilterFSMPresenter.GetValueConstraint()), State);
                         break;
                     }
                 }
@@ -336,21 +337,6 @@ namespace Anathema
             EvaluateScanOptions((ToolStripButton)Sender);
         }
 
-        private void AddConstraintButton_Click(Object Sender, EventArgs E)
-        {
-            FilterFSMPresenter.AddConstraint(ValueTextBox.Text.ToString());
-        }
-
-        private void ClearConstraintsButton_Click(Object Sender, EventArgs E)
-        {
-            FilterFSMPresenter.ClearConstraints();
-        }
-
-        private void RemoveConstraintButton_Click(Object Sender, EventArgs E)
-        {
-            //FilterFSMPresenter.RemoveConstraints(ConstraintsListView.SelectedIndices.Cast<Int32>().ToArray());
-        }
-
         private void ValueTypeComboBox_SelectedIndexChanged(Object Sender, EventArgs E)
         {
             FilterFSMPresenter.SetElementType(ValueTypeComboBox.SelectedItem.ToString());
@@ -369,28 +355,27 @@ namespace Anathema
             EndState
         }
 
+        private static Font DrawFont = new Font(FontFamily.GenericSerif, 10.0f);
         private static Pen TransitionLine = new Pen(Color.Black, 3);
-        private const Int32 FUCKWINDOWSOFFSET = 5;  // Thanks for being a piece of shit, windows
-        private const Int32 FUCKWINDOWSOFFSET2 = 8; // Fuck windows fuck windows fuck windows
+
+        // Offset Variables:
+        private static Int32 LineOffset = (Int32)TransitionLine.Width / 2;
         private const Int32 SelectionWidth = 8;
+
         private Point Location;
         private Boolean MousedOver;
         private Boolean InvalidationRequired;
 
-        private Dictionary<ConstraintsEnum, GraphicalState> Transitions;
+        private Dictionary<ScanConstraint, GraphicalState> Transitions;
 
         public GraphicalState(Point Location)
         {
-            Transitions = new Dictionary<ConstraintsEnum, GraphicalState>();
-            Location.X -= FUCKWINDOWSOFFSET;
-            Location.Y -= FUCKWINDOWSOFFSET;
+            Transitions = new Dictionary<ScanConstraint, GraphicalState>();
             this.Location = Location;
         }
 
         public void SetLocation(Point Location)
         {
-            Location.X -= FUCKWINDOWSOFFSET;
-            Location.Y -= FUCKWINDOWSOFFSET;
             this.Location = Location;
         }
 
@@ -399,8 +384,12 @@ namespace Anathema
             return Location;
         }
 
-        public void AddTransition(ConstraintsEnum Constraint, GraphicalState DestinationState)
+        public void AddTransition(ScanConstraint Constraint, GraphicalState DestinationState)
         {
+            foreach (var Transition in Transitions)
+                if (Transition.Key.Constraint == Constraint.Constraint)
+                    return;
+
             if (!Transitions.ContainsKey(Constraint))
                 Transitions.Add(Constraint, DestinationState);
         }
@@ -420,31 +409,27 @@ namespace Anathema
             Single EdgeX = Bx + vX / magV * Radius;
             Single EdgeY = By + vY / magV * Radius;
 
-            Point EdgePoint = new Point((Int32)EdgeX + FUCKWINDOWSOFFSET, (Int32)EdgeY + FUCKWINDOWSOFFSET);
+            Point EdgePoint = new Point((Int32)EdgeX, (Int32)EdgeY);
 
             return EdgePoint;
         }
 
         public Boolean IsMousedOver(Point MouseLocation)
         {
-            MouseLocation.X -= FUCKWINDOWSOFFSET;
-            MouseLocation.Y -= FUCKWINDOWSOFFSET;
             Single Distance = (Single)Math.Sqrt((MouseLocation.X - Location.X) * (MouseLocation.X - Location.X) + (MouseLocation.Y - Location.Y) * (MouseLocation.Y - Location.Y));
 
-            if (Distance < Resources.StateHighlighted.Width / 2 + FUCKWINDOWSOFFSET2)
+            if (Distance < Resources.StateHighlighted.Width / 2)
                 return true;
             return false;
         }
 
         public Boolean IsEdgeMousedOver(Point MouseLocation)
         {
-            MouseLocation.X -= FUCKWINDOWSOFFSET;
-            MouseLocation.Y -= FUCKWINDOWSOFFSET;
             Boolean NewMouseOverState = false;
 
             Single Distance = (Single)Math.Sqrt((MouseLocation.X - Location.X) * (MouseLocation.X - Location.X) + (MouseLocation.Y - Location.Y) * (MouseLocation.Y - Location.Y));
 
-            if (Distance <= (Single)Resources.StateHighlighted.Width / 2.0f + FUCKWINDOWSOFFSET2 && Distance >= (Single)Resources.StateHighlighted.Width / 2.0f + FUCKWINDOWSOFFSET2 - SelectionWidth)
+            if (Distance <= (Single)Resources.StateHighlighted.Width / 2.0f && Distance >= (Single)Resources.StateHighlighted.Width / 2.0f - SelectionWidth)
                 NewMouseOverState = true;
 
             if (NewMouseOverState != MousedOver)
@@ -482,29 +467,64 @@ namespace Anathema
                     break;
             }
 
-            Graphics.DrawImage(DrawImage, Location.X - Resources.StateHighlighted.Width / 2, Location.Y - Resources.StateHighlighted.Height / 2);
+            Graphics.DrawImage(DrawImage, Location.X - Resources.StateHighlighted.Width / 2, Location.Y - Resources.StateHighlighted.Height / 2, DrawImage.Width, DrawImage.Height);
             if (MousedOver)
-                Graphics.DrawImage(Resources.StateHighlighted, Location.X - Resources.StateHighlighted.Width / 2, Location.Y - Resources.StateHighlighted.Height / 2);
+                Graphics.DrawImage(Resources.StateHighlighted, Location.X - Resources.StateHighlighted.Width / 2, Location.Y - Resources.StateHighlighted.Height / 2, Resources.StateHighlighted.Width, Resources.StateHighlighted.Height);
 
             foreach (var Transition in Transitions)
             {
                 Point StartPoint = this.GetEdgePoint(Transition.Value.GetLocation());
                 Point EndPoint = Transition.Value.GetEdgePoint(this.Location);
 
-                Int32 LineOffset = (Int32)TransitionLine.Width / 2;
                 StartPoint.Y += LineOffset;
                 EndPoint.Y += LineOffset;
 
                 Point MidPoint = new Point((StartPoint.X + EndPoint.X) / 2, (StartPoint.Y + EndPoint.Y) / 2);
                 Graphics.DrawLine(TransitionLine, StartPoint, EndPoint);
 
-                switch (Transition.Key)
+                Point ImageLocation = new Point(MidPoint.X - Resources.Equal.Width / 2, MidPoint.Y - Resources.Equal.Height - 8);
+                PointF TextLocation = new PointF(MidPoint.X - 14, MidPoint.Y + 4);
+
+                switch (Transition.Key.Constraint)
                 {
+                    case ConstraintsEnum.Changed:
+                        Graphics.DrawImage(Resources.Changed, ImageLocation.X, ImageLocation.Y, Resources.Changed.Width, Resources.Changed.Height);
+                        break;
+                    case ConstraintsEnum.Unchanged:
+                        Graphics.DrawImage(Resources.Unchanged, ImageLocation.X, ImageLocation.Y, Resources.Unchanged.Width, Resources.Unchanged.Height);
+                        break;
+                    case ConstraintsEnum.Decreased:
+                        Graphics.DrawImage(Resources.Decreased, ImageLocation.X, ImageLocation.Y, Resources.Decreased.Width, Resources.Decreased.Height);
+                        break;
+                    case ConstraintsEnum.Increased:
+                        Graphics.DrawImage(Resources.Increased, ImageLocation.X, ImageLocation.Y, Resources.Increased.Width, Resources.Increased.Height);
+                        break;
+                    case ConstraintsEnum.GreaterThan:
+                        Graphics.DrawImage(Resources.GreaterThan, ImageLocation.X, ImageLocation.Y, Resources.GreaterThan.Width, Resources.GreaterThan.Height);
+                        break;
+                    case ConstraintsEnum.LessThan:
+                        Graphics.DrawImage(Resources.LessThan, ImageLocation.X, ImageLocation.Y, Resources.LessThan.Width, Resources.LessThan.Height);
+                        break;
                     case ConstraintsEnum.Equal:
-                        Graphics.DrawImage(Resources.Equal, new Point(MidPoint.X - Resources.Equal.Width / 2, MidPoint.Y - Resources.Equal.Height - 8));
-                        Graphics.DrawString("500", new Font(FontFamily.GenericSerif, 10.0f), Brushes.Black, new PointF(MidPoint.X - 14, MidPoint.Y + 4));
+                        Graphics.DrawImage(Resources.Equal, ImageLocation.X, ImageLocation.Y, Resources.Equal.Width, Resources.Equal.Height);
+                        break;
+                    case ConstraintsEnum.NotEqual:
+                        Graphics.DrawImage(Resources.NotEqual, ImageLocation.X, ImageLocation.Y, Resources.NotEqual.Width, Resources.NotEqual.Height);
+                        break;
+                    case ConstraintsEnum.IncreasedByX:
+                        Graphics.DrawImage(Resources.PlusX, ImageLocation.X, ImageLocation.Y, Resources.PlusX.Width, Resources.PlusX.Height);
+                        break;
+                    case ConstraintsEnum.DecreasedByX:
+                        Graphics.DrawImage(Resources.MinusX, ImageLocation.X, ImageLocation.Y, Resources.MinusX.Width, Resources.MinusX.Height);
+                        break;
+                    default:
+                    case ConstraintsEnum.Invalid:
                         break;
                 }
+
+
+                if (Transition.Key.Value != null)
+                    Graphics.DrawString(Transition.Key.Value.ToString(), DrawFont, Brushes.Black, TextLocation);
             }
         }
     }

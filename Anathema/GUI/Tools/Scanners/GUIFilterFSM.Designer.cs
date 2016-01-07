@@ -66,6 +66,7 @@
             this.ValueTypeComboBox.Name = "ValueTypeComboBox";
             this.ValueTypeComboBox.Size = new System.Drawing.Size(94, 21);
             this.ValueTypeComboBox.TabIndex = 160;
+            this.ValueTypeComboBox.SelectedIndexChanged += new System.EventHandler(this.ValueTypeComboBox_SelectedIndexChanged);
             // 
             // ScanTypeWorldStrip
             // 

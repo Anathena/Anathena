@@ -91,7 +91,7 @@ namespace Anathema
                     { typeof(Double), () => CanParse = DoubleValue(Value) },
                 };
 
-            if (@switch.ContainsKey(ValueType))
+            if (ValueType != null && @switch.ContainsKey(ValueType))
                 @switch[ValueType]();
 
             return CanParse;

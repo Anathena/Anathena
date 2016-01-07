@@ -70,6 +70,11 @@ namespace Anathema
             Model.SetElementType(Conversions.StringToPrimitiveType(ElementType));
         }
 
+        public Type GetElementType()
+        {
+            return Model.GetElementType();
+        }
+
         public void AddConstraint(String ValueString)
         {
             dynamic Value = String.Empty;
