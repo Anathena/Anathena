@@ -77,26 +77,7 @@ namespace Anathema
             FSMBuilderPanel.Invalidate();
         }
 
-        private void HandleMouseDown(Point Location)
-        {
-            FilterFSMPresenter.BeginAction(Location);
-        }
-
-        private void HandleMouseMove(Point Location)
-        {
-            FilterFSMPresenter.UpdateAction(Location);
-        }
-
-        private void HandleMouseUp(Point Location)
-        {
-            FilterFSMPresenter.FinishAction(Location, ValueTextBox.Text.ToString());
-        }
-
-        private void HandleRightClick(Point Location)
-        {
-            FilterFSMPresenter.DeleteAtPoint(Location);
-        }
-
+        
         private void Draw(Graphics Graphics)
         {
             if (FiniteStateMachine == null)
@@ -106,7 +87,10 @@ namespace Anathema
             {
                 Image DrawImage;
 
-                DrawImage = Resources.IntermediateState;
+                if (State == FiniteStateMachine.GetStartState())
+                    DrawImage = Resources.StartState;
+                else
+                    DrawImage = Resources.IntermediateState;
 
                 Graphics.DrawImage(DrawImage, State.Location.X - StateRadius, State.Location.Y - StateRadius, DrawImage.Width, DrawImage.Height);
             }
@@ -260,25 +244,9 @@ namespace Anathema
 
         #region Events
 
-        private void FSMBuilderPanel_MouseClick(Object Sender, MouseEventArgs E)
+        private void StateRightClickMenu_Opening(Object Sender, CancelEventArgs E)
         {
-            if (E.Button != MouseButtons.Right)
-                return;
-
-            HandleRightClick(E.Location);
-        }
-
-        private void FSMBuilderPanel_MouseUp(Object Sender, MouseEventArgs E)
-        {
-            if (E.Button != MouseButtons.Left)
-                return;
-
-            HandleMouseUp(E.Location);
-        }
-
-        private void FSMBuilderPanel_MouseMove(Object Sender, MouseEventArgs E)
-        {
-            HandleMouseMove(E.Location);
+            //if (FilterFSMPresenter.)
         }
 
         private void FSMBuilderPanel_MouseDown(Object Sender, MouseEventArgs E)
@@ -286,7 +254,20 @@ namespace Anathema
             if (E.Button != MouseButtons.Left)
                 return;
 
-            HandleMouseDown(E.Location);
+            FilterFSMPresenter.BeginAction(E.Location);
+        }
+
+        private void FSMBuilderPanel_MouseMove(Object Sender, MouseEventArgs E)
+        {
+            FilterFSMPresenter.UpdateAction(E.Location);
+        }
+
+        private void FSMBuilderPanel_MouseUp(Object Sender, MouseEventArgs E)
+        {
+            if (E.Button != MouseButtons.Left)
+                return;
+
+            FilterFSMPresenter.FinishAction(E.Location, ValueTextBox.Text.ToString());
         }
 
         protected void FSMBuilderPanel_Paint(Object Sender, PaintEventArgs E)

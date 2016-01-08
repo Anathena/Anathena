@@ -52,7 +52,7 @@ namespace Anathema
             Snapshot.SetElementType(FiniteStateMachine.GetElementType());
             Snapshot.SetMemoryLabels(0);
 
-            base.BeginScanRunOnce();
+            base.BeginScan();
         }
 
         protected override void UpdateScan()

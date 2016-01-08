@@ -149,8 +149,8 @@ namespace Anathema
             if (EdgeSelectedState != null)
             {
                 // Add a transition if possible
-                FiniteState TargetState = Model.GetFiniteStateMachine().GetStateUnderPoint(Location, StateRadius);
-                if (TargetState != null && TargetState != EdgeSelectedState)
+                FiniteState DestinationState = Model.GetFiniteStateMachine().GetStateUnderPoint(Location, StateRadius);
+                if (DestinationState != null && DestinationState != EdgeSelectedState)
                 {
                     ScanConstraint TransitionConstraint;
 
@@ -159,7 +159,8 @@ namespace Anathema
                     else
                         TransitionConstraint = new ScanConstraint(ValueConstraintSelection);
 
-                    EdgeSelectedState.AddTransition(TransitionConstraint, TargetState);
+                    if (!EdgeSelectedState.ContainsDestionationState(DestinationState))
+                        EdgeSelectedState.AddTransition(TransitionConstraint, DestinationState);
                 }
                 SelectionLine = null;
                 EdgeSelectedState = null;

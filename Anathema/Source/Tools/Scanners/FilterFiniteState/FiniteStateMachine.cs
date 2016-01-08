@@ -14,6 +14,7 @@ namespace Anathema
     public class FiniteStateMachine : IEnumerable
     {
         private List<FiniteState> States;
+        private FiniteState StartState;
         private Type ElementType;
 
         public FiniteStateMachine()
@@ -28,9 +29,30 @@ namespace Anathema
             return (Byte)States.IndexOf(State);
         }
 
+        public void SetStartState(FiniteState StartState)
+        {
+            if (!States.Contains(StartState))
+                throw new Exception("Invalid start state target - Not a state in this FSM");
+
+            this.StartState = StartState;   
+        }
+
+        public FiniteState GetStartState()
+        {
+            return StartState;
+        }
+
         public void AddNewState(Point Location)
         {
             States.Add(new FiniteState(Location));
+
+            if (States.Count == 1)
+                SetStartState(States.Last());
+        }
+
+        private void RemoveState(Point Location)
+        {
+
         }
 
         public void SetElementType(Type ElementType)
