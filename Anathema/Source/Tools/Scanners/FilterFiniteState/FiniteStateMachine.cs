@@ -21,6 +21,13 @@ namespace Anathema
             States = new List<FiniteState>();
         }
 
+        public FiniteState this[Int32 Index] { get { return States[Index]; } }
+
+        public Byte IndexOf(FiniteState State)
+        {
+            return (Byte)States.IndexOf(State);
+        }
+
         public void AddNewState(Point Location)
         {
             States.Add(new FiniteState(Location));

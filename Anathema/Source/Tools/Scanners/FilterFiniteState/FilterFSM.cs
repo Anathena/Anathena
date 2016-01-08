@@ -12,8 +12,8 @@ namespace Anathema
 {
     class FilterFSM : IFilterFSMModel
     {
-        // Snapshot being labeled with change counts
-        private Snapshot Snapshot;
+        // Snapshot, where the label represents the state
+        private Snapshot<Byte> Snapshot;
 
         // User controlled variables
         private FiniteStateMachine FiniteStateMachine;
@@ -37,7 +37,7 @@ namespace Anathema
         {
             return FiniteStateMachine;
         }
-       
+
         private void UpdateDisplay()
         {
             FilterFSMEventArgs FilterFSMEventArgs = new FilterFSMEventArgs();
@@ -47,9 +47,10 @@ namespace Anathema
         public override void BeginScan()
         {
             // Initialize snapshot
-            Snapshot = new Snapshot(SnapshotManager.GetInstance().GetActiveSnapshot());
+            Snapshot = new Snapshot<Byte>(SnapshotManager.GetInstance().GetActiveSnapshot());
             Snapshot.MarkAllValid();
             Snapshot.SetElementType(FiniteStateMachine.GetElementType());
+            Snapshot.SetMemoryLabels(0);
 
             base.BeginScanRunOnce();
         }
@@ -60,70 +61,71 @@ namespace Anathema
             Snapshot.ReadAllSnapshotMemory();
 
             // Enforce each value constraint
-            foreach (FiniteState State in FiniteStateMachine)
+
+            Parallel.ForEach(Snapshot.Cast<Object>(), (RegionObject) =>
             {
+                SnapshotRegion<Byte> Region = (SnapshotRegion<Byte>)RegionObject;
 
-                Parallel.ForEach(Snapshot.Cast<Object>(), (RegionObject) =>
+                if (!Region.CanCompare())
+                    return;
+
+                foreach (SnapshotElement<Byte> Element in Region)
                 {
-                    SnapshotRegion Region = (SnapshotRegion)RegionObject;
+                    if (!Element.Valid)
+                        continue;
 
-                    if (!Region.CanCompare())
-                        return;
-
-                    foreach (SnapshotElement Element in Region)
+                    // Test the condition of each transition event in this element's current state
+                    foreach (KeyValuePair<ScanConstraint, FiniteState> Transition in FiniteStateMachine[Element.MemoryLabel.Value])
                     {
-                        if (!Element.Valid)
-                            continue;
-
-                        /*switch (State.)
+                        switch (Transition.Key.Constraint)
                         {
                             case ConstraintsEnum.Unchanged:
-                                if (!Element.Unchanged())
-                                    Element.Valid = false;
+                                if (Element.Unchanged())
+                                    Element.MemoryLabel = FiniteStateMachine.IndexOf(Transition.Value);
                                 break;
                             case ConstraintsEnum.Changed:
-                                if (!Element.Changed())
-                                    Element.Valid = false;
+                                if (Element.Changed())
+                                    Element.MemoryLabel = FiniteStateMachine.IndexOf(Transition.Value);
                                 break;
                             case ConstraintsEnum.Increased:
-                                if (!Element.Increased())
-                                    Element.Valid = false;
+                                if (Element.Increased())
+                                    Element.MemoryLabel = FiniteStateMachine.IndexOf(Transition.Value);
                                 break;
                             case ConstraintsEnum.Decreased:
-                                if (!Element.Decreased())
-                                    Element.Valid = false;
+                                if (Element.Decreased())
+                                    Element.MemoryLabel = FiniteStateMachine.IndexOf(Transition.Value);
                                 break;
                             case ConstraintsEnum.IncreasedByX:
-                                if (!Element.IncreasedByValue(ScanConstraint.Value))
-                                    Element.Valid = false;
+                                if (Element.IncreasedByValue(Transition.Key.Value))
+                                    Element.MemoryLabel = FiniteStateMachine.IndexOf(Transition.Value);
                                 break;
                             case ConstraintsEnum.DecreasedByX:
-                                if (!Element.DecreasedByValue(ScanConstraint.Value))
-                                    Element.Valid = false;
+                                if (Element.DecreasedByValue(Transition.Key.Value))
+                                    Element.MemoryLabel = FiniteStateMachine.IndexOf(Transition.Value);
                                 break;
                             case ConstraintsEnum.Equal:
-                                if (!Element.EqualToValue(ScanConstraint.Value))
-                                    Element.Valid = false;
+                                if (Element.EqualToValue(Transition.Key.Value))
+                                    Element.MemoryLabel = FiniteStateMachine.IndexOf(Transition.Value);
                                 break;
                             case ConstraintsEnum.NotEqual:
-                                if (!Element.NotEqualToValue(ScanConstraint.Value))
-                                    Element.Valid = false;
+                                if (Element.NotEqualToValue(Transition.Key.Value))
+                                    Element.MemoryLabel = FiniteStateMachine.IndexOf(Transition.Value);
                                 break;
                             case ConstraintsEnum.GreaterThan:
-                                if (!Element.GreaterThanValue(ScanConstraint.Value))
-                                    Element.Valid = false;
+                                if (Element.GreaterThanValue(Transition.Key.Value))
+                                    Element.MemoryLabel = FiniteStateMachine.IndexOf(Transition.Value);
                                 break;
                             case ConstraintsEnum.LessThan:
-                                if (!Element.LessThanValue(ScanConstraint.Value))
-                                    Element.Valid = false;
+                                if (Element.LessThanValue(Transition.Key.Value))
+                                    Element.MemoryLabel = FiniteStateMachine.IndexOf(Transition.Value);
                                 break;
-                        }*/
+                        }
 
-                    } // End foreach Element
+                    } // End foreach Constraint
 
-                }); // End foreach Region
+                } // End foreach Element
 
-            } // End foreach Constraint
+            }); // End foreach Region
         }
 
         public override void EndScan()
