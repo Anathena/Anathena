@@ -16,7 +16,10 @@ namespace Anathema
         private FilterFSMPresenter FilterFSMPresenter;
 
         private List<ToolStripButton> ScanOptionButtons;
-        
+
+        private FiniteStateMachine FiniteStateMachine;
+        private FiniteState MousedOverState;
+        private Point[] SelectionLine;
 
         // Drawing Variables:
         private static Font DrawFont = new Font(FontFamily.GenericSerif, 10.0f);
@@ -32,7 +35,7 @@ namespace Anathema
         {
             InitializeComponent();
             FSMBuilderPanel.Paint += new PaintEventHandler(FSMBuilderPanel_Paint);
-            
+
             FilterFSMPresenter = new FilterFSMPresenter(this, new FilterFSM());
             FilterFSMPresenter.SetStateRadius(StateRadius);
             FilterFSMPresenter.SetStateEdgeSize(StateEdgeSize);
@@ -66,9 +69,12 @@ namespace Anathema
             ScanOptionButtons.Add(DecreasedByXButton);
         }
 
-        public void UpdateDisplay()
+        public void UpdateDisplay(FiniteStateMachine FiniteStateMachine, FiniteState MousedOverState, Point[] SelectionLine)
         {
-
+            this.FiniteStateMachine = FiniteStateMachine;
+            this.MousedOverState = MousedOverState;
+            this.SelectionLine = SelectionLine;
+            FSMBuilderPanel.Invalidate();
         }
 
         private void HandleMouseDown(Point Location)
@@ -76,14 +82,14 @@ namespace Anathema
             FilterFSMPresenter.BeginAction(Location);
         }
 
-        private void HandleMouseUp(Point Location)
-        {
-            FilterFSMPresenter.FinishAction(Location, ValueTextBox.Text.ToString());
-        }
-
         private void HandleMouseMove(Point Location)
         {
             FilterFSMPresenter.UpdateAction(Location);
+        }
+
+        private void HandleMouseUp(Point Location)
+        {
+            FilterFSMPresenter.FinishAction(Location, ValueTextBox.Text.ToString());
         }
 
         private void HandleRightClick(Point Location)
@@ -93,33 +99,122 @@ namespace Anathema
 
         private void Draw(Graphics Graphics)
         {
-            /*
-            // Draw every state and each of their transitions
-            foreach (GraphicalState State in States)
+            if (FiniteStateMachine == null)
+                return;
+
+            foreach (FiniteState State in FiniteStateMachine)
             {
-                GraphicalState.StyleEnum Style;
-                if (States.IndexOf(State) == 0)
-                    Style = GraphicalState.StyleEnum.StartState;
-                else if (States.IndexOf(State) == States.Count - 1)
-                    Style = GraphicalState.StyleEnum.EndState;
-                else
-                    Style = GraphicalState.StyleEnum.IntermediateState;
+                Image DrawImage;
 
-                State.Draw(Graphics, Style);
+                DrawImage = Resources.IntermediateState;
 
+                Graphics.DrawImage(DrawImage, State.Location.X - StateRadius, State.Location.Y - StateRadius, DrawImage.Width, DrawImage.Height);
             }
 
-            // Draw pending state
-            if (PendingState != null)
-                PendingState.Draw(Graphics, States.Count == 0 ? GraphicalState.StyleEnum.StartState : GraphicalState.StyleEnum.IntermediateState);
+            if (MousedOverState != null)
+                Graphics.DrawImage(Resources.StateHighlighted, MousedOverState.Location.X - StateRadius, MousedOverState.Location.Y - StateRadius, Resources.StateHighlighted.Width, Resources.StateHighlighted.Height);
 
-            // Draw pending transition line
             try
             {
-                if (EdgeSelectedState != null)
-                    Graphics.DrawLine(Pens.Red, EdgeSelectedState.GetEdgePoint(FSMBuilderPanel.PointToClient(Cursor.Position)), FSMBuilderPanel.PointToClient(Cursor.Position));
+                if (SelectionLine != null && SelectionLine.Length == 2)
+                    Graphics.DrawLine(Pens.Red, SelectionLine[0], SelectionLine[1]);
             }
-            catch (Exception Ex) { }*/
+            catch { /* Overflow error. This may lead to a recursive draw call. Not sure how to fix */ }
+
+            /*
+            // Paint ourselves with the specified Graphics object
+            public void Draw(Graphics Graphics, StyleEnum Style)
+            {
+                Image DrawImage;
+                switch (Style)
+                {
+                    case StyleEnum.StartState:
+                        DrawImage = Resources.StartState;
+                        break;
+                    case StyleEnum.EndState:
+                        DrawImage = Resources.EndState;
+                        break;
+                    default:
+                    case StyleEnum.IntermediateState:
+                        DrawImage = Resources.IntermediateState;
+                        break;
+                }
+
+                Graphics.DrawImage(DrawImage, Location.X - Resources.StateHighlighted.Width / 2, Location.Y - Resources.StateHighlighted.Height / 2, DrawImage.Width, DrawImage.Height);
+                if (MousedOver)
+                    Graphics.DrawImage(Resources.StateHighlighted, Location.X - Resources.StateHighlighted.Width / 2, Location.Y - Resources.StateHighlighted.Height / 2, Resources.StateHighlighted.Width, Resources.StateHighlighted.Height);
+
+                foreach (KeyValuePair<ScanConstraint, GraphicalState> Transition in Transitions)
+                {
+                    // Calculate start and end points of the transitio line
+                    Point StartPoint = new Point();// this.GetEdgePoint(Transition.Value.GetLocation());
+                    Point EndPoint = new Point();//Transition.Value.GetEdgePoint(this.Location);
+                    StartPoint.Y += LineOffset;
+                    EndPoint.Y += LineOffset;
+
+                    // Draw transition line
+                    Point MidPoint = new Point((StartPoint.X + EndPoint.X) / 2, (StartPoint.Y + EndPoint.Y) / 2);
+                    Graphics.DrawLine(TransitionLine, StartPoint, EndPoint);
+
+                    // Draw arrow head
+                    //Point[] ArrowHeadPoints = new Point[3];
+                    //ArrowHeadPoints[0] = EndPoint;
+                    //ArrowHeadPoints[1] = EndPoint;
+                    //ArrowHeadPoints[2] = EndPoint;
+                    Graphics.FillEllipse(Brushes.Black, EndPoint.X - ArrowSize, EndPoint.Y - ArrowSize, ArrowSize * 2, ArrowSize * 2);
+
+                    // Draw comparison image
+                    Point ImageLocation = new Point(MidPoint.X - Resources.Equal.Width / 2, MidPoint.Y - Resources.Equal.Height - LineFloatOffset);
+                    switch (Transition.Key.Constraint)
+                    {
+                        case ConstraintsEnum.Changed:
+                            Graphics.DrawImage(Resources.Changed, ImageLocation.X, ImageLocation.Y, Resources.Changed.Width, Resources.Changed.Height);
+                            break;
+                        case ConstraintsEnum.Unchanged:
+                            Graphics.DrawImage(Resources.Unchanged, ImageLocation.X, ImageLocation.Y, Resources.Unchanged.Width, Resources.Unchanged.Height);
+                            break;
+                        case ConstraintsEnum.Decreased:
+                            Graphics.DrawImage(Resources.Decreased, ImageLocation.X, ImageLocation.Y, Resources.Decreased.Width, Resources.Decreased.Height);
+                            break;
+                        case ConstraintsEnum.Increased:
+                            Graphics.DrawImage(Resources.Increased, ImageLocation.X, ImageLocation.Y, Resources.Increased.Width, Resources.Increased.Height);
+                            break;
+                        case ConstraintsEnum.GreaterThan:
+                            Graphics.DrawImage(Resources.GreaterThan, ImageLocation.X, ImageLocation.Y, Resources.GreaterThan.Width, Resources.GreaterThan.Height);
+                            break;
+                        case ConstraintsEnum.LessThan:
+                            Graphics.DrawImage(Resources.LessThan, ImageLocation.X, ImageLocation.Y, Resources.LessThan.Width, Resources.LessThan.Height);
+                            break;
+                        case ConstraintsEnum.Equal:
+                            Graphics.DrawImage(Resources.Equal, ImageLocation.X, ImageLocation.Y, Resources.Equal.Width, Resources.Equal.Height);
+                            break;
+                        case ConstraintsEnum.NotEqual:
+                            Graphics.DrawImage(Resources.NotEqual, ImageLocation.X, ImageLocation.Y, Resources.NotEqual.Width, Resources.NotEqual.Height);
+                            break;
+                        case ConstraintsEnum.IncreasedByX:
+                            Graphics.DrawImage(Resources.PlusX, ImageLocation.X, ImageLocation.Y, Resources.PlusX.Width, Resources.PlusX.Height);
+                            break;
+                        case ConstraintsEnum.DecreasedByX:
+                            Graphics.DrawImage(Resources.MinusX, ImageLocation.X, ImageLocation.Y, Resources.MinusX.Width, Resources.MinusX.Height);
+                            break;
+                        default:
+                        case ConstraintsEnum.Invalid:
+                            break;
+                    }
+
+                    // Draw transition value if applicable
+                    if (Transition.Key.Value != null)
+                    {
+                        String DrawText = Transition.Key.Value.ToString();
+                        SizeF TextSize = Graphics.MeasureString(DrawText, DrawFont);
+                        PointF TextLocation = new PointF(MidPoint.X - TextSize.Width / 2, MidPoint.Y + LineFloatOffset);
+                        Graphics.FillEllipse(Brushes.Black, TextLocation.X - VariableBorderSize, TextLocation.Y - VariableBorderSize, TextSize.Width + VariableBorderSize * 2, TextSize.Height + VariableBorderSize);
+                        Graphics.DrawString(DrawText, DrawFont, Brushes.White, TextLocation);
+                    }
+                }
+            }
+            
+            */
         }
 
         private void EvaluateScanOptions(ToolStripButton Sender)
@@ -187,7 +282,7 @@ namespace Anathema
         }
 
         #region Events
-        
+
         private void FSMBuilderPanel_MouseClick(Object Sender, MouseEventArgs E)
         {
             if (E.Button != MouseButtons.Right)
@@ -285,227 +380,5 @@ namespace Anathema
         #endregion
 
     } // End class
-
-    class GraphicalState
-    {
-        public enum StyleEnum
-        {
-            StartState,
-            IntermediateState,
-            EndState
-        }
-
-        private static Font DrawFont = new Font(FontFamily.GenericSerif, 10.0f);
-        private static Pen TransitionLine = new Pen(Color.Black, 3);
-
-        // Offset Variables:
-        private static Int32 LineOffset = (Int32)TransitionLine.Width / 2;
-        private const Int32 LineFloatOffset = 8;
-        private const Int32 EdgeSelectionWidth = 8;
-        private const Int32 VariableBorderSize = 4;
-        private const Int32 ArrowSize = 4;
-
-        private Point Location;
-        private Boolean MousedOver;
-        private Boolean InvalidationRequired;
-
-        private Dictionary<ScanConstraint, GraphicalState> Transitions;
-
-        public GraphicalState(Point Location)
-        {
-            Transitions = new Dictionary<ScanConstraint, GraphicalState>();
-            this.Location = Location;
-        }
-
-        public void SetLocation(Point Location)
-        {
-            this.Location = Location;
-        }
-
-        public Point GetLocation()
-        {
-            return Location;
-        }
-
-        public void ClearTransitionsToState(GraphicalState DestinationState)
-        {
-            List<ScanConstraint> RemovedItems = new List<ScanConstraint>();
-            foreach (KeyValuePair<ScanConstraint, GraphicalState> Transition in Transitions)
-                if (Transition.Value == DestinationState)
-                    RemovedItems.Add(Transition.Key);
-
-            foreach (ScanConstraint Item in RemovedItems)
-                Transitions.Remove(Item);
-        }
-
-        public void AddTransition(ScanConstraint Constraint, GraphicalState DestinationState)
-        {
-            // Enforce unique outgoing constraints and only one transition to a given state from this one
-            foreach (KeyValuePair<ScanConstraint, GraphicalState> Transition in Transitions)
-                if (Transition.Key.Constraint == Constraint.Constraint)
-                    return;
-
-            // Enforce unidirectionality
-            if (DestinationState.ContainsDestionationState(this))
-                return;
-
-            if (!Transitions.ContainsKey(Constraint))
-                Transitions.Add(Constraint, DestinationState);
-        }
-
-        public Boolean ContainsDestionationState(GraphicalState DestinationState)
-        {
-            foreach (KeyValuePair<ScanConstraint, GraphicalState> Transition in Transitions)
-                if (Transition.Value == DestinationState)
-                    return true;
-            return false;
-        }
-
-        public Point GetEdgePoint(Point Location)
-        {
-            Single Ax = Location.X == 0 ? Single.Epsilon : (Single)Location.X;
-            Single Ay = Location.Y == 0 ? Single.Epsilon : (Single)Location.Y;
-            Single Bx = this.Location.X == 0 ? Single.Epsilon : (Single)this.Location.X;
-            Single By = this.Location.Y == 0 ? Single.Epsilon : (Single)this.Location.Y;
-
-            Single Radius = (Single)(Resources.StateHighlighted.Width / 2);
-
-            Single vX = Ax - Bx;
-            Single vY = Ay - By;
-            Single magV = (Single)Math.Sqrt(vX * vX + vY * vY);
-            Single EdgeX = Bx + vX / magV * Radius;
-            Single EdgeY = By + vY / magV * Radius;
-
-            Point EdgePoint = new Point((Int32)EdgeX, (Int32)EdgeY);
-
-            return EdgePoint;
-        }
-
-        public Boolean IsMousedOver(Point MouseLocation)
-        {
-            Single Distance = (Single)Math.Sqrt((MouseLocation.X - Location.X) * (MouseLocation.X - Location.X) + (MouseLocation.Y - Location.Y) * (MouseLocation.Y - Location.Y));
-
-            if (Distance < Resources.StateHighlighted.Width / 2)
-                return true;
-            return false;
-        }
-
-        public Boolean IsEdgeMousedOver(Point MouseLocation)
-        {
-            Boolean NewMouseOverState = false;
-
-            Single Distance = (Single)Math.Sqrt((MouseLocation.X - Location.X) * (MouseLocation.X - Location.X) + (MouseLocation.Y - Location.Y) * (MouseLocation.Y - Location.Y));
-
-            if (Distance <= (Single)Resources.StateHighlighted.Width / 2.0f && Distance >= (Single)Resources.StateHighlighted.Width / 2.0f - EdgeSelectionWidth)
-                NewMouseOverState = true;
-
-            if (NewMouseOverState != MousedOver)
-            {
-                MousedOver = NewMouseOverState;
-                InvalidationRequired = true;
-            }
-
-            MousedOver = NewMouseOverState;
-            return MousedOver;
-        }
-
-        public Boolean IsInvalidationRequired()
-        {
-            Boolean Temp = InvalidationRequired;
-            InvalidationRequired = false;
-            return Temp;
-        }
-
-        // Paint ourselves with the specified Graphics object
-        public void Draw(Graphics Graphics, StyleEnum Style)
-        {
-            Image DrawImage;
-            switch (Style)
-            {
-                case StyleEnum.StartState:
-                    DrawImage = Resources.StartState;
-                    break;
-                case StyleEnum.EndState:
-                    DrawImage = Resources.EndState;
-                    break;
-                default:
-                case StyleEnum.IntermediateState:
-                    DrawImage = Resources.IntermediateState;
-                    break;
-            }
-
-            Graphics.DrawImage(DrawImage, Location.X - Resources.StateHighlighted.Width / 2, Location.Y - Resources.StateHighlighted.Height / 2, DrawImage.Width, DrawImage.Height);
-            if (MousedOver)
-                Graphics.DrawImage(Resources.StateHighlighted, Location.X - Resources.StateHighlighted.Width / 2, Location.Y - Resources.StateHighlighted.Height / 2, Resources.StateHighlighted.Width, Resources.StateHighlighted.Height);
-
-            foreach (KeyValuePair<ScanConstraint, GraphicalState> Transition in Transitions)
-            {
-                // Calculate start and end points of the transitio line
-                Point StartPoint = this.GetEdgePoint(Transition.Value.GetLocation());
-                Point EndPoint = Transition.Value.GetEdgePoint(this.Location);
-                StartPoint.Y += LineOffset;
-                EndPoint.Y += LineOffset;
-
-                // Draw transition line
-                Point MidPoint = new Point((StartPoint.X + EndPoint.X) / 2, (StartPoint.Y + EndPoint.Y) / 2);
-                Graphics.DrawLine(TransitionLine, StartPoint, EndPoint);
-
-                // Draw arrow head
-                //Point[] ArrowHeadPoints = new Point[3];
-                //ArrowHeadPoints[0] = EndPoint;
-                //ArrowHeadPoints[1] = EndPoint;
-                //ArrowHeadPoints[2] = EndPoint;
-                Graphics.FillEllipse(Brushes.Black, EndPoint.X - ArrowSize, EndPoint.Y - ArrowSize, ArrowSize * 2, ArrowSize * 2);
-
-                // Draw comparison image
-                Point ImageLocation = new Point(MidPoint.X - Resources.Equal.Width / 2, MidPoint.Y - Resources.Equal.Height - LineFloatOffset);
-                switch (Transition.Key.Constraint)
-                {
-                    case ConstraintsEnum.Changed:
-                        Graphics.DrawImage(Resources.Changed, ImageLocation.X, ImageLocation.Y, Resources.Changed.Width, Resources.Changed.Height);
-                        break;
-                    case ConstraintsEnum.Unchanged:
-                        Graphics.DrawImage(Resources.Unchanged, ImageLocation.X, ImageLocation.Y, Resources.Unchanged.Width, Resources.Unchanged.Height);
-                        break;
-                    case ConstraintsEnum.Decreased:
-                        Graphics.DrawImage(Resources.Decreased, ImageLocation.X, ImageLocation.Y, Resources.Decreased.Width, Resources.Decreased.Height);
-                        break;
-                    case ConstraintsEnum.Increased:
-                        Graphics.DrawImage(Resources.Increased, ImageLocation.X, ImageLocation.Y, Resources.Increased.Width, Resources.Increased.Height);
-                        break;
-                    case ConstraintsEnum.GreaterThan:
-                        Graphics.DrawImage(Resources.GreaterThan, ImageLocation.X, ImageLocation.Y, Resources.GreaterThan.Width, Resources.GreaterThan.Height);
-                        break;
-                    case ConstraintsEnum.LessThan:
-                        Graphics.DrawImage(Resources.LessThan, ImageLocation.X, ImageLocation.Y, Resources.LessThan.Width, Resources.LessThan.Height);
-                        break;
-                    case ConstraintsEnum.Equal:
-                        Graphics.DrawImage(Resources.Equal, ImageLocation.X, ImageLocation.Y, Resources.Equal.Width, Resources.Equal.Height);
-                        break;
-                    case ConstraintsEnum.NotEqual:
-                        Graphics.DrawImage(Resources.NotEqual, ImageLocation.X, ImageLocation.Y, Resources.NotEqual.Width, Resources.NotEqual.Height);
-                        break;
-                    case ConstraintsEnum.IncreasedByX:
-                        Graphics.DrawImage(Resources.PlusX, ImageLocation.X, ImageLocation.Y, Resources.PlusX.Width, Resources.PlusX.Height);
-                        break;
-                    case ConstraintsEnum.DecreasedByX:
-                        Graphics.DrawImage(Resources.MinusX, ImageLocation.X, ImageLocation.Y, Resources.MinusX.Width, Resources.MinusX.Height);
-                        break;
-                    default:
-                    case ConstraintsEnum.Invalid:
-                        break;
-                }
-
-                // Draw transition value if applicable
-                if (Transition.Key.Value != null)
-                {
-                    String DrawText = Transition.Key.Value.ToString();
-                    SizeF TextSize = Graphics.MeasureString(DrawText, DrawFont);
-                    PointF TextLocation = new PointF(MidPoint.X - TextSize.Width / 2, MidPoint.Y + LineFloatOffset);
-                    Graphics.FillEllipse(Brushes.Black, TextLocation.X - VariableBorderSize, TextLocation.Y - VariableBorderSize, TextSize.Width + VariableBorderSize * 2, TextSize.Height + VariableBorderSize);
-                    Graphics.DrawString(DrawText, DrawFont, Brushes.White, TextLocation);
-                }
-            }
-        }
-    }
+    
 } // End namespace

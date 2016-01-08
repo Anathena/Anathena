@@ -10,7 +10,7 @@ namespace Anathema
     /// <summary>
     /// Class for storing a collection of constraints to be used in a scan that applies more than one constraint per update
     /// </summary>
-    class ScanConstraintManager : IEnumerable
+    public class ScanConstraintManager : IEnumerable
     {
         protected List<ScanConstraint> ValueConstraints;
         protected Type ElementType;

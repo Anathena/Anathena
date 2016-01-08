@@ -18,7 +18,7 @@ namespace Anathema
     interface IFilterFSMView : IScannerView
     {
         // Methods invoked by the presenter (upstream)
-        void UpdateDisplay();
+        void UpdateDisplay(FiniteStateMachine FiniteStateMachine, FiniteState MousedOverState, Point[] SelectionLine);
     }
 
     abstract class IFilterFSMModel : IScannerModel
@@ -31,14 +31,7 @@ namespace Anathema
         }
 
         // Functions invoked by presenter (downstream)
-        public abstract FiniteState GetEdgeUnderPoint(Point Location, Int32 Radius, Int32 EdgeSize);
-        public abstract FiniteState GetStateUnderPoint(Point Location, Int32 Radius);
-        public abstract void AddNewState(Point Location);
-        public abstract void AddTransition();
-
-        public abstract void FinishAction(Point Location);
-
-        public abstract void DeleteAtPoint(Point Location);
+        public abstract FiniteStateMachine GetFiniteStateMachine();
 
         public abstract void SetElementType(Type ElementType);
         public abstract Type GetElementType();
@@ -51,7 +44,9 @@ namespace Anathema
 
         private ConstraintsEnum ValueConstraintSelection;
         private FiniteState DraggedState;
-        private FiniteState SelectedState;
+        private FiniteState EdgeSelectedState;
+        private FiniteState MousedOverState;
+        private Point[] SelectionLine;
 
         private Int32 StateRadius;
         private Int32 StateEdgeSize;
@@ -102,38 +97,80 @@ namespace Anathema
             FiniteState State;
 
             // Handle edge selection
-            State = Model.GetEdgeUnderPoint(Location, StateRadius, StateEdgeSize);
+            State = Model.GetFiniteStateMachine().GetEdgeUnderPoint(Location, StateRadius, StateEdgeSize);
             if (State != null)
             {
-
+                EdgeSelectedState = State;
+                UpdateDisplay();
                 return;
             }
 
             // Handle state selection (drag)
-            State = Model.GetStateUnderPoint(Location, StateRadius);
+            State = Model.GetFiniteStateMachine().GetStateUnderPoint(Location, StateRadius);
             if (State != null)
             {
-
+                DraggedState = State;
+                UpdateDisplay();
                 return;
             }
 
             // Handle state creation
-            Model.AddNewState(Location);
+            Model.GetFiniteStateMachine().AddNewState(Location);
+            UpdateDisplay();
         }
 
         public void UpdateAction(Point Location)
         {
+            // Update transition line dragging
+            if (EdgeSelectedState != null)
+            {
+                SelectionLine = new Point[2];
+                SelectionLine[0] = EdgeSelectedState.GetEdgePoint(Location, StateRadius);
+                SelectionLine[1] = Location;
+                UpdateDisplay();
+                return;
+            }
 
+            // Update drag
+            if (DraggedState != null)
+            {
+                DraggedState.Location = Location;
+                UpdateDisplay();
+                return;
+            }
+
+            MousedOverState = Model.GetFiniteStateMachine().GetEdgeUnderPoint(Location, StateRadius, StateEdgeSize);
+            UpdateDisplay();
         }
 
         public void FinishAction(Point Location, String ValueText)
         {
-            Model.FinishAction(Location);
+            // Update transition line dragging
+            if (EdgeSelectedState != null)
+            {
+                SelectionLine = null;
+                EdgeSelectedState = null;
+                UpdateDisplay();
+                return;
+            }
+
+            // Update drag
+            if (DraggedState != null)
+            {
+                DraggedState = null;
+                UpdateDisplay();
+                return;
+            }
         }
 
         public void DeleteAtPoint(Point Location)
         {
-            Model.DeleteAtPoint(Location);
+            //Model.GetFiniteStateMachine().DeleteAtPoint(Location);
+        }
+
+        private void UpdateDisplay()
+        {
+            View.UpdateDisplay(Model.GetFiniteStateMachine(), MousedOverState, SelectionLine);
         }
 
         #endregion
@@ -142,7 +179,7 @@ namespace Anathema
 
         public void EventUpdateDisplay(Object Sender, FilterFSMEventArgs E)
         {
-            View.UpdateDisplay();
+            UpdateDisplay();
         }
 
         #endregion

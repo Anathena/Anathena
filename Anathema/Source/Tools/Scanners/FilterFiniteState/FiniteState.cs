@@ -11,27 +11,80 @@ namespace Anathema
     /// <summary>
     /// Extension of scan constraints, however this keeps track of transitions and their resulting actions for FSM scans
     /// </summary>
-    class FiniteState : ScanConstraintManager
+    public class FiniteState : ScanConstraintManager
     {
         // Holds mappings of scan constraints to their next state in the FSM
-        private Dictionary<ScanConstraint, FiniteState> TransitionStates;
+        private Dictionary<ScanConstraint, FiniteState> Transitions;
 
         public Point Location { get; set; }
 
         public FiniteState() : base()
         {
-            TransitionStates = new Dictionary<ScanConstraint, FiniteState>();
+            Transitions = new Dictionary<ScanConstraint, FiniteState>();
         }
 
+        public FiniteState(Point Location) : base()
+        {
+            this.Location = Location;
+            Transitions = new Dictionary<ScanConstraint, FiniteState>();
+        }
+        
         public void AddTransition(ScanConstraint Constraint, FiniteState State)
         {
-            TransitionStates.Add(Constraint, State);
+            // Enforce unique outgoing constraints and only one transition to a given state from this one
+            foreach (KeyValuePair<ScanConstraint, FiniteState> Transition in Transitions)
+                if (Transition.Key.Constraint == Constraint.Constraint)
+                    return;
+
+            // Enforce uni-directionality
+            if (State.ContainsDestionationState(this))
+                return;
+
+            if (!Transitions.ContainsKey(Constraint))
+                Transitions.Add(Constraint, State);
         }
 
         public void RemoveTransition(ScanConstraint Constraint, FiniteState State)
         {
-            if (TransitionStates.ContainsKey(Constraint))
-                TransitionStates.Remove(Constraint);
+            if (Transitions.ContainsKey(Constraint))
+                Transitions.Remove(Constraint);
+        }
+
+        public void ClearTransitionsToState(FiniteState DestinationState)
+        {
+            List<ScanConstraint> RemovedItems = new List<ScanConstraint>();
+            foreach (KeyValuePair<ScanConstraint, FiniteState> Transition in Transitions)
+                if (Transition.Value == DestinationState)
+                    RemovedItems.Add(Transition.Key);
+
+            foreach (ScanConstraint Item in RemovedItems)
+                Transitions.Remove(Item);
+        }
+
+        public Boolean ContainsDestionationState(FiniteState DestinationState)
+        {
+            foreach (KeyValuePair<ScanConstraint, FiniteState> Transition in Transitions)
+                if (Transition.Value == DestinationState)
+                    return true;
+            return false;
+        }
+
+        public Point GetEdgePoint(Point Location, Int32 StateRadius)
+        {
+            Single Ax = Location.X == 0 ? Single.Epsilon : (Single)Location.X;
+            Single Ay = Location.Y == 0 ? Single.Epsilon : (Single)Location.Y;
+            Single Bx = this.Location.X == 0 ? Single.Epsilon : (Single)this.Location.X;
+            Single By = this.Location.Y == 0 ? Single.Epsilon : (Single)this.Location.Y;
+
+            Single vX = Ax - Bx;
+            Single vY = Ay - By;
+            Single magV = (Single)Math.Sqrt(vX * vX + vY * vY);
+            Single EdgeX = Bx + vX / magV * (Single)StateRadius;
+            Single EdgeY = By + vY / magV * (Single)StateRadius;
+
+            Point EdgePoint = new Point((Int32)EdgeX, (Int32)EdgeY);
+
+            return EdgePoint;
         }
         
     } // End class
