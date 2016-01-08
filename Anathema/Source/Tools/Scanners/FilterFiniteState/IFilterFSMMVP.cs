@@ -148,6 +148,19 @@ namespace Anathema
             // Update transition line dragging
             if (EdgeSelectedState != null)
             {
+                // Add a transition if possible
+                FiniteState TargetState = Model.GetFiniteStateMachine().GetStateUnderPoint(Location, StateRadius);
+                if (TargetState != null)
+                {
+                    ScanConstraint TransitionConstraint;
+
+                    if (CheckSyntax.CanParseValue(Model.GetElementType(), ValueText))
+                        TransitionConstraint = new ScanConstraint(ValueConstraintSelection, Conversions.ParseValue(Model.GetElementType(), ValueText));
+                    else
+                        TransitionConstraint = new ScanConstraint(ValueConstraintSelection);
+
+                    EdgeSelectedState.AddTransition(TransitionConstraint, TargetState);
+                }
                 SelectionLine = null;
                 EdgeSelectedState = null;
                 UpdateDisplay();

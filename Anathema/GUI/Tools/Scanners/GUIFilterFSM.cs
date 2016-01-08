@@ -121,34 +121,13 @@ namespace Anathema
             }
             catch { /* Overflow error. This may lead to a recursive draw call. Not sure how to fix */ }
 
-            /*
-            // Paint ourselves with the specified Graphics object
-            public void Draw(Graphics Graphics, StyleEnum Style)
+            foreach (FiniteState State in FiniteStateMachine)
             {
-                Image DrawImage;
-                switch (Style)
-                {
-                    case StyleEnum.StartState:
-                        DrawImage = Resources.StartState;
-                        break;
-                    case StyleEnum.EndState:
-                        DrawImage = Resources.EndState;
-                        break;
-                    default:
-                    case StyleEnum.IntermediateState:
-                        DrawImage = Resources.IntermediateState;
-                        break;
-                }
-
-                Graphics.DrawImage(DrawImage, Location.X - Resources.StateHighlighted.Width / 2, Location.Y - Resources.StateHighlighted.Height / 2, DrawImage.Width, DrawImage.Height);
-                if (MousedOver)
-                    Graphics.DrawImage(Resources.StateHighlighted, Location.X - Resources.StateHighlighted.Width / 2, Location.Y - Resources.StateHighlighted.Height / 2, Resources.StateHighlighted.Width, Resources.StateHighlighted.Height);
-
-                foreach (KeyValuePair<ScanConstraint, GraphicalState> Transition in Transitions)
+                foreach (KeyValuePair<ScanConstraint, FiniteState> Transition in State)
                 {
                     // Calculate start and end points of the transitio line
-                    Point StartPoint = new Point();// this.GetEdgePoint(Transition.Value.GetLocation());
-                    Point EndPoint = new Point();//Transition.Value.GetEdgePoint(this.Location);
+                    Point StartPoint = State.GetEdgePoint(Transition.Value.Location, StateRadius);
+                    Point EndPoint = Transition.Value.GetEdgePoint(State.Location, StateRadius);
                     StartPoint.Y += LineOffset;
                     EndPoint.Y += LineOffset;
 
@@ -213,8 +192,6 @@ namespace Anathema
                     }
                 }
             }
-            
-            */
         }
 
         private void EvaluateScanOptions(ToolStripButton Sender)
@@ -380,5 +357,5 @@ namespace Anathema
         #endregion
 
     } // End class
-    
+
 } // End namespace

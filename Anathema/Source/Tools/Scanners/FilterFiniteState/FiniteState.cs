@@ -11,7 +11,7 @@ namespace Anathema
     /// <summary>
     /// Extension of scan constraints, however this keeps track of transitions and their resulting actions for FSM scans
     /// </summary>
-    public class FiniteState : ScanConstraintManager
+    public class FiniteState : ScanConstraintManager, IEnumerable
     {
         // Holds mappings of scan constraints to their next state in the FSM
         private Dictionary<ScanConstraint, FiniteState> Transitions;
@@ -86,7 +86,12 @@ namespace Anathema
 
             return EdgePoint;
         }
-        
+
+        public new IEnumerator GetEnumerator()
+        {
+            return ((IEnumerable)Transitions).GetEnumerator();
+        }
+
     } // End class
 
 } // End namespace
