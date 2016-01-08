@@ -19,15 +19,16 @@ namespace Anathema
     {
         // Methods invoked by the presenter (upstream)
         void UpdateDisplay(FiniteStateMachine FiniteStateMachine, FiniteState MousedOverState, Point[] SelectionLine);
+        void ScanFinished();
     }
 
     abstract class IFilterFSMModel : IScannerModel
     {
         // Events triggered by the model (upstream)
-        public event FilterFSMEventHandler EventUpdateDisplay;
-        protected virtual void OnEventUpdateDisplay(FilterFSMEventArgs E)
+        public event FilterFSMEventHandler EventScanFinished;
+        protected virtual void OnEventScanFinished(FilterFSMEventArgs E)
         {
-            EventUpdateDisplay(this, E);
+            EventScanFinished(this, E);
         }
 
         // Functions invoked by presenter (downstream)
@@ -57,7 +58,7 @@ namespace Anathema
             this.Model = Model;
 
             // Bind events triggered by the model
-            Model.EventUpdateDisplay += EventUpdateDisplay;
+            Model.EventScanFinished += EventScanFinished;
         }
 
         #region Method definitions called by the view (downstream)
@@ -193,13 +194,18 @@ namespace Anathema
             View.UpdateDisplay(Model.GetFiniteStateMachine(), MousedOverState, SelectionLine);
         }
 
+        private void ScanFinished()
+        {
+
+        }
+
         #endregion
 
         #region Event definitions for events triggered by the model (upstream)
 
-        public void EventUpdateDisplay(Object Sender, FilterFSMEventArgs E)
+        public void EventScanFinished(Object Sender, FilterFSMEventArgs E)
         {
-            UpdateDisplay();
+            ScanFinished();
         }
 
         #endregion

@@ -53,10 +53,10 @@
             this.ToolStripSeparator1,
             this.ClearSnapshotsButton});
             this.ScanToolStrip.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.VerticalStackWithOverflow;
-            this.ScanToolStrip.Location = new System.Drawing.Point(224, 0);
+            this.ScanToolStrip.Location = new System.Drawing.Point(216, 0);
             this.ScanToolStrip.Name = "ScanToolStrip";
             this.ScanToolStrip.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
-            this.ScanToolStrip.Size = new System.Drawing.Size(24, 199);
+            this.ScanToolStrip.Size = new System.Drawing.Size(32, 199);
             this.ScanToolStrip.TabIndex = 151;
             // 
             // NewSnapshotButton
@@ -65,7 +65,7 @@
             this.NewSnapshotButton.Image = ((System.Drawing.Image)(resources.GetObject("NewSnapshotButton.Image")));
             this.NewSnapshotButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.NewSnapshotButton.Name = "NewSnapshotButton";
-            this.NewSnapshotButton.Size = new System.Drawing.Size(21, 20);
+            this.NewSnapshotButton.Size = new System.Drawing.Size(29, 20);
             this.NewSnapshotButton.Text = "New Snapshot";
             this.NewSnapshotButton.Click += new System.EventHandler(this.NewSnapshotButton_Click);
             // 
@@ -114,7 +114,7 @@
             this.SnapshotListView.FullRowSelect = true;
             this.SnapshotListView.Location = new System.Drawing.Point(0, 0);
             this.SnapshotListView.Name = "SnapshotListView";
-            this.SnapshotListView.Size = new System.Drawing.Size(224, 199);
+            this.SnapshotListView.Size = new System.Drawing.Size(216, 199);
             this.SnapshotListView.TabIndex = 152;
             this.SnapshotListView.UseCompatibleStateImageBehavior = false;
             this.SnapshotListView.View = System.Windows.Forms.View.Details;

@@ -6,18 +6,23 @@ using System.Linq;
 
 namespace Anathema
 {
-    public partial class GUISettings : Form
+    public partial class GUISettings : Form, ISettingsView
     {
-
-        public GUISettings(Int32 MainSelection, Int32[] AddressTableItemIndicies)
+        public GUISettings()
         {
             InitializeComponent();
+        }
+
+        private void SaveSettings()
+        {
+
         }
         
         #region Events
         
-        private void OkButton_Click(Object Sender, EventArgs E)
+        private void AcceptButton_Click(Object Sender, EventArgs E)
         {
+            SaveSettings();
             this.Close();
         }
 

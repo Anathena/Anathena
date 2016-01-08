@@ -41,7 +41,7 @@ namespace Anathema
         private void UpdateDisplay()
         {
             FilterFSMEventArgs FilterFSMEventArgs = new FilterFSMEventArgs();
-            OnEventUpdateDisplay(FilterFSMEventArgs);
+            OnEventScanFinished(FilterFSMEventArgs);
         }
 
         public override void BeginScan()
@@ -155,6 +155,9 @@ namespace Anathema
             FilteredSnapshot.SetScanMethod("Manual Scan");
 
             SnapshotManager.GetInstance().SaveSnapshot(FilteredSnapshot);
+
+            FilterFSMEventArgs Args = new FilterFSMEventArgs();
+            OnEventScanFinished(Args);
         }
     }
 }

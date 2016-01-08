@@ -9,28 +9,23 @@ using System.Windows.Forms;
 
 namespace Anathema
 {
-    delegate void SettingsEventHandler(Object Sender, SettingsEventArgs Args);
-    class SettingsEventArgs : EventArgs
-    {
-
-    }
-
     interface ISettingsView : IView
     {
         // Methods invoked by the presenter (upstream)
-        void RefreshDisplay();
-        void UpdateAddressTableItemCount(Int32 ItemCount);
-        void UpdateScriptTableItemCount(Int32 ItemCount);
-        void UpdateFSMTableItemCount(Int32 ItemCount);
+
     }
 
     interface ISettingsModel : IModel
     {
         // Events triggered by the model (upstream)
-        event SettingsEventHandler EventRefreshDisplay;
 
         // Functions invoked by presenter (downstream)
-        void Whatever();
+        void UpdateStateSettings(Boolean Free, Boolean Commit, Boolean Reserve);
+        void UpdateTypeSettings(Boolean Private, Boolean Mapped, Boolean Image);
+        void UpdateProtectionSettings(Boolean NoAccess, Boolean ReadOnly, Boolean ReadWrite, Boolean WriteCopy, Boolean Execute,
+           Boolean ExecuteRead, Boolean ExecuteReadWrite, Boolean ExecuteWriteCopy, Boolean Guard, Boolean NoCache, Boolean WriteCombine);
+
+        void UpdateIntervalSettings(Int32 FreezeInterval, Int32 RescanInterval, Int32 ResultReadInterval, Int32 TableReadInterval);
     }
 
     class SettingsPresenter : Presenter<ISettingsView, ISettingsModel>
@@ -44,20 +39,34 @@ namespace Anathema
             this.Model = Model;
 
             // Bind events triggered by the model
-            Model.EventRefreshDisplay += EventRefreshDisplay;
         }
 
         #region Method definitions called by the view (downstream)
-        
+
+        public void UpdateStateSettings(Boolean Free, Boolean Commit, Boolean Reserve)
+        {
+            Model.UpdateStateSettings(Free, Commit, Reserve);
+        }
+
+        public void UpdateTypeSettings(Boolean Private, Boolean Mapped, Boolean Image)
+        {
+            Model.UpdateTypeSettings(Private, Mapped, Image);
+        }
+
+        public void UpdateProtectionSettings(Boolean NoAccess, Boolean ReadOnly, Boolean ReadWrite, Boolean WriteCopy, Boolean Execute,
+            Boolean ExecuteRead, Boolean ExecuteReadWrite, Boolean ExecuteWriteCopy, Boolean Guard, Boolean NoCache, Boolean WriteCombine)
+        {
+            Model.UpdateProtectionSettings(NoAccess, ReadOnly, ReadWrite, WriteCopy, Execute, ExecuteRead, ExecuteReadWrite, ExecuteWriteCopy, Guard, NoCache, WriteCombine);
+        }
+
+        public void UpdateIntervalSettings(Int32 FreezeInterval, Int32 RescanInterval, Int32 ResultReadInterval, Int32 TableReadInterval)
+        {
+            Model.UpdateIntervalSettings(FreezeInterval, RescanInterval, ResultReadInterval, TableReadInterval);
+        }
 
         #endregion
 
         #region Event definitions for events triggered by the model (upstream)
-
-        private void EventRefreshDisplay(Object Sender, SettingsEventArgs E)
-        {
-            View.RefreshDisplay();
-        }
 
         #endregion
     }

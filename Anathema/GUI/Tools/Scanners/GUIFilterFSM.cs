@@ -45,6 +45,7 @@ namespace Anathema
             InitializeValueTypeComboBox();
             InitializeScanOptionButtons();
             EvaluateScanOptions(EqualButton);
+            EnableGUI();
         }
 
         private void InitializeValueTypeComboBox()
@@ -67,6 +68,11 @@ namespace Anathema
             ScanOptionButtons.Add(LessThanButton);
             ScanOptionButtons.Add(IncreasedByXButton);
             ScanOptionButtons.Add(DecreasedByXButton);
+        }
+
+        public void ScanFinished()
+        {
+            EnableGUI();
         }
 
         public void UpdateDisplay(FiniteStateMachine FiniteStateMachine, FiniteState MousedOverState, Point[] SelectionLine)

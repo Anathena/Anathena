@@ -102,6 +102,8 @@ namespace Anathema
             if (Snapshots.Count != 0 && Snapshots.Peek() == null)
                 return;
 
+            ClearSnapshots();
+
             SaveSnapshot(null);
         }
 
