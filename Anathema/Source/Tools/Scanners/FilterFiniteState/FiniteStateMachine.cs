@@ -15,6 +15,7 @@ namespace Anathema
     {
         private List<FiniteState> States;
         private FiniteState StartState;
+        private FiniteState EndState;
         private Type ElementType;
 
         public FiniteStateMachine()
@@ -29,12 +30,19 @@ namespace Anathema
             return (Byte)States.IndexOf(State);
         }
 
-        public void SetStartState(FiniteState StartState)
+        public Boolean IsFinalState(FiniteState State)
         {
-            if (!States.Contains(StartState))
-                throw new Exception("Invalid start state target - Not a state in this FSM");
+            if (State == EndState)
+                return true;
+            return false;
+        }
 
-            this.StartState = StartState;   
+        public Byte GetFinalStateIndex()
+        {
+            if (EndState == null)
+                return 0;
+
+            return (Byte)States.IndexOf(EndState);
         }
 
         public FiniteState GetStartState()
@@ -42,17 +50,53 @@ namespace Anathema
             return StartState;
         }
 
+        public FiniteState GetEndState()
+        {
+            return EndState;
+        }
+
+        private void SetStartState()
+        {
+            foreach (FiniteState State in States)
+                if (State != EndState)
+                    StartState = State;
+        }
+
+        private void SetEndState()
+        {
+            foreach (FiniteState State in States.Select(x => x).Reverse())
+                if (State != StartState)
+                    EndState = State;
+        }
+
         public void AddNewState(Point Location)
         {
             States.Add(new FiniteState(Location));
 
-            if (States.Count == 1)
-                SetStartState(States.Last());
+            if (StartState == null)
+                SetStartState();
+            else if (EndState == null)
+                SetEndState();
         }
 
-        private void RemoveState(Point Location)
+        public void DeleteState(FiniteState State)
         {
+            if (State == null)
+                return;
 
+            if (States.Contains(State))
+                States.Remove(State);
+
+            if (StartState == State)
+            {
+                StartState = null;
+                SetStartState();
+            }
+            if (EndState == State)
+            {
+                EndState = null;
+                SetEndState();
+            }
         }
 
         public void SetElementType(Type ElementType)

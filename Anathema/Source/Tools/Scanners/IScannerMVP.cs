@@ -23,15 +23,11 @@ namespace Anathema
         private const Int32 AbortTime = 3000;   // Time to wait (in ms) before giving up when ending scan
         private Int32 WaitTime = 400;           // Time to wait (in ms) for a cancel request between each scan
 
-
-        public virtual void BeginScanRunOnce()
-        {
-            UpdateScan();
-            EndScan();
-        }
+        protected Boolean FlagEndScan;          // Flag that may be triggered in the update cycle to end the scan
 
         public virtual void BeginScan()
         {
+            FlagEndScan = false;
             CancelRequest = new CancellationTokenSource();
             ScannerTask = Task.Run(async () =>
             {
@@ -39,10 +35,14 @@ namespace Anathema
                 {
                     UpdateScan();
 
+                    if (FlagEndScan)
+                        EndScan();
+
                     // Await with cancellation
                     await Task.Delay(WaitTime, CancelRequest.Token);
                 }
             }, CancelRequest.Token);
+            
         }
 
         protected abstract void UpdateScan();

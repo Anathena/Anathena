@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
             this.ValueTextBox = new System.Windows.Forms.TextBox();
             this.ValueTypeComboBox = new System.Windows.Forms.ComboBox();
             this.ScanTypeWorldStrip = new System.Windows.Forms.ToolStrip();
@@ -46,12 +45,8 @@
             this.LessThanButton = new System.Windows.Forms.ToolStripButton();
             this.IncreasedByXButton = new System.Windows.Forms.ToolStripButton();
             this.DecreasedByXButton = new System.Windows.Forms.ToolStripButton();
-            this.StateRightClickMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.deleteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.setToStartToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.FSMBuilderPanel = new Anathema.FlickerFreePanel();
             this.ScanTypeWorldStrip.SuspendLayout();
-            this.StateRightClickMenu.SuspendLayout();
             this.SuspendLayout();
             // 
             // ValueTextBox
@@ -234,34 +229,12 @@
             this.DecreasedByXButton.Text = "Decrease By X";
             this.DecreasedByXButton.Click += new System.EventHandler(this.DecreasedByXButton_Click);
             // 
-            // StateRightClickMenu
-            // 
-            this.StateRightClickMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.setToStartToolStripMenuItem,
-            this.deleteToolStripMenuItem});
-            this.StateRightClickMenu.Name = "StateRightClickMenu";
-            this.StateRightClickMenu.Size = new System.Drawing.Size(132, 48);
-            this.StateRightClickMenu.Opening += new System.ComponentModel.CancelEventHandler(this.StateRightClickMenu_Opening);
-            // 
-            // deleteToolStripMenuItem
-            // 
-            this.deleteToolStripMenuItem.Name = "deleteToolStripMenuItem";
-            this.deleteToolStripMenuItem.Size = new System.Drawing.Size(131, 22);
-            this.deleteToolStripMenuItem.Text = "Delete";
-            // 
-            // setToStartToolStripMenuItem
-            // 
-            this.setToStartToolStripMenuItem.Name = "setToStartToolStripMenuItem";
-            this.setToStartToolStripMenuItem.Size = new System.Drawing.Size(131, 22);
-            this.setToStartToolStripMenuItem.Text = "Set to Start";
-            // 
             // FSMBuilderPanel
             // 
             this.FSMBuilderPanel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.FSMBuilderPanel.BackColor = System.Drawing.SystemColors.ControlDark;
-            this.FSMBuilderPanel.ContextMenuStrip = this.StateRightClickMenu;
             this.FSMBuilderPanel.Location = new System.Drawing.Point(12, 55);
             this.FSMBuilderPanel.Name = "FSMBuilderPanel";
             this.FSMBuilderPanel.Size = new System.Drawing.Size(445, 203);
@@ -284,7 +257,6 @@
             this.Text = "Finite State Scanner";
             this.ScanTypeWorldStrip.ResumeLayout(false);
             this.ScanTypeWorldStrip.PerformLayout();
-            this.StateRightClickMenu.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -309,8 +281,5 @@
         private System.Windows.Forms.ToolStripButton DecreasedByXButton;
         private System.Windows.Forms.ToolStripButton RemoveConstraintButton;
         private FlickerFreePanel FSMBuilderPanel;
-        private System.Windows.Forms.ContextMenuStrip StateRightClickMenu;
-        private System.Windows.Forms.ToolStripMenuItem deleteToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem setToStartToolStripMenuItem;
     }
 }

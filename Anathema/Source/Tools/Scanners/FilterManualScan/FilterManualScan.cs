@@ -63,7 +63,7 @@ namespace Anathema
             Snapshot.MarkAllValid();
             Snapshot.SetElementType(ScanConstraints.GetElementType());
 
-            base.BeginScanRunOnce();
+            base.BeginScan();
         }
 
         protected override void UpdateScan()
@@ -136,6 +136,8 @@ namespace Anathema
                 }); // End foreach Region
 
             } // End foreach Constraint
+
+            FlagEndScan = true;
         }
 
         public override void EndScan()

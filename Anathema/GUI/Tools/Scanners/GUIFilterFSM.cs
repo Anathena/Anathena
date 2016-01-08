@@ -77,7 +77,7 @@ namespace Anathema
             FSMBuilderPanel.Invalidate();
         }
 
-        
+
         private void Draw(Graphics Graphics)
         {
             if (FiniteStateMachine == null)
@@ -89,6 +89,8 @@ namespace Anathema
 
                 if (State == FiniteStateMachine.GetStartState())
                     DrawImage = Resources.StartState;
+                else if (State == FiniteStateMachine.GetEndState())
+                    DrawImage = Resources.EndState;
                 else
                     DrawImage = Resources.IntermediateState;
 
@@ -242,15 +244,23 @@ namespace Anathema
             FilterFSMPresenter.SetValueConstraintSelection(ValueConstraint);
         }
 
-        #region Events
-
-        private void StateRightClickMenu_Opening(Object Sender, CancelEventArgs E)
+        private void DisableGUI()
         {
-            //if (FilterFSMPresenter.)
+            StartScanButton.Enabled = false;
         }
+
+        private void EnableGUI()
+        {
+            StartScanButton.Enabled = true;
+        }
+
+        #region Events
 
         private void FSMBuilderPanel_MouseDown(Object Sender, MouseEventArgs E)
         {
+            if (E.Button == MouseButtons.Right)
+                FilterFSMPresenter.DeleteAtPoint(E.Location);
+
             if (E.Button != MouseButtons.Left)
                 return;
 
@@ -278,6 +288,12 @@ namespace Anathema
         private void StartScanButton_Click(Object Sender, EventArgs E)
         {
             FilterFSMPresenter.BeginScan();
+            DisableGUI();
+        }
+
+        private void StopScanButton_Click(object sender, EventArgs e)
+        {
+            FilterFSMPresenter.EndScan();
         }
 
         private void ChangedButton_Click(Object Sender, EventArgs E)

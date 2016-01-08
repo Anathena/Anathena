@@ -179,7 +179,13 @@ namespace Anathema
 
         public void DeleteAtPoint(Point Location)
         {
-            //Model.GetFiniteStateMachine().DeleteAtPoint(Location);
+            FiniteState StateUnderPoint = Model.GetFiniteStateMachine().GetStateUnderPoint(Location, StateRadius);
+            if (StateUnderPoint == null)
+                return;
+
+            Model.GetFiniteStateMachine().DeleteState(StateUnderPoint);
+
+            UpdateDisplay();
         }
 
         private void UpdateDisplay()

@@ -77,48 +77,56 @@ namespace Anathema
                     // Test the condition of each transition event in this element's current state
                     foreach (KeyValuePair<ScanConstraint, FiniteState> Transition in FiniteStateMachine[Element.MemoryLabel.Value])
                     {
+                        Boolean DoTransition = false;
                         switch (Transition.Key.Constraint)
                         {
                             case ConstraintsEnum.Unchanged:
                                 if (Element.Unchanged())
-                                    Element.MemoryLabel = FiniteStateMachine.IndexOf(Transition.Value);
+                                    DoTransition = true;
                                 break;
                             case ConstraintsEnum.Changed:
                                 if (Element.Changed())
-                                    Element.MemoryLabel = FiniteStateMachine.IndexOf(Transition.Value);
+                                    DoTransition = true;
                                 break;
                             case ConstraintsEnum.Increased:
                                 if (Element.Increased())
-                                    Element.MemoryLabel = FiniteStateMachine.IndexOf(Transition.Value);
+                                    DoTransition = true;
                                 break;
                             case ConstraintsEnum.Decreased:
                                 if (Element.Decreased())
-                                    Element.MemoryLabel = FiniteStateMachine.IndexOf(Transition.Value);
+                                    DoTransition = true;
                                 break;
                             case ConstraintsEnum.IncreasedByX:
                                 if (Element.IncreasedByValue(Transition.Key.Value))
-                                    Element.MemoryLabel = FiniteStateMachine.IndexOf(Transition.Value);
+                                    DoTransition = true;
                                 break;
                             case ConstraintsEnum.DecreasedByX:
                                 if (Element.DecreasedByValue(Transition.Key.Value))
-                                    Element.MemoryLabel = FiniteStateMachine.IndexOf(Transition.Value);
+                                    DoTransition = true;
                                 break;
                             case ConstraintsEnum.Equal:
                                 if (Element.EqualToValue(Transition.Key.Value))
-                                    Element.MemoryLabel = FiniteStateMachine.IndexOf(Transition.Value);
+                                    DoTransition = true;
                                 break;
                             case ConstraintsEnum.NotEqual:
                                 if (Element.NotEqualToValue(Transition.Key.Value))
-                                    Element.MemoryLabel = FiniteStateMachine.IndexOf(Transition.Value);
+                                    DoTransition = true;
                                 break;
                             case ConstraintsEnum.GreaterThan:
                                 if (Element.GreaterThanValue(Transition.Key.Value))
-                                    Element.MemoryLabel = FiniteStateMachine.IndexOf(Transition.Value);
+                                    DoTransition = true;
                                 break;
                             case ConstraintsEnum.LessThan:
                                 if (Element.LessThanValue(Transition.Key.Value))
-                                    Element.MemoryLabel = FiniteStateMachine.IndexOf(Transition.Value);
+                                    DoTransition = true;
                                 break;
+                        }
+
+                        if (DoTransition)
+                        {
+                            Element.MemoryLabel = FiniteStateMachine.IndexOf(Transition.Value);
+                            if (FiniteStateMachine.IsFinalState(Transition.Value))
+                                FlagEndScan = true;
                         }
 
                     } // End foreach Constraint
@@ -131,6 +139,17 @@ namespace Anathema
         public override void EndScan()
         {
             // base.EndScan();
+
+            Snapshot.MarkAllInvalid();
+            foreach (SnapshotRegion<Byte> Region in Snapshot)
+            {
+                foreach (SnapshotElement<Byte> Element in Region)
+                {
+                    if (Element.MemoryLabel == FiniteStateMachine.GetFinalStateIndex())
+                        Element.Valid = true;
+                }
+            }
+
             Snapshot.ExpandValidRegions();
             Snapshot FilteredSnapshot = new Snapshot(Snapshot.GetValidRegions());
             FilteredSnapshot.SetScanMethod("Manual Scan");
