@@ -16,22 +16,28 @@ namespace Anathema
         private FilterFSMPresenter FilterFSMPresenter;
 
         private List<ToolStripButton> ScanOptionButtons;
+        
 
-        private List<GraphicalState> States;
-        private GraphicalState PendingState;
-        private GraphicalState EdgeSelectedState;
+        // Drawing Variables:
+        private static Font DrawFont = new Font(FontFamily.GenericSerif, 10.0f);
+        private static Pen TransitionLine = new Pen(Color.Black, 3);
+        private static Int32 StateRadius = Resources.StateHighlighted.Width / 2;
+        private const Int32 StateEdgeSize = 8;
+        private static Int32 LineOffset = (Int32)TransitionLine.Width / 2;
+        private const Int32 LineFloatOffset = 8;
+        private const Int32 VariableBorderSize = 4;
+        private const Int32 ArrowSize = 4;
 
         public GUIFilterFSM()
         {
             InitializeComponent();
-
             FSMBuilderPanel.Paint += new PaintEventHandler(FSMBuilderPanel_Paint);
-            FSMBuilderPanel.Scale(new SizeF(0.0f, 0.0f));
-
+            
             FilterFSMPresenter = new FilterFSMPresenter(this, new FilterFSM());
+            FilterFSMPresenter.SetStateRadius(StateRadius);
+            FilterFSMPresenter.SetStateEdgeSize(StateEdgeSize);
 
             ScanOptionButtons = new List<ToolStripButton>();
-            States = new List<GraphicalState>();
 
             InitializeValueTypeComboBox();
             InitializeScanOptionButtons();
@@ -65,6 +71,57 @@ namespace Anathema
 
         }
 
+        private void HandleMouseDown(Point Location)
+        {
+            FilterFSMPresenter.BeginAction(Location);
+        }
+
+        private void HandleMouseUp(Point Location)
+        {
+            FilterFSMPresenter.FinishAction(Location, ValueTextBox.Text.ToString());
+        }
+
+        private void HandleMouseMove(Point Location)
+        {
+            FilterFSMPresenter.UpdateAction(Location);
+        }
+
+        private void HandleRightClick(Point Location)
+        {
+            FilterFSMPresenter.DeleteAtPoint(Location);
+        }
+
+        private void Draw(Graphics Graphics)
+        {
+            /*
+            // Draw every state and each of their transitions
+            foreach (GraphicalState State in States)
+            {
+                GraphicalState.StyleEnum Style;
+                if (States.IndexOf(State) == 0)
+                    Style = GraphicalState.StyleEnum.StartState;
+                else if (States.IndexOf(State) == States.Count - 1)
+                    Style = GraphicalState.StyleEnum.EndState;
+                else
+                    Style = GraphicalState.StyleEnum.IntermediateState;
+
+                State.Draw(Graphics, Style);
+
+            }
+
+            // Draw pending state
+            if (PendingState != null)
+                PendingState.Draw(Graphics, States.Count == 0 ? GraphicalState.StyleEnum.StartState : GraphicalState.StyleEnum.IntermediateState);
+
+            // Draw pending transition line
+            try
+            {
+                if (EdgeSelectedState != null)
+                    Graphics.DrawLine(Pens.Red, EdgeSelectedState.GetEdgePoint(FSMBuilderPanel.PointToClient(Cursor.Position)), FSMBuilderPanel.PointToClient(Cursor.Position));
+            }
+            catch (Exception Ex) { }*/
+        }
+
         private void EvaluateScanOptions(ToolStripButton Sender)
         {
             ConstraintsEnum ValueConstraint = ConstraintsEnum.Invalid;
@@ -76,45 +133,25 @@ namespace Anathema
                     Button.Checked = true;
 
             if (Sender == EqualButton)
-            {
                 ValueConstraint = ConstraintsEnum.Equal;
-            }
             else if (Sender == NotEqualButton)
-            {
                 ValueConstraint = ConstraintsEnum.NotEqual;
-            }
             else if (Sender == ChangedButton)
-            {
                 ValueConstraint = ConstraintsEnum.Changed;
-            }
             else if (Sender == UnchangedButton)
-            {
                 ValueConstraint = ConstraintsEnum.Unchanged;
-            }
             else if (Sender == IncreasedButton)
-            {
                 ValueConstraint = ConstraintsEnum.Increased;
-            }
             else if (Sender == DecreasedButton)
-            {
                 ValueConstraint = ConstraintsEnum.Decreased;
-            }
             else if (Sender == GreaterThanButton)
-            {
                 ValueConstraint = ConstraintsEnum.GreaterThan;
-            }
             else if (Sender == LessThanButton)
-            {
                 ValueConstraint = ConstraintsEnum.LessThan;
-            }
             else if (Sender == IncreasedByXButton)
-            {
                 ValueConstraint = ConstraintsEnum.IncreasedByX;
-            }
             else if (Sender == DecreasedByXButton)
-            {
                 ValueConstraint = ConstraintsEnum.DecreasedByX;
-            }
 
             switch (ValueConstraint)
             {
@@ -150,61 +187,13 @@ namespace Anathema
         }
 
         #region Events
-
-        protected void FSMBuilderPanel_Paint(Object Sender, PaintEventArgs E)
-        {
-            // Draw every state and each of their transitions
-            foreach (GraphicalState State in States)
-            {
-                GraphicalState.StyleEnum Style;
-                if (States.IndexOf(State) == 0)
-                    Style = GraphicalState.StyleEnum.StartState;
-                else if (States.IndexOf(State) == States.Count - 1)
-                    Style = GraphicalState.StyleEnum.EndState;
-                else
-                    Style = GraphicalState.StyleEnum.IntermediateState;
-
-                State.Draw(E.Graphics, Style);
-
-            }
-
-            // Draw pending state
-            if (PendingState != null)
-                PendingState.Draw(E.Graphics, States.Count == 0 ? GraphicalState.StyleEnum.StartState : GraphicalState.StyleEnum.IntermediateState);
-
-            // Draw pending transition line
-            try
-            {
-                if (EdgeSelectedState != null)
-                    E.Graphics.DrawLine(Pens.Red, EdgeSelectedState.GetEdgePoint(FSMBuilderPanel.PointToClient(Cursor.Position)), FSMBuilderPanel.PointToClient(Cursor.Position));
-            }
-            catch (Exception Ex) { /* Idk why this can crash */}
-        }
-
+        
         private void FSMBuilderPanel_MouseClick(Object Sender, MouseEventArgs E)
         {
             if (E.Button != MouseButtons.Right)
                 return;
 
-            GraphicalState RemovedState = null;
-            foreach (GraphicalState State in States)
-            {
-                if (State.IsMousedOver(E.Location))
-                {
-                    States.Remove(State);
-                    RemovedState = State;
-                    FSMBuilderPanel.Invalidate();
-                    break;
-                }
-            }
-
-            if (RemovedState != null)
-            {
-                foreach (GraphicalState State in States)
-                {
-                    State.ClearTransitionsToState(RemovedState);
-                }
-            }
+            HandleRightClick(E.Location);
         }
 
         private void FSMBuilderPanel_MouseUp(Object Sender, MouseEventArgs E)
@@ -212,62 +201,12 @@ namespace Anathema
             if (E.Button != MouseButtons.Left)
                 return;
 
-            // Handle creating transitions
-            if (EdgeSelectedState != null)
-            {
-                foreach (GraphicalState State in States)
-                {
-                    if (State == EdgeSelectedState)
-                        continue;
-
-                    if (State.IsMousedOver(E.Location))
-                    {
-                        if (CheckSyntax.CanParseValue(FilterFSMPresenter.GetElementType(), ValueTextBox.Text.ToString()))
-                            EdgeSelectedState.AddTransition(new ScanConstraint(FilterFSMPresenter.GetValueConstraintSelection(), Conversions.ParseValue(FilterFSMPresenter.GetElementType(), ValueTextBox.Text.ToString())), State);
-                        else
-                            EdgeSelectedState.AddTransition(new ScanConstraint(FilterFSMPresenter.GetValueConstraintSelection()), State);
-                        break;
-                    }
-                }
-
-                FSMBuilderPanel.Invalidate();
-                EdgeSelectedState = null;
-            }
-
-            // Handle creating states
-            if (PendingState != null)
-            {
-                PendingState.SetLocation(E.Location);
-                States.Add(PendingState);
-                PendingState = null;
-
-                FSMBuilderPanel.Invalidate();
-            }
+            HandleMouseUp(E.Location);
         }
 
         private void FSMBuilderPanel_MouseMove(Object Sender, MouseEventArgs E)
         {
-            // Handle dragging a state
-            if (PendingState != null)
-            {
-                PendingState.SetLocation(E.Location);
-                FSMBuilderPanel.Invalidate();
-            }
-
-            // Handle mouse over events on states
-            foreach (GraphicalState State in States)
-            {
-                State.IsEdgeMousedOver(E.Location);
-
-                if (State.IsInvalidationRequired())
-                {
-                    FSMBuilderPanel.Invalidate();
-                }
-            }
-
-            // Handle move event on transition lines
-            if (EdgeSelectedState != null)
-                FSMBuilderPanel.Invalidate();
+            HandleMouseMove(E.Location);
         }
 
         private void FSMBuilderPanel_MouseDown(Object Sender, MouseEventArgs E)
@@ -275,28 +214,12 @@ namespace Anathema
             if (E.Button != MouseButtons.Left)
                 return;
 
-            // Handle selecting edges or states
-            if (PendingState == null)
-            {
-                foreach (GraphicalState State in States)
-                {
-                    if (State.IsEdgeMousedOver(E.Location))
-                    {
-                        EdgeSelectedState = State;
-                        return;
-                    }
-                    else if (State.IsMousedOver(E.Location))
-                    {
-                        PendingState = State;
-                        States.Remove(State);
-                        break;
-                    }
-                }
-            }
+            HandleMouseDown(E.Location);
+        }
 
-            // Handle creating a new state
-            if (PendingState == null)
-                PendingState = new GraphicalState(E.Location);
+        protected void FSMBuilderPanel_Paint(Object Sender, PaintEventArgs E)
+        {
+            Draw(E.Graphics);
         }
 
         private void StartScanButton_Click(Object Sender, EventArgs E)

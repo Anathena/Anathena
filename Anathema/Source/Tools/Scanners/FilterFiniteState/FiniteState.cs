@@ -13,14 +13,10 @@ namespace Anathema
     /// </summary>
     class FiniteState : ScanConstraintManager
     {
-        private enum StateEventsEnum
-        {
-            MarkInvalid,
-            MarkValid,
-        }
+        // Holds mappings of scan constraints to their next state in the FSM
+        private Dictionary<ScanConstraint, FiniteState> TransitionStates;
 
-        private Dictionary<ScanConstraint, FiniteState> TransitionStates; // Maps constraints to states
-        private Point DisplayLocation;
+        public Point Location { get; set; }
 
         public FiniteState() : base()
         {
@@ -37,8 +33,7 @@ namespace Anathema
             if (TransitionStates.ContainsKey(Constraint))
                 TransitionStates.Remove(Constraint);
         }
-
-
+        
     } // End class
 
 } // End namespace

@@ -33,7 +33,41 @@ namespace Anathema
             return FiniteStateMachine.GetElementType();
         }
 
-        public override void AddState(Point Location)
+        public override FiniteState GetEdgeUnderPoint(Point Location, Int32 Radius, Int32 EdgeSize)
+        {
+            foreach (FiniteState State in FiniteStateMachine)
+            {
+                Single Distance = (Single)Math.Sqrt((Location.X - State.Location.X) * (Location.X - State.Location.X) + (Location.Y - State.Location.Y) * (Location.Y - State.Location.Y));
+
+                if ((Int32)Distance <= Radius && Distance >= Radius - EdgeSize)
+                    return State;
+            }
+            return null;
+        }
+
+        public override FiniteState GetStateUnderPoint(Point Location, Int32 Radius)
+        {
+            foreach (FiniteState State in FiniteStateMachine)
+            {
+                Single Distance = (Single)Math.Sqrt((Location.X - State.Location.X) * (Location.X - State.Location.X) + (Location.Y - State.Location.Y) * (Location.Y - State.Location.Y));
+
+                if ((Int32)Distance <= Radius)
+                    return State;
+            }
+            return null;
+        }
+
+        public override void AddNewState(Point Location)
+        {
+            //FiniteStateMachine.AddState();
+        }
+
+        public override void FinishAction(Point Location)
+        {
+            throw new NotImplementedException();
+        }
+        
+        public override void DeleteAtPoint(Point Location)
         {
             throw new NotImplementedException();
         }

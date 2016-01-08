@@ -107,8 +107,8 @@
     </Compile>
     <Compile Include="Source\Settings\ISettingsMVP.cs" />
     <Compile Include="Source\Tools\Scanners\FilterFiniteState\IFilterFSMMVP.cs" />
-    <Compile Include="Source\Tools\Scanners\FilterFiniteState\StateMachine.cs" />
-    <Compile Include="Source\Tools\Scanners\FilterFiniteState\State.cs" />
+    <Compile Include="Source\Tools\Scanners\FilterFiniteState\FiniteStateMachine.cs" />
+    <Compile Include="Source\Tools\Scanners\FilterFiniteState\FiniteState.cs" />
     <Compile Include="Source\Tools\Scanners\ScanConstraintManager.cs" />
     <Compile Include="Source\HelperClasses\PrimitiveTypes.cs" />
     <Compile Include="Source\Tools\Scanners\FilterManualScan\IFilterManualScanMVP.cs" />

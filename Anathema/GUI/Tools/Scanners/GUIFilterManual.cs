@@ -69,45 +69,25 @@ namespace Anathema
                     Button.Checked = true;
 
             if (Sender == EqualButton)
-            {
                 ValueConstraint = ConstraintsEnum.Equal;
-            }
             else if (Sender == NotEqualButton)
-            {
                 ValueConstraint = ConstraintsEnum.NotEqual;
-            }
             else if (Sender == ChangedButton)
-            {
                 ValueConstraint = ConstraintsEnum.Changed;
-            }
             else if (Sender == UnchangedButton)
-            {
                 ValueConstraint = ConstraintsEnum.Unchanged;
-            }
             else if (Sender == IncreasedButton)
-            {
                 ValueConstraint = ConstraintsEnum.Increased;
-            }
             else if (Sender == DecreasedButton)
-            {
                 ValueConstraint = ConstraintsEnum.Decreased;
-            }
             else if (Sender == GreaterThanButton)
-            {
                 ValueConstraint = ConstraintsEnum.GreaterThan;
-            }
             else if (Sender == LessThanButton)
-            {
                 ValueConstraint = ConstraintsEnum.LessThan;
-            }
             else if (Sender == IncreasedByXButton)
-            {
                 ValueConstraint = ConstraintsEnum.IncreasedByX;
-            }
             else if (Sender == DecreasedByXButton)
-            {
                 ValueConstraint = ConstraintsEnum.DecreasedByX;
-            }
 
             switch (ValueConstraint)
             {

@@ -21,6 +21,9 @@ namespace Anathema
         LessThan,
     }
 
+    /// <summary>
+    /// Class to define a constraint for certain types of scans
+    /// </summary>
     public class ScanConstraint
     {
         public ConstraintsEnum Constraint { get; set; }
