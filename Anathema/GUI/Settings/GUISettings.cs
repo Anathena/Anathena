@@ -48,19 +48,36 @@ namespace Anathema
             NoCacheCheckBox.Checked = ProtectionSettings[Array.IndexOf(ProtectionEnumValues, MemoryProtectionFlags.NoCache)];
             WriteCombineCheckBox.Checked = ProtectionSettings[Array.IndexOf(ProtectionEnumValues, MemoryProtectionFlags.WriteCombine)];
 
-            FreezeIntervalTextBox.Text = SettingsPresenter.GetFreezeInterval().ToString();
-            RepeatScanIntervalTextBox.Text = SettingsPresenter.GetRescanInterval().ToString();
-            TableReadIntervalTextBox.Text = SettingsPresenter.GetResultReadInterval().ToString();
-            ResultsReadIntervalTextBox.Text = SettingsPresenter.GetTableReadInterval().ToString();
+            FreezeIntervalTextBox.Text = SettingsPresenter.GetFreezeInterval();
+            RepeatScanIntervalTextBox.Text = SettingsPresenter.GetRescanInterval();
+            TableReadIntervalTextBox.Text = SettingsPresenter.GetResultReadInterval();
+            ResultsReadIntervalTextBox.Text = SettingsPresenter.GetTableReadInterval();
         }
 
         private void SaveSettings()
         {
-            //SettingsPresenter.UpdateIntervalSettings()
+            if (CheckSyntax.Int32Value(FreezeIntervalTextBox.Text))
+                SettingsPresenter.UpdateFreezeInterval(FreezeIntervalTextBox.Text);
+
+            if (CheckSyntax.Int32Value(RepeatScanIntervalTextBox.Text))
+                SettingsPresenter.UpdateFreezeInterval(RepeatScanIntervalTextBox.Text);
+
+            if (CheckSyntax.Int32Value(TableReadIntervalTextBox.Text))
+                SettingsPresenter.UpdateFreezeInterval(TableReadIntervalTextBox.Text);
+
+            if (CheckSyntax.Int32Value(ResultsReadIntervalTextBox.Text))
+                SettingsPresenter.UpdateFreezeInterval(ResultsReadIntervalTextBox.Text);
+
+            SettingsPresenter.UpdateStateSettings(CommitCheckBox.Checked, ReserveCheckBox.Checked, FreeCheckBox.Checked);
+            SettingsPresenter.UpdateTypeSettings(PrivateCheckBox.Checked, MappedCheckBox.Checked, ImageCheckBox.Checked);
+            SettingsPresenter.UpdateProtectionSettings(NoAccessCheckBox.Checked, ReadOnlyCheckBox.Checked, ReadWriteCheckBox.Checked, WriteCopyCheckBox.Checked, ExecuteCheckBox.Checked,
+                 ExecuteReadCheckBox.Checked, ExecuteReadWriteCheckBox.Checked, ExecuteWriteCopyCheckBox.Checked, GuardCheckBox.Checked, NoCacheCheckBox.Checked, WriteCombineCheckBox.Checked);
+
+            SettingsPresenter.SaveSettings();
         }
-        
+
         #region Events
-        
+
         private void AcceptButton_Click(Object Sender, EventArgs E)
         {
             SaveSettings();

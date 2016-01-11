@@ -41,6 +41,11 @@ namespace Anathema
             SetDefaultSettings();
         }
 
+        public void SaveSettings()
+        {
+            // Save to disk!!
+        }
+
         private void SetDefaultSettings()
         {
             Array StateEnumValues = Enum.GetValues(typeof(MemoryStateFlags));
@@ -105,11 +110,23 @@ namespace Anathema
             ProtectionSettings[Array.IndexOf(ProtectionEnumValues, MemoryProtectionFlags.WriteCombine)] = WriteCombine;
         }
 
-        public void UpdateIntervalSettings(Int32 FreezeInterval, Int32 RescanInterval, Int32 ResultReadInterval, Int32 TableReadInterval)
+        public void UpdateFreezeInterval(Int32 FreezeInterval)
         {
             this.FreezeInterval = FreezeInterval;
+        }
+
+        public void UpdateRescanInterval(Int32 RescanInterval)
+        {
             this.RescanInterval = RescanInterval;
+        }
+
+        public void UpdateResultReadInterval(Int32 ResultReadInterval)
+        {
             this.ResultReadInterval = ResultReadInterval;
+        }
+
+        public void UpdateTableReadInterval(Int32 TableReadInterval)
+        {
             this.TableReadInterval = TableReadInterval;
         }
 
