@@ -1,3 +1,3 @@
 # Anathema
 
-I'll update thid when not in stealth
+I'll update this when not in stealth
