@@ -16,7 +16,7 @@ namespace Anathema
 {
     partial class GUIMain : Form, IMainView
     {
-        // All GUI components that can be created
+        // VIEW MENU ITEMS
         private GUIProcessSelector GUIProcessSelector;
         private GUIDebugger GUIDebugger;
         private GUIFilterFSM GUIFilterFSM;
@@ -28,6 +28,9 @@ namespace Anathema
         private GUISnapshotManager GUISnapshotManager;
         private GUIResults GUIResults;
         private GUITable GUITable;
+
+        // EDIT MENU ITEMS
+        private GUISettings GUISettings;
 
         public GUIMain()
         {
@@ -143,6 +146,24 @@ namespace Anathema
             GUIProcessSelector.Show(ContentPanel);
         }
 
+        private void CreateSettings()
+        {
+            if (GUISettings == null || GUISettings.IsDisposed)
+                GUISettings = new GUISettings();
+
+            GUISettings.ShowDialog();
+        }
+
+        /*
+        // Alternate more compact method:
+        private void CreateWindow(dynamic GUI)
+        {
+            if (GUI == null || GUI.IsDisposed)
+                GUI = Activator.CreateInstance(typeof(GUI));
+            GUI.Show(ContentPanel);
+        }
+        */
+
         #endregion
 
         #region Events
@@ -207,7 +228,12 @@ namespace Anathema
         {
             CreateProcessSelector();
         }
-        
+
+        private void SettingsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            CreateSettings();
+        }
+
         private void NewScanButton_Click(Object Sender, EventArgs E)
         {
             GUISnapshotManager.CreateNewSnapshot();
@@ -219,5 +245,6 @@ namespace Anathema
         }
 
         #endregion
+
     }
 }

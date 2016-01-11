@@ -25,6 +25,15 @@ namespace Anathema
         void UpdateProtectionSettings(Boolean NoAccess, Boolean ReadOnly, Boolean ReadWrite, Boolean WriteCopy, Boolean Execute,
            Boolean ExecuteRead, Boolean ExecuteReadWrite, Boolean ExecuteWriteCopy, Boolean Guard, Boolean NoCache, Boolean WriteCombine);
 
+        Boolean[] GetStateSettings();
+        Boolean[] GetTypeSettings();
+        Boolean[] GetProtectionSettings();
+
+        Int32 GetFreezeInterval();
+        Int32 GetRescanInterval();
+        Int32 GetResultReadInterval();
+        Int32 GetTableReadInterval();
+
         void UpdateIntervalSettings(Int32 FreezeInterval, Int32 RescanInterval, Int32 ResultReadInterval, Int32 TableReadInterval);
     }
 
@@ -62,6 +71,41 @@ namespace Anathema
         public void UpdateIntervalSettings(Int32 FreezeInterval, Int32 RescanInterval, Int32 ResultReadInterval, Int32 TableReadInterval)
         {
             Model.UpdateIntervalSettings(FreezeInterval, RescanInterval, ResultReadInterval, TableReadInterval);
+        }
+
+        public Boolean[] GetStateSettings()
+        {
+            return Model.GetStateSettings();
+        }
+
+        public Boolean[] GetTypeSettings()
+        {
+            return Model.GetTypeSettings();
+        }
+
+        public Boolean[] GetProtectionSettings()
+        {
+            return Model.GetProtectionSettings();
+        }
+
+        public Int32 GetFreezeInterval()
+        {
+            return Model.GetFreezeInterval();
+        }
+
+        public Int32 GetRescanInterval()
+        {
+            return Model.GetRescanInterval();
+        }
+
+        public Int32 GetResultReadInterval()
+        {
+            return Model.GetResultReadInterval();
+        }
+
+        public Int32 GetTableReadInterval()
+        {
+            return Model.GetTableReadInterval();
         }
 
         #endregion

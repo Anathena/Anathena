@@ -37,38 +37,38 @@
             this.ResultsReadIntervalLabel = new System.Windows.Forms.Label();
             this.FreezeIntervalTextBox = new System.Windows.Forms.TextBox();
             this.TableReadIntervalLabel = new System.Windows.Forms.Label();
-            this.TableIntervalTimerTextBox = new System.Windows.Forms.TextBox();
+            this.TableReadIntervalTextBox = new System.Windows.Forms.TextBox();
             this.FreezeIntervalLabel = new System.Windows.Forms.Label();
             this.ResultsReadIntervalTextBox = new System.Windows.Forms.TextBox();
             this.RepeatScanTimerLabel = new System.Windows.Forms.Label();
             this.ScanTabPage = new System.Windows.Forms.TabPage();
-            this.MemoryProtectionGroupBox = new System.Windows.Forms.GroupBox();
-            this.PrivateCheckBox = new System.Windows.Forms.CheckBox();
-            this.ReadWriteCheckBox = new System.Windows.Forms.CheckBox();
-            this.MappedCheckBox = new System.Windows.Forms.CheckBox();
-            this.ReadOnlyCheckBox = new System.Windows.Forms.CheckBox();
-            this.ImageCheckBox = new System.Windows.Forms.CheckBox();
-            this.NoAccessCheckBox = new System.Windows.Forms.CheckBox();
+            this.MemoryStateGroupBox = new System.Windows.Forms.GroupBox();
             this.CommitCheckBox = new System.Windows.Forms.CheckBox();
-            this.FreeCheckBox = new System.Windows.Forms.CheckBox();
             this.ReserveCheckBox = new System.Windows.Forms.CheckBox();
-            this.ExecuteReadCheckBox = new System.Windows.Forms.CheckBox();
-            this.ExecuteCheckBox = new System.Windows.Forms.CheckBox();
-            this.WriteCopyCheckBox = new System.Windows.Forms.CheckBox();
+            this.FreeCheckBox = new System.Windows.Forms.CheckBox();
+            this.MemoryTypeGroupBox = new System.Windows.Forms.GroupBox();
+            this.PrivateCheckBox = new System.Windows.Forms.CheckBox();
+            this.ImageCheckBox = new System.Windows.Forms.CheckBox();
+            this.MappedCheckBox = new System.Windows.Forms.CheckBox();
+            this.MemoryProtectionGroupBox = new System.Windows.Forms.GroupBox();
+            this.WriteCombineCheckBox = new System.Windows.Forms.CheckBox();
+            this.NoCacheCheckBox = new System.Windows.Forms.CheckBox();
             this.GuardCheckBox = new System.Windows.Forms.CheckBox();
             this.ExecuteWriteCopyCheckBox = new System.Windows.Forms.CheckBox();
             this.ExecuteReadWriteCheckBox = new System.Windows.Forms.CheckBox();
-            this.WriteCombineCheckBox = new System.Windows.Forms.CheckBox();
-            this.NoCacheCheckBox = new System.Windows.Forms.CheckBox();
-            this.MemoryTypeGroupBox = new System.Windows.Forms.GroupBox();
-            this.MemoryStateGroupBox = new System.Windows.Forms.GroupBox();
+            this.ExecuteReadCheckBox = new System.Windows.Forms.CheckBox();
+            this.ExecuteCheckBox = new System.Windows.Forms.CheckBox();
+            this.WriteCopyCheckBox = new System.Windows.Forms.CheckBox();
+            this.ReadWriteCheckBox = new System.Windows.Forms.CheckBox();
+            this.ReadOnlyCheckBox = new System.Windows.Forms.CheckBox();
+            this.NoAccessCheckBox = new System.Windows.Forms.CheckBox();
             this.SettingsTabControl.SuspendLayout();
             this.GeneralTabPage.SuspendLayout();
             this.IntervalsGroupBox.SuspendLayout();
             this.ScanTabPage.SuspendLayout();
-            this.MemoryProtectionGroupBox.SuspendLayout();
-            this.MemoryTypeGroupBox.SuspendLayout();
             this.MemoryStateGroupBox.SuspendLayout();
+            this.MemoryTypeGroupBox.SuspendLayout();
+            this.MemoryProtectionGroupBox.SuspendLayout();
             this.SuspendLayout();
             // 
             // AcceptButton
@@ -112,7 +112,7 @@
             this.GeneralTabPage.Location = new System.Drawing.Point(4, 22);
             this.GeneralTabPage.Name = "GeneralTabPage";
             this.GeneralTabPage.Padding = new System.Windows.Forms.Padding(3);
-            this.GeneralTabPage.Size = new System.Drawing.Size(321, 250);
+            this.GeneralTabPage.Size = new System.Drawing.Size(421, 250);
             this.GeneralTabPage.TabIndex = 0;
             this.GeneralTabPage.Text = "General";
             this.GeneralTabPage.UseVisualStyleBackColor = true;
@@ -125,7 +125,7 @@
             this.IntervalsGroupBox.Controls.Add(this.ResultsReadIntervalLabel);
             this.IntervalsGroupBox.Controls.Add(this.FreezeIntervalTextBox);
             this.IntervalsGroupBox.Controls.Add(this.TableReadIntervalLabel);
-            this.IntervalsGroupBox.Controls.Add(this.TableIntervalTimerTextBox);
+            this.IntervalsGroupBox.Controls.Add(this.TableReadIntervalTextBox);
             this.IntervalsGroupBox.Controls.Add(this.FreezeIntervalLabel);
             this.IntervalsGroupBox.Controls.Add(this.ResultsReadIntervalTextBox);
             this.IntervalsGroupBox.Controls.Add(this.RepeatScanTimerLabel);
@@ -138,7 +138,7 @@
             // 
             // RepeatScanIntervalTextBox
             // 
-            this.RepeatScanIntervalTextBox.Location = new System.Drawing.Point(6, 19);
+            this.RepeatScanIntervalTextBox.Location = new System.Drawing.Point(6, 45);
             this.RepeatScanIntervalTextBox.Name = "RepeatScanIntervalTextBox";
             this.RepeatScanIntervalTextBox.Size = new System.Drawing.Size(68, 20);
             this.RepeatScanIntervalTextBox.TabIndex = 3;
@@ -154,7 +154,7 @@
             // 
             // FreezeIntervalTextBox
             // 
-            this.FreezeIntervalTextBox.Location = new System.Drawing.Point(6, 45);
+            this.FreezeIntervalTextBox.Location = new System.Drawing.Point(6, 19);
             this.FreezeIntervalTextBox.Name = "FreezeIntervalTextBox";
             this.FreezeIntervalTextBox.Size = new System.Drawing.Size(68, 20);
             this.FreezeIntervalTextBox.TabIndex = 0;
@@ -168,17 +168,17 @@
             this.TableReadIntervalLabel.TabIndex = 6;
             this.TableReadIntervalLabel.Text = "Table Read Interval (ms)";
             // 
-            // TableIntervalTimerTextBox
+            // TableReadIntervalTextBox
             // 
-            this.TableIntervalTimerTextBox.Location = new System.Drawing.Point(6, 71);
-            this.TableIntervalTimerTextBox.Name = "TableIntervalTimerTextBox";
-            this.TableIntervalTimerTextBox.Size = new System.Drawing.Size(68, 20);
-            this.TableIntervalTimerTextBox.TabIndex = 1;
+            this.TableReadIntervalTextBox.Location = new System.Drawing.Point(6, 71);
+            this.TableReadIntervalTextBox.Name = "TableReadIntervalTextBox";
+            this.TableReadIntervalTextBox.Size = new System.Drawing.Size(68, 20);
+            this.TableReadIntervalTextBox.TabIndex = 1;
             // 
             // FreezeIntervalLabel
             // 
             this.FreezeIntervalLabel.AutoSize = true;
-            this.FreezeIntervalLabel.Location = new System.Drawing.Point(80, 48);
+            this.FreezeIntervalLabel.Location = new System.Drawing.Point(80, 22);
             this.FreezeIntervalLabel.Name = "FreezeIntervalLabel";
             this.FreezeIntervalLabel.Size = new System.Drawing.Size(99, 13);
             this.FreezeIntervalLabel.TabIndex = 5;
@@ -194,7 +194,7 @@
             // RepeatScanTimerLabel
             // 
             this.RepeatScanTimerLabel.AutoSize = true;
-            this.RepeatScanTimerLabel.Location = new System.Drawing.Point(80, 22);
+            this.RepeatScanTimerLabel.Location = new System.Drawing.Point(80, 48);
             this.RepeatScanTimerLabel.Name = "RepeatScanTimerLabel";
             this.RepeatScanTimerLabel.Size = new System.Drawing.Size(130, 13);
             this.RepeatScanTimerLabel.TabIndex = 4;
@@ -212,6 +212,92 @@
             this.ScanTabPage.TabIndex = 1;
             this.ScanTabPage.Text = "Scan Settings";
             this.ScanTabPage.UseVisualStyleBackColor = true;
+            // 
+            // MemoryStateGroupBox
+            // 
+            this.MemoryStateGroupBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.MemoryStateGroupBox.Controls.Add(this.CommitCheckBox);
+            this.MemoryStateGroupBox.Controls.Add(this.ReserveCheckBox);
+            this.MemoryStateGroupBox.Controls.Add(this.FreeCheckBox);
+            this.MemoryStateGroupBox.Location = new System.Drawing.Point(212, 112);
+            this.MemoryStateGroupBox.Name = "MemoryStateGroupBox";
+            this.MemoryStateGroupBox.Size = new System.Drawing.Size(203, 100);
+            this.MemoryStateGroupBox.TabIndex = 9;
+            this.MemoryStateGroupBox.TabStop = false;
+            this.MemoryStateGroupBox.Text = "Memory State";
+            // 
+            // CommitCheckBox
+            // 
+            this.CommitCheckBox.AutoSize = true;
+            this.CommitCheckBox.Location = new System.Drawing.Point(6, 19);
+            this.CommitCheckBox.Name = "CommitCheckBox";
+            this.CommitCheckBox.Size = new System.Drawing.Size(60, 17);
+            this.CommitCheckBox.TabIndex = 7;
+            this.CommitCheckBox.Text = "Commit";
+            this.CommitCheckBox.UseVisualStyleBackColor = true;
+            // 
+            // ReserveCheckBox
+            // 
+            this.ReserveCheckBox.AutoSize = true;
+            this.ReserveCheckBox.Location = new System.Drawing.Point(6, 42);
+            this.ReserveCheckBox.Name = "ReserveCheckBox";
+            this.ReserveCheckBox.Size = new System.Drawing.Size(66, 17);
+            this.ReserveCheckBox.TabIndex = 8;
+            this.ReserveCheckBox.Text = "Reserve";
+            this.ReserveCheckBox.UseVisualStyleBackColor = true;
+            // 
+            // FreeCheckBox
+            // 
+            this.FreeCheckBox.AutoSize = true;
+            this.FreeCheckBox.Location = new System.Drawing.Point(6, 65);
+            this.FreeCheckBox.Name = "FreeCheckBox";
+            this.FreeCheckBox.Size = new System.Drawing.Size(47, 17);
+            this.FreeCheckBox.TabIndex = 9;
+            this.FreeCheckBox.Text = "Free";
+            this.FreeCheckBox.UseVisualStyleBackColor = true;
+            // 
+            // MemoryTypeGroupBox
+            // 
+            this.MemoryTypeGroupBox.Controls.Add(this.PrivateCheckBox);
+            this.MemoryTypeGroupBox.Controls.Add(this.ImageCheckBox);
+            this.MemoryTypeGroupBox.Controls.Add(this.MappedCheckBox);
+            this.MemoryTypeGroupBox.Location = new System.Drawing.Point(6, 112);
+            this.MemoryTypeGroupBox.Name = "MemoryTypeGroupBox";
+            this.MemoryTypeGroupBox.Size = new System.Drawing.Size(200, 100);
+            this.MemoryTypeGroupBox.TabIndex = 8;
+            this.MemoryTypeGroupBox.TabStop = false;
+            this.MemoryTypeGroupBox.Text = "Memory Type";
+            // 
+            // PrivateCheckBox
+            // 
+            this.PrivateCheckBox.AutoSize = true;
+            this.PrivateCheckBox.Location = new System.Drawing.Point(6, 19);
+            this.PrivateCheckBox.Name = "PrivateCheckBox";
+            this.PrivateCheckBox.Size = new System.Drawing.Size(59, 17);
+            this.PrivateCheckBox.TabIndex = 4;
+            this.PrivateCheckBox.Text = "Private";
+            this.PrivateCheckBox.UseVisualStyleBackColor = true;
+            // 
+            // ImageCheckBox
+            // 
+            this.ImageCheckBox.AutoSize = true;
+            this.ImageCheckBox.Location = new System.Drawing.Point(6, 42);
+            this.ImageCheckBox.Name = "ImageCheckBox";
+            this.ImageCheckBox.Size = new System.Drawing.Size(55, 17);
+            this.ImageCheckBox.TabIndex = 5;
+            this.ImageCheckBox.Text = "Image";
+            this.ImageCheckBox.UseVisualStyleBackColor = true;
+            // 
+            // MappedCheckBox
+            // 
+            this.MappedCheckBox.AutoSize = true;
+            this.MappedCheckBox.Location = new System.Drawing.Point(6, 65);
+            this.MappedCheckBox.Name = "MappedCheckBox";
+            this.MappedCheckBox.Size = new System.Drawing.Size(65, 17);
+            this.MappedCheckBox.TabIndex = 6;
+            this.MappedCheckBox.Text = "Mapped";
+            this.MappedCheckBox.UseVisualStyleBackColor = true;
             // 
             // MemoryProtectionGroupBox
             // 
@@ -235,131 +321,27 @@
             this.MemoryProtectionGroupBox.TabStop = false;
             this.MemoryProtectionGroupBox.Text = "Protection Flags";
             // 
-            // PrivateCheckBox
+            // WriteCombineCheckBox
             // 
-            this.PrivateCheckBox.AutoSize = true;
-            this.PrivateCheckBox.Location = new System.Drawing.Point(6, 19);
-            this.PrivateCheckBox.Name = "PrivateCheckBox";
-            this.PrivateCheckBox.Size = new System.Drawing.Size(59, 17);
-            this.PrivateCheckBox.TabIndex = 4;
-            this.PrivateCheckBox.Text = "Private";
-            this.PrivateCheckBox.UseVisualStyleBackColor = true;
+            this.WriteCombineCheckBox.AutoSize = true;
+            this.WriteCombineCheckBox.Location = new System.Drawing.Point(306, 51);
+            this.WriteCombineCheckBox.Name = "WriteCombineCheckBox";
+            this.WriteCombineCheckBox.Size = new System.Drawing.Size(92, 17);
+            this.WriteCombineCheckBox.TabIndex = 17;
+            this.WriteCombineCheckBox.Text = "WriteCombine";
+            this.WriteCombineCheckBox.ThreeState = true;
+            this.WriteCombineCheckBox.UseVisualStyleBackColor = true;
             // 
-            // ReadWriteCheckBox
+            // NoCacheCheckBox
             // 
-            this.ReadWriteCheckBox.AutoSize = true;
-            this.ReadWriteCheckBox.Location = new System.Drawing.Point(6, 74);
-            this.ReadWriteCheckBox.Name = "ReadWriteCheckBox";
-            this.ReadWriteCheckBox.Size = new System.Drawing.Size(77, 17);
-            this.ReadWriteCheckBox.TabIndex = 3;
-            this.ReadWriteCheckBox.Text = "ReadWrite";
-            this.ReadWriteCheckBox.ThreeState = true;
-            this.ReadWriteCheckBox.UseVisualStyleBackColor = true;
-            // 
-            // MappedCheckBox
-            // 
-            this.MappedCheckBox.AutoSize = true;
-            this.MappedCheckBox.Location = new System.Drawing.Point(6, 65);
-            this.MappedCheckBox.Name = "MappedCheckBox";
-            this.MappedCheckBox.Size = new System.Drawing.Size(65, 17);
-            this.MappedCheckBox.TabIndex = 6;
-            this.MappedCheckBox.Text = "Mapped";
-            this.MappedCheckBox.UseVisualStyleBackColor = true;
-            // 
-            // ReadOnlyCheckBox
-            // 
-            this.ReadOnlyCheckBox.AutoSize = true;
-            this.ReadOnlyCheckBox.Location = new System.Drawing.Point(6, 51);
-            this.ReadOnlyCheckBox.Name = "ReadOnlyCheckBox";
-            this.ReadOnlyCheckBox.Size = new System.Drawing.Size(73, 17);
-            this.ReadOnlyCheckBox.TabIndex = 2;
-            this.ReadOnlyCheckBox.Text = "ReadOnly";
-            this.ReadOnlyCheckBox.ThreeState = true;
-            this.ReadOnlyCheckBox.UseVisualStyleBackColor = true;
-            // 
-            // ImageCheckBox
-            // 
-            this.ImageCheckBox.AutoSize = true;
-            this.ImageCheckBox.Location = new System.Drawing.Point(6, 42);
-            this.ImageCheckBox.Name = "ImageCheckBox";
-            this.ImageCheckBox.Size = new System.Drawing.Size(55, 17);
-            this.ImageCheckBox.TabIndex = 5;
-            this.ImageCheckBox.Text = "Image";
-            this.ImageCheckBox.UseVisualStyleBackColor = true;
-            // 
-            // NoAccessCheckBox
-            // 
-            this.NoAccessCheckBox.AutoSize = true;
-            this.NoAccessCheckBox.Location = new System.Drawing.Point(6, 28);
-            this.NoAccessCheckBox.Name = "NoAccessCheckBox";
-            this.NoAccessCheckBox.Size = new System.Drawing.Size(75, 17);
-            this.NoAccessCheckBox.TabIndex = 1;
-            this.NoAccessCheckBox.Text = "NoAccess";
-            this.NoAccessCheckBox.ThreeState = true;
-            this.NoAccessCheckBox.UseVisualStyleBackColor = true;
-            // 
-            // CommitCheckBox
-            // 
-            this.CommitCheckBox.AutoSize = true;
-            this.CommitCheckBox.Location = new System.Drawing.Point(6, 19);
-            this.CommitCheckBox.Name = "CommitCheckBox";
-            this.CommitCheckBox.Size = new System.Drawing.Size(60, 17);
-            this.CommitCheckBox.TabIndex = 7;
-            this.CommitCheckBox.Text = "Commit";
-            this.CommitCheckBox.UseVisualStyleBackColor = true;
-            // 
-            // FreeCheckBox
-            // 
-            this.FreeCheckBox.AutoSize = true;
-            this.FreeCheckBox.Location = new System.Drawing.Point(6, 65);
-            this.FreeCheckBox.Name = "FreeCheckBox";
-            this.FreeCheckBox.Size = new System.Drawing.Size(47, 17);
-            this.FreeCheckBox.TabIndex = 9;
-            this.FreeCheckBox.Text = "Free";
-            this.FreeCheckBox.UseVisualStyleBackColor = true;
-            // 
-            // ReserveCheckBox
-            // 
-            this.ReserveCheckBox.AutoSize = true;
-            this.ReserveCheckBox.Location = new System.Drawing.Point(6, 42);
-            this.ReserveCheckBox.Name = "ReserveCheckBox";
-            this.ReserveCheckBox.Size = new System.Drawing.Size(66, 17);
-            this.ReserveCheckBox.TabIndex = 8;
-            this.ReserveCheckBox.Text = "Reserve";
-            this.ReserveCheckBox.UseVisualStyleBackColor = true;
-            // 
-            // ExecuteReadCheckBox
-            // 
-            this.ExecuteReadCheckBox.AutoSize = true;
-            this.ExecuteReadCheckBox.Location = new System.Drawing.Point(87, 74);
-            this.ExecuteReadCheckBox.Name = "ExecuteReadCheckBox";
-            this.ExecuteReadCheckBox.Size = new System.Drawing.Size(91, 17);
-            this.ExecuteReadCheckBox.TabIndex = 12;
-            this.ExecuteReadCheckBox.Text = "ExecuteRead";
-            this.ExecuteReadCheckBox.ThreeState = true;
-            this.ExecuteReadCheckBox.UseVisualStyleBackColor = true;
-            // 
-            // ExecuteCheckBox
-            // 
-            this.ExecuteCheckBox.AutoSize = true;
-            this.ExecuteCheckBox.Location = new System.Drawing.Point(87, 51);
-            this.ExecuteCheckBox.Name = "ExecuteCheckBox";
-            this.ExecuteCheckBox.Size = new System.Drawing.Size(65, 17);
-            this.ExecuteCheckBox.TabIndex = 11;
-            this.ExecuteCheckBox.Text = "Execute";
-            this.ExecuteCheckBox.ThreeState = true;
-            this.ExecuteCheckBox.UseVisualStyleBackColor = true;
-            // 
-            // WriteCopyCheckBox
-            // 
-            this.WriteCopyCheckBox.AutoSize = true;
-            this.WriteCopyCheckBox.Location = new System.Drawing.Point(87, 28);
-            this.WriteCopyCheckBox.Name = "WriteCopyCheckBox";
-            this.WriteCopyCheckBox.Size = new System.Drawing.Size(75, 17);
-            this.WriteCopyCheckBox.TabIndex = 10;
-            this.WriteCopyCheckBox.Text = "WriteCopy";
-            this.WriteCopyCheckBox.ThreeState = true;
-            this.WriteCopyCheckBox.UseVisualStyleBackColor = true;
+            this.NoCacheCheckBox.AutoSize = true;
+            this.NoCacheCheckBox.Location = new System.Drawing.Point(306, 28);
+            this.NoCacheCheckBox.Name = "NoCacheCheckBox";
+            this.NoCacheCheckBox.Size = new System.Drawing.Size(71, 17);
+            this.NoCacheCheckBox.TabIndex = 16;
+            this.NoCacheCheckBox.Text = "NoCache";
+            this.NoCacheCheckBox.ThreeState = true;
+            this.NoCacheCheckBox.UseVisualStyleBackColor = true;
             // 
             // GuardCheckBox
             // 
@@ -394,53 +376,71 @@
             this.ExecuteReadWriteCheckBox.ThreeState = true;
             this.ExecuteReadWriteCheckBox.UseVisualStyleBackColor = true;
             // 
-            // WriteCombineCheckBox
+            // ExecuteReadCheckBox
             // 
-            this.WriteCombineCheckBox.AutoSize = true;
-            this.WriteCombineCheckBox.Location = new System.Drawing.Point(306, 51);
-            this.WriteCombineCheckBox.Name = "WriteCombineCheckBox";
-            this.WriteCombineCheckBox.Size = new System.Drawing.Size(92, 17);
-            this.WriteCombineCheckBox.TabIndex = 17;
-            this.WriteCombineCheckBox.Text = "WriteCombine";
-            this.WriteCombineCheckBox.ThreeState = true;
-            this.WriteCombineCheckBox.UseVisualStyleBackColor = true;
+            this.ExecuteReadCheckBox.AutoSize = true;
+            this.ExecuteReadCheckBox.Location = new System.Drawing.Point(87, 74);
+            this.ExecuteReadCheckBox.Name = "ExecuteReadCheckBox";
+            this.ExecuteReadCheckBox.Size = new System.Drawing.Size(91, 17);
+            this.ExecuteReadCheckBox.TabIndex = 12;
+            this.ExecuteReadCheckBox.Text = "ExecuteRead";
+            this.ExecuteReadCheckBox.ThreeState = true;
+            this.ExecuteReadCheckBox.UseVisualStyleBackColor = true;
             // 
-            // NoCacheCheckBox
+            // ExecuteCheckBox
             // 
-            this.NoCacheCheckBox.AutoSize = true;
-            this.NoCacheCheckBox.Location = new System.Drawing.Point(306, 28);
-            this.NoCacheCheckBox.Name = "NoCacheCheckBox";
-            this.NoCacheCheckBox.Size = new System.Drawing.Size(71, 17);
-            this.NoCacheCheckBox.TabIndex = 16;
-            this.NoCacheCheckBox.Text = "NoCache";
-            this.NoCacheCheckBox.ThreeState = true;
-            this.NoCacheCheckBox.UseVisualStyleBackColor = true;
+            this.ExecuteCheckBox.AutoSize = true;
+            this.ExecuteCheckBox.Location = new System.Drawing.Point(87, 51);
+            this.ExecuteCheckBox.Name = "ExecuteCheckBox";
+            this.ExecuteCheckBox.Size = new System.Drawing.Size(65, 17);
+            this.ExecuteCheckBox.TabIndex = 11;
+            this.ExecuteCheckBox.Text = "Execute";
+            this.ExecuteCheckBox.ThreeState = true;
+            this.ExecuteCheckBox.UseVisualStyleBackColor = true;
             // 
-            // MemoryTypeGroupBox
+            // WriteCopyCheckBox
             // 
-            this.MemoryTypeGroupBox.Controls.Add(this.PrivateCheckBox);
-            this.MemoryTypeGroupBox.Controls.Add(this.ImageCheckBox);
-            this.MemoryTypeGroupBox.Controls.Add(this.MappedCheckBox);
-            this.MemoryTypeGroupBox.Location = new System.Drawing.Point(6, 112);
-            this.MemoryTypeGroupBox.Name = "MemoryTypeGroupBox";
-            this.MemoryTypeGroupBox.Size = new System.Drawing.Size(200, 100);
-            this.MemoryTypeGroupBox.TabIndex = 8;
-            this.MemoryTypeGroupBox.TabStop = false;
-            this.MemoryTypeGroupBox.Text = "Memory Type";
+            this.WriteCopyCheckBox.AutoSize = true;
+            this.WriteCopyCheckBox.Location = new System.Drawing.Point(87, 28);
+            this.WriteCopyCheckBox.Name = "WriteCopyCheckBox";
+            this.WriteCopyCheckBox.Size = new System.Drawing.Size(75, 17);
+            this.WriteCopyCheckBox.TabIndex = 10;
+            this.WriteCopyCheckBox.Text = "WriteCopy";
+            this.WriteCopyCheckBox.ThreeState = true;
+            this.WriteCopyCheckBox.UseVisualStyleBackColor = true;
             // 
-            // MemoryStateGroupBox
+            // ReadWriteCheckBox
             // 
-            this.MemoryStateGroupBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.MemoryStateGroupBox.Controls.Add(this.CommitCheckBox);
-            this.MemoryStateGroupBox.Controls.Add(this.ReserveCheckBox);
-            this.MemoryStateGroupBox.Controls.Add(this.FreeCheckBox);
-            this.MemoryStateGroupBox.Location = new System.Drawing.Point(212, 112);
-            this.MemoryStateGroupBox.Name = "MemoryStateGroupBox";
-            this.MemoryStateGroupBox.Size = new System.Drawing.Size(203, 100);
-            this.MemoryStateGroupBox.TabIndex = 9;
-            this.MemoryStateGroupBox.TabStop = false;
-            this.MemoryStateGroupBox.Text = "Memory State";
+            this.ReadWriteCheckBox.AutoSize = true;
+            this.ReadWriteCheckBox.Location = new System.Drawing.Point(6, 74);
+            this.ReadWriteCheckBox.Name = "ReadWriteCheckBox";
+            this.ReadWriteCheckBox.Size = new System.Drawing.Size(77, 17);
+            this.ReadWriteCheckBox.TabIndex = 3;
+            this.ReadWriteCheckBox.Text = "ReadWrite";
+            this.ReadWriteCheckBox.ThreeState = true;
+            this.ReadWriteCheckBox.UseVisualStyleBackColor = true;
+            // 
+            // ReadOnlyCheckBox
+            // 
+            this.ReadOnlyCheckBox.AutoSize = true;
+            this.ReadOnlyCheckBox.Location = new System.Drawing.Point(6, 51);
+            this.ReadOnlyCheckBox.Name = "ReadOnlyCheckBox";
+            this.ReadOnlyCheckBox.Size = new System.Drawing.Size(73, 17);
+            this.ReadOnlyCheckBox.TabIndex = 2;
+            this.ReadOnlyCheckBox.Text = "ReadOnly";
+            this.ReadOnlyCheckBox.ThreeState = true;
+            this.ReadOnlyCheckBox.UseVisualStyleBackColor = true;
+            // 
+            // NoAccessCheckBox
+            // 
+            this.NoAccessCheckBox.AutoSize = true;
+            this.NoAccessCheckBox.Location = new System.Drawing.Point(6, 28);
+            this.NoAccessCheckBox.Name = "NoAccessCheckBox";
+            this.NoAccessCheckBox.Size = new System.Drawing.Size(75, 17);
+            this.NoAccessCheckBox.TabIndex = 1;
+            this.NoAccessCheckBox.Text = "NoAccess";
+            this.NoAccessCheckBox.ThreeState = true;
+            this.NoAccessCheckBox.UseVisualStyleBackColor = true;
             // 
             // GUISettings
             // 
@@ -458,12 +458,12 @@
             this.IntervalsGroupBox.ResumeLayout(false);
             this.IntervalsGroupBox.PerformLayout();
             this.ScanTabPage.ResumeLayout(false);
-            this.MemoryProtectionGroupBox.ResumeLayout(false);
-            this.MemoryProtectionGroupBox.PerformLayout();
-            this.MemoryTypeGroupBox.ResumeLayout(false);
-            this.MemoryTypeGroupBox.PerformLayout();
             this.MemoryStateGroupBox.ResumeLayout(false);
             this.MemoryStateGroupBox.PerformLayout();
+            this.MemoryTypeGroupBox.ResumeLayout(false);
+            this.MemoryTypeGroupBox.PerformLayout();
+            this.MemoryProtectionGroupBox.ResumeLayout(false);
+            this.MemoryProtectionGroupBox.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -483,7 +483,7 @@
         private System.Windows.Forms.Label RepeatScanTimerLabel;
         private System.Windows.Forms.TextBox RepeatScanIntervalTextBox;
         private System.Windows.Forms.TextBox ResultsReadIntervalTextBox;
-        private System.Windows.Forms.TextBox TableIntervalTimerTextBox;
+        private System.Windows.Forms.TextBox TableReadIntervalTextBox;
         private System.Windows.Forms.TextBox FreezeIntervalTextBox;
         private System.Windows.Forms.Label ResultsReadIntervalLabel;
         private System.Windows.Forms.Label TableReadIntervalLabel;
