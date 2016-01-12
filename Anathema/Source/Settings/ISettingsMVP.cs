@@ -38,8 +38,6 @@ namespace Anathema
         void UpdateRescanInterval(Int32 RescanInterval);
         void UpdateResultReadInterval(Int32 ResultReadInterval);
         void UpdateTableReadInterval(Int32 TableReadInterval);
-
-        void SaveSettings();
     }
 
     class SettingsPresenter : Presenter<ISettingsView, ISettingsModel>
@@ -56,11 +54,6 @@ namespace Anathema
         }
 
         #region Method definitions called by the view (downstream)
-
-        public void SaveSettings()
-        {
-            Model.SaveSettings();
-        }
 
         public void UpdateStateSettings( Boolean Commit, Boolean Reserve, Boolean Free)
         {

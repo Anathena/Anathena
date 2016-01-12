@@ -72,8 +72,6 @@ namespace Anathema
             SettingsPresenter.UpdateTypeSettings(PrivateCheckBox.Checked, MappedCheckBox.Checked, ImageCheckBox.Checked);
             SettingsPresenter.UpdateProtectionSettings(NoAccessCheckBox.Checked, ReadOnlyCheckBox.Checked, ReadWriteCheckBox.Checked, WriteCopyCheckBox.Checked, ExecuteCheckBox.Checked,
                  ExecuteReadCheckBox.Checked, ExecuteReadWriteCheckBox.Checked, ExecuteWriteCopyCheckBox.Checked, GuardCheckBox.Checked, NoCacheCheckBox.Checked, WriteCombineCheckBox.Checked);
-
-            SettingsPresenter.SaveSettings();
         }
 
         #region Events

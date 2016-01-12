@@ -35,99 +35,70 @@ namespace Anathema
 
         private void LoadSettings()
         {
-            // if (Saved)
-            //  LoadFromDisk();
-            // else
-            SetDefaultSettings();
+            UpdateStateSettings(Properties.Settings.Default.StateFree, Properties.Settings.Default.StateCommit, Properties.Settings.Default.StateReserve);
+            UpdateTypeSettings(Properties.Settings.Default.TypePrivate, Properties.Settings.Default.TypeMapped, Properties.Settings.Default.TypeImage);
+            UpdateProtectionSettings(Properties.Settings.Default.ProtectionNoAccess, Properties.Settings.Default.ProtectionReadOnly, Properties.Settings.Default.ProtectionReadWrite,
+                Properties.Settings.Default.ProtectionWriteCopy, Properties.Settings.Default.ProtectionExecute, Properties.Settings.Default.ProtectionExecuteRead, 
+                Properties.Settings.Default.ProtectionExecuteReadWrite, Properties.Settings.Default.ProtectionExecuteWriteCopy, Properties.Settings.Default.ProtectionGuard, 
+                Properties.Settings.Default.ProtectionNoCache, Properties.Settings.Default.ProtectionWriteCombine);
+
+            UpdateFreezeInterval(Properties.Settings.Default.FreezeInterval);
+            UpdateRescanInterval(Properties.Settings.Default.RescanInterval);
+            UpdateResultReadInterval(Properties.Settings.Default.ResultReadInterval);
+            UpdateTableReadInterval(Properties.Settings.Default.TableReadInterval);
         }
-
-        public void SaveSettings()
-        {
-            // Save to disk!!
-        }
-
-        private void SetDefaultSettings()
-        {
-            Array StateEnumValues = Enum.GetValues(typeof(MemoryStateFlags));
-            StateSettings[Array.IndexOf(StateEnumValues, MemoryStateFlags.Commit)] = true;
-            StateSettings[Array.IndexOf(StateEnumValues, MemoryStateFlags.Reserve)] = true;
-            StateSettings[Array.IndexOf(StateEnumValues, MemoryStateFlags.Free)] = true;
-
-            Array TypeEnumValues = Enum.GetValues(typeof(MemoryTypeFlags));
-            TypeSettings[Array.IndexOf(TypeEnumValues, MemoryTypeFlags.Private)] = true;
-            TypeSettings[Array.IndexOf(TypeEnumValues, MemoryTypeFlags.Mapped)] = false;
-            TypeSettings[Array.IndexOf(TypeEnumValues, MemoryTypeFlags.Image)] = true;
-
-            Array ProtectionEnumValues = Enum.GetValues(typeof(MemoryProtectionFlags));
-            ProtectionSettings[Array.IndexOf(ProtectionEnumValues, MemoryProtectionFlags.NoAccess)] = false;
-            ProtectionSettings[Array.IndexOf(ProtectionEnumValues, MemoryProtectionFlags.ReadOnly)] = false;
-            ProtectionSettings[Array.IndexOf(ProtectionEnumValues, MemoryProtectionFlags.ReadWrite)] = true;
-            ProtectionSettings[Array.IndexOf(ProtectionEnumValues, MemoryProtectionFlags.WriteCopy)] = false;
-            ProtectionSettings[Array.IndexOf(ProtectionEnumValues, MemoryProtectionFlags.Execute)] = false;
-            ProtectionSettings[Array.IndexOf(ProtectionEnumValues, MemoryProtectionFlags.ExecuteRead)] = false;
-            ProtectionSettings[Array.IndexOf(ProtectionEnumValues, MemoryProtectionFlags.ExecuteReadWrite)] = true;
-            ProtectionSettings[Array.IndexOf(ProtectionEnumValues, MemoryProtectionFlags.ExecuteWriteCopy)] = false;
-            ProtectionSettings[Array.IndexOf(ProtectionEnumValues, MemoryProtectionFlags.Guard)] = false;
-            ProtectionSettings[Array.IndexOf(ProtectionEnumValues, MemoryProtectionFlags.NoCache)] = false;
-            ProtectionSettings[Array.IndexOf(ProtectionEnumValues, MemoryProtectionFlags.WriteCombine)] = false;
-
-            FreezeInterval = 100;
-            RescanInterval = 400;
-            ResultReadInterval = 400;
-            TableReadInterval = 400;
-    }
 
         public void UpdateStateSettings(Boolean Free, Boolean Commit, Boolean Reserve)
         {
             Array StateEnumValues = Enum.GetValues(typeof(MemoryStateFlags));
-            StateSettings[Array.IndexOf(StateEnumValues, MemoryStateFlags.Commit)] = Free;
-            StateSettings[Array.IndexOf(StateEnumValues, MemoryStateFlags.Reserve)] = Commit;
-            StateSettings[Array.IndexOf(StateEnumValues, MemoryStateFlags.Free)] = Reserve;
+            Properties.Settings.Default.StateCommit = StateSettings[Array.IndexOf(StateEnumValues, MemoryStateFlags.Commit)] = Free;
+            Properties.Settings.Default.StateReserve = StateSettings[Array.IndexOf(StateEnumValues, MemoryStateFlags.Reserve)] = Commit;
+            Properties.Settings.Default.StateFree = StateSettings[Array.IndexOf(StateEnumValues, MemoryStateFlags.Free)] = Reserve;
         }
 
         public void UpdateTypeSettings(Boolean Private, Boolean Mapped, Boolean Image)
         {
             Array TypeEnumValues = Enum.GetValues(typeof(MemoryTypeFlags));
-            TypeSettings[Array.IndexOf(TypeEnumValues, MemoryTypeFlags.Private)] = Private;
-            TypeSettings[Array.IndexOf(TypeEnumValues, MemoryTypeFlags.Mapped)] = Mapped;
-            TypeSettings[Array.IndexOf(TypeEnumValues, MemoryTypeFlags.Image)] = Image;
+            Properties.Settings.Default.TypePrivate = TypeSettings[Array.IndexOf(TypeEnumValues, MemoryTypeFlags.Private)] = Private;
+            Properties.Settings.Default.TypeMapped = TypeSettings[Array.IndexOf(TypeEnumValues, MemoryTypeFlags.Mapped)] = Mapped;
+            Properties.Settings.Default.TypeImage = TypeSettings[Array.IndexOf(TypeEnumValues, MemoryTypeFlags.Image)] = Image;
         }
 
         public void UpdateProtectionSettings(Boolean NoAccess, Boolean ReadOnly, Boolean ReadWrite, Boolean WriteCopy, Boolean Execute,
             Boolean ExecuteRead, Boolean ExecuteReadWrite, Boolean ExecuteWriteCopy, Boolean Guard, Boolean NoCache, Boolean WriteCombine)
         {
             Array ProtectionEnumValues = Enum.GetValues(typeof(MemoryProtectionFlags));
-            ProtectionSettings[Array.IndexOf(ProtectionEnumValues, MemoryProtectionFlags.NoAccess)] = NoAccess;
-            ProtectionSettings[Array.IndexOf(ProtectionEnumValues, MemoryProtectionFlags.ReadOnly)] = ReadOnly;
-            ProtectionSettings[Array.IndexOf(ProtectionEnumValues, MemoryProtectionFlags.ReadWrite)] = ReadWrite;
-            ProtectionSettings[Array.IndexOf(ProtectionEnumValues, MemoryProtectionFlags.WriteCopy)] = WriteCopy;
-            ProtectionSettings[Array.IndexOf(ProtectionEnumValues, MemoryProtectionFlags.Execute)] = Execute;
-            ProtectionSettings[Array.IndexOf(ProtectionEnumValues, MemoryProtectionFlags.ExecuteRead)] = ExecuteRead;
-            ProtectionSettings[Array.IndexOf(ProtectionEnumValues, MemoryProtectionFlags.ExecuteReadWrite)] = ExecuteReadWrite;
-            ProtectionSettings[Array.IndexOf(ProtectionEnumValues, MemoryProtectionFlags.ExecuteWriteCopy)] = ExecuteWriteCopy;
-            ProtectionSettings[Array.IndexOf(ProtectionEnumValues, MemoryProtectionFlags.Guard)] = Guard;
-            ProtectionSettings[Array.IndexOf(ProtectionEnumValues, MemoryProtectionFlags.NoCache)] = NoCache;
-            ProtectionSettings[Array.IndexOf(ProtectionEnumValues, MemoryProtectionFlags.WriteCombine)] = WriteCombine;
+            Properties.Settings.Default.ProtectionNoAccess = ProtectionSettings[Array.IndexOf(ProtectionEnumValues, MemoryProtectionFlags.NoAccess)] = NoAccess;
+            Properties.Settings.Default.ProtectionReadOnly = ProtectionSettings[Array.IndexOf(ProtectionEnumValues, MemoryProtectionFlags.ReadOnly)] = ReadOnly;
+            Properties.Settings.Default.ProtectionReadWrite = ProtectionSettings[Array.IndexOf(ProtectionEnumValues, MemoryProtectionFlags.ReadWrite)] = ReadWrite;
+            Properties.Settings.Default.ProtectionWriteCopy = ProtectionSettings[Array.IndexOf(ProtectionEnumValues, MemoryProtectionFlags.WriteCopy)] = WriteCopy;
+            Properties.Settings.Default.ProtectionExecute = ProtectionSettings[Array.IndexOf(ProtectionEnumValues, MemoryProtectionFlags.Execute)] = Execute;
+            Properties.Settings.Default.ProtectionExecuteRead = ProtectionSettings[Array.IndexOf(ProtectionEnumValues, MemoryProtectionFlags.ExecuteRead)] = ExecuteRead;
+            Properties.Settings.Default.ProtectionExecuteReadWrite = ProtectionSettings[Array.IndexOf(ProtectionEnumValues, MemoryProtectionFlags.ExecuteReadWrite)] = ExecuteReadWrite;
+            Properties.Settings.Default.ProtectionExecuteWriteCopy = ProtectionSettings[Array.IndexOf(ProtectionEnumValues, MemoryProtectionFlags.ExecuteWriteCopy)] = ExecuteWriteCopy;
+            Properties.Settings.Default.ProtectionGuard = ProtectionSettings[Array.IndexOf(ProtectionEnumValues, MemoryProtectionFlags.Guard)] = Guard;
+            Properties.Settings.Default.ProtectionNoCache = ProtectionSettings[Array.IndexOf(ProtectionEnumValues, MemoryProtectionFlags.NoCache)] = NoCache;
+            Properties.Settings.Default.ProtectionWriteCombine = ProtectionSettings[Array.IndexOf(ProtectionEnumValues, MemoryProtectionFlags.WriteCombine)] = WriteCombine;
         }
 
         public void UpdateFreezeInterval(Int32 FreezeInterval)
         {
-            this.FreezeInterval = FreezeInterval;
+            Properties.Settings.Default.FreezeInterval = this.FreezeInterval = FreezeInterval;
         }
 
         public void UpdateRescanInterval(Int32 RescanInterval)
         {
-            this.RescanInterval = RescanInterval;
+            Properties.Settings.Default.RescanInterval = this.RescanInterval = RescanInterval;
         }
 
         public void UpdateResultReadInterval(Int32 ResultReadInterval)
         {
-            this.ResultReadInterval = ResultReadInterval;
+            Properties.Settings.Default.ResultReadInterval = this.ResultReadInterval = ResultReadInterval;
         }
 
         public void UpdateTableReadInterval(Int32 TableReadInterval)
         {
-            this.TableReadInterval = TableReadInterval;
+            Properties.Settings.Default.TableReadInterval = this.TableReadInterval = TableReadInterval;
         }
 
         public Boolean[] GetStateSettings()
