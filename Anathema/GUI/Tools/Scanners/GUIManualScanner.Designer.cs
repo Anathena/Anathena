@@ -36,7 +36,7 @@
             this.EqualButton = new System.Windows.Forms.ToolStripButton();
             this.DecreasedButton = new System.Windows.Forms.ToolStripButton();
             this.ValueTypeComboBox = new System.Windows.Forms.ComboBox();
-            this.ScanTypeWorldStrip = new System.Windows.Forms.ToolStrip();
+            this.ScanToolStrip = new System.Windows.Forms.ToolStrip();
             this.StartScanButton = new System.Windows.Forms.ToolStripButton();
             this.AddConstraintButton = new System.Windows.Forms.ToolStripButton();
             this.RemoveConstraintButton = new System.Windows.Forms.ToolStripButton();
@@ -52,7 +52,7 @@
             this.ValueHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.ConstraintHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.FilterScientificNotationCheckBox = new System.Windows.Forms.CheckBox();
-            this.ScanTypeWorldStrip.SuspendLayout();
+            this.ScanToolStrip.SuspendLayout();
             this.SuspendLayout();
             // 
             // CompareTypeLabel
@@ -131,10 +131,10 @@
             this.ValueTypeComboBox.TabIndex = 153;
             this.ValueTypeComboBox.SelectedIndexChanged += new System.EventHandler(this.ValueTypeComboBox_SelectedIndexChanged);
             // 
-            // ScanTypeWorldStrip
+            // ScanToolStrip
             // 
-            this.ScanTypeWorldStrip.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
-            this.ScanTypeWorldStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.ScanToolStrip.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
+            this.ScanToolStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.StartScanButton,
             this.toolStripSeparator7,
             this.AddConstraintButton,
@@ -151,12 +151,12 @@
             this.LessThanButton,
             this.IncreasedByXButton,
             this.DecreasedByXButton});
-            this.ScanTypeWorldStrip.Location = new System.Drawing.Point(0, 0);
-            this.ScanTypeWorldStrip.Name = "ScanTypeWorldStrip";
-            this.ScanTypeWorldStrip.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
-            this.ScanTypeWorldStrip.Size = new System.Drawing.Size(382, 25);
-            this.ScanTypeWorldStrip.TabIndex = 155;
-            this.ScanTypeWorldStrip.Text = "toolStrip1";
+            this.ScanToolStrip.Location = new System.Drawing.Point(0, 0);
+            this.ScanToolStrip.Name = "ScanToolStrip";
+            this.ScanToolStrip.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
+            this.ScanToolStrip.Size = new System.Drawing.Size(382, 25);
+            this.ScanToolStrip.TabIndex = 155;
+            this.ScanToolStrip.Text = "toolStrip1";
             // 
             // StartScanButton
             // 
@@ -301,7 +301,7 @@
             this.FilterScientificNotationCheckBox.Text = "Filter Scientific Notation";
             this.FilterScientificNotationCheckBox.UseVisualStyleBackColor = true;
             // 
-            // GUIFilterManual
+            // GUIManualScanner
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -311,12 +311,12 @@
             this.Controls.Add(this.CompareTypeLabel);
             this.Controls.Add(this.ValueTextBox);
             this.Controls.Add(this.ValueTypeComboBox);
-            this.Controls.Add(this.ScanTypeWorldStrip);
+            this.Controls.Add(this.ScanToolStrip);
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Name = "GUIFilterManual";
+            this.Name = "GUIManualScanner";
             this.Text = "Manual Scanner";
-            this.ScanTypeWorldStrip.ResumeLayout(false);
-            this.ScanTypeWorldStrip.PerformLayout();
+            this.ScanToolStrip.ResumeLayout(false);
+            this.ScanToolStrip.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -332,7 +332,7 @@
         private System.Windows.Forms.ToolStripButton EqualButton;
         private System.Windows.Forms.ToolStripButton DecreasedButton;
         private System.Windows.Forms.ComboBox ValueTypeComboBox;
-        private System.Windows.Forms.ToolStrip ScanTypeWorldStrip;
+        private System.Windows.Forms.ToolStrip ScanToolStrip;
         private System.Windows.Forms.ToolStripButton IncreasedButton;
         private System.Windows.Forms.ToolStripButton StartScanButton;
         private System.Windows.Forms.ListView ConstraintsListView;

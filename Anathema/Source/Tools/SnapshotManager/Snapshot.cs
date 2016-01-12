@@ -197,7 +197,8 @@ namespace Anathema
                 }
                 catch (ScanFailedException)
                 {
-                    DeallocatedRegions.Add(SnapshotRegion);
+                    if (!DeallocatedRegions.Contains(SnapshotRegion))
+                        DeallocatedRegions.Add(SnapshotRegion);
                 }
             });
 
@@ -211,8 +212,6 @@ namespace Anathema
         /// <summary>
         /// Reads and returns the memory of the specified region. Does not store the memory. Used for scans that
         /// just need to quickly grab memory with no use for it afterwards (chunk scan, tree scan).
-        /// 
-        /// This function does not take responsibility for ScanFailedExceptions
         /// </summary>
         /// <param name="SnapshotRegion"></param>
         /// <returns></returns>
@@ -227,7 +226,11 @@ namespace Anathema
                 if (!DeallocatedRegions.Contains(SnapshotRegion))
                     DeallocatedRegions.Add(SnapshotRegion);
             }
+
+            // Grab the saved values
             Byte[] SnapshotRegionData = SnapshotRegion.GetCurrentValues();
+
+            // Clear the values, so they do not persist in memory and the GC can get to them
             SnapshotRegion.SetCurrentValues(null, false);
 
             return SnapshotRegionData;

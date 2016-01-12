@@ -18,6 +18,7 @@ namespace Anathema
     {
         // Methods invoked by the presenter (upstream)
         void UpdateDisplay(List<String[]> ScanConstraintItems);
+        void ScanFinished();
     }
 
     abstract class IManualScannerModel : IScannerModel
@@ -27,6 +28,12 @@ namespace Anathema
         protected virtual void OnEventUpdateDisplay(ManualScannerEventArgs E)
         {
             EventUpdateDisplay(this, E);
+        }
+
+        public event ManualScannerEventHandler EventScanFinished;
+        protected virtual void OnEventScanFinished(ManualScannerEventArgs E)
+        {
+            EventScanFinished(this, E);
         }
 
         // Functions invoked by presenter (downstream)
@@ -51,6 +58,7 @@ namespace Anathema
 
             // Bind events triggered by the model
             Model.EventUpdateDisplay += EventUpdateDisplay;
+            Model.EventScanFinished += EventScanFinished;
         }
 
         #region Method definitions called by the view (downstream)
@@ -118,6 +126,11 @@ namespace Anathema
             }
 
             View.UpdateDisplay(ScanConstraintItems);
+        }
+
+        public void EventScanFinished(Object Sender, ManualScannerEventArgs E)
+        {
+            View.ScanFinished();
         }
 
         #endregion

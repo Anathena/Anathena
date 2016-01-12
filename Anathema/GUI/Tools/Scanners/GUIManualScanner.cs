@@ -27,6 +27,8 @@ namespace Anathema
             InitializeValueTypeComboBox();
             InitializeScanOptionButtons();
             EvaluateScanOptions(EqualButton);
+
+            EnableGUI();
         }
 
         private void InitializeValueTypeComboBox()
@@ -53,9 +55,20 @@ namespace Anathema
 
         public void UpdateDisplay(List<String[]> ScanConstraintItems)
         {
-            ConstraintsListView.Items.Clear();
-            foreach (String[] Item in ScanConstraintItems)
-                ConstraintsListView.Items.Add(new ListViewItem(Item));
+            ControlThreadingHelper.InvokeControlAction(ConstraintsListView, () =>
+            {
+                ConstraintsListView.Items.Clear();
+                foreach (String[] Item in ScanConstraintItems)
+                    ConstraintsListView.Items.Add(new ListViewItem(Item));
+            });
+        }
+
+        public void ScanFinished()
+        {
+            ControlThreadingHelper.InvokeControlAction(ScanToolStrip, () =>
+            {
+                EnableGUI();
+            });
         }
 
         private void EvaluateScanOptions(ToolStripButton Sender)
@@ -123,10 +136,21 @@ namespace Anathema
             this.CompareTypeLabel.Text = ValueConstraint.ToString();
         }
 
+        private void EnableGUI()
+        {
+            StartScanButton.Enabled = true;
+        }
+
+        private void DisableGUI()
+        {
+            StartScanButton.Enabled = false;
+        }
+
         #region Events
 
         private void StartScanButton_Click(Object Sender, EventArgs E)
         {
+            DisableGUI();
             ManualScannerPresenter.BeginScan();
         }
 

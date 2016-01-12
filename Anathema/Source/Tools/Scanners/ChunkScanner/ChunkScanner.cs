@@ -52,7 +52,7 @@ namespace Anathema
             this.ChunkSize = SetChunkSizeDoe(Snapshot.GetMemorySize());
 
             // Initialize filter tree roots
-            foreach (dynamic MemoryRegion in Snapshot)
+            foreach (SnapshotRegion MemoryRegion in Snapshot)
                 ChunkRoots.Add(new MemoryChunkRoots(MemoryRegion, ChunkSize));
 
             base.BeginScan();

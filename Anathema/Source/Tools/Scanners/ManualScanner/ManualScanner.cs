@@ -142,12 +142,14 @@ namespace Anathema
 
         public override void EndScan()
         {
-            // base.EndScan();
+            base.EndScan();
             Snapshot.ExpandValidRegions();
             Snapshot FilteredSnapshot = new Snapshot(Snapshot.GetValidRegions());
             FilteredSnapshot.SetScanMethod("Manual Scan");
             
             SnapshotManager.GetInstance().SaveSnapshot(FilteredSnapshot);
+            
+            OnEventScanFinished(new ManualScannerEventArgs());
         }
 
     } // End class

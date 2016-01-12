@@ -30,7 +30,7 @@
         {
             this.ValueTextBox = new System.Windows.Forms.TextBox();
             this.ValueTypeComboBox = new System.Windows.Forms.ComboBox();
-            this.ScanTypeWorldStrip = new System.Windows.Forms.ToolStrip();
+            this.ScanToolStrip = new System.Windows.Forms.ToolStrip();
             this.StartScanButton = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator7 = new System.Windows.Forms.ToolStripSeparator();
             this.RemoveConstraintButton = new System.Windows.Forms.ToolStripButton();
@@ -46,7 +46,7 @@
             this.IncreasedByXButton = new System.Windows.Forms.ToolStripButton();
             this.DecreasedByXButton = new System.Windows.Forms.ToolStripButton();
             this.FSMBuilderPanel = new Anathema.FlickerFreePanel();
-            this.ScanTypeWorldStrip.SuspendLayout();
+            this.ScanToolStrip.SuspendLayout();
             this.SuspendLayout();
             // 
             // ValueTextBox
@@ -68,10 +68,10 @@
             this.ValueTypeComboBox.TabIndex = 160;
             this.ValueTypeComboBox.SelectedIndexChanged += new System.EventHandler(this.ValueTypeComboBox_SelectedIndexChanged);
             // 
-            // ScanTypeWorldStrip
+            // ScanToolStrip
             // 
-            this.ScanTypeWorldStrip.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
-            this.ScanTypeWorldStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.ScanToolStrip.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
+            this.ScanToolStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.StartScanButton,
             this.toolStripSeparator7,
             this.RemoveConstraintButton,
@@ -86,13 +86,13 @@
             this.LessThanButton,
             this.IncreasedByXButton,
             this.DecreasedByXButton});
-            this.ScanTypeWorldStrip.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.HorizontalStackWithOverflow;
-            this.ScanTypeWorldStrip.Location = new System.Drawing.Point(0, 0);
-            this.ScanTypeWorldStrip.Name = "ScanTypeWorldStrip";
-            this.ScanTypeWorldStrip.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
-            this.ScanTypeWorldStrip.Size = new System.Drawing.Size(469, 25);
-            this.ScanTypeWorldStrip.TabIndex = 162;
-            this.ScanTypeWorldStrip.Text = "toolStrip1";
+            this.ScanToolStrip.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.HorizontalStackWithOverflow;
+            this.ScanToolStrip.Location = new System.Drawing.Point(0, 0);
+            this.ScanToolStrip.Name = "ScanToolStrip";
+            this.ScanToolStrip.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
+            this.ScanToolStrip.Size = new System.Drawing.Size(469, 25);
+            this.ScanToolStrip.TabIndex = 162;
+            this.ScanToolStrip.Text = "toolStrip1";
             // 
             // StartScanButton
             // 
@@ -243,7 +243,7 @@
             this.FSMBuilderPanel.MouseMove += new System.Windows.Forms.MouseEventHandler(this.FSMBuilderPanel_MouseMove);
             this.FSMBuilderPanel.MouseUp += new System.Windows.Forms.MouseEventHandler(this.FSMBuilderPanel_MouseUp);
             // 
-            // GUIFilterFSM
+            // GUIFiniteStateScanner
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -251,12 +251,12 @@
             this.Controls.Add(this.FSMBuilderPanel);
             this.Controls.Add(this.ValueTextBox);
             this.Controls.Add(this.ValueTypeComboBox);
-            this.Controls.Add(this.ScanTypeWorldStrip);
+            this.Controls.Add(this.ScanToolStrip);
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Name = "GUIFilterFSM";
+            this.Name = "GUIFiniteStateScanner";
             this.Text = "Finite State Scanner";
-            this.ScanTypeWorldStrip.ResumeLayout(false);
-            this.ScanTypeWorldStrip.PerformLayout();
+            this.ScanToolStrip.ResumeLayout(false);
+            this.ScanToolStrip.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -265,7 +265,7 @@
         #endregion
         private System.Windows.Forms.TextBox ValueTextBox;
         private System.Windows.Forms.ComboBox ValueTypeComboBox;
-        private System.Windows.Forms.ToolStrip ScanTypeWorldStrip;
+        private System.Windows.Forms.ToolStrip ScanToolStrip;
         private System.Windows.Forms.ToolStripButton StartScanButton;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator7;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
