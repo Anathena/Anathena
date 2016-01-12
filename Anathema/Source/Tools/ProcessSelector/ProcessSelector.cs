@@ -272,7 +272,14 @@ namespace Anathema
 
         public int Compare(Process ProcessA, Process ProcessB)
         {
-            return DateTime.Compare(ProcessB.StartTime, ProcessA.StartTime);
+            try
+            {
+                return DateTime.Compare(ProcessB.StartTime, ProcessA.StartTime);
+            }
+            catch (InvalidOperationException)
+            {
+                return 0;
+            }
         }
     }
 
