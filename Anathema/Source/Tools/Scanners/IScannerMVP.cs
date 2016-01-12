@@ -9,6 +9,11 @@ using System.Threading.Tasks;
 
 namespace Anathema
 {
+    /// <summary>
+    /// Indicates a scan failed, likely due to scanning deallocated memory or memory with certain virtual page flags
+    /// </summary>
+    public class ScanFailedException : Exception{ }
+
     interface IScannerView : IView
     {
         // Methods invoked by the presenter (upstream)

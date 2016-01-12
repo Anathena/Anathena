@@ -48,12 +48,11 @@ namespace Anathema
         {
             Boolean SuccessReading = false;
             Byte[] CurrentValues = MemoryEditor.ReadBytes(this.BaseAddress, this.RegionSize, out SuccessReading, false);
-            SetCurrentValues(CurrentValues, KeepPreviousValues);
 
             if (!SuccessReading)
-            {
-                // This region needs masking!
-            }
+                throw new ScanFailedException();
+
+            SetCurrentValues(CurrentValues, KeepPreviousValues);
         }
 
         /// <summary>

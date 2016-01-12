@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Collections;
 using System.Runtime.InteropServices;
+using System.Collections.Concurrent;
 
 namespace Anathema
 {
@@ -18,6 +19,7 @@ namespace Anathema
         private MemorySharp MemoryEditor;
 
         protected SnapshotRegion[] SnapshotRegions;
+        private ConcurrentBag<SnapshotRegion> DeallocatedRegions;
 
         // Variables to send to the display when displaying this snapshot
         private String ScanMethod;
@@ -43,6 +45,7 @@ namespace Anathema
         public Snapshot(Snapshot BaseSnapshot)
         {
             List<SnapshotRegion> Regions = new List<SnapshotRegion>();
+
             foreach (SnapshotRegion Region in BaseSnapshot.GetSnapshotRegions())
             {
                 Regions.Add(new SnapshotRegion(Region));
@@ -91,6 +94,7 @@ namespace Anathema
 
         public void Initialize()
         {
+            this.DeallocatedRegions = new ConcurrentBag<SnapshotRegion>();
             InitializeObserver();
             MergeRegions();
         }
@@ -179,14 +183,27 @@ namespace Anathema
 
         /// <summary>
         /// Reads memory for every snapshot, with each region storing the current and previous read values.
+        /// 
+        /// Handles ScanFailedExceptions
         /// </summary>
         /// <param name="KeepPreviousValues"></param>
         public void ReadAllSnapshotMemory()
         {
             Parallel.ForEach(SnapshotRegions, (SnapshotRegion) =>
             {
-                SnapshotRegion.ReadAllSnapshotMemory(MemoryEditor, true);
+                try
+                {
+                    SnapshotRegion.ReadAllSnapshotMemory(MemoryEditor, true);
+                }
+                catch (ScanFailedException)
+                {
+                    DeallocatedRegions.Add(SnapshotRegion);
+                }
             });
+
+            // Handle invalid reads
+            if (DeallocatedRegions.Count > 0)
+                MaskDeallocatedRegions();
 
             SetTimeStampToNow();
         }
@@ -194,6 +211,8 @@ namespace Anathema
         /// <summary>
         /// Reads and returns the memory of the specified region. Does not store the memory. Used for scans that
         /// just need to quickly grab memory with no use for it afterwards (chunk scan, tree scan).
+        /// 
+        /// This function does not take responsibility for ScanFailedExceptions
         /// </summary>
         /// <param name="SnapshotRegion"></param>
         /// <returns></returns>
@@ -203,6 +222,30 @@ namespace Anathema
             Byte[] RegionData = SnapshotRegion.GetCurrentValues();
             SnapshotRegion.SetCurrentValues(null, false);
             return RegionData;
+        }
+
+        protected virtual void MaskDeallocatedRegions()
+        {
+            List<SnapshotRegion> NewSnapshotRegions = new List<SnapshotRegion>(SnapshotRegions);
+
+            // Remove invalid items from collection
+            foreach (SnapshotRegion Region in DeallocatedRegions)
+                NewSnapshotRegions.Remove(Region);
+
+            // Get current memory regions
+            Snapshot Mask = SnapshotManager.GetInstance().SnapshotAllRegions();
+
+            // Mask each region against the current virtual memory regions
+            SnapshotRegion[] SplitRegions = MaskRegions(Mask, SnapshotRegions);
+
+            // Merge split regions back with the main list
+            NewSnapshotRegions.AddRange(SplitRegions);
+
+            // Clear invalid items
+            DeallocatedRegions = new ConcurrentBag<SnapshotRegion>();
+
+            // Store result as main snapshot array
+            this.SnapshotRegions = NewSnapshotRegions.ToArray();
         }
 
         public virtual SnapshotRegion[] GetValidRegions()

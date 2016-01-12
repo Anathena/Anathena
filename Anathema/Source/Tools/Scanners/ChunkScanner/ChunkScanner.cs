@@ -5,12 +5,14 @@ using System.Threading.Tasks;
 using System.Threading;
 using Binarysharp.MemoryManagement;
 using Binarysharp.MemoryManagement.Memory;
+using System.Collections.Concurrent;
 
 namespace Anathema
 {
     class ChunkScanner : IChunkScannerModel
     {
         private List<MemoryChunkRoots> ChunkRoots;
+        private ConcurrentBag<MemoryChunkRoots> InvalidChunkRoots;
         private Snapshot Snapshot;
         private Int32 ChunkSize;
 
@@ -46,6 +48,7 @@ namespace Anathema
         {
             this.Snapshot = new Snapshot(SnapshotManager.GetInstance().GetActiveSnapshot());
             this.ChunkRoots = new List<MemoryChunkRoots>();
+            this.InvalidChunkRoots = new ConcurrentBag<MemoryChunkRoots>();
             this.ChunkSize = SetChunkSizeDoe(Snapshot.GetMemorySize());
 
             // Initialize filter tree roots
@@ -57,21 +60,38 @@ namespace Anathema
 
         protected override void UpdateScan()
         {
+
             Parallel.ForEach(ChunkRoots, (ChunkRoot) =>
             {
-                Byte[] PageData = Snapshot.ReadSnapshotMemoryOfRegion(ChunkRoot);
-
-                // Process the changes that have occurred since the last sampling for this memory page
-                if (PageData != null)
+                try
                 {
-                    ChunkRoot.ProcessChanges(PageData);
+                    // Process the changes that have occurred since the last sampling for this memory page
+                    ChunkRoot.ProcessChanges(Snapshot.ReadSnapshotMemoryOfRegion(ChunkRoot));
                 }
-                // Error reading this page -- kill it (may have been deallocated)
-                else
+                catch (ScanFailedException)
                 {
-                    ChunkRoot.KillRegion();
+                    InvalidChunkRoots.Add(ChunkRoot);
                 }
             });
+
+            // Handle invalid reads
+            if (InvalidChunkRoots.Count > 0)
+            {
+                MemoryChunkRoots[] InvalidChunks = InvalidChunkRoots.ToArray();
+
+                // Remove invalid items from collection
+                foreach (MemoryChunkRoots Root in InvalidChunks)
+                    ChunkRoots.Remove(Root);
+
+                // Get current memory regions
+                
+                // Mask each chunk against the original region
+
+                // Copy the attributes to the new regions, if they exist
+                
+                // Clear invalid items
+                InvalidChunkRoots = new ConcurrentBag<MemoryChunkRoots>();
+            }
         }
 
         public override void EndScan()
@@ -106,7 +126,6 @@ namespace Anathema
 
         public class MemoryChunkRoots : SnapshotRegion
         {
-            private Boolean Dead;
             private SnapshotRegion[] Chunks;
             private UInt16[] ChangeCounts;
             private UInt32?[] Checksums;
@@ -119,7 +138,6 @@ namespace Anathema
                 Chunks = new SnapshotRegion[ChunkCount];
                 ChangeCounts = new UInt16[ChunkCount];
                 Checksums = new UInt32?[ChunkCount];
-                Dead = false;
 
                 // Initialize all chunks and checksums
                 for (Int32 Index = 0; Index < ChunkCount; Index++)
@@ -139,24 +157,11 @@ namespace Anathema
 
             public void GetChangedRegions(List<SnapshotRegion> AcceptedRegions, Int32 MinChanges)
             {
-                if (IsDead())
-                    return;
-
                 for (Int32 Index = 0; Index < Chunks.Length; Index++)
                 {
                     if (ChangeCounts[Index] >= MinChanges)
                         AcceptedRegions.Add(Chunks[Index]);
                 }
-            }
-
-            public void KillRegion()
-            {
-                Dead = true;
-            }
-
-            public Boolean IsDead()
-            {
-                return Dead;
             }
 
             public void ProcessChanges(Byte[] Data)

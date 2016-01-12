@@ -24,7 +24,7 @@ namespace Anathema
         // Variables
         private Snapshot Snapshot;
         private List<MemoryChangeTree> FilterTrees; // Trees to grow to search for changes
-        
+
         public TreeScanner()
         {
 
@@ -45,24 +45,18 @@ namespace Anathema
 
         protected override void UpdateScan()
         {
-            Parallel.ForEach(FilterTrees, (Tree) =>
+            try
             {
-                if (Tree.IsDead())
-                    return; // Works as 'continue' in a parallel foreach
-
-                Byte[] PageData = Snapshot.ReadSnapshotMemoryOfRegion(Tree);
-
-                // Process the changes that have occurred since the last sampling for this memory page
-                if (PageData != null)
+                Parallel.ForEach(FilterTrees, (Tree) =>
                 {
-                    Tree.ProcessChanges(PageData, Tree.BaseAddress);
-                }
-                // Error reading this page -- kill it (may have been deallocated)
-                else
-                {
-                    Tree.KillTree();
-                }
-            });
+                    // Process the changes that have occurred since the last sampling for this memory page
+                    Tree.ProcessChanges(Snapshot.ReadSnapshotMemoryOfRegion(Tree), Tree.BaseAddress);
+                });
+            }
+            catch (ScanFailedException)
+            {
+
+            }
         }
 
         public override void EndScan()
@@ -75,7 +69,7 @@ namespace Anathema
             for (Int32 Index = 0; Index < FilterTrees.Count; Index++)
                 FilterTrees[Index].GetChangedRegions(FilteredRegions);
             FilterTrees = null;
-            
+
             // Create snapshot with results
             Snapshot FilteredSnapshot = new Snapshot(FilteredRegions.ToArray());
 
@@ -105,8 +99,7 @@ namespace Anathema
             private enum StateEnum
             {
                 Unchanged,
-                HasChanged,
-                Deallocated
+                HasChanged
             }
 
             private MemoryChangeTree ChildRight;
@@ -122,16 +115,6 @@ namespace Anathema
 
                 ChildRight = null;
                 ChildLeft = null;
-            }
-
-            public Boolean IsDead()
-            {
-                return (State == StateEnum.Deallocated);
-            }
-
-            public void KillTree()
-            {
-                State = StateEnum.Deallocated;
             }
 
             public void GetChangedRegions(List<SnapshotRegion> AcceptedPages)
@@ -156,9 +139,6 @@ namespace Anathema
             {
                 // No need to process a page that has already changed
                 if (RegionSize <= PageSplitThreshold && State == StateEnum.HasChanged)
-                    return;
-
-                if (State == StateEnum.Deallocated)
                     return;
 
                 // If this node has no children, this node is a leaf and thus does the processing
