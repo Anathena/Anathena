@@ -73,205 +73,73 @@ namespace Anathema.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("True")]
-        public bool StateCommit {
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int MemoryStateRequired {
             get {
-                return ((bool)(this["StateCommit"]));
+                return ((int)(this["MemoryStateRequired"]));
             }
             set {
-                this["StateCommit"] = value;
+                this["MemoryStateRequired"] = value;
             }
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("True")]
-        public bool StateReserve {
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int MemoryTypeRequired {
             get {
-                return ((bool)(this["StateReserve"]));
+                return ((int)(this["MemoryTypeRequired"]));
             }
             set {
-                this["StateReserve"] = value;
+                this["MemoryTypeRequired"] = value;
             }
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("True")]
-        public bool StateFree {
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int MemoryProtectionRequired {
             get {
-                return ((bool)(this["StateFree"]));
+                return ((int)(this["MemoryProtectionRequired"]));
             }
             set {
-                this["StateFree"] = value;
+                this["MemoryProtectionRequired"] = value;
             }
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("True")]
-        public bool TypePrivate {
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int MemoryStateIgnored {
             get {
-                return ((bool)(this["TypePrivate"]));
+                return ((int)(this["MemoryStateIgnored"]));
             }
             set {
-                this["TypePrivate"] = value;
+                this["MemoryStateIgnored"] = value;
             }
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("False")]
-        public bool TypeMapped {
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int MemoryTypeIgnored {
             get {
-                return ((bool)(this["TypeMapped"]));
+                return ((int)(this["MemoryTypeIgnored"]));
             }
             set {
-                this["TypeMapped"] = value;
+                this["MemoryTypeIgnored"] = value;
             }
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("True")]
-        public bool TypeImage {
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int MemoryProtectionIgnored {
             get {
-                return ((bool)(this["TypeImage"]));
+                return ((int)(this["MemoryProtectionIgnored"]));
             }
             set {
-                this["TypeImage"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("False")]
-        public bool ProtectionNoAccess {
-            get {
-                return ((bool)(this["ProtectionNoAccess"]));
-            }
-            set {
-                this["ProtectionNoAccess"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("False")]
-        public bool ProtectionReadOnly {
-            get {
-                return ((bool)(this["ProtectionReadOnly"]));
-            }
-            set {
-                this["ProtectionReadOnly"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("True")]
-        public bool ProtectionReadWrite {
-            get {
-                return ((bool)(this["ProtectionReadWrite"]));
-            }
-            set {
-                this["ProtectionReadWrite"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("False")]
-        public bool ProtectionWriteCopy {
-            get {
-                return ((bool)(this["ProtectionWriteCopy"]));
-            }
-            set {
-                this["ProtectionWriteCopy"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("False")]
-        public bool ProtectionExecute {
-            get {
-                return ((bool)(this["ProtectionExecute"]));
-            }
-            set {
-                this["ProtectionExecute"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("False")]
-        public bool ProtectionExecuteRead {
-            get {
-                return ((bool)(this["ProtectionExecuteRead"]));
-            }
-            set {
-                this["ProtectionExecuteRead"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("True")]
-        public bool ProtectionExecuteReadWrite {
-            get {
-                return ((bool)(this["ProtectionExecuteReadWrite"]));
-            }
-            set {
-                this["ProtectionExecuteReadWrite"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("False")]
-        public bool ProtectionExecuteWriteCopy {
-            get {
-                return ((bool)(this["ProtectionExecuteWriteCopy"]));
-            }
-            set {
-                this["ProtectionExecuteWriteCopy"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("False")]
-        public bool ProtectionGuard {
-            get {
-                return ((bool)(this["ProtectionGuard"]));
-            }
-            set {
-                this["ProtectionGuard"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("False")]
-        public bool ProtectionNoCache {
-            get {
-                return ((bool)(this["ProtectionNoCache"]));
-            }
-            set {
-                this["ProtectionNoCache"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("False")]
-        public bool ProtectionWriteCombine {
-            get {
-                return ((bool)(this["ProtectionWriteCombine"]));
-            }
-            set {
-                this["ProtectionWriteCombine"] = value;
+                this["MemoryProtectionIgnored"] = value;
             }
         }
     }

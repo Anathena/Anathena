@@ -1,5 +1,6 @@
 ﻿using Binarysharp.MemoryManagement;
 using Binarysharp.MemoryManagement.Memory;
+using Binarysharp.MemoryManagement.Native;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,24 +21,29 @@ namespace Anathema
         // Events triggered by the model (upstream)
 
         // Functions invoked by presenter (downstream)
-        void UpdateStateSettings(Boolean Commit, Boolean Reserve, Boolean Free);
-        void UpdateTypeSettings(Boolean Private, Boolean Mapped, Boolean Image);
-        void UpdateProtectionSettings(Boolean NoAccess, Boolean ReadOnly, Boolean ReadWrite, Boolean WriteCopy, Boolean Execute,
+        void UpdateRequiredStateSettings(Boolean Commit, Boolean Reserve, Boolean Free);
+        void UpdateRequiredTypeSettings(Boolean Private, Boolean Mapped, Boolean Image);
+        void UpdateRequiredProtectionSettings(Boolean NoAccess, Boolean ReadOnly, Boolean ReadWrite, Boolean WriteCopy, Boolean Execute,
            Boolean ExecuteRead, Boolean ExecuteReadWrite, Boolean ExecuteWriteCopy, Boolean Guard, Boolean NoCache, Boolean WriteCombine);
+        
+        void UpdateFreezeInterval(Int32 FreezeInterval);
+        void UpdateRescanInterval(Int32 RescanInterval);
+        void UpdateResultReadInterval(Int32 ResultReadInterval);
+        void UpdateTableReadInterval(Int32 TableReadInterval);
 
-        Boolean[] GetStateSettings();
-        Boolean[] GetTypeSettings();
-        Boolean[] GetProtectionSettings();
+
+        MemoryStateFlags GetRequiredStateSettings();
+        MemoryTypeFlags GetRequiredTypeSettings();
+        MemoryProtectionFlags GetRequiredProtectionSettings();
+
+        MemoryStateFlags GetIgnoredStateSettings();
+        MemoryTypeFlags GetIgnoredTypeSettings();
+        MemoryProtectionFlags GetIgnoredProtectionSettings();
 
         Int32 GetFreezeInterval();
         Int32 GetRescanInterval();
         Int32 GetResultReadInterval();
         Int32 GetTableReadInterval();
-
-        void UpdateFreezeInterval(Int32 FreezeInterval);
-        void UpdateRescanInterval(Int32 RescanInterval);
-        void UpdateResultReadInterval(Int32 ResultReadInterval);
-        void UpdateTableReadInterval(Int32 TableReadInterval);
     }
 
     class SettingsPresenter : Presenter<ISettingsView, ISettingsModel>
@@ -57,18 +63,18 @@ namespace Anathema
 
         public void UpdateStateSettings( Boolean Commit, Boolean Reserve, Boolean Free)
         {
-            Model.UpdateStateSettings(Commit, Reserve, Free);
+            Model.UpdateRequiredStateSettings(Commit, Reserve, Free);
         }
 
         public void UpdateTypeSettings(Boolean Private, Boolean Mapped, Boolean Image)
         {
-            Model.UpdateTypeSettings(Private, Mapped, Image);
+            Model.UpdateRequiredTypeSettings(Private, Mapped, Image);
         }
 
         public void UpdateProtectionSettings(Boolean NoAccess, Boolean ReadOnly, Boolean ReadWrite, Boolean WriteCopy, Boolean Execute,
             Boolean ExecuteRead, Boolean ExecuteReadWrite, Boolean ExecuteWriteCopy, Boolean Guard, Boolean NoCache, Boolean WriteCombine)
         {
-            Model.UpdateProtectionSettings(NoAccess, ReadOnly, ReadWrite, WriteCopy, Execute, ExecuteRead, ExecuteReadWrite, ExecuteWriteCopy, Guard, NoCache, WriteCombine);
+            Model.UpdateRequiredProtectionSettings(NoAccess, ReadOnly, ReadWrite, WriteCopy, Execute, ExecuteRead, ExecuteReadWrite, ExecuteWriteCopy, Guard, NoCache, WriteCombine);
         }
 
         public void UpdateFreezeInterval(String FreezeInterval)
@@ -93,17 +99,50 @@ namespace Anathema
 
         public Boolean[] GetStateSettings()
         {
-            return Model.GetStateSettings();
+            MemoryStateFlags RequiredStateFlags = Model.GetRequiredStateSettings();
+            Array StateEnumValues = Enum.GetValues(typeof(MemoryStateFlags));
+            Boolean[] StateSettings = new Boolean[StateEnumValues.Length];
+
+            StateSettings[Array.IndexOf(StateEnumValues, MemoryStateFlags.Commit)] = (RequiredStateFlags & MemoryStateFlags.Commit) != 0 ? true : false;
+            StateSettings[Array.IndexOf(StateEnumValues, MemoryStateFlags.Free)] = (RequiredStateFlags & MemoryStateFlags.Free) != 0 ? true : false;
+            StateSettings[Array.IndexOf(StateEnumValues, MemoryStateFlags.Reserve)] = (RequiredStateFlags & MemoryStateFlags.Reserve) != 0 ? true : false;
+
+            return StateSettings;
         }
 
         public Boolean[] GetTypeSettings()
         {
-            return Model.GetTypeSettings();
+            MemoryTypeFlags RequiredTypeFlags = Model.GetRequiredTypeSettings();
+            Array TypeEnumValues = Enum.GetValues(typeof(MemoryStateFlags));
+            Boolean[] TypeSettings = new Boolean[TypeEnumValues.Length];
+
+            TypeSettings[Array.IndexOf(TypeEnumValues, MemoryTypeFlags.None)] = (RequiredTypeFlags & MemoryTypeFlags.None) != 0 ? true : false;
+            TypeSettings[Array.IndexOf(TypeEnumValues, MemoryTypeFlags.Private)] = (RequiredTypeFlags & MemoryTypeFlags.Private) != 0 ? true : false;
+            TypeSettings[Array.IndexOf(TypeEnumValues, MemoryTypeFlags.Image)] = (RequiredTypeFlags & MemoryTypeFlags.Image) != 0 ? true : false;
+            TypeSettings[Array.IndexOf(TypeEnumValues, MemoryTypeFlags.Mapped)] = (RequiredTypeFlags & MemoryTypeFlags.Mapped) != 0 ? true : false;
+
+            return TypeSettings;
         }
 
         public Boolean[] GetProtectionSettings()
         {
-            return Model.GetProtectionSettings();
+            MemoryProtectionFlags RequiredProtectionFlags = Model.GetRequiredProtectionSettings();
+            Array ProtectionEnumValues = Enum.GetValues(typeof(MemoryProtectionFlags));
+            Boolean[] ProtectionSettings = new Boolean[ProtectionEnumValues.Length];
+
+            ProtectionSettings[Array.IndexOf(ProtectionEnumValues, MemoryProtectionFlags.NoAccess)] = (RequiredProtectionFlags & MemoryProtectionFlags.NoAccess) != 0 ? true : false;
+            ProtectionSettings[Array.IndexOf(ProtectionEnumValues, MemoryProtectionFlags.ReadOnly)] = (RequiredProtectionFlags & MemoryProtectionFlags.ReadOnly) != 0 ? true : false;
+            ProtectionSettings[Array.IndexOf(ProtectionEnumValues, MemoryProtectionFlags.ReadWrite)] = (RequiredProtectionFlags & MemoryProtectionFlags.ReadWrite) != 0 ? true : false;
+            ProtectionSettings[Array.IndexOf(ProtectionEnumValues, MemoryProtectionFlags.WriteCopy)] = (RequiredProtectionFlags & MemoryProtectionFlags.WriteCopy) != 0 ? true : false;
+            ProtectionSettings[Array.IndexOf(ProtectionEnumValues, MemoryProtectionFlags.Execute)] = (RequiredProtectionFlags & MemoryProtectionFlags.Execute) != 0 ? true : false;
+            ProtectionSettings[Array.IndexOf(ProtectionEnumValues, MemoryProtectionFlags.ExecuteRead)] = (RequiredProtectionFlags & MemoryProtectionFlags.ExecuteRead) != 0 ? true : false;
+            ProtectionSettings[Array.IndexOf(ProtectionEnumValues, MemoryProtectionFlags.ExecuteReadWrite)] = (RequiredProtectionFlags & MemoryProtectionFlags.ExecuteReadWrite) != 0 ? true : false;
+            ProtectionSettings[Array.IndexOf(ProtectionEnumValues, MemoryProtectionFlags.ExecuteWriteCopy)] = (RequiredProtectionFlags & MemoryProtectionFlags.ExecuteWriteCopy) != 0 ? true : false;
+            ProtectionSettings[Array.IndexOf(ProtectionEnumValues, MemoryProtectionFlags.Guard)] = (RequiredProtectionFlags & MemoryProtectionFlags.Guard) != 0 ? true : false;
+            ProtectionSettings[Array.IndexOf(ProtectionEnumValues, MemoryProtectionFlags.NoCache)] = (RequiredProtectionFlags & MemoryProtectionFlags.NoCache) != 0 ? true : false;
+            ProtectionSettings[Array.IndexOf(ProtectionEnumValues, MemoryProtectionFlags.WriteCombine)] = (RequiredProtectionFlags & MemoryProtectionFlags.WriteCombine) != 0 ? true : false;
+
+            return ProtectionSettings;
         }
 
         public String GetFreezeInterval()

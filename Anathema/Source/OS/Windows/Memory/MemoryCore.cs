@@ -13,6 +13,7 @@ using System.ComponentModel;
 using Binarysharp.MemoryManagement.Helpers;
 using Binarysharp.MemoryManagement.Internals;
 using Binarysharp.MemoryManagement.Native;
+using Anathema;
 
 namespace Binarysharp.MemoryManagement.Memory
 {
@@ -254,6 +255,13 @@ namespace Binarysharp.MemoryManagement.Memory
             // Create the variable storing the result of the call of VirtualQueryEx
             int ret;
 
+            // Get settings of pages to require
+            MemoryStateFlags StateSettings = Settings.GetInstance().GetRequiredStateSettings();
+            MemoryTypeFlags TypeSettings = Settings.GetInstance().GetRequiredTypeSettings();
+            MemoryProtectionFlags ProtectionSettings = Settings.GetInstance().GetRequiredProtectionSettings();
+
+            // Get settings of pages to ignore
+
             // Enumerate the memory pages
             do
             {
@@ -283,25 +291,8 @@ namespace Binarysharp.MemoryManagement.Memory
                 // Increment the starting address with the size of the page
                 numberFrom += (UInt64)memoryInfo.RegionSize;
 
-                // Ignore states we are not interested in querying
-                if (memoryInfo.Type == MemoryTypeFlags.Mapped)
-                    continue;
 
-                if (memoryInfo.AllocationProtect == MemoryProtectionFlags.ReadOnly)
-                    continue;
-                if (memoryInfo.AllocationProtect == MemoryProtectionFlags.NoAccess)
-                    continue;
-                if (memoryInfo.AllocationProtect == MemoryProtectionFlags.ZeroAccess)
-                    continue;
-
-                if (memoryInfo.Protect == MemoryProtectionFlags.WriteCopy)
-                    continue;
-
-                if (memoryInfo.State == MemoryStateFlags.Free)
-                    continue;
-
-                if (memoryInfo.State == MemoryStateFlags.Reserve)
-                    continue;
+                /// DODODODODODODODO
 
                 // Return the memory page
                 yield return memoryInfo;
