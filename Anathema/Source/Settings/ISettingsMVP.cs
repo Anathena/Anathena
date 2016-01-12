@@ -21,23 +21,19 @@ namespace Anathema
         // Events triggered by the model (upstream)
 
         // Functions invoked by presenter (downstream)
-        void UpdateRequiredStateSettings(Boolean Commit, Boolean Reserve, Boolean Free);
-        void UpdateRequiredTypeSettings(Boolean Private, Boolean Mapped, Boolean Image);
+        void UpdateTypeSettings(Boolean None, Boolean Private, Boolean Mapped, Boolean Image);
         void UpdateRequiredProtectionSettings(Boolean NoAccess, Boolean ReadOnly, Boolean ReadWrite, Boolean WriteCopy, Boolean Execute,
            Boolean ExecuteRead, Boolean ExecuteReadWrite, Boolean ExecuteWriteCopy, Boolean Guard, Boolean NoCache, Boolean WriteCombine);
-        
+        void UpdateIgnoredProtectionSettings(Boolean NoAccess, Boolean ReadOnly, Boolean ReadWrite, Boolean WriteCopy, Boolean Execute,
+           Boolean ExecuteRead, Boolean ExecuteReadWrite, Boolean ExecuteWriteCopy, Boolean Guard, Boolean NoCache, Boolean WriteCombine);
+
         void UpdateFreezeInterval(Int32 FreezeInterval);
         void UpdateRescanInterval(Int32 RescanInterval);
         void UpdateResultReadInterval(Int32 ResultReadInterval);
         void UpdateTableReadInterval(Int32 TableReadInterval);
-
-
-        MemoryStateFlags GetRequiredStateSettings();
-        MemoryTypeFlags GetRequiredTypeSettings();
+        
+        Boolean[] GetTypeSettings();
         MemoryProtectionFlags GetRequiredProtectionSettings();
-
-        MemoryStateFlags GetIgnoredStateSettings();
-        MemoryTypeFlags GetIgnoredTypeSettings();
         MemoryProtectionFlags GetIgnoredProtectionSettings();
 
         Int32 GetFreezeInterval();
@@ -61,20 +57,21 @@ namespace Anathema
 
         #region Method definitions called by the view (downstream)
 
-        public void UpdateStateSettings( Boolean Commit, Boolean Reserve, Boolean Free)
+        public void UpdateTypeSettings(Boolean None, Boolean Private, Boolean Mapped, Boolean Image)
         {
-            Model.UpdateRequiredStateSettings(Commit, Reserve, Free);
+            Model.UpdateTypeSettings(None, Private, Mapped, Image);
         }
 
-        public void UpdateTypeSettings(Boolean Private, Boolean Mapped, Boolean Image)
-        {
-            Model.UpdateRequiredTypeSettings(Private, Mapped, Image);
-        }
-
-        public void UpdateProtectionSettings(Boolean NoAccess, Boolean ReadOnly, Boolean ReadWrite, Boolean WriteCopy, Boolean Execute,
+        public void UpdateRequiredProtectionSettings(Boolean NoAccess, Boolean ReadOnly, Boolean ReadWrite, Boolean WriteCopy, Boolean Execute,
             Boolean ExecuteRead, Boolean ExecuteReadWrite, Boolean ExecuteWriteCopy, Boolean Guard, Boolean NoCache, Boolean WriteCombine)
         {
             Model.UpdateRequiredProtectionSettings(NoAccess, ReadOnly, ReadWrite, WriteCopy, Execute, ExecuteRead, ExecuteReadWrite, ExecuteWriteCopy, Guard, NoCache, WriteCombine);
+        }
+
+        public void UpdateIgnoredProtectionSettings(Boolean NoAccess, Boolean ReadOnly, Boolean ReadWrite, Boolean WriteCopy, Boolean Execute,
+            Boolean ExecuteRead, Boolean ExecuteReadWrite, Boolean ExecuteWriteCopy, Boolean Guard, Boolean NoCache, Boolean WriteCombine)
+        {
+            Model.UpdateIgnoredProtectionSettings(NoAccess, ReadOnly, ReadWrite, WriteCopy, Execute, ExecuteRead, ExecuteReadWrite, ExecuteWriteCopy, Guard, NoCache, WriteCombine);
         }
 
         public void UpdateFreezeInterval(String FreezeInterval)
@@ -97,50 +94,37 @@ namespace Anathema
             Model.UpdateTableReadInterval(Int32.Parse(TableReadInterval));
         }
 
-        public Boolean[] GetStateSettings()
-        {
-            MemoryStateFlags RequiredStateFlags = Model.GetRequiredStateSettings();
-            Array StateEnumValues = Enum.GetValues(typeof(MemoryStateFlags));
-            Boolean[] StateSettings = new Boolean[StateEnumValues.Length];
-
-            StateSettings[Array.IndexOf(StateEnumValues, MemoryStateFlags.Commit)] = (RequiredStateFlags & MemoryStateFlags.Commit) != 0 ? true : false;
-            StateSettings[Array.IndexOf(StateEnumValues, MemoryStateFlags.Free)] = (RequiredStateFlags & MemoryStateFlags.Free) != 0 ? true : false;
-            StateSettings[Array.IndexOf(StateEnumValues, MemoryStateFlags.Reserve)] = (RequiredStateFlags & MemoryStateFlags.Reserve) != 0 ? true : false;
-
-            return StateSettings;
-        }
-
         public Boolean[] GetTypeSettings()
         {
-            MemoryTypeFlags RequiredTypeFlags = Model.GetRequiredTypeSettings();
-            Array TypeEnumValues = Enum.GetValues(typeof(MemoryStateFlags));
-            Boolean[] TypeSettings = new Boolean[TypeEnumValues.Length];
-
-            TypeSettings[Array.IndexOf(TypeEnumValues, MemoryTypeFlags.None)] = (RequiredTypeFlags & MemoryTypeFlags.None) != 0 ? true : false;
-            TypeSettings[Array.IndexOf(TypeEnumValues, MemoryTypeFlags.Private)] = (RequiredTypeFlags & MemoryTypeFlags.Private) != 0 ? true : false;
-            TypeSettings[Array.IndexOf(TypeEnumValues, MemoryTypeFlags.Image)] = (RequiredTypeFlags & MemoryTypeFlags.Image) != 0 ? true : false;
-            TypeSettings[Array.IndexOf(TypeEnumValues, MemoryTypeFlags.Mapped)] = (RequiredTypeFlags & MemoryTypeFlags.Mapped) != 0 ? true : false;
-
-            return TypeSettings;
+            return Model.GetTypeSettings();
         }
 
-        public Boolean[] GetProtectionSettings()
+        public Boolean[] GetRequiredProtectionSettings()
         {
-            MemoryProtectionFlags RequiredProtectionFlags = Model.GetRequiredProtectionSettings();
+            return ProtectionFlagsToBooleanArray(Model.GetRequiredProtectionSettings());
+        }
+
+        public Boolean[] GetIgnoredProtectionSettings()
+        {
+            return ProtectionFlagsToBooleanArray(Model.GetIgnoredProtectionSettings());
+        }
+
+        private Boolean[] ProtectionFlagsToBooleanArray(MemoryProtectionFlags ProtectionFlags)
+        {
             Array ProtectionEnumValues = Enum.GetValues(typeof(MemoryProtectionFlags));
             Boolean[] ProtectionSettings = new Boolean[ProtectionEnumValues.Length];
 
-            ProtectionSettings[Array.IndexOf(ProtectionEnumValues, MemoryProtectionFlags.NoAccess)] = (RequiredProtectionFlags & MemoryProtectionFlags.NoAccess) != 0 ? true : false;
-            ProtectionSettings[Array.IndexOf(ProtectionEnumValues, MemoryProtectionFlags.ReadOnly)] = (RequiredProtectionFlags & MemoryProtectionFlags.ReadOnly) != 0 ? true : false;
-            ProtectionSettings[Array.IndexOf(ProtectionEnumValues, MemoryProtectionFlags.ReadWrite)] = (RequiredProtectionFlags & MemoryProtectionFlags.ReadWrite) != 0 ? true : false;
-            ProtectionSettings[Array.IndexOf(ProtectionEnumValues, MemoryProtectionFlags.WriteCopy)] = (RequiredProtectionFlags & MemoryProtectionFlags.WriteCopy) != 0 ? true : false;
-            ProtectionSettings[Array.IndexOf(ProtectionEnumValues, MemoryProtectionFlags.Execute)] = (RequiredProtectionFlags & MemoryProtectionFlags.Execute) != 0 ? true : false;
-            ProtectionSettings[Array.IndexOf(ProtectionEnumValues, MemoryProtectionFlags.ExecuteRead)] = (RequiredProtectionFlags & MemoryProtectionFlags.ExecuteRead) != 0 ? true : false;
-            ProtectionSettings[Array.IndexOf(ProtectionEnumValues, MemoryProtectionFlags.ExecuteReadWrite)] = (RequiredProtectionFlags & MemoryProtectionFlags.ExecuteReadWrite) != 0 ? true : false;
-            ProtectionSettings[Array.IndexOf(ProtectionEnumValues, MemoryProtectionFlags.ExecuteWriteCopy)] = (RequiredProtectionFlags & MemoryProtectionFlags.ExecuteWriteCopy) != 0 ? true : false;
-            ProtectionSettings[Array.IndexOf(ProtectionEnumValues, MemoryProtectionFlags.Guard)] = (RequiredProtectionFlags & MemoryProtectionFlags.Guard) != 0 ? true : false;
-            ProtectionSettings[Array.IndexOf(ProtectionEnumValues, MemoryProtectionFlags.NoCache)] = (RequiredProtectionFlags & MemoryProtectionFlags.NoCache) != 0 ? true : false;
-            ProtectionSettings[Array.IndexOf(ProtectionEnumValues, MemoryProtectionFlags.WriteCombine)] = (RequiredProtectionFlags & MemoryProtectionFlags.WriteCombine) != 0 ? true : false;
+            ProtectionSettings[Array.IndexOf(ProtectionEnumValues, MemoryProtectionFlags.NoAccess)] = (ProtectionFlags & MemoryProtectionFlags.NoAccess) != 0 ? true : false;
+            ProtectionSettings[Array.IndexOf(ProtectionEnumValues, MemoryProtectionFlags.ReadOnly)] = (ProtectionFlags & MemoryProtectionFlags.ReadOnly) != 0 ? true : false;
+            ProtectionSettings[Array.IndexOf(ProtectionEnumValues, MemoryProtectionFlags.ReadWrite)] = (ProtectionFlags & MemoryProtectionFlags.ReadWrite) != 0 ? true : false;
+            ProtectionSettings[Array.IndexOf(ProtectionEnumValues, MemoryProtectionFlags.WriteCopy)] = (ProtectionFlags & MemoryProtectionFlags.WriteCopy) != 0 ? true : false;
+            ProtectionSettings[Array.IndexOf(ProtectionEnumValues, MemoryProtectionFlags.Execute)] = (ProtectionFlags & MemoryProtectionFlags.Execute) != 0 ? true : false;
+            ProtectionSettings[Array.IndexOf(ProtectionEnumValues, MemoryProtectionFlags.ExecuteRead)] = (ProtectionFlags & MemoryProtectionFlags.ExecuteRead) != 0 ? true : false;
+            ProtectionSettings[Array.IndexOf(ProtectionEnumValues, MemoryProtectionFlags.ExecuteReadWrite)] = (ProtectionFlags & MemoryProtectionFlags.ExecuteReadWrite) != 0 ? true : false;
+            ProtectionSettings[Array.IndexOf(ProtectionEnumValues, MemoryProtectionFlags.ExecuteWriteCopy)] = (ProtectionFlags & MemoryProtectionFlags.ExecuteWriteCopy) != 0 ? true : false;
+            ProtectionSettings[Array.IndexOf(ProtectionEnumValues, MemoryProtectionFlags.Guard)] = (ProtectionFlags & MemoryProtectionFlags.Guard) != 0 ? true : false;
+            ProtectionSettings[Array.IndexOf(ProtectionEnumValues, MemoryProtectionFlags.NoCache)] = (ProtectionFlags & MemoryProtectionFlags.NoCache) != 0 ? true : false;
+            ProtectionSettings[Array.IndexOf(ProtectionEnumValues, MemoryProtectionFlags.WriteCombine)] = (ProtectionFlags & MemoryProtectionFlags.WriteCombine) != 0 ? true : false;
 
             return ProtectionSettings;
         }

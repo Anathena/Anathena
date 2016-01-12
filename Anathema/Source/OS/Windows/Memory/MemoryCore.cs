@@ -256,9 +256,10 @@ namespace Binarysharp.MemoryManagement.Memory
             int ret;
 
             // Get settings of pages to require
-            MemoryStateFlags StateSettings = Settings.GetInstance().GetRequiredStateSettings();
-            MemoryTypeFlags TypeSettings = Settings.GetInstance().GetRequiredTypeSettings();
-            MemoryProtectionFlags ProtectionSettings = Settings.GetInstance().GetRequiredProtectionSettings();
+            Array TypeEnumValues = Enum.GetValues(typeof(MemoryTypeFlags));
+            Boolean[] RequiredTypeFlags = Settings.GetInstance().GetTypeSettings();
+            MemoryProtectionFlags RequiredProtectionFlags = Settings.GetInstance().GetRequiredProtectionSettings();
+            MemoryProtectionFlags IgnoredProtectionFlags = Settings.GetInstance().GetIgnoredProtectionSettings();
 
             // Get settings of pages to ignore
 
@@ -291,8 +292,21 @@ namespace Binarysharp.MemoryManagement.Memory
                 // Increment the starting address with the size of the page
                 numberFrom += (UInt64)memoryInfo.RegionSize;
 
+                // Ignore free memory. These are unallocated memory regions.
+                if (memoryInfo.State == MemoryStateFlags.Free)
+                    continue;
 
-                /// DODODODODODODODO
+                // Enforce type constraints
+                if (RequiredTypeFlags[Array.IndexOf(TypeEnumValues, MemoryTypeFlags.None)] == false)
+                    continue;
+
+                // Ensure at least one required protection flag is set
+                if ((memoryInfo.Protect & RequiredProtectionFlags) == 0)
+                    continue;
+
+                // Ensure no ignored protection flags are set
+                if ((memoryInfo.Protect & IgnoredProtectionFlags) != 0)
+                    continue;
 
                 // Return the memory page
                 yield return memoryInfo;

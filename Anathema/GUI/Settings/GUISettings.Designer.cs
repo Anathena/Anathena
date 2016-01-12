@@ -42,10 +42,6 @@
             this.ResultsReadIntervalTextBox = new System.Windows.Forms.TextBox();
             this.RepeatScanTimerLabel = new System.Windows.Forms.Label();
             this.ScanTabPage = new System.Windows.Forms.TabPage();
-            this.MemoryStateGroupBox = new System.Windows.Forms.GroupBox();
-            this.CommitCheckBox = new System.Windows.Forms.CheckBox();
-            this.ReserveCheckBox = new System.Windows.Forms.CheckBox();
-            this.FreeCheckBox = new System.Windows.Forms.CheckBox();
             this.MemoryTypeGroupBox = new System.Windows.Forms.GroupBox();
             this.PrivateCheckBox = new System.Windows.Forms.CheckBox();
             this.ImageCheckBox = new System.Windows.Forms.CheckBox();
@@ -62,11 +58,11 @@
             this.ReadWriteCheckBox = new System.Windows.Forms.CheckBox();
             this.ReadOnlyCheckBox = new System.Windows.Forms.CheckBox();
             this.NoAccessCheckBox = new System.Windows.Forms.CheckBox();
+            this.NoneCheckBox = new System.Windows.Forms.CheckBox();
             this.SettingsTabControl.SuspendLayout();
             this.GeneralTabPage.SuspendLayout();
             this.IntervalsGroupBox.SuspendLayout();
             this.ScanTabPage.SuspendLayout();
-            this.MemoryStateGroupBox.SuspendLayout();
             this.MemoryTypeGroupBox.SuspendLayout();
             this.MemoryProtectionGroupBox.SuspendLayout();
             this.SuspendLayout();
@@ -202,7 +198,6 @@
             // 
             // ScanTabPage
             // 
-            this.ScanTabPage.Controls.Add(this.MemoryStateGroupBox);
             this.ScanTabPage.Controls.Add(this.MemoryTypeGroupBox);
             this.ScanTabPage.Controls.Add(this.MemoryProtectionGroupBox);
             this.ScanTabPage.Location = new System.Drawing.Point(4, 22);
@@ -213,58 +208,17 @@
             this.ScanTabPage.Text = "Scan Settings";
             this.ScanTabPage.UseVisualStyleBackColor = true;
             // 
-            // MemoryStateGroupBox
-            // 
-            this.MemoryStateGroupBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.MemoryStateGroupBox.Controls.Add(this.CommitCheckBox);
-            this.MemoryStateGroupBox.Controls.Add(this.ReserveCheckBox);
-            this.MemoryStateGroupBox.Controls.Add(this.FreeCheckBox);
-            this.MemoryStateGroupBox.Location = new System.Drawing.Point(212, 112);
-            this.MemoryStateGroupBox.Name = "MemoryStateGroupBox";
-            this.MemoryStateGroupBox.Size = new System.Drawing.Size(203, 100);
-            this.MemoryStateGroupBox.TabIndex = 9;
-            this.MemoryStateGroupBox.TabStop = false;
-            this.MemoryStateGroupBox.Text = "Memory State";
-            // 
-            // CommitCheckBox
-            // 
-            this.CommitCheckBox.AutoSize = true;
-            this.CommitCheckBox.Location = new System.Drawing.Point(6, 19);
-            this.CommitCheckBox.Name = "CommitCheckBox";
-            this.CommitCheckBox.Size = new System.Drawing.Size(60, 17);
-            this.CommitCheckBox.TabIndex = 7;
-            this.CommitCheckBox.Text = "Commit";
-            this.CommitCheckBox.UseVisualStyleBackColor = true;
-            // 
-            // ReserveCheckBox
-            // 
-            this.ReserveCheckBox.AutoSize = true;
-            this.ReserveCheckBox.Location = new System.Drawing.Point(6, 42);
-            this.ReserveCheckBox.Name = "ReserveCheckBox";
-            this.ReserveCheckBox.Size = new System.Drawing.Size(66, 17);
-            this.ReserveCheckBox.TabIndex = 8;
-            this.ReserveCheckBox.Text = "Reserve";
-            this.ReserveCheckBox.UseVisualStyleBackColor = true;
-            // 
-            // FreeCheckBox
-            // 
-            this.FreeCheckBox.AutoSize = true;
-            this.FreeCheckBox.Location = new System.Drawing.Point(6, 65);
-            this.FreeCheckBox.Name = "FreeCheckBox";
-            this.FreeCheckBox.Size = new System.Drawing.Size(47, 17);
-            this.FreeCheckBox.TabIndex = 9;
-            this.FreeCheckBox.Text = "Free";
-            this.FreeCheckBox.UseVisualStyleBackColor = true;
-            // 
             // MemoryTypeGroupBox
             // 
+            this.MemoryTypeGroupBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
+            this.MemoryTypeGroupBox.Controls.Add(this.NoneCheckBox);
             this.MemoryTypeGroupBox.Controls.Add(this.PrivateCheckBox);
             this.MemoryTypeGroupBox.Controls.Add(this.ImageCheckBox);
             this.MemoryTypeGroupBox.Controls.Add(this.MappedCheckBox);
             this.MemoryTypeGroupBox.Location = new System.Drawing.Point(6, 112);
             this.MemoryTypeGroupBox.Name = "MemoryTypeGroupBox";
-            this.MemoryTypeGroupBox.Size = new System.Drawing.Size(200, 100);
+            this.MemoryTypeGroupBox.Size = new System.Drawing.Size(178, 132);
             this.MemoryTypeGroupBox.TabIndex = 8;
             this.MemoryTypeGroupBox.TabStop = false;
             this.MemoryTypeGroupBox.Text = "Memory Type";
@@ -272,7 +226,7 @@
             // PrivateCheckBox
             // 
             this.PrivateCheckBox.AutoSize = true;
-            this.PrivateCheckBox.Location = new System.Drawing.Point(6, 19);
+            this.PrivateCheckBox.Location = new System.Drawing.Point(6, 42);
             this.PrivateCheckBox.Name = "PrivateCheckBox";
             this.PrivateCheckBox.Size = new System.Drawing.Size(59, 17);
             this.PrivateCheckBox.TabIndex = 4;
@@ -282,7 +236,7 @@
             // ImageCheckBox
             // 
             this.ImageCheckBox.AutoSize = true;
-            this.ImageCheckBox.Location = new System.Drawing.Point(6, 42);
+            this.ImageCheckBox.Location = new System.Drawing.Point(71, 19);
             this.ImageCheckBox.Name = "ImageCheckBox";
             this.ImageCheckBox.Size = new System.Drawing.Size(55, 17);
             this.ImageCheckBox.TabIndex = 5;
@@ -292,7 +246,7 @@
             // MappedCheckBox
             // 
             this.MappedCheckBox.AutoSize = true;
-            this.MappedCheckBox.Location = new System.Drawing.Point(6, 65);
+            this.MappedCheckBox.Location = new System.Drawing.Point(71, 42);
             this.MappedCheckBox.Name = "MappedCheckBox";
             this.MappedCheckBox.Size = new System.Drawing.Size(65, 17);
             this.MappedCheckBox.TabIndex = 6;
@@ -442,6 +396,16 @@
             this.NoAccessCheckBox.ThreeState = true;
             this.NoAccessCheckBox.UseVisualStyleBackColor = true;
             // 
+            // NoneCheckBox
+            // 
+            this.NoneCheckBox.AutoSize = true;
+            this.NoneCheckBox.Location = new System.Drawing.Point(6, 19);
+            this.NoneCheckBox.Name = "NoneCheckBox";
+            this.NoneCheckBox.Size = new System.Drawing.Size(52, 17);
+            this.NoneCheckBox.TabIndex = 7;
+            this.NoneCheckBox.Text = "None";
+            this.NoneCheckBox.UseVisualStyleBackColor = true;
+            // 
             // GUISettings
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -458,8 +422,6 @@
             this.IntervalsGroupBox.ResumeLayout(false);
             this.IntervalsGroupBox.PerformLayout();
             this.ScanTabPage.ResumeLayout(false);
-            this.MemoryStateGroupBox.ResumeLayout(false);
-            this.MemoryStateGroupBox.PerformLayout();
             this.MemoryTypeGroupBox.ResumeLayout(false);
             this.MemoryTypeGroupBox.PerformLayout();
             this.MemoryProtectionGroupBox.ResumeLayout(false);
@@ -490,9 +452,6 @@
         private System.Windows.Forms.Label FreezeIntervalLabel;
         private System.Windows.Forms.GroupBox MemoryProtectionGroupBox;
         private System.Windows.Forms.GroupBox IntervalsGroupBox;
-        private System.Windows.Forms.CheckBox CommitCheckBox;
-        private System.Windows.Forms.CheckBox FreeCheckBox;
-        private System.Windows.Forms.CheckBox ReserveCheckBox;
         private System.Windows.Forms.CheckBox WriteCombineCheckBox;
         private System.Windows.Forms.CheckBox NoCacheCheckBox;
         private System.Windows.Forms.CheckBox GuardCheckBox;
@@ -501,7 +460,7 @@
         private System.Windows.Forms.CheckBox ExecuteReadCheckBox;
         private System.Windows.Forms.CheckBox ExecuteCheckBox;
         private System.Windows.Forms.CheckBox WriteCopyCheckBox;
-        private System.Windows.Forms.GroupBox MemoryStateGroupBox;
         private System.Windows.Forms.GroupBox MemoryTypeGroupBox;
+        private System.Windows.Forms.CheckBox NoneCheckBox;
     }
 }

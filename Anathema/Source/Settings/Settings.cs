@@ -25,40 +25,28 @@ namespace Anathema
             return _Settings;
         }
 
-        public void UpdateRequiredStateSettings(Boolean Free, Boolean Commit, Boolean Reserve)
+        public void UpdateTypeSettings(Boolean None, Boolean Private, Boolean Mapped, Boolean Image)
         {
-            Properties.Settings.Default.MemoryStateRequired = (Int32)((Free ? MemoryStateFlags.Commit : 0) | (Commit ? MemoryStateFlags.Commit : 0) | (Reserve ? MemoryStateFlags.Reserve : 0));
-        }
-
-        public void UpdateRequiredTypeSettings(Boolean Private, Boolean Mapped, Boolean Image)
-        {
-            Properties.Settings.Default.MemoryStateRequired = (Int32)((Private ? MemoryTypeFlags.Private : 0) | (Mapped ? MemoryTypeFlags.Mapped : 0) | (Image ? MemoryTypeFlags.Image : 0));
+            Properties.Settings.Default.MemoryTypeNone = None;
+            Properties.Settings.Default.MemoryTypePrivate = Private;
+            Properties.Settings.Default.MemoryTypeMapped = Mapped;
+            Properties.Settings.Default.MemoryTypeImage = Image;
         }
 
         public void UpdateRequiredProtectionSettings(Boolean NoAccess, Boolean ReadOnly, Boolean ReadWrite, Boolean WriteCopy, Boolean Execute,
             Boolean ExecuteRead, Boolean ExecuteReadWrite, Boolean ExecuteWriteCopy, Boolean Guard, Boolean NoCache, Boolean WriteCombine)
         {
-            Properties.Settings.Default.MemoryStateRequired = (Int32)((NoAccess ? MemoryProtectionFlags.NoAccess : 0) | (ReadOnly ? MemoryProtectionFlags.ReadOnly : 0) |
+            Properties.Settings.Default.MemoryProtectionRequired = (Int32)((NoAccess ? MemoryProtectionFlags.NoAccess : 0) | (ReadOnly ? MemoryProtectionFlags.ReadOnly : 0) |
                 (ReadWrite ? MemoryProtectionFlags.ReadWrite : 0) | (WriteCopy ? MemoryProtectionFlags.WriteCopy : 0) | (Execute ? MemoryProtectionFlags.Execute : 0) |
                 (ExecuteRead ? MemoryProtectionFlags.ExecuteRead : 0) | (ExecuteReadWrite ? MemoryProtectionFlags.ExecuteReadWrite : 0) |
                 (ExecuteWriteCopy ? MemoryProtectionFlags.ExecuteWriteCopy : 0) | (Guard ? MemoryProtectionFlags.Guard : 0) |
                 (NoCache ? MemoryProtectionFlags.NoCache : 0) | (WriteCombine ? MemoryProtectionFlags.WriteCombine : 0));
         }
 
-        public void UpdateIgnoredStateSettings(Boolean Free, Boolean Commit, Boolean Reserve)
-        {
-            Properties.Settings.Default.MemoryStateIgnored = (Int32)((Free ? MemoryStateFlags.Commit : 0) | (Commit ? MemoryStateFlags.Commit : 0) | (Reserve ? MemoryStateFlags.Reserve : 0));
-        }
-
-        public void UpdateIgnoredTypeSettings(Boolean Private, Boolean Mapped, Boolean Image)
-        {
-            Properties.Settings.Default.MemoryStateIgnored = (Int32)((Private ? MemoryTypeFlags.Private : 0) | (Mapped ? MemoryTypeFlags.Mapped : 0) | (Image ? MemoryTypeFlags.Image : 0));
-        }
-
         public void UpdateIgnoredProtectionSettings(Boolean NoAccess, Boolean ReadOnly, Boolean ReadWrite, Boolean WriteCopy, Boolean Execute,
             Boolean ExecuteRead, Boolean ExecuteReadWrite, Boolean ExecuteWriteCopy, Boolean Guard, Boolean NoCache, Boolean WriteCombine)
         {
-            Properties.Settings.Default.MemoryStateIgnored = (Int32)((NoAccess ? MemoryProtectionFlags.NoAccess : 0) | (ReadOnly ? MemoryProtectionFlags.ReadOnly : 0) |
+            Properties.Settings.Default.MemoryProtectionIgnored = (Int32)((NoAccess ? MemoryProtectionFlags.NoAccess : 0) | (ReadOnly ? MemoryProtectionFlags.ReadOnly : 0) |
                 (ReadWrite ? MemoryProtectionFlags.ReadWrite : 0) | (WriteCopy ? MemoryProtectionFlags.WriteCopy : 0) | (Execute ? MemoryProtectionFlags.Execute : 0) |
                 (ExecuteRead ? MemoryProtectionFlags.ExecuteRead : 0) | (ExecuteReadWrite ? MemoryProtectionFlags.ExecuteReadWrite : 0) |
                 (ExecuteWriteCopy ? MemoryProtectionFlags.ExecuteWriteCopy : 0) | (Guard ? MemoryProtectionFlags.Guard : 0) |
@@ -84,30 +72,22 @@ namespace Anathema
         {
             Properties.Settings.Default.TableReadInterval = TableReadInterval;
         }
-
-        public MemoryStateFlags GetRequiredStateSettings()
+        
+        public Boolean[] GetTypeSettings()
         {
-            return (MemoryStateFlags)Properties.Settings.Default.MemoryStateRequired;
-        }
+            Array TypeEnumValues = Enum.GetValues(typeof(MemoryTypeFlags));
+            Boolean[] TypeSettings = new Boolean[TypeEnumValues.Length];
+            TypeSettings[Array.IndexOf(TypeEnumValues, MemoryTypeFlags.None)] = Properties.Settings.Default.MemoryTypeNone;
+            TypeSettings[Array.IndexOf(TypeEnumValues, MemoryTypeFlags.Private)] = Properties.Settings.Default.MemoryTypePrivate;
+            TypeSettings[Array.IndexOf(TypeEnumValues, MemoryTypeFlags.Image)] = Properties.Settings.Default.MemoryTypeImage;
+            TypeSettings[Array.IndexOf(TypeEnumValues, MemoryTypeFlags.Mapped)] = Properties.Settings.Default.MemoryTypeMapped;
 
-        public MemoryTypeFlags GetRequiredTypeSettings()
-        {
-            return (MemoryTypeFlags)Properties.Settings.Default.MemoryTypeRequired;
+            return TypeSettings;
         }
 
         public MemoryProtectionFlags GetRequiredProtectionSettings()
         {
             return (MemoryProtectionFlags)Properties.Settings.Default.MemoryProtectionRequired;
-        }
-
-        public MemoryStateFlags GetIgnoredStateSettings()
-        {
-            return (MemoryStateFlags)Properties.Settings.Default.MemoryStateIgnored;
-        }
-
-        public MemoryTypeFlags GetIgnoredTypeSettings()
-        {
-            return (MemoryTypeFlags)Properties.Settings.Default.MemoryTypeIgnored;
         }
 
         public MemoryProtectionFlags GetIgnoredProtectionSettings()

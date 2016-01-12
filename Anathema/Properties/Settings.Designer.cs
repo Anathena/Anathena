@@ -73,31 +73,7 @@ namespace Anathema.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("0")]
-        public int MemoryStateRequired {
-            get {
-                return ((int)(this["MemoryStateRequired"]));
-            }
-            set {
-                this["MemoryStateRequired"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("0")]
-        public int MemoryTypeRequired {
-            get {
-                return ((int)(this["MemoryTypeRequired"]));
-            }
-            set {
-                this["MemoryTypeRequired"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        [global::System.Configuration.DefaultSettingValueAttribute("76")]
         public int MemoryProtectionRequired {
             get {
                 return ((int)(this["MemoryProtectionRequired"]));
@@ -109,37 +85,61 @@ namespace Anathema.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("0")]
-        public int MemoryStateIgnored {
-            get {
-                return ((int)(this["MemoryStateIgnored"]));
-            }
-            set {
-                this["MemoryStateIgnored"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("0")]
-        public int MemoryTypeIgnored {
-            get {
-                return ((int)(this["MemoryTypeIgnored"]));
-            }
-            set {
-                this["MemoryTypeIgnored"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        [global::System.Configuration.DefaultSettingValueAttribute("1795")]
         public int MemoryProtectionIgnored {
             get {
                 return ((int)(this["MemoryProtectionIgnored"]));
             }
             set {
                 this["MemoryProtectionIgnored"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool MemoryTypeNone {
+            get {
+                return ((bool)(this["MemoryTypeNone"]));
+            }
+            set {
+                this["MemoryTypeNone"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool MemoryTypePrivate {
+            get {
+                return ((bool)(this["MemoryTypePrivate"]));
+            }
+            set {
+                this["MemoryTypePrivate"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool MemoryTypeImage {
+            get {
+                return ((bool)(this["MemoryTypeImage"]));
+            }
+            set {
+                this["MemoryTypeImage"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool MemoryTypeMapped {
+            get {
+                return ((bool)(this["MemoryTypeMapped"]));
+            }
+            set {
+                this["MemoryTypeMapped"] = value;
             }
         }
     }

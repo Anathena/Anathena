@@ -495,7 +495,7 @@ namespace Binarysharp.MemoryManagement.Native
     public enum MemoryTypeFlags
     {
         /// <summary>
-        /// This value is not officially present in the Microsoft's enumeration but can occur after testing.
+        /// Non-official flag that is present when the page does not fall into another category
         /// </summary>
         None = 0x0,
         /// <summary>

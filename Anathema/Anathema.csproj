@@ -105,6 +105,7 @@
     <Compile Include="GUI\Tools\Table\GUIAddressTableEntryEdit.Designer.cs">
       <DependentUpon>GUIAddressTableEntryEdit.cs</DependentUpon>
     </Compile>
+    <Compile Include="Settings.cs" />
     <Compile Include="Source\Settings\ISettingsMVP.cs" />
     <Compile Include="Source\Tools\Scanners\FilterFiniteState\IFilterFSMMVP.cs" />
     <Compile Include="Source\Tools\Scanners\FilterFiniteState\FiniteStateMachine.cs" />
