@@ -11,18 +11,18 @@ using System.Linq;
 
 namespace Anathema
 {
-    public partial class GUIFilterManual : DockContent, IFilterManualScanView
+    public partial class GUIManualScanner : DockContent, IManualScannerView
     {
-        private FilterManualScanPresenter FilterManualScanPresenter;
+        private ManualScannerPresenter ManualScannerPresenter;
 
         private List<ToolStripButton> ScanOptionButtons;
 
-        public GUIFilterManual()
+        public GUIManualScanner()
         {
             InitializeComponent();
 
             ScanOptionButtons = new List<ToolStripButton>();
-            FilterManualScanPresenter = new FilterManualScanPresenter(this, new FilterManualScan());
+            ManualScannerPresenter = new ManualScannerPresenter(this, new ManualScanner());
 
             InitializeValueTypeComboBox();
             InitializeScanOptionButtons();
@@ -119,7 +119,7 @@ namespace Anathema
                 FilterScientificNotationCheckBox.Visible = false;
             }
 
-            FilterManualScanPresenter.SetValueConstraints(ValueConstraint);
+            ManualScannerPresenter.SetValueConstraints(ValueConstraint);
             this.CompareTypeLabel.Text = ValueConstraint.ToString();
         }
 
@@ -127,7 +127,7 @@ namespace Anathema
 
         private void StartScanButton_Click(Object Sender, EventArgs E)
         {
-            FilterManualScanPresenter.BeginScan();
+            ManualScannerPresenter.BeginScan();
         }
 
         private void ChangedButton_Click(Object Sender, EventArgs E)
@@ -182,22 +182,22 @@ namespace Anathema
 
         private void AddConstraintButton_Click(Object Sender, EventArgs E)
         {
-            FilterManualScanPresenter.AddConstraint(ValueTextBox.Text.ToString());
+            ManualScannerPresenter.AddConstraint(ValueTextBox.Text.ToString());
         }
 
         private void ClearConstraintsButton_Click(Object Sender, EventArgs E)
         {
-            FilterManualScanPresenter.ClearConstraints();
+            ManualScannerPresenter.ClearConstraints();
         }
 
         private void RemoveConstraintButton_Click(Object Sender, EventArgs E)
         {
-            FilterManualScanPresenter.RemoveConstraints(ConstraintsListView.SelectedIndices.Cast<Int32>().ToArray());
+            ManualScannerPresenter.RemoveConstraints(ConstraintsListView.SelectedIndices.Cast<Int32>().ToArray());
         }
 
         private void ValueTypeComboBox_SelectedIndexChanged(Object Sender, EventArgs E)
         {
-            FilterManualScanPresenter.SetElementType(ValueTypeComboBox.SelectedItem.ToString());
+            ManualScannerPresenter.SetElementType(ValueTypeComboBox.SelectedItem.ToString());
         }
 
         #endregion

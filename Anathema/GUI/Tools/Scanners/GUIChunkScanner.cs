@@ -12,14 +12,14 @@ using Binarysharp.MemoryManagement.Memory;
 
 namespace Anathema
 {
-    public partial class GUIFilterChunks : DockContent, IFilterChunkScanView
+    public partial class GUIChunkScanner : DockContent, IChunkScannerView
     {
-        private FilterChunkScanPresenter FilterChunkScanPresenter;
+        private ChunkScannerPresenter ChunkScannerPresenter;
 
-        public GUIFilterChunks()
+        public GUIChunkScanner()
         {
             InitializeComponent();
-            FilterChunkScanPresenter = new FilterChunkScanPresenter(this, new FilterChunkScan());
+            ChunkScannerPresenter = new ChunkScannerPresenter(this, new ChunkScanner());
             
             SetMinChanges();
             EnableGUI();
@@ -30,7 +30,7 @@ namespace Anathema
             Int32 MinChanges = MinChangesTrackBar.Value;
             MinChangesValueLabel.Text = MinChanges.ToString();
 
-            FilterChunkScanPresenter.SetMinChanges(MinChanges);
+            ChunkScannerPresenter.SetMinChanges(MinChanges);
         }
 
         private void HandleResize()
@@ -54,13 +54,13 @@ namespace Anathema
 
         private void StartScanButton_Click(Object Sender, EventArgs E)
         {
-            FilterChunkScanPresenter.BeginScan();
+            ChunkScannerPresenter.BeginScan();
             DisableGUI();
         }
 
         private void StopScanButton_Click(Object Sender, EventArgs E)
         {
-            FilterChunkScanPresenter.EndScan();
+            ChunkScannerPresenter.EndScan();
             EnableGUI();
         }
 

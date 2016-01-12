@@ -8,7 +8,7 @@ using Binarysharp.MemoryManagement.Memory;
 
 namespace Anathema
 {
-    class FilterManualScan : IFilterManualScanModel
+    class ManualScanner : IManualScannerModel
     {
         // Snapshot being labeled with change counts
         private Snapshot Snapshot;
@@ -16,7 +16,7 @@ namespace Anathema
         // User controlled variables
         private ScanConstraintManager ScanConstraints;
 
-        public FilterManualScan()
+        public ManualScanner()
         {
             ScanConstraints = new ScanConstraintManager();
         }
@@ -51,7 +51,7 @@ namespace Anathema
 
         private void UpdateDisplay()
         {
-            FilterManualScanEventArgs FilterManualScanEventArgs = new FilterManualScanEventArgs();
+            ManualScannerEventArgs FilterManualScanEventArgs = new ManualScannerEventArgs();
             FilterManualScanEventArgs.ScanConstraints = ScanConstraints;
             OnEventUpdateDisplay(FilterManualScanEventArgs);
         }

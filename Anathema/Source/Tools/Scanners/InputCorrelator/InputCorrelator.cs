@@ -17,7 +17,7 @@ namespace Anathema
     /// http://www.ucl.ac.uk/english-usage/staff/sean/resources/phimeasures.pdf
     /// https://en.wikipedia.org/wiki/Contingency_table#Measures_of_association
     /// </summary>
-    class LabelerInputCorrelator : ILabelerInputCorrelatorModel
+    class InputCorrelator : IInputCorrelatorModel
     {
         private Snapshot<Single> Snapshot;
 
@@ -31,7 +31,7 @@ namespace Anathema
         private Int32 WaitTime;     // Time (ms) to process new changes as correlations
         private Keys UserInput;     // Whatever
 
-        public LabelerInputCorrelator()
+        public InputCorrelator()
         {
             InputHook = Hook.GlobalEvents();
         }

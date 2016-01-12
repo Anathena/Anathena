@@ -1,6 +1,6 @@
 ﻿namespace Anathema
 {
-    partial class GUILabelerInputCorrelator
+    partial class GUIInputCorrelator
     {
         /// <summary>
         /// Required designer variable.

@@ -12,15 +12,15 @@ using Binarysharp.MemoryManagement.Memory;
 
 namespace Anathema
 {
-    public partial class GUIFilterTree : DockContent, IFilterTreeScanView
+    public partial class GUITreeScanner : DockContent, ITreeScannerView
     {
-        private FilterTreeScanPresenter FilterTreeScanPresenter;
+        private TreeScannerPresenter TreeScannerPresenter;
 
-        public GUIFilterTree()
+        public GUITreeScanner()
         {
             InitializeComponent();
 
-            FilterTreeScanPresenter = new FilterTreeScanPresenter(this, new FilterTreeScan());
+            TreeScannerPresenter = new TreeScannerPresenter(this, new TreeScanner());
             EnableGUI();
         }
 
@@ -53,13 +53,13 @@ namespace Anathema
 
         private void StartScanButton_Click(object sender, EventArgs e)
         {
-            FilterTreeScanPresenter.BeginScan();
+            TreeScannerPresenter.BeginScan();
             DisableGUI();
         }
 
         private void StopScanButton_Click(object sender, EventArgs e)
         {
-            FilterTreeScanPresenter.EndScan();
+            TreeScannerPresenter.EndScan();
             EnableGUI();
         }
 

@@ -9,24 +9,24 @@ using System.Threading.Tasks;
 
 namespace Anathema
 {
-    delegate void FilterFSMEventHandler(Object Sender, FilterFSMEventArgs Args);
-    class FilterFSMEventArgs : EventArgs
+    delegate void FiniteStateScannerEventHandler(Object Sender, FiniteStateScannerEventArgs Args);
+    class FiniteStateScannerEventArgs : EventArgs
     {
 
     }
 
-    interface IFilterFSMView : IScannerView
+    interface IFiniteStateScannerView : IScannerView
     {
         // Methods invoked by the presenter (upstream)
         void UpdateDisplay(FiniteStateMachine FiniteStateMachine, FiniteState MousedOverState, Point[] SelectionLine);
         void ScanFinished();
     }
 
-    abstract class IFilterFSMModel : IScannerModel
+    abstract class IFiniteStateScannerModel : IScannerModel
     {
         // Events triggered by the model (upstream)
-        public event FilterFSMEventHandler EventScanFinished;
-        protected virtual void OnEventScanFinished(FilterFSMEventArgs E)
+        public event FiniteStateScannerEventHandler EventScanFinished;
+        protected virtual void OnEventScanFinished(FiniteStateScannerEventArgs E)
         {
             EventScanFinished(this, E);
         }
@@ -38,10 +38,10 @@ namespace Anathema
         public abstract Type GetElementType();
     }
 
-    class FilterFSMPresenter : ScannerPresenter
+    class FiniteStateScannerPresenter : ScannerPresenter
     {
-        new IFilterFSMView View;
-        new IFilterFSMModel Model;
+        new IFiniteStateScannerView View;
+        new IFiniteStateScannerModel Model;
 
         private ConstraintsEnum ValueConstraintSelection;
         private FiniteState DraggedState;
@@ -52,7 +52,7 @@ namespace Anathema
         private Int32 StateRadius;
         private Int32 StateEdgeSize;
 
-        public FilterFSMPresenter(IFilterFSMView View, IFilterFSMModel Model) : base(View, Model)
+        public FiniteStateScannerPresenter(IFiniteStateScannerView View, IFiniteStateScannerModel Model) : base(View, Model)
         {
             this.View = View;
             this.Model = Model;
@@ -203,7 +203,7 @@ namespace Anathema
 
         #region Event definitions for events triggered by the model (upstream)
 
-        public void EventScanFinished(Object Sender, FilterFSMEventArgs E)
+        public void EventScanFinished(Object Sender, FiniteStateScannerEventArgs E)
         {
             ScanFinished();
         }

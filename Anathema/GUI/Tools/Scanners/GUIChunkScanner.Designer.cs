@@ -1,6 +1,6 @@
 ﻿namespace Anathema
 {
-    partial class GUIFilterChunks
+    partial class GUIChunkScanner
     {
         /// <summary>
         /// Required designer variable.

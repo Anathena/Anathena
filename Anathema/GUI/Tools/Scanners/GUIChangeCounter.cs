@@ -11,15 +11,15 @@ using Binarysharp.MemoryManagement.Memory;
 
 namespace Anathema
 {
-    public partial class GUILabelerChangeCounter : DockContent, ILabelerChangeCounterView
+    public partial class GUIChangeCounter : DockContent, IChangeCounterView
     {
-        LabelerChangeCounterPresenter LabelerChangeCounterPresenter;
+        ChangeCounterPresenter ChangeCounterPresenter;
 
-        public GUILabelerChangeCounter()
+        public GUIChangeCounter()
         {
             InitializeComponent();
 
-            LabelerChangeCounterPresenter = new LabelerChangeCounterPresenter(this, new LabelerChangeCounter());
+            ChangeCounterPresenter = new ChangeCounterPresenter(this, new ChangeCounter());
 
             SetMinChanges();
             SetMaxChanges();
@@ -32,7 +32,7 @@ namespace Anathema
         {
             Int32 MinChanges = MinChangesTrackBar.Value;
             MinChangesValueLabel.Text = MinChanges.ToString();
-            LabelerChangeCounterPresenter.SetMinChanges(MinChanges);
+            ChangeCounterPresenter.SetMinChanges(MinChanges);
         }
 
         private void SetMaxChanges()
@@ -47,14 +47,14 @@ namespace Anathema
             }
 
             MaxChangesValueLabel.Text = MaxChangesString;
-            LabelerChangeCounterPresenter.SetMaxChanges(MaxChanges);
+            ChangeCounterPresenter.SetMaxChanges(MaxChanges);
         }
 
         private void SetVariableSize()
         {
             Int32 VariableSize = (Int32)Math.Pow(2, VariableSizeTrackBar.Value);
             VariableSizeValueLabel.Text = Conversions.BytesToMetric((UInt64)VariableSize);
-            LabelerChangeCounterPresenter.SetVariableSize(VariableSize);
+            ChangeCounterPresenter.SetVariableSize(VariableSize);
         }
 
         private void EnableGUI()
@@ -119,13 +119,13 @@ namespace Anathema
 
         private void StartScanButton_Click(object sender, EventArgs e)
         {
-            LabelerChangeCounterPresenter.BeginScan();
+            ChangeCounterPresenter.BeginScan();
             DisableGUI();
         }
 
         private void StopScanButton_Click(object sender, EventArgs e)
         {
-            LabelerChangeCounterPresenter.EndScan();
+            ChangeCounterPresenter.EndScan();
             EnableGUI();
         }
 

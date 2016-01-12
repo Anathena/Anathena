@@ -11,9 +11,9 @@ using Anathema.Properties;
 
 namespace Anathema
 {
-    public partial class GUIFilterFSM : DockContent, IFilterFSMView
+    public partial class GUIFiniteStateScanner : DockContent, IFiniteStateScannerView
     {
-        private FilterFSMPresenter FilterFSMPresenter;
+        private FiniteStateScannerPresenter FiniteStateScannerPresenter;
 
         private List<ToolStripButton> ScanOptionButtons;
 
@@ -31,14 +31,14 @@ namespace Anathema
         private const Int32 VariableBorderSize = 4;
         private const Int32 ArrowSize = 4;
 
-        public GUIFilterFSM()
+        public GUIFiniteStateScanner()
         {
             InitializeComponent();
             FSMBuilderPanel.Paint += new PaintEventHandler(FSMBuilderPanel_Paint);
 
-            FilterFSMPresenter = new FilterFSMPresenter(this, new FilterFSM());
-            FilterFSMPresenter.SetStateRadius(StateRadius);
-            FilterFSMPresenter.SetStateEdgeSize(StateEdgeSize);
+            FiniteStateScannerPresenter = new FiniteStateScannerPresenter(this, new FiniteStateScanner());
+            FiniteStateScannerPresenter.SetStateRadius(StateRadius);
+            FiniteStateScannerPresenter.SetStateEdgeSize(StateEdgeSize);
 
             ScanOptionButtons = new List<ToolStripButton>();
 
@@ -247,7 +247,7 @@ namespace Anathema
                 //FilterScientificNotationCheckBox.Visible = false;
             }
 
-            FilterFSMPresenter.SetValueConstraintSelection(ValueConstraint);
+            FiniteStateScannerPresenter.SetValueConstraintSelection(ValueConstraint);
         }
 
         private void DisableGUI()
@@ -265,17 +265,17 @@ namespace Anathema
         private void FSMBuilderPanel_MouseDown(Object Sender, MouseEventArgs E)
         {
             if (E.Button == MouseButtons.Right)
-                FilterFSMPresenter.DeleteAtPoint(E.Location);
+                FiniteStateScannerPresenter.DeleteAtPoint(E.Location);
 
             if (E.Button != MouseButtons.Left)
                 return;
 
-            FilterFSMPresenter.BeginAction(E.Location);
+            FiniteStateScannerPresenter.BeginAction(E.Location);
         }
 
         private void FSMBuilderPanel_MouseMove(Object Sender, MouseEventArgs E)
         {
-            FilterFSMPresenter.UpdateAction(E.Location);
+            FiniteStateScannerPresenter.UpdateAction(E.Location);
         }
 
         private void FSMBuilderPanel_MouseUp(Object Sender, MouseEventArgs E)
@@ -283,7 +283,7 @@ namespace Anathema
             if (E.Button != MouseButtons.Left)
                 return;
 
-            FilterFSMPresenter.FinishAction(E.Location, ValueTextBox.Text.ToString());
+            FiniteStateScannerPresenter.FinishAction(E.Location, ValueTextBox.Text.ToString());
         }
 
         protected void FSMBuilderPanel_Paint(Object Sender, PaintEventArgs E)
@@ -293,13 +293,13 @@ namespace Anathema
 
         private void StartScanButton_Click(Object Sender, EventArgs E)
         {
-            FilterFSMPresenter.BeginScan();
+            FiniteStateScannerPresenter.BeginScan();
             DisableGUI();
         }
 
         private void StopScanButton_Click(object sender, EventArgs e)
         {
-            FilterFSMPresenter.EndScan();
+            FiniteStateScannerPresenter.EndScan();
         }
 
         private void ChangedButton_Click(Object Sender, EventArgs E)
@@ -354,7 +354,7 @@ namespace Anathema
 
         private void ValueTypeComboBox_SelectedIndexChanged(Object Sender, EventArgs E)
         {
-            FilterFSMPresenter.SetElementType(ValueTypeComboBox.SelectedItem.ToString());
+            FiniteStateScannerPresenter.SetElementType(ValueTypeComboBox.SelectedItem.ToString());
         }
 
         #endregion

@@ -10,7 +10,7 @@ using System.Drawing;
 
 namespace Anathema
 {
-    class FilterFSM : IFilterFSMModel
+    class FiniteStateScanner : IFiniteStateScannerModel
     {
         // Snapshot, where the label represents the state
         private Snapshot<Byte> Snapshot;
@@ -18,7 +18,7 @@ namespace Anathema
         // User controlled variables
         private FiniteStateMachine FiniteStateMachine;
 
-        public FilterFSM()
+        public FiniteStateScanner()
         {
             FiniteStateMachine = new FiniteStateMachine();
         }
@@ -40,7 +40,7 @@ namespace Anathema
 
         private void UpdateDisplay()
         {
-            FilterFSMEventArgs FilterFSMEventArgs = new FilterFSMEventArgs();
+            FiniteStateScannerEventArgs FilterFSMEventArgs = new FiniteStateScannerEventArgs();
             OnEventScanFinished(FilterFSMEventArgs);
         }
 
@@ -156,7 +156,7 @@ namespace Anathema
 
             SnapshotManager.GetInstance().SaveSnapshot(FilteredSnapshot);
 
-            FilterFSMEventArgs Args = new FilterFSMEventArgs();
+            FiniteStateScannerEventArgs Args = new FiniteStateScannerEventArgs();
             OnEventScanFinished(Args);
         }
     }

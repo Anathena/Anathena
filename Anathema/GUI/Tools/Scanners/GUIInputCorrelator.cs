@@ -10,15 +10,15 @@ using System.IO;
 
 namespace Anathema
 {
-    public partial class GUILabelerInputCorrelator : DockContent, ILabelerInputCorrelatorView
+    public partial class GUIInputCorrelator : DockContent, IInputCorrelatorView
     {
-        LabelerInputCorrelatorPresenter LabelerInputCorrelatorPresenter;
+        InputCorrelatorPresenter InputCorrelatorPresenter;
        
-        public GUILabelerInputCorrelator()
+        public GUIInputCorrelator()
         {
             InitializeComponent();
 
-            LabelerInputCorrelatorPresenter = new LabelerInputCorrelatorPresenter(this, new LabelerInputCorrelator());
+            InputCorrelatorPresenter = new InputCorrelatorPresenter(this, new InputCorrelator());
 
             SetVariableSize();
             EnableGUI();
@@ -29,7 +29,7 @@ namespace Anathema
             Int32 VariableSize = (Int32)Math.Pow(2, VariableSizeTrackBar.Value);
             VariableSizeValueLabel.Text = Conversions.BytesToMetric((UInt64)VariableSize).ToString();
 
-            LabelerInputCorrelatorPresenter.SetVariableSize(VariableSize);
+            InputCorrelatorPresenter.SetVariableSize(VariableSize);
         }
 
         private void EnableGUI()
@@ -51,13 +51,13 @@ namespace Anathema
         private void StartScanButton_Click(object sender, EventArgs e)
         {
             DisableGUI();
-            LabelerInputCorrelatorPresenter.BeginScan();
+            InputCorrelatorPresenter.BeginScan();
         }
 
         private void StopScanButton_Click(object sender, EventArgs e)
         {
             EnableGUI();
-            LabelerInputCorrelatorPresenter.EndScan();
+            InputCorrelatorPresenter.EndScan();
         }
 
         private void HandleResize()

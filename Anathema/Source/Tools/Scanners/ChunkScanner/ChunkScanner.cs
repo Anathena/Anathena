@@ -8,7 +8,7 @@ using Binarysharp.MemoryManagement.Memory;
 
 namespace Anathema
 {
-    class FilterChunkScan : IFilterChunkScanModel
+    class ChunkScanner : IChunkScannerModel
     {
         private List<MemoryChunkRoots> ChunkRoots;
         private Snapshot Snapshot;
@@ -17,10 +17,11 @@ namespace Anathema
         // User controlled variables
         private Int32 MinChanges;
 
-        public FilterChunkScan()
+        public ChunkScanner()
         {
 
         }
+
         public override void SetMinChanges(Int32 MinChanges)
         {
             this.MinChanges = MinChanges;

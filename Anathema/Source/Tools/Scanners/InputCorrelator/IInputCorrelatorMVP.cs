@@ -8,27 +8,25 @@ using System.Threading.Tasks;
 
 namespace Anathema
 {
-    interface ILabelerChangeCounterView : IScannerView
+    interface IInputCorrelatorView : IScannerView
     {
         // Methods invoked by the presenter (upstream)
     }
 
-    abstract class ILabelerChangeCounterModel : IScannerModel
+    abstract class IInputCorrelatorModel : IScannerModel
     {
         // Events triggered by the model (upstream)
 
         // Functions invoked by presenter (downstream)
-        public abstract void SetMinChanges(Int32 MinChanges);
-        public abstract void SetMaxChanges(Int32 MaxChanges);
         public abstract void SetVariableSize(Int32 VariableSize);
     }
 
-    class LabelerChangeCounterPresenter : ScannerPresenter
+    class InputCorrelatorPresenter : ScannerPresenter
     {
-        new ILabelerChangeCounterView View;
-        new ILabelerChangeCounterModel Model;
+        new IInputCorrelatorView View;
+        new IInputCorrelatorModel Model;
 
-        public LabelerChangeCounterPresenter(ILabelerChangeCounterView View, ILabelerChangeCounterModel Model) : base(View, Model)
+        public InputCorrelatorPresenter(IInputCorrelatorView View, IInputCorrelatorModel Model) : base(View, Model)
         {
             this.View = View;
             this.Model = Model;
@@ -36,22 +34,6 @@ namespace Anathema
         }
 
         #region Method definitions called by the view (downstream)
-
-        public void SetMinChanges(Int32 MinChanges)
-        {
-            if (MinChanges < 0)
-                return;
-
-            Model.SetMinChanges(MinChanges);
-        }
-
-        public void SetMaxChanges(Int32 MaxChanges)
-        {
-            if (MaxChanges < 0)
-                return;
-
-            Model.SetMaxChanges(MaxChanges);
-        }
 
         public void SetVariableSize(Int32 VariableSize)
         {

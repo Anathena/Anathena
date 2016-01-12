@@ -8,23 +8,23 @@ using System.Threading.Tasks;
 
 namespace Anathema
 {
-    delegate void FilterManualScanEventHandler(Object Sender, FilterManualScanEventArgs Args);
-    class FilterManualScanEventArgs : EventArgs
+    delegate void ManualScannerEventHandler(Object Sender, ManualScannerEventArgs Args);
+    class ManualScannerEventArgs : EventArgs
     {
         public ScanConstraintManager ScanConstraints = null;
     }
 
-    interface IFilterManualScanView : IScannerView
+    interface IManualScannerView : IScannerView
     {
         // Methods invoked by the presenter (upstream)
         void UpdateDisplay(List<String[]> ScanConstraintItems);
     }
 
-    abstract class IFilterManualScanModel : IScannerModel
+    abstract class IManualScannerModel : IScannerModel
     {
         // Events triggered by the model (upstream)
-        public event FilterManualScanEventHandler EventUpdateDisplay;
-        protected virtual void OnEventUpdateDisplay(FilterManualScanEventArgs E)
+        public event ManualScannerEventHandler EventUpdateDisplay;
+        protected virtual void OnEventUpdateDisplay(ManualScannerEventArgs E)
         {
             EventUpdateDisplay(this, E);
         }
@@ -37,14 +37,14 @@ namespace Anathema
         public abstract void ClearConstraints();
     }
 
-    class FilterManualScanPresenter : ScannerPresenter
+    class ManualScannerPresenter : ScannerPresenter
     {
-        new IFilterManualScanView View;
-        new IFilterManualScanModel Model;
+        new IManualScannerView View;
+        new IManualScannerModel Model;
 
         private ConstraintsEnum ValueConstraint;
 
-        public FilterManualScanPresenter(IFilterManualScanView View, IFilterManualScanModel Model) : base(View, Model)
+        public ManualScannerPresenter(IManualScannerView View, IManualScannerModel Model) : base(View, Model)
         {
             this.View = View;
             this.Model = Model;
@@ -107,7 +107,7 @@ namespace Anathema
 
         #region Event definitions for events triggered by the model (upstream)
 
-        public void EventUpdateDisplay(Object Sender, FilterManualScanEventArgs E)
+        public void EventUpdateDisplay(Object Sender, ManualScannerEventArgs E)
         {
             List<String[]> ScanConstraintItems = new List<String[]>();
 

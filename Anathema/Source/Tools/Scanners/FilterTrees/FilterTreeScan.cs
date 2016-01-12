@@ -19,13 +19,13 @@ namespace Anathema
     /// 4) End on user request. Keep all leaves marked as changed, or all leaves marked as unknown. Discard unchanged blocks.
     ///
     /// </summary>
-    class FilterTreeScan : IFilterTreeScanModel
+    class TreeScanner : ITreeScannerModel
     {
         // Variables
         private Snapshot Snapshot;
         private List<MemoryChangeTree> FilterTrees; // Trees to grow to search for changes
         
-        public FilterTreeScan()
+        public TreeScanner()
         {
 
         }
@@ -89,7 +89,7 @@ namespace Anathema
             FilteredSnapshot.SetScanMethod("Tree Scan");
 
             // Send the size of the filtered memory to the GUI
-            FilterTreesEventArgs Args = new FilterTreesEventArgs();
+            TreeScannerEventArgs Args = new TreeScannerEventArgs();
             Args.FilterResultSize = FilteredSnapshot.GetMemorySize();
             OnEventUpdateMemorySize(Args);
 

@@ -8,23 +8,23 @@ using System.Threading.Tasks;
 
 namespace Anathema
 {
-    delegate void FilterTreeScanEventHandler(Object Sender, FilterTreesEventArgs Args);
-    class FilterTreesEventArgs : EventArgs
+    delegate void TreeScannerEventHandler(Object Sender, TreeScannerEventArgs Args);
+    class TreeScannerEventArgs : EventArgs
     {
         public UInt64? FilterResultSize = null;
     }
 
-    interface IFilterTreeScanView : IScannerView
+    interface ITreeScannerView : IScannerView
     {
         // Methods invoked by the presenter (upstream)
         void DisplayResultSize(UInt64 FilterResultSize);
     }
 
-    abstract class IFilterTreeScanModel : IScannerModel
+    abstract class ITreeScannerModel : IScannerModel
     {
         // Events triggered by the model (upstream)
-        public event FilterTreeScanEventHandler EventUpdateMemorySize;
-        protected virtual void OnEventUpdateMemorySize(FilterTreesEventArgs E)
+        public event TreeScannerEventHandler EventUpdateMemorySize;
+        protected virtual void OnEventUpdateMemorySize(TreeScannerEventArgs E)
         {
             EventUpdateMemorySize(this, E);
         }
@@ -32,12 +32,12 @@ namespace Anathema
         // Functions invoked by presenter (downstream)
     }
 
-    class FilterTreeScanPresenter : ScannerPresenter
+    class TreeScannerPresenter : ScannerPresenter
     {
-        new IFilterTreeScanView View;
-        new IFilterTreeScanModel Model;
+        new ITreeScannerView View;
+        new ITreeScannerModel Model;
 
-        public FilterTreeScanPresenter(IFilterTreeScanView View, IFilterTreeScanModel Model) : base(View, Model)
+        public TreeScannerPresenter(ITreeScannerView View, ITreeScannerModel Model) : base(View, Model)
         {
             this.View = View;
             this.Model = Model;
@@ -51,7 +51,7 @@ namespace Anathema
 
         #region Event definitions for events triggered by the model (upstream)
 
-        private void EventUpdateMemorySize(Object Sender, FilterTreesEventArgs E)
+        private void EventUpdateMemorySize(Object Sender, TreeScannerEventArgs E)
         {
             if (E.FilterResultSize.HasValue)
                 View.DisplayResultSize(E.FilterResultSize.Value);

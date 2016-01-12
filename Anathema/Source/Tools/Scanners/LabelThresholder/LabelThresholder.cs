@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace Anathema
 {
-    class FilterLabelThesholder
+    class LabelThesholder
     {
+
     }
 }

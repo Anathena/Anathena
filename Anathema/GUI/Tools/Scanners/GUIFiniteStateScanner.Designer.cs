@@ -1,6 +1,6 @@
 ﻿namespace Anathema
 {
-    partial class GUIFilterFSM
+    partial class GUIFiniteStateScanner
     {
         /// <summary>
         /// Required designer variable.

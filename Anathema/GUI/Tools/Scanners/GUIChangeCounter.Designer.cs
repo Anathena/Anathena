@@ -1,6 +1,6 @@
 ﻿namespace Anathema
 {
-    partial class GUILabelerChangeCounter
+    partial class GUIChangeCounter
     {
         /// <summary>
         /// Required designer variable.
@@ -165,7 +165,7 @@
             this.VariableSizeTrackBar.Value = 2;
             this.VariableSizeTrackBar.Scroll += new System.EventHandler(this.VariableSizeTrackBar_Scroll);
             // 
-            // GUILabelerChangeCounter
+            // GUIChangeCounter
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -181,7 +181,7 @@
             this.Controls.Add(this.MinChangesTrackBar);
             this.Controls.Add(this.ScanToolStrip);
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Name = "GUILabelerChangeCounter";
+            this.Name = "GUIChangeCounter";
             this.Text = "Change Counter";
             this.Resize += new System.EventHandler(this.GUILabelerChangeCounter_Resize);
             this.ScanToolStrip.ResumeLayout(false);

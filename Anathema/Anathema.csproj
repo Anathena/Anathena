@@ -107,7 +107,7 @@
     </Compile>
     <Compile Include="Settings.cs" />
     <Compile Include="Source\Settings\ISettingsMVP.cs" />
-    <Compile Include="Source\Tools\Scanners\FilterFiniteState\IFilterFSMMVP.cs" />
+    <Compile Include="Source\Tools\Scanners\FilterFiniteState\IFiniteStateScannerMVP.cs" />
     <Compile Include="Source\Tools\Scanners\FilterFiniteState\FiniteStateMachine.cs" />
     <Compile Include="Source\Tools\Scanners\FilterFiniteState\FiniteState.cs" />
     <Compile Include="Source\Tools\Scanners\ScanConstraintManager.cs" />
@@ -214,11 +214,11 @@
     </Compile>
     <Compile Include="GUI\CustomControls\HexEditor\Util.cs" />
     <Compile Include="GUI\CustomControls\HexEditor\W32.cs" />
-    <Compile Include="GUI\Tools\Scanners\GUIFilterChunks.cs">
+    <Compile Include="GUI\Tools\Scanners\GUIChunkScanner.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="GUI\Tools\Scanners\GUIFilterChunks.Designer.cs">
-      <DependentUpon>GUIFilterChunks.cs</DependentUpon>
+    <Compile Include="GUI\Tools\Scanners\GUIChunkScanner.Designer.cs">
+      <DependentUpon>GUIChunkScanner.cs</DependentUpon>
     </Compile>
     <Compile Include="Source\Main\Main.cs" />
     <Compile Include="Source\OS\Windows\Assembly\Assembler\Fasm32Assembler.cs" />
@@ -274,8 +274,8 @@
     <Compile Include="Source\OS\Windows\Threading\RemoteThread.cs" />
     <Compile Include="Source\OS\Windows\Threading\ThreadCore.cs" />
     <Compile Include="Source\OS\Windows\Threading\ThreadFactory.cs" />
-    <Compile Include="Source\Tools\Scanners\FilterChunks\FilterChunkScan.cs" />
-    <Compile Include="Source\Tools\Scanners\FilterChunks\IFilterChunkScanMVP.cs" />
+    <Compile Include="Source\Tools\Scanners\FilterChunks\ChunkScanner.cs" />
+    <Compile Include="Source\Tools\Scanners\FilterChunks\IChunkScannerMVP.cs" />
     <Compile Include="Source\Tools\Scanners\FilterTrees\IFilterTreeScanMVP.cs" />
     <Compile Include="Source\Tools\Scanners\LabelerChangeCounter\LabelerChangeCounter.cs" />
     <Compile Include="Source\Tools\Scanners\LabelerChangeCounter\ILabelerChangeCounterMVP.cs" />
@@ -301,35 +301,35 @@
     <Compile Include="GUI\Tools\Debugger\GUIDebugger.Designer.cs">
       <DependentUpon>GUIDebugger.cs</DependentUpon>
     </Compile>
-    <Compile Include="GUI\Tools\Scanners\GUIFilterTree.cs">
+    <Compile Include="GUI\Tools\Scanners\GUITreeScanner.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="GUI\Tools\Scanners\GUIFilterTree.Designer.cs">
-      <DependentUpon>GUIFilterTree.cs</DependentUpon>
+    <Compile Include="GUI\Tools\Scanners\GUITreeScanner.Designer.cs">
+      <DependentUpon>GUITreeScanner.cs</DependentUpon>
     </Compile>
-    <Compile Include="GUI\Tools\Scanners\GUIFilterManual.cs">
+    <Compile Include="GUI\Tools\Scanners\GUIManualScanner.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="GUI\Tools\Scanners\GUIFilterManual.Designer.cs">
-      <DependentUpon>GUIFilterManual.cs</DependentUpon>
+    <Compile Include="GUI\Tools\Scanners\GUIManualScanner.Designer.cs">
+      <DependentUpon>GUIManualScanner.cs</DependentUpon>
     </Compile>
-    <Compile Include="GUI\Tools\Scanners\GUIFilterFSM.cs">
+    <Compile Include="GUI\Tools\Scanners\GUIFiniteStateScanner.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="GUI\Tools\Scanners\GUIFilterFSM.Designer.cs">
-      <DependentUpon>GUIFilterFSM.cs</DependentUpon>
+    <Compile Include="GUI\Tools\Scanners\GUIFiniteStateScanner.Designer.cs">
+      <DependentUpon>GUIFiniteStateScanner.cs</DependentUpon>
     </Compile>
-    <Compile Include="GUI\Tools\Scanners\GUILabelerInputCorrelator.cs">
+    <Compile Include="GUI\Tools\Scanners\GUIInputCorrelator.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="GUI\Tools\Scanners\GUILabelerInputCorrelator.Designer.cs">
-      <DependentUpon>GUILabelerInputCorrelator.cs</DependentUpon>
+    <Compile Include="GUI\Tools\Scanners\GUIInputCorrelator.Designer.cs">
+      <DependentUpon>GUIInputCorrelator.cs</DependentUpon>
     </Compile>
-    <Compile Include="GUI\Tools\Scanners\GUILabelerChangeCounter.cs">
+    <Compile Include="GUI\Tools\Scanners\GUIChangeCounter.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="GUI\Tools\Scanners\GUILabelerChangeCounter.Designer.cs">
-      <DependentUpon>GUILabelerChangeCounter.cs</DependentUpon>
+    <Compile Include="GUI\Tools\Scanners\GUIChangeCounter.Designer.cs">
+      <DependentUpon>GUIChangeCounter.cs</DependentUpon>
     </Compile>
     <Compile Include="GUI\Tools\Results\GUIResults.cs">
       <SubType>Form</SubType>
@@ -355,7 +355,7 @@
     <Compile Include="GUI\Main\GUIMain.Designer.cs">
       <DependentUpon>GUIMain.cs</DependentUpon>
     </Compile>
-    <Compile Include="Source\Tools\Scanners\FilterFiniteState\FilterFSM.cs" />
+    <Compile Include="Source\Tools\Scanners\FilterFiniteState\FiniteStateScanner.cs" />
     <Compile Include="Source\HelperClasses\CheckSyntax.cs" />
     <Compile Include="Source\Tools\Scanners\LabelerInputCorrelator\LabelerInputCorrelator.cs" />
     <Compile Include="Source\Tools\Debugger\Celestial.cs" />
@@ -401,7 +401,7 @@
     <Compile Include="Source\Tools\Scanners\LabelerInputCorrelator\InputHook\WinApi\ThreadNativeMethods.cs" />
     <Compile Include="Source\Tools\Scanners\FilterTrees\FilterTreeScan.cs" />
     <Compile Include="Source\HelperClasses\Conversions.cs" />
-    <Compile Include="Source\Tools\Scanners\FilterLabelThresholder\FilterLabelThesholder.cs" />
+    <Compile Include="Source\Tools\Scanners\FilterLabelThresholder\LabelThresholder.cs" />
     <Compile Include="Source\Tools\Scanners\FilterMultiScanner\FilterMultiScanner.cs" />
     <Compile Include="Source\Main\IMainMVP.cs" />
     <Compile Include="Source\Tools\ProcessSelector\IProcessSubject.cs" />
@@ -585,8 +585,8 @@
     <EmbeddedResource Include="GUI\Settings\GUISettings.resx">
       <DependentUpon>GUISettings.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="GUI\Tools\Scanners\GUIFilterChunks.resx">
-      <DependentUpon>GUIFilterChunks.cs</DependentUpon>
+    <EmbeddedResource Include="GUI\Tools\Scanners\GUIChunkScanner.resx">
+      <DependentUpon>GUIChunkScanner.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\Tools\ProcessSelector\GUIProcessSelector.resx">
       <DependentUpon>GUIProcessSelector.cs</DependentUpon>
@@ -594,20 +594,20 @@
     <EmbeddedResource Include="GUI\Tools\Debugger\GUIDebugger.resx">
       <DependentUpon>GUIDebugger.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="GUI\Tools\Scanners\GUIFilterTree.resx">
-      <DependentUpon>GUIFilterTree.cs</DependentUpon>
+    <EmbeddedResource Include="GUI\Tools\Scanners\GUITreeScanner.resx">
+      <DependentUpon>GUITreeScanner.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="GUI\Tools\Scanners\GUIFilterManual.resx">
-      <DependentUpon>GUIFilterManual.cs</DependentUpon>
+    <EmbeddedResource Include="GUI\Tools\Scanners\GUIManualScanner.resx">
+      <DependentUpon>GUIManualScanner.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="GUI\Tools\Scanners\GUIFilterFSM.resx">
-      <DependentUpon>GUIFilterFSM.cs</DependentUpon>
+    <EmbeddedResource Include="GUI\Tools\Scanners\GUIFiniteStateScanner.resx">
+      <DependentUpon>GUIFiniteStateScanner.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="GUI\Tools\Scanners\GUILabelerInputCorrelator.resx">
-      <DependentUpon>GUILabelerInputCorrelator.cs</DependentUpon>
+    <EmbeddedResource Include="GUI\Tools\Scanners\GUIInputCorrelator.resx">
+      <DependentUpon>GUIInputCorrelator.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="GUI\Tools\Scanners\GUILabelerChangeCounter.resx">
-      <DependentUpon>GUILabelerChangeCounter.cs</DependentUpon>
+    <EmbeddedResource Include="GUI\Tools\Scanners\GUIChangeCounter.resx">
+      <DependentUpon>GUIChangeCounter.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\Tools\Results\GUIResults.resx">
       <DependentUpon>GUIResults.cs</DependentUpon>

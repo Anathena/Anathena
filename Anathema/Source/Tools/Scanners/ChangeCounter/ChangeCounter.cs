@@ -8,7 +8,7 @@ using Binarysharp.MemoryManagement.Memory;
 
 namespace Anathema
 {
-    class LabelerChangeCounter : ILabelerChangeCounterModel
+    class ChangeCounter : IChangeCounterModel
     {
         // Snapshot being labeled with change counts
         private Snapshot<UInt16> Snapshot;
@@ -18,7 +18,7 @@ namespace Anathema
         private Int32 MaxChanges;
         private Int32 VariableSize;
 
-        public LabelerChangeCounter()
+        public ChangeCounter()
         {
 
         }

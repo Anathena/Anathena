@@ -1,6 +1,6 @@
 ﻿namespace Anathema
 {
-    partial class GUIFilterManual
+    partial class GUIManualScanner
     {
         /// <summary>
         /// Required designer variable.

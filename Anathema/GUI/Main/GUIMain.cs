@@ -19,12 +19,12 @@ namespace Anathema
         // VIEW MENU ITEMS
         private GUIProcessSelector GUIProcessSelector;
         private GUIDebugger GUIDebugger;
-        private GUIFilterFSM GUIFilterFSM;
-        private GUIFilterManual GUIFilterManual;
-        private GUIFilterTree GUIFilterTree;
-        private GUIFilterChunks GUIFilterChunks;
-        private GUILabelerChangeCounter GUILabelerChangeCounter;
-        private GUILabelerInputCorrelator GUILabelerInputCorrelator;
+        private GUIFiniteStateScanner GUIFilterFSM;
+        private GUIManualScanner GUIFilterManual;
+        private GUITreeScanner GUIFilterTree;
+        private GUIChunkScanner GUIFilterChunks;
+        private GUIChangeCounter GUILabelerChangeCounter;
+        private GUIInputCorrelator GUILabelerInputCorrelator;
         private GUISnapshotManager GUISnapshotManager;
         private GUIResults GUIResults;
         private GUITable GUITable;
@@ -79,41 +79,41 @@ namespace Anathema
         private void CreateStateScanner()
         {
             if (GUIFilterFSM == null || GUIFilterFSM.IsDisposed)
-                GUIFilterFSM = new GUIFilterFSM();
+                GUIFilterFSM = new GUIFiniteStateScanner();
             GUIFilterFSM.Show(ContentPanel);
         }
 
         private void CreateManualScanner()
         {
             if (GUIFilterManual == null || GUIFilterManual.IsDisposed)
-                GUIFilterManual = new GUIFilterManual();
+                GUIFilterManual = new GUIManualScanner();
             GUIFilterManual.Show(ContentPanel);
         }
 
         private void CreateTreeScanner()
         {
             if (GUIFilterTree == null || GUIFilterTree.IsDisposed)
-                GUIFilterTree = new GUIFilterTree();
+                GUIFilterTree = new GUITreeScanner();
             GUIFilterTree.Show(ContentPanel);
         }
 
         private void CreateChunkScanner()
         {
             if (GUIFilterChunks == null || GUIFilterChunks.IsDisposed)
-                GUIFilterChunks = new GUIFilterChunks();
+                GUIFilterChunks = new GUIChunkScanner();
             GUIFilterChunks.Show(ContentPanel);
         }
         private void CreateInputCorrelator()
         {
             if (GUILabelerInputCorrelator == null || GUILabelerInputCorrelator.IsDisposed)
-                GUILabelerInputCorrelator = new GUILabelerInputCorrelator();
+                GUILabelerInputCorrelator = new GUIInputCorrelator();
             GUILabelerInputCorrelator.Show(ContentPanel);
         }
 
         private void CreateChangeCounter()
         {
             if (GUILabelerChangeCounter == null || GUILabelerChangeCounter.IsDisposed)
-                GUILabelerChangeCounter = new GUILabelerChangeCounter();
+                GUILabelerChangeCounter = new GUIChangeCounter();
             GUILabelerChangeCounter.Show(ContentPanel);
         }
 
