@@ -19,7 +19,7 @@ namespace Anathema
         private MemorySharp MemoryEditor;
 
         protected SnapshotRegion[] SnapshotRegions;
-        private ConcurrentBag<SnapshotRegion> DeallocatedRegions;
+        protected ConcurrentBag<SnapshotRegion> DeallocatedRegions;
 
         // Variables to send to the display when displaying this snapshot
         private String ScanMethod;
@@ -218,10 +218,19 @@ namespace Anathema
         /// <returns></returns>
         public Byte[] ReadSnapshotMemoryOfRegion(SnapshotRegion SnapshotRegion)
         {
-            SnapshotRegion.ReadAllSnapshotMemory(MemoryEditor, false);
-            Byte[] RegionData = SnapshotRegion.GetCurrentValues();
+            try
+            {
+                SnapshotRegion.ReadAllSnapshotMemory(MemoryEditor, false);
+            }
+            catch (ScanFailedException)
+            {
+                if (!DeallocatedRegions.Contains(SnapshotRegion))
+                    DeallocatedRegions.Add(SnapshotRegion);
+            }
+            Byte[] SnapshotRegionData = SnapshotRegion.GetCurrentValues();
             SnapshotRegion.SetCurrentValues(null, false);
-            return RegionData;
+
+            return SnapshotRegionData;
         }
 
         protected virtual void MaskDeallocatedRegions()
@@ -236,10 +245,10 @@ namespace Anathema
             Snapshot Mask = SnapshotManager.GetInstance().SnapshotAllRegions();
 
             // Mask each region against the current virtual memory regions
-            SnapshotRegion[] SplitRegions = MaskRegions(Mask, SnapshotRegions);
+            SnapshotRegion[] MaskedRegions = MaskRegions(Mask, DeallocatedRegions.ToArray());
 
             // Merge split regions back with the main list
-            NewSnapshotRegions.AddRange(SplitRegions);
+            NewSnapshotRegions.AddRange(MaskedRegions);
 
             // Clear invalid items
             DeallocatedRegions = new ConcurrentBag<SnapshotRegion>();
@@ -349,13 +358,11 @@ namespace Anathema
                 if ((UInt64)CurrentMask.BaseAddress > (UInt64)CurrentRegion.BaseAddress)
                     BaseOffset = (Int32)((UInt64)CurrentMask.BaseAddress - (UInt64)CurrentRegion.BaseAddress);
 
-
-                //(Int32)(Math.Max(/*(UInt64)CurrentMask.BaseAddress*/, (UInt64)CurrentRegion.BaseAddress) - Math.Min((UInt64)CurrentMask.BaseAddress, (UInt64)CurrentRegion.BaseAddress));
-
                 ResultRegions.Add(new SnapshotRegion(CurrentRegion));
                 ResultRegions.Last().BaseAddress = CurrentRegion.BaseAddress + BaseOffset;
                 ResultRegions.Last().EndAddress = (IntPtr)Math.Min((UInt64)CurrentMask.EndAddress, (UInt64)CurrentRegion.EndAddress);
                 ResultRegions.Last().SetCurrentValues(CurrentRegion.GetCurrentValues().SubArray(BaseOffset, ResultRegions.Last().RegionSize));
+                ResultRegions.Last().SetPreviousValues(CurrentRegion.GetPreviousValues().SubArray(BaseOffset, ResultRegions.Last().RegionSize));
                 ResultRegions.Last().SetElementType(CurrentRegion.GetElementType());
             }
 
@@ -465,6 +472,91 @@ namespace Anathema
         {
             foreach (SnapshotRegion<T> Region in this)
                 Region.SetMemoryLabels(Value);
+        }
+
+        protected override void MaskDeallocatedRegions()
+        {
+            List<SnapshotRegion<T>> NewSnapshotRegions = SnapshotRegions.Select(x => (SnapshotRegion<T>)x).ToList();
+
+            // Remove invalid items from collection
+            foreach (SnapshotRegion<T> Region in DeallocatedRegions)
+                NewSnapshotRegions.Remove(Region);
+
+            // Get current memory regions
+            Snapshot<T> Mask = new Snapshot<T>(SnapshotManager.GetInstance().SnapshotAllRegions());
+
+            // Mask each region against the current virtual memory regions
+            SnapshotRegion<T>[] MaskedRegions = MaskRegions(Mask, DeallocatedRegions.Select(x => (SnapshotRegion<T>)x).ToArray());
+
+            // Merge split regions back with the main list
+            NewSnapshotRegions.AddRange(MaskedRegions);
+
+            // Clear invalid items
+            DeallocatedRegions = new ConcurrentBag<SnapshotRegion>();
+
+            // Store result as main snapshot array
+            this.SnapshotRegions = NewSnapshotRegions.ToArray();
+        }
+
+        /// <summary>
+        /// Masks the given memory regions against the memory regions of a given snapshot, keeping the common elements of the two.
+        /// </summary>
+        /// <param name="Mask"></param>
+        public SnapshotRegion<T>[] MaskRegions(Snapshot<T> Mask, SnapshotRegion<T>[] TargetRegions)
+        {
+            List<SnapshotRegion<T>> ResultRegions = new List<SnapshotRegion<T>>();
+
+            // Initialize stacks with regions and masking regions
+            Queue<SnapshotRegion<T>> CandidateRegions = new Queue<SnapshotRegion<T>>();
+            Queue<SnapshotRegion<T>> MaskingRegions = new Queue<SnapshotRegion<T>>();
+
+            foreach (SnapshotRegion<T> Region in TargetRegions)
+                CandidateRegions.Enqueue(Region);
+
+            foreach (SnapshotRegion<T> MaskRegion in Mask)
+                MaskingRegions.Enqueue(MaskRegion);
+
+            if (CandidateRegions.Count == 0 || MaskingRegions.Count == 0)
+                return null;
+
+            SnapshotRegion<T> CurrentRegion;
+            SnapshotRegion<T> CurrentMask = MaskingRegions.Dequeue();
+
+            while (CandidateRegions.Count > 0)
+            {
+                // Grab next region
+                CurrentRegion = CandidateRegions.Dequeue();
+
+                // Grab the next mask following the current region
+                while ((UInt64)CurrentMask.EndAddress < (UInt64)CurrentRegion.BaseAddress)
+                    CurrentMask = MaskingRegions.Dequeue();
+
+                // Check for mask completely removing this region
+                if ((UInt64)CurrentMask.BaseAddress > (UInt64)CurrentRegion.EndAddress)
+                    continue;
+
+                // Mask completely overlaps, just use the original region
+                if (CurrentMask.BaseAddress == CurrentRegion.BaseAddress && CurrentMask.EndAddress == CurrentRegion.EndAddress)
+                {
+                    ResultRegions.Add(CurrentRegion);
+                    continue;
+                }
+
+                // Mask is within bounds; Grab the masked portion of this region
+                Int32 BaseOffset = 0;
+                if ((UInt64)CurrentMask.BaseAddress > (UInt64)CurrentRegion.BaseAddress)
+                    BaseOffset = (Int32)((UInt64)CurrentMask.BaseAddress - (UInt64)CurrentRegion.BaseAddress);
+
+                ResultRegions.Add(new SnapshotRegion<T>(CurrentRegion));
+                ResultRegions.Last().BaseAddress = CurrentRegion.BaseAddress + BaseOffset;
+                ResultRegions.Last().EndAddress = (IntPtr)Math.Min((UInt64)CurrentMask.EndAddress, (UInt64)CurrentRegion.EndAddress);
+                ResultRegions.Last().SetCurrentValues(CurrentRegion.GetCurrentValues().SubArray(BaseOffset, ResultRegions.Last().RegionSize));
+                ResultRegions.Last().SetPreviousValues(CurrentRegion.GetPreviousValues().SubArray(BaseOffset, ResultRegions.Last().RegionSize));
+                ResultRegions.Last().SetMemoryLabels(CurrentRegion.GetMemoryLabels().SubArray(BaseOffset, ResultRegions.Last().RegionSize));
+                ResultRegions.Last().SetElementType(CurrentRegion.GetElementType());
+            }
+
+            return ResultRegions.ToArray();
         }
 
         /// <summary>

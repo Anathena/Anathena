@@ -124,6 +124,11 @@ namespace Anathema
                 PreviousValues = null;
         }
 
+        public void SetPreviousValues(Byte[] NewValues)
+        {
+            PreviousValues = NewValues;
+        }
+
         public Byte[] GetCurrentValues()
         {
             return CurrentValues;
