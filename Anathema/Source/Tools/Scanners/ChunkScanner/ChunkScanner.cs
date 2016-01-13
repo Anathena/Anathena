@@ -12,7 +12,6 @@ namespace Anathema
     class ChunkScanner : IChunkScannerModel
     {
         private List<MemoryChunkRoots> ChunkRoots;
-        private ConcurrentBag<MemoryChunkRoots> InvalidChunkRoots;
         private Snapshot Snapshot;
         private Int32 ChunkSize;
 
@@ -35,7 +34,7 @@ namespace Anathema
         /// </summary>
         /// <param name="MemorySize"></param>
         /// <returns></returns>
-        private Int32 SetChunkSizeDoe(UInt64 MemorySize)
+        private Int32 SetChunkSize(UInt64 MemorySize)
         {
             UInt32 Value = (UInt32)(Snapshot.GetMemorySize() >> 20);
             Int32 Bits = 0;
@@ -46,14 +45,15 @@ namespace Anathema
 
         public override void BeginScan()
         {
+            this.ChunkSize = SetChunkSize(Snapshot.GetMemorySize());
             this.Snapshot = new Snapshot(SnapshotManager.GetInstance().GetActiveSnapshot());
             this.ChunkRoots = new List<MemoryChunkRoots>();
-            this.InvalidChunkRoots = new ConcurrentBag<MemoryChunkRoots>();
-            this.ChunkSize = SetChunkSizeDoe(Snapshot.GetMemorySize());
 
-            // Initialize filter tree roots
+            List<SnapshotRegion> Chunks = new List<SnapshotRegion>();
             foreach (SnapshotRegion MemoryRegion in Snapshot)
-                ChunkRoots.Add(new MemoryChunkRoots(MemoryRegion, ChunkSize));
+            { 
+
+            }
 
             base.BeginScan();
         }
@@ -71,28 +71,9 @@ namespace Anathema
                 }
                 catch (ScanFailedException)
                 {
-                    InvalidChunkRoots.Add(ChunkRoot);
+                    // Fuck it
                 }
             });
-
-            // Handle invalid reads
-            if (InvalidChunkRoots.Count > 0)
-            {
-                MemoryChunkRoots[] InvalidChunks = InvalidChunkRoots.ToArray();
-
-                // Remove invalid items from collection
-                foreach (MemoryChunkRoots Root in InvalidChunks)
-                    ChunkRoots.Remove(Root);
-
-                // Get current memory regions
-                
-                // Mask each chunk against the original region
-
-                // Copy the attributes to the new regions, if they exist
-                
-                // Clear invalid items
-                InvalidChunkRoots = new ConcurrentBag<MemoryChunkRoots>();
-            }
         }
 
         public override void EndScan()

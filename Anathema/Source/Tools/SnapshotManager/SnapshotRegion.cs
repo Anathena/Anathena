@@ -168,8 +168,6 @@ namespace Anathema
     public class SnapshotRegion<LabelType> : SnapshotRegion where LabelType : struct
     {
         private LabelType?[] ElementLabels; // Labels for individual elements
-        private LabelType? RegionLabel;     // Label for the entire region
-
         public SnapshotRegion(IntPtr BaseAddress, Int32 RegionSize) : base(BaseAddress, RegionSize) { }
         public SnapshotRegion(RemoteRegion RemoteRegion) : base(RemoteRegion) { }
         public SnapshotRegion(SnapshotRegion SnapshotRegion) : base(SnapshotRegion)
@@ -191,16 +189,6 @@ namespace Anathema
         public void SetElementLabels(LabelType?[] ElementLabels)
         {
             this.ElementLabels = ElementLabels;
-        }
-
-        public LabelType? GetRegionLabel()
-        {
-            return RegionLabel;
-        }
-
-        public void SetRegionLabel(LabelType? RegionLabel)
-        {
-            this.RegionLabel = RegionLabel;
         }
 
         /// <summary>
@@ -251,7 +239,6 @@ namespace Anathema
                 SubRegion.SetElementType(ElementType);
                 if (ElementLabels != null)
                     SubRegion.SetElementLabels(ElementLabels.SubArray(StartIndex, ValidRegionSize));
-                SubRegion.SetRegionLabel(RegionLabel);
 
                 ValidRegions.Add(SubRegion);
 

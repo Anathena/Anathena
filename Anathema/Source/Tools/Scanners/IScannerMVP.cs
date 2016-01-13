@@ -9,11 +9,6 @@ using System.Threading.Tasks;
 
 namespace Anathema
 {
-    /// <summary>
-    /// Indicates a scan failed, likely due to scanning deallocated memory or memory with certain virtual page flags
-    /// </summary>
-    public class ScanFailedException : Exception{ }
-
     interface IScannerView : IView
     {
         // Methods invoked by the presenter (upstream)
@@ -47,7 +42,7 @@ namespace Anathema
                     await Task.Delay(WaitTime, CancelRequest.Token);
                 }
             }, CancelRequest.Token);
-            
+
         }
 
         protected abstract void UpdateScan();
@@ -68,7 +63,7 @@ namespace Anathema
             // Bind events triggered by the model
 
         }
-        
+
         #region Method definitions called by the view (downstream)
 
         public void BeginScan()

@@ -207,13 +207,29 @@ namespace Anathema
             });
 
             // Handle invalid reads
-            if (DeallocatedRegions.Count > 0)
-                MaskDeallocatedRegions();
+            if (!DeallocatedRegions.IsEmpty)
+            {
+                // Mask deallocated regions
+                SnapshotRegion[] NewRegions = MaskDeallocatedRegions();
+
+                // Attempt to collect values for the recovered regions
+                foreach (SnapshotRegion SnapshotRegion in NewRegions)
+                {
+                    try
+                    {
+                        SnapshotRegion.ReadAllSnapshotMemory(MemoryEditor);
+                    }
+                    catch (ScanFailedException)
+                    {
+
+                    }
+                }
+            }
 
             SetTimeStampToNow();
         }
 
-        protected virtual void MaskDeallocatedRegions()
+        protected virtual SnapshotRegion[] MaskDeallocatedRegions()
         {
             List<SnapshotRegion> NewSnapshotRegions = new List<SnapshotRegion>(SnapshotRegions);
 
@@ -235,6 +251,8 @@ namespace Anathema
 
             // Store result as main snapshot array
             this.SnapshotRegions = NewSnapshotRegions.ToArray();
+
+            return MaskedRegions;
         }
 
         public virtual SnapshotRegion[] GetValidRegions()
@@ -271,7 +289,7 @@ namespace Anathema
             foreach (SnapshotRegion Region in this)
             {
                 Region.BaseAddress -= ExpandSize;
-                Region.RegionSize += ExpandSize * 2;
+                Region.RegionSize += ExpandSize * 2; // TODO overflow protection
             }
         }
 
@@ -454,7 +472,7 @@ namespace Anathema
                 Region.SetElementLabels(Value);
         }
 
-        protected override void MaskDeallocatedRegions()
+        protected override SnapshotRegion[] MaskDeallocatedRegions()
         {
             List<SnapshotRegion<LabelType>> NewSnapshotRegions = SnapshotRegions.Select(x => (SnapshotRegion<LabelType>)x).ToList();
 
@@ -476,6 +494,8 @@ namespace Anathema
 
             // Store result as main snapshot array
             this.SnapshotRegions = NewSnapshotRegions.ToArray();
+
+            return MaskedRegions;
         }
 
         /// <summary>
@@ -585,5 +605,33 @@ namespace Anathema
         }
 
     } // End class
+
+    /// <summary>
+    /// Indicates a scan failed, likely due to scanning deallocated memory or memory with certain virtual page flags
+    /// </summary>
+    public class ScanFailedException : Exception
+    {
+        public SnapshotRegion[] NewRegions { get; set; }
+        public ScanFailedException() { }
+        public ScanFailedException(SnapshotRegion[] NewRegions)
+        {
+            this.NewRegions = NewRegions;
+        }
+    }
+
+    /// <summary>
+    /// Indicates a scan failed when attempting to hash all values
+    /// </summary>
+    public class HashingFailedException : Exception
+    {
+        public SnapshotRegion[] NewRegions { get; set; }
+        public ConcurrentDictionary<SnapshotRegion, UInt64?> HashDictionary { get; set; }
+
+        public HashingFailedException(SnapshotRegion[] NewRegions, ConcurrentDictionary<SnapshotRegion, UInt64?> HashDictionary)
+        {
+            this.NewRegions = NewRegions;
+            this.HashDictionary = HashDictionary;
+        }
+    }
 
 } // End namespace
