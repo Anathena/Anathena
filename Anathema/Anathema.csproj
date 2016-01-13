@@ -99,6 +99,12 @@
     <Compile Include="GUI\Settings\GUISettings.Designer.cs">
       <DependentUpon>GUISettings.cs</DependentUpon>
     </Compile>
+    <Compile Include="GUI\Tools\PointerScanner\GUIPointerScanner.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI\Tools\PointerScanner\GUIPointerScanner.Designer.cs">
+      <DependentUpon>GUIPointerScanner.cs</DependentUpon>
+    </Compile>
     <Compile Include="GUI\Tools\Table\GUIAddressTableEntryEdit.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -107,17 +113,19 @@
     </Compile>
     <Compile Include="Settings.cs" />
     <Compile Include="Source\Settings\ISettingsMVP.cs" />
-    <Compile Include="Source\Tools\Scanners\FiniteStateScanner\IFiniteStateScannerMVP.cs" />
-    <Compile Include="Source\Tools\Scanners\FiniteStateScanner\FiniteStateMachine.cs" />
-    <Compile Include="Source\Tools\Scanners\FiniteStateScanner\FiniteState.cs" />
-    <Compile Include="Source\Tools\Scanners\ScanConstraintManager.cs" />
+    <Compile Include="Source\Tools\PointerScanner\IPointerScannerMVP.cs" />
+    <Compile Include="Source\Tools\PointerScanner\PointerScanner.cs" />
+    <Compile Include="Source\Tools\MemoryScanners\FiniteStateScanner\IFiniteStateScannerMVP.cs" />
+    <Compile Include="Source\Tools\MemoryScanners\FiniteStateScanner\FiniteStateMachine.cs" />
+    <Compile Include="Source\Tools\MemoryScanners\FiniteStateScanner\FiniteState.cs" />
+    <Compile Include="Source\Tools\MemoryScanners\ScanConstraintManager.cs" />
     <Compile Include="Source\HelperClasses\PrimitiveTypes.cs" />
-    <Compile Include="Source\Tools\Scanners\ManualScanner\IManualScannerMVP.cs" />
-    <Compile Include="Source\Tools\Scanners\ManualScanner\ManualScanner.cs" />
-    <Compile Include="Source\Tools\Scanners\InputCorrelator\IInputCorrelatorMVP.cs" />
+    <Compile Include="Source\Tools\MemoryScanners\ManualScanner\IManualScannerMVP.cs" />
+    <Compile Include="Source\Tools\MemoryScanners\ManualScanner\ManualScanner.cs" />
+    <Compile Include="Source\Tools\MemoryScanners\InputCorrelator\IInputCorrelatorMVP.cs" />
     <Compile Include="Source\Tools\SnapshotManager\SnapshotRegion.cs" />
     <Compile Include="Source\Tools\SnapshotManager\SnapshotElement.cs" />
-    <Compile Include="Source\Tools\Scanners\Hashing.cs" />
+    <Compile Include="Source\Tools\MemoryScanners\Hashing.cs" />
     <Compile Include="GUI\CustomControls\HexEditor\BitControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -214,10 +222,10 @@
     </Compile>
     <Compile Include="GUI\CustomControls\HexEditor\Util.cs" />
     <Compile Include="GUI\CustomControls\HexEditor\W32.cs" />
-    <Compile Include="GUI\Tools\Scanners\GUIChunkScanner.cs">
+    <Compile Include="GUI\Tools\MemoryScanners\GUIChunkScanner.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="GUI\Tools\Scanners\GUIChunkScanner.Designer.cs">
+    <Compile Include="GUI\Tools\MemoryScanners\GUIChunkScanner.Designer.cs">
       <DependentUpon>GUIChunkScanner.cs</DependentUpon>
     </Compile>
     <Compile Include="Source\Main\Main.cs" />
@@ -274,18 +282,18 @@
     <Compile Include="Source\OS\Windows\Threading\RemoteThread.cs" />
     <Compile Include="Source\OS\Windows\Threading\ThreadCore.cs" />
     <Compile Include="Source\OS\Windows\Threading\ThreadFactory.cs" />
-    <Compile Include="Source\Tools\Scanners\ChunkScanner\ChunkScanner.cs" />
-    <Compile Include="Source\Tools\Scanners\ChunkScanner\IChunkScannerMVP.cs" />
-    <Compile Include="Source\Tools\Scanners\TreeScanner\ITreeScannerMVP.cs" />
-    <Compile Include="Source\Tools\Scanners\ChangeCounter\ChangeCounter.cs" />
-    <Compile Include="Source\Tools\Scanners\ChangeCounter\IChangeCounterMVP.cs" />
+    <Compile Include="Source\Tools\MemoryScanners\ChunkScanner\ChunkScanner.cs" />
+    <Compile Include="Source\Tools\MemoryScanners\ChunkScanner\IChunkScannerMVP.cs" />
+    <Compile Include="Source\Tools\MemoryScanners\TreeScanner\ITreeScannerMVP.cs" />
+    <Compile Include="Source\Tools\MemoryScanners\ChangeCounter\ChangeCounter.cs" />
+    <Compile Include="Source\Tools\MemoryScanners\ChangeCounter\IChangeCounterMVP.cs" />
     <Compile Include="Source\Tools\ProcessSelector\IProcessObserver.cs" />
     <Compile Include="Source\Tools\ProcessSelector\IProcessSelectorMVP.cs" />
     <Compile Include="Source\Tools\ProcessSelector\ProcessSelector.cs" />
     <Compile Include="Source\Tools\Results\IResultsMVP.cs" />
     <Compile Include="Source\Tools\Results\Results.cs" />
     <Compile Include="Source\Tools\SnapshotManager\ISnapshotManagerMVP.cs" />
-    <Compile Include="Source\Tools\Scanners\IScannerMVP.cs" />
+    <Compile Include="Source\Tools\MemoryScanners\IScannerMVP.cs" />
     <Compile Include="Source\Tools\SnapshotManager\Snapshot.cs" />
     <Compile Include="Source\HelperClasses\MVP\ControlThreadingHelper.cs" />
     <Compile Include="Source\HelperClasses\MVP\IMVP.cs" />
@@ -301,34 +309,34 @@
     <Compile Include="GUI\Tools\Debugger\GUIDebugger.Designer.cs">
       <DependentUpon>GUIDebugger.cs</DependentUpon>
     </Compile>
-    <Compile Include="GUI\Tools\Scanners\GUITreeScanner.cs">
+    <Compile Include="GUI\Tools\MemoryScanners\GUITreeScanner.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="GUI\Tools\Scanners\GUITreeScanner.Designer.cs">
+    <Compile Include="GUI\Tools\MemoryScanners\GUITreeScanner.Designer.cs">
       <DependentUpon>GUITreeScanner.cs</DependentUpon>
     </Compile>
-    <Compile Include="GUI\Tools\Scanners\GUIManualScanner.cs">
+    <Compile Include="GUI\Tools\MemoryScanners\GUIManualScanner.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="GUI\Tools\Scanners\GUIManualScanner.Designer.cs">
+    <Compile Include="GUI\Tools\MemoryScanners\GUIManualScanner.Designer.cs">
       <DependentUpon>GUIManualScanner.cs</DependentUpon>
     </Compile>
-    <Compile Include="GUI\Tools\Scanners\GUIFiniteStateScanner.cs">
+    <Compile Include="GUI\Tools\MemoryScanners\GUIFiniteStateScanner.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="GUI\Tools\Scanners\GUIFiniteStateScanner.Designer.cs">
+    <Compile Include="GUI\Tools\MemoryScanners\GUIFiniteStateScanner.Designer.cs">
       <DependentUpon>GUIFiniteStateScanner.cs</DependentUpon>
     </Compile>
-    <Compile Include="GUI\Tools\Scanners\GUIInputCorrelator.cs">
+    <Compile Include="GUI\Tools\MemoryScanners\GUIInputCorrelator.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="GUI\Tools\Scanners\GUIInputCorrelator.Designer.cs">
+    <Compile Include="GUI\Tools\MemoryScanners\GUIInputCorrelator.Designer.cs">
       <DependentUpon>GUIInputCorrelator.cs</DependentUpon>
     </Compile>
-    <Compile Include="GUI\Tools\Scanners\GUIChangeCounter.cs">
+    <Compile Include="GUI\Tools\MemoryScanners\GUIChangeCounter.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="GUI\Tools\Scanners\GUIChangeCounter.Designer.cs">
+    <Compile Include="GUI\Tools\MemoryScanners\GUIChangeCounter.Designer.cs">
       <DependentUpon>GUIChangeCounter.cs</DependentUpon>
     </Compile>
     <Compile Include="GUI\Tools\Results\GUIResults.cs">
@@ -355,53 +363,53 @@
     <Compile Include="GUI\Main\GUIMain.Designer.cs">
       <DependentUpon>GUIMain.cs</DependentUpon>
     </Compile>
-    <Compile Include="Source\Tools\Scanners\FiniteStateScanner\FiniteStateScanner.cs" />
+    <Compile Include="Source\Tools\MemoryScanners\FiniteStateScanner\FiniteStateScanner.cs" />
     <Compile Include="Source\HelperClasses\CheckSyntax.cs" />
-    <Compile Include="Source\Tools\Scanners\InputCorrelator\InputCorrelator.cs" />
+    <Compile Include="Source\Tools\MemoryScanners\InputCorrelator\InputCorrelator.cs" />
     <Compile Include="Source\Tools\Debugger\Celestial.cs" />
-    <Compile Include="Source\Tools\Scanners\InputCorrelator\InputHook\Hook.cs" />
-    <Compile Include="Source\Tools\Scanners\InputCorrelator\InputHook\HotKeys\HotKeyArgs.cs" />
-    <Compile Include="Source\Tools\Scanners\InputCorrelator\InputHook\HotKeys\HotKeySet.cs" />
-    <Compile Include="Source\Tools\Scanners\InputCorrelator\InputHook\HotKeys\HotKeySetCollection.cs" />
-    <Compile Include="Source\Tools\Scanners\InputCorrelator\InputHook\HotKeys\HotKeySetsListener.cs" />
-    <Compile Include="Source\Tools\Scanners\InputCorrelator\InputHook\IKeyboardEvents.cs" />
-    <Compile Include="Source\Tools\Scanners\InputCorrelator\InputHook\IKeyboardMouseEvents.cs" />
-    <Compile Include="Source\Tools\Scanners\InputCorrelator\InputHook\IMouseEvents.cs" />
-    <Compile Include="Source\Tools\Scanners\InputCorrelator\InputHook\Implementation\AppEventFacade.cs" />
-    <Compile Include="Source\Tools\Scanners\InputCorrelator\InputHook\Implementation\AppKeyListener.cs" />
-    <Compile Include="Source\Tools\Scanners\InputCorrelator\InputHook\Implementation\AppMouseListener.cs" />
-    <Compile Include="Source\Tools\Scanners\InputCorrelator\InputHook\Implementation\BaseListener.cs" />
-    <Compile Include="Source\Tools\Scanners\InputCorrelator\InputHook\Implementation\ButtonSet.cs" />
-    <Compile Include="Source\Tools\Scanners\InputCorrelator\InputHook\Implementation\Callback.cs" />
-    <Compile Include="Source\Tools\Scanners\InputCorrelator\InputHook\Implementation\EventFacade.cs" />
-    <Compile Include="Source\Tools\Scanners\InputCorrelator\InputHook\Implementation\GlobalEventFacade.cs" />
-    <Compile Include="Source\Tools\Scanners\InputCorrelator\InputHook\Implementation\GlobalKeyListener.cs" />
-    <Compile Include="Source\Tools\Scanners\InputCorrelator\InputHook\Implementation\GlobalMouseListener.cs" />
-    <Compile Include="Source\Tools\Scanners\InputCorrelator\InputHook\Implementation\KeyboardState.cs" />
-    <Compile Include="Source\Tools\Scanners\InputCorrelator\InputHook\Implementation\KeyListener.cs" />
-    <Compile Include="Source\Tools\Scanners\InputCorrelator\InputHook\Implementation\MouseListener.cs" />
-    <Compile Include="Source\Tools\Scanners\InputCorrelator\InputHook\Implementation\Subscribe.cs" />
-    <Compile Include="Source\Tools\Scanners\InputCorrelator\InputHook\KeyEventArgsExt.cs" />
-    <Compile Include="Source\Tools\Scanners\InputCorrelator\InputHook\KeyPressEventArgsExt.cs" />
-    <Compile Include="Source\Tools\Scanners\InputCorrelator\InputHook\MouseEventExtArgs.cs" />
-    <Compile Include="Source\Tools\Scanners\InputCorrelator\InputHook\WinApi\AppMouseStruct.cs" />
-    <Compile Include="Source\Tools\Scanners\InputCorrelator\InputHook\WinApi\CallbackData.cs" />
-    <Compile Include="Source\Tools\Scanners\InputCorrelator\InputHook\WinApi\HookHelper.cs" />
-    <Compile Include="Source\Tools\Scanners\InputCorrelator\InputHook\WinApi\HookIds.cs" />
-    <Compile Include="Source\Tools\Scanners\InputCorrelator\InputHook\WinApi\HookNativeMethods.cs" />
-    <Compile Include="Source\Tools\Scanners\InputCorrelator\InputHook\WinApi\HookProcedure.cs" />
-    <Compile Include="Source\Tools\Scanners\InputCorrelator\InputHook\WinApi\HookProcedureHandle.cs" />
-    <Compile Include="Source\Tools\Scanners\InputCorrelator\InputHook\WinApi\HookResult.cs" />
-    <Compile Include="Source\Tools\Scanners\InputCorrelator\InputHook\WinApi\KeyboardHookStruct.cs" />
-    <Compile Include="Source\Tools\Scanners\InputCorrelator\InputHook\WinApi\KeyboardNativeMethods.cs" />
-    <Compile Include="Source\Tools\Scanners\InputCorrelator\InputHook\WinApi\Messages.cs" />
-    <Compile Include="Source\Tools\Scanners\InputCorrelator\InputHook\WinApi\MouseNativeMethods.cs" />
-    <Compile Include="Source\Tools\Scanners\InputCorrelator\InputHook\WinApi\MouseStruct.cs" />
-    <Compile Include="Source\Tools\Scanners\InputCorrelator\InputHook\WinApi\Point.cs" />
-    <Compile Include="Source\Tools\Scanners\InputCorrelator\InputHook\WinApi\ThreadNativeMethods.cs" />
-    <Compile Include="Source\Tools\Scanners\TreeScanner\TreeScanner.cs" />
+    <Compile Include="Source\Tools\MemoryScanners\InputCorrelator\InputHook\Hook.cs" />
+    <Compile Include="Source\Tools\MemoryScanners\InputCorrelator\InputHook\HotKeys\HotKeyArgs.cs" />
+    <Compile Include="Source\Tools\MemoryScanners\InputCorrelator\InputHook\HotKeys\HotKeySet.cs" />
+    <Compile Include="Source\Tools\MemoryScanners\InputCorrelator\InputHook\HotKeys\HotKeySetCollection.cs" />
+    <Compile Include="Source\Tools\MemoryScanners\InputCorrelator\InputHook\HotKeys\HotKeySetsListener.cs" />
+    <Compile Include="Source\Tools\MemoryScanners\InputCorrelator\InputHook\IKeyboardEvents.cs" />
+    <Compile Include="Source\Tools\MemoryScanners\InputCorrelator\InputHook\IKeyboardMouseEvents.cs" />
+    <Compile Include="Source\Tools\MemoryScanners\InputCorrelator\InputHook\IMouseEvents.cs" />
+    <Compile Include="Source\Tools\MemoryScanners\InputCorrelator\InputHook\Implementation\AppEventFacade.cs" />
+    <Compile Include="Source\Tools\MemoryScanners\InputCorrelator\InputHook\Implementation\AppKeyListener.cs" />
+    <Compile Include="Source\Tools\MemoryScanners\InputCorrelator\InputHook\Implementation\AppMouseListener.cs" />
+    <Compile Include="Source\Tools\MemoryScanners\InputCorrelator\InputHook\Implementation\BaseListener.cs" />
+    <Compile Include="Source\Tools\MemoryScanners\InputCorrelator\InputHook\Implementation\ButtonSet.cs" />
+    <Compile Include="Source\Tools\MemoryScanners\InputCorrelator\InputHook\Implementation\Callback.cs" />
+    <Compile Include="Source\Tools\MemoryScanners\InputCorrelator\InputHook\Implementation\EventFacade.cs" />
+    <Compile Include="Source\Tools\MemoryScanners\InputCorrelator\InputHook\Implementation\GlobalEventFacade.cs" />
+    <Compile Include="Source\Tools\MemoryScanners\InputCorrelator\InputHook\Implementation\GlobalKeyListener.cs" />
+    <Compile Include="Source\Tools\MemoryScanners\InputCorrelator\InputHook\Implementation\GlobalMouseListener.cs" />
+    <Compile Include="Source\Tools\MemoryScanners\InputCorrelator\InputHook\Implementation\KeyboardState.cs" />
+    <Compile Include="Source\Tools\MemoryScanners\InputCorrelator\InputHook\Implementation\KeyListener.cs" />
+    <Compile Include="Source\Tools\MemoryScanners\InputCorrelator\InputHook\Implementation\MouseListener.cs" />
+    <Compile Include="Source\Tools\MemoryScanners\InputCorrelator\InputHook\Implementation\Subscribe.cs" />
+    <Compile Include="Source\Tools\MemoryScanners\InputCorrelator\InputHook\KeyEventArgsExt.cs" />
+    <Compile Include="Source\Tools\MemoryScanners\InputCorrelator\InputHook\KeyPressEventArgsExt.cs" />
+    <Compile Include="Source\Tools\MemoryScanners\InputCorrelator\InputHook\MouseEventExtArgs.cs" />
+    <Compile Include="Source\Tools\MemoryScanners\InputCorrelator\InputHook\WinApi\AppMouseStruct.cs" />
+    <Compile Include="Source\Tools\MemoryScanners\InputCorrelator\InputHook\WinApi\CallbackData.cs" />
+    <Compile Include="Source\Tools\MemoryScanners\InputCorrelator\InputHook\WinApi\HookHelper.cs" />
+    <Compile Include="Source\Tools\MemoryScanners\InputCorrelator\InputHook\WinApi\HookIds.cs" />
+    <Compile Include="Source\Tools\MemoryScanners\InputCorrelator\InputHook\WinApi\HookNativeMethods.cs" />
+    <Compile Include="Source\Tools\MemoryScanners\InputCorrelator\InputHook\WinApi\HookProcedure.cs" />
+    <Compile Include="Source\Tools\MemoryScanners\InputCorrelator\InputHook\WinApi\HookProcedureHandle.cs" />
+    <Compile Include="Source\Tools\MemoryScanners\InputCorrelator\InputHook\WinApi\HookResult.cs" />
+    <Compile Include="Source\Tools\MemoryScanners\InputCorrelator\InputHook\WinApi\KeyboardHookStruct.cs" />
+    <Compile Include="Source\Tools\MemoryScanners\InputCorrelator\InputHook\WinApi\KeyboardNativeMethods.cs" />
+    <Compile Include="Source\Tools\MemoryScanners\InputCorrelator\InputHook\WinApi\Messages.cs" />
+    <Compile Include="Source\Tools\MemoryScanners\InputCorrelator\InputHook\WinApi\MouseNativeMethods.cs" />
+    <Compile Include="Source\Tools\MemoryScanners\InputCorrelator\InputHook\WinApi\MouseStruct.cs" />
+    <Compile Include="Source\Tools\MemoryScanners\InputCorrelator\InputHook\WinApi\Point.cs" />
+    <Compile Include="Source\Tools\MemoryScanners\InputCorrelator\InputHook\WinApi\ThreadNativeMethods.cs" />
+    <Compile Include="Source\Tools\MemoryScanners\TreeScanner\TreeScanner.cs" />
     <Compile Include="Source\HelperClasses\Conversions.cs" />
-    <Compile Include="Source\Tools\Scanners\LabelThresholder\LabelThresholder.cs" />
+    <Compile Include="Source\Tools\MemoryScanners\LabelThresholder\LabelThresholder.cs" />
     <Compile Include="Source\Main\IMainMVP.cs" />
     <Compile Include="Source\Tools\ProcessSelector\IProcessSubject.cs" />
     <Compile Include="Program.cs" />
@@ -415,7 +423,7 @@
     <Compile Include="Source\Tools\Table\TableAddressEntryEditor.cs" />
     <Compile Include="Source\Tools\Table\Table.cs" />
     <Compile Include="Source\Tools\Table\TableItem.cs" />
-    <Compile Include="Source\Tools\Scanners\ScanConstraint.cs" />
+    <Compile Include="Source\Tools\MemoryScanners\ScanConstraint.cs" />
     <EmbeddedResource Include="GUI\CustomControls\HexEditor\BitControl.de.resx">
       <DependentUpon>BitControl.cs</DependentUpon>
       <SubType>Designer</SubType>
@@ -584,8 +592,11 @@
     <EmbeddedResource Include="GUI\Settings\GUISettings.resx">
       <DependentUpon>GUISettings.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="GUI\Tools\Scanners\GUIChunkScanner.resx">
+    <EmbeddedResource Include="GUI\Tools\MemoryScanners\GUIChunkScanner.resx">
       <DependentUpon>GUIChunkScanner.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\Tools\PointerScanner\GUIPointerScanner.resx">
+      <DependentUpon>GUIPointerScanner.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\Tools\ProcessSelector\GUIProcessSelector.resx">
       <DependentUpon>GUIProcessSelector.cs</DependentUpon>
@@ -593,19 +604,19 @@
     <EmbeddedResource Include="GUI\Tools\Debugger\GUIDebugger.resx">
       <DependentUpon>GUIDebugger.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="GUI\Tools\Scanners\GUITreeScanner.resx">
+    <EmbeddedResource Include="GUI\Tools\MemoryScanners\GUITreeScanner.resx">
       <DependentUpon>GUITreeScanner.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="GUI\Tools\Scanners\GUIManualScanner.resx">
+    <EmbeddedResource Include="GUI\Tools\MemoryScanners\GUIManualScanner.resx">
       <DependentUpon>GUIManualScanner.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="GUI\Tools\Scanners\GUIFiniteStateScanner.resx">
+    <EmbeddedResource Include="GUI\Tools\MemoryScanners\GUIFiniteStateScanner.resx">
       <DependentUpon>GUIFiniteStateScanner.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="GUI\Tools\Scanners\GUIInputCorrelator.resx">
+    <EmbeddedResource Include="GUI\Tools\MemoryScanners\GUIInputCorrelator.resx">
       <DependentUpon>GUIInputCorrelator.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="GUI\Tools\Scanners\GUIChangeCounter.resx">
+    <EmbeddedResource Include="GUI\Tools\MemoryScanners\GUIChangeCounter.resx">
       <DependentUpon>GUIChangeCounter.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\Tools\Results\GUIResults.resx">
@@ -745,7 +756,7 @@
     <Content Include="Content\Icons\UnknownValue.png" />
     <Content Include="Content\Icons\Visible.png" />
     <Content Include="Content\Icons\X.png" />
-    <Content Include="Source\Tools\Scanners\InputCorrelator\InputHook\HotKeys\ReadMe.txt" />
+    <Content Include="Source\Tools\MemoryScanners\InputCorrelator\InputHook\HotKeys\ReadMe.txt" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
