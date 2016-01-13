@@ -109,6 +109,11 @@ namespace Anathema
             this.MemoryEditor = MemoryEditor;
         }
 
+        public MemorySharp GetMemoryEditor()
+        {
+            return MemoryEditor;
+        }
+
         #endregion
 
         #region Property Accessors
@@ -186,14 +191,13 @@ namespace Anathema
         /// 
         /// Handles ScanFailedExceptions
         /// </summary>
-        /// <param name="KeepPreviousValues"></param>
         public void ReadAllSnapshotMemory()
         {
             Parallel.ForEach(SnapshotRegions, (SnapshotRegion) =>
             {
                 try
                 {
-                    SnapshotRegion.ReadAllSnapshotMemory(MemoryEditor, true);
+                    SnapshotRegion.ReadAllSnapshotMemory(MemoryEditor);
                 }
                 catch (ScanFailedException)
                 {
@@ -207,33 +211,6 @@ namespace Anathema
                 MaskDeallocatedRegions();
 
             SetTimeStampToNow();
-        }
-
-        /// <summary>
-        /// Reads and returns the memory of the specified region. Does not store the memory. Used for scans that
-        /// just need to quickly grab memory with no use for it afterwards (chunk scan, tree scan).
-        /// </summary>
-        /// <param name="SnapshotRegion"></param>
-        /// <returns></returns>
-        public Byte[] ReadSnapshotMemoryOfRegion(SnapshotRegion SnapshotRegion)
-        {
-            try
-            {
-                SnapshotRegion.ReadAllSnapshotMemory(MemoryEditor, false);
-            }
-            catch (ScanFailedException)
-            {
-                if (!DeallocatedRegions.Contains(SnapshotRegion))
-                    DeallocatedRegions.Add(SnapshotRegion);
-            }
-
-            // Grab the saved values
-            Byte[] SnapshotRegionData = SnapshotRegion.GetCurrentValues();
-
-            // Clear the values, so they do not persist in memory and the GC can get to them
-            SnapshotRegion.SetCurrentValues(null, false);
-
-            return SnapshotRegionData;
         }
 
         protected virtual void MaskDeallocatedRegions()
@@ -418,7 +395,7 @@ namespace Anathema
     /// <summary>
     /// Defines labeled data contained in a single snapshot
     /// </summary>
-    class Snapshot<T> : Snapshot where T : struct
+    class Snapshot<LabelType> : Snapshot where LabelType : struct
     {
         public Snapshot() : base()
         {
@@ -428,14 +405,14 @@ namespace Anathema
         public Snapshot(Snapshot BaseSnapshot)
         {
             // Copy and convert the snapshot data to a labeled format
-            SnapshotRegions = new SnapshotRegion<T>[BaseSnapshot.GetRegionCount()];
+            SnapshotRegions = new SnapshotRegion<LabelType>[BaseSnapshot.GetRegionCount()];
             for (Int32 RegionIndex = 0; RegionIndex < SnapshotRegions.Length; RegionIndex++)
-                SnapshotRegions[RegionIndex] = new SnapshotRegion<T>(BaseSnapshot.GetSnapshotRegions()[RegionIndex]);
+                SnapshotRegions[RegionIndex] = new SnapshotRegion<LabelType>(BaseSnapshot.GetSnapshotRegions()[RegionIndex]);
 
             Initialize();
         }
 
-        public Snapshot(SnapshotRegion<T>[] SnapshotData)
+        public Snapshot(SnapshotRegion<LabelType>[] SnapshotData)
         {
             this.SnapshotRegions = SnapshotData;
             Initialize();
@@ -446,11 +423,11 @@ namespace Anathema
         /// </summary>
         /// <param name="Index"></param>
         /// <returns></returns>
-        public new SnapshotElement<T> this[Int32 Index]
+        public new SnapshotElement<LabelType> this[Int32 Index]
         {
             get
             {
-                foreach (SnapshotRegion<T> MemoryRegion in this)
+                foreach (SnapshotRegion<LabelType> MemoryRegion in this)
                 {
                     if (Index - MemoryRegion.RegionSize >= 0)
                         Index -= MemoryRegion.RegionSize;
@@ -461,35 +438,35 @@ namespace Anathema
             }
         }
 
-        public new SnapshotRegion<T>[] GetValidRegions()
+        public new SnapshotRegion<LabelType>[] GetValidRegions()
         {
-            List<SnapshotRegion<T>> ValidRegions = new List<SnapshotRegion<T>>();
+            List<SnapshotRegion<LabelType>> ValidRegions = new List<SnapshotRegion<LabelType>>();
 
-            foreach (SnapshotRegion<T> Region in this)
+            foreach (SnapshotRegion<LabelType> Region in this)
                 ValidRegions.AddRange(Region.GetValidRegions());
 
             return ValidRegions.ToArray();
         }
 
-        public void SetMemoryLabels(T Value)
+        public void SetMemoryLabels(LabelType Value)
         {
-            foreach (SnapshotRegion<T> Region in this)
-                Region.SetMemoryLabels(Value);
+            foreach (SnapshotRegion<LabelType> Region in this)
+                Region.SetElementLabels(Value);
         }
 
         protected override void MaskDeallocatedRegions()
         {
-            List<SnapshotRegion<T>> NewSnapshotRegions = SnapshotRegions.Select(x => (SnapshotRegion<T>)x).ToList();
+            List<SnapshotRegion<LabelType>> NewSnapshotRegions = SnapshotRegions.Select(x => (SnapshotRegion<LabelType>)x).ToList();
 
             // Remove invalid items from collection
-            foreach (SnapshotRegion<T> Region in DeallocatedRegions)
+            foreach (SnapshotRegion<LabelType> Region in DeallocatedRegions)
                 NewSnapshotRegions.Remove(Region);
 
             // Get current memory regions
-            Snapshot<T> Mask = new Snapshot<T>(SnapshotManager.GetInstance().SnapshotAllRegions());
+            Snapshot<LabelType> Mask = new Snapshot<LabelType>(SnapshotManager.GetInstance().SnapshotAllRegions());
 
             // Mask each region against the current virtual memory regions
-            SnapshotRegion<T>[] MaskedRegions = MaskRegions(Mask, DeallocatedRegions.Select(x => (SnapshotRegion<T>)x).ToArray());
+            SnapshotRegion<LabelType>[] MaskedRegions = MaskRegions(Mask, DeallocatedRegions.Select(x => (SnapshotRegion<LabelType>)x).ToArray());
 
             // Merge split regions back with the main list
             NewSnapshotRegions.AddRange(MaskedRegions);
@@ -505,25 +482,25 @@ namespace Anathema
         /// Masks the given memory regions against the memory regions of a given snapshot, keeping the common elements of the two.
         /// </summary>
         /// <param name="Mask"></param>
-        public SnapshotRegion<T>[] MaskRegions(Snapshot<T> Mask, SnapshotRegion<T>[] TargetRegions)
+        public SnapshotRegion<LabelType>[] MaskRegions(Snapshot<LabelType> Mask, SnapshotRegion<LabelType>[] TargetRegions)
         {
-            List<SnapshotRegion<T>> ResultRegions = new List<SnapshotRegion<T>>();
+            List<SnapshotRegion<LabelType>> ResultRegions = new List<SnapshotRegion<LabelType>>();
 
             // Initialize stacks with regions and masking regions
-            Queue<SnapshotRegion<T>> CandidateRegions = new Queue<SnapshotRegion<T>>();
-            Queue<SnapshotRegion<T>> MaskingRegions = new Queue<SnapshotRegion<T>>();
+            Queue<SnapshotRegion<LabelType>> CandidateRegions = new Queue<SnapshotRegion<LabelType>>();
+            Queue<SnapshotRegion<LabelType>> MaskingRegions = new Queue<SnapshotRegion<LabelType>>();
 
-            foreach (SnapshotRegion<T> Region in TargetRegions)
+            foreach (SnapshotRegion<LabelType> Region in TargetRegions)
                 CandidateRegions.Enqueue(Region);
 
-            foreach (SnapshotRegion<T> MaskRegion in Mask)
+            foreach (SnapshotRegion<LabelType> MaskRegion in Mask)
                 MaskingRegions.Enqueue(MaskRegion);
 
             if (CandidateRegions.Count == 0 || MaskingRegions.Count == 0)
                 return null;
 
-            SnapshotRegion<T> CurrentRegion;
-            SnapshotRegion<T> CurrentMask = MaskingRegions.Dequeue();
+            SnapshotRegion<LabelType> CurrentRegion;
+            SnapshotRegion<LabelType> CurrentMask = MaskingRegions.Dequeue();
 
             while (CandidateRegions.Count > 0)
             {
@@ -550,12 +527,12 @@ namespace Anathema
                 if ((UInt64)CurrentMask.BaseAddress > (UInt64)CurrentRegion.BaseAddress)
                     BaseOffset = (Int32)((UInt64)CurrentMask.BaseAddress - (UInt64)CurrentRegion.BaseAddress);
 
-                ResultRegions.Add(new SnapshotRegion<T>(CurrentRegion));
+                ResultRegions.Add(new SnapshotRegion<LabelType>(CurrentRegion));
                 ResultRegions.Last().BaseAddress = CurrentRegion.BaseAddress + BaseOffset;
                 ResultRegions.Last().EndAddress = (IntPtr)Math.Min((UInt64)CurrentMask.EndAddress, (UInt64)CurrentRegion.EndAddress);
                 ResultRegions.Last().SetCurrentValues(CurrentRegion.GetCurrentValues().SubArray(BaseOffset, ResultRegions.Last().RegionSize));
                 ResultRegions.Last().SetPreviousValues(CurrentRegion.GetPreviousValues().SubArray(BaseOffset, ResultRegions.Last().RegionSize));
-                ResultRegions.Last().SetMemoryLabels(CurrentRegion.GetMemoryLabels().SubArray(BaseOffset, ResultRegions.Last().RegionSize));
+                ResultRegions.Last().SetElementLabels(CurrentRegion.GetElementLabels().SubArray(BaseOffset, ResultRegions.Last().RegionSize));
                 ResultRegions.Last().SetElementType(CurrentRegion.GetElementType());
             }
 
@@ -567,7 +544,7 @@ namespace Anathema
         /// </summary>
         protected override void MergeRegions()
         {
-            SnapshotRegion<T>[] SnapshotRegions = (SnapshotRegion<T>[])this.SnapshotRegions;
+            SnapshotRegion<LabelType>[] SnapshotRegions = (SnapshotRegion<LabelType>[])this.SnapshotRegions;
 
             if (SnapshotRegions == null || SnapshotRegions.Length == 0)
                 return;
@@ -576,13 +553,13 @@ namespace Anathema
             Array.Sort(SnapshotRegions, (x, y) => ((UInt64)x.BaseAddress).CompareTo((UInt64)y.BaseAddress));
 
             // Create and initialize the stack with the first region
-            Stack<SnapshotRegion<T>> CombinedRegions = new Stack<SnapshotRegion<T>>();
+            Stack<SnapshotRegion<LabelType>> CombinedRegions = new Stack<SnapshotRegion<LabelType>>();
             CombinedRegions.Push(SnapshotRegions[0]);
 
             // Build the remaining regions
             for (Int32 Index = CombinedRegions.Count; Index < SnapshotRegions.Length; Index++)
             {
-                SnapshotRegion<T> Top = CombinedRegions.Peek();
+                SnapshotRegion<LabelType> Top = CombinedRegions.Peek();
 
                 // If the interval does not overlap, put it on the top of the stack
                 if ((UInt64)Top.EndAddress < (UInt64)SnapshotRegions[Index].BaseAddress)
@@ -593,7 +570,7 @@ namespace Anathema
                 else if ((UInt64)Top.EndAddress == (UInt64)SnapshotRegions[Index].BaseAddress)
                 {
                     Top.RegionSize = (Int32)((UInt64)SnapshotRegions[Index].EndAddress - (UInt64)Top.BaseAddress);
-                    Top.SetMemoryLabels(Top.GetMemoryLabels().Concat(SnapshotRegions[Index].GetMemoryLabels()));
+                    Top.SetElementLabels(Top.GetElementLabels().Concat(SnapshotRegions[Index].GetElementLabels()));
                 }
                 // The regions overlap, which should not happen
                 else if ((UInt64)Top.EndAddress > (UInt64)SnapshotRegions[Index].BaseAddress)

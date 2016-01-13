@@ -60,13 +60,14 @@ namespace Anathema
 
         protected override void UpdateScan()
         {
+            MemorySharp MemoryEditor = Snapshot.GetMemoryEditor();
 
             Parallel.ForEach(ChunkRoots, (ChunkRoot) =>
             {
                 try
                 {
                     // Process the changes that have occurred since the last sampling for this memory page
-                    ChunkRoot.ProcessChanges(Snapshot.ReadSnapshotMemoryOfRegion(ChunkRoot));
+                    ChunkRoot.ProcessChanges(ChunkRoot.ReadAllSnapshotMemory(MemoryEditor, false));
                 }
                 catch (ScanFailedException)
                 {

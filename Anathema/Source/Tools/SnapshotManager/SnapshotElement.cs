@@ -110,16 +110,16 @@ namespace Anathema
         }
     }
 
-    public class SnapshotElement<T> : SnapshotElement where T : struct
+    public class SnapshotElement<LabelType> : SnapshotElement where LabelType : struct
     {
         // Variables required for committing changes back to the region from which this element comes
-        private SnapshotRegion<T> Parent;
+        private SnapshotRegion<LabelType> Parent;
         private Int32 Index;
 
-        private T? _MemoryLabel;
-        public T? MemoryLabel { get { return _MemoryLabel; } set { _MemoryLabel = value; Parent[Index] = this; } }
+        private LabelType? _MemoryLabel;
+        public LabelType? MemoryLabel { get { return _MemoryLabel; } set { _MemoryLabel = value; Parent[Index] = this; } }
 
-        public SnapshotElement(IntPtr BaseAddress, SnapshotRegion<T> Parent, Int32 Index, Type ElementType, Boolean Valid, Byte[] CurrentValue, Byte[] PreviousValue, T? Label)
+        public SnapshotElement(IntPtr BaseAddress, SnapshotRegion<LabelType> Parent, Int32 Index, Type ElementType, Boolean Valid, Byte[] CurrentValue, Byte[] PreviousValue, LabelType? Label)
             : base(BaseAddress, Parent, Index, ElementType, Valid, CurrentValue, PreviousValue)
         {
             this.Parent = Parent;

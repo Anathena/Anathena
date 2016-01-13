@@ -44,7 +44,7 @@ namespace Anathema
             }
         }
 
-        public void ReadAllSnapshotMemory(MemorySharp MemoryEditor, Boolean KeepPreviousValues)
+        public Byte[] ReadAllSnapshotMemory(MemorySharp MemoryEditor, Boolean KeepValues = true)
         {
             Boolean SuccessReading = false;
             Byte[] CurrentValues = MemoryEditor.ReadBytes(this.BaseAddress, this.RegionSize, out SuccessReading, false);
@@ -52,7 +52,10 @@ namespace Anathema
             if (!SuccessReading)
                 throw new ScanFailedException();
 
-            SetCurrentValues(CurrentValues, KeepPreviousValues);
+            if (KeepValues)
+                SetCurrentValues(CurrentValues);
+
+            return CurrentValues;
         }
 
         /// <summary>
@@ -115,13 +118,10 @@ namespace Anathema
             this.ElementType = ElementType;
         }
 
-        public void SetCurrentValues(Byte[] NewValues, Boolean KeepPreviousValues = true)
+        public void SetCurrentValues(Byte[] NewValues)
         {
             PreviousValues = CurrentValues;
             CurrentValues = NewValues;
-
-            if (!KeepPreviousValues)
-                PreviousValues = null;
         }
 
         public void SetPreviousValues(Byte[] NewValues)
@@ -165,9 +165,10 @@ namespace Anathema
     /// <summary>
     /// Defines a snapshot of memory in an external process, as well as assigned labels to this memory.
     /// </summary>
-    public class SnapshotRegion<T> : SnapshotRegion where T : struct
+    public class SnapshotRegion<LabelType> : SnapshotRegion where LabelType : struct
     {
-        private T?[] MemoryLabels;
+        private LabelType?[] ElementLabels; // Labels for individual elements
+        private LabelType? RegionLabel;     // Label for the entire region
 
         public SnapshotRegion(IntPtr BaseAddress, Int32 RegionSize) : base(BaseAddress, RegionSize) { }
         public SnapshotRegion(RemoteRegion RemoteRegion) : base(RemoteRegion) { }
@@ -175,22 +176,31 @@ namespace Anathema
         {
             CurrentValues = SnapshotRegion.GetCurrentValues() == null ? null : (Byte[])SnapshotRegion.GetCurrentValues().Clone();
             PreviousValues = SnapshotRegion.GetPreviousValues() == null ? null : (Byte[])SnapshotRegion.GetPreviousValues().Clone();
-            MemoryLabels = new T?[SnapshotRegion.RegionSize];
         }
 
-        public T?[] GetMemoryLabels()
+        public LabelType?[] GetElementLabels()
         {
-            return MemoryLabels;
+            return ElementLabels;
         }
 
-        public void SetMemoryLabels(T? MemoryLabel)
+        public void SetElementLabels(LabelType? ElementLabel)
         {
-            this.MemoryLabels = Enumerable.Repeat(MemoryLabel, RegionSize).ToArray();
+            this.ElementLabels = Enumerable.Repeat(ElementLabel, RegionSize).ToArray();
         }
 
-        public void SetMemoryLabels(T?[] MemoryLabels)
+        public void SetElementLabels(LabelType?[] ElementLabels)
         {
-            this.MemoryLabels = MemoryLabels;
+            this.ElementLabels = ElementLabels;
+        }
+
+        public LabelType? GetRegionLabel()
+        {
+            return RegionLabel;
+        }
+
+        public void SetRegionLabel(LabelType? RegionLabel)
+        {
+            this.RegionLabel = RegionLabel;
         }
 
         /// <summary>
@@ -198,30 +208,30 @@ namespace Anathema
         /// </summary>
         /// <param name="Index"></param>
         /// <returns></returns>
-        public new SnapshotElement<T> this[Int32 Index]
+        public new SnapshotElement<LabelType> this[Int32 Index]
         {
             get
             {
-                return new SnapshotElement<T>(
+                return new SnapshotElement<LabelType>(
                 BaseAddress + Index, this, Index,
                 ElementType,
                 Valid == null ? false : Valid[Index],
                 (CurrentValues == null || ElementType == null) ? (Byte[])null : CurrentValues.SubArray(Index, Marshal.SizeOf(ElementType)),
                 (PreviousValues == null || ElementType == null) ? (Byte[])null : PreviousValues.SubArray(Index, Marshal.SizeOf(ElementType)),
-                MemoryLabels == null ? (T?)null : MemoryLabels[Index]
+                ElementLabels == null ? (LabelType?)null : ElementLabels[Index]
                 );
             }
             set
             {
                 if (value.ElementType != null) ElementType = value.ElementType; else ElementType = null;
                 if (this.Valid != null) Valid[Index] = value.Valid;
-                if (value.MemoryLabel != null) MemoryLabels[Index] = value.MemoryLabel.Value; else MemoryLabels[Index] = null;
+                if (value.MemoryLabel != null) ElementLabels[Index] = value.MemoryLabel.Value; else ElementLabels[Index] = null;
             }
         }
 
-        public new List<SnapshotRegion<T>> GetValidRegions()
+        public new List<SnapshotRegion<LabelType>> GetValidRegions()
         {
-            List<SnapshotRegion<T>> ValidRegions = new List<SnapshotRegion<T>>();
+            List<SnapshotRegion<LabelType>> ValidRegions = new List<SnapshotRegion<LabelType>>();
             for (Int32 StartIndex = 0; StartIndex < Valid.Length; StartIndex++)
             {
                 if (!Valid[StartIndex])
@@ -235,12 +245,13 @@ namespace Anathema
                 ValidRegionSize += Marshal.SizeOf(ElementType) - 1;
 
                 // Create new subregion from this valid region
-                SnapshotRegion<T> SubRegion = new SnapshotRegion<T>(this.BaseAddress + StartIndex, ValidRegionSize);
+                SnapshotRegion<LabelType> SubRegion = new SnapshotRegion<LabelType>(this.BaseAddress + StartIndex, ValidRegionSize);
                 if (CurrentValues != null)
                     SubRegion.SetCurrentValues(CurrentValues.SubArray(StartIndex, ValidRegionSize));
                 SubRegion.SetElementType(ElementType);
-                if (MemoryLabels != null)
-                    SubRegion.SetMemoryLabels(MemoryLabels.SubArray(StartIndex, ValidRegionSize));
+                if (ElementLabels != null)
+                    SubRegion.SetElementLabels(ElementLabels.SubArray(StartIndex, ValidRegionSize));
+                SubRegion.SetRegionLabel(RegionLabel);
 
                 ValidRegions.Add(SubRegion);
 

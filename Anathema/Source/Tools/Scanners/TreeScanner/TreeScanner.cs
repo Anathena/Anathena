@@ -45,12 +45,13 @@ namespace Anathema
 
         protected override void UpdateScan()
         {
+            MemorySharp MemoryEditor = Snapshot.GetMemoryEditor();
             try
             {
                 Parallel.ForEach(FilterTrees, (Tree) =>
                 {
                     // Process the changes that have occurred since the last sampling for this memory page
-                    Tree.ProcessChanges(Snapshot.ReadSnapshotMemoryOfRegion(Tree), Tree.BaseAddress);
+                    Tree.ProcessChanges(Tree.ReadAllSnapshotMemory(MemoryEditor, false), Tree.BaseAddress);
                 });
             }
             catch (ScanFailedException)
