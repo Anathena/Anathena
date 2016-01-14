@@ -138,7 +138,7 @@ namespace Anathema
 
         public override void EndScan()
         {
-            // base.EndScan();
+            base.EndScan();
 
             Snapshot.MarkAllInvalid();
             foreach (SnapshotRegion<Byte> Region in Snapshot)
@@ -149,8 +149,7 @@ namespace Anathema
                         Element.Valid = true;
                 }
             }
-
-            Snapshot.ExpandValidRegions();
+            
             Snapshot FilteredSnapshot = new Snapshot(Snapshot.GetValidRegions());
             FilteredSnapshot.SetScanMethod("Manual Scan");
 

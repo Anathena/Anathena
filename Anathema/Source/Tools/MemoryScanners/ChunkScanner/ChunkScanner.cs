@@ -95,7 +95,7 @@ namespace Anathema
 
             // Grow regions by the size of the largest standard variable and mask this with the original memory list.
             FilteredSnapshot.SetVariableSize(sizeof(UInt64));
-            FilteredSnapshot.GrowAllRegions();
+            FilteredSnapshot.ExpandAllRegionsOutward();
             FilteredSnapshot = new Snapshot(FilteredSnapshot.MaskRegions(Snapshot, FilteredSnapshot.GetSnapshotRegions()));
 
             // Read memory so that there are values for the next scan to process

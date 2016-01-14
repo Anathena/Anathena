@@ -86,7 +86,6 @@ namespace Anathema
                         Element.Valid = true;
 
             // Create a snapshot from the valid regions
-            Snapshot.ExpandValidRegions();
             Snapshot<UInt16> FilteredSnapshot = new Snapshot<UInt16>(Snapshot.GetValidRegions());
             FilteredSnapshot.SetScanMethod("Change Counter");
 

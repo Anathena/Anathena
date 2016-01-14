@@ -13,13 +13,15 @@ namespace Anathema
     /// </summary>
     public class SnapshotRegion : RemoteRegion, IEnumerable
     {
-        protected Byte[] CurrentValues;
-        protected Byte[] PreviousValues;
-        protected Type ElementType;
-        protected BitArray Valid;
+        protected Byte[] CurrentValues;     // Most recently read values
+        protected Byte[] PreviousValues;    // Previously read values
+        protected Type ElementType;         // Element type for this
+        protected BitArray Valid;           // Valid bits for use in filtering scans
 
-        public SnapshotRegion(IntPtr BaseAddress, Int32 RegionSize) : base(null, BaseAddress, RegionSize) { }
-        public SnapshotRegion(RemoteRegion RemoteRegion) : base(null, RemoteRegion.BaseAddress, RemoteRegion.RegionSize) { }
+        private Int32 RegionExtension;      // Variable to indicate a safe number of read-over bytes
+
+        public SnapshotRegion(IntPtr BaseAddress, Int32 RegionSize) : base(null, BaseAddress, RegionSize) { RegionExtension = 0; }
+        public SnapshotRegion(RemoteRegion RemoteRegion) : base(null, RemoteRegion.BaseAddress, RemoteRegion.RegionSize) { RegionExtension = 0; }
 
         /// <summary>
         /// Indexer to access a unified snapshot element at the specified index
@@ -47,7 +49,7 @@ namespace Anathema
         public Byte[] ReadAllSnapshotMemory(MemorySharp MemoryEditor, Boolean KeepValues = true)
         {
             Boolean SuccessReading = false;
-            Byte[] CurrentValues = MemoryEditor.ReadBytes(this.BaseAddress, this.RegionSize, out SuccessReading, false);
+            Byte[] CurrentValues = MemoryEditor.ReadBytes(this.BaseAddress, this.RegionSize + RegionExtension, out SuccessReading, false);
 
             if (!SuccessReading)
                 throw new ScanFailedException();
@@ -59,7 +61,7 @@ namespace Anathema
         }
 
         /// <summary>
-        /// Returns all subregions of this region which are marked as valid
+        /// Returns all subregions of this region which are marked as valid. Will collect extended values based on the element type.
         /// </summary>
         /// <returns></returns>
         public List<SnapshotRegion> GetValidRegions()
@@ -77,7 +79,7 @@ namespace Anathema
                 // Create the subregion from this segment
                 SnapshotRegion SubRegion = new SnapshotRegion(this.BaseAddress + StartIndex, ValidRegionSize);
                 if (CurrentValues != null)
-                    SubRegion.SetCurrentValues(CurrentValues.LargestSubArray(StartIndex, ValidRegionSize /*+ Marshal.SizeOf(ElementTypes)*/));
+                    SubRegion.SetCurrentValues(CurrentValues.LargestSubArray(StartIndex, ValidRegionSize + Marshal.SizeOf(ElementType)));
                 SubRegion.SetElementType(ElementType);
 
                 ValidRegions.Add(SubRegion);
@@ -88,18 +90,22 @@ namespace Anathema
             return ValidRegions;
         }
 
-        public void ExpandValidRegions(Int32 ExpandSize)
+        public void ExpandRegion(Int32 ExpandSize)
         {
-            for (Int32 StartIndex = 1; StartIndex < Valid.Length; StartIndex++)
-            {
-                if (Valid[StartIndex - 1] && !Valid[StartIndex])
-                {
-                    // Region is not valid! Mark proceeding elements as valid
-                    for (Int32 ExpandIndex = StartIndex; ExpandIndex < Math.Min(Valid.Length, StartIndex + ExpandSize); ExpandIndex++)
-                        Valid[ExpandIndex] = true;
+            this.RegionSize += ExpandSize; // TODO overflow checking
+        }
 
-                    StartIndex += ExpandSize;
-                }
+        public void ShrinkRegion(Int32 ShrinkSize)
+        {
+            if (RegionSize >= ShrinkSize)
+            {
+                this.RegionSize -= ShrinkSize;
+                RegionExtension = ShrinkSize;
+            }
+            else
+            {
+                RegionExtension = RegionSize;
+                RegionSize = 0;
             }
         }
 

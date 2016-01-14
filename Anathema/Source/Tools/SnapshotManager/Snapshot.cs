@@ -24,7 +24,7 @@ namespace Anathema
         // Variables to send to the display when displaying this snapshot
         private String ScanMethod;
         private DateTime TimeStamp;
-        private Type ElementType;
+        protected Type ElementType;
 
         #region Constructors
 
@@ -184,6 +184,11 @@ namespace Anathema
             return (UInt64)SnapshotRegions.AsEnumerable().Sum(x => (Int64)x.RegionSize);
         }
 
+        public UInt64 GetElementCount()
+        {
+            return GetMemorySize() - (UInt64)Marshal.SizeOf(ElementType) * (UInt64)GetRegionCount();
+        }
+
         #endregion
 
         /// <summary>
@@ -255,14 +260,30 @@ namespace Anathema
             return MaskedRegions;
         }
 
+        /// <summary>
+        /// Returns regions containing elements marked as valid
+        /// </summary>
+        /// <returns></returns>
         public virtual SnapshotRegion[] GetValidRegions()
         {
-            List<SnapshotRegion> ValidRegions = new List<SnapshotRegion>();
+            List<SnapshotRegion> CandidateRegions = new List<SnapshotRegion>();
 
+            // Collect valid element regions
             foreach (SnapshotRegion Region in this)
-                ValidRegions.AddRange(Region.GetValidRegions());
+                CandidateRegions.AddRange(Region.GetValidRegions());
 
-            return ValidRegions.ToArray();
+            // Expand these by the size of their element type
+            foreach (SnapshotRegion Region in CandidateRegions)
+                Region.ExpandRegion(Marshal.SizeOf(ElementType));
+
+            // Mask the expansions against the original snapshot
+            SnapshotRegion[] ValidRegions = MaskRegions(this, CandidateRegions.ToArray());
+
+            // Shrink the regions by the size of their element type
+            foreach (SnapshotRegion Region in CandidateRegions)
+                Region.ShrinkRegion(Marshal.SizeOf(ElementType));
+
+            return ValidRegions;
         }
 
         public void MarkAllValid()
@@ -282,7 +303,7 @@ namespace Anathema
         /// Useful for filtering methods that isolate changing bytes (ie 1 byte of an 8 byte integer), where we would want to grow to recover the other 7 bytes.
         /// </summary>
         /// <param name="GrowAmount"></param>
-        public void GrowAllRegions()
+        public void ExpandAllRegionsOutward()
         {
             Int32 ExpandSize = Marshal.SizeOf(ElementType) - 1;
 
@@ -294,16 +315,15 @@ namespace Anathema
         }
 
         /// <summary>
-        /// Expands all snapshot region's valid element ranges forward by the size of the current element type. This ensures
-        /// That for multi-byte element types, that the elements following the address in question
+        /// Expands all regions based on the size of the current element type
         /// </summary>
-        public void ExpandValidRegions()
+        public void ExpandAllRegions()
         {
             Int32 ExpandSize = Marshal.SizeOf(ElementType) - 1;
 
             foreach (SnapshotRegion Region in this)
             {
-                Region.ExpandValidRegions(ExpandSize);
+                Region.ExpandRegion(ExpandSize);
             }
         }
 

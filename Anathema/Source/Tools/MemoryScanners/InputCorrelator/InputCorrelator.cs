@@ -123,7 +123,7 @@ namespace Anathema
                         Element.Valid = true;
                 }
             }
-            Snapshot.ExpandValidRegions();
+
             Snapshot<Single> FilteredSnapshot = new Snapshot<Single>(Snapshot.GetValidRegions());
             FilteredSnapshot.SetScanMethod("Input Correlator");
 
