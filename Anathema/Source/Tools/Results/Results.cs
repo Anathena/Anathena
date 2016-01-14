@@ -126,9 +126,12 @@ namespace Anathema
         public override dynamic GetLabelAtIndex(Int32 Index)
         {
             if (!SnapshotManager.GetInstance().HasActiveSnapshot())
-                return IntPtr.Zero;
+                return "-";
 
             Snapshot ActiveSnapshot = SnapshotManager.GetInstance().GetActiveSnapshot();
+            
+            if (Index >= (Int32)ActiveSnapshot.GetMemorySize())
+                return "-";
 
             dynamic Label = String.Empty;
 
@@ -137,7 +140,6 @@ namespace Anathema
                 dynamic LabeledSnapshot = ActiveSnapshot;
                 Label = LabeledSnapshot[Index].MemoryLabel;
             }
-
             return Label;
         }
 

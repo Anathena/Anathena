@@ -269,14 +269,14 @@ namespace Anathema
 
             // Expand these by the size of their element type
             foreach (SnapshotRegion Region in CandidateRegions)
-                Region.ExpandRegion(Marshal.SizeOf(ElementType));
+                Region.ExpandRegion();
 
             // Mask the expansions against the original snapshot
             SnapshotRegion[] ValidRegions = MaskRegions(this, CandidateRegions.ToArray());
 
             // Shrink the regions by the size of their element type
             foreach (SnapshotRegion Region in CandidateRegions)
-                Region.ShrinkRegion(Marshal.SizeOf(ElementType));
+                Region.ShrinkRegion();
 
             return ValidRegions;
         }
@@ -314,12 +314,8 @@ namespace Anathema
         /// </summary>
         public void ExpandAllRegions()
         {
-            Int32 ExpandSize = Marshal.SizeOf(ElementType) - 1;
-
             foreach (SnapshotRegion Region in this)
-            {
-                Region.ExpandRegion(ExpandSize);
-            }
+                Region.ExpandRegion();
         }
 
         /// <summary>
@@ -473,12 +469,24 @@ namespace Anathema
 
         public new SnapshotRegion<LabelType>[] GetValidRegions()
         {
-            List<SnapshotRegion<LabelType>> ValidRegions = new List<SnapshotRegion<LabelType>>();
+            List<SnapshotRegion<LabelType>> CandidateRegions = new List<SnapshotRegion<LabelType>>();
 
+            // Collect valid element regions
             foreach (SnapshotRegion<LabelType> Region in this)
-                ValidRegions.AddRange(Region.GetValidRegions());
+                CandidateRegions.AddRange(Region.GetValidRegions());
 
-            return ValidRegions.ToArray();
+            // Expand these by the size of their element type
+            foreach (SnapshotRegion<LabelType> Region in CandidateRegions)
+                Region.ExpandRegion();
+
+            // Mask the expansions against the original snapshot
+            SnapshotRegion<LabelType>[] ValidRegions = MaskRegions(this, CandidateRegions.ToArray());
+
+            // Shrink the regions by the size of their element type
+            foreach (SnapshotRegion<LabelType> Region in ValidRegions)
+                Region.ShrinkRegion();
+
+            return ValidRegions;
         }
 
         public void SetMemoryLabels(LabelType Value)
@@ -607,7 +615,7 @@ namespace Anathema
                     Top.RegionSize = (Int32)((UInt64)SnapshotRegions[Index].EndAddress - (UInt64)Top.BaseAddress);
                     Top.SetElementLabels(Top.GetElementLabels().Concat(SnapshotRegions[Index].GetElementLabels()));
                 }
-                // The regions overlap, which should not happen
+                // The regions overlap.
                 else if ((UInt64)Top.EndAddress > (UInt64)SnapshotRegions[Index].BaseAddress)
                 {
                     throw new Exception("The labeled regions overlap and can not be merged.");

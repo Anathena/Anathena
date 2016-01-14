@@ -18,7 +18,7 @@ namespace Anathema
         protected Type ElementType;         // Element type for this
         protected BitArray Valid;           // Valid bits for use in filtering scans
 
-        private Int32 RegionExtension;      // Variable to indicate a safe number of read-over bytes
+        protected Int32 RegionExtension;    // Variable to indicate a safe number of read-over bytes
 
         public SnapshotRegion(IntPtr BaseAddress, Int32 RegionSize) : base(null, BaseAddress, RegionSize) { RegionExtension = 0; }
         public SnapshotRegion(RemoteRegion RemoteRegion) : base(null, RemoteRegion.BaseAddress, RemoteRegion.RegionSize) { RegionExtension = 0; }
@@ -90,13 +90,15 @@ namespace Anathema
             return ValidRegions;
         }
 
-        public void ExpandRegion(Int32 ExpandSize)
+        public void ExpandRegion()
         {
+            Int32 ExpandSize = Marshal.SizeOf(ElementType) - 1;
             this.RegionSize += ExpandSize; // TODO overflow checking
         }
 
-        public void ShrinkRegion(Int32 ShrinkSize)
+        public void ShrinkRegion()
         {
+            Int32 ShrinkSize = Marshal.SizeOf(ElementType) - 1;
             if (RegionSize >= ShrinkSize)
             {
                 this.RegionSize -= ShrinkSize;
@@ -235,16 +237,13 @@ namespace Anathema
                 Int32 ValidRegionSize = 0;
                 while (StartIndex + (++ValidRegionSize) < Valid.Length && Valid[StartIndex + ValidRegionSize]) { }
 
-                // Extend this region by the size of our variable type
-                ValidRegionSize += Marshal.SizeOf(ElementType) - 1;
-
                 // Create new subregion from this valid region
                 SnapshotRegion<LabelType> SubRegion = new SnapshotRegion<LabelType>(this.BaseAddress + StartIndex, ValidRegionSize);
                 if (CurrentValues != null)
-                    SubRegion.SetCurrentValues(CurrentValues.SubArray(StartIndex, ValidRegionSize));
+                    SubRegion.SetCurrentValues(CurrentValues.LargestSubArray(StartIndex, ValidRegionSize + Marshal.SizeOf(ElementType)));
                 SubRegion.SetElementType(ElementType);
                 if (ElementLabels != null)
-                    SubRegion.SetElementLabels(ElementLabels.SubArray(StartIndex, ValidRegionSize));
+                    SubRegion.SetElementLabels(ElementLabels.LargestSubArray(StartIndex, ValidRegionSize + Marshal.SizeOf(ElementType)));
 
                 ValidRegions.Add(SubRegion);
 
