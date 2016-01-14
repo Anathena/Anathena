@@ -24,6 +24,7 @@ namespace Anathema
         // Drawing Variables:
         private static Font DrawFont = new Font(FontFamily.GenericSerif, 10.0f);
         private static Pen TransitionLine = new Pen(Color.Black, 3);
+        private static Pen PendingLine = new Pen(Color.Red, 2);
         private static Int32 StateRadius = Resources.StateHighlighted.Width / 2;
         private const Int32 StateEdgeSize = 8;
         private static Int32 LineOffset = (Int32)TransitionLine.Width / 2;
@@ -106,12 +107,8 @@ namespace Anathema
             if (MousedOverState != null)
                 Graphics.DrawImage(Resources.StateHighlighted, MousedOverState.Location.X - StateRadius, MousedOverState.Location.Y - StateRadius, Resources.StateHighlighted.Width, Resources.StateHighlighted.Height);
 
-            try
-            {
-                if (SelectionLine != null && SelectionLine.Length == 2)
-                    Graphics.DrawLine(Pens.Red, SelectionLine[0], SelectionLine[1]);
-            }
-            catch { /* Overflow error. This may lead to a recursive draw call. Not sure how to fix */ }
+            if (SelectionLine != null && SelectionLine.Length == 2)
+                Graphics.DrawLine(PendingLine, SelectionLine[0], SelectionLine[1]);
 
             foreach (FiniteState State in FiniteStateMachine)
             {

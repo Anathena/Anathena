@@ -79,8 +79,8 @@ namespace Anathema
             Single vX = Ax - Bx;
             Single vY = Ay - By;
             Single magV = (Single)Math.Sqrt(vX * vX + vY * vY);
-            Single EdgeX = Bx + vX / magV * (Single)StateRadius;
-            Single EdgeY = By + vY / magV * (Single)StateRadius;
+            Single EdgeX = Bx + vX / (magV == 0 ? Single.Epsilon : magV) * (Single)StateRadius;
+            Single EdgeY = By + vY / (magV == 0 ? Single.Epsilon : magV) * (Single)StateRadius;
 
             Point EdgePoint = new Point((Int32)EdgeX, (Int32)EdgeY);
 
