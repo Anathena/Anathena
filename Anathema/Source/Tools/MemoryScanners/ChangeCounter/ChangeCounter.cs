@@ -65,9 +65,6 @@ namespace Anathema
 
                 foreach (SnapshotElement<UInt16> Element in Region)
                 {
-                    if (!Element.Valid)
-                        continue;
-
                     if (Element.Changed())
                         Element.MemoryLabel++;
                 }

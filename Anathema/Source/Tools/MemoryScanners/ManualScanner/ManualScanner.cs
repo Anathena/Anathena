@@ -84,9 +84,6 @@ namespace Anathema
 
                     foreach (SnapshotElement Element in Region)
                     {
-                        if (!Element.Valid)
-                            continue;
-                        
                         switch (ScanConstraint.Constraint)
                         {
                             case ConstraintsEnum.Unchanged:

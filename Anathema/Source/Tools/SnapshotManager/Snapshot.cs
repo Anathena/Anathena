@@ -268,29 +268,29 @@ namespace Anathema
                 CandidateRegions.AddRange(Region.GetValidRegions());
 
             // Expand these by the size of their element type
-            foreach (SnapshotRegion Region in CandidateRegions)
-                Region.ExpandRegion();
+            foreach (SnapshotRegion SnapshotRegion in CandidateRegions)
+                SnapshotRegion.ExpandRegion();
 
             // Mask the expansions against the original snapshot
             SnapshotRegion[] ValidRegions = MaskRegions(this, CandidateRegions.ToArray());
 
             // Shrink the regions by the size of their element type
-            foreach (SnapshotRegion Region in CandidateRegions)
-                Region.ShrinkRegion();
+            foreach (SnapshotRegion SnapshotRegion in CandidateRegions)
+                SnapshotRegion.ShrinkRegion();
 
             return ValidRegions;
         }
 
         public void MarkAllValid()
         {
-            foreach (SnapshotRegion Region in this)
-                Region.MarkAllValid();
+            foreach (SnapshotRegion SnapshotRegion in this)
+                SnapshotRegion.MarkAllValid();
         }
 
         public void MarkAllInvalid()
         {
-            foreach (SnapshotRegion Region in this)
-                Region.MarkAllInvalid();
+            foreach (SnapshotRegion SnapshotRegion in this)
+                SnapshotRegion.MarkAllInvalid();
         }
 
         /// <summary>
@@ -298,24 +298,10 @@ namespace Anathema
         /// Useful for filtering methods that isolate changing bytes (ie 1 byte of an 8 byte integer), where we would want to grow to recover the other 7 bytes.
         /// </summary>
         /// <param name="GrowAmount"></param>
-        public void ExpandAllRegionsOutward()
+        public void ExpandAllRegionsOutward(Int32 ExpandSize)
         {
-            Int32 ExpandSize = Marshal.SizeOf(ElementType) - 1;
-
-            foreach (SnapshotRegion Region in this)
-            {
-                Region.BaseAddress -= ExpandSize;
-                Region.RegionSize += ExpandSize * 2; // TODO overflow protection
-            }
-        }
-
-        /// <summary>
-        /// Expands all regions based on the size of the current element type
-        /// </summary>
-        public void ExpandAllRegions()
-        {
-            foreach (SnapshotRegion Region in this)
-                Region.ExpandRegion();
+            foreach (SnapshotRegion SnapshotRegion in this)
+                SnapshotRegion.ExpandRegionBidirectional(ExpandSize);
         }
 
         /// <summary>

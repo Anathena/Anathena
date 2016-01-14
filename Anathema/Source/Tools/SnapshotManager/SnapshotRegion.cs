@@ -22,6 +22,7 @@ namespace Anathema
 
         public SnapshotRegion(IntPtr BaseAddress, Int32 RegionSize) : base(null, BaseAddress, RegionSize) { RegionExtension = 0; }
         public SnapshotRegion(RemoteRegion RemoteRegion) : base(null, RemoteRegion.BaseAddress, RemoteRegion.RegionSize) { RegionExtension = 0; }
+        public SnapshotRegion(SnapshotRegion SnapshotRegion) : base(null, SnapshotRegion.BaseAddress, SnapshotRegion.RegionSize) { this.RegionExtension = SnapshotRegion.RegionExtension; }
 
         /// <summary>
         /// Indexer to access a unified snapshot element at the specified index
@@ -89,16 +90,36 @@ namespace Anathema
 
             return ValidRegions;
         }
-
-        public void ExpandRegion()
+        
+        /// <summary>
+        /// Expands a region by a given size (default is element type size) in both directions
+        /// </summary>
+        public void ExpandRegionBidirectional() { ExpandRegionBidirectional(Marshal.SizeOf(ElementType) - 1); }
+        public void ExpandRegionBidirectional(Int32 ExpandSize)
         {
-            Int32 ExpandSize = Marshal.SizeOf(ElementType) - 1;
-            this.RegionSize += ExpandSize; // TODO overflow checking
+            if ((UInt64)BaseAddress > (UInt64)ExpandSize)
+                this.BaseAddress -= ExpandSize;
+            else
+                this.BaseAddress = IntPtr.Zero;
+
+            this.RegionSize += ExpandSize * 2; // TODO overflow protection
         }
 
-        public void ShrinkRegion()
+        /// <summary>
+        /// Expands a region by a given size (default is element type size)
+        /// </summary>
+        public void ExpandRegion() { ExpandRegion(Marshal.SizeOf(ElementType) - 1); }
+        public void ExpandRegion(Int32 ExpandSize)
         {
-            Int32 ShrinkSize = Marshal.SizeOf(ElementType) - 1;
+            this.RegionSize += ExpandSize; // TODO overflow protection
+        }
+
+        /// <summary>
+        /// Shrinks a region by the given size (default is element type size), and updates the extention size accordingly
+        /// </summary>
+        public void ShrinkRegion() { ShrinkRegion(Marshal.SizeOf(ElementType) - 1); }
+        public void ShrinkRegion(Int32 ShrinkSize)
+        {
             if (RegionSize >= ShrinkSize)
             {
                 this.RegionSize -= ShrinkSize;
@@ -124,6 +145,16 @@ namespace Anathema
         public void SetElementType(Type ElementType)
         {
             this.ElementType = ElementType;
+
+            if (ElementType == null)
+                return;
+
+            // Re-claim the extended region
+            ExpandRegion(RegionExtension);
+
+            // Shrink the region to match the new extention size
+            ShrinkRegion();
+
         }
 
         public void SetCurrentValues(Byte[] NewValues)

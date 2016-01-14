@@ -83,9 +83,6 @@ namespace Anathema
 
                 foreach (SnapshotElement<Single> Element in Region)
                 {
-                    if (!Element.Valid)
-                        continue;
-
                     if (Element.Changed())
                     {
                         if (ConditionValid)
@@ -93,6 +90,7 @@ namespace Anathema
                         else
                             Element.MemoryLabel -= 1.0f;
                     }
+
                 }
             });
         }

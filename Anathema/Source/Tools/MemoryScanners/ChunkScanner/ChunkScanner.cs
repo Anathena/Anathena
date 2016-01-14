@@ -46,9 +46,10 @@ namespace Anathema
         public override void BeginScan()
         {
             this.Snapshot = new Snapshot(SnapshotManager.GetInstance().GetActiveSnapshot());
+            this.Snapshot.SetElementType(typeof(SByte));
             this.ChunkRoots = new List<MemoryChunkRoots>();
             this.ChunkSize = SetChunkSize(Snapshot.GetMemorySize());
-            
+
             foreach (SnapshotRegion SnapshotRegion in Snapshot)
                 ChunkRoots.Add(new MemoryChunkRoots(SnapshotRegion, ChunkSize));
 
@@ -91,8 +92,7 @@ namespace Anathema
             Snapshot FilteredSnapshot = new Snapshot(FilteredRegions.ToArray());
 
             // Grow regions by the size of the largest standard variable and mask this with the original memory list.
-            FilteredSnapshot.SetVariableSize(sizeof(UInt64));
-            FilteredSnapshot.ExpandAllRegionsOutward();
+            FilteredSnapshot.ExpandAllRegionsOutward(sizeof(UInt64) - 1);
             FilteredSnapshot = new Snapshot(FilteredSnapshot.MaskRegions(Snapshot, FilteredSnapshot.GetSnapshotRegions()));
 
             // Read memory so that there are values for the next scan to process
