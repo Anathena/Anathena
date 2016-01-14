@@ -45,15 +45,12 @@ namespace Anathema
 
         public override void BeginScan()
         {
-            this.ChunkSize = SetChunkSize(Snapshot.GetMemorySize());
             this.Snapshot = new Snapshot(SnapshotManager.GetInstance().GetActiveSnapshot());
             this.ChunkRoots = new List<MemoryChunkRoots>();
-
-            List<SnapshotRegion> Chunks = new List<SnapshotRegion>();
-            foreach (SnapshotRegion MemoryRegion in Snapshot)
-            { 
-
-            }
+            this.ChunkSize = SetChunkSize(Snapshot.GetMemorySize());
+            
+            foreach (SnapshotRegion SnapshotRegion in Snapshot)
+                ChunkRoots.Add(new MemoryChunkRoots(SnapshotRegion, ChunkSize));
 
             base.BeginScan();
         }

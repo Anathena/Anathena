@@ -84,7 +84,7 @@ namespace Anathema
 
             Snapshot ActiveSnapshot = SnapshotManager.GetInstance().GetActiveSnapshot();
 
-            if (Index >= (Int32)ActiveSnapshot.GetElementCount())
+            if (Index >= (Int32)ActiveSnapshot.GetMemorySize())
                 return IntPtr.Zero;
 
             return ActiveSnapshot[Index].BaseAddress;
@@ -143,16 +143,16 @@ namespace Anathema
 
         protected override void UpdateScan()
         {
-            UInt64 ElementCount;
+            UInt64 MemorySize;
 
             if (!SnapshotManager.GetInstance().HasActiveSnapshot())
-                ElementCount = 0;
+                MemorySize = 0;
             else
-                ElementCount = SnapshotManager.GetInstance().GetActiveSnapshot().GetElementCount();
+                MemorySize = SnapshotManager.GetInstance().GetActiveSnapshot().GetMemorySize();
 
             // Send the size of the filtered memory to the display
             ResultsEventArgs Args = new ResultsEventArgs();
-            Args.MemorySize = ElementCount;
+            Args.MemorySize = MemorySize;
             OnEventUpdateMemorySize(Args);
             OnEventRefreshDisplay(Args);
         }

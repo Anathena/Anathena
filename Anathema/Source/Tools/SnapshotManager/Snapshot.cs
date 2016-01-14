@@ -184,11 +184,6 @@ namespace Anathema
             return (UInt64)SnapshotRegions.AsEnumerable().Sum(x => (Int64)x.RegionSize);
         }
 
-        public UInt64 GetElementCount()
-        {
-            return GetMemorySize() - (UInt64)Marshal.SizeOf(ElementType) * (UInt64)GetRegionCount();
-        }
-
         #endregion
 
         /// <summary>
