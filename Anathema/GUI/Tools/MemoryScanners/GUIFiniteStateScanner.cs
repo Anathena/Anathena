@@ -20,6 +20,7 @@ namespace Anathema
         private FiniteStateMachine FiniteStateMachine;
         private FiniteState MousedOverState;
         private Point[] SelectionLine;
+        private Point RightClickLocation;
 
         // Drawing Variables:
         private static Font DrawFont = new Font(FontFamily.GenericSerif, 10.0f);
@@ -261,9 +262,6 @@ namespace Anathema
 
         private void FSMBuilderPanel_MouseDown(Object Sender, MouseEventArgs E)
         {
-            if (E.Button == MouseButtons.Right)
-                FiniteStateScannerPresenter.DeleteAtPoint(E.Location);
-
             if (E.Button != MouseButtons.Left)
                 return;
 
@@ -352,6 +350,43 @@ namespace Anathema
         private void ValueTypeComboBox_SelectedIndexChanged(Object Sender, EventArgs E)
         {
             FiniteStateScannerPresenter.SetElementType(ValueTypeComboBox.SelectedItem.ToString());
+        }
+
+        private void StateContextMenuStrip_Opening(Object Sender, CancelEventArgs E)
+        {
+            RightClickLocation = FSMBuilderPanel.PointToClient(Cursor.Position);
+            if (!FiniteStateScannerPresenter.IsStateAtPoint(RightClickLocation))
+                E.Cancel = true;
+        }
+
+        private void StartStateToolStripMenuItem_Click(Object Sender, EventArgs E)
+        {
+
+        }
+
+        private void NoEventToolStripMenuItem_Click(Object Sender, EventArgs E)
+        {
+            FiniteStateScannerPresenter.SetStateEvent(RightClickLocation, FiniteState.StateEventEnum.None);
+        }
+
+        private void MarkValidToolStripMenuItem_Click(Object Sender, EventArgs E)
+        {
+            FiniteStateScannerPresenter.SetStateEvent(RightClickLocation, FiniteState.StateEventEnum.MarkValid);
+        }
+
+        private void MarkInvalidToolStripMenuItem_Click(Object Sender, EventArgs E)
+        {
+            FiniteStateScannerPresenter.SetStateEvent(RightClickLocation, FiniteState.StateEventEnum.MarkInvalid);
+        }
+
+        private void EndScanToolStripMenuItem_Click(Object Sender, EventArgs E)
+        {
+            FiniteStateScannerPresenter.SetStateEvent(RightClickLocation, FiniteState.StateEventEnum.EndScan);
+        }
+
+        private void DeleteStateToolStripMenuItem_Click(Object Sender, EventArgs E)
+        {
+            FiniteStateScannerPresenter.DeleteAtPoint(RightClickLocation);
         }
 
         #endregion

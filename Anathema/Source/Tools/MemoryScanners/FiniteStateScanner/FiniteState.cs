@@ -18,14 +18,26 @@ namespace Anathema
 
         public Point Location { get; set; }
 
+        public enum StateEventEnum
+        {
+            None,
+            MarkValid,
+            MarkInvalid,
+            EndScan,
+        }
+
+        private StateEventEnum StateEvent;
+
         public FiniteState() : base()
         {
+            StateEvent = StateEventEnum.None;
             Transitions = new Dictionary<ScanConstraint, FiniteState>();
         }
 
         public FiniteState(Point Location) : base()
         {
             this.Location = Location;
+            StateEvent = StateEventEnum.None;
             Transitions = new Dictionary<ScanConstraint, FiniteState>();
         }
         
@@ -42,6 +54,11 @@ namespace Anathema
 
             if (!Transitions.ContainsKey(Constraint))
                 Transitions.Add(Constraint, State);
+        }
+
+        public void SetStateEvent(StateEventEnum StateEvent)
+        {
+            this.StateEvent = StateEvent;
         }
 
         public void RemoveTransition(ScanConstraint Constraint, FiniteState State)

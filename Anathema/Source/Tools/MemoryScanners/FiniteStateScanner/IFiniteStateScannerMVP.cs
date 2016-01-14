@@ -63,6 +63,11 @@ namespace Anathema
 
         #region Method definitions called by the view (downstream)
 
+        public void SetStateEvent(Point Location, FiniteState.StateEventEnum StateEvent)
+        {
+            Model.GetFiniteStateMachine().GetStateUnderPoint(Location, StateRadius).SetStateEvent(StateEvent);
+        }
+
         public void SetStateRadius(Int32 StateRadius)
         {
             this.StateRadius = StateRadius;
@@ -91,6 +96,13 @@ namespace Anathema
         public Type GetElementType()
         {
             return Model.GetElementType();
+        }
+
+        public Boolean IsStateAtPoint(Point Location)
+        {
+            if (Model.GetFiniteStateMachine().GetStateUnderPoint(Location, StateRadius) != null)
+                return true;
+            return false;
         }
 
         public void BeginAction(Point Location)
