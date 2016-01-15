@@ -36,11 +36,11 @@ namespace Anathema
         /// <returns></returns>
         private Int32 SetChunkSize(UInt64 MemorySize)
         {
-            UInt32 Value = (UInt32)(Snapshot.GetMemorySize() >> 20);
-            Int32 Bits = 0;
-            while ((Value >>= 1) != 0) { Bits++; }
-            Bits = (Bits <= 5 ? 5 : (Bits >= 10 ? 10 : Bits));
-            return (Int32)(1 << Bits);
+            UInt64 MB = (UInt64)(Snapshot.GetMemorySize() >> 20);
+            Int32 MBBits = 0;
+            while ((MB >>= 1) != 0) { MBBits++; }
+            MBBits = (MBBits <= 5 ? 5 : (MBBits >= 10 ? 10 : MBBits));
+            return (Int32)(1 << MBBits);
         }
 
         public override void BeginScan()

@@ -235,6 +235,11 @@ namespace Anathema
         /// </summary>
         public void ReadAllSnapshotMemory()
         {
+            SetTimeStampToNow();
+
+            if (SnapshotRegions == null)
+                return;
+
             Parallel.ForEach(SnapshotRegions, (SnapshotRegion) =>
             {
                 try
@@ -249,26 +254,24 @@ namespace Anathema
             });
 
             // Handle invalid reads
-            if (!DeallocatedRegions.IsEmpty)
+            if (DeallocatedRegions.IsEmpty)
+                return;
+
+            // Mask deallocated regions
+            SnapshotRegion[] NewRegions = MaskDeallocatedRegions();
+
+            // Attempt to collect values for the recovered regions
+            foreach (SnapshotRegion SnapshotRegion in NewRegions)
             {
-                // Mask deallocated regions
-                SnapshotRegion[] NewRegions = MaskDeallocatedRegions();
-
-                // Attempt to collect values for the recovered regions
-                foreach (SnapshotRegion SnapshotRegion in NewRegions)
+                try
                 {
-                    try
-                    {
-                        SnapshotRegion.ReadAllSnapshotMemory(MemoryEditor);
-                    }
-                    catch (ScanFailedException)
-                    {
+                    SnapshotRegion.ReadAllSnapshotMemory(MemoryEditor);
+                }
+                catch (ScanFailedException)
+                {
 
-                    }
                 }
             }
-
-            SetTimeStampToNow();
         }
 
         /// <summary>

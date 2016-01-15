@@ -23,23 +23,39 @@ namespace Anathema
     {
         // Variables
         private Snapshot<Null> Snapshot;
-        private List<MemoryChangeTree> FilterTrees; // Trees to grow to search for changes
+        private List<FilterTree> FilterTrees; // Trees to grow to search for changes
+        private Int32 LeafSize;
 
         public TreeScanner()
         {
 
         }
 
+        /// <summary>
+        /// Heuristic algorithm to determine the proper leaf size for this tree scan based on the current region size.
+        /// Leaves vary in powers of 2 from 32B to 256B
+        /// </summary>
+        /// <param name="MemorySize"></param>
+        /// <returns></returns>
+        private Int32 SetLeafSize(UInt64 MemorySize)
+        {
+            UInt64 MB = (UInt64)(Snapshot.GetMemorySize() >> 20);
+            Int32 MBBits = 0;
+            while ((MB >>= 1) != 0) { MBBits++; }
+            MBBits = (MBBits <= 5 ? 5 : (MBBits >= 8 ? 8 : MBBits));
+            return (Int32)(1 << MBBits);
+        }
+
         public override void BeginScan()
         {
             this.Snapshot = new Snapshot<Null>(SnapshotManager.GetInstance().GetActiveSnapshot());
-            this.Snapshot.SetElementType(typeof(SByte));
-            this.FilterTrees = new List<MemoryChangeTree>();
+            this.Snapshot.SetElementType(typeof(Byte));
+            this.FilterTrees = new List<FilterTree>();
+            this.LeafSize = SetLeafSize(Snapshot.GetMemorySize());
 
             // Initialize filter tree roots
-            SnapshotRegion[] MemoryRegions = Snapshot.GetSnapshotRegions();
-            for (int PageIndex = 0; PageIndex < MemoryRegions.Length; PageIndex++)
-                FilterTrees.Add(new MemoryChangeTree(MemoryRegions[PageIndex].BaseAddress, MemoryRegions[PageIndex].RegionSize));
+            foreach (SnapshotRegion SnapshotRegion in Snapshot)
+                FilterTrees.Add(new FilterTree(SnapshotRegion.BaseAddress, SnapshotRegion.RegionSize, LeafSize));
 
             base.BeginScan();
         }
@@ -83,35 +99,29 @@ namespace Anathema
             FilteredSnapshot.ReadAllSnapshotMemory();
             FilteredSnapshot.SetScanMethod("Tree Scan");
 
-            // Send the size of the filtered memory to the GUI
-            TreeScannerEventArgs Args = new TreeScannerEventArgs();
-            Args.FilterResultSize = FilteredSnapshot.GetMemorySize();
-            OnEventUpdateMemorySize(Args);
-
             // Save the snapshot
             SnapshotManager.GetInstance().SaveSnapshot(FilteredSnapshot);
         }
 
-        public class MemoryChangeTree : SnapshotRegion<Null>
+        public class FilterTree : SnapshotRegion<Null>
         {
-            // Experimentally found that splitting pages on boundaries of 64 or 128 works best.
-            private const Int32 PageSplitThreshold = 128;
-
             private enum StateEnum
             {
                 Unchanged,
                 HasChanged
             }
 
-            private MemoryChangeTree ChildRight;
-            private MemoryChangeTree ChildLeft;
+            private FilterTree ChildRight;
+            private FilterTree ChildLeft;
+            private Int32 LeafSize;
             private UInt64? Checksum;
             private StateEnum State;
 
-            public MemoryChangeTree(IntPtr BaseAddress, Int32 RegionSize) : base(BaseAddress, RegionSize)
+            public FilterTree(IntPtr BaseAddress, Int32 RegionSize, Int32 LeafSize) : base(BaseAddress, RegionSize)
             {
                 // Initialize state variables
                 State = StateEnum.Unchanged;
+                this.LeafSize = LeafSize;
                 Checksum = null;
 
                 ChildRight = null;
@@ -124,9 +134,7 @@ namespace Anathema
                 if (ChildLeft == null && ChildRight == null)
                 {
                     if (State == StateEnum.HasChanged)
-                    {
                         AcceptedPages.Add(this);
-                    }
                 }
                 // This node has children; propagate the request (in equal halves) downwards
                 else
@@ -139,7 +147,7 @@ namespace Anathema
             public void ProcessChanges(Byte[] Data, IntPtr RootBaseAddress)
             {
                 // No need to process a page that has already changed
-                if (RegionSize <= PageSplitThreshold && State == StateEnum.HasChanged)
+                if (RegionSize <= LeafSize && State == StateEnum.HasChanged)
                     return;
 
                 // If this node has no children, this node is a leaf and thus does the processing
@@ -160,10 +168,10 @@ namespace Anathema
                     Checksum = NewChecksum;
 
                     // This page needs to be split if a change was detected and the size is above the threshold
-                    if (State == StateEnum.HasChanged && RegionSize > PageSplitThreshold)
+                    if (State == StateEnum.HasChanged && RegionSize > LeafSize)
                     {
-                        ChildLeft = new MemoryChangeTree(BaseAddress, RegionSize / 2);
-                        ChildRight = new MemoryChangeTree(BaseAddress + RegionSize / 2, RegionSize - RegionSize / 2);
+                        ChildLeft = new FilterTree(BaseAddress, RegionSize / 2, LeafSize);
+                        ChildRight = new FilterTree(BaseAddress + RegionSize / 2, RegionSize - RegionSize / 2, LeafSize);
                     }
                 }
 
