@@ -37,6 +37,12 @@
             this.EitherRadioButton = new System.Windows.Forms.RadioButton();
             this.UserToVariableRadioButton = new System.Windows.Forms.RadioButton();
             this.VariableToUserRadioButton = new System.Windows.Forms.RadioButton();
+            this.InputTreeView = new System.Windows.Forms.TreeView();
+            this.AddANDButton = new System.Windows.Forms.Button();
+            this.AddORButton = new System.Windows.Forms.Button();
+            this.AddNOTButton = new System.Windows.Forms.Button();
+            this.AddInputButton = new System.Windows.Forms.Button();
+            this.InputTextBox = new Anathema.WatermarkTextBox();
             ((System.ComponentModel.ISupportInitialize)(this.VariableSizeTrackBar)).BeginInit();
             this.ScanToolStrip.SuspendLayout();
             this.SuspendLayout();
@@ -79,7 +85,7 @@
             this.ScanToolStrip.Location = new System.Drawing.Point(0, 0);
             this.ScanToolStrip.Name = "ScanToolStrip";
             this.ScanToolStrip.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
-            this.ScanToolStrip.Size = new System.Drawing.Size(304, 25);
+            this.ScanToolStrip.Size = new System.Drawing.Size(348, 25);
             this.ScanToolStrip.TabIndex = 150;
             this.ScanToolStrip.Text = "toolStrip1";
             // 
@@ -100,13 +106,14 @@
             this.StopScanButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.StopScanButton.Name = "StopScanButton";
             this.StopScanButton.Size = new System.Drawing.Size(23, 22);
-            this.StopScanButton.Text = "New Scan";
+            this.StopScanButton.Text = "Stop Scan";
             this.StopScanButton.Click += new System.EventHandler(this.StopScanButton_Click);
             // 
             // EitherRadioButton
             // 
+            this.EitherRadioButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.EitherRadioButton.AutoSize = true;
-            this.EitherRadioButton.Location = new System.Drawing.Point(12, 124);
+            this.EitherRadioButton.Location = new System.Drawing.Point(185, 62);
             this.EitherRadioButton.Name = "EitherRadioButton";
             this.EitherRadioButton.Size = new System.Drawing.Size(52, 17);
             this.EitherRadioButton.TabIndex = 170;
@@ -116,8 +123,9 @@
             // 
             // UserToVariableRadioButton
             // 
+            this.UserToVariableRadioButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.UserToVariableRadioButton.AutoSize = true;
-            this.UserToVariableRadioButton.Location = new System.Drawing.Point(12, 107);
+            this.UserToVariableRadioButton.Location = new System.Drawing.Point(185, 45);
             this.UserToVariableRadioButton.Name = "UserToVariableRadioButton";
             this.UserToVariableRadioButton.Size = new System.Drawing.Size(151, 17);
             this.UserToVariableRadioButton.TabIndex = 169;
@@ -127,9 +135,10 @@
             // 
             // VariableToUserRadioButton
             // 
+            this.VariableToUserRadioButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.VariableToUserRadioButton.AutoSize = true;
             this.VariableToUserRadioButton.Checked = true;
-            this.VariableToUserRadioButton.Location = new System.Drawing.Point(12, 90);
+            this.VariableToUserRadioButton.Location = new System.Drawing.Point(185, 28);
             this.VariableToUserRadioButton.Name = "VariableToUserRadioButton";
             this.VariableToUserRadioButton.Size = new System.Drawing.Size(151, 17);
             this.VariableToUserRadioButton.TabIndex = 168;
@@ -138,11 +147,81 @@
             this.VariableToUserRadioButton.UseVisualStyleBackColor = true;
             this.VariableToUserRadioButton.CheckedChanged += new System.EventHandler(this.VariableToUserRadioButton_CheckedChanged);
             // 
-            // GUILabelerInputCorrelator
+            // InputTreeView
+            // 
+            this.InputTreeView.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.InputTreeView.Location = new System.Drawing.Point(12, 147);
+            this.InputTreeView.Name = "InputTreeView";
+            this.InputTreeView.Size = new System.Drawing.Size(324, 84);
+            this.InputTreeView.TabIndex = 171;
+            // 
+            // AddANDButton
+            // 
+            this.AddANDButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.AddANDButton.Location = new System.Drawing.Point(177, 118);
+            this.AddANDButton.Name = "AddANDButton";
+            this.AddANDButton.Size = new System.Drawing.Size(75, 23);
+            this.AddANDButton.TabIndex = 172;
+            this.AddANDButton.Text = "Add AND";
+            this.AddANDButton.UseVisualStyleBackColor = true;
+            this.AddANDButton.Click += new System.EventHandler(this.AddANDButton_Click);
+            // 
+            // AddORButton
+            // 
+            this.AddORButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.AddORButton.Location = new System.Drawing.Point(258, 118);
+            this.AddORButton.Name = "AddORButton";
+            this.AddORButton.Size = new System.Drawing.Size(75, 23);
+            this.AddORButton.TabIndex = 173;
+            this.AddORButton.Text = "Add OR";
+            this.AddORButton.UseVisualStyleBackColor = true;
+            this.AddORButton.Click += new System.EventHandler(this.AddORButton_Click);
+            // 
+            // AddNOTButton
+            // 
+            this.AddNOTButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.AddNOTButton.Location = new System.Drawing.Point(96, 118);
+            this.AddNOTButton.Name = "AddNOTButton";
+            this.AddNOTButton.Size = new System.Drawing.Size(75, 23);
+            this.AddNOTButton.TabIndex = 174;
+            this.AddNOTButton.Text = "Add NOT";
+            this.AddNOTButton.UseVisualStyleBackColor = true;
+            this.AddNOTButton.Click += new System.EventHandler(this.AddNOTButton_Click);
+            // 
+            // AddInputButton
+            // 
+            this.AddInputButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.AddInputButton.Location = new System.Drawing.Point(12, 118);
+            this.AddInputButton.Name = "AddInputButton";
+            this.AddInputButton.Size = new System.Drawing.Size(75, 23);
+            this.AddInputButton.TabIndex = 175;
+            this.AddInputButton.Text = "Add Input";
+            this.AddInputButton.UseVisualStyleBackColor = true;
+            this.AddInputButton.Click += new System.EventHandler(this.AddInputButton_Click);
+            // 
+            // InputTextBox
+            // 
+            this.InputTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.InputTextBox.Location = new System.Drawing.Point(12, 92);
+            this.InputTextBox.Name = "InputTextBox";
+            this.InputTextBox.Size = new System.Drawing.Size(159, 20);
+            this.InputTextBox.TabIndex = 176;
+            this.InputTextBox.WatermarkColor = System.Drawing.Color.LightGray;
+            this.InputTextBox.WaterMarkFont = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.InputTextBox.WaterMarkText = "Press a Key";
+            // 
+            // GUIInputCorrelator
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(304, 217);
+            this.ClientSize = new System.Drawing.Size(348, 243);
+            this.Controls.Add(this.InputTextBox);
+            this.Controls.Add(this.AddInputButton);
+            this.Controls.Add(this.AddNOTButton);
+            this.Controls.Add(this.AddORButton);
+            this.Controls.Add(this.AddANDButton);
+            this.Controls.Add(this.InputTreeView);
             this.Controls.Add(this.EitherRadioButton);
             this.Controls.Add(this.UserToVariableRadioButton);
             this.Controls.Add(this.VariableToUserRadioButton);
@@ -151,7 +230,7 @@
             this.Controls.Add(this.VariableSizeTrackBar);
             this.Controls.Add(this.ScanToolStrip);
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Name = "GUILabelerInputCorrelator";
+            this.Name = "GUIInputCorrelator";
             this.Text = "Input Correlator";
             this.Resize += new System.EventHandler(this.GUILabelerInputCorrelator_Resize);
             ((System.ComponentModel.ISupportInitialize)(this.VariableSizeTrackBar)).EndInit();
@@ -172,5 +251,11 @@
         private System.Windows.Forms.RadioButton EitherRadioButton;
         private System.Windows.Forms.RadioButton UserToVariableRadioButton;
         private System.Windows.Forms.RadioButton VariableToUserRadioButton;
+        private System.Windows.Forms.TreeView InputTreeView;
+        private System.Windows.Forms.Button AddANDButton;
+        private System.Windows.Forms.Button AddORButton;
+        private System.Windows.Forms.Button AddNOTButton;
+        private System.Windows.Forms.Button AddInputButton;
+        private WatermarkTextBox InputTextBox;
     }
 }

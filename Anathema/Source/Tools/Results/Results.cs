@@ -71,7 +71,7 @@ namespace Anathema
                 return;
 
             Snapshot ActiveSnapshot = SnapshotManager.GetInstance().GetActiveSnapshot();
-            dynamic Element = ActiveSnapshot[Index];
+            SnapshotElement Element = ActiveSnapshot[Index];
             Element.ElementType = ScanType;
 
             Table.GetInstance().AddSnapshotElement(Element);

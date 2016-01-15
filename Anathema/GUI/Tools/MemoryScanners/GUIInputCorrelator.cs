@@ -48,13 +48,13 @@ namespace Anathema
 
         #region Events
 
-        private void StartScanButton_Click(object sender, EventArgs e)
+        private void StartScanButton_Click(Object Sender, EventArgs E)
         {
             DisableGUI();
             InputCorrelatorPresenter.BeginScan();
         }
 
-        private void StopScanButton_Click(object sender, EventArgs e)
+        private void StopScanButton_Click(Object Sender, EventArgs E)
         {
             EnableGUI();
             InputCorrelatorPresenter.EndScan();
@@ -65,32 +65,51 @@ namespace Anathema
             VariableSizeTrackBar.Width = this.Width / 2 - VariableSizeTrackBar.Location.X;
         }
 
-        private void VariableSizeTrackBar_Scroll(object sender, EventArgs e)
+        private void VariableSizeTrackBar_Scroll(Object Sender, EventArgs E)
         {
             SetVariableSize();
         }
 
-        private void VariableToUserRadioButton_CheckedChanged(object sender, EventArgs e)
+        private void VariableToUserRadioButton_CheckedChanged(Object Sender, EventArgs E)
         {
 
         }
 
-        private void UserToVariableRadioButton_CheckedChanged(object sender, EventArgs e)
+        private void UserToVariableRadioButton_CheckedChanged(Object Sender, EventArgs E)
         {
 
         }
 
-        private void EitherRadioButton_CheckedChanged(object sender, EventArgs e)
+        private void EitherRadioButton_CheckedChanged(Object Sender, EventArgs E)
         {
 
         }
 
-        private void GUILabelerInputCorrelator_Resize(object sender, EventArgs e)
+        private void AddInputButton_Click(Object Sender, EventArgs E)
+        {
+
+        }
+
+        private void AddNOTButton_Click(Object Sender, EventArgs E)
+        {
+
+        }
+
+        private void AddANDButton_Click(Object Sender, EventArgs E)
+        {
+
+        }
+
+        private void AddORButton_Click(Object Sender, EventArgs E)
+        {
+
+        }
+
+        private void GUILabelerInputCorrelator_Resize(Object Sender, EventArgs E)
         {
             HandleResize();
         }
 
         #endregion
-
     }
 }
