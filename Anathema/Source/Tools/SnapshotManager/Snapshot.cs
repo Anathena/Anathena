@@ -278,8 +278,9 @@ namespace Anathema
             SnapshotRegion[] ValidRegions = MaskRegions(this, CandidateRegions.ToArray());
 
             // Shrink the regions by the size of their element type
-            foreach (SnapshotRegion SnapshotRegion in CandidateRegions)
-                SnapshotRegion.ShrinkRegion();
+            if (ValidRegions != null)
+                foreach (SnapshotRegion SnapshotRegion in CandidateRegions)
+                    SnapshotRegion.ShrinkRegion();
 
             return ValidRegions;
         }
@@ -359,8 +360,8 @@ namespace Anathema
                 ResultRegions.Add(new SnapshotRegion(CurrentRegion));
                 ResultRegions.Last().BaseAddress = CurrentRegion.BaseAddress + BaseOffset;
                 ResultRegions.Last().EndAddress = (IntPtr)Math.Min((UInt64)CurrentMask.EndAddress, (UInt64)CurrentRegion.EndAddress);
-                ResultRegions.Last().SetCurrentValues(CurrentRegion.GetCurrentValues().SubArray(BaseOffset, ResultRegions.Last().RegionSize));
-                ResultRegions.Last().SetPreviousValues(CurrentRegion.GetPreviousValues().SubArray(BaseOffset, ResultRegions.Last().RegionSize));
+                ResultRegions.Last().SetCurrentValues(CurrentRegion.GetCurrentValues().LargestSubArray(BaseOffset, ResultRegions.Last().RegionSize + (ElementType == null ? 0 : Marshal.SizeOf(ElementType))));
+                ResultRegions.Last().SetPreviousValues(CurrentRegion.GetPreviousValues().LargestSubArray(BaseOffset, ResultRegions.Last().RegionSize + (ElementType == null ? 0 : Marshal.SizeOf(ElementType))));
                 ResultRegions.Last().SetElementType(CurrentRegion.GetElementType());
             }
 
@@ -563,9 +564,9 @@ namespace Anathema
                 ResultRegions.Add(new SnapshotRegion<LabelType>(CurrentRegion));
                 ResultRegions.Last().BaseAddress = CurrentRegion.BaseAddress + BaseOffset;
                 ResultRegions.Last().EndAddress = (IntPtr)Math.Min((UInt64)CurrentMask.EndAddress, (UInt64)CurrentRegion.EndAddress);
-                ResultRegions.Last().SetCurrentValues(CurrentRegion.GetCurrentValues().SubArray(BaseOffset, ResultRegions.Last().RegionSize));
-                ResultRegions.Last().SetPreviousValues(CurrentRegion.GetPreviousValues().SubArray(BaseOffset, ResultRegions.Last().RegionSize));
-                ResultRegions.Last().SetElementLabels(CurrentRegion.GetElementLabels().SubArray(BaseOffset, ResultRegions.Last().RegionSize));
+                ResultRegions.Last().SetCurrentValues(CurrentRegion.GetCurrentValues().LargestSubArray(BaseOffset, ResultRegions.Last().RegionSize + (ElementType == null ? 0 : Marshal.SizeOf(ElementType))));
+                ResultRegions.Last().SetPreviousValues(CurrentRegion.GetPreviousValues().LargestSubArray(BaseOffset, ResultRegions.Last().RegionSize + (ElementType == null ? 0 : Marshal.SizeOf(ElementType))));
+                ResultRegions.Last().SetElementLabels(CurrentRegion.GetElementLabels().LargestSubArray(BaseOffset, ResultRegions.Last().RegionSize + (ElementType == null ? 0 : Marshal.SizeOf(ElementType))));
                 ResultRegions.Last().SetElementType(CurrentRegion.GetElementType());
             }
 

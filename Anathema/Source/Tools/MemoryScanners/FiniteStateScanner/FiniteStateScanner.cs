@@ -133,6 +133,13 @@ namespace Anathema
 
                         if (DoTransition)
                         {
+                            // DEBUG
+                            if ((UInt64)Element.BaseAddress != 0x0100579C)
+                            {
+                                Element.Valid = false;
+                                continue;
+                            }
+
                             Element.MemoryLabel = FiniteStateMachine.IndexOf(Transition.Value);
                             switch(Transition.Value.GetStateEvent())
                             {

@@ -111,6 +111,11 @@ namespace Anathema
         public void ExpandRegion() { ExpandRegion(Marshal.SizeOf(ElementType) - 1); }
         public void ExpandRegion(Int32 ExpandSize)
         {
+            if (RegionExtension >= ExpandSize)
+                RegionExtension -= ExpandSize;
+            else
+                RegionExtension = 0;
+
             this.RegionSize += ExpandSize; // TODO overflow protection
         }
 

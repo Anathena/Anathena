@@ -35,6 +35,9 @@ namespace Anathema
         /// <returns></returns>
         public static T[] LargestSubArray<T>(this T[] ArrayA, Int32 Index, Int32 Length)
         {
+            if (ArrayA == null)
+                return null;
+
             if (ArrayA.Length - Index < Length)
                 Length = ArrayA.Length - Index;
 
