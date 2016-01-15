@@ -249,11 +249,13 @@ namespace Anathema
         private void DisableGUI()
         {
             StartScanButton.Enabled = false;
+            StopScanButton.Enabled = true;
         }
 
         private void EnableGUI()
         {
             StartScanButton.Enabled = true;
+            StopScanButton.Enabled = false;
         }
 
         #region Events
@@ -293,6 +295,7 @@ namespace Anathema
         private void StopScanButton_Click(object sender, EventArgs e)
         {
             FiniteStateScannerPresenter.EndScan();
+            EnableGUI();
         }
 
         private void ChangedButton_Click(Object Sender, EventArgs E)

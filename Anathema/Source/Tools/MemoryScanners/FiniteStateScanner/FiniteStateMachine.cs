@@ -50,15 +50,18 @@ namespace Anathema
                 SetStartState(States.First());
         }
 
-        public void DeleteState(FiniteState State)
+        public void DeleteState(FiniteState DeletedState)
         {
-            if (State == null)
+            if (DeletedState == null)
                 return;
 
-            if (States.Contains(State))
-                States.Remove(State);
+            if (States.Contains(DeletedState))
+                States.Remove(DeletedState);
 
-            if (StartState == State)
+            foreach (FiniteState State in States)
+                State.ClearTransitionsToState(DeletedState);
+
+            if (StartState == DeletedState)
             {
                 StartState = null;
                 SetStartState(States.First());

@@ -83,9 +83,6 @@ namespace Anathema
 
                 foreach (SnapshotElement<Byte> Element in Region)
                 {
-                    if (!Element.Valid)
-                        continue;
-
                     // Test the condition of each transition event in this element's current state
                     foreach (KeyValuePair<ScanConstraint, FiniteState> Transition in FiniteStateMachine[Element.MemoryLabel.Value])
                     {

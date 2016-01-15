@@ -46,11 +46,14 @@ namespace Anathema
         {
             List<SnapshotRegion> Regions = new List<SnapshotRegion>();
 
-            foreach (SnapshotRegion Region in BaseSnapshot.GetSnapshotRegions())
+            if (BaseSnapshot.GetSnapshotRegions() != null)
             {
-                Regions.Add(new SnapshotRegion(Region));
-                Regions.Last().SetCurrentValues(Region.GetCurrentValues());
-                Regions.Last().SetElementType(Region.GetElementType());
+                foreach (SnapshotRegion Region in BaseSnapshot.GetSnapshotRegions())
+                {
+                    Regions.Add(new SnapshotRegion(Region));
+                    Regions.Last().SetCurrentValues(Region.GetCurrentValues());
+                    Regions.Last().SetElementType(Region.GetElementType());
+                }
             }
             SnapshotRegions = Regions.ToArray();
 
@@ -181,7 +184,7 @@ namespace Anathema
 
         public UInt64 GetMemorySize()
         {
-            return (UInt64)SnapshotRegions.AsEnumerable().Sum(x => (Int64)x.RegionSize);
+            return SnapshotRegions == null ? 0 : (UInt64)SnapshotRegions.AsEnumerable().Sum(x => (Int64)x.RegionSize);
         }
 
         #endregion
@@ -469,8 +472,9 @@ namespace Anathema
             SnapshotRegion<LabelType>[] ValidRegions = MaskRegions(this, CandidateRegions.ToArray());
 
             // Shrink the regions by the size of their element type
-            foreach (SnapshotRegion<LabelType> Region in ValidRegions)
-                Region.ShrinkRegion();
+            if (ValidRegions != null)
+                foreach (SnapshotRegion<LabelType> Region in ValidRegions)
+                    Region.ShrinkRegion();
 
             return ValidRegions;
         }

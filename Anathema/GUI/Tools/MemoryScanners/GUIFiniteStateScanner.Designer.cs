@@ -34,8 +34,6 @@
             this.ScanToolStrip = new System.Windows.Forms.ToolStrip();
             this.StartScanButton = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator7 = new System.Windows.Forms.ToolStripSeparator();
-            this.RemoveConstraintButton = new System.Windows.Forms.ToolStripButton();
-            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.UnchangedButton = new System.Windows.Forms.ToolStripButton();
             this.ChangedButton = new System.Windows.Forms.ToolStripButton();
             this.IncreasedButton = new System.Windows.Forms.ToolStripButton();
@@ -54,6 +52,7 @@
             this.EndScanToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.DeleteStateToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.FSMBuilderPanel = new Anathema.FlickerFreePanel();
+            this.StopScanButton = new System.Windows.Forms.ToolStripButton();
             this.ScanToolStrip.SuspendLayout();
             this.StateContextMenuStrip.SuspendLayout();
             this.SuspendLayout();
@@ -82,9 +81,8 @@
             this.ScanToolStrip.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
             this.ScanToolStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.StartScanButton,
+            this.StopScanButton,
             this.toolStripSeparator7,
-            this.RemoveConstraintButton,
-            this.toolStripSeparator1,
             this.UnchangedButton,
             this.ChangedButton,
             this.IncreasedButton,
@@ -117,20 +115,6 @@
             // 
             this.toolStripSeparator7.Name = "toolStripSeparator7";
             this.toolStripSeparator7.Size = new System.Drawing.Size(6, 25);
-            // 
-            // RemoveConstraintButton
-            // 
-            this.RemoveConstraintButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.RemoveConstraintButton.Image = global::Anathema.Properties.Resources.X;
-            this.RemoveConstraintButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.RemoveConstraintButton.Name = "RemoveConstraintButton";
-            this.RemoveConstraintButton.Size = new System.Drawing.Size(23, 22);
-            this.RemoveConstraintButton.Text = "Remove Selected Constraints";
-            // 
-            // toolStripSeparator1
-            // 
-            this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 25);
             // 
             // UnchangedButton
             // 
@@ -248,48 +232,48 @@
             this.EndScanToolStripMenuItem,
             this.DeleteStateToolStripMenuItem});
             this.StateContextMenuStrip.Name = "StateMenuStrip";
-            this.StateContextMenuStrip.Size = new System.Drawing.Size(153, 158);
+            this.StateContextMenuStrip.Size = new System.Drawing.Size(140, 136);
             this.StateContextMenuStrip.Opening += new System.ComponentModel.CancelEventHandler(this.StateContextMenuStrip_Opening);
             // 
             // NoEventToolStripMenuItem
             // 
             this.NoEventToolStripMenuItem.Name = "NoEventToolStripMenuItem";
-            this.NoEventToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.NoEventToolStripMenuItem.Size = new System.Drawing.Size(139, 22);
             this.NoEventToolStripMenuItem.Text = "No Event";
             this.NoEventToolStripMenuItem.Click += new System.EventHandler(this.NoEventToolStripMenuItem_Click);
             // 
             // StartStateToolStripMenuItem
             // 
             this.StartStateToolStripMenuItem.Name = "StartStateToolStripMenuItem";
-            this.StartStateToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.StartStateToolStripMenuItem.Size = new System.Drawing.Size(139, 22);
             this.StartStateToolStripMenuItem.Text = "Start State";
             this.StartStateToolStripMenuItem.Click += new System.EventHandler(this.StartStateToolStripMenuItem_Click);
             // 
             // MarkValidToolStripMenuItem
             // 
             this.MarkValidToolStripMenuItem.Name = "MarkValidToolStripMenuItem";
-            this.MarkValidToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.MarkValidToolStripMenuItem.Size = new System.Drawing.Size(139, 22);
             this.MarkValidToolStripMenuItem.Text = "Mark Valid";
             this.MarkValidToolStripMenuItem.Click += new System.EventHandler(this.MarkValidToolStripMenuItem_Click);
             // 
             // MarkInvalidToolStripMenuItem
             // 
             this.MarkInvalidToolStripMenuItem.Name = "MarkInvalidToolStripMenuItem";
-            this.MarkInvalidToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.MarkInvalidToolStripMenuItem.Size = new System.Drawing.Size(139, 22);
             this.MarkInvalidToolStripMenuItem.Text = "Mark Invalid";
             this.MarkInvalidToolStripMenuItem.Click += new System.EventHandler(this.MarkInvalidToolStripMenuItem_Click);
             // 
             // EndScanToolStripMenuItem
             // 
             this.EndScanToolStripMenuItem.Name = "EndScanToolStripMenuItem";
-            this.EndScanToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.EndScanToolStripMenuItem.Size = new System.Drawing.Size(139, 22);
             this.EndScanToolStripMenuItem.Text = "End Scan";
             this.EndScanToolStripMenuItem.Click += new System.EventHandler(this.EndScanToolStripMenuItem_Click);
             // 
             // DeleteStateToolStripMenuItem
             // 
             this.DeleteStateToolStripMenuItem.Name = "DeleteStateToolStripMenuItem";
-            this.DeleteStateToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.DeleteStateToolStripMenuItem.Size = new System.Drawing.Size(139, 22);
             this.DeleteStateToolStripMenuItem.Text = "Delete State";
             this.DeleteStateToolStripMenuItem.Click += new System.EventHandler(this.DeleteStateToolStripMenuItem_Click);
             // 
@@ -307,6 +291,16 @@
             this.FSMBuilderPanel.MouseDown += new System.Windows.Forms.MouseEventHandler(this.FSMBuilderPanel_MouseDown);
             this.FSMBuilderPanel.MouseMove += new System.Windows.Forms.MouseEventHandler(this.FSMBuilderPanel_MouseMove);
             this.FSMBuilderPanel.MouseUp += new System.Windows.Forms.MouseEventHandler(this.FSMBuilderPanel_MouseUp);
+            // 
+            // StopScanButton
+            // 
+            this.StopScanButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.StopScanButton.Image = global::Anathema.Properties.Resources.Stop;
+            this.StopScanButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.StopScanButton.Name = "StopScanButton";
+            this.StopScanButton.Size = new System.Drawing.Size(23, 22);
+            this.StopScanButton.Text = "Stop Scan";
+            this.StopScanButton.Click += new System.EventHandler(this.StopScanButton_Click);
             // 
             // GUIFiniteStateScanner
             // 
@@ -334,7 +328,6 @@
         private System.Windows.Forms.ToolStrip ScanToolStrip;
         private System.Windows.Forms.ToolStripButton StartScanButton;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator7;
-        private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.ToolStripButton UnchangedButton;
         private System.Windows.Forms.ToolStripButton ChangedButton;
         private System.Windows.Forms.ToolStripButton IncreasedButton;
@@ -345,7 +338,6 @@
         private System.Windows.Forms.ToolStripButton LessThanButton;
         private System.Windows.Forms.ToolStripButton IncreasedByXButton;
         private System.Windows.Forms.ToolStripButton DecreasedByXButton;
-        private System.Windows.Forms.ToolStripButton RemoveConstraintButton;
         private FlickerFreePanel FSMBuilderPanel;
         private System.Windows.Forms.ContextMenuStrip StateContextMenuStrip;
         private System.Windows.Forms.ToolStripMenuItem StartStateToolStripMenuItem;
@@ -354,5 +346,6 @@
         private System.Windows.Forms.ToolStripMenuItem MarkInvalidToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem EndScanToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem DeleteStateToolStripMenuItem;
+        private System.Windows.Forms.ToolStripButton StopScanButton;
     }
 }
