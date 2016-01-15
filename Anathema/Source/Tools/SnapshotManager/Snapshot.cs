@@ -231,8 +231,7 @@ namespace Anathema
 
         /// <summary>
         /// Reads memory for every snapshot, with each region storing the current and previous read values.
-        /// 
-        /// Handles ScanFailedExceptions
+        /// Handles ScanFailedExceptions by automatically masking deallocated regions against the current virtual memory space
         /// </summary>
         public void ReadAllSnapshotMemory()
         {
@@ -271,34 +270,11 @@ namespace Anathema
 
             SetTimeStampToNow();
         }
-        
-        private SnapshotRegion<LabelType>[] MaskDeallocatedRegions()
-        {
-            List<SnapshotRegion<LabelType>> NewSnapshotRegions = SnapshotRegions.Select(x => (SnapshotRegion<LabelType>)x).ToList();
 
-            // Remove invalid items from collection
-            foreach (SnapshotRegion<LabelType> Region in DeallocatedRegions)
-                NewSnapshotRegions.Remove(Region);
-
-            // Get current memory regions
-            Snapshot<LabelType> Mask = new Snapshot<LabelType>(SnapshotManager.GetInstance().SnapshotAllRegions());
-
-            // Mask each region against the current virtual memory regions
-            SnapshotRegion<LabelType>[] MaskedRegions = MaskRegions(Mask, DeallocatedRegions.Select(x => (SnapshotRegion<LabelType>)x).ToArray());
-
-            // Merge split regions back with the main list
-            NewSnapshotRegions.AddRange(MaskedRegions);
-
-            // Clear invalid items
-            DeallocatedRegions = new ConcurrentBag<SnapshotRegion>();
-
-            // Store result as main snapshot array
-            this.SnapshotRegions = NewSnapshotRegions.ToArray();
-
-            return MaskedRegions;
-        }
-
-        public SnapshotRegion<LabelType>[] GetValidRegions()
+        /// <summary>
+        /// Discards all elements marked as invalid, and updates the snapshot regions to contain only valid regions
+        /// </summary>
+        public void DiscardInvalidRegions()
         {
             List<SnapshotRegion<LabelType>> CandidateRegions = new List<SnapshotRegion<LabelType>>();
 
@@ -306,23 +282,26 @@ namespace Anathema
             foreach (SnapshotRegion<LabelType> SnapshotRegion in this)
                 CandidateRegions.AddRange(SnapshotRegion.GetValidRegions());
 
-            // Expand these by the size of their element type
-            foreach (SnapshotRegion<LabelType> SnapshotRegion in CandidateRegions)
+            // Expand all regions back into extension space, and then again outside of that space
+            /*foreach (SnapshotRegion<LabelType> SnapshotRegion in CandidateRegions)
+            { 
+                SnapshotRegion.FillRegion();
                 SnapshotRegion.ExpandRegion();
+            }*/ // GetValidRegions() takes care of this?
 
-            // Mask the expansions against the original snapshot
+            // Mask the regions against the original snapshot (this snapshot)
             SnapshotRegion<LabelType>[] ValidRegions = MaskRegions(this, CandidateRegions.ToArray());
 
-            // Shrink the regions by the size of their element type
+            // Shrink the regions based on their element type
             if (ValidRegions != null)
                 foreach (SnapshotRegion<LabelType> Region in ValidRegions)
                     Region.ShrinkRegion();
 
-            return ValidRegions;
+            this.SnapshotRegions = ValidRegions;
         }
 
         /// <summary>
-        /// Masks the given memory regions against the memory regions of a given snapshot, keeping the common elements of the two.
+        /// Masks the given memory regions against the memory regions of a given snapshot, keeping the common elements of the two. O(n).
         /// </summary>
         /// <param name="Mask"></param>
         public SnapshotRegion<LabelType>[] MaskRegions(Snapshot<LabelType> Mask, SnapshotRegion[] TargetRegions)
@@ -373,9 +352,9 @@ namespace Anathema
                 ResultRegions.Add(new SnapshotRegion<LabelType>(CurrentRegion));
                 ResultRegions.Last().BaseAddress = CurrentRegion.BaseAddress + BaseOffset;
                 ResultRegions.Last().EndAddress = (IntPtr)Math.Min((UInt64)CurrentMask.EndAddress, (UInt64)CurrentRegion.EndAddress);
-                ResultRegions.Last().SetCurrentValues(CurrentRegion.GetCurrentValues().LargestSubArray(BaseOffset, ResultRegions.Last().RegionSize + (ElementType == null ? 0 : Marshal.SizeOf(ElementType))));
-                ResultRegions.Last().SetPreviousValues(CurrentRegion.GetPreviousValues().LargestSubArray(BaseOffset, ResultRegions.Last().RegionSize + (ElementType == null ? 0 : Marshal.SizeOf(ElementType))));
-                ResultRegions.Last().SetElementLabels(CurrentRegion.GetElementLabels().LargestSubArray(BaseOffset, ResultRegions.Last().RegionSize + (ElementType == null ? 0 : Marshal.SizeOf(ElementType))));
+                ResultRegions.Last().SetCurrentValues(CurrentRegion.GetCurrentValues().LargestSubArray(BaseOffset, ResultRegions.Last().RegionSize));
+                ResultRegions.Last().SetPreviousValues(CurrentRegion.GetPreviousValues().LargestSubArray(BaseOffset, ResultRegions.Last().RegionSize));
+                ResultRegions.Last().SetElementLabels(CurrentRegion.GetElementLabels().LargestSubArray(BaseOffset, ResultRegions.Last().RegionSize));
                 ResultRegions.Last().SetElementType(CurrentRegion.GetElementType());
             }
 
@@ -426,6 +405,36 @@ namespace Anathema
             // Replace memory regions with merged memory regions
             this.SnapshotRegions = CombinedRegions.ToArray();
             Array.Sort(this.SnapshotRegions, (x, y) => ((UInt64)x.BaseAddress).CompareTo((UInt64)y.BaseAddress));
+        }
+        
+        /// <summary>
+        /// Removes deallocated regions and recovers the remaining regions
+        /// </summary>
+        /// <returns></returns>
+        private SnapshotRegion<LabelType>[] MaskDeallocatedRegions()
+        {
+            List<SnapshotRegion<LabelType>> NewSnapshotRegions = SnapshotRegions.Select(x => (SnapshotRegion<LabelType>)x).ToList();
+
+            // Remove invalid items from collection
+            foreach (SnapshotRegion<LabelType> Region in DeallocatedRegions)
+                NewSnapshotRegions.Remove(Region);
+
+            // Get current memory regions
+            Snapshot<LabelType> Mask = new Snapshot<LabelType>(SnapshotManager.GetInstance().SnapshotAllRegions());
+
+            // Mask each region against the current virtual memory regions
+            SnapshotRegion<LabelType>[] MaskedRegions = MaskRegions(Mask, DeallocatedRegions.Select(x => (SnapshotRegion<LabelType>)x).ToArray());
+
+            // Merge split regions back with the main list
+            NewSnapshotRegions.AddRange(MaskedRegions);
+
+            // Clear invalid items
+            DeallocatedRegions = new ConcurrentBag<SnapshotRegion>();
+
+            // Store result as main snapshot array
+            this.SnapshotRegions = NewSnapshotRegions.ToArray();
+
+            return MaskedRegions;
         }
 
         public void SetElementLabels(LabelType Value)

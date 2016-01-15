@@ -46,15 +46,14 @@ namespace Anathema
             // Initialize labeled snapshot
             Snapshot = new Snapshot<Single>(SnapshotManager.GetInstance().GetActiveSnapshot());
             Snapshot.SetVariableSize(VariableSize);
-            Snapshot.MarkAllValid();
-
-            // TEMP: variables that should be user-tuned
-            UserInput = Keys.D;
-            WaitTime = 800;
 
             // Initialize with no correlation
             Snapshot.SetElementLabels(0.0f);
 
+            // TEMP: variables that should be user-tuned
+            UserInput = Keys.D;
+            WaitTime = 800;
+            
             // Initialize input dictionaries
             KeyBoardUp = new Dictionary<Keys, DateTime>();
             KeyBoardDown = new Dictionary<Keys, DateTime>();
@@ -117,15 +116,15 @@ namespace Anathema
                 foreach (SnapshotElement<Single> Element in Region)
                 {
                     Element.ElementLabel = Element.ElementLabel / MaxValue;
-                    if (Element.ElementLabel.Value > 0.80f)
+                    if (Element.ElementLabel.Value > 0.75f)
                         Element.Valid = true;
                 }
             }
 
-            Snapshot<Single> FilteredSnapshot = new Snapshot<Single>(Snapshot.GetValidRegions());
-            FilteredSnapshot.SetScanMethod("Input Correlator");
+            Snapshot.DiscardInvalidRegions();
+            Snapshot.SetScanMethod("Input Correlator");
 
-            SnapshotManager.GetInstance().SaveSnapshot(FilteredSnapshot);
+            SnapshotManager.GetInstance().SaveSnapshot(Snapshot);
         }
 
         private Boolean InputConditionValid(DateTime ScanTime)

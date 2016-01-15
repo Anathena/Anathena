@@ -83,10 +83,10 @@ namespace Anathema
                         Element.Valid = true;
 
             // Create a snapshot from the valid regions
-            Snapshot<UInt16> FilteredSnapshot = new Snapshot<UInt16>(Snapshot.GetValidRegions());
-            FilteredSnapshot.SetScanMethod("Change Counter");
+            Snapshot.DiscardInvalidRegions();
+            Snapshot.SetScanMethod("Change Counter");
 
-            SnapshotManager.GetInstance().SaveSnapshot(FilteredSnapshot);
+            SnapshotManager.GetInstance().SaveSnapshot(Snapshot);
         }
 
     } // End class

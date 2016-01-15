@@ -141,10 +141,10 @@ namespace Anathema
         {
             base.EndScan();
 
-            Snapshot FilteredSnapshot = new Snapshot<Null>(Snapshot.GetValidRegions());
-            FilteredSnapshot.SetScanMethod("Manual Scan");
+            Snapshot.DiscardInvalidRegions();
+            Snapshot.SetScanMethod("Manual Scan");
             
-            SnapshotManager.GetInstance().SaveSnapshot(FilteredSnapshot);
+            SnapshotManager.GetInstance().SaveSnapshot(Snapshot);
             
             OnEventScanFinished(new ManualScannerEventArgs());
         }

@@ -26,7 +26,7 @@ namespace Anathema
         public abstract SnapshotElement this[int index] { get; set; }
 
         /// <summary>
-        /// Expands a region by a given size (default is element type size) in both directions
+        /// Expands a region by a given size in both directions (default is element type size) unconditionally
         /// </summary>
         public void ExpandRegionBidirectional() { ExpandRegionBidirectional(Marshal.SizeOf(ElementType) - 1); }
         public void ExpandRegionBidirectional(Int32 ExpandSize)
@@ -40,25 +40,31 @@ namespace Anathema
         }
 
         /// <summary>
-        /// Expands a region by a given size (default is element type size)
+        /// Expands a region based on the current element type unconditionally
         /// </summary>
-        public void ExpandRegion() { ExpandRegion(Marshal.SizeOf(ElementType) - 1); }
-        public void ExpandRegion(Int32 ExpandSize)
+        public void ExpandRegion()
         {
-            if (RegionExtension >= ExpandSize)
-                RegionExtension -= ExpandSize;
-            else
-                RegionExtension = 0;
-
+            Int32 ExpandSize = Marshal.SizeOf(ElementType) - 1;
             this.RegionSize += ExpandSize; // TODO overflow protection
         }
 
         /// <summary>
-        /// Shrinks a region by the given size (default is element type size), and updates the extention size accordingly
+        /// Fills a region into the available extension space
         /// </summary>
-        public void ShrinkRegion() { ShrinkRegion(Marshal.SizeOf(ElementType) - 1); }
-        public void ShrinkRegion(Int32 ShrinkSize)
+        public void FillRegion()
         {
+            Int32 ExpandSize = RegionExtension;
+            RegionExtension = 0;
+            this.RegionSize += ExpandSize; // TODO overflow protection
+        }
+
+        /// <summary>
+        /// Shrinks a region by the current element size. The old space is marked as extension space.
+        /// </summary>
+        public void ShrinkRegion()
+        {
+            Int32 ShrinkSize = Marshal.SizeOf(ElementType) - 1;
+
             if (RegionSize >= ShrinkSize)
             {
                 this.RegionSize -= ShrinkSize;
@@ -88,12 +94,11 @@ namespace Anathema
             if (ElementType == null)
                 return;
 
-            // Re-claim the extended region
-            ExpandRegion(RegionExtension);
+            // Reclaim the extended region
+            FillRegion();
 
             // Shrink the region to match the new extention size
             ShrinkRegion();
-
         }
 
         public void SetCurrentValues(Byte[] NewValues)
@@ -223,11 +228,15 @@ namespace Anathema
 
                 // Create new subregion from this valid region
                 SnapshotRegion<LabelType> SubRegion = new SnapshotRegion<LabelType>(this.BaseAddress + StartIndex, ValidRegionSize);
+
                 if (CurrentValues != null)
-                    SubRegion.SetCurrentValues(CurrentValues.LargestSubArray(StartIndex, ValidRegionSize + Marshal.SizeOf(ElementType)));
-                SubRegion.SetElementType(ElementType);
+                    SubRegion.SetCurrentValues(CurrentValues.LargestSubArray(StartIndex, ValidRegionSize + (Marshal.SizeOf(ElementType) - 1)));
+
                 if (ElementLabels != null)
-                    SubRegion.SetElementLabels(ElementLabels.LargestSubArray(StartIndex, ValidRegionSize + Marshal.SizeOf(ElementType)));
+                    SubRegion.SetElementLabels(ElementLabels.LargestSubArray(StartIndex, ValidRegionSize + (Marshal.SizeOf(ElementType) - 1)));
+
+                SubRegion.RegionExtension = SubRegion.GetCurrentValues().Length - ValidRegionSize;
+                SubRegion.SetElementType(ElementType);
 
                 ValidRegions.Add(SubRegion);
 
@@ -236,5 +245,7 @@ namespace Anathema
 
             return ValidRegions;
         }
-    }
-}
+
+    } // End class
+
+} // End namespace

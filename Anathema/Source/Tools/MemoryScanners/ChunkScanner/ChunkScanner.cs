@@ -80,13 +80,10 @@ namespace Anathema
             base.EndScan();
 
             // Collect the pages that have changed
-            List<SnapshotRegion> ChangedRegions = new List<SnapshotRegion>();
+            List<SnapshotRegion> FilteredRegions = new List<SnapshotRegion>();
             for (Int32 Index = 0; Index < ChunkRoots.Count; Index++)
-                ChunkRoots[Index].GetChangedRegions(ChangedRegions, MinChanges);
+                ChunkRoots[Index].GetChangedRegions(FilteredRegions, MinChanges);
             ChunkRoots = null;
-
-            // Convert trees to a list of memory regions
-            List<SnapshotRegion> FilteredRegions = ChangedRegions.ConvertAll(Page => (SnapshotRegion)Page);
 
             // Create snapshot with results
             Snapshot<Null> FilteredSnapshot = new Snapshot<Null>(FilteredRegions.ToArray());
