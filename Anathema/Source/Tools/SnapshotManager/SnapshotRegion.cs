@@ -11,86 +11,20 @@ namespace Anathema
     /// <summary>
     /// Defines a snapshot of memory in an external process.
     /// </summary>
-    public class SnapshotRegion : RemoteRegion, IEnumerable
+    public abstract class SnapshotRegion : RemoteRegion, IEnumerable
     {
         protected Byte[] CurrentValues;     // Most recently read values
         protected Byte[] PreviousValues;    // Previously read values
         protected Type ElementType;         // Element type for this
         protected BitArray Valid;           // Valid bits for use in filtering scans
-
         protected Int32 RegionExtension;    // Variable to indicate a safe number of read-over bytes
 
         public SnapshotRegion(IntPtr BaseAddress, Int32 RegionSize) : base(null, BaseAddress, RegionSize) { RegionExtension = 0; }
         public SnapshotRegion(RemoteRegion RemoteRegion) : base(null, RemoteRegion.BaseAddress, RemoteRegion.RegionSize) { RegionExtension = 0; }
         public SnapshotRegion(SnapshotRegion SnapshotRegion) : base(null, SnapshotRegion.BaseAddress, SnapshotRegion.RegionSize) { this.RegionExtension = SnapshotRegion.RegionExtension; }
 
-        /// <summary>
-        /// Indexer to access a unified snapshot element at the specified index
-        /// </summary>
-        /// <param name="Index"></param>
-        /// <returns></returns>
-        public SnapshotElement this[Int32 Index]
-        {
-            get
-            {
-                return new SnapshotElement(
-                BaseAddress + Index, this, Index,
-                ElementType,
-                Valid == null ? false : Valid[Index],
-                (CurrentValues == null || ElementType == null) ? (Byte[])null : CurrentValues.SubArray(Index, Marshal.SizeOf(ElementType)),
-                (PreviousValues == null || ElementType == null) ? (Byte[])null : PreviousValues.SubArray(Index, Marshal.SizeOf(ElementType))
-                );
-            }
-            set
-            {
-                if (this.Valid != null) Valid[Index] = value.Valid;
-            }
-        }
+        public abstract SnapshotElement this[int index] { get; set; }
 
-        public Byte[] ReadAllSnapshotMemory(MemorySharp MemoryEditor, Boolean KeepValues = true)
-        {
-            Boolean SuccessReading = false;
-            Byte[] CurrentValues = MemoryEditor.ReadBytes(this.BaseAddress, this.RegionSize + RegionExtension, out SuccessReading, false);
-
-            if (!SuccessReading)
-                throw new ScanFailedException();
-
-            if (KeepValues)
-                SetCurrentValues(CurrentValues);
-
-            return CurrentValues;
-        }
-
-        /// <summary>
-        /// Returns all subregions of this region which are marked as valid. Will collect extended values based on the element type.
-        /// </summary>
-        /// <returns></returns>
-        public List<SnapshotRegion> GetValidRegions()
-        {
-            List<SnapshotRegion> ValidRegions = new List<SnapshotRegion>();
-            for (Int32 StartIndex = 0; StartIndex < Valid.Length; StartIndex++)
-            {
-                if (!Valid[StartIndex])
-                    continue;
-
-                // Determine length of this segment of valid regions
-                Int32 ValidRegionSize = 0;
-                while (StartIndex + (++ValidRegionSize) < Valid.Length && Valid[StartIndex + ValidRegionSize]) { }
-
-                // Create the subregion from this segment
-                SnapshotRegion SubRegion = new SnapshotRegion(this.BaseAddress + StartIndex, ValidRegionSize);
-                if (CurrentValues != null)
-                    SubRegion.SetCurrentValues(CurrentValues.LargestSubArray(StartIndex, ValidRegionSize + Marshal.SizeOf(ElementType)));
-                SubRegion.SetElementType(ElementType);
-
-                ValidRegions.Add(SubRegion);
-
-                StartIndex += ValidRegionSize;
-            }
-
-            return ValidRegions;
-        }
-        
         /// <summary>
         /// Expands a region by a given size (default is element type size) in both directions
         /// </summary>
@@ -199,7 +133,21 @@ namespace Anathema
             return true;
         }
 
-        public virtual IEnumerator GetEnumerator()
+        public Byte[] ReadAllSnapshotMemory(MemorySharp MemoryEditor, Boolean KeepValues = true)
+        {
+            Boolean SuccessReading = false;
+            Byte[] CurrentValues = MemoryEditor.ReadBytes(this.BaseAddress, this.RegionSize + RegionExtension, out SuccessReading, false);
+
+            if (!SuccessReading)
+                throw new ScanFailedException();
+
+            if (KeepValues)
+                SetCurrentValues(CurrentValues);
+
+            return CurrentValues;
+        }
+
+        public IEnumerator GetEnumerator()
         {
             for (Int32 Index = 0; Index < RegionSize; Index++)
                 yield return this[Index];
@@ -240,7 +188,7 @@ namespace Anathema
         /// </summary>
         /// <param name="Index"></param>
         /// <returns></returns>
-        public new SnapshotElement<LabelType> this[Int32 Index]
+        public override SnapshotElement this[Int32 Index]
         {
             get
             {
@@ -257,11 +205,11 @@ namespace Anathema
             {
                 if (value.ElementType != null) ElementType = value.ElementType; else ElementType = null;
                 if (this.Valid != null) Valid[Index] = value.Valid;
-                if (value.MemoryLabel != null) ElementLabels[Index] = value.MemoryLabel.Value; else ElementLabels[Index] = null;
+                if (((SnapshotElement<LabelType>)value).ElementLabel != null) ElementLabels[Index] = ((SnapshotElement<LabelType>)value).ElementLabel.Value;
             }
         }
 
-        public new List<SnapshotRegion<LabelType>> GetValidRegions()
+        public List<SnapshotRegion<LabelType>> GetValidRegions()
         {
             List<SnapshotRegion<LabelType>> ValidRegions = new List<SnapshotRegion<LabelType>>();
             for (Int32 StartIndex = 0; StartIndex < Valid.Length; StartIndex++)
@@ -287,12 +235,6 @@ namespace Anathema
             }
 
             return ValidRegions;
-        }
-
-        public override IEnumerator GetEnumerator()
-        {
-            for (Int32 Index = 0; Index < RegionSize; Index++)
-                yield return this[Index];
         }
     }
 }

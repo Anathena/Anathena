@@ -10,32 +10,23 @@ namespace Anathema
     /// </summary>
     public class SnapshotElement
     {
+        // Variables required for committing changes back to the region from which this element comes
+        protected SnapshotRegion Parent;
+        protected Int32 Index;
+
         public readonly IntPtr BaseAddress;     // Address of this Element
         public readonly Byte[] PreviousValue;   // Raw previous and values
         public readonly Byte[] CurrentValue;    // Raw current values
-
-        private SnapshotRegion Parent;
-        private Int32 Index;
 
         private Boolean _Valid;
         public Boolean Valid { get { return _Valid; } set { _Valid = value; Parent[Index] = this; } }
         public Type ElementType { get; set; }   // Type for interpreting the stored values
 
-        protected SnapshotElement() { }
-        public SnapshotElement(IntPtr BaseAddress, SnapshotRegion Parent, Int32 Index, Type ElementType, Boolean Valid, Byte[] CurrentValue, Byte[] PreviousValue)
+        public SnapshotElement(IntPtr BaseAddress, Byte[] CurrentValue, Byte[] PreviousValue)
         {
             this.BaseAddress = BaseAddress;
-            this.Parent = Parent;
-            this.Index = Index; 
-            this.ElementType = ElementType;
-            this.Valid = Valid;
             this.CurrentValue = CurrentValue;
             this.PreviousValue = PreviousValue;
-
-            // Mark invalid automatically if the value initialized to null -- this is likely due to reading passed the value buffer
-            // For example trying to read a Int32 at byte 1021 of a 1024 byte region
-            if (CurrentValue == null)
-                this.Valid = false;
         }
 
         private dynamic GetValue(Byte[] Array)
@@ -121,21 +112,23 @@ namespace Anathema
         }
     }
 
+    /// <summary>
+    /// Class used by SnapshotRegion as a wrapper for indexing into the raw collection of data
+    /// </summary>
     public class SnapshotElement<LabelType> : SnapshotElement where LabelType : struct
     {
-        // Variables required for committing changes back to the region from which this element comes
-        private SnapshotRegion<LabelType> Parent;
-        private Int32 Index;
+        private LabelType? _ElementLabel;
+        public LabelType? ElementLabel { get { return _ElementLabel; } set { _ElementLabel = value; Parent[Index] = this; } }
 
-        private LabelType? _MemoryLabel;
-        public LabelType? MemoryLabel { get { return _MemoryLabel; } set { _MemoryLabel = value; Parent[Index] = this; } }
-
-        public SnapshotElement(IntPtr BaseAddress, SnapshotRegion<LabelType> Parent, Int32 Index, Type ElementType, Boolean Valid, Byte[] CurrentValue, Byte[] PreviousValue, LabelType? Label)
-            : base(BaseAddress, Parent, Index, ElementType, Valid, CurrentValue, PreviousValue)
+        
+        public SnapshotElement(IntPtr BaseAddress, SnapshotRegion Parent, Int32 Index, Type ElementType, Boolean Valid, Byte[] CurrentValue, Byte[] PreviousValue, LabelType? ElementLabel)
+            : base(BaseAddress, CurrentValue, PreviousValue)
         {
             this.Parent = Parent;
             this.Index = Index;
-            this._MemoryLabel = Label;
+            this.ElementType = ElementType;
+            this.Valid = Valid;
+            this._ElementLabel = ElementLabel;
         }
     }
 }

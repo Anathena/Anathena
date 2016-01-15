@@ -12,7 +12,7 @@ namespace Anathema
     class ChunkScanner : IChunkScannerModel
     {
         private List<MemoryChunkRoots> ChunkRoots;
-        private Snapshot Snapshot;
+        private Snapshot<Null> Snapshot;
         private Int32 ChunkSize;
 
         // User controlled variables
@@ -45,7 +45,7 @@ namespace Anathema
 
         public override void BeginScan()
         {
-            this.Snapshot = new Snapshot(SnapshotManager.GetInstance().GetActiveSnapshot());
+            this.Snapshot = new Snapshot<Null>(SnapshotManager.GetInstance().GetActiveSnapshot());
             this.Snapshot.SetElementType(typeof(SByte));
             this.ChunkRoots = new List<MemoryChunkRoots>();
             this.ChunkSize = SetChunkSize(Snapshot.GetMemorySize());
@@ -89,11 +89,11 @@ namespace Anathema
             List<SnapshotRegion> FilteredRegions = ChangedRegions.ConvertAll(Page => (SnapshotRegion)Page);
 
             // Create snapshot with results
-            Snapshot FilteredSnapshot = new Snapshot(FilteredRegions.ToArray());
+            Snapshot<Null> FilteredSnapshot = new Snapshot<Null>(FilteredRegions.ToArray());
 
             // Grow regions by the size of the largest standard variable and mask this with the original memory list.
             FilteredSnapshot.ExpandAllRegionsOutward(sizeof(UInt64) - 1);
-            FilteredSnapshot = new Snapshot(FilteredSnapshot.MaskRegions(Snapshot, FilteredSnapshot.GetSnapshotRegions()));
+            FilteredSnapshot = new Snapshot<Null>(FilteredSnapshot.MaskRegions(Snapshot, FilteredSnapshot.GetSnapshotRegions()));
 
             // Read memory so that there are values for the next scan to process
             FilteredSnapshot.ReadAllSnapshotMemory();
@@ -103,7 +103,7 @@ namespace Anathema
             SnapshotManager.GetInstance().SaveSnapshot(FilteredSnapshot);
         }
 
-        public class MemoryChunkRoots : SnapshotRegion
+        public class MemoryChunkRoots : SnapshotRegion<Null>
         {
             private SnapshotRegion[] Chunks;
             private UInt16[] ChangeCounts;
@@ -126,7 +126,7 @@ namespace Anathema
                     if (Index == ChunkCount - 1)
                         ChunkRegionSize = RegionSize % ChunkSize;
 
-                    Chunks[Index] = new SnapshotRegion(CurrentBase, ChunkRegionSize);
+                    Chunks[Index] = new SnapshotRegion<Null>(CurrentBase, ChunkRegionSize);
                     ChangeCounts[Index] = 0;
                     Checksums[Index] = 0;
 

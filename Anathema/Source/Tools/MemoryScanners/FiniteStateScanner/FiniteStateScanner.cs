@@ -50,7 +50,7 @@ namespace Anathema
             Snapshot = new Snapshot<Byte>(SnapshotManager.GetInstance().GetActiveSnapshot());
             Snapshot.MarkAllValid();
             Snapshot.SetElementType(FiniteStateMachine.GetElementType());
-            Snapshot.SetMemoryLabels(FiniteStateMachine.IndexOf(FiniteStateMachine.GetStartState()));
+            Snapshot.SetElementLabels(FiniteStateMachine.IndexOf(FiniteStateMachine.GetStartState()));
 
             switch (FiniteStateMachine.GetStartState().GetStateEvent())
             {
@@ -84,7 +84,7 @@ namespace Anathema
                 foreach (SnapshotElement<Byte> Element in Region)
                 {
                     // Test the condition of each transition event in this element's current state
-                    foreach (KeyValuePair<ScanConstraint, FiniteState> Transition in FiniteStateMachine[Element.MemoryLabel.Value])
+                    foreach (KeyValuePair<ScanConstraint, FiniteState> Transition in FiniteStateMachine[Element.ElementLabel.Value])
                     {
                         Boolean DoTransition = false;
                         switch (Transition.Key.Constraint)
@@ -134,13 +134,13 @@ namespace Anathema
                         if (DoTransition)
                         {
                             // DEBUG
-                            if ((UInt64)Element.BaseAddress != 0x0100579C)
+                            //if ((UInt64)Element.BaseAddress != 0x0100579C)
                             {
-                                Element.Valid = false;
-                                continue;
+                              //  Element.Valid = false;
+                                //continue;
                             }
 
-                            Element.MemoryLabel = FiniteStateMachine.IndexOf(Transition.Value);
+                            Element.ElementLabel = FiniteStateMachine.IndexOf(Transition.Value);
                             switch(Transition.Value.GetStateEvent())
                             {
                                 case FiniteState.StateEventEnum.None:
@@ -168,7 +168,7 @@ namespace Anathema
         {
             base.EndScan();
 
-            Snapshot FilteredSnapshot = new Snapshot(Snapshot.GetValidRegions());
+            Snapshot FilteredSnapshot = new Snapshot<Null>(Snapshot.GetValidRegions());
             FilteredSnapshot.SetScanMethod("Manual Scan");
 
             SnapshotManager.GetInstance().SaveSnapshot(FilteredSnapshot);

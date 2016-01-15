@@ -11,7 +11,7 @@ namespace Anathema
     class ManualScanner : IManualScannerModel
     {
         // Snapshot being labeled with change counts
-        private Snapshot Snapshot;
+        private Snapshot<Null> Snapshot;
 
         // User controlled variables
         private ScanConstraintManager ScanConstraints;
@@ -59,7 +59,7 @@ namespace Anathema
         public override void BeginScan()
         {
             // Initialize snapshot
-            Snapshot = new Snapshot(SnapshotManager.GetInstance().GetActiveSnapshot());
+            Snapshot = new Snapshot<Null>(SnapshotManager.GetInstance().GetActiveSnapshot());
             Snapshot.MarkAllValid();
             Snapshot.SetElementType(ScanConstraints.GetElementType());
 
@@ -141,7 +141,7 @@ namespace Anathema
         {
             base.EndScan();
 
-            Snapshot FilteredSnapshot = new Snapshot(Snapshot.GetValidRegions());
+            Snapshot FilteredSnapshot = new Snapshot<Null>(Snapshot.GetValidRegions());
             FilteredSnapshot.SetScanMethod("Manual Scan");
             
             SnapshotManager.GetInstance().SaveSnapshot(FilteredSnapshot);

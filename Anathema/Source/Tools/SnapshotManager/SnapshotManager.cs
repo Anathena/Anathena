@@ -79,7 +79,7 @@ namespace Anathema
         public Snapshot SnapshotAllRegions()
         {
             if (MemoryEditor == null)
-                return new Snapshot();
+                return new Snapshot<Null>();
 
             // Query all virtual pages
             List<RemoteVirtualPage> VirtualPages = new List<RemoteVirtualPage>();
@@ -89,9 +89,9 @@ namespace Anathema
             // Convert each virtual page to a remote region (a more condensed representation of the information)
             List<SnapshotRegion> MemoryRegions = new List<SnapshotRegion>();
             for (int PageIndex = 0; PageIndex < VirtualPages.Count; PageIndex++)
-                MemoryRegions.Add(new SnapshotRegion(VirtualPages[PageIndex].Information.BaseAddress, (Int32)VirtualPages[PageIndex].Information.RegionSize));
+                MemoryRegions.Add(new SnapshotRegion<Null>(VirtualPages[PageIndex].Information.BaseAddress, (Int32)VirtualPages[PageIndex].Information.RegionSize));
 
-            return new Snapshot(MemoryRegions.ToArray());
+            return new Snapshot<Null>(MemoryRegions.ToArray());
         }
 
         /// <summary>

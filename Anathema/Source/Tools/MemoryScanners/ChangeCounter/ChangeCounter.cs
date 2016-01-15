@@ -45,7 +45,7 @@ namespace Anathema
             Snapshot.SetVariableSize(VariableSize);
 
             // Initialize change counts to zero
-            Snapshot.SetMemoryLabels(0);
+            Snapshot.SetElementLabels(0);
             Snapshot.MarkAllValid();
 
             base.BeginScan();
@@ -66,7 +66,7 @@ namespace Anathema
                 foreach (SnapshotElement<UInt16> Element in Region)
                 {
                     if (Element.Changed())
-                        Element.MemoryLabel++;
+                        Element.ElementLabel++;
                 }
             }); // End regions
         }
@@ -79,7 +79,7 @@ namespace Anathema
             Snapshot.MarkAllInvalid();
             foreach (SnapshotRegion<UInt16> Region in Snapshot)
                 foreach (SnapshotElement<UInt16> Element in Region)
-                    if (Element.MemoryLabel.Value >= MinChanges && Element.MemoryLabel.Value <= MaxChanges)
+                    if (Element.ElementLabel.Value >= MinChanges && Element.ElementLabel.Value <= MaxChanges)
                         Element.Valid = true;
 
             // Create a snapshot from the valid regions

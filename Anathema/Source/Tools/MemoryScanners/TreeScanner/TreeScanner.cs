@@ -22,7 +22,7 @@ namespace Anathema
     class TreeScanner : ITreeScannerModel
     {
         // Variables
-        private Snapshot Snapshot;
+        private Snapshot<Null> Snapshot;
         private List<MemoryChangeTree> FilterTrees; // Trees to grow to search for changes
 
         public TreeScanner()
@@ -32,7 +32,7 @@ namespace Anathema
 
         public override void BeginScan()
         {
-            this.Snapshot = new Snapshot(SnapshotManager.GetInstance().GetActiveSnapshot());
+            this.Snapshot = new Snapshot<Null>(SnapshotManager.GetInstance().GetActiveSnapshot());
             this.Snapshot.SetElementType(typeof(SByte));
             this.FilterTrees = new List<MemoryChangeTree>();
 
@@ -73,11 +73,11 @@ namespace Anathema
             FilterTrees = null;
 
             // Create snapshot with results
-            Snapshot FilteredSnapshot = new Snapshot(FilteredRegions.ToArray());
+            Snapshot<Null> FilteredSnapshot = new Snapshot<Null>(FilteredRegions.ToArray());
 
             // Grow regions by the size of the largest standard variable and mask this with the original memory list.
             FilteredSnapshot.ExpandAllRegionsOutward(sizeof(UInt64) - 1);
-            FilteredSnapshot = new Snapshot(FilteredSnapshot.MaskRegions(Snapshot, FilteredSnapshot.GetSnapshotRegions()));
+            FilteredSnapshot = new Snapshot<Null>(FilteredSnapshot.MaskRegions(Snapshot, FilteredSnapshot.GetSnapshotRegions()));
 
             // Read memory so that there are values for the next scan to process
             FilteredSnapshot.ReadAllSnapshotMemory();
@@ -92,7 +92,7 @@ namespace Anathema
             SnapshotManager.GetInstance().SaveSnapshot(FilteredSnapshot);
         }
 
-        public class MemoryChangeTree : SnapshotRegion
+        public class MemoryChangeTree : SnapshotRegion<Null>
         {
             // Experimentally found that splitting pages on boundaries of 64 or 128 works best.
             private const Int32 PageSplitThreshold = 128;

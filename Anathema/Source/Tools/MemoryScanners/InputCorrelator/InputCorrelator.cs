@@ -53,7 +53,7 @@ namespace Anathema
             WaitTime = 800;
 
             // Initialize with no correlation
-            Snapshot.SetMemoryLabels(0.0f);
+            Snapshot.SetElementLabels(0.0f);
 
             // Initialize input dictionaries
             KeyBoardUp = new Dictionary<Keys, DateTime>();
@@ -86,9 +86,9 @@ namespace Anathema
                     if (Element.Changed())
                     {
                         if (ConditionValid)
-                            Element.MemoryLabel += 1.0f;
+                            Element.ElementLabel += 1.0f;
                         else
-                            Element.MemoryLabel -= 1.0f;
+                            Element.ElementLabel -= 1.0f;
                     }
 
                 }
@@ -108,16 +108,16 @@ namespace Anathema
             Single MaxValue = 1.0f;
             foreach (SnapshotRegion<Single> Region in Snapshot)
                 foreach (SnapshotElement<Single> Element in Region)
-                    if (Element.MemoryLabel.Value > MaxValue)
-                        MaxValue = Element.MemoryLabel.Value;
+                    if (Element.ElementLabel.Value > MaxValue)
+                        MaxValue = Element.ElementLabel.Value;
 
             Snapshot.MarkAllInvalid();
             foreach (SnapshotRegion<Single> Region in Snapshot)
             {
                 foreach (SnapshotElement<Single> Element in Region)
                 {
-                    Element.MemoryLabel = Element.MemoryLabel / MaxValue;
-                    if (Element.MemoryLabel.Value > 0.80f)
+                    Element.ElementLabel = Element.ElementLabel / MaxValue;
+                    if (Element.ElementLabel.Value > 0.80f)
                         Element.Valid = true;
                 }
             }

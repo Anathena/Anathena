@@ -17,7 +17,7 @@ namespace Anathema
     {
         private static Results ResultsInstance;
         private MemorySharp MemoryEditor;
-        
+
         // User specified variables
         private Type ScanType;
 
@@ -129,17 +129,14 @@ namespace Anathema
                 return "-";
 
             Snapshot ActiveSnapshot = SnapshotManager.GetInstance().GetActiveSnapshot();
-            
+
             if (Index >= (Int32)ActiveSnapshot.GetMemorySize())
                 return "-";
 
             dynamic Label = String.Empty;
+            if (((dynamic)ActiveSnapshot[Index]).ElementLabel != null)
+                Label = ((dynamic)ActiveSnapshot[Index])[Index].ElementLabel;
 
-            if (ActiveSnapshot.GetType() != typeof(Snapshot))
-            {
-                dynamic LabeledSnapshot = ActiveSnapshot;
-                Label = LabeledSnapshot[Index].MemoryLabel;
-            }
             return Label;
         }
 
