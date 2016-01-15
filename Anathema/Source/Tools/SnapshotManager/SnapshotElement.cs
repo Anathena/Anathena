@@ -8,7 +8,7 @@ namespace Anathema
     /// <summary>
     /// Class used by SnapshotRegion as a wrapper for indexing into the raw collection of data
     /// </summary>
-    public class SnapshotElement
+    public abstract class SnapshotElement
     {
         // Variables required for committing changes back to the region from which this element comes
         protected SnapshotRegion Parent;
@@ -119,7 +119,6 @@ namespace Anathema
     {
         private LabelType? _ElementLabel;
         public LabelType? ElementLabel { get { return _ElementLabel; } set { _ElementLabel = value; Parent[Index] = this; } }
-
         
         public SnapshotElement(IntPtr BaseAddress, SnapshotRegion Parent, Int32 Index, Type ElementType, Boolean Valid, Byte[] CurrentValue, Byte[] PreviousValue, LabelType? ElementLabel)
             : base(BaseAddress, CurrentValue, PreviousValue)

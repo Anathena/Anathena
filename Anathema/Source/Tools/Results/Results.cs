@@ -94,7 +94,6 @@ namespace Anathema
         {
             dynamic Value = "-";
 
-
             if (!SnapshotManager.GetInstance().HasActiveSnapshot())
                 return Value;
 
@@ -134,9 +133,8 @@ namespace Anathema
                 return "-";
 
             dynamic Label = String.Empty;
-            if (((dynamic)ActiveSnapshot[Index]).ElementLabel != null)
-                Label = ((dynamic)ActiveSnapshot[Index])[Index].ElementLabel;
-
+            if (((dynamic)ActiveSnapshot)[Index].ElementLabel != null)
+                Label = ((dynamic)ActiveSnapshot)[Index].ElementLabel;
             return Label;
         }
 
