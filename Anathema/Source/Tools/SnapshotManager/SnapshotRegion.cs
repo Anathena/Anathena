@@ -28,8 +28,8 @@ namespace Anathema
         /// <summary>
         /// Expands a region by a given size in both directions (default is element type size) unconditionally
         /// </summary>
-        public void ExpandRegionBidirectional() { ExpandRegionBidirectional(Marshal.SizeOf(ElementType) - 1); }
-        public void ExpandRegionBidirectional(Int32 ExpandSize)
+        public void ExpandRegion() { ExpandRegion(GetElementReadOverSize()); }
+        public void ExpandRegion(Int32 ExpandSize)
         {
             if ((UInt64)BaseAddress > (UInt64)ExpandSize)
                 this.BaseAddress -= ExpandSize;
@@ -37,15 +37,6 @@ namespace Anathema
                 this.BaseAddress = IntPtr.Zero;
 
             this.RegionSize += ExpandSize * 2; // TODO overflow protection
-        }
-
-        /// <summary>
-        /// Expands a region based on the current element type unconditionally
-        /// </summary>
-        public void ExpandRegion()
-        {
-            Int32 ExpandSize = Marshal.SizeOf(ElementType) - 1;
-            this.RegionSize += ExpandSize; // TODO overflow protection
         }
 
         /// <summary>
@@ -60,15 +51,18 @@ namespace Anathema
 
         /// <summary>
         /// Shrinks a region by the current element size. The old space is marked as extension space.
+        /// This is important for elements with values that span several bytes, which need to read past the region size.
         /// </summary>
-        public void ShrinkRegion()
+        public void RelaxRegion()
         {
-            Int32 ShrinkSize = Marshal.SizeOf(ElementType) - 1;
+            Int32 RelaxSize = GetElementReadOverSize();
 
-            if (RegionSize >= ShrinkSize)
+            FillRegion();
+
+            if (RegionSize >= RelaxSize)
             {
-                this.RegionSize -= ShrinkSize;
-                RegionExtension = ShrinkSize;
+                this.RegionSize -= RelaxSize;
+                RegionExtension = RelaxSize;
             }
             else
             {
@@ -94,11 +88,22 @@ namespace Anathema
             if (ElementType == null)
                 return;
 
-            // Reclaim the extended region
-            FillRegion();
+            // Adjust extension space accordingly
+            RelaxRegion();
+        }
 
-            // Shrink the region to match the new extention size
-            ShrinkRegion();
+        /// <summary>
+        /// Determines how many extra bytes an element will need to read to determine it's value
+        /// </summary>
+        /// <returns></returns>
+        public Int32 GetElementReadOverSize()
+        {
+            return Marshal.SizeOf(ElementType) - 1;
+        }
+
+        public Int32 GetRegionExtension()
+        {
+            return RegionExtension;
         }
 
         public void SetCurrentValues(Byte[] NewValues)
@@ -229,13 +234,15 @@ namespace Anathema
                 // Create new subregion from this valid region
                 SnapshotRegion<LabelType> SubRegion = new SnapshotRegion<LabelType>(this.BaseAddress + StartIndex, ValidRegionSize);
 
-                if (CurrentValues != null)
-                    SubRegion.SetCurrentValues(CurrentValues.LargestSubArray(StartIndex, ValidRegionSize + (Marshal.SizeOf(ElementType) - 1)));
+                // Collect the current values. Attempts to collect out of bounds into extended space.
+                SubRegion.SetCurrentValues(CurrentValues.LargestSubArray(StartIndex, ValidRegionSize + GetElementReadOverSize()));
 
-                if (ElementLabels != null)
-                    SubRegion.SetElementLabels(ElementLabels.LargestSubArray(StartIndex, ValidRegionSize + (Marshal.SizeOf(ElementType) - 1)));
+                // Collect the element labels. Attempts to collect out of bounds into extended space.
+                SubRegion.SetElementLabels(ElementLabels.LargestSubArray(StartIndex, ValidRegionSize + GetElementReadOverSize()));
 
+                // If we were able to grab values into the extended space, update the extension size.
                 SubRegion.RegionExtension = SubRegion.GetCurrentValues().Length - ValidRegionSize;
+
                 SubRegion.SetElementType(ElementType);
 
                 ValidRegions.Add(SubRegion);

@@ -20,7 +20,7 @@ namespace Anathema
 
         protected SnapshotRegion[] SnapshotRegions;
         protected ConcurrentBag<SnapshotRegion> DeallocatedRegions;
-        
+
         protected Type ElementType; // Type to consider each element of this snapshot
         private String ScanMethod;  // String indicating most recent scan method used
         private DateTime TimeStamp; // Time stamp of most recent scan for a given snapshot
@@ -125,7 +125,7 @@ namespace Anathema
             foreach (SnapshotRegion Region in this)
                 Region.SetElementType(ElementType);
         }
-        
+
         public IEnumerator GetEnumerator()
         {
             return SnapshotRegions.GetEnumerator();
@@ -182,17 +182,17 @@ namespace Anathema
             this.SnapshotRegions = SnapshotData;
             Initialize();
         }
-        
+
         /// <summary>
-         /// Constructor to create a snapshot from various regions
-         /// </summary>
-         /// <param name="SnapshotRegions"></param>
+        /// Constructor to create a snapshot from various regions
+        /// </summary>
+        /// <param name="SnapshotRegions"></param>
         public Snapshot(SnapshotRegion[] SnapshotRegions)
         {
             this.SnapshotRegions = SnapshotRegions.Select(x => (SnapshotRegion<LabelType>)x).ToArray();
             Initialize();
         }
-        
+
         #endregion
 
         #region Initialization
@@ -226,7 +226,7 @@ namespace Anathema
         public void ExpandAllRegionsOutward(Int32 ExpandSize)
         {
             foreach (SnapshotRegion SnapshotRegion in this)
-                SnapshotRegion.ExpandRegionBidirectional(ExpandSize);
+                SnapshotRegion.ExpandRegion(ExpandSize);
         }
 
         /// <summary>
@@ -282,20 +282,15 @@ namespace Anathema
             foreach (SnapshotRegion<LabelType> SnapshotRegion in this)
                 CandidateRegions.AddRange(SnapshotRegion.GetValidRegions());
 
-            // Expand all regions back into extension space, and then again outside of that space
-            /*foreach (SnapshotRegion<LabelType> SnapshotRegion in CandidateRegions)
-            { 
-                SnapshotRegion.FillRegion();
-                SnapshotRegion.ExpandRegion();
-            }*/ // GetValidRegions() takes care of this?
-
             // Mask the regions against the original snapshot (this snapshot)
             SnapshotRegion<LabelType>[] ValidRegions = MaskRegions(this, CandidateRegions.ToArray());
 
             // Shrink the regions based on their element type
             if (ValidRegions != null)
+            {
                 foreach (SnapshotRegion<LabelType> Region in ValidRegions)
-                    Region.ShrinkRegion();
+                    Region.RelaxRegion();
+            }
 
             this.SnapshotRegions = ValidRegions;
         }
@@ -349,13 +344,14 @@ namespace Anathema
                 if ((UInt64)CurrentMask.BaseAddress > (UInt64)CurrentRegion.BaseAddress)
                     BaseOffset = (Int32)((UInt64)CurrentMask.BaseAddress - (UInt64)CurrentRegion.BaseAddress);
 
-                ResultRegions.Add(new SnapshotRegion<LabelType>(CurrentRegion));
-                ResultRegions.Last().BaseAddress = CurrentRegion.BaseAddress + BaseOffset;
-                ResultRegions.Last().EndAddress = (IntPtr)Math.Min((UInt64)CurrentMask.EndAddress, (UInt64)CurrentRegion.EndAddress);
-                ResultRegions.Last().SetCurrentValues(CurrentRegion.GetCurrentValues().LargestSubArray(BaseOffset, ResultRegions.Last().RegionSize));
-                ResultRegions.Last().SetPreviousValues(CurrentRegion.GetPreviousValues().LargestSubArray(BaseOffset, ResultRegions.Last().RegionSize));
-                ResultRegions.Last().SetElementLabels(CurrentRegion.GetElementLabels().LargestSubArray(BaseOffset, ResultRegions.Last().RegionSize));
-                ResultRegions.Last().SetElementType(CurrentRegion.GetElementType());
+                var NewRegion = new SnapshotRegion<LabelType>(CurrentRegion);
+                ResultRegions.Add(NewRegion);
+                NewRegion.BaseAddress = CurrentRegion.BaseAddress + BaseOffset;
+                NewRegion.EndAddress = (IntPtr)Math.Min((UInt64)CurrentMask.EndAddress, (UInt64)CurrentRegion.EndAddress);
+                NewRegion.SetCurrentValues(CurrentRegion.GetCurrentValues().LargestSubArray(BaseOffset, ResultRegions.Last().RegionSize + NewRegion.GetRegionExtension()));
+                NewRegion.SetPreviousValues(CurrentRegion.GetPreviousValues().LargestSubArray(BaseOffset, ResultRegions.Last().RegionSize + NewRegion.GetRegionExtension()));
+                NewRegion.SetElementLabels(CurrentRegion.GetElementLabels().LargestSubArray(BaseOffset, ResultRegions.Last().RegionSize + NewRegion.GetRegionExtension()));
+                NewRegion.SetElementType(CurrentRegion.GetElementType());
             }
 
             return ResultRegions.ToArray();
@@ -406,7 +402,7 @@ namespace Anathema
             this.SnapshotRegions = CombinedRegions.ToArray();
             Array.Sort(this.SnapshotRegions, (x, y) => ((UInt64)x.BaseAddress).CompareTo((UInt64)y.BaseAddress));
         }
-        
+
         /// <summary>
         /// Removes deallocated regions and recovers the remaining regions
         /// </summary>
