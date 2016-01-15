@@ -19,12 +19,12 @@ namespace Anathema
         // VIEW MENU ITEMS
         private GUIProcessSelector GUIProcessSelector;
         private GUIDebugger GUIDebugger;
-        private GUIFiniteStateScanner GUIFilterFSM;
-        private GUIManualScanner GUIFilterManual;
-        private GUITreeScanner GUIFilterTree;
-        private GUIChunkScanner GUIFilterChunks;
-        private GUIChangeCounter GUILabelerChangeCounter;
-        private GUIInputCorrelator GUILabelerInputCorrelator;
+        private GUIFiniteStateScanner GUIFiniteStateScanner;
+        private GUIManualScanner GUIManualScanner;
+        private GUITreeScanner GUITreeScanner;
+        private GUIChunkScanner GUIChunkScanner;
+        private GUIChangeCounter GUIChangeCounter;
+        private GUIInputCorrelator GUIInputCorrelator;
         private GUISnapshotManager GUISnapshotManager;
         private GUIResults GUIResults;
         private GUITable GUITable;
@@ -76,45 +76,46 @@ namespace Anathema
             GUIDebugger.Show(ContentPanel);
         }
 
-        private void CreateStateScanner()
+        private void CreateFiniteStateScanner()
         {
-            if (GUIFilterFSM == null || GUIFilterFSM.IsDisposed)
-                GUIFilterFSM = new GUIFiniteStateScanner();
-            GUIFilterFSM.Show(ContentPanel);
+            if (GUIFiniteStateScanner == null || GUIFiniteStateScanner.IsDisposed)
+                GUIFiniteStateScanner = new GUIFiniteStateScanner();
+            GUIFiniteStateScanner.Show(ContentPanel);
         }
 
         private void CreateManualScanner()
         {
-            if (GUIFilterManual == null || GUIFilterManual.IsDisposed)
-                GUIFilterManual = new GUIManualScanner();
-            GUIFilterManual.Show(ContentPanel);
+            if (GUIManualScanner == null || GUIManualScanner.IsDisposed)
+                GUIManualScanner = new GUIManualScanner();
+            GUIManualScanner.Show(ContentPanel);
         }
 
         private void CreateTreeScanner()
         {
-            if (GUIFilterTree == null || GUIFilterTree.IsDisposed)
-                GUIFilterTree = new GUITreeScanner();
-            GUIFilterTree.Show(ContentPanel);
+            if (GUITreeScanner == null || GUITreeScanner.IsDisposed)
+                GUITreeScanner = new GUITreeScanner();
+            GUITreeScanner.Show(ContentPanel);
         }
 
         private void CreateChunkScanner()
         {
-            if (GUIFilterChunks == null || GUIFilterChunks.IsDisposed)
-                GUIFilterChunks = new GUIChunkScanner();
-            GUIFilterChunks.Show(ContentPanel);
+            if (GUIChunkScanner == null || GUIChunkScanner.IsDisposed)
+                GUIChunkScanner = new GUIChunkScanner();
+            GUIChunkScanner.Show(ContentPanel);
         }
+
         private void CreateInputCorrelator()
         {
-            if (GUILabelerInputCorrelator == null || GUILabelerInputCorrelator.IsDisposed)
-                GUILabelerInputCorrelator = new GUIInputCorrelator();
-            GUILabelerInputCorrelator.Show(ContentPanel);
+            if (GUIInputCorrelator == null || GUIInputCorrelator.IsDisposed)
+                GUIInputCorrelator = new GUIInputCorrelator();
+            GUIInputCorrelator.Show(ContentPanel);
         }
 
         private void CreateChangeCounter()
         {
-            if (GUILabelerChangeCounter == null || GUILabelerChangeCounter.IsDisposed)
-                GUILabelerChangeCounter = new GUIChangeCounter();
-            GUILabelerChangeCounter.Show(ContentPanel);
+            if (GUIChangeCounter == null || GUIChangeCounter.IsDisposed)
+                GUIChangeCounter = new GUIChangeCounter();
+            GUIChangeCounter.Show(ContentPanel);
         }
 
         private void CreateSnapshotManager()
@@ -142,7 +143,6 @@ namespace Anathema
         {
             if (GUIProcessSelector == null || GUIProcessSelector.IsDisposed)
                 GUIProcessSelector = new GUIProcessSelector();
-
             GUIProcessSelector.Show(ContentPanel);
         }
 
@@ -150,19 +150,8 @@ namespace Anathema
         {
             if (GUISettings == null || GUISettings.IsDisposed)
                 GUISettings = new GUISettings();
-
             GUISettings.ShowDialog();
         }
-
-        /*
-        // Alternate more compact method:
-        private void CreateWindow(dynamic GUI)
-        {
-            if (GUI == null || GUI.IsDisposed)
-                GUI = Activator.CreateInstance(typeof(GUI));
-            GUI.Show(ContentPanel);
-        }
-        */
 
         #endregion
 
@@ -175,7 +164,7 @@ namespace Anathema
 
         private void StateScannerToolStripMenuItem_Click(Object Sender, EventArgs E)
         {
-            CreateStateScanner();
+            CreateFiniteStateScanner();
         }
 
         private void ManualScannerToolStripMenuItem_Click(Object Sender, EventArgs E)
