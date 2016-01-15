@@ -50,7 +50,19 @@ namespace Anathema
             Snapshot = new Snapshot<Byte>(SnapshotManager.GetInstance().GetActiveSnapshot());
             Snapshot.MarkAllValid();
             Snapshot.SetElementType(FiniteStateMachine.GetElementType());
-            Snapshot.SetMemoryLabels(0);
+            Snapshot.SetMemoryLabels(FiniteStateMachine.IndexOf(FiniteStateMachine.GetStartState()));
+
+            switch (FiniteStateMachine.GetStartState().GetStateEvent())
+            {
+                case FiniteState.StateEventEnum.MarkValid:
+                    Snapshot.MarkAllValid();
+                    break;
+                case FiniteState.StateEventEnum.MarkInvalid:
+                    Snapshot.MarkAllInvalid();
+                    break;
+                default:
+                    throw new Exception("Start state must mark elements as valid or invalid.");
+            }
 
             base.BeginScan();
         }
@@ -125,8 +137,20 @@ namespace Anathema
                         if (DoTransition)
                         {
                             Element.MemoryLabel = FiniteStateMachine.IndexOf(Transition.Value);
-                            if (FiniteStateMachine.IsFinalState(Transition.Value))
-                                FlagEndScan = true;
+                            switch(Transition.Value.GetStateEvent())
+                            {
+                                case FiniteState.StateEventEnum.None:
+                                    break;
+                                case FiniteState.StateEventEnum.MarkValid:
+                                    Element.Valid = true;
+                                    break;
+                                case FiniteState.StateEventEnum.MarkInvalid:
+                                    Element.Valid = false;
+                                    break;
+                                case FiniteState.StateEventEnum.EndScan:
+                                    FlagEndScan = true;
+                                    break;
+                            }
                         }
 
                     } // End foreach Constraint
@@ -140,16 +164,6 @@ namespace Anathema
         {
             base.EndScan();
 
-            Snapshot.MarkAllInvalid();
-            foreach (SnapshotRegion<Byte> Region in Snapshot)
-            {
-                foreach (SnapshotElement<Byte> Element in Region)
-                {
-                    if (Element.MemoryLabel == FiniteStateMachine.GetFinalStateIndex())
-                        Element.Valid = true;
-                }
-            }
-            
             Snapshot FilteredSnapshot = new Snapshot(Snapshot.GetValidRegions());
             FilteredSnapshot.SetScanMethod("Manual Scan");
 

@@ -97,8 +97,6 @@ namespace Anathema
 
                 if (State == FiniteStateMachine.GetStartState())
                     DrawImage = Resources.StartState;
-                else if (State == FiniteStateMachine.GetEndState())
-                    DrawImage = Resources.EndState;
                 else
                     DrawImage = Resources.IntermediateState;
 
@@ -357,11 +355,42 @@ namespace Anathema
             RightClickLocation = FSMBuilderPanel.PointToClient(Cursor.Position);
             if (!FiniteStateScannerPresenter.IsStateAtPoint(RightClickLocation))
                 E.Cancel = true;
+
+            foreach (ToolStripMenuItem Item in StateContextMenuStrip.Items)
+            {
+                Item.Enabled = true;
+                Item.Checked = false;
+            }
+
+            if (FiniteStateScannerPresenter.IsStateAtPointStartState(RightClickLocation))
+            {
+                foreach (ToolStripMenuItem Item in StateContextMenuStrip.Items)
+                    Item.Enabled = false;
+
+                ((ToolStripMenuItem)StateContextMenuStrip.Items[StateContextMenuStrip.Items.IndexOf(MarkValidToolStripMenuItem)]).Enabled = true;
+                ((ToolStripMenuItem)StateContextMenuStrip.Items[StateContextMenuStrip.Items.IndexOf(MarkInvalidToolStripMenuItem)]).Enabled = true;
+            }
+
+            switch (FiniteStateScannerPresenter.GetStateEventAtPoint(RightClickLocation))
+            {
+                case FiniteState.StateEventEnum.None:
+                    ((ToolStripMenuItem)StateContextMenuStrip.Items[StateContextMenuStrip.Items.IndexOf(NoEventToolStripMenuItem)]).Checked = true;
+                    break;
+                case FiniteState.StateEventEnum.MarkValid:
+                    ((ToolStripMenuItem)StateContextMenuStrip.Items[StateContextMenuStrip.Items.IndexOf(MarkValidToolStripMenuItem)]).Checked = true;
+                    break;
+                case FiniteState.StateEventEnum.MarkInvalid:
+                    ((ToolStripMenuItem)StateContextMenuStrip.Items[StateContextMenuStrip.Items.IndexOf(MarkInvalidToolStripMenuItem)]).Checked = true;
+                    break;
+                case FiniteState.StateEventEnum.EndScan:
+                    ((ToolStripMenuItem)StateContextMenuStrip.Items[StateContextMenuStrip.Items.IndexOf(EndScanToolStripMenuItem)]).Checked = true;
+                    break;
+            }
         }
 
         private void StartStateToolStripMenuItem_Click(Object Sender, EventArgs E)
         {
-
+            FiniteStateScannerPresenter.SetToStartState(RightClickLocation);
         }
 
         private void NoEventToolStripMenuItem_Click(Object Sender, EventArgs E)

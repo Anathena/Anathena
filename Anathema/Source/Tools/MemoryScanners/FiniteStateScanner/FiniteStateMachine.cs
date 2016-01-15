@@ -15,7 +15,6 @@ namespace Anathema
     {
         private List<FiniteState> States;
         private FiniteState StartState;
-        private FiniteState EndState;
         private Type ElementType;
 
         public FiniteStateMachine()
@@ -30,43 +29,17 @@ namespace Anathema
             return (Byte)States.IndexOf(State);
         }
 
-        public Boolean IsFinalState(FiniteState State)
-        {
-            if (State == EndState)
-                return true;
-            return false;
-        }
-
-        public Byte GetFinalStateIndex()
-        {
-            if (EndState == null)
-                return 0;
-
-            return (Byte)States.IndexOf(EndState);
-        }
-
         public FiniteState GetStartState()
         {
             return StartState;
         }
 
-        public FiniteState GetEndState()
+        public void SetStartState(FiniteState TargetState)
         {
-            return EndState;
-        }
+            StartState = TargetState;
 
-        private void SetStartState()
-        {
-            foreach (FiniteState State in States)
-                if (State != EndState)
-                    StartState = State;
-        }
-
-        private void SetEndState()
-        {
-            foreach (FiniteState State in States.Select(x => x).Reverse())
-                if (State != StartState)
-                    EndState = State;
+            if (StartState.GetStateEvent() != FiniteState.StateEventEnum.MarkInvalid || StartState.GetStateEvent() != FiniteState.StateEventEnum.MarkValid)
+                StartState.SetStateEvent(FiniteState.StateEventEnum.MarkValid);
         }
 
         public void AddNewState(Point Location)
@@ -74,9 +47,7 @@ namespace Anathema
             States.Add(new FiniteState(Location));
 
             if (StartState == null)
-                SetStartState();
-            else if (EndState == null)
-                SetEndState();
+                SetStartState(States.First());
         }
 
         public void DeleteState(FiniteState State)
@@ -90,12 +61,7 @@ namespace Anathema
             if (StartState == State)
             {
                 StartState = null;
-                SetStartState();
-            }
-            if (EndState == State)
-            {
-                EndState = null;
-                SetEndState();
+                SetStartState(States.First());
             }
         }
 

@@ -46,7 +46,6 @@
             this.LessThanButton = new System.Windows.Forms.ToolStripButton();
             this.IncreasedByXButton = new System.Windows.Forms.ToolStripButton();
             this.DecreasedByXButton = new System.Windows.Forms.ToolStripButton();
-            this.FSMBuilderPanel = new Anathema.FlickerFreePanel();
             this.StateContextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.NoEventToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.StartStateToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -54,6 +53,7 @@
             this.MarkInvalidToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.EndScanToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.DeleteStateToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.FSMBuilderPanel = new Anathema.FlickerFreePanel();
             this.ScanToolStrip.SuspendLayout();
             this.StateContextMenuStrip.SuspendLayout();
             this.SuspendLayout();
@@ -238,26 +238,11 @@
             this.DecreasedByXButton.Text = "Decrease By X";
             this.DecreasedByXButton.Click += new System.EventHandler(this.DecreasedByXButton_Click);
             // 
-            // FSMBuilderPanel
-            // 
-            this.FSMBuilderPanel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.FSMBuilderPanel.BackColor = System.Drawing.SystemColors.ControlDark;
-            this.FSMBuilderPanel.ContextMenuStrip = this.StateContextMenuStrip;
-            this.FSMBuilderPanel.Location = new System.Drawing.Point(12, 55);
-            this.FSMBuilderPanel.Name = "FSMBuilderPanel";
-            this.FSMBuilderPanel.Size = new System.Drawing.Size(445, 203);
-            this.FSMBuilderPanel.TabIndex = 163;
-            this.FSMBuilderPanel.MouseDown += new System.Windows.Forms.MouseEventHandler(this.FSMBuilderPanel_MouseDown);
-            this.FSMBuilderPanel.MouseMove += new System.Windows.Forms.MouseEventHandler(this.FSMBuilderPanel_MouseMove);
-            this.FSMBuilderPanel.MouseUp += new System.Windows.Forms.MouseEventHandler(this.FSMBuilderPanel_MouseUp);
-            // 
             // StateContextMenuStrip
             // 
             this.StateContextMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.NoEventToolStripMenuItem,
             this.StartStateToolStripMenuItem,
+            this.NoEventToolStripMenuItem,
             this.MarkValidToolStripMenuItem,
             this.MarkInvalidToolStripMenuItem,
             this.EndScanToolStripMenuItem,
@@ -307,6 +292,21 @@
             this.DeleteStateToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.DeleteStateToolStripMenuItem.Text = "Delete State";
             this.DeleteStateToolStripMenuItem.Click += new System.EventHandler(this.DeleteStateToolStripMenuItem_Click);
+            // 
+            // FSMBuilderPanel
+            // 
+            this.FSMBuilderPanel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.FSMBuilderPanel.BackColor = System.Drawing.SystemColors.ControlDark;
+            this.FSMBuilderPanel.ContextMenuStrip = this.StateContextMenuStrip;
+            this.FSMBuilderPanel.Location = new System.Drawing.Point(12, 55);
+            this.FSMBuilderPanel.Name = "FSMBuilderPanel";
+            this.FSMBuilderPanel.Size = new System.Drawing.Size(445, 203);
+            this.FSMBuilderPanel.TabIndex = 163;
+            this.FSMBuilderPanel.MouseDown += new System.Windows.Forms.MouseEventHandler(this.FSMBuilderPanel_MouseDown);
+            this.FSMBuilderPanel.MouseMove += new System.Windows.Forms.MouseEventHandler(this.FSMBuilderPanel_MouseMove);
+            this.FSMBuilderPanel.MouseUp += new System.Windows.Forms.MouseEventHandler(this.FSMBuilderPanel_MouseUp);
             // 
             // GUIFiniteStateScanner
             // 

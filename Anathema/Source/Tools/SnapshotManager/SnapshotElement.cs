@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 
 namespace Anathema
 {
@@ -59,51 +60,61 @@ namespace Anathema
             return Value;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Boolean Changed()
         {
             return !CurrentValue.SequenceEqual(PreviousValue);
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Boolean Unchanged()
         {
             return CurrentValue.SequenceEqual(PreviousValue);
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Boolean Increased()
         {
             return (GetValue(CurrentValue) > GetValue(PreviousValue));
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Boolean Decreased()
         {
             return (GetValue(CurrentValue) < GetValue(PreviousValue));
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Boolean EqualToValue(dynamic Value)
         {
             return (GetValue(CurrentValue) == Value);
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Boolean NotEqualToValue(dynamic Value)
         {
             return (GetValue(CurrentValue) != Value);
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Boolean GreaterThanValue(dynamic Value)
         {
             return (GetValue(CurrentValue) > Value);
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Boolean LessThanValue(dynamic Value)
         {
             return (GetValue(CurrentValue) < Value);
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Boolean IncreasedByValue(dynamic Value)
         {
             return (GetValue(CurrentValue) == GetValue(PreviousValue) + Value);
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Boolean DecreasedByValue(dynamic Value)
         {
             return (GetValue(CurrentValue) == GetValue(PreviousValue) - Value);

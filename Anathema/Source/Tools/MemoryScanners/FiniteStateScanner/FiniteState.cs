@@ -40,6 +40,11 @@ namespace Anathema
             StateEvent = StateEventEnum.None;
             Transitions = new Dictionary<ScanConstraint, FiniteState>();
         }
+
+        public StateEventEnum GetStateEvent()
+        {
+            return this.StateEvent;
+        }
         
         public void AddTransition(ScanConstraint Constraint, FiniteState State)
         {

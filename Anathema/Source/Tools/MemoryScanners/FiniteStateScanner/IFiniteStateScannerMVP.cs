@@ -105,6 +105,13 @@ namespace Anathema
             return false;
         }
 
+        public Boolean IsStateAtPointStartState(Point Location)
+        {
+            if (Model.GetFiniteStateMachine().GetStateUnderPoint(Location, StateRadius) == Model.GetFiniteStateMachine().GetStartState())
+                return true;
+            return false;
+        }
+
         public void BeginAction(Point Location)
         {
             FiniteState State;
@@ -188,6 +195,24 @@ namespace Anathema
                 UpdateDisplay();
                 return;
             }
+        }
+
+        public void SetToStartState(Point Location)
+        {
+            FiniteState StateUnderPoint = Model.GetFiniteStateMachine().GetStateUnderPoint(Location, StateRadius);
+            if (StateUnderPoint == null)
+                return;
+
+            Model.GetFiniteStateMachine().SetStartState(StateUnderPoint);
+        }
+
+        public FiniteState.StateEventEnum GetStateEventAtPoint(Point Location)
+        {
+            FiniteState StateUnderPoint = Model.GetFiniteStateMachine().GetStateUnderPoint(Location, StateRadius);
+            if (StateUnderPoint == null)
+                return FiniteState.StateEventEnum.None;
+
+            return StateUnderPoint.GetStateEvent();
         }
 
         public void DeleteAtPoint(Point Location)
