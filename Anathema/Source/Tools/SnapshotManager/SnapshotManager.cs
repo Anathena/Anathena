@@ -53,8 +53,8 @@ namespace Anathema
         /// <returns></returns>
         public Snapshot GetActiveSnapshot()
         {
-            // Take a snapshot if there are none
-            if (!HasActiveSnapshot())
+            // Take a snapshot if there are none, or the current one is empty
+            if (!HasActiveSnapshot() || Snapshots.Peek().GetMemorySize() == 0)
                 return SnapshotAllRegions();
 
             // Return the snapshot
@@ -67,7 +67,7 @@ namespace Anathema
         /// <returns></returns>
         public Boolean HasActiveSnapshot()
         {
-            if (Snapshots.Count == 0 || Snapshots.Peek() == null)
+            if (Snapshots.Count == 0 || Snapshots.Peek() == null || Snapshots.Peek().GetMemorySize() == 0)
                 return false;
 
             return true;
