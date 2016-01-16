@@ -44,10 +44,41 @@ namespace Anathema
             ChildrenNodes = new List<InputNode>();
         }
 
+        public Boolean EvaluateCondition(Dictionary<Keys, DateTime> KeyEvents, DateTime QueryTime, Int32 WaitTime)
+        {
+            Boolean Result = false;
+
+            switch (NodeType)
+            {
+                case NodeTypeEnum.Input:
+                    if (KeyEvents.ContainsKey(Key) && Math.Abs((QueryTime - KeyEvents[Key]).TotalMilliseconds) < WaitTime)
+                        Result = true;
+                    break;
+                case NodeTypeEnum.AND:
+                    Result = true;
+                    foreach (InputNode Node in this)
+                        Result &= Node.EvaluateCondition(KeyEvents, QueryTime, WaitTime);
+                    break;
+                case NodeTypeEnum.OR:
+                    Result = true;
+                    foreach (InputNode Node in this)
+                        Result |= Node.EvaluateCondition(KeyEvents, QueryTime, WaitTime);
+                    break;
+                case NodeTypeEnum.NOT:
+                    Result = true;
+                    foreach (InputNode Node in this)
+                        Result = !Node.EvaluateCondition(KeyEvents, QueryTime, WaitTime);
+                    break;
+
+            }
+
+            return Result;
+        }
+
         public String EvaluateText()
         {
             String Result = String.Empty;
-            
+
             switch (NodeType)
             {
                 case NodeTypeEnum.AND:

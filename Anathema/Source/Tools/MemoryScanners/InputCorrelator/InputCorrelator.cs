@@ -13,10 +13,11 @@ using System.Windows.Forms;
 
 namespace Anathema
 {
-    /// <summary>
-    /// http://www.ucl.ac.uk/english-usage/staff/sean/resources/phimeasures.pdf
-    /// https://en.wikipedia.org/wiki/Contingency_table#Measures_of_association
-    /// </summary>
+    // I Originally thought these might be a good idea:
+    // http://www.ucl.ac.uk/english-usage/staff/sean/resources/phimeasures.pdf
+    // https://en.wikipedia.org/wiki/Contingency_table#Measures_of_association
+    // It turns out a simple pentalty/reward system works fine
+
     class InputCorrelator : IInputCorrelatorModel
     {
         private Snapshot<Single> Snapshot;
@@ -141,7 +142,7 @@ namespace Anathema
             // Read memory to update previous and current values
             Snapshot.ReadAllSnapshotMemory();
 
-            Boolean ConditionValid = InputConditionValid(Snapshot.GetTimeStamp());
+            Boolean ConditionValid = InputConditionTree.EvaluateCondition(KeyBoardDown, Snapshot.GetTimeStamp(), WaitTime);
 
             Parallel.ForEach(Snapshot.Cast<Object>(), (RegionObject) =>
             {
@@ -195,18 +196,6 @@ namespace Anathema
             Snapshot.SetScanMethod("Input Correlator");
 
             SnapshotManager.GetInstance().SaveSnapshot(Snapshot);
-        }
-
-        private Boolean InputConditionValid(DateTime ScanTime)
-        {
-            if (!KeyBoardDown.ContainsKey(UserInput))
-                return false;
-
-            // Determine if key was pressed within specified time
-            if (Math.Abs((ScanTime - KeyBoardDown[UserInput]).TotalMilliseconds) < WaitTime)
-                return true;
-
-            return false;
         }
 
         private void RegisterKey(Keys Key)

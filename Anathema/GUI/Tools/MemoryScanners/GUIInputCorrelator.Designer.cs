@@ -43,9 +43,6 @@
             this.AddNOTButton = new System.Windows.Forms.ToolStripButton();
             this.AddANDButton = new System.Windows.Forms.ToolStripButton();
             this.AddORButton = new System.Windows.Forms.ToolStripButton();
-            this.EitherRadioButton = new System.Windows.Forms.RadioButton();
-            this.UserToVariableRadioButton = new System.Windows.Forms.RadioButton();
-            this.VariableToUserRadioButton = new System.Windows.Forms.RadioButton();
             this.InputContextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.DeleteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.InputTextBox = new Anathema.WatermarkTextBox();
@@ -198,41 +195,6 @@
             this.AddORButton.Text = "Add Logical OR";
             this.AddORButton.Click += new System.EventHandler(this.AddORButton_Click);
             // 
-            // EitherRadioButton
-            // 
-            this.EitherRadioButton.AutoSize = true;
-            this.EitherRadioButton.Location = new System.Drawing.Point(12, 94);
-            this.EitherRadioButton.Name = "EitherRadioButton";
-            this.EitherRadioButton.Size = new System.Drawing.Size(52, 17);
-            this.EitherRadioButton.TabIndex = 170;
-            this.EitherRadioButton.Text = "Either";
-            this.EitherRadioButton.UseVisualStyleBackColor = true;
-            this.EitherRadioButton.CheckedChanged += new System.EventHandler(this.EitherRadioButton_CheckedChanged);
-            // 
-            // UserToVariableRadioButton
-            // 
-            this.UserToVariableRadioButton.AutoSize = true;
-            this.UserToVariableRadioButton.Location = new System.Drawing.Point(12, 77);
-            this.UserToVariableRadioButton.Name = "UserToVariableRadioButton";
-            this.UserToVariableRadioButton.Size = new System.Drawing.Size(151, 17);
-            this.UserToVariableRadioButton.TabIndex = 169;
-            this.UserToVariableRadioButton.Text = "User Responds to Variable";
-            this.UserToVariableRadioButton.UseVisualStyleBackColor = true;
-            this.UserToVariableRadioButton.CheckedChanged += new System.EventHandler(this.UserToVariableRadioButton_CheckedChanged);
-            // 
-            // VariableToUserRadioButton
-            // 
-            this.VariableToUserRadioButton.AutoSize = true;
-            this.VariableToUserRadioButton.Checked = true;
-            this.VariableToUserRadioButton.Location = new System.Drawing.Point(12, 60);
-            this.VariableToUserRadioButton.Name = "VariableToUserRadioButton";
-            this.VariableToUserRadioButton.Size = new System.Drawing.Size(151, 17);
-            this.VariableToUserRadioButton.TabIndex = 168;
-            this.VariableToUserRadioButton.TabStop = true;
-            this.VariableToUserRadioButton.Text = "Variable Responds to User";
-            this.VariableToUserRadioButton.UseVisualStyleBackColor = true;
-            this.VariableToUserRadioButton.CheckedChanged += new System.EventHandler(this.VariableToUserRadioButton_CheckedChanged);
-            // 
             // InputContextMenuStrip
             // 
             this.InputContextMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -269,9 +231,9 @@
             this.InputTreeView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.InputTreeView.Location = new System.Drawing.Point(12, 117);
+            this.InputTreeView.Location = new System.Drawing.Point(12, 113);
             this.InputTreeView.Name = "InputTreeView";
-            this.InputTreeView.Size = new System.Drawing.Size(398, 168);
+            this.InputTreeView.Size = new System.Drawing.Size(398, 172);
             this.InputTreeView.TabIndex = 171;
             // 
             // GUIInputCorrelator
@@ -281,9 +243,6 @@
             this.ClientSize = new System.Drawing.Size(422, 297);
             this.Controls.Add(this.InputTextBox);
             this.Controls.Add(this.InputTreeView);
-            this.Controls.Add(this.EitherRadioButton);
-            this.Controls.Add(this.UserToVariableRadioButton);
-            this.Controls.Add(this.VariableToUserRadioButton);
             this.Controls.Add(this.VariableSizeValueLabel);
             this.Controls.Add(this.VariableSizeLabel);
             this.Controls.Add(this.VariableSizeTrackBar);
@@ -308,9 +267,6 @@
         private System.Windows.Forms.ToolStrip ScanToolStrip;
         private System.Windows.Forms.ToolStripButton StartScanButton;
         private System.Windows.Forms.ToolStripButton StopScanButton;
-        private System.Windows.Forms.RadioButton EitherRadioButton;
-        private System.Windows.Forms.RadioButton UserToVariableRadioButton;
-        private System.Windows.Forms.RadioButton VariableToUserRadioButton;
         private HighlightPreservingTreeView InputTreeView;
         private WatermarkTextBox InputTextBox;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;

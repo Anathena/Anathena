@@ -156,21 +156,6 @@ namespace Anathema
                 UpdatingInputTextBox = false;
         }
 
-        private void VariableToUserRadioButton_CheckedChanged(Object Sender, EventArgs E)
-        {
-
-        }
-
-        private void UserToVariableRadioButton_CheckedChanged(Object Sender, EventArgs E)
-        {
-
-        }
-
-        private void EitherRadioButton_CheckedChanged(Object Sender, EventArgs E)
-        {
-
-        }
-
         private void AddInputButton_Click(Object Sender, EventArgs E)
         {
             InputCorrelatorPresenter.AddInput(GetSelectionIndicies());
