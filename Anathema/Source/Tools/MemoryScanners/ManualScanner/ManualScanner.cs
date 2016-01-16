@@ -70,19 +70,18 @@ namespace Anathema
         {
             // Read memory to get current values
             Snapshot.ReadAllSnapshotMemory();
-
-            // Enforce each value constraint
-            foreach (ScanConstraint ScanConstraint in ScanConstraints)
+            
+            Parallel.ForEach(Snapshot.Cast<Object>(), (RegionObject) =>
             {
+                SnapshotRegion Region = (SnapshotRegion)RegionObject;
 
-                Parallel.ForEach(Snapshot.Cast<Object>(), (RegionObject) =>
+                if (!Region.CanCompare())
+                    return;
+
+                foreach (SnapshotElement Element in Region)
                 {
-                    SnapshotRegion Region = (SnapshotRegion)RegionObject;
-
-                    if (!Region.CanCompare())
-                        return;
-
-                    foreach (SnapshotElement Element in Region)
+                    // Enforce each value constraint on the element
+                    foreach (ScanConstraint ScanConstraint in ScanConstraints)
                     {
                         switch (ScanConstraint.Constraint)
                         {
@@ -128,11 +127,12 @@ namespace Anathema
                                 break;
                         }
 
-                    } // End foreach Element
+                    } // End foreach Constraint
 
-                }); // End foreach Region
+                } // End foreach Element
 
-            } // End foreach Constraint
+            }); // End foreach Region
+
 
             FlagEndScan = true;
         }
@@ -143,9 +143,9 @@ namespace Anathema
 
             Snapshot.DiscardInvalidRegions();
             Snapshot.SetScanMethod("Manual Scan");
-            
+
             SnapshotManager.GetInstance().SaveSnapshot(Snapshot);
-            
+
             OnEventScanFinished(new ManualScannerEventArgs());
         }
 
