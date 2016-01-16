@@ -33,12 +33,14 @@ namespace Anathema
             {
                 while (true)
                 {
-                    UpdateScan();
-
                     if (FlagEndScan)
                     {
                         Action Action = EndScan;
                         Action.BeginInvoke(x => Action.EndInvoke(x), null);
+                    }
+                    else
+                    { 
+                        UpdateScan();
                     }
 
                     // Await with cancellation
