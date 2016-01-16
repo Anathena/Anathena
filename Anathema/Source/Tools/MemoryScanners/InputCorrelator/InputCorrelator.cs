@@ -83,6 +83,12 @@ namespace Anathema
             UpdateDisplay();
         }
 
+        public override void ClearNodes()
+        {
+            InputConditionTree = null;
+            UpdateDisplay();
+        }
+
         public override void DeleteNode(Stack<Int32> Indicies)
         {
             if (Indicies.Count == 0)

@@ -30,6 +30,7 @@ namespace Anathema
         public abstract void AddNode(Stack<Int32> Indicies, InputNode Node);
         public abstract void AddInputNode(Stack<Int32> Indicies, Keys Key);
         public abstract void DeleteNode(Stack<Int32> Indicies);
+        public abstract void ClearNodes();
     }
 
     class InputCorrelatorPresenter : ScannerPresenter
@@ -71,6 +72,11 @@ namespace Anathema
                 return;
 
             Model.AddInputNode(Indicies, Key);
+        }
+
+        public void ClearNodes()
+        {
+            Model.ClearNodes();
         }
 
         public void DeleteNode(Stack<Int32> Indicies)

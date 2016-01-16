@@ -119,7 +119,7 @@ namespace Anathema
 
         private void HandleResize()
         {
-            VariableSizeTrackBar.Width = this.Width / 2 - VariableSizeTrackBar.Location.X;
+            //VariableSizeTrackBar.Width = this.Width / 2 - VariableSizeTrackBar.Location.X;
         }
 
         private void VariableSizeTrackBar_Scroll(Object Sender, EventArgs E)
@@ -165,9 +165,14 @@ namespace Anathema
             InputCorrelatorPresenter.AddInput(GetSelectionIndicies());
         }
 
-        private void DeleteNodeButton_Click(object sender, EventArgs e)
+        private void DeleteNodeButton_Click(Object Sender, EventArgs E)
         {
             InputCorrelatorPresenter.DeleteNode(GetSelectionIndicies());
+        }
+
+        private void ClearInputsButton_Click(Object Sender, EventArgs E)
+        {
+            InputCorrelatorPresenter.ClearNodes();
         }
 
         private void AddANDButton_Click(Object Sender, EventArgs E)

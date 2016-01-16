@@ -34,24 +34,28 @@
             this.ScanToolStrip = new System.Windows.Forms.ToolStrip();
             this.StartScanButton = new System.Windows.Forms.ToolStripButton();
             this.StopScanButton = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.DeleteNodeButton = new System.Windows.Forms.ToolStripButton();
+            this.ClearInputsButton = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
+            this.AddInputButton = new System.Windows.Forms.ToolStripButton();
+            this.AddNOTButton = new System.Windows.Forms.ToolStripButton();
+            this.AddANDButton = new System.Windows.Forms.ToolStripButton();
+            this.AddORButton = new System.Windows.Forms.ToolStripButton();
             this.EitherRadioButton = new System.Windows.Forms.RadioButton();
             this.UserToVariableRadioButton = new System.Windows.Forms.RadioButton();
             this.VariableToUserRadioButton = new System.Windows.Forms.RadioButton();
-            this.InputTreeView = new Anathema.HighlightPreservingTreeView();
-            this.AddANDButton = new System.Windows.Forms.Button();
-            this.AddORButton = new System.Windows.Forms.Button();
-            this.AddNOTButton = new System.Windows.Forms.Button();
-            this.AddInputButton = new System.Windows.Forms.Button();
             this.InputTextBox = new Anathema.WatermarkTextBox();
-            this.DeleteNodeButton = new System.Windows.Forms.Button();
+            this.InputTreeView = new Anathema.HighlightPreservingTreeView();
             ((System.ComponentModel.ISupportInitialize)(this.VariableSizeTrackBar)).BeginInit();
             this.ScanToolStrip.SuspendLayout();
             this.SuspendLayout();
             // 
             // VariableSizeValueLabel
             // 
+            this.VariableSizeValueLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.VariableSizeValueLabel.AutoSize = true;
-            this.VariableSizeValueLabel.Location = new System.Drawing.Point(67, 60);
+            this.VariableSizeValueLabel.Location = new System.Drawing.Point(328, 64);
             this.VariableSizeValueLabel.Name = "VariableSizeValueLabel";
             this.VariableSizeValueLabel.Size = new System.Drawing.Size(20, 13);
             this.VariableSizeValueLabel.TabIndex = 152;
@@ -59,8 +63,9 @@
             // 
             // VariableSizeLabel
             // 
+            this.VariableSizeLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.VariableSizeLabel.AutoSize = true;
-            this.VariableSizeLabel.Location = new System.Drawing.Point(0, 60);
+            this.VariableSizeLabel.Location = new System.Drawing.Point(261, 64);
             this.VariableSizeLabel.Name = "VariableSizeLabel";
             this.VariableSizeLabel.Size = new System.Drawing.Size(71, 13);
             this.VariableSizeLabel.TabIndex = 151;
@@ -68,11 +73,12 @@
             // 
             // VariableSizeTrackBar
             // 
+            this.VariableSizeTrackBar.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.VariableSizeTrackBar.LargeChange = 2;
-            this.VariableSizeTrackBar.Location = new System.Drawing.Point(0, 28);
+            this.VariableSizeTrackBar.Location = new System.Drawing.Point(264, 34);
             this.VariableSizeTrackBar.Maximum = 3;
             this.VariableSizeTrackBar.Name = "VariableSizeTrackBar";
-            this.VariableSizeTrackBar.Size = new System.Drawing.Size(140, 45);
+            this.VariableSizeTrackBar.Size = new System.Drawing.Size(146, 45);
             this.VariableSizeTrackBar.TabIndex = 149;
             this.VariableSizeTrackBar.Value = 2;
             this.VariableSizeTrackBar.Scroll += new System.EventHandler(this.VariableSizeTrackBar_Scroll);
@@ -82,7 +88,15 @@
             this.ScanToolStrip.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
             this.ScanToolStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.StartScanButton,
-            this.StopScanButton});
+            this.StopScanButton,
+            this.toolStripSeparator1,
+            this.DeleteNodeButton,
+            this.ClearInputsButton,
+            this.toolStripSeparator2,
+            this.AddInputButton,
+            this.AddNOTButton,
+            this.AddANDButton,
+            this.AddORButton});
             this.ScanToolStrip.Location = new System.Drawing.Point(0, 0);
             this.ScanToolStrip.Name = "ScanToolStrip";
             this.ScanToolStrip.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
@@ -110,11 +124,80 @@
             this.StopScanButton.Text = "Stop Scan";
             this.StopScanButton.Click += new System.EventHandler(this.StopScanButton_Click);
             // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 25);
+            // 
+            // DeleteNodeButton
+            // 
+            this.DeleteNodeButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.DeleteNodeButton.Image = global::Anathema.Properties.Resources.X;
+            this.DeleteNodeButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.DeleteNodeButton.Name = "DeleteNodeButton";
+            this.DeleteNodeButton.Size = new System.Drawing.Size(23, 22);
+            this.DeleteNodeButton.Text = "Delete Selection";
+            this.DeleteNodeButton.Click += new System.EventHandler(this.DeleteNodeButton_Click);
+            // 
+            // ClearInputsButton
+            // 
+            this.ClearInputsButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.ClearInputsButton.Image = global::Anathema.Properties.Resources.Cancel;
+            this.ClearInputsButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.ClearInputsButton.Name = "ClearInputsButton";
+            this.ClearInputsButton.Size = new System.Drawing.Size(23, 22);
+            this.ClearInputsButton.Text = "Clear Inputs";
+            this.ClearInputsButton.Click += new System.EventHandler(this.ClearInputsButton_Click);
+            // 
+            // toolStripSeparator2
+            // 
+            this.toolStripSeparator2.Name = "toolStripSeparator2";
+            this.toolStripSeparator2.Size = new System.Drawing.Size(6, 25);
+            // 
+            // AddInputButton
+            // 
+            this.AddInputButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.AddInputButton.Image = global::Anathema.Properties.Resources.DownArrows;
+            this.AddInputButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.AddInputButton.Name = "AddInputButton";
+            this.AddInputButton.Size = new System.Drawing.Size(23, 22);
+            this.AddInputButton.Text = "Add Input";
+            this.AddInputButton.Click += new System.EventHandler(this.AddInputButton_Click);
+            // 
+            // AddNOTButton
+            // 
+            this.AddNOTButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.AddNOTButton.Image = global::Anathema.Properties.Resources.Negation;
+            this.AddNOTButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.AddNOTButton.Name = "AddNOTButton";
+            this.AddNOTButton.Size = new System.Drawing.Size(23, 22);
+            this.AddNOTButton.Text = "Add Logical NOT";
+            this.AddNOTButton.Click += new System.EventHandler(this.AddNOTButton_Click);
+            // 
+            // AddANDButton
+            // 
+            this.AddANDButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.AddANDButton.Image = global::Anathema.Properties.Resources.Increased;
+            this.AddANDButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.AddANDButton.Name = "AddANDButton";
+            this.AddANDButton.Size = new System.Drawing.Size(23, 22);
+            this.AddANDButton.Text = "Add Logical AND";
+            this.AddANDButton.Click += new System.EventHandler(this.AddANDButton_Click);
+            // 
+            // AddORButton
+            // 
+            this.AddORButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.AddORButton.Image = global::Anathema.Properties.Resources.Decreased;
+            this.AddORButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.AddORButton.Name = "AddORButton";
+            this.AddORButton.Size = new System.Drawing.Size(23, 22);
+            this.AddORButton.Text = "Add Logical OR";
+            this.AddORButton.Click += new System.EventHandler(this.AddORButton_Click);
+            // 
             // EitherRadioButton
             // 
-            this.EitherRadioButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.EitherRadioButton.AutoSize = true;
-            this.EitherRadioButton.Location = new System.Drawing.Point(259, 62);
+            this.EitherRadioButton.Location = new System.Drawing.Point(12, 94);
             this.EitherRadioButton.Name = "EitherRadioButton";
             this.EitherRadioButton.Size = new System.Drawing.Size(52, 17);
             this.EitherRadioButton.TabIndex = 170;
@@ -124,9 +207,8 @@
             // 
             // UserToVariableRadioButton
             // 
-            this.UserToVariableRadioButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.UserToVariableRadioButton.AutoSize = true;
-            this.UserToVariableRadioButton.Location = new System.Drawing.Point(259, 45);
+            this.UserToVariableRadioButton.Location = new System.Drawing.Point(12, 77);
             this.UserToVariableRadioButton.Name = "UserToVariableRadioButton";
             this.UserToVariableRadioButton.Size = new System.Drawing.Size(151, 17);
             this.UserToVariableRadioButton.TabIndex = 169;
@@ -136,10 +218,9 @@
             // 
             // VariableToUserRadioButton
             // 
-            this.VariableToUserRadioButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.VariableToUserRadioButton.AutoSize = true;
             this.VariableToUserRadioButton.Checked = true;
-            this.VariableToUserRadioButton.Location = new System.Drawing.Point(259, 28);
+            this.VariableToUserRadioButton.Location = new System.Drawing.Point(12, 60);
             this.VariableToUserRadioButton.Name = "VariableToUserRadioButton";
             this.VariableToUserRadioButton.Size = new System.Drawing.Size(151, 17);
             this.VariableToUserRadioButton.TabIndex = 168;
@@ -148,67 +229,11 @@
             this.VariableToUserRadioButton.UseVisualStyleBackColor = true;
             this.VariableToUserRadioButton.CheckedChanged += new System.EventHandler(this.VariableToUserRadioButton_CheckedChanged);
             // 
-            // InputTreeView
-            // 
-            this.InputTreeView.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.InputTreeView.Location = new System.Drawing.Point(12, 168);
-            this.InputTreeView.Name = "InputTreeView";
-            this.InputTreeView.Size = new System.Drawing.Size(398, 117);
-            this.InputTreeView.TabIndex = 171;
-            this.InputTreeView.BeforeSelect += new System.Windows.Forms.TreeViewCancelEventHandler(this.InputTreeView_BeforeSelect);
-            this.InputTreeView.Leave += new System.EventHandler(this.InputTreeView_Leave);
-            // 
-            // AddANDButton
-            // 
-            this.AddANDButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.AddANDButton.Location = new System.Drawing.Point(255, 139);
-            this.AddANDButton.Name = "AddANDButton";
-            this.AddANDButton.Size = new System.Drawing.Size(75, 23);
-            this.AddANDButton.TabIndex = 172;
-            this.AddANDButton.Text = "Add AND";
-            this.AddANDButton.UseVisualStyleBackColor = true;
-            this.AddANDButton.Click += new System.EventHandler(this.AddANDButton_Click);
-            // 
-            // AddORButton
-            // 
-            this.AddORButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.AddORButton.Location = new System.Drawing.Point(336, 139);
-            this.AddORButton.Name = "AddORButton";
-            this.AddORButton.Size = new System.Drawing.Size(75, 23);
-            this.AddORButton.TabIndex = 173;
-            this.AddORButton.Text = "Add OR";
-            this.AddORButton.UseVisualStyleBackColor = true;
-            this.AddORButton.Click += new System.EventHandler(this.AddORButton_Click);
-            // 
-            // AddNOTButton
-            // 
-            this.AddNOTButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.AddNOTButton.Location = new System.Drawing.Point(174, 139);
-            this.AddNOTButton.Name = "AddNOTButton";
-            this.AddNOTButton.Size = new System.Drawing.Size(75, 23);
-            this.AddNOTButton.TabIndex = 174;
-            this.AddNOTButton.Text = "Add NOT";
-            this.AddNOTButton.UseVisualStyleBackColor = true;
-            this.AddNOTButton.Click += new System.EventHandler(this.AddNOTButton_Click);
-            // 
-            // AddInputButton
-            // 
-            this.AddInputButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.AddInputButton.Location = new System.Drawing.Point(12, 139);
-            this.AddInputButton.Name = "AddInputButton";
-            this.AddInputButton.Size = new System.Drawing.Size(75, 23);
-            this.AddInputButton.TabIndex = 175;
-            this.AddInputButton.Text = "Add Input";
-            this.AddInputButton.UseVisualStyleBackColor = true;
-            this.AddInputButton.Click += new System.EventHandler(this.AddInputButton_Click);
-            // 
             // InputTextBox
             // 
             this.InputTextBox.AcceptsReturn = true;
             this.InputTextBox.AcceptsTab = true;
-            this.InputTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.InputTextBox.Location = new System.Drawing.Point(12, 113);
+            this.InputTextBox.Location = new System.Drawing.Point(12, 34);
             this.InputTextBox.Multiline = true;
             this.InputTextBox.Name = "InputTextBox";
             this.InputTextBox.Size = new System.Drawing.Size(159, 20);
@@ -220,28 +245,24 @@
             this.InputTextBox.Enter += new System.EventHandler(this.InputTextBox_Enter);
             this.InputTextBox.Leave += new System.EventHandler(this.InputTextBox_Leave);
             // 
-            // DeleteNodeButton
+            // InputTreeView
             // 
-            this.DeleteNodeButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.DeleteNodeButton.Location = new System.Drawing.Point(93, 139);
-            this.DeleteNodeButton.Name = "DeleteNodeButton";
-            this.DeleteNodeButton.Size = new System.Drawing.Size(75, 23);
-            this.DeleteNodeButton.TabIndex = 177;
-            this.DeleteNodeButton.Text = "Delete";
-            this.DeleteNodeButton.UseVisualStyleBackColor = true;
-            this.DeleteNodeButton.Click += new System.EventHandler(this.DeleteNodeButton_Click);
+            this.InputTreeView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.InputTreeView.Location = new System.Drawing.Point(12, 117);
+            this.InputTreeView.Name = "InputTreeView";
+            this.InputTreeView.Size = new System.Drawing.Size(398, 168);
+            this.InputTreeView.TabIndex = 171;
+            this.InputTreeView.BeforeSelect += new System.Windows.Forms.TreeViewCancelEventHandler(this.InputTreeView_BeforeSelect);
+            this.InputTreeView.Leave += new System.EventHandler(this.InputTreeView_Leave);
             // 
             // GUIInputCorrelator
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(422, 297);
-            this.Controls.Add(this.DeleteNodeButton);
             this.Controls.Add(this.InputTextBox);
-            this.Controls.Add(this.AddInputButton);
-            this.Controls.Add(this.AddNOTButton);
-            this.Controls.Add(this.AddORButton);
-            this.Controls.Add(this.AddANDButton);
             this.Controls.Add(this.InputTreeView);
             this.Controls.Add(this.EitherRadioButton);
             this.Controls.Add(this.UserToVariableRadioButton);
@@ -273,11 +294,14 @@
         private System.Windows.Forms.RadioButton UserToVariableRadioButton;
         private System.Windows.Forms.RadioButton VariableToUserRadioButton;
         private HighlightPreservingTreeView InputTreeView;
-        private System.Windows.Forms.Button AddANDButton;
-        private System.Windows.Forms.Button AddORButton;
-        private System.Windows.Forms.Button AddNOTButton;
-        private System.Windows.Forms.Button AddInputButton;
         private WatermarkTextBox InputTextBox;
-        private System.Windows.Forms.Button DeleteNodeButton;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
+        private System.Windows.Forms.ToolStripButton DeleteNodeButton;
+        private System.Windows.Forms.ToolStripButton ClearInputsButton;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
+        private System.Windows.Forms.ToolStripButton AddInputButton;
+        private System.Windows.Forms.ToolStripButton AddNOTButton;
+        private System.Windows.Forms.ToolStripButton AddANDButton;
+        private System.Windows.Forms.ToolStripButton AddORButton;
     }
 }
