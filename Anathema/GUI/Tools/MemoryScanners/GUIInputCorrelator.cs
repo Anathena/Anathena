@@ -7,18 +7,26 @@ using System.Text;
 using System.Windows.Forms;
 using WeifenLuo.WinFormsUI.Docking;
 using System.IO;
+using Gma.System.MouseKeyHook;
 
 namespace Anathema
 {
     public partial class GUIInputCorrelator : DockContent, IInputCorrelatorView
     {
-        InputCorrelatorPresenter InputCorrelatorPresenter;
+        private InputCorrelatorPresenter InputCorrelatorPresenter;
+
+        private readonly IKeyboardMouseEvents InputHook;    // Input capturing class
+        private Boolean UpdatingInputTextBox;
 
         public GUIInputCorrelator()
         {
             InitializeComponent();
 
             InputCorrelatorPresenter = new InputCorrelatorPresenter(this, new InputCorrelator());
+
+            InputHook = Hook.GlobalEvents();
+
+            UpdatingInputTextBox = false;
 
             SetVariableSize();
             EnableGUI();
@@ -46,19 +54,34 @@ namespace Anathema
             VariableSizeTrackBar.Enabled = false;
         }
 
+        public void UpdateDisplay(TreeNode Root)
+        {
+            ControlThreadingHelper.InvokeControlAction(InputTreeView, () =>
+            {
+                this.InputTreeView.Nodes.Clear();
+                foreach (TreeNode Item in Root.Nodes)
+                    this.InputTreeView.Nodes.Add(Item);
+            });
+        }
+
         private Stack<Int32> GetSelectionIndicies()
         {
             Stack<Int32> Indicies = new Stack<Int32>();
-            TreeNode ParentNode;
             TreeNode CurrentNode = InputTreeView.SelectedNode;
             while (CurrentNode != null)
             {
-                ParentNode = CurrentNode.Parent;
-                Indicies.Push(ParentNode.Nodes.IndexOf(CurrentNode));
-                CurrentNode = ParentNode;
+                Indicies.Push(CurrentNode.Index);
+                CurrentNode = CurrentNode.Parent;
             }
 
             return Indicies;
+        }
+
+        private void GlobalHookKeyUp(Object Sender, KeyEventArgs E)
+        {
+            InputCorrelatorPresenter.SetCurrentKey(E.KeyCode);
+            UpdatingInputTextBox = true;
+            InputTextBox.Text = E.KeyCode.ToString();
         }
 
         #region Events
@@ -85,6 +108,24 @@ namespace Anathema
             SetVariableSize();
         }
 
+        private void InputTextBox_Enter(Object Sender, EventArgs E)
+        {
+            InputHook.KeyUp += GlobalHookKeyUp;
+        }
+
+        private void InputTextBox_Leave(object sender, EventArgs e)
+        {
+            InputHook.KeyUp -= GlobalHookKeyUp;
+        }
+
+        private void InputTextBox_TextChanged(Object Sender, EventArgs E)
+        {
+            if (!UpdatingInputTextBox)
+                InputTextBox.Text = String.Empty;
+            else
+                UpdatingInputTextBox = false;
+        }
+
         private void VariableToUserRadioButton_CheckedChanged(Object Sender, EventArgs E)
         {
 
@@ -102,7 +143,7 @@ namespace Anathema
 
         private void AddInputButton_Click(Object Sender, EventArgs E)
         {
-
+            InputCorrelatorPresenter.AddInput(GetSelectionIndicies());
         }
 
         private void AddANDButton_Click(Object Sender, EventArgs E)
@@ -120,11 +161,6 @@ namespace Anathema
             InputCorrelatorPresenter.AddNOT(GetSelectionIndicies());
         }
 
-        private void InputTextBox_TextChanged(Object Sender, EventArgs E)
-        {
-            InputTextBox.Text = String.Empty;
-        }
-
         private void GUILabelerInputCorrelator_Resize(Object Sender, EventArgs E)
         {
             HandleResize();
@@ -132,5 +168,6 @@ namespace Anathema
 
         #endregion
 
-    }
-}
+    } // End class
+
+} // End namespace

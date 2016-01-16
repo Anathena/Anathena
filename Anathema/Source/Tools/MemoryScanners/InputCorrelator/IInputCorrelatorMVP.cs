@@ -13,7 +13,7 @@ namespace Anathema
     interface IInputCorrelatorView : IScannerView
     {
         // Methods invoked by the presenter (upstream)
-        event InputCorrelatorEventHandler EventUpdateDisplay;
+        void UpdateDisplay(TreeNode Root);
     }
 
     abstract class IInputCorrelatorModel : IScannerModel
@@ -27,7 +27,8 @@ namespace Anathema
 
         // Functions invoked by presenter (downstream)
         public abstract void SetVariableSize(Int32 VariableSize);
-        public abstract void AddNode(Stack<Int32> Indicies, InputNode.NodeTypeEnum NodeType);
+        public abstract void AddNode(Stack<Int32> Indicies, InputNode Node);
+        public abstract void AddInputNode(Stack<Int32> Indicies, Keys Key);
         public abstract void DeleteNode(Stack<Int32> Indicies);
     }
 
@@ -36,10 +37,15 @@ namespace Anathema
         new IInputCorrelatorView View;
         new IInputCorrelatorModel Model;
 
+        private Keys Key;
+
         public InputCorrelatorPresenter(IInputCorrelatorView View, IInputCorrelatorModel Model) : base(View, Model)
         {
             this.View = View;
             this.Model = Model;
+
+            Key = Keys.None;
+
             // Bind events triggered by the model
             Model.EventUpdateDisplay += EventUpdateDisplay;
         }
@@ -54,24 +60,32 @@ namespace Anathema
             Model.SetVariableSize(VariableSize);
         }
 
+        public void SetCurrentKey(Keys Key)
+        {
+            this.Key = Key;
+        }
+
+        public void AddInput(Stack<Int32> Indicies)
+        {
+            if (Key == Keys.None)
+                return;
+
+            Model.AddInputNode(Indicies, Key);
+        }
+
         public void AddAND(Stack<Int32> Indicies)
         {
-            Model.AddNode(Indicies, InputNode.NodeTypeEnum.AND);
+            Model.AddNode(Indicies, new InputNode(InputNode.NodeTypeEnum.AND));
         }
 
         public void AddOR(Stack<Int32> Indicies)
         {
-            Model.AddNode(Indicies, InputNode.NodeTypeEnum.OR);
+            Model.AddNode(Indicies, new InputNode(InputNode.NodeTypeEnum.OR));
         }
 
         public void AddNOT(Stack<Int32> Indicies)
         {
-            Model.AddNode(Indicies, InputNode.NodeTypeEnum.NOT);
-        }
-
-        public void AddKey(Stack<Int32> Indicies, Keys Key)
-        {
-
+            Model.AddNode(Indicies, new InputNode(InputNode.NodeTypeEnum.NOT));
         }
 
         #endregion
@@ -80,7 +94,7 @@ namespace Anathema
 
         public void EventUpdateDisplay(Object Sender, InputCorrelatorEventArgs E)
         {
-            // View.EventUpdateDisplay();
+            View.UpdateDisplay(E.Root);
         }
 
         #endregion

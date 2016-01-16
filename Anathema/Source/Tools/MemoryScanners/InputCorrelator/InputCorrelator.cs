@@ -25,7 +25,7 @@ namespace Anathema
 
         private Dictionary<Keys, DateTime> KeyBoardDown;    // List of keyboard down events
         private Dictionary<Keys, DateTime> KeyBoardUp;      // List of keyboard up events
-        
+
         private Int32 VariableSize; // Number of bytes to correlate at a time
         private Int32 WaitTime;     // Time (ms) to process new changes as correlations
         private Keys UserInput;     // Whatever
@@ -36,37 +36,53 @@ namespace Anathema
         {
             // Initialize input hook
             InputHook = Hook.GlobalEvents();
-
-            // Initialize a root for our tree
-            InputConditionTree = new InputNode(InputNode.NodeTypeEnum.OR);
         }
 
         public override void SetVariableSize(int VariableSize)
         {
             this.VariableSize = VariableSize;
+            InputConditionTree = new InputNode(InputNode.NodeTypeEnum.OR);
         }
 
-        public override void AddNode(Stack<Int32> SelectedIndicies, InputNode.NodeTypeEnum NodeType)
+        private void UpdateDisplay()
+        {
+            InputCorrelatorEventArgs InputCorrelatorEventArgs = new InputCorrelatorEventArgs();
+            InputCorrelatorEventArgs.Root = InputConditionTree;
+            OnEventUpdateDisplay(InputCorrelatorEventArgs);
+        }
+
+        public override void AddInputNode(Stack<int> Indicies, Keys Key)
+        {
+            AddNode(Indicies, new InputNode(Key));
+        }
+
+        public override void AddNode(Stack<Int32> Indicies, InputNode Node)
         {
             // Determine the node the user is attempting to add a child to
             InputNode TargetNode = InputConditionTree;
-            while (SelectedIndicies.Count > 0)
-                TargetNode = TargetNode.GetChildAtIndex(SelectedIndicies.Pop());
+            while (Indicies.Count > 0)
+                TargetNode = TargetNode.GetChildAtIndex(Indicies.Pop());
 
             // Add the child
-            TargetNode.AddChild(new InputNode(NodeType));
+            TargetNode.AddChild(Node);
+
+            UpdateDisplay();
         }
 
         public override void DeleteNode(Stack<Int32> SelectedIndicies)
         {
-            // Deleting root is not okay
-            if (SelectedIndicies.Count == 0)
-                return;
-            
             // Determine the node the user is attempting to delete
             InputNode TargetNode = InputConditionTree;
             while (SelectedIndicies.Count > 0)
                 TargetNode = TargetNode.GetChildAtIndex(SelectedIndicies.Pop());
+
+            // Delete the node and all children under it
+            if (TargetNode == InputConditionTree)
+                InputConditionTree = null;
+            else
+                TargetNode.DeleteNode();
+
+            UpdateDisplay();
         }
 
         public override void BeginScan()
@@ -81,7 +97,7 @@ namespace Anathema
             // TEMP: variables that should be user-tuned
             UserInput = Keys.D;
             WaitTime = 800;
-            
+
             // Initialize input dictionaries
             KeyBoardUp = new Dictionary<Keys, DateTime>();
             KeyBoardDown = new Dictionary<Keys, DateTime>();

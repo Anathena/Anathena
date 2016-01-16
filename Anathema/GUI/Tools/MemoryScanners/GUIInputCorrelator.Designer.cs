@@ -85,7 +85,7 @@
             this.ScanToolStrip.Location = new System.Drawing.Point(0, 0);
             this.ScanToolStrip.Name = "ScanToolStrip";
             this.ScanToolStrip.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
-            this.ScanToolStrip.Size = new System.Drawing.Size(348, 25);
+            this.ScanToolStrip.Size = new System.Drawing.Size(345, 25);
             this.ScanToolStrip.TabIndex = 150;
             this.ScanToolStrip.Text = "toolStrip1";
             // 
@@ -113,7 +113,7 @@
             // 
             this.EitherRadioButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.EitherRadioButton.AutoSize = true;
-            this.EitherRadioButton.Location = new System.Drawing.Point(185, 62);
+            this.EitherRadioButton.Location = new System.Drawing.Point(182, 62);
             this.EitherRadioButton.Name = "EitherRadioButton";
             this.EitherRadioButton.Size = new System.Drawing.Size(52, 17);
             this.EitherRadioButton.TabIndex = 170;
@@ -125,7 +125,7 @@
             // 
             this.UserToVariableRadioButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.UserToVariableRadioButton.AutoSize = true;
-            this.UserToVariableRadioButton.Location = new System.Drawing.Point(185, 45);
+            this.UserToVariableRadioButton.Location = new System.Drawing.Point(182, 45);
             this.UserToVariableRadioButton.Name = "UserToVariableRadioButton";
             this.UserToVariableRadioButton.Size = new System.Drawing.Size(151, 17);
             this.UserToVariableRadioButton.TabIndex = 169;
@@ -138,7 +138,7 @@
             this.VariableToUserRadioButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.VariableToUserRadioButton.AutoSize = true;
             this.VariableToUserRadioButton.Checked = true;
-            this.VariableToUserRadioButton.Location = new System.Drawing.Point(185, 28);
+            this.VariableToUserRadioButton.Location = new System.Drawing.Point(182, 28);
             this.VariableToUserRadioButton.Name = "VariableToUserRadioButton";
             this.VariableToUserRadioButton.Size = new System.Drawing.Size(151, 17);
             this.VariableToUserRadioButton.TabIndex = 168;
@@ -151,15 +151,15 @@
             // 
             this.InputTreeView.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.InputTreeView.Location = new System.Drawing.Point(12, 147);
+            this.InputTreeView.Location = new System.Drawing.Point(12, 150);
             this.InputTreeView.Name = "InputTreeView";
-            this.InputTreeView.Size = new System.Drawing.Size(324, 84);
+            this.InputTreeView.Size = new System.Drawing.Size(321, 84);
             this.InputTreeView.TabIndex = 171;
             // 
             // AddANDButton
             // 
             this.AddANDButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.AddANDButton.Location = new System.Drawing.Point(177, 118);
+            this.AddANDButton.Location = new System.Drawing.Point(177, 121);
             this.AddANDButton.Name = "AddANDButton";
             this.AddANDButton.Size = new System.Drawing.Size(75, 23);
             this.AddANDButton.TabIndex = 172;
@@ -170,7 +170,7 @@
             // AddORButton
             // 
             this.AddORButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.AddORButton.Location = new System.Drawing.Point(258, 118);
+            this.AddORButton.Location = new System.Drawing.Point(258, 121);
             this.AddORButton.Name = "AddORButton";
             this.AddORButton.Size = new System.Drawing.Size(75, 23);
             this.AddORButton.TabIndex = 173;
@@ -181,7 +181,7 @@
             // AddNOTButton
             // 
             this.AddNOTButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.AddNOTButton.Location = new System.Drawing.Point(96, 118);
+            this.AddNOTButton.Location = new System.Drawing.Point(96, 121);
             this.AddNOTButton.Name = "AddNOTButton";
             this.AddNOTButton.Size = new System.Drawing.Size(75, 23);
             this.AddNOTButton.TabIndex = 174;
@@ -192,7 +192,7 @@
             // AddInputButton
             // 
             this.AddInputButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.AddInputButton.Location = new System.Drawing.Point(12, 118);
+            this.AddInputButton.Location = new System.Drawing.Point(12, 121);
             this.AddInputButton.Name = "AddInputButton";
             this.AddInputButton.Size = new System.Drawing.Size(75, 23);
             this.AddInputButton.TabIndex = 175;
@@ -202,8 +202,11 @@
             // 
             // InputTextBox
             // 
+            this.InputTextBox.AcceptsReturn = true;
+            this.InputTextBox.AcceptsTab = true;
             this.InputTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.InputTextBox.Location = new System.Drawing.Point(12, 92);
+            this.InputTextBox.Location = new System.Drawing.Point(12, 95);
+            this.InputTextBox.Multiline = true;
             this.InputTextBox.Name = "InputTextBox";
             this.InputTextBox.Size = new System.Drawing.Size(159, 20);
             this.InputTextBox.TabIndex = 176;
@@ -211,12 +214,14 @@
             this.InputTextBox.WaterMarkFont = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.InputTextBox.WaterMarkText = "Press a Key";
             this.InputTextBox.TextChanged += new System.EventHandler(this.InputTextBox_TextChanged);
+            this.InputTextBox.Enter += new System.EventHandler(this.InputTextBox_Enter);
+            this.InputTextBox.Leave += new System.EventHandler(this.InputTextBox_Leave);
             // 
             // GUIInputCorrelator
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(348, 243);
+            this.ClientSize = new System.Drawing.Size(345, 246);
             this.Controls.Add(this.InputTextBox);
             this.Controls.Add(this.AddInputButton);
             this.Controls.Add(this.AddNOTButton);

@@ -13,7 +13,7 @@ using System.Windows.Forms;
 
 namespace Anathema
 {
-    class InputNode
+    class InputNode : TreeNode
     {
         public enum NodeTypeEnum
         {
@@ -24,24 +24,50 @@ namespace Anathema
             NOT
         }
 
-        private List<InputNode> Children;
+        private InputNode ParentNode;
+        private List<InputNode> ChildrenNodes;
         private NodeTypeEnum NodeType;
         private Keys Key;
 
         public InputNode(NodeTypeEnum NodeType)
         {
+            ParentNode = null;
             this.NodeType = NodeType;
-            Children = new List<InputNode>();
+            this.Text = this.ToString();
+            ChildrenNodes = new List<InputNode>();
+        }
+
+        public InputNode(Keys Key)
+        {
+            ParentNode = null;
+            this.NodeType = NodeTypeEnum.Input;
+            this.Key = Key;
+            this.Text = this.ToString();
+            ChildrenNodes = new List<InputNode>();
         }
 
         public void AddChild(InputNode Node)
         {
-            Children.Add(Node);
+            Node.ParentNode = this;
+
+            ChildrenNodes.Add(Node);
+            this.Nodes.Add(Node);
+        }
+
+        public void RemoveChild(InputNode Node)
+        {
+            ChildrenNodes.Remove(Node);
+            this.Nodes.Remove(Node);
+        }
+
+        public void DeleteNode()
+        {
+            ParentNode.RemoveChild(this);
         }
 
         public InputNode GetChildAtIndex(Int32 Index)
         {
-            return Children[Index];
+            return ChildrenNodes[Index];
         }
 
         public Boolean InputConditionValid()
@@ -49,6 +75,22 @@ namespace Anathema
             return false;
         }
 
+        public override String ToString()
+        {
+            switch (NodeType)
+            {
+                case NodeTypeEnum.AND:
+                    return "AND";
+                case NodeTypeEnum.OR:
+                    return "OR";
+                case NodeTypeEnum.NOT:
+                    return "NOT";
+                case NodeTypeEnum.Input:
+                    return Key.ToString();
+            }
+            return String.Empty;
+        }
+
     } // End class
-    
+
 } // End namespace
