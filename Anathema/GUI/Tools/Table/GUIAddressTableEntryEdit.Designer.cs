@@ -87,7 +87,7 @@
             this.AddressTextBox.Location = new System.Drawing.Point(80, 92);
             this.AddressTextBox.Name = "AddressTextBox";
             this.AddressTextBox.Size = new System.Drawing.Size(212, 20);
-            this.AddressTextBox.TabIndex = 4;
+            this.AddressTextBox.TabIndex = 3;
             // 
             // AddressLabel
             // 
@@ -118,7 +118,7 @@
             this.OffsetListBox.Name = "OffsetListBox";
             this.OffsetListBox.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
             this.OffsetListBox.Size = new System.Drawing.Size(212, 80);
-            this.OffsetListBox.TabIndex = 8;
+            this.OffsetListBox.TabIndex = 7;
             // 
             // OffsetTextBox
             // 
@@ -127,7 +127,7 @@
             this.OffsetTextBox.Location = new System.Drawing.Point(80, 117);
             this.OffsetTextBox.Name = "OffsetTextBox";
             this.OffsetTextBox.Size = new System.Drawing.Size(50, 20);
-            this.OffsetTextBox.TabIndex = 9;
+            this.OffsetTextBox.TabIndex = 4;
             this.OffsetTextBox.TextChanged += new System.EventHandler(this.OffsetTextBox_TextChanged);
             // 
             // AddOffsetButton
@@ -136,7 +136,7 @@
             this.AddOffsetButton.Location = new System.Drawing.Point(217, 115);
             this.AddOffsetButton.Name = "AddOffsetButton";
             this.AddOffsetButton.Size = new System.Drawing.Size(75, 23);
-            this.AddOffsetButton.TabIndex = 10;
+            this.AddOffsetButton.TabIndex = 6;
             this.AddOffsetButton.Text = "Add";
             this.AddOffsetButton.UseVisualStyleBackColor = true;
             this.AddOffsetButton.Click += new System.EventHandler(this.AddOffsetButton_Click);
@@ -147,7 +147,7 @@
             this.RemoveOffsetButton.Location = new System.Drawing.Point(136, 115);
             this.RemoveOffsetButton.Name = "RemoveOffsetButton";
             this.RemoveOffsetButton.Size = new System.Drawing.Size(75, 23);
-            this.RemoveOffsetButton.TabIndex = 11;
+            this.RemoveOffsetButton.TabIndex = 5;
             this.RemoveOffsetButton.Text = "Remove";
             this.RemoveOffsetButton.UseVisualStyleBackColor = true;
             this.RemoveOffsetButton.Click += new System.EventHandler(this.RemoveOffsetButton_Click);
@@ -167,7 +167,7 @@
             this.OkButton.Location = new System.Drawing.Point(136, 230);
             this.OkButton.Name = "OkButton";
             this.OkButton.Size = new System.Drawing.Size(75, 23);
-            this.OkButton.TabIndex = 13;
+            this.OkButton.TabIndex = 8;
             this.OkButton.Text = "Ok";
             this.OkButton.UseVisualStyleBackColor = true;
             this.OkButton.Click += new System.EventHandler(this.OkButton_Click);
@@ -179,7 +179,7 @@
             this.CancelButton.Location = new System.Drawing.Point(217, 230);
             this.CancelButton.Name = "CancelButton";
             this.CancelButton.Size = new System.Drawing.Size(75, 23);
-            this.CancelButton.TabIndex = 14;
+            this.CancelButton.TabIndex = 9;
             this.CancelButton.Text = "Cancel";
             this.CancelButton.UseVisualStyleBackColor = true;
             // 
@@ -190,7 +190,7 @@
             this.ValueTextBox.Location = new System.Drawing.Point(80, 65);
             this.ValueTextBox.Name = "ValueTextBox";
             this.ValueTextBox.Size = new System.Drawing.Size(212, 20);
-            this.ValueTextBox.TabIndex = 16;
+            this.ValueTextBox.TabIndex = 2;
             this.ValueTextBox.WatermarkColor = System.Drawing.Color.LightGray;
             this.ValueTextBox.WaterMarkFont = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.ValueTextBox.WaterMarkText = "(Insert Value to Overwrite Current Value)";

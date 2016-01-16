@@ -6,13 +6,13 @@ using System.Linq;
 
 namespace Anathema
 {
-    public partial class GUIAddressTableEntryEdit : Form, ITableAddressEntryEditorView
+    partial class GUIAddressTableEntryEdit : Form, ITableAddressEntryEditorView
     {
         private TableAddressEntryEditorPresenter TableAddressEntryEditorPresenter;
         private Int32[] AddressTableItemIndicies;
         private Int32 MainSelection;
 
-        public GUIAddressTableEntryEdit(Int32 MainSelection, Int32[] AddressTableItemIndicies)
+        public GUIAddressTableEntryEdit(Int32 MainSelection, Int32[] AddressTableItemIndicies, Table.TableColumnEnum ColumnSelection)
         {
             InitializeComponent();
 
@@ -24,6 +24,22 @@ namespace Anathema
             InitializeDefaultItems();
 
             ValidateCurrentOffset();
+
+            switch(ColumnSelection)
+            {
+                case Table.TableColumnEnum.Description:
+                    DescriptionTextBox.Select();
+                    break;
+                case Table.TableColumnEnum.ValueType:
+                    ValueTypeComboBox.Select();
+                    break;
+                case Table.TableColumnEnum.Address:
+                    AddressTextBox.Select();
+                    break;
+                case Table.TableColumnEnum.Value:
+                    ValueTextBox.Select();
+                    break;
+            }
 
             this.TableAddressEntryEditorPresenter = new TableAddressEntryEditorPresenter(this, new TableAddressEntryEditor());
         }

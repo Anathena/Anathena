@@ -65,8 +65,8 @@
             // CheatTableSplitContainer.Panel2
             // 
             this.CheatTableSplitContainer.Panel2.Controls.Add(this.ScriptTableListView);
-            this.CheatTableSplitContainer.Size = new System.Drawing.Size(690, 225);
-            this.CheatTableSplitContainer.SplitterDistance = 502;
+            this.CheatTableSplitContainer.Size = new System.Drawing.Size(698, 225);
+            this.CheatTableSplitContainer.SplitterDistance = 507;
             this.CheatTableSplitContainer.TabIndex = 145;
             // 
             // AddressTableListView
@@ -86,7 +86,7 @@
             this.AddressTableListView.Name = "AddressTableListView";
             this.AddressTableListView.OwnerDraw = true;
             this.AddressTableListView.ShowGroups = false;
-            this.AddressTableListView.Size = new System.Drawing.Size(502, 225);
+            this.AddressTableListView.Size = new System.Drawing.Size(507, 225);
             this.AddressTableListView.TabIndex = 143;
             this.AddressTableListView.UseCompatibleStateImageBehavior = false;
             this.AddressTableListView.View = System.Windows.Forms.View.Details;
@@ -107,13 +107,11 @@
             // 
             // AddressHeader
             // 
-            this.AddressHeader.DisplayIndex = 3;
             this.AddressHeader.Text = "Address";
             this.AddressHeader.Width = 87;
             // 
             // TypeHeader
             // 
-            this.TypeHeader.DisplayIndex = 2;
             this.TypeHeader.Text = "Type";
             this.TypeHeader.Width = 70;
             // 
@@ -136,7 +134,7 @@
             this.ScriptTableListView.Name = "ScriptTableListView";
             this.ScriptTableListView.OwnerDraw = true;
             this.ScriptTableListView.ShowGroups = false;
-            this.ScriptTableListView.Size = new System.Drawing.Size(184, 225);
+            this.ScriptTableListView.Size = new System.Drawing.Size(187, 225);
             this.ScriptTableListView.TabIndex = 144;
             this.ScriptTableListView.UseCompatibleStateImageBehavior = false;
             this.ScriptTableListView.View = System.Windows.Forms.View.Details;
@@ -164,10 +162,10 @@
             this.CheatTableButton,
             this.FSMTableButton});
             this.ScanToolStrip.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.VerticalStackWithOverflow;
-            this.ScanToolStrip.Location = new System.Drawing.Point(690, 0);
+            this.ScanToolStrip.Location = new System.Drawing.Point(698, 0);
             this.ScanToolStrip.Name = "ScanToolStrip";
             this.ScanToolStrip.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
-            this.ScanToolStrip.Size = new System.Drawing.Size(32, 225);
+            this.ScanToolStrip.Size = new System.Drawing.Size(24, 225);
             this.ScanToolStrip.TabIndex = 150;
             // 
             // SaveTableButton
@@ -176,7 +174,7 @@
             this.SaveTableButton.Image = global::Anathema.Properties.Resources.Save;
             this.SaveTableButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.SaveTableButton.Name = "SaveTableButton";
-            this.SaveTableButton.Size = new System.Drawing.Size(29, 20);
+            this.SaveTableButton.Size = new System.Drawing.Size(21, 20);
             this.SaveTableButton.Text = "Save Table";
             this.SaveTableButton.Click += new System.EventHandler(this.SaveTableButton_Click);
             // 
@@ -186,7 +184,7 @@
             this.LoadTableButton.Image = global::Anathema.Properties.Resources.Open;
             this.LoadTableButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.LoadTableButton.Name = "LoadTableButton";
-            this.LoadTableButton.Size = new System.Drawing.Size(29, 20);
+            this.LoadTableButton.Size = new System.Drawing.Size(21, 20);
             this.LoadTableButton.Text = "Open Table";
             this.LoadTableButton.ToolTipText = "Stop Tree Scan";
             this.LoadTableButton.Click += new System.EventHandler(this.LoadTableButton_Click);
@@ -194,7 +192,7 @@
             // ToolStripSeparator1
             // 
             this.ToolStripSeparator1.Name = "ToolStripSeparator1";
-            this.ToolStripSeparator1.Size = new System.Drawing.Size(29, 6);
+            this.ToolStripSeparator1.Size = new System.Drawing.Size(21, 6);
             // 
             // CheatTableButton
             // 
@@ -202,7 +200,7 @@
             this.CheatTableButton.Image = global::Anathema.Properties.Resources.BenedictionIcon;
             this.CheatTableButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.CheatTableButton.Name = "CheatTableButton";
-            this.CheatTableButton.Size = new System.Drawing.Size(29, 20);
+            this.CheatTableButton.Size = new System.Drawing.Size(21, 20);
             this.CheatTableButton.Text = "Cheat Table";
             this.CheatTableButton.Click += new System.EventHandler(this.CheatTableButton_Click);
             // 
@@ -212,7 +210,7 @@
             this.FSMTableButton.Image = global::Anathema.Properties.Resources.CelestialIcon;
             this.FSMTableButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.FSMTableButton.Name = "FSMTableButton";
-            this.FSMTableButton.Size = new System.Drawing.Size(29, 20);
+            this.FSMTableButton.Size = new System.Drawing.Size(21, 20);
             this.FSMTableButton.Text = "FSM Table";
             this.FSMTableButton.Click += new System.EventHandler(this.FSMTableButton_Click);
             // 

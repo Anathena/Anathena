@@ -125,19 +125,35 @@ namespace Anathema
 
         private void AddressTableListView_MouseDoubleClick(Object Sender, MouseEventArgs E)
         {
-            ListViewItem SelectedItem = AddressTableListView.HitTest(E.Location).Item;
+            ListViewHitTestInfo HitTest = AddressTableListView.HitTest(E.Location);
+            ListViewItem SelectedItem = HitTest.Item;
+            Int32 ColumnIndex = HitTest.Item.SubItems.IndexOf(HitTest.SubItem);
 
             if (SelectedItem == null)
                 return;
 
-            List<Int32> Indicies = new List<int>();
+            List<Int32> Indicies = new List<Int32>();
             foreach (Int32 Index in AddressTableListView.SelectedIndices)
                 Indicies.Add(Index);
 
             if (Indicies.Count == 0)
                 return;
 
-            GUIAddressTableEntryEdit AddressEntryEditor = new GUIAddressTableEntryEdit(SelectedItem.Index, Indicies.ToArray());
+            // Determine the current column selection based on column index
+            Table.TableColumnEnum ColumnSelection = Table.TableColumnEnum.Frozen;
+            if (ColumnIndex == AddressTableListView.Columns.IndexOf(FrozenHeader))
+                ColumnSelection = Table.TableColumnEnum.Frozen;
+            else if (ColumnIndex == AddressTableListView.Columns.IndexOf(AddressDescriptionHeader))
+                ColumnSelection = Table.TableColumnEnum.Description;
+            else if (ColumnIndex == AddressTableListView.Columns.IndexOf(AddressHeader))
+                ColumnSelection = Table.TableColumnEnum.Address;
+            else if (ColumnIndex == AddressTableListView.Columns.IndexOf(TypeHeader))
+                ColumnSelection = Table.TableColumnEnum.ValueType;
+            else if (ColumnIndex == AddressTableListView.Columns.IndexOf(ValueHeader))
+                ColumnSelection = Table.TableColumnEnum.Value;
+
+            // Create editor for this entry
+            GUIAddressTableEntryEdit AddressEntryEditor = new GUIAddressTableEntryEdit(SelectedItem.Index, Indicies.ToArray(), ColumnSelection);
             AddressEntryEditor.ShowDialog();
         }
 

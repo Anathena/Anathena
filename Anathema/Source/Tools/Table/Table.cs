@@ -15,12 +15,21 @@ namespace Anathema
     /// </summary>
     class Table : ITableModel, IProcessObserver
     {
+        public enum TableColumnEnum
+        {
+            Frozen,
+            Description,
+            ValueType,
+            Address,
+            Value
+        }
+
         private static Table TableInstance;
         private MemorySharp MemoryEditor;
 
         private List<AddressItem> AddressTable;
         private List<ScriptItem> ScriptTable;
-
+        
         private Table()
         {
             InitializeObserver();
