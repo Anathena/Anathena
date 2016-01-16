@@ -1,14 +1,7 @@
-﻿using Binarysharp.MemoryManagement;
-using Binarysharp.MemoryManagement.Memory;
-using Gma.System.MouseKeyHook;
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Anathema
@@ -60,12 +53,10 @@ namespace Anathema
                         Result &= Node.EvaluateCondition(KeyEvents, QueryTime, WaitTime);
                     break;
                 case NodeTypeEnum.OR:
-                    Result = true;
                     foreach (InputNode Node in this)
                         Result |= Node.EvaluateCondition(KeyEvents, QueryTime, WaitTime);
                     break;
                 case NodeTypeEnum.NOT:
-                    Result = true;
                     foreach (InputNode Node in this)
                         Result = !Node.EvaluateCondition(KeyEvents, QueryTime, WaitTime);
                     break;
