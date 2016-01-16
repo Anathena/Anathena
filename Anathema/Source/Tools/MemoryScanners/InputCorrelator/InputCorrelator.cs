@@ -45,7 +45,8 @@ namespace Anathema
 
         private void UpdateDisplay()
         {
-            InputConditionTree.EvaluateText();
+            if (InputConditionTree != null)
+                InputConditionTree.EvaluateText();
             InputCorrelatorEventArgs InputCorrelatorEventArgs = new InputCorrelatorEventArgs();
             InputCorrelatorEventArgs.Root = InputConditionTree;
             OnEventUpdateDisplay(InputCorrelatorEventArgs);
@@ -82,12 +83,18 @@ namespace Anathema
             UpdateDisplay();
         }
 
-        public override void DeleteNode(Stack<Int32> SelectedIndicies)
+        public override void DeleteNode(Stack<Int32> Indicies)
         {
+            if (Indicies.Count == 0)
+                return;
+
+            // We only allow a single root, so pop the root from this stack
+            Indicies.Pop();
+
             // Determine the node the user is attempting to delete
             InputNode TargetNode = InputConditionTree;
-            while (SelectedIndicies.Count > 0)
-                TargetNode = TargetNode.GetChildAtIndex(SelectedIndicies.Pop());
+            while (Indicies.Count > 0)
+                TargetNode = TargetNode.GetChildAtIndex(Indicies.Pop());
 
             // Delete the node and all children under it
             if (TargetNode == InputConditionTree)

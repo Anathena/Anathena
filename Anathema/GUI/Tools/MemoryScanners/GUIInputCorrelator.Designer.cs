@@ -37,12 +37,13 @@
             this.EitherRadioButton = new System.Windows.Forms.RadioButton();
             this.UserToVariableRadioButton = new System.Windows.Forms.RadioButton();
             this.VariableToUserRadioButton = new System.Windows.Forms.RadioButton();
-            this.InputTreeView = new HighlightPreservingTreeView();
+            this.InputTreeView = new Anathema.HighlightPreservingTreeView();
             this.AddANDButton = new System.Windows.Forms.Button();
             this.AddORButton = new System.Windows.Forms.Button();
             this.AddNOTButton = new System.Windows.Forms.Button();
             this.AddInputButton = new System.Windows.Forms.Button();
             this.InputTextBox = new Anathema.WatermarkTextBox();
+            this.DeleteNodeButton = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.VariableSizeTrackBar)).BeginInit();
             this.ScanToolStrip.SuspendLayout();
             this.SuspendLayout();
@@ -85,7 +86,7 @@
             this.ScanToolStrip.Location = new System.Drawing.Point(0, 0);
             this.ScanToolStrip.Name = "ScanToolStrip";
             this.ScanToolStrip.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
-            this.ScanToolStrip.Size = new System.Drawing.Size(345, 25);
+            this.ScanToolStrip.Size = new System.Drawing.Size(422, 25);
             this.ScanToolStrip.TabIndex = 150;
             this.ScanToolStrip.Text = "toolStrip1";
             // 
@@ -113,7 +114,7 @@
             // 
             this.EitherRadioButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.EitherRadioButton.AutoSize = true;
-            this.EitherRadioButton.Location = new System.Drawing.Point(182, 62);
+            this.EitherRadioButton.Location = new System.Drawing.Point(259, 62);
             this.EitherRadioButton.Name = "EitherRadioButton";
             this.EitherRadioButton.Size = new System.Drawing.Size(52, 17);
             this.EitherRadioButton.TabIndex = 170;
@@ -125,7 +126,7 @@
             // 
             this.UserToVariableRadioButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.UserToVariableRadioButton.AutoSize = true;
-            this.UserToVariableRadioButton.Location = new System.Drawing.Point(182, 45);
+            this.UserToVariableRadioButton.Location = new System.Drawing.Point(259, 45);
             this.UserToVariableRadioButton.Name = "UserToVariableRadioButton";
             this.UserToVariableRadioButton.Size = new System.Drawing.Size(151, 17);
             this.UserToVariableRadioButton.TabIndex = 169;
@@ -138,7 +139,7 @@
             this.VariableToUserRadioButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.VariableToUserRadioButton.AutoSize = true;
             this.VariableToUserRadioButton.Checked = true;
-            this.VariableToUserRadioButton.Location = new System.Drawing.Point(182, 28);
+            this.VariableToUserRadioButton.Location = new System.Drawing.Point(259, 28);
             this.VariableToUserRadioButton.Name = "VariableToUserRadioButton";
             this.VariableToUserRadioButton.Size = new System.Drawing.Size(151, 17);
             this.VariableToUserRadioButton.TabIndex = 168;
@@ -153,7 +154,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.InputTreeView.Location = new System.Drawing.Point(12, 168);
             this.InputTreeView.Name = "InputTreeView";
-            this.InputTreeView.Size = new System.Drawing.Size(321, 117);
+            this.InputTreeView.Size = new System.Drawing.Size(398, 117);
             this.InputTreeView.TabIndex = 171;
             this.InputTreeView.BeforeSelect += new System.Windows.Forms.TreeViewCancelEventHandler(this.InputTreeView_BeforeSelect);
             this.InputTreeView.Leave += new System.EventHandler(this.InputTreeView_Leave);
@@ -161,7 +162,7 @@
             // AddANDButton
             // 
             this.AddANDButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.AddANDButton.Location = new System.Drawing.Point(177, 139);
+            this.AddANDButton.Location = new System.Drawing.Point(255, 139);
             this.AddANDButton.Name = "AddANDButton";
             this.AddANDButton.Size = new System.Drawing.Size(75, 23);
             this.AddANDButton.TabIndex = 172;
@@ -172,7 +173,7 @@
             // AddORButton
             // 
             this.AddORButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.AddORButton.Location = new System.Drawing.Point(258, 139);
+            this.AddORButton.Location = new System.Drawing.Point(336, 139);
             this.AddORButton.Name = "AddORButton";
             this.AddORButton.Size = new System.Drawing.Size(75, 23);
             this.AddORButton.TabIndex = 173;
@@ -183,7 +184,7 @@
             // AddNOTButton
             // 
             this.AddNOTButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.AddNOTButton.Location = new System.Drawing.Point(96, 139);
+            this.AddNOTButton.Location = new System.Drawing.Point(174, 139);
             this.AddNOTButton.Name = "AddNOTButton";
             this.AddNOTButton.Size = new System.Drawing.Size(75, 23);
             this.AddNOTButton.TabIndex = 174;
@@ -219,11 +220,23 @@
             this.InputTextBox.Enter += new System.EventHandler(this.InputTextBox_Enter);
             this.InputTextBox.Leave += new System.EventHandler(this.InputTextBox_Leave);
             // 
+            // DeleteNodeButton
+            // 
+            this.DeleteNodeButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.DeleteNodeButton.Location = new System.Drawing.Point(93, 139);
+            this.DeleteNodeButton.Name = "DeleteNodeButton";
+            this.DeleteNodeButton.Size = new System.Drawing.Size(75, 23);
+            this.DeleteNodeButton.TabIndex = 177;
+            this.DeleteNodeButton.Text = "Delete";
+            this.DeleteNodeButton.UseVisualStyleBackColor = true;
+            this.DeleteNodeButton.Click += new System.EventHandler(this.DeleteNodeButton_Click);
+            // 
             // GUIInputCorrelator
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(345, 297);
+            this.ClientSize = new System.Drawing.Size(422, 297);
+            this.Controls.Add(this.DeleteNodeButton);
             this.Controls.Add(this.InputTextBox);
             this.Controls.Add(this.AddInputButton);
             this.Controls.Add(this.AddNOTButton);
@@ -265,5 +278,6 @@
         private System.Windows.Forms.Button AddNOTButton;
         private System.Windows.Forms.Button AddInputButton;
         private WatermarkTextBox InputTextBox;
+        private System.Windows.Forms.Button DeleteNodeButton;
     }
 }

@@ -62,7 +62,8 @@ namespace Anathema
                 TreeNode SelectedNode = InputTreeView.SelectedNode;
 
                 this.InputTreeView.Nodes.Clear();
-                this.InputTreeView.Nodes.Add(Root);
+                if (Root != null)
+                    this.InputTreeView.Nodes.Add(Root);
 
                 if (ContainsNode(InputTreeView.Nodes, SelectedNode))
                     InputTreeView.SelectedNode = SelectedNode;
@@ -74,7 +75,7 @@ namespace Anathema
             foreach (TreeNode Node in Nodes)
             {
                 if (Node == TargetNode)
-                    return true; 
+                    return true;
 
                 if (ContainsNode(Node.Nodes, TargetNode))
                     return true;
@@ -164,6 +165,11 @@ namespace Anathema
             InputCorrelatorPresenter.AddInput(GetSelectionIndicies());
         }
 
+        private void DeleteNodeButton_Click(object sender, EventArgs e)
+        {
+            InputCorrelatorPresenter.DeleteNode(GetSelectionIndicies());
+        }
+
         private void AddANDButton_Click(Object Sender, EventArgs E)
         {
             InputCorrelatorPresenter.AddAND(GetSelectionIndicies());
@@ -179,13 +185,6 @@ namespace Anathema
             InputCorrelatorPresenter.AddNOT(GetSelectionIndicies());
         }
 
-        private void GUILabelerInputCorrelator_Resize(Object Sender, EventArgs E)
-        {
-            HandleResize();
-        }
-
-        #endregion
-
         private void InputTreeView_Leave(object sender, EventArgs e)
         {
             InputTreeView.SelectedNode.BackColor = SystemColors.Highlight;
@@ -200,6 +199,14 @@ namespace Anathema
             InputTreeView.SelectedNode.BackColor = InputTreeView.BackColor;
             InputTreeView.SelectedNode.ForeColor = SystemColors.ControlText;
         }
+
+        private void GUILabelerInputCorrelator_Resize(Object Sender, EventArgs E)
+        {
+            HandleResize();
+        }
+
+        #endregion
+
     } // End class
 
 } // End namespace

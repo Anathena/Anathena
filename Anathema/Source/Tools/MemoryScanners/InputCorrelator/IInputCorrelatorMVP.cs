@@ -73,6 +73,11 @@ namespace Anathema
             Model.AddInputNode(Indicies, Key);
         }
 
+        public void DeleteNode(Stack<Int32> Indicies)
+        {
+            Model.DeleteNode(Indicies);
+        }
+
         public void AddAND(Stack<Int32> Indicies)
         {
             Model.AddNode(Indicies, new InputNode(InputNode.NodeTypeEnum.AND));
