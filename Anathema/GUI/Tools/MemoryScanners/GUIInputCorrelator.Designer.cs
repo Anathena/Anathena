@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.VariableSizeValueLabel = new System.Windows.Forms.Label();
             this.VariableSizeLabel = new System.Windows.Forms.Label();
             this.VariableSizeTrackBar = new System.Windows.Forms.TrackBar();
@@ -45,10 +46,13 @@
             this.EitherRadioButton = new System.Windows.Forms.RadioButton();
             this.UserToVariableRadioButton = new System.Windows.Forms.RadioButton();
             this.VariableToUserRadioButton = new System.Windows.Forms.RadioButton();
+            this.InputContextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.DeleteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.InputTextBox = new Anathema.WatermarkTextBox();
             this.InputTreeView = new Anathema.HighlightPreservingTreeView();
             ((System.ComponentModel.ISupportInitialize)(this.VariableSizeTrackBar)).BeginInit();
             this.ScanToolStrip.SuspendLayout();
+            this.InputContextMenuStrip.SuspendLayout();
             this.SuspendLayout();
             // 
             // VariableSizeValueLabel
@@ -229,6 +233,21 @@
             this.VariableToUserRadioButton.UseVisualStyleBackColor = true;
             this.VariableToUserRadioButton.CheckedChanged += new System.EventHandler(this.VariableToUserRadioButton_CheckedChanged);
             // 
+            // InputContextMenuStrip
+            // 
+            this.InputContextMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.DeleteToolStripMenuItem});
+            this.InputContextMenuStrip.Name = "InputContextMenuStrip";
+            this.InputContextMenuStrip.Size = new System.Drawing.Size(108, 26);
+            this.InputContextMenuStrip.Opening += new System.ComponentModel.CancelEventHandler(this.InputContextMenuStrip_Opening);
+            // 
+            // DeleteToolStripMenuItem
+            // 
+            this.DeleteToolStripMenuItem.Name = "DeleteToolStripMenuItem";
+            this.DeleteToolStripMenuItem.Size = new System.Drawing.Size(107, 22);
+            this.DeleteToolStripMenuItem.Text = "Delete";
+            this.DeleteToolStripMenuItem.Click += new System.EventHandler(this.DeleteToolStripMenuItem_Click);
+            // 
             // InputTextBox
             // 
             this.InputTextBox.AcceptsReturn = true;
@@ -254,8 +273,6 @@
             this.InputTreeView.Name = "InputTreeView";
             this.InputTreeView.Size = new System.Drawing.Size(398, 168);
             this.InputTreeView.TabIndex = 171;
-            this.InputTreeView.BeforeSelect += new System.Windows.Forms.TreeViewCancelEventHandler(this.InputTreeView_BeforeSelect);
-            this.InputTreeView.Leave += new System.EventHandler(this.InputTreeView_Leave);
             // 
             // GUIInputCorrelator
             // 
@@ -278,6 +295,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.VariableSizeTrackBar)).EndInit();
             this.ScanToolStrip.ResumeLayout(false);
             this.ScanToolStrip.PerformLayout();
+            this.InputContextMenuStrip.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -303,5 +321,7 @@
         private System.Windows.Forms.ToolStripButton AddNOTButton;
         private System.Windows.Forms.ToolStripButton AddANDButton;
         private System.Windows.Forms.ToolStripButton AddORButton;
+        private System.Windows.Forms.ContextMenuStrip InputContextMenuStrip;
+        private System.Windows.Forms.ToolStripMenuItem DeleteToolStripMenuItem;
     }
 }

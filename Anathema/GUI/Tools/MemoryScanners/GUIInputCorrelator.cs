@@ -65,9 +65,20 @@ namespace Anathema
                 if (Root != null)
                     this.InputTreeView.Nodes.Add(Root);
 
+                AddContextMenuToNodes(InputTreeView.Nodes);
+
                 if (ContainsNode(InputTreeView.Nodes, SelectedNode))
                     InputTreeView.SelectedNode = SelectedNode;
             });
+        }
+
+        private void AddContextMenuToNodes(TreeNodeCollection Nodes)
+        {
+            foreach (TreeNode Node in Nodes)
+            {
+                Node.ContextMenuStrip = InputContextMenuStrip;
+                AddContextMenuToNodes(Node.Nodes);
+            }
         }
 
         private Boolean ContainsNode(TreeNodeCollection Nodes, TreeNode TargetNode)
@@ -190,19 +201,15 @@ namespace Anathema
             InputCorrelatorPresenter.AddNOT(GetSelectionIndicies());
         }
 
-        private void InputTreeView_Leave(object sender, EventArgs e)
-        {
-            InputTreeView.SelectedNode.BackColor = SystemColors.Highlight;
-            InputTreeView.SelectedNode.ForeColor = SystemColors.HighlightText;
-        }
-
-        private void InputTreeView_BeforeSelect(object sender, TreeViewCancelEventArgs e)
+        private void InputContextMenuStrip_Opening(Object Sender, CancelEventArgs E)
         {
             if (InputTreeView.SelectedNode == null)
-                return;
+                E.Cancel = true;
+        }
 
-            InputTreeView.SelectedNode.BackColor = InputTreeView.BackColor;
-            InputTreeView.SelectedNode.ForeColor = SystemColors.ControlText;
+        private void DeleteToolStripMenuItem_Click(Object Sender, EventArgs E)
+        {
+            InputCorrelatorPresenter.DeleteNode(GetSelectionIndicies());
         }
 
         private void GUILabelerInputCorrelator_Resize(Object Sender, EventArgs E)
