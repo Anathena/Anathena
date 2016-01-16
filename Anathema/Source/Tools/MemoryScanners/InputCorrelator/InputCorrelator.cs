@@ -25,20 +25,48 @@ namespace Anathema
 
         private Dictionary<Keys, DateTime> KeyBoardDown;    // List of keyboard down events
         private Dictionary<Keys, DateTime> KeyBoardUp;      // List of keyboard up events
-
-        // User specified variables:
+        
         private Int32 VariableSize; // Number of bytes to correlate at a time
         private Int32 WaitTime;     // Time (ms) to process new changes as correlations
         private Keys UserInput;     // Whatever
 
+        private InputNode InputConditionTree;
+
         public InputCorrelator()
         {
+            // Initialize input hook
             InputHook = Hook.GlobalEvents();
+
+            // Initialize a root for our tree
+            InputConditionTree = new InputNode(InputNode.NodeTypeEnum.OR);
         }
 
         public override void SetVariableSize(int VariableSize)
         {
             this.VariableSize = VariableSize;
+        }
+
+        public override void AddNode(Stack<Int32> SelectedIndicies, InputNode.NodeTypeEnum NodeType)
+        {
+            // Determine the node the user is attempting to add a child to
+            InputNode TargetNode = InputConditionTree;
+            while (SelectedIndicies.Count > 0)
+                TargetNode = TargetNode.GetChildAtIndex(SelectedIndicies.Pop());
+
+            // Add the child
+            TargetNode.AddChild(new InputNode(NodeType));
+        }
+
+        public override void DeleteNode(Stack<Int32> SelectedIndicies)
+        {
+            // Deleting root is not okay
+            if (SelectedIndicies.Count == 0)
+                return;
+            
+            // Determine the node the user is attempting to delete
+            InputNode TargetNode = InputConditionTree;
+            while (SelectedIndicies.Count > 0)
+                TargetNode = TargetNode.GetChildAtIndex(SelectedIndicies.Pop());
         }
 
         public override void BeginScan()

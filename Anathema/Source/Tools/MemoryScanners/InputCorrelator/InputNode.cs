@@ -17,10 +17,11 @@ namespace Anathema
     {
         public enum NodeTypeEnum
         {
+            Input,
+
             AND,
             OR,
-            NOT,
-            Key
+            NOT
         }
 
         private List<InputNode> Children;
@@ -31,6 +32,16 @@ namespace Anathema
         {
             this.NodeType = NodeType;
             Children = new List<InputNode>();
+        }
+
+        public void AddChild(InputNode Node)
+        {
+            Children.Add(Node);
+        }
+
+        public InputNode GetChildAtIndex(Int32 Index)
+        {
+            return Children[Index];
         }
 
         public Boolean InputConditionValid()

@@ -210,6 +210,7 @@
             this.InputTextBox.WatermarkColor = System.Drawing.Color.LightGray;
             this.InputTextBox.WaterMarkFont = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.InputTextBox.WaterMarkText = "Press a Key";
+            this.InputTextBox.TextChanged += new System.EventHandler(this.InputTextBox_TextChanged);
             // 
             // GUIInputCorrelator
             // 

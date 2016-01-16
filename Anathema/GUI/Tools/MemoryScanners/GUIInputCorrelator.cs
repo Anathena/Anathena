@@ -13,7 +13,7 @@ namespace Anathema
     public partial class GUIInputCorrelator : DockContent, IInputCorrelatorView
     {
         InputCorrelatorPresenter InputCorrelatorPresenter;
-       
+
         public GUIInputCorrelator()
         {
             InitializeComponent();
@@ -44,6 +44,21 @@ namespace Anathema
             StartScanButton.Enabled = false;
             StopScanButton.Enabled = true;
             VariableSizeTrackBar.Enabled = false;
+        }
+
+        private Stack<Int32> GetSelectionIndicies()
+        {
+            Stack<Int32> Indicies = new Stack<Int32>();
+            TreeNode ParentNode;
+            TreeNode CurrentNode = InputTreeView.SelectedNode;
+            while (CurrentNode != null)
+            {
+                ParentNode = CurrentNode.Parent;
+                Indicies.Push(ParentNode.Nodes.IndexOf(CurrentNode));
+                CurrentNode = ParentNode;
+            }
+
+            return Indicies;
         }
 
         #region Events
@@ -90,19 +105,24 @@ namespace Anathema
 
         }
 
-        private void AddNOTButton_Click(Object Sender, EventArgs E)
-        {
-
-        }
-
         private void AddANDButton_Click(Object Sender, EventArgs E)
         {
-
+            InputCorrelatorPresenter.AddAND(GetSelectionIndicies());
         }
 
         private void AddORButton_Click(Object Sender, EventArgs E)
         {
+            InputCorrelatorPresenter.AddOR(GetSelectionIndicies());
+        }
 
+        private void AddNOTButton_Click(Object Sender, EventArgs E)
+        {
+            InputCorrelatorPresenter.AddNOT(GetSelectionIndicies());
+        }
+
+        private void InputTextBox_TextChanged(Object Sender, EventArgs E)
+        {
+            InputTextBox.Text = String.Empty;
         }
 
         private void GUILabelerInputCorrelator_Resize(Object Sender, EventArgs E)
@@ -111,5 +131,6 @@ namespace Anathema
         }
 
         #endregion
+
     }
 }

@@ -113,6 +113,7 @@
     </Compile>
     <Compile Include="Settings.cs" />
     <Compile Include="Source\Settings\ISettingsMVP.cs" />
+    <Compile Include="Source\Tools\MemoryScanners\InputCorrelator\InputNode.cs" />
     <Compile Include="Source\Tools\PointerScanner\IPointerScannerMVP.cs" />
     <Compile Include="Source\Tools\PointerScanner\PointerScanner.cs" />
     <Compile Include="Source\Tools\MemoryScanners\FiniteStateScanner\IFiniteStateScannerMVP.cs" />
