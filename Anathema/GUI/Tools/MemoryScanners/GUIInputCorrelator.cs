@@ -58,10 +58,28 @@ namespace Anathema
         {
             ControlThreadingHelper.InvokeControlAction(InputTreeView, () =>
             {
+                // Save selection
+                TreeNode SelectedNode = InputTreeView.SelectedNode;
+
                 this.InputTreeView.Nodes.Clear();
-                foreach (TreeNode Item in Root.Nodes)
-                    this.InputTreeView.Nodes.Add(Item);
+                this.InputTreeView.Nodes.Add(Root);
+
+                if (ContainsNode(InputTreeView.Nodes, SelectedNode))
+                    InputTreeView.SelectedNode = SelectedNode;
             });
+        }
+
+        private Boolean ContainsNode(TreeNodeCollection Nodes, TreeNode TargetNode)
+        {
+            foreach (TreeNode Node in Nodes)
+            {
+                if (Node == TargetNode)
+                    return true; 
+
+                if (ContainsNode(Node.Nodes, TargetNode))
+                    return true;
+            }
+            return false;
         }
 
         private Stack<Int32> GetSelectionIndicies()
@@ -168,6 +186,20 @@ namespace Anathema
 
         #endregion
 
+        private void InputTreeView_Leave(object sender, EventArgs e)
+        {
+            InputTreeView.SelectedNode.BackColor = SystemColors.Highlight;
+            InputTreeView.SelectedNode.ForeColor = SystemColors.HighlightText;
+        }
+
+        private void InputTreeView_BeforeSelect(object sender, TreeViewCancelEventArgs e)
+        {
+            if (InputTreeView.SelectedNode == null)
+                return;
+
+            InputTreeView.SelectedNode.BackColor = InputTreeView.BackColor;
+            InputTreeView.SelectedNode.ForeColor = SystemColors.ControlText;
+        }
     } // End class
 
 } // End namespace

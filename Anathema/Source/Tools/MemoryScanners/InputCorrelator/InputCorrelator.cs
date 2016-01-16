@@ -41,11 +41,11 @@ namespace Anathema
         public override void SetVariableSize(int VariableSize)
         {
             this.VariableSize = VariableSize;
-            InputConditionTree = new InputNode(InputNode.NodeTypeEnum.OR);
         }
 
         private void UpdateDisplay()
         {
+            InputConditionTree.EvaluateText();
             InputCorrelatorEventArgs InputCorrelatorEventArgs = new InputCorrelatorEventArgs();
             InputCorrelatorEventArgs.Root = InputConditionTree;
             OnEventUpdateDisplay(InputCorrelatorEventArgs);
@@ -58,6 +58,19 @@ namespace Anathema
 
         public override void AddNode(Stack<Int32> Indicies, InputNode Node)
         {
+            if (InputConditionTree == null)
+            {
+                InputConditionTree = Node;
+                UpdateDisplay();
+                return;
+            }
+
+            if (Indicies.Count == 0)
+                return;
+
+            // We only allow a single root, so pop the root from this stack
+            Indicies.Pop();
+
             // Determine the node the user is attempting to add a child to
             InputNode TargetNode = InputConditionTree;
             while (Indicies.Count > 0)

@@ -13,7 +13,7 @@ using System.Windows.Forms;
 
 namespace Anathema
 {
-    class InputNode : TreeNode
+    class InputNode : TreeNode, IEnumerable
     {
         public enum NodeTypeEnum
         {
@@ -33,7 +33,6 @@ namespace Anathema
         {
             ParentNode = null;
             this.NodeType = NodeType;
-            this.Text = this.ToString();
             ChildrenNodes = new List<InputNode>();
         }
 
@@ -42,12 +41,72 @@ namespace Anathema
             ParentNode = null;
             this.NodeType = NodeTypeEnum.Input;
             this.Key = Key;
-            this.Text = this.ToString();
             ChildrenNodes = new List<InputNode>();
+        }
+
+        public String EvaluateText()
+        {
+            String Result = String.Empty;
+            
+            switch (NodeType)
+            {
+                case NodeTypeEnum.AND:
+                    if (ChildrenNodes.Count == 0)
+                    {
+                        Result += this.ToString();
+                        break;
+                    }
+                    foreach (InputNode Child in this)
+                    {
+                        Result += Child.EvaluateText();
+                        if (ChildrenNodes.Count == 1 || Child != ChildrenNodes.Last())
+                            Result += " and ";
+                    }
+                    break;
+                case NodeTypeEnum.OR:
+                    if (ChildrenNodes.Count == 0)
+                    {
+                        Result += this.ToString();
+                        break;
+                    }
+                    foreach (InputNode Child in this)
+                    {
+                        Result += Child.EvaluateText();
+                        if (ChildrenNodes.Count == 1 || Child != ChildrenNodes.Last())
+                            Result += " or ";
+                    }
+                    break;
+                case NodeTypeEnum.NOT:
+                    if (ChildrenNodes.Count == 0)
+                    {
+                        Result += this.ToString();
+                        break;
+                    }
+                    foreach (InputNode Child in this)
+                    {
+                        if (ChildrenNodes.Count == 1 || Child != ChildrenNodes.Last())
+                            Result += "not ";
+                        Result += Child.EvaluateText();
+                    }
+                    break;
+                case NodeTypeEnum.Input:
+                    Result += this.ToString();
+
+                    foreach (InputNode Child in this)
+                        Result += Child.EvaluateText();
+
+                    break;
+            }
+
+            this.Text = Result;
+            return Result;
         }
 
         public void AddChild(InputNode Node)
         {
+            if (this.NodeType == NodeTypeEnum.Input && Node.NodeType == NodeTypeEnum.Input)
+                return;
+
             Node.ParentNode = this;
 
             ChildrenNodes.Add(Node);
@@ -89,6 +148,11 @@ namespace Anathema
                     return Key.ToString();
             }
             return String.Empty;
+        }
+
+        public IEnumerator GetEnumerator()
+        {
+            return ((IEnumerable)ChildrenNodes).GetEnumerator();
         }
 
     } // End class

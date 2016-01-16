@@ -93,6 +93,12 @@
     <Compile Include="GUI\CustomControls\Textbox\WatermarkTextBox.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="GUI\CustomControls\TreeView\HighlightPreservingTreeView.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="GUI\CustomControls\TreeView\HighlightPreservingTreeView.Designer.cs">
+      <DependentUpon>HighlightPreservingTreeView.cs</DependentUpon>
+    </Compile>
     <Compile Include="GUI\Settings\GUISettings.cs">
       <SubType>Form</SubType>
     </Compile>
