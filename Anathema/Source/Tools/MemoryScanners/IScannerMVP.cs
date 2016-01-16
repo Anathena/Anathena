@@ -36,7 +36,10 @@ namespace Anathema
                     UpdateScan();
 
                     if (FlagEndScan)
-                        EndScan();
+                    {
+                        Action Action = EndScan;
+                        Action.BeginInvoke(x => Action.EndInvoke(x), null);
+                    }
 
                     // Await with cancellation
                     await Task.Delay(WaitTime, CancelRequest.Token);
