@@ -130,7 +130,7 @@ namespace Anathema
             KeyBoardDown = new Dictionary<Keys, DateTime>();
 
             // Create input hook events
-            InputHook.MouseDownExt += GlobalHookMouseDownExt;
+            //InputHook.MouseDownExt += GlobalHookMouseDownExt;
             InputHook.KeyUp += GlobalHookKeyUp;
             InputHook.KeyDown += GlobalHookKeyDown;
 
@@ -170,10 +170,9 @@ namespace Anathema
             base.EndScan();
 
             // Cleanup for the input hook
+            //InputHook.MouseDownExt -= GlobalHookMouseDownExt;
             InputHook.KeyUp -= GlobalHookKeyUp;
-            InputHook.MouseDownExt -= GlobalHookMouseDownExt;
             InputHook.KeyDown -= GlobalHookKeyDown;
-            InputHook.Dispose();
 
             Single MaxValue = 1.0f;
             foreach (SnapshotRegion<Single> Region in Snapshot)
