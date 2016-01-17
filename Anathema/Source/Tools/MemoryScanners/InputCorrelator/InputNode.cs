@@ -137,23 +137,27 @@ namespace Anathema
             return true;
         }
 
-        public InputNode AddChild(InputNode Node)
+        public InputNode AddChild(InputNode Node, Int32? InsertLocation = null)
         {
+            if (InsertLocation == null)
+                InsertLocation = this.Nodes.Count;
+
             // Adding AND/OR operations feels counter-intuitive without some parent swapping magic:
             if (Node.ChildrenNodes.Count == 0 && (Node.NodeType == NodeTypeEnum.AND || Node.NodeType == NodeTypeEnum.OR || Node.NodeType == NodeTypeEnum.NOT))
             {
                 InputNode CurrentParent = this.ParentNode;
+                Int32 InsertIndex = CurrentParent == null ? 0 : CurrentParent.Nodes.IndexOf(this);
                 if (CurrentParent != null)
                     CurrentParent.RemoveChild(this);
                 Node.AddChild(this);
                 if (CurrentParent != null)
-                    CurrentParent.AddChild(Node);
+                    CurrentParent.AddChild(Node, InsertIndex);
             }
             else
             {
                 Node.ParentNode = this;
-                ChildrenNodes.Add(Node);
-                this.Nodes.Add(Node);
+                ChildrenNodes.Insert(InsertLocation.Value, Node);
+                this.Nodes.Insert(InsertLocation.Value, Node);
             }
 
             InputNode CurrentNode = this;
