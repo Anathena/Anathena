@@ -732,8 +732,10 @@
     <Content Include="Content\Icons\Hide.png" />
     <Content Include="Content\Icons\Increased.png" />
     <Content Include="Content\Icons\InputCorrelator.png" />
+    <None Include="Content\Icons\Intersection.png" />
     <Content Include="Content\Icons\LeftArrow.png" />
     <Content Include="Content\Icons\LessThan.png" />
+    <None Include="Content\Icons\LogicalOR.png" />
     <Content Include="Content\Icons\MainIcon.ico" />
     <Content Include="Content\Icons\ManualScan.png" />
     <Content Include="Content\Icons\Maximize.png" />
@@ -760,6 +762,7 @@
     <Content Include="Content\Icons\Stop.png" />
     <Content Include="Content\Icons\Unchanged.png" />
     <Content Include="Content\Icons\Undo.png" />
+    <None Include="Content\Icons\Union.png" />
     <Content Include="Content\Icons\UnknownValue.png" />
     <Content Include="Content\Icons\Visible.png" />
     <Content Include="Content\Icons\X.png" />

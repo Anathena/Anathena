@@ -154,11 +154,17 @@
   <data name="IntermediateState" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Content\FSM\IntermediateState.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="Intersection" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Content\Icons\Intersection.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="LeftArrow" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Content\Icons\LeftArrow.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="LessThan" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Content\Icons\LessThan.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="LogicalOR" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Content\Icons\LogicalOR.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="Merge" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Content\Icons\Merge.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -213,6 +219,9 @@
   </data>
   <data name="Undo" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Content\Icons\Undo.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Union" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Content\Icons\Union.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="UnknownValue" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Content\Icons\UnknownValue.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>

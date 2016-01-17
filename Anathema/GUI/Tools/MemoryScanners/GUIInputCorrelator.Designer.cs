@@ -33,20 +33,20 @@
             this.VariableSizeLabel = new System.Windows.Forms.Label();
             this.VariableSizeTrackBar = new System.Windows.Forms.TrackBar();
             this.ScanToolStrip = new System.Windows.Forms.ToolStrip();
-            this.StartScanButton = new System.Windows.Forms.ToolStripButton();
-            this.StopScanButton = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
-            this.DeleteNodeButton = new System.Windows.Forms.ToolStripButton();
-            this.ClearInputsButton = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
-            this.AddInputButton = new System.Windows.Forms.ToolStripButton();
-            this.AddNOTButton = new System.Windows.Forms.ToolStripButton();
-            this.AddANDButton = new System.Windows.Forms.ToolStripButton();
-            this.AddORButton = new System.Windows.Forms.ToolStripButton();
             this.InputContextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.DeleteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.InputTextBox = new Anathema.WatermarkTextBox();
             this.InputTreeView = new Anathema.HighlightPreservingTreeView();
+            this.StartScanButton = new System.Windows.Forms.ToolStripButton();
+            this.StopScanButton = new System.Windows.Forms.ToolStripButton();
+            this.DeleteNodeButton = new System.Windows.Forms.ToolStripButton();
+            this.ClearInputsButton = new System.Windows.Forms.ToolStripButton();
+            this.AddInputButton = new System.Windows.Forms.ToolStripButton();
+            this.AddNOTButton = new System.Windows.Forms.ToolStripButton();
+            this.AddANDButton = new System.Windows.Forms.ToolStripButton();
+            this.AddORButton = new System.Windows.Forms.ToolStripButton();
             ((System.ComponentModel.ISupportInitialize)(this.VariableSizeTrackBar)).BeginInit();
             this.ScanToolStrip.SuspendLayout();
             this.InputContextMenuStrip.SuspendLayout();
@@ -105,95 +105,15 @@
             this.ScanToolStrip.TabIndex = 150;
             this.ScanToolStrip.Text = "toolStrip1";
             // 
-            // StartScanButton
-            // 
-            this.StartScanButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.StartScanButton.Image = global::Anathema.Properties.Resources.RightArrow;
-            this.StartScanButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.StartScanButton.Name = "StartScanButton";
-            this.StartScanButton.Size = new System.Drawing.Size(23, 22);
-            this.StartScanButton.Text = "Start Scan";
-            this.StartScanButton.Click += new System.EventHandler(this.StartScanButton_Click);
-            // 
-            // StopScanButton
-            // 
-            this.StopScanButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.StopScanButton.Image = global::Anathema.Properties.Resources.Stop;
-            this.StopScanButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.StopScanButton.Name = "StopScanButton";
-            this.StopScanButton.Size = new System.Drawing.Size(23, 22);
-            this.StopScanButton.Text = "Stop Scan";
-            this.StopScanButton.Click += new System.EventHandler(this.StopScanButton_Click);
-            // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
             this.toolStripSeparator1.Size = new System.Drawing.Size(6, 25);
             // 
-            // DeleteNodeButton
-            // 
-            this.DeleteNodeButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.DeleteNodeButton.Image = global::Anathema.Properties.Resources.X;
-            this.DeleteNodeButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.DeleteNodeButton.Name = "DeleteNodeButton";
-            this.DeleteNodeButton.Size = new System.Drawing.Size(23, 22);
-            this.DeleteNodeButton.Text = "Delete Selection";
-            this.DeleteNodeButton.Click += new System.EventHandler(this.DeleteNodeButton_Click);
-            // 
-            // ClearInputsButton
-            // 
-            this.ClearInputsButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.ClearInputsButton.Image = global::Anathema.Properties.Resources.Cancel;
-            this.ClearInputsButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.ClearInputsButton.Name = "ClearInputsButton";
-            this.ClearInputsButton.Size = new System.Drawing.Size(23, 22);
-            this.ClearInputsButton.Text = "Clear Inputs";
-            this.ClearInputsButton.Click += new System.EventHandler(this.ClearInputsButton_Click);
-            // 
             // toolStripSeparator2
             // 
             this.toolStripSeparator2.Name = "toolStripSeparator2";
             this.toolStripSeparator2.Size = new System.Drawing.Size(6, 25);
-            // 
-            // AddInputButton
-            // 
-            this.AddInputButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.AddInputButton.Image = global::Anathema.Properties.Resources.DownArrows;
-            this.AddInputButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.AddInputButton.Name = "AddInputButton";
-            this.AddInputButton.Size = new System.Drawing.Size(23, 22);
-            this.AddInputButton.Text = "Add Input";
-            this.AddInputButton.Click += new System.EventHandler(this.AddInputButton_Click);
-            // 
-            // AddNOTButton
-            // 
-            this.AddNOTButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.AddNOTButton.Image = global::Anathema.Properties.Resources.Negation;
-            this.AddNOTButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.AddNOTButton.Name = "AddNOTButton";
-            this.AddNOTButton.Size = new System.Drawing.Size(23, 22);
-            this.AddNOTButton.Text = "Add Logical NOT";
-            this.AddNOTButton.Click += new System.EventHandler(this.AddNOTButton_Click);
-            // 
-            // AddANDButton
-            // 
-            this.AddANDButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.AddANDButton.Image = global::Anathema.Properties.Resources.Increased;
-            this.AddANDButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.AddANDButton.Name = "AddANDButton";
-            this.AddANDButton.Size = new System.Drawing.Size(23, 22);
-            this.AddANDButton.Text = "Add Logical AND";
-            this.AddANDButton.Click += new System.EventHandler(this.AddANDButton_Click);
-            // 
-            // AddORButton
-            // 
-            this.AddORButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.AddORButton.Image = global::Anathema.Properties.Resources.Decreased;
-            this.AddORButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.AddORButton.Name = "AddORButton";
-            this.AddORButton.Size = new System.Drawing.Size(23, 22);
-            this.AddORButton.Text = "Add Logical OR";
-            this.AddORButton.Click += new System.EventHandler(this.AddORButton_Click);
             // 
             // InputContextMenuStrip
             // 
@@ -235,6 +155,86 @@
             this.InputTreeView.Name = "InputTreeView";
             this.InputTreeView.Size = new System.Drawing.Size(398, 172);
             this.InputTreeView.TabIndex = 171;
+            // 
+            // StartScanButton
+            // 
+            this.StartScanButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.StartScanButton.Image = global::Anathema.Properties.Resources.RightArrow;
+            this.StartScanButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.StartScanButton.Name = "StartScanButton";
+            this.StartScanButton.Size = new System.Drawing.Size(23, 22);
+            this.StartScanButton.Text = "Start Scan";
+            this.StartScanButton.Click += new System.EventHandler(this.StartScanButton_Click);
+            // 
+            // StopScanButton
+            // 
+            this.StopScanButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.StopScanButton.Image = global::Anathema.Properties.Resources.Stop;
+            this.StopScanButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.StopScanButton.Name = "StopScanButton";
+            this.StopScanButton.Size = new System.Drawing.Size(23, 22);
+            this.StopScanButton.Text = "Stop Scan";
+            this.StopScanButton.Click += new System.EventHandler(this.StopScanButton_Click);
+            // 
+            // DeleteNodeButton
+            // 
+            this.DeleteNodeButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.DeleteNodeButton.Image = global::Anathema.Properties.Resources.X;
+            this.DeleteNodeButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.DeleteNodeButton.Name = "DeleteNodeButton";
+            this.DeleteNodeButton.Size = new System.Drawing.Size(23, 22);
+            this.DeleteNodeButton.Text = "Delete Selection";
+            this.DeleteNodeButton.Click += new System.EventHandler(this.DeleteNodeButton_Click);
+            // 
+            // ClearInputsButton
+            // 
+            this.ClearInputsButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.ClearInputsButton.Image = global::Anathema.Properties.Resources.Cancel;
+            this.ClearInputsButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.ClearInputsButton.Name = "ClearInputsButton";
+            this.ClearInputsButton.Size = new System.Drawing.Size(23, 22);
+            this.ClearInputsButton.Text = "Clear Inputs";
+            this.ClearInputsButton.Click += new System.EventHandler(this.ClearInputsButton_Click);
+            // 
+            // AddInputButton
+            // 
+            this.AddInputButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.AddInputButton.Image = global::Anathema.Properties.Resources.DownArrows;
+            this.AddInputButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.AddInputButton.Name = "AddInputButton";
+            this.AddInputButton.Size = new System.Drawing.Size(23, 22);
+            this.AddInputButton.Text = "Add Input";
+            this.AddInputButton.Click += new System.EventHandler(this.AddInputButton_Click);
+            // 
+            // AddNOTButton
+            // 
+            this.AddNOTButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.AddNOTButton.Image = global::Anathema.Properties.Resources.Negation;
+            this.AddNOTButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.AddNOTButton.Name = "AddNOTButton";
+            this.AddNOTButton.Size = new System.Drawing.Size(23, 22);
+            this.AddNOTButton.Text = "Add Logical NOT";
+            this.AddNOTButton.Click += new System.EventHandler(this.AddNOTButton_Click);
+            // 
+            // AddANDButton
+            // 
+            this.AddANDButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.AddANDButton.Image = global::Anathema.Properties.Resources.Intersection;
+            this.AddANDButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.AddANDButton.Name = "AddANDButton";
+            this.AddANDButton.Size = new System.Drawing.Size(23, 22);
+            this.AddANDButton.Text = "Add Logical AND";
+            this.AddANDButton.Click += new System.EventHandler(this.AddANDButton_Click);
+            // 
+            // AddORButton
+            // 
+            this.AddORButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.AddORButton.Image = global::Anathema.Properties.Resources.LogicalOR;
+            this.AddORButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.AddORButton.Name = "AddORButton";
+            this.AddORButton.Size = new System.Drawing.Size(23, 22);
+            this.AddORButton.Text = "Add Logical OR";
+            this.AddORButton.Click += new System.EventHandler(this.AddORButton_Click);
             // 
             // GUIInputCorrelator
             // 
