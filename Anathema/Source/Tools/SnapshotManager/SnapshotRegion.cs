@@ -222,7 +222,7 @@ namespace Anathema
         public List<SnapshotRegion<LabelType>> GetValidRegions()
         {
             List<SnapshotRegion<LabelType>> ValidRegions = new List<SnapshotRegion<LabelType>>();
-            for (Int32 StartIndex = 0; StartIndex < Valid.Length; StartIndex++)
+            for (Int32 StartIndex = 0; StartIndex < (Valid == null ? 0 : Valid.Length); StartIndex++)
             {
                 if (!Valid[StartIndex])
                     continue;

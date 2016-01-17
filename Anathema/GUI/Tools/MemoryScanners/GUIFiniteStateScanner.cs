@@ -83,12 +83,14 @@ namespace Anathema
 
         public void UpdateDisplay(FiniteStateMachine FiniteStateMachine, FiniteState MousedOverState, Point[] SelectionLine)
         {
-            this.FiniteStateMachine = FiniteStateMachine;
-            this.MousedOverState = MousedOverState;
-            this.SelectionLine = SelectionLine;
-            FSMBuilderPanel.Invalidate();
+            ControlThreadingHelper.InvokeControlAction(FSMBuilderPanel, () =>
+            {
+                this.FiniteStateMachine = FiniteStateMachine;
+                this.MousedOverState = MousedOverState;
+                this.SelectionLine = SelectionLine;
+                FSMBuilderPanel.Invalidate();
+            });
         }
-
 
         private void Draw(Graphics Graphics)
         {
@@ -119,6 +121,7 @@ namespace Anathema
 
                 if (DrawImage != null)
                     Graphics.DrawImage(DrawImage, State.Location.X - StateRadius, State.Location.Y - StateRadius, DrawImage.Width, DrawImage.Height);
+
             }
 
             if (MousedOverState != null)
@@ -196,6 +199,18 @@ namespace Anathema
                         Graphics.FillEllipse(Brushes.Black, TextLocation.X - VariableBorderSize, TextLocation.Y - VariableBorderSize, TextSize.Width + VariableBorderSize * 2, TextSize.Height + VariableBorderSize);
                         Graphics.DrawString(DrawText, DrawFont, Brushes.White, TextLocation);
                     }
+                }
+            }
+
+            foreach (FiniteState State in FiniteStateMachine)
+            {
+                // Draw transition value if applicable
+                if (State.StateCount != 0)
+                {
+                    String DrawText = State.StateCount.ToString();
+                    SizeF TextSize = Graphics.MeasureString(DrawText, DrawFont);
+                    PointF TextLocation = new PointF(State.Location.X - TextSize.Width / 2, State.Location.Y - StateRadius - TextSize.Height);
+                    Graphics.DrawString(DrawText, DrawFont, Brushes.White, TextLocation);
                 }
             }
         }
@@ -280,8 +295,11 @@ namespace Anathema
 
         private void StateContextMenuStrip_Closed(Object Sender, ToolStripDropDownClosedEventArgs E)
         {
-            if (E.CloseReason == ToolStripDropDownCloseReason.AppClicked || E.CloseReason == ToolStripDropDownCloseReason.ItemClicked)
-                BlockNextMouseEvent = true;
+            if (E.CloseReason == ToolStripDropDownCloseReason.AppClicked)
+            {
+                if (FSMBuilderPanel.Bounds.Contains(FSMBuilderPanel.PointToClient(Cursor.Position)))
+                    BlockNextMouseEvent = true;
+            }
         }
 
         private void FSMBuilderPanel_MouseDown(Object Sender, MouseEventArgs E)

@@ -13,6 +13,11 @@ namespace Anathema
     /// </summary>
     public class FiniteState : ScanConstraintManager, IEnumerable
     {
+        /// <summary>
+        /// Used for showing the number of elements in this state in the display
+        /// </summary>
+        public Int64 StateCount;
+
         // Holds mappings of scan constraints to their next state in the FSM
         private Dictionary<ScanConstraint, FiniteState> Transitions;
 
@@ -30,6 +35,7 @@ namespace Anathema
 
         public FiniteState() : base()
         {
+            StateCount = 0;
             StateEvent = StateEventEnum.None;
             Transitions = new Dictionary<ScanConstraint, FiniteState>();
         }
@@ -37,6 +43,7 @@ namespace Anathema
         public FiniteState(Point Location) : base()
         {
             this.Location = Location;
+            StateCount = 0;
             StateEvent = StateEventEnum.None;
             Transitions = new Dictionary<ScanConstraint, FiniteState>();
         }

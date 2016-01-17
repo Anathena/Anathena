@@ -25,6 +25,12 @@ namespace Anathema
     abstract class IFiniteStateScannerModel : IScannerModel
     {
         // Events triggered by the model (upstream)
+        public event FiniteStateScannerEventHandler EventUpdateDisplay;
+        protected virtual void OnEventUpdateDisplay(FiniteStateScannerEventArgs E)
+        {
+            EventUpdateDisplay(this, E);
+        }
+
         public event FiniteStateScannerEventHandler EventScanFinished;
         protected virtual void OnEventScanFinished(FiniteStateScannerEventArgs E)
         {
@@ -59,6 +65,7 @@ namespace Anathema
 
             // Bind events triggered by the model
             Model.EventScanFinished += EventScanFinished;
+            Model.EventUpdateDisplay += EventUpdateDisplay;
         }
 
         #region Method definitions called by the view (downstream)
@@ -243,6 +250,11 @@ namespace Anathema
         public void EventScanFinished(Object Sender, FiniteStateScannerEventArgs E)
         {
             ScanFinished();
+        }
+
+        public void EventUpdateDisplay(Object Sender, FiniteStateScannerEventArgs E)
+        {
+            UpdateDisplay();
         }
 
         #endregion

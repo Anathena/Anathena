@@ -87,7 +87,8 @@ namespace Anathema
 
         public override void ClearNodes()
         {
-            InputConditionTree.Nodes.Clear();
+            if (InputConditionTree != null)
+                InputConditionTree.Nodes.Clear();
             InputConditionTree = null;
             UpdateDisplay();
         }

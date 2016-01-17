@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Drawing;
+using System.Threading;
 
 namespace Anathema
 {
@@ -63,6 +64,11 @@ namespace Anathema
                 default:
                     throw new Exception("Start state must mark elements as valid or invalid.");
             }
+
+            // Initialize state counts
+            foreach (FiniteState State in FiniteStateMachine)
+                State.StateCount = 0;
+            FiniteStateMachine.GetStartState().StateCount = (Int64)Snapshot.GetMemorySize();
 
             base.Begin();
         }
@@ -133,15 +139,13 @@ namespace Anathema
 
                         if (DoTransition)
                         {
-                            // DEBUG
-                            //if ((UInt64)Element.BaseAddress != 0x0100579C)
-                            {
-                              //  Element.Valid = false;
-                                //continue;
-                            }
-
+                            // Update counts
+                            Interlocked.Decrement(ref FiniteStateMachine[Element.ElementLabel.Value].StateCount);
+                            Interlocked.Increment(ref Transition.Value.StateCount);
+                            
+                            // Do transition and transition event
                             Element.ElementLabel = FiniteStateMachine.IndexOf(Transition.Value);
-                            switch(Transition.Value.GetStateEvent())
+                            switch (Transition.Value.GetStateEvent())
                             {
                                 case FiniteState.StateEventEnum.None:
                                     break;
@@ -162,6 +166,8 @@ namespace Anathema
                 } // End foreach Element
 
             }); // End foreach Region
+
+            OnEventUpdateDisplay(new FiniteStateScannerEventArgs());
         }
 
         public override void End()
@@ -173,8 +179,13 @@ namespace Anathema
 
             SnapshotManager.GetInstance().SaveSnapshot(Snapshot);
 
+            // Reset state counts
+            foreach (FiniteState State in FiniteStateMachine)
+                State.StateCount = 0;
+
             FiniteStateScannerEventArgs Args = new FiniteStateScannerEventArgs();
             OnEventScanFinished(Args);
+            OnEventUpdateDisplay(Args);
         }
     }
 }
