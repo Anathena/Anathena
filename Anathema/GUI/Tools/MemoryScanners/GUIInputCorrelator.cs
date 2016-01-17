@@ -68,7 +68,8 @@ namespace Anathema
                 AddContextMenuToNodes(InputTreeView.Nodes);
 
                 if (ContainsNode(InputTreeView.Nodes, SelectedNode))
-                    InputTreeView.SelectedNode = SelectedNode;
+                    InputTreeView.SetSelection(SelectedNode);
+                InputTreeView.ExpandAll();
             });
         }
 

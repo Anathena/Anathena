@@ -33,18 +33,18 @@
             this.VariableSizeLabel = new System.Windows.Forms.Label();
             this.VariableSizeTrackBar = new System.Windows.Forms.TrackBar();
             this.ScanToolStrip = new System.Windows.Forms.ToolStrip();
-            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
-            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
-            this.InputContextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.DeleteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.StartScanButton = new System.Windows.Forms.ToolStripButton();
             this.StopScanButton = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.DeleteNodeButton = new System.Windows.Forms.ToolStripButton();
             this.ClearInputsButton = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.AddInputButton = new System.Windows.Forms.ToolStripButton();
-            this.AddNOTButton = new System.Windows.Forms.ToolStripButton();
-            this.AddANDButton = new System.Windows.Forms.ToolStripButton();
             this.AddORButton = new System.Windows.Forms.ToolStripButton();
+            this.AddANDButton = new System.Windows.Forms.ToolStripButton();
+            this.AddNOTButton = new System.Windows.Forms.ToolStripButton();
+            this.InputContextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.DeleteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.InputTextBox = new Anathema.WatermarkTextBox();
             this.InputTreeView = new Anathema.HighlightPreservingTreeView();
             ((System.ComponentModel.ISupportInitialize)(this.VariableSizeTrackBar)).BeginInit();
@@ -105,31 +105,6 @@
             this.ScanToolStrip.TabIndex = 150;
             this.ScanToolStrip.Text = "toolStrip1";
             // 
-            // toolStripSeparator1
-            // 
-            this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 25);
-            // 
-            // toolStripSeparator2
-            // 
-            this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(6, 25);
-            // 
-            // InputContextMenuStrip
-            // 
-            this.InputContextMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.DeleteToolStripMenuItem});
-            this.InputContextMenuStrip.Name = "InputContextMenuStrip";
-            this.InputContextMenuStrip.Size = new System.Drawing.Size(108, 26);
-            this.InputContextMenuStrip.Opening += new System.ComponentModel.CancelEventHandler(this.InputContextMenuStrip_Opening);
-            // 
-            // DeleteToolStripMenuItem
-            // 
-            this.DeleteToolStripMenuItem.Name = "DeleteToolStripMenuItem";
-            this.DeleteToolStripMenuItem.Size = new System.Drawing.Size(107, 22);
-            this.DeleteToolStripMenuItem.Text = "Delete";
-            this.DeleteToolStripMenuItem.Click += new System.EventHandler(this.DeleteToolStripMenuItem_Click);
-            // 
             // StartScanButton
             // 
             this.StartScanButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
@@ -149,6 +124,11 @@
             this.StopScanButton.Size = new System.Drawing.Size(23, 22);
             this.StopScanButton.Text = "Stop Scan";
             this.StopScanButton.Click += new System.EventHandler(this.StopScanButton_Click);
+            // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 25);
             // 
             // DeleteNodeButton
             // 
@@ -170,6 +150,11 @@
             this.ClearInputsButton.Text = "Clear Inputs";
             this.ClearInputsButton.Click += new System.EventHandler(this.ClearInputsButton_Click);
             // 
+            // toolStripSeparator2
+            // 
+            this.toolStripSeparator2.Name = "toolStripSeparator2";
+            this.toolStripSeparator2.Size = new System.Drawing.Size(6, 25);
+            // 
             // AddInputButton
             // 
             this.AddInputButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
@@ -180,15 +165,15 @@
             this.AddInputButton.Text = "Add Input";
             this.AddInputButton.Click += new System.EventHandler(this.AddInputButton_Click);
             // 
-            // AddNOTButton
+            // AddORButton
             // 
-            this.AddNOTButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.AddNOTButton.Image = global::Anathema.Properties.Resources.Negation;
-            this.AddNOTButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.AddNOTButton.Name = "AddNOTButton";
-            this.AddNOTButton.Size = new System.Drawing.Size(23, 22);
-            this.AddNOTButton.Text = "Add Logical NOT";
-            this.AddNOTButton.Click += new System.EventHandler(this.AddNOTButton_Click);
+            this.AddORButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.AddORButton.Image = global::Anathema.Properties.Resources.LogicalOR;
+            this.AddORButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.AddORButton.Name = "AddORButton";
+            this.AddORButton.Size = new System.Drawing.Size(23, 22);
+            this.AddORButton.Text = "Add Logical OR";
+            this.AddORButton.Click += new System.EventHandler(this.AddORButton_Click);
             // 
             // AddANDButton
             // 
@@ -200,15 +185,30 @@
             this.AddANDButton.Text = "Add Logical AND";
             this.AddANDButton.Click += new System.EventHandler(this.AddANDButton_Click);
             // 
-            // AddORButton
+            // AddNOTButton
             // 
-            this.AddORButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.AddORButton.Image = global::Anathema.Properties.Resources.LogicalOR;
-            this.AddORButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.AddORButton.Name = "AddORButton";
-            this.AddORButton.Size = new System.Drawing.Size(23, 22);
-            this.AddORButton.Text = "Add Logical OR";
-            this.AddORButton.Click += new System.EventHandler(this.AddORButton_Click);
+            this.AddNOTButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.AddNOTButton.Image = global::Anathema.Properties.Resources.Negation;
+            this.AddNOTButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.AddNOTButton.Name = "AddNOTButton";
+            this.AddNOTButton.Size = new System.Drawing.Size(23, 22);
+            this.AddNOTButton.Text = "Add Logical NOT";
+            this.AddNOTButton.Click += new System.EventHandler(this.AddNOTButton_Click);
+            // 
+            // InputContextMenuStrip
+            // 
+            this.InputContextMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.DeleteToolStripMenuItem});
+            this.InputContextMenuStrip.Name = "InputContextMenuStrip";
+            this.InputContextMenuStrip.Size = new System.Drawing.Size(108, 26);
+            this.InputContextMenuStrip.Opening += new System.ComponentModel.CancelEventHandler(this.InputContextMenuStrip_Opening);
+            // 
+            // DeleteToolStripMenuItem
+            // 
+            this.DeleteToolStripMenuItem.Name = "DeleteToolStripMenuItem";
+            this.DeleteToolStripMenuItem.Size = new System.Drawing.Size(107, 22);
+            this.DeleteToolStripMenuItem.Text = "Delete";
+            this.DeleteToolStripMenuItem.Click += new System.EventHandler(this.DeleteToolStripMenuItem_Click);
             // 
             // InputTextBox
             // 
