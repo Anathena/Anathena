@@ -31,7 +31,8 @@ namespace Anathema
         void UpdateRescanInterval(Int32 RescanInterval);
         void UpdateResultReadInterval(Int32 ResultReadInterval);
         void UpdateTableReadInterval(Int32 TableReadInterval);
-        
+        void UpdateInputCorrelatorTimeOutInterval(Int32 InputCorrelatorTimeOutInterval);
+
         Boolean[] GetTypeSettings();
         MemoryProtectionFlags GetRequiredProtectionSettings();
         MemoryProtectionFlags GetIgnoredProtectionSettings();
@@ -92,6 +93,11 @@ namespace Anathema
         public void UpdateTableReadInterval(String TableReadInterval)
         {
             Model.UpdateTableReadInterval(Int32.Parse(TableReadInterval));
+        }
+
+        public void UpdateInputCorrelatorTimeOutInterval(String InputCorrelatorTimeOutInterval)
+        {
+            Model.UpdateInputCorrelatorTimeOutInterval(Int32.Parse(InputCorrelatorTimeOutInterval));
         }
 
         public Boolean[] GetTypeSettings()

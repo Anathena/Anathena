@@ -1,4 +1,5 @@
-﻿using Binarysharp.MemoryManagement;
+﻿using Anathema.Properties;
+using Binarysharp.MemoryManagement;
 using Binarysharp.MemoryManagement.Memory;
 using Gma.System.MouseKeyHook;
 using System;
@@ -27,9 +28,8 @@ namespace Anathema
         private Dictionary<Keys, DateTime> KeyBoardDown;    // List of keyboard down events
         private Dictionary<Keys, DateTime> KeyBoardUp;      // List of keyboard up events
 
-        private Int32 VariableSize; // Number of bytes to correlate at a time
-        private Int32 WaitTime;     // Time (ms) to process new changes as correlations
-        private Keys UserInput;     // Whatever
+        private Int32 VariableSize;     // Number of bytes to correlate at a time
+        private Int32 TimeOutInterval;  // ms to consider a fired key event as active
 
         private InputNode InputConditionTree;
 
@@ -120,10 +120,7 @@ namespace Anathema
 
             // Initialize with no correlation
             Snapshot.SetElementLabels(0.0f);
-
-            // TEMP: variables that should be user-tuned
-            UserInput = Keys.D;
-            WaitTime = 800;
+            TimeOutInterval = Settings.GetInstance().GetInputCorrelatorTimeOutInterval();
 
             // Initialize input dictionaries
             KeyBoardUp = new Dictionary<Keys, DateTime>();
@@ -142,7 +139,7 @@ namespace Anathema
             // Read memory to update previous and current values
             Snapshot.ReadAllSnapshotMemory();
 
-            Boolean ConditionValid = InputConditionTree.EvaluateCondition(KeyBoardDown, Snapshot.GetTimeStamp(), WaitTime);
+            Boolean ConditionValid = InputConditionTree.EvaluateCondition(KeyBoardDown, Snapshot.GetTimeStamp(), TimeOutInterval);
 
             Parallel.ForEach(Snapshot.Cast<Object>(), (RegionObject) =>
             {

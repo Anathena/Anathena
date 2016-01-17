@@ -21,12 +21,14 @@ namespace Anathema
         private Task ScannerTask;                       // Event that constantly checks the target process for changes
 
         private const Int32 AbortTime = 3000;   // Time to wait (in ms) before giving up when ending scan
-        private Int32 WaitTime = 400;           // Time to wait (in ms) for a cancel request between each scan
+        protected Int32 WaitTime;               // Time to wait (in ms) for a cancel request between each scan
 
         protected Boolean FlagEndScan;          // Flag that may be triggered in the update cycle to end the scan
 
         public virtual void BeginScan()
         {
+            WaitTime = Settings.GetInstance().GetRescanInterval();
+
             FlagEndScan = false;
             CancelRequest = new CancellationTokenSource();
             ScannerTask = Task.Run(async () =>

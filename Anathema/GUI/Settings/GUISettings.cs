@@ -57,7 +57,7 @@ namespace Anathema
             WriteCombineCheckBox.CheckState = IgnoredProtectionSettings[Array.IndexOf(ProtectionEnumValues, MemoryProtectionFlags.WriteCombine)] ? CheckState.Unchecked : WriteCombineCheckBox.CheckState;
 
             FreezeIntervalTextBox.Text = SettingsPresenter.GetFreezeInterval();
-            RepeatScanIntervalTextBox.Text = SettingsPresenter.GetRescanInterval();
+            RescanIntervalTextBox.Text = SettingsPresenter.GetRescanInterval();
             TableReadIntervalTextBox.Text = SettingsPresenter.GetResultReadInterval();
             ResultsReadIntervalTextBox.Text = SettingsPresenter.GetTableReadInterval();
         }
@@ -67,14 +67,17 @@ namespace Anathema
             if (CheckSyntax.Int32Value(FreezeIntervalTextBox.Text))
                 SettingsPresenter.UpdateFreezeInterval(FreezeIntervalTextBox.Text);
 
-            if (CheckSyntax.Int32Value(RepeatScanIntervalTextBox.Text))
-                SettingsPresenter.UpdateFreezeInterval(RepeatScanIntervalTextBox.Text);
+            if (CheckSyntax.Int32Value(RescanIntervalTextBox.Text))
+                SettingsPresenter.UpdateRescanInterval(RescanIntervalTextBox.Text);
 
             if (CheckSyntax.Int32Value(TableReadIntervalTextBox.Text))
-                SettingsPresenter.UpdateFreezeInterval(TableReadIntervalTextBox.Text);
+                SettingsPresenter.UpdateTableReadInterval(TableReadIntervalTextBox.Text);
 
             if (CheckSyntax.Int32Value(ResultsReadIntervalTextBox.Text))
-                SettingsPresenter.UpdateFreezeInterval(ResultsReadIntervalTextBox.Text);
+                SettingsPresenter.UpdateResultReadInterval(ResultsReadIntervalTextBox.Text);
+
+            if (CheckSyntax.Int32Value(InputCorrelatorTimeoutTextBox.Text))
+                SettingsPresenter.UpdateInputCorrelatorTimeOutInterval(InputCorrelatorTimeoutTextBox.Text);
 
             SettingsPresenter.UpdateTypeSettings(NoneCheckBox.Checked, PrivateCheckBox.Checked, MappedCheckBox.Checked, ImageCheckBox.Checked);
             SettingsPresenter.UpdateRequiredProtectionSettings(NoAccessCheckBox.CheckState == CheckState.Checked, ReadOnlyCheckBox.CheckState == CheckState.Checked, ReadWriteCheckBox.CheckState == CheckState.Checked,
@@ -83,8 +86,6 @@ namespace Anathema
             SettingsPresenter.UpdateIgnoredProtectionSettings(NoAccessCheckBox.CheckState == CheckState.Unchecked, ReadOnlyCheckBox.CheckState == CheckState.Unchecked, ReadWriteCheckBox.CheckState == CheckState.Unchecked,
                 WriteCopyCheckBox.CheckState == CheckState.Unchecked, ExecuteCheckBox.CheckState == CheckState.Unchecked, ExecuteReadCheckBox.CheckState == CheckState.Unchecked, ExecuteReadWriteCheckBox.CheckState == CheckState.Unchecked,
                 ExecuteWriteCopyCheckBox.CheckState == CheckState.Unchecked, GuardCheckBox.CheckState == CheckState.Unchecked, NoCacheCheckBox.CheckState == CheckState.Unchecked, WriteCombineCheckBox.CheckState == CheckState.Unchecked);
-
-
         }
 
         #region Events

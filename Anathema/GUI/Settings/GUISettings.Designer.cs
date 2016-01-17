@@ -33,16 +33,19 @@
             this.SettingsTabControl = new System.Windows.Forms.TabControl();
             this.GeneralTabPage = new System.Windows.Forms.TabPage();
             this.IntervalsGroupBox = new System.Windows.Forms.GroupBox();
-            this.RepeatScanIntervalTextBox = new System.Windows.Forms.TextBox();
+            this.InputCorrelatorTimeoutLabel = new System.Windows.Forms.Label();
+            this.InputCorrelatorTimeoutTextBox = new System.Windows.Forms.TextBox();
+            this.RescanIntervalTextBox = new System.Windows.Forms.TextBox();
             this.ResultsReadIntervalLabel = new System.Windows.Forms.Label();
             this.FreezeIntervalTextBox = new System.Windows.Forms.TextBox();
             this.TableReadIntervalLabel = new System.Windows.Forms.Label();
             this.TableReadIntervalTextBox = new System.Windows.Forms.TextBox();
             this.FreezeIntervalLabel = new System.Windows.Forms.Label();
             this.ResultsReadIntervalTextBox = new System.Windows.Forms.TextBox();
-            this.RepeatScanTimerLabel = new System.Windows.Forms.Label();
+            this.RescanTimerLabel = new System.Windows.Forms.Label();
             this.ScanTabPage = new System.Windows.Forms.TabPage();
             this.MemoryTypeGroupBox = new System.Windows.Forms.GroupBox();
+            this.NoneCheckBox = new System.Windows.Forms.CheckBox();
             this.PrivateCheckBox = new System.Windows.Forms.CheckBox();
             this.ImageCheckBox = new System.Windows.Forms.CheckBox();
             this.MappedCheckBox = new System.Windows.Forms.CheckBox();
@@ -58,7 +61,6 @@
             this.ReadWriteCheckBox = new System.Windows.Forms.CheckBox();
             this.ReadOnlyCheckBox = new System.Windows.Forms.CheckBox();
             this.NoAccessCheckBox = new System.Windows.Forms.CheckBox();
-            this.NoneCheckBox = new System.Windows.Forms.CheckBox();
             this.SettingsTabControl.SuspendLayout();
             this.GeneralTabPage.SuspendLayout();
             this.IntervalsGroupBox.SuspendLayout();
@@ -117,36 +119,54 @@
             // 
             this.IntervalsGroupBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.IntervalsGroupBox.Controls.Add(this.RepeatScanIntervalTextBox);
+            this.IntervalsGroupBox.Controls.Add(this.InputCorrelatorTimeoutLabel);
+            this.IntervalsGroupBox.Controls.Add(this.InputCorrelatorTimeoutTextBox);
+            this.IntervalsGroupBox.Controls.Add(this.RescanIntervalTextBox);
             this.IntervalsGroupBox.Controls.Add(this.ResultsReadIntervalLabel);
             this.IntervalsGroupBox.Controls.Add(this.FreezeIntervalTextBox);
             this.IntervalsGroupBox.Controls.Add(this.TableReadIntervalLabel);
             this.IntervalsGroupBox.Controls.Add(this.TableReadIntervalTextBox);
             this.IntervalsGroupBox.Controls.Add(this.FreezeIntervalLabel);
             this.IntervalsGroupBox.Controls.Add(this.ResultsReadIntervalTextBox);
-            this.IntervalsGroupBox.Controls.Add(this.RepeatScanTimerLabel);
+            this.IntervalsGroupBox.Controls.Add(this.RescanTimerLabel);
             this.IntervalsGroupBox.Location = new System.Drawing.Point(6, 6);
             this.IntervalsGroupBox.Name = "IntervalsGroupBox";
-            this.IntervalsGroupBox.Size = new System.Drawing.Size(309, 130);
+            this.IntervalsGroupBox.Size = new System.Drawing.Size(226, 164);
             this.IntervalsGroupBox.TabIndex = 8;
             this.IntervalsGroupBox.TabStop = false;
-            this.IntervalsGroupBox.Text = "Intervals";
+            this.IntervalsGroupBox.Text = "Intervals (ms)";
             // 
-            // RepeatScanIntervalTextBox
+            // InputCorrelatorTimeoutLabel
             // 
-            this.RepeatScanIntervalTextBox.Location = new System.Drawing.Point(6, 45);
-            this.RepeatScanIntervalTextBox.Name = "RepeatScanIntervalTextBox";
-            this.RepeatScanIntervalTextBox.Size = new System.Drawing.Size(68, 20);
-            this.RepeatScanIntervalTextBox.TabIndex = 3;
+            this.InputCorrelatorTimeoutLabel.AutoSize = true;
+            this.InputCorrelatorTimeoutLabel.Location = new System.Drawing.Point(80, 126);
+            this.InputCorrelatorTimeoutLabel.Name = "InputCorrelatorTimeoutLabel";
+            this.InputCorrelatorTimeoutLabel.Size = new System.Drawing.Size(120, 13);
+            this.InputCorrelatorTimeoutLabel.TabIndex = 9;
+            this.InputCorrelatorTimeoutLabel.Text = "Input Correlator Timeout";
+            // 
+            // InputCorrelatorTimeoutTextBox
+            // 
+            this.InputCorrelatorTimeoutTextBox.Location = new System.Drawing.Point(6, 123);
+            this.InputCorrelatorTimeoutTextBox.Name = "InputCorrelatorTimeoutTextBox";
+            this.InputCorrelatorTimeoutTextBox.Size = new System.Drawing.Size(68, 20);
+            this.InputCorrelatorTimeoutTextBox.TabIndex = 8;
+            // 
+            // RescanIntervalTextBox
+            // 
+            this.RescanIntervalTextBox.Location = new System.Drawing.Point(6, 45);
+            this.RescanIntervalTextBox.Name = "RescanIntervalTextBox";
+            this.RescanIntervalTextBox.Size = new System.Drawing.Size(68, 20);
+            this.RescanIntervalTextBox.TabIndex = 3;
             // 
             // ResultsReadIntervalLabel
             // 
             this.ResultsReadIntervalLabel.AutoSize = true;
             this.ResultsReadIntervalLabel.Location = new System.Drawing.Point(80, 100);
             this.ResultsReadIntervalLabel.Name = "ResultsReadIntervalLabel";
-            this.ResultsReadIntervalLabel.Size = new System.Drawing.Size(131, 13);
+            this.ResultsReadIntervalLabel.Size = new System.Drawing.Size(109, 13);
             this.ResultsReadIntervalLabel.TabIndex = 7;
-            this.ResultsReadIntervalLabel.Text = "Results Read Interval (ms)";
+            this.ResultsReadIntervalLabel.Text = "Results Read Interval";
             // 
             // FreezeIntervalTextBox
             // 
@@ -160,9 +180,9 @@
             this.TableReadIntervalLabel.AutoSize = true;
             this.TableReadIntervalLabel.Location = new System.Drawing.Point(80, 74);
             this.TableReadIntervalLabel.Name = "TableReadIntervalLabel";
-            this.TableReadIntervalLabel.Size = new System.Drawing.Size(123, 13);
+            this.TableReadIntervalLabel.Size = new System.Drawing.Size(101, 13);
             this.TableReadIntervalLabel.TabIndex = 6;
-            this.TableReadIntervalLabel.Text = "Table Read Interval (ms)";
+            this.TableReadIntervalLabel.Text = "Table Read Interval";
             // 
             // TableReadIntervalTextBox
             // 
@@ -176,9 +196,9 @@
             this.FreezeIntervalLabel.AutoSize = true;
             this.FreezeIntervalLabel.Location = new System.Drawing.Point(80, 22);
             this.FreezeIntervalLabel.Name = "FreezeIntervalLabel";
-            this.FreezeIntervalLabel.Size = new System.Drawing.Size(99, 13);
+            this.FreezeIntervalLabel.Size = new System.Drawing.Size(77, 13);
             this.FreezeIntervalLabel.TabIndex = 5;
-            this.FreezeIntervalLabel.Text = "Freeze Interval (ms)";
+            this.FreezeIntervalLabel.Text = "Freeze Interval";
             // 
             // ResultsReadIntervalTextBox
             // 
@@ -187,14 +207,14 @@
             this.ResultsReadIntervalTextBox.Size = new System.Drawing.Size(68, 20);
             this.ResultsReadIntervalTextBox.TabIndex = 2;
             // 
-            // RepeatScanTimerLabel
+            // RescanTimerLabel
             // 
-            this.RepeatScanTimerLabel.AutoSize = true;
-            this.RepeatScanTimerLabel.Location = new System.Drawing.Point(80, 48);
-            this.RepeatScanTimerLabel.Name = "RepeatScanTimerLabel";
-            this.RepeatScanTimerLabel.Size = new System.Drawing.Size(130, 13);
-            this.RepeatScanTimerLabel.TabIndex = 4;
-            this.RepeatScanTimerLabel.Text = "Repeat Scan Interval (ms)";
+            this.RescanTimerLabel.AutoSize = true;
+            this.RescanTimerLabel.Location = new System.Drawing.Point(80, 48);
+            this.RescanTimerLabel.Name = "RescanTimerLabel";
+            this.RescanTimerLabel.Size = new System.Drawing.Size(82, 13);
+            this.RescanTimerLabel.TabIndex = 4;
+            this.RescanTimerLabel.Text = "Rescan Interval";
             // 
             // ScanTabPage
             // 
@@ -222,6 +242,16 @@
             this.MemoryTypeGroupBox.TabIndex = 8;
             this.MemoryTypeGroupBox.TabStop = false;
             this.MemoryTypeGroupBox.Text = "Memory Type";
+            // 
+            // NoneCheckBox
+            // 
+            this.NoneCheckBox.AutoSize = true;
+            this.NoneCheckBox.Location = new System.Drawing.Point(6, 19);
+            this.NoneCheckBox.Name = "NoneCheckBox";
+            this.NoneCheckBox.Size = new System.Drawing.Size(52, 17);
+            this.NoneCheckBox.TabIndex = 7;
+            this.NoneCheckBox.Text = "None";
+            this.NoneCheckBox.UseVisualStyleBackColor = true;
             // 
             // PrivateCheckBox
             // 
@@ -396,16 +426,6 @@
             this.NoAccessCheckBox.ThreeState = true;
             this.NoAccessCheckBox.UseVisualStyleBackColor = true;
             // 
-            // NoneCheckBox
-            // 
-            this.NoneCheckBox.AutoSize = true;
-            this.NoneCheckBox.Location = new System.Drawing.Point(6, 19);
-            this.NoneCheckBox.Name = "NoneCheckBox";
-            this.NoneCheckBox.Size = new System.Drawing.Size(52, 17);
-            this.NoneCheckBox.TabIndex = 7;
-            this.NoneCheckBox.Text = "None";
-            this.NoneCheckBox.UseVisualStyleBackColor = true;
-            // 
             // GUISettings
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -442,8 +462,8 @@
         private System.Windows.Forms.CheckBox PrivateCheckBox;
         private System.Windows.Forms.CheckBox MappedCheckBox;
         private System.Windows.Forms.CheckBox ImageCheckBox;
-        private System.Windows.Forms.Label RepeatScanTimerLabel;
-        private System.Windows.Forms.TextBox RepeatScanIntervalTextBox;
+        private System.Windows.Forms.Label RescanTimerLabel;
+        private System.Windows.Forms.TextBox RescanIntervalTextBox;
         private System.Windows.Forms.TextBox ResultsReadIntervalTextBox;
         private System.Windows.Forms.TextBox TableReadIntervalTextBox;
         private System.Windows.Forms.TextBox FreezeIntervalTextBox;
@@ -462,5 +482,7 @@
         private System.Windows.Forms.CheckBox WriteCopyCheckBox;
         private System.Windows.Forms.GroupBox MemoryTypeGroupBox;
         private System.Windows.Forms.CheckBox NoneCheckBox;
+        private System.Windows.Forms.Label InputCorrelatorTimeoutLabel;
+        private System.Windows.Forms.TextBox InputCorrelatorTimeoutTextBox;
     }
 }

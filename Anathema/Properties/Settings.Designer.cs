@@ -142,5 +142,17 @@ namespace Anathema.Properties {
                 this["MemoryTypeMapped"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("400")]
+        public int InputCorrelatorTimeOutInterval {
+            get {
+                return ((int)(this["InputCorrelatorTimeOutInterval"]));
+            }
+            set {
+                this["InputCorrelatorTimeOutInterval"] = value;
+            }
+        }
     }
 }

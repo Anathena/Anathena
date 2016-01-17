@@ -72,7 +72,12 @@ namespace Anathema
         {
             Properties.Settings.Default.TableReadInterval = TableReadInterval;
         }
-        
+
+        public void UpdateInputCorrelatorTimeOutInterval(Int32 InputCorrelatorTimeOutInterval)
+        {
+            Properties.Settings.Default.InputCorrelatorTimeOutInterval = InputCorrelatorTimeOutInterval;
+        }
+
         public Boolean[] GetTypeSettings()
         {
             Array TypeEnumValues = Enum.GetValues(typeof(MemoryTypeFlags));
@@ -113,6 +118,11 @@ namespace Anathema
         public Int32 GetTableReadInterval()
         {
             return Properties.Settings.Default.TableReadInterval;
+        }
+
+        public Int32 GetInputCorrelatorTimeOutInterval()
+        {
+            return Properties.Settings.Default.InputCorrelatorTimeOutInterval;
         }
     }
 }

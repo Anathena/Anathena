@@ -37,28 +37,28 @@ namespace Anathema
             ChildrenNodes = new List<InputNode>();
         }
 
-        public Boolean EvaluateCondition(Dictionary<Keys, DateTime> KeyEvents, DateTime QueryTime, Int32 WaitTime)
+        public Boolean EvaluateCondition(Dictionary<Keys, DateTime> KeyEvents, DateTime QueryTime, Int32 TimeOutInterval)
         {
             Boolean Result = false;
 
             switch (NodeType)
             {
                 case NodeTypeEnum.Input:
-                    if (KeyEvents.ContainsKey(Key) && Math.Abs((QueryTime - KeyEvents[Key]).TotalMilliseconds) < WaitTime)
+                    if (KeyEvents.ContainsKey(Key) && Math.Abs((QueryTime - KeyEvents[Key]).TotalMilliseconds) < TimeOutInterval)
                         Result = true;
                     break;
                 case NodeTypeEnum.AND:
                     Result = true;
                     foreach (InputNode Node in this)
-                        Result &= Node.EvaluateCondition(KeyEvents, QueryTime, WaitTime);
+                        Result &= Node.EvaluateCondition(KeyEvents, QueryTime, TimeOutInterval);
                     break;
                 case NodeTypeEnum.OR:
                     foreach (InputNode Node in this)
-                        Result |= Node.EvaluateCondition(KeyEvents, QueryTime, WaitTime);
+                        Result |= Node.EvaluateCondition(KeyEvents, QueryTime, TimeOutInterval);
                     break;
                 case NodeTypeEnum.NOT:
                     foreach (InputNode Node in this)
-                        Result = !Node.EvaluateCondition(KeyEvents, QueryTime, WaitTime);
+                        Result = !Node.EvaluateCondition(KeyEvents, QueryTime, TimeOutInterval);
                     break;
 
             }
