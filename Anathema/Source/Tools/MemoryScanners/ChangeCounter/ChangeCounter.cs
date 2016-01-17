@@ -38,7 +38,7 @@ namespace Anathema
             this.VariableSize = VariableSize;
         }
 
-        public override void BeginScan()
+        public override void Begin()
         {
             // Initialize labeled snapshot
             Snapshot = new Snapshot<UInt16>(SnapshotManager.GetInstance().GetActiveSnapshot());
@@ -48,10 +48,10 @@ namespace Anathema
             Snapshot.SetElementLabels(0);
             Snapshot.MarkAllValid();
 
-            base.BeginScan();
+            base.Begin();
         }
 
-        protected override void UpdateScan()
+        protected override void Update()
         {
             // Read memory to get current values
             Snapshot.ReadAllSnapshotMemory();
@@ -71,9 +71,9 @@ namespace Anathema
             }); // End regions
         }
 
-        public override void EndScan()
+        public override void End()
         {
-            base.EndScan();
+            base.End();
             
             // Mark regions as valid or invalid based on number of changes
             Snapshot.MarkAllInvalid();

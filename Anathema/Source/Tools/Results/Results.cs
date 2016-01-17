@@ -25,7 +25,7 @@ namespace Anathema
         {
             InitializeObserver();
             SetScanType(typeof(Int32));
-            BeginScan();
+            Begin();
         }
 
         public static Results GetInstance()
@@ -37,7 +37,7 @@ namespace Anathema
 
         ~Results()
         {
-            EndScan();
+            End();
         }
 
         public void InitializeObserver()
@@ -60,9 +60,9 @@ namespace Anathema
             return ScanType;
         }
 
-        public override void BeginScan()
+        public override void Begin()
         {
-            base.BeginScan();
+            base.Begin();
         }
 
         public override void AddSelectionToTable(Int32 Index)
@@ -138,7 +138,7 @@ namespace Anathema
             return Label;
         }
 
-        protected override void UpdateScan()
+        protected override void Update()
         {
             UInt64 MemorySize;
 

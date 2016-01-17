@@ -23,7 +23,7 @@ namespace Anathema
         void UpdateItemCount(Int32 ItemCount);
     }
 
-    abstract class IResultsModel : IScannerModel
+    abstract class IResultsModel : RepeatedTask, IModel
     {
         // Events triggered by the model (upstream)
         public event ResultsEventHandler EventRefreshDisplay;

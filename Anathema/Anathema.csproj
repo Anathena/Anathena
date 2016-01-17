@@ -118,6 +118,7 @@
       <DependentUpon>GUIAddressTableEntryEdit.cs</DependentUpon>
     </Compile>
     <Compile Include="Settings.cs" />
+    <Compile Include="Source\HelperClasses\RepeatedTask.cs" />
     <Compile Include="Source\Settings\ISettingsMVP.cs" />
     <Compile Include="Source\Tools\MemoryScanners\InputCorrelator\InputNode.cs" />
     <Compile Include="Source\Tools\PointerScanner\IPointerScannerMVP.cs" />

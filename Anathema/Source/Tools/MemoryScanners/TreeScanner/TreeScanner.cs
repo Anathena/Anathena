@@ -46,7 +46,7 @@ namespace Anathema
             return (Int32)(1 << MBBits);
         }
 
-        public override void BeginScan()
+        public override void Begin()
         {
             this.Snapshot = new Snapshot<Null>(SnapshotManager.GetInstance().GetActiveSnapshot());
             this.Snapshot.SetElementType(typeof(Byte));
@@ -57,10 +57,10 @@ namespace Anathema
             foreach (SnapshotRegion SnapshotRegion in Snapshot)
                 FilterTrees.Add(new FilterTree(SnapshotRegion.BaseAddress, SnapshotRegion.RegionSize, LeafSize));
 
-            base.BeginScan();
+            base.Begin();
         }
 
-        protected override void UpdateScan()
+        protected override void Update()
         {
             MemorySharp MemoryEditor = Snapshot.GetMemoryEditor();
             try
@@ -77,10 +77,10 @@ namespace Anathema
             }
         }
 
-        public override void EndScan()
+        public override void End()
         {
             // Wait for the filter to finish
-            base.EndScan();
+            base.End();
 
             // Collect the pages that have changed
             List<SnapshotRegion> FilteredRegions = new List<SnapshotRegion>();

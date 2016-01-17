@@ -65,7 +65,7 @@ namespace Anathema
 
         public void UpdateResultReadInterval(Int32 ResultReadInterval)
         {
-            Properties.Settings.Default.ResultReadInterval  = ResultReadInterval;
+            Properties.Settings.Default.ResultReadInterval = ResultReadInterval;
         }
 
         public void UpdateTableReadInterval(Int32 TableReadInterval)

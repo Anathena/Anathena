@@ -36,7 +36,7 @@ namespace Anathema
             AddressTable = new List<AddressItem>();
             ScriptTable = new List<ScriptItem>();
 
-            BeginScan();
+            Begin();
         }
 
         public static Table GetInstance()
@@ -48,7 +48,7 @@ namespace Anathema
 
         ~Table()
         {
-            EndScan();
+            End();
         }
 
         public void InitializeObserver()
@@ -80,13 +80,18 @@ namespace Anathema
             ScriptTable.Add(new ScriptItem(Script));
         }
 
-        public override void BeginScan()
+        public override void Begin()
         {
-            base.BeginScan();
+            base.Begin();
         }
 
-        protected override void UpdateScan()
+        protected override void Update()
         {
+            // Freeze addresses
+            foreach (AddressItem Item in AddressTable)
+                if (Item.GetActivationState())
+                    MemoryEditor.Write(Item.ElementType, Item.Address, Item.Value, false);
+
             // Request that the display be updated
             TableEventArgs Args = new TableEventArgs();
             OnEventRefreshDisplay(Args);

@@ -33,8 +33,8 @@
             this.SettingsTabControl = new System.Windows.Forms.TabControl();
             this.GeneralTabPage = new System.Windows.Forms.TabPage();
             this.IntervalsGroupBox = new System.Windows.Forms.GroupBox();
-            this.InputCorrelatorTimeoutLabel = new System.Windows.Forms.Label();
-            this.InputCorrelatorTimeoutTextBox = new System.Windows.Forms.TextBox();
+            this.InputCorrelatorTimeoutIntervalLabel = new System.Windows.Forms.Label();
+            this.InputCorrelatorTimeoutIntervalTextBox = new System.Windows.Forms.TextBox();
             this.RescanIntervalTextBox = new System.Windows.Forms.TextBox();
             this.ResultsReadIntervalLabel = new System.Windows.Forms.Label();
             this.FreezeIntervalTextBox = new System.Windows.Forms.TextBox();
@@ -119,8 +119,8 @@
             // 
             this.IntervalsGroupBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.IntervalsGroupBox.Controls.Add(this.InputCorrelatorTimeoutLabel);
-            this.IntervalsGroupBox.Controls.Add(this.InputCorrelatorTimeoutTextBox);
+            this.IntervalsGroupBox.Controls.Add(this.InputCorrelatorTimeoutIntervalLabel);
+            this.IntervalsGroupBox.Controls.Add(this.InputCorrelatorTimeoutIntervalTextBox);
             this.IntervalsGroupBox.Controls.Add(this.RescanIntervalTextBox);
             this.IntervalsGroupBox.Controls.Add(this.ResultsReadIntervalLabel);
             this.IntervalsGroupBox.Controls.Add(this.FreezeIntervalTextBox);
@@ -136,21 +136,21 @@
             this.IntervalsGroupBox.TabStop = false;
             this.IntervalsGroupBox.Text = "Intervals (ms)";
             // 
-            // InputCorrelatorTimeoutLabel
+            // InputCorrelatorTimeoutIntervalLabel
             // 
-            this.InputCorrelatorTimeoutLabel.AutoSize = true;
-            this.InputCorrelatorTimeoutLabel.Location = new System.Drawing.Point(80, 126);
-            this.InputCorrelatorTimeoutLabel.Name = "InputCorrelatorTimeoutLabel";
-            this.InputCorrelatorTimeoutLabel.Size = new System.Drawing.Size(120, 13);
-            this.InputCorrelatorTimeoutLabel.TabIndex = 9;
-            this.InputCorrelatorTimeoutLabel.Text = "Input Correlator Timeout";
+            this.InputCorrelatorTimeoutIntervalLabel.AutoSize = true;
+            this.InputCorrelatorTimeoutIntervalLabel.Location = new System.Drawing.Point(80, 126);
+            this.InputCorrelatorTimeoutIntervalLabel.Name = "InputCorrelatorTimeoutIntervalLabel";
+            this.InputCorrelatorTimeoutIntervalLabel.Size = new System.Drawing.Size(120, 13);
+            this.InputCorrelatorTimeoutIntervalLabel.TabIndex = 9;
+            this.InputCorrelatorTimeoutIntervalLabel.Text = "Input Correlator Timeout";
             // 
-            // InputCorrelatorTimeoutTextBox
+            // InputCorrelatorTimeoutIntervalTextBox
             // 
-            this.InputCorrelatorTimeoutTextBox.Location = new System.Drawing.Point(6, 123);
-            this.InputCorrelatorTimeoutTextBox.Name = "InputCorrelatorTimeoutTextBox";
-            this.InputCorrelatorTimeoutTextBox.Size = new System.Drawing.Size(68, 20);
-            this.InputCorrelatorTimeoutTextBox.TabIndex = 8;
+            this.InputCorrelatorTimeoutIntervalTextBox.Location = new System.Drawing.Point(6, 123);
+            this.InputCorrelatorTimeoutIntervalTextBox.Name = "InputCorrelatorTimeoutIntervalTextBox";
+            this.InputCorrelatorTimeoutIntervalTextBox.Size = new System.Drawing.Size(68, 20);
+            this.InputCorrelatorTimeoutIntervalTextBox.TabIndex = 8;
             // 
             // RescanIntervalTextBox
             // 
@@ -482,7 +482,7 @@
         private System.Windows.Forms.CheckBox WriteCopyCheckBox;
         private System.Windows.Forms.GroupBox MemoryTypeGroupBox;
         private System.Windows.Forms.CheckBox NoneCheckBox;
-        private System.Windows.Forms.Label InputCorrelatorTimeoutLabel;
-        private System.Windows.Forms.TextBox InputCorrelatorTimeoutTextBox;
+        private System.Windows.Forms.Label InputCorrelatorTimeoutIntervalLabel;
+        private System.Windows.Forms.TextBox InputCorrelatorTimeoutIntervalTextBox;
     }
 }

@@ -15,51 +15,12 @@ namespace Anathema
 
     }
 
-    abstract class IScannerModel : IModel
+    abstract class IScannerModel : RepeatedTask, IModel
     {
-        private CancellationTokenSource CancelRequest;  // Tells the scan task to cancel (ie finish)
-        private Task ScannerTask;                       // Event that constantly checks the target process for changes
-
-        private const Int32 AbortTime = 3000;   // Time to wait (in ms) before giving up when ending scan
-        protected Int32 WaitTime;               // Time to wait (in ms) for a cancel request between each scan
-
-        protected Boolean FlagEndScan;          // Flag that may be triggered in the update cycle to end the scan
-
-        public virtual void BeginScan()
+        public override void Begin()
         {
             WaitTime = Settings.GetInstance().GetRescanInterval();
-
-            FlagEndScan = false;
-            CancelRequest = new CancellationTokenSource();
-            ScannerTask = Task.Run(async () =>
-            {
-                while (true)
-                {
-                    if (FlagEndScan)
-                    {
-                        Action Action = EndScan;
-                        Action.BeginInvoke(x => Action.EndInvoke(x), null);
-                    }
-                    else
-                    { 
-                        UpdateScan();
-                    }
-
-                    // Await with cancellation
-                    await Task.Delay(WaitTime, CancelRequest.Token);
-                }
-            }, CancelRequest.Token);
-
-        }
-
-        protected abstract void UpdateScan();
-
-        public virtual void EndScan()
-        {
-            // Wait for the filter to finish
-            CancelRequest.Cancel();
-            try { ScannerTask.Wait(AbortTime); }
-            catch (AggregateException) { }
+            base.Begin();
         }
     }
 
@@ -75,12 +36,12 @@ namespace Anathema
 
         public void BeginScan()
         {
-            Model.BeginScan();
+            Model.Begin();
         }
 
         public void EndScan()
         {
-            Model.EndScan();
+            Model.End();
         }
 
         #endregion

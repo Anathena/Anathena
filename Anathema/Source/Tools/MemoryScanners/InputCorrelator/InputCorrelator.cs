@@ -112,7 +112,7 @@ namespace Anathema
             UpdateDisplay();
         }
 
-        public override void BeginScan()
+        public override void Begin()
         {
             // Initialize labeled snapshot
             Snapshot = new Snapshot<Single>(SnapshotManager.GetInstance().GetActiveSnapshot());
@@ -131,10 +131,10 @@ namespace Anathema
             InputHook.KeyUp += GlobalHookKeyUp;
             InputHook.KeyDown += GlobalHookKeyDown;
 
-            base.BeginScan();
+            base.Begin();
         }
 
-        protected override void UpdateScan()
+        protected override void Update()
         {
             // Read memory to update previous and current values
             Snapshot.ReadAllSnapshotMemory();
@@ -162,9 +162,9 @@ namespace Anathema
             });
         }
 
-        public override void EndScan()
+        public override void End()
         {
-            base.EndScan();
+            base.End();
 
             // Cleanup for the input hook
             //InputHook.MouseDownExt -= GlobalHookMouseDownExt;

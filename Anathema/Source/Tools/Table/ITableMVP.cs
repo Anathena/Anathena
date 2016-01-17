@@ -26,7 +26,7 @@ namespace Anathema
         void UpdateFSMTableItemCount(Int32 ItemCount);
     }
 
-    abstract class ITableModel : IScannerModel
+    abstract class ITableModel : RepeatedTask, IModel
     {
         // Events triggered by the model (upstream)
         public event TableEventHandler EventRefreshDisplay;
@@ -51,6 +51,13 @@ namespace Anathema
         protected virtual void OnEventUpdateFSMTableItemCount(TableEventArgs E)
         {
             EventUpdateFSMTableItemCount(this, E);
+        }
+
+        public override void Begin()
+        {
+            // Temporary workaround until I feel like adding multiple tasks to the RepeatTask class
+            WaitTime = Math.Min(Settings.GetInstance().GetTableReadInterval(), Settings.GetInstance().GetFreezeInterval());
+            base.Begin();
         }
 
         // Functions invoked by presenter (downstream)

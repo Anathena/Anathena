@@ -24,8 +24,6 @@ namespace Anathema
 
         public virtual void Begin()
         {
-            WaitTime = Settings.GetInstance().GetRescanInterval();
-
             CancelFlag = false;
             CancelRequest = new CancellationTokenSource();
             Task = Task.Run(async () =>

@@ -44,7 +44,7 @@ namespace Anathema
             OnEventScanFinished(FilterFSMEventArgs);
         }
 
-        public override void BeginScan()
+        public override void Begin()
         {
             // Initialize snapshot
             Snapshot = new Snapshot<Byte>(SnapshotManager.GetInstance().GetActiveSnapshot());
@@ -64,10 +64,10 @@ namespace Anathema
                     throw new Exception("Start state must mark elements as valid or invalid.");
             }
 
-            base.BeginScan();
+            base.Begin();
         }
 
-        protected override void UpdateScan()
+        protected override void Update()
         {
             // Read memory to get current values
             Snapshot.ReadAllSnapshotMemory();
@@ -152,7 +152,7 @@ namespace Anathema
                                     Element.Valid = false;
                                     break;
                                 case FiniteState.StateEventEnum.EndScan:
-                                    FlagEndScan = true;
+                                    CancelFlag = true;
                                     break;
                             }
                         }
@@ -164,9 +164,9 @@ namespace Anathema
             }); // End foreach Region
         }
 
-        public override void EndScan()
+        public override void End()
         {
-            base.EndScan();
+            base.End();
 
             Snapshot.DiscardInvalidRegions();
             Snapshot.SetScanMethod("Manual Scan");

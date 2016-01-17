@@ -41,6 +41,7 @@ namespace Anathema
         Int32 GetRescanInterval();
         Int32 GetResultReadInterval();
         Int32 GetTableReadInterval();
+        Int32 GetInputCorrelatorTimeOutInterval();
     }
 
     class SettingsPresenter : Presenter<ISettingsView, ISettingsModel>
@@ -153,6 +154,11 @@ namespace Anathema
         public String GetTableReadInterval()
         {
             return Model.GetTableReadInterval().ToString();
+        }
+
+        public String GetInputCorrelatorTimeOutInterval()
+        {
+            return Model.GetInputCorrelatorTimeOutInterval().ToString();
         }
 
         #endregion

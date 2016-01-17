@@ -56,17 +56,17 @@ namespace Anathema
             OnEventUpdateDisplay(FilterManualScanEventArgs);
         }
 
-        public override void BeginScan()
+        public override void Begin()
         {
             // Initialize snapshot
             Snapshot = new Snapshot<Null>(SnapshotManager.GetInstance().GetActiveSnapshot());
             Snapshot.MarkAllValid();
             Snapshot.SetElementType(ScanConstraints.GetElementType());
 
-            base.BeginScan();
+            base.Begin();
         }
 
-        protected override void UpdateScan()
+        protected override void Update()
         {
             // Read memory to get current values
             Snapshot.ReadAllSnapshotMemory();
@@ -134,12 +134,12 @@ namespace Anathema
             }); // End foreach Region
 
 
-            FlagEndScan = true;
+            CancelFlag = true;
         }
 
-        public override void EndScan()
+        public override void End()
         {
-            base.EndScan();
+            base.End();
 
             Snapshot.DiscardInvalidRegions();
             Snapshot.SetScanMethod("Manual Scan");

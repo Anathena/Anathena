@@ -60,6 +60,7 @@ namespace Anathema
             RescanIntervalTextBox.Text = SettingsPresenter.GetRescanInterval();
             TableReadIntervalTextBox.Text = SettingsPresenter.GetResultReadInterval();
             ResultsReadIntervalTextBox.Text = SettingsPresenter.GetTableReadInterval();
+            InputCorrelatorTimeoutIntervalTextBox.Text = SettingsPresenter.GetInputCorrelatorTimeOutInterval();
         }
 
         private void SaveSettings()
@@ -76,8 +77,8 @@ namespace Anathema
             if (CheckSyntax.Int32Value(ResultsReadIntervalTextBox.Text))
                 SettingsPresenter.UpdateResultReadInterval(ResultsReadIntervalTextBox.Text);
 
-            if (CheckSyntax.Int32Value(InputCorrelatorTimeoutTextBox.Text))
-                SettingsPresenter.UpdateInputCorrelatorTimeOutInterval(InputCorrelatorTimeoutTextBox.Text);
+            if (CheckSyntax.Int32Value(InputCorrelatorTimeoutIntervalTextBox.Text))
+                SettingsPresenter.UpdateInputCorrelatorTimeOutInterval(InputCorrelatorTimeoutIntervalTextBox.Text);
 
             SettingsPresenter.UpdateTypeSettings(NoneCheckBox.Checked, PrivateCheckBox.Checked, MappedCheckBox.Checked, ImageCheckBox.Checked);
             SettingsPresenter.UpdateRequiredProtectionSettings(NoAccessCheckBox.CheckState == CheckState.Checked, ReadOnlyCheckBox.CheckState == CheckState.Checked, ReadWriteCheckBox.CheckState == CheckState.Checked,
