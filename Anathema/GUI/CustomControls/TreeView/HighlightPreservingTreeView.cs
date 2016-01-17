@@ -24,6 +24,9 @@ namespace Anathema
 
         private void HighlightPreservingTreeView_Validating(Object Sender, EventArgs E)
         {
+            if (SelectedNode == null)
+                return;
+
             this.SelectedNode.BackColor = SystemColors.Highlight;
             this.SelectedNode.ForeColor = Color.White;
             PreviouslySelectedNode = this.SelectedNode;

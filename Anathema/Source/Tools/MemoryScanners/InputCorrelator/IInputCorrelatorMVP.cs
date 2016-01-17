@@ -14,6 +14,7 @@ namespace Anathema
     {
         // Methods invoked by the presenter (upstream)
         void UpdateDisplay(TreeNode Root);
+        void ClearDisplay();
     }
 
     abstract class IInputCorrelatorModel : IScannerModel
@@ -71,6 +72,7 @@ namespace Anathema
             if (Key == Keys.None)
                 return;
 
+            View.ClearDisplay();
             Model.AddInputNode(Indicies, Key);
         }
 
@@ -81,21 +83,25 @@ namespace Anathema
 
         public void DeleteNode(Stack<Int32> Indicies)
         {
+            View.ClearDisplay();
             Model.DeleteNode(Indicies);
         }
 
         public void AddAND(Stack<Int32> Indicies)
         {
+            View.ClearDisplay();
             Model.AddNode(Indicies, new InputNode(InputNode.NodeTypeEnum.AND));
         }
 
         public void AddOR(Stack<Int32> Indicies)
         {
+            View.ClearDisplay();
             Model.AddNode(Indicies, new InputNode(InputNode.NodeTypeEnum.OR));
         }
 
         public void AddNOT(Stack<Int32> Indicies)
         {
+            View.ClearDisplay();
             Model.AddNode(Indicies, new InputNode(InputNode.NodeTypeEnum.NOT));
         }
 

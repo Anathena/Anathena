@@ -18,6 +18,8 @@ namespace Anathema
         private readonly IKeyboardMouseEvents InputHook;    // Input capturing class
         private Boolean UpdatingInputTextBox;
 
+        private Stack<Int32> SelectionIndecies;
+
         public GUIInputCorrelator()
         {
             InitializeComponent();
@@ -54,27 +56,55 @@ namespace Anathema
             VariableSizeTrackBar.Enabled = false;
         }
 
+        /// <summary>
+        /// Clears the display and saves the indicies stack needed to navigate to the current selection
+        /// </summary>
+        public void ClearDisplay()
+        {
+            ControlThreadingHelper.InvokeControlAction(InputTreeView, () =>
+            {
+                SelectionIndecies = GetSelectionIndicies();
+                this.InputTreeView.Nodes.Clear();
+            });
+        }
+
         public void UpdateDisplay(TreeNode Root)
         {
             ControlThreadingHelper.InvokeControlAction(InputTreeView, () =>
             {
-                // Save selection
-                TreeNode SelectedNode = InputTreeView.SelectedNode;
-
                 this.InputTreeView.Nodes.Clear();
-                if (Root != null)
-                    this.InputTreeView.Nodes.Add(Root);
+
+                if (Root == null)
+                    return;
+
+                this.InputTreeView.Nodes.Add(Root);
 
                 AddContextMenuToNodes(InputTreeView.Nodes);
 
-                if (ContainsNode(InputTreeView.Nodes, SelectedNode))
-                    InputTreeView.SetSelection(SelectedNode);
+                // Attempt to restore selection if possible
+                InputNode TargetNode = InputTreeView.Nodes.Count == 0 ? null : (InputNode)InputTreeView.Nodes[0];
+
+                // Always throw away the first one, we only allow for a single root
+                if (SelectionIndecies.Count != 0)
+                    SelectionIndecies.Pop();
+
+                // Try to recover the original selection if it exists
+                while (TargetNode != null && SelectionIndecies.Count > 0)
+                    TargetNode = TargetNode.GetChildAtIndex(SelectionIndecies.Pop());
+
+                // Update selection
+                if (ContainsNode(InputTreeView.Nodes, TargetNode))
+                    InputTreeView.SetSelection(TargetNode);
+
                 InputTreeView.ExpandAll();
             });
         }
 
         private void AddContextMenuToNodes(TreeNodeCollection Nodes)
         {
+            if (Nodes == null)
+                return;
+
             foreach (TreeNode Node in Nodes)
             {
                 Node.ContextMenuStrip = InputContextMenuStrip;
@@ -84,6 +114,9 @@ namespace Anathema
 
         private Boolean ContainsNode(TreeNodeCollection Nodes, TreeNode TargetNode)
         {
+            if (Nodes == null)
+                return false;
+
             foreach (TreeNode Node in Nodes)
             {
                 if (Node == TargetNode)

@@ -79,13 +79,15 @@ namespace Anathema
                 TargetNode = TargetNode.GetChildAtIndex(Indicies.Pop());
 
             // Add the child
-            TargetNode.AddChild(Node);
+            if (TargetNode.CanAddChild(Node))
+                InputConditionTree = TargetNode.AddChild(Node);
 
             UpdateDisplay();
         }
 
         public override void ClearNodes()
         {
+            InputConditionTree.Nodes.Clear();
             InputConditionTree = null;
             UpdateDisplay();
         }

@@ -130,15 +130,36 @@ namespace Anathema
             return Result;
         }
 
-        public void AddChild(InputNode Node)
+        public Boolean CanAddChild(InputNode Node)
         {
             if (this.NodeType == NodeTypeEnum.Input && Node.NodeType == NodeTypeEnum.Input)
-                return;
+                return false;
+            return true;
+        }
 
-            Node.ParentNode = this;
+        public InputNode AddChild(InputNode Node)
+        {
+            // Adding AND/OR operations feels counter-intuitive without some parent swapping magic:
+            if (Node.ChildrenNodes.Count == 0 && (Node.NodeType == NodeTypeEnum.AND || Node.NodeType == NodeTypeEnum.OR || Node.NodeType == NodeTypeEnum.NOT))
+            {
+                InputNode CurrentParent = this.ParentNode;
+                if (CurrentParent != null)
+                    CurrentParent.RemoveChild(this);
+                Node.AddChild(this);
+                if (CurrentParent != null)
+                    CurrentParent.AddChild(Node);
+            }
+            else
+            {
+                Node.ParentNode = this;
+                ChildrenNodes.Add(Node);
+                this.Nodes.Add(Node);
+            }
 
-            ChildrenNodes.Add(Node);
-            this.Nodes.Add(Node);
+            InputNode CurrentNode = this;
+            while (CurrentNode != null && CurrentNode.ParentNode != null)
+                CurrentNode = CurrentNode.ParentNode;
+            return CurrentNode;
         }
 
         public void RemoveChild(InputNode Node)
@@ -154,7 +175,7 @@ namespace Anathema
 
         public InputNode GetChildAtIndex(Int32 Index)
         {
-            return ChildrenNodes[Index];
+            return Index < ChildrenNodes.Count ? ChildrenNodes[Index] : null;
         }
 
         public Boolean InputConditionValid()
