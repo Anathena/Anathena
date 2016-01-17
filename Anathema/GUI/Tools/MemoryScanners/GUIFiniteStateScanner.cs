@@ -22,6 +22,8 @@ namespace Anathema
         private Point[] SelectionLine;
         private Point RightClickLocation;
 
+        private Boolean BlockNextMouseEvent;
+
         // Drawing Variables:
         private static Font DrawFont = new Font(FontFamily.GenericSerif, 10.0f);
         private static Pen TransitionLine = new Pen(Color.Black, 3);
@@ -43,6 +45,8 @@ namespace Anathema
             FiniteStateScannerPresenter.SetStateEdgeSize(StateEdgeSize);
 
             ScanOptionButtons = new List<ToolStripButton>();
+
+            BlockNextMouseEvent = false;
 
             InitializeValueTypeComboBox();
             InitializeScanOptionButtons();
@@ -274,8 +278,20 @@ namespace Anathema
 
         #region Events
 
+        private void StateContextMenuStrip_Closed(Object Sender, ToolStripDropDownClosedEventArgs E)
+        {
+            if (E.CloseReason == ToolStripDropDownCloseReason.AppClicked || E.CloseReason == ToolStripDropDownCloseReason.ItemClicked)
+                BlockNextMouseEvent = true;
+        }
+
         private void FSMBuilderPanel_MouseDown(Object Sender, MouseEventArgs E)
         {
+            if (BlockNextMouseEvent)
+            {
+                BlockNextMouseEvent = false;
+                return;
+            }
+
             if (E.Button != MouseButtons.Left)
                 return;
 
