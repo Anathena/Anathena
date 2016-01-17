@@ -101,6 +101,20 @@ namespace Anathema
                     DrawImage = Resources.IntermediateState;
 
                 Graphics.DrawImage(DrawImage, State.Location.X - StateRadius, State.Location.Y - StateRadius, DrawImage.Width, DrawImage.Height);
+
+                DrawImage = null;
+                switch (State.GetStateEvent())
+                {
+                    case FiniteState.StateEventEnum.MarkValid:
+                        DrawImage = Resources.Valid;
+                        break;
+                    case FiniteState.StateEventEnum.MarkInvalid:
+                        DrawImage = Resources.Invalid;
+                        break;
+                }
+
+                if (DrawImage != null)
+                    Graphics.DrawImage(DrawImage, State.Location.X - StateRadius, State.Location.Y - StateRadius, DrawImage.Width, DrawImage.Height);
             }
 
             if (MousedOverState != null)

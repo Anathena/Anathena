@@ -713,8 +713,10 @@
     <EmbeddedResource Include="GUI\CustomControls\HexEditor\App.ico" />
     <Content Include="Content\FSM\EndState.png" />
     <Content Include="Content\FSM\IntermediateState.png" />
+    <None Include="Content\FSM\Invalid.png" />
     <Content Include="Content\FSM\StartState.png" />
     <Content Include="Content\FSM\StateHighlighted.png" />
+    <None Include="Content\FSM\Valid.png" />
     <Content Include="Content\Icons\AddAddress.png" />
     <Content Include="Content\Icons\AnathemaIcon.png" />
     <Content Include="Content\Icons\BenedictionIcon.png" />

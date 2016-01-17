@@ -133,16 +133,6 @@ namespace Anathema.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap EndState {
-            get {
-                object obj = ResourceManager.GetObject("EndState", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
         internal static System.Drawing.Bitmap Equal {
             get {
                 object obj = ResourceManager.GetObject("Equal", resourceCulture);
@@ -186,6 +176,16 @@ namespace Anathema.Properties {
         internal static System.Drawing.Bitmap Intersection {
             get {
                 object obj = ResourceManager.GetObject("Intersection", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Invalid {
+            get {
+                object obj = ResourceManager.GetObject("Invalid", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -416,6 +416,16 @@ namespace Anathema.Properties {
         internal static System.Drawing.Bitmap UnknownValue {
             get {
                 object obj = ResourceManager.GetObject("UnknownValue", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Valid {
+            get {
+                object obj = ResourceManager.GetObject("Valid", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
