@@ -78,12 +78,14 @@ namespace Anathema
                         Result += this.ToString();
                         break;
                     }
+                    Result += "(";
                     foreach (InputNode Child in this)
                     {
                         Result += Child.EvaluateText();
                         if (ChildrenNodes.Count == 1 || Child != ChildrenNodes.Last())
                             Result += " and ";
                     }
+                    Result += ")";
                     break;
                 case NodeTypeEnum.OR:
                     if (ChildrenNodes.Count == 0)
@@ -91,12 +93,14 @@ namespace Anathema
                         Result += this.ToString();
                         break;
                     }
+                    Result += "(";
                     foreach (InputNode Child in this)
                     {
                         Result += Child.EvaluateText();
                         if (ChildrenNodes.Count == 1 || Child != ChildrenNodes.Last())
                             Result += " or ";
                     }
+                    Result += ")";
                     break;
                 case NodeTypeEnum.NOT:
                     if (ChildrenNodes.Count == 0)
@@ -104,12 +108,14 @@ namespace Anathema
                         Result += this.ToString();
                         break;
                     }
+                    Result += "(";
                     foreach (InputNode Child in this)
                     {
                         if (ChildrenNodes.Count == 1 || Child != ChildrenNodes.Last())
                             Result += "not ";
                         Result += Child.EvaluateText();
                     }
+                    Result += ")";
                     break;
                 case NodeTypeEnum.Input:
                     Result += this.ToString();

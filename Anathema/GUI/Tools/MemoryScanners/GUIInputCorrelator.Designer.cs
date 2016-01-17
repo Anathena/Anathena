@@ -37,8 +37,6 @@
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.InputContextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.DeleteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.InputTextBox = new Anathema.WatermarkTextBox();
-            this.InputTreeView = new Anathema.HighlightPreservingTreeView();
             this.StartScanButton = new System.Windows.Forms.ToolStripButton();
             this.StopScanButton = new System.Windows.Forms.ToolStripButton();
             this.DeleteNodeButton = new System.Windows.Forms.ToolStripButton();
@@ -47,6 +45,8 @@
             this.AddNOTButton = new System.Windows.Forms.ToolStripButton();
             this.AddANDButton = new System.Windows.Forms.ToolStripButton();
             this.AddORButton = new System.Windows.Forms.ToolStripButton();
+            this.InputTextBox = new Anathema.WatermarkTextBox();
+            this.InputTreeView = new Anathema.HighlightPreservingTreeView();
             ((System.ComponentModel.ISupportInitialize)(this.VariableSizeTrackBar)).BeginInit();
             this.ScanToolStrip.SuspendLayout();
             this.InputContextMenuStrip.SuspendLayout();
@@ -95,9 +95,9 @@
             this.ClearInputsButton,
             this.toolStripSeparator2,
             this.AddInputButton,
-            this.AddNOTButton,
+            this.AddORButton,
             this.AddANDButton,
-            this.AddORButton});
+            this.AddNOTButton});
             this.ScanToolStrip.Location = new System.Drawing.Point(0, 0);
             this.ScanToolStrip.Name = "ScanToolStrip";
             this.ScanToolStrip.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
@@ -129,32 +129,6 @@
             this.DeleteToolStripMenuItem.Size = new System.Drawing.Size(107, 22);
             this.DeleteToolStripMenuItem.Text = "Delete";
             this.DeleteToolStripMenuItem.Click += new System.EventHandler(this.DeleteToolStripMenuItem_Click);
-            // 
-            // InputTextBox
-            // 
-            this.InputTextBox.AcceptsReturn = true;
-            this.InputTextBox.AcceptsTab = true;
-            this.InputTextBox.Location = new System.Drawing.Point(12, 34);
-            this.InputTextBox.Multiline = true;
-            this.InputTextBox.Name = "InputTextBox";
-            this.InputTextBox.Size = new System.Drawing.Size(159, 20);
-            this.InputTextBox.TabIndex = 176;
-            this.InputTextBox.WatermarkColor = System.Drawing.Color.LightGray;
-            this.InputTextBox.WaterMarkFont = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.InputTextBox.WaterMarkText = "Press a Key";
-            this.InputTextBox.TextChanged += new System.EventHandler(this.InputTextBox_TextChanged);
-            this.InputTextBox.Enter += new System.EventHandler(this.InputTextBox_Enter);
-            this.InputTextBox.Leave += new System.EventHandler(this.InputTextBox_Leave);
-            // 
-            // InputTreeView
-            // 
-            this.InputTreeView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.InputTreeView.Location = new System.Drawing.Point(12, 113);
-            this.InputTreeView.Name = "InputTreeView";
-            this.InputTreeView.Size = new System.Drawing.Size(398, 172);
-            this.InputTreeView.TabIndex = 171;
             // 
             // StartScanButton
             // 
@@ -235,6 +209,32 @@
             this.AddORButton.Size = new System.Drawing.Size(23, 22);
             this.AddORButton.Text = "Add Logical OR";
             this.AddORButton.Click += new System.EventHandler(this.AddORButton_Click);
+            // 
+            // InputTextBox
+            // 
+            this.InputTextBox.AcceptsReturn = true;
+            this.InputTextBox.AcceptsTab = true;
+            this.InputTextBox.Location = new System.Drawing.Point(12, 34);
+            this.InputTextBox.Multiline = true;
+            this.InputTextBox.Name = "InputTextBox";
+            this.InputTextBox.Size = new System.Drawing.Size(159, 20);
+            this.InputTextBox.TabIndex = 176;
+            this.InputTextBox.WatermarkColor = System.Drawing.Color.LightGray;
+            this.InputTextBox.WaterMarkFont = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.InputTextBox.WaterMarkText = "Press a Key";
+            this.InputTextBox.TextChanged += new System.EventHandler(this.InputTextBox_TextChanged);
+            this.InputTextBox.Enter += new System.EventHandler(this.InputTextBox_Enter);
+            this.InputTextBox.Leave += new System.EventHandler(this.InputTextBox_Leave);
+            // 
+            // InputTreeView
+            // 
+            this.InputTreeView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.InputTreeView.Location = new System.Drawing.Point(12, 113);
+            this.InputTreeView.Name = "InputTreeView";
+            this.InputTreeView.Size = new System.Drawing.Size(398, 172);
+            this.InputTreeView.TabIndex = 171;
             // 
             // GUIInputCorrelator
             // 
