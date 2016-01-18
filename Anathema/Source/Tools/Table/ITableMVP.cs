@@ -61,6 +61,8 @@ namespace Anathema
         }
 
         // Functions invoked by presenter (downstream)
+        public abstract Boolean SaveTable(String Path);
+
         public abstract AddressItem GetAddressItemAt(Int32 Index);
         public abstract void SetAddressItemAt(Int32 Index, AddressItem AddressItem);
         public abstract void SetFrozenAt(Int32 Index, Boolean Activated);
@@ -94,6 +96,14 @@ namespace Anathema
         }
 
         #region Method definitions called by the view (downstream)
+
+        public Boolean SaveTable(String Path)
+        {
+            if (Path == String.Empty)
+                return false;
+
+            return Model.SaveTable(Path);
+        }
 
         public ListViewItem GetAddressTableItemAt(Int32 Index)
         {

@@ -7,6 +7,8 @@ using System.Text;
 using System.Windows.Forms;
 using WeifenLuo.WinFormsUI.Docking;
 using System.IO;
+using System.Xml;
+using System.Xml.Serialization;
 
 namespace Anathema
 {
@@ -89,7 +91,12 @@ namespace Anathema
 
         private void SaveTableButton_Click(Object Sender, EventArgs E)
         {
+            SaveFileDialog SaveFileDialog = new SaveFileDialog();
+            SaveFileDialog.Filter = "Anathema Table | .ana";
+            SaveFileDialog.Title = "Save Cheat Table";
+            SaveFileDialog.ShowDialog();
 
+            TablePresenter.SaveTable(SaveFileDialog.FileName);
         }
 
         private void LoadTableButton_Click(Object Sender, EventArgs E)

@@ -1,12 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Runtime.Serialization;
 
 namespace Anathema
 {
-    [Serializable]
-    class ScriptItem : TableItem
+    [DataContract()]
+    public class ScriptItem : TableItem
     {
+        [DataMember()]
         public String Script { get; set; }
 
         public ScriptItem(String Script)
@@ -15,11 +17,16 @@ namespace Anathema
         }
     }
 
-    [Serializable]
-    class AddressItem : TableItem
+    [DataContract()]
+    public class AddressItem : TableItem
     {
+        [DataMember()]
         public IntPtr Address { get; set; }
+        
+        [DataMember()]
         public Int32[] Offsets { get; set; }
+
+        [DataMember()]
         public Type ElementType { get; set; }
 
         private dynamic _Value;
@@ -47,11 +54,15 @@ namespace Anathema
         }
     }
 
-    [Serializable]
-    class TableItem
+    [DataContract()]
+    public class TableItem
     {
+        [DataMember()]
         public Color TextColor { get; set; }
+
+        [DataMember()]
         public String Description { get; set; }
+
         protected Boolean Activated;
 
         public TableItem()
