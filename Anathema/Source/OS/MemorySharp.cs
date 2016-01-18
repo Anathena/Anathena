@@ -276,7 +276,6 @@ namespace Binarysharp.MemoryManagement
         public dynamic Read(Type ValueType, IntPtr address, out bool success, bool isRelative = true)
         {
             dynamic Value;
-            success = false;
 
             switch (Type.GetTypeCode(ValueType))
             {
@@ -290,7 +289,7 @@ namespace Binarysharp.MemoryManagement
                 case TypeCode.UInt64: Value = Read<UInt64>(address, out success, isRelative); break;
                 case TypeCode.Single: Value = Read<Single>(address, out success, isRelative); break;
                 case TypeCode.Double: Value = Read<Double>(address, out success, isRelative); break;
-                default: Value = "Invalid Type"; break;
+                default: Value = "?"; success = false; break;
             }
 
             if (!success)

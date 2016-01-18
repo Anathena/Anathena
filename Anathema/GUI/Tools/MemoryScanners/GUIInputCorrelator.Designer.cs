@@ -40,14 +40,14 @@
             this.ClearInputsButton = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripDropDownButton1 = new System.Windows.Forms.ToolStripDropDownButton();
-            this.InputContextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.DeleteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.InputTextBox = new Anathema.WatermarkTextBox();
-            this.InputTreeView = new Anathema.HighlightPreservingTreeView();
             this.AddInputToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.AddLogicalORToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.AddLogicalANDToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.AddLogicalNOTToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.InputContextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.DeleteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.InputTextBox = new Anathema.WatermarkTextBox();
+            this.InputTreeView = new Anathema.HighlightPreservingTreeView();
             ((System.ComponentModel.ISupportInitialize)(this.VariableSizeTrackBar)).BeginInit();
             this.ScanToolStrip.SuspendLayout();
             this.InputContextMenuStrip.SuspendLayout();
@@ -165,7 +165,39 @@
             this.toolStripDropDownButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripDropDownButton1.Name = "toolStripDropDownButton1";
             this.toolStripDropDownButton1.Size = new System.Drawing.Size(29, 22);
-            this.toolStripDropDownButton1.Text = "toolStripDropDownButton1";
+            this.toolStripDropDownButton1.Text = "Add Item";
+            // 
+            // AddInputToolStripMenuItem
+            // 
+            this.AddInputToolStripMenuItem.Image = global::Anathema.Properties.Resources.DownArrows;
+            this.AddInputToolStripMenuItem.Name = "AddInputToolStripMenuItem";
+            this.AddInputToolStripMenuItem.Size = new System.Drawing.Size(165, 22);
+            this.AddInputToolStripMenuItem.Text = "Add Input";
+            this.AddInputToolStripMenuItem.Click += new System.EventHandler(this.AddInputToolStripMenuItem_Click);
+            // 
+            // AddLogicalORToolStripMenuItem
+            // 
+            this.AddLogicalORToolStripMenuItem.Image = global::Anathema.Properties.Resources.LogicalOR;
+            this.AddLogicalORToolStripMenuItem.Name = "AddLogicalORToolStripMenuItem";
+            this.AddLogicalORToolStripMenuItem.Size = new System.Drawing.Size(165, 22);
+            this.AddLogicalORToolStripMenuItem.Text = "Add Logical OR";
+            this.AddLogicalORToolStripMenuItem.Click += new System.EventHandler(this.AddLogicalORToolStripMenuItem_Click);
+            // 
+            // AddLogicalANDToolStripMenuItem
+            // 
+            this.AddLogicalANDToolStripMenuItem.Image = global::Anathema.Properties.Resources.Union;
+            this.AddLogicalANDToolStripMenuItem.Name = "AddLogicalANDToolStripMenuItem";
+            this.AddLogicalANDToolStripMenuItem.Size = new System.Drawing.Size(165, 22);
+            this.AddLogicalANDToolStripMenuItem.Text = "Add Logical AND";
+            this.AddLogicalANDToolStripMenuItem.Click += new System.EventHandler(this.AddLogicalANDToolStripMenuItem_Click);
+            // 
+            // AddLogicalNOTToolStripMenuItem
+            // 
+            this.AddLogicalNOTToolStripMenuItem.Image = global::Anathema.Properties.Resources.Negation;
+            this.AddLogicalNOTToolStripMenuItem.Name = "AddLogicalNOTToolStripMenuItem";
+            this.AddLogicalNOTToolStripMenuItem.Size = new System.Drawing.Size(165, 22);
+            this.AddLogicalNOTToolStripMenuItem.Text = "Add Logical NOT";
+            this.AddLogicalNOTToolStripMenuItem.Click += new System.EventHandler(this.AddLogicalNOTToolStripMenuItem_Click);
             // 
             // InputContextMenuStrip
             // 
@@ -207,34 +239,6 @@
             this.InputTreeView.Name = "InputTreeView";
             this.InputTreeView.Size = new System.Drawing.Size(398, 172);
             this.InputTreeView.TabIndex = 171;
-            // 
-            // AddInputToolStripMenuItem
-            // 
-            this.AddInputToolStripMenuItem.Image = global::Anathema.Properties.Resources.DownArrows;
-            this.AddInputToolStripMenuItem.Name = "AddInputToolStripMenuItem";
-            this.AddInputToolStripMenuItem.Size = new System.Drawing.Size(165, 22);
-            this.AddInputToolStripMenuItem.Text = "Add Input";
-            // 
-            // AddLogicalORToolStripMenuItem
-            // 
-            this.AddLogicalORToolStripMenuItem.Image = global::Anathema.Properties.Resources.LogicalOR;
-            this.AddLogicalORToolStripMenuItem.Name = "AddLogicalORToolStripMenuItem";
-            this.AddLogicalORToolStripMenuItem.Size = new System.Drawing.Size(165, 22);
-            this.AddLogicalORToolStripMenuItem.Text = "Add Logical OR";
-            // 
-            // AddLogicalANDToolStripMenuItem
-            // 
-            this.AddLogicalANDToolStripMenuItem.Image = global::Anathema.Properties.Resources.Union;
-            this.AddLogicalANDToolStripMenuItem.Name = "AddLogicalANDToolStripMenuItem";
-            this.AddLogicalANDToolStripMenuItem.Size = new System.Drawing.Size(165, 22);
-            this.AddLogicalANDToolStripMenuItem.Text = "Add Logical AND";
-            // 
-            // AddLogicalNOTToolStripMenuItem
-            // 
-            this.AddLogicalNOTToolStripMenuItem.Image = global::Anathema.Properties.Resources.Negation;
-            this.AddLogicalNOTToolStripMenuItem.Name = "AddLogicalNOTToolStripMenuItem";
-            this.AddLogicalNOTToolStripMenuItem.Size = new System.Drawing.Size(165, 22);
-            this.AddLogicalNOTToolStripMenuItem.Text = "Add Logical NOT";
             // 
             // GUIInputCorrelator
             // 

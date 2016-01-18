@@ -98,9 +98,9 @@ namespace Anathema
                 return Value;
 
             IntPtr Address = GetAddressAtIndex(Index);
-            Boolean ReadSuccess = false;
+            Boolean ReadSuccess;
 
-            return MemoryEditor.Read(ScanType, Address, out ReadSuccess);
+            return MemoryEditor.Read(ScanType, Address, out ReadSuccess, false);
         }
 
         public override dynamic GetLabelAtIndex(Int32 Index)

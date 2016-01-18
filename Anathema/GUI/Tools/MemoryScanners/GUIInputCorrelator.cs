@@ -190,11 +190,6 @@ namespace Anathema
                 UpdatingInputTextBox = false;
         }
 
-        private void AddInputButton_Click(Object Sender, EventArgs E)
-        {
-            InputCorrelatorPresenter.AddInput(GetSelectionIndicies());
-        }
-
         private void DeleteNodeButton_Click(Object Sender, EventArgs E)
         {
             InputCorrelatorPresenter.DeleteNode(GetSelectionIndicies());
@@ -205,17 +200,23 @@ namespace Anathema
             InputCorrelatorPresenter.ClearNodes();
         }
 
-        private void AddANDButton_Click(Object Sender, EventArgs E)
+        private void AddInputToolStripMenuItem_Click(Object Sender, EventArgs E)
         {
-            InputCorrelatorPresenter.AddAND(GetSelectionIndicies());
+
+            InputCorrelatorPresenter.AddInput(GetSelectionIndicies());
         }
 
-        private void AddORButton_Click(Object Sender, EventArgs E)
+        private void AddLogicalORToolStripMenuItem_Click(Object Sender, EventArgs E)
         {
             InputCorrelatorPresenter.AddOR(GetSelectionIndicies());
         }
 
-        private void AddNOTButton_Click(Object Sender, EventArgs E)
+        private void AddLogicalANDToolStripMenuItem_Click(Object Sender, EventArgs E)
+        {
+            InputCorrelatorPresenter.AddAND(GetSelectionIndicies());
+        }
+
+        private void AddLogicalNOTToolStripMenuItem_Click(Object Sender, EventArgs E)
         {
             InputCorrelatorPresenter.AddNOT(GetSelectionIndicies());
         }
@@ -237,7 +238,7 @@ namespace Anathema
         }
 
         #endregion
-
+        
     } // End class
 
 } // End namespace
