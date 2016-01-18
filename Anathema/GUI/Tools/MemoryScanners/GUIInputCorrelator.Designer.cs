@@ -48,6 +48,7 @@
             this.DeleteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.InputTextBox = new Anathema.WatermarkTextBox();
             this.InputTreeView = new Anathema.HighlightPreservingTreeView();
+            this.ScanCountLabel = new System.Windows.Forms.ToolStripLabel();
             ((System.ComponentModel.ISupportInitialize)(this.VariableSizeTrackBar)).BeginInit();
             this.ScanToolStrip.SuspendLayout();
             this.InputContextMenuStrip.SuspendLayout();
@@ -95,7 +96,8 @@
             this.DeleteNodeButton,
             this.ClearInputsButton,
             this.toolStripSeparator2,
-            this.toolStripDropDownButton1});
+            this.toolStripDropDownButton1,
+            this.ScanCountLabel});
             this.ScanToolStrip.Location = new System.Drawing.Point(0, 0);
             this.ScanToolStrip.Name = "ScanToolStrip";
             this.ScanToolStrip.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
@@ -240,6 +242,12 @@
             this.InputTreeView.Size = new System.Drawing.Size(398, 172);
             this.InputTreeView.TabIndex = 171;
             // 
+            // ScanCountLabel
+            // 
+            this.ScanCountLabel.Name = "ScanCountLabel";
+            this.ScanCountLabel.Size = new System.Drawing.Size(80, 22);
+            this.ScanCountLabel.Text = "Scan Count: 0";
+            // 
             // GUIInputCorrelator
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -284,5 +292,6 @@
         private System.Windows.Forms.ToolStripMenuItem AddLogicalORToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem AddLogicalANDToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem AddLogicalNOTToolStripMenuItem;
+        private System.Windows.Forms.ToolStripLabel ScanCountLabel;
     }
 }

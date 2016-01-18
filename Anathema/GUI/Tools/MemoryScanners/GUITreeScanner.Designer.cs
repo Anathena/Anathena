@@ -31,6 +31,7 @@
             this.StopScanButton = new System.Windows.Forms.ToolStripButton();
             this.StartScanButton = new System.Windows.Forms.ToolStripButton();
             this.ScanToolStrip = new System.Windows.Forms.ToolStrip();
+            this.ScanCountLabel = new System.Windows.Forms.ToolStripLabel();
             this.ScanToolStrip.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -60,7 +61,8 @@
             this.ScanToolStrip.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
             this.ScanToolStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.StartScanButton,
-            this.StopScanButton});
+            this.StopScanButton,
+            this.ScanCountLabel});
             this.ScanToolStrip.Location = new System.Drawing.Point(0, 0);
             this.ScanToolStrip.Name = "ScanToolStrip";
             this.ScanToolStrip.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
@@ -68,14 +70,20 @@
             this.ScanToolStrip.TabIndex = 149;
             this.ScanToolStrip.Text = "toolStrip1";
             // 
-            // GUIFilterTree
+            // ScanCountLabel
+            // 
+            this.ScanCountLabel.Name = "ScanCountLabel";
+            this.ScanCountLabel.Size = new System.Drawing.Size(80, 22);
+            this.ScanCountLabel.Text = "Scan Count: 0";
+            // 
+            // GUITreeScanner
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(266, 173);
             this.Controls.Add(this.ScanToolStrip);
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Name = "GUIFilterTree";
+            this.Name = "GUITreeScanner";
             this.Text = "Tree Scanner";
             this.Resize += new System.EventHandler(this.GUIFilterTree_Resize);
             this.ScanToolStrip.ResumeLayout(false);
@@ -89,5 +97,6 @@
         private System.Windows.Forms.ToolStripButton StopScanButton;
         private System.Windows.Forms.ToolStripButton StartScanButton;
         private System.Windows.Forms.ToolStrip ScanToolStrip;
+        private System.Windows.Forms.ToolStripLabel ScanCountLabel;
     }
 }

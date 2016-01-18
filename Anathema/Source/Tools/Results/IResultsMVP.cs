@@ -15,7 +15,7 @@ namespace Anathema
         public UInt64 MemorySize = 0;
     }
 
-    interface IResultsView : IScannerView
+    interface IResultsView : IView
     {
         // Methods invoked by the presenter (upstream)
         void RefreshDisplay();

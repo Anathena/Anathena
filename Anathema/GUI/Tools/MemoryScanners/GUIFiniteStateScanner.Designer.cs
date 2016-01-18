@@ -32,6 +32,7 @@
             this.StartScanButton = new System.Windows.Forms.ToolStripButton();
             this.StopScanButton = new System.Windows.Forms.ToolStripButton();
             this.GUIFiniteStateBuilder = new Anathema.GUI.Tools.MemoryScanners.GUIFiniteStateBuilder();
+            this.ScanCountLabel = new System.Windows.Forms.ToolStripLabel();
             this.ScanToolStrip.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -40,7 +41,8 @@
             this.ScanToolStrip.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
             this.ScanToolStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.StartScanButton,
-            this.StopScanButton});
+            this.StopScanButton,
+            this.ScanCountLabel});
             this.ScanToolStrip.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.HorizontalStackWithOverflow;
             this.ScanToolStrip.Location = new System.Drawing.Point(0, 0);
             this.ScanToolStrip.Name = "ScanToolStrip";
@@ -77,6 +79,12 @@
             this.GUIFiniteStateBuilder.Size = new System.Drawing.Size(469, 245);
             this.GUIFiniteStateBuilder.TabIndex = 164;
             // 
+            // ScanCountLabel
+            // 
+            this.ScanCountLabel.Name = "ScanCountLabel";
+            this.ScanCountLabel.Size = new System.Drawing.Size(80, 22);
+            this.ScanCountLabel.Text = "Scan Count: 0";
+            // 
             // GUIFiniteStateScanner
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -99,5 +107,6 @@
         private System.Windows.Forms.ToolStripButton StartScanButton;
         private System.Windows.Forms.ToolStripButton StopScanButton;
         private GUI.Tools.MemoryScanners.GUIFiniteStateBuilder GUIFiniteStateBuilder;
+        private System.Windows.Forms.ToolStripLabel ScanCountLabel;
     }
 }

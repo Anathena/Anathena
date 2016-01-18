@@ -15,7 +15,7 @@ namespace Anathema
 
     }
 
-    interface IFiniteStateBuilderView : IScannerView
+    interface IFiniteStateBuilderView : IView
     {
         // Methods invoked by the presenter (upstream)
         void UpdateDisplay();

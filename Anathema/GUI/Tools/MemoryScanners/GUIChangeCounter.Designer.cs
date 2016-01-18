@@ -40,6 +40,7 @@
             this.VariableSizeValueLabel = new System.Windows.Forms.Label();
             this.VariableSizeLabel = new System.Windows.Forms.Label();
             this.VariableSizeTrackBar = new System.Windows.Forms.TrackBar();
+            this.ScanCountLabel = new System.Windows.Forms.ToolStripLabel();
             this.ScanToolStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.MaxChangesTrackBar)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.MinChangesTrackBar)).BeginInit();
@@ -51,7 +52,8 @@
             this.ScanToolStrip.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
             this.ScanToolStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.StartScanButton,
-            this.StopScanButton});
+            this.StopScanButton,
+            this.ScanCountLabel});
             this.ScanToolStrip.Location = new System.Drawing.Point(0, 0);
             this.ScanToolStrip.Name = "ScanToolStrip";
             this.ScanToolStrip.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
@@ -165,6 +167,12 @@
             this.VariableSizeTrackBar.Value = 2;
             this.VariableSizeTrackBar.Scroll += new System.EventHandler(this.VariableSizeTrackBar_Scroll);
             // 
+            // ScanCountLabel
+            // 
+            this.ScanCountLabel.Name = "ScanCountLabel";
+            this.ScanCountLabel.Size = new System.Drawing.Size(80, 22);
+            this.ScanCountLabel.Text = "Scan Count: 0";
+            // 
             // GUIChangeCounter
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -208,5 +216,6 @@
         private System.Windows.Forms.Label VariableSizeValueLabel;
         private System.Windows.Forms.Label VariableSizeLabel;
         private System.Windows.Forms.TrackBar VariableSizeTrackBar;
+        private System.Windows.Forms.ToolStripLabel ScanCountLabel;
     }
 }

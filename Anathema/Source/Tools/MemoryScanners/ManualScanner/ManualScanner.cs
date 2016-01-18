@@ -68,6 +68,8 @@ namespace Anathema
 
         protected override void Update()
         {
+            base.Update();
+
             // Read memory to get current values
             Snapshot.ReadAllSnapshotMemory();
 
@@ -140,8 +142,7 @@ namespace Anathema
                 } // End foreach Element
 
             }); // End foreach Region
-
-
+            
             CancelFlag = true;
         }
 

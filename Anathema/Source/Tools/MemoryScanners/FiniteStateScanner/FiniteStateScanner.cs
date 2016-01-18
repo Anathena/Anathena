@@ -24,12 +24,6 @@ namespace Anathema
             FiniteStateMachine = new FiniteStateMachine();
         }
 
-        private void UpdateDisplay()
-        {
-            FiniteStateScannerEventArgs FilterFSMEventArgs = new FiniteStateScannerEventArgs();
-            OnEventUpdateDisplay(FilterFSMEventArgs);
-        }
-
         public override void Begin()
         {
             // Initialize snapshot
@@ -60,6 +54,8 @@ namespace Anathema
 
         protected override void Update()
         {
+            base.Update();
+
             // Read memory to get current values
             Snapshot.ReadAllSnapshotMemory();
 
@@ -159,8 +155,8 @@ namespace Anathema
                 } // End foreach Element
 
             }); // End foreach Region
-
-            UpdateDisplay();
+            
+            OnEventUpdateScanCount(new ScannerEventArgs(this.ScanCount));
         }
 
         public override void End()
@@ -175,11 +171,6 @@ namespace Anathema
             // Reset state counts
             foreach (FiniteState State in FiniteStateMachine)
                 State.StateCount = 0;
-
-            UpdateDisplay();
-
-            FiniteStateScannerEventArgs Args = new FiniteStateScannerEventArgs();
-            OnEventScanFinished(Args);
 
             CleanUp();
         }

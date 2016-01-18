@@ -34,6 +34,14 @@ namespace Anathema
             EnableGUI();
         }
 
+        public void DisplayScanCount(Int32 ScanCount)
+        {
+            ControlThreadingHelper.InvokeControlAction(ScanToolStrip, () =>
+            {
+                ScanCountLabel.Text = "Scan Count: " + ScanCount.ToString();
+            });
+        }
+
         private void SetVariableSize()
         {
             Int32 VariableSize = (Int32)Math.Pow(2, VariableSizeTrackBar.Value);

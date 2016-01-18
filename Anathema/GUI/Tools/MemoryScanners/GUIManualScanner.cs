@@ -26,6 +26,8 @@ namespace Anathema
 
             EnableGUI();
         }
+        
+        public void DisplayScanCount(Int32 ScanCount) { /* Manual scan will always have 1 scan so this is useless */ }
 
         private void InitializeValueTypeComboBox()
         {

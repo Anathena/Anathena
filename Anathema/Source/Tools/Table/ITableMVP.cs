@@ -17,7 +17,7 @@ namespace Anathema
         public Int32 FSMTableItemCount = 0;
     }
 
-    interface ITableView : IScannerView
+    interface ITableView : IView
     {
         // Methods invoked by the presenter (upstream)
         void RefreshDisplay();

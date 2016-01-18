@@ -25,7 +25,15 @@ namespace Anathema
             
             EnableGUI();
         }
-        
+
+        public void DisplayScanCount(Int32 ScanCount)
+        {
+            ControlThreadingHelper.InvokeControlAction(ScanToolStrip, () =>
+            {
+                ScanCountLabel.Text = "Scan Count: " + ScanCount.ToString();
+            });
+        }
+
         public void ScanFinished()
         {
             EnableGUI();
@@ -55,11 +63,6 @@ namespace Anathema
         {
             FiniteStateScannerPresenter.EndScan();
             EnableGUI();
-        }
-
-        public void UpdateDisplay(FiniteStateMachine FiniteStateMachine, FiniteState MousedOverState, Point[] SelectionLine)
-        {
-            throw new NotImplementedException();
         }
 
         #endregion

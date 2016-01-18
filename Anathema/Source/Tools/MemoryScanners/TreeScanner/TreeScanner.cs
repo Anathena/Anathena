@@ -75,6 +75,8 @@ namespace Anathema
             {
 
             }
+
+            OnEventUpdateScanCount(new ScannerEventArgs(this.ScanCount));
         }
 
         public override void End()

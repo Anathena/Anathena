@@ -53,6 +53,8 @@ namespace Anathema
 
         protected override void Update()
         {
+            base.Update();
+
             // Read memory to get current values
             Snapshot.ReadAllSnapshotMemory();
 
@@ -69,6 +71,8 @@ namespace Anathema
                         Element.ElementLabel++;
                 }
             }); // End regions
+
+            OnEventUpdateScanCount(new ScannerEventArgs(this.ScanCount));
         }
 
         public override void End()

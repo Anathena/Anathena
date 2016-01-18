@@ -29,12 +29,12 @@ namespace Anathema
 
         }
 
-        public void DisplayResultSize(UInt64 TreeSize)
+        public void DisplayScanCount(Int32 ScanCount)
         {
-            /*ControlThreadingHelper.InvokeControlAction(MemorySizeValueLabel, () =>
+            ControlThreadingHelper.InvokeControlAction(ScanToolStrip, () =>
             {
-                MemorySizeValueLabel.Text = Conversions.ByteCountToMetricSize(TreeSize).ToString();
-            });*/
+                ScanCountLabel.Text = "Scan Count: " + ScanCount.ToString();
+            });
         }
 
         private void DisableGUI()

@@ -34,6 +34,7 @@
             this.MinChangesValueLabel = new System.Windows.Forms.Label();
             this.MinChangesLabel = new System.Windows.Forms.Label();
             this.MinChangesTrackBar = new System.Windows.Forms.TrackBar();
+            this.ScanCountLabel = new System.Windows.Forms.ToolStripLabel();
             this.ScanToolStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.MinChangesTrackBar)).BeginInit();
             this.SuspendLayout();
@@ -64,7 +65,8 @@
             this.ScanToolStrip.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
             this.ScanToolStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.StartScanButton,
-            this.StopScanButton});
+            this.StopScanButton,
+            this.ScanCountLabel});
             this.ScanToolStrip.Location = new System.Drawing.Point(0, 0);
             this.ScanToolStrip.Name = "ScanToolStrip";
             this.ScanToolStrip.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
@@ -101,7 +103,13 @@
             this.MinChangesTrackBar.Value = 3;
             this.MinChangesTrackBar.Scroll += new System.EventHandler(this.MinChangesTrackBar_Scroll);
             // 
-            // GUIFilterChunks
+            // ScanCountLabel
+            // 
+            this.ScanCountLabel.Name = "ScanCountLabel";
+            this.ScanCountLabel.Size = new System.Drawing.Size(80, 22);
+            this.ScanCountLabel.Text = "Scan Count: 0";
+            // 
+            // GUIChunkScanner
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -111,7 +119,7 @@
             this.Controls.Add(this.MinChangesTrackBar);
             this.Controls.Add(this.ScanToolStrip);
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Name = "GUIFilterChunks";
+            this.Name = "GUIChunkScanner";
             this.Text = "Chunk Scanner";
             this.Resize += new System.EventHandler(this.GUIFilterChunks_Resize);
             this.ScanToolStrip.ResumeLayout(false);
@@ -129,5 +137,6 @@
         private System.Windows.Forms.Label MinChangesValueLabel;
         private System.Windows.Forms.Label MinChangesLabel;
         private System.Windows.Forms.TrackBar MinChangesTrackBar;
+        private System.Windows.Forms.ToolStripLabel ScanCountLabel;
     }
 }

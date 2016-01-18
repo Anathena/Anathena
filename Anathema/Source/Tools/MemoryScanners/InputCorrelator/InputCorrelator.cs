@@ -139,6 +139,8 @@ namespace Anathema
 
         protected override void Update()
         {
+            base.Update();
+
             // Read memory to update previous and current values
             Snapshot.ReadAllSnapshotMemory();
 
@@ -163,6 +165,8 @@ namespace Anathema
 
                 }
             });
+
+            OnEventUpdateScanCount(new ScannerEventArgs(this.ScanCount));
         }
 
         public override void End()

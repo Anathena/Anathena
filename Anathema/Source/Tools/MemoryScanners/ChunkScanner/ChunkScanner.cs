@@ -58,6 +58,8 @@ namespace Anathema
 
         protected override void Update()
         {
+            base.Update();
+
             MemorySharp MemoryEditor = Snapshot.GetMemoryEditor();
 
             Parallel.ForEach(ChunkRoots, (ChunkRoot) =>
@@ -72,6 +74,8 @@ namespace Anathema
                     // Fuck it
                 }
             });
+
+            OnEventUpdateScanCount(new ScannerEventArgs(this.ScanCount));
         }
 
         public override void End()

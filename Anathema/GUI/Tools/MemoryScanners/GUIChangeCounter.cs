@@ -28,6 +28,14 @@ namespace Anathema
             EnableGUI();
         }
 
+        public void DisplayScanCount(Int32 ScanCount)
+        {
+            ControlThreadingHelper.InvokeControlAction(ScanToolStrip, () =>
+            {
+                ScanCountLabel.Text = "Scan Count: " + ScanCount.ToString();
+            });
+        }
+
         private void SetMinChanges()
         {
             Int32 MinChanges = MinChangesTrackBar.Value;
