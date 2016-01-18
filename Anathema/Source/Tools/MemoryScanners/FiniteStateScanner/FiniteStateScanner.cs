@@ -24,25 +24,10 @@ namespace Anathema
             FiniteStateMachine = new FiniteStateMachine();
         }
 
-        public override void SetElementType(Type ElementType)
-        {
-            FiniteStateMachine.SetElementType(ElementType);
-        }
-
-        public override Type GetElementType()
-        {
-            return FiniteStateMachine.GetElementType();
-        }
-
-        public override FiniteStateMachine GetFiniteStateMachine()
-        {
-            return FiniteStateMachine;
-        }
-
         private void UpdateDisplay()
         {
             FiniteStateScannerEventArgs FilterFSMEventArgs = new FiniteStateScannerEventArgs();
-            OnEventScanFinished(FilterFSMEventArgs);
+            OnEventUpdateDisplay(FilterFSMEventArgs);
         }
 
         public override void Begin()
@@ -131,15 +116,23 @@ namespace Anathema
                                 if (Element.GreaterThanValue(Transition.Key.Value))
                                     DoTransition = true;
                                 break;
+                            case ConstraintsEnum.GreaterThanOrEqual:
+                                if (Element.GreaterThanOrEqualToValue(Transition.Key.Value))
+                                    DoTransition = true;
+                                break;
                             case ConstraintsEnum.LessThan:
                                 if (Element.LessThanValue(Transition.Key.Value))
+                                    DoTransition = true;
+                                break;
+                            case ConstraintsEnum.LessThanOrEqual:
+                                if (Element.LessThanOrEqualToValue(Transition.Key.Value))
                                     DoTransition = true;
                                 break;
                         }
 
                         if (DoTransition)
                         {
-                            // Update counts
+                            // Update counts (thread safe)
                             Interlocked.Decrement(ref FiniteStateMachine[Element.ElementLabel.Value].StateCount);
                             Interlocked.Increment(ref Transition.Value.StateCount);
                             
@@ -167,7 +160,7 @@ namespace Anathema
 
             }); // End foreach Region
 
-            OnEventUpdateDisplay(new FiniteStateScannerEventArgs());
+            UpdateDisplay();
         }
 
         public override void End()
@@ -183,9 +176,12 @@ namespace Anathema
             foreach (FiniteState State in FiniteStateMachine)
                 State.StateCount = 0;
 
+            UpdateDisplay();
+
             FiniteStateScannerEventArgs Args = new FiniteStateScannerEventArgs();
             OnEventScanFinished(Args);
-            OnEventUpdateDisplay(Args);
         }
-    }
-}
+
+    } // End class
+
+} // End namespace

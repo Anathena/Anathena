@@ -18,39 +18,42 @@ namespace Anathema
     interface IFiniteStateBuilderView : IScannerView
     {
         // Methods invoked by the presenter (upstream)
-        void UpdateDisplay(FiniteStateMachine FiniteStateMachine, FiniteState MousedOverState, Point[] SelectionLine);
+        void UpdateDisplay();
     }
 
-    abstract class IFiniteStateBuilderModel : IModel
+    interface IFiniteStateBuilderModel : IModel
     {
         // Events triggered by the model (upstream)
-        public event FiniteStateBuilderEventHandler EventUpdateDisplay;
-        protected virtual void OnEventUpdateDisplay(FiniteStateBuilderEventArgs E)
-        {
-            EventUpdateDisplay(this, E);
-        }
+        event FiniteStateBuilderEventHandler EventUpdateDisplay;
 
         // Functions invoked by presenter (downstream)
-        public abstract FiniteStateMachine GetFiniteStateMachine();
+        void BeginAction(Point Location);
+        void UpdateAction(Point Location);
+        void FinishAction(Point Location);
 
-        public abstract void SetElementType(Type ElementType);
-        public abstract Type GetElementType();
+        ConstraintsEnum GetValueConstraintSelection();
+        FiniteStateMachine GetFiniteStateMachine();
+        FiniteState GetMousedOverState();
+        FiniteState GetDraggedState();
+        FiniteState GetEdgeSelectedState();
+        Point[] GetSelectionLine();
+
+        void SetValueConstraintSelection(ConstraintsEnum ValueConstraintSelection);
+        void SetFiniteStateMachine(FiniteStateMachine FiniteStateMachine);
+        void SetMousedOverState(FiniteState FiniteState);
+        void SetDraggedState(FiniteState FiniteState);
+        void SetEdgeSelectedState(FiniteState FiniteState);
+        void SetSelectionLine(Point[] SelectionLIne);
+        void SetElementType(Type ElementType);
+        void SetStateRadius(Int32 Radius);
+        void SetStateEdgeSize(Int32 EdgeSize);
     }
 
     class FiniteStateBuilderPresenter : Presenter<IFiniteStateBuilderView, IFiniteStateBuilderModel>
     {
         new IFiniteStateBuilderView View;
         new IFiniteStateBuilderModel Model;
-
-        private ConstraintsEnum ValueConstraintSelection;
-        private FiniteState DraggedState;
-        private FiniteState EdgeSelectedState;
-        private FiniteState MousedOverState;
-        private Point[] SelectionLine;
-
-        private Int32 StateRadius;
-        private Int32 StateEdgeSize;
-
+        
         public FiniteStateBuilderPresenter(IFiniteStateBuilderView View, IFiniteStateBuilderModel Model) : base(View, Model)
         {
             this.View = View;
@@ -62,29 +65,39 @@ namespace Anathema
 
         #region Method definitions called by the view (downstream)
 
-        public void SetStateEvent(Point Location, FiniteState.StateEventEnum StateEvent)
+        public void BeginAction(Point Location)
         {
-            Model.GetFiniteStateMachine().GetStateUnderPoint(Location, StateRadius).SetStateEvent(StateEvent);
+            Model.BeginAction(Location);
         }
 
+        public void UpdateAction(Point Location)
+        {
+            Model.UpdateAction(Location);
+        }
+
+        public void FinishAction(Point Location)
+        {
+            Model.FinishAction(Location);
+        }
+
+        public FiniteStateMachine GetFiniteStateMachine()
+        {
+            return Model.GetFiniteStateMachine();
+        }
+        
         public void SetStateRadius(Int32 StateRadius)
         {
-            this.StateRadius = StateRadius;
+            Model.SetStateRadius(StateRadius);
         }
 
         public void SetStateEdgeSize(Int32 StateEdgeSize)
         {
-            this.StateEdgeSize = StateEdgeSize;
+            Model.SetStateEdgeSize(StateEdgeSize);
         }
 
         public void SetValueConstraintSelection(ConstraintsEnum ValueConstraintSelection)
         {
-            this.ValueConstraintSelection = ValueConstraintSelection;
-        }
-
-        public ConstraintsEnum GetValueConstraintSelection()
-        {
-            return ValueConstraintSelection;
+            Model.SetValueConstraintSelection(ValueConstraintSelection);
         }
 
         public void SetElementType(String ElementType)
@@ -92,147 +105,9 @@ namespace Anathema
             Model.SetElementType(Conversions.StringToPrimitiveType(ElementType));
         }
 
-        public Type GetElementType()
+        public ConstraintsEnum GetValueConstraintSelection()
         {
-            return Model.GetElementType();
-        }
-
-        public Boolean IsStateAtPoint(Point Location)
-        {
-            if (Model.GetFiniteStateMachine().GetStateUnderPoint(Location, StateRadius) != null)
-                return true;
-            return false;
-        }
-
-        public Boolean IsStateAtPointStartState(Point Location)
-        {
-            if (Model.GetFiniteStateMachine().GetStateUnderPoint(Location, StateRadius) == Model.GetFiniteStateMachine().GetStartState())
-                return true;
-            return false;
-        }
-
-        public void BeginAction(Point Location)
-        {
-            FiniteState State;
-
-            // Handle edge selection
-            State = Model.GetFiniteStateMachine().GetEdgeUnderPoint(Location, StateRadius, StateEdgeSize);
-            if (State != null)
-            {
-                EdgeSelectedState = State;
-                UpdateDisplay();
-                return;
-            }
-
-            // Handle state selection (drag)
-            State = Model.GetFiniteStateMachine().GetStateUnderPoint(Location, StateRadius);
-            if (State != null)
-            {
-                DraggedState = State;
-                UpdateDisplay();
-                return;
-            }
-
-            // Handle state creation
-            Model.GetFiniteStateMachine().AddNewState(Location);
-            UpdateDisplay();
-        }
-
-        public void UpdateAction(Point Location)
-        {
-            // Update transition line dragging
-            if (EdgeSelectedState != null)
-            {
-                SelectionLine = new Point[2];
-                SelectionLine[0] = EdgeSelectedState.GetEdgePoint(Location, StateRadius);
-                SelectionLine[1] = Location;
-                UpdateDisplay();
-                return;
-            }
-
-            // Update drag
-            if (DraggedState != null)
-            {
-                DraggedState.Location = Location;
-                UpdateDisplay();
-                return;
-            }
-
-            MousedOverState = Model.GetFiniteStateMachine().GetEdgeUnderPoint(Location, StateRadius, StateEdgeSize);
-            UpdateDisplay();
-        }
-
-        public void FinishAction(Point Location, String ValueText)
-        {
-            // Update transition line dragging
-            if (EdgeSelectedState != null)
-            {
-                // Add a transition if possible
-                FiniteState DestinationState = Model.GetFiniteStateMachine().GetStateUnderPoint(Location, StateRadius);
-                if (DestinationState != null && DestinationState != EdgeSelectedState)
-                {
-                    ScanConstraint TransitionConstraint;
-
-                    if (CheckSyntax.CanParseValue(Model.GetElementType(), ValueText))
-                        TransitionConstraint = new ScanConstraint(ValueConstraintSelection, Conversions.ParseValue(Model.GetElementType(), ValueText));
-                    else
-                        TransitionConstraint = new ScanConstraint(ValueConstraintSelection);
-
-                    if (!EdgeSelectedState.ContainsDestionationState(DestinationState))
-                        EdgeSelectedState.AddTransition(TransitionConstraint, DestinationState);
-                }
-                SelectionLine = null;
-                EdgeSelectedState = null;
-                UpdateDisplay();
-                return;
-            }
-
-            // Update drag
-            if (DraggedState != null)
-            {
-                DraggedState = null;
-                UpdateDisplay();
-                return;
-            }
-        }
-
-        public void SetToStartState(Point Location)
-        {
-            FiniteState StateUnderPoint = Model.GetFiniteStateMachine().GetStateUnderPoint(Location, StateRadius);
-            if (StateUnderPoint == null)
-                return;
-
-            Model.GetFiniteStateMachine().SetStartState(StateUnderPoint);
-        }
-
-        public FiniteState.StateEventEnum GetStateEventAtPoint(Point Location)
-        {
-            FiniteState StateUnderPoint = Model.GetFiniteStateMachine().GetStateUnderPoint(Location, StateRadius);
-            if (StateUnderPoint == null)
-                return FiniteState.StateEventEnum.None;
-
-            return StateUnderPoint.GetStateEvent();
-        }
-
-        public void DeleteAtPoint(Point Location)
-        {
-            FiniteState StateUnderPoint = Model.GetFiniteStateMachine().GetStateUnderPoint(Location, StateRadius);
-            if (StateUnderPoint == null)
-                return;
-
-            Model.GetFiniteStateMachine().DeleteState(StateUnderPoint);
-
-            UpdateDisplay();
-        }
-
-        private void UpdateDisplay()
-        {
-            View.UpdateDisplay(Model.GetFiniteStateMachine(), MousedOverState, SelectionLine);
-        }
-
-        private void ScanFinished()
-        {
-
+            return Model.GetValueConstraintSelection();
         }
 
         #endregion
@@ -241,7 +116,7 @@ namespace Anathema
 
         public void EventUpdateDisplay(Object Sender, FiniteStateBuilderEventArgs E)
         {
-            UpdateDisplay();
+            View.UpdateDisplay();
         }
 
         #endregion

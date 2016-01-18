@@ -86,7 +86,9 @@ namespace Anathema
                     break;
                 case ConstraintsEnum.Invalid:
                 case ConstraintsEnum.GreaterThan:
+                case ConstraintsEnum.GreaterThanOrEqual:
                 case ConstraintsEnum.LessThan:
+                case ConstraintsEnum.LessThanOrEqual:
                 case ConstraintsEnum.Equal:
                 case ConstraintsEnum.NotEqual:
                 case ConstraintsEnum.IncreasedByX:

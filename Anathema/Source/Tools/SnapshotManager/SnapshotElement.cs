@@ -94,9 +94,21 @@ namespace Anathema
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public Boolean GreaterThanOrEqualToValue(dynamic Value)
+        {
+            return (GetValue(CurrentValue) >= Value);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Boolean LessThanValue(dynamic Value)
         {
             return (GetValue(CurrentValue) < Value);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public Boolean LessThanOrEqualToValue(dynamic Value)
+        {
+            return (GetValue(CurrentValue) <= Value);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]

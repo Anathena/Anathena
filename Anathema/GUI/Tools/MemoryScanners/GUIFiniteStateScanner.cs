@@ -30,9 +30,7 @@ namespace Anathema
         {
             EnableGUI();
         }
-
         
-
         private void DisableGUI()
         {
             StartScanButton.Enabled = false;
@@ -46,9 +44,7 @@ namespace Anathema
         }
 
         #region Events
-
-       
-        
+         
         private void StartScanButton_Click(Object Sender, EventArgs E)
         {
             FiniteStateScannerPresenter.BeginScan();
@@ -65,7 +61,6 @@ namespace Anathema
         {
             throw new NotImplementedException();
         }
-
 
         #endregion
 

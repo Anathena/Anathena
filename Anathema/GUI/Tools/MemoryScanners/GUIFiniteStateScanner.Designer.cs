@@ -31,7 +31,7 @@
             this.ScanToolStrip = new System.Windows.Forms.ToolStrip();
             this.StartScanButton = new System.Windows.Forms.ToolStripButton();
             this.StopScanButton = new System.Windows.Forms.ToolStripButton();
-            this.guiFiniteStateBuilder1 = new Anathema.GUI.Tools.MemoryScanners.GUIFiniteStateBuilder();
+            this.GUIFiniteStateBuilder = new Anathema.GUI.Tools.MemoryScanners.GUIFiniteStateBuilder();
             this.ScanToolStrip.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -69,19 +69,20 @@
             this.StopScanButton.Text = "Stop Scan";
             this.StopScanButton.Click += new System.EventHandler(this.StopScanButton_Click);
             // 
-            // guiFiniteStateBuilder1
+            // GUIFiniteStateBuilder
             // 
-            this.guiFiniteStateBuilder1.Location = new System.Drawing.Point(0, 28);
-            this.guiFiniteStateBuilder1.Name = "guiFiniteStateBuilder1";
-            this.guiFiniteStateBuilder1.Size = new System.Drawing.Size(457, 230);
-            this.guiFiniteStateBuilder1.TabIndex = 163;
+            this.GUIFiniteStateBuilder.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.GUIFiniteStateBuilder.Location = new System.Drawing.Point(0, 25);
+            this.GUIFiniteStateBuilder.Name = "GUIFiniteStateBuilder";
+            this.GUIFiniteStateBuilder.Size = new System.Drawing.Size(469, 245);
+            this.GUIFiniteStateBuilder.TabIndex = 164;
             // 
             // GUIFiniteStateScanner
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(469, 270);
-            this.Controls.Add(this.guiFiniteStateBuilder1);
+            this.Controls.Add(this.GUIFiniteStateBuilder);
             this.Controls.Add(this.ScanToolStrip);
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Name = "GUIFiniteStateScanner";
@@ -97,6 +98,6 @@
         private System.Windows.Forms.ToolStrip ScanToolStrip;
         private System.Windows.Forms.ToolStripButton StartScanButton;
         private System.Windows.Forms.ToolStripButton StopScanButton;
-        private GUI.Tools.MemoryScanners.GUIFiniteStateBuilder guiFiniteStateBuilder1;
+        private GUI.Tools.MemoryScanners.GUIFiniteStateBuilder GUIFiniteStateBuilder;
     }
 }

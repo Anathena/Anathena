@@ -45,9 +45,6 @@
             this.GreaterThanOrEqualToToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.LessThanToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.LessThanOrEqualToToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.FSMBuilderPanel = new Anathema.FlickerFreePanel();
-            this.ValueTypeComboBox = new System.Windows.Forms.ComboBox();
-            this.ValueTextBox = new System.Windows.Forms.TextBox();
             this.StateContextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.StartStateToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.NoEventToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -55,21 +52,24 @@
             this.MarkInvalidToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.EndScanToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.DeleteStateToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.FSMBuilderPanel = new Anathema.FlickerFreePanel();
+            this.ValueTextBox = new System.Windows.Forms.TextBox();
+            this.ValueTypeComboBox = new System.Windows.Forms.ComboBox();
             this.ScanToolStrip.SuspendLayout();
-            this.FSMBuilderPanel.SuspendLayout();
             this.StateContextMenuStrip.SuspendLayout();
+            this.FSMBuilderPanel.SuspendLayout();
             this.SuspendLayout();
             // 
             // ScanToolStrip
             // 
             this.ScanToolStrip.AutoSize = false;
-            this.ScanToolStrip.Dock = System.Windows.Forms.DockStyle.Right;
+            this.ScanToolStrip.Dock = System.Windows.Forms.DockStyle.Left;
             this.ScanToolStrip.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
             this.ScanToolStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.DragModeButton,
             this.ScanOptionsToolStripDropDownButton});
             this.ScanToolStrip.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.VerticalStackWithOverflow;
-            this.ScanToolStrip.Location = new System.Drawing.Point(473, 0);
+            this.ScanToolStrip.Location = new System.Drawing.Point(0, 0);
             this.ScanToolStrip.Name = "ScanToolStrip";
             this.ScanToolStrip.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
             this.ScanToolStrip.Size = new System.Drawing.Size(33, 301);
@@ -192,35 +192,6 @@
             this.LessThanOrEqualToToolStripMenuItem.Size = new System.Drawing.Size(202, 22);
             this.LessThanOrEqualToToolStripMenuItem.Text = "Less Than or Equal to";
             // 
-            // FSMBuilderPanel
-            // 
-            this.FSMBuilderPanel.BackColor = System.Drawing.SystemColors.ControlDark;
-            this.FSMBuilderPanel.Controls.Add(this.ValueTextBox);
-            this.FSMBuilderPanel.Controls.Add(this.ValueTypeComboBox);
-            this.FSMBuilderPanel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.FSMBuilderPanel.Location = new System.Drawing.Point(0, 0);
-            this.FSMBuilderPanel.Name = "FSMBuilderPanel";
-            this.FSMBuilderPanel.Size = new System.Drawing.Size(473, 301);
-            this.FSMBuilderPanel.TabIndex = 164;
-            // 
-            // ValueTypeComboBox
-            // 
-            this.ValueTypeComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.ValueTypeComboBox.FormattingEnabled = true;
-            this.ValueTypeComboBox.Location = new System.Drawing.Point(376, 3);
-            this.ValueTypeComboBox.Name = "ValueTypeComboBox";
-            this.ValueTypeComboBox.Size = new System.Drawing.Size(94, 21);
-            this.ValueTypeComboBox.TabIndex = 154;
-            // 
-            // ValueTextBox
-            // 
-            this.ValueTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.ValueTextBox.Location = new System.Drawing.Point(3, 4);
-            this.ValueTextBox.Name = "ValueTextBox";
-            this.ValueTextBox.Size = new System.Drawing.Size(367, 20);
-            this.ValueTextBox.TabIndex = 160;
-            // 
             // StateContextMenuStrip
             // 
             this.StateContextMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -231,43 +202,77 @@
             this.EndScanToolStripMenuItem,
             this.DeleteStateToolStripMenuItem});
             this.StateContextMenuStrip.Name = "StateMenuStrip";
-            this.StateContextMenuStrip.Size = new System.Drawing.Size(153, 158);
+            this.StateContextMenuStrip.Size = new System.Drawing.Size(140, 136);
             // 
             // StartStateToolStripMenuItem
             // 
             this.StartStateToolStripMenuItem.Name = "StartStateToolStripMenuItem";
-            this.StartStateToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.StartStateToolStripMenuItem.Size = new System.Drawing.Size(139, 22);
             this.StartStateToolStripMenuItem.Text = "Start State";
             // 
             // NoEventToolStripMenuItem
             // 
             this.NoEventToolStripMenuItem.Name = "NoEventToolStripMenuItem";
-            this.NoEventToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.NoEventToolStripMenuItem.Size = new System.Drawing.Size(139, 22);
             this.NoEventToolStripMenuItem.Text = "No Event";
             // 
             // MarkValidToolStripMenuItem
             // 
             this.MarkValidToolStripMenuItem.Name = "MarkValidToolStripMenuItem";
-            this.MarkValidToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.MarkValidToolStripMenuItem.Size = new System.Drawing.Size(139, 22);
             this.MarkValidToolStripMenuItem.Text = "Mark Valid";
             // 
             // MarkInvalidToolStripMenuItem
             // 
             this.MarkInvalidToolStripMenuItem.Name = "MarkInvalidToolStripMenuItem";
-            this.MarkInvalidToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.MarkInvalidToolStripMenuItem.Size = new System.Drawing.Size(139, 22);
             this.MarkInvalidToolStripMenuItem.Text = "Mark Invalid";
             // 
             // EndScanToolStripMenuItem
             // 
             this.EndScanToolStripMenuItem.Name = "EndScanToolStripMenuItem";
-            this.EndScanToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.EndScanToolStripMenuItem.Size = new System.Drawing.Size(139, 22);
             this.EndScanToolStripMenuItem.Text = "End Scan";
             // 
             // DeleteStateToolStripMenuItem
             // 
             this.DeleteStateToolStripMenuItem.Name = "DeleteStateToolStripMenuItem";
-            this.DeleteStateToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.DeleteStateToolStripMenuItem.Size = new System.Drawing.Size(139, 22);
             this.DeleteStateToolStripMenuItem.Text = "Delete State";
+            // 
+            // FSMBuilderPanel
+            // 
+            this.FSMBuilderPanel.BackColor = System.Drawing.SystemColors.ControlDark;
+            this.FSMBuilderPanel.Controls.Add(this.ValueTextBox);
+            this.FSMBuilderPanel.Controls.Add(this.ValueTypeComboBox);
+            this.FSMBuilderPanel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.FSMBuilderPanel.Location = new System.Drawing.Point(33, 0);
+            this.FSMBuilderPanel.Name = "FSMBuilderPanel";
+            this.FSMBuilderPanel.Size = new System.Drawing.Size(473, 301);
+            this.FSMBuilderPanel.TabIndex = 164;
+            this.FSMBuilderPanel.MouseDown += new System.Windows.Forms.MouseEventHandler(this.FSMBuilderPanel_MouseDown);
+            this.FSMBuilderPanel.MouseMove += new System.Windows.Forms.MouseEventHandler(this.FSMBuilderPanel_MouseMove);
+            this.FSMBuilderPanel.MouseUp += new System.Windows.Forms.MouseEventHandler(this.FSMBuilderPanel_MouseUp);
+            // 
+            // ValueTextBox
+            // 
+            this.ValueTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.ValueTextBox.Location = new System.Drawing.Point(3, 4);
+            this.ValueTextBox.Name = "ValueTextBox";
+            this.ValueTextBox.Size = new System.Drawing.Size(367, 20);
+            this.ValueTextBox.TabIndex = 160;
+            this.ValueTextBox.TextChanged += new System.EventHandler(this.ValueTextBox_TextChanged);
+            // 
+            // ValueTypeComboBox
+            // 
+            this.ValueTypeComboBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.ValueTypeComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.ValueTypeComboBox.FormattingEnabled = true;
+            this.ValueTypeComboBox.Location = new System.Drawing.Point(376, 3);
+            this.ValueTypeComboBox.Name = "ValueTypeComboBox";
+            this.ValueTypeComboBox.Size = new System.Drawing.Size(94, 21);
+            this.ValueTypeComboBox.TabIndex = 154;
             // 
             // GUIFiniteStateBuilder
             // 
@@ -279,9 +284,9 @@
             this.Size = new System.Drawing.Size(506, 301);
             this.ScanToolStrip.ResumeLayout(false);
             this.ScanToolStrip.PerformLayout();
+            this.StateContextMenuStrip.ResumeLayout(false);
             this.FSMBuilderPanel.ResumeLayout(false);
             this.FSMBuilderPanel.PerformLayout();
-            this.StateContextMenuStrip.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }

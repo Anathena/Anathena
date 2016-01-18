@@ -121,8 +121,16 @@ namespace Anathema
                                 if (!Element.GreaterThanValue(ScanConstraint.Value))
                                     Element.Valid = false;
                                 break;
+                            case ConstraintsEnum.GreaterThanOrEqual:
+                                if (!Element.GreaterThanOrEqualToValue(ScanConstraint.Value))
+                                    Element.Valid = false;
+                                break;
                             case ConstraintsEnum.LessThan:
                                 if (!Element.LessThanValue(ScanConstraint.Value))
+                                    Element.Valid = false;
+                                break;
+                            case ConstraintsEnum.LessThanOrEqual:
+                                if (!Element.LessThanOrEqualToValue(ScanConstraint.Value))
                                     Element.Valid = false;
                                 break;
                         }

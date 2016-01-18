@@ -126,10 +126,12 @@
     <Compile Include="Settings.cs" />
     <Compile Include="Source\HelperClasses\RepeatedTask.cs" />
     <Compile Include="Source\Settings\ISettingsMVP.cs" />
+    <Compile Include="Source\Tools\MemoryScanners\FiniteStateScanner\FiniteStateBuilder.cs" />
+    <Compile Include="Source\Tools\MemoryScanners\FiniteStateScanner\IFiniteStateScannerMVP.cs" />
     <Compile Include="Source\Tools\MemoryScanners\InputCorrelator\InputNode.cs" />
     <Compile Include="Source\Tools\PointerScanner\IPointerScannerMVP.cs" />
     <Compile Include="Source\Tools\PointerScanner\PointerScanner.cs" />
-    <Compile Include="Source\Tools\MemoryScanners\FiniteStateScanner\IFiniteStateScannerMVP.cs" />
+    <Compile Include="Source\Tools\MemoryScanners\FiniteStateScanner\IFiniteStateBuilderMVP.cs" />
     <Compile Include="Source\Tools\MemoryScanners\FiniteStateScanner\FiniteStateMachine.cs" />
     <Compile Include="Source\Tools\MemoryScanners\FiniteStateScanner\FiniteState.cs" />
     <Compile Include="Source\Tools\MemoryScanners\ScanConstraintManager.cs" />
