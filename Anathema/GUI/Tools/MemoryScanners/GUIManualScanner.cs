@@ -55,7 +55,7 @@ namespace Anathema
 
         private void UpdateScanOptions(ToolStripMenuItem Sender, ConstraintsEnum ValueConstraint)
         {
-            ScanOptionsStripDropDownButton.Image = Sender.Image;
+            ScanOptionsToolStripDropDownButton.Image = Sender.Image;
 
             switch (ValueConstraint)
             {

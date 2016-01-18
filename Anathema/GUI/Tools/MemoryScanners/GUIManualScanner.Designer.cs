@@ -40,7 +40,7 @@
             this.RemoveConstraintButton = new System.Windows.Forms.ToolStripButton();
             this.ClearConstraintsButton = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
-            this.ScanOptionsStripDropDownButton = new System.Windows.Forms.ToolStripDropDownButton();
+            this.ScanOptionsToolStripDropDownButton = new System.Windows.Forms.ToolStripDropDownButton();
             this.ChangedToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.UnchangedToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.IncreasedToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -162,10 +162,10 @@
             this.toolStripSeparator1.Name = "toolStripSeparator1";
             this.toolStripSeparator1.Size = new System.Drawing.Size(6, 25);
             // 
-            // ScanOptionsStripDropDownButton
+            // ScanOptionsToolStripDropDownButton
             // 
-            this.ScanOptionsStripDropDownButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.ScanOptionsStripDropDownButton.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.ScanOptionsToolStripDropDownButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.ScanOptionsToolStripDropDownButton.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.ChangedToolStripMenuItem,
             this.UnchangedToolStripMenuItem,
             this.IncreasedToolStripMenuItem,
@@ -178,11 +178,11 @@
             this.GreaterThanOrEqualToToolStripMenuItem,
             this.LessThanToolStripMenuItem,
             this.LessThanOrEqualToToolStripMenuItem});
-            this.ScanOptionsStripDropDownButton.Image = global::Anathema.Properties.Resources.Changed;
-            this.ScanOptionsStripDropDownButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.ScanOptionsStripDropDownButton.Name = "ScanOptionsStripDropDownButton";
-            this.ScanOptionsStripDropDownButton.Size = new System.Drawing.Size(29, 22);
-            this.ScanOptionsStripDropDownButton.Text = "toolStripDropDownButton1";
+            this.ScanOptionsToolStripDropDownButton.Image = global::Anathema.Properties.Resources.Changed;
+            this.ScanOptionsToolStripDropDownButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.ScanOptionsToolStripDropDownButton.Name = "ScanOptionsToolStripDropDownButton";
+            this.ScanOptionsToolStripDropDownButton.Size = new System.Drawing.Size(29, 22);
+            this.ScanOptionsToolStripDropDownButton.Text = "toolStripDropDownButton1";
             // 
             // ChangedToolStripMenuItem
             // 
@@ -290,7 +290,7 @@
             this.RemoveConstraintButton,
             this.ClearConstraintsButton,
             this.toolStripSeparator1,
-            this.ScanOptionsStripDropDownButton});
+            this.ScanOptionsToolStripDropDownButton});
             this.ScanToolStrip.Location = new System.Drawing.Point(0, 0);
             this.ScanToolStrip.Name = "ScanToolStrip";
             this.ScanToolStrip.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
@@ -331,7 +331,7 @@
         private System.Windows.Forms.ToolStripButton RemoveConstraintButton;
         private System.Windows.Forms.ToolStripButton ClearConstraintsButton;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
-        private System.Windows.Forms.ToolStripDropDownButton ScanOptionsStripDropDownButton;
+        private System.Windows.Forms.ToolStripDropDownButton ScanOptionsToolStripDropDownButton;
         private System.Windows.Forms.ToolStripMenuItem ChangedToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem UnchangedToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem IncreasedToolStripMenuItem;
