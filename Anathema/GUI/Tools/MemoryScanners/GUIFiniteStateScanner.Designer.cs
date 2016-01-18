@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(GUIFiniteStateScanner));
             this.ValueTextBox = new System.Windows.Forms.TextBox();
             this.ValueTypeComboBox = new System.Windows.Forms.ComboBox();
             this.ScanToolStrip = new System.Windows.Forms.ToolStrip();
@@ -52,6 +53,8 @@
             this.MarkInvalidToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.EndScanToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.DeleteStateToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.DragModeButton = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.FSMBuilderPanel = new Anathema.FlickerFreePanel();
             this.ScanToolStrip.SuspendLayout();
             this.StateContextMenuStrip.SuspendLayout();
@@ -92,7 +95,9 @@
             this.GreaterThanButton,
             this.LessThanButton,
             this.IncreasedByXButton,
-            this.DecreasedByXButton});
+            this.DecreasedByXButton,
+            this.toolStripSeparator1,
+            this.DragModeButton});
             this.ScanToolStrip.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.HorizontalStackWithOverflow;
             this.ScanToolStrip.Location = new System.Drawing.Point(0, 0);
             this.ScanToolStrip.Name = "ScanToolStrip";
@@ -242,51 +247,67 @@
             this.EndScanToolStripMenuItem,
             this.DeleteStateToolStripMenuItem});
             this.StateContextMenuStrip.Name = "StateMenuStrip";
-            this.StateContextMenuStrip.Size = new System.Drawing.Size(153, 158);
+            this.StateContextMenuStrip.Size = new System.Drawing.Size(140, 136);
             this.StateContextMenuStrip.Closed += new System.Windows.Forms.ToolStripDropDownClosedEventHandler(this.StateContextMenuStrip_Closed);
             this.StateContextMenuStrip.Opening += new System.ComponentModel.CancelEventHandler(this.StateContextMenuStrip_Opening);
             // 
             // StartStateToolStripMenuItem
             // 
             this.StartStateToolStripMenuItem.Name = "StartStateToolStripMenuItem";
-            this.StartStateToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.StartStateToolStripMenuItem.Size = new System.Drawing.Size(139, 22);
             this.StartStateToolStripMenuItem.Text = "Start State";
             this.StartStateToolStripMenuItem.Click += new System.EventHandler(this.StartStateToolStripMenuItem_Click);
             // 
             // NoEventToolStripMenuItem
             // 
             this.NoEventToolStripMenuItem.Name = "NoEventToolStripMenuItem";
-            this.NoEventToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.NoEventToolStripMenuItem.Size = new System.Drawing.Size(139, 22);
             this.NoEventToolStripMenuItem.Text = "No Event";
             this.NoEventToolStripMenuItem.Click += new System.EventHandler(this.NoEventToolStripMenuItem_Click);
             // 
             // MarkValidToolStripMenuItem
             // 
             this.MarkValidToolStripMenuItem.Name = "MarkValidToolStripMenuItem";
-            this.MarkValidToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.MarkValidToolStripMenuItem.Size = new System.Drawing.Size(139, 22);
             this.MarkValidToolStripMenuItem.Text = "Mark Valid";
             this.MarkValidToolStripMenuItem.Click += new System.EventHandler(this.MarkValidToolStripMenuItem_Click);
             // 
             // MarkInvalidToolStripMenuItem
             // 
             this.MarkInvalidToolStripMenuItem.Name = "MarkInvalidToolStripMenuItem";
-            this.MarkInvalidToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.MarkInvalidToolStripMenuItem.Size = new System.Drawing.Size(139, 22);
             this.MarkInvalidToolStripMenuItem.Text = "Mark Invalid";
             this.MarkInvalidToolStripMenuItem.Click += new System.EventHandler(this.MarkInvalidToolStripMenuItem_Click);
             // 
             // EndScanToolStripMenuItem
             // 
             this.EndScanToolStripMenuItem.Name = "EndScanToolStripMenuItem";
-            this.EndScanToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.EndScanToolStripMenuItem.Size = new System.Drawing.Size(139, 22);
             this.EndScanToolStripMenuItem.Text = "End Scan";
             this.EndScanToolStripMenuItem.Click += new System.EventHandler(this.EndScanToolStripMenuItem_Click);
             // 
             // DeleteStateToolStripMenuItem
             // 
             this.DeleteStateToolStripMenuItem.Name = "DeleteStateToolStripMenuItem";
-            this.DeleteStateToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.DeleteStateToolStripMenuItem.Size = new System.Drawing.Size(139, 22);
             this.DeleteStateToolStripMenuItem.Text = "Delete State";
             this.DeleteStateToolStripMenuItem.Click += new System.EventHandler(this.DeleteStateToolStripMenuItem_Click);
+            // 
+            // DragModeButton
+            // 
+            this.DragModeButton.CheckOnClick = true;
+            this.DragModeButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.DragModeButton.Image = ((System.Drawing.Image)(resources.GetObject("DragModeButton.Image")));
+            this.DragModeButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.DragModeButton.Name = "DragModeButton";
+            this.DragModeButton.Size = new System.Drawing.Size(23, 22);
+            this.DragModeButton.Text = "Drag Mode";
+            this.DragModeButton.Click += new System.EventHandler(this.DragModeButton_Click);
+            // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 25);
             // 
             // FSMBuilderPanel
             // 
@@ -348,5 +369,7 @@
         private System.Windows.Forms.ToolStripMenuItem EndScanToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem DeleteStateToolStripMenuItem;
         private System.Windows.Forms.ToolStripButton StopScanButton;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
+        private System.Windows.Forms.ToolStripButton DragModeButton;
     }
 }

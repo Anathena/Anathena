@@ -14,19 +14,15 @@ namespace Anathema
     public partial class GUIManualScanner : DockContent, IManualScannerView
     {
         private ManualScannerPresenter ManualScannerPresenter;
-
-        private List<ToolStripButton> ScanOptionButtons;
-
+        
         public GUIManualScanner()
         {
             InitializeComponent();
-
-            ScanOptionButtons = new List<ToolStripButton>();
+            
             ManualScannerPresenter = new ManualScannerPresenter(this, new ManualScanner());
 
             InitializeValueTypeComboBox();
-            InitializeScanOptionButtons();
-            EvaluateScanOptions(EqualButton);
+            UpdateScanOptions(ChangedToolStripMenuItem, ConstraintsEnum.Changed);
 
             EnableGUI();
         }
@@ -37,20 +33,6 @@ namespace Anathema
                 ValueTypeComboBox.Items.Add(Primitive.Name);
 
             ValueTypeComboBox.SelectedIndex = ValueTypeComboBox.Items.IndexOf(typeof(Int32).Name);
-        }
-
-        private void InitializeScanOptionButtons()
-        {
-            ScanOptionButtons.Add(UnchangedButton);
-            ScanOptionButtons.Add(ChangedButton);
-            ScanOptionButtons.Add(IncreasedButton);
-            ScanOptionButtons.Add(DecreasedButton);
-            ScanOptionButtons.Add(NotEqualButton);
-            ScanOptionButtons.Add(EqualButton);
-            ScanOptionButtons.Add(GreaterThanButton);
-            ScanOptionButtons.Add(LessThanButton);
-            ScanOptionButtons.Add(IncreasedByXButton);
-            ScanOptionButtons.Add(DecreasedByXButton);
         }
 
         public void UpdateDisplay(List<String[]> ScanConstraintItems)
@@ -71,36 +53,9 @@ namespace Anathema
             });
         }
 
-        private void EvaluateScanOptions(ToolStripButton Sender)
+        private void UpdateScanOptions(ToolStripMenuItem Sender, ConstraintsEnum ValueConstraint)
         {
-            ConstraintsEnum ValueConstraint = ConstraintsEnum.Invalid;
-
-            foreach (ToolStripButton Button in ScanOptionButtons)
-                if (Button != Sender)
-                    Button.Checked = false;
-                else
-                    Button.Checked = true;
-
-            if (Sender == EqualButton)
-                ValueConstraint = ConstraintsEnum.Equal;
-            else if (Sender == NotEqualButton)
-                ValueConstraint = ConstraintsEnum.NotEqual;
-            else if (Sender == ChangedButton)
-                ValueConstraint = ConstraintsEnum.Changed;
-            else if (Sender == UnchangedButton)
-                ValueConstraint = ConstraintsEnum.Unchanged;
-            else if (Sender == IncreasedButton)
-                ValueConstraint = ConstraintsEnum.Increased;
-            else if (Sender == DecreasedButton)
-                ValueConstraint = ConstraintsEnum.Decreased;
-            else if (Sender == GreaterThanButton)
-                ValueConstraint = ConstraintsEnum.GreaterThan;
-            else if (Sender == LessThanButton)
-                ValueConstraint = ConstraintsEnum.LessThan;
-            else if (Sender == IncreasedByXButton)
-                ValueConstraint = ConstraintsEnum.IncreasedByX;
-            else if (Sender == DecreasedByXButton)
-                ValueConstraint = ConstraintsEnum.DecreasedByX;
+            ScanOptionsStripDropDownButton.Image = Sender.Image;
 
             switch (ValueConstraint)
             {
@@ -133,7 +88,6 @@ namespace Anathema
             }
 
             ManualScannerPresenter.SetValueConstraints(ValueConstraint);
-            this.CompareTypeLabel.Text = ValueConstraint.ToString();
         }
 
         private void EnableGUI()
@@ -153,57 +107,7 @@ namespace Anathema
             DisableGUI();
             ManualScannerPresenter.BeginScan();
         }
-
-        private void ChangedButton_Click(Object Sender, EventArgs E)
-        {
-            EvaluateScanOptions((ToolStripButton)Sender);
-        }
-
-        private void NotEqualButton_Click(Object Sender, EventArgs E)
-        {
-            EvaluateScanOptions((ToolStripButton)Sender);
-        }
-
-        private void UnchangedButton_Click(Object Sender, EventArgs E)
-        {
-            EvaluateScanOptions((ToolStripButton)Sender);
-        }
-
-        private void IncreasedButton_Click(Object Sender, EventArgs E)
-        {
-            EvaluateScanOptions((ToolStripButton)Sender);
-        }
-
-        private void DecreasedButton_Click(Object Sender, EventArgs E)
-        {
-            EvaluateScanOptions((ToolStripButton)Sender);
-        }
-
-        private void EqualButton_Click(Object Sender, EventArgs E)
-        {
-            EvaluateScanOptions((ToolStripButton)Sender);
-        }
-
-        private void GreaterThanButton_Click(Object Sender, EventArgs E)
-        {
-            EvaluateScanOptions((ToolStripButton)Sender);
-        }
-
-        private void LessThanButton_Click(Object Sender, EventArgs E)
-        {
-            EvaluateScanOptions((ToolStripButton)Sender);
-        }
-
-        private void IncreasedByXButton_Click(Object Sender, EventArgs E)
-        {
-            EvaluateScanOptions((ToolStripButton)Sender);
-        }
-
-        private void DecreasedByXButton_Click(Object Sender, EventArgs E)
-        {
-            EvaluateScanOptions((ToolStripButton)Sender);
-        }
-
+        
         private void AddConstraintButton_Click(Object Sender, EventArgs E)
         {
             ManualScannerPresenter.AddConstraint(ValueTextBox.Text.ToString());
@@ -224,6 +128,68 @@ namespace Anathema
             ManualScannerPresenter.SetElementType(ValueTypeComboBox.SelectedItem.ToString());
         }
 
+        private void ChangedToolStripMenuItem_Click(Object Sender, EventArgs E)
+        {
+            UpdateScanOptions((ToolStripMenuItem)Sender, ConstraintsEnum.Changed);
+        }
+
+        private void UnchangedToolStripMenuItem_Click(Object Sender, EventArgs E)
+        {
+            UpdateScanOptions((ToolStripMenuItem)Sender, ConstraintsEnum.Unchanged);
+        }
+
+        private void IncreasedToolStripMenuItem_Click(Object Sender, EventArgs E)
+        {
+            UpdateScanOptions((ToolStripMenuItem)Sender, ConstraintsEnum.Increased);
+        }
+
+        private void DecreasedToolStripMenuItem_Click(Object Sender, EventArgs E)
+        {
+            UpdateScanOptions((ToolStripMenuItem)Sender, ConstraintsEnum.Decreased);
+        }
+
+        private void EqualToToolStripMenuItem_Click(Object Sender, EventArgs E)
+        {
+            UpdateScanOptions((ToolStripMenuItem)Sender, ConstraintsEnum.Equal);
+        }
+
+        private void NotEqualToToolStripMenuItem_Click(Object Sender, EventArgs E)
+        {
+            UpdateScanOptions((ToolStripMenuItem)Sender, ConstraintsEnum.NotEqual);
+        }
+
+        private void IncreasedByToolStripMenuItem_Click(Object Sender, EventArgs E)
+        {
+            UpdateScanOptions((ToolStripMenuItem)Sender, ConstraintsEnum.IncreasedByX);
+        }
+
+        private void DecreasedByToolStripMenuItem_Click(Object Sender, EventArgs E)
+        {
+            UpdateScanOptions((ToolStripMenuItem)Sender, ConstraintsEnum.DecreasedByX);
+        }
+
+        private void GreaterThanToolStripMenuItem_Click(Object Sender, EventArgs E)
+        {
+            UpdateScanOptions((ToolStripMenuItem)Sender, ConstraintsEnum.GreaterThan);
+        }
+
+        private void GreaterThanOrEqualToToolStripMenuItem_Click(Object Sender, EventArgs E)
+        {
+            UpdateScanOptions((ToolStripMenuItem)Sender, ConstraintsEnum.GreaterThanOrEqual);
+        }
+
+        private void LessThanToolStripMenuItem_Click(Object Sender, EventArgs E)
+        {
+            UpdateScanOptions((ToolStripMenuItem)Sender, ConstraintsEnum.LessThan);
+        }
+
+        private void LessThanOrEqualToToolStripMenuItem_Click(Object Sender, EventArgs E)
+        {
+            UpdateScanOptions((ToolStripMenuItem)Sender, ConstraintsEnum.LessThanOrEqual);
+        }
+
         #endregion
-    }
-}
+
+    } // End class
+
+} // End namespace

@@ -153,6 +153,16 @@ namespace Anathema.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap GreaterThanOrEqual {
+            get {
+                object obj = ResourceManager.GetObject("GreaterThanOrEqual", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap Increased {
             get {
                 object obj = ResourceManager.GetObject("Increased", resourceCulture);
@@ -206,6 +216,16 @@ namespace Anathema.Properties {
         internal static System.Drawing.Bitmap LessThan {
             get {
                 object obj = ResourceManager.GetObject("LessThan", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap LessThanOrEqual {
+            get {
+                object obj = ResourceManager.GetObject("LessThanOrEqual", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

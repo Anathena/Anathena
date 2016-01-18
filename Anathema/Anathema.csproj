@@ -105,6 +105,12 @@
     <Compile Include="GUI\Settings\GUISettings.Designer.cs">
       <DependentUpon>GUISettings.cs</DependentUpon>
     </Compile>
+    <Compile Include="GUI\Tools\MemoryScanners\GUIFiniteStateBuilder.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="GUI\Tools\MemoryScanners\GUIFiniteStateBuilder.Designer.cs">
+      <DependentUpon>GUIFiniteStateBuilder.cs</DependentUpon>
+    </Compile>
     <Compile Include="GUI\Tools\PointerScanner\GUIPointerScanner.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -603,6 +609,9 @@
     <EmbeddedResource Include="GUI\Tools\MemoryScanners\GUIChunkScanner.resx">
       <DependentUpon>GUIChunkScanner.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="GUI\Tools\MemoryScanners\GUIFiniteStateBuilder.resx">
+      <DependentUpon>GUIFiniteStateBuilder.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="GUI\Tools\PointerScanner\GUIPointerScanner.resx">
       <DependentUpon>GUIPointerScanner.cs</DependentUpon>
     </EmbeddedResource>
@@ -732,6 +741,7 @@
     <Content Include="Content\Icons\Equal.png" />
     <Content Include="Content\Icons\FiniteStateMachine.png" />
     <Content Include="Content\Icons\GreaterThan.png" />
+    <None Include="Content\Icons\GreaterThanOrEqual.png" />
     <Content Include="Content\Icons\Hide.png" />
     <Content Include="Content\Icons\Increased.png" />
     <Content Include="Content\Icons\InputCorrelator.png" />
@@ -739,6 +749,7 @@
     <Content Include="Content\Icons\LeftArrow.png" />
     <Content Include="Content\Icons\LessThan.png" />
     <None Include="Content\Icons\LogicalOR.png" />
+    <None Include="Content\Icons\LessThanOrEqual.png" />
     <Content Include="Content\Icons\MainIcon.ico" />
     <Content Include="Content\Icons\ManualScan.png" />
     <Content Include="Content\Icons\Maximize.png" />

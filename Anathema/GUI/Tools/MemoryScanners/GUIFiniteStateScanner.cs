@@ -400,6 +400,11 @@ namespace Anathema
         {
             FiniteStateScannerPresenter.SetElementType(ValueTypeComboBox.SelectedItem.ToString());
         }
+        
+        private void DragModeButton_Click(Object Sender, EventArgs E)
+        {
+
+        }
 
         private void StateContextMenuStrip_Opening(Object Sender, CancelEventArgs E)
         {

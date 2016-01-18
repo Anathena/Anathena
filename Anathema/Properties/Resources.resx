@@ -145,6 +145,9 @@
   <data name="GreaterThan" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Content\Icons\GreaterThan.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="GreaterThanOrEqual" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Content\Icons\GreaterThanOrEqual.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="Increased" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Content\Icons\Increased.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -162,6 +165,9 @@
   </data>
   <data name="LessThan" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Content\Icons\LessThan.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="LessThanOrEqual" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Content\Icons\LessThanOrEqual.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="LogicalOR" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Content\Icons\LogicalOR.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>

@@ -18,7 +18,9 @@ namespace Anathema
         IncreasedByX,
         DecreasedByX,
         GreaterThan,
+        GreaterThanOrEqual,
         LessThan,
+        LessThanOrEqual,
     }
 
     /// <summary>
