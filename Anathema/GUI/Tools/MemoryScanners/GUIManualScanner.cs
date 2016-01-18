@@ -14,11 +14,11 @@ namespace Anathema
     public partial class GUIManualScanner : DockContent, IManualScannerView
     {
         private ManualScannerPresenter ManualScannerPresenter;
-        
+
         public GUIManualScanner()
         {
             InitializeComponent();
-            
+
             ManualScannerPresenter = new ManualScannerPresenter(this, new ManualScanner());
 
             InitializeValueTypeComboBox();
@@ -47,10 +47,7 @@ namespace Anathema
 
         public void ScanFinished()
         {
-            ControlThreadingHelper.InvokeControlAction(ScanToolStrip, () =>
-            {
-                EnableGUI();
-            });
+            EnableGUI();
         }
 
         private void UpdateScanOptions(ToolStripMenuItem Sender, ConstraintsEnum ValueConstraint)
@@ -94,12 +91,18 @@ namespace Anathema
 
         private void EnableGUI()
         {
-            StartScanButton.Enabled = true;
+            ControlThreadingHelper.InvokeControlAction(ScanToolStrip, () =>
+            {
+                ScanToolStrip.Items[ScanToolStrip.Items.IndexOf(StartScanButton)].Enabled = true;
+            });
         }
 
         private void DisableGUI()
         {
-            StartScanButton.Enabled = false;
+            ControlThreadingHelper.InvokeControlAction(ScanToolStrip, () =>
+            {
+                ScanToolStrip.Items[ScanToolStrip.Items.IndexOf(StartScanButton)].Enabled = false;
+            });
         }
 
         #region Events
@@ -109,7 +112,7 @@ namespace Anathema
             DisableGUI();
             ManualScannerPresenter.BeginScan();
         }
-        
+
         private void AddConstraintButton_Click(Object Sender, EventArgs E)
         {
             ManualScannerPresenter.AddConstraint(ValueTextBox.Text.ToString());

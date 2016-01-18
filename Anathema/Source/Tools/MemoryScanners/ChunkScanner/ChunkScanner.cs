@@ -83,7 +83,6 @@ namespace Anathema
             List<SnapshotRegion> FilteredRegions = new List<SnapshotRegion>();
             for (Int32 Index = 0; Index < ChunkRoots.Count; Index++)
                 ChunkRoots[Index].GetChangedRegions(FilteredRegions, MinChanges);
-            ChunkRoots = null;
 
             // Create snapshot with results
             Snapshot<Null> FilteredSnapshot = new Snapshot<Null>(FilteredRegions.ToArray());
@@ -98,6 +97,14 @@ namespace Anathema
 
             // Save result
             SnapshotManager.GetInstance().SaveSnapshot(FilteredSnapshot);
+
+            CleanUp();
+        }
+
+        private void CleanUp()
+        {
+            ChunkRoots = null;
+            Snapshot = null;
         }
 
         public class MemoryChunkRoots : SnapshotRegion<Null>

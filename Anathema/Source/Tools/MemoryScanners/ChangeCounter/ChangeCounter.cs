@@ -89,6 +89,11 @@ namespace Anathema
             SnapshotManager.GetInstance().SaveSnapshot(Snapshot);
         }
 
+        private void CleanUp()
+        {
+            Snapshot = null;
+        }
+
     } // End class
 
 } // End namespace

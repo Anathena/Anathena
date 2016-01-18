@@ -195,6 +195,13 @@ namespace Anathema
             Snapshot.SetScanMethod("Input Correlator");
 
             SnapshotManager.GetInstance().SaveSnapshot(Snapshot);
+
+            CleanUp();
+        }
+
+        private void CleanUp()
+        {
+            Snapshot = null;
         }
 
         private void RegisterKey(Keys Key)

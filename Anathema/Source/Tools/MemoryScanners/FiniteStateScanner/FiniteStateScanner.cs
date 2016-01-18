@@ -180,6 +180,13 @@ namespace Anathema
 
             FiniteStateScannerEventArgs Args = new FiniteStateScannerEventArgs();
             OnEventScanFinished(Args);
+
+            CleanUp();
+        }
+
+        private void CleanUp()
+        {
+            Snapshot = null;
         }
 
     } // End class

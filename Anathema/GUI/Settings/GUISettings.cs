@@ -58,8 +58,8 @@ namespace Anathema
 
             FreezeIntervalTextBox.Text = SettingsPresenter.GetFreezeInterval();
             RescanIntervalTextBox.Text = SettingsPresenter.GetRescanInterval();
-            TableReadIntervalTextBox.Text = SettingsPresenter.GetResultReadInterval();
-            ResultsReadIntervalTextBox.Text = SettingsPresenter.GetTableReadInterval();
+            TableReadIntervalTextBox.Text = SettingsPresenter.GetTableReadInterval();
+            ResultsReadIntervalTextBox.Text = SettingsPresenter.GetResultReadInterval();
             InputCorrelatorTimeoutIntervalTextBox.Text = SettingsPresenter.GetInputCorrelatorTimeOutInterval();
         }
 

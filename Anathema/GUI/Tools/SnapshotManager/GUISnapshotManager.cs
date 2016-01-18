@@ -26,10 +26,8 @@ namespace Anathema
         {
             ControlThreadingHelper.InvokeControlAction(SnapshotListView, () =>
             {
-                SnapshotListView.BeginUpdate();
                 SnapshotListView.Items.Clear();
                 SnapshotListView.Items.AddRange(Snapshots);
-                SnapshotListView.EndUpdate();
             });
         }
 

@@ -148,13 +148,19 @@ namespace Anathema
         public override void End()
         {
             base.End();
-
             Snapshot.DiscardInvalidRegions();
             Snapshot.SetScanMethod("Manual Scan");
 
             SnapshotManager.GetInstance().SaveSnapshot(Snapshot);
 
             OnEventScanFinished(new ManualScannerEventArgs());
+
+            CleanUp();
+        }
+
+        private void CleanUp()
+        {
+            Snapshot = null;
         }
 
     } // End class

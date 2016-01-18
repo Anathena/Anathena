@@ -86,7 +86,6 @@ namespace Anathema
             List<SnapshotRegion> FilteredRegions = new List<SnapshotRegion>();
             for (Int32 Index = 0; Index < FilterTrees.Count; Index++)
                 FilterTrees[Index].GetChangedRegions(FilteredRegions);
-            FilterTrees = null;
 
             // Create snapshot with results
             Snapshot<Null> FilteredSnapshot = new Snapshot<Null>(FilteredRegions.ToArray());
@@ -101,6 +100,14 @@ namespace Anathema
 
             // Save the snapshot
             SnapshotManager.GetInstance().SaveSnapshot(FilteredSnapshot);
+
+            CleanUp();
+        }
+
+        private void CleanUp()
+        {
+            FilterTrees = null;
+            Snapshot = null;
         }
 
         public class FilterTree : SnapshotRegion<Null>
