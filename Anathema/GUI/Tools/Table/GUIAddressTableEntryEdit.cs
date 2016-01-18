@@ -64,7 +64,7 @@ namespace Anathema
 
         private void ValidateCurrentOffset()
         {
-            if (CheckSyntax.Int64Value(OffsetTextBox.Text) || CheckSyntax.Address(OffsetTextBox.Text))
+            if (CheckSyntax.IsInt64(OffsetTextBox.Text) || CheckSyntax.Address(OffsetTextBox.Text))
             {
                 OffsetTextBox.ForeColor = Color.Black;
                 AddOffsetButton.Enabled = true;
@@ -80,7 +80,7 @@ namespace Anathema
 
         private void AddOffsetButton_Click(Object Sender, EventArgs E)
         {
-            if (CheckSyntax.Int64Value(OffsetTextBox.Text) || CheckSyntax.Address(OffsetTextBox.Text))
+            if (CheckSyntax.IsInt64(OffsetTextBox.Text) || CheckSyntax.Address(OffsetTextBox.Text))
             {
                 OffsetListBox.Items.Add(OffsetTextBox.Text);
                 OffsetTextBox.Text = String.Empty;

@@ -34,8 +34,10 @@ namespace Anathema
         FiniteStateMachine GetFiniteStateMachine();
         FiniteState GetMousedOverState();
         Point[] GetSelectionLine();
+        Type GetElementType();
 
-        void SetValueConstraintSelection(ConstraintsEnum ValueConstraintSelection);
+        void SetCurrentValueConstraint(ConstraintsEnum CurrentValueConstraint);
+        void SetCurrentValue(dynamic CurrentValue);
         void SetFiniteStateMachine(FiniteStateMachine FiniteStateMachine);
         void SetElementType(Type ElementType);
         void SetStateRadius(Int32 Radius);
@@ -98,9 +100,19 @@ namespace Anathema
             Model.SetStateEdgeSize(StateEdgeSize);
         }
 
-        public void SetValueConstraintSelection(ConstraintsEnum ValueConstraintSelection)
+        public void SetCurrentValueConstraint(ConstraintsEnum CurrentValueConstraint)
         {
-            Model.SetValueConstraintSelection(ValueConstraintSelection);
+            Model.SetCurrentValueConstraint(CurrentValueConstraint);
+        }
+
+        public Boolean TrySetValue(String ValueText)
+        {
+            if (CheckSyntax.CanParseValue(Model.GetElementType(), ValueText))
+            { 
+                Model.SetCurrentValue(Conversions.ParseValue(Model.GetElementType(), ValueText));
+                return true;
+            }
+            return false;
         }
 
         public void SetElementType(String ElementType)

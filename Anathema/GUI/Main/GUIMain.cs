@@ -63,6 +63,7 @@ namespace Anathema
         private void CreateDefaultTools()
         {
             CreateChunkScanner();
+            CreateFiniteStateScanner();
             CreateInputCorrelator();
             CreateSnapshotManager();
             CreateResults();

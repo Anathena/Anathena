@@ -275,26 +275,23 @@ namespace Binarysharp.MemoryManagement
         /// <returns>A value.</returns>
         public dynamic Read(Type ValueType, IntPtr address, out bool success, bool isRelative = true)
         {
-            dynamic Value = "-";
+            dynamic Value;
+            success = false;
 
-            bool readSuccess = false;
-            var @switch = new Dictionary<Type, Action> {
-                    { typeof(Byte), () => Value = Read<Byte>(address, out readSuccess, isRelative) },
-                    { typeof(SByte), () => Value = Read<SByte>(address, out readSuccess, isRelative) },
-                    { typeof(Int16), () => Value = Read<Int16>(address, out readSuccess, isRelative) },
-                    { typeof(Int32), () => Value = Read<Int32>(address, out readSuccess, isRelative) },
-                    { typeof(Int64), () => Value = Read<Int64>(address, out readSuccess, isRelative) },
-                    { typeof(UInt16), () => Value = Read<UInt16>(address, out readSuccess, isRelative) },
-                    { typeof(UInt32), () => Value = Read<UInt32>(address, out readSuccess, isRelative) },
-                    { typeof(UInt64), () => Value = Read<UInt64>(address, out readSuccess, isRelative) },
-                    { typeof(Single), () => Value = Read<Single>(address, out readSuccess, isRelative) },
-                    { typeof(Double), () => Value = Read<Double>(address, out readSuccess, isRelative) },
-                };
-
-            if (@switch.ContainsKey(ValueType))
-                @switch[ValueType]();
-
-            success = readSuccess;
+            switch (Type.GetTypeCode(ValueType))
+            {
+                case TypeCode.Byte: Value = Read<Byte>(address, out success, isRelative); break;
+                case TypeCode.SByte: Value = Read<SByte>(address, out success, isRelative); break;
+                case TypeCode.Int16: Value = Read<Int16>(address, out success, isRelative); break;
+                case TypeCode.Int32: Value = Read<Int32>(address, out success, isRelative); break;
+                case TypeCode.Int64: Value = Read<Int64>(address, out success, isRelative); break;
+                case TypeCode.UInt16: Value = Read<UInt16>(address, out success, isRelative); break;
+                case TypeCode.UInt32: Value = Read<UInt32>(address, out success, isRelative); break;
+                case TypeCode.UInt64: Value = Read<UInt64>(address, out success, isRelative); break;
+                case TypeCode.Single: Value = Read<Single>(address, out success, isRelative); break;
+                case TypeCode.Double: Value = Read<Double>(address, out success, isRelative); break;
+                default: Value = "Invalid Type"; break;
+            }
 
             if (!success)
                 Value = "?";
@@ -429,21 +426,20 @@ namespace Binarysharp.MemoryManagement
 
         public void Write(Type ValueType, IntPtr address, dynamic value, bool isRelative = true)
         {
-            var @switch = new Dictionary<Type, Action> {
-                    { typeof(Byte), () => Write<Byte>(address, value, isRelative) },
-                    { typeof(SByte), () => Write<SByte>(address, value, isRelative) },
-                    { typeof(Int16), () => Write<Int16>(address, value, isRelative) },
-                    { typeof(Int32), () => Write<Int32>(address, value, isRelative) },
-                    { typeof(Int64), () => Write<Int64>(address, value, isRelative) },
-                    { typeof(UInt16), () => Write<UInt16>(address, value, isRelative) },
-                    { typeof(UInt32), () => Write<UInt32>(address, value, isRelative) },
-                    { typeof(UInt64), () => Write<UInt64>(address, value, isRelative) },
-                    { typeof(Single), () => Write<Single>(address, value, isRelative) },
-                    { typeof(Double), () => Write<Double>(address, value, isRelative) },
-                };
-
-            if (@switch.ContainsKey(ValueType))
-                @switch[ValueType]();
+            switch (Type.GetTypeCode(ValueType))
+            {
+                case TypeCode.Byte: Write<Byte>(address, value, isRelative); break;
+                case TypeCode.SByte: Write<SByte>(address, value, isRelative); break;
+                case TypeCode.Int16: Write<Int16>(address, value, isRelative); break;
+                case TypeCode.Int32: Write<Int32>(address, value, isRelative); break;
+                case TypeCode.Int64: Write<Int64>(address, value, isRelative); break;
+                case TypeCode.UInt16: Write<UInt16>(address, value, isRelative); break;
+                case TypeCode.UInt32: Write<UInt32>(address, value, isRelative); break;
+                case TypeCode.UInt64: Write<UInt64>(address, value, isRelative); break;
+                case TypeCode.Single: Write<Single>(address, value, isRelative); break;
+                case TypeCode.Double: Write<Double>(address, value, isRelative); break;
+                default: return;
+            }
         }
 
         /// <summary>

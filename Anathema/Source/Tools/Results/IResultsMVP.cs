@@ -88,35 +88,34 @@ namespace Anathema
             Type PreviousScanType = Model.GetScanType();
             Model.SetScanType(ScanType);
 
-            // Enforce same sign as previous type
-            var @switch = new Dictionary<Type, Action> {
-                    { typeof(Byte), () => ChangeSign() },
-                    { typeof(UInt16), () => ChangeSign() },
-                    { typeof(UInt32), () => ChangeSign() },
-                    { typeof(UInt64), () => ChangeSign() },
-                };
-
-            if (@switch.ContainsKey(PreviousScanType))
-                @switch[PreviousScanType]();
+            switch (Type.GetTypeCode(ScanType))
+            {
+                case TypeCode.Byte:
+                case TypeCode.UInt16:
+                case TypeCode.UInt32:
+                case TypeCode.UInt64:
+                    ChangeSign();
+                    break;
+                default: return;
+            }
         }
 
         public void ChangeSign()
         {
             Type ScanType = Model.GetScanType();
 
-            var @switch = new Dictionary<Type, Action> {
-                    { typeof(Byte), () => ScanType = typeof(SByte) },
-                    { typeof(SByte), () => ScanType = typeof(Byte) },
-                    { typeof(Int16), () => ScanType = typeof(UInt16) },
-                    { typeof(Int32), () => ScanType = typeof(UInt32) },
-                    { typeof(Int64), () => ScanType = typeof(UInt64) },
-                    { typeof(UInt16), () => ScanType = typeof(Int16) },
-                    { typeof(UInt32), () => ScanType = typeof(Int32) },
-                    { typeof(UInt64), () => ScanType = typeof(Int64) },
-                };
-
-            if (@switch.ContainsKey(ScanType))
-                @switch[ScanType]();
+            switch (Type.GetTypeCode(ScanType))
+            {
+                case TypeCode.Byte: ScanType = typeof(SByte); break;
+                case TypeCode.SByte: ScanType = typeof(Byte); break;
+                case TypeCode.Int16: ScanType = typeof(UInt16); break;
+                case TypeCode.Int32: ScanType = typeof(UInt32);  break;
+                case TypeCode.Int64: ScanType = typeof(UInt64);  break;
+                case TypeCode.UInt16: ScanType = typeof(Int16); break;
+                case TypeCode.UInt32: ScanType = typeof(Int32); break;
+                case TypeCode.UInt64: ScanType = typeof(Int64); break;
+                default: return;
+            }
 
             Model.SetScanType(ScanType);
         }

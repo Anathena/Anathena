@@ -255,6 +255,7 @@
             // FSMBuilderPanel
             // 
             this.FSMBuilderPanel.BackColor = System.Drawing.SystemColors.ControlDark;
+            this.FSMBuilderPanel.ContextMenuStrip = this.StateContextMenuStrip;
             this.FSMBuilderPanel.Controls.Add(this.ValueTextBox);
             this.FSMBuilderPanel.Controls.Add(this.ValueTypeComboBox);
             this.FSMBuilderPanel.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -286,6 +287,7 @@
             this.ValueTypeComboBox.Name = "ValueTypeComboBox";
             this.ValueTypeComboBox.Size = new System.Drawing.Size(94, 21);
             this.ValueTypeComboBox.TabIndex = 154;
+            this.ValueTypeComboBox.SelectedIndexChanged += new System.EventHandler(this.ValueTypeComboBox_SelectedIndexChanged);
             // 
             // GUIFiniteStateBuilder
             // 

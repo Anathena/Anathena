@@ -18,32 +18,27 @@ namespace Anathema
 
         public static dynamic ParseValue(Type ValueType, String Value)
         {
-            dynamic ParsedValue = null;
-
-            var @switch = new Dictionary<Type, Action> {
-                    { typeof(Byte), () => ParsedValue = Byte.Parse(Value) },
-                    { typeof(SByte), () => ParsedValue = SByte.Parse(Value) },
-                    { typeof(Int16), () => ParsedValue = Int16.Parse(Value) },
-                    { typeof(Int32), () => ParsedValue = Int32.Parse(Value) },
-                    { typeof(Int64), () => ParsedValue = Int64.Parse(Value) },
-                    { typeof(UInt16), () => ParsedValue = UInt16.Parse(Value) },
-                    { typeof(UInt32), () => ParsedValue = UInt32.Parse(Value) },
-                    { typeof(UInt64), () => ParsedValue = UInt64.Parse(Value) },
-                    { typeof(Single), () => ParsedValue = Single.Parse(Value) },
-                    { typeof(Double), () => ParsedValue = Double.Parse(Value) },
-                };
-
-            if (@switch.ContainsKey(ValueType))
-                @switch[ValueType]();
-
-            return ParsedValue;
+            switch (Type.GetTypeCode(ValueType))
+            {
+                case TypeCode.Byte: return Byte.Parse(Value);
+                case TypeCode.SByte: return SByte.Parse(Value);
+                case TypeCode.Int16: return Int16.Parse(Value);
+                case TypeCode.Int32: return Int32.Parse(Value);
+                case TypeCode.Int64: return Int64.Parse(Value);
+                case TypeCode.UInt16: return UInt16.Parse(Value);
+                case TypeCode.UInt32: return UInt32.Parse(Value);
+                case TypeCode.UInt64: return UInt64.Parse(Value);
+                case TypeCode.Single: return Single.Parse(Value);
+                case TypeCode.Double: return Double.Parse(Value);
+                default: return null;
+            }
         }
 
         public static String ToAddress(String Value)
         {
-            if (CheckSyntax.Int32Value(Value))
+            if (CheckSyntax.IsInt32(Value))
                 return String.Format("{0:X8}", Convert.ToUInt32(Value));
-            else if (CheckSyntax.Int64Value(Value))
+            else if (CheckSyntax.IsInt64(Value))
                 return String.Format("{0:X16}", Convert.ToUInt64(Value));
             else
                 return "!!";
@@ -58,38 +53,36 @@ namespace Anathema
             return Int32.Parse(Address, System.Globalization.NumberStyles.HexNumber);
         }
 
-        public static String BytesToMetric(UInt64 byteCount)
+        public static String BytesToMetric(UInt64 ByteCount)
         {
-            string[] suf = { "B", "KB", "MB", "GB", "TB", "PB", "EB" }; // Longs run out around EB
+            string[] Suffix = { "B", "KB", "MB", "GB", "TB", "PB", "EB" }; // Longs run out around EB
 
-            if (byteCount == 0)
-                return "0" + suf[0];
+            if (ByteCount == 0)
+                return "0" + Suffix[0];
 
-            int place = Convert.ToInt32(Math.Floor(Math.Log(byteCount, 1024)));
-
-            double num = Math.Round(byteCount / Math.Pow(1024, place), 1);
-
-            return (num.ToString() + suf[place]);
+            int Place = Convert.ToInt32(Math.Floor(Math.Log(ByteCount, 1024)));
+            double Number = Math.Round(ByteCount / Math.Pow(1024, Place), 1);
+            return (Number.ToString() + Suffix[Place]);
         }
 
         public static UIntPtr IntPtrToUIntPtr(IntPtr Value)
         {
             if (IntPtr.Size == 4)
             {
-                return unchecked((UIntPtr)(uint)(int)Value);
+                return unchecked((UIntPtr)(UInt32)(Int32)Value);
             }
 
-            return unchecked((UIntPtr)(ulong)(long)Value);
+            return unchecked((UIntPtr)(UInt64)(Int64)Value);
         }
 
         public static IntPtr UIntPtrToIntPtr(UIntPtr Value)
         {
             if (IntPtr.Size == 4)
             {
-                return unchecked((IntPtr)(int)(uint)Value);
+                return unchecked((IntPtr)(Int32)(UInt32)Value);
             }
 
-            return unchecked((IntPtr)(long)(ulong)Value);
+            return unchecked((IntPtr)(Int64)(UInt64)Value);
         }
     }
 }

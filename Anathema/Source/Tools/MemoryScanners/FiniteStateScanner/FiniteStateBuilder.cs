@@ -19,15 +19,14 @@ namespace Anathema
 
         private ConstraintsEnum ValueConstraintSelection;
         private FiniteState DraggedState;
-        private FiniteState EdgeSelectedState;
+        private FiniteState TransitionPendingState;
         private FiniteState MousedOverState;
         private Point[] SelectionLine;
-        private Type ElementType;
 
         private Int32 StateRadius;
         private Int32 StateEdgeSize;
 
-        private String ValueText = "TEMP"; // swap with a dynamic var or some shit
+        private dynamic CurrentValue;
 
         public FiniteStateBuilder()
         {
@@ -37,6 +36,16 @@ namespace Anathema
         public void SetElementType(Type ElementType)
         {
             FiniteStateMachine.SetElementType(ElementType);
+        }
+
+        public Type GetElementType()
+        {
+            return FiniteStateMachine.GetElementType();
+        }
+
+        public void SetCurrentValue(dynamic CurrentValue)
+        {
+            this.CurrentValue = CurrentValue;
         }
 
         public FiniteState GetMousedOverState()
@@ -49,7 +58,7 @@ namespace Anathema
             return SelectionLine;
         }
 
-        public void SetValueConstraintSelection(ConstraintsEnum ValueConstraintSelection)
+        public void SetCurrentValueConstraint(ConstraintsEnum ValueConstraintSelection)
         {
             this.ValueConstraintSelection = ValueConstraintSelection;
         }
@@ -95,7 +104,7 @@ namespace Anathema
             State = FiniteStateMachine.GetEdgeUnderPoint(Location, StateRadius, StateEdgeSize);
             if (State != null)
             {
-                EdgeSelectedState = State;
+                TransitionPendingState = State;
                 UpdateDisplay();
                 return;
             }
@@ -117,10 +126,10 @@ namespace Anathema
         public void UpdateAction(Point Location)
         {
             // Update transition line dragging
-            if (EdgeSelectedState != null)
+            if (TransitionPendingState != null)
             {
                 SelectionLine = new Point[2];
-                SelectionLine[0] = EdgeSelectedState.GetEdgePoint(Location, StateRadius);
+                SelectionLine[0] = TransitionPendingState.GetEdgePoint(Location, StateRadius);
                 SelectionLine[1] = Location;
                 UpdateDisplay();
                 return;
@@ -141,24 +150,19 @@ namespace Anathema
         public void FinishAction(Point Location)
         {
             // Update transition line dragging
-            if (EdgeSelectedState != null)
+            if (TransitionPendingState != null)
             {
                 // Add a transition if possible
                 FiniteState DestinationState = FiniteStateMachine.GetStateUnderPoint(Location, StateRadius);
-                if (DestinationState != null && DestinationState != EdgeSelectedState)
+                if (DestinationState != null && DestinationState != TransitionPendingState)
                 {
-                    ScanConstraint TransitionConstraint;
+                    ScanConstraint TransitionConstraint = new ScanConstraint(ValueConstraintSelection, CurrentValue);
 
-                    if (CheckSyntax.CanParseValue(ElementType, ValueText))
-                        TransitionConstraint = new ScanConstraint(ValueConstraintSelection, Conversions.ParseValue(ElementType, ValueText));
-                    else
-                        TransitionConstraint = new ScanConstraint(ValueConstraintSelection);
-
-                    if (!EdgeSelectedState.ContainsDestionationState(DestinationState))
-                        EdgeSelectedState.AddTransition(TransitionConstraint, DestinationState);
+                    if (!TransitionPendingState.ContainsDestionationState(DestinationState))
+                        TransitionPendingState.AddTransition(TransitionConstraint, DestinationState);
                 }
                 SelectionLine = null;
-                EdgeSelectedState = null;
+                TransitionPendingState = null;
                 UpdateDisplay();
                 return;
             }

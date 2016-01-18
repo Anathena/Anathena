@@ -98,28 +98,9 @@ namespace Anathema
                 return Value;
 
             IntPtr Address = GetAddressAtIndex(Index);
-
             Boolean ReadSuccess = false;
-            var @switch = new Dictionary<Type, Action> {
-                    { typeof(Byte), () => Value = MemoryEditor.Read<Byte>(Address, out ReadSuccess, false) },
-                    { typeof(SByte), () => Value = MemoryEditor.Read<SByte>(Address, out ReadSuccess, false) },
-                    { typeof(Int16), () => Value = MemoryEditor.Read<Int16>(Address, out ReadSuccess, false) },
-                    { typeof(Int32), () => Value = MemoryEditor.Read<Int32>(Address, out ReadSuccess, false) },
-                    { typeof(Int64), () => Value = MemoryEditor.Read<Int64>(Address, out ReadSuccess, false) },
-                    { typeof(UInt16), () => Value = MemoryEditor.Read<UInt16>(Address, out ReadSuccess, false) },
-                    { typeof(UInt32), () => Value = MemoryEditor.Read<UInt32>(Address, out ReadSuccess, false) },
-                    { typeof(UInt64), () => Value = MemoryEditor.Read<UInt64>(Address, out ReadSuccess, false) },
-                    { typeof(Single), () => Value = MemoryEditor.Read<Single>(Address, out ReadSuccess, false) },
-                    { typeof(Double), () => Value = MemoryEditor.Read<Double>(Address, out ReadSuccess, false) },
-                };
 
-            if (@switch.ContainsKey(ScanType))
-                @switch[ScanType]();
-
-            if (!ReadSuccess)
-                Value = "?";
-
-            return Value;
+            return MemoryEditor.Read(ScanType, Address, out ReadSuccess);
         }
 
         public override dynamic GetLabelAtIndex(Int32 Index)

@@ -31,10 +31,10 @@ namespace Anathema.GUI.Tools.MemoryScanners
         public GUIFiniteStateBuilder()
         {
             InitializeComponent();
+            
+            FiniteStateBuilderPresenter = new FiniteStateBuilderPresenter(this, new FiniteStateBuilder());
 
             InitializeValueTypeComboBox();
-
-            FiniteStateBuilderPresenter = new FiniteStateBuilderPresenter(this, new FiniteStateBuilder());
 
             FiniteStateBuilderPresenter.SetStateRadius(StateRadius);
             FiniteStateBuilderPresenter.SetStateEdgeSize(StateEdgeSize);
@@ -90,7 +90,7 @@ namespace Anathema.GUI.Tools.MemoryScanners
                 //FilterScientificNotationCheckBox.Visible = false;
             }
 
-            FiniteStateBuilderPresenter.SetValueConstraintSelection(ValueConstraint);
+            FiniteStateBuilderPresenter.SetCurrentValueConstraint(ValueConstraint);
         }
 
         private void InitializeValueTypeComboBox()
@@ -146,7 +146,10 @@ namespace Anathema.GUI.Tools.MemoryScanners
 
         private void ValueTextBox_TextChanged(Object Sender, EventArgs E)
         {
-            //FiniteStateBuilderPresenter.TrySetValue(ValueTextBox.Text);
+            if (FiniteStateBuilderPresenter.TrySetValue(ValueTextBox.Text))
+                ValueTextBox.ForeColor = SystemColors.ControlText;
+            else
+                ValueTextBox.ForeColor = Color.Red;
         }
 
         private void DragModeButton_Click(Object Sender, EventArgs E)

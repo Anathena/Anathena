@@ -31,24 +31,20 @@ namespace Anathema
 
         private dynamic GetValue(Byte[] Array)
         {
-            dynamic Value = 0;
-            var @switch = new Dictionary<Type, Action> {
-                    { typeof(Byte), () => Value = Array[0] },
-                    { typeof(SByte), () => Value = (SByte)Array[0] },
-                    { typeof(Int16), () => Value = BitConverter.ToInt16(Array, 0) },
-                    { typeof(Int32), () => Value = BitConverter.ToInt32(Array, 0) },
-                    { typeof(Int64), () => Value = BitConverter.ToInt64(Array, 0) },
-                    { typeof(UInt16), () => Value = BitConverter.ToUInt16(Array, 0) },
-                    { typeof(UInt32), () => Value = BitConverter.ToUInt32(Array, 0) },
-                    { typeof(UInt64), () => Value = BitConverter.ToUInt64(Array, 0) },
-                    { typeof(Single), () => Value = BitConverter.ToSingle(Array, 0) },
-                    { typeof(Double), () => Value = BitConverter.ToDouble(Array, 0) }
-                };
-
-            if (@switch.ContainsKey(ElementType))
-                @switch[ElementType]();
-
-            return Value;
+            switch (Type.GetTypeCode(ElementType))
+            {
+                case TypeCode.Byte: return Array[0];
+                case TypeCode.SByte: return (SByte)Array[0];
+                case TypeCode.Int16: return BitConverter.ToInt16(Array, 0);
+                case TypeCode.Int32: return BitConverter.ToInt32(Array, 0);
+                case TypeCode.Int64: return BitConverter.ToInt64(Array, 0);
+                case TypeCode.UInt16: return BitConverter.ToUInt16(Array, 0);
+                case TypeCode.UInt32: return BitConverter.ToUInt32(Array, 0);
+                case TypeCode.UInt64: return BitConverter.ToUInt64(Array, 0);
+                case TypeCode.Single: return BitConverter.ToSingle(Array, 0);
+                case TypeCode.Double: return BitConverter.ToDouble(Array, 0);
+                default: return 0;
+            }
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]

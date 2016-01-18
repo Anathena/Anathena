@@ -65,19 +65,19 @@ namespace Anathema
 
         private void SaveSettings()
         {
-            if (CheckSyntax.Int32Value(FreezeIntervalTextBox.Text))
+            if (CheckSyntax.IsInt32(FreezeIntervalTextBox.Text))
                 SettingsPresenter.UpdateFreezeInterval(FreezeIntervalTextBox.Text);
 
-            if (CheckSyntax.Int32Value(RescanIntervalTextBox.Text))
+            if (CheckSyntax.IsInt32(RescanIntervalTextBox.Text))
                 SettingsPresenter.UpdateRescanInterval(RescanIntervalTextBox.Text);
 
-            if (CheckSyntax.Int32Value(TableReadIntervalTextBox.Text))
+            if (CheckSyntax.IsInt32(TableReadIntervalTextBox.Text))
                 SettingsPresenter.UpdateTableReadInterval(TableReadIntervalTextBox.Text);
 
-            if (CheckSyntax.Int32Value(ResultsReadIntervalTextBox.Text))
+            if (CheckSyntax.IsInt32(ResultsReadIntervalTextBox.Text))
                 SettingsPresenter.UpdateResultReadInterval(ResultsReadIntervalTextBox.Text);
 
-            if (CheckSyntax.Int32Value(InputCorrelatorTimeoutIntervalTextBox.Text))
+            if (CheckSyntax.IsInt32(InputCorrelatorTimeoutIntervalTextBox.Text))
                 SettingsPresenter.UpdateInputCorrelatorTimeOutInterval(InputCorrelatorTimeoutIntervalTextBox.Text);
 
             SettingsPresenter.UpdateTypeSettings(NoneCheckBox.Checked, PrivateCheckBox.Checked, MappedCheckBox.Checked, ImageCheckBox.Checked);
