@@ -23,10 +23,7 @@ namespace Anathema.GUI.Tools.MemoryScanners
         private const Int32 LineFloatOffset = 8;
         private const Int32 VariableBorderSize = 4;
         private const Int32 ArrowSize = 4;
-
-        private FiniteState MousedOverState;
-        private Point[] SelectionLine;
-        private Point RightClickLocation;
+        
         private Boolean BlockNextMouseEvent;
 
         private FiniteStateBuilderPresenter FiniteStateBuilderPresenter;
@@ -42,6 +39,8 @@ namespace Anathema.GUI.Tools.MemoryScanners
             FiniteStateBuilderPresenter.SetStateRadius(StateRadius);
             FiniteStateBuilderPresenter.SetStateEdgeSize(StateEdgeSize);
 
+            UpdateScanOptions(ChangedToolStripMenuItem, ConstraintsEnum.Changed);
+
             BlockNextMouseEvent = false;
 
             this.Paint += new PaintEventHandler(FSMBuilderPanel_Paint);
@@ -55,9 +54,9 @@ namespace Anathema.GUI.Tools.MemoryScanners
             });
         }
         
-        private void EvaluateScanOptions(ToolStripButton Sender)
+        private void UpdateScanOptions(ToolStripMenuItem Sender, ConstraintsEnum ValueConstraint)
         {
-            ConstraintsEnum ValueConstraint = ConstraintsEnum.Invalid;
+            ScanOptionsToolStripDropDownButton.Image = Sender.Image;
 
             switch (ValueConstraint)
             {
@@ -101,6 +100,165 @@ namespace Anathema.GUI.Tools.MemoryScanners
 
             ValueTypeComboBox.SelectedIndex = ValueTypeComboBox.Items.IndexOf(typeof(Int32).Name);
         }
+        
+        #region Events
+
+        private void StateContextMenuStrip_Closed(Object Sender, ToolStripDropDownClosedEventArgs E)
+        {
+            if (E.CloseReason == ToolStripDropDownCloseReason.AppClicked)
+            {
+                if (FSMBuilderPanel.Bounds.Contains(FSMBuilderPanel.PointToClient(Cursor.Position)))
+                    BlockNextMouseEvent = true;
+            }
+        }
+
+        private void FSMBuilderPanel_MouseDown(Object Sender, MouseEventArgs E)
+        {
+            if (BlockNextMouseEvent)
+            {
+                BlockNextMouseEvent = false;
+                return;
+            }
+
+            if (E.Button != MouseButtons.Left)
+                return;
+
+            FiniteStateBuilderPresenter.BeginAction(E.Location);
+        }
+
+        private void FSMBuilderPanel_MouseMove(Object Sender, MouseEventArgs E)
+        {
+            FiniteStateBuilderPresenter.UpdateAction(E.Location);
+        }
+
+        private void FSMBuilderPanel_MouseUp(Object Sender, MouseEventArgs E)
+        {
+            if (E.Button != MouseButtons.Left)
+                return;
+            
+            FiniteStateBuilderPresenter.FinishAction(E.Location);
+        }
+
+        private void ValueTypeComboBox_SelectedIndexChanged(Object Sender, EventArgs E)
+        {
+            FiniteStateBuilderPresenter.SetElementType(ValueTypeComboBox.SelectedItem.ToString());
+        }
+
+        private void ValueTextBox_TextChanged(Object Sender, EventArgs E)
+        {
+            //FiniteStateBuilderPresenter.TrySetValue(ValueTextBox.Text);
+        }
+
+        private void DragModeButton_Click(Object Sender, EventArgs E)
+        {
+
+        }
+
+        private void ChangedToolStripMenuItem_Click(Object Sender, EventArgs E)
+        {
+            UpdateScanOptions((ToolStripMenuItem)Sender, ConstraintsEnum.Changed);
+        }
+
+        private void UnchangedToolStripMenuItem_Click(Object Sender, EventArgs E)
+        {
+            UpdateScanOptions((ToolStripMenuItem)Sender, ConstraintsEnum.Unchanged);
+        }
+
+        private void IncreasedToolStripMenuItem_Click(Object Sender, EventArgs E)
+        {
+            UpdateScanOptions((ToolStripMenuItem)Sender, ConstraintsEnum.Increased);
+        }
+
+        private void DecreasedToolStripMenuItem_Click(Object Sender, EventArgs E)
+        {
+            UpdateScanOptions((ToolStripMenuItem)Sender, ConstraintsEnum.Decreased);
+        }
+
+        private void EqualToToolStripMenuItem_Click(Object Sender, EventArgs E)
+        {
+            UpdateScanOptions((ToolStripMenuItem)Sender, ConstraintsEnum.Equal);
+        }
+
+        private void NotEqualToToolStripMenuItem_Click(Object Sender, EventArgs E)
+        {
+            UpdateScanOptions((ToolStripMenuItem)Sender, ConstraintsEnum.NotEqual);
+        }
+
+        private void IncreasedByToolStripMenuItem_Click(Object Sender, EventArgs E)
+        {
+            UpdateScanOptions((ToolStripMenuItem)Sender, ConstraintsEnum.IncreasedByX);
+        }
+
+        private void DecreasedByToolStripMenuItem_Click(Object Sender, EventArgs E)
+        {
+            UpdateScanOptions((ToolStripMenuItem)Sender, ConstraintsEnum.DecreasedByX);
+        }
+
+        private void GreaterThanToolStripMenuItem_Click(Object Sender, EventArgs E)
+        {
+            UpdateScanOptions((ToolStripMenuItem)Sender, ConstraintsEnum.GreaterThan);
+        }
+
+        private void GreaterThanOrEqualToToolStripMenuItem_Click(Object Sender, EventArgs E)
+        {
+            UpdateScanOptions((ToolStripMenuItem)Sender, ConstraintsEnum.GreaterThanOrEqual);
+        }
+
+        private void LessThanToolStripMenuItem_Click(Object Sender, EventArgs E)
+        {
+            UpdateScanOptions((ToolStripMenuItem)Sender, ConstraintsEnum.LessThan);
+        }
+
+        private void LessThanOrEqualToToolStripMenuItem_Click(Object Sender, EventArgs E)
+        {
+            UpdateScanOptions((ToolStripMenuItem)Sender, ConstraintsEnum.LessThanOrEqual);
+        }
+
+        private void StateContextMenuStrip_Opening(Object Sender, CancelEventArgs E)
+        {
+            /*
+            RightClickLocation = FSMBuilderPanel.PointToClient(Cursor.Position);
+            if (!FiniteStateBuilderPresenter.IsStateAtPoint(RightClickLocation))
+                E.Cancel = true;
+
+            foreach (ToolStripMenuItem Item in StateContextMenuStrip.Items)
+            {
+                Item.Enabled = true;
+                Item.Checked = false;
+            }
+
+            if (FiniteStateBuilderPresenter.IsStateAtPointStartState(RightClickLocation))
+            {
+                foreach (ToolStripMenuItem Item in StateContextMenuStrip.Items)
+                    Item.Enabled = false;
+
+                ((ToolStripMenuItem)StateContextMenuStrip.Items[StateContextMenuStrip.Items.IndexOf(MarkValidToolStripMenuItem)]).Enabled = true;
+                ((ToolStripMenuItem)StateContextMenuStrip.Items[StateContextMenuStrip.Items.IndexOf(MarkInvalidToolStripMenuItem)]).Enabled = true;
+            }
+
+            switch (FiniteStateBuilderPresenter.GetStateEventAtPoint(RightClickLocation))
+            {
+                case FiniteState.StateEventEnum.None:
+                    ((ToolStripMenuItem)StateContextMenuStrip.Items[StateContextMenuStrip.Items.IndexOf(NoEventToolStripMenuItem)]).Checked = true;
+                    break;
+                case FiniteState.StateEventEnum.MarkValid:
+                    ((ToolStripMenuItem)StateContextMenuStrip.Items[StateContextMenuStrip.Items.IndexOf(MarkValidToolStripMenuItem)]).Checked = true;
+                    break;
+                case FiniteState.StateEventEnum.MarkInvalid:
+                    ((ToolStripMenuItem)StateContextMenuStrip.Items[StateContextMenuStrip.Items.IndexOf(MarkInvalidToolStripMenuItem)]).Checked = true;
+                    break;
+                case FiniteState.StateEventEnum.EndScan:
+                    ((ToolStripMenuItem)StateContextMenuStrip.Items[StateContextMenuStrip.Items.IndexOf(EndScanToolStripMenuItem)]).Checked = true;
+                    break;
+            }*/
+        }
+
+        protected void FSMBuilderPanel_Paint(Object Sender, PaintEventArgs E)
+        {
+            Draw(E.Graphics);
+        }
+
+        #endregion
 
         private void Draw(Graphics Graphics)
         {
@@ -133,12 +291,12 @@ namespace Anathema.GUI.Tools.MemoryScanners
                     Graphics.DrawImage(DrawImage, State.Location.X - StateRadius, State.Location.Y - StateRadius, DrawImage.Width, DrawImage.Height);
 
             }
+            
+            if (FiniteStateBuilderPresenter.GetMousedOverState() != null)
+                Graphics.DrawImage(Resources.StateHighlighted, FiniteStateBuilderPresenter.GetMousedOverState().Location.X - StateRadius, FiniteStateBuilderPresenter.GetMousedOverState().Location.Y - StateRadius, Resources.StateHighlighted.Width, Resources.StateHighlighted.Height);
 
-            if (MousedOverState != null)
-                Graphics.DrawImage(Resources.StateHighlighted, MousedOverState.Location.X - StateRadius, MousedOverState.Location.Y - StateRadius, Resources.StateHighlighted.Width, Resources.StateHighlighted.Height);
-
-            if (SelectionLine != null && SelectionLine.Length == 2)
-                Graphics.DrawLine(PendingLine, SelectionLine[0], SelectionLine[1]);
+            if (FiniteStateBuilderPresenter.GetSelectionLine() != null && FiniteStateBuilderPresenter.GetSelectionLine().Length == 2)
+                Graphics.DrawLine(PendingLine, FiniteStateBuilderPresenter.GetSelectionLine()[0], FiniteStateBuilderPresenter.GetSelectionLine()[1]);
 
             foreach (FiniteState State in FiniteStateBuilderPresenter.GetFiniteStateMachine())
             {
@@ -205,155 +363,6 @@ namespace Anathema.GUI.Tools.MemoryScanners
             }
 
         } // End draw
-
-        #region Events
-
-        private void StateContextMenuStrip_Closed(Object Sender, ToolStripDropDownClosedEventArgs E)
-        {
-            if (E.CloseReason == ToolStripDropDownCloseReason.AppClicked)
-            {
-                if (FSMBuilderPanel.Bounds.Contains(FSMBuilderPanel.PointToClient(Cursor.Position)))
-                    BlockNextMouseEvent = true;
-            }
-        }
-
-        private void FSMBuilderPanel_MouseDown(Object Sender, MouseEventArgs E)
-        {
-            if (BlockNextMouseEvent)
-            {
-                BlockNextMouseEvent = false;
-                return;
-            }
-
-            if (E.Button != MouseButtons.Left)
-                return;
-
-            FiniteStateBuilderPresenter.BeginAction(E.Location);
-        }
-
-        private void FSMBuilderPanel_MouseMove(Object Sender, MouseEventArgs E)
-        {
-            FiniteStateBuilderPresenter.UpdateAction(E.Location);
-        }
-
-        private void FSMBuilderPanel_MouseUp(Object Sender, MouseEventArgs E)
-        {
-            if (E.Button != MouseButtons.Left)
-                return;
-            
-            FiniteStateBuilderPresenter.FinishAction(E.Location);
-        }
-
-        private void ChangedButton_Click(Object Sender, EventArgs E)
-        {
-            EvaluateScanOptions((ToolStripButton)Sender);
-        }
-
-        private void NotEqualButton_Click(Object Sender, EventArgs E)
-        {
-            EvaluateScanOptions((ToolStripButton)Sender);
-        }
-
-        private void UnchangedButton_Click(Object Sender, EventArgs E)
-        {
-            EvaluateScanOptions((ToolStripButton)Sender);
-        }
-
-        private void IncreasedButton_Click(Object Sender, EventArgs E)
-        {
-            EvaluateScanOptions((ToolStripButton)Sender);
-        }
-
-        private void DecreasedButton_Click(Object Sender, EventArgs E)
-        {
-            EvaluateScanOptions((ToolStripButton)Sender);
-        }
-
-        private void EqualButton_Click(Object Sender, EventArgs E)
-        {
-            EvaluateScanOptions((ToolStripButton)Sender);
-        }
-
-        private void GreaterThanButton_Click(Object Sender, EventArgs E)
-        {
-            EvaluateScanOptions((ToolStripButton)Sender);
-        }
-
-        private void LessThanButton_Click(Object Sender, EventArgs E)
-        {
-            EvaluateScanOptions((ToolStripButton)Sender);
-        }
-
-        private void IncreasedByXButton_Click(Object Sender, EventArgs E)
-        {
-            EvaluateScanOptions((ToolStripButton)Sender);
-        }
-
-        private void DecreasedByXButton_Click(Object Sender, EventArgs E)
-        {
-            EvaluateScanOptions((ToolStripButton)Sender);
-        }
-
-        private void ValueTypeComboBox_SelectedIndexChanged(Object Sender, EventArgs E)
-        {
-            FiniteStateBuilderPresenter.SetElementType(ValueTypeComboBox.SelectedItem.ToString());
-        }
-
-        private void ValueTextBox_TextChanged(Object Sender, EventArgs E)
-        {
-            //FiniteStateBuilderPresenter.TrySetValue(ValueTextBox.Text);
-        }
-
-        private void DragModeButton_Click(Object Sender, EventArgs E)
-        {
-
-        }
-
-        private void StateContextMenuStrip_Opening(Object Sender, CancelEventArgs E)
-        {
-            /*
-            RightClickLocation = FSMBuilderPanel.PointToClient(Cursor.Position);
-            if (!FiniteStateBuilderPresenter.IsStateAtPoint(RightClickLocation))
-                E.Cancel = true;
-
-            foreach (ToolStripMenuItem Item in StateContextMenuStrip.Items)
-            {
-                Item.Enabled = true;
-                Item.Checked = false;
-            }
-
-            if (FiniteStateBuilderPresenter.IsStateAtPointStartState(RightClickLocation))
-            {
-                foreach (ToolStripMenuItem Item in StateContextMenuStrip.Items)
-                    Item.Enabled = false;
-
-                ((ToolStripMenuItem)StateContextMenuStrip.Items[StateContextMenuStrip.Items.IndexOf(MarkValidToolStripMenuItem)]).Enabled = true;
-                ((ToolStripMenuItem)StateContextMenuStrip.Items[StateContextMenuStrip.Items.IndexOf(MarkInvalidToolStripMenuItem)]).Enabled = true;
-            }
-
-            switch (FiniteStateBuilderPresenter.GetStateEventAtPoint(RightClickLocation))
-            {
-                case FiniteState.StateEventEnum.None:
-                    ((ToolStripMenuItem)StateContextMenuStrip.Items[StateContextMenuStrip.Items.IndexOf(NoEventToolStripMenuItem)]).Checked = true;
-                    break;
-                case FiniteState.StateEventEnum.MarkValid:
-                    ((ToolStripMenuItem)StateContextMenuStrip.Items[StateContextMenuStrip.Items.IndexOf(MarkValidToolStripMenuItem)]).Checked = true;
-                    break;
-                case FiniteState.StateEventEnum.MarkInvalid:
-                    ((ToolStripMenuItem)StateContextMenuStrip.Items[StateContextMenuStrip.Items.IndexOf(MarkInvalidToolStripMenuItem)]).Checked = true;
-                    break;
-                case FiniteState.StateEventEnum.EndScan:
-                    ((ToolStripMenuItem)StateContextMenuStrip.Items[StateContextMenuStrip.Items.IndexOf(EndScanToolStripMenuItem)]).Checked = true;
-                    break;
-            }*/
-        }
-
-        protected void FSMBuilderPanel_Paint(Object Sender, PaintEventArgs E)
-        {
-            Draw(E.Graphics);
-        }
-
-        #endregion
 
     } // End class
 

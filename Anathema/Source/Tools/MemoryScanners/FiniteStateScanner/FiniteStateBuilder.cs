@@ -38,69 +38,35 @@ namespace Anathema
         {
             FiniteStateMachine.SetElementType(ElementType);
         }
-        public ConstraintsEnum GetValueConstraintSelection()
-        {
-            throw new NotImplementedException();
-        }
 
         public FiniteState GetMousedOverState()
         {
-            throw new NotImplementedException();
-        }
-
-        public FiniteState GetDraggedState()
-        {
-            throw new NotImplementedException();
-        }
-
-        public FiniteState GetEdgeSelectedState()
-        {
-            throw new NotImplementedException();
+            return MousedOverState;
         }
 
         public Point[] GetSelectionLine()
         {
-            throw new NotImplementedException();
+            return SelectionLine;
         }
 
         public void SetValueConstraintSelection(ConstraintsEnum ValueConstraintSelection)
         {
-            throw new NotImplementedException();
+            this.ValueConstraintSelection = ValueConstraintSelection;
         }
 
         public void SetFiniteStateMachine(FiniteStateMachine FiniteStateMachine)
         {
-            throw new NotImplementedException();
+            this.FiniteStateMachine = FiniteStateMachine;
         }
 
-        public void SetMousedOverState(FiniteState FiniteState)
+        public void SetStateRadius(Int32 StateRadius)
         {
-            throw new NotImplementedException();
+            this.StateRadius = StateRadius;
         }
 
-        public void SetDraggedState(FiniteState FiniteState)
+        public void SetStateEdgeSize(Int32 StateEdgeSize)
         {
-            throw new NotImplementedException();
-        }
-
-        public void SetEdgeSelectedState(FiniteState FiniteState)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void SetSelectionLine(Point[] SelectionLIne)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void SetStateRadius(int Radius)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void SetStateEdgeSize(int EdgeSize)
-        {
-            throw new NotImplementedException();
+            this.StateEdgeSize = StateEdgeSize;
         }
         public Boolean IsStateAtPoint(Point Location)
         {

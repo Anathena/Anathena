@@ -29,7 +29,6 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(GUIFiniteStateBuilder));
             this.ScanToolStrip = new System.Windows.Forms.ToolStrip();
             this.DragModeButton = new System.Windows.Forms.ToolStripButton();
             this.ScanOptionsToolStripDropDownButton = new System.Windows.Forms.ToolStripDropDownButton();
@@ -63,24 +62,25 @@
             // ScanToolStrip
             // 
             this.ScanToolStrip.AutoSize = false;
-            this.ScanToolStrip.Dock = System.Windows.Forms.DockStyle.Left;
+            this.ScanToolStrip.BackColor = System.Drawing.SystemColors.WindowFrame;
+            this.ScanToolStrip.Dock = System.Windows.Forms.DockStyle.Right;
             this.ScanToolStrip.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
             this.ScanToolStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.DragModeButton,
             this.ScanOptionsToolStripDropDownButton});
             this.ScanToolStrip.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.VerticalStackWithOverflow;
-            this.ScanToolStrip.Location = new System.Drawing.Point(0, 0);
+            this.ScanToolStrip.Location = new System.Drawing.Point(473, 0);
             this.ScanToolStrip.Name = "ScanToolStrip";
             this.ScanToolStrip.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
             this.ScanToolStrip.Size = new System.Drawing.Size(33, 301);
             this.ScanToolStrip.TabIndex = 163;
-            this.ScanToolStrip.Text = "toolStrip1";
+            this.ScanToolStrip.Text = "Tools";
             // 
             // DragModeButton
             // 
             this.DragModeButton.CheckOnClick = true;
             this.DragModeButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.DragModeButton.Image = ((System.Drawing.Image)(resources.GetObject("DragModeButton.Image")));
+            this.DragModeButton.Image = global::Anathema.Properties.Resources.AnathemaIcon;
             this.DragModeButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.DragModeButton.Name = "DragModeButton";
             this.DragModeButton.Size = new System.Drawing.Size(31, 20);
@@ -114,6 +114,7 @@
             this.ChangedToolStripMenuItem.Name = "ChangedToolStripMenuItem";
             this.ChangedToolStripMenuItem.Size = new System.Drawing.Size(202, 22);
             this.ChangedToolStripMenuItem.Text = "Changed";
+            this.ChangedToolStripMenuItem.Click += new System.EventHandler(this.ChangedToolStripMenuItem_Click);
             // 
             // UnchangedToolStripMenuItem
             // 
@@ -121,6 +122,7 @@
             this.UnchangedToolStripMenuItem.Name = "UnchangedToolStripMenuItem";
             this.UnchangedToolStripMenuItem.Size = new System.Drawing.Size(202, 22);
             this.UnchangedToolStripMenuItem.Text = "Unchanged";
+            this.UnchangedToolStripMenuItem.Click += new System.EventHandler(this.UnchangedToolStripMenuItem_Click);
             // 
             // IncreasedToolStripMenuItem
             // 
@@ -128,6 +130,7 @@
             this.IncreasedToolStripMenuItem.Name = "IncreasedToolStripMenuItem";
             this.IncreasedToolStripMenuItem.Size = new System.Drawing.Size(202, 22);
             this.IncreasedToolStripMenuItem.Text = "Increased";
+            this.IncreasedToolStripMenuItem.Click += new System.EventHandler(this.IncreasedToolStripMenuItem_Click);
             // 
             // DecreasedToolStripMenuItem
             // 
@@ -135,6 +138,7 @@
             this.DecreasedToolStripMenuItem.Name = "DecreasedToolStripMenuItem";
             this.DecreasedToolStripMenuItem.Size = new System.Drawing.Size(202, 22);
             this.DecreasedToolStripMenuItem.Text = "Decreased";
+            this.DecreasedToolStripMenuItem.Click += new System.EventHandler(this.DecreasedToolStripMenuItem_Click);
             // 
             // EqualToToolStripMenuItem
             // 
@@ -142,6 +146,7 @@
             this.EqualToToolStripMenuItem.Name = "EqualToToolStripMenuItem";
             this.EqualToToolStripMenuItem.Size = new System.Drawing.Size(202, 22);
             this.EqualToToolStripMenuItem.Text = "Equal to";
+            this.EqualToToolStripMenuItem.Click += new System.EventHandler(this.EqualToToolStripMenuItem_Click);
             // 
             // NotEqualToToolStripMenuItem
             // 
@@ -149,6 +154,7 @@
             this.NotEqualToToolStripMenuItem.Name = "NotEqualToToolStripMenuItem";
             this.NotEqualToToolStripMenuItem.Size = new System.Drawing.Size(202, 22);
             this.NotEqualToToolStripMenuItem.Text = "Not Equal to";
+            this.NotEqualToToolStripMenuItem.Click += new System.EventHandler(this.NotEqualToToolStripMenuItem_Click);
             // 
             // IncreasedByToolStripMenuItem
             // 
@@ -156,6 +162,7 @@
             this.IncreasedByToolStripMenuItem.Name = "IncreasedByToolStripMenuItem";
             this.IncreasedByToolStripMenuItem.Size = new System.Drawing.Size(202, 22);
             this.IncreasedByToolStripMenuItem.Text = "Increased by";
+            this.IncreasedByToolStripMenuItem.Click += new System.EventHandler(this.IncreasedByToolStripMenuItem_Click);
             // 
             // DecreasedByToolStripMenuItem
             // 
@@ -163,6 +170,7 @@
             this.DecreasedByToolStripMenuItem.Name = "DecreasedByToolStripMenuItem";
             this.DecreasedByToolStripMenuItem.Size = new System.Drawing.Size(202, 22);
             this.DecreasedByToolStripMenuItem.Text = "Decreased by";
+            this.DecreasedByToolStripMenuItem.Click += new System.EventHandler(this.DecreasedByToolStripMenuItem_Click);
             // 
             // GreaterThanToolStripMenuItem
             // 
@@ -170,6 +178,7 @@
             this.GreaterThanToolStripMenuItem.Name = "GreaterThanToolStripMenuItem";
             this.GreaterThanToolStripMenuItem.Size = new System.Drawing.Size(202, 22);
             this.GreaterThanToolStripMenuItem.Text = "Greater Than";
+            this.GreaterThanToolStripMenuItem.Click += new System.EventHandler(this.GreaterThanToolStripMenuItem_Click);
             // 
             // GreaterThanOrEqualToToolStripMenuItem
             // 
@@ -177,6 +186,7 @@
             this.GreaterThanOrEqualToToolStripMenuItem.Name = "GreaterThanOrEqualToToolStripMenuItem";
             this.GreaterThanOrEqualToToolStripMenuItem.Size = new System.Drawing.Size(202, 22);
             this.GreaterThanOrEqualToToolStripMenuItem.Text = "Greater Than or Equal to";
+            this.GreaterThanOrEqualToToolStripMenuItem.Click += new System.EventHandler(this.GreaterThanOrEqualToToolStripMenuItem_Click);
             // 
             // LessThanToolStripMenuItem
             // 
@@ -184,6 +194,7 @@
             this.LessThanToolStripMenuItem.Name = "LessThanToolStripMenuItem";
             this.LessThanToolStripMenuItem.Size = new System.Drawing.Size(202, 22);
             this.LessThanToolStripMenuItem.Text = "Less Than";
+            this.LessThanToolStripMenuItem.Click += new System.EventHandler(this.LessThanToolStripMenuItem_Click);
             // 
             // LessThanOrEqualToToolStripMenuItem
             // 
@@ -191,6 +202,7 @@
             this.LessThanOrEqualToToolStripMenuItem.Name = "LessThanOrEqualToToolStripMenuItem";
             this.LessThanOrEqualToToolStripMenuItem.Size = new System.Drawing.Size(202, 22);
             this.LessThanOrEqualToToolStripMenuItem.Text = "Less Than or Equal to";
+            this.LessThanOrEqualToToolStripMenuItem.Click += new System.EventHandler(this.LessThanOrEqualToToolStripMenuItem_Click);
             // 
             // StateContextMenuStrip
             // 
@@ -246,10 +258,11 @@
             this.FSMBuilderPanel.Controls.Add(this.ValueTextBox);
             this.FSMBuilderPanel.Controls.Add(this.ValueTypeComboBox);
             this.FSMBuilderPanel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.FSMBuilderPanel.Location = new System.Drawing.Point(33, 0);
+            this.FSMBuilderPanel.Location = new System.Drawing.Point(0, 0);
             this.FSMBuilderPanel.Name = "FSMBuilderPanel";
             this.FSMBuilderPanel.Size = new System.Drawing.Size(473, 301);
             this.FSMBuilderPanel.TabIndex = 164;
+            this.FSMBuilderPanel.Paint += new System.Windows.Forms.PaintEventHandler(this.FSMBuilderPanel_Paint);
             this.FSMBuilderPanel.MouseDown += new System.Windows.Forms.MouseEventHandler(this.FSMBuilderPanel_MouseDown);
             this.FSMBuilderPanel.MouseMove += new System.Windows.Forms.MouseEventHandler(this.FSMBuilderPanel_MouseMove);
             this.FSMBuilderPanel.MouseUp += new System.Windows.Forms.MouseEventHandler(this.FSMBuilderPanel_MouseUp);

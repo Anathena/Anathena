@@ -30,20 +30,13 @@ namespace Anathema
         void BeginAction(Point Location);
         void UpdateAction(Point Location);
         void FinishAction(Point Location);
-
-        ConstraintsEnum GetValueConstraintSelection();
+        
         FiniteStateMachine GetFiniteStateMachine();
         FiniteState GetMousedOverState();
-        FiniteState GetDraggedState();
-        FiniteState GetEdgeSelectedState();
         Point[] GetSelectionLine();
 
         void SetValueConstraintSelection(ConstraintsEnum ValueConstraintSelection);
         void SetFiniteStateMachine(FiniteStateMachine FiniteStateMachine);
-        void SetMousedOverState(FiniteState FiniteState);
-        void SetDraggedState(FiniteState FiniteState);
-        void SetEdgeSelectedState(FiniteState FiniteState);
-        void SetSelectionLine(Point[] SelectionLIne);
         void SetElementType(Type ElementType);
         void SetStateRadius(Int32 Radius);
         void SetStateEdgeSize(Int32 EdgeSize);
@@ -84,6 +77,16 @@ namespace Anathema
         {
             return Model.GetFiniteStateMachine();
         }
+
+        public FiniteState GetMousedOverState()
+        {
+            return Model.GetMousedOverState();
+        }
+
+        public Point[] GetSelectionLine()
+        {
+            return Model.GetSelectionLine();
+        }
         
         public void SetStateRadius(Int32 StateRadius)
         {
@@ -103,11 +106,6 @@ namespace Anathema
         public void SetElementType(String ElementType)
         {
             Model.SetElementType(Conversions.StringToPrimitiveType(ElementType));
-        }
-
-        public ConstraintsEnum GetValueConstraintSelection()
-        {
-            return Model.GetValueConstraintSelection();
         }
 
         #endregion
