@@ -11,16 +11,24 @@ namespace Anathema
     class ScriptEditor : IScriptEditorModel
     {
         private MemorySharp MemoryEditor;
+        private static ScriptEditor _ScriptEditor;
 
-        public event ScriptEditorEventHandler EventUpdateProcessTitle;
+        public event ScriptEditorEventHandler EventDisplayScript;
 
         private ScriptItem ScriptItem;
 
-        public ScriptEditor()
+        private ScriptEditor()
         {
             InitializeObserver();
 
             ScriptItem = new ScriptItem();
+        }
+
+        public static ScriptEditor GetInstance()
+        {
+            if (_ScriptEditor == null)
+                _ScriptEditor = new ScriptEditor();
+            return _ScriptEditor;
         }
         
         public void InitializeObserver()
@@ -31,6 +39,16 @@ namespace Anathema
         public void UpdateMemoryEditor(MemorySharp MemoryEditor)
         {
             this.MemoryEditor = MemoryEditor;
+        }
+
+        public void OpenScript(ScriptItem ScriptItem)
+        {
+            this.ScriptItem = ScriptItem;
+
+            ScriptEditorEventArgs ScriptEditorEventArgs = new ScriptEditorEventArgs();
+            ScriptEditorEventArgs.ScriptItem = ScriptItem;
+            EventDisplayScript(this, ScriptEditorEventArgs);
+
         }
 
         public Boolean HasChanges(String ScriptText)

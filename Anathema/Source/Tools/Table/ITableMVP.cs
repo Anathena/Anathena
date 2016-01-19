@@ -64,6 +64,8 @@ namespace Anathema
         public abstract Boolean SaveTable(String Path);
         public abstract Boolean LoadTable(String Path);
 
+        public abstract void OpenScript(Int32 Index);
+
         public abstract AddressItem GetAddressItemAt(Int32 Index);
         public abstract void SetAddressItemAt(Int32 Index, AddressItem AddressItem);
         public abstract void SetFrozenAt(Int32 Index, Boolean Activated);
@@ -151,6 +153,11 @@ namespace Anathema
             ScriptTableCache[Index].Checked = ScriptItem.GetActivationState();
 
             return ScriptTableCache[Index];
+        }
+
+        public void OpenScript(Int32 Index)
+        {
+            Model.OpenScript(Index);
         }
 
         public void SetFrozenAt(Int32 Index, Boolean Activated)

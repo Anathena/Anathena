@@ -15,21 +15,62 @@ namespace Anathema
     public partial class GUIScriptEditor : DockContent, IScriptEditorView
     {
         private ScriptEditorPresenter ScriptEditorPresenter;
+        private String DocumentTitle;
 
         public GUIScriptEditor()
         {
             InitializeComponent();
 
-            ScriptEditorPresenter = new ScriptEditorPresenter(this, new ScriptEditor());
+            DocumentTitle = this.Text;
+
+            ScriptEditorPresenter = new ScriptEditorPresenter(this, ScriptEditor.GetInstance());
+        }
+
+        public void DisplayScript(String ScriptText)
+        {
+            ScriptEditorRichTextBox.Text = ScriptText;
+            this.Text = DocumentTitle;
+        }
+
+        private void SaveChanges()
+        {
+            ScriptEditorPresenter.SaveScript(ScriptEditorRichTextBox.Text);
+            this.Text = DocumentTitle;
         }
 
         #region Events
 
-        #endregion
-
         private void SaveToTableToolStripMenuItem_Click(Object Sender, EventArgs E)
         {
-            ScriptEditorPresenter.SaveScript(ScriptEditorRichTextBox.Text);
+            SaveChanges();
+        }
+
+        private void ScriptEditorRichTextBox_TextChanged(Object Sender, EventArgs E)
+        {
+            if (ScriptEditorPresenter.HasChanges(ScriptEditorRichTextBox.Text))
+                this.Text = DocumentTitle + "*";
+        }
+
+        #endregion
+
+        private void GUIScriptEditor_FormClosing(Object Sender, FormClosingEventArgs E)
+        {
+            if (!ScriptEditorPresenter.HasChanges(ScriptEditorRichTextBox.Text))
+                return;
+
+            DialogResult Result = MessageBox.Show("This script has not been saved, save the changes to the table before closing?", "Save Changes?", MessageBoxButtons.YesNoCancel);
+
+            switch(Result)
+            {
+                case DialogResult.Yes:
+                    SaveChanges();
+                    break;
+                case DialogResult.No:
+                    break;
+                case DialogResult.Cancel:
+                    E.Cancel = true;
+                    break;
+            }
         }
 
     } // End class

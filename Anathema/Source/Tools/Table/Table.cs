@@ -162,6 +162,14 @@ namespace Anathema
             RefreshDisplay();
         }
 
+        public override void OpenScript(Int32 Index)
+        {
+            if (Index >= CurrentTableData.ScriptTable.Count)
+                return;
+
+            ScriptEditor.GetInstance().OpenScript(CurrentTableData.ScriptTable[Index]);
+        }
+
         public override AddressItem GetAddressItemAt(Int32 Index)
         {
             Boolean ReadSuccess;

@@ -29,14 +29,14 @@
         private void InitializeComponent()
         {
             this.ScriptEditorRichTextBox = new System.Windows.Forms.RichTextBox();
-            this.menuStrip1 = new System.Windows.Forms.MenuStrip();
+            this.ScriptEditorMenuStrip = new System.Windows.Forms.MenuStrip();
             this.FileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.NewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.SaveToTableToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ExitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.EditToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ViewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.menuStrip1.SuspendLayout();
+            this.ScriptEditorMenuStrip.SuspendLayout();
             this.SuspendLayout();
             // 
             // ScriptEditorRichTextBox
@@ -49,18 +49,19 @@
             this.ScriptEditorRichTextBox.TabIndex = 0;
             this.ScriptEditorRichTextBox.Text = "";
             this.ScriptEditorRichTextBox.WordWrap = false;
+            this.ScriptEditorRichTextBox.TextChanged += new System.EventHandler(this.ScriptEditorRichTextBox_TextChanged);
             // 
-            // menuStrip1
+            // ScriptEditorMenuStrip
             // 
-            this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.ScriptEditorMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.FileToolStripMenuItem,
             this.EditToolStripMenuItem,
             this.ViewToolStripMenuItem});
-            this.menuStrip1.Location = new System.Drawing.Point(0, 0);
-            this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(339, 24);
-            this.menuStrip1.TabIndex = 1;
-            this.menuStrip1.Text = "menuStrip1";
+            this.ScriptEditorMenuStrip.Location = new System.Drawing.Point(0, 0);
+            this.ScriptEditorMenuStrip.Name = "ScriptEditorMenuStrip";
+            this.ScriptEditorMenuStrip.Size = new System.Drawing.Size(339, 24);
+            this.ScriptEditorMenuStrip.TabIndex = 1;
+            this.ScriptEditorMenuStrip.Text = "menuStrip1";
             // 
             // FileToolStripMenuItem
             // 
@@ -75,20 +76,20 @@
             // NewToolStripMenuItem
             // 
             this.NewToolStripMenuItem.Name = "NewToolStripMenuItem";
-            this.NewToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.NewToolStripMenuItem.Size = new System.Drawing.Size(143, 22);
             this.NewToolStripMenuItem.Text = "New";
             // 
             // SaveToTableToolStripMenuItem
             // 
             this.SaveToTableToolStripMenuItem.Name = "SaveToTableToolStripMenuItem";
-            this.SaveToTableToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.SaveToTableToolStripMenuItem.Size = new System.Drawing.Size(143, 22);
             this.SaveToTableToolStripMenuItem.Text = "Save to Table";
             this.SaveToTableToolStripMenuItem.Click += new System.EventHandler(this.SaveToTableToolStripMenuItem_Click);
             // 
             // ExitToolStripMenuItem
             // 
             this.ExitToolStripMenuItem.Name = "ExitToolStripMenuItem";
-            this.ExitToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.ExitToolStripMenuItem.Size = new System.Drawing.Size(143, 22);
             this.ExitToolStripMenuItem.Text = "Exit";
             // 
             // EditToolStripMenuItem
@@ -109,13 +110,14 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(339, 278);
             this.Controls.Add(this.ScriptEditorRichTextBox);
-            this.Controls.Add(this.menuStrip1);
+            this.Controls.Add(this.ScriptEditorMenuStrip);
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.MainMenuStrip = this.menuStrip1;
+            this.MainMenuStrip = this.ScriptEditorMenuStrip;
             this.Name = "GUIScriptEditor";
             this.Text = "Script Editor";
-            this.menuStrip1.ResumeLayout(false);
-            this.menuStrip1.PerformLayout();
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.GUIScriptEditor_FormClosing);
+            this.ScriptEditorMenuStrip.ResumeLayout(false);
+            this.ScriptEditorMenuStrip.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -124,7 +126,7 @@
         #endregion
 
         private System.Windows.Forms.RichTextBox ScriptEditorRichTextBox;
-        private System.Windows.Forms.MenuStrip menuStrip1;
+        private System.Windows.Forms.MenuStrip ScriptEditorMenuStrip;
         private System.Windows.Forms.ToolStripMenuItem FileToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem EditToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem ViewToolStripMenuItem;

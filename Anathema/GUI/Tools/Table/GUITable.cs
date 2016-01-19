@@ -169,6 +169,18 @@ namespace Anathema
             AddressEntryEditor.ShowDialog();
         }
 
+        private void ScriptTableListView_MouseDoubleClick(Object Sender, MouseEventArgs E)
+        {
+            ListViewHitTestInfo HitTest = ScriptTableListView.HitTest(E.Location);
+            ListViewItem SelectedItem = HitTest.Item;
+            Int32 ColumnIndex = HitTest.Item.SubItems.IndexOf(HitTest.SubItem);
+
+            if (SelectedItem == null)
+                return;
+
+            TablePresenter.OpenScript(SelectedItem.Index);
+        }
+
         private void CheatTableButton_Click(Object Sender, EventArgs E)
         {
             ViewCheatTable();
@@ -180,5 +192,6 @@ namespace Anathema
         }
 
         #endregion
+        
     }
 }
