@@ -101,7 +101,12 @@ namespace Anathema
 
         private void LoadTableButton_Click(Object Sender, EventArgs E)
         {
+            OpenFileDialog OpenFileDialog = new OpenFileDialog();
+            OpenFileDialog.Filter = "Anathema Table | .ana";
+            OpenFileDialog.Title = "Open Cheat Table";
+            OpenFileDialog.ShowDialog();
 
+            TablePresenter.LoadTable(OpenFileDialog.FileName);
         }
 
         private void AddressTableListView_RetrieveVirtualItem(Object Sender, RetrieveVirtualItemEventArgs E)

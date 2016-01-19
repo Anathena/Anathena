@@ -16,7 +16,7 @@ namespace Anathema
 
         [DataMember()]
         public List<ScriptItem> ScriptTable;
-        
+
         public List<FiniteStateMachine> FiniteStateMachineTable;
 
         public TableData()
@@ -85,7 +85,7 @@ namespace Anathema
             {
                 using (FileStream FileStream = new FileStream(Path, FileMode.Create, FileAccess.Write))
                 {
-                    DataContractSerializer Serializer = new DataContractSerializer(CurrentTableData.GetType());
+                    DataContractSerializer Serializer = new DataContractSerializer(typeof(TableData));
                     Serializer.WriteObject(FileStream, CurrentTableData);
                 }
             }
@@ -96,13 +96,30 @@ namespace Anathema
             return true;
         }
 
+        public override Boolean LoadTable(String Path)
+        {
+            try
+            {
+                using (FileStream FileStream = new FileStream(Path, FileMode.Open, FileAccess.Read))
+                {
+                    DataContractSerializer Serializer = new DataContractSerializer(typeof(TableData));
+                    CurrentTableData = (TableData)Serializer.ReadObject(FileStream);
+                }
+            }
+            catch (Exception Ex)
+            {
+                return false;
+            }
+
+            RefreshDisplay();
+            return true;
+        }
+
         public void AddSnapshotElement(SnapshotElement Element)
         {
-            CurrentTableData.AddressTable.Add(new AddressItem(Element.BaseAddress, Element.ElementType));
+            CurrentTableData.AddressTable.Add(new AddressItem((UInt64)Element.BaseAddress, Element.ElementType));
 
-            TableEventArgs Args = new TableEventArgs();
-            Args.AddressTableItemCount = CurrentTableData.AddressTable.Count;
-            OnEventUpdateAddressTableItemCount(Args);
+            RefreshDisplay();
         }
 
         public override void SetFrozenAt(Int32 Index, Boolean Activated)
@@ -120,22 +137,30 @@ namespace Anathema
             base.Begin();
         }
 
+        private void RefreshDisplay()
+        {
+            // Request that the display be updated
+            TableEventArgs Args = new TableEventArgs();
+            Args.AddressTableItemCount = CurrentTableData.AddressTable.Count;
+            OnEventUpdateAddressTableItemCount(Args);
+            OnEventRefreshDisplay(Args);
+        }
+
         protected override void Update()
         {
             // Freeze addresses
             foreach (AddressItem Item in CurrentTableData.AddressTable)
                 if (Item.GetActivationState())
-                    MemoryEditor.Write(Item.ElementType, Item.Address, Item.Value, false);
+                    MemoryEditor.Write(Item.ElementType, (IntPtr)Item.Address, Item.Value, false);
 
-            // Request that the display be updated
-            TableEventArgs Args = new TableEventArgs();
-            OnEventRefreshDisplay(Args);
+            RefreshDisplay();
         }
 
         public override AddressItem GetAddressItemAt(Int32 Index)
         {
             Boolean ReadSuccess;
-            CurrentTableData.AddressTable[Index].Value = MemoryEditor.Read(CurrentTableData.AddressTable[Index].ElementType, CurrentTableData.AddressTable[Index].Address, out ReadSuccess, false);
+            if (MemoryEditor != null)
+                CurrentTableData.AddressTable[Index].Value = MemoryEditor.Read(CurrentTableData.AddressTable[Index].ElementType, (IntPtr)CurrentTableData.AddressTable[Index].Address, out ReadSuccess, false);
             return CurrentTableData.AddressTable[Index];
         }
 
@@ -151,7 +176,7 @@ namespace Anathema
             CurrentTableData.AddressTable[Index].ForceUpdateValue(AddressItem.Value);
 
             if (CurrentTableData.AddressTable[Index].Value != null)
-                MemoryEditor.Write(CurrentTableData.AddressTable[Index].ElementType, CurrentTableData.AddressTable[Index].Address, CurrentTableData.AddressTable[Index].Value, false);
+                MemoryEditor.Write(CurrentTableData.AddressTable[Index].ElementType, (IntPtr)CurrentTableData.AddressTable[Index].Address, CurrentTableData.AddressTable[Index].Value, false);
         }
 
         public override ScriptItem GetScriptItemAt(Int32 Index)

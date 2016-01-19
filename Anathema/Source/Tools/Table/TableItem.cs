@@ -21,25 +21,25 @@ namespace Anathema
     public class AddressItem : TableItem
     {
         [DataMember()]
-        public IntPtr Address { get; set; }
+        public UInt64 Address { get; set; }
         
-        [DataMember()]
+        //[DataMember()]
         public Int32[] Offsets { get; set; }
 
-        [DataMember()]
+        //[DataMember()]
         public Type ElementType { get; set; }
 
         private dynamic _Value;
         public dynamic Value { get { return _Value; } set { if (!Activated) _Value = value; } }
 
-        public AddressItem(IntPtr Address, Type ElementType)
+        public AddressItem(UInt64 Address, Type ElementType)
         {
             this.Address = Address;
             this.ElementType = ElementType;
             Offsets = null;
         }
 
-        public AddressItem(IntPtr Address, String Description, Type ElementType, Int32[] Offsets)
+        public AddressItem(UInt64 Address, String Description, Type ElementType, Int32[] Offsets)
         {
             this.Address = Address;
             this.Description = Description;
@@ -57,7 +57,7 @@ namespace Anathema
     [DataContract()]
     public class TableItem
     {
-        [DataMember()]
+        //[DataMember()]
         public Color TextColor { get; set; }
 
         [DataMember()]

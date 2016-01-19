@@ -48,7 +48,7 @@ namespace Anathema
             foreach (String Offset in Offsets)
                 OffsetsInt.Add(Conversions.HexToInt(Offset));
 
-            AddressItem AddressItem = new AddressItem((IntPtr)Conversions.AddressToValue(Address), Description,
+            AddressItem AddressItem = new AddressItem(Conversions.AddressToValue(Address), Description,
                 Conversions.StringToPrimitiveType(ValueType), OffsetsInt.ToArray());
             
             AddressItem.Value = Conversions.ParseValue(Conversions.StringToPrimitiveType(ValueType), Value);

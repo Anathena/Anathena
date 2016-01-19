@@ -62,6 +62,7 @@ namespace Anathema
 
         // Functions invoked by presenter (downstream)
         public abstract Boolean SaveTable(String Path);
+        public abstract Boolean LoadTable(String Path);
 
         public abstract AddressItem GetAddressItemAt(Int32 Index);
         public abstract void SetAddressItemAt(Int32 Index, AddressItem AddressItem);
@@ -105,6 +106,14 @@ namespace Anathema
             return Model.SaveTable(Path);
         }
 
+        public Boolean LoadTable(String Path)
+        {
+            if (Path == String.Empty)
+                return false;
+
+            return Model.LoadTable(Path);
+        }
+
         public ListViewItem GetAddressTableItemAt(Int32 Index)
         {
             AddressItem AddressItem = Model.GetAddressItemAt(Index);
@@ -118,10 +127,10 @@ namespace Anathema
 
             // Update properties
             AddressTableCache[Index].SubItems[0].Text = String.Empty;
-            AddressTableCache[Index].SubItems[1].Text = AddressItem.Description.ToString();
+            AddressTableCache[Index].SubItems[1].Text = AddressItem.Description == null ? String.Empty : AddressItem.Description.ToString();
             AddressTableCache[Index].SubItems[2].Text = Conversions.ToAddress(AddressItem.Address.ToString());
-            AddressTableCache[Index].SubItems[3].Text = AddressItem.ElementType.Name.ToString();
-            AddressTableCache[Index].SubItems[4].Text = AddressItem.Value.ToString();
+            AddressTableCache[Index].SubItems[3].Text = AddressItem.ElementType == null ? String.Empty : AddressItem.ElementType.Name.ToString();
+            AddressTableCache[Index].SubItems[4].Text = AddressItem.Value == null ? String.Empty : AddressItem.Value.ToString();
             AddressTableCache[Index].Checked = AddressItem.GetActivationState();
 
             return AddressTableCache[Index];
