@@ -48,9 +48,15 @@ namespace Anathema
         {
             return UInt64.Parse(Address, System.Globalization.NumberStyles.HexNumber);
         }
+
         public static Int32 HexToInt(String Address)
         {
             return Int32.Parse(Address, System.Globalization.NumberStyles.HexNumber);
+        }
+
+        public static String IntToHex(Int32 Value)
+        {
+            return Value.ToString("X");
         }
 
         public static String BytesToMetric(UInt64 ByteCount)

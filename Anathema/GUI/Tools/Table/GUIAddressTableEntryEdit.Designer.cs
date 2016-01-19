@@ -88,6 +88,7 @@
             this.AddressTextBox.Name = "AddressTextBox";
             this.AddressTextBox.Size = new System.Drawing.Size(212, 20);
             this.AddressTextBox.TabIndex = 3;
+            this.AddressTextBox.TextChanged += new System.EventHandler(this.AddressTextBox_TextChanged);
             // 
             // AddressLabel
             // 
@@ -194,6 +195,7 @@
             this.ValueTextBox.WatermarkColor = System.Drawing.Color.LightGray;
             this.ValueTextBox.WaterMarkFont = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.ValueTextBox.WaterMarkText = "(Insert Value to Overwrite Current Value)";
+            this.ValueTextBox.TextChanged += new System.EventHandler(this.ValueTextBox_TextChanged);
             // 
             // GUIAddressTableEntryEdit
             // 

@@ -50,8 +50,11 @@ namespace Anathema
 
             AddressItem AddressItem = new AddressItem(Conversions.AddressToValue(Address), Description,
                 Conversions.StringToPrimitiveType(ValueType), OffsetsInt.ToArray());
-            
-            AddressItem.Value = Conversions.ParseValue(Conversions.StringToPrimitiveType(ValueType), Value);
+
+            if (CheckSyntax.CanParseValue(Conversions.StringToPrimitiveType(ValueType), Value))
+                AddressItem.Value = Conversions.ParseValue(Conversions.StringToPrimitiveType(ValueType), Value);
+            else
+                AddressItem.Value = null;
 
             // Pass constructed item to model to send to the table
             Model.AddTableEntryItem(MainSelection, SelectedIndicies, AddressItem);

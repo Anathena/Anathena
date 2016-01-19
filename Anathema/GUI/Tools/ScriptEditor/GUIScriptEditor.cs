@@ -30,6 +30,9 @@ namespace Anathema
         {
             ScriptEditorRichTextBox.Text = ScriptText;
             this.Text = DocumentTitle;
+
+            if (!this.Visible)
+                this.Show();
         }
 
         private void SaveChanges()

@@ -22,9 +22,7 @@ namespace Anathema
 
             InitializeValueTypeComboBox();
             InitializeDefaultItems();
-
-            ValidateCurrentOffset();
-
+            
             switch(ColumnSelection)
             {
                 case Table.TableColumnEnum.Description:
@@ -53,7 +51,7 @@ namespace Anathema
 
             if (AddressItem.Offsets != null)
                 foreach (Int32 Offset in AddressItem.Offsets)
-                    OffsetListBox.Items.Add(Offset);
+                    OffsetListBox.Items.Add(Conversions.IntToHex(Offset));
         }
 
         private void InitializeValueTypeComboBox()
@@ -62,25 +60,11 @@ namespace Anathema
                 ValueTypeComboBox.Items.Add(Primitive.Name);
         }
 
-        private void ValidateCurrentOffset()
-        {
-            if (CheckSyntax.IsInt64(OffsetTextBox.Text) || CheckSyntax.Address(OffsetTextBox.Text))
-            {
-                OffsetTextBox.ForeColor = Color.Black;
-                AddOffsetButton.Enabled = true;
-            }
-            else
-            {
-                OffsetTextBox.ForeColor = Color.Red;
-                AddOffsetButton.Enabled = false;
-            }
-        }
-
         #region Events
 
         private void AddOffsetButton_Click(Object Sender, EventArgs E)
         {
-            if (CheckSyntax.IsInt64(OffsetTextBox.Text) || CheckSyntax.Address(OffsetTextBox.Text))
+            if (CheckSyntax.Address(OffsetTextBox.Text))
             {
                 OffsetListBox.Items.Add(OffsetTextBox.Text);
                 OffsetTextBox.Text = String.Empty;
@@ -101,11 +85,36 @@ namespace Anathema
             this.Close();
         }
 
-        private void OffsetTextBox_TextChanged(object sender, EventArgs e)
+        private void OffsetTextBox_TextChanged(Object Sender, EventArgs E)
         {
-            ValidateCurrentOffset();
+            if (CheckSyntax.Address(OffsetTextBox.Text))
+            {
+                OffsetTextBox.ForeColor = Color.Black;
+                AddOffsetButton.Enabled = true;
+            }
+            else
+            {
+                OffsetTextBox.ForeColor = Color.Red;
+                AddOffsetButton.Enabled = false;
+            }
+        }
+
+        private void AddressTextBox_TextChanged(Object Sender, EventArgs E)
+        {
+            if (CheckSyntax.Address(AddressTextBox.Text))
+                AddressTextBox.ForeColor = SystemColors.ControlText;
+            else
+                AddressTextBox.ForeColor = Color.Red;
         }
 
         #endregion
+
+        private void ValueTextBox_TextChanged(Object Sender, EventArgs E)
+        {
+            if (CheckSyntax.CanParseValue(Conversions.StringToPrimitiveType(ValueTypeComboBox.SelectedItem.ToString()), ValueTextBox.Text))
+                ValueTextBox.ForeColor = SystemColors.ControlText;
+            else
+                ValueTextBox.ForeColor = Color.Red;
+        }
     }
 }
