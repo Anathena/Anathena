@@ -92,7 +92,7 @@ namespace Anathema
         private void SaveTableButton_Click(Object Sender, EventArgs E)
         {
             SaveFileDialog SaveFileDialog = new SaveFileDialog();
-            SaveFileDialog.Filter = "Anathema Table | .ana";
+            SaveFileDialog.Filter = "Anathema Table | *.ana";
             SaveFileDialog.Title = "Save Cheat Table";
             SaveFileDialog.ShowDialog();
 
@@ -102,7 +102,7 @@ namespace Anathema
         private void LoadTableButton_Click(Object Sender, EventArgs E)
         {
             OpenFileDialog OpenFileDialog = new OpenFileDialog();
-            OpenFileDialog.Filter = "Anathema Table | .ana";
+            OpenFileDialog.Filter = "Anathema Table | *.ana";
             OpenFileDialog.Title = "Open Cheat Table";
             OpenFileDialog.ShowDialog();
 

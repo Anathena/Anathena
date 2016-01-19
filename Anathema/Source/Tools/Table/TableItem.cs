@@ -22,12 +22,14 @@ namespace Anathema
     {
         [DataMember()]
         public UInt64 Address { get; set; }
-        
-        //[DataMember()]
+
+        [DataMember()]
         public Int32[] Offsets { get; set; }
 
-        //[DataMember()]
-        public Type ElementType { get; set; }
+        [DataMember()]
+        public String TypeName { get; set; }
+
+        public Type ElementType { get { return Type.GetType(TypeName); } set { this.TypeName = (value == null ? String.Empty : value.FullName); } }
 
         private dynamic _Value;
         public dynamic Value { get { return _Value; } set { if (!Activated) _Value = value; } }
@@ -57,11 +59,14 @@ namespace Anathema
     [DataContract()]
     public class TableItem
     {
-        //[DataMember()]
-        public Color TextColor { get; set; }
+
+        [DataMember()]
+        public Int32 TextColorARGB { get; set; }
 
         [DataMember()]
         public String Description { get; set; }
+
+        public Color TextColor { get { return Color.FromArgb(TextColorARGB); } set { TextColorARGB = value.ToArgb(); } }
 
         protected Boolean Activated;
 
