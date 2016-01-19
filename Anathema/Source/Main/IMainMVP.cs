@@ -17,12 +17,17 @@ namespace Anathema
     {
         // Methods invoked by the presenter (upstream)
         void UpdateProcessTitle(String ProcessTitle);
+
+        void OpenScriptEditor();
+        void OpenLabelThresholder();
     }
 
     interface IMainModel : IModel, IProcessObserver
     {
         // Events triggered by the model (upstream)
         event MainEventHandler EventUpdateProcessTitle;
+        event MainEventHandler EventOpenScriptEditor;
+        event MainEventHandler EventOpenLabelThresholder;
 
         // Functions invoked by presenter (downstream)
     }
@@ -33,6 +38,8 @@ namespace Anathema
         {
             // Bind events triggered by the model
             Model.EventUpdateProcessTitle += UpdateProcessTitle;
+            Model.EventOpenScriptEditor += OpenScriptEditor;
+            Model.EventOpenLabelThresholder += OpenLabelThresholder;
         }
 
         #region Method definitions called by the view (downstream)
@@ -44,6 +51,16 @@ namespace Anathema
         private void UpdateProcessTitle(Object Sender, MainEventArgs E)
         {
             View.UpdateProcessTitle(E.ProcessTitle);
+        }
+
+        private void OpenScriptEditor(Object Sender, MainEventArgs E)
+        {
+            View.OpenScriptEditor();
+        }
+
+        private void OpenLabelThresholder(Object Sender, MainEventArgs E)
+        {
+            View.OpenLabelThresholder();
         }
 
         #endregion

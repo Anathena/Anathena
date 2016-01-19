@@ -167,6 +167,7 @@ namespace Anathema
             if (Index >= CurrentTableData.ScriptTable.Count)
                 return;
 
+            Main.GetInstance().OpenScriptEditor();
             ScriptEditor.GetInstance().OpenScript(CurrentTableData.ScriptTable[Index]);
         }
 

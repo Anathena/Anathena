@@ -37,7 +37,7 @@ namespace Anathema
         {
             InitializeComponent();
 
-            MainPresenter MainPresenter = new MainPresenter(this, new Main());
+            MainPresenter MainPresenter = new MainPresenter(this, Main.GetInstance());
 
             // Update theme so that everything looks cool
             this.ContentPanel.Theme = new VS2013BlueTheme();
@@ -59,7 +59,17 @@ namespace Anathema
             });
         }
 
-        #region Methods
+        public void OpenScriptEditor()
+        {
+            CreateScriptEditor();
+        }
+
+        public void OpenLabelThresholder()
+        {
+           CreateLabelThresholder();
+        }
+
+        #region Private Methods
 
         private void CreateDefaultTools()
         {
@@ -118,6 +128,11 @@ namespace Anathema
             if (GUIChangeCounter == null || GUIChangeCounter.IsDisposed)
                 GUIChangeCounter = new GUIChangeCounter();
             GUIChangeCounter.Show(ContentPanel);
+        }
+
+        private void CreateLabelThresholder()
+        {
+
         }
 
         private void CreateSnapshotManager()
