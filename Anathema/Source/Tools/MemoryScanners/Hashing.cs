@@ -49,16 +49,12 @@ namespace Anathema
 
                     // Hashing function
                     for (; Start < End; Start += sizeof(UInt64))
-                    {
                         Hash ^= *ValuePointer++;
-                    }
 
                     Byte* RemainderPointer = (Byte*)ValuePointer;
                     // Handle remaining bytes
                     for (; Start < End; Start++)
-                    {
-                        Hash ^= (UInt64)(*RemainderPointer);
-                    }
+                        Hash ^= (UInt64)(*RemainderPointer++);
 
                     return Hash;
                 }

@@ -13,18 +13,22 @@ namespace Anathema
     /// </summary>
     public abstract class SnapshotRegion : RemoteRegion, IEnumerable
     {
+        protected Int32 RegionExtension;    // Variable to indicate a safe number of read-over bytes
         protected Byte[] CurrentValues;     // Most recently read values
         protected Byte[] PreviousValues;    // Previously read values
-        protected Type ElementType;         // Element type for this
-        protected BitArray Valid;           // Valid bits for use in filtering scans
-        protected Int32 RegionExtension;    // Variable to indicate a safe number of read-over bytes
+
+        // These fields are public as an access optimization from SnapshotElement, and otherwise should be accessed via get/set functions
+        public Type ElementType;            // Element type for this
+        public BitArray Valid;              // Valid bits for use in filtering scans
+        public SnapshotElement CurrentSnapshotElement;   // Regions only access one element at a time, so it is held here.
+
 
         public SnapshotRegion(IntPtr BaseAddress, Int32 RegionSize) : base(null, BaseAddress, RegionSize) { RegionExtension = 0; }
         public SnapshotRegion(RemoteRegion RemoteRegion) : base(null, RemoteRegion.BaseAddress, RemoteRegion.RegionSize) { RegionExtension = 0; }
         public SnapshotRegion(SnapshotRegion SnapshotRegion) : base(null, SnapshotRegion.BaseAddress, SnapshotRegion.RegionSize) { this.RegionExtension = SnapshotRegion.RegionExtension; }
 
-        public abstract SnapshotElement this[int index] { get; set; }
-
+        public unsafe abstract SnapshotElement this[Int32 Index] { get; set; }
+        
         /// <summary>
         /// Expands a region by a given size in both directions (default is element type size) unconditionally
         /// </summary>
@@ -157,10 +161,16 @@ namespace Anathema
             return CurrentValues;
         }
 
+        
+
         public IEnumerator GetEnumerator()
         {
+            CurrentSnapshotElement.InitializePointers();
             for (Int32 Index = 0; Index < RegionSize; Index++)
-                yield return this[Index];
+            {
+                yield return CurrentSnapshotElement;
+                CurrentSnapshotElement.IncrementPointers();
+            }
         }
     }
 
@@ -169,15 +179,17 @@ namespace Anathema
     /// </summary>
     public class SnapshotRegion<LabelType> : SnapshotRegion where LabelType : struct
     {
-        private LabelType?[] ElementLabels; // Labels for individual elements
+        public LabelType?[] ElementLabels;      // Labels for individual elements
+
         public SnapshotRegion(IntPtr BaseAddress, Int32 RegionSize) : base(BaseAddress, RegionSize) { }
         public SnapshotRegion(RemoteRegion RemoteRegion) : base(RemoteRegion) { }
         public SnapshotRegion(SnapshotRegion SnapshotRegion) : base(SnapshotRegion)
         {
             CurrentValues = SnapshotRegion.GetCurrentValues() == null ? null : (Byte[])SnapshotRegion.GetCurrentValues().Clone();
             PreviousValues = SnapshotRegion.GetPreviousValues() == null ? null : (Byte[])SnapshotRegion.GetPreviousValues().Clone();
+            CurrentSnapshotElement = new SnapshotElement<LabelType>(this);
         }
-
+        
         public LabelType?[] GetElementLabels()
         {
             return ElementLabels;
@@ -198,25 +210,15 @@ namespace Anathema
         /// </summary>
         /// <param name="Index"></param>
         /// <returns></returns>
-        public override SnapshotElement this[Int32 Index]
+        public unsafe override SnapshotElement this[Int32 Index]
         {
             get
             {
-                return new SnapshotElement<LabelType>(
-                BaseAddress + Index, this, Index,
-                ElementType,
-                Valid == null ? false : Valid[Index],
-                (CurrentValues == null || ElementType == null) ? (Byte[])null : CurrentValues.SubArray(Index, Marshal.SizeOf(ElementType)),
-                (PreviousValues == null || ElementType == null) ? (Byte[])null : PreviousValues.SubArray(Index, Marshal.SizeOf(ElementType)),
-                ElementLabels == null ? (LabelType?)null : ElementLabels[Index]
-                );
+                SnapshotElement<LabelType> Element = new SnapshotElement<LabelType>(this);
+                Element.InitializePointers(Index);
+                return Element;
             }
-            set
-            {
-                if (value.ElementType != null) ElementType = value.ElementType; else ElementType = null;
-                if (this.Valid != null) Valid[Index] = value.Valid;
-                if (((SnapshotElement<LabelType>)value).ElementLabel != null) ElementLabels[Index] = ((SnapshotElement<LabelType>)value).ElementLabel.Value;
-            }
+            set { }
         }
 
         public List<SnapshotRegion<LabelType>> GetValidRegions()

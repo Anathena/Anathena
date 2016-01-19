@@ -58,10 +58,11 @@ namespace Anathema
             // Read memory to get current values
             Snapshot.ReadAllSnapshotMemory();
 
-            Parallel.ForEach(Snapshot.Cast<Object>(), (object RegionObject) =>
+            //Parallel.ForEach(Snapshot.Cast<Object>(), (object RegionObject) =>
+            //{
+            //  SnapshotRegion Region = (SnapshotRegion)RegionObject;
+            foreach (SnapshotRegion Region in Snapshot)
             {
-                SnapshotRegion Region = (SnapshotRegion)RegionObject;
-
                 if (!Region.CanCompare())
                     return;
 
@@ -70,7 +71,8 @@ namespace Anathema
                     if (Element.Changed())
                         Element.ElementLabel++;
                 }
-            }); // End regions
+            }
+            //}); // End regions
 
             OnEventUpdateScanCount(new ScannerEventArgs(this.ScanCount));
         }
@@ -78,7 +80,7 @@ namespace Anathema
         public override void End()
         {
             base.End();
-            
+
             // Mark regions as valid or invalid based on number of changes
             Snapshot.MarkAllInvalid();
             foreach (SnapshotRegion<UInt16> Region in Snapshot)
