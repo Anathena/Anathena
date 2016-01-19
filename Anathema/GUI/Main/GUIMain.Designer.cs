@@ -56,6 +56,7 @@
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.NewScanButton = new System.Windows.Forms.ToolStripButton();
             this.UndoScanButton = new System.Windows.Forms.ToolStripButton();
+            this.ScriptEditorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.GUIMenuStrip.SuspendLayout();
             this.GUIToolStrip.SuspendLayout();
             this.SuspendLayout();
@@ -121,11 +122,12 @@
             // 
             this.ViewToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.ProcessSelectorToolStripMenuItem,
-            this.DebuggerToolStripMenuItem,
-            this.ResultsToolStripMenuItem,
             this.ScansToolStripMenuItem,
+            this.TableToolStripMenuItem,
+            this.ResultsToolStripMenuItem,
             this.SnapshotsToolStripMenuItem,
-            this.TableToolStripMenuItem});
+            this.ScriptEditorToolStripMenuItem,
+            this.DebuggerToolStripMenuItem});
             this.ViewToolStripMenuItem.Name = "ViewToolStripMenuItem";
             this.ViewToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
             this.ViewToolStripMenuItem.Text = "View";
@@ -286,6 +288,13 @@
             this.UndoScanButton.Text = "Undo Scan";
             this.UndoScanButton.Click += new System.EventHandler(this.UndoScanButton_Click);
             // 
+            // ScriptEditorToolStripMenuItem
+            // 
+            this.ScriptEditorToolStripMenuItem.Name = "ScriptEditorToolStripMenuItem";
+            this.ScriptEditorToolStripMenuItem.Size = new System.Drawing.Size(159, 22);
+            this.ScriptEditorToolStripMenuItem.Text = "Script Editor";
+            this.ScriptEditorToolStripMenuItem.Click += new System.EventHandler(this.ScriptEditorToolStripMenuItem_Click);
+            // 
             // GUIMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -335,6 +344,7 @@
         private System.Windows.Forms.ToolStripMenuItem ChangeCounterToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem InputCorrelatorToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem SettingsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem ScriptEditorToolStripMenuItem;
     }
 }
 

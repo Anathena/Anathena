@@ -127,9 +127,9 @@ namespace Anathema
 
             // Update properties
             AddressTableCache[Index].SubItems[0].Text = String.Empty;
-            AddressTableCache[Index].SubItems[1].Text = AddressItem.Description == null ? String.Empty : AddressItem.Description.ToString();
+            AddressTableCache[Index].SubItems[1].Text = AddressItem.Description == null ? String.Empty : AddressItem.Description;
             AddressTableCache[Index].SubItems[2].Text = Conversions.ToAddress(AddressItem.Address.ToString());
-            AddressTableCache[Index].SubItems[3].Text = AddressItem.ElementType == null ? String.Empty : AddressItem.ElementType.Name.ToString();
+            AddressTableCache[Index].SubItems[3].Text = AddressItem.ElementType == null ? String.Empty : AddressItem.ElementType.Name;
             AddressTableCache[Index].SubItems[4].Text = AddressItem.Value == null ? String.Empty : AddressItem.Value.ToString();
             AddressTableCache[Index].Checked = AddressItem.GetActivationState();
 
@@ -143,9 +143,14 @@ namespace Anathema
             if (ScriptTableCache.Count > CacheLimit)
                 ScriptTableCache.Clear();
 
-            ListViewItem Result = new ListViewItem(ScriptItem.Description.ToString());
-            Result.Checked = ScriptItem.GetActivationState();
-            return Result;
+            if (!ScriptTableCache.ContainsKey(Index))
+                ScriptTableCache.Add(Index, new ListViewItem(new String[] { String.Empty, String.Empty }));
+
+            ScriptTableCache[Index].SubItems[0].Text = String.Empty;
+            ScriptTableCache[Index].SubItems[1].Text = ScriptItem.Description;
+            ScriptTableCache[Index].Checked = ScriptItem.GetActivationState();
+
+            return ScriptTableCache[Index];
         }
 
         public void SetFrozenAt(Int32 Index, Boolean Activated)
@@ -179,12 +184,12 @@ namespace Anathema
 
         private void EventUpdateScriptTableItemCount(Object Sender, TableEventArgs E)
         {
-            View.UpdateAddressTableItemCount(E.ScriptTableItemCount);
+            View.UpdateScriptTableItemCount(E.ScriptTableItemCount);
         }
 
         private void EventUpdateFSMTableItemCount(Object Sender, TableEventArgs E)
         {
-            View.UpdateAddressTableItemCount(E.FSMTableItemCount);
+            View.UpdateFSMTableItemCount(E.FSMTableItemCount);
         }
 
         #endregion

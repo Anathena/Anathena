@@ -41,9 +41,7 @@ namespace Anathema
             Address,
             Value
         }
-
-
-
+        
         private static Table TableInstance;
         private MemorySharp MemoryEditor;
 
@@ -77,6 +75,15 @@ namespace Anathema
         public void UpdateMemoryEditor(MemorySharp MemoryEditor)
         {
             this.MemoryEditor = MemoryEditor;
+        }
+
+        public void SaveScript(ScriptItem ScriptItem)
+        {
+            if (!CurrentTableData.ScriptTable.Contains(ScriptItem))
+            { 
+                CurrentTableData.ScriptTable.Add(ScriptItem);
+                RefreshDisplay();
+            }
         }
 
         public override Boolean SaveTable(String Path)
@@ -127,11 +134,6 @@ namespace Anathema
             CurrentTableData.AddressTable[Index].SetActivationState(Activated);
         }
 
-        public void AddScript(String Script)
-        {
-            CurrentTableData.ScriptTable.Add(new ScriptItem(Script));
-        }
-
         public override void Begin()
         {
             base.Begin();
@@ -142,7 +144,11 @@ namespace Anathema
             // Request that the display be updated
             TableEventArgs Args = new TableEventArgs();
             Args.AddressTableItemCount = CurrentTableData.AddressTable.Count;
+            Args.ScriptTableItemCount = CurrentTableData.ScriptTable.Count;
+            Args.FSMTableItemCount = CurrentTableData.FiniteStateMachineTable.Count;
             OnEventUpdateAddressTableItemCount(Args);
+            OnEventUpdateScriptTableItemCount(Args);
+            OnEventUpdateFSMTableItemCount(Args);
             OnEventRefreshDisplay(Args);
         }
 

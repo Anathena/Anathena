@@ -19,6 +19,7 @@ namespace Anathema
         // VIEW MENU ITEMS
         private GUIProcessSelector GUIProcessSelector;
         private GUIDebugger GUIDebugger;
+        private GUIScriptEditor GUIScriptEditor;
         private GUIFiniteStateScanner GUIFiniteStateScanner;
         private GUIManualScanner GUIManualScanner;
         private GUITreeScanner GUITreeScanner;
@@ -147,6 +148,13 @@ namespace Anathema
             GUIProcessSelector.Show(ContentPanel);
         }
 
+        private void CreateScriptEditor()
+        {
+            if (GUIScriptEditor == null || GUIScriptEditor.IsDisposed)
+                GUIScriptEditor = new GUIScriptEditor();
+            GUIScriptEditor.Show(ContentPanel);
+        }
+
         private void CreateSettings()
         {
             if (GUISettings == null || GUISettings.IsDisposed)
@@ -217,6 +225,11 @@ namespace Anathema
         private void ProcessSelectorButton_Click(Object Sender, EventArgs E)
         {
             CreateProcessSelector();
+        }
+
+        private void ScriptEditorToolStripMenuItem_Click(Object Sender, EventArgs E)
+        {
+            CreateScriptEditor();
         }
 
         private void SettingsToolStripMenuItem_Click(object sender, EventArgs e)

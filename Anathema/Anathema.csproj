@@ -118,6 +118,12 @@
     <Compile Include="GUI\Tools\PointerScanner\GUIPointerScanner.Designer.cs">
       <DependentUpon>GUIPointerScanner.cs</DependentUpon>
     </Compile>
+    <Compile Include="GUI\Tools\ScriptEditor\GUIScriptEditor.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI\Tools\ScriptEditor\GUIScriptEditor.Designer.cs">
+      <DependentUpon>GUIScriptEditor.cs</DependentUpon>
+    </Compile>
     <Compile Include="GUI\Tools\Table\GUIAddressTableEntryEdit.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -140,6 +146,8 @@
     <Compile Include="Source\Tools\MemoryScanners\ManualScanner\IManualScannerMVP.cs" />
     <Compile Include="Source\Tools\MemoryScanners\ManualScanner\ManualScanner.cs" />
     <Compile Include="Source\Tools\MemoryScanners\InputCorrelator\IInputCorrelatorMVP.cs" />
+    <Compile Include="Source\Tools\ScriptEditor\IScriptEditorMVP.cs" />
+    <Compile Include="Source\Tools\ScriptEditor\ScriptEditor.cs" />
     <Compile Include="Source\Tools\SnapshotManager\SnapshotRegion.cs" />
     <Compile Include="Source\Tools\SnapshotManager\SnapshotElement.cs" />
     <Compile Include="Source\Tools\MemoryScanners\Hashing.cs" />
@@ -641,6 +649,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\Tools\Results\GUIResults.resx">
       <DependentUpon>GUIResults.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\Tools\ScriptEditor\GUIScriptEditor.resx">
+      <DependentUpon>GUIScriptEditor.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\Tools\SnapshotManager\GUISnapshotManager.resx">
       <DependentUpon>GUISnapshotManager.cs</DependentUpon>

@@ -29,6 +29,12 @@
         private void InitializeComponent()
         {
             this.CheatTableSplitContainer = new System.Windows.Forms.SplitContainer();
+            this.ScanToolStrip = new System.Windows.Forms.ToolStrip();
+            this.SaveTableButton = new System.Windows.Forms.ToolStripButton();
+            this.LoadTableButton = new System.Windows.Forms.ToolStripButton();
+            this.ToolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.CheatTableButton = new System.Windows.Forms.ToolStripButton();
+            this.FSMTableButton = new System.Windows.Forms.ToolStripButton();
             this.AddressTableListView = new Anathema.CheckableListView();
             this.FrozenHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.AddressDescriptionHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
@@ -38,13 +44,8 @@
             this.ScriptTableListView = new Anathema.CheckableListView();
             this.ScriptActiveHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.ScriptDescriptionHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.ScanToolStrip = new System.Windows.Forms.ToolStrip();
-            this.SaveTableButton = new System.Windows.Forms.ToolStripButton();
-            this.LoadTableButton = new System.Windows.Forms.ToolStripButton();
-            this.ToolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
-            this.CheatTableButton = new System.Windows.Forms.ToolStripButton();
-            this.FSMTableButton = new System.Windows.Forms.ToolStripButton();
-            this.FSMTableListView = new System.Windows.Forms.ListView();
+            this.FSMTableListView = new Anathema.FlickerFreeListView();
+            this.FSMDescriptionHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             ((System.ComponentModel.ISupportInitialize)(this.CheatTableSplitContainer)).BeginInit();
             this.CheatTableSplitContainer.Panel1.SuspendLayout();
             this.CheatTableSplitContainer.Panel2.SuspendLayout();
@@ -65,9 +66,72 @@
             // CheatTableSplitContainer.Panel2
             // 
             this.CheatTableSplitContainer.Panel2.Controls.Add(this.ScriptTableListView);
-            this.CheatTableSplitContainer.Size = new System.Drawing.Size(690, 225);
-            this.CheatTableSplitContainer.SplitterDistance = 501;
+            this.CheatTableSplitContainer.Size = new System.Drawing.Size(698, 225);
+            this.CheatTableSplitContainer.SplitterDistance = 506;
             this.CheatTableSplitContainer.TabIndex = 145;
+            // 
+            // ScanToolStrip
+            // 
+            this.ScanToolStrip.Dock = System.Windows.Forms.DockStyle.Right;
+            this.ScanToolStrip.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
+            this.ScanToolStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.SaveTableButton,
+            this.LoadTableButton,
+            this.ToolStripSeparator1,
+            this.CheatTableButton,
+            this.FSMTableButton});
+            this.ScanToolStrip.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.VerticalStackWithOverflow;
+            this.ScanToolStrip.Location = new System.Drawing.Point(698, 0);
+            this.ScanToolStrip.Name = "ScanToolStrip";
+            this.ScanToolStrip.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
+            this.ScanToolStrip.Size = new System.Drawing.Size(24, 225);
+            this.ScanToolStrip.TabIndex = 150;
+            // 
+            // SaveTableButton
+            // 
+            this.SaveTableButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.SaveTableButton.Image = global::Anathema.Properties.Resources.Save;
+            this.SaveTableButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.SaveTableButton.Name = "SaveTableButton";
+            this.SaveTableButton.Size = new System.Drawing.Size(21, 20);
+            this.SaveTableButton.Text = "Save Table";
+            this.SaveTableButton.Click += new System.EventHandler(this.SaveTableButton_Click);
+            // 
+            // LoadTableButton
+            // 
+            this.LoadTableButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.LoadTableButton.Image = global::Anathema.Properties.Resources.Open;
+            this.LoadTableButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.LoadTableButton.Name = "LoadTableButton";
+            this.LoadTableButton.Size = new System.Drawing.Size(21, 20);
+            this.LoadTableButton.Text = "Open Table";
+            this.LoadTableButton.ToolTipText = "Stop Tree Scan";
+            this.LoadTableButton.Click += new System.EventHandler(this.LoadTableButton_Click);
+            // 
+            // ToolStripSeparator1
+            // 
+            this.ToolStripSeparator1.Name = "ToolStripSeparator1";
+            this.ToolStripSeparator1.Size = new System.Drawing.Size(21, 6);
+            // 
+            // CheatTableButton
+            // 
+            this.CheatTableButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.CheatTableButton.Image = global::Anathema.Properties.Resources.BenedictionIcon;
+            this.CheatTableButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.CheatTableButton.Name = "CheatTableButton";
+            this.CheatTableButton.Size = new System.Drawing.Size(21, 20);
+            this.CheatTableButton.Text = "Cheat Table";
+            this.CheatTableButton.Click += new System.EventHandler(this.CheatTableButton_Click);
+            // 
+            // FSMTableButton
+            // 
+            this.FSMTableButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.FSMTableButton.Image = global::Anathema.Properties.Resources.CelestialIcon;
+            this.FSMTableButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.FSMTableButton.Name = "FSMTableButton";
+            this.FSMTableButton.Size = new System.Drawing.Size(21, 20);
+            this.FSMTableButton.Text = "FSM Table";
+            this.FSMTableButton.Click += new System.EventHandler(this.FSMTableButton_Click);
             // 
             // AddressTableListView
             // 
@@ -86,7 +150,7 @@
             this.AddressTableListView.Name = "AddressTableListView";
             this.AddressTableListView.OwnerDraw = true;
             this.AddressTableListView.ShowGroups = false;
-            this.AddressTableListView.Size = new System.Drawing.Size(501, 225);
+            this.AddressTableListView.Size = new System.Drawing.Size(506, 225);
             this.AddressTableListView.TabIndex = 143;
             this.AddressTableListView.UseCompatibleStateImageBehavior = false;
             this.AddressTableListView.View = System.Windows.Forms.View.Details;
@@ -134,7 +198,7 @@
             this.ScriptTableListView.Name = "ScriptTableListView";
             this.ScriptTableListView.OwnerDraw = true;
             this.ScriptTableListView.ShowGroups = false;
-            this.ScriptTableListView.Size = new System.Drawing.Size(185, 225);
+            this.ScriptTableListView.Size = new System.Drawing.Size(188, 225);
             this.ScriptTableListView.TabIndex = 144;
             this.ScriptTableListView.UseCompatibleStateImageBehavior = false;
             this.ScriptTableListView.View = System.Windows.Forms.View.Details;
@@ -151,79 +215,25 @@
             this.ScriptDescriptionHeader.Text = "Description";
             this.ScriptDescriptionHeader.Width = 146;
             // 
-            // ScanToolStrip
-            // 
-            this.ScanToolStrip.Dock = System.Windows.Forms.DockStyle.Right;
-            this.ScanToolStrip.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
-            this.ScanToolStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.SaveTableButton,
-            this.LoadTableButton,
-            this.ToolStripSeparator1,
-            this.CheatTableButton,
-            this.FSMTableButton});
-            this.ScanToolStrip.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.VerticalStackWithOverflow;
-            this.ScanToolStrip.Location = new System.Drawing.Point(690, 0);
-            this.ScanToolStrip.Name = "ScanToolStrip";
-            this.ScanToolStrip.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
-            this.ScanToolStrip.Size = new System.Drawing.Size(32, 225);
-            this.ScanToolStrip.TabIndex = 150;
-            // 
-            // SaveTableButton
-            // 
-            this.SaveTableButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.SaveTableButton.Image = global::Anathema.Properties.Resources.Save;
-            this.SaveTableButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.SaveTableButton.Name = "SaveTableButton";
-            this.SaveTableButton.Size = new System.Drawing.Size(29, 20);
-            this.SaveTableButton.Text = "Save Table";
-            this.SaveTableButton.Click += new System.EventHandler(this.SaveTableButton_Click);
-            // 
-            // LoadTableButton
-            // 
-            this.LoadTableButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.LoadTableButton.Image = global::Anathema.Properties.Resources.Open;
-            this.LoadTableButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.LoadTableButton.Name = "LoadTableButton";
-            this.LoadTableButton.Size = new System.Drawing.Size(29, 20);
-            this.LoadTableButton.Text = "Open Table";
-            this.LoadTableButton.ToolTipText = "Stop Tree Scan";
-            this.LoadTableButton.Click += new System.EventHandler(this.LoadTableButton_Click);
-            // 
-            // ToolStripSeparator1
-            // 
-            this.ToolStripSeparator1.Name = "ToolStripSeparator1";
-            this.ToolStripSeparator1.Size = new System.Drawing.Size(29, 6);
-            // 
-            // CheatTableButton
-            // 
-            this.CheatTableButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.CheatTableButton.Image = global::Anathema.Properties.Resources.BenedictionIcon;
-            this.CheatTableButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.CheatTableButton.Name = "CheatTableButton";
-            this.CheatTableButton.Size = new System.Drawing.Size(29, 20);
-            this.CheatTableButton.Text = "Cheat Table";
-            this.CheatTableButton.Click += new System.EventHandler(this.CheatTableButton_Click);
-            // 
-            // FSMTableButton
-            // 
-            this.FSMTableButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.FSMTableButton.Image = global::Anathema.Properties.Resources.CelestialIcon;
-            this.FSMTableButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.FSMTableButton.Name = "FSMTableButton";
-            this.FSMTableButton.Size = new System.Drawing.Size(29, 20);
-            this.FSMTableButton.Text = "FSM Table";
-            this.FSMTableButton.Click += new System.EventHandler(this.FSMTableButton_Click);
-            // 
             // FSMTableListView
             // 
+            this.FSMTableListView.BackColor = System.Drawing.SystemColors.Control;
+            this.FSMTableListView.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.FSMDescriptionHeader});
             this.FSMTableListView.Dock = System.Windows.Forms.DockStyle.Fill;
             this.FSMTableListView.Location = new System.Drawing.Point(0, 0);
             this.FSMTableListView.Name = "FSMTableListView";
             this.FSMTableListView.Size = new System.Drawing.Size(722, 225);
-            this.FSMTableListView.TabIndex = 144;
+            this.FSMTableListView.TabIndex = 151;
             this.FSMTableListView.UseCompatibleStateImageBehavior = false;
+            this.FSMTableListView.View = System.Windows.Forms.View.Details;
             this.FSMTableListView.VirtualMode = true;
             this.FSMTableListView.RetrieveVirtualItem += new System.Windows.Forms.RetrieveVirtualItemEventHandler(this.FSMTableListView_RetrieveVirtualItem);
+            // 
+            // FSMDescriptionHeader
+            // 
+            this.FSMDescriptionHeader.Text = "Description";
+            this.FSMDescriptionHeader.Width = 663;
             // 
             // GUITable
             // 
@@ -265,6 +275,7 @@
         private System.Windows.Forms.ToolStripSeparator ToolStripSeparator1;
         private System.Windows.Forms.ToolStripButton CheatTableButton;
         private System.Windows.Forms.ToolStripButton FSMTableButton;
-        private System.Windows.Forms.ListView FSMTableListView;
+        private FlickerFreeListView FSMTableListView;
+        private System.Windows.Forms.ColumnHeader FSMDescriptionHeader;
     }
 }

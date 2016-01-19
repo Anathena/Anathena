@@ -11,6 +11,11 @@ namespace Anathema
         [DataMember()]
         public String Script { get; set; }
 
+        public ScriptItem()
+        {
+            this.Description = "No Description";
+        }
+
         public ScriptItem(String Script)
         {
             this.Script = Script;
