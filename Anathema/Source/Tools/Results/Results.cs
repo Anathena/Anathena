@@ -71,10 +71,8 @@ namespace Anathema
                 return;
 
             Snapshot ActiveSnapshot = SnapshotManager.GetInstance().GetActiveSnapshot();
-            SnapshotElement Element = ActiveSnapshot[Index];
-            Element.ElementType = ScanType;
 
-            Table.GetInstance().AddSnapshotElement(Element);
+            Table.GetInstance().AddTableItem((UInt64)ActiveSnapshot[Index].BaseAddress, ScanType);
         }
 
         public override IntPtr GetAddressAtIndex(Int32 Index)

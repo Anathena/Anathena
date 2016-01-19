@@ -18,16 +18,15 @@ namespace Anathema
         protected Byte[] PreviousValues;    // Previously read values
 
         // These fields are public as an access optimization from SnapshotElement, and otherwise should be accessed via get/set functions
-        public Type ElementType;            // Element type for this
-        public BitArray Valid;              // Valid bits for use in filtering scans
-        public SnapshotElement CurrentSnapshotElement;   // Regions only access one element at a time, so it is held here.
-
-
+        public Type ElementType;                        // Element type for this
+        public BitArray Valid;                          // Valid bits for use in filtering scans
+        public SnapshotElement CurrentSnapshotElement;  // Regions only access one element at a time, so it is held here to avoid uneccessary memory usage
+        
         public SnapshotRegion(IntPtr BaseAddress, Int32 RegionSize) : base(null, BaseAddress, RegionSize) { RegionExtension = 0; }
         public SnapshotRegion(RemoteRegion RemoteRegion) : base(null, RemoteRegion.BaseAddress, RemoteRegion.RegionSize) { RegionExtension = 0; }
         public SnapshotRegion(SnapshotRegion SnapshotRegion) : base(null, SnapshotRegion.BaseAddress, SnapshotRegion.RegionSize) { this.RegionExtension = SnapshotRegion.RegionExtension; }
 
-        public unsafe abstract SnapshotElement this[Int32 Index] { get; set; }
+        public unsafe abstract SnapshotElement this[Int32 Index] { get; }
         
         /// <summary>
         /// Expands a region by a given size in both directions (default is element type size) unconditionally
@@ -160,9 +159,7 @@ namespace Anathema
 
             return CurrentValues;
         }
-
         
-
         public IEnumerator GetEnumerator()
         {
             CurrentSnapshotElement.InitializePointers();
@@ -172,7 +169,8 @@ namespace Anathema
                 CurrentSnapshotElement.IncrementPointers();
             }
         }
-    }
+
+    } // End class
 
     /// <summary>
     /// Defines a snapshot of memory in an external process, as well as assigned labels to this memory.
@@ -218,7 +216,6 @@ namespace Anathema
                 Element.InitializePointers(Index);
                 return Element;
             }
-            set { }
         }
 
         public List<SnapshotRegion<LabelType>> GetValidRegions()

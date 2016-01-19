@@ -122,9 +122,9 @@ namespace Anathema
             return true;
         }
 
-        public void AddSnapshotElement(SnapshotElement Element)
+        public void AddTableItem(UInt64 BaseAddress, Type ElementType)
         {
-            CurrentTableData.AddressTable.Add(new AddressItem((UInt64)Element.BaseAddress, Element.ElementType));
+            CurrentTableData.AddressTable.Add(new AddressItem(BaseAddress, ElementType));
 
             RefreshDisplay();
         }
