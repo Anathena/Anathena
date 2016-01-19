@@ -115,7 +115,7 @@ namespace Anathema
         {
             private SnapshotRegion[] Chunks;
             private UInt16[] ChangeCounts;
-            private UInt32?[] Checksums;
+            private UInt64?[] Checksums;
 
             public MemoryChunkRoots(SnapshotRegion Region, Int32 ChunkSize) : base(Region.BaseAddress, Region.RegionSize)
             {
@@ -124,7 +124,7 @@ namespace Anathema
                 IntPtr CurrentBase = Region.BaseAddress;
                 Chunks = new SnapshotRegion[ChunkCount];
                 ChangeCounts = new UInt16[ChunkCount];
-                Checksums = new UInt32?[ChunkCount];
+                Checksums = new UInt64?[ChunkCount];
 
                 // Initialize all chunks and checksums
                 for (Int32 Index = 0; Index < ChunkCount; Index++)
@@ -155,7 +155,7 @@ namespace Anathema
             {
                 for (Int32 Index = 0; Index < Chunks.Length; Index++)
                 {
-                    UInt32 NewChecksum = Hashing.ComputeCheckSum(Data,
+                    UInt64 NewChecksum = Hashing.ComputeCheckSum(Data,
                         (UInt32)((UInt64)Chunks[Index].BaseAddress - (UInt64)this.BaseAddress),
                         (UInt32)((UInt64)Chunks[Index].EndAddress - (UInt64)this.BaseAddress));
 

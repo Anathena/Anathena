@@ -43,27 +43,29 @@ namespace Anathema
             unchecked
             {
                 UInt64 Hash = 0;
-
-                // Hashing function
-                for (; Start < End; Start += sizeof(UInt64))
+                fixed (Byte* BasePointer = &Data[Start])
                 {
-                    fixed (Byte* Value = &Data[Start])
-                    {
-                        Hash ^= *(UInt64*)(Value);
-                    }
-                }
-                for (; Start < End; Start++)
-                {
-                    fixed (Byte* Value = &Data[Start])
-                    {
-                        Hash ^= (UInt64)(*(Value));
-                    }
-                }
+                    UInt64* ValuePointer = (UInt64*)BasePointer;
 
-                return Hash;
+                    // Hashing function
+                    for (; Start < End; Start += sizeof(UInt64))
+                    {
+                        Hash ^= *ValuePointer++;
+                    }
+
+                    Byte* RemainderPointer = (Byte*)ValuePointer;
+                    // Handle remaining bytes
+                    for (; Start < End; Start++)
+                    {
+                        Hash ^= (UInt64)(*RemainderPointer);
+                    }
+
+                    return Hash;
+                }
             }
         }
 
+        /*
         public unsafe static UInt32 ComputeCheckSum(Byte[] Data, UInt32 Start, UInt32 End)
         {
             unchecked
@@ -88,7 +90,7 @@ namespace Anathema
 
                 return Hash;
             }
-        }
+        }*/
 
     } // End class
 
