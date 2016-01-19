@@ -29,9 +29,46 @@ namespace Anathema
         {
             foreach (KeyValuePair<dynamic, Int64> Item in SortedDictionary)
                 LabelFrequencyChart.Series["Frequency"].Points.AddXY(Item.Key, Item.Value);
+
+            UpdateTrackBars();
+            UpdateSelection();
+        }
+
+        private void UpdateSelection()
+        {
+            for (Int32 Index = 0; Index < LabelFrequencyChart.Series["Frequency"].Points.Count; Index++)
+            {
+                if (Index < MinValueTrackBar.Value || Index > MaxValueTrackBar.Value)
+                    LabelFrequencyChart.Series["Frequency"].Points[Index].Color = Color.Red;
+                else
+                    LabelFrequencyChart.Series["Frequency"].Points[Index].Color = Color.Blue;
+            }
+        }
+
+        private void UpdateTrackBars()
+        {
+            MinValueTrackBar.Maximum = LabelFrequencyChart.Series["Frequency"].Points.Count;
+            MaxValueTrackBar.Maximum = LabelFrequencyChart.Series["Frequency"].Points.Count;
+            MaxValueTrackBar.Value = MaxValueTrackBar.Value;
         }
 
         #region Events
+
+        private void MinValueTrackBar_Scroll(Object Sender, EventArgs E)
+        {
+            if (MinValueTrackBar.Value > MaxValueTrackBar.Value)
+                MaxValueTrackBar.Value = MinValueTrackBar.Value;
+
+            UpdateSelection();
+        }
+
+        private void MaxValueTrackBar_Scroll(Object Sender, EventArgs E)
+        {
+            if (MaxValueTrackBar.Value < MinValueTrackBar.Value)
+                MinValueTrackBar.Value = MaxValueTrackBar.Value;
+
+            UpdateSelection();
+        }
 
         #endregion
 

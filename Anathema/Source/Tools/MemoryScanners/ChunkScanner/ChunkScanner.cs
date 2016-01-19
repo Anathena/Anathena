@@ -120,7 +120,7 @@ namespace Anathema
             public MemoryChunkRoots(SnapshotRegion Region, Int32 ChunkSize) : base(Region.BaseAddress, Region.RegionSize)
             {
                 // Initialize state variables
-                Int32 ChunkCount = RegionSize / ChunkSize + 1;
+                Int32 ChunkCount = RegionSize / ChunkSize + (RegionSize % ChunkSize == 0 ? 0 : 1);
                 IntPtr CurrentBase = Region.BaseAddress;
                 Chunks = new SnapshotRegion[ChunkCount];
                 ChangeCounts = new UInt16[ChunkCount];
@@ -131,7 +131,7 @@ namespace Anathema
                 {
                     Int32 ChunkRegionSize = ChunkSize;
 
-                    if (Index == ChunkCount - 1)
+                    if (RegionSize % ChunkSize != 0 && Index == ChunkCount - 1)
                         ChunkRegionSize = RegionSize % ChunkSize;
 
                     Chunks[Index] = new SnapshotRegion<Null>(CurrentBase, ChunkRegionSize);
