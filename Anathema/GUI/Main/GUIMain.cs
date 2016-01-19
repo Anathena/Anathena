@@ -25,6 +25,7 @@ namespace Anathema
         private GUITreeScanner GUITreeScanner;
         private GUIChunkScanner GUIChunkScanner;
         private GUIChangeCounter GUIChangeCounter;
+        private GUILabelThresholder GUILabelThresholder;
         private GUIInputCorrelator GUIInputCorrelator;
         private GUISnapshotManager GUISnapshotManager;
         private GUIResults GUIResults;
@@ -59,6 +60,8 @@ namespace Anathema
             });
         }
 
+        #region Public Methods
+
         public void OpenScriptEditor()
         {
             CreateScriptEditor();
@@ -68,6 +71,8 @@ namespace Anathema
         {
            CreateLabelThresholder();
         }
+
+        #endregion
 
         #region Private Methods
 
@@ -132,7 +137,9 @@ namespace Anathema
 
         private void CreateLabelThresholder()
         {
-
+            if (GUILabelThresholder == null || GUILabelThresholder.IsDisposed)
+                GUILabelThresholder = new GUILabelThresholder();
+            GUILabelThresholder.Show(ContentPanel);
         }
 
         private void CreateSnapshotManager()
@@ -213,8 +220,12 @@ namespace Anathema
 
         private void ChangeCounterToolStripMenuItem_Click(Object Sender, EventArgs E)
         {
-
             CreateChangeCounter();
+        }
+
+        private void LabelThresholderToolStripMenuItem_Click(Object Sender, EventArgs E)
+        {
+            CreateLabelThresholder();
         }
 
         private void SnapshotsToolStripMenuItem_Click(Object Sender, EventArgs E)

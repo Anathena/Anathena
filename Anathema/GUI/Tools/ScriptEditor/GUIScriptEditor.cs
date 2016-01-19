@@ -54,8 +54,6 @@ namespace Anathema
                 this.Text = DocumentTitle + "*";
         }
 
-        #endregion
-
         private void GUIScriptEditor_FormClosing(Object Sender, FormClosingEventArgs E)
         {
             if (!ScriptEditorPresenter.HasChanges(ScriptEditorRichTextBox.Text))
@@ -63,7 +61,7 @@ namespace Anathema
 
             DialogResult Result = MessageBox.Show("This script has not been saved, save the changes to the table before closing?", "Save Changes?", MessageBoxButtons.YesNoCancel);
 
-            switch(Result)
+            switch (Result)
             {
                 case DialogResult.Yes:
                     SaveChanges();
@@ -76,6 +74,8 @@ namespace Anathema
             }
         }
 
+        #endregion
+        
     } // End class
 
 } // End namespace

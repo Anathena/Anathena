@@ -112,6 +112,12 @@
     <Compile Include="GUI\Tools\MemoryScanners\GUIFiniteStateBuilder.Designer.cs">
       <DependentUpon>GUIFiniteStateBuilder.cs</DependentUpon>
     </Compile>
+    <Compile Include="GUI\Tools\MemoryScanners\GUILabelThresholder.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI\Tools\MemoryScanners\GUILabelThresholder.Designer.cs">
+      <DependentUpon>GUILabelThresholder.cs</DependentUpon>
+    </Compile>
     <Compile Include="GUI\Tools\PointerScanner\GUIPointerScanner.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -136,6 +142,8 @@
     <Compile Include="Source\Tools\MemoryScanners\FiniteStateScanner\FiniteStateBuilder.cs" />
     <Compile Include="Source\Tools\MemoryScanners\FiniteStateScanner\IFiniteStateScannerMVP.cs" />
     <Compile Include="Source\Tools\MemoryScanners\InputCorrelator\InputNode.cs" />
+    <Compile Include="Source\Tools\MemoryScanners\LabelThresholder\ILabelThresholderMVP.cs" />
+    <Compile Include="Source\Tools\MemoryScanners\LabelThresholder\LabelThresholder.cs" />
     <Compile Include="Source\Tools\PointerScanner\IPointerScannerMVP.cs" />
     <Compile Include="Source\Tools\PointerScanner\PointerScanner.cs" />
     <Compile Include="Source\Tools\MemoryScanners\FiniteStateScanner\IFiniteStateBuilderMVP.cs" />
@@ -434,7 +442,6 @@
     <Compile Include="Source\Tools\MemoryScanners\InputCorrelator\InputHook\WinApi\ThreadNativeMethods.cs" />
     <Compile Include="Source\Tools\MemoryScanners\TreeScanner\TreeScanner.cs" />
     <Compile Include="Source\HelperClasses\Conversions.cs" />
-    <Compile Include="Source\Tools\MemoryScanners\LabelThresholder\LabelThresholder.cs" />
     <Compile Include="Source\Main\IMainMVP.cs" />
     <Compile Include="Source\Tools\ProcessSelector\IProcessSubject.cs" />
     <Compile Include="Program.cs" />
@@ -622,6 +629,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\Tools\MemoryScanners\GUIFiniteStateBuilder.resx">
       <DependentUpon>GUIFiniteStateBuilder.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\Tools\MemoryScanners\GUILabelThresholder.resx">
+      <DependentUpon>GUILabelThresholder.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\Tools\PointerScanner\GUIPointerScanner.resx">
       <DependentUpon>GUIPointerScanner.cs</DependentUpon>
