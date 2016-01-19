@@ -15,15 +15,20 @@ namespace Anathema
     public partial class GUILabelThresholder : DockContent, ILabelThresholderView
     {
         private LabelThresholderPresenter LabelThresholderPresenter;
-        private String DocumentTitle;
 
         public GUILabelThresholder()
         {
             InitializeComponent();
 
-            DocumentTitle = this.Text;
-
             LabelThresholderPresenter = new LabelThresholderPresenter(this, new LabelThresholder());
+
+            LabelThresholderPresenter.GatherData();
+        }
+
+        public void DisplayHistogram(SortedDictionary<dynamic, Int64> SortedDictionary)
+        {
+            foreach (KeyValuePair<dynamic, Int64> Item in SortedDictionary)
+                LabelFrequencyChart.Series["Frequency"].Points.AddXY(Item.Key, Item.Value);
         }
 
         #region Events
