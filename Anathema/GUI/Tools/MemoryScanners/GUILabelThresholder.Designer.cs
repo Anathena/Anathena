@@ -40,6 +40,7 @@
             // 
             // LabelFrequencyChart
             // 
+            chartArea1.AxisX.LineWidth = 0;
             chartArea1.AxisX.Title = "Label";
             chartArea1.AxisY.Title = "Frequency";
             chartArea1.Name = "LabelFrequencyChartArea";

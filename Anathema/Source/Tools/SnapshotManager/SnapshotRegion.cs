@@ -21,13 +21,13 @@ namespace Anathema
         public Type ElementType;                        // Element type for this
         public BitArray Valid;                          // Valid bits for use in filtering scans
         public SnapshotElement CurrentSnapshotElement;  // Regions only access one element at a time, so it is held here to avoid uneccessary memory usage
-        
+
         public SnapshotRegion(IntPtr BaseAddress, Int32 RegionSize) : base(null, BaseAddress, RegionSize) { RegionExtension = 0; }
         public SnapshotRegion(RemoteRegion RemoteRegion) : base(null, RemoteRegion.BaseAddress, RemoteRegion.RegionSize) { RegionExtension = 0; }
         public SnapshotRegion(SnapshotRegion SnapshotRegion) : base(null, SnapshotRegion.BaseAddress, SnapshotRegion.RegionSize) { this.RegionExtension = SnapshotRegion.RegionExtension; }
 
         public unsafe abstract SnapshotElement this[Int32 Index] { get; }
-        
+
         /// <summary>
         /// Expands a region by a given size in both directions (default is element type size) unconditionally
         /// </summary>
@@ -113,11 +113,15 @@ namespace Anathema
         {
             PreviousValues = CurrentValues;
             CurrentValues = NewValues;
+
+            CurrentSnapshotElement.InitializePointers();
         }
 
         public void SetPreviousValues(Byte[] NewValues)
         {
             PreviousValues = NewValues;
+
+            CurrentSnapshotElement.InitializePointers();
         }
 
         public Byte[] GetCurrentValues()
@@ -159,7 +163,7 @@ namespace Anathema
 
             return CurrentValues;
         }
-        
+
         public IEnumerator GetEnumerator()
         {
             CurrentSnapshotElement.InitializePointers();
@@ -179,15 +183,15 @@ namespace Anathema
     {
         public LabelType?[] ElementLabels;      // Labels for individual elements
 
-        public SnapshotRegion(IntPtr BaseAddress, Int32 RegionSize) : base(BaseAddress, RegionSize) { }
-        public SnapshotRegion(RemoteRegion RemoteRegion) : base(RemoteRegion) { }
+        public SnapshotRegion(IntPtr BaseAddress, Int32 RegionSize) : base(BaseAddress, RegionSize) { CurrentSnapshotElement = new SnapshotElement<LabelType>(this); }
+        public SnapshotRegion(RemoteRegion RemoteRegion) : base(RemoteRegion) { CurrentSnapshotElement = new SnapshotElement<LabelType>(this); }
         public SnapshotRegion(SnapshotRegion SnapshotRegion) : base(SnapshotRegion)
         {
             CurrentValues = SnapshotRegion.GetCurrentValues() == null ? null : (Byte[])SnapshotRegion.GetCurrentValues().Clone();
             PreviousValues = SnapshotRegion.GetPreviousValues() == null ? null : (Byte[])SnapshotRegion.GetPreviousValues().Clone();
             CurrentSnapshotElement = new SnapshotElement<LabelType>(this);
         }
-        
+
         public LabelType?[] GetElementLabels()
         {
             return ElementLabels;

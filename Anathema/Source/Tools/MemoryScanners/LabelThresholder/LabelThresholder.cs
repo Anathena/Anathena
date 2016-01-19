@@ -37,19 +37,17 @@ namespace Anathema
             if (!SnapshotManager.GetInstance().HasActiveSnapshot())
                 return;
 
-            Snapshot ActiveSnapshot = SnapshotManager.GetInstance().GetActiveSnapshot();
+            Snapshot Snapshot = SnapshotManager.GetInstance().GetActiveSnapshot();
 
             ConcurrentDictionary<dynamic, Int64> Histogram = new ConcurrentDictionary<dynamic, Int64>();
-
-            Parallel.ForEach(ActiveSnapshot.Cast<Object>(), (RegionObject) =>
+            
+            Parallel.ForEach(Snapshot.Cast<Object>(), (RegionObject) =>
             {
                 SnapshotRegion Region = (SnapshotRegion)RegionObject;
-                
                 foreach (dynamic Element in Region)
                 {
                     if (Element.ElementLabel == null)
                         return;
-
                     if (Histogram.ContainsKey(Element.ElementLabel))
                         Histogram[((dynamic)Element.ElementLabel)]++;
                     else
@@ -58,7 +56,7 @@ namespace Anathema
                 } // End foreach element
 
             }); // End foreach region
-
+            
             LabelThresholderEventArgs Args = new LabelThresholderEventArgs();
             Args.SortedDictionary = new SortedDictionary<dynamic, Int64>(Histogram);
             EventUpdateHistogram(this, Args);
