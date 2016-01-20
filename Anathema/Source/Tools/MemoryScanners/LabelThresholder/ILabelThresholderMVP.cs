@@ -27,6 +27,7 @@ namespace Anathema
         // Functions invoked by presenter (downstream)
         void GatherData();
         void ApplyThreshold(Int32 MinimumIndex, Int32 MaximumIndex);
+        void SetInverted(Boolean Inverted);
     }
 
     class LabelThresholderPresenter : Presenter<ILabelThresholderView, ILabelThresholderModel>
@@ -47,6 +48,11 @@ namespace Anathema
         public void ApplyThreshold(Int32 MinimumIndex, Int32 MaximumIndex)
         {
             Model.ApplyThreshold(MinimumIndex, MaximumIndex);
+        }
+
+        public void SetInverted(Boolean Inverted)
+        {
+            Model.SetInverted(Inverted);
         }
 
         #endregion

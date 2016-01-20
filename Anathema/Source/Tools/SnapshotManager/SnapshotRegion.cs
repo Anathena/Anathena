@@ -166,12 +166,21 @@ namespace Anathema
 
         public IEnumerator GetEnumerator()
         {
+            // Prevent the GC from moving buffers around
+            GCHandle CurrentValuesHandle = GCHandle.Alloc(CurrentValues, GCHandleType.Pinned);
+            GCHandle PreviousValuesHandle = GCHandle.Alloc(PreviousValues, GCHandleType.Pinned);
+
             CurrentSnapshotElement.InitializePointers();
             for (Int32 Index = 0; Index < RegionSize; Index++)
             {
+                if (Index != 0)
+                    CurrentSnapshotElement.IncrementPointers();
                 yield return CurrentSnapshotElement;
-                CurrentSnapshotElement.IncrementPointers();
             }
+
+            // Let the GC do what it wants now
+            CurrentValuesHandle.Free();
+            PreviousValuesHandle.Free();
         }
 
     } // End class
@@ -222,6 +231,10 @@ namespace Anathema
             }
         }
 
+        /// <summary>
+        /// Retrieves a subset of snapshot regions where valid bits are true. Discards valid bits afterwards.
+        /// </summary>
+        /// <returns></returns>
         public List<SnapshotRegion<LabelType>> GetValidRegions()
         {
             List<SnapshotRegion<LabelType>> ValidRegions = new List<SnapshotRegion<LabelType>>();
@@ -252,6 +265,9 @@ namespace Anathema
 
                 StartIndex += ValidRegionSize;
             }
+
+            // Free memory for GC on valid array
+            Valid = null;
 
             return ValidRegions;
         }

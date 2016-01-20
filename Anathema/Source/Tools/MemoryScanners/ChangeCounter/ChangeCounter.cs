@@ -46,7 +46,6 @@ namespace Anathema
 
             // Initialize change counts to zero
             Snapshot.SetElementLabels(0);
-            Snapshot.MarkAllValid();
 
             base.Begin();
         }

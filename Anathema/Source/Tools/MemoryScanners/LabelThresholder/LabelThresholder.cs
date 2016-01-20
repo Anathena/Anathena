@@ -18,6 +18,7 @@ namespace Anathema
         public event LabelThresholderEventHandler EventUpdateHistogram;
 
         private SortedDictionary<dynamic, Int64> SortedDictionary;
+        private Boolean Inverted;
 
         public LabelThresholder()
         {
@@ -33,6 +34,11 @@ namespace Anathema
         public void UpdateMemoryEditor(MemorySharp MemoryEditor)
         {
             this.MemoryEditor = MemoryEditor;
+        }
+
+        public void SetInverted(Boolean Inverted)
+        {
+            this.Inverted = Inverted;
         }
 
         public void GatherData()
@@ -73,14 +79,21 @@ namespace Anathema
             dynamic MinValue = SortedDictionary.ElementAt(MinimumIndex).Key;
             dynamic MaxValue = SortedDictionary.ElementAt(MaximumIndex).Key;
 
-            Snapshot.MarkAllInvalid();
-            foreach (SnapshotRegion Region in Snapshot)
+            if (!Inverted)
             {
+                Snapshot.MarkAllInvalid();
+                foreach (SnapshotRegion Region in Snapshot)
                 foreach (dynamic Element in Region)
-                {
                     if (Element.ElementLabel >= MinValue && Element.ElementLabel <= MaxValue)
                         Element.Valid = true;
-                }
+            }
+            else
+            {
+                Snapshot.MarkAllValid();
+                foreach (SnapshotRegion Region in Snapshot)
+                    foreach (dynamic Element in Region)
+                        if (Element.ElementLabel >= MinValue && Element.ElementLabel <= MaxValue)
+                            Element.Valid = false;
             }
 
             Snapshot.DiscardInvalidRegions();

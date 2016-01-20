@@ -300,7 +300,7 @@ namespace Anathema
                 foreach (SnapshotRegion<LabelType> Region in ValidRegions)
                     Region.RelaxRegion();
             }
-
+            
             this.SnapshotRegions = ValidRegions;
         }
 
