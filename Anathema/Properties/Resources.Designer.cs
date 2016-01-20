@@ -233,6 +233,16 @@ namespace Anathema.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap LogicalAND {
+            get {
+                object obj = ResourceManager.GetObject("LogicalAND", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap LogicalOR {
             get {
                 object obj = ResourceManager.GetObject("LogicalOR", resourceCulture);

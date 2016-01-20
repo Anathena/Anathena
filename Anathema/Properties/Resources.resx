@@ -169,6 +169,9 @@
   <data name="LessThanOrEqual" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Content\Icons\LessThanOrEqual.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="LogicalAND" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Content\Icons\LogicalAND.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="LogicalOR" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Content\Icons\LogicalOR.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>

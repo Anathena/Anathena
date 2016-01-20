@@ -774,6 +774,7 @@
     <Content Include="Content\Icons\LessThan.png" />
     <None Include="Content\Icons\LogicalOR.png" />
     <None Include="Content\Icons\LessThanOrEqual.png" />
+    <None Include="Content\Icons\LogicalAND.png" />
     <Content Include="Content\Icons\MainIcon.ico" />
     <Content Include="Content\Icons\ManualScan.png" />
     <Content Include="Content\Icons\Maximize.png" />
