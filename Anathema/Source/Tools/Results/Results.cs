@@ -67,22 +67,19 @@ namespace Anathema
 
         public override void AddSelectionToTable(Int32 Index)
         {
-            if (!SnapshotManager.GetInstance().HasActiveSnapshot())
-                return;
-
             Snapshot ActiveSnapshot = SnapshotManager.GetInstance().GetActiveSnapshot();
+
+            if (ActiveSnapshot == null)
+                return;
 
             Table.GetInstance().AddTableItem((UInt64)ActiveSnapshot[Index].BaseAddress, ScanType);
         }
 
         public override IntPtr GetAddressAtIndex(Int32 Index)
         {
-            if (!SnapshotManager.GetInstance().HasActiveSnapshot())
-                return IntPtr.Zero;
-
             Snapshot ActiveSnapshot = SnapshotManager.GetInstance().GetActiveSnapshot();
 
-            if (Index >= (Int32)ActiveSnapshot.GetMemorySize())
+            if (ActiveSnapshot == null || Index >= (Int32)ActiveSnapshot.GetMemorySize())
                 return IntPtr.Zero;
 
             return ActiveSnapshot[Index].BaseAddress;
@@ -92,9 +89,6 @@ namespace Anathema
         {
             dynamic Value = "-";
 
-            if (!SnapshotManager.GetInstance().HasActiveSnapshot())
-                return Value;
-
             IntPtr Address = GetAddressAtIndex(Index);
             Boolean ReadSuccess;
 
@@ -103,12 +97,9 @@ namespace Anathema
 
         public override dynamic GetLabelAtIndex(Int32 Index)
         {
-            if (!SnapshotManager.GetInstance().HasActiveSnapshot())
-                return "-";
-
             Snapshot ActiveSnapshot = SnapshotManager.GetInstance().GetActiveSnapshot();
 
-            if (Index >= (Int32)ActiveSnapshot.GetMemorySize())
+            if (ActiveSnapshot == null || Index >= (Int32)ActiveSnapshot.GetMemorySize())
                 return "-";
 
             dynamic Label = String.Empty;
@@ -121,10 +112,12 @@ namespace Anathema
         {
             UInt64 MemorySize;
 
-            if (!SnapshotManager.GetInstance().HasActiveSnapshot())
+            Snapshot Snapshot = SnapshotManager.GetInstance().GetActiveSnapshot();
+
+            if (Snapshot == null)
                 MemorySize = 0;
             else
-                MemorySize = SnapshotManager.GetInstance().GetActiveSnapshot().GetMemorySize();
+                MemorySize = Snapshot.GetMemorySize();
 
             // Send the size of the filtered memory to the display
             ResultsEventArgs Args = new ResultsEventArgs();

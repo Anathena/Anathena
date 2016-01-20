@@ -119,6 +119,10 @@ namespace Anathema
         {
             // Initialize labeled snapshot
             Snapshot = new Snapshot<Single>(SnapshotManager.GetInstance().GetActiveSnapshot());
+
+            if (Snapshot == null)
+                return;
+
             Snapshot.SetVariableSize(VariableSize);
 
             // Initialize with no correlation

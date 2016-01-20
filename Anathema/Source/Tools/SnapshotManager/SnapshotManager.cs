@@ -13,6 +13,9 @@ namespace Anathema
         // Singleton class instance
         private static SnapshotManager SnapshotManagerInstance;
 
+        // Lock to ensure multiple entities do not try and update the snapshot list at the same time
+        private Object AccessLock = new Object();
+
         private MemorySharp MemoryEditor;
         private Stack<Snapshot> Snapshots;          // Snapshots being managed
         private Stack<Snapshot> DeletedSnapshots;   // Deleted snapshots for the capability of redoing after undo
@@ -51,26 +54,23 @@ namespace Anathema
         /// </summary>
         /// <param name="MemoryEditor"></param>
         /// <returns></returns>
-        public Snapshot GetActiveSnapshot()
+        public Snapshot GetActiveSnapshot(Boolean CreateIfNone = false)
         {
-            // Take a snapshot if there are none, or the current one is empty
-            if (!HasActiveSnapshot() || Snapshots.Peek().GetMemorySize() == 0)
-                return SnapshotAllRegions();
+            lock (AccessLock)
+            {
+                // Take a snapshot if there are none, or the current one is empty
+                if (Snapshots.Count == 0 || Snapshots.Peek() == null || Snapshots.Peek().GetMemorySize() == 0)
+                {
+                    if (CreateIfNone)
+                        return SnapshotAllRegions();
+                    else
+                        return null;
+                }
+                    
 
-            // Return the snapshot
-            return Snapshots.Peek();
-        }
-
-        /// <summary>
-        /// Determines if there is a valid snapshot saved
-        /// </summary>
-        /// <returns></returns>
-        public Boolean HasActiveSnapshot()
-        {
-            if (Snapshots.Count == 0 || Snapshots.Peek() == null || Snapshots.Peek().GetMemorySize() == 0)
-                return false;
-
-            return true;
+                // Return the snapshot
+                return Snapshots.Peek();
+            }
         }
 
         /// <summary>
@@ -99,12 +99,16 @@ namespace Anathema
         /// </summary>
         public void CreateNewSnapshot()
         {
-            if (Snapshots.Count != 0 && Snapshots.Peek() == null)
-                return;
+            lock (AccessLock)
+            {
+                if (Snapshots.Count != 0 && Snapshots.Peek() == null)
+                    return;
+            }
 
             ClearSnapshots();
 
             SaveSnapshot(null);
+
         }
 
         /// <summary>
@@ -112,11 +116,13 @@ namespace Anathema
         /// </summary>
         public void RedoSnapshot()
         {
-            if (DeletedSnapshots.Count == 0)
-                return;
+            lock (AccessLock)
+            {
+                if (DeletedSnapshots.Count == 0)
+                    return;
 
-            Snapshots.Push(DeletedSnapshots.Pop());
-
+                Snapshots.Push(DeletedSnapshots.Pop());
+            }
             UpdateDisplay();
         }
 
@@ -125,13 +131,16 @@ namespace Anathema
         /// </summary>
         public void UndoSnapshot()
         {
-            if (Snapshots.Count == 0)
-                return;
+            lock (AccessLock)
+            {
+                if (Snapshots.Count == 0)
+                    return;
 
-            DeletedSnapshots.Push(Snapshots.Pop());
+                DeletedSnapshots.Push(Snapshots.Pop());
 
-            if (DeletedSnapshots.Peek() == null)
-                DeletedSnapshots.Pop();
+                if (DeletedSnapshots.Peek() == null)
+                    DeletedSnapshots.Pop();
+            }
 
             UpdateDisplay();
         }
@@ -141,9 +150,11 @@ namespace Anathema
         /// </summary>
         public void ClearSnapshots()
         {
-            Snapshots.Clear();
-            DeletedSnapshots.Clear();
-
+            lock (AccessLock)
+            {
+                Snapshots.Clear();
+                DeletedSnapshots.Clear();
+            }
             UpdateDisplay();
         }
 
@@ -153,16 +164,18 @@ namespace Anathema
         /// <param name="Snapshot"></param>
         public void SaveSnapshot(Snapshot Snapshot)
         {
-            if (Snapshot != null)
-                Snapshot.SetTimeStampToNow();
+            lock (AccessLock)
+            {
+                if (Snapshot != null)
+                    Snapshot.SetTimeStampToNow();
 
-            if (Snapshots.Count != 0 && Snapshots.Peek() == null)
-                Snapshots.Pop();
+                if (Snapshots.Count != 0 && Snapshots.Peek() == null)
+                    Snapshots.Pop();
 
-            Snapshots.Push(Snapshot);
+                Snapshots.Push(Snapshot);
 
-            DeletedSnapshots.Clear();
-
+                DeletedSnapshots.Clear();
+            }
             UpdateDisplay();
         }
 

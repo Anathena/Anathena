@@ -48,7 +48,7 @@ namespace Anathema
 
         public override void Begin()
         {
-            this.Snapshot = new Snapshot<Null>(SnapshotManager.GetInstance().GetActiveSnapshot());
+            this.Snapshot = new Snapshot<Null>(SnapshotManager.GetInstance().GetActiveSnapshot(true));
             this.Snapshot.SetElementType(typeof(Byte));
             this.FilterTrees = new List<FilterTree>();
             this.LeafSize = SetLeafSize(Snapshot.GetMemorySize());

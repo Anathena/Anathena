@@ -43,10 +43,10 @@ namespace Anathema
 
         public void GatherData()
         {
-            if (!SnapshotManager.GetInstance().HasActiveSnapshot())
-                return;
-
             Snapshot = SnapshotManager.GetInstance().GetActiveSnapshot();
+
+            if (Snapshot == null)
+                return;
 
             ConcurrentDictionary<dynamic, Int64> Histogram = new ConcurrentDictionary<dynamic, Int64>();
             

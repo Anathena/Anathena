@@ -42,6 +42,10 @@ namespace Anathema
         {
             // Initialize labeled snapshot
             Snapshot = new Snapshot<UInt16>(SnapshotManager.GetInstance().GetActiveSnapshot());
+
+            if (Snapshot == null)
+                return;
+
             Snapshot.SetVariableSize(VariableSize);
 
             // Initialize change counts to zero

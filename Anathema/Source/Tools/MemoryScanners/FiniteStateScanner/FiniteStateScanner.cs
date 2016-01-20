@@ -28,6 +28,10 @@ namespace Anathema
         {
             // Initialize snapshot
             Snapshot = new Snapshot<Byte>(SnapshotManager.GetInstance().GetActiveSnapshot());
+
+            if (Snapshot == null)
+                return;
+
             Snapshot.MarkAllValid();
             Snapshot.SetElementType(FiniteStateMachine.GetElementType());
             Snapshot.SetElementLabels(FiniteStateMachine.IndexOf(FiniteStateMachine.GetStartState()));

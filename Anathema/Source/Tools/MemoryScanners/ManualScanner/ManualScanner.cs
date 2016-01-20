@@ -60,6 +60,10 @@ namespace Anathema
         {
             // Initialize snapshot
             Snapshot = new Snapshot<Null>(SnapshotManager.GetInstance().GetActiveSnapshot());
+
+            if (Snapshot == null)
+                return;
+
             Snapshot.MarkAllValid();
             Snapshot.SetElementType(ScanConstraints.GetElementType());
 
