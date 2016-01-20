@@ -93,6 +93,8 @@ namespace Anathema
             Snapshot.SetScanMethod("Change Counter");
 
             SnapshotManager.GetInstance().SaveSnapshot(Snapshot);
+
+            Main.GetInstance().OpenLabelThresholder();
         }
 
         private void CleanUp()

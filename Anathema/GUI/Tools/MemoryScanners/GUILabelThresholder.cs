@@ -88,6 +88,7 @@ namespace Anathema
         {
             LabelThresholderPresenter.ApplyThreshold(MinValueTrackBar.Value, MaxValueTrackBar.Value);
             ClearGraph();
+            this.Close();
         }
 
         private void RefreshButton_Click(Object Sender, EventArgs E)

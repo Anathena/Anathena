@@ -21,7 +21,7 @@ namespace Anathema
 
     class InputCorrelator : IInputCorrelatorModel
     {
-        private Snapshot<Single> Snapshot;
+        private Snapshot<Int16> Snapshot;
 
         private readonly IKeyboardMouseEvents InputHook;    // Input capturing class
 
@@ -118,7 +118,7 @@ namespace Anathema
         public override void Begin()
         {
             // Initialize labeled snapshot
-            Snapshot = new Snapshot<Single>(SnapshotManager.GetInstance().GetActiveSnapshot());
+            Snapshot = new Snapshot<Int16>(SnapshotManager.GetInstance().GetActiveSnapshot());
 
             if (Snapshot == null)
                 return;
@@ -126,7 +126,7 @@ namespace Anathema
             Snapshot.SetVariableSize(VariableSize);
 
             // Initialize with no correlation
-            Snapshot.SetElementLabels(0.0f);
+            Snapshot.SetElementLabels(0);
             TimeOutInterval = Settings.GetInstance().GetInputCorrelatorTimeOutInterval();
 
             // Initialize input dictionaries
@@ -152,19 +152,19 @@ namespace Anathema
 
             Parallel.ForEach(Snapshot.Cast<Object>(), (RegionObject) =>
             {
-                SnapshotRegion<Single> Region = (SnapshotRegion<Single>)RegionObject;
+                SnapshotRegion<Int16> Region = (SnapshotRegion<Int16>)RegionObject;
 
                 if (!Region.CanCompare())
                     return;
 
-                foreach (SnapshotElement<Single> Element in Region)
+                foreach (SnapshotElement<Int16> Element in Region)
                 {
                     if (Element.Changed())
                     {
                         if (ConditionValid)
-                            Element.ElementLabel += 1.0f;
+                            Element.ElementLabel++;
                         else
-                            Element.ElementLabel -= 1.0f;
+                            Element.ElementLabel--;
                     }
 
                 }
@@ -182,22 +182,11 @@ namespace Anathema
             InputHook.KeyUp -= GlobalHookKeyUp;
             InputHook.KeyDown -= GlobalHookKeyDown;
 
-            Single MaxValue = 1.0f;
-            foreach (SnapshotRegion<Single> Region in Snapshot)
-                foreach (SnapshotElement<Single> Element in Region)
-                    if (Element.ElementLabel.Value > MaxValue)
-                        MaxValue = Element.ElementLabel.Value;
-
             Snapshot.MarkAllInvalid();
-            foreach (SnapshotRegion<Single> Region in Snapshot)
-            {
-                foreach (SnapshotElement<Single> Element in Region)
-                {
-                    Element.ElementLabel = Element.ElementLabel / MaxValue;
-                    if (Element.ElementLabel.Value > 0.75f)
+            foreach (SnapshotRegion<Int16> Region in Snapshot)
+                foreach (SnapshotElement<Int16> Element in Region)
+                    if (Element.ElementLabel.Value > 0)
                         Element.Valid = true;
-                }
-            }
 
             Snapshot.DiscardInvalidRegions();
             Snapshot.SetScanMethod("Input Correlator");
@@ -205,6 +194,8 @@ namespace Anathema
             SnapshotManager.GetInstance().SaveSnapshot(Snapshot);
 
             CleanUp();
+
+            Main.GetInstance().OpenLabelThresholder();
         }
 
         private void CleanUp()

@@ -97,9 +97,8 @@ namespace Anathema
             }
 
             Snapshot.DiscardInvalidRegions();
-            Snapshot.SetScanMethod("Label Thresholder");
-
-            SnapshotManager.GetInstance().SaveSnapshot(Snapshot);
+            // Snapshot.SetScanMethod("Label Thresholder");
+            // SnapshotManager.GetInstance().SaveSnapshot(Snapshot);
         }
 
     } // End class
