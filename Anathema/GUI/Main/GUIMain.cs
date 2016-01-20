@@ -43,6 +43,10 @@ namespace Anathema
             // Update theme so that everything looks cool
             this.ContentPanel.Theme = new VS2013BlueTheme();
 
+            // Set default dock space sizes
+            ContentPanel.DockRightPortion = 0.4;
+            ContentPanel.DockBottomPortion = 0.4;
+
             // Initialize tools that are commonly used
             CreateDefaultTools();
         }
