@@ -16,6 +16,10 @@ namespace Anathema
 {
     partial class GUIMain : Form, IMainView
     {
+        private static readonly String ConfigFile = Path.Combine(Path.GetDirectoryName(Application.ExecutablePath), "AnathemaLayout.config");
+
+        private DeserializeDockContent DockContentDeserializer;
+
         // VIEW MENU ITEMS
         private GUIProcessSelector GUIProcessSelector;
         private GUIDebugger GUIDebugger;
@@ -47,8 +51,8 @@ namespace Anathema
             ContentPanel.DockRightPortion = 0.4;
             ContentPanel.DockBottomPortion = 0.4;
 
-            // Initialize tools that are commonly used
-            CreateDefaultTools();
+            // Initialize tools
+            CreateTools();
         }
 
         /// <summary>
@@ -73,12 +77,38 @@ namespace Anathema
 
         public void OpenLabelThresholder()
         {
-           CreateLabelThresholder();
+            CreateLabelThresholder();
         }
 
         #endregion
 
         #region Private Methods
+
+        private void SaveConfiguration()
+        {
+            return; // DISABLED FOR NOW
+            ContentPanel.SaveAsXml(ConfigFile);
+        }
+
+        private void CreateTools()
+        {
+            if (false && File.Exists(ConfigFile))
+            {
+                try
+                {
+                    // DISABLED FOR NOW
+                    ContentPanel.LoadFromXml(ConfigFile, DockContentDeserializer);
+                }
+                catch
+                {
+                    CreateDefaultTools();
+                }
+            }
+            else
+            {
+                CreateDefaultTools();
+            }
+        }
 
         private void CreateDefaultTools()
         {
@@ -276,8 +306,14 @@ namespace Anathema
         {
             GUISnapshotManager.UndoSnapshot();
         }
+        
+        private void GUIMain_FormClosing(Object Sender, FormClosingEventArgs E)
+        {
+            SaveConfiguration();
+        }
 
         #endregion
 
-    }
-}
+    } // End namespace
+
+} // End class

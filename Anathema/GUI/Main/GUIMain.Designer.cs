@@ -45,6 +45,8 @@
             this.ManualScannerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.StateScannerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.TreeScannerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
+            this.LabelThresholderToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.TableToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ResultsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.SnapshotsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -57,8 +59,6 @@
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.NewScanButton = new System.Windows.Forms.ToolStripButton();
             this.UndoScanButton = new System.Windows.Forms.ToolStripButton();
-            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
-            this.LabelThresholderToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.GUIMenuStrip.SuspendLayout();
             this.GUIToolStrip.SuspendLayout();
             this.SuspendLayout();
@@ -198,6 +198,18 @@
             this.TreeScannerToolStripMenuItem.Text = "Tree Scanner";
             this.TreeScannerToolStripMenuItem.Click += new System.EventHandler(this.TreeScannerToolStripMenuItem_Click);
             // 
+            // toolStripSeparator2
+            // 
+            this.toolStripSeparator2.Name = "toolStripSeparator2";
+            this.toolStripSeparator2.Size = new System.Drawing.Size(165, 6);
+            // 
+            // LabelThresholderToolStripMenuItem
+            // 
+            this.LabelThresholderToolStripMenuItem.Name = "LabelThresholderToolStripMenuItem";
+            this.LabelThresholderToolStripMenuItem.Size = new System.Drawing.Size(168, 22);
+            this.LabelThresholderToolStripMenuItem.Text = "Label Thresholder";
+            this.LabelThresholderToolStripMenuItem.Click += new System.EventHandler(this.LabelThresholderToolStripMenuItem_Click);
+            // 
             // TableToolStripMenuItem
             // 
             this.TableToolStripMenuItem.Name = "TableToolStripMenuItem";
@@ -299,18 +311,6 @@
             this.UndoScanButton.Text = "Undo Scan";
             this.UndoScanButton.Click += new System.EventHandler(this.UndoScanButton_Click);
             // 
-            // toolStripSeparator2
-            // 
-            this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(165, 6);
-            // 
-            // LabelThresholderToolStripMenuItem
-            // 
-            this.LabelThresholderToolStripMenuItem.Name = "LabelThresholderToolStripMenuItem";
-            this.LabelThresholderToolStripMenuItem.Size = new System.Drawing.Size(168, 22);
-            this.LabelThresholderToolStripMenuItem.Text = "Label Thresholder";
-            this.LabelThresholderToolStripMenuItem.Click += new System.EventHandler(this.LabelThresholderToolStripMenuItem_Click);
-            // 
             // GUIMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -323,6 +323,7 @@
             this.IsMdiContainer = true;
             this.Name = "GUIMain";
             this.Text = "Anathema";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.GUIMain_FormClosing);
             this.GUIMenuStrip.ResumeLayout(false);
             this.GUIMenuStrip.PerformLayout();
             this.GUIToolStrip.ResumeLayout(false);
