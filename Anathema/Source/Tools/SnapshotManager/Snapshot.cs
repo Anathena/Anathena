@@ -60,6 +60,10 @@ namespace Anathema
             return MemoryEditor;
         }
 
+        public abstract void MarkAllValid();
+        public abstract void MarkAllInvalid();
+        public abstract void DiscardInvalidRegions();
+
         public void SetScanMethod(String ScanMethod)
         {
             this.ScanMethod = ScanMethod;
@@ -206,13 +210,13 @@ namespace Anathema
 
         #endregion
 
-        public void MarkAllValid()
+        public override void MarkAllValid()
         {
             foreach (SnapshotRegion SnapshotRegion in this)
                 SnapshotRegion.MarkAllValid();
         }
 
-        public void MarkAllInvalid()
+        public override void MarkAllInvalid()
         {
             foreach (SnapshotRegion SnapshotRegion in this)
                 SnapshotRegion.MarkAllInvalid();
@@ -253,6 +257,8 @@ namespace Anathema
                 }
             });
 
+            return;
+
             // Handle invalid reads
             if (DeallocatedRegions.IsEmpty)
                 return;
@@ -277,7 +283,7 @@ namespace Anathema
         /// <summary>
         /// Discards all elements marked as invalid, and updates the snapshot regions to contain only valid regions
         /// </summary>
-        public void DiscardInvalidRegions()
+        public override void DiscardInvalidRegions()
         {
             List<SnapshotRegion<LabelType>> CandidateRegions = new List<SnapshotRegion<LabelType>>();
 

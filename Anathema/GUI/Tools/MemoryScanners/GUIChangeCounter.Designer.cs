@@ -31,6 +31,7 @@
             this.ScanToolStrip = new System.Windows.Forms.ToolStrip();
             this.StartScanButton = new System.Windows.Forms.ToolStripButton();
             this.StopScanButton = new System.Windows.Forms.ToolStripButton();
+            this.ScanCountLabel = new System.Windows.Forms.ToolStripLabel();
             this.MaxChangesValueLabel = new System.Windows.Forms.Label();
             this.MaxChangesLabel = new System.Windows.Forms.Label();
             this.MaxChangesTrackBar = new System.Windows.Forms.TrackBar();
@@ -40,7 +41,6 @@
             this.VariableSizeValueLabel = new System.Windows.Forms.Label();
             this.VariableSizeLabel = new System.Windows.Forms.Label();
             this.VariableSizeTrackBar = new System.Windows.Forms.TrackBar();
-            this.ScanCountLabel = new System.Windows.Forms.ToolStripLabel();
             this.ScanToolStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.MaxChangesTrackBar)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.MinChangesTrackBar)).BeginInit();
@@ -78,8 +78,14 @@
             this.StopScanButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.StopScanButton.Name = "StopScanButton";
             this.StopScanButton.Size = new System.Drawing.Size(23, 22);
-            this.StopScanButton.Text = "New Scan";
+            this.StopScanButton.Text = "Stop Scan";
             this.StopScanButton.Click += new System.EventHandler(this.StopScanButton_Click);
+            // 
+            // ScanCountLabel
+            // 
+            this.ScanCountLabel.Name = "ScanCountLabel";
+            this.ScanCountLabel.Size = new System.Drawing.Size(80, 22);
+            this.ScanCountLabel.Text = "Scan Count: 0";
             // 
             // MaxChangesValueLabel
             // 
@@ -108,7 +114,7 @@
             this.MaxChangesTrackBar.Name = "MaxChangesTrackBar";
             this.MaxChangesTrackBar.Size = new System.Drawing.Size(126, 45);
             this.MaxChangesTrackBar.TabIndex = 161;
-            this.MaxChangesTrackBar.Value = 3;
+            this.MaxChangesTrackBar.Value = 16;
             this.MaxChangesTrackBar.Scroll += new System.EventHandler(this.MaxChangesTrackBar_Scroll);
             // 
             // MinChangesValueLabel
@@ -166,12 +172,6 @@
             this.VariableSizeTrackBar.TabIndex = 164;
             this.VariableSizeTrackBar.Value = 2;
             this.VariableSizeTrackBar.Scroll += new System.EventHandler(this.VariableSizeTrackBar_Scroll);
-            // 
-            // ScanCountLabel
-            // 
-            this.ScanCountLabel.Name = "ScanCountLabel";
-            this.ScanCountLabel.Size = new System.Drawing.Size(80, 22);
-            this.ScanCountLabel.Text = "Scan Count: 0";
             // 
             // GUIChangeCounter
             // 

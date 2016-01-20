@@ -15,7 +15,7 @@ namespace Anathema
     public partial class GUILabelThresholder : DockContent, ILabelThresholderView
     {
         private LabelThresholderPresenter LabelThresholderPresenter;
-
+        
         public GUILabelThresholder()
         {
             InitializeComponent();
@@ -30,7 +30,7 @@ namespace Anathema
             foreach (KeyValuePair<dynamic, Int64> Item in SortedDictionary)
                 LabelFrequencyChart.Series["Frequency"].Points.AddXY(Item.Key, Item.Value);
 
-            UpdateTrackBars();
+            UpdateTrackBarRanges();
             UpdateSelection();
         }
 
@@ -45,14 +45,26 @@ namespace Anathema
             }
         }
 
-        private void UpdateTrackBars()
+        private void UpdateTrackBarRanges()
         {
-            MinValueTrackBar.Maximum = LabelFrequencyChart.Series["Frequency"].Points.Count;
-            MaxValueTrackBar.Maximum = LabelFrequencyChart.Series["Frequency"].Points.Count;
-            MaxValueTrackBar.Value = MaxValueTrackBar.Value;
+            MinValueTrackBar.Maximum = LabelFrequencyChart.Series["Frequency"].Points.Count - 1;
+            MaxValueTrackBar.Maximum = LabelFrequencyChart.Series["Frequency"].Points.Count - 1;
+            MinValueTrackBar.Value = 0;
+            MaxValueTrackBar.Value = MaxValueTrackBar.Maximum;
         }
 
         #region Events
+
+        private void ApplyThresholdButton_Click(Object Sender, EventArgs E)
+        {
+            LabelThresholderPresenter.ApplyThreshold(MinValueTrackBar.Value, MaxValueTrackBar.Value);
+            LabelFrequencyChart.Series["Frequency"].Points.Clear();
+        }
+
+        private void RefreshButton_Click(Object Sender, EventArgs E)
+        {
+            LabelThresholderPresenter.GatherData();
+        }
 
         private void MinValueTrackBar_Scroll(Object Sender, EventArgs E)
         {
@@ -71,7 +83,7 @@ namespace Anathema
         }
 
         #endregion
-
+        
     } // End class
 
 } // End namespace

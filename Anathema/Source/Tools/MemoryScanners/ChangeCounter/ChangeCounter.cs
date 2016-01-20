@@ -58,11 +58,9 @@ namespace Anathema
             // Read memory to get current values
             Snapshot.ReadAllSnapshotMemory();
 
-            //Parallel.ForEach(Snapshot.Cast<Object>(), (object RegionObject) =>
-            //{
-            //  SnapshotRegion Region = (SnapshotRegion)RegionObject;
-            foreach (SnapshotRegion Region in Snapshot)
+            Parallel.ForEach(Snapshot.Cast<Object>(), (object RegionObject) =>
             {
+                SnapshotRegion Region = (SnapshotRegion)RegionObject;
                 if (!Region.CanCompare())
                     return;
 
@@ -71,8 +69,7 @@ namespace Anathema
                     if (Element.Changed())
                         Element.ElementLabel++;
                 }
-            }
-            //}); // End regions
+            }); // End regions
 
             OnEventUpdateScanCount(new ScannerEventArgs(this.ScanCount));
         }

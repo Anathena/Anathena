@@ -14,8 +14,8 @@ namespace Anathema
     public abstract class SnapshotRegion : RemoteRegion, IEnumerable
     {
         protected Int32 RegionExtension;    // Variable to indicate a safe number of read-over bytes
-        protected Byte[] CurrentValues;     // Most recently read values
-        protected Byte[] PreviousValues;    // Previously read values
+        protected unsafe Byte[] CurrentValues;      // Most recently read values
+        protected unsafe Byte[] PreviousValues;     // Previously read values
 
         // These fields are public as an access optimization from SnapshotElement, and otherwise should be accessed via get/set functions
         public Type ElementType;                        // Element type for this
@@ -187,9 +187,9 @@ namespace Anathema
         public SnapshotRegion(RemoteRegion RemoteRegion) : base(RemoteRegion) { CurrentSnapshotElement = new SnapshotElement<LabelType>(this); }
         public SnapshotRegion(SnapshotRegion SnapshotRegion) : base(SnapshotRegion)
         {
-            CurrentValues = SnapshotRegion.GetCurrentValues() == null ? null : (Byte[])SnapshotRegion.GetCurrentValues().Clone();
-            PreviousValues = SnapshotRegion.GetPreviousValues() == null ? null : (Byte[])SnapshotRegion.GetPreviousValues().Clone();
             CurrentSnapshotElement = new SnapshotElement<LabelType>(this);
+            SetCurrentValues(SnapshotRegion.GetCurrentValues() == null ? null : (Byte[])SnapshotRegion.GetCurrentValues().Clone());
+            SetPreviousValues(SnapshotRegion.GetPreviousValues() == null ? null : (Byte[])SnapshotRegion.GetPreviousValues().Clone());
         }
 
         public LabelType?[] GetElementLabels()
