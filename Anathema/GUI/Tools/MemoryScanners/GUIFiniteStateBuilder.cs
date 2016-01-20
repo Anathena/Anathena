@@ -142,6 +142,7 @@ namespace Anathema.GUI.Tools.MemoryScanners
         private void ValueTypeComboBox_SelectedIndexChanged(Object Sender, EventArgs E)
         {
             FiniteStateBuilderPresenter.SetElementType(ValueTypeComboBox.SelectedItem.ToString());
+            ValueTextBox_TextChanged(Sender, E);
         }
 
         private void ValueTextBox_TextChanged(Object Sender, EventArgs E)

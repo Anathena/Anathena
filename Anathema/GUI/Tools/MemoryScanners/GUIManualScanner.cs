@@ -130,9 +130,18 @@ namespace Anathema
             ManualScannerPresenter.RemoveConstraints(ConstraintsListView.SelectedIndices.Cast<Int32>().ToArray());
         }
 
+        private void ValueTextBox_TextChanged(Object Sender, EventArgs E)
+        {
+            if (CheckSyntax.CanParseValue(Conversions.StringToPrimitiveType(ValueTypeComboBox.SelectedItem.ToString()), ValueTextBox.Text))
+                ValueTextBox.ForeColor = SystemColors.ControlText;
+            else
+                ValueTextBox.ForeColor = Color.Red;
+        }
+
         private void ValueTypeComboBox_SelectedIndexChanged(Object Sender, EventArgs E)
         {
             ManualScannerPresenter.SetElementType(ValueTypeComboBox.SelectedItem.ToString());
+            ValueTextBox_TextChanged(Sender, E);
         }
 
         private void ChangedToolStripMenuItem_Click(Object Sender, EventArgs E)
@@ -196,7 +205,7 @@ namespace Anathema
         }
 
         #endregion
-
+        
     } // End class
 
 } // End namespace

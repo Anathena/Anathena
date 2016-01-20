@@ -99,6 +99,14 @@ namespace Anathema
             }
         }
 
+        private void ValueTextBox_TextChanged(Object Sender, EventArgs E)
+        {
+            if (CheckSyntax.CanParseValue(Conversions.StringToPrimitiveType(ValueTypeComboBox.SelectedItem.ToString()), ValueTextBox.Text))
+                ValueTextBox.ForeColor = SystemColors.ControlText;
+            else
+                ValueTextBox.ForeColor = Color.Red;
+        }
+
         private void AddressTextBox_TextChanged(Object Sender, EventArgs E)
         {
             if (CheckSyntax.Address(AddressTextBox.Text))
@@ -107,14 +115,12 @@ namespace Anathema
                 AddressTextBox.ForeColor = Color.Red;
         }
 
+        private void ValueTypeComboBox_SelectedIndexChanged(Object Sender, EventArgs E)
+        {
+            ValueTextBox_TextChanged(Sender, E);
+        }
+
         #endregion
 
-        private void ValueTextBox_TextChanged(Object Sender, EventArgs E)
-        {
-            if (CheckSyntax.CanParseValue(Conversions.StringToPrimitiveType(ValueTypeComboBox.SelectedItem.ToString()), ValueTextBox.Text))
-                ValueTextBox.ForeColor = SystemColors.ControlText;
-            else
-                ValueTextBox.ForeColor = Color.Red;
-        }
     }
 }

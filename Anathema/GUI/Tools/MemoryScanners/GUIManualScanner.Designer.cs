@@ -65,6 +65,7 @@
             this.ValueTextBox.Name = "ValueTextBox";
             this.ValueTextBox.Size = new System.Drawing.Size(407, 20);
             this.ValueTextBox.TabIndex = 151;
+            this.ValueTextBox.TextChanged += new System.EventHandler(this.ValueTextBox_TextChanged);
             // 
             // ValueTypeComboBox
             // 

@@ -24,6 +24,7 @@ namespace Anathema
         public override void SetElementType(Type ElementType)
         {
             ScanConstraints.SetElementType(ElementType);
+            UpdateDisplay();
         }
 
         public override Type GetElementType()

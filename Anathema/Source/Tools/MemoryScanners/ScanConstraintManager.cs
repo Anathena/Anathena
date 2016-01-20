@@ -28,6 +28,23 @@ namespace Anathema
         public void SetElementType(Type ElementType)
         {
             this.ElementType = ElementType;
+            
+            foreach (ScanConstraint ScanConstraint in ValueConstraints.Select(x => x).Reverse())
+            {
+                if (ScanConstraint.Value == null)
+                    continue;
+
+                try
+                {
+                    // Attempt to cast the value to the new type
+                    ScanConstraint.Value = Convert.ChangeType(ScanConstraint.Value, ElementType);
+                }
+                catch
+                {
+                    // Could not convert the data type, just removeit
+                    ValueConstraints.Remove(ScanConstraint);
+                }
+            }
         }
 
         public void AddConstraint(ScanConstraint ValueConstraintsItem)

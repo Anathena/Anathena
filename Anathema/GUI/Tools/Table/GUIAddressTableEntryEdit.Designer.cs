@@ -61,6 +61,7 @@
             this.ValueTypeComboBox.Name = "ValueTypeComboBox";
             this.ValueTypeComboBox.Size = new System.Drawing.Size(131, 21);
             this.ValueTypeComboBox.TabIndex = 1;
+            this.ValueTypeComboBox.SelectedIndexChanged += new System.EventHandler(this.ValueTypeComboBox_SelectedIndexChanged);
             // 
             // DescriptionLabel
             // 
