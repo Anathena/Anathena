@@ -22,11 +22,11 @@ namespace Anathema
 
         public LabelThresholder()
         {
-            InitializeObserver();
+            InitializeProcessObserver();
 
         }
 
-        public void InitializeObserver()
+        public void InitializeProcessObserver()
         {
             ProcessSelector.GetInstance().Subscribe(this);
         }
@@ -99,6 +99,7 @@ namespace Anathema
             Snapshot.DiscardInvalidRegions();
             // Snapshot.SetScanMethod("Label Thresholder");
             // SnapshotManager.GetInstance().SaveSnapshot(Snapshot);
+            SnapshotManager.GetInstance().ForceRefresh();
         }
 
     } // End class

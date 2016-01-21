@@ -49,7 +49,7 @@ namespace Anathema
 
         private Table()
         {
-            InitializeObserver();
+            InitializeProcessObserver();
             CurrentTableData = new TableData();
 
             Begin();
@@ -67,7 +67,7 @@ namespace Anathema
             End();
         }
 
-        public void InitializeObserver()
+        public void InitializeProcessObserver()
         {
             ProcessSelector.GetInstance().Subscribe(this);
         }

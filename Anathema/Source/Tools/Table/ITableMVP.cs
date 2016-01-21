@@ -78,18 +78,23 @@ namespace Anathema
     {
         protected new ITableView View { get; set; }
         protected new ITableModel Model { get; set; }
+        
+        private ListViewCache AddressTableCache;
+        private ListViewCache ScriptTableCache;
 
-        private Int32 CacheLimit = 2048;
-        private Dictionary<Int32, ListViewItem> AddressTableCache;
-        private Dictionary<Int32, ListViewItem> ScriptTableCache;
+        private const Int32 A = 0;
+        private const Int32 B = 1;
+        private const Int32 C = 2;
+        private const Int32 D = 3;
+        private const Int32 E = 4;
 
         public TablePresenter(ITableView View, ITableModel Model) : base(View, Model)
         {
             this.View = View;
             this.Model = Model;
 
-            AddressTableCache = new Dictionary<Int32, ListViewItem>();
-            ScriptTableCache = new Dictionary<Int32, ListViewItem>();
+            AddressTableCache = new ListViewCache();
+            ScriptTableCache = new ListViewCache();
 
             // Bind events triggered by the model
             Model.EventRefreshDisplay += EventRefreshDisplay;
@@ -118,41 +123,43 @@ namespace Anathema
 
         public ListViewItem GetAddressTableItemAt(Int32 Index)
         {
+            ListViewItem Item = AddressTableCache.Get(Index);
             AddressItem AddressItem = Model.GetAddressItemAt(Index);
 
-            if (AddressTableCache.Count > CacheLimit)
-                AddressTableCache.Clear();
+            // Try to update and return the item if it is a valid item
+            if (Item != null && AddressTableCache.TryUpdateSubItem(Index, E, (AddressItem.Value == null ? String.Empty : AddressItem.Value.ToString())))
+                return Item;
 
-            // Insert item into cache if not present
-            if (!AddressTableCache.ContainsKey(Index))
-                AddressTableCache.Add(Index, new ListViewItem(new String[] { String.Empty, String.Empty, String.Empty, String.Empty, String.Empty }));
+            // Add the properties to the manager and get the list view item back
+            Item = AddressTableCache.Add(Index, new String[] { String.Empty, String.Empty, String.Empty, String.Empty, String.Empty });
 
-            // Update properties
-            AddressTableCache[Index].SubItems[0].Text = String.Empty;
-            AddressTableCache[Index].SubItems[1].Text = AddressItem.Description == null ? String.Empty : AddressItem.Description;
-            AddressTableCache[Index].SubItems[2].Text = Conversions.ToAddress(AddressItem.Address.ToString());
-            AddressTableCache[Index].SubItems[3].Text = AddressItem.ElementType == null ? String.Empty : AddressItem.ElementType.Name;
-            AddressTableCache[Index].SubItems[4].Text = AddressItem.Value == null ? String.Empty : AddressItem.Value.ToString();
-            AddressTableCache[Index].Checked = AddressItem.GetActivationState();
+            Item.SubItems[A].Text = String.Empty;
+            Item.SubItems[B].Text = (AddressItem.Description == null ? String.Empty : AddressItem.Description);
+            Item.SubItems[C].Text = Conversions.ToAddress(AddressItem.Address.ToString());
+            Item.SubItems[D].Text = AddressItem.ElementType == null ? String.Empty : AddressItem.ElementType.Name;
+            Item.SubItems[E].Text = AddressItem.Value == null ? String.Empty : AddressItem.Value.ToString();
+            Item.Checked = AddressItem.GetActivationState();
 
-            return AddressTableCache[Index];
+            return Item;
         }
 
         public ListViewItem GetScriptTableItemAt(Int32 Index)
         {
+            ListViewItem Item = AddressTableCache.Get(Index);
             ScriptItem ScriptItem = Model.GetScriptItemAt(Index);
 
-            if (ScriptTableCache.Count > CacheLimit)
-                ScriptTableCache.Clear();
+            // Try to update and return the item if it is a valid item
+            if (Item != null)
+                return Item;
 
-            if (!ScriptTableCache.ContainsKey(Index))
-                ScriptTableCache.Add(Index, new ListViewItem(new String[] { String.Empty, String.Empty }));
+            // Add the properties to the manager and get the list view item back
+            Item = AddressTableCache.Add(Index, new String[] { String.Empty, String.Empty });
 
-            ScriptTableCache[Index].SubItems[0].Text = String.Empty;
-            ScriptTableCache[Index].SubItems[1].Text = ScriptItem.Description;
-            ScriptTableCache[Index].Checked = ScriptItem.GetActivationState();
+            Item.SubItems[0].Text = String.Empty;
+            Item.SubItems[1].Text = (ScriptItem.Description == null ? String.Empty : ScriptItem.Description);
+            Item.Checked = ScriptItem.GetActivationState();
 
-            return ScriptTableCache[Index];
+            return Item;
         }
 
         public void OpenScript(Int32 Index)

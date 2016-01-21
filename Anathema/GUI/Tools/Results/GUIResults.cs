@@ -37,7 +37,7 @@ namespace Anathema
             });
         }
 
-        public void RefreshDisplay()
+        public void ReadValues()
         {
             // Force the list view to retrieve items again by signaling an update
             ControlThreadingHelper.InvokeControlAction(ResultsListView, () =>

@@ -16,10 +16,10 @@ namespace Anathema
 
         public PointerScanner()
         {
-            InitializeObserver();
+            InitializeProcessObserver();
         }
         
-        public void InitializeObserver()
+        public void InitializeProcessObserver()
         {
             ProcessSelector.GetInstance().Subscribe(this);
         }

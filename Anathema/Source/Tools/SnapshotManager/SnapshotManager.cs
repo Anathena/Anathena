@@ -8,10 +8,11 @@ using System.Threading.Tasks;
 
 namespace Anathema
 {
-    class SnapshotManager : ISnapshotManagerModel
+    class SnapshotManager : ISnapshotManagerModel, ISnapshotManagerSubject
     {
         // Singleton class instance
         private static SnapshotManager SnapshotManagerInstance;
+        private List<ISnapshotManagerObserver> SnapshotManagerObservers;
 
         // Lock to ensure multiple entities do not try and update the snapshot list at the same time
         private Object AccessLock = new Object();
@@ -25,10 +26,11 @@ namespace Anathema
 
         private SnapshotManager()
         {
+            SnapshotManagerObservers = new List<ISnapshotManagerObserver>();
             Snapshots = new Stack<Snapshot>();
             DeletedSnapshots = new Stack<Snapshot>();
 
-            InitializeObserver();
+            InitializeProcessObserver();
         }
 
         public static SnapshotManager GetInstance()
@@ -39,7 +41,7 @@ namespace Anathema
             return SnapshotManagerInstance;
         }
 
-        public void InitializeObserver()
+        public void InitializeProcessObserver()
         {
             ProcessSelector.GetInstance().Subscribe(this);
         }
@@ -47,6 +49,29 @@ namespace Anathema
         public void UpdateMemoryEditor(MemorySharp MemoryEditor)
         {
             this.MemoryEditor = MemoryEditor;
+        }
+        
+        public void Subscribe(ISnapshotManagerObserver Observer)
+        {
+            if (SnapshotManagerObservers.Contains(Observer))
+                return;
+
+            SnapshotManagerObservers.Add(Observer);
+        }
+
+        public void Unsubscribe(ISnapshotManagerObserver Observer)
+        {
+            if (!SnapshotManagerObservers.Contains(Observer))
+                return;
+
+            SnapshotManagerObservers.Remove(Observer);
+        }
+
+        public void Notify()
+        {
+            // Notify subscribers
+            foreach (ISnapshotManagerObserver SnapshotManagerObserver in SnapshotManagerObservers)
+                SnapshotManagerObserver.SnapshotUpdated();
         }
 
         /// <summary>
@@ -66,7 +91,6 @@ namespace Anathema
                     else
                         return null;
                 }
-                    
 
                 // Return the snapshot
                 return Snapshots.Peek();
@@ -180,6 +204,14 @@ namespace Anathema
         }
 
         /// <summary>
+        /// Current solution to modifying a snapshot not through the manager and displaying the results
+        /// </summary>
+        public void ForceRefresh()
+        {
+            UpdateDisplay();
+        }
+
+        /// <summary>
         /// Updates display with current snapshot information
         /// </summary>
         private void UpdateDisplay()
@@ -188,6 +220,10 @@ namespace Anathema
             SnapshotManagerEventArgs.Snapshots = Snapshots;
             SnapshotManagerEventArgs.DeletedSnapshots = DeletedSnapshots;
             UpdateSnapshotDisplay.Invoke(this, SnapshotManagerEventArgs);
+
+            Notify();
         }
-    }
-}
+
+    } // End class
+
+} // End namespace

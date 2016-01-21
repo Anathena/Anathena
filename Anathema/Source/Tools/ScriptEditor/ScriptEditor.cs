@@ -19,7 +19,7 @@ namespace Anathema
 
         private ScriptEditor()
         {
-            InitializeObserver();
+            InitializeProcessObserver();
 
             ScriptItem = new ScriptItem();
         }
@@ -31,7 +31,7 @@ namespace Anathema
             return _ScriptEditor;
         }
         
-        public void InitializeObserver()
+        public void InitializeProcessObserver()
         {
             ProcessSelector.GetInstance().Subscribe(this);
         }

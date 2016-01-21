@@ -45,7 +45,7 @@ namespace Anathema
             }
         }
 
-        public void InitializeObserver()
+        public void InitializeProcessObserver()
         {
             ProcessSelector.GetInstance().Subscribe(this);
         }
@@ -204,7 +204,7 @@ namespace Anathema
         public void Initialize()
         {
             this.DeallocatedRegions = new ConcurrentBag<SnapshotRegion>();
-            InitializeObserver();
+            InitializeProcessObserver();
             MergeRegions();
         }
 

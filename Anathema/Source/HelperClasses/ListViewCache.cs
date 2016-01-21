@@ -80,6 +80,15 @@ namespace Anathema
             }
         }
 
+        public void FlushCache()
+        {
+            lock (AccessLock)
+            {
+                Cache.Clear();
+                LRUQueue.Clear();
+            }
+        }
+
     } // End class
 
 } // End namespace

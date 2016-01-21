@@ -7,6 +7,7 @@ using System.Diagnostics;
 using System.Collections.Concurrent;
 using System.Runtime.InteropServices;
 using Binarysharp.MemoryManagement;
+using System.Threading.Tasks;
 
 namespace Anathema
 {
@@ -89,8 +90,8 @@ namespace Anathema
                 return;
 
             // Notify subscribers
-            for (Int32 Index = 0; Index < ProcessObservers.Count; Index++)
-                ProcessObservers[Index].UpdateMemoryEditor(MemoryEditor);
+            foreach (IProcessObserver ProcessObserver in ProcessObservers)
+                ProcessObserver.UpdateMemoryEditor(MemoryEditor);
         }
 
         public void SelectProcess(Int32 Index)
@@ -144,37 +145,36 @@ namespace Anathema
             ConcurrentBag<Process> StandardProcessBag = new ConcurrentBag<Process>(); // Generic processes
 
             // Fetch processes in parallel
-            //Parallel.For(0, UnsortedProcesses.Count, ProcessIndex =>
-            for (int ProcessIndex = 0; ProcessIndex < UnsortedProcesses.Count; ProcessIndex++)
+            Parallel.ForEach(UnsortedProcesses, (Process) =>
             {
                 // Guarenteed session0, but misses some things
-                if (UnsortedProcesses[ProcessIndex].SessionId == 0) // NO possible access violation
-                    SystemProcessBag.Add(UnsortedProcesses[ProcessIndex]);
+                if (Process.SessionId == 0) // NO possible access violation
+                    SystemProcessBag.Add(Process);
 
                 // This seems to grab only system processes. This is semi-incorrect since
                 // that doesn't have to be true, but it seems to always be the case.
-                else if (UnsortedProcesses[ProcessIndex].BasePriority == 13) // NO possible access violation
+                else if (Process.BasePriority == 13) // NO possible access violation
                 {
-                    SystemProcessBag.Add(UnsortedProcesses[ProcessIndex]);
+                    SystemProcessBag.Add(Process);
                 }
                 else
                 {
                     try
                     {
                         // This boolean will throw an error if it is a Session0 process
-                        if (UnsortedProcesses[ProcessIndex].PriorityBoostEnabled) // POSSIBLE access violation
-                            StandardProcessBag.Add(UnsortedProcesses[ProcessIndex]);
+                        if (Process.PriorityBoostEnabled) // POSSIBLE access violation
+                            StandardProcessBag.Add(Process);
                     }
                     catch (Win32Exception) // Session0 access denied error
                     {
-                        SystemProcessBag.Add(UnsortedProcesses[ProcessIndex]); // Collect any missed session0 targets
+                        SystemProcessBag.Add(Process); // Collect any missed session0 targets
                     }
                     catch (InvalidOperationException)
                     {
 
                     }
                 }
-            }//);
+            });
 
             // Convert concurrent bags to lists
             List<Process> SystemProcessList = new List<Process>(SystemProcessBag);

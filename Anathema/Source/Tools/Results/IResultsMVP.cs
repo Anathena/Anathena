@@ -18,7 +18,7 @@ namespace Anathema
     interface IResultsView : IView
     {
         // Methods invoked by the presenter (upstream)
-        void RefreshDisplay();
+        void ReadValues();
         void UpdateMemorySizeLabel(String MemorySize);
         void UpdateItemCount(Int32 ItemCount);
     }
@@ -26,15 +26,20 @@ namespace Anathema
     abstract class IResultsModel : RepeatedTask, IModel
     {
         // Events triggered by the model (upstream)
-        public event ResultsEventHandler EventRefreshDisplay;
-        protected virtual void OnEventRefreshDisplay(ResultsEventArgs E)
+        public event ResultsEventHandler EventReadValues;
+        protected virtual void OnEventReadValues(ResultsEventArgs E)
         {
-            EventRefreshDisplay(this, E);
+            EventReadValues(this, E);
         }
         public event ResultsEventHandler EventUpdateMemorySize;
         protected virtual void OnEventUpdateMemorySize(ResultsEventArgs E)
         {
             EventUpdateMemorySize(this, E);
+        }
+        public event ResultsEventHandler EventFlushCache;
+        protected virtual void OnEventFlushCache(ResultsEventArgs E)
+        {
+            EventFlushCache(this, E);
         }
 
         // Functions invoked by presenter (downstream)
@@ -53,6 +58,7 @@ namespace Anathema
         protected new IResultsModel Model;
 
         private ListViewCache ListViewCache;
+        private const Int32 ValueTableIndex = 1;
 
         public ResultsPresenter(IResultsView View, IResultsModel Model) : base(View, Model)
         {
@@ -62,8 +68,9 @@ namespace Anathema
             ListViewCache = new ListViewCache();
 
             // Bind events triggered by the model
-            Model.EventRefreshDisplay += EventRefreshDisplay;
+            Model.EventReadValues += EventReadValues;
             Model.EventUpdateMemorySize += EventUpdateMemorySize;
+            Model.EventFlushCache += EventFlushCache;
         }
 
         #region Method definitions called by the view (downstream)
@@ -73,7 +80,7 @@ namespace Anathema
             ListViewItem Item = ListViewCache.Get(Index);
 
             // Try to update and return the item if it is a valid item
-            if (Item != null && ListViewCache.TryUpdateSubItem(Index, 1, Model.GetValueAtIndex(Index).ToString()))
+            if (Item != null && ListViewCache.TryUpdateSubItem(Index, ValueTableIndex, Model.GetValueAtIndex(Index).ToString()))
                 return Item;
 
             // Item invalid or could not be updated, need to create a new one
@@ -137,9 +144,14 @@ namespace Anathema
 
         #region Event definitions for events triggered by the model (upstream)
 
-        private void EventRefreshDisplay(Object Sender, ResultsEventArgs E)
+        private void EventFlushCache(Object Sender, ResultsEventArgs E)
         {
-            View.RefreshDisplay();
+            ListViewCache.FlushCache();
+        }
+
+        private void EventReadValues(Object Sender, ResultsEventArgs E)
+        {
+            View.ReadValues();
         }
 
         private void EventUpdateMemorySize(Object Sender, ResultsEventArgs E)

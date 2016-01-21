@@ -13,7 +13,7 @@ namespace Anathema
     /// <summary>
     /// Handles the displaying of results
     /// </summary>
-    class Results : IResultsModel, IProcessObserver
+    class Results : IResultsModel, IProcessObserver, ISnapshotManagerObserver
     {
         private static Results ResultsInstance;
         private MemorySharp MemoryEditor;
@@ -23,7 +23,8 @@ namespace Anathema
 
         private Results()
         {
-            InitializeObserver();
+            InitializeProcessObserver();
+            InitializeSnapshotManagerObserver();
             SetScanType(typeof(Int32));
             Begin();
         }
@@ -40,14 +41,32 @@ namespace Anathema
             End();
         }
 
-        public void InitializeObserver()
+        public void InitializeProcessObserver()
         {
             ProcessSelector.GetInstance().Subscribe(this);
+        }
+
+        public void InitializeSnapshotManagerObserver()
+        {
+            SnapshotManager.GetInstance().Subscribe(this);
         }
 
         public void UpdateMemoryEditor(MemorySharp MemoryEditor)
         {
             this.MemoryEditor = MemoryEditor;
+        }
+
+        public void SnapshotUpdated()
+        {
+            Snapshot Snapshot = SnapshotManager.GetInstance().GetActiveSnapshot();
+
+            UInt64 MemorySize = (Snapshot == null ? 0 : Snapshot.GetMemorySize());
+
+            // Send the size of the filtered memory to the display
+            ResultsEventArgs Args = new ResultsEventArgs();
+            Args.MemorySize = MemorySize;
+            OnEventFlushCache(Args);
+            OnEventUpdateMemorySize(Args);
         }
 
         public override void SetScanType(Type ScanType)
@@ -63,6 +82,11 @@ namespace Anathema
         public override void Begin()
         {
             base.Begin();
+        }
+
+        protected override void Update()
+        {
+            OnEventReadValues(new ResultsEventArgs());
         }
 
         public override void AddSelectionToTable(Int32 Index)
@@ -108,22 +132,6 @@ namespace Anathema
             return Label;
         }
 
-        protected override void Update()
-        {
-            UInt64 MemorySize;
+    } // End class
 
-            Snapshot Snapshot = SnapshotManager.GetInstance().GetActiveSnapshot();
-
-            if (Snapshot == null)
-                MemorySize = 0;
-            else
-                MemorySize = Snapshot.GetMemorySize();
-
-            // Send the size of the filtered memory to the display
-            ResultsEventArgs Args = new ResultsEventArgs();
-            Args.MemorySize = MemorySize;
-            OnEventUpdateMemorySize(Args);
-            OnEventRefreshDisplay(Args);
-        }
-    }
-}
+} // End namespace

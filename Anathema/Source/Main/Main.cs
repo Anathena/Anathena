@@ -18,7 +18,7 @@ namespace Anathema
 
         private Main()
         {
-            InitializeObserver();
+            InitializeProcessObserver();
         }
         
         public static Main GetInstance()
@@ -28,7 +28,7 @@ namespace Anathema
             return _Main;
         }
 
-        public void InitializeObserver()
+        public void InitializeProcessObserver()
         {
             ProcessSelector.GetInstance().Subscribe(this);
         }
