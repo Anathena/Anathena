@@ -41,7 +41,7 @@ namespace Anathema
             Address,
             Value
         }
-        
+
         private static Table TableInstance;
         private MemorySharp MemoryEditor;
 
@@ -80,7 +80,7 @@ namespace Anathema
         public void SaveScript(ScriptItem ScriptItem)
         {
             if (!CurrentTableData.ScriptTable.Contains(ScriptItem))
-            { 
+            {
                 CurrentTableData.ScriptTable.Add(ScriptItem);
                 RefreshDisplay();
             }
@@ -190,9 +190,11 @@ namespace Anathema
             // Force update of value, regardless if frozen or not
             CurrentTableData.AddressTable[Index].ForceUpdateValue(AddressItem.Value);
 
-            if (CurrentTableData.AddressTable[Index].Value != null)
+            // Write change to memory
+            if (AddressItem.Value != null)
                 MemoryEditor.Write(CurrentTableData.AddressTable[Index].ElementType, (IntPtr)CurrentTableData.AddressTable[Index].Address, CurrentTableData.AddressTable[Index].Value, false);
 
+            // Clear this entry in the cache since it has been updated
             TableEventArgs TableEventArgs = new TableEventArgs();
             TableEventArgs.ClearCacheIndex = Index;
             OnEventClearAddressCacheItem(TableEventArgs);

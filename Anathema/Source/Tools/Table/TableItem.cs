@@ -56,8 +56,10 @@ namespace Anathema
 
         public void ForceUpdateValue(dynamic Value)
         {
-            if (Value != null)
-                this._Value = Value;
+            if (Value == null)
+                return;
+
+            this._Value = Value;
         }
     }
 
