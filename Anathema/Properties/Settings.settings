@@ -9,7 +9,7 @@
       <Value Profile="(Default)">400</Value>
     </Setting>
     <Setting Name="ResultReadInterval" Type="System.Int32" Scope="User">
-      <Value Profile="(Default)">400</Value>
+      <Value Profile="(Default)">100</Value>
     </Setting>
     <Setting Name="TableReadInterval" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">100</Value>

@@ -42,6 +42,12 @@ namespace Anathema
             EventFlushCache(this, E);
         }
 
+        public override void Begin()
+        {
+            WaitTime = Settings.GetInstance().GetResultReadInterval();
+            base.Begin();
+        }
+
         // Functions invoked by presenter (downstream)
         public abstract void AddSelectionToTable(Int32 Index);
 

@@ -82,11 +82,11 @@ namespace Anathema
         private ListViewCache AddressTableCache;
         private ListViewCache ScriptTableCache;
 
-        private const Int32 A = 0;
-        private const Int32 B = 1;
-        private const Int32 C = 2;
-        private const Int32 D = 3;
-        private const Int32 E = 4;
+        private const Int32 CheckBoxIndex = 0;
+        private const Int32 DescriptionIndex = 1;
+        private const Int32 AddressIndex = 2;
+        private const Int32 TypeIndex = 3;
+        private const Int32 ValueIndex = 4;
 
         public TablePresenter(ITableView View, ITableModel Model) : base(View, Model)
         {
@@ -127,17 +127,17 @@ namespace Anathema
             AddressItem AddressItem = Model.GetAddressItemAt(Index);
 
             // Try to update and return the item if it is a valid item
-            if (Item != null && AddressTableCache.TryUpdateSubItem(Index, E, (AddressItem.Value == null ? String.Empty : AddressItem.Value.ToString())))
+            if (Item != null && AddressTableCache.TryUpdateSubItem(Index, ValueIndex, (AddressItem.Value == null ? String.Empty : AddressItem.Value.ToString())))
                 return Item;
 
             // Add the properties to the manager and get the list view item back
             Item = AddressTableCache.Add(Index, new String[] { String.Empty, String.Empty, String.Empty, String.Empty, String.Empty });
 
-            Item.SubItems[A].Text = String.Empty;
-            Item.SubItems[B].Text = (AddressItem.Description == null ? String.Empty : AddressItem.Description);
-            Item.SubItems[C].Text = Conversions.ToAddress(AddressItem.Address.ToString());
-            Item.SubItems[D].Text = AddressItem.ElementType == null ? String.Empty : AddressItem.ElementType.Name;
-            Item.SubItems[E].Text = AddressItem.Value == null ? String.Empty : AddressItem.Value.ToString();
+            Item.SubItems[CheckBoxIndex].Text = String.Empty;
+            Item.SubItems[DescriptionIndex].Text = (AddressItem.Description == null ? String.Empty : AddressItem.Description);
+            Item.SubItems[AddressIndex].Text = Conversions.ToAddress(AddressItem.Address.ToString());
+            Item.SubItems[TypeIndex].Text = AddressItem.ElementType == null ? String.Empty : AddressItem.ElementType.Name;
+            Item.SubItems[ValueIndex].Text = AddressItem.Value == null ? String.Empty : AddressItem.Value.ToString();
             Item.Checked = AddressItem.GetActivationState();
 
             return Item;

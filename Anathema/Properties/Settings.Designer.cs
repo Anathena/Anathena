@@ -49,7 +49,7 @@ namespace Anathema.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("400")]
+        [global::System.Configuration.DefaultSettingValueAttribute("100")]
         public int ResultReadInterval {
             get {
                 return ((int)(this["ResultReadInterval"]));
