@@ -15,6 +15,8 @@ namespace Anathema
         public Int32 AddressTableItemCount = 0;
         public Int32 ScriptTableItemCount = 0;
         public Int32 FSMTableItemCount = 0;
+
+        public Int32 ClearCacheIndex = -1;
     }
 
     interface ITableView : IView
@@ -33,6 +35,18 @@ namespace Anathema
         protected virtual void OnEventRefreshDisplay(TableEventArgs E)
         {
             if (EventRefreshDisplay != null) EventRefreshDisplay(this, E);
+        }
+
+        public event TableEventHandler EventClearAddressCacheItem;
+        protected virtual void OnEventClearAddressCacheItem(TableEventArgs E)
+        {
+            EventClearAddressCacheItem(this, E);
+        }
+
+        public event TableEventHandler EventClearScriptCacheItem;
+        protected virtual void OnEventClearScriptCacheItem(TableEventArgs E)
+        {
+            EventClearScriptCacheItem(this, E);
         }
 
         public event TableEventHandler EventUpdateAddressTableItemCount;
@@ -78,7 +92,7 @@ namespace Anathema
     {
         protected new ITableView View { get; set; }
         protected new ITableModel Model { get; set; }
-        
+
         private ListViewCache AddressTableCache;
         private ListViewCache ScriptTableCache;
 
@@ -98,6 +112,8 @@ namespace Anathema
 
             // Bind events triggered by the model
             Model.EventRefreshDisplay += EventRefreshDisplay;
+            Model.EventClearAddressCacheItem += EventClearAddressCacheItem;
+            Model.EventClearScriptCacheItem += EventClearScriptCacheItem;
             Model.EventUpdateAddressTableItemCount += EventUpdateAddressTableItemCount;
             Model.EventUpdateScriptTableItemCount += EventUpdateScriptTableItemCount;
             Model.EventUpdateFSMTableItemCount += EventUpdateFSMTableItemCount;
@@ -128,7 +144,10 @@ namespace Anathema
 
             // Try to update and return the item if it is a valid item
             if (Item != null && AddressTableCache.TryUpdateSubItem(Index, ValueIndex, (AddressItem.Value == null ? String.Empty : AddressItem.Value.ToString())))
+            {
+                Item.Checked = AddressItem.GetActivationState();
                 return Item;
+            }
 
             // Add the properties to the manager and get the list view item back
             Item = AddressTableCache.Add(Index, new String[] { String.Empty, String.Empty, String.Empty, String.Empty, String.Empty });
@@ -189,6 +208,16 @@ namespace Anathema
         private void EventRefreshDisplay(Object Sender, TableEventArgs E)
         {
             View.RefreshDisplay();
+        }
+
+        private void EventClearAddressCacheItem(Object Sender, TableEventArgs E)
+        {
+            AddressTableCache.Delete(E.ClearCacheIndex);
+        }
+
+        private void EventClearScriptCacheItem(Object Sender, TableEventArgs E)
+        {
+            ScriptTableCache.Delete(E.ClearCacheIndex);
         }
 
         private void EventUpdateAddressTableItemCount(Object Sender, TableEventArgs E)

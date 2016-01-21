@@ -192,6 +192,10 @@ namespace Anathema
 
             if (CurrentTableData.AddressTable[Index].Value != null)
                 MemoryEditor.Write(CurrentTableData.AddressTable[Index].ElementType, (IntPtr)CurrentTableData.AddressTable[Index].Address, CurrentTableData.AddressTable[Index].Value, false);
+
+            TableEventArgs TableEventArgs = new TableEventArgs();
+            TableEventArgs.ClearCacheIndex = Index;
+            OnEventClearAddressCacheItem(TableEventArgs);
         }
 
         public override ScriptItem GetScriptItemAt(Int32 Index)
@@ -202,6 +206,12 @@ namespace Anathema
         public override void SetScriptItemAt(Int32 Index, ScriptItem ScriptItem)
         {
             CurrentTableData.ScriptTable[Index] = ScriptItem;
+
+            TableEventArgs TableEventArgs = new TableEventArgs();
+            TableEventArgs.ClearCacheIndex = Index;
+            OnEventClearScriptCacheItem(TableEventArgs);
         }
-    }
-}
+
+    } // End class
+
+} // End namespace

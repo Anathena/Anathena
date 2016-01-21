@@ -61,8 +61,10 @@ namespace Anathema
         {
             lock (AccessLock)
             {
-                Cache.Remove(Index);
-                LRUQueue.Remove(Index);
+                if (Cache.ContainsKey(Index))
+                    Cache.Remove(Index);
+                if (LRUQueue.Contains(Index))
+                    LRUQueue.Remove(Index);
             }
         }
 

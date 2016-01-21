@@ -34,12 +34,12 @@ namespace Anathema
         public event ResultsEventHandler EventUpdateMemorySize;
         protected virtual void OnEventUpdateMemorySize(ResultsEventArgs E)
         {
-            EventUpdateMemorySize(this, E);
+            if (EventUpdateMemorySize != null) EventUpdateMemorySize(this, E);
         }
         public event ResultsEventHandler EventFlushCache;
         protected virtual void OnEventFlushCache(ResultsEventArgs E)
         {
-            EventFlushCache(this, E);
+            if (EventFlushCache != null) EventFlushCache(this, E);
         }
 
         public override void Begin()

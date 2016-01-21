@@ -57,6 +57,8 @@ namespace Anathema
                 return;
 
             SnapshotManagerObservers.Add(Observer);
+
+            Notify();
         }
 
         public void Unsubscribe(ISnapshotManagerObserver Observer)

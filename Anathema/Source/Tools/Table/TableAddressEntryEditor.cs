@@ -23,5 +23,6 @@ namespace Anathema
             Table.GetInstance().SetAddressItemAt(MainSelection, AddressItem);
         }
         
-    }
-}
+    } // End class
+
+} // End namespace
