@@ -103,7 +103,7 @@ namespace Anathema
         {
             Snapshot ActiveSnapshot = SnapshotManager.GetInstance().GetActiveSnapshot();
 
-            if (ActiveSnapshot == null || Index >= (Int32)ActiveSnapshot.GetMemorySize())
+            if (ActiveSnapshot == null || Index >= (Int32)ActiveSnapshot.GetElementCount())
                 return IntPtr.Zero;
 
             return ActiveSnapshot[Index].BaseAddress;
@@ -123,7 +123,7 @@ namespace Anathema
         {
             Snapshot ActiveSnapshot = SnapshotManager.GetInstance().GetActiveSnapshot();
 
-            if (ActiveSnapshot == null || Index >= (Int32)ActiveSnapshot.GetMemorySize())
+            if (ActiveSnapshot == null || Index >= (Int32)ActiveSnapshot.GetElementCount())
                 return "-";
 
             dynamic Label = String.Empty;

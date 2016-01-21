@@ -309,6 +309,7 @@ namespace Anathema
 
         private void GUIMenuStrip_MenuActivate(Object Sender, EventArgs E)
         {
+            // Check / uncheck items if the windows are open
             ProcessSelectorToolStripMenuItem.Checked = (GUIProcessSelector == null || GUIProcessSelector.IsDisposed) ? false : true;
             DebuggerToolStripMenuItem.Checked = (GUIDebugger == null || GUIDebugger.IsDisposed) ? false : true;
             ScriptEditorToolStripMenuItem.Checked = (GUIScriptEditor == null || GUIScriptEditor.IsDisposed) ? false : true;

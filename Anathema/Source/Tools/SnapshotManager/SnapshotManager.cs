@@ -86,7 +86,7 @@ namespace Anathema
             lock (AccessLock)
             {
                 // Take a snapshot if there are none, or the current one is empty
-                if (Snapshots.Count == 0 || Snapshots.Peek() == null || Snapshots.Peek().GetMemorySize() == 0)
+                if (Snapshots.Count == 0 || Snapshots.Peek() == null || Snapshots.Peek().GetElementCount() == 0)
                 {
                     if (CreateIfNone)
                         return SnapshotAllRegions();

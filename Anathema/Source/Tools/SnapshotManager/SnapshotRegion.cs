@@ -257,7 +257,10 @@ namespace Anathema
                 SubRegion.SetElementLabels(ElementLabels.LargestSubArray(StartIndex, ValidRegionSize + GetElementReadOverSize()));
 
                 // If we were able to grab values into the extended space, update the extension size.
-                SubRegion.RegionExtension = SubRegion.GetCurrentValues().Length - ValidRegionSize;
+                if (SubRegion.GetCurrentValues() != null)
+                    SubRegion.RegionExtension = SubRegion.GetCurrentValues().Length - ValidRegionSize;
+                else
+                    SubRegion.RegionExtension = GetElementReadOverSize();
 
                 SubRegion.SetElementType(ElementType);
 

@@ -51,7 +51,7 @@ namespace Anathema
             // Initialize state counts
             foreach (FiniteState State in FiniteStateMachine)
                 State.StateCount = 0;
-            FiniteStateMachine.GetStartState().StateCount = (Int64)Snapshot.GetMemorySize();
+            FiniteStateMachine.GetStartState().StateCount = (Int64)Snapshot.GetElementCount();
 
             base.Begin();
         }

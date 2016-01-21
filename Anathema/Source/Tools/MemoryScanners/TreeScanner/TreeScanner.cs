@@ -39,7 +39,7 @@ namespace Anathema
         /// <returns></returns>
         private Int32 SetLeafSize(UInt64 MemorySize)
         {
-            UInt64 MB = (UInt64)(Snapshot.GetMemorySize() >> 20);
+            UInt64 MB = (UInt64)(MemorySize >> 20);
             Int32 MBBits = 0;
             while ((MB >>= 1) != 0) { MBBits++; }
             MBBits = (MBBits <= 5 ? 5 : (MBBits >= 8 ? 8 : MBBits));

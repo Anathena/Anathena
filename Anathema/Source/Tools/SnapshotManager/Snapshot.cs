@@ -99,9 +99,14 @@ namespace Anathema
             return SnapshotRegions.Length;
         }
 
-        public UInt64 GetMemorySize()
+        public UInt64 GetElementCount()
         {
             return SnapshotRegions == null ? 0 : (UInt64)SnapshotRegions.AsEnumerable().Sum(x => (Int64)x.RegionSize);
+        }
+
+        public UInt64 GetMemorySize()
+        {
+            return SnapshotRegions == null ? 0 : (UInt64)SnapshotRegions.AsEnumerable().Sum(x => (Int64)x.RegionSize + (Int64)x.GetRegionExtension());
         }
 
         /// <summary>
