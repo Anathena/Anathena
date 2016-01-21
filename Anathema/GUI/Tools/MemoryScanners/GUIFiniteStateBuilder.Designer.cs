@@ -51,12 +51,16 @@
             this.MarkInvalidToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.EndScanToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.DeleteStateToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.FSMBuilderPanel = new Anathema.FlickerFreePanel();
+            this.ConstraintsListView = new System.Windows.Forms.ListView();
+            this.ValueHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.ConstraintHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.ValueTextBox = new System.Windows.Forms.TextBox();
             this.ValueTypeComboBox = new System.Windows.Forms.ComboBox();
+            this.ControlPanel = new System.Windows.Forms.Panel();
+            this.FSMBuilderPanel = new Anathema.FlickerFreePanel();
             this.ScanToolStrip.SuspendLayout();
             this.StateContextMenuStrip.SuspendLayout();
-            this.FSMBuilderPanel.SuspendLayout();
+            this.ControlPanel.SuspendLayout();
             this.SuspendLayout();
             // 
             // ScanToolStrip
@@ -69,10 +73,10 @@
             this.DragModeButton,
             this.ScanOptionsToolStripDropDownButton});
             this.ScanToolStrip.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.VerticalStackWithOverflow;
-            this.ScanToolStrip.Location = new System.Drawing.Point(473, 0);
+            this.ScanToolStrip.Location = new System.Drawing.Point(397, 0);
             this.ScanToolStrip.Name = "ScanToolStrip";
             this.ScanToolStrip.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
-            this.ScanToolStrip.Size = new System.Drawing.Size(33, 301);
+            this.ScanToolStrip.Size = new System.Drawing.Size(33, 333);
             this.ScanToolStrip.TabIndex = 163;
             this.ScanToolStrip.Text = "Tools";
             // 
@@ -252,56 +256,88 @@
             this.DeleteStateToolStripMenuItem.Size = new System.Drawing.Size(139, 22);
             this.DeleteStateToolStripMenuItem.Text = "Delete State";
             // 
+            // ConstraintsListView
+            // 
+            this.ConstraintsListView.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.ValueHeader,
+            this.ConstraintHeader});
+            this.ConstraintsListView.FullRowSelect = true;
+            this.ConstraintsListView.Location = new System.Drawing.Point(3, 3);
+            this.ConstraintsListView.Name = "ConstraintsListView";
+            this.ConstraintsListView.Size = new System.Drawing.Size(214, 94);
+            this.ConstraintsListView.TabIndex = 161;
+            this.ConstraintsListView.UseCompatibleStateImageBehavior = false;
+            this.ConstraintsListView.View = System.Windows.Forms.View.Details;
+            // 
+            // ValueHeader
+            // 
+            this.ValueHeader.Text = "Value";
+            this.ValueHeader.Width = 84;
+            // 
+            // ConstraintHeader
+            // 
+            this.ConstraintHeader.Text = "Constraint";
+            this.ConstraintHeader.Width = 82;
+            // 
+            // ValueTextBox
+            // 
+            this.ValueTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.ValueTextBox.Location = new System.Drawing.Point(223, 30);
+            this.ValueTextBox.Name = "ValueTextBox";
+            this.ValueTextBox.Size = new System.Drawing.Size(171, 20);
+            this.ValueTextBox.TabIndex = 160;
+            this.ValueTextBox.TextChanged += new System.EventHandler(this.ValueTextBox_TextChanged);
+            // 
+            // ValueTypeComboBox
+            // 
+            this.ValueTypeComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.ValueTypeComboBox.FormattingEnabled = true;
+            this.ValueTypeComboBox.Location = new System.Drawing.Point(223, 3);
+            this.ValueTypeComboBox.Name = "ValueTypeComboBox";
+            this.ValueTypeComboBox.Size = new System.Drawing.Size(94, 21);
+            this.ValueTypeComboBox.TabIndex = 154;
+            this.ValueTypeComboBox.SelectedIndexChanged += new System.EventHandler(this.ValueTypeComboBox_SelectedIndexChanged);
+            // 
+            // ControlPanel
+            // 
+            this.ControlPanel.Controls.Add(this.ValueTypeComboBox);
+            this.ControlPanel.Controls.Add(this.ValueTextBox);
+            this.ControlPanel.Controls.Add(this.ConstraintsListView);
+            this.ControlPanel.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.ControlPanel.Location = new System.Drawing.Point(0, 233);
+            this.ControlPanel.Name = "ControlPanel";
+            this.ControlPanel.Size = new System.Drawing.Size(397, 100);
+            this.ControlPanel.TabIndex = 161;
+            // 
             // FSMBuilderPanel
             // 
             this.FSMBuilderPanel.BackColor = System.Drawing.SystemColors.ControlDark;
             this.FSMBuilderPanel.ContextMenuStrip = this.StateContextMenuStrip;
-            this.FSMBuilderPanel.Controls.Add(this.ValueTextBox);
-            this.FSMBuilderPanel.Controls.Add(this.ValueTypeComboBox);
             this.FSMBuilderPanel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.FSMBuilderPanel.Location = new System.Drawing.Point(0, 0);
             this.FSMBuilderPanel.Name = "FSMBuilderPanel";
-            this.FSMBuilderPanel.Size = new System.Drawing.Size(473, 301);
+            this.FSMBuilderPanel.Size = new System.Drawing.Size(430, 333);
             this.FSMBuilderPanel.TabIndex = 164;
             this.FSMBuilderPanel.Paint += new System.Windows.Forms.PaintEventHandler(this.FSMBuilderPanel_Paint);
             this.FSMBuilderPanel.MouseDown += new System.Windows.Forms.MouseEventHandler(this.FSMBuilderPanel_MouseDown);
             this.FSMBuilderPanel.MouseMove += new System.Windows.Forms.MouseEventHandler(this.FSMBuilderPanel_MouseMove);
             this.FSMBuilderPanel.MouseUp += new System.Windows.Forms.MouseEventHandler(this.FSMBuilderPanel_MouseUp);
             // 
-            // ValueTextBox
-            // 
-            this.ValueTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.ValueTextBox.Location = new System.Drawing.Point(3, 4);
-            this.ValueTextBox.Name = "ValueTextBox";
-            this.ValueTextBox.Size = new System.Drawing.Size(367, 20);
-            this.ValueTextBox.TabIndex = 160;
-            this.ValueTextBox.TextChanged += new System.EventHandler(this.ValueTextBox_TextChanged);
-            // 
-            // ValueTypeComboBox
-            // 
-            this.ValueTypeComboBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.ValueTypeComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.ValueTypeComboBox.FormattingEnabled = true;
-            this.ValueTypeComboBox.Location = new System.Drawing.Point(376, 3);
-            this.ValueTypeComboBox.Name = "ValueTypeComboBox";
-            this.ValueTypeComboBox.Size = new System.Drawing.Size(94, 21);
-            this.ValueTypeComboBox.TabIndex = 154;
-            this.ValueTypeComboBox.SelectedIndexChanged += new System.EventHandler(this.ValueTypeComboBox_SelectedIndexChanged);
-            // 
             // GUIFiniteStateBuilder
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Controls.Add(this.FSMBuilderPanel);
+            this.Controls.Add(this.ControlPanel);
             this.Controls.Add(this.ScanToolStrip);
+            this.Controls.Add(this.FSMBuilderPanel);
             this.Name = "GUIFiniteStateBuilder";
-            this.Size = new System.Drawing.Size(506, 301);
+            this.Size = new System.Drawing.Size(430, 333);
             this.ScanToolStrip.ResumeLayout(false);
             this.ScanToolStrip.PerformLayout();
             this.StateContextMenuStrip.ResumeLayout(false);
-            this.FSMBuilderPanel.ResumeLayout(false);
-            this.FSMBuilderPanel.PerformLayout();
+            this.ControlPanel.ResumeLayout(false);
+            this.ControlPanel.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -333,5 +369,9 @@
         private System.Windows.Forms.ToolStripMenuItem MarkInvalidToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem EndScanToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem DeleteStateToolStripMenuItem;
+        private System.Windows.Forms.ListView ConstraintsListView;
+        private System.Windows.Forms.ColumnHeader ValueHeader;
+        private System.Windows.Forms.ColumnHeader ConstraintHeader;
+        private System.Windows.Forms.Panel ControlPanel;
     }
 }

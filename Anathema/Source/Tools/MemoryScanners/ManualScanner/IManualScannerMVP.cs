@@ -2,9 +2,11 @@
 using Binarysharp.MemoryManagement.Memory;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace Anathema
 {
@@ -17,7 +19,7 @@ namespace Anathema
     interface IManualScannerView : IScannerView
     {
         // Methods invoked by the presenter (upstream)
-        void UpdateDisplay(List<String[]> ScanConstraintItems);
+        void UpdateDisplay(String[] ScanConstraintItems, ImageList Images);
         void ScanFinished();
     }
 
@@ -51,6 +53,8 @@ namespace Anathema
 
         private ConstraintsEnum ValueConstraint;
 
+        private ImageList ConstraintImages;
+
         public ManualScannerPresenter(IManualScannerView View, IManualScannerModel Model) : base(View, Model)
         {
             this.View = View;
@@ -76,7 +80,7 @@ namespace Anathema
         public void AddConstraint(String ValueString)
         {
             dynamic Value = String.Empty;
-            
+
             switch (ValueConstraint)
             {
                 case ConstraintsEnum.Changed:
@@ -119,15 +123,15 @@ namespace Anathema
 
         public void EventUpdateDisplay(Object Sender, ManualScannerEventArgs E)
         {
-            List<String[]> ScanConstraintItems = new List<String[]>();
+            List<String> ScanConstraintItems = new List<String>();
 
             foreach (ScanConstraint ScanConstraint in E.ScanConstraints)
             {
-                String Value = ScanConstraint.Value == null ? null : ScanConstraint.Value.ToString();
-                ScanConstraintItems.Add(new String[] { Value, ScanConstraint.Constraint.ToString() });
+                String Value = ScanConstraint.Value == null ? String.Empty : ScanConstraint.Value.ToString();
+                ScanConstraintItems.Add(Value);
             }
 
-            View.UpdateDisplay(ScanConstraintItems);
+            View.UpdateDisplay(ScanConstraintItems.ToArray(), null);
         }
 
         public void EventScanFinished(Object Sender, ManualScannerEventArgs E)

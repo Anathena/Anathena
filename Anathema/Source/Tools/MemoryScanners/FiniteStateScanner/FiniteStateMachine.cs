@@ -13,12 +13,14 @@ namespace Anathema
     /// </summary>
     public class FiniteStateMachine : IEnumerable
     {
+        private ScanConstraintManager UniversalConstraints;
         private List<FiniteState> States;
         private FiniteState StartState;
         private Type ElementType;
 
         public FiniteStateMachine()
         {
+            UniversalConstraints = new ScanConstraintManager();
             States = new List<FiniteState>();
         }
 
@@ -71,6 +73,7 @@ namespace Anathema
         public void SetElementType(Type ElementType)
         {
             this.ElementType = ElementType;
+            UniversalConstraints.SetElementType(ElementType);
             foreach (FiniteState State in States)
                 State.SetElementType(ElementType);
         }

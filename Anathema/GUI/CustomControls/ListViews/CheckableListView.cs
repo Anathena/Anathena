@@ -11,6 +11,8 @@ namespace Anathema
     /// </summary>
     class CheckableListView : FlickerFreeListView
     {
+        const Int32 CheckBoxSize = 16;
+
         public CheckableListView()
         {
             this.OwnerDraw = true;
@@ -45,7 +47,7 @@ namespace Anathema
             if (ListViewItem == null)
                 return;
 
-            if (E.X < (ListViewItem.Bounds.Left + 16))
+            if (E.X < (ListViewItem.Bounds.Left + CheckBoxSize))
             {
                 ListViewItem.Checked = !ListViewItem.Checked;
                 this.Invalidate(ListViewItem.Bounds);
@@ -58,5 +60,7 @@ namespace Anathema
             if (ListViewItem != null)
                 this.Invalidate(ListViewItem.Bounds);
         }
-    }
-}
+
+    } // End class
+
+} // End namespace

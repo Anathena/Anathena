@@ -37,12 +37,12 @@ namespace Anathema
             ValueTypeComboBox.SelectedIndex = ValueTypeComboBox.Items.IndexOf(typeof(Int32).Name);
         }
 
-        public void UpdateDisplay(List<String[]> ScanConstraintItems)
+        public void UpdateDisplay(String[] ScanConstraintItems, ImageList Images)
         {
             ControlThreadingHelper.InvokeControlAction(ConstraintsListView, () =>
             {
                 ConstraintsListView.Items.Clear();
-                foreach (String[] Item in ScanConstraintItems)
+                foreach (String Item in ScanConstraintItems)
                     ConstraintsListView.Items.Add(new ListViewItem(Item));
             });
         }

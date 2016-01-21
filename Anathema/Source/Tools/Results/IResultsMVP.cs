@@ -49,13 +49,17 @@ namespace Anathema
 
     class ResultsPresenter : Presenter<IResultsView, IResultsModel>
     {
-        new IResultsView View;
-        new IResultsModel Model;
+        protected new IResultsView View;
+        protected new IResultsModel Model;
+
+        private ListViewCache ListViewCache;
 
         public ResultsPresenter(IResultsView View, IResultsModel Model) : base(View, Model)
         {
             this.View = View;
             this.Model = Model;
+
+            ListViewCache = new ListViewCache();
 
             // Bind events triggered by the model
             Model.EventRefreshDisplay += EventRefreshDisplay;
@@ -66,12 +70,21 @@ namespace Anathema
 
         public ListViewItem GetItemAt(Int32 Index)
         {
+            ListViewItem Item = ListViewCache.Get(Index);
+
+            // Try to update and return the item if it is a valid item
+            if (Item != null && ListViewCache.TryUpdateSubItem(Index, 1, Model.GetValueAtIndex(Index).ToString()))
+                return Item;
+
+            // Item invalid or could not be updated, need to create a new one
             IntPtr Address = Model.GetAddressAtIndex(Index);
             dynamic Value = Model.GetValueAtIndex(Index);
             dynamic Label = Model.GetLabelAtIndex(Index);
 
-            String[] Result = new String[] { Conversions.ToAddress(Address.ToString()), Value.ToString(), Label.ToString() };
-            return new ListViewItem(Result);
+            // Add the properties to the manager and get the list view item back
+            Item = ListViewCache.Add(Index, new String[] { Conversions.ToAddress(Address.ToString()), Value.ToString(), Label.ToString() });
+
+            return Item;
         }
 
         public void AddSelectionToTable(Int32 Index)
@@ -109,8 +122,8 @@ namespace Anathema
                 case TypeCode.Byte: ScanType = typeof(SByte); break;
                 case TypeCode.SByte: ScanType = typeof(Byte); break;
                 case TypeCode.Int16: ScanType = typeof(UInt16); break;
-                case TypeCode.Int32: ScanType = typeof(UInt32);  break;
-                case TypeCode.Int64: ScanType = typeof(UInt64);  break;
+                case TypeCode.Int32: ScanType = typeof(UInt32); break;
+                case TypeCode.Int64: ScanType = typeof(UInt64); break;
                 case TypeCode.UInt16: ScanType = typeof(Int16); break;
                 case TypeCode.UInt32: ScanType = typeof(Int32); break;
                 case TypeCode.UInt64: ScanType = typeof(Int64); break;

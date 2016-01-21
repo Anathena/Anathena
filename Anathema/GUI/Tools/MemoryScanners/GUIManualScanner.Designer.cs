@@ -31,7 +31,6 @@
             this.ValueTextBox = new System.Windows.Forms.TextBox();
             this.ValueTypeComboBox = new System.Windows.Forms.ComboBox();
             this.ConstraintsListView = new System.Windows.Forms.ListView();
-            this.ValueHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.ConstraintHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.FilterScientificNotationCheckBox = new System.Windows.Forms.CheckBox();
             this.StartScanButton = new System.Windows.Forms.ToolStripButton();
@@ -83,7 +82,6 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.ConstraintsListView.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.ValueHeader,
             this.ConstraintHeader});
             this.ConstraintsListView.FullRowSelect = true;
             this.ConstraintsListView.Location = new System.Drawing.Point(12, 92);
@@ -93,15 +91,10 @@
             this.ConstraintsListView.UseCompatibleStateImageBehavior = false;
             this.ConstraintsListView.View = System.Windows.Forms.View.Details;
             // 
-            // ValueHeader
-            // 
-            this.ValueHeader.Text = "Value";
-            this.ValueHeader.Width = 147;
-            // 
             // ConstraintHeader
             // 
             this.ConstraintHeader.Text = "Constraint";
-            this.ConstraintHeader.Width = 144;
+            this.ConstraintHeader.Width = 397;
             // 
             // FilterScientificNotationCheckBox
             // 
@@ -323,7 +316,6 @@
         private System.Windows.Forms.TextBox ValueTextBox;
         private System.Windows.Forms.ComboBox ValueTypeComboBox;
         private System.Windows.Forms.ListView ConstraintsListView;
-        private System.Windows.Forms.ColumnHeader ValueHeader;
         private System.Windows.Forms.ColumnHeader ConstraintHeader;
         private System.Windows.Forms.CheckBox FilterScientificNotationCheckBox;
         private System.Windows.Forms.ToolStripButton StartScanButton;

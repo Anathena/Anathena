@@ -137,6 +137,7 @@
       <DependentUpon>GUIAddressTableEntryEdit.cs</DependentUpon>
     </Compile>
     <Compile Include="Settings.cs" />
+    <Compile Include="Source\HelperClasses\ListViewManager.cs" />
     <Compile Include="Source\HelperClasses\RepeatedTask.cs" />
     <Compile Include="Source\Settings\ISettingsMVP.cs" />
     <Compile Include="Source\Tools\MemoryScanners\FiniteStateScanner\FiniteStateBuilder.cs" />
@@ -620,6 +621,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\CustomControls\HexEditor\UCAbout.zh-Hans.resx">
       <DependentUpon>UCAbout.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\CustomControls\ListViews\FlickerFreeListView.resx">
+      <DependentUpon>FlickerFreeListView.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\Settings\GUISettings.resx">
       <DependentUpon>GUISettings.cs</DependentUpon>

@@ -21,5 +21,17 @@ namespace Anathema
                 base.OnNotifyMessage(Message);
             }
         }
-    }
-}
+
+        private void InitializeComponent()
+        {
+            this.SuspendLayout();
+            // 
+            // FlickerFreeListView
+            // 
+            this.VirtualMode = true;
+            this.ResumeLayout(false);
+
+        }
+    } // End class
+
+} // End namespace
