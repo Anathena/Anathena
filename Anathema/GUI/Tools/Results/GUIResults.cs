@@ -13,7 +13,7 @@ namespace Anathema
     public partial class GUIResults : DockContent, IResultsView
     {
         private ResultsPresenter ResultsPresenter;
-        
+
         public GUIResults()
         {
             InitializeComponent();
@@ -34,6 +34,31 @@ namespace Anathema
             ControlThreadingHelper.InvokeControlAction(ResultsListView, () =>
             {
                 this.ResultsListView.VirtualListSize = ItemCount;
+            });
+        }
+
+        public void EnableResults()
+        {
+            ControlThreadingHelper.InvokeControlAction(ResultsListView, () =>
+            {
+                ResultsListView.Enabled = true;
+            });
+            ControlThreadingHelper.InvokeControlAction(GUIToolStrip, () =>
+            {
+                GUIToolStrip.Enabled = true;
+            });
+        }
+
+        public void DisableResults()
+        {
+            ControlThreadingHelper.InvokeControlAction(ResultsListView, () =>
+            {
+                ResultsListView.VirtualListSize = 0;
+                ResultsListView.Enabled = false;
+            });
+            ControlThreadingHelper.InvokeControlAction(GUIToolStrip, () =>
+            {
+                GUIToolStrip.Enabled = false;
             });
         }
 

@@ -73,6 +73,11 @@ namespace Anathema
             WaitTime = Math.Min(Settings.GetInstance().GetTableReadInterval(), Settings.GetInstance().GetFreezeInterval());
             base.Begin();
         }
+        
+        protected override void Update()
+        {
+            WaitTime = Math.Min(Settings.GetInstance().GetTableReadInterval(), Settings.GetInstance().GetFreezeInterval());
+        }
 
         // Functions invoked by presenter (downstream)
         public abstract Boolean SaveTable(String Path);

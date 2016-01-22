@@ -34,6 +34,7 @@ namespace Anathema
 
         public override void Begin()
         {
+            Results.GetInstance().DisableResults();
             ScanCount = 0;
             WaitTime = Settings.GetInstance().GetRescanInterval();
             base.Begin();
@@ -42,6 +43,13 @@ namespace Anathema
         protected override void Update()
         {
             ScanCount++;
+            WaitTime = Settings.GetInstance().GetRescanInterval();
+        }
+
+        public override void End()
+        {
+            Results.GetInstance().EnableResults();
+            base.End();
         }
     }
 

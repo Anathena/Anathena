@@ -19,6 +19,8 @@ namespace Anathema
     {
         // Methods invoked by the presenter (upstream)
         void ReadValues();
+        void EnableResults();
+        void DisableResults();
         void UpdateMemorySizeLabel(String MemorySize);
         void UpdateItemCount(Int32 ItemCount);
     }
@@ -30,6 +32,16 @@ namespace Anathema
         protected virtual void OnEventReadValues(ResultsEventArgs E)
         {
             EventReadValues(this, E);
+        }
+        public event ResultsEventHandler EventEnableResults;
+        protected virtual void OnEventEnableResults(ResultsEventArgs E)
+        {
+            EventEnableResults(this, E);
+        }
+        public event ResultsEventHandler EventDisableResults;
+        protected virtual void OnEventDisableResults(ResultsEventArgs E)
+        {
+            EventDisableResults(this, E);
         }
         public event ResultsEventHandler EventUpdateMemorySize;
         protected virtual void OnEventUpdateMemorySize(ResultsEventArgs E)
@@ -46,6 +58,11 @@ namespace Anathema
         {
             WaitTime = Settings.GetInstance().GetResultReadInterval();
             base.Begin();
+        }
+
+        protected override void Update()
+        {
+            WaitTime = Settings.GetInstance().GetResultReadInterval();
         }
 
         // Functions invoked by presenter (downstream)
@@ -75,6 +92,8 @@ namespace Anathema
 
             // Bind events triggered by the model
             Model.EventReadValues += EventReadValues;
+            Model.EventEnableResults += EventEnableResults;
+            Model.EventDisableResults += EventDisableResults;
             Model.EventUpdateMemorySize += EventUpdateMemorySize;
             Model.EventFlushCache += EventFlushCache;
         }
@@ -150,14 +169,24 @@ namespace Anathema
 
         #region Event definitions for events triggered by the model (upstream)
 
-        private void EventFlushCache(Object Sender, ResultsEventArgs E)
-        {
-            ListViewCache.FlushCache();
-        }
-
         private void EventReadValues(Object Sender, ResultsEventArgs E)
         {
             View.ReadValues();
+        }
+
+        private void EventEnableResults(Object Sender, ResultsEventArgs E)
+        {
+            View.EnableResults();
+        }
+
+        private void EventDisableResults(Object Sender, ResultsEventArgs E)
+        {
+            View.DisableResults();
+        }
+
+        private void EventFlushCache(Object Sender, ResultsEventArgs E)
+        {
+            ListViewCache.FlushCache();
         }
 
         private void EventUpdateMemorySize(Object Sender, ResultsEventArgs E)

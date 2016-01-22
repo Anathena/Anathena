@@ -56,6 +56,18 @@ namespace Anathema
             this.MemoryEditor = MemoryEditor;
         }
 
+        public void EnableResults()
+        {
+            OnEventEnableResults(new ResultsEventArgs());
+            Begin();
+        }
+
+        public void DisableResults()
+        {
+            CancelFlag = true;
+            OnEventDisableResults(new ResultsEventArgs());
+        }
+
         public void SnapshotUpdated()
         {
             Snapshot Snapshot = SnapshotManager.GetInstance().GetActiveSnapshot();
