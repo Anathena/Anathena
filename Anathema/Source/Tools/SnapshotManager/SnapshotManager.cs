@@ -22,7 +22,7 @@ namespace Anathema
         private Stack<Snapshot> DeletedSnapshots;   // Deleted snapshots for the capability of redoing after undo
 
         // Event stubs
-        public event SnapshotManagerEventHandler UpdateSnapshotDisplay;
+        public event SnapshotManagerEventHandler UpdateSnapshotCount;
 
         private SnapshotManager()
         {
@@ -50,7 +50,7 @@ namespace Anathema
         {
             this.MemoryEditor = MemoryEditor;
         }
-        
+
         public void Subscribe(ISnapshotManagerObserver Observer)
         {
             if (SnapshotManagerObservers.Contains(Observer))
@@ -134,7 +134,6 @@ namespace Anathema
             ClearSnapshots();
 
             SaveSnapshot(null);
-
         }
 
         /// <summary>
@@ -202,7 +201,26 @@ namespace Anathema
 
                 DeletedSnapshots.Clear();
             }
+
             UpdateDisplay();
+        }
+
+        public Snapshot GetSnapshotAt(Int32 Index)
+        {
+            lock (AccessLock)
+            {
+                if (Index < DeletedSnapshots.Count)
+                {
+                    return DeletedSnapshots.ToList()[Index];
+                }
+                else
+                {
+                    Index -= DeletedSnapshots.Count;
+                    if (Index < Snapshots.Count)
+                        return Snapshots.ToList()[Index];
+                }
+            }
+            return null;
         }
 
         /// <summary>
@@ -218,11 +236,12 @@ namespace Anathema
         /// </summary>
         private void UpdateDisplay()
         {
-            SnapshotManagerEventArgs SnapshotManagerEventArgs = new SnapshotManagerEventArgs();
-            SnapshotManagerEventArgs.Snapshots = Snapshots;
-            SnapshotManagerEventArgs.DeletedSnapshots = DeletedSnapshots;
-            UpdateSnapshotDisplay.Invoke(this, SnapshotManagerEventArgs);
-
+            lock (AccessLock)
+            {
+                SnapshotManagerEventArgs SnapshotManagerEventArgs = new SnapshotManagerEventArgs();
+                SnapshotManagerEventArgs.SnapshotCount = Snapshots.Count + DeletedSnapshots.Count;
+                UpdateSnapshotCount.Invoke(this, SnapshotManagerEventArgs);
+            }
             Notify();
         }
 

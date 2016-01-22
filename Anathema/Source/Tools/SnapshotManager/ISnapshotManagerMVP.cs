@@ -13,40 +13,52 @@ namespace Anathema
     delegate void SnapshotManagerEventHandler(Object Sender, SnapshotManagerEventArgs Args);
     class SnapshotManagerEventArgs : EventArgs
     {
-        public Stack<Snapshot> Snapshots = null;
-        public Stack<Snapshot> DeletedSnapshots = null;
+        public Int32 DeletedSnapshotCount;
+        public Int32 SnapshotCount = 0;
     }
 
     interface ISnapshotManagerView : IView
     {
         // Methods invoked by the presenter (upstream)
-        void UpdateSnapshotDisplay(ListViewItem[] Snapshots);
+        void UpdateSnapshotCount(Int32 SnapshotCount);
     }
 
     interface ISnapshotManagerModel : IModel, IProcessObserver
     {
         // Events triggered by the model (upstream)
-        event SnapshotManagerEventHandler UpdateSnapshotDisplay;
+        event SnapshotManagerEventHandler UpdateSnapshotCount;
 
         // Functions invoked by presenter (downstream)
         void CreateNewSnapshot();
         void RedoSnapshot();
         void UndoSnapshot();
         void ClearSnapshots();
+
+        Snapshot GetSnapshotAt(Int32 Index);
     }
 
     class SnapshotManagerPresenter : Presenter<ISnapshotManagerView, ISnapshotManagerModel>
     {
-        new ISnapshotManagerView View;
-        new ISnapshotManagerModel Model;
+        protected new ISnapshotManagerView View;
+        protected new ISnapshotManagerModel Model;
+
+        private ListViewCache ListViewCache;
+        private Int32 DeletedSnapshotCount;
+        private Int32 SnapshotCount;
+
+        private Int32 ScanTypeIndex = 0;
+        private Int32 MemorySizeIndex = 0;
+        private Int32 TimeStampIndex = 0;
 
         public SnapshotManagerPresenter(ISnapshotManagerView View, ISnapshotManagerModel Model) : base(View, Model)
         {
             this.View = View;
             this.Model = Model;
 
+            ListViewCache = new ListViewCache();
+
             // Bind events triggered by the model
-            Model.UpdateSnapshotDisplay += UpdateSnapshotDisplay;
+            Model.UpdateSnapshotCount += UpdateSnapshotCount;
         }
 
         #region Method definitions called by the view (downstream)
@@ -56,6 +68,30 @@ namespace Anathema
             Model.UpdateMemoryEditor(MemoryEditor);
         }
 
+        public ListViewItem GetItemAt(Int32 Index)
+        {
+            ListViewItem Item = ListViewCache.Get(Index);
+            Snapshot Snapshot = Model.GetSnapshotAt(Index);
+
+            // Try to update and return the item if it is a valid item
+            if (Item != null)
+            {
+                Item.ForeColor = Index < DeletedSnapshotCount ? Color.LightGray : SystemColors.ControlText;
+                Item.BackColor = Index == (DeletedSnapshotCount + SnapshotCount - 1) ? SystemColors.Control : SystemColors.Highlight;
+                return Item;
+            }
+
+            // Add the properties to the manager and get the list view item back
+            Item = ListViewCache.Add(Index, new String[] { String.Empty, String.Empty, String.Empty });
+
+            Item.SubItems[ScanTypeIndex].Text = Snapshot == null ? "New Scan" : Snapshot.GetScanMethod();
+            Item.SubItems[MemorySizeIndex].Text = Snapshot == null ? "-" : Conversions.BytesToMetric(Snapshot.GetMemorySize());
+            Item.SubItems[TimeStampIndex].Text = Snapshot == null ? "-" : Snapshot.GetTimeStamp().ToLongTimeString();
+
+            Item.ForeColor = Index < DeletedSnapshotCount ? Color.LightGray : SystemColors.ControlText;
+            Item.BackColor = Index == (DeletedSnapshotCount + SnapshotCount - 1) ? SystemColors.Control : SystemColors.Highlight;
+            return Item;
+        }
 
         public void CreateNewSnapshot()
         {
@@ -81,28 +117,11 @@ namespace Anathema
 
         #region Event definitions for events triggered by the model (upstream)
 
-        private void UpdateSnapshotDisplay(Object Sender, SnapshotManagerEventArgs E)
+        private void UpdateSnapshotCount(Object Sender, SnapshotManagerEventArgs E)
         {
-            List<ListViewItem> ListViewItems = new List<ListViewItem>();
-
-            foreach (Snapshot Snapshot in E.Snapshots.Reverse())
-            {
-                if (Snapshot == null)
-                    ListViewItems.Add(new ListViewItem(new String[] { "New Scan", "-", "-" }));
-                else
-                    ListViewItems.Add(new ListViewItem(new String[] { Snapshot.GetScanMethod(), Conversions.BytesToMetric(Snapshot.GetMemorySize()), Snapshot.GetTimeStamp().ToLongTimeString() }));
-            }
-
-            if (ListViewItems.Count != 0)
-                ListViewItems.Last().BackColor = SystemColors.Highlight;
-
-            foreach (Snapshot Snapshot in E.DeletedSnapshots)
-            {
-                ListViewItems.Add(new ListViewItem(new String[] { Snapshot.GetScanMethod(), Conversions.BytesToMetric(Snapshot.GetMemorySize()), Snapshot.GetTimeStamp().ToLongTimeString() }));
-                ListViewItems.Last().ForeColor = Color.LightGray;
-            }
-
-            View.UpdateSnapshotDisplay(ListViewItems.ToArray());
+            this.SnapshotCount = E.SnapshotCount;
+            this.DeletedSnapshotCount = E.DeletedSnapshotCount;
+            View.UpdateSnapshotCount(E.SnapshotCount + E.DeletedSnapshotCount);
         }
 
         #endregion

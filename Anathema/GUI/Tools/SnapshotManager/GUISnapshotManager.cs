@@ -22,12 +22,11 @@ namespace Anathema
             SnapshotManagerPresenter = new SnapshotManagerPresenter(this, SnapshotManager.GetInstance());
         }
 
-        public void UpdateSnapshotDisplay(ListViewItem[] Snapshots)
+        public void UpdateSnapshotCount(Int32 SnapshotCount)
         {
             ControlThreadingHelper.InvokeControlAction(SnapshotListView, () =>
             {
-                SnapshotListView.Items.Clear();
-                SnapshotListView.Items.AddRange(Snapshots);
+                SnapshotListView.VirtualListSize = SnapshotCount;
             });
         }
 
@@ -53,26 +52,33 @@ namespace Anathema
 
         #region Events
 
-        private void NewSnapshotButton_Click(object sender, EventArgs e)
+        private void SnapshotListView_RetrieveVirtualItem(Object Sender, RetrieveVirtualItemEventArgs E)
+        {
+            E.Item = SnapshotManagerPresenter.GetItemAt(E.ItemIndex);
+        }
+
+        private void NewSnapshotButton_Click(Object Sender, EventArgs E)
         {
             CreateNewSnapshot();
         }
 
-        private void UndoSnapshotButton_Click(object sender, EventArgs e)
+        private void UndoSnapshotButton_Click(Object Sender, EventArgs E)
         {
             UndoSnapshot();
         }
 
-        private void RedoSnapshotButton_Click(object sender, EventArgs e)
+        private void RedoSnapshotButton_Click(Object Sender, EventArgs E)
         {
             RedoSnapshot();
         }
 
-        private void ClearSnapshotsButton_Click(object sender, EventArgs e)
+        private void ClearSnapshotsButton_Click(Object Sender, EventArgs E)
         {
             ClearSnapshots();
         }
 
         #endregion
-    }
-}
+        
+    } // End class
+
+} // End namespace
