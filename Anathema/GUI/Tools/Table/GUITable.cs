@@ -55,19 +55,16 @@ namespace Anathema
                 AddressTableListView.BeginUpdate();
                 AddressTableListView.EndUpdate();
             });
-            ControlThreadingHelper.InvokeControlAction(CheatTableSplitContainer, () =>
+            ControlThreadingHelper.InvokeControlAction(ScriptTableListView, () =>
             {
-                ControlThreadingHelper.InvokeControlAction(ScriptTableListView, () =>
-                {
-                    ScriptTableListView.BeginUpdate();
-                    ScriptTableListView.EndUpdate();
-                });
+                ScriptTableListView.BeginUpdate();
+                ScriptTableListView.EndUpdate();
+            });
 
-                ControlThreadingHelper.InvokeControlAction(FSMTableListView, () =>
-                {
-                    FSMTableListView.BeginUpdate();
-                    FSMTableListView.EndUpdate();
-                });
+            ControlThreadingHelper.InvokeControlAction(FSMTableListView, () =>
+            {
+                FSMTableListView.BeginUpdate();
+                FSMTableListView.EndUpdate();
             });
         }
 
@@ -192,6 +189,6 @@ namespace Anathema
         }
 
         #endregion
-        
+
     }
 }

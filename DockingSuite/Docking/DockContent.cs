@@ -11,6 +11,7 @@ namespace WeifenLuo.WinFormsUI.Docking
     {
         public DockContent()
         {
+            MessageBox.Show("test");
             m_dockHandler = new DockContentHandler(this, new GetPersistStringCallback(GetPersistString));
             m_dockHandler.DockStateChanged += new EventHandler(DockHandler_DockStateChanged);
             //Suggested as a fix by bensty regarding form resize

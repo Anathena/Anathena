@@ -85,8 +85,10 @@ namespace Anathema
                     }
                     FrequencyTotal += (UInt64)LabelFrequencyChart.Series["Frequency"].Points[Index].YValues[0];
                 }
-                HighlightMinValue = (Int32)LabelFrequencyChart.Series["Frequency"].Points[MinValueTrackBar.Value].XValue;
-                HighlightMaxvalue = (Int32)LabelFrequencyChart.Series["Frequency"].Points[MaxValueTrackBar.Value].XValue;
+                if (MinValue < BarCount)
+                    HighlightMinValue = (Int32)LabelFrequencyChart.Series["Frequency"].Points[MinValue].XValue;
+                if (MaxValue < BarCount)
+                    HighlightMaxvalue = (Int32)LabelFrequencyChart.Series["Frequency"].Points[MaxValue].XValue;
             });
 
             // Update min/max values in presenter
@@ -114,8 +116,7 @@ namespace Anathema
             // Force a redraw of the screen (corrects some weird rendering bug in either winforms or docking library, not sure)
             ControlThreadingHelper.InvokeControlAction(this, () =>
             {
-                this.SuspendLayout();
-                this.ResumeLayout();
+                this.Refresh();
             });
         }
 
@@ -139,6 +140,12 @@ namespace Anathema
             ControlThreadingHelper.InvokeControlAction(MaxLabelLabel, () =>
             {
                 MaxLabelLabel.Text = "Max: ";
+            });
+
+            // Force a redraw of the screen (corrects some weird rendering bug in either winforms or docking library, not sure)
+            ControlThreadingHelper.InvokeControlAction(this, () =>
+            {
+                this.Refresh();
             });
         }
 

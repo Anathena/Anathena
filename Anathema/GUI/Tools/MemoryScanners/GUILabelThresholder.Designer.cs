@@ -28,19 +28,19 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea3 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Series series3 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea4 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Series series4 = new System.Windows.Forms.DataVisualization.Charting.Series();
             this.LabelFrequencyChart = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.MaxValueTrackBar = new System.Windows.Forms.TrackBar();
             this.MinValueTrackBar = new System.Windows.Forms.TrackBar();
             this.ScanToolStrip = new System.Windows.Forms.ToolStrip();
             this.ApplyThresholdButton = new System.Windows.Forms.ToolStripButton();
             this.RefreshButton = new System.Windows.Forms.ToolStripButton();
-            this.panel1 = new System.Windows.Forms.Panel();
-            this.MinLabelLabel = new System.Windows.Forms.Label();
-            this.MaxLabelLabel = new System.Windows.Forms.Label();
-            this.ReductionLabel = new System.Windows.Forms.ToolStripLabel();
             this.InvertSelectionButton = new System.Windows.Forms.ToolStripButton();
+            this.ReductionLabel = new System.Windows.Forms.ToolStripLabel();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.MaxLabelLabel = new System.Windows.Forms.Label();
+            this.MinLabelLabel = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.LabelFrequencyChart)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.MaxValueTrackBar)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.MinValueTrackBar)).BeginInit();
@@ -50,20 +50,20 @@
             // 
             // LabelFrequencyChart
             // 
-            chartArea3.AxisX.MajorGrid.Enabled = false;
-            chartArea3.AxisX.MajorTickMark.Enabled = false;
-            chartArea3.AxisX.Title = "Label";
-            chartArea3.AxisY.MajorGrid.Enabled = false;
-            chartArea3.AxisY.MajorTickMark.Enabled = false;
-            chartArea3.AxisY.Title = "Frequency";
-            chartArea3.Name = "LabelFrequencyChartArea";
-            this.LabelFrequencyChart.ChartAreas.Add(chartArea3);
+            chartArea4.AxisX.MajorGrid.Enabled = false;
+            chartArea4.AxisX.MajorTickMark.Enabled = false;
+            chartArea4.AxisX.Title = "Label";
+            chartArea4.AxisY.MajorGrid.Enabled = false;
+            chartArea4.AxisY.MajorTickMark.Enabled = false;
+            chartArea4.AxisY.Title = "Frequency";
+            chartArea4.Name = "LabelFrequencyChartArea";
+            this.LabelFrequencyChart.ChartAreas.Add(chartArea4);
             this.LabelFrequencyChart.Dock = System.Windows.Forms.DockStyle.Fill;
             this.LabelFrequencyChart.Location = new System.Drawing.Point(0, 25);
             this.LabelFrequencyChart.Name = "LabelFrequencyChart";
-            series3.ChartArea = "LabelFrequencyChartArea";
-            series3.Name = "Frequency";
-            this.LabelFrequencyChart.Series.Add(series3);
+            series4.ChartArea = "LabelFrequencyChartArea";
+            series4.Name = "Frequency";
+            this.LabelFrequencyChart.Series.Add(series4);
             this.LabelFrequencyChart.Size = new System.Drawing.Size(486, 186);
             this.LabelFrequencyChart.TabIndex = 0;
             this.LabelFrequencyChart.Text = "Label Thresholder";
@@ -75,7 +75,7 @@
             this.MaxValueTrackBar.AutoSize = false;
             this.MaxValueTrackBar.Location = new System.Drawing.Point(94, 36);
             this.MaxValueTrackBar.Name = "MaxValueTrackBar";
-            this.MaxValueTrackBar.Size = new System.Drawing.Size(380, 24);
+            this.MaxValueTrackBar.Size = new System.Drawing.Size(366, 24);
             this.MaxValueTrackBar.TabIndex = 1;
             this.MaxValueTrackBar.TickStyle = System.Windows.Forms.TickStyle.None;
             this.MaxValueTrackBar.Value = 10;
@@ -88,7 +88,7 @@
             this.MinValueTrackBar.AutoSize = false;
             this.MinValueTrackBar.Location = new System.Drawing.Point(94, 6);
             this.MinValueTrackBar.Name = "MinValueTrackBar";
-            this.MinValueTrackBar.Size = new System.Drawing.Size(380, 24);
+            this.MinValueTrackBar.Size = new System.Drawing.Size(366, 24);
             this.MinValueTrackBar.TabIndex = 2;
             this.MinValueTrackBar.TickStyle = System.Windows.Forms.TickStyle.None;
             this.MinValueTrackBar.Scroll += new System.EventHandler(this.MinValueTrackBar_Scroll);
@@ -128,6 +128,23 @@
             this.RefreshButton.Text = "Refresh";
             this.RefreshButton.Click += new System.EventHandler(this.RefreshButton_Click);
             // 
+            // InvertSelectionButton
+            // 
+            this.InvertSelectionButton.CheckOnClick = true;
+            this.InvertSelectionButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.InvertSelectionButton.Image = global::Anathema.Properties.Resources.BenedictionIcon;
+            this.InvertSelectionButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.InvertSelectionButton.Name = "InvertSelectionButton";
+            this.InvertSelectionButton.Size = new System.Drawing.Size(23, 22);
+            this.InvertSelectionButton.Text = "Invert Selection";
+            this.InvertSelectionButton.Click += new System.EventHandler(this.InvertSelectionButton_Click);
+            // 
+            // ReductionLabel
+            // 
+            this.ReductionLabel.Name = "ReductionLabel";
+            this.ReductionLabel.Size = new System.Drawing.Size(73, 22);
+            this.ReductionLabel.Text = "Reduction: 0";
+            // 
             // panel1
             // 
             this.panel1.Controls.Add(this.MaxLabelLabel);
@@ -140,15 +157,6 @@
             this.panel1.Size = new System.Drawing.Size(486, 70);
             this.panel1.TabIndex = 142;
             // 
-            // MinLabelLabel
-            // 
-            this.MinLabelLabel.AutoSize = true;
-            this.MinLabelLabel.Location = new System.Drawing.Point(3, 10);
-            this.MinLabelLabel.Name = "MinLabelLabel";
-            this.MinLabelLabel.Size = new System.Drawing.Size(27, 13);
-            this.MinLabelLabel.TabIndex = 3;
-            this.MinLabelLabel.Text = "Min:";
-            // 
             // MaxLabelLabel
             // 
             this.MaxLabelLabel.AutoSize = true;
@@ -158,22 +166,14 @@
             this.MaxLabelLabel.TabIndex = 4;
             this.MaxLabelLabel.Text = "Max:";
             // 
-            // ReductionLabel
+            // MinLabelLabel
             // 
-            this.ReductionLabel.Name = "ReductionLabel";
-            this.ReductionLabel.Size = new System.Drawing.Size(73, 22);
-            this.ReductionLabel.Text = "Reduction: 0";
-            // 
-            // InvertSelectionButton
-            // 
-            this.InvertSelectionButton.CheckOnClick = true;
-            this.InvertSelectionButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.InvertSelectionButton.Image = global::Anathema.Properties.Resources.BenedictionIcon;
-            this.InvertSelectionButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.InvertSelectionButton.Name = "InvertSelectionButton";
-            this.InvertSelectionButton.Size = new System.Drawing.Size(23, 22);
-            this.InvertSelectionButton.Text = "Invert Selection";
-            this.InvertSelectionButton.Click += new System.EventHandler(this.InvertSelectionButton_Click);
+            this.MinLabelLabel.AutoSize = true;
+            this.MinLabelLabel.Location = new System.Drawing.Point(3, 10);
+            this.MinLabelLabel.Name = "MinLabelLabel";
+            this.MinLabelLabel.Size = new System.Drawing.Size(27, 13);
+            this.MinLabelLabel.TabIndex = 3;
+            this.MinLabelLabel.Text = "Min:";
             // 
             // GUILabelThresholder
             // 
