@@ -17,7 +17,6 @@ namespace Anathema
         public GUIResults()
         {
             InitializeComponent();
-
             ResultsPresenter = new ResultsPresenter(this, Results.GetInstance());
         }
 
@@ -25,7 +24,7 @@ namespace Anathema
         {
             ControlThreadingHelper.InvokeControlAction(GUIToolStrip, () =>
             {
-                this.SnapshotSizeValueLabel.Text = MemorySize;
+                SnapshotSizeValueLabel.Text = MemorySize;
             });
         }
 
@@ -33,8 +32,37 @@ namespace Anathema
         {
             ControlThreadingHelper.InvokeControlAction(ResultsListView, () =>
             {
-                this.ResultsListView.VirtualListSize = ItemCount;
+                ResultsListView.VirtualListSize = ItemCount;
             });
+        }
+
+        private void UpdateReadBounds()
+        {
+            const Int32 BoundsLimit = 128;
+            const Int32 OverRead = 28;
+
+            Int32 StartReadIndex = 0;
+            Int32 EndReadIndex = 0;
+
+            ControlThreadingHelper.InvokeControlAction(ResultsListView, () =>
+            {
+                StartReadIndex = ResultsListView.TopItem == null ? 0 : ResultsListView.TopItem.Index;
+
+                ListViewItem LastVisibleItem = ResultsListView.TopItem;
+                for (Int32 Index = StartReadIndex; Index < ResultsListView.Items.Count; Index++)
+                {
+                    if (Index - StartReadIndex > BoundsLimit)
+                        break;
+
+                    if (ResultsListView.ClientRectangle.IntersectsWith(ResultsListView.Items[Index].Bounds))
+                        LastVisibleItem = ResultsListView.Items[Index];
+                    else
+                        break;
+                }
+
+                EndReadIndex = LastVisibleItem == null ? 0 : LastVisibleItem.Index + 1 + OverRead;
+            });
+            ResultsPresenter.UpdateReadBounds(StartReadIndex, EndReadIndex);
         }
 
         public void EnableResults()
@@ -63,6 +91,8 @@ namespace Anathema
 
         public void ReadValues()
         {
+            UpdateReadBounds();
+
             // Force the list view to retrieve items again by signaling an update
             ControlThreadingHelper.InvokeControlAction(ResultsListView, () =>
             {

@@ -69,10 +69,12 @@ namespace Anathema
         public abstract void AddSelectionToTable(Int32 Index);
 
         public abstract IntPtr GetAddressAtIndex(Int32 Index);
-        public abstract dynamic GetValueAtIndex(Int32 Index);
-        public abstract dynamic GetLabelAtIndex(Int32 Index);
+        public abstract String GetValueAtIndex(Int32 Index);
+        public abstract String GetLabelAtIndex(Int32 Index);
         public abstract Type GetScanType();
         public abstract void SetScanType(Type ScanType);
+
+        public abstract void UpdateReadBounds(Int32 StartReadIndex, Int32 EndReadIndex);
     }
 
     class ResultsPresenter : Presenter<IResultsView, IResultsModel>
@@ -81,7 +83,10 @@ namespace Anathema
         protected new IResultsModel Model;
 
         private ListViewCache ListViewCache;
-        private const Int32 ValueTableIndex = 1;
+
+        private const Int32 AddressIndex = 0;
+        private const Int32 ValueIndex = 1;
+        private const Int32 LabelIndex = 2;
 
         public ResultsPresenter(IResultsView View, IResultsModel Model) : base(View, Model)
         {
@@ -99,22 +104,26 @@ namespace Anathema
         }
 
         #region Method definitions called by the view (downstream)
+        
+        public void UpdateReadBounds(Int32 StartReadIndex, Int32 EndReadIndex)
+        {
+            Model.UpdateReadBounds(StartReadIndex, EndReadIndex);
+        }
 
         public ListViewItem GetItemAt(Int32 Index)
         {
             ListViewItem Item = ListViewCache.Get(Index);
 
             // Try to update and return the item if it is a valid item
-            if (Item != null && ListViewCache.TryUpdateSubItem(Index, ValueTableIndex, Model.GetValueAtIndex(Index).ToString()))
+            if (Item != null && ListViewCache.TryUpdateSubItem(Index, ValueIndex, Model.GetValueAtIndex(Index)))
                 return Item;
+            
+            // Add the properties to the cache and get the list view item back
+            Item = ListViewCache.Add(Index, new String[] { String.Empty, String.Empty, String.Empty });
 
-            // Item invalid or could not be updated, need to create a new one
-            IntPtr Address = Model.GetAddressAtIndex(Index);
-            dynamic Value = Model.GetValueAtIndex(Index);
-            dynamic Label = Model.GetLabelAtIndex(Index);
-
-            // Add the properties to the manager and get the list view item back
-            Item = ListViewCache.Add(Index, new String[] { Conversions.ToAddress(Address.ToString()), Value.ToString(), Label.ToString() });
+            Item.SubItems[AddressIndex].Text = Conversions.ToAddress(Model.GetAddressAtIndex(Index).ToString());
+            Item.SubItems[ValueIndex].Text = "-";
+            Item.SubItems[LabelIndex].Text = Model.GetLabelAtIndex(Index);
 
             return Item;
         }
