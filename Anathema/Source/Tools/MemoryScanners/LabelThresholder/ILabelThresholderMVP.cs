@@ -19,15 +19,19 @@ namespace Anathema
         void DisplayHistogram(SortedDictionary<dynamic, Int64> SortedDictionary);
     }
 
-    interface ILabelThresholderModel : IModel, IProcessObserver
+    abstract class ILabelThresholderModel : IScannerModel
     {
         // Events triggered by the model (upstream)
-        event LabelThresholderEventHandler EventUpdateHistogram;
+        public event LabelThresholderEventHandler EventUpdateHistogram;
+        protected virtual void OnEventUpdateHistogram(LabelThresholderEventArgs E)
+        {
+            EventUpdateHistogram(this, E);
+        }
 
         // Functions invoked by presenter (downstream)
-        void GatherData();
-        void ApplyThreshold(Int32 MinimumIndex, Int32 MaximumIndex);
-        void SetInverted(Boolean Inverted);
+        public abstract void ApplyThreshold();
+        public abstract void UpdateThreshold(Int32 MinimumIndex, Int32 MaximumIndex);
+        public abstract void SetInverted(Boolean Inverted);
     }
 
     class LabelThresholderPresenter : Presenter<ILabelThresholderView, ILabelThresholderModel>
@@ -40,14 +44,19 @@ namespace Anathema
 
         #region Method definitions called by the view (downstream)
         
-        public void GatherData()
+        public void Begin()
         {
-            Model.GatherData();
+            Model.Begin();
         }
 
-        public void ApplyThreshold(Int32 MinimumIndex, Int32 MaximumIndex)
+        public void ApplyThreshold()
         {
-            Model.ApplyThreshold(MinimumIndex, MaximumIndex);
+            Model.ApplyThreshold();
+        }
+
+        public void UpdateThreshold(Int32 MinimumIndex, Int32 MaximumIndex)
+        {
+            Model.UpdateThreshold(MinimumIndex, MaximumIndex);
         }
 
         public void SetInverted(Boolean Inverted)

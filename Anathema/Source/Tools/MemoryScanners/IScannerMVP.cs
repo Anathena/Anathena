@@ -48,8 +48,8 @@ namespace Anathema
 
         public override void End()
         {
-            Results.GetInstance().EnableResults();
             base.End();
+            Results.GetInstance().EnableResults();
         }
     }
 

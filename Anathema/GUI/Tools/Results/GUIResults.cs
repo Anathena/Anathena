@@ -53,7 +53,6 @@ namespace Anathema
         {
             ControlThreadingHelper.InvokeControlAction(ResultsListView, () =>
             {
-                ResultsListView.VirtualListSize = 0;
                 ResultsListView.Enabled = false;
             });
             ControlThreadingHelper.InvokeControlAction(GUIToolStrip, () =>

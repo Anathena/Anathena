@@ -173,7 +173,7 @@ namespace Anathema
             List<SnapshotRegion<LabelType>> Regions = new List<SnapshotRegion<LabelType>>();
             //SetElementType(BaseSnapshot.GetElementType());
 
-            if (BaseSnapshot.GetSnapshotRegions() != null)
+            if (BaseSnapshot != null && BaseSnapshot.GetSnapshotRegions() != null)
             {
                 foreach (SnapshotRegion Region in BaseSnapshot.GetSnapshotRegions())
                 {

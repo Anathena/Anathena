@@ -14,42 +14,45 @@ namespace Anathema
     {
         private MemorySharp MemoryEditor;
         private Snapshot Snapshot;
-
-        public event LabelThresholderEventHandler EventUpdateHistogram;
-
+        
         private SortedDictionary<dynamic, Int64> SortedDictionary;
         private Boolean Inverted;
 
+        private dynamic MinValue;
+        private dynamic MaxValue;
+
         public LabelThresholder()
         {
-            InitializeProcessObserver();
 
         }
 
-        public void InitializeProcessObserver()
-        {
-            ProcessSelector.GetInstance().Subscribe(this);
-        }
-
-        public void UpdateMemoryEditor(MemorySharp MemoryEditor)
-        {
-            this.MemoryEditor = MemoryEditor;
-        }
-
-        public void SetInverted(Boolean Inverted)
+        public override void SetInverted(Boolean Inverted)
         {
             this.Inverted = Inverted;
         }
 
-        public void GatherData()
+        public override void UpdateThreshold(Int32 MinimumIndex, Int32 MaximumIndex)
+        {
+            this.MinValue = SortedDictionary.ElementAt(MinimumIndex).Key;
+            this.MaxValue = SortedDictionary.ElementAt(MaximumIndex).Key;
+        }
+        
+        public override void Begin()
         {
             Snapshot = SnapshotManager.GetInstance().GetActiveSnapshot();
 
             if (Snapshot == null)
                 return;
 
-            ConcurrentDictionary<dynamic, Int64> Histogram = new ConcurrentDictionary<dynamic, Int64>();
+            base.Begin();
+        }
+
+        protected override void Update()
+        {
+            base.Update();
             
+            ConcurrentDictionary<dynamic, Int64> Histogram = new ConcurrentDictionary<dynamic, Int64>();
+
             Parallel.ForEach(Snapshot.Cast<Object>(), (RegionObject) =>
             {
                 SnapshotRegion Region = (SnapshotRegion)RegionObject;
@@ -71,21 +74,25 @@ namespace Anathema
 
             LabelThresholderEventArgs Args = new LabelThresholderEventArgs();
             Args.SortedDictionary = SortedDictionary;
-            EventUpdateHistogram(this, Args);
+            OnEventUpdateHistogram(Args);
+
+            CancelFlag = true;
         }
 
-        public void ApplyThreshold(Int32 MinimumIndex, Int32 MaximumIndex)
+        public override void End()
         {
-            dynamic MinValue = SortedDictionary.ElementAt(MinimumIndex).Key;
-            dynamic MaxValue = SortedDictionary.ElementAt(MaximumIndex).Key;
+            base.End();
+        }
 
+        public override void ApplyThreshold()
+        {
             if (!Inverted)
             {
                 Snapshot.MarkAllInvalid();
                 foreach (SnapshotRegion Region in Snapshot)
-                foreach (dynamic Element in Region)
-                    if (Element.ElementLabel >= MinValue && Element.ElementLabel <= MaxValue)
-                        Element.Valid = true;
+                    foreach (dynamic Element in Region)
+                        if (Element.ElementLabel >= MinValue && Element.ElementLabel <= MaxValue)
+                            Element.Valid = true;
             }
             else
             {
