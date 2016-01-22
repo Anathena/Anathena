@@ -112,9 +112,11 @@ namespace Anathema
 
             IndexValueMap.Clear();
 
+            Int32 ElementCount = (Int32)(Math.Min((UInt64)Int32.MaxValue, Snapshot.GetElementCount()));
+
             for (Int32 Index = StartReadIndex; Index < EndReadIndex; Index++)
             {
-                if (Index >= (Int32)Snapshot.GetElementCount())
+                if (Index < 0 || Index >= ElementCount)
                     continue;
 
                 Boolean ReadSuccess;

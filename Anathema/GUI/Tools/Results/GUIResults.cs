@@ -46,12 +46,12 @@ namespace Anathema
 
             ControlThreadingHelper.InvokeControlAction(ResultsListView, () =>
             {
-                StartReadIndex = ResultsListView.TopItem == null ? 0 : ResultsListView.TopItem.Index;
+                StartReadIndex = ResultsListView.TopItem == null ? 0 : ResultsListView.TopItem.Index ;
 
                 ListViewItem LastVisibleItem = ResultsListView.TopItem;
                 for (Int32 Index = StartReadIndex; Index < ResultsListView.Items.Count; Index++)
                 {
-                    if (Index - StartReadIndex > BoundsLimit)
+                    if (Index - ResultsListView.TopItem.Index > BoundsLimit)
                         break;
 
                     if (ResultsListView.ClientRectangle.IntersectsWith(ResultsListView.Items[Index].Bounds))
@@ -60,6 +60,7 @@ namespace Anathema
                         break;
                 }
 
+                StartReadIndex -= OverRead;
                 EndReadIndex = LastVisibleItem == null ? 0 : LastVisibleItem.Index + 1 + OverRead;
             });
             ResultsPresenter.UpdateReadBounds(StartReadIndex, EndReadIndex);
