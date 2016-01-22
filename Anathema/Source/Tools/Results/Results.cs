@@ -14,7 +14,7 @@ namespace Anathema
     /// <summary>
     /// Handles the displaying of results
     /// </summary>
-    class Results : IResultsModel, IProcessObserver, ISnapshotManagerObserver
+    class Results : IResultsModel, IProcessObserver
     {
         private static Results ResultsInstance;
         private MemorySharp MemoryEditor;
@@ -29,7 +29,6 @@ namespace Anathema
         private Results()
         {
             InitializeProcessObserver();
-            InitializeSnapshotManagerObserver();
             SetScanType(typeof(Int32));
             IndexValueMap = new ConcurrentDictionary<Int32, String>();
             Begin();
@@ -52,11 +51,6 @@ namespace Anathema
             ProcessSelector.GetInstance().Subscribe(this);
         }
 
-        public void InitializeSnapshotManagerObserver()
-        {
-            SnapshotManager.GetInstance().Subscribe(this);
-        }
-
         public void UpdateMemoryEditor(MemorySharp MemoryEditor)
         {
             this.MemoryEditor = MemoryEditor;
@@ -72,20 +66,6 @@ namespace Anathema
         {
             CancelFlag = true;
             OnEventDisableResults(new ResultsEventArgs());
-        }
-
-        public void SnapshotUpdated()
-        {
-            return;
-            Snapshot Snapshot = SnapshotManager.GetInstance().GetActiveSnapshot();
-
-            UInt64 MemorySize = (Snapshot == null ? 0 : Snapshot.GetMemorySize());
-
-            // Send the size of the filtered memory to the display
-            ResultsEventArgs Args = new ResultsEventArgs();
-            Args.MemorySize = MemorySize;
-            OnEventFlushCache(Args);
-            OnEventUpdateMemorySize(Args);
         }
 
         public override void SetScanType(Type ScanType)

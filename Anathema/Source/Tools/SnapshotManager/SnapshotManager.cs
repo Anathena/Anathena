@@ -8,11 +8,10 @@ using System.Threading.Tasks;
 
 namespace Anathema
 {
-    class SnapshotManager : ISnapshotManagerModel, ISnapshotManagerSubject
+    class SnapshotManager : ISnapshotManagerModel
     {
         // Singleton class instance
         private static SnapshotManager SnapshotManagerInstance;
-        private List<ISnapshotManagerObserver> SnapshotManagerObservers;
 
         // Lock to ensure multiple entities do not try and update the snapshot list at the same time
         private Object AccessLock = new Object();
@@ -28,7 +27,6 @@ namespace Anathema
 
         private SnapshotManager()
         {
-            SnapshotManagerObservers = new List<ISnapshotManagerObserver>();
             Snapshots = new Stack<Snapshot>();
             DeletedSnapshots = new Stack<Snapshot>();
 
@@ -51,31 +49,6 @@ namespace Anathema
         public void UpdateMemoryEditor(MemorySharp MemoryEditor)
         {
             this.MemoryEditor = MemoryEditor;
-        }
-
-        public void Subscribe(ISnapshotManagerObserver Observer)
-        {
-            if (SnapshotManagerObservers.Contains(Observer))
-                return;
-
-            SnapshotManagerObservers.Add(Observer);
-
-            Notify();
-        }
-
-        public void Unsubscribe(ISnapshotManagerObserver Observer)
-        {
-            if (!SnapshotManagerObservers.Contains(Observer))
-                return;
-
-            SnapshotManagerObservers.Remove(Observer);
-        }
-
-        public void Notify()
-        {
-            // Notify subscribers
-            foreach (ISnapshotManagerObserver SnapshotManagerObserver in SnapshotManagerObservers)
-                SnapshotManagerObserver.SnapshotUpdated();
         }
 
         /// <summary>
@@ -248,7 +221,6 @@ namespace Anathema
                 RefreshSnapshots.Invoke(this, SnapshotManagerEventArgs);
                 FlushCache.Invoke(this, SnapshotManagerEventArgs);
             }
-            Notify();
         }
 
     } // End class

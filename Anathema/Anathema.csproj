@@ -157,8 +157,6 @@
     <Compile Include="Source\Tools\MemoryScanners\InputCorrelator\IInputCorrelatorMVP.cs" />
     <Compile Include="Source\Tools\ScriptEditor\IScriptEditorMVP.cs" />
     <Compile Include="Source\Tools\ScriptEditor\ScriptEditor.cs" />
-    <Compile Include="Source\Tools\SnapshotManager\ISnapshotManagerObserver.cs" />
-    <Compile Include="Source\Tools\SnapshotManager\ISnapshotManagerSubject.cs" />
     <Compile Include="Source\Tools\SnapshotManager\SnapshotRegion.cs" />
     <Compile Include="Source\Tools\SnapshotManager\SnapshotElement.cs" />
     <Compile Include="Source\Tools\MemoryScanners\Hashing.cs" />
