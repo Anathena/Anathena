@@ -23,6 +23,8 @@ namespace Anathema
 
         // Event stubs
         public event SnapshotManagerEventHandler UpdateSnapshotCount;
+        public event SnapshotManagerEventHandler RefreshSnapshots;
+        public event SnapshotManagerEventHandler FlushCache;
 
         private SnapshotManager()
         {
@@ -209,15 +211,16 @@ namespace Anathema
         {
             lock (AccessLock)
             {
-                if (Index < DeletedSnapshots.Count)
+                if (Index < Snapshots.Count)
                 {
-                    return DeletedSnapshots.ToList()[Index];
+                    if (Index < Snapshots.Count)
+                        return Snapshots.Select(x => x).Reverse().ToList()[Index];
                 }
                 else
                 {
-                    Index -= DeletedSnapshots.Count;
-                    if (Index < Snapshots.Count)
-                        return Snapshots.ToList()[Index];
+                    Index -= Snapshots.Count;
+                    if (Index < DeletedSnapshots.Count)
+                        return DeletedSnapshots.Select(x => x).ToList()[Index];
                 }
             }
             return null;
@@ -239,8 +242,11 @@ namespace Anathema
             lock (AccessLock)
             {
                 SnapshotManagerEventArgs SnapshotManagerEventArgs = new SnapshotManagerEventArgs();
-                SnapshotManagerEventArgs.SnapshotCount = Snapshots.Count + DeletedSnapshots.Count;
+                SnapshotManagerEventArgs.DeletedSnapshotCount = DeletedSnapshots.Count;
+                SnapshotManagerEventArgs.SnapshotCount = Snapshots.Count;
                 UpdateSnapshotCount.Invoke(this, SnapshotManagerEventArgs);
+                RefreshSnapshots.Invoke(this, SnapshotManagerEventArgs);
+                FlushCache.Invoke(this, SnapshotManagerEventArgs);
             }
             Notify();
         }

@@ -22,6 +22,15 @@ namespace Anathema
             SnapshotManagerPresenter = new SnapshotManagerPresenter(this, SnapshotManager.GetInstance());
         }
 
+        public void RefreshSnapshots()
+        {
+            ControlThreadingHelper.InvokeControlAction(SnapshotListView, () =>
+            {
+                SnapshotListView.BeginUpdate();
+                SnapshotListView.EndUpdate();
+            });
+        }
+
         public void UpdateSnapshotCount(Int32 SnapshotCount)
         {
             ControlThreadingHelper.InvokeControlAction(SnapshotListView, () =>

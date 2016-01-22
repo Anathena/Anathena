@@ -13,7 +13,7 @@ namespace Anathema
     delegate void SnapshotManagerEventHandler(Object Sender, SnapshotManagerEventArgs Args);
     class SnapshotManagerEventArgs : EventArgs
     {
-        public Int32 DeletedSnapshotCount;
+        public Int32 DeletedSnapshotCount = 0;
         public Int32 SnapshotCount = 0;
     }
 
@@ -21,12 +21,15 @@ namespace Anathema
     {
         // Methods invoked by the presenter (upstream)
         void UpdateSnapshotCount(Int32 SnapshotCount);
+        void RefreshSnapshots();
     }
 
     interface ISnapshotManagerModel : IModel, IProcessObserver
     {
         // Events triggered by the model (upstream)
         event SnapshotManagerEventHandler UpdateSnapshotCount;
+        event SnapshotManagerEventHandler RefreshSnapshots;
+        event SnapshotManagerEventHandler FlushCache;
 
         // Functions invoked by presenter (downstream)
         void CreateNewSnapshot();
@@ -47,8 +50,8 @@ namespace Anathema
         private Int32 SnapshotCount;
 
         private Int32 ScanTypeIndex = 0;
-        private Int32 MemorySizeIndex = 0;
-        private Int32 TimeStampIndex = 0;
+        private Int32 MemorySizeIndex = 1;
+        private Int32 TimeStampIndex = 2;
 
         public SnapshotManagerPresenter(ISnapshotManagerView View, ISnapshotManagerModel Model) : base(View, Model)
         {
@@ -59,6 +62,8 @@ namespace Anathema
 
             // Bind events triggered by the model
             Model.UpdateSnapshotCount += UpdateSnapshotCount;
+            Model.RefreshSnapshots += RefreshSnapshots;
+            Model.FlushCache += FlushCache;
         }
 
         #region Method definitions called by the view (downstream)
@@ -76,8 +81,8 @@ namespace Anathema
             // Try to update and return the item if it is a valid item
             if (Item != null)
             {
-                Item.ForeColor = Index < DeletedSnapshotCount ? Color.LightGray : SystemColors.ControlText;
-                Item.BackColor = Index == (DeletedSnapshotCount + SnapshotCount - 1) ? SystemColors.Control : SystemColors.Highlight;
+                Item.ForeColor = Index > (SnapshotCount - DeletedSnapshotCount) ? Color.LightGray : SystemColors.ControlText;
+                Item.BackColor = Index == (SnapshotCount - 1) ? SystemColors.Highlight : SystemColors.Control;
                 return Item;
             }
 
@@ -88,8 +93,8 @@ namespace Anathema
             Item.SubItems[MemorySizeIndex].Text = Snapshot == null ? "-" : Conversions.BytesToMetric(Snapshot.GetMemorySize());
             Item.SubItems[TimeStampIndex].Text = Snapshot == null ? "-" : Snapshot.GetTimeStamp().ToLongTimeString();
 
-            Item.ForeColor = Index < DeletedSnapshotCount ? Color.LightGray : SystemColors.ControlText;
-            Item.BackColor = Index == (DeletedSnapshotCount + SnapshotCount - 1) ? SystemColors.Control : SystemColors.Highlight;
+            Item.ForeColor = Index > (SnapshotCount - DeletedSnapshotCount) ? Color.LightGray : SystemColors.ControlText;
+            Item.BackColor = Index == (SnapshotCount - 1) ? SystemColors.Highlight : SystemColors.Control;
             return Item;
         }
 
@@ -122,6 +127,17 @@ namespace Anathema
             this.SnapshotCount = E.SnapshotCount;
             this.DeletedSnapshotCount = E.DeletedSnapshotCount;
             View.UpdateSnapshotCount(E.SnapshotCount + E.DeletedSnapshotCount);
+        }
+
+        private void RefreshSnapshots(Object Sender, SnapshotManagerEventArgs E)
+        {
+            View.RefreshSnapshots();
+        }
+
+        private void FlushCache(Object Sender, SnapshotManagerEventArgs E)
+        {
+            ListViewCache.FlushCache();
+            View.RefreshSnapshots();
         }
 
         #endregion
