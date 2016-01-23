@@ -1,5 +1,6 @@
 ﻿using Binarysharp.MemoryManagement;
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.IO;
 using System.Runtime.Serialization;
@@ -47,11 +48,15 @@ namespace Anathema
 
         private TableData CurrentTableData;
 
+        private Int32 StartReadIndex;
+        private Int32 EndReadIndex;
+        private ConcurrentDictionary<Int32, String> IndexValueMap;
+
         private Table()
         {
             InitializeProcessObserver();
             CurrentTableData = new TableData();
-
+            IndexValueMap = new ConcurrentDictionary<Int32, String>();
             Begin();
         }
 
@@ -96,7 +101,7 @@ namespace Anathema
                     Serializer.WriteObject(FileStream, CurrentTableData);
                 }
             }
-            catch (Exception Ex)
+            catch
             {
                 return false;
             }
@@ -113,7 +118,7 @@ namespace Anathema
                     CurrentTableData = (TableData)Serializer.ReadObject(FileStream);
                 }
             }
-            catch (Exception Ex)
+            catch
             {
                 return false;
             }
@@ -156,8 +161,30 @@ namespace Anathema
         {
             // Freeze addresses
             foreach (AddressItem Item in CurrentTableData.AddressTable)
+            {
                 if (Item.GetActivationState())
                     MemoryEditor.Write(Item.ElementType, (IntPtr)Item.Address, Item.Value, false);
+            }
+
+            foreach (AddressItem Item in CurrentTableData.AddressTable)
+            {
+                Boolean ReadSuccess;
+                if (MemoryEditor != null)
+                    Item.Value = MemoryEditor.Read(Item.ElementType, (IntPtr)Item.Address, out ReadSuccess, false);
+            }
+            
+            IndexValueMap.Clear();
+
+            for (Int32 Index = StartReadIndex; Index < EndReadIndex; Index++)
+            {
+                if (Index < 0 || Index >= CurrentTableData.AddressTable.Count)
+                    continue;
+
+                Boolean ReadSuccess;
+                CurrentTableData.AddressTable[Index].Value = MemoryEditor.Read(CurrentTableData.AddressTable[Index].ElementType, (IntPtr)CurrentTableData.AddressTable[Index].Address, out ReadSuccess, false);
+
+                IndexValueMap[Index] = CurrentTableData.AddressTable[Index].Value.ToString();
+            }
 
             RefreshDisplay();
         }
@@ -173,9 +200,6 @@ namespace Anathema
 
         public override AddressItem GetAddressItemAt(Int32 Index)
         {
-            Boolean ReadSuccess;
-            if (MemoryEditor != null)
-                CurrentTableData.AddressTable[Index].Value = MemoryEditor.Read(CurrentTableData.AddressTable[Index].ElementType, (IntPtr)CurrentTableData.AddressTable[Index].Address, out ReadSuccess, false);
             return CurrentTableData.AddressTable[Index];
         }
 

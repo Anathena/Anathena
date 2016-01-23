@@ -104,12 +104,21 @@ namespace Anathema
 
         private void AddSelectedElements()
         {
+            const Int32 AddMaximum = 4096;
+
+            Int32 Count = 0;
             foreach (Int32 Index in ResultsListView.SelectedIndices)
+            { 
                 ResultsPresenter.AddSelectionToTable(Index);
+
+                // Prevent adding too many elements. No user would do this intentionally.
+                if (++Count > AddMaximum)
+                    break;
+            }
         }
 
         #region Events
-
+        
         private void ByteToolStripMenuItem_Click(Object Sender, EventArgs E)
         {
             ResultsPresenter.UpdateScanType(typeof(SByte));
@@ -150,11 +159,23 @@ namespace Anathema
             E.Item = ResultsPresenter.GetItemAt(E.ItemIndex);
         }
 
-        private void ResultsListView_DoubleClick(Object sender, EventArgs E)
+        private void AddSelectedResultsButton_Click(Object Sender, EventArgs E)
+        {
+            AddSelectedElements();
+        }
+
+        private void ResultsListView_DoubleClick(Object Sender, EventArgs E)
+        {
+            AddSelectedElements();
+        }
+
+        private void AddToCheatsToolStripMenuItem_Click(Object Sender, EventArgs E)
         {
             AddSelectedElements();
         }
 
         #endregion
-    }
-}
+
+    } // End class
+
+} // End mamespace

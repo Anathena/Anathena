@@ -261,9 +261,7 @@ namespace Anathema
                         DeallocatedRegions.Add(SnapshotRegion);
                 }
             });
-
-            return;
-
+            
             // Handle invalid reads
             if (DeallocatedRegions.IsEmpty)
                 return;

@@ -59,13 +59,14 @@
             this.ChangeTypeToolStripMenuItem,
             this.ChangeSignToolStripMenuItem});
             this.RightClickMenu.Name = "RightClickMenu";
-            this.RightClickMenu.Size = new System.Drawing.Size(152, 70);
+            this.RightClickMenu.Size = new System.Drawing.Size(153, 92);
             // 
             // AddToCheatsToolStripMenuItem
             // 
             this.AddToCheatsToolStripMenuItem.Name = "AddToCheatsToolStripMenuItem";
-            this.AddToCheatsToolStripMenuItem.Size = new System.Drawing.Size(151, 22);
+            this.AddToCheatsToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.AddToCheatsToolStripMenuItem.Text = "Add To Cheats";
+            this.AddToCheatsToolStripMenuItem.Click += new System.EventHandler(this.AddToCheatsToolStripMenuItem_Click);
             // 
             // ChangeTypeToolStripMenuItem
             // 
@@ -77,7 +78,7 @@
             this.SingleToolStripMenuItem,
             this.DoubleToolStripMenuItem});
             this.ChangeTypeToolStripMenuItem.Name = "ChangeTypeToolStripMenuItem";
-            this.ChangeTypeToolStripMenuItem.Size = new System.Drawing.Size(151, 22);
+            this.ChangeTypeToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.ChangeTypeToolStripMenuItem.Text = "Change Type";
             // 
             // ByteToolStripMenuItem
@@ -125,7 +126,7 @@
             // ChangeSignToolStripMenuItem
             // 
             this.ChangeSignToolStripMenuItem.Name = "ChangeSignToolStripMenuItem";
-            this.ChangeSignToolStripMenuItem.Size = new System.Drawing.Size(151, 22);
+            this.ChangeSignToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.ChangeSignToolStripMenuItem.Text = "Change Sign";
             this.ChangeSignToolStripMenuItem.Click += new System.EventHandler(this.ChangeSignToolStripMenuItem_Click);
             // 
@@ -151,6 +152,7 @@
             this.AddSelectedResultsButton.Name = "AddSelectedResultsButton";
             this.AddSelectedResultsButton.Size = new System.Drawing.Size(23, 22);
             this.AddSelectedResultsButton.Text = "Add Selected to Table";
+            this.AddSelectedResultsButton.Click += new System.EventHandler(this.AddSelectedResultsButton_Click);
             // 
             // toolStripSeparator1
             // 

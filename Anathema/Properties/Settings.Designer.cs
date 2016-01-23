@@ -25,7 +25,7 @@ namespace Anathema.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("50")]
+        [global::System.Configuration.DefaultSettingValueAttribute("100")]
         public int FreezeInterval {
             get {
                 return ((int)(this["FreezeInterval"]));
@@ -49,7 +49,7 @@ namespace Anathema.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("50")]
+        [global::System.Configuration.DefaultSettingValueAttribute("100")]
         public int ResultReadInterval {
             get {
                 return ((int)(this["ResultReadInterval"]));
@@ -61,7 +61,7 @@ namespace Anathema.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("50")]
+        [global::System.Configuration.DefaultSettingValueAttribute("100")]
         public int TableReadInterval {
             get {
                 return ((int)(this["TableReadInterval"]));

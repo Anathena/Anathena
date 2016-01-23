@@ -112,12 +112,6 @@ namespace Anathema
             {
                 ReductionLabel.Text = FrequencySelected.ToString() + " / " + FrequencyTotal.ToString() + " (" + Conversions.BytesToMetric(FrequencySelected) + " / " + Conversions.BytesToMetric(FrequencyTotal) + ")";
             });
-
-            // Force a redraw of the screen (corrects some weird rendering bug in either winforms or docking library, not sure)
-            ControlThreadingHelper.InvokeControlAction(this, () =>
-            {
-                this.Refresh();
-            });
         }
 
         private void ClearGraph()
@@ -140,12 +134,6 @@ namespace Anathema
             ControlThreadingHelper.InvokeControlAction(MaxLabelLabel, () =>
             {
                 MaxLabelLabel.Text = "Max: ";
-            });
-
-            // Force a redraw of the screen (corrects some weird rendering bug in either winforms or docking library, not sure)
-            ControlThreadingHelper.InvokeControlAction(this, () =>
-            {
-                this.Refresh();
             });
         }
 
