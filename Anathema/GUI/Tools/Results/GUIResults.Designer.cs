@@ -59,12 +59,12 @@
             this.ChangeTypeToolStripMenuItem,
             this.ChangeSignToolStripMenuItem});
             this.RightClickMenu.Name = "RightClickMenu";
-            this.RightClickMenu.Size = new System.Drawing.Size(153, 92);
+            this.RightClickMenu.Size = new System.Drawing.Size(152, 70);
             // 
             // AddToCheatsToolStripMenuItem
             // 
             this.AddToCheatsToolStripMenuItem.Name = "AddToCheatsToolStripMenuItem";
-            this.AddToCheatsToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.AddToCheatsToolStripMenuItem.Size = new System.Drawing.Size(151, 22);
             this.AddToCheatsToolStripMenuItem.Text = "Add To Cheats";
             this.AddToCheatsToolStripMenuItem.Click += new System.EventHandler(this.AddToCheatsToolStripMenuItem_Click);
             // 
@@ -78,7 +78,7 @@
             this.SingleToolStripMenuItem,
             this.DoubleToolStripMenuItem});
             this.ChangeTypeToolStripMenuItem.Name = "ChangeTypeToolStripMenuItem";
-            this.ChangeTypeToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.ChangeTypeToolStripMenuItem.Size = new System.Drawing.Size(151, 22);
             this.ChangeTypeToolStripMenuItem.Text = "Change Type";
             // 
             // ByteToolStripMenuItem
@@ -126,7 +126,7 @@
             // ChangeSignToolStripMenuItem
             // 
             this.ChangeSignToolStripMenuItem.Name = "ChangeSignToolStripMenuItem";
-            this.ChangeSignToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.ChangeSignToolStripMenuItem.Size = new System.Drawing.Size(151, 22);
             this.ChangeSignToolStripMenuItem.Text = "Change Sign";
             this.ChangeSignToolStripMenuItem.Click += new System.EventHandler(this.ChangeSignToolStripMenuItem_Click);
             // 
@@ -162,8 +162,8 @@
             // SnapshotSizeLabel
             // 
             this.SnapshotSizeLabel.Name = "SnapshotSizeLabel";
-            this.SnapshotSizeLabel.Size = new System.Drawing.Size(118, 22);
-            this.SnapshotSizeLabel.Text = "Active Snapshot Size:";
+            this.SnapshotSizeLabel.Size = new System.Drawing.Size(82, 22);
+            this.SnapshotSizeLabel.Text = "Snapshot Size:";
             // 
             // SnapshotSizeValueLabel
             // 

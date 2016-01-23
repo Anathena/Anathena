@@ -20,11 +20,11 @@ namespace Anathema
             ResultsPresenter = new ResultsPresenter(this, Results.GetInstance());
         }
 
-        public void UpdateMemorySizeLabel(String MemorySize)
+        public void UpdateMemorySizeLabel(String MemorySize, String ItemCount)
         {
             ControlThreadingHelper.InvokeControlAction(GUIToolStrip, () =>
             {
-                SnapshotSizeValueLabel.Text = MemorySize;
+                SnapshotSizeValueLabel.Text = MemorySize + " - (" + ItemCount + ")";
             });
         }
 

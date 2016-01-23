@@ -12,6 +12,7 @@ namespace Anathema
     delegate void ResultsEventHandler(Object Sender, ResultsEventArgs Args);
     class ResultsEventArgs : EventArgs
     {
+        public UInt64 ElementCount = 0;
         public UInt64 MemorySize = 0;
     }
 
@@ -21,7 +22,7 @@ namespace Anathema
         void ReadValues();
         void EnableResults();
         void DisableResults();
-        void UpdateMemorySizeLabel(String MemorySize);
+        void UpdateMemorySizeLabel(String MemorySize, String ItemCount);
         void UpdateItemCount(Int32 ItemCount);
     }
 
@@ -190,8 +191,8 @@ namespace Anathema
         private void EventFlushCache(Object Sender, ResultsEventArgs E)
         {
             ListViewCache.FlushCache();
-            View.UpdateMemorySizeLabel(Conversions.BytesToMetric(E.MemorySize));
-            View.UpdateItemCount((Int32)Math.Min(E.MemorySize, Int32.MaxValue));
+            View.UpdateMemorySizeLabel(Conversions.BytesToMetric(E.MemorySize), E.ElementCount.ToString());
+            View.UpdateItemCount((Int32)Math.Min(E.ElementCount, Int32.MaxValue));
         }
 
         #endregion

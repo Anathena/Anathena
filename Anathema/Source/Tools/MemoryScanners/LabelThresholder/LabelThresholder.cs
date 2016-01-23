@@ -107,6 +107,7 @@ namespace Anathema
             // Snapshot.SetScanMethod("Label Thresholder");
             // SnapshotManager.GetInstance().SaveSnapshot(Snapshot);
             SnapshotManager.GetInstance().ForceRefresh();
+            Results.GetInstance().ForceRefresh();
         }
 
     } // End class

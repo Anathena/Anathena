@@ -25,11 +25,13 @@ namespace Anathema
         private Int32 StartReadIndex;
         private Int32 EndReadIndex;
         private ConcurrentDictionary<Int32, String> IndexValueMap;
+        private Boolean ForceRefreshFlag;
 
         private Results()
         {
             InitializeProcessObserver();
             SetScanType(typeof(Int32));
+            ForceRefreshFlag = false;
             IndexValueMap = new ConcurrentDictionary<Int32, String>();
             Begin();
         }
@@ -54,6 +56,11 @@ namespace Anathema
         public void UpdateMemoryEditor(MemorySharp MemoryEditor)
         {
             this.MemoryEditor = MemoryEditor;
+        }
+
+        public void ForceRefresh()
+        {
+            ForceRefreshFlag = true;
         }
 
         public void EnableResults()
@@ -94,14 +101,15 @@ namespace Anathema
             base.Update();
 
             Snapshot ActiveSnapshot = SnapshotManager.GetInstance().GetActiveSnapshot();
-            if (Snapshot != ActiveSnapshot)
+            if (ForceRefreshFlag || Snapshot != ActiveSnapshot)
             {
+                ForceRefreshFlag = false;
                 Snapshot = ActiveSnapshot;
-
-                UInt64 MemorySize = (Snapshot == null ? 0 : Snapshot.GetElementCount());
+                
                 // Send the size of the filtered memory to the display
                 ResultsEventArgs Args = new ResultsEventArgs();
-                Args.MemorySize = MemorySize;
+                Args.ElementCount = (Snapshot == null ? 0 : Snapshot.GetElementCount());
+                Args.MemorySize = (Snapshot == null ? 0 : Snapshot.GetMemorySize());
                 OnEventFlushCache(Args);
                 return;
             }
