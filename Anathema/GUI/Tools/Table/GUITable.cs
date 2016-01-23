@@ -48,24 +48,45 @@ namespace Anathema
             });
         }
 
-        public void RefreshDisplay()
+        public void ReadValues()
         {
+            UpdateReadBounds();
+
             ControlThreadingHelper.InvokeControlAction(AddressTableListView, () =>
             {
                 AddressTableListView.BeginUpdate();
                 AddressTableListView.EndUpdate();
             });
-            ControlThreadingHelper.InvokeControlAction(ScriptTableListView, () =>
-            {
-                ScriptTableListView.BeginUpdate();
-                ScriptTableListView.EndUpdate();
-            });
+        }
 
-            ControlThreadingHelper.InvokeControlAction(FSMTableListView, () =>
+        private void UpdateReadBounds()
+        {
+            const Int32 BoundsLimit = 128;
+            const Int32 OverRead = 8;
+
+            Int32 StartReadIndex = 0;
+            Int32 EndReadIndex = 0;
+
+            ControlThreadingHelper.InvokeControlAction(AddressTableListView, () =>
             {
-                FSMTableListView.BeginUpdate();
-                FSMTableListView.EndUpdate();
+                StartReadIndex = AddressTableListView.TopItem == null ? 0 : AddressTableListView.TopItem.Index;
+
+                ListViewItem LastVisibleItem = AddressTableListView.TopItem;
+                for (Int32 Index = StartReadIndex; Index < AddressTableListView.Items.Count; Index++)
+                {
+                    if (Index - AddressTableListView.TopItem.Index > BoundsLimit)
+                        break;
+
+                    if (AddressTableListView.ClientRectangle.IntersectsWith(AddressTableListView.Items[Index].Bounds))
+                        LastVisibleItem = AddressTableListView.Items[Index];
+                    else
+                        break;
+                }
+
+                StartReadIndex -= OverRead;
+                EndReadIndex = LastVisibleItem == null ? 0 : LastVisibleItem.Index + 1 + OverRead;
             });
+            TablePresenter.UpdateReadBounds(StartReadIndex, EndReadIndex);
         }
 
         private void ViewCheatTable()

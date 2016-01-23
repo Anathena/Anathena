@@ -43,11 +43,6 @@ namespace Anathema
         {
             EventDisableResults(this, E);
         }
-        public event ResultsEventHandler EventUpdateMemorySize;
-        protected virtual void OnEventUpdateMemorySize(ResultsEventArgs E)
-        {
-            if (EventUpdateMemorySize != null) EventUpdateMemorySize(this, E);
-        }
         public event ResultsEventHandler EventFlushCache;
         protected virtual void OnEventFlushCache(ResultsEventArgs E)
         {
@@ -99,7 +94,6 @@ namespace Anathema
             Model.EventReadValues += EventReadValues;
             Model.EventEnableResults += EventEnableResults;
             Model.EventDisableResults += EventDisableResults;
-            Model.EventUpdateMemorySize += EventUpdateMemorySize;
             Model.EventFlushCache += EventFlushCache;
         }
 
@@ -196,10 +190,6 @@ namespace Anathema
         private void EventFlushCache(Object Sender, ResultsEventArgs E)
         {
             ListViewCache.FlushCache();
-        }
-
-        private void EventUpdateMemorySize(Object Sender, ResultsEventArgs E)
-        {
             View.UpdateMemorySizeLabel(Conversions.BytesToMetric(E.MemorySize));
             View.UpdateItemCount((Int32)Math.Min(E.MemorySize, Int32.MaxValue));
         }

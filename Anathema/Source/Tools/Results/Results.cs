@@ -103,7 +103,6 @@ namespace Anathema
                 ResultsEventArgs Args = new ResultsEventArgs();
                 Args.MemorySize = MemorySize;
                 OnEventFlushCache(Args);
-                OnEventUpdateMemorySize(Args);
                 return;
             }
 

@@ -39,7 +39,7 @@ namespace Anathema
         private void UpdateReadBounds()
         {
             const Int32 BoundsLimit = 128;
-            const Int32 OverRead = 28;
+            const Int32 OverRead = 8;
 
             Int32 StartReadIndex = 0;
             Int32 EndReadIndex = 0;

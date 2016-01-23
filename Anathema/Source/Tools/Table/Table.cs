@@ -50,13 +50,11 @@ namespace Anathema
 
         private Int32 StartReadIndex;
         private Int32 EndReadIndex;
-        private ConcurrentDictionary<Int32, String> IndexValueMap;
 
         private Table()
         {
             InitializeProcessObserver();
             CurrentTableData = new TableData();
-            IndexValueMap = new ConcurrentDictionary<Int32, String>();
             Begin();
         }
 
@@ -82,12 +80,20 @@ namespace Anathema
             this.MemoryEditor = MemoryEditor;
         }
 
+        public override void UpdateReadBounds(Int32 StartReadIndex, Int32 EndReadIndex)
+        {
+            this.StartReadIndex = StartReadIndex;
+            this.EndReadIndex = EndReadIndex;
+        }
+
         public void SaveScript(ScriptItem ScriptItem)
         {
             if (!CurrentTableData.ScriptTable.Contains(ScriptItem))
             {
                 CurrentTableData.ScriptTable.Add(ScriptItem);
-                RefreshDisplay();
+                TableEventArgs Args = new TableEventArgs();
+                Args.ItemCount = CurrentTableData.ScriptTable.Count;
+                OnEventClearScriptCache(Args);
             }
         }
 
@@ -130,8 +136,10 @@ namespace Anathema
         public void AddTableItem(UInt64 BaseAddress, Type ElementType)
         {
             CurrentTableData.AddressTable.Add(new AddressItem(BaseAddress, ElementType));
-
-            RefreshDisplay();
+            
+            TableEventArgs Args = new TableEventArgs();
+            Args.ItemCount = CurrentTableData.AddressTable.Count;
+            OnEventClearAddressCache(Args);
         }
 
         public override void SetFrozenAt(Int32 Index, Boolean Activated)
@@ -146,15 +154,16 @@ namespace Anathema
 
         private void RefreshDisplay()
         {
-            // Request that the display be updated
+            // Request that all data be updated
             TableEventArgs Args = new TableEventArgs();
-            Args.AddressTableItemCount = CurrentTableData.AddressTable.Count;
-            Args.ScriptTableItemCount = CurrentTableData.ScriptTable.Count;
-            Args.FSMTableItemCount = CurrentTableData.FiniteStateMachineTable.Count;
-            OnEventUpdateAddressTableItemCount(Args);
-            OnEventUpdateScriptTableItemCount(Args);
-            OnEventUpdateFSMTableItemCount(Args);
-            OnEventRefreshDisplay(Args);
+            Args.ItemCount = CurrentTableData.AddressTable.Count;
+            OnEventClearAddressCache(Args);
+
+            Args.ItemCount = CurrentTableData.ScriptTable.Count;
+            OnEventClearScriptCache(Args);
+
+            Args.ItemCount = CurrentTableData.FiniteStateMachineTable.Count;
+            OnEventClearFSMCache(Args);
         }
 
         protected override void Update()
@@ -166,15 +175,6 @@ namespace Anathema
                     MemoryEditor.Write(Item.ElementType, (IntPtr)Item.Address, Item.Value, false);
             }
 
-            foreach (AddressItem Item in CurrentTableData.AddressTable)
-            {
-                Boolean ReadSuccess;
-                if (MemoryEditor != null)
-                    Item.Value = MemoryEditor.Read(Item.ElementType, (IntPtr)Item.Address, out ReadSuccess, false);
-            }
-            
-            IndexValueMap.Clear();
-
             for (Int32 Index = StartReadIndex; Index < EndReadIndex; Index++)
             {
                 if (Index < 0 || Index >= CurrentTableData.AddressTable.Count)
@@ -182,11 +182,9 @@ namespace Anathema
 
                 Boolean ReadSuccess;
                 CurrentTableData.AddressTable[Index].Value = MemoryEditor.Read(CurrentTableData.AddressTable[Index].ElementType, (IntPtr)CurrentTableData.AddressTable[Index].Address, out ReadSuccess, false);
-
-                IndexValueMap[Index] = CurrentTableData.AddressTable[Index].Value.ToString();
             }
 
-            RefreshDisplay();
+            OnEventReadValues(new TableEventArgs());
         }
 
         public override void OpenScript(Int32 Index)
@@ -205,7 +203,7 @@ namespace Anathema
 
         public override void SetAddressItemAt(Int32 Index, AddressItem AddressItem)
         {
-            // Copy over attributes from the new item
+            // Copy over attributes from the new item (such as to keep this item's color attributes)
             CurrentTableData.AddressTable[Index].Description = AddressItem.Description;
             CurrentTableData.AddressTable[Index].ElementType = AddressItem.ElementType;
             CurrentTableData.AddressTable[Index].Address = AddressItem.Address;

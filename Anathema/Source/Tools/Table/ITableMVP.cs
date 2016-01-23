@@ -12,17 +12,14 @@ namespace Anathema
     delegate void TableEventHandler(Object Sender, TableEventArgs Args);
     class TableEventArgs : EventArgs
     {
-        public Int32 AddressTableItemCount = 0;
-        public Int32 ScriptTableItemCount = 0;
-        public Int32 FSMTableItemCount = 0;
-
+        public Int32 ItemCount = 0;
         public Int32 ClearCacheIndex = -1;
     }
 
     interface ITableView : IView
     {
         // Methods invoked by the presenter (upstream)
-        void RefreshDisplay();
+        void ReadValues();
         void UpdateAddressTableItemCount(Int32 ItemCount);
         void UpdateScriptTableItemCount(Int32 ItemCount);
         void UpdateFSMTableItemCount(Int32 ItemCount);
@@ -31,10 +28,10 @@ namespace Anathema
     abstract class ITableModel : RepeatedTask, IModel
     {
         // Events triggered by the model (upstream)
-        public event TableEventHandler EventRefreshDisplay;
-        protected virtual void OnEventRefreshDisplay(TableEventArgs E)
+        public event TableEventHandler EventReadValues;
+        protected virtual void OnEventReadValues(TableEventArgs E)
         {
-            if (EventRefreshDisplay != null) EventRefreshDisplay(this, E);
+            if (EventReadValues != null) EventReadValues(this, E);
         }
 
         public event TableEventHandler EventClearAddressCacheItem;
@@ -49,22 +46,22 @@ namespace Anathema
             EventClearScriptCacheItem(this, E);
         }
 
-        public event TableEventHandler EventUpdateAddressTableItemCount;
-        protected virtual void OnEventUpdateAddressTableItemCount(TableEventArgs E)
+        public event TableEventHandler EventClearAddressCache;
+        protected virtual void OnEventClearAddressCache(TableEventArgs E)
         {
-            EventUpdateAddressTableItemCount(this, E);
+            EventClearAddressCache(this, E);
         }
 
-        public event TableEventHandler EventUpdateScriptTableItemCount;
-        protected virtual void OnEventUpdateScriptTableItemCount(TableEventArgs E)
+        public event TableEventHandler EventClearScriptCache;
+        protected virtual void OnEventClearScriptCache(TableEventArgs E)
         {
-            EventUpdateScriptTableItemCount(this, E);
+            EventClearScriptCache(this, E);
         }
 
-        public event TableEventHandler EventUpdateFSMTableItemCount;
-        protected virtual void OnEventUpdateFSMTableItemCount(TableEventArgs E)
+        public event TableEventHandler EventClearFSMCache;
+        protected virtual void OnEventClearFSMCache(TableEventArgs E)
         {
-            EventUpdateFSMTableItemCount(this, E);
+            EventClearFSMCache(this, E);
         }
 
         public override void Begin()
@@ -91,6 +88,8 @@ namespace Anathema
 
         public abstract ScriptItem GetScriptItemAt(Int32 Index);
         public abstract void SetScriptItemAt(Int32 Index, ScriptItem ScriptItem);
+
+        public abstract void UpdateReadBounds(Int32 StartReadIndex, Int32 EndReadIndex);
     }
 
     class TablePresenter : Presenter<ITableView, ITableModel>
@@ -116,12 +115,14 @@ namespace Anathema
             ScriptTableCache = new ListViewCache();
 
             // Bind events triggered by the model
-            Model.EventRefreshDisplay += EventRefreshDisplay;
+            Model.EventReadValues += EventReadValues;
+
             Model.EventClearAddressCacheItem += EventClearAddressCacheItem;
             Model.EventClearScriptCacheItem += EventClearScriptCacheItem;
-            Model.EventUpdateAddressTableItemCount += EventUpdateAddressTableItemCount;
-            Model.EventUpdateScriptTableItemCount += EventUpdateScriptTableItemCount;
-            Model.EventUpdateFSMTableItemCount += EventUpdateFSMTableItemCount;
+
+            Model.EventClearAddressCache += EventClearAddressCache;
+            Model.EventClearScriptCache += EventClearScriptCache;
+            Model.EventClearFSMCache += EventClearFSMCache;
         }
 
         #region Method definitions called by the view (downstream)
@@ -142,13 +143,18 @@ namespace Anathema
             return Model.LoadTable(Path);
         }
 
+        public void UpdateReadBounds(Int32 StartReadIndex, Int32 EndReadIndex)
+        {
+            Model.UpdateReadBounds(StartReadIndex, EndReadIndex);
+        }
+
         public ListViewItem GetAddressTableItemAt(Int32 Index)
         {
             ListViewItem Item = AddressTableCache.Get(Index);
             AddressItem AddressItem = Model.GetAddressItemAt(Index);
 
             // Try to update and return the item if it is a valid item
-            if (Item != null && AddressTableCache.TryUpdateSubItem(Index, ValueIndex, (AddressItem.Value == null ? String.Empty : AddressItem.Value.ToString())))
+            if (Item != null && AddressTableCache.TryUpdateSubItem(Index, ValueIndex, (AddressItem.Value == null ? "-" : AddressItem.Value.ToString())))
             {
                 Item.Checked = AddressItem.GetActivationState();
                 return Item;
@@ -210,9 +216,9 @@ namespace Anathema
 
         #region Event definitions for events triggered by the model (upstream)
 
-        private void EventRefreshDisplay(Object Sender, TableEventArgs E)
+        private void EventReadValues(Object Sender, TableEventArgs E)
         {
-            View.RefreshDisplay();
+            View.ReadValues();
         }
 
         private void EventClearAddressCacheItem(Object Sender, TableEventArgs E)
@@ -225,19 +231,21 @@ namespace Anathema
             ScriptTableCache.Delete(E.ClearCacheIndex);
         }
 
-        private void EventUpdateAddressTableItemCount(Object Sender, TableEventArgs E)
+        private void EventClearAddressCache(Object Sender, TableEventArgs E)
         {
-            View.UpdateAddressTableItemCount(E.AddressTableItemCount);
+            AddressTableCache.FlushCache();
+            View.UpdateAddressTableItemCount(E.ItemCount);
         }
 
-        private void EventUpdateScriptTableItemCount(Object Sender, TableEventArgs E)
+        private void EventClearScriptCache(Object Sender, TableEventArgs E)
         {
-            View.UpdateScriptTableItemCount(E.ScriptTableItemCount);
+            ScriptTableCache.FlushCache();
+            View.UpdateScriptTableItemCount(E.ItemCount);
         }
 
-        private void EventUpdateFSMTableItemCount(Object Sender, TableEventArgs E)
+        private void EventClearFSMCache(Object Sender, TableEventArgs E)
         {
-            View.UpdateFSMTableItemCount(E.FSMTableItemCount);
+            View.UpdateFSMTableItemCount(E.ItemCount);
         }
 
         #endregion
