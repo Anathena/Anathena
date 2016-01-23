@@ -140,6 +140,8 @@
     <Compile Include="Source\HelperClasses\ListViewCache.cs" />
     <Compile Include="Source\HelperClasses\RepeatedTask.cs" />
     <Compile Include="Source\Settings\ISettingsMVP.cs" />
+    <Compile Include="Source\Tools\Debugger\IDebuggerMVP.cs" />
+    <Compile Include="Source\Tools\Debugger\Debugger.cs" />
     <Compile Include="Source\Tools\MemoryScanners\FiniteStateScanner\FiniteStateBuilder.cs" />
     <Compile Include="Source\Tools\MemoryScanners\FiniteStateScanner\IFiniteStateScannerMVP.cs" />
     <Compile Include="Source\Tools\MemoryScanners\InputCorrelator\InputNode.cs" />
@@ -400,7 +402,6 @@
     <Compile Include="Source\Tools\MemoryScanners\FiniteStateScanner\FiniteStateScanner.cs" />
     <Compile Include="Source\HelperClasses\CheckSyntax.cs" />
     <Compile Include="Source\Tools\MemoryScanners\InputCorrelator\InputCorrelator.cs" />
-    <Compile Include="Source\Tools\Debugger\Celestial.cs" />
     <Compile Include="Source\Tools\MemoryScanners\InputCorrelator\InputHook\Hook.cs" />
     <Compile Include="Source\Tools\MemoryScanners\InputCorrelator\InputHook\HotKeys\HotKeyArgs.cs" />
     <Compile Include="Source\Tools\MemoryScanners\InputCorrelator\InputHook\HotKeys\HotKeySet.cs" />
