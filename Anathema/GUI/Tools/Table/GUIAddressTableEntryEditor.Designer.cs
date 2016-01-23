@@ -1,6 +1,6 @@
 ﻿namespace Anathema
 {
-    partial class GUIAddressTableEntryEdit
+    partial class GUIAddressTableEntryEditor
     {
         /// <summary>
         /// Required designer variable.
@@ -42,6 +42,7 @@
             this.OffsetLabel = new System.Windows.Forms.Label();
             this.OkButton = new System.Windows.Forms.Button();
             this.CancelButton = new System.Windows.Forms.Button();
+            this.IsHexCheckBox = new System.Windows.Forms.CheckBox();
             this.ValueTextBox = new Anathema.WatermarkTextBox();
             this.SuspendLayout();
             // 
@@ -59,7 +60,7 @@
             this.ValueTypeComboBox.FormattingEnabled = true;
             this.ValueTypeComboBox.Location = new System.Drawing.Point(80, 38);
             this.ValueTypeComboBox.Name = "ValueTypeComboBox";
-            this.ValueTypeComboBox.Size = new System.Drawing.Size(131, 21);
+            this.ValueTypeComboBox.Size = new System.Drawing.Size(161, 21);
             this.ValueTypeComboBox.TabIndex = 1;
             this.ValueTypeComboBox.SelectedIndexChanged += new System.EventHandler(this.ValueTypeComboBox_SelectedIndexChanged);
             // 
@@ -185,6 +186,17 @@
             this.CancelButton.Text = "Cancel";
             this.CancelButton.UseVisualStyleBackColor = true;
             // 
+            // IsHexCheckBox
+            // 
+            this.IsHexCheckBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.IsHexCheckBox.AutoSize = true;
+            this.IsHexCheckBox.Location = new System.Drawing.Point(247, 40);
+            this.IsHexCheckBox.Name = "IsHexCheckBox";
+            this.IsHexCheckBox.Size = new System.Drawing.Size(45, 17);
+            this.IsHexCheckBox.TabIndex = 13;
+            this.IsHexCheckBox.Text = "Hex";
+            this.IsHexCheckBox.UseVisualStyleBackColor = true;
+            // 
             // ValueTextBox
             // 
             this.ValueTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
@@ -204,6 +216,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(304, 257);
+            this.Controls.Add(this.IsHexCheckBox);
             this.Controls.Add(this.ValueTextBox);
             this.Controls.Add(this.CancelButton);
             this.Controls.Add(this.OkButton);
@@ -244,5 +257,6 @@
         private System.Windows.Forms.Button OkButton;
         private System.Windows.Forms.Button CancelButton;
         private WatermarkTextBox ValueTextBox;
+        private System.Windows.Forms.CheckBox IsHexCheckBox;
     }
 }

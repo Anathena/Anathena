@@ -6,13 +6,13 @@ using System.Linq;
 
 namespace Anathema
 {
-    partial class GUIAddressTableEntryEdit : Form, ITableAddressEntryEditorView
+    partial class GUIAddressTableEntryEditor : Form, ITableAddressEntryEditorView
     {
         private TableAddressEntryEditorPresenter TableAddressEntryEditorPresenter;
         private Int32[] AddressTableItemIndicies;
         private Int32 MainSelection;
 
-        public GUIAddressTableEntryEdit(Int32 MainSelection, Int32[] AddressTableItemIndicies, Table.TableColumnEnum ColumnSelection)
+        public GUIAddressTableEntryEditor(Int32 MainSelection, Int32[] AddressTableItemIndicies, Table.TableColumnEnum ColumnSelection)
         {
             InitializeComponent();
 
@@ -48,6 +48,7 @@ namespace Anathema
             DescriptionTextBox.Text = AddressItem.Description;
             ValueTypeComboBox.SelectedIndex = ValueTypeComboBox.Items.IndexOf(AddressItem.ElementType.Name);
             AddressTextBox.Text = Conversions.ToAddress(AddressItem.Address.ToString());
+            IsHexCheckBox.Checked = AddressItem.IsHex;
 
             if (AddressItem.Offsets != null)
                 foreach (Int32 Offset in AddressItem.Offsets)
@@ -80,7 +81,7 @@ namespace Anathema
         private void OkButton_Click(Object Sender, EventArgs E)
         {
             TableAddressEntryEditorPresenter.AcceptChanges(MainSelection, AddressTableItemIndicies, DescriptionTextBox.Text, AddressTextBox.Text, 
-                ValueTypeComboBox.SelectedItem.ToString(), ValueTextBox.Text, OffsetListBox.Items.OfType<String>().ToArray());
+                ValueTypeComboBox.SelectedItem.ToString(), ValueTextBox.Text, OffsetListBox.Items.OfType<String>().ToArray(), IsHexCheckBox.Checked);
 
             this.Close();
         }

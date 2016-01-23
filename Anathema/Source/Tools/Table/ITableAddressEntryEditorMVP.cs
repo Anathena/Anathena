@@ -41,7 +41,7 @@ namespace Anathema
 
         #region Method definitions called by the view (downstream)
 
-        public void AcceptChanges(Int32 MainSelection, Int32[] SelectedIndicies, String Description, String Address, String ValueType, String Value, String[] Offsets)
+        public void AcceptChanges(Int32 MainSelection, Int32[] SelectedIndicies, String Description, String Address, String ValueType, String Value, String[] Offsets, Boolean IsHex)
         {
             // Convert passed parameters to the appropriate types to construct an AddressItem
             List<Int32> OffsetsInt = new List<int>();
@@ -49,7 +49,7 @@ namespace Anathema
                 OffsetsInt.Add(Conversions.HexToInt(Offset));
 
             AddressItem AddressItem = new AddressItem(Conversions.AddressToValue(Address), Description,
-                Conversions.StringToPrimitiveType(ValueType), OffsetsInt.ToArray());
+                Conversions.StringToPrimitiveType(ValueType), OffsetsInt.ToArray(), IsHex);
 
             if (CheckSyntax.CanParseValue(Conversions.StringToPrimitiveType(ValueType), Value))
                 AddressItem.Value = Conversions.ParseValue(Conversions.StringToPrimitiveType(ValueType), Value);

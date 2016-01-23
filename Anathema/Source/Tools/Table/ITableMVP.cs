@@ -154,7 +154,7 @@ namespace Anathema
             AddressItem AddressItem = Model.GetAddressItemAt(Index);
 
             // Try to update and return the item if it is a valid item
-            if (Item != null && AddressTableCache.TryUpdateSubItem(Index, ValueIndex, (AddressItem.Value == null ? "-" : AddressItem.Value.ToString())))
+            if (Item != null && AddressTableCache.TryUpdateSubItem(Index, ValueIndex, (AddressItem.Value == null ? "-" : (AddressItem.IsHex ? AddressItem.Value.ToString("X2") : AddressItem.Value.ToString()))))
             {
                 Item.Checked = AddressItem.GetActivationState();
                 return Item;

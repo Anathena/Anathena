@@ -130,11 +130,11 @@
     <Compile Include="GUI\Tools\ScriptEditor\GUIScriptEditor.Designer.cs">
       <DependentUpon>GUIScriptEditor.cs</DependentUpon>
     </Compile>
-    <Compile Include="GUI\Tools\Table\GUIAddressTableEntryEdit.cs">
+    <Compile Include="GUI\Tools\Table\GUIAddressTableEntryEditor.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="GUI\Tools\Table\GUIAddressTableEntryEdit.Designer.cs">
-      <DependentUpon>GUIAddressTableEntryEdit.cs</DependentUpon>
+    <Compile Include="GUI\Tools\Table\GUIAddressTableEntryEditor.Designer.cs">
+      <DependentUpon>GUIAddressTableEntryEditor.cs</DependentUpon>
     </Compile>
     <Compile Include="Settings.cs" />
     <Compile Include="Source\HelperClasses\ListViewCache.cs" />
@@ -670,8 +670,8 @@
     <EmbeddedResource Include="GUI\Tools\SnapshotManager\GUISnapshotManager.resx">
       <DependentUpon>GUISnapshotManager.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="GUI\Tools\Table\GUIAddressTableEntryEdit.resx">
-      <DependentUpon>GUIAddressTableEntryEdit.cs</DependentUpon>
+    <EmbeddedResource Include="GUI\Tools\Table\GUIAddressTableEntryEditor.resx">
+      <DependentUpon>GUIAddressTableEntryEditor.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\Tools\Table\GUITable.resx">
       <DependentUpon>GUITable.cs</DependentUpon>

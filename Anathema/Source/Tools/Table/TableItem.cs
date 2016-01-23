@@ -20,13 +20,17 @@ namespace Anathema
         {
             this.Script = Script;
         }
-    }
+
+    } // End class
 
     [DataContract()]
     public class AddressItem : TableItem
     {
         [DataMember()]
         public UInt64 Address { get; set; }
+
+        [DataMember()]
+        public Boolean IsHex { get; set; }
 
         [DataMember()]
         public Int32[] Offsets { get; set; }
@@ -46,12 +50,13 @@ namespace Anathema
             Offsets = null;
         }
 
-        public AddressItem(UInt64 Address, String Description, Type ElementType, Int32[] Offsets)
+        public AddressItem(UInt64 Address, String Description, Type ElementType, Int32[] Offsets, Boolean IsHex)
         {
             this.Address = Address;
             this.Description = Description;
             this.ElementType = ElementType;
             this.Offsets = Offsets;
+            this.IsHex = IsHex;
         }
 
         public void ForceUpdateValue(dynamic Value)
@@ -61,7 +66,8 @@ namespace Anathema
 
             this._Value = Value;
         }
-    }
+
+    } // End class
 
     [DataContract()]
     public class TableItem
@@ -100,5 +106,7 @@ namespace Anathema
         {
             return Activated;
         }
-    }
-}
+
+    } // End class
+
+} // End namespace

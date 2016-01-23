@@ -164,6 +164,7 @@ namespace Anathema
             CurrentTableData.AddressTable[Index].ElementType = AddressItem.ElementType;
             CurrentTableData.AddressTable[Index].Address = AddressItem.Address;
             CurrentTableData.AddressTable[Index].Offsets = AddressItem.Offsets;
+            CurrentTableData.AddressTable[Index].IsHex = AddressItem.IsHex;
 
             // Force update of value, regardless if frozen or not
             CurrentTableData.AddressTable[Index].ForceUpdateValue(AddressItem.Value);

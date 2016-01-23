@@ -200,8 +200,8 @@ namespace Anathema
                 ColumnSelection = Table.TableColumnEnum.Value;
 
             // Create editor for this entry
-            GUIAddressTableEntryEdit AddressEntryEditor = new GUIAddressTableEntryEdit(SelectedItem.Index, Indicies.ToArray(), ColumnSelection);
-            AddressEntryEditor.ShowDialog();
+            GUIAddressTableEntryEditor GUIAddressTableEntryEditor = new GUIAddressTableEntryEditor(SelectedItem.Index, Indicies.ToArray(), ColumnSelection);
+            GUIAddressTableEntryEditor.ShowDialog();
         }
 
         private void ScriptTableListView_MouseDoubleClick(Object Sender, MouseEventArgs E)
