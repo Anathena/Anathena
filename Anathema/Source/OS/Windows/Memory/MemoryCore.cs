@@ -188,7 +188,8 @@ namespace Binarysharp.MemoryManagement.Memory
             }
 
             // Else the protection couldn't be changed, throws an exception
-            throw new Win32Exception(string.Format("Couldn't change the protection of the memory at 0x{0} of {1} byte(s) to {2}.", address.ToString("X"), size, protection));
+            // throw new Win32Exception(string.Format("Couldn't change the protection of the memory at 0x{0} of {1} byte(s) to {2}.", address.ToString("X"), size, protection));
+            return oldProtection;
         }
         #endregion
 
@@ -341,7 +342,8 @@ namespace Binarysharp.MemoryManagement.Memory
             }
 
             // Else the data couldn't be written, throws an exception
-            throw new Win32Exception(string.Format("Couldn't write {0} bytes to 0x{1}", byteArray.Length, address.ToString("X")));
+            // throw new Win32Exception(string.Format("Couldn't write {0} bytes to 0x{1}", byteArray.Length, address.ToString("X")));
+            return 0;
         }
         #endregion
     }
