@@ -153,6 +153,23 @@ namespace Anathema
                 TablePresenter.SetFrozenAt(ListViewItem.Index, !ListViewItem.Checked);
         }
 
+        private void AddressTableListView_KeyPress(Object Sender, KeyPressEventArgs E)
+        {
+            if (E.KeyChar != ' ')
+                return;
+
+            Boolean FreezeState = AddressTableListView.SelectedIndices == null ? false : !AddressTableListView.Items[AddressTableListView.SelectedIndices[0]].Checked;
+            foreach (Int32 Index in AddressTableListView.SelectedIndices)
+                TablePresenter.SetFrozenAt(Index, FreezeState);
+        }
+        
+        private void ToggleFreezeToolStripMenuItem_Click(Object Sender, EventArgs E)
+        {
+            Boolean FreezeState = AddressTableListView.SelectedIndices == null ? false : !AddressTableListView.Items[AddressTableListView.SelectedIndices[0]].Checked;
+            foreach (Int32 Index in AddressTableListView.SelectedIndices)
+                TablePresenter.SetFrozenAt(Index, FreezeState);
+        }
+
         private void AddressTableListView_MouseDoubleClick(Object Sender, MouseEventArgs E)
         {
             ListViewHitTestInfo HitTest = AddressTableListView.HitTest(E.Location);
@@ -209,7 +226,38 @@ namespace Anathema
             ViewFSMTable();
         }
 
+        private void EditAddressEntryToolStripMenuItem_Click(Object Sender, EventArgs E)
+        {
+
+        }
+
+        private void DeleteSelectionToolStripMenuItem_Click(Object Sender, EventArgs E)
+        {
+
+        }
+
+        private void AddNewAddressToolStripMenuItem_Click(Object Sender, EventArgs E)
+        {
+
+        }
+
+        private void OpenScriptToolStripMenuItem_Click(Object Sender, EventArgs E)
+        {
+
+        }
+
+        private void EditScriptEntryToolStripMenuItem_Click(Object Sender, EventArgs E)
+        {
+
+        }
+
+        private void DeleteScriptToolStripMenuItem_Click(Object Sender, EventArgs E)
+        {
+
+        }
+
         #endregion
 
-    }
-}
+    } // End class
+
+} // End namespace

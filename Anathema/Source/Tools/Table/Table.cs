@@ -86,15 +86,18 @@ namespace Anathema
             this.EndReadIndex = EndReadIndex;
         }
 
-        public void SaveScript(ScriptItem ScriptItem)
+        private void RefreshDisplay()
         {
-            if (!CurrentTableData.ScriptTable.Contains(ScriptItem))
-            {
-                CurrentTableData.ScriptTable.Add(ScriptItem);
-                TableEventArgs Args = new TableEventArgs();
-                Args.ItemCount = CurrentTableData.ScriptTable.Count;
-                OnEventClearScriptCache(Args);
-            }
+            // Request that all data be updated
+            TableEventArgs Args = new TableEventArgs();
+            Args.ItemCount = CurrentTableData.AddressTable.Count;
+            OnEventClearAddressCache(Args);
+
+            Args.ItemCount = CurrentTableData.ScriptTable.Count;
+            OnEventClearScriptCache(Args);
+
+            Args.ItemCount = CurrentTableData.FiniteStateMachineTable.Count;
+            OnEventClearFSMCache(Args);
         }
 
         public override Boolean SaveTable(String Path)
@@ -133,6 +136,13 @@ namespace Anathema
             return true;
         }
 
+        public override void SetFrozenAt(Int32 Index, Boolean Activated)
+        {
+            Boolean ReadSuccess;
+            CurrentTableData.AddressTable[Index].Value = MemoryEditor.Read(CurrentTableData.AddressTable[Index].ElementType, (IntPtr)CurrentTableData.AddressTable[Index].Address, out ReadSuccess, false);
+            CurrentTableData.AddressTable[Index].SetActivationState(Activated);
+        }
+
         public void AddTableItem(UInt64 BaseAddress, Type ElementType)
         {
             CurrentTableData.AddressTable.Add(new AddressItem(BaseAddress, ElementType));
@@ -140,60 +150,6 @@ namespace Anathema
             TableEventArgs Args = new TableEventArgs();
             Args.ItemCount = CurrentTableData.AddressTable.Count;
             OnEventClearAddressCache(Args);
-        }
-
-        public override void SetFrozenAt(Int32 Index, Boolean Activated)
-        {
-            CurrentTableData.AddressTable[Index].SetActivationState(Activated);
-        }
-
-        public override void Begin()
-        {
-            base.Begin();
-        }
-
-        private void RefreshDisplay()
-        {
-            // Request that all data be updated
-            TableEventArgs Args = new TableEventArgs();
-            Args.ItemCount = CurrentTableData.AddressTable.Count;
-            OnEventClearAddressCache(Args);
-
-            Args.ItemCount = CurrentTableData.ScriptTable.Count;
-            OnEventClearScriptCache(Args);
-
-            Args.ItemCount = CurrentTableData.FiniteStateMachineTable.Count;
-            OnEventClearFSMCache(Args);
-        }
-
-        protected override void Update()
-        {
-            // Freeze addresses
-            foreach (AddressItem Item in CurrentTableData.AddressTable)
-            {
-                if (Item.GetActivationState())
-                    MemoryEditor.Write(Item.ElementType, (IntPtr)Item.Address, Item.Value, false);
-            }
-
-            for (Int32 Index = StartReadIndex; Index < EndReadIndex; Index++)
-            {
-                if (Index < 0 || Index >= CurrentTableData.AddressTable.Count)
-                    continue;
-
-                Boolean ReadSuccess;
-                CurrentTableData.AddressTable[Index].Value = MemoryEditor.Read(CurrentTableData.AddressTable[Index].ElementType, (IntPtr)CurrentTableData.AddressTable[Index].Address, out ReadSuccess, false);
-            }
-
-            OnEventReadValues(new TableEventArgs());
-        }
-
-        public override void OpenScript(Int32 Index)
-        {
-            if (Index >= CurrentTableData.ScriptTable.Count)
-                return;
-
-            Main.GetInstance().OpenScriptEditor();
-            ScriptEditor.GetInstance().OpenScript(CurrentTableData.ScriptTable[Index]);
         }
 
         public override AddressItem GetAddressItemAt(Int32 Index)
@@ -222,6 +178,26 @@ namespace Anathema
             OnEventClearAddressCacheItem(TableEventArgs);
         }
 
+        public override void OpenScript(Int32 Index)
+        {
+            if (Index >= CurrentTableData.ScriptTable.Count)
+                return;
+
+            Main.GetInstance().OpenScriptEditor();
+            ScriptEditor.GetInstance().OpenScript(CurrentTableData.ScriptTable[Index]);
+        }
+
+        public void SaveScript(ScriptItem ScriptItem)
+        {
+            if (!CurrentTableData.ScriptTable.Contains(ScriptItem))
+            {
+                CurrentTableData.ScriptTable.Add(ScriptItem);
+                TableEventArgs Args = new TableEventArgs();
+                Args.ItemCount = CurrentTableData.ScriptTable.Count;
+                OnEventClearScriptCache(Args);
+            }
+        }
+
         public override ScriptItem GetScriptItemAt(Int32 Index)
         {
             return CurrentTableData.ScriptTable[Index];
@@ -234,6 +210,32 @@ namespace Anathema
             TableEventArgs TableEventArgs = new TableEventArgs();
             TableEventArgs.ClearCacheIndex = Index;
             OnEventClearScriptCacheItem(TableEventArgs);
+        }
+
+        public override void Begin()
+        {
+            base.Begin();
+        }
+
+        protected override void Update()
+        {
+            // Freeze addresses
+            foreach (AddressItem Item in CurrentTableData.AddressTable)
+            {
+                if (Item.GetActivationState())
+                    MemoryEditor.Write(Item.ElementType, (IntPtr)Item.Address, Item.Value, false);
+            }
+
+            for (Int32 Index = StartReadIndex; Index < EndReadIndex; Index++)
+            {
+                if (Index < 0 || Index >= CurrentTableData.AddressTable.Count)
+                    continue;
+
+                Boolean ReadSuccess;
+                CurrentTableData.AddressTable[Index].Value = MemoryEditor.Read(CurrentTableData.AddressTable[Index].ElementType, (IntPtr)CurrentTableData.AddressTable[Index].Address, out ReadSuccess, false);
+            }
+
+            OnEventReadValues(new TableEventArgs());
         }
 
     } // End class

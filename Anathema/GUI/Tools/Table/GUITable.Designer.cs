@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.CheatTableSplitContainer = new System.Windows.Forms.SplitContainer();
             this.AddressTableListView = new Anathema.CheckableListView();
             this.FrozenHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
@@ -35,6 +36,9 @@
             this.AddressHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.TypeHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.ValueHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.AddressTableContextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.ToggleFreezeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.DeleteSelectionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ScriptTableListView = new Anathema.CheckableListView();
             this.ScriptActiveHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.ScriptDescriptionHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
@@ -46,11 +50,19 @@
             this.FSMTableButton = new System.Windows.Forms.ToolStripButton();
             this.FSMTableListView = new Anathema.FlickerFreeListView();
             this.FSMDescriptionHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.ScriptTableContextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.DeleteScriptToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.OpenScriptToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.AddNewAddressToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.EditAddressEntryToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.EditScriptEntryToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.CheatTableSplitContainer)).BeginInit();
             this.CheatTableSplitContainer.Panel1.SuspendLayout();
             this.CheatTableSplitContainer.Panel2.SuspendLayout();
             this.CheatTableSplitContainer.SuspendLayout();
+            this.AddressTableContextMenuStrip.SuspendLayout();
             this.ScanToolStrip.SuspendLayout();
+            this.ScriptTableContextMenuStrip.SuspendLayout();
             this.SuspendLayout();
             // 
             // CheatTableSplitContainer
@@ -80,6 +92,7 @@
             this.AddressHeader,
             this.TypeHeader,
             this.ValueHeader});
+            this.AddressTableListView.ContextMenuStrip = this.AddressTableContextMenuStrip;
             this.AddressTableListView.Dock = System.Windows.Forms.DockStyle.Fill;
             this.AddressTableListView.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.AddressTableListView.FullRowSelect = true;
@@ -93,6 +106,7 @@
             this.AddressTableListView.View = System.Windows.Forms.View.Details;
             this.AddressTableListView.VirtualMode = true;
             this.AddressTableListView.RetrieveVirtualItem += new System.Windows.Forms.RetrieveVirtualItemEventHandler(this.AddressTableListView_RetrieveVirtualItem);
+            this.AddressTableListView.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.AddressTableListView_KeyPress);
             this.AddressTableListView.MouseClick += new System.Windows.Forms.MouseEventHandler(this.AddressTableListView_MouseClick);
             this.AddressTableListView.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.AddressTableListView_MouseDoubleClick);
             // 
@@ -121,6 +135,30 @@
             this.ValueHeader.Text = "Value";
             this.ValueHeader.Width = 143;
             // 
+            // AddressTableContextMenuStrip
+            // 
+            this.AddressTableContextMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.ToggleFreezeToolStripMenuItem,
+            this.EditAddressEntryToolStripMenuItem,
+            this.DeleteSelectionToolStripMenuItem,
+            this.AddNewAddressToolStripMenuItem});
+            this.AddressTableContextMenuStrip.Name = "RightClickMenu";
+            this.AddressTableContextMenuStrip.Size = new System.Drawing.Size(169, 92);
+            // 
+            // ToggleFreezeToolStripMenuItem
+            // 
+            this.ToggleFreezeToolStripMenuItem.Name = "ToggleFreezeToolStripMenuItem";
+            this.ToggleFreezeToolStripMenuItem.Size = new System.Drawing.Size(168, 22);
+            this.ToggleFreezeToolStripMenuItem.Text = "Toggle Freeze";
+            this.ToggleFreezeToolStripMenuItem.Click += new System.EventHandler(this.ToggleFreezeToolStripMenuItem_Click);
+            // 
+            // DeleteSelectionToolStripMenuItem
+            // 
+            this.DeleteSelectionToolStripMenuItem.Name = "DeleteSelectionToolStripMenuItem";
+            this.DeleteSelectionToolStripMenuItem.Size = new System.Drawing.Size(168, 22);
+            this.DeleteSelectionToolStripMenuItem.Text = "Delete Selection";
+            this.DeleteSelectionToolStripMenuItem.Click += new System.EventHandler(this.DeleteSelectionToolStripMenuItem_Click);
+            // 
             // ScriptTableListView
             // 
             this.ScriptTableListView.BackColor = System.Drawing.SystemColors.Control;
@@ -128,6 +166,7 @@
             this.ScriptTableListView.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.ScriptActiveHeader,
             this.ScriptDescriptionHeader});
+            this.ScriptTableListView.ContextMenuStrip = this.ScriptTableContextMenuStrip;
             this.ScriptTableListView.Dock = System.Windows.Forms.DockStyle.Fill;
             this.ScriptTableListView.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.ScriptTableListView.FullRowSelect = true;
@@ -236,6 +275,50 @@
             this.FSMDescriptionHeader.Text = "Description";
             this.FSMDescriptionHeader.Width = 663;
             // 
+            // ScriptTableContextMenuStrip
+            // 
+            this.ScriptTableContextMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.OpenScriptToolStripMenuItem,
+            this.EditScriptEntryToolStripMenuItem,
+            this.DeleteScriptToolStripMenuItem});
+            this.ScriptTableContextMenuStrip.Name = "RightClickMenu";
+            this.ScriptTableContextMenuStrip.Size = new System.Drawing.Size(153, 92);
+            // 
+            // DeleteScriptToolStripMenuItem
+            // 
+            this.DeleteScriptToolStripMenuItem.Name = "DeleteScriptToolStripMenuItem";
+            this.DeleteScriptToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.DeleteScriptToolStripMenuItem.Text = "Delete Script";
+            this.DeleteScriptToolStripMenuItem.Click += new System.EventHandler(this.DeleteScriptToolStripMenuItem_Click);
+            // 
+            // OpenScriptToolStripMenuItem
+            // 
+            this.OpenScriptToolStripMenuItem.Name = "OpenScriptToolStripMenuItem";
+            this.OpenScriptToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.OpenScriptToolStripMenuItem.Text = "Open Script";
+            this.OpenScriptToolStripMenuItem.Click += new System.EventHandler(this.OpenScriptToolStripMenuItem_Click);
+            // 
+            // AddNewAddressToolStripMenuItem
+            // 
+            this.AddNewAddressToolStripMenuItem.Name = "AddNewAddressToolStripMenuItem";
+            this.AddNewAddressToolStripMenuItem.Size = new System.Drawing.Size(168, 22);
+            this.AddNewAddressToolStripMenuItem.Text = "Add New Address";
+            this.AddNewAddressToolStripMenuItem.Click += new System.EventHandler(this.AddNewAddressToolStripMenuItem_Click);
+            // 
+            // EditAddressEntryToolStripMenuItem
+            // 
+            this.EditAddressEntryToolStripMenuItem.Name = "EditAddressEntryToolStripMenuItem";
+            this.EditAddressEntryToolStripMenuItem.Size = new System.Drawing.Size(168, 22);
+            this.EditAddressEntryToolStripMenuItem.Text = "Edit Entry";
+            this.EditAddressEntryToolStripMenuItem.Click += new System.EventHandler(this.EditAddressEntryToolStripMenuItem_Click);
+            // 
+            // EditScriptEntryToolStripMenuItem
+            // 
+            this.EditScriptEntryToolStripMenuItem.Name = "EditScriptEntryToolStripMenuItem";
+            this.EditScriptEntryToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.EditScriptEntryToolStripMenuItem.Text = "Edit Entry";
+            this.EditScriptEntryToolStripMenuItem.Click += new System.EventHandler(this.EditScriptEntryToolStripMenuItem_Click);
+            // 
             // GUITable
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -251,8 +334,10 @@
             this.CheatTableSplitContainer.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.CheatTableSplitContainer)).EndInit();
             this.CheatTableSplitContainer.ResumeLayout(false);
+            this.AddressTableContextMenuStrip.ResumeLayout(false);
             this.ScanToolStrip.ResumeLayout(false);
             this.ScanToolStrip.PerformLayout();
+            this.ScriptTableContextMenuStrip.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -278,5 +363,14 @@
         private System.Windows.Forms.ToolStripButton FSMTableButton;
         private FlickerFreeListView FSMTableListView;
         private System.Windows.Forms.ColumnHeader FSMDescriptionHeader;
+        private System.Windows.Forms.ContextMenuStrip AddressTableContextMenuStrip;
+        private System.Windows.Forms.ToolStripMenuItem ToggleFreezeToolStripMenuItem;
+        private System.Windows.Forms.ContextMenuStrip ScriptTableContextMenuStrip;
+        private System.Windows.Forms.ToolStripMenuItem DeleteScriptToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem OpenScriptToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem DeleteSelectionToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem AddNewAddressToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem EditAddressEntryToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem EditScriptEntryToolStripMenuItem;
     }
 }
