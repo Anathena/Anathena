@@ -106,6 +106,18 @@
     <Compile Include="GUI\Settings\GUISettings.Designer.cs">
       <DependentUpon>GUISettings.cs</DependentUpon>
     </Compile>
+    <Compile Include="GUI\Tools\Debugger\Assembler\GUIAssembler.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI\Tools\Debugger\Assembler\GUIAssembler.Designer.cs">
+      <DependentUpon>GUIAssembler.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GUI\Tools\Debugger\MemoryView\GUIMemoryViewer.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI\Tools\Debugger\MemoryView\GUIMemoryViewer.Designer.cs">
+      <DependentUpon>GUIMemoryViewer.cs</DependentUpon>
+    </Compile>
     <Compile Include="GUI\Tools\MemoryScanners\GUIFiniteStateBuilder.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -628,6 +640,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\Settings\GUISettings.resx">
       <DependentUpon>GUISettings.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\Tools\Debugger\Assembler\GUIAssembler.resx">
+      <DependentUpon>GUIAssembler.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\Tools\Debugger\MemoryView\GUIMemoryViewer.resx">
+      <DependentUpon>GUIMemoryViewer.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\Tools\MemoryScanners\GUIChunkScanner.resx">
       <DependentUpon>GUIChunkScanner.cs</DependentUpon>

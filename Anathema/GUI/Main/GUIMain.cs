@@ -113,7 +113,6 @@ namespace Anathema
         private void CreateDefaultTools()
         {
             CreateChunkScanner();
-            CreateFiniteStateScanner();
             CreateInputCorrelator();
             CreateSnapshotManager();
             CreateResults();
@@ -124,7 +123,7 @@ namespace Anathema
         {
             if (GUIDebugger == null || GUIDebugger.IsDisposed)
                 GUIDebugger = new GUIDebugger();
-            GUIDebugger.Show(ContentPanel);
+            GUIDebugger.Show();
         }
 
         private void CreateFiniteStateScanner()

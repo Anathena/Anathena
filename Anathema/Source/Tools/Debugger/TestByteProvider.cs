@@ -9,32 +9,32 @@ namespace Anathema
 {
     class TestByteProvider : IByteProvider
     {
-        public long Length
+        public Int64 Length
         {
             get
             {
-                return swag.Length;
+                return Data.Length;
             }
         }
 
-        private byte[] swag = new byte[256];
+        private Byte[] Data = new Byte[256];
 
         public event EventHandler Changed;
         public event EventHandler LengthChanged;
 
         public void ApplyChanges()
         {
-            
+
         }
 
         public bool HasChanges()
         {
             return false;
         }
-        
-        public byte ReadByte(long index)
+
+        public byte ReadByte(Int64 index)
         {
-            return swag[index];
+            return Data[index];
         }
 
         public bool SupportsWriteByte()
@@ -42,31 +42,21 @@ namespace Anathema
             return true;
         }
 
-        public void WriteByte(long index, byte value)
+        public void WriteByte(Int64 index, Byte value)
         {
-            swag[index] = value;
+            Data[index] = value;
         }
 
         #region Irrelevant Features
-        public void DeleteBytes(long index, long length)
-        {
-            throw new NotImplementedException();
-        }
 
-        public void InsertBytes(long index, byte[] bs)
-        {
-            throw new NotImplementedException();
-        }
+        public void DeleteBytes(Int64 index, Int64 length) { throw new NotImplementedException(); }
 
-        public bool SupportsDeleteBytes()
-        {
-            return false;
-        }
+        public void InsertBytes(Int64 index, Byte[] bs) { throw new NotImplementedException(); }
 
-        public bool SupportsInsertBytes()
-        {
-            return false;
-        }
+        public bool SupportsDeleteBytes() { return false; }
+
+        public bool SupportsInsertBytes() { return false; }
+
         #endregion
     }
 }

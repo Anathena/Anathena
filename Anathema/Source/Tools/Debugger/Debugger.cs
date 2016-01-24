@@ -16,7 +16,6 @@ namespace Anathema
     /// </summary>
     class Debugger : IDebuggerModel, IProcessObserver
     {
-        private static Debugger DebuggerInstance;
         private MemorySharp MemoryEditor;
         private Snapshot Snapshot;
 
@@ -27,20 +26,13 @@ namespace Anathema
         private ConcurrentDictionary<Int32, String> IndexValueMap;
         private Boolean ForceRefreshFlag;
 
-        private Debugger()
+        public Debugger()
         {
             InitializeProcessObserver();
             SetScanType(typeof(Int32));
             ForceRefreshFlag = false;
             IndexValueMap = new ConcurrentDictionary<Int32, String>();
             Begin();
-        }
-
-        public static Debugger GetInstance()
-        {
-            if (DebuggerInstance == null)
-                DebuggerInstance = new Debugger();
-            return DebuggerInstance;
         }
 
         ~Debugger()

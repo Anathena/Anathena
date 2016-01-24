@@ -28,103 +28,110 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.DisassemblerListView = new System.Windows.Forms.ListView();
-            this.AddressHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.BytesHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.InstructionHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.CommentHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.HexEditorBox = new Be.Windows.Forms.HexBox();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(GUIDebugger));
+            this.GUIMenuStrip = new System.Windows.Forms.MenuStrip();
+            this.FileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.ExitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.EditToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.ViewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.assemblerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.memoryViewerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.ContentPanel = new WeifenLuo.WinFormsUI.Docking.DockPanel();
+            this.GUIMenuStrip.SuspendLayout();
             this.SuspendLayout();
             // 
-            // DisassemblerListView
+            // GUIMenuStrip
             // 
-            this.DisassemblerListView.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.DisassemblerListView.BackColor = System.Drawing.SystemColors.Control;
-            this.DisassemblerListView.CheckBoxes = true;
-            this.DisassemblerListView.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.AddressHeader,
-            this.BytesHeader,
-            this.InstructionHeader,
-            this.CommentHeader});
-            this.DisassemblerListView.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.DisassemblerListView.FullRowSelect = true;
-            this.DisassemblerListView.Location = new System.Drawing.Point(0, 0);
-            this.DisassemblerListView.Name = "DisassemblerListView";
-            this.DisassemblerListView.ShowGroups = false;
-            this.DisassemblerListView.Size = new System.Drawing.Size(683, 164);
-            this.DisassemblerListView.TabIndex = 117;
-            this.DisassemblerListView.UseCompatibleStateImageBehavior = false;
-            this.DisassemblerListView.View = System.Windows.Forms.View.Details;
+            this.GUIMenuStrip.BackColor = System.Drawing.SystemColors.Control;
+            this.GUIMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.FileToolStripMenuItem,
+            this.EditToolStripMenuItem,
+            this.ViewToolStripMenuItem});
+            this.GUIMenuStrip.Location = new System.Drawing.Point(0, 0);
+            this.GUIMenuStrip.Name = "GUIMenuStrip";
+            this.GUIMenuStrip.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
+            this.GUIMenuStrip.Size = new System.Drawing.Size(875, 24);
+            this.GUIMenuStrip.TabIndex = 150;
+            this.GUIMenuStrip.Text = "Main Menu Strip";
             // 
-            // AddressHeader
+            // FileToolStripMenuItem
             // 
-            this.AddressHeader.Text = "Address";
-            this.AddressHeader.Width = 137;
+            this.FileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.ExitToolStripMenuItem});
+            this.FileToolStripMenuItem.Name = "FileToolStripMenuItem";
+            this.FileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
+            this.FileToolStripMenuItem.Text = "File";
             // 
-            // BytesHeader
+            // ExitToolStripMenuItem
             // 
-            this.BytesHeader.Text = "Bytes";
-            this.BytesHeader.Width = 93;
+            this.ExitToolStripMenuItem.Name = "ExitToolStripMenuItem";
+            this.ExitToolStripMenuItem.Size = new System.Drawing.Size(92, 22);
+            this.ExitToolStripMenuItem.Text = "Exit";
             // 
-            // InstructionHeader
+            // EditToolStripMenuItem
             // 
-            this.InstructionHeader.Text = "Instruction";
-            this.InstructionHeader.Width = 143;
+            this.EditToolStripMenuItem.Name = "EditToolStripMenuItem";
+            this.EditToolStripMenuItem.Size = new System.Drawing.Size(39, 20);
+            this.EditToolStripMenuItem.Text = "Edit";
             // 
-            // CommentHeader
+            // ViewToolStripMenuItem
             // 
-            this.CommentHeader.Text = "Comment";
-            this.CommentHeader.Width = 279;
+            this.ViewToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.assemblerToolStripMenuItem,
+            this.memoryViewerToolStripMenuItem});
+            this.ViewToolStripMenuItem.Name = "ViewToolStripMenuItem";
+            this.ViewToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
+            this.ViewToolStripMenuItem.Text = "View";
             // 
-            // HexEditorBox
+            // assemblerToolStripMenuItem
             // 
-            this.HexEditorBox.AllowDrop = true;
-            this.HexEditorBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.HexEditorBox.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.assemblerToolStripMenuItem.Name = "assemblerToolStripMenuItem";
+            this.assemblerToolStripMenuItem.Size = new System.Drawing.Size(157, 22);
+            this.assemblerToolStripMenuItem.Text = "Assembler";
             // 
+            // memoryViewerToolStripMenuItem
             // 
+            this.memoryViewerToolStripMenuItem.Name = "memoryViewerToolStripMenuItem";
+            this.memoryViewerToolStripMenuItem.Size = new System.Drawing.Size(157, 22);
+            this.memoryViewerToolStripMenuItem.Text = "Memory Viewer";
             // 
-            this.HexEditorBox.BuiltInContextMenu.CopyMenuItemText = "Copy ";
-            this.HexEditorBox.BuiltInContextMenu.CutMenuItemText = "Cut ";
-            this.HexEditorBox.BuiltInContextMenu.PasteMenuItemText = "Paste ";
-            this.HexEditorBox.BuiltInContextMenu.SelectAllMenuItemText = "Select All ";
-            this.HexEditorBox.ColumnInfoVisible = true;
-            this.HexEditorBox.Font = new System.Drawing.Font("Consolas", 9F);
-            this.HexEditorBox.HexCasing = Be.Windows.Forms.HexCasing.Lower;
-            this.HexEditorBox.LineInfoVisible = true;
-            this.HexEditorBox.Location = new System.Drawing.Point(0, 170);
-            this.HexEditorBox.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.HexEditorBox.Name = "HexEditorBox";
-            this.HexEditorBox.ShadowSelectionColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(60)))), ((int)(((byte)(188)))), ((int)(((byte)(255)))));
-            this.HexEditorBox.Size = new System.Drawing.Size(683, 168);
-            this.HexEditorBox.StringViewVisible = true;
-            this.HexEditorBox.TabIndex = 118;
-            this.HexEditorBox.VScrollBarVisible = true;
+            // ContentPanel
+            // 
+            this.ContentPanel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.ContentPanel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.ContentPanel.DockBackColor = System.Drawing.SystemColors.AppWorkspace;
+            this.ContentPanel.Location = new System.Drawing.Point(0, 24);
+            this.ContentPanel.Name = "ContentPanel";
+            this.ContentPanel.Size = new System.Drawing.Size(875, 439);
+            this.ContentPanel.TabIndex = 153;
             // 
             // GUIDebugger
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(683, 336);
-            this.Controls.Add(this.DisassemblerListView);
-            this.Controls.Add(this.HexEditorBox);
+            this.ClientSize = new System.Drawing.Size(875, 463);
+            this.Controls.Add(this.ContentPanel);
+            this.Controls.Add(this.GUIMenuStrip);
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.IsMdiContainer = true;
             this.Name = "GUIDebugger";
             this.Text = "Debugger";
+            this.GUIMenuStrip.ResumeLayout(false);
+            this.GUIMenuStrip.PerformLayout();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
         #endregion
-
-        private System.Windows.Forms.ListView DisassemblerListView;
-        private System.Windows.Forms.ColumnHeader AddressHeader;
-        private System.Windows.Forms.ColumnHeader BytesHeader;
-        private System.Windows.Forms.ColumnHeader InstructionHeader;
-        private System.Windows.Forms.ColumnHeader CommentHeader;
-        private Be.Windows.Forms.HexBox HexEditorBox;
+        private System.Windows.Forms.MenuStrip GUIMenuStrip;
+        private System.Windows.Forms.ToolStripMenuItem FileToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem ExitToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem EditToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem ViewToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem assemblerToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem memoryViewerToolStripMenuItem;
+        private WeifenLuo.WinFormsUI.Docking.DockPanel ContentPanel;
     }
 }
