@@ -1,4 +1,5 @@
-﻿using Binarysharp.MemoryManagement;
+﻿using Binarysharp.Assemblers.Fasm;
+using Binarysharp.MemoryManagement;
 using Binarysharp.MemoryManagement.Modules;
 using System;
 using System.Collections.Generic;
@@ -48,7 +49,6 @@ namespace Anathema
             ScriptEditorEventArgs ScriptEditorEventArgs = new ScriptEditorEventArgs();
             ScriptEditorEventArgs.ScriptItem = ScriptItem;
             EventDisplayScript(this, ScriptEditorEventArgs);
-
         }
 
         public Boolean HasChanges(String ScriptText)

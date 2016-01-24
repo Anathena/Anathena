@@ -57,7 +57,7 @@
   <ItemGroup>
     <Reference Include="Fasm.NET, Version=1.0.4939.27955, Culture=neutral, processorArchitecture=x86">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Libraries\FASM\Fasm.NET.dll</HintPath>
+      <HintPath>..\Fasm\Release\Fasm.NET.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
