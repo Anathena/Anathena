@@ -38,10 +38,16 @@
             this.ValueHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.AddressTableContextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.ToggleFreezeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.EditAddressEntryToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.DeleteSelectionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.AddNewAddressToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ScriptTableListView = new Anathema.CheckableListView();
             this.ScriptActiveHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.ScriptDescriptionHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.ScriptTableContextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.OpenScriptToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.EditScriptEntryToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.DeleteScriptToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ScanToolStrip = new System.Windows.Forms.ToolStrip();
             this.SaveTableButton = new System.Windows.Forms.ToolStripButton();
             this.LoadTableButton = new System.Windows.Forms.ToolStripButton();
@@ -50,19 +56,13 @@
             this.FSMTableButton = new System.Windows.Forms.ToolStripButton();
             this.FSMTableListView = new Anathema.FlickerFreeListView();
             this.FSMDescriptionHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.ScriptTableContextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.DeleteScriptToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.OpenScriptToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.AddNewAddressToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.EditAddressEntryToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.EditScriptEntryToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.CheatTableSplitContainer)).BeginInit();
             this.CheatTableSplitContainer.Panel1.SuspendLayout();
             this.CheatTableSplitContainer.Panel2.SuspendLayout();
             this.CheatTableSplitContainer.SuspendLayout();
             this.AddressTableContextMenuStrip.SuspendLayout();
-            this.ScanToolStrip.SuspendLayout();
             this.ScriptTableContextMenuStrip.SuspendLayout();
+            this.ScanToolStrip.SuspendLayout();
             this.SuspendLayout();
             // 
             // CheatTableSplitContainer
@@ -152,12 +152,26 @@
             this.ToggleFreezeToolStripMenuItem.Text = "Toggle Freeze";
             this.ToggleFreezeToolStripMenuItem.Click += new System.EventHandler(this.ToggleFreezeToolStripMenuItem_Click);
             // 
+            // EditAddressEntryToolStripMenuItem
+            // 
+            this.EditAddressEntryToolStripMenuItem.Name = "EditAddressEntryToolStripMenuItem";
+            this.EditAddressEntryToolStripMenuItem.Size = new System.Drawing.Size(168, 22);
+            this.EditAddressEntryToolStripMenuItem.Text = "Edit Entry";
+            this.EditAddressEntryToolStripMenuItem.Click += new System.EventHandler(this.EditAddressEntryToolStripMenuItem_Click);
+            // 
             // DeleteSelectionToolStripMenuItem
             // 
             this.DeleteSelectionToolStripMenuItem.Name = "DeleteSelectionToolStripMenuItem";
             this.DeleteSelectionToolStripMenuItem.Size = new System.Drawing.Size(168, 22);
             this.DeleteSelectionToolStripMenuItem.Text = "Delete Selection";
             this.DeleteSelectionToolStripMenuItem.Click += new System.EventHandler(this.DeleteSelectionToolStripMenuItem_Click);
+            // 
+            // AddNewAddressToolStripMenuItem
+            // 
+            this.AddNewAddressToolStripMenuItem.Name = "AddNewAddressToolStripMenuItem";
+            this.AddNewAddressToolStripMenuItem.Size = new System.Drawing.Size(168, 22);
+            this.AddNewAddressToolStripMenuItem.Text = "Add New Address";
+            this.AddNewAddressToolStripMenuItem.Click += new System.EventHandler(this.AddNewAddressToolStripMenuItem_Click);
             // 
             // ScriptTableListView
             // 
@@ -180,6 +194,7 @@
             this.ScriptTableListView.View = System.Windows.Forms.View.Details;
             this.ScriptTableListView.VirtualMode = true;
             this.ScriptTableListView.RetrieveVirtualItem += new System.Windows.Forms.RetrieveVirtualItemEventHandler(this.ScriptTableListView_RetrieveVirtualItem);
+            this.ScriptTableListView.MouseClick += new System.Windows.Forms.MouseEventHandler(this.ScriptTableListView_MouseClick);
             this.ScriptTableListView.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.ScriptTableListView_MouseDoubleClick);
             // 
             // ScriptActiveHeader
@@ -191,6 +206,36 @@
             // 
             this.ScriptDescriptionHeader.Text = "Description";
             this.ScriptDescriptionHeader.Width = 146;
+            // 
+            // ScriptTableContextMenuStrip
+            // 
+            this.ScriptTableContextMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.OpenScriptToolStripMenuItem,
+            this.EditScriptEntryToolStripMenuItem,
+            this.DeleteScriptToolStripMenuItem});
+            this.ScriptTableContextMenuStrip.Name = "RightClickMenu";
+            this.ScriptTableContextMenuStrip.Size = new System.Drawing.Size(141, 70);
+            // 
+            // OpenScriptToolStripMenuItem
+            // 
+            this.OpenScriptToolStripMenuItem.Name = "OpenScriptToolStripMenuItem";
+            this.OpenScriptToolStripMenuItem.Size = new System.Drawing.Size(140, 22);
+            this.OpenScriptToolStripMenuItem.Text = "Open Script";
+            this.OpenScriptToolStripMenuItem.Click += new System.EventHandler(this.OpenScriptToolStripMenuItem_Click);
+            // 
+            // EditScriptEntryToolStripMenuItem
+            // 
+            this.EditScriptEntryToolStripMenuItem.Name = "EditScriptEntryToolStripMenuItem";
+            this.EditScriptEntryToolStripMenuItem.Size = new System.Drawing.Size(140, 22);
+            this.EditScriptEntryToolStripMenuItem.Text = "Edit Entry";
+            this.EditScriptEntryToolStripMenuItem.Click += new System.EventHandler(this.EditScriptEntryToolStripMenuItem_Click);
+            // 
+            // DeleteScriptToolStripMenuItem
+            // 
+            this.DeleteScriptToolStripMenuItem.Name = "DeleteScriptToolStripMenuItem";
+            this.DeleteScriptToolStripMenuItem.Size = new System.Drawing.Size(140, 22);
+            this.DeleteScriptToolStripMenuItem.Text = "Delete Script";
+            this.DeleteScriptToolStripMenuItem.Click += new System.EventHandler(this.DeleteScriptToolStripMenuItem_Click);
             // 
             // ScanToolStrip
             // 
@@ -275,50 +320,6 @@
             this.FSMDescriptionHeader.Text = "Description";
             this.FSMDescriptionHeader.Width = 663;
             // 
-            // ScriptTableContextMenuStrip
-            // 
-            this.ScriptTableContextMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.OpenScriptToolStripMenuItem,
-            this.EditScriptEntryToolStripMenuItem,
-            this.DeleteScriptToolStripMenuItem});
-            this.ScriptTableContextMenuStrip.Name = "RightClickMenu";
-            this.ScriptTableContextMenuStrip.Size = new System.Drawing.Size(153, 92);
-            // 
-            // DeleteScriptToolStripMenuItem
-            // 
-            this.DeleteScriptToolStripMenuItem.Name = "DeleteScriptToolStripMenuItem";
-            this.DeleteScriptToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.DeleteScriptToolStripMenuItem.Text = "Delete Script";
-            this.DeleteScriptToolStripMenuItem.Click += new System.EventHandler(this.DeleteScriptToolStripMenuItem_Click);
-            // 
-            // OpenScriptToolStripMenuItem
-            // 
-            this.OpenScriptToolStripMenuItem.Name = "OpenScriptToolStripMenuItem";
-            this.OpenScriptToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.OpenScriptToolStripMenuItem.Text = "Open Script";
-            this.OpenScriptToolStripMenuItem.Click += new System.EventHandler(this.OpenScriptToolStripMenuItem_Click);
-            // 
-            // AddNewAddressToolStripMenuItem
-            // 
-            this.AddNewAddressToolStripMenuItem.Name = "AddNewAddressToolStripMenuItem";
-            this.AddNewAddressToolStripMenuItem.Size = new System.Drawing.Size(168, 22);
-            this.AddNewAddressToolStripMenuItem.Text = "Add New Address";
-            this.AddNewAddressToolStripMenuItem.Click += new System.EventHandler(this.AddNewAddressToolStripMenuItem_Click);
-            // 
-            // EditAddressEntryToolStripMenuItem
-            // 
-            this.EditAddressEntryToolStripMenuItem.Name = "EditAddressEntryToolStripMenuItem";
-            this.EditAddressEntryToolStripMenuItem.Size = new System.Drawing.Size(168, 22);
-            this.EditAddressEntryToolStripMenuItem.Text = "Edit Entry";
-            this.EditAddressEntryToolStripMenuItem.Click += new System.EventHandler(this.EditAddressEntryToolStripMenuItem_Click);
-            // 
-            // EditScriptEntryToolStripMenuItem
-            // 
-            this.EditScriptEntryToolStripMenuItem.Name = "EditScriptEntryToolStripMenuItem";
-            this.EditScriptEntryToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.EditScriptEntryToolStripMenuItem.Text = "Edit Entry";
-            this.EditScriptEntryToolStripMenuItem.Click += new System.EventHandler(this.EditScriptEntryToolStripMenuItem_Click);
-            // 
             // GUITable
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -335,9 +336,9 @@
             ((System.ComponentModel.ISupportInitialize)(this.CheatTableSplitContainer)).EndInit();
             this.CheatTableSplitContainer.ResumeLayout(false);
             this.AddressTableContextMenuStrip.ResumeLayout(false);
+            this.ScriptTableContextMenuStrip.ResumeLayout(false);
             this.ScanToolStrip.ResumeLayout(false);
             this.ScanToolStrip.PerformLayout();
-            this.ScriptTableContextMenuStrip.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 

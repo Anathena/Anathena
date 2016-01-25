@@ -41,6 +41,12 @@ namespace Binarysharp.MemoryManagement
         #endregion
 
         #region Properties
+        #region Lua
+        /// <summary>
+        /// Lua engine to interface with the OS.
+        /// </summary>
+        public LuaEngine LuaEngine { get; private set; }
+        #endregion
         #region Assembly
         /// <summary>
         /// Factory for generating assembly code.
@@ -156,6 +162,8 @@ namespace Binarysharp.MemoryManagement
                     Modules = new ModuleFactory(this),
                     Threads = new ThreadFactory(this),
                 });
+            // Initialize Lua engine
+            LuaEngine = new LuaEngine(this);
         }
         /// <summary>
         /// Initializes a new instance of the <see cref="MemorySharp"/> class.

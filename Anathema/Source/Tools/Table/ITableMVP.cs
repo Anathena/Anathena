@@ -84,10 +84,11 @@ namespace Anathema
 
         public abstract AddressItem GetAddressItemAt(Int32 Index);
         public abstract void SetAddressItemAt(Int32 Index, AddressItem AddressItem);
-        public abstract void SetFrozenAt(Int32 Index, Boolean Activated);
+        public abstract void SetAddressFrozen(Int32 Index, Boolean Activated);
 
         public abstract ScriptItem GetScriptItemAt(Int32 Index);
         public abstract void SetScriptItemAt(Int32 Index, ScriptItem ScriptItem);
+        public abstract void SetScriptActivation(Int32 Index, Boolean Activated);
 
         public abstract void UpdateReadBounds(Int32 StartReadIndex, Int32 EndReadIndex);
     }
@@ -173,6 +174,11 @@ namespace Anathema
             return Item;
         }
 
+        public void SetAddressFrozen(Int32 Index, Boolean Activated)
+        {
+            Model.SetAddressFrozen(Index, Activated);
+        }
+
         public ListViewItem GetScriptTableItemAt(Int32 Index)
         {
             ListViewItem Item = AddressTableCache.Get(Index);
@@ -197,14 +203,14 @@ namespace Anathema
             Model.OpenScript(Index);
         }
 
-        public void SetFrozenAt(Int32 Index, Boolean Activated)
-        {
-            Model.SetFrozenAt(Index, Activated);
-        }
-
         public String GetScriptTableScriptAt(Int32 Index)
         {
             return Model.GetScriptItemAt(Index).Script;
+        }
+
+        public void SetScriptActivation(Int32 Index, Boolean Activated)
+        {
+            Model.SetScriptActivation(Index, Activated);
         }
 
         public ListViewItem GetFSMTableItemAt(Int32 Index)

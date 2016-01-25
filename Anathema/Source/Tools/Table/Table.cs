@@ -1,5 +1,4 @@
 ﻿using Binarysharp.MemoryManagement;
-using NLua;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -29,7 +28,6 @@ namespace Anathema
     /// <summary>
     /// Handles the displaying of results
     /// </summary>
-    /// 
     class Table : ITableModel, IProcessObserver
     {
         public enum TableColumnEnum
@@ -45,8 +43,8 @@ namespace Anathema
         private MemorySharp MemoryEditor;
 
         private TableData CurrentTableData;
-        private Lua ScriptEngine;
-        
+        private LuaEngine LuaEngine;
+
         private Int32 StartReadIndex;
         private Int32 EndReadIndex;
 
@@ -54,22 +52,8 @@ namespace Anathema
         {
             InitializeProcessObserver();
             CurrentTableData = new TableData();
-            ScriptEngine = new Lua();
-
-            LuaTests();
 
             Begin();
-        }
-
-        private void LuaTests()
-        {
-            // Sandboxing -- prevent users from importing libraries that they could use to break things
-            ScriptEngine.DoString(@" import = function () end ");
-
-            double val = 12.0;
-            ScriptEngine["x"] = val; // Create a global value 'x' 
-            var res = ScriptEngine.DoString("return 10 + x*(5 + 2)")[0] as double?;
-            return;
         }
 
         public static Table GetInstance()
@@ -150,9 +134,9 @@ namespace Anathema
             return true;
         }
 
-        public override void SetFrozenAt(Int32 Index, Boolean Activated)
+        public override void SetAddressFrozen(Int32 Index, Boolean Activated)
         {
-            if (Activated == true)
+            if (Activated)
             {
                 Boolean ReadSuccess;
                 CurrentTableData.AddressTable[Index].Value = MemoryEditor.Read(CurrentTableData.AddressTable[Index].ElementType, (IntPtr)CurrentTableData.AddressTable[Index].Address, out ReadSuccess, false);
@@ -229,6 +213,11 @@ namespace Anathema
             TableEventArgs TableEventArgs = new TableEventArgs();
             TableEventArgs.ClearCacheIndex = Index;
             OnEventClearScriptCacheItem(TableEventArgs);
+        }
+
+        public override void SetScriptActivation(Int32 Index, Boolean Activated)
+        {
+            CurrentTableData.ScriptTable[Index].SetActivationState(Activated);
         }
 
         public override void Begin()

@@ -150,7 +150,7 @@ namespace Anathema
                 return;
 
             if (E.X < (ListViewItem.Bounds.Left + 16))
-                TablePresenter.SetFrozenAt(ListViewItem.Index, !ListViewItem.Checked);
+                TablePresenter.SetAddressFrozen(ListViewItem.Index, ListViewItem.Checked);
         }
 
         private void AddressTableListView_KeyPress(Object Sender, KeyPressEventArgs E)
@@ -160,14 +160,14 @@ namespace Anathema
 
             Boolean FreezeState = AddressTableListView.SelectedIndices == null ? false : !AddressTableListView.Items[AddressTableListView.SelectedIndices[0]].Checked;
             foreach (Int32 Index in AddressTableListView.SelectedIndices)
-                TablePresenter.SetFrozenAt(Index, FreezeState);
+                TablePresenter.SetAddressFrozen(Index, FreezeState);
         }
         
         private void ToggleFreezeToolStripMenuItem_Click(Object Sender, EventArgs E)
         {
             Boolean FreezeState = AddressTableListView.SelectedIndices == null ? false : !AddressTableListView.Items[AddressTableListView.SelectedIndices[0]].Checked;
             foreach (Int32 Index in AddressTableListView.SelectedIndices)
-                TablePresenter.SetFrozenAt(Index, FreezeState);
+                TablePresenter.SetAddressFrozen(Index, FreezeState);
         }
 
         private void AddressTableListView_MouseDoubleClick(Object Sender, MouseEventArgs E)
@@ -202,6 +202,17 @@ namespace Anathema
             // Create editor for this entry
             GUIAddressTableEntryEditor GUIAddressTableEntryEditor = new GUIAddressTableEntryEditor(SelectedItem.Index, Indicies.ToArray(), ColumnSelection);
             GUIAddressTableEntryEditor.ShowDialog();
+        }
+
+        private void ScriptTableListView_MouseClick(Object Sender, MouseEventArgs E)
+        {
+            ListViewItem ListViewItem = ScriptTableListView.GetItemAt(E.X, E.Y);
+
+            if (ListViewItem == null)
+                return;
+
+            if (E.X < (ListViewItem.Bounds.Left + 16))
+                TablePresenter.SetScriptActivation(ListViewItem.Index, ListViewItem.Checked);
         }
 
         private void ScriptTableListView_MouseDoubleClick(Object Sender, MouseEventArgs E)
@@ -257,7 +268,7 @@ namespace Anathema
         }
 
         #endregion
-
+        
     } // End class
 
 } // End namespace
