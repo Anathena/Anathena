@@ -75,7 +75,7 @@ namespace Anathema
 
         public void InsertCodeInjectionTemplate()
         {
-            ScriptItem.Script = ScriptItem.CodeInjection;
+            ScriptItem.Script = LuaEngine.AddCodeInjectionTemplate(ScriptItem.Script, "main.exe", 0x41c);
             UpdateDisplayText();
         }
 

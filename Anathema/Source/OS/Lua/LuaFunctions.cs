@@ -8,6 +8,12 @@ namespace Binarysharp.MemoryManagement
 {
     interface LuaFunctions
     {
+        UInt64 GetModuleAddress(String ModuleName);
+        UInt64 GetReturnAddress(UInt64 Address);
+
+        Byte[] CreateCodeCave();
+
+        void RestoreCode();
 
     } // End interface
 
