@@ -13,6 +13,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Runtime.Remoting.Channels;
 using System.Runtime.Remoting.Channels.Ipc;
+using System.Threading;
 using System.Windows.Forms;
 
 namespace Binarysharp.MemoryManagement.Assembly.Assembler
@@ -25,13 +26,27 @@ namespace Binarysharp.MemoryManagement.Assembly.Assembler
     {
         private const String FASMHelperExecutable = "FASMHelper.exe";
         private Process FASMHelper;
+        private IpcChannel IpcChannel;
+        private ISharedAssemblyInterface FASMObj;
 
         private void LoadFASMHelper()
         {
             if (FASMHelper != null)
                 return;
 
-            FASMHelper = Process.Start(Path.Combine(Path.GetDirectoryName(Application.ExecutablePath), FASMHelperExecutable));
+            // Start the process and wait for it to be ready to receive events
+            EventWaitHandle ProcessStartEvent = new EventWaitHandle(false, EventResetMode.ManualReset, @"Global\FASMServerStarted");
+            ProcessStartInfo ProcessInfo = new ProcessStartInfo(Path.Combine(Path.GetDirectoryName(Application.ExecutablePath), FASMHelperExecutable));
+            ProcessInfo.RedirectStandardInput = true;
+            ProcessInfo.UseShellExecute = false;
+            //ProcessInfo.CreateNoWindow = true;
+            FASMHelper = Process.Start(ProcessInfo);
+            ProcessStartEvent.WaitOne();
+
+            // Create client connection to FASM service
+            IpcChannel = new IpcChannel("Client");
+            ChannelServices.RegisterChannel(IpcChannel, true);
+            FASMObj = (ISharedAssemblyInterface)Activator.GetObject(typeof(ISharedAssemblyInterface), "ipc://FASMChannel/FASMObj");
         }
 
         /// <summary>
@@ -54,14 +69,8 @@ namespace Binarysharp.MemoryManagement.Assembly.Assembler
         public Byte[] Assemble(String Assembly, IntPtr BaseAddress)
         {
             LoadFASMHelper();
-            
-            IpcChannel IpcChannel = new IpcChannel("Client");
-            ChannelServices.RegisterChannel(IpcChannel, true);
-            ISharedAssemblyInterface FASMObj = (ISharedAssemblyInterface)Activator.GetObject(typeof(ISharedAssemblyInterface), "ipc://FASMChannel/FASMObj");
 
-            var test = FASMObj.Assemble(false, Assembly, BaseAddress.ToInt64());
-
-            return null;
+            return FASMObj.Assemble(false, Assembly, BaseAddress.ToInt64());
         }
 
     } // End class
