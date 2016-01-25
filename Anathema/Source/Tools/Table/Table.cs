@@ -1,11 +1,9 @@
 ﻿using Binarysharp.MemoryManagement;
+using NLua;
 using System;
-using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.IO;
 using System.Runtime.Serialization;
-using System.Xml;
-using System.Xml.Serialization;
 
 namespace Anathema
 {
@@ -47,7 +45,8 @@ namespace Anathema
         private MemorySharp MemoryEditor;
 
         private TableData CurrentTableData;
-
+        private Lua ScriptEngine;
+        
         private Int32 StartReadIndex;
         private Int32 EndReadIndex;
 
@@ -55,6 +54,7 @@ namespace Anathema
         {
             InitializeProcessObserver();
             CurrentTableData = new TableData();
+            ScriptEngine = new Lua();
             Begin();
         }
 
@@ -138,15 +138,19 @@ namespace Anathema
 
         public override void SetFrozenAt(Int32 Index, Boolean Activated)
         {
-            Boolean ReadSuccess;
-            CurrentTableData.AddressTable[Index].Value = MemoryEditor.Read(CurrentTableData.AddressTable[Index].ElementType, (IntPtr)CurrentTableData.AddressTable[Index].Address, out ReadSuccess, false);
+            if (Activated == true)
+            {
+                Boolean ReadSuccess;
+                CurrentTableData.AddressTable[Index].Value = MemoryEditor.Read(CurrentTableData.AddressTable[Index].ElementType, (IntPtr)CurrentTableData.AddressTable[Index].Address, out ReadSuccess, false);
+            }
+
             CurrentTableData.AddressTable[Index].SetActivationState(Activated);
         }
 
         public void AddTableItem(UInt64 BaseAddress, Type ElementType)
         {
             CurrentTableData.AddressTable.Add(new AddressItem(BaseAddress, ElementType));
-            
+
             TableEventArgs Args = new TableEventArgs();
             Args.ItemCount = CurrentTableData.AddressTable.Count;
             OnEventClearAddressCache(Args);

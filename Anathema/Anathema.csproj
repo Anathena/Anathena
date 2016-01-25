@@ -55,6 +55,12 @@
     <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="KopiLua">
+      <HintPath>..\Lua\KopiLua.dll</HintPath>
+    </Reference>
+    <Reference Include="NLua">
+      <HintPath>..\Lua\NLua.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Runtime.Remoting" />

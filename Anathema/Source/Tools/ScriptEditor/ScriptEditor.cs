@@ -64,7 +64,6 @@ namespace Anathema
 
         public void SaveScript(String ScriptText)
         {
-            var test = MemoryEditor.Assembly.Assembler.Assemble("push rax\npop rdx\nxor rax, rax");
             ScriptItem.Script = ScriptText;
             Table.GetInstance().SaveScript(ScriptItem);
         }

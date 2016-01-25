@@ -10,7 +10,7 @@ namespace Anathema
     {
         [DataMember()]
         public String Script { get; set; }
-
+        
         public ScriptItem()
         {
             this.Description = "No Description";
@@ -18,6 +18,8 @@ namespace Anathema
 
         public ScriptItem(String Script)
         {
+            this.Description = "No Description";
+
             this.Script = Script;
         }
 
@@ -97,7 +99,7 @@ namespace Anathema
             Activated = false;
         }
 
-        public virtual void SetActivationState(Boolean Activated)
+        public void SetActivationState(Boolean Activated)
         {
             this.Activated = Activated;
         }
