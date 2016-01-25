@@ -10,7 +10,41 @@ namespace Anathema
     {
         [DataMember()]
         public String Script { get; set; }
-        
+
+        public String CodeInjection =
+@"var SavedCode = { }
+
+function OnActivate()
+                
+    CheatA()
+                
+end
+            
+function CheatA()
+                
+    var Entry = GetModuleAddress('Main.exe') + 0x0409c
+                
+    AddKeyword('exit', GetReturnAddress(Entry))
+                
+    var Assembly = ('[ASM]
+        push eax
+        pop eax
+        xor edi, ebc
+        jmp exit
+    ')
+                
+    table.insert(SavedCode, CreateCodeCave(Entry, Assembly))
+                
+    ClearKeywords()
+                
+end
+            
+function OnDeactivate()
+                
+    RestoreCode(SavedCode);
+                
+end";
+
         public ScriptItem()
         {
             this.Description = "No Description";

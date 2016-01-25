@@ -27,6 +27,8 @@ namespace Anathema
         // Functions invoked by presenter (downstream)
         void SaveScript(String ScriptText);
         Boolean HasChanges(String ScriptText);
+
+        void InsertCodeInjectionTemplate();
     }
 
     class ScriptEditorPresenter : Presenter<IScriptEditorView, IScriptEditorModel>
@@ -38,7 +40,7 @@ namespace Anathema
         }
 
         #region Method definitions called by the view (downstream)
-
+        
         public void SaveScript(String ScriptText)
         {
             Model.SaveScript(ScriptText);
@@ -47,6 +49,11 @@ namespace Anathema
         public Boolean HasChanges(String ScriptText)
         {
             return Model.HasChanges(ScriptText);
+        }
+        
+        public void InsertCodeInjectionTemplate()
+        {
+            Model.InsertCodeInjectionTemplate();
         }
 
         #endregion

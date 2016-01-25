@@ -55,7 +55,21 @@ namespace Anathema
             InitializeProcessObserver();
             CurrentTableData = new TableData();
             ScriptEngine = new Lua();
+
+            LuaTests();
+
             Begin();
+        }
+
+        private void LuaTests()
+        {
+            // Sandboxing -- prevent users from importing libraries that they could use to break things
+            ScriptEngine.DoString(@" import = function () end ");
+
+            double val = 12.0;
+            ScriptEngine["x"] = val; // Create a global value 'x' 
+            var res = ScriptEngine.DoString("return 10 + x*(5 + 2)")[0] as double?;
+            return;
         }
 
         public static Table GetInstance()

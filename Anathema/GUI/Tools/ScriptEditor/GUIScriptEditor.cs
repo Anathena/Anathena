@@ -43,6 +43,11 @@ namespace Anathema
 
         #region Events
 
+        private void CodeInjectionToolStripMenuItem_Click(Object Sender, EventArgs E)
+        {
+            ScriptEditorPresenter.InsertCodeInjectionTemplate();
+        }
+
         private void SaveToTableToolStripMenuItem_Click(Object Sender, EventArgs E)
         {
             SaveChanges();
@@ -75,7 +80,7 @@ namespace Anathema
         }
 
         #endregion
-        
+
     } // End class
 
 } // End namespace

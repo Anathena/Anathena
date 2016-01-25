@@ -41,13 +41,18 @@ namespace Anathema
             this.MemoryEditor = MemoryEditor;
         }
 
+        private void UpdateDisplayText()
+        {
+            ScriptEditorEventArgs ScriptEditorEventArgs = new ScriptEditorEventArgs();
+            ScriptEditorEventArgs.ScriptItem = ScriptItem;
+            EventDisplayScript(this, ScriptEditorEventArgs);
+        }
+
         public void OpenScript(ScriptItem ScriptItem)
         {
             this.ScriptItem = ScriptItem;
 
-            ScriptEditorEventArgs ScriptEditorEventArgs = new ScriptEditorEventArgs();
-            ScriptEditorEventArgs.ScriptItem = ScriptItem;
-            EventDisplayScript(this, ScriptEditorEventArgs);
+            UpdateDisplayText();
         }
 
         public Boolean HasChanges(String ScriptText)
@@ -66,6 +71,12 @@ namespace Anathema
         {
             ScriptItem.Script = ScriptText;
             Table.GetInstance().SaveScript(ScriptItem);
+        }
+
+        public void InsertCodeInjectionTemplate()
+        {
+            ScriptItem.Script = ScriptItem.CodeInjection;
+            UpdateDisplayText();
         }
 
     } // End class

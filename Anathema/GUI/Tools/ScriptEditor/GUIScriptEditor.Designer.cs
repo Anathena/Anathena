@@ -36,13 +36,17 @@
             this.ExitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.EditToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ViewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.addEntryToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.templatesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.CodeInjectionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ScriptEditorMenuStrip.SuspendLayout();
             this.SuspendLayout();
             // 
             // ScriptEditorRichTextBox
             // 
+            this.ScriptEditorRichTextBox.AcceptsTab = true;
             this.ScriptEditorRichTextBox.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.ScriptEditorRichTextBox.Font = new System.Drawing.Font("Courier New", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.ScriptEditorRichTextBox.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.ScriptEditorRichTextBox.Location = new System.Drawing.Point(0, 24);
             this.ScriptEditorRichTextBox.Name = "ScriptEditorRichTextBox";
             this.ScriptEditorRichTextBox.Size = new System.Drawing.Size(339, 254);
@@ -56,7 +60,8 @@
             this.ScriptEditorMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.FileToolStripMenuItem,
             this.EditToolStripMenuItem,
-            this.ViewToolStripMenuItem});
+            this.ViewToolStripMenuItem,
+            this.templatesToolStripMenuItem});
             this.ScriptEditorMenuStrip.Location = new System.Drawing.Point(0, 0);
             this.ScriptEditorMenuStrip.Name = "ScriptEditorMenuStrip";
             this.ScriptEditorMenuStrip.Size = new System.Drawing.Size(339, 24);
@@ -100,9 +105,32 @@
             // 
             // ViewToolStripMenuItem
             // 
+            this.ViewToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.addEntryToolStripMenuItem});
             this.ViewToolStripMenuItem.Name = "ViewToolStripMenuItem";
             this.ViewToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
             this.ViewToolStripMenuItem.Text = "View";
+            // 
+            // addEntryToolStripMenuItem
+            // 
+            this.addEntryToolStripMenuItem.Name = "addEntryToolStripMenuItem";
+            this.addEntryToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.addEntryToolStripMenuItem.Text = "Add Entry";
+            // 
+            // templatesToolStripMenuItem
+            // 
+            this.templatesToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.CodeInjectionToolStripMenuItem});
+            this.templatesToolStripMenuItem.Name = "templatesToolStripMenuItem";
+            this.templatesToolStripMenuItem.Size = new System.Drawing.Size(73, 20);
+            this.templatesToolStripMenuItem.Text = "Templates";
+            // 
+            // CodeInjectionToolStripMenuItem
+            // 
+            this.CodeInjectionToolStripMenuItem.Name = "CodeInjectionToolStripMenuItem";
+            this.CodeInjectionToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.CodeInjectionToolStripMenuItem.Text = "Code Injection";
+            this.CodeInjectionToolStripMenuItem.Click += new System.EventHandler(this.CodeInjectionToolStripMenuItem_Click);
             // 
             // GUIScriptEditor
             // 
@@ -133,5 +161,8 @@
         private System.Windows.Forms.ToolStripMenuItem NewToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem SaveToTableToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem ExitToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem addEntryToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem templatesToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem CodeInjectionToolStripMenuItem;
     }
 }
