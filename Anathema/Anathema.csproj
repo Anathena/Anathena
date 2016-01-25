@@ -55,8 +55,7 @@
     <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Fasm.NET, Version=1.0.4939.27955, Culture=neutral, processorArchitecture=x86">
-      <SpecificVersion>False</SpecificVersion>
+    <Reference Include="Fasm.NET">
       <HintPath>..\Fasm\Release\Fasm.NET.dll</HintPath>
     </Reference>
     <Reference Include="System" />
@@ -74,10 +73,10 @@
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="ThemeVS2013Blue">
-      <HintPath>..\DockingSuite\bin\Debug\ThemeVS2013Blue.dll</HintPath>
+      <HintPath>..\DockingSuite\bin\Release\ThemeVS2013Blue.dll</HintPath>
     </Reference>
     <Reference Include="WeifenLuo.WinFormsUI.Docking">
-      <HintPath>..\DockingSuite\bin\Debug\WeifenLuo.WinFormsUI.Docking.dll</HintPath>
+      <HintPath>..\DockingSuite\bin\Release\WeifenLuo.WinFormsUI.Docking.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>

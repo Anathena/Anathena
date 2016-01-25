@@ -13,8 +13,8 @@ namespace FASMHelper
         static void Main(String[] args)
         {
             // IPC port name
-            IpcChannel ipcCh = new IpcChannel("IPChannelName");
-            ChannelServices.RegisterChannel(ipcCh, true);
+            IpcChannel IpcChannel = new IpcChannel("IPChannelName");
+            ChannelServices.RegisterChannel(IpcChannel, true);
             RemotingConfiguration.RegisterWellKnownServiceType(typeof(MyRemoteObject), "SreeniRemoteObj", WellKnownObjectMode.SingleCall);
             Console.WriteLine("Please enter to stop the server");
             Console.ReadLine();
@@ -22,8 +22,8 @@ namespace FASMHelper
         
         public interface ISharedAssemblyInterface
         {
-            int Addition(int a, int b);
-            int Multipliation(int a, int b);
+            Int32 Addition(Int32 a, Int32 b);
+            Int32 Multipliation(Int32 a, Int32 b);
         }
 
         public class MyRemoteObject : MarshalByRefObject, ISharedAssemblyInterface
@@ -40,12 +40,12 @@ namespace FASMHelper
             */
             }
 
-            public int Addition(int a, int b)
+            public Int32 Addition(Int32 a, Int32 b)
             {
                 return a + b;
             }
 
-            public int Multipliation(int a, int b)
+            public int Multipliation(Int32 a, Int32 b)
             {
                 return a * b;
             }
