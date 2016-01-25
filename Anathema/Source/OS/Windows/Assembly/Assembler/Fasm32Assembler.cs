@@ -32,41 +32,38 @@ namespace Binarysharp.MemoryManagement.Assembly.Assembler
                 return;
 
             FASMHelper = Process.Start(Path.Combine(Path.GetDirectoryName(Application.ExecutablePath), FASMHelperExecutable));
-            //FASMHelper.WaitForInputIdle();
         }
 
         /// <summary>
         /// Assemble the specified assembly code.
         /// </summary>
-        /// <param name="asm">The assembly code.</param>
+        /// <param name="Assembly">The assembly code.</param>
         /// <returns>An array of bytes containing the assembly code.</returns>
-        public byte[] Assemble(string asm)
+        public Byte[] Assemble(String Assembly)
         {
             // Assemble and return the code
-            return Assemble(asm, IntPtr.Zero);
+            return Assemble(Assembly, IntPtr.Zero);
         }
 
         /// <summary>
         /// Assemble the specified assembly code at a base address.
         /// </summary>
-        /// <param name="asm">The assembly code.</param>
-        /// <param name="baseAddress">The address where the code is rebased.</param>
+        /// <param name="Assembly">The assembly code.</param>
+        /// <param name="BaseAddress">The address where the code is rebased.</param>
         /// <returns>An array of bytes containing the assembly code.</returns>
-        public byte[] Assemble(string asm, IntPtr baseAddress)
+        public Byte[] Assemble(String Assembly, IntPtr BaseAddress)
         {
             LoadFASMHelper();
             
-            IpcChannel IpcChannel = new IpcChannel("myClient");
+            IpcChannel IpcChannel = new IpcChannel("Client");
             ChannelServices.RegisterChannel(IpcChannel, true);
+            ISharedAssemblyInterface FASMObj = (ISharedAssemblyInterface)Activator.GetObject(typeof(ISharedAssemblyInterface), "ipc://FASMChannel/FASMObj");
 
-            ISharedAssemblyInterface obj = (ISharedAssemblyInterface)Activator.GetObject(typeof(ISharedAssemblyInterface), "ipc://IPChannelName/SreeniRemoteObj");
-            Int32 temp = obj.Addition(1, 2);
+            var test = FASMObj.Assemble(false, Assembly, BaseAddress.ToInt64());
 
             return null;
-            // Rebase the code
-            //asm = String.Format("use32\norg 0x{0:X8}\n", baseAddress.ToInt64()) + asm;
-            // Assemble and return the code
-            //return FasmNet.Assemble(asm);
         }
-    }
-}
+
+    } // End class
+
+} // End namespace
