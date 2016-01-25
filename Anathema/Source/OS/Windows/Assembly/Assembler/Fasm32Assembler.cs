@@ -7,8 +7,13 @@
  * See the file LICENSE for more information.
 */
 
-using Binarysharp.Assemblers.Fasm;
+using FASMSharedInterface;
 using System;
+using System.Diagnostics;
+using System.IO;
+using System.Runtime.Remoting.Channels;
+using System.Runtime.Remoting.Channels.Ipc;
+using System.Windows.Forms;
 
 namespace Binarysharp.MemoryManagement.Assembly.Assembler
 {
@@ -18,6 +23,18 @@ namespace Binarysharp.MemoryManagement.Assembly.Assembler
     /// </summary>
     public class Fasm32Assembler : IAssembler
     {
+        private const String FASMHelperExecutable = "FASMHelper.exe";
+        private Process FASMHelper;
+
+        private void LoadFASMHelper()
+        {
+            if (FASMHelper != null)
+                return;
+
+            FASMHelper = Process.Start(Path.Combine(Path.GetDirectoryName(Application.ExecutablePath), FASMHelperExecutable));
+            //FASMHelper.WaitForInputIdle();
+        }
+
         /// <summary>
         /// Assemble the specified assembly code.
         /// </summary>
@@ -37,10 +54,19 @@ namespace Binarysharp.MemoryManagement.Assembly.Assembler
         /// <returns>An array of bytes containing the assembly code.</returns>
         public byte[] Assemble(string asm, IntPtr baseAddress)
         {
+            LoadFASMHelper();
+            
+            IpcChannel IpcChannel = new IpcChannel("myClient");
+            ChannelServices.RegisterChannel(IpcChannel, true);
+
+            ISharedAssemblyInterface obj = (ISharedAssemblyInterface)Activator.GetObject(typeof(ISharedAssemblyInterface), "ipc://IPChannelName/SreeniRemoteObj");
+            Int32 temp = obj.Addition(1, 2);
+
+            return null;
             // Rebase the code
-            asm = String.Format("use32\norg 0x{0:X8}\n", baseAddress.ToInt64()) + asm;
+            //asm = String.Format("use32\norg 0x{0:X8}\n", baseAddress.ToInt64()) + asm;
             // Assemble and return the code
-            return FasmNet.Assemble(asm);
+            //return FasmNet.Assemble(asm);
         }
     }
 }

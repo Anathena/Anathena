@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Linq;
 using Binarysharp.Assemblers.Fasm;
-using System.Runtime.Remoting.Channels.Ipc;    //Importing IPC
-                                               //channel
+using System.Runtime.Remoting.Channels.Ipc;
 using System.Runtime.Remoting.Channels;
 using System.Runtime.Remoting;
+using FASMSharedInterface;
 
 namespace FASMHelper
 {
@@ -20,12 +20,6 @@ namespace FASMHelper
             Console.ReadLine();
         }
         
-        public interface ISharedAssemblyInterface
-        {
-            Int32 Addition(Int32 a, Int32 b);
-            Int32 Multipliation(Int32 a, Int32 b);
-        }
-
         public class MyRemoteObject : MarshalByRefObject, ISharedAssemblyInterface
         {
             public MyRemoteObject()

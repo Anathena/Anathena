@@ -1,5 +1,4 @@
-﻿using Binarysharp.Assemblers.Fasm;
-using Binarysharp.MemoryManagement;
+﻿using Binarysharp.MemoryManagement;
 using Binarysharp.MemoryManagement.Modules;
 using System;
 using System.Collections.Generic;
@@ -65,6 +64,7 @@ namespace Anathema
 
         public void SaveScript(String ScriptText)
         {
+            MemoryEditor.Assembly.Assembler.Assemble("push eax");
             ScriptItem.Script = ScriptText;
             Table.GetInstance().SaveScript(ScriptItem);
         }
