@@ -1,0 +1,171 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{22AE2386-60F1-476E-9303-61CDB0AAC4CF}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>ScintillaNET</RootNamespace>
+    <AssemblyName>ScintillaNET</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile>Client</TargetFrameworkProfile>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <DocumentationFile>bin\Debug\ScintillaNET.xml</DocumentationFile>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <DocumentationFile>bin\Release\ScintillaNET.xml</DocumentationFile>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Signed|AnyCPU'">
+    <OutputPath>bin\Signed\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <DocumentationFile>bin\Signed\ScintillaNET.xml</DocumentationFile>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <SignAssembly>true</SignAssembly>
+    <AssemblyOriginatorKeyFile>..\ScintillaNET.snk</AssemblyOriginatorKeyFile>
+    <ErrorReport>prompt</ErrorReport>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Annotation.cs" />
+    <Compile Include="AutoCSelectionEventArgs.cs" />
+    <Compile Include="AutomaticFold.cs" />
+    <Compile Include="BeforeModificationEventArgs.cs" />
+    <Compile Include="CaretStyle.cs" />
+    <Compile Include="ChangeAnnotationEventArgs.cs" />
+    <Compile Include="CharAddedEventArgs.cs" />
+    <Compile Include="Command.cs" />
+    <Compile Include="CopyFormat.cs" />
+    <Compile Include="Document.cs" />
+    <Compile Include="DoubleClickEventArgs.cs" />
+    <Compile Include="DwellEventArgs.cs" />
+    <Compile Include="EdgeMode.cs" />
+    <Compile Include="Eol.cs" />
+    <Compile Include="FlagsEnumConverter.cs" />
+    <Compile Include="FoldAction.cs" />
+    <Compile Include="FoldFlags.cs" />
+    <Compile Include="FoldLevelFlags.cs" />
+    <Compile Include="FontQuality.cs" />
+    <Compile Include="GapBuffer.cs" />
+    <Compile Include="Helpers.cs" />
+    <Compile Include="HotspotClickEventArgs.cs" />
+    <Compile Include="ILoader.cs" />
+    <Compile Include="IndentView.cs" />
+    <Compile Include="Indicator.cs" />
+    <Compile Include="IndicatorReleaseEventArgs.cs" />
+    <Compile Include="IndicatorClickEventArgs.cs" />
+    <Compile Include="IndicatorCollection.cs" />
+    <Compile Include="IndicatorFlags.cs" />
+    <Compile Include="IndicatorStyle.cs" />
+    <Compile Include="InsertCheckEventArgs.cs" />
+    <Compile Include="Lexer.cs" />
+    <Compile Include="Line.cs" />
+    <Compile Include="LineCollection.cs" />
+    <Compile Include="LineEndType.cs" />
+    <Compile Include="ListCompletionMethod.cs" />
+    <Compile Include="Loader.cs" />
+    <Compile Include="Margin.cs" />
+    <Compile Include="MarginClickEventArgs.cs" />
+    <Compile Include="MarginCollection.cs" />
+    <Compile Include="MarginCursor.cs" />
+    <Compile Include="MarginOptions.cs" />
+    <Compile Include="MarginType.cs" />
+    <Compile Include="Marker.cs" />
+    <Compile Include="MarkerCollection.cs" />
+    <Compile Include="MarkerHandle.cs" />
+    <Compile Include="MarkerSymbol.cs" />
+    <Compile Include="ModificationEventArgs.cs" />
+    <Compile Include="ModificationSource.cs" />
+    <Compile Include="MultiPaste.cs" />
+    <Compile Include="NativeMemoryStream.cs" />
+    <Compile Include="NativeMethods.cs" />
+    <Compile Include="NeedShownEventArgs.cs" />
+    <Compile Include="Order.cs" />
+    <Compile Include="Phases.cs" />
+    <Compile Include="ProjectionEqualityComparer.cs" />
+    <Compile Include="PropertyType.cs" />
+    <Compile Include="SCNotificationEventArgs.cs" />
+    <Compile Include="Scintilla.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SearchFlags.cs" />
+    <Compile Include="Selection.cs" />
+    <Compile Include="SelectionCollection.cs" />
+    <Compile Include="Style.cs" />
+    <Compile Include="StyleCase.cs" />
+    <Compile Include="StyleCollection.cs" />
+    <Compile Include="StyleNeededEventArgs.cs" />
+    <Compile Include="Technology.cs" />
+    <Compile Include="UpdateChange.cs" />
+    <Compile Include="UpdateUIEventArgs.cs" />
+    <Compile Include="VirtualSpace.cs" />
+    <Compile Include="WhitespaceMode.cs" />
+    <Compile Include="WrapIndentMode.cs" />
+    <Compile Include="WrapMode.cs" />
+    <Compile Include="WrapVisualFlagLocation.cs" />
+    <Compile Include="WrapVisualFlags.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="x64\SciLexer.dll.gz" />
+    <EmbeddedResource Include="x86\SciLexer.dll.gz" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="x64\License.txt" />
+    <Content Include="x64\SciLexer.dll" />
+    <Content Include="x64\SciLexer.pdb" />
+    <Content Include="x64\version.txt" />
+    <Content Include="x86\License.txt" />
+    <Content Include="x86\version.txt" />
+    <Content Include="x86\SciLexer.dll" />
+    <Content Include="x86\SciLexer.pdb" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="x64\SciLexer.exp" />
+    <Content Include="x64\SciLexer.lib" />
+    <Content Include="x86\SciLexer.exp" />
+    <Content Include="x86\SciLexer.lib" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>
+    </PostBuildEvent>
+  </PropertyGroup>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

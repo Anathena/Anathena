@@ -9,6 +9,7 @@ using WeifenLuo.WinFormsUI.Docking;
 using System.IO;
 using Binarysharp.MemoryManagement;
 using Binarysharp.MemoryManagement.Memory;
+using ScintillaNET;
 
 namespace Anathema
 {
@@ -23,12 +24,35 @@ namespace Anathema
 
             DocumentTitle = this.Text;
 
+            InitializeLuaSettings();
+        }
+
+        private void InitializeLuaSettings()
+        {
+            ScriptEditorTextBox.Lexer = ScintillaNET.Lexer.Lua;
+            ScriptEditorTextBox.Margins[0].Width = 16;
+            ScriptEditorTextBox.Styles[Style.Lua.Comment].ForeColor = Color.Green;
+            ScriptEditorTextBox.Styles[Style.Lua.CommentDoc].ForeColor = Color.Green;
+            ScriptEditorTextBox.Styles[Style.Lua.CommentLine].ForeColor = Color.Green;
+
+            ScriptEditorTextBox.Styles[Style.Lua.Character].ForeColor = Color.Orange;
+            ScriptEditorTextBox.Styles[Style.Lua.String].ForeColor = Color.Orange;
+            ScriptEditorTextBox.Styles[Style.Lua.StringEol].ForeColor = Color.Orange;
+            ScriptEditorTextBox.Styles[Style.Lua.LiteralString].ForeColor = Color.Orange;
+
+            ScriptEditorTextBox.Styles[Style.Lua.Identifier].ForeColor = Color.Blue;
+            ScriptEditorTextBox.Styles[Style.Lua.Label].ForeColor = Color.Blue;
+            ScriptEditorTextBox.Styles[Style.Lua.Number].ForeColor = Color.Orange;
+            ScriptEditorTextBox.Styles[Style.Lua.Operator].ForeColor = Color.Red;
+
+            ScriptEditorTextBox.Styles[Style.Lua.Preprocessor].ForeColor = Color.Gray;
+            
             ScriptEditorPresenter = new ScriptEditorPresenter(this, ScriptEditor.GetInstance());
         }
 
         public void DisplayScript(String ScriptText)
         {
-            ScriptEditorRichTextBox.Text = ScriptText;
+            ScriptEditorTextBox.Text = ScriptText;
             this.Text = DocumentTitle;
 
             if (!this.Visible)
@@ -37,7 +61,7 @@ namespace Anathema
 
         private void SaveChanges()
         {
-            ScriptEditorPresenter.SaveScript(ScriptEditorRichTextBox.Text);
+            ScriptEditorPresenter.SaveScript(ScriptEditorTextBox.Text);
             this.Text = DocumentTitle;
         }
 
@@ -55,13 +79,13 @@ namespace Anathema
 
         private void ScriptEditorRichTextBox_TextChanged(Object Sender, EventArgs E)
         {
-            if (ScriptEditorPresenter.HasChanges(ScriptEditorRichTextBox.Text))
+            if (ScriptEditorPresenter.HasChanges(ScriptEditorTextBox.Text))
                 this.Text = DocumentTitle + "*";
         }
 
         private void GUIScriptEditor_FormClosing(Object Sender, FormClosingEventArgs E)
         {
-            if (!ScriptEditorPresenter.HasChanges(ScriptEditorRichTextBox.Text))
+            if (!ScriptEditorPresenter.HasChanges(ScriptEditorTextBox.Text))
                 return;
 
             DialogResult Result = MessageBox.Show("This script has not been saved, save the changes to the table before closing?", "Save Changes?", MessageBoxButtons.YesNoCancel);

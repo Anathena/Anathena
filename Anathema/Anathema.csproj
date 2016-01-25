@@ -849,6 +849,10 @@
       <Project>{2dac1a31-ef28-499a-b67a-963b5343d778}</Project>
       <Name>Fasm.NET</Name>
     </ProjectReference>
+    <ProjectReference Include="..\ScintillaNET\ScintillaNET\ScintillaNET.csproj">
+      <Project>{22ae2386-60f1-476e-9303-61cdb0aac4cf}</Project>
+      <Name>ScintillaNET</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

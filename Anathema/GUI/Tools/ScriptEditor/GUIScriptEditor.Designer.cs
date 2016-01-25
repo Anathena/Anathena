@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.ScriptEditorRichTextBox = new System.Windows.Forms.RichTextBox();
             this.ScriptEditorMenuStrip = new System.Windows.Forms.MenuStrip();
             this.FileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.NewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -39,21 +38,9 @@
             this.addEntryToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.templatesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.CodeInjectionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.ScriptEditorTextBox = new ScintillaNET.Scintilla();
             this.ScriptEditorMenuStrip.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // ScriptEditorRichTextBox
-            // 
-            this.ScriptEditorRichTextBox.AcceptsTab = true;
-            this.ScriptEditorRichTextBox.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.ScriptEditorRichTextBox.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.ScriptEditorRichTextBox.Location = new System.Drawing.Point(0, 24);
-            this.ScriptEditorRichTextBox.Name = "ScriptEditorRichTextBox";
-            this.ScriptEditorRichTextBox.Size = new System.Drawing.Size(339, 254);
-            this.ScriptEditorRichTextBox.TabIndex = 0;
-            this.ScriptEditorRichTextBox.Text = "";
-            this.ScriptEditorRichTextBox.WordWrap = false;
-            this.ScriptEditorRichTextBox.TextChanged += new System.EventHandler(this.ScriptEditorRichTextBox_TextChanged);
             // 
             // ScriptEditorMenuStrip
             // 
@@ -114,7 +101,7 @@
             // addEntryToolStripMenuItem
             // 
             this.addEntryToolStripMenuItem.Name = "addEntryToolStripMenuItem";
-            this.addEntryToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.addEntryToolStripMenuItem.Size = new System.Drawing.Size(126, 22);
             this.addEntryToolStripMenuItem.Text = "Add Entry";
             // 
             // templatesToolStripMenuItem
@@ -128,16 +115,24 @@
             // CodeInjectionToolStripMenuItem
             // 
             this.CodeInjectionToolStripMenuItem.Name = "CodeInjectionToolStripMenuItem";
-            this.CodeInjectionToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.CodeInjectionToolStripMenuItem.Size = new System.Drawing.Size(151, 22);
             this.CodeInjectionToolStripMenuItem.Text = "Code Injection";
             this.CodeInjectionToolStripMenuItem.Click += new System.EventHandler(this.CodeInjectionToolStripMenuItem_Click);
+            // 
+            // ScriptEditorTextBox
+            // 
+            this.ScriptEditorTextBox.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.ScriptEditorTextBox.Location = new System.Drawing.Point(0, 24);
+            this.ScriptEditorTextBox.Name = "ScriptEditorTextBox";
+            this.ScriptEditorTextBox.Size = new System.Drawing.Size(339, 254);
+            this.ScriptEditorTextBox.TabIndex = 2;
             // 
             // GUIScriptEditor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(339, 278);
-            this.Controls.Add(this.ScriptEditorRichTextBox);
+            this.Controls.Add(this.ScriptEditorTextBox);
             this.Controls.Add(this.ScriptEditorMenuStrip);
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.MainMenuStrip = this.ScriptEditorMenuStrip;
@@ -152,8 +147,6 @@
         }
 
         #endregion
-
-        private System.Windows.Forms.RichTextBox ScriptEditorRichTextBox;
         private System.Windows.Forms.MenuStrip ScriptEditorMenuStrip;
         private System.Windows.Forms.ToolStripMenuItem FileToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem EditToolStripMenuItem;
@@ -164,5 +157,6 @@
         private System.Windows.Forms.ToolStripMenuItem addEntryToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem templatesToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem CodeInjectionToolStripMenuItem;
+        private ScintillaNET.Scintilla ScriptEditorTextBox;
     }
 }
