@@ -22,22 +22,23 @@ namespace Binarysharp.MemoryManagement
         public static String AddCodeInjectionTemplate(String Script, String ModuleName, UInt64 ModuleOffset)
         {
             String CodeInjection =
-                "var SavedCode = { }" + "\n" +
-                "function OnActivate()" + "\n" +
-                "   CheatA()" + "\n" +
-                "end" + "\n" +
+                "var SavedCode = { }" + "\n\n" + 
+                "function OnActivate()" + "\n\n" +
+                "\t" + "CheatA()" + "\n" +
+                "end" + "\n\n" +
 
-                "function CheatA()" + "\n" +
-                "   var Entry = GetModuleAddress('" + ModuleName + "') + 0x" + ModuleOffset.ToString("X") + "\n" +
-                "   AddKeyword('exit', GetReturnAddress(Entry))" + "\n" +
-                "   var Assembly = ('[ASM]" + "\n" +
-                "   ')" + "\n" +
-                "   table.insert(SavedCode, CreateCodeCave(Entry, Assembly))" + "\n" +
-                "   ClearKeywords()" + "\n" +
-                "end" + "\n" +
+                "function CheatA()" + "\n\n" +
+                "\t" + "var Entry = GetModuleAddress('" + ModuleName + "') + 0x" + ModuleOffset.ToString("X") + "\n" +
+                "\t" + "AddKeyword('exit', GetReturnAddress(Entry))" + "\n" +
+                "\t" + "var Assembly = ('" + "\n" +
+                "\t\n" +
+                "\t" + "')" + "\n" +
+                "\ttable.insert(SavedCode, CreateCodeCave(Entry, Assembly))" + "\n" +
+                "\tClearKeywords()" + "\n\n" +
+                "end" + "\n\n" +
 
-                "function OnDeactivate()" + "\n" +
-                "   RestoreCode(SavedCode);" + "\n" +
+                "function OnDeactivate()" + "\n\n" +
+                "\t" + "RestoreCode(SavedCode);" + "\n\n" +
                 "end";
 
             return CodeInjection + Script;
