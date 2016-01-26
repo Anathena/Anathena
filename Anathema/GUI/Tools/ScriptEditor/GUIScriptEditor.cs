@@ -77,23 +77,27 @@ namespace Anathema
 
         }
 
-        public void DisplayScript(String ScriptText, Boolean Loaded)
+        public void OpenScript(String ScriptText, String ScriptDescription)
         {
             ControlThreadingHelper.InvokeControlAction(ScriptEditorTextBox, () =>
             {
                 ScriptEditorTextBox.Text = ScriptText;
             });
-
-            if (!Loaded)
-                return;
-
-            // Clear * indicating script needs to be saved if we just loaded a script
+            
             ControlThreadingHelper.InvokeControlAction(this, () =>
             {
-                this.Text = DocumentTitle;
+                this.Text = DocumentTitle + " - " + ScriptDescription;
 
                 if (!this.Visible)
                     this.Show();
+            });
+        }
+
+        public void SetScriptText(String ScriptText)
+        {
+            ControlThreadingHelper.InvokeControlAction(ScriptEditorTextBox, () =>
+            {
+                ScriptEditorTextBox.Text = ScriptText;
             });
         }
 
@@ -148,13 +152,10 @@ namespace Anathema
 
         private void ScriptEditorTextBox_TextChanged(Object Sender, EventArgs E)
         {
-            ControlThreadingHelper.InvokeControlAction(this, () =>
-            {
-                if (ScriptEditorPresenter.HasChanges(ScriptEditorTextBox.Text))
-                    this.Text = DocumentTitle + "*";
-                else
-                    this.Text = DocumentTitle;
-            });
+            if (ScriptEditorPresenter.HasChanges(ScriptEditorTextBox.Text))
+                this.Text = DocumentTitle + "*";
+            else
+                this.Text = DocumentTitle;
         }
 
         private void CodeInjectionToolStripMenuItem_Click(Object Sender, EventArgs E)

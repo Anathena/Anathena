@@ -28,7 +28,9 @@ namespace Anathema
         {
             ControlThreadingHelper.InvokeControlAction(AddressTableListView, () =>
             {
+                AddressTableListView.BeginUpdate();
                 AddressTableListView.VirtualListSize = ItemCount;
+                AddressTableListView.EndUpdate();
             });
         }
 
@@ -36,7 +38,9 @@ namespace Anathema
         {
             ControlThreadingHelper.InvokeControlAction(ScriptTableListView, () =>
             {
+                ScriptTableListView.BeginUpdate();
                 ScriptTableListView.VirtualListSize = ItemCount;
+                ScriptTableListView.EndUpdate();
             });
         }
 
@@ -44,7 +48,9 @@ namespace Anathema
         {
             ControlThreadingHelper.InvokeControlAction(FSMTableListView, () =>
             {
+                FSMTableListView.BeginUpdate();
                 FSMTableListView.VirtualListSize = ItemCount;
+                FSMTableListView.EndUpdate();
             });
         }
 

@@ -87,7 +87,6 @@ namespace Anathema
         public abstract void SetAddressFrozen(Int32 Index, Boolean Activated);
 
         public abstract ScriptItem GetScriptItemAt(Int32 Index);
-        public abstract void SetScriptItemAt(Int32 Index, ScriptItem ScriptItem);
         public abstract void SetScriptActivation(Int32 Index, Boolean Activated);
 
         public abstract void UpdateReadBounds(Int32 StartReadIndex, Int32 EndReadIndex);
@@ -101,11 +100,14 @@ namespace Anathema
         private ListViewCache AddressTableCache;
         private ListViewCache ScriptTableCache;
 
-        private const Int32 CheckBoxIndex = 0;
+        private const Int32 FreezeCheckBoxIndex = 0;
         private const Int32 DescriptionIndex = 1;
         private const Int32 AddressIndex = 2;
         private const Int32 TypeIndex = 3;
         private const Int32 ValueIndex = 4;
+
+        private const Int32 ActivationCheckBoxIndex = 0;
+        private const Int32 ScriptDescriptionIndex = 1;
 
         public TablePresenter(ITableView View, ITableModel Model) : base(View, Model)
         {
@@ -164,7 +166,7 @@ namespace Anathema
             // Add the properties to the manager and get the list view item back
             Item = AddressTableCache.Add(Index, new String[] { String.Empty, String.Empty, String.Empty, String.Empty, String.Empty });
 
-            Item.SubItems[CheckBoxIndex].Text = String.Empty;
+            Item.SubItems[FreezeCheckBoxIndex].Text = String.Empty;
             Item.SubItems[DescriptionIndex].Text = (AddressItem.Description == null ? String.Empty : AddressItem.Description);
             Item.SubItems[AddressIndex].Text = Conversions.ToAddress(AddressItem.Address.ToString());
             Item.SubItems[TypeIndex].Text = AddressItem.ElementType == null ? String.Empty : AddressItem.ElementType.Name;
@@ -181,7 +183,7 @@ namespace Anathema
 
         public ListViewItem GetScriptTableItemAt(Int32 Index)
         {
-            ListViewItem Item = AddressTableCache.Get(Index);
+            ListViewItem Item = ScriptTableCache.Get(Index);
             ScriptItem ScriptItem = Model.GetScriptItemAt(Index);
 
             // Try to update and return the item if it is a valid item
@@ -191,10 +193,10 @@ namespace Anathema
                 return Item;
             }
             // Add the properties to the manager and get the list view item back
-            Item = AddressTableCache.Add(Index, new String[] { String.Empty, String.Empty });
+            Item = ScriptTableCache.Add(Index, new String[] { String.Empty, String.Empty });
 
-            Item.SubItems[0].Text = String.Empty;
-            Item.SubItems[1].Text = (ScriptItem.Description == null ? String.Empty : ScriptItem.Description);
+            Item.SubItems[ActivationCheckBoxIndex].Text = String.Empty;
+            Item.SubItems[ScriptDescriptionIndex].Text = ScriptItem.GetDescription();
             Item.Checked = ScriptItem.GetActivationState();
 
             return Item;
@@ -232,11 +234,13 @@ namespace Anathema
         private void EventClearAddressCacheItem(Object Sender, TableEventArgs E)
         {
             AddressTableCache.Delete(E.ClearCacheIndex);
+            View.UpdateAddressTableItemCount(E.ItemCount);
         }
 
         private void EventClearScriptCacheItem(Object Sender, TableEventArgs E)
         {
             ScriptTableCache.Delete(E.ClearCacheIndex);
+            View.UpdateScriptTableItemCount(E.ItemCount);
         }
 
         private void EventClearAddressCache(Object Sender, TableEventArgs E)

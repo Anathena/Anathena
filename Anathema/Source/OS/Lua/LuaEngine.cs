@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using NLua;
 using Binarysharp.MemoryManagement;
 
@@ -34,8 +30,9 @@ namespace Anathema
         public static String AddCodeInjectionTemplate(String Script, String ModuleName, UInt64 ModuleOffset)
         {
             String CodeInjection =
-                "function OnActivate()" + "\n\n" +
-                "\t" + "CheatA()" + "\n\n" +
+                "-- No Description" + "\n\n" +
+                "function OnActivate()" + "\n\n\t" +
+                "\t" + "CheatA()" + "\n\t\n" +
                 "end" + "\n\n" +
 
                 "function CheatA()" + "\n\n" +
@@ -51,8 +48,8 @@ namespace Anathema
                 "\tAna:ClearKeywords()" + "\n\n" +
                 "end" + "\n\n" +
 
-                "function OnDeactivate()" + "\n\n" +
-                "\t" + "Ana:RestoreCode();" + "\n\n" +
+                "function OnDeactivate()" + "\n\n\t" +
+                "\t" + "Ana:RestoreCode();" + "\n\t\n" +
                 "end";
 
             return CodeInjection + Script;

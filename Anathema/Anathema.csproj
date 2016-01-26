@@ -463,8 +463,10 @@
     <Compile Include="Source\Tools\Debugger\TestByteProvider.cs" />
     <Compile Include="Source\Tools\SnapshotManager\SnapshotManager.cs" />
     <Compile Include="Source\HelperClasses\ArrayExtensions.cs" />
+    <Compile Include="Source\Tools\Table\AddressItem.cs" />
     <Compile Include="Source\Tools\Table\ITableAddressEntryEditorMVP.cs" />
     <Compile Include="Source\Tools\Table\ITableMVP.cs" />
+    <Compile Include="Source\Tools\Table\ScriptItem.cs" />
     <Compile Include="Source\Tools\Table\TableAddressEntryEditor.cs" />
     <Compile Include="Source\Tools\Table\Table.cs" />
     <Compile Include="Source\Tools\Table\TableItem.cs" />

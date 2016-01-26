@@ -148,9 +148,9 @@ namespace Anathema
         {
             CurrentTableData.AddressTable.Add(new AddressItem(BaseAddress, ElementType));
 
-            TableEventArgs Args = new TableEventArgs();
-            Args.ItemCount = CurrentTableData.AddressTable.Count;
-            OnEventClearAddressCache(Args);
+            TableEventArgs TableEventArgs = new TableEventArgs();
+            TableEventArgs.ItemCount = CurrentTableData.ScriptTable.Count;
+            OnEventClearAddressCache(TableEventArgs);
         }
 
         public override AddressItem GetAddressItemAt(Int32 Index)
@@ -193,25 +193,26 @@ namespace Anathema
         {
             if (!CurrentTableData.ScriptTable.Contains(ScriptItem))
             {
+                // Adding a new script
                 CurrentTableData.ScriptTable.Add(ScriptItem);
-                TableEventArgs Args = new TableEventArgs();
-                Args.ItemCount = CurrentTableData.ScriptTable.Count;
-                OnEventClearScriptCache(Args);
+
+                TableEventArgs TableEventArgs = new TableEventArgs();
+                TableEventArgs.ItemCount = CurrentTableData.ScriptTable.Count;
+                OnEventClearScriptCache(TableEventArgs);
+            }
+            else
+            {
+                // Updating an existing script, clear it from the cache
+                TableEventArgs TableEventArgs = new TableEventArgs();
+                TableEventArgs.ClearCacheIndex = CurrentTableData.ScriptTable.IndexOf(ScriptItem);
+                TableEventArgs.ItemCount = CurrentTableData.ScriptTable.Count;
+                OnEventClearScriptCacheItem(TableEventArgs);
             }
         }
 
         public override ScriptItem GetScriptItemAt(Int32 Index)
         {
             return CurrentTableData.ScriptTable[Index];
-        }
-
-        public override void SetScriptItemAt(Int32 Index, ScriptItem ScriptItem)
-        {
-            CurrentTableData.ScriptTable[Index] = ScriptItem;
-
-            TableEventArgs TableEventArgs = new TableEventArgs();
-            TableEventArgs.ClearCacheIndex = Index;
-            OnEventClearScriptCacheItem(TableEventArgs);
         }
 
         public override void SetScriptActivation(Int32 Index, Boolean Activated)

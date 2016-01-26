@@ -11,19 +11,21 @@ namespace Anathema
     class ScriptEditorEventArgs : EventArgs
     {
         public ScriptItem ScriptItem;
-        public Boolean Loaded;
+        public String NewScript;
     }
 
     interface IScriptEditorView : IView
     {
         // Methods invoked by the presenter (upstream)
-        void DisplayScript(String ScriptText, Boolean Loaded);
+        void OpenScript(String ScriptText, String ScriptDescription);
+        void SetScriptText(String ScriptText);
     }
 
     interface IScriptEditorModel : IModel, IProcessObserver
     {
         // Events triggered by the model (upstream)
-        event ScriptEditorEventHandler EventDisplayScript;
+        event ScriptEditorEventHandler EventOpenScript;
+        event ScriptEditorEventHandler EventSetScriptText;
 
         // Functions invoked by presenter (downstream)
         void SaveScript(String ScriptText);
@@ -37,7 +39,8 @@ namespace Anathema
         public ScriptEditorPresenter(IScriptEditorView View, IScriptEditorModel Model) : base(View, Model)
         {
             // Bind events triggered by the model
-            Model.EventDisplayScript += EventDisplayScript;
+            Model.EventOpenScript += EventOpenScript;
+            Model.EventSetScriptText += EventSetScriptText;
         }
 
         #region Method definitions called by the view (downstream)
@@ -61,11 +64,18 @@ namespace Anathema
 
         #region Event definitions for events triggered by the model (upstream)
 
-        void EventDisplayScript(Object Sender, ScriptEditorEventArgs E)
+        void EventOpenScript(Object Sender, ScriptEditorEventArgs E)
         {
-            View.DisplayScript(E.ScriptItem.Script, E.Loaded);
+            View.OpenScript(E.ScriptItem.Script, E.ScriptItem.GetDescription());
+        }
+
+        void EventSetScriptText(Object Sender, ScriptEditorEventArgs E)
+        {
+            View.SetScriptText(E.NewScript);
         }
 
         #endregion
-    }
-}
+
+    } // End class
+
+} // End namespace

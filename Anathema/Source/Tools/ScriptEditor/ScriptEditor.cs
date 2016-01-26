@@ -13,7 +13,8 @@ namespace Anathema
         private MemorySharp MemoryEditor;
         private static ScriptEditor _ScriptEditor;
 
-        public event ScriptEditorEventHandler EventDisplayScript;
+        public event ScriptEditorEventHandler EventOpenScript;
+        public event ScriptEditorEventHandler EventSetScriptText;
 
         private ScriptItem ScriptItem;
 
@@ -41,19 +42,13 @@ namespace Anathema
             this.MemoryEditor = MemoryEditor;
         }
 
-        private void UpdateDisplayText(Boolean Loaded)
-        {
-            ScriptEditorEventArgs ScriptEditorEventArgs = new ScriptEditorEventArgs();
-            ScriptEditorEventArgs.ScriptItem = ScriptItem;
-            ScriptEditorEventArgs.Loaded = Loaded;
-            EventDisplayScript(this, ScriptEditorEventArgs);
-        }
-
         public void OpenScript(ScriptItem ScriptItem)
         {
             this.ScriptItem = ScriptItem;
 
-            UpdateDisplayText(true);
+            ScriptEditorEventArgs ScriptEditorEventArgs = new ScriptEditorEventArgs();
+            ScriptEditorEventArgs.ScriptItem = ScriptItem;
+            EventOpenScript(this, ScriptEditorEventArgs);
         }
 
         public void NewScript()
@@ -65,6 +60,9 @@ namespace Anathema
         {
             ScriptItem.Script = ScriptText;
             Table.GetInstance().SaveScript(ScriptItem);
+
+            // Reopen script to update description if it has changed
+            OpenScript(ScriptItem);
         }
 
         public Boolean HasChanges(String Script)
@@ -76,8 +74,10 @@ namespace Anathema
 
         public void InsertCodeInjectionTemplate()
         {
-            ScriptItem.Script = LuaEngine.AddCodeInjectionTemplate(ScriptItem.Script, "main.exe", 0x41c);
-            UpdateDisplayText(false);
+            String NewScript = LuaEngine.AddCodeInjectionTemplate(ScriptItem.Script, "main.exe", 0x41c);
+            ScriptEditorEventArgs ScriptEditorEventArgs = new ScriptEditorEventArgs();
+            ScriptEditorEventArgs.NewScript = NewScript;
+            EventSetScriptText(this, ScriptEditorEventArgs);
         }
 
     } // End class
