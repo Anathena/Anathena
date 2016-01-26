@@ -126,6 +126,7 @@
             this.ScriptEditorTextBox.Name = "ScriptEditorTextBox";
             this.ScriptEditorTextBox.Size = new System.Drawing.Size(339, 254);
             this.ScriptEditorTextBox.TabIndex = 2;
+            this.ScriptEditorTextBox.CharAdded += new System.EventHandler<ScintillaNET.CharAddedEventArgs>(this.ScriptEditorTextBox_CharAdded);
             // 
             // GUIScriptEditor
             // 
