@@ -148,7 +148,7 @@
     <Compile Include="Settings.cs" />
     <Compile Include="Source\HelperClasses\ListViewCache.cs" />
     <Compile Include="Source\HelperClasses\RepeatedTask.cs" />
-    <Compile Include="Source\OS\Lua\LuaFunctions.cs" />
+    <Compile Include="Source\OS\Lua\LuaMemoryCore.cs" />
     <Compile Include="Source\Settings\ISettingsMVP.cs" />
     <Compile Include="Source\Tools\Debugger\IDebuggerMVP.cs" />
     <Compile Include="Source\Tools\Debugger\Debugger.cs" />

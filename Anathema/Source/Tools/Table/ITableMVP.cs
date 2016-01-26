@@ -70,7 +70,7 @@ namespace Anathema
             WaitTime = Math.Min(Settings.GetInstance().GetTableReadInterval(), Settings.GetInstance().GetFreezeInterval());
             base.Begin();
         }
-        
+
         protected override void Update()
         {
             WaitTime = Math.Min(Settings.GetInstance().GetTableReadInterval(), Settings.GetInstance().GetFreezeInterval());
@@ -186,8 +186,10 @@ namespace Anathema
 
             // Try to update and return the item if it is a valid item
             if (Item != null)
+            {
+                Item.Checked = ScriptItem.GetActivationState();
                 return Item;
-
+            }
             // Add the properties to the manager and get the list view item back
             Item = AddressTableCache.Add(Index, new String[] { String.Empty, String.Empty });
 

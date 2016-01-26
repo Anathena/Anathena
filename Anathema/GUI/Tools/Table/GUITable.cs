@@ -150,7 +150,7 @@ namespace Anathema
                 return;
 
             if (E.X < (ListViewItem.Bounds.Left + 16))
-                TablePresenter.SetAddressFrozen(ListViewItem.Index, ListViewItem.Checked);
+                TablePresenter.SetAddressFrozen(ListViewItem.Index, !ListViewItem.Checked);  // (Has to be negated, click happens before check change)
         }
 
         private void AddressTableListView_KeyPress(Object Sender, KeyPressEventArgs E)
@@ -212,7 +212,7 @@ namespace Anathema
                 return;
 
             if (E.X < (ListViewItem.Bounds.Left + 16))
-                TablePresenter.SetScriptActivation(ListViewItem.Index, ListViewItem.Checked);
+                TablePresenter.SetScriptActivation(ListViewItem.Index, !ListViewItem.Checked); // (Has to be negated, click happens before check change)
         }
 
         private void ScriptTableListView_MouseDoubleClick(Object Sender, MouseEventArgs E)

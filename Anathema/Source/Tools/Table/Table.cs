@@ -216,6 +216,15 @@ namespace Anathema
 
         public override void SetScriptActivation(Int32 Index, Boolean Activated)
         {
+            if (MemoryEditor == null)
+            {
+                // Allow deactivation with no selected process
+                if (Activated == false)
+                    CurrentTableData.ScriptTable[Index].SetActivationState(Activated);
+
+                return;
+            }
+
             if (Activated)
             {
                 // Try to activate script
