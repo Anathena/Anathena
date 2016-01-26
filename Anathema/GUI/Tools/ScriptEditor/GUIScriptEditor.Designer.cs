@@ -98,13 +98,13 @@
             this.ViewToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
             this.ViewToolStripMenuItem.Text = "View";
             // 
-            // addEntryToolStripMenuItem
+            // AddEntryToolStripMenuItem
             // 
             this.AddEntryToolStripMenuItem.Name = "AddEntryToolStripMenuItem";
             this.AddEntryToolStripMenuItem.Size = new System.Drawing.Size(126, 22);
             this.AddEntryToolStripMenuItem.Text = "Add Entry";
             // 
-            // templatesToolStripMenuItem
+            // TemplatesToolStripMenuItem
             // 
             this.TemplatesToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.CodeInjectionToolStripMenuItem});
@@ -126,7 +126,6 @@
             this.ScriptEditorTextBox.Name = "ScriptEditorTextBox";
             this.ScriptEditorTextBox.Size = new System.Drawing.Size(339, 254);
             this.ScriptEditorTextBox.TabIndex = 2;
-            this.ScriptEditorTextBox.CharAdded += new System.EventHandler<ScintillaNET.CharAddedEventArgs>(this.ScriptEditorTextBox_CharAdded);
             // 
             // GUIScriptEditor
             // 

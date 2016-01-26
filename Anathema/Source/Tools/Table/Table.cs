@@ -216,28 +216,7 @@ namespace Anathema
 
         public override void SetScriptActivation(Int32 Index, Boolean Activated)
         {
-            if (MemoryEditor == null)
-            {
-                // Allow deactivation with no selected process
-                if (Activated == false)
-                    CurrentTableData.ScriptTable[Index].SetActivationState(Activated);
-
-                return;
-            }
-
-            if (Activated)
-            {
-                // Try to activate script
-                if (!MemoryEditor.LuaEngine.RunActivationFunction(CurrentTableData.ScriptTable[Index].Script))
-                    return;
-            }
-            else
-            {
-                // Try to deactivate script (we do not care if this fails, just deactivate anyways)
-                MemoryEditor.LuaEngine.RunDeactivationFunction(CurrentTableData.ScriptTable[Index].Script);
-            }
-
-            // Update the activation state
+            // Try to update the activation state
             CurrentTableData.ScriptTable[Index].SetActivationState(Activated);
         }
 

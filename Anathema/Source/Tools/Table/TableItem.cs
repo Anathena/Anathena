@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Binarysharp.MemoryManagement;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Runtime.Serialization;
@@ -11,16 +12,34 @@ namespace Anathema
         [DataMember()]
         public String Script { get; set; }
 
+        private LuaEngine LuaEngine;
+
         public ScriptItem()
         {
+            LuaEngine = new LuaEngine();
             this.Description = "No Description";
         }
 
-        public ScriptItem(String Script)
+        public ScriptItem(String Script) : this()
         {
-            this.Description = "No Description";
-
             this.Script = Script;
+        }
+
+        public override void SetActivationState(Boolean Activated)
+        {
+            if (Activated)
+            {
+                // Try to run script. Will not activate on failure.
+                if (!LuaEngine.RunActivationFunction(Script))
+                    return;
+            }
+            else
+            {
+                // Try to deactivate script (we do not care if this fails)
+                LuaEngine.RunDeactivationFunction(Script);
+            }
+
+            base.SetActivationState(Activated);
         }
 
     } // End class
@@ -99,7 +118,7 @@ namespace Anathema
             Activated = false;
         }
 
-        public void SetActivationState(Boolean Activated)
+        public virtual void SetActivationState(Boolean Activated)
         {
             this.Activated = Activated;
         }

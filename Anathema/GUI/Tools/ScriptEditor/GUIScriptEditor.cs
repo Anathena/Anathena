@@ -24,18 +24,18 @@ namespace Anathema
             InitializeComponent();
 
             ScriptEditorPresenter = new ScriptEditorPresenter(this, ScriptEditor.GetInstance());
-
             DocumentTitle = this.Text;
 
             FixScintilla();
             InitializeLuaHighlighting();
         }
-        
+
         private void FixScintilla()
         {
             // Work around to a fatal bug in scintilla where the handle of the editor is changed, and scintilla does not expect it.
             this.Controls.Remove(ScriptEditorTextBox);
             ScriptEditorTextBox = StaticEditor;
+            ScriptEditorTextBox.CharAdded += ScriptEditorTextBox_CharAdded;
             ScriptEditorTextBox.Dock = DockStyle.Fill;
             this.Controls.Add(ScriptEditorTextBox);
             this.Controls.SetChildIndex(ScriptEditorTextBox, 0);
@@ -44,27 +44,30 @@ namespace Anathema
 
         private void InitializeLuaHighlighting()
         {
+
             ScriptEditorTextBox.Lexer = ScintillaNET.Lexer.Lua;
             ScriptEditorTextBox.Margins[0].Width = 16;
+            ScriptEditorTextBox.AutoCIgnoreCase = true;
 
-            ScriptEditorTextBox.SetKeywords(0, LuaEngine.LuaKeywords);
-            ScriptEditorTextBox.SetKeywords(1, LuaEngine.AsmKeywords);
-            ScriptEditorTextBox.SetKeywords(2, LuaEngine.AnathemaKeywords);
+            ScriptEditorTextBox.SetKeywords(0, LuaKeywordManager.LuaKeywords);
+            ScriptEditorTextBox.SetKeywords(1, LuaKeywordManager.AsmKeywords);
+            ScriptEditorTextBox.SetKeywords(2, LuaKeywordManager.AnathemaKeywords);
 
-            ScriptEditorTextBox.Styles[Style.Lua.Comment].ForeColor = Color.DarkBlue;
-            ScriptEditorTextBox.Styles[Style.Lua.CommentDoc].ForeColor = Color.DarkBlue;
-            ScriptEditorTextBox.Styles[Style.Lua.CommentLine].ForeColor = Color.DarkBlue;
-            ScriptEditorTextBox.Styles[Style.Lua.Preprocessor].ForeColor = Color.DarkBlue;
+            ScriptEditorTextBox.Styles[Style.Lua.Comment].ForeColor = Color.DarkGreen;
+            ScriptEditorTextBox.Styles[Style.Lua.CommentDoc].ForeColor = Color.DarkGreen;
+            ScriptEditorTextBox.Styles[Style.Lua.CommentLine].ForeColor = Color.DarkGreen;
+            ScriptEditorTextBox.Styles[Style.Lua.Preprocessor].ForeColor = Color.DarkGreen;
 
-            ScriptEditorTextBox.Styles[Style.Lua.Character].ForeColor = Color.ForestGreen;
-            ScriptEditorTextBox.Styles[Style.Lua.String].ForeColor = Color.ForestGreen;
-            ScriptEditorTextBox.Styles[Style.Lua.StringEol].ForeColor = Color.ForestGreen;
-            ScriptEditorTextBox.Styles[Style.Lua.LiteralString].ForeColor = Color.ForestGreen;
-
-            ScriptEditorTextBox.Styles[Style.Lua.Identifier].ForeColor = Color.Black;
-            ScriptEditorTextBox.Styles[Style.Lua.Label].ForeColor = Color.Blue;
+            ScriptEditorTextBox.Styles[Style.Lua.Character].ForeColor = Color.Firebrick;
+            ScriptEditorTextBox.Styles[Style.Lua.String].ForeColor = Color.Firebrick;
+            ScriptEditorTextBox.Styles[Style.Lua.StringEol].ForeColor = Color.Firebrick;
+            ScriptEditorTextBox.Styles[Style.Lua.LiteralString].ForeColor = Color.Firebrick;
+            
             ScriptEditorTextBox.Styles[Style.Lua.Number].ForeColor = Color.Black;
             ScriptEditorTextBox.Styles[Style.Lua.Operator].ForeColor = Color.Black;
+            ScriptEditorTextBox.Styles[Style.Lua.Identifier].ForeColor = Color.Black;
+
+            ScriptEditorTextBox.Styles[Style.Lua.Label].ForeColor = Color.Blue;
 
             ScriptEditorTextBox.Styles[Style.Lua.Word].ForeColor = Color.Blue;
             ScriptEditorTextBox.Styles[Style.Lua.Word2].ForeColor = Color.Orange;
@@ -102,7 +105,7 @@ namespace Anathema
 
             if (Length > 0)
             {
-                ScriptEditorTextBox.AutoCShow(Length, LuaEngine.LuaKeywords);
+                ScriptEditorTextBox.AutoCShow(Length, LuaKeywordManager.AllKeywords);
             }
         }
 
@@ -126,7 +129,7 @@ namespace Anathema
         {
             if (ScriptEditorPresenter.HasChanges(ScriptEditorTextBox.Text))
             {
-                this.Controls.Remove(ScriptEditorTextBox);
+                CleanUp();
                 return;
             }
 
@@ -136,15 +139,23 @@ namespace Anathema
             {
                 case DialogResult.Yes:
                     SaveChanges();
-                    this.Controls.Remove(ScriptEditorTextBox);
                     break;
                 case DialogResult.No:
-                    this.Controls.Remove(ScriptEditorTextBox);
                     break;
                 case DialogResult.Cancel:
                     E.Cancel = true;
-                    break;
+                    return;
             }
+
+            CleanUp();
+        }
+
+        private void CleanUp()
+        {
+            // Remove the static editor so that it does not get disposed
+            if (this.Controls.Contains(StaticEditor))
+                this.Controls.Remove(StaticEditor);
+            StaticEditor.ClearAll();
         }
 
         #endregion
