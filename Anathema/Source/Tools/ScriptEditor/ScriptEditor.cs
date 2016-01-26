@@ -41,10 +41,11 @@ namespace Anathema
             this.MemoryEditor = MemoryEditor;
         }
 
-        private void UpdateDisplayText()
+        private void UpdateDisplayText(Boolean Loaded)
         {
             ScriptEditorEventArgs ScriptEditorEventArgs = new ScriptEditorEventArgs();
             ScriptEditorEventArgs.ScriptItem = ScriptItem;
+            ScriptEditorEventArgs.Loaded = Loaded;
             EventDisplayScript(this, ScriptEditorEventArgs);
         }
 
@@ -52,14 +53,7 @@ namespace Anathema
         {
             this.ScriptItem = ScriptItem;
 
-            UpdateDisplayText();
-        }
-
-        public Boolean HasChanges(String ScriptText)
-        {
-            if (ScriptItem.Script != ScriptText)
-                return true;
-            return false;
+            UpdateDisplayText(true);
         }
 
         public void NewScript()
@@ -73,10 +67,17 @@ namespace Anathema
             Table.GetInstance().SaveScript(ScriptItem);
         }
 
+        public Boolean HasChanges(String Script)
+        {
+            if (ScriptItem.Script == Script)
+                return false;
+            return true;
+        }
+
         public void InsertCodeInjectionTemplate()
         {
             ScriptItem.Script = LuaEngine.AddCodeInjectionTemplate(ScriptItem.Script, "main.exe", 0x41c);
-            UpdateDisplayText();
+            UpdateDisplayText(false);
         }
 
     } // End class

@@ -11,12 +11,13 @@ namespace Anathema
     class ScriptEditorEventArgs : EventArgs
     {
         public ScriptItem ScriptItem;
+        public Boolean Loaded;
     }
 
     interface IScriptEditorView : IView
     {
         // Methods invoked by the presenter (upstream)
-        void DisplayScript(String ScriptText);
+        void DisplayScript(String ScriptText, Boolean Loaded);
     }
 
     interface IScriptEditorModel : IModel, IProcessObserver
@@ -26,7 +27,7 @@ namespace Anathema
 
         // Functions invoked by presenter (downstream)
         void SaveScript(String ScriptText);
-        Boolean HasChanges(String ScriptText);
+        Boolean HasChanges(String Script);
 
         void InsertCodeInjectionTemplate();
     }
@@ -45,12 +46,12 @@ namespace Anathema
         {
             Model.SaveScript(ScriptText);
         }
-
-        public Boolean HasChanges(String ScriptText)
-        {
-            return Model.HasChanges(ScriptText);
-        }
         
+        public Boolean HasChanges(String Script)
+        {
+            return Model.HasChanges(Script);
+        }
+
         public void InsertCodeInjectionTemplate()
         {
             Model.InsertCodeInjectionTemplate();
@@ -62,7 +63,7 @@ namespace Anathema
 
         void EventDisplayScript(Object Sender, ScriptEditorEventArgs E)
         {
-            View.DisplayScript(E.ScriptItem.Script);
+            View.DisplayScript(E.ScriptItem.Script, E.Loaded);
         }
 
         #endregion

@@ -28,6 +28,9 @@ namespace Anathema
 
             FixScintilla();
             InitializeLuaHighlighting();
+
+            ScriptEditorTextBox.TextChanged += ScriptEditorTextBox_TextChanged;
+            ScriptEditorTextBox.CharAdded += ScriptEditorTextBox_CharAdded;
         }
 
         private void FixScintilla()
@@ -35,7 +38,6 @@ namespace Anathema
             // Work around to a fatal bug in scintilla where the handle of the editor is changed, and scintilla does not expect it.
             this.Controls.Remove(ScriptEditorTextBox);
             ScriptEditorTextBox = StaticEditor;
-            ScriptEditorTextBox.CharAdded += ScriptEditorTextBox_CharAdded;
             ScriptEditorTextBox.Dock = DockStyle.Fill;
             this.Controls.Add(ScriptEditorTextBox);
             this.Controls.SetChildIndex(ScriptEditorTextBox, 0);
@@ -62,7 +64,7 @@ namespace Anathema
             ScriptEditorTextBox.Styles[Style.Lua.String].ForeColor = Color.Firebrick;
             ScriptEditorTextBox.Styles[Style.Lua.StringEol].ForeColor = Color.Firebrick;
             ScriptEditorTextBox.Styles[Style.Lua.LiteralString].ForeColor = Color.Firebrick;
-            
+
             ScriptEditorTextBox.Styles[Style.Lua.Number].ForeColor = Color.Black;
             ScriptEditorTextBox.Styles[Style.Lua.Operator].ForeColor = Color.Black;
             ScriptEditorTextBox.Styles[Style.Lua.Identifier].ForeColor = Color.Black;
@@ -75,13 +77,17 @@ namespace Anathema
 
         }
 
-        public void DisplayScript(String ScriptText)
+        public void DisplayScript(String ScriptText, Boolean Loaded)
         {
             ControlThreadingHelper.InvokeControlAction(ScriptEditorTextBox, () =>
             {
                 ScriptEditorTextBox.Text = ScriptText;
             });
 
+            if (!Loaded)
+                return;
+
+            // Clear * indicating script needs to be saved if we just loaded a script
             ControlThreadingHelper.InvokeControlAction(this, () =>
             {
                 this.Text = DocumentTitle;
@@ -97,6 +103,37 @@ namespace Anathema
             this.Text = DocumentTitle;
         }
 
+        private Boolean AskSaveChanges()
+        {
+            // Check if there are even changes to save
+            if (!ScriptEditorPresenter.HasChanges(ScriptEditorTextBox.Text))
+                return false;
+
+            DialogResult Result = MessageBox.Show("This script has not been saved, save the changes to the table before closing?", "Save Changes?", MessageBoxButtons.YesNoCancel);
+
+            switch (Result)
+            {
+                case DialogResult.Yes:
+                    SaveChanges();
+                    return false;
+                case DialogResult.No:
+                    return false;
+                case DialogResult.Cancel:
+                    break;
+            }
+
+            // User wishes to cancel
+            return true;
+        }
+
+        private void CleanUp()
+        {
+            // Remove the static editor so that it does not get disposed
+            if (this.Controls.Contains(StaticEditor))
+                this.Controls.Remove(StaticEditor);
+            StaticEditor.ClearAll();
+        }
+
         #region Events
 
         private void ScriptEditorTextBox_CharAdded(Object Sender, CharAddedEventArgs E)
@@ -109,9 +146,36 @@ namespace Anathema
             }
         }
 
+        private void ScriptEditorTextBox_TextChanged(Object Sender, EventArgs E)
+        {
+            ControlThreadingHelper.InvokeControlAction(this, () =>
+            {
+                if (ScriptEditorPresenter.HasChanges(ScriptEditorTextBox.Text))
+                    this.Text = DocumentTitle + "*";
+                else
+                    this.Text = DocumentTitle;
+            });
+        }
+
         private void CodeInjectionToolStripMenuItem_Click(Object Sender, EventArgs E)
         {
             ScriptEditorPresenter.InsertCodeInjectionTemplate();
+        }
+
+        protected override Boolean ProcessCmdKey(ref Message Message, Keys Keys)
+        {
+            if (Keys == (Keys.Control | Keys.S))
+            {
+                SaveChanges();
+                return true;
+            }
+
+            return base.ProcessCmdKey(ref Message, Keys);
+        }
+
+        private void NewToolStripMenuItem_Click(Object Sender, EventArgs E)
+        {
+
         }
 
         private void SaveToTableToolStripMenuItem_Click(Object Sender, EventArgs E)
@@ -119,43 +183,15 @@ namespace Anathema
             SaveChanges();
         }
 
-        private void ScriptEditorRichTextBox_TextChanged(Object Sender, EventArgs E)
-        {
-            if (ScriptEditorPresenter.HasChanges(ScriptEditorTextBox.Text))
-                this.Text = DocumentTitle + "*";
-        }
-
         private void GUIScriptEditor_FormClosing(Object Sender, FormClosingEventArgs E)
         {
-            if (ScriptEditorPresenter.HasChanges(ScriptEditorTextBox.Text))
+            if (AskSaveChanges())
             {
-                CleanUp();
+                E.Cancel = true;
                 return;
             }
 
-            DialogResult Result = MessageBox.Show("This script has not been saved, save the changes to the table before closing?", "Save Changes?", MessageBoxButtons.YesNoCancel);
-
-            switch (Result)
-            {
-                case DialogResult.Yes:
-                    SaveChanges();
-                    break;
-                case DialogResult.No:
-                    break;
-                case DialogResult.Cancel:
-                    E.Cancel = true;
-                    return;
-            }
-
             CleanUp();
-        }
-
-        private void CleanUp()
-        {
-            // Remove the static editor so that it does not get disposed
-            if (this.Controls.Contains(StaticEditor))
-                this.Controls.Remove(StaticEditor);
-            StaticEditor.ClearAll();
         }
 
         #endregion
