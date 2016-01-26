@@ -17,7 +17,7 @@ namespace Anathema
     interface IScriptEditorView : IView
     {
         // Methods invoked by the presenter (upstream)
-        void OpenScript(String ScriptText, String ScriptDescription);
+        void OpenScript(String ScriptText);
         void SetScriptText(String ScriptText);
     }
 
@@ -29,6 +29,7 @@ namespace Anathema
 
         // Functions invoked by presenter (downstream)
         void SaveScript(String ScriptText);
+        void OpenNewScript();
         Boolean HasChanges(String Script);
 
         void InsertCodeInjectionTemplate();
@@ -49,6 +50,11 @@ namespace Anathema
         {
             Model.SaveScript(ScriptText);
         }
+
+        public void OpenNewScript()
+        {
+            Model.OpenNewScript();
+        }
         
         public Boolean HasChanges(String Script)
         {
@@ -66,7 +72,7 @@ namespace Anathema
 
         void EventOpenScript(Object Sender, ScriptEditorEventArgs E)
         {
-            View.OpenScript(E.ScriptItem.Script, E.ScriptItem.GetDescription());
+            View.OpenScript(E.ScriptItem.Script);
         }
 
         void EventSetScriptText(Object Sender, ScriptEditorEventArgs E)

@@ -77,7 +77,7 @@ namespace Anathema
 
         }
 
-        public void OpenScript(String ScriptText, String ScriptDescription)
+        public void OpenScript(String ScriptText)
         {
             ControlThreadingHelper.InvokeControlAction(ScriptEditorTextBox, () =>
             {
@@ -86,7 +86,7 @@ namespace Anathema
             
             ControlThreadingHelper.InvokeControlAction(this, () =>
             {
-                this.Text = DocumentTitle + " - " + ScriptDescription;
+                this.Text = DocumentTitle;
 
                 if (!this.Visible)
                     this.Show();
@@ -113,7 +113,7 @@ namespace Anathema
             if (!ScriptEditorPresenter.HasChanges(ScriptEditorTextBox.Text))
                 return false;
 
-            DialogResult Result = MessageBox.Show("This script has not been saved, save the changes to the table before closing?", "Save Changes?", MessageBoxButtons.YesNoCancel);
+            DialogResult Result = MessageBoxEx.Show(this, "This script has not been saved, save the changes to the table before closing?", "Save Changes?", MessageBoxButtons.YesNoCancel);
 
             switch (Result)
             {
@@ -176,10 +176,14 @@ namespace Anathema
 
         private void NewToolStripMenuItem_Click(Object Sender, EventArgs E)
         {
+            // Ask to save changes or cancel
+            if (AskSaveChanges())
+                return;
 
+            ScriptEditorPresenter.OpenNewScript();
         }
 
-        private void SaveToTableToolStripMenuItem_Click(Object Sender, EventArgs E)
+        private void SaveToolStripMenuItem_Click(Object Sender, EventArgs E)
         {
             SaveChanges();
         }

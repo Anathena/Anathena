@@ -51,18 +51,16 @@ namespace Anathema
             EventOpenScript(this, ScriptEditorEventArgs);
         }
 
-        public void NewScript()
+        public void OpenNewScript()
         {
             ScriptItem = new ScriptItem();
+            OpenScript(ScriptItem);
         }
 
         public void SaveScript(String ScriptText)
         {
             ScriptItem.Script = ScriptText;
             Table.GetInstance().SaveScript(ScriptItem);
-
-            // Reopen script to update description if it has changed
-            OpenScript(ScriptItem);
         }
 
         public Boolean HasChanges(String Script)
