@@ -34,6 +34,9 @@ namespace Binarysharp.MemoryManagement
                 " xmm0 xmm1 xmm2 xmm3 xmm4 xmm5 xmm6 xmm7 xmm8 xmm9 xmm10 xmm11 xmm12 xmm13 xmm14 xmm15";
         public static String AsmKeywords { get { SortKeywords(); return _AsmKeywords; } private set { _AsmKeywords = value; } }
 
+        private static String _AnathemaKeywords = "Ana";
+        public static String AnathemaKeywords { get { SortKeywords(); return _AnathemaKeywords; } private set { _AnathemaKeywords = value; } }
+
         private static Boolean Sorted = false;
         private static void SortKeywords()
         {
@@ -54,6 +57,15 @@ namespace Binarysharp.MemoryManagement
             Keywords.Sort();
             Keywords.ForEach(x => SortedKeywords += x + " ");
             LuaEngine._AsmKeywords = SortedKeywords;
+
+            List<String> FunctionKeywords = new List<String>();
+            typeof(LuaFunctions).GetMethods().ToList().ForEach(x => FunctionKeywords.Add(x.Name));
+            _AnathemaKeywords = String.Join(" ", _AnathemaKeywords.Split(' ').Concat(FunctionKeywords.ToArray()));
+            SortedKeywords = String.Empty;
+            Keywords = new List<String>(_AnathemaKeywords.Split(' '));
+            Keywords.Sort();
+            Keywords.ForEach(x => SortedKeywords += x + " ");
+            LuaEngine._AnathemaKeywords = SortedKeywords;
 
             Sorted = true;
         }

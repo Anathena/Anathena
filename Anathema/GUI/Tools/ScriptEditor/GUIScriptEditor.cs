@@ -36,25 +36,26 @@ namespace Anathema
 
             ScriptEditorTextBox.SetKeywords(0, LuaEngine.LuaKeywords);
             ScriptEditorTextBox.SetKeywords(1, LuaEngine.AsmKeywords);
+            ScriptEditorTextBox.SetKeywords(2, LuaEngine.AnathemaKeywords);
 
-            ScriptEditorTextBox.Styles[Style.Lua.Comment].ForeColor = Color.Green;
-            ScriptEditorTextBox.Styles[Style.Lua.CommentDoc].ForeColor = Color.Green;
-            ScriptEditorTextBox.Styles[Style.Lua.CommentLine].ForeColor = Color.Green;
+            ScriptEditorTextBox.Styles[Style.Lua.Comment].ForeColor = Color.DarkBlue;
+            ScriptEditorTextBox.Styles[Style.Lua.CommentDoc].ForeColor = Color.DarkBlue;
+            ScriptEditorTextBox.Styles[Style.Lua.CommentLine].ForeColor = Color.DarkBlue;
+            ScriptEditorTextBox.Styles[Style.Lua.Preprocessor].ForeColor = Color.DarkBlue;
 
-            ScriptEditorTextBox.Styles[Style.Lua.Character].ForeColor = Color.DarkOrange;
-            ScriptEditorTextBox.Styles[Style.Lua.String].ForeColor = Color.DarkOrange;
-            ScriptEditorTextBox.Styles[Style.Lua.StringEol].ForeColor = Color.DarkOrange;
-            ScriptEditorTextBox.Styles[Style.Lua.LiteralString].ForeColor = Color.DarkOrange;
+            ScriptEditorTextBox.Styles[Style.Lua.Character].ForeColor = Color.ForestGreen;
+            ScriptEditorTextBox.Styles[Style.Lua.String].ForeColor = Color.ForestGreen;
+            ScriptEditorTextBox.Styles[Style.Lua.StringEol].ForeColor = Color.ForestGreen;
+            ScriptEditorTextBox.Styles[Style.Lua.LiteralString].ForeColor = Color.ForestGreen;
 
             ScriptEditorTextBox.Styles[Style.Lua.Identifier].ForeColor = Color.Black;
             ScriptEditorTextBox.Styles[Style.Lua.Label].ForeColor = Color.Blue;
-            ScriptEditorTextBox.Styles[Style.Lua.Number].ForeColor = Color.Orange;
+            ScriptEditorTextBox.Styles[Style.Lua.Number].ForeColor = Color.Black;
             ScriptEditorTextBox.Styles[Style.Lua.Operator].ForeColor = Color.Black;
-
-            ScriptEditorTextBox.Styles[Style.Lua.Preprocessor].ForeColor = Color.Gray;
-
+            
             ScriptEditorTextBox.Styles[Style.Lua.Word].ForeColor = Color.Blue;
             ScriptEditorTextBox.Styles[Style.Lua.Word2].ForeColor = Color.Orange;
+            ScriptEditorTextBox.Styles[Style.Lua.Word3].ForeColor = Color.CadetBlue;
 
         }
 
