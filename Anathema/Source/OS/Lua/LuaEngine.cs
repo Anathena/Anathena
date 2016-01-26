@@ -86,11 +86,13 @@ namespace Binarysharp.MemoryManagement
                 "end" + "\n\n" +
 
                 "function CheatA()" + "\n\n" +
-                "\t" + "local Entry = Ana:GetModuleAddress('" + ModuleName + "') + 0x" + ModuleOffset.ToString("X") + "\n" +
-                "\t" + "Ana:AddKeyword('exit', Ana:GetReturnAddress(Entry))" + "\n" +
-                "\t" + "local Assembly = ([[" + "\n" +
+                "\t" + "local Entry = Ana:GetModuleAddress(\"" + ModuleName + "\") + 0x" + ModuleOffset.ToString("X") + "\n" +
+                "\t" + "Ana:AddKeyword(\"exit\", Ana:GetReturnAddress(Entry))" + "\n\n" +
+                "\t" + "local Assembly = (" + "\n" +
+                "\t[asm]" +
                 "\t\n" +
-                "\t" + "]])" + "\n" +
+                "\tjmp exit" + "\n" +
+                "\t" + "[/asm])" + "\n\n" +
                 "\tAna:SaveCode(Entry)" + "\n" +
                 "\tAna:CreateCodeCave(Entry, Assembly)" + "\n" +
                 "\tAna:ClearKeywords()" + "\n\n" +

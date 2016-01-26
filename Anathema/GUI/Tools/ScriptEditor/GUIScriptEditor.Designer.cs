@@ -35,8 +35,8 @@
             this.ExitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.EditToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ViewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.addEntryToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.templatesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.AddEntryToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.TemplatesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.CodeInjectionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ScriptEditorTextBox = new ScintillaNET.Scintilla();
             this.ScriptEditorMenuStrip.SuspendLayout();
@@ -48,7 +48,7 @@
             this.FileToolStripMenuItem,
             this.EditToolStripMenuItem,
             this.ViewToolStripMenuItem,
-            this.templatesToolStripMenuItem});
+            this.TemplatesToolStripMenuItem});
             this.ScriptEditorMenuStrip.Location = new System.Drawing.Point(0, 0);
             this.ScriptEditorMenuStrip.Name = "ScriptEditorMenuStrip";
             this.ScriptEditorMenuStrip.Size = new System.Drawing.Size(339, 24);
@@ -93,24 +93,24 @@
             // ViewToolStripMenuItem
             // 
             this.ViewToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.addEntryToolStripMenuItem});
+            this.AddEntryToolStripMenuItem});
             this.ViewToolStripMenuItem.Name = "ViewToolStripMenuItem";
             this.ViewToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
             this.ViewToolStripMenuItem.Text = "View";
             // 
             // addEntryToolStripMenuItem
             // 
-            this.addEntryToolStripMenuItem.Name = "addEntryToolStripMenuItem";
-            this.addEntryToolStripMenuItem.Size = new System.Drawing.Size(126, 22);
-            this.addEntryToolStripMenuItem.Text = "Add Entry";
+            this.AddEntryToolStripMenuItem.Name = "AddEntryToolStripMenuItem";
+            this.AddEntryToolStripMenuItem.Size = new System.Drawing.Size(126, 22);
+            this.AddEntryToolStripMenuItem.Text = "Add Entry";
             // 
             // templatesToolStripMenuItem
             // 
-            this.templatesToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.TemplatesToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.CodeInjectionToolStripMenuItem});
-            this.templatesToolStripMenuItem.Name = "templatesToolStripMenuItem";
-            this.templatesToolStripMenuItem.Size = new System.Drawing.Size(73, 20);
-            this.templatesToolStripMenuItem.Text = "Templates";
+            this.TemplatesToolStripMenuItem.Name = "TemplatesToolStripMenuItem";
+            this.TemplatesToolStripMenuItem.Size = new System.Drawing.Size(73, 20);
+            this.TemplatesToolStripMenuItem.Text = "Templates";
             // 
             // CodeInjectionToolStripMenuItem
             // 
@@ -155,8 +155,8 @@
         private System.Windows.Forms.ToolStripMenuItem NewToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem SaveToTableToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem ExitToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem addEntryToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem templatesToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem AddEntryToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem TemplatesToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem CodeInjectionToolStripMenuItem;
         private ScintillaNET.Scintilla ScriptEditorTextBox;
     }

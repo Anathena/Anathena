@@ -15,6 +15,7 @@ namespace Anathema
 {
     public partial class GUIScriptEditor : DockContent, IScriptEditorView
     {
+        private static Scintilla StaticEditor = new Scintilla();
         private ScriptEditorPresenter ScriptEditorPresenter;
         private String DocumentTitle;
 
@@ -26,6 +27,18 @@ namespace Anathema
 
             DocumentTitle = this.Text;
 
+            FixScintilla();
+            InitializeLuaHighlighting();
+        }
+        
+        private void FixScintilla()
+        {
+            // Work around to a fatal bug in scintilla where the handle of the editor is changed, and scintilla does not expect it.
+            this.Controls.Remove(ScriptEditorTextBox);
+            ScriptEditorTextBox = StaticEditor;
+            ScriptEditorTextBox.Dock = DockStyle.Fill;
+            this.Controls.Add(ScriptEditorTextBox);
+            this.Controls.SetChildIndex(ScriptEditorTextBox, 0);
             InitializeLuaHighlighting();
         }
 
@@ -52,7 +65,7 @@ namespace Anathema
             ScriptEditorTextBox.Styles[Style.Lua.Label].ForeColor = Color.Blue;
             ScriptEditorTextBox.Styles[Style.Lua.Number].ForeColor = Color.Black;
             ScriptEditorTextBox.Styles[Style.Lua.Operator].ForeColor = Color.Black;
-            
+
             ScriptEditorTextBox.Styles[Style.Lua.Word].ForeColor = Color.Blue;
             ScriptEditorTextBox.Styles[Style.Lua.Word2].ForeColor = Color.Orange;
             ScriptEditorTextBox.Styles[Style.Lua.Word3].ForeColor = Color.CadetBlue;
@@ -61,11 +74,18 @@ namespace Anathema
 
         public void DisplayScript(String ScriptText)
         {
-            ScriptEditorTextBox.Text = ScriptText;
-            this.Text = DocumentTitle;
+            ControlThreadingHelper.InvokeControlAction(ScriptEditorTextBox, () =>
+            {
+                ScriptEditorTextBox.Text = ScriptText;
+            });
 
-            if (!this.Visible)
-                this.Show();
+            ControlThreadingHelper.InvokeControlAction(this, () =>
+            {
+                this.Text = DocumentTitle;
+
+                if (!this.Visible)
+                    this.Show();
+            });
         }
 
         private void SaveChanges()
@@ -75,7 +95,7 @@ namespace Anathema
         }
 
         #region Events
-        
+
         private void ScriptEditorTextBox_CharAdded(Object Sender, CharAddedEventArgs E)
         {
             Int32 Length = ScriptEditorTextBox.CurrentPosition - ScriptEditorTextBox.WordStartPosition(ScriptEditorTextBox.CurrentPosition, true);
@@ -104,8 +124,11 @@ namespace Anathema
 
         private void GUIScriptEditor_FormClosing(Object Sender, FormClosingEventArgs E)
         {
-            if (!ScriptEditorPresenter.HasChanges(ScriptEditorTextBox.Text))
+            if (ScriptEditorPresenter.HasChanges(ScriptEditorTextBox.Text))
+            {
+                this.Controls.Remove(ScriptEditorTextBox);
                 return;
+            }
 
             DialogResult Result = MessageBox.Show("This script has not been saved, save the changes to the table before closing?", "Save Changes?", MessageBoxButtons.YesNoCancel);
 
@@ -113,8 +136,10 @@ namespace Anathema
             {
                 case DialogResult.Yes:
                     SaveChanges();
+                    this.Controls.Remove(ScriptEditorTextBox);
                     break;
                 case DialogResult.No:
+                    this.Controls.Remove(ScriptEditorTextBox);
                     break;
                 case DialogResult.Cancel:
                     E.Cancel = true;
