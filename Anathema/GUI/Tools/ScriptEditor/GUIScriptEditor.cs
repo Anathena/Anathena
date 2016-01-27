@@ -52,8 +52,9 @@ namespace Anathema
             ScriptEditorTextBox.AutoCIgnoreCase = true;
 
             ScriptEditorTextBox.SetKeywords(0, LuaKeywordManager.LuaKeywords);
-            ScriptEditorTextBox.SetKeywords(1, LuaKeywordManager.AsmKeywords);
-            ScriptEditorTextBox.SetKeywords(2, LuaKeywordManager.AnathemaKeywords);
+            ScriptEditorTextBox.SetKeywords(1, LuaKeywordManager.AsmRegisterKeywords);
+            ScriptEditorTextBox.SetKeywords(2, LuaKeywordManager.AsmInstructionKeywords);
+            ScriptEditorTextBox.SetKeywords(3, LuaKeywordManager.AnathemaKeywords);
 
             ScriptEditorTextBox.Styles[Style.Lua.Comment].ForeColor = Color.DarkGreen;
             ScriptEditorTextBox.Styles[Style.Lua.CommentDoc].ForeColor = Color.DarkGreen;
@@ -72,8 +73,9 @@ namespace Anathema
             ScriptEditorTextBox.Styles[Style.Lua.Label].ForeColor = Color.Blue;
 
             ScriptEditorTextBox.Styles[Style.Lua.Word].ForeColor = Color.Blue;
-            ScriptEditorTextBox.Styles[Style.Lua.Word2].ForeColor = Color.Orange;
-            ScriptEditorTextBox.Styles[Style.Lua.Word3].ForeColor = Color.CadetBlue;
+            ScriptEditorTextBox.Styles[Style.Lua.Word2].ForeColor = Color.Firebrick;
+            ScriptEditorTextBox.Styles[Style.Lua.Word3].ForeColor = Color.Blue;
+            ScriptEditorTextBox.Styles[Style.Lua.Word4].ForeColor = Color.CadetBlue;
 
         }
 
