@@ -85,7 +85,7 @@ namespace Anathema
             {
                 ScriptEditorTextBox.Text = ScriptText;
             });
-            
+
             ControlThreadingHelper.InvokeControlAction(this, () =>
             {
                 this.Text = DocumentTitle;
@@ -146,10 +146,49 @@ namespace Anathema
         {
             Int32 Length = ScriptEditorTextBox.CurrentPosition - ScriptEditorTextBox.WordStartPosition(ScriptEditorTextBox.CurrentPosition, true);
 
-            if (Length > 0)
+            if (Length <= 0)
+                return;
+
+            ScriptEditorTextBox.SearchFlags = SearchFlags.None;
+
+            // Search for closest preceeding [asm] tag to determine if we are writing inside the tag
+            ScriptEditorTextBox.TargetStart = 0;
+            ScriptEditorTextBox.TargetEnd = ScriptEditorTextBox.CurrentPosition;
+            Int32 StartTagPosition = -1;
+            while (true)
             {
-                ScriptEditorTextBox.AutoCShow(Length, LuaKeywordManager.AllKeywords);
+                Int32 Next = ScriptEditorTextBox.SearchInTarget("[asm]");
+
+                if (Next == -1)
+                    break;
+
+                StartTagPosition = Next;
+
+                ScriptEditorTextBox.TargetStart = ScriptEditorTextBox.TargetEnd;
+                ScriptEditorTextBox.TargetEnd = ScriptEditorTextBox.CurrentPosition;
             }
+
+            // Search for next [asm] tag to ensure the [/asm] does not pass it
+            ScriptEditorTextBox.TargetStart = ScriptEditorTextBox.CurrentPosition;
+            ScriptEditorTextBox.TargetEnd = ScriptEditorTextBox.TextLength;
+            Int32 NextTagPosition = ScriptEditorTextBox.SearchInTarget("[asm]");
+
+            // Search for next [/asm] tag and see if we are inside it
+            ScriptEditorTextBox.TargetStart = ScriptEditorTextBox.CurrentPosition;
+            ScriptEditorTextBox.TargetEnd = ScriptEditorTextBox.TextLength;
+            Boolean AsmMode = false;
+            if (StartTagPosition != -1)
+            {
+                Int32 EndTagPositon = ScriptEditorTextBox.SearchInTarget("[/asm]");
+                if (EndTagPositon != -1 && (NextTagPosition == -1 || EndTagPositon < NextTagPosition))
+                    AsmMode = true;
+            }
+
+            if (AsmMode)
+                ScriptEditorTextBox.AutoCShow(Length, LuaKeywordManager.AllAsmKeywords);
+            else
+                ScriptEditorTextBox.AutoCShow(Length, LuaKeywordManager.AllLuaKeywords);
+
         }
 
         private void ScriptEditorTextBox_TextChanged(Object Sender, EventArgs E)

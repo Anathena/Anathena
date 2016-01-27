@@ -13,7 +13,6 @@ namespace Anathema
                 " _VERSION assert collectgarbage dofile error gcinfo loadfile loadstring" +
                 " print rawget rawset require tonumber tostring type unpack" +
                 " assert collectgarbage dofile error gcinfo loadfile loadstring" +
-                " print rawget rawset require tonumber tostring type unpack" +
                 " abs acos asin atan atan2 ceil cos deg exp" +
                 " floor format frexp gsub ldexp log log10 max min mod rad random randomseed" +
                 " sin sqrt strbyte strchar strfind strlen strlower strrep strsub strupper tan" +
@@ -78,8 +77,11 @@ namespace Anathema
         private static String _AnathemaKeywords = "Ana asm";
         public static String AnathemaKeywords { get { SortKeywords(); return _AnathemaKeywords; } private set { _AnathemaKeywords = value; } }
 
-        private static String _AllKeywords = String.Empty;
-        public static String AllKeywords { get { SortKeywords(); return _AllKeywords; } private set { _AllKeywords = value; } }
+        private static String _AllLuaKeywords = String.Empty;
+        public static String AllLuaKeywords { get { SortKeywords(); return _AllLuaKeywords; } private set { _AllLuaKeywords = value; } }
+
+        private static String _AllAsmKeywords = String.Empty;
+        public static String AllAsmKeywords { get { SortKeywords(); return _AllAsmKeywords; } private set { _AllAsmKeywords = value; } }
 
         private static Boolean Sorted = false;
 
@@ -122,12 +124,19 @@ namespace Anathema
             Keywords.ForEach(x => SortedKeywords += x + " ");
             _AnathemaKeywords = SortedKeywords;
 
-            // Sort all keywords
+            // Sort all lua keywords
             SortedKeywords = String.Empty;
-            Keywords = new List<String>(_LuaKeywords.Split(' ').Concat(_AsmRegisterKeywords.Split(' ')).Concat(_AsmInstructionKeywords.Split(' ')).Concat(_AnathemaKeywords.Split(' ')));
+            Keywords = new List<String>(_LuaKeywords.Split(' ').Concat(_AnathemaKeywords.Split(' ')));
             Keywords.Sort();
             Keywords.ForEach(x => SortedKeywords += x + " ");
-            _AllKeywords = SortedKeywords;
+            _AllLuaKeywords = SortedKeywords;
+
+            // Sort all asm keywords
+            SortedKeywords = String.Empty;
+            Keywords = new List<String>(_AsmRegisterKeywords.Split(' ').Concat(_AsmInstructionKeywords.Split(' ')));
+            Keywords.Sort();
+            Keywords.ForEach(x => SortedKeywords += x + " ");
+            _AllAsmKeywords = SortedKeywords;
 
             Sorted = true;
         }

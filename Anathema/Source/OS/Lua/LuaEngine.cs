@@ -4,52 +4,41 @@ using Binarysharp.MemoryManagement;
 
 namespace Anathema
 {
-    public class LuaEngine : IProcessObserver
+    public class LuaEngine
     {
         private Lua ScriptEngine;
         private LuaMemoryCore LuaMemoryCore;
-        private MemorySharp MemoryEditor;
         
         public LuaEngine()
         {
-            LuaMemoryCore = new LuaMemoryCore(MemoryEditor);
+            LuaMemoryCore = new LuaMemoryCore();
             ScriptEngine = new Lua();
             BindFunctions();
-        }
-        
-        public void InitializeProcessObserver()
-        {
-            ProcessSelector.GetInstance().Subscribe(this);
-        }
-
-        public void UpdateMemoryEditor(MemorySharp MemoryEditor)
-        {
-            this.MemoryEditor = MemoryEditor;
         }
 
         public static String AddCodeInjectionTemplate(String Script, String ModuleName, UInt64 ModuleOffset)
         {
             String CodeInjection =
                 "-- No Description" + "\n\n" +
-                "function OnActivate()" + "\n\n\t" +
+                "function OnActivate()" + "\n\t\n" +
                 "\t" + "CheatA()" + "\n\t\n" +
                 "end" + "\n\n" +
 
                 "function CheatA()" + "\n\n" +
                 "\t" + "local Entry = Ana:GetModuleAddress(\"" + ModuleName + "\") + 0x" + ModuleOffset.ToString("X") + "\n" +
-                "\t" + "Ana:AddKeyword(\"exit\", Ana:GetReturnAddress(Entry))" + "\n\n" +
+                "\t" + "Ana:SetKeyword(\"exit\", Ana:GetReturnAddress(Entry))" + "\n\n" +
                 "\t" + "local Assembly = (" + "\n" +
                 "\t[asm]" + "\n" +
                 "\t\n" +
                 "\tjmp exit" + "\n" +
                 "\t" + "[/asm])" + "\n\n" +
-                "\tAna:SaveCode(Entry)" + "\n" +
+                "\tAna:SaveMemory(Entry)" + "\n" +
                 "\tAna:CreateCodeCave(Entry, Assembly)" + "\n" +
-                "\tAna:ClearKeywords()" + "\n\n" +
+                "\tAna:ClearAllKeywords()" + "\n\n" +
                 "end" + "\n\n" +
 
-                "function OnDeactivate()" + "\n\n\t" +
-                "\t" + "Ana:RestoreCode();" + "\n\t\n" +
+                "function OnDeactivate()" + "\n\t\n" +
+                "\t" + "Ana:RestoreAllMemory();" + "\n\t\n" +
                 "end";
 
             return CodeInjection + Script;
