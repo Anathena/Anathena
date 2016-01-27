@@ -151,6 +151,8 @@
     <Compile Include="Source\HelperClasses\RepeatedTask.cs" />
     <Compile Include="Source\OS\Lua\LuaKeywordManager.cs" />
     <Compile Include="Source\OS\Lua\LuaMemoryCore.cs" />
+    <Compile Include="Source\OS\Windows\Assembly\Disassembler\SharpDisassembler.cs" />
+    <Compile Include="Source\OS\Windows\Assembly\Disassembler\IDisassembler.cs" />
     <Compile Include="Source\Settings\ISettingsMVP.cs" />
     <Compile Include="Source\Tools\Debugger\IDebuggerMVP.cs" />
     <Compile Include="Source\Tools\Debugger\Debugger.cs" />
@@ -856,6 +858,10 @@
     <ProjectReference Include="..\ScintillaNET\ScintillaNET\ScintillaNET.csproj">
       <Project>{22ae2386-60f1-476e-9303-61cdb0aac4cf}</Project>
       <Name>ScintillaNET</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SharpDisasm\SharpDisasm\SharpDisasm.csproj">
+      <Project>{d828384e-0251-44c4-8bf2-3608fd3dd2cd}</Project>
+      <Name>SharpDisasm</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup />

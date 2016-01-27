@@ -15,6 +15,7 @@ using Binarysharp.MemoryManagement.Assembly.CallingConvention;
 using Binarysharp.MemoryManagement.Internals;
 using Binarysharp.MemoryManagement.Memory;
 using Binarysharp.MemoryManagement.Threading;
+using Binarysharp.MemoryManagement.Assembly.Disassembler;
 
 namespace Binarysharp.MemoryManagement.Assembly
 {
@@ -37,6 +38,12 @@ namespace Binarysharp.MemoryManagement.Assembly
         /// </summary>
         public IAssembler Assembler { get; set; }
         #endregion
+        #region Disassembler
+        /// <summary>
+        /// The assembler used by the factory.
+        /// </summary>
+        public IDisassembler Disassembler { get; set; }
+        #endregion
         #endregion
 
         #region Constructor
@@ -50,6 +57,7 @@ namespace Binarysharp.MemoryManagement.Assembly
             MemorySharp = memorySharp;
             // Create the tool
             Assembler = new Fasm32Assembler();
+            Disassembler = new SharpDisassembler();
         }
         #endregion
 
