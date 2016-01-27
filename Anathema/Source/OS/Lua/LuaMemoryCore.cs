@@ -15,17 +15,16 @@ namespace Anathema
     public interface LuaFunctions
     {
         UInt64 GetModuleAddress(String ModuleName);
-        UInt64 GetCaveExitAddress(UInt64 Address);
+        Int32 GetAssemblySize(String Assembly);
 
         UInt64 AllocateMemory(Int32 Size);
         void DeallocateMemory(UInt64 Address);
 
-        Int32 GetAssemblySize(String Assembly);
+        UInt64 CreateCodeCave(UInt64 Entry, String Assembly);
+        UInt64 GetCaveExitAddress(UInt64 Address);
 
-        Byte[] CreateCodeCave();
-        void SaveMemory(UInt64 Address, Int32 Size = 0);
-        void RestoreMemory(UInt64 Address);
-        void RestoreAllMemory();
+        void RemoveCodeCave(UInt64 Address);
+        void RemoveAllCodeCaves();
 
         void SetKeyword(String Keyword, UInt64 Address);
         void SetGlobalKeyword(String Keyword, UInt64 Address);
@@ -41,10 +40,13 @@ namespace Anathema
         private MemorySharp MemoryEditor;
 
         private List<RemoteAllocation> RemoteAllocations;
+        private static Dictionary<String, String> GlobalKeywords;
+        private Dictionary<String, String> Keywords;
 
         public LuaMemoryCore()
         {
             RemoteAllocations = new List<RemoteAllocation>();
+            Keywords = new Dictionary<String, String>();
 
             InitializeProcessObserver();
         }
@@ -57,6 +59,18 @@ namespace Anathema
         public void UpdateMemoryEditor(MemorySharp MemoryEditor)
         {
             this.MemoryEditor = MemoryEditor;
+        }
+
+        private String ReplaceKeywords(String Assembly)
+        {
+            foreach (KeyValuePair<String, String> Keyword in Keywords)
+                Assembly = Assembly.Replace(Keyword.Key, Keyword.Value);
+
+            foreach (KeyValuePair<String, String> GlobalKeyword in GlobalKeywords)
+                Assembly = Assembly.Replace(GlobalKeyword.Key, GlobalKeyword.Value);
+
+            Console.WriteLine("[LUA] " + MethodBase.GetCurrentMethod().Name);
+            return Assembly;
         }
 
         public UInt64 GetModuleAddress(String ModuleName)
@@ -74,11 +88,14 @@ namespace Anathema
             return Result;
         }
 
-        public UInt64 GetCaveExitAddress(UInt64 Address)
+        public Int32 GetAssemblySize(String Assembly)
         {
-            UInt64 Result = Address + 5;
+            Assembly = ReplaceKeywords(Assembly);
 
-            Console.WriteLine("[LUA] " + MethodBase.GetCurrentMethod().Name + " " + Result.ToString());
+            Byte[] Bytes = MemoryEditor.Assembly.Assembler.Assemble(Assembly);
+            Int32 Result = (Bytes == null ? 0 : Bytes.Length);
+
+            Console.WriteLine("[LUA] " + MethodBase.GetCurrentMethod().Name + " " + Result);
             return Result;
         }
 
@@ -110,59 +127,74 @@ namespace Anathema
             return;
         }
 
-        public Int32 GetAssemblySize(String Assembly)
+        public UInt64 CreateCodeCave(UInt64 Entry, String Assembly)
         {
-            Byte[] Bytes = MemoryEditor.Assembly.Assembler.Assemble(Assembly);
-            Int32 Result = (Bytes == null ? 0 : Bytes.Length);
+            Console.WriteLine("[LUA] " + MethodBase.GetCurrentMethod().Name);
+            return 0;
+        }
 
-            Console.WriteLine("[LUA] " + MethodBase.GetCurrentMethod().Name + " " + Result);
+        public UInt64 GetCaveExitAddress(UInt64 Address)
+        {
+            UInt64 Result = Address + 5;
+
+            Console.WriteLine("[LUA] " + MethodBase.GetCurrentMethod().Name + " " + Result.ToString());
             return Result;
         }
 
-        public Byte[] CreateCodeCave() { return null; }
-        public void SaveMemory(UInt64 Address, Int32 Size = 0)
+        public void RemoveCodeCave(UInt64 Address)
         {
 
+            Console.WriteLine("[LUA] " + MethodBase.GetCurrentMethod().Name);
         }
 
-        public void RestoreMemory(UInt64 Address)
+        public void RemoveAllCodeCaves()
         {
 
-        }
-
-        public void RestoreAllMemory()
-        {
-
+            Console.WriteLine("[LUA] " + MethodBase.GetCurrentMethod().Name);
         }
 
         public void SetKeyword(String Keyword, UInt64 Address)
         {
+            Keywords[Keyword] = "0x" + Address.ToString("X");
 
+            Console.WriteLine("[LUA] " + MethodBase.GetCurrentMethod().Name + " " + Keywords[Keyword]);
         }
 
-        public void SetGlobalKeyword(String Keyword, UInt64 Address)
+        public void SetGlobalKeyword(String GlobalKeyword, UInt64 Address)
         {
+            GlobalKeywords[GlobalKeyword] = "0x" + Address.ToString("X");
 
+            Console.WriteLine("[LUA] " + MethodBase.GetCurrentMethod().Name + " " + GlobalKeywords[GlobalKeyword]);
         }
 
         public void ClearKeyword(String Keyword)
         {
+            if (Keywords.ContainsKey(Keyword))
+                Keywords.Remove(Keyword);
 
+            Console.WriteLine("[LUA] " + MethodBase.GetCurrentMethod().Name + " " + Keyword);
         }
 
-        public void ClearGlobalKeyword(String Keyword)
+        public void ClearGlobalKeyword(String GlobalKeyword)
         {
+            if (GlobalKeywords.ContainsKey(GlobalKeyword))
+                GlobalKeywords.Remove(GlobalKeyword);
 
+            Console.WriteLine("[LUA] " + MethodBase.GetCurrentMethod().Name + " " + GlobalKeyword);
         }
 
         public void ClearAllKeywords()
         {
+            Keywords.Clear();
 
+            Console.WriteLine("[LUA] " + MethodBase.GetCurrentMethod().Name);
         }
 
         public void ClearAllGlobalKeywords()
         {
+            GlobalKeywords.Clear();
 
+            Console.WriteLine("[LUA] " + MethodBase.GetCurrentMethod().Name);
         }
 
     } // End interface

@@ -19,26 +19,27 @@ namespace Anathema
         public static String AddCodeInjectionTemplate(String Script, String ModuleName, UInt64 ModuleOffset)
         {
             String CodeInjection =
-                "-- No Description" + "\n\n" +
+                "-- No Description" + "\n\t\n" +
                 "function OnActivate()" + "\n\t\n" +
                 "\t" + "CheatA()" + "\n\t\n" +
-                "end" + "\n\n" +
+                "end" + "\n\t\n" +
 
-                "function CheatA()" + "\n\n" +
+                "function CheatA()" + "\n\t\n" +
                 "\t" + "local Entry = Ana:GetModuleAddress(\"" + ModuleName + "\") + 0x" + ModuleOffset.ToString("X") + "\n" +
-                "\t" + "Ana:SetKeyword(\"exit\", Ana:GetCaveExitAddress(Entry))" + "\n\n" +
+                "\t" + "Ana:SetKeyword(\"exit\", Ana:GetCaveExitAddress(Entry))" + "\n\t\n" +
+
                 "\t" + "local Assembly = (" + "\n" +
                 "\t[asm]" + "\n" +
                 "\t\n" +
                 "\tjmp exit" + "\n" +
-                "\t" + "[/asm])" + "\n\n" +
-                "\tAna:SaveMemory(Entry)" + "\n" +
+                "\t" + "[/asm])" + "\n\t\n" +
+
                 "\tAna:CreateCodeCave(Entry, Assembly)" + "\n" +
-                "\tAna:ClearAllKeywords()" + "\n\n" +
-                "end" + "\n\n" +
+                "\tAna:ClearAllKeywords()" + "\n\t\n" +
+                "end" + "\n\t\n" +
 
                 "function OnDeactivate()" + "\n\t\n" +
-                "\t" + "Ana:RestoreAllMemory();" + "\n\t\n" +
+                "\t" + "Ana:RemoveAllCodeCaves();" + "\n\t\n" +
                 "end";
 
             return CodeInjection + Script;
