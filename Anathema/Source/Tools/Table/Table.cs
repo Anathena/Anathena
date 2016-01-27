@@ -175,8 +175,13 @@ namespace Anathema
                 MemoryEditor.Write(CurrentTableData.AddressTable[Index].ElementType, (IntPtr)CurrentTableData.AddressTable[Index].Address, CurrentTableData.AddressTable[Index].Value, false);
 
             // Clear this entry in the cache since it has been updated
+            ClearAddressItemFromCache(CurrentTableData.AddressTable[Index]);
+        }
+
+        private void ClearAddressItemFromCache(AddressItem AddressItem)
+        {
             TableEventArgs TableEventArgs = new TableEventArgs();
-            TableEventArgs.ClearCacheIndex = Index;
+            TableEventArgs.ClearCacheIndex = CurrentTableData.AddressTable.IndexOf(AddressItem);
             OnEventClearAddressCacheItem(TableEventArgs);
         }
 
@@ -203,10 +208,7 @@ namespace Anathema
             else
             {
                 // Updating an existing script, clear it from the cache
-                TableEventArgs TableEventArgs = new TableEventArgs();
-                TableEventArgs.ClearCacheIndex = CurrentTableData.ScriptTable.IndexOf(ScriptItem);
-                TableEventArgs.ItemCount = CurrentTableData.ScriptTable.Count;
-                OnEventClearScriptCacheItem(TableEventArgs);
+                ClearScriptItemFromCache(ScriptItem);
             }
         }
 
@@ -219,6 +221,15 @@ namespace Anathema
         {
             // Try to update the activation state
             CurrentTableData.ScriptTable[Index].SetActivationState(Activated);
+            ClearScriptItemFromCache(CurrentTableData.ScriptTable[Index]);
+        }
+
+        private void ClearScriptItemFromCache(ScriptItem ScriptItem)
+        {
+            TableEventArgs TableEventArgs = new TableEventArgs();
+            TableEventArgs.ClearCacheIndex = CurrentTableData.ScriptTable.IndexOf(ScriptItem);
+            TableEventArgs.ItemCount = CurrentTableData.ScriptTable.Count;
+            OnEventClearScriptCacheItem(TableEventArgs);
         }
 
         public override void Begin()
