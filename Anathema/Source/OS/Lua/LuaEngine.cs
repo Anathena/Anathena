@@ -26,7 +26,7 @@ namespace Anathema
 
                 "function CheatA()" + "\n\n" +
                 "\t" + "local Entry = Ana:GetModuleAddress(\"" + ModuleName + "\") + 0x" + ModuleOffset.ToString("X") + "\n" +
-                "\t" + "Ana:SetKeyword(\"exit\", Ana:GetReturnAddress(Entry))" + "\n\n" +
+                "\t" + "Ana:SetKeyword(\"exit\", Ana:GetCaveExitAddress(Entry))" + "\n\n" +
                 "\t" + "local Assembly = (" + "\n" +
                 "\t[asm]" + "\n" +
                 "\t\n" +

@@ -1,7 +1,12 @@
 ﻿using Binarysharp.MemoryManagement;
+using Binarysharp.MemoryManagement.Memory;
+using Binarysharp.MemoryManagement.Modules;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
+using System.Reflection;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -10,7 +15,7 @@ namespace Anathema
     public interface LuaFunctions
     {
         UInt64 GetModuleAddress(String ModuleName);
-        UInt64 GetReturnAddress(UInt64 Address);
+        UInt64 GetCaveExitAddress(UInt64 Address);
 
         UInt64 AllocateMemory(Int32 Size);
         void DeallocateMemory(UInt64 Address);
@@ -35,8 +40,12 @@ namespace Anathema
     {
         private MemorySharp MemoryEditor;
 
+        private List<RemoteAllocation> RemoteAllocations;
+
         public LuaMemoryCore()
         {
+            RemoteAllocations = new List<RemoteAllocation>();
+
             InitializeProcessObserver();
         }
 
@@ -52,77 +61,108 @@ namespace Anathema
 
         public UInt64 GetModuleAddress(String ModuleName)
         {
-            return 0;
+            UInt64 Result = 0;
+            foreach (RemoteModule Module in MemoryEditor.Modules.RemoteModules)
+            {
+                if (Module.Name.ToLower() == ModuleName.ToLower())
+                {
+                    Result = unchecked((UInt64)(Int64)Module.BaseAddress);
+                    break;
+                }
+            }
+            Console.WriteLine("[LUA] " + MethodBase.GetCurrentMethod().Name + " " + Result.ToString());
+            return Result;
         }
 
-        public UInt64 GetReturnAddress(UInt64 Address)
+        public UInt64 GetCaveExitAddress(UInt64 Address)
         {
-            return 0;
+            UInt64 Result = Address + 5;
+
+            Console.WriteLine("[LUA] " + MethodBase.GetCurrentMethod().Name + " " + Result.ToString());
+            return Result;
         }
 
-        public Byte[] CreateCodeCave()
+        public UInt64 AllocateMemory(Int32 Size)
         {
-            return null;
+            RemoteAllocation RemoteAllocation = MemoryEditor.Memory.Allocate(Size);
+            RemoteAllocations.Add(RemoteAllocation);
+
+            UInt64 Result = unchecked((UInt64)(Int64)RemoteAllocation.BaseAddress);
+            Console.WriteLine("[LUA] " + MethodBase.GetCurrentMethod().Name + " " + Result.ToString());
+            return Result;
         }
 
-        public ulong AllocateMemory(int Size)
+        public void DeallocateMemory(UInt64 Address)
         {
-            throw new NotImplementedException();
+            Boolean Result = false;
+
+            foreach (RemoteAllocation RemoteAllocation in RemoteAllocations)
+            {
+                if (unchecked((UInt64)(Int64)RemoteAllocation.BaseAddress) == Address)
+                {
+                    Result = true;
+                    MemoryEditor.Memory.Deallocate(RemoteAllocation);
+                    break;
+                }
+            }
+
+            Console.WriteLine("[LUA] " + MethodBase.GetCurrentMethod().Name + " " + (Result == true ? "(success)" : "(failed)"));
+            return;
         }
 
-        public void DeallocateMemory(ulong Address)
+        public Int32 GetAssemblySize(String Assembly)
         {
-            throw new NotImplementedException();
+            Byte[] Bytes = MemoryEditor.Assembly.Assembler.Assemble(Assembly);
+            Int32 Result = (Bytes == null ? 0 : Bytes.Length);
+
+            Console.WriteLine("[LUA] " + MethodBase.GetCurrentMethod().Name + " " + Result);
+            return Result;
         }
 
-        public void RestoreMemory(ulong Address)
+        public Byte[] CreateCodeCave() { return null; }
+        public void SaveMemory(UInt64 Address, Int32 Size = 0)
         {
-            throw new NotImplementedException();
+
+        }
+
+        public void RestoreMemory(UInt64 Address)
+        {
+
         }
 
         public void RestoreAllMemory()
         {
-            throw new NotImplementedException();
+
         }
 
-        public void SetKeyword(string Keyword, ulong Address)
+        public void SetKeyword(String Keyword, UInt64 Address)
         {
-            throw new NotImplementedException();
+
         }
 
-        public void SetGlobalKeyword(string Keyword, ulong Address)
+        public void SetGlobalKeyword(String Keyword, UInt64 Address)
         {
-            throw new NotImplementedException();
+
         }
 
-        public void ClearKeyword(string Keyword)
+        public void ClearKeyword(String Keyword)
         {
-            throw new NotImplementedException();
+
         }
 
-        public void ClearGlobalKeyword(string Keyword)
+        public void ClearGlobalKeyword(String Keyword)
         {
-            throw new NotImplementedException();
+
         }
 
         public void ClearAllKeywords()
         {
-            throw new NotImplementedException();
+
         }
 
         public void ClearAllGlobalKeywords()
         {
-            throw new NotImplementedException();
-        }
 
-        public int GetAssemblySize(string Assembly)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void SaveMemory(ulong Address, int Size = 0)
-        {
-            throw new NotImplementedException();
         }
 
     } // End interface
