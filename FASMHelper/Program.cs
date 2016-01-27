@@ -36,25 +36,35 @@ namespace FASMHelper
             // Keep console open
             Console.ReadLine();
         }
-        
+
         public class FASMAssembler : MarshalByRefObject, ISharedAssemblyInterface
         {
-            public FASMAssembler() {  }
+            public FASMAssembler() { }
 
             public Byte[] Assemble(Boolean IsProcess32Bit, String Assembly, Int64 BaseAddress)
             {
+                if (Assembly == null)
+                    return null;
+
                 // Add header information about process
-                Assembly = String.Format( (IsProcess32Bit ? "use32\n" : "use64\n") + "org 0x{0:X8}\n", BaseAddress) + Assembly;
+                Assembly = String.Format((IsProcess32Bit ? "use32\n" : "use64\n") + "org 0x{0:X8}\n", BaseAddress) + Assembly;
 
                 // Print fully assembly to console
-                Console.WriteLine("\n" + Assembly +"\n");
+                Console.WriteLine("\n" + Assembly + "\n");
 
-                // Call C++ FASM wrapper which will call the 32-bit FASM library which can assemble all x86/x64 instructions
-                Byte[] Result = FasmNet.Assemble(Assembly);
+                Byte[] Result;
+                try
+                {
+                    // Call C++ FASM wrapper which will call the 32-bit FASM library which can assemble all x86/x64 instructions
+                    Result = FasmNet.Assemble(Assembly);
 
-                // Print bytes to console
-                Result.ToList().ForEach(x => Console.Write(x.ToString() + " "));
-
+                    // Print bytes to console
+                    Result.ToList().ForEach(x => Console.Write(x.ToString() + " "));
+                }
+                catch
+                {
+                    Result = null;
+                }
                 return Result;
             }
         }

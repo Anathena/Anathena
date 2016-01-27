@@ -54,6 +54,8 @@ namespace Anathema
 
         public Boolean RunActivationFunction(String Script)
         {
+            LuaMemoryCore.Initialize();
+
             Script = ReplaceTags(Script);
 
             try

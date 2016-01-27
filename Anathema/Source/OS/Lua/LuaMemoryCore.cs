@@ -19,6 +19,7 @@ namespace Anathema
 
         UInt64 AllocateMemory(Int32 Size);
         void DeallocateMemory(UInt64 Address);
+        void DeallocateAllMemory();
 
         UInt64 CreateCodeCave(UInt64 Entry, String Assembly);
         UInt64 GetCaveExitAddress(UInt64 Address);
@@ -39,16 +40,20 @@ namespace Anathema
     {
         private MemorySharp MemoryEditor;
 
-        private List<RemoteAllocation> RemoteAllocations;
-        private static Dictionary<String, String> GlobalKeywords;
+        private static Dictionary<String, String> GlobalKeywords = new Dictionary<String, String>();
         private Dictionary<String, String> Keywords;
+        private List<RemoteAllocation> RemoteAllocations;
 
         public LuaMemoryCore()
         {
+            InitializeProcessObserver();
+        }
+
+        public void Initialize()
+        {
+            // Reinitialize local object collections. If the user has not deallocated all allocated memory, that is on them.
             RemoteAllocations = new List<RemoteAllocation>();
             Keywords = new Dictionary<String, String>();
-
-            InitializeProcessObserver();
         }
 
         public void InitializeProcessObserver()
@@ -69,7 +74,6 @@ namespace Anathema
             foreach (KeyValuePair<String, String> GlobalKeyword in GlobalKeywords)
                 Assembly = Assembly.Replace(GlobalKeyword.Key, GlobalKeyword.Value);
 
-            Console.WriteLine("[LUA] " + MethodBase.GetCurrentMethod().Name);
             return Assembly;
         }
 
@@ -84,7 +88,7 @@ namespace Anathema
                     break;
                 }
             }
-            Console.WriteLine("[LUA] " + MethodBase.GetCurrentMethod().Name + " " + Result.ToString());
+            Console.WriteLine("[LUA] " + MethodBase.GetCurrentMethod().Name + " " + Result.ToString("X"));
             return Result;
         }
 
@@ -95,7 +99,7 @@ namespace Anathema
             Byte[] Bytes = MemoryEditor.Assembly.Assembler.Assemble(Assembly);
             Int32 Result = (Bytes == null ? 0 : Bytes.Length);
 
-            Console.WriteLine("[LUA] " + MethodBase.GetCurrentMethod().Name + " " + Result);
+            Console.WriteLine("[LUA] " + MethodBase.GetCurrentMethod().Name + " " + Result + "B");
             return Result;
         }
 
@@ -105,7 +109,7 @@ namespace Anathema
             RemoteAllocations.Add(RemoteAllocation);
 
             UInt64 Result = unchecked((UInt64)(Int64)RemoteAllocation.BaseAddress);
-            Console.WriteLine("[LUA] " + MethodBase.GetCurrentMethod().Name + " " + Result.ToString());
+            Console.WriteLine("[LUA] " + MethodBase.GetCurrentMethod().Name + " " + Result.ToString("X") + " (" + Size.ToString() + ")");
             return Result;
         }
 
@@ -119,12 +123,24 @@ namespace Anathema
                 {
                     Result = true;
                     MemoryEditor.Memory.Deallocate(RemoteAllocation);
+                    RemoteAllocations.Remove(RemoteAllocation);
                     break;
                 }
             }
 
             Console.WriteLine("[LUA] " + MethodBase.GetCurrentMethod().Name + " " + (Result == true ? "(success)" : "(failed)"));
             return;
+        }
+
+        public void DeallocateAllMemory()
+        {
+            foreach (RemoteAllocation RemoteAllocation in RemoteAllocations)
+            {
+                MemoryEditor.Memory.Deallocate(RemoteAllocation);
+            }
+            RemoteAllocations.Clear();
+
+            Console.WriteLine("[LUA] " + MethodBase.GetCurrentMethod().Name);
         }
 
         public UInt64 CreateCodeCave(UInt64 Entry, String Assembly)
@@ -137,7 +153,7 @@ namespace Anathema
         {
             UInt64 Result = Address + 5;
 
-            Console.WriteLine("[LUA] " + MethodBase.GetCurrentMethod().Name + " " + Result.ToString());
+            Console.WriteLine("[LUA] " + MethodBase.GetCurrentMethod().Name + " " + Result.ToString("X"));
             return Result;
         }
 
@@ -157,14 +173,14 @@ namespace Anathema
         {
             Keywords[Keyword] = "0x" + Address.ToString("X");
 
-            Console.WriteLine("[LUA] " + MethodBase.GetCurrentMethod().Name + " " + Keywords[Keyword]);
+            Console.WriteLine("[LUA] " + MethodBase.GetCurrentMethod().Name + " " + Keyword + " => " + Keywords[Keyword]);
         }
 
         public void SetGlobalKeyword(String GlobalKeyword, UInt64 Address)
         {
             GlobalKeywords[GlobalKeyword] = "0x" + Address.ToString("X");
 
-            Console.WriteLine("[LUA] " + MethodBase.GetCurrentMethod().Name + " " + GlobalKeywords[GlobalKeyword]);
+            Console.WriteLine("[LUA] " + MethodBase.GetCurrentMethod().Name + " " + GlobalKeyword + " => " + GlobalKeywords[GlobalKeyword]);
         }
 
         public void ClearKeyword(String Keyword)
