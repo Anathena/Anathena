@@ -354,8 +354,6 @@ namespace Binarysharp.MemoryManagement
         {
             return Read<T>(new IntPtr(Convert.ToInt64(address)), count, out success, isRelative);
         }
-        #endregion
-        #region ReadBytes (protected)
         /// <summary>
         /// Reads an array of bytes in the remote process.
         /// </summary>
@@ -489,15 +487,13 @@ namespace Binarysharp.MemoryManagement
         {
             Write(new IntPtr(Convert.ToInt64(address)), array, isRelative);
         }
-        #endregion
-        #region WriteBytes (protected)
         /// <summary>
         /// Write an array of bytes in the remote process.
         /// </summary>
         /// <param name="address">The address where the array is written.</param>
         /// <param name="byteArray">The array of bytes to write.</param>
         /// <param name="isRelative">[Optional] State if the address is relative to the main module.</param>
-        protected void WriteBytes(IntPtr address, byte[] byteArray, bool isRelative = true)
+        public void WriteBytes(IntPtr address, byte[] byteArray, bool isRelative = true)
         {
             // Change the protection of the memory to allow writable
             using (new MemoryProtection(this, isRelative ? MakeAbsolute(address) : address, MarshalType<byte>.Size * byteArray.Length))

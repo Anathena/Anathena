@@ -25,7 +25,7 @@ namespace Anathema
                 "end" + "\n\t\n" +
 
                 "function CheatA()" + "\n\t\n" +
-                "\t" + "local Entry = Ana:GetModuleAddress(\"" + ModuleName + "\") + 0x" + ModuleOffset.ToString("X") + "\n" +
+                "\t" + "local Entry = Ana:GetModuleAddress(\"" + ModuleName + "\") + 0x" + ModuleOffset.ToString("x") + "\n" +
                 "\t" + "Ana:SetKeyword(\"exit\", Ana:GetCaveExitAddress(Entry))" + "\n\t\n" +
 
                 "\t" + "local Assembly = (" + "\n" +
@@ -39,7 +39,7 @@ namespace Anathema
                 "end" + "\n\t\n" +
 
                 "function OnDeactivate()" + "\n\t\n" +
-                "\t" + "Ana:RemoveAllCodeCaves();" + "\n\t\n" +
+                "\t" + "Ana:RemoveAllCodeCaves()" + "\n\t\n" +
                 "end";
 
             return CodeInjection + Script;

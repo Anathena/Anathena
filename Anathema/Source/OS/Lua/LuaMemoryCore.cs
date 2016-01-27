@@ -43,6 +43,23 @@ namespace Anathema
         private static Dictionary<String, String> GlobalKeywords = new Dictionary<String, String>();
         private Dictionary<String, String> Keywords;
         private List<RemoteAllocation> RemoteAllocations;
+        private List<CodeCave> CodeCaves;
+
+        private const Int32 JumpSize = 5;
+
+        private struct CodeCave
+        {
+            public RemoteAllocation RemoteAllocation;
+            public Byte[] OriginalBytes;
+            public UInt64 Entry;
+
+            public CodeCave(RemoteAllocation RemoteAllocation, Byte[] OriginalBytes, UInt64 Entry)
+            {
+                this.RemoteAllocation = RemoteAllocation;
+                this.OriginalBytes = OriginalBytes;
+                this.Entry = Entry;
+            }
+        }
 
         public LuaMemoryCore()
         {
@@ -54,6 +71,7 @@ namespace Anathema
             // Reinitialize local object collections. If the user has not deallocated all allocated memory, that is on them.
             RemoteAllocations = new List<RemoteAllocation>();
             Keywords = new Dictionary<String, String>();
+            CodeCaves = new List<CodeCave>();
         }
 
         public void InitializeProcessObserver()
@@ -68,6 +86,11 @@ namespace Anathema
 
         private String ReplaceKeywords(String Assembly)
         {
+            if (Assembly == null)
+                return String.Empty;
+
+            Assembly = Assembly.Replace("\t", "");
+
             foreach (KeyValuePair<String, String> Keyword in Keywords)
                 Assembly = Assembly.Replace(Keyword.Key, Keyword.Value);
 
@@ -145,13 +168,36 @@ namespace Anathema
 
         public UInt64 CreateCodeCave(UInt64 Entry, String Assembly)
         {
-            Console.WriteLine("[LUA] " + MethodBase.GetCurrentMethod().Name);
-            return 0;
+            Assembly = ReplaceKeywords(Assembly);
+
+            Int32 Size = GetAssemblySize(Assembly);
+
+            // Allocate memory
+            RemoteAllocation RemoteAllocation = MemoryEditor.Memory.Allocate(Size);
+            RemoteAllocations.Add(RemoteAllocation);
+            UInt64 Result = unchecked((UInt64)(Int64)RemoteAllocation.BaseAddress);
+
+            // Write injected code
+            MemoryEditor.Assembly.Inject(Assembly, RemoteAllocation.BaseAddress);
+
+            // Read original bytes at code cave jump
+            Boolean ReadSuccess;
+            Byte[] OriginalBytes = MemoryEditor.Read<Byte>((IntPtr)Entry, JumpSize, out ReadSuccess, false);
+
+            // Write in the jump to the code cave
+            MemoryEditor.Assembly.Inject("jmp " + "0x" + Result.ToString("X"), unchecked((IntPtr)Entry));
+
+            // Save this code cave for later deallocation
+            CodeCave CodeCave = new CodeCave(RemoteAllocation, OriginalBytes, Entry);
+            CodeCaves.Add(CodeCave);
+
+            Console.WriteLine("[LUA] " + MethodBase.GetCurrentMethod().Name + " " + Result.ToString("X") + " (" + Size.ToString() + ")");
+            return Result;
         }
 
         public UInt64 GetCaveExitAddress(UInt64 Address)
         {
-            UInt64 Result = Address + 5;
+            UInt64 Result = Address + JumpSize;
 
             Console.WriteLine("[LUA] " + MethodBase.GetCurrentMethod().Name + " " + Result.ToString("X"));
             return Result;
@@ -159,12 +205,27 @@ namespace Anathema
 
         public void RemoveCodeCave(UInt64 Address)
         {
-
-            Console.WriteLine("[LUA] " + MethodBase.GetCurrentMethod().Name);
+            Boolean Result = false;
+            foreach (CodeCave CodeCave in CodeCaves)
+            {
+                if (CodeCave.Entry == Address)
+                {
+                    Result = true;
+                    MemoryEditor.Write<Byte[]>((IntPtr)CodeCave.Entry, CodeCave.OriginalBytes, false);
+                    MemoryEditor.Memory.Deallocate(CodeCave.RemoteAllocation);
+                }
+            }
+            Console.WriteLine("[LUA] " + MethodBase.GetCurrentMethod().Name + " " + (Result == true ? "(success)" : "(failed)"));
         }
 
         public void RemoveAllCodeCaves()
         {
+            foreach (CodeCave CodeCave in CodeCaves)
+            {
+                MemoryEditor.WriteBytes((IntPtr)CodeCave.Entry, CodeCave.OriginalBytes, false);
+                MemoryEditor.Memory.Deallocate(CodeCave.RemoteAllocation);
+            }
+            CodeCaves.Clear();
 
             Console.WriteLine("[LUA] " + MethodBase.GetCurrentMethod().Name);
         }
