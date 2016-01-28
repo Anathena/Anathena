@@ -77,6 +77,11 @@ namespace Anathema
             this.MemoryEditor = MemoryEditor;
         }
 
+        public override void ForceRefresh()
+        {
+            RefreshDisplay();
+        }
+
         public override void UpdateReadBounds(Int32 StartReadIndex, Int32 EndReadIndex)
         {
             this.StartReadIndex = StartReadIndex;

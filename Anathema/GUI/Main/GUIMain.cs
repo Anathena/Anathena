@@ -23,6 +23,7 @@ namespace Anathema
         // VIEW MENU ITEMS
         private GUIProcessSelector GUIProcessSelector;
         private GUICodeView GUICodeView;
+        private GUIMemoryView GUIMemoryView;
         private GUIScriptEditor GUIScriptEditor;
         private GUIFiniteStateScanner GUIFiniteStateScanner;
         private GUIManualScanner GUIManualScanner;
@@ -126,6 +127,13 @@ namespace Anathema
             GUICodeView.Show(ContentPanel);
         }
 
+        private void CreateMemoryView()
+        {
+            if (GUIMemoryView == null || GUIMemoryView.IsDisposed)
+                GUIMemoryView = new GUIMemoryView();
+            GUIMemoryView.Show(ContentPanel);
+        }
+
         private void CreateFiniteStateScanner()
         {
             if (GUIFiniteStateScanner == null || GUIFiniteStateScanner.IsDisposed)
@@ -220,10 +228,15 @@ namespace Anathema
         #endregion
 
         #region Events
-        
-        private void CodeViewToolStripMenuItem_Click(object sender, EventArgs e)
+
+        private void CodeViewToolStripMenuItem_Click(Object Sender, EventArgs E)
         {
             CreateCodeView();
+        }
+
+        private void MemoryViewToolStripMenuItem_Click(Object Sender, EventArgs E)
+        {
+            CreateMemoryView();
         }
 
         private void FiniteStateScannerToolStripMenuItem_Click(Object Sender, EventArgs E)

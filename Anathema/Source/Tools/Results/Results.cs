@@ -58,7 +58,7 @@ namespace Anathema
             this.MemoryEditor = MemoryEditor;
         }
 
-        public void ForceRefresh()
+        public override void ForceRefresh()
         {
             ForceRefreshFlag = true;
         }

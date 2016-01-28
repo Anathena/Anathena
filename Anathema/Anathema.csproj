@@ -96,10 +96,10 @@
     <Compile Include="GUI\CustomControls\TreeView\HighlightPreservingTreeView.Designer.cs">
       <DependentUpon>HighlightPreservingTreeView.cs</DependentUpon>
     </Compile>
-    <Compile Include="GUI\Settings\GUISettings.cs">
+    <Compile Include="GUI\Tools\Settings\GUISettings.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="GUI\Settings\GUISettings.Designer.cs">
+    <Compile Include="GUI\Tools\Settings\GUISettings.Designer.cs">
       <DependentUpon>GUISettings.cs</DependentUpon>
     </Compile>
     <Compile Include="GUI\Tools\Debugger\CodeView\GUICodeView.cs">
@@ -108,11 +108,11 @@
     <Compile Include="GUI\Tools\Debugger\CodeView\GUICodeView.Designer.cs">
       <DependentUpon>GUICodeView.cs</DependentUpon>
     </Compile>
-    <Compile Include="GUI\Tools\Debugger\MemoryView\GUIMemoryViewer.cs">
+    <Compile Include="GUI\Tools\Debugger\MemoryView\GUIMemoryView.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="GUI\Tools\Debugger\MemoryView\GUIMemoryViewer.Designer.cs">
-      <DependentUpon>GUIMemoryViewer.cs</DependentUpon>
+    <Compile Include="GUI\Tools\Debugger\MemoryView\GUIMemoryView.Designer.cs">
+      <DependentUpon>GUIMemoryView.cs</DependentUpon>
     </Compile>
     <Compile Include="GUI\Tools\MemoryScanners\GUIFiniteStateBuilder.cs">
       <SubType>UserControl</SubType>
@@ -634,14 +634,14 @@
     <EmbeddedResource Include="GUI\CustomControls\ListViews\FlickerFreeListView.resx">
       <DependentUpon>FlickerFreeListView.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="GUI\Settings\GUISettings.resx">
+    <EmbeddedResource Include="GUI\Tools\Settings\GUISettings.resx">
       <DependentUpon>GUISettings.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\Tools\Debugger\CodeView\GUICodeView.resx">
       <DependentUpon>GUICodeView.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="GUI\Tools\Debugger\MemoryView\GUIMemoryViewer.resx">
-      <DependentUpon>GUIMemoryViewer.cs</DependentUpon>
+    <EmbeddedResource Include="GUI\Tools\Debugger\MemoryView\GUIMemoryView.resx">
+      <DependentUpon>GUIMemoryView.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\Tools\MemoryScanners\GUIChunkScanner.resx">
       <DependentUpon>GUIChunkScanner.cs</DependentUpon>

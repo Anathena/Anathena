@@ -70,6 +70,8 @@ namespace Anathema
         public abstract Type GetScanType();
         public abstract void SetScanType(Type ScanType);
 
+        public abstract void ForceRefresh();
+
         public abstract void UpdateReadBounds(Int32 StartReadIndex, Int32 EndReadIndex);
     }
 
@@ -96,6 +98,8 @@ namespace Anathema
             Model.EventEnableResults += EventEnableResults;
             Model.EventDisableResults += EventDisableResults;
             Model.EventFlushCache += EventFlushCache;
+
+            Model.ForceRefresh();
         }
 
         #region Method definitions called by the view (downstream)

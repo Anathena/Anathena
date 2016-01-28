@@ -89,6 +89,7 @@ namespace Anathema
         public abstract ScriptItem GetScriptItemAt(Int32 Index);
         public abstract void SetScriptActivation(Int32 Index, Boolean Activated);
 
+        public abstract void ForceRefresh();
         public abstract void UpdateReadBounds(Int32 StartReadIndex, Int32 EndReadIndex);
     }
 
@@ -126,6 +127,8 @@ namespace Anathema
             Model.EventClearAddressCache += EventClearAddressCache;
             Model.EventClearScriptCache += EventClearScriptCache;
             Model.EventClearFSMCache += EventClearFSMCache;
+
+            Model.ForceRefresh();
         }
 
         #region Method definitions called by the view (downstream)

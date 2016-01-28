@@ -1,6 +1,6 @@
 ﻿namespace Anathema
 {
-    partial class GUIMemoryViewer
+    partial class GUIMemoryView
     {
         /// <summary>
         /// Required designer variable.

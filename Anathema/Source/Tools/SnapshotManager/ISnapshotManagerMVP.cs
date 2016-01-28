@@ -36,6 +36,7 @@ namespace Anathema
         void RedoSnapshot();
         void UndoSnapshot();
         void ClearSnapshots();
+        void ForceRefresh();
 
         Snapshot GetSnapshotAt(Int32 Index);
     }
@@ -64,6 +65,8 @@ namespace Anathema
             Model.UpdateSnapshotCount += UpdateSnapshotCount;
             Model.RefreshSnapshots += RefreshSnapshots;
             Model.FlushCache += FlushCache;
+
+            Model.ForceRefresh();
         }
 
         #region Method definitions called by the view (downstream)

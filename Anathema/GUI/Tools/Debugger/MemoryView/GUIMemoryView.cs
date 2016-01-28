@@ -11,11 +11,11 @@ using Be.Windows.Forms;
 
 namespace Anathema
 {
-    public partial class GUIMemoryViewer : DockContent//, IDebuggerView
+    public partial class GUIMemoryView : DockContent//, IDebuggerView
     {
         //private DebuggerPresenter DebuggerPresenter;
 
-        public GUIMemoryViewer()
+        public GUIMemoryView()
         {
             InitializeComponent();
 
