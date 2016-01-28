@@ -1,6 +1,6 @@
 ﻿namespace Anathema
 {
-    partial class GUIAssembler
+    partial class GUICodeView
     {
         /// <summary>
         /// Required designer variable.
@@ -118,9 +118,9 @@
             this.RefreshNavigationButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.RefreshNavigationButton.Name = "RefreshNavigationButton";
             this.RefreshNavigationButton.Size = new System.Drawing.Size(23, 22);
-            this.RefreshNavigationButton.Text = "toolStripButton1";
+            this.RefreshNavigationButton.Text = "Refresh";
             // 
-            // GUIAssembler
+            // GUICodeView
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -128,8 +128,8 @@
             this.Controls.Add(this.DisassemblerListView);
             this.Controls.Add(this.GUIToolStrip);
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Name = "GUIAssembler";
-            this.Text = "Assembler";
+            this.Name = "GUICodeView";
+            this.Text = "Code View";
             this.GUIToolStrip.ResumeLayout(false);
             this.GUIToolStrip.PerformLayout();
             this.ResumeLayout(false);

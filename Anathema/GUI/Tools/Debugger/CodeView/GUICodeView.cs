@@ -11,15 +11,15 @@ using Be.Windows.Forms;
 
 namespace Anathema
 {
-    public partial class GUIAssembler : DockContent, IDebuggerView
+    public partial class GUICodeView : DockContent
     {
-        private DebuggerPresenter DebuggerPresenter;
+        //private DebuggerPresenter DebuggerPresenter;
 
-        public GUIAssembler()
+        public GUICodeView()
         {
             InitializeComponent();
 
-            DebuggerPresenter = new DebuggerPresenter(this, new Debugger());
+            //DebuggerPresenter = new DebuggerPresenter(this, new Debugger());
         }
 
         public void DisableDebugger()

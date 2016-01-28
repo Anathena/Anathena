@@ -22,7 +22,7 @@ namespace Anathema
 
         // VIEW MENU ITEMS
         private GUIProcessSelector GUIProcessSelector;
-        private GUIDebugger GUIDebugger;
+        private GUICodeView GUICodeView;
         private GUIScriptEditor GUIScriptEditor;
         private GUIFiniteStateScanner GUIFiniteStateScanner;
         private GUIManualScanner GUIManualScanner;
@@ -119,11 +119,11 @@ namespace Anathema
             CreateTable();
         }
 
-        private void CreateDebugger()
+        private void CreateCodeView()
         {
-            if (GUIDebugger == null || GUIDebugger.IsDisposed)
-                GUIDebugger = new GUIDebugger();
-            GUIDebugger.Show();
+            if (GUICodeView == null || GUICodeView.IsDisposed)
+                GUICodeView = new GUICodeView();
+            GUICodeView.Show(ContentPanel);
         }
 
         private void CreateFiniteStateScanner()
@@ -220,10 +220,10 @@ namespace Anathema
         #endregion
 
         #region Events
-
-        private void DebuggerToolStripMenuItem_Click(Object Sender, EventArgs E)
+        
+        private void CodeViewToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            CreateDebugger();
+            CreateCodeView();
         }
 
         private void FiniteStateScannerToolStripMenuItem_Click(Object Sender, EventArgs E)
@@ -310,7 +310,6 @@ namespace Anathema
         {
             // Check / uncheck items if the windows are open
             ProcessSelectorToolStripMenuItem.Checked = (GUIProcessSelector == null || GUIProcessSelector.IsDisposed) ? false : true;
-            DebuggerToolStripMenuItem.Checked = (GUIDebugger == null || GUIDebugger.IsDisposed) ? false : true;
             ScriptEditorToolStripMenuItem.Checked = (GUIScriptEditor == null || GUIScriptEditor.IsDisposed) ? false : true;
             FiniteStateScannerToolStripMenuItem.Checked = (GUIFiniteStateScanner == null || GUIFiniteStateScanner.IsDisposed) ? false : true;
             ManualScannerToolStripMenuItem.Checked = (GUIManualScanner == null || GUIManualScanner.IsDisposed) ? false : true;

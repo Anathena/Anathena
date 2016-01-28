@@ -102,11 +102,11 @@
     <Compile Include="GUI\Settings\GUISettings.Designer.cs">
       <DependentUpon>GUISettings.cs</DependentUpon>
     </Compile>
-    <Compile Include="GUI\Tools\Debugger\Assembler\GUIAssembler.cs">
+    <Compile Include="GUI\Tools\Debugger\CodeView\GUICodeView.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="GUI\Tools\Debugger\Assembler\GUIAssembler.Designer.cs">
-      <DependentUpon>GUIAssembler.cs</DependentUpon>
+    <Compile Include="GUI\Tools\Debugger\CodeView\GUICodeView.Designer.cs">
+      <DependentUpon>GUICodeView.cs</DependentUpon>
     </Compile>
     <Compile Include="GUI\Tools\Debugger\MemoryView\GUIMemoryViewer.cs">
       <SubType>Form</SubType>
@@ -154,8 +154,6 @@
     <Compile Include="Source\OS\Windows\Assembly\Disassembler\SharpDisassembler.cs" />
     <Compile Include="Source\OS\Windows\Assembly\Disassembler\IDisassembler.cs" />
     <Compile Include="Source\Settings\ISettingsMVP.cs" />
-    <Compile Include="Source\Tools\Debugger\IDebuggerMVP.cs" />
-    <Compile Include="Source\Tools\Debugger\Debugger.cs" />
     <Compile Include="Source\Tools\MemoryScanners\FiniteStateScanner\FiniteStateBuilder.cs" />
     <Compile Include="Source\Tools\MemoryScanners\FiniteStateScanner\IFiniteStateScannerMVP.cs" />
     <Compile Include="Source\Tools\MemoryScanners\InputCorrelator\InputNode.cs" />
@@ -353,12 +351,6 @@
     <Compile Include="GUI\Tools\ProcessSelector\GUIProcessSelector.Designer.cs">
       <DependentUpon>GUIProcessSelector.cs</DependentUpon>
     </Compile>
-    <Compile Include="GUI\Tools\Debugger\GUIDebugger.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="GUI\Tools\Debugger\GUIDebugger.Designer.cs">
-      <DependentUpon>GUIDebugger.cs</DependentUpon>
-    </Compile>
     <Compile Include="GUI\Tools\MemoryScanners\GUITreeScanner.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -463,7 +455,7 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Source\Settings\Settings.cs" />
-    <Compile Include="Source\Tools\Debugger\TestByteProvider.cs" />
+    <Compile Include="Source\Tools\Debugger\Memory View\TestByteProvider.cs" />
     <Compile Include="Source\Tools\SnapshotManager\SnapshotManager.cs" />
     <Compile Include="Source\HelperClasses\ArrayExtensions.cs" />
     <Compile Include="Source\Tools\Table\AddressItem.cs" />
@@ -645,8 +637,8 @@
     <EmbeddedResource Include="GUI\Settings\GUISettings.resx">
       <DependentUpon>GUISettings.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="GUI\Tools\Debugger\Assembler\GUIAssembler.resx">
-      <DependentUpon>GUIAssembler.cs</DependentUpon>
+    <EmbeddedResource Include="GUI\Tools\Debugger\CodeView\GUICodeView.resx">
+      <DependentUpon>GUICodeView.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\Tools\Debugger\MemoryView\GUIMemoryViewer.resx">
       <DependentUpon>GUIMemoryViewer.cs</DependentUpon>
@@ -665,9 +657,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\Tools\ProcessSelector\GUIProcessSelector.resx">
       <DependentUpon>GUIProcessSelector.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="GUI\Tools\Debugger\GUIDebugger.resx">
-      <DependentUpon>GUIDebugger.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\Tools\MemoryScanners\GUITreeScanner.resx">
       <DependentUpon>GUITreeScanner.cs</DependentUpon>
@@ -864,7 +853,9 @@
       <Name>SharpDisasm</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Source\Tools\Debugger\Code View\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PreBuildEvent>(if exist "$(TargetDir)*old.pdb" del "$(TargetDir)*old.pdb") &amp; (if exist "$(TargetDir)*.pdb" ren "$(TargetDir)*.pdb" *.old.pdb)

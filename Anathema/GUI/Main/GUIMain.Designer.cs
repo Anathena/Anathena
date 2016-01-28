@@ -55,10 +55,12 @@
             this.ContentPanel = new WeifenLuo.WinFormsUI.Docking.DockPanel();
             this.GUIToolStrip = new System.Windows.Forms.ToolStrip();
             this.ProcessSelectorButton = new System.Windows.Forms.ToolStripButton();
-            this.ProcessTitleLabel = new System.Windows.Forms.ToolStripLabel();
-            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
             this.NewScanButton = new System.Windows.Forms.ToolStripButton();
             this.UndoScanButton = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.ProcessTitleLabel = new System.Windows.Forms.ToolStripLabel();
+            this.CodeViewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.GUIMenuStrip.SuspendLayout();
             this.GUIToolStrip.SuspendLayout();
             this.SuspendLayout();
@@ -241,10 +243,11 @@
             // 
             // DebuggerToolStripMenuItem
             // 
+            this.DebuggerToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.CodeViewToolStripMenuItem});
             this.DebuggerToolStripMenuItem.Name = "DebuggerToolStripMenuItem";
             this.DebuggerToolStripMenuItem.Size = new System.Drawing.Size(173, 22);
             this.DebuggerToolStripMenuItem.Text = "Debugger";
-            this.DebuggerToolStripMenuItem.Click += new System.EventHandler(this.DebuggerToolStripMenuItem_Click);
             // 
             // ContentPanel
             // 
@@ -261,10 +264,11 @@
             this.GUIToolStrip.BackColor = System.Drawing.SystemColors.Control;
             this.GUIToolStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.ProcessSelectorButton,
-            this.ProcessTitleLabel,
-            this.toolStripSeparator1,
+            this.toolStripSeparator3,
             this.NewScanButton,
-            this.UndoScanButton});
+            this.UndoScanButton,
+            this.toolStripSeparator1,
+            this.ProcessTitleLabel});
             this.GUIToolStrip.Location = new System.Drawing.Point(0, 24);
             this.GUIToolStrip.Name = "GUIToolStrip";
             this.GUIToolStrip.Size = new System.Drawing.Size(732, 25);
@@ -281,16 +285,10 @@
             this.ProcessSelectorButton.Text = "SelectProcessButton";
             this.ProcessSelectorButton.Click += new System.EventHandler(this.ProcessSelectorButton_Click);
             // 
-            // ProcessTitleLabel
+            // toolStripSeparator3
             // 
-            this.ProcessTitleLabel.Name = "ProcessTitleLabel";
-            this.ProcessTitleLabel.Size = new System.Drawing.Size(113, 22);
-            this.ProcessTitleLabel.Text = "No Process Selected";
-            // 
-            // toolStripSeparator1
-            // 
-            this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 25);
+            this.toolStripSeparator3.Name = "toolStripSeparator3";
+            this.toolStripSeparator3.Size = new System.Drawing.Size(6, 25);
             // 
             // NewScanButton
             // 
@@ -311,6 +309,24 @@
             this.UndoScanButton.Size = new System.Drawing.Size(23, 22);
             this.UndoScanButton.Text = "Undo Scan";
             this.UndoScanButton.Click += new System.EventHandler(this.UndoScanButton_Click);
+            // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 25);
+            // 
+            // ProcessTitleLabel
+            // 
+            this.ProcessTitleLabel.Name = "ProcessTitleLabel";
+            this.ProcessTitleLabel.Size = new System.Drawing.Size(113, 22);
+            this.ProcessTitleLabel.Text = "No Process Selected";
+            // 
+            // CodeViewToolStripMenuItem
+            // 
+            this.CodeViewToolStripMenuItem.Name = "CodeViewToolStripMenuItem";
+            this.CodeViewToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.CodeViewToolStripMenuItem.Text = "Code View";
+            this.CodeViewToolStripMenuItem.Click += new System.EventHandler(this.CodeViewToolStripMenuItem_Click);
             // 
             // GUIMain
             // 
@@ -365,6 +381,8 @@
         private System.Windows.Forms.ToolStripMenuItem ScriptEditorToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
         private System.Windows.Forms.ToolStripMenuItem LabelThresholderToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
+        private System.Windows.Forms.ToolStripMenuItem CodeViewToolStripMenuItem;
     }
 }
 

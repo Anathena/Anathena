@@ -11,9 +11,9 @@ using Be.Windows.Forms;
 
 namespace Anathema
 {
-    public partial class GUIMemoryViewer : DockContent, IDebuggerView
+    public partial class GUIMemoryViewer : DockContent//, IDebuggerView
     {
-        private DebuggerPresenter DebuggerPresenter;
+        //private DebuggerPresenter DebuggerPresenter;
 
         public GUIMemoryViewer()
         {
@@ -23,7 +23,7 @@ namespace Anathema
             HexEditorBox.ByteCharConverter = new DefaultByteCharConverter();
             HexEditorBox.LineInfoOffset = 50;
 
-            DebuggerPresenter = new DebuggerPresenter(this, new Debugger());
+            //DebuggerPresenter = new DebuggerPresenter(this, new Debugger());
         }
 
         public void DisableDebugger()
