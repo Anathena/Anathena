@@ -78,7 +78,7 @@ namespace Anathema
 
         public ListViewItem GetItemAt(Int32 Index)
         {
-            ListViewItem Item = ListViewCache.Get(Index);
+            ListViewItem Item = ListViewCache.Get((UInt64)Index);
             Snapshot Snapshot = Model.GetSnapshotAt(Index);
 
             // Try to update and return the item if it is a valid item

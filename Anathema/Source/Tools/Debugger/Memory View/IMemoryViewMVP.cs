@@ -59,16 +59,11 @@ namespace Anathema
 
         // Functions invoked by presenter (downstream)
         public abstract void RefreshVirtualPages();
-
-        public abstract void AddSelectionToTable(Int32 Index);
-
-        public abstract IntPtr GetAddressAtIndex(Int32 Index);
-        public abstract String GetValueAtIndex(Int32 Index);
-        public abstract String GetLabelAtIndex(Int32 Index);
-
+        
+        public abstract Byte GetValueAtIndex(UInt64 Index);
         public abstract void ForceRefresh();
-
-        public abstract void UpdateReadBounds(Int32 StartReadIndex, Int32 EndReadIndex);
+        public abstract void UpdateReadLength(Int32 ReadLength);
+        public abstract void UpdateStartReadAddress(UInt64 StartReadAddress);
     }
 
     class MemoryViewPresenter : Presenter<IMemoryViewView, IMemoryViewModel>, IByteProvider
@@ -76,14 +71,14 @@ namespace Anathema
         protected new IMemoryViewView View;
         protected new IMemoryViewModel Model;
 
-        private ObjectCache<String> ByteCache;
+        private ObjectCache<Byte> ByteCache;
 
         public MemoryViewPresenter(IMemoryViewView View, IMemoryViewModel Model) : base(View, Model)
         {
             this.View = View;
             this.Model = Model;
 
-            ByteCache = new ObjectCache<String>();
+            ByteCache = new ObjectCache<Byte>();
 
             // Bind events triggered by the model
             Model.EventUpdateVirtualPages += EventUpdateVirtualPages;
@@ -99,7 +94,7 @@ namespace Anathema
         {
             get
             {
-                return 2048;
+                return ByteCache.CacheSize;
             }
         }
         
@@ -111,26 +106,24 @@ namespace Anathema
 
         }
 
-        public bool HasChanges()
-        {
-            return false;
-        }
-
-        public byte ReadByte(Int64 index)
-        {
-            //if (ByteCache.Get(Index))
-            return 0;
-            //return Data[index % ByteCache.CacheSize];
-        }
-
-        public bool SupportsWriteByte()
+        public Boolean HasChanges()
         {
             return true;
         }
 
-        public void WriteByte(Int64 index, Byte value)
+        public Byte ReadByte(Int64 Index)
         {
-            //Data[index] = value;
+            return ByteCache.Get(unchecked((UInt64)Index));
+        }
+
+        public Boolean SupportsWriteByte()
+        {
+            return true;
+        }
+
+        public void WriteByte(Int64 Index, Byte Value)
+        {
+            ByteCache.TryUpdateItem(unchecked((UInt64)Index), Model.GetValueAtIndex(unchecked((UInt64)Index)));
         }
 
         #region Irrelevant Features
@@ -139,9 +132,9 @@ namespace Anathema
 
         public void InsertBytes(Int64 index, Byte[] bs) { throw new NotImplementedException(); }
 
-        public bool SupportsDeleteBytes() { return false; }
+        public Boolean SupportsDeleteBytes() { return false; }
 
-        public bool SupportsInsertBytes() { return false; }
+        public Boolean SupportsInsertBytes() { return false; }
 
         #endregion
 
@@ -149,33 +142,19 @@ namespace Anathema
 
         #region Method definitions called by the view (downstream)
 
-        public void UpdateReadBounds(Int32 StartReadIndex, Int32 EndReadIndex)
+        public void UpdateStartReadAddress(UInt64 StartReadAddress)
         {
-            Model.UpdateReadBounds(StartReadIndex, EndReadIndex);
+            Model.UpdateStartReadAddress(StartReadAddress);
+        }
+
+        public void UpdateReadLength(Int32 ReadLength)
+        {
+            Model.UpdateReadLength(ReadLength);
         }
 
         public void RefreshVirtualPages()
         {
             Model.RefreshVirtualPages();
-        }
-
-        public String GetItemAt(Int32 Index)
-        {
-            String Item = ByteCache.Get(Index);
-
-            // Try to update and return the item if it is a valid item
-            if (Item != null && ByteCache.TryUpdateItem(Index, Model.GetValueAtIndex(Index)))
-                return Item;
-
-            // Add the properties to the cache and get the list view item back
-            Item = "--";
-
-            return Item;
-        }
-
-        public void AddSelectionToTable(Int32 Index)
-        {
-            Model.AddSelectionToTable(Index);
         }
 
         #endregion

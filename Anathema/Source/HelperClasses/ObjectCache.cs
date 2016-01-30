@@ -12,8 +12,8 @@ namespace Anathema
     {
         protected const Int32 DefaultCacheSize = 4096;
 
-        protected readonly Dictionary<Int32, T> Cache;
-        protected readonly LinkedList<Int32> LRUQueue;
+        protected readonly Dictionary<UInt64, T> Cache;
+        protected readonly LinkedList<UInt64> LRUQueue;
         protected readonly ImageList Images;
         protected readonly Object AccessLock;
 
@@ -23,13 +23,13 @@ namespace Anathema
         {
             this.CacheSize = CacheSize;
 
-            Cache = new Dictionary<Int32, T>(CacheSize);
-            LRUQueue = new LinkedList<Int32>();
+            Cache = new Dictionary<UInt64, T>(CacheSize);
+            LRUQueue = new LinkedList<UInt64>();
             AccessLock = new Object();
             Images = new ImageList();
         }
 
-        public Boolean TryUpdateItem(Int32 Index, T Item)
+        public Boolean TryUpdateItem(UInt64 Index, T Item)
         {
             lock (AccessLock)
             {
@@ -41,7 +41,7 @@ namespace Anathema
             }
         }
 
-        public virtual T Add(Int32 Index, T Item)
+        public virtual T Add(UInt64 Index, T Item)
         {
             lock (AccessLock)
             {
@@ -58,7 +58,7 @@ namespace Anathema
             }
         }
 
-        public void Delete(Int32 Index)
+        public void Delete(UInt64 Index)
         {
             lock (AccessLock)
             {
@@ -69,7 +69,7 @@ namespace Anathema
             }
         }
 
-        public T Get(Int32 Index)
+        public T Get(UInt64 Index)
         {
             lock (AccessLock)
             {
@@ -81,7 +81,7 @@ namespace Anathema
                 }
                 else
                 {
-                    throw new Exception("Cache does not contain value");
+                    return (T)Convert.ChangeType(0, typeof(T));
                 }
                 return Item;
             }

@@ -121,7 +121,7 @@ namespace Anathema
 
             Int32 ElementCount = (Int32)(Math.Min((UInt64)Int32.MaxValue, Snapshot.GetElementCount()));
 
-            for (Int32 Index = StartReadIndex; Index < EndReadIndex; Index++)
+            for (Int32 Index = StartReadIndex; Index <= EndReadIndex; Index++)
             {
                 if (Index < 0 || Index >= ElementCount)
                     continue;

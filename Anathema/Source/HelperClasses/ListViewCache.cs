@@ -18,10 +18,10 @@ namespace Anathema
         {
             lock (AccessLock)
             {
-                if (!Cache.ContainsKey(Index))
+                if (!Cache.ContainsKey((UInt64)Index))
                     return false;
 
-                Cache[Index].SubItems[SubItemIndex].Text = Item;
+                Cache[(UInt64)Index].SubItems[SubItemIndex].Text = Item;
                 return true;
             }
         }
@@ -37,21 +37,21 @@ namespace Anathema
                     LRUQueue.RemoveFirst();
                 }
 
-                LRUQueue.AddLast(Index);
-                Cache[Index] = new ListViewItem(Items);
-                return Cache[Index];
+                LRUQueue.AddLast((UInt64)Index);
+                Cache[(UInt64)Index] = new ListViewItem(Items);
+                return Cache[(UInt64)Index];
             }
         }
 
-        public new ListViewItem Get(Int32 Index)
+        public new ListViewItem Get(UInt64 Index)
         {
             lock (AccessLock)
             {
                 ListViewItem Item = null;
-                if (Cache.TryGetValue(Index, out Item))
+                if (Cache.TryGetValue((UInt64)Index, out Item))
                 {
-                    LRUQueue.Remove(Index);
-                    LRUQueue.AddLast(Index);
+                    LRUQueue.Remove((UInt64)Index);
+                    LRUQueue.AddLast((UInt64)Index);
                 }
                 return Item;
             }

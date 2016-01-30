@@ -23,7 +23,7 @@ namespace Anathema
 
             HexEditorBox.ByteProvider = MemoryViewPresenter;
             HexEditorBox.ByteCharConverter = new DefaultByteCharConverter();
-            HexEditorBox.LineInfoOffset = 5000;
+            HexEditorBox.LineInfoOffset = 0x1005000;
 
             MemoryViewPresenter.RefreshVirtualPages();
         }
@@ -57,6 +57,16 @@ namespace Anathema
         private void QuickNavComboBox_SelectedIndexChanged(Object Sender, EventArgs E)
         {
 
+        }
+
+        private void HexEditorBox_Resize(Object Sender, EventArgs E)
+        {
+            MemoryViewPresenter.UpdateReadLength(HexEditorBox.HorizontalByteCount * HexEditorBox.VerticalByteCount);
+        }
+
+        private void HexEditorBox_CurrentLineChanged(Object Sender, EventArgs E)
+        {
+            MemoryViewPresenter.UpdateStartReadAddress(unchecked((UInt64)HexEditorBox.LineInfoOffset));
         }
 
         #endregion

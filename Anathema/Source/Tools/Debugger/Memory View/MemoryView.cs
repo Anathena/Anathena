@@ -18,21 +18,22 @@ namespace Anathema
     class MemoryView : IMemoryViewModel, IProcessObserver
     {
         private MemorySharp MemoryEditor;
-        private Snapshot Snapshot;
-        
-        private Int32 StartReadIndex;
-        private Int32 EndReadIndex;
-        private ConcurrentDictionary<Int32, String> IndexValueMap;
+
+        private UInt64 StartReadAddress;
+        private UInt64 EndReadAddress;
+        private Int32 ReadLength;
+
+        private ConcurrentDictionary<UInt64, Byte> IndexValueMap;
         private Boolean ForceRefreshFlag;
 
         public MemoryView()
         {
             InitializeProcessObserver();
             ForceRefreshFlag = false;
-            IndexValueMap = new ConcurrentDictionary<Int32, String>();
+            IndexValueMap = new ConcurrentDictionary<UInt64, Byte>();
             Begin();
         }
-        
+
         public void InitializeProcessObserver()
         {
             ProcessSelector.GetInstance().Subscribe(this);
@@ -61,10 +62,23 @@ namespace Anathema
             OnEventUpdateVirtualPages(Args);
         }
 
-        public override void UpdateReadBounds(Int32 StartReadIndex, Int32 EndReadIndex)
+        public override void UpdateStartReadAddress(UInt64 StartReadAddress)
         {
-            this.StartReadIndex = StartReadIndex;
-            this.EndReadIndex = EndReadIndex;
+            this.StartReadAddress = StartReadAddress;
+            UpdateEndReadAddress();
+        }
+
+        public override void UpdateReadLength(Int32 ReadLength)
+        {
+            this.ReadLength = ReadLength;
+            UpdateEndReadAddress();
+        }
+
+        private void UpdateEndReadAddress()
+        {
+            this.EndReadAddress = unchecked(StartReadAddress + (UInt64)ReadLength);
+            if (this.EndReadAddress < StartReadAddress)
+                this.EndReadAddress = UInt64.MaxValue;
         }
 
         public override void Begin()
@@ -75,46 +89,29 @@ namespace Anathema
         protected override void Update()
         {
             base.Update();
+
+            for (UInt64 Index = StartReadAddress; Index <= EndReadAddress; Index++)
+            {
+                // Ignore attempts to read null address
+                if (Index == 0)
+                    continue;
+
+                Boolean ReadSuccess;
+                Byte Value = MemoryEditor.Read<Byte>(unchecked((IntPtr)StartReadAddress), out ReadSuccess, false);
+
+                if (ReadSuccess)
+                    IndexValueMap[Index] = Value;
+            }
             
             OnEventReadValues(new MemoryViewEventArgs());
         }
 
-        public override void AddSelectionToTable(Int32 Index)
-        {
-            Snapshot ActiveSnapshot = SnapshotManager.GetInstance().GetActiveSnapshot();
-
-            if (ActiveSnapshot == null)
-                return;
-
-            // Table.GetInstance().AddTableItem((UInt64)ActiveSnapshot[Index].BaseAddress, ScanType);
-        }
-
-        public override IntPtr GetAddressAtIndex(Int32 Index)
-        {
-            if (Snapshot == null || Index >= (Int32)Snapshot.GetElementCount())
-                return IntPtr.Zero;
-
-            return Snapshot[Index].BaseAddress;
-        }
-
-        public override String GetValueAtIndex(Int32 Index)
+        public override Byte GetValueAtIndex(UInt64 Index)
         {
             if (IndexValueMap.ContainsKey(Index))
                 return IndexValueMap[Index];
 
-            return "-";
-        }
-
-        public override String GetLabelAtIndex(Int32 Index)
-        {
-            if (Snapshot == null || Index >= (Int32)Snapshot.GetElementCount())
-                return "-";
-
-            dynamic Label = String.Empty;
-            if (((dynamic)Snapshot)[Index].ElementLabel != null)
-                Label = ((dynamic)Snapshot)[Index].ElementLabel;
-
-            return Label.ToString();
+            return 0;
         }
 
     } // End class

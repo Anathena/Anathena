@@ -156,7 +156,7 @@ namespace Anathema
 
         public ListViewItem GetAddressTableItemAt(Int32 Index)
         {
-            ListViewItem Item = AddressTableCache.Get(Index);
+            ListViewItem Item = AddressTableCache.Get((UInt64)Index);
             AddressItem AddressItem = Model.GetAddressItemAt(Index);
 
             // Try to update and return the item if it is a valid item
@@ -186,7 +186,7 @@ namespace Anathema
 
         public ListViewItem GetScriptTableItemAt(Int32 Index)
         {
-            ListViewItem Item = ScriptTableCache.Get(Index);
+            ListViewItem Item = ScriptTableCache.Get((UInt64)Index);
             ScriptItem ScriptItem = Model.GetScriptItemAt(Index);
 
             // Try to update and return the item if it is a valid item
@@ -236,13 +236,13 @@ namespace Anathema
 
         private void EventClearAddressCacheItem(Object Sender, TableEventArgs E)
         {
-            AddressTableCache.Delete(E.ClearCacheIndex);
+            AddressTableCache.Delete((UInt64)E.ClearCacheIndex);
             View.UpdateAddressTableItemCount(E.ItemCount);
         }
 
         private void EventClearScriptCacheItem(Object Sender, TableEventArgs E)
         {
-            ScriptTableCache.Delete(E.ClearCacheIndex);
+            ScriptTableCache.Delete((UInt64)E.ClearCacheIndex);
             View.UpdateScriptTableItemCount(E.ItemCount);
         }
 

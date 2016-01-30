@@ -95,6 +95,8 @@
             this.HexEditorBox.StringViewVisible = true;
             this.HexEditorBox.TabIndex = 119;
             this.HexEditorBox.VScrollBarVisible = true;
+            this.HexEditorBox.CurrentLineChanged += new System.EventHandler(this.HexEditorBox_CurrentLineChanged);
+            this.HexEditorBox.Resize += new System.EventHandler(this.HexEditorBox_Resize);
             // 
             // GUIMemoryView
             // 
