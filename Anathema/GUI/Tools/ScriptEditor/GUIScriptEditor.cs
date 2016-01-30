@@ -10,6 +10,7 @@ using System.IO;
 using Binarysharp.MemoryManagement;
 using Binarysharp.MemoryManagement.Memory;
 using ScintillaNET;
+using System.Linq;
 
 namespace Anathema
 {
@@ -46,7 +47,7 @@ namespace Anathema
 
         private void InitializeLuaHighlighting()
         {
-
+            ScriptEditorTextBox.IndentWidth = 4;
             ScriptEditorTextBox.Lexer = ScintillaNET.Lexer.Lua;
             ScriptEditorTextBox.Margins[0].Width = 16;
             ScriptEditorTextBox.AutoCIgnoreCase = true;
@@ -144,6 +145,15 @@ namespace Anathema
 
         private void ScriptEditorTextBox_CharAdded(Object Sender, CharAddedEventArgs E)
         {
+            if (E.Char == '\n')
+            {
+                Int32 Indentation = (ScriptEditorTextBox.Lines[ScriptEditorTextBox.CurrentLine == 0 ? 0 : ScriptEditorTextBox.CurrentLine - 1].Indentation) / ScriptEditorTextBox.IndentWidth;
+
+                ScriptEditorTextBox.InsertText(ScriptEditorTextBox.CurrentPosition, String.Join("", Enumerable.Repeat("\t", Indentation)));
+                ScriptEditorTextBox.CurrentPosition = Math.Min(ScriptEditorTextBox.CurrentPosition + Indentation, ScriptEditorTextBox.TextLength);
+                ScriptEditorTextBox.AnchorPosition = ScriptEditorTextBox.CurrentPosition;
+            }
+
             Int32 Length = ScriptEditorTextBox.CurrentPosition - ScriptEditorTextBox.WordStartPosition(ScriptEditorTextBox.CurrentPosition, true);
 
             if (Length <= 0)
@@ -211,6 +221,24 @@ namespace Anathema
                 SaveChanges();
                 return true;
             }
+            else if (Keys == (Keys.Control | Keys.W))
+            {
+                Close();
+                return true;
+            }
+            /* ScintillaNet will insert garbage with certain command keys, this filters those out */
+            else if (Keys == (Keys.Control | Keys.B)) return true;
+            else if (Keys == (Keys.Control | Keys.D)) return true;
+            else if (Keys == (Keys.Control | Keys.E)) return true;
+            else if (Keys == (Keys.Control | Keys.F)) return true;
+            else if (Keys == (Keys.Control | Keys.G)) return true;
+            else if (Keys == (Keys.Control | Keys.H)) return true;
+            else if (Keys == (Keys.Control | Keys.K)) return true;
+            else if (Keys == (Keys.Control | Keys.N)) return true;
+            else if (Keys == (Keys.Control | Keys.O)) return true;
+            else if (Keys == (Keys.Control | Keys.P)) return true;
+            else if (Keys == (Keys.Control | Keys.Q)) return true;
+            else if (Keys == (Keys.Control | Keys.R)) return true;
 
             return base.ProcessCmdKey(ref Message, Keys);
         }

@@ -127,15 +127,10 @@ namespace Anathema
         }
 
         #region Irrelevant Features
-
-        public void DeleteBytes(Int64 index, Int64 length) { throw new NotImplementedException(); }
-
-        public void InsertBytes(Int64 index, Byte[] bs) { throw new NotImplementedException(); }
-
+        public void DeleteBytes(Int64 Index, Int64 Length) { throw new NotImplementedException(); }
+        public void InsertBytes(Int64 Index, Byte[] BS) { throw new NotImplementedException(); }
         public Boolean SupportsDeleteBytes() { return false; }
-
         public Boolean SupportsInsertBytes() { return false; }
-
         #endregion
 
         #endregion
