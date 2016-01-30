@@ -10,7 +10,7 @@ namespace Anathema
 {
     class ObjectCache<T>
     {
-        protected const Int32 DefaultCacheSize = 4096;
+        protected const Int32 DefaultCacheSize = 1024;
 
         protected readonly Dictionary<UInt64, T> Cache;
         protected readonly LinkedList<UInt64> LRUQueue;

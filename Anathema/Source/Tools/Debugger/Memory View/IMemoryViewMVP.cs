@@ -77,6 +77,8 @@ namespace Anathema
         protected new IMemoryViewView View;
         protected new IMemoryViewModel Model;
 
+        private const Int32 ViewRange = UInt16.MaxValue;
+
         private ObjectCache<Byte> ByteCache;
         private UInt64 BaseAddress;
 
@@ -96,7 +98,7 @@ namespace Anathema
 
         #region ByteProvider
 
-        public Int64 Length { get { return ByteCache.CacheSize; } }
+        public Int64 Length { get { return ViewRange; } }
         
         public Byte ReadByte(Int64 Index)
         {

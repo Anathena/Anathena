@@ -14,6 +14,8 @@ namespace Anathema
     public partial class GUIMemoryView : DockContent, IMemoryViewView
     {
         private MemoryViewPresenter MemoryViewPresenter;
+
+        private const Int32 MaxHorizontalBytes = 64;
         private const Int32 HexBoxChunkSize = 2;
         private Int64 BaseLine;
 
@@ -86,7 +88,7 @@ namespace Anathema
         {
             MemoryViewPresenter.UpdateReadLength(HexEditorBox.HorizontalByteCount * HexEditorBox.VerticalByteCount);
 
-            HexEditorBox.BytesPerLine += HexBoxChunkSize;
+            HexEditorBox.BytesPerLine = MaxHorizontalBytes;
 
             while (HexEditorBox.Width < HexEditorBox.RequiredWidth)
             {
