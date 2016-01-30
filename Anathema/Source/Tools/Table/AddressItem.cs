@@ -25,7 +25,7 @@ namespace Anathema
         [DataMember()]
         public String TypeName { get; set; }
 
-        public Type ElementType { get { return Type.GetType(TypeName); } set { this.TypeName = (value == null ? String.Empty : value.FullName); } }
+        public Type ElementType { get { return Type.GetType(TypeName); } set { _Value = null; this.TypeName = (value == null ? String.Empty : value.FullName); } }
 
         private dynamic _Value;
         public dynamic Value { get { return _Value; } set { if (!Activated) _Value = value; } }
@@ -44,6 +44,36 @@ namespace Anathema
             this.ElementType = ElementType;
             this.Offsets = Offsets;
             this.IsHex = IsHex;
+        }
+
+        public String GetValueString()
+        {
+            if (Value == null)
+                return "-";
+
+            dynamic ParseValue;
+
+            switch (Type.GetTypeCode(ElementType))
+            {
+                case TypeCode.Single:
+                    ParseValue = BitConverter.ToUInt32(BitConverter.GetBytes(Value), 0);
+                    break;
+                case TypeCode.Double:
+                    ParseValue = BitConverter.ToUInt64(BitConverter.GetBytes(Value), 0);
+                    break;
+                default:
+                    ParseValue = Value;
+                    break;
+            }
+
+            try
+            {
+                if (IsHex)
+                    return ParseValue.ToString("X");
+            }
+            catch { }
+
+            return ParseValue.ToString();
         }
 
         public void ForceUpdateValue(dynamic Value)
