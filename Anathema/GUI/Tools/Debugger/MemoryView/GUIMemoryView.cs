@@ -14,6 +14,7 @@ namespace Anathema
     public partial class GUIMemoryView : DockContent, IMemoryViewView
     {
         private MemoryViewPresenter MemoryViewPresenter;
+        private const Int32 HexBoxChunkSize = 2;
 
         public GUIMemoryView()
         {
@@ -21,11 +22,18 @@ namespace Anathema
 
             MemoryViewPresenter = new MemoryViewPresenter(this, new MemoryView());
 
+            InitializeHexBox();
+            UpdateHexBoxChunks();
+
+            MemoryViewPresenter.RefreshVirtualPages();
+        }
+
+        private void InitializeHexBox()
+        {
             HexEditorBox.ByteProvider = MemoryViewPresenter;
             HexEditorBox.ByteCharConverter = new DefaultByteCharConverter();
             HexEditorBox.LineInfoOffset = 0x1005000;
-
-            MemoryViewPresenter.RefreshVirtualPages();
+            HexEditorBox.UseFixedBytesPerLine = true;
         }
 
         public void ReadValues()
@@ -47,6 +55,20 @@ namespace Anathema
             });
         }
 
+        private void UpdateHexBoxChunks()
+        {
+            MemoryViewPresenter.UpdateReadLength(HexEditorBox.HorizontalByteCount * HexEditorBox.VerticalByteCount);
+
+            HexEditorBox.BytesPerLine += HexBoxChunkSize;
+
+            while (HexEditorBox.Width < HexEditorBox.RequiredWidth)
+            {
+                if (HexEditorBox.BytesPerLine <= HexBoxChunkSize)
+                    break;
+                HexEditorBox.BytesPerLine -= HexBoxChunkSize;
+            }
+        }
+
         #region Events
 
         private void RefreshNavigationButton_Click(Object Sender, EventArgs E)
@@ -61,7 +83,7 @@ namespace Anathema
 
         private void HexEditorBox_Resize(Object Sender, EventArgs E)
         {
-            MemoryViewPresenter.UpdateReadLength(HexEditorBox.HorizontalByteCount * HexEditorBox.VerticalByteCount);
+            UpdateHexBoxChunks();
         }
 
         private void HexEditorBox_CurrentLineChanged(Object Sender, EventArgs E)
