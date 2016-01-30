@@ -15,6 +15,7 @@ namespace Anathema
     {
         private MemoryViewPresenter MemoryViewPresenter;
         private const Int32 HexBoxChunkSize = 2;
+        private Int64 BaseLine;
 
         public GUIMemoryView()
         {
@@ -22,11 +23,12 @@ namespace Anathema
 
             MemoryViewPresenter = new MemoryViewPresenter(this, new MemoryView());
 
+            MemoryViewPresenter.RefreshVirtualPages();
+
             InitializeHexBox();
             UpdateHexBoxChunks();
             UpdateStartAddress();
-
-            MemoryViewPresenter.RefreshVirtualPages();
+            UpdateDisplayRange();
         }
 
         private void InitializeHexBox()
@@ -35,6 +37,8 @@ namespace Anathema
             HexEditorBox.ByteCharConverter = new DefaultByteCharConverter();
             HexEditorBox.LineInfoOffset = 0x1005000;
             HexEditorBox.UseFixedBytesPerLine = true;
+            HexEditorBox.Select(HexEditorBox.ByteProvider.Length / 2, 1);
+            BaseLine = HexEditorBox.CurrentLine;
         }
 
         public void ReadValues()
@@ -57,6 +61,13 @@ namespace Anathema
         private void UpdateStartAddress()
         {
             MemoryViewPresenter.UpdateStartReadAddress(unchecked((UInt64)HexEditorBox.LineInfoOffset));
+        }
+
+        private void UpdateDisplayRange()
+        {
+            HexEditorBox.LineInfoOffset = unchecked(HexEditorBox.LineInfoOffset + (HexEditorBox.TopLine - BaseLine));
+            HexEditorBox.ScrollByteIntoCenter(HexEditorBox.ByteProvider.Length / 2);
+            BaseLine = HexEditorBox.CurrentLine;
         }
 
         private void UpdateHexBoxChunks()
@@ -93,6 +104,11 @@ namespace Anathema
         private void HexEditorBox_CurrentLineChanged(Object Sender, EventArgs E)
         {
             UpdateStartAddress();
+        }
+
+        private void HexEditorBox_UpdateScroll(object sender, EventArgs e)
+        {
+            UpdateDisplayRange();
         }
 
         #endregion

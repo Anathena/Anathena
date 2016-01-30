@@ -86,9 +86,9 @@ namespace Anathema
 
             Model.ForceRefresh();
         }
-
-
+        
         #region ByteProvider
+
         public Int64 Length
         {
             get
