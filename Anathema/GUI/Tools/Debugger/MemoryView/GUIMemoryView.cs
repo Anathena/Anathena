@@ -24,6 +24,7 @@ namespace Anathema
 
             InitializeHexBox();
             UpdateHexBoxChunks();
+            UpdateStartAddress();
 
             MemoryViewPresenter.RefreshVirtualPages();
         }
@@ -38,12 +39,10 @@ namespace Anathema
 
         public void ReadValues()
         {
-            throw new NotImplementedException();
-        }
-
-        public void UpdateItemCount(Int32 ItemCount)
-        {
-            throw new NotImplementedException();
+            ControlThreadingHelper.InvokeControlAction<Control>(HexEditorBox, () =>
+            {
+                HexEditorBox.Invalidate();
+            });
         }
 
         public void UpdateVirtualPages(List<String> VirtualPages)
@@ -53,6 +52,11 @@ namespace Anathema
                 QuickNavComboBox.Items.Clear();
                 QuickNavComboBox.Items.AddRange(VirtualPages.ToArray());
             });
+        }
+
+        private void UpdateStartAddress()
+        {
+            MemoryViewPresenter.UpdateStartReadAddress(unchecked((UInt64)HexEditorBox.LineInfoOffset));
         }
 
         private void UpdateHexBoxChunks()
@@ -88,7 +92,7 @@ namespace Anathema
 
         private void HexEditorBox_CurrentLineChanged(Object Sender, EventArgs E)
         {
-            MemoryViewPresenter.UpdateStartReadAddress(unchecked((UInt64)HexEditorBox.LineInfoOffset));
+            UpdateStartAddress();
         }
 
         #endregion

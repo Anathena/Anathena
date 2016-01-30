@@ -24,7 +24,6 @@ namespace Anathema
         // Methods invoked by the presenter (upstream)
         void ReadValues();
         void UpdateVirtualPages(List<String> VirtualPages);
-        void UpdateItemCount(Int32 ItemCount);
     }
 
     abstract class IMemoryViewModel : RepeatedTask, IModel
@@ -38,7 +37,7 @@ namespace Anathema
         public event MemoryViewEventHandler EventReadValues;
         protected virtual void OnEventReadValues(MemoryViewEventArgs E)
         {
-            EventReadValues(this, E);
+            if (EventReadValues != null) EventReadValues(this, E);
         }
         public event MemoryViewEventHandler EventFlushCache;
         protected virtual void OnEventFlushCache(MemoryViewEventArgs E)
@@ -59,7 +58,7 @@ namespace Anathema
 
         // Functions invoked by presenter (downstream)
         public abstract void RefreshVirtualPages();
-        
+
         public abstract Byte GetValueAtIndex(UInt64 Index);
         public abstract void ForceRefresh();
         public abstract void UpdateReadLength(Int32 ReadLength);
@@ -97,7 +96,7 @@ namespace Anathema
                 return ByteCache.CacheSize;
             }
         }
-        
+
         public event EventHandler Changed;
         public event EventHandler LengthChanged;
 
@@ -106,31 +105,31 @@ namespace Anathema
 
         }
 
-        public Boolean HasChanges()
-        {
-            return true;
-        }
-
         public Byte ReadByte(Int64 Index)
         {
-            return ByteCache.Get(unchecked((UInt64)Index));
-        }
+            Byte Item = ByteCache.Get(unchecked((UInt64)Index));
 
-        public Boolean SupportsWriteByte()
-        {
-            return true;
+            // Try to update and return the item if it is a valid item
+            ByteCache.SetItem(unchecked((UInt64)Index), Model.GetValueAtIndex(unchecked((UInt64)Index)));
+
+            // Item == null
+
+            return ByteCache.Get(unchecked((UInt64)Index));
         }
 
         public void WriteByte(Int64 Index, Byte Value)
         {
-            ByteCache.TryUpdateItem(unchecked((UInt64)Index), Model.GetValueAtIndex(unchecked((UInt64)Index)));
+
         }
+
+        public Boolean SupportsWriteByte() { return true; }
 
         #region Irrelevant Features
         public void DeleteBytes(Int64 Index, Int64 Length) { throw new NotImplementedException(); }
         public void InsertBytes(Int64 Index, Byte[] BS) { throw new NotImplementedException(); }
         public Boolean SupportsDeleteBytes() { return false; }
         public Boolean SupportsInsertBytes() { return false; }
+        public Boolean HasChanges() { return false; }
         #endregion
 
         #endregion
@@ -172,7 +171,6 @@ namespace Anathema
         private void EventFlushCache(Object Sender, MemoryViewEventArgs E)
         {
             ByteCache.FlushCache();
-            View.UpdateItemCount((Int32)Math.Min(E.ElementCount, Int32.MaxValue));
         }
 
         #endregion

@@ -90,17 +90,17 @@ namespace Anathema
         {
             base.Update();
 
-            for (UInt64 Index = StartReadAddress; Index <= EndReadAddress; Index++)
+            for (UInt64 Address = StartReadAddress; Address <= EndReadAddress; Address++)
             {
                 // Ignore attempts to read null address
-                if (Index == 0)
+                if (Address == 0)
                     continue;
 
                 Boolean ReadSuccess;
-                Byte Value = MemoryEditor.Read<Byte>(unchecked((IntPtr)StartReadAddress), out ReadSuccess, false);
+                Byte Value = MemoryEditor.Read<Byte>(unchecked((IntPtr)Address), out ReadSuccess, false);
 
                 if (ReadSuccess)
-                    IndexValueMap[Index] = Value;
+                    IndexValueMap[Address - StartReadAddress] = Value;
             }
             
             OnEventReadValues(new MemoryViewEventArgs());
