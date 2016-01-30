@@ -35,7 +35,7 @@ namespace Anathema
         {
             HexEditorBox.ByteProvider = MemoryViewPresenter;
             HexEditorBox.ByteCharConverter = new DefaultByteCharConverter();
-            HexEditorBox.LineInfoOffset = 0x1005000;
+            HexEditorBox.LineInfoOffset = 0;// 0x1005000;
             HexEditorBox.UseFixedBytesPerLine = true;
             HexEditorBox.Select(HexEditorBox.ByteProvider.Length / 2, 1);
             BaseLine = HexEditorBox.CurrentLine;
@@ -65,9 +65,9 @@ namespace Anathema
 
         private void UpdateDisplayRange()
         {
-            HexEditorBox.LineInfoOffset = unchecked(HexEditorBox.LineInfoOffset + (HexEditorBox.TopLine - BaseLine));
+            HexEditorBox.LineInfoOffset = unchecked(HexEditorBox.LineInfoOffset + (HexEditorBox.TopLine - BaseLine) * HexEditorBox.HorizontalByteCount);
             HexEditorBox.ScrollByteIntoCenter(HexEditorBox.ByteProvider.Length / 2);
-            BaseLine = HexEditorBox.CurrentLine;
+            BaseLine = HexEditorBox.TopLine;
         }
 
         private void UpdateHexBoxChunks()
@@ -106,7 +106,7 @@ namespace Anathema
             UpdateStartAddress();
         }
 
-        private void HexEditorBox_UpdateScroll(object sender, EventArgs e)
+        private void HexEditorBox_EndScroll(object sender, EventArgs e)
         {
             UpdateDisplayRange();
         }

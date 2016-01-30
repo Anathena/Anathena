@@ -1371,7 +1371,7 @@ namespace Be.Windows.Forms
         /// Occurs, when the RequiredWidth property changes
         /// </summary>
         [Description("Occurs, when the hexbox scrolls")]
-        public event EventHandler UpdateScroll;
+        public event EventHandler EndScroll;
         #endregion
 
         #region Ctors
@@ -1412,6 +1412,8 @@ namespace Be.Windows.Forms
                 case ScrollEventType.Last:
                     break;
                 case ScrollEventType.EndScroll:
+                    if (EndScroll != null)
+                        EndScroll(this, EventArgs.Empty);
                     break;
                 case ScrollEventType.SmallIncrement:
                     PerformScrollLineDown();
@@ -1574,9 +1576,6 @@ namespace Be.Windows.Forms
             UpdateVisibilityBytes();
             UpdateCaret();
             Invalidate();
-
-            if (UpdateScroll != null)
-                UpdateScroll(this, EventArgs.Empty);
         }
 
         void PerformScrollLines(int lines)
@@ -1676,18 +1675,8 @@ namespace Be.Windows.Forms
             if (_byteProvider == null || _keyInterpreter == null)
                 return;
 
-            if (index < _startByte)
-            {
-                long line = (long)Math.Floor((double)index / (double)_iHexMaxHBytes);
-                line += _iHexMaxVBytes / 2;
-                PerformScrollThumpPosition(line);
-            }
-            else if (index > _endByte)
-            {
-                long line = (long)Math.Floor((double)index / (double)_iHexMaxHBytes);
-                line -= _iHexMaxVBytes - 1 - _iHexMaxVBytes / 2;
-                PerformScrollThumpPosition(line);
-            }
+            long line = (long)Math.Floor((double)index / (double)_iHexMaxHBytes) + _iHexMaxHBytes / 2;
+            PerformScrollThumpPosition(line);
         }
         #endregion
 
