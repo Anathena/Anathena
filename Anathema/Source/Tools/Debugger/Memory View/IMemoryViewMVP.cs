@@ -64,6 +64,7 @@ namespace Anathema
         public abstract void RefreshVirtualPages();
 
         public abstract Byte GetValueAtAddress(UInt64 Address);
+        public abstract void SetValueAtAddress(UInt64 Address, Byte Value);
         public abstract void UpdateReadLength(Int32 ReadLength);
         public abstract void UpdateStartReadAddress(UInt64 StartReadAddress);
 
@@ -117,7 +118,10 @@ namespace Anathema
 
         public void WriteByte(Int64 Index, Byte Value)
         {
-            Model.WriteToAddress(unchecked(BaseAddress + (UInt64)Index), Value);
+            UInt64 EffectiveAddress = unchecked(BaseAddress + (UInt64)Index);
+            Model.WriteToAddress(EffectiveAddress, Value);
+            ByteCache.TryUpdateItem(EffectiveAddress, Value);
+            Model.SetValueAtAddress(EffectiveAddress, Value);
         }
 
         public void ApplyChanges() { }

@@ -129,6 +129,11 @@ namespace Anathema
             return 0;
         }
 
+        public override void SetValueAtAddress(UInt64 Address, Byte Value)
+        {
+            AddressValueMap[Address] = Value;
+        }
+
     } // End class
 
 } // End namespace
