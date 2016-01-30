@@ -26,32 +26,31 @@ namespace Anathema
             MemoryViewPresenter = new MemoryViewPresenter(this, new MemoryView());
         }
 
-        public void DisableResults()
-        {
-            throw new NotImplementedException();
-        }
-
-        public void EnableResults()
-        {
-            throw new NotImplementedException();
-        }
-
         public void ReadValues()
         {
             throw new NotImplementedException();
         }
 
-        public void UpdateItemCount(int ItemCount)
+        public void UpdateItemCount(Int32 ItemCount)
         {
             throw new NotImplementedException();
         }
 
-        public void UpdateMemorySizeLabel(string MemorySize, string ItemCount)
+        public void UpdateVirtualPages(List<String> VirtualPages)
         {
-            throw new NotImplementedException();
+            ControlThreadingHelper.InvokeControlAction<Control>(GUIToolStrip, () =>
+            {
+                QuickNavComboBox.Items.Clear();
+                QuickNavComboBox.Items.AddRange(VirtualPages.ToArray());
+            });
         }
 
         #region Events
+
+        private void RefreshNavigationButton_Click(Object Sender, EventArgs E)
+        {
+
+        }
 
         #endregion
 

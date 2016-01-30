@@ -10,7 +10,7 @@ namespace Anathema
 {
     class ObjectCache<T>
     {
-        protected const Int32 DefaultCacheSize = 256;
+        protected const Int32 DefaultCacheSize = 4096;
 
         protected readonly Dictionary<Int32, T> Cache;
         protected readonly LinkedList<Int32> LRUQueue;
@@ -26,6 +26,18 @@ namespace Anathema
             LRUQueue = new LinkedList<Int32>();
             AccessLock = new Object();
             Images = new ImageList();
+        }
+
+        public Boolean TryUpdateItem(Int32 Index, T Item)
+        {
+            lock (AccessLock)
+            {
+                if (!Cache.ContainsKey(Index))
+                    return false;
+
+                Cache[Index] = Item;
+                return true;
+            }
         }
 
         public virtual T Add(Int32 Index, T Item)

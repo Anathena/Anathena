@@ -18,9 +18,7 @@ namespace Anathema
     {
         private MemorySharp MemoryEditor;
         private Snapshot Snapshot;
-
-        private Type ScanType;
-
+        
         private Int32 StartReadIndex;
         private Int32 EndReadIndex;
         private ConcurrentDictionary<Int32, String> IndexValueMap;
@@ -29,7 +27,6 @@ namespace Anathema
         public MemoryView()
         {
             InitializeProcessObserver();
-            SetScanType(typeof(Int32));
             ForceRefreshFlag = false;
             IndexValueMap = new ConcurrentDictionary<Int32, String>();
             Begin();
@@ -50,28 +47,6 @@ namespace Anathema
             ForceRefreshFlag = true;
         }
 
-        public void EnableResults()
-        {
-            OnEventEnableResults(new MemoryViewEventArgs());
-            Begin();
-        }
-
-        public void DisableResults()
-        {
-            CancelFlag = true;
-            OnEventDisableResults(new MemoryViewEventArgs());
-        }
-
-        public override void SetScanType(Type ScanType)
-        {
-            this.ScanType = ScanType;
-        }
-
-        public override Type GetScanType()
-        {
-            return ScanType;
-        }
-
         public override void UpdateReadBounds(Int32 StartReadIndex, Int32 EndReadIndex)
         {
             this.StartReadIndex = StartReadIndex;
@@ -86,39 +61,7 @@ namespace Anathema
         protected override void Update()
         {
             base.Update();
-
-            Snapshot ActiveSnapshot = SnapshotManager.GetInstance().GetActiveSnapshot();
-            if (ForceRefreshFlag || Snapshot != ActiveSnapshot)
-            {
-                ForceRefreshFlag = false;
-                Snapshot = ActiveSnapshot;
-
-                // Send the size of the filtered memory to the display
-                MemoryViewEventArgs Args = new MemoryViewEventArgs();
-                Args.ElementCount = (Snapshot == null ? 0 : Snapshot.GetElementCount());
-                Args.MemorySize = (Snapshot == null ? 0 : Snapshot.GetMemorySize());
-                OnEventFlushCache(Args);
-                return;
-            }
-
-            if (Snapshot == null)
-                return;
-
-            IndexValueMap.Clear();
-
-            Int32 ElementCount = (Int32)(Math.Min((UInt64)Int32.MaxValue, Snapshot.GetElementCount()));
-
-            for (Int32 Index = StartReadIndex; Index < EndReadIndex; Index++)
-            {
-                if (Index < 0 || Index >= ElementCount)
-                    continue;
-
-                Boolean ReadSuccess;
-                String Value = MemoryEditor.Read(ScanType, Snapshot[Index].BaseAddress, out ReadSuccess, false).ToString();
-
-                IndexValueMap[Index] = Value;
-            }
-
+            
             OnEventReadValues(new MemoryViewEventArgs());
         }
 
@@ -129,7 +72,7 @@ namespace Anathema
             if (ActiveSnapshot == null)
                 return;
 
-            Table.GetInstance().AddTableItem((UInt64)ActiveSnapshot[Index].BaseAddress, ScanType);
+            // Table.GetInstance().AddTableItem((UInt64)ActiveSnapshot[Index].BaseAddress, ScanType);
         }
 
         public override IntPtr GetAddressAtIndex(Int32 Index)

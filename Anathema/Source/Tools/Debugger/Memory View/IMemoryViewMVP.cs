@@ -20,9 +20,7 @@ namespace Anathema
     {
         // Methods invoked by the presenter (upstream)
         void ReadValues();
-        void EnableResults();
-        void DisableResults();
-        void UpdateMemorySizeLabel(String MemorySize, String ItemCount);
+        void UpdateVirtualPages(List<String> VirtualPages);
         void UpdateItemCount(Int32 ItemCount);
     }
 
@@ -33,16 +31,6 @@ namespace Anathema
         protected virtual void OnEventReadValues(MemoryViewEventArgs E)
         {
             EventReadValues(this, E);
-        }
-        public event MemoryViewEventHandler EventEnableResults;
-        protected virtual void OnEventEnableResults(MemoryViewEventArgs E)
-        {
-            EventEnableResults(this, E);
-        }
-        public event MemoryViewEventHandler EventDisableResults;
-        protected virtual void OnEventDisableResults(MemoryViewEventArgs E)
-        {
-            EventDisableResults(this, E);
         }
         public event MemoryViewEventHandler EventFlushCache;
         protected virtual void OnEventFlushCache(MemoryViewEventArgs E)
@@ -62,13 +50,13 @@ namespace Anathema
         }
 
         // Functions invoked by presenter (downstream)
+        public abstract void RefreshVirtualPages();
+
         public abstract void AddSelectionToTable(Int32 Index);
 
         public abstract IntPtr GetAddressAtIndex(Int32 Index);
         public abstract String GetValueAtIndex(Int32 Index);
         public abstract String GetLabelAtIndex(Int32 Index);
-        public abstract Type GetScanType();
-        public abstract void SetScanType(Type ScanType);
 
         public abstract void ForceRefresh();
 
@@ -80,23 +68,17 @@ namespace Anathema
         protected new IMemoryViewView View;
         protected new IMemoryViewModel Model;
 
-        private ListViewCache ListViewCache;
-
-        private const Int32 AddressIndex = 0;
-        private const Int32 ValueIndex = 1;
-        private const Int32 LabelIndex = 2;
-
+        private ObjectCache<String> ByteCache;
+        
         public MemoryViewPresenter(IMemoryViewView View, IMemoryViewModel Model) : base(View, Model)
         {
             this.View = View;
             this.Model = Model;
 
-            ListViewCache = new ListViewCache();
+            ByteCache = new ObjectCache<String>();
 
             // Bind events triggered by the model
             Model.EventReadValues += EventReadValues;
-            Model.EventEnableResults += EventEnableResults;
-            Model.EventDisableResults += EventDisableResults;
             Model.EventFlushCache += EventFlushCache;
 
             Model.ForceRefresh();
@@ -109,20 +91,21 @@ namespace Anathema
             Model.UpdateReadBounds(StartReadIndex, EndReadIndex);
         }
 
-        public ListViewItem GetItemAt(Int32 Index)
+        public void RefreshVirtualPages()
         {
-            ListViewItem Item = ListViewCache.Get(Index);
+            RefreshVirtualPages();
+        }
+
+        public String GetItemAt(Int32 Index)
+        {
+            String Item = ByteCache.Get(Index);
 
             // Try to update and return the item if it is a valid item
-            if (Item != null && ListViewCache.TryUpdateSubItem(Index, ValueIndex, Model.GetValueAtIndex(Index)))
+            if (Item != null && ByteCache.TryUpdateItem(Index, Model.GetValueAtIndex(Index)))
                 return Item;
-            
-            // Add the properties to the cache and get the list view item back
-            Item = ListViewCache.Add(Index, new String[] { String.Empty, String.Empty, String.Empty });
 
-            Item.SubItems[AddressIndex].Text = Conversions.ToAddress(Model.GetAddressAtIndex(Index).ToString());
-            Item.SubItems[ValueIndex].Text = "-";
-            Item.SubItems[LabelIndex].Text = Model.GetLabelAtIndex(Index);
+            // Add the properties to the cache and get the list view item back
+            Item = "--";
 
             return Item;
         }
@@ -130,47 +113,6 @@ namespace Anathema
         public void AddSelectionToTable(Int32 Index)
         {
             Model.AddSelectionToTable(Index);
-        }
-
-        public void UpdateScanType(Type ScanType)
-        {
-            if (ScanType == typeof(Byte) || ScanType == typeof(UInt16) || ScanType == typeof(UInt32) || ScanType == typeof(UInt64))
-                throw new Exception("Invalid type. ScanType parameter assumes signed type.");
-
-            // Apply type change
-            Type PreviousScanType = Model.GetScanType();
-            Model.SetScanType(ScanType);
-
-            switch (Type.GetTypeCode(ScanType))
-            {
-                case TypeCode.Byte:
-                case TypeCode.UInt16:
-                case TypeCode.UInt32:
-                case TypeCode.UInt64:
-                    ChangeSign();
-                    break;
-                default: return;
-            }
-        }
-
-        public void ChangeSign()
-        {
-            Type ScanType = Model.GetScanType();
-
-            switch (Type.GetTypeCode(ScanType))
-            {
-                case TypeCode.Byte: ScanType = typeof(SByte); break;
-                case TypeCode.SByte: ScanType = typeof(Byte); break;
-                case TypeCode.Int16: ScanType = typeof(UInt16); break;
-                case TypeCode.Int32: ScanType = typeof(UInt32); break;
-                case TypeCode.Int64: ScanType = typeof(UInt64); break;
-                case TypeCode.UInt16: ScanType = typeof(Int16); break;
-                case TypeCode.UInt32: ScanType = typeof(Int32); break;
-                case TypeCode.UInt64: ScanType = typeof(Int64); break;
-                default: return;
-            }
-
-            Model.SetScanType(ScanType);
         }
 
         #endregion
@@ -182,20 +124,9 @@ namespace Anathema
             View.ReadValues();
         }
 
-        private void EventEnableResults(Object Sender, MemoryViewEventArgs E)
-        {
-            View.EnableResults();
-        }
-
-        private void EventDisableResults(Object Sender, MemoryViewEventArgs E)
-        {
-            View.DisableResults();
-        }
-
         private void EventFlushCache(Object Sender, MemoryViewEventArgs E)
         {
-            ListViewCache.FlushCache();
-            View.UpdateMemorySizeLabel(Conversions.BytesToMetric(E.MemorySize), E.ElementCount.ToString());
+            ByteCache.FlushCache();
             View.UpdateItemCount((Int32)Math.Min(E.ElementCount, Int32.MaxValue));
         }
 
