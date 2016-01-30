@@ -47,6 +47,17 @@ namespace Anathema
             ForceRefreshFlag = true;
         }
 
+        public override void RefreshVirtualPages()
+        {
+            if (MemoryEditor == null)
+                return;
+
+            List<RemoteVirtualPage> VirtualPages = new List<RemoteVirtualPage>(MemoryEditor.Memory.VirtualPages);
+            MemoryViewEventArgs Args = new MemoryViewEventArgs();
+            Args.VirtualPages = VirtualPages;
+            OnEventUpdateVirtualPages(Args);
+        }
+
         public override void UpdateReadBounds(Int32 StartReadIndex, Int32 EndReadIndex)
         {
             this.StartReadIndex = StartReadIndex;

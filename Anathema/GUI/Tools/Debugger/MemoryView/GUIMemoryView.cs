@@ -49,7 +49,7 @@ namespace Anathema
 
         private void RefreshNavigationButton_Click(Object Sender, EventArgs E)
         {
-
+            MemoryViewPresenter.RefreshVirtualPages();
         }
 
         #endregion

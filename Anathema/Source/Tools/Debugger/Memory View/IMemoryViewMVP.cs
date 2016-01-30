@@ -14,6 +14,8 @@ namespace Anathema
     {
         public UInt64 ElementCount = 0;
         public UInt64 MemorySize = 0;
+
+        public List<RemoteVirtualPage> VirtualPages;
     }
 
     interface IMemoryViewView : IView
@@ -27,6 +29,11 @@ namespace Anathema
     abstract class IMemoryViewModel : RepeatedTask, IModel
     {
         // Events triggered by the model (upstream)
+        public event MemoryViewEventHandler EventUpdateVirtualPages;
+        protected virtual void OnEventUpdateVirtualPages(MemoryViewEventArgs E)
+        {
+            EventUpdateVirtualPages(this, E);
+        }
         public event MemoryViewEventHandler EventReadValues;
         protected virtual void OnEventReadValues(MemoryViewEventArgs E)
         {
@@ -78,6 +85,7 @@ namespace Anathema
             ByteCache = new ObjectCache<String>();
 
             // Bind events triggered by the model
+            Model.EventUpdateVirtualPages += EventUpdateVirtualPages;
             Model.EventReadValues += EventReadValues;
             Model.EventFlushCache += EventFlushCache;
 
@@ -93,7 +101,7 @@ namespace Anathema
 
         public void RefreshVirtualPages()
         {
-            RefreshVirtualPages();
+            Model.RefreshVirtualPages();
         }
 
         public String GetItemAt(Int32 Index)
@@ -118,6 +126,14 @@ namespace Anathema
         #endregion
 
         #region Event definitions for events triggered by the model (upstream)
+
+        private void EventUpdateVirtualPages(Object Sender, MemoryViewEventArgs E)
+        {
+            List<String> VirtualPages = new List<String>();
+            E.VirtualPages.ForEach(x => VirtualPages.Add(x.BaseAddress.ToString("X")));
+
+            View.UpdateVirtualPages(VirtualPages);
+        }
 
         private void EventReadValues(Object Sender, MemoryViewEventArgs E)
         {
