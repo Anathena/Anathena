@@ -11,9 +11,9 @@ using Be.Windows.Forms;
 
 namespace Anathema
 {
-    public partial class GUIMemoryView : DockContent//, IDebuggerView
+    public partial class GUIMemoryView : DockContent, IMemoryViewView
     {
-        //private DebuggerPresenter DebuggerPresenter;
+        private MemoryViewPresenter MemoryViewPresenter;
 
         public GUIMemoryView()
         {
@@ -23,15 +23,15 @@ namespace Anathema
             HexEditorBox.ByteCharConverter = new DefaultByteCharConverter();
             HexEditorBox.LineInfoOffset = 50;
 
-            //DebuggerPresenter = new DebuggerPresenter(this, new Debugger());
+            MemoryViewPresenter = new MemoryViewPresenter(this, new MemoryView());
         }
 
-        public void DisableDebugger()
+        public void DisableResults()
         {
             throw new NotImplementedException();
         }
 
-        public void EnableDebugger()
+        public void EnableResults()
         {
             throw new NotImplementedException();
         }
@@ -41,12 +41,12 @@ namespace Anathema
             throw new NotImplementedException();
         }
 
-        public void UpdateItemCount(Int32 ItemCount)
+        public void UpdateItemCount(int ItemCount)
         {
             throw new NotImplementedException();
         }
 
-        public void UpdateMemorySizeLabel(String MemorySize, String ItemCount)
+        public void UpdateMemorySizeLabel(string MemorySize, string ItemCount)
         {
             throw new NotImplementedException();
         }

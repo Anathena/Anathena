@@ -8,24 +8,11 @@ using System.Windows.Forms;
 
 namespace Anathema
 {
-    class ListViewCache
+    class ListViewCache : ObjectCache<ListViewItem>
     {
-        private const Int32 DefaultCacheSize = 256;
-
-        private readonly Dictionary<Int32, ListViewItem> Cache;
-        private readonly LinkedList<Int32> LRUQueue;
-        private readonly ImageList Images;
-        private readonly Object AccessLock;
-        private readonly Int32 CacheSize;
-
-        public ListViewCache(Int32 CacheSize = DefaultCacheSize)
+        public ListViewCache(Int32 CacheSize = DefaultCacheSize) : base()
         {
-            this.CacheSize = CacheSize;
 
-            Cache = new Dictionary<Int32, ListViewItem>(CacheSize);
-            LRUQueue = new LinkedList<Int32>();
-            AccessLock = new Object();
-            Images = new ImageList();
         }
 
         public Boolean TryUpdateSubItem(Int32 Index, Int32 SubItemIndex, String Item)
@@ -40,7 +27,7 @@ namespace Anathema
             }
         }
 
-        public ListViewItem Add(Int32 Index, String[] Items)
+        public ListViewItem Add(int Index, String[] Items)
         {
             lock (AccessLock)
             {
@@ -56,19 +43,8 @@ namespace Anathema
                 return Cache[Index];
             }
         }
-
-        public void Delete(Int32 Index)
-        {
-            lock (AccessLock)
-            {
-                if (Cache.ContainsKey(Index))
-                    Cache.Remove(Index);
-                if (LRUQueue.Contains(Index))
-                    LRUQueue.Remove(Index);
-            }
-        }
-
-        public ListViewItem Get(Int32 Index)
+        
+        public new ListViewItem Get(Int32 Index)
         {
             lock (AccessLock)
             {
@@ -79,15 +55,6 @@ namespace Anathema
                     LRUQueue.AddLast(Index);
                 }
                 return Item;
-            }
-        }
-
-        public void FlushCache()
-        {
-            lock (AccessLock)
-            {
-                Cache.Clear();
-                LRUQueue.Clear();
             }
         }
 
