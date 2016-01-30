@@ -154,7 +154,7 @@ namespace Anathema
             CurrentTableData.AddressTable.Add(new AddressItem(BaseAddress, ElementType));
 
             TableEventArgs TableEventArgs = new TableEventArgs();
-            TableEventArgs.ItemCount = CurrentTableData.ScriptTable.Count;
+            TableEventArgs.ItemCount = CurrentTableData.AddressTable.Count;
             OnEventClearAddressCache(TableEventArgs);
         }
 
@@ -187,6 +187,7 @@ namespace Anathema
         {
             TableEventArgs TableEventArgs = new TableEventArgs();
             TableEventArgs.ClearCacheIndex = CurrentTableData.AddressTable.IndexOf(AddressItem);
+            TableEventArgs.ItemCount = CurrentTableData.AddressTable.Count;
             OnEventClearAddressCacheItem(TableEventArgs);
         }
 
@@ -260,7 +261,8 @@ namespace Anathema
                 CurrentTableData.AddressTable[Index].Value = MemoryEditor.Read(CurrentTableData.AddressTable[Index].ElementType, (IntPtr)CurrentTableData.AddressTable[Index].Address, out ReadSuccess, false);
             }
 
-            OnEventReadValues(new TableEventArgs());
+            if (CurrentTableData.AddressTable.Count != 0)
+                OnEventReadValues(new TableEventArgs());
         }
 
     } // End class

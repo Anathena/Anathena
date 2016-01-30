@@ -10,10 +10,9 @@ namespace Anathema
 {
     class ListViewCache : ObjectCache<ListViewItem>
     {
-        public ListViewCache(Int32 CacheSize = DefaultCacheSize) : base()
-        {
+        private const Int32 DefaultListViewCacheSize = 256;
 
-        }
+        public ListViewCache(Int32 CacheSize = DefaultListViewCacheSize) : base(DefaultListViewCacheSize) { }
 
         public Boolean TryUpdateSubItem(Int32 Index, Int32 SubItemIndex, String Item)
         {
@@ -43,7 +42,7 @@ namespace Anathema
                 return Cache[Index];
             }
         }
-        
+
         public new ListViewItem Get(Int32 Index)
         {
             lock (AccessLock)

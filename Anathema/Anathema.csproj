@@ -144,6 +144,7 @@
     <Compile Include="GUI\Tools\Table\GUIAddressTableEntryEditor.Designer.cs">
       <DependentUpon>GUIAddressTableEntryEditor.cs</DependentUpon>
     </Compile>
+    <Compile Include="Source\HelperClasses\ByteCache.cs" />
     <Compile Include="Source\HelperClasses\MessageBoxEx.cs" />
     <Compile Include="Source\OS\Lua\LuaEngine.cs" />
     <Compile Include="Settings.cs" />
@@ -154,6 +155,8 @@
     <Compile Include="Source\OS\Windows\Assembly\Disassembler\SharpDisassembler.cs" />
     <Compile Include="Source\OS\Windows\Assembly\Disassembler\IDisassembler.cs" />
     <Compile Include="Source\Settings\ISettingsMVP.cs" />
+    <Compile Include="Source\Tools\Debugger\Memory View\IMemoryViewMVP.cs" />
+    <Compile Include="Source\Tools\Debugger\Memory View\MemoryView.cs" />
     <Compile Include="Source\Tools\MemoryScanners\FiniteStateScanner\FiniteStateBuilder.cs" />
     <Compile Include="Source\Tools\MemoryScanners\FiniteStateScanner\IFiniteStateScannerMVP.cs" />
     <Compile Include="Source\Tools\MemoryScanners\InputCorrelator\InputNode.cs" />
