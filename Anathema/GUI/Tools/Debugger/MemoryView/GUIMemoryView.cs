@@ -49,12 +49,27 @@ namespace Anathema
             });
         }
 
+        public void GoToAddress(UInt64 Address)
+        {
+            ControlThreadingHelper.InvokeControlAction<Control>(HexEditorBox, () =>
+            {
+                if (HexEditorBox.ByteProvider == null)
+                    return;
+                HexEditorBox.LineInfoOffset = unchecked((Int64)(Address - (UInt64)((HexEditorBox.ByteProvider.Length) / 2) - (Address % (UInt64)HexEditorBox.ByteProvider.Length)));
+                UpdateStartAddress();
+            });
+        }
+
         public void UpdateVirtualPages(List<String> VirtualPages)
         {
             ControlThreadingHelper.InvokeControlAction<Control>(GUIToolStrip, () =>
             {
                 QuickNavComboBox.Items.Clear();
-                QuickNavComboBox.Items.AddRange(VirtualPages.ToArray());
+                if (VirtualPages != null)
+                    QuickNavComboBox.Items.AddRange(VirtualPages.ToArray());
+
+                if (QuickNavComboBox.Items.Count > 0)
+                    QuickNavComboBox.SelectedIndex = 0;
             });
         }
 
@@ -93,7 +108,7 @@ namespace Anathema
 
         private void QuickNavComboBox_SelectedIndexChanged(Object Sender, EventArgs E)
         {
-
+            MemoryViewPresenter.QuickNavigate(QuickNavComboBox.SelectedIndex);
         }
 
         private void HexEditorBox_Resize(Object Sender, EventArgs E)

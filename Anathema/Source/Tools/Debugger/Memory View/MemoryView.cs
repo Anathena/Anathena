@@ -18,6 +18,7 @@ namespace Anathema
     class MemoryView : IMemoryViewModel, IProcessObserver
     {
         private MemorySharp MemoryEditor;
+        private List<RemoteVirtualPage> VirtualPages;
 
         private UInt64 StartReadAddress;
         private UInt64 EndReadAddress;
@@ -56,7 +57,7 @@ namespace Anathema
             if (MemoryEditor == null)
                 return;
 
-            List<RemoteVirtualPage> VirtualPages = new List<RemoteVirtualPage>(MemoryEditor.Memory.VirtualPages);
+            VirtualPages = new List<RemoteVirtualPage>(MemoryEditor.Memory.VirtualPages);
             MemoryViewEventArgs Args = new MemoryViewEventArgs();
             Args.VirtualPages = VirtualPages;
             OnEventUpdateVirtualPages(Args);
@@ -72,6 +73,16 @@ namespace Anathema
         {
             this.ReadLength = ReadLength;
             UpdateEndReadAddress();
+        }
+
+        public override void QuickNavigate(Int32 VirtualPageIndex)
+        {
+            if (VirtualPageIndex < 0 || VirtualPageIndex > VirtualPages.Count)
+                return;
+
+            MemoryViewEventArgs Args = new MemoryViewEventArgs();
+            Args.Address = unchecked((UInt64)VirtualPages[VirtualPageIndex].BaseAddress);
+            OnEventEventGoToAddress(Args);
         }
 
         private void UpdateEndReadAddress()
