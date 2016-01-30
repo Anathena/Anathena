@@ -36,10 +36,12 @@ namespace Anathema
         {
             HexEditorBox.ByteProvider = MemoryViewPresenter;
             HexEditorBox.ByteCharConverter = new DefaultByteCharConverter();
-            HexEditorBox.LineInfoOffset = 0;// 0x1005000;
+            HexEditorBox.LineInfoOffset = 0;
             HexEditorBox.UseFixedBytesPerLine = true;
             HexEditorBox.Select(HexEditorBox.ByteProvider.Length / 2, 1);
             BaseLine = HexEditorBox.CurrentLine;
+
+            MemoryViewPresenter.QuickNavigate(QuickNavComboBox.SelectedIndex);
         }
 
         public void ReadValues()
@@ -88,8 +90,10 @@ namespace Anathema
         {
             MemoryViewPresenter.UpdateReadLength(HexEditorBox.HorizontalByteCount * HexEditorBox.VerticalByteCount);
 
+            // Assume the maximum number of bytes we can display
             HexEditorBox.BytesPerLine = MaxHorizontalBytes;
 
+            // Decrease this value iteratively until we can fit the content on the screen
             while (HexEditorBox.Width < HexEditorBox.RequiredWidth)
             {
                 if (HexEditorBox.BytesPerLine <= HexBoxChunkSize)
