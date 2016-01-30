@@ -27,7 +27,6 @@ namespace Anathema
 
             InitializeHexBox();
             UpdateHexBoxChunks();
-            UpdateStartAddress();
             UpdateDisplayRange();
         }
 
@@ -56,7 +55,7 @@ namespace Anathema
                 if (HexEditorBox.ByteProvider == null)
                     return;
                 HexEditorBox.LineInfoOffset = unchecked((Int64)(Address - (UInt64)((HexEditorBox.ByteProvider.Length) / 2) - (Address % (UInt64)HexEditorBox.ByteProvider.Length)));
-                UpdateStartAddress();
+                UpdateDisplayRange();
             });
         }
 
@@ -73,16 +72,14 @@ namespace Anathema
             });
         }
 
-        private void UpdateStartAddress()
-        {
-            MemoryViewPresenter.UpdateStartReadAddress(unchecked((UInt64)HexEditorBox.LineInfoOffset));
-        }
-
         private void UpdateDisplayRange()
         {
             HexEditorBox.LineInfoOffset = unchecked(HexEditorBox.LineInfoOffset + (HexEditorBox.TopLine - BaseLine) * HexEditorBox.HorizontalByteCount);
             HexEditorBox.ScrollByteIntoCenter(HexEditorBox.ByteProvider.Length / 2);
             BaseLine = HexEditorBox.TopLine;
+
+            MemoryViewPresenter.UpdateBaseAddress(unchecked((UInt64)HexEditorBox.LineInfoOffset));
+            MemoryViewPresenter.UpdateStartReadAddress(unchecked((UInt64)HexEditorBox.LineInfoOffset + (UInt64)HexEditorBox.TopIndex));
         }
 
         private void UpdateHexBoxChunks()
@@ -114,11 +111,6 @@ namespace Anathema
         private void HexEditorBox_Resize(Object Sender, EventArgs E)
         {
             UpdateHexBoxChunks();
-        }
-
-        private void HexEditorBox_CurrentLineChanged(Object Sender, EventArgs E)
-        {
-            UpdateStartAddress();
         }
 
         private void HexEditorBox_EndScroll(object sender, EventArgs e)

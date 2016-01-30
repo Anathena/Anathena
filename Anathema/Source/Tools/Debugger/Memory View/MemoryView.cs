@@ -24,14 +24,12 @@ namespace Anathema
         private UInt64 EndReadAddress;
         private Int32 ReadLength;
 
-        private ConcurrentDictionary<UInt64, Byte> IndexValueMap;
-        private Boolean ForceRefreshFlag;
+        private ConcurrentDictionary<UInt64, Byte> AddressValueMap;
 
         public MemoryView()
         {
             InitializeProcessObserver();
-            ForceRefreshFlag = false;
-            IndexValueMap = new ConcurrentDictionary<UInt64, Byte>();
+            AddressValueMap = new ConcurrentDictionary<UInt64, Byte>();
             Begin();
         }
 
@@ -45,11 +43,6 @@ namespace Anathema
             this.MemoryEditor = MemoryEditor;
 
             RefreshVirtualPages();
-        }
-
-        public override void ForceRefresh()
-        {
-            ForceRefreshFlag = true;
         }
 
         public override void RefreshVirtualPages()
@@ -92,6 +85,14 @@ namespace Anathema
                 this.EndReadAddress = UInt64.MaxValue;
         }
 
+        public override void WriteToAddress(UInt64 Address, Byte Value)
+        {
+            if (MemoryEditor == null)
+                return;
+
+            MemoryEditor.Write<Byte>(unchecked((IntPtr)Address), Value, false);
+        }
+
         public override void Begin()
         {
             base.Begin();
@@ -100,6 +101,9 @@ namespace Anathema
         protected override void Update()
         {
             base.Update();
+
+            if (MemoryEditor == null)
+                return;
 
             for (UInt64 Address = StartReadAddress; Address <= EndReadAddress; Address++)
             {
@@ -111,16 +115,16 @@ namespace Anathema
                 Byte Value = MemoryEditor.Read<Byte>(unchecked((IntPtr)Address), out ReadSuccess, false);
 
                 if (ReadSuccess)
-                    IndexValueMap[Address - StartReadAddress] = Value;
+                    AddressValueMap[Address] = Value;
             }
             
             OnEventReadValues(new MemoryViewEventArgs());
         }
 
-        public override Byte GetValueAtIndex(UInt64 Index)
+        public override Byte GetValueAtAddress(UInt64 Address)
         {
-            if (IndexValueMap.ContainsKey(Index))
-                return IndexValueMap[Index];
+            if (AddressValueMap.ContainsKey(Address))
+                return AddressValueMap[Address];
 
             return 0;
         }

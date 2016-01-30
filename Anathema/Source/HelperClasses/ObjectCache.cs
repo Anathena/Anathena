@@ -41,14 +41,6 @@ namespace Anathema
             }
         }
 
-        public void SetItem(UInt64 Index, T Item)
-        {
-            lock (AccessLock)
-            {
-                Cache[Index] = Item;
-            }
-        }
-
         public virtual T Add(UInt64 Index, T Item)
         {
             lock (AccessLock)

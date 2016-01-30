@@ -63,12 +63,13 @@ namespace Anathema
         // Functions invoked by presenter (downstream)
         public abstract void RefreshVirtualPages();
 
-        public abstract Byte GetValueAtIndex(UInt64 Index);
-        public abstract void ForceRefresh();
+        public abstract Byte GetValueAtAddress(UInt64 Address);
         public abstract void UpdateReadLength(Int32 ReadLength);
         public abstract void UpdateStartReadAddress(UInt64 StartReadAddress);
 
         public abstract void QuickNavigate(Int32 VirtualPageIndex);
+
+        public abstract void WriteToAddress(UInt64 Address, Byte Value);
     }
 
     class MemoryViewPresenter : Presenter<IMemoryViewView, IMemoryViewModel>, IByteProvider
@@ -77,6 +78,7 @@ namespace Anathema
         protected new IMemoryViewModel Model;
 
         private ObjectCache<Byte> ByteCache;
+        private UInt64 BaseAddress;
 
         public MemoryViewPresenter(IMemoryViewView View, IMemoryViewModel Model) : base(View, Model)
         {
@@ -90,48 +92,37 @@ namespace Anathema
             Model.EventGoToAddress += EventGoToAddress;
             Model.EventReadValues += EventReadValues;
             Model.EventFlushCache += EventFlushCache;
-
-            Model.ForceRefresh();
         }
-        
+
         #region ByteProvider
 
-        public Int64 Length
-        {
-            get
-            {
-                return ByteCache.CacheSize;
-            }
-        }
-
-        public event EventHandler Changed;
-        public event EventHandler LengthChanged;
-
-        public void ApplyChanges()
-        {
-
-        }
-
+        public Int64 Length { get { return ByteCache.CacheSize; } }
+        
         public Byte ReadByte(Int64 Index)
         {
-            Byte Item = ByteCache.Get(unchecked((UInt64)Index));
+            UInt64 EffectiveAddress = unchecked(BaseAddress + (UInt64)Index);
+            Byte Item = ByteCache.Get(EffectiveAddress);
 
             // Try to update and return the item if it is a valid item
-            ByteCache.SetItem(unchecked((UInt64)Index), Model.GetValueAtIndex(unchecked((UInt64)Index)));
+            if (ByteCache.TryUpdateItem(EffectiveAddress, Model.GetValueAtAddress(EffectiveAddress)))
+                return ByteCache.Get(EffectiveAddress);
 
-            // Item == null
+            Item = 0; // null;
+            ByteCache.Add(EffectiveAddress, Item);
 
-            return ByteCache.Get(unchecked((UInt64)Index));
+            return Item;
         }
 
         public void WriteByte(Int64 Index, Byte Value)
         {
-
+            Model.WriteToAddress(unchecked(BaseAddress + (UInt64)Index), Value);
         }
 
+        public void ApplyChanges() { }
         public Boolean SupportsWriteByte() { return true; }
 
         #region Irrelevant Features
+        public event EventHandler Changed, LengthChanged;
         public void DeleteBytes(Int64 Index, Int64 Length) { throw new NotImplementedException(); }
         public void InsertBytes(Int64 Index, Byte[] BS) { throw new NotImplementedException(); }
         public Boolean SupportsDeleteBytes() { return false; }
@@ -151,6 +142,11 @@ namespace Anathema
         public void UpdateReadLength(Int32 ReadLength)
         {
             Model.UpdateReadLength(ReadLength);
+        }
+
+        public void UpdateBaseAddress(UInt64 BaseAddress)
+        {
+            this.BaseAddress = BaseAddress;
         }
 
         public void QuickNavigate(Int32 VirtualPageIndex)
@@ -181,7 +177,7 @@ namespace Anathema
         {
             View.GoToAddress(E.Address);
         }
-        
+
         private void EventReadValues(Object Sender, MemoryViewEventArgs E)
         {
             View.ReadValues();
@@ -193,5 +189,7 @@ namespace Anathema
         }
 
         #endregion
-    }
-}
+
+    } // End class
+
+} // End namespace

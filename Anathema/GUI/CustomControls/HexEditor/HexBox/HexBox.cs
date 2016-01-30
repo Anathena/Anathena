@@ -1417,9 +1417,13 @@ namespace Be.Windows.Forms
                     break;
                 case ScrollEventType.SmallIncrement:
                     PerformScrollLineDown();
+                    if (EndScroll != null)
+                        EndScroll(this, EventArgs.Empty);
                     break;
                 case ScrollEventType.SmallDecrement:
                     PerformScrollLineUp();
+                    if (EndScroll != null)
+                        EndScroll(this, EventArgs.Empty);
                     break;
                 case ScrollEventType.LargeIncrement:
                     PerformScrollPageDown();
@@ -3529,6 +3533,15 @@ namespace Be.Windows.Forms
         public long TopLine
         {
             get { return _startByte / HorizontalByteCount; }
+        }
+
+        /// <summary>
+        /// Gets the top line
+        /// </summary>
+        [Browsable(false), DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        public long TopIndex
+        {
+            get { return _startByte; }
         }
 
         /// <summary>
