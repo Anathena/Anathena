@@ -16,7 +16,8 @@ namespace Anathema
         protected readonly LinkedList<Int32> LRUQueue;
         protected readonly ImageList Images;
         protected readonly Object AccessLock;
-        protected readonly Int32 CacheSize;
+
+        public Int32 CacheSize { get; private set; }
 
         public ObjectCache(Int32 CacheSize = DefaultCacheSize)
         {

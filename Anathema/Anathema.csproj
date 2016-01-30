@@ -458,7 +458,6 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Source\Settings\Settings.cs" />
-    <Compile Include="Source\Tools\Debugger\Memory View\TestByteProvider.cs" />
     <Compile Include="Source\Tools\SnapshotManager\SnapshotManager.cs" />
     <Compile Include="Source\HelperClasses\ArrayExtensions.cs" />
     <Compile Include="Source\Tools\Table\AddressItem.cs" />

@@ -19,11 +19,13 @@ namespace Anathema
         {
             InitializeComponent();
 
-            HexEditorBox.ByteProvider = new TestByteProvider();
-            HexEditorBox.ByteCharConverter = new DefaultByteCharConverter();
-            HexEditorBox.LineInfoOffset = 50;
-
             MemoryViewPresenter = new MemoryViewPresenter(this, new MemoryView());
+
+            HexEditorBox.ByteProvider = MemoryViewPresenter;
+            HexEditorBox.ByteCharConverter = new DefaultByteCharConverter();
+            HexEditorBox.LineInfoOffset = 5000;
+
+            MemoryViewPresenter.RefreshVirtualPages();
         }
 
         public void ReadValues()
@@ -50,6 +52,11 @@ namespace Anathema
         private void RefreshNavigationButton_Click(Object Sender, EventArgs E)
         {
             MemoryViewPresenter.RefreshVirtualPages();
+        }
+
+        private void QuickNavComboBox_SelectedIndexChanged(Object Sender, EventArgs E)
+        {
+
         }
 
         #endregion

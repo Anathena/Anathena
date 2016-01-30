@@ -1,4 +1,5 @@
-﻿using Binarysharp.MemoryManagement;
+﻿using Be.Windows.Forms;
+using Binarysharp.MemoryManagement;
 using Binarysharp.MemoryManagement.Memory;
 using System;
 using System.Collections.Concurrent;
@@ -31,7 +32,7 @@ namespace Anathema
             IndexValueMap = new ConcurrentDictionary<Int32, String>();
             Begin();
         }
-
+        
         public void InitializeProcessObserver()
         {
             ProcessSelector.GetInstance().Subscribe(this);
@@ -40,6 +41,8 @@ namespace Anathema
         public void UpdateMemoryEditor(MemorySharp MemoryEditor)
         {
             this.MemoryEditor = MemoryEditor;
+
+            RefreshVirtualPages();
         }
 
         public override void ForceRefresh()

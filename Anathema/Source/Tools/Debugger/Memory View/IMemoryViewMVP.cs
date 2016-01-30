@@ -1,4 +1,5 @@
-﻿using Binarysharp.MemoryManagement;
+﻿using Be.Windows.Forms;
+using Binarysharp.MemoryManagement;
 using Binarysharp.MemoryManagement.Memory;
 using System;
 using System.Collections.Generic;
@@ -32,7 +33,7 @@ namespace Anathema
         public event MemoryViewEventHandler EventUpdateVirtualPages;
         protected virtual void OnEventUpdateVirtualPages(MemoryViewEventArgs E)
         {
-            EventUpdateVirtualPages(this, E);
+            if (EventUpdateVirtualPages != null) EventUpdateVirtualPages(this, E);
         }
         public event MemoryViewEventHandler EventReadValues;
         protected virtual void OnEventReadValues(MemoryViewEventArgs E)
@@ -70,13 +71,13 @@ namespace Anathema
         public abstract void UpdateReadBounds(Int32 StartReadIndex, Int32 EndReadIndex);
     }
 
-    class MemoryViewPresenter : Presenter<IMemoryViewView, IMemoryViewModel>
+    class MemoryViewPresenter : Presenter<IMemoryViewView, IMemoryViewModel>, IByteProvider
     {
         protected new IMemoryViewView View;
         protected new IMemoryViewModel Model;
 
         private ObjectCache<String> ByteCache;
-        
+
         public MemoryViewPresenter(IMemoryViewView View, IMemoryViewModel Model) : base(View, Model)
         {
             this.View = View;
@@ -92,8 +93,62 @@ namespace Anathema
             Model.ForceRefresh();
         }
 
-        #region Method definitions called by the view (downstream)
+
+        #region ByteProvider
+        public Int64 Length
+        {
+            get
+            {
+                return 2048;
+            }
+        }
         
+        public event EventHandler Changed;
+        public event EventHandler LengthChanged;
+
+        public void ApplyChanges()
+        {
+
+        }
+
+        public bool HasChanges()
+        {
+            return false;
+        }
+
+        public byte ReadByte(Int64 index)
+        {
+            //if (ByteCache.Get(Index))
+            return 0;
+            //return Data[index % ByteCache.CacheSize];
+        }
+
+        public bool SupportsWriteByte()
+        {
+            return true;
+        }
+
+        public void WriteByte(Int64 index, Byte value)
+        {
+            //Data[index] = value;
+        }
+
+        #region Irrelevant Features
+
+        public void DeleteBytes(Int64 index, Int64 length) { throw new NotImplementedException(); }
+
+        public void InsertBytes(Int64 index, Byte[] bs) { throw new NotImplementedException(); }
+
+        public bool SupportsDeleteBytes() { return false; }
+
+        public bool SupportsInsertBytes() { return false; }
+
+        #endregion
+
+        #endregion
+
+        #region Method definitions called by the view (downstream)
+
         public void UpdateReadBounds(Int32 StartReadIndex, Int32 EndReadIndex)
         {
             Model.UpdateReadBounds(StartReadIndex, EndReadIndex);
