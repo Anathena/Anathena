@@ -73,6 +73,7 @@ namespace Anathema
 
         private void EnableLuaHighlighting()
         {
+            // Reprioritize keywords to handle keyword conflicts from LUA and ASM (like 'and')
             ScriptEditorTextBox.SetKeywords(0, LuaKeywordManager.LuaKeywords);
             ScriptEditorTextBox.SetKeywords(1, LuaKeywordManager.AnathemaKeywords);
             ScriptEditorTextBox.SetKeywords(2, LuaKeywordManager.AsmRegisterKeywords);
@@ -86,6 +87,7 @@ namespace Anathema
 
         private void EnableAsmHighlighting()
         {
+            // Reprioritize keywords to handle keyword conflicts from LUA and ASM (like 'and')
             ScriptEditorTextBox.SetKeywords(0, LuaKeywordManager.AsmRegisterKeywords);
             ScriptEditorTextBox.SetKeywords(1, LuaKeywordManager.AsmInstructionKeywords);
             ScriptEditorTextBox.SetKeywords(2, LuaKeywordManager.LuaKeywords);
@@ -214,7 +216,7 @@ namespace Anathema
             if (AsmMode)
             {
                 EnableAsmHighlighting();
-                ScriptEditorTextBox.AutoCShow(Length, LuaKeywordManager.AllAsmKeywords);
+                //ScriptEditorTextBox.AutoCShow(Length, LuaKeywordManager.AllAsmKeywords);
             }
             else
             {
