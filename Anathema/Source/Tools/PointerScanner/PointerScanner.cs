@@ -30,15 +30,17 @@ namespace Anathema
         private MemorySharp MemoryEditor;
         private Snapshot<Null> Snapshot;
 
-        public event PointerScannerEventHandler EventUpdateProcessTitle;
-
-        private Int32 MaxPointerLevel;
         private List<RemoteModule> Modules;
         private List<RemoteRegion> AcceptedBases;
 
         private ConcurrentDictionary<UInt64, UInt64> PointerPool;
         private List<RemoteRegion> TargetRegions;
         // private Dictionary<Int32, List<SnapshotElement>> Pointers;
+
+        // User parameters
+        private UInt64 TargetAddress;
+        private Int32 MaxPointerLevel;
+        private UInt64 MaxPointerOffset;
 
         public PointerScanner()
         {
@@ -52,16 +54,19 @@ namespace Anathema
             this.MemoryEditor = MemoryEditor;
         }
 
-        public void SetMaxPointerLevel(Int32 MaxPointerLevel)
+        public override void SetTargetAddress(UInt64 Address)
+        {
+            TargetAddress = Address;
+        }
+
+        public override void SetMaxPointerLevel(Int32 MaxPointerLevel)
         {
             this.MaxPointerLevel = MaxPointerLevel;
         }
 
-        public override void SetTargetAddress(UInt64 Address)
+        public override void SetMaxPointerOffset(UInt64 MaxPointerOffset)
         {
-            TargetRegions.Clear();
-
-            //TargetRegions.Add()
+            this.MaxPointerOffset = MaxPointerOffset;
         }
 
         public override void Begin()
@@ -82,10 +87,9 @@ namespace Anathema
             // Set to type of a pointer
             Snapshot.SetElementType(typeof(UInt64));
 
-            Parallel.ForEach(Snapshot.Cast<Object>(), (RegionObject) =>
-            {
-                SnapshotRegion Region = (SnapshotRegion)RegionObject;
-
+             Parallel.ForEach(Snapshot.Cast<Object>(), (RegionObject) =>
+             {
+                 SnapshotRegion Region = (SnapshotRegion)RegionObject;
                 // Read the memory of this region
                 Region.ReadAllSnapshotMemory(Snapshot.GetMemoryEditor(), true);
 
@@ -94,23 +98,24 @@ namespace Anathema
 
                 foreach (SnapshotElement Element in Region)
                 {
-                    foreach (RemoteRegion TargetRegion in TargetRegions)
+                    foreach (SnapshotRegion TargetRegion in Snapshot)
                     {
                         // Check if outside of target bounds
-                        if (Element.LessThanValue(unchecked((UInt64)TargetRegion.BaseAddress)) ||
-                            Element.GreaterThanValue(unchecked((UInt64)TargetRegion.EndAddress)))
-                        {
+                        if (Element.LessThanValue(unchecked((UInt64)TargetRegion.BaseAddress)))
                             continue;
-                        }
 
-                        // Valid pointer -- lets keep it
+                        // Regions are sorted. If we pass a value, then the pointer is not in this snapshot.
+                        if (Element.GreaterThanValue(unchecked((UInt64)TargetRegion.EndAddress)))
+                            break;
+
+                        // Valid pointer -- keep it
                         PointerPool.TryAdd(unchecked((UInt64)Element.BaseAddress), unchecked((UInt64)Element.GetValue()));
+                        break;
                     }
                 }
 
                 // Clear the saved values, we do not need them now
                 Region.SetCurrentValues(null);
-
             });
 
             CancelFlag = true;
@@ -119,7 +124,7 @@ namespace Anathema
         public override void End()
         {
             base.End();
-            
+
             SetAcceptedBases();
         }
 
@@ -136,7 +141,7 @@ namespace Anathema
 
         private void Trace()
         {
-
+            RemoteRegion TargetRegion = new RemoteRegion(null, unchecked((IntPtr)(TargetAddress - MaxPointerOffset)), unchecked((Int32)MaxPointerOffset * 2));
         }
 
         private void Retrace()

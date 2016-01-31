@@ -33,10 +33,11 @@
             this.StopScanButton = new System.Windows.Forms.ToolStripButton();
             this.TargetAddressTextBox = new System.Windows.Forms.TextBox();
             this.TargetAddressLabel = new System.Windows.Forms.Label();
-            this.OffsetTrackBar = new System.Windows.Forms.TrackBar();
-            this.label1 = new System.Windows.Forms.Label();
+            this.MaxOffsetLabel = new System.Windows.Forms.Label();
+            this.MaxOffsetTextBox = new System.Windows.Forms.TextBox();
+            this.MaxLevelTextBox = new System.Windows.Forms.TextBox();
+            this.MaxLevelLabel = new System.Windows.Forms.Label();
             this.ScanToolStrip.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.OffsetTrackBar)).BeginInit();
             this.SuspendLayout();
             // 
             // StartScanButton
@@ -75,44 +76,64 @@
             // 
             // TargetAddressTextBox
             // 
-            this.TargetAddressTextBox.Location = new System.Drawing.Point(67, 28);
+            this.TargetAddressTextBox.Location = new System.Drawing.Point(79, 28);
             this.TargetAddressTextBox.Name = "TargetAddressTextBox";
             this.TargetAddressTextBox.Size = new System.Drawing.Size(109, 20);
-            this.TargetAddressTextBox.TabIndex = 150;
+            this.TargetAddressTextBox.TabIndex = 0;
             this.TargetAddressTextBox.TextChanged += new System.EventHandler(this.TargetAddressTextBox_TextChanged);
             // 
             // TargetAddressLabel
             // 
             this.TargetAddressLabel.AutoSize = true;
-            this.TargetAddressLabel.Location = new System.Drawing.Point(12, 31);
+            this.TargetAddressLabel.Location = new System.Drawing.Point(25, 31);
             this.TargetAddressLabel.Name = "TargetAddressLabel";
             this.TargetAddressLabel.Size = new System.Drawing.Size(48, 13);
             this.TargetAddressLabel.TabIndex = 151;
             this.TargetAddressLabel.Text = "Address:";
             // 
-            // OffsetTrackBar
+            // MaxOffsetLabel
             // 
-            this.OffsetTrackBar.Location = new System.Drawing.Point(214, 131);
-            this.OffsetTrackBar.Name = "OffsetTrackBar";
-            this.OffsetTrackBar.Size = new System.Drawing.Size(158, 45);
-            this.OffsetTrackBar.TabIndex = 152;
+            this.MaxOffsetLabel.AutoSize = true;
+            this.MaxOffsetLabel.Location = new System.Drawing.Point(12, 83);
+            this.MaxOffsetLabel.Name = "MaxOffsetLabel";
+            this.MaxOffsetLabel.Size = new System.Drawing.Size(61, 13);
+            this.MaxOffsetLabel.TabIndex = 153;
+            this.MaxOffsetLabel.Text = "Max Offset:";
             // 
-            // label1
+            // MaxOffsetTextBox
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(141, 163);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(35, 13);
-            this.label1.TabIndex = 153;
-            this.label1.Text = "label1";
+            this.MaxOffsetTextBox.Location = new System.Drawing.Point(79, 80);
+            this.MaxOffsetTextBox.Name = "MaxOffsetTextBox";
+            this.MaxOffsetTextBox.Size = new System.Drawing.Size(109, 20);
+            this.MaxOffsetTextBox.TabIndex = 2;
+            this.MaxOffsetTextBox.TextChanged += new System.EventHandler(this.MaxOffsetTextBox_TextChanged);
+            // 
+            // MaxLevelTextBox
+            // 
+            this.MaxLevelTextBox.Location = new System.Drawing.Point(79, 54);
+            this.MaxLevelTextBox.Name = "MaxLevelTextBox";
+            this.MaxLevelTextBox.Size = new System.Drawing.Size(109, 20);
+            this.MaxLevelTextBox.TabIndex = 1;
+            this.MaxLevelTextBox.TextChanged += new System.EventHandler(this.MaxLevelTextBox_TextChanged);
+            // 
+            // MaxLevelLabel
+            // 
+            this.MaxLevelLabel.AutoSize = true;
+            this.MaxLevelLabel.Location = new System.Drawing.Point(14, 57);
+            this.MaxLevelLabel.Name = "MaxLevelLabel";
+            this.MaxLevelLabel.Size = new System.Drawing.Size(59, 13);
+            this.MaxLevelLabel.TabIndex = 155;
+            this.MaxLevelLabel.Text = "Max Level:";
             // 
             // GUIPointerScanner
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(402, 278);
-            this.Controls.Add(this.label1);
-            this.Controls.Add(this.OffsetTrackBar);
+            this.Controls.Add(this.MaxLevelTextBox);
+            this.Controls.Add(this.MaxLevelLabel);
+            this.Controls.Add(this.MaxOffsetTextBox);
+            this.Controls.Add(this.MaxOffsetLabel);
             this.Controls.Add(this.TargetAddressLabel);
             this.Controls.Add(this.TargetAddressTextBox);
             this.Controls.Add(this.ScanToolStrip);
@@ -121,7 +142,6 @@
             this.Text = "Pointer Scanner";
             this.ScanToolStrip.ResumeLayout(false);
             this.ScanToolStrip.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.OffsetTrackBar)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -133,7 +153,9 @@
         private System.Windows.Forms.ToolStripButton StopScanButton;
         private System.Windows.Forms.TextBox TargetAddressTextBox;
         private System.Windows.Forms.Label TargetAddressLabel;
-        private System.Windows.Forms.TrackBar OffsetTrackBar;
-        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label MaxOffsetLabel;
+        private System.Windows.Forms.TextBox MaxOffsetTextBox;
+        private System.Windows.Forms.TextBox MaxLevelTextBox;
+        private System.Windows.Forms.Label MaxLevelLabel;
     }
 }

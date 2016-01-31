@@ -52,6 +52,12 @@ namespace Anathema
             if (!PointerScannerPresenter.TrySetTargetAddress(TargetAddressTextBox.Text))
                 return;
 
+            if (!PointerScannerPresenter.TrySetTargetAddress(TargetAddressTextBox.Text))
+                return;
+
+            if (!PointerScannerPresenter.TrySetTargetAddress(TargetAddressTextBox.Text))
+                return;
+
             PointerScannerPresenter.BeginScan();
         }
 
@@ -65,7 +71,23 @@ namespace Anathema
             if (CheckSyntax.Address(TargetAddressTextBox.Text))
                 TargetAddressTextBox.ForeColor = SystemColors.ControlText;
             else
-                TargetAddressTextBox.ForeColor = Color.Red; 
+                TargetAddressTextBox.ForeColor = Color.Red;
+        }
+
+        private void MaxLevelTextBox_TextChanged(Object Sender, EventArgs E)
+        {
+            if (CheckSyntax.IsInt32(MaxLevelTextBox.Text))
+                MaxLevelTextBox.ForeColor = SystemColors.ControlText;
+            else
+                MaxLevelTextBox.ForeColor = Color.Red;
+        }
+
+        private void MaxOffsetTextBox_TextChanged(Object Sender, EventArgs E)
+        {
+            if (CheckSyntax.Address(MaxOffsetTextBox.Text))
+                MaxOffsetTextBox.ForeColor = SystemColors.ControlText;
+            else
+                MaxOffsetTextBox.ForeColor = Color.Red;
         }
 
         #endregion

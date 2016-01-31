@@ -25,6 +25,8 @@ namespace Anathema
 
         // Functions invoked by presenter (downstream)
         public abstract void SetTargetAddress(UInt64 Address);
+        public abstract void SetMaxPointerLevel(Int32 MaxPointerLevel);
+        public abstract void SetMaxPointerOffset(UInt64 MaxOffset);
     }
 
     class PointerScannerPresenter : ScannerPresenter
@@ -48,6 +50,24 @@ namespace Anathema
                 return false;
 
             Model.SetTargetAddress(Conversions.AddressToValue(TargetAddress));
+            return true;
+        }
+
+        public Boolean TrySetMaxPointerLevel(String MaxPointerLevel)
+        {
+            if (!CheckSyntax.CanParseValue(typeof(Int32), MaxPointerLevel))
+                return false;
+
+            Model.SetMaxPointerLevel(Conversions.ParseValue(typeof(Int32), MaxPointerLevel));
+            return true;
+        }
+
+        public Boolean TrySetMaxPointerOffset(String MaxPointerOffset)
+        {
+            if (!CheckSyntax.Address(MaxPointerOffset))
+                return false;
+
+            Model.SetMaxPointerOffset(Conversions.AddressToValue(MaxPointerOffset));
             return true;
         }
 

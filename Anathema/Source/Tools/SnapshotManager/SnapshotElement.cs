@@ -64,25 +64,19 @@ namespace Anathema
 
         private unsafe dynamic GetValue(Byte* Array)
         {
-            fixed (Byte* Base = &Parent.GetCurrentValues()[0])
+            switch (Type.GetTypeCode(Parent.ElementType))
             {
-                fixed (Byte* Base2 = &Parent.GetPreviousValues()[0])
-                {
-                    switch (Type.GetTypeCode(Parent.ElementType))
-                    {
-                        case TypeCode.Byte: return Array[0];
-                        case TypeCode.SByte: return *(SByte*)Array;
-                        case TypeCode.Int16: return *(Int16*)Array;
-                        case TypeCode.Int32: return *(Int32*)Array;
-                        case TypeCode.Int64: return *(Int64*)Array;
-                        case TypeCode.UInt16: return *(UInt16*)Array;
-                        case TypeCode.UInt32: return *(UInt32*)Array;
-                        case TypeCode.UInt64: return *(UInt64*)Array;
-                        case TypeCode.Single: return *(Single*)Array;
-                        case TypeCode.Double: return *(Double*)Array;
-                        default: return 0;
-                    }
-                }
+                case TypeCode.Byte: return Array[0];
+                case TypeCode.SByte: return *(SByte*)Array;
+                case TypeCode.Int16: return *(Int16*)Array;
+                case TypeCode.Int32: return *(Int32*)Array;
+                case TypeCode.Int64: return *(Int64*)Array;
+                case TypeCode.UInt16: return *(UInt16*)Array;
+                case TypeCode.UInt32: return *(UInt32*)Array;
+                case TypeCode.UInt64: return *(UInt64*)Array;
+                case TypeCode.Single: return *(Single*)Array;
+                case TypeCode.Double: return *(Double*)Array;
+                default: return 0;
             }
         }
 
