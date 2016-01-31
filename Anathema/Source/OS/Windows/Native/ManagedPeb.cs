@@ -18,325 +18,325 @@ namespace Binarysharp.MemoryManagement.Native
     public class ManagedPeb : RemotePointer
     {
         #region Properties
-        public bool success;
-        public byte InheritedAddressSpace
+        public Boolean Success;
+        public Byte InheritedAddressSpace
         {
-            get { return Read<byte>(PebStructure.InheritedAddressSpace, out success); }
+            get { return Read<Byte>(PebStructure.InheritedAddressSpace, out Success); }
             set { Write(PebStructure.InheritedAddressSpace, value); }
         }
-        public byte ReadImageFileExecOptions
+        public Byte ReadImageFileExecOptions
         {
-            get { return Read<byte>(PebStructure.ReadImageFileExecOptions, out success); }
+            get { return Read<Byte>(PebStructure.ReadImageFileExecOptions, out Success); }
             set { Write(PebStructure.ReadImageFileExecOptions, value); }
         }
-        public bool BeingDebugged
+        public Boolean BeingDebugged
         {
-            get { return Read<bool>(PebStructure.BeingDebugged, out success); }
+            get { return Read<Boolean>(PebStructure.BeingDebugged, out Success); }
             set { Write(PebStructure.BeingDebugged, value); }
         }
-        public byte SpareBool
+        public Byte SpareBool
         {
-            get { return Read<byte>(PebStructure.SpareBool, out success); }
+            get { return Read<Byte>(PebStructure.SpareBool, out Success); }
             set { Write(PebStructure.SpareBool, value); }
         }
         public IntPtr Mutant
         {
-            get { return Read<IntPtr>(PebStructure.Mutant, out success); }
+            get { return Read<IntPtr>(PebStructure.Mutant, out Success); }
             set { Write(PebStructure.Mutant, value); }
         }
         public IntPtr Ldr
         {
-            get { return Read<IntPtr>(PebStructure.Ldr, out success); }
+            get { return Read<IntPtr>(PebStructure.Ldr, out Success); }
             set { Write(PebStructure.Ldr, value); }
         }
         public IntPtr ProcessParameters
         {
-            get { return Read<IntPtr>(PebStructure.ProcessParameters, out success); }
+            get { return Read<IntPtr>(PebStructure.ProcessParameters, out Success); }
             set { Write(PebStructure.ProcessParameters, value); }
         }
         public IntPtr SubSystemData
         {
-            get { return Read<IntPtr>(PebStructure.SubSystemData, out success); }
+            get { return Read<IntPtr>(PebStructure.SubSystemData, out Success); }
             set { Write(PebStructure.SubSystemData, value); }
         }
         public IntPtr ProcessHeap
         {
-            get { return Read<IntPtr>(PebStructure.ProcessHeap, out success); }
+            get { return Read<IntPtr>(PebStructure.ProcessHeap, out Success); }
             set { Write(PebStructure.ProcessHeap, value); }
         }
         public IntPtr FastPebLock
         {
-            get { return Read<IntPtr>(PebStructure.FastPebLock, out success); }
+            get { return Read<IntPtr>(PebStructure.FastPebLock, out Success); }
             set { Write(PebStructure.FastPebLock, value); }
         }
         public IntPtr FastPebLockRoutine
         {
-            get { return Read<IntPtr>(PebStructure.FastPebLockRoutine, out success); }
+            get { return Read<IntPtr>(PebStructure.FastPebLockRoutine, out Success); }
             set { Write(PebStructure.FastPebLockRoutine, value); }
         }
         public IntPtr FastPebUnlockRoutine
         {
-            get { return Read<IntPtr>(PebStructure.FastPebUnlockRoutine, out success); }
+            get { return Read<IntPtr>(PebStructure.FastPebUnlockRoutine, out Success); }
             set { Write(PebStructure.FastPebUnlockRoutine, value); }
         }
         public IntPtr EnvironmentUpdateCount
         {
-            get { return Read<IntPtr>(PebStructure.EnvironmentUpdateCount, out success); }
+            get { return Read<IntPtr>(PebStructure.EnvironmentUpdateCount, out Success); }
             set { Write(PebStructure.EnvironmentUpdateCount, value); }
         }
         public IntPtr KernelCallbackTable
         {
-            get { return Read<IntPtr>(PebStructure.KernelCallbackTable, out success); }
+            get { return Read<IntPtr>(PebStructure.KernelCallbackTable, out Success); }
             set { Write(PebStructure.KernelCallbackTable, value); }
         }
-        public int SystemReserved
+        public Int32 SystemReserved
         {
-            get { return Read<int>(PebStructure.SystemReserved, out success); }
+            get { return Read<Int32>(PebStructure.SystemReserved, out Success); }
             set { Write(PebStructure.SystemReserved, value); }
         }
-        public int AtlThunkSListPtr32
+        public Int32 AtlThunkSListPtr32
         {
-            get { return Read<int>(PebStructure.AtlThunkSListPtr32, out success); }
+            get { return Read<Int32>(PebStructure.AtlThunkSListPtr32, out Success); }
             set { Write(PebStructure.AtlThunkSListPtr32, value); }
         }
         public IntPtr FreeList
         {
-            get { return Read<IntPtr>(PebStructure.FreeList, out success); }
+            get { return Read<IntPtr>(PebStructure.FreeList, out Success); }
             set { Write(PebStructure.FreeList, value); }
         }
         public IntPtr TlsExpansionCounter
         {
-            get { return Read<IntPtr>(PebStructure.TlsExpansionCounter, out success); }
+            get { return Read<IntPtr>(PebStructure.TlsExpansionCounter, out Success); }
             set { Write(PebStructure.TlsExpansionCounter, value); }
         }
         public IntPtr TlsBitmap
         {
-            get { return Read<IntPtr>(PebStructure.TlsBitmap, out success); }
+            get { return Read<IntPtr>(PebStructure.TlsBitmap, out Success); }
             set { Write(PebStructure.TlsBitmap, value); }
         }
-        public long TlsBitmapBits
+        public Int64 TlsBitmapBits
         {
-            get { return Read<long>(PebStructure.TlsBitmapBits, out success); }
+            get { return Read<Int64>(PebStructure.TlsBitmapBits, out Success); }
             set { Write(PebStructure.TlsBitmapBits, value); }
         }
         public IntPtr ReadOnlySharedMemoryBase
         {
-            get { return Read<IntPtr>(PebStructure.ReadOnlySharedMemoryBase, out success); }
+            get { return Read<IntPtr>(PebStructure.ReadOnlySharedMemoryBase, out Success); }
             set { Write(PebStructure.ReadOnlySharedMemoryBase, value); }
         }
         public IntPtr ReadOnlySharedMemoryHeap
         {
-            get { return Read<IntPtr>(PebStructure.ReadOnlySharedMemoryHeap, out success); }
+            get { return Read<IntPtr>(PebStructure.ReadOnlySharedMemoryHeap, out Success); }
             set { Write(PebStructure.ReadOnlySharedMemoryHeap, value); }
         }
         public IntPtr ReadOnlyStaticServerData
         {
-            get { return Read<IntPtr>(PebStructure.ReadOnlyStaticServerData, out success); }
+            get { return Read<IntPtr>(PebStructure.ReadOnlyStaticServerData, out Success); }
             set { Write(PebStructure.ReadOnlyStaticServerData, value); }
         }
         public IntPtr AnsiCodePageData
         {
-            get { return Read<IntPtr>(PebStructure.AnsiCodePageData, out success); }
+            get { return Read<IntPtr>(PebStructure.AnsiCodePageData, out Success); }
             set { Write(PebStructure.AnsiCodePageData, value); }
         }
         public IntPtr OemCodePageData
         {
-            get { return Read<IntPtr>(PebStructure.OemCodePageData, out success); }
+            get { return Read<IntPtr>(PebStructure.OemCodePageData, out Success); }
             set { Write(PebStructure.OemCodePageData, value); }
         }
         public IntPtr UnicodeCaseTableData
         {
-            get { return Read<IntPtr>(PebStructure.UnicodeCaseTableData, out success); }
+            get { return Read<IntPtr>(PebStructure.UnicodeCaseTableData, out Success); }
             set { Write(PebStructure.UnicodeCaseTableData, value); }
         }
-        public int NumberOfProcessors
+        public Int32 NumberOfProcessors
         {
-            get { return Read<int>(PebStructure.NumberOfProcessors, out success); }
+            get { return Read<Int32>(PebStructure.NumberOfProcessors, out Success); }
             set { Write(PebStructure.NumberOfProcessors, value); }
         }
-        public long NtGlobalFlag
+        public Int64 NtGlobalFlag
         {
-            get { return Read<long>(PebStructure.NtGlobalFlag, out success); }
+            get { return Read<Int64>(PebStructure.NtGlobalFlag, out Success); }
             set { Write(PebStructure.NtGlobalFlag, value); }
         }
-        public long CriticalSectionTimeout
+        public Int64 CriticalSectionTimeout
         {
-            get { return Read<long>(PebStructure.CriticalSectionTimeout, out success); }
+            get { return Read<Int64>(PebStructure.CriticalSectionTimeout, out Success); }
             set { Write(PebStructure.CriticalSectionTimeout, value); }
         }
         public IntPtr HeapSegmentReserve
         {
-            get { return Read<IntPtr>(PebStructure.HeapSegmentReserve, out success); }
+            get { return Read<IntPtr>(PebStructure.HeapSegmentReserve, out Success); }
             set { Write(PebStructure.HeapSegmentReserve, value); }
         }
         public IntPtr HeapSegmentCommit
         {
-            get { return Read<IntPtr>(PebStructure.HeapSegmentCommit, out success); }
+            get { return Read<IntPtr>(PebStructure.HeapSegmentCommit, out Success); }
             set { Write(PebStructure.HeapSegmentCommit, value); }
         }
         public IntPtr HeapDeCommitTotalFreeThreshold
         {
-            get { return Read<IntPtr>(PebStructure.HeapDeCommitTotalFreeThreshold, out success); }
+            get { return Read<IntPtr>(PebStructure.HeapDeCommitTotalFreeThreshold, out Success); }
             set { Write(PebStructure.HeapDeCommitTotalFreeThreshold, value); }
         }
         public IntPtr HeapDeCommitFreeBlockThreshold
         {
-            get { return Read<IntPtr>(PebStructure.HeapDeCommitFreeBlockThreshold, out success); }
+            get { return Read<IntPtr>(PebStructure.HeapDeCommitFreeBlockThreshold, out Success); }
             set { Write(PebStructure.HeapDeCommitFreeBlockThreshold, value); }
         }
-        public int NumberOfHeaps
+        public Int32 NumberOfHeaps
         {
-            get { return Read<int>(PebStructure.NumberOfHeaps, out success); }
+            get { return Read<Int32>(PebStructure.NumberOfHeaps, out Success); }
             set { Write(PebStructure.NumberOfHeaps, value); }
         }
-        public int MaximumNumberOfHeaps
+        public Int32 MaximumNumberOfHeaps
         {
-            get { return Read<int>(PebStructure.MaximumNumberOfHeaps, out success); }
+            get { return Read<Int32>(PebStructure.MaximumNumberOfHeaps, out Success); }
             set { Write(PebStructure.MaximumNumberOfHeaps, value); }
         }
         public IntPtr ProcessHeaps
         {
-            get { return Read<IntPtr>(PebStructure.ProcessHeaps, out success); }
+            get { return Read<IntPtr>(PebStructure.ProcessHeaps, out Success); }
             set { Write(PebStructure.ProcessHeaps, value); }
         }
         public IntPtr GdiSharedHandleTable
         {
-            get { return Read<IntPtr>(PebStructure.GdiSharedHandleTable, out success); }
+            get { return Read<IntPtr>(PebStructure.GdiSharedHandleTable, out Success); }
             set { Write(PebStructure.GdiSharedHandleTable, value); }
         }
         public IntPtr ProcessStarterHelper
         {
-            get { return Read<IntPtr>(PebStructure.ProcessStarterHelper, out success); }
+            get { return Read<IntPtr>(PebStructure.ProcessStarterHelper, out Success); }
             set { Write(PebStructure.ProcessStarterHelper, value); }
         }
         public IntPtr GdiDcAttributeList
         {
-            get { return Read<IntPtr>(PebStructure.GdiDcAttributeList, out success); }
+            get { return Read<IntPtr>(PebStructure.GdiDcAttributeList, out Success); }
             set { Write(PebStructure.GdiDcAttributeList, value); }
         }
         public IntPtr LoaderLock
         {
-            get { return Read<IntPtr>(PebStructure.LoaderLock, out success); }
+            get { return Read<IntPtr>(PebStructure.LoaderLock, out Success); }
             set { Write(PebStructure.LoaderLock, value); }
         }
-        public int OsMajorVersion
+        public Int32 OsMajorVersion
         {
-            get { return Read<int>(PebStructure.OsMajorVersion, out success); }
+            get { return Read<Int32>(PebStructure.OsMajorVersion, out Success); }
             set { Write(PebStructure.OsMajorVersion, value); }
         }
-        public int OsMinorVersion
+        public Int32 OsMinorVersion
         {
-            get { return Read<int>(PebStructure.OsMinorVersion, out success); }
+            get { return Read<Int32>(PebStructure.OsMinorVersion, out Success); }
             set { Write(PebStructure.OsMinorVersion, value); }
         }
-        public ushort OsBuildNumber
+        public UInt16 OsBuildNumber
         {
-            get { return Read<ushort>(PebStructure.OsBuildNumber, out success); }
+            get { return Read<UInt16>(PebStructure.OsBuildNumber, out Success); }
             set { Write(PebStructure.OsBuildNumber, value); }
         }
-        public ushort OsCsdVersion
+        public UInt16 OsCsdVersion
         {
-            get { return Read<ushort>(PebStructure.OsCsdVersion, out success); }
+            get { return Read<UInt16>(PebStructure.OsCsdVersion, out Success); }
             set { Write(PebStructure.OsCsdVersion, value); }
         }
-        public int OsPlatformId
+        public Int32 OsPlatformId
         {
-            get { return Read<int>(PebStructure.OsPlatformId, out success); }
+            get { return Read<Int32>(PebStructure.OsPlatformId, out Success); }
             set { Write(PebStructure.OsPlatformId, value); }
         }
-        public int ImageSubsystem
+        public Int32 ImageSubsystem
         {
-            get { return Read<int>(PebStructure.ImageSubsystem, out success); }
+            get { return Read<Int32>(PebStructure.ImageSubsystem, out Success); }
             set { Write(PebStructure.ImageSubsystem, value); }
         }
-        public int ImageSubsystemMajorVersion
+        public Int32 ImageSubsystemMajorVersion
         {
-            get { return Read<int>(PebStructure.ImageSubsystemMajorVersion, out success); }
+            get { return Read<Int32>(PebStructure.ImageSubsystemMajorVersion, out Success); }
             set { Write(PebStructure.ImageSubsystemMajorVersion, value); }
         }
         public IntPtr ImageSubsystemMinorVersion
         {
-            get { return Read<IntPtr>(PebStructure.ImageSubsystemMinorVersion, out success); }
+            get { return Read<IntPtr>(PebStructure.ImageSubsystemMinorVersion, out Success); }
             set { Write(PebStructure.ImageSubsystemMinorVersion, value); }
         }
         public IntPtr ImageProcessAffinityMask
         {
-            get { return Read<IntPtr>(PebStructure.ImageProcessAffinityMask, out success); }
+            get { return Read<IntPtr>(PebStructure.ImageProcessAffinityMask, out Success); }
             set { Write(PebStructure.ImageProcessAffinityMask, value); }
         }
         public IntPtr[] GdiHandleBuffer
         {
-            get { return Read<IntPtr>(PebStructure.GdiHandleBuffer, 0x22, out success); }
+            get { return Read<IntPtr>(PebStructure.GdiHandleBuffer, 0x22, out Success); }
             set { Write(PebStructure.GdiHandleBuffer, value); }
         }
         public IntPtr PostProcessInitRoutine
         {
-            get { return Read<IntPtr>(PebStructure.PostProcessInitRoutine, out success); }
+            get { return Read<IntPtr>(PebStructure.PostProcessInitRoutine, out Success); }
             set { Write(PebStructure.PostProcessInitRoutine, value); }
         }
         public IntPtr TlsExpansionBitmap
         {
-            get { return Read<IntPtr>(PebStructure.TlsExpansionBitmap, out success); }
+            get { return Read<IntPtr>(PebStructure.TlsExpansionBitmap, out Success); }
             set { Write(PebStructure.TlsExpansionBitmap, value); }
         }
         public IntPtr[] TlsExpansionBitmapBits
         {
-            get { return Read<IntPtr>(PebStructure.TlsExpansionBitmapBits, 0x20, out success); }
+            get { return Read<IntPtr>(PebStructure.TlsExpansionBitmapBits, 0x20, out Success); }
             set { Write(PebStructure.TlsExpansionBitmapBits, value); }
         }
         public IntPtr SessionId
         {
-            get { return Read<IntPtr>(PebStructure.SessionId, out success); }
+            get { return Read<IntPtr>(PebStructure.SessionId, out Success); }
             set { Write(PebStructure.SessionId, value); }
         }
-        public long AppCompatFlags
+        public Int64 AppCompatFlags
         {
-            get { return Read<long>(PebStructure.AppCompatFlags, out success); }
+            get { return Read<Int64>(PebStructure.AppCompatFlags, out Success); }
             set { Write(PebStructure.AppCompatFlags, value); }
         }
-        public long AppCompatFlagsUser
+        public Int64 AppCompatFlagsUser
         {
-            get { return Read<long>(PebStructure.AppCompatFlagsUser, out success); }
+            get { return Read<Int64>(PebStructure.AppCompatFlagsUser, out Success); }
             set { Write(PebStructure.AppCompatFlagsUser, value); }
         }
         public IntPtr ShimData
         {
-            get { return Read<IntPtr>(PebStructure.ShimData, out success); }
+            get { return Read<IntPtr>(PebStructure.ShimData, out Success); }
             set { Write(PebStructure.ShimData, value); }
         }
         public IntPtr AppCompatInfo
         {
-            get { return Read<IntPtr>(PebStructure.AppCompatInfo, out success); }
+            get { return Read<IntPtr>(PebStructure.AppCompatInfo, out Success); }
             set { Write(PebStructure.AppCompatInfo, value); }
         }
-        public long CsdVersion
+        public Int64 CsdVersion
         {
-            get { return Read<long>(PebStructure.CsdVersion, out success); }
+            get { return Read<Int64>(PebStructure.CsdVersion, out Success); }
             set { Write(PebStructure.CsdVersion, value); }
         }
         public IntPtr ActivationContextData
         {
-            get { return Read<IntPtr>(PebStructure.ActivationContextData, out success); }
+            get { return Read<IntPtr>(PebStructure.ActivationContextData, out Success); }
             set { Write(PebStructure.ActivationContextData, value); }
         }
         public IntPtr ProcessAssemblyStorageMap
         {
-            get { return Read<IntPtr>(PebStructure.ProcessAssemblyStorageMap, out success); }
+            get { return Read<IntPtr>(PebStructure.ProcessAssemblyStorageMap, out Success); }
             set { Write(PebStructure.ProcessAssemblyStorageMap, value); }
         }
         public IntPtr SystemDefaultActivationContextData
         {
-            get { return Read<IntPtr>(PebStructure.SystemDefaultActivationContextData, out success); }
+            get { return Read<IntPtr>(PebStructure.SystemDefaultActivationContextData, out Success); }
             set { Write(PebStructure.SystemDefaultActivationContextData, value); }
         }
         public IntPtr SystemAssemblyStorageMap
         {
-            get { return Read<IntPtr>(PebStructure.SystemAssemblyStorageMap, out success); }
+            get { return Read<IntPtr>(PebStructure.SystemAssemblyStorageMap, out Success); }
             set { Write(PebStructure.SystemAssemblyStorageMap, value); }
         }
         public IntPtr MinimumStackCommit
         {
-            get { return Read<IntPtr>(PebStructure.MinimumStackCommit, out success); }
+            get { return Read<IntPtr>(PebStructure.MinimumStackCommit, out Success); }
             set { Write(PebStructure.MinimumStackCommit, value); }
         }
         #endregion
@@ -345,22 +345,28 @@ namespace Binarysharp.MemoryManagement.Native
         /// <summary>
         /// Initializes a new instance of the <see cref="ManagedPeb"/> class.
         /// </summary>
-        /// <param name="memorySharp">The reference of the <see cref="MemorySharp"/> object.</param>
-        /// <param name="address">The location of the peb.</param>
-        internal ManagedPeb(MemorySharp memorySharp, IntPtr address) : base(memorySharp, address)
-        {}
+        /// <param name="MemorySharp">The reference of the <see cref="MemorySharp"/> object.</param>
+        /// <param name="Address">The location of the peb.</param>
+        internal ManagedPeb(MemorySharp MemorySharp, IntPtr Address) : base(MemorySharp, Address)
+        {
+
+        }
+
         #endregion
 
         #region Methods
         /// <summary>
         /// Finds the Process Environment Block address of a specified process.
         /// </summary>
-        /// <param name="processHandle">A handle of the process.</param>
+        /// <param name="ProcessHandle">A handle of the process.</param>
         /// <returns>A <see cref="IntPtr"/> pointer of the PEB.</returns>
-        public static IntPtr FindPeb(SafeMemoryHandle processHandle)
+        public static IntPtr FindPeb(SafeMemoryHandle ProcessHandle)
         {
-            return MemoryCore.NtQueryInformationProcess(processHandle).PebBaseAddress;
+            return MemoryCore.NtQueryInformationProcess(ProcessHandle).PebBaseAddress;
         }
+
         #endregion
-    }
-}
+
+    } // End class
+
+} // End namespace

@@ -1,138 +1,140 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace BinarySharp.MemoryManagement.Debugger
 {
     /*
-    public static IntPtr GetEdx(IntPtr address, Process process)
+    public static IntPtr GetEdx(IntPtr Address, Process Process)
     {
-        const uint DBG_EXCEPTION_NOT_HANDLED = 0x80010001;
-        const uint EXCEPTION_SINGLE_STEP = 0x80000004;
-        const int DBG_CONTINUE = 0x00010002; // Seems to work better than DBG_EXCEPTION_NOT_HANDLED
+        const UInt32 DBG_EXCEPTION_NOT_HANDLED = 0x80010001;
+        const UInt32 EXCEPTION_SINGLE_STEP = 0x80000004;
+        const Int32 DBG_CONTINUE = 0x00010002; // Seems to work better than DBG_EXCEPTION_NOT_HANDLED
 
         //DebugSetProcessKillOnExit(0);
-        DEBUG_EVENT evt = new DEBUG_EVENT();
+        DEBUG_EVENT Event = new DEBUG_EVENT();
+
         // Attach to the process we provided the thread as an argument
-        if (!DebugActiveProcess(process.Id))
+        if (!DebugActiveProcess(Process.Id))
             throw new Win32Exception();
 
-        CONTEXT context = new CONTEXT();
+        CONTEXT Context = new CONTEXT();
 
-        foreach (ProcessThread thread in process.Threads)
+        foreach (ProcessThread Thread in Process.Threads)
         {
-            uint iThreadId = (uint)thread.Id;
-            IntPtr hThread =
+            UInt32 IThreadId = (UInt32)Thread.Id;
+            IntPtr HThread =
                 OpenThread(
                     ThreadAccessFlags.SUSPEND_RESUME | ThreadAccessFlags.SET_CONTEXT |
-                    ThreadAccessFlags.GET_CONTEXT, false, iThreadId);
+                    ThreadAccessFlags.GET_CONTEXT, false, IThreadId);
 
             // Suspent the thread
-            if (SuspendThread(hThread) == -1) throw new ApplicationException("Cannot suspend thread.");
+            if (SuspendThread(HThread) == -1) throw new ApplicationException("Cannot suspend thread.");
 
-            context = new CONTEXT
+            Context = new CONTEXT
             {
                 ContextFlags = (uint)CONTEXT_FLAGS.CONTEXT_DEBUG_REGISTERS |
                                (uint)CONTEXT_FLAGS.CONTEXT_INTEGER
             };
 
             // Get the context
-            if (!GetThreadContext(hThread, ref context))
+            if (!GetThreadContext(HThread, ref Context))
                 throw new Win32Exception();
 
             // Change the context
 
-            context.Dr0 = (uint)address;
-            context.Dr7 = 0x00000001;
+            Context.Dr0 = (uint)Address;
+            Context.Dr7 = 0x00000001;
 
             // Set the changed context back
-            if (!SetThreadContext(hThread, ref context))
+            if (!SetThreadContext(HThread, ref Context))
                 throw new Win32Exception();
 
             // Check if setting the context give any errors
-            var error = Marshal.GetLastWin32Error();
-            if (error != 0)
+            Int32 Error = Marshal.GetLastWin32Error();
+            if (Error != 0)
             {
                 throw new ApplicationException("Error is setting context.");
             }
 
             // Resume the thread
-            if (ResumeThread(hThread) == -1) throw new ApplicationException("Cannot resume thread.");
+            if (ResumeThread(HThread) == -1) throw new ApplicationException("Cannot resume thread.");
         }
 
         while (true)
         {
-            if (!WaitForDebugEvent(out evt, -1))
+            if (!WaitForDebugEvent(out Event, -1))
                 throw new Win32Exception();
 
             // Multiple if's for easier debugging at this moment
-            if (evt.dwDebugEventCode == (uint)DebugEventType.EXCEPTION_DEBUG_EVENT)
+            if (Event.DWDebugEventCode == (UInt32)DebugEventType.EXCEPTION_DEBUG_EVENT)
             {
-                if (evt.Exception.ExceptionRecord.ExceptionCode == EXCEPTION_SINGLE_STEP)
+                if (Event.Exception.ExceptionRecord.ExceptionCode == EXCEPTION_SINGLE_STEP)
                 {
-                    if (evt.Exception.ExceptionRecord.ExceptionAddress == address)
+                    if (Event.Exception.ExceptionRecord.ExceptionAddress == Address)
                     {
-                        context = new CONTEXT
+                        Context = new CONTEXT
                         {
-                            ContextFlags = (uint)CONTEXT_FLAGS.CONTEXT_DEBUG_REGISTERS |
-                                           (uint)CONTEXT_FLAGS.CONTEXT_INTEGER
+                            ContextFlags = (UInt32)CONTEXT_FLAGS.CONTEXT_DEBUG_REGISTERS |
+                                           (UInt32)CONTEXT_FLAGS.CONTEXT_INTEGER
                         };
-                        GetThreadContext((IntPtr)evt.dwThreadId, ref context);
-                        return (IntPtr)context.Ebx; // ebx get
+                        GetThreadContext((IntPtr)Event.DWThreadId, ref Context);
+                        return (IntPtr)Context.Ebx; // ebx get
                     }
                 }
             }
 
-            ContinueDebugEvent(evt.dwProcessId, evt.dwThreadId, DBG_CONTINUE);//DBG_EXCEPTION_NOT_HANDLED);
+            ContinueDebugEvent(Event.DWProcessId, Event.DWThreadId, DBG_CONTINUE);//DBG_EXCEPTION_NOT_HANDLED);
         }
     }
 
 With a whole lot of Kernel32 methods:
 
 [DllImport("kernel32.dll")]
-    static extern int ResumeThread(IntPtr hThread);
+    static extern Int32 ResumeThread(IntPtr hThread);
     [DllImport("kernel32.dll")]
-    static extern uint SuspendThread(IntPtr hThread);
+    static extern UInt32 SuspendThread(IntPtr hThread);
     [DllImport("kernel32.dll")]
-    public static extern IntPtr OpenThread(ThreadAccessFlags dwDesiredAccess, bool bInheritHandle, uint dwThreadId);
+    public static extern IntPtr OpenThread(ThreadAccessFlags dwDesiredAccess, Boolean bInheritHandle, UInt32 dwThreadId);
     [DllImport("Kernel32.dll", SetLastError = true)]
-    static extern bool DebugActiveProcess(int dwProcessId);
+    static extern Boolean DebugActiveProcess(Int32 dwProcessId);
     [DllImport("Kernel32.dll", SetLastError = true)]
-    static extern bool WaitForDebugEvent([Out] out DEBUG_EVENT lpDebugEvent, int dwMilliseconds);
+    static extern Boolean WaitForDebugEvent([Out] out DEBUG_EVENT lpDebugEvent, Int32 dwMilliseconds);
     [DllImport("Kernel32.dll", SetLastError = true)]
-    static extern bool ContinueDebugEvent(int dwProcessId, int dwThreadId, uint dwContinueStatus);
+    static extern Boolean ContinueDebugEvent(Int32 dwProcessId, Int32 dwThreadId, UInt32 dwContinueStatus);
     [DllImport("Kernel32.dll", SetLastError = true)]
-    public static extern bool IsDebuggerPresent();
+    public static extern Boolean IsDebuggerPresent();
     [DllImport("kernel32.dll")]
-    private static extern bool GetThreadContext(IntPtr hThread, ref CONTEXT lpContext);
+    private static extern Boolean GetThreadContext(IntPtr hThread, ref CONTEXT lpContext);
     [DllImport("kernel32.dll")]
-    public static extern bool SetThreadContext(IntPtr hThread, ref CONTEXT lpContext);
+    public static extern Boolean SetThreadContext(IntPtr hThread, ref CONTEXT lpContext);
 
     [StructLayout(LayoutKind.Sequential)]
     public unsafe struct DEBUG_EVENT
     {
-        public readonly uint dwDebugEventCode;
-        public readonly int dwProcessId;
-        public readonly int dwThreadId;
+        public readonly UInt32 DWDebugEventCode;
+        public readonly Int32 DWProcessId;
+        public readonly Int32 DWThreadId;
 
 
         [MarshalAs(UnmanagedType.ByValArray, SizeConst = 86, ArraySubType = UnmanagedType.U1)]
-        private readonly byte[] debugInfo;
+        private readonly Byte[] DebugInfo;
 
 
         public EXCEPTION_DEBUG_INFO Exception
         {
             get
             {
-                if (debugInfo == null)
+                if (DebugInfo == null)
                     return new EXCEPTION_DEBUG_INFO();
 
 
-                fixed (byte* ptr = debugInfo)
+                fixed (Byte* DebugInfoPtr = DebugInfo)
                 {
-                    return *(EXCEPTION_DEBUG_INFO*)ptr;
+                    return *(EXCEPTION_DEBUG_INFO*)DebugInfoPtr;
                 }
             }
         }
@@ -142,11 +144,11 @@ With a whole lot of Kernel32 methods:
         {
             get
             {
-                if (debugInfo == null)
+                if (DebugInfo == null)
                     return new LOAD_DLL_DEBUG_INFO();
 
 
-                fixed (byte* ptr = debugInfo)
+                fixed (Byte* ptr = DebugInfo)
                 {
                     return *(LOAD_DLL_DEBUG_INFO*)ptr;
                 }
@@ -159,40 +161,37 @@ With a whole lot of Kernel32 methods:
     {
         public readonly IntPtr hFile;
         public readonly IntPtr lpBaseOfDll;
-        public readonly uint dwDebugInfoFileOffset;
-        public readonly uint nDebugInfoSize;
+        public readonly UInt32 dwDebugInfoFileOffset;
+        public readonly UInt32 nDebugInfoSize;
         public readonly IntPtr lpImageName;
-        public readonly ushort fUnicode;
+        public readonly UInt16 fUnicode;
     }
-
-
+    
     [StructLayout(LayoutKind.Sequential)]
     public struct EXCEPTION_DEBUG_INFO
     {
         public EXCEPTION_RECORD ExceptionRecord;
-        public readonly uint dwFirstChance;
+        public readonly UInt32 dwFirstChance;
     }
-
-
+    
     [StructLayout(LayoutKind.Sequential)]
     public struct EXCEPTION_RECORD
     {
-        public readonly uint ExceptionCode;
-        public readonly uint ExceptionFlags;
+        public readonly UInt32 ExceptionCode;
+        public readonly UInt32 ExceptionFlags;
         public readonly IntPtr ExceptionRecord;
         public readonly IntPtr ExceptionAddress;
-        public readonly uint NumberParameters;
+        public readonly UInt32 NumberParameters;
 
 
         //[MarshalAs(UnmanagedType.ByValArray, SizeConst = 15, ArraySubType = UnmanagedType.U4)]
         //public readonly uint[] ExceptionInformation;
 
 
-        public unsafe fixed uint ExceptionInformation[15];
+        public unsafe fixed UInt32 ExceptionInformation[15];
     }
-
-
-    public enum DebugEventType : int
+    
+    public enum DebugEventType : Int32
     {
         CREATE_PROCESS_DEBUG_EVENT = 3, //Reports a create-process debugging event. The value of u.CreateProcessInfo specifies a CREATE_PROCESS_DEBUG_INFO structure.
         CREATE_THREAD_DEBUG_EVENT = 2, //Reports a create-thread debugging event. The value of u.CreateThread specifies a CREATE_THREAD_DEBUG_INFO structure.
@@ -208,35 +207,35 @@ With a whole lot of Kernel32 methods:
     [StructLayout(LayoutKind.Sequential)]
     public struct CONTEXT
     {
-        public uint ContextFlags;
-        public uint Dr0;
-        public uint Dr1;
-        public uint Dr2;
-        public uint Dr3;
-        public uint Dr6;
-        public uint Dr7;
+        public UInt32 ContextFlags;
+        public UInt32 Dr0;
+        public UInt32 Dr1;
+        public UInt32 Dr2;
+        public UInt32 Dr3;
+        public UInt32 Dr6;
+        public UInt32 Dr7;
         public FLOATING_SAVE_AREA FloatSave;
-        public uint SegGs;
-        public uint SegFs;
-        public uint SegEs;
-        public uint SegDs;
-        public uint Edi;
-        public uint Esi;
-        public uint Ebx;
-        public uint Edx;
-        public uint Ecx;
-        public uint Eax;
-        public uint Ebp;
-        public uint Eip;
-        public uint SegCs;
-        public uint EFlags;
-        public uint Esp;
-        public uint SegSs;
+        public UInt32 SegGs;
+        public UInt32 SegFs;
+        public UInt32 SegEs;
+        public UInt32 SegDs;
+        public UInt32 Edi;
+        public UInt32 Esi;
+        public UInt32 Ebx;
+        public UInt32 Edx;
+        public UInt32 Ecx;
+        public UInt32 Eax;
+        public UInt32 Ebp;
+        public UInt32 Eip;
+        public UInt32 SegCs;
+        public UInt32 EFlags;
+        public UInt32 Esp;
+        public UInt32 SegSs;
         [MarshalAs(UnmanagedType.ByValArray, SizeConst = 512)]
-        public byte[] ExtendedRegisters;
+        public Byte[] ExtendedRegisters;
     }
 
-    public enum CONTEXT_FLAGS : uint
+    public enum CONTEXT_FLAGS : UInt32
     {
         CONTEXT_i386 = 0x10000,
         CONTEXT_i486 = 0x10000,
@@ -251,7 +250,7 @@ With a whole lot of Kernel32 methods:
     }
 
     [Flags]
-    public enum ThreadAccessFlags : int
+    public enum ThreadAccessFlags : Int32
     {
         TERMINATE = 0x0001,
         SUSPEND_RESUME = 0x0002,
@@ -267,26 +266,26 @@ With a whole lot of Kernel32 methods:
     [StructLayout(LayoutKind.Sequential)]
     public struct FLOATING_SAVE_AREA
     {
-        public uint ControlWord;
-        public uint StatusWord;
-        public uint TagWord;
-        public uint ErrorOffset;
-        public uint ErrorSelector;
-        public uint DataOffset;
-        public uint DataSelector;
+        public UInt32 ControlWord;
+        public UInt32 StatusWord;
+        public UInt32 TagWord;
+        public UInt32 ErrorOffset;
+        public UInt32 ErrorSelector;
+        public UInt32 DataOffset;
+        public UInt32 DataSelector;
 
         // missing some stuff
-        public uint Cr0NpxState;
+        public UInt32 Cr0NpxState;
     }
 
     [DllImport("kernel32.dll")]
-    private static extern int VirtualQueryEx(IntPtr hProcess, IntPtr lpAddress, out MEMORY_BASIC_INFORMATION lpBuffer, int dwLength);
+    private static extern Int32 VirtualQueryEx(IntPtr HProcess, IntPtr LPAddress, out MEMORY_BASIC_INFORMATION LPBuffer, Int32 DWLength);
 
     [DllImport("kernel32.dll")]
-    public static extern bool ReadProcessMemory(IntPtr hProcess, int lpBaseAddress, byte[] buffer, int size,
-        int lpNumberOfBytesRead);
-        */
-    public enum ErrorCode : uint
+    public static extern Boolean ReadProcessMemory(IntPtr HProcess, Int32 LPBaseAddress, Byte[] Buffer, Int32 Size,Int32 LPNumberOfBytesRead);
+    */
+
+    public enum ErrorCode : UInt32
     {
         // Taken from http://source.winehq.org/source/include/ntstatus.h
         STATUS_GUARD_PAGE_VIOLATION = 0x80000001,
@@ -1354,5 +1353,6 @@ With a whole lot of Kernel32 methods:
 
         // Added manually
 
-    }
-}
+    } // End class
+
+} // End namespace

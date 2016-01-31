@@ -27,20 +27,20 @@ namespace Binarysharp.MemoryManagement.Assembly.CallingConvention
         /// <summary>
         /// Formats the given parameters to call a function.
         /// </summary>
-        /// <param name="parameters">An array of parameters.</param>
+        /// <param name="Parameters">An array of parameters.</param>
         /// <returns>The mnemonics to pass the parameters.</returns>
-        string FormatParameters(IntPtr[] parameters);
+        string FormatParameters(IntPtr[] Parameters);
         /// <summary>
         /// Formats the call of a given function.
         /// </summary>
-        /// <param name="function">The function to call.</param>
+        /// <param name="Function">The function to call.</param>
         /// <returns>The mnemonics to call the function.</returns>
-        string FormatCalling(IntPtr function);
+        string FormatCalling(IntPtr Function);
         /// <summary>
         /// Formats the cleaning of a given number of parameters.
         /// </summary>
-        /// <param name="nbParameters">The number of parameters to clean.</param>
+        /// <param name="ParameterCount">The number of parameters to clean.</param>
         /// <returns>The mnemonics to clean a given number of parameters.</returns>
-        string FormatCleaning(int nbParameters);
+        string FormatCleaning(int ParameterCount);
     }
 }

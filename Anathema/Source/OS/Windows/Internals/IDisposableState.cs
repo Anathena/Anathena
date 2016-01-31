@@ -25,4 +25,5 @@ namespace Binarysharp.MemoryManagement.Internals
         /// </summary>
         bool MustBeDisposed { get; }
     }
-}
+
+} // End namespace

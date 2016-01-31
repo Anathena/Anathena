@@ -878,4 +878,5 @@ namespace Binarysharp.MemoryManagement.Native
     /// <returns>To continue enumeration, the callback function must return <c>True</c>; to stop enumeration, it must return <c>False</c>.</returns>
     public delegate bool EnumWindowsProc(IntPtr hWnd, IntPtr lParam);
     #endregion
-}
+
+} // End namespace

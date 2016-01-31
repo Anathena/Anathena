@@ -17,5 +17,7 @@ namespace Binarysharp.MemoryManagement.Internals
     /// <remarks>At the moment, the factories are just disposable.</remarks>
     public interface IFactory : IDisposable
     {
+
     }
-}
+
+} // End namespace

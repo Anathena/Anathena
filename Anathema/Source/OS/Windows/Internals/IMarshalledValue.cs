@@ -26,4 +26,5 @@ namespace Binarysharp.MemoryManagement.Internals
         /// </summary>
         IntPtr Reference { get; }
     }
-}
+
+} // End namespace

@@ -21,51 +21,53 @@ namespace Binarysharp.MemoryManagement.Assembly.CallingConvention
         /// <summary>
         /// The name of the calling convention.
         /// </summary>
-        public string Name
-        {
-            get { return "Stdcall"; }
-        }
+        public string Name   {  get { return "Stdcall"; }   }
+
         /// <summary>
         /// Defines which function performs the clean-up task.
         /// </summary>
-        public CleanupTypes Cleanup
-        {
-            get { return CleanupTypes.Callee; }
-        }
+        public CleanupTypes Cleanup  {  get { return CleanupTypes.Callee; }   }
+
         /// <summary>
         /// Formats the given parameters to call a function.
         /// </summary>
-        /// <param name="parameters">An array of parameters.</param>
+        /// <param name="Parameters">An array of parameters.</param>
         /// <returns>The mnemonics to pass the parameters.</returns>
-        public string FormatParameters(IntPtr[] parameters)
+        public string FormatParameters(IntPtr[] Parameters)
         {
             // Declare a var to store the mnemonics
-            var ret = new StringBuilder();
+            StringBuilder FormattedParameters = new StringBuilder();
+
             // For each parameters (in reverse order)
-            foreach (var parameter in parameters.Reverse())
+            foreach (IntPtr Parameter in Parameters.Reverse())
             {
-                ret.AppendLine("push " + parameter);
+                FormattedParameters.AppendLine("push " + Parameter);
             }
+
             // Return the mnemonics
-            return ret.ToString();
+            return FormattedParameters.ToString();
         }
+
         /// <summary>
         /// Formats the call of a given function.
         /// </summary>
-        /// <param name="function">The function to call.</param>
+        /// <param name="Function">The function to call.</param>
         /// <returns>The mnemonics to call the function.</returns>
-        public string FormatCalling(IntPtr function)
+        public string FormatCalling(IntPtr Function)
         {
-            return "call " + function;
+            return "call " + Function;
         }
+
         /// <summary>
         /// Formats the cleaning of a given number of parameters.
         /// </summary>
         /// <param name="nbParameters">The number of parameters to clean.</param>
         /// <returns>The mnemonics to clean a given number of parameters.</returns>
-        public string FormatCleaning(int nbParameters)
+        public string FormatCleaning(Int32 nbParameters)
         {
             return String.Empty;
         }
-    }
-}
+
+    } // End class
+
+} // End namespace

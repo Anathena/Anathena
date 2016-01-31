@@ -25,10 +25,11 @@ namespace Binarysharp.MemoryManagement.Helpers
         /// </summary>
         /// <param name="processId">The system-unique identifier of a process resource.</param>
         /// <returns>A <see cref="Process"/> component that is associated with the local process resource identified by the processId parameter.</returns>
-        public static Process FromProcessId(int processId)
+        public static Process FromProcessId(Int32 processId)
         {
             return Process.GetProcessById(processId);
         }
+
         #endregion
 
         #region FromProcessName
@@ -37,10 +38,13 @@ namespace Binarysharp.MemoryManagement.Helpers
         /// </summary>
         /// <param name="processName">The friendly name of the process.</param>
         /// <returns>A collection of type <see cref="Process"/> that represents the process resources running the specified application or file.</returns>
-        public static IEnumerable<Process> FromProcessName(string processName)
+        public static IEnumerable<Process> FromProcessName(String processName)
         {
             return Process.GetProcessesByName(processName);
         }
+
         #endregion
-    }
-}
+
+    } // End class
+
+} // End namespace

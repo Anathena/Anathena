@@ -19,5 +19,7 @@ namespace Binarysharp.MemoryManagement.Helpers
         /// Gets the singleton of the given type.
         /// </summary>
         public static readonly T Instance = new T();
-    }
-}
+
+    } // End class
+
+} // End namespace

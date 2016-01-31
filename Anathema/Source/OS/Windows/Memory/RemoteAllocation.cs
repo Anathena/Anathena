@@ -18,37 +18,32 @@ namespace Binarysharp.MemoryManagement.Memory
     /// </summary>
     public class RemoteAllocation : RemoteVirtualPage, IDisposableState
     {
-        #region Properties
-        #region IsDisposed (implementation of IDisposableState)
         /// <summary>
         /// Gets a value indicating whether the element is disposed.
         /// </summary>
         public bool IsDisposed { get; private set; }
-        #endregion
-        #region MustBeDisposed (implementation of IDisposableState)
         /// <summary>
         /// Gets a value indicating whether the element must be disposed when the Garbage Collector collects the object.
         /// </summary>
         public bool MustBeDisposed { get; set; }
-        #endregion
-        #endregion
 
         #region Constructor/Destructor
         /// <summary>
         /// Initializes a new instance of the <see cref="RemoteAllocation"/> class.
         /// </summary>
-        /// <param name="memorySharp">The reference of the <see cref="MemorySharp"/> object.</param>
-        /// <param name="size">The size of the allocated memory.</param>
-        /// <param name="protection">The protection of the allocated memory.</param>
-        /// <param name="mustBeDisposed">The allocated memory will be released when the finalizer collects the object.</param>
-        internal RemoteAllocation(MemorySharp memorySharp, int size, MemoryProtectionFlags protection = MemoryProtectionFlags.ExecuteReadWrite, 
-                                 bool mustBeDisposed = true) 
-            : base(memorySharp, MemoryCore.Allocate(memorySharp.Handle, size, protection))
+        /// <param name="MemorySharp">The reference of the <see cref="MemorySharp"/> object.</param>
+        /// <param name="Size">The size of the allocated memory.</param>
+        /// <param name="Protection">The protection of the allocated memory.</param>
+        /// <param name="MustBeDisposed">The allocated memory will be released when the finalizer collects the object.</param>
+        internal RemoteAllocation(MemorySharp MemorySharp, Int32 Size, MemoryProtectionFlags Protection = MemoryProtectionFlags.ExecuteReadWrite, 
+                                 Boolean MustBeDisposed = true) 
+            : base(MemorySharp, MemoryCore.Allocate(MemorySharp.Handle, Size, Protection))
         {
             // Set local vars
-            MustBeDisposed = mustBeDisposed;
+            this.MustBeDisposed = MustBeDisposed;
             IsDisposed = false;
         }
+
         /// <summary>
         /// Frees resources and perform other cleanup operations before it is reclaimed by garbage collection.
         /// </summary>
@@ -57,6 +52,7 @@ namespace Binarysharp.MemoryManagement.Memory
             if(MustBeDisposed)
                 Dispose();
         }
+
         #endregion
 
         #region Methods
@@ -71,17 +67,23 @@ namespace Binarysharp.MemoryManagement.Memory
             {
                 // Set the flag to true
                 IsDisposed = true;
+
                 // Release the allocated memory
                 Release();
+
                 // Remove this object from the collection of allocated memory
                 MemorySharp.Memory.Deallocate(this);
+
                 // Remove the pointer
                 BaseAddress = IntPtr.Zero;
+
                 // Avoid the finalizer 
                 GC.SuppressFinalize(this);
             }
         }
         #endregion
         #endregion
-    }
-}
+
+    } // End class
+
+} // End namespace

@@ -41,4 +41,5 @@ namespace Binarysharp.MemoryManagement.Threading
         Ss
     }
     #endregion
-}
+
+} // End namespace

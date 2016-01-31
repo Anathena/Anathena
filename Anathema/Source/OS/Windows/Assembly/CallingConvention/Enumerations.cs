@@ -63,5 +63,7 @@ namespace Binarysharp.MemoryManagement.Assembly.CallingConvention
         /// The clean-up task is performed by the caller function. 
         /// </summary>
         Caller
+
     }
-}
+
+} // End namespace

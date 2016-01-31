@@ -21,9 +21,9 @@ namespace Binarysharp.MemoryManagement.Assembly.Disassembler
     {
         private SharpDisasm.Disassembler Disassembler;
 
-        public List<Instruction> Disassemble(byte[] bytes, bool IsProcess32Bit, UInt64 Address)
+        public List<Instruction> Disassemble(Byte[] Bytes, Boolean Architecture32Bit, UInt64 Address)
         {
-            Disassembler = new SharpDisasm.Disassembler(bytes, IsProcess32Bit ? SharpDisasm.ArchitectureMode.x86_32 : SharpDisasm.ArchitectureMode.x86_64, Address);
+            Disassembler = new SharpDisasm.Disassembler(Bytes, Architecture32Bit ? SharpDisasm.ArchitectureMode.x86_32 : SharpDisasm.ArchitectureMode.x86_64, Address);
             return new List<Instruction>(Disassembler.Disassemble());
         }
 

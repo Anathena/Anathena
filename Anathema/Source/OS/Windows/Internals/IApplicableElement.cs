@@ -27,4 +27,5 @@ namespace Binarysharp.MemoryManagement.Internals
         /// </summary>
         void Enable();
     }
-}
+
+} // End namespace

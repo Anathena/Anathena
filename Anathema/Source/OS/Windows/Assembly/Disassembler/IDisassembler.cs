@@ -21,8 +21,10 @@ namespace Binarysharp.MemoryManagement.Assembly.Disassembler
         /// <summary>
         /// Disassemble the specified assembly code.
         /// </summary>
-        /// <param name="bytes">The raw bytes.</param>
+        /// <param name="Bytes">The raw bytes.</param>
         /// <returns>A string containing the assembly.</returns>
-        List<Instruction> Disassemble(byte[] bytes, bool IsProcess32Bit, UInt64 Address);
-    }
-}
+        List<Instruction> Disassemble(Byte[] Bytes, Boolean Architecture32Bit, UInt64 Address);
+
+    } // End class
+
+} // End namespace

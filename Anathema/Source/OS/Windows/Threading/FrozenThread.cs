@@ -16,23 +16,22 @@ namespace Binarysharp.MemoryManagement.Threading
     /// </summary>
     public class FrozenThread : IDisposable
     {
-        #region Properties
         /// <summary>
         /// The frozen thread.
         /// </summary>
         public RemoteThread Thread { get; private set; }
-        #endregion
 
         #region Constructor
         /// <summary>
         /// Initializes a new instance of the <see cref="FrozenThread"/> class.
         /// </summary>
-        /// <param name="thread">The frozen thread.</param>
-        internal FrozenThread(RemoteThread thread)
+        /// <param name="Thread">The frozen thread.</param>
+        internal FrozenThread(RemoteThread Thread)
         {
             // Save the parameter
-            Thread = thread;
+            this.Thread = Thread;
         }
+
         #endregion
 
         #region Methods
@@ -45,16 +44,20 @@ namespace Binarysharp.MemoryManagement.Threading
             // Unfreeze the thread
             Thread.Resume();
         }
+
         #endregion
         #region ToString (override)
         /// <summary>
         /// Returns a string that represents the current object.
         /// </summary>
-        public override string ToString()
+        public override String ToString()
         {
-            return string.Format("Id = {0}", Thread.Id);
+            return String.Format("Id = {0}", Thread.Id);
         }
+
         #endregion
         #endregion
-    }
-}
+
+    } // End class
+
+} // End namespace

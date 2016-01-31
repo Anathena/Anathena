@@ -32,11 +32,11 @@ namespace Binarysharp.MemoryManagement.Threading
         /// <summary>
         /// The parameter passed to the thread when it was created.
         /// </summary>
-        private readonly IMarshalledValue _parameter;
+        private readonly IMarshalledValue _Parameter;
         /// <summary>
         /// The task involved in cleaning the parameter memory when the <see cref="RemoteThread"/> object is collected.
         /// </summary>
-        private readonly Task _parameterCleaner;
+        private readonly Task _ParameterCleaner;
         #endregion
 
         #region Properties
@@ -53,11 +53,11 @@ namespace Binarysharp.MemoryManagement.Threading
                 if (IsAlive)
                 {
                     // Check if the thread is already suspended
-                    var isSuspended = IsSuspended;
+                    Boolean IsSuspended = this.IsSuspended;
                     try
                     {
                         // Suspend the thread if it wasn't
-                        if (!isSuspended)
+                        if (!IsSuspended)
                             Suspend();
                         // Get the context
                         return ThreadCore.GetThreadContext(Handle, ThreadContextFlags.All | ThreadContextFlags.FloatingPoint |
@@ -67,7 +67,7 @@ namespace Binarysharp.MemoryManagement.Threading
                     finally
                     {
                         // Resume the thread if it wasn't suspended
-                        if (!isSuspended)
+                        if (!IsSuspended)
                             Resume();
                     }
                 }
@@ -80,11 +80,11 @@ namespace Binarysharp.MemoryManagement.Threading
                 if (!IsAlive) return;
 
                 // Check if the thread is already suspended
-                var isSuspended = IsSuspended;
+                Boolean IsSuspended = this.IsSuspended;
                 try
                 {
                     // Suspend the thread if it wasn't
-                    if (!isSuspended)
+                    if (!IsSuspended)
                         Suspend();
                     // Set the context
                     ThreadCore.SetThreadContext(Handle, value);
@@ -92,7 +92,7 @@ namespace Binarysharp.MemoryManagement.Threading
                 finally
                 {
                     // Resume the thread if it wasn't suspended
-                    if (!isSuspended)
+                    if (!IsSuspended)
                         Resume();
                 }
             }
@@ -132,7 +132,7 @@ namespace Binarysharp.MemoryManagement.Threading
         /// <summary>
         /// Gets if the thread is suspended.
         /// </summary>
-        public bool IsSuspended
+        public Boolean IsSuspended
         {
             get
             {
@@ -147,7 +147,7 @@ namespace Binarysharp.MemoryManagement.Threading
         /// <summary>
         /// Gets if the thread is terminated.
         /// </summary>
-        public bool IsTerminated
+        public Boolean IsTerminated
         {
             get
             {
@@ -176,38 +176,40 @@ namespace Binarysharp.MemoryManagement.Threading
         /// <summary>
         /// Initializes a new instance of the <see cref="RemoteThread"/> class.
         /// </summary>
-        /// <param name="memorySharp">The reference of the <see cref="MemoryManagement.MemorySharp"/> object.</param>
-        /// <param name="thread">The native <see cref="ProcessThread"/> object.</param>
-        internal RemoteThread(MemorySharp memorySharp, ProcessThread thread)
+        /// <param name="MemorySharp">The reference of the <see cref="MemoryManagement.MemorySharp"/> object.</param>
+        /// <param name="Thread">The native <see cref="ProcessThread"/> object.</param>
+        internal RemoteThread(MemorySharp MemorySharp, ProcessThread Thread)
         {
             // Save the parameters
-            MemorySharp = memorySharp;
-            Native = thread;
+            this.MemorySharp = MemorySharp;
+            Native = Thread;
             // Save the thread id
-            Id = thread.Id;
+            Id = Thread.Id;
             // Open the thread
             Handle = ThreadCore.OpenThread(ThreadAccessFlags.AllAccess, Id);
             // Initialize the TEB
-            Teb = new ManagedTeb(MemorySharp, ManagedTeb.FindTeb(Handle));
+            Teb = new ManagedTeb(this.MemorySharp, ManagedTeb.FindTeb(Handle));
         }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="RemoteThread"/> class.
         /// </summary>
-        /// <param name="memorySharp">The reference of the <see cref="MemoryManagement.MemorySharp"/> object.</param>
-        /// <param name="thread">The native <see cref="ProcessThread"/> object.</param>
-        /// <param name="parameter">The parameter passed to the thread when it was created.</param>
-        internal RemoteThread(MemorySharp memorySharp, ProcessThread thread, IMarshalledValue parameter = null) : this(memorySharp, thread)
+        /// <param name="MemorySharp">The reference of the <see cref="MemoryManagement.MemorySharp"/> object.</param>
+        /// <param name="Thread">The native <see cref="ProcessThread"/> object.</param>
+        /// <param name="Parameter">The parameter passed to the thread when it was created.</param>
+        internal RemoteThread(MemorySharp MemorySharp, ProcessThread Thread, IMarshalledValue Parameter = null) : this(MemorySharp, Thread)
         {
             // Save the parameter
-            _parameter = parameter;
+            _Parameter = Parameter;
+
             // Create the task
-            _parameterCleaner = new Task(() =>
-                                             {
-                                                 Join();
-                                                 _parameter.Dispose();
-                                             });
+            _ParameterCleaner = new Task(() =>
+            {
+                Join();
+                _Parameter.Dispose();
+            });
         }
+
         /// <summary>
         /// Frees resources and perform other cleanup operations before it is reclaimed by garbage collection. 
         /// </summary>
@@ -215,6 +217,7 @@ namespace Binarysharp.MemoryManagement.Threading
         {
             Dispose();
         }
+
         #endregion
 
         #region Methods
@@ -229,25 +232,28 @@ namespace Binarysharp.MemoryManagement.Threading
             // Avoid the finalizer
             GC.SuppressFinalize(this);
         }
+
         #endregion
         #region Equals (override)
         /// <summary>
         /// Determines whether the specified object is equal to the current object.
         /// </summary>
-        public override bool Equals(object obj)
+        public override Boolean Equals(Object Object)
         {
-            if (ReferenceEquals(null, obj)) return false;
-            if (ReferenceEquals(this, obj)) return true;
-            return obj.GetType() == GetType() && Equals((RemoteThread) obj);
+            if (ReferenceEquals(null, Object)) return false;
+            if (ReferenceEquals(this, Object)) return true;
+            return Object.GetType() == GetType() && Equals((RemoteThread) Object);
         }
+
         /// <summary>
         /// Returns a value indicating whether this instance is equal to a specified object.
         /// </summary>
-        public bool Equals(RemoteThread other)
+        public Boolean Equals(RemoteThread other)
         {
             if (ReferenceEquals(null, other)) return false;
             return ReferenceEquals(this, other) || (Id == other.Id && MemorySharp.Equals(other.MemorySharp));
         }
+
         #endregion
         #region GetExitCode
         /// <summary>
@@ -256,67 +262,72 @@ namespace Binarysharp.MemoryManagement.Threading
         public T GetExitCode<T>()
         {
             // Get the exit code of the thread (can be nullable)
-            var ret = ThreadCore.GetExitCodeThread(Handle);
+            IntPtr? ExitCode = ThreadCore.GetExitCodeThread(Handle);
             // Return the exit code or the default value of T if there's no exit code
-            return ret.HasValue ? MarshalType<T>.PtrToObject(MemorySharp, ret.Value) : default(T);
+            return ExitCode.HasValue ? MarshalType<T>.PtrToObject(MemorySharp, ExitCode.Value) : default(T);
         }
+
         #endregion
         #region GetHashCode (override)
         /// <summary>
         /// Serves as a hash function for a particular type. 
         /// </summary>
-        public override int GetHashCode()
+        public override Int32 GetHashCode()
         {
             return Id.GetHashCode() ^ MemorySharp.GetHashCode();
         }
+
         #endregion
         #region GetRealSegmentAddress
         /// <summary>
         /// Gets the linear address of a specified segment.
         /// </summary>
-        /// <param name="segment">The segment to get.</param>
+        /// <param name="Segment">The segment to get.</param>
         /// <returns>A <see cref="IntPtr"/> pointer corresponding to the linear address of the segment.</returns>
-        public IntPtr GetRealSegmentAddress(SegmentRegisters segment)
+        public IntPtr GetRealSegmentAddress(SegmentRegisters Segment)
         {
             // Get a selector entry for the segment
-            LdtEntry entry;
-            switch (segment)
+            LdtEntry Entry;
+            switch (Segment)
             {
                 case SegmentRegisters.Cs:
-                    entry = ThreadCore.GetThreadSelectorEntry(Handle, Context.SegCs);
+                    Entry = ThreadCore.GetThreadSelectorEntry(Handle, Context.SegCs);
                     break;
                 case SegmentRegisters.Ds:
-                    entry = ThreadCore.GetThreadSelectorEntry(Handle, Context.SegDs);
+                    Entry = ThreadCore.GetThreadSelectorEntry(Handle, Context.SegDs);
                     break;
                 case SegmentRegisters.Es:
-                    entry = ThreadCore.GetThreadSelectorEntry(Handle, Context.SegEs);
+                    Entry = ThreadCore.GetThreadSelectorEntry(Handle, Context.SegEs);
                     break;
                 case SegmentRegisters.Fs:
-                    entry = ThreadCore.GetThreadSelectorEntry(Handle, Context.SegFs);
+                    Entry = ThreadCore.GetThreadSelectorEntry(Handle, Context.SegFs);
                     break;
                 case SegmentRegisters.Gs:
-                    entry = ThreadCore.GetThreadSelectorEntry(Handle, Context.SegGs);
+                    Entry = ThreadCore.GetThreadSelectorEntry(Handle, Context.SegGs);
                     break;
                 case SegmentRegisters.Ss:
-                    entry = ThreadCore.GetThreadSelectorEntry(Handle, Context.SegSs);
+                    Entry = ThreadCore.GetThreadSelectorEntry(Handle, Context.SegSs);
                     break;
                 default:
                     throw new InvalidEnumArgumentException("segment");
             }
+
             // Compute the linear address
-            return new IntPtr(entry.BaseLow | (entry.BaseMid << 16) | (entry.BaseHi << 24));
-        }
-        #endregion
-        #region Operator (override)
-        public static bool operator ==(RemoteThread left, RemoteThread right)
-        {
-            return Equals(left, right);
+            return new IntPtr(Entry.BaseLow | (Entry.BaseMid << 16) | (Entry.BaseHi << 24));
         }
 
-        public static bool operator !=(RemoteThread left, RemoteThread right)
+        #endregion
+        #region Operator (override)
+        public static Boolean operator ==(RemoteThread Left, RemoteThread Right)
         {
-            return !Equals(left, right);
+            return Equals(Left, Right);
         }
+
+        public static Boolean operator !=(RemoteThread Left, RemoteThread Right)
+        {
+            return !Equals(Left, Right);
+        }
+
         #endregion
         #region Refresh
         /// <summary>
@@ -326,11 +337,14 @@ namespace Binarysharp.MemoryManagement.Threading
         {
             if (Native == null)
                 return;
+
             // Refresh the process info
             MemorySharp.Native.Refresh();
+
             // Get new info about the thread
-            Native = MemorySharp.Threads.NativeThreads.FirstOrDefault(t => t.Id == Native.Id);
+            Native = MemorySharp.Threads.NativeThreads.FirstOrDefault(x => x.Id == Native.Id);
         }
+
         #endregion
         #region Join
         /// <summary>
@@ -340,15 +354,17 @@ namespace Binarysharp.MemoryManagement.Threading
         {
             ThreadCore.WaitForSingleObject(Handle);
         }
+
         /// <summary>
         /// Blocks the calling thread until a thread terminates or the specified time elapses.
         /// </summary>
-        /// <param name="time">The timeout.</param>
+        /// <param name="Time">The timeout.</param>
         /// <returns>The return value is a flag that indicates if the thread terminated or if the time elapsed.</returns>
-        public WaitValues Join(TimeSpan time)
+        public WaitValues Join(TimeSpan Time)
         {
-            return ThreadCore.WaitForSingleObject(Handle, time);
+            return ThreadCore.WaitForSingleObject(Handle, Time);
         }
+
         #endregion
         #region Resume
         /// <summary>
@@ -363,9 +379,10 @@ namespace Binarysharp.MemoryManagement.Threading
             ThreadCore.ResumeThread(Handle);
 
             // Start a task to clean the memory used by the parameter if we created the thread
-            if(_parameter != null && !_parameterCleaner.IsCompleted)
-                _parameterCleaner.Start();
+            if(_Parameter != null && !_ParameterCleaner.IsCompleted)
+                _ParameterCleaner.Start();
         }
+
         #endregion
         #region Suspend
         /// <summary>
@@ -381,27 +398,32 @@ namespace Binarysharp.MemoryManagement.Threading
             }
             return null;
         }
+
         #endregion
         #region Terminate
         /// <summary>
         /// Terminates the thread.
         /// </summary>
-        /// <param name="exitCode">The exit code of the thread to close.</param>
-        public void Terminate(int exitCode = 0)
+        /// <param name="ExitCode">The exit code of the thread to close.</param>
+        public void Terminate(Int32 ExitCode = 0)
         {
             if(IsAlive)
-                ThreadCore.TerminateThread(Handle, exitCode);
+                ThreadCore.TerminateThread(Handle, ExitCode);
         }
+
         #endregion
         #region ToString (override)
         /// <summary>
         /// Returns a string that represents the current object.
         /// </summary>
-        public override string ToString()
+        public override String ToString()
         {
-            return string.Format("Id = {0} IsAlive = {1} IsMainThread = {2}", Id, IsAlive, IsMainThread);
+            return String.Format("Id = {0} IsAlive = {1} IsMainThread = {2}", Id, IsAlive, IsMainThread);
         }
+
         #endregion
         #endregion
-    }
-}
+
+    } // End class
+
+} // End namespace

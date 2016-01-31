@@ -53,26 +53,30 @@ namespace Binarysharp.MemoryManagement.Assembly
         /// <summary>
         /// Initializes a new instance of the <see cref="AssemblyTransaction"/> class.
         /// </summary>
-        /// <param name="memorySharp">The reference of the <see cref="MemorySharp"/> object.</param>
-        /// <param name="address">The address where the assembly code is injected.</param>
-        /// <param name="autoExecute">Indicates whether the assembly code is executed once the object is disposed.</param>
-        public AssemblyTransaction(MemorySharp memorySharp, IntPtr address, bool autoExecute)
+        /// <param name="MemorySharp">The reference of the <see cref="MemorySharp"/> object.</param>
+        /// <param name="Address">The address where the assembly code is injected.</param>
+        /// <param name="AutoExecute">Indicates whether the assembly code is executed once the object is disposed.</param>
+        public AssemblyTransaction(MemorySharp MemorySharp, IntPtr Address, bool AutoExecute)
         {
             // Save the parameters
-            MemorySharp = memorySharp;
-            IsAutoExecuted = autoExecute;
-            Address = address;
+            this.MemorySharp = MemorySharp;
+            IsAutoExecuted = AutoExecute;
+            this.Address = Address;
+
             // Initialize the string builder
             Mnemonics = new StringBuilder();
         }
+
         /// <summary>
         /// Initializes a new instance of the <see cref="AssemblyTransaction"/> class.
         /// </summary>
-        /// <param name="memorySharp">The reference of the <see cref="MemorySharp"/> object.</param>
-        /// <param name="autoExecute">Indicates whether the assembly code is executed once the object is disposed.</param>
-        public AssemblyTransaction(MemorySharp memorySharp, bool autoExecute) : this(memorySharp, IntPtr.Zero, autoExecute)
+        /// <param name="MemorySharp">The reference of the <see cref="MemorySharp"/> object.</param>
+        /// <param name="AutoExecute">Indicates whether the assembly code is executed once the object is disposed.</param>
+        public AssemblyTransaction(MemorySharp MemorySharp, bool AutoExecute) : this(MemorySharp, IntPtr.Zero, AutoExecute)
         {
+
         }
+
         #endregion
 
         #region Methods
@@ -80,12 +84,13 @@ namespace Binarysharp.MemoryManagement.Assembly
         /// <summary>
         /// Adds a mnemonic to the transaction.
         /// </summary>
-        /// <param name="asm">A composite format string.</param>
-        /// <param name="args">An object array that contains zero or more objects to format.</param>
-        public void AddLine(string asm, params object[] args)
+        /// <param name="Asm">A composite format string.</param>
+        /// <param name="Args">An object array that contains zero or more objects to format.</param>
+        public void AddLine(String Asm, params Object[] Args)
         {
-            Mnemonics.AppendLine(String.Format(asm, args));
+            Mnemonics.AppendLine(String.Format(Asm, Args));
         }
+
         #endregion
         #region Assemble
         /// <summary>
@@ -96,6 +101,7 @@ namespace Binarysharp.MemoryManagement.Assembly
         {
             return MemorySharp.Assembly.Assembler.Assemble(Mnemonics.ToString());
         }
+
         #endregion
         #region Clear
         /// <summary>
@@ -105,6 +111,7 @@ namespace Binarysharp.MemoryManagement.Assembly
         {
             Mnemonics.Clear();
         }
+
         #endregion
         #region Dispose (implementation of IDisposable)
         /// <summary>
@@ -133,6 +140,7 @@ namespace Binarysharp.MemoryManagement.Assembly
                 ExitCode = MemorySharp.Assembly.InjectAndExecute<IntPtr>(Mnemonics.ToString());
             }
         }
+
         #endregion
         #region GetExitCode
         /// <summary>
@@ -142,19 +150,23 @@ namespace Binarysharp.MemoryManagement.Assembly
         {
             return MarshalType<T>.PtrToObject(MemorySharp, ExitCode);
         }
+
         #endregion
         #region InsertLine
         /// <summary>
         /// Inserts a mnemonic to the transaction at a given index.
         /// </summary>
-        /// <param name="index">The position in the transaction where insertion begins.</param>
-        /// <param name="asm">A composite format string.</param>
-        /// <param name="args">An object array that contains zero or more objects to format.</param>
-        public void InsertLine(int index, string asm, params object[] args)
+        /// <param name="Index">The position in the transaction where insertion begins.</param>
+        /// <param name="Asm">A composite format string.</param>
+        /// <param name="Args">An object array that contains zero or more objects to format.</param>
+        public void InsertLine(Int32 Index, String Asm, params Object[] Args)
         {
-            Mnemonics.Insert(index, String.Format(asm, args));
+            Mnemonics.Insert(Index, String.Format(Asm, Args));
         }
+
         #endregion
         #endregion
-    }
-}
+
+    } // End class
+
+} // End namespace

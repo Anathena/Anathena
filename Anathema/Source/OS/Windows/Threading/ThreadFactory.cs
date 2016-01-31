@@ -21,15 +21,11 @@ namespace Binarysharp.MemoryManagement.Threading
     /// </summary>
     public class ThreadFactory : IFactory
     {
-        #region Fields
         /// <summary>
         /// The reference of the <see cref="MemorySharp"/> object.
         /// </summary>
         protected readonly MemorySharp MemorySharp;
-        #endregion
 
-        #region Properties
-        #region MainThread
         /// <summary>
         /// Gets the main thread of the remote process.
         /// </summary>
@@ -40,8 +36,7 @@ namespace Binarysharp.MemoryManagement.Threading
                 return new RemoteThread(MemorySharp, NativeThreads.Aggregate((current, next) => next.StartTime < current.StartTime ? next : current));
             }
         }
-        #endregion
-        #region NativeThreads (internal)
+
         /// <summary>
         /// Gets the native threads from the remote process.
         /// </summary>
@@ -55,16 +50,15 @@ namespace Binarysharp.MemoryManagement.Threading
                 return MemorySharp.Native.Threads.Cast<ProcessThread>();
             }
         }
-        #endregion
-        #region RemoteThreads
+
         /// <summary>
         /// Gets the threads from the remote process.
         /// </summary>
         public IEnumerable<RemoteThread> RemoteThreads
         {
-            get { return NativeThreads.Select(t => new RemoteThread(MemorySharp, t)); }
+            get { return NativeThreads.Select(x => new RemoteThread(MemorySharp, x)); }
         }
-        #endregion
+        
         #region This
         /// <summary>
         /// Gets the thread corresponding to an id.
@@ -78,19 +72,20 @@ namespace Binarysharp.MemoryManagement.Threading
                 return new RemoteThread(MemorySharp, NativeThreads.First(t => t.Id == threadId));
             }
         }
-        #endregion
+
         #endregion
 
         #region Constructor
         /// <summary>
         /// Initializes a new instance of the <see cref="ThreadFactory"/> class.
         /// </summary>
-        /// <param name="memorySharp">The reference of the <see cref="MemorySharp"/> object.</param>
-        internal ThreadFactory(MemorySharp memorySharp)
+        /// <param name="MemorySharp">The reference of the <see cref="MemorySharp"/> object.</param>
+        internal ThreadFactory(MemorySharp MemorySharp)
         {
             // Save the parameter
-            MemorySharp = memorySharp;
+            this.MemorySharp = MemorySharp;
         }
+
         #endregion
 
         #region Method
@@ -98,90 +93,100 @@ namespace Binarysharp.MemoryManagement.Threading
         /// <summary>
         /// Creates a thread that runs in the remote process.
         /// </summary>
-        /// <param name="address">
+        /// <param name="Address">
         /// A pointer to the application-defined function to be executed by the thread and represents 
         /// the starting address of the thread in the remote process.
         /// </param>
-        /// <param name="parameter">A variable to be passed to the thread function.</param>
-        /// <param name="isStarted">Sets if the thread must be started just after being created.</param>
+        /// <param name="Parameter">A variable to be passed to the thread function.</param>
+        /// <param name="IsStarted">Sets if the thread must be started just after being created.</param>
         /// <returns>A new instance of the <see cref="RemoteThread"/> class.</returns>
-        public RemoteThread Create(IntPtr address, dynamic parameter, bool isStarted = true)
+        public RemoteThread Create(IntPtr Address, dynamic Parameter, Boolean IsStarted = true)
         {
             // Marshal the parameter
-            var marshalledParameter = MarshalValue.Marshal(MemorySharp, parameter);
+            MarshalledValue<dynamic> MarshalledParameter = MarshalValue.Marshal(MemorySharp, Parameter);
 
             //Create the thread
-            var ret = ThreadCore.NtQueryInformationThread(
-                ThreadCore.CreateRemoteThread(MemorySharp.Handle, address, marshalledParameter.Reference, ThreadCreationFlags.Suspended));
+            ThreadBasicInformation ThreadInfo = ThreadCore.NtQueryInformationThread(
+                ThreadCore.CreateRemoteThread(MemorySharp.Handle, Address, MarshalledParameter.Reference, ThreadCreationFlags.Suspended));
 
             // Find the managed object corresponding to this thread
-            var result = new RemoteThread(MemorySharp, MemorySharp.Threads.NativeThreads.First(t => t.Id == ret.ThreadId), marshalledParameter);
+            RemoteThread RemoteThread = new RemoteThread(MemorySharp, MemorySharp.Threads.NativeThreads.First(x => x.Id == ThreadInfo.ThreadId), MarshalledParameter);
 
             // If the thread must be started
-            if (isStarted)
-                result.Resume();
-            return result;
+            if (IsStarted)
+                RemoteThread.Resume();
+
+            return RemoteThread;
         }
+
         /// <summary>
         /// Creates a thread that runs in the remote process.
         /// </summary>
-        /// <param name="address">
+        /// <param name="Address">
         /// A pointer to the application-defined function to be executed by the thread and represents 
         /// the starting address of the thread in the remote process.
         /// </param>
-        /// <param name="isStarted">Sets if the thread must be started just after being created.</param>
+        /// <param name="IsStarted">Sets if the thread must be started just after being created.</param>
         /// <returns>A new instance of the <see cref="RemoteThread"/> class.</returns>
-        public RemoteThread Create(IntPtr address, bool isStarted = true)
+        public RemoteThread Create(IntPtr Address, Boolean IsStarted = true)
         {
             //Create the thread
-            var ret = ThreadCore.NtQueryInformationThread(
-                ThreadCore.CreateRemoteThread(MemorySharp.Handle, address, IntPtr.Zero, ThreadCreationFlags.Suspended));
+            ThreadBasicInformation ThreadInfo = ThreadCore.NtQueryInformationThread(
+                ThreadCore.CreateRemoteThread(MemorySharp.Handle, Address, IntPtr.Zero, ThreadCreationFlags.Suspended));
 
             // Find the managed object corresponding to this thread
-            var result = new RemoteThread(MemorySharp, MemorySharp.Threads.NativeThreads.First(t => t.Id == ret.ThreadId));
+            RemoteThread RemoteThread = new RemoteThread(MemorySharp, MemorySharp.Threads.NativeThreads.First(x => x.Id == ThreadInfo.ThreadId));
 
             // If the thread must be started
-            if (isStarted)
-                result.Resume();
-            return result;
+            if (IsStarted)
+                RemoteThread.Resume();
+
+            return RemoteThread;
         }
+
         #endregion
         #region CreateAndJoin
         /// <summary>
         /// Creates a thread in the remote process and blocks the calling thread until the thread terminates.
         /// </summary>
-        /// <param name="address">
+        /// <param name="Address">
         /// A pointer to the application-defined function to be executed by the thread and represents 
         /// the starting address of the thread in the remote process.
         /// </param>
-        /// <param name="parameter">A variable to be passed to the thread function.</param>
+        /// <param name="Parameter">A variable to be passed to the thread function.</param>
         /// <returns>A new instance of the <see cref="RemoteThread"/> class.</returns>
-        public RemoteThread CreateAndJoin(IntPtr address, dynamic parameter)
+        public RemoteThread CreateAndJoin(IntPtr Address, dynamic Parameter)
         {
             // Create the thread
-            var ret = Create(address, parameter);
+            RemoteThread RemoteThread = Create(Address, Parameter);
+
             // Wait the end of the thread
-            ret.Join();
+            RemoteThread.Join();
+
             // Return the thread
-            return ret;
+            return RemoteThread;
         }
+
         /// <summary>
         /// Creates a thread in the remote process and blocks the calling thread until the thread terminates.
         /// </summary>
-        /// <param name="address">
+        /// <param name="Address">
         /// A pointer to the application-defined function to be executed by the thread and represents 
         /// the starting address of the thread in the remote process.
         /// </param>
         /// <returns>A new instance of the <see cref="RemoteThread"/> class.</returns>
-        public RemoteThread CreateAndJoin(IntPtr address)
+        public RemoteThread CreateAndJoin(IntPtr Address)
         {
             // Create the thread
-            var ret = Create(address);
+            RemoteThread RemoteThread = Create(Address);
+
             // Wait the end of the thread
-            ret.Join();
+            RemoteThread.Join();
+
             // Return the thread
-            return ret;
+            return RemoteThread;
         }
+
         #endregion
         #region Dispose (implementation of IFactory)
         /// <summary>
@@ -191,17 +196,19 @@ namespace Binarysharp.MemoryManagement.Threading
         {
             // Nothing to dispose... yet
         }
+
         #endregion
         #region GetThreadById
         /// <summary>
         /// Gets a thread by its id in the remote process.
         /// </summary>
-        /// <param name="id">The id of the thread.</param>
+        /// <param name="Id">The id of the thread.</param>
         /// <returns>A new instance of the <see cref="RemoteThread"/> class.</returns>
-        public RemoteThread GetThreadById(int id)
+        public RemoteThread GetThreadById(Int32 Id)
         {
-            return new RemoteThread(MemorySharp, NativeThreads.First(t => t.Id == id));
+            return new RemoteThread(MemorySharp, NativeThreads.First(x => x.Id == Id));
         }
+
         #endregion
         #region ResumeAll
         /// <summary>
@@ -209,11 +216,12 @@ namespace Binarysharp.MemoryManagement.Threading
         /// </summary>
         public void ResumeAll()
         {
-            foreach (var thread in RemoteThreads)
+            foreach (RemoteThread Thread in RemoteThreads)
             {
-                thread.Resume();
+                Thread.Resume();
             }
         }
+
         #endregion
         #region SuspendAll
         /// <summary>
@@ -221,12 +229,15 @@ namespace Binarysharp.MemoryManagement.Threading
         /// </summary>
         public void SuspendAll()
         {
-            foreach (var thread in RemoteThreads)
+            foreach (RemoteThread Thread in RemoteThreads)
             {
-                thread.Suspend();
+                Thread.Suspend();
             }
         }
+
         #endregion
         #endregion
-    }
-}
+
+    } // End class
+
+} // End namespace

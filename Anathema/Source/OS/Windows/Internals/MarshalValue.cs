@@ -25,12 +25,12 @@ namespace Binarysharp.MemoryManagement.Internals
         /// Marshals a given value into the remote process.
         /// </summary>
         /// <typeparam name="T">The type of the value. It can be a primitive or reference data type.</typeparam>
-        /// <param name="memorySharp">The concerned process.</param>
-        /// <param name="value">The value to marshal.</param>
+        /// <param name="MemorySharp">The concerned process.</param>
+        /// <param name="Value">The value to marshal.</param>
         /// <returns>The return value is an new instance of the <see cref="MarshalledValue{T}"/> class.</returns>
-        public static MarshalledValue<T> Marshal<T>(MemorySharp memorySharp, T value)
+        public static MarshalledValue<T> Marshal<T>(MemorySharp MemorySharp, T Value)
         {
-            return new MarshalledValue<T>(memorySharp, value);
+            return new MarshalledValue<T>(MemorySharp, Value);
         }
     }
 
@@ -66,13 +66,14 @@ namespace Binarysharp.MemoryManagement.Internals
         /// <summary>
         /// Initializes a new instance of the <see cref="MarshalledValue{T}"/> class.
         /// </summary>
-        /// <param name="memorySharp">The reference of the <see cref="MemorySharp"/> object.</param>
-        /// <param name="value">The value to marshal.</param>
-        public MarshalledValue(MemorySharp memorySharp, T value)
+        /// <param name="MemorySharp">The reference of the <see cref="MemorySharp"/> object.</param>
+        /// <param name="Value">The value to marshal.</param>
+        public MarshalledValue(MemorySharp MemorySharp, T Value)
         {
             // Save the parameters
-            MemorySharp = memorySharp;
-            Value = value;
+            this.MemorySharp = MemorySharp;
+            this.Value = Value;
+
             // Marshal the value
             Marshal();
         }
@@ -83,6 +84,7 @@ namespace Binarysharp.MemoryManagement.Internals
         {
             Dispose();
         }
+
         #endregion
 
         #region Methods
@@ -95,11 +97,14 @@ namespace Binarysharp.MemoryManagement.Internals
             // Free the allocated memory
             if(Allocated != null)
                 Allocated.Dispose();
+
             // Set the pointer to zero
             Reference = IntPtr.Zero;
+
             // Avoid the finalizer
             GC.SuppressFinalize(this);
         }
+
         #endregion
         #region Marshal (private)
         /// <summary>
@@ -108,13 +113,15 @@ namespace Binarysharp.MemoryManagement.Internals
         private void Marshal()
         {
             // If the type is string, it's a special case
-            if (typeof(T) == typeof(string))
+            if (typeof(T) == typeof(String))
             {
-                var text = Value.ToString();
+                String Text = Value.ToString();
                 // Allocate memory in the remote process (string + '\0')
-                Allocated = MemorySharp.Memory.Allocate(text.Length + 1);
+                Allocated = MemorySharp.Memory.Allocate(Text.Length + 1);
+
                 // Write the value
-                Allocated.WriteString(0, text);
+                Allocated.WriteString(0, Text);
+
                 // Get the pointer
                 Reference = Allocated.BaseAddress;
             }
@@ -122,13 +129,13 @@ namespace Binarysharp.MemoryManagement.Internals
             {
                 // For all other types
                 // Convert the value into a byte array
-                var byteArray = MarshalType<T>.ObjectToByteArray(Value);
+                Byte[] ByteArray = MarshalType<T>.ObjectToByteArray(Value);
 
                 // If the value can be stored directly in registers
                 if (MarshalType<T>.CanBeStoredInRegisters)
                 {
                     // Convert the byte array into a pointer
-                    Reference = MarshalType<IntPtr>.ByteArrayToObject(byteArray);
+                    Reference = MarshalType<IntPtr>.ByteArrayToObject(ByteArray);
                 }
                 else
                 {
@@ -137,8 +144,10 @@ namespace Binarysharp.MemoryManagement.Internals
 
                     // Allocate memory in the remote process
                     Allocated = MemorySharp.Memory.Allocate(MarshalType<T>.Size);
+
                     // Write the value
                     Allocated.Write(0, Value);
+
                     // Get the pointer
                     Reference = Allocated.BaseAddress;
                 }
@@ -146,5 +155,7 @@ namespace Binarysharp.MemoryManagement.Internals
         }
         #endregion
         #endregion
-    }
-}
+
+    } // End class
+
+} // End namespace

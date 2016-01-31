@@ -24,14 +24,14 @@ namespace Binarysharp.MemoryManagement.Helpers
         /// <summary>
         /// Closes an open object handle.
         /// </summary>
-        /// <param name="handle">A valid handle to an open object.</param>
-        public static void CloseHandle(IntPtr handle)
+        /// <param name="Handle">A valid handle to an open object.</param>
+        public static void CloseHandle(IntPtr Handle)
         {
             // Check if the handle is valid
-            ValidateAsArgument(handle, "handle");
+            ValidateAsArgument(Handle, "handle");
 
             // Close the handle
-            if(!NativeMethods.CloseHandle(handle))
+            if(!NativeMethods.CloseHandle(Handle))
                 throw new Win32Exception("Couldn't close the handle correctly.");
         }
         #endregion
@@ -40,12 +40,12 @@ namespace Binarysharp.MemoryManagement.Helpers
         /// <summary>
         /// Converts an handle into a <see cref="Process"/> object assuming this is a process handle.
         /// </summary>
-        /// <param name="processHandle">A valid handle to an opened process.</param>
+        /// <param name="ProcessHandle">A valid handle to an opened process.</param>
         /// <returns>A <see cref="Process"/> object from the specified handle.</returns>
-        public static Process HandleToProcess(SafeMemoryHandle processHandle)
+        public static Process HandleToProcess(SafeMemoryHandle ProcessHandle)
         {
             // Search the process by iterating the processes list
-            return Process.GetProcesses().First(p => p.Id == HandleToProcessId(processHandle));
+            return Process.GetProcesses().First(x => x.Id == HandleToProcessId(ProcessHandle));
         }
         #endregion
 
@@ -53,39 +53,40 @@ namespace Binarysharp.MemoryManagement.Helpers
         /// <summary>
         /// Converts an handle into a process id assuming this is a process handle.
         /// </summary>
-        /// <param name="processHandle">A valid handle to an opened process.</param>
+        /// <param name="ProcessHandle">A valid handle to an opened process.</param>
         /// <returns>A process id from the specified handle.</returns>
-        public static int HandleToProcessId(SafeMemoryHandle processHandle)
+        public static int HandleToProcessId(SafeMemoryHandle ProcessHandle)
         {
             // Check if the handle is valid
-            ValidateAsArgument(processHandle, "processHandle");
+            ValidateAsArgument(ProcessHandle, "processHandle");
 
             // Find the process id
-            var ret = NativeMethods.GetProcessId(processHandle);
+            Int32 ProcessID = NativeMethods.GetProcessId(ProcessHandle);
 
             // If the process id is valid
-            if (ret != 0)
-                return ret;
+            if (ProcessID != 0)
+                return ProcessID;
 
             // Else the function failed, throws an exception
             throw new Win32Exception("Couldn't find the process id of the specified handle.");
         }
+
         #endregion
 
         #region HandleToThread
         /// <summary>
         /// Converts an handle into a <see cref="ProcessThread"/> object assuming this is a thread handle.
         /// </summary>
-        /// <param name="threadHandle">A valid handle to an opened thread.</param>
+        /// <param name="ThreadHandle">A valid handle to an opened thread.</param>
         /// <returns>A <see cref="ProcessThread"/> object from the specified handle.</returns>
-        public static ProcessThread HandleToThread(SafeMemoryHandle threadHandle)
+        public static ProcessThread HandleToThread(SafeMemoryHandle ThreadHandle)
         {
             // Search the thread by iterating the processes list
-            foreach (var process in Process.GetProcesses())
+            foreach (Process Process in Process.GetProcesses())
             {
-                var ret = process.Threads.Cast<ProcessThread>().FirstOrDefault(t => t.Id == HandleToThreadId(threadHandle));
-                if (ret != null)
-                    return ret;
+                ProcessThread ProcessThread = Process.Threads.Cast<ProcessThread>().FirstOrDefault(t => t.Id == HandleToThreadId(ThreadHandle));
+                if (ProcessThread != null)
+                    return ProcessThread;
             }
 
             // If no thread was found, throws a exception like the First() function with no element
@@ -97,39 +98,40 @@ namespace Binarysharp.MemoryManagement.Helpers
         /// <summary>
         /// Converts an handle into a thread id assuming this is a thread handle.
         /// </summary>
-        /// <param name="threadHandle">A valid handle to an opened thread.</param>
+        /// <param name="ThreadHandle">A valid handle to an opened thread.</param>
         /// <returns>A thread id from the specified handle.</returns>
-        public static int HandleToThreadId(SafeMemoryHandle threadHandle)
+        public static int HandleToThreadId(SafeMemoryHandle ThreadHandle)
         {
             // Check if the handle is valid
-            ValidateAsArgument(threadHandle, "threadHandle");
+            ValidateAsArgument(ThreadHandle, "threadHandle");
 
             // Find the thread id
-            var ret = NativeMethods.GetThreadId(threadHandle);
+            Int32 ThreadID = NativeMethods.GetThreadId(ThreadHandle);
 
             // If the thread id is valid
-            if (ret != 0)
-                return ret;
+            if (ThreadID != 0)
+                return ThreadID;
 
             //Else the function failed, throws an exception
             throw new Win32Exception("Couldn't find the thread id of the specified handle.");
         }
+
         #endregion
 
         #region ValidateAsArgument
         /// <summary>
         /// Validates an handle to fit correctly as argument.
         /// </summary>
-        /// <param name="handle">A handle to validate.</param>
-        /// <param name="argumentName">The name of the argument that represents the handle in its original function.</param>
-        public static Boolean ValidateAsArgument(IntPtr handle, string argumentName)
+        /// <param name="Handle">A handle to validate.</param>
+        /// <param name="ArgumentName">The name of the argument that represents the handle in its original function.</param>
+        public static Boolean ValidateAsArgument(IntPtr Handle, String ArgumentName)
         {
             // Check if the handle is not null
-            if (handle == null)
+            if (Handle == null)
                 return false;// throw new ArgumentNullException(argumentName);
 
             // Check if the handle is valid
-            if (handle == IntPtr.Zero)
+            if (Handle == IntPtr.Zero)
                 return false;// throw new ArgumentException("The handle is not valid.", argumentName);
 
             return true;
@@ -138,18 +140,20 @@ namespace Binarysharp.MemoryManagement.Helpers
         /// <summary>
         /// Validates an handle to fit correctly as argument.
         /// </summary>
-        /// <param name="handle">A handle to validate.</param>
-        /// <param name="argumentName">The name of the argument that represents the handle in its original function.</param>
-        public static void ValidateAsArgument(SafeMemoryHandle handle, string argumentName)
+        /// <param name="Handle">A handle to validate.</param>
+        /// <param name="ArgumentName">The name of the argument that represents the handle in its original function.</param>
+        public static void ValidateAsArgument(SafeMemoryHandle Handle, string ArgumentName)
         {
             // Check if the handle is not null
-            if (handle == null)
-                throw new ArgumentNullException(argumentName);
+            if (Handle == null)
+                throw new ArgumentNullException(ArgumentName);
 
             // Check if the handle is valid
-            if(handle.IsClosed || handle.IsInvalid)
-                throw new ArgumentException("The handle is not valid or closed.", argumentName);
+            if(Handle.IsClosed || Handle.IsInvalid)
+                throw new ArgumentException("The handle is not valid or closed.", ArgumentName);
         }
         #endregion
-    }
-}
+
+    } // End class
+
+} // End namespace

@@ -20,7 +20,6 @@ namespace Binarysharp.MemoryManagement.Memory
     /// </summary>
     public class MemoryFactory : IFactory
     {
-        #region Fields
         /// <summary>
         /// The reference of the <see cref="MemorySharp"/> object.
         /// </summary>
@@ -29,7 +28,6 @@ namespace Binarysharp.MemoryManagement.Memory
         /// The list containing all allocated memory.
         /// </summary>
         protected readonly List<RemoteAllocation> InternalRemoteAllocations; 
-        #endregion
 
         #region Properties
         #region RemoteAllocations
@@ -40,6 +38,7 @@ namespace Binarysharp.MemoryManagement.Memory
         {
             get { return InternalRemoteAllocations.AsReadOnly(); }
         }
+
         #endregion
         #region Regions
         /// <summary>
@@ -50,25 +49,27 @@ namespace Binarysharp.MemoryManagement.Memory
             get
             {
 #if x86
-                var adresseTo = new IntPtr(0x7fffffff);
+                IntPtr AddressTo = new IntPtr(0x7fffffff);
 #else
-                var adresseTo = new IntPtr(0x7fffffffffffffff);
+                IntPtr AddressTo = new IntPtr(0x7fffffffffffffff);
 #endif
-                return MemoryCore.Query(MemorySharp.Handle, IntPtr.Zero, adresseTo).Select(page => new RemoteVirtualPage(MemorySharp, page.BaseAddress));
+                return MemoryCore.Query(MemorySharp.Handle, IntPtr.Zero, AddressTo).Select(x => new RemoteVirtualPage(MemorySharp, x.BaseAddress));
             }
         }
+
         public IEnumerable<RemoteVirtualPage> AllVirtualPages
         {
             get
             {
 #if x86
-                var adresseTo = new IntPtr(0x7fffffff);
+                IntPtr AddressTo = new IntPtr(0x7fffffff);
 #else
-                var adresseTo = new IntPtr(0x7fffffffffffffff);
+                IntPtr AddressTo = new IntPtr(0x7fffffffffffffff);
 #endif
-                return MemoryCore.Query(MemorySharp.Handle, IntPtr.Zero, adresseTo, true).Select(page => new RemoteVirtualPage(MemorySharp, page.BaseAddress));
+                return MemoryCore.Query(MemorySharp.Handle, IntPtr.Zero, AddressTo, true).Select(x => new RemoteVirtualPage(MemorySharp, x.BaseAddress));
             }
         }
+
         #endregion
         #endregion
 
@@ -76,14 +77,16 @@ namespace Binarysharp.MemoryManagement.Memory
         /// <summary>
         /// Initializes a new instance of the <see cref="MemoryFactory"/> class.
         /// </summary>
-        /// <param name="memorySharp">The reference of the <see cref="MemorySharp"/> object.</param>
-        internal MemoryFactory(MemorySharp memorySharp)
+        /// <param name="MemorySharp">The reference of the <see cref="MemorySharp"/> object.</param>
+        internal MemoryFactory(MemorySharp MemorySharp)
         {
             // Save the parameter
-            MemorySharp = memorySharp;
+            this.MemorySharp = MemorySharp;
+
             // Create a list containing all allocated memory
             InternalRemoteAllocations = new List<RemoteAllocation>();
         }
+
         /// <summary>
         /// Frees resources and perform other cleanup operations before it is reclaimed by garbage collection.
         /// </summary>
@@ -91,6 +94,7 @@ namespace Binarysharp.MemoryManagement.Memory
         {
             Dispose();
         }
+
         #endregion
 
         #region Methods
@@ -98,33 +102,37 @@ namespace Binarysharp.MemoryManagement.Memory
         /// <summary>
         /// Allocates a region of memory within the virtual address space of the remote process.
         /// </summary>
-        /// <param name="size">The size of the memory to allocate.</param>
-        /// <param name="protection">The protection of the memory to allocate.</param>
-        /// <param name="mustBeDisposed">The allocated memory will be released when the finalizer collects the object.</param>
+        /// <param name="Size">The size of the memory to allocate.</param>
+        /// <param name="Protection">The protection of the memory to allocate.</param>
+        /// <param name="MustBeDisposed">The allocated memory will be released when the finalizer collects the object.</param>
         /// <returns>A new instance of the <see cref="RemoteAllocation"/> class.</returns>
-        public RemoteAllocation Allocate(int size, MemoryProtectionFlags protection = MemoryProtectionFlags.ExecuteReadWrite, bool mustBeDisposed = true)
+        public RemoteAllocation Allocate(Int32 Size, MemoryProtectionFlags Protection = MemoryProtectionFlags.ExecuteReadWrite, Boolean MustBeDisposed = true)
         {
             // Allocate a memory space
-            var memory = new RemoteAllocation(MemorySharp, size, protection, mustBeDisposed);
+            RemoteAllocation Memory = new RemoteAllocation(MemorySharp, Size, Protection, MustBeDisposed);
+
             // Add the memory in the list
-            InternalRemoteAllocations.Add(memory);
-            return memory;
+            InternalRemoteAllocations.Add(Memory);
+            return Memory;
         }
+
         #endregion
         #region Deallocate
         /// <summary>
         /// Deallocates a region of memory previously allocated within the virtual address space of the remote process.
         /// </summary>
-        /// <param name="allocation">The allocated memory to release.</param>
-        public void Deallocate(RemoteAllocation allocation)
+        /// <param name="Allocation">The allocated memory to release.</param>
+        public void Deallocate(RemoteAllocation Allocation)
         {
             // Dispose the element
-            if(!allocation.IsDisposed)
-                allocation.Dispose();
+            if(!Allocation.IsDisposed)
+                Allocation.Dispose();
+
             // Remove the element from the allocated memory list
-            if (InternalRemoteAllocations.Contains(allocation))
-                InternalRemoteAllocations.Remove(allocation);
+            if (InternalRemoteAllocations.Contains(Allocation))
+                InternalRemoteAllocations.Remove(Allocation);
         }
+
         #endregion
         #region Dispose (implementation of IFactory)
         /// <summary>
@@ -133,14 +141,17 @@ namespace Binarysharp.MemoryManagement.Memory
         public virtual void Dispose()
         {
             // Release all allocated memories which must be disposed
-            foreach (var allocatedMemory in InternalRemoteAllocations.Where(m => m.MustBeDisposed).ToArray())
+            foreach (RemoteAllocation AllocatedMemory in InternalRemoteAllocations.Where(x => x.MustBeDisposed).ToArray())
             {
-                allocatedMemory.Dispose();
+                AllocatedMemory.Dispose();
             }
             // Avoid the finalizer
             GC.SuppressFinalize(this);
         }
+
         #endregion
         #endregion
-    }
-}
+
+    } // End class
+
+} // End namespace

@@ -25,89 +25,94 @@ namespace Binarysharp.MemoryManagement.Modules
         /// <summary>
         /// Retrieves the address of an exported function or variable from the specified dynamic-link library (DLL).
         /// </summary>
-        /// <param name="moduleName">The module name (not case-sensitive).</param>
-        /// <param name="functionName">The function or variable name, or the function's ordinal value.</param>
+        /// <param name="ModuleName">The module name (not case-sensitive).</param>
+        /// <param name="FunctionName">The function or variable name, or the function's ordinal value.</param>
         /// <returns>The address of the exported function.</returns>
-        public static IntPtr GetProcAddress(string moduleName, string functionName)
+        public static IntPtr GetProcAddress(String ModuleName, String FunctionName)
         {
             // Get the module
-            var module = Process.GetCurrentProcess().Modules.Cast<ProcessModule>().FirstOrDefault(m => m.ModuleName.ToLower() == moduleName.ToLower());
+            ProcessModule Module = Process.GetCurrentProcess().Modules.Cast<ProcessModule>().FirstOrDefault(m => m.ModuleName.ToLower() == ModuleName.ToLower());
 
             // Check whether there is a module loaded with this name
-            if (module == null)
-                throw new ArgumentException(string.Format("Couldn't get the module {0} because it doesn't exist in the current process.", moduleName));
+            if (Module == null)
+                throw new ArgumentException(String.Format("Couldn't get the module {0} because it doesn't exist in the current process.", ModuleName));
 
             // Get the function address
-            var ret = NativeMethods.GetProcAddress(module.BaseAddress, functionName);
+            IntPtr ProcessAddress = NativeMethods.GetProcAddress(Module.BaseAddress, FunctionName);
 
             // Check whether the function was found
-            if (ret != IntPtr.Zero)
-                return ret;
+            if (ProcessAddress != IntPtr.Zero)
+                return ProcessAddress;
 
             // Else the function was not found, throws an exception
-            throw new Win32Exception(string.Format("Couldn't get the function address of {0}.", functionName));
+            throw new Win32Exception(string.Format("Couldn't get the function address of {0}.", FunctionName));
         }
 
         /// <summary>
         /// Retrieves the address of an exported function or variable from the specified dynamic-link library (DLL).
         /// </summary>
-        /// <param name="module">The <see cref="ProcessModule"/> object corresponding to the module.</param>
-        /// <param name="functionName">The function or variable name, or the function's ordinal value.</param>
+        /// <param name="Module">The <see cref="ProcessModule"/> object corresponding to the module.</param>
+        /// <param name="FunctionName">The function or variable name, or the function's ordinal value.</param>
         /// <returns>If the function succeeds, the return value is the address of the exported function.</returns>
-        public static IntPtr GetProcAddress(ProcessModule module, string functionName)
+        public static IntPtr GetProcAddress(ProcessModule Module, String FunctionName)
         {
-            return GetProcAddress(module.ModuleName, functionName);
+            return GetProcAddress(Module.ModuleName, FunctionName);
         }
+
         #endregion
 
         #region FreeLibrary
         /// <summary>
         /// Frees the loaded dynamic-link library (DLL) module and, if necessary, decrements its reference count.
         /// </summary>
-        /// <param name="libraryName">The name of the library to free (not case-sensitive).</param>
-        public static void FreeLibrary(string libraryName)
+        /// <param name="LibraryName">The name of the library to free (not case-sensitive).</param>
+        public static void FreeLibrary(String LibraryName)
         {
             // Get the module
-            var module = Process.GetCurrentProcess().Modules.Cast<ProcessModule>().FirstOrDefault(m => m.ModuleName.ToLower() == libraryName.ToLower());
+            ProcessModule Module = Process.GetCurrentProcess().Modules.Cast<ProcessModule>().FirstOrDefault(m => m.ModuleName.ToLower() == LibraryName.ToLower());
 
             // Check whether there is a library loaded with this name
-            if(module == null)
-                throw new ArgumentException(string.Format("Couldn't free the library {0} because it doesn't exist in the current process.", libraryName));
+            if(Module == null)
+                throw new ArgumentException(String.Format("Couldn't free the library {0} because it doesn't exist in the current process.", LibraryName));
 
             // Free the library
-            if(!NativeMethods.FreeLibrary(module.BaseAddress))
-                throw new Win32Exception(string.Format("Couldn't free the library {0}.", libraryName));
+            if(!NativeMethods.FreeLibrary(Module.BaseAddress))
+                throw new Win32Exception(String.Format("Couldn't free the library {0}.", LibraryName));
         }
 
         /// <summary>
         /// Frees the loaded dynamic-link library (DLL) module and, if necessary, decrements its reference count.
         /// </summary>
-        /// <param name="module">The <see cref="ProcessModule"/> object corresponding to the library to free.</param>
-        public static void FreeLibrary(ProcessModule module)
+        /// <param name="Module">The <see cref="ProcessModule"/> object corresponding to the library to free.</param>
+        public static void FreeLibrary(ProcessModule Module)
         {
-            FreeLibrary(module.ModuleName);
+            FreeLibrary(Module.ModuleName);
         }
+
         #endregion
 
         #region LoadLibrary
         /// <summary>
         /// Loads the specified module into the address space of the calling process.
         /// </summary>
-        /// <param name="libraryPath">The name of the module. This can be either a library module (a .dll file) or an executable module (an .exe file).</param>
+        /// <param name="LibraryPath">The name of the module. This can be either a library module (a .dll file) or an executable module (an .exe file).</param>
         /// <returns>A <see cref="ProcessModule"/> corresponding to the loaded library.</returns>
-        public static ProcessModule LoadLibrary(string libraryPath)
+        public static ProcessModule LoadLibrary(String LibraryPath)
         {
             // Check whether the file exists
-            if(!File.Exists(libraryPath))
-                throw new FileNotFoundException(string.Format("Couldn't load the library {0} because the file doesn't exist.", libraryPath));
+            if(!File.Exists(LibraryPath))
+                throw new FileNotFoundException(String.Format("Couldn't load the library {0} because the file doesn't exist.", LibraryPath));
             
             // Load the library
-            if(NativeMethods.LoadLibrary(libraryPath) == IntPtr.Zero)
-                throw new Win32Exception(string.Format("Couldn't load the library {0}.", libraryPath));
+            if(NativeMethods.LoadLibrary(LibraryPath) == IntPtr.Zero)
+                throw new Win32Exception(String.Format("Couldn't load the library {0}.", LibraryPath));
 
             // Enumerate the loaded modules and return the one newly added
-            return Process.GetCurrentProcess().Modules.Cast<ProcessModule>().First(m => m.FileName == libraryPath);
+            return Process.GetCurrentProcess().Modules.Cast<ProcessModule>().First(x => x.FileName == LibraryPath);
         }
+
         #endregion
-    }
-}
+
+    } // End class
+
+} // End namespace

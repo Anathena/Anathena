@@ -21,42 +21,42 @@ namespace Binarysharp.MemoryManagement.Assembly.CallingConvention
         /// <summary>
         /// The name of the calling convention.
         /// </summary>
-        public string Name
-        {
-            get { return "Stdcall"; }
-        }
+        public string Name { get { return "Stdcall"; } }
+
         /// <summary>
         /// Defines which function performs the clean-up task.
         /// </summary>
-        public CleanupTypes Cleanup
-        {
-            get { return CleanupTypes.Callee; }
-        }
+        public CleanupTypes Cleanup { get { return CleanupTypes.Callee; } }
+
         /// <summary>
         /// Formats the given parameters to call a function. The 'this' pointer must be passed in first.
         /// </summary>
-        /// <param name="parameters">An array of parameters.</param>
+        /// <param name="Parameters">An array of parameters.</param>
         /// <returns>The mnemonics to pass the parameters.</returns>
-        public string FormatParameters(IntPtr[] parameters)
+        public string FormatParameters(IntPtr[] Parameters)
         {
             // Declare a var to store the mnemonics
-            var ret = new StringBuilder();
-            var paramList = new List<IntPtr>(parameters);
+            StringBuilder FormattedParameters = new StringBuilder();
+            List<IntPtr> ParameterList = new List<IntPtr>(Parameters);
+
             // Store the 'this' pointer in the ECX register
-            if (paramList.Count > 0)
+            if (ParameterList.Count > 0)
             {
-                ret.AppendLine("mov ecx, " + paramList[0]);
-                paramList.RemoveAt(0);
+                FormattedParameters.AppendLine("mov ecx, " + ParameterList[0]);
+                ParameterList.RemoveAt(0);
             }
+
             // For each parameters (in reverse order)
-            paramList.Reverse();
-            foreach (var parameter in paramList)
+            ParameterList.Reverse();
+            foreach (var parameter in ParameterList)
             {
-                ret.AppendLine("push " + parameter);
+                FormattedParameters.AppendLine("push " + parameter);
             }
+
             // Return the mnemonics
-            return ret.ToString();
+            return FormattedParameters.ToString();
         }
+
         /// <summary>
         /// Formats the call of a given function.
         /// </summary>
@@ -66,14 +66,17 @@ namespace Binarysharp.MemoryManagement.Assembly.CallingConvention
         {
             return "call " + function;
         }
+
         /// <summary>
         /// Formats the cleaning of a given number of parameters.
         /// </summary>
-        /// <param name="nbParameters">The number of parameters to clean.</param>
+        /// <param name="ParameterCount">The number of parameters to clean.</param>
         /// <returns>The mnemonics to clean a given number of parameters.</returns>
-        public string FormatCleaning(int nbParameters)
+        public string FormatCleaning(Int32 ParameterCount)
         {
             return String.Empty;
         }
-    }
-}
+
+    } // End class
+
+} // End namespace

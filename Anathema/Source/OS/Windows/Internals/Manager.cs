@@ -7,6 +7,7 @@
  * See the file LICENSE for more information.
 */
 
+using System;
 using System.Collections.Generic;
 
 namespace Binarysharp.MemoryManagement.Internals
@@ -16,22 +17,18 @@ namespace Binarysharp.MemoryManagement.Internals
     /// </summary>
     public abstract class Manager<T> where T : INamedElement
     {
-        #region Fields
         /// <summary>
         /// The collection of the elements (writable).
         /// </summary>
-        protected Dictionary<string, T> InternalItems = new Dictionary<string, T>();
-        #endregion
+        protected Dictionary<String, T> InternalItems = new Dictionary<String, T>();
 
-        #region Properties
         /// <summary>
         /// The collection of the elements.
         /// </summary>
-        public IReadOnlyDictionary<string, T> Items
+        public IReadOnlyDictionary<String, T> Items
         {
             get { return InternalItems; }
         }
-        #endregion
 
         #region Methods
         #region DisableAll
@@ -40,11 +37,12 @@ namespace Binarysharp.MemoryManagement.Internals
         /// </summary>
         public void DisableAll()
         {
-            foreach (var item in InternalItems)
+            foreach (KeyValuePair<String, T> Item in InternalItems)
             {
-                item.Value.Disable();
+                Item.Value.Disable();
             }
         }
+
         #endregion
         #region EnableAll
         /// <summary>
@@ -52,42 +50,45 @@ namespace Binarysharp.MemoryManagement.Internals
         /// </summary>
         public void EnableAll()
         {
-            foreach (var item in InternalItems)
+            foreach (KeyValuePair<String, T> Item in InternalItems)
             {
-                item.Value.Enable();
+                Item.Value.Enable();
             }
         }
+
         #endregion
         #region Remove
         /// <summary>
         /// Removes an element by its name in the manager.
         /// </summary>
-        /// <param name="name">The name of the element to remove.</param>
-        public void Remove(string name)
+        /// <param name="Name">The name of the element to remove.</param>
+        public void Remove(String Name)
         {
             // Check if the element exists in the dictionary
-            if (InternalItems.ContainsKey(name))
+            if (InternalItems.ContainsKey(Name))
             {
                 try
                 {
                     // Dispose the element
-                    InternalItems[name].Dispose();
+                    InternalItems[Name].Dispose();
                 }
                 finally
                 {
                     // Remove the element from the dictionary
-                    InternalItems.Remove(name);
+                    InternalItems.Remove(Name);
                 }
             }
         }
+
         /// <summary>
         /// Remove a given element.
         /// </summary>
-        /// <param name="item">The element to remove.</param>
-        public void Remove(T item)
+        /// <param name="Item">The element to remove.</param>
+        public void Remove(T Item)
         {
-            Remove(item.Name);
+            Remove(Item.Name);
         }
+
         #endregion
         #region RemoveAll
         /// <summary>
@@ -96,15 +97,17 @@ namespace Binarysharp.MemoryManagement.Internals
         public void RemoveAll()
         {
             // For each element
-            foreach (var item in InternalItems)
+            foreach (KeyValuePair<String, T> Item in InternalItems)
             {
                 // Dispose it
-                item.Value.Dispose();
+                Item.Value.Dispose();
             }
             // Clear the dictionary
             InternalItems.Clear();
         }
         #endregion
         #endregion
-    }
-}
+
+    } // End class
+
+} // End namespace

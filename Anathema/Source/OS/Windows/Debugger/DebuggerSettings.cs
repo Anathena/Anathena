@@ -13,17 +13,17 @@ namespace BinarySharp.MemoryManagement.Debugger
     /// </summary>
 	class DebuggerSettings
     {
-        public bool HideMainWindow = false;
-        public bool AutoCloseSpawnedWindows = false;
-        public bool OKbeforeCLOSE = false;
-        public bool AlwaysClick = false;
-        public bool HideDebugger = false;
-        public bool WaitForFullStartup = false;
-        public bool EnableKillAlso = false;
-        public string KillAlso = String.Empty;
-        public bool OnlyClosedIfButtonClick = false;
+        public Boolean HideMainWindow = false;
+        public Boolean AutoCloseSpawnedWindows = false;
+        public Boolean OKbeforeCLOSE = false;
+        public Boolean AlwaysClick = false;
+        public Boolean HideDebugger = false;
+        public Boolean WaitForFullStartup = false;
+        public Boolean EnableKillAlso = false;
+        public String KillAlso = String.Empty;
+        public Boolean OnlyClosedIfButtonClick = false;
 
-        public bool IgnoreExceptions = false;
+        public Boolean IgnoreExceptions = false;
 
         public List<ErrorCode> ErrorCodes = new List<ErrorCode>();
 
@@ -48,5 +48,7 @@ namespace BinarySharp.MemoryManagement.Debugger
 
             this.ErrorCodes = ErrorCodes;
         }
-    }
-}
+
+    } // End class
+
+} // End namespace

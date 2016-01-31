@@ -17,7 +17,6 @@ namespace Binarysharp.MemoryManagement.Helpers
     /// </summary>
     public static class Randomizer
     {
-        #region Fields
         /// <summary>
         /// Provides random engine.
         /// </summary>
@@ -25,59 +24,62 @@ namespace Binarysharp.MemoryManagement.Helpers
         /// <summary>
         /// Allowed characters in random strings.
         /// </summary>
-        private static readonly char[] AllowedChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789".ToCharArray();
-        #endregion
+        private static readonly Char[] AllowedChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789".ToCharArray();
 
         #region GenerateNumber
         /// <summary>
         /// Returns a random number within a specified range.
         /// </summary>
-        /// <param name="minValue">The inclusive lower bound of the random number returned.</param>
-        /// <param name="maxValue">The exclusive upper bound of the random number returned. maxValue must be greater than or equal to minValue.</param>
+        /// <param name="MinValue">The inclusive lower bound of the random number returned.</param>
+        /// <param name="MaxValue">The exclusive upper bound of the random number returned. maxValue must be greater than or equal to minValue.</param>
         /// <returns>A 32-bit signed integer greater than or equal to minValue and less than maxValue.</returns>
-        public static int GenerateNumber(int minValue, int maxValue)
+        public static Int32 GenerateNumber(Int32 MinValue, Int32 MaxValue)
         {
-            return Random.Next(minValue, maxValue);
+            return Random.Next(MinValue, MaxValue);
         }
+
         /// <summary>
         /// Returns a nonnegative random number less than the specified maximum.
         /// </summary>
-        /// <param name="maxValue">The exclusive upper bound of the random number to be generated. maxValue must be greater than or equal to zero.</param>
+        /// <param name="MaxValue">The exclusive upper bound of the random number to be generated. maxValue must be greater than or equal to zero.</param>
         /// <returns>A 32-bit signed integer greater than or equal to zero, and less than maxValue.</returns>
-        public static int GenerateNumber(int maxValue)
+        public static Int32 GenerateNumber(Int32 MaxValue)
         {
-            return Random.Next(maxValue);
+            return Random.Next(MaxValue);
         }
+
         /// <summary>
         /// Returns a nonnegative random number.
         /// </summary>
-        /// <returns>A 32-bit signed integer greater than or equal to zero and less than <see cref="int.MaxValue"/>.</returns>
+        /// <returns>A 32-bit signed integer greater than or equal to zero and less than <see cref="Int32.MaxValue"/>.</returns>
         public static int GenerateNumber()
         {
             return Random.Next();
         }
+
         #endregion
 
         #region GenerateString
         /// <summary>
         /// Returns a random string where its size is within a specified range.
         /// </summary>
-        /// <param name="minSize">The inclusive lower bound of the size of the string returned.</param>
-        /// <param name="maxSize">The exclusive upper bound of the size of the string returned.</param>
+        /// <param name="MinSize">The inclusive lower bound of the size of the string returned.</param>
+        /// <param name="MaxSize">The exclusive upper bound of the size of the string returned.</param>
         /// <returns></returns>
-        public static string GenerateString(int minSize = 40, int maxSize = 40)
+        public static string GenerateString(Int32 MinSize = 40, Int32 MaxSize = 40)
         {
             // Create the string builder with a specific capacity
-            var builder = new StringBuilder(GenerateNumber(minSize, maxSize));
+            StringBuilder Builder = new StringBuilder(GenerateNumber(MinSize, MaxSize));
 
             // Fill the string builder
-            for (var i = 0; i < builder.Capacity; i++)
+            for (Int32 Index = 0; Index < Builder.Capacity; Index++)
             {
-                builder.Append(AllowedChars[GenerateNumber(AllowedChars.Length - 1)]);
+                Builder.Append(AllowedChars[GenerateNumber(AllowedChars.Length - 1)]);
             }
 
-            return builder.ToString();
+            return Builder.ToString();
         }
+
         #endregion
 
         #region GenerateGuid
@@ -89,6 +91,9 @@ namespace Binarysharp.MemoryManagement.Helpers
         {
             return Guid.NewGuid();
         }
+
         #endregion
-    }
-}
+
+    } // End class
+
+} // End namespace

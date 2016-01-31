@@ -7,6 +7,8 @@
  * See the file LICENSE for more information.
 */
 
+using System;
+
 namespace Binarysharp.MemoryManagement.Internals
 {
     /// <summary>
@@ -17,6 +19,7 @@ namespace Binarysharp.MemoryManagement.Internals
         /// <summary>
         /// The name of the element.
         /// </summary>
-        string Name { get; }
+        String Name { get; }
     }
-}
+
+} // End namespace

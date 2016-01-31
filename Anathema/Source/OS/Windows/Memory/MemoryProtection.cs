@@ -17,68 +17,54 @@ namespace Binarysharp.MemoryManagement.Memory
     /// </summary>
     public class MemoryProtection : IDisposable
     {
-        #region Fields
         /// <summary>
         /// The reference of the <see cref="MemorySharp"/> object.
         /// </summary>
-        private readonly MemorySharp _memorySharp;
-        #endregion
-
-        #region Properties
-        #region BaseAddress
+        private readonly MemorySharp _MemorySharp;
         /// <summary>
         /// The base address of the altered memory.
         /// </summary>
         public IntPtr BaseAddress { get; private set; }
-        #endregion
-        #region MustBedisposed
         /// <summary>
         /// States if the <see cref="MemoryProtection"/> object nust be disposed when it is collected.
         /// </summary>
         public bool MustBeDisposed { get; set; }
-        #endregion
-        #region NewProtection
         /// <summary>
         /// Defines the new protection applied to the memory.
         /// </summary>
         public MemoryProtectionFlags NewProtection { get; private set; }
-        #endregion
-        #region OldProtection
         /// <summary>
         /// References the inital protection of the memory.
         /// </summary>
         public MemoryProtectionFlags OldProtection { get; private set; }
-        #endregion
-        #region Size
         /// <summary>
         /// The size of the altered memory.
         /// </summary>
         public int Size { get; private set; }
-        #endregion
-        #endregion
 
         #region Constructor/Destructor
         /// <summary>
         /// Initializes a new instance of the <see cref="MemoryProtection"/> class.
         /// </summary>
-        /// <param name="memorySharp">The reference of the <see cref="MemorySharp"/> object.</param>
-        /// <param name="baseAddress">The base address of the memory to change the protection.</param>
-        /// <param name="size">The size of the memory to change.</param>
-        /// <param name="protection">The new protection to apply.</param>
-        /// <param name="mustBeDisposed">The resource will be automatically disposed when the finalizer collects the object.</param>
-        public MemoryProtection(MemorySharp memorySharp, IntPtr baseAddress, int size, MemoryProtectionFlags protection = MemoryProtectionFlags.ExecuteReadWrite,
-                                bool mustBeDisposed = true)
+        /// <param name="MemorySharp">The reference of the <see cref="MemorySharp"/> object.</param>
+        /// <param name="BaseAddress">The base address of the memory to change the protection.</param>
+        /// <param name="Size">The size of the memory to change.</param>
+        /// <param name="Protection">The new protection to apply.</param>
+        /// <param name="MustBeDisposed">The resource will be automatically disposed when the finalizer collects the object.</param>
+        public MemoryProtection(MemorySharp MemorySharp, IntPtr BaseAddress, Int32 Size, MemoryProtectionFlags Protection = MemoryProtectionFlags.ExecuteReadWrite,
+                                Boolean MustBeDisposed = true)
         {
             // Save the parameters
-            _memorySharp = memorySharp;
-            BaseAddress = baseAddress;
-            NewProtection = protection;
-            Size = size;
-            MustBeDisposed = mustBeDisposed;
+            _MemorySharp = MemorySharp;
+            this.BaseAddress = BaseAddress;
+            NewProtection = Protection;
+            this.Size = Size;
+            this.MustBeDisposed = MustBeDisposed;
 
             // Change the memory protection
-            OldProtection = MemoryCore.ChangeProtection(_memorySharp.Handle, baseAddress, size, protection);
+            OldProtection = MemoryCore.ChangeProtection(_MemorySharp.Handle, BaseAddress, Size, Protection);
         }
+
         /// <summary>
         /// Frees resources and perform other cleanup operations before it is reclaimed by garbage collection.
         /// </summary>
@@ -87,6 +73,7 @@ namespace Binarysharp.MemoryManagement.Memory
             if(MustBeDisposed)
                 Dispose();
         }
+
         #endregion
 
         #region Methods
@@ -97,21 +84,25 @@ namespace Binarysharp.MemoryManagement.Memory
         public virtual void Dispose()
         {
             // Restore the memory protection
-            MemoryCore.ChangeProtection(_memorySharp.Handle, BaseAddress, Size, OldProtection);
+            MemoryCore.ChangeProtection(_MemorySharp.Handle, BaseAddress, Size, OldProtection);
+
             // Avoid the finalizer 
             GC.SuppressFinalize(this);
         }
+
         #endregion
         #region ToString (override)
         /// <summary>
         /// Returns a string that represents the current object.
         /// </summary>
-        public override string ToString()
+        public override String ToString()
         {
-            return string.Format("BaseAddress = 0x{0:X} NewProtection = {1} OldProtection = {2}", BaseAddress.ToInt64(),
-                                 NewProtection, OldProtection);
+            return String.Format("BaseAddress = 0x{0:X} NewProtection = {1} OldProtection = {2}", BaseAddress.ToInt64(),  NewProtection, OldProtection);
         }
+
         #endregion
         #endregion
-    }
-}
+
+    } // End class
+
+} // End namespace

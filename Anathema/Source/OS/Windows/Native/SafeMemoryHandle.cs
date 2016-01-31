@@ -28,10 +28,10 @@ namespace Binarysharp.MemoryManagement.Native
         /// <summary>
         /// Initializes a new instance of the <see cref="SafeMemoryHandle"/> class, specifying the handle to keep in safe.
         /// </summary>
-        /// <param name="handle">The handle to keep in safe.</param>
-        public SafeMemoryHandle(IntPtr handle) : base(true)
+        /// <param name="Handle">The handle to keep in safe.</param>
+        public SafeMemoryHandle(IntPtr Handle) : base(true)
         {
-            SetHandle(handle);
+            SetHandle(Handle);
         }
 
         /// <summary>
@@ -39,10 +39,12 @@ namespace Binarysharp.MemoryManagement.Native
         /// </summary>
         /// <returns>True if the handle is released successfully; otherwise, in the event of a catastrophic failure, false. In this case, it generates a releaseHandleFailed MDA Managed Debugging Assistant.</returns>
         [ReliabilityContract(Consistency.WillNotCorruptState, Cer.MayFail)]
-        protected override bool ReleaseHandle()
+        protected override Boolean ReleaseHandle()
         {
             // Check whether the handle is set AND whether the handle has been successfully closed
             return handle != IntPtr.Zero && NativeMethods.CloseHandle(handle);
         }
-    }
-}
+
+    } // End calss
+
+} // End namespace

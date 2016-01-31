@@ -20,11 +20,11 @@ namespace Binarysharp.MemoryManagement.Assembly.CallingConvention
         /// <summary>
         /// Gets a calling convention object according the given type.
         /// </summary>
-        /// <param name="callingConvention">The type of calling convention to get.</param>
+        /// <param name="CallingConvention">The type of calling convention to get.</param>
         /// <returns>The return value is a singleton of a <see cref="ICallingConvention"/> child.</returns>
-        public static ICallingConvention Get(CallingConventions callingConvention)
+        public static ICallingConvention Get(CallingConventions CallingConvention)
         {
-            switch (callingConvention)
+            switch (CallingConvention)
             {
                 case CallingConventions.Cdecl:
                     return Singleton<CdeclCallingConvention>.Instance;
@@ -38,5 +38,7 @@ namespace Binarysharp.MemoryManagement.Assembly.CallingConvention
                     throw new ApplicationException("Unsupported calling convention.");
             }
         }
-    }
-}
+
+    } // End class
+
+} // End namespace

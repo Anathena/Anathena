@@ -2191,4 +2191,5 @@ namespace Binarysharp.MemoryManagement.Native
         ForceMinimized = 11
     }
     #endregion
-}
+
+} // End namespace

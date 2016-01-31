@@ -620,4 +620,5 @@ namespace Binarysharp.MemoryManagement.Native
         public Rectangle NormalPosition;
     }
     #endregion
-}
+
+} // End namespace

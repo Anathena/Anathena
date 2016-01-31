@@ -26,26 +26,26 @@ namespace Binarysharp.MemoryManagement.Memory
         /// <summary>
         /// Reserves a region of memory within the virtual address space of a specified process.
         /// </summary>
-        /// <param name="processHandle">The handle to a process.</param>
-        /// <param name="size">The size of the region of memory to allocate, in bytes.</param>
-        /// <param name="protectionFlags">The memory protection for the region of pages to be allocated.</param>
-        /// <param name="allocationFlags">The type of memory allocation.</param>
+        /// <param name="ProcessHandle">The handle to a process.</param>
+        /// <param name="Size">The size of the region of memory to allocate, in bytes.</param>
+        /// <param name="ProtectionFlags">The memory protection for the region of pages to be allocated.</param>
+        /// <param name="AllocationFlags">The type of memory allocation.</param>
         /// <returns>The base address of the allocated region.</returns>
-        public static IntPtr Allocate(SafeMemoryHandle processHandle, int size, MemoryProtectionFlags protectionFlags = MemoryProtectionFlags.ExecuteReadWrite,
-            MemoryAllocationFlags allocationFlags = MemoryAllocationFlags.Commit)
+        public static IntPtr Allocate(SafeMemoryHandle ProcessHandle, Int32 Size, MemoryProtectionFlags ProtectionFlags = MemoryProtectionFlags.ExecuteReadWrite,
+            MemoryAllocationFlags AllocationFlags = MemoryAllocationFlags.Commit)
         {
             // Check if the handle is valid
-            HandleManipulator.ValidateAsArgument(processHandle, "processHandle");
+            HandleManipulator.ValidateAsArgument(ProcessHandle, "processHandle");
 
             // Allocate a memory page
-            var ret = NativeMethods.VirtualAllocEx(processHandle, IntPtr.Zero, size, allocationFlags, protectionFlags);
+            IntPtr Address = NativeMethods.VirtualAllocEx(ProcessHandle, IntPtr.Zero, Size, AllocationFlags, ProtectionFlags);
 
             // Check whether the memory page is valid
-            if (ret != IntPtr.Zero)
-                return ret;
+            if (Address != IntPtr.Zero)
+                return Address;
 
             // If the pointer isn't valid, throws an exception
-            throw new Win32Exception(string.Format("Couldn't allocate memory of {0} byte(s).", size));
+            throw new Win32Exception(String.Format("Couldn't allocate memory of {0} byte(s).", Size));
         }
         #endregion
 
@@ -53,39 +53,41 @@ namespace Binarysharp.MemoryManagement.Memory
         /// <summary>
         /// Closes an open object handle.
         /// </summary>
-        /// <param name="handle">A valid handle to an open object.</param>
-        public static void CloseHandle(IntPtr handle)
+        /// <param name="Handle">A valid handle to an open object.</param>
+        public static void CloseHandle(IntPtr Handle)
         {
             // Check if the handle is valid
-            HandleManipulator.ValidateAsArgument(handle, "handle");
+            HandleManipulator.ValidateAsArgument(Handle, "handle");
 
             // Close the handle
-            if (!NativeMethods.CloseHandle(handle))
+            if (!NativeMethods.CloseHandle(Handle))
             {
-                throw new Win32Exception(string.Format("Couldn't close he handle 0x{0}.", handle));
+                throw new Win32Exception(String.Format("Couldn't close he handle 0x{0}.", Handle));
             }
         }
+
         #endregion
 
         #region Free
         /// <summary>
         /// Releases a region of memory within the virtual address space of a specified process.
         /// </summary>
-        /// <param name="processHandle">A handle to a process.</param>
-        /// <param name="address">A pointer to the starting address of the region of memory to be freed.</param>
-        public static void Free(SafeMemoryHandle processHandle, IntPtr address)
+        /// <param name="ProcessHandle">A handle to a process.</param>
+        /// <param name="Address">A pointer to the starting address of the region of memory to be freed.</param>
+        public static void Free(SafeMemoryHandle ProcessHandle, IntPtr Address)
         {
             // Check if the handles are valid
-            HandleManipulator.ValidateAsArgument(processHandle, "processHandle");
-            HandleManipulator.ValidateAsArgument(address, "address");
+            HandleManipulator.ValidateAsArgument(ProcessHandle, "processHandle");
+            HandleManipulator.ValidateAsArgument(Address, "address");
 
             // Free the memory
-            if (!NativeMethods.VirtualFreeEx(processHandle, address, 0, MemoryReleaseFlags.Release))
+            if (!NativeMethods.VirtualFreeEx(ProcessHandle, Address, 0, MemoryReleaseFlags.Release))
             {
                 // If the memory wasn't correctly freed, throws an exception
-                throw new Win32Exception(string.Format("The memory page 0x{0} cannot be freed.", address.ToString("X")));
+                throw new Win32Exception(String.Format("The memory page 0x{0} cannot be freed.", Address.ToString("X")));
             }
         }
+
         #endregion
 
         #region NtQueryInformationProcess
@@ -100,107 +102,111 @@ namespace Binarysharp.MemoryManagement.Memory
             HandleManipulator.ValidateAsArgument(processHandle, "processHandle");
 
             // Create a structure to store process info
-            var info = new ProcessBasicInformation();
+            ProcessBasicInformation ProcessInfo = new ProcessBasicInformation();
 
             // Get the process info
-            var ret = NativeMethods.NtQueryInformationProcess(processHandle, ProcessInformationClass.ProcessBasicInformation, ref info, info.Size, IntPtr.Zero);
+            Int32 Result = NativeMethods.NtQueryInformationProcess(processHandle, ProcessInformationClass.ProcessBasicInformation, ref ProcessInfo, ProcessInfo.Size, IntPtr.Zero);
 
             // If the function succeeded
-            if (ret == 0)
-                return info;
+            if (Result == 0)
+                return ProcessInfo;
 
             // Else, couldn't get the process info, throws an exception
-            throw new ApplicationException(string.Format("Couldn't get the information from the process, error code '{0}'.", ret));
+            throw new ApplicationException(string.Format("Couldn't get the information from the process, error code '{0}'.", Result));
         }
+
         #endregion
 
         #region OpenProcess
         /// <summary>
         /// Opens an existing local process object.
         /// </summary>
-        /// <param name="accessFlags">The access level to the process object.</param>
-        /// <param name="processId">The identifier of the local process to be opened.</param>
+        /// <param name="AccessFlags">The access level to the process object.</param>
+        /// <param name="ProcessId">The identifier of the local process to be opened.</param>
         /// <returns>An open handle to the specified process.</returns>
-        public static SafeMemoryHandle OpenProcess(ProcessAccessFlags accessFlags, int processId)
+        public static SafeMemoryHandle OpenProcess(ProcessAccessFlags AccessFlags, Int32 ProcessId)
         {
             // Get an handle from the remote process
-            var handle = NativeMethods.OpenProcess(accessFlags, false, processId);
+            SafeMemoryHandle Handle = NativeMethods.OpenProcess(AccessFlags, false, ProcessId);
 
             // Check whether the handle is valid
-            if (!handle.IsInvalid && !handle.IsClosed)
-                return handle;
+            if (!Handle.IsInvalid && !Handle.IsClosed)
+                return Handle;
 
             // Else the handle isn't valid, throws an exception
-            throw new Win32Exception(string.Format("Couldn't open the process {0}.", processId));
+            throw new Win32Exception(String.Format("Couldn't open the process {0}.", ProcessId));
         }
+
         #endregion
 
         #region ReadBytes
         /// <summary>
         /// Reads an array of bytes in the memory form the target process.
         /// </summary>
-        /// <param name="processHandle">A handle to the process with memory that is being read.</param>
-        /// <param name="address">A pointer to the base address in the specified process from which to read.</param>
-        /// <param name="size">The number of bytes to be read from the specified process.</param>
+        /// <param name="ProcessHandle">A handle to the process with memory that is being read.</param>
+        /// <param name="Address">A pointer to the base address in the specified process from which to read.</param>
+        /// <param name="Size">The number of bytes to be read from the specified process.</param>
         /// <returns>The collection of read bytes.</returns>
-        public static byte[] ReadBytes(SafeMemoryHandle processHandle, IntPtr address, int size, out bool success)
+        public static byte[] ReadBytes(SafeMemoryHandle ProcessHandle, IntPtr Address, Int32 Size, out Boolean Success)
         {
             // Check if the handles are valid
-            HandleManipulator.ValidateAsArgument(processHandle, "processHandle");
-            HandleManipulator.ValidateAsArgument(address, "address");
+            HandleManipulator.ValidateAsArgument(ProcessHandle, "processHandle");
+            HandleManipulator.ValidateAsArgument(Address, "address");
 
             // Allocate the buffer
-            var buffer = new byte[size];
-            int nbBytesRead;
+            Byte[] Buffer = new Byte[Size];
+            Int32 BytesRead;
 
             // Read the data from the target process
-            success = (NativeMethods.ReadProcessMemory(processHandle, address, buffer, size, out nbBytesRead) && size == nbBytesRead);
-            return buffer;
+            Success = (NativeMethods.ReadProcessMemory(ProcessHandle, Address, Buffer, Size, out BytesRead) && Size == BytesRead);
+            return Buffer;
 
             // Else the data couldn't be read, throws an exception
             // throw new Win32Exception(string.Format("Couldn't read {0} byte(s) from 0x{1}.", size, address.ToString("X")));
         }
+
         #endregion
 
         #region ChangeProtection
         /// <summary>
         /// Changes the protection on a region of committed pages in the virtual address space of a specified process.
         /// </summary>
-        /// <param name="processHandle">A handle to the process whose memory protection is to be changed.</param>
-        /// <param name="address">A pointer to the base address of the region of pages whose access protection attributes are to be changed.</param>
-        /// <param name="size">The size of the region whose access protection attributes are changed, in bytes.</param>
+        /// <param name="ProcessHandle">A handle to the process whose memory protection is to be changed.</param>
+        /// <param name="Address">A pointer to the base address of the region of pages whose access protection attributes are to be changed.</param>
+        /// <param name="Size">The size of the region whose access protection attributes are changed, in bytes.</param>
         /// <param name="protection">The memory protection option.</param>
         /// <returns>The old protection of the region in a <see cref="Native.MemoryBasicInformation32"/> structure.</returns>
-        public static MemoryProtectionFlags ChangeProtection(SafeMemoryHandle processHandle, IntPtr address, int size, MemoryProtectionFlags protection)
+        public static MemoryProtectionFlags ChangeProtection(SafeMemoryHandle ProcessHandle, IntPtr Address, int Size, MemoryProtectionFlags protection)
         {
             // Check if the handles are valid
-            HandleManipulator.ValidateAsArgument(processHandle, "processHandle");
-            HandleManipulator.ValidateAsArgument(address, "address");
+            HandleManipulator.ValidateAsArgument(ProcessHandle, "processHandle");
+            HandleManipulator.ValidateAsArgument(Address, "address");
 
             // Create the variable storing the old protection of the memory page
-            MemoryProtectionFlags oldProtection;
+            MemoryProtectionFlags OldProtection;
 
             // Change the protection in the target process
-            if (NativeMethods.VirtualProtectEx(processHandle, address, size, protection, out oldProtection))
+            if (NativeMethods.VirtualProtectEx(ProcessHandle, Address, Size, protection, out OldProtection))
             {
                 // Return the old protection
-                return oldProtection;
+                return OldProtection;
             }
 
             // Else the protection couldn't be changed, throws an exception
             // throw new Win32Exception(string.Format("Couldn't change the protection of the memory at 0x{0} of {1} byte(s) to {2}.", address.ToString("X"), size, protection));
-            return oldProtection;
+            return OldProtection;
         }
+
         #endregion
 
         #region Query
         /// <summary>
         /// Retrieves information about a range of pages within the virtual address space of a specified process.
         /// </summary>
-        /// <param name="processHandle">A handle to the process whose memory information is queried.</param>
-        /// <param name="baseAddress">A pointer to the base address of the region of pages to be queried.</param>
+        /// <param name="ProcessHandle">A handle to the process whose memory information is queried.</param>
+        /// <param name="BaseAddress">A pointer to the base address of the region of pages to be queried.</param>
         /// <returns>A <see cref="Native.MemoryBasicInformation64"/> structures in which information about the specified page range is returned.</returns>
-        public static MemoryBasicInformation64 Query(SafeMemoryHandle processHandle, IntPtr baseAddress)
+        public static MemoryBasicInformation64 Query(SafeMemoryHandle ProcessHandle, IntPtr BaseAddress)
         {
             // Allocate the structure to store information of memory
 
@@ -224,37 +230,37 @@ namespace Binarysharp.MemoryManagement.Memory
             }
 #else
             // Query the memory region
-            if (NativeMethods.VirtualQueryEx(processHandle, baseAddress, out MemoryInfo64, MarshalType<MemoryBasicInformation64>.Size) != 0)
+            if (NativeMethods.VirtualQueryEx(ProcessHandle, BaseAddress, out MemoryInfo64, MarshalType<MemoryBasicInformation64>.Size) != 0)
             {
                 return MemoryInfo64;
             }
 #endif
 
             // Else the information couldn't be got
-            throw new Win32Exception(string.Format("Couldn't query information about the memory region 0x{0}", baseAddress.ToString("X")));
+            throw new Win32Exception(string.Format("Couldn't query information about the memory region 0x{0}", BaseAddress.ToString("X")));
         }
         /// <summary>
         /// Retrieves information about a range of pages within the virtual address space of a specified process.
         /// </summary>
-        /// <param name="processHandle">A handle to the process whose memory information is queried.</param>
-        /// <param name="addressFrom">A pointer to the starting address of the region of pages to be queried.</param>
-        /// <param name="addressTo">A pointer to the ending address of the region of pages to be queried.</param>
+        /// <param name="ProcessHandle">A handle to the process whose memory information is queried.</param>
+        /// <param name="AddressFrom">A pointer to the starting address of the region of pages to be queried.</param>
+        /// <param name="AddressTo">A pointer to the ending address of the region of pages to be queried.</param>
         /// <returns>A collection of <see cref="Native.MemoryBasicInformation64"/> structures.</returns>
-        public static IEnumerable<MemoryBasicInformation64> Query(SafeMemoryHandle processHandle, IntPtr addressFrom, IntPtr addressTo, Boolean IgnoreSettings = false)
+        public static IEnumerable<MemoryBasicInformation64> Query(SafeMemoryHandle ProcessHandle, IntPtr AddressFrom, IntPtr AddressTo, Boolean IgnoreSettings = false)
         {
             // Check if the handle is valid
-            HandleManipulator.ValidateAsArgument(processHandle, "processHandle");
+            HandleManipulator.ValidateAsArgument(ProcessHandle, "processHandle");
 
-            // Convert the addresses to Int64
-            UInt64 numberFrom = (UInt64)addressFrom.ToInt64();
-            UInt64 numberTo = (UInt64)addressTo.ToInt64();
+            // Convert the addresses to UInt64
+            UInt64 NumberFrom = (UInt64)AddressFrom.ToInt64();
+            UInt64 NumberTo = (UInt64)AddressTo.ToInt64();
 
             // The first address must be lower than the second
-            if (numberFrom >= numberTo)
+            if (NumberFrom >= NumberTo)
                 throw new ArgumentException("The starting address must be lower than the ending address.", "addressFrom");
 
             // Create the variable storing the result of the call of VirtualQueryEx
-            int ret;
+            Int32 Result;
 
             // Get settings of pages to require
             Array TypeEnumValues = Enum.GetValues(typeof(MemoryTypeFlags));
@@ -268,33 +274,33 @@ namespace Binarysharp.MemoryManagement.Memory
             do
             {
                 // Allocate the structure to store information of memory
-                MemoryBasicInformation64 memoryInfo;
+                MemoryBasicInformation64 MemoryInfo;
 #if x86
                 // 32 Bit struct is not the same
-                MemoryBasicInformation32 memoryInfo32;
+                MemoryBasicInformation32 MemoryInfo32;
 
                 // Get the next memory page
-                ret = NativeMethods.VirtualQueryEx(processHandle, new IntPtr(numberFrom), out memoryInfo, MarshalType<MemoryBasicInformation32>.Size);
+                Result = NativeMethods.VirtualQueryEx(ProcessHandle, new IntPtr(NumberFrom), out MemoryInfo, MarshalType<MemoryBasicInformation32>.Size);
 
                  // Copy from the 32 bit struct to the 64 bit struct
-                memoryInfo.AllocationBase = memoryInfo32.AllocationBase;
-                memoryInfo.AllocationProtect = memoryInfo32.AllocationProtect;
-                memoryInfo.BaseAddress = memoryInfo32.BaseAddress;
-                memoryInfo.Protect = memoryInfo32.Protect;
-                memoryInfo.RegionSize = memoryInfo32.RegionSize;
-                memoryInfo.State = memoryInfo32.State;
-                memoryInfo.Type = memoryInfo32.Type;
+                MemoryInfo.AllocationBase = MemoryInfo32.AllocationBase;
+                MemoryInfo.AllocationProtect = MemoryInfo32.AllocationProtect;
+                MemoryInfo.BaseAddress = MemoryInfo32.BaseAddress;
+                MemoryInfo.Protect = MemoryInfo32.Protect;
+                MemoryInfo.RegionSize = MemoryInfo32.RegionSize;
+                MemoryInfo.State = MemoryInfo32.State;
+                MemoryInfo.Type = MemoryInfo32.Type;
 #else
 
                 // Query the memory region
-                ret = NativeMethods.VirtualQueryEx(processHandle, new IntPtr((Int64)numberFrom), out memoryInfo, MarshalType<MemoryBasicInformation64>.Size);
+                Result = NativeMethods.VirtualQueryEx(ProcessHandle, new IntPtr((Int64)NumberFrom), out MemoryInfo, MarshalType<MemoryBasicInformation64>.Size);
 #endif
 
                 // Increment the starting address with the size of the page
-                numberFrom += (UInt64)memoryInfo.RegionSize;
+                NumberFrom += (UInt64)MemoryInfo.RegionSize;
 
                 // Ignore free memory. These are unallocated memory regions.
-                if (memoryInfo.State == MemoryStateFlags.Free)
+                if (MemoryInfo.State == MemoryStateFlags.Free)
                     continue;
 
                 if (!IgnoreSettings)
@@ -304,50 +310,54 @@ namespace Binarysharp.MemoryManagement.Memory
                         continue;
 
                     // Ensure at least one required protection flag is set
-                    if ((memoryInfo.Protect & RequiredProtectionFlags) == 0)
+                    if ((MemoryInfo.Protect & RequiredProtectionFlags) == 0)
                         continue;
 
                     // Ensure no ignored protection flags are set
-                    if ((memoryInfo.Protect & IgnoredProtectionFlags) != 0)
+                    if ((MemoryInfo.Protect & IgnoredProtectionFlags) != 0)
                         continue;
                 }
 
                 // Return the memory page
-                yield return memoryInfo;
+                yield return MemoryInfo;
 
-            } while (numberFrom < numberTo && ret != 0);
+            } while (NumberFrom < NumberTo && Result != 0);
         }
+
         #endregion
 
         #region WriteBytes
         /// <summary>
         /// Writes data to an area of memory in a specified process.
         /// </summary>
-        /// <param name="processHandle">A handle to the process memory to be modified.</param>
-        /// <param name="address">A pointer to the base address in the specified process to which data is written.</param>
-        /// <param name="byteArray">A buffer that contains data to be written in the address space of the specified process.</param>
+        /// <param name="ProcessHandle">A handle to the process memory to be modified.</param>
+        /// <param name="Address">A pointer to the base address in the specified process to which data is written.</param>
+        /// <param name="ByteArray">A buffer that contains data to be written in the address space of the specified process.</param>
         /// <returns>The number of bytes written.</returns>
-        public static int WriteBytes(SafeMemoryHandle processHandle, IntPtr address, byte[] byteArray)
+        public static Int32 WriteBytes(SafeMemoryHandle ProcessHandle, IntPtr Address, Byte[] ByteArray)
         {
             // Check if the handles are valid
-            HandleManipulator.ValidateAsArgument(processHandle, "processHandle");
-            HandleManipulator.ValidateAsArgument(address, "address");
+            HandleManipulator.ValidateAsArgument(ProcessHandle, "processHandle");
+            HandleManipulator.ValidateAsArgument(Address, "address");
 
             // Create the variable storing the number of bytes written
-            int nbBytesWritten;
+            Int32 BytesWritten;
 
             // Write the data to the target process
-            if (NativeMethods.WriteProcessMemory(processHandle, address, byteArray, byteArray.Length, out nbBytesWritten))
+            if (NativeMethods.WriteProcessMemory(ProcessHandle, Address, ByteArray, ByteArray.Length, out BytesWritten))
             {
                 // Check whether the length of the data written is equal to the inital array
-                if (nbBytesWritten == byteArray.Length)
-                    return nbBytesWritten;
+                if (BytesWritten == ByteArray.Length)
+                    return BytesWritten;
             }
 
             // Else the data couldn't be written, throws an exception
             // throw new Win32Exception(string.Format("Couldn't write {0} bytes to 0x{1}", byteArray.Length, address.ToString("X")));
             return 0;
         }
+
         #endregion
-    }
-}
+
+    } // End class
+
+} // End namespace

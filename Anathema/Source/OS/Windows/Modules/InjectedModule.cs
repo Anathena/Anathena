@@ -11,6 +11,7 @@ using System;
 using System.Diagnostics;
 using System.Linq;
 using Binarysharp.MemoryManagement.Internals;
+using Binarysharp.MemoryManagement.Threading;
 
 namespace Binarysharp.MemoryManagement.Modules
 {
@@ -19,34 +20,28 @@ namespace Binarysharp.MemoryManagement.Modules
     /// </summary>
     public class InjectedModule : RemoteModule, IDisposableState
     {
-        #region Properties
-        #region IsDisposed (implementation of IDisposableState)
         /// <summary>
         /// Gets a value indicating whether the element is disposed.
         /// </summary>
-        public bool IsDisposed { get; private set; }
-        #endregion
-        #region MustBeDisposed (implementation of IDisposableState)
+        public Boolean IsDisposed { get; private set; }
         /// <summary>
         /// Gets a value indicating whether the element must be disposed when the Garbage Collector collects the object.
         /// </summary>
-        public bool MustBeDisposed { get; set; }
-        #endregion
-        #endregion
+        public Boolean MustBeDisposed { get; set; }
 
         #region Constructor/Destructor
         /// <summary>
         /// Initializes a new instance of the <see cref="InjectedModule"/> class.
         /// </summary>
-        /// <param name="memorySharp">The reference of the <see cref="MemorySharp"/> object.</param>
-        /// <param name="module">The native <see cref="ProcessModule"/> object corresponding to the injected module.</param>
-        /// <param name="mustBeDisposed">The module will be ejected when the finalizer collects the object.</param>
-        internal InjectedModule(MemorySharp memorySharp, ProcessModule module, bool mustBeDisposed = true)
-            : base(memorySharp, module)
+        /// <param name="MemorySharp">The reference of the <see cref="MemorySharp"/> object.</param>
+        /// <param name="Module">The native <see cref="ProcessModule"/> object corresponding to the injected module.</param>
+        /// <param name="MustBeDisposed">The module will be ejected when the finalizer collects the object.</param>
+        internal InjectedModule(MemorySharp MemorySharp, ProcessModule Module, Boolean MustBeDisposed = true) : base(MemorySharp, Module)
         {
             // Save the parameter
-            MustBeDisposed = mustBeDisposed;
+            this.MustBeDisposed = MustBeDisposed;
         }
+
         /// <summary>
         /// Frees resources and perform other cleanup operations before it is reclaimed by garbage collection.
         /// </summary>
@@ -55,6 +50,7 @@ namespace Binarysharp.MemoryManagement.Modules
             if(MustBeDisposed)
                 Dispose();
         }
+
         #endregion
 
         #region Methods
@@ -68,30 +64,38 @@ namespace Binarysharp.MemoryManagement.Modules
             {
                 // Set the flag to true
                 IsDisposed = true;
+
                 // Eject the module
                 MemorySharp.Modules.Eject(this);
+
                 // Avoid the finalizer 
                 GC.SuppressFinalize(this);
             }
         }
+
         #endregion
         #region InternalInject (internal)
         /// <summary>
         /// Injects the specified module into the address space of the remote process.
         /// </summary>
-        /// <param name="memorySharp">The reference of the <see cref="MemorySharp"/> object.</param>
-        /// <param name="path">The path of the module. This can be either a library module (a .dll file) or an executable module (an .exe file).</param>
+        /// <param name="MemorySharp">The reference of the <see cref="MemorySharp"/> object.</param>
+        /// <param name="Path">The path of the module. This can be either a library module (a .dll file) or an executable module (an .exe file).</param>
         /// <returns>A new instance of the <see cref="InjectedModule"/>class.</returns>
-        internal static InjectedModule InternalInject(MemorySharp memorySharp, string path)
+        internal static InjectedModule InternalInject(MemorySharp MemorySharp, String Path)
         {
             // Call LoadLibraryA remotely
-            var thread = memorySharp.Threads.CreateAndJoin(memorySharp["kernel32"]["LoadLibraryA"].BaseAddress, path);
+            RemoteThread Thread = MemorySharp.Threads.CreateAndJoin(MemorySharp["kernel32"]["LoadLibraryA"].BaseAddress, Path);
+
             // Get the inject module
-            if (thread.GetExitCode<IntPtr>() != IntPtr.Zero)
-                return new InjectedModule(memorySharp, memorySharp.Modules.NativeModules.First(m => m.BaseAddress == thread.GetExitCode<IntPtr>()));
+            if (Thread.GetExitCode<IntPtr>() != IntPtr.Zero)
+                return new InjectedModule(MemorySharp, MemorySharp.Modules.NativeModules.First(m => m.BaseAddress == Thread.GetExitCode<IntPtr>()));
+
             return null;
         }
+
         #endregion
         #endregion
-    }
-}
+
+    } // End class
+
+} // End namespace

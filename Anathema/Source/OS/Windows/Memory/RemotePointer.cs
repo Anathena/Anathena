@@ -20,41 +20,33 @@ namespace Binarysharp.MemoryManagement.Memory
     /// </summary>
     public class RemotePointer : IEquatable<RemotePointer>
     {
-        #region Properties
-        #region BaseAddress
         /// <summary>
         /// The address of the pointer in the remote process.
         /// </summary>
         public IntPtr BaseAddress { get; set; }
-        #endregion
-        #region IsValid
         /// <summary>
         /// Gets if the <see cref="RemotePointer"/> is valid.
         /// </summary>
-        public virtual bool IsValid
+        public virtual Boolean IsValid
         {
             get { return MemorySharp.IsRunning && BaseAddress != IntPtr.Zero; }
         }
-        #endregion
-        #region MemorySharp
         /// <summary>
         /// The reference of the <see cref="MemoryManagement.MemorySharp"/> object.
         /// </summary>
         public MemorySharp MemorySharp { get; protected set; }
-        #endregion
-        #endregion
 
         #region Constructor
         /// <summary>
         /// Initializes a new instance of the <see cref="RemotePointer"/> class.
         /// </summary>
-        /// <param name="memorySharp">The reference of the <see cref="MemoryManagement.MemorySharp"/> object.</param>
-        /// <param name="address">The location where the pointer points in the remote process.</param>
-        public RemotePointer(MemorySharp memorySharp, IntPtr address)
+        /// <param name="MemorySharp">The reference of the <see cref="MemoryManagement.MemorySharp"/> object.</param>
+        /// <param name="Address">The location where the pointer points in the remote process.</param>
+        public RemotePointer(MemorySharp MemorySharp, IntPtr Address)
         {
             // Save the parameters
-            MemorySharp = memorySharp;
-            BaseAddress = address;
+            this.MemorySharp = MemorySharp;
+            BaseAddress = Address;
         }
         #endregion
 
@@ -63,25 +55,27 @@ namespace Binarysharp.MemoryManagement.Memory
         /// <summary>
         /// Changes the protection of the n next bytes in remote process.
         /// </summary>
-        /// <param name="size">The size of the memory to change.</param>
-        /// <param name="protection">The new protection to apply.</param>
-        /// <param name="mustBeDisposed">The resource will be automatically disposed when the finalizer collects the object.</param>
+        /// <param name="Size">The size of the memory to change.</param>
+        /// <param name="Protection">The new protection to apply.</param>
+        /// <param name="MustBeDisposed">The resource will be automatically disposed when the finalizer collects the object.</param>
         /// <returns>A new instance of the <see cref="MemoryProtection"/> class.</returns>
-        public MemoryProtection ChangeProtection(int size, MemoryProtectionFlags protection = MemoryProtectionFlags.ExecuteReadWrite, bool mustBeDisposed = true)
+        public MemoryProtection ChangeProtection(Int32 Size, MemoryProtectionFlags Protection = MemoryProtectionFlags.ExecuteReadWrite, Boolean MustBeDisposed = true)
         {
-            return new MemoryProtection(MemorySharp, BaseAddress, size, protection, mustBeDisposed);
+            return new MemoryProtection(MemorySharp, BaseAddress, Size, Protection, MustBeDisposed);
         }
+
         #endregion
         #region Equals (override)
         /// <summary>
         /// Determines whether the specified object is equal to the current object.
         /// </summary>
-        public override bool Equals(object obj)
+        public override bool Equals(Object Object)
         {
-            if (ReferenceEquals(null, obj)) return false;
-            if (ReferenceEquals(this, obj)) return true;
-            return obj.GetType() == GetType() && Equals((RemotePointer)obj);
+            if (ReferenceEquals(null, Object)) return false;
+            if (ReferenceEquals(this, Object)) return true;
+            return Object.GetType() == GetType() && Equals((RemotePointer)Object);
         }
+
         /// <summary>
         /// Returns a value indicating whether this instance is equal to a specified object.
         /// </summary>
@@ -90,6 +84,7 @@ namespace Binarysharp.MemoryManagement.Memory
             if (ReferenceEquals(null, other)) return false;
             return ReferenceEquals(this, other) || (BaseAddress.Equals(other.BaseAddress) && MemorySharp.Equals(other.MemorySharp));
         }
+
         #endregion
         #region Execute
         /// <summary>
@@ -100,6 +95,7 @@ namespace Binarysharp.MemoryManagement.Memory
         {
             return MemorySharp.Assembly.Execute<T>(BaseAddress);
         }
+
         /// <summary>
         /// Executes the assembly code in the remote process.
         /// </summary>
@@ -108,44 +104,49 @@ namespace Binarysharp.MemoryManagement.Memory
         {
             return Execute<IntPtr>();
         }
+
         /// <summary>
         /// Executes the assembly code in the remote process.
         /// </summary>
-        /// <param name="parameter">The parameter used to execute the assembly code.</param>
+        /// <param name="Parameter">The parameter used to execute the assembly code.</param>
         /// <returns>The return value is the exit code of the thread created to execute the assembly code.</returns>
-        public T Execute<T>(dynamic parameter)
+        public T Execute<T>(dynamic Parameter)
         {
-            return MemorySharp.Assembly.Execute<T>(BaseAddress, parameter);
+            return MemorySharp.Assembly.Execute<T>(BaseAddress, Parameter);
         }
+
         /// <summary>
         /// Executes the assembly code in the remote process.
         /// </summary>
-        /// <param name="parameter">The parameter used to execute the assembly code.</param>
+        /// <param name="Parameter">The parameter used to execute the assembly code.</param>
         /// <returns>The return value is the exit code of the thread created to execute the assembly code.</returns>
-        public IntPtr Execute(dynamic parameter)
+        public IntPtr Execute(dynamic Parameter)
         {
-            return Execute<IntPtr>(parameter);
+            return Execute<IntPtr>(Parameter);
         }
+
+        /// <summary>
+        /// Executes the assembly code in the remote process.
+        /// </summary>
+        /// <param name="CallingConvention">The calling convention used to execute the assembly code with the parameters.</param>
+        /// <param name="Parameters">An array of parameters used to execute the assembly code.</param>
+        /// <returns>The return value is the exit code of the thread created to execute the assembly code.</returns>
+        public T Execute<T>(CallingConventions CallingConvention, params dynamic[] Parameters)
+        {
+            return MemorySharp.Assembly.Execute<T>(BaseAddress, CallingConvention, Parameters);
+        }
+
         /// <summary>
         /// Executes the assembly code in the remote process.
         /// </summary>
         /// <param name="callingConvention">The calling convention used to execute the assembly code with the parameters.</param>
-        /// <param name="parameters">An array of parameters used to execute the assembly code.</param>
+        /// <param name="Parameters">An array of parameters used to execute the assembly code.</param>
         /// <returns>The return value is the exit code of the thread created to execute the assembly code.</returns>
-        public T Execute<T>(CallingConventions callingConvention, params dynamic[] parameters)
+        public IntPtr Execute(CallingConventions callingConvention, params dynamic[] Parameters)
         {
-            return MemorySharp.Assembly.Execute<T>(BaseAddress, callingConvention, parameters);
+            return Execute<IntPtr>(callingConvention, Parameters);
         }
-        /// <summary>
-        /// Executes the assembly code in the remote process.
-        /// </summary>
-        /// <param name="callingConvention">The calling convention used to execute the assembly code with the parameters.</param>
-        /// <param name="parameters">An array of parameters used to execute the assembly code.</param>
-        /// <returns>The return value is the exit code of the thread created to execute the assembly code.</returns>
-        public IntPtr Execute(CallingConventions callingConvention, params dynamic[] parameters)
-        {
-            return Execute<IntPtr>(callingConvention, parameters);
-        }
+
         #endregion
         #region ExecuteAsync
         /// <summary>
@@ -156,6 +157,7 @@ namespace Binarysharp.MemoryManagement.Memory
         {
             return MemorySharp.Assembly.ExecuteAsync<T>(BaseAddress);
         }
+
         /// <summary>
         /// Executes asynchronously the assembly code in the remote process.
         /// </summary>
@@ -164,64 +166,71 @@ namespace Binarysharp.MemoryManagement.Memory
         {
             return ExecuteAsync<IntPtr>();
         }
+
         /// <summary>
         /// Executes asynchronously the assembly code located in the remote process at the specified address.
         /// </summary>
-        /// <param name="parameter">The parameter used to execute the assembly code.</param>
+        /// <param name="Parameter">The parameter used to execute the assembly code.</param>
         /// <returns>The return value is an asynchronous operation that return the exit code of the thread created to execute the assembly code.</returns>
-        public Task<T> ExecuteAsync<T>(dynamic parameter)
+        public Task<T> ExecuteAsync<T>(dynamic Parameter)
         {
-            return MemorySharp.Assembly.ExecuteAsync<T>(BaseAddress, parameter);
+            return MemorySharp.Assembly.ExecuteAsync<T>(BaseAddress, Parameter);
         }
+
         /// <summary>
         /// Executes asynchronously the assembly code located in the remote process at the specified address.
         /// </summary>
-        /// <param name="parameter">The parameter used to execute the assembly code.</param>
+        /// <param name="Parameter">The parameter used to execute the assembly code.</param>
         /// <returns>The return value is an asynchronous operation that return the exit code of the thread created to execute the assembly code.</returns>
-        public Task<IntPtr> ExecuteAsync(dynamic parameter)
+        public Task<IntPtr> ExecuteAsync(dynamic Parameter)
         {
-            return ExecuteAsync<IntPtr>(parameter);
+            return ExecuteAsync<IntPtr>(Parameter);
         }
+
         /// <summary>
         /// Executes asynchronously the assembly code located in the remote process at the specified address.
         /// </summary>
-        /// <param name="callingConvention">The calling convention used to execute the assembly code with the parameters.</param>
-        /// <param name="parameters">An array of parameters used to execute the assembly code.</param>
+        /// <param name="CallingConvention">The calling convention used to execute the assembly code with the parameters.</param>
+        /// <param name="Parameters">An array of parameters used to execute the assembly code.</param>
         /// <returns>The return value is an asynchronous operation that return the exit code of the thread created to execute the assembly code.</returns>
-        public Task<T> ExecuteAsync<T>(CallingConventions callingConvention, params dynamic[] parameters)
+        public Task<T> ExecuteAsync<T>(CallingConventions CallingConvention, params dynamic[] Parameters)
         {
-            return MemorySharp.Assembly.ExecuteAsync<T>(BaseAddress, callingConvention, parameters);
+            return MemorySharp.Assembly.ExecuteAsync<T>(BaseAddress, CallingConvention, Parameters);
         }
+
         /// <summary>
         /// Executes asynchronously the assembly code located in the remote process at the specified address.
         /// </summary>
-        /// <param name="callingConvention">The calling convention used to execute the assembly code with the parameters.</param>
-        /// <param name="parameters">An array of parameters used to execute the assembly code.</param>
+        /// <param name="CallingConvention">The calling convention used to execute the assembly code with the parameters.</param>
+        /// <param name="Parameters">An array of parameters used to execute the assembly code.</param>
         /// <returns>The return value is an asynchronous operation that return the exit code of the thread created to execute the assembly code.</returns>
-        public Task<IntPtr> ExecuteAsync(CallingConventions callingConvention, params dynamic[] parameters)
+        public Task<IntPtr> ExecuteAsync(CallingConventions CallingConvention, params dynamic[] Parameters)
         {
-            return ExecuteAsync<IntPtr>(callingConvention, parameters);
+            return ExecuteAsync<IntPtr>(CallingConvention, Parameters);
         }
+
         #endregion
         #region GetHashCode (override)
         /// <summary>
         /// Serves as a hash function for a particular type. 
         /// </summary>
-        public override int GetHashCode()
+        public override Int32 GetHashCode()
         {
             return BaseAddress.GetHashCode() ^ MemorySharp.GetHashCode();
         }
+
         #endregion
         #region Operator (override)
-        public static bool operator ==(RemotePointer left, RemotePointer right)
+        public static Boolean operator ==(RemotePointer Left, RemotePointer Right)
         {
-            return Equals(left, right);
+            return Equals(Left, Right);
         }
 
-        public static bool operator !=(RemotePointer left, RemotePointer right)
+        public static Boolean operator !=(RemotePointer Left, RemotePointer Right)
         {
-            return !Equals(left, right);
+            return !Equals(Left, Right);
         }
+
         #endregion
         #region Read
         /// <summary>
@@ -230,232 +239,257 @@ namespace Binarysharp.MemoryManagement.Memory
         /// <typeparam name="T">The type of the value.</typeparam>
         /// <param name="offset">The offset where the value is read from the pointer.</param>
         /// <returns>A value.</returns>
-        public T Read<T>(int offset, out bool success)
+        public T Read<T>(Int32 Offset, out Boolean Success)
         {
-            return MemorySharp.Read<T>(BaseAddress + offset, out success, false);
+            return MemorySharp.Read<T>(BaseAddress + Offset, out Success, false);
         }
+
         /// <summary>
         /// Reads the value of a specified type in the remote process.
         /// </summary>
         /// <typeparam name="T">The type of the value.</typeparam>
-        /// <param name="offset">The offset where the value is read from the pointer.</param>
+        /// <param name="Offset">The offset where the value is read from the pointer.</param>
         /// <returns>A value.</returns>
-        public T Read<T>(Enum offset, out bool success)
+        public T Read<T>(Enum Offset, out Boolean Success)
         {
-            return Read<T>(Convert.ToInt32(offset), out success);
+            return Read<T>(Convert.ToInt32(Offset), out Success);
         }
+
         /// <summary>
         /// Reads the value of a specified type in the remote process.
         /// </summary>
         /// <typeparam name="T">The type of the value.</typeparam>
         /// <returns>A value.</returns>
-        public T Read<T>(out bool success)
+        public T Read<T>(out Boolean Success)
         {
-            return Read<T>(0, out success);
+            return Read<T>(0, out Success);
         }
+
+        /// <summary>
+        /// Reads an array of a specified type in the remote process.
+        /// </summary>
+        /// <typeparam name="T">The type of the values.</typeparam>
+        /// <param name="Offset">The offset where the values is read from the pointer.</param>
+        /// <param name="count">The number of cells in the array.</param>
+        /// <returns>An array.</returns>
+        public T[] Read<T>(Int32 Offset, Int32 Count, out Boolean Success)
+        {
+            return MemorySharp.Read<T>(BaseAddress + Offset, Count, out Success, false);
+        }
+
         /// <summary>
         /// Reads an array of a specified type in the remote process.
         /// </summary>
         /// <typeparam name="T">The type of the values.</typeparam>
         /// <param name="offset">The offset where the values is read from the pointer.</param>
-        /// <param name="count">The number of cells in the array.</param>
+        /// <param name="Count">The number of cells in the array.</param>
         /// <returns>An array.</returns>
-        public T[] Read<T>(int offset, int count, out bool success)
+        public T[] Read<T>(Enum offset, Int32 Count, out Boolean Success)
         {
-            return MemorySharp.Read<T>(BaseAddress + offset, count, out success, false);
+            return Read<T>(Convert.ToInt32(offset), Count, out Success);
         }
-        /// <summary>
-        /// Reads an array of a specified type in the remote process.
-        /// </summary>
-        /// <typeparam name="T">The type of the values.</typeparam>
-        /// <param name="offset">The offset where the values is read from the pointer.</param>
-        /// <param name="count">The number of cells in the array.</param>
-        /// <returns>An array.</returns>
-        public T[] Read<T>(Enum offset, int count, out bool success)
-        {
-            return Read<T>(Convert.ToInt32(offset), count, out success);
-        }
+
         #endregion
         #region ReadString
         /// <summary>
         /// Reads a string with a specified encoding in the remote process.
         /// </summary>
-        /// <param name="offset">The offset where the string is read from the pointer.</param>
-        /// <param name="encoding">The encoding used.</param>
-        /// <param name="maxLength">[Optional] The number of maximum bytes to read. The string is automatically cropped at this end ('\0' char).</param>
+        /// <param name="Offset">The offset where the string is read from the pointer.</param>
+        /// <param name="Encoding">The encoding used.</param>
+        /// <param name="MaxLength">[Optional] The number of maximum bytes to read. The string is automatically cropped at this end ('\0' char).</param>
         /// <returns>The string.</returns>
-        public string ReadString(int offset, Encoding encoding, out bool success, int maxLength = 512)
+        public String ReadString(Int32 Offset, Encoding Encoding, out Boolean Success, Int32 MaxLength = 512)
         {
-            return MemorySharp.ReadString(BaseAddress + offset, encoding, out success, false, maxLength);
+            return MemorySharp.ReadString(BaseAddress + Offset, Encoding, out Success, false, MaxLength);
         }
+
         /// <summary>
         /// Reads a string with a specified encoding in the remote process.
         /// </summary>
-        /// <param name="offset">The offset where the string is read from the pointer.</param>
-        /// <param name="encoding">The encoding used.</param>
-        /// <param name="maxLength">[Optional] The number of maximum bytes to read. The string is automatically cropped at this end ('\0' char).</param>
+        /// <param name="Offset">The offset where the string is read from the pointer.</param>
+        /// <param name="Encoding">The encoding used.</param>
+        /// <param name="MaxLength">[Optional] The number of maximum bytes to read. The string is automatically cropped at this end ('\0' char).</param>
         /// <returns>The string.</returns>
-        public string ReadString(Enum offset, Encoding encoding, out bool success, int maxLength = 512)
+        public String ReadString(Enum Offset, Encoding Encoding, out Boolean Success, Int32 MaxLength = 512)
         {
-            return ReadString(Convert.ToInt32(offset), encoding, out success, maxLength);
+            return ReadString(Convert.ToInt32(Offset), Encoding, out Success, MaxLength);
         }
+
         /// <summary>
         /// Reads a string with a specified encoding in the remote process.
         /// </summary>
-        /// <param name="encoding">The encoding used.</param>
-        /// <param name="maxLength">[Optional] The number of maximum bytes to read. The string is automatically cropped at this end ('\0' char).</param>
+        /// <param name="Encoding">The encoding used.</param>
+        /// <param name="MaxLength">[Optional] The number of maximum bytes to read. The string is automatically cropped at this end ('\0' char).</param>
         /// <returns>The string.</returns>
-        public string ReadString(Encoding encoding, out bool success, int maxLength = 512)
+        public String ReadString(Encoding Encoding, out Boolean Success, Int32 MaxLength = 512)
         {
-            return ReadString(0, encoding, out success, maxLength);
+            return ReadString(0, Encoding, out Success, MaxLength);
         }
+
+        /// <summary>
+        /// Reads a string using the encoding UTF8 in the remote process.
+        /// </summary>
+        /// <param name="Offset">The offset where the string is read from the pointer.</param>
+        /// <param name="MaxLength">[Optional] The number of maximum bytes to read. The string is automatically cropped at this end ('\0' char).</param>
+        /// <returns>The string.</returns>
+        public String ReadString(Int32 Offset, out Boolean Success, Int32 MaxLength = 512)
+        {
+            return MemorySharp.ReadString(BaseAddress + Offset, out Success, false, MaxLength);
+        }
+
         /// <summary>
         /// Reads a string using the encoding UTF8 in the remote process.
         /// </summary>
         /// <param name="offset">The offset where the string is read from the pointer.</param>
-        /// <param name="maxLength">[Optional] The number of maximum bytes to read. The string is automatically cropped at this end ('\0' char).</param>
+        /// <param name="MaxLength">[Optional] The number of maximum bytes to read. The string is automatically cropped at this end ('\0' char).</param>
         /// <returns>The string.</returns>
-        public string ReadString(int offset, out bool success, int maxLength = 512)
+        public String ReadString(Enum Offset, out Boolean Success, Int32 MaxLength = 512)
         {
-            return MemorySharp.ReadString(BaseAddress + offset, out success, false, maxLength);
+            return ReadString(Convert.ToInt32(Offset), out Success, MaxLength);
         }
-        /// <summary>
-        /// Reads a string using the encoding UTF8 in the remote process.
-        /// </summary>
-        /// <param name="offset">The offset where the string is read from the pointer.</param>
-        /// <param name="maxLength">[Optional] The number of maximum bytes to read. The string is automatically cropped at this end ('\0' char).</param>
-        /// <returns>The string.</returns>
-        public string ReadString(Enum offset, out bool success, int maxLength = 512)
-        {
-            return ReadString(Convert.ToInt32(offset), out success, maxLength);
-        }
+
         #endregion
         #region ToString (override)
         /// <summary>
         /// Returns a string that represents the current object.
         /// </summary>
-        public override string ToString()
+        public override String ToString()
         {
             return string.Format("BaseAddress = 0x{0:X}", BaseAddress.ToInt64());
         }
+
         #endregion
         #region Write
         /// <summary>
         /// Writes the values of a specified type in the remote process.
         /// </summary>
         /// <typeparam name="T">The type of the value.</typeparam>
-        /// <param name="offset">The offset where the value is written from the pointer.</param>
-        /// <param name="value">The value to write.</param>
-        public void Write<T>(int offset, T value)
+        /// <param name="Offset">The offset where the value is written from the pointer.</param>
+        /// <param name="Value">The value to write.</param>
+        public void Write<T>(Int32 Offset, T Value)
         {
-            MemorySharp.Write(BaseAddress + offset, value, false);
+            MemorySharp.Write(BaseAddress + Offset, Value, false);
         }
+
         /// <summary>
         /// Writes the values of a specified type in the remote process.
         /// </summary>
         /// <typeparam name="T">The type of the value.</typeparam>
-        /// <param name="offset">The offset where the value is written from the pointer.</param>
-        /// <param name="value">The value to write.</param>
-        public void Write<T>(Enum offset, T value)
+        /// <param name="Offset">The offset where the value is written from the pointer.</param>
+        /// <param name="Value">The value to write.</param>
+        public void Write<T>(Enum Offset, T Value)
         {
-            Write(Convert.ToInt32(offset), value);
+            Write(Convert.ToInt32(Offset), Value);
         }
+
         /// <summary>
         /// Writes the values of a specified type in the remote process.
         /// </summary>
         /// <typeparam name="T">The type of the value.</typeparam>
-        /// <param name="value">The value to write.</param>
-        public void Write<T>(T value)
+        /// <param name="Value">The value to write.</param>
+        public void Write<T>(T Value)
         {
-            Write(0, value);
+            Write(0, Value);
         }
+
         /// <summary>
         /// Writes an array of a specified type in the remote process.
         /// </summary>
         /// <typeparam name="T">The type of the values.</typeparam>
-        /// <param name="offset">The offset where the values is written from the pointer.</param>
-        /// <param name="array">The array to write.</param>
-        public void Write<T>(int offset, T[] array)
+        /// <param name="Offset">The offset where the values is written from the pointer.</param>
+        /// <param name="Array">The array to write.</param>
+        public void Write<T>(Int32 Offset, T[] Array)
         {
-            MemorySharp.Write(BaseAddress + offset, array, false);
+            MemorySharp.Write(BaseAddress + Offset, Array, false);
         }
+
         /// <summary>
         /// Writes an array of a specified type in the remote process.
         /// </summary>
         /// <typeparam name="T">The type of the values.</typeparam>
-        /// <param name="offset">The offset where the values is written from the pointer.</param>
-        /// <param name="array">The array to write.</param>
-        public void Write<T>(Enum offset, T[] array)
+        /// <param name="Offset">The offset where the values is written from the pointer.</param>
+        /// <param name="Array">The array to write.</param>
+        public void Write<T>(Enum Offset, T[] Array)
         {
-            Write(Convert.ToInt32(offset), array);
+            Write(Convert.ToInt32(Offset), Array);
         }
+
         /// <summary>
         /// Writes an array of a specified type in the remote process.
         /// </summary>
         /// <typeparam name="T">The type of the values.</typeparam>
-        /// <param name="array">The array to write.</param>
-        public void Write<T>(T[] array)
+        /// <param name="Array">The array to write.</param>
+        public void Write<T>(T[] Array)
         {
-            Write(0, array);
+            Write(0, Array);
         }
+
         #endregion
         #region WriteString
         /// <summary>
         /// Writes a string with a specified encoding in the remote process.
         /// </summary>
-        /// <param name="offset">The offset where the string is written from the pointer.</param>
-        /// <param name="text">The text to write.</param>
-        /// <param name="encoding">The encoding used.</param>
-        public void WriteString(int offset, string text, Encoding encoding)
+        /// <param name="Offset">The offset where the string is written from the pointer.</param>
+        /// <param name="Text">The text to write.</param>
+        /// <param name="Encoding">The encoding used.</param>
+        public void WriteString(Int32 Offset, String Text, Encoding Encoding)
         {
-            MemorySharp.WriteString(BaseAddress + offset, text, encoding, false);
+            MemorySharp.WriteString(BaseAddress + Offset, Text, Encoding, false);
         }
+
         /// <summary>
         /// Writes a string with a specified encoding in the remote process.
         /// </summary>
-        /// <param name="offset">The offset where the string is written from the pointer.</param>
-        /// <param name="text">The text to write.</param>
-        /// <param name="encoding">The encoding used.</param>
-        public void WriteString(Enum offset, string text, Encoding encoding)
+        /// <param name="Offset">The offset where the string is written from the pointer.</param>
+        /// <param name="Text">The text to write.</param>
+        /// <param name="Encoding">The encoding used.</param>
+        public void WriteString(Enum Offset, String Text, Encoding Encoding)
         {
-            WriteString(Convert.ToInt32(offset), text, encoding);
+            WriteString(Convert.ToInt32(Offset), Text, Encoding);
         }
+
         /// <summary>
         /// Writes a string with a specified encoding in the remote process.
         /// </summary>
-        /// <param name="text">The text to write.</param>
-        /// <param name="encoding">The encoding used.</param>
-        public void WriteString(string text, Encoding encoding)
+        /// <param name="Text">The text to write.</param>
+        /// <param name="Encoding">The encoding used.</param>
+        public void WriteString(String Text, Encoding Encoding)
         {
-            WriteString(0, text, encoding);
+            WriteString(0, Text, Encoding);
         }
+
         /// <summary>
         /// Writes a string using the encoding UTF8 in the remote process.
         /// </summary>
-        /// <param name="offset">The offset where the string is written from the pointer.</param>
-        /// <param name="text">The text to write.</param>
-        public void WriteString(int offset, string text)
+        /// <param name="Offset">The offset where the string is written from the pointer.</param>
+        /// <param name="Text">The text to write.</param>
+        public void WriteString(Int32 Offset, String Text)
         {
-            MemorySharp.WriteString(BaseAddress + offset, text, false);
+            MemorySharp.WriteString(BaseAddress + Offset, Text, false);
         }
+
         /// <summary>
         /// Writes a string using the encoding UTF8 in the remote process.
         /// </summary>
-        /// <param name="offset">The offset where the string is written from the pointer.</param>
-        /// <param name="text">The text to write.</param>
-        public void WriteString(Enum offset, string text)
+        /// <param name="Offset">The offset where the string is written from the pointer.</param>
+        /// <param name="Text">The text to write.</param>
+        public void WriteString(Enum Offset, String Text)
         {
-            WriteString(Convert.ToInt32(offset), text);
+            WriteString(Convert.ToInt32(Offset), Text);
         }
+
         /// <summary>
         /// Writes a string using the encoding UTF8 in the remote process.
         /// </summary>
-        /// <param name="text">The text to write.</param>
-        public void WriteString(string text)
+        /// <param name="Text">The text to write.</param>
+        public void WriteString(String Text)
         {
-            WriteString(0, text);
+            WriteString(0, Text);
         }
+
         #endregion
         #endregion
-    }
-}
+
+    } // End class
+
+} // End namespace

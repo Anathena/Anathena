@@ -72,6 +72,7 @@ namespace Binarysharp.MemoryManagement.Internals
                 TypeCode == TypeCode.UInt16 ||
                 TypeCode == TypeCode.UInt32;
         }
+
         #endregion
 
         #region Methods
@@ -79,9 +80,9 @@ namespace Binarysharp.MemoryManagement.Internals
         /// <summary>
         /// Marshals a managed object to an array of bytes.
         /// </summary>
-        /// <param name="obj">The object to marshal.</param>
+        /// <param name="Object">The object to marshal.</param>
         /// <returns>A array of bytes corresponding to the managed object.</returns>
-        public static byte[] ObjectToByteArray(T obj)
+        public static byte[] ObjectToByteArray(T Object)
         {
             // We'll tried to avoid marshalling as it really slows the process
             // First, check if the type can be converted without marhsalling
@@ -93,54 +94,56 @@ namespace Binarysharp.MemoryManagement.Internals
                         switch (Size)
                         {
                             case 4:
-                                return BitConverter.GetBytes(((IntPtr)(object)obj).ToInt32());
+                                return BitConverter.GetBytes(((IntPtr)(Object)Object).ToInt32());
                             case 8:
-                                return BitConverter.GetBytes(((IntPtr)(object)obj).ToInt64());
+                                return BitConverter.GetBytes(((IntPtr)(Object)Object).ToInt64());
                         }
                     }
                     break;
                 case TypeCode.Boolean:
-                    return BitConverter.GetBytes((bool)(object)obj);
+                    return BitConverter.GetBytes((Boolean)(Object)Object);
                 case TypeCode.Char:
-                    return Encoding.UTF8.GetBytes(new[] {(char)(object)obj});
+                    return Encoding.UTF8.GetBytes(new[] {(Char)(Object)Object});
                 case TypeCode.Double:
-                    return BitConverter.GetBytes((double)(object)obj);
+                    return BitConverter.GetBytes((Double)(Object)Object);
                 case TypeCode.Int16:
-                    return BitConverter.GetBytes((short)(object)obj);
+                    return BitConverter.GetBytes((Int16)(Object)Object);
                 case TypeCode.Int32:
-                    return BitConverter.GetBytes((int)(object)obj);
+                    return BitConverter.GetBytes((Int32)(Object)Object);
                 case TypeCode.Int64:
-                    return BitConverter.GetBytes((long)(object)obj);
+                    return BitConverter.GetBytes((Int64)(Object)Object);
                 case TypeCode.Single:
-                    return BitConverter.GetBytes((float)(object)obj);
+                    return BitConverter.GetBytes((Single)(Object)Object);
                 case TypeCode.String:
                     throw new InvalidCastException("This method doesn't support string conversion.");
                 case TypeCode.UInt16:
-                    return BitConverter.GetBytes((ushort)(object)obj);
+                    return BitConverter.GetBytes((UInt16)(Object)Object);
                 case TypeCode.UInt32:
-                    return BitConverter.GetBytes((uint)(object)obj);
+                    return BitConverter.GetBytes((UInt32)(Object)Object);
                 case TypeCode.UInt64:
-                    return BitConverter.GetBytes((ulong)(object)obj);
+                    return BitConverter.GetBytes((UInt64)(Object)Object);
 
             }
             // Check if it's not a common type
             // Allocate a block of unmanaged memory
-            using (var unmanaged = new LocalUnmanagedMemory(Size))
+            using (LocalUnmanagedMemory Unmanaged = new LocalUnmanagedMemory(Size))
             {
                 // Write the object inside the unmanaged memory
-                unmanaged.Write(obj);
+                Unmanaged.Write(Object);
                 // Return the content of the block of unmanaged memory
-                return unmanaged.Read();
+                return Unmanaged.Read();
             }
         }
+
         #endregion
+
         #region ByteArrayToObject
         /// <summary>
         /// Marshals an array of byte to a managed object.
         /// </summary>
-        /// <param name="byteArray">The array of bytes corresponding to a managed object.</param>
+        /// <param name="ByteArray">The array of bytes corresponding to a managed object.</param>
         /// <returns>A managed object.</returns>
-        public static T ByteArrayToObject(byte[] byteArray)
+        public static T ByteArrayToObject(Byte[] ByteArray)
         {
             // We'll tried to avoid marshalling as it really slows the process
             // First, check if the type can be converted without marhsalling
@@ -149,71 +152,76 @@ namespace Binarysharp.MemoryManagement.Internals
                 case TypeCode.Object:
                     if (IsIntPtr)
                     {
-                        switch (byteArray.Length)
+                        switch (ByteArray.Length)
                         {
                             case 1:
-                                return (T)(object)new IntPtr(BitConverter.ToInt32(new byte[] { byteArray[0], 0x0, 0x0, 0x0 }, 0));
+                                return (T)(Object)new IntPtr(BitConverter.ToInt32(new Byte[] { ByteArray[0], 0x0, 0x0, 0x0 }, 0));
                             case 2:
-                                return (T)(object)new IntPtr(BitConverter.ToInt32(new byte[] { byteArray[0], byteArray[1], 0x0, 0x0 }, 0));
+                                return (T)(Object)new IntPtr(BitConverter.ToInt32(new Byte[] { ByteArray[0], ByteArray[1], 0x0, 0x0 }, 0));
                             case 4:
-                                return (T)(object)new IntPtr(BitConverter.ToInt32(byteArray, 0));
+                                return (T)(Object)new IntPtr(BitConverter.ToInt32(ByteArray, 0));
                             case 8:
-                                return (T)(object)new IntPtr(BitConverter.ToInt64(byteArray, 0));
+                                return (T)(Object)new IntPtr(BitConverter.ToInt64(ByteArray, 0));
                         }
                     }
                     break;
                 case TypeCode.Boolean:
-                    return (T)(object)BitConverter.ToBoolean(byteArray, 0);
+                    return (T)(Object)BitConverter.ToBoolean(ByteArray, 0);
                 case TypeCode.Byte:
-                    return (T)(object)byteArray[0];
+                    return (T)(Object)ByteArray[0];
                 case TypeCode.Char:
-                    return (T) (object) Encoding.UTF8.GetChars(byteArray)[0]; //BitConverter.ToChar(byteArray, 0);
+                    return (T)(Object) Encoding.UTF8.GetChars(ByteArray)[0]; // BitConverter.ToChar(ByteArray, 0);
                 case TypeCode.Double:
-                    return (T)(object)BitConverter.ToDouble(byteArray, 0);
+                    return (T)(Object)BitConverter.ToDouble(ByteArray, 0);
                 case TypeCode.Int16:
-                    return (T)(object)BitConverter.ToInt16(byteArray, 0);
+                    return (T)(Object)BitConverter.ToInt16(ByteArray, 0);
                 case TypeCode.Int32:
-                    return (T)(object)BitConverter.ToInt32(byteArray, 0);
+                    return (T)(Object)BitConverter.ToInt32(ByteArray, 0);
                 case TypeCode.Int64:
-                    return (T)(object)BitConverter.ToInt64(byteArray, 0);
+                    return (T)(Object)BitConverter.ToInt64(ByteArray, 0);
                 case TypeCode.Single:
-                    return (T)(object)BitConverter.ToSingle(byteArray, 0);
+                    return (T)(Object)BitConverter.ToSingle(ByteArray, 0);
                 case TypeCode.String:
                     throw new InvalidCastException("This method doesn't support string conversion.");
                 case TypeCode.UInt16:
-                    return (T)(object)BitConverter.ToUInt16(byteArray, 0);
+                    return (T)(Object)BitConverter.ToUInt16(ByteArray, 0);
                 case TypeCode.UInt32:
-                    return (T)(object)BitConverter.ToUInt32(byteArray, 0);
+                    return (T)(Object)BitConverter.ToUInt32(ByteArray, 0);
                 case TypeCode.UInt64:
-                    return (T)(object)BitConverter.ToUInt64(byteArray, 0);
+                    return (T)(Object)BitConverter.ToUInt64(ByteArray, 0);
             }
+
             // Check if it's not a common type
             // Allocate a block of unmanaged memory
             using (var unmanaged = new LocalUnmanagedMemory(Size))
             {
                 // Write the array of bytes inside the unmanaged memory
-                unmanaged.Write(byteArray);
+                unmanaged.Write(ByteArray);
                 // Return a managed object created from the block of unmanaged memory
                 return unmanaged.Read<T>();
             }
         }
+
         #endregion
         #region PtrToObject
         /// <summary>
         /// Converts a pointer to a given type. This function converts the value of the pointer or the pointed value,
         /// according if the data type is primitive or reference.
         /// </summary>
-        /// <param name="memorySharp">The concerned process.</param>
-        /// <param name="pointer">The pointer to convert.</param>
+        /// <param name="MemorySharp">The concerned process.</param>
+        /// <param name="Pointer">The pointer to convert.</param>
         /// <returns>The return value is the pointer converted to the given data type.</returns>
-        public static T PtrToObject(MemorySharp memorySharp, IntPtr pointer)
+        public static T PtrToObject(MemorySharp MemorySharp, IntPtr Pointer)
         {
-            bool success;
+            bool ReadSuccess;
             return ByteArrayToObject(CanBeStoredInRegisters
-                                      ? BitConverter.GetBytes(pointer.ToInt64())
-                                      : memorySharp.Read<byte>(pointer, Size, out success, false));
+                                      ? BitConverter.GetBytes(Pointer.ToInt64())
+                                      : MemorySharp.Read<byte>(Pointer, Size, out ReadSuccess, false));
         }
+
         #endregion
         #endregion
-    }
-}
+
+    } // End class
+
+} // End namespace
