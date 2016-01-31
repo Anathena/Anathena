@@ -30,6 +30,9 @@ namespace Anathema
         private MemorySharp MemoryEditor;
         private Snapshot<Null> Snapshot;
 
+        private const UInt64 InvalidPointerMin = unchecked((UInt64)Int64.MaxValue);
+        private const UInt64 InvalidPointerMax = UInt16.MaxValue;
+
         private List<RemoteModule> Modules;
         private List<RemoteRegion> AcceptedBases;
 
@@ -87,17 +90,25 @@ namespace Anathema
             // Set to type of a pointer
             Snapshot.SetElementType(typeof(UInt64));
 
-             Parallel.ForEach(Snapshot.Cast<Object>(), (RegionObject) =>
-             {
-                 SnapshotRegion Region = (SnapshotRegion)RegionObject;
+            Parallel.ForEach(Snapshot.Cast<Object>(), (RegionObject) =>
+            {
+                SnapshotRegion Region = (SnapshotRegion)RegionObject;
+
                 // Read the memory of this region
-                Region.ReadAllSnapshotMemory(Snapshot.GetMemoryEditor(), true);
+                try { Region.ReadAllSnapshotMemory(Snapshot.GetMemoryEditor(), true); }
+                catch (ScanFailedException) { return; }
 
                 if (!Region.HasValues())
                     return;
 
                 foreach (SnapshotElement Element in Region)
                 {
+                    if (Element.LessThanValue(InvalidPointerMax))
+                        continue;
+
+                    if (Element.GreaterThanValue(InvalidPointerMin))
+                        continue;
+
                     foreach (SnapshotRegion TargetRegion in Snapshot)
                     {
                         // Check if outside of target bounds
