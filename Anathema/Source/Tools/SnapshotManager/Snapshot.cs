@@ -135,11 +135,31 @@ namespace Anathema
                 Region.SetElementType(ElementType);
         }
 
+        public Boolean ContainsAddress(UInt64 Address)
+        {
+            if (SnapshotRegions.Length == 0)
+                return false;
+
+            return ContainsAddress(Address, SnapshotRegions.Length / 2, 0, SnapshotRegions.Length);
+        }
+
+        private Boolean ContainsAddress(UInt64 Address, Int32 Middle, Int32 Min, Int32 Max)
+        {
+            if (Middle < 0 || Middle == SnapshotRegions.Length || Max < Min)
+                return false;
+
+            if (Address < unchecked((UInt64)SnapshotRegions[Middle].BaseAddress))
+                return (ContainsAddress(Address, (Min + Middle - 1) / 2, Min, Middle - 1));
+            else if (Address > unchecked((UInt64)SnapshotRegions[Middle].EndAddress))
+                return (ContainsAddress(Address, (Middle + 1 + Max) / 2, Middle + 1, Max));
+            else
+                return true;
+        }
+
         public IEnumerator GetEnumerator()
         {
             return SnapshotRegions.GetEnumerator();
         }
-
     } // End class
 
     /// <summary>
@@ -261,7 +281,7 @@ namespace Anathema
                         DeallocatedRegions.Add(SnapshotRegion);
                 }
             });
-            
+
             // Handle invalid reads
             if (DeallocatedRegions.IsEmpty)
                 return;
@@ -303,7 +323,7 @@ namespace Anathema
                 foreach (SnapshotRegion<LabelType> Region in ValidRegions)
                     Region.RelaxRegion();
             }
-            
+
             this.SnapshotRegions = ValidRegions;
         }
 

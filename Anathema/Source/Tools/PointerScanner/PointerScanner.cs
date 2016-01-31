@@ -109,20 +109,11 @@ namespace Anathema
                     if (Element.GreaterThanValue(InvalidPointerMin))
                         continue;
 
-                    foreach (SnapshotRegion TargetRegion in Snapshot)
-                    {
-                        // Check if outside of target bounds
-                        if (Element.LessThanValue(unchecked((UInt64)TargetRegion.BaseAddress)))
-                            continue;
+                    if (Element.GetValue() % 32 != 0)
+                        continue;
 
-                        // Regions are sorted. If we pass a value, then the pointer is not in this snapshot.
-                        if (Element.GreaterThanValue(unchecked((UInt64)TargetRegion.EndAddress)))
-                            break;
-
-                        // Valid pointer -- keep it
-                        PointerPool.TryAdd(unchecked((UInt64)Element.BaseAddress), unchecked((UInt64)Element.GetValue()));
-                        break;
-                    }
+                    if (Snapshot.ContainsAddress(Element.GetValue()))
+                        PointerPool[unchecked((UInt64)Element.BaseAddress)] = unchecked((UInt64)Element.GetValue());
                 }
 
                 // Clear the saved values, we do not need them now
