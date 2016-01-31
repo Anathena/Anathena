@@ -109,7 +109,10 @@ namespace Anathema
                     if (Element.GreaterThanValue(InvalidPointerMin))
                         continue;
 
-                    if (unchecked((UInt64)Element.BaseAddress) % 32 != 0)
+                    if (unchecked((UInt64)Element.BaseAddress) % 4 != 0)
+                        continue;
+
+                    if (Element.GetValue() % 4 != 0)
                         continue;
 
                     if (Snapshot.ContainsAddress(Element.GetValue()))
