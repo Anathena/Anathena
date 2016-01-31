@@ -32,6 +32,7 @@ namespace Anathema
         private GUIChangeCounter GUIChangeCounter;
         private GUILabelThresholder GUILabelThresholder;
         private GUIInputCorrelator GUIInputCorrelator;
+        private GUIPointerScanner GUIPointerScanner;
         private GUISnapshotManager GUISnapshotManager;
         private GUIResults GUIResults;
         private GUITable GUITable;
@@ -183,6 +184,13 @@ namespace Anathema
             GUILabelThresholder.Show(ContentPanel);
         }
 
+        private void CreatePointerScanner()
+        {
+            if (GUIPointerScanner == null || GUIPointerScanner.IsDisposed)
+                GUIPointerScanner = new GUIPointerScanner();
+            GUIPointerScanner.Show(ContentPanel);
+        }
+
         private void CreateSnapshotManager()
         {
             if (GUISnapshotManager == null || GUISnapshotManager.IsDisposed)
@@ -272,6 +280,11 @@ namespace Anathema
         private void LabelThresholderToolStripMenuItem_Click(Object Sender, EventArgs E)
         {
             CreateLabelThresholder();
+        }
+
+        private void PointerScannerToolStripMenuItem_Click(Object Sender, EventArgs E)
+        {
+            CreatePointerScanner();
         }
 
         private void SnapshotManagerToolStripMenuItem_Click(Object Sender, EventArgs E)

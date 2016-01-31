@@ -28,13 +28,14 @@ namespace Anathema
     class PointerScanner : IPointerScannerModel
     {
         private MemorySharp MemoryEditor;
+        private Snapshot<Null> Snapshot;
 
         public event PointerScannerEventHandler EventUpdateProcessTitle;
 
         private Int32 MaxPointerLevel;
         private List<RemoteModule> Modules;
         private List<RemoteRegion> AcceptedBases;
-        
+
         private ConcurrentDictionary<UInt64, UInt64> PointerPool;
         private List<RemoteRegion> TargetRegions;
         // private Dictionary<Int32, List<SnapshotElement>> Pointers;
@@ -44,12 +45,6 @@ namespace Anathema
             PointerPool = new ConcurrentDictionary<UInt64, UInt64>();
             Modules = new List<RemoteModule>();
             AcceptedBases = new List<RemoteRegion>();
-            InitializeProcessObserver();
-        }
-        
-        public void InitializeProcessObserver()
-        {
-            ProcessSelector.GetInstance().Subscribe(this);
         }
 
         public void UpdateMemoryEditor(MemorySharp MemoryEditor)
@@ -62,11 +57,81 @@ namespace Anathema
             this.MaxPointerLevel = MaxPointerLevel;
         }
 
-        public void BeginPointerScanner()
+        public override void SetTargetAddress(UInt64 Address)
         {
-            Initialize();
-            Trace();
-            Retrace();
+            TargetRegions.Clear();
+
+            //TargetRegions.Add()
+        }
+
+        public override void Begin()
+        {
+            base.Begin();
+        }
+
+        protected override void Update()
+        {
+            base.Update();
+
+            // Clear current pointer pool
+            PointerPool.Clear();
+
+            // Collect memory regions
+            Snapshot = new Snapshot<Null>(SnapshotManager.GetInstance().SnapshotAllRegions());
+
+            // Set to type of a pointer
+            Snapshot.SetElementType(typeof(UInt64));
+
+            Parallel.ForEach(Snapshot.Cast<Object>(), (RegionObject) =>
+            {
+                SnapshotRegion Region = (SnapshotRegion)RegionObject;
+
+                // Read the memory of this region
+                Region.ReadAllSnapshotMemory(Snapshot.GetMemoryEditor(), true);
+
+                if (!Region.HasValues())
+                    return;
+
+                foreach (SnapshotElement Element in Region)
+                {
+                    foreach (RemoteRegion TargetRegion in TargetRegions)
+                    {
+                        // Check if outside of target bounds
+                        if (Element.LessThanValue(unchecked((UInt64)TargetRegion.BaseAddress)) ||
+                            Element.GreaterThanValue(unchecked((UInt64)TargetRegion.EndAddress)))
+                        {
+                            continue;
+                        }
+
+                        // Valid pointer -- lets keep it
+                        PointerPool.TryAdd(unchecked((UInt64)Element.BaseAddress), unchecked((UInt64)Element.GetValue()));
+                    }
+                }
+
+                // Clear the saved values, we do not need them now
+                Region.SetCurrentValues(null);
+
+            });
+
+            CancelFlag = true;
+        }
+
+        public override void End()
+        {
+            base.End();
+            
+            SetAcceptedBases();
+        }
+
+        private void SetAcceptedBases()
+        {
+            if (MemoryEditor == null)
+                return;
+
+            Modules = MemoryEditor.Modules.RemoteModules.ToList();
+
+            // Gather regions from every module as valid base addresses
+            Modules.ForEach(x => AcceptedBases.Add(new RemoteRegion(MemoryEditor, x.BaseAddress, x.Size)));
         }
 
         private void Trace()
@@ -77,32 +142,6 @@ namespace Anathema
         private void Retrace()
         {
 
-        }
-
-        private void Initialize()
-        {
-            BuildPointerPool();
-            CollectModules();
-            SetAcceptedBases();
-        }
-        
-        private void BuildPointerPool()
-        {
-            PointerPool.Clear();
-        }
-
-        private void CollectModules()
-        {
-            Modules = MemoryEditor.Modules.RemoteModules.ToList();
-        }
-
-        private void SetAcceptedBases()
-        {
-            if (MemoryEditor == null)
-                return;
-
-            // Gather regions from every module as valid base addresses
-            Modules.ForEach(x => AcceptedBases.Add(new RemoteRegion(MemoryEditor, x.BaseAddress, x.Size)));
         }
 
     } // End class

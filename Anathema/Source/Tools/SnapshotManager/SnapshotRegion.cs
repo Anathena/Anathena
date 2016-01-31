@@ -150,6 +150,13 @@ namespace Anathema
             return true;
         }
 
+        public Boolean HasValues()
+        {
+            if (CurrentValues == null)
+                return false;
+            return true;
+        }
+
         public Byte[] ReadAllSnapshotMemory(MemorySharp MemoryEditor, Boolean KeepValues = true)
         {
             Boolean SuccessReading = false;

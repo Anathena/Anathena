@@ -24,17 +24,11 @@ namespace Anathema
             EnableGUI();
         }
 
+        public void DisplayScanCount(Int32 ScanCount) { }
+
         public void EventFilterFinished(List<RemoteRegion> MemoryRegions)
         {
 
-        }
-
-        public void DisplayResultSize(UInt64 TreeSize)
-        {
-            /*ControlThreadingHelper.InvokeControlAction(MemorySizeValueLabel, () =>
-            {
-                MemorySizeValueLabel.Text = Conversions.ByteCountToMetricSize(TreeSize).ToString();
-            });*/
         }
 
         private void DisableGUI()
@@ -51,22 +45,31 @@ namespace Anathema
 
         #region Events
 
-        private void StartScanButton_Click(object sender, EventArgs e)
+        private void StartScanButton_Click(Object Sender, EventArgs E)
         {
             DisableGUI();
+
+            if (!PointerScannerPresenter.TrySetTargetAddress(TargetAddressTextBox.Text))
+                return;
+
+            PointerScannerPresenter.BeginScan();
         }
 
-        private void StopScanButton_Click(object sender, EventArgs e)
+        private void StopScanButton_Click(Object Sender, EventArgs E)
         {
             EnableGUI();
         }
 
-        private void GUIFilterTree_Resize(object sender, EventArgs e)
+        private void TargetAddressTextBox_TextChanged(Object Sender, EventArgs E)
         {
-
+            if (CheckSyntax.Address(TargetAddressTextBox.Text))
+                TargetAddressTextBox.ForeColor = SystemColors.ControlText;
+            else
+                TargetAddressTextBox.ForeColor = Color.Red; 
         }
 
         #endregion
 
-    }
-}
+    } // End class
+
+} // End namespace

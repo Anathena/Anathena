@@ -53,6 +53,7 @@
             this.ScriptEditorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.DebuggerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.CodeViewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.MemoryViewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ContentPanel = new WeifenLuo.WinFormsUI.Docking.DockPanel();
             this.GUIToolStrip = new System.Windows.Forms.ToolStrip();
             this.ProcessSelectorButton = new System.Windows.Forms.ToolStripButton();
@@ -61,7 +62,7 @@
             this.UndoScanButton = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.ProcessTitleLabel = new System.Windows.Forms.ToolStripLabel();
-            this.MemoryViewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.PointerScannerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.GUIMenuStrip.SuspendLayout();
             this.GUIToolStrip.SuspendLayout();
             this.SuspendLayout();
@@ -129,6 +130,7 @@
             this.ViewToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.ProcessSelectorToolStripMenuItem,
             this.ScansToolStripMenuItem,
+            this.PointerScannerToolStripMenuItem,
             this.TableToolStripMenuItem,
             this.ResultsToolStripMenuItem,
             this.SnapshotManagerToolStripMenuItem,
@@ -254,9 +256,16 @@
             // CodeViewToolStripMenuItem
             // 
             this.CodeViewToolStripMenuItem.Name = "CodeViewToolStripMenuItem";
-            this.CodeViewToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.CodeViewToolStripMenuItem.Size = new System.Drawing.Size(147, 22);
             this.CodeViewToolStripMenuItem.Text = "Code View";
             this.CodeViewToolStripMenuItem.Click += new System.EventHandler(this.CodeViewToolStripMenuItem_Click);
+            // 
+            // MemoryViewToolStripMenuItem
+            // 
+            this.MemoryViewToolStripMenuItem.Name = "MemoryViewToolStripMenuItem";
+            this.MemoryViewToolStripMenuItem.Size = new System.Drawing.Size(147, 22);
+            this.MemoryViewToolStripMenuItem.Text = "Memory View";
+            this.MemoryViewToolStripMenuItem.Click += new System.EventHandler(this.MemoryViewToolStripMenuItem_Click);
             // 
             // ContentPanel
             // 
@@ -330,12 +339,12 @@
             this.ProcessTitleLabel.Size = new System.Drawing.Size(113, 22);
             this.ProcessTitleLabel.Text = "No Process Selected";
             // 
-            // MemoryViewToolStripMenuItem
+            // PointerScannerToolStripMenuItem
             // 
-            this.MemoryViewToolStripMenuItem.Name = "MemoryViewToolStripMenuItem";
-            this.MemoryViewToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.MemoryViewToolStripMenuItem.Text = "Memory View";
-            this.MemoryViewToolStripMenuItem.Click += new System.EventHandler(this.MemoryViewToolStripMenuItem_Click);
+            this.PointerScannerToolStripMenuItem.Name = "PointerScannerToolStripMenuItem";
+            this.PointerScannerToolStripMenuItem.Size = new System.Drawing.Size(173, 22);
+            this.PointerScannerToolStripMenuItem.Text = "Pointer Scanner";
+            this.PointerScannerToolStripMenuItem.Click += new System.EventHandler(this.PointerScannerToolStripMenuItem_Click);
             // 
             // GUIMain
             // 
@@ -393,6 +402,7 @@
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
         private System.Windows.Forms.ToolStripMenuItem CodeViewToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem MemoryViewToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem PointerScannerToolStripMenuItem;
     }
 }
 

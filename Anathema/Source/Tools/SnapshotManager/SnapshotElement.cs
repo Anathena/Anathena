@@ -149,13 +149,19 @@ namespace Anathema
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public unsafe Boolean IncreasedByValue(dynamic Value)
         {
-            return (GetValue(CurrentValuePointer) == GetValue(PreviousValuePointer) + Value);
+            return (GetValue(CurrentValuePointer) == unchecked(GetValue(PreviousValuePointer) + Value));
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public unsafe Boolean DecreasedByValue(dynamic Value)
         {
-            return (GetValue(CurrentValuePointer) == GetValue(PreviousValuePointer) - Value);
+            return (GetValue(CurrentValuePointer) == unchecked(GetValue(PreviousValuePointer) - Value));
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public unsafe dynamic GetValue()
+        {
+            return (GetValue(CurrentValuePointer));
         }
 
     } // End class

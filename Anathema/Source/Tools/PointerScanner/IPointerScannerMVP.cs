@@ -13,27 +13,43 @@ namespace Anathema
         public String ProcessTitle = String.Empty;
     }
 
-    interface IPointerScannerView : IView
+    interface IPointerScannerView : IScannerView
     {
         // Methods invoked by the presenter (upstream)
     }
 
-    interface IPointerScannerModel : IModel, IProcessObserver
+    abstract class IPointerScannerModel : IScannerModel
     {
         // Events triggered by the model (upstream)
         event PointerScannerEventHandler EventUpdateProcessTitle;
 
         // Functions invoked by presenter (downstream)
+        public abstract void SetTargetAddress(UInt64 Address);
     }
 
-    class PointerScannerPresenter : Presenter<IPointerScannerView, IPointerScannerModel>
+    class PointerScannerPresenter : ScannerPresenter
     {
+        new IPointerScannerView View;
+        new IPointerScannerModel Model;
+
         public PointerScannerPresenter(IPointerScannerView View, IPointerScannerModel Model) : base(View, Model)
         {
+            this.View = View;
+            this.Model = Model;
+
             // Bind events triggered by the model
         }
 
         #region Method definitions called by the view (downstream)
+
+        public Boolean TrySetTargetAddress(String TargetAddress)
+        {
+            if (!CheckSyntax.Address(TargetAddress))
+                return false;
+
+            Model.SetTargetAddress(Conversions.AddressToValue(TargetAddress));
+            return true;
+        }
 
         #endregion
 
