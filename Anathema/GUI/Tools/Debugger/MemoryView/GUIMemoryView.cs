@@ -75,11 +75,6 @@ namespace Anathema
                 if (QuickNavComboBox.Items.Count > 0)
                     QuickNavComboBox.SelectedIndex = 0;
             });
-
-            IntPtr Test = (IntPtr)0x5555;
-            IntPtr Test2 = (IntPtr)0x5555;
-
-            IntPtr K = unchecked(Test + Test2);
         }
 
         private void UpdateDisplayRange()

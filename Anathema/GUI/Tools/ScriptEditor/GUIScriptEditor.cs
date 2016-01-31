@@ -28,7 +28,7 @@ namespace Anathema
             DocumentTitle = this.Text;
 
             FixScintilla();
-            InitializeLuaHighlighting();
+            InitializeScriptEditor();
 
             ScriptEditorTextBox.TextChanged += ScriptEditorTextBox_TextChanged;
             ScriptEditorTextBox.CharAdded += ScriptEditorTextBox_CharAdded;
@@ -42,20 +42,15 @@ namespace Anathema
             ScriptEditorTextBox.Dock = DockStyle.Fill;
             this.Controls.Add(ScriptEditorTextBox);
             this.Controls.SetChildIndex(ScriptEditorTextBox, 0);
-            InitializeLuaHighlighting();
+            InitializeScriptEditor();
         }
 
-        private void InitializeLuaHighlighting()
+        private void InitializeScriptEditor()
         {
-            ScriptEditorTextBox.IndentWidth = 4;
             ScriptEditorTextBox.Lexer = ScintillaNET.Lexer.Lua;
+            ScriptEditorTextBox.IndentWidth = 4;
             ScriptEditorTextBox.Margins[0].Width = 16;
             ScriptEditorTextBox.AutoCIgnoreCase = true;
-
-            ScriptEditorTextBox.SetKeywords(0, LuaKeywordManager.LuaKeywords);
-            ScriptEditorTextBox.SetKeywords(1, LuaKeywordManager.AsmRegisterKeywords);
-            ScriptEditorTextBox.SetKeywords(2, LuaKeywordManager.AsmInstructionKeywords);
-            ScriptEditorTextBox.SetKeywords(3, LuaKeywordManager.AnathemaKeywords);
 
             ScriptEditorTextBox.Styles[Style.Lua.Comment].ForeColor = Color.DarkGreen;
             ScriptEditorTextBox.Styles[Style.Lua.CommentDoc].ForeColor = Color.DarkGreen;
@@ -73,11 +68,33 @@ namespace Anathema
 
             ScriptEditorTextBox.Styles[Style.Lua.Label].ForeColor = Color.Blue;
 
+            EnableLuaHighlighting();
+        }
+
+        private void EnableLuaHighlighting()
+        {
+            ScriptEditorTextBox.SetKeywords(0, LuaKeywordManager.LuaKeywords);
+            ScriptEditorTextBox.SetKeywords(1, LuaKeywordManager.AnathemaKeywords);
+            ScriptEditorTextBox.SetKeywords(2, LuaKeywordManager.AsmRegisterKeywords);
+            ScriptEditorTextBox.SetKeywords(3, LuaKeywordManager.AsmInstructionKeywords);
+
             ScriptEditorTextBox.Styles[Style.Lua.Word].ForeColor = Color.Blue;
-            ScriptEditorTextBox.Styles[Style.Lua.Word2].ForeColor = Color.Firebrick;
+            ScriptEditorTextBox.Styles[Style.Lua.Word2].ForeColor = Color.CadetBlue;
+            ScriptEditorTextBox.Styles[Style.Lua.Word3].ForeColor = Color.Firebrick;
+            ScriptEditorTextBox.Styles[Style.Lua.Word4].ForeColor = Color.Blue;
+        }
+
+        private void EnableAsmHighlighting()
+        {
+            ScriptEditorTextBox.SetKeywords(0, LuaKeywordManager.AsmRegisterKeywords);
+            ScriptEditorTextBox.SetKeywords(1, LuaKeywordManager.AsmInstructionKeywords);
+            ScriptEditorTextBox.SetKeywords(2, LuaKeywordManager.LuaKeywords);
+            ScriptEditorTextBox.SetKeywords(3, LuaKeywordManager.AnathemaKeywords);
+
+            ScriptEditorTextBox.Styles[Style.Lua.Word].ForeColor = Color.Firebrick;
+            ScriptEditorTextBox.Styles[Style.Lua.Word2].ForeColor = Color.Blue;
             ScriptEditorTextBox.Styles[Style.Lua.Word3].ForeColor = Color.Blue;
             ScriptEditorTextBox.Styles[Style.Lua.Word4].ForeColor = Color.CadetBlue;
-
         }
 
         public void OpenScript(String ScriptText)
@@ -195,9 +212,15 @@ namespace Anathema
             }
 
             if (AsmMode)
+            {
+                EnableAsmHighlighting();
                 ScriptEditorTextBox.AutoCShow(Length, LuaKeywordManager.AllAsmKeywords);
+            }
             else
+            {
+                EnableLuaHighlighting();
                 ScriptEditorTextBox.AutoCShow(Length, LuaKeywordManager.AllLuaKeywords);
+            }
 
         }
 
