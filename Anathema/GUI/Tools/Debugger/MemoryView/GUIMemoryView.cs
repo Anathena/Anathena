@@ -58,7 +58,8 @@ namespace Anathema
             {
                 if (HexEditorBox.ByteProvider == null)
                     return;
-                HexEditorBox.LineInfoOffset = unchecked((Int64)(Address - (UInt64)((HexEditorBox.ByteProvider.Length) / 2) - (Address % (UInt64)HexEditorBox.ByteProvider.Length)));
+                HexEditorBox.LineInfoOffset = unchecked((Int64)(Address - (UInt64)((HexEditorBox.ByteProvider.Length) / 2) - (Address % (UInt64)HexEditorBox.HorizontalByteCount)));
+                BaseLine = HexEditorBox.TopLine;
                 UpdateDisplayRange();
             });
         }
@@ -74,12 +75,18 @@ namespace Anathema
                 if (QuickNavComboBox.Items.Count > 0)
                     QuickNavComboBox.SelectedIndex = 0;
             });
+
+            IntPtr Test = (IntPtr)0x5555;
+            IntPtr Test2 = (IntPtr)0x5555;
+
+            IntPtr K = unchecked(Test + Test2);
         }
 
         private void UpdateDisplayRange()
         {
             HexEditorBox.LineInfoOffset = unchecked(HexEditorBox.LineInfoOffset + (HexEditorBox.TopLine - BaseLine) * HexEditorBox.HorizontalByteCount);
             HexEditorBox.ScrollByteIntoCenter(HexEditorBox.ByteProvider.Length / 2);
+
             BaseLine = HexEditorBox.TopLine;
 
             MemoryViewPresenter.UpdateBaseAddress(unchecked((UInt64)HexEditorBox.LineInfoOffset));
