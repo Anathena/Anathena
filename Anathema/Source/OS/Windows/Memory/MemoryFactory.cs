@@ -57,6 +57,18 @@ namespace Binarysharp.MemoryManagement.Memory
                 return MemoryCore.Query(MemorySharp.Handle, IntPtr.Zero, adresseTo).Select(page => new RemoteVirtualPage(MemorySharp, page.BaseAddress));
             }
         }
+        public IEnumerable<RemoteVirtualPage> AllVirtualPages
+        {
+            get
+            {
+#if x86
+                var adresseTo = new IntPtr(0x7fffffff);
+#else
+                var adresseTo = new IntPtr(0x7fffffffffffffff);
+#endif
+                return MemoryCore.Query(MemorySharp.Handle, IntPtr.Zero, adresseTo, true).Select(page => new RemoteVirtualPage(MemorySharp, page.BaseAddress));
+            }
+        }
         #endregion
         #endregion
 

@@ -50,7 +50,7 @@ namespace Anathema
             if (MemoryEditor == null)
                 return;
 
-            VirtualPages = new List<RemoteVirtualPage>(MemoryEditor.Memory.VirtualPages);
+            VirtualPages = new List<RemoteVirtualPage>(MemoryEditor.Memory.AllVirtualPages);
             MemoryViewEventArgs Args = new MemoryViewEventArgs();
             Args.VirtualPages = VirtualPages;
             OnEventUpdateVirtualPages(Args);

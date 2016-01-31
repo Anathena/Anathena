@@ -240,7 +240,7 @@ namespace Binarysharp.MemoryManagement.Memory
         /// <param name="addressFrom">A pointer to the starting address of the region of pages to be queried.</param>
         /// <param name="addressTo">A pointer to the ending address of the region of pages to be queried.</param>
         /// <returns>A collection of <see cref="Native.MemoryBasicInformation64"/> structures.</returns>
-        public static IEnumerable<MemoryBasicInformation64> Query(SafeMemoryHandle processHandle, IntPtr addressFrom, IntPtr addressTo)
+        public static IEnumerable<MemoryBasicInformation64> Query(SafeMemoryHandle processHandle, IntPtr addressFrom, IntPtr addressTo, Boolean IgnoreSettings = false)
         {
             // Check if the handle is valid
             HandleManipulator.ValidateAsArgument(processHandle, "processHandle");
@@ -297,17 +297,20 @@ namespace Binarysharp.MemoryManagement.Memory
                 if (memoryInfo.State == MemoryStateFlags.Free)
                     continue;
 
-                // Enforce type constraints
-                if (RequiredTypeFlags[Array.IndexOf(TypeEnumValues, MemoryTypeFlags.None)] == false)
-                    continue;
+                if (!IgnoreSettings)
+                {
+                    // Enforce type constraints
+                    if (RequiredTypeFlags[Array.IndexOf(TypeEnumValues, MemoryTypeFlags.None)] == false)
+                        continue;
 
-                // Ensure at least one required protection flag is set
-                if ((memoryInfo.Protect & RequiredProtectionFlags) == 0)
-                    continue;
+                    // Ensure at least one required protection flag is set
+                    if ((memoryInfo.Protect & RequiredProtectionFlags) == 0)
+                        continue;
 
-                // Ensure no ignored protection flags are set
-                if ((memoryInfo.Protect & IgnoredProtectionFlags) != 0)
-                    continue;
+                    // Ensure no ignored protection flags are set
+                    if ((memoryInfo.Protect & IgnoredProtectionFlags) != 0)
+                        continue;
+                }
 
                 // Return the memory page
                 yield return memoryInfo;
