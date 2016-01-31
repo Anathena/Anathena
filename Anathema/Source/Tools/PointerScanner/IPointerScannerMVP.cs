@@ -37,9 +37,10 @@ namespace Anathema
 
         #endregion
 
-        #region Event definitions for events triggered by the model (upstream)
-        
+        #region Event definitions for events triggered by the model (upstream)        
 
         #endregion
-    }
-}
+
+    } // End class
+
+} // End namespace
