@@ -28,57 +28,44 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.StartScanButton = new System.Windows.Forms.ToolStripButton();
             this.ScanToolStrip = new System.Windows.Forms.ToolStrip();
-            this.StopScanButton = new System.Windows.Forms.ToolStripButton();
             this.TargetAddressTextBox = new System.Windows.Forms.TextBox();
             this.TargetAddressLabel = new System.Windows.Forms.Label();
             this.MaxOffsetLabel = new System.Windows.Forms.Label();
             this.MaxOffsetTextBox = new System.Windows.Forms.TextBox();
             this.MaxLevelTextBox = new System.Windows.Forms.TextBox();
             this.MaxLevelLabel = new System.Windows.Forms.Label();
+            this.StartScanButton = new System.Windows.Forms.ToolStripButton();
+            this.StopScanButton = new System.Windows.Forms.ToolStripButton();
+            this.RebuildPointersButton = new System.Windows.Forms.ToolStripButton();
+            this.PointerListView = new Anathema.FlickerFreeListView();
+            this.DepthHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.AddressHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.ValueHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.PointerCountListView = new Anathema.FlickerFreeListView();
+            this.CountColumn = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.Teir0Header = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.ScanToolStrip.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // StartScanButton
-            // 
-            this.StartScanButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.StartScanButton.Image = global::Anathema.Properties.Resources.RightArrow;
-            this.StartScanButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.StartScanButton.Name = "StartScanButton";
-            this.StartScanButton.Size = new System.Drawing.Size(23, 22);
-            this.StartScanButton.Text = "Start Scan";
-            this.StartScanButton.Click += new System.EventHandler(this.StartScanButton_Click);
             // 
             // ScanToolStrip
             // 
             this.ScanToolStrip.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
             this.ScanToolStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.StartScanButton,
+            this.RebuildPointersButton,
             this.StopScanButton});
             this.ScanToolStrip.Location = new System.Drawing.Point(0, 0);
             this.ScanToolStrip.Name = "ScanToolStrip";
             this.ScanToolStrip.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
             this.ScanToolStrip.Size = new System.Drawing.Size(402, 25);
             this.ScanToolStrip.TabIndex = 149;
-            this.ScanToolStrip.Text = "toolStrip1";
-            // 
-            // StopScanButton
-            // 
-            this.StopScanButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.StopScanButton.Image = global::Anathema.Properties.Resources.Stop;
-            this.StopScanButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.StopScanButton.Name = "StopScanButton";
-            this.StopScanButton.Size = new System.Drawing.Size(23, 22);
-            this.StopScanButton.Text = "Stop Scan";
-            this.StopScanButton.ToolTipText = "Stop Scan";
-            this.StopScanButton.Click += new System.EventHandler(this.StopScanButton_Click);
             // 
             // TargetAddressTextBox
             // 
             this.TargetAddressTextBox.Location = new System.Drawing.Point(79, 28);
             this.TargetAddressTextBox.Name = "TargetAddressTextBox";
-            this.TargetAddressTextBox.Size = new System.Drawing.Size(109, 20);
+            this.TargetAddressTextBox.Size = new System.Drawing.Size(134, 20);
             this.TargetAddressTextBox.TabIndex = 0;
             this.TargetAddressTextBox.TextChanged += new System.EventHandler(this.TargetAddressTextBox_TextChanged);
             // 
@@ -94,7 +81,7 @@
             // MaxOffsetLabel
             // 
             this.MaxOffsetLabel.AutoSize = true;
-            this.MaxOffsetLabel.Location = new System.Drawing.Point(12, 83);
+            this.MaxOffsetLabel.Location = new System.Drawing.Point(219, 57);
             this.MaxOffsetLabel.Name = "MaxOffsetLabel";
             this.MaxOffsetLabel.Size = new System.Drawing.Size(61, 13);
             this.MaxOffsetLabel.TabIndex = 153;
@@ -102,7 +89,7 @@
             // 
             // MaxOffsetTextBox
             // 
-            this.MaxOffsetTextBox.Location = new System.Drawing.Point(79, 80);
+            this.MaxOffsetTextBox.Location = new System.Drawing.Point(286, 54);
             this.MaxOffsetTextBox.Name = "MaxOffsetTextBox";
             this.MaxOffsetTextBox.Size = new System.Drawing.Size(109, 20);
             this.MaxOffsetTextBox.TabIndex = 2;
@@ -110,7 +97,7 @@
             // 
             // MaxLevelTextBox
             // 
-            this.MaxLevelTextBox.Location = new System.Drawing.Point(79, 54);
+            this.MaxLevelTextBox.Location = new System.Drawing.Point(286, 28);
             this.MaxLevelTextBox.Name = "MaxLevelTextBox";
             this.MaxLevelTextBox.Size = new System.Drawing.Size(109, 20);
             this.MaxLevelTextBox.TabIndex = 1;
@@ -119,17 +106,97 @@
             // MaxLevelLabel
             // 
             this.MaxLevelLabel.AutoSize = true;
-            this.MaxLevelLabel.Location = new System.Drawing.Point(14, 57);
+            this.MaxLevelLabel.Location = new System.Drawing.Point(219, 31);
             this.MaxLevelLabel.Name = "MaxLevelLabel";
             this.MaxLevelLabel.Size = new System.Drawing.Size(59, 13);
             this.MaxLevelLabel.TabIndex = 155;
             this.MaxLevelLabel.Text = "Max Level:";
+            // 
+            // StartScanButton
+            // 
+            this.StartScanButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.StartScanButton.Image = global::Anathema.Properties.Resources.RightArrow;
+            this.StartScanButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.StartScanButton.Name = "StartScanButton";
+            this.StartScanButton.Size = new System.Drawing.Size(23, 22);
+            this.StartScanButton.Text = "Build Pointers";
+            this.StartScanButton.Click += new System.EventHandler(this.StartScanButton_Click);
+            // 
+            // StopScanButton
+            // 
+            this.StopScanButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.StopScanButton.Image = global::Anathema.Properties.Resources.Stop;
+            this.StopScanButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.StopScanButton.Name = "StopScanButton";
+            this.StopScanButton.Size = new System.Drawing.Size(23, 22);
+            this.StopScanButton.Text = "Stop Scan";
+            this.StopScanButton.ToolTipText = "Stop Scan";
+            this.StopScanButton.Click += new System.EventHandler(this.StopScanButton_Click);
+            // 
+            // RebuildPointersButton
+            // 
+            this.RebuildPointersButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.RebuildPointersButton.Image = global::Anathema.Properties.Resources.NextScan1;
+            this.RebuildPointersButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.RebuildPointersButton.Name = "RebuildPointersButton";
+            this.RebuildPointersButton.Size = new System.Drawing.Size(23, 22);
+            this.RebuildPointersButton.Text = "Rebuild Pointers";
+            // 
+            // PointerListView
+            // 
+            this.PointerListView.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.DepthHeader,
+            this.AddressHeader,
+            this.ValueHeader});
+            this.PointerListView.Location = new System.Drawing.Point(17, 143);
+            this.PointerListView.Name = "PointerListView";
+            this.PointerListView.Size = new System.Drawing.Size(376, 123);
+            this.PointerListView.TabIndex = 157;
+            this.PointerListView.UseCompatibleStateImageBehavior = false;
+            this.PointerListView.View = System.Windows.Forms.View.Details;
+            // 
+            // DepthHeader
+            // 
+            this.DepthHeader.Text = "Depth";
+            this.DepthHeader.Width = 71;
+            // 
+            // AddressHeader
+            // 
+            this.AddressHeader.Text = "Address";
+            this.AddressHeader.Width = 122;
+            // 
+            // ValueHeader
+            // 
+            this.ValueHeader.Text = "Value";
+            this.ValueHeader.Width = 139;
+            // 
+            // PointerCountListView
+            // 
+            this.PointerCountListView.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.CountColumn,
+            this.Teir0Header});
+            this.PointerCountListView.Location = new System.Drawing.Point(17, 80);
+            this.PointerCountListView.Name = "PointerCountListView";
+            this.PointerCountListView.Size = new System.Drawing.Size(378, 57);
+            this.PointerCountListView.TabIndex = 156;
+            this.PointerCountListView.UseCompatibleStateImageBehavior = false;
+            this.PointerCountListView.View = System.Windows.Forms.View.Details;
+            // 
+            // CountColumn
+            // 
+            this.CountColumn.Text = "Count";
+            // 
+            // Teir0Header
+            // 
+            this.Teir0Header.Text = "Level 0";
             // 
             // GUIPointerScanner
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(402, 278);
+            this.Controls.Add(this.PointerListView);
+            this.Controls.Add(this.PointerCountListView);
             this.Controls.Add(this.MaxLevelTextBox);
             this.Controls.Add(this.MaxLevelLabel);
             this.Controls.Add(this.MaxOffsetTextBox);
@@ -157,5 +224,13 @@
         private System.Windows.Forms.TextBox MaxOffsetTextBox;
         private System.Windows.Forms.TextBox MaxLevelTextBox;
         private System.Windows.Forms.Label MaxLevelLabel;
+        private FlickerFreeListView PointerCountListView;
+        private System.Windows.Forms.ColumnHeader CountColumn;
+        private System.Windows.Forms.ColumnHeader Teir0Header;
+        private FlickerFreeListView PointerListView;
+        private System.Windows.Forms.ColumnHeader DepthHeader;
+        private System.Windows.Forms.ColumnHeader AddressHeader;
+        private System.Windows.Forms.ColumnHeader ValueHeader;
+        private System.Windows.Forms.ToolStripButton RebuildPointersButton;
     }
 }

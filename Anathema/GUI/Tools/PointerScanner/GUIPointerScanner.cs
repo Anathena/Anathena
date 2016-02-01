@@ -16,20 +16,26 @@ namespace Anathema
     {
         private PointerScannerPresenter PointerScannerPresenter;
 
+        private const Int32 DefaultLevel = 5;
+        private const Int32 DefaultOffset = 2048;
+
         public GUIPointerScanner()
         {
             InitializeComponent();
 
             PointerScannerPresenter = new PointerScannerPresenter(this, new PointerScanner());
+
+            InitializeDefaults();
             EnableGUI();
         }
 
-        public void DisplayScanCount(Int32 ScanCount) { }
-
-        public void EventFilterFinished(List<RemoteRegion> MemoryRegions)
+        private void InitializeDefaults()
         {
-
+            MaxLevelTextBox.Text = DefaultLevel.ToString();
+            MaxOffsetTextBox.Text = DefaultOffset.ToString();
         }
+
+        public void DisplayScanCount(Int32 ScanCount) { }
 
         private void DisableGUI()
         {

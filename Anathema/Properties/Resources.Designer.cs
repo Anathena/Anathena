@@ -323,6 +323,16 @@ namespace Anathema.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap NextScan1 {
+            get {
+                object obj = ResourceManager.GetObject("NextScan1", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap NotEqual {
             get {
                 object obj = ResourceManager.GetObject("NotEqual", resourceCulture);
