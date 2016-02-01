@@ -25,7 +25,7 @@ namespace Anathema
         - Compare pointer to all pointers in the previous level. Store offsets from current level to all pointers in previous level.
     */
 
-    class PointerScanner : IPointerScannerModel
+    class PointerScanner : IPointerScannerModel, IProcessObserver
     {
         private MemorySharp MemoryEditor;
         private Snapshot<Null> Snapshot;
@@ -35,7 +35,7 @@ namespace Anathema
         private const UInt64 InvalidPointerMax = UInt16.MaxValue;
 
         private List<RemoteModule> Modules;
-        private List<RemoteRegion> AcceptedBases;
+        private Snapshot<Null> AcceptedBases;
 
         private ConcurrentDictionary<UInt64, UInt64> PointerPool;
         private List<ConcurrentDictionary<UInt64, UInt64>> AcceptedPointers;
@@ -50,7 +50,13 @@ namespace Anathema
             PointerPool = new ConcurrentDictionary<UInt64, UInt64>();
             AcceptedPointers = new List<ConcurrentDictionary<UInt64, UInt64>>();
             Modules = new List<RemoteModule>();
-            AcceptedBases = new List<RemoteRegion>();
+
+            InitializeProcessObserver();
+        }
+
+        public void InitializeProcessObserver()
+        {
+            ProcessSelector.GetInstance().Subscribe(this);
         }
 
         public void UpdateMemoryEditor(MemorySharp MemoryEditor)
@@ -136,7 +142,6 @@ namespace Anathema
         {
             base.End();
 
-            SetAcceptedBases();
             TracePointers();
             BuildPointers();
         }
@@ -148,8 +153,11 @@ namespace Anathema
 
             Modules = MemoryEditor.Modules.RemoteModules.ToList();
 
+            List<SnapshotRegion> AcceptedBaseRegions = new List<SnapshotRegion>();
             // Gather regions from every module as valid base addresses
-            Modules.ForEach(x => AcceptedBases.Add(new SnapshotRegion<Null>(new RemoteRegion(MemoryEditor, x.BaseAddress, x.Size))));
+            Modules.ForEach(x => AcceptedBaseRegions.Add(new SnapshotRegion<Null>(new RemoteRegion(MemoryEditor, x.BaseAddress, x.Size))));
+
+            AcceptedBases = new Snapshot<Null>(AcceptedBaseRegions.ToArray());
         }
 
         private void TracePointers()
@@ -158,15 +166,20 @@ namespace Anathema
             TargetRegions.Add(AddressToRegion(TargetAddress));
 
             AcceptedPointers.Clear();
+            SetAcceptedBases();
 
-            for (Int32 Level = 0; Level < MaxPointerLevel; Level++)
+            for (Int32 Level = 0; Level <= MaxPointerLevel; Level++)
             {
                 // Create snapshot from target regions to leverage the merging and sorting capabilities of a snapshot
-                Snapshot<Null> TargetSnapshot = new Snapshot<Null>(TargetRegions.ToArray());
+                Snapshot TargetSnapshot = new Snapshot<Null>(TargetRegions.ToArray());
                 ConcurrentDictionary<UInt64, UInt64> LevelPointers = new ConcurrentDictionary<UInt64, UInt64>();
 
                 Parallel.ForEach(PointerPool, (Pointer) =>
                 {
+                    // Ensure if this is a max level pointer that it is from an acceptable base address (ie static)
+                    if (Level == MaxPointerLevel && !AcceptedBases.ContainsAddress(Pointer.Value))
+                        return;
+
                     // Accept this pointer if it is contained in the target snapshot
                     if (TargetSnapshot.ContainsAddress(Pointer.Value))
                         LevelPointers[Pointer.Key] = Pointer.Value;
@@ -187,7 +200,33 @@ namespace Anathema
 
         private void BuildPointers()
         {
+            List<Tuple<UInt64, Stack<Int32>>> Pointers = new List<Tuple<UInt64, Stack<Int32>>>();
 
+            foreach (UInt64 Source in AcceptedPointers[MaxPointerLevel].Keys)
+                BuildPointers(Pointers, MaxPointerLevel, Source, new Stack<Int32>());
+        }
+
+        private void BuildPointers(List<Tuple<UInt64, Stack<Int32>>> Pointers, Int32 Level, UInt64 SourceTarget, Stack<Int32> Offsets)
+        {
+            if (Level == 0)
+                return;
+
+            foreach (KeyValuePair<UInt64, UInt64> Target in AcceptedPointers[Level - 1])
+            {
+                if (SourceTarget < unchecked(Target.Value - MaxPointerOffset / 2))
+                    continue;
+                if (SourceTarget > unchecked(Target.Value + MaxPointerOffset / 2))
+                    continue;
+
+                // Valid pointer, clone our current offset stack
+                Stack<Int32> NewOffsets = new Stack<Int32>(Offsets.Reverse());
+
+                // Calculate the offset for this level
+                NewOffsets.Push(unchecked((Int32)((Int64)Target.Value - (Int64)SourceTarget)));
+
+                // Recurse
+                BuildPointers(Pointers, Level - 1, Target.Value, NewOffsets);
+            }
         }
 
     } // End class
