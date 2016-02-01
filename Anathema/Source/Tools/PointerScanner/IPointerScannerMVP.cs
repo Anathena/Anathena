@@ -64,10 +64,10 @@ namespace Anathema
 
         public Boolean TrySetMaxPointerOffset(String MaxPointerOffset)
         {
-            if (!CheckSyntax.Address(MaxPointerOffset))
+            if (!CheckSyntax.CanParseValue(typeof(UInt64), MaxPointerOffset))
                 return false;
 
-            Model.SetMaxPointerOffset(Conversions.AddressToValue(MaxPointerOffset));
+            Model.SetMaxPointerOffset(Conversions.ParseValue(typeof(UInt64), MaxPointerOffset));
             return true;
         }
 

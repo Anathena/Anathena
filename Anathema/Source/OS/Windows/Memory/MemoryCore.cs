@@ -303,6 +303,15 @@ namespace Binarysharp.MemoryManagement.Memory
                 if (MemoryInfo.State == MemoryStateFlags.Free)
                     continue;
 
+                // Readable memory is required
+                if (MemoryInfo.Protect != MemoryProtectionFlags.ReadOnly && MemoryInfo.Protect != MemoryProtectionFlags.ExecuteRead &&
+                    MemoryInfo.Protect != MemoryProtectionFlags.ExecuteReadWrite && MemoryInfo.Protect != MemoryProtectionFlags.ReadWrite)
+                    continue;
+
+                // Do not bother with this shit, this memory is not worth scanning
+                if (MemoryInfo.Protect == MemoryProtectionFlags.ZeroAccess || MemoryInfo.Protect == MemoryProtectionFlags.NoAccess || MemoryInfo.Protect == MemoryProtectionFlags.Guard)
+                    continue;
+                
                 if (!IgnoreSettings)
                 {
                     // Enforce type constraints

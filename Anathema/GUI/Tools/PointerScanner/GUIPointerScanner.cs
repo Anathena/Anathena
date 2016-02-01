@@ -90,7 +90,7 @@ namespace Anathema
 
         private void MaxOffsetTextBox_TextChanged(Object Sender, EventArgs E)
         {
-            if (CheckSyntax.Address(MaxOffsetTextBox.Text))
+            if (CheckSyntax.IsInt32(MaxOffsetTextBox.Text))
                 MaxOffsetTextBox.ForeColor = SystemColors.ControlText;
             else
                 MaxOffsetTextBox.ForeColor = Color.Red;

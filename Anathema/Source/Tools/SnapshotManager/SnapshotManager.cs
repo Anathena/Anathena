@@ -77,15 +77,25 @@ namespace Anathema
         /// <summary>
         /// Take a snapshot of all memory regions in the target process
         /// </summary>
-        public Snapshot SnapshotAllRegions()
+        public Snapshot SnapshotAllRegions(Boolean QueryAllMemory = false)
         {
             if (MemoryEditor == null)
                 return new Snapshot<Null>();
 
             // Query all virtual pages
             List<RemoteVirtualPage> VirtualPages = new List<RemoteVirtualPage>();
-            foreach (RemoteVirtualPage Page in MemoryEditor.Memory.VirtualPages)
-                VirtualPages.Add(Page);
+            if (!QueryAllMemory)
+            {
+                foreach (RemoteVirtualPage Page in MemoryEditor.Memory.VirtualPages)
+                    VirtualPages.Add(Page);
+            }
+            else
+            {
+
+                foreach (RemoteVirtualPage Page in MemoryEditor.Memory.AllVirtualPages)
+                    VirtualPages.Add(Page);
+            }
+
 
             // Convert each virtual page to a remote region (a more condensed representation of the information)
             List<SnapshotRegion> MemoryRegions = new List<SnapshotRegion>();

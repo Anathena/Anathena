@@ -97,7 +97,7 @@ namespace Anathema
             PointerPool.Clear();
 
             // Collect memory regions
-            Snapshot = new Snapshot<Null>(SnapshotManager.GetInstance().SnapshotAllRegions());
+            Snapshot = new Snapshot<Null>(SnapshotManager.GetInstance().SnapshotAllRegions(true));
 
             // Set to type of a pointer
             Snapshot.SetElementType(typeof(UInt64));
@@ -168,7 +168,11 @@ namespace Anathema
             AcceptedPointers.Clear();
             SetAcceptedBases();
 
-            for (Int32 Level = 0; Level <= MaxPointerLevel; Level++)
+            // Add the address we are looking for as the base
+            AcceptedPointers.Add(new ConcurrentDictionary<UInt64, UInt64>());
+            AcceptedPointers.Last()[TargetAddress] = 0;
+
+            for (Int32 Level = 1; Level <= MaxPointerLevel; Level++)
             {
                 // Create snapshot from target regions to leverage the merging and sorting capabilities of a snapshot
                 Snapshot TargetSnapshot = new Snapshot<Null>(TargetRegions.ToArray());
@@ -177,8 +181,8 @@ namespace Anathema
                 Parallel.ForEach(PointerPool, (Pointer) =>
                 {
                     // Ensure if this is a max level pointer that it is from an acceptable base address (ie static)
-                    if (Level == MaxPointerLevel && !AcceptedBases.ContainsAddress(Pointer.Value))
-                        return;
+                    //if (Level == MaxPointerLevel && !AcceptedBases.ContainsAddress(Pointer.Value))
+                    //    return;
 
                     // Accept this pointer if it is contained in the target snapshot
                     if (TargetSnapshot.ContainsAddress(Pointer.Value))
@@ -198,34 +202,47 @@ namespace Anathema
             PointerPool.Clear();
         }
 
+        private void RebuildPointers()
+        {
+            ///
+            /// Reread values
+            ///
+
+            BuildPointers();
+        }
+
         private void BuildPointers()
         {
             List<Tuple<UInt64, Stack<Int32>>> Pointers = new List<Tuple<UInt64, Stack<Int32>>>();
 
-            foreach (UInt64 Source in AcceptedPointers[MaxPointerLevel].Keys)
-                BuildPointers(Pointers, MaxPointerLevel, Source, new Stack<Int32>());
+            foreach (KeyValuePair<UInt64, UInt64> Base in AcceptedPointers[MaxPointerLevel])
+                BuildPointers(Pointers, MaxPointerLevel, Base.Key, Base.Value, new Stack<Int32>());
         }
 
-        private void BuildPointers(List<Tuple<UInt64, Stack<Int32>>> Pointers, Int32 Level, UInt64 SourceTarget, Stack<Int32> Offsets)
+        private void BuildPointers(List<Tuple<UInt64, Stack<Int32>>> Pointers, Int32 Level, UInt64 Base, UInt64 PointerDestination, Stack<Int32> Offsets)
         {
             if (Level == 0)
+            {
+                Pointers.Add(new Tuple<UInt64, Stack<Int32>>(Base, Offsets));
                 return;
+            }
 
             foreach (KeyValuePair<UInt64, UInt64> Target in AcceptedPointers[Level - 1])
             {
-                if (SourceTarget < unchecked(Target.Value - MaxPointerOffset / 2))
+                if (PointerDestination < unchecked(Target.Key - MaxPointerOffset / 2))
                     continue;
-                if (SourceTarget > unchecked(Target.Value + MaxPointerOffset / 2))
+
+                if (PointerDestination > unchecked(Target.Key + MaxPointerOffset / 2))
                     continue;
 
                 // Valid pointer, clone our current offset stack
                 Stack<Int32> NewOffsets = new Stack<Int32>(Offsets.Reverse());
 
                 // Calculate the offset for this level
-                NewOffsets.Push(unchecked((Int32)((Int64)Target.Value - (Int64)SourceTarget)));
+                NewOffsets.Push(unchecked((Int32)((Int64)Target.Key - (Int64)PointerDestination)));
 
                 // Recurse
-                BuildPointers(Pointers, Level - 1, Target.Value, NewOffsets);
+                BuildPointers(Pointers, Level - 1, Base, Target.Value, NewOffsets);
             }
         }
 
