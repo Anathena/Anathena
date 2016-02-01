@@ -30,15 +30,14 @@ namespace Anathema
         private MemorySharp MemoryEditor;
         private Snapshot<Null> Snapshot;
 
-        private const UInt64 InvalidPointerMin = unchecked((UInt64)Int64.MaxValue);
+        // As far as I can tell, no valid pointers will end up being less than 0x10000 (UInt16.MaxValue). Huge gains by filtering these.
+        private const UInt64 InvalidPointerMin = unchecked((UInt64)Int64.MaxValue); // !TODO RemotePtr.MaxValue
         private const UInt64 InvalidPointerMax = UInt16.MaxValue;
 
         private List<RemoteModule> Modules;
         private List<RemoteRegion> AcceptedBases;
 
         private ConcurrentDictionary<UInt64, UInt64> PointerPool;
-        private List<RemoteRegion> TargetRegions;
-        // private Dictionary<Int32, List<SnapshotElement>> Pointers;
 
         // User parameters
         private UInt64 TargetAddress;
@@ -70,6 +69,11 @@ namespace Anathema
         public override void SetMaxPointerOffset(UInt64 MaxPointerOffset)
         {
             this.MaxPointerOffset = MaxPointerOffset;
+        }
+
+        private SnapshotRegion AddressToRegion(UInt64 Address)
+        {
+            return new SnapshotRegion<Null>(new RemoteRegion(null, unchecked((IntPtr)(Address - MaxPointerOffset)), unchecked((Int32)MaxPointerOffset * 2)));
         }
 
         public override void Begin()
@@ -131,6 +135,8 @@ namespace Anathema
             base.End();
 
             SetAcceptedBases();
+            Trace();
+            Retrace();
         }
 
         private void SetAcceptedBases()
@@ -141,17 +147,74 @@ namespace Anathema
             Modules = MemoryEditor.Modules.RemoteModules.ToList();
 
             // Gather regions from every module as valid base addresses
-            Modules.ForEach(x => AcceptedBases.Add(new RemoteRegion(MemoryEditor, x.BaseAddress, x.Size)));
+            Modules.ForEach(x => AcceptedBases.Add(new SnapshotRegion<Null>(new RemoteRegion(MemoryEditor, x.BaseAddress, x.Size))));
         }
 
         private void Trace()
         {
-            RemoteRegion TargetRegion = new RemoteRegion(null, unchecked((IntPtr)(TargetAddress - MaxPointerOffset)), unchecked((Int32)MaxPointerOffset * 2));
+            List<SnapshotRegion> TargetRegions = new List<SnapshotRegion>();
+            TargetRegions.Add(AddressToRegion(TargetAddress));
+            
+            ConcurrentDictionary<UInt64, UInt64> AcceptedPointers = new ConcurrentDictionary<UInt64, UInt64>();
+
+            for (Int32 Level = 0; Level < MaxPointerLevel; Level++)
+            {
+                ConcurrentDictionary<UInt64, UInt64> LevelPointers = new ConcurrentDictionary<UInt64, UInt64>();
+
+                // Create snapshot from target regions to leverage the internal merging and sorting
+                Snapshot<Null> TargetSnapshot = new Snapshot<Null>(TargetRegions.ToArray());
+
+                foreach (KeyValuePair<UInt64, UInt64> Pointer in PointerPool)
+                {
+                    // Accept this pointer if it is contained in the target snapshot
+                    if (TargetSnapshot.ContainsAddress(Pointer.Value))
+                        LevelPointers[Pointer.Key] = Pointer.Value;
+                }
+
+                // Add the pointers for this level to the global accepted list
+                List<KeyValuePair<UInt64, UInt64>> LevelPointerList = LevelPointers.ToList();
+                LevelPointerList.ForEach(x => AcceptedPointers[x.Key] = x.Value);
+
+                TargetRegions.Clear();
+
+                // Construct new target region list from this level of pointers
+                foreach (KeyValuePair<UInt64, UInt64> Pointer in LevelPointerList)
+                    TargetRegions.Add(AddressToRegion(Pointer.Key));
+            }
         }
 
         private void Retrace()
         {
+            return;
+            List<SnapshotRegion> TargetRegions = new List<SnapshotRegion>();
+            TargetRegions.Add(AddressToRegion(TargetAddress));
 
+            // Create snapshot from target regions to leverage the merging and sorting capabilities of a snapshot
+            Snapshot<Null> TargetSnapshot = new Snapshot<Null>(TargetRegions.ToArray());
+
+            ConcurrentDictionary<UInt64, UInt64> AcceptedPointers = new ConcurrentDictionary<UInt64, UInt64>();
+
+            for (Int32 Level = 0; Level < MaxPointerLevel; Level++)
+            {
+                ConcurrentDictionary<UInt64, UInt64> LevelPointers = new ConcurrentDictionary<UInt64, UInt64>();
+
+                foreach (KeyValuePair<UInt64, UInt64> Pointer in PointerPool)
+                {
+                    // Accept this pointer if it is contained in the target snapshot
+                    if (TargetSnapshot.ContainsAddress(Pointer.Value))
+                        LevelPointers[Pointer.Key] = Pointer.Value;
+                }
+
+                // Add the pointers for this level to the global accepted list
+                List<KeyValuePair<UInt64, UInt64>> LevelPointerList = LevelPointers.ToList();
+                LevelPointerList.ForEach(x => AcceptedPointers[x.Key] = x.Value);
+
+                TargetRegions.Clear();
+
+                // Construct new target region list from this level of pointers
+                foreach (KeyValuePair<UInt64, UInt64> Pointer in LevelPointerList)
+                    TargetRegions.Add(AddressToRegion(Pointer.Key));
+            }
         }
 
     } // End class

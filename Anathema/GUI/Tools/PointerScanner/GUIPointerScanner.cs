@@ -52,10 +52,10 @@ namespace Anathema
             if (!PointerScannerPresenter.TrySetTargetAddress(TargetAddressTextBox.Text))
                 return;
 
-            if (!PointerScannerPresenter.TrySetTargetAddress(TargetAddressTextBox.Text))
+            if (!PointerScannerPresenter.TrySetMaxPointerLevel(MaxLevelTextBox.Text))
                 return;
 
-            if (!PointerScannerPresenter.TrySetTargetAddress(TargetAddressTextBox.Text))
+            if (!PointerScannerPresenter.TrySetMaxPointerOffset(MaxOffsetTextBox.Text))
                 return;
 
             PointerScannerPresenter.BeginScan();

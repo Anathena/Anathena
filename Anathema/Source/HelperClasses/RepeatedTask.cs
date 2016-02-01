@@ -12,8 +12,8 @@ namespace Anathema
         private CancellationTokenSource CancelRequest;  // Tells the task to finish
         private Task Task;                              // Event that constantly checks the target process for changes
 
+        private Object CancelLock = new Object();
         protected Boolean CancelFlag;   // Flag that may be triggered in the update cycle to end the task
-        protected Boolean Handled;      // Flag to determine if cancel flag has been handled
         protected Int32 AbortTime;      // Time to wait (in ms) before giving up when ending scan
         protected Int32 WaitTime;       // Time to wait (in ms) for a cancel request between each scan
 
@@ -26,18 +26,16 @@ namespace Anathema
         public virtual void Begin()
         {
             CancelFlag = false;
-            Handled = false;
 
             CancelRequest = new CancellationTokenSource();
             Task = Task.Run(async () =>
             {
                 while (true)
                 {
-                    if (!Handled)
+                    lock (CancelLock)
                     {
                         if (CancelFlag)
                         {
-                            Handled = true;
                             Action Action = End;
                             Action.BeginInvoke(x => Action.EndInvoke(x), null);
                         }
@@ -46,8 +44,10 @@ namespace Anathema
                             Update();
                         }
                     }
+
                     // Await with cancellation
                     await Task.Delay(WaitTime, CancelRequest.Token);
+
                 }
             }, CancelRequest.Token);
 
