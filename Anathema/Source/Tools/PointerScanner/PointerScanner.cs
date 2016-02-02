@@ -39,7 +39,7 @@ namespace Anathema
         private List<ConcurrentDictionary<UInt64, UInt64>> ConnectedPointers;
         private Snapshot<Null> AcceptedBases;
 
-        private ConcurrentBag<Tuple<UInt64, Stack<Int32>>> AcceptedPointers;
+        private List<Tuple<UInt64, Stack<Int32>>> AcceptedPointers;
 
         // User parameters
         private UInt64 TargetAddress;
@@ -107,6 +107,18 @@ namespace Anathema
         public override String GetValueAtIndex(Int32 Index)
         {
             return Index.ToString();
+        }
+
+        public override String GetBaseAddress(Int32 Index)
+        {
+            return Conversions.ToAddress(AcceptedPointers[Index].Item1.ToString());
+        }
+
+        public override String[] GetOffsets(Int32 Index)
+        {
+            List<String> Offsets = new List<String>();
+            AcceptedPointers[Index].Item2.Reverse().ToList().ForEach(x => Offsets.Add((x < 0 ? "-" : "") + Math.Abs(x).ToString("X")));
+            return Offsets.ToArray();
         }
 
         public override void Begin()
@@ -267,12 +279,14 @@ namespace Anathema
 
         private void BuildPointers()
         {
-            AcceptedPointers = new ConcurrentBag<Tuple<UInt64, Stack<Int32>>>();
+            ConcurrentBag<Tuple<UInt64, Stack<Int32>>> DiscoveredPointers = new ConcurrentBag<Tuple<UInt64, Stack<Int32>>>();
 
             Parallel.ForEach(ConnectedPointers[MaxPointerLevel], (Base) =>
             {
-                BuildPointers(AcceptedPointers, MaxPointerLevel, Base.Key, Base.Value, new Stack<Int32>());
+                BuildPointers(DiscoveredPointers, MaxPointerLevel, Base.Key, Base.Value, new Stack<Int32>());
             });
+
+            AcceptedPointers = DiscoveredPointers.ToList();
         }
 
         private void BuildPointers(ConcurrentBag<Tuple<UInt64, Stack<Int32>>> Pointers, Int32 Level, UInt64 Base, UInt64 PointerDestination, Stack<Int32> Offsets)

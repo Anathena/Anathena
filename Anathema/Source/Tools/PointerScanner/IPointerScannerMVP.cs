@@ -42,6 +42,8 @@ namespace Anathema
         public abstract void BeginPointerRescan();
 
         public abstract String GetValueAtIndex(Int32 Index);
+        public abstract String GetBaseAddress(Int32 Index);
+        public abstract String[] GetOffsets(Int32 Index);
 
         public abstract void SetTargetAddress(UInt64 Address);
         public abstract void SetMaxPointerLevel(Int32 MaxPointerLevel);
@@ -95,11 +97,12 @@ namespace Anathema
             // Add the properties to the cache and get the list view item back
             Item = ListViewCache.Add(Index, Enumerable.Repeat(String.Empty, OffsetStartIndex + MaxPointerLevel).ToArray());
 
-            Item.SubItems[ValueIndex].Text = "value";
-            Item.SubItems[BaseIndex].Text = "address";
+            Item.SubItems[ValueIndex].Text = "-";
+            Item.SubItems[BaseIndex].Text = Model.GetBaseAddress(Index);
 
+            String[] Offsets = Model.GetOffsets(Index);
             for (Int32 OffsetIndex = OffsetStartIndex; OffsetIndex < OffsetStartIndex + MaxPointerLevel; OffsetIndex++)
-                Item.SubItems[OffsetIndex].Text = "offset";
+                Item.SubItems[OffsetIndex].Text = Offsets[OffsetIndex - OffsetStartIndex];
 
 
             return Item;
