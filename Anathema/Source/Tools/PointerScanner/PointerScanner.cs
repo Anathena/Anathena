@@ -175,17 +175,17 @@ namespace Anathema
             for (Int32 Level = 1; Level <= MaxPointerLevel; Level++)
             {
                 // Create snapshot from target regions to leverage the merging and sorting capabilities of a snapshot
-                Snapshot TargetSnapshot = new Snapshot<Null>(TargetRegions.ToArray());
+                Snapshot PreviousLevel = new Snapshot<Null>(TargetRegions.ToArray());
                 ConcurrentDictionary<UInt64, UInt64> LevelPointers = new ConcurrentDictionary<UInt64, UInt64>();
 
                 Parallel.ForEach(PointerPool, (Pointer) =>
                 {
                     // Ensure if this is a max level pointer that it is from an acceptable base address (ie static)
-                    //if (Level == MaxPointerLevel && !AcceptedBases.ContainsAddress(Pointer.Value))
-                    //    return;
+                    if (Level == MaxPointerLevel && !AcceptedBases.ContainsAddress(Pointer.Value))
+                        return;
 
-                    // Accept this pointer if it is contained in the target snapshot
-                    if (TargetSnapshot.ContainsAddress(Pointer.Value))
+                    // Accept this pointer if it is points to the previous level snapshot
+                    if (PreviousLevel.ContainsAddress(Pointer.Value))
                         LevelPointers[Pointer.Key] = Pointer.Value;
                 });
 
@@ -229,10 +229,10 @@ namespace Anathema
 
             foreach (KeyValuePair<UInt64, UInt64> Target in AcceptedPointers[Level - 1])
             {
-                if (PointerDestination < unchecked(Target.Key - MaxPointerOffset / 2))
+                if (PointerDestination < unchecked(Target.Key - MaxPointerOffset))
                     continue;
 
-                if (PointerDestination > unchecked(Target.Key + MaxPointerOffset / 2))
+                if (PointerDestination > unchecked(Target.Key + MaxPointerOffset))
                     continue;
 
                 // Valid pointer, clone our current offset stack
