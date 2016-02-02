@@ -41,6 +41,8 @@ namespace Anathema
         public abstract void BeginPointerScan();
         public abstract void BeginPointerRescan();
 
+        public abstract String GetValueAtIndex(Int32 Index);
+
         public abstract void SetTargetAddress(UInt64 Address);
         public abstract void SetMaxPointerLevel(Int32 MaxPointerLevel);
         public abstract void SetMaxPointerOffset(UInt64 MaxOffset);
@@ -51,8 +53,9 @@ namespace Anathema
         protected new IPointerScannerView View;
         protected new IPointerScannerModel Model;
 
-        private const Int32 BaseIndex = 0;
-        private const Int32 OffsetStartIndex = 1;
+        private const Int32 ValueIndex = 0;
+        private const Int32 BaseIndex = 1;
+        private const Int32 OffsetStartIndex = 2;
 
         private ListViewCache ListViewCache;
         private Int32 MaxPointerLevel;
@@ -73,13 +76,11 @@ namespace Anathema
 
         public void BeginPointerScan()
         {
-            Model.End();
             Model.BeginPointerScan();
         }
 
         public void BeginPointerRescan()
         {
-            Model.End();
             Model.BeginPointerRescan();
         }
 
@@ -88,18 +89,18 @@ namespace Anathema
             ListViewItem Item = ListViewCache.Get((UInt64)Index);
 
             // Try to update and return the item if it is a valid item
-            //if (Item != null && ListViewCache.TryUpdateSubItem(Index, ValueIndex, Model.GetValueAtIndex(Index)))
-            //    return Item;
+            if (Item != null && ListViewCache.TryUpdateSubItem(Index, ValueIndex, Model.GetValueAtIndex(Index)))
+                return Item;
 
             // Add the properties to the cache and get the list view item back
-            Item = ListViewCache.Add(Index, Enumerable.Repeat(String.Empty, MaxPointerLevel).ToArray());
+            Item = ListViewCache.Add(Index, Enumerable.Repeat(String.Empty, OffsetStartIndex + MaxPointerLevel).ToArray());
 
+            Item.SubItems[ValueIndex].Text = "value";
             Item.SubItems[BaseIndex].Text = "address";
 
             for (Int32 OffsetIndex = OffsetStartIndex; OffsetIndex < OffsetStartIndex + MaxPointerLevel; OffsetIndex++)
                 Item.SubItems[OffsetIndex].Text = "offset";
-            
-            Item.SubItems[BaseIndex].Text = "address";
+
 
             return Item;
         }

@@ -36,18 +36,30 @@ namespace Anathema
 
 
         private ConcurrentDictionary<UInt64, UInt64> PointerPool;
-        private List<ConcurrentDictionary<UInt64, UInt64>> AcceptedPointers;
+        private List<ConcurrentDictionary<UInt64, UInt64>> ConnectedPointers;
         private Snapshot<Null> AcceptedBases;
+
+        private ConcurrentBag<Tuple<UInt64, Stack<Int32>>> AcceptedPointers;
 
         // User parameters
         private UInt64 TargetAddress;
         private Int32 MaxPointerLevel;
         private UInt64 MaxPointerOffset;
 
+        private enum ScanModeEnum
+        {
+            ReadValues,
+            Scan,
+            Rescan
+        }
+
+        private ScanModeEnum ScanMode;
+
         public PointerScanner()
         {
             PointerPool = new ConcurrentDictionary<UInt64, UInt64>();
-            AcceptedPointers = new List<ConcurrentDictionary<UInt64, UInt64>>();
+            ConnectedPointers = new List<ConcurrentDictionary<UInt64, UInt64>>();
+            ScanMode = ScanModeEnum.ReadValues;
 
             InitializeProcessObserver();
 
@@ -91,17 +103,46 @@ namespace Anathema
             Args.MaxPointerLevel = MaxPointerLevel;
             OnEventScanFinished(Args);
         }
-        
+
+        public override String GetValueAtIndex(Int32 Index)
+        {
+            return Index.ToString();
+        }
+
         public override void Begin()
         {
             base.Begin();
+        }
+
+        public override void BeginPointerScan()
+        {
+            ScanMode = ScanModeEnum.Scan;
+        }
+
+        public override void BeginPointerRescan()
+        {
+            ScanMode = ScanModeEnum.Rescan;
         }
 
         protected override void Update()
         {
             base.Update();
 
-            OnEventReadValues(new PointerScannerEventArgs());
+            // Scan mode determines the action to make, such that the action always happens on this task thread
+            switch (ScanMode)
+            {
+                case ScanModeEnum.ReadValues:
+                    OnEventReadValues(new PointerScannerEventArgs());
+                    break;
+                case ScanModeEnum.Scan:
+                    PointerScan();
+                    ScanMode = ScanModeEnum.ReadValues;
+                    break;
+                case ScanModeEnum.Rescan:
+                    PointerRescan();
+                    ScanMode = ScanModeEnum.ReadValues;
+                    break;
+            }
         }
 
         public override void End()
@@ -109,7 +150,7 @@ namespace Anathema
             base.End();
         }
 
-        public override void BeginPointerScan()
+        private void PointerScan()
         {
             // Clear current pointer pool
             PointerPool.Clear();
@@ -159,13 +200,9 @@ namespace Anathema
             UpdateDisplay();
         }
 
-        public override void BeginPointerRescan()
+        private void PointerRescan()
         {
-            ///
-            /// Reread values
-            ///
 
-            //BuildPointers();
         }
 
         private void SetAcceptedBases()
@@ -191,12 +228,12 @@ namespace Anathema
             List<SnapshotRegion> PreviousLevelRegions = new List<SnapshotRegion>();
             PreviousLevelRegions.Add(AddressToRegion(TargetAddress));
 
-            AcceptedPointers.Clear();
+            ConnectedPointers.Clear();
             SetAcceptedBases();
 
             // Add the address we are looking for as the base
-            AcceptedPointers.Add(new ConcurrentDictionary<UInt64, UInt64>());
-            AcceptedPointers.Last()[TargetAddress] = 0;
+            ConnectedPointers.Add(new ConcurrentDictionary<UInt64, UInt64>());
+            ConnectedPointers.Last()[TargetAddress] = 0;
 
             for (Int32 Level = 1; Level <= MaxPointerLevel; Level++)
             {
@@ -216,7 +253,7 @@ namespace Anathema
                 });
 
                 // Add the pointers for this level to the global accepted list
-                AcceptedPointers.Add(LevelPointers);
+                ConnectedPointers.Add(LevelPointers);
 
                 PreviousLevelRegions.Clear();
 
@@ -230,13 +267,15 @@ namespace Anathema
 
         private void BuildPointers()
         {
-            List<Tuple<UInt64, Stack<Int32>>> Pointers = new List<Tuple<UInt64, Stack<Int32>>>();
+            AcceptedPointers = new ConcurrentBag<Tuple<UInt64, Stack<Int32>>>();
 
-            foreach (KeyValuePair<UInt64, UInt64> Base in AcceptedPointers[MaxPointerLevel])
-                BuildPointers(Pointers, MaxPointerLevel, Base.Key, Base.Value, new Stack<Int32>());
+            Parallel.ForEach(ConnectedPointers[MaxPointerLevel], (Base) =>
+            {
+                BuildPointers(AcceptedPointers, MaxPointerLevel, Base.Key, Base.Value, new Stack<Int32>());
+            });
         }
 
-        private void BuildPointers(List<Tuple<UInt64, Stack<Int32>>> Pointers, Int32 Level, UInt64 Base, UInt64 PointerDestination, Stack<Int32> Offsets)
+        private void BuildPointers(ConcurrentBag<Tuple<UInt64, Stack<Int32>>> Pointers, Int32 Level, UInt64 Base, UInt64 PointerDestination, Stack<Int32> Offsets)
         {
             if (Level == 0)
             {
@@ -244,7 +283,7 @@ namespace Anathema
                 return;
             }
 
-            foreach (KeyValuePair<UInt64, UInt64> Target in AcceptedPointers[Level - 1])
+            foreach (KeyValuePair<UInt64, UInt64> Target in ConnectedPointers[Level - 1])
             {
                 if (PointerDestination < unchecked(Target.Key - MaxPointerOffset))
                     continue;

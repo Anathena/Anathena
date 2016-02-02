@@ -153,6 +153,7 @@
             this.PointerListView.TabIndex = 157;
             this.PointerListView.UseCompatibleStateImageBehavior = false;
             this.PointerListView.View = System.Windows.Forms.View.Details;
+            this.PointerListView.VirtualMode = true;
             this.PointerListView.RetrieveVirtualItem += new System.Windows.Forms.RetrieveVirtualItemEventHandler(this.PointerListView_RetrieveVirtualItem);
             // 
             // ValueHeader
