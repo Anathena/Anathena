@@ -34,16 +34,19 @@ namespace Anathema
         {
             EventReadValues(this, E);
         }
+
         public event ResultsEventHandler EventEnableResults;
         protected virtual void OnEventEnableResults(ResultsEventArgs E)
         {
             EventEnableResults(this, E);
         }
+
         public event ResultsEventHandler EventDisableResults;
         protected virtual void OnEventDisableResults(ResultsEventArgs E)
         {
             EventDisableResults(this, E);
         }
+
         public event ResultsEventHandler EventFlushCache;
         protected virtual void OnEventFlushCache(ResultsEventArgs E)
         {

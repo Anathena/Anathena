@@ -44,10 +44,20 @@ namespace Anathema
         private Int32 MaxPointerLevel;
         private UInt64 MaxPointerOffset;
 
+        public enum UpdateModeEnum
+        {
+            ReadValues,
+            Scan,
+            Rescan
+        }
+
+        private UpdateModeEnum UpdateMode;
+
         public PointerScanner()
         {
             PointerPool = new ConcurrentDictionary<UInt64, UInt64>();
             AcceptedPointers = new List<ConcurrentDictionary<UInt64, UInt64>>();
+            UpdateMode = UpdateModeEnum.ReadValues;
 
             InitializeProcessObserver();
         }
@@ -91,6 +101,28 @@ namespace Anathema
         {
             base.Update();
 
+            switch(UpdateMode)
+            {
+                case UpdateModeEnum.ReadValues:
+                    // Request display refresh pointers
+                    OnEventReadValues(new PointerScannerEventArgs());
+                    break;
+                case UpdateModeEnum.Scan:
+                    // Scan initiated
+                    CollectPointers();
+                    UpdateMode = UpdateModeEnum.ReadValues;
+                    break;
+                case UpdateModeEnum.Rescan:
+                    // Rescan initiated
+                    RebuildPointers();
+                    UpdateMode = UpdateModeEnum.ReadValues;
+                    break;
+
+            }
+        }
+
+        private void CollectPointers()
+        {
             // Clear current pointer pool
             PointerPool.Clear();
 
@@ -132,8 +164,6 @@ namespace Anathema
                 // Clear the saved values, we do not need them now
                 Region.SetCurrentValues(null);
             });
-
-            CancelFlag = true;
         }
 
         public override void End()
@@ -142,6 +172,10 @@ namespace Anathema
 
             TracePointers();
             BuildPointers();
+
+            PointerScannerEventArgs Args = new PointerScannerEventArgs();
+            Args.ItemCount = AcceptedPointers.Count;
+            OnEventUpdateItemCount(Args);
         }
 
         private void SetAcceptedBases()

@@ -37,6 +37,23 @@ namespace Anathema
 
         public void DisplayScanCount(Int32 ScanCount) { }
 
+        public void UpdateItemCount(Int32 ItemCount)
+        {
+            ControlThreadingHelper.InvokeControlAction<Control>(PointerListView, () =>
+            {
+                PointerListView.VirtualListSize = ItemCount;
+            });
+        }
+
+        public void ReadValues()
+        {
+            ControlThreadingHelper.InvokeControlAction<Control>(PointerListView, () =>
+            {
+                PointerListView.BeginUpdate();
+                PointerListView.EndUpdate();
+            });
+        }
+
         private void DisableGUI()
         {
             StartScanButton.Enabled = false;
@@ -70,6 +87,11 @@ namespace Anathema
         private void StopScanButton_Click(Object Sender, EventArgs E)
         {
             EnableGUI();
+        }
+
+        private void PointerListView_RetrieveVirtualItem(Object Sender, RetrieveVirtualItemEventArgs E)
+        {
+            E.Item = PointerScannerPresenter.GetItemAt(E.ItemIndex);
         }
 
         private void TargetAddressTextBox_TextChanged(Object Sender, EventArgs E)
