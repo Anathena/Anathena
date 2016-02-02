@@ -37,6 +37,9 @@ namespace Anathema
         }
 
         // Functions invoked by presenter (downstream)
+        public abstract void BeginPointerScan();
+        public abstract void BeginPointerRescan();
+
         public abstract void SetTargetAddress(UInt64 Address);
         public abstract void SetMaxPointerLevel(Int32 MaxPointerLevel);
         public abstract void SetMaxPointerOffset(UInt64 MaxOffset);
@@ -55,11 +58,27 @@ namespace Anathema
             this.View = View;
             this.Model = Model;
 
+            ListViewCache = new ListViewCache();
+
             // Bind events triggered by the model
+            Model.EventReadValues += EventReadValues;
+            Model.EventUpdateItemCount += EventUpdateItemCount;
         }
 
         #region Method definitions called by the view (downstream)
-        
+
+        public void BeginPointerScan()
+        {
+            Model.End();
+            Model.BeginPointerScan();
+        }
+
+        public void BeginPointerRescan()
+        {
+            Model.End();
+            Model.BeginPointerRescan();
+        }
+
         public ListViewItem GetItemAt(Int32 Index)
         {
             ListViewItem Item = ListViewCache.Get((UInt64)Index);

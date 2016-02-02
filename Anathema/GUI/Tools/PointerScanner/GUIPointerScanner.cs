@@ -81,7 +81,15 @@ namespace Anathema
             if (!PointerScannerPresenter.TrySetMaxPointerOffset(MaxOffsetTextBox.Text))
                 return;
 
-            PointerScannerPresenter.BeginScan();
+            PointerScannerPresenter.BeginPointerScan();
+        }
+
+        private void RebuildPointersButton_Click(Object Sender, EventArgs E)
+        {
+            if (!PointerScannerPresenter.TrySetTargetAddress(TargetAddressTextBox.Text))
+                return;
+
+            PointerScannerPresenter.BeginPointerRescan();
         }
 
         private void StopScanButton_Click(Object Sender, EventArgs E)

@@ -74,6 +74,7 @@
             this.RebuildPointersButton.Name = "RebuildPointersButton";
             this.RebuildPointersButton.Size = new System.Drawing.Size(23, 22);
             this.RebuildPointersButton.Text = "Rebuild Pointers";
+            this.RebuildPointersButton.Click += new System.EventHandler(this.RebuildPointersButton_Click);
             // 
             // StopScanButton
             // 

@@ -44,22 +44,14 @@ namespace Anathema
         private Int32 MaxPointerLevel;
         private UInt64 MaxPointerOffset;
 
-        public enum UpdateModeEnum
-        {
-            ReadValues,
-            Scan,
-            Rescan
-        }
-
-        private UpdateModeEnum UpdateMode;
-
         public PointerScanner()
         {
             PointerPool = new ConcurrentDictionary<UInt64, UInt64>();
             AcceptedPointers = new List<ConcurrentDictionary<UInt64, UInt64>>();
-            UpdateMode = UpdateModeEnum.ReadValues;
 
             InitializeProcessObserver();
+
+            Begin();
         }
 
         public void InitializeProcessObserver()
@@ -91,7 +83,7 @@ namespace Anathema
         {
             return new SnapshotRegion<Null>(new RemoteRegion(null, unchecked((IntPtr)(Address - MaxPointerOffset)), unchecked((Int32)MaxPointerOffset * 2)));
         }
-
+        
         public override void Begin()
         {
             base.Begin();
@@ -101,27 +93,15 @@ namespace Anathema
         {
             base.Update();
 
-            switch(UpdateMode)
-            {
-                case UpdateModeEnum.ReadValues:
-                    // Request display refresh pointers
-                    OnEventReadValues(new PointerScannerEventArgs());
-                    break;
-                case UpdateModeEnum.Scan:
-                    // Scan initiated
-                    CollectPointers();
-                    UpdateMode = UpdateModeEnum.ReadValues;
-                    break;
-                case UpdateModeEnum.Rescan:
-                    // Rescan initiated
-                    RebuildPointers();
-                    UpdateMode = UpdateModeEnum.ReadValues;
-                    break;
-
-            }
+            OnEventReadValues(new PointerScannerEventArgs());
         }
 
-        private void CollectPointers()
+        public override void End()
+        {
+            base.End();
+        }
+
+        public override void BeginPointerScan()
         {
             // Clear current pointer pool
             PointerPool.Clear();
@@ -164,11 +144,6 @@ namespace Anathema
                 // Clear the saved values, we do not need them now
                 Region.SetCurrentValues(null);
             });
-        }
-
-        public override void End()
-        {
-            base.End();
 
             TracePointers();
             BuildPointers();
@@ -176,6 +151,15 @@ namespace Anathema
             PointerScannerEventArgs Args = new PointerScannerEventArgs();
             Args.ItemCount = AcceptedPointers.Count;
             OnEventUpdateItemCount(Args);
+        }
+
+        public override void BeginPointerRescan()
+        {
+            ///
+            /// Reread values
+            ///
+
+            BuildPointers();
         }
 
         private void SetAcceptedBases()
@@ -236,15 +220,6 @@ namespace Anathema
             }
 
             PointerPool.Clear();
-        }
-
-        private void RebuildPointers()
-        {
-            ///
-            /// Reread values
-            ///
-
-            BuildPointers();
         }
 
         private void BuildPointers()
