@@ -34,11 +34,10 @@ namespace Anathema
         private const UInt64 InvalidPointerMin = unchecked((UInt64)Int64.MaxValue); // !TODO RemotePtr.MaxValue
         private const UInt64 InvalidPointerMax = UInt16.MaxValue;
 
-        private List<RemoteModule> Modules;
-        private Snapshot<Null> AcceptedBases;
 
         private ConcurrentDictionary<UInt64, UInt64> PointerPool;
         private List<ConcurrentDictionary<UInt64, UInt64>> AcceptedPointers;
+        private Snapshot<Null> AcceptedBases;
 
         // User parameters
         private UInt64 TargetAddress;
@@ -49,7 +48,6 @@ namespace Anathema
         {
             PointerPool = new ConcurrentDictionary<UInt64, UInt64>();
             AcceptedPointers = new List<ConcurrentDictionary<UInt64, UInt64>>();
-            Modules = new List<RemoteModule>();
 
             InitializeProcessObserver();
         }
@@ -151,19 +149,23 @@ namespace Anathema
             if (MemoryEditor == null)
                 return;
 
-            Modules = MemoryEditor.Modules.RemoteModules.ToList();
+            //List<RemoteModule> Modules = MemoryEditor.Modules.RemoteModules.ToList();
+            List<RemoteModule> Modules = new List<RemoteModule>();
+            Modules.Add(MemoryEditor.Modules.MainModule);
 
             List<SnapshotRegion> AcceptedBaseRegions = new List<SnapshotRegion>();
+
             // Gather regions from every module as valid base addresses
             Modules.ForEach(x => AcceptedBaseRegions.Add(new SnapshotRegion<Null>(new RemoteRegion(MemoryEditor, x.BaseAddress, x.Size))));
 
+            // Convert regions into a snapshot
             AcceptedBases = new Snapshot<Null>(AcceptedBaseRegions.ToArray());
         }
 
         private void TracePointers()
         {
-            List<SnapshotRegion> TargetRegions = new List<SnapshotRegion>();
-            TargetRegions.Add(AddressToRegion(TargetAddress));
+            List<SnapshotRegion> PreviousLevelRegions = new List<SnapshotRegion>();
+            PreviousLevelRegions.Add(AddressToRegion(TargetAddress));
 
             AcceptedPointers.Clear();
             SetAcceptedBases();
@@ -174,14 +176,14 @@ namespace Anathema
 
             for (Int32 Level = 1; Level <= MaxPointerLevel; Level++)
             {
-                // Create snapshot from target regions to leverage the merging and sorting capabilities of a snapshot
-                Snapshot PreviousLevel = new Snapshot<Null>(TargetRegions.ToArray());
+                // Create snapshot from previous level regions to leverage the merging and sorting capabilities of a snapshot
+                Snapshot PreviousLevel = new Snapshot<Null>(PreviousLevelRegions.ToArray());
                 ConcurrentDictionary<UInt64, UInt64> LevelPointers = new ConcurrentDictionary<UInt64, UInt64>();
 
                 Parallel.ForEach(PointerPool, (Pointer) =>
                 {
                     // Ensure if this is a max level pointer that it is from an acceptable base address (ie static)
-                    if (Level == MaxPointerLevel && !AcceptedBases.ContainsAddress(Pointer.Value))
+                    if (Level == MaxPointerLevel && !AcceptedBases.ContainsAddress(Pointer.Key))
                         return;
 
                     // Accept this pointer if it is points to the previous level snapshot
@@ -192,11 +194,11 @@ namespace Anathema
                 // Add the pointers for this level to the global accepted list
                 AcceptedPointers.Add(LevelPointers);
 
-                TargetRegions.Clear();
+                PreviousLevelRegions.Clear();
 
                 // Construct new target region list from this level of pointers
                 foreach (KeyValuePair<UInt64, UInt64> Pointer in LevelPointers)
-                    TargetRegions.Add(AddressToRegion(Pointer.Key));
+                    PreviousLevelRegions.Add(AddressToRegion(Pointer.Key));
             }
 
             PointerPool.Clear();

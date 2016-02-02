@@ -91,7 +91,6 @@ namespace Anathema
             }
             else
             {
-
                 foreach (RemoteVirtualPage Page in MemoryEditor.Memory.AllVirtualPages)
                     VirtualPages.Add(Page);
             }

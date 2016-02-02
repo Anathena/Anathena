@@ -294,22 +294,21 @@ namespace Binarysharp.MemoryManagement.Memory
 
                 // Query the memory region
                 Result = NativeMethods.VirtualQueryEx(ProcessHandle, new IntPtr((Int64)NumberFrom), out MemoryInfo, MarshalType<MemoryBasicInformation64>.Size);
-#endif
-
+#endif          
                 // Increment the starting address with the size of the page
                 NumberFrom += (UInt64)MemoryInfo.RegionSize;
 
                 // Ignore free memory. These are unallocated memory regions.
-                if (MemoryInfo.State == MemoryStateFlags.Free)
+                if ((MemoryInfo.State & MemoryStateFlags.Free) != 0)
                     continue;
 
-                // Readable memory is required
-                if (MemoryInfo.Protect != MemoryProtectionFlags.ReadOnly && MemoryInfo.Protect != MemoryProtectionFlags.ExecuteRead &&
-                    MemoryInfo.Protect != MemoryProtectionFlags.ExecuteReadWrite && MemoryInfo.Protect != MemoryProtectionFlags.ReadWrite)
+                // At least one readable memory flag is required
+                if ((MemoryInfo.Protect & MemoryProtectionFlags.ReadOnly) == 0 && (MemoryInfo.Protect & MemoryProtectionFlags.ExecuteRead) == 0 &&
+                    (MemoryInfo.Protect & MemoryProtectionFlags.ExecuteReadWrite) == 0 && (MemoryInfo.Protect & MemoryProtectionFlags.ReadWrite) == 0)
                     continue;
 
                 // Do not bother with this shit, this memory is not worth scanning
-                if (MemoryInfo.Protect == MemoryProtectionFlags.ZeroAccess || MemoryInfo.Protect == MemoryProtectionFlags.NoAccess || MemoryInfo.Protect == MemoryProtectionFlags.Guard)
+                if ((MemoryInfo.Protect & MemoryProtectionFlags.ZeroAccess) != 0 || (MemoryInfo.Protect & MemoryProtectionFlags.NoAccess) != 0 || (MemoryInfo.Protect & MemoryProtectionFlags.Guard) != 0)
                     continue;
                 
                 if (!IgnoreSettings)
@@ -317,7 +316,7 @@ namespace Binarysharp.MemoryManagement.Memory
                     // Enforce type constraints
                     if (RequiredTypeFlags[Array.IndexOf(TypeEnumValues, MemoryTypeFlags.None)] == false)
                         continue;
-
+                    
                     // Ensure at least one required protection flag is set
                     if ((MemoryInfo.Protect & RequiredProtectionFlags) == 0)
                         continue;
