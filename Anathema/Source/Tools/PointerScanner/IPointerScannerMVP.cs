@@ -12,13 +12,14 @@ namespace Anathema
     class PointerScannerEventArgs : EventArgs
     {
         public Int32 ItemCount;
+        public Int32 MaxPointerLevel;
     }
 
     interface IPointerScannerView : IScannerView
     {
         // Methods invoked by the presenter (upstream)
         void ReadValues();
-        void UpdateItemCount(Int32 ItemCount);
+        void ScanFinished(Int32 ItemCount, Int32 MaxPointerLevel);
     }
 
     abstract class IPointerScannerModel : IScannerModel
@@ -31,7 +32,7 @@ namespace Anathema
         }
 
         public event PointerScannerEventHandler EventUpdateItemCount;
-        protected virtual void OnEventUpdateItemCount(PointerScannerEventArgs E)
+        protected virtual void OnEventScanFinished(PointerScannerEventArgs E)
         {
             EventUpdateItemCount(this, E);
         }
@@ -47,11 +48,14 @@ namespace Anathema
 
     class PointerScannerPresenter : ScannerPresenter
     {
-        new IPointerScannerView View;
-        new IPointerScannerModel Model;
+        protected new IPointerScannerView View;
+        protected new IPointerScannerModel Model;
+
+        private const Int32 BaseIndex = 0;
+        private const Int32 OffsetStartIndex = 1;
 
         private ListViewCache ListViewCache;
-        private const Int32 BaseIndex = 0;
+        private Int32 MaxPointerLevel;
 
         public PointerScannerPresenter(IPointerScannerView View, IPointerScannerModel Model) : base(View, Model)
         {
@@ -62,7 +66,7 @@ namespace Anathema
 
             // Bind events triggered by the model
             Model.EventReadValues += EventReadValues;
-            Model.EventUpdateItemCount += EventUpdateItemCount;
+            Model.EventUpdateItemCount += EventScanFinished;
         }
 
         #region Method definitions called by the view (downstream)
@@ -88,9 +92,14 @@ namespace Anathema
             //    return Item;
 
             // Add the properties to the cache and get the list view item back
-            Item = ListViewCache.Add(Index, Enumerable.Repeat(String.Empty, 3).ToArray());
+            Item = ListViewCache.Add(Index, Enumerable.Repeat(String.Empty, MaxPointerLevel).ToArray());
 
-            Item.SubItems[BaseIndex].Text = "module/address here";
+            Item.SubItems[BaseIndex].Text = "address";
+
+            for (Int32 OffsetIndex = OffsetStartIndex; OffsetIndex < OffsetStartIndex + MaxPointerLevel; OffsetIndex++)
+                Item.SubItems[OffsetIndex].Text = "offset";
+            
+            Item.SubItems[BaseIndex].Text = "address";
 
             return Item;
         }
@@ -108,6 +117,8 @@ namespace Anathema
         {
             if (!CheckSyntax.CanParseValue(typeof(Int32), MaxPointerLevel))
                 return false;
+
+            this.MaxPointerLevel = Conversions.ParseValue(typeof(Int32), MaxPointerLevel);
 
             Model.SetMaxPointerLevel(Conversions.ParseValue(typeof(Int32), MaxPointerLevel));
             return true;
@@ -131,9 +142,9 @@ namespace Anathema
             View.ReadValues();
         }
 
-        private void EventUpdateItemCount(Object Sender, PointerScannerEventArgs E)
+        private void EventScanFinished(Object Sender, PointerScannerEventArgs E)
         {
-            View.UpdateItemCount(E.ItemCount);
+            View.ScanFinished(E.ItemCount, E.MaxPointerLevel);
         }
 
         #endregion

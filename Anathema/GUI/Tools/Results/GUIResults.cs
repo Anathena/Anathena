@@ -72,6 +72,7 @@ namespace Anathema
             {
                 ResultsListView.Enabled = true;
             });
+
             ControlThreadingHelper.InvokeControlAction(GUIToolStrip, () =>
             {
                 GUIToolStrip.Enabled = true;

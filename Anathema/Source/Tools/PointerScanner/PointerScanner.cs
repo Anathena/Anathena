@@ -83,6 +83,14 @@ namespace Anathema
         {
             return new SnapshotRegion<Null>(new RemoteRegion(null, unchecked((IntPtr)(Address - MaxPointerOffset)), unchecked((Int32)MaxPointerOffset * 2)));
         }
+
+        private void UpdateDisplay()
+        {
+            PointerScannerEventArgs Args = new PointerScannerEventArgs();
+            Args.ItemCount = AcceptedPointers.Count;
+            Args.MaxPointerLevel = MaxPointerLevel;
+            OnEventScanFinished(Args);
+        }
         
         public override void Begin()
         {
@@ -148,9 +156,7 @@ namespace Anathema
             TracePointers();
             BuildPointers();
 
-            PointerScannerEventArgs Args = new PointerScannerEventArgs();
-            Args.ItemCount = AcceptedPointers.Count;
-            OnEventUpdateItemCount(Args);
+            UpdateDisplay();
         }
 
         public override void BeginPointerRescan()
@@ -159,7 +165,7 @@ namespace Anathema
             /// Reread values
             ///
 
-            BuildPointers();
+            //BuildPointers();
         }
 
         private void SetAcceptedBases()

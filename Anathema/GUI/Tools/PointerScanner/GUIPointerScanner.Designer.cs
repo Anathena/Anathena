@@ -39,6 +39,7 @@
             this.MaxLevelTextBox = new System.Windows.Forms.TextBox();
             this.MaxLevelLabel = new System.Windows.Forms.Label();
             this.PointerListView = new Anathema.FlickerFreeListView();
+            this.ValueHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.BaseHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.ScanToolStrip.SuspendLayout();
             this.SuspendLayout();
@@ -140,7 +141,11 @@
             // 
             // PointerListView
             // 
+            this.PointerListView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.PointerListView.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.ValueHeader,
             this.BaseHeader});
             this.PointerListView.Location = new System.Drawing.Point(17, 80);
             this.PointerListView.Name = "PointerListView";
@@ -150,10 +155,15 @@
             this.PointerListView.View = System.Windows.Forms.View.Details;
             this.PointerListView.RetrieveVirtualItem += new System.Windows.Forms.RetrieveVirtualItemEventHandler(this.PointerListView_RetrieveVirtualItem);
             // 
+            // ValueHeader
+            // 
+            this.ValueHeader.Text = "Value";
+            this.ValueHeader.Width = 88;
+            // 
             // BaseHeader
             // 
             this.BaseHeader.Text = "Base";
-            this.BaseHeader.Width = 71;
+            this.BaseHeader.Width = 94;
             // 
             // GUIPointerScanner
             // 
@@ -189,7 +199,8 @@
         private System.Windows.Forms.TextBox MaxLevelTextBox;
         private System.Windows.Forms.Label MaxLevelLabel;
         private FlickerFreeListView PointerListView;
-        private System.Windows.Forms.ColumnHeader BaseHeader;
+        private System.Windows.Forms.ColumnHeader ValueHeader;
         private System.Windows.Forms.ToolStripButton RebuildPointersButton;
+        private System.Windows.Forms.ColumnHeader BaseHeader;
     }
 }

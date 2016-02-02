@@ -37,12 +37,24 @@ namespace Anathema
 
         public void DisplayScanCount(Int32 ScanCount) { }
 
-        public void UpdateItemCount(Int32 ItemCount)
+        public void ScanFinished(Int32 ItemCount, Int32 MaxPointerLevel)
         {
             ControlThreadingHelper.InvokeControlAction<Control>(PointerListView, () =>
             {
+                PointerListView.Items.Clear();
+
+                // Remove offset columns
+                while (PointerListView.Columns.Count > 2)
+                    PointerListView.Columns.RemoveAt(2);
+                
+                // Create offset columns based on max level
+                for (Int32 OffsetIndex = 0; OffsetIndex < MaxPointerLevel; OffsetIndex++)
+                    PointerListView.Columns.Add("Offset " + OffsetIndex.ToString());
+
                 PointerListView.VirtualListSize = ItemCount;
             });
+
+            EnableGUI();
         }
 
         public void ReadValues()
@@ -56,14 +68,30 @@ namespace Anathema
 
         private void DisableGUI()
         {
-            StartScanButton.Enabled = false;
-            StopScanButton.Enabled = true;
+            ControlThreadingHelper.InvokeControlAction<Control>(PointerListView, () =>
+            {
+                PointerListView.Enabled = false;
+            });
+
+            ControlThreadingHelper.InvokeControlAction<Control>(ScanToolStrip, () =>
+            {
+                StartScanButton.Enabled = false;
+                StopScanButton.Enabled = true;
+            });
         }
 
         private void EnableGUI()
         {
-            StartScanButton.Enabled = true;
-            StopScanButton.Enabled = false;
+            ControlThreadingHelper.InvokeControlAction<Control>(PointerListView, () =>
+            {
+                PointerListView.Enabled = true;
+            });
+
+            ControlThreadingHelper.InvokeControlAction<Control>(ScanToolStrip, () =>
+            {
+                StartScanButton.Enabled = true;
+                StopScanButton.Enabled = false;
+            });
         }
 
         #region Events
@@ -86,6 +114,8 @@ namespace Anathema
 
         private void RebuildPointersButton_Click(Object Sender, EventArgs E)
         {
+            DisableGUI();
+
             if (!PointerScannerPresenter.TrySetTargetAddress(TargetAddressTextBox.Text))
                 return;
 
