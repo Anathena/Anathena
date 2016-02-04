@@ -222,9 +222,9 @@ namespace Anathema
             if (MemoryEditor == null)
                 return;
 
-            //List<RemoteModule> Modules = MemoryEditor.Modules.RemoteModules.ToList();
-            List<RemoteModule> Modules = new List<RemoteModule>();
-            Modules.Add(MemoryEditor.Modules.MainModule);
+            List<RemoteModule> Modules = MemoryEditor.Modules.RemoteModules.ToList();
+            // List<RemoteModule> Modules = new List<RemoteModule>();
+            // Modules.Add(MemoryEditor.Modules.MainModule);
 
             List<SnapshotRegion> AcceptedBaseRegions = new List<SnapshotRegion>();
 
