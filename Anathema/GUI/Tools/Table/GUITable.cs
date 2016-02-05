@@ -207,7 +207,7 @@ namespace Anathema
 
             // Create editor for this entry
             GUIAddressTableEntryEditor GUIAddressTableEntryEditor = new GUIAddressTableEntryEditor(SelectedItem.Index, Indicies.ToArray(), ColumnSelection);
-            GUIAddressTableEntryEditor.ShowDialog();
+            GUIAddressTableEntryEditor.ShowDialog(this);
         }
 
         private void ScriptTableListView_MouseClick(Object Sender, MouseEventArgs E)

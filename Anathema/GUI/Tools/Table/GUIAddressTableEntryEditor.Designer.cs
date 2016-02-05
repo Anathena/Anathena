@@ -32,17 +32,17 @@
             this.ValueTypeComboBox = new System.Windows.Forms.ComboBox();
             this.DescriptionLabel = new System.Windows.Forms.Label();
             this.ValueTypeLabel = new System.Windows.Forms.Label();
-            this.AddressTextBox = new Anathema.HexDecTextBox();
             this.AddressLabel = new System.Windows.Forms.Label();
             this.ValueLabel = new System.Windows.Forms.Label();
             this.OffsetListBox = new System.Windows.Forms.ListBox();
-            this.OffsetTextBox = new Anathema.HexDecTextBox();
             this.AddOffsetButton = new System.Windows.Forms.Button();
             this.RemoveOffsetButton = new System.Windows.Forms.Button();
             this.OffsetLabel = new System.Windows.Forms.Label();
             this.OkButton = new System.Windows.Forms.Button();
             this.CancelButton = new System.Windows.Forms.Button();
             this.ValueTextBox = new Anathema.HexDecTextBox();
+            this.OffsetTextBox = new Anathema.HexDecTextBox();
+            this.AddressTextBox = new Anathema.HexDecTextBox();
             this.SuspendLayout();
             // 
             // DescriptionTextBox
@@ -81,20 +81,6 @@
             this.ValueTypeLabel.TabIndex = 3;
             this.ValueTypeLabel.Text = "Value Type:";
             // 
-            // AddressTextBox
-            // 
-            this.AddressTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.AddressTextBox.ForeColor = System.Drawing.Color.Red;
-            this.AddressTextBox.IsHex = true;
-            this.AddressTextBox.Location = new System.Drawing.Point(80, 92);
-            this.AddressTextBox.Name = "AddressTextBox";
-            this.AddressTextBox.Size = new System.Drawing.Size(212, 20);
-            this.AddressTextBox.TabIndex = 3;
-            this.AddressTextBox.WatermarkColor = System.Drawing.Color.LightGray;
-            this.AddressTextBox.WaterMarkFont = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.AddressTextBox.WaterMarkText = null;
-            // 
             // AddressLabel
             // 
             this.AddressLabel.AutoSize = true;
@@ -125,20 +111,6 @@
             this.OffsetListBox.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
             this.OffsetListBox.Size = new System.Drawing.Size(212, 80);
             this.OffsetListBox.TabIndex = 7;
-            // 
-            // OffsetTextBox
-            // 
-            this.OffsetTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.OffsetTextBox.ForeColor = System.Drawing.Color.Red;
-            this.OffsetTextBox.IsHex = true;
-            this.OffsetTextBox.Location = new System.Drawing.Point(80, 117);
-            this.OffsetTextBox.Name = "OffsetTextBox";
-            this.OffsetTextBox.Size = new System.Drawing.Size(50, 20);
-            this.OffsetTextBox.TabIndex = 4;
-            this.OffsetTextBox.WatermarkColor = System.Drawing.Color.LightGray;
-            this.OffsetTextBox.WaterMarkFont = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.OffsetTextBox.WaterMarkText = null;
             // 
             // AddOffsetButton
             // 
@@ -197,6 +169,7 @@
             // 
             this.ValueTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.ValueTextBox.ForeColor = System.Drawing.Color.Red;
             this.ValueTextBox.IsHex = false;
             this.ValueTextBox.Location = new System.Drawing.Point(80, 65);
             this.ValueTextBox.Name = "ValueTextBox";
@@ -205,6 +178,34 @@
             this.ValueTextBox.WatermarkColor = System.Drawing.Color.LightGray;
             this.ValueTextBox.WaterMarkFont = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.ValueTextBox.WaterMarkText = "(Insert Value to Overwrite Current Value)";
+            // 
+            // OffsetTextBox
+            // 
+            this.OffsetTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.OffsetTextBox.ForeColor = System.Drawing.Color.Red;
+            this.OffsetTextBox.IsHex = true;
+            this.OffsetTextBox.Location = new System.Drawing.Point(80, 117);
+            this.OffsetTextBox.Name = "OffsetTextBox";
+            this.OffsetTextBox.Size = new System.Drawing.Size(50, 20);
+            this.OffsetTextBox.TabIndex = 4;
+            this.OffsetTextBox.WatermarkColor = System.Drawing.Color.LightGray;
+            this.OffsetTextBox.WaterMarkFont = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.OffsetTextBox.WaterMarkText = null;
+            // 
+            // AddressTextBox
+            // 
+            this.AddressTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.AddressTextBox.ForeColor = System.Drawing.Color.Red;
+            this.AddressTextBox.IsHex = true;
+            this.AddressTextBox.Location = new System.Drawing.Point(80, 92);
+            this.AddressTextBox.Name = "AddressTextBox";
+            this.AddressTextBox.Size = new System.Drawing.Size(212, 20);
+            this.AddressTextBox.TabIndex = 3;
+            this.AddressTextBox.WatermarkColor = System.Drawing.Color.LightGray;
+            this.AddressTextBox.WaterMarkFont = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.AddressTextBox.WaterMarkText = null;
             // 
             // GUIAddressTableEntryEditor
             // 
@@ -229,6 +230,7 @@
             this.Controls.Add(this.DescriptionTextBox);
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Name = "GUIAddressTableEntryEditor";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Edit Address Table Entry";
             this.ResumeLayout(false);
             this.PerformLayout();
