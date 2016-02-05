@@ -20,10 +20,12 @@ namespace Anathema
             this.AddressTableItemIndicies = AddressTableItemIndicies;
             this.MainSelection = MainSelection;
 
+            this.OffsetTextBox.SetElementType(typeof(Int32));
+
             InitializeValueTypeComboBox();
             InitializeDefaultItems();
-            
-            switch(ColumnSelection)
+
+            switch (ColumnSelection)
             {
                 case Table.TableColumnEnum.Description:
                     DescriptionTextBox.Select();
@@ -48,7 +50,7 @@ namespace Anathema
             DescriptionTextBox.Text = AddressItem.Description;
             ValueTypeComboBox.SelectedIndex = ValueTypeComboBox.Items.IndexOf(AddressItem.ElementType.Name);
             AddressTextBox.Text = Conversions.ToAddress(AddressItem.Address.ToString());
-            IsHexCheckBox.Checked = AddressItem.IsHex;
+            // IsHexCheckBox.Checked = AddressItem.IsHex;
 
             if (AddressItem.Offsets != null)
                 foreach (Int32 Offset in AddressItem.Offsets)
@@ -80,14 +82,15 @@ namespace Anathema
 
         private void OkButton_Click(Object Sender, EventArgs E)
         {
-            TableAddressEntryEditorPresenter.AcceptChanges(MainSelection, AddressTableItemIndicies, DescriptionTextBox.Text, AddressTextBox.Text, 
-                ValueTypeComboBox.SelectedItem.ToString(), ValueTextBox.Text, OffsetListBox.Items.OfType<String>().ToArray(), IsHexCheckBox.Checked);
+            TableAddressEntryEditorPresenter.AcceptChanges(MainSelection, AddressTableItemIndicies, DescriptionTextBox.Text, AddressTextBox.Text,
+                ValueTypeComboBox.SelectedItem.ToString(), ValueTextBox.Text, OffsetListBox.Items.OfType<String>().ToArray(), false);
 
             this.Close();
         }
 
         private void OffsetTextBox_TextChanged(Object Sender, EventArgs E)
         {
+            return;
             if (CheckSyntax.Address(OffsetTextBox.Text))
             {
                 OffsetTextBox.ForeColor = Color.Black;
@@ -108,17 +111,11 @@ namespace Anathema
                 ValueTextBox.ForeColor = Color.Red;
         }
 
-        private void AddressTextBox_TextChanged(Object Sender, EventArgs E)
-        {
-            if (CheckSyntax.Address(AddressTextBox.Text))
-                AddressTextBox.ForeColor = SystemColors.ControlText;
-            else
-                AddressTextBox.ForeColor = Color.Red;
-        }
-
         private void ValueTypeComboBox_SelectedIndexChanged(Object Sender, EventArgs E)
         {
             ValueTextBox_TextChanged(Sender, E);
+
+            // ValueTextBox.SetElementType(Conversions.StringToPrimitiveType(ValueTypeComboBox.SelectedItem.ToString()));
         }
 
         #endregion

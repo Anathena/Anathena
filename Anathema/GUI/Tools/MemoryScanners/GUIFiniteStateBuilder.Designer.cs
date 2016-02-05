@@ -54,7 +54,7 @@
             this.ConstraintsListView = new System.Windows.Forms.ListView();
             this.ValueHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.ConstraintHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.ValueTextBox = new System.Windows.Forms.TextBox();
+            this.ValueTextBox = new HexDecTextBox();
             this.ValueTypeComboBox = new System.Windows.Forms.ComboBox();
             this.ControlPanel = new System.Windows.Forms.Panel();
             this.FSMBuilderPanel = new Anathema.FlickerFreePanel();
@@ -361,7 +361,7 @@
         private System.Windows.Forms.ToolStripMenuItem LessThanToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem LessThanOrEqualToToolStripMenuItem;
         private System.Windows.Forms.ComboBox ValueTypeComboBox;
-        private System.Windows.Forms.TextBox ValueTextBox;
+        private HexDecTextBox ValueTextBox;
         private System.Windows.Forms.ContextMenuStrip StateContextMenuStrip;
         private System.Windows.Forms.ToolStripMenuItem StartStateToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem NoEventToolStripMenuItem;

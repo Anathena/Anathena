@@ -32,17 +32,16 @@
             this.ValueTypeComboBox = new System.Windows.Forms.ComboBox();
             this.DescriptionLabel = new System.Windows.Forms.Label();
             this.ValueTypeLabel = new System.Windows.Forms.Label();
-            this.AddressTextBox = new System.Windows.Forms.TextBox();
+            this.AddressTextBox = new HexDecTextBox();
             this.AddressLabel = new System.Windows.Forms.Label();
             this.ValueLabel = new System.Windows.Forms.Label();
             this.OffsetListBox = new System.Windows.Forms.ListBox();
-            this.OffsetTextBox = new System.Windows.Forms.TextBox();
+            this.OffsetTextBox = new HexDecTextBox();
             this.AddOffsetButton = new System.Windows.Forms.Button();
             this.RemoveOffsetButton = new System.Windows.Forms.Button();
             this.OffsetLabel = new System.Windows.Forms.Label();
             this.OkButton = new System.Windows.Forms.Button();
             this.CancelButton = new System.Windows.Forms.Button();
-            this.IsHexCheckBox = new System.Windows.Forms.CheckBox();
             this.ValueTextBox = new Anathema.WatermarkTextBox();
             this.SuspendLayout();
             // 
@@ -60,7 +59,7 @@
             this.ValueTypeComboBox.FormattingEnabled = true;
             this.ValueTypeComboBox.Location = new System.Drawing.Point(80, 38);
             this.ValueTypeComboBox.Name = "ValueTypeComboBox";
-            this.ValueTypeComboBox.Size = new System.Drawing.Size(161, 21);
+            this.ValueTypeComboBox.Size = new System.Drawing.Size(212, 21);
             this.ValueTypeComboBox.TabIndex = 1;
             this.ValueTypeComboBox.SelectedIndexChanged += new System.EventHandler(this.ValueTypeComboBox_SelectedIndexChanged);
             // 
@@ -90,7 +89,6 @@
             this.AddressTextBox.Name = "AddressTextBox";
             this.AddressTextBox.Size = new System.Drawing.Size(212, 20);
             this.AddressTextBox.TabIndex = 3;
-            this.AddressTextBox.TextChanged += new System.EventHandler(this.AddressTextBox_TextChanged);
             // 
             // AddressLabel
             // 
@@ -186,17 +184,6 @@
             this.CancelButton.Text = "Cancel";
             this.CancelButton.UseVisualStyleBackColor = true;
             // 
-            // IsHexCheckBox
-            // 
-            this.IsHexCheckBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.IsHexCheckBox.AutoSize = true;
-            this.IsHexCheckBox.Location = new System.Drawing.Point(247, 40);
-            this.IsHexCheckBox.Name = "IsHexCheckBox";
-            this.IsHexCheckBox.Size = new System.Drawing.Size(45, 17);
-            this.IsHexCheckBox.TabIndex = 13;
-            this.IsHexCheckBox.Text = "Hex";
-            this.IsHexCheckBox.UseVisualStyleBackColor = true;
-            // 
             // ValueTextBox
             // 
             this.ValueTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
@@ -210,13 +197,12 @@
             this.ValueTextBox.WaterMarkText = "(Insert Value to Overwrite Current Value)";
             this.ValueTextBox.TextChanged += new System.EventHandler(this.ValueTextBox_TextChanged);
             // 
-            // GUIAddressTableEntryEdit
+            // GUIAddressTableEntryEditor
             // 
             this.AcceptButton = this.OkButton;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(304, 257);
-            this.Controls.Add(this.IsHexCheckBox);
             this.Controls.Add(this.ValueTextBox);
             this.Controls.Add(this.CancelButton);
             this.Controls.Add(this.OkButton);
@@ -233,7 +219,7 @@
             this.Controls.Add(this.ValueTypeComboBox);
             this.Controls.Add(this.DescriptionTextBox);
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Name = "GUIAddressTableEntryEdit";
+            this.Name = "GUIAddressTableEntryEditor";
             this.Text = "Edit Address Table Entry";
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -246,17 +232,16 @@
         private System.Windows.Forms.ComboBox ValueTypeComboBox;
         private System.Windows.Forms.Label DescriptionLabel;
         private System.Windows.Forms.Label ValueTypeLabel;
-        private System.Windows.Forms.TextBox AddressTextBox;
+        private HexDecTextBox AddressTextBox;
         private System.Windows.Forms.Label AddressLabel;
         private System.Windows.Forms.Label ValueLabel;
         private System.Windows.Forms.ListBox OffsetListBox;
-        private System.Windows.Forms.TextBox OffsetTextBox;
+        private HexDecTextBox OffsetTextBox;
         private System.Windows.Forms.Button AddOffsetButton;
         private System.Windows.Forms.Button RemoveOffsetButton;
         private System.Windows.Forms.Label OffsetLabel;
         private System.Windows.Forms.Button OkButton;
         private System.Windows.Forms.Button CancelButton;
         private WatermarkTextBox ValueTextBox;
-        private System.Windows.Forms.CheckBox IsHexCheckBox;
     }
 }
