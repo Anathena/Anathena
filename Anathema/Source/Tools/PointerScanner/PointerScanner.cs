@@ -34,12 +34,11 @@ namespace Anathema
         private const UInt64 InvalidPointerMin = unchecked((UInt64)Int64.MaxValue); // !TODO RemotePtr.MaxValue
         private const UInt64 InvalidPointerMax = UInt16.MaxValue;
 
-
         private ConcurrentDictionary<UInt64, UInt64> PointerPool;
         private List<ConcurrentDictionary<UInt64, UInt64>> ConnectedPointers;
         private Snapshot<Null> AcceptedBases;
 
-        private List<Tuple<UInt64, Stack<Int32>>> AcceptedPointers;
+        private List<Tuple<UInt64, List<Int32>>> AcceptedPointers;
 
         // User parameters
         private UInt64 TargetAddress;
@@ -106,7 +105,25 @@ namespace Anathema
 
         public override String GetValueAtIndex(Int32 Index)
         {
-            return Index.ToString();
+            Tuple<UInt64, List<Int32>> FullPointer = AcceptedPointers[Index];
+            UInt64 Pointer = FullPointer.Item1;
+            List<Int32> Offsets = FullPointer.Item2;
+
+
+            Boolean SuccessReading = true;
+
+            foreach (Int32 Offset in Offsets)
+            {
+                Pointer = MemoryEditor.Read<UInt64>((IntPtr)Pointer, out SuccessReading);
+                Pointer += (UInt64)Offset;
+
+                if (!SuccessReading)
+                    break;
+            }
+
+            dynamic Value = (SuccessReading ? MemoryEditor.Read(typeof(Int32), (IntPtr)Pointer, out SuccessReading) : "?");
+
+            return Value.ToString();
         }
 
         public override String GetBaseAddress(Int32 Index)
@@ -117,7 +134,7 @@ namespace Anathema
         public override String[] GetOffsets(Int32 Index)
         {
             List<String> Offsets = new List<String>();
-            AcceptedPointers[Index].Item2.Reverse().ToList().ForEach(x => Offsets.Add((x < 0 ? "-" : "") + Math.Abs(x).ToString("X")));
+            AcceptedPointers[Index].Item2.ForEach(x => Offsets.Add((x < 0 ? "-" : "") + Math.Abs(x).ToString("X")));
             return Offsets.ToArray();
         }
 
@@ -279,21 +296,21 @@ namespace Anathema
 
         private void BuildPointers()
         {
-            ConcurrentBag<Tuple<UInt64, Stack<Int32>>> DiscoveredPointers = new ConcurrentBag<Tuple<UInt64, Stack<Int32>>>();
+            ConcurrentBag<Tuple<UInt64, List<Int32>>> DiscoveredPointers = new ConcurrentBag<Tuple<UInt64, List<Int32>>>();
 
             Parallel.ForEach(ConnectedPointers[MaxPointerLevel], (Base) =>
             {
-                BuildPointers(DiscoveredPointers, MaxPointerLevel, Base.Key, Base.Value, new Stack<Int32>());
+                BuildPointers(DiscoveredPointers, MaxPointerLevel, Base.Key, Base.Value, new List<Int32>());
             });
 
             AcceptedPointers = DiscoveredPointers.ToList();
         }
 
-        private void BuildPointers(ConcurrentBag<Tuple<UInt64, Stack<Int32>>> Pointers, Int32 Level, UInt64 Base, UInt64 PointerDestination, Stack<Int32> Offsets)
+        private void BuildPointers(ConcurrentBag<Tuple<UInt64, List<Int32>>> Pointers, Int32 Level, UInt64 Base, UInt64 PointerDestination, List<Int32> Offsets)
         {
             if (Level == 0)
             {
-                Pointers.Add(new Tuple<UInt64, Stack<Int32>>(Base, Offsets));
+                Pointers.Add(new Tuple<UInt64, List<Int32>>(Base, Offsets));
                 return;
             }
 
@@ -306,10 +323,10 @@ namespace Anathema
                     continue;
 
                 // Valid pointer, clone our current offset stack
-                Stack<Int32> NewOffsets = new Stack<Int32>(Offsets.Reverse());
+                List<Int32> NewOffsets = new List<Int32>(Offsets);
 
                 // Calculate the offset for this level
-                NewOffsets.Push(unchecked((Int32)((Int64)Target.Key - (Int64)PointerDestination)));
+                NewOffsets.Add(unchecked((Int32)((Int64)Target.Key - (Int64)PointerDestination)));
 
                 // Recurse
                 BuildPointers(Pointers, Level - 1, Base, Target.Value, NewOffsets);

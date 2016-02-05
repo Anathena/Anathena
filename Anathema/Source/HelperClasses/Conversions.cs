@@ -36,10 +36,14 @@ namespace Anathema
 
         public static String ToAddress(String Value)
         {
-            if (CheckSyntax.IsInt32(Value))
+            if (CheckSyntax.IsUInt32(Value))
                 return String.Format("{0:X8}", Convert.ToUInt32(Value));
-            else if (CheckSyntax.IsInt64(Value))
+            else if (CheckSyntax.IsInt32(Value))
+                return String.Format("{0:X8}", unchecked((UInt32)(Convert.ToInt32(Value))));
+            else if (CheckSyntax.IsUInt64(Value))
                 return String.Format("{0:X16}", Convert.ToUInt64(Value));
+            else if (CheckSyntax.IsInt64(Value))
+                return String.Format("{0:X16}", unchecked((UInt64)(Convert.ToInt64(Value))));
             else
                 return "!!";
         }
