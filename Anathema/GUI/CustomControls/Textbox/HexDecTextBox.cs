@@ -73,7 +73,7 @@ namespace Anathema
                 return null;
 
             if (IsHex)
-                return Conversions.ParseValue(ElementType, Conversions.AddressToValue(this.Text).ToString()).ToString();
+                return Conversions.ParseValue(ElementType, Conversions.ParseHexAsDec(ElementType, this.Text)).ToString();
             else
                 return Conversions.ParseValue(ElementType, this.Text).ToString();
         }
@@ -84,7 +84,7 @@ namespace Anathema
                 return null;
 
             if (IsHex)
-                return Conversions.ParseValue(ElementType, Conversions.AddressToValue(this.Text).ToString()).ToString("X");
+                return Conversions.ParseValue(ElementType, Conversions.ParseHexAsDec(ElementType, this.Text)).ToString("X");
             else
                 return Conversions.ParseAsHex(ElementType, Conversions.ParseValue(ElementType, this.Text));
         }
@@ -115,7 +115,7 @@ namespace Anathema
         private void ConvertToDecMenuItem_Click(Object Sender, EventArgs E)
         {
             if (CheckSyntax.CanParseAddress(this.Text))
-                this.Text = Conversions.AddressToValue(this.Text).ToString();
+                this.Text = Conversions.ParseHexAsDec(ElementType, this.Text).ToString();
 
             this.IsHex = false;
         }

@@ -48,8 +48,28 @@ namespace Anathema
                 case TypeCode.UInt16: return RealValue.ToString("X");
                 case TypeCode.UInt32: return RealValue.ToString("X");
                 case TypeCode.UInt64: return RealValue.ToString("X");
-                case TypeCode.Single: return BitConverter.ToSingle(BitConverter.GetBytes(Single.Parse(RealValue)), 0).ToString("X");
-                case TypeCode.Double: return BitConverter.ToSingle(BitConverter.GetBytes(Double.Parse(RealValue)), 0).ToString("X");
+                case TypeCode.Single: return BitConverter.ToUInt32(BitConverter.GetBytes(RealValue), 0).ToString("X");
+                case TypeCode.Double: return BitConverter.ToUInt64(BitConverter.GetBytes(RealValue), 0).ToString("X");
+                default: return null;
+            }
+        }
+
+        public static String ParseHexAsDec(Type ValueType, String Value)
+        {
+            UInt64 RealValue = AddressToValue(Value);
+
+            switch (Type.GetTypeCode(ValueType))
+            {
+                case TypeCode.Byte: return RealValue.ToString();
+                case TypeCode.SByte: return RealValue.ToString();
+                case TypeCode.Int16: return RealValue.ToString();
+                case TypeCode.Int32: return RealValue.ToString();
+                case TypeCode.Int64: return RealValue.ToString();
+                case TypeCode.UInt16: return RealValue.ToString();
+                case TypeCode.UInt32: return RealValue.ToString();
+                case TypeCode.UInt64: return RealValue.ToString();
+                case TypeCode.Single: return BitConverter.ToSingle(BitConverter.GetBytes(RealValue), 0).ToString();
+                case TypeCode.Double: return BitConverter.ToDouble(BitConverter.GetBytes(RealValue), 0).ToString();
                 default: return null;
             }
         }
