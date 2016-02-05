@@ -46,7 +46,7 @@ namespace Anathema
             // Convert passed parameters to the appropriate types to construct an AddressItem
             List<Int32> OffsetsInt = new List<int>();
             foreach (String Offset in Offsets)
-                OffsetsInt.Add(Conversions.HexToInt(Offset));
+                OffsetsInt.Add((Int32)Conversions.AddressToValue(Offset));
 
             AddressItem AddressItem = new AddressItem(Conversions.AddressToValue(Address), Description,
                 Conversions.StringToPrimitiveType(ValueType), OffsetsInt.ToArray(), IsHex);

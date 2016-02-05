@@ -128,7 +128,7 @@ namespace Anathema
 
         public override String GetBaseAddress(Int32 Index)
         {
-            return Conversions.ToAddress(AcceptedPointers[Index].Item1.ToString());
+            return Conversions.ToAddress(AcceptedPointers[Index].Item1);
         }
 
         public override String[] GetOffsets(Int32 Index)

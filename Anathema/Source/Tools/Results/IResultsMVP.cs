@@ -123,7 +123,7 @@ namespace Anathema
             // Add the properties to the cache and get the list view item back
             Item = ListViewCache.Add(Index, new String[] { String.Empty, String.Empty, String.Empty });
 
-            Item.SubItems[AddressIndex].Text = Conversions.ToAddress(Model.GetAddressAtIndex(Index).ToString());
+            Item.SubItems[AddressIndex].Text = Conversions.ToAddress(unchecked((UInt64)Model.GetAddressAtIndex(Index)));
             Item.SubItems[ValueIndex].Text = "-";
             Item.SubItems[LabelIndex].Text = Model.GetLabelAtIndex(Index);
 

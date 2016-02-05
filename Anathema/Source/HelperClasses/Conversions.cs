@@ -34,15 +34,59 @@ namespace Anathema
             }
         }
 
-        public static String ToAddress(String Value)
+        public static String ParseAsHex(Type ValueType, String Value)
         {
-            if (CheckSyntax.IsUInt32(Value))
+            dynamic RealValue = ParseValue(ValueType, Value);
+
+            switch (Type.GetTypeCode(ValueType))
+            {
+                case TypeCode.Byte: return RealValue.ToString("X");
+                case TypeCode.SByte: return RealValue.ToString("X");
+                case TypeCode.Int16: return RealValue.ToString("X");
+                case TypeCode.Int32: return RealValue.ToString("X");
+                case TypeCode.Int64: return RealValue.ToString("X");
+                case TypeCode.UInt16: return RealValue.ToString("X");
+                case TypeCode.UInt32: return RealValue.ToString("X");
+                case TypeCode.UInt64: return RealValue.ToString("X");
+                case TypeCode.Single: return BitConverter.ToSingle(BitConverter.GetBytes(Single.Parse(RealValue)), 0).ToString("X");
+                case TypeCode.Double: return BitConverter.ToSingle(BitConverter.GetBytes(Double.Parse(RealValue)), 0).ToString("X");
+                default: return null;
+            }
+        }
+
+        public static String ToAddress(Int32 Value)
+        {
+            return ToAddress(unchecked((UInt32)Value));
+        }
+
+        public static String ToAddress(UInt32 Value)
+        {
+            String ValueString = Value.ToString();
+
+            if (CheckSyntax.IsUInt32(ValueString))
                 return String.Format("{0:X8}", Convert.ToUInt32(Value));
-            else if (CheckSyntax.IsInt32(Value))
+            else if (CheckSyntax.IsInt32(ValueString))
                 return String.Format("{0:X8}", unchecked((UInt32)(Convert.ToInt32(Value))));
-            else if (CheckSyntax.IsUInt64(Value))
+            else
+                return "!!";
+        }
+
+        public static String ToAddress(Int64 Value)
+        {
+            return ToAddress(unchecked((UInt64)Value));
+        }
+
+        public static String ToAddress(UInt64 Value)
+        {
+            String ValueString = Value.ToString();
+
+            if (CheckSyntax.IsUInt32(ValueString))
+                return String.Format("{0:X8}", Convert.ToUInt32(Value));
+            else if (CheckSyntax.IsInt32(ValueString))
+                return String.Format("{0:X8}", unchecked((UInt32)(Convert.ToInt32(Value))));
+            else if (CheckSyntax.IsUInt64(ValueString))
                 return String.Format("{0:X16}", Convert.ToUInt64(Value));
-            else if (CheckSyntax.IsInt64(Value))
+            else if (CheckSyntax.IsInt64(ValueString))
                 return String.Format("{0:X16}", unchecked((UInt64)(Convert.ToInt64(Value))));
             else
                 return "!!";
@@ -50,17 +94,13 @@ namespace Anathema
 
         public static UInt64 AddressToValue(String Address)
         {
+            if (Address.StartsWith("0x", StringComparison.OrdinalIgnoreCase))
+                Address = Address.Substring(2);
+
+            while (Address.StartsWith("0"))
+                Address = Address.Substring(1);
+
             return UInt64.Parse(Address, System.Globalization.NumberStyles.HexNumber);
-        }
-
-        public static Int32 HexToInt(String Address)
-        {
-            return Int32.Parse(Address, System.Globalization.NumberStyles.HexNumber);
-        }
-
-        public static String IntToHex(Int32 Value)
-        {
-            return Value.ToString("X");
         }
 
         public static String BytesToMetric(UInt64 ByteCount)
@@ -75,24 +115,6 @@ namespace Anathema
             return (Number.ToString() + Suffix[Place]);
         }
 
-        public static UIntPtr IntPtrToUIntPtr(IntPtr Value)
-        {
-            if (IntPtr.Size == 4)
-            {
-                return unchecked((UIntPtr)(UInt32)(Int32)Value);
-            }
+    } // End class
 
-            return unchecked((UIntPtr)(UInt64)(Int64)Value);
-        }
-
-        public static IntPtr UIntPtrToIntPtr(UIntPtr Value)
-        {
-            if (IntPtr.Size == 4)
-            {
-                return unchecked((IntPtr)(Int32)(UInt32)Value);
-            }
-
-            return unchecked((IntPtr)(Int64)(UInt64)Value);
-        }
-    }
-}
+} // End namespace

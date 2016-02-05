@@ -110,7 +110,7 @@ namespace Anathema
 
         public Boolean TrySetTargetAddress(String TargetAddress)
         {
-            if (!CheckSyntax.Address(TargetAddress))
+            if (!CheckSyntax.CanParseAddress(TargetAddress))
                 return false;
 
             Model.SetTargetAddress(Conversions.AddressToValue(TargetAddress));

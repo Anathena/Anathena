@@ -49,12 +49,12 @@ namespace Anathema
             AddressItem AddressItem = Table.GetInstance().GetAddressItemAt(AddressTableItemIndicies.Last());
             DescriptionTextBox.Text = AddressItem.Description;
             ValueTypeComboBox.SelectedIndex = ValueTypeComboBox.Items.IndexOf(AddressItem.ElementType.Name);
-            AddressTextBox.Text = Conversions.ToAddress(AddressItem.Address.ToString());
+            AddressTextBox.Text = Conversions.ToAddress(AddressItem.Address);
             // IsHexCheckBox.Checked = AddressItem.IsHex;
 
             if (AddressItem.Offsets != null)
                 foreach (Int32 Offset in AddressItem.Offsets)
-                    OffsetListBox.Items.Add(Conversions.IntToHex(Offset));
+                    OffsetListBox.Items.Add(Offset.ToString("X"));
         }
 
         private void InitializeValueTypeComboBox()
@@ -67,7 +67,7 @@ namespace Anathema
 
         private void AddOffsetButton_Click(Object Sender, EventArgs E)
         {
-            if (CheckSyntax.Address(OffsetTextBox.Text))
+            if (CheckSyntax.CanParseAddress(OffsetTextBox.Text))
             {
                 OffsetListBox.Items.Add(OffsetTextBox.Text);
                 OffsetTextBox.Text = String.Empty;
@@ -91,7 +91,7 @@ namespace Anathema
         private void OffsetTextBox_TextChanged(Object Sender, EventArgs E)
         {
             return;
-            if (CheckSyntax.Address(OffsetTextBox.Text))
+            if (CheckSyntax.CanParseAddress(OffsetTextBox.Text))
             {
                 OffsetTextBox.ForeColor = Color.Black;
                 AddOffsetButton.Enabled = true;

@@ -26,8 +26,8 @@ namespace Anathema
 
             EnableGUI();
         }
-        
-        public void DisplayScanCount(Int32 ScanCount) { /* Manual scan will always have 1 scan so this is useless */ }
+
+        public void DisplayScanCount(Int32 ScanCount) { /* Manual scan will always have 1 scan so we need not implement this */ }
 
         private void InitializeValueTypeComboBox()
         {
@@ -117,7 +117,8 @@ namespace Anathema
 
         private void AddConstraintButton_Click(Object Sender, EventArgs E)
         {
-            ManualScannerPresenter.AddConstraint(ValueTextBox.Text.ToString());
+            if (ValueTextBox.IsValid())
+                ManualScannerPresenter.AddConstraint(ValueTextBox.GetValueAsDecimal());
         }
 
         private void ClearConstraintsButton_Click(Object Sender, EventArgs E)
@@ -197,7 +198,7 @@ namespace Anathema
         }
 
         #endregion
-        
+
     } // End class
 
 } // End namespace

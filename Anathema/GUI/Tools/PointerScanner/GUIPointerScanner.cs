@@ -134,7 +134,7 @@ namespace Anathema
 
         private void TargetAddressTextBox_TextChanged(Object Sender, EventArgs E)
         {
-            if (CheckSyntax.Address(TargetAddressTextBox.Text))
+            if (CheckSyntax.CanParseAddress(TargetAddressTextBox.Text))
                 TargetAddressTextBox.ForeColor = SystemColors.ControlText;
             else
                 TargetAddressTextBox.ForeColor = Color.Red;

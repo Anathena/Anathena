@@ -11,50 +11,34 @@ namespace Anathema
         private static unsafe int MaxHexAddressLength = sizeof(IntPtr) * 2;
 
         // Checks if passed value is a valid address
-        public static Boolean Address(String Address)
+        public static Boolean CanParseAddress(String Address, Boolean MustBe32Bit = false)
         {
+            // Remove 0x
             if (Address.StartsWith("0x", StringComparison.OrdinalIgnoreCase))
                 Address = Address.Substring(2);
 
-            // Out of bounds
+            // Remove trailing 0s
+            while (Address.StartsWith("0"))
+                Address = Address.Substring(1);
+
+            // Bounds checking
             if (Address == String.Empty || Address.Length > MaxHexAddressLength)
                 return false;
 
-            // Too short: assume preceding 0s are intended
-            while (Address.Length < MaxHexAddressLength)
-                Address = "0" + Address;
-
-            UInt64 Result;
-            if (UInt64.TryParse(Address, System.Globalization.NumberStyles.HexNumber, null, out Result))
-                return true; // Valid
-            return false;
-        }
-
-        // Checks if passed value is a valid hex value
-        public static Boolean HexValue(String Value)
-        {
-            if (Value.StartsWith("0x", StringComparison.OrdinalIgnoreCase))
-                Value = Value.Substring(2);
-
-            // Check if string is empty
-            if (Value == String.Empty)
-                return false;
-
-            // Remove leading 0s and check if out of bounds
-            while (Value.Length > 0)
+            if (MustBe32Bit)
             {
-                if (Value.Substring(0, 1) == "0")
-                    Value = Value.Substring(1);
-                else
-                    break;
+                UInt32 Result;
+                if (UInt32.TryParse(Address, System.Globalization.NumberStyles.HexNumber, null, out Result))
+                    return true;
+            }
+            else
+            {
+                UInt64 Result;
+                if (UInt64.TryParse(Address, System.Globalization.NumberStyles.HexNumber, null, out Result))
+                    return true;
             }
 
-            // Try to read value from hex string
-            Int32 result;
-            if (Int32.TryParse(Value, System.Globalization.NumberStyles.HexNumber, null, out result))
-                return true;
-
-            return false; // Invalid
+            return false;
         }
 
         public static Boolean CanParseValue(Type ValueType, String Value)
@@ -76,22 +60,6 @@ namespace Anathema
                 case TypeCode.Double: return IsDouble(Value);
                 default: return false;
             }
-        }
-
-        // Checks if passed value is a valid binary value
-        public static Boolean BinaryValue(String Value)
-        {
-            for (int Index = 0; Index < Value.Length; Index++)
-            {
-                // Check each character for a value of 0
-                if (Value.Substring(Index, 1) != "0" || Value.Substring(Index, 1) != "1")
-                    break;
-
-                // Returns true if all characters were 0 or 1
-                if (Index == Value.Length - 1)
-                    return true;
-            }
-            return false;
         }
 
         public static Boolean IsByte(String Value)

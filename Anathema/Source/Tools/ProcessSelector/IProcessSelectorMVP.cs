@@ -100,12 +100,12 @@ namespace Anathema
             if (MainWindowTitle != String.Empty)
             {
                 // Include title window name
-                ProcessTitles = Conversions.ToAddress(Convert.ToString(Id)) + " - " + ProcessName + " - (" + MainWindowTitle + ")";
+                ProcessTitles = Conversions.ToAddress(Id) + " - " + ProcessName + " - (" + MainWindowTitle + ")";
             }
             else
             {
                 // No name, just add process name
-                ProcessTitles = Conversions.ToAddress(Convert.ToString(Id)) + " - " + ProcessName;
+                ProcessTitles = Conversions.ToAddress(Id) + " - " + ProcessName;
             }
 
             return ProcessTitles;
