@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.ValueTextBox = new System.Windows.Forms.TextBox();
+            this.ValueTextBox = new HexDecTextBox();
             this.ValueTypeComboBox = new System.Windows.Forms.ComboBox();
             this.ConstraintsListView = new System.Windows.Forms.ListView();
             this.ConstraintHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
@@ -64,7 +64,6 @@
             this.ValueTextBox.Name = "ValueTextBox";
             this.ValueTextBox.Size = new System.Drawing.Size(407, 20);
             this.ValueTextBox.TabIndex = 151;
-            this.ValueTextBox.TextChanged += new System.EventHandler(this.ValueTextBox_TextChanged);
             // 
             // ValueTypeComboBox
             // 
@@ -313,7 +312,7 @@
         }
 
         #endregion
-        private System.Windows.Forms.TextBox ValueTextBox;
+        private HexDecTextBox ValueTextBox;
         private System.Windows.Forms.ComboBox ValueTypeComboBox;
         private System.Windows.Forms.ListView ConstraintsListView;
         private System.Windows.Forms.ColumnHeader ConstraintHeader;

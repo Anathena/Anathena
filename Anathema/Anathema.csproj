@@ -87,6 +87,9 @@
     <Compile Include="GUI\CustomControls\Panel\FlickerFreePanel.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="GUI\CustomControls\Textbox\HexDecTextBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="GUI\CustomControls\Textbox\WatermarkTextBox.cs">
       <SubType>Component</SubType>
     </Compile>

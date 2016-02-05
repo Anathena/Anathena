@@ -9,12 +9,11 @@ namespace Anathema
     /// </summary>
     public class WatermarkTextBox : TextBox
     {
-
         protected Panel WaterMarkContainer;
         protected SolidBrush WaterMarkBrush;
 
-        protected string _WatermarkText;
-        public string WaterMarkText
+        protected String _WatermarkText;
+        public String WaterMarkText
         {
             get { return this._WatermarkText; }
             set
@@ -53,31 +52,19 @@ namespace Anathema
         
         public WatermarkTextBox()
         {
-            Initialize();
-        }
-
-        #region Private Methods
-
-        /// <summary>
-        /// Initializes watermark properties and adds CtextBox events
-        /// </summary>
-        private void Initialize()
-        {
-            //Sets some default values to the watermark properties
+            // Set defaults
             _WatermarkColor = Color.LightGray;
             _WaterMarkFont = this.Font;
             WaterMarkContainer = null;
 
-            //Draw the watermark, so we can see it in design time
+            // Draw the watermark, so we can see it in design time
             DrawWaterMark();
-
-            //Eventhandlers which contains function calls. 
-            //Either to draw or to remove the watermark
+            
             this.Enter += new EventHandler(ThisHasFocus);
             this.Leave += new EventHandler(ThisWasLeaved);
             this.TextChanged += new EventHandler(ThisTextChanged);
         }
-
+        
         /// <summary>
         /// Removes the watermark if it should
         /// </summary>
@@ -97,65 +84,48 @@ namespace Anathema
         {
             if (this.WaterMarkContainer == null && this.TextLength <= 0)
             {
-                WaterMarkContainer = new Panel(); // Creates the new panel instance
-                WaterMarkContainer.Paint += new PaintEventHandler(waterMarkContainer_Paint);
+                WaterMarkContainer = new Panel();
+                WaterMarkContainer.Click += WaterMarkContainer_Click;
+                WaterMarkContainer.Paint += WaterMarkContainer_Paint;
                 WaterMarkContainer.Invalidate();
-                WaterMarkContainer.Click += new EventHandler(waterMarkContainer_Click);
-                this.Controls.Add(WaterMarkContainer); // adds the control
+                this.Controls.Add(WaterMarkContainer);
             }
         }
 
-        #endregion
-
-        #region Eventhandlers
-
-        #region WaterMark Events
-
-        private void waterMarkContainer_Click(object sender, EventArgs e)
+        private void WaterMarkContainer_Click(Object Sender, EventArgs E)
         {
-            this.Focus(); //Makes sure you can click wherever you want on the control to gain focus
+            this.Focus();
         }
 
-        private void waterMarkContainer_Paint(object sender, PaintEventArgs e)
+        private void WaterMarkContainer_Paint(Object Sender, PaintEventArgs E)
         {
-            //Setting the watermark container up
-            WaterMarkContainer.Location = new Point(2, 0); // sets the location
-            WaterMarkContainer.Height = this.Height; // Height should be the same as its parent
-            WaterMarkContainer.Width = this.Width; // same goes for width and the parent
+            WaterMarkContainer.Location = new Point(2, 0);                      // Set location of watermark container
+            WaterMarkContainer.Height = this.Height;                            // Height should be the same as its parent
+            WaterMarkContainer.Width = this.Width;                              // same goes for width and the parent
             WaterMarkContainer.Anchor = AnchorStyles.Left | AnchorStyles.Right; // makes sure that it resizes with the parent control
-
-
-
+            
             if (this.ContainsFocus)
             {
-                //if focused use normal color
+                // If focused use normal color
                 WaterMarkBrush = new SolidBrush(this.BackColor);
             }
 
             else
             {
-                //if not focused use not active color
+                // If not focused use not active color
                 WaterMarkBrush = new SolidBrush(this._WatermarkColor);
             }
 
-            //Drawing the string into the panel 
-            Graphics g = e.Graphics;
-            g.DrawString(this._WatermarkText, _WaterMarkFont, WaterMarkBrush, new PointF(-2f, 1f));//Take a look at that point
-            //The reason I'm using the panel at all, is because of this feature, that it has no limits
-            //I started out with a label but that looked very very bad because of its paddings 
-
+            // Drawing the string into the panel 
+            E.Graphics.DrawString(this._WatermarkText, _WaterMarkFont, WaterMarkBrush, new PointF(-2f, 1f));
         }
-
-        #endregion
-
-        #region WatermarkTextBox Events
-
-        private void ThisHasFocus(object sender, EventArgs e)
+        
+        private void ThisHasFocus(Object Sender, EventArgs E)
         {
-            //if focused use focus color
+            // If focused use focus color
             WaterMarkBrush = new SolidBrush(this.BackColor);
 
-            //The watermark should not be drawn if the user has already written some text
+            // The watermark should not be drawn if the user has already written some text
             if (this.TextLength <= 0)
             {
                 RemoveWaterMark();
@@ -163,59 +133,52 @@ namespace Anathema
             }
         }
 
-        private void ThisWasLeaved(object sender, EventArgs e)
+        private void ThisWasLeaved(Object Sender, EventArgs E)
         {
-            //if the user has written something and left the control
+            // If the user has written something and left the control
             if (this.TextLength > 0)
             {
-                //Remove the watermark
+                // Remove the watermark
                 RemoveWaterMark();
             }
             else
             {
-                //But if the user didn't write anything, Then redraw the control.
+                // But if the user didn't write anything, Then redraw the control.
                 this.Invalidate();
             }
         }
 
-        private void ThisTextChanged(object sender, EventArgs e)
+        private void ThisTextChanged(Object Sender, EventArgs E)
         {
-            //If the text of the textbox is not empty
+            // If the text of the textbox is not empty
             if (this.TextLength > 0)
             {
-                //Remove the watermark
+                // Remove the watermark
                 RemoveWaterMark();
             }
             else
             {
-                //But if the text is empty, draw the watermark again.
+                // But if the text is empty, draw the watermark again.
                 DrawWaterMark();
             }
         }
 
-        #region Overrided Events
-
-        protected override void OnPaint(PaintEventArgs e)
+        protected override void OnPaint(PaintEventArgs E)
         {
-            base.OnPaint(e);
-            //Draw the watermark even in design time
+            base.OnPaint(E);
+            // Draw the watermark even in design time
             DrawWaterMark();
         }
 
-        protected override void OnInvalidated(InvalidateEventArgs e)
+        protected override void OnInvalidated(InvalidateEventArgs E)
         {
-            base.OnInvalidated(e);
-            //Check if there is a watermark
+            base.OnInvalidated(E);
+            // Check if there is a watermark
             if (WaterMarkContainer != null)
-                //if there is a watermark it should also be invalidated();
+                // If there is a watermark it should also be invalidated();
                 WaterMarkContainer.Invalidate();
         }
-
-        #endregion
-
-        #endregion
-
-        #endregion
        
-    }
-}
+    } // End class
+
+} // End namespace

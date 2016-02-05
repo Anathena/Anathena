@@ -31,7 +31,7 @@ namespace Anathema
         }
 
         // Checks if passed value is a valid hex value
-        public static Boolean HexValue(String Value, Int32 Bytes)
+        public static Boolean HexValue(String Value)
         {
             if (Value.StartsWith("0x", StringComparison.OrdinalIgnoreCase))
                 Value = Value.Substring(2);
@@ -41,12 +41,12 @@ namespace Anathema
                 return false;
 
             // Remove leading 0s and check if out of bounds
-            while (Value.Length > Bytes)
+            while (Value.Length > 0)
             {
                 if (Value.Substring(0, 1) == "0")
                     Value = Value.Substring(1);
-                else   // Value too large (there were no leading 0s that caused it)
-                    return false;
+                else
+                    break;
             }
 
             // Try to read value from hex string
@@ -59,6 +59,9 @@ namespace Anathema
 
         public static Boolean CanParseValue(Type ValueType, String Value)
         {
+            if (ValueType == null)
+                return false;
+
             switch (Type.GetTypeCode(ValueType))
             {
                 case TypeCode.Byte: return IsByte(Value);
