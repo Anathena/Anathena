@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(GUIProcessSelector));
             this.ProcessListView = new System.Windows.Forms.ListView();
             this.RightClickMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.SelectProcessToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -83,6 +84,7 @@
             this.ClientSize = new System.Drawing.Size(284, 261);
             this.Controls.Add(this.ProcessListView);
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "GUIProcessSelector";
             this.Text = "Process Selector";
             this.Resize += new System.EventHandler(this.GUIProcessSelector_Resize);

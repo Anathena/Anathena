@@ -29,26 +29,27 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(GUIInputCorrelator));
             this.VariableSizeValueLabel = new System.Windows.Forms.Label();
             this.VariableSizeLabel = new System.Windows.Forms.Label();
             this.VariableSizeTrackBar = new System.Windows.Forms.TrackBar();
             this.ScanToolStrip = new System.Windows.Forms.ToolStrip();
-            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
-            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
-            this.ScanCountLabel = new System.Windows.Forms.ToolStripLabel();
-            this.InputContextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.DeleteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.InputTextBox = new Anathema.WatermarkTextBox();
-            this.InputTreeView = new Anathema.HighlightPreservingTreeView();
             this.StartScanButton = new System.Windows.Forms.ToolStripButton();
             this.StopScanButton = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.DeleteNodeButton = new System.Windows.Forms.ToolStripButton();
             this.ClearInputsButton = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripDropDownButton1 = new System.Windows.Forms.ToolStripDropDownButton();
             this.AddInputToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.AddLogicalORToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.AddLogicalANDToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.AddLogicalNOTToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.ScanCountLabel = new System.Windows.Forms.ToolStripLabel();
+            this.InputContextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.DeleteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.InputTextBox = new Anathema.WatermarkTextBox();
+            this.InputTreeView = new Anathema.HighlightPreservingTreeView();
             ((System.ComponentModel.ISupportInitialize)(this.VariableSizeTrackBar)).BeginInit();
             this.ScanToolStrip.SuspendLayout();
             this.InputContextMenuStrip.SuspendLayout();
@@ -105,15 +106,101 @@
             this.ScanToolStrip.TabIndex = 150;
             this.ScanToolStrip.Text = "toolStrip1";
             // 
+            // StartScanButton
+            // 
+            this.StartScanButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.StartScanButton.Image = global::Anathema.Properties.Resources.RightArrow;
+            this.StartScanButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.StartScanButton.Name = "StartScanButton";
+            this.StartScanButton.Size = new System.Drawing.Size(23, 22);
+            this.StartScanButton.Text = "Start Scan";
+            this.StartScanButton.Click += new System.EventHandler(this.StartScanButton_Click);
+            // 
+            // StopScanButton
+            // 
+            this.StopScanButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.StopScanButton.Image = global::Anathema.Properties.Resources.Stop;
+            this.StopScanButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.StopScanButton.Name = "StopScanButton";
+            this.StopScanButton.Size = new System.Drawing.Size(23, 22);
+            this.StopScanButton.Text = "Stop Scan";
+            this.StopScanButton.Click += new System.EventHandler(this.StopScanButton_Click);
+            // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
             this.toolStripSeparator1.Size = new System.Drawing.Size(6, 25);
             // 
+            // DeleteNodeButton
+            // 
+            this.DeleteNodeButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.DeleteNodeButton.Image = global::Anathema.Properties.Resources.X;
+            this.DeleteNodeButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.DeleteNodeButton.Name = "DeleteNodeButton";
+            this.DeleteNodeButton.Size = new System.Drawing.Size(23, 22);
+            this.DeleteNodeButton.Text = "Delete Selection";
+            this.DeleteNodeButton.Click += new System.EventHandler(this.DeleteNodeButton_Click);
+            // 
+            // ClearInputsButton
+            // 
+            this.ClearInputsButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.ClearInputsButton.Image = global::Anathema.Properties.Resources.Cancel;
+            this.ClearInputsButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.ClearInputsButton.Name = "ClearInputsButton";
+            this.ClearInputsButton.Size = new System.Drawing.Size(23, 22);
+            this.ClearInputsButton.Text = "Clear Inputs";
+            this.ClearInputsButton.Click += new System.EventHandler(this.ClearInputsButton_Click);
+            // 
             // toolStripSeparator2
             // 
             this.toolStripSeparator2.Name = "toolStripSeparator2";
             this.toolStripSeparator2.Size = new System.Drawing.Size(6, 25);
+            // 
+            // toolStripDropDownButton1
+            // 
+            this.toolStripDropDownButton1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripDropDownButton1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.AddInputToolStripMenuItem,
+            this.AddLogicalORToolStripMenuItem,
+            this.AddLogicalANDToolStripMenuItem,
+            this.AddLogicalNOTToolStripMenuItem});
+            this.toolStripDropDownButton1.Image = global::Anathema.Properties.Resources.DownArrows;
+            this.toolStripDropDownButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripDropDownButton1.Name = "toolStripDropDownButton1";
+            this.toolStripDropDownButton1.Size = new System.Drawing.Size(29, 22);
+            this.toolStripDropDownButton1.Text = "Add Item";
+            // 
+            // AddInputToolStripMenuItem
+            // 
+            this.AddInputToolStripMenuItem.Image = global::Anathema.Properties.Resources.Increased;
+            this.AddInputToolStripMenuItem.Name = "AddInputToolStripMenuItem";
+            this.AddInputToolStripMenuItem.Size = new System.Drawing.Size(165, 22);
+            this.AddInputToolStripMenuItem.Text = "Add Input";
+            this.AddInputToolStripMenuItem.Click += new System.EventHandler(this.AddInputToolStripMenuItem_Click);
+            // 
+            // AddLogicalORToolStripMenuItem
+            // 
+            this.AddLogicalORToolStripMenuItem.Image = global::Anathema.Properties.Resources.LogicalOR;
+            this.AddLogicalORToolStripMenuItem.Name = "AddLogicalORToolStripMenuItem";
+            this.AddLogicalORToolStripMenuItem.Size = new System.Drawing.Size(165, 22);
+            this.AddLogicalORToolStripMenuItem.Text = "Add Logical OR";
+            this.AddLogicalORToolStripMenuItem.Click += new System.EventHandler(this.AddLogicalORToolStripMenuItem_Click);
+            // 
+            // AddLogicalANDToolStripMenuItem
+            // 
+            this.AddLogicalANDToolStripMenuItem.Image = global::Anathema.Properties.Resources.LogicalAND;
+            this.AddLogicalANDToolStripMenuItem.Name = "AddLogicalANDToolStripMenuItem";
+            this.AddLogicalANDToolStripMenuItem.Size = new System.Drawing.Size(165, 22);
+            this.AddLogicalANDToolStripMenuItem.Text = "Add Logical AND";
+            this.AddLogicalANDToolStripMenuItem.Click += new System.EventHandler(this.AddLogicalANDToolStripMenuItem_Click);
+            // 
+            // AddLogicalNOTToolStripMenuItem
+            // 
+            this.AddLogicalNOTToolStripMenuItem.Image = global::Anathema.Properties.Resources.Negation;
+            this.AddLogicalNOTToolStripMenuItem.Name = "AddLogicalNOTToolStripMenuItem";
+            this.AddLogicalNOTToolStripMenuItem.Size = new System.Drawing.Size(165, 22);
+            this.AddLogicalNOTToolStripMenuItem.Text = "Add Logical NOT";
+            this.AddLogicalNOTToolStripMenuItem.Click += new System.EventHandler(this.AddLogicalNOTToolStripMenuItem_Click);
             // 
             // ScanCountLabel
             // 
@@ -162,92 +249,6 @@
             this.InputTreeView.Size = new System.Drawing.Size(398, 172);
             this.InputTreeView.TabIndex = 171;
             // 
-            // StartScanButton
-            // 
-            this.StartScanButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.StartScanButton.Image = global::Anathema.Properties.Resources.RightArrow;
-            this.StartScanButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.StartScanButton.Name = "StartScanButton";
-            this.StartScanButton.Size = new System.Drawing.Size(23, 22);
-            this.StartScanButton.Text = "Start Scan";
-            this.StartScanButton.Click += new System.EventHandler(this.StartScanButton_Click);
-            // 
-            // StopScanButton
-            // 
-            this.StopScanButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.StopScanButton.Image = global::Anathema.Properties.Resources.Stop;
-            this.StopScanButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.StopScanButton.Name = "StopScanButton";
-            this.StopScanButton.Size = new System.Drawing.Size(23, 22);
-            this.StopScanButton.Text = "Stop Scan";
-            this.StopScanButton.Click += new System.EventHandler(this.StopScanButton_Click);
-            // 
-            // DeleteNodeButton
-            // 
-            this.DeleteNodeButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.DeleteNodeButton.Image = global::Anathema.Properties.Resources.X;
-            this.DeleteNodeButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.DeleteNodeButton.Name = "DeleteNodeButton";
-            this.DeleteNodeButton.Size = new System.Drawing.Size(23, 22);
-            this.DeleteNodeButton.Text = "Delete Selection";
-            this.DeleteNodeButton.Click += new System.EventHandler(this.DeleteNodeButton_Click);
-            // 
-            // ClearInputsButton
-            // 
-            this.ClearInputsButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.ClearInputsButton.Image = global::Anathema.Properties.Resources.Cancel;
-            this.ClearInputsButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.ClearInputsButton.Name = "ClearInputsButton";
-            this.ClearInputsButton.Size = new System.Drawing.Size(23, 22);
-            this.ClearInputsButton.Text = "Clear Inputs";
-            this.ClearInputsButton.Click += new System.EventHandler(this.ClearInputsButton_Click);
-            // 
-            // toolStripDropDownButton1
-            // 
-            this.toolStripDropDownButton1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripDropDownButton1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.AddInputToolStripMenuItem,
-            this.AddLogicalORToolStripMenuItem,
-            this.AddLogicalANDToolStripMenuItem,
-            this.AddLogicalNOTToolStripMenuItem});
-            this.toolStripDropDownButton1.Image = global::Anathema.Properties.Resources.DownArrows;
-            this.toolStripDropDownButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripDropDownButton1.Name = "toolStripDropDownButton1";
-            this.toolStripDropDownButton1.Size = new System.Drawing.Size(29, 22);
-            this.toolStripDropDownButton1.Text = "Add Item";
-            // 
-            // AddInputToolStripMenuItem
-            // 
-            this.AddInputToolStripMenuItem.Image = global::Anathema.Properties.Resources.Increased;
-            this.AddInputToolStripMenuItem.Name = "AddInputToolStripMenuItem";
-            this.AddInputToolStripMenuItem.Size = new System.Drawing.Size(165, 22);
-            this.AddInputToolStripMenuItem.Text = "Add Input";
-            this.AddInputToolStripMenuItem.Click += new System.EventHandler(this.AddInputToolStripMenuItem_Click);
-            // 
-            // AddLogicalORToolStripMenuItem
-            // 
-            this.AddLogicalORToolStripMenuItem.Image = global::Anathema.Properties.Resources.LogicalOR;
-            this.AddLogicalORToolStripMenuItem.Name = "AddLogicalORToolStripMenuItem";
-            this.AddLogicalORToolStripMenuItem.Size = new System.Drawing.Size(165, 22);
-            this.AddLogicalORToolStripMenuItem.Text = "Add Logical OR";
-            this.AddLogicalORToolStripMenuItem.Click += new System.EventHandler(this.AddLogicalORToolStripMenuItem_Click);
-            // 
-            // AddLogicalANDToolStripMenuItem
-            // 
-            this.AddLogicalANDToolStripMenuItem.Image = global::Anathema.Properties.Resources.LogicalAND;
-            this.AddLogicalANDToolStripMenuItem.Name = "AddLogicalANDToolStripMenuItem";
-            this.AddLogicalANDToolStripMenuItem.Size = new System.Drawing.Size(165, 22);
-            this.AddLogicalANDToolStripMenuItem.Text = "Add Logical AND";
-            this.AddLogicalANDToolStripMenuItem.Click += new System.EventHandler(this.AddLogicalANDToolStripMenuItem_Click);
-            // 
-            // AddLogicalNOTToolStripMenuItem
-            // 
-            this.AddLogicalNOTToolStripMenuItem.Image = global::Anathema.Properties.Resources.Negation;
-            this.AddLogicalNOTToolStripMenuItem.Name = "AddLogicalNOTToolStripMenuItem";
-            this.AddLogicalNOTToolStripMenuItem.Size = new System.Drawing.Size(165, 22);
-            this.AddLogicalNOTToolStripMenuItem.Text = "Add Logical NOT";
-            this.AddLogicalNOTToolStripMenuItem.Click += new System.EventHandler(this.AddLogicalNOTToolStripMenuItem_Click);
-            // 
             // GUIInputCorrelator
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -260,6 +261,7 @@
             this.Controls.Add(this.VariableSizeTrackBar);
             this.Controls.Add(this.ScanToolStrip);
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "GUIInputCorrelator";
             this.Text = "Input Correlator";
             this.Resize += new System.EventHandler(this.GUILabelerInputCorrelator_Resize);

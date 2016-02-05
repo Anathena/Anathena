@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(GUIMemoryView));
             this.GUIToolStrip = new System.Windows.Forms.ToolStrip();
             this.ViewLabel = new System.Windows.Forms.ToolStripLabel();
             this.QuickNavComboBox = new System.Windows.Forms.ToolStripComboBox();
@@ -106,6 +107,7 @@
             this.Controls.Add(this.HexEditorBox);
             this.Controls.Add(this.GUIToolStrip);
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "GUIMemoryView";
             this.Text = "Memory View";
             this.GUIToolStrip.ResumeLayout(false);

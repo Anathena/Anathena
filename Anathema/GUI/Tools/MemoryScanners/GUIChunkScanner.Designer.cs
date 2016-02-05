@@ -28,13 +28,14 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(GUIChunkScanner));
             this.StopScanButton = new System.Windows.Forms.ToolStripButton();
             this.StartScanButton = new System.Windows.Forms.ToolStripButton();
             this.ScanToolStrip = new System.Windows.Forms.ToolStrip();
+            this.ScanCountLabel = new System.Windows.Forms.ToolStripLabel();
             this.MinChangesValueLabel = new System.Windows.Forms.Label();
             this.MinChangesLabel = new System.Windows.Forms.Label();
             this.MinChangesTrackBar = new System.Windows.Forms.TrackBar();
-            this.ScanCountLabel = new System.Windows.Forms.ToolStripLabel();
             this.ScanToolStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.MinChangesTrackBar)).BeginInit();
             this.SuspendLayout();
@@ -74,6 +75,12 @@
             this.ScanToolStrip.TabIndex = 149;
             this.ScanToolStrip.Text = "toolStrip1";
             // 
+            // ScanCountLabel
+            // 
+            this.ScanCountLabel.Name = "ScanCountLabel";
+            this.ScanCountLabel.Size = new System.Drawing.Size(80, 22);
+            this.ScanCountLabel.Text = "Scan Count: 0";
+            // 
             // MinChangesValueLabel
             // 
             this.MinChangesValueLabel.AutoSize = true;
@@ -103,12 +110,6 @@
             this.MinChangesTrackBar.Value = 3;
             this.MinChangesTrackBar.Scroll += new System.EventHandler(this.MinChangesTrackBar_Scroll);
             // 
-            // ScanCountLabel
-            // 
-            this.ScanCountLabel.Name = "ScanCountLabel";
-            this.ScanCountLabel.Size = new System.Drawing.Size(80, 22);
-            this.ScanCountLabel.Text = "Scan Count: 0";
-            // 
             // GUIChunkScanner
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -119,6 +120,7 @@
             this.Controls.Add(this.MinChangesTrackBar);
             this.Controls.Add(this.ScanToolStrip);
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "GUIChunkScanner";
             this.Text = "Chunk Scanner";
             this.Resize += new System.EventHandler(this.GUIFilterChunks_Resize);

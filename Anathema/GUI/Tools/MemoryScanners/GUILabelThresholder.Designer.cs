@@ -28,8 +28,9 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea4 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Series series4 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(GUILabelThresholder));
             this.LabelFrequencyChart = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.MaxValueTrackBar = new System.Windows.Forms.TrackBar();
             this.MinValueTrackBar = new System.Windows.Forms.TrackBar();
@@ -50,20 +51,20 @@
             // 
             // LabelFrequencyChart
             // 
-            chartArea4.AxisX.MajorGrid.Enabled = false;
-            chartArea4.AxisX.MajorTickMark.Enabled = false;
-            chartArea4.AxisX.Title = "Label";
-            chartArea4.AxisY.MajorGrid.Enabled = false;
-            chartArea4.AxisY.MajorTickMark.Enabled = false;
-            chartArea4.AxisY.Title = "Frequency";
-            chartArea4.Name = "LabelFrequencyChartArea";
-            this.LabelFrequencyChart.ChartAreas.Add(chartArea4);
+            chartArea1.AxisX.MajorGrid.Enabled = false;
+            chartArea1.AxisX.MajorTickMark.Enabled = false;
+            chartArea1.AxisX.Title = "Label";
+            chartArea1.AxisY.MajorGrid.Enabled = false;
+            chartArea1.AxisY.MajorTickMark.Enabled = false;
+            chartArea1.AxisY.Title = "Frequency";
+            chartArea1.Name = "LabelFrequencyChartArea";
+            this.LabelFrequencyChart.ChartAreas.Add(chartArea1);
             this.LabelFrequencyChart.Dock = System.Windows.Forms.DockStyle.Fill;
             this.LabelFrequencyChart.Location = new System.Drawing.Point(0, 25);
             this.LabelFrequencyChart.Name = "LabelFrequencyChart";
-            series4.ChartArea = "LabelFrequencyChartArea";
-            series4.Name = "Frequency";
-            this.LabelFrequencyChart.Series.Add(series4);
+            series1.ChartArea = "LabelFrequencyChartArea";
+            series1.Name = "Frequency";
+            this.LabelFrequencyChart.Series.Add(series1);
             this.LabelFrequencyChart.Size = new System.Drawing.Size(486, 186);
             this.LabelFrequencyChart.TabIndex = 0;
             this.LabelFrequencyChart.Text = "Label Thresholder";
@@ -184,6 +185,7 @@
             this.Controls.Add(this.ScanToolStrip);
             this.Controls.Add(this.panel1);
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "GUILabelThresholder";
             this.Text = "Label Thresholder";
             ((System.ComponentModel.ISupportInitialize)(this.LabelFrequencyChart)).EndInit();

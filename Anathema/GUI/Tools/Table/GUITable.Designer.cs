@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(GUITable));
             this.CheatTableSplitContainer = new System.Windows.Forms.SplitContainer();
             this.AddressTableListView = new Anathema.CheckableListView();
             this.FrozenHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
@@ -329,6 +330,7 @@
             this.Controls.Add(this.ScanToolStrip);
             this.Controls.Add(this.FSMTableListView);
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "GUITable";
             this.Text = "Table";
             this.CheatTableSplitContainer.Panel1.ResumeLayout(false);

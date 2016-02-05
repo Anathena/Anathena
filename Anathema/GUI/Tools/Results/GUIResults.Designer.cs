@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(GUIResults));
             this.RightClickMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.AddToCheatsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ChangeTypeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -216,6 +217,7 @@
             this.Controls.Add(this.ResultsListView);
             this.Controls.Add(this.GUIToolStrip);
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "GUIResults";
             this.Text = "Results";
             this.RightClickMenu.ResumeLayout(false);
