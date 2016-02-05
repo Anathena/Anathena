@@ -142,7 +142,10 @@ namespace Anathema
             if (ActiveSnapshot == null)
                 return;
 
-            Table.GetInstance().AddTableItem((UInt64)ActiveSnapshot[Index].BaseAddress, ScanType);
+            String Value = String.Empty;
+            IndexValueMap.TryGetValue(Index, out Value);
+
+            Table.GetInstance().AddTableItem(unchecked((UInt64)ActiveSnapshot[Index].BaseAddress), ScanType, Value);
         }
 
         public override IntPtr GetAddressAtIndex(Int32 Index)

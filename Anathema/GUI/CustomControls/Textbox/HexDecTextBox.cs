@@ -114,7 +114,7 @@ namespace Anathema
 
         private void ConvertToDecMenuItem_Click(Object Sender, EventArgs E)
         {
-            if (CheckSyntax.CanParseAddress(this.Text))
+            if (CheckSyntax.CanParseHex(ElementType, this.Text))
                 this.Text = Conversions.ParseHexAsDec(ElementType, this.Text).ToString();
 
             this.IsHex = false;
@@ -135,7 +135,7 @@ namespace Anathema
         {
             if (IsHex)
             {
-                if ((CheckSyntax.CanParseAddress(this.Text) && CheckSyntax.CanParseValue(ElementType, Conversions.AddressToValue(this.Text).ToString())))
+                if ((CheckSyntax.CanParseHex(ElementType, this.Text)))
                 {
                     TextValid = true;
                     return;

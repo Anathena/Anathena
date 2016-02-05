@@ -149,9 +149,9 @@ namespace Anathema
             CurrentTableData.AddressTable[Index].SetActivationState(Activated);
         }
 
-        public void AddTableItem(UInt64 BaseAddress, Type ElementType)
+        public void AddTableItem(UInt64 BaseAddress, Type ElementType, String Value = null)
         {
-            CurrentTableData.AddressTable.Add(new AddressItem(BaseAddress, ElementType));
+            CurrentTableData.AddressTable.Add(new AddressItem(BaseAddress, ElementType, Value));
 
             TableEventArgs TableEventArgs = new TableEventArgs();
             TableEventArgs.ItemCount = CurrentTableData.AddressTable.Count;

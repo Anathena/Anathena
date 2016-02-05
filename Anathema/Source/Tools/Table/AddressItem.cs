@@ -30,10 +30,16 @@ namespace Anathema
         private dynamic _Value;
         public dynamic Value { get { return _Value; } set { if (!Activated) _Value = value; } }
 
-        public AddressItem(UInt64 Address, Type ElementType)
+        public AddressItem(UInt64 Address, Type ElementType, String Value = null)
         {
             this.Address = Address;
             this.ElementType = ElementType;
+
+            if (!IsHex && CheckSyntax.CanParseValue(ElementType, Value))
+                this.Value = Conversions.ParseValue(ElementType, Value);
+            else if (IsHex && CheckSyntax.CanParseHex(ElementType, Value))
+                this.Value = Conversions.ParseHexAsDec(ElementType, Value);
+
             Offsets = null;
         }
 

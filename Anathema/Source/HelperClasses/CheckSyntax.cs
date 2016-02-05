@@ -8,12 +8,10 @@ namespace Anathema
 {
     public static class CheckSyntax
     {
-        private static unsafe int MaxHexAddressLength = sizeof(IntPtr) * 2;
-
         // Checks if passed value is a valid address
         public static Boolean CanParseAddress(String Address, Boolean MustBe32Bit = false)
         {
-            // Remove 0x
+            // Remove 0x hex specifier
             if (Address.StartsWith("0x", StringComparison.OrdinalIgnoreCase))
                 Address = Address.Substring(2);
 
@@ -21,24 +19,10 @@ namespace Anathema
             while (Address.StartsWith("0"))
                 Address = Address.Substring(1);
 
-            // Bounds checking
-            if (Address == String.Empty || Address.Length > MaxHexAddressLength)
-                return false;
-
             if (MustBe32Bit)
-            {
-                UInt32 Result;
-                if (UInt32.TryParse(Address, System.Globalization.NumberStyles.HexNumber, null, out Result))
-                    return true;
-            }
+                return IsUInt32(Address, true);
             else
-            {
-                UInt64 Result;
-                if (UInt64.TryParse(Address, System.Globalization.NumberStyles.HexNumber, null, out Result))
-                    return true;
-            }
-
-            return false;
+                return IsUInt64(Address, true);
         }
 
         public static Boolean CanParseValue(Type ValueType, String Value)
@@ -62,64 +46,123 @@ namespace Anathema
             }
         }
 
-        public static Boolean IsByte(String Value)
+        public static Boolean CanParseHex(Type ValueType, String Value)
+        {
+            if (!CanParseAddress(Value))
+                return false;
+
+            // Remove 0x hex specifier
+            if (Value.StartsWith("0x", StringComparison.OrdinalIgnoreCase))
+                Value = Value.Substring(2);
+
+            // Remove trailing 0s
+            while (Value.StartsWith("0"))
+                Value = Value.Substring(1);
+
+            switch (Type.GetTypeCode(ValueType))
+            {
+                case TypeCode.Byte: return IsByte(Value, true);
+                case TypeCode.SByte: return IsSByte(Value, true);
+                case TypeCode.Int16: return IsInt16(Value, true);
+                case TypeCode.Int32: return IsInt32(Value, true);
+                case TypeCode.Int64: return IsInt64(Value, true);
+                case TypeCode.UInt16: return IsUInt16(Value, true);
+                case TypeCode.UInt32: return IsUInt32(Value, true);
+                case TypeCode.UInt64: return IsUInt64(Value, true);
+                case TypeCode.Single: return IsSingle(Value, true);
+                case TypeCode.Double: return IsDouble(Value, true);
+                default: return false;
+            }
+        }
+
+        public static Boolean IsByte(String Value, Boolean IsHex = false)
         {
             Byte Temp;
-            return Byte.TryParse(Value, out Temp);
+            if (IsHex)
+                return Byte.TryParse(Value, System.Globalization.NumberStyles.HexNumber, null, out Temp);
+            else
+                return Byte.TryParse(Value, out Temp);
         }
 
-        public static Boolean IsSByte(String Value)
+        public static Boolean IsSByte(String Value, Boolean IsHex = false)
         {
             SByte Temp;
-            return SByte.TryParse(Value, out Temp);
+            if (IsHex)
+                return SByte.TryParse(Value, System.Globalization.NumberStyles.HexNumber, null, out Temp);
+            else
+                return SByte.TryParse(Value, out Temp);
         }
 
-        public static Boolean IsInt16(String Value)
+        public static Boolean IsInt16(String Value, Boolean IsHex = false)
         {
             Int16 Temp;
-            return Int16.TryParse(Value, out Temp);
+            if (IsHex)
+                return Int16.TryParse(Value, System.Globalization.NumberStyles.HexNumber, null, out Temp);
+            else
+                return Int16.TryParse(Value, out Temp);
         }
 
-        public static Boolean IsUInt16(String Value)
+        public static Boolean IsUInt16(String Value, Boolean IsHex = false)
         {
             UInt16 Temp;
-            return UInt16.TryParse(Value, out Temp);
+            if (IsHex)
+                return UInt16.TryParse(Value, System.Globalization.NumberStyles.HexNumber, null, out Temp);
+            else
+                return UInt16.TryParse(Value, out Temp);
         }
 
-        public static Boolean IsInt32(String Value)
+        public static Boolean IsInt32(String Value, Boolean IsHex = false)
         {
             Int32 Temp;
-            return Int32.TryParse(Value, out Temp);
+            if (IsHex)
+                return Int32.TryParse(Value, System.Globalization.NumberStyles.HexNumber, null, out Temp);
+            else
+                return Int32.TryParse(Value, out Temp);
         }
 
-        public static Boolean IsUInt32(String Value)
+        public static Boolean IsUInt32(String Value, Boolean IsHex = false)
         {
             UInt32 Temp;
-            return UInt32.TryParse(Value, out Temp);
+            if (IsHex)
+                return UInt32.TryParse(Value, System.Globalization.NumberStyles.HexNumber, null, out Temp);
+            else
+                return UInt32.TryParse(Value, out Temp);
         }
 
-        public static Boolean IsInt64(String Value)
+        public static Boolean IsInt64(String Value, Boolean IsHex = false)
         {
             Int64 Temp;
-            return Int64.TryParse(Value, out Temp);
+            if (IsHex)
+                return Int64.TryParse(Value, System.Globalization.NumberStyles.HexNumber, null, out Temp);
+            else
+                return Int64.TryParse(Value, out Temp);
         }
 
-        public static Boolean IsUInt64(String Value)
+        public static Boolean IsUInt64(String Value, Boolean IsHex = false)
         {
             UInt64 Temp;
-            return UInt64.TryParse(Value, out Temp);
+            if (IsHex)
+                return UInt64.TryParse(Value, System.Globalization.NumberStyles.HexNumber, null, out Temp);
+            else
+                return UInt64.TryParse(Value, out Temp);
         }
 
-        public static Boolean IsSingle(String Value)
+        public static Boolean IsSingle(String Value, Boolean IsHex = false)
         {
             Single Temp;
-            return Single.TryParse(Value, out Temp);
+            if (IsHex)
+                return Single.TryParse(Value, System.Globalization.NumberStyles.HexNumber, null, out Temp);
+            else
+                return Single.TryParse(Value, out Temp);
         }
 
-        public static Boolean IsDouble(String Value)
+        public static Boolean IsDouble(String Value, Boolean IsHex = false)
         {
             Double Temp;
-            return Double.TryParse(Value, out Temp);
+            if (IsHex)
+                return Double.TryParse(Value, System.Globalization.NumberStyles.HexNumber, null, out Temp);
+            else
+                return Double.TryParse(Value, out Temp);
         }
 
     } // End class
