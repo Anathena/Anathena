@@ -61,6 +61,7 @@
             // 
             this.ValueTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.ValueTextBox.ForeColor = System.Drawing.Color.Red;
             this.ValueTextBox.IsHex = false;
             this.ValueTextBox.Location = new System.Drawing.Point(12, 28);
             this.ValueTextBox.Name = "ValueTextBox";
@@ -152,7 +153,7 @@
             this.ClearConstraintsButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.ClearConstraintsButton.Name = "ClearConstraintsButton";
             this.ClearConstraintsButton.Size = new System.Drawing.Size(23, 22);
-            this.ClearConstraintsButton.Text = "toolStripButton3";
+            this.ClearConstraintsButton.Text = "Clear Constraints";
             this.ClearConstraintsButton.Click += new System.EventHandler(this.ClearConstraintsButton_Click);
             // 
             // toolStripSeparator1

@@ -150,8 +150,8 @@ namespace Anathema
         public static Boolean IsSingle(String Value, Boolean IsHex = false)
         {
             Single Temp;
-            if (IsHex)
-                return Single.TryParse(Value, System.Globalization.NumberStyles.HexNumber, null, out Temp);
+            if (IsHex && IsUInt32(Value, IsHex))
+                return Single.TryParse(Conversions.ParseHexAsDec(typeof(Single), Value), out Temp);
             else
                 return Single.TryParse(Value, out Temp);
         }
@@ -159,8 +159,8 @@ namespace Anathema
         public static Boolean IsDouble(String Value, Boolean IsHex = false)
         {
             Double Temp;
-            if (IsHex)
-                return Double.TryParse(Value, System.Globalization.NumberStyles.HexNumber, null, out Temp);
+            if (IsHex && IsUInt64(Value, IsHex))
+                return Double.TryParse(Conversions.ParseHexAsDec(typeof(Double), Value), out Temp);
             else
                 return Double.TryParse(Value, out Temp);
         }
