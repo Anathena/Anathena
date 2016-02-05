@@ -46,11 +46,12 @@ namespace Anathema
 
         private void InitializeDefaultItems()
         {
+            // Collect address item that was opened and set the display properties
             AddressItem AddressItem = Table.GetInstance().GetAddressItemAt(AddressTableItemIndicies.Last());
             DescriptionTextBox.Text = AddressItem.Description;
             ValueTypeComboBox.SelectedIndex = ValueTypeComboBox.Items.IndexOf(AddressItem.ElementType.Name);
             AddressTextBox.Text = Conversions.ToAddress(AddressItem.Address);
-            // IsHexCheckBox.Checked = AddressItem.IsHex;
+            ValueTextBox.IsHex = AddressItem.IsHex;
 
             if (AddressItem.Offsets != null)
                 foreach (Int32 Offset in AddressItem.Offsets)
@@ -67,9 +68,9 @@ namespace Anathema
 
         private void AddOffsetButton_Click(Object Sender, EventArgs E)
         {
-            if (CheckSyntax.CanParseAddress(OffsetTextBox.Text))
+            if (CheckSyntax.CanParseAddress(OffsetTextBox.GetValueAsHexidecimal()))
             {
-                OffsetListBox.Items.Add(OffsetTextBox.Text);
+                OffsetListBox.Items.Add(OffsetTextBox.GetValueAsHexidecimal());
                 OffsetTextBox.Text = String.Empty;
             }
         }
@@ -82,43 +83,20 @@ namespace Anathema
 
         private void OkButton_Click(Object Sender, EventArgs E)
         {
-            TableAddressEntryEditorPresenter.AcceptChanges(MainSelection, AddressTableItemIndicies, DescriptionTextBox.Text, AddressTextBox.Text,
-                ValueTypeComboBox.SelectedItem.ToString(), ValueTextBox.Text, OffsetListBox.Items.OfType<String>().ToArray(), false);
+            // Accept the updated changes
+            TableAddressEntryEditorPresenter.AcceptChanges(MainSelection, AddressTableItemIndicies, DescriptionTextBox.Text, AddressTextBox.GetValueAsHexidecimal(),
+                ValueTypeComboBox.SelectedItem.ToString(), ValueTextBox.GetValueAsDecimal(), OffsetListBox.Items.OfType<String>().ToArray(), ValueTextBox.IsHex);
 
             this.Close();
         }
 
-        private void OffsetTextBox_TextChanged(Object Sender, EventArgs E)
-        {
-            return;
-            if (CheckSyntax.CanParseAddress(OffsetTextBox.Text))
-            {
-                OffsetTextBox.ForeColor = Color.Black;
-                AddOffsetButton.Enabled = true;
-            }
-            else
-            {
-                OffsetTextBox.ForeColor = Color.Red;
-                AddOffsetButton.Enabled = false;
-            }
-        }
-
-        private void ValueTextBox_TextChanged(Object Sender, EventArgs E)
-        {
-            if (CheckSyntax.CanParseValue(Conversions.StringToPrimitiveType(ValueTypeComboBox.SelectedItem.ToString()), ValueTextBox.Text))
-                ValueTextBox.ForeColor = SystemColors.ControlText;
-            else
-                ValueTextBox.ForeColor = Color.Red;
-        }
-
         private void ValueTypeComboBox_SelectedIndexChanged(Object Sender, EventArgs E)
         {
-            ValueTextBox_TextChanged(Sender, E);
-
-            // ValueTextBox.SetElementType(Conversions.StringToPrimitiveType(ValueTypeComboBox.SelectedItem.ToString()));
+            ValueTextBox.SetElementType(Conversions.StringToPrimitiveType(ValueTypeComboBox.SelectedItem.ToString()));
         }
 
         #endregion
+        
+    } // End class
 
-    }
-}
+} // End namespace

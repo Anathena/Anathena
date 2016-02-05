@@ -5,9 +5,9 @@ using System.Windows.Forms;
 namespace Anathema
 {
     /// <summary>
-    /// A textbox that supports a watermak hint.
+    /// A textbox that allows for hex and dec values to be stored, validated, and colored. Extends WatermarkTextBox.
     /// </summary>
-    public class HexDecTextBox : TextBox
+    public class HexDecTextBox : WatermarkTextBox
     {
         protected Boolean _IsHex;
         public Boolean IsHex
@@ -64,7 +64,7 @@ namespace Anathema
         public void SetElementType(Type ElementType)
         {
             this.ElementType = ElementType;
-            UpdateColor();
+            UpdateValidity();
         }
 
         public String GetValueAsDecimal()
@@ -86,14 +86,14 @@ namespace Anathema
             if (IsHex)
                 return Conversions.ParseValue(ElementType, Conversions.ParseHexAsDec(ElementType, this.Text)).ToString("X");
             else
-                return Conversions.ParseAsHex(ElementType, Conversions.ParseValue(ElementType, this.Text));
+                return Conversions.ParseAsHex(ElementType, Conversions.ParseValue(ElementType, this.Text).ToString());
         }
 
         public Boolean IsValid()
         {
             return TextValid;
         }
-
+        
         private void HexidecimalMenuItem_Click(Object Sender, EventArgs E)
         {
             this.IsHex = true;

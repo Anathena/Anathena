@@ -32,17 +32,17 @@
             this.ValueTypeComboBox = new System.Windows.Forms.ComboBox();
             this.DescriptionLabel = new System.Windows.Forms.Label();
             this.ValueTypeLabel = new System.Windows.Forms.Label();
-            this.AddressTextBox = new HexDecTextBox();
+            this.AddressTextBox = new Anathema.HexDecTextBox();
             this.AddressLabel = new System.Windows.Forms.Label();
             this.ValueLabel = new System.Windows.Forms.Label();
             this.OffsetListBox = new System.Windows.Forms.ListBox();
-            this.OffsetTextBox = new HexDecTextBox();
+            this.OffsetTextBox = new Anathema.HexDecTextBox();
             this.AddOffsetButton = new System.Windows.Forms.Button();
             this.RemoveOffsetButton = new System.Windows.Forms.Button();
             this.OffsetLabel = new System.Windows.Forms.Label();
             this.OkButton = new System.Windows.Forms.Button();
             this.CancelButton = new System.Windows.Forms.Button();
-            this.ValueTextBox = new Anathema.WatermarkTextBox();
+            this.ValueTextBox = new Anathema.HexDecTextBox();
             this.SuspendLayout();
             // 
             // DescriptionTextBox
@@ -85,10 +85,15 @@
             // 
             this.AddressTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.AddressTextBox.ForeColor = System.Drawing.Color.Red;
+            this.AddressTextBox.IsHex = true;
             this.AddressTextBox.Location = new System.Drawing.Point(80, 92);
             this.AddressTextBox.Name = "AddressTextBox";
             this.AddressTextBox.Size = new System.Drawing.Size(212, 20);
             this.AddressTextBox.TabIndex = 3;
+            this.AddressTextBox.WatermarkColor = System.Drawing.Color.LightGray;
+            this.AddressTextBox.WaterMarkFont = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.AddressTextBox.WaterMarkText = null;
             // 
             // AddressLabel
             // 
@@ -125,11 +130,15 @@
             // 
             this.OffsetTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.OffsetTextBox.ForeColor = System.Drawing.Color.Red;
+            this.OffsetTextBox.IsHex = true;
             this.OffsetTextBox.Location = new System.Drawing.Point(80, 117);
             this.OffsetTextBox.Name = "OffsetTextBox";
             this.OffsetTextBox.Size = new System.Drawing.Size(50, 20);
             this.OffsetTextBox.TabIndex = 4;
-            this.OffsetTextBox.TextChanged += new System.EventHandler(this.OffsetTextBox_TextChanged);
+            this.OffsetTextBox.WatermarkColor = System.Drawing.Color.LightGray;
+            this.OffsetTextBox.WaterMarkFont = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.OffsetTextBox.WaterMarkText = null;
             // 
             // AddOffsetButton
             // 
@@ -188,6 +197,7 @@
             // 
             this.ValueTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.ValueTextBox.IsHex = false;
             this.ValueTextBox.Location = new System.Drawing.Point(80, 65);
             this.ValueTextBox.Name = "ValueTextBox";
             this.ValueTextBox.Size = new System.Drawing.Size(212, 20);
@@ -195,7 +205,6 @@
             this.ValueTextBox.WatermarkColor = System.Drawing.Color.LightGray;
             this.ValueTextBox.WaterMarkFont = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.ValueTextBox.WaterMarkText = "(Insert Value to Overwrite Current Value)";
-            this.ValueTextBox.TextChanged += new System.EventHandler(this.ValueTextBox_TextChanged);
             // 
             // GUIAddressTableEntryEditor
             // 
@@ -242,6 +251,6 @@
         private System.Windows.Forms.Label OffsetLabel;
         private System.Windows.Forms.Button OkButton;
         private System.Windows.Forms.Button CancelButton;
-        private WatermarkTextBox ValueTextBox;
+        private HexDecTextBox ValueTextBox;
     }
 }

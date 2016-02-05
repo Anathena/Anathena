@@ -2,6 +2,7 @@
 using Binarysharp.MemoryManagement.Memory;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -169,13 +170,15 @@ namespace Anathema
             // Add the properties to the manager and get the list view item back
             Item = AddressTableCache.Add(Index, new String[] { String.Empty, String.Empty, String.Empty, String.Empty, String.Empty });
 
+            Item.ForeColor = AddressItem.IsHex ? Color.Green : SystemColors.ControlText;
+
             Item.SubItems[FreezeCheckBoxIndex].Text = String.Empty;
             Item.SubItems[DescriptionIndex].Text = (AddressItem.Description == null ? String.Empty : AddressItem.Description);
             Item.SubItems[AddressIndex].Text = Conversions.ToAddress(AddressItem.Address);
             Item.SubItems[TypeIndex].Text = AddressItem.ElementType == null ? String.Empty : AddressItem.ElementType.Name;
             Item.SubItems[ValueIndex].Text = "-";
             Item.Checked = AddressItem.GetActivationState();
-
+            
             return Item;
         }
 
