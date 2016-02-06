@@ -41,6 +41,7 @@ namespace Anathema
         private List<Tuple<UInt64, List<Int32>>> AcceptedPointers;
 
         // User parameters
+        private Type ElementType;
         private UInt64 TargetAddress;
         private Int32 MaxPointerLevel;
         private UInt64 MaxPointerOffset;
@@ -75,6 +76,11 @@ namespace Anathema
             this.MemoryEditor = MemoryEditor;
         }
 
+        public override void SetElementType(Type ElementType)
+        {
+            this.ElementType = ElementType;
+        }
+
         public override void SetTargetAddress(UInt64 Address)
         {
             TargetAddress = Address;
@@ -103,12 +109,34 @@ namespace Anathema
             OnEventScanFinished(Args);
         }
 
+        public override void AddSelectionToTable(Int32 MinIndex, Int32 MaxIndex)
+        {
+            const Int32 MaxAdd = 4096;
+
+            if (MinIndex < 0)
+                MinIndex = 0;
+
+            if (MaxIndex > AcceptedPointers.Count)
+                MaxIndex = AcceptedPointers.Count;
+
+            Int32 Count = 0;
+            for (Int32 Index = MinIndex; Index <= MaxIndex; Index++)
+            {
+                String Value = String.Empty;
+                // IndexValueMap.TryGetValue(Index, out Value);
+
+                Table.GetInstance().AddTableItem(AcceptedPointers[Index].Item1, ElementType, "Pointer", Value: Value);
+
+                if (++Count >= MaxAdd)
+                    break;
+            }
+        }
+
         public override String GetValueAtIndex(Int32 Index)
         {
             Tuple<UInt64, List<Int32>> FullPointer = AcceptedPointers[Index];
             UInt64 Pointer = FullPointer.Item1;
             List<Int32> Offsets = FullPointer.Item2;
-
 
             Boolean SuccessReading = true;
 

@@ -65,7 +65,7 @@ namespace Anathema
         }
 
         // Functions invoked by presenter (downstream)
-        public abstract void AddSelectionToTable(Int32 Index);
+        public abstract void AddSelectionToTable(Int32 MinIndex, Int32 MaxIndex);
 
         public abstract IntPtr GetAddressAtIndex(Int32 Index);
         public abstract String GetValueAtIndex(Int32 Index);
@@ -130,9 +130,9 @@ namespace Anathema
             return Item;
         }
 
-        public void AddSelectionToTable(Int32 Index)
+        public void AddSelectionToTable(Int32 MinIndex, Int32 MaxIndex)
         {
-            Model.AddSelectionToTable(Index);
+            Model.AddSelectionToTable(MinIndex, MaxIndex);
         }
 
         public void UpdateScanType(Type ScanType)

@@ -105,21 +105,14 @@ namespace Anathema
 
         private void AddSelectedElements()
         {
-            const Int32 AddMaximum = 4096;
+            if (ResultsListView.SelectedIndices.Count <= 0)
+                return;
 
-            Int32 Count = 0;
-            foreach (Int32 Index in ResultsListView.SelectedIndices)
-            { 
-                ResultsPresenter.AddSelectionToTable(Index);
-
-                // Prevent adding too many elements. No user would do this intentionally.
-                if (++Count > AddMaximum)
-                    break;
-            }
+            ResultsPresenter.AddSelectionToTable(ResultsListView.SelectedIndices[0], ResultsListView.SelectedIndices[ResultsListView.SelectedIndices.Count - 1]);
         }
 
         #region Events
-        
+
         private void ByteToolStripMenuItem_Click(Object Sender, EventArgs E)
         {
             ResultsPresenter.UpdateScanType(typeof(SByte));

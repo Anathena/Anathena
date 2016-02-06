@@ -41,10 +41,13 @@ namespace Anathema
         public abstract void BeginPointerScan();
         public abstract void BeginPointerRescan();
 
+        public abstract void AddSelectionToTable(Int32 MinIndex, Int32 MaxIndex);
+
         public abstract String GetValueAtIndex(Int32 Index);
         public abstract String GetBaseAddress(Int32 Index);
         public abstract String[] GetOffsets(Int32 Index);
 
+        public abstract void SetElementType(Type ElementType);
         public abstract void SetTargetAddress(UInt64 Address);
         public abstract void SetMaxPointerLevel(Int32 MaxPointerLevel);
         public abstract void SetMaxPointerOffset(UInt64 MaxOffset);
@@ -86,6 +89,11 @@ namespace Anathema
             Model.BeginPointerRescan();
         }
 
+        public void SetElementType(Type ElementType)
+        {
+            Model.SetElementType(ElementType);
+        }
+
         public ListViewItem GetItemAt(Int32 Index)
         {
             ListViewItem Item = ListViewCache.Get((UInt64)Index);
@@ -106,6 +114,11 @@ namespace Anathema
 
 
             return Item;
+        }
+
+        public void AddSelectionToTable(Int32 MinIndex, Int32 MaxIndex)
+        {
+            Model.AddSelectionToTable(MinIndex, MaxIndex);
         }
 
         public Boolean TrySetTargetAddress(String TargetAddress)

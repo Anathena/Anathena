@@ -33,6 +33,8 @@
             this.StartScanButton = new System.Windows.Forms.ToolStripButton();
             this.RebuildPointersButton = new System.Windows.Forms.ToolStripButton();
             this.StopScanButton = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.AddSelectedResultsButton = new System.Windows.Forms.ToolStripButton();
             this.TargetAddressTextBox = new System.Windows.Forms.TextBox();
             this.TargetAddressLabel = new System.Windows.Forms.Label();
             this.MaxOffsetLabel = new System.Windows.Forms.Label();
@@ -42,6 +44,7 @@
             this.PointerListView = new Anathema.FlickerFreeListView();
             this.ValueHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.BaseHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.ValueTypeComboBox = new System.Windows.Forms.ComboBox();
             this.ScanToolStrip.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -51,7 +54,9 @@
             this.ScanToolStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.StartScanButton,
             this.RebuildPointersButton,
-            this.StopScanButton});
+            this.StopScanButton,
+            this.toolStripSeparator1,
+            this.AddSelectedResultsButton});
             this.ScanToolStrip.Location = new System.Drawing.Point(0, 0);
             this.ScanToolStrip.Name = "ScanToolStrip";
             this.ScanToolStrip.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
@@ -88,6 +93,21 @@
             this.StopScanButton.Text = "Stop Scan";
             this.StopScanButton.ToolTipText = "Stop Scan";
             this.StopScanButton.Click += new System.EventHandler(this.StopScanButton_Click);
+            // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 25);
+            // 
+            // AddSelectedResultsButton
+            // 
+            this.AddSelectedResultsButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.AddSelectedResultsButton.Image = global::Anathema.Properties.Resources.DownArrows;
+            this.AddSelectedResultsButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.AddSelectedResultsButton.Name = "AddSelectedResultsButton";
+            this.AddSelectedResultsButton.Size = new System.Drawing.Size(23, 22);
+            this.AddSelectedResultsButton.Text = "Add Selected to Table";
+            this.AddSelectedResultsButton.Click += new System.EventHandler(this.AddSelectedResultsButton_Click);
             // 
             // TargetAddressTextBox
             // 
@@ -148,6 +168,7 @@
             this.PointerListView.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.ValueHeader,
             this.BaseHeader});
+            this.PointerListView.FullRowSelect = true;
             this.PointerListView.Location = new System.Drawing.Point(17, 80);
             this.PointerListView.Name = "PointerListView";
             this.PointerListView.Size = new System.Drawing.Size(376, 186);
@@ -156,6 +177,7 @@
             this.PointerListView.View = System.Windows.Forms.View.Details;
             this.PointerListView.VirtualMode = true;
             this.PointerListView.RetrieveVirtualItem += new System.Windows.Forms.RetrieveVirtualItemEventHandler(this.PointerListView_RetrieveVirtualItem);
+            this.PointerListView.DoubleClick += new System.EventHandler(this.PointerListView_DoubleClick);
             // 
             // ValueHeader
             // 
@@ -167,11 +189,22 @@
             this.BaseHeader.Text = "Base";
             this.BaseHeader.Width = 94;
             // 
+            // ValueTypeComboBox
+            // 
+            this.ValueTypeComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.ValueTypeComboBox.FormattingEnabled = true;
+            this.ValueTypeComboBox.Location = new System.Drawing.Point(79, 53);
+            this.ValueTypeComboBox.Name = "ValueTypeComboBox";
+            this.ValueTypeComboBox.Size = new System.Drawing.Size(134, 21);
+            this.ValueTypeComboBox.TabIndex = 158;
+            this.ValueTypeComboBox.SelectedIndexChanged += new System.EventHandler(this.ValueTypeComboBox_SelectedIndexChanged);
+            // 
             // GUIPointerScanner
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(402, 278);
+            this.Controls.Add(this.ValueTypeComboBox);
             this.Controls.Add(this.PointerListView);
             this.Controls.Add(this.MaxLevelTextBox);
             this.Controls.Add(this.MaxLevelLabel);
@@ -205,5 +238,8 @@
         private System.Windows.Forms.ColumnHeader ValueHeader;
         private System.Windows.Forms.ToolStripButton RebuildPointersButton;
         private System.Windows.Forms.ColumnHeader BaseHeader;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
+        private System.Windows.Forms.ToolStripButton AddSelectedResultsButton;
+        private System.Windows.Forms.ComboBox ValueTypeComboBox;
     }
 }

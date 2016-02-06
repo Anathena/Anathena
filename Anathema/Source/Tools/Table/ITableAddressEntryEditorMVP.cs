@@ -48,8 +48,8 @@ namespace Anathema
             foreach (String Offset in Offsets)
                 OffsetsInt.Add((Int32)Conversions.AddressToValue(Offset));
 
-            AddressItem AddressItem = new AddressItem(Conversions.AddressToValue(Address), Description,
-                Conversions.StringToPrimitiveType(ValueType), OffsetsInt.ToArray(), IsHex);
+            AddressItem AddressItem = new AddressItem(Conversions.AddressToValue(Address), Conversions.StringToPrimitiveType(ValueType), Description,
+                 OffsetsInt.ToArray(), IsHex);
 
             if (CheckSyntax.CanParseValue(Conversions.StringToPrimitiveType(ValueType), Value))
                 AddressItem.Value = Conversions.ParseValue(Conversions.StringToPrimitiveType(ValueType), Value);

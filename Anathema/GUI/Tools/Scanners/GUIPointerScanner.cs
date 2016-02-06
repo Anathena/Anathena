@@ -25,6 +25,7 @@ namespace Anathema
 
             PointerScannerPresenter = new PointerScannerPresenter(this, new PointerScanner());
 
+            InitializeValueTypeComboBox();
             InitializeDefaults();
             EnableGUI();
         }
@@ -33,6 +34,14 @@ namespace Anathema
         {
             MaxLevelTextBox.Text = DefaultLevel.ToString();
             MaxOffsetTextBox.Text = DefaultOffset.ToString();
+        }
+
+        private void InitializeValueTypeComboBox()
+        {
+            foreach (Type Primitive in PrimitiveTypes.GetPrimitiveTypes())
+                ValueTypeComboBox.Items.Add(Primitive.Name);
+
+            ValueTypeComboBox.SelectedIndex = ValueTypeComboBox.Items.IndexOf(typeof(Int32).Name);
         }
 
         public void DisplayScanCount(Int32 ScanCount) { }
@@ -46,7 +55,7 @@ namespace Anathema
                 // Remove offset columns
                 while (PointerListView.Columns.Count > 2)
                     PointerListView.Columns.RemoveAt(2);
-                
+
                 // Create offset columns based on max level
                 for (Int32 OffsetIndex = 0; OffsetIndex < MaxPointerLevel; OffsetIndex++)
                     PointerListView.Columns.Add("Offset " + OffsetIndex.ToString());
@@ -92,6 +101,14 @@ namespace Anathema
                 StartScanButton.Enabled = true;
                 StopScanButton.Enabled = false;
             });
+        }
+
+        private void AddSelectedElements()
+        {
+            if (PointerListView.SelectedIndices.Count <= 0)
+                return;
+
+            PointerScannerPresenter.AddSelectionToTable(PointerListView.SelectedIndices[0], PointerListView.SelectedIndices[PointerListView.SelectedIndices.Count - 1]);
         }
 
         #region Events
@@ -154,6 +171,21 @@ namespace Anathema
                 MaxOffsetTextBox.ForeColor = SystemColors.ControlText;
             else
                 MaxOffsetTextBox.ForeColor = Color.Red;
+        }
+
+        private void ValueTypeComboBox_SelectedIndexChanged(Object Sender, EventArgs E)
+        {
+            PointerScannerPresenter.SetElementType(Conversions.StringToPrimitiveType(ValueTypeComboBox.SelectedItem.ToString()));
+        }
+
+        private void AddSelectedResultsButton_Click(Object Sender, EventArgs E)
+        {
+            AddSelectedElements();
+        }
+
+        private void PointerListView_DoubleClick(Object Sender, EventArgs E)
+        {
+            AddSelectedElements();
         }
 
         #endregion

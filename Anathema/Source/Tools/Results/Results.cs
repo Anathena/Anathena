@@ -105,7 +105,7 @@ namespace Anathema
             {
                 ForceRefreshFlag = false;
                 Snapshot = ActiveSnapshot;
-                
+
                 // Send the size of the filtered memory to the display
                 ResultsEventArgs Args = new ResultsEventArgs();
                 Args.ElementCount = (Snapshot == null ? 0 : Snapshot.GetElementCount());
@@ -135,17 +135,32 @@ namespace Anathema
             OnEventReadValues(new ResultsEventArgs());
         }
 
-        public override void AddSelectionToTable(Int32 Index)
+        public override void AddSelectionToTable(Int32 MinIndex, Int32 MaxIndex)
         {
+            const Int32 MaxAdd = 4096;
+
             Snapshot ActiveSnapshot = SnapshotManager.GetInstance().GetActiveSnapshot();
 
             if (ActiveSnapshot == null)
                 return;
 
-            String Value = String.Empty;
-            IndexValueMap.TryGetValue(Index, out Value);
+            if (MinIndex < 0)
+                MinIndex = 0;
 
-            Table.GetInstance().AddTableItem(unchecked((UInt64)ActiveSnapshot[Index].BaseAddress), ScanType, Value);
+            if (MaxIndex > (Int32)ActiveSnapshot.GetElementCount())
+                MaxIndex = (Int32)ActiveSnapshot.GetElementCount();
+
+            Int32 Count = 0;
+            for (Int32 Index = MinIndex; Index <= MaxIndex; Index++)
+            {
+                String Value = String.Empty;
+                IndexValueMap.TryGetValue(Index, out Value);
+
+                Table.GetInstance().AddTableItem(unchecked((UInt64)ActiveSnapshot[Index].BaseAddress), ScanType, "No Description", Value: Value);
+
+                if (++Count >= MaxAdd)
+                    break;
+            }
         }
 
         public override IntPtr GetAddressAtIndex(Int32 Index)
