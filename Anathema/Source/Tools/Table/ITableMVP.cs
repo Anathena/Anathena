@@ -161,7 +161,9 @@ namespace Anathema
             AddressItem AddressItem = Model.GetAddressItemAt(Index);
 
             // Try to update and return the item if it is a valid item
-            if (Item != null && AddressTableCache.TryUpdateSubItem(Index, ValueIndex, AddressItem.GetValueString()))
+            if (Item != null &&
+                AddressTableCache.TryUpdateSubItem(Index, ValueIndex, AddressItem.GetValueString()) &&
+                AddressTableCache.TryUpdateSubItem(Index, AddressIndex, AddressItem.GetAddressString()))
             {
                 Item.Checked = AddressItem.GetActivationState();
                 return Item;
@@ -174,7 +176,7 @@ namespace Anathema
 
             Item.SubItems[FreezeCheckBoxIndex].Text = String.Empty;
             Item.SubItems[DescriptionIndex].Text = (AddressItem.Description == null ? String.Empty : AddressItem.Description);
-            Item.SubItems[AddressIndex].Text = Conversions.ToAddress(AddressItem.Address);
+            Item.SubItems[AddressIndex].Text = Conversions.ToAddress(AddressItem.BaseAddress);
             Item.SubItems[TypeIndex].Text = AddressItem.ElementType == null ? String.Empty : AddressItem.ElementType.Name;
             Item.SubItems[ValueIndex].Text = AddressItem.GetValueString();
 

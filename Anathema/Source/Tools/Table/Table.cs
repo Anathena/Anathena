@@ -143,8 +143,8 @@ namespace Anathema
             if (Activated)
             {
                 Boolean ReadSuccess;
-                UInt64 Address = EvaluatePointer(CurrentTableData.AddressTable[Index]);
-                CurrentTableData.AddressTable[Index].Value = MemoryEditor.Read(CurrentTableData.AddressTable[Index].ElementType, unchecked((IntPtr)Address), out ReadSuccess);
+                CurrentTableData.AddressTable[Index].ResolveAddress(MemoryEditor);
+                CurrentTableData.AddressTable[Index].Value = MemoryEditor.Read(CurrentTableData.AddressTable[Index].ElementType, unchecked((IntPtr)CurrentTableData.AddressTable[Index].EffectiveAddress), out ReadSuccess);
             }
 
             CurrentTableData.AddressTable[Index].SetActivationState(Activated);
@@ -169,7 +169,7 @@ namespace Anathema
             // Copy over attributes from the new item (such as to keep this item's color attributes)
             CurrentTableData.AddressTable[Index].Description = AddressItem.Description;
             CurrentTableData.AddressTable[Index].ElementType = AddressItem.ElementType;
-            CurrentTableData.AddressTable[Index].Address = AddressItem.Address;
+            CurrentTableData.AddressTable[Index].BaseAddress = AddressItem.BaseAddress;
             CurrentTableData.AddressTable[Index].Offsets = AddressItem.Offsets;
             CurrentTableData.AddressTable[Index].IsHex = AddressItem.IsHex;
 
@@ -179,8 +179,8 @@ namespace Anathema
             // Write change to memory
             if (AddressItem.Value != null)
             {
-                UInt64 Address = EvaluatePointer(CurrentTableData.AddressTable[Index]);
-                MemoryEditor.Write(CurrentTableData.AddressTable[Index].ElementType, unchecked((IntPtr)Address), CurrentTableData.AddressTable[Index].Value);
+                CurrentTableData.AddressTable[Index].ResolveAddress(MemoryEditor);
+                MemoryEditor.Write(CurrentTableData.AddressTable[Index].ElementType, unchecked((IntPtr)CurrentTableData.AddressTable[Index].EffectiveAddress), CurrentTableData.AddressTable[Index].Value);
             }
             // Clear this entry in the cache since it has been updated
             ClearAddressItemFromCache(CurrentTableData.AddressTable[Index]);
@@ -253,8 +253,8 @@ namespace Anathema
             {
                 if (Item.GetActivationState())
                 {
-                    UInt64 Address = EvaluatePointer(Item);
-                    MemoryEditor.Write(Item.ElementType, unchecked((IntPtr)Address), Item.Value);
+                    Item.ResolveAddress(MemoryEditor);
+                    MemoryEditor.Write(Item.ElementType, unchecked((IntPtr)Item.EffectiveAddress), Item.Value);
                 }
             }
 
@@ -264,36 +264,14 @@ namespace Anathema
                     continue;
 
                 Boolean ReadSuccess;
-                UInt64 Address = EvaluatePointer(CurrentTableData.AddressTable[Index]);
-                CurrentTableData.AddressTable[Index].Value = MemoryEditor.Read(CurrentTableData.AddressTable[Index].ElementType, unchecked((IntPtr)Address), out ReadSuccess);
+                CurrentTableData.AddressTable[Index].ResolveAddress(MemoryEditor);
+                CurrentTableData.AddressTable[Index].Value = MemoryEditor.Read(CurrentTableData.AddressTable[Index].ElementType, unchecked((IntPtr)CurrentTableData.AddressTable[Index].EffectiveAddress), out ReadSuccess);
             }
 
             if (CurrentTableData.AddressTable.Count != 0)
                 OnEventReadValues(new TableEventArgs());
         }
-
-        private UInt64 EvaluatePointer(AddressItem AddressItem)
-        {
-            UInt64 Pointer = AddressItem.Address;
-            Int32[] Offsets = AddressItem.Offsets;
-
-            Boolean SuccessReading = true;
-
-            if (Offsets == null)
-                return Pointer;
-
-            foreach (Int32 Offset in Offsets)
-            {
-                Pointer = MemoryEditor.Read<UInt64>((IntPtr)Pointer, out SuccessReading);
-                Pointer += (UInt64)Offset;
-
-                if (!SuccessReading)
-                    break;
-            }
-
-            return Pointer;
-        }
-
+        
     } // End class
 
 } // End namespace

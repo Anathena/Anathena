@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Binarysharp.MemoryManagement;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
@@ -11,7 +12,7 @@ namespace Anathema
     public class AddressItem : TableItem
     {
         [DataMember()]
-        public UInt64 Address { get; set; }
+        public UInt64 BaseAddress { get; set; }
 
         [DataMember()]
         public String Description { get; set; }
@@ -30,9 +31,12 @@ namespace Anathema
         private dynamic _Value;
         public dynamic Value { get { return _Value; } set { if (!Activated) _Value = value; } }
 
-        public AddressItem(UInt64 Address, Type ElementType, String Description = null, Int32[] Offsets = null, Boolean IsHex = false, String Value = null)
+        private UInt64 _EffectiveAddress;
+        public UInt64 EffectiveAddress { get { return _EffectiveAddress; } private set { _EffectiveAddress = value; } }
+
+        public AddressItem(UInt64 BaseAddress, Type ElementType, String Description = null, Int32[] Offsets = null, Boolean IsHex = false, String Value = null)
         {
-            this.Address = Address;
+            this.BaseAddress = BaseAddress;
             this.Description = Description == null ? String.Empty : Description;
             this.ElementType = ElementType;
             this.Offsets = Offsets;
@@ -80,6 +84,34 @@ namespace Anathema
                 return;
 
             this._Value = Value;
+        }
+
+        public String GetAddressString()
+        {
+            if (Offsets != null && Offsets.Length > 0)
+                return "P->" + Conversions.ToAddress(EffectiveAddress);
+
+            return Conversions.ToAddress(EffectiveAddress);
+        }
+
+        public void ResolveAddress(MemoryEditor MemoryEditor)
+        {
+            UInt64 Pointer = this.BaseAddress;
+            Boolean SuccessReading = true;
+
+            if (Offsets == null)
+                this.EffectiveAddress = Pointer;
+
+            foreach (Int32 Offset in Offsets)
+            {
+                Pointer = MemoryEditor.Read<UInt64>((IntPtr)Pointer, out SuccessReading);
+                Pointer += (UInt64)Offset;
+
+                if (!SuccessReading)
+                    break;
+            }
+
+            this.EffectiveAddress = Pointer;
         }
 
     } // End class

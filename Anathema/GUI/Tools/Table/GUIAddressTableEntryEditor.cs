@@ -50,7 +50,7 @@ namespace Anathema
             AddressItem AddressItem = Table.GetInstance().GetAddressItemAt(AddressTableItemIndicies.Last());
             DescriptionTextBox.Text = AddressItem.Description;
             ValueTypeComboBox.SelectedIndex = ValueTypeComboBox.Items.IndexOf(AddressItem.ElementType.Name);
-            AddressTextBox.Text = Conversions.ToAddress(AddressItem.Address);
+            AddressTextBox.Text = Conversions.ToAddress(AddressItem.BaseAddress);
             ValueTextBox.IsHex = AddressItem.IsHex;
 
             if (AddressItem.Offsets != null)
