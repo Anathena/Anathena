@@ -55,11 +55,20 @@ namespace Anathema
             }
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public unsafe void IncrementPointers()
         {
             CurrentElementIndex++;
             CurrentValuePointer++;
             PreviousValuePointer++;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public unsafe void AddPointers(Int32 Alignment)
+        {
+            CurrentElementIndex += Alignment;
+            CurrentValuePointer += Alignment;
+            PreviousValuePointer += Alignment;
         }
 
         private unsafe dynamic GetValue(Byte* Array)

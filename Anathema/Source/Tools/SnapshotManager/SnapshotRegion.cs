@@ -162,6 +162,11 @@ namespace Anathema
             return ElementType;
         }
 
+        public Int32 GetAlignment()
+        {
+            return Alignment;
+        }
+
         /// <summary>
         /// Returns true if an region can be compared with itself: previous and current values are initialized
         /// </summary>
@@ -196,16 +201,35 @@ namespace Anathema
 
         public IEnumerator GetEnumerator()
         {
+            if (RegionSize <= 0)
+                yield break;
+
             // Prevent the GC from moving buffers around
             GCHandle CurrentValuesHandle = GCHandle.Alloc(CurrentValues, GCHandleType.Pinned);
             GCHandle PreviousValuesHandle = GCHandle.Alloc(PreviousValues, GCHandleType.Pinned);
 
             CurrentSnapshotElement.InitializePointers();
-            for (Int32 Index = 0; Index < RegionSize; Index++)
+
+            // Return the first element. This allows us to call IncrementPointers each loop unconditionally, with small speed gains.
+            yield return CurrentSnapshotElement;
+
+            if (Alignment == 1)
             {
-                if (Index != 0)
+                // Utilizes ++ operators, fast but we check every address
+                for (Int32 Index = 1; Index < RegionSize; Index++)
+                {
                     CurrentSnapshotElement.IncrementPointers();
-                yield return CurrentSnapshotElement;
+                    yield return CurrentSnapshotElement;
+                }
+            }
+            else
+            {
+                // Utilizes += operators, faster because we access far less addresses
+                for (Int32 Index = Alignment; Index < RegionSize; Index += Alignment)
+                {
+                    CurrentSnapshotElement.AddPointers(Alignment);
+                    yield return CurrentSnapshotElement;
+                }
             }
 
             // Let the GC do what it wants now
@@ -293,6 +317,7 @@ namespace Anathema
                     SubRegion.RegionExtension = GetElementReadOverSize();
 
                 SubRegion.SetElementType(ElementType);
+                SubRegion.SetAlignment(Alignment);
 
                 ValidRegions.Add(SubRegion);
 

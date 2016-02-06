@@ -242,6 +242,9 @@ namespace Anathema
             // Collect memory regions
             Snapshot = new Snapshot<Null>(SnapshotManager.GetInstance().SnapshotAllRegions(true));
 
+            // Enforce 4-byte alignment of pointers
+            Snapshot.SetAlignment(sizeof(Int32));
+
             // Set to type of a pointer
             Snapshot.SetElementType(typeof(UInt64));
 
@@ -264,12 +267,11 @@ namespace Anathema
                     if (Element.GreaterThanValue(InvalidPointerMin))
                         continue;
 
-                    if (unchecked((UInt64)Element.BaseAddress) % 4 != 0)
-                        continue;
-
+                    // Enforce 4-byte alignment of destination
                     if (Element.GetValue() % 4 != 0)
                         continue;
 
+                    // Check if it is possible that this pointer is valid, if so keep it
                     if (Snapshot.ContainsAddress(Element.GetValue()))
                         PointerPool[unchecked((UInt64)Element.BaseAddress)] = unchecked((UInt64)Element.GetValue());
                 }

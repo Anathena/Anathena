@@ -105,7 +105,7 @@ namespace Anathema
 
         public UInt64 GetElementCount()
         {
-            return SnapshotRegions == null ? 0 : (UInt64)SnapshotRegions.AsEnumerable().Sum(x => (Int64)x.RegionSize);
+            return SnapshotRegions == null ? 0 : (UInt64)SnapshotRegions.AsEnumerable().Sum(x => (Int64)(x.RegionSize / Alignment));
         }
 
         public UInt64 GetMemorySize()
@@ -135,6 +135,10 @@ namespace Anathema
         public void SetElementType(Type ElementType)
         {
             this.ElementType = ElementType;
+
+            if (SnapshotRegions == null)
+                return;
+
             foreach (SnapshotRegion Region in this)
                 Region.SetElementType(ElementType);
         }
@@ -142,13 +146,17 @@ namespace Anathema
         public void SetAlignment(Int32 Alignment)
         {
             this.Alignment = Alignment;
+
+            if (SnapshotRegions == null)
+                return; 
+
             foreach (SnapshotRegion Region in this)
                 Region.SetAlignment(Alignment);
         }
 
         public Boolean ContainsAddress(UInt64 Address)
         {
-            if (SnapshotRegions.Length == 0)
+            if (SnapshotRegions == null || SnapshotRegions.Length == 0)
                 return false;
 
             return ContainsAddress(Address, SnapshotRegions.Length / 2, 0, SnapshotRegions.Length);
@@ -171,6 +179,7 @@ namespace Anathema
         {
             return SnapshotRegions.GetEnumerator();
         }
+
     } // End class
 
     /// <summary>
@@ -395,6 +404,7 @@ namespace Anathema
                 NewRegion.SetPreviousValues(CurrentRegion.GetPreviousValues().LargestSubArray(BaseOffset, ResultRegions.Last().RegionSize + NewRegion.GetRegionExtension()));
                 NewRegion.SetElementLabels(CurrentRegion.GetElementLabels().LargestSubArray(BaseOffset, ResultRegions.Last().RegionSize + NewRegion.GetRegionExtension()));
                 NewRegion.SetElementType(CurrentRegion.GetElementType());
+                NewRegion.SetAlignment(CurrentRegion.GetAlignment());
             }
 
             return ResultRegions.ToArray();
