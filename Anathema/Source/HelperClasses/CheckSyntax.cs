@@ -11,6 +11,9 @@ namespace Anathema
         // Checks if passed value is a valid address
         public static Boolean CanParseAddress(String Address, Boolean MustBe32Bit = false)
         {
+            if (Address == null)
+                return false;
+
             // Remove 0x hex specifier
             if (Address.StartsWith("0x", StringComparison.OrdinalIgnoreCase))
                 Address = Address.Substring(2);
@@ -48,7 +51,7 @@ namespace Anathema
 
         public static Boolean CanParseHex(Type ValueType, String Value)
         {
-            if (!CanParseAddress(Value))
+            if (Value == null)
                 return false;
 
             // Remove 0x hex specifier

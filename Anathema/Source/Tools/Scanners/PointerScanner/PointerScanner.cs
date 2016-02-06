@@ -125,7 +125,7 @@ namespace Anathema
                 String Value = String.Empty;
                 // IndexValueMap.TryGetValue(Index, out Value);
 
-                Table.GetInstance().AddTableItem(AcceptedPointers[Index].Item1, ElementType, "Pointer", Value: Value);
+                Table.GetInstance().AddTableItem(AcceptedPointers[Index].Item1, ElementType, "Pointer", AcceptedPointers[Index].Item2.ToArray(), Value: Value);
 
                 if (++Count >= MaxAdd)
                     break;
@@ -149,7 +149,7 @@ namespace Anathema
                     break;
             }
 
-            dynamic Value = (SuccessReading ? MemoryEditor.Read(typeof(Int32), (IntPtr)Pointer, out SuccessReading) : "?");
+            dynamic Value = (SuccessReading ? MemoryEditor.Read(ElementType, (IntPtr)Pointer, out SuccessReading) : "?");
 
             return Value.ToString();
         }
