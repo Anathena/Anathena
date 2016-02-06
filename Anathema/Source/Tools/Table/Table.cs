@@ -143,7 +143,8 @@ namespace Anathema
             if (Activated)
             {
                 Boolean ReadSuccess;
-                CurrentTableData.AddressTable[Index].Value = MemoryEditor.Read(CurrentTableData.AddressTable[Index].ElementType, (IntPtr)CurrentTableData.AddressTable[Index].Address, out ReadSuccess);
+                UInt64 Address = EvaluatePointer(CurrentTableData.AddressTable[Index]);
+                CurrentTableData.AddressTable[Index].Value = MemoryEditor.Read(CurrentTableData.AddressTable[Index].ElementType, unchecked((IntPtr)Address), out ReadSuccess);
             }
 
             CurrentTableData.AddressTable[Index].SetActivationState(Activated);
@@ -177,8 +178,10 @@ namespace Anathema
 
             // Write change to memory
             if (AddressItem.Value != null)
-                MemoryEditor.Write(CurrentTableData.AddressTable[Index].ElementType, (IntPtr)CurrentTableData.AddressTable[Index].Address, CurrentTableData.AddressTable[Index].Value);
-
+            {
+                UInt64 Address = EvaluatePointer(CurrentTableData.AddressTable[Index]);
+                MemoryEditor.Write(CurrentTableData.AddressTable[Index].ElementType, unchecked((IntPtr)Address), CurrentTableData.AddressTable[Index].Value);
+            }
             // Clear this entry in the cache since it has been updated
             ClearAddressItemFromCache(CurrentTableData.AddressTable[Index]);
         }
@@ -249,7 +252,10 @@ namespace Anathema
             foreach (AddressItem Item in CurrentTableData.AddressTable)
             {
                 if (Item.GetActivationState())
-                    MemoryEditor.Write(Item.ElementType, (IntPtr)Item.Address, Item.Value);
+                {
+                    UInt64 Address = EvaluatePointer(Item);
+                    MemoryEditor.Write(Item.ElementType, unchecked((IntPtr)Address), Item.Value);
+                }
             }
 
             for (Int32 Index = StartReadIndex; Index < EndReadIndex; Index++)
@@ -258,11 +264,34 @@ namespace Anathema
                     continue;
 
                 Boolean ReadSuccess;
-                CurrentTableData.AddressTable[Index].Value = MemoryEditor.Read(CurrentTableData.AddressTable[Index].ElementType, (IntPtr)CurrentTableData.AddressTable[Index].Address, out ReadSuccess);
+                UInt64 Address = EvaluatePointer(CurrentTableData.AddressTable[Index]);
+                CurrentTableData.AddressTable[Index].Value = MemoryEditor.Read(CurrentTableData.AddressTable[Index].ElementType, unchecked((IntPtr)Address), out ReadSuccess);
             }
 
             if (CurrentTableData.AddressTable.Count != 0)
                 OnEventReadValues(new TableEventArgs());
+        }
+
+        private UInt64 EvaluatePointer(AddressItem AddressItem)
+        {
+            UInt64 Pointer = AddressItem.Address;
+            Int32[] Offsets = AddressItem.Offsets;
+
+            Boolean SuccessReading = true;
+
+            if (Offsets == null)
+                return Pointer;
+
+            foreach (Int32 Offset in Offsets)
+            {
+                Pointer = MemoryEditor.Read<UInt64>((IntPtr)Pointer, out SuccessReading);
+                Pointer += (UInt64)Offset;
+
+                if (!SuccessReading)
+                    break;
+            }
+
+            return Pointer;
         }
 
     } // End class

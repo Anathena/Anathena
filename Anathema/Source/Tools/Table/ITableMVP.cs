@@ -177,6 +177,7 @@ namespace Anathema
             Item.SubItems[AddressIndex].Text = Conversions.ToAddress(AddressItem.Address);
             Item.SubItems[TypeIndex].Text = AddressItem.ElementType == null ? String.Empty : AddressItem.ElementType.Name;
             Item.SubItems[ValueIndex].Text = AddressItem.GetValueString();
+
             Item.Checked = AddressItem.GetActivationState();
             
             return Item;

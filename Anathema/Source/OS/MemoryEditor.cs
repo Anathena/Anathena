@@ -277,9 +277,9 @@ namespace Binarysharp.MemoryManagement
             // Read the array in the remote process
             for (Int32 Index = 0; Index < Count; Index++)
             {
-                Boolean result;
-                Array[Index] = Read<T>(Address + MarshalType<T>.Size * Index, out result);
-                Success &= result;
+                Boolean Result;
+                Array[Index] = Read<T>(Address + MarshalType<T>.Size * Index, out Result);
+                Success &= Result;
             }
 
             return Array;
