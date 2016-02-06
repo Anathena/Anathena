@@ -16,7 +16,7 @@ namespace Anathema
     {
         private PointerScannerPresenter PointerScannerPresenter;
 
-        private const Int32 DefaultLevel = 5;
+        private const Int32 DefaultLevel = 3;
         private const Int32 DefaultOffset = 2048;
 
         public GUIPointerScanner()
