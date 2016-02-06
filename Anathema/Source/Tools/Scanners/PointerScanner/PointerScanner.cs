@@ -135,7 +135,7 @@ namespace Anathema
             for (Int32 Index = MinIndex; Index <= MaxIndex; Index++)
             {
                 String Value = String.Empty;
-                // IndexValueMap.TryGetValue(Index, out Value);
+                IndexValueMap.TryGetValue(Index, out Value);
 
                 Table.GetInstance().AddTableItem(AcceptedPointers[Index].Item1, ElementType, "Pointer", AcceptedPointers[Index].Item2.ToArray(), Value: Value);
 
@@ -309,7 +309,7 @@ namespace Anathema
 
         private void TracePointers()
         {
-            List<SnapshotRegion> PreviousLevelRegions = new List<SnapshotRegion>();
+            ConcurrentBag<SnapshotRegion> PreviousLevelRegions = new ConcurrentBag<SnapshotRegion>();
             PreviousLevelRegions.Add(AddressToRegion(TargetAddress));
 
             ConnectedPointers.Clear();
@@ -339,11 +339,13 @@ namespace Anathema
                 // Add the pointers for this level to the global accepted list
                 ConnectedPointers.Add(LevelPointers);
 
-                PreviousLevelRegions.Clear();
+                PreviousLevelRegions = new ConcurrentBag<SnapshotRegion>();
 
                 // Construct new target region list from this level of pointers
-                foreach (KeyValuePair<UInt64, UInt64> Pointer in LevelPointers)
+                Parallel.ForEach(LevelPointers, (Pointer) =>
+                {
                     PreviousLevelRegions.Add(AddressToRegion(Pointer.Key));
+                });
             }
 
             PointerPool.Clear();
@@ -369,13 +371,14 @@ namespace Anathema
                 return;
             }
 
-            foreach (KeyValuePair<UInt64, UInt64> Target in ConnectedPointers[Level - 1])
+            Parallel.ForEach(ConnectedPointers[Level - 1], (Target) =>
             {
+                //foreach (KeyValuePair<UInt64, UInt64> Target in ConnectedPointers[Level - 1])
                 if (PointerDestination < unchecked(Target.Key - MaxPointerOffset))
-                    continue;
+                    return;
 
                 if (PointerDestination > unchecked(Target.Key + MaxPointerOffset))
-                    continue;
+                    return;
 
                 // Valid pointer, clone our current offset stack
                 List<Int32> NewOffsets = new List<Int32>(Offsets);
@@ -385,7 +388,7 @@ namespace Anathema
 
                 // Recurse
                 BuildPointers(Pointers, Level - 1, Base, Target.Value, NewOffsets);
-            }
+            });
         }
 
     } // End class
