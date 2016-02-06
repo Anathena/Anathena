@@ -53,9 +53,11 @@ namespace Anathema
             AddressTextBox.Text = Conversions.ToAddress(AddressItem.BaseAddress);
             ValueTextBox.IsHex = AddressItem.IsHex;
 
-            if (AddressItem.Offsets != null)
-                foreach (Int32 Offset in AddressItem.Offsets)
-                    OffsetListBox.Items.Add(Offset.ToString("X"));
+            if (AddressItem.Offsets == null)
+                return;
+
+            foreach (Int32 Offset in AddressItem.Offsets)
+                OffsetListBox.Items.Add(Offset < 0 ? "-" + Math.Abs(Offset).ToString("X") : Offset.ToString("X"));
         }
 
         private void InitializeValueTypeComboBox()
@@ -96,7 +98,7 @@ namespace Anathema
         }
 
         #endregion
-        
+
     } // End class
 
 } // End namespace

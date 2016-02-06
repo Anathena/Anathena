@@ -38,32 +38,11 @@ namespace Anathema
 
         private void UpdateReadBounds()
         {
-            const Int32 BoundsLimit = 128;
-            const Int32 OverRead = 48;
-
-            Int32 StartReadIndex = 0;
-            Int32 EndReadIndex = 0;
-
             ControlThreadingHelper.InvokeControlAction(ResultsListView, () =>
             {
-                StartReadIndex = ResultsListView.TopItem == null ? 0 : ResultsListView.TopItem.Index ;
-
-                ListViewItem LastVisibleItem = ResultsListView.TopItem;
-                for (Int32 Index = StartReadIndex; Index < ResultsListView.Items.Count; Index++)
-                {
-                    if (Index - ResultsListView.TopItem.Index > BoundsLimit)
-                        break;
-
-                    if (ResultsListView.ClientRectangle.IntersectsWith(ResultsListView.Items[Index].Bounds))
-                        LastVisibleItem = ResultsListView.Items[Index];
-                    else
-                        break;
-                }
-
-                StartReadIndex -= OverRead;
-                EndReadIndex = LastVisibleItem == null ? 0 : LastVisibleItem.Index + 1 + OverRead;
+                Tuple<Int32, Int32> ReadBounds = ResultsListView.GetReadBounds();
+                ResultsPresenter.UpdateReadBounds(ReadBounds.Item1, ReadBounds.Item2);
             });
-            ResultsPresenter.UpdateReadBounds(StartReadIndex, EndReadIndex);
         }
 
         public void EnableResults()

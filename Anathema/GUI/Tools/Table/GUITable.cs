@@ -243,6 +243,11 @@ namespace Anathema
             ViewFSMTable();
         }
 
+        private void AddAddressButton_Click(Object Sender, EventArgs E)
+        {
+
+        }
+
         private void EditAddressEntryToolStripMenuItem_Click(Object Sender, EventArgs E)
         {
 
@@ -274,7 +279,7 @@ namespace Anathema
         }
 
         #endregion
-        
+
     } // End class
 
 } // End namespace

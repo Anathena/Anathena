@@ -51,6 +51,8 @@ namespace Anathema
         public abstract void SetTargetAddress(UInt64 Address);
         public abstract void SetMaxPointerLevel(Int32 MaxPointerLevel);
         public abstract void SetMaxPointerOffset(UInt64 MaxOffset);
+
+        public abstract void UpdateReadBounds(Int32 StartReadIndex, Int32 EndReadIndex);
     }
 
     class PointerScannerPresenter : ScannerPresenter
@@ -78,6 +80,11 @@ namespace Anathema
         }
 
         #region Method definitions called by the view (downstream)
+
+        public void UpdateReadBounds(Int32 StartReadIndex, Int32 EndReadIndex)
+        {
+            Model.UpdateReadBounds(StartReadIndex, EndReadIndex);
+        }
 
         public void BeginPointerScan()
         {

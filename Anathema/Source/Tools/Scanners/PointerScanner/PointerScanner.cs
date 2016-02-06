@@ -34,9 +34,14 @@ namespace Anathema
         private const UInt64 InvalidPointerMin = unchecked((UInt64)Int64.MaxValue); // !TODO RemotePtr.MaxValue
         private const UInt64 InvalidPointerMax = UInt16.MaxValue;
 
+        private Int32 StartReadIndex;
+        private Int32 EndReadIndex;
+        private ConcurrentDictionary<Int32, String> IndexValueMap;
+
         private ConcurrentDictionary<UInt64, UInt64> PointerPool;
         private List<ConcurrentDictionary<UInt64, UInt64>> ConnectedPointers;
         private Snapshot<Null> AcceptedBases;
+
 
         private List<Tuple<UInt64, List<Int32>>> AcceptedPointers;
 
@@ -57,6 +62,7 @@ namespace Anathema
 
         public PointerScanner()
         {
+            IndexValueMap = new ConcurrentDictionary<Int32, String>();
             PointerPool = new ConcurrentDictionary<UInt64, UInt64>();
             ConnectedPointers = new List<ConcurrentDictionary<UInt64, UInt64>>();
             ScanMode = ScanModeEnum.ReadValues;
@@ -74,6 +80,12 @@ namespace Anathema
         public void UpdateMemoryEditor(MemoryEditor MemoryEditor)
         {
             this.MemoryEditor = MemoryEditor;
+        }
+        
+        public override void UpdateReadBounds(Int32 StartReadIndex, Int32 EndReadIndex)
+        {
+            this.StartReadIndex = StartReadIndex;
+            this.EndReadIndex = EndReadIndex;
         }
 
         public override void SetElementType(Type ElementType)
@@ -134,24 +146,10 @@ namespace Anathema
 
         public override String GetValueAtIndex(Int32 Index)
         {
-            Tuple<UInt64, List<Int32>> FullPointer = AcceptedPointers[Index];
-            UInt64 Pointer = FullPointer.Item1;
-            List<Int32> Offsets = FullPointer.Item2;
+            if (IndexValueMap.ContainsKey(Index))
+                return IndexValueMap[Index];
 
-            Boolean SuccessReading = true;
-
-            foreach (Int32 Offset in Offsets)
-            {
-                Pointer = MemoryEditor.Read<UInt64>((IntPtr)Pointer, out SuccessReading);
-                Pointer += (UInt64)Offset;
-
-                if (!SuccessReading)
-                    break;
-            }
-
-            dynamic Value = (SuccessReading ? MemoryEditor.Read(ElementType, (IntPtr)Pointer, out SuccessReading) : "?");
-
-            return Value.ToString();
+            return "-";
         }
 
         public override String GetBaseAddress(Int32 Index)
@@ -189,6 +187,35 @@ namespace Anathema
             switch (ScanMode)
             {
                 case ScanModeEnum.ReadValues:
+
+                    for (Int32 Index = StartReadIndex; Index <= EndReadIndex; Index++)
+                    {
+                        if (AcceptedPointers == null || MemoryEditor == null)
+                            break;
+
+                        if (Index < 0 || Index >= AcceptedPointers.Count)
+                            continue;
+
+                        Tuple<UInt64, List<Int32>> FullPointer = AcceptedPointers[Index];
+                        UInt64 Pointer = FullPointer.Item1;
+                        List<Int32> Offsets = FullPointer.Item2;
+
+                        Boolean SuccessReading = true;
+
+                        foreach (Int32 Offset in Offsets)
+                        {
+                            Pointer = MemoryEditor.Read<UInt64>((IntPtr)Pointer, out SuccessReading);
+                            Pointer += (UInt64)Offset;
+
+                            if (!SuccessReading)
+                                break;
+                        }
+                        
+                        String Value = MemoryEditor.Read(ElementType, (IntPtr)Pointer, out SuccessReading).ToString();
+
+                        IndexValueMap[Index] = Value;
+                    }
+
                     OnEventReadValues(new PointerScannerEventArgs());
                     break;
                 case ScanModeEnum.Scan:
