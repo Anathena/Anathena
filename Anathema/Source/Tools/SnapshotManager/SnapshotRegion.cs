@@ -17,6 +17,8 @@ namespace Anathema
         protected unsafe Byte[] CurrentValues;      // Most recently read values
         protected unsafe Byte[] PreviousValues;     // Previously read values
 
+        protected Int32 Alignment;
+
         // These fields are public as an access optimization from SnapshotElement, and otherwise should be accessed via get/set functions
         public Type ElementType;                        // Element type for this
         public BitArray Valid;                          // Valid bits for use in filtering scans
@@ -34,12 +36,15 @@ namespace Anathema
         public void ExpandRegion() { ExpandRegion(GetElementReadOverSize()); }
         public void ExpandRegion(Int32 ExpandSize)
         {
+            // Expand with negative overflow protection
             if ((UInt64)BaseAddress > (UInt64)ExpandSize)
                 this.BaseAddress -= ExpandSize;
             else
                 this.BaseAddress = IntPtr.Zero;
 
-            this.RegionSize += ExpandSize * 2; // TODO overflow protection
+            // Expand with overflow protection
+            Int32 NewRegionSize = unchecked(RegionSize + ExpandSize * 2);
+            this.RegionSize = Math.Max(this.RegionSize, NewRegionSize);
         }
 
         /// <summary>
@@ -49,7 +54,10 @@ namespace Anathema
         {
             Int32 ExpandSize = RegionExtension;
             RegionExtension = 0;
-            this.RegionSize += ExpandSize; // TODO overflow protection
+
+            // Expand with overflow protection
+            Int32 NewRegionSize = unchecked(RegionSize + ExpandSize);
+            this.RegionSize = Math.Max(this.RegionSize, NewRegionSize);
         }
 
         /// <summary>
@@ -93,6 +101,21 @@ namespace Anathema
 
             // Adjust extension space accordingly
             RelaxRegion();
+        }
+
+        public void SetAlignment(Int32 Alignment)
+        {
+            this.Alignment = Alignment;
+
+            // Enforce alignment constraint on base address
+            if ((UInt64)BaseAddress % (UInt64)Alignment != 0)
+            {
+                unchecked
+                {
+                    this.BaseAddress -= (Int32)((UInt64)BaseAddress % (UInt64)Alignment);
+                    this.BaseAddress += Alignment;
+                }
+            }
         }
 
         /// <summary>
@@ -161,7 +184,7 @@ namespace Anathema
         {
             Boolean SuccessReading = false;
             Byte[] CurrentValues = MemoryEditor.ReadBytes(this.BaseAddress, this.RegionSize + RegionExtension, out SuccessReading);
-            
+
             if (!SuccessReading)
                 throw new ScanFailedException();
 

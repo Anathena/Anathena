@@ -46,6 +46,8 @@ namespace Anathema
                 this.Value = Conversions.ParseValue(ElementType, Value);
             else if (IsHex && CheckSyntax.CanParseHex(ElementType, Value))
                 this.Value = Conversions.ParseHexAsDec(ElementType, Value);
+
+            this.EffectiveAddress = BaseAddress;
         }
 
         public String GetValueString()
@@ -100,7 +102,10 @@ namespace Anathema
             Boolean SuccessReading = true;
 
             if (Offsets == null)
+            { 
                 this.EffectiveAddress = Pointer;
+                return;
+            }
 
             foreach (Int32 Offset in Offsets)
             {

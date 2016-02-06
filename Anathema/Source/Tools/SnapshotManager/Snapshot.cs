@@ -16,6 +16,8 @@ namespace Anathema
     /// </summary>
     abstract class Snapshot : IProcessObserver, IEnumerable
     {
+        protected const Int32 NoAlignment = 1;
+
         protected MemoryEditor MemoryEditor;
 
         protected SnapshotRegion[] SnapshotRegions;
@@ -24,6 +26,8 @@ namespace Anathema
         protected Type ElementType; // Type to consider each element of this snapshot
         private String ScanMethod;  // String indicating most recent scan method used
         private DateTime TimeStamp; // Time stamp of most recent scan for a given snapshot
+
+        protected Int32 Alignment;  // Memory alignment constraint
 
         /// <summary>
         /// Indexer to allow the retrieval of the element at the specified index. Note that this does NOT index into a region.
@@ -36,10 +40,10 @@ namespace Anathema
             {
                 foreach (SnapshotRegion MemoryRegion in this)
                 {
-                    if (Index - MemoryRegion.RegionSize >= 0)
-                        Index -= MemoryRegion.RegionSize;
+                    if (Index - MemoryRegion.RegionSize / Alignment >= 0)
+                        Index -= MemoryRegion.RegionSize / Alignment;
                     else
-                        return MemoryRegion[Index];
+                        return MemoryRegion[Index * Alignment];
                 }
                 return null;
             }
@@ -135,6 +139,13 @@ namespace Anathema
                 Region.SetElementType(ElementType);
         }
 
+        public void SetAlignment(Int32 Alignment)
+        {
+            this.Alignment = Alignment;
+            foreach (SnapshotRegion Region in this)
+                Region.SetAlignment(Alignment);
+        }
+
         public Boolean ContainsAddress(UInt64 Address)
         {
             if (SnapshotRegions.Length == 0)
@@ -180,7 +191,6 @@ namespace Anathema
         public Snapshot()
         {
             this.SnapshotRegions = null;
-
             Initialize();
         }
 
@@ -229,6 +239,7 @@ namespace Anathema
         public void Initialize()
         {
             this.DeallocatedRegions = new ConcurrentBag<SnapshotRegion>();
+            SetAlignment(NoAlignment);
             InitializeProcessObserver();
             MergeRegions();
         }
