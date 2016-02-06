@@ -27,7 +27,7 @@ namespace Anathema
 
     class PointerScanner : IPointerScannerModel, IProcessObserver
     {
-        private MemorySharp MemoryEditor;
+        private MemoryEditor MemoryEditor;
         private Snapshot<Null> Snapshot;
 
         // As far as I can tell, no valid pointers will end up being less than 0x10000 (UInt16.MaxValue). Huge gains by filtering these.
@@ -71,7 +71,7 @@ namespace Anathema
             ProcessSelector.GetInstance().Subscribe(this);
         }
 
-        public void UpdateMemoryEditor(MemorySharp MemoryEditor)
+        public void UpdateMemoryEditor(MemoryEditor MemoryEditor)
         {
             this.MemoryEditor = MemoryEditor;
         }

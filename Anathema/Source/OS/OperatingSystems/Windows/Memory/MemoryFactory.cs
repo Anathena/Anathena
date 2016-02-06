@@ -23,7 +23,7 @@ namespace Binarysharp.MemoryManagement.Memory
         /// <summary>
         /// The reference of the <see cref="MemorySharp"/> object.
         /// </summary>
-        protected readonly MemorySharp MemorySharp;
+        protected readonly MemoryEditor MemorySharp;
         /// <summary>
         /// The list containing all allocated memory.
         /// </summary>
@@ -78,7 +78,7 @@ namespace Binarysharp.MemoryManagement.Memory
         /// Initializes a new instance of the <see cref="MemoryFactory"/> class.
         /// </summary>
         /// <param name="MemorySharp">The reference of the <see cref="MemorySharp"/> object.</param>
-        internal MemoryFactory(MemorySharp MemorySharp)
+        internal MemoryFactory(MemoryEditor MemorySharp)
         {
             // Save the parameter
             this.MemorySharp = MemorySharp;

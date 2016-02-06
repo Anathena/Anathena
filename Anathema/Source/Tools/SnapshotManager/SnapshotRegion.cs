@@ -157,11 +157,11 @@ namespace Anathema
             return true;
         }
 
-        public Byte[] ReadAllSnapshotMemory(MemorySharp MemoryEditor, Boolean KeepValues = true)
+        public Byte[] ReadAllSnapshotMemory(MemoryEditor MemoryEditor, Boolean KeepValues = true)
         {
             Boolean SuccessReading = false;
-            Byte[] CurrentValues = MemoryEditor.ReadBytes(this.BaseAddress, this.RegionSize + RegionExtension, out SuccessReading, false);
-
+            Byte[] CurrentValues = MemoryEditor.ReadBytes(this.BaseAddress, this.RegionSize + RegionExtension, out SuccessReading);
+            
             if (!SuccessReading)
                 throw new ScanFailedException();
 

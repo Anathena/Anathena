@@ -23,7 +23,7 @@ namespace Binarysharp.MemoryManagement.Assembly
         /// <summary>
         /// The reference of the <see cref="MemorySharp"/> object.
         /// </summary>
-        protected readonly MemorySharp MemorySharp;
+        protected readonly MemoryEditor MemorySharp;
         /// <summary>
         /// The builder contains all the mnemonics inserted by the user.
         /// </summary>
@@ -56,7 +56,7 @@ namespace Binarysharp.MemoryManagement.Assembly
         /// <param name="MemorySharp">The reference of the <see cref="MemorySharp"/> object.</param>
         /// <param name="Address">The address where the assembly code is injected.</param>
         /// <param name="AutoExecute">Indicates whether the assembly code is executed once the object is disposed.</param>
-        public AssemblyTransaction(MemorySharp MemorySharp, IntPtr Address, bool AutoExecute)
+        public AssemblyTransaction(MemoryEditor MemorySharp, IntPtr Address, bool AutoExecute)
         {
             // Save the parameters
             this.MemorySharp = MemorySharp;
@@ -72,7 +72,7 @@ namespace Binarysharp.MemoryManagement.Assembly
         /// </summary>
         /// <param name="MemorySharp">The reference of the <see cref="MemorySharp"/> object.</param>
         /// <param name="AutoExecute">Indicates whether the assembly code is executed once the object is disposed.</param>
-        public AssemblyTransaction(MemorySharp MemorySharp, bool AutoExecute) : this(MemorySharp, IntPtr.Zero, AutoExecute)
+        public AssemblyTransaction(MemoryEditor MemorySharp, bool AutoExecute) : this(MemorySharp, IntPtr.Zero, AutoExecute)
         {
 
         }

@@ -38,7 +38,7 @@ namespace Anathema
 
     public class LuaMemoryCore : LuaFunctions, IProcessObserver
     {
-        private MemorySharp MemoryEditor;
+        private MemoryEditor MemoryEditor;
 
         private static Dictionary<String, String> GlobalKeywords = new Dictionary<String, String>();
         private Dictionary<String, String> Keywords;
@@ -79,7 +79,7 @@ namespace Anathema
             ProcessSelector.GetInstance().Subscribe(this);
         }
 
-        public void UpdateMemoryEditor(MemorySharp MemoryEditor)
+        public void UpdateMemoryEditor(MemoryEditor MemoryEditor)
         {
             this.MemoryEditor = MemoryEditor;
         }
@@ -182,7 +182,7 @@ namespace Anathema
 
             // Read original bytes at code cave jump
             Boolean ReadSuccess;
-            Byte[] OriginalBytes = MemoryEditor.Read<Byte>((IntPtr)Entry, JumpSize, out ReadSuccess, false);
+            Byte[] OriginalBytes = MemoryEditor.Read<Byte>((IntPtr)Entry, JumpSize, out ReadSuccess);
 
             // Write in the jump to the code cave
             MemoryEditor.Assembly.Inject("jmp " + "0x" + Result.ToString("X"), unchecked((IntPtr)Entry));
@@ -211,7 +211,7 @@ namespace Anathema
                 if (CodeCave.Entry == Address)
                 {
                     Result = true;
-                    MemoryEditor.Write<Byte[]>((IntPtr)CodeCave.Entry, CodeCave.OriginalBytes, false);
+                    MemoryEditor.Write<Byte[]>((IntPtr)CodeCave.Entry, CodeCave.OriginalBytes);
                     MemoryEditor.Memory.Deallocate(CodeCave.RemoteAllocation);
                 }
             }
@@ -222,7 +222,7 @@ namespace Anathema
         {
             foreach (CodeCave CodeCave in CodeCaves)
             {
-                MemoryEditor.WriteBytes((IntPtr)CodeCave.Entry, CodeCave.OriginalBytes, false);
+                MemoryEditor.WriteBytes((IntPtr)CodeCave.Entry, CodeCave.OriginalBytes);
                 MemoryEditor.Memory.Deallocate(CodeCave.RemoteAllocation);
             }
             CodeCaves.Clear();

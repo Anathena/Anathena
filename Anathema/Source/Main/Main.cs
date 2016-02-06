@@ -9,7 +9,7 @@ namespace Anathema
 {
     class Main : IMainModel
     {
-        private MemorySharp MemoryEditor;
+        private MemoryEditor MemoryEditor;
         private static Main _Main;
 
         public event MainEventHandler EventUpdateProcessTitle;
@@ -33,7 +33,7 @@ namespace Anathema
             ProcessSelector.GetInstance().Subscribe(this);
         }
 
-        public void UpdateMemoryEditor(MemorySharp MemoryEditor)
+        public void UpdateMemoryEditor(MemoryEditor MemoryEditor)
         {
             this.MemoryEditor = MemoryEditor;
 

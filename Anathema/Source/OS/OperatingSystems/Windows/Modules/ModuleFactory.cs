@@ -23,9 +23,9 @@ namespace Binarysharp.MemoryManagement.Modules
     public class ModuleFactory : IFactory
     {
         /// <summary>
-        /// The reference of the <see cref="MemoryManagement.MemorySharp"/> object.
+        /// The reference of the <see cref="MemoryManagement.MemoryEditor"/> object.
         /// </summary>
-        protected readonly MemorySharp MemorySharp;
+        protected readonly MemoryEditor MemorySharp;
         /// <summary>
         /// The list containing all injected modules (writable).
         /// </summary>
@@ -78,8 +78,8 @@ namespace Binarysharp.MemoryManagement.Modules
         /// <summary>
         /// Initializes a new instance of the <see cref="ModuleFactory"/> class.
         /// </summary>
-        /// <param name="MemorySharp">The reference of the <see cref="MemoryManagement.MemorySharp"/> object.</param>
-        internal ModuleFactory(MemorySharp MemorySharp)
+        /// <param name="MemorySharp">The reference of the <see cref="MemoryManagement.MemoryEditor"/> object.</param>
+        internal ModuleFactory(MemoryEditor MemorySharp)
         {
             // Save the parameter
             this.MemorySharp = MemorySharp;

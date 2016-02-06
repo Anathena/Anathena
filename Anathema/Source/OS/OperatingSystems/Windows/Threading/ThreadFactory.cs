@@ -24,7 +24,7 @@ namespace Binarysharp.MemoryManagement.Threading
         /// <summary>
         /// The reference of the <see cref="MemorySharp"/> object.
         /// </summary>
-        protected readonly MemorySharp MemorySharp;
+        protected readonly MemoryEditor MemorySharp;
 
         /// <summary>
         /// Gets the main thread of the remote process.
@@ -80,7 +80,7 @@ namespace Binarysharp.MemoryManagement.Threading
         /// Initializes a new instance of the <see cref="ThreadFactory"/> class.
         /// </summary>
         /// <param name="MemorySharp">The reference of the <see cref="MemorySharp"/> object.</param>
-        internal ThreadFactory(MemorySharp MemorySharp)
+        internal ThreadFactory(MemoryEditor MemorySharp)
         {
             // Save the parameter
             this.MemorySharp = MemorySharp;

@@ -103,7 +103,7 @@ namespace Binarysharp.MemoryManagement.Internals
                 case TypeCode.Boolean:
                     return BitConverter.GetBytes((Boolean)(Object)Object);
                 case TypeCode.Char:
-                    return Encoding.UTF8.GetBytes(new[] {(Char)(Object)Object});
+                    return Encoding.UTF8.GetBytes(new[] { (Char)(Object)Object });
                 case TypeCode.Double:
                     return BitConverter.GetBytes((Double)(Object)Object);
                 case TypeCode.Int16:
@@ -170,7 +170,7 @@ namespace Binarysharp.MemoryManagement.Internals
                 case TypeCode.Byte:
                     return (T)(Object)ByteArray[0];
                 case TypeCode.Char:
-                    return (T)(Object) Encoding.UTF8.GetChars(ByteArray)[0]; // BitConverter.ToChar(ByteArray, 0);
+                    return (T)(Object)Encoding.UTF8.GetChars(ByteArray)[0]; // BitConverter.ToChar(ByteArray, 0);
                 case TypeCode.Double:
                     return (T)(Object)BitConverter.ToDouble(ByteArray, 0);
                 case TypeCode.Int16:
@@ -193,12 +193,12 @@ namespace Binarysharp.MemoryManagement.Internals
 
             // Check if it's not a common type
             // Allocate a block of unmanaged memory
-            using (var unmanaged = new LocalUnmanagedMemory(Size))
+            using (LocalUnmanagedMemory Unmanaged = new LocalUnmanagedMemory(Size))
             {
                 // Write the array of bytes inside the unmanaged memory
-                unmanaged.Write(ByteArray);
+                Unmanaged.Write(ByteArray);
                 // Return a managed object created from the block of unmanaged memory
-                return unmanaged.Read<T>();
+                return Unmanaged.Read<T>();
             }
         }
 
@@ -211,12 +211,10 @@ namespace Binarysharp.MemoryManagement.Internals
         /// <param name="MemorySharp">The concerned process.</param>
         /// <param name="Pointer">The pointer to convert.</param>
         /// <returns>The return value is the pointer converted to the given data type.</returns>
-        public static T PtrToObject(MemorySharp MemorySharp, IntPtr Pointer)
+        public static T PtrToObject(MemoryEditor MemorySharp, IntPtr Pointer)
         {
-            bool ReadSuccess;
-            return ByteArrayToObject(CanBeStoredInRegisters
-                                      ? BitConverter.GetBytes(Pointer.ToInt64())
-                                      : MemorySharp.Read<byte>(Pointer, Size, out ReadSuccess, false));
+            Boolean ReadSuccess;
+            return ByteArrayToObject(CanBeStoredInRegisters ? BitConverter.GetBytes(Pointer.ToInt64()) : MemorySharp.Read<Byte>(Pointer, Size, out ReadSuccess));
         }
 
         #endregion

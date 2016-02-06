@@ -40,7 +40,7 @@ namespace Anathema
         }
 
         private static Table TableInstance;
-        private MemorySharp MemoryEditor;
+        private MemoryEditor MemoryEditor;
 
         private TableData CurrentTableData;
 
@@ -72,7 +72,7 @@ namespace Anathema
             ProcessSelector.GetInstance().Subscribe(this);
         }
 
-        public void UpdateMemoryEditor(MemorySharp MemoryEditor)
+        public void UpdateMemoryEditor(MemoryEditor MemoryEditor)
         {
             this.MemoryEditor = MemoryEditor;
         }
@@ -143,7 +143,7 @@ namespace Anathema
             if (Activated)
             {
                 Boolean ReadSuccess;
-                CurrentTableData.AddressTable[Index].Value = MemoryEditor.Read(CurrentTableData.AddressTable[Index].ElementType, (IntPtr)CurrentTableData.AddressTable[Index].Address, out ReadSuccess, false);
+                CurrentTableData.AddressTable[Index].Value = MemoryEditor.Read(CurrentTableData.AddressTable[Index].ElementType, (IntPtr)CurrentTableData.AddressTable[Index].Address, out ReadSuccess);
             }
 
             CurrentTableData.AddressTable[Index].SetActivationState(Activated);
@@ -177,7 +177,7 @@ namespace Anathema
 
             // Write change to memory
             if (AddressItem.Value != null)
-                MemoryEditor.Write(CurrentTableData.AddressTable[Index].ElementType, (IntPtr)CurrentTableData.AddressTable[Index].Address, CurrentTableData.AddressTable[Index].Value, false);
+                MemoryEditor.Write(CurrentTableData.AddressTable[Index].ElementType, (IntPtr)CurrentTableData.AddressTable[Index].Address, CurrentTableData.AddressTable[Index].Value);
 
             // Clear this entry in the cache since it has been updated
             ClearAddressItemFromCache(CurrentTableData.AddressTable[Index]);
@@ -249,7 +249,7 @@ namespace Anathema
             foreach (AddressItem Item in CurrentTableData.AddressTable)
             {
                 if (Item.GetActivationState())
-                    MemoryEditor.Write(Item.ElementType, (IntPtr)Item.Address, Item.Value, false);
+                    MemoryEditor.Write(Item.ElementType, (IntPtr)Item.Address, Item.Value);
             }
 
             for (Int32 Index = StartReadIndex; Index < EndReadIndex; Index++)
@@ -258,7 +258,7 @@ namespace Anathema
                     continue;
 
                 Boolean ReadSuccess;
-                CurrentTableData.AddressTable[Index].Value = MemoryEditor.Read(CurrentTableData.AddressTable[Index].ElementType, (IntPtr)CurrentTableData.AddressTable[Index].Address, out ReadSuccess, false);
+                CurrentTableData.AddressTable[Index].Value = MemoryEditor.Read(CurrentTableData.AddressTable[Index].ElementType, (IntPtr)CurrentTableData.AddressTable[Index].Address, out ReadSuccess);
             }
 
             if (CurrentTableData.AddressTable.Count != 0)

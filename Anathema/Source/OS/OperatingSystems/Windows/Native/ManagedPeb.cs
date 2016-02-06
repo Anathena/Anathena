@@ -345,9 +345,9 @@ namespace Binarysharp.MemoryManagement.Native
         /// <summary>
         /// Initializes a new instance of the <see cref="ManagedPeb"/> class.
         /// </summary>
-        /// <param name="MemorySharp">The reference of the <see cref="MemorySharp"/> object.</param>
+        /// <param name="MemorySharp">The reference of the <see cref="MemoryEditor"/> object.</param>
         /// <param name="Address">The location of the peb.</param>
-        internal ManagedPeb(MemorySharp MemorySharp, IntPtr Address) : base(MemorySharp, Address)
+        internal ManagedPeb(MemoryEditor MemorySharp, IntPtr Address) : base(MemorySharp, Address)
         {
 
         }

@@ -16,7 +16,7 @@ namespace Anathema
         // Lock to ensure multiple entities do not try and update the snapshot list at the same time
         private Object AccessLock = new Object();
 
-        private MemorySharp MemoryEditor;
+        private MemoryEditor MemoryEditor;
         private Stack<Snapshot> Snapshots;          // Snapshots being managed
         private Stack<Snapshot> DeletedSnapshots;   // Deleted snapshots for the capability of redoing after undo
 
@@ -46,7 +46,7 @@ namespace Anathema
             ProcessSelector.GetInstance().Subscribe(this);
         }
 
-        public void UpdateMemoryEditor(MemorySharp MemoryEditor)
+        public void UpdateMemoryEditor(MemoryEditor MemoryEditor)
         {
             this.MemoryEditor = MemoryEditor;
         }

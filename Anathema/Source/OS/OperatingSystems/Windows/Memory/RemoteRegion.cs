@@ -34,9 +34,9 @@ namespace Binarysharp.MemoryManagement.Memory
         /// <summary>
         /// Initializes a new instance of the <see cref="RemoteRegion"/> class.
         /// </summary>
-        /// <param name="MemorySharp">The reference of the <see cref="MemorySharp"/> object.</param>
+        /// <param name="MemorySharp">The reference of the <see cref="MemoryEditor"/> object.</param>
         /// <param name="BaseAddress">The base address of the memory region.</param>
-        public RemoteRegion(MemorySharp MemorySharp, IntPtr BaseAddress, Int32 RegionSize) : base(MemorySharp, BaseAddress)
+        public RemoteRegion(MemoryEditor MemorySharp, IntPtr BaseAddress, Int32 RegionSize) : base(MemorySharp, BaseAddress)
         {
             this.RegionSize = RegionSize;
         }

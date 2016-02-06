@@ -26,9 +26,9 @@ namespace Binarysharp.MemoryManagement.Threading
     {
         #region Fields
         /// <summary>
-        /// The reference of the <see cref="MemoryManagement.MemorySharp"/> object.
+        /// The reference of the <see cref="MemoryManagement.MemoryEditor"/> object.
         /// </summary>
-        protected readonly MemorySharp MemorySharp;
+        protected readonly MemoryEditor MemorySharp;
         /// <summary>
         /// The parameter passed to the thread when it was created.
         /// </summary>
@@ -176,9 +176,9 @@ namespace Binarysharp.MemoryManagement.Threading
         /// <summary>
         /// Initializes a new instance of the <see cref="RemoteThread"/> class.
         /// </summary>
-        /// <param name="MemorySharp">The reference of the <see cref="MemoryManagement.MemorySharp"/> object.</param>
+        /// <param name="MemorySharp">The reference of the <see cref="MemoryManagement.MemoryEditor"/> object.</param>
         /// <param name="Thread">The native <see cref="ProcessThread"/> object.</param>
-        internal RemoteThread(MemorySharp MemorySharp, ProcessThread Thread)
+        internal RemoteThread(MemoryEditor MemorySharp, ProcessThread Thread)
         {
             // Save the parameters
             this.MemorySharp = MemorySharp;
@@ -194,10 +194,10 @@ namespace Binarysharp.MemoryManagement.Threading
         /// <summary>
         /// Initializes a new instance of the <see cref="RemoteThread"/> class.
         /// </summary>
-        /// <param name="MemorySharp">The reference of the <see cref="MemoryManagement.MemorySharp"/> object.</param>
+        /// <param name="MemorySharp">The reference of the <see cref="MemoryManagement.MemoryEditor"/> object.</param>
         /// <param name="Thread">The native <see cref="ProcessThread"/> object.</param>
         /// <param name="Parameter">The parameter passed to the thread when it was created.</param>
-        internal RemoteThread(MemorySharp MemorySharp, ProcessThread Thread, IMarshalledValue Parameter = null) : this(MemorySharp, Thread)
+        internal RemoteThread(MemoryEditor MemorySharp, ProcessThread Thread, IMarshalledValue Parameter = null) : this(MemorySharp, Thread)
         {
             // Save the parameter
             _Parameter = Parameter;

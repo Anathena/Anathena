@@ -16,7 +16,7 @@ namespace Anathema
     /// </summary>
     abstract class Snapshot : IProcessObserver, IEnumerable
     {
-        protected MemorySharp MemoryEditor;
+        protected MemoryEditor MemoryEditor;
 
         protected SnapshotRegion[] SnapshotRegions;
         protected ConcurrentBag<SnapshotRegion> DeallocatedRegions;
@@ -50,12 +50,12 @@ namespace Anathema
             ProcessSelector.GetInstance().Subscribe(this);
         }
 
-        public void UpdateMemoryEditor(MemorySharp MemoryEditor)
+        public void UpdateMemoryEditor(MemoryEditor MemoryEditor)
         {
             this.MemoryEditor = MemoryEditor;
         }
 
-        public MemorySharp GetMemoryEditor()
+        public MemoryEditor GetMemoryEditor()
         {
             return MemoryEditor;
         }

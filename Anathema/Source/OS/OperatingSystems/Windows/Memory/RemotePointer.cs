@@ -32,17 +32,17 @@ namespace Binarysharp.MemoryManagement.Memory
             get { return MemorySharp.IsRunning && BaseAddress != IntPtr.Zero; }
         }
         /// <summary>
-        /// The reference of the <see cref="MemoryManagement.MemorySharp"/> object.
+        /// The reference of the <see cref="MemoryManagement.MemoryEditor"/> object.
         /// </summary>
-        public MemorySharp MemorySharp { get; protected set; }
+        public MemoryEditor MemorySharp { get; protected set; }
 
         #region Constructor
         /// <summary>
         /// Initializes a new instance of the <see cref="RemotePointer"/> class.
         /// </summary>
-        /// <param name="MemorySharp">The reference of the <see cref="MemoryManagement.MemorySharp"/> object.</param>
+        /// <param name="MemorySharp">The reference of the <see cref="MemoryManagement.MemoryEditor"/> object.</param>
         /// <param name="Address">The location where the pointer points in the remote process.</param>
-        public RemotePointer(MemorySharp MemorySharp, IntPtr Address)
+        public RemotePointer(MemoryEditor MemorySharp, IntPtr Address)
         {
             // Save the parameters
             this.MemorySharp = MemorySharp;
@@ -241,7 +241,7 @@ namespace Binarysharp.MemoryManagement.Memory
         /// <returns>A value.</returns>
         public T Read<T>(Int32 Offset, out Boolean Success)
         {
-            return MemorySharp.Read<T>(BaseAddress + Offset, out Success, false);
+            return MemorySharp.Read<T>(BaseAddress + Offset, out Success);
         }
 
         /// <summary>
@@ -274,7 +274,7 @@ namespace Binarysharp.MemoryManagement.Memory
         /// <returns>An array.</returns>
         public T[] Read<T>(Int32 Offset, Int32 Count, out Boolean Success)
         {
-            return MemorySharp.Read<T>(BaseAddress + Offset, Count, out Success, false);
+            return MemorySharp.Read<T>(BaseAddress + Offset, Count, out Success);
         }
 
         /// <summary>
@@ -300,7 +300,7 @@ namespace Binarysharp.MemoryManagement.Memory
         /// <returns>The string.</returns>
         public String ReadString(Int32 Offset, Encoding Encoding, out Boolean Success, Int32 MaxLength = 512)
         {
-            return MemorySharp.ReadString(BaseAddress + Offset, Encoding, out Success, false, MaxLength);
+            return MemorySharp.ReadString(BaseAddress + Offset, Encoding, out Success, MaxLength);
         }
 
         /// <summary>
@@ -334,7 +334,7 @@ namespace Binarysharp.MemoryManagement.Memory
         /// <returns>The string.</returns>
         public String ReadString(Int32 Offset, out Boolean Success, Int32 MaxLength = 512)
         {
-            return MemorySharp.ReadString(BaseAddress + Offset, out Success, false, MaxLength);
+            return MemorySharp.ReadString(BaseAddress + Offset, out Success, MaxLength);
         }
 
         /// <summary>
@@ -368,7 +368,7 @@ namespace Binarysharp.MemoryManagement.Memory
         /// <param name="Value">The value to write.</param>
         public void Write<T>(Int32 Offset, T Value)
         {
-            MemorySharp.Write(BaseAddress + Offset, Value, false);
+            MemorySharp.Write(BaseAddress + Offset, Value);
         }
 
         /// <summary>
@@ -400,7 +400,7 @@ namespace Binarysharp.MemoryManagement.Memory
         /// <param name="Array">The array to write.</param>
         public void Write<T>(Int32 Offset, T[] Array)
         {
-            MemorySharp.Write(BaseAddress + Offset, Array, false);
+            MemorySharp.Write(BaseAddress + Offset, Array);
         }
 
         /// <summary>
@@ -434,7 +434,7 @@ namespace Binarysharp.MemoryManagement.Memory
         /// <param name="Encoding">The encoding used.</param>
         public void WriteString(Int32 Offset, String Text, Encoding Encoding)
         {
-            MemorySharp.WriteString(BaseAddress + Offset, Text, Encoding, false);
+            MemorySharp.WriteString(BaseAddress + Offset, Text, Encoding);
         }
 
         /// <summary>
@@ -465,7 +465,7 @@ namespace Binarysharp.MemoryManagement.Memory
         /// <param name="Text">The text to write.</param>
         public void WriteString(Int32 Offset, String Text)
         {
-            MemorySharp.WriteString(BaseAddress + Offset, Text, false);
+            MemorySharp.WriteString(BaseAddress + Offset, Text);
         }
 
         /// <summary>

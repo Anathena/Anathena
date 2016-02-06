@@ -17,7 +17,7 @@ namespace Anathema
     /// </summary>
     class MemoryView : IMemoryViewModel, IProcessObserver
     {
-        private MemorySharp MemoryEditor;
+        private MemoryEditor MemoryEditor;
         private List<RemoteVirtualPage> VirtualPages;
 
         private UInt64 StartReadAddress;
@@ -38,7 +38,7 @@ namespace Anathema
             ProcessSelector.GetInstance().Subscribe(this);
         }
 
-        public void UpdateMemoryEditor(MemorySharp MemoryEditor)
+        public void UpdateMemoryEditor(MemoryEditor MemoryEditor)
         {
             this.MemoryEditor = MemoryEditor;
 
@@ -90,7 +90,7 @@ namespace Anathema
             if (MemoryEditor == null)
                 return;
 
-            MemoryEditor.Write<Byte>(unchecked((IntPtr)Address), Value, false);
+            MemoryEditor.Write<Byte>(unchecked((IntPtr)Address), Value);
         }
 
         public override void Begin()
@@ -112,7 +112,7 @@ namespace Anathema
                     continue;
 
                 Boolean ReadSuccess;
-                Byte Value = MemoryEditor.Read<Byte>(unchecked((IntPtr)Address), out ReadSuccess, false);
+                Byte Value = MemoryEditor.Read<Byte>(unchecked((IntPtr)Address), out ReadSuccess);
 
                 if (ReadSuccess)
                     AddressValueMap[Address] = Value;

@@ -5,6 +5,6 @@ namespace Anathema
     interface IProcessObserver
     {
         void InitializeProcessObserver();
-        void UpdateMemoryEditor(MemorySharp MemoryEditor);
+        void UpdateMemoryEditor(MemoryEditor MemoryEditor);
     }
 }

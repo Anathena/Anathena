@@ -37,9 +37,9 @@ namespace Binarysharp.MemoryManagement.Memory
         /// <summary>
         /// Initializes a new instance of the <see cref="RemoteVirtualPage"/> class.
         /// </summary>
-        /// <param name="memorySharp">The reference of the <see cref="MemorySharp"/> object.</param>
+        /// <param name="memorySharp">The reference of the <see cref="MemoryEditor"/> object.</param>
         /// <param name="baseAddress">The base address of the virtual page.</param>
-        internal RemoteVirtualPage(MemorySharp MemorySharp, IntPtr BaseAddress) : base(MemorySharp, BaseAddress)
+        internal RemoteVirtualPage(MemoryEditor MemorySharp, IntPtr BaseAddress) : base(MemorySharp, BaseAddress)
         {
 
         }

@@ -17,7 +17,7 @@ namespace Anathema
     class Results : IResultsModel, IProcessObserver
     {
         private static Results ResultsInstance;
-        private MemorySharp MemoryEditor;
+        private MemoryEditor MemoryEditor;
         private Snapshot Snapshot;
 
         private Type ScanType;
@@ -53,7 +53,7 @@ namespace Anathema
             ProcessSelector.GetInstance().Subscribe(this);
         }
 
-        public void UpdateMemoryEditor(MemorySharp MemoryEditor)
+        public void UpdateMemoryEditor(MemoryEditor MemoryEditor)
         {
             this.MemoryEditor = MemoryEditor;
         }
@@ -127,7 +127,7 @@ namespace Anathema
                     continue;
 
                 Boolean ReadSuccess;
-                String Value = MemoryEditor.Read(ScanType, Snapshot[Index].BaseAddress, out ReadSuccess, false).ToString();
+                String Value = MemoryEditor.Read(ScanType, Snapshot[Index].BaseAddress, out ReadSuccess).ToString();
 
                 IndexValueMap[Index] = Value;
             }

@@ -71,7 +71,7 @@ namespace Anathema
 
         #region Method definitions called by the view (downstream)
 
-        public void UpdateMemoryEditor(MemorySharp MemoryEditor)
+        public void UpdateMemoryEditor(MemoryEditor MemoryEditor)
         {
             Model.UpdateMemoryEditor(MemoryEditor);
         }

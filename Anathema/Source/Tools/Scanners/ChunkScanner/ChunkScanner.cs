@@ -60,7 +60,7 @@ namespace Anathema
         {
             base.Update();
 
-            MemorySharp MemoryEditor = Snapshot.GetMemoryEditor();
+            MemoryEditor MemoryEditor = Snapshot.GetMemoryEditor();
 
             Parallel.ForEach(ChunkRoots, (ChunkRoot) =>
             {

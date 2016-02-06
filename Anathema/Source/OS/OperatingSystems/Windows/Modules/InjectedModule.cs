@@ -33,10 +33,10 @@ namespace Binarysharp.MemoryManagement.Modules
         /// <summary>
         /// Initializes a new instance of the <see cref="InjectedModule"/> class.
         /// </summary>
-        /// <param name="MemorySharp">The reference of the <see cref="MemorySharp"/> object.</param>
+        /// <param name="MemorySharp">The reference of the <see cref="MemoryEditor"/> object.</param>
         /// <param name="Module">The native <see cref="ProcessModule"/> object corresponding to the injected module.</param>
         /// <param name="MustBeDisposed">The module will be ejected when the finalizer collects the object.</param>
-        internal InjectedModule(MemorySharp MemorySharp, ProcessModule Module, Boolean MustBeDisposed = true) : base(MemorySharp, Module)
+        internal InjectedModule(MemoryEditor MemorySharp, ProcessModule Module, Boolean MustBeDisposed = true) : base(MemorySharp, Module)
         {
             // Save the parameter
             this.MustBeDisposed = MustBeDisposed;
@@ -78,10 +78,10 @@ namespace Binarysharp.MemoryManagement.Modules
         /// <summary>
         /// Injects the specified module into the address space of the remote process.
         /// </summary>
-        /// <param name="MemorySharp">The reference of the <see cref="MemorySharp"/> object.</param>
+        /// <param name="MemorySharp">The reference of the <see cref="MemoryEditor"/> object.</param>
         /// <param name="Path">The path of the module. This can be either a library module (a .dll file) or an executable module (an .exe file).</param>
         /// <returns>A new instance of the <see cref="InjectedModule"/>class.</returns>
-        internal static InjectedModule InternalInject(MemorySharp MemorySharp, String Path)
+        internal static InjectedModule InternalInject(MemoryEditor MemorySharp, String Path)
         {
             // Call LoadLibraryA remotely
             RemoteThread Thread = MemorySharp.Threads.CreateAndJoin(MemorySharp["kernel32"]["LoadLibraryA"].BaseAddress, Path);
