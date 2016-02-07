@@ -114,6 +114,10 @@ namespace Anathema
                 {
                     this.BaseAddress -= (Int32)((UInt64)BaseAddress % (UInt64)Alignment);
                     this.BaseAddress += Alignment;
+
+                    this.RegionSize -= Alignment - (Int32)((UInt64)BaseAddress % (UInt64)Alignment);
+                    if (RegionSize < 0)
+                        RegionSize = 0;
                 }
             }
         }

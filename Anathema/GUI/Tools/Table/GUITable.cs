@@ -111,7 +111,41 @@ namespace Anathema
             FSMTableListView.Visible = true;
         }
 
+        private void EditAddressTableEntry(Int32 SelectedItemIndex, Int32 ColumnIndex)
+        {
+            List<Int32> Indicies = new List<Int32>();
+            foreach (Int32 Index in AddressTableListView.SelectedIndices)
+                Indicies.Add(Index);
+
+            if (Indicies.Count == 0)
+                return;
+
+            // Determine the current column selection based on column index
+            Table.TableColumnEnum ColumnSelection = Table.TableColumnEnum.Frozen;
+            if (ColumnIndex == AddressTableListView.Columns.IndexOf(FrozenHeader))
+                ColumnSelection = Table.TableColumnEnum.Frozen;
+            else if (ColumnIndex == AddressTableListView.Columns.IndexOf(AddressDescriptionHeader))
+                ColumnSelection = Table.TableColumnEnum.Description;
+            else if (ColumnIndex == AddressTableListView.Columns.IndexOf(AddressHeader))
+                ColumnSelection = Table.TableColumnEnum.Address;
+            else if (ColumnIndex == AddressTableListView.Columns.IndexOf(TypeHeader))
+                ColumnSelection = Table.TableColumnEnum.ValueType;
+            else if (ColumnIndex == AddressTableListView.Columns.IndexOf(ValueHeader))
+                ColumnSelection = Table.TableColumnEnum.Value;
+
+            // Create editor for this entry
+            GUIAddressTableEntryEditor GUIAddressTableEntryEditor = new GUIAddressTableEntryEditor(SelectedItemIndex, Indicies.ToArray(), ColumnSelection);
+            GUIAddressTableEntryEditor.ShowDialog(this);
+        }
+
+        private void DeleteAddressTableEntries(Int32 StartIndex, Int32 EndIndex)
+        {
+
+        }
+
         #region Events
+
+        private Point LastRightClickLocation = Point.Empty;
 
         private void SaveTableButton_Click(Object Sender, EventArgs E)
         {
@@ -150,6 +184,9 @@ namespace Anathema
 
         private void AddressTableListView_MouseClick(Object Sender, MouseEventArgs E)
         {
+            if (E.Button == MouseButtons.Right)
+                LastRightClickLocation = E.Location;
+
             ListViewItem ListViewItem = AddressTableListView.GetItemAt(E.X, E.Y);
 
             if (ListViewItem == null)
@@ -168,7 +205,7 @@ namespace Anathema
             foreach (Int32 Index in AddressTableListView.SelectedIndices)
                 TablePresenter.SetAddressFrozen(Index, FreezeState);
         }
-        
+
         private void ToggleFreezeToolStripMenuItem_Click(Object Sender, EventArgs E)
         {
             Boolean FreezeState = AddressTableListView.SelectedIndices == null ? false : !AddressTableListView.Items[AddressTableListView.SelectedIndices[0]].Checked;
@@ -185,29 +222,7 @@ namespace Anathema
             if (SelectedItem == null)
                 return;
 
-            List<Int32> Indicies = new List<Int32>();
-            foreach (Int32 Index in AddressTableListView.SelectedIndices)
-                Indicies.Add(Index);
-
-            if (Indicies.Count == 0)
-                return;
-
-            // Determine the current column selection based on column index
-            Table.TableColumnEnum ColumnSelection = Table.TableColumnEnum.Frozen;
-            if (ColumnIndex == AddressTableListView.Columns.IndexOf(FrozenHeader))
-                ColumnSelection = Table.TableColumnEnum.Frozen;
-            else if (ColumnIndex == AddressTableListView.Columns.IndexOf(AddressDescriptionHeader))
-                ColumnSelection = Table.TableColumnEnum.Description;
-            else if (ColumnIndex == AddressTableListView.Columns.IndexOf(AddressHeader))
-                ColumnSelection = Table.TableColumnEnum.Address;
-            else if (ColumnIndex == AddressTableListView.Columns.IndexOf(TypeHeader))
-                ColumnSelection = Table.TableColumnEnum.ValueType;
-            else if (ColumnIndex == AddressTableListView.Columns.IndexOf(ValueHeader))
-                ColumnSelection = Table.TableColumnEnum.Value;
-
-            // Create editor for this entry
-            GUIAddressTableEntryEditor GUIAddressTableEntryEditor = new GUIAddressTableEntryEditor(SelectedItem.Index, Indicies.ToArray(), ColumnSelection);
-            GUIAddressTableEntryEditor.ShowDialog(this);
+            EditAddressTableEntry(SelectedItem.Index, ColumnIndex);
         }
 
         private void ScriptTableListView_MouseClick(Object Sender, MouseEventArgs E)
@@ -250,12 +265,26 @@ namespace Anathema
 
         private void EditAddressEntryToolStripMenuItem_Click(Object Sender, EventArgs E)
         {
+            ListViewHitTestInfo HitTest = AddressTableListView.HitTest(LastRightClickLocation);
+            ListViewItem SelectedItem = HitTest.Item;
+            Int32 ColumnIndex = HitTest.Item.SubItems.IndexOf(HitTest.SubItem);
 
+            if (SelectedItem == null)
+                return;
+
+            EditAddressTableEntry(SelectedItem.Index, ColumnIndex);
         }
 
         private void DeleteSelectionToolStripMenuItem_Click(Object Sender, EventArgs E)
         {
+            ListViewHitTestInfo HitTest = AddressTableListView.HitTest(LastRightClickLocation);
+            ListViewItem SelectedItem = HitTest.Item;
+            Int32 ColumnIndex = HitTest.Item.SubItems.IndexOf(HitTest.SubItem);
 
+            if (SelectedItem == null)
+                return;
+
+            DeleteAddressTableEntries(SelectedItem.Index, SelectedItem.Index);
         }
 
         private void AddNewAddressToolStripMenuItem_Click(Object Sender, EventArgs E)
