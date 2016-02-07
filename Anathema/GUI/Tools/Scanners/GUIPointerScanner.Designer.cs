@@ -35,23 +35,50 @@
             this.StopScanButton = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.AddSelectedResultsButton = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.TargetAddressLabel = new System.Windows.Forms.Label();
             this.MaxOffsetLabel = new System.Windows.Forms.Label();
             this.MaxLevelLabel = new System.Windows.Forms.Label();
             this.ValueTypeComboBox = new System.Windows.Forms.ComboBox();
             this.PointerScanTabControl = new System.Windows.Forms.TabControl();
             this.SettingsTabPage = new System.Windows.Forms.TabPage();
+            this.RescanGroupBox = new System.Windows.Forms.GroupBox();
+            this.toolStrip1 = new System.Windows.Forms.ToolStrip();
+            this.AddConstraintButton = new System.Windows.Forms.ToolStripButton();
+            this.RemoveConstraintButton = new System.Windows.Forms.ToolStripButton();
+            this.ClearConstraintsButton = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
+            this.ScanOptionsToolStripDropDownButton = new System.Windows.Forms.ToolStripDropDownButton();
+            this.ChangedToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.UnchangedToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.IncreasedToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.DecreasedToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.EqualToToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.NotEqualToToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.IncreasedByToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.DecreasedByToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.GreaterThanToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.GreaterThanOrEqualToToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.LessThanToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.LessThanOrEqualToToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.FilterScientificNotationCheckBox = new System.Windows.Forms.CheckBox();
+            this.IgnoreAddressCheckBox = new System.Windows.Forms.CheckBox();
+            this.ConstraintsListView = new System.Windows.Forms.ListView();
+            this.ConstraintHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.ValueTypeLabel = new System.Windows.Forms.Label();
             this.ResultsTabPage = new System.Windows.Forms.TabPage();
+            this.ValueTextBox = new Anathema.HexDecTextBox();
+            this.MaxLevelTextBox = new Anathema.HexDecTextBox();
+            this.MaxOffsetTextBox = new Anathema.HexDecTextBox();
             this.TargetAddressTextBox = new Anathema.HexDecTextBox();
             this.PointerListView = new Anathema.FlickerFreeListView();
             this.ValueHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.BaseHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.ValueTypeLabel = new System.Windows.Forms.Label();
-            this.MaxOffsetTextBox = new Anathema.HexDecTextBox();
-            this.MaxLevelTextBox = new Anathema.HexDecTextBox();
             this.ScanToolStrip.SuspendLayout();
             this.PointerScanTabControl.SuspendLayout();
             this.SettingsTabPage.SuspendLayout();
+            this.RescanGroupBox.SuspendLayout();
+            this.toolStrip1.SuspendLayout();
             this.ResultsTabPage.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -63,11 +90,12 @@
             this.RebuildPointersButton,
             this.StopScanButton,
             this.toolStripSeparator1,
-            this.AddSelectedResultsButton});
+            this.AddSelectedResultsButton,
+            this.toolStripSeparator2});
             this.ScanToolStrip.Location = new System.Drawing.Point(0, 0);
             this.ScanToolStrip.Name = "ScanToolStrip";
             this.ScanToolStrip.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
-            this.ScanToolStrip.Size = new System.Drawing.Size(402, 25);
+            this.ScanToolStrip.Size = new System.Drawing.Size(417, 25);
             this.ScanToolStrip.TabIndex = 149;
             // 
             // StartScanButton
@@ -116,10 +144,15 @@
             this.AddSelectedResultsButton.Text = "Add Selected to Table";
             this.AddSelectedResultsButton.Click += new System.EventHandler(this.AddSelectedResultsButton_Click);
             // 
+            // toolStripSeparator2
+            // 
+            this.toolStripSeparator2.Name = "toolStripSeparator2";
+            this.toolStripSeparator2.Size = new System.Drawing.Size(6, 25);
+            // 
             // TargetAddressLabel
             // 
             this.TargetAddressLabel.AutoSize = true;
-            this.TargetAddressLabel.Location = new System.Drawing.Point(8, 3);
+            this.TargetAddressLabel.Location = new System.Drawing.Point(8, 9);
             this.TargetAddressLabel.Name = "TargetAddressLabel";
             this.TargetAddressLabel.Size = new System.Drawing.Size(45, 13);
             this.TargetAddressLabel.TabIndex = 151;
@@ -128,7 +161,7 @@
             // MaxOffsetLabel
             // 
             this.MaxOffsetLabel.AutoSize = true;
-            this.MaxOffsetLabel.Location = new System.Drawing.Point(148, 42);
+            this.MaxOffsetLabel.Location = new System.Drawing.Point(215, 35);
             this.MaxOffsetLabel.Name = "MaxOffsetLabel";
             this.MaxOffsetLabel.Size = new System.Drawing.Size(58, 13);
             this.MaxOffsetLabel.TabIndex = 153;
@@ -137,7 +170,7 @@
             // MaxLevelLabel
             // 
             this.MaxLevelLabel.AutoSize = true;
-            this.MaxLevelLabel.Location = new System.Drawing.Point(8, 42);
+            this.MaxLevelLabel.Location = new System.Drawing.Point(215, 9);
             this.MaxLevelLabel.Name = "MaxLevelLabel";
             this.MaxLevelLabel.Size = new System.Drawing.Size(56, 13);
             this.MaxLevelLabel.TabIndex = 155;
@@ -147,7 +180,7 @@
             // 
             this.ValueTypeComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.ValueTypeComboBox.FormattingEnabled = true;
-            this.ValueTypeComboBox.Location = new System.Drawing.Point(151, 19);
+            this.ValueTypeComboBox.Location = new System.Drawing.Point(75, 32);
             this.ValueTypeComboBox.Name = "ValueTypeComboBox";
             this.ValueTypeComboBox.Size = new System.Drawing.Size(134, 21);
             this.ValueTypeComboBox.TabIndex = 158;
@@ -161,13 +194,14 @@
             this.PointerScanTabControl.Location = new System.Drawing.Point(0, 25);
             this.PointerScanTabControl.Name = "PointerScanTabControl";
             this.PointerScanTabControl.SelectedIndex = 0;
-            this.PointerScanTabControl.Size = new System.Drawing.Size(402, 253);
+            this.PointerScanTabControl.Size = new System.Drawing.Size(417, 234);
             this.PointerScanTabControl.SizeMode = System.Windows.Forms.TabSizeMode.Fixed;
             this.PointerScanTabControl.TabIndex = 159;
             // 
             // SettingsTabPage
             // 
             this.SettingsTabPage.BackColor = System.Drawing.SystemColors.Control;
+            this.SettingsTabPage.Controls.Add(this.RescanGroupBox);
             this.SettingsTabPage.Controls.Add(this.MaxLevelTextBox);
             this.SettingsTabPage.Controls.Add(this.MaxOffsetTextBox);
             this.SettingsTabPage.Controls.Add(this.ValueTypeLabel);
@@ -179,9 +213,228 @@
             this.SettingsTabPage.Location = new System.Drawing.Point(4, 22);
             this.SettingsTabPage.Name = "SettingsTabPage";
             this.SettingsTabPage.Padding = new System.Windows.Forms.Padding(3);
-            this.SettingsTabPage.Size = new System.Drawing.Size(394, 227);
+            this.SettingsTabPage.Size = new System.Drawing.Size(409, 208);
             this.SettingsTabPage.TabIndex = 0;
             this.SettingsTabPage.Text = "Settings";
+            // 
+            // RescanGroupBox
+            // 
+            this.RescanGroupBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.RescanGroupBox.Controls.Add(this.ValueTextBox);
+            this.RescanGroupBox.Controls.Add(this.toolStrip1);
+            this.RescanGroupBox.Controls.Add(this.FilterScientificNotationCheckBox);
+            this.RescanGroupBox.Controls.Add(this.IgnoreAddressCheckBox);
+            this.RescanGroupBox.Controls.Add(this.ConstraintsListView);
+            this.RescanGroupBox.Location = new System.Drawing.Point(11, 71);
+            this.RescanGroupBox.Name = "RescanGroupBox";
+            this.RescanGroupBox.Size = new System.Drawing.Size(392, 129);
+            this.RescanGroupBox.TabIndex = 163;
+            this.RescanGroupBox.TabStop = false;
+            this.RescanGroupBox.Text = "Rescan Constraints";
+            // 
+            // toolStrip1
+            // 
+            this.toolStrip1.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
+            this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.AddConstraintButton,
+            this.RemoveConstraintButton,
+            this.ClearConstraintsButton,
+            this.toolStripSeparator3,
+            this.ScanOptionsToolStripDropDownButton});
+            this.toolStrip1.Location = new System.Drawing.Point(3, 16);
+            this.toolStrip1.Name = "toolStrip1";
+            this.toolStrip1.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
+            this.toolStrip1.Size = new System.Drawing.Size(386, 25);
+            this.toolStrip1.TabIndex = 165;
+            this.toolStrip1.Text = "toolStrip1";
+            // 
+            // AddConstraintButton
+            // 
+            this.AddConstraintButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.AddConstraintButton.Image = global::Anathema.Properties.Resources.DownArrows;
+            this.AddConstraintButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.AddConstraintButton.Name = "AddConstraintButton";
+            this.AddConstraintButton.Size = new System.Drawing.Size(23, 22);
+            this.AddConstraintButton.Text = "Add Constraint";
+            // 
+            // RemoveConstraintButton
+            // 
+            this.RemoveConstraintButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.RemoveConstraintButton.Image = global::Anathema.Properties.Resources.X;
+            this.RemoveConstraintButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.RemoveConstraintButton.Name = "RemoveConstraintButton";
+            this.RemoveConstraintButton.Size = new System.Drawing.Size(23, 22);
+            this.RemoveConstraintButton.Text = "Remove Selected Constraints";
+            // 
+            // ClearConstraintsButton
+            // 
+            this.ClearConstraintsButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.ClearConstraintsButton.Image = global::Anathema.Properties.Resources.Cancel;
+            this.ClearConstraintsButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.ClearConstraintsButton.Name = "ClearConstraintsButton";
+            this.ClearConstraintsButton.Size = new System.Drawing.Size(23, 22);
+            this.ClearConstraintsButton.Text = "Clear Constraints";
+            // 
+            // toolStripSeparator3
+            // 
+            this.toolStripSeparator3.Name = "toolStripSeparator3";
+            this.toolStripSeparator3.Size = new System.Drawing.Size(6, 25);
+            // 
+            // ScanOptionsToolStripDropDownButton
+            // 
+            this.ScanOptionsToolStripDropDownButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.ScanOptionsToolStripDropDownButton.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.ChangedToolStripMenuItem,
+            this.UnchangedToolStripMenuItem,
+            this.IncreasedToolStripMenuItem,
+            this.DecreasedToolStripMenuItem,
+            this.EqualToToolStripMenuItem,
+            this.NotEqualToToolStripMenuItem,
+            this.IncreasedByToolStripMenuItem,
+            this.DecreasedByToolStripMenuItem,
+            this.GreaterThanToolStripMenuItem,
+            this.GreaterThanOrEqualToToolStripMenuItem,
+            this.LessThanToolStripMenuItem,
+            this.LessThanOrEqualToToolStripMenuItem});
+            this.ScanOptionsToolStripDropDownButton.Image = global::Anathema.Properties.Resources.Changed;
+            this.ScanOptionsToolStripDropDownButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.ScanOptionsToolStripDropDownButton.Name = "ScanOptionsToolStripDropDownButton";
+            this.ScanOptionsToolStripDropDownButton.Size = new System.Drawing.Size(29, 22);
+            this.ScanOptionsToolStripDropDownButton.Text = "Scan Options";
+            // 
+            // ChangedToolStripMenuItem
+            // 
+            this.ChangedToolStripMenuItem.Image = global::Anathema.Properties.Resources.Changed;
+            this.ChangedToolStripMenuItem.Name = "ChangedToolStripMenuItem";
+            this.ChangedToolStripMenuItem.Size = new System.Drawing.Size(202, 22);
+            this.ChangedToolStripMenuItem.Text = "Changed";
+            // 
+            // UnchangedToolStripMenuItem
+            // 
+            this.UnchangedToolStripMenuItem.Image = global::Anathema.Properties.Resources.Unchanged;
+            this.UnchangedToolStripMenuItem.Name = "UnchangedToolStripMenuItem";
+            this.UnchangedToolStripMenuItem.Size = new System.Drawing.Size(202, 22);
+            this.UnchangedToolStripMenuItem.Text = "Unchanged";
+            // 
+            // IncreasedToolStripMenuItem
+            // 
+            this.IncreasedToolStripMenuItem.Image = global::Anathema.Properties.Resources.Increased;
+            this.IncreasedToolStripMenuItem.Name = "IncreasedToolStripMenuItem";
+            this.IncreasedToolStripMenuItem.Size = new System.Drawing.Size(202, 22);
+            this.IncreasedToolStripMenuItem.Text = "Increased";
+            // 
+            // DecreasedToolStripMenuItem
+            // 
+            this.DecreasedToolStripMenuItem.Image = global::Anathema.Properties.Resources.Decreased;
+            this.DecreasedToolStripMenuItem.Name = "DecreasedToolStripMenuItem";
+            this.DecreasedToolStripMenuItem.Size = new System.Drawing.Size(202, 22);
+            this.DecreasedToolStripMenuItem.Text = "Decreased";
+            // 
+            // EqualToToolStripMenuItem
+            // 
+            this.EqualToToolStripMenuItem.Image = global::Anathema.Properties.Resources.Equal;
+            this.EqualToToolStripMenuItem.Name = "EqualToToolStripMenuItem";
+            this.EqualToToolStripMenuItem.Size = new System.Drawing.Size(202, 22);
+            this.EqualToToolStripMenuItem.Text = "Equal to";
+            // 
+            // NotEqualToToolStripMenuItem
+            // 
+            this.NotEqualToToolStripMenuItem.Image = global::Anathema.Properties.Resources.NotEqual;
+            this.NotEqualToToolStripMenuItem.Name = "NotEqualToToolStripMenuItem";
+            this.NotEqualToToolStripMenuItem.Size = new System.Drawing.Size(202, 22);
+            this.NotEqualToToolStripMenuItem.Text = "Not Equal to";
+            // 
+            // IncreasedByToolStripMenuItem
+            // 
+            this.IncreasedByToolStripMenuItem.Image = global::Anathema.Properties.Resources.PlusX;
+            this.IncreasedByToolStripMenuItem.Name = "IncreasedByToolStripMenuItem";
+            this.IncreasedByToolStripMenuItem.Size = new System.Drawing.Size(202, 22);
+            this.IncreasedByToolStripMenuItem.Text = "Increased by";
+            // 
+            // DecreasedByToolStripMenuItem
+            // 
+            this.DecreasedByToolStripMenuItem.Image = global::Anathema.Properties.Resources.MinusX;
+            this.DecreasedByToolStripMenuItem.Name = "DecreasedByToolStripMenuItem";
+            this.DecreasedByToolStripMenuItem.Size = new System.Drawing.Size(202, 22);
+            this.DecreasedByToolStripMenuItem.Text = "Decreased by";
+            // 
+            // GreaterThanToolStripMenuItem
+            // 
+            this.GreaterThanToolStripMenuItem.Image = global::Anathema.Properties.Resources.GreaterThan;
+            this.GreaterThanToolStripMenuItem.Name = "GreaterThanToolStripMenuItem";
+            this.GreaterThanToolStripMenuItem.Size = new System.Drawing.Size(202, 22);
+            this.GreaterThanToolStripMenuItem.Text = "Greater Than";
+            // 
+            // GreaterThanOrEqualToToolStripMenuItem
+            // 
+            this.GreaterThanOrEqualToToolStripMenuItem.Image = global::Anathema.Properties.Resources.GreaterThanOrEqual;
+            this.GreaterThanOrEqualToToolStripMenuItem.Name = "GreaterThanOrEqualToToolStripMenuItem";
+            this.GreaterThanOrEqualToToolStripMenuItem.Size = new System.Drawing.Size(202, 22);
+            this.GreaterThanOrEqualToToolStripMenuItem.Text = "Greater Than or Equal to";
+            // 
+            // LessThanToolStripMenuItem
+            // 
+            this.LessThanToolStripMenuItem.Image = global::Anathema.Properties.Resources.LessThan;
+            this.LessThanToolStripMenuItem.Name = "LessThanToolStripMenuItem";
+            this.LessThanToolStripMenuItem.Size = new System.Drawing.Size(202, 22);
+            this.LessThanToolStripMenuItem.Text = "Less Than";
+            // 
+            // LessThanOrEqualToToolStripMenuItem
+            // 
+            this.LessThanOrEqualToToolStripMenuItem.Image = global::Anathema.Properties.Resources.LessThanOrEqual;
+            this.LessThanOrEqualToToolStripMenuItem.Name = "LessThanOrEqualToToolStripMenuItem";
+            this.LessThanOrEqualToToolStripMenuItem.Size = new System.Drawing.Size(202, 22);
+            this.LessThanOrEqualToToolStripMenuItem.Text = "Less Than or Equal to";
+            // 
+            // FilterScientificNotationCheckBox
+            // 
+            this.FilterScientificNotationCheckBox.AutoSize = true;
+            this.FilterScientificNotationCheckBox.Location = new System.Drawing.Point(249, 46);
+            this.FilterScientificNotationCheckBox.Name = "FilterScientificNotationCheckBox";
+            this.FilterScientificNotationCheckBox.Size = new System.Drawing.Size(137, 17);
+            this.FilterScientificNotationCheckBox.TabIndex = 164;
+            this.FilterScientificNotationCheckBox.Text = "Filter Scientific Notation";
+            this.FilterScientificNotationCheckBox.UseVisualStyleBackColor = true;
+            // 
+            // IgnoreAddressCheckBox
+            // 
+            this.IgnoreAddressCheckBox.AutoSize = true;
+            this.IgnoreAddressCheckBox.Location = new System.Drawing.Point(146, 46);
+            this.IgnoreAddressCheckBox.Name = "IgnoreAddressCheckBox";
+            this.IgnoreAddressCheckBox.Size = new System.Drawing.Size(97, 17);
+            this.IgnoreAddressCheckBox.TabIndex = 159;
+            this.IgnoreAddressCheckBox.Text = "Ignore Address";
+            this.IgnoreAddressCheckBox.UseVisualStyleBackColor = true;
+            // 
+            // ConstraintsListView
+            // 
+            this.ConstraintsListView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.ConstraintsListView.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.ConstraintHeader});
+            this.ConstraintsListView.FullRowSelect = true;
+            this.ConstraintsListView.Location = new System.Drawing.Point(6, 70);
+            this.ConstraintsListView.Name = "ConstraintsListView";
+            this.ConstraintsListView.Size = new System.Drawing.Size(380, 53);
+            this.ConstraintsListView.TabIndex = 158;
+            this.ConstraintsListView.UseCompatibleStateImageBehavior = false;
+            this.ConstraintsListView.View = System.Windows.Forms.View.Details;
+            // 
+            // ConstraintHeader
+            // 
+            this.ConstraintHeader.Text = "Constraint";
+            this.ConstraintHeader.Width = 312;
+            // 
+            // ValueTypeLabel
+            // 
+            this.ValueTypeLabel.AutoSize = true;
+            this.ValueTypeLabel.Location = new System.Drawing.Point(8, 35);
+            this.ValueTypeLabel.Name = "ValueTypeLabel";
+            this.ValueTypeLabel.Size = new System.Drawing.Size(61, 13);
+            this.ValueTypeLabel.TabIndex = 160;
+            this.ValueTypeLabel.Text = "Value Type";
             // 
             // ResultsTabPage
             // 
@@ -190,15 +443,51 @@
             this.ResultsTabPage.Location = new System.Drawing.Point(4, 22);
             this.ResultsTabPage.Name = "ResultsTabPage";
             this.ResultsTabPage.Padding = new System.Windows.Forms.Padding(3);
-            this.ResultsTabPage.Size = new System.Drawing.Size(394, 227);
+            this.ResultsTabPage.Size = new System.Drawing.Size(409, 308);
             this.ResultsTabPage.TabIndex = 1;
             this.ResultsTabPage.Text = "Results";
+            // 
+            // ValueTextBox
+            // 
+            this.ValueTextBox.ForeColor = System.Drawing.Color.Red;
+            this.ValueTextBox.IsHex = true;
+            this.ValueTextBox.Location = new System.Drawing.Point(6, 44);
+            this.ValueTextBox.Name = "ValueTextBox";
+            this.ValueTextBox.Size = new System.Drawing.Size(134, 20);
+            this.ValueTextBox.TabIndex = 164;
+            this.ValueTextBox.WatermarkColor = System.Drawing.Color.LightGray;
+            this.ValueTextBox.WaterMarkFont = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.ValueTextBox.WaterMarkText = null;
+            // 
+            // MaxLevelTextBox
+            // 
+            this.MaxLevelTextBox.ForeColor = System.Drawing.Color.Red;
+            this.MaxLevelTextBox.IsHex = false;
+            this.MaxLevelTextBox.Location = new System.Drawing.Point(279, 6);
+            this.MaxLevelTextBox.Name = "MaxLevelTextBox";
+            this.MaxLevelTextBox.Size = new System.Drawing.Size(64, 20);
+            this.MaxLevelTextBox.TabIndex = 162;
+            this.MaxLevelTextBox.WatermarkColor = System.Drawing.Color.LightGray;
+            this.MaxLevelTextBox.WaterMarkFont = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.MaxLevelTextBox.WaterMarkText = null;
+            // 
+            // MaxOffsetTextBox
+            // 
+            this.MaxOffsetTextBox.ForeColor = System.Drawing.Color.Red;
+            this.MaxOffsetTextBox.IsHex = true;
+            this.MaxOffsetTextBox.Location = new System.Drawing.Point(279, 32);
+            this.MaxOffsetTextBox.Name = "MaxOffsetTextBox";
+            this.MaxOffsetTextBox.Size = new System.Drawing.Size(64, 20);
+            this.MaxOffsetTextBox.TabIndex = 161;
+            this.MaxOffsetTextBox.WatermarkColor = System.Drawing.Color.LightGray;
+            this.MaxOffsetTextBox.WaterMarkFont = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.MaxOffsetTextBox.WaterMarkText = null;
             // 
             // TargetAddressTextBox
             // 
             this.TargetAddressTextBox.ForeColor = System.Drawing.Color.Red;
             this.TargetAddressTextBox.IsHex = true;
-            this.TargetAddressTextBox.Location = new System.Drawing.Point(11, 19);
+            this.TargetAddressTextBox.Location = new System.Drawing.Point(75, 6);
             this.TargetAddressTextBox.Name = "TargetAddressTextBox";
             this.TargetAddressTextBox.Size = new System.Drawing.Size(134, 20);
             this.TargetAddressTextBox.TabIndex = 159;
@@ -216,7 +505,7 @@
             this.PointerListView.FullRowSelect = true;
             this.PointerListView.Location = new System.Drawing.Point(3, 3);
             this.PointerListView.Name = "PointerListView";
-            this.PointerListView.Size = new System.Drawing.Size(388, 221);
+            this.PointerListView.Size = new System.Drawing.Size(403, 302);
             this.PointerListView.TabIndex = 157;
             this.PointerListView.UseCompatibleStateImageBehavior = false;
             this.PointerListView.View = System.Windows.Forms.View.Details;
@@ -234,44 +523,11 @@
             this.BaseHeader.Text = "Base";
             this.BaseHeader.Width = 94;
             // 
-            // ValueTypeLabel
-            // 
-            this.ValueTypeLabel.AutoSize = true;
-            this.ValueTypeLabel.Location = new System.Drawing.Point(149, 3);
-            this.ValueTypeLabel.Name = "ValueTypeLabel";
-            this.ValueTypeLabel.Size = new System.Drawing.Size(61, 13);
-            this.ValueTypeLabel.TabIndex = 160;
-            this.ValueTypeLabel.Text = "Value Type";
-            // 
-            // MaxOffsetTextBox
-            // 
-            this.MaxOffsetTextBox.ForeColor = System.Drawing.Color.Red;
-            this.MaxOffsetTextBox.IsHex = true;
-            this.MaxOffsetTextBox.Location = new System.Drawing.Point(152, 58);
-            this.MaxOffsetTextBox.Name = "MaxOffsetTextBox";
-            this.MaxOffsetTextBox.Size = new System.Drawing.Size(133, 20);
-            this.MaxOffsetTextBox.TabIndex = 161;
-            this.MaxOffsetTextBox.WatermarkColor = System.Drawing.Color.LightGray;
-            this.MaxOffsetTextBox.WaterMarkFont = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.MaxOffsetTextBox.WaterMarkText = null;
-            // 
-            // MaxLevelTextBox
-            // 
-            this.MaxLevelTextBox.ForeColor = System.Drawing.Color.Red;
-            this.MaxLevelTextBox.IsHex = false;
-            this.MaxLevelTextBox.Location = new System.Drawing.Point(11, 58);
-            this.MaxLevelTextBox.Name = "MaxLevelTextBox";
-            this.MaxLevelTextBox.Size = new System.Drawing.Size(134, 20);
-            this.MaxLevelTextBox.TabIndex = 162;
-            this.MaxLevelTextBox.WatermarkColor = System.Drawing.Color.LightGray;
-            this.MaxLevelTextBox.WaterMarkFont = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.MaxLevelTextBox.WaterMarkText = null;
-            // 
             // GUIPointerScanner
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(402, 278);
+            this.ClientSize = new System.Drawing.Size(417, 259);
             this.Controls.Add(this.PointerScanTabControl);
             this.Controls.Add(this.ScanToolStrip);
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -284,6 +540,10 @@
             this.PointerScanTabControl.ResumeLayout(false);
             this.SettingsTabPage.ResumeLayout(false);
             this.SettingsTabPage.PerformLayout();
+            this.RescanGroupBox.ResumeLayout(false);
+            this.RescanGroupBox.PerformLayout();
+            this.toolStrip1.ResumeLayout(false);
+            this.toolStrip1.PerformLayout();
             this.ResultsTabPage.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -311,5 +571,30 @@
         private System.Windows.Forms.Label ValueTypeLabel;
         private HexDecTextBox MaxOffsetTextBox;
         private HexDecTextBox MaxLevelTextBox;
+        private System.Windows.Forms.GroupBox RescanGroupBox;
+        private System.Windows.Forms.ListView ConstraintsListView;
+        private System.Windows.Forms.ColumnHeader ConstraintHeader;
+        private System.Windows.Forms.CheckBox IgnoreAddressCheckBox;
+        private System.Windows.Forms.CheckBox FilterScientificNotationCheckBox;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
+        private System.Windows.Forms.ToolStrip toolStrip1;
+        private System.Windows.Forms.ToolStripButton AddConstraintButton;
+        private System.Windows.Forms.ToolStripButton RemoveConstraintButton;
+        private System.Windows.Forms.ToolStripButton ClearConstraintsButton;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
+        private System.Windows.Forms.ToolStripDropDownButton ScanOptionsToolStripDropDownButton;
+        private System.Windows.Forms.ToolStripMenuItem ChangedToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem UnchangedToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem IncreasedToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem DecreasedToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem EqualToToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem NotEqualToToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem IncreasedByToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem DecreasedByToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem GreaterThanToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem GreaterThanOrEqualToToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem LessThanToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem LessThanOrEqualToToolStripMenuItem;
+        private HexDecTextBox ValueTextBox;
     }
 }

@@ -104,7 +104,7 @@
             // FilterScientificNotationCheckBox
             // 
             this.FilterScientificNotationCheckBox.AutoSize = true;
-            this.FilterScientificNotationCheckBox.Location = new System.Drawing.Point(132, 54);
+            this.FilterScientificNotationCheckBox.Location = new System.Drawing.Point(112, 54);
             this.FilterScientificNotationCheckBox.Name = "FilterScientificNotationCheckBox";
             this.FilterScientificNotationCheckBox.Size = new System.Drawing.Size(137, 17);
             this.FilterScientificNotationCheckBox.TabIndex = 158;
@@ -181,7 +181,7 @@
             this.ScanOptionsToolStripDropDownButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.ScanOptionsToolStripDropDownButton.Name = "ScanOptionsToolStripDropDownButton";
             this.ScanOptionsToolStripDropDownButton.Size = new System.Drawing.Size(29, 22);
-            this.ScanOptionsToolStripDropDownButton.Text = "toolStripDropDownButton1";
+            this.ScanOptionsToolStripDropDownButton.Text = "Scan Options";
             // 
             // ChangedToolStripMenuItem
             // 
