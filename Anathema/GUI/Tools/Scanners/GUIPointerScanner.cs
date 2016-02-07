@@ -9,6 +9,7 @@ using WeifenLuo.WinFormsUI.Docking;
 using System.IO;
 using Binarysharp.MemoryManagement;
 using Binarysharp.MemoryManagement.Memory;
+using System.Linq;
 
 namespace Anathema
 {
@@ -184,7 +185,7 @@ namespace Anathema
             const Int32 TabBoarderOffset = 3;
             PointerScanTabControl.ItemSize = new Size((PointerScanTabControl.Width - TabBoarderOffset) / PointerScanTabControl.TabCount, 0);
         }
-
+        
         #endregion
 
     } // End class

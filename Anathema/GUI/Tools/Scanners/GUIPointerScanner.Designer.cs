@@ -42,29 +42,9 @@
             this.ValueTypeComboBox = new System.Windows.Forms.ComboBox();
             this.PointerScanTabControl = new System.Windows.Forms.TabControl();
             this.SettingsTabPage = new System.Windows.Forms.TabPage();
-            this.RescanGroupBox = new System.Windows.Forms.GroupBox();
-            this.ValueTextBox = new Anathema.HexDecTextBox();
-            this.toolStrip1 = new System.Windows.Forms.ToolStrip();
-            this.AddConstraintButton = new System.Windows.Forms.ToolStripButton();
-            this.RemoveConstraintButton = new System.Windows.Forms.ToolStripButton();
-            this.ClearConstraintsButton = new System.Windows.Forms.ToolStripButton();
-            this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
-            this.ScanOptionsToolStripDropDownButton = new System.Windows.Forms.ToolStripDropDownButton();
-            this.ChangedToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.UnchangedToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.IncreasedToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.DecreasedToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.EqualToToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.NotEqualToToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.IncreasedByToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.DecreasedByToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.GreaterThanToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.GreaterThanOrEqualToToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.LessThanToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.LessThanOrEqualToToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.NotScientificNotationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.IgnoreAddressCheckBox = new System.Windows.Forms.CheckBox();
-            this.ConstraintsListView = new System.Windows.Forms.ListView();
+            this.RescanGroupBox = new System.Windows.Forms.GroupBox();
+            this.GUIConstraintEditor = new Anathema.GUI.Tools.MemoryScanners.GUIConstraintEditor();
             this.MaxLevelTextBox = new Anathema.HexDecTextBox();
             this.MaxOffsetTextBox = new Anathema.HexDecTextBox();
             this.ValueTypeLabel = new System.Windows.Forms.Label();
@@ -77,7 +57,6 @@
             this.PointerScanTabControl.SuspendLayout();
             this.SettingsTabPage.SuspendLayout();
             this.RescanGroupBox.SuspendLayout();
-            this.toolStrip1.SuspendLayout();
             this.ResultsTabPage.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -200,6 +179,7 @@
             // SettingsTabPage
             // 
             this.SettingsTabPage.BackColor = System.Drawing.SystemColors.Control;
+            this.SettingsTabPage.Controls.Add(this.IgnoreAddressCheckBox);
             this.SettingsTabPage.Controls.Add(this.RescanGroupBox);
             this.SettingsTabPage.Controls.Add(this.MaxLevelTextBox);
             this.SettingsTabPage.Controls.Add(this.MaxOffsetTextBox);
@@ -216,14 +196,21 @@
             this.SettingsTabPage.TabIndex = 0;
             this.SettingsTabPage.Text = "Settings";
             // 
+            // IgnoreAddressCheckBox
+            // 
+            this.IgnoreAddressCheckBox.AutoSize = true;
+            this.IgnoreAddressCheckBox.Location = new System.Drawing.Point(246, 58);
+            this.IgnoreAddressCheckBox.Name = "IgnoreAddressCheckBox";
+            this.IgnoreAddressCheckBox.Size = new System.Drawing.Size(97, 17);
+            this.IgnoreAddressCheckBox.TabIndex = 159;
+            this.IgnoreAddressCheckBox.Text = "Ignore Address";
+            this.IgnoreAddressCheckBox.UseVisualStyleBackColor = true;
+            // 
             // RescanGroupBox
             // 
             this.RescanGroupBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.RescanGroupBox.Controls.Add(this.ValueTextBox);
-            this.RescanGroupBox.Controls.Add(this.toolStrip1);
-            this.RescanGroupBox.Controls.Add(this.IgnoreAddressCheckBox);
-            this.RescanGroupBox.Controls.Add(this.ConstraintsListView);
+            this.RescanGroupBox.Controls.Add(this.GUIConstraintEditor);
             this.RescanGroupBox.Location = new System.Drawing.Point(11, 71);
             this.RescanGroupBox.Name = "RescanGroupBox";
             this.RescanGroupBox.Size = new System.Drawing.Size(392, 129);
@@ -231,202 +218,12 @@
             this.RescanGroupBox.TabStop = false;
             this.RescanGroupBox.Text = "Rescan Constraints";
             // 
-            // ValueTextBox
+            // GUIConstraintEditor
             // 
-            this.ValueTextBox.ForeColor = System.Drawing.Color.Red;
-            this.ValueTextBox.IsHex = true;
-            this.ValueTextBox.Location = new System.Drawing.Point(6, 44);
-            this.ValueTextBox.Name = "ValueTextBox";
-            this.ValueTextBox.Size = new System.Drawing.Size(134, 20);
-            this.ValueTextBox.TabIndex = 164;
-            this.ValueTextBox.WatermarkColor = System.Drawing.Color.LightGray;
-            this.ValueTextBox.WaterMarkFont = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.ValueTextBox.WaterMarkText = null;
-            // 
-            // toolStrip1
-            // 
-            this.toolStrip1.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
-            this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.AddConstraintButton,
-            this.RemoveConstraintButton,
-            this.ClearConstraintsButton,
-            this.toolStripSeparator3,
-            this.ScanOptionsToolStripDropDownButton});
-            this.toolStrip1.Location = new System.Drawing.Point(3, 16);
-            this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
-            this.toolStrip1.Size = new System.Drawing.Size(386, 25);
-            this.toolStrip1.TabIndex = 165;
-            this.toolStrip1.Text = "toolStrip1";
-            // 
-            // AddConstraintButton
-            // 
-            this.AddConstraintButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.AddConstraintButton.Image = global::Anathema.Properties.Resources.DownArrows;
-            this.AddConstraintButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.AddConstraintButton.Name = "AddConstraintButton";
-            this.AddConstraintButton.Size = new System.Drawing.Size(23, 22);
-            this.AddConstraintButton.Text = "Add Constraint";
-            // 
-            // RemoveConstraintButton
-            // 
-            this.RemoveConstraintButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.RemoveConstraintButton.Image = global::Anathema.Properties.Resources.X;
-            this.RemoveConstraintButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.RemoveConstraintButton.Name = "RemoveConstraintButton";
-            this.RemoveConstraintButton.Size = new System.Drawing.Size(23, 22);
-            this.RemoveConstraintButton.Text = "Remove Selected Constraints";
-            // 
-            // ClearConstraintsButton
-            // 
-            this.ClearConstraintsButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.ClearConstraintsButton.Image = global::Anathema.Properties.Resources.Cancel;
-            this.ClearConstraintsButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.ClearConstraintsButton.Name = "ClearConstraintsButton";
-            this.ClearConstraintsButton.Size = new System.Drawing.Size(23, 22);
-            this.ClearConstraintsButton.Text = "Clear Constraints";
-            // 
-            // toolStripSeparator3
-            // 
-            this.toolStripSeparator3.Name = "toolStripSeparator3";
-            this.toolStripSeparator3.Size = new System.Drawing.Size(6, 25);
-            // 
-            // ScanOptionsToolStripDropDownButton
-            // 
-            this.ScanOptionsToolStripDropDownButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.ScanOptionsToolStripDropDownButton.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.ChangedToolStripMenuItem,
-            this.UnchangedToolStripMenuItem,
-            this.IncreasedToolStripMenuItem,
-            this.DecreasedToolStripMenuItem,
-            this.EqualToToolStripMenuItem,
-            this.NotEqualToToolStripMenuItem,
-            this.IncreasedByToolStripMenuItem,
-            this.DecreasedByToolStripMenuItem,
-            this.GreaterThanToolStripMenuItem,
-            this.GreaterThanOrEqualToToolStripMenuItem,
-            this.LessThanToolStripMenuItem,
-            this.LessThanOrEqualToToolStripMenuItem,
-            this.NotScientificNotationToolStripMenuItem});
-            this.ScanOptionsToolStripDropDownButton.Image = global::Anathema.Properties.Resources.Changed;
-            this.ScanOptionsToolStripDropDownButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.ScanOptionsToolStripDropDownButton.Name = "ScanOptionsToolStripDropDownButton";
-            this.ScanOptionsToolStripDropDownButton.Size = new System.Drawing.Size(29, 22);
-            this.ScanOptionsToolStripDropDownButton.Text = "Scan Options";
-            // 
-            // ChangedToolStripMenuItem
-            // 
-            this.ChangedToolStripMenuItem.Image = global::Anathema.Properties.Resources.Changed;
-            this.ChangedToolStripMenuItem.Name = "ChangedToolStripMenuItem";
-            this.ChangedToolStripMenuItem.Size = new System.Drawing.Size(202, 22);
-            this.ChangedToolStripMenuItem.Text = "Changed";
-            // 
-            // UnchangedToolStripMenuItem
-            // 
-            this.UnchangedToolStripMenuItem.Image = global::Anathema.Properties.Resources.Unchanged;
-            this.UnchangedToolStripMenuItem.Name = "UnchangedToolStripMenuItem";
-            this.UnchangedToolStripMenuItem.Size = new System.Drawing.Size(202, 22);
-            this.UnchangedToolStripMenuItem.Text = "Unchanged";
-            // 
-            // IncreasedToolStripMenuItem
-            // 
-            this.IncreasedToolStripMenuItem.Image = global::Anathema.Properties.Resources.Increased;
-            this.IncreasedToolStripMenuItem.Name = "IncreasedToolStripMenuItem";
-            this.IncreasedToolStripMenuItem.Size = new System.Drawing.Size(202, 22);
-            this.IncreasedToolStripMenuItem.Text = "Increased";
-            // 
-            // DecreasedToolStripMenuItem
-            // 
-            this.DecreasedToolStripMenuItem.Image = global::Anathema.Properties.Resources.Decreased;
-            this.DecreasedToolStripMenuItem.Name = "DecreasedToolStripMenuItem";
-            this.DecreasedToolStripMenuItem.Size = new System.Drawing.Size(202, 22);
-            this.DecreasedToolStripMenuItem.Text = "Decreased";
-            // 
-            // EqualToToolStripMenuItem
-            // 
-            this.EqualToToolStripMenuItem.Image = global::Anathema.Properties.Resources.Equal;
-            this.EqualToToolStripMenuItem.Name = "EqualToToolStripMenuItem";
-            this.EqualToToolStripMenuItem.Size = new System.Drawing.Size(202, 22);
-            this.EqualToToolStripMenuItem.Text = "Equal to";
-            // 
-            // NotEqualToToolStripMenuItem
-            // 
-            this.NotEqualToToolStripMenuItem.Image = global::Anathema.Properties.Resources.NotEqual;
-            this.NotEqualToToolStripMenuItem.Name = "NotEqualToToolStripMenuItem";
-            this.NotEqualToToolStripMenuItem.Size = new System.Drawing.Size(202, 22);
-            this.NotEqualToToolStripMenuItem.Text = "Not Equal to";
-            // 
-            // IncreasedByToolStripMenuItem
-            // 
-            this.IncreasedByToolStripMenuItem.Image = global::Anathema.Properties.Resources.PlusX;
-            this.IncreasedByToolStripMenuItem.Name = "IncreasedByToolStripMenuItem";
-            this.IncreasedByToolStripMenuItem.Size = new System.Drawing.Size(202, 22);
-            this.IncreasedByToolStripMenuItem.Text = "Increased by";
-            // 
-            // DecreasedByToolStripMenuItem
-            // 
-            this.DecreasedByToolStripMenuItem.Image = global::Anathema.Properties.Resources.MinusX;
-            this.DecreasedByToolStripMenuItem.Name = "DecreasedByToolStripMenuItem";
-            this.DecreasedByToolStripMenuItem.Size = new System.Drawing.Size(202, 22);
-            this.DecreasedByToolStripMenuItem.Text = "Decreased by";
-            // 
-            // GreaterThanToolStripMenuItem
-            // 
-            this.GreaterThanToolStripMenuItem.Image = global::Anathema.Properties.Resources.GreaterThan;
-            this.GreaterThanToolStripMenuItem.Name = "GreaterThanToolStripMenuItem";
-            this.GreaterThanToolStripMenuItem.Size = new System.Drawing.Size(202, 22);
-            this.GreaterThanToolStripMenuItem.Text = "Greater Than";
-            // 
-            // GreaterThanOrEqualToToolStripMenuItem
-            // 
-            this.GreaterThanOrEqualToToolStripMenuItem.Image = global::Anathema.Properties.Resources.GreaterThanOrEqual;
-            this.GreaterThanOrEqualToToolStripMenuItem.Name = "GreaterThanOrEqualToToolStripMenuItem";
-            this.GreaterThanOrEqualToToolStripMenuItem.Size = new System.Drawing.Size(202, 22);
-            this.GreaterThanOrEqualToToolStripMenuItem.Text = "Greater Than or Equal to";
-            // 
-            // LessThanToolStripMenuItem
-            // 
-            this.LessThanToolStripMenuItem.Image = global::Anathema.Properties.Resources.LessThan;
-            this.LessThanToolStripMenuItem.Name = "LessThanToolStripMenuItem";
-            this.LessThanToolStripMenuItem.Size = new System.Drawing.Size(202, 22);
-            this.LessThanToolStripMenuItem.Text = "Less Than";
-            // 
-            // LessThanOrEqualToToolStripMenuItem
-            // 
-            this.LessThanOrEqualToToolStripMenuItem.Image = global::Anathema.Properties.Resources.LessThanOrEqual;
-            this.LessThanOrEqualToToolStripMenuItem.Name = "LessThanOrEqualToToolStripMenuItem";
-            this.LessThanOrEqualToToolStripMenuItem.Size = new System.Drawing.Size(202, 22);
-            this.LessThanOrEqualToToolStripMenuItem.Text = "Less Than or Equal to";
-            // 
-            // NotScientificNotationToolStripMenuItem
-            // 
-            this.NotScientificNotationToolStripMenuItem.Image = global::Anathema.Properties.Resources.Intersection;
-            this.NotScientificNotationToolStripMenuItem.Name = "NotScientificNotationToolStripMenuItem";
-            this.NotScientificNotationToolStripMenuItem.Size = new System.Drawing.Size(202, 22);
-            this.NotScientificNotationToolStripMenuItem.Text = "Not Scientific Notation";
-            // 
-            // IgnoreAddressCheckBox
-            // 
-            this.IgnoreAddressCheckBox.AutoSize = true;
-            this.IgnoreAddressCheckBox.Location = new System.Drawing.Point(146, 46);
-            this.IgnoreAddressCheckBox.Name = "IgnoreAddressCheckBox";
-            this.IgnoreAddressCheckBox.Size = new System.Drawing.Size(97, 17);
-            this.IgnoreAddressCheckBox.TabIndex = 159;
-            this.IgnoreAddressCheckBox.Text = "Ignore Address";
-            this.IgnoreAddressCheckBox.UseVisualStyleBackColor = true;
-            // 
-            // ConstraintsListView
-            // 
-            this.ConstraintsListView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.ConstraintsListView.FullRowSelect = true;
-            this.ConstraintsListView.Location = new System.Drawing.Point(6, 70);
-            this.ConstraintsListView.Name = "ConstraintsListView";
-            this.ConstraintsListView.Size = new System.Drawing.Size(380, 53);
-            this.ConstraintsListView.TabIndex = 158;
-            this.ConstraintsListView.UseCompatibleStateImageBehavior = false;
-            this.ConstraintsListView.View = System.Windows.Forms.View.SmallIcon;
+            this.GUIConstraintEditor.Location = new System.Drawing.Point(12, 19);
+            this.GUIConstraintEditor.Name = "GUIConstraintEditor";
+            this.GUIConstraintEditor.Size = new System.Drawing.Size(374, 104);
+            this.GUIConstraintEditor.TabIndex = 0;
             // 
             // MaxLevelTextBox
             // 
@@ -530,9 +327,6 @@
             this.SettingsTabPage.ResumeLayout(false);
             this.SettingsTabPage.PerformLayout();
             this.RescanGroupBox.ResumeLayout(false);
-            this.RescanGroupBox.PerformLayout();
-            this.toolStrip1.ResumeLayout(false);
-            this.toolStrip1.PerformLayout();
             this.ResultsTabPage.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -561,28 +355,8 @@
         private HexDecTextBox MaxOffsetTextBox;
         private HexDecTextBox MaxLevelTextBox;
         private System.Windows.Forms.GroupBox RescanGroupBox;
-        private System.Windows.Forms.ListView ConstraintsListView;
-        private System.Windows.Forms.CheckBox IgnoreAddressCheckBox;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
-        private System.Windows.Forms.ToolStrip toolStrip1;
-        private System.Windows.Forms.ToolStripButton AddConstraintButton;
-        private System.Windows.Forms.ToolStripButton RemoveConstraintButton;
-        private System.Windows.Forms.ToolStripButton ClearConstraintsButton;
-        private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
-        private System.Windows.Forms.ToolStripDropDownButton ScanOptionsToolStripDropDownButton;
-        private System.Windows.Forms.ToolStripMenuItem ChangedToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem UnchangedToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem IncreasedToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem DecreasedToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem EqualToToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem NotEqualToToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem IncreasedByToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem DecreasedByToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem GreaterThanToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem GreaterThanOrEqualToToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem LessThanToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem LessThanOrEqualToToolStripMenuItem;
-        private HexDecTextBox ValueTextBox;
-        private System.Windows.Forms.ToolStripMenuItem NotScientificNotationToolStripMenuItem;
+        private System.Windows.Forms.CheckBox IgnoreAddressCheckBox;
+        private GUI.Tools.MemoryScanners.GUIConstraintEditor GUIConstraintEditor;
     }
 }

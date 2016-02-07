@@ -99,6 +99,12 @@
     <Compile Include="GUI\CustomControls\TreeView\HighlightPreservingTreeView.Designer.cs">
       <DependentUpon>HighlightPreservingTreeView.cs</DependentUpon>
     </Compile>
+    <Compile Include="GUI\Tools\Scanners\GUIConstraintEditor.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="GUI\Tools\Scanners\GUIConstraintEditor.Designer.cs">
+      <DependentUpon>GUIConstraintEditor.cs</DependentUpon>
+    </Compile>
     <Compile Include="GUI\Tools\Settings\GUISettings.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -190,7 +196,9 @@
     <Compile Include="Source\Tools\Scanners\FiniteStateScanner\IFiniteStateBuilderMVP.cs" />
     <Compile Include="Source\Tools\Scanners\FiniteStateScanner\FiniteStateMachine.cs" />
     <Compile Include="Source\Tools\Scanners\FiniteStateScanner\FiniteState.cs" />
-    <Compile Include="Source\Tools\Scanners\ScanConstraintManager.cs" />
+    <Compile Include="Source\Tools\Scanners\ScanConstraints\IScanConstraintEditorMVP.cs" />
+    <Compile Include="Source\Tools\Scanners\ScanConstraints\ScanConstraintEditor.cs" />
+    <Compile Include="Source\Tools\Scanners\ScanConstraints\ScanConstraintManager.cs" />
     <Compile Include="Source\HelperClasses\PrimitiveTypes.cs" />
     <Compile Include="Source\Tools\Scanners\ManualScanner\IManualScannerMVP.cs" />
     <Compile Include="Source\Tools\Scanners\ManualScanner\ManualScanner.cs" />
@@ -496,7 +504,7 @@
     <Compile Include="Source\Tools\Table\AddressTable\AddressTableEntryEditor\TableAddressEntryEditor.cs" />
     <Compile Include="Source\Tools\Table\Table.cs" />
     <Compile Include="Source\Tools\Table\TableItem.cs" />
-    <Compile Include="Source\Tools\Scanners\ScanConstraint.cs" />
+    <Compile Include="Source\Tools\Scanners\ScanConstraints\ScanConstraint.cs" />
     <EmbeddedResource Include="GUI\CustomControls\HexEditor\BitControl.de.resx">
       <DependentUpon>BitControl.cs</DependentUpon>
       <SubType>Designer</SubType>
@@ -664,6 +672,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\CustomControls\ListViews\FlickerFreeListView.resx">
       <DependentUpon>FlickerFreeListView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\Tools\Scanners\GUIConstraintEditor.resx">
+      <DependentUpon>GUIConstraintEditor.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\Tools\Settings\GUISettings.resx">
       <DependentUpon>GUISettings.cs</DependentUpon>

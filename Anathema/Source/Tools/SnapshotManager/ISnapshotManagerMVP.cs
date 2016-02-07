@@ -71,11 +71,6 @@ namespace Anathema
 
         #region Method definitions called by the view (downstream)
 
-        public void UpdateMemoryEditor(MemoryEditor MemoryEditor)
-        {
-            Model.UpdateMemoryEditor(MemoryEditor);
-        }
-
         public ListViewItem GetItemAt(Int32 Index)
         {
             ListViewItem Item = ListViewCache.Get((UInt64)Index);

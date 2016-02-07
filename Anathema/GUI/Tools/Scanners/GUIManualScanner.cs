@@ -20,66 +20,16 @@ namespace Anathema
             InitializeComponent();
 
             ManualScannerPresenter = new ManualScannerPresenter(this, new ManualScanner());
-
-            InitializeValueTypeComboBox();
-            UpdateScanOptions(EqualToToolStripMenuItem, ConstraintsEnum.Equal);
-
+            
+            ToolStripManager.Merge(GUIConstraintEditor.AcquireToolStrip(), ScanToolStrip);
             EnableGUI();
         }
 
         public void DisplayScanCount(Int32 ScanCount) { /* Manual scan will always have 1 scan so we need not implement this */ }
 
-        private void InitializeValueTypeComboBox()
-        {
-            foreach (Type Primitive in PrimitiveTypes.GetPrimitiveTypes())
-                ValueTypeComboBox.Items.Add(Primitive.Name);
-
-            ValueTypeComboBox.SelectedIndex = ValueTypeComboBox.Items.IndexOf(typeof(Int32).Name);
-        }
-
-        public void UpdateDisplay(ListViewItem[] ListViewItems, ImageList ImageList)
-        {
-            ControlThreadingHelper.InvokeControlAction(ConstraintsListView, () =>
-            {
-                ConstraintsListView.Items.Clear();
-                ConstraintsListView.Items.AddRange(ListViewItems);
-                ConstraintsListView.SmallImageList = ImageList;
-            });
-        }
-
         public void ScanFinished()
         {
             EnableGUI();
-        }
-
-        private void UpdateScanOptions(ToolStripMenuItem Sender, ConstraintsEnum ValueConstraint)
-        {
-            ScanOptionsToolStripDropDownButton.Image = Sender.Image;
-
-            switch (ValueConstraint)
-            {
-                case ConstraintsEnum.Changed:
-                case ConstraintsEnum.Unchanged:
-                case ConstraintsEnum.Decreased:
-                case ConstraintsEnum.Increased:
-                case ConstraintsEnum.NotScientificNotation:
-                    ValueTextBox.Enabled = false;
-                    ValueTextBox.Text = "";
-                    break;
-                case ConstraintsEnum.Invalid:
-                case ConstraintsEnum.GreaterThan:
-                case ConstraintsEnum.GreaterThanOrEqual:
-                case ConstraintsEnum.LessThan:
-                case ConstraintsEnum.LessThanOrEqual:
-                case ConstraintsEnum.Equal:
-                case ConstraintsEnum.NotEqual:
-                case ConstraintsEnum.IncreasedByX:
-                case ConstraintsEnum.DecreasedByX:
-                    ValueTextBox.Enabled = true;
-                    break;
-            }
-
-            ManualScannerPresenter.SetValueConstraints(ValueConstraint);
         }
 
         private void EnableGUI()
@@ -104,93 +54,6 @@ namespace Anathema
         {
             DisableGUI();
             ManualScannerPresenter.BeginScan();
-        }
-
-        private void AddConstraintButton_Click(Object Sender, EventArgs E)
-        {
-            if (!ValueTextBox.Enabled || ValueTextBox.IsValid())
-                ManualScannerPresenter.AddConstraint(ValueTextBox.GetValueAsDecimal());
-        }
-
-        private void ClearConstraintsButton_Click(Object Sender, EventArgs E)
-        {
-            ManualScannerPresenter.ClearConstraints();
-        }
-
-        private void RemoveConstraintButton_Click(Object Sender, EventArgs E)
-        {
-            ManualScannerPresenter.RemoveConstraints(ConstraintsListView.SelectedIndices.Cast<Int32>().ToArray());
-        }
-
-        private void ValueTypeComboBox_SelectedIndexChanged(Object Sender, EventArgs E)
-        {
-            ManualScannerPresenter.SetElementType(ValueTypeComboBox.SelectedItem.ToString());
-            ValueTextBox.SetElementType(Conversions.StringToPrimitiveType(ValueTypeComboBox.SelectedItem.ToString()));
-        }
-
-        private void ChangedToolStripMenuItem_Click(Object Sender, EventArgs E)
-        {
-            UpdateScanOptions((ToolStripMenuItem)Sender, ConstraintsEnum.Changed);
-        }
-
-        private void UnchangedToolStripMenuItem_Click(Object Sender, EventArgs E)
-        {
-            UpdateScanOptions((ToolStripMenuItem)Sender, ConstraintsEnum.Unchanged);
-        }
-
-        private void IncreasedToolStripMenuItem_Click(Object Sender, EventArgs E)
-        {
-            UpdateScanOptions((ToolStripMenuItem)Sender, ConstraintsEnum.Increased);
-        }
-
-        private void DecreasedToolStripMenuItem_Click(Object Sender, EventArgs E)
-        {
-            UpdateScanOptions((ToolStripMenuItem)Sender, ConstraintsEnum.Decreased);
-        }
-
-        private void EqualToToolStripMenuItem_Click(Object Sender, EventArgs E)
-        {
-            UpdateScanOptions((ToolStripMenuItem)Sender, ConstraintsEnum.Equal);
-        }
-
-        private void NotEqualToToolStripMenuItem_Click(Object Sender, EventArgs E)
-        {
-            UpdateScanOptions((ToolStripMenuItem)Sender, ConstraintsEnum.NotEqual);
-        }
-
-        private void IncreasedByToolStripMenuItem_Click(Object Sender, EventArgs E)
-        {
-            UpdateScanOptions((ToolStripMenuItem)Sender, ConstraintsEnum.IncreasedByX);
-        }
-
-        private void DecreasedByToolStripMenuItem_Click(Object Sender, EventArgs E)
-        {
-            UpdateScanOptions((ToolStripMenuItem)Sender, ConstraintsEnum.DecreasedByX);
-        }
-
-        private void GreaterThanToolStripMenuItem_Click(Object Sender, EventArgs E)
-        {
-            UpdateScanOptions((ToolStripMenuItem)Sender, ConstraintsEnum.GreaterThan);
-        }
-
-        private void GreaterThanOrEqualToToolStripMenuItem_Click(Object Sender, EventArgs E)
-        {
-            UpdateScanOptions((ToolStripMenuItem)Sender, ConstraintsEnum.GreaterThanOrEqual);
-        }
-
-        private void LessThanToolStripMenuItem_Click(Object Sender, EventArgs E)
-        {
-            UpdateScanOptions((ToolStripMenuItem)Sender, ConstraintsEnum.LessThan);
-        }
-
-        private void LessThanOrEqualToToolStripMenuItem_Click(Object Sender, EventArgs E)
-        {
-            UpdateScanOptions((ToolStripMenuItem)Sender, ConstraintsEnum.LessThanOrEqual);
-        }
-
-        private void NotScientificNotationToolStripMenuItem_Click(Object Sender, EventArgs E)
-        {
-            UpdateScanOptions((ToolStripMenuItem)Sender, ConstraintsEnum.NotScientificNotation);
         }
 
         #endregion

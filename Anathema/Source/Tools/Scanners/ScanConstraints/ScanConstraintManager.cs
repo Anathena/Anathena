@@ -63,11 +63,6 @@ namespace Anathema
             this.ValueConstraints.Clear();
         }
 
-        public void SetFilterScientificNotation(Boolean FilterScientificNotation)
-        {
-            //this.FilterScientificNotation = FilterScientificNotation;
-        }
-
         public IEnumerator GetEnumerator()
         {
             return ((IEnumerable)ValueConstraints).GetEnumerator();

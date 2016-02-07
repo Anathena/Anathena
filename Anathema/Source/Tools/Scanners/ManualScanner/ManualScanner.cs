@@ -13,48 +13,11 @@ namespace Anathema
         // Snapshot being labeled with change counts
         private Snapshot<Null> Snapshot;
 
-        // User controlled variables
         private ScanConstraintManager ScanConstraints;
 
         public ManualScanner()
         {
             ScanConstraints = new ScanConstraintManager();
-        }
-
-        public override void SetElementType(Type ElementType)
-        {
-            ScanConstraints.SetElementType(ElementType);
-            UpdateDisplay();
-        }
-
-        public override Type GetElementType()
-        {
-            return ScanConstraints.GetElementType();
-        }
-
-        public override void AddConstraint(ConstraintsEnum ValueConstraint, dynamic Value)
-        {
-            ScanConstraints.AddConstraint(new ScanConstraint(ValueConstraint, Value));
-            UpdateDisplay();
-        }
-
-        public override void RemoveConstraints(Int32[] ConstraintIndicies)
-        {
-            ScanConstraints.RemoveConstraints(ConstraintIndicies);
-            UpdateDisplay();
-        }
-
-        public override void ClearConstraints()
-        {
-            ScanConstraints.ClearConstraints();
-            UpdateDisplay();
-        }
-
-        private void UpdateDisplay()
-        {
-            ManualScannerEventArgs FilterManualScanEventArgs = new ManualScannerEventArgs();
-            FilterManualScanEventArgs.ScanConstraints = ScanConstraints;
-            OnEventUpdateDisplay(FilterManualScanEventArgs);
         }
 
         public override void Begin()
