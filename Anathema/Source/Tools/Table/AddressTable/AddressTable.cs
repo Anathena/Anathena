@@ -23,7 +23,7 @@ namespace Anathema
         private static AddressTable AddressTableInstance;
         private MemoryEditor MemoryEditor;
 
-        private TableData CurrentTableData;
+        private List<AddressItem> AddressItems;
 
         private Int32 StartReadIndex;
         private Int32 EndReadIndex;
@@ -31,7 +31,7 @@ namespace Anathema
         private AddressTable()
         {
             InitializeProcessObserver();
-            CurrentTableData = new TableData();
+            AddressItems = new List<AddressItem>();
 
             Begin();
         }
@@ -73,99 +73,63 @@ namespace Anathema
         {
             // Request that all data be updated
             AddressTableEventArgs Args = new AddressTableEventArgs();
-            Args.ItemCount = CurrentTableData.AddressTable.Count;
+            Args.ItemCount = AddressItems.Count;
             OnEventClearAddressCache(Args);
         }
-
-        public override Boolean SaveTable(String Path)
-        {
-            try
-            {
-                using (FileStream FileStream = new FileStream(Path, FileMode.Create, FileAccess.Write))
-                {
-                    DataContractSerializer Serializer = new DataContractSerializer(typeof(TableData));
-                    Serializer.WriteObject(FileStream, CurrentTableData);
-                }
-            }
-            catch
-            {
-                return false;
-            }
-            return true;
-        }
-
-        public override Boolean LoadTable(String Path)
-        {
-            try
-            {
-                using (FileStream FileStream = new FileStream(Path, FileMode.Open, FileAccess.Read))
-                {
-                    DataContractSerializer Serializer = new DataContractSerializer(typeof(TableData));
-                    CurrentTableData = (TableData)Serializer.ReadObject(FileStream);
-                }
-            }
-            catch
-            {
-                return false;
-            }
-
-            RefreshDisplay();
-            return true;
-        }
-
+        
         public override void SetAddressFrozen(Int32 Index, Boolean Activated)
         {
             if (Activated)
             {
                 Boolean ReadSuccess;
-                CurrentTableData.AddressTable[Index].ResolveAddress(MemoryEditor);
-                CurrentTableData.AddressTable[Index].Value = MemoryEditor.Read(CurrentTableData.AddressTable[Index].ElementType, unchecked((IntPtr)CurrentTableData.AddressTable[Index].EffectiveAddress), out ReadSuccess);
+                AddressItems[Index].ResolveAddress(MemoryEditor);
+                AddressItems[Index].Value = MemoryEditor.Read(AddressItems[Index].ElementType, unchecked((IntPtr)AddressItems[Index].EffectiveAddress), out ReadSuccess);
             }
 
-            CurrentTableData.AddressTable[Index].SetActivationState(Activated);
+            AddressItems[Index].SetActivationState(Activated);
         }
 
         public void AddTableItem(UInt64 BaseAddress, Type ElementType, String Description, Int32[] Offsets = null, Boolean IsHex = false, String Value = null)
         {
-            CurrentTableData.AddressTable.Add(new AddressItem(BaseAddress, ElementType, Description, Offsets, IsHex, Value));
+            AddressItems.Add(new AddressItem(BaseAddress, ElementType, Description, Offsets, IsHex, Value));
 
             AddressTableEventArgs AddressTableEventArgs = new AddressTableEventArgs();
-            AddressTableEventArgs.ItemCount = CurrentTableData.AddressTable.Count;
+            AddressTableEventArgs.ItemCount = AddressItems.Count;
             OnEventClearAddressCache(AddressTableEventArgs);
         }
 
         public override AddressItem GetAddressItemAt(Int32 Index)
         {
-            return CurrentTableData.AddressTable[Index];
+            return AddressItems[Index];
         }
 
         public override void SetAddressItemAt(Int32 Index, AddressItem AddressItem)
         {
             // Copy over attributes from the new item (such as to keep this item's color attributes)
-            CurrentTableData.AddressTable[Index].Description = AddressItem.Description;
-            CurrentTableData.AddressTable[Index].ElementType = AddressItem.ElementType;
-            CurrentTableData.AddressTable[Index].BaseAddress = AddressItem.BaseAddress;
-            CurrentTableData.AddressTable[Index].Offsets = AddressItem.Offsets;
-            CurrentTableData.AddressTable[Index].IsHex = AddressItem.IsHex;
+            AddressItems[Index].Description = AddressItem.Description;
+            AddressItems[Index].ElementType = AddressItem.ElementType;
+            AddressItems[Index].BaseAddress = AddressItem.BaseAddress;
+            AddressItems[Index].Offsets = AddressItem.Offsets;
+            AddressItems[Index].IsHex = AddressItem.IsHex;
 
             // Force update of value, regardless if frozen or not
-            CurrentTableData.AddressTable[Index].ForceUpdateValue(AddressItem.Value);
+            AddressItems[Index].ForceUpdateValue(AddressItem.Value);
 
             // Write change to memory
             if (AddressItem.Value != null)
             {
-                CurrentTableData.AddressTable[Index].ResolveAddress(MemoryEditor);
-                MemoryEditor.Write(CurrentTableData.AddressTable[Index].ElementType, unchecked((IntPtr)CurrentTableData.AddressTable[Index].EffectiveAddress), CurrentTableData.AddressTable[Index].Value);
+                AddressItems[Index].ResolveAddress(MemoryEditor);
+                MemoryEditor.Write(AddressItems[Index].ElementType, unchecked((IntPtr)AddressItems[Index].EffectiveAddress), AddressItems[Index].Value);
             }
             // Clear this entry in the cache since it has been updated
-            ClearAddressItemFromCache(CurrentTableData.AddressTable[Index]);
+            ClearAddressItemFromCache(AddressItems[Index]);
         }
 
         private void ClearAddressItemFromCache(AddressItem AddressItem)
         {
             AddressTableEventArgs AddressTableEventArgs = new AddressTableEventArgs();
-            AddressTableEventArgs.ClearCacheIndex = CurrentTableData.AddressTable.IndexOf(AddressItem);
-            AddressTableEventArgs.ItemCount = CurrentTableData.AddressTable.Count;
+            AddressTableEventArgs.ClearCacheIndex = AddressItems.IndexOf(AddressItem);
+            AddressTableEventArgs.ItemCount = AddressItems.Count;
             OnEventClearAddressCacheItem(AddressTableEventArgs);
         }
         
@@ -177,7 +141,7 @@ namespace Anathema
         protected override void Update()
         {
             // Freeze addresses
-            foreach (AddressItem Item in CurrentTableData.AddressTable)
+            foreach (AddressItem Item in AddressItems)
             {
                 if (Item.GetActivationState())
                 {
@@ -188,15 +152,15 @@ namespace Anathema
 
             for (Int32 Index = StartReadIndex; Index < EndReadIndex; Index++)
             {
-                if (Index < 0 || Index >= CurrentTableData.AddressTable.Count)
+                if (Index < 0 || Index >= AddressItems.Count)
                     continue;
 
                 Boolean ReadSuccess;
-                CurrentTableData.AddressTable[Index].ResolveAddress(MemoryEditor);
-                CurrentTableData.AddressTable[Index].Value = MemoryEditor.Read(CurrentTableData.AddressTable[Index].ElementType, unchecked((IntPtr)CurrentTableData.AddressTable[Index].EffectiveAddress), out ReadSuccess);
+                AddressItems[Index].ResolveAddress(MemoryEditor);
+                AddressItems[Index].Value = MemoryEditor.Read(AddressItems[Index].ElementType, unchecked((IntPtr)AddressItems[Index].EffectiveAddress), out ReadSuccess);
             }
 
-            if (CurrentTableData.AddressTable.Count != 0)
+            if (AddressItems.Count != 0)
                 OnEventReadValues(new AddressTableEventArgs());
         }
         

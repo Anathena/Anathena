@@ -13,7 +13,7 @@ namespace Anathema
     {
         private static FSMTable FSMTableInstance;
 
-        private TableData CurrentTableData;
+        private List<FiniteStateMachine> FiniteStateMachines;
 
         public event ScriptTableEventHandler EventClearScriptCacheItem;
         public event ScriptTableEventHandler EventClearScriptCache;
@@ -22,7 +22,7 @@ namespace Anathema
 
         private FSMTable()
         {
-            CurrentTableData = new TableData();
+            FiniteStateMachines = new List<FiniteStateMachine>();
         }
 
         public static FSMTable GetInstance()

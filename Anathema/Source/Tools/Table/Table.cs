@@ -1,52 +1,21 @@
-﻿using Binarysharp.MemoryManagement;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Runtime.Serialization;
 
 namespace Anathema
 {
-    [DataContract()]
-    public class TableData
-    {
-        [DataMember()]
-        public List<AddressItem> AddressTable;
-
-        [DataMember()]
-        public List<ScriptItem> ScriptTable;
-
-        public List<FiniteStateMachine> FiniteStateMachineTable;
-
-        public TableData()
-        {
-            AddressTable = new List<AddressItem>();
-            ScriptTable = new List<ScriptItem>();
-            FiniteStateMachineTable = new List<FiniteStateMachine>();
-        }
-    }
-
     /// <summary>
     /// Handles the displaying of results
     /// </summary>
-    class Table : ITableModel, IProcessObserver
+    class Table : ITableModel
     {
-        public enum TableColumnEnum
-        {
-            Frozen,
-            Description,
-            ValueType,
-            Address,
-            Value
-        }
-
         private static Table TableInstance;
-        private MemoryEditor MemoryEditor;
 
         private TableData CurrentTableData;
 
         private Table()
         {
-            InitializeProcessObserver();
             CurrentTableData = new TableData();
         }
 
@@ -57,14 +26,26 @@ namespace Anathema
             return TableInstance;
         }
 
-        public void InitializeProcessObserver()
+        /// <summary>
+        /// A serializable class (via DataContractSerializer) to allow for easy XML saving of our addresses, scripts, and FSMs
+        /// </summary>
+        [DataContract()]
+        private class TableData
         {
-            ProcessSelector.GetInstance().Subscribe(this);
-        }
+            [DataMember()]
+            public List<AddressItem> AddressItems;
 
-        public void UpdateMemoryEditor(MemoryEditor MemoryEditor)
-        {
-            this.MemoryEditor = MemoryEditor;
+            [DataMember()]
+            public List<ScriptItem> ScriptItems;
+
+            public List<FiniteStateMachine> FiniteStateMachineItems;
+
+            public TableData()
+            {
+                AddressItems = new List<AddressItem>();
+                ScriptItems = new List<ScriptItem>();
+                FiniteStateMachineItems = new List<FiniteStateMachine>();
+            }
         }
 
         public Boolean SaveTable(String Path)
@@ -74,6 +55,10 @@ namespace Anathema
                 using (FileStream FileStream = new FileStream(Path, FileMode.Create, FileAccess.Write))
                 {
                     DataContractSerializer Serializer = new DataContractSerializer(typeof(TableData));
+
+                    // Gather items we need to save
+
+
                     Serializer.WriteObject(FileStream, CurrentTableData);
                 }
             }
@@ -92,6 +77,9 @@ namespace Anathema
                 {
                     DataContractSerializer Serializer = new DataContractSerializer(typeof(TableData));
                     CurrentTableData = (TableData)Serializer.ReadObject(FileStream);
+                    
+                    // Distribute loaded items to the appropriate tables
+
                 }
             }
             catch

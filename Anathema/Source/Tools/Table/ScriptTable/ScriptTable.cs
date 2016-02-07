@@ -13,14 +13,14 @@ namespace Anathema
     {
         private static ScriptTable ScriptTableInstance;
 
-        private TableData CurrentTableData;
+        private List<ScriptItem> ScriptItems;
 
         public event ScriptTableEventHandler EventClearScriptCacheItem;
         public event ScriptTableEventHandler EventClearScriptCache;
 
         private ScriptTable()
         {
-            CurrentTableData = new TableData();
+            ScriptItems = new List<ScriptItem>();
         }
 
         public static ScriptTable GetInstance()
@@ -34,64 +34,28 @@ namespace Anathema
         {
             // Request that all data be updated
             ScriptTableEventArgs Args = new ScriptTableEventArgs();
-            Args.ItemCount = CurrentTableData.ScriptTable.Count;
+            Args.ItemCount = ScriptItems.Count;
             EventClearScriptCache(this, Args);
         }
-
-        public Boolean SaveTable(String Path)
-        {
-            try
-            {
-                using (FileStream FileStream = new FileStream(Path, FileMode.Create, FileAccess.Write))
-                {
-                    DataContractSerializer Serializer = new DataContractSerializer(typeof(TableData));
-                    Serializer.WriteObject(FileStream, CurrentTableData);
-                }
-            }
-            catch
-            {
-                return false;
-            }
-            return true;
-        }
-
-        public Boolean LoadTable(String Path)
-        {
-            try
-            {
-                using (FileStream FileStream = new FileStream(Path, FileMode.Open, FileAccess.Read))
-                {
-                    DataContractSerializer Serializer = new DataContractSerializer(typeof(TableData));
-                    CurrentTableData = (TableData)Serializer.ReadObject(FileStream);
-                }
-            }
-            catch
-            {
-                return false;
-            }
-
-            RefreshDisplay();
-            return true;
-        }
-
+        
         public void OpenScript(Int32 Index)
         {
-            if (Index >= CurrentTableData.ScriptTable.Count)
+            if (Index >= ScriptItems.Count)
                 return;
 
             Main.GetInstance().OpenScriptEditor();
-            ScriptEditor.GetInstance().OpenScript(CurrentTableData.ScriptTable[Index]);
+            ScriptEditor.GetInstance().OpenScript(ScriptItems[Index]);
         }
 
         public void SaveScript(ScriptItem ScriptItem)
         {
-            if (!CurrentTableData.ScriptTable.Contains(ScriptItem))
+            if (!ScriptItems.Contains(ScriptItem))
             {
                 // Adding a new script
-                CurrentTableData.ScriptTable.Add(ScriptItem);
+                ScriptItems.Add(ScriptItem);
 
                 ScriptTableEventArgs ScriptTableEventArgs = new ScriptTableEventArgs();
-                ScriptTableEventArgs.ItemCount = CurrentTableData.ScriptTable.Count;
+                ScriptTableEventArgs.ItemCount = ScriptItems.Count;
                 EventClearScriptCache(this, ScriptTableEventArgs);
             }
             else
@@ -103,24 +67,24 @@ namespace Anathema
 
         public ScriptItem GetScriptItemAt(Int32 Index)
         {
-            return CurrentTableData.ScriptTable[Index];
+            return ScriptItems[Index];
         }
 
         public void SetScriptActivation(Int32 Index, Boolean Activated)
         {
             // Try to update the activation state
-            CurrentTableData.ScriptTable[Index].SetActivationState(Activated);
-            ClearScriptItemFromCache(CurrentTableData.ScriptTable[Index]);
+            ScriptItems[Index].SetActivationState(Activated);
+            ClearScriptItemFromCache(ScriptItems[Index]);
         }
 
         private void ClearScriptItemFromCache(ScriptItem ScriptItem)
         {
             ScriptTableEventArgs ScriptTableEventArgs = new ScriptTableEventArgs();
-            ScriptTableEventArgs.ClearCacheIndex = CurrentTableData.ScriptTable.IndexOf(ScriptItem);
-            ScriptTableEventArgs.ItemCount = CurrentTableData.ScriptTable.Count;
+            ScriptTableEventArgs.ClearCacheIndex = ScriptItems.IndexOf(ScriptItem);
+            ScriptTableEventArgs.ItemCount = ScriptItems.Count;
             EventClearScriptCacheItem(this, ScriptTableEventArgs);
         }
-        
+
     } // End class
 
 } // End namespace

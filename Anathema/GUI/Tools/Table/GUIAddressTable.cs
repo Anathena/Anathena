@@ -62,17 +62,17 @@ namespace Anathema
                 return;
 
             // Determine the current column selection based on column index
-            Table.TableColumnEnum ColumnSelection = Table.TableColumnEnum.Frozen;
+            AddressTable.TableColumnEnum ColumnSelection = AddressTable.TableColumnEnum.Frozen;
             if (ColumnIndex == AddressTableListView.Columns.IndexOf(FrozenHeader))
-                ColumnSelection = Table.TableColumnEnum.Frozen;
+                ColumnSelection = AddressTable.TableColumnEnum.Frozen;
             else if (ColumnIndex == AddressTableListView.Columns.IndexOf(AddressDescriptionHeader))
-                ColumnSelection = Table.TableColumnEnum.Description;
+                ColumnSelection = AddressTable.TableColumnEnum.Description;
             else if (ColumnIndex == AddressTableListView.Columns.IndexOf(AddressHeader))
-                ColumnSelection = Table.TableColumnEnum.Address;
+                ColumnSelection = AddressTable.TableColumnEnum.Address;
             else if (ColumnIndex == AddressTableListView.Columns.IndexOf(TypeHeader))
-                ColumnSelection = Table.TableColumnEnum.ValueType;
+                ColumnSelection = AddressTable.TableColumnEnum.ValueType;
             else if (ColumnIndex == AddressTableListView.Columns.IndexOf(ValueHeader))
-                ColumnSelection = Table.TableColumnEnum.Value;
+                ColumnSelection = AddressTable.TableColumnEnum.Value;
 
             // Create editor for this entry
             GUIAddressTableEntryEditor GUIAddressTableEntryEditor = new GUIAddressTableEntryEditor(SelectedItemIndex, Indicies.ToArray(), ColumnSelection);

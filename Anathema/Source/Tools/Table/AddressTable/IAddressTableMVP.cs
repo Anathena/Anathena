@@ -58,9 +58,7 @@ namespace Anathema
         }
 
         // Functions invoked by presenter (downstream)
-        public abstract Boolean SaveTable(String Path);
-        public abstract Boolean LoadTable(String Path);
-        
+
         public abstract AddressItem GetAddressItemAt(Int32 Index);
         public abstract void SetAddressItemAt(Int32 Index, AddressItem AddressItem);
         public abstract void SetAddressFrozen(Int32 Index, Boolean Activated);
@@ -99,22 +97,6 @@ namespace Anathema
         }
 
         #region Method definitions called by the view (downstream)
-
-        public Boolean SaveTable(String Path)
-        {
-            if (Path == String.Empty)
-                return false;
-
-            return Model.SaveTable(Path);
-        }
-
-        public Boolean LoadTable(String Path)
-        {
-            if (Path == String.Empty)
-                return false;
-
-            return Model.LoadTable(Path);
-        }
 
         public void UpdateReadBounds(Int32 StartReadIndex, Int32 EndReadIndex)
         {

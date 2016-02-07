@@ -12,7 +12,7 @@ namespace Anathema
         private Int32[] AddressTableItemIndicies;
         private Int32 MainSelection;
 
-        public GUIAddressTableEntryEditor(Int32 MainSelection, Int32[] AddressTableItemIndicies, Table.TableColumnEnum ColumnSelection)
+        public GUIAddressTableEntryEditor(Int32 MainSelection, Int32[] AddressTableItemIndicies, AddressTable.TableColumnEnum ColumnSelection)
         {
             InitializeComponent();
 
@@ -27,16 +27,16 @@ namespace Anathema
 
             switch (ColumnSelection)
             {
-                case Table.TableColumnEnum.Description:
+                case AddressTable.TableColumnEnum.Description:
                     DescriptionTextBox.Select();
                     break;
-                case Table.TableColumnEnum.ValueType:
+                case AddressTable.TableColumnEnum.ValueType:
                     ValueTypeComboBox.Select();
                     break;
-                case Table.TableColumnEnum.Address:
+                case AddressTable.TableColumnEnum.Address:
                     AddressTextBox.Select();
                     break;
-                case Table.TableColumnEnum.Value:
+                case AddressTable.TableColumnEnum.Value:
                     ValueTextBox.Select();
                     break;
             }

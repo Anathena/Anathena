@@ -30,9 +30,6 @@ namespace Anathema
         event ScriptTableEventHandler EventClearScriptCache;
 
         // Functions invoked by presenter (downstream)
-        Boolean SaveTable(String Path);
-        Boolean LoadTable(String Path);
-
         void OpenScript(Int32 Index);
         
         ScriptItem GetScriptItemAt(Int32 Index);
@@ -64,22 +61,6 @@ namespace Anathema
 
         #region Method definitions called by the view (downstream)
 
-        public Boolean SaveTable(String Path)
-        {
-            if (Path == String.Empty)
-                return false;
-
-            return Model.SaveTable(Path);
-        }
-
-        public Boolean LoadTable(String Path)
-        {
-            if (Path == String.Empty)
-                return false;
-
-            return Model.LoadTable(Path);
-        }
-        
         public ListViewItem GetScriptTableItemAt(Int32 Index)
         {
             ListViewItem Item = ScriptTableCache.Get((UInt64)Index);
