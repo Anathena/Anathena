@@ -12,7 +12,14 @@ namespace Anathema
     {
         private const Int32 DefaultListViewCacheSize = 256;
 
-        public ListViewCache(Int32 CacheSize = DefaultListViewCacheSize) : base(DefaultListViewCacheSize) { }
+        private Dictionary<UInt64, Image> ImageCache;
+
+        public ImageList ImageList { get; private set; }
+
+        public ListViewCache(Int32 CacheSize = DefaultListViewCacheSize) : base(DefaultListViewCacheSize)
+        {
+            ImageCache = new Dictionary<UInt64, Image>(CacheSize);
+        }
 
         public Boolean TryUpdateSubItem(Int32 Index, Int32 SubItemIndex, String Item)
         {
@@ -26,20 +33,38 @@ namespace Anathema
             }
         }
 
-        public ListViewItem Add(int Index, String[] Items)
+        public ListViewItem Add(Int32 Index, String[] Items, Image Image = null)
         {
             lock (AccessLock)
             {
                 if (Cache.Count == CacheSize)
                 {
                     // Cache full, enforce LRU policy
-                    Cache.Remove(LRUQueue.First.Value);
-                    LRUQueue.RemoveFirst();
+                    Cache.Remove(LRUList.First.Value);
+                    ImageCache.Remove(LRUList.First.Value);
+                    LRUList.RemoveFirst();
                 }
 
-                LRUQueue.AddLast((UInt64)Index);
+                LRUList.AddLast((UInt64)Index);
                 Cache[(UInt64)Index] = new ListViewItem(Items);
+                ImageCache[(UInt64)Index] = Image;
+
+                UpdateImageList();
+
                 return Cache[(UInt64)Index];
+            }
+        }
+
+        public override void Delete(UInt64 Index)
+        {
+            lock (AccessLock)
+            {
+                if (Cache.ContainsKey(Index))
+                    Cache.Remove(Index);
+                if (ImageCache.ContainsKey(Index))
+                    ImageCache.Remove(Index);
+                if (LRUList.Contains(Index))
+                    LRUList.Remove(Index);
             }
         }
 
@@ -50,10 +75,36 @@ namespace Anathema
                 ListViewItem Item = null;
                 if (Cache.TryGetValue((UInt64)Index, out Item))
                 {
-                    LRUQueue.Remove((UInt64)Index);
-                    LRUQueue.AddLast((UInt64)Index);
+                    LRUList.Remove((UInt64)Index);
+                    LRUList.AddLast((UInt64)Index);
                 }
                 return Item;
+            }
+        }
+
+        private void UpdateImageList()
+        {
+            // Create imagelist
+            ImageList = new ImageList();
+
+            if (ImageCache.Values.Count < 0)
+                return;
+
+            ImageList.Images.AddRange(ImageCache.Values.ToArray());
+
+            // Assign indicies
+            Int32 ImageIndex = 0;
+            foreach (ListViewItem Item in Cache.Values)
+                Item.ImageIndex = ImageIndex++;
+        }
+
+        public override void FlushCache()
+        {
+            lock (AccessLock)
+            {
+                ImageCache.Clear();
+                Cache.Clear();
+                LRUList.Clear();
             }
         }
 

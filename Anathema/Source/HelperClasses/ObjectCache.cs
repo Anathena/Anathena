@@ -13,7 +13,7 @@ namespace Anathema
         protected const Int32 DefaultCacheSize = 1024;
 
         protected readonly Dictionary<UInt64, T> Cache;
-        protected readonly LinkedList<UInt64> LRUQueue;
+        protected readonly LinkedList<UInt64> LRUList;
         protected readonly ImageList Images;
         protected readonly Object AccessLock;
 
@@ -24,7 +24,7 @@ namespace Anathema
             this.CacheSize = CacheSize;
 
             Cache = new Dictionary<UInt64, T>(CacheSize);
-            LRUQueue = new LinkedList<UInt64>();
+            LRUList = new LinkedList<UInt64>();
             AccessLock = new Object();
             Images = new ImageList();
         }
@@ -48,24 +48,24 @@ namespace Anathema
                 if (Cache.Count == CacheSize)
                 {
                     // Cache full, enforce LRU policy
-                    Cache.Remove(LRUQueue.First.Value);
-                    LRUQueue.RemoveFirst();
+                    Cache.Remove(LRUList.First.Value);
+                    LRUList.RemoveFirst();
                 }
 
-                LRUQueue.AddLast(Index);
+                LRUList.AddLast(Index);
                 Cache[Index] = Item;
                 return Cache[Index];
             }
         }
 
-        public void Delete(UInt64 Index)
+        public virtual void Delete(UInt64 Index)
         {
             lock (AccessLock)
             {
                 if (Cache.ContainsKey(Index))
                     Cache.Remove(Index);
-                if (LRUQueue.Contains(Index))
-                    LRUQueue.Remove(Index);
+                if (LRUList.Contains(Index))
+                    LRUList.Remove(Index);
             }
         }
 
@@ -76,8 +76,8 @@ namespace Anathema
                 T Item;
                 if (Cache.TryGetValue(Index, out Item))
                 {
-                    LRUQueue.Remove(Index);
-                    LRUQueue.AddLast(Index);
+                    LRUList.Remove(Index);
+                    LRUList.AddLast(Index);
                 }
                 else
                 {
@@ -87,12 +87,12 @@ namespace Anathema
             }
         }
 
-        public void FlushCache()
+        public virtual void FlushCache()
         {
             lock (AccessLock)
             {
                 Cache.Clear();
-                LRUQueue.Clear();
+                LRUList.Clear();
             }
         }
 

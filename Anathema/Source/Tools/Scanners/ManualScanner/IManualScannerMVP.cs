@@ -1,4 +1,5 @@
-﻿using Binarysharp.MemoryManagement;
+﻿using Anathema.Properties;
+using Binarysharp.MemoryManagement;
 using Binarysharp.MemoryManagement.Memory;
 using System;
 using System.Collections.Generic;
@@ -125,14 +126,24 @@ namespace Anathema
         public void EventUpdateDisplay(Object Sender, ManualScannerEventArgs E)
         {
             List<String> ScanConstraintItems = new List<String>();
+            ImageList ImageList = new ImageList();
 
             foreach (ScanConstraint ScanConstraint in E.ScanConstraints)
             {
                 String Value = ScanConstraint.Value == null ? String.Empty : ScanConstraint.Value.ToString();
                 ScanConstraintItems.Add(Value);
+                switch(ScanConstraint.Constraint)
+                {
+                    case ConstraintsEnum.Changed:
+                        ImageList.Images.Add(Resources.Changed);
+                        break;
+                    default:
+                        ImageList.Images.Add(Resources.Negation);
+                        break;
+                }
             }
 
-            View.UpdateDisplay(ScanConstraintItems.ToArray(), null);
+            View.UpdateDisplay(ScanConstraintItems.ToArray(), ImageList);
         }
 
         public void EventScanFinished(Object Sender, ManualScannerEventArgs E)

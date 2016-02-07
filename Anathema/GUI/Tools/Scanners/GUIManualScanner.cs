@@ -108,7 +108,7 @@ namespace Anathema
 
         private void AddConstraintButton_Click(Object Sender, EventArgs E)
         {
-            if (ValueTextBox.IsValid())
+            if (!ValueTextBox.Enabled || ValueTextBox.IsValid())
                 ManualScannerPresenter.AddConstraint(ValueTextBox.GetValueAsDecimal());
         }
 
