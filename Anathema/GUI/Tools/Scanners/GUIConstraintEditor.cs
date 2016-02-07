@@ -15,6 +15,28 @@ namespace Anathema.GUI.Tools.MemoryScanners
     {
         private ScanConstraintEditorPresenter ScanConstraintEditorPresenter;
 
+        private Boolean _HideElementType;
+        public Boolean HideElementType
+        {
+            get { return _HideElementType; }
+            set
+            {
+                _HideElementType = value;
+                if (_HideElementType)
+                {
+                    ValueTypeComboBox.Visible = false;
+                    ValueTextBox.Width = ValueTypeComboBox.Location.X + ValueTypeComboBox.Width - ValueTextBox.Location.X;
+                }
+                else
+                {
+                    const Int32 Spacing = 6;
+                    ValueTypeComboBox.Visible = true;
+                    ValueTextBox.Width = ValueTypeComboBox.Location.X - Spacing - ValueTextBox.Location.X;
+                }
+                Invalidate();
+            }
+        }
+
         public GUIConstraintEditor()
         {
             InitializeComponent();

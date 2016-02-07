@@ -108,7 +108,7 @@ namespace Anathema
             ControlThreadingHelper.InvokeControlAction<Control>(ScanToolStrip, () =>
             {
                 StartScanButton.Enabled = false;
-                StopScanButton.Enabled = true;
+                // StopScanButton.Enabled = true;
             });
         }
 
@@ -122,7 +122,7 @@ namespace Anathema
             ControlThreadingHelper.InvokeControlAction<Control>(ScanToolStrip, () =>
             {
                 StartScanButton.Enabled = true;
-                StopScanButton.Enabled = false;
+                // StopScanButton.Enabled = false;
             });
         }
 
@@ -130,13 +130,13 @@ namespace Anathema
         {
             if (AddressModeRadioButton.Checked)
             {
-                TargetAddressTextBox.Enabled = true;
+                AddressTextBox.Enabled = true;
                 GUIConstraintEditor.Enabled = false;
                 PointerScannerPresenter.SetRescanMode(true);
             }
             else if (ValueModeRadioButton.Checked)
             {
-                TargetAddressTextBox.Enabled = false;
+                AddressTextBox.Enabled = false;
                 GUIConstraintEditor.Enabled = true;
                 PointerScannerPresenter.SetRescanMode(false);
             }
@@ -147,11 +147,11 @@ namespace Anathema
         private void StartScanButton_Click(Object Sender, EventArgs E)
         {
             // Validate input
-            if (!TargetAddressTextBox.IsValid() || !MaxLevelTextBox.IsValid() || !MaxOffsetTextBox.IsValid())
+            if (!AddressTextBox.IsValid() || !MaxLevelTextBox.IsValid() || !MaxOffsetTextBox.IsValid())
                 return;
 
             // Apply settings
-            PointerScannerPresenter.SetTargetAddress(TargetAddressTextBox.GetValueAsHexidecimal());
+            PointerScannerPresenter.SetTargetAddress(AddressTextBox.GetValueAsHexidecimal());
             PointerScannerPresenter.SetMaxPointerLevel(MaxLevelTextBox.GetValueAsDecimal());
             PointerScannerPresenter.SetMaxPointerOffset(MaxOffsetTextBox.GetValueAsDecimal());
 
@@ -164,17 +164,12 @@ namespace Anathema
         {
             DisableGUI();
 
-            if (TargetAddressTextBox.IsValid())
+            if (AddressTextBox.IsValid())
             {
-                PointerScannerPresenter.SetTargetAddress(TargetAddressTextBox.GetValueAsHexidecimal());
+                PointerScannerPresenter.SetTargetAddress(AddressTextBox.GetValueAsHexidecimal());
             }
 
             PointerScannerPresenter.BeginPointerRescan();
-        }
-
-        private void StopScanButton_Click(Object Sender, EventArgs E)
-        {
-            EnableGUI();
         }
 
         private void PointerListView_RetrieveVirtualItem(Object Sender, RetrieveVirtualItemEventArgs E)
@@ -184,7 +179,7 @@ namespace Anathema
 
         private void ValueTypeComboBox_SelectedIndexChanged(Object Sender, EventArgs E)
         {
-            TargetAddressTextBox.SetElementType(Conversions.StringToPrimitiveType(ValueTypeComboBox.SelectedItem.ToString()));
+            AddressTextBox.SetElementType(Conversions.StringToPrimitiveType(ValueTypeComboBox.SelectedItem.ToString()));
             PointerScannerPresenter.SetElementType(Conversions.StringToPrimitiveType(ValueTypeComboBox.SelectedItem.ToString()));
         }
 

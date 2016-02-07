@@ -58,7 +58,7 @@
             this.ValueTypeComboBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.ValueTypeComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.ValueTypeComboBox.FormattingEnabled = true;
-            this.ValueTypeComboBox.Location = new System.Drawing.Point(143, 28);
+            this.ValueTypeComboBox.Location = new System.Drawing.Point(143, 27);
             this.ValueTypeComboBox.Name = "ValueTypeComboBox";
             this.ValueTypeComboBox.Size = new System.Drawing.Size(94, 21);
             this.ValueTypeComboBox.TabIndex = 162;
@@ -70,9 +70,9 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.ConstraintsListView.FullRowSelect = true;
-            this.ConstraintsListView.Location = new System.Drawing.Point(3, 55);
+            this.ConstraintsListView.Location = new System.Drawing.Point(3, 58);
             this.ConstraintsListView.Name = "ConstraintsListView";
-            this.ConstraintsListView.Size = new System.Drawing.Size(234, 157);
+            this.ConstraintsListView.Size = new System.Drawing.Size(234, 154);
             this.ConstraintsListView.TabIndex = 164;
             this.ConstraintsListView.UseCompatibleStateImageBehavior = false;
             this.ConstraintsListView.View = System.Windows.Forms.View.SmallIcon;

@@ -31,8 +31,8 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(GUIManualScanner));
             this.StartScanButton = new System.Windows.Forms.ToolStripButton();
             this.ScanToolStrip = new System.Windows.Forms.ToolStrip();
-            this.GUIConstraintEditor = new Anathema.GUI.Tools.MemoryScanners.GUIConstraintEditor();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.GUIConstraintEditor = new Anathema.GUI.Tools.MemoryScanners.GUIConstraintEditor();
             this.ScanToolStrip.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -59,6 +59,11 @@
             this.ScanToolStrip.TabIndex = 155;
             this.ScanToolStrip.Text = "toolStrip1";
             // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 25);
+            // 
             // GUIConstraintEditor
             // 
             this.GUIConstraintEditor.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -66,11 +71,6 @@
             this.GUIConstraintEditor.Name = "GUIConstraintEditor";
             this.GUIConstraintEditor.Size = new System.Drawing.Size(300, 161);
             this.GUIConstraintEditor.TabIndex = 156;
-            // 
-            // toolStripSeparator1
-            // 
-            this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 25);
             // 
             // GUIManualScanner
             // 
