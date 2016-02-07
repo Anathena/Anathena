@@ -25,6 +25,16 @@ namespace Anathema.GUI.Tools.MemoryScanners
             UpdateScanOptions(EqualToToolStripMenuItem, ConstraintsEnum.Equal);
         }
 
+        public void RemoveRelativeScans()
+        {
+            ScanOptionsToolStripDropDownButton.DropDownItems.Remove(ChangedToolStripMenuItem);
+            ScanOptionsToolStripDropDownButton.DropDownItems.Remove(UnchangedToolStripMenuItem);
+            ScanOptionsToolStripDropDownButton.DropDownItems.Remove(IncreasedToolStripMenuItem);
+            ScanOptionsToolStripDropDownButton.DropDownItems.Remove(DecreasedByToolStripMenuItem);
+            ScanOptionsToolStripDropDownButton.DropDownItems.Remove(IncreasedByToolStripMenuItem);
+            ScanOptionsToolStripDropDownButton.DropDownItems.Remove(DecreasedByToolStripMenuItem);
+        }
+
         public ToolStrip AcquireToolStrip()
         {
             if (this.Controls.Contains(ConstraintToolStrip))

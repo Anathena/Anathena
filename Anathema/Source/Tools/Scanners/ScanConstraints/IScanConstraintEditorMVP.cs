@@ -73,7 +73,7 @@ namespace Anathema
 
         public void AddConstraint(String ValueString)
         {
-            dynamic Value = String.Empty;
+            dynamic Value = null;
 
             switch (ValueConstraint)
             {

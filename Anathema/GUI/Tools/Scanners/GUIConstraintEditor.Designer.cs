@@ -55,9 +55,10 @@
             // 
             // ValueTypeComboBox
             // 
+            this.ValueTypeComboBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.ValueTypeComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.ValueTypeComboBox.FormattingEnabled = true;
-            this.ValueTypeComboBox.Location = new System.Drawing.Point(3, 28);
+            this.ValueTypeComboBox.Location = new System.Drawing.Point(143, 28);
             this.ValueTypeComboBox.Name = "ValueTypeComboBox";
             this.ValueTypeComboBox.Size = new System.Drawing.Size(94, 21);
             this.ValueTypeComboBox.TabIndex = 162;
@@ -71,7 +72,7 @@
             this.ConstraintsListView.FullRowSelect = true;
             this.ConstraintsListView.Location = new System.Drawing.Point(3, 55);
             this.ConstraintsListView.Name = "ConstraintsListView";
-            this.ConstraintsListView.Size = new System.Drawing.Size(244, 157);
+            this.ConstraintsListView.Size = new System.Drawing.Size(234, 157);
             this.ConstraintsListView.TabIndex = 164;
             this.ConstraintsListView.UseCompatibleStateImageBehavior = false;
             this.ConstraintsListView.View = System.Windows.Forms.View.SmallIcon;
@@ -88,7 +89,7 @@
             this.ConstraintToolStrip.Location = new System.Drawing.Point(0, 0);
             this.ConstraintToolStrip.Name = "ConstraintToolStrip";
             this.ConstraintToolStrip.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
-            this.ConstraintToolStrip.Size = new System.Drawing.Size(250, 25);
+            this.ConstraintToolStrip.Size = new System.Drawing.Size(240, 25);
             this.ConstraintToolStrip.TabIndex = 165;
             this.ConstraintToolStrip.Text = "toolStrip1";
             // 
@@ -227,7 +228,7 @@
             this.NotScientificNotationToolStripMenuItem.Name = "NotScientificNotationToolStripMenuItem";
             this.NotScientificNotationToolStripMenuItem.Size = new System.Drawing.Size(202, 22);
             this.NotScientificNotationToolStripMenuItem.Text = "Not Scientific Notation";
-            this.NotScientificNotationToolStripMenuItem.Click += new System.EventHandler(this.NotEqualToToolStripMenuItem_Click);
+            this.NotScientificNotationToolStripMenuItem.Click += new System.EventHandler(this.NotScientificNotationToolStripMenuItem_Click);
             // 
             // toolStripSeparator1
             // 
@@ -260,9 +261,9 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.ValueTextBox.ForeColor = System.Drawing.Color.Red;
             this.ValueTextBox.IsHex = false;
-            this.ValueTextBox.Location = new System.Drawing.Point(103, 29);
+            this.ValueTextBox.Location = new System.Drawing.Point(3, 28);
             this.ValueTextBox.Name = "ValueTextBox";
-            this.ValueTextBox.Size = new System.Drawing.Size(144, 20);
+            this.ValueTextBox.Size = new System.Drawing.Size(134, 20);
             this.ValueTextBox.TabIndex = 163;
             this.ValueTextBox.WatermarkColor = System.Drawing.Color.LightGray;
             this.ValueTextBox.WaterMarkFont = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -277,7 +278,7 @@
             this.Controls.Add(this.ValueTextBox);
             this.Controls.Add(this.ConstraintsListView);
             this.Name = "GUIConstraintEditor";
-            this.Size = new System.Drawing.Size(250, 215);
+            this.Size = new System.Drawing.Size(240, 215);
             this.ConstraintToolStrip.ResumeLayout(false);
             this.ConstraintToolStrip.PerformLayout();
             this.ResumeLayout(false);

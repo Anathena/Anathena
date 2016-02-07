@@ -28,9 +28,18 @@ namespace Anathema
         public void SetElementType(Type ElementType)
         {
             this.ElementType = ElementType;
-            
+
             foreach (ScanConstraint ScanConstraint in ValueConstraints.Select(x => x).Reverse())
             {
+                if (ScanConstraint.Constraint == ConstraintsEnum.NotScientificNotation)
+                {
+                    if (ElementType != typeof(Single) && ElementType != typeof(Double))
+                    {
+                        ValueConstraints.Remove(ScanConstraint);
+                        continue;
+                    }
+                }
+
                 if (ScanConstraint.Value == null)
                     continue;
 
@@ -41,15 +50,19 @@ namespace Anathema
                 }
                 catch
                 {
-                    // Could not convert the data type, just removeit
+                    // Could not convert the data type, just remove it
                     ValueConstraints.Remove(ScanConstraint);
                 }
             }
         }
 
-        public void AddConstraint(ScanConstraint ValueConstraintsItem)
+        public void AddConstraint(ScanConstraint ScanConstraint)
         {
-            this.ValueConstraints.Add(ValueConstraintsItem);
+            if (ScanConstraint.Constraint == ConstraintsEnum.NotScientificNotation)
+                if (ElementType != typeof(Single) && ElementType != typeof(Double))
+                    return;
+
+            this.ValueConstraints.Add(ScanConstraint);
         }
 
         public void RemoveConstraints(Int32[] ConstraintIndicies)

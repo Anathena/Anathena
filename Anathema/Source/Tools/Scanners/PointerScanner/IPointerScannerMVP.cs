@@ -48,6 +48,7 @@ namespace Anathema
         public abstract String[] GetOffsets(Int32 Index);
 
         public abstract void SetElementType(Type ElementType);
+        public abstract void SetRescanMode(Boolean IsAddressMode);
         public abstract void SetTargetAddress(UInt64 Address);
         public abstract void SetMaxPointerLevel(Int32 MaxPointerLevel);
         public abstract void SetMaxPointerOffset(UInt64 MaxOffset);
@@ -99,6 +100,11 @@ namespace Anathema
         public void SetElementType(Type ElementType)
         {
             Model.SetElementType(ElementType);
+        }
+
+        public void SetRescanMode(Boolean IsAddressMode)
+        {
+            Model.SetRescanMode(IsAddressMode);
         }
 
         public ListViewItem GetItemAt(Int32 Index)

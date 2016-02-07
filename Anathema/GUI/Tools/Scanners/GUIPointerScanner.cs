@@ -26,6 +26,8 @@ namespace Anathema
 
             PointerScannerPresenter = new PointerScannerPresenter(this, new PointerScanner());
 
+            GUIConstraintEditor.RemoveRelativeScans();
+
             InitializeValueTypeComboBox();
             InitializeDefaults();
             UpdateRescanMode();
@@ -130,11 +132,13 @@ namespace Anathema
             {
                 TargetAddressTextBox.Enabled = true;
                 GUIConstraintEditor.Enabled = false;
+                PointerScannerPresenter.SetRescanMode(true);
             }
             else if (ValueModeRadioButton.Checked)
             {
                 TargetAddressTextBox.Enabled = false;
                 GUIConstraintEditor.Enabled = true;
+                PointerScannerPresenter.SetRescanMode(false);
             }
         }
 

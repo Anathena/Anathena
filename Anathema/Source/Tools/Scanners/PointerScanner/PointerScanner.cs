@@ -42,6 +42,8 @@ namespace Anathema
         private List<ConcurrentDictionary<UInt64, UInt64>> ConnectedPointers;
         private Snapshot<Null> AcceptedBases;
 
+        private Boolean IsAddressMode;
+
 
         private List<Tuple<UInt64, List<Int32>>> AcceptedPointers;
 
@@ -91,6 +93,11 @@ namespace Anathema
         public override void SetElementType(Type ElementType)
         {
             this.ElementType = ElementType;
+        }
+
+        public override void SetRescanMode(Boolean IsAddressMode)
+        {
+            this.IsAddressMode = IsAddressMode;
         }
 
         public override void SetTargetAddress(UInt64 Address)
