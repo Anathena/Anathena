@@ -44,6 +44,7 @@
             this.GreaterThanOrEqualToToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.LessThanToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.LessThanOrEqualToToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.NotScientificNotationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.StateContextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.StartStateToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.NoEventToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -52,13 +53,10 @@
             this.EndScanToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.DeleteStateToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ConstraintsListView = new System.Windows.Forms.ListView();
-            this.ValueHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.ConstraintHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.ValueTextBox = new Anathema.HexDecTextBox();
             this.ValueTypeComboBox = new System.Windows.Forms.ComboBox();
             this.ControlPanel = new System.Windows.Forms.Panel();
             this.FSMBuilderPanel = new Anathema.FlickerFreePanel();
-            this.NotScientificNotationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ScanToolStrip.SuspendLayout();
             this.StateContextMenuStrip.SuspendLayout();
             this.ControlPanel.SuspendLayout();
@@ -210,6 +208,14 @@
             this.LessThanOrEqualToToolStripMenuItem.Text = "Less Than or Equal to";
             this.LessThanOrEqualToToolStripMenuItem.Click += new System.EventHandler(this.LessThanOrEqualToToolStripMenuItem_Click);
             // 
+            // NotScientificNotationToolStripMenuItem
+            // 
+            this.NotScientificNotationToolStripMenuItem.Image = global::Anathema.Properties.Resources.Intersection;
+            this.NotScientificNotationToolStripMenuItem.Name = "NotScientificNotationToolStripMenuItem";
+            this.NotScientificNotationToolStripMenuItem.Size = new System.Drawing.Size(202, 22);
+            this.NotScientificNotationToolStripMenuItem.Text = "Not Scientific Notation";
+            this.NotScientificNotationToolStripMenuItem.Click += new System.EventHandler(this.NotScientificNotationToolStripMenuItem_Click);
+            // 
             // StateContextMenuStrip
             // 
             this.StateContextMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -260,31 +266,19 @@
             // 
             // ConstraintsListView
             // 
-            this.ConstraintsListView.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.ValueHeader,
-            this.ConstraintHeader});
             this.ConstraintsListView.FullRowSelect = true;
             this.ConstraintsListView.Location = new System.Drawing.Point(3, 3);
             this.ConstraintsListView.Name = "ConstraintsListView";
             this.ConstraintsListView.Size = new System.Drawing.Size(214, 94);
             this.ConstraintsListView.TabIndex = 161;
             this.ConstraintsListView.UseCompatibleStateImageBehavior = false;
-            this.ConstraintsListView.View = System.Windows.Forms.View.Details;
-            // 
-            // ValueHeader
-            // 
-            this.ValueHeader.Text = "Value";
-            this.ValueHeader.Width = 84;
-            // 
-            // ConstraintHeader
-            // 
-            this.ConstraintHeader.Text = "Constraint";
-            this.ConstraintHeader.Width = 82;
+            this.ConstraintsListView.View = System.Windows.Forms.View.SmallIcon;
             // 
             // ValueTextBox
             // 
             this.ValueTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.ValueTextBox.ForeColor = System.Drawing.Color.Red;
             this.ValueTextBox.IsHex = false;
             this.ValueTextBox.Location = new System.Drawing.Point(223, 30);
             this.ValueTextBox.Name = "ValueTextBox";
@@ -329,14 +323,6 @@
             this.FSMBuilderPanel.MouseDown += new System.Windows.Forms.MouseEventHandler(this.FSMBuilderPanel_MouseDown);
             this.FSMBuilderPanel.MouseMove += new System.Windows.Forms.MouseEventHandler(this.FSMBuilderPanel_MouseMove);
             this.FSMBuilderPanel.MouseUp += new System.Windows.Forms.MouseEventHandler(this.FSMBuilderPanel_MouseUp);
-            // 
-            // NotScientificNotationToolStripMenuItem
-            // 
-            this.NotScientificNotationToolStripMenuItem.Image = global::Anathema.Properties.Resources.Intersection;
-            this.NotScientificNotationToolStripMenuItem.Name = "NotScientificNotationToolStripMenuItem";
-            this.NotScientificNotationToolStripMenuItem.Size = new System.Drawing.Size(202, 22);
-            this.NotScientificNotationToolStripMenuItem.Text = "Not Scientific Notation";
-            this.NotScientificNotationToolStripMenuItem.Click += new System.EventHandler(this.NotScientificNotationToolStripMenuItem_Click);
             // 
             // GUIFiniteStateBuilder
             // 
@@ -384,8 +370,6 @@
         private System.Windows.Forms.ToolStripMenuItem EndScanToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem DeleteStateToolStripMenuItem;
         private System.Windows.Forms.ListView ConstraintsListView;
-        private System.Windows.Forms.ColumnHeader ValueHeader;
-        private System.Windows.Forms.ColumnHeader ConstraintHeader;
         private System.Windows.Forms.Panel ControlPanel;
         private System.Windows.Forms.ToolStripMenuItem NotScientificNotationToolStripMenuItem;
     }

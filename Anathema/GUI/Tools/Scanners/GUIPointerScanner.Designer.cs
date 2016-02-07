@@ -62,9 +62,9 @@
             this.GreaterThanOrEqualToToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.LessThanToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.LessThanOrEqualToToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.NotScientificNotationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.IgnoreAddressCheckBox = new System.Windows.Forms.CheckBox();
             this.ConstraintsListView = new System.Windows.Forms.ListView();
-            this.ConstraintHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.MaxLevelTextBox = new Anathema.HexDecTextBox();
             this.MaxOffsetTextBox = new Anathema.HexDecTextBox();
             this.ValueTypeLabel = new System.Windows.Forms.Label();
@@ -73,7 +73,6 @@
             this.PointerListView = new Anathema.FlickerFreeListView();
             this.ValueHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.BaseHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.NotScientificNotationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ScanToolStrip.SuspendLayout();
             this.PointerScanTabControl.SuspendLayout();
             this.SettingsTabPage.SuspendLayout();
@@ -399,6 +398,13 @@
             this.LessThanOrEqualToToolStripMenuItem.Size = new System.Drawing.Size(202, 22);
             this.LessThanOrEqualToToolStripMenuItem.Text = "Less Than or Equal to";
             // 
+            // NotScientificNotationToolStripMenuItem
+            // 
+            this.NotScientificNotationToolStripMenuItem.Image = global::Anathema.Properties.Resources.Intersection;
+            this.NotScientificNotationToolStripMenuItem.Name = "NotScientificNotationToolStripMenuItem";
+            this.NotScientificNotationToolStripMenuItem.Size = new System.Drawing.Size(202, 22);
+            this.NotScientificNotationToolStripMenuItem.Text = "Not Scientific Notation";
+            // 
             // IgnoreAddressCheckBox
             // 
             this.IgnoreAddressCheckBox.AutoSize = true;
@@ -414,20 +420,13 @@
             this.ConstraintsListView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.ConstraintsListView.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.ConstraintHeader});
             this.ConstraintsListView.FullRowSelect = true;
             this.ConstraintsListView.Location = new System.Drawing.Point(6, 70);
             this.ConstraintsListView.Name = "ConstraintsListView";
             this.ConstraintsListView.Size = new System.Drawing.Size(380, 53);
             this.ConstraintsListView.TabIndex = 158;
             this.ConstraintsListView.UseCompatibleStateImageBehavior = false;
-            this.ConstraintsListView.View = System.Windows.Forms.View.Details;
-            // 
-            // ConstraintHeader
-            // 
-            this.ConstraintHeader.Text = "Constraint";
-            this.ConstraintHeader.Width = 312;
+            this.ConstraintsListView.View = System.Windows.Forms.View.SmallIcon;
             // 
             // MaxLevelTextBox
             // 
@@ -513,13 +512,6 @@
             this.BaseHeader.Text = "Base";
             this.BaseHeader.Width = 94;
             // 
-            // NotScientificNotationToolStripMenuItem
-            // 
-            this.NotScientificNotationToolStripMenuItem.Image = global::Anathema.Properties.Resources.Intersection;
-            this.NotScientificNotationToolStripMenuItem.Name = "NotScientificNotationToolStripMenuItem";
-            this.NotScientificNotationToolStripMenuItem.Size = new System.Drawing.Size(202, 22);
-            this.NotScientificNotationToolStripMenuItem.Text = "Not Scientific Notation";
-            // 
             // GUIPointerScanner
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -570,7 +562,6 @@
         private HexDecTextBox MaxLevelTextBox;
         private System.Windows.Forms.GroupBox RescanGroupBox;
         private System.Windows.Forms.ListView ConstraintsListView;
-        private System.Windows.Forms.ColumnHeader ConstraintHeader;
         private System.Windows.Forms.CheckBox IgnoreAddressCheckBox;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
         private System.Windows.Forms.ToolStrip toolStrip1;

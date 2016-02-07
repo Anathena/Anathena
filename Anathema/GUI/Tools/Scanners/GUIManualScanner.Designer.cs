@@ -31,7 +31,6 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(GUIManualScanner));
             this.ValueTypeComboBox = new System.Windows.Forms.ComboBox();
             this.ConstraintsListView = new System.Windows.Forms.ListView();
-            this.ConstraintHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.StartScanButton = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator7 = new System.Windows.Forms.ToolStripSeparator();
             this.AddConstraintButton = new System.Windows.Forms.ToolStripButton();
@@ -69,23 +68,15 @@
             // 
             // ConstraintsListView
             // 
-            this.ConstraintsListView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
+            this.ConstraintsListView.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.ConstraintsListView.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.ConstraintHeader});
             this.ConstraintsListView.FullRowSelect = true;
             this.ConstraintsListView.Location = new System.Drawing.Point(12, 55);
             this.ConstraintsListView.Name = "ConstraintsListView";
-            this.ConstraintsListView.Size = new System.Drawing.Size(235, 160);
+            this.ConstraintsListView.Size = new System.Drawing.Size(235, 89);
             this.ConstraintsListView.TabIndex = 157;
             this.ConstraintsListView.UseCompatibleStateImageBehavior = false;
-            this.ConstraintsListView.View = System.Windows.Forms.View.Details;
-            // 
-            // ConstraintHeader
-            // 
-            this.ConstraintHeader.Text = "Constraint";
-            this.ConstraintHeader.Width = 190;
+            this.ConstraintsListView.View = System.Windows.Forms.View.SmallIcon;
             // 
             // StartScanButton
             // 
@@ -320,7 +311,6 @@
         private HexDecTextBox ValueTextBox;
         private System.Windows.Forms.ComboBox ValueTypeComboBox;
         private System.Windows.Forms.ListView ConstraintsListView;
-        private System.Windows.Forms.ColumnHeader ConstraintHeader;
         private System.Windows.Forms.ToolStripButton StartScanButton;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator7;
         private System.Windows.Forms.ToolStripButton AddConstraintButton;
