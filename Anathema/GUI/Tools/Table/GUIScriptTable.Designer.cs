@@ -1,0 +1,124 @@
+﻿namespace Anathema
+{
+    partial class GUIScriptTable
+    {
+        /// <summary> 
+        /// Required designer variable.
+        /// </summary>
+        private System.ComponentModel.IContainer components = null;
+
+        /// <summary> 
+        /// Clean up any resources being used.
+        /// </summary>
+        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing && (components != null))
+            {
+                components.Dispose();
+            }
+            base.Dispose(disposing);
+        }
+
+        #region Component Designer generated code
+
+        /// <summary> 
+        /// Required method for Designer support - do not modify 
+        /// the contents of this method with the code editor.
+        /// </summary>
+        private void InitializeComponent()
+        {
+            this.components = new System.ComponentModel.Container();
+            this.ScriptTableListView = new Anathema.CheckableListView();
+            this.ScriptActiveHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.ScriptDescriptionHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.ScriptTableContextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.OpenScriptToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.EditScriptEntryToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.DeleteScriptToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.ScriptTableContextMenuStrip.SuspendLayout();
+            this.SuspendLayout();
+            // 
+            // ScriptTableListView
+            // 
+            this.ScriptTableListView.BackColor = System.Drawing.SystemColors.Control;
+            this.ScriptTableListView.CheckBoxes = true;
+            this.ScriptTableListView.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.ScriptActiveHeader,
+            this.ScriptDescriptionHeader});
+            this.ScriptTableListView.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.ScriptTableListView.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.ScriptTableListView.FullRowSelect = true;
+            this.ScriptTableListView.Location = new System.Drawing.Point(0, 0);
+            this.ScriptTableListView.Name = "ScriptTableListView";
+            this.ScriptTableListView.OwnerDraw = true;
+            this.ScriptTableListView.ShowGroups = false;
+            this.ScriptTableListView.Size = new System.Drawing.Size(222, 200);
+            this.ScriptTableListView.TabIndex = 145;
+            this.ScriptTableListView.UseCompatibleStateImageBehavior = false;
+            this.ScriptTableListView.View = System.Windows.Forms.View.Details;
+            this.ScriptTableListView.VirtualMode = true;
+            // 
+            // ScriptActiveHeader
+            // 
+            this.ScriptActiveHeader.Text = "Active";
+            this.ScriptActiveHeader.Width = 58;
+            // 
+            // ScriptDescriptionHeader
+            // 
+            this.ScriptDescriptionHeader.Text = "Description";
+            this.ScriptDescriptionHeader.Width = 146;
+            // 
+            // ScriptTableContextMenuStrip
+            // 
+            this.ScriptTableContextMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.OpenScriptToolStripMenuItem,
+            this.EditScriptEntryToolStripMenuItem,
+            this.DeleteScriptToolStripMenuItem});
+            this.ScriptTableContextMenuStrip.Name = "RightClickMenu";
+            this.ScriptTableContextMenuStrip.Size = new System.Drawing.Size(153, 92);
+            // 
+            // OpenScriptToolStripMenuItem
+            // 
+            this.OpenScriptToolStripMenuItem.Name = "OpenScriptToolStripMenuItem";
+            this.OpenScriptToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.OpenScriptToolStripMenuItem.Text = "Open Script";
+            this.OpenScriptToolStripMenuItem.Click += new System.EventHandler(this.OpenScriptToolStripMenuItem_Click);
+            // 
+            // EditScriptEntryToolStripMenuItem
+            // 
+            this.EditScriptEntryToolStripMenuItem.Name = "EditScriptEntryToolStripMenuItem";
+            this.EditScriptEntryToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.EditScriptEntryToolStripMenuItem.Text = "Edit Entry";
+            this.EditScriptEntryToolStripMenuItem.Click += new System.EventHandler(this.EditScriptEntryToolStripMenuItem_Click);
+            // 
+            // DeleteScriptToolStripMenuItem
+            // 
+            this.DeleteScriptToolStripMenuItem.Name = "DeleteScriptToolStripMenuItem";
+            this.DeleteScriptToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.DeleteScriptToolStripMenuItem.Text = "Delete Script";
+            this.DeleteScriptToolStripMenuItem.Click += new System.EventHandler(this.DeleteScriptToolStripMenuItem_Click);
+            // 
+            // GUIScriptTable
+            // 
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.ScriptTableListView);
+            this.Name = "GUIScriptTable";
+            this.Size = new System.Drawing.Size(222, 200);
+            this.ScriptTableContextMenuStrip.ResumeLayout(false);
+            this.ResumeLayout(false);
+
+        }
+
+        #endregion
+
+        private CheckableListView ScriptTableListView;
+        private System.Windows.Forms.ColumnHeader ScriptActiveHeader;
+        private System.Windows.Forms.ColumnHeader ScriptDescriptionHeader;
+        private System.Windows.Forms.ContextMenuStrip ScriptTableContextMenuStrip;
+        private System.Windows.Forms.ToolStripMenuItem OpenScriptToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem EditScriptEntryToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem DeleteScriptToolStripMenuItem;
+    }
+}

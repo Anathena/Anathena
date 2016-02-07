@@ -60,7 +60,7 @@ namespace Anathema
         public void SaveScript(String ScriptText)
         {
             ScriptItem.Script = ScriptText;
-            Table.GetInstance().SaveScript(ScriptItem);
+            ScriptTable.GetInstance().SaveScript(ScriptItem);
         }
 
         public Boolean HasChanges(String Script)

@@ -44,15 +44,10 @@ namespace Anathema
 
         private TableData CurrentTableData;
 
-        private Int32 StartReadIndex;
-        private Int32 EndReadIndex;
-
         private Table()
         {
             InitializeProcessObserver();
             CurrentTableData = new TableData();
-
-            Begin();
         }
 
         public static Table GetInstance()
@@ -60,11 +55,6 @@ namespace Anathema
             if (TableInstance == null)
                 TableInstance = new Table();
             return TableInstance;
-        }
-
-        ~Table()
-        {
-            End();
         }
 
         public void InitializeProcessObserver()
@@ -77,32 +67,7 @@ namespace Anathema
             this.MemoryEditor = MemoryEditor;
         }
 
-        public override void ForceRefresh()
-        {
-            RefreshDisplay();
-        }
-
-        public override void UpdateReadBounds(Int32 StartReadIndex, Int32 EndReadIndex)
-        {
-            this.StartReadIndex = StartReadIndex;
-            this.EndReadIndex = EndReadIndex;
-        }
-
-        private void RefreshDisplay()
-        {
-            // Request that all data be updated
-            TableEventArgs Args = new TableEventArgs();
-            Args.ItemCount = CurrentTableData.AddressTable.Count;
-            OnEventClearAddressCache(Args);
-
-            Args.ItemCount = CurrentTableData.ScriptTable.Count;
-            OnEventClearScriptCache(Args);
-
-            Args.ItemCount = CurrentTableData.FiniteStateMachineTable.Count;
-            OnEventClearFSMCache(Args);
-        }
-
-        public override Boolean SaveTable(String Path)
+        public Boolean SaveTable(String Path)
         {
             try
             {
@@ -119,7 +84,7 @@ namespace Anathema
             return true;
         }
 
-        public override Boolean LoadTable(String Path)
+        public Boolean LoadTable(String Path)
         {
             try
             {
@@ -133,143 +98,7 @@ namespace Anathema
             {
                 return false;
             }
-
-            RefreshDisplay();
             return true;
-        }
-
-        public override void SetAddressFrozen(Int32 Index, Boolean Activated)
-        {
-            if (Activated)
-            {
-                Boolean ReadSuccess;
-                CurrentTableData.AddressTable[Index].ResolveAddress(MemoryEditor);
-                CurrentTableData.AddressTable[Index].Value = MemoryEditor.Read(CurrentTableData.AddressTable[Index].ElementType, unchecked((IntPtr)CurrentTableData.AddressTable[Index].EffectiveAddress), out ReadSuccess);
-            }
-
-            CurrentTableData.AddressTable[Index].SetActivationState(Activated);
-        }
-
-        public void AddTableItem(UInt64 BaseAddress, Type ElementType, String Description, Int32[] Offsets = null, Boolean IsHex = false, String Value = null)
-        {
-            CurrentTableData.AddressTable.Add(new AddressItem(BaseAddress, ElementType, Description, Offsets, IsHex, Value));
-
-            TableEventArgs TableEventArgs = new TableEventArgs();
-            TableEventArgs.ItemCount = CurrentTableData.AddressTable.Count;
-            OnEventClearAddressCache(TableEventArgs);
-        }
-
-        public override AddressItem GetAddressItemAt(Int32 Index)
-        {
-            return CurrentTableData.AddressTable[Index];
-        }
-
-        public override void SetAddressItemAt(Int32 Index, AddressItem AddressItem)
-        {
-            // Copy over attributes from the new item (such as to keep this item's color attributes)
-            CurrentTableData.AddressTable[Index].Description = AddressItem.Description;
-            CurrentTableData.AddressTable[Index].ElementType = AddressItem.ElementType;
-            CurrentTableData.AddressTable[Index].BaseAddress = AddressItem.BaseAddress;
-            CurrentTableData.AddressTable[Index].Offsets = AddressItem.Offsets;
-            CurrentTableData.AddressTable[Index].IsHex = AddressItem.IsHex;
-
-            // Force update of value, regardless if frozen or not
-            CurrentTableData.AddressTable[Index].ForceUpdateValue(AddressItem.Value);
-
-            // Write change to memory
-            if (AddressItem.Value != null)
-            {
-                CurrentTableData.AddressTable[Index].ResolveAddress(MemoryEditor);
-                MemoryEditor.Write(CurrentTableData.AddressTable[Index].ElementType, unchecked((IntPtr)CurrentTableData.AddressTable[Index].EffectiveAddress), CurrentTableData.AddressTable[Index].Value);
-            }
-            // Clear this entry in the cache since it has been updated
-            ClearAddressItemFromCache(CurrentTableData.AddressTable[Index]);
-        }
-
-        private void ClearAddressItemFromCache(AddressItem AddressItem)
-        {
-            TableEventArgs TableEventArgs = new TableEventArgs();
-            TableEventArgs.ClearCacheIndex = CurrentTableData.AddressTable.IndexOf(AddressItem);
-            TableEventArgs.ItemCount = CurrentTableData.AddressTable.Count;
-            OnEventClearAddressCacheItem(TableEventArgs);
-        }
-
-        public override void OpenScript(Int32 Index)
-        {
-            if (Index >= CurrentTableData.ScriptTable.Count)
-                return;
-
-            Main.GetInstance().OpenScriptEditor();
-            ScriptEditor.GetInstance().OpenScript(CurrentTableData.ScriptTable[Index]);
-        }
-
-        public void SaveScript(ScriptItem ScriptItem)
-        {
-            if (!CurrentTableData.ScriptTable.Contains(ScriptItem))
-            {
-                // Adding a new script
-                CurrentTableData.ScriptTable.Add(ScriptItem);
-
-                TableEventArgs TableEventArgs = new TableEventArgs();
-                TableEventArgs.ItemCount = CurrentTableData.ScriptTable.Count;
-                OnEventClearScriptCache(TableEventArgs);
-            }
-            else
-            {
-                // Updating an existing script, clear it from the cache
-                ClearScriptItemFromCache(ScriptItem);
-            }
-        }
-
-        public override ScriptItem GetScriptItemAt(Int32 Index)
-        {
-            return CurrentTableData.ScriptTable[Index];
-        }
-
-        public override void SetScriptActivation(Int32 Index, Boolean Activated)
-        {
-            // Try to update the activation state
-            CurrentTableData.ScriptTable[Index].SetActivationState(Activated);
-            ClearScriptItemFromCache(CurrentTableData.ScriptTable[Index]);
-        }
-
-        private void ClearScriptItemFromCache(ScriptItem ScriptItem)
-        {
-            TableEventArgs TableEventArgs = new TableEventArgs();
-            TableEventArgs.ClearCacheIndex = CurrentTableData.ScriptTable.IndexOf(ScriptItem);
-            TableEventArgs.ItemCount = CurrentTableData.ScriptTable.Count;
-            OnEventClearScriptCacheItem(TableEventArgs);
-        }
-
-        public override void Begin()
-        {
-            base.Begin();
-        }
-
-        protected override void Update()
-        {
-            // Freeze addresses
-            foreach (AddressItem Item in CurrentTableData.AddressTable)
-            {
-                if (Item.GetActivationState())
-                {
-                    Item.ResolveAddress(MemoryEditor);
-                    MemoryEditor.Write(Item.ElementType, unchecked((IntPtr)Item.EffectiveAddress), Item.Value);
-                }
-            }
-
-            for (Int32 Index = StartReadIndex; Index < EndReadIndex; Index++)
-            {
-                if (Index < 0 || Index >= CurrentTableData.AddressTable.Count)
-                    continue;
-
-                Boolean ReadSuccess;
-                CurrentTableData.AddressTable[Index].ResolveAddress(MemoryEditor);
-                CurrentTableData.AddressTable[Index].Value = MemoryEditor.Read(CurrentTableData.AddressTable[Index].ElementType, unchecked((IntPtr)CurrentTableData.AddressTable[Index].EffectiveAddress), out ReadSuccess);
-            }
-
-            if (CurrentTableData.AddressTable.Count != 0)
-                OnEventReadValues(new TableEventArgs());
         }
         
     } // End class

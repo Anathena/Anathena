@@ -47,7 +47,7 @@ namespace Anathema
         private void InitializeDefaultItems()
         {
             // Collect address item that was opened and set the display properties
-            AddressItem AddressItem = Table.GetInstance().GetAddressItemAt(AddressTableItemIndicies.Last());
+            AddressItem AddressItem = AddressTable.GetInstance().GetAddressItemAt(AddressTableItemIndicies.Last());
             DescriptionTextBox.Text = AddressItem.Description;
             ValueTypeComboBox.SelectedIndex = ValueTypeComboBox.Items.IndexOf(AddressItem.ElementType.Name);
             AddressTextBox.Text = Conversions.ToAddress(AddressItem.BaseAddress);

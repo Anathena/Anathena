@@ -20,7 +20,6 @@ namespace Anathema
     interface IScriptTableView : IView
     {
         // Methods invoked by the presenter (upstream)
-        void ReadValues();
         void UpdateScriptTableItemCount(Int32 ItemCount);
     }
 

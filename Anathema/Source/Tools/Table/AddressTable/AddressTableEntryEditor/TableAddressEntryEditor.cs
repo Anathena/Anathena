@@ -20,7 +20,7 @@ namespace Anathema
 
         public void AddTableEntryItem(Int32 MainSelection, Int32[] SelectedIndicies, AddressItem AddressItem)
         {
-            Table.GetInstance().SetAddressItemAt(MainSelection, AddressItem);
+            AddressTable.GetInstance().SetAddressItemAt(MainSelection, AddressItem);
         }
         
     } // End class

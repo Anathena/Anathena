@@ -141,6 +141,18 @@
     <Compile Include="GUI\Tools\ScriptEditor\GUIScriptEditor.Designer.cs">
       <DependentUpon>GUIScriptEditor.cs</DependentUpon>
     </Compile>
+    <Compile Include="GUI\Tools\Table\GUIFSMTable.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="GUI\Tools\Table\GUIFSMTable.Designer.cs">
+      <DependentUpon>GUIFSMTable.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GUI\Tools\Table\GUIScriptTable.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="GUI\Tools\Table\GUIScriptTable.Designer.cs">
+      <DependentUpon>GUIScriptTable.cs</DependentUpon>
+    </Compile>
     <Compile Include="GUI\Tools\Table\GUIAddressTableEntryEditor.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -471,15 +483,16 @@
     <Compile Include="Source\Tools\SnapshotManager\SnapshotManager.cs" />
     <Compile Include="Source\HelperClasses\ArrayExtensions.cs" />
     <Compile Include="Source\Tools\Table\AddressTable\AddressTable.cs" />
+    <Compile Include="Source\Tools\Table\FSMTable\FSMTable.cs" />
     <Compile Include="Source\Tools\Table\ScriptTable\IScriptTableMVP.cs" />
     <Compile Include="Source\Tools\Table\AddressTable\IAddressTableMVP.cs" />
-    <Compile Include="Source\Tools\Table\FSMTable\IFiniteStateMachineTableMVP.cs" />
+    <Compile Include="Source\Tools\Table\FSMTable\IFSMTableMVP.cs" />
     <Compile Include="Source\Tools\Table\AddressTable\AddressItem.cs" />
     <Compile Include="Source\Tools\Table\ScriptTable\ScriptTable.cs" />
-    <Compile Include="Source\Tools\Table\TableEntryEditor\ITableAddressEntryEditorMVP.cs" />
+    <Compile Include="Source\Tools\Table\AddressTable\AddressTableEntryEditor\ITableAddressEntryEditorMVP.cs" />
     <Compile Include="Source\Tools\Table\ITableMVP.cs" />
     <Compile Include="Source\Tools\Table\ScriptTable\ScriptItem.cs" />
-    <Compile Include="Source\Tools\Table\TableEntryEditor\TableAddressEntryEditor.cs" />
+    <Compile Include="Source\Tools\Table\AddressTable\AddressTableEntryEditor\TableAddressEntryEditor.cs" />
     <Compile Include="Source\Tools\Table\Table.cs" />
     <Compile Include="Source\Tools\Table\TableItem.cs" />
     <Compile Include="Source\Tools\Scanners\ScanConstraint.cs" />
@@ -698,6 +711,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\Tools\SnapshotManager\GUISnapshotManager.resx">
       <DependentUpon>GUISnapshotManager.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\Tools\Table\GUIFSMTable.resx">
+      <DependentUpon>GUIFSMTable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\Tools\Table\GUIScriptTable.resx">
+      <DependentUpon>GUIScriptTable.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\Tools\Table\GUIAddressTableEntryEditor.resx">
       <DependentUpon>GUIAddressTableEntryEditor.cs</DependentUpon>
