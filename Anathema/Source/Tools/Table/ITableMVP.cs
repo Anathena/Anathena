@@ -20,7 +20,6 @@ namespace Anathema
     interface ITableView : IView
     {
         // Methods invoked by the presenter (upstream)
-        void UpdateFSMTableItemCount(Int32 ItemCount);
     }
 
     interface ITableModel : IModel

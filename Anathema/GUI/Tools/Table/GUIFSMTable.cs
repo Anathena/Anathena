@@ -14,7 +14,7 @@ namespace Anathema
     public partial class GUIFSMTable : UserControl, IFSMTableView
     {
         private FSMTablePresenter FSMTablePresenter;
-        
+
         public GUIFSMTable()
         {
             InitializeComponent();
@@ -31,7 +31,15 @@ namespace Anathema
                 FSMTableListView.EndUpdate();
             });
         }
-        
+
+        #region Events
+
+        private void FSMTableListView_RetrieveVirtualItem(Object Sender, RetrieveVirtualItemEventArgs E)
+        {
+
+        }
+
+        #endregion
 
     } // End class
 

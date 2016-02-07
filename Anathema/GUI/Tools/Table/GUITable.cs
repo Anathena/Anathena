@@ -24,22 +24,14 @@ namespace Anathema
             ViewCheatTable();
         }
 
-        public void UpdateFSMTableItemCount(Int32 ItemCount)
-        {
-            ControlThreadingHelper.InvokeControlAction(FSMTableListView, () =>
-            {
-                FSMTableListView.BeginUpdate();
-                FSMTableListView.VirtualListSize = ItemCount;
-                FSMTableListView.EndUpdate();
-            });
-        }
+        
 
         private void ViewCheatTable()
         {
             CheatTableButton.Checked = true;
             FSMTableButton.Checked = false;
             CheatTableSplitContainer.Visible = true;
-            FSMTableListView.Visible = false;
+            GUIFSMTable.Visible = false;
         }
 
         private void ViewFSMTable()
@@ -47,7 +39,7 @@ namespace Anathema
             CheatTableButton.Checked = false;
             FSMTableButton.Checked = true;
             CheatTableSplitContainer.Visible = false;
-            FSMTableListView.Visible = true;
+            GUIFSMTable.Visible = true;
         }
 
         #region Events
