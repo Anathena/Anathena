@@ -22,7 +22,7 @@ namespace Anathema
             ManualScannerPresenter = new ManualScannerPresenter(this, new ManualScanner());
 
             InitializeValueTypeComboBox();
-            UpdateScanOptions(ChangedToolStripMenuItem, ConstraintsEnum.Changed);
+            UpdateScanOptions(ChangedToolStripMenuItem, ConstraintsEnum.Equal);
 
             EnableGUI();
         }
@@ -62,6 +62,7 @@ namespace Anathema
                 case ConstraintsEnum.Unchanged:
                 case ConstraintsEnum.Decreased:
                 case ConstraintsEnum.Increased:
+                case ConstraintsEnum.NotScientificNotation:
                     ValueTextBox.Enabled = false;
                     ValueTextBox.Text = "";
                     break;
@@ -76,16 +77,6 @@ namespace Anathema
                 case ConstraintsEnum.DecreasedByX:
                     ValueTextBox.Enabled = true;
                     break;
-            }
-
-            if (Conversions.StringToPrimitiveType(ValueTypeComboBox.SelectedItem.ToString()) == typeof(Single) ||
-                Conversions.StringToPrimitiveType(ValueTypeComboBox.SelectedItem.ToString()) == typeof(Double))
-            {
-                FilterScientificNotationCheckBox.Visible = true;
-            }
-            else
-            {
-                FilterScientificNotationCheckBox.Visible = false;
             }
 
             ManualScannerPresenter.SetValueConstraints(ValueConstraint);
@@ -195,6 +186,11 @@ namespace Anathema
         private void LessThanOrEqualToToolStripMenuItem_Click(Object Sender, EventArgs E)
         {
             UpdateScanOptions((ToolStripMenuItem)Sender, ConstraintsEnum.LessThanOrEqual);
+        }
+
+        private void NotScientificNotationToolStripMenuItem_Click(Object Sender, EventArgs E)
+        {
+            UpdateScanOptions((ToolStripMenuItem)Sender, ConstraintsEnum.NotScientificNotation);
         }
 
         #endregion

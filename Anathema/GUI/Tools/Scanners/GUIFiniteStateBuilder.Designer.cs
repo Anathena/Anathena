@@ -54,10 +54,11 @@
             this.ConstraintsListView = new System.Windows.Forms.ListView();
             this.ValueHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.ConstraintHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.ValueTextBox = new HexDecTextBox();
+            this.ValueTextBox = new Anathema.HexDecTextBox();
             this.ValueTypeComboBox = new System.Windows.Forms.ComboBox();
             this.ControlPanel = new System.Windows.Forms.Panel();
             this.FSMBuilderPanel = new Anathema.FlickerFreePanel();
+            this.NotScientificNotationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ScanToolStrip.SuspendLayout();
             this.StateContextMenuStrip.SuspendLayout();
             this.ControlPanel.SuspendLayout();
@@ -105,7 +106,8 @@
             this.GreaterThanToolStripMenuItem,
             this.GreaterThanOrEqualToToolStripMenuItem,
             this.LessThanToolStripMenuItem,
-            this.LessThanOrEqualToToolStripMenuItem});
+            this.LessThanOrEqualToToolStripMenuItem,
+            this.NotScientificNotationToolStripMenuItem});
             this.ScanOptionsToolStripDropDownButton.Image = global::Anathema.Properties.Resources.Changed;
             this.ScanOptionsToolStripDropDownButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.ScanOptionsToolStripDropDownButton.Name = "ScanOptionsToolStripDropDownButton";
@@ -283,10 +285,14 @@
             // 
             this.ValueTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.ValueTextBox.IsHex = false;
             this.ValueTextBox.Location = new System.Drawing.Point(223, 30);
             this.ValueTextBox.Name = "ValueTextBox";
             this.ValueTextBox.Size = new System.Drawing.Size(171, 20);
             this.ValueTextBox.TabIndex = 160;
+            this.ValueTextBox.WatermarkColor = System.Drawing.Color.LightGray;
+            this.ValueTextBox.WaterMarkFont = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.ValueTextBox.WaterMarkText = null;
             this.ValueTextBox.TextChanged += new System.EventHandler(this.ValueTextBox_TextChanged);
             // 
             // ValueTypeComboBox
@@ -323,6 +329,14 @@
             this.FSMBuilderPanel.MouseDown += new System.Windows.Forms.MouseEventHandler(this.FSMBuilderPanel_MouseDown);
             this.FSMBuilderPanel.MouseMove += new System.Windows.Forms.MouseEventHandler(this.FSMBuilderPanel_MouseMove);
             this.FSMBuilderPanel.MouseUp += new System.Windows.Forms.MouseEventHandler(this.FSMBuilderPanel_MouseUp);
+            // 
+            // NotScientificNotationToolStripMenuItem
+            // 
+            this.NotScientificNotationToolStripMenuItem.Image = global::Anathema.Properties.Resources.Intersection;
+            this.NotScientificNotationToolStripMenuItem.Name = "NotScientificNotationToolStripMenuItem";
+            this.NotScientificNotationToolStripMenuItem.Size = new System.Drawing.Size(202, 22);
+            this.NotScientificNotationToolStripMenuItem.Text = "Not Scientific Notation";
+            this.NotScientificNotationToolStripMenuItem.Click += new System.EventHandler(this.NotScientificNotationToolStripMenuItem_Click);
             // 
             // GUIFiniteStateBuilder
             // 
@@ -373,5 +387,6 @@
         private System.Windows.Forms.ColumnHeader ValueHeader;
         private System.Windows.Forms.ColumnHeader ConstraintHeader;
         private System.Windows.Forms.Panel ControlPanel;
+        private System.Windows.Forms.ToolStripMenuItem NotScientificNotationToolStripMenuItem;
     }
 }

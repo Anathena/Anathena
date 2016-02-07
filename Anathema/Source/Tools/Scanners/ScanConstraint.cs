@@ -21,6 +21,8 @@ namespace Anathema
         GreaterThanOrEqual,
         LessThan,
         LessThanOrEqual,
+
+        NotScientificNotation,
     }
 
     /// <summary>

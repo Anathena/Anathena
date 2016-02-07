@@ -87,6 +87,7 @@ namespace Anathema
                 case ConstraintsEnum.Unchanged:
                 case ConstraintsEnum.Decreased:
                 case ConstraintsEnum.Increased:
+                case ConstraintsEnum.NotScientificNotation:
                     break;
                 case ConstraintsEnum.Invalid:
                 case ConstraintsEnum.GreaterThan:

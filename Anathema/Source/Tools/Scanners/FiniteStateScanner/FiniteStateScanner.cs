@@ -128,6 +128,10 @@ namespace Anathema
                                 if (Element.LessThanOrEqualToValue(Transition.Key.Value))
                                     DoTransition = true;
                                 break;
+                            case ConstraintsEnum.NotScientificNotation:
+                                if (!Element.IsScientificNotation())
+                                    DoTransition = true;
+                                break;
                         }
 
                         if (DoTransition)

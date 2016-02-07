@@ -33,7 +33,6 @@
             this.ValueTypeComboBox = new System.Windows.Forms.ComboBox();
             this.ConstraintsListView = new System.Windows.Forms.ListView();
             this.ConstraintHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.FilterScientificNotationCheckBox = new System.Windows.Forms.CheckBox();
             this.StartScanButton = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator7 = new System.Windows.Forms.ToolStripSeparator();
             this.AddConstraintButton = new System.Windows.Forms.ToolStripButton();
@@ -54,6 +53,7 @@
             this.LessThanToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.LessThanOrEqualToToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ScanToolStrip = new System.Windows.Forms.ToolStrip();
+            this.NotScientificNotationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ScanToolStrip.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -63,9 +63,9 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.ValueTextBox.ForeColor = System.Drawing.Color.Red;
             this.ValueTextBox.IsHex = false;
-            this.ValueTextBox.Location = new System.Drawing.Point(12, 28);
+            this.ValueTextBox.Location = new System.Drawing.Point(107, 28);
             this.ValueTextBox.Name = "ValueTextBox";
-            this.ValueTextBox.Size = new System.Drawing.Size(407, 20);
+            this.ValueTextBox.Size = new System.Drawing.Size(312, 20);
             this.ValueTextBox.TabIndex = 151;
             this.ValueTextBox.WatermarkColor = System.Drawing.Color.LightGray;
             this.ValueTextBox.WaterMarkFont = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -75,9 +75,9 @@
             // 
             this.ValueTypeComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.ValueTypeComboBox.FormattingEnabled = true;
-            this.ValueTypeComboBox.Location = new System.Drawing.Point(12, 52);
+            this.ValueTypeComboBox.Location = new System.Drawing.Point(12, 28);
             this.ValueTypeComboBox.Name = "ValueTypeComboBox";
-            this.ValueTypeComboBox.Size = new System.Drawing.Size(94, 21);
+            this.ValueTypeComboBox.Size = new System.Drawing.Size(89, 21);
             this.ValueTypeComboBox.TabIndex = 153;
             this.ValueTypeComboBox.SelectedIndexChanged += new System.EventHandler(this.ValueTypeComboBox_SelectedIndexChanged);
             // 
@@ -89,9 +89,9 @@
             this.ConstraintsListView.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.ConstraintHeader});
             this.ConstraintsListView.FullRowSelect = true;
-            this.ConstraintsListView.Location = new System.Drawing.Point(12, 92);
+            this.ConstraintsListView.Location = new System.Drawing.Point(12, 55);
             this.ConstraintsListView.Name = "ConstraintsListView";
-            this.ConstraintsListView.Size = new System.Drawing.Size(407, 132);
+            this.ConstraintsListView.Size = new System.Drawing.Size(407, 169);
             this.ConstraintsListView.TabIndex = 157;
             this.ConstraintsListView.UseCompatibleStateImageBehavior = false;
             this.ConstraintsListView.View = System.Windows.Forms.View.Details;
@@ -100,16 +100,6 @@
             // 
             this.ConstraintHeader.Text = "Constraint";
             this.ConstraintHeader.Width = 397;
-            // 
-            // FilterScientificNotationCheckBox
-            // 
-            this.FilterScientificNotationCheckBox.AutoSize = true;
-            this.FilterScientificNotationCheckBox.Location = new System.Drawing.Point(112, 54);
-            this.FilterScientificNotationCheckBox.Name = "FilterScientificNotationCheckBox";
-            this.FilterScientificNotationCheckBox.Size = new System.Drawing.Size(137, 17);
-            this.FilterScientificNotationCheckBox.TabIndex = 158;
-            this.FilterScientificNotationCheckBox.Text = "Filter Scientific Notation";
-            this.FilterScientificNotationCheckBox.UseVisualStyleBackColor = true;
             // 
             // StartScanButton
             // 
@@ -176,7 +166,8 @@
             this.GreaterThanToolStripMenuItem,
             this.GreaterThanOrEqualToToolStripMenuItem,
             this.LessThanToolStripMenuItem,
-            this.LessThanOrEqualToToolStripMenuItem});
+            this.LessThanOrEqualToToolStripMenuItem,
+            this.NotScientificNotationToolStripMenuItem});
             this.ScanOptionsToolStripDropDownButton.Image = global::Anathema.Properties.Resources.Changed;
             this.ScanOptionsToolStripDropDownButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.ScanOptionsToolStripDropDownButton.Name = "ScanOptionsToolStripDropDownButton";
@@ -297,12 +288,19 @@
             this.ScanToolStrip.TabIndex = 155;
             this.ScanToolStrip.Text = "toolStrip1";
             // 
+            // NotScientificNotationToolStripMenuItem
+            // 
+            this.NotScientificNotationToolStripMenuItem.Image = global::Anathema.Properties.Resources.Intersection;
+            this.NotScientificNotationToolStripMenuItem.Name = "NotScientificNotationToolStripMenuItem";
+            this.NotScientificNotationToolStripMenuItem.Size = new System.Drawing.Size(202, 22);
+            this.NotScientificNotationToolStripMenuItem.Text = "Not Scientific Notation";
+            this.NotScientificNotationToolStripMenuItem.Click += new System.EventHandler(this.NotScientificNotationToolStripMenuItem_Click);
+            // 
             // GUIManualScanner
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(431, 236);
-            this.Controls.Add(this.FilterScientificNotationCheckBox);
             this.Controls.Add(this.ConstraintsListView);
             this.Controls.Add(this.ValueTextBox);
             this.Controls.Add(this.ValueTypeComboBox);
@@ -323,7 +321,6 @@
         private System.Windows.Forms.ComboBox ValueTypeComboBox;
         private System.Windows.Forms.ListView ConstraintsListView;
         private System.Windows.Forms.ColumnHeader ConstraintHeader;
-        private System.Windows.Forms.CheckBox FilterScientificNotationCheckBox;
         private System.Windows.Forms.ToolStripButton StartScanButton;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator7;
         private System.Windows.Forms.ToolStripButton AddConstraintButton;
@@ -344,5 +341,6 @@
         private System.Windows.Forms.ToolStrip ScanToolStrip;
         private System.Windows.Forms.ToolStripMenuItem EqualToToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem NotEqualToToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem NotScientificNotationToolStripMenuItem;
     }
 }

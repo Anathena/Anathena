@@ -43,6 +43,7 @@
             this.PointerScanTabControl = new System.Windows.Forms.TabControl();
             this.SettingsTabPage = new System.Windows.Forms.TabPage();
             this.RescanGroupBox = new System.Windows.Forms.GroupBox();
+            this.ValueTextBox = new Anathema.HexDecTextBox();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.AddConstraintButton = new System.Windows.Forms.ToolStripButton();
             this.RemoveConstraintButton = new System.Windows.Forms.ToolStripButton();
@@ -61,19 +62,18 @@
             this.GreaterThanOrEqualToToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.LessThanToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.LessThanOrEqualToToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.FilterScientificNotationCheckBox = new System.Windows.Forms.CheckBox();
             this.IgnoreAddressCheckBox = new System.Windows.Forms.CheckBox();
             this.ConstraintsListView = new System.Windows.Forms.ListView();
             this.ConstraintHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.ValueTypeLabel = new System.Windows.Forms.Label();
-            this.ResultsTabPage = new System.Windows.Forms.TabPage();
-            this.ValueTextBox = new Anathema.HexDecTextBox();
             this.MaxLevelTextBox = new Anathema.HexDecTextBox();
             this.MaxOffsetTextBox = new Anathema.HexDecTextBox();
+            this.ValueTypeLabel = new System.Windows.Forms.Label();
             this.TargetAddressTextBox = new Anathema.HexDecTextBox();
+            this.ResultsTabPage = new System.Windows.Forms.TabPage();
             this.PointerListView = new Anathema.FlickerFreeListView();
             this.ValueHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.BaseHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.NotScientificNotationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ScanToolStrip.SuspendLayout();
             this.PointerScanTabControl.SuspendLayout();
             this.SettingsTabPage.SuspendLayout();
@@ -223,7 +223,6 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.RescanGroupBox.Controls.Add(this.ValueTextBox);
             this.RescanGroupBox.Controls.Add(this.toolStrip1);
-            this.RescanGroupBox.Controls.Add(this.FilterScientificNotationCheckBox);
             this.RescanGroupBox.Controls.Add(this.IgnoreAddressCheckBox);
             this.RescanGroupBox.Controls.Add(this.ConstraintsListView);
             this.RescanGroupBox.Location = new System.Drawing.Point(11, 71);
@@ -232,6 +231,18 @@
             this.RescanGroupBox.TabIndex = 163;
             this.RescanGroupBox.TabStop = false;
             this.RescanGroupBox.Text = "Rescan Constraints";
+            // 
+            // ValueTextBox
+            // 
+            this.ValueTextBox.ForeColor = System.Drawing.Color.Red;
+            this.ValueTextBox.IsHex = true;
+            this.ValueTextBox.Location = new System.Drawing.Point(6, 44);
+            this.ValueTextBox.Name = "ValueTextBox";
+            this.ValueTextBox.Size = new System.Drawing.Size(134, 20);
+            this.ValueTextBox.TabIndex = 164;
+            this.ValueTextBox.WatermarkColor = System.Drawing.Color.LightGray;
+            this.ValueTextBox.WaterMarkFont = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.ValueTextBox.WaterMarkText = null;
             // 
             // toolStrip1
             // 
@@ -296,7 +307,8 @@
             this.GreaterThanToolStripMenuItem,
             this.GreaterThanOrEqualToToolStripMenuItem,
             this.LessThanToolStripMenuItem,
-            this.LessThanOrEqualToToolStripMenuItem});
+            this.LessThanOrEqualToToolStripMenuItem,
+            this.NotScientificNotationToolStripMenuItem});
             this.ScanOptionsToolStripDropDownButton.Image = global::Anathema.Properties.Resources.Changed;
             this.ScanOptionsToolStripDropDownButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.ScanOptionsToolStripDropDownButton.Name = "ScanOptionsToolStripDropDownButton";
@@ -387,16 +399,6 @@
             this.LessThanOrEqualToToolStripMenuItem.Size = new System.Drawing.Size(202, 22);
             this.LessThanOrEqualToToolStripMenuItem.Text = "Less Than or Equal to";
             // 
-            // FilterScientificNotationCheckBox
-            // 
-            this.FilterScientificNotationCheckBox.AutoSize = true;
-            this.FilterScientificNotationCheckBox.Location = new System.Drawing.Point(249, 46);
-            this.FilterScientificNotationCheckBox.Name = "FilterScientificNotationCheckBox";
-            this.FilterScientificNotationCheckBox.Size = new System.Drawing.Size(137, 17);
-            this.FilterScientificNotationCheckBox.TabIndex = 164;
-            this.FilterScientificNotationCheckBox.Text = "Filter Scientific Notation";
-            this.FilterScientificNotationCheckBox.UseVisualStyleBackColor = true;
-            // 
             // IgnoreAddressCheckBox
             // 
             this.IgnoreAddressCheckBox.AutoSize = true;
@@ -427,38 +429,6 @@
             this.ConstraintHeader.Text = "Constraint";
             this.ConstraintHeader.Width = 312;
             // 
-            // ValueTypeLabel
-            // 
-            this.ValueTypeLabel.AutoSize = true;
-            this.ValueTypeLabel.Location = new System.Drawing.Point(8, 35);
-            this.ValueTypeLabel.Name = "ValueTypeLabel";
-            this.ValueTypeLabel.Size = new System.Drawing.Size(61, 13);
-            this.ValueTypeLabel.TabIndex = 160;
-            this.ValueTypeLabel.Text = "Value Type";
-            // 
-            // ResultsTabPage
-            // 
-            this.ResultsTabPage.BackColor = System.Drawing.SystemColors.Control;
-            this.ResultsTabPage.Controls.Add(this.PointerListView);
-            this.ResultsTabPage.Location = new System.Drawing.Point(4, 22);
-            this.ResultsTabPage.Name = "ResultsTabPage";
-            this.ResultsTabPage.Padding = new System.Windows.Forms.Padding(3);
-            this.ResultsTabPage.Size = new System.Drawing.Size(409, 308);
-            this.ResultsTabPage.TabIndex = 1;
-            this.ResultsTabPage.Text = "Results";
-            // 
-            // ValueTextBox
-            // 
-            this.ValueTextBox.ForeColor = System.Drawing.Color.Red;
-            this.ValueTextBox.IsHex = true;
-            this.ValueTextBox.Location = new System.Drawing.Point(6, 44);
-            this.ValueTextBox.Name = "ValueTextBox";
-            this.ValueTextBox.Size = new System.Drawing.Size(134, 20);
-            this.ValueTextBox.TabIndex = 164;
-            this.ValueTextBox.WatermarkColor = System.Drawing.Color.LightGray;
-            this.ValueTextBox.WaterMarkFont = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.ValueTextBox.WaterMarkText = null;
-            // 
             // MaxLevelTextBox
             // 
             this.MaxLevelTextBox.ForeColor = System.Drawing.Color.Red;
@@ -483,6 +453,15 @@
             this.MaxOffsetTextBox.WaterMarkFont = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.MaxOffsetTextBox.WaterMarkText = null;
             // 
+            // ValueTypeLabel
+            // 
+            this.ValueTypeLabel.AutoSize = true;
+            this.ValueTypeLabel.Location = new System.Drawing.Point(8, 35);
+            this.ValueTypeLabel.Name = "ValueTypeLabel";
+            this.ValueTypeLabel.Size = new System.Drawing.Size(61, 13);
+            this.ValueTypeLabel.TabIndex = 160;
+            this.ValueTypeLabel.Text = "Value Type";
+            // 
             // TargetAddressTextBox
             // 
             this.TargetAddressTextBox.ForeColor = System.Drawing.Color.Red;
@@ -495,6 +474,17 @@
             this.TargetAddressTextBox.WaterMarkFont = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.TargetAddressTextBox.WaterMarkText = null;
             // 
+            // ResultsTabPage
+            // 
+            this.ResultsTabPage.BackColor = System.Drawing.SystemColors.Control;
+            this.ResultsTabPage.Controls.Add(this.PointerListView);
+            this.ResultsTabPage.Location = new System.Drawing.Point(4, 22);
+            this.ResultsTabPage.Name = "ResultsTabPage";
+            this.ResultsTabPage.Padding = new System.Windows.Forms.Padding(3);
+            this.ResultsTabPage.Size = new System.Drawing.Size(409, 208);
+            this.ResultsTabPage.TabIndex = 1;
+            this.ResultsTabPage.Text = "Results";
+            // 
             // PointerListView
             // 
             this.PointerListView.BackColor = System.Drawing.SystemColors.Window;
@@ -505,7 +495,7 @@
             this.PointerListView.FullRowSelect = true;
             this.PointerListView.Location = new System.Drawing.Point(3, 3);
             this.PointerListView.Name = "PointerListView";
-            this.PointerListView.Size = new System.Drawing.Size(403, 302);
+            this.PointerListView.Size = new System.Drawing.Size(403, 202);
             this.PointerListView.TabIndex = 157;
             this.PointerListView.UseCompatibleStateImageBehavior = false;
             this.PointerListView.View = System.Windows.Forms.View.Details;
@@ -522,6 +512,13 @@
             // 
             this.BaseHeader.Text = "Base";
             this.BaseHeader.Width = 94;
+            // 
+            // NotScientificNotationToolStripMenuItem
+            // 
+            this.NotScientificNotationToolStripMenuItem.Image = global::Anathema.Properties.Resources.Intersection;
+            this.NotScientificNotationToolStripMenuItem.Name = "NotScientificNotationToolStripMenuItem";
+            this.NotScientificNotationToolStripMenuItem.Size = new System.Drawing.Size(202, 22);
+            this.NotScientificNotationToolStripMenuItem.Text = "Not Scientific Notation";
             // 
             // GUIPointerScanner
             // 
@@ -575,7 +572,6 @@
         private System.Windows.Forms.ListView ConstraintsListView;
         private System.Windows.Forms.ColumnHeader ConstraintHeader;
         private System.Windows.Forms.CheckBox IgnoreAddressCheckBox;
-        private System.Windows.Forms.CheckBox FilterScientificNotationCheckBox;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
         private System.Windows.Forms.ToolStrip toolStrip1;
         private System.Windows.Forms.ToolStripButton AddConstraintButton;
@@ -596,5 +592,6 @@
         private System.Windows.Forms.ToolStripMenuItem LessThanToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem LessThanOrEqualToToolStripMenuItem;
         private HexDecTextBox ValueTextBox;
+        private System.Windows.Forms.ToolStripMenuItem NotScientificNotationToolStripMenuItem;
     }
 }

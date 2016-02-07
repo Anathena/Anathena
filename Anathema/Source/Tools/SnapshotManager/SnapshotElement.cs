@@ -162,6 +162,12 @@ namespace Anathema
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public unsafe Boolean IsScientificNotation()
+        {
+            return ((String)GetValue(CurrentValuePointer).ToString()).ToLower().Contains('e');
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public unsafe dynamic GetValue()
         {
             return (GetValue(CurrentValuePointer));

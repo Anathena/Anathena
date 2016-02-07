@@ -23,15 +23,15 @@ namespace Anathema.GUI.Tools.MemoryScanners
         private const Int32 LineFloatOffset = 8;
         private const Int32 VariableBorderSize = 4;
         private const Int32 ArrowSize = 4;
-        
+
         private Boolean BlockNextMouseEvent;
 
         private FiniteStateBuilderPresenter FiniteStateBuilderPresenter;
-        
+
         public GUIFiniteStateBuilder()
         {
             InitializeComponent();
-            
+
             FiniteStateBuilderPresenter = new FiniteStateBuilderPresenter(this, new FiniteStateBuilder());
 
             InitializeValueTypeComboBox();
@@ -53,7 +53,7 @@ namespace Anathema.GUI.Tools.MemoryScanners
                 FSMBuilderPanel.Invalidate();
             });
         }
-        
+
         private void UpdateScanOptions(ToolStripMenuItem Sender, ConstraintsEnum ValueConstraint)
         {
             ScanOptionsToolStripDropDownButton.Image = Sender.Image;
@@ -64,6 +64,7 @@ namespace Anathema.GUI.Tools.MemoryScanners
                 case ConstraintsEnum.Unchanged:
                 case ConstraintsEnum.Decreased:
                 case ConstraintsEnum.Increased:
+                case ConstraintsEnum.NotScientificNotation:
                     ValueTextBox.Enabled = false;
                     ValueTextBox.Text = "";
                     break;
@@ -100,7 +101,7 @@ namespace Anathema.GUI.Tools.MemoryScanners
 
             ValueTypeComboBox.SelectedIndex = ValueTypeComboBox.Items.IndexOf(typeof(Int32).Name);
         }
-        
+
         #region Events
 
         private void StateContextMenuStrip_Closed(Object Sender, ToolStripDropDownClosedEventArgs E)
@@ -135,7 +136,7 @@ namespace Anathema.GUI.Tools.MemoryScanners
         {
             if (E.Button != MouseButtons.Left)
                 return;
-            
+
             FiniteStateBuilderPresenter.FinishAction(E.Location);
         }
 
@@ -218,6 +219,11 @@ namespace Anathema.GUI.Tools.MemoryScanners
             UpdateScanOptions((ToolStripMenuItem)Sender, ConstraintsEnum.LessThanOrEqual);
         }
 
+        private void NotScientificNotationToolStripMenuItem_Click(Object Sender, EventArgs E)
+        {
+            UpdateScanOptions((ToolStripMenuItem)Sender, ConstraintsEnum.NotScientificNotation);
+        }
+
         private void StateContextMenuStrip_Opening(Object Sender, CancelEventArgs E)
         {
             /*
@@ -295,7 +301,7 @@ namespace Anathema.GUI.Tools.MemoryScanners
                     Graphics.DrawImage(DrawImage, State.Location.X - StateRadius, State.Location.Y - StateRadius, DrawImage.Width, DrawImage.Height);
 
             }
-            
+
             if (FiniteStateBuilderPresenter.GetMousedOverState() != null)
                 Graphics.DrawImage(Resources.StateHighlighted, FiniteStateBuilderPresenter.GetMousedOverState().Location.X - StateRadius, FiniteStateBuilderPresenter.GetMousedOverState().Location.Y - StateRadius, Resources.StateHighlighted.Width, Resources.StateHighlighted.Height);
 
@@ -339,6 +345,7 @@ namespace Anathema.GUI.Tools.MemoryScanners
                         case ConstraintsEnum.NotEqual: Graphics.DrawImage(Resources.NotEqual, ImageLocation.X, ImageLocation.Y, Resources.NotEqual.Width, Resources.NotEqual.Height); break;
                         case ConstraintsEnum.IncreasedByX: Graphics.DrawImage(Resources.PlusX, ImageLocation.X, ImageLocation.Y, Resources.PlusX.Width, Resources.PlusX.Height); break;
                         case ConstraintsEnum.DecreasedByX: Graphics.DrawImage(Resources.MinusX, ImageLocation.X, ImageLocation.Y, Resources.MinusX.Width, Resources.MinusX.Height); break;
+                        case ConstraintsEnum.NotScientificNotation: Graphics.DrawImage(Resources.Intersection, ImageLocation.X, ImageLocation.Y, Resources.Intersection.Width, Resources.Intersection.Height); break;
                         default: case ConstraintsEnum.Invalid: break;
                     }
 

@@ -140,6 +140,10 @@ namespace Anathema
                                 if (!Element.LessThanOrEqualToValue(ScanConstraint.Value))
                                     Element.Valid = false;
                                 break;
+                            case ConstraintsEnum.NotScientificNotation:
+                                if (Element.IsScientificNotation())
+                                    Element.Valid = false;
+                                break;
                         }
 
                     } // End foreach Constraint
