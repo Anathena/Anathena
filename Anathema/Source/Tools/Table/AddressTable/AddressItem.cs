@@ -45,7 +45,7 @@ namespace Anathema
             if (!IsHex && CheckSyntax.CanParseValue(ElementType, Value))
                 this.Value = Conversions.ParseValue(ElementType, Value);
             else if (IsHex && CheckSyntax.CanParseHex(ElementType, Value))
-                this.Value = Conversions.ParseHexAsDec(ElementType, Value);
+                this.Value = Conversions.ParseHexAsValue(ElementType, Value);
 
             this.EffectiveAddress = BaseAddress;
         }

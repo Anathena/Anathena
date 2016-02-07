@@ -34,7 +34,7 @@ namespace Anathema
             }
         }
 
-        public static String ParseAsHex(Type ValueType, String Value)
+        public static String ParseValueAsHex(Type ValueType, String Value)
         {
             dynamic RealValue = ParseValue(ValueType, Value);
 
@@ -54,7 +54,7 @@ namespace Anathema
             }
         }
 
-        public static String ParseHexAsDec(Type ValueType, String Value)
+        public static String ParseHexAsValue(Type ValueType, String Value)
         {
             UInt64 RealValue = AddressToValue(Value);
 
@@ -68,7 +68,7 @@ namespace Anathema
                 case TypeCode.UInt16: return RealValue.ToString();
                 case TypeCode.UInt32: return RealValue.ToString();
                 case TypeCode.UInt64: return RealValue.ToString();
-                case TypeCode.Single: return BitConverter.ToSingle(BitConverter.GetBytes(RealValue), 0).ToString();
+                case TypeCode.Single: return BitConverter.ToSingle(BitConverter.GetBytes(unchecked((UInt32)RealValue)), 0).ToString();
                 case TypeCode.Double: return BitConverter.ToDouble(BitConverter.GetBytes(RealValue), 0).ToString();
                 default: return null;
             }
@@ -117,7 +117,7 @@ namespace Anathema
             if (Address.StartsWith("0x", StringComparison.OrdinalIgnoreCase))
                 Address = Address.Substring(2);
 
-            while (Address.StartsWith("0"))
+            while (Address.StartsWith("0") && Address.Length > 1)
                 Address = Address.Substring(1);
 
             return UInt64.Parse(Address, System.Globalization.NumberStyles.HexNumber);

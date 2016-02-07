@@ -19,7 +19,7 @@ namespace Anathema
                 Address = Address.Substring(2);
 
             // Remove trailing 0s
-            while (Address.StartsWith("0"))
+            while (Address.StartsWith("0") && Address.Length > 1)
                 Address = Address.Substring(1);
 
             if (MustBe32Bit)
@@ -59,7 +59,7 @@ namespace Anathema
                 Value = Value.Substring(2);
 
             // Remove trailing 0s
-            while (Value.StartsWith("0"))
+            while (Value.StartsWith("0") && Value.Length > 1)
                 Value = Value.Substring(1);
 
             switch (Type.GetTypeCode(ValueType))
@@ -154,7 +154,7 @@ namespace Anathema
         {
             Single Temp;
             if (IsHex && IsUInt32(Value, IsHex))
-                return Single.TryParse(Conversions.ParseHexAsDec(typeof(Single), Value), out Temp);
+                return Single.TryParse(Conversions.ParseHexAsValue(typeof(Single), Value), out Temp);
             else
                 return Single.TryParse(Value, out Temp);
         }
@@ -163,7 +163,7 @@ namespace Anathema
         {
             Double Temp;
             if (IsHex && IsUInt64(Value, IsHex))
-                return Double.TryParse(Conversions.ParseHexAsDec(typeof(Double), Value), out Temp);
+                return Double.TryParse(Conversions.ParseHexAsValue(typeof(Double), Value), out Temp);
             else
                 return Double.TryParse(Value, out Temp);
         }
