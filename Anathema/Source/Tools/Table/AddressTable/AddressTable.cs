@@ -76,9 +76,18 @@ namespace Anathema
             Args.ItemCount = AddressItems.Count;
             OnEventClearAddressCache(Args);
         }
-        
+
         public override void SetAddressFrozen(Int32 Index, Boolean Activated)
         {
+            if (MemoryEditor == null)
+            {
+                // Allow disabling even if there is no valid process
+                if (!Activated)
+                    AddressItems[Index].SetActivationState(Activated);
+
+                return;
+            }
+
             if (Activated)
             {
                 Boolean ReadSuccess;
@@ -133,7 +142,8 @@ namespace Anathema
             if (AddressItem.Value != null)
             {
                 AddressItems[Index].ResolveAddress(MemoryEditor);
-                MemoryEditor.Write(AddressItems[Index].ElementType, unchecked((IntPtr)AddressItems[Index].EffectiveAddress), AddressItems[Index].Value);
+                if (MemoryEditor != null)
+                    MemoryEditor.Write(AddressItems[Index].ElementType, unchecked((IntPtr)AddressItems[Index].EffectiveAddress), AddressItems[Index].Value);
             }
             // Clear this entry in the cache since it has been updated
             ClearAddressItemFromCache(AddressItems[Index]);
@@ -146,7 +156,7 @@ namespace Anathema
             AddressTableEventArgs.ItemCount = AddressItems.Count;
             OnEventClearAddressCacheItem(AddressTableEventArgs);
         }
-        
+
         public override void Begin()
         {
             base.Begin();
@@ -160,7 +170,9 @@ namespace Anathema
                 if (Item.GetActivationState())
                 {
                     Item.ResolveAddress(MemoryEditor);
-                    MemoryEditor.Write(Item.ElementType, unchecked((IntPtr)Item.EffectiveAddress), Item.Value);
+
+                    if (MemoryEditor != null)
+                        MemoryEditor.Write(Item.ElementType, unchecked((IntPtr)Item.EffectiveAddress), Item.Value);
                 }
             }
 
@@ -171,13 +183,15 @@ namespace Anathema
 
                 Boolean ReadSuccess;
                 AddressItems[Index].ResolveAddress(MemoryEditor);
-                AddressItems[Index].Value = MemoryEditor.Read(AddressItems[Index].ElementType, unchecked((IntPtr)AddressItems[Index].EffectiveAddress), out ReadSuccess);
+
+                if (MemoryEditor != null)
+                    AddressItems[Index].Value = MemoryEditor.Read(AddressItems[Index].ElementType, unchecked((IntPtr)AddressItems[Index].EffectiveAddress), out ReadSuccess);
             }
 
             if (AddressItems.Count != 0)
                 OnEventReadValues(new AddressTableEventArgs());
         }
-        
+
     } // End class
 
 } // End namespace

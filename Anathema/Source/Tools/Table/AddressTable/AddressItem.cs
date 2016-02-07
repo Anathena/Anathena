@@ -104,8 +104,18 @@ namespace Anathema
             UInt64 Pointer = this.BaseAddress;
             Boolean SuccessReading = true;
 
-            if (Offsets == null)
-            { 
+            if (MemoryEditor == null)
+            {
+                if (Offsets == null || Offsets.Length == 0)
+                    EffectiveAddress = Pointer;
+                else
+                    EffectiveAddress = 0;
+
+                return;
+            }
+            
+            if (Offsets == null || Offsets.Length == 0)
+            {
                 this.EffectiveAddress = Pointer;
                 return;
             }
