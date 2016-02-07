@@ -32,8 +32,8 @@ namespace Anathema
 
         private void InitializeDefaults()
         {
-            MaxLevelTextBox.Text = DefaultLevel.ToString();
-            MaxOffsetTextBox.Text = DefaultOffset.ToString();
+            MaxLevelTextBox.SetValue(DefaultLevel);
+            MaxOffsetTextBox.SetValue(DefaultOffset);
         }
 
         private void InitializeValueTypeComboBox()
@@ -126,17 +126,17 @@ namespace Anathema
 
         private void StartScanButton_Click(Object Sender, EventArgs E)
         {
+            // Validate input
+            if (!TargetAddressTextBox.IsValid() || !MaxLevelTextBox.IsValid() || !MaxOffsetTextBox.IsValid())
+                return;
+
+            // Apply settings
+            PointerScannerPresenter.SetTargetAddress(TargetAddressTextBox.GetValueAsHexidecimal());
+            PointerScannerPresenter.SetMaxPointerLevel(MaxLevelTextBox.GetValueAsDecimal());
+            PointerScannerPresenter.SetMaxPointerOffset(MaxOffsetTextBox.GetValueAsDecimal());
+
+            // Start scan
             DisableGUI();
-
-            if (!PointerScannerPresenter.TrySetTargetAddress(TargetAddressTextBox.Text))
-                return;
-
-            if (!PointerScannerPresenter.TrySetMaxPointerLevel(MaxLevelTextBox.Text))
-                return;
-
-            if (!PointerScannerPresenter.TrySetMaxPointerOffset(MaxOffsetTextBox.Text))
-                return;
-
             PointerScannerPresenter.BeginPointerScan();
         }
 
@@ -144,8 +144,10 @@ namespace Anathema
         {
             DisableGUI();
 
-            if (!PointerScannerPresenter.TrySetTargetAddress(TargetAddressTextBox.Text))
-                return;
+            if (TargetAddressTextBox.IsValid())
+            {
+                PointerScannerPresenter.SetTargetAddress(TargetAddressTextBox.GetValueAsHexidecimal());
+            }
 
             PointerScannerPresenter.BeginPointerRescan();
         }
@@ -160,32 +162,9 @@ namespace Anathema
             E.Item = PointerScannerPresenter.GetItemAt(E.ItemIndex);
         }
 
-        private void TargetAddressTextBox_TextChanged(Object Sender, EventArgs E)
-        {
-            if (CheckSyntax.CanParseAddress(TargetAddressTextBox.Text))
-                TargetAddressTextBox.ForeColor = SystemColors.ControlText;
-            else
-                TargetAddressTextBox.ForeColor = Color.Red;
-        }
-
-        private void MaxLevelTextBox_TextChanged(Object Sender, EventArgs E)
-        {
-            if (CheckSyntax.IsInt32(MaxLevelTextBox.Text))
-                MaxLevelTextBox.ForeColor = SystemColors.ControlText;
-            else
-                MaxLevelTextBox.ForeColor = Color.Red;
-        }
-
-        private void MaxOffsetTextBox_TextChanged(Object Sender, EventArgs E)
-        {
-            if (CheckSyntax.IsInt32(MaxOffsetTextBox.Text))
-                MaxOffsetTextBox.ForeColor = SystemColors.ControlText;
-            else
-                MaxOffsetTextBox.ForeColor = Color.Red;
-        }
-
         private void ValueTypeComboBox_SelectedIndexChanged(Object Sender, EventArgs E)
         {
+            TargetAddressTextBox.SetElementType(Conversions.StringToPrimitiveType(ValueTypeComboBox.SelectedItem.ToString()));
             PointerScannerPresenter.SetElementType(Conversions.StringToPrimitiveType(ValueTypeComboBox.SelectedItem.ToString()));
         }
 
@@ -201,6 +180,7 @@ namespace Anathema
 
         private void GUIPointerScanner_Resize(Object Sender, EventArgs E)
         {
+            // Ensure tabs take up the entire width of the control
             const Int32 TabBoarderOffset = 3;
             PointerScanTabControl.ItemSize = new Size((PointerScanTabControl.Width - TabBoarderOffset) / PointerScanTabControl.TabCount, 0);
         }

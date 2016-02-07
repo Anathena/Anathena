@@ -35,19 +35,20 @@
             this.StopScanButton = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.AddSelectedResultsButton = new System.Windows.Forms.ToolStripButton();
-            this.TargetAddressTextBox = new System.Windows.Forms.TextBox();
             this.TargetAddressLabel = new System.Windows.Forms.Label();
             this.MaxOffsetLabel = new System.Windows.Forms.Label();
-            this.MaxOffsetTextBox = new System.Windows.Forms.TextBox();
-            this.MaxLevelTextBox = new System.Windows.Forms.TextBox();
             this.MaxLevelLabel = new System.Windows.Forms.Label();
             this.ValueTypeComboBox = new System.Windows.Forms.ComboBox();
             this.PointerScanTabControl = new System.Windows.Forms.TabControl();
             this.SettingsTabPage = new System.Windows.Forms.TabPage();
             this.ResultsTabPage = new System.Windows.Forms.TabPage();
+            this.TargetAddressTextBox = new Anathema.HexDecTextBox();
             this.PointerListView = new Anathema.FlickerFreeListView();
             this.ValueHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.BaseHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.ValueTypeLabel = new System.Windows.Forms.Label();
+            this.MaxOffsetTextBox = new Anathema.HexDecTextBox();
+            this.MaxLevelTextBox = new Anathema.HexDecTextBox();
             this.ScanToolStrip.SuspendLayout();
             this.PointerScanTabControl.SuspendLayout();
             this.SettingsTabPage.SuspendLayout();
@@ -115,62 +116,38 @@
             this.AddSelectedResultsButton.Text = "Add Selected to Table";
             this.AddSelectedResultsButton.Click += new System.EventHandler(this.AddSelectedResultsButton_Click);
             // 
-            // TargetAddressTextBox
-            // 
-            this.TargetAddressTextBox.Location = new System.Drawing.Point(60, 14);
-            this.TargetAddressTextBox.Name = "TargetAddressTextBox";
-            this.TargetAddressTextBox.Size = new System.Drawing.Size(134, 20);
-            this.TargetAddressTextBox.TabIndex = 0;
-            this.TargetAddressTextBox.TextChanged += new System.EventHandler(this.TargetAddressTextBox_TextChanged);
-            // 
             // TargetAddressLabel
             // 
             this.TargetAddressLabel.AutoSize = true;
-            this.TargetAddressLabel.Location = new System.Drawing.Point(6, 17);
+            this.TargetAddressLabel.Location = new System.Drawing.Point(8, 3);
             this.TargetAddressLabel.Name = "TargetAddressLabel";
-            this.TargetAddressLabel.Size = new System.Drawing.Size(48, 13);
+            this.TargetAddressLabel.Size = new System.Drawing.Size(45, 13);
             this.TargetAddressLabel.TabIndex = 151;
-            this.TargetAddressLabel.Text = "Address:";
+            this.TargetAddressLabel.Text = "Address";
             // 
             // MaxOffsetLabel
             // 
             this.MaxOffsetLabel.AutoSize = true;
-            this.MaxOffsetLabel.Location = new System.Drawing.Point(200, 43);
+            this.MaxOffsetLabel.Location = new System.Drawing.Point(148, 42);
             this.MaxOffsetLabel.Name = "MaxOffsetLabel";
-            this.MaxOffsetLabel.Size = new System.Drawing.Size(61, 13);
+            this.MaxOffsetLabel.Size = new System.Drawing.Size(58, 13);
             this.MaxOffsetLabel.TabIndex = 153;
-            this.MaxOffsetLabel.Text = "Max Offset:";
-            // 
-            // MaxOffsetTextBox
-            // 
-            this.MaxOffsetTextBox.Location = new System.Drawing.Point(267, 40);
-            this.MaxOffsetTextBox.Name = "MaxOffsetTextBox";
-            this.MaxOffsetTextBox.Size = new System.Drawing.Size(109, 20);
-            this.MaxOffsetTextBox.TabIndex = 2;
-            this.MaxOffsetTextBox.TextChanged += new System.EventHandler(this.MaxOffsetTextBox_TextChanged);
-            // 
-            // MaxLevelTextBox
-            // 
-            this.MaxLevelTextBox.Location = new System.Drawing.Point(267, 14);
-            this.MaxLevelTextBox.Name = "MaxLevelTextBox";
-            this.MaxLevelTextBox.Size = new System.Drawing.Size(109, 20);
-            this.MaxLevelTextBox.TabIndex = 1;
-            this.MaxLevelTextBox.TextChanged += new System.EventHandler(this.MaxLevelTextBox_TextChanged);
+            this.MaxOffsetLabel.Text = "Max Offset";
             // 
             // MaxLevelLabel
             // 
             this.MaxLevelLabel.AutoSize = true;
-            this.MaxLevelLabel.Location = new System.Drawing.Point(200, 17);
+            this.MaxLevelLabel.Location = new System.Drawing.Point(8, 42);
             this.MaxLevelLabel.Name = "MaxLevelLabel";
-            this.MaxLevelLabel.Size = new System.Drawing.Size(59, 13);
+            this.MaxLevelLabel.Size = new System.Drawing.Size(56, 13);
             this.MaxLevelLabel.TabIndex = 155;
-            this.MaxLevelLabel.Text = "Max Level:";
+            this.MaxLevelLabel.Text = "Max Level";
             // 
             // ValueTypeComboBox
             // 
             this.ValueTypeComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.ValueTypeComboBox.FormattingEnabled = true;
-            this.ValueTypeComboBox.Location = new System.Drawing.Point(60, 39);
+            this.ValueTypeComboBox.Location = new System.Drawing.Point(151, 19);
             this.ValueTypeComboBox.Name = "ValueTypeComboBox";
             this.ValueTypeComboBox.Size = new System.Drawing.Size(134, 21);
             this.ValueTypeComboBox.TabIndex = 158;
@@ -191,13 +168,14 @@
             // SettingsTabPage
             // 
             this.SettingsTabPage.BackColor = System.Drawing.SystemColors.Control;
+            this.SettingsTabPage.Controls.Add(this.MaxLevelTextBox);
+            this.SettingsTabPage.Controls.Add(this.MaxOffsetTextBox);
+            this.SettingsTabPage.Controls.Add(this.ValueTypeLabel);
+            this.SettingsTabPage.Controls.Add(this.TargetAddressTextBox);
             this.SettingsTabPage.Controls.Add(this.TargetAddressLabel);
             this.SettingsTabPage.Controls.Add(this.ValueTypeComboBox);
-            this.SettingsTabPage.Controls.Add(this.TargetAddressTextBox);
-            this.SettingsTabPage.Controls.Add(this.MaxLevelTextBox);
             this.SettingsTabPage.Controls.Add(this.MaxOffsetLabel);
             this.SettingsTabPage.Controls.Add(this.MaxLevelLabel);
-            this.SettingsTabPage.Controls.Add(this.MaxOffsetTextBox);
             this.SettingsTabPage.Location = new System.Drawing.Point(4, 22);
             this.SettingsTabPage.Name = "SettingsTabPage";
             this.SettingsTabPage.Padding = new System.Windows.Forms.Padding(3);
@@ -215,6 +193,18 @@
             this.ResultsTabPage.Size = new System.Drawing.Size(394, 227);
             this.ResultsTabPage.TabIndex = 1;
             this.ResultsTabPage.Text = "Results";
+            // 
+            // TargetAddressTextBox
+            // 
+            this.TargetAddressTextBox.ForeColor = System.Drawing.Color.Red;
+            this.TargetAddressTextBox.IsHex = true;
+            this.TargetAddressTextBox.Location = new System.Drawing.Point(11, 19);
+            this.TargetAddressTextBox.Name = "TargetAddressTextBox";
+            this.TargetAddressTextBox.Size = new System.Drawing.Size(134, 20);
+            this.TargetAddressTextBox.TabIndex = 159;
+            this.TargetAddressTextBox.WatermarkColor = System.Drawing.Color.LightGray;
+            this.TargetAddressTextBox.WaterMarkFont = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.TargetAddressTextBox.WaterMarkText = null;
             // 
             // PointerListView
             // 
@@ -244,6 +234,39 @@
             this.BaseHeader.Text = "Base";
             this.BaseHeader.Width = 94;
             // 
+            // ValueTypeLabel
+            // 
+            this.ValueTypeLabel.AutoSize = true;
+            this.ValueTypeLabel.Location = new System.Drawing.Point(149, 3);
+            this.ValueTypeLabel.Name = "ValueTypeLabel";
+            this.ValueTypeLabel.Size = new System.Drawing.Size(61, 13);
+            this.ValueTypeLabel.TabIndex = 160;
+            this.ValueTypeLabel.Text = "Value Type";
+            // 
+            // MaxOffsetTextBox
+            // 
+            this.MaxOffsetTextBox.ForeColor = System.Drawing.Color.Red;
+            this.MaxOffsetTextBox.IsHex = true;
+            this.MaxOffsetTextBox.Location = new System.Drawing.Point(152, 58);
+            this.MaxOffsetTextBox.Name = "MaxOffsetTextBox";
+            this.MaxOffsetTextBox.Size = new System.Drawing.Size(133, 20);
+            this.MaxOffsetTextBox.TabIndex = 161;
+            this.MaxOffsetTextBox.WatermarkColor = System.Drawing.Color.LightGray;
+            this.MaxOffsetTextBox.WaterMarkFont = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.MaxOffsetTextBox.WaterMarkText = null;
+            // 
+            // MaxLevelTextBox
+            // 
+            this.MaxLevelTextBox.ForeColor = System.Drawing.Color.Red;
+            this.MaxLevelTextBox.IsHex = false;
+            this.MaxLevelTextBox.Location = new System.Drawing.Point(11, 58);
+            this.MaxLevelTextBox.Name = "MaxLevelTextBox";
+            this.MaxLevelTextBox.Size = new System.Drawing.Size(134, 20);
+            this.MaxLevelTextBox.TabIndex = 162;
+            this.MaxLevelTextBox.WatermarkColor = System.Drawing.Color.LightGray;
+            this.MaxLevelTextBox.WaterMarkFont = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.MaxLevelTextBox.WaterMarkText = null;
+            // 
             // GUIPointerScanner
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -271,11 +294,8 @@
         private System.Windows.Forms.ToolStripButton StartScanButton;
         private System.Windows.Forms.ToolStrip ScanToolStrip;
         private System.Windows.Forms.ToolStripButton StopScanButton;
-        private System.Windows.Forms.TextBox TargetAddressTextBox;
         private System.Windows.Forms.Label TargetAddressLabel;
         private System.Windows.Forms.Label MaxOffsetLabel;
-        private System.Windows.Forms.TextBox MaxOffsetTextBox;
-        private System.Windows.Forms.TextBox MaxLevelTextBox;
         private System.Windows.Forms.Label MaxLevelLabel;
         private FlickerFreeListView PointerListView;
         private System.Windows.Forms.ColumnHeader ValueHeader;
@@ -287,5 +307,9 @@
         private System.Windows.Forms.TabControl PointerScanTabControl;
         private System.Windows.Forms.TabPage SettingsTabPage;
         private System.Windows.Forms.TabPage ResultsTabPage;
+        private HexDecTextBox TargetAddressTextBox;
+        private System.Windows.Forms.Label ValueTypeLabel;
+        private HexDecTextBox MaxOffsetTextBox;
+        private HexDecTextBox MaxLevelTextBox;
     }
 }

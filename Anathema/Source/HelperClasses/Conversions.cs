@@ -34,6 +34,11 @@ namespace Anathema
             }
         }
 
+        public static String ParseValueAsDec(Type ValueType, String Value)
+        {
+            return ParseValue(ValueType, Value).ToString();
+        }
+
         public static String ParseValueAsHex(Type ValueType, String Value)
         {
             dynamic RealValue = ParseValue(ValueType, Value);

@@ -128,33 +128,31 @@ namespace Anathema
             Model.AddSelectionToTable(MinIndex, MaxIndex);
         }
 
-        public Boolean TrySetTargetAddress(String TargetAddress)
+        public void SetTargetAddress(String TargetAddress)
         {
             if (!CheckSyntax.CanParseAddress(TargetAddress))
-                return false;
+                return;
 
             Model.SetTargetAddress(Conversions.AddressToValue(TargetAddress));
-            return true;
         }
 
-        public Boolean TrySetMaxPointerLevel(String MaxPointerLevel)
+        public void SetMaxPointerLevel(String MaxPointerLevel)
         {
             if (!CheckSyntax.CanParseValue(typeof(Int32), MaxPointerLevel))
-                return false;
+                return;
 
             this.MaxPointerLevel = Conversions.ParseValue(typeof(Int32), MaxPointerLevel);
 
             Model.SetMaxPointerLevel(Conversions.ParseValue(typeof(Int32), MaxPointerLevel));
-            return true;
         }
 
-        public Boolean TrySetMaxPointerOffset(String MaxPointerOffset)
+        public void SetMaxPointerOffset(String MaxPointerOffset)
         {
             if (!CheckSyntax.CanParseValue(typeof(UInt64), MaxPointerOffset))
-                return false;
+                return;
 
             Model.SetMaxPointerOffset(Conversions.ParseValue(typeof(UInt64), MaxPointerOffset));
-            return true;
+            return;
         }
 
         #endregion

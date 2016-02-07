@@ -73,9 +73,9 @@ namespace Anathema
                 return null;
 
             if (IsHex)
-                return Conversions.ParseValue(ElementType, Conversions.ParseHexAsValue(ElementType, this.Text)).ToString();
+                return Conversions.ParseValueAsDec(ElementType, Conversions.ParseHexAsValue(ElementType, this.Text));
             else
-                return Conversions.ParseValue(ElementType, this.Text).ToString();
+                return Conversions.ParseValueAsDec(ElementType, this.Text);
         }
 
         public String GetValueAsHexidecimal()
@@ -84,16 +84,32 @@ namespace Anathema
                 return null;
 
             if (IsHex)
-                return Conversions.ParseValue(ElementType, Conversions.ParseHexAsValue(ElementType, this.Text)).ToString("X");
+                return Conversions.ParseValueAsHex(ElementType, Conversions.ParseHexAsValue(ElementType, this.Text));
             else
-                return Conversions.ParseValueAsHex(ElementType, Conversions.ParseValue(ElementType, this.Text).ToString());
+                return Conversions.ParseValueAsHex(ElementType, Conversions.ParseValue(ElementType, this.Text));
+        }
+
+        public void SetValue(dynamic Value)
+        {
+            if (Value == null)
+                return;
+
+            String ValueString = Value.ToString();
+
+            if (!CheckSyntax.CanParseValue(ElementType, ValueString))
+                return;
+
+            if (IsHex)
+                this.Text = Conversions.ParseValueAsHex(ElementType, ValueString);
+            else
+                this.Text = Conversions.ParseValueAsDec(ElementType, ValueString);
         }
 
         public Boolean IsValid()
         {
             return TextValid;
         }
-        
+
         private void HexidecimalMenuItem_Click(Object Sender, EventArgs E)
         {
             this.IsHex = true;
@@ -115,11 +131,11 @@ namespace Anathema
         private void ConvertToDecMenuItem_Click(Object Sender, EventArgs E)
         {
             if (CheckSyntax.CanParseHex(ElementType, this.Text))
-                this.Text = Conversions.ParseHexAsValue(ElementType, this.Text).ToString();
+                this.Text = Conversions.ParseHexAsValue(ElementType, this.Text);
 
             this.IsHex = false;
         }
-        
+
         private void RightClickMenu_Popup(Object Sender, EventArgs E)
         {
             DecimalMenuItem.Checked = IsHex ? false : true;
