@@ -57,7 +57,8 @@ namespace Anathema
                     DataContractSerializer Serializer = new DataContractSerializer(typeof(TableData));
 
                     // Gather items we need to save
-
+                    CurrentTableData.AddressItems = AddressTable.GetInstance().GetAddressItems();
+                    CurrentTableData.ScriptItems = ScriptTable.GetInstance().GetScriptItems();
 
                     Serializer.WriteObject(FileStream, CurrentTableData);
                 }
@@ -77,9 +78,10 @@ namespace Anathema
                 {
                     DataContractSerializer Serializer = new DataContractSerializer(typeof(TableData));
                     CurrentTableData = (TableData)Serializer.ReadObject(FileStream);
-                    
-                    // Distribute loaded items to the appropriate tables
 
+                    // Distribute loaded items to the appropriate tables
+                    AddressTable.GetInstance().SetAddressItems(CurrentTableData.AddressItems);
+                    ScriptTable.GetInstance().SetScriptItems(CurrentTableData.ScriptItems);
                 }
             }
             catch

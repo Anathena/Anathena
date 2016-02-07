@@ -90,6 +90,9 @@ namespace Anathema
 
         public String GetAddressString()
         {
+            if (Offsets == null || Offsets.Length == 1)
+                EffectiveAddress = BaseAddress;
+
             if (Offsets != null && Offsets.Length > 0)
                 return "P->" + Conversions.ToAddress(EffectiveAddress);
 

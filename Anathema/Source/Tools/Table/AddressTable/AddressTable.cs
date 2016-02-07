@@ -103,6 +103,20 @@ namespace Anathema
             return AddressItems[Index];
         }
 
+        public List<AddressItem> GetAddressItems()
+        {
+            return AddressItems;
+        }
+
+        public void SetAddressItems(List<AddressItem> AddressItems)
+        {
+            this.AddressItems = AddressItems;
+
+            AddressTableEventArgs AddressTableEventArgs = new AddressTableEventArgs();
+            AddressTableEventArgs.ItemCount = AddressItems.Count;
+            OnEventClearAddressCache(AddressTableEventArgs);
+        }
+
         public override void SetAddressItemAt(Int32 Index, AddressItem AddressItem)
         {
             // Copy over attributes from the new item (such as to keep this item's color attributes)

@@ -131,11 +131,11 @@
             this.ViewToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.ProcessSelectorToolStripMenuItem,
             this.ScansToolStripMenuItem,
+            this.ScriptEditorToolStripMenuItem,
+            this.DebuggerToolStripMenuItem,
             this.TableToolStripMenuItem,
             this.ResultsToolStripMenuItem,
-            this.SnapshotManagerToolStripMenuItem,
-            this.ScriptEditorToolStripMenuItem,
-            this.DebuggerToolStripMenuItem});
+            this.SnapshotManagerToolStripMenuItem});
             this.ViewToolStripMenuItem.Name = "ViewToolStripMenuItem";
             this.ViewToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
             this.ViewToolStripMenuItem.Text = "View";
@@ -270,14 +270,14 @@
             // CodeViewToolStripMenuItem
             // 
             this.CodeViewToolStripMenuItem.Name = "CodeViewToolStripMenuItem";
-            this.CodeViewToolStripMenuItem.Size = new System.Drawing.Size(147, 22);
+            this.CodeViewToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.CodeViewToolStripMenuItem.Text = "Code View";
             this.CodeViewToolStripMenuItem.Click += new System.EventHandler(this.CodeViewToolStripMenuItem_Click);
             // 
             // MemoryViewToolStripMenuItem
             // 
             this.MemoryViewToolStripMenuItem.Name = "MemoryViewToolStripMenuItem";
-            this.MemoryViewToolStripMenuItem.Size = new System.Drawing.Size(147, 22);
+            this.MemoryViewToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.MemoryViewToolStripMenuItem.Text = "Memory View";
             this.MemoryViewToolStripMenuItem.Click += new System.EventHandler(this.MemoryViewToolStripMenuItem_Click);
             // 

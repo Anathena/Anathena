@@ -70,6 +70,19 @@ namespace Anathema
             return ScriptItems[Index];
         }
 
+        public List<ScriptItem> GetScriptItems()
+        {
+            return ScriptItems;
+        }
+
+        public void  SetScriptItems(List<ScriptItem> ScriptItems)
+        {
+            this.ScriptItems = ScriptItems;
+            ScriptTableEventArgs ScriptTableEventArgs = new ScriptTableEventArgs();
+            ScriptTableEventArgs.ItemCount = ScriptItems.Count;
+            EventClearScriptCache(this, ScriptTableEventArgs);
+        }
+
         public void SetScriptActivation(Int32 Index, Boolean Activated)
         {
             // Try to update the activation state
