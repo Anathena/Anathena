@@ -219,7 +219,12 @@ namespace Anathema
                     OnEventReadValues(new PointerScannerEventArgs());
                     break;
                 case ScanModeEnum.Scan:
-                    PointerScan();
+
+                    BuildPointerPool();
+                    TracePointers();
+                    BuildPointers();
+                    UpdateDisplay();
+
                     ScanMode = ScanModeEnum.ReadValues;
                     break;
                 case ScanModeEnum.Rescan:
@@ -234,8 +239,33 @@ namespace Anathema
             base.End();
         }
 
-        private void PointerScan()
+        private void PointerRescan()
         {
+
+        }
+
+        private void SetAcceptedBases()
+        {
+            if (MemoryEditor == null)
+                return;
+
+            List<RemoteModule> Modules = MemoryEditor.Modules.RemoteModules.ToList();
+            // List<RemoteModule> Modules = new List<RemoteModule>();
+            // Modules.Add(MemoryEditor.Modules.MainModule);
+
+            List<SnapshotRegion> AcceptedBaseRegions = new List<SnapshotRegion>();
+
+            // Gather regions from every module as valid base addresses
+            Modules.ForEach(x => AcceptedBaseRegions.Add(new SnapshotRegion<Null>(new RemoteRegion(MemoryEditor, x.BaseAddress, x.Size))));
+
+            // Convert regions into a snapshot
+            AcceptedBases = new Snapshot<Null>(AcceptedBaseRegions.ToArray());
+        }
+
+        private void BuildPointerPool()
+        {
+            this.PrintDebugTag();
+
             // Clear current pointer pool
             PointerPool.Clear();
 
@@ -279,34 +309,6 @@ namespace Anathema
                 // Clear the saved values, we do not need them now
                 Region.SetCurrentValues(null);
             });
-
-            TracePointers();
-            BuildPointers();
-
-            UpdateDisplay();
-        }
-
-        private void PointerRescan()
-        {
-
-        }
-
-        private void SetAcceptedBases()
-        {
-            if (MemoryEditor == null)
-                return;
-
-            List<RemoteModule> Modules = MemoryEditor.Modules.RemoteModules.ToList();
-            // List<RemoteModule> Modules = new List<RemoteModule>();
-            // Modules.Add(MemoryEditor.Modules.MainModule);
-
-            List<SnapshotRegion> AcceptedBaseRegions = new List<SnapshotRegion>();
-
-            // Gather regions from every module as valid base addresses
-            Modules.ForEach(x => AcceptedBaseRegions.Add(new SnapshotRegion<Null>(new RemoteRegion(MemoryEditor, x.BaseAddress, x.Size))));
-
-            // Convert regions into a snapshot
-            AcceptedBases = new Snapshot<Null>(AcceptedBaseRegions.ToArray());
         }
 
         private void TracePointers()
