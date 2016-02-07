@@ -22,7 +22,7 @@ namespace Anathema
             ManualScannerPresenter = new ManualScannerPresenter(this, new ManualScanner());
 
             InitializeValueTypeComboBox();
-            UpdateScanOptions(ChangedToolStripMenuItem, ConstraintsEnum.Equal);
+            UpdateScanOptions(EqualToToolStripMenuItem, ConstraintsEnum.Equal);
 
             EnableGUI();
         }
@@ -37,13 +37,13 @@ namespace Anathema
             ValueTypeComboBox.SelectedIndex = ValueTypeComboBox.Items.IndexOf(typeof(Int32).Name);
         }
 
-        public void UpdateDisplay(String[] ScanConstraintItems, ImageList Images)
+        public void UpdateDisplay(ListViewItem[] ListViewItems, ImageList ImageList)
         {
             ControlThreadingHelper.InvokeControlAction(ConstraintsListView, () =>
             {
                 ConstraintsListView.Items.Clear();
-                foreach (String Item in ScanConstraintItems)
-                    ConstraintsListView.Items.Add(new ListViewItem(Item));
+                ConstraintsListView.Items.AddRange(ListViewItems);
+                ConstraintsListView.SmallImageList = ImageList;
             });
         }
 

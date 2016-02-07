@@ -20,7 +20,7 @@ namespace Anathema
     interface IManualScannerView : IScannerView
     {
         // Methods invoked by the presenter (upstream)
-        void UpdateDisplay(String[] ScanConstraintItems, ImageList Images);
+        void UpdateDisplay(ListViewItem[] ListViewItems, ImageList ImageList);
         void ScanFinished();
     }
 
@@ -125,22 +125,34 @@ namespace Anathema
 
         public void EventUpdateDisplay(Object Sender, ManualScannerEventArgs E)
         {
-            List<String> ScanConstraintItems = new List<String>();
+            List<ListViewItem> ScanConstraintItems = new List<ListViewItem>();
             ImageList ImageList = new ImageList();
+            Int32 ImageIndex = 0;
 
             foreach (ScanConstraint ScanConstraint in E.ScanConstraints)
             {
                 String Value = ScanConstraint.Value == null ? String.Empty : ScanConstraint.Value.ToString();
-                ScanConstraintItems.Add(Value);
-                switch(ScanConstraint.Constraint)
+
+                switch (ScanConstraint.Constraint)
                 {
-                    case ConstraintsEnum.Changed:
-                        ImageList.Images.Add(Resources.Changed);
-                        break;
-                    default:
-                        ImageList.Images.Add(Resources.Negation);
-                        break;
+                    case ConstraintsEnum.Changed: ImageList.Images.Add(Resources.Changed); break;
+                    case ConstraintsEnum.Unchanged: ImageList.Images.Add(Resources.Unchanged); break;
+                    case ConstraintsEnum.Decreased: ImageList.Images.Add(Resources.Decreased); break;
+                    case ConstraintsEnum.Increased: ImageList.Images.Add(Resources.Increased); break;
+                    case ConstraintsEnum.GreaterThan: ImageList.Images.Add(Resources.GreaterThan); break;
+                    case ConstraintsEnum.GreaterThanOrEqual: ImageList.Images.Add(Resources.GreaterThanOrEqual); break;
+                    case ConstraintsEnum.LessThan: ImageList.Images.Add(Resources.LessThan); break;
+                    case ConstraintsEnum.LessThanOrEqual: ImageList.Images.Add(Resources.LessThanOrEqual); break;
+                    case ConstraintsEnum.Equal: ImageList.Images.Add(Resources.Equal); break;
+                    case ConstraintsEnum.NotEqual: ImageList.Images.Add(Resources.NotEqual); break;
+                    case ConstraintsEnum.IncreasedByX: ImageList.Images.Add(Resources.PlusX); break;
+                    case ConstraintsEnum.DecreasedByX: ImageList.Images.Add(Resources.MinusX); break;
+                    case ConstraintsEnum.NotScientificNotation: ImageList.Images.Add(Resources.Intersection); break;
+                    default: case ConstraintsEnum.Invalid: ImageList.Images.Add(Resources.AnathemaIcon); break;
                 }
+
+                ScanConstraintItems.Add(new ListViewItem(Value));
+                ScanConstraintItems.Last().ImageIndex = ImageIndex++;
             }
 
             View.UpdateDisplay(ScanConstraintItems.ToArray(), ImageList);

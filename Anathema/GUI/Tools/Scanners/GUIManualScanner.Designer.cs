@@ -29,7 +29,6 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(GUIManualScanner));
-            this.ValueTextBox = new Anathema.HexDecTextBox();
             this.ValueTypeComboBox = new System.Windows.Forms.ComboBox();
             this.ConstraintsListView = new System.Windows.Forms.ListView();
             this.ConstraintHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
@@ -52,24 +51,11 @@
             this.GreaterThanOrEqualToToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.LessThanToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.LessThanOrEqualToToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.ScanToolStrip = new System.Windows.Forms.ToolStrip();
             this.NotScientificNotationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.ScanToolStrip = new System.Windows.Forms.ToolStrip();
+            this.ValueTextBox = new Anathema.HexDecTextBox();
             this.ScanToolStrip.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // ValueTextBox
-            // 
-            this.ValueTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.ValueTextBox.ForeColor = System.Drawing.Color.Red;
-            this.ValueTextBox.IsHex = false;
-            this.ValueTextBox.Location = new System.Drawing.Point(107, 28);
-            this.ValueTextBox.Name = "ValueTextBox";
-            this.ValueTextBox.Size = new System.Drawing.Size(312, 20);
-            this.ValueTextBox.TabIndex = 151;
-            this.ValueTextBox.WatermarkColor = System.Drawing.Color.LightGray;
-            this.ValueTextBox.WaterMarkFont = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.ValueTextBox.WaterMarkText = null;
             // 
             // ValueTypeComboBox
             // 
@@ -91,7 +77,7 @@
             this.ConstraintsListView.FullRowSelect = true;
             this.ConstraintsListView.Location = new System.Drawing.Point(12, 55);
             this.ConstraintsListView.Name = "ConstraintsListView";
-            this.ConstraintsListView.Size = new System.Drawing.Size(407, 169);
+            this.ConstraintsListView.Size = new System.Drawing.Size(235, 160);
             this.ConstraintsListView.TabIndex = 157;
             this.ConstraintsListView.UseCompatibleStateImageBehavior = false;
             this.ConstraintsListView.View = System.Windows.Forms.View.Details;
@@ -99,7 +85,7 @@
             // ConstraintHeader
             // 
             this.ConstraintHeader.Text = "Constraint";
-            this.ConstraintHeader.Width = 397;
+            this.ConstraintHeader.Width = 190;
             // 
             // StartScanButton
             // 
@@ -270,6 +256,14 @@
             this.LessThanOrEqualToToolStripMenuItem.Text = "Less Than or Equal to";
             this.LessThanOrEqualToToolStripMenuItem.Click += new System.EventHandler(this.LessThanOrEqualToToolStripMenuItem_Click);
             // 
+            // NotScientificNotationToolStripMenuItem
+            // 
+            this.NotScientificNotationToolStripMenuItem.Image = global::Anathema.Properties.Resources.Intersection;
+            this.NotScientificNotationToolStripMenuItem.Name = "NotScientificNotationToolStripMenuItem";
+            this.NotScientificNotationToolStripMenuItem.Size = new System.Drawing.Size(202, 22);
+            this.NotScientificNotationToolStripMenuItem.Text = "Not Scientific Notation";
+            this.NotScientificNotationToolStripMenuItem.Click += new System.EventHandler(this.NotScientificNotationToolStripMenuItem_Click);
+            // 
             // ScanToolStrip
             // 
             this.ScanToolStrip.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
@@ -284,23 +278,29 @@
             this.ScanToolStrip.Location = new System.Drawing.Point(0, 0);
             this.ScanToolStrip.Name = "ScanToolStrip";
             this.ScanToolStrip.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
-            this.ScanToolStrip.Size = new System.Drawing.Size(431, 25);
+            this.ScanToolStrip.Size = new System.Drawing.Size(259, 25);
             this.ScanToolStrip.TabIndex = 155;
             this.ScanToolStrip.Text = "toolStrip1";
             // 
-            // NotScientificNotationToolStripMenuItem
+            // ValueTextBox
             // 
-            this.NotScientificNotationToolStripMenuItem.Image = global::Anathema.Properties.Resources.Intersection;
-            this.NotScientificNotationToolStripMenuItem.Name = "NotScientificNotationToolStripMenuItem";
-            this.NotScientificNotationToolStripMenuItem.Size = new System.Drawing.Size(202, 22);
-            this.NotScientificNotationToolStripMenuItem.Text = "Not Scientific Notation";
-            this.NotScientificNotationToolStripMenuItem.Click += new System.EventHandler(this.NotScientificNotationToolStripMenuItem_Click);
+            this.ValueTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.ValueTextBox.ForeColor = System.Drawing.Color.Red;
+            this.ValueTextBox.IsHex = false;
+            this.ValueTextBox.Location = new System.Drawing.Point(107, 28);
+            this.ValueTextBox.Name = "ValueTextBox";
+            this.ValueTextBox.Size = new System.Drawing.Size(140, 20);
+            this.ValueTextBox.TabIndex = 151;
+            this.ValueTextBox.WatermarkColor = System.Drawing.Color.LightGray;
+            this.ValueTextBox.WaterMarkFont = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.ValueTextBox.WaterMarkText = null;
             // 
             // GUIManualScanner
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(431, 236);
+            this.ClientSize = new System.Drawing.Size(259, 227);
             this.Controls.Add(this.ConstraintsListView);
             this.Controls.Add(this.ValueTextBox);
             this.Controls.Add(this.ValueTypeComboBox);
