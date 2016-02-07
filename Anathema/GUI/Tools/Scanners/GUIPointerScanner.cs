@@ -199,6 +199,12 @@ namespace Anathema
             AddSelectedElements();
         }
 
+        private void GUIPointerScanner_Resize(Object Sender, EventArgs E)
+        {
+            const Int32 TabBoarderOffset = 3;
+            PointerScanTabControl.ItemSize = new Size((PointerScanTabControl.Width - TabBoarderOffset) / PointerScanTabControl.TabCount, 0);
+        }
+
         #endregion
 
     } // End class

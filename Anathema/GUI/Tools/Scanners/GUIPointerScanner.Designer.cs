@@ -41,11 +41,17 @@
             this.MaxOffsetTextBox = new System.Windows.Forms.TextBox();
             this.MaxLevelTextBox = new System.Windows.Forms.TextBox();
             this.MaxLevelLabel = new System.Windows.Forms.Label();
+            this.ValueTypeComboBox = new System.Windows.Forms.ComboBox();
+            this.PointerScanTabControl = new System.Windows.Forms.TabControl();
+            this.SettingsTabPage = new System.Windows.Forms.TabPage();
+            this.ResultsTabPage = new System.Windows.Forms.TabPage();
             this.PointerListView = new Anathema.FlickerFreeListView();
             this.ValueHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.BaseHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.ValueTypeComboBox = new System.Windows.Forms.ComboBox();
             this.ScanToolStrip.SuspendLayout();
+            this.PointerScanTabControl.SuspendLayout();
+            this.SettingsTabPage.SuspendLayout();
+            this.ResultsTabPage.SuspendLayout();
             this.SuspendLayout();
             // 
             // ScanToolStrip
@@ -111,7 +117,7 @@
             // 
             // TargetAddressTextBox
             // 
-            this.TargetAddressTextBox.Location = new System.Drawing.Point(79, 28);
+            this.TargetAddressTextBox.Location = new System.Drawing.Point(60, 14);
             this.TargetAddressTextBox.Name = "TargetAddressTextBox";
             this.TargetAddressTextBox.Size = new System.Drawing.Size(134, 20);
             this.TargetAddressTextBox.TabIndex = 0;
@@ -120,7 +126,7 @@
             // TargetAddressLabel
             // 
             this.TargetAddressLabel.AutoSize = true;
-            this.TargetAddressLabel.Location = new System.Drawing.Point(25, 31);
+            this.TargetAddressLabel.Location = new System.Drawing.Point(6, 17);
             this.TargetAddressLabel.Name = "TargetAddressLabel";
             this.TargetAddressLabel.Size = new System.Drawing.Size(48, 13);
             this.TargetAddressLabel.TabIndex = 151;
@@ -129,7 +135,7 @@
             // MaxOffsetLabel
             // 
             this.MaxOffsetLabel.AutoSize = true;
-            this.MaxOffsetLabel.Location = new System.Drawing.Point(219, 57);
+            this.MaxOffsetLabel.Location = new System.Drawing.Point(200, 43);
             this.MaxOffsetLabel.Name = "MaxOffsetLabel";
             this.MaxOffsetLabel.Size = new System.Drawing.Size(61, 13);
             this.MaxOffsetLabel.TabIndex = 153;
@@ -137,7 +143,7 @@
             // 
             // MaxOffsetTextBox
             // 
-            this.MaxOffsetTextBox.Location = new System.Drawing.Point(286, 54);
+            this.MaxOffsetTextBox.Location = new System.Drawing.Point(267, 40);
             this.MaxOffsetTextBox.Name = "MaxOffsetTextBox";
             this.MaxOffsetTextBox.Size = new System.Drawing.Size(109, 20);
             this.MaxOffsetTextBox.TabIndex = 2;
@@ -145,7 +151,7 @@
             // 
             // MaxLevelTextBox
             // 
-            this.MaxLevelTextBox.Location = new System.Drawing.Point(286, 28);
+            this.MaxLevelTextBox.Location = new System.Drawing.Point(267, 14);
             this.MaxLevelTextBox.Name = "MaxLevelTextBox";
             this.MaxLevelTextBox.Size = new System.Drawing.Size(109, 20);
             this.MaxLevelTextBox.TabIndex = 1;
@@ -154,24 +160,73 @@
             // MaxLevelLabel
             // 
             this.MaxLevelLabel.AutoSize = true;
-            this.MaxLevelLabel.Location = new System.Drawing.Point(219, 31);
+            this.MaxLevelLabel.Location = new System.Drawing.Point(200, 17);
             this.MaxLevelLabel.Name = "MaxLevelLabel";
             this.MaxLevelLabel.Size = new System.Drawing.Size(59, 13);
             this.MaxLevelLabel.TabIndex = 155;
             this.MaxLevelLabel.Text = "Max Level:";
             // 
+            // ValueTypeComboBox
+            // 
+            this.ValueTypeComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.ValueTypeComboBox.FormattingEnabled = true;
+            this.ValueTypeComboBox.Location = new System.Drawing.Point(60, 39);
+            this.ValueTypeComboBox.Name = "ValueTypeComboBox";
+            this.ValueTypeComboBox.Size = new System.Drawing.Size(134, 21);
+            this.ValueTypeComboBox.TabIndex = 158;
+            this.ValueTypeComboBox.SelectedIndexChanged += new System.EventHandler(this.ValueTypeComboBox_SelectedIndexChanged);
+            // 
+            // PointerScanTabControl
+            // 
+            this.PointerScanTabControl.Controls.Add(this.SettingsTabPage);
+            this.PointerScanTabControl.Controls.Add(this.ResultsTabPage);
+            this.PointerScanTabControl.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.PointerScanTabControl.Location = new System.Drawing.Point(0, 25);
+            this.PointerScanTabControl.Name = "PointerScanTabControl";
+            this.PointerScanTabControl.SelectedIndex = 0;
+            this.PointerScanTabControl.Size = new System.Drawing.Size(402, 253);
+            this.PointerScanTabControl.SizeMode = System.Windows.Forms.TabSizeMode.Fixed;
+            this.PointerScanTabControl.TabIndex = 159;
+            // 
+            // SettingsTabPage
+            // 
+            this.SettingsTabPage.BackColor = System.Drawing.SystemColors.Control;
+            this.SettingsTabPage.Controls.Add(this.TargetAddressLabel);
+            this.SettingsTabPage.Controls.Add(this.ValueTypeComboBox);
+            this.SettingsTabPage.Controls.Add(this.TargetAddressTextBox);
+            this.SettingsTabPage.Controls.Add(this.MaxLevelTextBox);
+            this.SettingsTabPage.Controls.Add(this.MaxOffsetLabel);
+            this.SettingsTabPage.Controls.Add(this.MaxLevelLabel);
+            this.SettingsTabPage.Controls.Add(this.MaxOffsetTextBox);
+            this.SettingsTabPage.Location = new System.Drawing.Point(4, 22);
+            this.SettingsTabPage.Name = "SettingsTabPage";
+            this.SettingsTabPage.Padding = new System.Windows.Forms.Padding(3);
+            this.SettingsTabPage.Size = new System.Drawing.Size(394, 227);
+            this.SettingsTabPage.TabIndex = 0;
+            this.SettingsTabPage.Text = "Settings";
+            // 
+            // ResultsTabPage
+            // 
+            this.ResultsTabPage.BackColor = System.Drawing.SystemColors.Control;
+            this.ResultsTabPage.Controls.Add(this.PointerListView);
+            this.ResultsTabPage.Location = new System.Drawing.Point(4, 22);
+            this.ResultsTabPage.Name = "ResultsTabPage";
+            this.ResultsTabPage.Padding = new System.Windows.Forms.Padding(3);
+            this.ResultsTabPage.Size = new System.Drawing.Size(394, 227);
+            this.ResultsTabPage.TabIndex = 1;
+            this.ResultsTabPage.Text = "Results";
+            // 
             // PointerListView
             // 
-            this.PointerListView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.PointerListView.BackColor = System.Drawing.SystemColors.Window;
             this.PointerListView.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.ValueHeader,
             this.BaseHeader});
+            this.PointerListView.Dock = System.Windows.Forms.DockStyle.Fill;
             this.PointerListView.FullRowSelect = true;
-            this.PointerListView.Location = new System.Drawing.Point(17, 80);
+            this.PointerListView.Location = new System.Drawing.Point(3, 3);
             this.PointerListView.Name = "PointerListView";
-            this.PointerListView.Size = new System.Drawing.Size(376, 186);
+            this.PointerListView.Size = new System.Drawing.Size(388, 221);
             this.PointerListView.TabIndex = 157;
             this.PointerListView.UseCompatibleStateImageBehavior = false;
             this.PointerListView.View = System.Windows.Forms.View.Details;
@@ -189,36 +244,24 @@
             this.BaseHeader.Text = "Base";
             this.BaseHeader.Width = 94;
             // 
-            // ValueTypeComboBox
-            // 
-            this.ValueTypeComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.ValueTypeComboBox.FormattingEnabled = true;
-            this.ValueTypeComboBox.Location = new System.Drawing.Point(79, 53);
-            this.ValueTypeComboBox.Name = "ValueTypeComboBox";
-            this.ValueTypeComboBox.Size = new System.Drawing.Size(134, 21);
-            this.ValueTypeComboBox.TabIndex = 158;
-            this.ValueTypeComboBox.SelectedIndexChanged += new System.EventHandler(this.ValueTypeComboBox_SelectedIndexChanged);
-            // 
             // GUIPointerScanner
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(402, 278);
-            this.Controls.Add(this.ValueTypeComboBox);
-            this.Controls.Add(this.PointerListView);
-            this.Controls.Add(this.MaxLevelTextBox);
-            this.Controls.Add(this.MaxLevelLabel);
-            this.Controls.Add(this.MaxOffsetTextBox);
-            this.Controls.Add(this.MaxOffsetLabel);
-            this.Controls.Add(this.TargetAddressLabel);
-            this.Controls.Add(this.TargetAddressTextBox);
+            this.Controls.Add(this.PointerScanTabControl);
             this.Controls.Add(this.ScanToolStrip);
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "GUIPointerScanner";
             this.Text = "Pointer Scanner";
+            this.Resize += new System.EventHandler(this.GUIPointerScanner_Resize);
             this.ScanToolStrip.ResumeLayout(false);
             this.ScanToolStrip.PerformLayout();
+            this.PointerScanTabControl.ResumeLayout(false);
+            this.SettingsTabPage.ResumeLayout(false);
+            this.SettingsTabPage.PerformLayout();
+            this.ResultsTabPage.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -241,5 +284,8 @@
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.ToolStripButton AddSelectedResultsButton;
         private System.Windows.Forms.ComboBox ValueTypeComboBox;
+        private System.Windows.Forms.TabControl PointerScanTabControl;
+        private System.Windows.Forms.TabPage SettingsTabPage;
+        private System.Windows.Forms.TabPage ResultsTabPage;
     }
 }

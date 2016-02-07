@@ -241,11 +241,13 @@ namespace Anathema
 
         private void PointerRescan()
         {
-
+            this.PrintDebugTag();
         }
 
         private void SetAcceptedBases()
         {
+            this.PrintDebugTag();
+
             if (MemoryEditor == null)
                 return;
 
@@ -313,6 +315,8 @@ namespace Anathema
 
         private void TracePointers()
         {
+            this.PrintDebugTag();
+
             ConcurrentBag<SnapshotRegion> PreviousLevelRegions = new ConcurrentBag<SnapshotRegion>();
             PreviousLevelRegions.Add(AddressToRegion(TargetAddress));
 
@@ -357,6 +361,8 @@ namespace Anathema
 
         private void BuildPointers()
         {
+            this.PrintDebugTag();
+
             ConcurrentBag<Tuple<UInt64, List<Int32>>> DiscoveredPointers = new ConcurrentBag<Tuple<UInt64, List<Int32>>>();
 
             Parallel.ForEach(ConnectedPointers[MaxPointerLevel], (Base) =>
