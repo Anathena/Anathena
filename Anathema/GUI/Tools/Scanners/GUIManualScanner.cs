@@ -53,6 +53,7 @@ namespace Anathema
         private void StartScanButton_Click(Object Sender, EventArgs E)
         {
             DisableGUI();
+            ManualScannerPresenter.SetScanConstraintManager(GUIConstraintEditor.GetScanConstraintManager());
             ManualScannerPresenter.BeginScan();
         }
 

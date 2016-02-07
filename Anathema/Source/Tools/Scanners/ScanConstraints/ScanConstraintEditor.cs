@@ -27,6 +27,11 @@ namespace Anathema
             EventUpdateDisplay(this, FilterManualScanEventArgs);
         }
 
+        public ScanConstraintManager GetScanConstraintManager()
+        {
+            return ScanConstraints;
+        }
+
         public Type GetElementType()
         {
             return ScanConstraints.GetElementType();

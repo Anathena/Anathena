@@ -13,11 +13,16 @@ namespace Anathema
         // Snapshot being labeled with change counts
         private Snapshot<Null> Snapshot;
 
-        private ScanConstraintManager ScanConstraints;
+        private ScanConstraintManager ScanConstraintManager;
 
         public ManualScanner()
         {
-            ScanConstraints = new ScanConstraintManager();
+
+        }
+
+        public override void SetScanConstraintManager(ScanConstraintManager ScanConstraintManager)
+        {
+            this.ScanConstraintManager = ScanConstraintManager;
         }
 
         public override void Begin()
@@ -28,8 +33,11 @@ namespace Anathema
             if (Snapshot == null)
                 return;
 
+            if (ScanConstraintManager == null)
+                return;
+
             Snapshot.MarkAllValid();
-            Snapshot.SetElementType(ScanConstraints.GetElementType());
+            Snapshot.SetElementType(ScanConstraintManager.GetElementType());
 
             base.Begin();
         }
@@ -51,7 +59,7 @@ namespace Anathema
                 foreach (SnapshotElement Element in Region)
                 {
                     // Enforce each value constraint on the element
-                    foreach (ScanConstraint ScanConstraint in ScanConstraints)
+                    foreach (ScanConstraint ScanConstraint in ScanConstraintManager)
                     {
                         switch (ScanConstraint.Constraint)
                         {

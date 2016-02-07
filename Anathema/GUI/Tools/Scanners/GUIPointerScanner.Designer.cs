@@ -39,24 +39,22 @@
             this.TargetAddressLabel = new System.Windows.Forms.Label();
             this.MaxOffsetLabel = new System.Windows.Forms.Label();
             this.MaxLevelLabel = new System.Windows.Forms.Label();
-            this.ValueTypeComboBox = new System.Windows.Forms.ComboBox();
             this.PointerScanTabControl = new System.Windows.Forms.TabControl();
             this.SettingsTabPage = new System.Windows.Forms.TabPage();
-            this.IgnoreAddressCheckBox = new System.Windows.Forms.CheckBox();
-            this.RescanGroupBox = new System.Windows.Forms.GroupBox();
             this.GUIConstraintEditor = new Anathema.GUI.Tools.MemoryScanners.GUIConstraintEditor();
+            this.ValueModeRadioButton = new System.Windows.Forms.RadioButton();
+            this.AddressModeRadioButton = new System.Windows.Forms.RadioButton();
             this.MaxLevelTextBox = new Anathema.HexDecTextBox();
             this.MaxOffsetTextBox = new Anathema.HexDecTextBox();
-            this.ValueTypeLabel = new System.Windows.Forms.Label();
             this.TargetAddressTextBox = new Anathema.HexDecTextBox();
             this.ResultsTabPage = new System.Windows.Forms.TabPage();
+            this.ValueTypeComboBox = new System.Windows.Forms.ComboBox();
             this.PointerListView = new Anathema.FlickerFreeListView();
             this.ValueHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.BaseHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.ScanToolStrip.SuspendLayout();
             this.PointerScanTabControl.SuspendLayout();
             this.SettingsTabPage.SuspendLayout();
-            this.RescanGroupBox.SuspendLayout();
             this.ResultsTabPage.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -73,7 +71,7 @@
             this.ScanToolStrip.Location = new System.Drawing.Point(0, 0);
             this.ScanToolStrip.Name = "ScanToolStrip";
             this.ScanToolStrip.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
-            this.ScanToolStrip.Size = new System.Drawing.Size(417, 25);
+            this.ScanToolStrip.Size = new System.Drawing.Size(399, 25);
             this.ScanToolStrip.TabIndex = 149;
             // 
             // StartScanButton
@@ -139,7 +137,7 @@
             // MaxOffsetLabel
             // 
             this.MaxOffsetLabel.AutoSize = true;
-            this.MaxOffsetLabel.Location = new System.Drawing.Point(215, 35);
+            this.MaxOffsetLabel.Location = new System.Drawing.Point(199, 35);
             this.MaxOffsetLabel.Name = "MaxOffsetLabel";
             this.MaxOffsetLabel.Size = new System.Drawing.Size(58, 13);
             this.MaxOffsetLabel.TabIndex = 153;
@@ -148,21 +146,11 @@
             // MaxLevelLabel
             // 
             this.MaxLevelLabel.AutoSize = true;
-            this.MaxLevelLabel.Location = new System.Drawing.Point(215, 9);
+            this.MaxLevelLabel.Location = new System.Drawing.Point(199, 9);
             this.MaxLevelLabel.Name = "MaxLevelLabel";
             this.MaxLevelLabel.Size = new System.Drawing.Size(56, 13);
             this.MaxLevelLabel.TabIndex = 155;
             this.MaxLevelLabel.Text = "Max Level";
-            // 
-            // ValueTypeComboBox
-            // 
-            this.ValueTypeComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.ValueTypeComboBox.FormattingEnabled = true;
-            this.ValueTypeComboBox.Location = new System.Drawing.Point(75, 32);
-            this.ValueTypeComboBox.Name = "ValueTypeComboBox";
-            this.ValueTypeComboBox.Size = new System.Drawing.Size(134, 21);
-            this.ValueTypeComboBox.TabIndex = 158;
-            this.ValueTypeComboBox.SelectedIndexChanged += new System.EventHandler(this.ValueTypeComboBox_SelectedIndexChanged);
             // 
             // PointerScanTabControl
             // 
@@ -172,64 +160,67 @@
             this.PointerScanTabControl.Location = new System.Drawing.Point(0, 25);
             this.PointerScanTabControl.Name = "PointerScanTabControl";
             this.PointerScanTabControl.SelectedIndex = 0;
-            this.PointerScanTabControl.Size = new System.Drawing.Size(417, 234);
+            this.PointerScanTabControl.Size = new System.Drawing.Size(399, 222);
             this.PointerScanTabControl.SizeMode = System.Windows.Forms.TabSizeMode.Fixed;
             this.PointerScanTabControl.TabIndex = 159;
             // 
             // SettingsTabPage
             // 
             this.SettingsTabPage.BackColor = System.Drawing.SystemColors.Control;
-            this.SettingsTabPage.Controls.Add(this.IgnoreAddressCheckBox);
-            this.SettingsTabPage.Controls.Add(this.RescanGroupBox);
+            this.SettingsTabPage.Controls.Add(this.GUIConstraintEditor);
+            this.SettingsTabPage.Controls.Add(this.ValueModeRadioButton);
+            this.SettingsTabPage.Controls.Add(this.AddressModeRadioButton);
             this.SettingsTabPage.Controls.Add(this.MaxLevelTextBox);
             this.SettingsTabPage.Controls.Add(this.MaxOffsetTextBox);
-            this.SettingsTabPage.Controls.Add(this.ValueTypeLabel);
             this.SettingsTabPage.Controls.Add(this.TargetAddressTextBox);
             this.SettingsTabPage.Controls.Add(this.TargetAddressLabel);
-            this.SettingsTabPage.Controls.Add(this.ValueTypeComboBox);
             this.SettingsTabPage.Controls.Add(this.MaxOffsetLabel);
             this.SettingsTabPage.Controls.Add(this.MaxLevelLabel);
             this.SettingsTabPage.Location = new System.Drawing.Point(4, 22);
             this.SettingsTabPage.Name = "SettingsTabPage";
             this.SettingsTabPage.Padding = new System.Windows.Forms.Padding(3);
-            this.SettingsTabPage.Size = new System.Drawing.Size(409, 208);
+            this.SettingsTabPage.Size = new System.Drawing.Size(391, 196);
             this.SettingsTabPage.TabIndex = 0;
             this.SettingsTabPage.Text = "Settings";
             // 
-            // IgnoreAddressCheckBox
-            // 
-            this.IgnoreAddressCheckBox.AutoSize = true;
-            this.IgnoreAddressCheckBox.Location = new System.Drawing.Point(246, 58);
-            this.IgnoreAddressCheckBox.Name = "IgnoreAddressCheckBox";
-            this.IgnoreAddressCheckBox.Size = new System.Drawing.Size(97, 17);
-            this.IgnoreAddressCheckBox.TabIndex = 159;
-            this.IgnoreAddressCheckBox.Text = "Ignore Address";
-            this.IgnoreAddressCheckBox.UseVisualStyleBackColor = true;
-            // 
-            // RescanGroupBox
-            // 
-            this.RescanGroupBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.RescanGroupBox.Controls.Add(this.GUIConstraintEditor);
-            this.RescanGroupBox.Location = new System.Drawing.Point(11, 71);
-            this.RescanGroupBox.Name = "RescanGroupBox";
-            this.RescanGroupBox.Size = new System.Drawing.Size(392, 129);
-            this.RescanGroupBox.TabIndex = 163;
-            this.RescanGroupBox.TabStop = false;
-            this.RescanGroupBox.Text = "Rescan Constraints";
-            // 
             // GUIConstraintEditor
             // 
-            this.GUIConstraintEditor.Location = new System.Drawing.Point(12, 19);
+            this.GUIConstraintEditor.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.GUIConstraintEditor.Location = new System.Drawing.Point(8, 87);
             this.GUIConstraintEditor.Name = "GUIConstraintEditor";
-            this.GUIConstraintEditor.Size = new System.Drawing.Size(374, 104);
-            this.GUIConstraintEditor.TabIndex = 0;
+            this.GUIConstraintEditor.Size = new System.Drawing.Size(375, 101);
+            this.GUIConstraintEditor.TabIndex = 166;
+            // 
+            // ValueModeRadioButton
+            // 
+            this.ValueModeRadioButton.AutoSize = true;
+            this.ValueModeRadioButton.Location = new System.Drawing.Point(110, 29);
+            this.ValueModeRadioButton.Name = "ValueModeRadioButton";
+            this.ValueModeRadioButton.Size = new System.Drawing.Size(82, 17);
+            this.ValueModeRadioButton.TabIndex = 165;
+            this.ValueModeRadioButton.Text = "Value Mode";
+            this.ValueModeRadioButton.UseVisualStyleBackColor = true;
+            this.ValueModeRadioButton.CheckedChanged += new System.EventHandler(this.ValueModeRadioButton_CheckedChanged);
+            // 
+            // AddressModeRadioButton
+            // 
+            this.AddressModeRadioButton.AutoSize = true;
+            this.AddressModeRadioButton.Checked = true;
+            this.AddressModeRadioButton.Location = new System.Drawing.Point(11, 29);
+            this.AddressModeRadioButton.Name = "AddressModeRadioButton";
+            this.AddressModeRadioButton.Size = new System.Drawing.Size(93, 17);
+            this.AddressModeRadioButton.TabIndex = 164;
+            this.AddressModeRadioButton.TabStop = true;
+            this.AddressModeRadioButton.Text = "Address Mode";
+            this.AddressModeRadioButton.UseVisualStyleBackColor = true;
+            this.AddressModeRadioButton.CheckedChanged += new System.EventHandler(this.AddressModeRadioButton_CheckedChanged);
             // 
             // MaxLevelTextBox
             // 
             this.MaxLevelTextBox.ForeColor = System.Drawing.Color.Red;
             this.MaxLevelTextBox.IsHex = false;
-            this.MaxLevelTextBox.Location = new System.Drawing.Point(279, 6);
+            this.MaxLevelTextBox.Location = new System.Drawing.Point(263, 6);
             this.MaxLevelTextBox.Name = "MaxLevelTextBox";
             this.MaxLevelTextBox.Size = new System.Drawing.Size(64, 20);
             this.MaxLevelTextBox.TabIndex = 162;
@@ -241,7 +232,7 @@
             // 
             this.MaxOffsetTextBox.ForeColor = System.Drawing.Color.Red;
             this.MaxOffsetTextBox.IsHex = true;
-            this.MaxOffsetTextBox.Location = new System.Drawing.Point(279, 32);
+            this.MaxOffsetTextBox.Location = new System.Drawing.Point(263, 32);
             this.MaxOffsetTextBox.Name = "MaxOffsetTextBox";
             this.MaxOffsetTextBox.Size = new System.Drawing.Size(64, 20);
             this.MaxOffsetTextBox.TabIndex = 161;
@@ -249,20 +240,11 @@
             this.MaxOffsetTextBox.WaterMarkFont = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.MaxOffsetTextBox.WaterMarkText = null;
             // 
-            // ValueTypeLabel
-            // 
-            this.ValueTypeLabel.AutoSize = true;
-            this.ValueTypeLabel.Location = new System.Drawing.Point(8, 35);
-            this.ValueTypeLabel.Name = "ValueTypeLabel";
-            this.ValueTypeLabel.Size = new System.Drawing.Size(61, 13);
-            this.ValueTypeLabel.TabIndex = 160;
-            this.ValueTypeLabel.Text = "Value Type";
-            // 
             // TargetAddressTextBox
             // 
             this.TargetAddressTextBox.ForeColor = System.Drawing.Color.Red;
             this.TargetAddressTextBox.IsHex = true;
-            this.TargetAddressTextBox.Location = new System.Drawing.Point(75, 6);
+            this.TargetAddressTextBox.Location = new System.Drawing.Point(59, 6);
             this.TargetAddressTextBox.Name = "TargetAddressTextBox";
             this.TargetAddressTextBox.Size = new System.Drawing.Size(134, 20);
             this.TargetAddressTextBox.TabIndex = 159;
@@ -273,25 +255,36 @@
             // ResultsTabPage
             // 
             this.ResultsTabPage.BackColor = System.Drawing.SystemColors.Control;
+            this.ResultsTabPage.Controls.Add(this.ValueTypeComboBox);
             this.ResultsTabPage.Controls.Add(this.PointerListView);
             this.ResultsTabPage.Location = new System.Drawing.Point(4, 22);
             this.ResultsTabPage.Name = "ResultsTabPage";
             this.ResultsTabPage.Padding = new System.Windows.Forms.Padding(3);
-            this.ResultsTabPage.Size = new System.Drawing.Size(409, 208);
+            this.ResultsTabPage.Size = new System.Drawing.Size(391, 196);
             this.ResultsTabPage.TabIndex = 1;
             this.ResultsTabPage.Text = "Results";
             // 
+            // ValueTypeComboBox
+            // 
+            this.ValueTypeComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.ValueTypeComboBox.FormattingEnabled = true;
+            this.ValueTypeComboBox.Location = new System.Drawing.Point(8, 6);
+            this.ValueTypeComboBox.Name = "ValueTypeComboBox";
+            this.ValueTypeComboBox.Size = new System.Drawing.Size(134, 21);
+            this.ValueTypeComboBox.TabIndex = 161;
+            // 
             // PointerListView
             // 
+            this.PointerListView.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.PointerListView.BackColor = System.Drawing.SystemColors.Window;
             this.PointerListView.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.ValueHeader,
             this.BaseHeader});
-            this.PointerListView.Dock = System.Windows.Forms.DockStyle.Fill;
             this.PointerListView.FullRowSelect = true;
-            this.PointerListView.Location = new System.Drawing.Point(3, 3);
+            this.PointerListView.Location = new System.Drawing.Point(8, 33);
             this.PointerListView.Name = "PointerListView";
-            this.PointerListView.Size = new System.Drawing.Size(403, 202);
+            this.PointerListView.Size = new System.Drawing.Size(375, 187);
             this.PointerListView.TabIndex = 157;
             this.PointerListView.UseCompatibleStateImageBehavior = false;
             this.PointerListView.View = System.Windows.Forms.View.Details;
@@ -313,7 +306,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(417, 259);
+            this.ClientSize = new System.Drawing.Size(399, 247);
             this.Controls.Add(this.PointerScanTabControl);
             this.Controls.Add(this.ScanToolStrip);
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -326,7 +319,6 @@
             this.PointerScanTabControl.ResumeLayout(false);
             this.SettingsTabPage.ResumeLayout(false);
             this.SettingsTabPage.PerformLayout();
-            this.RescanGroupBox.ResumeLayout(false);
             this.ResultsTabPage.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -346,17 +338,16 @@
         private System.Windows.Forms.ColumnHeader BaseHeader;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.ToolStripButton AddSelectedResultsButton;
-        private System.Windows.Forms.ComboBox ValueTypeComboBox;
         private System.Windows.Forms.TabControl PointerScanTabControl;
         private System.Windows.Forms.TabPage SettingsTabPage;
         private System.Windows.Forms.TabPage ResultsTabPage;
         private HexDecTextBox TargetAddressTextBox;
-        private System.Windows.Forms.Label ValueTypeLabel;
         private HexDecTextBox MaxOffsetTextBox;
         private HexDecTextBox MaxLevelTextBox;
-        private System.Windows.Forms.GroupBox RescanGroupBox;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
-        private System.Windows.Forms.CheckBox IgnoreAddressCheckBox;
+        private System.Windows.Forms.ComboBox ValueTypeComboBox;
+        private System.Windows.Forms.RadioButton ValueModeRadioButton;
+        private System.Windows.Forms.RadioButton AddressModeRadioButton;
         private GUI.Tools.MemoryScanners.GUIConstraintEditor GUIConstraintEditor;
     }
 }

@@ -34,6 +34,8 @@ namespace Anathema
         void AddConstraint(ConstraintsEnum ValueConstraint, dynamic Value);
         void RemoveConstraints(Int32[] ConstraintIndicies);
         void ClearConstraints();
+
+        ScanConstraintManager GetScanConstraintManager();
     }
 
     class ScanConstraintEditorPresenter : Presenter<IScanConstraintEditorView, IScanConstraintEditorModel>
@@ -53,6 +55,11 @@ namespace Anathema
         }
 
         #region Method definitions called by the view (downstream)
+
+        public ScanConstraintManager GetScanConstraintManager()
+        {
+            return Model.GetScanConstraintManager();
+        }
 
         public void SetCurrentValueConstraint(ConstraintsEnum ValueConstraint)
         {

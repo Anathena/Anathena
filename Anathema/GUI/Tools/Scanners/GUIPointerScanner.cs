@@ -28,6 +28,7 @@ namespace Anathema
 
             InitializeValueTypeComboBox();
             InitializeDefaults();
+            UpdateRescanMode();
             EnableGUI();
         }
 
@@ -87,6 +88,14 @@ namespace Anathema
             });
         }
 
+        private void AddSelectedElements()
+        {
+            if (PointerListView.SelectedIndices.Count <= 0)
+                return;
+
+            PointerScannerPresenter.AddSelectionToTable(PointerListView.SelectedIndices[0], PointerListView.SelectedIndices[PointerListView.SelectedIndices.Count - 1]);
+        }
+
         private void DisableGUI()
         {
             ControlThreadingHelper.InvokeControlAction<Control>(PointerListView, () =>
@@ -115,12 +124,18 @@ namespace Anathema
             });
         }
 
-        private void AddSelectedElements()
+        private void UpdateRescanMode()
         {
-            if (PointerListView.SelectedIndices.Count <= 0)
-                return;
-
-            PointerScannerPresenter.AddSelectionToTable(PointerListView.SelectedIndices[0], PointerListView.SelectedIndices[PointerListView.SelectedIndices.Count - 1]);
+            if (AddressModeRadioButton.Checked)
+            {
+                TargetAddressTextBox.Enabled = true;
+                GUIConstraintEditor.Enabled = false;
+            }
+            else if (ValueModeRadioButton.Checked)
+            {
+                TargetAddressTextBox.Enabled = false;
+                GUIConstraintEditor.Enabled = true;
+            }
         }
 
         #region Events
@@ -179,13 +194,23 @@ namespace Anathema
             AddSelectedElements();
         }
 
+        private void AddressModeRadioButton_CheckedChanged(Object Sender, EventArgs E)
+        {
+            UpdateRescanMode();
+        }
+
+        private void ValueModeRadioButton_CheckedChanged(Object Sender, EventArgs E)
+        {
+            UpdateRescanMode();
+        }
+
         private void GUIPointerScanner_Resize(Object Sender, EventArgs E)
         {
             // Ensure tabs take up the entire width of the control
             const Int32 TabBoarderOffset = 3;
             PointerScanTabControl.ItemSize = new Size((PointerScanTabControl.Width - TabBoarderOffset) / PointerScanTabControl.TabCount, 0);
         }
-        
+
         #endregion
 
     } // End class

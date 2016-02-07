@@ -33,7 +33,7 @@ namespace Anathema
         }
 
         // Functions invoked by presenter (downstream)
-
+        public abstract void SetScanConstraintManager(ScanConstraintManager ScanConstraintManager);
     }
 
     class ManualScannerPresenter : ScannerPresenter
@@ -52,10 +52,15 @@ namespace Anathema
 
         #region Method definitions called by the view (downstream)
         
+        public void SetScanConstraintManager(ScanConstraintManager ScanConstraintManager)
+        {
+            Model.SetScanConstraintManager(ScanConstraintManager);
+        }
+
         #endregion
 
         #region Event definitions for events triggered by the model (upstream)
-        
+
         public void EventScanFinished(Object Sender, ManualScannerEventArgs E)
         {
             View.ScanFinished();

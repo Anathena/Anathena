@@ -41,6 +41,11 @@ namespace Anathema.GUI.Tools.MemoryScanners
             return null;
         }
 
+        public ScanConstraintManager GetScanConstraintManager()
+        {
+            return ScanConstraintEditorPresenter.GetScanConstraintManager();
+        }
+
         private void UpdateScanOptions(ToolStripMenuItem Sender, ConstraintsEnum ValueConstraint)
         {
             ScanOptionsToolStripDropDownButton.Image = Sender.Image;
