@@ -148,7 +148,7 @@ namespace Anathema
             this.Alignment = Alignment;
 
             if (SnapshotRegions == null)
-                return; 
+                return;
 
             foreach (SnapshotRegion Region in this)
                 Region.SetAlignment(Alignment);
@@ -286,7 +286,7 @@ namespace Anathema
         {
             SetTimeStampToNow();
 
-            if (SnapshotRegions == null)
+            if (SnapshotRegions == null || SnapshotRegions.Length <= 0)
                 return;
 
             Parallel.ForEach(SnapshotRegions, (SnapshotRegion) =>
@@ -306,8 +306,16 @@ namespace Anathema
             if (DeallocatedRegions.IsEmpty)
                 return;
 
-            // Mask deallocated regions
-            SnapshotRegion[] NewRegions = MaskDeallocatedRegions();
+            SnapshotRegion[] NewRegions = null;
+            try
+            {
+                // Mask deallocated regions
+                NewRegions = MaskDeallocatedRegions();
+            }
+            catch { }
+
+            if (NewRegions == null || NewRegions.Length <= 0)
+                return;
 
             // Attempt to collect values for the recovered regions
             foreach (SnapshotRegion SnapshotRegion in NewRegions)

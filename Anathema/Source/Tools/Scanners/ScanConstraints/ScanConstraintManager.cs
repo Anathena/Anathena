@@ -25,6 +25,11 @@ namespace Anathema
             return ElementType;
         }
 
+        public Int32 GetCount()
+        {
+            return ValueConstraints.Count;
+        }
+
         public void SetElementType(Type ElementType)
         {
             this.ElementType = ElementType;

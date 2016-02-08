@@ -269,25 +269,135 @@ namespace Anathema
 
             if (IsAddressMode)
             {
-                List<Tuple<UInt64, List<Int32>>> RetainedPointers = new List<Tuple<UInt64, List<Int32>>>();
-
-                foreach (Tuple<UInt64, List<Int32>> FullPointer in AcceptedPointers)
-                {
-                    if (ResolvePointer(FullPointer) == TargetAddress)
-                        RetainedPointers.Add(FullPointer);
-                }
-
-                AcceptedPointers = RetainedPointers;
+                RescanAddresses();
             }
             else
             {
-                // Build a snapshot from the resolved pointer addresses
-                List<SnapshotRegion> Regions = new List<SnapshotRegion>();
-                foreach (Tuple<UInt64, List<Int32>> FullPointer in AcceptedPointers)
+                RescanValues();
+            }
+        }
+
+        private void RescanAddresses()
+        {
+            this.PrintDebugTag();
+
+            List<Tuple<UInt64, List<Int32>>> RetainedPointers = new List<Tuple<UInt64, List<Int32>>>();
+
+            foreach (Tuple<UInt64, List<Int32>> FullPointer in AcceptedPointers)
+            {
+                if (ResolvePointer(FullPointer) == TargetAddress)
+                    RetainedPointers.Add(FullPointer);
+            }
+
+            AcceptedPointers = RetainedPointers;
+        }
+
+        private void RescanValues()
+        {
+            this.PrintDebugTag();
+
+            if (ScanConstraintManager == null || ScanConstraintManager.GetCount() <= 0)
+                return;
+
+            if (AcceptedPointers == null || AcceptedPointers.Count == 0)
+                return;
+
+            List<UInt64> ResolvedAddresses = new List<UInt64>();
+            List<SnapshotRegion> Regions = new List<SnapshotRegion>();
+
+            // Resolve addresses
+            foreach (Tuple<UInt64, List<Int32>> FullPointer in AcceptedPointers)
+            {
+                ResolvedAddresses.Add(ResolvePointer(FullPointer));
+            }
+
+            // Build regions from resolved address
+            foreach (UInt64 Pointer in ResolvedAddresses)
+            {
+                Regions.Add(new SnapshotRegion<Null>(unchecked((IntPtr)Pointer), sizeof(UInt64)));
+            }
+
+            // Create a snapshot from regions
+            Snapshot<Null> PointerSnapshot = new Snapshot<Null>(Regions.ToArray());
+
+            // Read the memory (collecting values)
+            PointerSnapshot.ReadAllSnapshotMemory();
+
+            if (PointerSnapshot.GetSnapshotRegions() == null)
+                return;
+
+            PointerSnapshot.SetElementType(typeof(UInt64));
+            PointerSnapshot.MarkAllValid();
+
+            Parallel.ForEach(PointerSnapshot.Cast<Object>(), (RegionObject) =>
+            {
+                SnapshotRegion<Null> Region = (SnapshotRegion<Null>)RegionObject;
+
+                if (!Region.CanCompare())
+                    return;
+
+                foreach (SnapshotElement<Null> Element in Region)
                 {
-                    Regions.Add(new SnapshotRegion<Null>(unchecked((IntPtr)ResolvePointer(FullPointer)), sizeof(UInt64)));
+                    // Enforce each value constraint on the element
+                    foreach (ScanConstraint ScanConstraint in ScanConstraintManager)
+                    {
+                        switch (ScanConstraint.Constraint)
+                        {
+                            case ConstraintsEnum.Equal:
+                                if (!Element.EqualToValue(ScanConstraint.Value))
+                                    Element.Valid = false;
+                                break;
+                            case ConstraintsEnum.NotEqual:
+                                if (!Element.NotEqualToValue(ScanConstraint.Value))
+                                    Element.Valid = false;
+                                break;
+                            case ConstraintsEnum.GreaterThan:
+                                if (!Element.GreaterThanValue(ScanConstraint.Value))
+                                    Element.Valid = false;
+                                break;
+                            case ConstraintsEnum.GreaterThanOrEqual:
+                                if (!Element.GreaterThanOrEqualToValue(ScanConstraint.Value))
+                                    Element.Valid = false;
+                                break;
+                            case ConstraintsEnum.LessThan:
+                                if (!Element.LessThanValue(ScanConstraint.Value))
+                                    Element.Valid = false;
+                                break;
+                            case ConstraintsEnum.LessThanOrEqual:
+                                if (!Element.LessThanOrEqualToValue(ScanConstraint.Value))
+                                    Element.Valid = false;
+                                break;
+                            case ConstraintsEnum.NotScientificNotation:
+                                if (Element.IsScientificNotation())
+                                    Element.Valid = false;
+                                break;
+                            default:
+                                throw new Exception("Invalid Constraint");
+                        }
+
+                    } // End foreach Constraint
+
+                } // End foreach Element
+
+            }); // End foreach Region
+
+            PointerSnapshot.DiscardInvalidRegions();
+
+            List<Tuple<UInt64, List<Int32>>> RetainedPointers = new List<Tuple<UInt64, List<Int32>>>();
+
+            // Keep all remaining pointers
+            foreach (SnapshotRegion Region in PointerSnapshot)
+            {
+                foreach (SnapshotElement Element in Region)
+                {
+                    if (!ResolvedAddresses.Contains(unchecked((UInt64)(Element.BaseAddress))))
+                        continue;
+
+                    RetainedPointers.Add(AcceptedPointers[ResolvedAddresses.IndexOf(unchecked((UInt64)(Element.BaseAddress)))]);
                 }
             }
+
+            AcceptedPointers = RetainedPointers;
         }
 
         private void SetAcceptedBases()
