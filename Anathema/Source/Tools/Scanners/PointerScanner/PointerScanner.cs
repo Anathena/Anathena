@@ -535,10 +535,19 @@ namespace Anathema
 
             ConcurrentBag<Tuple<UInt64, List<Int32>>> DiscoveredPointers = new ConcurrentBag<Tuple<UInt64, List<Int32>>>();
 
-            Parallel.ForEach(ConnectedPointers[MaxPointerLevel], (Base) =>
+            // Iterate incrementally towards the maximum, allowing for the discovery of all pointer levels
+            for (Int32 CurrentMaximum = 0; CurrentMaximum <= MaxPointerLevel; CurrentMaximum++)
             {
-                BuildPointers(DiscoveredPointers, MaxPointerLevel, Base.Key, Base.Value, new List<Int32>());
-            });
+                Parallel.ForEach(ConnectedPointers[CurrentMaximum], (Base) =>
+                {
+                    // Enforce static base constraint. Maxlevel pointers were already prefitlered, but not other levels.
+                    if (!AcceptedBases.ContainsAddress(Base.Key))
+                        return;
+
+                    // Recursively build the pointers
+                    BuildPointers(DiscoveredPointers, CurrentMaximum, Base.Key, Base.Value, new List<Int32>());
+                });
+            }
 
             AcceptedPointers = DiscoveredPointers.ToList();
         }
@@ -553,7 +562,6 @@ namespace Anathema
 
             Parallel.ForEach(ConnectedPointers[Level - 1], (Target) =>
             {
-                //foreach (KeyValuePair<UInt64, UInt64> Target in ConnectedPointers[Level - 1])
                 if (PointerDestination < unchecked(Target.Key - MaxPointerOffset))
                     return;
 

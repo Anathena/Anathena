@@ -125,7 +125,7 @@ namespace Anathema
 
             String[] Offsets = Model.GetOffsets(Index);
             for (Int32 OffsetIndex = OffsetStartIndex; OffsetIndex < OffsetStartIndex + MaxPointerLevel; OffsetIndex++)
-                Item.SubItems[OffsetIndex].Text = Offsets[OffsetIndex - OffsetStartIndex];
+                Item.SubItems[OffsetIndex].Text = (OffsetIndex - OffsetStartIndex) < Offsets.Length ? Offsets[OffsetIndex - OffsetStartIndex] : String.Empty;
 
 
             return Item;
