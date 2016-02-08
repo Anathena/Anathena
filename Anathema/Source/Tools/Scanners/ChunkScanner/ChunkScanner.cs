@@ -82,7 +82,7 @@ namespace Anathema
         {
             // Wait for the filter to finish
             base.End();
-
+            
             // Collect the pages that have changed
             List<SnapshotRegion> FilteredRegions = new List<SnapshotRegion>();
             for (Int32 Index = 0; Index < ChunkRoots.Count; Index++)
@@ -126,43 +126,60 @@ namespace Anathema
                 ChangeCounts = new UInt16[ChunkCount];
                 Checksums = new UInt64?[ChunkCount];
 
-                // Initialize all chunks and checksums
-                for (Int32 Index = 0; Index < ChunkCount; Index++)
+                // Initialize all chunk properties
+                for (Int32 ChunkIndex = 0; ChunkIndex < ChunkCount; ChunkIndex++)
                 {
                     Int32 ChunkRegionSize = ChunkSize;
 
-                    if (RegionSize % ChunkSize != 0 && Index == ChunkCount - 1)
+                    if (RegionSize % ChunkSize != 0 && ChunkIndex == ChunkCount - 1)
                         ChunkRegionSize = RegionSize % ChunkSize;
 
-                    Chunks[Index] = new SnapshotRegion<Null>(CurrentBase, ChunkRegionSize);
-                    ChangeCounts[Index] = 0;
-                    Checksums[Index] = 0;
+                    Chunks[ChunkIndex] = new SnapshotRegion<Null>(CurrentBase, ChunkRegionSize);
+                    ChangeCounts[ChunkIndex] = 0;
 
                     CurrentBase += ChunkSize;
                 }
             }
 
+            /// <summary>
+            /// Collects the chunks that have changed at least as many times as the specified minimum
+            /// </summary>
+            /// <param name="AcceptedRegions"></param>
+            /// <param name="MinChanges"></param>
             public void GetChangedRegions(List<SnapshotRegion> AcceptedRegions, Int32 MinChanges)
             {
-                for (Int32 Index = 0; Index < Chunks.Length; Index++)
+                for (Int32 ChunkIndex = 0; ChunkIndex < Chunks.Length; ChunkIndex++)
                 {
-                    if (ChangeCounts[Index] >= MinChanges)
-                        AcceptedRegions.Add(Chunks[Index]);
+                    if (ChangeCounts[ChunkIndex] >= MinChanges)
+                        AcceptedRegions.Add(Chunks[ChunkIndex]);
                 }
             }
-
+            
+            /// <summary>
+            /// Processes a chunk of data to determine if it has changed
+            /// </summary>
+            /// <param name="Data"></param>
             public void ProcessChanges(Byte[] Data)
             {
-                for (Int32 Index = 0; Index < Chunks.Length; Index++)
+                for (Int32 ChunkIndex = 0; ChunkIndex < Chunks.Length; ChunkIndex++)
                 {
                     UInt64 NewChecksum = Hashing.ComputeCheckSum(Data,
-                        (UInt32)((UInt64)Chunks[Index].BaseAddress - (UInt64)this.BaseAddress),
-                        (UInt32)((UInt64)Chunks[Index].EndAddress - (UInt64)this.BaseAddress));
+                        (UInt32)((UInt64)Chunks[ChunkIndex].BaseAddress - (UInt64)this.BaseAddress),
+                        (UInt32)((UInt64)Chunks[ChunkIndex].EndAddress - (UInt64)this.BaseAddress));
 
-                    if (Checksums[Index].HasValue && Checksums[Index] != NewChecksum)
-                        ChangeCounts[Index]++;
-
-                    Checksums[Index] = NewChecksum;
+                    if (Checksums[ChunkIndex].HasValue)
+                    {
+                        // Increment change count for this chunk if the new checksum differs
+                        if (Checksums[ChunkIndex] != NewChecksum)
+                            ChangeCounts[ChunkIndex]++;
+                    }
+                    else
+                    {
+                        // Initialize change count
+                        ChangeCounts[ChunkIndex] = 0;
+                    }
+                    
+                    Checksums[ChunkIndex] = NewChecksum;
                 }
             }
 
