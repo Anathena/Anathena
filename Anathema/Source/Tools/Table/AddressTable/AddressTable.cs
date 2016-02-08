@@ -145,6 +145,7 @@ namespace Anathema
                 if (MemoryEditor != null)
                     MemoryEditor.Write(AddressItems[Index].ElementType, unchecked((IntPtr)AddressItems[Index].EffectiveAddress), AddressItems[Index].Value);
             }
+
             // Clear this entry in the cache since it has been updated
             ClearAddressItemFromCache(AddressItems[Index]);
         }
@@ -171,7 +172,7 @@ namespace Anathema
                 {
                     Item.ResolveAddress(MemoryEditor);
 
-                    if (MemoryEditor != null)
+                    if (MemoryEditor != null && Item.Value != null)
                         MemoryEditor.Write(Item.ElementType, unchecked((IntPtr)Item.EffectiveAddress), Item.Value);
                 }
             }

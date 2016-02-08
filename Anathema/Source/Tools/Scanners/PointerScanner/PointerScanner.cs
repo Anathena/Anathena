@@ -327,7 +327,10 @@ namespace Anathema
             PointerSnapshot.MarkAllValid();
 
             if (PointerSnapshot.GetRegionCount() <= 0)
+            {
+                AcceptedPointers = new List<Tuple<UInt64, List<Int32>>>();
                 return;
+            }
 
             // Note there are likely only a few regions that span <= 8 bytes, we do not need to parallelize this
             foreach (SnapshotRegion Region in PointerSnapshot)

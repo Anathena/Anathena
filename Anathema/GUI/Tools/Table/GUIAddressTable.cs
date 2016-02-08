@@ -130,6 +130,10 @@ namespace Anathema
             ListViewItem SelectedItem = HitTest.Item;
             Int32 ColumnIndex = HitTest.Item.SubItems.IndexOf(HitTest.SubItem);
 
+            // Do not bring up edit menu on double clicks to checkbox
+            if (ColumnIndex == AddressTableListView.Columns.IndexOf(FrozenHeader))
+                return;
+
             if (SelectedItem == null)
                 return;
 

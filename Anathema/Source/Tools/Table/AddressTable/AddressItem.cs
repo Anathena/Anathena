@@ -26,10 +26,23 @@ namespace Anathema
         [DataMember()]
         public String TypeName { get; set; }
 
-        public Type ElementType { get { return Type.GetType(TypeName); } set { _Value = null; this.TypeName = (value == null ? String.Empty : value.FullName); } }
+        public Type ElementType
+        {
+            get { return Type.GetType(TypeName); }
+            set
+            {
+                String OldTypeName = this.TypeName;
+                this.TypeName = (value == null ? String.Empty : value.FullName);
+                _Value = (OldTypeName != TypeName) ? null : _Value;
+            }
+        }
 
         private dynamic _Value;
-        public dynamic Value { get { return _Value; } set { if (!Activated) _Value = value; } }
+        public dynamic Value
+        {
+            get { return _Value; }
+            set { if (!Activated) _Value = value; }
+        }
 
         private UInt64 _EffectiveAddress;
         public UInt64 EffectiveAddress { get { return _EffectiveAddress; } private set { _EffectiveAddress = value; } }
@@ -113,7 +126,7 @@ namespace Anathema
 
                 return;
             }
-            
+
             if (Offsets == null || Offsets.Length == 0)
             {
                 this.EffectiveAddress = Pointer;
