@@ -47,6 +47,7 @@ namespace Anathema
         {
             this.Snapshot = new Snapshot<Null>(SnapshotManager.GetInstance().GetActiveSnapshot(true));
             this.Snapshot.SetElementType(typeof(SByte));
+            Snapshot.SetAlignment(Settings.GetInstance().GetAlignmentSettings());
             this.ChunkRoots = new List<MemoryChunkRoots>();
             this.ChunkSize = SetChunkSize(Snapshot.GetMemorySize());
 

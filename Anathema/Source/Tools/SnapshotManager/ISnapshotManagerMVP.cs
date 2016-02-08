@@ -33,6 +33,7 @@ namespace Anathema
 
         // Functions invoked by presenter (downstream)
         void CreateNewSnapshot();
+        void CollectValues();
         void RedoSnapshot();
         void UndoSnapshot();
         void ClearSnapshots();
@@ -94,6 +95,11 @@ namespace Anathema
             Item.ForeColor = Index > (SnapshotCount - DeletedSnapshotCount) ? Color.LightGray : SystemColors.ControlText;
             Item.BackColor = Index == (SnapshotCount - 1) ? SystemColors.Highlight : SystemColors.Control;
             return Item;
+        }
+
+        public void CollectValues()
+        {
+            Model.CollectValues();
         }
 
         public void CreateNewSnapshot()

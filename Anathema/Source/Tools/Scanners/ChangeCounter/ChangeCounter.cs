@@ -47,6 +47,7 @@ namespace Anathema
                 return;
 
             Snapshot.SetVariableSize(VariableSize);
+            Snapshot.SetAlignment(Settings.GetInstance().GetAlignmentSettings());
 
             // Initialize change counts to zero
             Snapshot.SetElementLabels(0);

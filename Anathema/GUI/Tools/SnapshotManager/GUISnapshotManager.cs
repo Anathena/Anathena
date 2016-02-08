@@ -39,6 +39,11 @@ namespace Anathema
             });
         }
 
+        public void CollectValues()
+        {
+            SnapshotManagerPresenter.CollectValues();
+        }
+
         public void CreateNewSnapshot()
         {
             SnapshotManagerPresenter.CreateNewSnapshot();

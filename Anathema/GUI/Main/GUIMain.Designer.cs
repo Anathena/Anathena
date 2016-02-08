@@ -49,13 +49,13 @@
             this.PointerScannerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.LabelThresholderToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.TableToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.ResultsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.SnapshotManagerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ScriptEditorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.DebuggerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.CodeViewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.MemoryViewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.TableToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.ResultsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.SnapshotManagerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ContentPanel = new WeifenLuo.WinFormsUI.Docking.DockPanel();
             this.GUIToolStrip = new System.Windows.Forms.ToolStrip();
             this.ProcessSelectorButton = new System.Windows.Forms.ToolStripButton();
@@ -64,6 +64,7 @@
             this.UndoScanButton = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.ProcessTitleLabel = new System.Windows.Forms.ToolStripLabel();
+            this.CollectValuesButton = new System.Windows.Forms.ToolStripButton();
             this.GUIMenuStrip.SuspendLayout();
             this.GUIToolStrip.SuspendLayout();
             this.SuspendLayout();
@@ -230,6 +231,36 @@
             this.LabelThresholderToolStripMenuItem.Text = "Label Thresholder";
             this.LabelThresholderToolStripMenuItem.Click += new System.EventHandler(this.LabelThresholderToolStripMenuItem_Click);
             // 
+            // ScriptEditorToolStripMenuItem
+            // 
+            this.ScriptEditorToolStripMenuItem.Name = "ScriptEditorToolStripMenuItem";
+            this.ScriptEditorToolStripMenuItem.Size = new System.Drawing.Size(173, 22);
+            this.ScriptEditorToolStripMenuItem.Text = "Script Editor";
+            this.ScriptEditorToolStripMenuItem.Click += new System.EventHandler(this.ScriptEditorToolStripMenuItem_Click);
+            // 
+            // DebuggerToolStripMenuItem
+            // 
+            this.DebuggerToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.CodeViewToolStripMenuItem,
+            this.MemoryViewToolStripMenuItem});
+            this.DebuggerToolStripMenuItem.Name = "DebuggerToolStripMenuItem";
+            this.DebuggerToolStripMenuItem.Size = new System.Drawing.Size(173, 22);
+            this.DebuggerToolStripMenuItem.Text = "Debugger";
+            // 
+            // CodeViewToolStripMenuItem
+            // 
+            this.CodeViewToolStripMenuItem.Name = "CodeViewToolStripMenuItem";
+            this.CodeViewToolStripMenuItem.Size = new System.Drawing.Size(147, 22);
+            this.CodeViewToolStripMenuItem.Text = "Code View";
+            this.CodeViewToolStripMenuItem.Click += new System.EventHandler(this.CodeViewToolStripMenuItem_Click);
+            // 
+            // MemoryViewToolStripMenuItem
+            // 
+            this.MemoryViewToolStripMenuItem.Name = "MemoryViewToolStripMenuItem";
+            this.MemoryViewToolStripMenuItem.Size = new System.Drawing.Size(147, 22);
+            this.MemoryViewToolStripMenuItem.Text = "Memory View";
+            this.MemoryViewToolStripMenuItem.Click += new System.EventHandler(this.MemoryViewToolStripMenuItem_Click);
+            // 
             // TableToolStripMenuItem
             // 
             this.TableToolStripMenuItem.Name = "TableToolStripMenuItem";
@@ -251,36 +282,6 @@
             this.SnapshotManagerToolStripMenuItem.Text = "Snapshot Manager";
             this.SnapshotManagerToolStripMenuItem.Click += new System.EventHandler(this.SnapshotManagerToolStripMenuItem_Click);
             // 
-            // ScriptEditorToolStripMenuItem
-            // 
-            this.ScriptEditorToolStripMenuItem.Name = "ScriptEditorToolStripMenuItem";
-            this.ScriptEditorToolStripMenuItem.Size = new System.Drawing.Size(173, 22);
-            this.ScriptEditorToolStripMenuItem.Text = "Script Editor";
-            this.ScriptEditorToolStripMenuItem.Click += new System.EventHandler(this.ScriptEditorToolStripMenuItem_Click);
-            // 
-            // DebuggerToolStripMenuItem
-            // 
-            this.DebuggerToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.CodeViewToolStripMenuItem,
-            this.MemoryViewToolStripMenuItem});
-            this.DebuggerToolStripMenuItem.Name = "DebuggerToolStripMenuItem";
-            this.DebuggerToolStripMenuItem.Size = new System.Drawing.Size(173, 22);
-            this.DebuggerToolStripMenuItem.Text = "Debugger";
-            // 
-            // CodeViewToolStripMenuItem
-            // 
-            this.CodeViewToolStripMenuItem.Name = "CodeViewToolStripMenuItem";
-            this.CodeViewToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.CodeViewToolStripMenuItem.Text = "Code View";
-            this.CodeViewToolStripMenuItem.Click += new System.EventHandler(this.CodeViewToolStripMenuItem_Click);
-            // 
-            // MemoryViewToolStripMenuItem
-            // 
-            this.MemoryViewToolStripMenuItem.Name = "MemoryViewToolStripMenuItem";
-            this.MemoryViewToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.MemoryViewToolStripMenuItem.Text = "Memory View";
-            this.MemoryViewToolStripMenuItem.Click += new System.EventHandler(this.MemoryViewToolStripMenuItem_Click);
-            // 
             // ContentPanel
             // 
             this.ContentPanel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
@@ -297,6 +298,7 @@
             this.GUIToolStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.ProcessSelectorButton,
             this.toolStripSeparator3,
+            this.CollectValuesButton,
             this.NewScanButton,
             this.UndoScanButton,
             this.toolStripSeparator1,
@@ -352,6 +354,16 @@
             this.ProcessTitleLabel.Name = "ProcessTitleLabel";
             this.ProcessTitleLabel.Size = new System.Drawing.Size(113, 22);
             this.ProcessTitleLabel.Text = "No Process Selected";
+            // 
+            // CollectValuesButton
+            // 
+            this.CollectValuesButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.CollectValuesButton.Image = global::Anathema.Properties.Resources.BenedictionIcon;
+            this.CollectValuesButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.CollectValuesButton.Name = "CollectValuesButton";
+            this.CollectValuesButton.Size = new System.Drawing.Size(23, 22);
+            this.CollectValuesButton.Text = "Collect Values";
+            this.CollectValuesButton.Click += new System.EventHandler(this.CollectValuesButton_Click);
             // 
             // GUIMain
             // 
@@ -411,6 +423,7 @@
         private System.Windows.Forms.ToolStripMenuItem MemoryViewToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator4;
         private System.Windows.Forms.ToolStripMenuItem PointerScannerToolStripMenuItem;
+        private System.Windows.Forms.ToolStripButton CollectValuesButton;
     }
 }
 

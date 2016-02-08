@@ -34,6 +34,7 @@ namespace Anathema
 
             Snapshot.MarkAllValid();
             Snapshot.SetElementType(FiniteStateMachine.GetElementType());
+            Snapshot.SetAlignment(Settings.GetInstance().GetAlignmentSettings());
             Snapshot.SetElementLabels(FiniteStateMachine.IndexOf(FiniteStateMachine.GetStartState()));
 
             switch (FiniteStateMachine.GetStartState().GetStateEvent())

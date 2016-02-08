@@ -124,6 +124,7 @@ namespace Anathema
                 return;
 
             Snapshot.SetVariableSize(VariableSize);
+            Snapshot.SetAlignment(Settings.GetInstance().GetAlignmentSettings());
 
             // Initialize with no correlation
             Snapshot.SetElementLabels(0);

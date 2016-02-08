@@ -324,6 +324,7 @@ namespace Anathema
             // Read the memory (collecting values)
             PointerSnapshot.ReadAllSnapshotMemory();
             PointerSnapshot.SetElementType(ScanConstraintManager.GetElementType());
+            Snapshot.SetAlignment(sizeof(Int32));
             PointerSnapshot.MarkAllValid();
 
             if (PointerSnapshot.GetRegionCount() <= 0)
@@ -443,12 +444,12 @@ namespace Anathema
 
             // Collect memory regions
             Snapshot = new Snapshot<Null>(SnapshotManager.GetInstance().SnapshotAllRegions(true));
+            
+            // Set to type of a pointer
+            Snapshot.SetElementType(typeof(UInt64));
 
             // Enforce 4-byte alignment of pointers
             Snapshot.SetAlignment(sizeof(Int32));
-
-            // Set to type of a pointer
-            Snapshot.SetElementType(typeof(UInt64));
 
             Parallel.ForEach(Snapshot.Cast<Object>(), (RegionObject) =>
             {

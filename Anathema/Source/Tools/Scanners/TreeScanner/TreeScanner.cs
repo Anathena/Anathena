@@ -48,10 +48,11 @@ namespace Anathema
 
         public override void Begin()
         {
-            this.Snapshot = new Snapshot<Null>(SnapshotManager.GetInstance().GetActiveSnapshot(true));
-            this.Snapshot.SetElementType(typeof(Byte));
-            this.FilterTrees = new List<FilterTree>();
-            this.LeafSize = SetLeafSize(Snapshot.GetMemorySize());
+            Snapshot = new Snapshot<Null>(SnapshotManager.GetInstance().GetActiveSnapshot(true));
+            Snapshot.SetElementType(typeof(Byte));
+            Snapshot.SetAlignment(Settings.GetInstance().GetAlignmentSettings());
+            FilterTrees = new List<FilterTree>();
+            LeafSize = SetLeafSize(Snapshot.GetMemorySize());
 
             // Initialize filter tree roots
             foreach (SnapshotRegion SnapshotRegion in Snapshot)

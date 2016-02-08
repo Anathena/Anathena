@@ -38,6 +38,7 @@ namespace Anathema
 
             Snapshot.MarkAllValid();
             Snapshot.SetElementType(ScanConstraintManager.GetElementType());
+            Snapshot.SetAlignment(Settings.GetInstance().GetAlignmentSettings());
 
             base.Begin();
         }

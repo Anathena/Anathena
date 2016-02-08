@@ -100,7 +100,7 @@ namespace Anathema
             List<SnapshotRegion> MemoryRegions = new List<SnapshotRegion>();
             for (int PageIndex = 0; PageIndex < VirtualPages.Count; PageIndex++)
                 MemoryRegions.Add(new SnapshotRegion<Null>(VirtualPages[PageIndex].Information.BaseAddress, (Int32)VirtualPages[PageIndex].Information.RegionSize));
-            
+
             return new Snapshot<Null>(MemoryRegions.ToArray());
         }
 
@@ -118,6 +118,19 @@ namespace Anathema
             ClearSnapshots();
 
             SaveSnapshot(null);
+        }
+
+        /// <summary>
+        /// Creates a new snapshot and reads all the memory
+        /// </summary>
+        public void CollectValues()
+        {
+            Snapshot Snapshot = SnapshotAllRegions();
+            Snapshot.ReadAllSnapshotMemory();
+            Snapshot.SetElementType(typeof(Int32));
+            Snapshot.SetAlignment(Settings.GetInstance().GetAlignmentSettings());
+            Snapshot.SetScanMethod("Collect Values");
+            SaveSnapshot(Snapshot);
         }
 
         /// <summary>

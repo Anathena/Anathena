@@ -322,6 +322,11 @@ namespace Anathema
             CreateSettings();
         }
 
+        private void CollectValuesButton_Click(Object Sender, EventArgs E)
+        {
+            GUISnapshotManager.CollectValues();
+        }
+
         private void NewScanButton_Click(Object Sender, EventArgs E)
         {
             GUISnapshotManager.CreateNewSnapshot();

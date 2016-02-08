@@ -62,6 +62,7 @@ namespace Anathema
             return MemoryEditor;
         }
 
+        public abstract void ReadAllSnapshotMemory();
         public abstract void MarkAllValid();
         public abstract void MarkAllInvalid();
         public abstract void DiscardInvalidRegions();
@@ -250,7 +251,6 @@ namespace Anathema
 
             InitializeProcessObserver();
             MergeRegions();
-            SetAlignment(Settings.GetInstance().GetAlignmentSettings());
         }
 
         #endregion
@@ -282,7 +282,7 @@ namespace Anathema
         /// Reads memory for every snapshot, with each region storing the current and previous read values.
         /// Handles ScanFailedExceptions by automatically masking deallocated regions against the current virtual memory space
         /// </summary>
-        public void ReadAllSnapshotMemory()
+        public override void ReadAllSnapshotMemory()
         {
             SetTimeStampToNow();
 
