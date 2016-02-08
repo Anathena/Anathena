@@ -116,7 +116,7 @@
             // TargetAddressLabel
             // 
             this.TargetAddressLabel.AutoSize = true;
-            this.TargetAddressLabel.Location = new System.Drawing.Point(19, 37);
+            this.TargetAddressLabel.Location = new System.Drawing.Point(19, 62);
             this.TargetAddressLabel.Name = "TargetAddressLabel";
             this.TargetAddressLabel.Size = new System.Drawing.Size(45, 13);
             this.TargetAddressLabel.TabIndex = 151;
@@ -176,7 +176,7 @@
             // ValueTypeLabel
             // 
             this.ValueTypeLabel.AutoSize = true;
-            this.ValueTypeLabel.Location = new System.Drawing.Point(3, 63);
+            this.ValueTypeLabel.Location = new System.Drawing.Point(3, 35);
             this.ValueTypeLabel.Name = "ValueTypeLabel";
             this.ValueTypeLabel.Size = new System.Drawing.Size(61, 13);
             this.ValueTypeLabel.TabIndex = 174;
@@ -210,10 +210,11 @@
             // 
             this.ValueTypeComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.ValueTypeComboBox.FormattingEnabled = true;
-            this.ValueTypeComboBox.Location = new System.Drawing.Point(70, 60);
+            this.ValueTypeComboBox.Location = new System.Drawing.Point(70, 32);
             this.ValueTypeComboBox.Name = "ValueTypeComboBox";
-            this.ValueTypeComboBox.Size = new System.Drawing.Size(117, 21);
+            this.ValueTypeComboBox.Size = new System.Drawing.Size(130, 21);
             this.ValueTypeComboBox.TabIndex = 166;
+            this.ValueTypeComboBox.SelectedIndexChanged += new System.EventHandler(this.ValueTypeComboBox_SelectedIndexChanged);
             // 
             // ResultsTabPage
             // 
@@ -228,7 +229,8 @@
             // 
             // GUIConstraintEditor
             // 
-            this.GUIConstraintEditor.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.GUIConstraintEditor.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.GUIConstraintEditor.HideElementType = true;
             this.GUIConstraintEditor.Location = new System.Drawing.Point(206, 6);
             this.GUIConstraintEditor.Name = "GUIConstraintEditor";
@@ -261,13 +263,11 @@
             // 
             // AddressTextBox
             // 
-            this.AddressTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
             this.AddressTextBox.ForeColor = System.Drawing.Color.Red;
             this.AddressTextBox.IsHex = true;
-            this.AddressTextBox.Location = new System.Drawing.Point(70, 34);
+            this.AddressTextBox.Location = new System.Drawing.Point(70, 59);
             this.AddressTextBox.Name = "AddressTextBox";
-            this.AddressTextBox.Size = new System.Drawing.Size(117, 20);
+            this.AddressTextBox.Size = new System.Drawing.Size(130, 20);
             this.AddressTextBox.TabIndex = 159;
             this.AddressTextBox.WatermarkColor = System.Drawing.Color.LightGray;
             this.AddressTextBox.WaterMarkFont = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));

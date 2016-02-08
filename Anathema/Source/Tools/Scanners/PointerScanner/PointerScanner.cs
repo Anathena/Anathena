@@ -42,6 +42,7 @@ namespace Anathema
         private List<ConcurrentDictionary<UInt64, UInt64>> ConnectedPointers;
         private Snapshot<Null> AcceptedBases;
 
+        ScanConstraintManager ScanConstraintManager;
         private Boolean IsAddressMode;
 
 
@@ -83,7 +84,7 @@ namespace Anathema
         {
             this.MemoryEditor = MemoryEditor;
         }
-        
+
         public override void UpdateReadBounds(Int32 StartReadIndex, Int32 EndReadIndex)
         {
             this.StartReadIndex = StartReadIndex;
@@ -103,6 +104,11 @@ namespace Anathema
         public override void SetTargetAddress(UInt64 Address)
         {
             TargetAddress = Address;
+        }
+
+        public override void SetScanConstraintManager(ScanConstraintManager ScanConstraintManager)
+        {
+            this.ScanConstraintManager = ScanConstraintManager;
         }
 
         public override void SetMaxPointerLevel(Int32 MaxPointerLevel)
@@ -171,6 +177,28 @@ namespace Anathema
             return Offsets.ToArray();
         }
 
+        private UInt64 ResolvePointer(Tuple<UInt64, List<Int32>> FullPointer)
+        {
+            UInt64 Pointer = FullPointer.Item1;
+            List<Int32> Offsets = FullPointer.Item2;
+
+            if (Offsets == null || Offsets.Count == 0)
+                return Pointer;
+
+            Boolean SuccessReading = true;
+
+            foreach (Int32 Offset in Offsets)
+            {
+                Pointer = MemoryEditor.Read<UInt64>((IntPtr)Pointer, out SuccessReading);
+                Pointer += (UInt64)Offset;
+
+                if (!SuccessReading)
+                    break;
+            }
+
+            return Pointer;
+        }
+
         public override void Begin()
         {
             base.Begin();
@@ -203,21 +231,9 @@ namespace Anathema
                         if (Index < 0 || Index >= AcceptedPointers.Count)
                             continue;
 
-                        Tuple<UInt64, List<Int32>> FullPointer = AcceptedPointers[Index];
-                        UInt64 Pointer = FullPointer.Item1;
-                        List<Int32> Offsets = FullPointer.Item2;
+                        UInt64 Pointer = ResolvePointer(AcceptedPointers[Index]);
 
-                        Boolean SuccessReading = true;
-
-                        foreach (Int32 Offset in Offsets)
-                        {
-                            Pointer = MemoryEditor.Read<UInt64>((IntPtr)Pointer, out SuccessReading);
-                            Pointer += (UInt64)Offset;
-
-                            if (!SuccessReading)
-                                break;
-                        }
-                        
+                        Boolean SuccessReading;
                         String Value = MemoryEditor.Read(ElementType, (IntPtr)Pointer, out SuccessReading).ToString();
 
                         IndexValueMap[Index] = Value;
@@ -236,6 +252,7 @@ namespace Anathema
                     break;
                 case ScanModeEnum.Rescan:
                     PointerRescan();
+                    UpdateDisplay();
                     ScanMode = ScanModeEnum.ReadValues;
                     break;
             }
@@ -249,6 +266,28 @@ namespace Anathema
         private void PointerRescan()
         {
             this.PrintDebugTag();
+
+            if (IsAddressMode)
+            {
+                List<Tuple<UInt64, List<Int32>>> RetainedPointers = new List<Tuple<UInt64, List<Int32>>>();
+
+                foreach (Tuple<UInt64, List<Int32>> FullPointer in AcceptedPointers)
+                {
+                    if (ResolvePointer(FullPointer) == TargetAddress)
+                        RetainedPointers.Add(FullPointer);
+                }
+
+                AcceptedPointers = RetainedPointers;
+            }
+            else
+            {
+                // Build a snapshot from the resolved pointer addresses
+                List<SnapshotRegion> Regions = new List<SnapshotRegion>();
+                foreach (Tuple<UInt64, List<Int32>> FullPointer in AcceptedPointers)
+                {
+                    Regions.Add(new SnapshotRegion<Null>(unchecked((IntPtr)ResolvePointer(FullPointer)), sizeof(UInt64)));
+                }
+            }
         }
 
         private void SetAcceptedBases()

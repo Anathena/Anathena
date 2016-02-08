@@ -66,9 +66,9 @@ namespace Anathema
             this.ValueConstraint = ValueConstraint;
         }
 
-        public void SetElementType(String ElementType)
+        public void SetElementType(Type ElementType)
         {
-            Model.SetElementType(Conversions.StringToPrimitiveType(ElementType));
+            Model.SetElementType(ElementType);
         }
 
         public void AddConstraint(String ValueString)

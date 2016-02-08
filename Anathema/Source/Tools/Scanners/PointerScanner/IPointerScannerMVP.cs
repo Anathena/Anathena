@@ -53,6 +53,8 @@ namespace Anathema
         public abstract void SetMaxPointerLevel(Int32 MaxPointerLevel);
         public abstract void SetMaxPointerOffset(UInt64 MaxOffset);
 
+        public abstract void SetScanConstraintManager(ScanConstraintManager ScanConstraintManager);
+
         public abstract void UpdateReadBounds(Int32 StartReadIndex, Int32 EndReadIndex);
     }
 
@@ -140,6 +142,11 @@ namespace Anathema
                 return;
 
             Model.SetTargetAddress(Conversions.AddressToValue(TargetAddress));
+        }
+
+        public void SetScanConstraintManager(ScanConstraintManager ScanConstraintManager)
+        {
+            Model.SetScanConstraintManager(ScanConstraintManager);
         }
 
         public void SetMaxPointerLevel(String MaxPointerLevel)

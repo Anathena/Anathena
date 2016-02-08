@@ -146,6 +146,9 @@ namespace Anathema
 
         private void StartScanButton_Click(Object Sender, EventArgs E)
         {
+            if (ValueModeRadioButton.Checked)
+                return;
+
             // Validate input
             if (!AddressTextBox.IsValid() || !MaxLevelTextBox.IsValid() || !MaxOffsetTextBox.IsValid())
                 return;
@@ -164,9 +167,17 @@ namespace Anathema
         {
             DisableGUI();
 
-            if (AddressTextBox.IsValid())
+            if (AddressModeRadioButton.Checked)
             {
+                // Address mode -- update address
+                if (!AddressTextBox.IsValid())
+                    return;
                 PointerScannerPresenter.SetTargetAddress(AddressTextBox.GetValueAsHexidecimal());
+            }
+            else
+            {
+                // Value mode -- gather scan constraints
+                PointerScannerPresenter.SetScanConstraintManager(GUIConstraintEditor.GetScanConstraintManager());
             }
 
             PointerScannerPresenter.BeginPointerRescan();
@@ -179,8 +190,9 @@ namespace Anathema
 
         private void ValueTypeComboBox_SelectedIndexChanged(Object Sender, EventArgs E)
         {
-            AddressTextBox.SetElementType(Conversions.StringToPrimitiveType(ValueTypeComboBox.SelectedItem.ToString()));
-            PointerScannerPresenter.SetElementType(Conversions.StringToPrimitiveType(ValueTypeComboBox.SelectedItem.ToString()));
+            Type ElementType = Conversions.StringToPrimitiveType(ValueTypeComboBox.SelectedItem.ToString());
+            PointerScannerPresenter.SetElementType(ElementType);
+            GUIConstraintEditor.SetElementType(ElementType);
         }
 
         private void AddSelectedResultsButton_Click(Object Sender, EventArgs E)

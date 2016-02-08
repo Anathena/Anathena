@@ -78,6 +78,12 @@ namespace Anathema.GUI.Tools.MemoryScanners
             return ScanConstraintEditorPresenter.GetScanConstraintManager();
         }
 
+        public void SetElementType(Type ElementType)
+        {
+            ScanConstraintEditorPresenter.SetElementType(ElementType);
+            ValueTextBox.SetElementType(ElementType);
+        }
+
         private void UpdateScanOptions(ToolStripMenuItem Sender, ConstraintsEnum ValueConstraint)
         {
             ScanOptionsToolStripDropDownButton.Image = Sender.Image;
@@ -147,8 +153,8 @@ namespace Anathema.GUI.Tools.MemoryScanners
 
         private void ValueTypeComboBox_SelectedIndexChanged(Object Sender, EventArgs E)
         {
-            ScanConstraintEditorPresenter.SetElementType(ValueTypeComboBox.SelectedItem.ToString());
-            ValueTextBox.SetElementType(Conversions.StringToPrimitiveType(ValueTypeComboBox.SelectedItem.ToString()));
+            Type ElementType = Conversions.StringToPrimitiveType(ValueTypeComboBox.SelectedItem.ToString());
+            SetElementType(ElementType);
         }
 
         private void ChangedToolStripMenuItem_Click(Object Sender, EventArgs E)
