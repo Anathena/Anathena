@@ -525,21 +525,7 @@ namespace Anathema
         {
             this.NewRegions = NewRegions;
         }
-    }
 
-    /// <summary>
-    /// Indicates a scan failed when attempting to hash all values
-    /// </summary>
-    public class HashingFailedException : Exception
-    {
-        public SnapshotRegion[] NewRegions { get; set; }
-        public ConcurrentDictionary<SnapshotRegion, UInt64?> HashDictionary { get; set; }
-
-        public HashingFailedException(SnapshotRegion[] NewRegions, ConcurrentDictionary<SnapshotRegion, UInt64?> HashDictionary)
-        {
-            this.NewRegions = NewRegions;
-            this.HashDictionary = HashDictionary;
-        }
-    }
+    } // End class
 
 } // End namespace
