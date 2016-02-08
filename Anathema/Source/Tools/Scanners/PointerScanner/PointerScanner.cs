@@ -301,7 +301,7 @@ namespace Anathema
 
             if (AcceptedPointers == null || AcceptedPointers.Count == 0)
                 return;
-
+            
             List<UInt64> ResolvedAddresses = new List<UInt64>();
             List<SnapshotRegion> Regions = new List<SnapshotRegion>();
 
@@ -310,7 +310,7 @@ namespace Anathema
             {
                 ResolvedAddresses.Add(ResolvePointer(FullPointer));
             }
-
+            
             // Build regions from resolved address
             foreach (UInt64 Pointer in ResolvedAddresses)
             {
@@ -319,16 +319,16 @@ namespace Anathema
 
             // Create a snapshot from regions
             Snapshot<Null> PointerSnapshot = new Snapshot<Null>(Regions.ToArray());
-
+            
             // Read the memory (collecting values)
             PointerSnapshot.ReadAllSnapshotMemory();
-
-            if (PointerSnapshot.GetSnapshotRegions() == null)
+            
+            if (PointerSnapshot.GetRegionCount() <= 0)
                 return;
 
             PointerSnapshot.SetElementType(typeof(UInt64));
             PointerSnapshot.MarkAllValid();
-
+            
             Parallel.ForEach(PointerSnapshot.Cast<Object>(), (RegionObject) =>
             {
                 SnapshotRegion<Null> Region = (SnapshotRegion<Null>)RegionObject;
@@ -380,7 +380,7 @@ namespace Anathema
                 } // End foreach Element
 
             }); // End foreach Region
-
+            
             PointerSnapshot.DiscardInvalidRegions();
 
             List<Tuple<UInt64, List<Int32>>> RetainedPointers = new List<Tuple<UInt64, List<Int32>>>();
@@ -390,10 +390,13 @@ namespace Anathema
             {
                 foreach (SnapshotElement Element in Region)
                 {
-                    if (!ResolvedAddresses.Contains(unchecked((UInt64)(Element.BaseAddress))))
-                        continue;
+                    for (Int32 AddressIndex = 0; AddressIndex < ResolvedAddresses.Count; AddressIndex++)
+                    {
+                        if (ResolvedAddresses[AddressIndex] != unchecked((UInt64)(Element.BaseAddress)))
+                            continue;
 
-                    RetainedPointers.Add(AcceptedPointers[ResolvedAddresses.IndexOf(unchecked((UInt64)(Element.BaseAddress)))]);
+                        RetainedPointers.Add(AcceptedPointers[AddressIndex]);
+                    }
                 }
             }
 

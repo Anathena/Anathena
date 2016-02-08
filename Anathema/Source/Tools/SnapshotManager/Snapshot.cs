@@ -21,13 +21,13 @@ namespace Anathema
         protected MemoryEditor MemoryEditor;
 
         protected SnapshotRegion[] SnapshotRegions;
-        protected ConcurrentBag<SnapshotRegion> DeallocatedRegions;
+        protected List<SnapshotRegion> DeallocatedRegions;
+        protected Object DeallocatedRegionLock;
 
         protected Type ElementType; // Type to consider each element of this snapshot
+        protected Int32 Alignment;  // Memory alignment constraint
         private String ScanMethod;  // String indicating most recent scan method used
         private DateTime TimeStamp; // Time stamp of most recent scan for a given snapshot
-
-        protected Int32 Alignment;  // Memory alignment constraint
 
         /// <summary>
         /// Indexer to allow the retrieval of the element at the specified index. Note that this does NOT index into a region.
@@ -100,7 +100,7 @@ namespace Anathema
 
         public Int32 GetRegionCount()
         {
-            return SnapshotRegions.Length;
+            return SnapshotRegions == null ? 0 : SnapshotRegions.Length;
         }
 
         public UInt64 GetElementCount()
@@ -212,7 +212,7 @@ namespace Anathema
             List<SnapshotRegion<LabelType>> Regions = new List<SnapshotRegion<LabelType>>();
             //SetElementType(BaseSnapshot.GetElementType());
 
-            if (BaseSnapshot != null && BaseSnapshot.GetSnapshotRegions() != null)
+            if (BaseSnapshot != null && BaseSnapshot.GetRegionCount() > 0)
             {
                 foreach (SnapshotRegion Region in BaseSnapshot.GetSnapshotRegions())
                 {
@@ -247,7 +247,8 @@ namespace Anathema
 
         public void Initialize()
         {
-            this.DeallocatedRegions = new ConcurrentBag<SnapshotRegion>();
+            this.DeallocatedRegions = new List<SnapshotRegion>();
+            DeallocatedRegionLock = new Object();
             SetAlignment(NoAlignment);
             InitializeProcessObserver();
             MergeRegions();
@@ -297,22 +298,16 @@ namespace Anathema
                 }
                 catch (ScanFailedException)
                 {
-                    if (!DeallocatedRegions.Contains(SnapshotRegion))
-                        DeallocatedRegions.Add(SnapshotRegion);
+                    lock (DeallocatedRegionLock)
+                    {
+                        if (!DeallocatedRegions.Contains(SnapshotRegion))
+                            DeallocatedRegions.Add(SnapshotRegion);
+                    }
                 }
             });
 
-            // Handle invalid reads
-            if (DeallocatedRegions.IsEmpty)
-                return;
-
-            SnapshotRegion[] NewRegions = null;
-            try
-            {
-                // Mask deallocated regions
-                NewRegions = MaskDeallocatedRegions();
-            }
-            catch { }
+            // Mask deallocated regions
+            SnapshotRegion[] NewRegions = MaskDeallocatedRegions();
 
             if (NewRegions == null || NewRegions.Length <= 0)
                 return;
@@ -367,9 +362,17 @@ namespace Anathema
             Queue<SnapshotRegion<LabelType>> CandidateRegions = new Queue<SnapshotRegion<LabelType>>();
             Queue<SnapshotRegion<LabelType>> MaskingRegions = new Queue<SnapshotRegion<LabelType>>();
 
+            if (TargetRegions == null || TargetRegions.Length < 0)
+                return null;
+            
+            if (Mask == null || Mask.GetRegionCount() <= 0)
+                return null;
+
+            // Build candidate region queue from target region array
             foreach (SnapshotRegion<LabelType> Region in TargetRegions)
                 CandidateRegions.Enqueue(Region);
 
+            // Build masking region queue from snapshot
             foreach (SnapshotRegion<LabelType> MaskRegion in Mask)
                 MaskingRegions.Enqueue(MaskRegion);
 
@@ -415,7 +418,7 @@ namespace Anathema
                 NewRegion.SetAlignment(CurrentRegion.GetAlignment());
             }
 
-            return ResultRegions.ToArray();
+            return ResultRegions.Count == 0 ? null : ResultRegions.ToArray();
         }
 
         /// <summary>
@@ -470,27 +473,32 @@ namespace Anathema
         /// <returns></returns>
         private SnapshotRegion<LabelType>[] MaskDeallocatedRegions()
         {
+            if (DeallocatedRegions == null || DeallocatedRegions.Count <= 0 || SnapshotRegions == null || SnapshotRegions.Length <= 0)
+                return null;
+
             List<SnapshotRegion<LabelType>> NewSnapshotRegions = SnapshotRegions.Select(x => (SnapshotRegion<LabelType>)x).ToList();
 
             // Remove invalid items from collection
             foreach (SnapshotRegion<LabelType> Region in DeallocatedRegions)
                 NewSnapshotRegions.Remove(Region);
-
+            
             // Get current memory regions
             Snapshot<LabelType> Mask = new Snapshot<LabelType>(SnapshotManager.GetInstance().SnapshotAllRegions());
-
+            
             // Mask each region against the current virtual memory regions
-            SnapshotRegion<LabelType>[] MaskedRegions = MaskRegions(Mask, DeallocatedRegions.Select(x => (SnapshotRegion<LabelType>)x).ToArray());
-
+            SnapshotRegion<LabelType>[] MaskRegionResult = MaskRegions(Mask, DeallocatedRegions.ToArray());
+            SnapshotRegion <LabelType>[] MaskedRegions = MaskRegionResult == null ? null : MaskRegionResult.ToArray();
+            
             // Merge split regions back with the main list
-            NewSnapshotRegions.AddRange(MaskedRegions);
-
+            if (MaskedRegions != null && MaskedRegions.Length > 0)
+                NewSnapshotRegions.AddRange(MaskedRegions);
+            
             // Clear invalid items
-            DeallocatedRegions = new ConcurrentBag<SnapshotRegion>();
-
+            DeallocatedRegions = new List<SnapshotRegion>();
+            
             // Store result as main snapshot array
             this.SnapshotRegions = NewSnapshotRegions.ToArray();
-
+            
             return MaskedRegions;
         }
 
