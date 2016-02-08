@@ -18,8 +18,8 @@ namespace Anathema
         // Events triggered by the model (upstream)
 
         // Functions invoked by presenter (downstream)
-        public abstract void SetMinChanges(Int32 MinChanges);
-        public abstract void SetMaxChanges(Int32 MaxChanges);
+        public abstract void SetMinChanges(UInt16 MinChanges);
+        public abstract void SetMaxChanges(UInt16 MaxChanges);
         public abstract void SetVariableSize(Int32 VariableSize);
     }
 
@@ -37,19 +37,13 @@ namespace Anathema
 
         #region Method definitions called by the view (downstream)
 
-        public void SetMinChanges(Int32 MinChanges)
+        public void SetMinChanges(UInt16 MinChanges)
         {
-            if (MinChanges < 0)
-                return;
-
             Model.SetMinChanges(MinChanges);
         }
 
-        public void SetMaxChanges(Int32 MaxChanges)
+        public void SetMaxChanges(UInt16 MaxChanges)
         {
-            if (MaxChanges < 0)
-                return;
-
             Model.SetMaxChanges(MaxChanges);
         }
 

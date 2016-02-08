@@ -303,8 +303,13 @@ namespace Anathema
 
                 // Get the length of this valid region
                 Int32 ValidRegionSize = 0;
-                while (StartIndex + (++ValidRegionSize) < Valid.Length && Valid[StartIndex + ValidRegionSize]) { }
-
+                do
+                {
+                    // We only care if the aligned elements are valid
+                    ValidRegionSize += Alignment;
+                }
+                while (StartIndex + ValidRegionSize < Valid.Length && Valid[StartIndex + ValidRegionSize]);
+                
                 // Create new subregion from this valid region
                 SnapshotRegion<LabelType> SubRegion = new SnapshotRegion<LabelType>(this.BaseAddress + StartIndex, ValidRegionSize);
 

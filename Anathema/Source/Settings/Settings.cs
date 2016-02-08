@@ -78,6 +78,11 @@ namespace Anathema
             Properties.Settings.Default.InputCorrelatorTimeOutInterval = InputCorrelatorTimeOutInterval;
         }
 
+        public void UpdateAlignmentSettings(Int32 Alignment)
+        {
+            Properties.Settings.Default.Alignment = Alignment;
+        }
+
         public Boolean[] GetTypeSettings()
         {
             Array TypeEnumValues = Enum.GetValues(typeof(MemoryTypeFlags));
@@ -124,5 +129,12 @@ namespace Anathema
         {
             return Properties.Settings.Default.InputCorrelatorTimeOutInterval;
         }
-    }
-}
+
+        public Int32 GetAlignmentSettings()
+        {
+            return Properties.Settings.Default.Alignment;
+        }
+
+    } // End class
+
+} // End namespace

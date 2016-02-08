@@ -16,11 +16,18 @@ namespace Anathema
             InitializeComponent();
 
             SettingsPresenter = new SettingsPresenter(this, Settings.GetInstance());
+            AlignmentTextBox.SetElementType(typeof(Int32));
 
             FetchSettings();
         }
 
         private void FetchSettings()
+        {
+            FetchScanSettings();
+            FetchGeneralSettings();
+        }
+
+        private void FetchScanSettings()
         {
             Boolean[] RequiredTypeSettings = SettingsPresenter.GetTypeSettings();
             Array TypeEnumValues = Enum.GetValues(typeof(MemoryTypeFlags));
@@ -56,6 +63,11 @@ namespace Anathema
             NoCacheCheckBox.CheckState = IgnoredProtectionSettings[Array.IndexOf(ProtectionEnumValues, MemoryProtectionFlags.NoCache)] ? CheckState.Unchecked : NoCacheCheckBox.CheckState;
             WriteCombineCheckBox.CheckState = IgnoredProtectionSettings[Array.IndexOf(ProtectionEnumValues, MemoryProtectionFlags.WriteCombine)] ? CheckState.Unchecked : WriteCombineCheckBox.CheckState;
 
+            AlignmentTextBox.SetValue(SettingsPresenter.GetAlignmentSettings());
+        }
+
+        private void FetchGeneralSettings()
+        {
             FreezeIntervalTextBox.Text = SettingsPresenter.GetFreezeInterval();
             RescanIntervalTextBox.Text = SettingsPresenter.GetRescanInterval();
             TableReadIntervalTextBox.Text = SettingsPresenter.GetTableReadInterval();
@@ -63,7 +75,14 @@ namespace Anathema
             InputCorrelatorTimeoutIntervalTextBox.Text = SettingsPresenter.GetInputCorrelatorTimeOutInterval();
         }
 
+
         private void SaveSettings()
+        {
+            SaveGeneralSettings();
+            SaveScanSettings();
+        }
+
+        private void SaveGeneralSettings()
         {
             if (CheckSyntax.IsInt32(FreezeIntervalTextBox.Text))
                 SettingsPresenter.UpdateFreezeInterval(FreezeIntervalTextBox.Text);
@@ -79,7 +98,10 @@ namespace Anathema
 
             if (CheckSyntax.IsInt32(InputCorrelatorTimeoutIntervalTextBox.Text))
                 SettingsPresenter.UpdateInputCorrelatorTimeOutInterval(InputCorrelatorTimeoutIntervalTextBox.Text);
+        }
 
+        private void SaveScanSettings()
+        {
             SettingsPresenter.UpdateTypeSettings(NoneCheckBox.Checked, PrivateCheckBox.Checked, MappedCheckBox.Checked, ImageCheckBox.Checked);
             SettingsPresenter.UpdateRequiredProtectionSettings(NoAccessCheckBox.CheckState == CheckState.Checked, ReadOnlyCheckBox.CheckState == CheckState.Checked, ReadWriteCheckBox.CheckState == CheckState.Checked,
                 WriteCopyCheckBox.CheckState == CheckState.Checked, ExecuteCheckBox.CheckState == CheckState.Checked, ExecuteReadCheckBox.CheckState == CheckState.Checked, ExecuteReadWriteCheckBox.CheckState == CheckState.Checked,
@@ -87,6 +109,9 @@ namespace Anathema
             SettingsPresenter.UpdateIgnoredProtectionSettings(NoAccessCheckBox.CheckState == CheckState.Unchecked, ReadOnlyCheckBox.CheckState == CheckState.Unchecked, ReadWriteCheckBox.CheckState == CheckState.Unchecked,
                 WriteCopyCheckBox.CheckState == CheckState.Unchecked, ExecuteCheckBox.CheckState == CheckState.Unchecked, ExecuteReadCheckBox.CheckState == CheckState.Unchecked, ExecuteReadWriteCheckBox.CheckState == CheckState.Unchecked,
                 ExecuteWriteCopyCheckBox.CheckState == CheckState.Unchecked, GuardCheckBox.CheckState == CheckState.Unchecked, NoCacheCheckBox.CheckState == CheckState.Unchecked, WriteCombineCheckBox.CheckState == CheckState.Unchecked);
+
+            if (AlignmentTextBox.IsValid())
+                SettingsPresenter.UpdateAlignmentSettings(Conversions.ParseValue(typeof(Int32), AlignmentTextBox.GetValueAsDecimal()));
         }
 
         #region Events

@@ -154,5 +154,17 @@ namespace Anathema.Properties {
                 this["InputCorrelatorTimeOutInterval"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("4")]
+        public int Alignment {
+            get {
+                return ((int)(this["Alignment"]));
+            }
+            set {
+                this["Alignment"] = value;
+            }
+        }
     }
 }

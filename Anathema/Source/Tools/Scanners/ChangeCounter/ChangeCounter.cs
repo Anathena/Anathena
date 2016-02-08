@@ -14,8 +14,8 @@ namespace Anathema
         private Snapshot<UInt16> Snapshot;
 
         // User controlled variables
-        private Int32 MinChanges;
-        private Int32 MaxChanges;
+        private UInt16 MinChanges;
+        private UInt16 MaxChanges;
         private Int32 VariableSize;
 
         public ChangeCounter()
@@ -23,12 +23,12 @@ namespace Anathema
 
         }
 
-        public override void SetMinChanges(Int32 MinChanges)
+        public override void SetMinChanges(UInt16 MinChanges)
         {
             this.MinChanges = MinChanges;
         }
 
-        public override void SetMaxChanges(Int32 MaxChanges)
+        public override void SetMaxChanges(UInt16 MaxChanges)
         {
             this.MaxChanges = MaxChanges;
         }
@@ -83,10 +83,14 @@ namespace Anathema
 
             // Mark regions as valid or invalid based on number of changes
             Snapshot.MarkAllInvalid();
-            foreach (SnapshotRegion<UInt16> Region in Snapshot)
-                foreach (SnapshotElement<UInt16> Element in Region)
-                    if (Element.ElementLabel.Value >= MinChanges && Element.ElementLabel.Value <= MaxChanges)
-                        Element.Valid = true;
+
+            if (Snapshot.GetRegionCount() > 0)
+            {
+                foreach (SnapshotRegion<UInt16> Region in Snapshot)
+                    foreach (SnapshotElement<UInt16> Element in Region)
+                        if (Element.ElementLabel.Value >= MinChanges && Element.ElementLabel.Value <= MaxChanges)
+                            Element.Valid = true;
+            }
 
             // Create a snapshot from the valid regions
             Snapshot.DiscardInvalidRegions();

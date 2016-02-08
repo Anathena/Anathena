@@ -16,8 +16,6 @@ namespace Anathema
     /// </summary>
     abstract class Snapshot : IProcessObserver, IEnumerable
     {
-        protected const Int32 NoAlignment = 1;
-
         protected MemoryEditor MemoryEditor;
 
         protected SnapshotRegion[] SnapshotRegions;
@@ -249,9 +247,10 @@ namespace Anathema
         {
             this.DeallocatedRegions = new List<SnapshotRegion>();
             DeallocatedRegionLock = new Object();
-            SetAlignment(NoAlignment);
+
             InitializeProcessObserver();
             MergeRegions();
+            SetAlignment(Settings.GetInstance().GetAlignmentSettings());
         }
 
         #endregion

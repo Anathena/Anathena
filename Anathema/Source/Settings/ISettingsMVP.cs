@@ -27,6 +27,8 @@ namespace Anathema
         void UpdateIgnoredProtectionSettings(Boolean NoAccess, Boolean ReadOnly, Boolean ReadWrite, Boolean WriteCopy, Boolean Execute,
            Boolean ExecuteRead, Boolean ExecuteReadWrite, Boolean ExecuteWriteCopy, Boolean Guard, Boolean NoCache, Boolean WriteCombine);
 
+        void UpdateAlignmentSettings(Int32 Alignment);
+
         void UpdateFreezeInterval(Int32 FreezeInterval);
         void UpdateRescanInterval(Int32 RescanInterval);
         void UpdateResultReadInterval(Int32 ResultReadInterval);
@@ -36,6 +38,7 @@ namespace Anathema
         Boolean[] GetTypeSettings();
         MemoryProtectionFlags GetRequiredProtectionSettings();
         MemoryProtectionFlags GetIgnoredProtectionSettings();
+        Int32 GetAlignmentSettings();
 
         Int32 GetFreezeInterval();
         Int32 GetRescanInterval();
@@ -74,6 +77,11 @@ namespace Anathema
             Boolean ExecuteRead, Boolean ExecuteReadWrite, Boolean ExecuteWriteCopy, Boolean Guard, Boolean NoCache, Boolean WriteCombine)
         {
             Model.UpdateIgnoredProtectionSettings(NoAccess, ReadOnly, ReadWrite, WriteCopy, Execute, ExecuteRead, ExecuteReadWrite, ExecuteWriteCopy, Guard, NoCache, WriteCombine);
+        }
+
+        public void UpdateAlignmentSettings(Int32 Alignment)
+        {
+            Model.UpdateAlignmentSettings(Alignment);
         }
 
         public void UpdateFreezeInterval(String FreezeInterval)
@@ -136,6 +144,11 @@ namespace Anathema
             return ProtectionSettings;
         }
 
+        public Int32 GetAlignmentSettings()
+        {
+            return Model.GetAlignmentSettings();
+        }
+
         public String GetFreezeInterval()
         {
             return Model.GetFreezeInterval().ToString();
@@ -166,5 +179,7 @@ namespace Anathema
         #region Event definitions for events triggered by the model (upstream)
 
         #endregion
-    }
-}
+
+    } // End class
+
+} // End namespace

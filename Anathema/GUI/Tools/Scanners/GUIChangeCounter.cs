@@ -38,19 +38,19 @@ namespace Anathema
 
         private void SetMinChanges()
         {
-            Int32 MinChanges = MinChangesTrackBar.Value;
+            UInt16 MinChanges = (UInt16)MinChangesTrackBar.Value;
             MinChangesValueLabel.Text = MinChanges.ToString();
             ChangeCounterPresenter.SetMinChanges(MinChanges);
         }
 
         private void SetMaxChanges()
         {
-            Int32 MaxChanges = MaxChangesTrackBar.Value;
+            UInt16 MaxChanges = (UInt16)MaxChangesTrackBar.Value;
             String MaxChangesString = MaxChanges.ToString();
             
             if (MaxChanges == MaxChangesTrackBar.Maximum)
             {
-                MaxChanges = Int32.MaxValue;
+                MaxChanges = UInt16.MaxValue;
                 MaxChangesString = "Inf";
             }
 

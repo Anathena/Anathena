@@ -62,12 +62,16 @@
             this.ReadWriteCheckBox = new System.Windows.Forms.CheckBox();
             this.ReadOnlyCheckBox = new System.Windows.Forms.CheckBox();
             this.NoAccessCheckBox = new System.Windows.Forms.CheckBox();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.AlignmentTextBox = new Anathema.HexDecTextBox();
+            this.AlignmentLabel = new System.Windows.Forms.Label();
             this.SettingsTabControl.SuspendLayout();
             this.GeneralTabPage.SuspendLayout();
             this.IntervalsGroupBox.SuspendLayout();
             this.ScanTabPage.SuspendLayout();
             this.MemoryTypeGroupBox.SuspendLayout();
             this.MemoryProtectionGroupBox.SuspendLayout();
+            this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
             // AcceptButton
@@ -97,8 +101,8 @@
             this.SettingsTabControl.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.SettingsTabControl.Controls.Add(this.GeneralTabPage);
             this.SettingsTabControl.Controls.Add(this.ScanTabPage);
+            this.SettingsTabControl.Controls.Add(this.GeneralTabPage);
             this.SettingsTabControl.Location = new System.Drawing.Point(12, 12);
             this.SettingsTabControl.Name = "SettingsTabControl";
             this.SettingsTabControl.SelectedIndex = 0;
@@ -219,6 +223,7 @@
             // 
             // ScanTabPage
             // 
+            this.ScanTabPage.Controls.Add(this.groupBox1);
             this.ScanTabPage.Controls.Add(this.MemoryTypeGroupBox);
             this.ScanTabPage.Controls.Add(this.MemoryProtectionGroupBox);
             this.ScanTabPage.Location = new System.Drawing.Point(4, 22);
@@ -427,6 +432,41 @@
             this.NoAccessCheckBox.ThreeState = true;
             this.NoAccessCheckBox.UseVisualStyleBackColor = true;
             // 
+            // groupBox1
+            // 
+            this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox1.Controls.Add(this.AlignmentLabel);
+            this.groupBox1.Controls.Add(this.AlignmentTextBox);
+            this.groupBox1.Location = new System.Drawing.Point(190, 112);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(225, 132);
+            this.groupBox1.TabIndex = 9;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "General";
+            // 
+            // AlignmentTextBox
+            // 
+            this.AlignmentTextBox.ForeColor = System.Drawing.Color.Red;
+            this.AlignmentTextBox.IsHex = false;
+            this.AlignmentTextBox.Location = new System.Drawing.Point(68, 13);
+            this.AlignmentTextBox.Name = "AlignmentTextBox";
+            this.AlignmentTextBox.Size = new System.Drawing.Size(56, 20);
+            this.AlignmentTextBox.TabIndex = 0;
+            this.AlignmentTextBox.WatermarkColor = System.Drawing.Color.LightGray;
+            this.AlignmentTextBox.WaterMarkFont = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.AlignmentTextBox.WaterMarkText = null;
+            // 
+            // AlignmentLabel
+            // 
+            this.AlignmentLabel.AutoSize = true;
+            this.AlignmentLabel.Location = new System.Drawing.Point(6, 16);
+            this.AlignmentLabel.Name = "AlignmentLabel";
+            this.AlignmentLabel.Size = new System.Drawing.Size(56, 13);
+            this.AlignmentLabel.TabIndex = 1;
+            this.AlignmentLabel.Text = "Alignment:";
+            // 
             // GUISettings
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -448,6 +488,8 @@
             this.MemoryTypeGroupBox.PerformLayout();
             this.MemoryProtectionGroupBox.ResumeLayout(false);
             this.MemoryProtectionGroupBox.PerformLayout();
+            this.groupBox1.ResumeLayout(false);
+            this.groupBox1.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -486,5 +528,8 @@
         private System.Windows.Forms.CheckBox NoneCheckBox;
         private System.Windows.Forms.Label InputCorrelatorTimeoutIntervalLabel;
         private System.Windows.Forms.TextBox InputCorrelatorTimeoutIntervalTextBox;
+        private System.Windows.Forms.GroupBox groupBox1;
+        private HexDecTextBox AlignmentTextBox;
+        private System.Windows.Forms.Label AlignmentLabel;
     }
 }
