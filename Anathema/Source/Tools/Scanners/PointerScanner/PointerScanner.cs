@@ -5,6 +5,7 @@ using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -301,7 +302,7 @@ namespace Anathema
 
             if (AcceptedPointers == null || AcceptedPointers.Count == 0)
                 return;
-            
+
             List<UInt64> ResolvedAddresses = new List<UInt64>();
             List<SnapshotRegion> Regions = new List<SnapshotRegion>();
 
@@ -310,33 +311,34 @@ namespace Anathema
             {
                 ResolvedAddresses.Add(ResolvePointer(FullPointer));
             }
-            
+
             // Build regions from resolved address
             foreach (UInt64 Pointer in ResolvedAddresses)
             {
-                Regions.Add(new SnapshotRegion<Null>(unchecked((IntPtr)Pointer), sizeof(UInt64)));
+                Regions.Add(new SnapshotRegion<Null>(unchecked((IntPtr)Pointer), Marshal.SizeOf(ScanConstraintManager.GetElementType())));
             }
 
             // Create a snapshot from regions
             Snapshot<Null> PointerSnapshot = new Snapshot<Null>(Regions.ToArray());
-            
+
             // Read the memory (collecting values)
             PointerSnapshot.ReadAllSnapshotMemory();
-            
+            PointerSnapshot.SetElementType(ScanConstraintManager.GetElementType());
+            PointerSnapshot.MarkAllValid();
+
             if (PointerSnapshot.GetRegionCount() <= 0)
                 return;
 
-            PointerSnapshot.SetElementType(typeof(UInt64));
-            PointerSnapshot.MarkAllValid();
-            
-            Parallel.ForEach(PointerSnapshot.Cast<Object>(), (RegionObject) =>
+            // Note there are likely only a few regions that span <= 8 bytes, we do not need to parallelize this
+            foreach (SnapshotRegion Region in PointerSnapshot)
             {
-                SnapshotRegion<Null> Region = (SnapshotRegion<Null>)RegionObject;
+                if (!Region.HasValues())
+                {
+                    Region.MarkAllInvalid();
+                    continue;
+                }
 
-                if (!Region.CanCompare())
-                    return;
-
-                foreach (SnapshotElement<Null> Element in Region)
+                foreach (SnapshotElement Element in Region)
                 {
                     // Enforce each value constraint on the element
                     foreach (ScanConstraint ScanConstraint in ScanConstraintManager)
@@ -379,11 +381,17 @@ namespace Anathema
 
                 } // End foreach Element
 
-            }); // End foreach Region
-            
+            } // End foreach Region
+
             PointerSnapshot.DiscardInvalidRegions();
 
             List<Tuple<UInt64, List<Int32>>> RetainedPointers = new List<Tuple<UInt64, List<Int32>>>();
+
+            if (PointerSnapshot.GetRegionCount() <= 0)
+            {
+                AcceptedPointers = RetainedPointers;
+                return;
+            }
 
             // Keep all remaining pointers
             foreach (SnapshotRegion Region in PointerSnapshot)

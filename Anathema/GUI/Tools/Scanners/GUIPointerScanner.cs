@@ -108,6 +108,8 @@ namespace Anathema
             ControlThreadingHelper.InvokeControlAction<Control>(ScanToolStrip, () =>
             {
                 StartScanButton.Enabled = false;
+                RebuildPointersButton.Enabled = false;
+                AddSelectedResultsButton.Enabled = false;
                 // StopScanButton.Enabled = true;
             });
         }
@@ -122,6 +124,8 @@ namespace Anathema
             ControlThreadingHelper.InvokeControlAction<Control>(ScanToolStrip, () =>
             {
                 StartScanButton.Enabled = true;
+                RebuildPointersButton.Enabled = true;
+                AddSelectedResultsButton.Enabled = true;
                 // StopScanButton.Enabled = false;
             });
         }

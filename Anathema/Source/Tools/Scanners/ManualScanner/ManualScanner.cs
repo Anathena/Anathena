@@ -54,7 +54,10 @@ namespace Anathema
                 SnapshotRegion Region = (SnapshotRegion)RegionObject;
 
                 if (!Region.CanCompare())
+                {
+                    Region.MarkAllInvalid();
                     return;
+                }
 
                 foreach (SnapshotElement Element in Region)
                 {
