@@ -42,7 +42,7 @@ namespace Anathema
                 "\t" + "Ana:RemoveAllCodeCaves()" + "\n\t\n" +
                 "end";
 
-            return CodeInjection + Script;
+            return Script + CodeInjection;
         }
 
         private void BindFunctions()

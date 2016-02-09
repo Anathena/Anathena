@@ -72,7 +72,7 @@ namespace Anathema
 
         public void InsertCodeInjectionTemplate()
         {
-            String NewScript = LuaEngine.AddCodeInjectionTemplate(ScriptItem.Script, "dink.exe", 0x3b297);
+            String NewScript = LuaEngine.AddCodeInjectionTemplate(ScriptItem.Script, "module.exe", 0x12345);
             ScriptEditorEventArgs ScriptEditorEventArgs = new ScriptEditorEventArgs();
             ScriptEditorEventArgs.NewScript = NewScript;
             EventSetScriptText(this, ScriptEditorEventArgs);

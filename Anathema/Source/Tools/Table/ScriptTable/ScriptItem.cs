@@ -35,6 +35,9 @@ namespace Anathema
 
         public override void SetActivationState(Boolean Activated)
         {
+            if (LuaEngine == null)
+                LuaEngine = new LuaEngine();
+
             if (Activated)
             {
                 // Try to run script. Will not activate on failure.

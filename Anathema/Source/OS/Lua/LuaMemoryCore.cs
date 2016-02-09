@@ -230,10 +230,11 @@ namespace Anathema
                 return Result;
 
             // Determine number of no-ops to fill dangling bytes
-            string NoOps = "db " + String.Join(" ", Enumerable.Repeat("0x90", OriginalBytes.Length - JumpSize));
+            string NoOps = "db " + String.Join(" ", Enumerable.Repeat("0x90,", OriginalBytes.Length - JumpSize)).TrimEnd(',');
 
             // Write in the jump to the code cave
-            MemoryEditor.Assembly.Inject(ProcessSelector.IsProcess32Bit(MemoryEditor.Native.Handle), "jmp " + "0x" + Result.ToString("X") + "\n" + NoOps, unchecked((IntPtr)Entry));
+            String CodeCaveJump = "jmp " + "0x" + Conversions.ToAddress(Result) + "\n" + NoOps;
+            MemoryEditor.Assembly.Inject(ProcessSelector.IsProcess32Bit(MemoryEditor.Native.Handle), CodeCaveJump, unchecked((IntPtr)Entry));
 
             // Save this code cave for later deallocation
             CodeCave CodeCave = new CodeCave(RemoteAllocation, OriginalBytes, Entry);
