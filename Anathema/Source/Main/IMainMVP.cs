@@ -30,6 +30,10 @@ namespace Anathema
         event MainEventHandler EventOpenLabelThresholder;
 
         // Functions invoked by presenter (downstream)
+
+        void RequestCollectValues();
+        void RequestNewScan();
+        void RequestUndoScan();
     }
 
     class MainPresenter : Presenter<IMainView, IMainModel>
@@ -43,6 +47,21 @@ namespace Anathema
         }
 
         #region Method definitions called by the view (downstream)
+
+        public void RequestCollectValues()
+        {
+            Model.RequestCollectValues();
+        }
+
+        public void RequestNewScan()
+        {
+            Model.RequestNewScan();
+        }
+
+        public void RequestUndoScan()
+        {
+            Model.RequestUndoScan();
+        }
 
         #endregion
 

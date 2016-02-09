@@ -65,7 +65,6 @@
             this.UndoScanButton = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.ProcessTitleLabel = new System.Windows.Forms.ToolStripLabel();
-            this.ValueCollectorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.GUIMenuStrip.SuspendLayout();
             this.GUIToolStrip.SuspendLayout();
             this.SuspendLayout();
@@ -124,7 +123,7 @@
             // SettingsToolStripMenuItem
             // 
             this.SettingsToolStripMenuItem.Name = "SettingsToolStripMenuItem";
-            this.SettingsToolStripMenuItem.Size = new System.Drawing.Size(116, 22);
+            this.SettingsToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.SettingsToolStripMenuItem.Text = "Settings";
             this.SettingsToolStripMenuItem.Click += new System.EventHandler(this.SettingsToolStripMenuItem_Click);
             // 
@@ -153,7 +152,6 @@
             // 
             this.ScansToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.ChunkScannerToolStripMenuItem,
-            this.ValueCollectorToolStripMenuItem,
             this.TreeScannerToolStripMenuItem,
             this.ManualScannerToolStripMenuItem,
             this.InputCorrelatorToolStripMenuItem,
@@ -367,13 +365,6 @@
             this.ProcessTitleLabel.Size = new System.Drawing.Size(113, 22);
             this.ProcessTitleLabel.Text = "No Process Selected";
             // 
-            // ValueCollectorToolStripMenuItem
-            // 
-            this.ValueCollectorToolStripMenuItem.Name = "ValueCollectorToolStripMenuItem";
-            this.ValueCollectorToolStripMenuItem.Size = new System.Drawing.Size(177, 22);
-            this.ValueCollectorToolStripMenuItem.Text = "Value Collector";
-            this.ValueCollectorToolStripMenuItem.Click += new System.EventHandler(this.ValueCollectorToolStripMenuItem_Click);
-            // 
             // GUIMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -433,7 +424,6 @@
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator4;
         private System.Windows.Forms.ToolStripMenuItem PointerScannerToolStripMenuItem;
         private System.Windows.Forms.ToolStripButton CollectValuesButton;
-        private System.Windows.Forms.ToolStripMenuItem ValueCollectorToolStripMenuItem;
     }
 }
 

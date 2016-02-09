@@ -319,7 +319,7 @@ namespace Anathema
             }
 
             // Create a snapshot from regions
-            Snapshot<Null> PointerSnapshot = new Snapshot<Null>(Regions.ToArray());
+            Snapshot<Null> PointerSnapshot = new Snapshot<Null>(Regions);
 
             // Read the memory (collecting values)
             PointerSnapshot.ReadAllSnapshotMemory();
@@ -432,7 +432,7 @@ namespace Anathema
             Modules.ForEach(x => AcceptedBaseRegions.Add(new SnapshotRegion<Null>(new RemoteRegion(MemoryEditor, x.BaseAddress, x.Size))));
 
             // Convert regions into a snapshot
-            AcceptedBases = new Snapshot<Null>(AcceptedBaseRegions.ToArray());
+            AcceptedBases = new Snapshot<Null>(AcceptedBaseRegions);
         }
 
         private void BuildPointerPool()
@@ -501,7 +501,7 @@ namespace Anathema
             for (Int32 Level = 1; Level <= MaxPointerLevel; Level++)
             {
                 // Create snapshot from previous level regions to leverage the merging and sorting capabilities of a snapshot
-                Snapshot PreviousLevel = new Snapshot<Null>(PreviousLevelRegions.ToArray());
+                Snapshot PreviousLevel = new Snapshot<Null>(PreviousLevelRegions);
                 ConcurrentDictionary<UInt64, UInt64> LevelPointers = new ConcurrentDictionary<UInt64, UInt64>();
 
                 Parallel.ForEach(PointerPool, (Pointer) =>

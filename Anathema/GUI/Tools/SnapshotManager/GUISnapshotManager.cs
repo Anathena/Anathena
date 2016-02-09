@@ -39,22 +39,22 @@ namespace Anathema
             });
         }
 
-        public void CreateNewSnapshot()
+        private void CreateNewSnapshot()
         {
             SnapshotManagerPresenter.CreateNewSnapshot();
         }
 
-        public void UndoSnapshot()
+        private void UndoSnapshot()
         {
             SnapshotManagerPresenter.UndoSnapshot();
         }
 
-        public void RedoSnapshot()
+        private void RedoSnapshot()
         {
             SnapshotManagerPresenter.RedoSnapshot();
         }
 
-        public void ClearSnapshots()
+        private void ClearSnapshots()
         {
             SnapshotManagerPresenter.ClearSnapshots();
         }

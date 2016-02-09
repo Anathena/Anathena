@@ -20,7 +20,7 @@ namespace Anathema
         {
             InitializeProcessObserver();
         }
-        
+
         public static Main GetInstance()
         {
             if (_Main == null)
@@ -46,10 +46,26 @@ namespace Anathema
         {
             EventOpenScriptEditor(this, new MainEventArgs());
         }
-        
+
         public void OpenLabelThresholder()
         {
             EventOpenLabelThresholder(this, new MainEventArgs());
+        }
+
+
+        public void RequestCollectValues()
+        {
+            SnapshotManager.GetInstance().CollectValues();
+        }
+
+        public void RequestNewScan()
+        {
+            SnapshotManager.GetInstance().CreateNewSnapshot();
+        }
+
+        public void RequestUndoScan()
+        {
+            SnapshotManager.GetInstance().UndoSnapshot();
         }
 
     } // End class

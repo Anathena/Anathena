@@ -90,7 +90,7 @@ namespace Anathema
                 ChunkRoots[Index].GetChangedRegions(FilteredRegions, MinChanges);
 
             // Create snapshot with results
-            Snapshot = new Snapshot<Null>(FilteredRegions.ToArray());
+            Snapshot = new Snapshot<Null>(FilteredRegions);
             Snapshot.SetAlignment(Settings.GetInstance().GetAlignmentSettings());
 
             // Grow regions by the size of the largest standard variable and mask this with the original memory list.

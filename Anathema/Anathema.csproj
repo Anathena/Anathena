@@ -99,12 +99,6 @@
     <Compile Include="GUI\CustomControls\TreeView\HighlightPreservingTreeView.Designer.cs">
       <DependentUpon>HighlightPreservingTreeView.cs</DependentUpon>
     </Compile>
-    <Compile Include="GUI\Tools\Scanners\GUIValueCollector.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="GUI\Tools\Scanners\GUIValueCollector.Designer.cs">
-      <DependentUpon>GUIValueCollector.cs</DependentUpon>
-    </Compile>
     <Compile Include="GUI\Tools\Scanners\GUIConstraintEditor.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -193,7 +187,6 @@
     <Compile Include="Source\Tools\Debugger\Memory View\IMemoryViewMVP.cs" />
     <Compile Include="Source\Tools\Debugger\Memory View\MemoryView.cs" />
     <Compile Include="Source\Tools\Scanners\ValueCollector\ValueCollector.cs" />
-    <Compile Include="Source\Tools\Scanners\ValueCollector\IValueCollectorMVP.cs" />
     <Compile Include="Source\Tools\Scanners\FiniteStateScanner\FiniteStateBuilder.cs" />
     <Compile Include="Source\Tools\Scanners\FiniteStateScanner\IFiniteStateScannerMVP.cs" />
     <Compile Include="Source\Tools\Scanners\InputCorrelator\InputNode.cs" />
@@ -680,9 +673,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\CustomControls\ListViews\FlickerFreeListView.resx">
       <DependentUpon>FlickerFreeListView.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="GUI\Tools\Scanners\GUIValueCollector.resx">
-      <DependentUpon>GUIValueCollector.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\Tools\Scanners\GUIConstraintEditor.resx">
       <DependentUpon>GUIConstraintEditor.cs</DependentUpon>

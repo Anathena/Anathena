@@ -94,14 +94,22 @@ namespace Anathema
                 foreach (RemoteVirtualPage Page in MemoryEditor.Memory.AllVirtualPages)
                     VirtualPages.Add(Page);
             }
-
-
+            
             // Convert each virtual page to a remote region (a more condensed representation of the information)
             List<SnapshotRegion> MemoryRegions = new List<SnapshotRegion>();
             for (int PageIndex = 0; PageIndex < VirtualPages.Count; PageIndex++)
                 MemoryRegions.Add(new SnapshotRegion<Null>(VirtualPages[PageIndex].Information.BaseAddress, (Int32)VirtualPages[PageIndex].Information.RegionSize));
 
-            return new Snapshot<Null>(MemoryRegions.ToArray());
+            return new Snapshot<Null>(MemoryRegions);
+        }
+
+        /// <summary>
+        /// Runs a value collector scan, which will gather all values to be used in subsequent scans
+        /// </summary>
+        public void CollectValues()
+        {
+            ValueCollector ValueCollector = new ValueCollector();
+            ValueCollector.Begin();
         }
 
         /// <summary>

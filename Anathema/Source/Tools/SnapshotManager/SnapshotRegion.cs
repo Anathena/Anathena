@@ -293,10 +293,10 @@ namespace Anathema
         /// Retrieves a subset of snapshot regions where valid bits are true. Discards valid bits afterwards.
         /// </summary>
         /// <returns></returns>
-        public List<SnapshotRegion<LabelType>> GetValidRegions()
+        public IEnumerable<SnapshotRegion<LabelType>> GetValidRegions()
         {
             List<SnapshotRegion<LabelType>> ValidRegions = new List<SnapshotRegion<LabelType>>();
-            for (Int32 StartIndex = 0; StartIndex < (Valid == null ? 0 : Valid.Length); StartIndex++)
+            for (Int32 StartIndex = 0; StartIndex < (Valid == null ? 0 : Valid.Length); StartIndex += Alignment)
             {
                 if (!Valid[StartIndex])
                     continue;
@@ -309,7 +309,7 @@ namespace Anathema
                     ValidRegionSize += Alignment;
                 }
                 while (StartIndex + ValidRegionSize < Valid.Length && Valid[StartIndex + ValidRegionSize]);
-                
+
                 // Create new subregion from this valid region
                 SnapshotRegion<LabelType> SubRegion = new SnapshotRegion<LabelType>(this.BaseAddress + StartIndex, ValidRegionSize);
 

@@ -9,25 +9,19 @@ using System.Collections.Concurrent;
 
 namespace Anathema
 {
-    class ValueCollector : IValueCollectorModel
+    class ValueCollector : IScannerModel
     {
         private Snapshot<Null> Snapshot;
-        private Type ElementType;
 
         public ValueCollector()
         {
 
         }
 
-        public override void SetElementType(Type ElementType)
-        {
-            this.ElementType = ElementType;
-        }
-
         public override void Begin()
         {
             this.Snapshot = new Snapshot<Null>(SnapshotManager.GetInstance().GetActiveSnapshot(true));
-            this.Snapshot.SetElementType(ElementType == null ? typeof(Int32) : ElementType);
+            this.Snapshot.SetElementType(typeof(Int32));
             this.Snapshot.SetAlignment(Settings.GetInstance().GetAlignmentSettings());
 
             base.Begin();
@@ -38,8 +32,6 @@ namespace Anathema
             base.Update();
 
             Snapshot.ReadAllSnapshotMemory();
-
-            OnEventUpdateScanCount(new ScannerEventArgs(this.ScanCount));
 
             CancelFlag = true;
         }

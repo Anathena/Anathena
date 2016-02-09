@@ -20,13 +20,14 @@ namespace Anathema
 
         private DeserializeDockContent DockContentDeserializer;
 
+        private MainPresenter MainPresenter;
+
         // VIEW MENU ITEMS
         private GUIProcessSelector GUIProcessSelector;
         private GUICodeView GUICodeView;
         private GUIMemoryView GUIMemoryView;
         private GUIScriptEditor GUIScriptEditor;
-
-        private GUIValueCollector GUIValueCollector;
+        
         private GUIFiniteStateScanner GUIFiniteStateScanner;
         private GUIManualScanner GUIManualScanner;
         private GUITreeScanner GUITreeScanner;
@@ -47,7 +48,7 @@ namespace Anathema
         {
             InitializeComponent();
 
-            MainPresenter MainPresenter = new MainPresenter(this, Main.GetInstance());
+            MainPresenter = new MainPresenter(this, Main.GetInstance());
 
             // Update theme so that everything looks cool
             this.ContentPanel.Theme = new VS2013BlueTheme();
@@ -166,13 +167,6 @@ namespace Anathema
             GUIChunkScanner.Show(ContentPanel);
         }
 
-        private void CreateValueCollector()
-        {
-            if (GUIValueCollector == null || GUIValueCollector.IsDisposed)
-                GUIValueCollector = new GUIValueCollector();
-            GUIValueCollector.Show(ContentPanel);
-        }
-
         private void CreateInputCorrelator()
         {
             if (GUIInputCorrelator == null || GUIInputCorrelator.IsDisposed)
@@ -277,11 +271,6 @@ namespace Anathema
             CreateChunkScanner();
         }
 
-        private void ValueCollectorToolStripMenuItem_Click(Object Sender, EventArgs E)
-        {
-            CreateValueCollector();
-        }
-
         private void InputCorrelatorToolStripMenuItem_Click(Object Sender, EventArgs E)
         {
             CreateInputCorrelator();
@@ -339,17 +328,17 @@ namespace Anathema
 
         private void CollectValuesButton_Click(Object Sender, EventArgs E)
         {
-
+            MainPresenter.RequestCollectValues();
         }
 
         private void NewScanButton_Click(Object Sender, EventArgs E)
         {
-            GUISnapshotManager.CreateNewSnapshot();
+            MainPresenter.RequestNewScan();
         }
 
         private void UndoScanButton_Click(Object Sender, EventArgs E)
         {
-            GUISnapshotManager.UndoSnapshot();
+            MainPresenter.RequestUndoScan();
         }
 
         private void GUIMenuStrip_MenuActivate(Object Sender, EventArgs E)
@@ -369,7 +358,6 @@ namespace Anathema
             ManualScannerToolStripMenuItem.Checked = (GUIManualScanner == null || GUIManualScanner.IsDisposed) ? false : true;
             TreeScannerToolStripMenuItem.Checked = (GUITreeScanner == null || GUITreeScanner.IsDisposed) ? false : true;
             ChunkScannerToolStripMenuItem.Checked = (GUIChunkScanner == null || GUIChunkScanner.IsDisposed) ? false : true;
-            ValueCollectorToolStripMenuItem.Checked = (GUIValueCollector == null || GUIValueCollector.IsDisposed) ? false : true;
             ChangeCounterToolStripMenuItem.Checked = (GUIChangeCounter == null || GUIChangeCounter.IsDisposed) ? false : true;
             LabelThresholderToolStripMenuItem.Checked = (GUILabelThresholder == null || GUILabelThresholder.IsDisposed) ? false : true;
             InputCorrelatorToolStripMenuItem.Checked = (GUIInputCorrelator == null || GUIInputCorrelator.IsDisposed) ? false : true;
