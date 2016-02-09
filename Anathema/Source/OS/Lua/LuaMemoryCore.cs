@@ -1,6 +1,7 @@
 ﻿using Binarysharp.MemoryManagement;
 using Binarysharp.MemoryManagement.Memory;
 using Binarysharp.MemoryManagement.Modules;
+using SharpDisasm;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -100,6 +101,40 @@ namespace Anathema
             return Assembly;
         }
 
+        private Byte[] GetInstructions(UInt64 Address)
+        {
+            const Int32 Largestx86InstructionSize = 15;
+
+            // Read original bytes at code cave jump
+            Boolean ReadSuccess;
+            // TODO Math.Min(Largestx86InstructionSize, PageEndAddress - Address);
+            Byte[] OriginalBytes = MemoryEditor.Read<Byte>((IntPtr)Address, Largestx86InstructionSize, out ReadSuccess);
+
+            if (!ReadSuccess || OriginalBytes == null || OriginalBytes.Length <= 0)
+                return null;
+
+            // TODO: Offload IsProcecss64Bit to OSInterface (can write a Process extension method too)
+            // Grab instructions at code entry point
+            List<Instruction> Instructions = MemoryEditor.Assembly.Disassembler.Disassemble(OriginalBytes, ProcessSelector.IsProcess64Bit(MemoryEditor.Native.Handle), Address);
+
+            // Determine size of instructions we need to overwrite
+            Int32 ReplacedInstructionSize = 0;
+            foreach (Instruction Instruction in Instructions)
+            {
+                ReplacedInstructionSize += Instruction.Length;
+                if (ReplacedInstructionSize >= JumpSize)
+                    break;
+            }
+
+            if (ReplacedInstructionSize < JumpSize)
+                return null;
+
+            // Truncate to only the bytes we will need to save
+            OriginalBytes = OriginalBytes.LargestSubArray(0, ReplacedInstructionSize);
+
+            return OriginalBytes;
+        }
+
         public UInt64 GetModuleAddress(String ModuleName)
         {
             UInt64 Result = 0;
@@ -119,7 +154,7 @@ namespace Anathema
         {
             Assembly = ReplaceKeywords(Assembly);
 
-            Byte[] Bytes = MemoryEditor.Assembly.Assembler.Assemble(Assembly);
+            Byte[] Bytes = MemoryEditor.Assembly.Assembler.Assemble(true, Assembly, IntPtr.Zero + 0x400000);
             Int32 Result = (Bytes == null ? 0 : Bytes.Length);
 
             Console.WriteLine("[LUA] " + MethodBase.GetCurrentMethod().Name + " " + Result + "B");
@@ -177,15 +212,20 @@ namespace Anathema
             RemoteAllocations.Add(RemoteAllocation);
             UInt64 Result = unchecked((UInt64)(Int64)RemoteAllocation.BaseAddress);
 
-            // Write injected code
-            MemoryEditor.Assembly.Inject(Assembly, RemoteAllocation.BaseAddress);
+            // Write injected code to new page
+            MemoryEditor.Assembly.Inject(!ProcessSelector.IsProcess64Bit(MemoryEditor.Native.Handle), Assembly, RemoteAllocation.BaseAddress);
 
-            // Read original bytes at code cave jump
-            Boolean ReadSuccess;
-            Byte[] OriginalBytes = MemoryEditor.Read<Byte>((IntPtr)Entry, JumpSize, out ReadSuccess);
+            // Gather the original bytes
+            Byte[] OriginalBytes = GetInstructions(Entry);
+
+            if (OriginalBytes == null || OriginalBytes.Length < JumpSize)
+                return Result;
+
+            // Determine number of no-ops to fill dangling bytes
+            string NoOps = "db " + String.Join(" ", Enumerable.Repeat("0x90", OriginalBytes.Length - JumpSize));
 
             // Write in the jump to the code cave
-            MemoryEditor.Assembly.Inject("jmp " + "0x" + Result.ToString("X"), unchecked((IntPtr)Entry));
+            MemoryEditor.Assembly.Inject(!ProcessSelector.IsProcess64Bit(MemoryEditor.Native.Handle), "jmp " + "0x" + Result.ToString("X") + "\n" + NoOps, unchecked((IntPtr)Entry));
 
             // Save this code cave for later deallocation
             CodeCave CodeCave = new CodeCave(RemoteAllocation, OriginalBytes, Entry);
@@ -197,7 +237,21 @@ namespace Anathema
 
         public UInt64 GetCaveExitAddress(UInt64 Address)
         {
-            UInt64 Result = Address + JumpSize;
+            Byte[] OriginalBytes = GetInstructions(Address);
+            UInt64 OriginalByteSize;
+
+            if (OriginalBytes != null || OriginalBytes.Length < JumpSize)
+            {
+                // Determine the size of the minimum number of instructions we will be overwriting
+                OriginalByteSize = (UInt64)OriginalBytes.Length;
+            }
+            else
+            {
+                // Fall back if something goes wrong
+                OriginalByteSize = JumpSize;
+            }
+
+            UInt64 Result = Address + OriginalByteSize;
 
             Console.WriteLine("[LUA] " + MethodBase.GetCurrentMethod().Name + " " + Result.ToString("X"));
             return Result;

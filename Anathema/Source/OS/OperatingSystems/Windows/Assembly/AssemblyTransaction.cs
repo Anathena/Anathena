@@ -97,9 +97,9 @@ namespace Binarysharp.MemoryManagement.Assembly
         /// Assemble the assembly code of this transaction.
         /// </summary>
         /// <returns>An array of bytes containing the assembly code.</returns>
-        public byte[] Assemble()
+        public Byte[] Assemble(Boolean IsProcess32Bit)
         {
-            return MemorySharp.Assembly.Assembler.Assemble(Mnemonics.ToString());
+            return MemorySharp.Assembly.Assembler.Assemble(IsProcess32Bit, Mnemonics.ToString());
         }
 
         #endregion
@@ -125,19 +125,19 @@ namespace Binarysharp.MemoryManagement.Assembly
                 // If the assembly code must be executed
                 if (IsAutoExecuted)
                 {
-                    ExitCode = MemorySharp.Assembly.InjectAndExecute<IntPtr>(Mnemonics.ToString(), Address);
+                    ExitCode = MemorySharp.Assembly.InjectAndExecute<IntPtr>(true, Mnemonics.ToString(), Address);
                 }
                 // Else the assembly code is just injected
                 else
                 {
-                    MemorySharp.Assembly.Inject(Mnemonics.ToString(), Address);
+                    MemorySharp.Assembly.Inject(true, Mnemonics.ToString(), Address);
                 }
             }
 
             // If no pointer was specified and the code assembly code must be executed
             if (Address == IntPtr.Zero && IsAutoExecuted)
             {
-                ExitCode = MemorySharp.Assembly.InjectAndExecute<IntPtr>(Mnemonics.ToString());
+                ExitCode = MemorySharp.Assembly.InjectAndExecute<IntPtr>(true, Mnemonics.ToString());
             }
         }
 

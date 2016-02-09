@@ -59,6 +59,8 @@
             this.ScriptTableListView.View = System.Windows.Forms.View.Details;
             this.ScriptTableListView.VirtualMode = true;
             this.ScriptTableListView.RetrieveVirtualItem += new System.Windows.Forms.RetrieveVirtualItemEventHandler(this.ScriptTableListView_RetrieveVirtualItem);
+            this.ScriptTableListView.MouseClick += new System.Windows.Forms.MouseEventHandler(this.ScriptTableListView_MouseClick);
+            this.ScriptTableListView.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.ScriptTableListView_MouseDoubleClick);
             // 
             // ScriptActiveHeader
             // 

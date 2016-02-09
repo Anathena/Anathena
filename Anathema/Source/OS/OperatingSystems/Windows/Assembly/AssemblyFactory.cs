@@ -267,9 +267,9 @@ namespace Binarysharp.MemoryManagement.Assembly
         /// </summary>
         /// <param name="Asm">The mnemonics to inject.</param>
         /// <param name="Address">The address where the assembly code is injected.</param>
-        public void Inject(String Asm, IntPtr Address)
+        public void Inject(Boolean IsProcess32Bit, String Asm, IntPtr Address)
         {
-            MemorySharp.Write(Address, Assembler.Assemble(Asm, Address));
+            MemorySharp.Write(Address, Assembler.Assemble(IsProcess32Bit, Asm, Address));
         }
 
         /// <summary>
@@ -277,9 +277,9 @@ namespace Binarysharp.MemoryManagement.Assembly
         /// </summary>
         /// <param name="Asm">An array containing the mnemonics to inject.</param>
         /// <param name="Address">The address where the assembly code is injected.</param>
-        public void Inject(String[] Asm, IntPtr Address)
+        public void Inject(Boolean IsProcess32Bit, String[] Asm, IntPtr Address)
         {
-            Inject(String.Join("\n", Asm), Address);
+            Inject(IsProcess32Bit, String.Join("\n", Asm), Address);
         }
 
         /// <summary>
@@ -287,16 +287,16 @@ namespace Binarysharp.MemoryManagement.Assembly
         /// </summary>
         /// <param name="Asm">The mnemonics to inject.</param>
         /// <returns>The address where the assembly code is injected.</returns>
-        public RemoteAllocation Inject(String Asm)
+        public RemoteAllocation Inject(Boolean IsProcess32Bit, String Asm)
         {
             // Assemble the assembly code
-            Byte[] Code = Assembler.Assemble(Asm);
+            Byte[] Code = Assembler.Assemble(IsProcess32Bit, Asm);
 
             // Allocate a chunk of memory to store the assembly code
             RemoteAllocation Memory = MemorySharp.Memory.Allocate(Code.Length);
 
             // Inject the code
-            Inject(Asm, Memory.BaseAddress);
+            Inject(IsProcess32Bit, Asm, Memory.BaseAddress);
 
             // Return the memory allocated
             return Memory;
@@ -307,9 +307,9 @@ namespace Binarysharp.MemoryManagement.Assembly
         /// </summary>
         /// <param name="Asm">An array containing the mnemonics to inject.</param>
         /// <returns>The address where the assembly code is injected.</returns>
-        public RemoteAllocation Inject(String[] Asm)
+        public RemoteAllocation Inject(Boolean IsProcess32Bit, String[] Asm)
         {
-            return Inject(String.Join("\n", Asm));
+            return Inject(IsProcess32Bit, String.Join("\n", Asm));
         }
 
         #endregion
@@ -320,10 +320,10 @@ namespace Binarysharp.MemoryManagement.Assembly
         /// <param name="Asm">The mnemonics to inject.</param>
         /// <param name="Address">The address where the assembly code is injected.</param>
         /// <returns>The return value is the exit code of the thread created to execute the assembly code.</returns>
-        public T InjectAndExecute<T>(String Asm, IntPtr Address)
+        public T InjectAndExecute<T>(Boolean IsProcess32Bit, String Asm, IntPtr Address)
         {
             // Inject the assembly code
-            Inject(Asm, Address);
+            Inject(IsProcess32Bit, Asm, Address);
 
             // Execute the code
             return Execute<T>(Address);
@@ -335,9 +335,9 @@ namespace Binarysharp.MemoryManagement.Assembly
         /// <param name="Asm">The mnemonics to inject.</param>
         /// <param name="Address">The address where the assembly code is injected.</param>
         /// <returns>The return value is the exit code of the thread created to execute the assembly code.</returns>
-        public IntPtr InjectAndExecute(String Asm, IntPtr Address)
+        public IntPtr InjectAndExecute(Boolean IsProcess32Bit, String Asm, IntPtr Address)
         {
-            return InjectAndExecute<IntPtr>(Asm, Address);
+            return InjectAndExecute<IntPtr>(IsProcess32Bit, Asm, Address);
         }
 
         /// <summary>
@@ -346,9 +346,9 @@ namespace Binarysharp.MemoryManagement.Assembly
         /// <param name="Asm">An array containing the mnemonics to inject.</param>
         /// <param name="Address">The address where the assembly code is injected.</param>
         /// <returns>The return value is the exit code of the thread created to execute the assembly code.</returns>
-        public T InjectAndExecute<T>(String[] Asm, IntPtr Address)
+        public T InjectAndExecute<T>(Boolean IsProcess32Bit, String[] Asm, IntPtr Address)
         {
-            return InjectAndExecute<T>(String.Join("\n", Asm), Address);
+            return InjectAndExecute<T>(IsProcess32Bit, String.Join("\n", Asm), Address);
         }
 
         /// <summary>
@@ -357,9 +357,9 @@ namespace Binarysharp.MemoryManagement.Assembly
         /// <param name="Asm">An array containing the mnemonics to inject.</param>
         /// <param name="Address">The address where the assembly code is injected.</param>
         /// <returns>The return value is the exit code of the thread created to execute the assembly code.</returns>
-        public IntPtr InjectAndExecute(String[] Asm, IntPtr Address)
+        public IntPtr InjectAndExecute(Boolean IsProcess32Bit, String[] Asm, IntPtr Address)
         {
-            return InjectAndExecute<IntPtr>(Asm, Address);
+            return InjectAndExecute<IntPtr>(IsProcess32Bit, Asm, Address);
         }
 
         /// <summary>
@@ -367,10 +367,10 @@ namespace Binarysharp.MemoryManagement.Assembly
         /// </summary>
         /// <param name="Asm">The mnemonics to inject.</param>
         /// <returns>The return value is the exit code of the thread created to execute the assembly code.</returns>
-        public T InjectAndExecute<T>(String Asm)
+        public T InjectAndExecute<T>(Boolean IsProcess32Bit, String Asm)
         {
             // Inject the assembly code
-            using (RemoteAllocation Memory = Inject(Asm))
+            using (RemoteAllocation Memory = Inject(IsProcess32Bit, Asm))
             {
                 // Execute the code
                 return Execute<T>(Memory.BaseAddress);
@@ -382,9 +382,9 @@ namespace Binarysharp.MemoryManagement.Assembly
         /// </summary>
         /// <param name="Asm">The mnemonics to inject.</param>
         /// <returns>The return value is the exit code of the thread created to execute the assembly code.</returns>
-        public IntPtr InjectAndExecute(String Asm)
+        public IntPtr InjectAndExecute(Boolean IsProcess32Bit, String Asm)
         {
-            return InjectAndExecute<IntPtr>(Asm);
+            return InjectAndExecute<IntPtr>(IsProcess32Bit, Asm);
         }
 
         /// <summary>
@@ -392,9 +392,9 @@ namespace Binarysharp.MemoryManagement.Assembly
         /// </summary>
         /// <param name="Asm">An array containing the mnemonics to inject.</param>
         /// <returns>The return value is the exit code of the thread created to execute the assembly code.</returns>
-        public T InjectAndExecute<T>(String[] Asm)
+        public T InjectAndExecute<T>(Boolean IsProcess32Bit, String[] Asm)
         {
-            return InjectAndExecute<T>(String.Join("\n", Asm));
+            return InjectAndExecute<T>(IsProcess32Bit, String.Join("\n", Asm));
         }
 
         /// <summary>
@@ -402,9 +402,9 @@ namespace Binarysharp.MemoryManagement.Assembly
         /// </summary>
         /// <param name="Asm">An array containing the mnemonics to inject.</param>
         /// <returns>The return value is the exit code of the thread created to execute the assembly code.</returns>
-        public IntPtr InjectAndExecute(String[] Asm)
+        public IntPtr InjectAndExecute(Boolean IsProcess32Bit, String[] Asm)
         {
-            return InjectAndExecute<IntPtr>(Asm);
+            return InjectAndExecute<IntPtr>(IsProcess32Bit, Asm);
         }
 
         #endregion
@@ -415,9 +415,9 @@ namespace Binarysharp.MemoryManagement.Assembly
         /// <param name="Asm">The mnemonics to inject.</param>
         /// <param name="Address">The address where the assembly code is injected.</param>
         /// <returns>The return value is an asynchronous operation that return the exit code of the thread created to execute the assembly code.</returns>
-        public Task<T> InjectAndExecuteAsync<T>(String Asm, IntPtr Address)
+        public Task<T> InjectAndExecuteAsync<T>(Boolean IsProcess32Bit, String Asm, IntPtr Address)
         {
-            return Task.Run(() => InjectAndExecute<T>(Asm, Address));
+            return Task.Run(() => InjectAndExecute<T>(IsProcess32Bit, Asm, Address));
         }
 
         /// <summary>
@@ -426,9 +426,9 @@ namespace Binarysharp.MemoryManagement.Assembly
         /// <param name="Asm">The mnemonics to inject.</param>
         /// <param name="Address">The address where the assembly code is injected.</param>
         /// <returns>The return value is an asynchronous operation that return the exit code of the thread created to execute the assembly code.</returns>
-        public Task<IntPtr> InjectAndExecuteAsync(String Asm, IntPtr Address)
+        public Task<IntPtr> InjectAndExecuteAsync(Boolean IsProcess32Bit, String Asm, IntPtr Address)
         {
-            return InjectAndExecuteAsync<IntPtr>(Asm, Address);
+            return InjectAndExecuteAsync<IntPtr>(IsProcess32Bit, Asm, Address);
         }
 
         /// <summary>
@@ -437,9 +437,9 @@ namespace Binarysharp.MemoryManagement.Assembly
         /// <param name="Asm">An array containing the mnemonics to inject.</param>
         /// <param name="Address">The address where the assembly code is injected.</param>
         /// <returns>The return value is an asynchronous operation that return the exit code of the thread created to execute the assembly code.</returns>
-        public Task<T> InjectAndExecuteAsync<T>(String[] Asm, IntPtr Address)
+        public Task<T> InjectAndExecuteAsync<T>(Boolean IsProcess32Bit, String[] Asm, IntPtr Address)
         {
-            return Task.Run(() => InjectAndExecute<T>(Asm, Address));
+            return Task.Run(() => InjectAndExecute<T>(IsProcess32Bit, Asm, Address));
         }
 
         /// <summary>
@@ -448,9 +448,9 @@ namespace Binarysharp.MemoryManagement.Assembly
         /// <param name="Asm">An array containing the mnemonics to inject.</param>
         /// <param name="Address">The address where the assembly code is injected.</param>
         /// <returns>The return value is an asynchronous operation that return the exit code of the thread created to execute the assembly code.</returns>
-        public Task<IntPtr> InjectAndExecuteAsync(String[] Asm, IntPtr Address)
+        public Task<IntPtr> InjectAndExecuteAsync(Boolean IsProcess32Bit, String[] Asm, IntPtr Address)
         {
-            return InjectAndExecuteAsync<IntPtr>(Asm, Address);
+            return InjectAndExecuteAsync<IntPtr>(IsProcess32Bit, Asm, Address);
         }
 
         /// <summary>
@@ -458,9 +458,9 @@ namespace Binarysharp.MemoryManagement.Assembly
         /// </summary>
         /// <param name="Asm">The mnemonics to inject.</param>
         /// <returns>The return value is an asynchronous operation that return the exit code of the thread created to execute the assembly code.</returns>
-        public Task<T> InjectAndExecuteAsync<T>(String Asm)
+        public Task<T> InjectAndExecuteAsync<T>(Boolean IsProcess32Bit, String Asm)
         {
-            return Task.Run(() => InjectAndExecute<T>(Asm));
+            return Task.Run(() => InjectAndExecute<T>(IsProcess32Bit, Asm));
         }
 
         /// <summary>
@@ -468,9 +468,9 @@ namespace Binarysharp.MemoryManagement.Assembly
         /// </summary>
         /// <param name="Asm">The mnemonics to inject.</param>
         /// <returns>The return value is an asynchronous operation that return the exit code of the thread created to execute the assembly code.</returns>
-        public Task<IntPtr> InjectAndExecuteAsync(String Asm)
+        public Task<IntPtr> InjectAndExecuteAsync(Boolean IsProcess32Bit, String Asm)
         {
-            return InjectAndExecuteAsync<IntPtr>(Asm);
+            return InjectAndExecuteAsync<IntPtr>(IsProcess32Bit, Asm);
         }
 
         /// <summary>
@@ -478,9 +478,9 @@ namespace Binarysharp.MemoryManagement.Assembly
         /// </summary>
         /// <param name="Asm">An array containing the mnemonics to inject.</param>
         /// <returns>The return value is an asynchronous operation that return the exit code of the thread created to execute the assembly code.</returns>
-        public Task<T> InjectAndExecuteAsync<T>(String[] Asm)
+        public Task<T> InjectAndExecuteAsync<T>(Boolean IsProcess32Bit, String[] Asm)
         {
-            return Task.Run(() => InjectAndExecute<T>(Asm));
+            return Task.Run(() => InjectAndExecute<T>(IsProcess32Bit, Asm));
         }
 
         /// <summary>
@@ -488,9 +488,9 @@ namespace Binarysharp.MemoryManagement.Assembly
         /// </summary>
         /// <param name="Asm">An array containing the mnemonics to inject.</param>
         /// <returns>The return value is an asynchronous operation that return the exit code of the thread created to execute the assembly code.</returns>
-        public Task<IntPtr> InjectAndExecuteAsync(String[] Asm)
+        public Task<IntPtr> InjectAndExecuteAsync(Boolean IsProcess32Bit, String[] Asm)
         {
-            return InjectAndExecuteAsync<IntPtr>(Asm);
+            return InjectAndExecuteAsync<IntPtr>(IsProcess32Bit, Asm);
         }
 
         #endregion

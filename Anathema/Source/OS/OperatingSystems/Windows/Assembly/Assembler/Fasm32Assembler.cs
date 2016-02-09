@@ -39,7 +39,7 @@ namespace Binarysharp.MemoryManagement.Assembly.Assembler
             ProcessStartInfo ProcessInfo = new ProcessStartInfo(Path.Combine(Path.GetDirectoryName(Application.ExecutablePath), FASMHelperExecutable));
             ProcessInfo.RedirectStandardInput = true;
             ProcessInfo.UseShellExecute = false;
-            ProcessInfo.CreateNoWindow = true;
+            // ProcessInfo.CreateNoWindow = true;
             FASMHelper = Process.Start(ProcessInfo);
             ProcessStartEvent.WaitOne();
 
@@ -54,10 +54,10 @@ namespace Binarysharp.MemoryManagement.Assembly.Assembler
         /// </summary>
         /// <param name="Assembly">The assembly code.</param>
         /// <returns>An array of bytes containing the assembly code.</returns>
-        public Byte[] Assemble(String Assembly)
+        public Byte[] Assemble(Boolean IsProcess32Bit, String Assembly)
         {
             // Assemble and return the code
-            return Assemble(Assembly, IntPtr.Zero);
+            return Assemble(IsProcess32Bit, Assembly, IntPtr.Zero);
         }
 
         /// <summary>
@@ -66,11 +66,11 @@ namespace Binarysharp.MemoryManagement.Assembly.Assembler
         /// <param name="Assembly">The assembly code.</param>
         /// <param name="BaseAddress">The address where the code is rebased.</param>
         /// <returns>An array of bytes containing the assembly code.</returns>
-        public Byte[] Assemble(String Assembly, IntPtr BaseAddress)
+        public Byte[] Assemble(Boolean IsProcess32Bit, String Assembly, IntPtr BaseAddress)
         {
             LoadFASMHelper();
 
-            return FASMObj.Assemble(false, Assembly, BaseAddress.ToInt64());
+            return FASMObj.Assemble(IsProcess32Bit, Assembly, BaseAddress.ToInt64());
         }
 
     } // End class

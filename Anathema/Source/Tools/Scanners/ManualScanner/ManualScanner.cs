@@ -39,7 +39,7 @@ namespace Anathema
             Snapshot.MarkAllValid();
             Snapshot.SetElementType(ScanConstraintManager.GetElementType());
             Snapshot.SetAlignment(Settings.GetInstance().GetAlignmentSettings());
-
+            
             base.Begin();
         }
 
@@ -48,11 +48,12 @@ namespace Anathema
             base.Update();
 
             // Read memory to get current values
-            Snapshot.ReadAllSnapshotMemory();
 
             Parallel.ForEach(Snapshot.Cast<Object>(), (RegionObject) =>
             {
                 SnapshotRegion Region = (SnapshotRegion)RegionObject;
+
+                Region.ReadAllSnapshotMemory(Snapshot.GetMemoryEditor(), true);
 
                 if (!Region.CanCompare())
                 {
@@ -133,9 +134,10 @@ namespace Anathema
         public override void End()
         {
             base.End();
+            
             Snapshot.DiscardInvalidRegions();
             Snapshot.SetScanMethod("Manual Scan");
-
+            
             SnapshotManager.GetInstance().SaveSnapshot(Snapshot);
 
             OnEventScanFinished(new ManualScannerEventArgs());

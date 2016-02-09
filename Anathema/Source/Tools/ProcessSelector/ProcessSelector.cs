@@ -231,8 +231,7 @@ namespace Anathema
 
             // OS is 64 bit. Must determine if target is 32 bit or 64 bit.
             bool Result;
-            IsWow64Process(ProcessHandle, out Result);
-            return Result;
+            return IsWow64Process(ProcessHandle, out Result) && Result;
         }
 
         /// <summary>
