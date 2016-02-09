@@ -73,7 +73,7 @@ namespace Anathema
                 for (Int32 OffsetIndex = 0; OffsetIndex < MaxPointerLevel; OffsetIndex++)
                     PointerListView.Columns.Add("Offset " + OffsetIndex.ToString());
 
-                PointerListView.VirtualListSize = ItemCount;
+                PointerListView.SetItemCount(ItemCount);
             });
 
             EnableGUI();

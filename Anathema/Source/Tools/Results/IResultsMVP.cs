@@ -197,10 +197,9 @@ namespace Anathema
 
         private void EventFlushCache(Object Sender, ResultsEventArgs E)
         {
-            const Int32 MaximumListViewSize = 100000000;
             ListViewCache.FlushCache();
             View.UpdateMemorySizeLabel(Conversions.BytesToMetric(E.MemorySize), E.ElementCount.ToString());
-            View.UpdateItemCount((Int32)Math.Min(E.ElementCount, MaximumListViewSize));
+            View.UpdateItemCount((Int32)Math.Min(E.ElementCount, (UInt64)Int32.MaxValue));
         }
 
         #endregion

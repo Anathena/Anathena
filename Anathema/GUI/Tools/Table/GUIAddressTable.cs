@@ -27,7 +27,7 @@ namespace Anathema
             ControlThreadingHelper.InvokeControlAction(AddressTableListView, () =>
             {
                 AddressTableListView.BeginUpdate();
-                AddressTableListView.VirtualListSize = ItemCount;
+                AddressTableListView.SetItemCount(ItemCount);
                 AddressTableListView.EndUpdate();
             });
         }

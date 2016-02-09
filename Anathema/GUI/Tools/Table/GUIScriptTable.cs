@@ -27,7 +27,7 @@ namespace Anathema
             ControlThreadingHelper.InvokeControlAction(ScriptTableListView, () =>
             {
                 ScriptTableListView.BeginUpdate();
-                ScriptTableListView.VirtualListSize = ItemCount;
+                ScriptTableListView.SetItemCount(ItemCount);
                 ScriptTableListView.EndUpdate();
             });
         }

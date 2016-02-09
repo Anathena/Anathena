@@ -5,6 +5,8 @@ namespace Anathema
 {
     class FlickerFreeListView : ListView
     {
+        private const Int32 MaximumItems = 100000000;
+
         public FlickerFreeListView()
         {
             // Activate double buffering
@@ -12,6 +14,11 @@ namespace Anathema
 
             // Enable the OnNotifyMessage event so we get a chance to filter out  Windows messages before they get to the form's WndProc
             this.SetStyle(ControlStyles.EnableNotifyMessage, true);
+        }
+
+        public void SetItemCount(Int32 ItemCount)
+        {
+            this.VirtualListSize = Math.Min(MaximumItems, ItemCount);
         }
 
         public Tuple<Int32, Int32> GetReadBounds()

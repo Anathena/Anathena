@@ -35,7 +35,7 @@ namespace Anathema
         {
             ControlThreadingHelper.InvokeControlAction(SnapshotListView, () =>
             {
-                SnapshotListView.VirtualListSize = SnapshotCount;
+                SnapshotListView.SetItemCount(SnapshotCount);
             });
         }
 

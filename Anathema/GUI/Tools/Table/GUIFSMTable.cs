@@ -27,7 +27,7 @@ namespace Anathema
             ControlThreadingHelper.InvokeControlAction(FSMTableListView, () =>
             {
                 FSMTableListView.BeginUpdate();
-                FSMTableListView.VirtualListSize = ItemCount;
+                FSMTableListView.SetItemCount(ItemCount);
                 FSMTableListView.EndUpdate();
             });
         }

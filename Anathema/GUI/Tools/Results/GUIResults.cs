@@ -32,7 +32,7 @@ namespace Anathema
         {
             ControlThreadingHelper.InvokeControlAction(ResultsListView, () =>
             {
-                ResultsListView.VirtualListSize = ItemCount;
+                ResultsListView.SetItemCount(ItemCount);
             });
         }
 
