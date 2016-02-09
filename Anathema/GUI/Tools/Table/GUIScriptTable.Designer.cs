@@ -41,6 +41,7 @@
             // 
             // ScriptTableListView
             // 
+            this.ScriptTableListView.AllowDrop = true;
             this.ScriptTableListView.BackColor = System.Drawing.SystemColors.Control;
             this.ScriptTableListView.CheckBoxes = true;
             this.ScriptTableListView.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
@@ -58,7 +59,11 @@
             this.ScriptTableListView.UseCompatibleStateImageBehavior = false;
             this.ScriptTableListView.View = System.Windows.Forms.View.Details;
             this.ScriptTableListView.VirtualMode = true;
+            this.ScriptTableListView.ItemDrag += new System.Windows.Forms.ItemDragEventHandler(this.ScriptTableListView_ItemDrag);
             this.ScriptTableListView.RetrieveVirtualItem += new System.Windows.Forms.RetrieveVirtualItemEventHandler(this.ScriptTableListView_RetrieveVirtualItem);
+            this.ScriptTableListView.DragDrop += new System.Windows.Forms.DragEventHandler(this.ScriptTableListView_DragDrop);
+            this.ScriptTableListView.DragEnter += new System.Windows.Forms.DragEventHandler(this.ScriptTableListView_DragEnter);
+            this.ScriptTableListView.DragOver += new System.Windows.Forms.DragEventHandler(this.ScriptTableListView_DragOver);
             this.ScriptTableListView.MouseClick += new System.Windows.Forms.MouseEventHandler(this.ScriptTableListView_MouseClick);
             this.ScriptTableListView.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.ScriptTableListView_MouseDoubleClick);
             // 

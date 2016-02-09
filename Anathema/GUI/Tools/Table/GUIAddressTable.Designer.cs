@@ -83,6 +83,7 @@
             // 
             // AddressTableListView
             // 
+            this.AddressTableListView.AllowDrop = true;
             this.AddressTableListView.BackColor = System.Drawing.SystemColors.Control;
             this.AddressTableListView.CheckBoxes = true;
             this.AddressTableListView.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {

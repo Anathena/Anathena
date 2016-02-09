@@ -61,7 +61,27 @@ namespace Anathema
 
             ScriptTablePresenter.OpenScript(SelectedItem.Index);
         }
-        
+
+        private void ScriptTableListView_ItemDrag(Object Sender, ItemDragEventArgs E)
+        {
+            DoDragDrop(E.Item, DragDropEffects.All);
+        }
+
+        private void ScriptTableListView_DragEnter(Object Sender, DragEventArgs E)
+        {
+            E.Effect = DragDropEffects.All;
+        }
+
+        private void ScriptTableListView_DragOver(Object Sender, DragEventArgs E)
+        {
+            E.Effect = DragDropEffects.All;
+        }
+
+        private void ScriptTableListView_DragDrop(Object Sender, DragEventArgs E)
+        {
+
+        }
+
         private void OpenScriptToolStripMenuItem_Click(Object Sender, EventArgs E)
         {
 
