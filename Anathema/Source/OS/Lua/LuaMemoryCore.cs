@@ -85,18 +85,25 @@ namespace Anathema
             this.MemoryEditor = MemoryEditor;
         }
 
-        private String ReplaceKeywords(String Assembly)
+        private String ResolveKeywords(String Assembly)
         {
             if (Assembly == null)
                 return String.Empty;
 
             Assembly = Assembly.Replace("\t", "");
 
+            // Resolve keywords
             foreach (KeyValuePair<String, String> Keyword in Keywords)
                 Assembly = Assembly.Replace(Keyword.Key, Keyword.Value);
 
             foreach (KeyValuePair<String, String> GlobalKeyword in GlobalKeywords)
                 Assembly = Assembly.Replace(GlobalKeyword.Key, GlobalKeyword.Value);
+
+            // Resolve module names
+            IEnumerable<RemoteModule> Modules = MemoryEditor.Modules.RemoteModules;
+
+            foreach (RemoteModule Module in Modules)
+                Assembly = Assembly.Replace(Module.Name, "0x" + Conversions.ToAddress(unchecked((UInt64)Module.BaseAddress)));
 
             return Assembly;
         }
@@ -115,7 +122,7 @@ namespace Anathema
 
             // TODO: Offload IsProcecss64Bit to OSInterface (can write a Process extension method too)
             // Grab instructions at code entry point
-            List<Instruction> Instructions = MemoryEditor.Assembly.Disassembler.Disassemble(OriginalBytes, ProcessSelector.IsProcess64Bit(MemoryEditor.Native.Handle), Address);
+            List<Instruction> Instructions = MemoryEditor.Assembly.Disassembler.Disassemble(OriginalBytes, ProcessSelector.IsProcess32Bit(MemoryEditor.Native.Handle), Address);
 
             // Determine size of instructions we need to overwrite
             Int32 ReplacedInstructionSize = 0;
@@ -146,15 +153,16 @@ namespace Anathema
                     break;
                 }
             }
+
             Console.WriteLine("[LUA] " + MethodBase.GetCurrentMethod().Name + " " + Result.ToString("X"));
             return Result;
         }
 
         public Int32 GetAssemblySize(String Assembly)
         {
-            Assembly = ReplaceKeywords(Assembly);
+            Assembly = ResolveKeywords(Assembly);
 
-            Byte[] Bytes = MemoryEditor.Assembly.Assembler.Assemble(true, Assembly, IntPtr.Zero + 0x400000);
+            Byte[] Bytes = MemoryEditor.Assembly.Assembler.Assemble(ProcessSelector.IsProcess32Bit(MemoryEditor.Native.Handle), Assembly, IntPtr.Zero);
             Int32 Result = (Bytes == null ? 0 : Bytes.Length);
 
             Console.WriteLine("[LUA] " + MethodBase.GetCurrentMethod().Name + " " + Result + "B");
@@ -203,7 +211,7 @@ namespace Anathema
 
         public UInt64 CreateCodeCave(UInt64 Entry, String Assembly)
         {
-            Assembly = ReplaceKeywords(Assembly);
+            Assembly = ResolveKeywords(Assembly);
 
             Int32 Size = GetAssemblySize(Assembly);
 
@@ -213,7 +221,7 @@ namespace Anathema
             UInt64 Result = unchecked((UInt64)(Int64)RemoteAllocation.BaseAddress);
 
             // Write injected code to new page
-            MemoryEditor.Assembly.Inject(!ProcessSelector.IsProcess64Bit(MemoryEditor.Native.Handle), Assembly, RemoteAllocation.BaseAddress);
+            MemoryEditor.Assembly.Inject(ProcessSelector.IsProcess32Bit(MemoryEditor.Native.Handle), Assembly, RemoteAllocation.BaseAddress);
 
             // Gather the original bytes
             Byte[] OriginalBytes = GetInstructions(Entry);
@@ -225,7 +233,7 @@ namespace Anathema
             string NoOps = "db " + String.Join(" ", Enumerable.Repeat("0x90", OriginalBytes.Length - JumpSize));
 
             // Write in the jump to the code cave
-            MemoryEditor.Assembly.Inject(!ProcessSelector.IsProcess64Bit(MemoryEditor.Native.Handle), "jmp " + "0x" + Result.ToString("X") + "\n" + NoOps, unchecked((IntPtr)Entry));
+            MemoryEditor.Assembly.Inject(ProcessSelector.IsProcess32Bit(MemoryEditor.Native.Handle), "jmp " + "0x" + Result.ToString("X") + "\n" + NoOps, unchecked((IntPtr)Entry));
 
             // Save this code cave for later deallocation
             CodeCave CodeCave = new CodeCave(RemoteAllocation, OriginalBytes, Entry);

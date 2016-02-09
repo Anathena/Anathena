@@ -130,7 +130,7 @@ namespace Anathema
             if (IsAnthema64Bit())
                 return true;
 
-            if (IsProcess64Bit(ProcessHandle))
+            if (!IsProcess32Bit(ProcessHandle))
                 return true;
 
             // Target uses higher addressing than Anathema, thus Anathema is not compatable
@@ -223,15 +223,16 @@ namespace Anathema
             return null;
         }
 
-        public static bool IsProcess64Bit(IntPtr ProcessHandle)
+        public static bool IsProcess32Bit(IntPtr ProcessHandle)
         {
             // First do the simple check if seeing if the OS is 32 bit, in which case the process wont be 64 bit
             if (!IsOS64Bit())
-                return false;
+                return true;
 
-            // OS is 64 bit. Must determine if target is 32 bit or 64 bit.
-            bool Result;
-            return IsWow64Process(ProcessHandle, out Result) && Result;
+            Boolean IsWow64;
+            if (!IsWow64Process(ProcessHandle, out IsWow64))
+                throw new Win32Exception();
+            return IsWow64;
         }
 
         /// <summary>

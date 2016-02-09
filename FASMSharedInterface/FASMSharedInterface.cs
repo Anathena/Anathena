@@ -8,7 +8,7 @@ namespace FASMSharedInterface
 {
     public interface ISharedAssemblyInterface
     {
-        Byte[] Assemble(Boolean IsProcess32Bit, String Assembly, Int64 BaseAddress);
+        Byte[] Assemble(Boolean IsProcess32Bit, String Assembly, UInt64 BaseAddress);
 
     } // End interface
 

@@ -32,7 +32,7 @@ namespace FASMHelper
 
             // Indicate that the FASM console is ready to receive commands
             ProcessStartingEvent.Set();
-
+            
             // Keep console open
             Console.ReadLine();
         }
@@ -41,13 +41,16 @@ namespace FASMHelper
         {
             public FASMAssembler() { }
 
-            public Byte[] Assemble(Boolean IsProcess32Bit, String Assembly, Int64 BaseAddress)
+            public Byte[] Assemble(Boolean IsProcess32Bit, String Assembly, UInt64 BaseAddress)
             {
                 if (Assembly == null)
                     return null;
 
                 // Add header information about process
-                Assembly = String.Format((IsProcess32Bit ? "use32\n" : "use64\n") + "org 0x{0:X8}\n", BaseAddress) + Assembly;
+                if (IsProcess32Bit)
+                    Assembly = String.Format("use32\n" + "org 0x{0:X8}\n", BaseAddress) + Assembly;
+                else
+                    Assembly = String.Format("use64\n" + "org 0x{0:X16}\n", BaseAddress) + Assembly;
 
                 // Print fully assembly to console
                 Console.WriteLine("\n" + Assembly + "\n");

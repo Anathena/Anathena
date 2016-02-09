@@ -39,7 +39,7 @@ namespace Binarysharp.MemoryManagement.Assembly.Assembler
             ProcessStartInfo ProcessInfo = new ProcessStartInfo(Path.Combine(Path.GetDirectoryName(Application.ExecutablePath), FASMHelperExecutable));
             ProcessInfo.RedirectStandardInput = true;
             ProcessInfo.UseShellExecute = false;
-            // ProcessInfo.CreateNoWindow = true;
+            ProcessInfo.CreateNoWindow = true;
             FASMHelper = Process.Start(ProcessInfo);
             ProcessStartEvent.WaitOne();
 
@@ -70,7 +70,7 @@ namespace Binarysharp.MemoryManagement.Assembly.Assembler
         {
             LoadFASMHelper();
 
-            return FASMObj.Assemble(IsProcess32Bit, Assembly, BaseAddress.ToInt64());
+            return FASMObj.Assemble(IsProcess32Bit, Assembly, unchecked((UInt64)(BaseAddress)));
         }
 
     } // End class
