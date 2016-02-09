@@ -47,7 +47,7 @@ namespace Anathema
         {
             this.Snapshot = new Snapshot<Null>(SnapshotManager.GetInstance().GetActiveSnapshot(true));
             this.Snapshot.SetElementType(typeof(SByte));
-            Snapshot.SetAlignment(Settings.GetInstance().GetAlignmentSettings());
+            this.Snapshot.SetAlignment(Settings.GetInstance().GetAlignmentSettings());
             this.ChunkRoots = new List<MemoryChunkRoots>();
             this.ChunkSize = SetChunkSize(Snapshot.GetMemorySize());
 
@@ -90,18 +90,20 @@ namespace Anathema
                 ChunkRoots[Index].GetChangedRegions(FilteredRegions, MinChanges);
 
             // Create snapshot with results
-            Snapshot<Null> FilteredSnapshot = new Snapshot<Null>(FilteredRegions.ToArray());
+            Snapshot = new Snapshot<Null>(FilteredRegions.ToArray());
+            Snapshot.SetAlignment(Settings.GetInstance().GetAlignmentSettings());
 
             // Grow regions by the size of the largest standard variable and mask this with the original memory list.
-            FilteredSnapshot.ExpandAllRegionsOutward(sizeof(UInt64) - 1);
-            FilteredSnapshot = new Snapshot<Null>(FilteredSnapshot.MaskRegions(Snapshot, FilteredSnapshot.GetSnapshotRegions()));
+            Snapshot.ExpandAllRegionsOutward(sizeof(UInt64) - 1);
+            Snapshot = new Snapshot<Null>(Snapshot.MaskRegions(Snapshot, Snapshot.GetSnapshotRegions()));
+            Snapshot.SetAlignment(Settings.GetInstance().GetAlignmentSettings());
 
             // Read memory so that there are values for the next scan to process
-            FilteredSnapshot.ReadAllSnapshotMemory();
-            FilteredSnapshot.SetScanMethod("Chunk Scan");
+            Snapshot.ReadAllSnapshotMemory();
+            Snapshot.SetScanMethod("Chunk Scan");
 
             // Save result
-            SnapshotManager.GetInstance().SaveSnapshot(FilteredSnapshot);
+            SnapshotManager.GetInstance().SaveSnapshot(Snapshot);
 
             CleanUp();
         }

@@ -29,7 +29,7 @@ namespace Anathema
                 ListViewItem LastVisibleItem = this.TopItem;
                 for (Int32 Index = StartReadIndex; Index < this.Items.Count; Index++)
                 {
-                    if (Index - this.TopItem.Index > BoundsLimit)
+                    if (Index - StartReadIndex > BoundsLimit)
                         break;
 
                     if (this.ClientRectangle.IntersectsWith(this.Items[Index].Bounds))

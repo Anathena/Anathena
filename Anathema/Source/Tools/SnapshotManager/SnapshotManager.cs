@@ -121,19 +121,6 @@ namespace Anathema
         }
 
         /// <summary>
-        /// Creates a new snapshot and reads all the memory
-        /// </summary>
-        public void CollectValues()
-        {
-            Snapshot Snapshot = SnapshotAllRegions();
-            Snapshot.ReadAllSnapshotMemory();
-            Snapshot.SetElementType(typeof(Int32));
-            Snapshot.SetAlignment(Settings.GetInstance().GetAlignmentSettings());
-            Snapshot.SetScanMethod("Collect Values");
-            SaveSnapshot(Snapshot);
-        }
-
-        /// <summary>
         /// Reverses an undo action
         /// </summary>
         public void RedoSnapshot()

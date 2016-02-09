@@ -48,11 +48,11 @@ namespace Anathema
 
         public override void Begin()
         {
-            Snapshot = new Snapshot<Null>(SnapshotManager.GetInstance().GetActiveSnapshot(true));
-            Snapshot.SetElementType(typeof(Byte));
-            Snapshot.SetAlignment(Settings.GetInstance().GetAlignmentSettings());
-            FilterTrees = new List<FilterTree>();
-            LeafSize = SetLeafSize(Snapshot.GetMemorySize());
+            this.Snapshot = new Snapshot<Null>(SnapshotManager.GetInstance().GetActiveSnapshot(true));
+            this.Snapshot.SetElementType(typeof(Byte));
+            this.Snapshot.SetAlignment(Settings.GetInstance().GetAlignmentSettings());
+            this.FilterTrees = new List<FilterTree>();
+            this.LeafSize = SetLeafSize(Snapshot.GetMemorySize());
 
             // Initialize filter tree roots
             foreach (SnapshotRegion SnapshotRegion in Snapshot)
@@ -91,18 +91,20 @@ namespace Anathema
                 FilterTrees[Index].GetChangedRegions(FilteredRegions);
 
             // Create snapshot with results
-            Snapshot<Null> FilteredSnapshot = new Snapshot<Null>(FilteredRegions.ToArray());
+            Snapshot = new Snapshot<Null>(FilteredRegions.ToArray());
+            Snapshot.SetAlignment(Settings.GetInstance().GetAlignmentSettings());
 
             // Grow regions by the size of the largest standard variable and mask this with the original memory list.
-            FilteredSnapshot.ExpandAllRegionsOutward(sizeof(UInt64) - 1);
-            FilteredSnapshot = new Snapshot<Null>(FilteredSnapshot.MaskRegions(Snapshot, FilteredSnapshot.GetSnapshotRegions()));
+            Snapshot.ExpandAllRegionsOutward(sizeof(UInt64) - 1);
+            Snapshot = new Snapshot<Null>(Snapshot.MaskRegions(Snapshot, Snapshot.GetSnapshotRegions()));
+            Snapshot.SetAlignment(Settings.GetInstance().GetAlignmentSettings());
 
             // Read memory so that there are values for the next scan to process
-            FilteredSnapshot.ReadAllSnapshotMemory();
-            FilteredSnapshot.SetScanMethod("Tree Scan");
+            Snapshot.ReadAllSnapshotMemory();
+            Snapshot.SetScanMethod("Tree Scan");
 
             // Save the snapshot
-            SnapshotManager.GetInstance().SaveSnapshot(FilteredSnapshot);
+            SnapshotManager.GetInstance().SaveSnapshot(Snapshot);
 
             CleanUp();
         }

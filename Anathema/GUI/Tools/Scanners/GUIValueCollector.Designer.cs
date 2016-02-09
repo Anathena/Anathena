@@ -1,6 +1,6 @@
 ﻿namespace Anathema
 {
-    partial class GUITreeScanner
+    partial class GUIValueCollector
     {
         /// <summary>
         /// Required designer variable.
@@ -28,24 +28,12 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(GUITreeScanner));
-            this.StopScanButton = new System.Windows.Forms.ToolStripButton();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(GUIValueCollector));
             this.StartScanButton = new System.Windows.Forms.ToolStripButton();
             this.ScanToolStrip = new System.Windows.Forms.ToolStrip();
-            this.ScanCountLabel = new System.Windows.Forms.ToolStripLabel();
+            this.ValueTypeComboBox = new System.Windows.Forms.ComboBox();
             this.ScanToolStrip.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // StopScanButton
-            // 
-            this.StopScanButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.StopScanButton.Image = global::Anathema.Properties.Resources.Stop;
-            this.StopScanButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.StopScanButton.Name = "StopScanButton";
-            this.StopScanButton.Size = new System.Drawing.Size(23, 22);
-            this.StopScanButton.Text = "Stop Scan";
-            this.StopScanButton.ToolTipText = "Stop Scan";
-            this.StopScanButton.Click += new System.EventHandler(this.StopScanButton_Click);
             // 
             // StartScanButton
             // 
@@ -61,9 +49,7 @@
             // 
             this.ScanToolStrip.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
             this.ScanToolStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.StartScanButton,
-            this.StopScanButton,
-            this.ScanCountLabel});
+            this.StartScanButton});
             this.ScanToolStrip.Location = new System.Drawing.Point(0, 0);
             this.ScanToolStrip.Name = "ScanToolStrip";
             this.ScanToolStrip.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
@@ -71,22 +57,26 @@
             this.ScanToolStrip.TabIndex = 149;
             this.ScanToolStrip.Text = "toolStrip1";
             // 
-            // ScanCountLabel
+            // ValueTypeComboBox
             // 
-            this.ScanCountLabel.Name = "ScanCountLabel";
-            this.ScanCountLabel.Size = new System.Drawing.Size(80, 22);
-            this.ScanCountLabel.Text = "Scan Count: 0";
+            this.ValueTypeComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.ValueTypeComboBox.FormattingEnabled = true;
+            this.ValueTypeComboBox.Location = new System.Drawing.Point(12, 28);
+            this.ValueTypeComboBox.Name = "ValueTypeComboBox";
+            this.ValueTypeComboBox.Size = new System.Drawing.Size(130, 21);
+            this.ValueTypeComboBox.TabIndex = 167;
             // 
-            // GUITreeScanner
+            // GUIValueCollector
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(266, 173);
+            this.Controls.Add(this.ValueTypeComboBox);
             this.Controls.Add(this.ScanToolStrip);
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.Name = "GUITreeScanner";
-            this.Text = "Tree Scanner";
+            this.Name = "GUIValueCollector";
+            this.Text = "Value Collector";
             this.ScanToolStrip.ResumeLayout(false);
             this.ScanToolStrip.PerformLayout();
             this.ResumeLayout(false);
@@ -95,9 +85,8 @@
         }
 
         #endregion
-        private System.Windows.Forms.ToolStripButton StopScanButton;
         private System.Windows.Forms.ToolStripButton StartScanButton;
         private System.Windows.Forms.ToolStrip ScanToolStrip;
-        private System.Windows.Forms.ToolStripLabel ScanCountLabel;
+        private System.Windows.Forms.ComboBox ValueTypeComboBox;
     }
 }

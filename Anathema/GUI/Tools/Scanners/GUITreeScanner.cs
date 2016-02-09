@@ -63,12 +63,8 @@ namespace Anathema
             EnableGUI();
         }
 
-        private void GUIFilterTree_Resize(object sender, EventArgs e)
-        {
-
-        }
-
         #endregion
 
-    }
-}
+    } // End calss
+
+} // End namespace

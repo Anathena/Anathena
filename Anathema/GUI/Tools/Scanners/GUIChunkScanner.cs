@@ -84,5 +84,6 @@ namespace Anathema
 
         #endregion
 
-    }
-}
+    } // End class
+
+} // End namespace

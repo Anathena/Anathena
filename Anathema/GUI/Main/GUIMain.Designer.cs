@@ -60,11 +60,12 @@
             this.GUIToolStrip = new System.Windows.Forms.ToolStrip();
             this.ProcessSelectorButton = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
+            this.CollectValuesButton = new System.Windows.Forms.ToolStripButton();
             this.NewScanButton = new System.Windows.Forms.ToolStripButton();
             this.UndoScanButton = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.ProcessTitleLabel = new System.Windows.Forms.ToolStripLabel();
-            this.CollectValuesButton = new System.Windows.Forms.ToolStripButton();
+            this.ValueCollectorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.GUIMenuStrip.SuspendLayout();
             this.GUIToolStrip.SuspendLayout();
             this.SuspendLayout();
@@ -152,6 +153,7 @@
             // 
             this.ScansToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.ChunkScannerToolStripMenuItem,
+            this.ValueCollectorToolStripMenuItem,
             this.TreeScannerToolStripMenuItem,
             this.ManualScannerToolStripMenuItem,
             this.InputCorrelatorToolStripMenuItem,
@@ -324,6 +326,16 @@
             this.toolStripSeparator3.Name = "toolStripSeparator3";
             this.toolStripSeparator3.Size = new System.Drawing.Size(6, 25);
             // 
+            // CollectValuesButton
+            // 
+            this.CollectValuesButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.CollectValuesButton.Image = global::Anathema.Properties.Resources.BenedictionIcon;
+            this.CollectValuesButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.CollectValuesButton.Name = "CollectValuesButton";
+            this.CollectValuesButton.Size = new System.Drawing.Size(23, 22);
+            this.CollectValuesButton.Text = "Collect Values";
+            this.CollectValuesButton.Click += new System.EventHandler(this.CollectValuesButton_Click);
+            // 
             // NewScanButton
             // 
             this.NewScanButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
@@ -355,15 +367,12 @@
             this.ProcessTitleLabel.Size = new System.Drawing.Size(113, 22);
             this.ProcessTitleLabel.Text = "No Process Selected";
             // 
-            // CollectValuesButton
+            // ValueCollectorToolStripMenuItem
             // 
-            this.CollectValuesButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.CollectValuesButton.Image = global::Anathema.Properties.Resources.BenedictionIcon;
-            this.CollectValuesButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.CollectValuesButton.Name = "CollectValuesButton";
-            this.CollectValuesButton.Size = new System.Drawing.Size(23, 22);
-            this.CollectValuesButton.Text = "Collect Values";
-            this.CollectValuesButton.Click += new System.EventHandler(this.CollectValuesButton_Click);
+            this.ValueCollectorToolStripMenuItem.Name = "ValueCollectorToolStripMenuItem";
+            this.ValueCollectorToolStripMenuItem.Size = new System.Drawing.Size(177, 22);
+            this.ValueCollectorToolStripMenuItem.Text = "Value Collector";
+            this.ValueCollectorToolStripMenuItem.Click += new System.EventHandler(this.ValueCollectorToolStripMenuItem_Click);
             // 
             // GUIMain
             // 
@@ -424,6 +433,7 @@
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator4;
         private System.Windows.Forms.ToolStripMenuItem PointerScannerToolStripMenuItem;
         private System.Windows.Forms.ToolStripButton CollectValuesButton;
+        private System.Windows.Forms.ToolStripMenuItem ValueCollectorToolStripMenuItem;
     }
 }
 

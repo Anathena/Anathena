@@ -17,6 +17,8 @@ namespace Anathema
         protected Int32 AbortTime;      // Time to wait (in ms) before giving up when ending scan
         protected Int32 WaitTime;       // Time to wait (in ms) for a cancel request between each scan
 
+        private Boolean FinishedFlag;
+
         public RepeatedTask()
         {
             AbortTime = 3000;   // Set a default abort time
@@ -26,28 +28,32 @@ namespace Anathema
         public virtual void Begin()
         {
             CancelFlag = false;
+            FinishedFlag = false;
 
             CancelRequest = new CancellationTokenSource();
             Task = Task.Run(async () =>
             {
                 while (true)
                 {
-                    lock (CancelLock)
+                    if (!FinishedFlag)
                     {
-                        if (CancelFlag)
+                        lock (CancelLock)
                         {
-                            Action Action = End;
-                            Action.BeginInvoke(x => Action.EndInvoke(x), null);
-                        }
-                        else
-                        {
-                            Update();
+                            if (CancelFlag)
+                            {
+                                FinishedFlag = true;
+                                Action Action = End;
+                                Action.BeginInvoke(x => Action.EndInvoke(x), null);
+                            }
+                            else
+                            {
+                                Update();
+                            }
                         }
                     }
 
                     // Await with cancellation
                     await Task.Delay(WaitTime, CancelRequest.Token);
-
                 }
             }, CancelRequest.Token);
 
