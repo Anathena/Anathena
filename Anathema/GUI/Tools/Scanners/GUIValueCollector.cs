@@ -19,9 +19,19 @@ namespace Anathema
         public GUIValueCollector()
         {
             InitializeComponent();
+
             ValueCollectorPresenter = new ValueCollectorPresenter(this, new ValueCollector());
-            
+
+            InitializeValueTypeComboBox();
             EnableGUI();
+        }
+
+        private void InitializeValueTypeComboBox()
+        {
+            foreach (Type Primitive in PrimitiveTypes.GetPrimitiveTypes())
+                ValueTypeComboBox.Items.Add(Primitive.Name);
+
+            ValueTypeComboBox.SelectedIndex = ValueTypeComboBox.Items.IndexOf(typeof(Int32).Name);
         }
 
         public void DisplayScanCount(Int32 ScanCount) { }
@@ -48,6 +58,12 @@ namespace Anathema
         {
             ValueCollectorPresenter.EndScan();
             EnableGUI();
+        }
+
+        private void ValueTypeComboBox_SelectedIndexChanged(Object Sender, EventArgs E)
+        {
+            Type ElementType = Conversions.StringToPrimitiveType(ValueTypeComboBox.SelectedItem.ToString());
+            ValueCollectorPresenter.SetElementType(ElementType);
         }
 
         #endregion

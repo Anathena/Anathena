@@ -18,7 +18,7 @@ namespace Anathema
         // Events triggered by the model (upstream)
 
         // Functions invoked by presenter (downstream)
-
+        public abstract void SetElementType(Type ElementType);
     }
 
     class ValueCollectorPresenter : ScannerPresenter
@@ -36,6 +36,11 @@ namespace Anathema
         }
 
         #region Method definitions called by the view (downstream)
+
+        public void SetElementType(Type ElementType)
+        {
+            Model.SetElementType(ElementType);
+        }
 
         #endregion
 

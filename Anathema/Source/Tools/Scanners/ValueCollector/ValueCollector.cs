@@ -12,16 +12,22 @@ namespace Anathema
     class ValueCollector : IValueCollectorModel
     {
         private Snapshot<Null> Snapshot;
-        
+        private Type ElementType;
+
         public ValueCollector()
         {
 
         }
-        
+
+        public override void SetElementType(Type ElementType)
+        {
+            this.ElementType = ElementType;
+        }
+
         public override void Begin()
         {
             this.Snapshot = new Snapshot<Null>(SnapshotManager.GetInstance().GetActiveSnapshot(true));
-            this.Snapshot.SetElementType(typeof(SByte));
+            this.Snapshot.SetElementType(ElementType == null ? typeof(Int32) : ElementType);
             this.Snapshot.SetAlignment(Settings.GetInstance().GetAlignmentSettings());
 
             base.Begin();
@@ -42,8 +48,8 @@ namespace Anathema
         {
             // Wait for the scan to finish
             base.End();
-            
-            Snapshot.SetScanMethod("Collect Values");
+
+            Snapshot.SetScanMethod("Value Collector");
 
             // Save result
             SnapshotManager.GetInstance().SaveSnapshot(Snapshot);

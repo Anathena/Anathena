@@ -46,7 +46,7 @@ namespace Anathema
         public override void Begin()
         {
             this.Snapshot = new Snapshot<Null>(SnapshotManager.GetInstance().GetActiveSnapshot(true));
-            this.Snapshot.SetElementType(typeof(SByte));
+            this.Snapshot.SetElementType(typeof(Byte));
             this.Snapshot.SetAlignment(Settings.GetInstance().GetAlignmentSettings());
             this.ChunkRoots = new List<MemoryChunkRoots>();
             this.ChunkSize = SetChunkSize(Snapshot.GetMemorySize());

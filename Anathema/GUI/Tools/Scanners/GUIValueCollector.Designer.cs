@@ -65,6 +65,7 @@
             this.ValueTypeComboBox.Name = "ValueTypeComboBox";
             this.ValueTypeComboBox.Size = new System.Drawing.Size(130, 21);
             this.ValueTypeComboBox.TabIndex = 167;
+            this.ValueTypeComboBox.SelectedIndexChanged += new System.EventHandler(this.ValueTypeComboBox_SelectedIndexChanged);
             // 
             // GUIValueCollector
             // 
