@@ -3,6 +3,7 @@ using Binarysharp.MemoryManagement.Memory;
 using Binarysharp.MemoryManagement.Modules;
 using SharpDisasm;
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -15,19 +16,22 @@ namespace Anathema
 {
     public interface LuaFunctions
     {
+        // General
         UInt64 GetModuleAddress(String ModuleName);
         Int32 GetAssemblySize(String Assembly);
 
+        // Allocations
         UInt64 AllocateMemory(Int32 Size);
         void DeallocateMemory(UInt64 Address);
         void DeallocateAllMemory();
 
+        // Code caves
         UInt64 CreateCodeCave(UInt64 Entry, String Assembly);
         UInt64 GetCaveExitAddress(UInt64 Address);
-
         void RemoveCodeCave(UInt64 Address);
         void RemoveAllCodeCaves();
 
+        // Keywords
         void SetKeyword(String Keyword, UInt64 Address);
         void SetGlobalKeyword(String Keyword, UInt64 Address);
         void ClearKeyword(String Keyword);
@@ -35,13 +39,39 @@ namespace Anathema
         void ClearAllKeywords();
         void ClearAllGlobalKeywords();
 
+        // Reading
+        SByte ReadSByte(UInt64 Address);
+        Byte ReadByte(UInt64 Address);
+        Int16 ReadInt16(UInt64 Address);
+        Int32 ReadInt32(UInt64 Address);
+        Int64 ReadInt64(UInt64 Address);
+        UInt16 ReadUInt16(UInt64 Address);
+        UInt32 ReadUInt32(UInt64 Address);
+        UInt64 ReadUInt64(UInt64 Address);
+        Single ReadSingle(UInt64 Address);
+        Double ReadDouble(UInt64 Address);
+        Byte[] ReadBytes(UInt64 Address, Int32 Count);
+
+        // Writing
+        void WriteSByte(UInt64 Address, SByte Value);
+        void WriteByte(UInt64 Address, Byte Value);
+        void WriteInt16(UInt64 Address, Int16 Value);
+        void WriteInt32(UInt64 Address, Int32 Value);
+        void WriteInt64(UInt64 Address, Int64 Value);
+        void WriteUInt16(UInt64 Address, UInt16 Value);
+        void WriteUInt32(UInt64 Address, UInt32 Value);
+        void WriteUInt64(UInt64 Address, UInt64 Value);
+        void WriteSingle(UInt64 Address, Single Value);
+        void WriteDouble(UInt64 Address, Double Value);
+        void WriteBytes(UInt64 Address, Byte[] Values);
+
     } // End interface
 
     public class LuaMemoryCore : LuaFunctions, IProcessObserver
     {
         private MemoryEditor MemoryEditor;
 
-        private static Dictionary<String, String> GlobalKeywords = new Dictionary<String, String>();
+        private static ConcurrentDictionary<String, String> GlobalKeywords = new ConcurrentDictionary<String, String>();
         private Dictionary<String, String> Keywords;
         private List<RemoteAllocation> RemoteAllocations;
         private List<CodeCave> CodeCaves;
@@ -317,8 +347,9 @@ namespace Anathema
 
         public void ClearGlobalKeyword(String GlobalKeyword)
         {
+            String ValueRemoved;
             if (GlobalKeywords.ContainsKey(GlobalKeyword))
-                GlobalKeywords.Remove(GlobalKeyword);
+                GlobalKeywords.TryRemove(GlobalKeyword, out ValueRemoved);
 
             Console.WriteLine("[LUA] " + MethodBase.GetCurrentMethod().Name + " " + GlobalKeyword);
         }
@@ -335,6 +366,128 @@ namespace Anathema
             GlobalKeywords.Clear();
 
             Console.WriteLine("[LUA] " + MethodBase.GetCurrentMethod().Name);
+        }
+
+        public SByte ReadSByte(UInt64 Address)
+        {
+            Boolean Success;
+            return MemoryEditor.Read<SByte>(unchecked((IntPtr)Address), out Success);
+        }
+
+        public Byte ReadByte(UInt64 Address)
+        {
+            Boolean Success;
+            return MemoryEditor.Read<Byte>(unchecked((IntPtr)Address), out Success);
+        }
+
+        public Int16 ReadInt16(UInt64 Address)
+        {
+            Boolean Success;
+            return MemoryEditor.Read<Int16>(unchecked((IntPtr)Address), out Success);
+        }
+
+        public Int32 ReadInt32(UInt64 Address)
+        {
+            Boolean Success;
+            return MemoryEditor.Read<Int32>(unchecked((IntPtr)Address), out Success);
+        }
+
+        public Int64 ReadInt64(UInt64 Address)
+        {
+            Boolean Success;
+            return MemoryEditor.Read<Int64>(unchecked((IntPtr)Address), out Success);
+        }
+
+        public UInt16 ReadUInt16(UInt64 Address)
+        {
+            Boolean Success;
+            return MemoryEditor.Read<UInt16>(unchecked((IntPtr)Address), out Success);
+        }
+
+        public UInt32 ReadUInt32(UInt64 Address)
+        {
+            Boolean Success;
+            return MemoryEditor.Read<UInt32>(unchecked((IntPtr)Address), out Success);
+        }
+
+        public UInt64 ReadUInt64(UInt64 Address)
+        {
+            Boolean Success;
+            return MemoryEditor.Read<UInt64>(unchecked((IntPtr)Address), out Success);
+        }
+
+        public Single ReadSingle(UInt64 Address)
+        {
+            Boolean Success;
+            return MemoryEditor.Read<SByte>(unchecked((IntPtr)Address), out Success);
+        }
+
+        public Double ReadDouble(UInt64 Address)
+        {
+            Boolean Success;
+            return MemoryEditor.Read<SByte>(unchecked((IntPtr)Address), out Success);
+        }
+
+        public Byte[] ReadBytes(UInt64 Address, Int32 Count)
+        {
+            Boolean Success;
+            return MemoryEditor.ReadBytes(unchecked((IntPtr)Address), Count, out Success);
+        }
+
+        // Writing
+        public void WriteSByte(UInt64 Address, SByte Value)
+        {
+            MemoryEditor.Write<SByte>(unchecked((IntPtr)Address), Value);
+        }
+
+        public void WriteByte(UInt64 Address, Byte Value)
+        {
+            MemoryEditor.Write<Byte>(unchecked((IntPtr)Address), Value);
+        }
+
+        public void WriteInt16(UInt64 Address, Int16 Value)
+        {
+            MemoryEditor.Write<Int16>(unchecked((IntPtr)Address), Value);
+        }
+
+        public void WriteInt32(UInt64 Address, Int32 Value)
+        {
+            MemoryEditor.Write<Int32>(unchecked((IntPtr)Address), Value);
+        }
+
+        public void WriteInt64(UInt64 Address, Int64 Value)
+        {
+            MemoryEditor.Write<Int64>(unchecked((IntPtr)Address), Value);
+        }
+
+        public void WriteUInt16(UInt64 Address, UInt16 Value)
+        {
+            MemoryEditor.Write<UInt16>(unchecked((IntPtr)Address), Value);
+        }
+
+        public void WriteUInt32(UInt64 Address, UInt32 Value)
+        {
+            MemoryEditor.Write<UInt32>(unchecked((IntPtr)Address), Value);
+        }
+
+        public void WriteUInt64(UInt64 Address, UInt64 Value)
+        {
+            MemoryEditor.Write<UInt64>(unchecked((IntPtr)Address), Value);
+        }
+
+        public void WriteSingle(UInt64 Address, Single Value)
+        {
+            MemoryEditor.Write<Single>(unchecked((IntPtr)Address), Value);
+        }
+
+        public void WriteDouble(UInt64 Address, Double Value)
+        {
+            MemoryEditor.Write<Double>(unchecked((IntPtr)Address), Value);
+        }
+
+        public void WriteBytes(UInt64 Address, Byte[] Values)
+        {
+            MemoryEditor.WriteBytes(unchecked((IntPtr)Address), Values);
         }
 
     } // End interface
