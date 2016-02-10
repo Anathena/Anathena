@@ -31,7 +31,8 @@ namespace Anathema
 
         // Functions invoked by presenter (downstream)
         void OpenScript(Int32 Index);
-        
+        void ReorderScript(Int32 SourceIndex, Int32 DestinationIndex);
+
         ScriptItem GetScriptItemAt(Int32 Index);
         void SetScriptActivation(Int32 Index, Boolean Activated);
     }
@@ -85,6 +86,11 @@ namespace Anathema
         public void OpenScript(Int32 Index)
         {
             Model.OpenScript(Index);
+        }
+
+        public void ReorderScript(Int32 SourceIndex, Int32 DestinationIndex)
+        {
+            Model.ReorderScript(SourceIndex, DestinationIndex);
         }
 
         public String GetScriptTableScriptAt(Int32 Index)

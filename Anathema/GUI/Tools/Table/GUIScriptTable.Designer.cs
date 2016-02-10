@@ -62,7 +62,6 @@
             this.ScriptTableListView.ItemDrag += new System.Windows.Forms.ItemDragEventHandler(this.ScriptTableListView_ItemDrag);
             this.ScriptTableListView.RetrieveVirtualItem += new System.Windows.Forms.RetrieveVirtualItemEventHandler(this.ScriptTableListView_RetrieveVirtualItem);
             this.ScriptTableListView.DragDrop += new System.Windows.Forms.DragEventHandler(this.ScriptTableListView_DragDrop);
-            this.ScriptTableListView.DragEnter += new System.Windows.Forms.DragEventHandler(this.ScriptTableListView_DragEnter);
             this.ScriptTableListView.DragOver += new System.Windows.Forms.DragEventHandler(this.ScriptTableListView_DragOver);
             this.ScriptTableListView.MouseClick += new System.Windows.Forms.MouseEventHandler(this.ScriptTableListView_MouseClick);
             this.ScriptTableListView.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.ScriptTableListView_MouseDoubleClick);

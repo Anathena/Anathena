@@ -54,4 +54,5 @@ namespace Anathema
         }
 
     } // End class
-}
+
+} // End namespace

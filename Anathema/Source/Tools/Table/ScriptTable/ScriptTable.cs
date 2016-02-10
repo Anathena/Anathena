@@ -37,7 +37,7 @@ namespace Anathema
             Args.ItemCount = ScriptItems.Count;
             EventClearScriptCache(this, Args);
         }
-        
+
         public void OpenScript(Int32 Index)
         {
             if (Index >= ScriptItems.Count)
@@ -45,6 +45,22 @@ namespace Anathema
 
             Main.GetInstance().OpenScriptEditor();
             ScriptEditor.GetInstance().OpenScript(ScriptItems[Index]);
+        }
+
+        public void ReorderScript(Int32 SourceIndex, Int32 DestinationIndex)
+        {
+            ScriptItem Item = ScriptItems[SourceIndex];
+
+            ScriptItems.RemoveAt(SourceIndex);
+
+            if (DestinationIndex > SourceIndex)
+                DestinationIndex--;
+
+            ScriptItems.Insert(DestinationIndex, Item);
+
+            ScriptTableEventArgs ScriptTableEventArgs = new ScriptTableEventArgs();
+            ScriptTableEventArgs.ItemCount = ScriptItems.Count;
+            EventClearScriptCache(this, ScriptTableEventArgs);
         }
 
         public void SaveScript(ScriptItem ScriptItem)
@@ -75,7 +91,7 @@ namespace Anathema
             return ScriptItems;
         }
 
-        public void  SetScriptItems(List<ScriptItem> ScriptItems)
+        public void SetScriptItems(List<ScriptItem> ScriptItems)
         {
             this.ScriptItems = ScriptItems;
             ScriptTableEventArgs ScriptTableEventArgs = new ScriptTableEventArgs();

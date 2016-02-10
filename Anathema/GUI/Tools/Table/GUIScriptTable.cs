@@ -14,14 +14,14 @@ namespace Anathema
     public partial class GUIScriptTable : UserControl, IScriptTableView
     {
         private ScriptTablePresenter ScriptTablePresenter;
-        
+
         public GUIScriptTable()
         {
             InitializeComponent();
 
             ScriptTablePresenter = new ScriptTablePresenter(this, ScriptTable.GetInstance());
         }
-        
+
         public void UpdateScriptTableItemCount(Int32 ItemCount)
         {
             ControlThreadingHelper.InvokeControlAction(ScriptTableListView, () =>
@@ -62,14 +62,11 @@ namespace Anathema
             ScriptTablePresenter.OpenScript(SelectedItem.Index);
         }
 
+        private ListViewItem DraggedItem;
         private void ScriptTableListView_ItemDrag(Object Sender, ItemDragEventArgs E)
         {
+            DraggedItem = (ListViewItem)E.Item;
             DoDragDrop(E.Item, DragDropEffects.All);
-        }
-
-        private void ScriptTableListView_DragEnter(Object Sender, DragEventArgs E)
-        {
-            E.Effect = DragDropEffects.All;
         }
 
         private void ScriptTableListView_DragOver(Object Sender, DragEventArgs E)
@@ -79,7 +76,16 @@ namespace Anathema
 
         private void ScriptTableListView_DragDrop(Object Sender, DragEventArgs E)
         {
+            ListViewHitTestInfo HitTest = ScriptTableListView.HitTest(ScriptTableListView.PointToClient(new Point(E.X, E.Y)));
+            ListViewItem SelectedItem = HitTest.Item;
 
+            if (DraggedItem == null || DraggedItem == SelectedItem)
+                return;
+
+            if ((SelectedItem != null && SelectedItem.GetType() != typeof(ListViewItem)) || DraggedItem.GetType() != typeof(ListViewItem))
+                return;
+
+            ScriptTablePresenter.ReorderScript(DraggedItem.Index, SelectedItem == null ? ScriptTableListView.Items.Count : SelectedItem.Index);
         }
 
         private void OpenScriptToolStripMenuItem_Click(Object Sender, EventArgs E)
