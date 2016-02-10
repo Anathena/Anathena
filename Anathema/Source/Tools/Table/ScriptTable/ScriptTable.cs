@@ -49,13 +49,20 @@ namespace Anathema
 
         public void ReorderScript(Int32 SourceIndex, Int32 DestinationIndex)
         {
-            ScriptItem Item = ScriptItems[SourceIndex];
+            // Bounds checking
+            if (SourceIndex < 0 || SourceIndex > ScriptItems.Count)
+                return;
 
-            ScriptItems.RemoveAt(SourceIndex);
-
+            // If an item is being removed before the destination, the destination must be shifted
             if (DestinationIndex > SourceIndex)
                 DestinationIndex--;
 
+            // Bounds checking
+            if (DestinationIndex < 0 || DestinationIndex > ScriptItems.Count)
+                return;
+
+            ScriptItem Item = ScriptItems[SourceIndex];
+            ScriptItems.RemoveAt(SourceIndex);
             ScriptItems.Insert(DestinationIndex, Item);
 
             ScriptTableEventArgs ScriptTableEventArgs = new ScriptTableEventArgs();

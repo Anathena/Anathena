@@ -152,13 +152,20 @@ namespace Anathema
 
         public override void ReorderScript(Int32 SourceIndex, Int32 DestinationIndex)
         {
-            AddressItem Item = AddressItems[SourceIndex];
+            // Bounds checking
+            if (SourceIndex < 0 || SourceIndex > AddressItems.Count)
+                return;
 
-            AddressItems.RemoveAt(SourceIndex);
-
+            // If an item is being removed before the destination, the destination must be shifted
             if (DestinationIndex > SourceIndex)
                 DestinationIndex--;
 
+            // Bounds checking
+            if (DestinationIndex < 0 || DestinationIndex > AddressItems.Count)
+                return;
+
+            AddressItem Item = AddressItems[SourceIndex];
+            AddressItems.RemoveAt(SourceIndex);
             AddressItems.Insert(DestinationIndex, Item);
 
             AddressTableEventArgs AddressTableEventArgs = new AddressTableEventArgs();
