@@ -62,7 +62,9 @@ namespace Anathema
         public abstract AddressItem GetAddressItemAt(Int32 Index);
         public abstract void SetAddressItemAt(Int32 Index, AddressItem AddressItem);
         public abstract void SetAddressFrozen(Int32 Index, Boolean Activated);
-        
+
+        public abstract void ReorderScript(Int32 SourceIndex, Int32 DestinationIndex);
+
         public abstract void ForceRefresh();
         public abstract void UpdateReadBounds(Int32 StartReadIndex, Int32 EndReadIndex);
     }
@@ -138,9 +140,9 @@ namespace Anathema
             Model.SetAddressFrozen(Index, Activated);
         }
         
-        public ListViewItem GetFSMTableItemAt(Int32 Index)
+        public void ReorderScript(Int32 SourceIndex, Int32 DestinationIndex)
         {
-            throw new NotImplementedException();
+            Model.ReorderScript(SourceIndex, DestinationIndex);
         }
 
         #endregion

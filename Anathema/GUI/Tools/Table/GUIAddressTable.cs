@@ -14,7 +14,7 @@ namespace Anathema
     public partial class GUIAddressTable : UserControl, IAddressTableView
     {
         private AddressTablePresenter AddressTablePresenter;
-        
+
         public GUIAddressTable()
         {
             InitializeComponent();
@@ -87,7 +87,7 @@ namespace Anathema
         #region Events
 
         private Point LastRightClickLocation = Point.Empty;
-        
+
         private void AddressTableListView_RetrieveVirtualItem(Object Sender, RetrieveVirtualItemEventArgs E)
         {
             E.Item = AddressTablePresenter.GetAddressTableItemAt(E.ItemIndex);
@@ -168,6 +168,32 @@ namespace Anathema
         private void AddNewAddressToolStripMenuItem_Click(Object Sender, EventArgs E)
         {
 
+        }
+
+        private ListViewItem DraggedItem;
+        private void AddressTableListView_ItemDrag(Object Sender, ItemDragEventArgs E)
+        {
+            DraggedItem = (ListViewItem)E.Item;
+            DoDragDrop(E.Item, DragDropEffects.All);
+        }
+
+        private void AddressTableListView_DragOver(Object Sender, DragEventArgs E)
+        {
+            E.Effect = DragDropEffects.All;
+        }
+
+        private void AddressTableListView_DragDrop(Object Sender, DragEventArgs E)
+        {
+            ListViewHitTestInfo HitTest = AddressTableListView.HitTest(AddressTableListView.PointToClient(new Point(E.X, E.Y)));
+            ListViewItem SelectedItem = HitTest.Item;
+
+            if (DraggedItem == null || DraggedItem == SelectedItem)
+                return;
+
+            if ((SelectedItem != null && SelectedItem.GetType() != typeof(ListViewItem)) || DraggedItem.GetType() != typeof(ListViewItem))
+                return;
+
+            AddressTablePresenter.ReorderScript(DraggedItem.Index, SelectedItem == null ? AddressTableListView.Items.Count : SelectedItem.Index);
         }
 
         #endregion

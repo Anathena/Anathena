@@ -104,7 +104,10 @@
             this.AddressTableListView.UseCompatibleStateImageBehavior = false;
             this.AddressTableListView.View = System.Windows.Forms.View.Details;
             this.AddressTableListView.VirtualMode = true;
+            this.AddressTableListView.ItemDrag += new System.Windows.Forms.ItemDragEventHandler(this.AddressTableListView_ItemDrag);
             this.AddressTableListView.RetrieveVirtualItem += new System.Windows.Forms.RetrieveVirtualItemEventHandler(this.AddressTableListView_RetrieveVirtualItem);
+            this.AddressTableListView.DragDrop += new System.Windows.Forms.DragEventHandler(this.AddressTableListView_DragDrop);
+            this.AddressTableListView.DragOver += new System.Windows.Forms.DragEventHandler(this.AddressTableListView_DragOver);
             this.AddressTableListView.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.AddressTableListView_KeyPress);
             this.AddressTableListView.MouseClick += new System.Windows.Forms.MouseEventHandler(this.AddressTableListView_MouseClick);
             this.AddressTableListView.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.AddressTableListView_MouseDoubleClick);

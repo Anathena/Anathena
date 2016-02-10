@@ -150,6 +150,22 @@ namespace Anathema
             ClearAddressItemFromCache(AddressItems[Index]);
         }
 
+        public override void ReorderScript(Int32 SourceIndex, Int32 DestinationIndex)
+        {
+            AddressItem Item = AddressItems[SourceIndex];
+
+            AddressItems.RemoveAt(SourceIndex);
+
+            if (DestinationIndex > SourceIndex)
+                DestinationIndex--;
+
+            AddressItems.Insert(DestinationIndex, Item);
+
+            AddressTableEventArgs AddressTableEventArgs = new AddressTableEventArgs();
+            AddressTableEventArgs.ItemCount = AddressItems.Count;
+            OnEventClearAddressCache(AddressTableEventArgs);
+        }
+
         private void ClearAddressItemFromCache(AddressItem AddressItem)
         {
             AddressTableEventArgs AddressTableEventArgs = new AddressTableEventArgs();
