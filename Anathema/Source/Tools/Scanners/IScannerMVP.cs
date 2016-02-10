@@ -34,7 +34,6 @@ namespace Anathema
 
         public override void Begin()
         {
-            Results.GetInstance().DisableResults();
             ScanCount = 0;
             WaitTime = Settings.GetInstance().GetRescanInterval();
             base.Begin();
@@ -49,7 +48,6 @@ namespace Anathema
         public override void End()
         {
             base.End();
-            Results.GetInstance().EnableResults();
         }
     }
 
@@ -83,5 +81,7 @@ namespace Anathema
         }
 
         #endregion
-    }
-}
+
+    } // End class
+
+} // End namespace
