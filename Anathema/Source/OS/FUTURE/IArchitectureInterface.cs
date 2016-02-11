@@ -2,7 +2,7 @@
 
 namespace Anathema
 {
-    public interface IProcessInterface
+    public interface IArchitectureInterface
     {
 
     } // End interface

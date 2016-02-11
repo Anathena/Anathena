@@ -42,14 +42,6 @@ namespace Binarysharp.MemoryManagement
         public AssemblyFactory Assembly { get; protected set; }
 
         /// <summary>
-        /// Gets whether the process is being debugged.
-        /// </summary>
-        public bool IsDebugged
-        {
-            get { return Peb.BeingDebugged; }
-            set { Peb.BeingDebugged = value; }
-        }
-        /// <summary>
         /// State if the process is running.
         /// </summary>
         public bool IsRunning

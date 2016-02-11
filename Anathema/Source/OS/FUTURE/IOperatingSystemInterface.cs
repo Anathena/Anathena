@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Binarysharp.MemoryManagement
+namespace Anathema
 {
     /// <summary>
     /// Specifies the interface requir
@@ -8,7 +8,9 @@ namespace Binarysharp.MemoryManagement
     public abstract class IOperatingSystemInterface
     {
         public IVirtualMemoryInterface VirtualMemoryInterface;
-        public IProcessInterface ProcessInterface;
+        public IArchitectureInterface ArchitectureInterface;
+
+        public abstract Boolean IsOS32Bit();
 
     } // End interface
 
