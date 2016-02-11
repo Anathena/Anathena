@@ -260,7 +260,7 @@ namespace Anathema
                 return Result;
 
             // Determine number of no-ops to fill dangling bytes
-            string NoOps = "db " + String.Join(" ", Enumerable.Repeat("0x90,", OriginalBytes.Length - JumpSize)).TrimEnd(',');
+            string NoOps = (OriginalBytes.Length - JumpSize > 0 ? "db " : String.Empty) + String.Join(" ", Enumerable.Repeat("0x90,", OriginalBytes.Length - JumpSize)).TrimEnd(',');
 
             // Write in the jump to the code cave
             String CodeCaveJump = "jmp " + "0x" + Conversions.ToAddress(Result) + "\n" + NoOps;
@@ -371,123 +371,156 @@ namespace Anathema
         public SByte ReadSByte(UInt64 Address)
         {
             Boolean Success;
-            return MemoryEditor.Read<SByte>(unchecked((IntPtr)Address), out Success);
+            SByte Result = MemoryEditor.Read<SByte>(unchecked((IntPtr)Address), out Success);
+            Console.WriteLine("[LUA] " + MethodBase.GetCurrentMethod().Name + " " + (Success == true ? "(success)" : "(failed)"));
+            return Result;
         }
 
         public Byte ReadByte(UInt64 Address)
         {
             Boolean Success;
-            return MemoryEditor.Read<Byte>(unchecked((IntPtr)Address), out Success);
+            Byte Result = MemoryEditor.Read<Byte>(unchecked((IntPtr)Address), out Success);
+            Console.WriteLine("[LUA] " + MethodBase.GetCurrentMethod().Name + " " + (Success == true ? "(success)" : "(failed)"));
+            return Result;
         }
 
         public Int16 ReadInt16(UInt64 Address)
         {
             Boolean Success;
-            return MemoryEditor.Read<Int16>(unchecked((IntPtr)Address), out Success);
+            Int16 Result = MemoryEditor.Read<Int16>(unchecked((IntPtr)Address), out Success);
+            Console.WriteLine("[LUA] " + MethodBase.GetCurrentMethod().Name + " " + (Success == true ? "(success)" : "(failed)"));
+            return Result;
         }
 
         public Int32 ReadInt32(UInt64 Address)
         {
             Boolean Success;
-            return MemoryEditor.Read<Int32>(unchecked((IntPtr)Address), out Success);
+            Int32 Result = MemoryEditor.Read<Int32>(unchecked((IntPtr)Address), out Success);
+            Console.WriteLine("[LUA] " + MethodBase.GetCurrentMethod().Name + " " + (Success == true ? "(success)" : "(failed)"));
+            return Result;
         }
 
         public Int64 ReadInt64(UInt64 Address)
         {
             Boolean Success;
-            return MemoryEditor.Read<Int64>(unchecked((IntPtr)Address), out Success);
+            Int64 Result = MemoryEditor.Read<Int64>(unchecked((IntPtr)Address), out Success);
+            Console.WriteLine("[LUA] " + MethodBase.GetCurrentMethod().Name + " " + (Success == true ? "(success)" : "(failed)"));
+            return Result;
         }
 
         public UInt16 ReadUInt16(UInt64 Address)
         {
             Boolean Success;
-            return MemoryEditor.Read<UInt16>(unchecked((IntPtr)Address), out Success);
+            UInt16 Result = MemoryEditor.Read<UInt16>(unchecked((IntPtr)Address), out Success);
+            Console.WriteLine("[LUA] " + MethodBase.GetCurrentMethod().Name + " " + (Success == true ? "(success)" : "(failed)"));
+            return Result;
         }
 
         public UInt32 ReadUInt32(UInt64 Address)
         {
             Boolean Success;
-            return MemoryEditor.Read<UInt32>(unchecked((IntPtr)Address), out Success);
+            UInt32 Result = MemoryEditor.Read<UInt32>(unchecked((IntPtr)Address), out Success);
+            Console.WriteLine("[LUA] " + MethodBase.GetCurrentMethod().Name + " " + (Success == true ? "(success)" : "(failed)"));
+            return Result;
         }
 
         public UInt64 ReadUInt64(UInt64 Address)
         {
             Boolean Success;
-            return MemoryEditor.Read<UInt64>(unchecked((IntPtr)Address), out Success);
+            UInt64 Result = MemoryEditor.Read<UInt64>(unchecked((IntPtr)Address), out Success);
+            Console.WriteLine("[LUA] " + MethodBase.GetCurrentMethod().Name + " " + (Success == true ? "(success)" : "(failed)"));
+            return Result;
         }
 
         public Single ReadSingle(UInt64 Address)
         {
             Boolean Success;
-            return MemoryEditor.Read<SByte>(unchecked((IntPtr)Address), out Success);
+            Single Result = MemoryEditor.Read<Single>(unchecked((IntPtr)Address), out Success);
+            Console.WriteLine("[LUA] " + MethodBase.GetCurrentMethod().Name + " " + (Success == true ? "(success)" : "(failed)"));
+            return Result;
         }
 
         public Double ReadDouble(UInt64 Address)
         {
             Boolean Success;
-            return MemoryEditor.Read<SByte>(unchecked((IntPtr)Address), out Success);
+            UInt64 Result = MemoryEditor.Read<UInt64>(unchecked((IntPtr)Address), out Success);
+            Console.WriteLine("[LUA] " + MethodBase.GetCurrentMethod().Name + " " + (Success == true ? "(success)" : "(failed)"));
+            return Result;
         }
 
         public Byte[] ReadBytes(UInt64 Address, Int32 Count)
         {
             Boolean Success;
-            return MemoryEditor.ReadBytes(unchecked((IntPtr)Address), Count, out Success);
+            Byte[] Result = MemoryEditor.ReadBytes(unchecked((IntPtr)Address), Count, out Success);
+            Console.WriteLine("[LUA] " + MethodBase.GetCurrentMethod().Name + " " + (Success == true ? "(success)" : "(failed)"));
+            return Result;
         }
 
         // Writing
         public void WriteSByte(UInt64 Address, SByte Value)
         {
             MemoryEditor.Write<SByte>(unchecked((IntPtr)Address), Value);
+            Console.WriteLine("[LUA] " + MethodBase.GetCurrentMethod().Name);
         }
 
         public void WriteByte(UInt64 Address, Byte Value)
         {
             MemoryEditor.Write<Byte>(unchecked((IntPtr)Address), Value);
+            Console.WriteLine("[LUA] " + MethodBase.GetCurrentMethod().Name);
         }
 
         public void WriteInt16(UInt64 Address, Int16 Value)
         {
             MemoryEditor.Write<Int16>(unchecked((IntPtr)Address), Value);
+            Console.WriteLine("[LUA] " + MethodBase.GetCurrentMethod().Name);
         }
 
         public void WriteInt32(UInt64 Address, Int32 Value)
         {
             MemoryEditor.Write<Int32>(unchecked((IntPtr)Address), Value);
+            Console.WriteLine("[LUA] " + MethodBase.GetCurrentMethod().Name);
         }
 
         public void WriteInt64(UInt64 Address, Int64 Value)
         {
             MemoryEditor.Write<Int64>(unchecked((IntPtr)Address), Value);
+            Console.WriteLine("[LUA] " + MethodBase.GetCurrentMethod().Name);
         }
 
         public void WriteUInt16(UInt64 Address, UInt16 Value)
         {
             MemoryEditor.Write<UInt16>(unchecked((IntPtr)Address), Value);
+            Console.WriteLine("[LUA] " + MethodBase.GetCurrentMethod().Name);
         }
 
         public void WriteUInt32(UInt64 Address, UInt32 Value)
         {
             MemoryEditor.Write<UInt32>(unchecked((IntPtr)Address), Value);
+            Console.WriteLine("[LUA] " + MethodBase.GetCurrentMethod().Name);
         }
 
         public void WriteUInt64(UInt64 Address, UInt64 Value)
         {
             MemoryEditor.Write<UInt64>(unchecked((IntPtr)Address), Value);
+            Console.WriteLine("[LUA] " + MethodBase.GetCurrentMethod().Name);
         }
 
         public void WriteSingle(UInt64 Address, Single Value)
         {
             MemoryEditor.Write<Single>(unchecked((IntPtr)Address), Value);
+            Console.WriteLine("[LUA] " + MethodBase.GetCurrentMethod().Name);
         }
 
         public void WriteDouble(UInt64 Address, Double Value)
         {
             MemoryEditor.Write<Double>(unchecked((IntPtr)Address), Value);
+            Console.WriteLine("[LUA] " + MethodBase.GetCurrentMethod().Name);
         }
 
         public void WriteBytes(UInt64 Address, Byte[] Values)
         {
             MemoryEditor.WriteBytes(unchecked((IntPtr)Address), Values);
+            Console.WriteLine("[LUA] " + MethodBase.GetCurrentMethod().Name);
         }
 
     } // End interface

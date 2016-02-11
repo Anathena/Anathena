@@ -84,7 +84,7 @@ namespace Binarysharp.MemoryManagement.Memory
             if (!NativeMethods.VirtualFreeEx(ProcessHandle, Address, 0, MemoryReleaseFlags.Release))
             {
                 // If the memory wasn't correctly freed, throws an exception
-                throw new Win32Exception(String.Format("The memory page 0x{0} cannot be freed.", Address.ToString("X")));
+                // throw new Win32Exception(String.Format("The memory page 0x{0} cannot be freed.", Address.ToString("X")));
             }
         }
 
