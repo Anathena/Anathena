@@ -27,7 +27,7 @@ namespace Anathema
             PointerScannerPresenter = new PointerScannerPresenter(this, new PointerScanner());
 
             GUIConstraintEditor.RemoveRelativeScans();
-
+            
             InitializeValueTypeComboBox();
             InitializeDefaults();
             UpdateRescanMode();
@@ -36,6 +36,9 @@ namespace Anathema
 
         private void InitializeDefaults()
         {
+            MaxOffsetTextBox.SetElementType(typeof(Int32));
+            MaxLevelTextBox.SetElementType(typeof(Int32));
+
             MaxLevelTextBox.SetValue(DefaultLevel);
             MaxOffsetTextBox.SetValue(DefaultOffset);
         }
