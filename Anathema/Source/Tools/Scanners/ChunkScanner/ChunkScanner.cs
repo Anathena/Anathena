@@ -61,7 +61,7 @@ namespace Anathema
         {
             base.Update();
 
-            WindowsOSInterface MemoryEditor = Snapshot.GetMemoryEditor();
+            OSInterface MemoryEditor = Snapshot.GetMemoryEditor();
 
             Parallel.ForEach(ChunkRoots, (ChunkRoot) =>
             {

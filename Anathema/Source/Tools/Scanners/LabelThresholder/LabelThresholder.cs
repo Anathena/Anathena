@@ -12,7 +12,6 @@ namespace Anathema
 {
     class LabelThresholder : ILabelThresholderModel
     {
-        private WindowsOSInterface MemoryEditor;
         private Snapshot Snapshot;
         
         private SortedDictionary<dynamic, Int64> SortedDictionary;

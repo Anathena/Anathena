@@ -28,7 +28,7 @@ namespace Anathema
 
     class PointerScanner : IPointerScannerModel, IProcessObserver
     {
-        private WindowsOSInterface MemoryEditor;
+        private OSInterface MemoryEditor;
         private Snapshot<Null> Snapshot;
 
         // As far as I can tell, no valid pointers will end up being less than 0x10000 (UInt16.MaxValue). Huge gains by filtering these.
@@ -81,7 +81,7 @@ namespace Anathema
             ProcessSelector.GetInstance().Subscribe(this);
         }
 
-        public void UpdateMemoryEditor(WindowsOSInterface MemoryEditor)
+        public void UpdateMemoryEditor(OSInterface MemoryEditor)
         {
             this.MemoryEditor = MemoryEditor;
         }
@@ -124,7 +124,7 @@ namespace Anathema
 
         private SnapshotRegion AddressToRegion(UInt64 Address)
         {
-            return new SnapshotRegion<Null>(new RemoteRegion(null, unchecked((IntPtr)(Address - MaxPointerOffset)), unchecked((Int32)MaxPointerOffset * 2)));
+            return new SnapshotRegion<Null>(new NormalizedRegion(unchecked((IntPtr)(Address - MaxPointerOffset)), unchecked((Int32)MaxPointerOffset * 2)));
         }
 
         private void UpdateDisplay()
@@ -190,7 +190,7 @@ namespace Anathema
 
             foreach (Int32 Offset in Offsets)
             {
-                Pointer = MemoryEditor.Read<UInt64>((IntPtr)Pointer, out SuccessReading);
+                Pointer = MemoryEditor.Process.Read<UInt64>((IntPtr)Pointer, out SuccessReading);
                 Pointer += (UInt64)Offset;
 
                 if (!SuccessReading)
@@ -235,7 +235,7 @@ namespace Anathema
                         UInt64 Pointer = ResolvePointer(AcceptedPointers[Index]);
 
                         Boolean SuccessReading;
-                        String Value = MemoryEditor.Read(ElementType, (IntPtr)Pointer, out SuccessReading).ToString();
+                        String Value = MemoryEditor.Process.Read(ElementType, (IntPtr)Pointer, out SuccessReading).ToString();
 
                         IndexValueMap[Index] = Value;
                     }
@@ -422,14 +422,12 @@ namespace Anathema
             if (MemoryEditor == null)
                 return;
 
-            List<RemoteModule> Modules = MemoryEditor.Modules.RemoteModules.ToList();
-            // List<RemoteModule> Modules = new List<RemoteModule>();
-            // Modules.Add(MemoryEditor.Modules.MainModule);
+            IEnumerable<NormalizedModule> Modules = MemoryEditor.Process.GetModules();
 
             List<SnapshotRegion> AcceptedBaseRegions = new List<SnapshotRegion>();
 
             // Gather regions from every module as valid base addresses
-            Modules.ForEach(x => AcceptedBaseRegions.Add(new SnapshotRegion<Null>(new RemoteRegion(MemoryEditor, x.BaseAddress, x.Size))));
+            Modules.ToList().ForEach(x => AcceptedBaseRegions.Add(new SnapshotRegion<Null>(new NormalizedRegion(x.BaseAddress, x.RegionSize))));
 
             // Convert regions into a snapshot
             AcceptedBases = new Snapshot<Null>(AcceptedBaseRegions);

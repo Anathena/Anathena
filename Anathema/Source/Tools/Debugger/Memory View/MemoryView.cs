@@ -17,8 +17,8 @@ namespace Anathema
     /// </summary>
     class MemoryView : IMemoryViewModel, IProcessObserver
     {
-        private WindowsOSInterface MemoryEditor;
-        private List<RemoteVirtualPage> VirtualPages;
+        private OSInterface MemoryEditor;
+        private IEnumerable<NormalizedRegion> VirtualPages;
 
         private UInt64 StartReadAddress;
         private UInt64 EndReadAddress;
@@ -38,7 +38,7 @@ namespace Anathema
             ProcessSelector.GetInstance().Subscribe(this);
         }
 
-        public void UpdateMemoryEditor(WindowsOSInterface MemoryEditor)
+        public void UpdateMemoryEditor(OSInterface MemoryEditor)
         {
             this.MemoryEditor = MemoryEditor;
 
@@ -50,7 +50,7 @@ namespace Anathema
             if (MemoryEditor == null)
                 return;
 
-            VirtualPages = new List<RemoteVirtualPage>(MemoryEditor.Memory.AllVirtualPages);
+            VirtualPages = MemoryEditor.Process.GetVirtualPages();
             MemoryViewEventArgs Args = new MemoryViewEventArgs();
             Args.VirtualPages = VirtualPages;
             OnEventUpdateVirtualPages(Args);
@@ -70,11 +70,11 @@ namespace Anathema
 
         public override void QuickNavigate(Int32 VirtualPageIndex)
         {
-            if (VirtualPageIndex < 0 || VirtualPageIndex > VirtualPages.Count)
+            if (VirtualPageIndex < 0 || VirtualPageIndex > VirtualPages.Count())
                 return;
 
             MemoryViewEventArgs Args = new MemoryViewEventArgs();
-            Args.Address = unchecked((UInt64)VirtualPages[VirtualPageIndex].BaseAddress);
+            Args.Address = VirtualPages.ElementAt(VirtualPageIndex).BaseAddress.ToUInt64();
             OnEventEventGoToAddress(Args);
         }
 
@@ -90,7 +90,7 @@ namespace Anathema
             if (MemoryEditor == null)
                 return;
 
-            MemoryEditor.Write<Byte>(unchecked((IntPtr)Address), Value);
+            MemoryEditor.Process.Write<Byte>(unchecked((IntPtr)Address), Value);
         }
 
         public override void Begin()
@@ -112,7 +112,7 @@ namespace Anathema
                     continue;
 
                 Boolean ReadSuccess;
-                Byte Value = MemoryEditor.Read<Byte>(unchecked((IntPtr)Address), out ReadSuccess);
+                Byte Value = MemoryEditor.Process.Read<Byte>(unchecked((IntPtr)Address), out ReadSuccess);
 
                 if (ReadSuccess)
                     AddressValueMap[Address] = Value;

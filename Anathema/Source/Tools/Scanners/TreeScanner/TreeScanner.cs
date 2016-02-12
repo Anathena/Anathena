@@ -63,7 +63,7 @@ namespace Anathema
 
         protected override void Update()
         {
-            WindowsOSInterface MemoryEditor = Snapshot.GetMemoryEditor();
+            OSInterface MemoryEditor = Snapshot.GetMemoryEditor();
             try
             {
                 Parallel.ForEach(FilterTrees, (Tree) =>

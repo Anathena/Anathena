@@ -11,7 +11,7 @@ namespace Anathema
     /// <summary>
     /// Defines a snapshot of memory in an external process.
     /// </summary>
-    public abstract class SnapshotRegion : RemoteRegion, IEnumerable
+    public abstract class SnapshotRegion : NormalizedRegion, IEnumerable
     {
         protected Int32 RegionExtension;    // Variable to indicate a safe number of read-over bytes
         protected unsafe Byte[] CurrentValues;      // Most recently read values
@@ -24,9 +24,9 @@ namespace Anathema
         public BitArray Valid;                          // Valid bits for use in filtering scans
         public SnapshotElement CurrentSnapshotElement;  // Regions only access one element at a time, so it is held here to avoid uneccessary memory usage
 
-        public SnapshotRegion(IntPtr BaseAddress, Int32 RegionSize) : base(null, BaseAddress, RegionSize) { RegionExtension = 0; }
-        public SnapshotRegion(RemoteRegion RemoteRegion) : base(null, RemoteRegion.BaseAddress, RemoteRegion.RegionSize) { RegionExtension = 0; }
-        public SnapshotRegion(SnapshotRegion SnapshotRegion) : base(null, SnapshotRegion.BaseAddress, SnapshotRegion.RegionSize) { this.RegionExtension = SnapshotRegion.RegionExtension; }
+        public SnapshotRegion(IntPtr BaseAddress, Int32 RegionSize) : base(BaseAddress, RegionSize) { RegionExtension = 0; }
+        public SnapshotRegion(NormalizedRegion RemoteRegion) : base(RemoteRegion.BaseAddress, RemoteRegion.RegionSize) { RegionExtension = 0; }
+        public SnapshotRegion(SnapshotRegion SnapshotRegion) : base(SnapshotRegion.BaseAddress, SnapshotRegion.RegionSize) { this.RegionExtension = SnapshotRegion.RegionExtension; }
 
         public unsafe abstract SnapshotElement this[Int32 Index] { get; }
 
@@ -189,10 +189,10 @@ namespace Anathema
             return true;
         }
 
-        public Byte[] ReadAllSnapshotMemory(WindowsOSInterface MemoryEditor, Boolean KeepValues = true)
+        public Byte[] ReadAllSnapshotMemory(OSInterface MemoryEditor, Boolean KeepValues = true)
         {
             Boolean SuccessReading = false;
-            Byte[] CurrentValues = MemoryEditor.ReadBytes(this.BaseAddress, this.RegionSize + RegionExtension, out SuccessReading);
+            Byte[] CurrentValues = MemoryEditor.Process.ReadBytes(this.BaseAddress, this.RegionSize + RegionExtension, out SuccessReading);
 
             if (!SuccessReading)
                 throw new ScanFailedException();
@@ -251,7 +251,7 @@ namespace Anathema
         public LabelType?[] ElementLabels;      // Labels for individual elements
 
         public SnapshotRegion(IntPtr BaseAddress, Int32 RegionSize) : base(BaseAddress, RegionSize) { CurrentSnapshotElement = new SnapshotElement<LabelType>(this); }
-        public SnapshotRegion(RemoteRegion RemoteRegion) : base(RemoteRegion) { CurrentSnapshotElement = new SnapshotElement<LabelType>(this); }
+        public SnapshotRegion(NormalizedRegion RemoteRegion) : base(RemoteRegion) { CurrentSnapshotElement = new SnapshotElement<LabelType>(this); }
         public SnapshotRegion(SnapshotRegion SnapshotRegion) : base(SnapshotRegion)
         {
             CurrentSnapshotElement = new SnapshotElement<LabelType>(this);

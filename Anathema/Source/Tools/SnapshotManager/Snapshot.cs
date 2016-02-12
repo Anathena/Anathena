@@ -16,7 +16,7 @@ namespace Anathema
     /// </summary>
     abstract class Snapshot : IProcessObserver, IEnumerable
     {
-        protected WindowsOSInterface MemoryEditor;
+        protected OSInterface MemoryEditor;
 
         protected IEnumerable<SnapshotRegion> SnapshotRegions;
         protected List<SnapshotRegion> DeallocatedRegions;
@@ -52,12 +52,12 @@ namespace Anathema
             ProcessSelector.GetInstance().Subscribe(this);
         }
 
-        public void UpdateMemoryEditor(WindowsOSInterface MemoryEditor)
+        public void UpdateMemoryEditor(OSInterface MemoryEditor)
         {
             this.MemoryEditor = MemoryEditor;
         }
 
-        public WindowsOSInterface GetMemoryEditor()
+        public OSInterface GetMemoryEditor()
         {
             return MemoryEditor;
         }
@@ -237,7 +237,7 @@ namespace Anathema
         /// <param name="SnapshotRegions"></param>
         public Snapshot(IEnumerable<SnapshotRegion> SnapshotRegions)
         {
-            this.SnapshotRegions = SnapshotRegions.Select(x => (SnapshotRegion<LabelType>)x);
+            this.SnapshotRegions = SnapshotRegions == null ? null : SnapshotRegions.Select(x => (SnapshotRegion<LabelType>)x);
             Initialize();
         }
 
@@ -430,6 +430,9 @@ namespace Anathema
         /// </summary>
         private void MergeRegions()
         {
+            if (this.SnapshotRegions == null)
+                return;
+
             SnapshotRegion<LabelType>[] SnapshotRegionArray = ((IEnumerable<SnapshotRegion<LabelType>>)this.SnapshotRegions).ToArray();
 
             if (SnapshotRegionArray == null || SnapshotRegionArray.Length == 0)

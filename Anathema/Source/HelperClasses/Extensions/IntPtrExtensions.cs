@@ -8,6 +8,11 @@ namespace Anathema
 {
     public static class IntPtrExtensions
     {
+        public static UInt64 ToUInt64(this IntPtr IntPtr)
+        {
+            return unchecked((UInt64)(Int64)IntPtr);
+        }
+
         public static IntPtr Add(this IntPtr Left, IntPtr Right)
         {
             return (IntPtr)unchecked((UInt64)Left + (UInt64)Right);
@@ -27,7 +32,12 @@ namespace Anathema
         {
             return (IntPtr)unchecked((UInt64)Left / (UInt64)Right);
         }
-        
+
+        public static UInt64 ToUInt64(this UIntPtr Self)
+        {
+            return unchecked((UInt64)(Int64)Self);
+        }
+
         public static UIntPtr Add(this UIntPtr Left, UIntPtr Right)
         {
             return (UIntPtr)unchecked((UInt64)Left + (UInt64)Right);

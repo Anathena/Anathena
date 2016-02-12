@@ -13,7 +13,7 @@ namespace Anathema
     delegate void MemoryViewEventHandler(Object Sender, MemoryViewEventArgs Args);
     class MemoryViewEventArgs : EventArgs
     {
-        public List<RemoteVirtualPage> VirtualPages;
+        public IEnumerable<NormalizedRegion> VirtualPages;
         public UInt64 Address;
     }
 
@@ -174,7 +174,7 @@ namespace Anathema
             List<String> VirtualPages = new List<String>();
 
             if (E.VirtualPages != null)
-                E.VirtualPages.ForEach(x => VirtualPages.Add(x.BaseAddress.ToString("X")));
+                E.VirtualPages.ToList().ForEach(x => VirtualPages.Add(x.BaseAddress.ToString("X")));
 
             View.UpdateVirtualPages(VirtualPages);
         }

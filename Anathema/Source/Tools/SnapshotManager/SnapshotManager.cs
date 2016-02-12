@@ -16,7 +16,7 @@ namespace Anathema
         // Lock to ensure multiple entities do not try and update the snapshot list at the same time
         private Object AccessLock = new Object();
 
-        private WindowsOSInterface MemoryEditor;
+        private OSInterface MemoryEditor;
         private Stack<Snapshot> Snapshots;          // Snapshots being managed
         private Stack<Snapshot> DeletedSnapshots;   // Deleted snapshots for the capability of redoing after undo
 
@@ -46,7 +46,7 @@ namespace Anathema
             ProcessSelector.GetInstance().Subscribe(this);
         }
 
-        public void UpdateMemoryEditor(WindowsOSInterface MemoryEditor)
+        public void UpdateMemoryEditor(OSInterface MemoryEditor)
         {
             this.MemoryEditor = MemoryEditor;
         }
@@ -83,22 +83,22 @@ namespace Anathema
                 return new Snapshot<Null>();
 
             // Query all virtual pages
-            List<RemoteVirtualPage> VirtualPages = new List<RemoteVirtualPage>();
+            List<NormalizedRegion> VirtualPages = new List<NormalizedRegion>();
             if (!QueryAllMemory)
             {
-                foreach (RemoteVirtualPage Page in MemoryEditor.Memory.VirtualPages)
+                foreach (NormalizedRegion Page in MemoryEditor.Process.GetVirtualPages())
                     VirtualPages.Add(Page);
             }
             else
             {
-                foreach (RemoteVirtualPage Page in MemoryEditor.Memory.AllVirtualPages)
+                foreach (NormalizedRegion Page in MemoryEditor.Process.GetVirtualPages())
                     VirtualPages.Add(Page);
             }
             
             // Convert each virtual page to a remote region (a more condensed representation of the information)
             List<SnapshotRegion> MemoryRegions = new List<SnapshotRegion>();
             for (int PageIndex = 0; PageIndex < VirtualPages.Count; PageIndex++)
-                MemoryRegions.Add(new SnapshotRegion<Null>(VirtualPages[PageIndex].Information.BaseAddress, (Int32)VirtualPages[PageIndex].Information.RegionSize));
+                MemoryRegions.Add(new SnapshotRegion<Null>(VirtualPages[PageIndex].BaseAddress, (Int32)VirtualPages[PageIndex].RegionSize));
 
             return new Snapshot<Null>(MemoryRegions);
         }

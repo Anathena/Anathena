@@ -57,10 +57,11 @@ namespace Anathema
             throw new NotImplementedException();
         }
 
-        public void UpdateMemoryEditor(WindowsOSInterface MemoryEditor)
+        public void UpdateMemoryEditor(OSInterface MemoryEditor)
         {
             throw new NotImplementedException();
         }
+
     } // End class
 
 } // End namespace

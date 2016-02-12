@@ -190,18 +190,19 @@
     <Compile Include="Source\HelperClasses\ObjectCache.cs" />
     <Compile Include="Source\HelperClasses\MessageBoxEx.cs" />
     <Compile Include="Source\HelperClasses\Extensions\ObjectExtensions.cs" />
-    <Compile Include="Source\OS\FUTURE\Architecture.cs" />
-    <Compile Include="Source\OS\FUTURE\IAssembler.cs" />
-    <Compile Include="Source\OS\FUTURE\IDisassembler.cs" />
-    <Compile Include="Source\OS\FUTURE\RemoteRegion.cs" />
-    <Compile Include="Source\OS\FUTURE\IOperatingSystemInterface.cs" />
+    <Compile Include="Source\OS\OperatingSystems\Architecture.cs" />
+    <Compile Include="Source\OS\OperatingSystems\IAssembler.cs" />
+    <Compile Include="Source\OS\OperatingSystems\IDisassembler.cs" />
+    <Compile Include="Source\OS\OperatingSystems\NormalizedModule.cs" />
+    <Compile Include="Source\OS\OperatingSystems\NormalizedRegion.cs" />
+    <Compile Include="Source\OS\OperatingSystems\IOperatingSystemInterface.cs" />
     <Compile Include="Source\OS\Lua\LuaEngine.cs" />
     <Compile Include="Settings.cs" />
     <Compile Include="Source\HelperClasses\ListViewCache.cs" />
     <Compile Include="Source\HelperClasses\RepeatedTask.cs" />
     <Compile Include="Source\OS\Lua\LuaKeywordManager.cs" />
     <Compile Include="Source\OS\Lua\LuaMemoryCore.cs" />
-    <Compile Include="Source\OS\FUTURE\OSInterface.cs" />
+    <Compile Include="Source\OS\OperatingSystems\OSInterface.cs" />
     <Compile Include="Source\OS\OperatingSystems\Windows\Assembly\Disassembler\SharpDisassembler.cs" />
     <Compile Include="Source\OS\OperatingSystems\Windows\Assembly\Disassembler\IDisassembler.cs" />
     <Compile Include="Source\Settings\ISettingsMVP.cs" />
@@ -927,6 +928,8 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Source\OS\FUTURE\" />
+    <Folder Include="Source\OS\OperatingSystems\Architecture\" />
     <Folder Include="Source\Tools\Debugger\Code View\" />
   </ItemGroup>
   <ItemGroup>

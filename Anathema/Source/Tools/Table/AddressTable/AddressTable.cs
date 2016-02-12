@@ -21,7 +21,7 @@ namespace Anathema
         }
 
         private static AddressTable AddressTableInstance;
-        private WindowsOSInterface MemoryEditor;
+        private OSInterface MemoryEditor;
 
         private List<AddressItem> AddressItems;
 
@@ -53,7 +53,7 @@ namespace Anathema
             ProcessSelector.GetInstance().Subscribe(this);
         }
 
-        public void UpdateMemoryEditor(WindowsOSInterface MemoryEditor)
+        public void UpdateMemoryEditor(OSInterface MemoryEditor)
         {
             this.MemoryEditor = MemoryEditor;
         }
@@ -92,7 +92,7 @@ namespace Anathema
             {
                 Boolean ReadSuccess;
                 AddressItems[Index].ResolveAddress(MemoryEditor);
-                AddressItems[Index].Value = MemoryEditor.Read(AddressItems[Index].ElementType, unchecked((IntPtr)AddressItems[Index].EffectiveAddress), out ReadSuccess);
+                AddressItems[Index].Value = MemoryEditor.Process.Read(AddressItems[Index].ElementType, unchecked((IntPtr)AddressItems[Index].EffectiveAddress), out ReadSuccess);
             }
 
             AddressItems[Index].SetActivationState(Activated);
@@ -143,7 +143,7 @@ namespace Anathema
             {
                 AddressItems[Index].ResolveAddress(MemoryEditor);
                 if (MemoryEditor != null)
-                    MemoryEditor.Write(AddressItems[Index].ElementType, unchecked((IntPtr)AddressItems[Index].EffectiveAddress), AddressItems[Index].Value);
+                    MemoryEditor.Process.Write(AddressItems[Index].ElementType, unchecked((IntPtr)AddressItems[Index].EffectiveAddress), AddressItems[Index].Value);
             }
 
             // Clear this entry in the cache since it has been updated
@@ -196,7 +196,7 @@ namespace Anathema
                     Item.ResolveAddress(MemoryEditor);
 
                     if (MemoryEditor != null && Item.Value != null)
-                        MemoryEditor.Write(Item.ElementType, unchecked((IntPtr)Item.EffectiveAddress), Item.Value);
+                        MemoryEditor.Process.Write(Item.ElementType, unchecked((IntPtr)Item.EffectiveAddress), Item.Value);
                 }
             }
 
@@ -209,7 +209,7 @@ namespace Anathema
                 AddressItems[Index].ResolveAddress(MemoryEditor);
 
                 if (MemoryEditor != null)
-                    AddressItems[Index].Value = MemoryEditor.Read(AddressItems[Index].ElementType, unchecked((IntPtr)AddressItems[Index].EffectiveAddress), out ReadSuccess);
+                    AddressItems[Index].Value = MemoryEditor.Process.Read(AddressItems[Index].ElementType, unchecked((IntPtr)AddressItems[Index].EffectiveAddress), out ReadSuccess);
             }
 
             if (AddressItems.Count != 0)

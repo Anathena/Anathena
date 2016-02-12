@@ -69,22 +69,22 @@ namespace Anathema
 
     public class LuaMemoryCore : LuaFunctions, IProcessObserver
     {
-        private WindowsOSInterface MemoryEditor;
+        private OSInterface MemoryEditor;
 
         private static ConcurrentDictionary<String, String> GlobalKeywords = new ConcurrentDictionary<String, String>();
         private Dictionary<String, String> Keywords;
-        private List<RemoteAllocation> RemoteAllocations;
+        private List<IntPtr> RemoteAllocations;
         private List<CodeCave> CodeCaves;
 
         private const Int32 JumpSize = 5;
 
         private struct CodeCave
         {
-            public RemoteAllocation RemoteAllocation;
+            public IntPtr RemoteAllocation;
             public Byte[] OriginalBytes;
             public UInt64 Entry;
 
-            public CodeCave(RemoteAllocation RemoteAllocation, Byte[] OriginalBytes, UInt64 Entry)
+            public CodeCave(IntPtr RemoteAllocation, Byte[] OriginalBytes, UInt64 Entry)
             {
                 this.RemoteAllocation = RemoteAllocation;
                 this.OriginalBytes = OriginalBytes;
@@ -100,7 +100,7 @@ namespace Anathema
         public void Initialize()
         {
             // Reinitialize local object collections. If the user has not deallocated all allocated memory, that is on them.
-            RemoteAllocations = new List<RemoteAllocation>();
+            RemoteAllocations = new List<IntPtr>();
             Keywords = new Dictionary<String, String>();
             CodeCaves = new List<CodeCave>();
         }
@@ -110,7 +110,7 @@ namespace Anathema
             ProcessSelector.GetInstance().Subscribe(this);
         }
 
-        public void UpdateMemoryEditor(WindowsOSInterface MemoryEditor)
+        public void UpdateMemoryEditor(OSInterface MemoryEditor)
         {
             this.MemoryEditor = MemoryEditor;
         }
@@ -130,10 +130,10 @@ namespace Anathema
                 Assembly = Assembly.Replace(GlobalKeyword.Key, GlobalKeyword.Value);
 
             // Resolve module names
-            IEnumerable<RemoteModule> Modules = MemoryEditor.Modules.RemoteModules;
+            IEnumerable<NormalizedModule> Modules = MemoryEditor.Process.GetModules();
 
-            foreach (RemoteModule Module in Modules)
-                Assembly = Assembly.Replace(Module.Name, "0x" + Conversions.ToAddress(unchecked((UInt64)Module.BaseAddress)));
+            foreach (NormalizedModule Module in Modules)
+                Assembly = Assembly.Replace(Module.Name, "0x" + Conversions.ToAddress(Module.BaseAddress.ToUInt64()));
 
             return Assembly;
         }
@@ -145,14 +145,14 @@ namespace Anathema
             // Read original bytes at code cave jump
             Boolean ReadSuccess;
             // TODO Math.Min(Largestx86InstructionSize, PageEndAddress - Address);
-            Byte[] OriginalBytes = MemoryEditor.Read<Byte>((IntPtr)Address, Largestx86InstructionSize, out ReadSuccess);
+            Byte[] OriginalBytes = MemoryEditor.Process.ReadBytes((IntPtr)Address, Largestx86InstructionSize, out ReadSuccess);
 
             if (!ReadSuccess || OriginalBytes == null || OriginalBytes.Length <= 0)
                 return null;
 
             // TODO: Offload IsProcecss64Bit to OSInterface (can write a Process extension method too)
             // Grab instructions at code entry point
-            List<Instruction> Instructions = MemoryEditor.Assembly.Disassembler.Disassemble(OriginalBytes, ProcessSelector.IsProcess32Bit(MemoryEditor.Native.Handle), Address);
+            List<Instruction> Instructions = MemoryEditor.Architecture.Disassembler.Disassemble(OriginalBytes, MemoryEditor.Process.Is32Bit(), Address);
 
             // Determine size of instructions we need to overwrite
             Int32 ReplacedInstructionSize = 0;
@@ -175,11 +175,11 @@ namespace Anathema
         public UInt64 GetModuleAddress(String ModuleName)
         {
             UInt64 Result = 0;
-            foreach (RemoteModule Module in MemoryEditor.Modules.RemoteModules)
+            foreach (NormalizedModule Module in MemoryEditor.Process.GetModules())
             {
                 if (Module.Name.ToLower() == ModuleName.ToLower())
                 {
-                    Result = unchecked((UInt64)(Int64)Module.BaseAddress);
+                    Result = Module.BaseAddress.ToUInt64();
                     break;
                 }
             }
@@ -192,7 +192,7 @@ namespace Anathema
         {
             Assembly = ResolveKeywords(Assembly);
 
-            Byte[] Bytes = MemoryEditor.Assembly.Assembler.Assemble(ProcessSelector.IsProcess32Bit(MemoryEditor.Native.Handle), Assembly, IntPtr.Zero);
+            Byte[] Bytes = MemoryEditor.Architecture.Assembler.Assemble(MemoryEditor.Process.Is32Bit(), Assembly, IntPtr.Zero);
             Int32 Result = (Bytes == null ? 0 : Bytes.Length);
 
             Console.WriteLine("[LUA] " + MethodBase.GetCurrentMethod().Name + " " + Result + "B");
@@ -201,10 +201,10 @@ namespace Anathema
 
         public UInt64 AllocateMemory(Int32 Size)
         {
-            RemoteAllocation RemoteAllocation = MemoryEditor.Memory.Allocate(Size);
+            IntPtr RemoteAllocation = MemoryEditor.Process.AllocateMemory(Size);
             RemoteAllocations.Add(RemoteAllocation);
 
-            UInt64 Result = unchecked((UInt64)(Int64)RemoteAllocation.BaseAddress);
+            UInt64 Result = RemoteAllocation.ToUInt64();
             Console.WriteLine("[LUA] " + MethodBase.GetCurrentMethod().Name + " " + Result.ToString("X") + " (" + Size.ToString() + ")");
             return Result;
         }
@@ -213,12 +213,12 @@ namespace Anathema
         {
             Boolean Result = false;
 
-            foreach (RemoteAllocation RemoteAllocation in RemoteAllocations)
+            foreach (IntPtr RemoteAllocation in RemoteAllocations)
             {
-                if (unchecked((UInt64)(Int64)RemoteAllocation.BaseAddress) == Address)
+                if (RemoteAllocation.ToUInt64() == Address)
                 {
                     Result = true;
-                    MemoryEditor.Memory.Deallocate(RemoteAllocation);
+                    MemoryEditor.Process.DeallocateMemory(RemoteAllocation);
                     RemoteAllocations.Remove(RemoteAllocation);
                     break;
                 }
@@ -230,10 +230,9 @@ namespace Anathema
 
         public void DeallocateAllMemory()
         {
-            foreach (RemoteAllocation RemoteAllocation in RemoteAllocations)
-            {
-                MemoryEditor.Memory.Deallocate(RemoteAllocation);
-            }
+            foreach (IntPtr RemoteAllocation in RemoteAllocations)
+                MemoryEditor.Process.DeallocateMemory(RemoteAllocation);
+
             RemoteAllocations.Clear();
 
             Console.WriteLine("[LUA] " + MethodBase.GetCurrentMethod().Name);
@@ -246,12 +245,13 @@ namespace Anathema
             Int32 Size = GetAssemblySize(Assembly);
 
             // Allocate memory
-            RemoteAllocation RemoteAllocation = MemoryEditor.Memory.Allocate(Size);
+            IntPtr RemoteAllocation = MemoryEditor.Process.AllocateMemory(Size);
             RemoteAllocations.Add(RemoteAllocation);
-            UInt64 Result = unchecked((UInt64)(Int64)RemoteAllocation.BaseAddress);
+            UInt64 Result = RemoteAllocation.ToUInt64();
 
             // Write injected code to new page
-            MemoryEditor.Assembly.Inject(ProcessSelector.IsProcess32Bit(MemoryEditor.Native.Handle), Assembly, RemoteAllocation.BaseAddress);
+            Byte[] InjectionBytes = MemoryEditor.Architecture.Assembler.Assemble(MemoryEditor.Process.Is32Bit(), Assembly, RemoteAllocation);
+            MemoryEditor.Process.WriteBytes(RemoteAllocation, InjectionBytes);
 
             // Gather the original bytes
             Byte[] OriginalBytes = GetInstructions(Entry);
@@ -264,7 +264,8 @@ namespace Anathema
 
             // Write in the jump to the code cave
             String CodeCaveJump = "jmp " + "0x" + Conversions.ToAddress(Result) + "\n" + NoOps;
-            MemoryEditor.Assembly.Inject(ProcessSelector.IsProcess32Bit(MemoryEditor.Native.Handle), CodeCaveJump, unchecked((IntPtr)Entry));
+            Byte[] JumpBytes = MemoryEditor.Architecture.Assembler.Assemble(MemoryEditor.Process.Is32Bit(), CodeCaveJump, unchecked((IntPtr)Entry));
+            MemoryEditor.Process.WriteBytes(unchecked((IntPtr)Entry), JumpBytes);
 
             // Save this code cave for later deallocation
             CodeCave CodeCave = new CodeCave(RemoteAllocation, OriginalBytes, Entry);
@@ -304,8 +305,8 @@ namespace Anathema
                 if (CodeCave.Entry == Address)
                 {
                     Result = true;
-                    MemoryEditor.Write<Byte[]>((IntPtr)CodeCave.Entry, CodeCave.OriginalBytes);
-                    MemoryEditor.Memory.Deallocate(CodeCave.RemoteAllocation);
+                    MemoryEditor.Process.Write<Byte[]>((IntPtr)CodeCave.Entry, CodeCave.OriginalBytes);
+                    MemoryEditor.Process.DeallocateMemory(CodeCave.RemoteAllocation);
                 }
             }
             Console.WriteLine("[LUA] " + MethodBase.GetCurrentMethod().Name + " " + (Result == true ? "(success)" : "(failed)"));
@@ -315,8 +316,8 @@ namespace Anathema
         {
             foreach (CodeCave CodeCave in CodeCaves)
             {
-                MemoryEditor.WriteBytes((IntPtr)CodeCave.Entry, CodeCave.OriginalBytes);
-                MemoryEditor.Memory.Deallocate(CodeCave.RemoteAllocation);
+                MemoryEditor.Process.WriteBytes((IntPtr)CodeCave.Entry, CodeCave.OriginalBytes);
+                MemoryEditor.Process.DeallocateMemory(CodeCave.RemoteAllocation);
             }
             CodeCaves.Clear();
 
@@ -371,7 +372,7 @@ namespace Anathema
         public SByte ReadSByte(UInt64 Address)
         {
             Boolean Success;
-            SByte Result = MemoryEditor.Read<SByte>(unchecked((IntPtr)Address), out Success);
+            SByte Result = MemoryEditor.Process.Read<SByte>(unchecked((IntPtr)Address), out Success);
             Console.WriteLine("[LUA] " + MethodBase.GetCurrentMethod().Name + " " + (Success == true ? "(success)" : "(failed)"));
             return Result;
         }
@@ -379,7 +380,7 @@ namespace Anathema
         public Byte ReadByte(UInt64 Address)
         {
             Boolean Success;
-            Byte Result = MemoryEditor.Read<Byte>(unchecked((IntPtr)Address), out Success);
+            Byte Result = MemoryEditor.Process.Read<Byte>(unchecked((IntPtr)Address), out Success);
             Console.WriteLine("[LUA] " + MethodBase.GetCurrentMethod().Name + " " + (Success == true ? "(success)" : "(failed)"));
             return Result;
         }
@@ -387,7 +388,7 @@ namespace Anathema
         public Int16 ReadInt16(UInt64 Address)
         {
             Boolean Success;
-            Int16 Result = MemoryEditor.Read<Int16>(unchecked((IntPtr)Address), out Success);
+            Int16 Result = MemoryEditor.Process.Read<Int16>(unchecked((IntPtr)Address), out Success);
             Console.WriteLine("[LUA] " + MethodBase.GetCurrentMethod().Name + " " + (Success == true ? "(success)" : "(failed)"));
             return Result;
         }
@@ -395,7 +396,7 @@ namespace Anathema
         public Int32 ReadInt32(UInt64 Address)
         {
             Boolean Success;
-            Int32 Result = MemoryEditor.Read<Int32>(unchecked((IntPtr)Address), out Success);
+            Int32 Result = MemoryEditor.Process.Read<Int32>(unchecked((IntPtr)Address), out Success);
             Console.WriteLine("[LUA] " + MethodBase.GetCurrentMethod().Name + " " + (Success == true ? "(success)" : "(failed)"));
             return Result;
         }
@@ -403,7 +404,7 @@ namespace Anathema
         public Int64 ReadInt64(UInt64 Address)
         {
             Boolean Success;
-            Int64 Result = MemoryEditor.Read<Int64>(unchecked((IntPtr)Address), out Success);
+            Int64 Result = MemoryEditor.Process.Read<Int64>(unchecked((IntPtr)Address), out Success);
             Console.WriteLine("[LUA] " + MethodBase.GetCurrentMethod().Name + " " + (Success == true ? "(success)" : "(failed)"));
             return Result;
         }
@@ -411,7 +412,7 @@ namespace Anathema
         public UInt16 ReadUInt16(UInt64 Address)
         {
             Boolean Success;
-            UInt16 Result = MemoryEditor.Read<UInt16>(unchecked((IntPtr)Address), out Success);
+            UInt16 Result = MemoryEditor.Process.Read<UInt16>(unchecked((IntPtr)Address), out Success);
             Console.WriteLine("[LUA] " + MethodBase.GetCurrentMethod().Name + " " + (Success == true ? "(success)" : "(failed)"));
             return Result;
         }
@@ -419,7 +420,7 @@ namespace Anathema
         public UInt32 ReadUInt32(UInt64 Address)
         {
             Boolean Success;
-            UInt32 Result = MemoryEditor.Read<UInt32>(unchecked((IntPtr)Address), out Success);
+            UInt32 Result = MemoryEditor.Process.Read<UInt32>(unchecked((IntPtr)Address), out Success);
             Console.WriteLine("[LUA] " + MethodBase.GetCurrentMethod().Name + " " + (Success == true ? "(success)" : "(failed)"));
             return Result;
         }
@@ -427,7 +428,7 @@ namespace Anathema
         public UInt64 ReadUInt64(UInt64 Address)
         {
             Boolean Success;
-            UInt64 Result = MemoryEditor.Read<UInt64>(unchecked((IntPtr)Address), out Success);
+            UInt64 Result = MemoryEditor.Process.Read<UInt64>(unchecked((IntPtr)Address), out Success);
             Console.WriteLine("[LUA] " + MethodBase.GetCurrentMethod().Name + " " + (Success == true ? "(success)" : "(failed)"));
             return Result;
         }
@@ -435,7 +436,7 @@ namespace Anathema
         public Single ReadSingle(UInt64 Address)
         {
             Boolean Success;
-            Single Result = MemoryEditor.Read<Single>(unchecked((IntPtr)Address), out Success);
+            Single Result = MemoryEditor.Process.Read<Single>(unchecked((IntPtr)Address), out Success);
             Console.WriteLine("[LUA] " + MethodBase.GetCurrentMethod().Name + " " + (Success == true ? "(success)" : "(failed)"));
             return Result;
         }
@@ -443,7 +444,7 @@ namespace Anathema
         public Double ReadDouble(UInt64 Address)
         {
             Boolean Success;
-            UInt64 Result = MemoryEditor.Read<UInt64>(unchecked((IntPtr)Address), out Success);
+            UInt64 Result = MemoryEditor.Process.Read<UInt64>(unchecked((IntPtr)Address), out Success);
             Console.WriteLine("[LUA] " + MethodBase.GetCurrentMethod().Name + " " + (Success == true ? "(success)" : "(failed)"));
             return Result;
         }
@@ -451,7 +452,7 @@ namespace Anathema
         public Byte[] ReadBytes(UInt64 Address, Int32 Count)
         {
             Boolean Success;
-            Byte[] Result = MemoryEditor.ReadBytes(unchecked((IntPtr)Address), Count, out Success);
+            Byte[] Result = MemoryEditor.Process.ReadBytes(unchecked((IntPtr)Address), Count, out Success);
             Console.WriteLine("[LUA] " + MethodBase.GetCurrentMethod().Name + " " + (Success == true ? "(success)" : "(failed)"));
             return Result;
         }
@@ -459,67 +460,67 @@ namespace Anathema
         // Writing
         public void WriteSByte(UInt64 Address, SByte Value)
         {
-            MemoryEditor.Write<SByte>(unchecked((IntPtr)Address), Value);
+            MemoryEditor.Process.Write<SByte>(unchecked((IntPtr)Address), Value);
             Console.WriteLine("[LUA] " + MethodBase.GetCurrentMethod().Name);
         }
 
         public void WriteByte(UInt64 Address, Byte Value)
         {
-            MemoryEditor.Write<Byte>(unchecked((IntPtr)Address), Value);
+            MemoryEditor.Process.Write<Byte>(unchecked((IntPtr)Address), Value);
             Console.WriteLine("[LUA] " + MethodBase.GetCurrentMethod().Name);
         }
 
         public void WriteInt16(UInt64 Address, Int16 Value)
         {
-            MemoryEditor.Write<Int16>(unchecked((IntPtr)Address), Value);
+            MemoryEditor.Process.Write<Int16>(unchecked((IntPtr)Address), Value);
             Console.WriteLine("[LUA] " + MethodBase.GetCurrentMethod().Name);
         }
 
         public void WriteInt32(UInt64 Address, Int32 Value)
         {
-            MemoryEditor.Write<Int32>(unchecked((IntPtr)Address), Value);
+            MemoryEditor.Process.Write<Int32>(unchecked((IntPtr)Address), Value);
             Console.WriteLine("[LUA] " + MethodBase.GetCurrentMethod().Name);
         }
 
         public void WriteInt64(UInt64 Address, Int64 Value)
         {
-            MemoryEditor.Write<Int64>(unchecked((IntPtr)Address), Value);
+            MemoryEditor.Process.Write<Int64>(unchecked((IntPtr)Address), Value);
             Console.WriteLine("[LUA] " + MethodBase.GetCurrentMethod().Name);
         }
 
         public void WriteUInt16(UInt64 Address, UInt16 Value)
         {
-            MemoryEditor.Write<UInt16>(unchecked((IntPtr)Address), Value);
+            MemoryEditor.Process.Write<UInt16>(unchecked((IntPtr)Address), Value);
             Console.WriteLine("[LUA] " + MethodBase.GetCurrentMethod().Name);
         }
 
         public void WriteUInt32(UInt64 Address, UInt32 Value)
         {
-            MemoryEditor.Write<UInt32>(unchecked((IntPtr)Address), Value);
+            MemoryEditor.Process.Write<UInt32>(unchecked((IntPtr)Address), Value);
             Console.WriteLine("[LUA] " + MethodBase.GetCurrentMethod().Name);
         }
 
         public void WriteUInt64(UInt64 Address, UInt64 Value)
         {
-            MemoryEditor.Write<UInt64>(unchecked((IntPtr)Address), Value);
+            MemoryEditor.Process.Write<UInt64>(unchecked((IntPtr)Address), Value);
             Console.WriteLine("[LUA] " + MethodBase.GetCurrentMethod().Name);
         }
 
         public void WriteSingle(UInt64 Address, Single Value)
         {
-            MemoryEditor.Write<Single>(unchecked((IntPtr)Address), Value);
+            MemoryEditor.Process.Write<Single>(unchecked((IntPtr)Address), Value);
             Console.WriteLine("[LUA] " + MethodBase.GetCurrentMethod().Name);
         }
 
         public void WriteDouble(UInt64 Address, Double Value)
         {
-            MemoryEditor.Write<Double>(unchecked((IntPtr)Address), Value);
+            MemoryEditor.Process.Write<Double>(unchecked((IntPtr)Address), Value);
             Console.WriteLine("[LUA] " + MethodBase.GetCurrentMethod().Name);
         }
 
         public void WriteBytes(UInt64 Address, Byte[] Values)
         {
-            MemoryEditor.WriteBytes(unchecked((IntPtr)Address), Values);
+            MemoryEditor.Process.WriteBytes(unchecked((IntPtr)Address), Values);
             Console.WriteLine("[LUA] " + MethodBase.GetCurrentMethod().Name);
         }
 

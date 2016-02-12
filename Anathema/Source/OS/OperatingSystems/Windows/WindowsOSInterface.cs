@@ -9,13 +9,14 @@ using Anathema.MemoryManagement.Memory;
 using Anathema.MemoryManagement.Modules;
 using Anathema.MemoryManagement.Native;
 using Anathema.MemoryManagement.Threading;
+using System.Runtime.InteropServices;
 
 namespace Anathema.MemoryManagement
 {
     /// <summary>
     /// Class for memory editing a remote process.
     /// </summary>
-    public class WindowsOSInterface : FUTUREIOperatingSystemInterface, IDisposable, IEquatable<WindowsOSInterface>
+    public class WindowsOSInterface : IOperatingSystemInterface, IDisposable, IEquatable<WindowsOSInterface>
     {
         /// <summary>
         /// Raises when the <see cref="WindowsOSInterface"/> object is disposed.
@@ -422,6 +423,71 @@ namespace Anathema.MemoryManagement
         {
             throw new NotImplementedException();
         }
+
+        public String GetProcessName()
+        {
+            return Native.ProcessName;
+        }
+
+        public Boolean Is32Bit()
+        {
+            // First do the simple check if seeing if the OS is 32 bit, in which case the process wont be 64 bit
+            if (!Environment.Is64BitOperatingSystem)
+                return true;
+
+            Boolean IsWow64;
+            if (!IsWow64Process(Native.Handle, out IsWow64))
+                return false; // Error
+            return IsWow64;
+        }
+
+        public Boolean Is64Bit()
+        {
+            return !Is32Bit();
+        }
+
+        public IntPtr AllocateMemory(Int32 Size)
+        {
+            return Memory.Allocate(Size).BaseAddress;
+        }
+
+        public void DeallocateMemory(IntPtr Address)
+        {
+            // Memory.Deallocate()
+        }
+
+        public IEnumerable<NormalizedRegion> GetVirtualPages(IntPtr StartAddress, IntPtr EndAddress)
+        {
+            List<RemoteVirtualPage> Pages = new List<RemoteVirtualPage>(Memory.VirtualPages);
+            List<NormalizedRegion> Regions = new List<NormalizedRegion>();
+            Pages.ForEach(x => Regions.Add(new NormalizedRegion(x.BaseAddress, (Int32)x.Information.RegionSize)));
+
+            return Regions;
+        }
+
+        public IEnumerable<NormalizedRegion> GetVirtualPages()
+        {
+            List<RemoteVirtualPage> Pages = new List<RemoteVirtualPage>(Memory.VirtualPages);
+            List<NormalizedRegion> Regions = new List<NormalizedRegion>();
+            Pages.ForEach(x => Regions.Add(new NormalizedRegion(x.BaseAddress, (Int32)x.Information.RegionSize)));
+
+            return Regions;
+        }
+
+        public IEnumerable<NormalizedModule> GetModules()
+        {
+            List<NormalizedModule> NormalizedModules = new List<NormalizedModule>();
+            ProcessModuleCollection Modules = Native.Modules;
+            foreach (RemoteModule Module in Modules)
+                NormalizedModules.Add(new NormalizedModule(Module.Name, Module.BaseAddress, Module.Size));
+
+            return NormalizedModules;
+        }
+
+        [DllImport("kernel32.dll", SetLastError = true, CallingConvention = CallingConvention.Winapi)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        private static extern bool IsWow64Process([In] IntPtr ProcessHandle, [Out, MarshalAs(UnmanagedType.Bool)] out bool Wow64Process);
+
 
         #endregion
         #endregion

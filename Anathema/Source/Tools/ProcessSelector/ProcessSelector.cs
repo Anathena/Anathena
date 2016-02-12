@@ -47,7 +47,7 @@ namespace Anathema
         // Observers that must be notified of a process selection change
         private List<IProcessObserver> ProcessObservers;
 
-        private WindowsOSInterface MemoryEditor;
+        private OSInterface MemoryEditor;
 
         private ProcessSelector()
         {
@@ -84,7 +84,7 @@ namespace Anathema
         {
             // Update memory editor if applicable
             if (Process != null)
-                MemoryEditor = new WindowsOSInterface(Process);
+                MemoryEditor = new OSInterface(Process);
 
             if (MemoryEditor == null)
                 return;
@@ -127,10 +127,12 @@ namespace Anathema
         // Determines if Anathema is able to perform certain actions on the target process, such as fetching icons
         public static Boolean IsProcessOSCompatable(IntPtr ProcessHandle)
         {
-            if (IsAnthema64Bit())
+            // Always compatable if anathema is 64 bit
+            if (OSInterface.IsAnathema64Bit())
                 return true;
 
-            if (!IsProcess32Bit(ProcessHandle))
+            // Always compatable if the target is 32 bit
+            if (OSInterface.IsProcess32Bit(ProcessHandle))
                 return true;
 
             // Target uses higher addressing than Anathema, thus Anathema is not compatable
@@ -223,44 +225,10 @@ namespace Anathema
             return null;
         }
 
-        public static bool IsProcess32Bit(IntPtr ProcessHandle)
-        {
-            // First do the simple check if seeing if the OS is 32 bit, in which case the process wont be 64 bit
-            if (!IsOS64Bit())
-                return true;
-
-            Boolean IsWow64;
-            if (!IsWow64Process(ProcessHandle, out IsWow64))
-                throw new Win32Exception();
-            return IsWow64;
-        }
-
-        /// <summary>
-        /// Determines if the OS is 32 bit or 64 bit windows
-        /// </summary>
-        /// <returns></returns>
-        public static bool IsOS64Bit()
-        {
-            return Environment.Is64BitOperatingSystem;
-        }
-
-        /// <summary>
-        /// Determines if Anathema is running as 32 bit or 64 bit
-        /// </summary>
-        /// <returns></returns>
-        public static bool IsAnthema64Bit()
-        {
-            return Environment.Is64BitProcess;
-        }
-
-        [DllImport("kernel32.dll", SetLastError = true, CallingConvention = CallingConvention.Winapi)]
-        [return: MarshalAs(UnmanagedType.Bool)]
-        private static extern bool IsWow64Process([In] IntPtr ProcessHandle, [Out, MarshalAs(UnmanagedType.Bool)] out bool Wow64Process);
-
         [DllImport("shell32.dll", SetLastError = true)]
         public static extern IntPtr ExtractIcon(IntPtr hInst, string lpszExeFileName, int nIconIndex);
 
-    }
+    } // End class
 
     #region Process comparer classes
 
@@ -281,7 +249,7 @@ namespace Anathema
                 return 0;
             }
         }
-    }
+    } // End class
 
     // Class that can sort processes by ID
     class ProcessIDComparer : IComparer<Process>
@@ -298,7 +266,8 @@ namespace Anathema
             else
                 return 0;
         }
-    }
+    } // End class
 
     #endregion
-}
+
+} // End namespace

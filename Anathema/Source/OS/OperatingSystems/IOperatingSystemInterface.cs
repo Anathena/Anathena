@@ -1,12 +1,24 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Anathema
 {
-    public interface FUTUREIOperatingSystemInterface
+    public interface IOperatingSystemInterface
     {
-        // Addressing
+        // Virtual pages
+        IEnumerable<NormalizedRegion> GetVirtualPages(IntPtr StartAddress, IntPtr EndAddress);
+        IEnumerable<NormalizedRegion> GetVirtualPages();
+        IEnumerable<NormalizedModule> GetModules();
+        IntPtr AllocateMemory(Int32 Size);
+        void DeallocateMemory(IntPtr Address);
+
         IntPtr GetStackAddress();
         IntPtr[] GetHeapAddresses();
+        
+        // Process
+        Boolean Is32Bit();
+        Boolean Is64Bit();
+        String GetProcessName();
 
         // Reading
         dynamic Read(Type ElementType, IntPtr Address, out Boolean Success);
