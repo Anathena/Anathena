@@ -38,6 +38,24 @@ namespace Anathema
             return UIntPtr.Zero;
         }
 
+        public static IntPtr MaxUserMode(this IntPtr Self)
+        {
+            if (IntPtr.Size == 4)
+                return unchecked((IntPtr)Int32.MaxValue);
+            else if (IntPtr.Size == 8)
+                return unchecked((IntPtr)Int64.MaxValue);
+            return IntPtr.Zero;
+        }
+
+        public static UIntPtr MaxUserMode(this UIntPtr Self)
+        {
+            if (UIntPtr.Size == 4)
+                return unchecked((UIntPtr)Int32.MaxValue);
+            else if (UIntPtr.Size == 8)
+                return unchecked((UIntPtr)Int64.MaxValue);
+            return UIntPtr.Zero;
+        }
+
         #endregion
 
         #region IntPtr
@@ -47,9 +65,44 @@ namespace Anathema
             return (IntPtr)unchecked((UInt64)Left + (UInt64)Right);
         }
 
-        public static IntPtr Add<T>(this IntPtr Left, T Right) where T : struct
+        public static IntPtr Add(this IntPtr Left, Byte Right)
         {
-            return (IntPtr)unchecked((UInt64)Left + (UInt64)Convert.ChangeType(Right, typeof(UInt64)));
+            return (IntPtr)unchecked((UInt64)Left + (UInt64)Right);
+        }
+
+        public static IntPtr Add(this IntPtr Left, SByte Right)
+        {
+            return (IntPtr)unchecked((UInt64)Left + (UInt64)Right);
+        }
+
+        public static IntPtr Add(this IntPtr Left, Int16 Right)
+        {
+            return (IntPtr)unchecked((UInt64)Left + (UInt64)Right);
+        }
+
+        public static IntPtr Add(this IntPtr Left, UInt16 Right)
+        {
+            return (IntPtr)unchecked((UInt64)Left + (UInt64)Right);
+        }
+
+        public static IntPtr Add(this IntPtr Left, Int32 Right)
+        {
+            return (IntPtr)unchecked((UInt64)Left + (UInt64)Right);
+        }
+
+        public static IntPtr Add(this IntPtr Left, UInt32 Right)
+        {
+            return (IntPtr)unchecked((UInt64)Left + (UInt64)Right);
+        }
+
+        public static IntPtr Add(this IntPtr Left, Int64 Right)
+        {
+            return (IntPtr)unchecked((UInt64)Left + (UInt64)Right);
+        }
+
+        public static IntPtr Add(this IntPtr Left, UInt64 Right)
+        {
+            return (IntPtr)unchecked((UInt64)Left + (UInt64)Right);
         }
 
         public static IntPtr Subtract(this IntPtr Left, IntPtr Right)
@@ -57,9 +110,44 @@ namespace Anathema
             return (IntPtr)unchecked((UInt64)Left - (UInt64)Right);
         }
 
-        public static IntPtr Subtract<T>(this IntPtr Left, T Right) where T : struct
+        public static IntPtr Subtract(this IntPtr Left, Byte Right)
         {
-            return (IntPtr)unchecked((UInt64)Left - (UInt64)Convert.ChangeType(Right, typeof(UInt64)));
+            return (IntPtr)unchecked((UInt64)Left - (UInt64)Right);
+        }
+
+        public static IntPtr Subtract(this IntPtr Left, SByte Right)
+        {
+            return (IntPtr)unchecked((UInt64)Left - (UInt64)Right);
+        }
+
+        public static IntPtr Subtract(this IntPtr Left, Int16 Right)
+        {
+            return (IntPtr)unchecked((UInt64)Left - (UInt64)Right);
+        }
+
+        public static IntPtr Subtract(this IntPtr Left, UInt16 Right)
+        {
+            return (IntPtr)unchecked((UInt64)Left - (UInt64)Right);
+        }
+
+        public static IntPtr Subtract(this IntPtr Left, Int32 Right)
+        {
+            return (IntPtr)unchecked((UInt64)Left - (UInt64)Right);
+        }
+
+        public static IntPtr Subtract(this IntPtr Left, UInt32 Right)
+        {
+            return (IntPtr)unchecked((UInt64)Left - (UInt64)Right);
+        }
+
+        public static IntPtr Subtract(this IntPtr Left, Int64 Right)
+        {
+            return (IntPtr)unchecked((UInt64)Left - (UInt64)Right);
+        }
+
+        public static IntPtr Subtract(this IntPtr Left, UInt64 Right)
+        {
+            return (IntPtr)unchecked((UInt64)Left - (UInt64)Right);
         }
 
         public static IntPtr Multiply(this IntPtr Left, IntPtr Right)
@@ -67,9 +155,44 @@ namespace Anathema
             return (IntPtr)unchecked((UInt64)Left * (UInt64)Right);
         }
 
-        public static IntPtr Multiply<T>(this IntPtr Left, T Right) where T : struct
+        public static IntPtr Multiply(this IntPtr Left, Byte Right)
         {
-            return (IntPtr)unchecked((UInt64)Left * (UInt64)Convert.ChangeType(Right, typeof(UInt64)));
+            return (IntPtr)unchecked((UInt64)Left * (UInt64)Right);
+        }
+
+        public static IntPtr Multiply(this IntPtr Left, SByte Right)
+        {
+            return (IntPtr)unchecked((UInt64)Left * (UInt64)Right);
+        }
+
+        public static IntPtr Multiply(this IntPtr Left, Int16 Right)
+        {
+            return (IntPtr)unchecked((UInt64)Left * (UInt64)Right);
+        }
+
+        public static IntPtr Multiply(this IntPtr Left, UInt16 Right)
+        {
+            return (IntPtr)unchecked((UInt64)Left * (UInt64)Right);
+        }
+
+        public static IntPtr Multiply(this IntPtr Left, Int32 Right)
+        {
+            return (IntPtr)unchecked((UInt64)Left * (UInt64)Right);
+        }
+
+        public static IntPtr Multiply(this IntPtr Left, UInt32 Right)
+        {
+            return (IntPtr)unchecked((UInt64)Left * (UInt64)Right);
+        }
+
+        public static IntPtr Multiply(this IntPtr Left, Int64 Right)
+        {
+            return (IntPtr)unchecked((UInt64)Left * (UInt64)Right);
+        }
+
+        public static IntPtr Multiply(this IntPtr Left, UInt64 Right)
+        {
+            return (IntPtr)unchecked((UInt64)Left * (UInt64)Right);
         }
 
         public static IntPtr Divide(this IntPtr Left, IntPtr Right)
@@ -77,9 +200,44 @@ namespace Anathema
             return (IntPtr)unchecked((UInt64)Left / (UInt64)Right);
         }
 
-        public static IntPtr Divide<T>(this IntPtr Left, T Right) where T : struct
+        public static IntPtr Divide(this IntPtr Left, Byte Right)
         {
-            return (IntPtr)unchecked((UInt64)Left / (UInt64)Convert.ChangeType(Right, typeof(UInt64)));
+            return (IntPtr)unchecked((UInt64)Left / (UInt64)Right);
+        }
+
+        public static IntPtr Divide(this IntPtr Left, SByte Right)
+        {
+            return (IntPtr)unchecked((UInt64)Left / (UInt64)Right);
+        }
+
+        public static IntPtr Divide(this IntPtr Left, Int16 Right)
+        {
+            return (IntPtr)unchecked((UInt64)Left / (UInt64)Right);
+        }
+
+        public static IntPtr Divide(this IntPtr Left, UInt16 Right)
+        {
+            return (IntPtr)unchecked((UInt64)Left / (UInt64)Right);
+        }
+
+        public static IntPtr Divide(this IntPtr Left, Int32 Right)
+        {
+            return (IntPtr)unchecked((UInt64)Left / (UInt64)Right);
+        }
+
+        public static IntPtr Divide(this IntPtr Left, UInt32 Right)
+        {
+            return (IntPtr)unchecked((UInt64)Left / (UInt64)Right);
+        }
+
+        public static IntPtr Divide(this IntPtr Left, Int64 Right)
+        {
+            return (IntPtr)unchecked((UInt64)Left / (UInt64)Right);
+        }
+
+        public static IntPtr Divide(this IntPtr Left, UInt64 Right)
+        {
+            return (IntPtr)unchecked((UInt64)Left / (UInt64)Right);
         }
 
         public static IntPtr Mod(this IntPtr Left, IntPtr Right)
@@ -87,9 +245,44 @@ namespace Anathema
             return (IntPtr)unchecked((UInt64)Left % (UInt64)Right);
         }
 
-        public static IntPtr Mod<T>(this IntPtr Left, T Right) where T : struct
+        public static IntPtr Mod(this IntPtr Left, Byte Right)
         {
-            return (IntPtr)unchecked((UInt64)Left % (UInt64)Convert.ChangeType(Right, typeof(UInt64)));
+            return (IntPtr)unchecked((UInt64)Left % (UInt64)Right);
+        }
+
+        public static IntPtr Mod(this IntPtr Left, SByte Right)
+        {
+            return (IntPtr)unchecked((UInt64)Left % (UInt64)Right);
+        }
+
+        public static IntPtr Mod(this IntPtr Left, Int16 Right)
+        {
+            return (IntPtr)unchecked((UInt64)Left % (UInt64)Right);
+        }
+
+        public static IntPtr Mod(this IntPtr Left, UInt16 Right)
+        {
+            return (IntPtr)unchecked((UInt64)Left % (UInt64)Right);
+        }
+
+        public static IntPtr Mod(this IntPtr Left, Int32 Right)
+        {
+            return (IntPtr)unchecked((UInt64)Left % (UInt64)Right);
+        }
+
+        public static IntPtr Mod(this IntPtr Left, UInt32 Right)
+        {
+            return (IntPtr)unchecked((UInt64)Left % (UInt64)Right);
+        }
+
+        public static IntPtr Mod(this IntPtr Left, Int64 Right)
+        {
+            return (IntPtr)unchecked((UInt64)Left % (UInt64)Right);
+        }
+
+        public static IntPtr Mod(this IntPtr Left, UInt64 Right)
+        {
+            return (IntPtr)unchecked((UInt64)Left % (UInt64)Right);
         }
 
         #endregion
@@ -101,9 +294,44 @@ namespace Anathema
             return (UIntPtr)unchecked((UInt64)Left + (UInt64)Right);
         }
 
-        public static UIntPtr Add<T>(this UIntPtr Left, T Right) where T : struct
+        public static UIntPtr Add(this UIntPtr Left, Byte Right)
         {
-            return (UIntPtr)unchecked((UInt64)Left + (UInt64)Convert.ChangeType(Right, typeof(UInt64)));
+            return (UIntPtr)unchecked((UInt64)Left + (UInt64)Right);
+        }
+
+        public static UIntPtr Add(this UIntPtr Left, SByte Right)
+        {
+            return (UIntPtr)unchecked((UInt64)Left + (UInt64)Right);
+        }
+
+        public static UIntPtr Add(this UIntPtr Left, Int16 Right)
+        {
+            return (UIntPtr)unchecked((UInt64)Left + (UInt64)Right);
+        }
+
+        public static UIntPtr Add(this UIntPtr Left, UInt16 Right)
+        {
+            return (UIntPtr)unchecked((UInt64)Left + (UInt64)Right);
+        }
+
+        public static UIntPtr Add(this UIntPtr Left, Int32 Right)
+        {
+            return (UIntPtr)unchecked((UInt64)Left + (UInt64)Right);
+        }
+
+        public static UIntPtr Add(this UIntPtr Left, UInt32 Right)
+        {
+            return (UIntPtr)unchecked((UInt64)Left + (UInt64)Right);
+        }
+
+        public static UIntPtr Add(this UIntPtr Left, Int64 Right)
+        {
+            return (UIntPtr)unchecked((UInt64)Left + (UInt64)Right);
+        }
+
+        public static UIntPtr Add(this UIntPtr Left, UInt64 Right)
+        {
+            return (UIntPtr)unchecked((UInt64)Left + (UInt64)Right);
         }
 
         public static UIntPtr Subtract(this UIntPtr Left, UIntPtr Right)
@@ -111,9 +339,44 @@ namespace Anathema
             return (UIntPtr)unchecked((UInt64)Left - (UInt64)Right);
         }
 
-        public static UIntPtr Subtract<T>(this UIntPtr Left, T Right) where T : struct
+        public static UIntPtr Subtract(this UIntPtr Left, Byte Right)
         {
-            return (UIntPtr)unchecked((UInt64)Left - (UInt64)Convert.ChangeType(Right, typeof(UInt64)));
+            return (UIntPtr)unchecked((UInt64)Left - (UInt64)Right);
+        }
+
+        public static UIntPtr Subtract(this UIntPtr Left, SByte Right)
+        {
+            return (UIntPtr)unchecked((UInt64)Left - (UInt64)Right);
+        }
+
+        public static UIntPtr Subtract(this UIntPtr Left, Int16 Right)
+        {
+            return (UIntPtr)unchecked((UInt64)Left - (UInt64)Right);
+        }
+
+        public static UIntPtr Subtract(this UIntPtr Left, UInt16 Right)
+        {
+            return (UIntPtr)unchecked((UInt64)Left - (UInt64)Right);
+        }
+
+        public static UIntPtr Subtract(this UIntPtr Left, Int32 Right)
+        {
+            return (UIntPtr)unchecked((UInt64)Left - (UInt64)Right);
+        }
+
+        public static UIntPtr Subtract(this UIntPtr Left, UInt32 Right)
+        {
+            return (UIntPtr)unchecked((UInt64)Left - (UInt64)Right);
+        }
+
+        public static UIntPtr Subtract(this UIntPtr Left, Int64 Right)
+        {
+            return (UIntPtr)unchecked((UInt64)Left - (UInt64)Right);
+        }
+
+        public static UIntPtr Subtract(this UIntPtr Left, UInt64 Right)
+        {
+            return (UIntPtr)unchecked((UInt64)Left - (UInt64)Right);
         }
 
         public static UIntPtr Multiply(this UIntPtr Left, UIntPtr Right)
@@ -121,9 +384,44 @@ namespace Anathema
             return (UIntPtr)unchecked((UInt64)Left * (UInt64)Right);
         }
 
-        public static UIntPtr Multiply<T>(this UIntPtr Left, T Right) where T : struct
+        public static UIntPtr Multiply(this UIntPtr Left, Byte Right)
         {
-            return (UIntPtr)unchecked((UInt64)Left * (UInt64)Convert.ChangeType(Right, typeof(UInt64)));
+            return (UIntPtr)unchecked((UInt64)Left * (UInt64)Right);
+        }
+
+        public static UIntPtr Multiply(this UIntPtr Left, SByte Right)
+        {
+            return (UIntPtr)unchecked((UInt64)Left * (UInt64)Right);
+        }
+
+        public static UIntPtr Multiply(this UIntPtr Left, Int16 Right)
+        {
+            return (UIntPtr)unchecked((UInt64)Left * (UInt64)Right);
+        }
+
+        public static UIntPtr Multiply(this UIntPtr Left, UInt16 Right)
+        {
+            return (UIntPtr)unchecked((UInt64)Left * (UInt64)Right);
+        }
+
+        public static UIntPtr Multiply(this UIntPtr Left, Int32 Right)
+        {
+            return (UIntPtr)unchecked((UInt64)Left * (UInt64)Right);
+        }
+
+        public static UIntPtr Multiply(this UIntPtr Left, UInt32 Right)
+        {
+            return (UIntPtr)unchecked((UInt64)Left * (UInt64)Right);
+        }
+
+        public static UIntPtr Multiply(this UIntPtr Left, Int64 Right)
+        {
+            return (UIntPtr)unchecked((UInt64)Left * (UInt64)Right);
+        }
+
+        public static UIntPtr Multiply(this UIntPtr Left, UInt64 Right)
+        {
+            return (UIntPtr)unchecked((UInt64)Left * (UInt64)Right);
         }
 
         public static UIntPtr Divide(this UIntPtr Left, UIntPtr Right)
@@ -131,9 +429,44 @@ namespace Anathema
             return (UIntPtr)unchecked((UInt64)Left / (UInt64)Right);
         }
 
-        public static UIntPtr Divide<T>(this UIntPtr Left, T Right) where T : struct
+        public static UIntPtr Divide(this UIntPtr Left, Byte Right)
         {
-            return (UIntPtr)unchecked((UInt64)Left / (UInt64)Convert.ChangeType(Right, typeof(UInt64)));
+            return (UIntPtr)unchecked((UInt64)Left / (UInt64)Right);
+        }
+
+        public static UIntPtr Divide(this UIntPtr Left, SByte Right)
+        {
+            return (UIntPtr)unchecked((UInt64)Left / (UInt64)Right);
+        }
+
+        public static UIntPtr Divide(this UIntPtr Left, Int16 Right)
+        {
+            return (UIntPtr)unchecked((UInt64)Left / (UInt64)Right);
+        }
+
+        public static UIntPtr Divide(this UIntPtr Left, UInt16 Right)
+        {
+            return (UIntPtr)unchecked((UInt64)Left / (UInt64)Right);
+        }
+
+        public static UIntPtr Divide(this UIntPtr Left, Int32 Right)
+        {
+            return (UIntPtr)unchecked((UInt64)Left / (UInt64)Right);
+        }
+
+        public static UIntPtr Divide(this UIntPtr Left, UInt32 Right)
+        {
+            return (UIntPtr)unchecked((UInt64)Left / (UInt64)Right);
+        }
+
+        public static UIntPtr Divide(this UIntPtr Left, Int64 Right)
+        {
+            return (UIntPtr)unchecked((UInt64)Left / (UInt64)Right);
+        }
+
+        public static UIntPtr Divide(this UIntPtr Left, UInt64 Right)
+        {
+            return (UIntPtr)unchecked((UInt64)Left / (UInt64)Right);
         }
 
         public static UIntPtr Mod(this UIntPtr Left, UIntPtr Right)
@@ -141,9 +474,44 @@ namespace Anathema
             return (UIntPtr)unchecked((UInt64)Left % (UInt64)Right);
         }
 
-        public static UIntPtr Mod<T>(this UIntPtr Left, T Right) where T : struct
+        public static UIntPtr Mod(this UIntPtr Left, Byte Right)
         {
-            return (UIntPtr)unchecked((UInt64)Left % (UInt64)Convert.ChangeType(Right, typeof(UInt64)));
+            return (UIntPtr)unchecked((UInt64)Left % (UInt64)Right);
+        }
+
+        public static UIntPtr Mod(this UIntPtr Left, SByte Right)
+        {
+            return (UIntPtr)unchecked((UInt64)Left % (UInt64)Right);
+        }
+
+        public static UIntPtr Mod(this UIntPtr Left, Int16 Right)
+        {
+            return (UIntPtr)unchecked((UInt64)Left % (UInt64)Right);
+        }
+
+        public static UIntPtr Mod(this UIntPtr Left, UInt16 Right)
+        {
+            return (UIntPtr)unchecked((UInt64)Left % (UInt64)Right);
+        }
+
+        public static UIntPtr Mod(this UIntPtr Left, Int32 Right)
+        {
+            return (UIntPtr)unchecked((UInt64)Left % (UInt64)Right);
+        }
+
+        public static UIntPtr Mod(this UIntPtr Left, UInt32 Right)
+        {
+            return (UIntPtr)unchecked((UInt64)Left % (UInt64)Right);
+        }
+
+        public static UIntPtr Mod(this UIntPtr Left, Int64 Right)
+        {
+            return (UIntPtr)unchecked((UInt64)Left % (UInt64)Right);
+        }
+
+        public static UIntPtr Mod(this UIntPtr Left, UInt64 Right)
+        {
+            return (UIntPtr)unchecked((UInt64)Left % (UInt64)Right);
         }
 
         #endregion

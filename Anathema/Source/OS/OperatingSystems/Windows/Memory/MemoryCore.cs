@@ -273,7 +273,7 @@ namespace Anathema.MemoryManagement.Memory
                     MemoryBasicInformation32 MemoryInfo32 = new MemoryBasicInformation32();
 
                     // Get the next memory page
-                    QueryResult = NativeMethods.VirtualQueryEx(ProcessHandle, AddressFrom, out MemoryInfo, MarshalType<MemoryBasicInformation32>.Size);
+                    QueryResult = NativeMethods.VirtualQueryEx(ProcessHandle, AddressFrom, out MemoryInfo32, MarshalType<MemoryBasicInformation32>.Size);
 
                     // Copy from the 32 bit struct to the 64 bit struct
                     MemoryInfo.AllocationBase = MemoryInfo32.AllocationBase;

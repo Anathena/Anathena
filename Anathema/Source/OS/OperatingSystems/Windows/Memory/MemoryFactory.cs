@@ -39,11 +39,7 @@ namespace Anathema.MemoryManagement.Memory
         {
             get
             {
-#if x86
-                IntPtr AddressTo = new IntPtr(0x7fffffff);
-#else
-                IntPtr AddressTo = new IntPtr(0x7fffffffffffffff);
-#endif
+                IntPtr AddressTo = IntPtr.Zero.MaxUserMode();
                 return MemoryCore.Query(MemorySharp.Handle, IntPtr.Zero, AddressTo).Select(x => new RemoteVirtualPage(MemorySharp, x.BaseAddress));
             }
         }
