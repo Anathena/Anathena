@@ -32,8 +32,8 @@ namespace Anathema
         private Snapshot<Null> Snapshot;
 
         // As far as I can tell, no valid pointers will end up being less than 0x10000 (UInt16.MaxValue). Huge gains by filtering these.
-        private IntPtr InvalidPointerMin = IntPtr.Zero.MaxValue();
-        private IntPtr InvalidPointerMax = IntPtr.Zero.Add(UInt16.MaxValue);
+        private dynamic InvalidPointerMax = IntPtr.Size == 4 ? IntPtr.Zero.MaxUserMode().ToInt32() : IntPtr.Zero.MaxUserMode().ToInt64();
+        private dynamic InvalidPointerMin = IntPtr.Size == 4 ? IntPtr.Zero.Add(UInt16.MaxValue).ToInt32() : IntPtr.Zero.Add(UInt16.MaxValue).ToInt64();
 
         private Int32 StartReadIndex;
         private Int32 EndReadIndex;
@@ -442,17 +442,22 @@ namespace Anathema
 
             // Collect memory regions
             Snapshot = new Snapshot<Null>(SnapshotManager.GetInstance().SnapshotAllRegions(true));
-            
+
             // Set to type of a pointer
-            Snapshot.SetElementType(typeof(UInt64));
+            if (OSInterface.Process.Is32Bit())
+                Snapshot.SetElementType(typeof(Int32));
+            else
+                Snapshot.SetElementType(typeof(Int64));
 
             // Enforce 4-byte alignment of pointers
             Snapshot.SetAlignment(sizeof(Int32));
 
-            Parallel.ForEach(Snapshot.Cast<Object>(), (RegionObject) =>
+            /*Parallel.ForEach(Snapshot.Cast<Object>(), (RegionObject) =>
             {
                 SnapshotRegion Region = (SnapshotRegion)RegionObject;
-
+                */
+            foreach (SnapshotRegion Region in Snapshot)
+            {
                 // Read the memory of this region
                 try { Region.ReadAllSnapshotMemory(Snapshot.GetOSInterface(), true); }
                 catch (ScanFailedException) { return; }
@@ -462,24 +467,27 @@ namespace Anathema
 
                 foreach (SnapshotElement Element in Region)
                 {
-                    if (Element.LessThanValue(InvalidPointerMax))
+                    if (Element.LessThanValue(InvalidPointerMin))
                         continue;
 
-                    if (Element.GreaterThanValue(InvalidPointerMin))
+                    if (Element.GreaterThanValue(InvalidPointerMax))
                         continue;
 
                     // Enforce 4-byte alignment of destination
                     if (Element.GetValue() % 4 != 0)
                         continue;
 
+                    dynamic Val = Element.GetValue();
+                    IntPtr Value = new IntPtr(Val);
+
                     // Check if it is possible that this pointer is valid, if so keep it
-                    if (Snapshot.ContainsAddress(Element.GetValue()))
-                        PointerPool[Element.BaseAddress] = unchecked((IntPtr)Element.GetValue());
+                    if (Snapshot.ContainsAddress(Value))
+                        PointerPool[Element.BaseAddress] = Value;
                 }
 
                 // Clear the saved values, we do not need them now
                 Region.SetCurrentValues(null);
-            });
+            }//);
         }
 
         private void TracePointers()
@@ -504,12 +512,12 @@ namespace Anathema
 
                 Parallel.ForEach(PointerPool, (Pointer) =>
                 {
-                    // Ensure if this is a max level pointer that it is from an acceptable base address (ie static)
-                    if (Level == MaxPointerLevel && !AcceptedBases.ContainsAddress(Pointer.Key))
+                // Ensure if this is a max level pointer that it is from an acceptable base address (ie static)
+                if (Level == MaxPointerLevel && !AcceptedBases.ContainsAddress(Pointer.Key))
                         return;
 
-                    // Accept this pointer if it is points to the previous level snapshot
-                    if (PreviousLevel.ContainsAddress(Pointer.Value))
+                // Accept this pointer if it is points to the previous level snapshot
+                if (PreviousLevel.ContainsAddress(Pointer.Value))
                         LevelPointers[Pointer.Key] = Pointer.Value;
                 });
 
@@ -539,12 +547,12 @@ namespace Anathema
             {
                 Parallel.ForEach(ConnectedPointers[CurrentMaximum], (Base) =>
                 {
-                    // Enforce static base constraint. Maxlevel pointers were already prefitlered, but not other levels.
-                    if (!AcceptedBases.ContainsAddress(Base.Key))
+                // Enforce static base constraint. Maxlevel pointers were already prefitlered, but not other levels.
+                if (!AcceptedBases.ContainsAddress(Base.Key))
                         return;
 
-                    // Recursively build the pointers
-                    BuildPointers(DiscoveredPointers, CurrentMaximum, Base.Key, Base.Value, new List<Int32>());
+                // Recursively build the pointers
+                BuildPointers(DiscoveredPointers, CurrentMaximum, Base.Key, Base.Value, new List<Int32>());
                 });
             }
 
@@ -567,14 +575,14 @@ namespace Anathema
                 if (PointerDestination.ToUInt64() > Target.Key.Add(MaxPointerOffset).ToUInt64())
                     return;
 
-                // Valid pointer, clone our current offset stack
-                List<Int32> NewOffsets = new List<Int32>(Offsets);
+            // Valid pointer, clone our current offset stack
+            List<Int32> NewOffsets = new List<Int32>(Offsets);
 
-                // Calculate the offset for this level
-                NewOffsets.Add(unchecked((Int32)(Target.Key.ToInt64() - PointerDestination.ToInt64())));
+            // Calculate the offset for this level
+            NewOffsets.Add(unchecked((Int32)(Target.Key.ToInt64() - PointerDestination.ToInt64())));
 
-                // Recurse
-                BuildPointers(Pointers, Level - 1, Base, Target.Value, NewOffsets);
+            // Recurse
+            BuildPointers(Pointers, Level - 1, Base, Target.Value, NewOffsets);
             });
         }
 

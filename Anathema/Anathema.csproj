@@ -186,7 +186,7 @@
     <Compile Include="GUI\Tools\Table\GUIAddressTable.Designer.cs">
       <DependentUpon>GUIAddressTable.cs</DependentUpon>
     </Compile>
-    <Compile Include="Source\HelperClasses\Extensions\Int64Extensions.cs" />
+    <Compile Include="Source\HelperClasses\Extensions\IntExtensions.cs" />
     <Compile Include="Source\HelperClasses\Extensions\IntPtrExtensions.cs" />
     <Compile Include="Source\HelperClasses\ObjectCache.cs" />
     <Compile Include="Source\HelperClasses\MessageBoxEx.cs" />

@@ -226,7 +226,7 @@ namespace Anathema
         {
             // Ensure tabs take up the entire width of the control
             const Int32 TabBoarderOffset = 3;
-            PointerScanTabControl.ItemSize = new Size((PointerScanTabControl.Width - TabBoarderOffset) / PointerScanTabControl.TabCount, 0);
+            PointerScanTabControl.ItemSize = new Size(Math.Max(0, (PointerScanTabControl.Width - TabBoarderOffset)) / Math.Max(1, PointerScanTabControl.TabCount), 0);
         }
 
         #endregion
