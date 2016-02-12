@@ -14,7 +14,7 @@ namespace Anathema
     class MemoryViewEventArgs : EventArgs
     {
         public IEnumerable<NormalizedRegion> VirtualPages;
-        public UInt64 Address;
+        public IntPtr Address;
     }
 
     interface IMemoryViewView : IView
@@ -22,7 +22,7 @@ namespace Anathema
         // Methods invoked by the presenter (upstream)
         void ReadValues();
         void UpdateVirtualPages(List<String> VirtualPages);
-        void GoToAddress(UInt64 Address);
+        void GoToAddress(IntPtr Address);
     }
 
     abstract class IMemoryViewModel : RepeatedTask, IModel

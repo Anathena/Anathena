@@ -98,7 +98,7 @@ namespace Anathema
             AddressItems[Index].SetActivationState(Activated);
         }
 
-        public void AddTableItem(UInt64 BaseAddress, Type ElementType, String Description, Int32[] Offsets = null, Boolean IsHex = false, String Value = null)
+        public void AddTableItem(IntPtr BaseAddress, Type ElementType, String Description, Int32[] Offsets = null, Boolean IsHex = false, String Value = null)
         {
             AddressItems.Add(new AddressItem(BaseAddress, ElementType, Description, Offsets, IsHex, Value));
 

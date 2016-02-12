@@ -32,28 +32,28 @@ namespace Anathema
         private Snapshot<Null> Snapshot;
 
         // As far as I can tell, no valid pointers will end up being less than 0x10000 (UInt16.MaxValue). Huge gains by filtering these.
-        private const UInt64 InvalidPointerMin = unchecked((UInt64)Int64.MaxValue); // !TODO RemotePtr.MaxValue
-        private const UInt64 InvalidPointerMax = UInt16.MaxValue;
+        private IntPtr InvalidPointerMin = IntPtr.Zero.MaxValue();
+        private IntPtr InvalidPointerMax = IntPtr.Zero.Add(UInt16.MaxValue);
 
         private Int32 StartReadIndex;
         private Int32 EndReadIndex;
         private ConcurrentDictionary<Int32, String> IndexValueMap;
 
-        private ConcurrentDictionary<UInt64, UInt64> PointerPool;
-        private List<ConcurrentDictionary<UInt64, UInt64>> ConnectedPointers;
+        private ConcurrentDictionary<IntPtr, IntPtr> PointerPool;
+        private List<ConcurrentDictionary<IntPtr, IntPtr>> ConnectedPointers;
         private Snapshot<Null> AcceptedBases;
 
         ScanConstraintManager ScanConstraintManager;
         private Boolean IsAddressMode;
 
 
-        private List<Tuple<UInt64, List<Int32>>> AcceptedPointers;
+        private List<Tuple<IntPtr, List<Int32>>> AcceptedPointers;
 
         // User parameters
         private Type ElementType;
-        private UInt64 TargetAddress;
+        private IntPtr TargetAddress;
         private Int32 MaxPointerLevel;
-        private UInt64 MaxPointerOffset;
+        private Int32 MaxPointerOffset;
 
         private enum ScanModeEnum
         {
@@ -67,8 +67,8 @@ namespace Anathema
         public PointerScanner()
         {
             IndexValueMap = new ConcurrentDictionary<Int32, String>();
-            PointerPool = new ConcurrentDictionary<UInt64, UInt64>();
-            ConnectedPointers = new List<ConcurrentDictionary<UInt64, UInt64>>();
+            PointerPool = new ConcurrentDictionary<IntPtr, IntPtr>();
+            ConnectedPointers = new List<ConcurrentDictionary<IntPtr, IntPtr>>();
             ScanMode = ScanModeEnum.ReadValues;
 
             InitializeProcessObserver();
@@ -102,7 +102,7 @@ namespace Anathema
             this.IsAddressMode = IsAddressMode;
         }
 
-        public override void SetTargetAddress(UInt64 Address)
+        public override void SetTargetAddress(IntPtr Address)
         {
             TargetAddress = Address;
         }
@@ -117,14 +117,14 @@ namespace Anathema
             this.MaxPointerLevel = MaxPointerLevel;
         }
 
-        public override void SetMaxPointerOffset(UInt64 MaxPointerOffset)
+        public override void SetMaxPointerOffset(Int32 MaxPointerOffset)
         {
             this.MaxPointerOffset = MaxPointerOffset;
         }
 
-        private SnapshotRegion AddressToRegion(UInt64 Address)
+        private SnapshotRegion AddressToRegion(IntPtr Address)
         {
-            return new SnapshotRegion<Null>(new NormalizedRegion(unchecked((IntPtr)(Address - MaxPointerOffset)), unchecked((Int32)MaxPointerOffset * 2)));
+            return new SnapshotRegion<Null>(new NormalizedRegion(Address.Subtract(MaxPointerOffset), unchecked((Int32)MaxPointerOffset * 2)));
         }
 
         private void UpdateDisplay()
@@ -178,9 +178,9 @@ namespace Anathema
             return Offsets.ToArray();
         }
 
-        private UInt64 ResolvePointer(Tuple<UInt64, List<Int32>> FullPointer)
+        private IntPtr ResolvePointer(Tuple<IntPtr, List<Int32>> FullPointer)
         {
-            UInt64 Pointer = FullPointer.Item1;
+            IntPtr Pointer = FullPointer.Item1;
             List<Int32> Offsets = FullPointer.Item2;
 
             if (Offsets == null || Offsets.Count == 0)
@@ -190,8 +190,8 @@ namespace Anathema
 
             foreach (Int32 Offset in Offsets)
             {
-                Pointer = OSInterface.Process.Read<UInt64>((IntPtr)Pointer, out SuccessReading);
-                Pointer += (UInt64)Offset;
+                Pointer = OSInterface.Process.Read<IntPtr>(Pointer, out SuccessReading);
+                Pointer = Pointer.Add(Offset);
 
                 if (!SuccessReading)
                     break;
@@ -232,10 +232,10 @@ namespace Anathema
                         if (Index < 0 || Index >= AcceptedPointers.Count)
                             continue;
 
-                        UInt64 Pointer = ResolvePointer(AcceptedPointers[Index]);
+                        IntPtr Pointer = ResolvePointer(AcceptedPointers[Index]);
 
                         Boolean SuccessReading;
-                        String Value = OSInterface.Process.Read(ElementType, (IntPtr)Pointer, out SuccessReading).ToString();
+                        String Value = OSInterface.Process.Read(ElementType, Pointer, out SuccessReading).ToString();
 
                         IndexValueMap[Index] = Value;
                     }
@@ -282,9 +282,9 @@ namespace Anathema
         {
             this.PrintDebugTag();
 
-            List<Tuple<UInt64, List<Int32>>> RetainedPointers = new List<Tuple<UInt64, List<Int32>>>();
+            List<Tuple<IntPtr, List<Int32>>> RetainedPointers = new List<Tuple<IntPtr, List<Int32>>>();
 
-            foreach (Tuple<UInt64, List<Int32>> FullPointer in AcceptedPointers)
+            foreach (Tuple<IntPtr, List<Int32>> FullPointer in AcceptedPointers)
             {
                 if (ResolvePointer(FullPointer) == TargetAddress)
                     RetainedPointers.Add(FullPointer);
@@ -303,19 +303,19 @@ namespace Anathema
             if (AcceptedPointers == null || AcceptedPointers.Count == 0)
                 return;
 
-            List<UInt64> ResolvedAddresses = new List<UInt64>();
+            List<IntPtr> ResolvedAddresses = new List<IntPtr>();
             List<SnapshotRegion> Regions = new List<SnapshotRegion>();
 
             // Resolve addresses
-            foreach (Tuple<UInt64, List<Int32>> FullPointer in AcceptedPointers)
+            foreach (Tuple<IntPtr, List<Int32>> FullPointer in AcceptedPointers)
             {
                 ResolvedAddresses.Add(ResolvePointer(FullPointer));
             }
 
             // Build regions from resolved address
-            foreach (UInt64 Pointer in ResolvedAddresses)
+            foreach (IntPtr Pointer in ResolvedAddresses)
             {
-                Regions.Add(new SnapshotRegion<Null>(unchecked((IntPtr)Pointer), Marshal.SizeOf(ScanConstraintManager.GetElementType())));
+                Regions.Add(new SnapshotRegion<Null>(Pointer, Marshal.SizeOf(ScanConstraintManager.GetElementType())));
             }
 
             // Create a snapshot from regions
@@ -329,7 +329,7 @@ namespace Anathema
 
             if (PointerSnapshot.GetRegionCount() <= 0)
             {
-                AcceptedPointers = new List<Tuple<UInt64, List<Int32>>>();
+                AcceptedPointers = new List<Tuple<IntPtr, List<Int32>>>();
                 return;
             }
 
@@ -389,7 +389,7 @@ namespace Anathema
 
             PointerSnapshot.DiscardInvalidRegions();
 
-            List<Tuple<UInt64, List<Int32>>> RetainedPointers = new List<Tuple<UInt64, List<Int32>>>();
+            List<Tuple<IntPtr, List<Int32>>> RetainedPointers = new List<Tuple<IntPtr, List<Int32>>>();
 
             if (PointerSnapshot.GetRegionCount() <= 0)
             {
@@ -404,7 +404,7 @@ namespace Anathema
                 {
                     for (Int32 AddressIndex = 0; AddressIndex < ResolvedAddresses.Count; AddressIndex++)
                     {
-                        if (ResolvedAddresses[AddressIndex] != unchecked((UInt64)(Element.BaseAddress)))
+                        if (ResolvedAddresses[AddressIndex] != Element.BaseAddress)
                             continue;
 
                         RetainedPointers.Add(AcceptedPointers[AddressIndex]);
@@ -474,7 +474,7 @@ namespace Anathema
 
                     // Check if it is possible that this pointer is valid, if so keep it
                     if (Snapshot.ContainsAddress(Element.GetValue()))
-                        PointerPool[unchecked((UInt64)Element.BaseAddress)] = unchecked((UInt64)Element.GetValue());
+                        PointerPool[Element.BaseAddress] = unchecked((IntPtr)Element.GetValue());
                 }
 
                 // Clear the saved values, we do not need them now
@@ -493,14 +493,14 @@ namespace Anathema
             SetAcceptedBases();
 
             // Add the address we are looking for as the base
-            ConnectedPointers.Add(new ConcurrentDictionary<UInt64, UInt64>());
-            ConnectedPointers.Last()[TargetAddress] = 0;
+            ConnectedPointers.Add(new ConcurrentDictionary<IntPtr, IntPtr>());
+            ConnectedPointers.Last()[TargetAddress] = IntPtr.Zero;
 
             for (Int32 Level = 1; Level <= MaxPointerLevel; Level++)
             {
                 // Create snapshot from previous level regions to leverage the merging and sorting capabilities of a snapshot
                 Snapshot PreviousLevel = new Snapshot<Null>(PreviousLevelRegions);
-                ConcurrentDictionary<UInt64, UInt64> LevelPointers = new ConcurrentDictionary<UInt64, UInt64>();
+                ConcurrentDictionary<IntPtr, IntPtr> LevelPointers = new ConcurrentDictionary<IntPtr, IntPtr>();
 
                 Parallel.ForEach(PointerPool, (Pointer) =>
                 {
@@ -532,7 +532,7 @@ namespace Anathema
         {
             this.PrintDebugTag();
 
-            ConcurrentBag<Tuple<UInt64, List<Int32>>> DiscoveredPointers = new ConcurrentBag<Tuple<UInt64, List<Int32>>>();
+            ConcurrentBag<Tuple<IntPtr, List<Int32>>> DiscoveredPointers = new ConcurrentBag<Tuple<IntPtr, List<Int32>>>();
 
             // Iterate incrementally towards the maximum, allowing for the discovery of all pointer levels
             for (Int32 CurrentMaximum = 0; CurrentMaximum <= MaxPointerLevel; CurrentMaximum++)
@@ -551,20 +551,20 @@ namespace Anathema
             AcceptedPointers = DiscoveredPointers.ToList();
         }
 
-        private void BuildPointers(ConcurrentBag<Tuple<UInt64, List<Int32>>> Pointers, Int32 Level, UInt64 Base, UInt64 PointerDestination, List<Int32> Offsets)
+        private void BuildPointers(ConcurrentBag<Tuple<IntPtr, List<Int32>>> Pointers, Int32 Level, IntPtr Base, IntPtr PointerDestination, List<Int32> Offsets)
         {
             if (Level == 0)
             {
-                Pointers.Add(new Tuple<UInt64, List<Int32>>(Base, Offsets));
+                Pointers.Add(new Tuple<IntPtr, List<Int32>>(Base, Offsets));
                 return;
             }
 
             Parallel.ForEach(ConnectedPointers[Level - 1], (Target) =>
             {
-                if (PointerDestination < unchecked(Target.Key - MaxPointerOffset))
+                if (PointerDestination.ToUInt64() < Target.Key.Subtract(MaxPointerOffset).ToUInt64())
                     return;
 
-                if (PointerDestination > unchecked(Target.Key + MaxPointerOffset))
+                if (PointerDestination.ToUInt64() > Target.Key.Add(MaxPointerOffset).ToUInt64())
                     return;
 
                 // Valid pointer, clone our current offset stack

@@ -153,7 +153,7 @@ namespace Anathema
                 Region.SetAlignment(Alignment);
         }
 
-        public Boolean ContainsAddress(UInt64 Address)
+        public Boolean ContainsAddress(IntPtr Address)
         {
             if (SnapshotRegions == null || SnapshotRegions.Count() == 0)
                 return false;
@@ -161,14 +161,14 @@ namespace Anathema
             return ContainsAddress(Address, SnapshotRegions.Count() / 2, 0, SnapshotRegions.Count());
         }
 
-        private Boolean ContainsAddress(UInt64 Address, Int32 Middle, Int32 Min, Int32 Max)
+        private Boolean ContainsAddress(IntPtr Address, Int32 Middle, Int32 Min, Int32 Max)
         {
             if (Middle < 0 || Middle == SnapshotRegions.Count() || Max < Min)
                 return false;
 
-            if (Address < unchecked((UInt64)SnapshotRegions.ElementAt(Middle).BaseAddress))
+            if (Address.ToUInt64() < SnapshotRegions.ElementAt(Middle).BaseAddress.ToUInt64())
                 return (ContainsAddress(Address, (Min + Middle - 1) / 2, Min, Middle - 1));
-            else if (Address > unchecked((UInt64)SnapshotRegions.ElementAt(Middle).EndAddress))
+            else if (Address.ToUInt64() > SnapshotRegions.ElementAt(Middle).EndAddress.ToUInt64())
                 return (ContainsAddress(Address, (Middle + 1 + Max) / 2, Middle + 1, Max));
             else
                 return true;

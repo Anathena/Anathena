@@ -156,7 +156,7 @@ namespace Anathema
                 String Value = String.Empty;
                 IndexValueMap.TryGetValue(Index, out Value);
 
-                AddressTable.GetInstance().AddTableItem(unchecked((UInt64)ActiveSnapshot[Index].BaseAddress), ScanType, "No Description", Value: Value);
+                AddressTable.GetInstance().AddTableItem(ActiveSnapshot[Index].BaseAddress, ScanType, "No Description", Value: Value);
 
                 if (++Count >= MaxAdd)
                     break;

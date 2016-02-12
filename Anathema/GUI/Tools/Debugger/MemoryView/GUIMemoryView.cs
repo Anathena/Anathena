@@ -52,13 +52,13 @@ namespace Anathema
             });
         }
 
-        public void GoToAddress(UInt64 Address)
+        public void GoToAddress(IntPtr Address)
         {
             ControlThreadingHelper.InvokeControlAction<Control>(HexEditorBox, () =>
             {
                 if (HexEditorBox.ByteProvider == null)
                     return;
-                HexEditorBox.LineInfoOffset = unchecked((Int64)(Address - (UInt64)((HexEditorBox.ByteProvider.Length) / 2) - (Address % (UInt64)HexEditorBox.HorizontalByteCount)));
+                HexEditorBox.LineInfoOffset = (Address.Subtract(HexEditorBox.ByteProvider.Length / 2).Subtract(Address.Mod(HexEditorBox.HorizontalByteCount)).ToInt64());
                 BaseLine = HexEditorBox.TopLine;
                 UpdateDisplayRange();
             });

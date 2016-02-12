@@ -82,6 +82,16 @@ namespace Anathema
             return (IntPtr)unchecked((UInt64)Left / (UInt64)Convert.ChangeType(Right, typeof(UInt64)));
         }
 
+        public static IntPtr Mod(this IntPtr Left, IntPtr Right)
+        {
+            return (IntPtr)unchecked((UInt64)Left % (UInt64)Right);
+        }
+
+        public static IntPtr Mod<T>(this IntPtr Left, T Right) where T : struct
+        {
+            return (IntPtr)unchecked((UInt64)Left % (UInt64)Convert.ChangeType(Right, typeof(UInt64)));
+        }
+
         #endregion
 
         #region UIntPtr
@@ -124,6 +134,16 @@ namespace Anathema
         public static UIntPtr Divide<T>(this UIntPtr Left, T Right) where T : struct
         {
             return (UIntPtr)unchecked((UInt64)Left / (UInt64)Convert.ChangeType(Right, typeof(UInt64)));
+        }
+
+        public static UIntPtr Mod(this UIntPtr Left, UIntPtr Right)
+        {
+            return (UIntPtr)unchecked((UInt64)Left % (UInt64)Right);
+        }
+
+        public static UIntPtr Mod<T>(this UIntPtr Left, T Right) where T : struct
+        {
+            return (UIntPtr)unchecked((UInt64)Left % (UInt64)Convert.ChangeType(Right, typeof(UInt64)));
         }
 
         #endregion

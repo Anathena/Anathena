@@ -49,9 +49,9 @@ namespace Anathema
 
         public abstract void SetElementType(Type ElementType);
         public abstract void SetRescanMode(Boolean IsAddressMode);
-        public abstract void SetTargetAddress(UInt64 Address);
+        public abstract void SetTargetAddress(IntPtr Address);
         public abstract void SetMaxPointerLevel(Int32 MaxPointerLevel);
-        public abstract void SetMaxPointerOffset(UInt64 MaxOffset);
+        public abstract void SetMaxPointerOffset(Int32 MaxOffset);
 
         public abstract void SetScanConstraintManager(ScanConstraintManager ScanConstraintManager);
 
@@ -141,7 +141,7 @@ namespace Anathema
             if (!CheckSyntax.CanParseAddress(TargetAddress))
                 return;
 
-            Model.SetTargetAddress(Conversions.AddressToValue(TargetAddress));
+            Model.SetTargetAddress(Conversions.AddressToValue(TargetAddress).ToIntPtr());
         }
 
         public void SetScanConstraintManager(ScanConstraintManager ScanConstraintManager)

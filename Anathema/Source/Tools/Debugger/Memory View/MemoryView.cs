@@ -74,7 +74,7 @@ namespace Anathema
                 return;
 
             MemoryViewEventArgs Args = new MemoryViewEventArgs();
-            Args.Address = VirtualPages.ElementAt(VirtualPageIndex).BaseAddress.ToUInt64();
+            Args.Address = VirtualPages.ElementAt(VirtualPageIndex).BaseAddress;
             OnEventEventGoToAddress(Args);
         }
 

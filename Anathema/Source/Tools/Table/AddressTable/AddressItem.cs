@@ -12,7 +12,7 @@ namespace Anathema
     public class AddressItem : TableItem
     {
         [DataMember()]
-        public UInt64 BaseAddress { get; set; }
+        public IntPtr BaseAddress { get; set; }
 
         [DataMember()]
         public String Description { get; set; }
@@ -44,10 +44,10 @@ namespace Anathema
             set { if (!Activated) _Value = value; }
         }
 
-        private UInt64 _EffectiveAddress;
-        public UInt64 EffectiveAddress { get { return _EffectiveAddress; } private set { _EffectiveAddress = value; } }
+        private IntPtr _EffectiveAddress;
+        public IntPtr EffectiveAddress { get { return _EffectiveAddress; } private set { _EffectiveAddress = value; } }
 
-        public AddressItem(UInt64 BaseAddress, Type ElementType, String Description = null, Int32[] Offsets = null, Boolean IsHex = false, String Value = null)
+        public AddressItem(IntPtr BaseAddress, Type ElementType, String Description = null, Int32[] Offsets = null, Boolean IsHex = false, String Value = null)
         {
             this.BaseAddress = BaseAddress;
             this.Description = Description == null ? String.Empty : Description;
@@ -114,7 +114,7 @@ namespace Anathema
 
         public void ResolveAddress(OSInterface OSInterface)
         {
-            UInt64 Pointer = this.BaseAddress;
+            IntPtr Pointer = this.BaseAddress;
             Boolean SuccessReading = true;
 
             if (OSInterface == null)
@@ -122,7 +122,7 @@ namespace Anathema
                 if (Offsets == null || Offsets.Length == 0)
                     EffectiveAddress = Pointer;
                 else
-                    EffectiveAddress = 0;
+                    EffectiveAddress = IntPtr.Zero;
 
                 return;
             }
@@ -135,8 +135,8 @@ namespace Anathema
 
             foreach (Int32 Offset in Offsets)
             {
-                Pointer = OSInterface.Process.Read<UInt64>((IntPtr)Pointer, out SuccessReading);
-                Pointer += (UInt64)Offset;
+                Pointer = OSInterface.Process.Read<IntPtr>(Pointer, out SuccessReading);
+                Pointer = Pointer.Add(Offset);
 
                 if (!SuccessReading)
                     break;
