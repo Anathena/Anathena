@@ -31,10 +31,6 @@ namespace Anathema
         private OSInterface OSInterface;
         private Snapshot<Null> Snapshot;
 
-        // As far as I can tell, no valid pointers will end up being less than 0x10000 (UInt16.MaxValue). Huge gains by filtering these.
-        private dynamic InvalidPointerMax = IntPtr.Size == 4 ? IntPtr.Zero.MaxUserMode().ToInt32() : IntPtr.Zero.MaxUserMode().ToInt64();
-        private dynamic InvalidPointerMin = IntPtr.Size == 4 ? IntPtr.Zero.Add(UInt16.MaxValue).ToInt32() : IntPtr.Zero.Add(UInt16.MaxValue).ToInt64();
-
         private Int32 StartReadIndex;
         private Int32 EndReadIndex;
         private ConcurrentDictionary<Int32, String> IndexValueMap;
@@ -449,6 +445,11 @@ namespace Anathema
             else
                 Snapshot.SetElementType(typeof(Int64));
 
+
+            // As far as I can tell, no valid pointers will end up being less than 0x10000 (UInt16.MaxValue), nor higher than usermode space.
+            dynamic InvalidPointerMin = OSInterface.Process.Is32Bit() ? (Int32)UInt16.MaxValue : (Int64)UInt16.MaxValue;
+            dynamic InvalidPointerMax = OSInterface.Process.Is32Bit() ? Int32.MaxValue : Int64.MaxValue;
+
             // Enforce 4-byte alignment of pointers
             Snapshot.SetAlignment(sizeof(Int32));
 
@@ -512,12 +513,12 @@ namespace Anathema
 
                 Parallel.ForEach(PointerPool, (Pointer) =>
                 {
-                // Ensure if this is a max level pointer that it is from an acceptable base address (ie static)
-                if (Level == MaxPointerLevel && !AcceptedBases.ContainsAddress(Pointer.Key))
+                    // Ensure if this is a max level pointer that it is from an acceptable base address (ie static)
+                    if (Level == MaxPointerLevel && !AcceptedBases.ContainsAddress(Pointer.Key))
                         return;
 
-                // Accept this pointer if it is points to the previous level snapshot
-                if (PreviousLevel.ContainsAddress(Pointer.Value))
+                    // Accept this pointer if it is points to the previous level snapshot
+                    if (PreviousLevel.ContainsAddress(Pointer.Value))
                         LevelPointers[Pointer.Key] = Pointer.Value;
                 });
 
@@ -547,12 +548,12 @@ namespace Anathema
             {
                 Parallel.ForEach(ConnectedPointers[CurrentMaximum], (Base) =>
                 {
-                // Enforce static base constraint. Maxlevel pointers were already prefitlered, but not other levels.
-                if (!AcceptedBases.ContainsAddress(Base.Key))
+                    // Enforce static base constraint. Maxlevel pointers were already prefitlered, but not other levels.
+                    if (!AcceptedBases.ContainsAddress(Base.Key))
                         return;
 
-                // Recursively build the pointers
-                BuildPointers(DiscoveredPointers, CurrentMaximum, Base.Key, Base.Value, new List<Int32>());
+                    // Recursively build the pointers
+                    BuildPointers(DiscoveredPointers, CurrentMaximum, Base.Key, Base.Value, new List<Int32>());
                 });
             }
 
@@ -575,14 +576,14 @@ namespace Anathema
                 if (PointerDestination.ToUInt64() > Target.Key.Add(MaxPointerOffset).ToUInt64())
                     return;
 
-            // Valid pointer, clone our current offset stack
-            List<Int32> NewOffsets = new List<Int32>(Offsets);
+                // Valid pointer, clone our current offset stack
+                List<Int32> NewOffsets = new List<Int32>(Offsets);
 
-            // Calculate the offset for this level
-            NewOffsets.Add(unchecked((Int32)(Target.Key.ToInt64() - PointerDestination.ToInt64())));
+                // Calculate the offset for this level
+                NewOffsets.Add(unchecked((Int32)(Target.Key.ToInt64() - PointerDestination.ToInt64())));
 
-            // Recurse
-            BuildPointers(Pointers, Level - 1, Base, Target.Value, NewOffsets);
+                // Recurse
+                BuildPointers(Pointers, Level - 1, Base, Target.Value, NewOffsets);
             });
         }
 
