@@ -7,7 +7,7 @@ using System.Threading;
 using System.Diagnostics;
 using System.Text.RegularExpressions;
 
-namespace BinarySharp.MemoryManagement.Debugger
+namespace Anathema.MemoryManagement.Debugger
 {
     /// <summary>
     /// Debugger object responsable for controlling the target process

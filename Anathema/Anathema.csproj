@@ -193,7 +193,7 @@
     <Compile Include="Source\OS\FUTURE\Architecture.cs" />
     <Compile Include="Source\OS\FUTURE\IAssembler.cs" />
     <Compile Include="Source\OS\FUTURE\IDisassembler.cs" />
-    <Compile Include="Source\OS\FUTURE\FUTURERemoteRegion.cs" />
+    <Compile Include="Source\OS\FUTURE\RemoteRegion.cs" />
     <Compile Include="Source\OS\FUTURE\IProcessInterface.cs" />
     <Compile Include="Source\OS\Lua\LuaEngine.cs" />
     <Compile Include="Settings.cs" />

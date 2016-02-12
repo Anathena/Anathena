@@ -1,17 +1,8 @@
-﻿/*
- * MemorySharp Library
- * http://www.binarysharp.com/
- *
- * Copyright (C) 2012-2014 Jämes Ménétrey (a.k.a. ZenLulz).
- * This library is released under the MIT License.
- * See the file LICENSE for more information.
-*/
-
-using System;
+﻿using System;
 using System.Text;
-using Binarysharp.MemoryManagement.Internals;
+using Anathema.MemoryManagement.Internals;
 
-namespace Binarysharp.MemoryManagement.Assembly
+namespace Anathema.MemoryManagement.Assembly
 {
     /// <summary>
     /// Class representing a transaction where the user can insert mnemonics.

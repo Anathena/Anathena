@@ -1,19 +1,12 @@
-/*
-* Fasm.NET
-* https://github.com/ZenLulz/Fasm.NET
-*
-* Copyright 2013 ZenLulz ~ Jämes Ménétrey
-* Released under the MIT license
-*
-* Date: 2013-07-10
-*/
-
 #include "stdafx.h"
 #include "Fasm.NET.h"
 
-namespace Binarysharp {
-	namespace Assemblers {
-		namespace Fasm {
+namespace Anathema
+{
+	namespace Assemblers
+	{
+		namespace Fasm
+		{
 			#pragma region Static Methods
 			#pragma region FasmNet::GetVersion
 			/// <summary>
@@ -262,6 +255,9 @@ namespace Binarysharp {
 			}
 			#pragma endregion
 			#pragma endregion
-		}
-	}
-}
+
+		} // End namespace
+
+	} // End namespace
+
+} // End namespace

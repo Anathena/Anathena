@@ -1,6 +1,6 @@
 ﻿using Be.Windows.Forms;
-using Binarysharp.MemoryManagement;
-using Binarysharp.MemoryManagement.Memory;
+using Anathema.MemoryManagement;
+using Anathema.MemoryManagement.Memory;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;

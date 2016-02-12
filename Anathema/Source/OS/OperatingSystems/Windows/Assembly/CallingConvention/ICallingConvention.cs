@@ -1,15 +1,6 @@
-﻿/*
- * MemorySharp Library
- * http://www.binarysharp.com/
- *
- * Copyright (C) 2012-2014 Jämes Ménétrey (a.k.a. ZenLulz).
- * This library is released under the MIT License.
- * See the file LICENSE for more information.
-*/
+﻿using System;
 
-using System;
-
-namespace Binarysharp.MemoryManagement.Assembly.CallingConvention
+namespace Anathema.MemoryManagement.Assembly.CallingConvention
 {
     /// <summary>
     /// Interface defining a calling convention.
@@ -42,5 +33,7 @@ namespace Binarysharp.MemoryManagement.Assembly.CallingConvention
         /// <param name="ParameterCount">The number of parameters to clean.</param>
         /// <returns>The mnemonics to clean a given number of parameters.</returns>
         string FormatCleaning(int ParameterCount);
-    }
-}
+
+    } // End class
+
+} // End namespace

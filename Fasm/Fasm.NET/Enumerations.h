@@ -1,18 +1,11 @@
-/*
-* Fasm.NET
-* https://github.com/ZenLulz/Fasm.NET
-*
-* Copyright 2013 ZenLulz ~ Jämes Ménétrey
-* Released under the MIT license
-*
-* Date: 2013-07-10
-*/
-
 #pragma once
 
-namespace Binarysharp {
-	namespace Assemblers {
-		namespace Fasm {
+namespace Anathema
+{
+	namespace Assemblers
+	{
+		namespace Fasm
+		{
 			/// <summary>
 			/// The enumeration containing all results of FASM compiler.
 			/// </summary>
@@ -75,6 +68,9 @@ namespace Binarysharp {
 				UserError = -140,
 				AssertionFailed = -141
 			};
-		}
-	}
-}
+
+		} // End namespace
+
+	} // End namespace
+
+} // End namespace

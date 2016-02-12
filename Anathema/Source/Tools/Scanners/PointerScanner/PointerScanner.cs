@@ -1,6 +1,6 @@
-﻿using Binarysharp.MemoryManagement;
-using Binarysharp.MemoryManagement.Memory;
-using Binarysharp.MemoryManagement.Modules;
+﻿using Anathema.MemoryManagement;
+using Anathema.MemoryManagement.Memory;
+using Anathema.MemoryManagement.Modules;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;

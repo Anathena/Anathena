@@ -5,13 +5,13 @@ namespace Anathema
     /// <summary>
     /// Specifies the interface requir
     /// </summary>
-    public class OSInterface
+    public class FUTUREOSInterface
     {
         public Architecture Architecture { get; private set; }
 
-        public IOperatingSystemInterface Process { get; private set; }
+        public FUTUREIOperatingSystemInterface Process { get; private set; }
 
-        public OSInterface()
+        public FUTUREOSInterface()
         {
             Architecture = new Architecture();
             

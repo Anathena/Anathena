@@ -1,25 +1,16 @@
-﻿/*
- * MemorySharp Library
- * http://www.binarysharp.com/
- *
- * Copyright (C) 2012-2014 Jämes Ménétrey (a.k.a. ZenLulz).
- * This library is released under the MIT License.
- * See the file LICENSE for more information.
-*/
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Text;
-using Binarysharp.MemoryManagement.Assembly;
-using Binarysharp.MemoryManagement.Helpers;
-using Binarysharp.MemoryManagement.Internals;
-using Binarysharp.MemoryManagement.Memory;
-using Binarysharp.MemoryManagement.Modules;
-using Binarysharp.MemoryManagement.Native;
-using Binarysharp.MemoryManagement.Threading;
+using Anathema.MemoryManagement.Assembly;
+using Anathema.MemoryManagement.Helpers;
+using Anathema.MemoryManagement.Internals;
+using Anathema.MemoryManagement.Memory;
+using Anathema.MemoryManagement.Modules;
+using Anathema.MemoryManagement.Native;
+using Anathema.MemoryManagement.Threading;
 
-namespace Binarysharp.MemoryManagement
+namespace Anathema.MemoryManagement
 {
     /// <summary>
     /// Class for memory editing a remote process.

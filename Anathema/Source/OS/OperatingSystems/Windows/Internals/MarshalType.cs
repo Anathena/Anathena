@@ -1,18 +1,9 @@
-﻿/*
- * MemorySharp Library
- * http://www.binarysharp.com/
- *
- * Copyright (C) 2012-2014 Jämes Ménétrey (a.k.a. ZenLulz).
- * This library is released under the MIT License.
- * See the file LICENSE for more information.
-*/
-
-using System;
+﻿using System;
 using System.Runtime.InteropServices;
 using System.Text;
-using Binarysharp.MemoryManagement.Memory;
+using Anathema.MemoryManagement.Memory;
 
-namespace Binarysharp.MemoryManagement.Internals
+namespace Anathema.MemoryManagement.Internals
 {
     /// <summary>
     /// Static class providing tools for extracting information related to types.

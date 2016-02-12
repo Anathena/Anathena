@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace BinarySharp.MemoryManagement.Debugger
+namespace Anathema.MemoryManagement.Debugger
 {
     class DebuggerException : Exception
     {

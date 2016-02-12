@@ -2,7 +2,7 @@
 
 namespace Anathema
 {
-    public interface IOperatingSystemInterface
+    public interface FUTUREIOperatingSystemInterface
     {
         // Addressing
         IntPtr GetStackAddress();

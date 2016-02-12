@@ -1,6 +1,6 @@
 ﻿using Anathema.Properties;
-using Binarysharp.MemoryManagement;
-using Binarysharp.MemoryManagement.Memory;
+using Anathema.MemoryManagement;
+using Anathema.MemoryManagement.Memory;
 using Gma.System.MouseKeyHook;
 using System;
 using System.Collections;

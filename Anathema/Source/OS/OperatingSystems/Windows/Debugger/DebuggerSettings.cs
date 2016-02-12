@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace BinarySharp.MemoryManagement.Debugger
+namespace Anathema.MemoryManagement.Debugger
 {
     /// <summary>
     /// Settings object used by the Debugger class.  Only purpose is to provide 

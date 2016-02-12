@@ -7,7 +7,7 @@ using System.Text;
 using System.Windows.Forms;
 using WeifenLuo.WinFormsUI.Docking;
 using System.IO;
-using Binarysharp.MemoryManagement.Memory;
+using Anathema.MemoryManagement.Memory;
 
 namespace Anathema
 {

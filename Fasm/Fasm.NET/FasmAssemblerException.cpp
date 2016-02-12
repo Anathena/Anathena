@@ -1,21 +1,14 @@
-/*
-* Fasm.NET
-* https://github.com/ZenLulz/Fasm.NET
-*
-* Copyright 2013 ZenLulz ~ Jämes Ménétrey
-* Released under the MIT license
-*
-* Date: 2013-07-10
-*/
-
 #include "Stdafx.h"
 #include "FasmAssemblerException.h"
 
 using namespace System;
 
-namespace Binarysharp {
-	namespace Assemblers {
-		namespace Fasm {
+namespace Anathema
+{
+	namespace Assemblers
+	{
+		namespace Fasm
+		{
 			/// <summary>
 			/// Initializes a new instance of the <see cref="FasmAssemblerException" /> class.
 			/// </summary>
@@ -33,6 +26,9 @@ namespace Binarysharp {
 				_errorOffset = errorOffset;
 				_mnemonics = mnemonics;
 			}
-		}
-	}
-}
+
+		} // End namespace
+
+	} // End namespace
+
+} // End namespace

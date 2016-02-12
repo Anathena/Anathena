@@ -1,20 +1,11 @@
-﻿/*
- * MemorySharp Library
- * http://www.binarysharp.com/
- *
- * Copyright (C) 2012-2014 Jämes Ménétrey (a.k.a. ZenLulz).
- * This library is released under the MIT License.
- * See the file LICENSE for more information.
-*/
-
-using System;
+﻿using System;
 
 namespace Anathema
 {
     /// <summary>
     /// Interface defining an assembler.
     /// </summary>
-    public interface IAssembler
+    public interface FUTUREIAssembler
     {
         /// <summary>
         /// Assemble the specified assembly code.

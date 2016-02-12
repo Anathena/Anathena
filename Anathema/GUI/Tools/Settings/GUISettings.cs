@@ -3,7 +3,7 @@ using System.Data;
 using System.Drawing;
 using System.Windows.Forms;
 using System.Linq;
-using Binarysharp.MemoryManagement.Native;
+using Anathema.MemoryManagement.Native;
 
 namespace Anathema
 {

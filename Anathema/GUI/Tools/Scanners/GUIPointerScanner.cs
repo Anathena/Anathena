@@ -7,8 +7,8 @@ using System.Text;
 using System.Windows.Forms;
 using WeifenLuo.WinFormsUI.Docking;
 using System.IO;
-using Binarysharp.MemoryManagement;
-using Binarysharp.MemoryManagement.Memory;
+using Anathema.MemoryManagement;
+using Anathema.MemoryManagement.Memory;
 using System.Linq;
 
 namespace Anathema

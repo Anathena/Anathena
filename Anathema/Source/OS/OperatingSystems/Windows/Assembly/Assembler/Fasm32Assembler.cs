@@ -1,13 +1,4 @@
-﻿/*
- * MemorySharp Library
- * http://www.binarysharp.com/
- *
- * Copyright (C) 2012-2014 Jämes Ménétrey (a.k.a. ZenLulz).
- * This library is released under the MIT License.
- * See the file LICENSE for more information.
-*/
-
-using FASMSharedInterface;
+﻿using FASMSharedInterface;
 using System;
 using System.Diagnostics;
 using System.IO;
@@ -16,7 +7,7 @@ using System.Runtime.Remoting.Channels.Ipc;
 using System.Threading;
 using System.Windows.Forms;
 
-namespace Binarysharp.MemoryManagement.Assembly.Assembler
+namespace Anathema.MemoryManagement.Assembly.Assembler
 {
     /// <summary>
     /// Implement Fasm.NET compiler for 32-bit development.

@@ -1,4 +1,4 @@
-﻿using Binarysharp.MemoryManagement;
+﻿using Anathema.MemoryManagement;
 
 namespace Anathema
 {
@@ -6,5 +6,7 @@ namespace Anathema
     {
         void InitializeProcessObserver();
         void UpdateMemoryEditor(MemoryEditor MemoryEditor);
-    }
-}
+
+    } // End interface
+
+} // End namespace

@@ -6,7 +6,7 @@ using System.Windows.Forms;
 using System.Diagnostics;
 using System.Collections.Concurrent;
 using System.Runtime.InteropServices;
-using Binarysharp.MemoryManagement;
+using Anathema.MemoryManagement;
 using System.Threading.Tasks;
 
 namespace Anathema

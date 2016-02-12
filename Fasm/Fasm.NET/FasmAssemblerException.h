@@ -1,22 +1,15 @@
-/*
-* Fasm.NET
-* https://github.com/ZenLulz/Fasm.NET
-*
-* Copyright 2013 ZenLulz ~ Jämes Ménétrey
-* Released under the MIT license
-*
-* Date: 2013-07-10
-*/
-
 #pragma once
 
 #include "Enumerations.h"
 
 using namespace System;
 
-namespace Binarysharp {
-	namespace Assemblers {
-		namespace Fasm {
+namespace Anathema
+{
+	namespace Assemblers
+	{
+		namespace Fasm
+		{
 			/// <summary>
 			/// The exception that is thrown when a FASM compiler error occurs.
 			/// </summary>
@@ -77,6 +70,9 @@ namespace Binarysharp {
 				/// <param name="mnemonics">The assembled mnemonics when the error occurred.</param>
 				FasmAssemblerException(FasmErrors errorCode, int errorLine, int errorOffset, String^ mnemonics);
 			};
-		}
-	}
-}
+
+		} // End namespace
+
+	} // End namespace
+
+} // End namespace

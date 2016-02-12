@@ -5,7 +5,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BinarySharp.MemoryManagement.Debugger
+namespace Anathema.MemoryManagement.Debugger
 {
     /*
     public static IntPtr GetEdx(IntPtr Address, Process Process)

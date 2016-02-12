@@ -1,5 +1,5 @@
-﻿using Binarysharp.MemoryManagement;
-using Binarysharp.MemoryManagement.Memory;
+﻿using Anathema.MemoryManagement;
+using Anathema.MemoryManagement.Memory;
 using System;
 using System.Collections.Generic;
 using System.Drawing;

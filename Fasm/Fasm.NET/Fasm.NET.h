@@ -1,13 +1,3 @@
-/*
-* Fasm.NET
-* https://github.com/ZenLulz/Fasm.NET
-*
-* Copyright 2013 ZenLulz ~ Jämes Ménétrey
-* Released under the MIT license
-*
-* Date: 2013-07-10
-*/
-
 #pragma once
 
 #include "Enumerations.h"
@@ -24,9 +14,12 @@ using namespace System::IO;
 using namespace System::Runtime::InteropServices;
 using namespace System::Text;
 
-namespace Binarysharp {
-	namespace Assemblers {
-		namespace Fasm {
+namespace Anathema
+{
+	namespace Assemblers
+	{
+		namespace Fasm
+		{
 			/// <summary>
 			/// The managed wrapper to interfact with FASM compiler.
 			/// </summary>
@@ -147,6 +140,9 @@ namespace Binarysharp {
 					String^ get() { return _mnemonics->ToString(); }
 				}
 			};
-		}
-	}
-}
+
+		} // End namespace
+
+	} // End namespace
+
+} // End namespace

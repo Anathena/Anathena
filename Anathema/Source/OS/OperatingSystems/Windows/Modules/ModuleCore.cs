@@ -1,20 +1,11 @@
-﻿/*
- * MemorySharp Library
- * http://www.binarysharp.com/
- *
- * Copyright (C) 2012-2014 Jämes Ménétrey (a.k.a. ZenLulz).
- * This library is released under the MIT License.
- * See the file LICENSE for more information.
-*/
-
-using System;
+﻿using System;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using Binarysharp.MemoryManagement.Native;
+using Anathema.MemoryManagement.Native;
 
-namespace Binarysharp.MemoryManagement.Modules
+namespace Anathema.MemoryManagement.Modules
 {
     /// <summary>
     /// Static core class providing tools for manipulating modules and libraries.

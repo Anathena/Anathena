@@ -1,6 +1,6 @@
 ﻿using System;
 using NLua;
-using Binarysharp.MemoryManagement;
+using Anathema.MemoryManagement;
 
 namespace Anathema
 {

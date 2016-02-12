@@ -1,20 +1,11 @@
-﻿/*
- * MemorySharp Library
- * http://www.binarysharp.com/
- *
- * Copyright (C) 2012-2014 Jämes Ménétrey (a.k.a. ZenLulz).
- * This library is released under the MIT License.
- * See the file LICENSE for more information.
-*/
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using Binarysharp.MemoryManagement.Internals;
-using Binarysharp.MemoryManagement.Native;
+using Anathema.MemoryManagement.Internals;
+using Anathema.MemoryManagement.Native;
 
-namespace Binarysharp.MemoryManagement.Threading
+namespace Anathema.MemoryManagement.Threading
 {
     /// <summary>
     /// Class providing tools for manipulating threads.

@@ -4,8 +4,8 @@ namespace Anathema
 {
     public class Architecture
     {
-        public IAssembler Assembler { get; private set; }
-        public IDisassembler Disassembler { get; private set; }
+        public FUTUREIAssembler Assembler { get; private set; }
+        public FUTUREIDisassembler Disassembler { get; private set; }
 
         public Architecture()
         {

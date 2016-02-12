@@ -1,19 +1,10 @@
-﻿/*
- * MemorySharp Library
- * http://www.binarysharp.com/
- *
- * Copyright (C) 2012-2014 Jämes Ménétrey (a.k.a. ZenLulz).
- * This library is released under the MIT License.
- * See the file LICENSE for more information.
-*/
-
-using System;
+﻿using System;
 using System.Diagnostics;
 using System.Linq;
-using Binarysharp.MemoryManagement.Internals;
-using Binarysharp.MemoryManagement.Threading;
+using Anathema.MemoryManagement.Internals;
+using Anathema.MemoryManagement.Threading;
 
-namespace Binarysharp.MemoryManagement.Modules
+namespace Anathema.MemoryManagement.Modules
 {
     /// <summary>
     /// Class representing an injected module in a remote process.
