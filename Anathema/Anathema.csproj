@@ -360,14 +360,11 @@
     <Compile Include="Source\OS\OperatingSystems\Windows\Memory\RemotePointer.cs" />
     <Compile Include="Source\OS\OperatingSystems\Windows\Memory\RemoteRegion.cs" />
     <Compile Include="Source\OS\OperatingSystems\Windows\Memory\RemoteVirtualPage.cs" />
-    <Compile Include="Source\OS\OperatingSystems\Windows\Modules\InjectedModule.cs" />
     <Compile Include="Source\OS\OperatingSystems\Windows\Modules\ModuleCore.cs" />
     <Compile Include="Source\OS\OperatingSystems\Windows\Modules\ModuleFactory.cs" />
     <Compile Include="Source\OS\OperatingSystems\Windows\Modules\RemoteFunction.cs" />
     <Compile Include="Source\OS\OperatingSystems\Windows\Modules\RemoteModule.cs" />
     <Compile Include="Source\OS\OperatingSystems\Windows\Native\Enumerations.cs" />
-    <Compile Include="Source\OS\OperatingSystems\Windows\Native\ManagedPeb.cs" />
-    <Compile Include="Source\OS\OperatingSystems\Windows\Native\ManagedTeb.cs" />
     <Compile Include="Source\OS\OperatingSystems\Windows\Native\NativeMethods.cs" />
     <Compile Include="Source\OS\OperatingSystems\Windows\Native\SafeMemoryHandle.cs" />
     <Compile Include="Source\OS\OperatingSystems\Windows\Native\Structures.cs" />

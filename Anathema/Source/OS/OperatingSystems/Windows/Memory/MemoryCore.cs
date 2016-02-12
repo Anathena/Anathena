@@ -36,7 +36,8 @@ namespace Anathema.MemoryManagement.Memory
                 return Address;
 
             // If the pointer isn't valid, throws an exception
-            throw new Win32Exception(String.Format("Couldn't allocate memory of {0} byte(s).", Size));
+            // throw new Win32Exception(String.Format("Couldn't allocate memory of {0} byte(s).", Size));
+            return Address;
         }
         #endregion
 
@@ -53,7 +54,7 @@ namespace Anathema.MemoryManagement.Memory
             // Close the handle
             if (!NativeMethods.CloseHandle(Handle))
             {
-                throw new Win32Exception(String.Format("Couldn't close he handle 0x{0}.", Handle));
+                // throw new Win32Exception(String.Format("Couldn't close he handle 0x{0}.", Handle));
             }
         }
 
@@ -103,7 +104,8 @@ namespace Anathema.MemoryManagement.Memory
                 return ProcessInfo;
 
             // Else, couldn't get the process info, throws an exception
-            throw new ApplicationException(string.Format("Couldn't get the information from the process, error code '{0}'.", Result));
+            // throw new ApplicationException(string.Format("Couldn't get the information from the process, error code '{0}'.", Result));
+            return ProcessInfo;
         }
 
         #endregion
@@ -125,7 +127,8 @@ namespace Anathema.MemoryManagement.Memory
                 return Handle;
 
             // Else the handle isn't valid, throws an exception
-            throw new Win32Exception(String.Format("Couldn't open the process {0}.", ProcessId));
+            // throw new Win32Exception(String.Format("Couldn't open the process {0}.", ProcessId));
+            return Handle;
         }
 
         #endregion
@@ -150,10 +153,12 @@ namespace Anathema.MemoryManagement.Memory
 
             // Read the data from the target process
             Success = (NativeMethods.ReadProcessMemory(ProcessHandle, Address, Buffer, Size, out BytesRead) && Size == BytesRead);
-            return Buffer;
+            if (Success)
+                return Buffer;
 
             // Else the data couldn't be read, throws an exception
             // throw new Win32Exception(string.Format("Couldn't read {0} byte(s) from 0x{1}.", size, address.ToString("X")));
+            return Buffer;
         }
 
         #endregion
@@ -301,13 +306,13 @@ namespace Anathema.MemoryManagement.Memory
                 // Do not bother with this shit, this memory is not worth scanning
                 if ((MemoryInfo.Protect & MemoryProtectionFlags.ZeroAccess) != 0 || (MemoryInfo.Protect & MemoryProtectionFlags.NoAccess) != 0 || (MemoryInfo.Protect & MemoryProtectionFlags.Guard) != 0)
                     continue;
-                
+
                 if (!IgnoreSettings)
                 {
                     // Enforce type constraints
                     if (RequiredTypeFlags[Array.IndexOf(TypeEnumValues, MemoryTypeFlags.None)] == false)
                         continue;
-                    
+
                     // Ensure at least one required protection flag is set
                     if ((MemoryInfo.Protect & RequiredProtectionFlags) == 0)
                         continue;
