@@ -28,14 +28,6 @@ namespace Anathema.MemoryManagement
         protected List<IFactory> Factories;
 
         /// <summary>
-        /// Gets whether the process is being debugged.
-        /// </summary>
-        public bool IsDebugged
-        {
-            get { return Peb.BeingDebugged; }
-            set { Peb.BeingDebugged = value; }
-        }
-        /// <summary>
         /// State if the process is running.
         /// </summary>
         public bool IsRunning
@@ -58,10 +50,6 @@ namespace Anathema.MemoryManagement
         /// Provide access to the opened process.
         /// </summary>
         public Process Native { get; private set; }
-        /// <summary>
-        /// The Process Environment Block of the process.
-        /// </summary>
-        public ManagedPeb Peb { get; private set; }
         /// <summary>
         /// Gets the unique identifier for the remote process.
         /// </summary>
@@ -98,9 +86,6 @@ namespace Anathema.MemoryManagement
 
             // Open the process with all rights
             Handle = MemoryCore.OpenProcess(ProcessAccessFlags.AllAccess, Process.Id);
-
-            // Initialize the PEB
-            Peb = new ManagedPeb(this, ManagedPeb.FindPeb(Handle));
 
             // Create instances of the factories
             Factories = new List<IFactory>();
