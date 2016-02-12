@@ -453,12 +453,10 @@ namespace Anathema
             // Enforce 4-byte alignment of pointers
             Snapshot.SetAlignment(sizeof(Int32));
 
-            /*Parallel.ForEach(Snapshot.Cast<Object>(), (RegionObject) =>
+            Parallel.ForEach(Snapshot.Cast<Object>(), (RegionObject) =>
             {
                 SnapshotRegion Region = (SnapshotRegion)RegionObject;
-                */
-            foreach (SnapshotRegion Region in Snapshot)
-            {
+
                 // Read the memory of this region
                 try { Region.ReadAllSnapshotMemory(Snapshot.GetOSInterface(), true); }
                 catch (ScanFailedException) { return; }
@@ -478,8 +476,7 @@ namespace Anathema
                     if (Element.GetValue() % 4 != 0)
                         continue;
 
-                    dynamic Val = Element.GetValue();
-                    IntPtr Value = new IntPtr(Val);
+                    IntPtr Value = new IntPtr(Element.GetValue());
 
                     // Check if it is possible that this pointer is valid, if so keep it
                     if (Snapshot.ContainsAddress(Value))
@@ -488,7 +485,7 @@ namespace Anathema
 
                 // Clear the saved values, we do not need them now
                 Region.SetCurrentValues(null);
-            }//);
+            });
         }
 
         private void TracePointers()

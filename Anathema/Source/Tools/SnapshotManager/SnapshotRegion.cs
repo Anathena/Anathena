@@ -37,8 +37,8 @@ namespace Anathema
         public void ExpandRegion(Int32 ExpandSize)
         {
             // Expand with negative overflow protection
-            if ((UInt64)BaseAddress > (UInt64)ExpandSize)
-                this.BaseAddress -= ExpandSize;
+            if (BaseAddress.ToUInt64() > checked((UInt32)ExpandSize))
+                this.BaseAddress = this.BaseAddress.Subtract(ExpandSize);
             else
                 this.BaseAddress = IntPtr.Zero;
 
@@ -108,14 +108,14 @@ namespace Anathema
             this.Alignment = Alignment;
 
             // Enforce alignment constraint on base address
-            if ((UInt64)BaseAddress % (UInt64)Alignment != 0)
+            if (BaseAddress.Mod(Alignment).ToUInt64() != 0)
             {
                 unchecked
                 {
-                    this.BaseAddress -= (Int32)((UInt64)BaseAddress % (UInt64)Alignment);
-                    this.BaseAddress += Alignment;
+                    this.BaseAddress = this.BaseAddress.Subtract(BaseAddress.Mod(Alignment));
+                    this.BaseAddress = this.BaseAddress.Add(Alignment);
 
-                    this.RegionSize -= Alignment - (Int32)((UInt64)BaseAddress % (UInt64)Alignment);
+                    this.RegionSize -= Alignment - BaseAddress.Mod(Alignment).ToInt32();
                     if (RegionSize < 0)
                         RegionSize = 0;
                 }

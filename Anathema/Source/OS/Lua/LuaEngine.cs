@@ -16,7 +16,7 @@ namespace Anathema
             BindFunctions();
         }
 
-        public static String AddCodeInjectionTemplate(String Script, String ModuleName, UInt64 ModuleOffset)
+        public static String AddCodeInjectionTemplate(String Script, String ModuleName, IntPtr ModuleOffset)
         {
             String CodeInjection =
                 "-- No Description" + "\n\t\n" +

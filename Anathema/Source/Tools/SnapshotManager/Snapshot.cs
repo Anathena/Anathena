@@ -392,11 +392,11 @@ namespace Anathema
                 CurrentRegion = CandidateRegions.Dequeue();
 
                 // Grab the next mask following the current region
-                while ((UInt64)CurrentMask.EndAddress < (UInt64)CurrentRegion.BaseAddress && MaskingRegions.Count > 0)
+                while (CurrentMask.EndAddress.ToUInt64() < CurrentRegion.BaseAddress.ToUInt64() && MaskingRegions.Count > 0)
                     CurrentMask = MaskingRegions.Dequeue();
 
                 // Check for mask completely removing this region
-                if ((UInt64)CurrentMask.EndAddress < (UInt64)CurrentRegion.BaseAddress || (UInt64)CurrentMask.BaseAddress > (UInt64)CurrentRegion.EndAddress)
+                if (CurrentMask.EndAddress.ToUInt64() < CurrentRegion.BaseAddress.ToUInt64() || CurrentMask.BaseAddress.ToUInt64() > CurrentRegion.EndAddress.ToUInt64())
                     continue;
 
                 // Mask completely overlaps, just use the original region
@@ -408,13 +408,13 @@ namespace Anathema
 
                 // Mask is within bounds; Grab the masked portion of this region
                 Int32 BaseOffset = 0;
-                if ((UInt64)CurrentMask.BaseAddress > (UInt64)CurrentRegion.BaseAddress)
-                    BaseOffset = (Int32)((UInt64)CurrentMask.BaseAddress - (UInt64)CurrentRegion.BaseAddress);
+                if (CurrentMask.BaseAddress.ToUInt64() > CurrentRegion.BaseAddress.ToUInt64())
+                    BaseOffset = CurrentMask.BaseAddress.Subtract(CurrentRegion.BaseAddress).ToInt32();
 
                 var NewRegion = new SnapshotRegion<LabelType>(CurrentRegion);
                 ResultRegions.Add(NewRegion);
                 NewRegion.BaseAddress = CurrentRegion.BaseAddress + BaseOffset;
-                NewRegion.EndAddress = (IntPtr)Math.Min((UInt64)CurrentMask.EndAddress, (UInt64)CurrentRegion.EndAddress);
+                NewRegion.EndAddress = Math.Min(CurrentMask.EndAddress.ToUInt64(), CurrentRegion.EndAddress.ToUInt64()).ToIntPtr();
                 NewRegion.SetCurrentValues(CurrentRegion.GetCurrentValues().LargestSubArray(BaseOffset, ResultRegions.Last().RegionSize + NewRegion.GetRegionExtension()));
                 NewRegion.SetPreviousValues(CurrentRegion.GetPreviousValues().LargestSubArray(BaseOffset, ResultRegions.Last().RegionSize + NewRegion.GetRegionExtension()));
                 NewRegion.SetElementLabels(CurrentRegion.GetElementLabels().LargestSubArray(BaseOffset, ResultRegions.Last().RegionSize + NewRegion.GetRegionExtension()));
@@ -439,7 +439,7 @@ namespace Anathema
                 return;
             
             // First, sort by start address
-            Array.Sort(SnapshotRegionArray, (x, y) => ((UInt64)x.BaseAddress).CompareTo((UInt64)y.BaseAddress));
+            Array.Sort(SnapshotRegionArray, (x, y) => (x.BaseAddress.ToUInt64()).CompareTo(y.BaseAddress.ToUInt64()));
 
             // Create and initialize the stack with the first region
             Stack<SnapshotRegion<LabelType>> CombinedRegions = new Stack<SnapshotRegion<LabelType>>();
@@ -451,27 +451,26 @@ namespace Anathema
                 SnapshotRegion<LabelType> Top = CombinedRegions.Peek();
 
                 // If the interval does not overlap, put it on the top of the stack
-                if ((UInt64)Top.EndAddress < (UInt64)SnapshotRegionArray[Index].BaseAddress)
+                if (Top.EndAddress.ToUInt64() < SnapshotRegionArray[Index].BaseAddress.ToUInt64())
                 {
                     CombinedRegions.Push(SnapshotRegionArray[Index]);
                 }
                 // The regions are adjacent; merge them
-                else if ((UInt64)Top.EndAddress == (UInt64)SnapshotRegionArray[Index].BaseAddress)
+                else if (Top.EndAddress.ToUInt64() == SnapshotRegionArray[Index].BaseAddress.ToUInt64())
                 {
-                    Top.RegionSize = (Int32)((UInt64)SnapshotRegionArray[Index].EndAddress - (UInt64)Top.BaseAddress);
+                    Top.RegionSize = SnapshotRegionArray[Index].EndAddress.Subtract(Top.BaseAddress).ToInt32();
                     Top.SetElementLabels(Top.GetElementLabels().Concat(SnapshotRegionArray[Index].GetElementLabels()));
                 }
                 // The regions overlap.
-                else if ((UInt64)Top.EndAddress <= (UInt64)SnapshotRegionArray[Index].EndAddress)
+                else if (Top.EndAddress.ToUInt64() <= SnapshotRegionArray[Index].EndAddress.ToUInt64())
                 {
-                    Top.RegionSize = (Int32)((UInt64)SnapshotRegionArray[Index].EndAddress - (UInt64)Top.BaseAddress);
-                    // throw new Exception("The labeled regions overlap and can not be merged.");
+                    Top.RegionSize = SnapshotRegionArray[Index].EndAddress.Subtract(Top.BaseAddress).ToInt32();
                 }
             }
 
             // Replace memory regions with merged memory regions
             this.SnapshotRegions = CombinedRegions.ToArray();
-            Array.Sort((SnapshotRegion<LabelType>[])this.SnapshotRegions, (x, y) => ((UInt64)x.BaseAddress).CompareTo((UInt64)y.BaseAddress));
+            Array.Sort((SnapshotRegion<LabelType>[])this.SnapshotRegions, (x, y) => (x.BaseAddress.ToUInt64()).CompareTo(y.BaseAddress.ToUInt64()));
         }
 
         /// <summary>

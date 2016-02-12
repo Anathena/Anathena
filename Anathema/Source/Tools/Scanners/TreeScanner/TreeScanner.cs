@@ -63,13 +63,13 @@ namespace Anathema
 
         protected override void Update()
         {
-            OSInterface OSInterface = Snapshot.GetOSInterface();
+            OSInterface MemoryEditor = Snapshot.GetOSInterface();
             try
             {
                 Parallel.ForEach(FilterTrees, (Tree) =>
                 {
                     // Process the changes that have occurred since the last sampling for this memory page
-                    Tree.ProcessChanges(Tree.ReadAllSnapshotMemory(OSInterface, false), Tree.BaseAddress);
+                    Tree.ProcessChanges(Tree.ReadAllSnapshotMemory(MemoryEditor, false), Tree.BaseAddress);
                 });
             }
             catch (ScanFailedException)
