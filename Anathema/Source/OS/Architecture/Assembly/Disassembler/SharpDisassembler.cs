@@ -2,10 +2,10 @@
 using System;
 using System.Collections.Generic;
 
-namespace Anathema.MemoryManagement.Assembly.Disassembler
+namespace Anathema.Disassembler
 {
     /// <summary>
-    /// Implement Fasm.NET compiler for 32-bit development.
+    /// Implements Fasm.NET compiler for 32-bit development.
     /// More info: https://github.com/ZenLulz/Fasm.NET
     /// </summary>
     public class SharpDisassembler : IDisassembler

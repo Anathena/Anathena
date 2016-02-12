@@ -2,12 +2,12 @@
 using System;
 using System.Collections.Generic;
 
-namespace Anathema
+namespace Anathema.Disassembler
 {
     /// <summary>
     /// Interface defining a disassembler.
     /// </summary>
-    public interface FUTUREIDisassembler
+    public interface IDisassembler
     {
         /// <summary>
         /// Disassemble the specified assembly code.

@@ -190,21 +190,19 @@
     <Compile Include="Source\HelperClasses\ObjectCache.cs" />
     <Compile Include="Source\HelperClasses\MessageBoxEx.cs" />
     <Compile Include="Source\HelperClasses\Extensions\ObjectExtensions.cs" />
-    <Compile Include="Source\OS\OperatingSystems\Architecture.cs" />
-    <Compile Include="Source\OS\OperatingSystems\IAssembler.cs" />
-    <Compile Include="Source\OS\OperatingSystems\IDisassembler.cs" />
-    <Compile Include="Source\OS\OperatingSystems\NormalizedModule.cs" />
-    <Compile Include="Source\OS\OperatingSystems\NormalizedRegion.cs" />
-    <Compile Include="Source\OS\OperatingSystems\IOperatingSystemInterface.cs" />
+    <Compile Include="Source\OS\Architecture\Assembly\Architecture.cs" />
+    <Compile Include="Source\OS\NormalizedModule.cs" />
+    <Compile Include="Source\OS\NormalizedRegion.cs" />
+    <Compile Include="Source\OS\IOperatingSystemInterface.cs" />
     <Compile Include="Source\OS\Lua\LuaEngine.cs" />
     <Compile Include="Settings.cs" />
     <Compile Include="Source\HelperClasses\ListViewCache.cs" />
     <Compile Include="Source\HelperClasses\RepeatedTask.cs" />
     <Compile Include="Source\OS\Lua\LuaKeywordManager.cs" />
     <Compile Include="Source\OS\Lua\LuaMemoryCore.cs" />
-    <Compile Include="Source\OS\OperatingSystems\OSInterface.cs" />
-    <Compile Include="Source\OS\OperatingSystems\Windows\Assembly\Disassembler\SharpDisassembler.cs" />
-    <Compile Include="Source\OS\OperatingSystems\Windows\Assembly\Disassembler\IDisassembler.cs" />
+    <Compile Include="Source\OS\OSInterface.cs" />
+    <Compile Include="Source\OS\Architecture\Assembly\Disassembler\SharpDisassembler.cs" />
+    <Compile Include="Source\OS\Architecture\Assembly\Disassembler\IDisassembler.cs" />
     <Compile Include="Source\Settings\ISettingsMVP.cs" />
     <Compile Include="Source\Tools\Debugger\Memory View\IMemoryViewMVP.cs" />
     <Compile Include="Source\Tools\Debugger\Memory View\MemoryView.cs" />
@@ -334,17 +332,15 @@
       <DependentUpon>GUIChunkScanner.cs</DependentUpon>
     </Compile>
     <Compile Include="Source\Main\Main.cs" />
-    <Compile Include="Source\OS\OperatingSystems\Windows\Assembly\Assembler\Fasm32Assembler.cs" />
-    <Compile Include="Source\OS\OperatingSystems\Windows\Assembly\Assembler\IAssembler.cs" />
-    <Compile Include="Source\OS\OperatingSystems\Windows\Assembly\AssemblyFactory.cs" />
-    <Compile Include="Source\OS\OperatingSystems\Windows\Assembly\AssemblyTransaction.cs" />
-    <Compile Include="Source\OS\OperatingSystems\Windows\Assembly\CallingConvention\CallingConventionSelector.cs" />
-    <Compile Include="Source\OS\OperatingSystems\Windows\Assembly\CallingConvention\CdeclCallingConvention.cs" />
-    <Compile Include="Source\OS\OperatingSystems\Windows\Assembly\CallingConvention\Enumerations.cs" />
-    <Compile Include="Source\OS\OperatingSystems\Windows\Assembly\CallingConvention\FastcallCallingConvention.cs" />
-    <Compile Include="Source\OS\OperatingSystems\Windows\Assembly\CallingConvention\ICallingConvention.cs" />
-    <Compile Include="Source\OS\OperatingSystems\Windows\Assembly\CallingConvention\StdcallCallingConvention.cs" />
-    <Compile Include="Source\OS\OperatingSystems\Windows\Assembly\CallingConvention\ThiscallCallingConvention.cs" />
+    <Compile Include="Source\OS\Architecture\Assembly\Assembler\Fasm32Assembler.cs" />
+    <Compile Include="Source\OS\Architecture\Assembly\Assembler\IAssembler.cs" />
+    <Compile Include="Source\OS\OperatingSystems\Windows\CallingConvention\CallingConventionSelector.cs" />
+    <Compile Include="Source\OS\OperatingSystems\Windows\CallingConvention\CdeclCallingConvention.cs" />
+    <Compile Include="Source\OS\OperatingSystems\Windows\CallingConvention\Enumerations.cs" />
+    <Compile Include="Source\OS\OperatingSystems\Windows\CallingConvention\FastcallCallingConvention.cs" />
+    <Compile Include="Source\OS\OperatingSystems\Windows\CallingConvention\ICallingConvention.cs" />
+    <Compile Include="Source\OS\OperatingSystems\Windows\CallingConvention\StdcallCallingConvention.cs" />
+    <Compile Include="Source\OS\OperatingSystems\Windows\CallingConvention\ThiscallCallingConvention.cs" />
     <Compile Include="Source\OS\OperatingSystems\Windows\Debugger\Debugger.cs" />
     <Compile Include="Source\OS\OperatingSystems\Windows\Debugger\DebuggerException.cs" />
     <Compile Include="Source\OS\OperatingSystems\Windows\Debugger\DebuggerSettings.cs" />
@@ -928,8 +924,6 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Source\OS\FUTURE\" />
-    <Folder Include="Source\OS\OperatingSystems\Architecture\" />
     <Folder Include="Source\Tools\Debugger\Code View\" />
   </ItemGroup>
   <ItemGroup>

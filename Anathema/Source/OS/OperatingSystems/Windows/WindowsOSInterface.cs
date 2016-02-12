@@ -29,11 +29,6 @@ namespace Anathema.MemoryManagement
         protected List<IFactory> Factories;
 
         /// <summary>
-        /// Factory for generating assembly code.
-        /// </summary>
-        public AssemblyFactory Assembly { get; protected set; }
-
-        /// <summary>
         /// Gets whether the process is being debugged.
         /// </summary>
         public bool IsDebugged
@@ -116,7 +111,6 @@ namespace Anathema.MemoryManagement
             Factories = new List<IFactory>();
             Factories.AddRange(new IFactory[]
             {
-                Assembly = new AssemblyFactory(this),
                 Memory = new MemoryFactory(this),
                 Modules = new ModuleFactory(this),
                 Threads = new ThreadFactory(this),
@@ -448,12 +442,12 @@ namespace Anathema.MemoryManagement
 
         public IntPtr AllocateMemory(Int32 Size)
         {
-            return Memory.Allocate(Size).BaseAddress;
+            return MemoryCore.Allocate(Handle, Size);
         }
 
         public void DeallocateMemory(IntPtr Address)
         {
-            // Memory.Deallocate()
+            MemoryCore.Free(Handle, Address);
         }
 
         public IEnumerable<NormalizedRegion> GetVirtualPages(IntPtr StartAddress, IntPtr EndAddress)
@@ -477,8 +471,8 @@ namespace Anathema.MemoryManagement
         public IEnumerable<NormalizedModule> GetModules()
         {
             List<NormalizedModule> NormalizedModules = new List<NormalizedModule>();
-            ProcessModuleCollection Modules = Native.Modules;
-            foreach (RemoteModule Module in Modules)
+
+            foreach (RemoteModule Module in Modules.RemoteModules)
                 NormalizedModules.Add(new NormalizedModule(Module.Name, Module.BaseAddress, Module.Size));
 
             return NormalizedModules;
