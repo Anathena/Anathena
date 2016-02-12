@@ -202,7 +202,7 @@ namespace Anathema.MemoryManagement.Internals
         /// <param name="MemorySharp">The concerned process.</param>
         /// <param name="Pointer">The pointer to convert.</param>
         /// <returns>The return value is the pointer converted to the given data type.</returns>
-        public static T PtrToObject(MemoryEditor MemorySharp, IntPtr Pointer)
+        public static T PtrToObject(WindowsOSInterface MemorySharp, IntPtr Pointer)
         {
             Boolean ReadSuccess;
             return ByteArrayToObject(CanBeStoredInRegisters ? BitConverter.GetBytes(Pointer.ToInt64()) : MemorySharp.Read<Byte>(Pointer, Size, out ReadSuccess));

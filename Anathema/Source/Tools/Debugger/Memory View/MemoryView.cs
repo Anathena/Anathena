@@ -17,7 +17,7 @@ namespace Anathema
     /// </summary>
     class MemoryView : IMemoryViewModel, IProcessObserver
     {
-        private MemoryEditor MemoryEditor;
+        private WindowsOSInterface MemoryEditor;
         private List<RemoteVirtualPage> VirtualPages;
 
         private UInt64 StartReadAddress;
@@ -38,7 +38,7 @@ namespace Anathema
             ProcessSelector.GetInstance().Subscribe(this);
         }
 
-        public void UpdateMemoryEditor(MemoryEditor MemoryEditor)
+        public void UpdateMemoryEditor(WindowsOSInterface MemoryEditor)
         {
             this.MemoryEditor = MemoryEditor;
 

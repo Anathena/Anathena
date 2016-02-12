@@ -69,7 +69,7 @@ namespace Anathema
 
     public class LuaMemoryCore : LuaFunctions, IProcessObserver
     {
-        private MemoryEditor MemoryEditor;
+        private WindowsOSInterface MemoryEditor;
 
         private static ConcurrentDictionary<String, String> GlobalKeywords = new ConcurrentDictionary<String, String>();
         private Dictionary<String, String> Keywords;
@@ -110,7 +110,7 @@ namespace Anathema
             ProcessSelector.GetInstance().Subscribe(this);
         }
 
-        public void UpdateMemoryEditor(MemoryEditor MemoryEditor)
+        public void UpdateMemoryEditor(WindowsOSInterface MemoryEditor)
         {
             this.MemoryEditor = MemoryEditor;
         }

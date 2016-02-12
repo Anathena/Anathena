@@ -17,9 +17,9 @@ namespace Anathema.MemoryManagement.Threading
     {
         #region Fields
         /// <summary>
-        /// The reference of the <see cref="MemoryManagement.MemoryEditor"/> object.
+        /// The reference of the <see cref="MemoryManagement.WindowsOSInterface"/> object.
         /// </summary>
-        protected readonly MemoryEditor MemorySharp;
+        protected readonly WindowsOSInterface MemorySharp;
         /// <summary>
         /// The parameter passed to the thread when it was created.
         /// </summary>
@@ -167,9 +167,9 @@ namespace Anathema.MemoryManagement.Threading
         /// <summary>
         /// Initializes a new instance of the <see cref="RemoteThread"/> class.
         /// </summary>
-        /// <param name="MemorySharp">The reference of the <see cref="MemoryManagement.MemoryEditor"/> object.</param>
+        /// <param name="MemorySharp">The reference of the <see cref="MemoryManagement.WindowsOSInterface"/> object.</param>
         /// <param name="Thread">The native <see cref="ProcessThread"/> object.</param>
-        internal RemoteThread(MemoryEditor MemorySharp, ProcessThread Thread)
+        internal RemoteThread(WindowsOSInterface MemorySharp, ProcessThread Thread)
         {
             // Save the parameters
             this.MemorySharp = MemorySharp;
@@ -185,10 +185,10 @@ namespace Anathema.MemoryManagement.Threading
         /// <summary>
         /// Initializes a new instance of the <see cref="RemoteThread"/> class.
         /// </summary>
-        /// <param name="MemorySharp">The reference of the <see cref="MemoryManagement.MemoryEditor"/> object.</param>
+        /// <param name="MemorySharp">The reference of the <see cref="MemoryManagement.WindowsOSInterface"/> object.</param>
         /// <param name="Thread">The native <see cref="ProcessThread"/> object.</param>
         /// <param name="Parameter">The parameter passed to the thread when it was created.</param>
-        internal RemoteThread(MemoryEditor MemorySharp, ProcessThread Thread, IMarshalledValue Parameter = null) : this(MemorySharp, Thread)
+        internal RemoteThread(WindowsOSInterface MemorySharp, ProcessThread Thread, IMarshalledValue Parameter = null) : this(MemorySharp, Thread)
         {
             // Save the parameter
             _Parameter = Parameter;

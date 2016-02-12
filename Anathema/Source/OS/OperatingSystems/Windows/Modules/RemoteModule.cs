@@ -72,9 +72,9 @@ namespace Anathema.MemoryManagement.Modules
         /// <summary>
         /// Initializes a new instance of the <see cref="RemoteModule"/> class.
         /// </summary>
-        /// <param name="MemorySharp">The reference of the <see cref="MemoryEditor"/> object.</param>
+        /// <param name="MemorySharp">The reference of the <see cref="WindowsOSInterface"/> object.</param>
         /// <param name="Module">The native <see cref="ProcessModule"/> object corresponding to this module.</param>
-        internal RemoteModule(MemoryEditor MemorySharp, ProcessModule Module) : base(MemorySharp, Module.BaseAddress)
+        internal RemoteModule(WindowsOSInterface MemorySharp, ProcessModule Module) : base(MemorySharp, Module.BaseAddress)
         {
             // Save the parameter
             Native = Module;
@@ -153,9 +153,9 @@ namespace Anathema.MemoryManagement.Modules
         /// <summary>
         /// Frees the loaded dynamic-link library (DLL) module and, if necessary, decrements its reference count.
         /// </summary>
-        /// <param name="MemorySharp">The reference of the <see cref="MemoryEditor"/> object.</param>
+        /// <param name="MemorySharp">The reference of the <see cref="WindowsOSInterface"/> object.</param>
         /// <param name="Module">The module to eject.</param>
-        internal static void InternalEject(MemoryEditor MemorySharp, RemoteModule Module)
+        internal static void InternalEject(WindowsOSInterface MemorySharp, RemoteModule Module)
         {
             // Call FreeLibrary remotely
             MemorySharp.Threads.CreateAndJoin(MemorySharp["kernel32"]["FreeLibrary"].BaseAddress, Module.BaseAddress);

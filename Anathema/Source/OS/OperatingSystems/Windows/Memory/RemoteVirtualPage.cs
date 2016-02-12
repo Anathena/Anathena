@@ -28,9 +28,9 @@ namespace Anathema.MemoryManagement.Memory
         /// <summary>
         /// Initializes a new instance of the <see cref="RemoteVirtualPage"/> class.
         /// </summary>
-        /// <param name="memorySharp">The reference of the <see cref="MemoryEditor"/> object.</param>
+        /// <param name="memorySharp">The reference of the <see cref="WindowsOSInterface"/> object.</param>
         /// <param name="baseAddress">The base address of the virtual page.</param>
-        internal RemoteVirtualPage(MemoryEditor MemorySharp, IntPtr BaseAddress) : base(MemorySharp, BaseAddress)
+        internal RemoteVirtualPage(WindowsOSInterface MemorySharp, IntPtr BaseAddress) : base(MemorySharp, BaseAddress)
         {
 
         }

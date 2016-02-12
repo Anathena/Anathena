@@ -9,9 +9,9 @@ namespace Anathema.MemoryManagement.Memory
     public class MemoryProtection : IDisposable
     {
         /// <summary>
-        /// The reference of the <see cref="MemoryEditor"/> object.
+        /// The reference of the <see cref="WindowsOSInterface"/> object.
         /// </summary>
-        private readonly MemoryEditor _MemorySharp;
+        private readonly WindowsOSInterface _MemorySharp;
         /// <summary>
         /// The base address of the altered memory.
         /// </summary>
@@ -37,12 +37,12 @@ namespace Anathema.MemoryManagement.Memory
         /// <summary>
         /// Initializes a new instance of the <see cref="MemoryProtection"/> class.
         /// </summary>
-        /// <param name="MemorySharp">The reference of the <see cref="MemoryEditor"/> object.</param>
+        /// <param name="MemorySharp">The reference of the <see cref="WindowsOSInterface"/> object.</param>
         /// <param name="BaseAddress">The base address of the memory to change the protection.</param>
         /// <param name="Size">The size of the memory to change.</param>
         /// <param name="Protection">The new protection to apply.</param>
         /// <param name="MustBeDisposed">The resource will be automatically disposed when the finalizer collects the object.</param>
-        public MemoryProtection(MemoryEditor MemorySharp, IntPtr BaseAddress, Int32 Size, MemoryProtectionFlags Protection = MemoryProtectionFlags.ExecuteReadWrite,
+        public MemoryProtection(WindowsOSInterface MemorySharp, IntPtr BaseAddress, Int32 Size, MemoryProtectionFlags Protection = MemoryProtectionFlags.ExecuteReadWrite,
                                 Boolean MustBeDisposed = true)
         {
             // Save the parameters

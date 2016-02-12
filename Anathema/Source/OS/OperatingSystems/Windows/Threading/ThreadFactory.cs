@@ -15,7 +15,7 @@ namespace Anathema.MemoryManagement.Threading
         /// <summary>
         /// The reference of the <see cref="MemorySharp"/> object.
         /// </summary>
-        protected readonly MemoryEditor MemorySharp;
+        protected readonly WindowsOSInterface MemorySharp;
 
         /// <summary>
         /// Gets the main thread of the remote process.
@@ -71,7 +71,7 @@ namespace Anathema.MemoryManagement.Threading
         /// Initializes a new instance of the <see cref="ThreadFactory"/> class.
         /// </summary>
         /// <param name="MemorySharp">The reference of the <see cref="MemorySharp"/> object.</param>
-        internal ThreadFactory(MemoryEditor MemorySharp)
+        internal ThreadFactory(WindowsOSInterface MemorySharp)
         {
             // Save the parameter
             this.MemorySharp = MemorySharp;

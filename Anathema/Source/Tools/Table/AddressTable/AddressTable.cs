@@ -21,7 +21,7 @@ namespace Anathema
         }
 
         private static AddressTable AddressTableInstance;
-        private MemoryEditor MemoryEditor;
+        private WindowsOSInterface MemoryEditor;
 
         private List<AddressItem> AddressItems;
 
@@ -53,7 +53,7 @@ namespace Anathema
             ProcessSelector.GetInstance().Subscribe(this);
         }
 
-        public void UpdateMemoryEditor(MemoryEditor MemoryEditor)
+        public void UpdateMemoryEditor(WindowsOSInterface MemoryEditor)
         {
             this.MemoryEditor = MemoryEditor;
         }

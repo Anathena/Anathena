@@ -19,7 +19,7 @@ namespace Anathema.MemoryManagement.Internals
         /// <param name="MemorySharp">The concerned process.</param>
         /// <param name="Value">The value to marshal.</param>
         /// <returns>The return value is an new instance of the <see cref="MarshalledValue{T}"/> class.</returns>
-        public static MarshalledValue<T> Marshal<T>(MemoryEditor MemorySharp, T Value)
+        public static MarshalledValue<T> Marshal<T>(WindowsOSInterface MemorySharp, T Value)
         {
             return new MarshalledValue<T>(MemorySharp, Value);
         }
@@ -35,7 +35,7 @@ namespace Anathema.MemoryManagement.Internals
         /// <summary>
         /// The reference of the <see cref="MemorySharp"/> object.
         /// </summary>
-        protected readonly MemoryEditor MemorySharp;
+        protected readonly WindowsOSInterface MemorySharp;
         #endregion
 
         #region Properties
@@ -59,7 +59,7 @@ namespace Anathema.MemoryManagement.Internals
         /// </summary>
         /// <param name="MemorySharp">The reference of the <see cref="MemorySharp"/> object.</param>
         /// <param name="Value">The value to marshal.</param>
-        public MarshalledValue(MemoryEditor MemorySharp, T Value)
+        public MarshalledValue(WindowsOSInterface MemorySharp, T Value)
         {
             // Save the parameters
             this.MemorySharp = MemorySharp;

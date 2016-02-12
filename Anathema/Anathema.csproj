@@ -194,7 +194,7 @@
     <Compile Include="Source\OS\FUTURE\IAssembler.cs" />
     <Compile Include="Source\OS\FUTURE\IDisassembler.cs" />
     <Compile Include="Source\OS\FUTURE\RemoteRegion.cs" />
-    <Compile Include="Source\OS\FUTURE\IProcessInterface.cs" />
+    <Compile Include="Source\OS\FUTURE\IOperatingSystemInterface.cs" />
     <Compile Include="Source\OS\Lua\LuaEngine.cs" />
     <Compile Include="Settings.cs" />
     <Compile Include="Source\HelperClasses\ListViewCache.cs" />
@@ -361,7 +361,7 @@
     <Compile Include="Source\OS\OperatingSystems\Windows\Internals\Manager.cs" />
     <Compile Include="Source\OS\OperatingSystems\Windows\Internals\MarshalType.cs" />
     <Compile Include="Source\OS\OperatingSystems\Windows\Internals\MarshalValue.cs" />
-    <Compile Include="Source\OS\MemoryEditor.cs" />
+    <Compile Include="Source\OS\OperatingSystems\Windows\WindowsOSInterface.cs" />
     <Compile Include="Source\OS\OperatingSystems\Windows\Memory\LocalUnmanagedMemory.cs" />
     <Compile Include="Source\OS\OperatingSystems\Windows\Memory\MemoryCore.cs" />
     <Compile Include="Source\OS\OperatingSystems\Windows\Memory\MemoryFactory.cs" />

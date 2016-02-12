@@ -15,10 +15,10 @@ namespace Anathema.MemoryManagement
     /// <summary>
     /// Class for memory editing a remote process.
     /// </summary>
-    public class MemoryEditor : IDisposable, IEquatable<MemoryEditor>
+    public class WindowsOSInterface : FUTUREIOperatingSystemInterface, IDisposable, IEquatable<WindowsOSInterface>
     {
         /// <summary>
-        /// Raises when the <see cref="MemoryEditor"/> object is disposed.
+        /// Raises when the <see cref="WindowsOSInterface"/> object is disposed.
         /// </summary>
         public event EventHandler OnDispose;
 
@@ -97,10 +97,10 @@ namespace Anathema.MemoryManagement
 
         #region Constructors/Destructor
         /// <summary>
-        /// Initializes a new instance of the <see cref="MemoryEditor"/> class.
+        /// Initializes a new instance of the <see cref="WindowsOSInterface"/> class.
         /// </summary>
         /// <param name="Process">Process to open.</param>
-        public MemoryEditor(Process Process)
+        public WindowsOSInterface(Process Process)
         {
             // Save the reference of the process
             Native = Process;
@@ -123,10 +123,10 @@ namespace Anathema.MemoryManagement
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="MemoryEditor"/> class.
+        /// Initializes a new instance of the <see cref="WindowsOSInterface"/> class.
         /// </summary>
         /// <param name="ProcessId">Process id of the process to open.</param>
-        public MemoryEditor(Int32 ProcessId) : this(ApplicationFinder.FromProcessId(ProcessId))
+        public WindowsOSInterface(Int32 ProcessId) : this(ApplicationFinder.FromProcessId(ProcessId))
         {
 
         }
@@ -134,7 +134,7 @@ namespace Anathema.MemoryManagement
         /// <summary>
         /// Frees resources and perform other cleanup operations before it is reclaimed by garbage collection. 
         /// </summary>
-        ~MemoryEditor()
+        ~WindowsOSInterface()
         {
             Dispose();
         }
@@ -144,7 +144,7 @@ namespace Anathema.MemoryManagement
         #region Methods
         #region Dispose (implementation of IDisposable)
         /// <summary>
-        /// Releases all resources used by the <see cref="MemoryEditor"/> object.
+        /// Releases all resources used by the <see cref="WindowsOSInterface"/> object.
         /// </summary>
         public virtual void Dispose()
         {
@@ -171,13 +171,13 @@ namespace Anathema.MemoryManagement
         {
             if (ReferenceEquals(null, Object)) return false;
             if (ReferenceEquals(this, Object)) return true;
-            return Object.GetType() == GetType() && Equals((MemoryEditor)Object);
+            return Object.GetType() == GetType() && Equals((WindowsOSInterface)Object);
         }
 
         /// <summary>
         /// Returns a value indicating whether this instance is equal to a specified object.
         /// </summary>
-        public Boolean Equals(MemoryEditor Other)
+        public Boolean Equals(WindowsOSInterface Other)
         {
             if (ReferenceEquals(null, Other)) return false;
             return ReferenceEquals(this, Other) || Handle.Equals(Other.Handle);
@@ -195,12 +195,12 @@ namespace Anathema.MemoryManagement
 
         #endregion
         #region Operator (override)
-        public static Boolean operator ==(MemoryEditor Left, MemoryEditor Right)
+        public static Boolean operator ==(WindowsOSInterface Left, WindowsOSInterface Right)
         {
             return Equals(Left, Right);
         }
 
-        public static Boolean operator !=(MemoryEditor Left, MemoryEditor Right)
+        public static Boolean operator !=(WindowsOSInterface Left, WindowsOSInterface Right)
         {
             return !Equals(Left, Right);
         }
@@ -403,6 +403,24 @@ namespace Anathema.MemoryManagement
         public void WriteString(IntPtr Address, String Text)
         {
             WriteString(Address, Text, Encoding.UTF8);
+        }
+
+        /// <summary>
+        /// Gets the address of the stack in the windows process
+        /// </summary>
+        /// <returns></returns>
+        public IntPtr GetStackAddress()
+        {
+            throw new NotImplementedException();
+        }
+
+        /// <summary>
+        /// Gets the address(es) of the heap in the windows process
+        /// </summary>
+        /// <returns></returns>
+        public IntPtr[] GetHeapAddresses()
+        {
+            throw new NotImplementedException();
         }
 
         #endregion

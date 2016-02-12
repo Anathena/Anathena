@@ -23,17 +23,17 @@ namespace Anathema.MemoryManagement.Memory
             get { return MemorySharp.IsRunning && BaseAddress != IntPtr.Zero; }
         }
         /// <summary>
-        /// The reference of the <see cref="MemoryManagement.MemoryEditor"/> object.
+        /// The reference of the <see cref="MemoryManagement.WindowsOSInterface"/> object.
         /// </summary>
-        public MemoryEditor MemorySharp { get; protected set; }
+        public WindowsOSInterface MemorySharp { get; protected set; }
 
         #region Constructor
         /// <summary>
         /// Initializes a new instance of the <see cref="RemotePointer"/> class.
         /// </summary>
-        /// <param name="MemorySharp">The reference of the <see cref="MemoryManagement.MemoryEditor"/> object.</param>
+        /// <param name="MemorySharp">The reference of the <see cref="MemoryManagement.WindowsOSInterface"/> object.</param>
         /// <param name="Address">The location where the pointer points in the remote process.</param>
-        public RemotePointer(MemoryEditor MemorySharp, IntPtr Address)
+        public RemotePointer(WindowsOSInterface MemorySharp, IntPtr Address)
         {
             // Save the parameters
             this.MemorySharp = MemorySharp;

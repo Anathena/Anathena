@@ -112,7 +112,7 @@ namespace Anathema
             return Conversions.ToAddress(EffectiveAddress);
         }
 
-        public void ResolveAddress(MemoryEditor MemoryEditor)
+        public void ResolveAddress(WindowsOSInterface MemoryEditor)
         {
             UInt64 Pointer = this.BaseAddress;
             Boolean SuccessReading = true;

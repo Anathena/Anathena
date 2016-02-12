@@ -433,9 +433,9 @@ namespace Anathema.MemoryManagement.Native
         /// <summary>
         /// Initializes a new instance of the <see cref="ManagedTeb"/> class.
         /// </summary>
-        /// <param name="MemorySharp">The reference of the <see cref="MemoryEditor"/> object.</param>
+        /// <param name="MemorySharp">The reference of the <see cref="WindowsOSInterface"/> object.</param>
         /// <param name="Address">The location of the teb.</param>
-        internal ManagedTeb(MemoryEditor MemorySharp, IntPtr Address) : base(MemorySharp, Address)
+        internal ManagedTeb(WindowsOSInterface MemorySharp, IntPtr Address) : base(MemorySharp, Address)
         {
 
         }

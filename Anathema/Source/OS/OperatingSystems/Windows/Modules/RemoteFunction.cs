@@ -14,7 +14,7 @@ namespace Anathema.MemoryManagement.Modules
         public String Name { get; private set; }
 
         #region Constructor
-        public RemoteFunction(MemoryEditor MemorySharp, IntPtr Address, String FunctionName) : base(MemorySharp, Address)
+        public RemoteFunction(WindowsOSInterface MemorySharp, IntPtr Address, String FunctionName) : base(MemorySharp, Address)
         {
             // Save the parameter
             Name = FunctionName;

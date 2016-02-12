@@ -22,11 +22,11 @@ namespace Anathema.MemoryManagement.Memory
         /// <summary>
         /// Initializes a new instance of the <see cref="RemoteAllocation"/> class.
         /// </summary>
-        /// <param name="MemorySharp">The reference of the <see cref="MemoryEditor"/> object.</param>
+        /// <param name="MemorySharp">The reference of the <see cref="WindowsOSInterface"/> object.</param>
         /// <param name="Size">The size of the allocated memory.</param>
         /// <param name="Protection">The protection of the allocated memory.</param>
         /// <param name="MustBeDisposed">The allocated memory will be released when the finalizer collects the object.</param>
-        internal RemoteAllocation(MemoryEditor MemorySharp, Int32 Size, MemoryProtectionFlags Protection = MemoryProtectionFlags.ExecuteReadWrite, 
+        internal RemoteAllocation(WindowsOSInterface MemorySharp, Int32 Size, MemoryProtectionFlags Protection = MemoryProtectionFlags.ExecuteReadWrite, 
                                  Boolean MustBeDisposed = true) 
             : base(MemorySharp, MemoryCore.Allocate(MemorySharp.Handle, Size, Protection))
         {

@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Anathema.MemoryManagement;
+using System;
+using System.Diagnostics;
 
 namespace Anathema
 {
@@ -11,10 +13,11 @@ namespace Anathema
 
         public FUTUREIOperatingSystemInterface Process { get; private set; }
 
-        public FUTUREOSInterface()
+        public FUTUREOSInterface(Process TargetProcess)
         {
             Architecture = new Architecture();
-            
+
+            Process = new WindowsOSInterface(TargetProcess);
         }
 
     } // End interface

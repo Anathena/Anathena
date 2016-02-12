@@ -18,7 +18,7 @@ namespace Anathema.MemoryManagement.Assembly
         /// <summary>
         /// The reference of the <see cref="MemorySharp"/> object.
         /// </summary>
-        protected readonly MemoryEditor MemorySharp;
+        protected readonly WindowsOSInterface MemorySharp;
 
         /// <summary>
         /// The assembler used by the factory.
@@ -35,7 +35,7 @@ namespace Anathema.MemoryManagement.Assembly
         /// Initializes a new instance of the <see cref="AssemblyFactory"/> class.
         /// </summary>
         /// <param name="MemorySharp">The reference of the <see cref="MemorySharp"/> object.</param>
-        internal AssemblyFactory(MemoryEditor MemorySharp)
+        internal AssemblyFactory(WindowsOSInterface MemorySharp)
         {
             // Save the parameter
             this.MemorySharp = MemorySharp;

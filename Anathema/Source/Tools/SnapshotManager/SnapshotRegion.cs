@@ -189,7 +189,7 @@ namespace Anathema
             return true;
         }
 
-        public Byte[] ReadAllSnapshotMemory(MemoryEditor MemoryEditor, Boolean KeepValues = true)
+        public Byte[] ReadAllSnapshotMemory(WindowsOSInterface MemoryEditor, Boolean KeepValues = true)
         {
             Boolean SuccessReading = false;
             Byte[] CurrentValues = MemoryEditor.ReadBytes(this.BaseAddress, this.RegionSize + RegionExtension, out SuccessReading);

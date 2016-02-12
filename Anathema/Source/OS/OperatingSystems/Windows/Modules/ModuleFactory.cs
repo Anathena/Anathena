@@ -14,9 +14,9 @@ namespace Anathema.MemoryManagement.Modules
     public class ModuleFactory : IFactory
     {
         /// <summary>
-        /// The reference of the <see cref="MemoryManagement.MemoryEditor"/> object.
+        /// The reference of the <see cref="MemoryManagement.WindowsOSInterface"/> object.
         /// </summary>
-        protected readonly MemoryEditor MemorySharp;
+        protected readonly WindowsOSInterface MemorySharp;
         /// <summary>
         /// The list containing all injected modules (writable).
         /// </summary>
@@ -69,8 +69,8 @@ namespace Anathema.MemoryManagement.Modules
         /// <summary>
         /// Initializes a new instance of the <see cref="ModuleFactory"/> class.
         /// </summary>
-        /// <param name="MemorySharp">The reference of the <see cref="MemoryManagement.MemoryEditor"/> object.</param>
-        internal ModuleFactory(MemoryEditor MemorySharp)
+        /// <param name="MemorySharp">The reference of the <see cref="MemoryManagement.WindowsOSInterface"/> object.</param>
+        internal ModuleFactory(WindowsOSInterface MemorySharp)
         {
             // Save the parameter
             this.MemorySharp = MemorySharp;
