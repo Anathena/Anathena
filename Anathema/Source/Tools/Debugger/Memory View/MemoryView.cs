@@ -17,7 +17,7 @@ namespace Anathema
     /// </summary>
     class MemoryView : IMemoryViewModel, IProcessObserver
     {
-        private OSInterface MemoryEditor;
+        private OSInterface OSInterface;
         private IEnumerable<NormalizedRegion> VirtualPages;
 
         private UInt64 StartReadAddress;
@@ -38,19 +38,19 @@ namespace Anathema
             ProcessSelector.GetInstance().Subscribe(this);
         }
 
-        public void UpdateMemoryEditor(OSInterface MemoryEditor)
+        public void UpdateOSInterface(OSInterface OSInterface)
         {
-            this.MemoryEditor = MemoryEditor;
+            this.OSInterface = OSInterface;
 
             RefreshVirtualPages();
         }
 
         public override void RefreshVirtualPages()
         {
-            if (MemoryEditor == null)
+            if (OSInterface == null)
                 return;
 
-            VirtualPages = MemoryEditor.Process.GetVirtualPages();
+            VirtualPages = OSInterface.Process.GetVirtualPages();
             MemoryViewEventArgs Args = new MemoryViewEventArgs();
             Args.VirtualPages = VirtualPages;
             OnEventUpdateVirtualPages(Args);
@@ -87,10 +87,10 @@ namespace Anathema
 
         public override void WriteToAddress(UInt64 Address, Byte Value)
         {
-            if (MemoryEditor == null)
+            if (OSInterface == null)
                 return;
 
-            MemoryEditor.Process.Write<Byte>(unchecked((IntPtr)Address), Value);
+            OSInterface.Process.Write<Byte>(unchecked((IntPtr)Address), Value);
         }
 
         public override void Begin()
@@ -102,7 +102,7 @@ namespace Anathema
         {
             base.Update();
 
-            if (MemoryEditor == null)
+            if (OSInterface == null)
                 return;
 
             for (UInt64 Address = StartReadAddress; Address <= EndReadAddress; Address++)
@@ -112,7 +112,7 @@ namespace Anathema
                     continue;
 
                 Boolean ReadSuccess;
-                Byte Value = MemoryEditor.Process.Read<Byte>(unchecked((IntPtr)Address), out ReadSuccess);
+                Byte Value = OSInterface.Process.Read<Byte>(unchecked((IntPtr)Address), out ReadSuccess);
 
                 if (ReadSuccess)
                     AddressValueMap[Address] = Value;

@@ -334,13 +334,6 @@
     <Compile Include="Source\Main\Main.cs" />
     <Compile Include="Source\OS\Architecture\Assembly\Assembler\Fasm32Assembler.cs" />
     <Compile Include="Source\OS\Architecture\Assembly\Assembler\IAssembler.cs" />
-    <Compile Include="Source\OS\OperatingSystems\Windows\CallingConvention\CallingConventionSelector.cs" />
-    <Compile Include="Source\OS\OperatingSystems\Windows\CallingConvention\CdeclCallingConvention.cs" />
-    <Compile Include="Source\OS\OperatingSystems\Windows\CallingConvention\Enumerations.cs" />
-    <Compile Include="Source\OS\OperatingSystems\Windows\CallingConvention\FastcallCallingConvention.cs" />
-    <Compile Include="Source\OS\OperatingSystems\Windows\CallingConvention\ICallingConvention.cs" />
-    <Compile Include="Source\OS\OperatingSystems\Windows\CallingConvention\StdcallCallingConvention.cs" />
-    <Compile Include="Source\OS\OperatingSystems\Windows\CallingConvention\ThiscallCallingConvention.cs" />
     <Compile Include="Source\OS\OperatingSystems\Windows\Debugger\Debugger.cs" />
     <Compile Include="Source\OS\OperatingSystems\Windows\Debugger\DebuggerException.cs" />
     <Compile Include="Source\OS\OperatingSystems\Windows\Debugger\DebuggerSettings.cs" />
@@ -378,11 +371,6 @@
     <Compile Include="Source\OS\OperatingSystems\Windows\Native\NativeMethods.cs" />
     <Compile Include="Source\OS\OperatingSystems\Windows\Native\SafeMemoryHandle.cs" />
     <Compile Include="Source\OS\OperatingSystems\Windows\Native\Structures.cs" />
-    <Compile Include="Source\OS\OperatingSystems\Windows\Threading\Enumerations.cs" />
-    <Compile Include="Source\OS\OperatingSystems\Windows\Threading\FrozenThread.cs" />
-    <Compile Include="Source\OS\OperatingSystems\Windows\Threading\RemoteThread.cs" />
-    <Compile Include="Source\OS\OperatingSystems\Windows\Threading\ThreadCore.cs" />
-    <Compile Include="Source\OS\OperatingSystems\Windows\Threading\ThreadFactory.cs" />
     <Compile Include="Source\Tools\Scanners\ChunkScanner\ChunkScanner.cs" />
     <Compile Include="Source\Tools\Scanners\ChunkScanner\IChunkScannerMVP.cs" />
     <Compile Include="Source\Tools\Scanners\TreeScanner\ITreeScannerMVP.cs" />

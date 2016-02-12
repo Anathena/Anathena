@@ -57,7 +57,7 @@ namespace Anathema
             throw new NotImplementedException();
         }
 
-        public void UpdateMemoryEditor(OSInterface MemoryEditor)
+        public void UpdateOSInterface(OSInterface OSInterface)
         {
             throw new NotImplementedException();
         }

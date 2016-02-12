@@ -10,7 +10,7 @@ namespace Anathema
 {
     class ScriptEditor : IScriptEditorModel
     {
-        private OSInterface MemoryEditor;
+        private OSInterface OSInterface;
         private static ScriptEditor _ScriptEditor;
 
         public event ScriptEditorEventHandler EventOpenScript;
@@ -37,9 +37,9 @@ namespace Anathema
             ProcessSelector.GetInstance().Subscribe(this);
         }
 
-        public void UpdateMemoryEditor(OSInterface MemoryEditor)
+        public void UpdateOSInterface(OSInterface OSInterface)
         {
-            this.MemoryEditor = MemoryEditor;
+            this.OSInterface = OSInterface;
         }
 
         public void OpenScript(ScriptItem ScriptItem)

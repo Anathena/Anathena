@@ -53,7 +53,7 @@ namespace Anathema
             {
                 SnapshotRegion Region = (SnapshotRegion)RegionObject;
 
-                Region.ReadAllSnapshotMemory(Snapshot.GetMemoryEditor(), true);
+                Region.ReadAllSnapshotMemory(Snapshot.GetOSInterface(), true);
 
                 if (!Region.CanCompare())
                 {

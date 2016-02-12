@@ -189,10 +189,10 @@ namespace Anathema
             return true;
         }
 
-        public Byte[] ReadAllSnapshotMemory(OSInterface MemoryEditor, Boolean KeepValues = true)
+        public Byte[] ReadAllSnapshotMemory(OSInterface OSInterface, Boolean KeepValues = true)
         {
             Boolean SuccessReading = false;
-            Byte[] CurrentValues = MemoryEditor.Process.ReadBytes(this.BaseAddress, this.RegionSize + RegionExtension, out SuccessReading);
+            Byte[] CurrentValues = OSInterface.Process.ReadBytes(this.BaseAddress, this.RegionSize + RegionExtension, out SuccessReading);
 
             if (!SuccessReading)
                 throw new ScanFailedException();

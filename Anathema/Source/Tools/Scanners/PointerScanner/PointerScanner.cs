@@ -28,7 +28,7 @@ namespace Anathema
 
     class PointerScanner : IPointerScannerModel, IProcessObserver
     {
-        private OSInterface MemoryEditor;
+        private OSInterface OSInterface;
         private Snapshot<Null> Snapshot;
 
         // As far as I can tell, no valid pointers will end up being less than 0x10000 (UInt16.MaxValue). Huge gains by filtering these.
@@ -81,9 +81,9 @@ namespace Anathema
             ProcessSelector.GetInstance().Subscribe(this);
         }
 
-        public void UpdateMemoryEditor(OSInterface MemoryEditor)
+        public void UpdateOSInterface(OSInterface OSInterface)
         {
-            this.MemoryEditor = MemoryEditor;
+            this.OSInterface = OSInterface;
         }
 
         public override void UpdateReadBounds(Int32 StartReadIndex, Int32 EndReadIndex)
@@ -190,7 +190,7 @@ namespace Anathema
 
             foreach (Int32 Offset in Offsets)
             {
-                Pointer = MemoryEditor.Process.Read<UInt64>((IntPtr)Pointer, out SuccessReading);
+                Pointer = OSInterface.Process.Read<UInt64>((IntPtr)Pointer, out SuccessReading);
                 Pointer += (UInt64)Offset;
 
                 if (!SuccessReading)
@@ -226,7 +226,7 @@ namespace Anathema
 
                     for (Int32 Index = StartReadIndex; Index <= EndReadIndex; Index++)
                     {
-                        if (AcceptedPointers == null || MemoryEditor == null)
+                        if (AcceptedPointers == null || OSInterface == null)
                             break;
 
                         if (Index < 0 || Index >= AcceptedPointers.Count)
@@ -235,7 +235,7 @@ namespace Anathema
                         UInt64 Pointer = ResolvePointer(AcceptedPointers[Index]);
 
                         Boolean SuccessReading;
-                        String Value = MemoryEditor.Process.Read(ElementType, (IntPtr)Pointer, out SuccessReading).ToString();
+                        String Value = OSInterface.Process.Read(ElementType, (IntPtr)Pointer, out SuccessReading).ToString();
 
                         IndexValueMap[Index] = Value;
                     }
@@ -419,10 +419,10 @@ namespace Anathema
         {
             this.PrintDebugTag();
 
-            if (MemoryEditor == null)
+            if (OSInterface == null)
                 return;
 
-            IEnumerable<NormalizedModule> Modules = MemoryEditor.Process.GetModules();
+            IEnumerable<NormalizedModule> Modules = OSInterface.Process.GetModules();
 
             List<SnapshotRegion> AcceptedBaseRegions = new List<SnapshotRegion>();
 
@@ -454,7 +454,7 @@ namespace Anathema
                 SnapshotRegion Region = (SnapshotRegion)RegionObject;
 
                 // Read the memory of this region
-                try { Region.ReadAllSnapshotMemory(Snapshot.GetMemoryEditor(), true); }
+                try { Region.ReadAllSnapshotMemory(Snapshot.GetOSInterface(), true); }
                 catch (ScanFailedException) { return; }
 
                 if (!Region.HasValues())

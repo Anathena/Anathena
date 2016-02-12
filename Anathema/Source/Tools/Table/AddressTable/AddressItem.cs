@@ -112,12 +112,12 @@ namespace Anathema
             return Conversions.ToAddress(EffectiveAddress);
         }
 
-        public void ResolveAddress(OSInterface MemoryEditor)
+        public void ResolveAddress(OSInterface OSInterface)
         {
             UInt64 Pointer = this.BaseAddress;
             Boolean SuccessReading = true;
 
-            if (MemoryEditor == null)
+            if (OSInterface == null)
             {
                 if (Offsets == null || Offsets.Length == 0)
                     EffectiveAddress = Pointer;
@@ -135,7 +135,7 @@ namespace Anathema
 
             foreach (Int32 Offset in Offsets)
             {
-                Pointer = MemoryEditor.Process.Read<UInt64>((IntPtr)Pointer, out SuccessReading);
+                Pointer = OSInterface.Process.Read<UInt64>((IntPtr)Pointer, out SuccessReading);
                 Pointer += (UInt64)Offset;
 
                 if (!SuccessReading)

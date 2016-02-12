@@ -61,14 +61,14 @@ namespace Anathema
         {
             base.Update();
 
-            OSInterface MemoryEditor = Snapshot.GetMemoryEditor();
+            OSInterface OSInterface = Snapshot.GetOSInterface();
 
             Parallel.ForEach(ChunkRoots, (ChunkRoot) =>
             {
                 try
                 {
                     // Process the changes that have occurred since the last sampling for this memory page
-                    ChunkRoot.ProcessChanges(ChunkRoot.ReadAllSnapshotMemory(MemoryEditor, false));
+                    ChunkRoot.ProcessChanges(ChunkRoot.ReadAllSnapshotMemory(OSInterface, false));
                 }
                 catch (ScanFailedException)
                 {

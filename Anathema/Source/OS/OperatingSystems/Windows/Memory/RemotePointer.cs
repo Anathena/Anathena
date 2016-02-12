@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Text;
-using System.Threading.Tasks;
-using Anathema.MemoryManagement.Assembly.CallingConvention;
 using Anathema.MemoryManagement.Native;
 
 namespace Anathema.MemoryManagement.Memory

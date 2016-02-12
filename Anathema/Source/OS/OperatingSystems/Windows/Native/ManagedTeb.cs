@@ -1,6 +1,5 @@
 ﻿using System;
 using Anathema.MemoryManagement.Memory;
-using Anathema.MemoryManagement.Threading;
 
 namespace Anathema.MemoryManagement.Native
 {
@@ -438,19 +437,6 @@ namespace Anathema.MemoryManagement.Native
         internal ManagedTeb(WindowsOSInterface MemorySharp, IntPtr Address) : base(MemorySharp, Address)
         {
 
-        }
-
-        #endregion
-
-        #region Methods
-        /// <summary>
-        /// Finds the Thread Environment Block address of a specified thread.
-        /// </summary>
-        /// <param name="ThreadHandle">A handle of the thread.</param>
-        /// <returns>A <see cref="IntPtr"/> pointer of the TEB.</returns>
-        public static IntPtr FindTeb(SafeMemoryHandle ThreadHandle)
-        {
-            return ThreadCore.NtQueryInformationThread(ThreadHandle).TebBaseAdress;
         }
 
         #endregion

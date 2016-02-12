@@ -83,19 +83,6 @@ namespace Anathema.MemoryManagement.Modules
         #endregion
 
         #region Methods
-        #region Eject
-        /// <summary>
-        /// Ejects the loaded dynamic-link library (DLL) module.
-        /// </summary>
-        public void Eject()
-        {
-            // Eject the module
-            MemorySharp.Modules.Eject(this);
-            // Remove the pointer
-            BaseAddress = IntPtr.Zero;
-        }
-
-        #endregion
         #region FindFunction
         /// <summary>
         /// Finds the specified function in the remote module.
@@ -146,19 +133,6 @@ namespace Anathema.MemoryManagement.Modules
                 if (IsManuallyLoaded)
                     ModuleCore.FreeLibrary(LocalModule);
             }
-        }
-
-        #endregion
-        #region InternalEject (internal)
-        /// <summary>
-        /// Frees the loaded dynamic-link library (DLL) module and, if necessary, decrements its reference count.
-        /// </summary>
-        /// <param name="MemorySharp">The reference of the <see cref="WindowsOSInterface"/> object.</param>
-        /// <param name="Module">The module to eject.</param>
-        internal static void InternalEject(WindowsOSInterface MemorySharp, RemoteModule Module)
-        {
-            // Call FreeLibrary remotely
-            MemorySharp.Threads.CreateAndJoin(MemorySharp["kernel32"]["FreeLibrary"].BaseAddress, Module.BaseAddress);
         }
 
         #endregion

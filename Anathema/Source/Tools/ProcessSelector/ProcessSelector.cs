@@ -47,7 +47,7 @@ namespace Anathema
         // Observers that must be notified of a process selection change
         private List<IProcessObserver> ProcessObservers;
 
-        private OSInterface MemoryEditor;
+        private OSInterface OSInterface;
 
         private ProcessSelector()
         {
@@ -84,14 +84,14 @@ namespace Anathema
         {
             // Update memory editor if applicable
             if (Process != null)
-                MemoryEditor = new OSInterface(Process);
+                OSInterface = new OSInterface(Process);
 
-            if (MemoryEditor == null)
+            if (OSInterface == null)
                 return;
 
             // Notify subscribers
             foreach (IProcessObserver ProcessObserver in ProcessObservers)
-                ProcessObserver.UpdateMemoryEditor(MemoryEditor);
+                ProcessObserver.UpdateOSInterface(OSInterface);
         }
 
         public void SelectProcess(Int32 Index)

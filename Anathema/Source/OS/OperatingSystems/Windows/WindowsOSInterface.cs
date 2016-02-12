@@ -8,7 +8,6 @@ using Anathema.MemoryManagement.Internals;
 using Anathema.MemoryManagement.Memory;
 using Anathema.MemoryManagement.Modules;
 using Anathema.MemoryManagement.Native;
-using Anathema.MemoryManagement.Threading;
 using System.Runtime.InteropServices;
 
 namespace Anathema.MemoryManagement
@@ -68,10 +67,6 @@ namespace Anathema.MemoryManagement
         /// </summary>
         public int Pid { get { return Native.Id; } }
         /// <summary>
-        /// Factory for manipulating threads.
-        /// </summary>
-        public ThreadFactory Threads { get; protected set; }
-        /// <summary>
         /// Gets the specified module in the remote process.
         /// </summary>
         /// <param name="ModuleName">The name of module (not case sensitive).</param>
@@ -113,7 +108,6 @@ namespace Anathema.MemoryManagement
             {
                 Memory = new MemoryFactory(this),
                 Modules = new ModuleFactory(this),
-                Threads = new ThreadFactory(this),
             });
         }
 

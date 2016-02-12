@@ -16,7 +16,7 @@ namespace Anathema
         // Lock to ensure multiple entities do not try and update the snapshot list at the same time
         private Object AccessLock = new Object();
 
-        private OSInterface MemoryEditor;
+        private OSInterface OSInterface;
         private Stack<Snapshot> Snapshots;          // Snapshots being managed
         private Stack<Snapshot> DeletedSnapshots;   // Deleted snapshots for the capability of redoing after undo
 
@@ -46,15 +46,15 @@ namespace Anathema
             ProcessSelector.GetInstance().Subscribe(this);
         }
 
-        public void UpdateMemoryEditor(OSInterface MemoryEditor)
+        public void UpdateOSInterface(OSInterface OSInterface)
         {
-            this.MemoryEditor = MemoryEditor;
+            this.OSInterface = OSInterface;
         }
 
         /// <summary>
         /// Returns the memory regions associated with the current snapshot. If none exist, a query will be done.
         /// </summary>
-        /// <param name="MemoryEditor"></param>
+        /// <param name="CreateIfNone"></param>
         /// <returns></returns>
         public Snapshot GetActiveSnapshot(Boolean CreateIfNone = false)
         {
@@ -79,19 +79,19 @@ namespace Anathema
         /// </summary>
         public Snapshot SnapshotAllRegions(Boolean QueryAllMemory = false)
         {
-            if (MemoryEditor == null)
+            if (OSInterface == null)
                 return new Snapshot<Null>();
 
             // Query all virtual pages
             List<NormalizedRegion> VirtualPages = new List<NormalizedRegion>();
             if (!QueryAllMemory)
             {
-                foreach (NormalizedRegion Page in MemoryEditor.Process.GetVirtualPages())
+                foreach (NormalizedRegion Page in OSInterface.Process.GetVirtualPages())
                     VirtualPages.Add(Page);
             }
             else
             {
-                foreach (NormalizedRegion Page in MemoryEditor.Process.GetVirtualPages())
+                foreach (NormalizedRegion Page in OSInterface.Process.GetVirtualPages())
                     VirtualPages.Add(Page);
             }
             

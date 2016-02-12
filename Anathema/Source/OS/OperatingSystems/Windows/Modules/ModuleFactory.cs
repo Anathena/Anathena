@@ -17,15 +17,6 @@ namespace Anathema.MemoryManagement.Modules
         /// The reference of the <see cref="MemoryManagement.WindowsOSInterface"/> object.
         /// </summary>
         protected readonly WindowsOSInterface MemorySharp;
-        /// <summary>
-        /// The list containing all injected modules (writable).
-        /// </summary>
-        protected readonly List<InjectedModule> InternalInjectedModules;
-
-        /// <summary>
-        /// A collection containing all injected modules.
-        /// </summary>
-        public IEnumerable<InjectedModule> InjectedModules { get { return InternalInjectedModules.AsReadOnly(); } }
 
         /// <summary>
         /// Gets the main module for the remote process.
@@ -74,8 +65,6 @@ namespace Anathema.MemoryManagement.Modules
         {
             // Save the parameter
             this.MemorySharp = MemorySharp;
-            // Create a list containing all injected modules
-            InternalInjectedModules = new List<InjectedModule>();
         }
 
         /// <summary>
@@ -95,12 +84,6 @@ namespace Anathema.MemoryManagement.Modules
         /// </summary>
         public virtual void Dispose()
         {
-            // Release all injected modules which must be disposed
-            foreach (InjectedModule InjectedModule in InternalInjectedModules.Where(x => x.MustBeDisposed))
-            {
-                InjectedModule.Dispose();
-            }
-
             // Clean the cached functions related to this process
             foreach (var CachedFunction in RemoteModule.CachedFunctions.ToArray())
             {
@@ -113,42 +96,7 @@ namespace Anathema.MemoryManagement.Modules
         }
 
         #endregion
-        #region Eject
-        /// <summary>
-        /// Frees the loaded dynamic-link library (DLL) module and, if necessary, decrements its reference count.
-        /// </summary>
-        /// <param name="Module">The module to eject.</param>
-        public void Eject(RemoteModule Module)
-        {
-            // If the module is valid
-            if (!Module.IsValid)
-                return;
-
-            // Find if the module is an injected one
-            InjectedModule InjectedModule = InternalInjectedModules.FirstOrDefault(m => m.Equals(Module));
-
-            if (InjectedModule != null)
-                InternalInjectedModules.Remove(InjectedModule);
-
-            // Eject the module
-            RemoteModule.InternalEject(MemorySharp, Module);
-        }
-
-        /// <summary>
-        /// Frees the loaded dynamic-link library (DLL) module and, if necessary, decrements its reference count.
-        /// </summary>
-        /// <param name="ModuleName">The name of module to eject.</param>
-        public void Eject(String ModuleName)
-        {
-            // Fint the module to eject
-            RemoteModule module = RemoteModules.FirstOrDefault(m => m.Name == ModuleName);
-
-            // Eject the module is it's valid
-            if (module != null)
-                RemoteModule.InternalEject(MemorySharp, module);
-        }
-
-        #endregion
+        
         #region FetchModule (protected)
         /// <summary>
         /// Fetches a module from the remote process.
@@ -177,26 +125,6 @@ namespace Anathema.MemoryManagement.Modules
         private RemoteModule FetchModule(ProcessModule Module)
         {
             return FetchModule(Module.ModuleName);
-        }
-
-        #endregion
-        #region Inject
-        /// <summary>
-        /// Injects the specified module into the address space of the remote process.
-        /// </summary>
-        /// <param name="Path">The path of the module. This can be either a library module (a .dll file) or an executable module (an .exe file).</param>
-        /// <param name="MustBeDisposed">The module will be ejected when the finalizer collects the object.</param>
-        /// <returns>A new instance of the <see cref="InjectedModule"/>class.</returns>
-        public InjectedModule Inject(String Path, Boolean MustBeDisposed = true)
-        {
-            // Injects the module
-            var Module = InjectedModule.InternalInject(MemorySharp, Path);
-
-            // Add the module in the list
-            InternalInjectedModules.Add(Module);
-
-            // Return the module
-            return Module;
         }
 
         #endregion

@@ -21,7 +21,7 @@ namespace Anathema
         }
 
         private static AddressTable AddressTableInstance;
-        private OSInterface MemoryEditor;
+        private OSInterface OSInterface;
 
         private List<AddressItem> AddressItems;
 
@@ -53,9 +53,9 @@ namespace Anathema
             ProcessSelector.GetInstance().Subscribe(this);
         }
 
-        public void UpdateMemoryEditor(OSInterface MemoryEditor)
+        public void UpdateOSInterface(OSInterface OSInterface)
         {
-            this.MemoryEditor = MemoryEditor;
+            this.OSInterface = OSInterface;
         }
 
         public override void ForceRefresh()
@@ -79,7 +79,7 @@ namespace Anathema
 
         public override void SetAddressFrozen(Int32 Index, Boolean Activated)
         {
-            if (MemoryEditor == null)
+            if (OSInterface == null)
             {
                 // Allow disabling even if there is no valid process
                 if (!Activated)
@@ -91,8 +91,8 @@ namespace Anathema
             if (Activated)
             {
                 Boolean ReadSuccess;
-                AddressItems[Index].ResolveAddress(MemoryEditor);
-                AddressItems[Index].Value = MemoryEditor.Process.Read(AddressItems[Index].ElementType, unchecked((IntPtr)AddressItems[Index].EffectiveAddress), out ReadSuccess);
+                AddressItems[Index].ResolveAddress(OSInterface);
+                AddressItems[Index].Value = OSInterface.Process.Read(AddressItems[Index].ElementType, unchecked((IntPtr)AddressItems[Index].EffectiveAddress), out ReadSuccess);
             }
 
             AddressItems[Index].SetActivationState(Activated);
@@ -141,9 +141,9 @@ namespace Anathema
             // Write change to memory
             if (AddressItem.Value != null)
             {
-                AddressItems[Index].ResolveAddress(MemoryEditor);
-                if (MemoryEditor != null)
-                    MemoryEditor.Process.Write(AddressItems[Index].ElementType, unchecked((IntPtr)AddressItems[Index].EffectiveAddress), AddressItems[Index].Value);
+                AddressItems[Index].ResolveAddress(OSInterface);
+                if (OSInterface != null)
+                    OSInterface.Process.Write(AddressItems[Index].ElementType, unchecked((IntPtr)AddressItems[Index].EffectiveAddress), AddressItems[Index].Value);
             }
 
             // Clear this entry in the cache since it has been updated
@@ -193,10 +193,10 @@ namespace Anathema
             {
                 if (Item.GetActivationState())
                 {
-                    Item.ResolveAddress(MemoryEditor);
+                    Item.ResolveAddress(OSInterface);
 
-                    if (MemoryEditor != null && Item.Value != null)
-                        MemoryEditor.Process.Write(Item.ElementType, unchecked((IntPtr)Item.EffectiveAddress), Item.Value);
+                    if (OSInterface != null && Item.Value != null)
+                        OSInterface.Process.Write(Item.ElementType, unchecked((IntPtr)Item.EffectiveAddress), Item.Value);
                 }
             }
 
@@ -206,10 +206,10 @@ namespace Anathema
                     continue;
 
                 Boolean ReadSuccess;
-                AddressItems[Index].ResolveAddress(MemoryEditor);
+                AddressItems[Index].ResolveAddress(OSInterface);
 
-                if (MemoryEditor != null)
-                    AddressItems[Index].Value = MemoryEditor.Process.Read(AddressItems[Index].ElementType, unchecked((IntPtr)AddressItems[Index].EffectiveAddress), out ReadSuccess);
+                if (OSInterface != null)
+                    AddressItems[Index].Value = OSInterface.Process.Read(AddressItems[Index].ElementType, unchecked((IntPtr)AddressItems[Index].EffectiveAddress), out ReadSuccess);
             }
 
             if (AddressItems.Count != 0)
