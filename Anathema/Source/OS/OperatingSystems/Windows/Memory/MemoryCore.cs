@@ -247,16 +247,13 @@ namespace Anathema.MemoryManagement.Memory
             // Check if the handle is valid
             HandleManipulator.ValidateAsArgument(ProcessHandle, "processHandle");
 
-            // Convert the addresses to UInt64
-            UInt64 NumberFrom = (UInt64)AddressFrom.ToInt64();
-            UInt64 NumberTo = (UInt64)AddressTo.ToInt64();
-
             // The first address must be lower than the second
-            if (NumberFrom >= NumberTo)
+            if (AddressFrom.ToUInt64() >= AddressTo.ToUInt64())
                 throw new ArgumentException("The starting address must be lower than the ending address.", "addressFrom");
 
             // Create the variable storing the result of the call of VirtualQueryEx
-            Int32 Result;
+            Int32 QueryResult;
+            Boolean WrappedAround = false;
 
             // Get settings of pages to require
             Array TypeEnumValues = Enum.GetValues(typeof(MemoryTypeFlags));
@@ -264,35 +261,41 @@ namespace Anathema.MemoryManagement.Memory
             MemoryProtectionFlags RequiredProtectionFlags = Settings.GetInstance().GetRequiredProtectionSettings();
             MemoryProtectionFlags IgnoredProtectionFlags = Settings.GetInstance().GetIgnoredProtectionSettings();
 
-            // Get settings of pages to ignore
-
             // Enumerate the memory pages
             do
             {
                 // Allocate the structure to store information of memory
-                MemoryBasicInformation64 MemoryInfo;
-#if x86
-                // 32 Bit struct is not the same
-                MemoryBasicInformation32 MemoryInfo32;
+                MemoryBasicInformation64 MemoryInfo = new MemoryBasicInformation64();
 
-                // Get the next memory page
-                Result = NativeMethods.VirtualQueryEx(ProcessHandle, new IntPtr(NumberFrom), out MemoryInfo, MarshalType<MemoryBasicInformation32>.Size);
+                if (OSInterface.IsAnathema32Bit())
+                {
+                    // 32 Bit struct is not the same
+                    MemoryBasicInformation32 MemoryInfo32 = new MemoryBasicInformation32();
 
-                 // Copy from the 32 bit struct to the 64 bit struct
-                MemoryInfo.AllocationBase = MemoryInfo32.AllocationBase;
-                MemoryInfo.AllocationProtect = MemoryInfo32.AllocationProtect;
-                MemoryInfo.BaseAddress = MemoryInfo32.BaseAddress;
-                MemoryInfo.Protect = MemoryInfo32.Protect;
-                MemoryInfo.RegionSize = MemoryInfo32.RegionSize;
-                MemoryInfo.State = MemoryInfo32.State;
-                MemoryInfo.Type = MemoryInfo32.Type;
-#else
+                    // Get the next memory page
+                    QueryResult = NativeMethods.VirtualQueryEx(ProcessHandle, AddressFrom, out MemoryInfo, MarshalType<MemoryBasicInformation32>.Size);
 
-                // Query the memory region
-                Result = NativeMethods.VirtualQueryEx(ProcessHandle, new IntPtr((Int64)NumberFrom), out MemoryInfo, MarshalType<MemoryBasicInformation64>.Size);
-#endif          
+                    // Copy from the 32 bit struct to the 64 bit struct
+                    MemoryInfo.AllocationBase = MemoryInfo32.AllocationBase;
+                    MemoryInfo.AllocationProtect = MemoryInfo32.AllocationProtect;
+                    MemoryInfo.BaseAddress = MemoryInfo32.BaseAddress;
+                    MemoryInfo.Protect = MemoryInfo32.Protect;
+                    MemoryInfo.RegionSize = MemoryInfo32.RegionSize;
+                    MemoryInfo.State = MemoryInfo32.State;
+                    MemoryInfo.Type = MemoryInfo32.Type;
+                }
+                else
+                {
+                    // Query the memory region
+                    QueryResult = NativeMethods.VirtualQueryEx(ProcessHandle, AddressFrom, out MemoryInfo, MarshalType<MemoryBasicInformation64>.Size);
+                }
+
                 // Increment the starting address with the size of the page
-                NumberFrom += (UInt64)MemoryInfo.RegionSize;
+                IntPtr PreviousFrom = AddressFrom;
+                AddressFrom = AddressFrom.Add(MemoryInfo.RegionSize);
+
+                if (PreviousFrom.ToUInt64() > AddressFrom.ToUInt64())
+                    WrappedAround = true;
 
                 // Ignore free memory. These are unallocated memory regions.
                 if ((MemoryInfo.State & MemoryStateFlags.Free) != 0)
@@ -325,7 +328,7 @@ namespace Anathema.MemoryManagement.Memory
                 // Return the memory page
                 yield return MemoryInfo;
 
-            } while (NumberFrom < NumberTo && Result != 0);
+            } while (AddressFrom.ToUInt64() < AddressTo.ToUInt64() && QueryResult != 0 && !WrappedAround);
         }
 
         #endregion

@@ -92,7 +92,7 @@ namespace Anathema
             {
                 Boolean ReadSuccess;
                 AddressItems[Index].ResolveAddress(OSInterface);
-                AddressItems[Index].Value = OSInterface.Process.Read(AddressItems[Index].ElementType, unchecked((IntPtr)AddressItems[Index].EffectiveAddress), out ReadSuccess);
+                AddressItems[Index].Value = OSInterface.Process.Read(AddressItems[Index].ElementType, AddressItems[Index].EffectiveAddress, out ReadSuccess);
             }
 
             AddressItems[Index].SetActivationState(Activated);
@@ -143,7 +143,7 @@ namespace Anathema
             {
                 AddressItems[Index].ResolveAddress(OSInterface);
                 if (OSInterface != null)
-                    OSInterface.Process.Write(AddressItems[Index].ElementType, unchecked((IntPtr)AddressItems[Index].EffectiveAddress), AddressItems[Index].Value);
+                    OSInterface.Process.Write(AddressItems[Index].ElementType, AddressItems[Index].EffectiveAddress, AddressItems[Index].Value);
             }
 
             // Clear this entry in the cache since it has been updated
@@ -196,7 +196,7 @@ namespace Anathema
                     Item.ResolveAddress(OSInterface);
 
                     if (OSInterface != null && Item.Value != null)
-                        OSInterface.Process.Write(Item.ElementType, unchecked((IntPtr)Item.EffectiveAddress), Item.Value);
+                        OSInterface.Process.Write(Item.ElementType, Item.EffectiveAddress, Item.Value);
                 }
             }
 
@@ -209,7 +209,7 @@ namespace Anathema
                 AddressItems[Index].ResolveAddress(OSInterface);
 
                 if (OSInterface != null)
-                    AddressItems[Index].Value = OSInterface.Process.Read(AddressItems[Index].ElementType, unchecked((IntPtr)AddressItems[Index].EffectiveAddress), out ReadSuccess);
+                    AddressItems[Index].Value = OSInterface.Process.Read(AddressItems[Index].ElementType, AddressItems[Index].EffectiveAddress, out ReadSuccess);
             }
 
             if (AddressItems.Count != 0)

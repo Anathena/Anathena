@@ -12,12 +12,12 @@ namespace Anathema
 
         public static UInt64 ToUInt64(this IntPtr IntPtr)
         {
-            return unchecked((UInt64)(Int64)IntPtr);
+            return unchecked((UInt64)IntPtr);
         }
 
         public static UInt64 ToUInt64(this UIntPtr Self)
         {
-            return unchecked((UInt64)(Int64)Self);
+            return unchecked((UInt64)Self);
         }
 
         public static IntPtr MaxValue(this IntPtr Self)

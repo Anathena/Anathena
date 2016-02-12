@@ -124,7 +124,7 @@ namespace Anathema
 
         private SnapshotRegion AddressToRegion(IntPtr Address)
         {
-            return new SnapshotRegion<Null>(new NormalizedRegion(Address.Subtract(MaxPointerOffset), unchecked((Int32)MaxPointerOffset * 2)));
+            return new SnapshotRegion<Null>(new NormalizedRegion(Address.Subtract(MaxPointerOffset), MaxPointerOffset * 2));
         }
 
         private void UpdateDisplay()
@@ -571,7 +571,7 @@ namespace Anathema
                 List<Int32> NewOffsets = new List<Int32>(Offsets);
 
                 // Calculate the offset for this level
-                NewOffsets.Add(unchecked((Int32)((Int64)Target.Key - (Int64)PointerDestination)));
+                NewOffsets.Add(unchecked((Int32)(Target.Key.ToInt64() - PointerDestination.ToInt64())));
 
                 // Recurse
                 BuildPointers(Pointers, Level - 1, Base, Target.Value, NewOffsets);
