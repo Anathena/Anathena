@@ -14,7 +14,7 @@ namespace Anathema.Disassembler
         /// </summary>
         /// <param name="Bytes">The raw bytes.</param>
         /// <returns>A string containing the assembly.</returns>
-        List<Instruction> Disassemble(Byte[] Bytes, Boolean Architecture32Bit, UInt64 Address);
+        List<Instruction> Disassemble(Byte[] Bytes, Boolean Architecture32Bit, IntPtr Address);
 
     } // End class
 

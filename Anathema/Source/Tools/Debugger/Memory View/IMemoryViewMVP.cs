@@ -63,14 +63,14 @@ namespace Anathema
         // Functions invoked by presenter (downstream)
         public abstract void RefreshVirtualPages();
 
-        public abstract Byte GetValueAtAddress(UInt64 Address);
-        public abstract void SetValueAtAddress(UInt64 Address, Byte Value);
+        public abstract Byte GetValueAtAddress(IntPtr Address);
+        public abstract void SetValueAtAddress(IntPtr Address, Byte Value);
         public abstract void UpdateReadLength(Int32 ReadLength);
-        public abstract void UpdateStartReadAddress(UInt64 StartReadAddress);
+        public abstract void UpdateStartReadAddress(IntPtr StartReadAddress);
 
         public abstract void QuickNavigate(Int32 VirtualPageIndex);
 
-        public abstract void WriteToAddress(UInt64 Address, Byte Value);
+        public abstract void WriteToAddress(IntPtr Address, Byte Value);
     }
 
     class MemoryViewPresenter : Presenter<IMemoryViewView, IMemoryViewModel>, IByteProvider
@@ -81,7 +81,7 @@ namespace Anathema
         private const Int32 ViewRange = UInt16.MaxValue;
 
         private ObjectCache<Byte> ByteCache;
-        private UInt64 BaseAddress;
+        private IntPtr BaseAddress;
 
         public MemoryViewPresenter(IMemoryViewView View, IMemoryViewModel Model) : base(View, Model)
         {
@@ -103,24 +103,24 @@ namespace Anathema
         
         public Byte ReadByte(Int64 Index)
         {
-            UInt64 EffectiveAddress = unchecked(BaseAddress + (UInt64)Index);
-            Byte Item = ByteCache.Get(EffectiveAddress);
+            IntPtr EffectiveAddress = BaseAddress.Add(Index);
+            Byte Item = ByteCache.Get(EffectiveAddress.ToUInt64());
 
             // Try to update and return the item if it is a valid item
-            if (ByteCache.TryUpdateItem(EffectiveAddress, Model.GetValueAtAddress(EffectiveAddress)))
-                return ByteCache.Get(EffectiveAddress);
+            if (ByteCache.TryUpdateItem(EffectiveAddress.ToUInt64(), Model.GetValueAtAddress(EffectiveAddress)))
+                return ByteCache.Get(EffectiveAddress.ToUInt64());
 
             Item = 0; // null;
-            ByteCache.Add(EffectiveAddress, Item);
+            ByteCache.Add(EffectiveAddress.ToUInt64(), Item);
 
             return Item;
         }
 
         public void WriteByte(Int64 Index, Byte Value)
         {
-            UInt64 EffectiveAddress = unchecked(BaseAddress + (UInt64)Index);
+            IntPtr EffectiveAddress = BaseAddress.Add(Index);
             Model.WriteToAddress(EffectiveAddress, Value);
-            ByteCache.TryUpdateItem(EffectiveAddress, Value);
+            ByteCache.TryUpdateItem(EffectiveAddress.ToUInt64(), Value);
             Model.SetValueAtAddress(EffectiveAddress, Value);
         }
 
@@ -140,7 +140,7 @@ namespace Anathema
 
         #region Method definitions called by the view (downstream)
 
-        public void UpdateStartReadAddress(UInt64 StartReadAddress)
+        public void UpdateStartReadAddress(IntPtr StartReadAddress)
         {
             Model.UpdateStartReadAddress(StartReadAddress);
         }
@@ -150,7 +150,7 @@ namespace Anathema
             Model.UpdateReadLength(ReadLength);
         }
 
-        public void UpdateBaseAddress(UInt64 BaseAddress)
+        public void UpdateBaseAddress(IntPtr BaseAddress)
         {
             this.BaseAddress = BaseAddress;
         }

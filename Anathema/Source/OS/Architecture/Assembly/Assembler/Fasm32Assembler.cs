@@ -61,7 +61,7 @@ namespace Anathema.MemoryManagement.Assembly.Assembler
         {
             LoadFASMHelper();
 
-            return FASMObj.Assemble(IsProcess32Bit, Assembly, unchecked((UInt64)(BaseAddress)));
+            return FASMObj.Assemble(IsProcess32Bit, Assembly, BaseAddress.ToUInt64());
         }
 
     } // End class

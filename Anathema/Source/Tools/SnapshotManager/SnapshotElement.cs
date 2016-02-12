@@ -15,6 +15,7 @@ namespace Anathema
         protected unsafe Byte* CurrentValuePointer;
         protected unsafe Byte* PreviousValuePointer;
         protected Int32 CurrentElementIndex;
+        protected TypeCode CurrentType;
 
         public Type ElementType { get { return Parent.ElementType; } set { } }
         public IntPtr BaseAddress { get { return Parent.BaseAddress + CurrentElementIndex; } }
@@ -28,6 +29,8 @@ namespace Anathema
         public unsafe void InitializePointers(Int32 Index = 0)
         {
             CurrentElementIndex = Index;
+            CurrentType = Type.GetTypeCode(Parent.ElementType);
+
             Byte[] CurrentValues = Parent.GetCurrentValues();
             if (CurrentValues != null)
             {
@@ -73,9 +76,9 @@ namespace Anathema
 
         private unsafe dynamic GetValue(Byte* Array)
         {
-            switch (Type.GetTypeCode(Parent.ElementType))
+            switch (CurrentType)
             {
-                case TypeCode.Byte: return Array[0];
+                case TypeCode.Byte: return *Array;
                 case TypeCode.SByte: return *(SByte*)Array;
                 case TypeCode.Int16: return *(Int16*)Array;
                 case TypeCode.Int32: return *(Int32*)Array;

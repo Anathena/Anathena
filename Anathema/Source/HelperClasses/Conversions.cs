@@ -98,7 +98,8 @@ namespace Anathema
 
         public static String ToAddress(Int64 Value)
         {
-            return ToAddress(unchecked((UInt64)Value));
+            return ToAddress(unchecked(
+                Value));
         }
 
         public static String ToAddress(UInt64 Value)
@@ -117,6 +118,16 @@ namespace Anathema
                 return "!!";
         }
 
+        public static String ToAddress(IntPtr Value)
+        {
+            return ToAddress(Value.ToUInt64());
+        }
+
+        public static String ToAddress(UIntPtr Value)
+        {
+            return ToAddress(Value.ToUInt64());
+        }
+
         public static UInt64 AddressToValue(String Address)
         {
             if (Address.StartsWith("0x", StringComparison.OrdinalIgnoreCase))
@@ -128,15 +139,17 @@ namespace Anathema
             return UInt64.Parse(Address, System.Globalization.NumberStyles.HexNumber);
         }
 
-        public static String BytesToMetric(UInt64 ByteCount)
+        public static String BytesToMetric<T>(T ByteCount)
         {
             string[] Suffix = { "B", "KB", "MB", "GB", "TB", "PB", "EB" }; // Longs run out around EB
 
-            if (ByteCount == 0)
+            UInt64 RealByteCount = (UInt64)Convert.ChangeType(ByteCount, typeof(UInt64));
+
+            if (RealByteCount == 0)
                 return "0" + Suffix[0];
 
-            int Place = Convert.ToInt32(Math.Floor(Math.Log(ByteCount, 1024)));
-            double Number = Math.Round(ByteCount / Math.Pow(1024, Place), 1);
+            Int32 Place = Convert.ToInt32(Math.Floor(Math.Log(RealByteCount, 1024)));
+            Double Number = Math.Round(RealByteCount / Math.Pow(1024, Place), 1);
             return (Number.ToString() + Suffix[Place]);
         }
 

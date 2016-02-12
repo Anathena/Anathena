@@ -17,53 +17,53 @@ namespace Anathema
     public interface LuaFunctions
     {
         // General
-        UInt64 GetModuleAddress(String ModuleName);
+        IntPtr GetModuleAddress(String ModuleName);
         Int32 GetAssemblySize(String Assembly);
 
         // Allocations
-        UInt64 AllocateMemory(Int32 Size);
-        void DeallocateMemory(UInt64 Address);
+        IntPtr AllocateMemory(Int32 Size);
+        void DeallocateMemory(IntPtr Address);
         void DeallocateAllMemory();
 
         // Code caves
-        UInt64 CreateCodeCave(UInt64 Entry, String Assembly);
-        UInt64 GetCaveExitAddress(UInt64 Address);
-        void RemoveCodeCave(UInt64 Address);
+        IntPtr CreateCodeCave(IntPtr Entry, String Assembly);
+        IntPtr GetCaveExitAddress(IntPtr Address);
+        void RemoveCodeCave(IntPtr Address);
         void RemoveAllCodeCaves();
 
         // Keywords
-        void SetKeyword(String Keyword, UInt64 Address);
-        void SetGlobalKeyword(String Keyword, UInt64 Address);
+        void SetKeyword(String Keyword, IntPtr Address);
+        void SetGlobalKeyword(String Keyword, IntPtr Address);
         void ClearKeyword(String Keyword);
         void ClearGlobalKeyword(String Keyword);
         void ClearAllKeywords();
         void ClearAllGlobalKeywords();
 
         // Reading
-        SByte ReadSByte(UInt64 Address);
-        Byte ReadByte(UInt64 Address);
-        Int16 ReadInt16(UInt64 Address);
-        Int32 ReadInt32(UInt64 Address);
-        Int64 ReadInt64(UInt64 Address);
-        UInt16 ReadUInt16(UInt64 Address);
-        UInt32 ReadUInt32(UInt64 Address);
-        UInt64 ReadUInt64(UInt64 Address);
-        Single ReadSingle(UInt64 Address);
-        Double ReadDouble(UInt64 Address);
-        Byte[] ReadBytes(UInt64 Address, Int32 Count);
+        SByte ReadSByte(IntPtr Address);
+        Byte ReadByte(IntPtr Address);
+        Int16 ReadInt16(IntPtr Address);
+        Int32 ReadInt32(IntPtr Address);
+        Int64 ReadInt64(IntPtr Address);
+        UInt16 ReadUInt16(IntPtr Address);
+        UInt32 ReadUInt32(IntPtr Address);
+        UInt64 ReadUInt64(IntPtr Address);
+        Single ReadSingle(IntPtr Address);
+        Double ReadDouble(IntPtr Address);
+        Byte[] ReadBytes(IntPtr Address, Int32 Count);
 
         // Writing
-        void WriteSByte(UInt64 Address, SByte Value);
-        void WriteByte(UInt64 Address, Byte Value);
-        void WriteInt16(UInt64 Address, Int16 Value);
-        void WriteInt32(UInt64 Address, Int32 Value);
-        void WriteInt64(UInt64 Address, Int64 Value);
-        void WriteUInt16(UInt64 Address, UInt16 Value);
-        void WriteUInt32(UInt64 Address, UInt32 Value);
-        void WriteUInt64(UInt64 Address, UInt64 Value);
-        void WriteSingle(UInt64 Address, Single Value);
-        void WriteDouble(UInt64 Address, Double Value);
-        void WriteBytes(UInt64 Address, Byte[] Values);
+        void WriteSByte(IntPtr Address, SByte Value);
+        void WriteByte(IntPtr Address, Byte Value);
+        void WriteInt16(IntPtr Address, Int16 Value);
+        void WriteInt32(IntPtr Address, Int32 Value);
+        void WriteInt64(IntPtr Address, Int64 Value);
+        void WriteUInt16(IntPtr Address, UInt16 Value);
+        void WriteUInt32(IntPtr Address, UInt32 Value);
+        void WriteUInt64(IntPtr Address, UInt64 Value);
+        void WriteSingle(IntPtr Address, Single Value);
+        void WriteDouble(IntPtr Address, Double Value);
+        void WriteBytes(IntPtr Address, Byte[] Values);
 
     } // End interface
 
@@ -80,11 +80,11 @@ namespace Anathema
 
         private struct CodeCave
         {
-            public IntPtr RemoteAllocation;
             public Byte[] OriginalBytes;
-            public UInt64 Entry;
+            public IntPtr RemoteAllocation;
+            public IntPtr Entry;
 
-            public CodeCave(IntPtr RemoteAllocation, Byte[] OriginalBytes, UInt64 Entry)
+            public CodeCave(IntPtr RemoteAllocation, Byte[] OriginalBytes, IntPtr Entry)
             {
                 this.RemoteAllocation = RemoteAllocation;
                 this.OriginalBytes = OriginalBytes;
@@ -138,14 +138,14 @@ namespace Anathema
             return Assembly;
         }
 
-        private Byte[] GetInstructions(UInt64 Address)
+        private Byte[] GetInstructions(IntPtr Address)
         {
             const Int32 Largestx86InstructionSize = 15;
 
             // Read original bytes at code cave jump
             Boolean ReadSuccess;
             // TODO Math.Min(Largestx86InstructionSize, PageEndAddress - Address);
-            Byte[] OriginalBytes = OSInterface.Process.ReadBytes((IntPtr)Address, Largestx86InstructionSize, out ReadSuccess);
+            Byte[] OriginalBytes = OSInterface.Process.ReadBytes(Address, Largestx86InstructionSize, out ReadSuccess);
 
             if (!ReadSuccess || OriginalBytes == null || OriginalBytes.Length <= 0)
                 return null;
@@ -172,14 +172,14 @@ namespace Anathema
             return OriginalBytes;
         }
 
-        public UInt64 GetModuleAddress(String ModuleName)
+        public IntPtr GetModuleAddress(String ModuleName)
         {
-            UInt64 Result = 0;
+            IntPtr Result = IntPtr.Zero;
             foreach (NormalizedModule Module in OSInterface.Process.GetModules())
             {
                 if (Module.Name.ToLower() == ModuleName.ToLower())
                 {
-                    Result = Module.BaseAddress.ToUInt64();
+                    Result = Module.BaseAddress;
                     break;
                 }
             }
@@ -199,46 +199,45 @@ namespace Anathema
             return Result;
         }
 
-        public UInt64 AllocateMemory(Int32 Size)
+        public IntPtr AllocateMemory(Int32 Size)
         {
-            IntPtr RemoteAllocation = OSInterface.Process.AllocateMemory(Size);
-            RemoteAllocations.Add(RemoteAllocation);
-
-            UInt64 Result = RemoteAllocation.ToUInt64();
-            Console.WriteLine("[LUA] " + MethodBase.GetCurrentMethod().Name + " " + Result.ToString("X") + " (" + Size.ToString() + ")");
-            return Result;
+            IntPtr Address = OSInterface.Process.AllocateMemory(Size);
+            RemoteAllocations.Add(Address);
+            
+            Console.WriteLine("[LUA] " + MethodBase.GetCurrentMethod().Name + " " + Conversions.ToAddress(Address) + " (" + Size.ToString() + ")");
+            return Address;
         }
 
-        public void DeallocateMemory(UInt64 Address)
+        public void DeallocateMemory(IntPtr Address)
         {
             Boolean Result = false;
 
-            foreach (IntPtr RemoteAllocation in RemoteAllocations)
+            foreach (IntPtr AllocationAddress in RemoteAllocations)
             {
-                if (RemoteAllocation.ToUInt64() == Address)
+                if (AllocationAddress == Address)
                 {
                     Result = true;
-                    OSInterface.Process.DeallocateMemory(RemoteAllocation);
-                    RemoteAllocations.Remove(RemoteAllocation);
+                    OSInterface.Process.DeallocateMemory(AllocationAddress);
+                    RemoteAllocations.Remove(AllocationAddress);
                     break;
                 }
             }
 
-            Console.WriteLine("[LUA] " + MethodBase.GetCurrentMethod().Name + " " + (Result == true ? "(success)" : "(failed)"));
+            Console.WriteLine("[LUA] " + MethodBase.GetCurrentMethod().Name + " " + Conversions.ToAddress(Address) + " " + (Result == true ? "(success)" : "(failed)"));
             return;
         }
 
         public void DeallocateAllMemory()
         {
-            foreach (IntPtr RemoteAllocation in RemoteAllocations)
-                OSInterface.Process.DeallocateMemory(RemoteAllocation);
+            foreach (IntPtr Address in RemoteAllocations)
+                OSInterface.Process.DeallocateMemory(Address);
 
             RemoteAllocations.Clear();
 
             Console.WriteLine("[LUA] " + MethodBase.GetCurrentMethod().Name);
         }
 
-        public UInt64 CreateCodeCave(UInt64 Entry, String Assembly)
+        public IntPtr CreateCodeCave(IntPtr Entry, String Assembly)
         {
             Assembly = ResolveKeywords(Assembly);
 
@@ -247,7 +246,6 @@ namespace Anathema
             // Allocate memory
             IntPtr RemoteAllocation = OSInterface.Process.AllocateMemory(Size);
             RemoteAllocations.Add(RemoteAllocation);
-            UInt64 Result = RemoteAllocation.ToUInt64();
 
             // Write injected code to new page
             Byte[] InjectionBytes = OSInterface.Architecture.Assembler.Assemble(OSInterface.Process.Is32Bit(), Assembly, RemoteAllocation);
@@ -257,33 +255,33 @@ namespace Anathema
             Byte[] OriginalBytes = GetInstructions(Entry);
 
             if (OriginalBytes == null || OriginalBytes.Length < JumpSize)
-                return Result;
+                return RemoteAllocation;
 
             // Determine number of no-ops to fill dangling bytes
             string NoOps = (OriginalBytes.Length - JumpSize > 0 ? "db " : String.Empty) + String.Join(" ", Enumerable.Repeat("0x90,", OriginalBytes.Length - JumpSize)).TrimEnd(',');
 
             // Write in the jump to the code cave
-            String CodeCaveJump = "jmp " + "0x" + Conversions.ToAddress(Result) + "\n" + NoOps;
-            Byte[] JumpBytes = OSInterface.Architecture.Assembler.Assemble(OSInterface.Process.Is32Bit(), CodeCaveJump, unchecked((IntPtr)Entry));
-            OSInterface.Process.WriteBytes(unchecked((IntPtr)Entry), JumpBytes);
+            String CodeCaveJump = "jmp " + "0x" + Conversions.ToAddress(RemoteAllocation) + "\n" + NoOps;
+            Byte[] JumpBytes = OSInterface.Architecture.Assembler.Assemble(OSInterface.Process.Is32Bit(), CodeCaveJump, Entry);
+            OSInterface.Process.WriteBytes(Entry, JumpBytes);
 
             // Save this code cave for later deallocation
             CodeCave CodeCave = new CodeCave(RemoteAllocation, OriginalBytes, Entry);
             CodeCaves.Add(CodeCave);
 
-            Console.WriteLine("[LUA] " + MethodBase.GetCurrentMethod().Name + " " + Result.ToString("X") + " (" + Size.ToString() + ")");
-            return Result;
+            Console.WriteLine("[LUA] " + MethodBase.GetCurrentMethod().Name + " " + RemoteAllocation.ToString("X") + " (" + Size.ToString() + ")");
+            return RemoteAllocation;
         }
 
-        public UInt64 GetCaveExitAddress(UInt64 Address)
+        public IntPtr GetCaveExitAddress(IntPtr Address)
         {
             Byte[] OriginalBytes = GetInstructions(Address);
-            UInt64 OriginalByteSize;
+            Int32 OriginalByteSize;
 
             if (OriginalBytes != null || OriginalBytes.Length < JumpSize)
             {
                 // Determine the size of the minimum number of instructions we will be overwriting
-                OriginalByteSize = (UInt64)OriginalBytes.Length;
+                OriginalByteSize = OriginalBytes.Length;
             }
             else
             {
@@ -291,13 +289,13 @@ namespace Anathema
                 OriginalByteSize = JumpSize;
             }
 
-            UInt64 Result = Address + OriginalByteSize;
+            IntPtr Result = Address.Add(OriginalByteSize);
 
             Console.WriteLine("[LUA] " + MethodBase.GetCurrentMethod().Name + " " + Result.ToString("X"));
             return Result;
         }
 
-        public void RemoveCodeCave(UInt64 Address)
+        public void RemoveCodeCave(IntPtr Address)
         {
             Boolean Result = false;
             foreach (CodeCave CodeCave in CodeCaves)
@@ -305,7 +303,7 @@ namespace Anathema
                 if (CodeCave.Entry == Address)
                 {
                     Result = true;
-                    OSInterface.Process.Write<Byte[]>((IntPtr)CodeCave.Entry, CodeCave.OriginalBytes);
+                    OSInterface.Process.Write<Byte[]>(CodeCave.Entry, CodeCave.OriginalBytes);
                     OSInterface.Process.DeallocateMemory(CodeCave.RemoteAllocation);
                 }
             }
@@ -316,7 +314,7 @@ namespace Anathema
         {
             foreach (CodeCave CodeCave in CodeCaves)
             {
-                OSInterface.Process.WriteBytes((IntPtr)CodeCave.Entry, CodeCave.OriginalBytes);
+                OSInterface.Process.WriteBytes(CodeCave.Entry, CodeCave.OriginalBytes);
                 OSInterface.Process.DeallocateMemory(CodeCave.RemoteAllocation);
             }
             CodeCaves.Clear();
@@ -324,14 +322,14 @@ namespace Anathema
             Console.WriteLine("[LUA] " + MethodBase.GetCurrentMethod().Name);
         }
 
-        public void SetKeyword(String Keyword, UInt64 Address)
+        public void SetKeyword(String Keyword, IntPtr Address)
         {
             Keywords[Keyword] = "0x" + Address.ToString("X");
 
             Console.WriteLine("[LUA] " + MethodBase.GetCurrentMethod().Name + " " + Keyword + " => " + Keywords[Keyword]);
         }
 
-        public void SetGlobalKeyword(String GlobalKeyword, UInt64 Address)
+        public void SetGlobalKeyword(String GlobalKeyword, IntPtr Address)
         {
             GlobalKeywords[GlobalKeyword] = "0x" + Address.ToString("X");
 
@@ -369,158 +367,158 @@ namespace Anathema
             Console.WriteLine("[LUA] " + MethodBase.GetCurrentMethod().Name);
         }
 
-        public SByte ReadSByte(UInt64 Address)
+        public SByte ReadSByte(IntPtr Address)
         {
             Boolean Success;
-            SByte Result = OSInterface.Process.Read<SByte>(unchecked((IntPtr)Address), out Success);
+            SByte Result = OSInterface.Process.Read<SByte>(Address, out Success);
             Console.WriteLine("[LUA] " + MethodBase.GetCurrentMethod().Name + " " + (Success == true ? "(success)" : "(failed)"));
             return Result;
         }
 
-        public Byte ReadByte(UInt64 Address)
+        public Byte ReadByte(IntPtr Address)
         {
             Boolean Success;
-            Byte Result = OSInterface.Process.Read<Byte>(unchecked((IntPtr)Address), out Success);
+            Byte Result = OSInterface.Process.Read<Byte>(Address, out Success);
             Console.WriteLine("[LUA] " + MethodBase.GetCurrentMethod().Name + " " + (Success == true ? "(success)" : "(failed)"));
             return Result;
         }
 
-        public Int16 ReadInt16(UInt64 Address)
+        public Int16 ReadInt16(IntPtr Address)
         {
             Boolean Success;
-            Int16 Result = OSInterface.Process.Read<Int16>(unchecked((IntPtr)Address), out Success);
+            Int16 Result = OSInterface.Process.Read<Int16>(Address, out Success);
             Console.WriteLine("[LUA] " + MethodBase.GetCurrentMethod().Name + " " + (Success == true ? "(success)" : "(failed)"));
             return Result;
         }
 
-        public Int32 ReadInt32(UInt64 Address)
+        public Int32 ReadInt32(IntPtr Address)
         {
             Boolean Success;
-            Int32 Result = OSInterface.Process.Read<Int32>(unchecked((IntPtr)Address), out Success);
+            Int32 Result = OSInterface.Process.Read<Int32>(Address, out Success);
             Console.WriteLine("[LUA] " + MethodBase.GetCurrentMethod().Name + " " + (Success == true ? "(success)" : "(failed)"));
             return Result;
         }
 
-        public Int64 ReadInt64(UInt64 Address)
+        public Int64 ReadInt64(IntPtr Address)
         {
             Boolean Success;
-            Int64 Result = OSInterface.Process.Read<Int64>(unchecked((IntPtr)Address), out Success);
+            Int64 Result = OSInterface.Process.Read<Int64>(Address, out Success);
             Console.WriteLine("[LUA] " + MethodBase.GetCurrentMethod().Name + " " + (Success == true ? "(success)" : "(failed)"));
             return Result;
         }
 
-        public UInt16 ReadUInt16(UInt64 Address)
+        public UInt16 ReadUInt16(IntPtr Address)
         {
             Boolean Success;
-            UInt16 Result = OSInterface.Process.Read<UInt16>(unchecked((IntPtr)Address), out Success);
+            UInt16 Result = OSInterface.Process.Read<UInt16>(Address, out Success);
             Console.WriteLine("[LUA] " + MethodBase.GetCurrentMethod().Name + " " + (Success == true ? "(success)" : "(failed)"));
             return Result;
         }
 
-        public UInt32 ReadUInt32(UInt64 Address)
+        public UInt32 ReadUInt32(IntPtr Address)
         {
             Boolean Success;
-            UInt32 Result = OSInterface.Process.Read<UInt32>(unchecked((IntPtr)Address), out Success);
+            UInt32 Result = OSInterface.Process.Read<UInt32>(Address, out Success);
             Console.WriteLine("[LUA] " + MethodBase.GetCurrentMethod().Name + " " + (Success == true ? "(success)" : "(failed)"));
             return Result;
         }
 
-        public UInt64 ReadUInt64(UInt64 Address)
+        public UInt64 ReadUInt64(IntPtr Address)
         {
             Boolean Success;
-            UInt64 Result = OSInterface.Process.Read<UInt64>(unchecked((IntPtr)Address), out Success);
+            UInt64 Result = OSInterface.Process.Read<UInt64>(Address, out Success);
             Console.WriteLine("[LUA] " + MethodBase.GetCurrentMethod().Name + " " + (Success == true ? "(success)" : "(failed)"));
             return Result;
         }
 
-        public Single ReadSingle(UInt64 Address)
+        public Single ReadSingle(IntPtr Address)
         {
             Boolean Success;
-            Single Result = OSInterface.Process.Read<Single>(unchecked((IntPtr)Address), out Success);
+            Single Result = OSInterface.Process.Read<Single>(Address, out Success);
             Console.WriteLine("[LUA] " + MethodBase.GetCurrentMethod().Name + " " + (Success == true ? "(success)" : "(failed)"));
             return Result;
         }
 
-        public Double ReadDouble(UInt64 Address)
+        public Double ReadDouble(IntPtr Address)
         {
             Boolean Success;
-            UInt64 Result = OSInterface.Process.Read<UInt64>(unchecked((IntPtr)Address), out Success);
+            UInt64 Result = OSInterface.Process.Read<UInt64>(Address, out Success);
             Console.WriteLine("[LUA] " + MethodBase.GetCurrentMethod().Name + " " + (Success == true ? "(success)" : "(failed)"));
             return Result;
         }
 
-        public Byte[] ReadBytes(UInt64 Address, Int32 Count)
+        public Byte[] ReadBytes(IntPtr Address, Int32 Count)
         {
             Boolean Success;
-            Byte[] Result = OSInterface.Process.ReadBytes(unchecked((IntPtr)Address), Count, out Success);
+            Byte[] Result = OSInterface.Process.ReadBytes(Address, Count, out Success);
             Console.WriteLine("[LUA] " + MethodBase.GetCurrentMethod().Name + " " + (Success == true ? "(success)" : "(failed)"));
             return Result;
         }
 
         // Writing
-        public void WriteSByte(UInt64 Address, SByte Value)
+        public void WriteSByte(IntPtr Address, SByte Value)
         {
-            OSInterface.Process.Write<SByte>(unchecked((IntPtr)Address), Value);
+            OSInterface.Process.Write<SByte>(Address, Value);
             Console.WriteLine("[LUA] " + MethodBase.GetCurrentMethod().Name);
         }
 
-        public void WriteByte(UInt64 Address, Byte Value)
+        public void WriteByte(IntPtr Address, Byte Value)
         {
-            OSInterface.Process.Write<Byte>(unchecked((IntPtr)Address), Value);
+            OSInterface.Process.Write<Byte>(Address, Value);
             Console.WriteLine("[LUA] " + MethodBase.GetCurrentMethod().Name);
         }
 
-        public void WriteInt16(UInt64 Address, Int16 Value)
+        public void WriteInt16(IntPtr Address, Int16 Value)
         {
-            OSInterface.Process.Write<Int16>(unchecked((IntPtr)Address), Value);
+            OSInterface.Process.Write<Int16>(Address, Value);
             Console.WriteLine("[LUA] " + MethodBase.GetCurrentMethod().Name);
         }
 
-        public void WriteInt32(UInt64 Address, Int32 Value)
+        public void WriteInt32(IntPtr Address, Int32 Value)
         {
-            OSInterface.Process.Write<Int32>(unchecked((IntPtr)Address), Value);
+            OSInterface.Process.Write<Int32>(Address, Value);
             Console.WriteLine("[LUA] " + MethodBase.GetCurrentMethod().Name);
         }
 
-        public void WriteInt64(UInt64 Address, Int64 Value)
+        public void WriteInt64(IntPtr Address, Int64 Value)
         {
-            OSInterface.Process.Write<Int64>(unchecked((IntPtr)Address), Value);
+            OSInterface.Process.Write<Int64>(Address, Value);
             Console.WriteLine("[LUA] " + MethodBase.GetCurrentMethod().Name);
         }
 
-        public void WriteUInt16(UInt64 Address, UInt16 Value)
+        public void WriteUInt16(IntPtr Address, UInt16 Value)
         {
-            OSInterface.Process.Write<UInt16>(unchecked((IntPtr)Address), Value);
+            OSInterface.Process.Write<UInt16>(Address, Value);
             Console.WriteLine("[LUA] " + MethodBase.GetCurrentMethod().Name);
         }
 
-        public void WriteUInt32(UInt64 Address, UInt32 Value)
+        public void WriteUInt32(IntPtr Address, UInt32 Value)
         {
-            OSInterface.Process.Write<UInt32>(unchecked((IntPtr)Address), Value);
+            OSInterface.Process.Write<UInt32>(Address, Value);
             Console.WriteLine("[LUA] " + MethodBase.GetCurrentMethod().Name);
         }
 
-        public void WriteUInt64(UInt64 Address, UInt64 Value)
+        public void WriteUInt64(IntPtr Address, UInt64 Value)
         {
-            OSInterface.Process.Write<UInt64>(unchecked((IntPtr)Address), Value);
+            OSInterface.Process.Write<UInt64>(Address, Value);
             Console.WriteLine("[LUA] " + MethodBase.GetCurrentMethod().Name);
         }
 
-        public void WriteSingle(UInt64 Address, Single Value)
+        public void WriteSingle(IntPtr Address, Single Value)
         {
-            OSInterface.Process.Write<Single>(unchecked((IntPtr)Address), Value);
+            OSInterface.Process.Write<Single>(Address, Value);
             Console.WriteLine("[LUA] " + MethodBase.GetCurrentMethod().Name);
         }
 
-        public void WriteDouble(UInt64 Address, Double Value)
+        public void WriteDouble(IntPtr Address, Double Value)
         {
-            OSInterface.Process.Write<Double>(unchecked((IntPtr)Address), Value);
+            OSInterface.Process.Write<Double>(Address, Value);
             Console.WriteLine("[LUA] " + MethodBase.GetCurrentMethod().Name);
         }
 
-        public void WriteBytes(UInt64 Address, Byte[] Values)
+        public void WriteBytes(IntPtr Address, Byte[] Values)
         {
-            OSInterface.Process.WriteBytes(unchecked((IntPtr)Address), Values);
+            OSInterface.Process.WriteBytes(Address, Values);
             Console.WriteLine("[LUA] " + MethodBase.GetCurrentMethod().Name);
         }
 

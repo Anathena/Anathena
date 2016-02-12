@@ -10,7 +10,7 @@ namespace Anathema
         public IntPtr BaseAddress;
         public Int32 RegionSize;
 
-        public IntPtr EndAddress { get { return BaseAddress.Add((IntPtr)RegionSize); } set { this.RegionSize = (Int32)value.Subtract(BaseAddress); } }
+        public IntPtr EndAddress { get { return BaseAddress.Add(RegionSize); } set { this.RegionSize = (Int32)value.Subtract(BaseAddress); } }
 
         public NormalizedRegion(IntPtr BaseAddress, Int32 RegionSize)
         {

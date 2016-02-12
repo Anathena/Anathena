@@ -20,16 +20,16 @@ namespace Anathema
         private OSInterface OSInterface;
         private IEnumerable<NormalizedRegion> VirtualPages;
 
-        private UInt64 StartReadAddress;
-        private UInt64 EndReadAddress;
+        private IntPtr StartReadAddress;
+        private IntPtr EndReadAddress;
         private Int32 ReadLength;
 
-        private ConcurrentDictionary<UInt64, Byte> AddressValueMap;
+        private ConcurrentDictionary<IntPtr, Byte> AddressValueMap;
 
         public MemoryView()
         {
             InitializeProcessObserver();
-            AddressValueMap = new ConcurrentDictionary<UInt64, Byte>();
+            AddressValueMap = new ConcurrentDictionary<IntPtr, Byte>();
             Begin();
         }
 
@@ -56,7 +56,7 @@ namespace Anathema
             OnEventUpdateVirtualPages(Args);
         }
 
-        public override void UpdateStartReadAddress(UInt64 StartReadAddress)
+        public override void UpdateStartReadAddress(IntPtr StartReadAddress)
         {
             this.StartReadAddress = StartReadAddress;
             UpdateEndReadAddress();
@@ -80,17 +80,17 @@ namespace Anathema
 
         private void UpdateEndReadAddress()
         {
-            this.EndReadAddress = unchecked(StartReadAddress + (UInt64)ReadLength);
-            if (this.EndReadAddress < StartReadAddress)
-                this.EndReadAddress = UInt64.MaxValue;
+            this.EndReadAddress = StartReadAddress.Add(ReadLength);
+            if (this.EndReadAddress.ToUInt64() < StartReadAddress.ToUInt64())
+                this.EndReadAddress = EndReadAddress.MaxValue();
         }
 
-        public override void WriteToAddress(UInt64 Address, Byte Value)
+        public override void WriteToAddress(IntPtr Address, Byte Value)
         {
             if (OSInterface == null)
                 return;
 
-            OSInterface.Process.Write<Byte>(unchecked((IntPtr)Address), Value);
+            OSInterface.Process.Write<Byte>(Address, Value);
         }
 
         public override void Begin()
@@ -105,14 +105,14 @@ namespace Anathema
             if (OSInterface == null)
                 return;
 
-            for (UInt64 Address = StartReadAddress; Address <= EndReadAddress; Address++)
+            for (IntPtr Address = StartReadAddress; Address.ToUInt64() <= EndReadAddress.ToUInt64(); Address.Add(1))
             {
                 // Ignore attempts to read null address
-                if (Address == 0)
+                if (Address == IntPtr.Zero)
                     continue;
 
                 Boolean ReadSuccess;
-                Byte Value = OSInterface.Process.Read<Byte>(unchecked((IntPtr)Address), out ReadSuccess);
+                Byte Value = OSInterface.Process.Read<Byte>(Address, out ReadSuccess);
 
                 if (ReadSuccess)
                     AddressValueMap[Address] = Value;
@@ -121,7 +121,7 @@ namespace Anathema
             OnEventReadValues(new MemoryViewEventArgs());
         }
 
-        public override Byte GetValueAtAddress(UInt64 Address)
+        public override Byte GetValueAtAddress(IntPtr Address)
         {
             if (AddressValueMap.ContainsKey(Address))
                 return AddressValueMap[Address];
@@ -129,7 +129,7 @@ namespace Anathema
             return 0;
         }
 
-        public override void SetValueAtAddress(UInt64 Address, Byte Value)
+        public override void SetValueAtAddress(IntPtr Address, Byte Value)
         {
             AddressValueMap[Address] = Value;
         }

@@ -84,8 +84,8 @@ namespace Anathema
 
             BaseLine = HexEditorBox.TopLine;
 
-            MemoryViewPresenter.UpdateBaseAddress(unchecked((UInt64)HexEditorBox.LineInfoOffset));
-            MemoryViewPresenter.UpdateStartReadAddress(unchecked((UInt64)HexEditorBox.LineInfoOffset + (UInt64)HexEditorBox.TopIndex));
+            MemoryViewPresenter.UpdateBaseAddress(unchecked((IntPtr)HexEditorBox.LineInfoOffset));
+            MemoryViewPresenter.UpdateStartReadAddress(unchecked((IntPtr)HexEditorBox.LineInfoOffset).Add(HexEditorBox.TopIndex));
         }
 
         private void UpdateHexBoxChunks()
