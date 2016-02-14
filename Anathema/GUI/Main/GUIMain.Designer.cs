@@ -37,6 +37,7 @@
             this.EditToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.SettingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ViewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.CheatBrowserToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ProcessSelectorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ScansToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ChunkScannerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -65,7 +66,6 @@
             this.UndoScanButton = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.ProcessTitleLabel = new System.Windows.Forms.ToolStripLabel();
-            this.CheatBrowserToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.GUIMenuStrip.SuspendLayout();
             this.GUIToolStrip.SuspendLayout();
             this.SuspendLayout();
@@ -142,6 +142,13 @@
             this.ViewToolStripMenuItem.Name = "ViewToolStripMenuItem";
             this.ViewToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
             this.ViewToolStripMenuItem.Text = "View";
+            // 
+            // CheatBrowserToolStripMenuItem
+            // 
+            this.CheatBrowserToolStripMenuItem.Name = "CheatBrowserToolStripMenuItem";
+            this.CheatBrowserToolStripMenuItem.Size = new System.Drawing.Size(173, 22);
+            this.CheatBrowserToolStripMenuItem.Text = "Cheat Browser";
+            this.CheatBrowserToolStripMenuItem.Click += new System.EventHandler(this.CheatBrowserToolStripMenuItem_Click);
             // 
             // ProcessSelectorToolStripMenuItem
             // 
@@ -366,13 +373,6 @@
             this.ProcessTitleLabel.Name = "ProcessTitleLabel";
             this.ProcessTitleLabel.Size = new System.Drawing.Size(113, 22);
             this.ProcessTitleLabel.Text = "No Process Selected";
-            // 
-            // CheatBrowserToolStripMenuItem
-            // 
-            this.CheatBrowserToolStripMenuItem.Name = "CheatBrowserToolStripMenuItem";
-            this.CheatBrowserToolStripMenuItem.Size = new System.Drawing.Size(173, 22);
-            this.CheatBrowserToolStripMenuItem.Text = "Cheat Browser";
-            this.CheatBrowserToolStripMenuItem.Click += new System.EventHandler(this.CheatBrowserToolStripMenuItem_Click);
             // 
             // GUIMain
             // 

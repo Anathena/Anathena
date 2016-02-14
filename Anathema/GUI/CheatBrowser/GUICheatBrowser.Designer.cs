@@ -29,35 +29,34 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(GUICheatBrowser));
-            this.WebBrowser = new System.Windows.Forms.WebBrowser();
+            this.ContentPanel = new System.Windows.Forms.Panel();
             this.SuspendLayout();
             // 
-            // WebBrowser
+            // ContentPanel
             // 
-            this.WebBrowser.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.WebBrowser.Location = new System.Drawing.Point(0, 0);
-            this.WebBrowser.MinimumSize = new System.Drawing.Size(20, 20);
-            this.WebBrowser.Name = "WebBrowser";
-            this.WebBrowser.Size = new System.Drawing.Size(248, 199);
-            this.WebBrowser.TabIndex = 0;
-            this.WebBrowser.Url = new System.Uri("http://www.anathemaengine.com", System.UriKind.Absolute);
+            this.ContentPanel.BackColor = System.Drawing.SystemColors.ControlDark;
+            this.ContentPanel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.ContentPanel.Location = new System.Drawing.Point(0, 0);
+            this.ContentPanel.Name = "ContentPanel";
+            this.ContentPanel.Size = new System.Drawing.Size(248, 199);
+            this.ContentPanel.TabIndex = 0;
             // 
             // GUICheatBrowser
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(248, 199);
-            this.Controls.Add(this.WebBrowser);
+            this.Controls.Add(this.ContentPanel);
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "GUICheatBrowser";
-            this.Text = "Browser";
+            this.Text = "Cheat Browser";
             this.ResumeLayout(false);
 
         }
 
         #endregion
 
-        private System.Windows.Forms.WebBrowser WebBrowser;
+        private System.Windows.Forms.Panel ContentPanel;
     }
 }
