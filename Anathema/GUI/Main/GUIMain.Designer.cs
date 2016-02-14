@@ -65,6 +65,7 @@
             this.UndoScanButton = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.ProcessTitleLabel = new System.Windows.Forms.ToolStripLabel();
+            this.CheatBrowserToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.GUIMenuStrip.SuspendLayout();
             this.GUIToolStrip.SuspendLayout();
             this.SuspendLayout();
@@ -123,13 +124,14 @@
             // SettingsToolStripMenuItem
             // 
             this.SettingsToolStripMenuItem.Name = "SettingsToolStripMenuItem";
-            this.SettingsToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.SettingsToolStripMenuItem.Size = new System.Drawing.Size(116, 22);
             this.SettingsToolStripMenuItem.Text = "Settings";
             this.SettingsToolStripMenuItem.Click += new System.EventHandler(this.SettingsToolStripMenuItem_Click);
             // 
             // ViewToolStripMenuItem
             // 
             this.ViewToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.CheatBrowserToolStripMenuItem,
             this.ProcessSelectorToolStripMenuItem,
             this.ScansToolStripMenuItem,
             this.ScriptEditorToolStripMenuItem,
@@ -365,6 +367,13 @@
             this.ProcessTitleLabel.Size = new System.Drawing.Size(113, 22);
             this.ProcessTitleLabel.Text = "No Process Selected";
             // 
+            // CheatBrowserToolStripMenuItem
+            // 
+            this.CheatBrowserToolStripMenuItem.Name = "CheatBrowserToolStripMenuItem";
+            this.CheatBrowserToolStripMenuItem.Size = new System.Drawing.Size(173, 22);
+            this.CheatBrowserToolStripMenuItem.Text = "Cheat Browser";
+            this.CheatBrowserToolStripMenuItem.Click += new System.EventHandler(this.CheatBrowserToolStripMenuItem_Click);
+            // 
             // GUIMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -424,6 +433,7 @@
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator4;
         private System.Windows.Forms.ToolStripMenuItem PointerScannerToolStripMenuItem;
         private System.Windows.Forms.ToolStripButton CollectValuesButton;
+        private System.Windows.Forms.ToolStripMenuItem CheatBrowserToolStripMenuItem;
     }
 }
 

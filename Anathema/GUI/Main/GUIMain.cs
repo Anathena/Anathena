@@ -23,11 +23,12 @@ namespace Anathema
         private MainPresenter MainPresenter;
 
         // VIEW MENU ITEMS
+        private GUICheatBrowser GUICheatBrowser;
         private GUIProcessSelector GUIProcessSelector;
         private GUICodeView GUICodeView;
         private GUIMemoryView GUIMemoryView;
         private GUIScriptEditor GUIScriptEditor;
-        
+
         private GUIFiniteStateScanner GUIFiniteStateScanner;
         private GUIManualScanner GUIManualScanner;
         private GUITreeScanner GUITreeScanner;
@@ -123,6 +124,13 @@ namespace Anathema
             CreateSnapshotManager();
             CreateResults();
             CreateTable();
+        }
+
+        private void CreateCheatBrowser()
+        {
+            if (GUICheatBrowser == null || GUICheatBrowser.IsDisposed)
+                GUICheatBrowser = new GUICheatBrowser();
+            GUICheatBrowser.Show(ContentPanel);
         }
 
         private void CreateCodeView()
@@ -241,6 +249,11 @@ namespace Anathema
 
         #region Events
 
+        private void CheatBrowserToolStripMenuItem_Click(Object Sender, EventArgs E)
+        {
+            CreateCheatBrowser();
+        }
+
         private void CodeViewToolStripMenuItem_Click(Object Sender, EventArgs E)
         {
             CreateCodeView();
@@ -344,6 +357,7 @@ namespace Anathema
         private void GUIMenuStrip_MenuActivate(Object Sender, EventArgs E)
         {
             // Check / uncheck items if the windows are open
+            CheatBrowserToolStripMenuItem.Checked = (GUICheatBrowser == null || GUICheatBrowser.IsDisposed) ? false : true;
             ProcessSelectorToolStripMenuItem.Checked = (GUIProcessSelector == null || GUIProcessSelector.IsDisposed) ? false : true;
             ScriptEditorToolStripMenuItem.Checked = (GUIScriptEditor == null || GUIScriptEditor.IsDisposed) ? false : true;
             SnapshotManagerToolStripMenuItem.Checked = (GUISnapshotManager == null || GUISnapshotManager.IsDisposed) ? false : true;

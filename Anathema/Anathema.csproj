@@ -93,6 +93,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="GUI\CheatBrowser\GUICheatBrowser.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI\CheatBrowser\GUICheatBrowser.Designer.cs">
+      <DependentUpon>GUICheatBrowser.cs</DependentUpon>
+    </Compile>
     <Compile Include="GUI\CustomControls\ListViews\CheckableListView.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -510,6 +516,9 @@
     <Compile Include="Source\Tools\Table\Table.cs" />
     <Compile Include="Source\Tools\Table\TableItem.cs" />
     <Compile Include="Source\Tools\Scanners\ScanConstraints\ScanConstraint.cs" />
+    <EmbeddedResource Include="GUI\CheatBrowser\GUICheatBrowser.resx">
+      <DependentUpon>GUICheatBrowser.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="GUI\CustomControls\HexEditor\BitControl.de.resx">
       <DependentUpon>BitControl.cs</DependentUpon>
       <SubType>Designer</SubType>
@@ -910,6 +919,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Source\CheatBrowser\" />
     <Folder Include="Source\Tools\Debugger\Code View\" />
   </ItemGroup>
   <ItemGroup>
