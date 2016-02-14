@@ -20,6 +20,11 @@ namespace Anathema
         Boolean Is64Bit();
         String GetProcessName();
 
+        // Pattern
+        IntPtr SearchAOB(Byte[] Bytes);
+        IntPtr SearchAOB(String Pattern);
+        IntPtr[] SearchllAOB(String Pattern);
+
         // Reading
         dynamic Read(Type ElementType, IntPtr Address, out Boolean Success);
         T Read<T>(IntPtr Address, out Boolean Success);

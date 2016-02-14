@@ -3,7 +3,7 @@
 namespace Anathema
 {
     /// <summary>
-    /// Specifies the interface requir
+    /// Defines an OS independent module region and attributes
     /// </summary>
     public class NormalizedModule : NormalizedRegion
     {

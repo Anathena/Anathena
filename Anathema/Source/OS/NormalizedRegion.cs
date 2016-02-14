@@ -3,7 +3,7 @@
 namespace Anathema
 {
     /// <summary>
-    /// Specifies the interface requir
+    /// Defines an OS independent region in process memory space
     /// </summary>
     public class NormalizedRegion
     {

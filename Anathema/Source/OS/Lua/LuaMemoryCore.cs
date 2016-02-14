@@ -1,16 +1,9 @@
-﻿using Anathema.MemoryManagement;
-using Anathema.MemoryManagement.Memory;
-using Anathema.MemoryManagement.Modules;
-using SharpDisasm;
+﻿using SharpDisasm;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Anathema
 {
@@ -38,6 +31,11 @@ namespace Anathema
         void ClearGlobalKeyword(String Keyword);
         void ClearAllKeywords();
         void ClearAllGlobalKeywords();
+
+        // Patterns
+        IntPtr SearchAOB(Byte[] Bytes);
+        IntPtr SearchAOB(String Pattern);
+        IntPtr[] SearchllAOB(String Pattern);
 
         // Reading
         SByte ReadSByte(IntPtr Address);
@@ -144,13 +142,12 @@ namespace Anathema
 
             // Read original bytes at code cave jump
             Boolean ReadSuccess;
-            // TODO Math.Min(Largestx86InstructionSize, PageEndAddress - Address);
+
             Byte[] OriginalBytes = OSInterface.Process.ReadBytes(Address, Largestx86InstructionSize, out ReadSuccess);
 
             if (!ReadSuccess || OriginalBytes == null || OriginalBytes.Length <= 0)
                 return null;
-
-            // TODO: Offload IsProcecss64Bit to OSInterface (can write a Process extension method too)
+            
             // Grab instructions at code entry point
             List<Instruction> Instructions = OSInterface.Architecture.Disassembler.Disassemble(OriginalBytes, OSInterface.Process.Is32Bit(), Address);
 
@@ -174,18 +171,18 @@ namespace Anathema
 
         public IntPtr GetModuleAddress(String ModuleName)
         {
-            IntPtr Result = IntPtr.Zero;
+            IntPtr Address = IntPtr.Zero;
             foreach (NormalizedModule Module in OSInterface.Process.GetModules())
             {
                 if (Module.Name.ToLower() == ModuleName.ToLower())
                 {
-                    Result = Module.BaseAddress;
+                    Address = Module.BaseAddress;
                     break;
                 }
             }
 
-            Console.WriteLine("[LUA] " + MethodBase.GetCurrentMethod().Name + " " + Result.ToString("X"));
-            return Result;
+            Console.WriteLine("[LUA] " + MethodBase.GetCurrentMethod().Name + " " + Conversions.ToAddress(Address));
+            return Address;
         }
 
         public Int32 GetAssemblySize(String Assembly)
@@ -203,7 +200,7 @@ namespace Anathema
         {
             IntPtr Address = OSInterface.Process.AllocateMemory(Size);
             RemoteAllocations.Add(Address);
-            
+
             Console.WriteLine("[LUA] " + MethodBase.GetCurrentMethod().Name + " " + Conversions.ToAddress(Address) + " (" + Size.ToString() + ")");
             return Address;
         }
@@ -269,7 +266,7 @@ namespace Anathema
             CodeCave CodeCave = new CodeCave(RemoteAllocation, OriginalBytes, Entry);
             CodeCaves.Add(CodeCave);
 
-            Console.WriteLine("[LUA] " + MethodBase.GetCurrentMethod().Name + " " + RemoteAllocation.ToString("X") + " (" + Size.ToString() + ")");
+            Console.WriteLine("[LUA] " + MethodBase.GetCurrentMethod().Name + " " + Conversions.ToAddress(RemoteAllocation) + " (" + Size.ToString() + ")");
             return RemoteAllocation;
         }
 
@@ -289,10 +286,10 @@ namespace Anathema
                 OriginalByteSize = JumpSize;
             }
 
-            IntPtr Result = Address.Add(OriginalByteSize);
+            Address = Address.Add(OriginalByteSize);
 
-            Console.WriteLine("[LUA] " + MethodBase.GetCurrentMethod().Name + " " + Result.ToString("X"));
-            return Result;
+            Console.WriteLine("[LUA] " + MethodBase.GetCurrentMethod().Name + " " + Conversions.ToAddress(Address));
+            return Address;
         }
 
         public void RemoveCodeCave(IntPtr Address)
@@ -324,14 +321,14 @@ namespace Anathema
 
         public void SetKeyword(String Keyword, IntPtr Address)
         {
-            Keywords[Keyword] = "0x" + Address.ToString("X");
+            Keywords[Keyword] = "0x" + Conversions.ToAddress(Address);
 
             Console.WriteLine("[LUA] " + MethodBase.GetCurrentMethod().Name + " " + Keyword + " => " + Keywords[Keyword]);
         }
 
         public void SetGlobalKeyword(String GlobalKeyword, IntPtr Address)
         {
-            GlobalKeywords[GlobalKeyword] = "0x" + Address.ToString("X");
+            GlobalKeywords[GlobalKeyword] = "0x" + Conversions.ToAddress(Address);
 
             Console.WriteLine("[LUA] " + MethodBase.GetCurrentMethod().Name + " " + GlobalKeyword + " => " + GlobalKeywords[GlobalKeyword]);
         }
@@ -365,6 +362,29 @@ namespace Anathema
             GlobalKeywords.Clear();
 
             Console.WriteLine("[LUA] " + MethodBase.GetCurrentMethod().Name);
+        }
+
+        public IntPtr SearchAOB(Byte[] Bytes)
+        {
+            IntPtr Address = OSInterface.Process.SearchAOB(Bytes);
+            Console.WriteLine("[LUA] " + MethodBase.GetCurrentMethod().Name + " " + Conversions.ToAddress(Address));
+            return Address;
+        }
+
+        public IntPtr SearchAOB(String Pattern)
+        {
+            IntPtr Address = OSInterface.Process.SearchAOB(Pattern);
+            Console.WriteLine("[LUA] " + MethodBase.GetCurrentMethod().Name + " " + Conversions.ToAddress(Address));
+            return Address;
+        }
+
+        public IntPtr[] SearchllAOB(String Pattern)
+        {
+            IntPtr[] Addresses = OSInterface.Process.SearchllAOB(Pattern);
+            List<String> AddressStrings = new List<String>();
+            Addresses.ToList().ForEach(x => AddressStrings.Add(Conversions.ToAddress(x)));
+            Console.WriteLine("[LUA] " + MethodBase.GetCurrentMethod().Name + " " + String.Join(" ", AddressStrings));
+            return Addresses;
         }
 
         public SByte ReadSByte(IntPtr Address)

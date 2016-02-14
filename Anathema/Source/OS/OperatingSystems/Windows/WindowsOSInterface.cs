@@ -461,6 +461,21 @@ namespace Anathema.MemoryManagement
         [return: MarshalAs(UnmanagedType.Bool)]
         private static extern bool IsWow64Process([In] IntPtr ProcessHandle, [Out, MarshalAs(UnmanagedType.Bool)] out bool Wow64Process);
 
+        public IntPtr SearchAOB(byte[] Bytes)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IntPtr SearchAOB(string Pattern)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IntPtr[] SearchllAOB(string Pattern)
+        {
+            throw new NotImplementedException();
+        }
+
 
         #endregion
         #endregion
