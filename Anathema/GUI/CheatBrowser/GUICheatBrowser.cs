@@ -30,12 +30,10 @@ namespace Anathema
 
         private void InitializeBrowser()
         {
-            Text = "CefSharp";
             WindowState = FormWindowState.Maximized;
 
             Browser = new ChromiumWebBrowser(AnathemaCheatBrowseURL)
             {
-                MenuHandler = null,
                 Dock = DockStyle.Fill,
             };
             ContentPanel.Controls.Add(Browser);
