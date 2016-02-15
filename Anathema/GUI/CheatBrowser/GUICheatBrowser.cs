@@ -21,10 +21,10 @@ namespace Anathema
         public GUICheatBrowser()
         {
             InitializeComponent();
-
+            
             // Initialize presenter
 
-
+            WindowState = FormWindowState.Maximized;
         }
 
         private void GUICheatBrowser_Load(Object Sender, EventArgs E)
@@ -34,12 +34,8 @@ namespace Anathema
 
         private void InitializeBrowser()
         {
-            WindowState = FormWindowState.Maximized;
+            Browser = new ChromiumWebBrowser(AnathemaCheatBrowseURL);
 
-            Browser = new ChromiumWebBrowser(AnathemaCheatBrowseURL)
-            {
-                Dock = DockStyle.Fill,
-            };
             ContentPanel.Controls.Add(Browser);
 
             Browser.ConsoleMessage += OnBrowserConsoleMessage;
