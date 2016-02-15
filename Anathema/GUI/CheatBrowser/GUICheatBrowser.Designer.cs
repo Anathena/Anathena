@@ -51,6 +51,7 @@
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "GUICheatBrowser";
             this.Text = "Cheat Browser";
+            this.Load += new System.EventHandler(this.GUICheatBrowser_Load);
             this.ResumeLayout(false);
 
         }

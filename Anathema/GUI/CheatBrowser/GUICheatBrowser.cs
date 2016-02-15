@@ -16,7 +16,7 @@ namespace Anathema
     public partial class GUICheatBrowser : DockContent
     {
         private ChromiumWebBrowser Browser;
-        private const String AnathemaCheatBrowseURL = "www.anathemaengine.com";
+        private const String AnathemaCheatBrowseURL = "www.anathemaengine.com/browser.php";
 
         public GUICheatBrowser()
         {
@@ -25,6 +25,10 @@ namespace Anathema
             // Initialize presenter
 
 
+        }
+
+        private void GUICheatBrowser_Load(Object Sender, EventArgs E)
+        {
             InitializeBrowser();
         }
 
@@ -75,7 +79,7 @@ namespace Anathema
         }
 
         #endregion
-
+        
     } // End class
 
 } // End namespace
