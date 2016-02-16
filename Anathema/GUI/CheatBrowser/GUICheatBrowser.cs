@@ -17,11 +17,12 @@ namespace Anathema
     {
         private ChromiumWebBrowser Browser;
         private const String AnathemaCheatBrowseURL = "www.anathemaengine.com/browser.php";
+        private const String AnathemaCheatUploadURL = "www.anathemaengine.com/upload.php";
 
         public GUICheatBrowser()
         {
             InitializeComponent();
-            
+
             // Initialize presenter
 
             WindowState = FormWindowState.Maximized;
@@ -38,12 +39,41 @@ namespace Anathema
             Browser.DownloadHandler = new DownloadHandler();
 
             ContentPanel.Controls.Add(Browser);
-
-            Browser.ConsoleMessage += OnBrowserConsoleMessage;
-            Browser.StatusMessage += OnBrowserStatusMessage;
-            Browser.TitleChanged += OnBrowserTitleChanged;
-            Browser.AddressChanged += OnBrowserAddressChanged;
         }
+
+        private void LoadUrl(String URL)
+        {
+            if (!Uri.IsWellFormedUriString(URL, UriKind.RelativeOrAbsolute))
+                return;
+
+            Browser.Load(URL);
+        }
+
+        #region Events
+
+        private void HomeButton_Click(Object Sender, EventArgs E)
+        {
+            Browser.Load(AnathemaCheatBrowseURL);
+        }
+
+        private void UploadButton_Click(Object Sender, EventArgs E)
+        {
+            Browser.Load(AnathemaCheatUploadURL);
+        }
+
+        private void BackButton_Click(Object Sender, EventArgs E)
+        {
+            if (Browser.CanGoBack)
+                Browser.Back();
+        }
+
+        private void ForwardButton_Click(Object Sender, EventArgs E)
+        {
+            if (Browser.CanGoForward)
+                Browser.Forward();
+        }
+
+        #endregion
 
         internal class DownloadHandler : IDownloadHandler
         {
@@ -58,40 +88,9 @@ namespace Anathema
                     }
                 }
             }
-        }
 
-        private void LoadUrl(String URL)
-        {
-            if (!Uri.IsWellFormedUriString(URL, UriKind.RelativeOrAbsolute))
-                return;
+        } // End class
 
-            Browser.Load(URL);
-        }
-
-        #region Events
-
-        private void OnBrowserConsoleMessage(object sender, ConsoleMessageEventArgs args)
-        {
-            //DisplayOutput(string.Format("Line: {0}, Source: {1}, Message: {2}", args.Line, args.Source, args.Message));
-        }
-
-        private void OnBrowserStatusMessage(object sender, StatusMessageEventArgs args)
-        {
-            //this.InvokeOnUiThreadIfRequired(() => statusLabel.Text = args.Value);
-        }
-
-        private void OnBrowserTitleChanged(object sender, TitleChangedEventArgs args)
-        {
-            //this.InvokeOnUiThreadIfRequired(() => Text = args.Title);
-        }
-
-        private void OnBrowserAddressChanged(object sender, AddressChangedEventArgs args)
-        {
-            //this.InvokeOnUiThreadIfRequired(() => urlTextBox.Text = args.Address);
-        }
-
-        #endregion
-        
     } // End class
 
 } // End namespace
