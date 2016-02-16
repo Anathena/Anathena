@@ -35,6 +35,7 @@ namespace Anathema
         private void InitializeBrowser()
         {
             Browser = new ChromiumWebBrowser(AnathemaCheatBrowseURL);
+            Browser.DownloadHandler = new DownloadHandler();
 
             ContentPanel.Controls.Add(Browser);
 
@@ -42,6 +43,21 @@ namespace Anathema
             Browser.StatusMessage += OnBrowserStatusMessage;
             Browser.TitleChanged += OnBrowserTitleChanged;
             Browser.AddressChanged += OnBrowserAddressChanged;
+        }
+
+        internal class DownloadHandler : IDownloadHandler
+        {
+            public void OnDownloadUpdated(IBrowser Browser, DownloadItem DownloadItem, IDownloadItemCallback Callback) { }
+            public void OnBeforeDownload(IBrowser Browser, DownloadItem DownloadItem, IBeforeDownloadCallback Callback)
+            {
+                if (!Callback.IsDisposed)
+                {
+                    using (Callback)
+                    {
+                        Callback.Continue(DownloadItem.SuggestedFileName, true);
+                    }
+                }
+            }
         }
 
         private void LoadUrl(String URL)
