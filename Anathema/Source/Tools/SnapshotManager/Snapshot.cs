@@ -109,7 +109,7 @@ namespace Anathema
 
         public UInt64 GetMemorySize()
         {
-            return SnapshotRegions == null ? 0 : (UInt64)SnapshotRegions.AsEnumerable().Sum(x => (Int64)x.RegionSize + (Int64)x.GetRegionExtension());
+            return SnapshotRegions == null ? 0 : (UInt64)SnapshotRegions.AsEnumerable().Sum(x => (Int64)x.RegionSize / Alignment + (Int64)x.GetRegionExtension());
         }
 
         /// <summary>
@@ -209,7 +209,6 @@ namespace Anathema
         public Snapshot(Snapshot BaseSnapshot)
         {
             List<SnapshotRegion<LabelType>> Regions = new List<SnapshotRegion<LabelType>>();
-            //SetElementType(BaseSnapshot.GetElementType());
 
             if (BaseSnapshot != null && BaseSnapshot.GetRegionCount() > 0)
             {
@@ -222,12 +221,7 @@ namespace Anathema
 
             SnapshotRegions = Regions;
 
-            Initialize();
-        }
-
-        public Snapshot(SnapshotRegion<LabelType>[] SnapshotData)
-        {
-            this.SnapshotRegions = SnapshotData;
+            SetElementType(BaseSnapshot.GetElementType());
             Initialize();
         }
 

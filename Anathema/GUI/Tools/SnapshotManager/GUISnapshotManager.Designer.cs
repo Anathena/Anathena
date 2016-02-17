@@ -161,7 +161,7 @@
         private System.Windows.Forms.ToolStripButton ClearSnapshotsButton;
         private System.Windows.Forms.ToolStripButton UndoSnapshotButton;
         private System.Windows.Forms.ToolStripButton RedoSnapshotButton;
-        private FlickerFreeListView SnapshotListView;
+        private Anathema.FlickerFreeListView SnapshotListView;
         private System.Windows.Forms.ColumnHeader ScanMethodHeader;
         private System.Windows.Forms.ColumnHeader SizeHeader;
         private System.Windows.Forms.ColumnHeader TimeStampHeader;
