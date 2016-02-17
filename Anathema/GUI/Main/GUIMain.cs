@@ -345,6 +345,23 @@ namespace Anathema
             MainPresenter.RequestUndoScan();
         }
 
+        private void OpenToolStripMenuItem_Click(Object Sender, EventArgs E)
+        {
+            CreateTable();
+            GUITable.BeginOpenTable();
+        }
+
+        private void SaveToolStripMenuItem_Click(Object Sender, EventArgs E)
+        {
+            CreateTable();
+            GUITable.BeginSaveTable();
+        }
+
+        private void ExitToolStripMenuItem_Click(Object Sender, EventArgs E)
+        {
+            this.Close();
+        }
+
         private void GUIMenuStrip_MenuActivate(Object Sender, EventArgs E)
         {
             // Check / uncheck items if the windows are open

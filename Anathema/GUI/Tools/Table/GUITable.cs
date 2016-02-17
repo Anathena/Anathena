@@ -23,9 +23,7 @@ namespace Anathema
 
             ViewCheatTable();
         }
-
         
-
         private void ViewCheatTable()
         {
             CheatTableButton.Checked = true;
@@ -42,11 +40,7 @@ namespace Anathema
             GUIFSMTable.Visible = true;
         }
 
-        #region Events
-
-        private Point LastRightClickLocation = Point.Empty;
-
-        private void SaveTableButton_Click(Object Sender, EventArgs E)
+        public void BeginSaveTable()
         {
             SaveFileDialog SaveFileDialog = new SaveFileDialog();
             SaveFileDialog.Filter = "Anathema Table | *.ana";
@@ -56,7 +50,7 @@ namespace Anathema
             TablePresenter.SaveTable(SaveFileDialog.FileName);
         }
 
-        private void LoadTableButton_Click(Object Sender, EventArgs E)
+        public void BeginOpenTable()
         {
             OpenFileDialog OpenFileDialog = new OpenFileDialog();
             OpenFileDialog.Filter = "Anathema Table | *.ana";
@@ -64,6 +58,20 @@ namespace Anathema
             OpenFileDialog.ShowDialog();
 
             TablePresenter.LoadTable(OpenFileDialog.FileName);
+        }
+
+        #region Events
+
+        private Point LastRightClickLocation = Point.Empty;
+
+        private void SaveTableButton_Click(Object Sender, EventArgs E)
+        {
+            BeginSaveTable();
+        }
+
+        private void LoadTableButton_Click(Object Sender, EventArgs E)
+        {
+            BeginOpenTable();
         }
         
         private void CheatTableButton_Click(Object Sender, EventArgs E)
