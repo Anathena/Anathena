@@ -105,6 +105,11 @@ namespace Anathema
                 this.Text = Conversions.ParseValueAsDec(ElementType, ValueString);
         }
 
+        public void SetText(String Value)
+        {
+            this.Text = Value;
+        }
+
         public Boolean IsValid()
         {
             return TextValid;

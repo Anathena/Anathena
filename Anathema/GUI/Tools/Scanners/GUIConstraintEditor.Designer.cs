@@ -28,10 +28,10 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.ValueTypeComboBox = new System.Windows.Forms.ComboBox();
             this.ConstraintsListView = new System.Windows.Forms.ListView();
             this.ConstraintToolStrip = new System.Windows.Forms.ToolStrip();
-            this.AddConstraintButton = new System.Windows.Forms.ToolStripButton();
             this.ScanOptionsToolStripDropDownButton = new System.Windows.Forms.ToolStripDropDownButton();
             this.ChangedToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.UnchangedToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -50,7 +50,11 @@
             this.RemoveConstraintButton = new System.Windows.Forms.ToolStripButton();
             this.ClearConstraintsButton = new System.Windows.Forms.ToolStripButton();
             this.ValueTextBox = new Anathema.HexDecTextBox();
+            this.ConstraintContextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.DeleteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.EditConstraintToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ConstraintToolStrip.SuspendLayout();
+            this.ConstraintContextMenuStrip.SuspendLayout();
             this.SuspendLayout();
             // 
             // ValueTypeComboBox
@@ -69,19 +73,23 @@
             this.ConstraintsListView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.ConstraintsListView.ContextMenuStrip = this.ConstraintContextMenuStrip;
             this.ConstraintsListView.FullRowSelect = true;
+            this.ConstraintsListView.LabelEdit = true;
             this.ConstraintsListView.Location = new System.Drawing.Point(3, 58);
             this.ConstraintsListView.Name = "ConstraintsListView";
             this.ConstraintsListView.Size = new System.Drawing.Size(234, 154);
             this.ConstraintsListView.TabIndex = 164;
             this.ConstraintsListView.UseCompatibleStateImageBehavior = false;
             this.ConstraintsListView.View = System.Windows.Forms.View.SmallIcon;
+            this.ConstraintsListView.AfterLabelEdit += new System.Windows.Forms.LabelEditEventHandler(this.ConstraintsListView_AfterLabelEdit);
+            this.ConstraintsListView.MouseClick += new System.Windows.Forms.MouseEventHandler(this.ConstraintsListView_MouseClick);
+            this.ConstraintsListView.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.ConstraintsListView_MouseDoubleClick);
             // 
             // ConstraintToolStrip
             // 
             this.ConstraintToolStrip.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
             this.ConstraintToolStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.AddConstraintButton,
             this.ScanOptionsToolStripDropDownButton,
             this.toolStripSeparator1,
             this.RemoveConstraintButton,
@@ -92,16 +100,6 @@
             this.ConstraintToolStrip.Size = new System.Drawing.Size(240, 25);
             this.ConstraintToolStrip.TabIndex = 165;
             this.ConstraintToolStrip.Text = "toolStrip1";
-            // 
-            // AddConstraintButton
-            // 
-            this.AddConstraintButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.AddConstraintButton.Image = global::Anathema.Properties.Resources.DownArrows;
-            this.AddConstraintButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.AddConstraintButton.Name = "AddConstraintButton";
-            this.AddConstraintButton.Size = new System.Drawing.Size(23, 22);
-            this.AddConstraintButton.Text = "Add Constraint";
-            this.AddConstraintButton.Click += new System.EventHandler(this.AddConstraintButton_Click);
             // 
             // ScanOptionsToolStripDropDownButton
             // 
@@ -120,7 +118,7 @@
             this.LessThanToolStripMenuItem,
             this.LessThanOrEqualToToolStripMenuItem,
             this.NotScientificNotationToolStripMenuItem});
-            this.ScanOptionsToolStripDropDownButton.Image = global::Anathema.Properties.Resources.Changed;
+            this.ScanOptionsToolStripDropDownButton.Image = global::Anathema.Properties.Resources.DownArrows;
             this.ScanOptionsToolStripDropDownButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.ScanOptionsToolStripDropDownButton.Name = "ScanOptionsToolStripDropDownButton";
             this.ScanOptionsToolStripDropDownButton.Size = new System.Drawing.Size(29, 22);
@@ -269,6 +267,29 @@
             this.ValueTextBox.WaterMarkFont = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.ValueTextBox.WaterMarkText = null;
             // 
+            // ConstraintContextMenuStrip
+            // 
+            this.ConstraintContextMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.EditConstraintToolStripMenuItem,
+            this.DeleteToolStripMenuItem});
+            this.ConstraintContextMenuStrip.Name = "ConstraintMenuStrip";
+            this.ConstraintContextMenuStrip.Size = new System.Drawing.Size(153, 70);
+            this.ConstraintContextMenuStrip.Opening += new System.ComponentModel.CancelEventHandler(this.ConstraintContextMenuStrip_Opening);
+            // 
+            // DeleteToolStripMenuItem
+            // 
+            this.DeleteToolStripMenuItem.Name = "DeleteToolStripMenuItem";
+            this.DeleteToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.DeleteToolStripMenuItem.Text = "Delete";
+            this.DeleteToolStripMenuItem.Click += new System.EventHandler(this.DeleteToolStripMenuItem_Click);
+            // 
+            // EditConstraintToolStripMenuItem
+            // 
+            this.EditConstraintToolStripMenuItem.Name = "EditConstraintToolStripMenuItem";
+            this.EditConstraintToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.EditConstraintToolStripMenuItem.Text = "Edit Constraint";
+            this.EditConstraintToolStripMenuItem.Click += new System.EventHandler(this.EditConstraintToolStripMenuItem_Click);
+            // 
             // GUIConstraintEditor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -281,6 +302,7 @@
             this.Size = new System.Drawing.Size(240, 215);
             this.ConstraintToolStrip.ResumeLayout(false);
             this.ConstraintToolStrip.PerformLayout();
+            this.ConstraintContextMenuStrip.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -292,7 +314,6 @@
         private HexDecTextBox ValueTextBox;
         private System.Windows.Forms.ListView ConstraintsListView;
         private System.Windows.Forms.ToolStrip ConstraintToolStrip;
-        private System.Windows.Forms.ToolStripButton AddConstraintButton;
         private System.Windows.Forms.ToolStripDropDownButton ScanOptionsToolStripDropDownButton;
         private System.Windows.Forms.ToolStripMenuItem ChangedToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem UnchangedToolStripMenuItem;
@@ -310,5 +331,8 @@
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.ToolStripButton RemoveConstraintButton;
         private System.Windows.Forms.ToolStripButton ClearConstraintsButton;
+        private System.Windows.Forms.ContextMenuStrip ConstraintContextMenuStrip;
+        private System.Windows.Forms.ToolStripMenuItem DeleteToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem EditConstraintToolStripMenuItem;
     }
 }

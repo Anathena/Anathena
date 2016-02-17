@@ -31,7 +31,9 @@ namespace Anathema
         // Functions invoked by presenter (downstream)
         void SetElementType(Type ElementType);
         Type GetElementType();
+        ScanConstraint GetConstraintAt(Int32 Index);
         void AddConstraint(ConstraintsEnum ValueConstraint, dynamic Value);
+        void UpdateConstraint(Int32 Index, dynamic Value);
         void RemoveConstraints(Int32[] ConstraintIndicies);
         void ClearConstraints();
 
@@ -102,7 +104,39 @@ namespace Anathema
             Model.AddConstraint(ValueConstraint, Value);
         }
 
-        public void RemoveConstraints(Int32[] ConstraintIndicies)
+        public Boolean TryUpdateConstraint(Int32 Index, String ValueString)
+        {
+            dynamic Value = null;
+
+            switch (Model.GetConstraintAt(Index).Constraint)
+            {
+                case ConstraintsEnum.Changed:
+                case ConstraintsEnum.Unchanged:
+                case ConstraintsEnum.Decreased:
+                case ConstraintsEnum.Increased:
+                case ConstraintsEnum.NotScientificNotation:
+                    break;
+                case ConstraintsEnum.Invalid:
+                case ConstraintsEnum.GreaterThan:
+                case ConstraintsEnum.GreaterThanOrEqual:
+                case ConstraintsEnum.LessThan:
+                case ConstraintsEnum.LessThanOrEqual:
+                case ConstraintsEnum.Equal:
+                case ConstraintsEnum.NotEqual:
+                case ConstraintsEnum.IncreasedByX:
+                case ConstraintsEnum.DecreasedByX:
+                    if (CheckSyntax.CanParseValue(Model.GetElementType(), ValueString))
+                        Value = Conversions.ParseValue(Model.GetElementType(), ValueString);
+                    else
+                        return false;
+                    break;
+            }
+
+            Model.UpdateConstraint(Index, Value);
+            return true;
+        }
+
+        public void RemoveConstraints(params Int32[] ConstraintIndicies)
         {
             Model.RemoveConstraints(ConstraintIndicies);
         }

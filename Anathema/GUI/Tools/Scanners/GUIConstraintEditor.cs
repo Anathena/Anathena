@@ -15,6 +15,8 @@ namespace Anathema.GUI.Tools.MemoryScanners
     {
         private ScanConstraintEditorPresenter ScanConstraintEditorPresenter;
 
+        private Boolean ValueRequired;
+
         private Boolean _HideElementType;
         public Boolean HideElementType
         {
@@ -86,8 +88,6 @@ namespace Anathema.GUI.Tools.MemoryScanners
 
         private void UpdateScanOptions(ToolStripMenuItem Sender, ConstraintsEnum ValueConstraint)
         {
-            ScanOptionsToolStripDropDownButton.Image = Sender.Image;
-
             switch (ValueConstraint)
             {
                 case ConstraintsEnum.Changed:
@@ -95,8 +95,7 @@ namespace Anathema.GUI.Tools.MemoryScanners
                 case ConstraintsEnum.Decreased:
                 case ConstraintsEnum.Increased:
                 case ConstraintsEnum.NotScientificNotation:
-                    ValueTextBox.Enabled = false;
-                    ValueTextBox.Text = "";
+                    ValueRequired = false;
                     break;
                 case ConstraintsEnum.Invalid:
                 case ConstraintsEnum.GreaterThan:
@@ -107,7 +106,7 @@ namespace Anathema.GUI.Tools.MemoryScanners
                 case ConstraintsEnum.NotEqual:
                 case ConstraintsEnum.IncreasedByX:
                 case ConstraintsEnum.DecreasedByX:
-                    ValueTextBox.Enabled = true;
+                    ValueRequired = true;
                     break;
             }
 
@@ -132,13 +131,74 @@ namespace Anathema.GUI.Tools.MemoryScanners
             });
         }
 
+        private void AddConstraint()
+        {
+            if (!ValueRequired || ValueTextBox.IsValid())
+                ScanConstraintEditorPresenter.AddConstraint(ValueTextBox.GetValueAsDecimal());
+        }
+
         #region Events
 
+        private Point RightClickLocation = Point.Empty;
 
-        private void AddConstraintButton_Click(Object Sender, EventArgs E)
+        private void ConstraintsListView_MouseClick(Object Sender, MouseEventArgs E)
         {
-            if (!ValueTextBox.Enabled || ValueTextBox.IsValid())
-                ScanConstraintEditorPresenter.AddConstraint(ValueTextBox.GetValueAsDecimal());
+            if (E.Button != MouseButtons.Right)
+                return;
+
+            RightClickLocation = E.Location;
+        }
+
+        private void ConstraintsListView_MouseDoubleClick(Object Sender, MouseEventArgs E)
+        {
+            ListViewHitTestInfo HitTest = ConstraintsListView.HitTest(E.Location);
+            ListViewItem SelectedItem = HitTest.Item;
+
+            if (SelectedItem == null)
+                return;
+
+            SelectedItem.BeginEdit();
+        }
+
+        private void ConstraintContextMenuStrip_Opening(Object Sender, CancelEventArgs E)
+        {
+            ListViewHitTestInfo HitTest = ConstraintsListView.HitTest(RightClickLocation);
+            ListViewItem SelectedItem = HitTest.Item;
+
+            if (SelectedItem == null)
+                E.Cancel = true;
+        }
+
+        private void EditConstraintToolStripMenuItem_Click(Object Sender, EventArgs E)
+        {
+            ListViewHitTestInfo HitTest = ConstraintsListView.HitTest(RightClickLocation);
+            ListViewItem SelectedItem = HitTest.Item;
+
+            if (SelectedItem == null)
+                return;
+
+            SelectedItem.BeginEdit();
+        }
+
+        private void DeleteToolStripMenuItem_Click(Object Sender, EventArgs E)
+        {
+            ListViewHitTestInfo HitTest = ConstraintsListView.HitTest(RightClickLocation);
+            ListViewItem SelectedItem = HitTest.Item;
+
+            if (SelectedItem == null)
+                return;
+
+            ScanConstraintEditorPresenter.RemoveConstraints(SelectedItem.Index);
+        }
+
+        private void ConstraintsListView_AfterLabelEdit(Object Sender, LabelEditEventArgs E)
+        {
+            // Does not support hex, highlighting, nor GetValueAsDec like adding constraints. Just try and see if it fails.
+            if (ScanConstraintEditorPresenter.TryUpdateConstraint(E.Item, E.Label))
+                return;
+
+            // Could not update constraint, revert changes.
+            E.CancelEdit = true;
         }
 
         private void RemoveConstraintButton_Click(Object Sender, EventArgs E)
@@ -160,66 +220,79 @@ namespace Anathema.GUI.Tools.MemoryScanners
         private void ChangedToolStripMenuItem_Click(Object Sender, EventArgs E)
         {
             UpdateScanOptions((ToolStripMenuItem)Sender, ConstraintsEnum.Changed);
+            AddConstraint();
         }
 
         private void UnchangedToolStripMenuItem_Click(Object Sender, EventArgs E)
         {
             UpdateScanOptions((ToolStripMenuItem)Sender, ConstraintsEnum.Unchanged);
+            AddConstraint();
         }
 
         private void IncreasedToolStripMenuItem_Click(Object Sender, EventArgs E)
         {
             UpdateScanOptions((ToolStripMenuItem)Sender, ConstraintsEnum.Increased);
+            AddConstraint();
         }
 
         private void DecreasedToolStripMenuItem_Click(Object Sender, EventArgs E)
         {
             UpdateScanOptions((ToolStripMenuItem)Sender, ConstraintsEnum.Decreased);
+            AddConstraint();
         }
 
         private void EqualToToolStripMenuItem_Click(Object Sender, EventArgs E)
         {
             UpdateScanOptions((ToolStripMenuItem)Sender, ConstraintsEnum.Equal);
+            AddConstraint();
         }
 
         private void NotEqualToToolStripMenuItem_Click(Object Sender, EventArgs E)
         {
             UpdateScanOptions((ToolStripMenuItem)Sender, ConstraintsEnum.NotEqual);
+            AddConstraint();
         }
 
         private void IncreasedByToolStripMenuItem_Click(Object Sender, EventArgs E)
         {
             UpdateScanOptions((ToolStripMenuItem)Sender, ConstraintsEnum.IncreasedByX);
+            AddConstraint();
         }
 
         private void DecreasedByToolStripMenuItem_Click(Object Sender, EventArgs E)
         {
             UpdateScanOptions((ToolStripMenuItem)Sender, ConstraintsEnum.DecreasedByX);
+            AddConstraint();
         }
 
         private void GreaterThanToolStripMenuItem_Click(Object Sender, EventArgs E)
         {
             UpdateScanOptions((ToolStripMenuItem)Sender, ConstraintsEnum.GreaterThan);
+            AddConstraint();
         }
 
         private void GreaterThanOrEqualToToolStripMenuItem_Click(Object Sender, EventArgs E)
         {
             UpdateScanOptions((ToolStripMenuItem)Sender, ConstraintsEnum.GreaterThanOrEqual);
+            AddConstraint();
         }
 
         private void LessThanToolStripMenuItem_Click(Object Sender, EventArgs E)
         {
             UpdateScanOptions((ToolStripMenuItem)Sender, ConstraintsEnum.LessThan);
+            AddConstraint();
         }
 
         private void LessThanOrEqualToToolStripMenuItem_Click(Object Sender, EventArgs E)
         {
             UpdateScanOptions((ToolStripMenuItem)Sender, ConstraintsEnum.LessThanOrEqual);
+            AddConstraint();
         }
 
         private void NotScientificNotationToolStripMenuItem_Click(Object Sender, EventArgs E)
         {
             UpdateScanOptions((ToolStripMenuItem)Sender, ConstraintsEnum.NotScientificNotation);
+            AddConstraint();
         }
 
         #endregion

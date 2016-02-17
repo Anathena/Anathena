@@ -20,6 +20,8 @@ namespace Anathema
             ValueConstraints = new List<ScanConstraint>();
         }
 
+        public ScanConstraint this[Int32 Index] { get { return ValueConstraints[Index]; } }
+
         public Type GetElementType()
         {
             return ElementType;

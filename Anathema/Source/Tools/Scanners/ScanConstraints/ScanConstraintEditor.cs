@@ -43,9 +43,20 @@ namespace Anathema
             UpdateDisplay();
         }
 
+        public ScanConstraint GetConstraintAt(Int32 Index)
+        {
+            return ScanConstraints[Index];
+        }
+
         public void AddConstraint(ConstraintsEnum ValueConstraint, dynamic Value)
         {
             ScanConstraints.AddConstraint(new ScanConstraint(ValueConstraint, Value));
+            UpdateDisplay();
+        }
+
+        public void UpdateConstraint(Int32 Index, dynamic Value)
+        {
+            ScanConstraints[Index].Value = Value;
             UpdateDisplay();
         }
 
