@@ -13,6 +13,7 @@ namespace Anathema
         IntPtr GetModuleAddress(String ModuleName);
         Int32 GetAssemblySize(String Assembly);
         Byte[] GetAssemblyBytes(String Assembly, IntPtr Address);
+        Byte[] GetInstructionBytes(IntPtr Address, Int32 MinimumInstructionBytes);
 
         // Allocations
         IntPtr AllocateMemory(Int32 Size);
@@ -36,7 +37,7 @@ namespace Anathema
         // Patterns
         IntPtr SearchAOB(Byte[] Bytes);
         IntPtr SearchAOB(String Pattern);
-        IntPtr[] SearchllAOB(String Pattern);
+        IntPtr[] SearchAllAOB(String Pattern);
 
         // Reading
         SByte ReadSByte(IntPtr Address);
@@ -137,8 +138,10 @@ namespace Anathema
             return Assembly;
         }
 
-        private Byte[] GetInstructions(IntPtr Address)
+        public Byte[] GetInstructionBytes(IntPtr Address, Int32 MinimumInstructionBytes)
         {
+            this.PrintDebugTag();
+
             const Int32 Largestx86InstructionSize = 15;
 
             // Read original bytes at code cave jump
@@ -148,7 +151,7 @@ namespace Anathema
 
             if (!ReadSuccess || OriginalBytes == null || OriginalBytes.Length <= 0)
                 return null;
-            
+
             // Grab instructions at code entry point
             List<Instruction> Instructions = OSInterface.Architecture.Disassembler.Disassemble(OriginalBytes, OSInterface.Process.Is32Bit(), Address);
 
@@ -157,11 +160,11 @@ namespace Anathema
             foreach (Instruction Instruction in Instructions)
             {
                 ReplacedInstructionSize += Instruction.Length;
-                if (ReplacedInstructionSize >= JumpSize)
+                if (ReplacedInstructionSize >= MinimumInstructionBytes)
                     break;
             }
 
-            if (ReplacedInstructionSize < JumpSize)
+            if (ReplacedInstructionSize < MinimumInstructionBytes)
                 return null;
 
             // Truncate to only the bytes we will need to save
@@ -172,29 +175,28 @@ namespace Anathema
 
         public Int32 GetAssemblySize(String Assembly)
         {
+            this.PrintDebugTag();
+
             Assembly = ResolveKeywords(Assembly);
 
             Byte[] Bytes = OSInterface.Architecture.Assembler.Assemble(OSInterface.Process.Is32Bit(), Assembly, IntPtr.Zero);
-            Int32 Result = (Bytes == null ? 0 : Bytes.Length);
 
-            Console.WriteLine("[LUA] " + MethodBase.GetCurrentMethod().Name + " " + Result + "B");
-            return Result;
+            return (Bytes == null ? 0 : Bytes.Length);
         }
 
         public Byte[] GetAssemblyBytes(String Assembly, IntPtr Address)
         {
+            this.PrintDebugTag();
+
             Assembly = ResolveKeywords(Assembly);
 
-            Byte[] Bytes = OSInterface.Architecture.Assembler.Assemble(OSInterface.Process.Is32Bit(), Assembly, Address);
-
-            Boolean Result = (Bytes == null ? false : true);
-
-            Console.WriteLine("[LUA] " + MethodBase.GetCurrentMethod().Name + " " + (Result == true ? "(success)" : "(failed)"));
-            return Bytes;
+            return OSInterface.Architecture.Assembler.Assemble(OSInterface.Process.Is32Bit(), Assembly, Address);
         }
 
         public IntPtr GetModuleAddress(String ModuleName)
         {
+            this.PrintDebugTag();
+
             IntPtr Address = IntPtr.Zero;
             foreach (NormalizedModule Module in OSInterface.Process.GetModules())
             {
@@ -205,87 +207,113 @@ namespace Anathema
                 }
             }
 
-            Console.WriteLine("[LUA] " + MethodBase.GetCurrentMethod().Name + " " + Conversions.ToAddress(Address));
             return Address;
         }
 
         public IntPtr AllocateMemory(Int32 Size)
         {
+            this.PrintDebugTag();
+
             IntPtr Address = OSInterface.Process.AllocateMemory(Size);
             RemoteAllocations.Add(Address);
 
-            Console.WriteLine("[LUA] " + MethodBase.GetCurrentMethod().Name + " " + Conversions.ToAddress(Address) + " (" + Size.ToString() + ")");
             return Address;
         }
 
         public void DeallocateMemory(IntPtr Address)
         {
-            Boolean Result = false;
+            this.PrintDebugTag();
 
             foreach (IntPtr AllocationAddress in RemoteAllocations)
             {
                 if (AllocationAddress == Address)
                 {
-                    Result = true;
                     OSInterface.Process.DeallocateMemory(AllocationAddress);
                     RemoteAllocations.Remove(AllocationAddress);
                     break;
                 }
             }
 
-            Console.WriteLine("[LUA] " + MethodBase.GetCurrentMethod().Name + " " + Conversions.ToAddress(Address) + " " + (Result == true ? "(success)" : "(failed)"));
             return;
         }
 
         public void DeallocateAllMemory()
         {
+            this.PrintDebugTag();
+
             foreach (IntPtr Address in RemoteAllocations)
                 OSInterface.Process.DeallocateMemory(Address);
 
             RemoteAllocations.Clear();
-
-            Console.WriteLine("[LUA] " + MethodBase.GetCurrentMethod().Name);
         }
 
         public IntPtr CreateCodeCave(IntPtr Entry, String Assembly)
         {
+            this.PrintDebugTag();
+
             Assembly = ResolveKeywords(Assembly);
 
-            Int32 Size = GetAssemblySize(Assembly);
+            Int32 AssemblySize = GetAssemblySize(Assembly);
 
-            // Allocate memory
-            IntPtr RemoteAllocation = OSInterface.Process.AllocateMemory(Size);
-            RemoteAllocations.Add(RemoteAllocation);
+            // Handle case where allocation is not needed
+            if (AssemblySize < JumpSize)
+            {
+                Byte[] OriginalBytes = GetInstructionBytes(Entry, AssemblySize);
 
-            // Write injected code to new page
-            Byte[] InjectionBytes = OSInterface.Architecture.Assembler.Assemble(OSInterface.Process.Is32Bit(), Assembly, RemoteAllocation);
-            OSInterface.Process.WriteBytes(RemoteAllocation, InjectionBytes);
+                if (OriginalBytes == null)
+                    throw new Exception("Could not gather original bytes");
 
-            // Gather the original bytes
-            Byte[] OriginalBytes = GetInstructions(Entry);
+                // Determine number of no-ops to fill dangling bytes
+                String NoOps = (OriginalBytes.Length - AssemblySize > 0 ? "db " : String.Empty) + String.Join(" ", Enumerable.Repeat("0x90,", OriginalBytes.Length - AssemblySize)).TrimEnd(',');
 
-            if (OriginalBytes == null || OriginalBytes.Length < JumpSize)
+                Byte[] InjectionBytes = OSInterface.Architecture.Assembler.Assemble(OSInterface.Process.Is32Bit(), Assembly + "\n" + NoOps, Entry);
+                OSInterface.Process.WriteBytes(Entry, InjectionBytes);
+
+                CodeCave CodeCave = new CodeCave(Entry, OriginalBytes, Entry);
+                CodeCaves.Add(CodeCave);
+
+                return Entry;
+            }
+            else
+            {
+                Byte[] OriginalBytes = GetInstructionBytes(Entry, JumpSize);
+
+                if (OriginalBytes == null)
+                    throw new Exception("Could not gather original bytes");
+
+                // Not able to collect enough bytes to even place a jump!
+                if (OriginalBytes.Length < JumpSize)
+                    throw new Exception("Not enough bytes at address to jump");
+
+                // Determine number of no-ops to fill dangling bytes
+                String NoOps = (OriginalBytes.Length - JumpSize > 0 ? "db " : String.Empty) + String.Join(" ", Enumerable.Repeat("0x90,", OriginalBytes.Length - JumpSize)).TrimEnd(',');
+
+                // Allocate memory
+                IntPtr RemoteAllocation = OSInterface.Process.AllocateMemory(AssemblySize);
+                RemoteAllocations.Add(RemoteAllocation);
+
+                // Write injected code to new page
+                Byte[] InjectionBytes = OSInterface.Architecture.Assembler.Assemble(OSInterface.Process.Is32Bit(), Assembly, RemoteAllocation);
+                OSInterface.Process.WriteBytes(RemoteAllocation, InjectionBytes);
+
+                // Write in the jump to the code cave
+                String CodeCaveJump = "jmp " + "0x" + Conversions.ToAddress(RemoteAllocation) + "\n" + NoOps;
+                Byte[] JumpBytes = OSInterface.Architecture.Assembler.Assemble(OSInterface.Process.Is32Bit(), CodeCaveJump, Entry);
+                OSInterface.Process.WriteBytes(Entry, JumpBytes);
+
+                // Save this code cave for later deallocation
+                CodeCave CodeCave = new CodeCave(RemoteAllocation, OriginalBytes, Entry);
+                CodeCaves.Add(CodeCave);
+
                 return RemoteAllocation;
-
-            // Determine number of no-ops to fill dangling bytes
-            string NoOps = (OriginalBytes.Length - JumpSize > 0 ? "db " : String.Empty) + String.Join(" ", Enumerable.Repeat("0x90,", OriginalBytes.Length - JumpSize)).TrimEnd(',');
-
-            // Write in the jump to the code cave
-            String CodeCaveJump = "jmp " + "0x" + Conversions.ToAddress(RemoteAllocation) + "\n" + NoOps;
-            Byte[] JumpBytes = OSInterface.Architecture.Assembler.Assemble(OSInterface.Process.Is32Bit(), CodeCaveJump, Entry);
-            OSInterface.Process.WriteBytes(Entry, JumpBytes);
-
-            // Save this code cave for later deallocation
-            CodeCave CodeCave = new CodeCave(RemoteAllocation, OriginalBytes, Entry);
-            CodeCaves.Add(CodeCave);
-
-            Console.WriteLine("[LUA] " + MethodBase.GetCurrentMethod().Name + " " + Conversions.ToAddress(RemoteAllocation) + " (" + Size.ToString() + ")");
-            return RemoteAllocation;
+            }
         }
 
         public IntPtr GetCaveExitAddress(IntPtr Address)
         {
-            Byte[] OriginalBytes = GetInstructions(Address);
+            this.PrintDebugTag();
+
+            Byte[] OriginalBytes = GetInstructionBytes(Address, JumpSize);
             Int32 OriginalByteSize;
 
             if (OriginalBytes != null || OriginalBytes.Length < JumpSize)
@@ -301,258 +329,277 @@ namespace Anathema
 
             Address = Address.Add(OriginalByteSize);
 
-            Console.WriteLine("[LUA] " + MethodBase.GetCurrentMethod().Name + " " + Conversions.ToAddress(Address));
             return Address;
         }
 
         public void RemoveCodeCave(IntPtr Address)
         {
-            Boolean Result = false;
+            this.PrintDebugTag();
+
             foreach (CodeCave CodeCave in CodeCaves)
             {
-                if (CodeCave.Entry == Address)
-                {
-                    Result = true;
-                    OSInterface.Process.Write<Byte[]>(CodeCave.Entry, CodeCave.OriginalBytes);
-                    OSInterface.Process.DeallocateMemory(CodeCave.RemoteAllocation);
-                }
+                if (CodeCave.Entry != Address)
+                    continue;
+
+                OSInterface.Process.Write<Byte[]>(CodeCave.Entry, CodeCave.OriginalBytes);
+
+                // If these are equal, the cave is an in-place edit and not an allocation
+                if (CodeCave.Entry == CodeCave.RemoteAllocation)
+                    continue;
+
+                OSInterface.Process.DeallocateMemory(CodeCave.RemoteAllocation);
+
             }
-            Console.WriteLine("[LUA] " + MethodBase.GetCurrentMethod().Name + " " + (Result == true ? "(success)" : "(failed)"));
         }
 
         public void RemoveAllCodeCaves()
         {
+            this.PrintDebugTag();
+
             foreach (CodeCave CodeCave in CodeCaves)
             {
                 OSInterface.Process.WriteBytes(CodeCave.Entry, CodeCave.OriginalBytes);
+
+                // If these are equal, the cave is an in-place edit and not an allocation
+                if (CodeCave.Entry == CodeCave.RemoteAllocation)
+                    continue;
+
                 OSInterface.Process.DeallocateMemory(CodeCave.RemoteAllocation);
             }
             CodeCaves.Clear();
-
-            Console.WriteLine("[LUA] " + MethodBase.GetCurrentMethod().Name);
         }
 
         public void SetKeyword(String Keyword, IntPtr Address)
         {
-            Keywords[Keyword] = "0x" + Conversions.ToAddress(Address);
+            this.PrintDebugTag(Keyword, Address.ToString("x"));
 
-            Console.WriteLine("[LUA] " + MethodBase.GetCurrentMethod().Name + " " + Keyword + " => " + Keywords[Keyword]);
+            Keywords[Keyword] = "0x" + Conversions.ToAddress(Address);
         }
 
         public void SetGlobalKeyword(String GlobalKeyword, IntPtr Address)
         {
-            GlobalKeywords[GlobalKeyword] = "0x" + Conversions.ToAddress(Address);
+            this.PrintDebugTag(GlobalKeyword, Address.ToString("x"));
 
-            Console.WriteLine("[LUA] " + MethodBase.GetCurrentMethod().Name + " " + GlobalKeyword + " => " + GlobalKeywords[GlobalKeyword]);
+            GlobalKeywords[GlobalKeyword] = "0x" + Conversions.ToAddress(Address);
         }
 
         public void ClearKeyword(String Keyword)
         {
+            this.PrintDebugTag(Keyword);
+
             if (Keywords.ContainsKey(Keyword))
                 Keywords.Remove(Keyword);
-
-            Console.WriteLine("[LUA] " + MethodBase.GetCurrentMethod().Name + " " + Keyword);
         }
 
         public void ClearGlobalKeyword(String GlobalKeyword)
         {
+            this.PrintDebugTag(GlobalKeyword);
+
             String ValueRemoved;
             if (GlobalKeywords.ContainsKey(GlobalKeyword))
                 GlobalKeywords.TryRemove(GlobalKeyword, out ValueRemoved);
-
-            Console.WriteLine("[LUA] " + MethodBase.GetCurrentMethod().Name + " " + GlobalKeyword);
         }
 
         public void ClearAllKeywords()
         {
-            Keywords.Clear();
+            this.PrintDebugTag();
 
-            Console.WriteLine("[LUA] " + MethodBase.GetCurrentMethod().Name);
+            Keywords.Clear();
         }
 
         public void ClearAllGlobalKeywords()
         {
-            GlobalKeywords.Clear();
+            this.PrintDebugTag();
 
-            Console.WriteLine("[LUA] " + MethodBase.GetCurrentMethod().Name);
+            GlobalKeywords.Clear();
         }
 
         public IntPtr SearchAOB(Byte[] Bytes)
         {
+            this.PrintDebugTag();
+
             IntPtr Address = OSInterface.Process.SearchAOB(Bytes);
-            Console.WriteLine("[LUA] " + MethodBase.GetCurrentMethod().Name + " " + Conversions.ToAddress(Address));
             return Address;
         }
 
         public IntPtr SearchAOB(String Pattern)
         {
-            IntPtr Address = OSInterface.Process.SearchAOB(Pattern);
-            Console.WriteLine("[LUA] " + MethodBase.GetCurrentMethod().Name + " " + Conversions.ToAddress(Address));
-            return Address;
+            this.PrintDebugTag(Pattern);
+
+            return OSInterface.Process.SearchAOB(Pattern);
         }
 
-        public IntPtr[] SearchllAOB(String Pattern)
+        public IntPtr[] SearchAllAOB(String Pattern)
         {
-            IntPtr[] Addresses = OSInterface.Process.SearchllAOB(Pattern);
-            List<String> AddressStrings = new List<String>();
-            Addresses.ToList().ForEach(x => AddressStrings.Add(Conversions.ToAddress(x)));
-            Console.WriteLine("[LUA] " + MethodBase.GetCurrentMethod().Name + " " + String.Join(" ", AddressStrings));
-            return Addresses;
+            this.PrintDebugTag(Pattern);
+
+            return OSInterface.Process.SearchllAOB(Pattern);
         }
 
         public SByte ReadSByte(IntPtr Address)
         {
+            this.PrintDebugTag(Address.ToString("x"));
+
             Boolean Success;
-            SByte Result = OSInterface.Process.Read<SByte>(Address, out Success);
-            Console.WriteLine("[LUA] " + MethodBase.GetCurrentMethod().Name + " " + (Success == true ? "(success)" : "(failed)"));
-            return Result;
+            return OSInterface.Process.Read<SByte>(Address, out Success);
         }
 
         public Byte ReadByte(IntPtr Address)
         {
+            this.PrintDebugTag(Address.ToString("x"));
+
             Boolean Success;
-            Byte Result = OSInterface.Process.Read<Byte>(Address, out Success);
-            Console.WriteLine("[LUA] " + MethodBase.GetCurrentMethod().Name + " " + (Success == true ? "(success)" : "(failed)"));
-            return Result;
+            return OSInterface.Process.Read<Byte>(Address, out Success);
         }
 
         public Int16 ReadInt16(IntPtr Address)
         {
+            this.PrintDebugTag(Address.ToString("x"));
+
             Boolean Success;
-            Int16 Result = OSInterface.Process.Read<Int16>(Address, out Success);
-            Console.WriteLine("[LUA] " + MethodBase.GetCurrentMethod().Name + " " + (Success == true ? "(success)" : "(failed)"));
-            return Result;
+            return OSInterface.Process.Read<Int16>(Address, out Success);
         }
 
         public Int32 ReadInt32(IntPtr Address)
         {
+            this.PrintDebugTag(Address.ToString("x"));
+
             Boolean Success;
-            Int32 Result = OSInterface.Process.Read<Int32>(Address, out Success);
-            Console.WriteLine("[LUA] " + MethodBase.GetCurrentMethod().Name + " " + (Success == true ? "(success)" : "(failed)"));
-            return Result;
+            return OSInterface.Process.Read<Int32>(Address, out Success);
         }
 
         public Int64 ReadInt64(IntPtr Address)
         {
+            this.PrintDebugTag(Address.ToString("x"));
+
             Boolean Success;
-            Int64 Result = OSInterface.Process.Read<Int64>(Address, out Success);
-            Console.WriteLine("[LUA] " + MethodBase.GetCurrentMethod().Name + " " + (Success == true ? "(success)" : "(failed)"));
-            return Result;
+            return OSInterface.Process.Read<Int64>(Address, out Success);
         }
 
         public UInt16 ReadUInt16(IntPtr Address)
         {
+            this.PrintDebugTag(Address.ToString("x"));
+
             Boolean Success;
-            UInt16 Result = OSInterface.Process.Read<UInt16>(Address, out Success);
-            Console.WriteLine("[LUA] " + MethodBase.GetCurrentMethod().Name + " " + (Success == true ? "(success)" : "(failed)"));
-            return Result;
+            return OSInterface.Process.Read<UInt16>(Address, out Success);
         }
 
         public UInt32 ReadUInt32(IntPtr Address)
         {
+            this.PrintDebugTag(Address.ToString("x"));
+
             Boolean Success;
-            UInt32 Result = OSInterface.Process.Read<UInt32>(Address, out Success);
-            Console.WriteLine("[LUA] " + MethodBase.GetCurrentMethod().Name + " " + (Success == true ? "(success)" : "(failed)"));
-            return Result;
+            return OSInterface.Process.Read<UInt32>(Address, out Success);
         }
 
         public UInt64 ReadUInt64(IntPtr Address)
         {
+            this.PrintDebugTag(Address.ToString("x"));
+
             Boolean Success;
-            UInt64 Result = OSInterface.Process.Read<UInt64>(Address, out Success);
-            Console.WriteLine("[LUA] " + MethodBase.GetCurrentMethod().Name + " " + (Success == true ? "(success)" : "(failed)"));
-            return Result;
+            return OSInterface.Process.Read<UInt64>(Address, out Success);
         }
 
         public Single ReadSingle(IntPtr Address)
         {
+            this.PrintDebugTag(Address.ToString("x"));
+
             Boolean Success;
-            Single Result = OSInterface.Process.Read<Single>(Address, out Success);
-            Console.WriteLine("[LUA] " + MethodBase.GetCurrentMethod().Name + " " + (Success == true ? "(success)" : "(failed)"));
-            return Result;
+            return OSInterface.Process.Read<Single>(Address, out Success);
         }
 
         public Double ReadDouble(IntPtr Address)
         {
+            this.PrintDebugTag(Address.ToString("x"));
+
             Boolean Success;
-            UInt64 Result = OSInterface.Process.Read<UInt64>(Address, out Success);
-            Console.WriteLine("[LUA] " + MethodBase.GetCurrentMethod().Name + " " + (Success == true ? "(success)" : "(failed)"));
-            return Result;
+            return OSInterface.Process.Read<Double>(Address, out Success);
         }
 
         public Byte[] ReadBytes(IntPtr Address, Int32 Count)
         {
+            this.PrintDebugTag(Address.ToString("x"), Count.ToString());
+
             Boolean Success;
-            Byte[] Result = OSInterface.Process.ReadBytes(Address, Count, out Success);
-            Console.WriteLine("[LUA] " + MethodBase.GetCurrentMethod().Name + " " + (Success == true ? "(success)" : "(failed)"));
-            return Result;
+            return OSInterface.Process.ReadBytes(Address, Count, out Success);
         }
 
         // Writing
         public void WriteSByte(IntPtr Address, SByte Value)
         {
+            this.PrintDebugTag(Address.ToString("x"), Value.ToString());
+
             OSInterface.Process.Write<SByte>(Address, Value);
-            Console.WriteLine("[LUA] " + MethodBase.GetCurrentMethod().Name);
         }
 
         public void WriteByte(IntPtr Address, Byte Value)
         {
+            this.PrintDebugTag(Address.ToString("x"), Value.ToString());
+
             OSInterface.Process.Write<Byte>(Address, Value);
-            Console.WriteLine("[LUA] " + MethodBase.GetCurrentMethod().Name);
         }
 
         public void WriteInt16(IntPtr Address, Int16 Value)
         {
+            this.PrintDebugTag(Address.ToString("x"), Value.ToString());
+
             OSInterface.Process.Write<Int16>(Address, Value);
-            Console.WriteLine("[LUA] " + MethodBase.GetCurrentMethod().Name);
         }
 
         public void WriteInt32(IntPtr Address, Int32 Value)
         {
+            this.PrintDebugTag(Address.ToString("x"), Value.ToString());
+
             OSInterface.Process.Write<Int32>(Address, Value);
-            Console.WriteLine("[LUA] " + MethodBase.GetCurrentMethod().Name);
         }
 
         public void WriteInt64(IntPtr Address, Int64 Value)
         {
+            this.PrintDebugTag(Address.ToString("x"), Value.ToString());
+
             OSInterface.Process.Write<Int64>(Address, Value);
-            Console.WriteLine("[LUA] " + MethodBase.GetCurrentMethod().Name);
         }
 
         public void WriteUInt16(IntPtr Address, UInt16 Value)
         {
+            this.PrintDebugTag(Address.ToString("x"), Value.ToString());
+
             OSInterface.Process.Write<UInt16>(Address, Value);
-            Console.WriteLine("[LUA] " + MethodBase.GetCurrentMethod().Name);
         }
 
         public void WriteUInt32(IntPtr Address, UInt32 Value)
         {
+            this.PrintDebugTag(Address.ToString("x"), Value.ToString());
+
             OSInterface.Process.Write<UInt32>(Address, Value);
-            Console.WriteLine("[LUA] " + MethodBase.GetCurrentMethod().Name);
         }
 
         public void WriteUInt64(IntPtr Address, UInt64 Value)
         {
+            this.PrintDebugTag(Address.ToString("x"), Value.ToString());
+
             OSInterface.Process.Write<UInt64>(Address, Value);
-            Console.WriteLine("[LUA] " + MethodBase.GetCurrentMethod().Name);
         }
 
         public void WriteSingle(IntPtr Address, Single Value)
         {
+            this.PrintDebugTag(Address.ToString("x"), Value.ToString());
+
             OSInterface.Process.Write<Single>(Address, Value);
-            Console.WriteLine("[LUA] " + MethodBase.GetCurrentMethod().Name);
         }
 
         public void WriteDouble(IntPtr Address, Double Value)
         {
+            this.PrintDebugTag(Address.ToString("x"), Value.ToString());
+
             OSInterface.Process.Write<Double>(Address, Value);
-            Console.WriteLine("[LUA] " + MethodBase.GetCurrentMethod().Name);
         }
 
         public void WriteBytes(IntPtr Address, Byte[] Values)
         {
+            this.PrintDebugTag(Address.ToString("x"));
+
             OSInterface.Process.WriteBytes(Address, Values);
-            Console.WriteLine("[LUA] " + MethodBase.GetCurrentMethod().Name);
         }
 
     } // End interface
