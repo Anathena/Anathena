@@ -47,6 +47,15 @@ namespace Anathema
             ScriptEditor.GetInstance().OpenScript(ScriptItems[Index]);
         }
 
+        public void DeleteScript(Int32 Index)
+        {
+            ScriptItems.RemoveAt(Index);
+
+            ScriptTableEventArgs ScriptTableEventArgs = new ScriptTableEventArgs();
+            ScriptTableEventArgs.ItemCount = ScriptItems.Count;
+            EventClearScriptCache(this, ScriptTableEventArgs);
+        }
+
         public void ReorderScript(Int32 SourceIndex, Int32 DestinationIndex)
         {
             // Bounds checking

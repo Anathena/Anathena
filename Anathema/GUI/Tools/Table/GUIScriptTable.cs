@@ -34,6 +34,8 @@ namespace Anathema
 
         #region Events
 
+        private Point LastRightClickLocation = Point.Empty;
+
         private void ScriptTableListView_RetrieveVirtualItem(Object Sender, RetrieveVirtualItemEventArgs E)
         {
             E.Item = ScriptTablePresenter.GetScriptTableItemAt(E.ItemIndex);
@@ -41,6 +43,9 @@ namespace Anathema
 
         private void ScriptTableListView_MouseClick(Object Sender, MouseEventArgs E)
         {
+            if (E.Button == MouseButtons.Right)
+                LastRightClickLocation = E.Location;
+
             ListViewItem ListViewItem = ScriptTableListView.GetItemAt(E.X, E.Y);
 
             if (ListViewItem == null)
@@ -56,10 +61,38 @@ namespace Anathema
             ListViewItem SelectedItem = HitTest.Item;
             Int32 ColumnIndex = HitTest.Item.SubItems.IndexOf(HitTest.SubItem);
 
+            // Do not bring up edit menu on double clicks to checkbox
+            if (ColumnIndex == ScriptTableListView.Columns.IndexOf(ScriptActiveHeader))
+                return;
+
             if (SelectedItem == null)
                 return;
 
             ScriptTablePresenter.OpenScript(SelectedItem.Index);
+        }
+
+        private void OpenScriptToolStripMenuItem_Click(Object Sender, EventArgs E)
+        {
+            ListViewHitTestInfo HitTest = ScriptTableListView.HitTest(LastRightClickLocation);
+            ListViewItem SelectedItem = HitTest.Item;
+            Int32 ColumnIndex = HitTest.Item.SubItems.IndexOf(HitTest.SubItem);
+
+            if (SelectedItem == null)
+                return;
+
+            ScriptTablePresenter.OpenScript(SelectedItem.Index);
+        }
+
+        private void DeleteScriptToolStripMenuItem_Click(Object Sender, EventArgs E)
+        {
+            ListViewHitTestInfo HitTest = ScriptTableListView.HitTest(LastRightClickLocation);
+            ListViewItem SelectedItem = HitTest.Item;
+            Int32 ColumnIndex = HitTest.Item.SubItems.IndexOf(HitTest.SubItem);
+
+            if (SelectedItem == null)
+                return;
+
+            ScriptTablePresenter.DeleteScript(SelectedItem.Index);
         }
 
         private ListViewItem DraggedItem;
@@ -86,21 +119,6 @@ namespace Anathema
                 return;
 
             ScriptTablePresenter.ReorderScript(DraggedItem.Index, SelectedItem == null ? ScriptTableListView.Items.Count : SelectedItem.Index);
-        }
-
-        private void OpenScriptToolStripMenuItem_Click(Object Sender, EventArgs E)
-        {
-
-        }
-
-        private void EditScriptEntryToolStripMenuItem_Click(Object Sender, EventArgs E)
-        {
-
-        }
-
-        private void DeleteScriptToolStripMenuItem_Click(Object Sender, EventArgs E)
-        {
-
         }
 
         #endregion
