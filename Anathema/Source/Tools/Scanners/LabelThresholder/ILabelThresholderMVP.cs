@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -32,6 +33,7 @@ namespace Anathema
         public abstract void ApplyThreshold();
         public abstract void UpdateThreshold(Int32 MinimumIndex, Int32 MaximumIndex);
         public abstract void SetInverted(Boolean Inverted);
+        public abstract Type GetElementType();
     }
 
     class LabelThresholderPresenter : Presenter<ILabelThresholderView, ILabelThresholderModel>
@@ -62,6 +64,14 @@ namespace Anathema
         public void SetInverted(Boolean Inverted)
         {
             Model.SetInverted(Inverted);
+        }
+
+        public Int32 GetElementSize()
+        {
+            if (Model.GetElementType() == null)
+                return 0;
+
+            return Marshal.SizeOf(Model.GetElementType());
         }
 
         #endregion

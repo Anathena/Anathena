@@ -13,16 +13,17 @@ namespace Anathema
     class LabelThresholder : ILabelThresholderModel
     {
         private Snapshot Snapshot;
-        
+
         private SortedDictionary<dynamic, Int64> SortedDictionary;
         private Boolean Inverted;
+        private Object ItemLock;
 
         private dynamic MinValue;
         private dynamic MaxValue;
 
         public LabelThresholder()
         {
-
+            ItemLock = new Object();
         }
 
         public override void SetInverted(Boolean Inverted)
@@ -35,7 +36,15 @@ namespace Anathema
             this.MinValue = SortedDictionary.ElementAt(MinimumIndex).Key;
             this.MaxValue = SortedDictionary.ElementAt(MaximumIndex).Key;
         }
-        
+
+        public override Type GetElementType()
+        {
+            if (Snapshot == null)
+                return null;
+
+            return Snapshot.GetElementType();
+        }
+
         public override void Begin()
         {
             Snapshot = SnapshotManager.GetInstance().GetActiveSnapshot();
@@ -49,7 +58,7 @@ namespace Anathema
         protected override void Update()
         {
             base.Update();
-            
+
             ConcurrentDictionary<dynamic, Int64> Histogram = new ConcurrentDictionary<dynamic, Int64>();
 
             Parallel.ForEach(Snapshot.Cast<Object>(), (RegionObject) =>
@@ -60,10 +69,13 @@ namespace Anathema
                     if (Element.ElementLabel == null)
                         return;
 
-                    if (Histogram.ContainsKey(Element.ElementLabel))
-                        Histogram[((dynamic)Element.ElementLabel)]++;
-                    else
-                        Histogram.TryAdd(Element.ElementLabel, 0);
+                    lock (ItemLock)
+                    {
+                        if (Histogram.ContainsKey(Element.ElementLabel))
+                            Histogram[((dynamic)Element.ElementLabel)]++;
+                        else
+                            Histogram.TryAdd(Element.ElementLabel, 1);
+                    }
 
                 } // End foreach element
 

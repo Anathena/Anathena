@@ -110,7 +110,9 @@ namespace Anathema
             // Update threshold size text
             ControlThreadingHelper.InvokeControlAction(ScanToolStrip, () =>
             {
-                ReductionLabel.Text = FrequencySelected.ToString() + " / " + FrequencyTotal.ToString() + " (" + Conversions.BytesToMetric(FrequencySelected) + " / " + Conversions.BytesToMetric(FrequencyTotal) + ")";
+                ReductionLabel.Text = FrequencySelected.ToString() + " / " + FrequencyTotal.ToString() +
+                " (~" + Conversions.BytesToMetric(FrequencySelected * (UInt64)LabelThresholderPresenter.GetElementSize()) +
+                " / ~" + Conversions.BytesToMetric(FrequencyTotal * (UInt64)LabelThresholderPresenter.GetElementSize()) + ")";
             });
         }
 
