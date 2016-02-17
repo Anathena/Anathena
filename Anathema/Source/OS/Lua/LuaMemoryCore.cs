@@ -11,7 +11,7 @@ namespace Anathema
     {
         // General
         IntPtr GetModuleAddress(String ModuleName);
-        Int32 GetAssemblySize(String Assembly);
+        Int32 GetAssemblySize(String Assembly, IntPtr Address);
         Byte[] GetAssemblyBytes(String Assembly, IntPtr Address);
         Byte[] GetInstructionBytes(IntPtr Address, Int32 MinimumInstructionBytes);
 
@@ -173,13 +173,13 @@ namespace Anathema
             return OriginalBytes;
         }
 
-        public Int32 GetAssemblySize(String Assembly)
+        public Int32 GetAssemblySize(String Assembly, IntPtr Address)
         {
             this.PrintDebugTag();
 
             Assembly = ResolveKeywords(Assembly);
 
-            Byte[] Bytes = OSInterface.Architecture.Assembler.Assemble(OSInterface.Process.Is32Bit(), Assembly, IntPtr.Zero);
+            Byte[] Bytes = OSInterface.Architecture.Assembler.Assemble(OSInterface.Process.Is32Bit(), Assembly, Address);
 
             return (Bytes == null ? 0 : Bytes.Length);
         }
@@ -253,7 +253,7 @@ namespace Anathema
 
             Assembly = ResolveKeywords(Assembly);
 
-            Int32 AssemblySize = GetAssemblySize(Assembly);
+            Int32 AssemblySize = GetAssemblySize(Assembly, Entry);
 
             // Handle case where allocation is not needed
             if (AssemblySize < JumpSize)
