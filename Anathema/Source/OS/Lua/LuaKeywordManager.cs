@@ -74,7 +74,7 @@ namespace Anathema
             " XRSTOR XRSTORS XSAVE XSAVEC XSAVEOPT XSAVES XSETBV XTEST";
         public static String AsmInstructionKeywords { get { SortKeywords(); return _AsmInstructionKeywords; } private set { _AsmInstructionKeywords = value; } }
 
-        private static String _AnathemaKeywords = "Ana asm";
+        private static String _AnathemaKeywords = "Ana fasm nasm masm";
         public static String AnathemaKeywords { get { SortKeywords(); return _AnathemaKeywords; } private set { _AnathemaKeywords = value; } }
 
         private static String _AllLuaKeywords = String.Empty;

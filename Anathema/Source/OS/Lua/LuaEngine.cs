@@ -1,6 +1,7 @@
 ﻿using System;
 using NLua;
 using Anathema.MemoryManagement;
+using System.Text.RegularExpressions;
 
 namespace Anathema
 {
@@ -29,10 +30,10 @@ namespace Anathema
                 "\t" + "Ana:SetKeyword(\"exit\", Ana:GetCaveExitAddress(Entry))" + "\n\t\n" +
 
                 "\t" + "local Assembly = (" + "\n" +
-                "\t" + "[asm]" + "\n" +
+                "\t" + "[fasm]" + "\n" +
                 "\t" + "\n" +
                 "\t" + "jmp exit" + "\n" +
-                "\t" + "[/asm])" + "\n\t\n" +
+                "\t" + "[/fasm])" + "\n\t\n" +
 
                 "\tAna:CreateCodeCave(Entry, Assembly)" + "\n" +
                 "end" + "\n\t\n" +
@@ -54,6 +55,10 @@ namespace Anathema
 
         public Boolean RunActivationFunction(String Script)
         {
+            // Prevent issues that may come from internal LUA crashes by reinitializing these.
+            ScriptEngine = new Lua();
+            LuaMemoryCore = new LuaMemoryCore();
+
             LuaMemoryCore.Initialize();
 
             Script = ReplaceTags(Script);
@@ -92,7 +97,10 @@ namespace Anathema
         {
             // Removes the assembly tags and instead places a string body.
             // This is done such that the LUA frontend can do its syntax highlighting with minmal effort
-            return Script.Replace("[asm]", "[[").Replace("[/asm]", "]]");
+            Script = Regex.Replace(Script, "\\[fasm\\]", "[[", RegexOptions.IgnoreCase);
+            Script = Regex.Replace(Script, "\\[/fasm\\]", "]]", RegexOptions.IgnoreCase);
+
+            return Script;
         }
 
     } // End class
