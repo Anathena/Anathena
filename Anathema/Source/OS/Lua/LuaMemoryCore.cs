@@ -12,6 +12,7 @@ namespace Anathema
         // General
         IntPtr GetModuleAddress(String ModuleName);
         Int32 GetAssemblySize(String Assembly);
+        Byte[] GetAssemblyBytes(String Assembly, IntPtr Address);
 
         // Allocations
         IntPtr AllocateMemory(Int32 Size);
@@ -169,6 +170,29 @@ namespace Anathema
             return OriginalBytes;
         }
 
+        public Int32 GetAssemblySize(String Assembly)
+        {
+            Assembly = ResolveKeywords(Assembly);
+
+            Byte[] Bytes = OSInterface.Architecture.Assembler.Assemble(OSInterface.Process.Is32Bit(), Assembly, IntPtr.Zero);
+            Int32 Result = (Bytes == null ? 0 : Bytes.Length);
+
+            Console.WriteLine("[LUA] " + MethodBase.GetCurrentMethod().Name + " " + Result + "B");
+            return Result;
+        }
+
+        public Byte[] GetAssemblyBytes(String Assembly, IntPtr Address)
+        {
+            Assembly = ResolveKeywords(Assembly);
+
+            Byte[] Bytes = OSInterface.Architecture.Assembler.Assemble(OSInterface.Process.Is32Bit(), Assembly, Address);
+
+            Boolean Result = (Bytes == null ? false : true);
+
+            Console.WriteLine("[LUA] " + MethodBase.GetCurrentMethod().Name + " " + (Result == true ? "(success)" : "(failed)"));
+            return Bytes;
+        }
+
         public IntPtr GetModuleAddress(String ModuleName)
         {
             IntPtr Address = IntPtr.Zero;
@@ -183,17 +207,6 @@ namespace Anathema
 
             Console.WriteLine("[LUA] " + MethodBase.GetCurrentMethod().Name + " " + Conversions.ToAddress(Address));
             return Address;
-        }
-
-        public Int32 GetAssemblySize(String Assembly)
-        {
-            Assembly = ResolveKeywords(Assembly);
-
-            Byte[] Bytes = OSInterface.Architecture.Assembler.Assemble(OSInterface.Process.Is32Bit(), Assembly, IntPtr.Zero);
-            Int32 Result = (Bytes == null ? 0 : Bytes.Length);
-
-            Console.WriteLine("[LUA] " + MethodBase.GetCurrentMethod().Name + " " + Result + "B");
-            return Result;
         }
 
         public IntPtr AllocateMemory(Int32 Size)
