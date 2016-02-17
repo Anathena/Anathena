@@ -72,7 +72,7 @@ namespace Anathema
 
         public void InsertCodeInjectionTemplate()
         {
-            String NewScript = LuaEngine.AddCodeInjectionTemplate(ScriptItem.Script, "module.exe", new IntPtr(0x12345));
+            String NewScript = LuaEngine.AddCodeInjectionTemplate(ScriptItem.Script, "module.exe", new IntPtr(0x1abcd));
             ScriptEditorEventArgs ScriptEditorEventArgs = new ScriptEditorEventArgs();
             ScriptEditorEventArgs.NewScript = NewScript;
             EventSetScriptText(this, ScriptEditorEventArgs);

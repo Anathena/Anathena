@@ -29,16 +29,16 @@ namespace Anathema
                 "\t" + "Ana:SetKeyword(\"exit\", Ana:GetCaveExitAddress(Entry))" + "\n\t\n" +
 
                 "\t" + "local Assembly = (" + "\n" +
-                "\t[asm]" + "\n" +
-                "\t\n" +
-                "\tjmp exit" + "\n" +
+                "\t" + "[asm]" + "\n" +
+                "\t" + "\n" +
+                "\t" + "jmp exit" + "\n" +
                 "\t" + "[/asm])" + "\n\t\n" +
 
                 "\tAna:CreateCodeCave(Entry, Assembly)" + "\n" +
-                "\tAna:ClearAllKeywords()" + "\n\t\n" +
                 "end" + "\n\t\n" +
 
                 "function OnDeactivate()" + "\n\t\n" +
+                "\t" + "Ana:ClearAllKeywords()" + "\n" +
                 "\t" + "Ana:RemoveAllCodeCaves()" + "\n\t\n" +
                 "end";
 
