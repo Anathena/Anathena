@@ -429,7 +429,7 @@ namespace Anathema.MemoryManagement
             MemoryCore.Free(Handle, Address);
         }
 
-        public IEnumerable<NormalizedRegion> GetVirtualPages(IntPtr StartAddress, IntPtr EndAddress)
+        public IEnumerable<NormalizedRegion> GetVirtualPages(VirtualPageFlagsEnum VirtualPageFlags, IntPtr StartAddress, IntPtr EndAddress)
         {
             List<RemoteVirtualPage> Pages = new List<RemoteVirtualPage>(Memory.VirtualPages);
             List<NormalizedRegion> Regions = new List<NormalizedRegion>();
@@ -438,7 +438,7 @@ namespace Anathema.MemoryManagement
             return Regions;
         }
 
-        public IEnumerable<NormalizedRegion> GetVirtualPages()
+        public IEnumerable<NormalizedRegion> GetVirtualPages(VirtualPageFlagsEnum VirtualPageFlags)
         {
             List<RemoteVirtualPage> Pages = new List<RemoteVirtualPage>(Memory.VirtualPages);
             List<NormalizedRegion> Regions = new List<NormalizedRegion>();

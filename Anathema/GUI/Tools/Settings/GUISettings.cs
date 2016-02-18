@@ -38,30 +38,14 @@ namespace Anathema
 
             Boolean[] RequiredProtectionSettings = SettingsPresenter.GetRequiredProtectionSettings();
             Array ProtectionEnumValues = Enum.GetValues(typeof(MemoryProtectionFlags));
-            NoAccessCheckBox.CheckState = RequiredProtectionSettings[Array.IndexOf(ProtectionEnumValues, MemoryProtectionFlags.NoAccess)] ? CheckState.Checked : CheckState.Indeterminate;
-            ReadOnlyCheckBox.CheckState = RequiredProtectionSettings[Array.IndexOf(ProtectionEnumValues, MemoryProtectionFlags.ReadOnly)] ? CheckState.Checked : CheckState.Indeterminate;
-            ReadWriteCheckBox.CheckState = RequiredProtectionSettings[Array.IndexOf(ProtectionEnumValues, MemoryProtectionFlags.ReadWrite)] ? CheckState.Checked : CheckState.Indeterminate;
-            WriteCopyCheckBox.CheckState = RequiredProtectionSettings[Array.IndexOf(ProtectionEnumValues, MemoryProtectionFlags.WriteCopy)] ? CheckState.Checked : CheckState.Indeterminate;
-            ExecuteCheckBox.CheckState = RequiredProtectionSettings[Array.IndexOf(ProtectionEnumValues, MemoryProtectionFlags.Execute)] ? CheckState.Checked : CheckState.Indeterminate;
-            ExecuteReadCheckBox.CheckState = RequiredProtectionSettings[Array.IndexOf(ProtectionEnumValues, MemoryProtectionFlags.ExecuteRead)] ? CheckState.Checked : CheckState.Indeterminate;
-            ExecuteReadWriteCheckBox.CheckState = RequiredProtectionSettings[Array.IndexOf(ProtectionEnumValues, MemoryProtectionFlags.ExecuteReadWrite)] ? CheckState.Checked : CheckState.Indeterminate;
-            ExecuteWriteCopyCheckBox.CheckState = RequiredProtectionSettings[Array.IndexOf(ProtectionEnumValues, MemoryProtectionFlags.ExecuteWriteCopy)] ? CheckState.Checked : CheckState.Indeterminate;
-            GuardCheckBox.CheckState = RequiredProtectionSettings[Array.IndexOf(ProtectionEnumValues, MemoryProtectionFlags.Guard)] ? CheckState.Checked : CheckState.Indeterminate;
-            NoCacheCheckBox.CheckState = RequiredProtectionSettings[Array.IndexOf(ProtectionEnumValues, MemoryProtectionFlags.NoCache)] ? CheckState.Checked : CheckState.Indeterminate;
-            WriteCombineCheckBox.CheckState = RequiredProtectionSettings[Array.IndexOf(ProtectionEnumValues, MemoryProtectionFlags.WriteCombine)] ? CheckState.Checked : CheckState.Indeterminate;
+            RequiredCopyOnWriteCheckBox.CheckState = RequiredProtectionSettings[Array.IndexOf(ProtectionEnumValues, MemoryProtectionFlags.NoAccess)] ? CheckState.Checked : CheckState.Indeterminate;
+            RequiredWriteCheckBox.CheckState = RequiredProtectionSettings[Array.IndexOf(ProtectionEnumValues, MemoryProtectionFlags.ReadOnly)] ? CheckState.Checked : CheckState.Indeterminate;
+            RequiredExecuteCheckBox.CheckState = RequiredProtectionSettings[Array.IndexOf(ProtectionEnumValues, MemoryProtectionFlags.ReadWrite)] ? CheckState.Checked : CheckState.Indeterminate;
 
             Boolean[] IgnoredProtectionSettings = SettingsPresenter.GetIgnoredProtectionSettings();
-            NoAccessCheckBox.CheckState = IgnoredProtectionSettings[Array.IndexOf(ProtectionEnumValues, MemoryProtectionFlags.NoAccess)] ? CheckState.Unchecked : NoAccessCheckBox.CheckState;
-            ReadOnlyCheckBox.CheckState = IgnoredProtectionSettings[Array.IndexOf(ProtectionEnumValues, MemoryProtectionFlags.ReadOnly)] ? CheckState.Unchecked : ReadOnlyCheckBox.CheckState;
-            ReadWriteCheckBox.CheckState = IgnoredProtectionSettings[Array.IndexOf(ProtectionEnumValues, MemoryProtectionFlags.ReadWrite)] ? CheckState.Unchecked : ReadWriteCheckBox.CheckState;
-            WriteCopyCheckBox.CheckState = IgnoredProtectionSettings[Array.IndexOf(ProtectionEnumValues, MemoryProtectionFlags.WriteCopy)] ? CheckState.Unchecked : WriteCopyCheckBox.CheckState;
-            ExecuteCheckBox.CheckState = IgnoredProtectionSettings[Array.IndexOf(ProtectionEnumValues, MemoryProtectionFlags.Execute)] ? CheckState.Unchecked : ExecuteCheckBox.CheckState;
-            ExecuteReadCheckBox.CheckState = IgnoredProtectionSettings[Array.IndexOf(ProtectionEnumValues, MemoryProtectionFlags.ExecuteRead)] ? CheckState.Unchecked : ExecuteReadCheckBox.CheckState;
-            ExecuteReadWriteCheckBox.CheckState = IgnoredProtectionSettings[Array.IndexOf(ProtectionEnumValues, MemoryProtectionFlags.ExecuteReadWrite)] ? CheckState.Unchecked : ExecuteReadWriteCheckBox.CheckState;
-            ExecuteWriteCopyCheckBox.CheckState = IgnoredProtectionSettings[Array.IndexOf(ProtectionEnumValues, MemoryProtectionFlags.ExecuteWriteCopy)] ? CheckState.Unchecked : ExecuteWriteCopyCheckBox.CheckState;
-            GuardCheckBox.CheckState = IgnoredProtectionSettings[Array.IndexOf(ProtectionEnumValues, MemoryProtectionFlags.Guard)] ? CheckState.Unchecked : GuardCheckBox.CheckState;
-            NoCacheCheckBox.CheckState = IgnoredProtectionSettings[Array.IndexOf(ProtectionEnumValues, MemoryProtectionFlags.NoCache)] ? CheckState.Unchecked : NoCacheCheckBox.CheckState;
-            WriteCombineCheckBox.CheckState = IgnoredProtectionSettings[Array.IndexOf(ProtectionEnumValues, MemoryProtectionFlags.WriteCombine)] ? CheckState.Unchecked : WriteCombineCheckBox.CheckState;
+            RequiredCopyOnWriteCheckBox.CheckState = IgnoredProtectionSettings[Array.IndexOf(ProtectionEnumValues, MemoryProtectionFlags.NoAccess)] ? CheckState.Unchecked : RequiredCopyOnWriteCheckBox.CheckState;
+            RequiredWriteCheckBox.CheckState = IgnoredProtectionSettings[Array.IndexOf(ProtectionEnumValues, MemoryProtectionFlags.ReadOnly)] ? CheckState.Unchecked : RequiredWriteCheckBox.CheckState;
+            RequiredExecuteCheckBox.CheckState = IgnoredProtectionSettings[Array.IndexOf(ProtectionEnumValues, MemoryProtectionFlags.ReadWrite)] ? CheckState.Unchecked : RequiredExecuteCheckBox.CheckState;
 
             AlignmentTextBox.SetValue(SettingsPresenter.GetAlignmentSettings());
         }
@@ -103,13 +87,13 @@ namespace Anathema
         private void SaveScanSettings()
         {
             SettingsPresenter.UpdateTypeSettings(NoneCheckBox.Checked, PrivateCheckBox.Checked, MappedCheckBox.Checked, ImageCheckBox.Checked);
-            SettingsPresenter.UpdateRequiredProtectionSettings(NoAccessCheckBox.CheckState == CheckState.Checked, ReadOnlyCheckBox.CheckState == CheckState.Checked, ReadWriteCheckBox.CheckState == CheckState.Checked,
-                WriteCopyCheckBox.CheckState == CheckState.Checked, ExecuteCheckBox.CheckState == CheckState.Checked, ExecuteReadCheckBox.CheckState == CheckState.Checked, ExecuteReadWriteCheckBox.CheckState == CheckState.Checked,
+            /*SettingsPresenter.UpdateRequiredProtectionSettings(RequiredCopyOnWriteCheckBox.CheckState == CheckState.Checked, RequiredWriteCheckBox.CheckState == CheckState.Checked, RequiredExecuteCheckBox.CheckState == CheckState.Checked,
+                WriteCopyCheckBox.CheckState == CheckState.Checked, RequiredExecuteCheckBox.CheckState == CheckState.Checked, ExecuteReadCheckBox.CheckState == CheckState.Checked, ExecuteReadWriteCheckBox.CheckState == CheckState.Checked,
                 ExecuteWriteCopyCheckBox.CheckState == CheckState.Checked, GuardCheckBox.CheckState == CheckState.Checked, NoCacheCheckBox.CheckState == CheckState.Checked, WriteCombineCheckBox.CheckState == CheckState.Checked);
-            SettingsPresenter.UpdateIgnoredProtectionSettings(NoAccessCheckBox.CheckState == CheckState.Unchecked, ReadOnlyCheckBox.CheckState == CheckState.Unchecked, ReadWriteCheckBox.CheckState == CheckState.Unchecked,
-                WriteCopyCheckBox.CheckState == CheckState.Unchecked, ExecuteCheckBox.CheckState == CheckState.Unchecked, ExecuteReadCheckBox.CheckState == CheckState.Unchecked, ExecuteReadWriteCheckBox.CheckState == CheckState.Unchecked,
+            SettingsPresenter.UpdateIgnoredProtectionSettings(RequiredCopyOnWriteCheckBox.CheckState == CheckState.Unchecked, RequiredWriteCheckBox.CheckState == CheckState.Unchecked, RequiredExecuteCheckBox.CheckState == CheckState.Unchecked,
+                WriteCopyCheckBox.CheckState == CheckState.Unchecked, RequiredExecuteCheckBox.CheckState == CheckState.Unchecked, ExecuteReadCheckBox.CheckState == CheckState.Unchecked, ExecuteReadWriteCheckBox.CheckState == CheckState.Unchecked,
                 ExecuteWriteCopyCheckBox.CheckState == CheckState.Unchecked, GuardCheckBox.CheckState == CheckState.Unchecked, NoCacheCheckBox.CheckState == CheckState.Unchecked, WriteCombineCheckBox.CheckState == CheckState.Unchecked);
-
+                */
             if (AlignmentTextBox.IsValid())
                 SettingsPresenter.UpdateAlignmentSettings(Conversions.ParseValue(typeof(Int32), AlignmentTextBox.GetValueAsDecimal()));
         }

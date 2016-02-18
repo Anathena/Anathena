@@ -3,11 +3,19 @@ using System.Collections.Generic;
 
 namespace Anathema
 {
+    [Flags]
+    public enum VirtualPageFlagsEnum
+    {
+        Read,
+        Write,
+        Execute
+    }
+
     public interface IOperatingSystemInterface
     {
         // Virtual pages
-        IEnumerable<NormalizedRegion> GetVirtualPages(IntPtr StartAddress, IntPtr EndAddress);
-        IEnumerable<NormalizedRegion> GetVirtualPages();
+        IEnumerable<NormalizedRegion> GetVirtualPages(VirtualPageFlagsEnum VirtualPageFlags, IntPtr StartAddress, IntPtr EndAddress);
+        IEnumerable<NormalizedRegion> GetVirtualPages(VirtualPageFlagsEnum VirtualPageFlags);
         IEnumerable<NormalizedModule> GetModules();
         IntPtr AllocateMemory(Int32 Size);
         void DeallocateMemory(IntPtr Address);

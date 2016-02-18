@@ -19,6 +19,7 @@ namespace Anathema
     {
         private OSInterface OSInterface;
         private IEnumerable<NormalizedRegion> VirtualPages;
+        private const VirtualPageFlagsEnum VirtualPageFlags = VirtualPageFlagsEnum.Read | VirtualPageFlagsEnum.Write | VirtualPageFlagsEnum.Execute;
 
         private IntPtr StartReadAddress;
         private IntPtr EndReadAddress;
@@ -50,7 +51,7 @@ namespace Anathema
             if (OSInterface == null)
                 return;
 
-            VirtualPages = OSInterface.Process.GetVirtualPages();
+            VirtualPages = OSInterface.Process.GetVirtualPages(VirtualPageFlags);
             MemoryViewEventArgs Args = new MemoryViewEventArgs();
             Args.VirtualPages = VirtualPages;
             OnEventUpdateVirtualPages(Args);
