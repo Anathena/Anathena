@@ -115,6 +115,8 @@ namespace Anathema
                 case ConstraintsEnum.Decreased:
                 case ConstraintsEnum.Increased:
                 case ConstraintsEnum.NotScientificNotation:
+                    if (ValueString != null || ValueString != String.Empty)
+                        return false;
                     break;
                 case ConstraintsEnum.Invalid:
                 case ConstraintsEnum.GreaterThan:

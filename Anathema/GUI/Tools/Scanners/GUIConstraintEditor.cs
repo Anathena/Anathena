@@ -47,6 +47,43 @@ namespace Anathema.GUI.Tools.MemoryScanners
 
             InitializeValueTypeComboBox();
             UpdateScanOptions(EqualToToolStripMenuItem, ConstraintsEnum.Equal);
+
+            ValueTextBox.SetValue(0);
+        }
+
+        private void InitializeValueTypeComboBox()
+        {
+            foreach (Type Primitive in PrimitiveTypes.GetPrimitiveTypes())
+                ValueTypeComboBox.Items.Add(Primitive.Name);
+
+            ValueTypeComboBox.SelectedIndex = ValueTypeComboBox.Items.IndexOf(typeof(Int32).Name);
+        }
+
+        private void UpdateScanOptions(ToolStripMenuItem Sender, ConstraintsEnum ValueConstraint)
+        {
+            switch (ValueConstraint)
+            {
+                case ConstraintsEnum.Changed:
+                case ConstraintsEnum.Unchanged:
+                case ConstraintsEnum.Decreased:
+                case ConstraintsEnum.Increased:
+                case ConstraintsEnum.NotScientificNotation:
+                    ValueRequired = false;
+                    break;
+                case ConstraintsEnum.Invalid:
+                case ConstraintsEnum.GreaterThan:
+                case ConstraintsEnum.GreaterThanOrEqual:
+                case ConstraintsEnum.LessThan:
+                case ConstraintsEnum.LessThanOrEqual:
+                case ConstraintsEnum.Equal:
+                case ConstraintsEnum.NotEqual:
+                case ConstraintsEnum.IncreasedByX:
+                case ConstraintsEnum.DecreasedByX:
+                    ValueRequired = true;
+                    break;
+            }
+
+            ScanConstraintEditorPresenter.SetCurrentValueConstraint(ValueConstraint);
         }
 
         public void RemoveRelativeScans()
@@ -84,41 +121,6 @@ namespace Anathema.GUI.Tools.MemoryScanners
         {
             ScanConstraintEditorPresenter.SetElementType(ElementType);
             ValueTextBox.SetElementType(ElementType);
-        }
-
-        private void UpdateScanOptions(ToolStripMenuItem Sender, ConstraintsEnum ValueConstraint)
-        {
-            switch (ValueConstraint)
-            {
-                case ConstraintsEnum.Changed:
-                case ConstraintsEnum.Unchanged:
-                case ConstraintsEnum.Decreased:
-                case ConstraintsEnum.Increased:
-                case ConstraintsEnum.NotScientificNotation:
-                    ValueRequired = false;
-                    break;
-                case ConstraintsEnum.Invalid:
-                case ConstraintsEnum.GreaterThan:
-                case ConstraintsEnum.GreaterThanOrEqual:
-                case ConstraintsEnum.LessThan:
-                case ConstraintsEnum.LessThanOrEqual:
-                case ConstraintsEnum.Equal:
-                case ConstraintsEnum.NotEqual:
-                case ConstraintsEnum.IncreasedByX:
-                case ConstraintsEnum.DecreasedByX:
-                    ValueRequired = true;
-                    break;
-            }
-
-            ScanConstraintEditorPresenter.SetCurrentValueConstraint(ValueConstraint);
-        }
-
-        private void InitializeValueTypeComboBox()
-        {
-            foreach (Type Primitive in PrimitiveTypes.GetPrimitiveTypes())
-                ValueTypeComboBox.Items.Add(Primitive.Name);
-
-            ValueTypeComboBox.SelectedIndex = ValueTypeComboBox.Items.IndexOf(typeof(Int32).Name);
         }
 
         public void UpdateDisplay(ListViewItem[] ListViewItems, ImageList ImageList)
