@@ -1,0 +1,326 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="Gecko.DomDragEventArgs" Collapsed="true">
+    <Position X="0.75" Y="7.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAACAAAAAAAA=</HashCode>
+      <FileName>DOM\Events\DomDragEventArgs.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Gecko.DomEventArgs" Collapsed="true">
+    <Position X="5.25" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAMAABQAAABAACEGAAAAAAQEFAAQAAgAAAAAg=</HashCode>
+      <FileName>DOM\Events\DomEventArgs.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Gecko.DomKeyEventArgs" Collapsed="true">
+    <Position X="5.25" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAgAAAAIAACAAAAAIAAAAAAAIAAAAEAAAAAAAAAACAA=</HashCode>
+      <FileName>DOM\Events\DomKeyEventArgs.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Gecko.DomMouseEventArgs" Collapsed="true">
+    <Position X="2" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AEgAAAAIAASMAAAAAAAAAAAAIAAAAEAAAAAAAAAAAAY=</HashCode>
+      <FileName>DOM\Events\DomMouseEventArgs.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Gecko.DomMouseScrollEventArgs" Collapsed="true">
+    <Position X="3" Y="7.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAQAAAAAAAAAAAAAAAEAAAAAAAABAAAQ=</HashCode>
+      <FileName>DOM\Events\DomMouseScrollEventArgs.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Gecko.DomUIEventArgs" Collapsed="true">
+    <Position X="3" Y="5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAIAAAAAAAAAAAAEAAAAAAAAAACAA=</HashCode>
+      <FileName>DOM\Events\DomUIEventArgs.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Gecko.DomHashChangeEventArgs" Collapsed="true">
+    <Position X="7.5" Y="5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAEAAAABAAAAAAAAAABAAEAAAAAAAAAAAAA=</HashCode>
+      <FileName>DOM\Events\DomHashChangeEventArgs.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Gecko.DomMessageEventArgs" Collapsed="true">
+    <Position X="9.75" Y="5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAIAAAAAAAAAAAAAAAAEAAAAAAIAAAAAA=</HashCode>
+      <FileName>DOM\Events\DomMessageEventArgs.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Interface Name="Gecko.nsIDOMEvent" Collapsed="true">
+    <Position X="42.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAgAEAABCAAAAAQACAAAAQAAAABhAAAAIAAAIAA=</HashCode>
+      <FileName>Generated\nsIDOMEvent.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Gecko.nsIDOMCloseEvent" Collapsed="true">
+    <Position X="6.5" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAIgAEAABSAAAEAQACAAAAQAAAABhAAAAIAAAMAA=</HashCode>
+      <FileName>Generated\nsIDOMCloseEvent.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Gecko.nsIDOMCallEvent" Collapsed="true">
+    <Position X="4.25" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAgAEIABCAAAAAQACAAAAQAAAABhAAAAIAAAIAA=</HashCode>
+      <FileName>Generated\nsIDOMCallEvent.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Gecko.nsIDOMBeforeUnloadEvent" Collapsed="true">
+    <Position X="8.75" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAgAEAABCAAAAIQACAAAAQAAAABhAAAAIAAAIAg=</HashCode>
+      <FileName>Generated\nsIDOMBeforeUnloadEvent.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Gecko.nsIDOMXULCommandEvent" Collapsed="true">
+    <Position X="26.75" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAJSFAhAEAABKAAAAAQhCQAAAUAAABBlAgAUIAAAIAg=</HashCode>
+      <FileName>Generated\nsIDOMXULCommandEvent.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Gecko.nsIDOMMutationEvent" Collapsed="true">
+    <Position X="13.25" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AIAACAgAEIABCAAAAAQACAEAAQAAAABlAAAAIAAAIAA=</HashCode>
+      <FileName>Generated\nsIDOMMutationEvent.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Gecko.nsIDOMMozTouchEvent" Collapsed="true">
+    <Position X="31.25" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAZSFAhAEACBCBAAEAQxiQCAAUAAABDlAgASKAUAIEg=</HashCode>
+      <FileName>Generated\nsIDOMMozTouchEvent.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Gecko.nsIDOMUIEvent" Collapsed="true">
+    <Position X="27.75" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AABSBAgAEAABCAAAAAQhCQAAAUAAABBlAgAAIAAAIAg=</HashCode>
+      <FileName>Generated\nsIDOMUIEvent.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Gecko.nsIDOMDeviceOrientationEvent" Collapsed="true">
+    <Position X="11" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AgAQAAgCEAABCAAAAAUACAAAAQAAAABhAAAAIAEAIAA=</HashCode>
+      <FileName>Generated\nsIDOMDeviceOrientationEvent.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Gecko.nsIDOMDeviceMotionEvent" Collapsed="true">
+    <Position X="15.5" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAgAAgAEAABCAAAAAQACAAAAQAAAADhAAIAIAAAIAA=</HashCode>
+      <FileName>Generated\nsIDOMDeviceMotionEvent.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Gecko.nsIDOMAnimationEvent" Collapsed="true">
+    <Position X="40.25" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAQAgAEAABCAAAAAQACAAAAQIAAQBhAAAAIAAAIAA=</HashCode>
+      <FileName>Generated\nsIDOMAnimationEvent.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Gecko.nsIDOMCommandEvent" Collapsed="true">
+    <Position X="47" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>CAAAAAgAEAABKAAAAAQACAAAAQAAAABhAAAAIAAAIAA=</HashCode>
+      <FileName>Generated\nsIDOMCommandEvent.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Gecko.nsIDOMCompositionEvent" Collapsed="true">
+    <Position X="20" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AABTBAgAEAABCAAAAAYhCQAAAUAAABBlAgAAKAAAIAg=</HashCode>
+      <FileName>Generated\nsIDOMCompositionEvent.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Gecko.nsIDOMCustomEvent" Collapsed="true">
+    <Position X="60.5" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAgAEAABCAAAAAQACAAAAQAAAABlAAAAIAAAIAA=</HashCode>
+      <FileName>Generated\nsIDOMCustomEvent.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Gecko.nsIDOMDataContainerEvent" Collapsed="true">
+    <Position X="67.25" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAgBEAABCAAAAAQACAAAAQAAAABhAAAAIAAAIAA=</HashCode>
+      <FileName>Generated\nsIDOMDataContainerEvent.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Gecko.nsIDOMDragEvent" Collapsed="true">
+    <Position X="38" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAZSFAhAEACBCBAAEAQxiQCAAUAAABDnAgASIAEAIEg=</HashCode>
+      <FileName>Generated\nsIDOMDragEvent.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Gecko.nsIDOMHashChangeEvent" Collapsed="true">
+    <Position X="49.25" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAgAEAABCCABAAQACAAAAwAAAABhAAAAIAAAIAA=</HashCode>
+      <FileName>Generated\nsIDOMHashChangeEvent.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Gecko.nsIDOMKeyEvent" Collapsed="true">
+    <Position X="22.25" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAJSFQhAEgCBCAAAAAQxCQAAAUAgABBlAgAQIAAAIAg=</HashCode>
+      <FileName>Generated\nsIDOMKeyEvent.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Gecko.nsIDOMLSProgressEvent" Collapsed="true">
+    <Position X="69.5" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAgBEAABCAAAEAQACAAAAQAAAABhAAAAKAAAIAA=</HashCode>
+      <FileName>Generated\nsIDOMLSProgressEvent.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Gecko.nsIDOMMessageEvent" Collapsed="true">
+    <Position X="74" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAgAEQABCAAAAAYACAAAgUQAAABhAAAAIAAAIAA=</HashCode>
+      <FileName>Generated\nsIDOMMessageEvent.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Gecko.nsIDOMMouseEvent" Collapsed="true">
+    <Position X="34.5" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAZSFAhAEACBCBAAEAQxiQCAAUAAABDlAgASIAEAIEg=</HashCode>
+      <FileName>Generated\nsIDOMMouseEvent.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Gecko.nsIDOMMouseScrollEvent" Collapsed="true">
+    <Position X="33.5" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAZSFAhAEACBCBAAEAQxiYCAAUAAABDlAgASIAFAIEg=</HashCode>
+      <FileName>Generated\nsIDOMMouseScrollEvent.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Gecko.nsIDOMNotifyAudioAvailableEvent" Collapsed="true">
+    <Position X="62.75" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAgIEAABCAAAAAQACAAAAQABAABhAAAAIAAAIAA=</HashCode>
+      <FileName>Generated\nsIDOMNotifyAudioAvailableEvent.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Gecko.nsIDOMNotifyPaintEvent" Collapsed="true">
+    <Position X="71.75" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAgAEAABSAAAAAQCCAAAAQAAAABhAAAAIAAAIAA=</HashCode>
+      <FileName>Generated\nsIDOMNotifyPaintEvent.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Gecko.nsIDOMPageTransitionEvent" Collapsed="true">
+    <Position X="78.5" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAgAEAABCAgAAAQACAAAAQAAAABhAAAAIAAAIAA=</HashCode>
+      <FileName>Generated\nsIDOMPageTransitionEvent.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Gecko.nsIDOMPopStateEvent" Collapsed="true">
+    <Position X="42.5" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAgAEAABCAAAAAQACAAAAQAAAABhAAAAIAAAIAE=</HashCode>
+      <FileName>Generated\nsIDOMPopStateEvent.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Gecko.nsIDOMPopupBlockedEvent" Collapsed="true">
+    <Position X="51.5" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAEgAEQABCAEAAAQACAAAAQEAAARhAAAAIAAAIAA=</HashCode>
+      <FileName>Generated\nsIDOMPopupBlockedEvent.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Gecko.nsIDOMProgressEvent" Collapsed="true">
+    <Position X="58.25" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAACgAEAABCAQAQAQACAAAAQAAAABhAAAAIAABIAA=</HashCode>
+      <FileName>Generated\nsIDOMProgressEvent.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Gecko.nsIDOMScrollAreaEvent" Collapsed="true">
+    <Position X="29" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AABSBAgAEIABCAACAAQhDQAAAUAAABBlIgAAIAAAIEg=</HashCode>
+      <FileName>Generated\nsIDOMScrollAreaEvent.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Gecko.nsIDOMSimpleGestureEvent" Collapsed="true">
+    <Position X="35.75" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAZSFAhAEACBCBAAEEQxiQCAAUBAABDlAgASIQEAIEg=</HashCode>
+      <FileName>Generated\nsIDOMSimpleGestureEvent.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Gecko.nsIDOMSmartCardEvent" Collapsed="true">
+    <Position X="76.25" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAgAEAABCAAAACQACAAAAQAAAABhAAACIAAAIAA=</HashCode>
+      <FileName>Generated\nsIDOMSmartCardEvent.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Gecko.nsIDOMMozSmsEvent" Collapsed="true">
+    <Position X="80.75" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAgAEAABCAAAAAQACAAAAQAAAABhAAAAIAAAIAA=</HashCode>
+      <FileName>Generated\nsIDOMSmsEvent.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Gecko.nsIDOMStorageEvent" Collapsed="true">
+    <Position X="44.75" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAgAEAARCAAAAAQACAFIAQAAAABhAAAAIQAAIAA=</HashCode>
+      <FileName>Generated\nsIDOMStorageEvent.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Gecko.nsIDOMSVGEvent" Collapsed="true">
+    <Position X="53.75" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAgAEAABCAAAAAQACAAAAQAAAABhAAAAIAAAIAA=</HashCode>
+      <FileName>Generated\nsIDOMSVGEvent.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Gecko.nsIDOMSVGZoomEvent" Collapsed="true">
+    <Position X="24.5" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AABSBAgAEAABCAIAAAQhCQAQxUAAABBlAgAAIAAAIAg=</HashCode>
+      <FileName>Generated\nsIDOMSVGZoomEvent.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Gecko.nsIDOMTimeEvent" Collapsed="true">
+    <Position X="65" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAgAEAABCAAAAAQACAAAAQAAAABlAAAAIAAAJAg=</HashCode>
+      <FileName>Generated\nsIDOMTimeEvent.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Gecko.nsIDOMTouchEvent" Collapsed="true">
+    <Position X="17.75" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAJSFBhAEAABCAAAAAQhCQAAQcQAABBlAgAQIAAAIAg=</HashCode>
+      <FileName>Generated\nsIDOMTouchEvent.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Gecko.nsIDOMTransitionEvent" Collapsed="true">
+    <Position X="56" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAgAEAABCAAAAAQACAAAAQAAAQBhCAAAIAAAIAA=</HashCode>
+      <FileName>Generated\nsIDOMTransitionEvent.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

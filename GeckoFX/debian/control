@@ -1,0 +1,43 @@
+Source: geckofx29
+Section: web
+Priority: extra
+Maintainer: Stephen McConnel <stephen_mcconnel@sil.org>
+Build-Depends: debhelper (>= 8.0.0),
+ mono-devel (>=2.10.8),
+ mono-gmcs (>=2.10.8),
+ libglib2.0-cil (>= 2.12.10),
+ libgtk2.0-cil (>= 2.12.10),
+ libgdiplus (>= 2.10),
+ wget,
+ libgtk2.0-dev (>= 2.14),
+ libglib2.0-dev (>= 2.18),
+ yasm-1 (>= 1.1) | yasm (>= 1.1),
+ libasound2-dev,
+ libgstreamer0.10-dev,
+ libgstreamer-plugins-base0.10-dev,
+ libx11-dev,
+ libxt-dev,
+ libxext-dev,
+ libpulse-dev,
+ libdbus-glib-1-dev (>= 0.60),
+ libdbusmenu-gtk-dev,
+ zip, unzip, dbus-x11
+Standards-Version: 3.9.3
+Homepage: http://bitbucket.org/geckofx
+
+Package: geckofx29
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends},
+ mono-runtime (>= 2.10.8),
+ libmono-system-runtime4.0-cil (>= 2.10.8),
+ libmono-system-data-linq4.0-cil (>= 2.10.8),
+ libmono-system-drawing4.0-cil (>= 2.10.8),
+ libmono-system-windows-forms4.0-cil (>= 2.10.8),
+ libmono-system-xml-linq4.0-cil (>= 2.10.8),
+ libglib2.0-cil (>= 2.12.10),
+ libgtk2.0-cil (>= 2.12.10),
+ libgdiplus (>= 2.10),
+ xulrunner-geckofx29|xulrunner29
+Description: C# binding for gecko web browser controls
+ GeckoFx is a C# binding of the Gecko (aka Firefox) browser controls.
+ This version binds the controls from Firefox/xulrunner 29.

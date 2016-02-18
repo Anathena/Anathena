@@ -1,0 +1,102 @@
+geckofx29 (29.0.0.17) unstable; urgency=medium
+
+  * Fix a context menu bug.  See README.txt for details.
+
+ -- Stephen McConnel <stephen_mcconnel@sil.org>  Wed, 10 Dec 2014 14:32:12 -0600
+
+geckofx29 (29.0.0.16) unstable; urgency=medium
+
+  * See README.txt for details.
+
+ -- Eberhard Beilharz <eb1@sil.org>  Mon, 08 Dec 2014 15:39:55 +0100
+
+geckofx29 (29.0.0.14) unstable; urgency=low
+
+  * See README.txt for details.
+
+ -- Eberhard Beilharz <eb1@sil.org>  Fri, 31 Oct 2014 17:35:55 +0100
+
+geckofx29 (29.0.0.13) unstable; urgency=low
+
+  * Merge in upstream fixes. See README.txt for details.
+
+ -- Eberhard Beilharz <eb1@sil.org>  Tue, 30 Sep 2014 08:21:50 +0200
+
+geckofx29 (29.0.0.12) unstable; urgency=low
+
+  * Merge in upstream fixes. See README.txt for details. 
+
+ -- Stephen McConnel <stephen_mcconnel@sil.org>  Wed, 24 Sep 2014 09:53:22 -0500
+
+geckofx29 (29.0.0.11) unstable; urgency=low
+
+  * Merge in upstream fixes. See README.txt for details. 
+
+ -- Eberhard Beilharz <eb1@sil.org>  Wed, 10 Sep 2014 17:16:49 +0200
+
+geckofx29 (29.0.0.10) unstable; urgency=low
+
+  * Convert to native package instead of quilt since local changes have all
+    been accepted upstream.
+  * Merge in upstream fixes.  See README.txt for details.
+
+ -- Stephen McConnel <stephen_mcconnel@sil.org>  Tue, 24 Jun 2014 11:24:45 -0500
+
+geckofx29 (29.0.0.8-1) unstable; urgency=low
+
+  * Merge in upstream fixes.  See README.txt for details.
+
+ -- Stephen McConnel <stephen_mcconnel@sil.org>  Wed, 04 Jun 2014 10:59:22 -0500
+
+geckofx29 (29.0.0.6-3) unstable; urgency=low
+
+  * Use "gacutil -root /usr/lib" to ensure installing into the standard GAC.
+
+ -- Stephen McConnel <stephen_mcconnel@sil.org>  Wed, 04 Jun 2014 10:59:22 -0500
+
+geckofx29 (29.0.0.6-2) unstable; urgency=low
+
+  * Add postinst and prerm files to install/remove assemblies in the GAC
+
+ -- Stephen McConnel <stephen_mcconnel@sil.org>  Mon, 02 Jun 2014 17:17:11 -0500
+
+geckofx29 (29.0.0.6-1) unstable; urgency=low
+
+  * Various fixes from upstream
+  * Remove a couple of patches that had been submitted upstream
+
+ -- Stephen McConnel <stephen_mcconnel@sil.org>  Thu, 29 May 2014 12:04:34 -0500
+
+geckofx29 (29.0-5) unstable; urgency=low
+
+  * Various fixes from upstream
+
+ -- Stephen McConnel <stephen_mcconnel@sil.org>  Tue, 20 May 2014 17:34:38 -0500
+
+geckofx29 (29.0-4) unstable; urgency=low
+
+  * Fix the Makefile for geckofix.so to avoid unnecessary downloads and other
+    unnecessary operations.
+
+ -- Stephen McConnel <stephen_mcconnel@sil.org>  Tue, 20 May 2014 09:58:13 -0500
+
+geckofx29 (29.0-3) unstable; urgency=low
+
+  * Change the geckofix.so library to include more files, as needed by the new
+    version of xulrunner.
+
+ -- Stephen McConnel <stephen_mcconnel@sil.org>  Mon, 19 May 2014 18:06:10 -0500
+
+geckofx29 (29.0-2) unstable; urgency=low
+
+  * Change XULRunnerLocator to try /usr/lib/xulrunner-geckofx29 and
+    /usr/lib/xulrunner29 before /usr/lib/firefox.
+
+ -- Stephen McConnel <stephen_mcconnel@sil.org>  Fri, 16 May 2014 12:42:28 -0500
+
+geckofx29 (29.0-1) unstable; urgency=low
+
+  * Initial release for version 29.
+  * Includes added pkgconfig files.
+
+ -- Stephen McConnel <stephen_mcconnel@sil.org>  Tue, 13 May 2014 17:55:37 -0500

@@ -1,0 +1,25 @@
+syntax: glob
+_ReSharper.Geckofx/
+PutXulRunnerFolderHere/
+Skybound.Gecko/_ReSharper.Skybound.Gecko
+*.iip
+*.orig
+*.suo
+*.dll
+*.pdb
+*.mdb
+*.user
+*.swp
+*.so
+*.o
+*.userprefs
+*.tar.bz2
+bin/
+obj/
+Geckofx-Wpf/bin/
+Geckofx-Wpf/obj/
+GeckoFxWpfWinFormsTest/bin/
+GeckoFxWpfWinFormsTest/obj/
+GeckoFxWpfTest/bin/
+GeckoFxWpfTest/obj/
+mozilla-release/

@@ -1,0 +1,16 @@
+#!/usr/bin/make -f
+# -*- makefile -*-
+
+# Uncomment this to turn on verbose mode.
+#export DH_VERBOSE=1
+
+export CONFIGURATION=Release_Linux
+
+%:
+	dh $@ 
+
+override_dh_auto_install:
+	dh_auto_install --destdir=debian/tmp/usr/lib
+
+override_dh_auto_test:
+	@echo "no tests"

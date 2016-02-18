@@ -1,0 +1,46 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Interface Name="Gecko.nsIDOMElement" Collapsed="true">
+    <Position X="6" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>gBEAFAgAASgBApIAEjFAI0CggCeABAIiABGgCAMxEmA=</HashCode>
+      <FileName>Generated\nsIDOMElement.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Gecko.nsIDOMNode" Collapsed="true">
+    <Position X="5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>gAEAEAgAAQABAIIAEiFAIUCggCcABAACABEgAAIxEmA=</HashCode>
+      <FileName>Generated\nsIDOMNode.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Gecko.nsIDOMHTMLDocument" Collapsed="true">
+    <Position X="2.75" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>kqOg9ghcEcGJeo8JEqlgKUS64CcZvIDSgNX+EBP5X+A=</HashCode>
+      <FileName>Generated\nsIDOMHTMLDocument.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Gecko.nsIDOMDocument" Collapsed="true">
+    <Position X="2.75" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ggGgdggMEcGBeo8JEilAIUSyoCcRhACSgNW0EAIxX2A=</HashCode>
+      <FileName>Generated\nsIDOMDocument.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Gecko.nsIDOMHTMLElement" Collapsed="true">
+    <Position X="7.25" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>gDEAFAgAASgBApIAEjFAI0SxgDeBBIIiABmgCAMzFmA=</HashCode>
+      <FileName>Generated\nsIDOMHTMLElement.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Gecko.nsIDOMXULElement" Collapsed="true">
+    <Position X="5" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>iPkwFRgAkekFB5KAEzHAI1WzwDeBFAoiEHnpSgczFuA=</HashCode>
+      <FileName>Generated\nsIDOMXULElement.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

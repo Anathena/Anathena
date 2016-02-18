@@ -1,0 +1,6 @@
+usr/lib/geckofix.so usr/lib/cli/geckofx-29
+usr/lib/Geckofx-Core.dll usr/lib/cli/geckofx-29
+usr/lib/Geckofx-Core.dll.config usr/lib/cli/geckofx-29
+usr/lib/Geckofx-Winforms.dll usr/lib/cli/geckofx-29
+usr/lib/pkgconfig/Geckofx-Core.pc
+usr/lib/pkgconfig/Geckofx-Winforms.pc

@@ -1,0 +1,10 @@
+prefix=/usr
+exec_prefix=${prefix}
+libdir=${exec_prefix}/lib
+assemblies_dir=${libdir}/cli/geckofx-29
+Libraries=${assemblies_dir}/Geckofx-Core.dll
+
+Name: Geckofx-Core
+Description: .Net binding to the Gecko web handling stuff
+Version: 29.0
+Libs: -r:${assemblies_dir}/Geckofx-Core.dll

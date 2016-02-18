@@ -31,11 +31,11 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(GUICheatBrowser));
             this.ContentPanel = new System.Windows.Forms.Panel();
             this.GUIToolStrip = new System.Windows.Forms.ToolStrip();
+            this.HomeButton = new System.Windows.Forms.ToolStripButton();
             this.BackButton = new System.Windows.Forms.ToolStripButton();
             this.ForwardButton = new System.Windows.Forms.ToolStripButton();
-            this.HomeButton = new System.Windows.Forms.ToolStripButton();
-            this.UploadButton = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.UploadButton = new System.Windows.Forms.ToolStripButton();
             this.GUIToolStrip.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -63,6 +63,16 @@
             this.GUIToolStrip.TabIndex = 149;
             this.GUIToolStrip.Text = "Main Tool Strip";
             // 
+            // HomeButton
+            // 
+            this.HomeButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.HomeButton.Image = global::Anathema.Properties.Resources.BenedictionIcon;
+            this.HomeButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.HomeButton.Name = "HomeButton";
+            this.HomeButton.Size = new System.Drawing.Size(23, 22);
+            this.HomeButton.Text = "Home";
+            this.HomeButton.Click += new System.EventHandler(this.HomeButton_Click);
+            // 
             // BackButton
             // 
             this.BackButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
@@ -80,18 +90,13 @@
             this.ForwardButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.ForwardButton.Name = "ForwardButton";
             this.ForwardButton.Size = new System.Drawing.Size(23, 22);
-            this.ForwardButton.Text = "Undo Scan";
+            this.ForwardButton.Text = "Forwards";
             this.ForwardButton.Click += new System.EventHandler(this.ForwardButton_Click);
             // 
-            // HomeButton
+            // toolStripSeparator1
             // 
-            this.HomeButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.HomeButton.Image = global::Anathema.Properties.Resources.BenedictionIcon;
-            this.HomeButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.HomeButton.Name = "HomeButton";
-            this.HomeButton.Size = new System.Drawing.Size(23, 22);
-            this.HomeButton.Text = "Home";
-            this.HomeButton.Click += new System.EventHandler(this.HomeButton_Click);
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 25);
             // 
             // UploadButton
             // 
@@ -102,11 +107,6 @@
             this.UploadButton.Size = new System.Drawing.Size(23, 22);
             this.UploadButton.Text = "Upload";
             this.UploadButton.Click += new System.EventHandler(this.UploadButton_Click);
-            // 
-            // toolStripSeparator1
-            // 
-            this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 25);
             // 
             // GUICheatBrowser
             // 

@@ -54,7 +54,7 @@ namespace Anathema
         /// <returns></returns>
         public static Boolean IsAnathema64Bit()
         {
-            return !Environment.Is64BitProcess;
+            return Environment.Is64BitProcess;
         }
 
         /// <summary>

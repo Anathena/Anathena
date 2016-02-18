@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<meta charset="UTF-8" />
+<script>
+// After firefox 31, AddonManager in geckofx must be started to make remote debugging works.
+Components.utils.import("resource://gre/modules/AddonManager.jsm");
+AddonManagerPrivate.startup();
+
+//Ref https://developer.mozilla.org/en-US/docs/Mozilla/Projects/XULRunner/Debugging_XULRunner_applications
+Components.utils.import('resource://gre/modules/devtools/dbg-server.jsm');
+if (!DebuggerServer.initialized) {
+    DebuggerServer.init();
+    DebuggerServer.addBrowserActors(null);
+}
+DebuggerServer.openListener(6000);
+</script>

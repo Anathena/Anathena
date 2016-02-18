@@ -1,0 +1,68 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="Gecko.Net.Channel" Collapsed="true">
+    <Position X="11.25" Y="2.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AFAAAACAAAABIAAAIAAAABAQAAAAAFAACAAQAAAEAAQ=</HashCode>
+      <FileName>Net\Channel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Gecko.Net.Request" Collapsed="true">
+    <Position X="6.75" Y="1" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAIAAEQAAAAAAAQEAAAAQAAABAAOAAAAAAAAgAAAA=</HashCode>
+      <FileName>Net\Request.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Gecko.Net.HttpChannel" Collapsed="true">
+    <Position X="11.25" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAQAAACKCgCAAgABACAIAAQEQAAAEAAAEAAAlADJAA=</HashCode>
+      <FileName>Net\HttpChannel.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Gecko.Net.TraceableChannel" Collapsed="true">
+    <Position X="13.75" Y="1" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAQAAABAAAAAAAAAAAAA=</HashCode>
+      <FileName>Net\HttpChannel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Gecko.Net.LoadGroup" Collapsed="true">
+    <Position X="2" Y="2.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>gAAAAAAAAAAAAAEgAAAAAAIAAAAAAEAAAAAAEBAGAAA=</HashCode>
+      <FileName>Net\LoadGroup.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Gecko.Net.UploadChannel" Collapsed="true">
+    <Position X="15.5" Y="1" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAQQAAAAAAAAAAAAAQAAAAAAA=</HashCode>
+      <FileName>Net\UploadChannel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Gecko.Net.ImgRequest" Collapsed="true">
+    <Position X="9" Y="2.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Net\ImgRequest.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Gecko.Net.AsyncStreamCopier" Collapsed="true">
+    <Position X="4.25" Y="2.25" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Net\AsyncStreamCopier.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Gecko.Net.IncrementalDownload" Collapsed="true">
+    <Position X="6.75" Y="2.25" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>EAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Net\IncrementalDownload.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>
