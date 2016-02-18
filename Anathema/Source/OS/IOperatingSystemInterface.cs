@@ -6,18 +6,19 @@ namespace Anathema
     [Flags]
     public enum MemoryProtectionEnum
     {
-        Write,
-        Execute,
-        CopyOnWrite
+        None        = 0x0,
+        Write       = 0x1,
+        Execute     = 0x2,
+        CopyOnWrite = 0x4
     }
 
     [Flags]
     public enum MemoryTypeEnum
     {
-        None,
-        Private,
-        Image,
-        Mapped
+        None        = 0x0,
+        Private     = 0x1,
+        Image       = 0x2,
+        Mapped      = 0x4
     }
 
     public interface IOperatingSystemInterface

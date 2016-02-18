@@ -263,6 +263,7 @@ namespace Anathema.MemoryManagement.Memory
             Boolean WrappedAround = false;
 
             // Get settings of pages to require
+            // TODO THIS IS WRONG BUT IT WORKS FOR NOW
             Array TypeEnumValues = Enum.GetValues(typeof(MemoryTypeFlags));
             Boolean[] RequiredTypeFlags = Settings.GetInstance().GetTypeSettings();
 
