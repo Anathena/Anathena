@@ -18,7 +18,7 @@ namespace Anathema.MemoryManagement.Memory
         /// <summary>
         /// The list containing all allocated memory.
         /// </summary>
-        protected readonly List<RemoteAllocation> InternalRemoteAllocations; 
+        protected readonly List<RemoteAllocation> InternalRemoteAllocations;
 
         #region Properties
         #region RemoteAllocations
@@ -35,26 +35,14 @@ namespace Anathema.MemoryManagement.Memory
         /// <summary>
         /// Gets all blocks of memory allocated in the remote process.
         /// </summary>
-        public IEnumerable<RemoteVirtualPage> VirtualPages
+        public IEnumerable<RemoteVirtualPage> VirtualPages(IntPtr StartAddress, IntPtr EndAddress, MemoryProtectionFlags RequiredProtection, MemoryProtectionFlags ExcludedProtection)
         {
-            get
-            {
-                IntPtr AddressTo = IntPtr.Zero.MaxUserMode();
-                return MemoryCore.Query(MemorySharp.Handle, IntPtr.Zero, AddressTo).Select(x => new RemoteVirtualPage(MemorySharp, x.BaseAddress));
-            }
+            return MemoryCore.Query(MemorySharp.Handle, StartAddress, EndAddress, RequiredProtection, ExcludedProtection).Select(x => new RemoteVirtualPage(MemorySharp, x.BaseAddress));
         }
 
-        public IEnumerable<RemoteVirtualPage> AllVirtualPages
+        public IEnumerable<RemoteVirtualPage> AllVirtualPages()
         {
-            get
-            {
-#if x86
-                IntPtr AddressTo = new IntPtr(0x7fffffff);
-#else
-                IntPtr AddressTo = new IntPtr(0x7fffffffffffffff);
-#endif
-                return MemoryCore.Query(MemorySharp.Handle, IntPtr.Zero, AddressTo, true).Select(x => new RemoteVirtualPage(MemorySharp, x.BaseAddress));
-            }
+            return MemoryCore.Query(MemorySharp.Handle, IntPtr.Zero, IntPtr.Zero.MaxUserMode(), 0, 0, true).Select(x => new RemoteVirtualPage(MemorySharp, x.BaseAddress));
         }
 
         #endregion
@@ -112,7 +100,7 @@ namespace Anathema.MemoryManagement.Memory
         public void Deallocate(RemoteAllocation Allocation)
         {
             // Dispose the element
-            if(!Allocation.IsDisposed)
+            if (!Allocation.IsDisposed)
                 Allocation.Dispose();
 
             // Remove the element from the allocated memory list

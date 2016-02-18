@@ -1,12 +1,4 @@
-﻿using Anathema.MemoryManagement;
-using Anathema.MemoryManagement.Memory;
-using Anathema.MemoryManagement.Native;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
+﻿using System;
 
 namespace Anathema
 {
@@ -22,10 +14,8 @@ namespace Anathema
 
         // Functions invoked by presenter (downstream)
         void UpdateTypeSettings(Boolean None, Boolean Private, Boolean Mapped, Boolean Image);
-        void UpdateRequiredProtectionSettings(Boolean NoAccess, Boolean ReadOnly, Boolean ReadWrite, Boolean WriteCopy, Boolean Execute,
-           Boolean ExecuteRead, Boolean ExecuteReadWrite, Boolean ExecuteWriteCopy, Boolean Guard, Boolean NoCache, Boolean WriteCombine);
-        void UpdateIgnoredProtectionSettings(Boolean NoAccess, Boolean ReadOnly, Boolean ReadWrite, Boolean WriteCopy, Boolean Execute,
-           Boolean ExecuteRead, Boolean ExecuteReadWrite, Boolean ExecuteWriteCopy, Boolean Guard, Boolean NoCache, Boolean WriteCombine);
+        void UpdateRequiredProtectionSettings(Boolean RequiredWrite, Boolean RequiredExecute, Boolean RequiredCopyOnWrite);
+        void UpdateIgnoredProtectionSettings(Boolean ExcludedWrite, Boolean ExcludedExecute, Boolean ExcludedCopyOnWrite);
 
         void UpdateAlignmentSettings(Int32 Alignment);
 
@@ -36,8 +26,8 @@ namespace Anathema
         void UpdateInputCorrelatorTimeOutInterval(Int32 InputCorrelatorTimeOutInterval);
 
         Boolean[] GetTypeSettings();
-        MemoryProtectionFlags GetRequiredProtectionSettings();
-        MemoryProtectionFlags GetIgnoredProtectionSettings();
+        MemoryProtectionEnum GetRequiredProtectionSettings();
+        MemoryProtectionEnum GetExcludedProtectionSettings();
         Int32 GetAlignmentSettings();
 
         Int32 GetFreezeInterval();
@@ -67,16 +57,14 @@ namespace Anathema
             Model.UpdateTypeSettings(None, Private, Mapped, Image);
         }
 
-        public void UpdateRequiredProtectionSettings(Boolean NoAccess, Boolean ReadOnly, Boolean ReadWrite, Boolean WriteCopy, Boolean Execute,
-            Boolean ExecuteRead, Boolean ExecuteReadWrite, Boolean ExecuteWriteCopy, Boolean Guard, Boolean NoCache, Boolean WriteCombine)
+        public void UpdateRequiredProtectionSettings(Boolean RequiredWrite, Boolean RequiredExecute, Boolean RequiredCopyOnWrite)
         {
-            Model.UpdateRequiredProtectionSettings(NoAccess, ReadOnly, ReadWrite, WriteCopy, Execute, ExecuteRead, ExecuteReadWrite, ExecuteWriteCopy, Guard, NoCache, WriteCombine);
+            Model.UpdateRequiredProtectionSettings(RequiredWrite, RequiredExecute, RequiredCopyOnWrite);
         }
 
-        public void UpdateIgnoredProtectionSettings(Boolean NoAccess, Boolean ReadOnly, Boolean ReadWrite, Boolean WriteCopy, Boolean Execute,
-            Boolean ExecuteRead, Boolean ExecuteReadWrite, Boolean ExecuteWriteCopy, Boolean Guard, Boolean NoCache, Boolean WriteCombine)
+        public void UpdateIgnoredProtectionSettings(Boolean ExcludedWrite, Boolean ExcludedExecute, Boolean ExcludedCopyOnWrite)
         {
-            Model.UpdateIgnoredProtectionSettings(NoAccess, ReadOnly, ReadWrite, WriteCopy, Execute, ExecuteRead, ExecuteReadWrite, ExecuteWriteCopy, Guard, NoCache, WriteCombine);
+            Model.UpdateIgnoredProtectionSettings(ExcludedWrite, ExcludedExecute, ExcludedCopyOnWrite);
         }
 
         public void UpdateAlignmentSettings(Int32 Alignment)
@@ -119,28 +107,19 @@ namespace Anathema
             return ProtectionFlagsToBooleanArray(Model.GetRequiredProtectionSettings());
         }
 
-        public Boolean[] GetIgnoredProtectionSettings()
+        public Boolean[] GetExcludedProtectionSettings()
         {
-            return ProtectionFlagsToBooleanArray(Model.GetIgnoredProtectionSettings());
+            return ProtectionFlagsToBooleanArray(Model.GetExcludedProtectionSettings());
         }
 
-        private Boolean[] ProtectionFlagsToBooleanArray(MemoryProtectionFlags ProtectionFlags)
+        private Boolean[] ProtectionFlagsToBooleanArray(MemoryProtectionEnum ProtectionFlags)
         {
-            Array ProtectionEnumValues = Enum.GetValues(typeof(MemoryProtectionFlags));
+            Array ProtectionEnumValues = Enum.GetValues(typeof(MemoryProtectionEnum));
             Boolean[] ProtectionSettings = new Boolean[ProtectionEnumValues.Length];
 
-            ProtectionSettings[Array.IndexOf(ProtectionEnumValues, MemoryProtectionFlags.NoAccess)] = (ProtectionFlags & MemoryProtectionFlags.NoAccess) != 0 ? true : false;
-            ProtectionSettings[Array.IndexOf(ProtectionEnumValues, MemoryProtectionFlags.ReadOnly)] = (ProtectionFlags & MemoryProtectionFlags.ReadOnly) != 0 ? true : false;
-            ProtectionSettings[Array.IndexOf(ProtectionEnumValues, MemoryProtectionFlags.ReadWrite)] = (ProtectionFlags & MemoryProtectionFlags.ReadWrite) != 0 ? true : false;
-            ProtectionSettings[Array.IndexOf(ProtectionEnumValues, MemoryProtectionFlags.WriteCopy)] = (ProtectionFlags & MemoryProtectionFlags.WriteCopy) != 0 ? true : false;
-            ProtectionSettings[Array.IndexOf(ProtectionEnumValues, MemoryProtectionFlags.Execute)] = (ProtectionFlags & MemoryProtectionFlags.Execute) != 0 ? true : false;
-            ProtectionSettings[Array.IndexOf(ProtectionEnumValues, MemoryProtectionFlags.ExecuteRead)] = (ProtectionFlags & MemoryProtectionFlags.ExecuteRead) != 0 ? true : false;
-            ProtectionSettings[Array.IndexOf(ProtectionEnumValues, MemoryProtectionFlags.ExecuteReadWrite)] = (ProtectionFlags & MemoryProtectionFlags.ExecuteReadWrite) != 0 ? true : false;
-            ProtectionSettings[Array.IndexOf(ProtectionEnumValues, MemoryProtectionFlags.ExecuteWriteCopy)] = (ProtectionFlags & MemoryProtectionFlags.ExecuteWriteCopy) != 0 ? true : false;
-            ProtectionSettings[Array.IndexOf(ProtectionEnumValues, MemoryProtectionFlags.Guard)] = (ProtectionFlags & MemoryProtectionFlags.Guard) != 0 ? true : false;
-            ProtectionSettings[Array.IndexOf(ProtectionEnumValues, MemoryProtectionFlags.NoCache)] = (ProtectionFlags & MemoryProtectionFlags.NoCache) != 0 ? true : false;
-            ProtectionSettings[Array.IndexOf(ProtectionEnumValues, MemoryProtectionFlags.WriteCombine)] = (ProtectionFlags & MemoryProtectionFlags.WriteCombine) != 0 ? true : false;
-
+            ProtectionSettings[Array.IndexOf(ProtectionEnumValues, MemoryProtectionEnum.Write)] = (ProtectionFlags & MemoryProtectionEnum.Write) != 0 ? true : false;
+            ProtectionSettings[Array.IndexOf(ProtectionEnumValues, MemoryProtectionEnum.Execute)] = (ProtectionFlags & MemoryProtectionEnum.Execute) != 0 ? true : false;
+            ProtectionSettings[Array.IndexOf(ProtectionEnumValues, MemoryProtectionEnum.CopyOnWrite)] = (ProtectionFlags & MemoryProtectionEnum.CopyOnWrite) != 0 ? true : false;
             return ProtectionSettings;
         }
 

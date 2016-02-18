@@ -429,24 +429,68 @@ namespace Anathema.MemoryManagement
             MemoryCore.Free(Handle, Address);
         }
 
-        public IEnumerable<NormalizedRegion> GetVirtualPages(VirtualPageFlagsEnum VirtualPageFlags, IntPtr StartAddress, IntPtr EndAddress)
+        public IEnumerable<NormalizedRegion> GetVirtualPages(MemoryProtectionEnum RequiredProtection, MemoryProtectionEnum ExcludedProtection, IntPtr StartAddress, IntPtr EndAddress)
         {
-            List<RemoteVirtualPage> Pages = new List<RemoteVirtualPage>(Memory.VirtualPages);
+            MemoryProtectionFlags RequiredFlags = 0;
+            MemoryProtectionFlags ExcludedFlags = 0;
+
+            if ((RequiredProtection & MemoryProtectionEnum.Write) != 0)
+            {
+                RequiredFlags |= MemoryProtectionFlags.ExecuteReadWrite;
+                RequiredFlags |= MemoryProtectionFlags.ReadWrite;
+            }
+
+            if ((RequiredProtection & MemoryProtectionEnum.Execute) != 0)
+            {
+                RequiredFlags |= MemoryProtectionFlags.Execute;
+                RequiredFlags |= MemoryProtectionFlags.ExecuteRead;
+                RequiredFlags |= MemoryProtectionFlags.ExecuteReadWrite;
+                RequiredFlags |= MemoryProtectionFlags.ExecuteWriteCopy;
+            }
+
+            if ((RequiredProtection & MemoryProtectionEnum.CopyOnWrite) != 0)
+            {
+                RequiredFlags |= MemoryProtectionFlags.WriteCopy;
+                RequiredFlags |= MemoryProtectionFlags.ExecuteWriteCopy;
+            }
+
+            if ((ExcludedProtection & MemoryProtectionEnum.Write) != 0)
+            {
+                ExcludedFlags |= MemoryProtectionFlags.ExecuteReadWrite;
+                ExcludedFlags |= MemoryProtectionFlags.ReadWrite;
+            }
+
+            if ((ExcludedProtection & MemoryProtectionEnum.Execute) != 0)
+            {
+                ExcludedFlags |= MemoryProtectionFlags.Execute;
+                ExcludedFlags |= MemoryProtectionFlags.ExecuteRead;
+                ExcludedFlags |= MemoryProtectionFlags.ExecuteReadWrite;
+                ExcludedFlags |= MemoryProtectionFlags.ExecuteWriteCopy;
+            }
+
+            if ((ExcludedProtection & MemoryProtectionEnum.CopyOnWrite) != 0)
+            {
+                ExcludedFlags |= MemoryProtectionFlags.WriteCopy;
+                ExcludedFlags |= MemoryProtectionFlags.ExecuteWriteCopy;
+            }
+
+            List<RemoteVirtualPage> Pages = new List<RemoteVirtualPage>(Memory.VirtualPages(StartAddress, EndAddress, RequiredFlags, ExcludedFlags));
             List<NormalizedRegion> Regions = new List<NormalizedRegion>();
             Pages.ForEach(x => Regions.Add(new NormalizedRegion(x.BaseAddress, (Int32)x.Information.RegionSize)));
 
             return Regions;
         }
 
-        public IEnumerable<NormalizedRegion> GetVirtualPages(VirtualPageFlagsEnum VirtualPageFlags)
+        public IEnumerable<NormalizedRegion> GetVirtualPages(MemoryProtectionEnum RequiredProtection, MemoryProtectionEnum ExcludedProtection)
         {
-            List<RemoteVirtualPage> Pages = new List<RemoteVirtualPage>(Memory.VirtualPages);
-            List<NormalizedRegion> Regions = new List<NormalizedRegion>();
-            Pages.ForEach(x => Regions.Add(new NormalizedRegion(x.BaseAddress, (Int32)x.Information.RegionSize)));
-
-            return Regions;
+            return GetVirtualPages(RequiredProtection, ExcludedProtection, IntPtr.Zero, IntPtr.Zero.MaxUserMode());
         }
 
+        public IEnumerable<NormalizedRegion> GetAllVirtualPages()
+        {
+            return GetVirtualPages(0, 0);
+        }
+        
         public IEnumerable<NormalizedModule> GetModules()
         {
             List<NormalizedModule> NormalizedModules = new List<NormalizedModule>();

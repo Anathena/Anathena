@@ -14,12 +14,6 @@
     <Setting Name="TableReadInterval" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">100</Value>
     </Setting>
-    <Setting Name="MemoryProtectionRequired" Type="System.Int32" Scope="User">
-      <Value Profile="(Default)">76</Value>
-    </Setting>
-    <Setting Name="MemoryProtectionIgnored" Type="System.Int32" Scope="User">
-      <Value Profile="(Default)">1795</Value>
-    </Setting>
     <Setting Name="MemoryTypeNone" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">True</Value>
     </Setting>
@@ -37,6 +31,24 @@
     </Setting>
     <Setting Name="Alignment" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">4</Value>
+    </Setting>
+    <Setting Name="RequiredWrite" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="RequiredExecute" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="RequiredCopyOnWrite" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="ExcludedWrite" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="ExcludedExecute" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="ExcludedCopyOnWrite" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
     </Setting>
   </Settings>
 </SettingsFile>

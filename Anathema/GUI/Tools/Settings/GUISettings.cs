@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Data;
-using System.Drawing;
 using System.Windows.Forms;
-using System.Linq;
 using Anathema.MemoryManagement.Native;
 
 namespace Anathema
@@ -42,7 +39,7 @@ namespace Anathema
             RequiredWriteCheckBox.CheckState = RequiredProtectionSettings[Array.IndexOf(ProtectionEnumValues, MemoryProtectionFlags.ReadOnly)] ? CheckState.Checked : CheckState.Indeterminate;
             RequiredExecuteCheckBox.CheckState = RequiredProtectionSettings[Array.IndexOf(ProtectionEnumValues, MemoryProtectionFlags.ReadWrite)] ? CheckState.Checked : CheckState.Indeterminate;
 
-            Boolean[] IgnoredProtectionSettings = SettingsPresenter.GetIgnoredProtectionSettings();
+            Boolean[] IgnoredProtectionSettings = SettingsPresenter.GetExcludedProtectionSettings();
             RequiredCopyOnWriteCheckBox.CheckState = IgnoredProtectionSettings[Array.IndexOf(ProtectionEnumValues, MemoryProtectionFlags.NoAccess)] ? CheckState.Unchecked : RequiredCopyOnWriteCheckBox.CheckState;
             RequiredWriteCheckBox.CheckState = IgnoredProtectionSettings[Array.IndexOf(ProtectionEnumValues, MemoryProtectionFlags.ReadOnly)] ? CheckState.Unchecked : RequiredWriteCheckBox.CheckState;
             RequiredExecuteCheckBox.CheckState = IgnoredProtectionSettings[Array.IndexOf(ProtectionEnumValues, MemoryProtectionFlags.ReadWrite)] ? CheckState.Unchecked : RequiredExecuteCheckBox.CheckState;

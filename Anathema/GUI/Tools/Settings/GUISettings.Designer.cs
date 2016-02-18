@@ -33,7 +33,11 @@
             this.CancelButton = new System.Windows.Forms.Button();
             this.SettingsTabControl = new System.Windows.Forms.TabControl();
             this.ScanTabPage = new System.Windows.Forms.TabPage();
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.FilteredProtectionFlagsGroupBox = new System.Windows.Forms.GroupBox();
+            this.FilteredExecuteCheckBox = new System.Windows.Forms.CheckBox();
+            this.FilteredWriteCheckBox = new System.Windows.Forms.CheckBox();
+            this.CopyOnWriteCheckBox = new System.Windows.Forms.CheckBox();
+            this.GeneralGroupBox = new System.Windows.Forms.GroupBox();
             this.AlignmentLabel = new System.Windows.Forms.Label();
             this.MemoryTypeGroupBox = new System.Windows.Forms.GroupBox();
             this.NoneCheckBox = new System.Windows.Forms.CheckBox();
@@ -56,18 +60,15 @@
             this.FreezeIntervalLabel = new System.Windows.Forms.Label();
             this.ResultsReadIntervalTextBox = new System.Windows.Forms.TextBox();
             this.RescanTimerLabel = new System.Windows.Forms.Label();
-            this.FilteredProtectionFlagsGroupBox = new System.Windows.Forms.GroupBox();
-            this.FilteredExecuteCheckBox = new System.Windows.Forms.CheckBox();
-            this.FilteredWriteCheckBox = new System.Windows.Forms.CheckBox();
-            this.CopyOnWriteCheckBox = new System.Windows.Forms.CheckBox();
+            this.AlignmentTextBox = new Anathema.HexDecTextBox();
             this.SettingsTabControl.SuspendLayout();
             this.ScanTabPage.SuspendLayout();
-            this.groupBox1.SuspendLayout();
+            this.FilteredProtectionFlagsGroupBox.SuspendLayout();
+            this.GeneralGroupBox.SuspendLayout();
             this.MemoryTypeGroupBox.SuspendLayout();
             this.MemoryProtectionGroupBox.SuspendLayout();
             this.GeneralTabPage.SuspendLayout();
             this.IntervalsGroupBox.SuspendLayout();
-            this.FilteredProtectionFlagsGroupBox.SuspendLayout();
             this.SuspendLayout();
             // 
             // AcceptButton
@@ -108,7 +109,7 @@
             // ScanTabPage
             // 
             this.ScanTabPage.Controls.Add(this.FilteredProtectionFlagsGroupBox);
-            this.ScanTabPage.Controls.Add(this.groupBox1);
+            this.ScanTabPage.Controls.Add(this.GeneralGroupBox);
             this.ScanTabPage.Controls.Add(this.MemoryTypeGroupBox);
             this.ScanTabPage.Controls.Add(this.MemoryProtectionGroupBox);
             this.ScanTabPage.Location = new System.Drawing.Point(4, 22);
@@ -119,18 +120,66 @@
             this.ScanTabPage.Text = "Scan Settings";
             this.ScanTabPage.UseVisualStyleBackColor = true;
             // 
-            // groupBox1
+            // FilteredProtectionFlagsGroupBox
             // 
-            this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.FilteredProtectionFlagsGroupBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.FilteredProtectionFlagsGroupBox.Controls.Add(this.FilteredExecuteCheckBox);
+            this.FilteredProtectionFlagsGroupBox.Controls.Add(this.FilteredWriteCheckBox);
+            this.FilteredProtectionFlagsGroupBox.Controls.Add(this.CopyOnWriteCheckBox);
+            this.FilteredProtectionFlagsGroupBox.Location = new System.Drawing.Point(159, 6);
+            this.FilteredProtectionFlagsGroupBox.Name = "FilteredProtectionFlagsGroupBox";
+            this.FilteredProtectionFlagsGroupBox.Size = new System.Drawing.Size(256, 100);
+            this.FilteredProtectionFlagsGroupBox.TabIndex = 8;
+            this.FilteredProtectionFlagsGroupBox.TabStop = false;
+            this.FilteredProtectionFlagsGroupBox.Text = "Required Protection Flags";
+            // 
+            // FilteredExecuteCheckBox
+            // 
+            this.FilteredExecuteCheckBox.AutoSize = true;
+            this.FilteredExecuteCheckBox.Location = new System.Drawing.Point(63, 28);
+            this.FilteredExecuteCheckBox.Name = "FilteredExecuteCheckBox";
+            this.FilteredExecuteCheckBox.Size = new System.Drawing.Size(65, 17);
+            this.FilteredExecuteCheckBox.TabIndex = 3;
+            this.FilteredExecuteCheckBox.Text = "Execute";
+            this.FilteredExecuteCheckBox.ThreeState = true;
+            this.FilteredExecuteCheckBox.UseVisualStyleBackColor = true;
+            // 
+            // FilteredWriteCheckBox
+            // 
+            this.FilteredWriteCheckBox.AutoSize = true;
+            this.FilteredWriteCheckBox.Location = new System.Drawing.Point(6, 28);
+            this.FilteredWriteCheckBox.Name = "FilteredWriteCheckBox";
+            this.FilteredWriteCheckBox.Size = new System.Drawing.Size(51, 17);
+            this.FilteredWriteCheckBox.TabIndex = 2;
+            this.FilteredWriteCheckBox.Text = "Write";
+            this.FilteredWriteCheckBox.ThreeState = true;
+            this.FilteredWriteCheckBox.UseVisualStyleBackColor = true;
+            // 
+            // CopyOnWriteCheckBox
+            // 
+            this.CopyOnWriteCheckBox.AutoSize = true;
+            this.CopyOnWriteCheckBox.Location = new System.Drawing.Point(6, 51);
+            this.CopyOnWriteCheckBox.Name = "CopyOnWriteCheckBox";
+            this.CopyOnWriteCheckBox.Size = new System.Drawing.Size(93, 17);
+            this.CopyOnWriteCheckBox.TabIndex = 1;
+            this.CopyOnWriteCheckBox.Text = "Copy on Write";
+            this.CopyOnWriteCheckBox.ThreeState = true;
+            this.CopyOnWriteCheckBox.UseVisualStyleBackColor = true;
+            // 
+            // GeneralGroupBox
+            // 
+            this.GeneralGroupBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.groupBox1.Controls.Add(this.AlignmentLabel);
-            this.groupBox1.Location = new System.Drawing.Point(190, 112);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(225, 132);
-            this.groupBox1.TabIndex = 9;
-            this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "General";
+            this.GeneralGroupBox.Controls.Add(this.AlignmentTextBox);
+            this.GeneralGroupBox.Controls.Add(this.AlignmentLabel);
+            this.GeneralGroupBox.Location = new System.Drawing.Point(190, 112);
+            this.GeneralGroupBox.Name = "GeneralGroupBox";
+            this.GeneralGroupBox.Size = new System.Drawing.Size(225, 132);
+            this.GeneralGroupBox.TabIndex = 9;
+            this.GeneralGroupBox.TabStop = false;
+            this.GeneralGroupBox.Text = "General";
             // 
             // AlignmentLabel
             // 
@@ -353,52 +402,17 @@
             this.RescanTimerLabel.TabIndex = 4;
             this.RescanTimerLabel.Text = "Rescan Interval";
             // 
-            // FilteredProtectionFlagsGroupBox
+            // AlignmentTextBox
             // 
-            this.FilteredProtectionFlagsGroupBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.FilteredProtectionFlagsGroupBox.Controls.Add(this.FilteredExecuteCheckBox);
-            this.FilteredProtectionFlagsGroupBox.Controls.Add(this.FilteredWriteCheckBox);
-            this.FilteredProtectionFlagsGroupBox.Controls.Add(this.CopyOnWriteCheckBox);
-            this.FilteredProtectionFlagsGroupBox.Location = new System.Drawing.Point(159, 6);
-            this.FilteredProtectionFlagsGroupBox.Name = "FilteredProtectionFlagsGroupBox";
-            this.FilteredProtectionFlagsGroupBox.Size = new System.Drawing.Size(256, 100);
-            this.FilteredProtectionFlagsGroupBox.TabIndex = 8;
-            this.FilteredProtectionFlagsGroupBox.TabStop = false;
-            this.FilteredProtectionFlagsGroupBox.Text = "Required Protection Flags";
-            // 
-            // FilteredExecuteCheckBox
-            // 
-            this.FilteredExecuteCheckBox.AutoSize = true;
-            this.FilteredExecuteCheckBox.Location = new System.Drawing.Point(63, 28);
-            this.FilteredExecuteCheckBox.Name = "FilteredExecuteCheckBox";
-            this.FilteredExecuteCheckBox.Size = new System.Drawing.Size(65, 17);
-            this.FilteredExecuteCheckBox.TabIndex = 3;
-            this.FilteredExecuteCheckBox.Text = "Execute";
-            this.FilteredExecuteCheckBox.ThreeState = true;
-            this.FilteredExecuteCheckBox.UseVisualStyleBackColor = true;
-            // 
-            // FilteredWriteCheckBox
-            // 
-            this.FilteredWriteCheckBox.AutoSize = true;
-            this.FilteredWriteCheckBox.Location = new System.Drawing.Point(6, 28);
-            this.FilteredWriteCheckBox.Name = "FilteredWriteCheckBox";
-            this.FilteredWriteCheckBox.Size = new System.Drawing.Size(51, 17);
-            this.FilteredWriteCheckBox.TabIndex = 2;
-            this.FilteredWriteCheckBox.Text = "Write";
-            this.FilteredWriteCheckBox.ThreeState = true;
-            this.FilteredWriteCheckBox.UseVisualStyleBackColor = true;
-            // 
-            // CopyOnWriteCheckBox
-            // 
-            this.CopyOnWriteCheckBox.AutoSize = true;
-            this.CopyOnWriteCheckBox.Location = new System.Drawing.Point(6, 51);
-            this.CopyOnWriteCheckBox.Name = "CopyOnWriteCheckBox";
-            this.CopyOnWriteCheckBox.Size = new System.Drawing.Size(93, 17);
-            this.CopyOnWriteCheckBox.TabIndex = 1;
-            this.CopyOnWriteCheckBox.Text = "Copy on Write";
-            this.CopyOnWriteCheckBox.ThreeState = true;
-            this.CopyOnWriteCheckBox.UseVisualStyleBackColor = true;
+            this.AlignmentTextBox.ForeColor = System.Drawing.Color.Red;
+            this.AlignmentTextBox.IsHex = false;
+            this.AlignmentTextBox.Location = new System.Drawing.Point(68, 13);
+            this.AlignmentTextBox.Name = "AlignmentTextBox";
+            this.AlignmentTextBox.Size = new System.Drawing.Size(47, 20);
+            this.AlignmentTextBox.TabIndex = 2;
+            this.AlignmentTextBox.WatermarkColor = System.Drawing.Color.LightGray;
+            this.AlignmentTextBox.WaterMarkFont = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.AlignmentTextBox.WaterMarkText = null;
             // 
             // GUISettings
             // 
@@ -414,8 +428,10 @@
             this.Text = "Settings";
             this.SettingsTabControl.ResumeLayout(false);
             this.ScanTabPage.ResumeLayout(false);
-            this.groupBox1.ResumeLayout(false);
-            this.groupBox1.PerformLayout();
+            this.FilteredProtectionFlagsGroupBox.ResumeLayout(false);
+            this.FilteredProtectionFlagsGroupBox.PerformLayout();
+            this.GeneralGroupBox.ResumeLayout(false);
+            this.GeneralGroupBox.PerformLayout();
             this.MemoryTypeGroupBox.ResumeLayout(false);
             this.MemoryTypeGroupBox.PerformLayout();
             this.MemoryProtectionGroupBox.ResumeLayout(false);
@@ -423,8 +439,6 @@
             this.GeneralTabPage.ResumeLayout(false);
             this.IntervalsGroupBox.ResumeLayout(false);
             this.IntervalsGroupBox.PerformLayout();
-            this.FilteredProtectionFlagsGroupBox.ResumeLayout(false);
-            this.FilteredProtectionFlagsGroupBox.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -455,12 +469,12 @@
         private System.Windows.Forms.CheckBox NoneCheckBox;
         private System.Windows.Forms.Label InputCorrelatorTimeoutIntervalLabel;
         private System.Windows.Forms.TextBox InputCorrelatorTimeoutIntervalTextBox;
-        private System.Windows.Forms.GroupBox groupBox1;
-        private HexDecTextBox AlignmentTextBox;
+        private System.Windows.Forms.GroupBox GeneralGroupBox;
         private System.Windows.Forms.Label AlignmentLabel;
         private System.Windows.Forms.GroupBox FilteredProtectionFlagsGroupBox;
         private System.Windows.Forms.CheckBox FilteredExecuteCheckBox;
         private System.Windows.Forms.CheckBox FilteredWriteCheckBox;
         private System.Windows.Forms.CheckBox CopyOnWriteCheckBox;
+        private HexDecTextBox AlignmentTextBox;
     }
 }

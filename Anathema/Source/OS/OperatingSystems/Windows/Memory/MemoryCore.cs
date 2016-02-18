@@ -208,48 +208,55 @@ namespace Anathema.MemoryManagement.Memory
 
             MemoryBasicInformation64 MemoryInfo64 = new MemoryBasicInformation64();
 
-#if x86
-            MemoryBasicInformation32 MemoryInfo32;
-            // Query the memory region
-            if(NativeMethods.VirtualQueryEx(processHandle, baseAddress, out MemoryInfo32, MarshalType<MemoryBasicInformation32>.Size) != 0)
+            if (OSInterface.IsAnathema32Bit())
             {
-                // Copy from the 32 bit struct to the 64 bit struct
-                MemoryInfo64.AllocationBase = MemoryInfo32.AllocationBase;
-                MemoryInfo64.AllocationProtect = MemoryInfo32.AllocationProtect;
-                MemoryInfo64.BaseAddress = MemoryInfo32.BaseAddress;
-                MemoryInfo64.Protect = MemoryInfo32.Protect;
-                MemoryInfo64.RegionSize = MemoryInfo32.RegionSize;
-                MemoryInfo64.State = MemoryInfo32.State;
-                MemoryInfo64.Type = MemoryInfo32.Type;
+                // 32 Bit struct is not the same
+                MemoryBasicInformation32 MemoryInfo32 = new MemoryBasicInformation32();
 
-                return MemoryInfo64;
+                // Query the memory region
+                if (NativeMethods.VirtualQueryEx(ProcessHandle, BaseAddress, out MemoryInfo32, MarshalType<MemoryBasicInformation32>.Size) != 0)
+                {
+                    // Copy from the 32 bit struct to the 64 bit struct
+                    MemoryInfo64.AllocationBase = MemoryInfo32.AllocationBase;
+                    MemoryInfo64.AllocationProtect = MemoryInfo32.AllocationProtect;
+                    MemoryInfo64.BaseAddress = MemoryInfo32.BaseAddress;
+                    MemoryInfo64.Protect = MemoryInfo32.Protect;
+                    MemoryInfo64.RegionSize = MemoryInfo32.RegionSize;
+                    MemoryInfo64.State = MemoryInfo32.State;
+                    MemoryInfo64.Type = MemoryInfo32.Type;
+
+                    return MemoryInfo64;
+                }
             }
-#else
-            // Query the memory region
-            if (NativeMethods.VirtualQueryEx(ProcessHandle, BaseAddress, out MemoryInfo64, MarshalType<MemoryBasicInformation64>.Size) != 0)
+            else
             {
-                return MemoryInfo64;
+                // Query the memory region
+                if (NativeMethods.VirtualQueryEx(ProcessHandle, BaseAddress, out MemoryInfo64, MarshalType<MemoryBasicInformation64>.Size) != 0)
+                {
+                    return MemoryInfo64;
+                }
             }
-#endif
 
-            // Else the information couldn't be got
-            throw new Win32Exception(string.Format("Couldn't query information about the memory region 0x{0}", BaseAddress.ToString("X")));
+            // Could not retrieve information
+            // throw new Win32Exception(string.Format("Couldn't query information about the memory region 0x{0}", BaseAddress.ToString("X")));
+            return MemoryInfo64;
         }
         /// <summary>
         /// Retrieves information about a range of pages within the virtual address space of a specified process.
         /// </summary>
         /// <param name="ProcessHandle">A handle to the process whose memory information is queried.</param>
-        /// <param name="AddressFrom">A pointer to the starting address of the region of pages to be queried.</param>
-        /// <param name="AddressTo">A pointer to the ending address of the region of pages to be queried.</param>
+        /// <param name="StartAddress">A pointer to the starting address of the region of pages to be queried.</param>
+        /// <param name="EndAddress">A pointer to the ending address of the region of pages to be queried.</param>
         /// <returns>A collection of <see cref="Native.MemoryBasicInformation64"/> structures.</returns>
-        public static IEnumerable<MemoryBasicInformation64> Query(SafeMemoryHandle ProcessHandle, IntPtr AddressFrom, IntPtr AddressTo, Boolean IgnoreSettings = false)
+        public static IEnumerable<MemoryBasicInformation64> Query(SafeMemoryHandle ProcessHandle, IntPtr StartAddress, IntPtr EndAddress,
+            MemoryProtectionFlags RequiredProtection, MemoryProtectionFlags ExcludedProtection, Boolean IgnoreSettings = false)
         {
             // Check if the handle is valid
             HandleManipulator.ValidateAsArgument(ProcessHandle, "processHandle");
 
             // The first address must be lower than the second
-            if (AddressFrom.ToUInt64() >= AddressTo.ToUInt64())
-                throw new ArgumentException("The starting address must be lower than the ending address.", "addressFrom");
+            if (StartAddress.ToUInt64() >= EndAddress.ToUInt64())
+                throw new ArgumentException("The start address must be lower than the end address");
 
             // Create the variable storing the result of the call of VirtualQueryEx
             Int32 QueryResult;
@@ -258,8 +265,6 @@ namespace Anathema.MemoryManagement.Memory
             // Get settings of pages to require
             Array TypeEnumValues = Enum.GetValues(typeof(MemoryTypeFlags));
             Boolean[] RequiredTypeFlags = Settings.GetInstance().GetTypeSettings();
-            MemoryProtectionFlags RequiredProtectionFlags = Settings.GetInstance().GetRequiredProtectionSettings();
-            MemoryProtectionFlags IgnoredProtectionFlags = Settings.GetInstance().GetIgnoredProtectionSettings();
 
             // Enumerate the memory pages
             do
@@ -273,7 +278,7 @@ namespace Anathema.MemoryManagement.Memory
                     MemoryBasicInformation32 MemoryInfo32 = new MemoryBasicInformation32();
 
                     // Get the next memory page
-                    QueryResult = NativeMethods.VirtualQueryEx(ProcessHandle, AddressFrom, out MemoryInfo32, MarshalType<MemoryBasicInformation32>.Size);
+                    QueryResult = NativeMethods.VirtualQueryEx(ProcessHandle, StartAddress, out MemoryInfo32, MarshalType<MemoryBasicInformation32>.Size);
 
                     // Copy from the 32 bit struct to the 64 bit struct
                     MemoryInfo.AllocationBase = MemoryInfo32.AllocationBase;
@@ -287,14 +292,14 @@ namespace Anathema.MemoryManagement.Memory
                 else
                 {
                     // Query the memory region
-                    QueryResult = NativeMethods.VirtualQueryEx(ProcessHandle, AddressFrom, out MemoryInfo, MarshalType<MemoryBasicInformation64>.Size);
+                    QueryResult = NativeMethods.VirtualQueryEx(ProcessHandle, StartAddress, out MemoryInfo, MarshalType<MemoryBasicInformation64>.Size);
                 }
 
                 // Increment the starting address with the size of the page
-                IntPtr PreviousFrom = AddressFrom;
-                AddressFrom = AddressFrom.Add(MemoryInfo.RegionSize);
+                IntPtr PreviousFrom = StartAddress;
+                StartAddress = StartAddress.Add(MemoryInfo.RegionSize);
 
-                if (PreviousFrom.ToUInt64() > AddressFrom.ToUInt64())
+                if (PreviousFrom.ToUInt64() > StartAddress.ToUInt64())
                     WrappedAround = true;
 
                 // Ignore free memory. These are unallocated memory regions.
@@ -317,18 +322,18 @@ namespace Anathema.MemoryManagement.Memory
                         continue;
 
                     // Ensure at least one required protection flag is set
-                    if ((MemoryInfo.Protect & RequiredProtectionFlags) == 0)
+                    if ((MemoryInfo.Protect & RequiredProtection) == 0)
                         continue;
 
                     // Ensure no ignored protection flags are set
-                    if ((MemoryInfo.Protect & IgnoredProtectionFlags) != 0)
+                    if ((MemoryInfo.Protect & ExcludedProtection) != 0)
                         continue;
                 }
 
                 // Return the memory page
                 yield return MemoryInfo;
 
-            } while (AddressFrom.ToUInt64() < AddressTo.ToUInt64() && QueryResult != 0 && !WrappedAround);
+            } while (StartAddress.ToUInt64() < EndAddress.ToUInt64() && QueryResult != 0 && !WrappedAround);
         }
 
         #endregion

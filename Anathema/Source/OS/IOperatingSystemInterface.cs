@@ -4,18 +4,29 @@ using System.Collections.Generic;
 namespace Anathema
 {
     [Flags]
-    public enum VirtualPageFlagsEnum
+    public enum MemoryProtectionEnum
     {
-        Read,
         Write,
-        Execute
+        Execute,
+        CopyOnWrite
+    }
+
+    [Flags]
+    public enum MemoryTypeEnum
+    {
+        None,
+        Private,
+        Image,
+        Mapped
     }
 
     public interface IOperatingSystemInterface
     {
         // Virtual pages
-        IEnumerable<NormalizedRegion> GetVirtualPages(VirtualPageFlagsEnum VirtualPageFlags, IntPtr StartAddress, IntPtr EndAddress);
-        IEnumerable<NormalizedRegion> GetVirtualPages(VirtualPageFlagsEnum VirtualPageFlags);
+        IEnumerable<NormalizedRegion> GetVirtualPages(MemoryProtectionEnum RequiredProtection, MemoryProtectionEnum ExcludedProtection, IntPtr StartAddress, IntPtr EndAddress);
+        IEnumerable<NormalizedRegion> GetVirtualPages(MemoryProtectionEnum RequiredProtection, MemoryProtectionEnum ExcludedProtection);
+        IEnumerable<NormalizedRegion> GetAllVirtualPages();
+
         IEnumerable<NormalizedModule> GetModules();
         IntPtr AllocateMemory(Int32 Size);
         void DeallocateMemory(IntPtr Address);

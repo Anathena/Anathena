@@ -82,18 +82,19 @@ namespace Anathema
             if (OSInterface == null)
                 return new Snapshot<Null>();
 
-            VirtualPageFlagsEnum VirtualPageFlags = VirtualPageFlagsEnum.Read;
+            MemoryProtectionEnum RequiredPageFlags = Settings.GetInstance().GetRequiredProtectionSettings();
+            MemoryProtectionEnum ExcludedPageFlags = Settings.GetInstance().GetExcludedProtectionSettings();
 
             // Query all virtual pages
             List<NormalizedRegion> VirtualPages = new List<NormalizedRegion>();
             if (!QueryAllMemory)
             {
-                foreach (NormalizedRegion Page in OSInterface.Process.GetVirtualPages(VirtualPageFlags))
+                foreach (NormalizedRegion Page in OSInterface.Process.GetVirtualPages(RequiredPageFlags, ExcludedPageFlags))
                     VirtualPages.Add(Page);
             }
             else
             {
-                foreach (NormalizedRegion Page in OSInterface.Process.GetVirtualPages(VirtualPageFlags))
+                foreach (NormalizedRegion Page in OSInterface.Process.GetVirtualPages(RequiredPageFlags, ExcludedPageFlags))
                     VirtualPages.Add(Page);
             }
             

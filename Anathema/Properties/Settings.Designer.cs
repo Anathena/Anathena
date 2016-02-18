@@ -73,30 +73,6 @@ namespace Anathema.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("76")]
-        public int MemoryProtectionRequired {
-            get {
-                return ((int)(this["MemoryProtectionRequired"]));
-            }
-            set {
-                this["MemoryProtectionRequired"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("1795")]
-        public int MemoryProtectionIgnored {
-            get {
-                return ((int)(this["MemoryProtectionIgnored"]));
-            }
-            set {
-                this["MemoryProtectionIgnored"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("True")]
         public bool MemoryTypeNone {
             get {
@@ -164,6 +140,78 @@ namespace Anathema.Properties {
             }
             set {
                 this["Alignment"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool RequiredWrite {
+            get {
+                return ((bool)(this["RequiredWrite"]));
+            }
+            set {
+                this["RequiredWrite"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool RequiredExecute {
+            get {
+                return ((bool)(this["RequiredExecute"]));
+            }
+            set {
+                this["RequiredExecute"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool RequiredCopyOnWrite {
+            get {
+                return ((bool)(this["RequiredCopyOnWrite"]));
+            }
+            set {
+                this["RequiredCopyOnWrite"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool ExcludedWrite {
+            get {
+                return ((bool)(this["ExcludedWrite"]));
+            }
+            set {
+                this["ExcludedWrite"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool ExcludedExecute {
+            get {
+                return ((bool)(this["ExcludedExecute"]));
+            }
+            set {
+                this["ExcludedExecute"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool ExcludedCopyOnWrite {
+            get {
+                return ((bool)(this["ExcludedCopyOnWrite"]));
+            }
+            set {
+                this["ExcludedCopyOnWrite"] = value;
             }
         }
     }

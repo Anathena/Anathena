@@ -1,11 +1,4 @@
-﻿using Anathema.MemoryManagement;
-using Anathema.MemoryManagement.Native;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
+﻿using System;
 
 namespace Anathema
 {
@@ -33,24 +26,18 @@ namespace Anathema
             Properties.Settings.Default.MemoryTypeImage = Image;
         }
 
-        public void UpdateRequiredProtectionSettings(Boolean NoAccess, Boolean ReadOnly, Boolean ReadWrite, Boolean WriteCopy, Boolean Execute,
-            Boolean ExecuteRead, Boolean ExecuteReadWrite, Boolean ExecuteWriteCopy, Boolean Guard, Boolean NoCache, Boolean WriteCombine)
+        public void UpdateRequiredProtectionSettings(Boolean RequiredWrite, Boolean RequiredExecute, Boolean RequiredCopyOnWrite)
         {
-            Properties.Settings.Default.MemoryProtectionRequired = (Int32)((NoAccess ? MemoryProtectionFlags.NoAccess : 0) | (ReadOnly ? MemoryProtectionFlags.ReadOnly : 0) |
-                (ReadWrite ? MemoryProtectionFlags.ReadWrite : 0) | (WriteCopy ? MemoryProtectionFlags.WriteCopy : 0) | (Execute ? MemoryProtectionFlags.Execute : 0) |
-                (ExecuteRead ? MemoryProtectionFlags.ExecuteRead : 0) | (ExecuteReadWrite ? MemoryProtectionFlags.ExecuteReadWrite : 0) |
-                (ExecuteWriteCopy ? MemoryProtectionFlags.ExecuteWriteCopy : 0) | (Guard ? MemoryProtectionFlags.Guard : 0) |
-                (NoCache ? MemoryProtectionFlags.NoCache : 0) | (WriteCombine ? MemoryProtectionFlags.WriteCombine : 0));
+            Properties.Settings.Default.RequiredWrite = RequiredWrite;
+            Properties.Settings.Default.RequiredExecute = RequiredExecute;
+            Properties.Settings.Default.RequiredCopyOnWrite = RequiredCopyOnWrite;
         }
 
-        public void UpdateIgnoredProtectionSettings(Boolean NoAccess, Boolean ReadOnly, Boolean ReadWrite, Boolean WriteCopy, Boolean Execute,
-            Boolean ExecuteRead, Boolean ExecuteReadWrite, Boolean ExecuteWriteCopy, Boolean Guard, Boolean NoCache, Boolean WriteCombine)
+        public void UpdateIgnoredProtectionSettings(Boolean ExcludedWrite, Boolean ExcludedExecute, Boolean ExcludedCopyOnWrite)
         {
-            Properties.Settings.Default.MemoryProtectionIgnored = (Int32)((NoAccess ? MemoryProtectionFlags.NoAccess : 0) | (ReadOnly ? MemoryProtectionFlags.ReadOnly : 0) |
-                (ReadWrite ? MemoryProtectionFlags.ReadWrite : 0) | (WriteCopy ? MemoryProtectionFlags.WriteCopy : 0) | (Execute ? MemoryProtectionFlags.Execute : 0) |
-                (ExecuteRead ? MemoryProtectionFlags.ExecuteRead : 0) | (ExecuteReadWrite ? MemoryProtectionFlags.ExecuteReadWrite : 0) |
-                (ExecuteWriteCopy ? MemoryProtectionFlags.ExecuteWriteCopy : 0) | (Guard ? MemoryProtectionFlags.Guard : 0) |
-                (NoCache ? MemoryProtectionFlags.NoCache : 0) | (WriteCombine ? MemoryProtectionFlags.WriteCombine : 0));
+            Properties.Settings.Default.ExcludedWrite = ExcludedWrite;
+            Properties.Settings.Default.ExcludedExecute = ExcludedExecute;
+            Properties.Settings.Default.ExcludedCopyOnWrite = ExcludedCopyOnWrite;
         }
 
         public void UpdateFreezeInterval(Int32 FreezeInterval)
@@ -85,24 +72,42 @@ namespace Anathema
 
         public Boolean[] GetTypeSettings()
         {
-            Array TypeEnumValues = Enum.GetValues(typeof(MemoryTypeFlags));
+            Array TypeEnumValues = Enum.GetValues(typeof(MemoryTypeEnum));
             Boolean[] TypeSettings = new Boolean[TypeEnumValues.Length];
-            TypeSettings[Array.IndexOf(TypeEnumValues, MemoryTypeFlags.None)] = Properties.Settings.Default.MemoryTypeNone;
-            TypeSettings[Array.IndexOf(TypeEnumValues, MemoryTypeFlags.Private)] = Properties.Settings.Default.MemoryTypePrivate;
-            TypeSettings[Array.IndexOf(TypeEnumValues, MemoryTypeFlags.Image)] = Properties.Settings.Default.MemoryTypeImage;
-            TypeSettings[Array.IndexOf(TypeEnumValues, MemoryTypeFlags.Mapped)] = Properties.Settings.Default.MemoryTypeMapped;
+            TypeSettings[Array.IndexOf(TypeEnumValues, MemoryTypeEnum.None)] = Properties.Settings.Default.MemoryTypeNone;
+            TypeSettings[Array.IndexOf(TypeEnumValues, MemoryTypeEnum.Private)] = Properties.Settings.Default.MemoryTypePrivate;
+            TypeSettings[Array.IndexOf(TypeEnumValues, MemoryTypeEnum.Image)] = Properties.Settings.Default.MemoryTypeImage;
+            TypeSettings[Array.IndexOf(TypeEnumValues, MemoryTypeEnum.Mapped)] = Properties.Settings.Default.MemoryTypeMapped;
 
             return TypeSettings;
         }
 
-        public MemoryProtectionFlags GetRequiredProtectionSettings()
+        public MemoryProtectionEnum GetRequiredProtectionSettings()
         {
-            return (MemoryProtectionFlags)Properties.Settings.Default.MemoryProtectionRequired;
+            MemoryProtectionEnum Result = 0;
+
+            if (Properties.Settings.Default.RequiredWrite)
+                Result |= MemoryProtectionEnum.Write;
+            if (Properties.Settings.Default.RequiredExecute)
+                Result |= MemoryProtectionEnum.Execute;
+            if (Properties.Settings.Default.RequiredCopyOnWrite)
+                Result |= MemoryProtectionEnum.CopyOnWrite;
+
+            return Result;
         }
 
-        public MemoryProtectionFlags GetIgnoredProtectionSettings()
+        public MemoryProtectionEnum GetExcludedProtectionSettings()
         {
-            return (MemoryProtectionFlags)Properties.Settings.Default.MemoryProtectionIgnored;
+            MemoryProtectionEnum Result = 0;
+
+            if (Properties.Settings.Default.ExcludedWrite)
+                Result |= MemoryProtectionEnum.Write;
+            if (Properties.Settings.Default.ExcludedExecute)
+                Result |= MemoryProtectionEnum.Execute;
+            if (Properties.Settings.Default.ExcludedCopyOnWrite)
+                Result |= MemoryProtectionEnum.CopyOnWrite;
+
+            return Result;
         }
 
         public Int32 GetFreezeInterval()
