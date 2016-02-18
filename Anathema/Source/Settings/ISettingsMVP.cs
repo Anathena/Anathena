@@ -25,7 +25,7 @@ namespace Anathema
         void UpdateTableReadInterval(Int32 TableReadInterval);
         void UpdateInputCorrelatorTimeOutInterval(Int32 InputCorrelatorTimeOutInterval);
 
-        Boolean[] GetTypeSettings();
+        MemoryTypeEnum GetAllowedTypeSettings();
         MemoryProtectionEnum GetRequiredProtectionSettings();
         MemoryProtectionEnum GetExcludedProtectionSettings();
         Int32 GetAlignmentSettings();
@@ -97,9 +97,9 @@ namespace Anathema
             Model.UpdateInputCorrelatorTimeOutInterval(Int32.Parse(InputCorrelatorTimeOutInterval));
         }
 
-        public Boolean[] GetTypeSettings()
+        public Boolean[] GetAllowedTypeSettings()
         {
-            return Model.GetTypeSettings();
+            return TypeFlagsToBooleanArray(Model.GetAllowedTypeSettings());
         }
 
         public Boolean[] GetRequiredProtectionSettings()
@@ -112,11 +112,24 @@ namespace Anathema
             return ProtectionFlagsToBooleanArray(Model.GetExcludedProtectionSettings());
         }
 
+        private Boolean[] TypeFlagsToBooleanArray(MemoryTypeEnum TypeFlags)
+        {
+            Array TypeEnumValues = Enum.GetValues(typeof(MemoryTypeEnum));
+            Boolean[] TypeSettings = new Boolean[TypeEnumValues.Length];
+
+            TypeSettings[Array.IndexOf(TypeEnumValues, MemoryTypeEnum.None)] = (TypeFlags & MemoryTypeEnum.None) != 0 ? true : false;
+            TypeSettings[Array.IndexOf(TypeEnumValues, MemoryTypeEnum.Private)] = (TypeFlags & MemoryTypeEnum.Private) != 0 ? true : false;
+            TypeSettings[Array.IndexOf(TypeEnumValues, MemoryTypeEnum.Image)] = (TypeFlags & MemoryTypeEnum.Image) != 0 ? true : false;
+            TypeSettings[Array.IndexOf(TypeEnumValues, MemoryTypeEnum.Mapped)] = (TypeFlags & MemoryTypeEnum.Mapped) != 0 ? true : false;
+            return TypeSettings;
+        }
+
         private Boolean[] ProtectionFlagsToBooleanArray(MemoryProtectionEnum ProtectionFlags)
         {
             Array ProtectionEnumValues = Enum.GetValues(typeof(MemoryProtectionEnum));
             Boolean[] ProtectionSettings = new Boolean[ProtectionEnumValues.Length];
 
+            ProtectionSettings[Array.IndexOf(ProtectionEnumValues, MemoryProtectionEnum.None)] = (ProtectionFlags & MemoryProtectionEnum.None) != 0 ? true : false;
             ProtectionSettings[Array.IndexOf(ProtectionEnumValues, MemoryProtectionEnum.Write)] = (ProtectionFlags & MemoryProtectionEnum.Write) != 0 ? true : false;
             ProtectionSettings[Array.IndexOf(ProtectionEnumValues, MemoryProtectionEnum.Execute)] = (ProtectionFlags & MemoryProtectionEnum.Execute) != 0 ? true : false;
             ProtectionSettings[Array.IndexOf(ProtectionEnumValues, MemoryProtectionEnum.CopyOnWrite)] = (ProtectionFlags & MemoryProtectionEnum.CopyOnWrite) != 0 ? true : false;

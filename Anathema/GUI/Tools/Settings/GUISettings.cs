@@ -26,7 +26,7 @@ namespace Anathema
 
         private void FetchScanSettings()
         {
-            Boolean[] RequiredTypeSettings = SettingsPresenter.GetTypeSettings();
+            Boolean[] RequiredTypeSettings = SettingsPresenter.GetAllowedTypeSettings();
             Array TypeEnumValues = Enum.GetValues(typeof(MemoryTypeFlags));
             NoneCheckBox.Checked = RequiredTypeSettings[Array.IndexOf(TypeEnumValues, MemoryTypeFlags.None)];
             PrivateCheckBox.Checked = RequiredTypeSettings[Array.IndexOf(TypeEnumValues, MemoryTypeFlags.Private)];

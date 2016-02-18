@@ -6,26 +6,26 @@ namespace Anathema
     [Flags]
     public enum MemoryProtectionEnum
     {
-        None        = 0x0,
-        Write       = 0x1,
-        Execute     = 0x2,
-        CopyOnWrite = 0x4
+        None = 0x1,
+        Write = 0x2,
+        Execute = 0x4,
+        CopyOnWrite = 0x8
     }
 
     [Flags]
     public enum MemoryTypeEnum
     {
-        None        = 0x0,
-        Private     = 0x1,
-        Image       = 0x2,
-        Mapped      = 0x4
+        None = 0x1,
+        Private = 0x2,
+        Image = 0x4,
+        Mapped = 0x8
     }
 
     public interface IOperatingSystemInterface
     {
         // Virtual pages
-        IEnumerable<NormalizedRegion> GetVirtualPages(MemoryProtectionEnum RequiredProtection, MemoryProtectionEnum ExcludedProtection, IntPtr StartAddress, IntPtr EndAddress);
-        IEnumerable<NormalizedRegion> GetVirtualPages(MemoryProtectionEnum RequiredProtection, MemoryProtectionEnum ExcludedProtection);
+        IEnumerable<NormalizedRegion> GetVirtualPages(MemoryProtectionEnum RequiredProtection, MemoryProtectionEnum ExcludedProtection,
+                                                    MemoryTypeEnum AllowedTypes, IntPtr StartAddress, IntPtr EndAddress);
         IEnumerable<NormalizedRegion> GetAllVirtualPages();
 
         IEnumerable<NormalizedModule> GetModules();
@@ -34,7 +34,7 @@ namespace Anathema
 
         IntPtr GetStackAddress();
         IntPtr[] GetHeapAddresses();
-        
+
         // Process
         Boolean Is32Bit();
         Boolean Is64Bit();

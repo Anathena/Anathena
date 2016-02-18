@@ -249,7 +249,7 @@ namespace Anathema.MemoryManagement.Memory
         /// <param name="EndAddress">A pointer to the ending address of the region of pages to be queried.</param>
         /// <returns>A collection of <see cref="Native.MemoryBasicInformation64"/> structures.</returns>
         public static IEnumerable<MemoryBasicInformation64> Query(SafeMemoryHandle ProcessHandle, IntPtr StartAddress, IntPtr EndAddress,
-            MemoryProtectionFlags RequiredProtection, MemoryProtectionFlags ExcludedProtection, Boolean IgnoreSettings = false)
+            MemoryProtectionFlags RequiredProtection, MemoryProtectionFlags ExcludedProtection, MemoryTypeEnum AllowedTypes)
         {
             // Check if the handle is valid
             HandleManipulator.ValidateAsArgument(ProcessHandle, "processHandle");
@@ -261,11 +261,6 @@ namespace Anathema.MemoryManagement.Memory
             // Create the variable storing the result of the call of VirtualQueryEx
             Int32 QueryResult;
             Boolean WrappedAround = false;
-
-            // Get settings of pages to require
-            // TODO THIS IS WRONG BUT IT WORKS FOR NOW
-            Array TypeEnumValues = Enum.GetValues(typeof(MemoryTypeFlags));
-            Boolean[] RequiredTypeFlags = Settings.GetInstance().GetTypeSettings();
 
             // Enumerate the memory pages
             do
@@ -316,20 +311,34 @@ namespace Anathema.MemoryManagement.Memory
                 if ((MemoryInfo.Protect & MemoryProtectionFlags.ZeroAccess) != 0 || (MemoryInfo.Protect & MemoryProtectionFlags.NoAccess) != 0 || (MemoryInfo.Protect & MemoryProtectionFlags.Guard) != 0)
                     continue;
 
-                if (!IgnoreSettings)
+                // Enforce allowed types
+                switch (MemoryInfo.Type)
                 {
-                    // Enforce type constraints
-                    if (RequiredTypeFlags[Array.IndexOf(TypeEnumValues, MemoryTypeFlags.None)] == false)
-                        continue;
-
-                    // Ensure at least one required protection flag is set
-                    if ((MemoryInfo.Protect & RequiredProtection) == 0)
-                        continue;
-
-                    // Ensure no ignored protection flags are set
-                    if ((MemoryInfo.Protect & ExcludedProtection) != 0)
-                        continue;
+                    case MemoryTypeFlags.None:
+                        if ((AllowedTypes & MemoryTypeEnum.None) == 0)
+                            continue;
+                        break;
+                    case MemoryTypeFlags.Private:
+                        if ((AllowedTypes & MemoryTypeEnum.Private) == 0)
+                            continue;
+                        break;
+                    case MemoryTypeFlags.Image:
+                        if ((AllowedTypes & MemoryTypeEnum.Image) == 0)
+                            continue;
+                        break;
+                    case MemoryTypeFlags.Mapped:
+                        if ((AllowedTypes & MemoryTypeEnum.Mapped) == 0)
+                            continue;
+                        break;
                 }
+
+                // Ensure at least one required protection flag is set
+                if (RequiredProtection != 0 && (MemoryInfo.Protect & RequiredProtection) == 0)
+                    continue;
+
+                // Ensure no ignored protection flags are set
+                if (ExcludedProtection != 0 && (MemoryInfo.Protect & ExcludedProtection) != 0)
+                    continue;
 
                 // Return the memory page
                 yield return MemoryInfo;

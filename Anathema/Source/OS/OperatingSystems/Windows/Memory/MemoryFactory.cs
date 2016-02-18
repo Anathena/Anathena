@@ -35,14 +35,16 @@ namespace Anathema.MemoryManagement.Memory
         /// <summary>
         /// Gets all blocks of memory allocated in the remote process.
         /// </summary>
-        public IEnumerable<RemoteVirtualPage> VirtualPages(IntPtr StartAddress, IntPtr EndAddress, MemoryProtectionFlags RequiredProtection, MemoryProtectionFlags ExcludedProtection)
+        public IEnumerable<RemoteVirtualPage> VirtualPages(IntPtr StartAddress, IntPtr EndAddress, 
+            MemoryProtectionFlags RequiredProtection, MemoryProtectionFlags ExcludedProtection, MemoryTypeEnum AllowedTypes)
         {
-            return MemoryCore.Query(MemorySharp.Handle, StartAddress, EndAddress, RequiredProtection, ExcludedProtection).Select(x => new RemoteVirtualPage(MemorySharp, x.BaseAddress));
+            return MemoryCore.Query(MemorySharp.Handle, StartAddress, EndAddress, RequiredProtection, ExcludedProtection, AllowedTypes).Select(x => new RemoteVirtualPage(MemorySharp, x.BaseAddress));
         }
 
         public IEnumerable<RemoteVirtualPage> AllVirtualPages()
         {
-            return MemoryCore.Query(MemorySharp.Handle, IntPtr.Zero, IntPtr.Zero.MaxUserMode(), 0, 0, true).Select(x => new RemoteVirtualPage(MemorySharp, x.BaseAddress));
+            return MemoryCore.Query(MemorySharp.Handle, IntPtr.Zero, IntPtr.Zero.MaxUserMode(), 0, 0,
+                MemoryTypeEnum.None | MemoryTypeEnum.Private | MemoryTypeEnum.Image | MemoryTypeEnum.Mapped).Select(x => new RemoteVirtualPage(MemorySharp, x.BaseAddress));
         }
 
         #endregion

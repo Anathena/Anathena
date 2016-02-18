@@ -429,7 +429,8 @@ namespace Anathema.MemoryManagement
             MemoryCore.Free(Handle, Address);
         }
 
-        public IEnumerable<NormalizedRegion> GetVirtualPages(MemoryProtectionEnum RequiredProtection, MemoryProtectionEnum ExcludedProtection, IntPtr StartAddress, IntPtr EndAddress)
+        public IEnumerable<NormalizedRegion> GetVirtualPages(MemoryProtectionEnum RequiredProtection, MemoryProtectionEnum ExcludedProtection,
+            MemoryTypeEnum AllowedTypes, IntPtr StartAddress, IntPtr EndAddress)
         {
             MemoryProtectionFlags RequiredFlags = 0;
             MemoryProtectionFlags ExcludedFlags = 0;
@@ -474,21 +475,16 @@ namespace Anathema.MemoryManagement
                 ExcludedFlags |= MemoryProtectionFlags.ExecuteWriteCopy;
             }
 
-            List<RemoteVirtualPage> Pages = new List<RemoteVirtualPage>(Memory.VirtualPages(StartAddress, EndAddress, RequiredFlags, ExcludedFlags));
+            List<RemoteVirtualPage> Pages = new List<RemoteVirtualPage>(Memory.VirtualPages(StartAddress, EndAddress, RequiredFlags, ExcludedFlags, AllowedTypes));
             List<NormalizedRegion> Regions = new List<NormalizedRegion>();
             Pages.ForEach(x => Regions.Add(new NormalizedRegion(x.BaseAddress, (Int32)x.Information.RegionSize)));
 
             return Regions;
         }
 
-        public IEnumerable<NormalizedRegion> GetVirtualPages(MemoryProtectionEnum RequiredProtection, MemoryProtectionEnum ExcludedProtection)
-        {
-            return GetVirtualPages(RequiredProtection, ExcludedProtection, IntPtr.Zero, IntPtr.Zero.MaxUserMode());
-        }
-
         public IEnumerable<NormalizedRegion> GetAllVirtualPages()
         {
-            return GetVirtualPages(0, 0);
+            return GetVirtualPages(0, 0, MemoryTypeEnum.None | MemoryTypeEnum.Private | MemoryTypeEnum.Image | MemoryTypeEnum.Mapped, IntPtr.Zero, IntPtr.Zero.MaxValue());
         }
         
         public IEnumerable<NormalizedModule> GetModules()

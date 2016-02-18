@@ -70,16 +70,20 @@ namespace Anathema
             Properties.Settings.Default.Alignment = Alignment;
         }
 
-        public Boolean[] GetTypeSettings()
+        public MemoryTypeEnum GetAllowedTypeSettings()
         {
-            Array TypeEnumValues = Enum.GetValues(typeof(MemoryTypeEnum));
-            Boolean[] TypeSettings = new Boolean[TypeEnumValues.Length];
-            TypeSettings[Array.IndexOf(TypeEnumValues, MemoryTypeEnum.None)] = Properties.Settings.Default.MemoryTypeNone;
-            TypeSettings[Array.IndexOf(TypeEnumValues, MemoryTypeEnum.Private)] = Properties.Settings.Default.MemoryTypePrivate;
-            TypeSettings[Array.IndexOf(TypeEnumValues, MemoryTypeEnum.Image)] = Properties.Settings.Default.MemoryTypeImage;
-            TypeSettings[Array.IndexOf(TypeEnumValues, MemoryTypeEnum.Mapped)] = Properties.Settings.Default.MemoryTypeMapped;
+            MemoryTypeEnum Result = 0;
 
-            return TypeSettings;
+            if (Properties.Settings.Default.MemoryTypeNone)
+                Result |= MemoryTypeEnum.None;
+            if (Properties.Settings.Default.MemoryTypePrivate)
+                Result |= MemoryTypeEnum.Private;
+            if (Properties.Settings.Default.MemoryTypeImage)
+                Result |= MemoryTypeEnum.Image;
+            if (Properties.Settings.Default.MemoryTypeMapped)
+                Result |= MemoryTypeEnum.Mapped;
+
+            return Result;
         }
 
         public MemoryProtectionEnum GetRequiredProtectionSettings()
