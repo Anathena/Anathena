@@ -30,6 +30,8 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(GUITable));
             this.CheatTableSplitContainer = new System.Windows.Forms.SplitContainer();
+            this.GUIAddressTable = new Anathema.GUIAddressTable();
+            this.GUIScriptTable = new Anathema.GUIScriptTable();
             this.ScanToolStrip = new System.Windows.Forms.ToolStrip();
             this.SaveTableButton = new System.Windows.Forms.ToolStripButton();
             this.LoadTableButton = new System.Windows.Forms.ToolStripButton();
@@ -37,8 +39,6 @@
             this.ToolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.CheatTableButton = new System.Windows.Forms.ToolStripButton();
             this.FSMTableButton = new System.Windows.Forms.ToolStripButton();
-            this.GUIAddressTable = new Anathema.GUIAddressTable();
-            this.GUIScriptTable = new Anathema.GUIScriptTable();
             this.GUIFSMTable = new Anathema.GUIFSMTable();
             ((System.ComponentModel.ISupportInitialize)(this.CheatTableSplitContainer)).BeginInit();
             this.CheatTableSplitContainer.Panel1.SuspendLayout();
@@ -63,6 +63,22 @@
             this.CheatTableSplitContainer.Size = new System.Drawing.Size(690, 225);
             this.CheatTableSplitContainer.SplitterDistance = 461;
             this.CheatTableSplitContainer.TabIndex = 145;
+            // 
+            // GUIAddressTable
+            // 
+            this.GUIAddressTable.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.GUIAddressTable.Location = new System.Drawing.Point(0, 0);
+            this.GUIAddressTable.Name = "GUIAddressTable";
+            this.GUIAddressTable.Size = new System.Drawing.Size(461, 225);
+            this.GUIAddressTable.TabIndex = 0;
+            // 
+            // GUIScriptTable
+            // 
+            this.GUIScriptTable.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.GUIScriptTable.Location = new System.Drawing.Point(0, 0);
+            this.GUIScriptTable.Name = "GUIScriptTable";
+            this.GUIScriptTable.Size = new System.Drawing.Size(225, 225);
+            this.GUIScriptTable.TabIndex = 0;
             // 
             // ScanToolStrip
             // 
@@ -117,6 +133,7 @@
             // 
             this.ToolStripSeparator1.Name = "ToolStripSeparator1";
             this.ToolStripSeparator1.Size = new System.Drawing.Size(29, 6);
+            this.ToolStripSeparator1.Visible = false;
             // 
             // CheatTableButton
             // 
@@ -126,6 +143,7 @@
             this.CheatTableButton.Name = "CheatTableButton";
             this.CheatTableButton.Size = new System.Drawing.Size(29, 20);
             this.CheatTableButton.Text = "Cheat Table";
+            this.CheatTableButton.Visible = false;
             this.CheatTableButton.Click += new System.EventHandler(this.CheatTableButton_Click);
             // 
             // FSMTableButton
@@ -136,23 +154,8 @@
             this.FSMTableButton.Name = "FSMTableButton";
             this.FSMTableButton.Size = new System.Drawing.Size(29, 20);
             this.FSMTableButton.Text = "FSM Table";
+            this.FSMTableButton.Visible = false;
             this.FSMTableButton.Click += new System.EventHandler(this.FSMTableButton_Click);
-            // 
-            // GUIAddressTable
-            // 
-            this.GUIAddressTable.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.GUIAddressTable.Location = new System.Drawing.Point(0, 0);
-            this.GUIAddressTable.Name = "GUIAddressTable";
-            this.GUIAddressTable.Size = new System.Drawing.Size(461, 225);
-            this.GUIAddressTable.TabIndex = 0;
-            // 
-            // GUIScriptTable
-            // 
-            this.GUIScriptTable.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.GUIScriptTable.Location = new System.Drawing.Point(0, 0);
-            this.GUIScriptTable.Name = "GUIScriptTable";
-            this.GUIScriptTable.Size = new System.Drawing.Size(225, 225);
-            this.GUIScriptTable.TabIndex = 0;
             // 
             // GUIFSMTable
             // 
