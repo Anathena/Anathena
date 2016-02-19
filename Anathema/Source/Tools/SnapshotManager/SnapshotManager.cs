@@ -82,21 +82,36 @@ namespace Anathema
             if (OSInterface == null)
                 return new Snapshot<Null>();
 
-            IntPtr StartAddress = IntPtr.Zero;
-            IntPtr EndAddress = IntPtr.Zero.MaxUserMode();
+            IntPtr StartAddress;
+            IntPtr EndAddress;
 
             MemoryProtectionEnum RequiredPageFlags;
             MemoryProtectionEnum ExcludedPageFlags;
             MemoryTypeEnum AllowedTypeFlags;
 
+            // Use settings parameters
             if (UseSettings)
             {
                 RequiredPageFlags = Settings.GetInstance().GetRequiredProtectionSettings();
                 ExcludedPageFlags = Settings.GetInstance().GetExcludedProtectionSettings();
                 AllowedTypeFlags = Settings.GetInstance().GetAllowedTypeSettings();
+
+                if (Settings.GetInstance().GetIsUserMode())
+                {
+                    StartAddress = IntPtr.Zero;
+                    EndAddress = IntPtr.Zero.MaxUserMode(OSInterface.Process.Is32Bit());
+                }
+                else
+                {
+                    StartAddress = Settings.GetInstance().GetStartAddress().ToIntPtr();
+                    EndAddress = Settings.GetInstance().GetEndAddress().ToIntPtr();
+                }
             }
+            // Standard pointer scan parameters
             else
             {
+                StartAddress = IntPtr.Zero;
+                EndAddress = IntPtr.Zero.MaxUserMode(OSInterface.Process.Is32Bit());
                 RequiredPageFlags = 0;
                 ExcludedPageFlags = 0;
                 AllowedTypeFlags = MemoryTypeEnum.None | MemoryTypeEnum.Private | MemoryTypeEnum.Image | MemoryTypeEnum.Mapped;

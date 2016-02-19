@@ -43,7 +43,7 @@ namespace Anathema.MemoryManagement.Memory
 
         public IEnumerable<RemoteVirtualPage> AllVirtualPages()
         {
-            return MemoryCore.Query(MemorySharp.Handle, IntPtr.Zero, IntPtr.Zero.MaxUserMode(), 0, 0,
+            return MemoryCore.Query(MemorySharp.Handle, IntPtr.Zero, IntPtr.Zero.MaxValue(), 0, 0,
                 MemoryTypeEnum.None | MemoryTypeEnum.Private | MemoryTypeEnum.Image | MemoryTypeEnum.Mapped).Select(x => new RemoteVirtualPage(MemorySharp, x.BaseAddress));
         }
 

@@ -57,9 +57,27 @@ namespace Anathema
             return IntPtr.Zero;
         }
 
+        public static IntPtr MaxUserMode(this IntPtr Self, Boolean Is32Bit)
+        {
+            if (Is32Bit)
+                return unchecked((IntPtr)Int32.MaxValue);
+            else if (IntPtr.Size == 8)
+                return unchecked((IntPtr)Int64.MaxValue);
+            return IntPtr.Zero;
+        }
+
         public static UIntPtr MaxUserMode(this UIntPtr Self)
         {
             if (UIntPtr.Size == 4)
+                return unchecked((UIntPtr)Int32.MaxValue);
+            else if (UIntPtr.Size == 8)
+                return unchecked((UIntPtr)Int64.MaxValue);
+            return UIntPtr.Zero;
+        }
+
+        public static UIntPtr MaxUserMode(this UIntPtr Self, Boolean Is32Bit)
+        {
+            if (Is32Bit)
                 return unchecked((UIntPtr)Int32.MaxValue);
             else if (UIntPtr.Size == 8)
                 return unchecked((UIntPtr)Int64.MaxValue);
