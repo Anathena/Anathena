@@ -98,21 +98,21 @@
             // OpenToolStripMenuItem
             // 
             this.OpenToolStripMenuItem.Name = "OpenToolStripMenuItem";
-            this.OpenToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.OpenToolStripMenuItem.Size = new System.Drawing.Size(103, 22);
             this.OpenToolStripMenuItem.Text = "Open";
             this.OpenToolStripMenuItem.Click += new System.EventHandler(this.OpenToolStripMenuItem_Click);
             // 
             // SaveToolStripMenuItem
             // 
             this.SaveToolStripMenuItem.Name = "SaveToolStripMenuItem";
-            this.SaveToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.SaveToolStripMenuItem.Size = new System.Drawing.Size(103, 22);
             this.SaveToolStripMenuItem.Text = "Save";
             this.SaveToolStripMenuItem.Click += new System.EventHandler(this.SaveToolStripMenuItem_Click);
             // 
             // ExitToolStripMenuItem
             // 
             this.ExitToolStripMenuItem.Name = "ExitToolStripMenuItem";
-            this.ExitToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.ExitToolStripMenuItem.Size = new System.Drawing.Size(103, 22);
             this.ExitToolStripMenuItem.Text = "Exit";
             this.ExitToolStripMenuItem.Click += new System.EventHandler(this.ExitToolStripMenuItem_Click);
             // 
@@ -189,6 +189,7 @@
             this.TreeScannerToolStripMenuItem.Name = "TreeScannerToolStripMenuItem";
             this.TreeScannerToolStripMenuItem.Size = new System.Drawing.Size(177, 22);
             this.TreeScannerToolStripMenuItem.Text = "Tree Scanner";
+            this.TreeScannerToolStripMenuItem.Visible = false;
             this.TreeScannerToolStripMenuItem.Click += new System.EventHandler(this.TreeScannerToolStripMenuItem_Click);
             // 
             // ManualScannerToolStripMenuItem
@@ -217,6 +218,7 @@
             this.FiniteStateScannerToolStripMenuItem.Name = "FiniteStateScannerToolStripMenuItem";
             this.FiniteStateScannerToolStripMenuItem.Size = new System.Drawing.Size(177, 22);
             this.FiniteStateScannerToolStripMenuItem.Text = "Finite State Scanner";
+            this.FiniteStateScannerToolStripMenuItem.Visible = false;
             this.FiniteStateScannerToolStripMenuItem.Click += new System.EventHandler(this.FiniteStateScannerToolStripMenuItem_Click);
             // 
             // toolStripSeparator4
@@ -258,18 +260,19 @@
             this.DebuggerToolStripMenuItem.Name = "DebuggerToolStripMenuItem";
             this.DebuggerToolStripMenuItem.Size = new System.Drawing.Size(173, 22);
             this.DebuggerToolStripMenuItem.Text = "Debugger";
+            this.DebuggerToolStripMenuItem.Visible = false;
             // 
             // CodeViewToolStripMenuItem
             // 
             this.CodeViewToolStripMenuItem.Name = "CodeViewToolStripMenuItem";
-            this.CodeViewToolStripMenuItem.Size = new System.Drawing.Size(147, 22);
+            this.CodeViewToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.CodeViewToolStripMenuItem.Text = "Code View";
             this.CodeViewToolStripMenuItem.Click += new System.EventHandler(this.CodeViewToolStripMenuItem_Click);
             // 
             // MemoryViewToolStripMenuItem
             // 
             this.MemoryViewToolStripMenuItem.Name = "MemoryViewToolStripMenuItem";
-            this.MemoryViewToolStripMenuItem.Size = new System.Drawing.Size(147, 22);
+            this.MemoryViewToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.MemoryViewToolStripMenuItem.Text = "Memory View";
             this.MemoryViewToolStripMenuItem.Click += new System.EventHandler(this.MemoryViewToolStripMenuItem_Click);
             // 
