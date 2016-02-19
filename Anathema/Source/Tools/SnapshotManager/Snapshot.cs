@@ -483,7 +483,7 @@ namespace Anathema
                 NewSnapshotRegions.Remove(Region);
 
             // Get current memory regions
-            Snapshot<LabelType> Mask = new Snapshot<LabelType>(SnapshotManager.GetInstance().SnapshotAllRegions(true));
+            Snapshot<LabelType> Mask = new Snapshot<LabelType>(SnapshotManager.GetInstance().SnapshotAllRegions(false));
 
             // Mask each region against the current virtual memory regions
             IEnumerable<SnapshotRegion<LabelType>> MaskedRegions = MaskRegions(Mask, DeallocatedRegions);

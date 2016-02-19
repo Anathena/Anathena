@@ -77,7 +77,7 @@ namespace Anathema
         /// <summary>
         /// Take a snapshot of all memory regions in the target process
         /// </summary>
-        public Snapshot SnapshotAllRegions(Boolean QueryAllMemory = false)
+        public Snapshot SnapshotAllRegions(Boolean UseSettings = true)
         {
             if (OSInterface == null)
                 return new Snapshot<Null>();
@@ -85,23 +85,28 @@ namespace Anathema
             IntPtr StartAddress = IntPtr.Zero;
             IntPtr EndAddress = IntPtr.Zero.MaxUserMode();
 
-            MemoryProtectionEnum RequiredPageFlags = Settings.GetInstance().GetRequiredProtectionSettings();
-            MemoryProtectionEnum ExcludedPageFlags = Settings.GetInstance().GetExcludedProtectionSettings();
-            MemoryTypeEnum AllowedTypeFlags = Settings.GetInstance().GetAllowedTypeSettings();
+            MemoryProtectionEnum RequiredPageFlags;
+            MemoryProtectionEnum ExcludedPageFlags;
+            MemoryTypeEnum AllowedTypeFlags;
 
-            // Collect virtual pages
-            List<NormalizedRegion> VirtualPages = new List<NormalizedRegion>();
-            if (QueryAllMemory)
+            if (UseSettings)
             {
-                foreach (NormalizedRegion Page in OSInterface.Process.GetAllVirtualPages())
-                    VirtualPages.Add(Page);
+                RequiredPageFlags = Settings.GetInstance().GetRequiredProtectionSettings();
+                ExcludedPageFlags = Settings.GetInstance().GetExcludedProtectionSettings();
+                AllowedTypeFlags = Settings.GetInstance().GetAllowedTypeSettings();
             }
             else
             {
-                foreach (NormalizedRegion Page in OSInterface.Process.GetVirtualPages(RequiredPageFlags, ExcludedPageFlags, AllowedTypeFlags, StartAddress, EndAddress))
-                    VirtualPages.Add(Page);
+                RequiredPageFlags = 0;
+                ExcludedPageFlags = 0;
+                AllowedTypeFlags = MemoryTypeEnum.None | MemoryTypeEnum.Private | MemoryTypeEnum.Image | MemoryTypeEnum.Mapped;
             }
-            
+
+            // Collect virtual pages
+            List<NormalizedRegion> VirtualPages = new List<NormalizedRegion>();
+            foreach (NormalizedRegion Page in OSInterface.Process.GetVirtualPages(RequiredPageFlags, ExcludedPageFlags, AllowedTypeFlags, StartAddress, EndAddress))
+                VirtualPages.Add(Page);
+
             // Convert each virtual page to a remote region (a more condensed representation of the information)
             List<SnapshotRegion> MemoryRegions = new List<SnapshotRegion>();
             for (int PageIndex = 0; PageIndex < VirtualPages.Count; PageIndex++)

@@ -437,7 +437,7 @@ namespace Anathema
             PointerPool.Clear();
 
             // Collect memory regions
-            Snapshot = new Snapshot<Null>(SnapshotManager.GetInstance().SnapshotAllRegions(true));
+            Snapshot = new Snapshot<Null>(SnapshotManager.GetInstance().SnapshotAllRegions(false));
 
             // Set to type of a pointer
             if (OSInterface.Process.Is32Bit())
