@@ -31,10 +31,10 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(GUICheatBrowser));
             this.ContentPanel = new System.Windows.Forms.Panel();
             this.GUIToolStrip = new System.Windows.Forms.ToolStrip();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.HomeButton = new System.Windows.Forms.ToolStripButton();
             this.BackButton = new System.Windows.Forms.ToolStripButton();
             this.ForwardButton = new System.Windows.Forms.ToolStripButton();
-            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.UploadButton = new System.Windows.Forms.ToolStripButton();
             this.GUIToolStrip.SuspendLayout();
             this.SuspendLayout();
@@ -63,10 +63,15 @@
             this.GUIToolStrip.TabIndex = 149;
             this.GUIToolStrip.Text = "Main Tool Strip";
             // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 25);
+            // 
             // HomeButton
             // 
             this.HomeButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.HomeButton.Image = global::Anathema.Properties.Resources.BenedictionIcon;
+            this.HomeButton.Image = global::Anathema.Properties.Resources.Home;
             this.HomeButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.HomeButton.Name = "HomeButton";
             this.HomeButton.Size = new System.Drawing.Size(23, 22);
@@ -76,7 +81,7 @@
             // BackButton
             // 
             this.BackButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.BackButton.Image = global::Anathema.Properties.Resources.LeftArrow;
+            this.BackButton.Image = global::Anathema.Properties.Resources.MoveLeft;
             this.BackButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.BackButton.Name = "BackButton";
             this.BackButton.Size = new System.Drawing.Size(23, 22);
@@ -86,17 +91,12 @@
             // ForwardButton
             // 
             this.ForwardButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.ForwardButton.Image = global::Anathema.Properties.Resources.RightArrow;
+            this.ForwardButton.Image = global::Anathema.Properties.Resources.MoveRight;
             this.ForwardButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.ForwardButton.Name = "ForwardButton";
             this.ForwardButton.Size = new System.Drawing.Size(23, 22);
             this.ForwardButton.Text = "Forwards";
             this.ForwardButton.Click += new System.EventHandler(this.ForwardButton_Click);
-            // 
-            // toolStripSeparator1
-            // 
-            this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 25);
             // 
             // UploadButton
             // 

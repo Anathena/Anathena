@@ -33,6 +33,9 @@ namespace Anathema
 
         public override void UpdateThreshold(Int32 MinimumIndex, Int32 MaximumIndex)
         {
+            if (SortedDictionary == null)
+                return;
+
             this.MinValue = SortedDictionary.ElementAt(MinimumIndex).Key;
             this.MaxValue = SortedDictionary.ElementAt(MaximumIndex).Key;
         }
@@ -97,6 +100,9 @@ namespace Anathema
 
         public override void ApplyThreshold()
         {
+            if (Snapshot == null)
+                return;
+
             if (!Inverted)
             {
                 Snapshot.MarkAllInvalid();

@@ -59,13 +59,14 @@
             this.SnapshotManagerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ContentPanel = new WeifenLuo.WinFormsUI.Docking.DockPanel();
             this.GUIToolStrip = new System.Windows.Forms.ToolStrip();
-            this.ProcessSelectorButton = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.ProcessTitleLabel = new System.Windows.Forms.ToolStripLabel();
+            this.ProcessSelectorButton = new System.Windows.Forms.ToolStripButton();
             this.CollectValuesButton = new System.Windows.Forms.ToolStripButton();
             this.NewScanButton = new System.Windows.Forms.ToolStripButton();
             this.UndoScanButton = new System.Windows.Forms.ToolStripButton();
-            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
-            this.ProcessTitleLabel = new System.Windows.Forms.ToolStripLabel();
+            this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
             this.GUIMenuStrip.SuspendLayout();
             this.GUIToolStrip.SuspendLayout();
             this.SuspendLayout();
@@ -265,14 +266,14 @@
             // CodeViewToolStripMenuItem
             // 
             this.CodeViewToolStripMenuItem.Name = "CodeViewToolStripMenuItem";
-            this.CodeViewToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.CodeViewToolStripMenuItem.Size = new System.Drawing.Size(147, 22);
             this.CodeViewToolStripMenuItem.Text = "Code View";
             this.CodeViewToolStripMenuItem.Click += new System.EventHandler(this.CodeViewToolStripMenuItem_Click);
             // 
             // MemoryViewToolStripMenuItem
             // 
             this.MemoryViewToolStripMenuItem.Name = "MemoryViewToolStripMenuItem";
-            this.MemoryViewToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.MemoryViewToolStripMenuItem.Size = new System.Drawing.Size(147, 22);
             this.MemoryViewToolStripMenuItem.Text = "Memory View";
             this.MemoryViewToolStripMenuItem.Click += new System.EventHandler(this.MemoryViewToolStripMenuItem_Click);
             // 
@@ -313,16 +314,33 @@
             this.GUIToolStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.ProcessSelectorButton,
             this.toolStripSeparator3,
-            this.CollectValuesButton,
             this.NewScanButton,
             this.UndoScanButton,
             this.toolStripSeparator1,
+            this.CollectValuesButton,
+            this.toolStripSeparator5,
             this.ProcessTitleLabel});
             this.GUIToolStrip.Location = new System.Drawing.Point(0, 24);
             this.GUIToolStrip.Name = "GUIToolStrip";
             this.GUIToolStrip.Size = new System.Drawing.Size(732, 25);
             this.GUIToolStrip.TabIndex = 148;
             this.GUIToolStrip.Text = "Main Tool Strip";
+            // 
+            // toolStripSeparator3
+            // 
+            this.toolStripSeparator3.Name = "toolStripSeparator3";
+            this.toolStripSeparator3.Size = new System.Drawing.Size(6, 25);
+            // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 25);
+            // 
+            // ProcessTitleLabel
+            // 
+            this.ProcessTitleLabel.Name = "ProcessTitleLabel";
+            this.ProcessTitleLabel.Size = new System.Drawing.Size(113, 22);
+            this.ProcessTitleLabel.Text = "No Process Selected";
             // 
             // ProcessSelectorButton
             // 
@@ -334,15 +352,10 @@
             this.ProcessSelectorButton.Text = "SelectProcessButton";
             this.ProcessSelectorButton.Click += new System.EventHandler(this.ProcessSelectorButton_Click);
             // 
-            // toolStripSeparator3
-            // 
-            this.toolStripSeparator3.Name = "toolStripSeparator3";
-            this.toolStripSeparator3.Size = new System.Drawing.Size(6, 25);
-            // 
             // CollectValuesButton
             // 
             this.CollectValuesButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.CollectValuesButton.Image = global::Anathema.Properties.Resources.BenedictionIcon;
+            this.CollectValuesButton.Image = global::Anathema.Properties.Resources.CollectValues;
             this.CollectValuesButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.CollectValuesButton.Name = "CollectValuesButton";
             this.CollectValuesButton.Size = new System.Drawing.Size(23, 22);
@@ -369,16 +382,10 @@
             this.UndoScanButton.Text = "Undo Scan";
             this.UndoScanButton.Click += new System.EventHandler(this.UndoScanButton_Click);
             // 
-            // toolStripSeparator1
+            // toolStripSeparator5
             // 
-            this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 25);
-            // 
-            // ProcessTitleLabel
-            // 
-            this.ProcessTitleLabel.Name = "ProcessTitleLabel";
-            this.ProcessTitleLabel.Size = new System.Drawing.Size(113, 22);
-            this.ProcessTitleLabel.Text = "No Process Selected";
+            this.toolStripSeparator5.Name = "toolStripSeparator5";
+            this.toolStripSeparator5.Size = new System.Drawing.Size(6, 25);
             // 
             // GUIMain
             // 
@@ -440,6 +447,7 @@
         private System.Windows.Forms.ToolStripMenuItem PointerScannerToolStripMenuItem;
         private System.Windows.Forms.ToolStripButton CollectValuesButton;
         private System.Windows.Forms.ToolStripMenuItem CheatBrowserToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator5;
     }
 }
 

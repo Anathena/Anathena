@@ -133,7 +133,7 @@
             // 
             this.InvertSelectionButton.CheckOnClick = true;
             this.InvertSelectionButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.InvertSelectionButton.Image = global::Anathema.Properties.Resources.BenedictionIcon;
+            this.InvertSelectionButton.Image = global::Anathema.Properties.Resources.Invert;
             this.InvertSelectionButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.InvertSelectionButton.Name = "InvertSelectionButton";
             this.InvertSelectionButton.Size = new System.Drawing.Size(23, 22);

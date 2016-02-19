@@ -865,6 +865,7 @@
     <Content Include="Content\Icons\Disable.png" />
     <Content Include="Content\Icons\DownArrows.png" />
     <Content Include="Content\Icons\Enable.png" />
+    <None Include="Content\Icons\ENotation.png" />
     <Content Include="Content\Icons\Equal.png" />
     <Content Include="Content\Icons\FiniteStateMachine.png" />
     <Content Include="Content\Icons\GreaterThan.png" />
@@ -873,6 +874,7 @@
     <Content Include="Content\Icons\Increased.png" />
     <Content Include="Content\Icons\InputCorrelator.png" />
     <None Include="Content\Icons\Intersection.png" />
+    <None Include="Content\Icons\Invert.png" />
     <Content Include="Content\Icons\LeftArrow.png" />
     <Content Include="Content\Icons\LessThan.png" />
     <None Include="Content\Icons\LogicalOR.png" />
@@ -886,6 +888,8 @@
     <Content Include="Content\Icons\Minimize.png" />
     <Content Include="Content\Icons\MinusX.png" />
     <Content Include="Content\Icons\MoveDown.png" />
+    <None Include="Content\Icons\MoveRight.png" />
+    <None Include="Content\Icons\MoveLeft.png" />
     <Content Include="Content\Icons\MoveUp.png" />
     <Content Include="Content\Icons\Negation.png" />
     <Content Include="Content\Icons\New.png" />
