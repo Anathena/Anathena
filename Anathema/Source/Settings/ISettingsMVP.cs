@@ -18,6 +18,9 @@ namespace Anathema
         void UpdateIgnoredProtectionSettings(Boolean ExcludedWrite, Boolean ExcludedExecute, Boolean ExcludedCopyOnWrite);
 
         void UpdateAlignmentSettings(Int32 Alignment);
+        void UpdateIsUserMode(Boolean IsUserMode);
+        void UpdateStartAddress(UInt64 StartAddress);
+        void UpdateEndAddress(UInt64 EndAddress);
 
         void UpdateFreezeInterval(Int32 FreezeInterval);
         void UpdateRescanInterval(Int32 RescanInterval);
@@ -29,6 +32,9 @@ namespace Anathema
         MemoryProtectionEnum GetRequiredProtectionSettings();
         MemoryProtectionEnum GetExcludedProtectionSettings();
         Int32 GetAlignmentSettings();
+        Boolean GetIsUserMode();
+        UInt64 GetStartAddress();
+        UInt64 GetEndAddress();
 
         Int32 GetFreezeInterval();
         Int32 GetRescanInterval();
@@ -62,7 +68,7 @@ namespace Anathema
             Model.UpdateRequiredProtectionSettings(RequiredWrite, RequiredExecute, RequiredCopyOnWrite);
         }
 
-        public void UpdateIgnoredProtectionSettings(Boolean ExcludedWrite, Boolean ExcludedExecute, Boolean ExcludedCopyOnWrite)
+        public void UpdateExcludedProtectionSettings(Boolean ExcludedWrite, Boolean ExcludedExecute, Boolean ExcludedCopyOnWrite)
         {
             Model.UpdateIgnoredProtectionSettings(ExcludedWrite, ExcludedExecute, ExcludedCopyOnWrite);
         }
@@ -70,6 +76,26 @@ namespace Anathema
         public void UpdateAlignmentSettings(Int32 Alignment)
         {
             Model.UpdateAlignmentSettings(Alignment);
+        }
+
+        public void UpdateIsUserMode(Boolean IsUserMode)
+        {
+            Model.UpdateIsUserMode(IsUserMode);
+        }
+
+        public void UpdateStartAddress(UInt64 StartAddress)
+        {
+            Model.UpdateStartAddress(StartAddress);
+        }
+
+        public void UpdateEndAddress(UInt64 EndAddress)
+        {
+            Model.UpdateEndAddress(EndAddress);
+        }
+
+        public virtual void SetScanUserMode(Boolean IsUserMode)
+        {
+            Model.UpdateIsUserMode(IsUserMode);
         }
 
         public void UpdateFreezeInterval(String FreezeInterval)
@@ -97,43 +123,19 @@ namespace Anathema
             Model.UpdateInputCorrelatorTimeOutInterval(Int32.Parse(InputCorrelatorTimeOutInterval));
         }
 
-        public Boolean[] GetAllowedTypeSettings()
+        public MemoryTypeEnum GetAllowedTypeSettings()
         {
-            return TypeFlagsToBooleanArray(Model.GetAllowedTypeSettings());
+            return Model.GetAllowedTypeSettings();
         }
 
-        public Boolean[] GetRequiredProtectionSettings()
+        public MemoryProtectionEnum GetRequiredProtectionSettings()
         {
-            return ProtectionFlagsToBooleanArray(Model.GetRequiredProtectionSettings());
+            return Model.GetRequiredProtectionSettings();
         }
 
-        public Boolean[] GetExcludedProtectionSettings()
+        public MemoryProtectionEnum GetExcludedProtectionSettings()
         {
-            return ProtectionFlagsToBooleanArray(Model.GetExcludedProtectionSettings());
-        }
-
-        private Boolean[] TypeFlagsToBooleanArray(MemoryTypeEnum TypeFlags)
-        {
-            Array TypeEnumValues = Enum.GetValues(typeof(MemoryTypeEnum));
-            Boolean[] TypeSettings = new Boolean[TypeEnumValues.Length];
-
-            TypeSettings[Array.IndexOf(TypeEnumValues, MemoryTypeEnum.None)] = (TypeFlags & MemoryTypeEnum.None) != 0 ? true : false;
-            TypeSettings[Array.IndexOf(TypeEnumValues, MemoryTypeEnum.Private)] = (TypeFlags & MemoryTypeEnum.Private) != 0 ? true : false;
-            TypeSettings[Array.IndexOf(TypeEnumValues, MemoryTypeEnum.Image)] = (TypeFlags & MemoryTypeEnum.Image) != 0 ? true : false;
-            TypeSettings[Array.IndexOf(TypeEnumValues, MemoryTypeEnum.Mapped)] = (TypeFlags & MemoryTypeEnum.Mapped) != 0 ? true : false;
-            return TypeSettings;
-        }
-
-        private Boolean[] ProtectionFlagsToBooleanArray(MemoryProtectionEnum ProtectionFlags)
-        {
-            Array ProtectionEnumValues = Enum.GetValues(typeof(MemoryProtectionEnum));
-            Boolean[] ProtectionSettings = new Boolean[ProtectionEnumValues.Length];
-
-            ProtectionSettings[Array.IndexOf(ProtectionEnumValues, MemoryProtectionEnum.None)] = (ProtectionFlags & MemoryProtectionEnum.None) != 0 ? true : false;
-            ProtectionSettings[Array.IndexOf(ProtectionEnumValues, MemoryProtectionEnum.Write)] = (ProtectionFlags & MemoryProtectionEnum.Write) != 0 ? true : false;
-            ProtectionSettings[Array.IndexOf(ProtectionEnumValues, MemoryProtectionEnum.Execute)] = (ProtectionFlags & MemoryProtectionEnum.Execute) != 0 ? true : false;
-            ProtectionSettings[Array.IndexOf(ProtectionEnumValues, MemoryProtectionEnum.CopyOnWrite)] = (ProtectionFlags & MemoryProtectionEnum.CopyOnWrite) != 0 ? true : false;
-            return ProtectionSettings;
+            return Model.GetExcludedProtectionSettings();
         }
 
         public Int32 GetAlignmentSettings()
@@ -141,29 +143,44 @@ namespace Anathema
             return Model.GetAlignmentSettings();
         }
 
-        public String GetFreezeInterval()
+        public Boolean GetIsUserMode()
         {
-            return Model.GetFreezeInterval().ToString();
+            return Model.GetIsUserMode();
         }
 
-        public String GetRescanInterval()
+        public UInt64 GetStartAddress()
         {
-            return Model.GetRescanInterval().ToString();
+            return Model.GetStartAddress();
         }
 
-        public String GetResultReadInterval()
+        public UInt64 GetEndAddress()
         {
-            return Model.GetResultReadInterval().ToString();
+            return Model.GetEndAddress();
         }
 
-        public String GetTableReadInterval()
+        public Int32 GetFreezeInterval()
         {
-            return Model.GetTableReadInterval().ToString();
+            return Model.GetFreezeInterval();
         }
 
-        public String GetInputCorrelatorTimeOutInterval()
+        public Int32 GetRescanInterval()
         {
-            return Model.GetInputCorrelatorTimeOutInterval().ToString();
+            return Model.GetRescanInterval();
+        }
+
+        public Int32 GetResultReadInterval()
+        {
+            return Model.GetResultReadInterval();
+        }
+
+        public Int32 GetTableReadInterval()
+        {
+            return Model.GetTableReadInterval();
+        }
+
+        public Int32 GetInputCorrelatorTimeOutInterval()
+        {
+            return Model.GetInputCorrelatorTimeOutInterval();
         }
 
         #endregion

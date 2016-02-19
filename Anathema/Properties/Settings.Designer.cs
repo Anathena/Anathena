@@ -214,5 +214,41 @@ namespace Anathema.Properties {
                 this["ExcludedCopyOnWrite"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public ulong StartAddress {
+            get {
+                return ((ulong)(this["StartAddress"]));
+            }
+            set {
+                this["StartAddress"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("9223372036854775807")]
+        public ulong EndAddress {
+            get {
+                return ((ulong)(this["EndAddress"]));
+            }
+            set {
+                this["EndAddress"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool IsUserMode {
+            get {
+                return ((bool)(this["IsUserMode"]));
+            }
+            set {
+                this["IsUserMode"] = value;
+            }
+        }
     }
 }

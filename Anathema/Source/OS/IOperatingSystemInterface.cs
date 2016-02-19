@@ -6,10 +6,9 @@ namespace Anathema
     [Flags]
     public enum MemoryProtectionEnum
     {
-        None = 0x1,
-        Write = 0x2,
-        Execute = 0x4,
-        CopyOnWrite = 0x8
+        Write = 0x1,
+        Execute = 0x2,
+        CopyOnWrite = 0x4
     }
 
     [Flags]

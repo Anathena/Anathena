@@ -70,6 +70,21 @@ namespace Anathema
             Properties.Settings.Default.Alignment = Alignment;
         }
 
+        public void UpdateIsUserMode(Boolean IsUserMode)
+        {
+            Properties.Settings.Default.IsUserMode = IsUserMode;
+        }
+
+        public void UpdateStartAddress(UInt64 StartAddress)
+        {
+            Properties.Settings.Default.StartAddress = StartAddress;
+        }
+
+        public void UpdateEndAddress(UInt64 EndAddress)
+        {
+            Properties.Settings.Default.EndAddress = EndAddress;
+        }
+
         public MemoryTypeEnum GetAllowedTypeSettings()
         {
             MemoryTypeEnum Result = 0;
@@ -142,6 +157,21 @@ namespace Anathema
         public Int32 GetAlignmentSettings()
         {
             return Properties.Settings.Default.Alignment;
+        }
+
+        public Boolean GetIsUserMode()
+        {
+            return Properties.Settings.Default.IsUserMode;
+        }
+
+        public UInt64 GetStartAddress()
+        {
+            return Properties.Settings.Default.StartAddress;
+        }
+
+        public UInt64 GetEndAddress()
+        {
+            return Properties.Settings.Default.EndAddress;
         }
 
     } // End class

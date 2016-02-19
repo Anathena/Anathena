@@ -50,5 +50,14 @@
     <Setting Name="ExcludedCopyOnWrite" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">True</Value>
     </Setting>
+    <Setting Name="StartAddress" Type="System.UInt64" Scope="User">
+      <Value Profile="(Default)">0</Value>
+    </Setting>
+    <Setting Name="EndAddress" Type="System.UInt64" Scope="User">
+      <Value Profile="(Default)">9223372036854775807</Value>
+    </Setting>
+    <Setting Name="IsUserMode" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

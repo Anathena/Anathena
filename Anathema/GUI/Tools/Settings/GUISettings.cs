@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Windows.Forms;
-using Anathema.MemoryManagement.Native;
 
 namespace Anathema
 {
@@ -14,6 +13,14 @@ namespace Anathema
 
             SettingsPresenter = new SettingsPresenter(this, Settings.GetInstance());
             AlignmentTextBox.SetElementType(typeof(Int32));
+            StartAddressTextBox.SetElementType(typeof(UInt64));
+            EndAddressTextBox.SetElementType(typeof(UInt64));
+
+            FreezeIntervalTextBox.SetElementType(typeof(Int32));
+            RescanIntervalTextBox.SetElementType(typeof(Int32));
+            TableReadIntervalTextBox.SetElementType(typeof(Int32));
+            ResultsReadIntervalTextBox.SetElementType(typeof(Int32));
+            InputCorrelatorTimeOutIntervalTextBox.SetElementType(typeof(Int32));
 
             FetchSettings();
         }
@@ -26,34 +33,40 @@ namespace Anathema
 
         private void FetchScanSettings()
         {
-            Boolean[] RequiredTypeSettings = SettingsPresenter.GetAllowedTypeSettings();
-            Array TypeEnumValues = Enum.GetValues(typeof(MemoryTypeFlags));
-            NoneCheckBox.Checked = RequiredTypeSettings[Array.IndexOf(TypeEnumValues, MemoryTypeFlags.None)];
-            PrivateCheckBox.Checked = RequiredTypeSettings[Array.IndexOf(TypeEnumValues, MemoryTypeFlags.Private)];
-            MappedCheckBox.Checked = RequiredTypeSettings[Array.IndexOf(TypeEnumValues, MemoryTypeFlags.Mapped)];
-            ImageCheckBox.Checked = RequiredTypeSettings[Array.IndexOf(TypeEnumValues, MemoryTypeFlags.Image)];
+            MemoryTypeEnum RequiredTypeSettings = SettingsPresenter.GetAllowedTypeSettings();
+            NoneCheckBox.Checked = (RequiredTypeSettings & MemoryTypeEnum.None) != 0;
+            PrivateCheckBox.Checked = (RequiredTypeSettings & MemoryTypeEnum.Private) != 0;
+            MappedCheckBox.Checked = (RequiredTypeSettings & MemoryTypeEnum.Mapped) != 0;
+            ImageCheckBox.Checked = (RequiredTypeSettings & MemoryTypeEnum.Image) != 0;
 
-            Boolean[] RequiredProtectionSettings = SettingsPresenter.GetRequiredProtectionSettings();
-            Array ProtectionEnumValues = Enum.GetValues(typeof(MemoryProtectionFlags));
-            RequiredCopyOnWriteCheckBox.CheckState = RequiredProtectionSettings[Array.IndexOf(ProtectionEnumValues, MemoryProtectionFlags.NoAccess)] ? CheckState.Checked : CheckState.Indeterminate;
-            RequiredWriteCheckBox.CheckState = RequiredProtectionSettings[Array.IndexOf(ProtectionEnumValues, MemoryProtectionFlags.ReadOnly)] ? CheckState.Checked : CheckState.Indeterminate;
-            RequiredExecuteCheckBox.CheckState = RequiredProtectionSettings[Array.IndexOf(ProtectionEnumValues, MemoryProtectionFlags.ReadWrite)] ? CheckState.Checked : CheckState.Indeterminate;
+            MemoryProtectionEnum RequiredProtectionSettings = SettingsPresenter.GetRequiredProtectionSettings();
+            RequiredWriteCheckBox.Checked = (RequiredProtectionSettings & MemoryProtectionEnum.Write) != 0;
+            RequiredExecuteCheckBox.Checked = (RequiredProtectionSettings & MemoryProtectionEnum.Execute) != 0;
+            RequiredCopyOnWriteCheckBox.Checked = (RequiredProtectionSettings & MemoryProtectionEnum.CopyOnWrite) != 0;
 
-            Boolean[] IgnoredProtectionSettings = SettingsPresenter.GetExcludedProtectionSettings();
-            RequiredCopyOnWriteCheckBox.CheckState = IgnoredProtectionSettings[Array.IndexOf(ProtectionEnumValues, MemoryProtectionFlags.NoAccess)] ? CheckState.Unchecked : RequiredCopyOnWriteCheckBox.CheckState;
-            RequiredWriteCheckBox.CheckState = IgnoredProtectionSettings[Array.IndexOf(ProtectionEnumValues, MemoryProtectionFlags.ReadOnly)] ? CheckState.Unchecked : RequiredWriteCheckBox.CheckState;
-            RequiredExecuteCheckBox.CheckState = IgnoredProtectionSettings[Array.IndexOf(ProtectionEnumValues, MemoryProtectionFlags.ReadWrite)] ? CheckState.Unchecked : RequiredExecuteCheckBox.CheckState;
+            MemoryProtectionEnum IgnoredProtectionSettings = SettingsPresenter.GetExcludedProtectionSettings();
+            ExcludedWriteCheckBox.Checked = (IgnoredProtectionSettings & MemoryProtectionEnum.Write) != 0;
+            ExcludedExecuteCheckBox.Checked = (IgnoredProtectionSettings & MemoryProtectionEnum.Execute) != 0;
+            ExcludedCopyOnWriteCheckBox.Checked = (IgnoredProtectionSettings & MemoryProtectionEnum.CopyOnWrite) != 0;
 
             AlignmentTextBox.SetValue(SettingsPresenter.GetAlignmentSettings());
+
+            if (SettingsPresenter.GetIsUserMode())
+                ScanUserModeRadioButton.Checked = true;
+            else
+                ScanCustomRangeRadioButton.Checked = true;
+
+            StartAddressTextBox.SetValue(SettingsPresenter.GetStartAddress());
+            EndAddressTextBox.SetValue(SettingsPresenter.GetEndAddress());
         }
 
         private void FetchGeneralSettings()
         {
-            FreezeIntervalTextBox.Text = SettingsPresenter.GetFreezeInterval();
-            RescanIntervalTextBox.Text = SettingsPresenter.GetRescanInterval();
-            TableReadIntervalTextBox.Text = SettingsPresenter.GetTableReadInterval();
-            ResultsReadIntervalTextBox.Text = SettingsPresenter.GetResultReadInterval();
-            InputCorrelatorTimeoutIntervalTextBox.Text = SettingsPresenter.GetInputCorrelatorTimeOutInterval();
+            FreezeIntervalTextBox.SetValue(SettingsPresenter.GetFreezeInterval());
+            RescanIntervalTextBox.SetValue(SettingsPresenter.GetRescanInterval());
+            TableReadIntervalTextBox.SetValue(SettingsPresenter.GetTableReadInterval());
+            ResultsReadIntervalTextBox.SetValue(SettingsPresenter.GetResultReadInterval());
+            InputCorrelatorTimeOutIntervalTextBox.SetValue(SettingsPresenter.GetInputCorrelatorTimeOutInterval());
         }
 
 
@@ -65,34 +78,43 @@ namespace Anathema
 
         private void SaveGeneralSettings()
         {
-            if (CheckSyntax.IsInt32(FreezeIntervalTextBox.Text))
-                SettingsPresenter.UpdateFreezeInterval(FreezeIntervalTextBox.Text);
+            if (FreezeIntervalTextBox.IsValid())
+                SettingsPresenter.UpdateFreezeInterval(FreezeIntervalTextBox.GetValueAsDecimal());
 
-            if (CheckSyntax.IsInt32(RescanIntervalTextBox.Text))
-                SettingsPresenter.UpdateRescanInterval(RescanIntervalTextBox.Text);
+            if (RescanIntervalTextBox.IsValid())
+                SettingsPresenter.UpdateRescanInterval(RescanIntervalTextBox.GetValueAsDecimal());
 
-            if (CheckSyntax.IsInt32(TableReadIntervalTextBox.Text))
-                SettingsPresenter.UpdateTableReadInterval(TableReadIntervalTextBox.Text);
+            if (TableReadIntervalTextBox.IsValid())
+                SettingsPresenter.UpdateTableReadInterval(TableReadIntervalTextBox.GetValueAsDecimal());
 
-            if (CheckSyntax.IsInt32(ResultsReadIntervalTextBox.Text))
-                SettingsPresenter.UpdateResultReadInterval(ResultsReadIntervalTextBox.Text);
+            if (ResultsReadIntervalTextBox.IsValid())
+                SettingsPresenter.UpdateResultReadInterval(ResultsReadIntervalTextBox.GetValueAsDecimal());
 
-            if (CheckSyntax.IsInt32(InputCorrelatorTimeoutIntervalTextBox.Text))
-                SettingsPresenter.UpdateInputCorrelatorTimeOutInterval(InputCorrelatorTimeoutIntervalTextBox.Text);
+            if (InputCorrelatorTimeOutIntervalTextBox.IsValid())
+                SettingsPresenter.UpdateInputCorrelatorTimeOutInterval(InputCorrelatorTimeOutIntervalTextBox.GetValueAsDecimal());
+
+            if (ScanUserModeRadioButton.Checked)
+                SettingsPresenter.SetScanUserMode(true);
+            else
+                SettingsPresenter.SetScanUserMode(true);
         }
 
         private void SaveScanSettings()
         {
             SettingsPresenter.UpdateTypeSettings(NoneCheckBox.Checked, PrivateCheckBox.Checked, MappedCheckBox.Checked, ImageCheckBox.Checked);
-            /*SettingsPresenter.UpdateRequiredProtectionSettings(RequiredCopyOnWriteCheckBox.CheckState == CheckState.Checked, RequiredWriteCheckBox.CheckState == CheckState.Checked, RequiredExecuteCheckBox.CheckState == CheckState.Checked,
-                WriteCopyCheckBox.CheckState == CheckState.Checked, RequiredExecuteCheckBox.CheckState == CheckState.Checked, ExecuteReadCheckBox.CheckState == CheckState.Checked, ExecuteReadWriteCheckBox.CheckState == CheckState.Checked,
-                ExecuteWriteCopyCheckBox.CheckState == CheckState.Checked, GuardCheckBox.CheckState == CheckState.Checked, NoCacheCheckBox.CheckState == CheckState.Checked, WriteCombineCheckBox.CheckState == CheckState.Checked);
-            SettingsPresenter.UpdateIgnoredProtectionSettings(RequiredCopyOnWriteCheckBox.CheckState == CheckState.Unchecked, RequiredWriteCheckBox.CheckState == CheckState.Unchecked, RequiredExecuteCheckBox.CheckState == CheckState.Unchecked,
-                WriteCopyCheckBox.CheckState == CheckState.Unchecked, RequiredExecuteCheckBox.CheckState == CheckState.Unchecked, ExecuteReadCheckBox.CheckState == CheckState.Unchecked, ExecuteReadWriteCheckBox.CheckState == CheckState.Unchecked,
-                ExecuteWriteCopyCheckBox.CheckState == CheckState.Unchecked, GuardCheckBox.CheckState == CheckState.Unchecked, NoCacheCheckBox.CheckState == CheckState.Unchecked, WriteCombineCheckBox.CheckState == CheckState.Unchecked);
-                */
+            SettingsPresenter.UpdateRequiredProtectionSettings(RequiredWriteCheckBox.Checked, RequiredExecuteCheckBox.Checked, RequiredCopyOnWriteCheckBox.Checked);
+            SettingsPresenter.UpdateExcludedProtectionSettings(ExcludedWriteCheckBox.Checked, ExcludedExecuteCheckBox.Checked, ExcludedCopyOnWriteCheckBox.Checked);
+
             if (AlignmentTextBox.IsValid())
                 SettingsPresenter.UpdateAlignmentSettings(Conversions.ParseValue(typeof(Int32), AlignmentTextBox.GetValueAsDecimal()));
+
+            SettingsPresenter.SetScanUserMode(ScanUserModeRadioButton.Checked);
+
+            if (StartAddressTextBox.IsValid())
+                SettingsPresenter.UpdateStartAddress(Conversions.ParseValue(typeof(UInt64), StartAddressTextBox.GetValueAsDecimal()));
+
+            if (EndAddressTextBox.IsValid())
+                SettingsPresenter.UpdateEndAddress(Conversions.ParseValue(typeof(UInt64), EndAddressTextBox.GetValueAsDecimal()));
         }
 
         #region Events
@@ -103,6 +125,72 @@ namespace Anathema
             this.Close();
         }
 
+        private void ScanUserModeRadioButton_CheckedChanged(Object Sender, EventArgs E)
+        {
+            if (ScanUserModeRadioButton.Checked == true)
+            {
+                StartAddressTextBox.Enabled = false;
+                EndAddressTextBox.Enabled = false;
+            }
+            else
+            {
+                StartAddressTextBox.Enabled = true;
+                EndAddressTextBox.Enabled = true;
+            }
+        }
+
+        private void ScanCustomRangeRadioButton_CheckedChanged(Object Sender, EventArgs E)
+        {
+            if (ScanCustomRangeRadioButton.Checked == true)
+            {
+                StartAddressTextBox.Enabled = true;
+                EndAddressTextBox.Enabled = true;
+            }
+            else
+            {
+                StartAddressTextBox.Enabled = false;
+                EndAddressTextBox.Enabled = false;
+            }
+        }
+
+        private void RequiredWriteCheckBox_CheckedChanged(Object Sender, EventArgs E)
+        {
+            if (RequiredWriteCheckBox.Checked)
+                ExcludedWriteCheckBox.Checked = !RequiredWriteCheckBox.Checked;
+        }
+
+        private void RequiredExecuteCheckBox_CheckedChanged(Object Sender, EventArgs E)
+        {
+            if (RequiredExecuteCheckBox.Checked)
+                ExcludedExecuteCheckBox.Checked = !RequiredExecuteCheckBox.Checked;
+        }
+
+        private void RequiredCopyOnWriteCheckBox_CheckedChanged(Object Sender, EventArgs E)
+        {
+            if (RequiredCopyOnWriteCheckBox.Checked)
+                ExcludedCopyOnWriteCheckBox.Checked = !RequiredCopyOnWriteCheckBox.Checked;
+        }
+
+        private void ExcludedWriteCheckBox_CheckedChanged(Object Sender, EventArgs E)
+        {
+            if (ExcludedWriteCheckBox.Checked)
+                RequiredWriteCheckBox.Checked = !ExcludedWriteCheckBox.Checked;
+        }
+
+        private void ExcludedExecuteCheckBox_CheckedChanged(Object Sender, EventArgs E)
+        {
+            if (ExcludedExecuteCheckBox.Checked)
+                RequiredExecuteCheckBox.Checked = !ExcludedExecuteCheckBox.Checked;
+        }
+
+        private void ExcludedCopyOnWriteCheckBox_CheckedChanged(Object Sender, EventArgs E)
+        {
+            if (ExcludedCopyOnWriteCheckBox.Checked)
+                RequiredCopyOnWriteCheckBox.Checked = !ExcludedCopyOnWriteCheckBox.Checked;
+        }
+
         #endregion
-    }
-}
+
+    } // End class
+
+} // End namespace
