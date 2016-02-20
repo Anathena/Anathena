@@ -70,7 +70,7 @@ namespace Anathema
             return true;
         }
 
-        public Boolean LoadTable(String Path)
+        public Boolean OpenTable(String Path)
         {
             try
             {
@@ -90,7 +90,31 @@ namespace Anathema
             }
             return true;
         }
-        
+
+        public Boolean MergeTable(String Path)
+        {
+            try
+            {
+                using (FileStream FileStream = new FileStream(Path, FileMode.Open, FileAccess.Read))
+                {
+                    DataContractSerializer Serializer = new DataContractSerializer(typeof(TableData));
+                    CurrentTableData = (TableData)Serializer.ReadObject(FileStream);
+
+                    // Distribute loaded items to the appropriate tables
+                    foreach (AddressItem Item in CurrentTableData.AddressItems)
+                        AddressTable.GetInstance().AddAddressItem(Item);
+
+                    foreach (ScriptItem Item in CurrentTableData.ScriptItems)
+                        ScriptTable.GetInstance().AddScriptItem(Item);
+                }
+            }
+            catch
+            {
+                return false;
+            }
+            return true;
+        }
+
     } // End class
 
 } // End namespace

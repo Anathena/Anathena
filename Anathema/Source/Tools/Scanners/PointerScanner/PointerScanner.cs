@@ -147,7 +147,7 @@ namespace Anathema
                 String Value = String.Empty;
                 IndexValueMap.TryGetValue(Index, out Value);
 
-                AddressTable.GetInstance().AddTableItem(AcceptedPointers[Index].Item1, ElementType, "Pointer", AcceptedPointers[Index].Item2.ToArray(), Value: Value);
+                AddressTable.GetInstance().AddAddressItem(AcceptedPointers[Index].Item1, ElementType, "Pointer", AcceptedPointers[Index].Item2.ToArray(), Value: Value);
 
                 if (++Count >= MaxAdd)
                     break;

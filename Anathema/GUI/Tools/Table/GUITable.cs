@@ -57,7 +57,17 @@ namespace Anathema
             OpenFileDialog.Title = "Open Cheat Table";
             OpenFileDialog.ShowDialog();
 
-            TablePresenter.LoadTable(OpenFileDialog.FileName);
+            TablePresenter.OpenTable(OpenFileDialog.FileName);
+        }
+
+        public void BeginMergeTable()
+        {
+            OpenFileDialog OpenFileDialog = new OpenFileDialog();
+            OpenFileDialog.Filter = "Anathema Table | *.ana";
+            OpenFileDialog.Title = "Open and Merge Cheat Table";
+            OpenFileDialog.ShowDialog();
+
+            TablePresenter.MergeTable(OpenFileDialog.FileName);
         }
 
         #region Events
@@ -69,11 +79,16 @@ namespace Anathema
             BeginSaveTable();
         }
 
-        private void LoadTableButton_Click(Object Sender, EventArgs E)
+        private void OpenTableButton_Click(Object Sender, EventArgs E)
         {
             BeginOpenTable();
         }
-        
+
+        private void OpenAndMergeTableButton_Click(Object Sender, EventArgs E)
+        {
+            BeginMergeTable();
+        }
+
         private void CheatTableButton_Click(Object Sender, EventArgs E)
         {
             ViewCheatTable();
@@ -86,12 +101,7 @@ namespace Anathema
 
         private void AddAddressButton_Click(Object Sender, EventArgs E)
         {
-
-        }
-
-        private void OpenAndMergeTableButton_Click(Object Sender, EventArgs E)
-        {
-
+            GUIAddressTable.AddNewAddressItem();
         }
 
         #endregion

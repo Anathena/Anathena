@@ -34,13 +34,13 @@
             this.GUIScriptTable = new Anathema.GUIScriptTable();
             this.ScanToolStrip = new System.Windows.Forms.ToolStrip();
             this.SaveTableButton = new System.Windows.Forms.ToolStripButton();
-            this.LoadTableButton = new System.Windows.Forms.ToolStripButton();
+            this.OpenTableButton = new System.Windows.Forms.ToolStripButton();
+            this.OpenAndMergeTableButton = new System.Windows.Forms.ToolStripButton();
             this.AddAddressButton = new System.Windows.Forms.ToolStripButton();
             this.ToolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.CheatTableButton = new System.Windows.Forms.ToolStripButton();
             this.FSMTableButton = new System.Windows.Forms.ToolStripButton();
             this.GUIFSMTable = new Anathema.GUIFSMTable();
-            this.OpenAndMergeTableButton = new System.Windows.Forms.ToolStripButton();
             ((System.ComponentModel.ISupportInitialize)(this.CheatTableSplitContainer)).BeginInit();
             this.CheatTableSplitContainer.Panel1.SuspendLayout();
             this.CheatTableSplitContainer.Panel2.SuspendLayout();
@@ -87,7 +87,7 @@
             this.ScanToolStrip.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
             this.ScanToolStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.SaveTableButton,
-            this.LoadTableButton,
+            this.OpenTableButton,
             this.OpenAndMergeTableButton,
             this.AddAddressButton,
             this.ToolStripSeparator1,
@@ -110,16 +110,26 @@
             this.SaveTableButton.Text = "Save Table";
             this.SaveTableButton.Click += new System.EventHandler(this.SaveTableButton_Click);
             // 
-            // LoadTableButton
+            // OpenTableButton
             // 
-            this.LoadTableButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.LoadTableButton.Image = global::Anathema.Properties.Resources.Open;
-            this.LoadTableButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.LoadTableButton.Name = "LoadTableButton";
-            this.LoadTableButton.Size = new System.Drawing.Size(29, 20);
-            this.LoadTableButton.Text = "Open Table";
-            this.LoadTableButton.ToolTipText = "Open Table";
-            this.LoadTableButton.Click += new System.EventHandler(this.LoadTableButton_Click);
+            this.OpenTableButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.OpenTableButton.Image = global::Anathema.Properties.Resources.Open;
+            this.OpenTableButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.OpenTableButton.Name = "OpenTableButton";
+            this.OpenTableButton.Size = new System.Drawing.Size(29, 20);
+            this.OpenTableButton.Text = "Open Table";
+            this.OpenTableButton.ToolTipText = "Open Table";
+            this.OpenTableButton.Click += new System.EventHandler(this.OpenTableButton_Click);
+            // 
+            // OpenAndMergeTableButton
+            // 
+            this.OpenAndMergeTableButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.OpenAndMergeTableButton.Image = global::Anathema.Properties.Resources.Merge;
+            this.OpenAndMergeTableButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.OpenAndMergeTableButton.Name = "OpenAndMergeTableButton";
+            this.OpenAndMergeTableButton.Size = new System.Drawing.Size(29, 20);
+            this.OpenAndMergeTableButton.Text = "Open and Merge Table";
+            this.OpenAndMergeTableButton.Click += new System.EventHandler(this.OpenAndMergeTableButton_Click);
             // 
             // AddAddressButton
             // 
@@ -128,7 +138,7 @@
             this.AddAddressButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.AddAddressButton.Name = "AddAddressButton";
             this.AddAddressButton.Size = new System.Drawing.Size(29, 20);
-            this.AddAddressButton.Text = "Add Address Manually";
+            this.AddAddressButton.Text = "Add New Address";
             this.AddAddressButton.Click += new System.EventHandler(this.AddAddressButton_Click);
             // 
             // ToolStripSeparator1
@@ -167,16 +177,6 @@
             this.GUIFSMTable.Size = new System.Drawing.Size(722, 225);
             this.GUIFSMTable.TabIndex = 151;
             // 
-            // OpenAndMergeTableButton
-            // 
-            this.OpenAndMergeTableButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.OpenAndMergeTableButton.Image = global::Anathema.Properties.Resources.Merge;
-            this.OpenAndMergeTableButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.OpenAndMergeTableButton.Name = "OpenAndMergeTableButton";
-            this.OpenAndMergeTableButton.Size = new System.Drawing.Size(29, 20);
-            this.OpenAndMergeTableButton.Text = "Open and Merge Table";
-            this.OpenAndMergeTableButton.Click += new System.EventHandler(this.OpenAndMergeTableButton_Click);
-            // 
             // GUITable
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -204,7 +204,7 @@
         private System.Windows.Forms.SplitContainer CheatTableSplitContainer;
         private System.Windows.Forms.ToolStrip ScanToolStrip;
         private System.Windows.Forms.ToolStripButton SaveTableButton;
-        private System.Windows.Forms.ToolStripButton LoadTableButton;
+        private System.Windows.Forms.ToolStripButton OpenTableButton;
         private System.Windows.Forms.ToolStripSeparator ToolStripSeparator1;
         private System.Windows.Forms.ToolStripButton CheatTableButton;
         private System.Windows.Forms.ToolStripButton FSMTableButton;

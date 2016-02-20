@@ -98,9 +98,18 @@ namespace Anathema
             AddressItems[Index].SetActivationState(Activated);
         }
 
-        public override void AddTableItem(IntPtr BaseAddress, Type ElementType, String Description, Int32[] Offsets = null, Boolean IsHex = false, String Value = null)
+        public override void AddAddressItem(IntPtr BaseAddress, Type ElementType, String Description, Int32[] Offsets = null, Boolean IsHex = false, String Value = null)
         {
             AddressItems.Add(new AddressItem(BaseAddress, ElementType, Description, Offsets, IsHex, Value));
+
+            AddressTableEventArgs AddressTableEventArgs = new AddressTableEventArgs();
+            AddressTableEventArgs.ItemCount = AddressItems.Count;
+            OnEventClearAddressCache(AddressTableEventArgs);
+        }
+
+        public override void AddAddressItem(AddressItem AddressItem)
+        {
+            AddressItems.Add(AddressItem);
 
             AddressTableEventArgs AddressTableEventArgs = new AddressTableEventArgs();
             AddressTableEventArgs.ItemCount = AddressItems.Count;

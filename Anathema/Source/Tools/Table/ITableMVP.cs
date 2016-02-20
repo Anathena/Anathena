@@ -25,7 +25,8 @@ namespace Anathema
     interface ITableModel : IModel
     {
         Boolean SaveTable(String Path);
-        Boolean LoadTable(String Path);
+        Boolean OpenTable(String Path);
+        Boolean MergeTable(String Path);
     }
     
     class TablePresenter : Presenter<ITableView, ITableModel>
@@ -49,18 +50,26 @@ namespace Anathema
             return Model.SaveTable(Path);
         }
 
-        public Boolean LoadTable(String Path)
+        public Boolean OpenTable(String Path)
         {
             if (Path == String.Empty)
                 return false;
 
-            return Model.LoadTable(Path);
+            return Model.OpenTable(Path);
         }
-        
+
+        public Boolean MergeTable(String Path)
+        {
+            if (Path == String.Empty)
+                return false;
+
+            return Model.MergeTable(Path);
+        }
+
         #endregion
 
         #region Event definitions for events triggered by the model (upstream)
-        
+
         #endregion
 
     } // End class

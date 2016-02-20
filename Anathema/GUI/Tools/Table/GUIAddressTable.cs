@@ -79,6 +79,11 @@ namespace Anathema
             GUIAddressTableEntryEditor.ShowDialog(this);
         }
 
+        public void AddNewAddressItem()
+        {
+            AddressTablePresenter.AddNewAddressItem();
+        }
+
         private void DeleteAddressTableEntries(Int32 StartIndex, Int32 EndIndex)
         {
             if (AddressTableListView.SelectedIndices == null || AddressTableListView.SelectedIndices.Count <= 0)
@@ -172,7 +177,7 @@ namespace Anathema
 
         private void AddNewAddressToolStripMenuItem_Click(Object Sender, EventArgs E)
         {
-
+            AddNewAddressItem();
         }
 
         private void AddressTableContextMenuStrip_Opening(Object Sender, CancelEventArgs E)

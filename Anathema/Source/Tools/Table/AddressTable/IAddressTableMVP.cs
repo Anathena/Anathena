@@ -60,7 +60,8 @@ namespace Anathema
 
         public abstract void ReorderItem(Int32 SourceIndex, Int32 DestinationIndex);
 
-        public abstract void AddTableItem(IntPtr BaseAddress, Type ElementType, String Description, Int32[] Offsets = null, Boolean IsHex = false, String Value = null);
+        public abstract void AddAddressItem(IntPtr BaseAddress, Type ElementType, String Description, Int32[] Offsets = null, Boolean IsHex = false, String Value = null);
+        public abstract void AddAddressItem(AddressItem AddressItem);
         public abstract void DeleteTableItems(List<Int32> Items);
 
         public abstract void ForceRefresh();
@@ -133,9 +134,9 @@ namespace Anathema
             return Item;
         }
 
-        public void AddNewTableItem()
+        public void AddNewAddressItem()
         {
-            Model.AddTableItem(IntPtr.Zero, typeof(Int32), "No Description");
+            Model.AddAddressItem(IntPtr.Zero, typeof(Int32), "No Description");
         }
 
         public void DeleteTableItems(List<Int32> Indicies)

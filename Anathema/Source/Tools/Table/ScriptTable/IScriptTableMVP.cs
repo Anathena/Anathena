@@ -33,6 +33,7 @@ namespace Anathema
         void OpenScript(Int32 Index);
         void DeleteScript(Int32 Index);
         void ReorderScript(Int32 SourceIndex, Int32 DestinationIndex);
+        void AddScriptItem(ScriptItem Item);
 
         ScriptItem GetScriptItemAt(Int32 Index);
         void SetScriptActivation(Int32 Index, Boolean Activated);
