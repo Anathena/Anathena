@@ -12,9 +12,16 @@ namespace Anathema
         
         public LuaEngine()
         {
-            LuaMemoryCore = new LuaMemoryCore();
+            InitializeLuaEngine();
+        }
+
+        private void InitializeLuaEngine()
+        {
             ScriptEngine = new Lua();
+            LuaMemoryCore = new LuaMemoryCore();
+
             BindFunctions();
+            LuaMemoryCore.Initialize();
         }
 
         public static String AddCodeInjectionTemplate(String Script, String ModuleName, IntPtr ModuleOffset)
@@ -55,11 +62,8 @@ namespace Anathema
 
         public Boolean RunActivationFunction(String Script)
         {
-            // Prevent issues that may come from internal LUA crashes by reinitializing these.
-            ScriptEngine = new Lua();
-            LuaMemoryCore = new LuaMemoryCore();
-
-            LuaMemoryCore.Initialize();
+            // Prevent issues that may come from internal LUA crashes (caused by malformed scripts) by reinitializing engine
+            InitializeLuaEngine();
 
             Script = ReplaceTags(Script);
 
@@ -97,8 +101,11 @@ namespace Anathema
         {
             // Removes the assembly tags and instead places a string body.
             // This is done such that the LUA frontend can do its syntax highlighting with minmal effort
-            Script = Regex.Replace(Script, "\\[fasm\\]", "[[", RegexOptions.IgnoreCase);
-            Script = Regex.Replace(Script, "\\[/fasm\\]", "]]", RegexOptions.IgnoreCase);
+            //Script = Regex.Replace(Script, "\\[fasm\\]", "[[", RegexOptions.IgnoreCase);
+            //Script = Regex.Replace(Script, "\\[/fasm\\]", "]]", RegexOptions.IgnoreCase);
+
+            Script = Script.Replace("[fasm]", "[[");
+            Script = Script.Replace("[/fasm]", "]]");
 
             return Script;
         }

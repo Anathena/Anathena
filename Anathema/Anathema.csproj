@@ -860,6 +860,7 @@
     <Content Include="Content\Icons\CelestialIcon.png" />
     <Content Include="Content\Icons\Changed.png" />
     <Content Include="Content\Icons\Close.png" />
+    <None Include="Content\Icons\CollectValues.png" />
     <Content Include="Content\Icons\Convert.png" />
     <Content Include="Content\Icons\Decreased.png" />
     <Content Include="Content\Icons\Disable.png" />
@@ -871,6 +872,7 @@
     <Content Include="Content\Icons\GreaterThan.png" />
     <None Include="Content\Icons\GreaterThanOrEqual.png" />
     <Content Include="Content\Icons\Hide.png" />
+    <None Include="Content\Icons\Home.png" />
     <Content Include="Content\Icons\Increased.png" />
     <Content Include="Content\Icons\InputCorrelator.png" />
     <None Include="Content\Icons\Intersection.png" />
