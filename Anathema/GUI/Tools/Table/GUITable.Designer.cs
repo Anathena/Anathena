@@ -30,8 +30,6 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(GUITable));
             this.CheatTableSplitContainer = new System.Windows.Forms.SplitContainer();
-            this.GUIAddressTable = new Anathema.GUIAddressTable();
-            this.GUIScriptTable = new Anathema.GUIScriptTable();
             this.ScanToolStrip = new System.Windows.Forms.ToolStrip();
             this.SaveTableButton = new System.Windows.Forms.ToolStripButton();
             this.OpenTableButton = new System.Windows.Forms.ToolStripButton();
@@ -40,6 +38,8 @@
             this.ToolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.CheatTableButton = new System.Windows.Forms.ToolStripButton();
             this.FSMTableButton = new System.Windows.Forms.ToolStripButton();
+            this.GUIAddressTable = new Anathema.GUIAddressTable();
+            this.GUIScriptTable = new Anathema.GUIScriptTable();
             this.GUIFSMTable = new Anathema.GUIFSMTable();
             ((System.ComponentModel.ISupportInitialize)(this.CheatTableSplitContainer)).BeginInit();
             this.CheatTableSplitContainer.Panel1.SuspendLayout();
@@ -61,25 +61,9 @@
             // CheatTableSplitContainer.Panel2
             // 
             this.CheatTableSplitContainer.Panel2.Controls.Add(this.GUIScriptTable);
-            this.CheatTableSplitContainer.Size = new System.Drawing.Size(690, 225);
-            this.CheatTableSplitContainer.SplitterDistance = 461;
+            this.CheatTableSplitContainer.Size = new System.Drawing.Size(698, 225);
+            this.CheatTableSplitContainer.SplitterDistance = 466;
             this.CheatTableSplitContainer.TabIndex = 145;
-            // 
-            // GUIAddressTable
-            // 
-            this.GUIAddressTable.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.GUIAddressTable.Location = new System.Drawing.Point(0, 0);
-            this.GUIAddressTable.Name = "GUIAddressTable";
-            this.GUIAddressTable.Size = new System.Drawing.Size(461, 225);
-            this.GUIAddressTable.TabIndex = 0;
-            // 
-            // GUIScriptTable
-            // 
-            this.GUIScriptTable.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.GUIScriptTable.Location = new System.Drawing.Point(0, 0);
-            this.GUIScriptTable.Name = "GUIScriptTable";
-            this.GUIScriptTable.Size = new System.Drawing.Size(225, 225);
-            this.GUIScriptTable.TabIndex = 0;
             // 
             // ScanToolStrip
             // 
@@ -94,10 +78,10 @@
             this.CheatTableButton,
             this.FSMTableButton});
             this.ScanToolStrip.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.VerticalStackWithOverflow;
-            this.ScanToolStrip.Location = new System.Drawing.Point(690, 0);
+            this.ScanToolStrip.Location = new System.Drawing.Point(698, 0);
             this.ScanToolStrip.Name = "ScanToolStrip";
             this.ScanToolStrip.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
-            this.ScanToolStrip.Size = new System.Drawing.Size(32, 225);
+            this.ScanToolStrip.Size = new System.Drawing.Size(24, 225);
             this.ScanToolStrip.TabIndex = 150;
             // 
             // SaveTableButton
@@ -106,7 +90,7 @@
             this.SaveTableButton.Image = global::Anathema.Properties.Resources.Save;
             this.SaveTableButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.SaveTableButton.Name = "SaveTableButton";
-            this.SaveTableButton.Size = new System.Drawing.Size(29, 20);
+            this.SaveTableButton.Size = new System.Drawing.Size(21, 20);
             this.SaveTableButton.Text = "Save Table";
             this.SaveTableButton.Click += new System.EventHandler(this.SaveTableButton_Click);
             // 
@@ -116,7 +100,7 @@
             this.OpenTableButton.Image = global::Anathema.Properties.Resources.Open;
             this.OpenTableButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.OpenTableButton.Name = "OpenTableButton";
-            this.OpenTableButton.Size = new System.Drawing.Size(29, 20);
+            this.OpenTableButton.Size = new System.Drawing.Size(21, 20);
             this.OpenTableButton.Text = "Open Table";
             this.OpenTableButton.ToolTipText = "Open Table";
             this.OpenTableButton.Click += new System.EventHandler(this.OpenTableButton_Click);
@@ -127,7 +111,7 @@
             this.OpenAndMergeTableButton.Image = global::Anathema.Properties.Resources.Merge;
             this.OpenAndMergeTableButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.OpenAndMergeTableButton.Name = "OpenAndMergeTableButton";
-            this.OpenAndMergeTableButton.Size = new System.Drawing.Size(29, 20);
+            this.OpenAndMergeTableButton.Size = new System.Drawing.Size(21, 20);
             this.OpenAndMergeTableButton.Text = "Open and Merge Table";
             this.OpenAndMergeTableButton.Click += new System.EventHandler(this.OpenAndMergeTableButton_Click);
             // 
@@ -137,14 +121,14 @@
             this.AddAddressButton.Image = global::Anathema.Properties.Resources.Increased;
             this.AddAddressButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.AddAddressButton.Name = "AddAddressButton";
-            this.AddAddressButton.Size = new System.Drawing.Size(29, 20);
+            this.AddAddressButton.Size = new System.Drawing.Size(21, 20);
             this.AddAddressButton.Text = "Add New Address";
             this.AddAddressButton.Click += new System.EventHandler(this.AddAddressButton_Click);
             // 
             // ToolStripSeparator1
             // 
             this.ToolStripSeparator1.Name = "ToolStripSeparator1";
-            this.ToolStripSeparator1.Size = new System.Drawing.Size(29, 6);
+            this.ToolStripSeparator1.Size = new System.Drawing.Size(21, 6);
             this.ToolStripSeparator1.Visible = false;
             // 
             // CheatTableButton
@@ -153,7 +137,7 @@
             this.CheatTableButton.Image = global::Anathema.Properties.Resources.BenedictionIcon;
             this.CheatTableButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.CheatTableButton.Name = "CheatTableButton";
-            this.CheatTableButton.Size = new System.Drawing.Size(29, 20);
+            this.CheatTableButton.Size = new System.Drawing.Size(21, 20);
             this.CheatTableButton.Text = "Cheat Table";
             this.CheatTableButton.Visible = false;
             this.CheatTableButton.Click += new System.EventHandler(this.CheatTableButton_Click);
@@ -164,10 +148,26 @@
             this.FSMTableButton.Image = global::Anathema.Properties.Resources.CelestialIcon;
             this.FSMTableButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.FSMTableButton.Name = "FSMTableButton";
-            this.FSMTableButton.Size = new System.Drawing.Size(29, 20);
+            this.FSMTableButton.Size = new System.Drawing.Size(21, 20);
             this.FSMTableButton.Text = "FSM Table";
             this.FSMTableButton.Visible = false;
             this.FSMTableButton.Click += new System.EventHandler(this.FSMTableButton_Click);
+            // 
+            // GUIAddressTable
+            // 
+            this.GUIAddressTable.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.GUIAddressTable.Location = new System.Drawing.Point(0, 0);
+            this.GUIAddressTable.Name = "GUIAddressTable";
+            this.GUIAddressTable.Size = new System.Drawing.Size(466, 225);
+            this.GUIAddressTable.TabIndex = 0;
+            // 
+            // GUIScriptTable
+            // 
+            this.GUIScriptTable.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.GUIScriptTable.Location = new System.Drawing.Point(0, 0);
+            this.GUIScriptTable.Name = "GUIScriptTable";
+            this.GUIScriptTable.Size = new System.Drawing.Size(228, 225);
+            this.GUIScriptTable.TabIndex = 0;
             // 
             // GUIFSMTable
             // 
@@ -189,6 +189,7 @@
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "GUITable";
             this.Text = "Table";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.GUITable_FormClosing);
             this.CheatTableSplitContainer.Panel1.ResumeLayout(false);
             this.CheatTableSplitContainer.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.CheatTableSplitContainer)).EndInit();

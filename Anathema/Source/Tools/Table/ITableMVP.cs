@@ -27,6 +27,8 @@ namespace Anathema
         Boolean SaveTable(String Path);
         Boolean OpenTable(String Path);
         Boolean MergeTable(String Path);
+
+        Boolean HasChanges();
     }
     
     class TablePresenter : Presenter<ITableView, ITableModel>
@@ -64,6 +66,11 @@ namespace Anathema
                 return false;
 
             return Model.MergeTable(Path);
+        }
+
+        public Boolean HasChanges()
+        {
+            return Model.HasChanges();
         }
 
         #endregion

@@ -7,8 +7,6 @@ using System.Text;
 using System.Windows.Forms;
 using WeifenLuo.WinFormsUI.Docking;
 using System.IO;
-using System.Xml;
-using System.Xml.Serialization;
 
 namespace Anathema
 {
@@ -16,10 +14,14 @@ namespace Anathema
     {
         private TablePresenter TablePresenter;
 
+        private String ActiveTablePath;
+
         public GUITable()
         {
             InitializeComponent();
             TablePresenter = new TablePresenter(this, Table.GetInstance());
+
+            ActiveTablePath = String.Empty;
 
             ViewCheatTable();
         }
@@ -41,6 +43,17 @@ namespace Anathema
         }
 
         public void BeginSaveTable()
+        {
+            if (ActiveTablePath == null || ActiveTablePath == String.Empty)
+            { 
+                BeginSaveAsTable();
+                return;
+            }
+
+            TablePresenter.SaveTable(ActiveTablePath);
+        }
+
+        public void BeginSaveAsTable()
         {
             SaveFileDialog SaveFileDialog = new SaveFileDialog();
             SaveFileDialog.Filter = "Anathema Table | *.ana";
@@ -68,6 +81,29 @@ namespace Anathema
             OpenFileDialog.ShowDialog();
 
             TablePresenter.MergeTable(OpenFileDialog.FileName);
+        }
+
+        private Boolean AskSaveChanges()
+        {
+            // Check if there are even changes to save
+            if (!TablePresenter.HasChanges())
+                return false;
+
+            DialogResult Result = MessageBoxEx.Show(this, "This script has not been saved, save the changes to the table before closing?", "Save Changes?", MessageBoxButtons.YesNoCancel);
+
+            switch (Result)
+            {
+                case DialogResult.Yes:
+                    BeginSaveTable();
+                    return false;
+                case DialogResult.No:
+                    return false;
+                case DialogResult.Cancel:
+                    break;
+            }
+
+            // User wishes to cancel
+            return true;
         }
 
         #region Events
@@ -102,6 +138,12 @@ namespace Anathema
         private void AddAddressButton_Click(Object Sender, EventArgs E)
         {
             GUIAddressTable.AddNewAddressItem();
+        }
+
+        private void GUITable_FormClosing(Object Sender, FormClosingEventArgs E)
+        {
+            if (AskSaveChanges())
+                E.Cancel = true;
         }
 
         #endregion

@@ -13,6 +13,7 @@ namespace Anathema
         private static Table TableInstance;
 
         private TableData CurrentTableData;
+        private Boolean Changed;
 
         private Table()
         {
@@ -26,26 +27,14 @@ namespace Anathema
             return TableInstance;
         }
 
-        /// <summary>
-        /// A serializable class (via DataContractSerializer) to allow for easy XML saving of our addresses, scripts, and FSMs
-        /// </summary>
-        [DataContract()]
-        private class TableData
+        public void TableChanged()
         {
-            [DataMember()]
-            public List<AddressItem> AddressItems;
+            Changed = true;
+        }
 
-            [DataMember()]
-            public List<ScriptItem> ScriptItems;
-
-            public List<FiniteStateMachine> FiniteStateMachineItems;
-
-            public TableData()
-            {
-                AddressItems = new List<AddressItem>();
-                ScriptItems = new List<ScriptItem>();
-                FiniteStateMachineItems = new List<FiniteStateMachine>();
-            }
+        public Boolean HasChanges()
+        {
+            return Changed;
         }
 
         public Boolean SaveTable(String Path)
@@ -67,6 +56,8 @@ namespace Anathema
             {
                 return false;
             }
+
+            Changed = false;
             return true;
         }
 
@@ -113,6 +104,28 @@ namespace Anathema
                 return false;
             }
             return true;
+        }
+
+        /// <summary>
+        /// A serializable class (via DataContractSerializer) to allow for easy XML saving of our addresses, scripts, and FSMs
+        /// </summary>
+        [DataContract()]
+        private class TableData
+        {
+            [DataMember()]
+            public List<AddressItem> AddressItems;
+
+            [DataMember()]
+            public List<ScriptItem> ScriptItems;
+
+            public List<FiniteStateMachine> FiniteStateMachineItems;
+
+            public TableData()
+            {
+                AddressItems = new List<AddressItem>();
+                ScriptItems = new List<ScriptItem>();
+                FiniteStateMachineItems = new List<FiniteStateMachine>();
+            }
         }
 
     } // End class
