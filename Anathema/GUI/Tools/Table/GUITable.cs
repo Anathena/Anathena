@@ -86,9 +86,14 @@ namespace Anathema
 
         private void AddAddressButton_Click(Object Sender, EventArgs E)
         {
-            
+
         }
-        
+
+        private void OpenAndMergeTableButton_Click(Object Sender, EventArgs E)
+        {
+
+        }
+
         #endregion
 
     } // End class

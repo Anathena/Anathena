@@ -40,6 +40,7 @@
             this.CheatTableButton = new System.Windows.Forms.ToolStripButton();
             this.FSMTableButton = new System.Windows.Forms.ToolStripButton();
             this.GUIFSMTable = new Anathema.GUIFSMTable();
+            this.OpenAndMergeTableButton = new System.Windows.Forms.ToolStripButton();
             ((System.ComponentModel.ISupportInitialize)(this.CheatTableSplitContainer)).BeginInit();
             this.CheatTableSplitContainer.Panel1.SuspendLayout();
             this.CheatTableSplitContainer.Panel2.SuspendLayout();
@@ -87,6 +88,7 @@
             this.ScanToolStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.SaveTableButton,
             this.LoadTableButton,
+            this.OpenAndMergeTableButton,
             this.AddAddressButton,
             this.ToolStripSeparator1,
             this.CheatTableButton,
@@ -165,6 +167,16 @@
             this.GUIFSMTable.Size = new System.Drawing.Size(722, 225);
             this.GUIFSMTable.TabIndex = 151;
             // 
+            // OpenAndMergeTableButton
+            // 
+            this.OpenAndMergeTableButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.OpenAndMergeTableButton.Image = global::Anathema.Properties.Resources.Merge;
+            this.OpenAndMergeTableButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.OpenAndMergeTableButton.Name = "OpenAndMergeTableButton";
+            this.OpenAndMergeTableButton.Size = new System.Drawing.Size(29, 20);
+            this.OpenAndMergeTableButton.Text = "Open and Merge Table";
+            this.OpenAndMergeTableButton.Click += new System.EventHandler(this.OpenAndMergeTableButton_Click);
+            // 
             // GUITable
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -200,5 +212,6 @@
         private GUIAddressTable GUIAddressTable;
         private GUIScriptTable GUIScriptTable;
         private GUIFSMTable GUIFSMTable;
+        private System.Windows.Forms.ToolStripButton OpenAndMergeTableButton;
     }
 }

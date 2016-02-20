@@ -52,6 +52,7 @@
             this.AddNewAddressToolStripMenuItem});
             this.AddressTableContextMenuStrip.Name = "RightClickMenu";
             this.AddressTableContextMenuStrip.Size = new System.Drawing.Size(169, 92);
+            this.AddressTableContextMenuStrip.Opening += new System.ComponentModel.CancelEventHandler(this.AddressTableContextMenuStrip_Opening);
             // 
             // ToggleFreezeToolStripMenuItem
             // 
@@ -92,6 +93,7 @@
             this.AddressHeader,
             this.TypeHeader,
             this.ValueHeader});
+            this.AddressTableListView.ContextMenuStrip = this.AddressTableContextMenuStrip;
             this.AddressTableListView.Dock = System.Windows.Forms.DockStyle.Fill;
             this.AddressTableListView.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.AddressTableListView.FullRowSelect = true;

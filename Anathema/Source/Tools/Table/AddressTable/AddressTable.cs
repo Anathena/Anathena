@@ -98,9 +98,22 @@ namespace Anathema
             AddressItems[Index].SetActivationState(Activated);
         }
 
-        public void AddTableItem(IntPtr BaseAddress, Type ElementType, String Description, Int32[] Offsets = null, Boolean IsHex = false, String Value = null)
+        public override void AddTableItem(IntPtr BaseAddress, Type ElementType, String Description, Int32[] Offsets = null, Boolean IsHex = false, String Value = null)
         {
             AddressItems.Add(new AddressItem(BaseAddress, ElementType, Description, Offsets, IsHex, Value));
+
+            AddressTableEventArgs AddressTableEventArgs = new AddressTableEventArgs();
+            AddressTableEventArgs.ItemCount = AddressItems.Count;
+            OnEventClearAddressCache(AddressTableEventArgs);
+        }
+
+        public override void DeleteTableItems(List<Int32> Indicies)
+        {
+            Indicies.Sort();
+            Indicies.Reverse();
+
+            foreach (Int32 Index in Indicies)
+                AddressItems.RemoveAt(Index);
 
             AddressTableEventArgs AddressTableEventArgs = new AddressTableEventArgs();
             AddressTableEventArgs.ItemCount = AddressItems.Count;
@@ -150,7 +163,7 @@ namespace Anathema
             ClearAddressItemFromCache(AddressItems[Index]);
         }
 
-        public override void ReorderScript(Int32 SourceIndex, Int32 DestinationIndex)
+        public override void ReorderItem(Int32 SourceIndex, Int32 DestinationIndex)
         {
             // Bounds checking
             if (SourceIndex < 0 || SourceIndex > AddressItems.Count)

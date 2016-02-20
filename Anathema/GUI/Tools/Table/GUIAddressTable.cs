@@ -81,7 +81,10 @@ namespace Anathema
 
         private void DeleteAddressTableEntries(Int32 StartIndex, Int32 EndIndex)
         {
+            if (AddressTableListView.SelectedIndices == null || AddressTableListView.SelectedIndices.Count <= 0)
+                return;
 
+            AddressTablePresenter.DeleteTableItems(AddressTableListView.SelectedIndices.Cast<Int32>().ToList());
         }
 
         #region Events
@@ -163,11 +166,34 @@ namespace Anathema
                 return;
 
             DeleteAddressTableEntries(SelectedItem.Index, SelectedItem.Index);
+
+            AddressTableListView.SelectedIndices.Clear();
         }
 
         private void AddNewAddressToolStripMenuItem_Click(Object Sender, EventArgs E)
         {
 
+        }
+
+        private void AddressTableContextMenuStrip_Opening(Object Sender, CancelEventArgs E)
+        {
+            ListViewHitTestInfo HitTest = AddressTableListView.HitTest(AddressTableListView.PointToClient(MousePosition));
+            ListViewItem SelectedItem = HitTest.Item;
+
+            if (SelectedItem == null)
+            {
+                ToggleFreezeToolStripMenuItem.Enabled = false;
+                EditAddressEntryToolStripMenuItem.Enabled = false;
+                DeleteSelectionToolStripMenuItem.Enabled = false;
+                AddNewAddressToolStripMenuItem.Enabled = true;
+            }
+            else
+            {
+                ToggleFreezeToolStripMenuItem.Enabled = true;
+                EditAddressEntryToolStripMenuItem.Enabled = true;
+                DeleteSelectionToolStripMenuItem.Enabled = true;
+                AddNewAddressToolStripMenuItem.Enabled = true;
+            }
         }
 
         private ListViewItem DraggedItem;
@@ -193,7 +219,7 @@ namespace Anathema
             if ((SelectedItem != null && SelectedItem.GetType() != typeof(ListViewItem)) || DraggedItem.GetType() != typeof(ListViewItem))
                 return;
 
-            AddressTablePresenter.ReorderScript(DraggedItem.Index, SelectedItem == null ? AddressTableListView.Items.Count : SelectedItem.Index);
+            AddressTablePresenter.ReorderItem(DraggedItem.Index, SelectedItem == null ? AddressTableListView.Items.Count : SelectedItem.Index);
         }
 
         #endregion

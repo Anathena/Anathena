@@ -1,11 +1,6 @@
-﻿using Anathema.MemoryManagement;
-using Anathema.MemoryManagement.Memory;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Anathema
@@ -63,7 +58,10 @@ namespace Anathema
         public abstract void SetAddressItemAt(Int32 Index, AddressItem AddressItem);
         public abstract void SetAddressFrozen(Int32 Index, Boolean Activated);
 
-        public abstract void ReorderScript(Int32 SourceIndex, Int32 DestinationIndex);
+        public abstract void ReorderItem(Int32 SourceIndex, Int32 DestinationIndex);
+
+        public abstract void AddTableItem(IntPtr BaseAddress, Type ElementType, String Description, Int32[] Offsets = null, Boolean IsHex = false, String Value = null);
+        public abstract void DeleteTableItems(List<Int32> Items);
 
         public abstract void ForceRefresh();
         public abstract void UpdateReadBounds(Int32 StartReadIndex, Int32 EndReadIndex);
@@ -135,14 +133,24 @@ namespace Anathema
             return Item;
         }
 
+        public void AddNewTableItem()
+        {
+            Model.AddTableItem(IntPtr.Zero, typeof(Int32), "No Description");
+        }
+
+        public void DeleteTableItems(List<Int32> Indicies)
+        {
+            Model.DeleteTableItems(Indicies);
+        }
+
         public void SetAddressFrozen(Int32 Index, Boolean Activated)
         {
             Model.SetAddressFrozen(Index, Activated);
         }
         
-        public void ReorderScript(Int32 SourceIndex, Int32 DestinationIndex)
+        public void ReorderItem(Int32 SourceIndex, Int32 DestinationIndex)
         {
-            Model.ReorderScript(SourceIndex, DestinationIndex);
+            Model.ReorderItem(SourceIndex, DestinationIndex);
         }
 
         #endregion
