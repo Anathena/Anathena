@@ -389,6 +389,16 @@ namespace Anathema
 
         private void GUIMain_FormClosing(Object Sender, FormClosingEventArgs E)
         {
+            // Give the table a chance to ask to save changes
+            if (GUITable != null && !GUITable.IsDisposed)
+                GUITable.Close();
+
+            if (!GUITable.IsDisposed)
+            { 
+                E.Cancel = true;
+                return;
+            }
+
             SaveConfiguration();
         }
 

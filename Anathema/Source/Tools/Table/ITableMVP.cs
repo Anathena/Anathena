@@ -13,17 +13,21 @@ namespace Anathema
     delegate void TableEventHandler(Object Sender, TableEventArgs Args);
     class TableEventArgs : EventArgs
     {
-        public Int32 ItemCount = 0;
-        public Int32 ClearCacheIndex = -1;
+        public Boolean HasChanges;
     }
 
     interface ITableView : IView
     {
         // Methods invoked by the presenter (upstream)
+        void UpdateHasChanges(Boolean HasChanges);
     }
 
     interface ITableModel : IModel
     {
+        // Events triggered by the model (upstream)
+        event TableEventHandler EventHasChanges;
+
+        // Functions invoked by presenter (downstream)
         Boolean SaveTable(String Path);
         Boolean OpenTable(String Path);
         Boolean MergeTable(String Path);
@@ -40,6 +44,8 @@ namespace Anathema
         {
             this.View = View;
             this.Model = Model;
+
+            Model.EventHasChanges += EventHasChanges;
         }
 
         #region Method definitions called by the view (downstream)
@@ -76,6 +82,11 @@ namespace Anathema
         #endregion
 
         #region Event definitions for events triggered by the model (upstream)
+
+        private void EventHasChanges(Object Sender, TableEventArgs E)
+        {
+            View.UpdateHasChanges(E.HasChanges);
+        }
 
         #endregion
 

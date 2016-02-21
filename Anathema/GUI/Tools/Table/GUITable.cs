@@ -14,18 +14,21 @@ namespace Anathema
     {
         private TablePresenter TablePresenter;
 
+        private String Title;
         private String ActiveTablePath;
 
         public GUITable()
         {
             InitializeComponent();
+            Title = this.Text;
+
             TablePresenter = new TablePresenter(this, Table.GetInstance());
 
             ActiveTablePath = String.Empty;
 
             ViewCheatTable();
         }
-        
+
         private void ViewCheatTable()
         {
             CheatTableButton.Checked = true;
@@ -42,10 +45,20 @@ namespace Anathema
             GUIFSMTable.Visible = true;
         }
 
+        public void UpdateHasChanges(Boolean HasChanges)
+        {
+            ControlThreadingHelper.InvokeControlAction(this, () =>
+            {
+                this.Text = Title + " - " + ActiveTablePath;
+                if (HasChanges)
+                    this.Text += "*";
+            });
+        }
+
         public void BeginSaveTable()
         {
-            if (ActiveTablePath == null || ActiveTablePath == String.Empty)
-            { 
+            if (ActiveTablePath == String.Empty)
+            {
                 BeginSaveAsTable();
                 return;
             }
@@ -70,6 +83,8 @@ namespace Anathema
             OpenFileDialog.Title = "Open Cheat Table";
             OpenFileDialog.ShowDialog();
 
+            ActiveTablePath = OpenFileDialog.FileName;
+
             TablePresenter.OpenTable(OpenFileDialog.FileName);
         }
 
@@ -80,6 +95,10 @@ namespace Anathema
             OpenFileDialog.Title = "Open and Merge Cheat Table";
             OpenFileDialog.ShowDialog();
 
+            // Prioritize whatever is open already. If nothing, use the merge filename.
+            if (ActiveTablePath == String.Empty)
+                ActiveTablePath = OpenFileDialog.FileName;
+
             TablePresenter.MergeTable(OpenFileDialog.FileName);
         }
 
@@ -89,7 +108,7 @@ namespace Anathema
             if (!TablePresenter.HasChanges())
                 return false;
 
-            DialogResult Result = MessageBoxEx.Show(this, "This script has not been saved, save the changes to the table before closing?", "Save Changes?", MessageBoxButtons.YesNoCancel);
+            DialogResult Result = MessageBoxEx.Show(this, "This table has not been saved. Save the changes before closing?", "Save Changes?", MessageBoxButtons.YesNoCancel);
 
             switch (Result)
             {

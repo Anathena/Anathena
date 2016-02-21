@@ -54,6 +54,8 @@ namespace Anathema
             ScriptTableEventArgs ScriptTableEventArgs = new ScriptTableEventArgs();
             ScriptTableEventArgs.ItemCount = ScriptItems.Count;
             EventClearScriptCache(this, ScriptTableEventArgs);
+
+            Table.GetInstance().TableChanged();
         }
 
         public void DeleteScript(Int32 Index)
@@ -63,6 +65,8 @@ namespace Anathema
             ScriptTableEventArgs ScriptTableEventArgs = new ScriptTableEventArgs();
             ScriptTableEventArgs.ItemCount = ScriptItems.Count;
             EventClearScriptCache(this, ScriptTableEventArgs);
+
+            Table.GetInstance().TableChanged();
         }
 
         public void ReorderScript(Int32 SourceIndex, Int32 DestinationIndex)
@@ -86,6 +90,8 @@ namespace Anathema
             ScriptTableEventArgs ScriptTableEventArgs = new ScriptTableEventArgs();
             ScriptTableEventArgs.ItemCount = ScriptItems.Count;
             EventClearScriptCache(this, ScriptTableEventArgs);
+
+            Table.GetInstance().TableChanged();
         }
 
         public void SaveScript(ScriptItem ScriptItem)
@@ -104,6 +110,8 @@ namespace Anathema
                 // Updating an existing script, clear it from the cache
                 ClearScriptItemFromCache(ScriptItem);
             }
+
+            Table.GetInstance().TableChanged();
         }
 
         public ScriptItem GetScriptItemAt(Int32 Index)
@@ -122,6 +130,8 @@ namespace Anathema
             ScriptTableEventArgs ScriptTableEventArgs = new ScriptTableEventArgs();
             ScriptTableEventArgs.ItemCount = ScriptItems.Count;
             EventClearScriptCache(this, ScriptTableEventArgs);
+
+            Table.GetInstance().TableChanged();
         }
 
         public void SetScriptActivation(Int32 Index, Boolean Activated)

@@ -10,7 +10,7 @@ using System.Windows.Forms;
 
 namespace Anathema
 {
-    delegate void FSMTableEventHandler(Object Sender, TableEventArgs Args);
+    delegate void FSMTableEventHandler(Object Sender, FSMTableEventArgs Args);
     class FSMTableEventArgs : EventArgs
     {
         public Int32 ItemCount = 0;
@@ -84,13 +84,13 @@ namespace Anathema
 
         #region Event definitions for events triggered by the model (upstream)
 
-        private void EventClearFSMCacheItem(Object Sender, TableEventArgs E)
+        private void EventClearFSMCacheItem(Object Sender, FSMTableEventArgs E)
         {
             FSMTableCache.Delete((UInt64)E.ClearCacheIndex);
             View.UpdateFSMTableItemCount(E.ItemCount);
         }
 
-        private void EventClearFSMCache(Object Sender, TableEventArgs E)
+        private void EventClearFSMCache(Object Sender, FSMTableEventArgs E)
         {
             FSMTableCache.FlushCache();
             View.UpdateFSMTableItemCount(E.ItemCount);

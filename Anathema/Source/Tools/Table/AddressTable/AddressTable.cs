@@ -105,6 +105,8 @@ namespace Anathema
             AddressTableEventArgs AddressTableEventArgs = new AddressTableEventArgs();
             AddressTableEventArgs.ItemCount = AddressItems.Count;
             OnEventClearAddressCache(AddressTableEventArgs);
+
+            Table.GetInstance().TableChanged();
         }
 
         public override void AddAddressItem(AddressItem AddressItem)
@@ -114,6 +116,8 @@ namespace Anathema
             AddressTableEventArgs AddressTableEventArgs = new AddressTableEventArgs();
             AddressTableEventArgs.ItemCount = AddressItems.Count;
             OnEventClearAddressCache(AddressTableEventArgs);
+
+            Table.GetInstance().TableChanged();
         }
 
         public override void DeleteTableItems(List<Int32> Indicies)
@@ -127,6 +131,8 @@ namespace Anathema
             AddressTableEventArgs AddressTableEventArgs = new AddressTableEventArgs();
             AddressTableEventArgs.ItemCount = AddressItems.Count;
             OnEventClearAddressCache(AddressTableEventArgs);
+
+            Table.GetInstance().TableChanged();
         }
 
         public override AddressItem GetAddressItemAt(Int32 Index)
@@ -146,6 +152,8 @@ namespace Anathema
             AddressTableEventArgs AddressTableEventArgs = new AddressTableEventArgs();
             AddressTableEventArgs.ItemCount = AddressItems.Count;
             OnEventClearAddressCache(AddressTableEventArgs);
+
+            Table.GetInstance().TableChanged();
         }
 
         public override void SetAddressItemAt(Int32 Index, AddressItem AddressItem)
@@ -170,6 +178,8 @@ namespace Anathema
 
             // Clear this entry in the cache since it has been updated
             ClearAddressItemFromCache(AddressItems[Index]);
+
+            Table.GetInstance().TableChanged();
         }
 
         public override void ReorderItem(Int32 SourceIndex, Int32 DestinationIndex)
@@ -193,6 +203,8 @@ namespace Anathema
             AddressTableEventArgs AddressTableEventArgs = new AddressTableEventArgs();
             AddressTableEventArgs.ItemCount = AddressItems.Count;
             OnEventClearAddressCache(AddressTableEventArgs);
+
+            Table.GetInstance().TableChanged();
         }
 
         private void ClearAddressItemFromCache(AddressItem AddressItem)

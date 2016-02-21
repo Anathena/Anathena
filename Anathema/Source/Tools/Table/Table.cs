@@ -12,6 +12,8 @@ namespace Anathema
     {
         private static Table TableInstance;
 
+        public event TableEventHandler EventHasChanges;
+
         private TableData CurrentTableData;
         private Boolean Changed;
 
@@ -30,6 +32,19 @@ namespace Anathema
         public void TableChanged()
         {
             Changed = true;
+
+            TableEventArgs Args = new TableEventArgs();
+            Args.HasChanges = Changed;
+            EventHasChanges(this, Args);
+        }
+
+        public void TableSaved()
+        {
+            Changed = false;
+
+            TableEventArgs Args = new TableEventArgs();
+            Args.HasChanges = Changed;
+            EventHasChanges(this, Args);
         }
 
         public Boolean HasChanges()
@@ -57,7 +72,7 @@ namespace Anathema
                 return false;
             }
 
-            Changed = false;
+            TableSaved();
             return true;
         }
 
@@ -79,6 +94,8 @@ namespace Anathema
             {
                 return false;
             }
+
+            TableSaved();
             return true;
         }
 
@@ -103,6 +120,8 @@ namespace Anathema
             {
                 return false;
             }
+
+            TableChanged();
             return true;
         }
 
