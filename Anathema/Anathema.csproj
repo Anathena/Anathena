@@ -142,6 +142,12 @@
     <Compile Include="GUI\CustomControls\TreeView\HighlightPreservingTreeView.Designer.cs">
       <DependentUpon>HighlightPreservingTreeView.cs</DependentUpon>
     </Compile>
+    <Compile Include="GUI\Registration\GUIRegistrationNag.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI\Registration\GUIRegistrationNag.Designer.cs">
+      <DependentUpon>GUIRegistrationNag.cs</DependentUpon>
+    </Compile>
     <Compile Include="GUI\Tools\Scanners\GUIConstraintEditor.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -232,6 +238,7 @@
     <Compile Include="Source\OS\OSInterface.cs" />
     <Compile Include="Source\OS\Architecture\Assembly\Disassembler\SharpDisassembler.cs" />
     <Compile Include="Source\OS\Architecture\Assembly\Disassembler\IDisassembler.cs" />
+    <Compile Include="Source\Registration\RegistrationManager.cs" />
     <Compile Include="Source\Settings\ISettingsMVP.cs" />
     <Compile Include="Source\Tools\Debugger\Memory View\IMemoryViewMVP.cs" />
     <Compile Include="Source\Tools\Debugger\Memory View\MemoryView.cs" />
@@ -708,6 +715,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\CustomControls\ListViews\FlickerFreeListView.resx">
       <DependentUpon>FlickerFreeListView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\Registration\GUIRegistrationNag.resx">
+      <DependentUpon>GUIRegistrationNag.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\Tools\Scanners\GUIConstraintEditor.resx">
       <DependentUpon>GUIConstraintEditor.cs</DependentUpon>

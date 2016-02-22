@@ -8,9 +8,29 @@ namespace Anathema
 {
     class RegistrationManager
     {
-        public RegistrationManager()
+        private RegistrationManager RegistrationManagerInstance;
+
+        private RegistrationManager()
         {
 
+        }
+
+        public RegistrationManager GetInstance()
+        {
+            if (RegistrationManagerInstance == null)
+                RegistrationManagerInstance = new RegistrationManager();
+            return RegistrationManagerInstance;
+        }
+
+        public Boolean IsRegistered()
+        {
+            // Access registration file and determine if it is valid
+            return true;
+        }
+
+        public void Register()
+        {
+            // Do register (via registry, file creation, etc)
         }
 
     } // End class
