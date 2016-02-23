@@ -54,13 +54,15 @@ namespace Anathema
 
             // Handle registration / trial mode
             if (!CheckRegistration())
-            { 
+            {
                 this.Close();
                 return;
             }
 
             // Initialize tools
             CreateTools();
+
+            this.Show();
         }
 
         /// <summary>
@@ -103,11 +105,13 @@ namespace Anathema
             if (RegistrationManager.GetInstance().IsRegistered())
                 return true;
 
-            CreateRegistrationNag();
-
-            if (RegistrationManager.GetInstance().IsRegistered())
+            if (RegistrationManager.GetInstance().IsTrialMode())
+            {
+                CreateRegistrationNag(); // Continue nag
                 return true;
+            }
 
+            CreateRegistrationNag(); // GG nag
             return false;
         }
 

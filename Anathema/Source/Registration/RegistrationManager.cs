@@ -9,15 +9,21 @@ namespace Anathema
 {
     class RegistrationManager
     {
-        private const String AnathemaTrialRegistryKey = "AnathemaTrial";
+        private const String RegistryKeyIsRegistered = "AnathemaRegistered";
+        private const String RegistryKeyTrialStart = "AnathemaTrialStart";
 
         private static RegistrationManager RegistrationManagerInstance;
-        private Boolean TrialActive;
 
-        private RegistrationManager()
+        private TimeSpan TrialTimeout = new TimeSpan(14, 0, 0, 0);
+        // private TimeSpan TrialTimeout = new TimeSpan(0, 0, 1, 0);
+
+        internal class RegistryObject<T>
         {
-            TrialActive = false;
+            public T Data;
+            public RegistryObject(T Data) { this.Data = Data; }
         }
+
+        private RegistrationManager() { }
 
         public static RegistrationManager GetInstance()
         {
@@ -26,20 +32,66 @@ namespace Anathema
             return RegistrationManagerInstance;
         }
 
-        public void SetTrialActive()
-        {
-            this.TrialActive = true;
-        }
-
         public Boolean IsRegistered()
         {
-            // return false;
+            RegistryObject<Boolean?> IsRegistered;
+            Boolean Result;
 
-            if (TrialActive)
-                return true;
+            // Parse the registered flag from registry
+            Boolean Success = Boolean.TryParse((String)ReadRegistryKey(RegistryKeyIsRegistered), out Result);
+            if (Success)
+                IsRegistered = new RegistryObject<Boolean?>(Result);
+            else
+                IsRegistered = new RegistryObject<Boolean?>(null);
+
+
+            // Set registered to false if not registered
+            if (IsRegistered.Data == null)
+            {
+                IsRegistered = new RegistryObject<Boolean?>(false);
+                if (WriteRegistryKey(RegistryKeyIsRegistered, IsRegistered.Data.ToString()))
+                    return false;
+            }
+
+            if (IsRegistered.Data == null)
+                return false;
 
             // Access registration file and determine if it is valid
-            return true;
+            return IsRegistered.Data.Value;
+        }
+
+        public Boolean IsTrialMode()
+        {
+            RegistryObject<DateTime?> TrialStart;
+            DateTime Result;
+
+            // Parse the trial start time from registry
+            Boolean Success = DateTime.TryParse((String)ReadRegistryKey(RegistryKeyTrialStart), out Result);
+            if (Success)
+                TrialStart = new RegistryObject<DateTime?>(Result);
+            else
+                TrialStart = new RegistryObject<DateTime?>(null);
+
+            // Create trial registry key if it is not already there
+            if (TrialStart.Data == null)
+            {
+                TrialStart = new RegistryObject<DateTime?>(DateTime.Now);
+                if (WriteRegistryKey(RegistryKeyTrialStart, TrialStart.Data.ToString()))
+                    return false;
+            }
+
+            if (TrialStart.Data == null)
+                return false;
+
+            // Prevent clock tricks (setting time to before trial start)
+            if (DateTime.Now < TrialStart.Data)
+                return false;
+
+            // Determine if trial has ended
+            if (DateTime.Now - TrialStart.Data > TrialTimeout)
+                return false;
+            else
+                return true;
         }
 
         public void Register()
@@ -53,34 +105,28 @@ namespace Anathema
 
             try
             {
-                RegistryKey = Registry.ClassesRoot.CreateSubKey(Key);
+                RegistryKey = Registry.CurrentUser.CreateSubKey(Key);
                 RegistryKey.SetValue(Key, Value);
                 RegistryKey.Close();
                 return true;
             }
-            catch (Exception Ex)
-            {
-                MessageBoxEx.Show(Ex.ToString());
-            }
+            catch { }
 
             return false;
         }
 
         public Object ReadRegistryKey(String Key)
         {
-            String KeyValue = null;
+            Object KeyValue = null;
             RegistryKey RegistryKey;
 
             try
             {
-                RegistryKey = Registry.ClassesRoot.CreateSubKey(Key);
-                KeyValue = RegistryKey.GetValue(Key).ToString();
+                RegistryKey = Registry.CurrentUser.OpenSubKey(Key);
+                KeyValue = RegistryKey.GetValue(Key);
                 RegistryKey.Close();
             }
-            catch (Exception Ex)
-            {
-                MessageBoxEx.Show(Ex.ToString());
-            }
+            catch { }
 
             return KeyValue;
         }
