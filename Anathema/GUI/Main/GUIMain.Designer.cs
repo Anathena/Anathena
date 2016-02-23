@@ -57,16 +57,18 @@
             this.TableToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ResultsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.SnapshotManagerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.HelpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.RegisterToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ContentPanel = new WeifenLuo.WinFormsUI.Docking.DockPanel();
             this.GUIToolStrip = new System.Windows.Forms.ToolStrip();
-            this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
-            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
-            this.ProcessTitleLabel = new System.Windows.Forms.ToolStripLabel();
             this.ProcessSelectorButton = new System.Windows.Forms.ToolStripButton();
-            this.CollectValuesButton = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
             this.NewScanButton = new System.Windows.Forms.ToolStripButton();
             this.UndoScanButton = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.CollectValuesButton = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
+            this.ProcessTitleLabel = new System.Windows.Forms.ToolStripLabel();
             this.GUIMenuStrip.SuspendLayout();
             this.GUIToolStrip.SuspendLayout();
             this.SuspendLayout();
@@ -77,7 +79,8 @@
             this.GUIMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.FileToolStripMenuItem,
             this.EditToolStripMenuItem,
-            this.ViewToolStripMenuItem});
+            this.ViewToolStripMenuItem,
+            this.HelpToolStripMenuItem});
             this.GUIMenuStrip.Location = new System.Drawing.Point(0, 0);
             this.GUIMenuStrip.Name = "GUIMenuStrip";
             this.GUIMenuStrip.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
@@ -298,6 +301,21 @@
             this.SnapshotManagerToolStripMenuItem.Text = "Snapshot Manager";
             this.SnapshotManagerToolStripMenuItem.Click += new System.EventHandler(this.SnapshotManagerToolStripMenuItem_Click);
             // 
+            // HelpToolStripMenuItem
+            // 
+            this.HelpToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.RegisterToolStripMenuItem});
+            this.HelpToolStripMenuItem.Name = "HelpToolStripMenuItem";
+            this.HelpToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
+            this.HelpToolStripMenuItem.Text = "Help";
+            // 
+            // RegisterToolStripMenuItem
+            // 
+            this.RegisterToolStripMenuItem.Name = "RegisterToolStripMenuItem";
+            this.RegisterToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.RegisterToolStripMenuItem.Text = "Register";
+            this.RegisterToolStripMenuItem.Click += new System.EventHandler(this.RegisterToolStripMenuItem_Click);
+            // 
             // ContentPanel
             // 
             this.ContentPanel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
@@ -326,22 +344,6 @@
             this.GUIToolStrip.TabIndex = 148;
             this.GUIToolStrip.Text = "Main Tool Strip";
             // 
-            // toolStripSeparator3
-            // 
-            this.toolStripSeparator3.Name = "toolStripSeparator3";
-            this.toolStripSeparator3.Size = new System.Drawing.Size(6, 25);
-            // 
-            // toolStripSeparator1
-            // 
-            this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 25);
-            // 
-            // ProcessTitleLabel
-            // 
-            this.ProcessTitleLabel.Name = "ProcessTitleLabel";
-            this.ProcessTitleLabel.Size = new System.Drawing.Size(113, 22);
-            this.ProcessTitleLabel.Text = "No Process Selected";
-            // 
             // ProcessSelectorButton
             // 
             this.ProcessSelectorButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
@@ -352,15 +354,10 @@
             this.ProcessSelectorButton.Text = "SelectProcessButton";
             this.ProcessSelectorButton.Click += new System.EventHandler(this.ProcessSelectorButton_Click);
             // 
-            // CollectValuesButton
+            // toolStripSeparator3
             // 
-            this.CollectValuesButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.CollectValuesButton.Image = global::Anathema.Properties.Resources.CollectValues;
-            this.CollectValuesButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.CollectValuesButton.Name = "CollectValuesButton";
-            this.CollectValuesButton.Size = new System.Drawing.Size(23, 22);
-            this.CollectValuesButton.Text = "Collect Values";
-            this.CollectValuesButton.Click += new System.EventHandler(this.CollectValuesButton_Click);
+            this.toolStripSeparator3.Name = "toolStripSeparator3";
+            this.toolStripSeparator3.Size = new System.Drawing.Size(6, 25);
             // 
             // NewScanButton
             // 
@@ -382,10 +379,31 @@
             this.UndoScanButton.Text = "Undo Scan";
             this.UndoScanButton.Click += new System.EventHandler(this.UndoScanButton_Click);
             // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 25);
+            // 
+            // CollectValuesButton
+            // 
+            this.CollectValuesButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.CollectValuesButton.Image = global::Anathema.Properties.Resources.CollectValues;
+            this.CollectValuesButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.CollectValuesButton.Name = "CollectValuesButton";
+            this.CollectValuesButton.Size = new System.Drawing.Size(23, 22);
+            this.CollectValuesButton.Text = "Collect Values";
+            this.CollectValuesButton.Click += new System.EventHandler(this.CollectValuesButton_Click);
+            // 
             // toolStripSeparator5
             // 
             this.toolStripSeparator5.Name = "toolStripSeparator5";
             this.toolStripSeparator5.Size = new System.Drawing.Size(6, 25);
+            // 
+            // ProcessTitleLabel
+            // 
+            this.ProcessTitleLabel.Name = "ProcessTitleLabel";
+            this.ProcessTitleLabel.Size = new System.Drawing.Size(113, 22);
+            this.ProcessTitleLabel.Text = "No Process Selected";
             // 
             // GUIMain
             // 
@@ -448,6 +466,8 @@
         private System.Windows.Forms.ToolStripButton CollectValuesButton;
         private System.Windows.Forms.ToolStripMenuItem CheatBrowserToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator5;
+        private System.Windows.Forms.ToolStripMenuItem HelpToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem RegisterToolStripMenuItem;
     }
 }
 

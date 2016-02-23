@@ -33,11 +33,11 @@ namespace Anathema
         private GUIResults GUIResults;
         private GUITable GUITable;
 
-        // REGISTRATION ITEMS
-        private GUIRegistrationNag GUIRegistrationNag;
-
         // EDIT MENU ITEMS
         private GUISettings GUISettings;
+
+        // HELP ITEMS
+        private GUIRegistration GUIRegistration;
 
         public GUIMain()
         {
@@ -108,32 +108,32 @@ namespace Anathema
             if (RegistrationManager.GetInstance().IsTrialMode())
             {
                 TimeSpan RemainingTime = RegistrationManager.GetInstance().GetRemainingTime();
-                MessageBoxEx.Show(this, RemainingTime.ToString("%d") + " days, " + RemainingTime.ToString("%h") + " hours remaining!", "Trial mode!");
+                MessageBoxEx.Show(this, RemainingTime.ToString("%d") + " days, " + RemainingTime.ToString("%h") + " hours remaining!\nPlease buy this I am broke and live with my parents.", "Trial mode");
                 return true;
             }
 
-            MessageBoxEx.Show(this, "Trial has expired! Please register Anathema to continue");
+            MessageBoxEx.Show(this, "Trial has expired! Please purchase Anathema to continue.\nI live with my parents, I beg you, buy this if you enjoy it.");
+            CreateRegistration();
             return false;
         }
 
         private void CreateTools()
         {
-            if (false && File.Exists(ConfigFile))
+            if (File.Exists(ConfigFile))
             {
                 try
                 {
                     // DISABLED FOR NOW
-                    ContentPanel.LoadFromXml(ConfigFile, DockContentDeserializer);
+                    if (false)
+                    {
+                        ContentPanel.LoadFromXml(ConfigFile, DockContentDeserializer);
+                        return;
+                    }
                 }
-                catch
-                {
-                    CreateDefaultTools();
-                }
+                catch { }
             }
-            else
-            {
-                CreateDefaultTools();
-            }
+
+            CreateDefaultTools();
         }
 
         private void CreateDefaultTools()
@@ -257,18 +257,18 @@ namespace Anathema
             GUIScriptEditor.Show(ContentPanel);
         }
 
-        private void CreateRegistrationNag()
+        private void CreateRegistration()
         {
-            if (GUIRegistrationNag == null || GUIRegistrationNag.IsDisposed)
-                GUIRegistrationNag = new GUIRegistrationNag(false);
-            GUIRegistrationNag.ShowDialog();
+            if (GUIRegistration == null || GUIRegistration.IsDisposed)
+                GUIRegistration = new GUIRegistration(false);
+            GUIRegistration.ShowDialog(this);
         }
 
         private void CreateSettings()
         {
             if (GUISettings == null || GUISettings.IsDisposed)
                 GUISettings = new GUISettings();
-            GUISettings.ShowDialog();
+            GUISettings.ShowDialog(this);
         }
 
         #endregion
@@ -363,6 +363,11 @@ namespace Anathema
         private void SettingsToolStripMenuItem_Click(object sender, EventArgs e)
         {
             CreateSettings();
+        }
+
+        private void RegisterToolStripMenuItem_Click(Object Sender, EventArgs E)
+        {
+            CreateRegistration();
         }
 
         private void CollectValuesButton_Click(Object Sender, EventArgs E)

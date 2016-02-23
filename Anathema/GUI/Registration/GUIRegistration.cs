@@ -5,13 +5,13 @@ using System.Windows.Forms;
 
 namespace Anathema
 {
-    public partial class GUIRegistrationNag : Form
+    public partial class GUIRegistration : Form
     {
         private const String AnathemaCheatBrowseURL = "www.anathemaengine.com/browser.php";
 
         private GeckoWebBrowser Browser;
 
-        public GUIRegistrationNag(Boolean IsTrialValid)
+        public GUIRegistration(Boolean IsTrialValid)
         {
             InitializeComponent();
 
