@@ -1,61 +1,36 @@
-﻿using System;
+﻿using Gecko;
+using System;
+using System.IO;
 using System.Windows.Forms;
 
 namespace Anathema
 {
-    public partial class GUIRegistrationNag : Form, ISettingsView
+    public partial class GUIRegistrationNag : Form
     {
-        private SettingsPresenter SettingsPresenter;
+        private const String AnathemaCheatBrowseURL = "www.anathemaengine.com/browser.php";
+
+        private GeckoWebBrowser Browser;
 
         public GUIRegistrationNag()
         {
             InitializeComponent();
         }
 
+        private void InitializeBrowser()
+        {
+            if (OSInterface.IsAnathema32Bit())
+                Xpcom.Initialize(Path.Combine(Path.GetDirectoryName(Application.ExecutablePath), "xulrunner-32"));
+
+            if (OSInterface.IsAnathema64Bit())
+                Xpcom.Initialize(Path.Combine(Path.GetDirectoryName(Application.ExecutablePath), "xulrunner-64"));
+
+            Browser = new GeckoWebBrowser();
+            Browser.Navigate(AnathemaCheatBrowseURL);
+            Browser.Dock = DockStyle.Fill;
+            ContentPanel.Controls.Add(Browser);
+        }
+
         #region Events
-
-        private void AcceptButton_Click(Object Sender, EventArgs E)
-        {
-
-        }
-
-        private void ScanUserModeRadioButton_CheckedChanged(Object Sender, EventArgs E)
-        {
-        }
-
-        private void ScanCustomRangeRadioButton_CheckedChanged(Object Sender, EventArgs E)
-        {
-        }
-
-        private void RequiredWriteCheckBox_CheckedChanged(Object Sender, EventArgs E)
-        { 
-
-        }
-
-        private void RequiredExecuteCheckBox_CheckedChanged(Object Sender, EventArgs E)
-        {
-
-        }
-
-        private void RequiredCopyOnWriteCheckBox_CheckedChanged(Object Sender, EventArgs E)
-        {
-
-        }
-
-        private void ExcludedWriteCheckBox_CheckedChanged(Object Sender, EventArgs E)
-        {
-
-        }
-
-        private void ExcludedExecuteCheckBox_CheckedChanged(Object Sender, EventArgs E)
-        {
-
-        }
-
-        private void ExcludedCopyOnWriteCheckBox_CheckedChanged(Object Sender, EventArgs E)
-        {
-
-        }
 
         #endregion
 

@@ -49,6 +49,9 @@ namespace Anathema
             ContentPanel.DockRightPortion = 0.4;
             ContentPanel.DockBottomPortion = 0.4;
 
+            // Handle registration / trial mode
+            CheckRegistration();
+
             // Initialize tools
             CreateTools();
         }
@@ -86,6 +89,11 @@ namespace Anathema
         {
             return; // DISABLED FOR NOW
             ContentPanel.SaveAsXml(ConfigFile);
+        }
+
+        private void CheckRegistration()
+        {
+
         }
 
         private void CreateTools()
