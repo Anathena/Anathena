@@ -107,11 +107,12 @@ namespace Anathema
 
             if (RegistrationManager.GetInstance().IsTrialMode())
             {
-                CreateRegistrationNag(); // Continue nag
+                TimeSpan RemainingTime = RegistrationManager.GetInstance().GetRemainingTime();
+                MessageBoxEx.Show(this, RemainingTime.ToString("%d") + " days, " + RemainingTime.ToString("%h") + " hours remaining!", "Trial mode!");
                 return true;
             }
 
-            CreateRegistrationNag(); // GG nag
+            MessageBoxEx.Show(this, "Trial has expired! Please register Anathema to continue");
             return false;
         }
 
@@ -259,7 +260,7 @@ namespace Anathema
         private void CreateRegistrationNag()
         {
             if (GUIRegistrationNag == null || GUIRegistrationNag.IsDisposed)
-                GUIRegistrationNag = new GUIRegistrationNag();
+                GUIRegistrationNag = new GUIRegistrationNag(false);
             GUIRegistrationNag.ShowDialog();
         }
 

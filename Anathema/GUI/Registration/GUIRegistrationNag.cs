@@ -11,9 +11,18 @@ namespace Anathema
 
         private GeckoWebBrowser Browser;
 
-        public GUIRegistrationNag()
+        public GUIRegistrationNag(Boolean IsTrialValid)
         {
             InitializeComponent();
+
+            if (IsTrialValid)
+            {
+
+            }
+            else
+            {
+
+            }
         }
 
         private void InitializeBrowser()

@@ -32,6 +32,33 @@ namespace Anathema
             return RegistrationManagerInstance;
         }
 
+        public Boolean Register()
+        {
+            RegistryObject<Boolean?> IsRegistered = new RegistryObject<Boolean?>(true);
+
+            // Attempt to write the IsRegistered value to the registry
+            return WriteRegistryKey(RegistryKeyIsRegistered, IsRegistered.Data.ToString());
+        }
+
+        public TimeSpan GetRemainingTime()
+        {
+            RegistryObject<DateTime?> TrialStart;
+            DateTime Result;
+
+            // Parse the trial start time from registry
+            Boolean Success = DateTime.TryParse((String)ReadRegistryKey(RegistryKeyTrialStart), out Result);
+            if (Success)
+                TrialStart = new RegistryObject<DateTime?>(Result);
+            else
+                TrialStart = new RegistryObject<DateTime?>(null);
+
+            // Create trial registry key if it is not already there
+            if (TrialStart.Data == null)
+                return TrialTimeout;
+
+            return DateTime.Now - (TrialStart.Data.Value + TrialTimeout);
+        }
+
         public Boolean IsRegistered()
         {
             RegistryObject<Boolean?> IsRegistered;
@@ -92,11 +119,6 @@ namespace Anathema
                 return false;
             else
                 return true;
-        }
-
-        public void Register()
-        {
-            // Do register (via registry, file creation, etc)
         }
 
         public Boolean WriteRegistryKey(String Key, Object Value)
