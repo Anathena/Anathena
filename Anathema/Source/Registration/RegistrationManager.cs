@@ -9,9 +9,9 @@ namespace Anathema
 {
     class RegistrationManager
     {
-        static String AnathemaTrialRegistryKey = "AnathemaTrial";
+        private const String AnathemaTrialRegistryKey = "AnathemaTrial";
 
-        private RegistrationManager RegistrationManagerInstance;
+        private static RegistrationManager RegistrationManagerInstance;
         private Boolean TrialActive;
 
         private RegistrationManager()
@@ -19,7 +19,7 @@ namespace Anathema
             TrialActive = false;
         }
 
-        public RegistrationManager GetInstance()
+        public static RegistrationManager GetInstance()
         {
             if (RegistrationManagerInstance == null)
                 RegistrationManagerInstance = new RegistrationManager();
@@ -33,6 +33,8 @@ namespace Anathema
 
         public Boolean IsRegistered()
         {
+            // return false;
+
             if (TrialActive)
                 return true;
 
@@ -51,7 +53,7 @@ namespace Anathema
 
             try
             {
-                RegistryKey = Registry.ClassesRoot.CreateSubKey(Regname);
+                RegistryKey = Registry.ClassesRoot.CreateSubKey(Key);
                 RegistryKey.SetValue(Key, Value);
                 RegistryKey.Close();
                 return true;
@@ -71,7 +73,7 @@ namespace Anathema
 
             try
             {
-                RegistryKey = Registry.ClassesRoot.CreateSubKey(Regname);
+                RegistryKey = Registry.ClassesRoot.CreateSubKey(Key);
                 KeyValue = RegistryKey.GetValue(Key).ToString();
                 RegistryKey.Close();
             }

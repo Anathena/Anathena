@@ -33,6 +33,9 @@ namespace Anathema
         private GUIResults GUIResults;
         private GUITable GUITable;
 
+        // REGISTRATION ITEMS
+        private GUIRegistrationNag GUIRegistrationNag;
+
         // EDIT MENU ITEMS
         private GUISettings GUISettings;
 
@@ -50,7 +53,11 @@ namespace Anathema
             ContentPanel.DockBottomPortion = 0.4;
 
             // Handle registration / trial mode
-            CheckRegistration();
+            if (!CheckRegistration())
+            { 
+                this.Close();
+                return;
+            }
 
             // Initialize tools
             CreateTools();
@@ -91,9 +98,17 @@ namespace Anathema
             ContentPanel.SaveAsXml(ConfigFile);
         }
 
-        private void CheckRegistration()
+        private Boolean CheckRegistration()
         {
+            if (RegistrationManager.GetInstance().IsRegistered())
+                return true;
 
+            CreateRegistrationNag();
+
+            if (RegistrationManager.GetInstance().IsRegistered())
+                return true;
+
+            return false;
         }
 
         private void CreateTools()
@@ -235,6 +250,13 @@ namespace Anathema
             if (GUIScriptEditor == null || GUIScriptEditor.IsDisposed)
                 GUIScriptEditor = new GUIScriptEditor();
             GUIScriptEditor.Show(ContentPanel);
+        }
+
+        private void CreateRegistrationNag()
+        {
+            if (GUIRegistrationNag == null || GUIRegistrationNag.IsDisposed)
+                GUIRegistrationNag = new GUIRegistrationNag();
+            GUIRegistrationNag.ShowDialog();
         }
 
         private void CreateSettings()
@@ -379,7 +401,6 @@ namespace Anathema
             SnapshotManagerToolStripMenuItem.Checked = (GUISnapshotManager == null || GUISnapshotManager.IsDisposed) ? false : true;
             ResultsToolStripMenuItem.Checked = (GUIResults == null || GUIResults.IsDisposed) ? false : true;
             TableToolStripMenuItem.Checked = (GUITable == null || GUITable.IsDisposed) ? false : true;
-            SettingsToolStripMenuItem.Checked = (GUISettings == null || GUISettings.IsDisposed) ? false : true;
 
             CodeViewToolStripMenuItem.Checked = (GUICodeView == null || GUICodeView.IsDisposed) ? false : true;
             MemoryViewToolStripMenuItem.Checked = (GUIMemoryView == null || GUIMemoryView.IsDisposed) ? false : true;
@@ -401,8 +422,8 @@ namespace Anathema
             if (GUITable != null && !GUITable.IsDisposed)
                 GUITable.Close();
 
-            if (!GUITable.IsDisposed)
-            { 
+            if (GUITable != null && !GUITable.IsDisposed)
+            {
                 E.Cancel = true;
                 return;
             }

@@ -20,7 +20,12 @@ namespace Anathema
 
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new GUIMain());
+
+            GUIMain GUIMain = new GUIMain();
+            if (GUIMain != null && !GUIMain.IsDisposed)
+                Application.Run();
         }
-    }
-}
+
+    } // End class
+
+} // End namespace
