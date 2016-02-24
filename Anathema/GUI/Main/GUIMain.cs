@@ -260,7 +260,7 @@ namespace Anathema
         private void CreateRegistration()
         {
             if (GUIRegistration == null || GUIRegistration.IsDisposed)
-                GUIRegistration = new GUIRegistration(false);
+                GUIRegistration = new GUIRegistration(RegistrationManager.GetInstance().IsRegistered(), RegistrationManager.GetInstance().IsTrialMode());
             GUIRegistration.ShowDialog(this);
         }
 

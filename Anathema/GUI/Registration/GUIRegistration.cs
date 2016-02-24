@@ -11,18 +11,30 @@ namespace Anathema
 
         private GeckoWebBrowser Browser;
 
-        public GUIRegistration(Boolean IsTrialValid)
+        public GUIRegistration(Boolean IsRegistered, Boolean IsTrial)
         {
             InitializeComponent();
 
-            if (IsTrialValid)
+            // Perhaps navigate to registration php page with a GET with Ticks. If not registered and logged in acct is registered,
+            // Then we register. If not registered and trial dead, tell them to fuckin pay money
+
+            // Check if already registered
+            if (IsRegistered)
             {
 
+                return;
             }
-            else
+
+            // Check if already
+            if (IsTrial)
             {
 
+                return;
             }
+
+            // Not registered and trial over
+
+            return;
         }
 
         private void InitializeBrowser()
