@@ -7,7 +7,7 @@ namespace Anathema
 {
     public partial class GUIRegistration : Form
     {
-        private const String AnathemaCheatBrowseURL = "www.anathemaengine.com/browser.php";
+        private const String AnathemaRegisterURL = "www.anathemaengine.com/purchase.php";
 
         private GeckoWebBrowser Browser;
 
@@ -21,23 +21,23 @@ namespace Anathema
             // Check if already registered
             if (IsRegistered)
             {
-
+                InitializeBrowser("?Registered=1");
                 return;
             }
 
             // Check if already
             if (IsTrial)
             {
-
+                InitializeBrowser("?Trial=0");
                 return;
             }
 
             // Not registered and trial over
-
+            InitializeBrowser("?Trial=0");
             return;
         }
 
-        private void InitializeBrowser()
+        private void InitializeBrowser(String PHPGet)
         {
             if (OSInterface.IsAnathema32Bit())
                 Xpcom.Initialize(Path.Combine(Path.GetDirectoryName(Application.ExecutablePath), "xulrunner-32"));
@@ -46,7 +46,7 @@ namespace Anathema
                 Xpcom.Initialize(Path.Combine(Path.GetDirectoryName(Application.ExecutablePath), "xulrunner-64"));
 
             Browser = new GeckoWebBrowser();
-            Browser.Navigate(AnathemaCheatBrowseURL);
+            Browser.Navigate(AnathemaRegisterURL);
             Browser.Dock = DockStyle.Fill;
             ContentPanel.Controls.Add(Browser);
         }
