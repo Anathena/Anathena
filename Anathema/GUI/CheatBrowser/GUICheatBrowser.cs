@@ -37,11 +37,7 @@ namespace Anathema
 
         private void InitializeBrowser()
         {
-            if (OSInterface.IsAnathema32Bit())
-                Xpcom.Initialize(Path.Combine(Path.GetDirectoryName(Application.ExecutablePath), "xulrunner-32"));
-
-            if (OSInterface.IsAnathema64Bit())
-                Xpcom.Initialize(Path.Combine(Path.GetDirectoryName(Application.ExecutablePath), "xulrunner-64"));
+            BrowserHelper.GetInstance().InitializeXpcom();
 
             Browser = new GeckoWebBrowser();
             Browser.Navigate(AnathemaCheatBrowseURL);
