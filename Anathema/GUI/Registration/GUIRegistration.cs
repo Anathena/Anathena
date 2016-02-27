@@ -7,53 +7,33 @@ namespace Anathema
 {
     public partial class GUIRegistration : Form
     {
-        private const String AnathemaRegisterURL = "www.anathemaengine.com/purchase.php";
+        private const String AnathemaRegisterURL = "www.anathemaengine.com/account.php";
 
         private GeckoWebBrowser Browser;
 
-        public GUIRegistration(Boolean IsRegistered, Boolean IsTrial)
+        public GUIRegistration()
         {
             InitializeComponent();
 
-            // Perhaps navigate to registration php page with a GET with Ticks. If not registered and logged in acct is registered,
-            // Then we register. If not registered and trial dead, tell them to fuckin pay money
-
-            // Check if already registered
-            if (IsRegistered)
-            {
-                InitializeBrowser("?Registered=1");
-                return;
-            }
-
-            // Check if already
-            if (IsTrial)
-            {
-                InitializeBrowser("?Trial=0");
-                return;
-            }
-
-            // Not registered and trial over
-            InitializeBrowser("?Trial=0");
-
-            LauncherDialog.Download += LauncherDialog_Download;
-            return;
+            InitializeBrowser();
         }
 
-        private void InitializeBrowser(String PHPGet)
+        private void InitializeBrowser()
         {
-
             BrowserHelper.GetInstance().InitializeXpcom();
 
             Browser = new GeckoWebBrowser();
-            Browser.Navigate(AnathemaRegisterURL + PHPGet);
+            Browser.Navigate(AnathemaRegisterURL);
             Browser.Dock = DockStyle.Fill;
             ContentPanel.Controls.Add(Browser);
+
+            LauncherDialog.Download += LauncherDialog_Download;
         }
 
         #region Events
 
         /// <summary>
-        ///  Handle save file dialog for downloads. Code ripped from the internet, no idea how it works.
+        ///  TODO: Change this to read in downloaded serial code
         /// </summary>
         /// <param name="Sender"></param>
         /// <param name="E"></param>
@@ -66,23 +46,9 @@ namespace Anathema
                 ObjectTarget.InitWithPath(nsAString);
             }
 
-            Stream SaveStream;
-            SaveFileDialog SaveFileDialog = new SaveFileDialog();
-
-            SaveFileDialog.Filter = "All files (*.*)|*.*";
-            SaveFileDialog.FilterIndex = 2;
-            SaveFileDialog.RestoreDirectory = true;
-            SaveFileDialog.FileName = E.Filename;
-
-            if (SaveFileDialog.ShowDialog() != DialogResult.OK)
-                return;
-
-            if ((SaveStream = SaveFileDialog.OpenFile()) == null)
-                return;
-
             nsIURI Source = IOService.CreateNsIUri(E.Url);
-            nsIURI Destination = IOService.CreateNsIUri(new Uri(SaveFileDialog.FileName).AbsoluteUri);
-            nsAStringBase StringBase = new nsAString(System.IO.Path.GetFileName(SaveFileDialog.FileName));
+            nsIURI Destination = IOService.CreateNsIUri(new Uri("FILENAMEHERE!!!!").AbsoluteUri);
+            nsAStringBase StringBase = new nsAString(System.IO.Path.GetFileName("FILENAMEHERE!!!!"));
 
             nsIWebBrowserPersist Persist = Xpcom.CreateInstance<nsIWebBrowserPersist>("@mozilla.org/embedding/browser/nsWebBrowserPersist;1");
             nsIDownloadManager DownloadMan = null;
@@ -95,8 +61,6 @@ namespace Anathema
                 Persist.SetProgressListenerAttribute((nsIWebProgressListener)Download);
                 Persist.SaveURI(Source, null, null, null, null, (nsISupports)Destination, null);
             }
-
-            SaveStream.Close();
         }
 
         #endregion

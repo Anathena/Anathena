@@ -220,6 +220,7 @@
     <Compile Include="GUI\Tools\Table\GUIAddressTable.Designer.cs">
       <DependentUpon>GUIAddressTable.cs</DependentUpon>
     </Compile>
+    <Compile Include="Source\Browser\BrowserHelper.cs" />
     <Compile Include="Source\HelperClasses\Extensions\IntExtensions.cs" />
     <Compile Include="Source\HelperClasses\Extensions\IntPtrExtensions.cs" />
     <Compile Include="Source\HelperClasses\ObjectCache.cs" />
@@ -965,7 +966,6 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Source\CheatBrowser\" />
     <Folder Include="Source\Tools\Debugger\Code View\" />
   </ItemGroup>
   <ItemGroup>
