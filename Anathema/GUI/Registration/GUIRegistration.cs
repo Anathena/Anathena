@@ -1,13 +1,17 @@
 ﻿using Gecko;
+using Gecko.Events;
 using System;
 using System.IO;
+using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Anathema
 {
     public partial class GUIRegistration : Form
     {
-        private const String AnathemaRegisterURL = "www.anathemaengine.com/account.php?client=true";
+        private const String BrowserTag = "?client=true";
+        private const String AnathemaRegisterURL = "www.anathemaengine.com/account.php" + BrowserTag;
 
         private GeckoWebBrowser Browser;
 
@@ -20,23 +24,59 @@ namespace Anathema
 
         private void InitializeBrowser()
         {
-            BrowserHelper.GetInstance().InitializeXpcom();
+            BrowserHelper.GetInstance().InitializeBrowserStatic(BrowserTag);
 
             Browser = new GeckoWebBrowser();
             Browser.Navigate(AnathemaRegisterURL);
             Browser.Dock = DockStyle.Fill;
             ContentPanel.Controls.Add(Browser);
 
-            LauncherDialog.Download += LauncherDialog_Download;
+            Browser.Navigating += Browser_Navigating;
 
-            Browser.Navigated += Browser_Navigated;
+            LauncherDialog.Download += LauncherDialog_Download;
+        }
+
+        internal class CheckRegistered : RepeatedTask
+        {
+            private DateTime StartTime;
+            private const Int32 Timeout = 10000;
+            private IWin32Window Parent;
+
+            public CheckRegistered(IWin32Window Parent) { this.Parent = Parent; }
+
+            public override void Begin()
+            {
+                StartTime = DateTime.Now;
+                base.Begin();
+            }
+
+            protected override void Update()
+            {
+                String ActivationFile = BrowserHelper.GetInstance().GetLastDownloadedFile();
+                String ActivationCode = File.ReadAllText(ActivationFile);
+
+                if (Regex.IsMatch(ActivationCode, "....-....-....-....-...."))
+                {
+                    RegistrationManager.GetInstance().Register();
+                    CancelFlag = true;
+                    MessageBox.Show("Registration Complete");
+                }
+                else if (DateTime.Now - StartTime > TimeSpan.FromMilliseconds(Timeout))
+                {
+                    CancelFlag = true;
+                    MessageBox.Show("Timed out acquiring activation file");
+                }
+            }
         }
 
         #region Events
 
-        private void Browser_Navigated(Object Sender, GeckoNavigatedEventArgs E)
+        private void Browser_Navigating(Object Sender, GeckoNavigatingEventArgs E)
         {
+            if (E.Uri.AbsoluteUri.Contains(BrowserTag))
+                return;
 
+            Browser.Navigate(E.Uri.AbsoluteUri + BrowserTag);
         }
 
         /// <summary>
@@ -46,28 +86,8 @@ namespace Anathema
         /// <param name="E"></param>
         private void LauncherDialog_Download(Object Sender, LauncherDialogEvent E)
         {
-            nsILocalFile ObjectTarget = Xpcom.CreateInstance<nsILocalFile>("@mozilla.org/file/local;1");
-
-            using (nsAString nsAString = new nsAString(@Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\temp.tmp"))
-            {
-                ObjectTarget.InitWithPath(nsAString);
-            }
-
-            nsIURI Source = IOService.CreateNsIUri(E.Url);
-            nsIURI Destination = IOService.CreateNsIUri(new Uri("FILENAMEHERE!!!!").AbsoluteUri);
-            nsAStringBase StringBase = new nsAString(System.IO.Path.GetFileName("FILENAMEHERE!!!!"));
-
-            nsIWebBrowserPersist Persist = Xpcom.CreateInstance<nsIWebBrowserPersist>("@mozilla.org/embedding/browser/nsWebBrowserPersist;1");
-            nsIDownloadManager DownloadMan = null;
-            DownloadMan = Xpcom.CreateInstance<nsIDownloadManager>("@mozilla.org/download-manager;1");
-            nsIDownload Download = DownloadMan.AddDownload(0, Source, Destination, StringBase, E.Mime, 0, null, (nsICancelable)Persist, false);
-
-            if (Download != null)
-            {
-                Persist.SetPersistFlagsAttribute(2 | 32 | 16384);
-                Persist.SetProgressListenerAttribute((nsIWebProgressListener)Download);
-                Persist.SaveURI(Source, null, null, null, null, (nsISupports)Destination, null);
-            }
+            CheckRegistered CheckRegistered = new CheckRegistered(this);
+            CheckRegistered.Begin();
         }
 
         #endregion

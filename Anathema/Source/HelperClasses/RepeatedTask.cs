@@ -68,5 +68,7 @@ namespace Anathema
             try { Task.Wait(AbortTime); }
             catch (AggregateException) { }
         }
-    }
-}
+
+    } // End class
+
+} // End namespace
