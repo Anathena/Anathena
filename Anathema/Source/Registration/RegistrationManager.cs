@@ -89,6 +89,9 @@ namespace Anathema
 
         public Boolean IsTrialMode()
         {
+            if (IsRegistered())
+                return false;
+
             RegistryObject<DateTime?> TrialStart;
             DateTime Result;
 

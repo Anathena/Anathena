@@ -55,19 +55,16 @@ namespace Anathema
             // Set default dock space sizes
             ContentPanel.DockRightPortion = 0.4;
             ContentPanel.DockBottomPortion = 0.4;
-
-            // Handle registration / trial mode
-            if (!CheckRegistration())
-            {
-                this.Close();
-                return;
-            }
-
-            // Initialize tools
+            
+            CheckRegistration();
             CreateTools();
-
+            
             this.Show();
+            CheckNewVersion();
+        }
 
+        private void CheckNewVersion()
+        {
             Assembly Assembly = Assembly.GetExecutingAssembly();
             FileVersionInfo FileVersionInfo = FileVersionInfo.GetVersionInfo(Assembly.Location);
             String CurrentVersion = FileVersionInfo.ProductVersion;
@@ -79,7 +76,7 @@ namespace Anathema
 
                 if (PublicVersion != CurrentVersion)
                     MessageBoxEx.Show(this, "New Version Available at http://wwww.anethemaengine.com/" + Environment.NewLine +
-                        "Current Version: " + CurrentVersion + Environment.NewLine + 
+                        "Current Version: " + CurrentVersion + Environment.NewLine +
                         "New Version: " + PublicVersion + Environment.NewLine +
                         "Anathema is still in beta, so this update will likely provide critical performance and feature changes.",
                         "New Version Available");
@@ -132,21 +129,24 @@ namespace Anathema
             ContentPanel.SaveAsXml(ConfigFile);
         }
 
-        private Boolean CheckRegistration()
+        private void CheckRegistration()
         {
             if (RegistrationManager.GetInstance().IsRegistered())
-                return true;
+                return;
 
             if (RegistrationManager.GetInstance().IsTrialMode())
             {
                 TimeSpan RemainingTime = RegistrationManager.GetInstance().GetRemainingTime();
+
+                // Append trial mode remaining time
+                this.Text += " - Trial Mode: " + RemainingTime.ToString("%d") + " days, " + RemainingTime.ToString("%h") + " hours remaining!";
+
                 MessageBoxEx.Show(this, RemainingTime.ToString("%d") + " days, " + RemainingTime.ToString("%h") + " hours remaining!\nPlease buy this I am broke and live with my parents.", "Trial mode");
-                return true;
             }
 
             MessageBoxEx.Show(this, "Trial has expired! Please purchase Anathema to continue.\nI live with my parents, I beg you, buy this if you enjoy it.");
             CreateRegistration();
-            return false;
+            Application.Exit();
         }
 
         private void CreateTools()
