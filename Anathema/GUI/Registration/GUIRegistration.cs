@@ -7,7 +7,7 @@ namespace Anathema
 {
     public partial class GUIRegistration : Form
     {
-        private const String AnathemaRegisterURL = "www.anathemaengine.com/account.php";
+        private const String AnathemaRegisterURL = "www.anathemaengine.com/account.php?client=true";
 
         private GeckoWebBrowser Browser;
 
@@ -28,9 +28,16 @@ namespace Anathema
             ContentPanel.Controls.Add(Browser);
 
             LauncherDialog.Download += LauncherDialog_Download;
+
+            Browser.Navigated += Browser_Navigated;
         }
 
         #region Events
+
+        private void Browser_Navigated(Object Sender, GeckoNavigatedEventArgs E)
+        {
+
+        }
 
         /// <summary>
         ///  TODO: Change this to read in downloaded serial code
