@@ -817,6 +817,9 @@
     <None Include="GUI\CustomControls\HexEditor\HexBox\HexBox.snk" />
     <EmbeddedResource Include="GUI\CustomControls\HexEditor\Resources\ThanksTo.rtf" />
     <None Include="GUI\CustomControls\HexEditor\Properties\Settings.settings" />
+    <None Include="license.rtf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -929,9 +932,6 @@
     <Content Include="Content\Icons\UnknownValue.png" />
     <Content Include="Content\Icons\Visible.png" />
     <Content Include="Content\Icons\X.png" />
-    <None Include="license.txt">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
     <Content Include="Source\Tools\Scanners\InputCorrelator\InputHook\HotKeys\ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
