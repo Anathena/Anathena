@@ -50,6 +50,7 @@ namespace Anathema
                 base.Begin();
             }
 
+            // Just repeatedly poll the activation file while it downloads and see if it is a good format
             protected override void Update()
             {
                 String ActivationFile = BrowserHelper.GetInstance().GetLastDownloadedFile();
