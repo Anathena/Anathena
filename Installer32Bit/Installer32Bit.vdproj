@@ -847,7 +847,7 @@
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:Fasm.NET, Version=1.0.5902.21152, Culture=neutral, processorArchitecture=x86"
+            "AssemblyAsmDisplayName" = "8:Fasm.NET, Version=1.0.5902.24517, Culture=neutral, processorArchitecture=x86"
                 "ScatterAssemblies"
                 {
                     "_4BDADE367FBF5673E7EF6AD4FF6F647C"
@@ -1866,7 +1866,7 @@
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:Anathema"
         "ProductCode" = "8:{B3C058B7-25A1-47B5-B4CD-E24624341714}"
-        "PackageCode" = "8:{7674B063-BB02-4FB6-A9FA-25230AEF413F}"
+        "PackageCode" = "8:{9E1A75B9-84F2-4D5F-8F7F-8CD281367A11}"
         "UpgradeCode" = "8:{7CADDD25-F12D-4851-9740-92759D3CC64A}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"

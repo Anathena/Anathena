@@ -1,5 +1,9 @@
 ﻿using System;
+using System.Diagnostics;
 using System.IO;
+using System.Net;
+using System.Reflection;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 using WeifenLuo.WinFormsUI.Docking;
 
@@ -63,6 +67,34 @@ namespace Anathema
             CreateTools();
 
             this.Show();
+
+            Assembly Assembly = Assembly.GetExecutingAssembly();
+            FileVersionInfo FileVersionInfo = FileVersionInfo.GetVersionInfo(Assembly.Location);
+            String CurrentVersion = FileVersionInfo.ProductVersion;
+
+            Console.WriteLine(CurrentVersion);
+            try
+            {
+                String PublicVersion = (new VersionChecker()).DownloadString("http://www.anathemaengine.com/release/version.txt");
+
+                if (PublicVersion != CurrentVersion)
+                    MessageBoxEx.Show(this, "New Version Available at http://wwww.anethemaengine.com/" + Environment.NewLine +
+                        "Current Version: " + CurrentVersion + Environment.NewLine + 
+                        "New Version: " + PublicVersion + Environment.NewLine +
+                        "Anathema is still in beta, so this update will likely provide critical performance and feature changes.",
+                        "New Version Available");
+            }
+            catch { }
+        }
+
+        public class VersionChecker : WebClient
+        {
+            protected override WebRequest GetWebRequest(Uri Address)
+            {
+                WebRequest WebRequest = base.GetWebRequest(Address);
+                WebRequest.Timeout = 5000;
+                return WebRequest;
+            }
         }
 
         /// <summary>
