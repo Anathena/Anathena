@@ -432,13 +432,19 @@ namespace Anathema
             if (GUITable != null && !GUITable.IsDisposed)
                 GUITable.Close();
 
-            if (GUITable != null && !GUITable.IsDisposed)
+            try
             {
-                E.Cancel = true;
-                return;
+                if (GUITable != null && !GUITable.IsDisposed)
+                {
+                    E.Cancel = true;
+                    return;
+                }
             }
+            catch { }
 
             SaveConfiguration();
+
+            Application.Exit();
         }
 
         #endregion
