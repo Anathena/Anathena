@@ -93,7 +93,7 @@ namespace Anathema
             {
                 // Allow user to select the save location
                 SaveFileDialog SaveFileDialog = new SaveFileDialog();
-                SaveFileDialog.Filter = "All files (*.*)|*.*";
+                SaveFileDialog.Filter = "Anathema Cheat Table (*.Ana)|*.Ana";
                 SaveFileDialog.FilterIndex = 2;
                 SaveFileDialog.RestoreDirectory = true;
                 SaveFileDialog.FileName = E.Filename;
