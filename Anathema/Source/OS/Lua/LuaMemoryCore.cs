@@ -4,66 +4,67 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Windows.Forms;
 
 namespace Anathema
 {
     public interface LuaFunctions
     {
         // General
-        IntPtr GetModuleAddress(String ModuleName);
-        Int32 GetAssemblySize(String Assembly, IntPtr Address);
-        Byte[] GetAssemblyBytes(String Assembly, IntPtr Address);
-        Byte[] GetInstructionBytes(IntPtr Address, Int32 MinimumInstructionBytes);
+        UInt64 GetModuleAddress(String ModuleName);
+        Int32 GetAssemblySize(String Assembly, UInt64 Address);
+        Byte[] GetAssemblyBytes(String Assembly, UInt64 Address);
+        Byte[] GetInstructionBytes(UInt64 Address, Int32 MinimumInstructionBytes);
 
         // Allocations
-        IntPtr AllocateMemory(Int32 Size);
-        void DeallocateMemory(IntPtr Address);
+        UInt64 AllocateMemory(Int32 Size);
+        void DeallocateMemory(UInt64 Address);
         void DeallocateAllMemory();
 
         // Code caves
-        IntPtr CreateCodeCave(IntPtr Entry, String Assembly);
-        IntPtr GetCaveExitAddress(IntPtr Address);
-        void RemoveCodeCave(IntPtr Address);
+        UInt64 CreateCodeCave(UInt64 Entry, String Assembly);
+        UInt64 GetCaveExitAddress(UInt64 Address);
+        void RemoveCodeCave(UInt64 Address);
         void RemoveAllCodeCaves();
 
         // Keywords
-        void SetKeyword(String Keyword, IntPtr Address);
-        void SetGlobalKeyword(String Keyword, IntPtr Address);
+        void SetKeyword(String Keyword, UInt64 Address);
+        void SetGlobalKeyword(String Keyword, UInt64 Address);
         void ClearKeyword(String Keyword);
         void ClearGlobalKeyword(String Keyword);
         void ClearAllKeywords();
         void ClearAllGlobalKeywords();
 
         // Patterns
-        IntPtr SearchAOB(Byte[] Bytes);
-        IntPtr SearchAOB(String Pattern);
-        IntPtr[] SearchAllAOB(String Pattern);
+        UInt64 SearchAOB(Byte[] Bytes);
+        UInt64 SearchAOB(String Pattern);
+        UInt64[] SearchAllAOB(String Pattern);
 
         // Reading
-        SByte ReadSByte(IntPtr Address);
-        Byte ReadByte(IntPtr Address);
-        Int16 ReadInt16(IntPtr Address);
-        Int32 ReadInt32(IntPtr Address);
-        Int64 ReadInt64(IntPtr Address);
-        UInt16 ReadUInt16(IntPtr Address);
-        UInt32 ReadUInt32(IntPtr Address);
-        UInt64 ReadUInt64(IntPtr Address);
-        Single ReadSingle(IntPtr Address);
-        Double ReadDouble(IntPtr Address);
-        Byte[] ReadBytes(IntPtr Address, Int32 Count);
+        SByte ReadSByte(UInt64 Address);
+        Byte ReadByte(UInt64 Address);
+        Int16 ReadInt16(UInt64 Address);
+        Int32 ReadInt32(UInt64 Address);
+        Int64 ReadInt64(UInt64 Address);
+        UInt16 ReadUInt16(UInt64 Address);
+        UInt32 ReadUInt32(UInt64 Address);
+        UInt64 ReadUInt64(UInt64 Address);
+        Single ReadSingle(UInt64 Address);
+        Double ReadDouble(UInt64 Address);
+        Byte[] ReadBytes(UInt64 Address, Int32 Count);
 
         // Writing
-        void WriteSByte(IntPtr Address, SByte Value);
-        void WriteByte(IntPtr Address, Byte Value);
-        void WriteInt16(IntPtr Address, Int16 Value);
-        void WriteInt32(IntPtr Address, Int32 Value);
-        void WriteInt64(IntPtr Address, Int64 Value);
-        void WriteUInt16(IntPtr Address, UInt16 Value);
-        void WriteUInt32(IntPtr Address, UInt32 Value);
-        void WriteUInt64(IntPtr Address, UInt64 Value);
-        void WriteSingle(IntPtr Address, Single Value);
-        void WriteDouble(IntPtr Address, Double Value);
-        void WriteBytes(IntPtr Address, Byte[] Values);
+        void WriteSByte(UInt64 Address, SByte Value);
+        void WriteByte(UInt64 Address, Byte Value);
+        void WriteInt16(UInt64 Address, Int16 Value);
+        void WriteInt32(UInt64 Address, Int32 Value);
+        void WriteInt64(UInt64 Address, Int64 Value);
+        void WriteUInt16(UInt64 Address, UInt16 Value);
+        void WriteUInt32(UInt64 Address, UInt32 Value);
+        void WriteUInt64(UInt64 Address, UInt64 Value);
+        void WriteSingle(UInt64 Address, Single Value);
+        void WriteDouble(UInt64 Address, Double Value);
+        void WriteBytes(UInt64 Address, Byte[] Values);
 
     } // End interface
 
@@ -72,8 +73,8 @@ namespace Anathema
         private OSInterface OSInterface;
 
         private static ConcurrentDictionary<String, String> GlobalKeywords = new ConcurrentDictionary<String, String>();
-        private Dictionary<String, String> Keywords;
-        private List<IntPtr> RemoteAllocations;
+        private ConcurrentDictionary<String, String> Keywords;
+        private List<UInt64> RemoteAllocations;
         private List<CodeCave> CodeCaves;
 
         private const Int32 JumpSize = 5;
@@ -81,10 +82,10 @@ namespace Anathema
         private struct CodeCave
         {
             public Byte[] OriginalBytes;
-            public IntPtr RemoteAllocation;
-            public IntPtr Entry;
+            public UInt64 RemoteAllocation;
+            public UInt64 Entry;
 
-            public CodeCave(IntPtr RemoteAllocation, Byte[] OriginalBytes, IntPtr Entry)
+            public CodeCave(UInt64 RemoteAllocation, Byte[] OriginalBytes, UInt64 Entry)
             {
                 this.RemoteAllocation = RemoteAllocation;
                 this.OriginalBytes = OriginalBytes;
@@ -100,8 +101,8 @@ namespace Anathema
         public void Initialize()
         {
             // Reinitialize local object collections. If the user has not deallocated all allocated memory, that is on them.
-            RemoteAllocations = new List<IntPtr>();
-            Keywords = new Dictionary<String, String>();
+            RemoteAllocations = new List<UInt64>();
+            Keywords = new ConcurrentDictionary<String, String>();
             CodeCaves = new List<CodeCave>();
         }
 
@@ -138,7 +139,7 @@ namespace Anathema
             return Assembly;
         }
 
-        public Byte[] GetInstructionBytes(IntPtr Address, Int32 MinimumInstructionBytes)
+        public Byte[] GetInstructionBytes(UInt64 Address, Int32 MinimumInstructionBytes)
         {
             this.PrintDebugTag();
 
@@ -147,13 +148,13 @@ namespace Anathema
             // Read original bytes at code cave jump
             Boolean ReadSuccess;
 
-            Byte[] OriginalBytes = OSInterface.Process.ReadBytes(Address, Largestx86InstructionSize, out ReadSuccess);
+            Byte[] OriginalBytes = OSInterface.Process.ReadBytes(Address.ToIntPtr(), Largestx86InstructionSize, out ReadSuccess);
 
             if (!ReadSuccess || OriginalBytes == null || OriginalBytes.Length <= 0)
                 return null;
 
             // Grab instructions at code entry point
-            List<Instruction> Instructions = OSInterface.Architecture.Disassembler.Disassemble(OriginalBytes, OSInterface.Process.Is32Bit(), Address);
+            List<Instruction> Instructions = OSInterface.Architecture.Disassembler.Disassemble(OriginalBytes, OSInterface.Process.Is32Bit(), Address.ToIntPtr());
 
             // Determine size of instructions we need to overwrite
             Int32 ReplacedInstructionSize = 0;
@@ -173,36 +174,36 @@ namespace Anathema
             return OriginalBytes;
         }
 
-        public Int32 GetAssemblySize(String Assembly, IntPtr Address)
+        public Int32 GetAssemblySize(String Assembly, UInt64 Address)
         {
             this.PrintDebugTag();
 
             Assembly = ResolveKeywords(Assembly);
 
-            Byte[] Bytes = OSInterface.Architecture.Assembler.Assemble(OSInterface.Process.Is32Bit(), Assembly, Address);
+            Byte[] Bytes = OSInterface.Architecture.Assembler.Assemble(OSInterface.Process.Is32Bit(), Assembly, Address.ToIntPtr());
 
             return (Bytes == null ? 0 : Bytes.Length);
         }
 
-        public Byte[] GetAssemblyBytes(String Assembly, IntPtr Address)
+        public Byte[] GetAssemblyBytes(String Assembly, UInt64 Address)
         {
             this.PrintDebugTag();
 
             Assembly = ResolveKeywords(Assembly);
 
-            return OSInterface.Architecture.Assembler.Assemble(OSInterface.Process.Is32Bit(), Assembly, Address);
+            return OSInterface.Architecture.Assembler.Assemble(OSInterface.Process.Is32Bit(), Assembly, Address.ToIntPtr());
         }
 
-        public IntPtr GetModuleAddress(String ModuleName)
+        public UInt64 GetModuleAddress(String ModuleName)
         {
             this.PrintDebugTag();
 
-            IntPtr Address = IntPtr.Zero;
+            UInt64 Address = 0;
             foreach (NormalizedModule Module in OSInterface.Process.GetModules())
             {
                 if (Module.Name.ToLower() == ModuleName.ToLower())
                 {
-                    Address = Module.BaseAddress;
+                    Address = Module.BaseAddress.ToUInt64();
                     break;
                 }
             }
@@ -210,25 +211,25 @@ namespace Anathema
             return Address;
         }
 
-        public IntPtr AllocateMemory(Int32 Size)
+        public UInt64 AllocateMemory(Int32 Size)
         {
             this.PrintDebugTag();
 
-            IntPtr Address = OSInterface.Process.AllocateMemory(Size);
+            UInt64 Address = OSInterface.Process.AllocateMemory(Size).ToUInt64();
             RemoteAllocations.Add(Address);
 
             return Address;
         }
 
-        public void DeallocateMemory(IntPtr Address)
+        public void DeallocateMemory(UInt64 Address)
         {
             this.PrintDebugTag();
 
-            foreach (IntPtr AllocationAddress in RemoteAllocations)
+            foreach (UInt64 AllocationAddress in RemoteAllocations)
             {
                 if (AllocationAddress == Address)
                 {
-                    OSInterface.Process.DeallocateMemory(AllocationAddress);
+                    OSInterface.Process.DeallocateMemory(AllocationAddress.ToIntPtr());
                     RemoteAllocations.Remove(AllocationAddress);
                     break;
                 }
@@ -241,13 +242,13 @@ namespace Anathema
         {
             this.PrintDebugTag();
 
-            foreach (IntPtr Address in RemoteAllocations)
-                OSInterface.Process.DeallocateMemory(Address);
+            foreach (UInt64 Address in RemoteAllocations)
+                OSInterface.Process.DeallocateMemory(Address.ToIntPtr());
 
             RemoteAllocations.Clear();
         }
 
-        public IntPtr CreateCodeCave(IntPtr Entry, String Assembly)
+        public UInt64 CreateCodeCave(UInt64 Entry, String Assembly)
         {
             this.PrintDebugTag();
 
@@ -266,8 +267,8 @@ namespace Anathema
                 // Determine number of no-ops to fill dangling bytes
                 String NoOps = (OriginalBytes.Length - AssemblySize > 0 ? "db " : String.Empty) + String.Join(" ", Enumerable.Repeat("0x90,", OriginalBytes.Length - AssemblySize)).TrimEnd(',');
 
-                Byte[] InjectionBytes = OSInterface.Architecture.Assembler.Assemble(OSInterface.Process.Is32Bit(), Assembly + "\n" + NoOps, Entry);
-                OSInterface.Process.WriteBytes(Entry, InjectionBytes);
+                Byte[] InjectionBytes = OSInterface.Architecture.Assembler.Assemble(OSInterface.Process.Is32Bit(), Assembly + "\n" + NoOps, Entry.ToIntPtr());
+                OSInterface.Process.WriteBytes(Entry.ToIntPtr(), InjectionBytes);
 
                 CodeCave CodeCave = new CodeCave(Entry, OriginalBytes, Entry);
                 CodeCaves.Add(CodeCave);
@@ -289,17 +290,17 @@ namespace Anathema
                 String NoOps = (OriginalBytes.Length - JumpSize > 0 ? "db " : String.Empty) + String.Join(" ", Enumerable.Repeat("0x90,", OriginalBytes.Length - JumpSize)).TrimEnd(',');
 
                 // Allocate memory
-                IntPtr RemoteAllocation = OSInterface.Process.AllocateMemory(AssemblySize);
+                UInt64 RemoteAllocation = OSInterface.Process.AllocateMemory(AssemblySize).ToUInt64();
                 RemoteAllocations.Add(RemoteAllocation);
 
                 // Write injected code to new page
-                Byte[] InjectionBytes = OSInterface.Architecture.Assembler.Assemble(OSInterface.Process.Is32Bit(), Assembly, RemoteAllocation);
-                OSInterface.Process.WriteBytes(RemoteAllocation, InjectionBytes);
+                Byte[] InjectionBytes = OSInterface.Architecture.Assembler.Assemble(OSInterface.Process.Is32Bit(), Assembly, RemoteAllocation.ToIntPtr());
+                OSInterface.Process.WriteBytes(RemoteAllocation.ToIntPtr(), InjectionBytes);
 
                 // Write in the jump to the code cave
                 String CodeCaveJump = "jmp " + "0x" + Conversions.ToAddress(RemoteAllocation) + "\n" + NoOps;
-                Byte[] JumpBytes = OSInterface.Architecture.Assembler.Assemble(OSInterface.Process.Is32Bit(), CodeCaveJump, Entry);
-                OSInterface.Process.WriteBytes(Entry, JumpBytes);
+                Byte[] JumpBytes = OSInterface.Architecture.Assembler.Assemble(OSInterface.Process.Is32Bit(), CodeCaveJump, Entry.ToIntPtr());
+                OSInterface.Process.WriteBytes(Entry.ToIntPtr(), JumpBytes);
 
                 // Save this code cave for later deallocation
                 CodeCave CodeCave = new CodeCave(RemoteAllocation, OriginalBytes, Entry);
@@ -309,7 +310,7 @@ namespace Anathema
             }
         }
 
-        public IntPtr GetCaveExitAddress(IntPtr Address)
+        public UInt64 GetCaveExitAddress(UInt64 Address)
         {
             this.PrintDebugTag();
 
@@ -327,12 +328,12 @@ namespace Anathema
                 OriginalByteSize = JumpSize;
             }
 
-            Address = Address.Add(OriginalByteSize);
+            Address = Address.ToIntPtr().Add(OriginalByteSize).ToUInt64();
 
             return Address;
         }
 
-        public void RemoveCodeCave(IntPtr Address)
+        public void RemoveCodeCave(UInt64 Address)
         {
             this.PrintDebugTag();
 
@@ -341,13 +342,13 @@ namespace Anathema
                 if (CodeCave.Entry != Address)
                     continue;
 
-                OSInterface.Process.Write<Byte[]>(CodeCave.Entry, CodeCave.OriginalBytes);
+                OSInterface.Process.Write<Byte[]>(CodeCave.Entry.ToIntPtr(), CodeCave.OriginalBytes);
 
                 // If these are equal, the cave is an in-place edit and not an allocation
                 if (CodeCave.Entry == CodeCave.RemoteAllocation)
                     continue;
 
-                OSInterface.Process.DeallocateMemory(CodeCave.RemoteAllocation);
+                OSInterface.Process.DeallocateMemory(CodeCave.RemoteAllocation.ToIntPtr());
 
             }
         }
@@ -358,25 +359,25 @@ namespace Anathema
 
             foreach (CodeCave CodeCave in CodeCaves)
             {
-                OSInterface.Process.WriteBytes(CodeCave.Entry, CodeCave.OriginalBytes);
+                OSInterface.Process.WriteBytes(CodeCave.Entry.ToIntPtr(), CodeCave.OriginalBytes);
 
                 // If these are equal, the cave is an in-place edit and not an allocation
                 if (CodeCave.Entry == CodeCave.RemoteAllocation)
                     continue;
 
-                OSInterface.Process.DeallocateMemory(CodeCave.RemoteAllocation);
+                OSInterface.Process.DeallocateMemory(CodeCave.RemoteAllocation.ToIntPtr());
             }
             CodeCaves.Clear();
         }
 
-        public void SetKeyword(String Keyword, IntPtr Address)
+        public void SetKeyword(String Keyword, UInt64 Address)
         {
             this.PrintDebugTag(Keyword, Address.ToString("x"));
-
-            Keywords[Keyword] = "0x" + Conversions.ToAddress(Address);
+            String Mapping = "0x" + Conversions.ToAddress(Address);
+            Keywords[Keyword] = Mapping;
         }
 
-        public void SetGlobalKeyword(String GlobalKeyword, IntPtr Address)
+        public void SetGlobalKeyword(String GlobalKeyword, UInt64 Address)
         {
             this.PrintDebugTag(GlobalKeyword, Address.ToString("x"));
 
@@ -387,8 +388,9 @@ namespace Anathema
         {
             this.PrintDebugTag(Keyword);
 
+            String Result;
             if (Keywords.ContainsKey(Keyword))
-                Keywords.Remove(Keyword);
+                Keywords.TryRemove(Keyword, out Result);
         }
 
         public void ClearGlobalKeyword(String GlobalKeyword)
@@ -414,192 +416,194 @@ namespace Anathema
             GlobalKeywords.Clear();
         }
 
-        public IntPtr SearchAOB(Byte[] Bytes)
+        public UInt64 SearchAOB(Byte[] Bytes)
         {
             this.PrintDebugTag();
 
-            IntPtr Address = OSInterface.Process.SearchAOB(Bytes);
+            UInt64 Address = OSInterface.Process.SearchAOB(Bytes).ToUInt64();
             return Address;
         }
 
-        public IntPtr SearchAOB(String Pattern)
+        public UInt64 SearchAOB(String Pattern)
         {
             this.PrintDebugTag(Pattern);
 
-            return OSInterface.Process.SearchAOB(Pattern);
+            return OSInterface.Process.SearchAOB(Pattern).ToUInt64();
         }
 
-        public IntPtr[] SearchAllAOB(String Pattern)
+        public UInt64[] SearchAllAOB(String Pattern)
         {
             this.PrintDebugTag(Pattern);
-
-            return OSInterface.Process.SearchllAOB(Pattern);
+            List<IntPtr> AOBs = new List<IntPtr>(OSInterface.Process.SearchllAOB(Pattern));
+            List<UInt64> ConvertedAOBs = new List<UInt64>();
+            AOBs.ForEach(x => ConvertedAOBs.Add(x.ToUInt64()));
+            return ConvertedAOBs.ToArray();
         }
 
-        public SByte ReadSByte(IntPtr Address)
+        public SByte ReadSByte(UInt64 Address)
         {
             this.PrintDebugTag(Address.ToString("x"));
 
             Boolean Success;
-            return OSInterface.Process.Read<SByte>(Address, out Success);
+            return OSInterface.Process.Read<SByte>(Address.ToIntPtr(), out Success);
         }
 
-        public Byte ReadByte(IntPtr Address)
+        public Byte ReadByte(UInt64 Address)
         {
             this.PrintDebugTag(Address.ToString("x"));
 
             Boolean Success;
-            return OSInterface.Process.Read<Byte>(Address, out Success);
+            return OSInterface.Process.Read<Byte>(Address.ToIntPtr(), out Success);
         }
 
-        public Int16 ReadInt16(IntPtr Address)
+        public Int16 ReadInt16(UInt64 Address)
         {
             this.PrintDebugTag(Address.ToString("x"));
 
             Boolean Success;
-            return OSInterface.Process.Read<Int16>(Address, out Success);
+            return OSInterface.Process.Read<Int16>(Address.ToIntPtr(), out Success);
         }
 
-        public Int32 ReadInt32(IntPtr Address)
+        public Int32 ReadInt32(UInt64 Address)
         {
             this.PrintDebugTag(Address.ToString("x"));
 
             Boolean Success;
-            return OSInterface.Process.Read<Int32>(Address, out Success);
+            return OSInterface.Process.Read<Int32>(Address.ToIntPtr(), out Success);
         }
 
-        public Int64 ReadInt64(IntPtr Address)
+        public Int64 ReadInt64(UInt64 Address)
         {
             this.PrintDebugTag(Address.ToString("x"));
 
             Boolean Success;
-            return OSInterface.Process.Read<Int64>(Address, out Success);
+            return OSInterface.Process.Read<Int64>(Address.ToIntPtr(), out Success);
         }
 
-        public UInt16 ReadUInt16(IntPtr Address)
+        public UInt16 ReadUInt16(UInt64 Address)
         {
             this.PrintDebugTag(Address.ToString("x"));
 
             Boolean Success;
-            return OSInterface.Process.Read<UInt16>(Address, out Success);
+            return OSInterface.Process.Read<UInt16>(Address.ToIntPtr(), out Success);
         }
 
-        public UInt32 ReadUInt32(IntPtr Address)
+        public UInt32 ReadUInt32(UInt64 Address)
         {
             this.PrintDebugTag(Address.ToString("x"));
 
             Boolean Success;
-            return OSInterface.Process.Read<UInt32>(Address, out Success);
+            return OSInterface.Process.Read<UInt32>(Address.ToIntPtr(), out Success);
         }
 
-        public UInt64 ReadUInt64(IntPtr Address)
+        public UInt64 ReadUInt64(UInt64 Address)
         {
             this.PrintDebugTag(Address.ToString("x"));
 
             Boolean Success;
-            return OSInterface.Process.Read<UInt64>(Address, out Success);
+            return OSInterface.Process.Read<UInt64>(Address.ToIntPtr(), out Success);
         }
 
-        public Single ReadSingle(IntPtr Address)
+        public Single ReadSingle(UInt64 Address)
         {
             this.PrintDebugTag(Address.ToString("x"));
 
             Boolean Success;
-            return OSInterface.Process.Read<Single>(Address, out Success);
+            return OSInterface.Process.Read<Single>(Address.ToIntPtr(), out Success);
         }
 
-        public Double ReadDouble(IntPtr Address)
+        public Double ReadDouble(UInt64 Address)
         {
             this.PrintDebugTag(Address.ToString("x"));
 
             Boolean Success;
-            return OSInterface.Process.Read<Double>(Address, out Success);
+            return OSInterface.Process.Read<Double>(Address.ToIntPtr(), out Success);
         }
 
-        public Byte[] ReadBytes(IntPtr Address, Int32 Count)
+        public Byte[] ReadBytes(UInt64 Address, Int32 Count)
         {
             this.PrintDebugTag(Address.ToString("x"), Count.ToString());
 
             Boolean Success;
-            return OSInterface.Process.ReadBytes(Address, Count, out Success);
+            return OSInterface.Process.ReadBytes(Address.ToIntPtr(), Count, out Success);
         }
 
         // Writing
-        public void WriteSByte(IntPtr Address, SByte Value)
+        public void WriteSByte(UInt64 Address, SByte Value)
         {
             this.PrintDebugTag(Address.ToString("x"), Value.ToString());
 
-            OSInterface.Process.Write<SByte>(Address, Value);
+            OSInterface.Process.Write<SByte>(Address.ToIntPtr(), Value);
         }
 
-        public void WriteByte(IntPtr Address, Byte Value)
+        public void WriteByte(UInt64 Address, Byte Value)
         {
             this.PrintDebugTag(Address.ToString("x"), Value.ToString());
 
-            OSInterface.Process.Write<Byte>(Address, Value);
+            OSInterface.Process.Write<Byte>(Address.ToIntPtr(), Value);
         }
 
-        public void WriteInt16(IntPtr Address, Int16 Value)
+        public void WriteInt16(UInt64 Address, Int16 Value)
         {
             this.PrintDebugTag(Address.ToString("x"), Value.ToString());
 
-            OSInterface.Process.Write<Int16>(Address, Value);
+            OSInterface.Process.Write<Int16>(Address.ToIntPtr(), Value);
         }
 
-        public void WriteInt32(IntPtr Address, Int32 Value)
+        public void WriteInt32(UInt64 Address, Int32 Value)
         {
             this.PrintDebugTag(Address.ToString("x"), Value.ToString());
 
-            OSInterface.Process.Write<Int32>(Address, Value);
+            OSInterface.Process.Write<Int32>(Address.ToIntPtr(), Value);
         }
 
-        public void WriteInt64(IntPtr Address, Int64 Value)
+        public void WriteInt64(UInt64 Address, Int64 Value)
         {
             this.PrintDebugTag(Address.ToString("x"), Value.ToString());
 
-            OSInterface.Process.Write<Int64>(Address, Value);
+            OSInterface.Process.Write<Int64>(Address.ToIntPtr(), Value);
         }
 
-        public void WriteUInt16(IntPtr Address, UInt16 Value)
+        public void WriteUInt16(UInt64 Address, UInt16 Value)
         {
             this.PrintDebugTag(Address.ToString("x"), Value.ToString());
 
-            OSInterface.Process.Write<UInt16>(Address, Value);
+            OSInterface.Process.Write<UInt16>(Address.ToIntPtr(), Value);
         }
 
-        public void WriteUInt32(IntPtr Address, UInt32 Value)
+        public void WriteUInt32(UInt64 Address, UInt32 Value)
         {
             this.PrintDebugTag(Address.ToString("x"), Value.ToString());
 
-            OSInterface.Process.Write<UInt32>(Address, Value);
+            OSInterface.Process.Write<UInt32>(Address.ToIntPtr(), Value);
         }
 
-        public void WriteUInt64(IntPtr Address, UInt64 Value)
+        public void WriteUInt64(UInt64 Address, UInt64 Value)
         {
             this.PrintDebugTag(Address.ToString("x"), Value.ToString());
 
-            OSInterface.Process.Write<UInt64>(Address, Value);
+            OSInterface.Process.Write<UInt64>(Address.ToIntPtr(), Value);
         }
 
-        public void WriteSingle(IntPtr Address, Single Value)
+        public void WriteSingle(UInt64 Address, Single Value)
         {
             this.PrintDebugTag(Address.ToString("x"), Value.ToString());
 
-            OSInterface.Process.Write<Single>(Address, Value);
+            OSInterface.Process.Write<Single>(Address.ToIntPtr(), Value);
         }
 
-        public void WriteDouble(IntPtr Address, Double Value)
+        public void WriteDouble(UInt64 Address, Double Value)
         {
             this.PrintDebugTag(Address.ToString("x"), Value.ToString());
 
-            OSInterface.Process.Write<Double>(Address, Value);
+            OSInterface.Process.Write<Double>(Address.ToIntPtr(), Value);
         }
 
-        public void WriteBytes(IntPtr Address, Byte[] Values)
+        public void WriteBytes(UInt64 Address, Byte[] Values)
         {
             this.PrintDebugTag(Address.ToString("x"));
 
-            OSInterface.Process.WriteBytes(Address, Values);
+            OSInterface.Process.WriteBytes(Address.ToIntPtr(), Values);
         }
 
     } // End interface

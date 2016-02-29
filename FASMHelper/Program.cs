@@ -4,10 +4,10 @@ using Anathema.Assemblers.Fasm;
 using System.Runtime.Remoting.Channels.Ipc;
 using System.Runtime.Remoting.Channels;
 using System.Runtime.Remoting;
-using FASMSharedInterface;
 using System.Threading;
 using System.Diagnostics;
 using System.IO;
+using FASMSharedInterface;
 
 namespace FASMHelper
 {
