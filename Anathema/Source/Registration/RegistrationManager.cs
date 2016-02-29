@@ -15,7 +15,6 @@ namespace Anathema
         private static RegistrationManager RegistrationManagerInstance;
 
         private TimeSpan TrialTimeout = new TimeSpan(14, 0, 0, 0);
-        // private TimeSpan TrialTimeout = new TimeSpan(0, 0, 1, 0);
 
         internal class RegistryObject<T>
         {
@@ -38,6 +37,12 @@ namespace Anathema
 
             // Attempt to write the IsRegistered value to the registry
             return WriteRegistryKey(RegistryKeyIsRegistered, IsRegistered.Data.ToString());
+        }
+
+        public void Unregister()
+        {
+            WriteRegistryKey(RegistryKeyTrialStart, "");
+            WriteRegistryKey(RegistryKeyIsRegistered, "");
         }
 
         public TimeSpan GetRemainingTime()
@@ -107,9 +112,10 @@ namespace Anathema
             {
                 TrialStart = new RegistryObject<DateTime?>(DateTime.Now);
                 if (WriteRegistryKey(RegistryKeyTrialStart, TrialStart.Data.ToString()))
-                    return false;
+                    return true;
             }
 
+            // Should not happen, but just in case
             if (TrialStart.Data == null)
                 return false;
 

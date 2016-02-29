@@ -68,8 +68,7 @@ namespace Anathema
             Assembly Assembly = Assembly.GetExecutingAssembly();
             FileVersionInfo FileVersionInfo = FileVersionInfo.GetVersionInfo(Assembly.Location);
             String CurrentVersion = FileVersionInfo.ProductVersion;
-
-            Console.WriteLine(CurrentVersion);
+            
             try
             {
                 String PublicVersion = (new VersionChecker()).DownloadString("http://www.anathemaengine.com/release/version.txt");
@@ -139,12 +138,14 @@ namespace Anathema
                 TimeSpan RemainingTime = RegistrationManager.GetInstance().GetRemainingTime();
 
                 // Append trial mode remaining time
-                this.Text += " - Trial Mode: " + RemainingTime.ToString("%d") + " days, " + RemainingTime.ToString("%h") + " hours remaining!";
-
+                this.Text += " - Trial Mode";
                 MessageBoxEx.Show(this, RemainingTime.ToString("%d") + " days, " + RemainingTime.ToString("%h") + " hours remaining!\nPlease buy this I am broke and live with my parents.", "Trial mode");
+
+                return;
             }
 
-            MessageBoxEx.Show(this, "Trial has expired! Please purchase Anathema to continue.\nI live with my parents, I beg you, buy this if you enjoy it.");
+            MessageBoxEx.Show(this, "Trial has expired! Please purchase Anathema to continue" + Environment.NewLine + Environment.NewLine +
+                "Buy this if you enjoy it so I can move out of my parents' house");
             CreateRegistration();
             Application.Exit();
         }

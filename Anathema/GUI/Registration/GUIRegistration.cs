@@ -60,7 +60,7 @@ namespace Anathema
                 {
                     RegistrationManager.GetInstance().Register();
                     CancelFlag = true;
-                    MessageBox.Show("Registration Complete");
+                    MessageBox.Show("Registration Complete. Restart Anathema for all changes to take effect.", "Registration Complete");
                 }
                 else if (DateTime.Now - StartTime > TimeSpan.FromMilliseconds(Timeout))
                 {
