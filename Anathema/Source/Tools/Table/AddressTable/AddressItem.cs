@@ -1,34 +1,40 @@
-﻿using Anathema.MemoryManagement;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System;
+using System.Reflection;
 using System.Runtime.Serialization;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Anathema
 {
+    [Obfuscation(ApplyToMembers = false)]
+    [Obfuscation(Exclude = true)]
     [DataContract()]
     public class AddressItem : TableItem
     {
+        [Obfuscation(Exclude = true)]
         [DataMember()]
         public IntPtr BaseAddress { get; set; }
 
+        [Obfuscation(Exclude = true)]
         [DataMember()]
         public String Description { get; set; }
 
+        [Obfuscation(Exclude = true)]
         [DataMember()]
         public Boolean IsHex { get; set; }
 
+        [Obfuscation(Exclude = true)]
         [DataMember()]
         public Int32[] Offsets { get; set; }
 
+        [Obfuscation(Exclude = true)]
         [DataMember()]
         public String TypeName { get; set; }
 
+        [Obfuscation(Exclude = true)]
         public Type ElementType
         {
+            [Obfuscation(Exclude = true)]
             get { return Type.GetType(TypeName); }
+            [Obfuscation(Exclude = true)]
             set
             {
                 String OldTypeName = this.TypeName;
@@ -37,15 +43,25 @@ namespace Anathema
             }
         }
 
+        [Obfuscation(Exclude = true)]
         private dynamic _Value;
+        [Obfuscation(Exclude = true)]
         public dynamic Value
         {
+            [Obfuscation(Exclude = true)]
             get { return _Value; }
+            [Obfuscation(Exclude = true)]
             set { if (!Activated) _Value = value; }
         }
 
+        [Obfuscation(Exclude = true)]
         private IntPtr _EffectiveAddress;
-        public IntPtr EffectiveAddress { get { return _EffectiveAddress; } private set { _EffectiveAddress = value; } }
+        [Obfuscation(Exclude = true)]
+        public IntPtr EffectiveAddress
+        {
+            [Obfuscation(Exclude = true)] get { return _EffectiveAddress; }
+            [Obfuscation(Exclude = true)] private set { _EffectiveAddress = value; }
+        }
 
         public AddressItem(IntPtr BaseAddress, Type ElementType, String Description = null, Int32[] Offsets = null, Boolean IsHex = false, String Value = null)
         {
@@ -63,6 +79,7 @@ namespace Anathema
             this.EffectiveAddress = BaseAddress;
         }
 
+        [Obfuscation(Exclude = true)]
         public String GetValueString()
         {
             if (Value == null)
@@ -93,6 +110,7 @@ namespace Anathema
             return ParseValue.ToString();
         }
 
+        [Obfuscation(Exclude = true)]
         public void ForceUpdateValue(dynamic Value)
         {
             if (Value == null)
@@ -101,6 +119,7 @@ namespace Anathema
             this._Value = Value;
         }
 
+        [Obfuscation(Exclude = true)]
         public String GetAddressString()
         {
             if (Offsets == null || Offsets.Length == 1)
@@ -112,6 +131,7 @@ namespace Anathema
             return Conversions.ToAddress(EffectiveAddress);
         }
 
+        [Obfuscation(Exclude = true)]
         public void ResolveAddress(OSInterface OSInterface)
         {
             IntPtr Pointer = this.BaseAddress;

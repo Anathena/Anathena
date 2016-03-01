@@ -1,14 +1,22 @@
 ﻿using System;
+using System.Reflection;
 using System.Runtime.Serialization;
 
 namespace Anathema
 {
+    [Obfuscation(ApplyToMembers = false)]
+    [Obfuscation(Exclude = true)]
     [DataContract()]
     public class ScriptItem : TableItem
     {
         [DataMember()]
-        public String Script { get; set; }
+        public String Script
+        {
+            [Obfuscation(Exclude = true)] get;
+            [Obfuscation(Exclude = true)] set;
+        }
 
+        [Obfuscation(Exclude = true)]
         private LuaEngine LuaEngine;
 
         public ScriptItem()
@@ -21,6 +29,7 @@ namespace Anathema
             this.Script = Script;
         }
 
+        [Obfuscation(Exclude = true)]
         public String GetDescription()
         {
             if (Script != null)
@@ -33,6 +42,7 @@ namespace Anathema
             return "No Description";
         }
 
+        [Obfuscation(Exclude = true)]
         public override void SetActivationState(Boolean Activated)
         {
             if (LuaEngine == null)

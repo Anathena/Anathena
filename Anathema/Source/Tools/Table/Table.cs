@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Reflection;
 using System.Runtime.Serialization;
 
 namespace Anathema
@@ -8,13 +9,20 @@ namespace Anathema
     /// <summary>
     /// Handles the displaying of results
     /// </summary>
+    [Obfuscation(ApplyToMembers = false)]
+    [Obfuscation(Exclude = true)]
     class Table : ITableModel
     {
+        [Obfuscation(Exclude = true)]
         private static Table TableInstance;
 
+        [Obfuscation(Exclude = true)]
         public event TableEventHandler EventHasChanges;
 
+        [Obfuscation(Exclude = true)]
         private TableData CurrentTableData;
+
+        [Obfuscation(Exclude = true)]
         private Boolean Changed;
 
         private Table()
@@ -22,6 +30,7 @@ namespace Anathema
             CurrentTableData = new TableData();
         }
 
+        [Obfuscation(Exclude = true)]
         public static Table GetInstance()
         {
             if (TableInstance == null)
@@ -29,6 +38,7 @@ namespace Anathema
             return TableInstance;
         }
 
+        [Obfuscation(Exclude = true)]
         public void TableChanged()
         {
             Changed = true;
@@ -38,6 +48,7 @@ namespace Anathema
             EventHasChanges(this, Args);
         }
 
+        [Obfuscation(Exclude = true)]
         public void TableSaved()
         {
             Changed = false;
@@ -47,11 +58,13 @@ namespace Anathema
             EventHasChanges(this, Args);
         }
 
+        [Obfuscation(Exclude = true)]
         public Boolean HasChanges()
         {
             return Changed;
         }
 
+        [Obfuscation(Exclude = true)]
         public Boolean SaveTable(String Path)
         {
             try
@@ -76,6 +89,7 @@ namespace Anathema
             return true;
         }
 
+        [Obfuscation(Exclude = true)]
         public Boolean OpenTable(String Path)
         {
             try
@@ -99,6 +113,7 @@ namespace Anathema
             return true;
         }
 
+        [Obfuscation(Exclude = true)]
         public Boolean MergeTable(String Path)
         {
             try
@@ -128,15 +143,20 @@ namespace Anathema
         /// <summary>
         /// A serializable class (via DataContractSerializer) to allow for easy XML saving of our addresses, scripts, and FSMs
         /// </summary>
+        [Obfuscation(ApplyToMembers = false)]
+        [Obfuscation(Exclude = true)]
         [DataContract()]
         private class TableData
         {
+            [Obfuscation(Exclude = true)]
             [DataMember()]
             public List<AddressItem> AddressItems;
 
+            [Obfuscation(Exclude = true)]
             [DataMember()]
             public List<ScriptItem> ScriptItems;
 
+            [Obfuscation(Exclude = true)]
             public List<FiniteStateMachine> FiniteStateMachineItems;
 
             public TableData()

@@ -1,32 +1,46 @@
-﻿using Anathema.MemoryManagement;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.Drawing;
+using System.Reflection;
 using System.Runtime.Serialization;
 
 namespace Anathema
 {
+    [Obfuscation(ApplyToMembers = false)]
+    [Obfuscation(Exclude = true)]
     [DataContract()]
     public class TableItem
     {
+        [Obfuscation(Exclude = true)]
         [DataMember()]
-        public Int32 TextColorARGB { get; set; }
-        
-        public Color TextColor { get { return Color.FromArgb(TextColorARGB); } set { TextColorARGB = value.ToArgb(); } }
+        public Int32 TextColorARGB
+        {
+            [Obfuscation(Exclude = true)]get;
+            [Obfuscation(Exclude = true)]set;
+        }
 
+        [Obfuscation(Exclude = true)]
+        public Color TextColor
+        {
+            [Obfuscation(Exclude = true)] get { return Color.FromArgb(TextColorARGB); }
+            [Obfuscation(Exclude = true)] set { TextColorARGB = value.ToArgb(); }
+        }
+
+        [Obfuscation(Exclude = true)]
         protected Boolean Activated;
-
+        
         public TableItem()
         {
             TextColor = Color.Black;
             Activated = false;
         }
 
+        [Obfuscation(Exclude = true)]
         public virtual void SetActivationState(Boolean Activated)
         {
             this.Activated = Activated;
         }
 
+        [Obfuscation(Exclude = true)]
         public Boolean GetActivationState()
         {
             return Activated;
