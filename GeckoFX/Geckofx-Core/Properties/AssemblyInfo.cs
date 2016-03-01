@@ -34,7 +34,6 @@
 #endregion END LICENSE BLOCK
 
 using System.Reflection;
-using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
 [assembly: AssemblyTitle("GeckoFx")]
@@ -51,6 +50,3 @@ using System.Runtime.InteropServices;
 
 [assembly: AssemblyVersion("31.0.1.0")]
 [assembly: AssemblyFileVersion("31.0.1.0")]
-
-[assembly: InternalsVisibleTo("Geckofx-Winforms, PublicKey=0024000004800000940000000602000000240000525341310004000001000100f3e3781182cc5f8749896fa4285ae7be4d10858e237fb414164939ef2f00d50dbe855efe62d3061a004862b8579dfb9ee4a583e0a26484a7555a1c61460c2c9707d5af29c846d57ce0d6072b0e898a1175198f960d3febcb6067d40f07e00b039989632da63fda87866d3e999adf4c6e0c8e99b734bc1117707d5c52db9f46ea")]
-[assembly: InternalsVisibleTo("Geckofx-Wpf, PublicKey=0024000004800000940000000602000000240000525341310004000001000100f3e3781182cc5f8749896fa4285ae7be4d10858e237fb414164939ef2f00d50dbe855efe62d3061a004862b8579dfb9ee4a583e0a26484a7555a1c61460c2c9707d5af29c846d57ce0d6072b0e898a1175198f960d3febcb6067d40f07e00b039989632da63fda87866d3e999adf4c6e0c8e99b734bc1117707d5c52db9f46ea")]

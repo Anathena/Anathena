@@ -11,7 +11,8 @@
     <RootNamespace>Gecko</RootNamespace>
     <AssemblyName>Geckofx-Core</AssemblyName>
     <SignAssembly>false</SignAssembly>
-    <AssemblyOriginatorKeyFile>GeckoFX.snk</AssemblyOriginatorKeyFile>
+    <AssemblyOriginatorKeyFile>
+    </AssemblyOriginatorKeyFile>
     <FileUpgradeFlags>
     </FileUpgradeFlags>
     <UpgradeBackupLocation>
@@ -333,7 +334,6 @@
     <Compile Include="Services\XulRuntime.cs" />
     <None Include="ClassDiagrams\nsIDOMNode.cd" />
     <None Include="DOM\Events\DomEvents.cd" />
-    <None Include="GeckoFX.snk" />
     <Compile Include="BaseNsFactory.cs" />
     <Compile Include="BaseTypes\gfxGraphicsFilter.cs" />
     <Compile Include="BaseTypes\gfxMatrix.cs" />

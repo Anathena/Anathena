@@ -15,7 +15,8 @@
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <WarningLevel>4</WarningLevel>
     <SignAssembly>false</SignAssembly>
-    <AssemblyOriginatorKeyFile>GeckoFX.snk</AssemblyOriginatorKeyFile>
+    <AssemblyOriginatorKeyFile>
+    </AssemblyOriginatorKeyFile>
     <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -52,8 +53,6 @@
     <OutputPath>bin\Debug_Linux</OutputPath>
     <DefineConstants>DEBUG;TRACE;GTK</DefineConstants>
     <DebugSymbols>true</DebugSymbols>
-    <SignAssembly>true</SignAssembly>
-    <AssemblyOriginatorKeyFile>GeckoFX.snk</AssemblyOriginatorKeyFile>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
@@ -64,8 +63,6 @@
     <PlatformTarget>AnyCPU</PlatformTarget>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <DebugSymbols>true</DebugSymbols>
-    <SignAssembly>true</SignAssembly>
-    <AssemblyOriginatorKeyFile>GeckoFX.snk</AssemblyOriginatorKeyFile>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
@@ -74,8 +71,6 @@
     <Optimize>true</Optimize>
     <OutputPath>bin\x86\Release</OutputPath>
     <PlatformTarget>x86</PlatformTarget>
-    <SignAssembly>true</SignAssembly>
-    <AssemblyOriginatorKeyFile>GeckoFX.snk</AssemblyOriginatorKeyFile>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
@@ -228,9 +223,6 @@
       <DependentUpon>PropertiesDialog.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="GeckoFX.snk" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Geckofx-Core\Geckofx-Core.csproj">

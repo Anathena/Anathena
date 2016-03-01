@@ -11,7 +11,8 @@
     <RootNamespace>WeifenLuo.WinFormsUI</RootNamespace>
     <AssemblyName>ThemeVS2013Blue</AssemblyName>
     <SignAssembly>false</SignAssembly>
-    <AssemblyOriginatorKeyFile>dockpanelsuite.snk</AssemblyOriginatorKeyFile>
+    <AssemblyOriginatorKeyFile>
+    </AssemblyOriginatorKeyFile>
     <DelaySign>False</DelaySign>
     <AssemblyOriginatorKeyMode>File</AssemblyOriginatorKeyMode>
     <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
@@ -143,9 +144,6 @@
       <LastGenOutput>Strings.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="dockpanelsuite.snk" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="ThemeVS2013Blue\Resources\ActiveTabHover_Close.png" />

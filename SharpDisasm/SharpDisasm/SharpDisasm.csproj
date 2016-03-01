@@ -142,6 +142,9 @@
   <PropertyGroup>
     <SignAssembly>false</SignAssembly>
   </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile />
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -184,10 +187,6 @@
     <Compile Include="Vendor.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="publickey.snk" />
-    <None Include="..\SharpDisasm.licenseheader">
-      <Link>SharpDisasm.licenseheader</Link>
-    </None>
     <None Include="Udis86\OpTable.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>OpTable.cs</LastGenOutput>
