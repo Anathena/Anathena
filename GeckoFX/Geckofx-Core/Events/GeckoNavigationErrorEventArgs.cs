@@ -31,7 +31,7 @@ namespace Gecko.Events
 		/// <summary>Creates a new instance of a <see cref="GeckoNavigatedEventArgs"/> object.</summary>
 		/// <param name="value"></param>
 		/// <param name="response"></param>
-		internal GeckoNavigationErrorEventArgs(string uri, GeckoWindow domWind, int errorCode)
+		public GeckoNavigationErrorEventArgs(string uri, GeckoWindow domWind, int errorCode)
 		{
 			Uri = uri;
 			DomWindow = domWind;

@@ -1008,6 +1008,10 @@
 XCOPY "$(ProjectDir)xulrunner-32\*.*" "$(TargetDir)xulrunner-32"  /S /I /Y
 XCOPY "$(ProjectDir)xulrunner-64\*.*" "$(TargetDir)xulrunner-64"  /S /I /Y</PreBuildEvent>
   </PropertyGroup>
+  <PropertyGroup>
+    <PostBuildEvent>
+    </PostBuildEvent>
+  </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

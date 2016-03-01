@@ -45,7 +45,7 @@ namespace Gecko
 			GC.SuppressFinalize( this );
 		}
 
-		internal static GeckoNode Create(nsIDOMNode domObject)
+		public static GeckoNode Create(nsIDOMNode domObject)
 		{
 			return m_nodeCache.Get(domObject);
 		}

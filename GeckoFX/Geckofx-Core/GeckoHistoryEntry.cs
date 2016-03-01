@@ -97,7 +97,7 @@ namespace Gecko
 	/// </summary>
 	public class GeckoSessionHistory : IList<GeckoHistoryEntry>
 	{
-		internal GeckoSessionHistory(nsIWebNavigation webNav)
+        public GeckoSessionHistory(nsIWebNavigation webNav)
 		{
 			this.WebNav = webNav;
 			this.History = webNav.GetSessionHistoryAttribute();

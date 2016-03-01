@@ -12,7 +12,7 @@ namespace Gecko
 	public class GeckoDomDocument
 		: GeckoNode
 	{
-		internal nsIDOMDocument _domDocument;
+		public nsIDOMDocument _domDocument;
 		internal GeckoDomDocument(nsIDOMDocument document )
 			:base(document)
 		{

@@ -11,7 +11,7 @@ namespace Gecko
 	/// </summary>
 	public class GeckoResponse
 	{			
-		internal GeckoResponse(nsIRequest request)
+		public GeckoResponse(nsIRequest request)
 		{
 			Channel = Xpcom.QueryInterface<nsIChannel>(request);
 			HttpChannel = Xpcom.QueryInterface<nsIHttpChannel>(request);

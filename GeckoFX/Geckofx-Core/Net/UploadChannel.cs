@@ -9,7 +9,7 @@ namespace Gecko.Net
 
 		private nsIUploadChannel2 _uploadChannel2;
 
-		internal UploadChannel(nsIUploadChannel uploadChannel)
+        public UploadChannel(nsIUploadChannel uploadChannel)
 		{
 			_uploadChannel = new ComPtr<nsIUploadChannel>(uploadChannel);
 

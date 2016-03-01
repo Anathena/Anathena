@@ -14,7 +14,7 @@ namespace Gecko.IO
 	{
 		private bool _seekable;
 		private nsISeekableStream _seekableStream;
-		internal nsIInputStream _inputStream;
+		public nsIInputStream _inputStream;
 
 		#region ctor & dtor
 		internal InputStream( nsIInputStream inputStream )

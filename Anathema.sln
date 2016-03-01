@@ -1678,6 +1678,7 @@ Global
 		{FCAF2649-32E4-4223-B272-06C7355389D9}.Release|Win32.ActiveCfg = Release
 		{FCAF2649-32E4-4223-B272-06C7355389D9}.Release|x64.ActiveCfg = Release
 		{FCAF2649-32E4-4223-B272-06C7355389D9}.Release|x86.ActiveCfg = Release
+		{FCAF2649-32E4-4223-B272-06C7355389D9}.Release|x86.Build.0 = Release
 		{FCAF2649-32E4-4223-B272-06C7355389D9}.Signed|Any CPU.ActiveCfg = Release
 		{FCAF2649-32E4-4223-B272-06C7355389D9}.Signed|Mixed Platforms.ActiveCfg = Release
 		{FCAF2649-32E4-4223-B272-06C7355389D9}.Signed|Win32.ActiveCfg = Release
@@ -1753,6 +1754,7 @@ Global
 		{8D60C8B1-8C7C-4E78-AE4B-1FBC63255ED0}.Release|Win32.ActiveCfg = Release
 		{8D60C8B1-8C7C-4E78-AE4B-1FBC63255ED0}.Release|x64.ActiveCfg = Release
 		{8D60C8B1-8C7C-4E78-AE4B-1FBC63255ED0}.Release|x86.ActiveCfg = Release
+		{8D60C8B1-8C7C-4E78-AE4B-1FBC63255ED0}.Release|x86.Build.0 = Release
 		{8D60C8B1-8C7C-4E78-AE4B-1FBC63255ED0}.Signed|Any CPU.ActiveCfg = Release
 		{8D60C8B1-8C7C-4E78-AE4B-1FBC63255ED0}.Signed|Mixed Platforms.ActiveCfg = Release
 		{8D60C8B1-8C7C-4E78-AE4B-1FBC63255ED0}.Signed|Win32.ActiveCfg = Release

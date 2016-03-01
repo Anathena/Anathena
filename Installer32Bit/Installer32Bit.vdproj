@@ -64,12 +64,6 @@
         "Entry"
         {
         "MsmKey" = "8:_20AEDC48E5B8C08AAA059E1CE444370E"
-        "OwnerKey" = "8:_C957BD5AAC72BABF4513CE9D739D67CE"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_20AEDC48E5B8C08AAA059E1CE444370E"
         "OwnerKey" = "8:_79BC864A3A6647778578AA87F4E62297"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -113,6 +107,18 @@
         {
         "MsmKey" = "8:_38C5517769A3479587018DB8EBD5C979"
         "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_3A419347327C402D5915A8BF2E9F19D8"
+        "OwnerKey" = "8:_C957BD5AAC72BABF4513CE9D739D67CE"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_3A419347327C402D5915A8BF2E9F19D8"
+        "OwnerKey" = "8:_79BC864A3A6647778578AA87F4E62297"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -382,12 +388,6 @@
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_5839A2218B04758F463286507EE841FC"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
         "OwnerKey" = "8:_79BC864A3A6647778578AA87F4E62297"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -430,6 +430,12 @@
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_20AEDC48E5B8C08AAA059E1CE444370E"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
         "OwnerKey" = "8:_C957BD5AAC72BABF4513CE9D739D67CE"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -442,7 +448,7 @@
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_20AEDC48E5B8C08AAA059E1CE444370E"
+        "OwnerKey" = "8:_3A419347327C402D5915A8BF2E9F19D8"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -455,6 +461,12 @@
         {
         "MsmKey" = "8:_UNDEFINED"
         "OwnerKey" = "8:_E8B3532942D60FEEC42D70ADCE9F2468"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_5839A2218B04758F463286507EE841FC"
         "MsmSig" = "8:_UNDEFINED"
         }
     }
@@ -607,7 +619,7 @@
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:Fasm.NET, Version=1.0.5902.27425, Culture=neutral, processorArchitecture=x86"
+            "AssemblyAsmDisplayName" = "8:Fasm.NET, Version=1.0.5903.16034, Culture=neutral, processorArchitecture=x86"
                 "ScatterAssemblies"
                 {
                     "_0AF0E5A9528C85C4DB5D5FA4DA304E5B"
@@ -885,6 +897,37 @@
             "Register" = "3:1"
             "Exclude" = "11:FALSE"
             "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_3A419347327C402D5915A8BF2E9F19D8"
+            {
+            "AssemblyRegister" = "3:1"
+            "AssemblyIsInGAC" = "11:FALSE"
+            "AssemblyAsmDisplayName" = "8:FASMSharedInterface32, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86"
+                "ScatterAssemblies"
+                {
+                    "_3A419347327C402D5915A8BF2E9F19D8"
+                    {
+                    "Name" = "8:FASMSharedInterface32.dll"
+                    "Attributes" = "3:512"
+                    }
+                }
+            "SourcePath" = "8:FASMSharedInterface32.dll"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_AE65E9FC3A3F418BA2EA6078057762CF"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_3C09208E2A3244809A934FCC4C4C2A93"
