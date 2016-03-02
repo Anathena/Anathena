@@ -221,7 +221,9 @@ namespace Anathema
 
             SnapshotRegions = Regions;
 
-            SetElementType(BaseSnapshot.GetElementType());
+            if (BaseSnapshot != null)
+                SetElementType(BaseSnapshot.GetElementType());
+
             Initialize();
         }
 
@@ -431,7 +433,7 @@ namespace Anathema
 
             if (SnapshotRegionArray == null || SnapshotRegionArray.Length == 0)
                 return;
-            
+
             // First, sort by start address
             Array.Sort(SnapshotRegionArray, (x, y) => (x.BaseAddress.ToUInt64()).CompareTo(y.BaseAddress.ToUInt64()));
 
