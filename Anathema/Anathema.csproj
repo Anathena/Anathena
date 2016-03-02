@@ -226,7 +226,7 @@
     <Compile Include="GUI\Tools\Table\GUIAddressTable.Designer.cs">
       <DependentUpon>GUIAddressTable.cs</DependentUpon>
     </Compile>
-    <Compile Include="Source\Domains\Browser\BrowserHelper.cs" />
+    <Compile Include="Source\Domains\User\Browser\BrowserHelper.cs" />
     <Compile Include="Source\Domains\Utils\Extensions\IntExtensions.cs" />
     <Compile Include="Source\Domains\Utils\Extensions\IntPtrExtensions.cs" />
     <Compile Include="Source\Domains\Utils\ObjectCache.cs" />
@@ -245,10 +245,10 @@
     <Compile Include="Source\Domains\Utils\OS\OSInterface.cs" />
     <Compile Include="Source\Domains\Utils\OS\Architecture\Assembly\Disassembler\SharpDisassembler.cs" />
     <Compile Include="Source\Domains\Utils\OS\Architecture\Assembly\Disassembler\IDisassembler.cs" />
-    <Compile Include="Source\Domains\Registration\RegistrationManager.cs" />
-    <Compile Include="Source\Domains\Settings\ISettingsMVP.cs" />
-    <Compile Include="Source\Domains\Debugger\Memory View\IMemoryViewMVP.cs" />
-    <Compile Include="Source\Domains\Debugger\Memory View\MemoryView.cs" />
+    <Compile Include="Source\Domains\User\Registration\RegistrationManager.cs" />
+    <Compile Include="Source\Domains\User\Settings\ISettingsMVP.cs" />
+    <Compile Include="Source\Domains\Services\Debugger\Memory View\IMemoryViewMVP.cs" />
+    <Compile Include="Source\Domains\Services\Debugger\Memory View\MemoryView.cs" />
     <Compile Include="Source\Domains\Scanners\ValueCollector\ValueCollector.cs" />
     <Compile Include="Source\Domains\Scanners\FiniteStateScanner\FiniteStateBuilder.cs" />
     <Compile Include="Source\Domains\Scanners\FiniteStateScanner\IFiniteStateScannerMVP.cs" />
@@ -267,10 +267,10 @@
     <Compile Include="Source\Domains\Scanners\ManualScanner\IManualScannerMVP.cs" />
     <Compile Include="Source\Domains\Scanners\ManualScanner\ManualScanner.cs" />
     <Compile Include="Source\Domains\Scanners\InputCorrelator\IInputCorrelatorMVP.cs" />
-    <Compile Include="Source\Domains\Table\ScriptEditor\IScriptEditorMVP.cs" />
-    <Compile Include="Source\Domains\Table\ScriptEditor\ScriptEditor.cs" />
-    <Compile Include="Source\Domains\SnapshotManager\SnapshotRegion.cs" />
-    <Compile Include="Source\Domains\SnapshotManager\SnapshotElement.cs" />
+    <Compile Include="Source\Domains\User\Table\ScriptEditor\IScriptEditorMVP.cs" />
+    <Compile Include="Source\Domains\User\Table\ScriptEditor\ScriptEditor.cs" />
+    <Compile Include="Source\Domains\Snapshots\SnapshotRegion.cs" />
+    <Compile Include="Source\Domains\Snapshots\SnapshotElement.cs" />
     <Compile Include="Source\Domains\Scanners\Hashing.cs" />
     <Compile Include="GUI\CustomControls\HexEditor\BitControl.cs">
       <SubType>UserControl</SubType>
@@ -419,11 +419,11 @@
     <Compile Include="Source\Domains\Utils\OS\ProcessSelector\IProcessObserver.cs" />
     <Compile Include="Source\Domains\Utils\OS\ProcessSelector\IProcessSelectorMVP.cs" />
     <Compile Include="Source\Domains\Utils\OS\ProcessSelector\ProcessSelector.cs" />
-    <Compile Include="Source\Domains\Results\IResultsMVP.cs" />
-    <Compile Include="Source\Domains\Results\Results.cs" />
-    <Compile Include="Source\Domains\SnapshotManager\ISnapshotManagerMVP.cs" />
+    <Compile Include="Source\Domains\Services\ScanResults\IResultsMVP.cs" />
+    <Compile Include="Source\Domains\Services\ScanResults\Results.cs" />
+    <Compile Include="Source\Domains\Snapshots\ISnapshotManagerMVP.cs" />
     <Compile Include="Source\Domains\Scanners\IScannerMVP.cs" />
-    <Compile Include="Source\Domains\SnapshotManager\Snapshot.cs" />
+    <Compile Include="Source\Domains\Snapshots\Snapshot.cs" />
     <Compile Include="Source\Domains\Utils\MVP\ControlThreadingHelper.cs" />
     <Compile Include="Source\Domains\Utils\MVP\IMVP.cs" />
     <Compile Include="GUI\Tools\ProcessSelector\GUIProcessSelector.cs">
@@ -535,22 +535,22 @@
     <Compile Include="Source\Domains\Utils\OS\ProcessSelector\IProcessSubject.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Source\Domains\Settings\Settings.cs" />
-    <Compile Include="Source\Domains\SnapshotManager\SnapshotManager.cs" />
+    <Compile Include="Source\Domains\User\Settings\Settings.cs" />
+    <Compile Include="Source\Domains\Snapshots\SnapshotManager.cs" />
     <Compile Include="Source\Domains\Utils\Extensions\ArrayExtensions.cs" />
-    <Compile Include="Source\Domains\Table\AddressTable\AddressTable.cs" />
-    <Compile Include="Source\Domains\Table\FSMTable\FSMTable.cs" />
-    <Compile Include="Source\Domains\Table\ScriptTable\IScriptTableMVP.cs" />
-    <Compile Include="Source\Domains\Table\AddressTable\IAddressTableMVP.cs" />
-    <Compile Include="Source\Domains\Table\FSMTable\IFSMTableMVP.cs" />
-    <Compile Include="Source\Domains\Table\AddressTable\AddressItem.cs" />
-    <Compile Include="Source\Domains\Table\ScriptTable\ScriptTable.cs" />
-    <Compile Include="Source\Domains\Table\AddressTable\AddressTableEntryEditor\ITableAddressEntryEditorMVP.cs" />
-    <Compile Include="Source\Domains\Table\ITableMVP.cs" />
-    <Compile Include="Source\Domains\Table\ScriptTable\ScriptItem.cs" />
-    <Compile Include="Source\Domains\Table\AddressTable\AddressTableEntryEditor\TableAddressEntryEditor.cs" />
-    <Compile Include="Source\Domains\Table\Table.cs" />
-    <Compile Include="Source\Domains\Table\TableItem.cs" />
+    <Compile Include="Source\Domains\User\Table\AddressTable\AddressTable.cs" />
+    <Compile Include="Source\Domains\User\Table\FSMTable\FSMTable.cs" />
+    <Compile Include="Source\Domains\User\Table\ScriptTable\IScriptTableMVP.cs" />
+    <Compile Include="Source\Domains\User\Table\AddressTable\IAddressTableMVP.cs" />
+    <Compile Include="Source\Domains\User\Table\FSMTable\IFSMTableMVP.cs" />
+    <Compile Include="Source\Domains\User\Table\AddressTable\AddressItem.cs" />
+    <Compile Include="Source\Domains\User\Table\ScriptTable\ScriptTable.cs" />
+    <Compile Include="Source\Domains\User\Table\AddressTable\AddressTableEntryEditor\ITableAddressEntryEditorMVP.cs" />
+    <Compile Include="Source\Domains\User\Table\ITableMVP.cs" />
+    <Compile Include="Source\Domains\User\Table\ScriptTable\ScriptItem.cs" />
+    <Compile Include="Source\Domains\User\Table\AddressTable\AddressTableEntryEditor\TableAddressEntryEditor.cs" />
+    <Compile Include="Source\Domains\User\Table\Table.cs" />
+    <Compile Include="Source\Domains\User\Table\TableItem.cs" />
     <Compile Include="Source\Domains\Scanners\ScanConstraints\ScanConstraint.cs" />
     <EmbeddedResource Include="GUI\CheatBrowser\GUICheatBrowser.resx">
       <DependentUpon>GUICheatBrowser.cs</DependentUpon>
@@ -975,7 +975,9 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Source\Domains\Debugger\Code View\" />
+    <Folder Include="Source\Domains\Services\Debugger\Code View\" />
+    <Folder Include="Source\Domains\Services\Divine\" />
+    <Folder Include="Source\Domains\Services\PointerScanResults\" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.5.2">
