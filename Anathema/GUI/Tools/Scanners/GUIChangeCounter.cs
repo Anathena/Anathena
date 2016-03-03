@@ -8,6 +8,8 @@ using System.Windows.Forms;
 using WeifenLuo.WinFormsUI.Docking;
 using System.IO;
 using Anathema.MemoryManagement.Memory;
+using Anathema.Utils.Validation;
+using Anathema.Utils.MVP;
 
 namespace Anathema
 {

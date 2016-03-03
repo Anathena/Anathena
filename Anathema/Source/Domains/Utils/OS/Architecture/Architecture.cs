@@ -1,14 +1,14 @@
-﻿using Anathema.Disassembler;
-using Anathema.MemoryManagement.Assembly.Assembler;
+﻿using Anathema.Utils.OS.Architecture.Assembler;
+using Anathema.Utils.OS.Architecture.Disassembler;
 
-namespace Anathema
+namespace Anathema.Utils.OS.Architecture
 {
-    public class Architecture
+    public class ArchitectureInterface
     {
         public IAssembler Assembler { get; private set; }
         public IDisassembler Disassembler { get; private set; }
 
-        public Architecture()
+        public ArchitectureInterface()
         {
             Assembler = new Fasm32Assembler();
             Disassembler = new SharpDisassembler();

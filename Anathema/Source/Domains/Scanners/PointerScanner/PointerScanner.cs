@@ -1,12 +1,11 @@
-﻿using Anathema.MemoryManagement;
-using Anathema.MemoryManagement.Memory;
-using Anathema.MemoryManagement.Modules;
+﻿using Anathema.Utils.Extensions;
+using Anathema.Utils.OS;
+using Anathema.Utils.Validation;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Anathema

@@ -232,7 +232,7 @@
     <Compile Include="Source\Domains\Utils\ObjectCache.cs" />
     <Compile Include="Source\Domains\Utils\MessageBoxEx.cs" />
     <Compile Include="Source\Domains\Utils\Extensions\ObjectExtensions.cs" />
-    <Compile Include="Source\Domains\Utils\OS\Architecture\Assembly\Architecture.cs" />
+    <Compile Include="Source\Domains\Utils\OS\Architecture\Architecture.cs" />
     <Compile Include="Source\Domains\Utils\OS\NormalizedModule.cs" />
     <Compile Include="Source\Domains\Utils\OS\NormalizedRegion.cs" />
     <Compile Include="Source\Domains\Utils\OS\IOperatingSystemInterface.cs" />
@@ -243,8 +243,8 @@
     <Compile Include="Source\Domains\Utils\OS\Lua\LuaKeywordManager.cs" />
     <Compile Include="Source\Domains\Utils\OS\Lua\LuaMemoryCore.cs" />
     <Compile Include="Source\Domains\Utils\OS\OSInterface.cs" />
-    <Compile Include="Source\Domains\Utils\OS\Architecture\Assembly\Disassembler\SharpDisassembler.cs" />
-    <Compile Include="Source\Domains\Utils\OS\Architecture\Assembly\Disassembler\IDisassembler.cs" />
+    <Compile Include="Source\Domains\Utils\OS\Architecture\Disassembler\SharpDisassembler.cs" />
+    <Compile Include="Source\Domains\Utils\OS\Architecture\Disassembler\IDisassembler.cs" />
     <Compile Include="Source\Domains\User\Registration\RegistrationManager.cs" />
     <Compile Include="Source\Domains\User\Settings\ISettingsMVP.cs" />
     <Compile Include="Source\Domains\Services\Debugger\Memory View\IMemoryViewMVP.cs" />
@@ -375,8 +375,8 @@
       <DependentUpon>GUIChunkScanner.cs</DependentUpon>
     </Compile>
     <Compile Include="Source\Main\Main.cs" />
-    <Compile Include="Source\Domains\Utils\OS\Architecture\Assembly\Assembler\Fasm32Assembler.cs" />
-    <Compile Include="Source\Domains\Utils\OS\Architecture\Assembly\Assembler\IAssembler.cs" />
+    <Compile Include="Source\Domains\Utils\OS\Architecture\Assembler\Fasm32Assembler.cs" />
+    <Compile Include="Source\Domains\Utils\OS\Architecture\Assembler\IAssembler.cs" />
     <Compile Include="Source\Domains\Utils\OS\OperatingSystems\Windows\Debugger\Debugger.cs" />
     <Compile Include="Source\Domains\Utils\OS\OperatingSystems\Windows\Debugger\DebuggerException.cs" />
     <Compile Include="Source\Domains\Utils\OS\OperatingSystems\Windows\Debugger\DebuggerSettings.cs" />
@@ -416,9 +416,9 @@
     <Compile Include="Source\Domains\Scanners\TreeScanner\ITreeScannerMVP.cs" />
     <Compile Include="Source\Domains\Scanners\ChangeCounter\ChangeCounter.cs" />
     <Compile Include="Source\Domains\Scanners\ChangeCounter\IChangeCounterMVP.cs" />
-    <Compile Include="Source\Domains\Utils\OS\ProcessSelector\IProcessObserver.cs" />
-    <Compile Include="Source\Domains\Utils\OS\ProcessSelector\IProcessSelectorMVP.cs" />
-    <Compile Include="Source\Domains\Utils\OS\ProcessSelector\ProcessSelector.cs" />
+    <Compile Include="Source\Domains\Snapshots\ProcessSelector\IProcessObserver.cs" />
+    <Compile Include="Source\Domains\Snapshots\ProcessSelector\IProcessSelectorMVP.cs" />
+    <Compile Include="Source\Domains\Snapshots\ProcessSelector\ProcessSelector.cs" />
     <Compile Include="Source\Domains\Services\ScanResults\IResultsMVP.cs" />
     <Compile Include="Source\Domains\Services\ScanResults\Results.cs" />
     <Compile Include="Source\Domains\Snapshots\ISnapshotManagerMVP.cs" />
@@ -487,7 +487,7 @@
       <DependentUpon>GUIMain.cs</DependentUpon>
     </Compile>
     <Compile Include="Source\Domains\Scanners\FiniteStateScanner\FiniteStateScanner.cs" />
-    <Compile Include="Source\Domains\Utils\CheckSyntax.cs" />
+    <Compile Include="Source\Domains\Utils\Validation\CheckSyntax.cs" />
     <Compile Include="Source\Domains\Scanners\InputCorrelator\InputCorrelator.cs" />
     <Compile Include="Source\Domains\Scanners\InputCorrelator\InputHook\Hook.cs" />
     <Compile Include="Source\Domains\Scanners\InputCorrelator\InputHook\HotKeys\HotKeyArgs.cs" />
@@ -530,9 +530,9 @@
     <Compile Include="Source\Domains\Scanners\InputCorrelator\InputHook\WinApi\Point.cs" />
     <Compile Include="Source\Domains\Scanners\InputCorrelator\InputHook\WinApi\ThreadNativeMethods.cs" />
     <Compile Include="Source\Domains\Scanners\TreeScanner\TreeScanner.cs" />
-    <Compile Include="Source\Domains\Utils\Conversions.cs" />
+    <Compile Include="Source\Domains\Utils\Validation\Conversions.cs" />
     <Compile Include="Source\Main\IMainMVP.cs" />
-    <Compile Include="Source\Domains\Utils\OS\ProcessSelector\IProcessSubject.cs" />
+    <Compile Include="Source\Domains\Snapshots\ProcessSelector\IProcessSubject.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Source\Domains\User\Settings\Settings.cs" />
@@ -1006,9 +1006,8 @@
   <PropertyGroup>
     <PreBuildEvent>(if exist "$(TargetDir)*old.pdb" del "$(TargetDir)*old.pdb") &amp; (if exist "$(TargetDir)*.pdb" ren "$(TargetDir)*.pdb" *.old.pdb)
 (if exist "$(TargetDir)*old.exe" del "$(TargetDir)*old.exe") &amp; (if exist "$(TargetDir)*.exe" ren "$(TargetDir)*.exe" *.old.exe)
-
-XCOPY "$(ProjectDir)xulrunner-32\*.*" "$(TargetDir)xulrunner-32"  /S /I /Y
-XCOPY "$(ProjectDir)xulrunner-64\*.*" "$(TargetDir)xulrunner-64"  /S /I /Y</PreBuildEvent>
+XCOPY "$(ProjectDir)xulrunner-32\*.*" "$(TargetDir)xulrunner-32"  /Q /S /I /Y
+XCOPY "$(ProjectDir)xulrunner-64\*.*" "$(TargetDir)xulrunner-64"  /Q /S /I /Y</PreBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
     <PostBuildEvent>

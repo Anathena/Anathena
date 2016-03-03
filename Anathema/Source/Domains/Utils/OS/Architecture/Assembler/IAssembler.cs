@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Anathema.MemoryManagement.Assembly.Assembler
+namespace Anathema.Utils.OS.Architecture.Assembler
 {
     /// <summary>
     /// Interface defining an assembler.

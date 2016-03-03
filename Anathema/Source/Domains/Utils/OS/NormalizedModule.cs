@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Anathema
+namespace Anathema.Utils.OS
 {
     /// <summary>
     /// Defines an OS independent module region and attributes

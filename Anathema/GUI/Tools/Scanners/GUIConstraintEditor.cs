@@ -8,6 +8,9 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Anathema.Properties;
+using Anathema.Utils.Validation;
+using Anathema.Utils.MVP;
+using Anathema.Utils;
 
 namespace Anathema.GUI.Tools.MemoryScanners
 {

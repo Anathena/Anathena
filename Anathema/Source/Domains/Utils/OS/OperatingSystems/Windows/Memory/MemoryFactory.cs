@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using Anathema.MemoryManagement.Internals;
 using Anathema.MemoryManagement.Native;
+using Anathema.Utils.Extensions;
+using Anathema.Utils.OS;
 
 namespace Anathema.MemoryManagement.Memory
 {

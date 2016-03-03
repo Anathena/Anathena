@@ -1,6 +1,7 @@
 ﻿using System;
+using Anathema.Utils.Extensions;
 
-namespace Anathema
+namespace Anathema.Utils.OS
 {
     /// <summary>
     /// Defines an OS independent region in process memory space

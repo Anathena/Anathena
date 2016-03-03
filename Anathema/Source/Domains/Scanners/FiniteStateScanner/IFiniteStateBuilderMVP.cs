@@ -1,5 +1,7 @@
 ﻿using Anathema.MemoryManagement;
 using Anathema.MemoryManagement.Memory;
+using Anathema.Utils.MVP;
+using Anathema.Utils.Validation;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -130,5 +132,7 @@ namespace Anathema
         }
 
         #endregion
-    }
-}
+
+    } // End class
+
+} // End namespace

@@ -11,6 +11,9 @@ using Anathema.MemoryManagement;
 using Anathema.MemoryManagement.Memory;
 using ScintillaNET;
 using System.Linq;
+using Anathema.Utils.OS.LUA;
+using Anathema.Utils.MVP;
+using Anathema.Utils;
 
 namespace Anathema
 {

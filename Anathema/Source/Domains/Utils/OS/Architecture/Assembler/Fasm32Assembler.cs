@@ -1,4 +1,5 @@
-﻿using FASMSharedInterface;
+﻿using Anathema.Utils.Extensions;
+using FASMSharedInterface;
 using System;
 using System.Diagnostics;
 using System.IO;
@@ -7,7 +8,7 @@ using System.Runtime.Remoting.Channels.Ipc;
 using System.Threading;
 using System.Windows.Forms;
 
-namespace Anathema.MemoryManagement.Assembly.Assembler
+namespace Anathema.Utils.OS.Architecture.Assembler
 {
     /// <summary>
     /// Implement Fasm.NET compiler for 32-bit development.

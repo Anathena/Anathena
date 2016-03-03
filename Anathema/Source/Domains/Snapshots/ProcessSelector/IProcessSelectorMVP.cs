@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Anathema.Utils.MVP;
+using Anathema.Utils.Validation;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
@@ -111,5 +113,7 @@ namespace Anathema
             return ProcessTitles;
         }
         #endregion
-    }
-}
+
+    } // End class
+
+} // End namespace

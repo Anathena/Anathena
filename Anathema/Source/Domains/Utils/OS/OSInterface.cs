@@ -1,22 +1,23 @@
 ﻿using Anathema.MemoryManagement;
+using Anathema.Utils.OS.Architecture;
 using System;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
 
-namespace Anathema
+namespace Anathema.Utils.OS
 {
     /// <summary>
     /// Abstraction of the OS, providing access to assembly functions and target process functions
     /// </summary>
     public class OSInterface
     {
-        public Architecture Architecture { get; private set; }
+        public ArchitectureInterface Architecture { get; private set; }
 
         public IOperatingSystemInterface Process { get; private set; }
 
         public OSInterface(Process TargetProcess)
         {
-            Architecture = new Architecture();
+            Architecture = new ArchitectureInterface();
 
             Process = new WindowsOSInterface(TargetProcess);
         }

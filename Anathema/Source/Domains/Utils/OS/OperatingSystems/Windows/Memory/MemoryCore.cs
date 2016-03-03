@@ -5,6 +5,8 @@ using Anathema.MemoryManagement.Helpers;
 using Anathema.MemoryManagement.Internals;
 using Anathema.MemoryManagement.Native;
 using Anathema;
+using Anathema.Utils.Extensions;
+using Anathema.Utils.OS;
 
 namespace Anathema.MemoryManagement.Memory
 {

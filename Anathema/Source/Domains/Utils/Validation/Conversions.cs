@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using Anathema.Utils.Extensions;
+using System;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace Anathema
+namespace Anathema.Utils.Validation
 {
     /// <summary>
     /// Converts a value from one format to another format. No validation checking is done, see CheckSyntax class for this

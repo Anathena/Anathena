@@ -1,8 +1,9 @@
-﻿using SharpDisasm;
+﻿using Anathema.Utils.Extensions;
+using SharpDisasm;
 using System;
 using System.Collections.Generic;
 
-namespace Anathema.Disassembler
+namespace Anathema.Utils.OS.Architecture.Disassembler
 {
     /// <summary>
     /// Implements Fasm.NET compiler for 32-bit development.

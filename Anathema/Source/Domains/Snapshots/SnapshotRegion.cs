@@ -1,5 +1,7 @@
 ﻿using Anathema.MemoryManagement;
 using Anathema.MemoryManagement.Memory;
+using Anathema.Utils.Extensions;
+using Anathema.Utils.OS;
 using System;
 using System.Collections;
 using System.Collections.Generic;

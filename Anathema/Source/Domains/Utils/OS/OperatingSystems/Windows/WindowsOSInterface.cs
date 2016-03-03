@@ -2,13 +2,14 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Text;
-using Anathema.MemoryManagement.Assembly;
 using Anathema.MemoryManagement.Helpers;
 using Anathema.MemoryManagement.Internals;
 using Anathema.MemoryManagement.Memory;
 using Anathema.MemoryManagement.Modules;
 using Anathema.MemoryManagement.Native;
 using System.Runtime.InteropServices;
+using Anathema.Utils.OS;
+using Anathema.Utils.Extensions;
 
 namespace Anathema.MemoryManagement
 {

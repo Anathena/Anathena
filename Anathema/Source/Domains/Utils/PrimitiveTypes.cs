@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 
-namespace Anathema
+namespace Anathema.Utils
 {
     class PrimitiveTypes
     {
@@ -11,5 +11,7 @@ namespace Anathema
         {
             return typeof(Int32).Assembly.GetTypes().Where(x => x.IsPrimitive && !ExcludedTypes.Contains(x)).ToArray();
         }
-    }
-}
+
+    } // End class
+
+} // End namespace

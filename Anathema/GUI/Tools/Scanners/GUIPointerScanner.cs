@@ -1,15 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Text;
 using System.Windows.Forms;
 using WeifenLuo.WinFormsUI.Docking;
-using System.IO;
-using Anathema.MemoryManagement;
-using Anathema.MemoryManagement.Memory;
-using System.Linq;
+using Anathema.Utils.Validation;
+using Anathema.Utils;
+using Anathema.Utils.MVP;
 
 namespace Anathema
 {

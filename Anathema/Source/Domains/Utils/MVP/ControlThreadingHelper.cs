@@ -1,11 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
+using Be.Windows.Forms;
 
-namespace Anathema
+namespace Anathema.Utils.MVP
 {
     /// <summary>
     /// Class that allows threads outside of a windows form (Presenter in an MVP) to update controls in the windows form
@@ -25,5 +22,11 @@ namespace Anathema
             else
                 Action();
         }
-    }
-}
+
+        internal static void InvokeControlAction<T>(HexBox hexEditorBox, Action p)
+        {
+            throw new NotImplementedException();
+        }
+    } // End class
+
+} // End namespace

@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Reflection;
 using System.Runtime.CompilerServices;
 
-namespace Anathema
+namespace Anathema.Utils.Extensions
 {
     public static class ObjectExtensions
     {

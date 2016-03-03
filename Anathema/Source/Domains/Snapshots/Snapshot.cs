@@ -8,6 +8,8 @@ using System.Threading.Tasks;
 using System.Collections;
 using System.Runtime.InteropServices;
 using System.Collections.Concurrent;
+using Anathema.Utils.Extensions;
+using Anathema.Utils.OS;
 
 namespace Anathema
 {

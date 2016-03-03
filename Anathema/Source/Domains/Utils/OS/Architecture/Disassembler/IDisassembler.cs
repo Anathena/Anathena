@@ -2,7 +2,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace Anathema.Disassembler
+namespace Anathema.Utils.OS.Architecture.Disassembler
 {
     /// <summary>
     /// Interface defining a disassembler.

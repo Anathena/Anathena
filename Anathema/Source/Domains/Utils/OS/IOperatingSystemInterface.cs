@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Anathema
+namespace Anathema.Utils.OS
 {
     [Flags]
     public enum MemoryProtectionEnum

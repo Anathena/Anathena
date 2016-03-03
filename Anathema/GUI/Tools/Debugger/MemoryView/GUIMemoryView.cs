@@ -8,6 +8,8 @@ using System.Windows.Forms;
 using WeifenLuo.WinFormsUI.Docking;
 using System.IO;
 using Be.Windows.Forms;
+using Anathema.Utils.MVP;
+using Anathema.Utils.Extensions;
 
 namespace Anathema
 {
@@ -58,6 +60,7 @@ namespace Anathema
             {
                 if (HexEditorBox.ByteProvider == null)
                     return;
+
                 HexEditorBox.LineInfoOffset = (Address.Subtract(HexEditorBox.ByteProvider.Length / 2).Subtract(Address.Mod(HexEditorBox.HorizontalByteCount)).ToInt64());
                 BaseLine = HexEditorBox.TopLine;
                 UpdateDisplayRange();

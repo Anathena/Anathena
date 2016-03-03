@@ -1,9 +1,7 @@
 ﻿using System;
 using NLua;
-using Anathema.MemoryManagement;
-using System.Text.RegularExpressions;
 
-namespace Anathema
+namespace Anathema.Utils.OS.LUA
 {
     public class LuaEngine
     {
