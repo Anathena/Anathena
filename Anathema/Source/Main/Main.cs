@@ -6,7 +6,7 @@ namespace Anathema
     class Main : IMainModel
     {
         private OSInterface OSInterface;
-        private static Main _Main;
+        private static Main MainInstance;
 
         public event MainEventHandler EventUpdateProcessTitle;
         public event MainEventHandler EventOpenScriptEditor;
@@ -19,9 +19,9 @@ namespace Anathema
 
         public static Main GetInstance()
         {
-            if (_Main == null)
-                _Main = new Main();
-            return _Main;
+            if (MainInstance == null)
+                MainInstance = new Main();
+            return MainInstance;
         }
 
         public void InitializeProcessObserver()
