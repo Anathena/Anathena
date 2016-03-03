@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Anathema.Utils.OS.LUA
+namespace Anathema.Utils.LUA
 {
     class LuaKeywordManager
     {

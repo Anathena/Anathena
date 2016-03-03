@@ -1,7 +1,7 @@
 ﻿using System;
 using NLua;
 
-namespace Anathema.Utils.OS.LUA
+namespace Anathema.Utils.LUA
 {
     public class LuaEngine
     {

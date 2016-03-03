@@ -1,5 +1,5 @@
 ﻿using Anathema.Utils.OS;
-using Anathema.Utils.OS.LUA;
+using Anathema.Utils.LUA;
 using System;
 
 namespace Anathema

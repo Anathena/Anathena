@@ -1,4 +1,5 @@
 ﻿using Anathema.Utils.Extensions;
+using Anathema.Utils.OS;
 using Anathema.Utils.Validation;
 using SharpDisasm;
 using System;
@@ -6,7 +7,7 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Anathema.Utils.OS.LUA
+namespace Anathema.Utils.LUA
 {
     public interface LuaFunctions
     {
