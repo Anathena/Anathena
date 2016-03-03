@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Runtime.CompilerServices;
 
-namespace Anathema.Snapshots
+namespace Anathema.Services.Snapshots
 {
     /// <summary>
     /// Class used by SnapshotRegion as a wrapper for indexing into the raw collection of data

@@ -1,4 +1,4 @@
-﻿using Anathema.Snapshots;
+﻿using Anathema.Services.Snapshots;
 using Anathema.Utils.OS;
 
 namespace Anathema

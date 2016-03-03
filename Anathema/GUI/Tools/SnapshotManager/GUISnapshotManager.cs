@@ -2,7 +2,7 @@
 using System.Windows.Forms;
 using WeifenLuo.WinFormsUI.Docking;
 using Anathema.Utils.MVP;
-using Anathema.Snapshots;
+using Anathema.Services.Snapshots;
 
 namespace Anathema
 {

@@ -5,7 +5,7 @@ using System;
 using System.Drawing;
 using System.Windows.Forms;
 
-namespace Anathema.Snapshots
+namespace Anathema.Services.Snapshots
 {
     delegate void SnapshotManagerEventHandler(Object Sender, SnapshotManagerEventArgs Args);
     class SnapshotManagerEventArgs : EventArgs

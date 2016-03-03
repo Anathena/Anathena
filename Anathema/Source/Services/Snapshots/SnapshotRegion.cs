@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices;
 
-namespace Anathema.Snapshots
+namespace Anathema.Services.Snapshots
 {
     /// <summary>
     /// Defines a snapshot of memory in an external process.

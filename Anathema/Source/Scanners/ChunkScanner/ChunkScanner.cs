@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Anathema.Utils.OS;
-using Anathema.Snapshots;
+using Anathema.Services.Snapshots;
 
 namespace Anathema.Scanners.ChunkScanner
 {

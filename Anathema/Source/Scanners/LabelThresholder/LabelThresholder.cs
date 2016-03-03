@@ -1,4 +1,4 @@
-﻿using Anathema.Snapshots;
+﻿using Anathema.Services.Snapshots;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;

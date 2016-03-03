@@ -6,7 +6,7 @@ using System.Collections;
 using Anathema.Utils.Extensions;
 using Anathema.Utils.OS;
 
-namespace Anathema.Snapshots
+namespace Anathema.Services.Snapshots
 {
     /// <summary>
     /// Defines data contained in a single snapshot
