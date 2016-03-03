@@ -8,7 +8,7 @@ using Anathema.Utils.MVP;
 using Anathema.Scanners.ScanConstraints;
 using Anathema.Scanners.FiniteStateScanner;
 
-namespace Anathema.GUI.Tools.MemoryScanners
+namespace Anathema.GUI
 {
     public partial class GUIFiniteStateBuilder : UserControl, IFiniteStateBuilderView
     {

@@ -35,7 +35,7 @@
             this.RedoSnapshotButton = new System.Windows.Forms.ToolStripButton();
             this.ToolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.ClearSnapshotsButton = new System.Windows.Forms.ToolStripButton();
-            this.SnapshotListView = new Anathema.FlickerFreeListView();
+            this.SnapshotListView = new Anathema.GUI.FlickerFreeListView();
             this.ScanMethodHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.SizeHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.TimeStampHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
@@ -161,7 +161,7 @@
         private System.Windows.Forms.ToolStripButton ClearSnapshotsButton;
         private System.Windows.Forms.ToolStripButton UndoSnapshotButton;
         private System.Windows.Forms.ToolStripButton RedoSnapshotButton;
-        private Anathema.FlickerFreeListView SnapshotListView;
+        private Anathema.GUI.FlickerFreeListView SnapshotListView;
         private System.Windows.Forms.ColumnHeader ScanMethodHeader;
         private System.Windows.Forms.ColumnHeader SizeHeader;
         private System.Windows.Forms.ColumnHeader TimeStampHeader;

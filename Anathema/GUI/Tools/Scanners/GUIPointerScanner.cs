@@ -7,7 +7,7 @@ using Anathema.Utils;
 using Anathema.Utils.MVP;
 using Anathema.Scanners.PointerScanner;
 
-namespace Anathema
+namespace Anathema.GUI
 {
     public partial class GUIPointerScanner : DockContent, IPointerScannerView
     {

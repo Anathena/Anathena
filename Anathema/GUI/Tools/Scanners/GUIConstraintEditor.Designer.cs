@@ -1,4 +1,4 @@
-﻿namespace Anathema.GUI.Tools.MemoryScanners
+﻿namespace Anathema.GUI
 {
     partial class GUIConstraintEditor
     {
@@ -36,7 +36,7 @@
             this.DeleteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ConstraintToolStrip = new System.Windows.Forms.ToolStrip();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
-            this.ValueTextBox = new Anathema.HexDecTextBox();
+            this.ValueTextBox = new Anathema.GUI.HexDecTextBox();
             this.ScanOptionsToolStripDropDownButton = new System.Windows.Forms.ToolStripDropDownButton();
             this.ChangedToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.UnchangedToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();

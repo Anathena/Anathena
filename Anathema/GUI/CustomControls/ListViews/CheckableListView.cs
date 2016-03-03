@@ -1,8 +1,7 @@
 ﻿using System;
-using System.Drawing;
 using System.Windows.Forms;
 
-namespace Anathema
+namespace Anathema.GUI
 {
     /// <summary>
     /// Virtual list views are not checkable by default, so we can fix that.

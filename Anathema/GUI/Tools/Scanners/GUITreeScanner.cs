@@ -5,7 +5,7 @@ using Anathema.MemoryManagement.Memory;
 using Anathema.Utils.MVP;
 using Anathema.Scanners.TreeScanner;
 
-namespace Anathema
+namespace Anathema.GUI
 {
     public partial class GUITreeScanner : DockContent, ITreeScannerView
     {

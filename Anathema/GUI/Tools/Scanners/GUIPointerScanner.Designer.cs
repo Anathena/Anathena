@@ -1,4 +1,4 @@
-﻿namespace Anathema
+﻿namespace Anathema.GUI
 {
     partial class GUIPointerScanner
     {
@@ -45,11 +45,11 @@
             this.AddressModeRadioButton = new System.Windows.Forms.RadioButton();
             this.ValueTypeComboBox = new System.Windows.Forms.ComboBox();
             this.ResultsTabPage = new System.Windows.Forms.TabPage();
-            this.GUIConstraintEditor = new Anathema.GUI.Tools.MemoryScanners.GUIConstraintEditor();
-            this.MaxLevelTextBox = new Anathema.HexDecTextBox();
-            this.MaxOffsetTextBox = new Anathema.HexDecTextBox();
-            this.AddressTextBox = new Anathema.HexDecTextBox();
-            this.PointerListView = new Anathema.FlickerFreeListView();
+            this.GUIConstraintEditor = new GUIConstraintEditor();
+            this.MaxLevelTextBox = new Anathema.GUI.HexDecTextBox();
+            this.MaxOffsetTextBox = new Anathema.GUI.HexDecTextBox();
+            this.AddressTextBox = new Anathema.GUI.HexDecTextBox();
+            this.PointerListView = new Anathema.GUI.FlickerFreeListView();
             this.ValueHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.BaseHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.ScanToolStrip.SuspendLayout();
@@ -332,7 +332,7 @@
         private System.Windows.Forms.Label TargetAddressLabel;
         private System.Windows.Forms.Label MaxOffsetLabel;
         private System.Windows.Forms.Label MaxLevelLabel;
-        private FlickerFreeListView PointerListView;
+        private GUI.FlickerFreeListView PointerListView;
         private System.Windows.Forms.ColumnHeader ValueHeader;
         private System.Windows.Forms.ToolStripButton RebuildPointersButton;
         private System.Windows.Forms.ColumnHeader BaseHeader;
@@ -341,14 +341,14 @@
         private System.Windows.Forms.TabControl PointerScanTabControl;
         private System.Windows.Forms.TabPage SettingsTabPage;
         private System.Windows.Forms.TabPage ResultsTabPage;
-        private HexDecTextBox AddressTextBox;
-        private HexDecTextBox MaxOffsetTextBox;
-        private HexDecTextBox MaxLevelTextBox;
+        private GUI.HexDecTextBox AddressTextBox;
+        private GUI.HexDecTextBox MaxOffsetTextBox;
+        private GUI.HexDecTextBox MaxLevelTextBox;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
         private System.Windows.Forms.ComboBox ValueTypeComboBox;
         private System.Windows.Forms.RadioButton ValueModeRadioButton;
         private System.Windows.Forms.RadioButton AddressModeRadioButton;
-        private GUI.Tools.MemoryScanners.GUIConstraintEditor GUIConstraintEditor;
+        private GUIConstraintEditor GUIConstraintEditor;
         private System.Windows.Forms.Label ValueTypeLabel;
     }
 }

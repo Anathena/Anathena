@@ -4,7 +4,7 @@ using WeifenLuo.WinFormsUI.Docking;
 using Anathema.Utils.MVP;
 using Anathema.Services.ScanResults;
 
-namespace Anathema
+namespace Anathema.GUI
 {
     public partial class GUIResults : DockContent, IResultsView
     {

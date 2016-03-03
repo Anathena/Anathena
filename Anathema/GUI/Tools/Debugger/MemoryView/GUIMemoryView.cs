@@ -7,7 +7,7 @@ using Anathema.Utils.MVP;
 using Anathema.Utils.Extensions;
 using Anathema.Services.MemoryView;
 
-namespace Anathema
+namespace Anathema.GUI
 {
     public partial class GUIMemoryView : DockContent, IMemoryViewView
     {

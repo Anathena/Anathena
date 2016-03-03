@@ -3,7 +3,7 @@ using WeifenLuo.WinFormsUI.Docking;
 using Anathema.Utils.MVP;
 using Anathema.Scanners.FiniteStateScanner;
 
-namespace Anathema
+namespace Anathema.GUI
 {
     public partial class GUIFiniteStateScanner : DockContent, IFiniteStateScannerView
     {

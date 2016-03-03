@@ -41,9 +41,9 @@
             this.OffsetLabel = new System.Windows.Forms.Label();
             this.OkButton = new System.Windows.Forms.Button();
             this.CancelButton = new System.Windows.Forms.Button();
-            this.ValueTextBox = new Anathema.HexDecTextBox();
-            this.OffsetTextBox = new Anathema.HexDecTextBox();
-            this.AddressTextBox = new Anathema.HexDecTextBox();
+            this.ValueTextBox = new Anathema.GUI.HexDecTextBox();
+            this.OffsetTextBox = new Anathema.GUI.HexDecTextBox();
+            this.AddressTextBox = new Anathema.GUI.HexDecTextBox();
             this.SuspendLayout();
             // 
             // DescriptionTextBox
@@ -245,16 +245,16 @@
         private System.Windows.Forms.ComboBox ValueTypeComboBox;
         private System.Windows.Forms.Label DescriptionLabel;
         private System.Windows.Forms.Label ValueTypeLabel;
-        private HexDecTextBox AddressTextBox;
+        private GUI.HexDecTextBox AddressTextBox;
         private System.Windows.Forms.Label AddressLabel;
         private System.Windows.Forms.Label ValueLabel;
         private System.Windows.Forms.ListBox OffsetListBox;
-        private HexDecTextBox OffsetTextBox;
+        private GUI.HexDecTextBox OffsetTextBox;
         private System.Windows.Forms.Button AddOffsetButton;
         private System.Windows.Forms.Button RemoveOffsetButton;
         private System.Windows.Forms.Label OffsetLabel;
         private System.Windows.Forms.Button OkButton;
         private System.Windows.Forms.Button CancelButton;
-        private HexDecTextBox ValueTextBox;
+        private GUI.HexDecTextBox ValueTextBox;
     }
 }

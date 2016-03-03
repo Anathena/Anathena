@@ -6,7 +6,7 @@ using Anathema.Utils.MVP;
 using Anathema.Utils.Validation;
 using Anathema.Scanners.LabelThresholder;
 
-namespace Anathema
+namespace Anathema.GUI
 {
     public partial class GUILabelThresholder : DockContent, ILabelThresholderView
     {

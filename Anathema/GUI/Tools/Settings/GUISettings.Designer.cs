@@ -38,11 +38,11 @@
             this.ExcludedWriteCheckBox = new System.Windows.Forms.CheckBox();
             this.ExcludedCopyOnWriteCheckBox = new System.Windows.Forms.CheckBox();
             this.GeneralGroupBox = new System.Windows.Forms.GroupBox();
-            this.EndAddressTextBox = new Anathema.HexDecTextBox();
-            this.StartAddressTextBox = new Anathema.HexDecTextBox();
+            this.EndAddressTextBox = new Anathema.GUI.HexDecTextBox();
+            this.StartAddressTextBox = new Anathema.GUI.HexDecTextBox();
             this.ScanCustomRangeRadioButton = new System.Windows.Forms.RadioButton();
             this.ScanUserModeRadioButton = new System.Windows.Forms.RadioButton();
-            this.AlignmentTextBox = new Anathema.HexDecTextBox();
+            this.AlignmentTextBox = new Anathema.GUI.HexDecTextBox();
             this.AlignmentLabel = new System.Windows.Forms.Label();
             this.MemoryTypeGroupBox = new System.Windows.Forms.GroupBox();
             this.NoneCheckBox = new System.Windows.Forms.CheckBox();
@@ -55,11 +55,11 @@
             this.RequiredCopyOnWriteCheckBox = new System.Windows.Forms.CheckBox();
             this.GeneralTabPage = new System.Windows.Forms.TabPage();
             this.IntervalsGroupBox = new System.Windows.Forms.GroupBox();
-            this.InputCorrelatorTimeOutIntervalTextBox = new Anathema.HexDecTextBox();
-            this.ResultsReadIntervalTextBox = new Anathema.HexDecTextBox();
-            this.TableReadIntervalTextBox = new Anathema.HexDecTextBox();
-            this.RescanIntervalTextBox = new Anathema.HexDecTextBox();
-            this.FreezeIntervalTextBox = new Anathema.HexDecTextBox();
+            this.InputCorrelatorTimeOutIntervalTextBox = new Anathema.GUI.HexDecTextBox();
+            this.ResultsReadIntervalTextBox = new Anathema.GUI.HexDecTextBox();
+            this.TableReadIntervalTextBox = new Anathema.GUI.HexDecTextBox();
+            this.RescanIntervalTextBox = new Anathema.GUI.HexDecTextBox();
+            this.FreezeIntervalTextBox = new Anathema.GUI.HexDecTextBox();
             this.InputCorrelatorTimeoutIntervalLabel = new System.Windows.Forms.Label();
             this.ResultsReadIntervalLabel = new System.Windows.Forms.Label();
             this.TableReadIntervalLabel = new System.Windows.Forms.Label();
@@ -550,15 +550,15 @@
         private System.Windows.Forms.CheckBox ExcludedExecuteCheckBox;
         private System.Windows.Forms.CheckBox ExcludedWriteCheckBox;
         private System.Windows.Forms.CheckBox ExcludedCopyOnWriteCheckBox;
-        private HexDecTextBox AlignmentTextBox;
-        private HexDecTextBox EndAddressTextBox;
-        private HexDecTextBox StartAddressTextBox;
+        private GUI.HexDecTextBox AlignmentTextBox;
+        private GUI.HexDecTextBox EndAddressTextBox;
+        private GUI.HexDecTextBox StartAddressTextBox;
         private System.Windows.Forms.RadioButton ScanCustomRangeRadioButton;
         private System.Windows.Forms.RadioButton ScanUserModeRadioButton;
-        private HexDecTextBox RescanIntervalTextBox;
-        private HexDecTextBox FreezeIntervalTextBox;
-        private HexDecTextBox InputCorrelatorTimeOutIntervalTextBox;
-        private HexDecTextBox ResultsReadIntervalTextBox;
-        private HexDecTextBox TableReadIntervalTextBox;
+        private GUI.HexDecTextBox RescanIntervalTextBox;
+        private GUI.HexDecTextBox FreezeIntervalTextBox;
+        private GUI.HexDecTextBox InputCorrelatorTimeOutIntervalTextBox;
+        private GUI.HexDecTextBox ResultsReadIntervalTextBox;
+        private GUI.HexDecTextBox TableReadIntervalTextBox;
     }
 }

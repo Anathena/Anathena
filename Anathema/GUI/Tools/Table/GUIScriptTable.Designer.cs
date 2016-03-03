@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            this.ScriptTableListView = new Anathema.CheckableListView();
+            this.ScriptTableListView = new Anathema.GUI.CheckableListView();
             this.ScriptActiveHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.ScriptDescriptionHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.ScriptTableContextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
@@ -113,7 +113,7 @@
 
         #endregion
 
-        private CheckableListView ScriptTableListView;
+        private GUI.CheckableListView ScriptTableListView;
         private System.Windows.Forms.ColumnHeader ScriptActiveHeader;
         private System.Windows.Forms.ColumnHeader ScriptDescriptionHeader;
         private System.Windows.Forms.ContextMenuStrip ScriptTableContextMenuStrip;

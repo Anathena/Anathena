@@ -9,7 +9,7 @@ using System.Reflection;
 using System.Windows.Forms;
 using WeifenLuo.WinFormsUI.Docking;
 
-namespace Anathema
+namespace Anathema.GUI
 {
     partial class GUIMain : Form, IMainView
     {

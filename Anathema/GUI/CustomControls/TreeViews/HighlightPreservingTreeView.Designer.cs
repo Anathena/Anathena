@@ -1,4 +1,4 @@
-﻿namespace Anathema
+﻿namespace Anathema.GUI
 {
     partial class HighlightPreservingTreeView
     {

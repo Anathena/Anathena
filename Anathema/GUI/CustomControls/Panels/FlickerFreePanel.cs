@@ -1,6 +1,6 @@
 ﻿using System.Windows.Forms;
 
-namespace Anathema
+namespace Anathema.GUI
 {
     class FlickerFreePanel : Panel
     {
@@ -21,5 +21,7 @@ namespace Anathema
                 base.OnNotifyMessage(Message);
             }
         }
-    }
-}
+
+    } // End class
+
+} // End namespace

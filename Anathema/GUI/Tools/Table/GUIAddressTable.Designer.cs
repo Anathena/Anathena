@@ -34,7 +34,7 @@
             this.EditAddressEntryToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.DeleteSelectionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.AddNewAddressToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.AddressTableListView = new Anathema.CheckableListView();
+            this.AddressTableListView = new Anathema.GUI.CheckableListView();
             this.FrozenHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.AddressDescriptionHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.AddressHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
@@ -153,7 +153,7 @@
 
         #endregion
 
-        private CheckableListView AddressTableListView;
+        private GUI.CheckableListView AddressTableListView;
         private System.Windows.Forms.ColumnHeader FrozenHeader;
         private System.Windows.Forms.ColumnHeader AddressDescriptionHeader;
         private System.Windows.Forms.ColumnHeader AddressHeader;

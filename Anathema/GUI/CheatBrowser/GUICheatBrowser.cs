@@ -4,7 +4,7 @@ using WeifenLuo.WinFormsUI.Docking;
 using Gecko;
 using Anathema.Utils.Browser;
 
-namespace Anathema
+namespace Anathema.GUI
 {
     public partial class GUICheatBrowser : DockContent
     {

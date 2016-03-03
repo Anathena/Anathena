@@ -1,4 +1,4 @@
-﻿namespace Anathema
+﻿namespace Anathema.GUI
 {
     partial class GUIResults
     {
@@ -45,7 +45,7 @@
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.SnapshotSizeLabel = new System.Windows.Forms.ToolStripLabel();
             this.SnapshotSizeValueLabel = new System.Windows.Forms.ToolStripLabel();
-            this.ResultsListView = new Anathema.FlickerFreeListView();
+            this.ResultsListView = new Anathema.GUI.FlickerFreeListView();
             this.AddressHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.ValueHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.LabelHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
@@ -230,7 +230,7 @@
 
         #endregion
 
-        private FlickerFreeListView ResultsListView;
+        private GUI.FlickerFreeListView ResultsListView;
         private System.Windows.Forms.ColumnHeader AddressHeader;
         private System.Windows.Forms.ColumnHeader ValueHeader;
         private System.Windows.Forms.ColumnHeader LabelHeader;

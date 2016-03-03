@@ -8,7 +8,7 @@ using Anathema.Utils.Validation;
 using Anathema.Utils.MVP;
 using Anathema.Scanners.InputCorrelator;
 
-namespace Anathema
+namespace Anathema.GUI
 {
     public partial class GUIInputCorrelator : DockContent, IInputCorrelatorView
     {

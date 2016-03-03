@@ -1,4 +1,4 @@
-﻿namespace Anathema
+﻿namespace Anathema.GUI
 {
     partial class GUIManualScanner
     {
@@ -32,7 +32,7 @@
             this.StartScanButton = new System.Windows.Forms.ToolStripButton();
             this.ScanToolStrip = new System.Windows.Forms.ToolStrip();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
-            this.GUIConstraintEditor = new Anathema.GUI.Tools.MemoryScanners.GUIConstraintEditor();
+            this.GUIConstraintEditor = new GUIConstraintEditor();
             this.ScanToolStrip.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -93,7 +93,7 @@
         #endregion
         private System.Windows.Forms.ToolStripButton StartScanButton;
         private System.Windows.Forms.ToolStrip ScanToolStrip;
-        private GUI.Tools.MemoryScanners.GUIConstraintEditor GUIConstraintEditor;
+        private GUIConstraintEditor GUIConstraintEditor;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
     }
 }

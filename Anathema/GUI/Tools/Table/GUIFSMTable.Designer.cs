@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.FSMTableListView = new Anathema.FlickerFreeListView();
+            this.FSMTableListView = new Anathema.GUI.FlickerFreeListView();
             this.FSMDescriptionHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.SuspendLayout();
             // 
@@ -63,7 +63,7 @@
 
         #endregion
 
-        private FlickerFreeListView FSMTableListView;
+        private GUI.FlickerFreeListView FSMTableListView;
         private System.Windows.Forms.ColumnHeader FSMDescriptionHeader;
     }
 }

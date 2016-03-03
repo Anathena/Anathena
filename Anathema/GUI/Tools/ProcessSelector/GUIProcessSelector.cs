@@ -4,9 +4,8 @@ using WeifenLuo.WinFormsUI.Docking;
 using System.Diagnostics;
 using Anathema.Services.ProcessManager;
 
-namespace Anathema
+namespace Anathema.GUI
 {
-
     public partial class GUIProcessSelector : DockContent, IProcessSelectorView
     {
         private ProcessSelectorPresenter ProcessSelectorPresenter;

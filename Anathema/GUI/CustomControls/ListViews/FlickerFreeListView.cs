@@ -2,7 +2,7 @@
 using System;
 using System.Windows.Forms;
 
-namespace Anathema
+namespace Anathema.GUI
 {
     class FlickerFreeListView : ListView
     {

@@ -3,7 +3,7 @@ using WeifenLuo.WinFormsUI.Docking;
 using Anathema.Utils.MVP;
 using Anathema.Scanners.ChunkScanner;
 
-namespace Anathema
+namespace Anathema.GUI
 {
     public partial class GUIChunkScanner : DockContent, IChunkScannerView
     {

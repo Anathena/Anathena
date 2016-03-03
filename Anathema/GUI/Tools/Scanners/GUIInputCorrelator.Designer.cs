@@ -1,4 +1,4 @@
-﻿namespace Anathema
+﻿namespace Anathema.GUI
 {
     partial class GUIInputCorrelator
     {
@@ -48,8 +48,8 @@
             this.ScanCountLabel = new System.Windows.Forms.ToolStripLabel();
             this.InputContextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.DeleteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.InputTextBox = new Anathema.WatermarkTextBox();
-            this.InputTreeView = new Anathema.HighlightPreservingTreeView();
+            this.InputTextBox = new Anathema.GUI.WatermarkTextBox();
+            this.InputTreeView = new Anathema.GUI.HighlightPreservingTreeView();
             ((System.ComponentModel.ISupportInitialize)(this.VariableSizeTrackBar)).BeginInit();
             this.ScanToolStrip.SuspendLayout();
             this.InputContextMenuStrip.SuspendLayout();
@@ -281,8 +281,8 @@
         private System.Windows.Forms.ToolStrip ScanToolStrip;
         private System.Windows.Forms.ToolStripButton StartScanButton;
         private System.Windows.Forms.ToolStripButton StopScanButton;
-        private HighlightPreservingTreeView InputTreeView;
-        private WatermarkTextBox InputTextBox;
+        private GUI.HighlightPreservingTreeView InputTreeView;
+        private GUI.WatermarkTextBox InputTextBox;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.ToolStripButton DeleteNodeButton;
         private System.Windows.Forms.ToolStripButton ClearInputsButton;

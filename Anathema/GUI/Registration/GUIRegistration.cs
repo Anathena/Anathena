@@ -8,7 +8,7 @@ using System.IO;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
 
-namespace Anathema
+namespace Anathema.GUI
 {
     public partial class GUIRegistration : Form
     {

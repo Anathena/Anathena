@@ -2,7 +2,7 @@
 using System.Drawing;
 using System.Windows.Forms;
 
-namespace Anathema
+namespace Anathema.GUI
 {
     /// <summary>
     /// A textbox that supports a watermak hint.

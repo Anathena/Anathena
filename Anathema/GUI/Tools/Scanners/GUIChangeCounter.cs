@@ -5,7 +5,7 @@ using Anathema.Utils.Validation;
 using Anathema.Utils.MVP;
 using Anathema.Scanners.ChangeCounter;
 
-namespace Anathema
+namespace Anathema.GUI
 {
     public partial class GUIChangeCounter : DockContent, IChangeCounterView
     {
@@ -134,5 +134,7 @@ namespace Anathema
         }
 
         #endregion
-    }
-}
+
+    } // End class
+
+} // End namespace
