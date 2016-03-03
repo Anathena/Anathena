@@ -9,7 +9,6 @@ namespace Anathema.Scanners.ManualScanner
 {
     class ManualScanner : IManualScannerModel
     {
-        // Snapshot being labeled with change counts
         private Snapshot<Null> Snapshot;
 
         private ScanConstraintManager ScanConstraintManager;
