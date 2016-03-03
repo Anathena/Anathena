@@ -1,7 +1,7 @@
 ﻿using Anathema.Utils.MVP;
 using System;
 
-namespace Anathema.User.Table
+namespace Anathema.User.UserTable
 {
     delegate void TableEventHandler(Object Sender, TableEventArgs Args);
     class TableEventArgs : EventArgs

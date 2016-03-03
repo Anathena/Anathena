@@ -1,6 +1,6 @@
 ﻿using Anathema.Utils.OS;
 
-namespace Anathema.Services.ProcessSelector
+namespace Anathema.Services.ProcessManager
 {
     interface IProcessObserver
     {

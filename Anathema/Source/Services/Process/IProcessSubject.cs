@@ -1,6 +1,6 @@
 ﻿using System.Diagnostics;
 
-namespace Anathema.Services.ProcessSelector
+namespace Anathema.Services.ProcessManager
 {
     interface IProcessSubject
     {

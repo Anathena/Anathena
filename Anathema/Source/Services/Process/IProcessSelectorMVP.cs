@@ -6,7 +6,7 @@ using System.Diagnostics;
 using System.Drawing;
 using System.Windows.Forms;
 
-namespace Anathema.Services.ProcessSelector
+namespace Anathema.Services.ProcessManager
 {
     delegate void ProcessSelectorEventHandler(Object Sender, ProcessSelectorEventArgs Args);
     class ProcessSelectorEventArgs : EventArgs
