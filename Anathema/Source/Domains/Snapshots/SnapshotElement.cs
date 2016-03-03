@@ -1,9 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
 
-namespace Anathema
+namespace Anathema.Snapshots
 {
     /// <summary>
     /// Class used by SnapshotRegion as a wrapper for indexing into the raw collection of data

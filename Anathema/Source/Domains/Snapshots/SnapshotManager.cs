@@ -5,7 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Anathema
+namespace Anathema.Snapshots
 {
     class SnapshotManager : ISnapshotManagerModel
     {

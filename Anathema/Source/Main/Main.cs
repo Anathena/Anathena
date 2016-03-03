@@ -1,4 +1,5 @@
-﻿using Anathema.Utils.OS;
+﻿using Anathema.Snapshots;
+using Anathema.Utils.OS;
 
 namespace Anathema
 {
@@ -46,8 +47,7 @@ namespace Anathema
         {
             EventOpenLabelThresholder(this, new MainEventArgs());
         }
-
-
+        
         public void RequestCollectValues()
         {
             SnapshotManager.GetInstance().CollectValues();

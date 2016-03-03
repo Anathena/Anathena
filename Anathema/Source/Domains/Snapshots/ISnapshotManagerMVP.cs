@@ -1,17 +1,11 @@
-﻿using Anathema.MemoryManagement;
-using Anathema.MemoryManagement.Memory;
-using Anathema.Utils;
+﻿using Anathema.Utils;
 using Anathema.Utils.MVP;
 using Anathema.Utils.Validation;
 using System;
-using System.Collections.Generic;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace Anathema
+namespace Anathema.Snapshots
 {
     delegate void SnapshotManagerEventHandler(Object Sender, SnapshotManagerEventArgs Args);
     class SnapshotManagerEventArgs : EventArgs

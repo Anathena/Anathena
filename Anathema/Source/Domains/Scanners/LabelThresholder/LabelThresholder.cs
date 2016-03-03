@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Anathema.Snapshots;
+using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;

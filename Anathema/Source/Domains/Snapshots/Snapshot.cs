@@ -1,17 +1,12 @@
-﻿using Anathema.MemoryManagement;
-using Anathema.MemoryManagement.Memory;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Collections;
-using System.Runtime.InteropServices;
-using System.Collections.Concurrent;
 using Anathema.Utils.Extensions;
 using Anathema.Utils.OS;
 
-namespace Anathema
+namespace Anathema.Snapshots
 {
     /// <summary>
     /// Defines data contained in a single snapshot

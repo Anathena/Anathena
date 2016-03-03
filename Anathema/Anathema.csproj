@@ -416,9 +416,9 @@
     <Compile Include="Source\Domains\Scanners\TreeScanner\ITreeScannerMVP.cs" />
     <Compile Include="Source\Domains\Scanners\ChangeCounter\ChangeCounter.cs" />
     <Compile Include="Source\Domains\Scanners\ChangeCounter\IChangeCounterMVP.cs" />
-    <Compile Include="Source\Domains\Snapshots\ProcessSelector\IProcessObserver.cs" />
-    <Compile Include="Source\Domains\Snapshots\ProcessSelector\IProcessSelectorMVP.cs" />
-    <Compile Include="Source\Domains\Snapshots\ProcessSelector\ProcessSelector.cs" />
+    <Compile Include="Source\Domains\Services\ProcessSelector\IProcessObserver.cs" />
+    <Compile Include="Source\Domains\Services\ProcessSelector\IProcessSelectorMVP.cs" />
+    <Compile Include="Source\Domains\Services\ProcessSelector\ProcessSelector.cs" />
     <Compile Include="Source\Domains\Services\ScanResults\IResultsMVP.cs" />
     <Compile Include="Source\Domains\Services\ScanResults\Results.cs" />
     <Compile Include="Source\Domains\Snapshots\ISnapshotManagerMVP.cs" />
@@ -532,7 +532,7 @@
     <Compile Include="Source\Domains\Scanners\TreeScanner\TreeScanner.cs" />
     <Compile Include="Source\Domains\Utils\Validation\Conversions.cs" />
     <Compile Include="Source\Main\IMainMVP.cs" />
-    <Compile Include="Source\Domains\Snapshots\ProcessSelector\IProcessSubject.cs" />
+    <Compile Include="Source\Domains\Services\ProcessSelector\IProcessSubject.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Source\Domains\User\Settings\Settings.cs" />

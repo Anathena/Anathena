@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Anathema.Snapshots;
+using System;
 
 namespace Anathema.Scanners.ValueCollector
 {

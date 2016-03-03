@@ -1,4 +1,5 @@
 ﻿using Anathema.Scanners.ScanConstraints;
+using Anathema.Snapshots;
 using Anathema.Utils.Extensions;
 using Anathema.Utils.OS;
 using Anathema.Utils.Validation;
