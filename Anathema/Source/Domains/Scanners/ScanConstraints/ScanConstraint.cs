@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Anathema
+﻿namespace Anathema.Scanners.ScanConstraints
 {
     public enum ConstraintsEnum
     {
@@ -44,5 +38,7 @@ namespace Anathema
             this.Constraint = ValueConstraint;
             this.Value = Value;
         }
-    }
-}
+
+    } // End class
+
+} // End namespace

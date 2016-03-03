@@ -6,6 +6,7 @@ using WeifenLuo.WinFormsUI.Docking;
 using Gma.System.MouseKeyHook;
 using Anathema.Utils.Validation;
 using Anathema.Utils.MVP;
+using Anathema.Scanners.InputCorrelator;
 
 namespace Anathema
 {

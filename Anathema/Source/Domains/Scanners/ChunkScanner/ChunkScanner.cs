@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Anathema.Utils.OS;
 
-namespace Anathema
+namespace Anathema.Scanners.ChunkScanner
 {
     class ChunkScanner : IChunkScannerModel
     {

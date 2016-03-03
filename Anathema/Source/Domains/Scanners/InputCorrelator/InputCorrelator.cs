@@ -1,18 +1,11 @@
-﻿using Anathema.Properties;
-using Anathema.MemoryManagement;
-using Anathema.MemoryManagement.Memory;
-using Gma.System.MouseKeyHook;
+﻿using Gma.System.MouseKeyHook;
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
-using System.Text;
-using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace Anathema
+namespace Anathema.Scanners.InputCorrelator
 {
     // I Originally thought these might be a good idea:
     // http://www.ucl.ac.uk/english-usage/staff/sean/resources/phimeasures.pdf

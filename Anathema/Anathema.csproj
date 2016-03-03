@@ -236,12 +236,12 @@
     <Compile Include="Source\Domains\Utils\OS\NormalizedModule.cs" />
     <Compile Include="Source\Domains\Utils\OS\NormalizedRegion.cs" />
     <Compile Include="Source\Domains\Utils\OS\IOperatingSystemInterface.cs" />
-    <Compile Include="Source\Domains\Utils\OS\Lua\LuaEngine.cs" />
+    <Compile Include="Source\Domains\Utils\Lua\LuaEngine.cs" />
     <Compile Include="Settings.cs" />
     <Compile Include="Source\Domains\Utils\ListViewCache.cs" />
     <Compile Include="Source\Domains\Utils\RepeatedTask.cs" />
-    <Compile Include="Source\Domains\Utils\OS\Lua\LuaKeywordManager.cs" />
-    <Compile Include="Source\Domains\Utils\OS\Lua\LuaMemoryCore.cs" />
+    <Compile Include="Source\Domains\Utils\Lua\LuaKeywordManager.cs" />
+    <Compile Include="Source\Domains\Utils\Lua\LuaMemoryCore.cs" />
     <Compile Include="Source\Domains\Utils\OS\OSInterface.cs" />
     <Compile Include="Source\Domains\Utils\OS\Architecture\Disassembler\SharpDisassembler.cs" />
     <Compile Include="Source\Domains\Utils\OS\Architecture\Disassembler\IDisassembler.cs" />

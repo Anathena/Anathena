@@ -1,13 +1,9 @@
-﻿using Anathema.MemoryManagement;
-using Anathema.Utils.MVP;
+﻿using Anathema.Utils.MVP;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace Anathema
+namespace Anathema.Scanners.LabelThresholder
 {
     delegate void LabelThresholderEventHandler(Object Sender, LabelThresholderEventArgs Args);
     class LabelThresholderEventArgs : EventArgs

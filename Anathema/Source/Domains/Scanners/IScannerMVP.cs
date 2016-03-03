@@ -1,15 +1,8 @@
-﻿using Anathema.MemoryManagement;
-using Anathema.MemoryManagement.Memory;
-using Anathema.Utils;
+﻿using Anathema.Utils;
 using Anathema.Utils.MVP;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
 
-namespace Anathema
+namespace Anathema.Scanners
 {
     delegate void ScannerEventHandler(Object Sender, ScannerEventArgs Args);
     class ScannerEventArgs : EventArgs

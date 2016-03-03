@@ -1,4 +1,5 @@
-﻿using Anathema.Utils.Extensions;
+﻿using Anathema.Scanners.ScanConstraints;
+using Anathema.Utils.Extensions;
 using Anathema.Utils.OS;
 using Anathema.Utils.Validation;
 using System;
@@ -8,7 +9,7 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 
-namespace Anathema
+namespace Anathema.Scanners.PointerScanner
 {
     /*
     Trace-Retrace Algorithm:

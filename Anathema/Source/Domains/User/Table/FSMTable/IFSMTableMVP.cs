@@ -1,5 +1,6 @@
 ﻿using Anathema.MemoryManagement;
 using Anathema.MemoryManagement.Memory;
+using Anathema.Scanners.FiniteStateScanner;
 using Anathema.Utils;
 using Anathema.Utils.MVP;
 using System;

@@ -1,12 +1,11 @@
-﻿using System;
+﻿using Anathema.Scanners.ScanConstraints;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace Anathema
+namespace Anathema.Scanners.FiniteStateScanner
 {
     /// <summary>
     /// Class to define a collection of states that represent a finite state machine for FSM scans

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
 
-namespace Anathema
+namespace Anathema.Scanners.InputCorrelator
 {
     class InputNode : TreeNode, IEnumerable
     {

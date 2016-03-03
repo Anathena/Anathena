@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Anathema.Utils.OS;
 
-namespace Anathema
+namespace Anathema.Scanners.TreeScanner
 {
     /// <summary>
     /// Consantly queries the OS for all of the memory of the target program to determine if any of it has changed via chunk hashing.

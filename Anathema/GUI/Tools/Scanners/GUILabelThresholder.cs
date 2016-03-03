@@ -4,6 +4,7 @@ using System.Drawing;
 using WeifenLuo.WinFormsUI.Docking;
 using Anathema.Utils.MVP;
 using Anathema.Utils.Validation;
+using Anathema.Scanners.LabelThresholder;
 
 namespace Anathema
 {

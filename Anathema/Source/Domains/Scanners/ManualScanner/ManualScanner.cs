@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using Anathema.Scanners.ScanConstraints;
+using System;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Threading;
-using Anathema.MemoryManagement;
-using Anathema.MemoryManagement.Memory;
 
-namespace Anathema
+namespace Anathema.Scanners.ManualScanner
 {
     class ManualScanner : IManualScannerModel
     {

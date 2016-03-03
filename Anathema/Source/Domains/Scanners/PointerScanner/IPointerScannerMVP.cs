@@ -1,15 +1,12 @@
-﻿using Anathema.MemoryManagement;
+﻿using Anathema.Scanners.ScanConstraints;
 using Anathema.Utils;
 using Anathema.Utils.Extensions;
 using Anathema.Utils.Validation;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace Anathema
+namespace Anathema.Scanners.PointerScanner
 {
     delegate void PointerScannerEventHandler(Object Sender, PointerScannerEventArgs Args);
     class PointerScannerEventArgs : EventArgs

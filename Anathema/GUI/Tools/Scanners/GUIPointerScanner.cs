@@ -5,6 +5,7 @@ using WeifenLuo.WinFormsUI.Docking;
 using Anathema.Utils.Validation;
 using Anathema.Utils;
 using Anathema.Utils.MVP;
+using Anathema.Scanners.PointerScanner;
 
 namespace Anathema
 {

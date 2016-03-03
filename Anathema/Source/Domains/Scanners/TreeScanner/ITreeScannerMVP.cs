@@ -1,12 +1,4 @@
-﻿using Anathema.MemoryManagement;
-using Anathema.MemoryManagement.Memory;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Anathema
+﻿namespace Anathema.Scanners.TreeScanner
 {
     interface ITreeScannerView : IScannerView
     {
@@ -40,5 +32,7 @@ namespace Anathema
         #region Event definitions for events triggered by the model (upstream)
         
         #endregion
-    }
-}
+
+    } // End class
+
+} // End namespace

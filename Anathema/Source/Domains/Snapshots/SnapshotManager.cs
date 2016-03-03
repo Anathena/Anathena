@@ -1,12 +1,9 @@
-﻿using Anathema.MemoryManagement;
-using Anathema.MemoryManagement.Memory;
+﻿using Anathema.Scanners.ValueCollector;
 using Anathema.Utils.Extensions;
 using Anathema.Utils.OS;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Anathema
 {

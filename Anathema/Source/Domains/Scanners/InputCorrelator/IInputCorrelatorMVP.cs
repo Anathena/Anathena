@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Windows.Forms;
 
-namespace Anathema
+namespace Anathema.Scanners.InputCorrelator
 {
     delegate void InputCorrelatorEventHandler(Object Sender, InputCorrelatorEventArgs Args);
     class InputCorrelatorEventArgs : EventArgs

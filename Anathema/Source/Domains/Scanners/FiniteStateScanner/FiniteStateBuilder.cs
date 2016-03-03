@@ -1,15 +1,8 @@
-﻿using Anathema.MemoryManagement;
-using Anathema.MemoryManagement.Memory;
+﻿using Anathema.Scanners.ScanConstraints;
 using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Drawing;
-using System.Threading;
 
-namespace Anathema
+namespace Anathema.Scanners.FiniteStateScanner
 {
     class FiniteStateBuilder : IFiniteStateBuilderModel
     {

@@ -11,6 +11,7 @@ using Anathema.Properties;
 using Anathema.Utils.Validation;
 using Anathema.Utils.MVP;
 using Anathema.Utils;
+using Anathema.Scanners.ScanConstraints;
 
 namespace Anathema.GUI.Tools.MemoryScanners
 {

@@ -1,9 +1,7 @@
-﻿using Anathema.MemoryManagement;
+﻿using Anathema.Scanners.FiniteStateScanner;
 using Anathema.Utils.OS;
 using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Runtime.Serialization;
 
 namespace Anathema
 {

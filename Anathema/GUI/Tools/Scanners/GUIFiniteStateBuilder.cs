@@ -5,6 +5,8 @@ using System.Drawing;
 using System.Windows.Forms;
 using Anathema.Properties;
 using Anathema.Utils.MVP;
+using Anathema.Scanners.ScanConstraints;
+using Anathema.Scanners.FiniteStateScanner;
 
 namespace Anathema.GUI.Tools.MemoryScanners
 {

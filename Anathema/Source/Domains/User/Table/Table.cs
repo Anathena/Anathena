@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Anathema.Scanners.FiniteStateScanner;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Reflection;

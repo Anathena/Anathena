@@ -6,7 +6,7 @@ using System.Windows.Forms;
 using Anathema.Utils.MVP;
 using Anathema.Utils.Validation;
 
-namespace Anathema
+namespace Anathema.Scanners.ScanConstraints
 {
     delegate void ScanConstraintEditorEventHandler(Object Sender, ScanConstraintEditorEventArgs Args);
     class ScanConstraintEditorEventArgs : EventArgs

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using WeifenLuo.WinFormsUI.Docking;
 using Anathema.MemoryManagement.Memory;
 using Anathema.Utils.MVP;
+using Anathema.Scanners.TreeScanner;
 
 namespace Anathema
 {
