@@ -1,20 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Text;
 using System.Windows.Forms;
 using WeifenLuo.WinFormsUI.Docking;
-using System.IO;
 using System.Diagnostics;
-using System.Linq;
-using System.Collections.Concurrent;
-using System.Runtime.InteropServices;
+using Anathema.Services.ProcessManager;
 
 namespace Anathema
 {
-    
+
     public partial class GUIProcessSelector : DockContent, IProcessSelectorView
     {
         private ProcessSelectorPresenter ProcessSelectorPresenter;
@@ -39,7 +31,6 @@ namespace Anathema
 
         public void SelectProcess(Process TargetProcess)
         {
-            // TODO: Yay we got a process, now do something with it
             this.Close();
         }
 

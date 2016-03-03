@@ -1,7 +1,6 @@
-﻿using Anathema.MemoryManagement;
-using Anathema.Utils.OS;
+﻿using Anathema.Utils.OS;
 
-namespace Anathema
+namespace Anathema.Services.ProcessSelector
 {
     interface IProcessObserver
     {

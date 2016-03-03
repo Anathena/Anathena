@@ -1,9 +1,10 @@
-﻿using Anathema.Services.Snapshots;
+﻿using Anathema.Services.ProcessManager;
+using Anathema.Services.Snapshots;
 using Anathema.Utils.OS;
 using System;
 using System.Collections.Concurrent;
 
-namespace Anathema
+namespace Anathema.Services.ScanResults
 {
     /// <summary>
     /// Handles the displaying of results

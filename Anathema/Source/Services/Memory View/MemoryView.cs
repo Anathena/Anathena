@@ -1,18 +1,12 @@
-﻿using Be.Windows.Forms;
-using Anathema.MemoryManagement;
-using Anathema.MemoryManagement.Memory;
-using System;
+﻿using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
 using Anathema.Utils.Extensions;
 using Anathema.Utils.OS;
+using Anathema.Services.ProcessManager;
 
-namespace Anathema
+namespace Anathema.Services.MemoryView
 {
     /// <summary>
     /// Handles the displaying of results

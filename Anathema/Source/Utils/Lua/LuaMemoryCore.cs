@@ -1,4 +1,5 @@
-﻿using Anathema.Utils.Extensions;
+﻿using Anathema.Services.ProcessManager;
+using Anathema.Utils.Extensions;
 using Anathema.Utils.OS;
 using Anathema.Utils.Validation;
 using SharpDisasm;

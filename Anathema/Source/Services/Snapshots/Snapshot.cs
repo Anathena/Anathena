@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using System.Collections;
 using Anathema.Utils.Extensions;
 using Anathema.Utils.OS;
+using Anathema.Services.ProcessManager;
 
 namespace Anathema.Services.Snapshots
 {

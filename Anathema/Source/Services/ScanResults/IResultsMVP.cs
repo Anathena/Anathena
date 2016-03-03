@@ -5,7 +5,7 @@ using Anathema.Utils.Validation;
 using System;
 using System.Windows.Forms;
 
-namespace Anathema
+namespace Anathema.Services.ScanResults
 {
     delegate void ResultsEventHandler(Object Sender, ResultsEventArgs Args);
     class ResultsEventArgs : EventArgs
