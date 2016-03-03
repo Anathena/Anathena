@@ -133,19 +133,19 @@
     <Compile Include="GUI\CustomControls\ListViews\FlickerFreeListView.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="GUI\CustomControls\Panel\FlickerFreePanel.cs">
+    <Compile Include="GUI\CustomControls\Panels\FlickerFreePanel.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="GUI\CustomControls\Textbox\HexDecTextBox.cs">
+    <Compile Include="GUI\CustomControls\Textboxes\HexDecTextBox.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="GUI\CustomControls\Textbox\WatermarkTextBox.cs">
+    <Compile Include="GUI\CustomControls\Textboxes\WatermarkTextBox.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="GUI\CustomControls\TreeView\HighlightPreservingTreeView.cs">
+    <Compile Include="GUI\CustomControls\TreeViews\HighlightPreservingTreeView.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="GUI\CustomControls\TreeView\HighlightPreservingTreeView.Designer.cs">
+    <Compile Include="GUI\CustomControls\TreeViews\HighlightPreservingTreeView.Designer.cs">
       <DependentUpon>HighlightPreservingTreeView.cs</DependentUpon>
     </Compile>
     <Compile Include="GUI\Registration\GUIRegistration.cs">
@@ -226,52 +226,52 @@
     <Compile Include="GUI\Tools\Table\GUIAddressTable.Designer.cs">
       <DependentUpon>GUIAddressTable.cs</DependentUpon>
     </Compile>
-    <Compile Include="Source\Domains\User\Browser\BrowserHelper.cs" />
-    <Compile Include="Source\Domains\Utils\Extensions\IntExtensions.cs" />
-    <Compile Include="Source\Domains\Utils\Extensions\IntPtrExtensions.cs" />
-    <Compile Include="Source\Domains\Utils\ObjectCache.cs" />
-    <Compile Include="Source\Domains\Utils\MessageBoxEx.cs" />
-    <Compile Include="Source\Domains\Utils\Extensions\ObjectExtensions.cs" />
-    <Compile Include="Source\Domains\Utils\OS\Architecture\Architecture.cs" />
-    <Compile Include="Source\Domains\Utils\OS\NormalizedModule.cs" />
-    <Compile Include="Source\Domains\Utils\OS\NormalizedRegion.cs" />
-    <Compile Include="Source\Domains\Utils\OS\IOperatingSystemInterface.cs" />
-    <Compile Include="Source\Domains\Utils\Lua\LuaEngine.cs" />
+    <Compile Include="Source\Utils\Browser\BrowserHelper.cs" />
+    <Compile Include="Source\Utils\Extensions\IntExtensions.cs" />
+    <Compile Include="Source\Utils\Extensions\IntPtrExtensions.cs" />
+    <Compile Include="Source\Utils\ObjectCache.cs" />
+    <Compile Include="Source\Utils\MessageBoxEx.cs" />
+    <Compile Include="Source\Utils\Extensions\ObjectExtensions.cs" />
+    <Compile Include="Source\Utils\OS\Architecture\Architecture.cs" />
+    <Compile Include="Source\Utils\OS\NormalizedModule.cs" />
+    <Compile Include="Source\Utils\OS\NormalizedRegion.cs" />
+    <Compile Include="Source\Utils\OS\IOperatingSystemInterface.cs" />
+    <Compile Include="Source\Utils\Lua\LuaEngine.cs" />
     <Compile Include="Settings.cs" />
-    <Compile Include="Source\Domains\Utils\ListViewCache.cs" />
-    <Compile Include="Source\Domains\Utils\RepeatedTask.cs" />
-    <Compile Include="Source\Domains\Utils\Lua\LuaKeywordManager.cs" />
-    <Compile Include="Source\Domains\Utils\Lua\LuaMemoryCore.cs" />
-    <Compile Include="Source\Domains\Utils\OS\OSInterface.cs" />
-    <Compile Include="Source\Domains\Utils\OS\Architecture\Disassembler\SharpDisassembler.cs" />
-    <Compile Include="Source\Domains\Utils\OS\Architecture\Disassembler\IDisassembler.cs" />
-    <Compile Include="Source\Domains\User\Registration\RegistrationManager.cs" />
-    <Compile Include="Source\Domains\User\Settings\ISettingsMVP.cs" />
-    <Compile Include="Source\Domains\Services\Debugger\Memory View\IMemoryViewMVP.cs" />
-    <Compile Include="Source\Domains\Services\Debugger\Memory View\MemoryView.cs" />
-    <Compile Include="Source\Domains\Scanners\ValueCollector\ValueCollector.cs" />
-    <Compile Include="Source\Domains\Scanners\FiniteStateScanner\FiniteStateBuilder.cs" />
-    <Compile Include="Source\Domains\Scanners\FiniteStateScanner\IFiniteStateScannerMVP.cs" />
-    <Compile Include="Source\Domains\Scanners\InputCorrelator\InputNode.cs" />
-    <Compile Include="Source\Domains\Scanners\LabelThresholder\ILabelThresholderMVP.cs" />
-    <Compile Include="Source\Domains\Scanners\LabelThresholder\LabelThresholder.cs" />
-    <Compile Include="Source\Domains\Scanners\PointerScanner\IPointerScannerMVP.cs" />
-    <Compile Include="Source\Domains\Scanners\PointerScanner\PointerScanner.cs" />
-    <Compile Include="Source\Domains\Scanners\FiniteStateScanner\IFiniteStateBuilderMVP.cs" />
-    <Compile Include="Source\Domains\Scanners\FiniteStateScanner\FiniteStateMachine.cs" />
-    <Compile Include="Source\Domains\Scanners\FiniteStateScanner\FiniteState.cs" />
-    <Compile Include="Source\Domains\Scanners\ScanConstraints\IScanConstraintEditorMVP.cs" />
-    <Compile Include="Source\Domains\Scanners\ScanConstraints\ScanConstraintEditor.cs" />
-    <Compile Include="Source\Domains\Scanners\ScanConstraints\ScanConstraintManager.cs" />
-    <Compile Include="Source\Domains\Utils\PrimitiveTypes.cs" />
-    <Compile Include="Source\Domains\Scanners\ManualScanner\IManualScannerMVP.cs" />
-    <Compile Include="Source\Domains\Scanners\ManualScanner\ManualScanner.cs" />
-    <Compile Include="Source\Domains\Scanners\InputCorrelator\IInputCorrelatorMVP.cs" />
-    <Compile Include="Source\Domains\User\Table\ScriptEditor\IScriptEditorMVP.cs" />
-    <Compile Include="Source\Domains\User\Table\ScriptEditor\ScriptEditor.cs" />
-    <Compile Include="Source\Domains\Snapshots\SnapshotRegion.cs" />
-    <Compile Include="Source\Domains\Snapshots\SnapshotElement.cs" />
-    <Compile Include="Source\Domains\Scanners\Hashing.cs" />
+    <Compile Include="Source\Utils\ListViewCache.cs" />
+    <Compile Include="Source\Utils\RepeatedTask.cs" />
+    <Compile Include="Source\Utils\Lua\LuaKeywordManager.cs" />
+    <Compile Include="Source\Utils\Lua\LuaMemoryCore.cs" />
+    <Compile Include="Source\Utils\OS\OSInterface.cs" />
+    <Compile Include="Source\Utils\OS\Architecture\Disassembler\SharpDisassembler.cs" />
+    <Compile Include="Source\Utils\OS\Architecture\Disassembler\IDisassembler.cs" />
+    <Compile Include="Source\User\Registration\RegistrationManager.cs" />
+    <Compile Include="Source\User\Settings\ISettingsMVP.cs" />
+    <Compile Include="Source\Services\Memory View\IMemoryViewMVP.cs" />
+    <Compile Include="Source\Services\Memory View\MemoryView.cs" />
+    <Compile Include="Source\Scanners\ValueCollector\ValueCollector.cs" />
+    <Compile Include="Source\Scanners\FiniteStateScanner\FiniteStateBuilder.cs" />
+    <Compile Include="Source\Scanners\FiniteStateScanner\IFiniteStateScannerMVP.cs" />
+    <Compile Include="Source\Scanners\InputCorrelator\InputNode.cs" />
+    <Compile Include="Source\Scanners\LabelThresholder\ILabelThresholderMVP.cs" />
+    <Compile Include="Source\Scanners\LabelThresholder\LabelThresholder.cs" />
+    <Compile Include="Source\Scanners\PointerScanner\IPointerScannerMVP.cs" />
+    <Compile Include="Source\Scanners\PointerScanner\PointerScanner.cs" />
+    <Compile Include="Source\Scanners\FiniteStateScanner\IFiniteStateBuilderMVP.cs" />
+    <Compile Include="Source\Scanners\FiniteStateScanner\FiniteStateMachine.cs" />
+    <Compile Include="Source\Scanners\FiniteStateScanner\FiniteState.cs" />
+    <Compile Include="Source\Scanners\ScanConstraints\IScanConstraintEditorMVP.cs" />
+    <Compile Include="Source\Scanners\ScanConstraints\ScanConstraintEditor.cs" />
+    <Compile Include="Source\Scanners\ScanConstraints\ScanConstraintManager.cs" />
+    <Compile Include="Source\Utils\PrimitiveTypes.cs" />
+    <Compile Include="Source\Scanners\ManualScanner\IManualScannerMVP.cs" />
+    <Compile Include="Source\Scanners\ManualScanner\ManualScanner.cs" />
+    <Compile Include="Source\Scanners\InputCorrelator\IInputCorrelatorMVP.cs" />
+    <Compile Include="Source\User\Table\ScriptEditor\IScriptEditorMVP.cs" />
+    <Compile Include="Source\User\Table\ScriptEditor\ScriptEditor.cs" />
+    <Compile Include="Source\Services\Snapshots\SnapshotRegion.cs" />
+    <Compile Include="Source\Services\Snapshots\SnapshotElement.cs" />
+    <Compile Include="Source\Scanners\Hashing.cs" />
     <Compile Include="GUI\CustomControls\HexEditor\BitControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -375,57 +375,57 @@
       <DependentUpon>GUIChunkScanner.cs</DependentUpon>
     </Compile>
     <Compile Include="Source\Main\Main.cs" />
-    <Compile Include="Source\Domains\Utils\OS\Architecture\Assembler\Fasm32Assembler.cs" />
-    <Compile Include="Source\Domains\Utils\OS\Architecture\Assembler\IAssembler.cs" />
-    <Compile Include="Source\Domains\Utils\OS\OperatingSystems\Windows\Debugger\Debugger.cs" />
-    <Compile Include="Source\Domains\Utils\OS\OperatingSystems\Windows\Debugger\DebuggerException.cs" />
-    <Compile Include="Source\Domains\Utils\OS\OperatingSystems\Windows\Debugger\DebuggerSettings.cs" />
-    <Compile Include="Source\Domains\Utils\OS\OperatingSystems\Windows\Debugger\ErrorCode.cs" />
-    <Compile Include="Source\Domains\Utils\OS\OperatingSystems\Windows\Helpers\ApplicationFinder.cs" />
-    <Compile Include="Source\Domains\Utils\OS\OperatingSystems\Windows\Helpers\HandleManipulator.cs" />
-    <Compile Include="Source\Domains\Utils\OS\OperatingSystems\Windows\Helpers\Randomizer.cs" />
-    <Compile Include="Source\Domains\Utils\OS\OperatingSystems\Windows\Helpers\SerializationHelper.cs" />
-    <Compile Include="Source\Domains\Utils\OS\OperatingSystems\Windows\Helpers\Singleton.cs" />
-    <Compile Include="Source\Domains\Utils\OS\OperatingSystems\Windows\Internals\IApplicableElement.cs" />
-    <Compile Include="Source\Domains\Utils\OS\OperatingSystems\Windows\Internals\IDisposableState.cs" />
-    <Compile Include="Source\Domains\Utils\OS\OperatingSystems\Windows\Internals\IFactory.cs" />
-    <Compile Include="Source\Domains\Utils\OS\OperatingSystems\Windows\Internals\IMarshalledValue.cs" />
-    <Compile Include="Source\Domains\Utils\OS\OperatingSystems\Windows\Internals\INamedElement.cs" />
-    <Compile Include="Source\Domains\Utils\OS\OperatingSystems\Windows\Internals\Manager.cs" />
-    <Compile Include="Source\Domains\Utils\OS\OperatingSystems\Windows\Internals\MarshalType.cs" />
-    <Compile Include="Source\Domains\Utils\OS\OperatingSystems\Windows\Internals\MarshalValue.cs" />
-    <Compile Include="Source\Domains\Utils\OS\OperatingSystems\Windows\WindowsOSInterface.cs" />
-    <Compile Include="Source\Domains\Utils\OS\OperatingSystems\Windows\Memory\LocalUnmanagedMemory.cs" />
-    <Compile Include="Source\Domains\Utils\OS\OperatingSystems\Windows\Memory\MemoryCore.cs" />
-    <Compile Include="Source\Domains\Utils\OS\OperatingSystems\Windows\Memory\MemoryFactory.cs" />
-    <Compile Include="Source\Domains\Utils\OS\OperatingSystems\Windows\Memory\MemoryProtection.cs" />
-    <Compile Include="Source\Domains\Utils\OS\OperatingSystems\Windows\Memory\RemoteAllocation.cs" />
-    <Compile Include="Source\Domains\Utils\OS\OperatingSystems\Windows\Memory\RemotePointer.cs" />
-    <Compile Include="Source\Domains\Utils\OS\OperatingSystems\Windows\Memory\RemoteRegion.cs" />
-    <Compile Include="Source\Domains\Utils\OS\OperatingSystems\Windows\Memory\RemoteVirtualPage.cs" />
-    <Compile Include="Source\Domains\Utils\OS\OperatingSystems\Windows\Modules\ModuleCore.cs" />
-    <Compile Include="Source\Domains\Utils\OS\OperatingSystems\Windows\Modules\ModuleFactory.cs" />
-    <Compile Include="Source\Domains\Utils\OS\OperatingSystems\Windows\Modules\RemoteFunction.cs" />
-    <Compile Include="Source\Domains\Utils\OS\OperatingSystems\Windows\Modules\RemoteModule.cs" />
-    <Compile Include="Source\Domains\Utils\OS\OperatingSystems\Windows\Native\Enumerations.cs" />
-    <Compile Include="Source\Domains\Utils\OS\OperatingSystems\Windows\Native\NativeMethods.cs" />
-    <Compile Include="Source\Domains\Utils\OS\OperatingSystems\Windows\Native\SafeMemoryHandle.cs" />
-    <Compile Include="Source\Domains\Utils\OS\OperatingSystems\Windows\Native\Structures.cs" />
-    <Compile Include="Source\Domains\Scanners\ChunkScanner\ChunkScanner.cs" />
-    <Compile Include="Source\Domains\Scanners\ChunkScanner\IChunkScannerMVP.cs" />
-    <Compile Include="Source\Domains\Scanners\TreeScanner\ITreeScannerMVP.cs" />
-    <Compile Include="Source\Domains\Scanners\ChangeCounter\ChangeCounter.cs" />
-    <Compile Include="Source\Domains\Scanners\ChangeCounter\IChangeCounterMVP.cs" />
-    <Compile Include="Source\Domains\Services\ProcessSelector\IProcessObserver.cs" />
-    <Compile Include="Source\Domains\Services\ProcessSelector\IProcessSelectorMVP.cs" />
-    <Compile Include="Source\Domains\Services\ProcessSelector\ProcessSelector.cs" />
-    <Compile Include="Source\Domains\Services\ScanResults\IResultsMVP.cs" />
-    <Compile Include="Source\Domains\Services\ScanResults\Results.cs" />
-    <Compile Include="Source\Domains\Snapshots\ISnapshotManagerMVP.cs" />
-    <Compile Include="Source\Domains\Scanners\IScannerMVP.cs" />
-    <Compile Include="Source\Domains\Snapshots\Snapshot.cs" />
-    <Compile Include="Source\Domains\Utils\MVP\ControlThreadingHelper.cs" />
-    <Compile Include="Source\Domains\Utils\MVP\IMVP.cs" />
+    <Compile Include="Source\Utils\OS\Architecture\Assembler\Fasm32Assembler.cs" />
+    <Compile Include="Source\Utils\OS\Architecture\Assembler\IAssembler.cs" />
+    <Compile Include="Source\Utils\OS\OperatingSystems\Windows\Debugger\Debugger.cs" />
+    <Compile Include="Source\Utils\OS\OperatingSystems\Windows\Debugger\DebuggerException.cs" />
+    <Compile Include="Source\Utils\OS\OperatingSystems\Windows\Debugger\DebuggerSettings.cs" />
+    <Compile Include="Source\Utils\OS\OperatingSystems\Windows\Debugger\ErrorCode.cs" />
+    <Compile Include="Source\Utils\OS\OperatingSystems\Windows\Helpers\ApplicationFinder.cs" />
+    <Compile Include="Source\Utils\OS\OperatingSystems\Windows\Helpers\HandleManipulator.cs" />
+    <Compile Include="Source\Utils\OS\OperatingSystems\Windows\Helpers\Randomizer.cs" />
+    <Compile Include="Source\Utils\OS\OperatingSystems\Windows\Helpers\SerializationHelper.cs" />
+    <Compile Include="Source\Utils\OS\OperatingSystems\Windows\Helpers\Singleton.cs" />
+    <Compile Include="Source\Utils\OS\OperatingSystems\Windows\Internals\IApplicableElement.cs" />
+    <Compile Include="Source\Utils\OS\OperatingSystems\Windows\Internals\IDisposableState.cs" />
+    <Compile Include="Source\Utils\OS\OperatingSystems\Windows\Internals\IFactory.cs" />
+    <Compile Include="Source\Utils\OS\OperatingSystems\Windows\Internals\IMarshalledValue.cs" />
+    <Compile Include="Source\Utils\OS\OperatingSystems\Windows\Internals\INamedElement.cs" />
+    <Compile Include="Source\Utils\OS\OperatingSystems\Windows\Internals\Manager.cs" />
+    <Compile Include="Source\Utils\OS\OperatingSystems\Windows\Internals\MarshalType.cs" />
+    <Compile Include="Source\Utils\OS\OperatingSystems\Windows\Internals\MarshalValue.cs" />
+    <Compile Include="Source\Utils\OS\OperatingSystems\Windows\WindowsOSInterface.cs" />
+    <Compile Include="Source\Utils\OS\OperatingSystems\Windows\Memory\LocalUnmanagedMemory.cs" />
+    <Compile Include="Source\Utils\OS\OperatingSystems\Windows\Memory\MemoryCore.cs" />
+    <Compile Include="Source\Utils\OS\OperatingSystems\Windows\Memory\MemoryFactory.cs" />
+    <Compile Include="Source\Utils\OS\OperatingSystems\Windows\Memory\MemoryProtection.cs" />
+    <Compile Include="Source\Utils\OS\OperatingSystems\Windows\Memory\RemoteAllocation.cs" />
+    <Compile Include="Source\Utils\OS\OperatingSystems\Windows\Memory\RemotePointer.cs" />
+    <Compile Include="Source\Utils\OS\OperatingSystems\Windows\Memory\RemoteRegion.cs" />
+    <Compile Include="Source\Utils\OS\OperatingSystems\Windows\Memory\RemoteVirtualPage.cs" />
+    <Compile Include="Source\Utils\OS\OperatingSystems\Windows\Modules\ModuleCore.cs" />
+    <Compile Include="Source\Utils\OS\OperatingSystems\Windows\Modules\ModuleFactory.cs" />
+    <Compile Include="Source\Utils\OS\OperatingSystems\Windows\Modules\RemoteFunction.cs" />
+    <Compile Include="Source\Utils\OS\OperatingSystems\Windows\Modules\RemoteModule.cs" />
+    <Compile Include="Source\Utils\OS\OperatingSystems\Windows\Native\Enumerations.cs" />
+    <Compile Include="Source\Utils\OS\OperatingSystems\Windows\Native\NativeMethods.cs" />
+    <Compile Include="Source\Utils\OS\OperatingSystems\Windows\Native\SafeMemoryHandle.cs" />
+    <Compile Include="Source\Utils\OS\OperatingSystems\Windows\Native\Structures.cs" />
+    <Compile Include="Source\Scanners\ChunkScanner\ChunkScanner.cs" />
+    <Compile Include="Source\Scanners\ChunkScanner\IChunkScannerMVP.cs" />
+    <Compile Include="Source\Scanners\TreeScanner\ITreeScannerMVP.cs" />
+    <Compile Include="Source\Scanners\ChangeCounter\ChangeCounter.cs" />
+    <Compile Include="Source\Scanners\ChangeCounter\IChangeCounterMVP.cs" />
+    <Compile Include="Source\Services\Process\IProcessObserver.cs" />
+    <Compile Include="Source\Services\Process\IProcessSelectorMVP.cs" />
+    <Compile Include="Source\Services\Process\ProcessSelector.cs" />
+    <Compile Include="Source\Services\ScanResults\IResultsMVP.cs" />
+    <Compile Include="Source\Services\ScanResults\Results.cs" />
+    <Compile Include="Source\Services\Snapshots\ISnapshotManagerMVP.cs" />
+    <Compile Include="Source\Scanners\IScannerMVP.cs" />
+    <Compile Include="Source\Services\Snapshots\Snapshot.cs" />
+    <Compile Include="Source\Utils\MVP\ControlThreadingHelper.cs" />
+    <Compile Include="Source\Utils\MVP\IMVP.cs" />
     <Compile Include="GUI\Tools\ProcessSelector\GUIProcessSelector.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -486,72 +486,72 @@
     <Compile Include="GUI\Main\GUIMain.Designer.cs">
       <DependentUpon>GUIMain.cs</DependentUpon>
     </Compile>
-    <Compile Include="Source\Domains\Scanners\FiniteStateScanner\FiniteStateScanner.cs" />
-    <Compile Include="Source\Domains\Utils\Validation\CheckSyntax.cs" />
-    <Compile Include="Source\Domains\Scanners\InputCorrelator\InputCorrelator.cs" />
-    <Compile Include="Source\Domains\Scanners\InputCorrelator\InputHook\Hook.cs" />
-    <Compile Include="Source\Domains\Scanners\InputCorrelator\InputHook\HotKeys\HotKeyArgs.cs" />
-    <Compile Include="Source\Domains\Scanners\InputCorrelator\InputHook\HotKeys\HotKeySet.cs" />
-    <Compile Include="Source\Domains\Scanners\InputCorrelator\InputHook\HotKeys\HotKeySetCollection.cs" />
-    <Compile Include="Source\Domains\Scanners\InputCorrelator\InputHook\HotKeys\HotKeySetsListener.cs" />
-    <Compile Include="Source\Domains\Scanners\InputCorrelator\InputHook\IKeyboardEvents.cs" />
-    <Compile Include="Source\Domains\Scanners\InputCorrelator\InputHook\IKeyboardMouseEvents.cs" />
-    <Compile Include="Source\Domains\Scanners\InputCorrelator\InputHook\IMouseEvents.cs" />
-    <Compile Include="Source\Domains\Scanners\InputCorrelator\InputHook\Implementation\AppEventFacade.cs" />
-    <Compile Include="Source\Domains\Scanners\InputCorrelator\InputHook\Implementation\AppKeyListener.cs" />
-    <Compile Include="Source\Domains\Scanners\InputCorrelator\InputHook\Implementation\AppMouseListener.cs" />
-    <Compile Include="Source\Domains\Scanners\InputCorrelator\InputHook\Implementation\BaseListener.cs" />
-    <Compile Include="Source\Domains\Scanners\InputCorrelator\InputHook\Implementation\ButtonSet.cs" />
-    <Compile Include="Source\Domains\Scanners\InputCorrelator\InputHook\Implementation\Callback.cs" />
-    <Compile Include="Source\Domains\Scanners\InputCorrelator\InputHook\Implementation\EventFacade.cs" />
-    <Compile Include="Source\Domains\Scanners\InputCorrelator\InputHook\Implementation\GlobalEventFacade.cs" />
-    <Compile Include="Source\Domains\Scanners\InputCorrelator\InputHook\Implementation\GlobalKeyListener.cs" />
-    <Compile Include="Source\Domains\Scanners\InputCorrelator\InputHook\Implementation\GlobalMouseListener.cs" />
-    <Compile Include="Source\Domains\Scanners\InputCorrelator\InputHook\Implementation\KeyboardState.cs" />
-    <Compile Include="Source\Domains\Scanners\InputCorrelator\InputHook\Implementation\KeyListener.cs" />
-    <Compile Include="Source\Domains\Scanners\InputCorrelator\InputHook\Implementation\MouseListener.cs" />
-    <Compile Include="Source\Domains\Scanners\InputCorrelator\InputHook\Implementation\Subscribe.cs" />
-    <Compile Include="Source\Domains\Scanners\InputCorrelator\InputHook\KeyEventArgsExt.cs" />
-    <Compile Include="Source\Domains\Scanners\InputCorrelator\InputHook\KeyPressEventArgsExt.cs" />
-    <Compile Include="Source\Domains\Scanners\InputCorrelator\InputHook\MouseEventExtArgs.cs" />
-    <Compile Include="Source\Domains\Scanners\InputCorrelator\InputHook\WinApi\AppMouseStruct.cs" />
-    <Compile Include="Source\Domains\Scanners\InputCorrelator\InputHook\WinApi\CallbackData.cs" />
-    <Compile Include="Source\Domains\Scanners\InputCorrelator\InputHook\WinApi\HookHelper.cs" />
-    <Compile Include="Source\Domains\Scanners\InputCorrelator\InputHook\WinApi\HookIds.cs" />
-    <Compile Include="Source\Domains\Scanners\InputCorrelator\InputHook\WinApi\HookNativeMethods.cs" />
-    <Compile Include="Source\Domains\Scanners\InputCorrelator\InputHook\WinApi\HookProcedure.cs" />
-    <Compile Include="Source\Domains\Scanners\InputCorrelator\InputHook\WinApi\HookProcedureHandle.cs" />
-    <Compile Include="Source\Domains\Scanners\InputCorrelator\InputHook\WinApi\HookResult.cs" />
-    <Compile Include="Source\Domains\Scanners\InputCorrelator\InputHook\WinApi\KeyboardHookStruct.cs" />
-    <Compile Include="Source\Domains\Scanners\InputCorrelator\InputHook\WinApi\KeyboardNativeMethods.cs" />
-    <Compile Include="Source\Domains\Scanners\InputCorrelator\InputHook\WinApi\Messages.cs" />
-    <Compile Include="Source\Domains\Scanners\InputCorrelator\InputHook\WinApi\MouseNativeMethods.cs" />
-    <Compile Include="Source\Domains\Scanners\InputCorrelator\InputHook\WinApi\MouseStruct.cs" />
-    <Compile Include="Source\Domains\Scanners\InputCorrelator\InputHook\WinApi\Point.cs" />
-    <Compile Include="Source\Domains\Scanners\InputCorrelator\InputHook\WinApi\ThreadNativeMethods.cs" />
-    <Compile Include="Source\Domains\Scanners\TreeScanner\TreeScanner.cs" />
-    <Compile Include="Source\Domains\Utils\Validation\Conversions.cs" />
+    <Compile Include="Source\Scanners\FiniteStateScanner\FiniteStateScanner.cs" />
+    <Compile Include="Source\Utils\Validation\CheckSyntax.cs" />
+    <Compile Include="Source\Scanners\InputCorrelator\InputCorrelator.cs" />
+    <Compile Include="Source\Scanners\InputCorrelator\InputHook\Hook.cs" />
+    <Compile Include="Source\Scanners\InputCorrelator\InputHook\HotKeys\HotKeyArgs.cs" />
+    <Compile Include="Source\Scanners\InputCorrelator\InputHook\HotKeys\HotKeySet.cs" />
+    <Compile Include="Source\Scanners\InputCorrelator\InputHook\HotKeys\HotKeySetCollection.cs" />
+    <Compile Include="Source\Scanners\InputCorrelator\InputHook\HotKeys\HotKeySetsListener.cs" />
+    <Compile Include="Source\Scanners\InputCorrelator\InputHook\IKeyboardEvents.cs" />
+    <Compile Include="Source\Scanners\InputCorrelator\InputHook\IKeyboardMouseEvents.cs" />
+    <Compile Include="Source\Scanners\InputCorrelator\InputHook\IMouseEvents.cs" />
+    <Compile Include="Source\Scanners\InputCorrelator\InputHook\Implementation\AppEventFacade.cs" />
+    <Compile Include="Source\Scanners\InputCorrelator\InputHook\Implementation\AppKeyListener.cs" />
+    <Compile Include="Source\Scanners\InputCorrelator\InputHook\Implementation\AppMouseListener.cs" />
+    <Compile Include="Source\Scanners\InputCorrelator\InputHook\Implementation\BaseListener.cs" />
+    <Compile Include="Source\Scanners\InputCorrelator\InputHook\Implementation\ButtonSet.cs" />
+    <Compile Include="Source\Scanners\InputCorrelator\InputHook\Implementation\Callback.cs" />
+    <Compile Include="Source\Scanners\InputCorrelator\InputHook\Implementation\EventFacade.cs" />
+    <Compile Include="Source\Scanners\InputCorrelator\InputHook\Implementation\GlobalEventFacade.cs" />
+    <Compile Include="Source\Scanners\InputCorrelator\InputHook\Implementation\GlobalKeyListener.cs" />
+    <Compile Include="Source\Scanners\InputCorrelator\InputHook\Implementation\GlobalMouseListener.cs" />
+    <Compile Include="Source\Scanners\InputCorrelator\InputHook\Implementation\KeyboardState.cs" />
+    <Compile Include="Source\Scanners\InputCorrelator\InputHook\Implementation\KeyListener.cs" />
+    <Compile Include="Source\Scanners\InputCorrelator\InputHook\Implementation\MouseListener.cs" />
+    <Compile Include="Source\Scanners\InputCorrelator\InputHook\Implementation\Subscribe.cs" />
+    <Compile Include="Source\Scanners\InputCorrelator\InputHook\KeyEventArgsExt.cs" />
+    <Compile Include="Source\Scanners\InputCorrelator\InputHook\KeyPressEventArgsExt.cs" />
+    <Compile Include="Source\Scanners\InputCorrelator\InputHook\MouseEventExtArgs.cs" />
+    <Compile Include="Source\Scanners\InputCorrelator\InputHook\WinApi\AppMouseStruct.cs" />
+    <Compile Include="Source\Scanners\InputCorrelator\InputHook\WinApi\CallbackData.cs" />
+    <Compile Include="Source\Scanners\InputCorrelator\InputHook\WinApi\HookHelper.cs" />
+    <Compile Include="Source\Scanners\InputCorrelator\InputHook\WinApi\HookIds.cs" />
+    <Compile Include="Source\Scanners\InputCorrelator\InputHook\WinApi\HookNativeMethods.cs" />
+    <Compile Include="Source\Scanners\InputCorrelator\InputHook\WinApi\HookProcedure.cs" />
+    <Compile Include="Source\Scanners\InputCorrelator\InputHook\WinApi\HookProcedureHandle.cs" />
+    <Compile Include="Source\Scanners\InputCorrelator\InputHook\WinApi\HookResult.cs" />
+    <Compile Include="Source\Scanners\InputCorrelator\InputHook\WinApi\KeyboardHookStruct.cs" />
+    <Compile Include="Source\Scanners\InputCorrelator\InputHook\WinApi\KeyboardNativeMethods.cs" />
+    <Compile Include="Source\Scanners\InputCorrelator\InputHook\WinApi\Messages.cs" />
+    <Compile Include="Source\Scanners\InputCorrelator\InputHook\WinApi\MouseNativeMethods.cs" />
+    <Compile Include="Source\Scanners\InputCorrelator\InputHook\WinApi\MouseStruct.cs" />
+    <Compile Include="Source\Scanners\InputCorrelator\InputHook\WinApi\Point.cs" />
+    <Compile Include="Source\Scanners\InputCorrelator\InputHook\WinApi\ThreadNativeMethods.cs" />
+    <Compile Include="Source\Scanners\TreeScanner\TreeScanner.cs" />
+    <Compile Include="Source\Utils\Validation\Conversions.cs" />
     <Compile Include="Source\Main\IMainMVP.cs" />
-    <Compile Include="Source\Domains\Services\ProcessSelector\IProcessSubject.cs" />
+    <Compile Include="Source\Services\Process\IProcessSubject.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Source\Domains\User\Settings\Settings.cs" />
-    <Compile Include="Source\Domains\Snapshots\SnapshotManager.cs" />
-    <Compile Include="Source\Domains\Utils\Extensions\ArrayExtensions.cs" />
-    <Compile Include="Source\Domains\User\Table\AddressTable\AddressTable.cs" />
-    <Compile Include="Source\Domains\User\Table\FSMTable\FSMTable.cs" />
-    <Compile Include="Source\Domains\User\Table\ScriptTable\IScriptTableMVP.cs" />
-    <Compile Include="Source\Domains\User\Table\AddressTable\IAddressTableMVP.cs" />
-    <Compile Include="Source\Domains\User\Table\FSMTable\IFSMTableMVP.cs" />
-    <Compile Include="Source\Domains\User\Table\AddressTable\AddressItem.cs" />
-    <Compile Include="Source\Domains\User\Table\ScriptTable\ScriptTable.cs" />
-    <Compile Include="Source\Domains\User\Table\AddressTable\AddressTableEntryEditor\ITableAddressEntryEditorMVP.cs" />
-    <Compile Include="Source\Domains\User\Table\ITableMVP.cs" />
-    <Compile Include="Source\Domains\User\Table\ScriptTable\ScriptItem.cs" />
-    <Compile Include="Source\Domains\User\Table\AddressTable\AddressTableEntryEditor\TableAddressEntryEditor.cs" />
-    <Compile Include="Source\Domains\User\Table\Table.cs" />
-    <Compile Include="Source\Domains\User\Table\TableItem.cs" />
-    <Compile Include="Source\Domains\Scanners\ScanConstraints\ScanConstraint.cs" />
+    <Compile Include="Source\User\Settings\Settings.cs" />
+    <Compile Include="Source\Services\Snapshots\SnapshotManager.cs" />
+    <Compile Include="Source\Utils\Extensions\ArrayExtensions.cs" />
+    <Compile Include="Source\User\Table\AddressTable\AddressTable.cs" />
+    <Compile Include="Source\User\Table\FSMTable\FSMTable.cs" />
+    <Compile Include="Source\User\Table\ScriptTable\IScriptTableMVP.cs" />
+    <Compile Include="Source\User\Table\AddressTable\IAddressTableMVP.cs" />
+    <Compile Include="Source\User\Table\FSMTable\IFSMTableMVP.cs" />
+    <Compile Include="Source\User\Table\AddressTable\AddressItem.cs" />
+    <Compile Include="Source\User\Table\ScriptTable\ScriptTable.cs" />
+    <Compile Include="Source\User\Table\AddressTable\AddressTableEntryEditor\ITableAddressEntryEditorMVP.cs" />
+    <Compile Include="Source\User\Table\ITableMVP.cs" />
+    <Compile Include="Source\User\Table\ScriptTable\ScriptItem.cs" />
+    <Compile Include="Source\User\Table\AddressTable\AddressTableEntryEditor\TableAddressEntryEditor.cs" />
+    <Compile Include="Source\User\Table\Table.cs" />
+    <Compile Include="Source\User\Table\TableItem.cs" />
+    <Compile Include="Source\Scanners\ScanConstraints\ScanConstraint.cs" />
     <EmbeddedResource Include="GUI\CheatBrowser\GUICheatBrowser.resx">
       <DependentUpon>GUICheatBrowser.cs</DependentUpon>
     </EmbeddedResource>
@@ -805,6 +805,7 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
+    <None Include="ClassDiagram1.cd" />
     <None Include="Content\Font\MonoSpace.ttf" />
     <None Include="Content\FSM\States.psd" />
     <None Include="Content\Icons\Thumbs.db" />
@@ -934,7 +935,7 @@
     <Content Include="Content\Icons\UnknownValue.png" />
     <Content Include="Content\Icons\Visible.png" />
     <Content Include="Content\Icons\X.png" />
-    <Content Include="Source\Domains\Scanners\InputCorrelator\InputHook\HotKeys\ReadMe.txt" />
+    <Content Include="Source\Scanners\InputCorrelator\InputHook\HotKeys\ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DockingSuite\DockingSuite.csproj">
@@ -975,9 +976,9 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Source\Domains\Services\Debugger\Code View\" />
-    <Folder Include="Source\Domains\Services\Divine\" />
-    <Folder Include="Source\Domains\Services\PointerScanResults\" />
+    <Folder Include="Source\Services\Debugger\" />
+    <Folder Include="Source\Services\Divine\" />
+    <Folder Include="Source\Services\PointerScanResults\" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.5.2">
@@ -998,9 +999,6 @@
       <Progid>Ana</Progid>
       <DefaultIcon>Content\Icons\MainIcon.ico</DefaultIcon>
     </FileAssociation>
-  </ItemGroup>
-  <ItemGroup>
-    <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
