@@ -1,5 +1,6 @@
 ﻿using Anathema.Scanners.ScanConstraints;
 using Anathema.Services.Snapshots;
+using Anathema.User.UserSettings;
 using System;
 using System.Linq;
 using System.Threading.Tasks;

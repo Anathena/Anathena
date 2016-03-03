@@ -1,11 +1,12 @@
-﻿using Anathema.Utils.Extensions;
+﻿using Anathema.User.UserTable;
+using Anathema.Utils.Extensions;
 using Anathema.Utils.OS;
 using Anathema.Utils.Validation;
 using System;
 using System.Reflection;
 using System.Runtime.Serialization;
 
-namespace Anathema
+namespace Anathema.User.UserAddressTable
 {
     [Obfuscation(ApplyToMembers = false)]
     [Obfuscation(Exclude = true)]

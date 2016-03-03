@@ -5,7 +5,7 @@ using Anathema.Utils.MVP;
 using System;
 using System.Windows.Forms;
 
-namespace Anathema
+namespace Anathema.User.UserFSMTable
 {
     delegate void FSMTableEventHandler(Object Sender, FSMTableEventArgs Args);
     class FSMTableEventArgs : EventArgs

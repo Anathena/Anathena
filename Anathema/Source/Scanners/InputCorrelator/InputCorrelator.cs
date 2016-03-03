@@ -1,4 +1,5 @@
 ﻿using Anathema.Services.Snapshots;
+using Anathema.User.UserSettings;
 using Gma.System.MouseKeyHook;
 using System;
 using System.Collections.Generic;

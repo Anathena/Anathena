@@ -6,6 +6,7 @@ using System.Data;
 using System.Linq;
 using System.Windows.Forms;
 using Anathema.Utils.MVP;
+using Anathema.User.UserAddressTable;
 
 namespace Anathema
 {

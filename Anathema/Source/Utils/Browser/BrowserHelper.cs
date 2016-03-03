@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Windows.Forms;
 
-namespace Anathema
+namespace Anathema.Utils.Browser
 {
     class BrowserHelper
     {

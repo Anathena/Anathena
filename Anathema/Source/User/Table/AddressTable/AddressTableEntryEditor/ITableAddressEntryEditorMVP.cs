@@ -1,16 +1,11 @@
-﻿using Anathema.MemoryManagement;
-using Anathema.MemoryManagement.Memory;
+﻿using Anathema.User.UserAddressTable;
 using Anathema.Utils.Extensions;
 using Anathema.Utils.MVP;
 using Anathema.Utils.Validation;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 
-namespace Anathema
+namespace Anathema.User.UserAddressTableEntryEditor
 {
     delegate void TableAddressEntryEditorEventHandler(Object Sender, TableAddressEntryEditorEventArgs Args);
     class TableAddressEntryEditorEventArgs : EventArgs

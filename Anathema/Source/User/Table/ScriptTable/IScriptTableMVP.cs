@@ -1,16 +1,9 @@
-﻿using Anathema.MemoryManagement;
-using Anathema.MemoryManagement.Memory;
-using Anathema.Utils;
+﻿using Anathema.Utils;
 using Anathema.Utils.MVP;
 using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace Anathema
+namespace Anathema.User.UserScriptTable
 {
     delegate void ScriptTableEventHandler(Object Sender, ScriptTableEventArgs Args);
     class ScriptTableEventArgs : EventArgs

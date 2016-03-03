@@ -1,11 +1,13 @@
 ﻿using Anathema.Scanners.FiniteStateScanner;
+using Anathema.User.UserAddressTable;
+using Anathema.User.UserScriptTable;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
 using System.Runtime.Serialization;
 
-namespace Anathema
+namespace Anathema.User.UserTable
 {
     /// <summary>
     /// Handles the displaying of results

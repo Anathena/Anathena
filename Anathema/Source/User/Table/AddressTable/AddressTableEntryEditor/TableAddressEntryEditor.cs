@@ -1,14 +1,7 @@
-﻿using Anathema.MemoryManagement;
-using Anathema.MemoryManagement.Memory;
+﻿using Anathema.User.UserAddressTable;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
 
-namespace Anathema
+namespace Anathema.User.UserAddressTableEntryEditor
 {
     /// <summary>
     /// Handles the updating of address table items

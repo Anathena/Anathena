@@ -1,4 +1,5 @@
-﻿using Anathema.Utils;
+﻿using Anathema.User.UserSettings;
+using Anathema.Utils;
 using Anathema.Utils.MVP;
 using System;
 

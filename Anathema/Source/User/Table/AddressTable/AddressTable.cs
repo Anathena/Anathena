@@ -1,9 +1,10 @@
 ﻿using Anathema.Services.ProcessManager;
+using Anathema.User.UserTable;
 using Anathema.Utils.OS;
 using System;
 using System.Collections.Generic;
 
-namespace Anathema
+namespace Anathema.User.UserAddressTable
 {
     /// <summary>
     /// Handles the displaying of results

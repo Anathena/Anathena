@@ -2,6 +2,7 @@
 using System.Drawing;
 using System.Windows.Forms;
 using Anathema.Utils.MVP;
+using Anathema.User.UserScriptTable;
 
 namespace Anathema
 {

@@ -4,6 +4,7 @@ using System.Windows.Forms;
 using WeifenLuo.WinFormsUI.Docking;
 using Anathema.Utils;
 using Anathema.Utils.MVP;
+using Anathema.User.UserTable;
 
 namespace Anathema
 {

@@ -1,4 +1,5 @@
-﻿using Anathema.Utils.OS;
+﻿using Anathema.User.UserSettings;
+using Anathema.Utils.OS;
 using Anathema.Utils.Validation;
 using System;
 using System.Windows.Forms;

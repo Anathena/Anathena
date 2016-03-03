@@ -1,10 +1,11 @@
-﻿using Anathema.Utils;
+﻿using Anathema.User.Registration;
+using Anathema.Utils;
+using Anathema.Utils.Browser;
 using Gecko;
 using Gecko.Events;
 using System;
 using System.IO;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Anathema

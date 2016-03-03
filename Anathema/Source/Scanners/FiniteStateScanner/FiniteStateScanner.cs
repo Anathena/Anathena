@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using System.Threading;
 using Anathema.Scanners.ScanConstraints;
 using Anathema.Services.Snapshots;
+using Anathema.User.UserSettings;
 
 namespace Anathema.Scanners.FiniteStateScanner
 {

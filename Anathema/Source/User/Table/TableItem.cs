@@ -3,7 +3,7 @@ using System.Drawing;
 using System.Reflection;
 using System.Runtime.Serialization;
 
-namespace Anathema
+namespace Anathema.User.UserTable
 {
     [Obfuscation(ApplyToMembers = false)]
     [Obfuscation(Exclude = true)]

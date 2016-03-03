@@ -1,4 +1,5 @@
-﻿using Anathema.Utils;
+﻿using Anathema.User.UserSettings;
+using Anathema.Utils;
 using Anathema.Utils.MVP;
 using Anathema.Utils.Validation;
 using System;
@@ -6,7 +7,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
 
-namespace Anathema
+namespace Anathema.User.UserAddressTable
 {
     delegate void AddressTableEventHandler(Object Sender, AddressTableEventArgs Args);
     class AddressTableEventArgs : EventArgs

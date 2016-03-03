@@ -7,6 +7,7 @@ using System.Linq;
 using Anathema.Utils.LUA;
 using Anathema.Utils.MVP;
 using Anathema.Utils;
+using Anathema.User.UserScriptEditor;
 
 namespace Anathema
 {

@@ -1,5 +1,6 @@
 ﻿using Anathema.Services.ProcessManager;
 using Anathema.Services.Snapshots;
+using Anathema.User.UserAddressTable;
 using Anathema.Utils.OS;
 using System;
 using System.Collections.Concurrent;

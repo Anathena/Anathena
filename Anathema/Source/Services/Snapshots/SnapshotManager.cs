@@ -1,4 +1,5 @@
 ﻿using Anathema.Scanners.ValueCollector;
+using Anathema.User.UserSettings;
 using Anathema.Utils.Extensions;
 using Anathema.Utils.OS;
 using System;

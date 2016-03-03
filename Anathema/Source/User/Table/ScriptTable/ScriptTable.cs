@@ -1,10 +1,9 @@
-﻿using Anathema.MemoryManagement;
+﻿using Anathema.User.UserScriptEditor;
+using Anathema.User.UserTable;
 using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Runtime.Serialization;
 
-namespace Anathema
+namespace Anathema.User.UserScriptTable
 {
     /// <summary>
     /// Handles the displaying of results

@@ -1,6 +1,7 @@
 ﻿using Anathema.Scanners.ScanConstraints;
 using Anathema.Services.ProcessManager;
 using Anathema.Services.Snapshots;
+using Anathema.User.UserAddressTable;
 using Anathema.Utils.Extensions;
 using Anathema.Utils.OS;
 using Anathema.Utils.Validation;

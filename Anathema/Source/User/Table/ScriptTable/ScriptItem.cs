@@ -1,9 +1,10 @@
-﻿using Anathema.Utils.LUA;
+﻿using Anathema.User.UserTable;
+using Anathema.Utils.LUA;
 using System;
 using System.Reflection;
 using System.Runtime.Serialization;
 
-namespace Anathema
+namespace Anathema.User.UserScriptTable
 {
     [Obfuscation(ApplyToMembers = false)]
     [Obfuscation(Exclude = true)]

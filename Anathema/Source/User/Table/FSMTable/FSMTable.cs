@@ -1,9 +1,10 @@
 ﻿using Anathema.Scanners.FiniteStateScanner;
+using Anathema.User.UserScriptTable;
 using Anathema.Utils.OS;
 using System;
 using System.Collections.Generic;
 
-namespace Anathema
+namespace Anathema.User.UserFSMTable
 {
     /// <summary>
     /// Handles the displaying of results

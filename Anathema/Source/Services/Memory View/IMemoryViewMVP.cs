@@ -6,6 +6,7 @@ using Anathema.Utils.OS;
 using Anathema.Utils.MVP;
 using Anathema.Utils;
 using Anathema.Utils.Extensions;
+using Anathema.User.UserSettings;
 
 namespace Anathema.Services.MemoryView
 {

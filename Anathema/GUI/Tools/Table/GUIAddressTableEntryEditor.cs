@@ -5,6 +5,8 @@ using System.Windows.Forms;
 using System.Linq;
 using Anathema.Utils;
 using Anathema.Utils.Validation;
+using Anathema.User.UserAddressTableEntryEditor;
+using Anathema.User.UserAddressTable;
 
 namespace Anathema
 {

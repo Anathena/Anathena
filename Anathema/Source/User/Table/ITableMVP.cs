@@ -1,15 +1,7 @@
-﻿using Anathema.MemoryManagement;
-using Anathema.MemoryManagement.Memory;
-using Anathema.Utils.MVP;
+﻿using Anathema.Utils.MVP;
 using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 
-namespace Anathema
+namespace Anathema.User.Table
 {
     delegate void TableEventHandler(Object Sender, TableEventArgs Args);
     class TableEventArgs : EventArgs

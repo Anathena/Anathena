@@ -1,8 +1,9 @@
 ﻿using Anathema.Utils.OS;
 using Anathema.Utils.LUA;
 using System;
+using Anathema.User.UserScriptTable;
 
-namespace Anathema
+namespace Anathema.User.UserScriptEditor
 {
     class ScriptEditor : IScriptEditorModel
     {

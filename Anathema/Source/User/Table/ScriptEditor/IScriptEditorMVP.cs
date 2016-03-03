@@ -1,8 +1,9 @@
 ﻿using Anathema.Services.ProcessManager;
+using Anathema.User.UserScriptTable;
 using Anathema.Utils.MVP;
 using System;
 
-namespace Anathema
+namespace Anathema.User.UserScriptEditor
 {
     delegate void ScriptEditorEventHandler(Object Sender, ScriptEditorEventArgs Args);
     class ScriptEditorEventArgs : EventArgs

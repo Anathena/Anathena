@@ -1,7 +1,7 @@
 ﻿using Anathema.Utils.OS;
 using System;
 
-namespace Anathema
+namespace Anathema.User.UserSettings
 {
     class Settings : ISettingsModel
     {

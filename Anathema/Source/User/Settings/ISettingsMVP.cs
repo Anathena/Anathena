@@ -2,7 +2,7 @@
 using Anathema.Utils.OS;
 using System;
 
-namespace Anathema
+namespace Anathema.User.UserSettings
 {
     interface ISettingsView : IView
     {
