@@ -1,189 +1,101 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 using Anathema.Utils.OS;
-using Anathema.Services.Snapshots;
-using Anathema.User.UserSettings;
-using Anathema.Scanners.ChunkScanner;
-using Anathema.Scanners;
+using Anathema.Utils;
+using Anathema.Services.ProcessManager;
 
 namespace Anathema.Services.Divine
 {
-    class Divine : IChunkScannerModel
+    class Divine : IProcessObserver
     {
-        private List<MemoryChunkRoots> ChunkRoots;
-        private Snapshot<Null> Snapshot;
-        private Int32 ChunkSize;
+        private static Divine DivineInstance;
 
-        // User controlled variables
-        private Int32 MinChanges;
+        private OSInterface OSInterface;
 
-        public Divine()
+        private List<NormalizedRegion> VirtualPages;
+
+        private PagePolling PagePollingTask;
+        private UpdatePageStatus UpdatePageStatusTask;
+        
+        private Divine()
         {
-
+            VirtualPages = new List<NormalizedRegion>();
         }
 
-        public override void SetMinChanges(Int32 MinChanges)
+        public static Divine GetInstance()
         {
-            this.MinChanges = MinChanges;
+            if (DivineInstance == null)
+                DivineInstance = new Divine();
+            return DivineInstance;
         }
 
-        /// <summary>
-        /// Heuristic algorithm to determine the proper chunk size for this chunk scan based on the current region size.
-        /// Chunks vary in powers of 2 from 32B to 1024B
-        /// </summary>
-        /// <param name="MemorySize"></param>
-        /// <returns></returns>
-        private Int32 SetChunkSize(UInt64 MemorySize)
+        public void InitializeProcessObserver()
         {
-            UInt64 MB = (UInt64)(MemorySize >> 20);
-            Int32 MBBits = 0;
-            while ((MB >>= 1) != 0) { MBBits++; }
-            MBBits = (MBBits <= 5 ? 5 : (MBBits >= 10 ? 10 : MBBits));
-            return (Int32)(1 << MBBits);
+            ProcessSelector.GetInstance().Subscribe(this);
         }
 
-        public override void Begin()
+        public void UpdateOSInterface(OSInterface OSInterface)
         {
-            this.Snapshot = new Snapshot<Null>(SnapshotManager.GetInstance().GetActiveSnapshot(true));
-            this.Snapshot.SetElementType(typeof(Byte));
-            this.Snapshot.SetAlignment(Settings.GetInstance().GetAlignmentSettings());
-            this.ChunkRoots = new List<MemoryChunkRoots>();
-            this.ChunkSize = SetChunkSize(Snapshot.GetMemorySize());
-
-            foreach (SnapshotRegion SnapshotRegion in Snapshot)
-                ChunkRoots.Add(new MemoryChunkRoots(SnapshotRegion, ChunkSize));
-
-            base.Begin();
+            this.OSInterface = OSInterface;
         }
 
-        protected override void Update()
+        internal class ExternalPage : NormalizedRegion
         {
-            base.Update();
+            private UInt64 Checksum;
+            private DateTime LastQuery;
+            private Boolean Valid;
 
-            OSInterface OSInterface = Snapshot.GetOSInterface();
-
-            Parallel.ForEach(ChunkRoots, (ChunkRoot) =>
+            public ExternalPage(IntPtr BaseAddress, Int32 RegionSize) : base(BaseAddress, RegionSize)
             {
-                try
-                {
-                    // Process the changes that have occurred since the last sampling for this memory page
-                    ChunkRoot.ProcessChanges(ChunkRoot.ReadAllSnapshotMemory(OSInterface, false));
-                }
-                catch (ScanFailedException)
-                {
-                    // Fuck it
-                }
-            });
 
-            OnEventUpdateScanCount(new ScannerEventArgs(this.ScanCount));
-        }
-
-        public override void End()
-        {
-            // Wait for the filter to finish
-            base.End();
-            
-            // Collect the pages that have changed
-            List<SnapshotRegion> FilteredRegions = new List<SnapshotRegion>();
-            for (Int32 Index = 0; Index < ChunkRoots.Count; Index++)
-                ChunkRoots[Index].GetChangedRegions(FilteredRegions, MinChanges);
-
-            // Create snapshot with results
-            Snapshot = new Snapshot<Null>(FilteredRegions);
-            Snapshot.SetAlignment(Settings.GetInstance().GetAlignmentSettings());
-
-            // Grow regions by the size of the largest standard variable and mask this with the original memory list.
-            Snapshot.ExpandAllRegionsOutward(sizeof(UInt64) - 1);
-            Snapshot = new Snapshot<Null>(Snapshot.MaskRegions(Snapshot, Snapshot.GetSnapshotRegions()));
-            Snapshot.SetAlignment(Settings.GetInstance().GetAlignmentSettings());
-
-            // Read memory so that there are values for the next scan to process
-            Snapshot.ReadAllSnapshotMemory();
-            Snapshot.SetScanMethod("Chunk Scan");
-
-            // Save result
-            SnapshotManager.GetInstance().SaveSnapshot(Snapshot);
-
-            CleanUp();
-        }
-
-        private void CleanUp()
-        {
-            ChunkRoots = null;
-            Snapshot = null;
-        }
-
-        public class MemoryChunkRoots : SnapshotRegion<Null>
-        {
-            private SnapshotRegion[] Chunks;
-            private UInt16[] ChangeCounts;
-            private UInt64?[] Checksums;
-
-            public MemoryChunkRoots(SnapshotRegion Region, Int32 ChunkSize) : base(Region.BaseAddress, Region.RegionSize)
-            {
-                // Initialize state variables
-                Int32 ChunkCount = RegionSize / ChunkSize + (RegionSize % ChunkSize == 0 ? 0 : 1);
-                IntPtr CurrentBase = Region.BaseAddress;
-                Chunks = new SnapshotRegion[ChunkCount];
-                ChangeCounts = new UInt16[ChunkCount];
-                Checksums = new UInt64?[ChunkCount];
-
-                // Initialize all chunk properties
-                for (Int32 ChunkIndex = 0; ChunkIndex < ChunkCount; ChunkIndex++)
-                {
-                    Int32 ChunkRegionSize = ChunkSize;
-
-                    if (RegionSize % ChunkSize != 0 && ChunkIndex == ChunkCount - 1)
-                        ChunkRegionSize = RegionSize % ChunkSize;
-
-                    Chunks[ChunkIndex] = new SnapshotRegion<Null>(CurrentBase, ChunkRegionSize);
-                    ChangeCounts[ChunkIndex] = 0;
-
-                    CurrentBase += ChunkSize;
-                }
             }
 
-            /// <summary>
-            /// Collects the chunks that have changed at least as many times as the specified minimum
-            /// </summary>
-            /// <param name="AcceptedRegions"></param>
-            /// <param name="MinChanges"></param>
-            public void GetChangedRegions(List<SnapshotRegion> AcceptedRegions, Int32 MinChanges)
-            {
-                for (Int32 ChunkIndex = 0; ChunkIndex < Chunks.Length; ChunkIndex++)
-                {
-                    if (ChangeCounts[ChunkIndex] >= MinChanges)
-                        AcceptedRegions.Add(Chunks[ChunkIndex]);
-                }
-            }
-            
-            /// <summary>
-            /// Processes a chunk of data to determine if it has changed
-            /// </summary>
-            /// <param name="Data"></param>
-            public void ProcessChanges(Byte[] Data)
-            {
-                for (Int32 ChunkIndex = 0; ChunkIndex < Chunks.Length; ChunkIndex++)
-                {
-                    UInt64 NewChecksum = Hashing.ComputeCheckSum(Data,
-                        (UInt32)((UInt64)Chunks[ChunkIndex].BaseAddress - (UInt64)this.BaseAddress),
-                        (UInt32)((UInt64)Chunks[ChunkIndex].EndAddress - (UInt64)this.BaseAddress));
+        } // End class
 
-                    if (Checksums[ChunkIndex].HasValue)
-                    {
-                        // Increment change count for this chunk if the new checksum differs
-                        if (Checksums[ChunkIndex] != NewChecksum)
-                            ChangeCounts[ChunkIndex]++;
-                    }
-                    else
-                    {
-                        // Initialize change count
-                        ChangeCounts[ChunkIndex] = 0;
-                    }
-                    
-                    Checksums[ChunkIndex] = NewChecksum;
-                }
+        internal class PagePolling : RepeatedTask
+        {
+            public PagePolling()
+            {
+
+            }
+
+            public override void Begin()
+            {
+                base.Begin();
+            }
+
+            protected override void Update()
+            {
+
+            }
+
+            public override void End()
+            {
+                base.End();
+            }
+
+        } // End class
+
+        internal class UpdatePageStatus : RepeatedTask
+        {
+            public UpdatePageStatus()
+            {
+
+            }
+
+            public override void Begin()
+            {
+                base.Begin();
+            }
+
+            protected override void Update()
+            {
+
+            }
+
+            public override void End()
+            {
+                base.End();
             }
 
         } // End class

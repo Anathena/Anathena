@@ -226,6 +226,7 @@
     <Compile Include="GUI\Tools\Table\GUIAddressTable.Designer.cs">
       <DependentUpon>GUIAddressTable.cs</DependentUpon>
     </Compile>
+    <Compile Include="Source\Services\Divine\Divine.cs" />
     <Compile Include="Source\Utils\Browser\BrowserHelper.cs" />
     <Compile Include="Source\Utils\Extensions\IntExtensions.cs" />
     <Compile Include="Source\Utils\Extensions\IntPtrExtensions.cs" />
@@ -977,8 +978,8 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Source\Services\Debugger\" />
-    <Folder Include="Source\Services\Divine\" />
     <Folder Include="Source\Services\PointerScanResults\" />
+    <Folder Include="Source\Utils\DesignPatterns\" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.5.2">
