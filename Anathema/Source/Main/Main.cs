@@ -1,4 +1,5 @@
-﻿using Anathema.Services.Snapshots;
+﻿using Anathema.Services.Divine;
+using Anathema.Services.Snapshots;
 using Anathema.Utils.OS;
 
 namespace Anathema
@@ -15,6 +16,9 @@ namespace Anathema
         private Main()
         {
             InitializeProcessObserver();
+
+            // TEMP DEBUG
+            Divine.GetInstance();
         }
 
         public static Main GetInstance()
