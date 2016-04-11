@@ -9,39 +9,51 @@ using Anathema.Scanners;
 namespace Anathema.Services.Divine
 {
     /// <summary>
-    /// Divine is a heuristics engine that drastically improves scan speed. It capitalizes on the fact that
+    /// SnapshotPrefilter is a heuristic process that drastically improves scan speed. It capitalizes on the fact that
     /// > 95% of memory remains constant in most processes, at least for a short time span. Users will
     /// likely be hunting variables that are in the remaining 5%, which Divine will isolate.
+    /// 
+    /// This is a heuristic because it assumes that the variable, or one on the same page, has changed before the user
+    /// requests a snapshot of the target processes memory
+    /// 
+    /// Steps are as follows:
+    /// REPEAT INDEFINITELY:
+    /// 1) Query all memory pages
+    /// 2) Compare to current pages. If a new page, add to current with an infinite timestamp. If an existing page, do nothing
+    /// 3) Load balance the current pages. Organize by timestamp. Grab some portion of the pages (fixed amount, size, or %).
+    ///     Do not re-process pages with a last processed time greater than some threshold (ie 15 seconds)
+    /// 4) Fetch memory from these pages performing a checksum.
+    /// 5) Compare to old checksum. If changed, mark page as a dynamic page. If unchanged, mark it as a static page.
     /// </summary>
-    class Divine : IProcessObserver
+    class SnapshotPrefilter : IProcessObserver
     {
-        private static Divine DivineInstance;
+        private static SnapshotPrefilter SnapshotPrefilterInstance;
 
         private OSInterface OSInterface;
 
         private List<RegionProperties> VirtualPages;
 
-        private PagePolling PagePollingTask;
-        private UpdatePageStatus UpdatePageStatusTask;
+        //private PagePolling PagePollingTask;
+        //private UpdatePageStatus UpdatePageStatusTask;
 
-        private Divine()
+        private SnapshotPrefilter()
         {
             VirtualPages = new List<RegionProperties>();
-            PagePollingTask = new PagePolling();
-            UpdatePageStatusTask = new UpdatePageStatus();
+            //PagePollingTask = new PagePolling();
+            //UpdatePageStatusTask = new UpdatePageStatus();
 
             InitializeProcessObserver();
 
             // Start the heuristic tasks
-            PagePollingTask.Begin();
-            UpdatePageStatusTask.Begin();
+            //PagePollingTask.Begin();
+            //UpdatePageStatusTask.Begin();
         }
 
-        public static Divine GetInstance()
+        public static SnapshotPrefilter GetInstance()
         {
-            if (DivineInstance == null)
-                DivineInstance = new Divine();
-            return DivineInstance;
+            if (SnapshotPrefilterInstance == null)
+                SnapshotPrefilterInstance = new SnapshotPrefilter();
+            return SnapshotPrefilterInstance;
         }
 
         public void InitializeProcessObserver()
@@ -69,6 +81,42 @@ namespace Anathema.Services.Divine
 
         } // End class
 
+        internal class Query : RepeatedTask
+        {
+            public Query()
+            {
+
+            }
+
+            public override void Begin()
+            {
+                this.WaitTime = 200;
+                base.Begin();
+            }
+
+            protected override void Update()
+            {
+                SnapshotPrefilter Divine = SnapshotPrefilter.GetInstance();
+
+                if (Divine.OSInterface == null)
+                    return;
+
+                // Collect virtual pages
+                List<NormalizedRegion> Regions = new List<NormalizedRegion>(Divine.OSInterface.Process.GetAllVirtualPages());
+
+                // Determine if pages do not match saved pages.
+                
+
+            }
+
+            public override void End()
+            {
+                base.End();
+            }
+
+        } // End class
+
+        /*
         internal class PagePolling : RepeatedTask
         {
             public PagePolling()
@@ -196,7 +244,7 @@ namespace Anathema.Services.Divine
             }
 
         } // End class
-
+        */
     } // End class
 
 } // End namespace

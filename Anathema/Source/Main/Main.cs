@@ -18,7 +18,7 @@ namespace Anathema
             InitializeProcessObserver();
 
             // TEMP DEBUG
-            Divine.GetInstance();
+            SnapshotPrefilter.GetInstance();
         }
 
         public static Main GetInstance()
