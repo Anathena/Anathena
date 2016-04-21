@@ -147,17 +147,17 @@ namespace Anathema.Services.Snapshots
 
             foreach (RegionProperties RegionProperties in VirtualPages)
             {
-                if (Now - RegionProperties.GetLastUpdatedTimeStamp() > PageTimeout)
-                {
-                    Boolean Success;
-                    Byte[] PageData = OSInterface.Process.ReadBytes(RegionProperties.BaseAddress, RegionProperties.RegionSize, out Success);
+                if (Now - RegionProperties.GetLastUpdatedTimeStamp() < PageTimeout)
+                    continue;
 
-                    if (!Success)
-                        continue;
+                Boolean Success;
+                Byte[] PageData = OSInterface.Process.ReadBytes(RegionProperties.BaseAddress, RegionProperties.RegionSize, out Success);
 
-                    RegionProperties.Update(PageData);
-                    ProcessedCount++;
-                }
+                if (!Success)
+                    continue;
+
+                RegionProperties.Update(PageData);
+                ProcessedCount++;
 
                 if (ProcessedCount > PageLimit)
                     break;
