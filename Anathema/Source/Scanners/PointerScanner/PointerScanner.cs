@@ -440,7 +440,7 @@ namespace Anathema.Scanners.PointerScanner
             PointerPool.Clear();
 
             // Collect memory regions
-            Snapshot = new Snapshot<Null>(SnapshotManager.GetInstance().SnapshotAllRegions(false));
+            Snapshot = new Snapshot<Null>(SnapshotManager.GetInstance().CollectSnapshot(false, false));
 
             // Set to type of a pointer
             if (OSInterface.Process.Is32Bit())
