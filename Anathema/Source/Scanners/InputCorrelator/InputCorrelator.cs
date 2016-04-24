@@ -113,7 +113,7 @@ namespace Anathema.Scanners.InputCorrelator
         public override void Begin()
         {
             // Initialize labeled snapshot
-            Snapshot = new Snapshot<Int16>(SnapshotManager.GetInstance().GetActiveSnapshot());
+            Snapshot = new Snapshot<Int16>(SnapshotManager.GetInstance().GetActiveSnapshot(true));
 
             if (Snapshot == null)
                 return;

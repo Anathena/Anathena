@@ -1,4 +1,6 @@
-﻿namespace Anathema.Scanners.ScanConstraints
+﻿using System;
+
+namespace Anathema.Scanners.ScanConstraints
 {
     public enum ConstraintsEnum
     {
@@ -37,6 +39,31 @@
         {
             this.Constraint = ValueConstraint;
             this.Value = Value;
+        }
+
+        public Boolean IsRelativeConstraint()
+        {
+            switch (Constraint)
+            {
+                case ConstraintsEnum.Equal:
+                case ConstraintsEnum.NotEqual:
+                case ConstraintsEnum.GreaterThan:
+                case ConstraintsEnum.GreaterThanOrEqual:
+                case ConstraintsEnum.LessThan:
+                case ConstraintsEnum.LessThanOrEqual:
+                case ConstraintsEnum.NotScientificNotation:
+                    return false;
+                case ConstraintsEnum.Changed:
+                case ConstraintsEnum.Unchanged:
+                case ConstraintsEnum.Increased:
+                case ConstraintsEnum.Decreased:
+                case ConstraintsEnum.IncreasedByX:
+                case ConstraintsEnum.DecreasedByX:
+                    return true;
+                case ConstraintsEnum.Invalid:
+                default:
+                    throw new Exception("Unrecognized Constraint");
+            }
         }
 
     } // End class

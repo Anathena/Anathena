@@ -61,6 +61,17 @@ namespace Anathema.Scanners.ScanConstraints
             }
         }
 
+        public Boolean HasRelativeConstraint()
+        {
+            foreach (ScanConstraint ValueConstraint in this)
+            {
+                if (ValueConstraint.IsRelativeConstraint())
+                    return true;
+            }
+
+            return false;
+        }
+
         public void AddConstraint(ScanConstraint ScanConstraint)
         {
             if (ScanConstraint.Constraint == ConstraintsEnum.NotScientificNotation)

@@ -26,7 +26,7 @@ namespace Anathema.Scanners.ManualScanner
         public override void Begin()
         {
             // Initialize snapshot
-            Snapshot = new Snapshot<Null>(SnapshotManager.GetInstance().GetActiveSnapshot());
+            Snapshot = new Snapshot<Null>(SnapshotManager.GetInstance().GetActiveSnapshot(true));
 
             if (Snapshot == null)
                 return;
@@ -53,7 +53,7 @@ namespace Anathema.Scanners.ManualScanner
 
                 Region.ReadAllSnapshotMemory(Snapshot.GetOSInterface(), true);
 
-                if (!Region.CanCompare())
+                if (ScanConstraintManager.HasRelativeConstraint() && !Region.CanCompare())
                 {
                     Region.MarkAllInvalid();
                     return;
