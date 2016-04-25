@@ -103,6 +103,8 @@ namespace Anathema.Source.Utils
         /// <param name="ActionProgress"></param>
         public void UpdateProgress(Double ActionProgress)
         {
+            Boolean Finished = false;
+
             if (ActionProgress < 0.0 || ActionProgress > 1.0)
                 throw new Exception("Invalid progress amount");
 
@@ -110,8 +112,11 @@ namespace Anathema.Source.Utils
                 return;
 
             // Once passed the completion threshold, we can consider this event finished
-            if (ActionProgress > CompletionThreshold)
+            if (ActionProgress >= CompletionThreshold)
+            {
                 ActionProgress = 1.0;
+                Finished = true;
+            }
 
             // If update restriction is enabled, ensure the new progress is greater than the old
             if (RestictProgressUpdates && this.ActionProgress > ActionProgress)
@@ -120,6 +125,9 @@ namespace Anathema.Source.Utils
             this.ActionProgress = ActionProgress;
 
             Main.GetInstance().UpdateActionProgress(this);
+
+            if (Finished)
+                ActionProgress = 0.0;
         }
 
         /// <summary>

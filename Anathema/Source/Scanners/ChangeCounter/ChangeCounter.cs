@@ -1,4 +1,5 @@
 ﻿using Anathema.Services.Snapshots;
+using Anathema.Source.Utils;
 using Anathema.User.UserSettings;
 using System;
 using System.Linq;
@@ -16,9 +17,14 @@ namespace Anathema.Scanners.ChangeCounter
         private UInt16 MaxChanges;
         private Int32 VariableSize;
 
+        private ProgressItem ScanProgress;
+        private Object ProgressLock;
+
         public ChangeCounter()
         {
-
+            ScanProgress = new ProgressItem();
+            ProgressLock = new Object();
+            ScanProgress.SetProgressLabel("Change Counter");
         }
 
         public override void SetMinChanges(UInt16 MinChanges)
@@ -57,12 +63,15 @@ namespace Anathema.Scanners.ChangeCounter
         {
             base.Update();
 
+            Int32 ProcessedPages = 0;
+
             // Read memory to get current values
             Snapshot.ReadAllSnapshotMemory();
 
             Parallel.ForEach(Snapshot.Cast<Object>(), (object RegionObject) =>
             {
                 SnapshotRegion Region = (SnapshotRegion)RegionObject;
+
                 if (!Region.CanCompare())
                     return;
 
@@ -71,6 +80,15 @@ namespace Anathema.Scanners.ChangeCounter
                     if (Element.Changed())
                         Element.ElementLabel++;
                 }
+
+                lock (ProgressLock)
+                {
+                    ProcessedPages++;
+
+                    if (ProcessedPages < Snapshot.GetRegionCount())
+                        ScanProgress.UpdateProgress(ProcessedPages, Snapshot.GetRegionCount());
+                }
+
             }); // End regions
 
             OnEventUpdateScanCount(new ScannerEventArgs(this.ScanCount));
@@ -96,6 +114,7 @@ namespace Anathema.Scanners.ChangeCounter
             Snapshot.SetScanMethod("Change Counter");
 
             SnapshotManager.GetInstance().SaveSnapshot(Snapshot);
+            ScanProgress.FinishProgress();
 
             Main.GetInstance().OpenLabelThresholder();
         }

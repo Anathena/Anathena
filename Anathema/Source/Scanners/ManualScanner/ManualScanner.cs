@@ -14,12 +14,13 @@ namespace Anathema.Scanners.ManualScanner
         private Snapshot<Null> Snapshot;
 
         private ScanConstraintManager ScanConstraintManager;
-
         private ProgressItem ScanProgress;
+        private Object ProgressLock;
 
         public ManualScanner()
         {
             ScanProgress = new ProgressItem();
+            ProgressLock = new Object();
             ScanProgress.SetProgressLabel("Manual Scan");
         }
 
@@ -31,7 +32,7 @@ namespace Anathema.Scanners.ManualScanner
         public override void Begin()
         {
             // Initialize snapshot
-            Snapshot = new Snapshot<Null>(SnapshotManager.GetInstance().GetActiveSnapshot(true));
+            Snapshot = new Snapshot<Null>(SnapshotManager.GetInstance().GetActiveSnapshot());
 
             if (Snapshot == null)
                 return;
@@ -42,7 +43,7 @@ namespace Anathema.Scanners.ManualScanner
             Snapshot.MarkAllValid();
             Snapshot.SetElementType(ScanConstraintManager.GetElementType());
             Snapshot.SetAlignment(Settings.GetInstance().GetAlignmentSettings());
-            
+
             base.Begin();
         }
 
@@ -130,23 +131,26 @@ namespace Anathema.Scanners.ManualScanner
 
                 } // End foreach Element
 
-                Interlocked.Increment(ref ProcessedPages);
+                lock (ProgressLock)
+                {
+                    ProcessedPages++;
 
-                if (ProcessedPages < Snapshot.GetRegionCount())
-                    ScanProgress.UpdateProgress(ProcessedPages, Snapshot.GetRegionCount());
+                    if (ProcessedPages < Snapshot.GetRegionCount())
+                        ScanProgress.UpdateProgress(ProcessedPages, Snapshot.GetRegionCount());
+                }
 
             }); // End foreach Region
-            
+
             CancelFlag = true;
         }
 
         public override void End()
         {
             base.End();
-            
+
             Snapshot.DiscardInvalidRegions();
             Snapshot.SetScanMethod("Manual Scan");
-            
+
             SnapshotManager.GetInstance().SaveSnapshot(Snapshot);
             OnEventScanFinished(new ManualScannerEventArgs());
             ScanProgress.FinishProgress();

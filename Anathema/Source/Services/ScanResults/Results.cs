@@ -96,7 +96,7 @@ namespace Anathema.Services.ScanResults
         {
             base.Update();
 
-            Snapshot ActiveSnapshot = SnapshotManager.GetInstance().GetActiveSnapshot();
+            Snapshot ActiveSnapshot = SnapshotManager.GetInstance().GetActiveSnapshot(false);
             if (ForceRefreshFlag || Snapshot != ActiveSnapshot)
             {
                 ForceRefreshFlag = false;
@@ -135,7 +135,7 @@ namespace Anathema.Services.ScanResults
         {
             const Int32 MaxAdd = 4096;
 
-            Snapshot ActiveSnapshot = SnapshotManager.GetInstance().GetActiveSnapshot();
+            Snapshot ActiveSnapshot = SnapshotManager.GetInstance().GetActiveSnapshot(false);
 
             if (ActiveSnapshot == null)
                 return;

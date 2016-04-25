@@ -48,7 +48,7 @@ namespace Anathema.Scanners.LabelThresholder
 
         public override void Begin()
         {
-            Snapshot = SnapshotManager.GetInstance().GetActiveSnapshot();
+            Snapshot = SnapshotManager.GetInstance().GetActiveSnapshot(false);
 
             if (Snapshot == null)
                 return;

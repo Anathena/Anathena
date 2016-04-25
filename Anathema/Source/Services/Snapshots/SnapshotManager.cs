@@ -57,7 +57,7 @@ namespace Anathema.Services.Snapshots
         /// </summary>
         /// <param name="CreateIfNone"></param>
         /// <returns></returns>
-        public Snapshot GetActiveSnapshot(Boolean CreateIfNone = false)
+        public Snapshot GetActiveSnapshot(Boolean CreateIfNone = true)
         {
             lock (AccessLock)
             {
