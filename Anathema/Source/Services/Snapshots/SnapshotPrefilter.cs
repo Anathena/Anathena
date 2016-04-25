@@ -73,7 +73,12 @@ namespace Anathema.Services.Snapshots
 
         public void UpdateOSInterface(OSInterface OSInterface)
         {
-            this.OSInterface = OSInterface;
+            // Clear processing queue on process update
+            lock (QueueLock)
+            {
+                this.OSInterface = OSInterface;
+                ChunkQueue = new Queue<RegionProperties>();
+            }
         }
 
         public Snapshot GetPrefilteredSnapshot()
@@ -175,10 +180,10 @@ namespace Anathema.Services.Snapshots
 
         private void ProcessPages(IEnumerable<RegionProperties> NewPages)
         {
-            UpdateProgress(NewPages);
-
             lock (QueueLock)
             {
+                UpdateProgress(NewPages);
+
                 // Construct queue
                 ChunkQueue = new Queue<RegionProperties>();
                 IOrderedEnumerable<RegionProperties> QueriedRegionsSorted = NewPages.OrderBy(X => X.GetLastUpdatedTimeStamp());
