@@ -1,6 +1,8 @@
 ﻿using Anathema.Services.ProcessManager;
+using Anathema.Source.Utils;
 using Anathema.Utils.MVP;
 using System;
+using System.Collections.Generic;
 
 namespace Anathema
 {
@@ -8,12 +10,14 @@ namespace Anathema
     class MainEventArgs : EventArgs
     {
         public String ProcessTitle = String.Empty;
+        public ProgressItem ProgressItem = null;
     }
 
     interface IMainView : IView
     {
         // Methods invoked by the presenter (upstream)
         void UpdateProcessTitle(String ProcessTitle);
+        void UpdateProgress(ProgressItem ProgressItem);
 
         void OpenScriptEditor();
         void OpenLabelThresholder();
@@ -23,6 +27,7 @@ namespace Anathema
     {
         // Events triggered by the model (upstream)
         event MainEventHandler EventUpdateProcessTitle;
+        event MainEventHandler EventUpdateProgress;
         event MainEventHandler EventOpenScriptEditor;
         event MainEventHandler EventOpenLabelThresholder;
 
@@ -35,10 +40,15 @@ namespace Anathema
 
     class MainPresenter : Presenter<IMainView, IMainModel>
     {
+        private List<ProgressItem> PendingActions;
+
         public MainPresenter(IMainView View, IMainModel Model) : base(View, Model)
         {
+            PendingActions = new List<ProgressItem>();
+
             // Bind events triggered by the model
             Model.EventUpdateProcessTitle += UpdateProcessTitle;
+            Model.EventUpdateProgress += UpdateProgress;
             Model.EventOpenScriptEditor += OpenScriptEditor;
             Model.EventOpenLabelThresholder += OpenLabelThresholder;
         }
@@ -69,6 +79,19 @@ namespace Anathema
             View.UpdateProcessTitle(E.ProcessTitle);
         }
 
+        private void UpdateProgress(Object Sender, MainEventArgs E)
+        {
+            if (E.ProgressItem.ActionComplete() && PendingActions.Contains(E.ProgressItem))
+                PendingActions.Remove(E.ProgressItem);
+            else if (!E.ProgressItem.ActionComplete() && !PendingActions.Contains(E.ProgressItem))
+                PendingActions.Add(E.ProgressItem);
+
+            if (PendingActions.Count > 0)
+                View.UpdateProgress(PendingActions[0]);
+            else
+                View.UpdateProgress(null);
+        }
+
         private void OpenScriptEditor(Object Sender, MainEventArgs E)
         {
             View.OpenScriptEditor();
@@ -80,5 +103,7 @@ namespace Anathema
         }
 
         #endregion
-    }
-}
+
+    } // End class
+
+} // End namespace

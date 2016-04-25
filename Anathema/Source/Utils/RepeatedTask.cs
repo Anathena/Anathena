@@ -40,7 +40,7 @@ namespace Anathema.Utils
                             {
                                 FinishedFlag = true;
                                 Action Action = End;
-                                Action.BeginInvoke(x => Action.EndInvoke(x), null);
+                                Action.BeginInvoke(X => Action.EndInvoke(X), null);
                             }
                             else
                             {

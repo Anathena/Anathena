@@ -1,8 +1,10 @@
 ﻿using Anathema.Scanners.ScanConstraints;
 using Anathema.Services.Snapshots;
+using Anathema.Source.Utils;
 using Anathema.User.UserSettings;
 using System;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Anathema.Scanners.ManualScanner
@@ -13,9 +15,12 @@ namespace Anathema.Scanners.ManualScanner
 
         private ScanConstraintManager ScanConstraintManager;
 
+        private ProgressItem ScanProgress;
+
         public ManualScanner()
         {
-
+            ScanProgress = new ProgressItem();
+            ScanProgress.SetProgressLabel("Manual Scan");
         }
 
         public override void SetScanConstraintManager(ScanConstraintManager ScanConstraintManager)
@@ -45,8 +50,9 @@ namespace Anathema.Scanners.ManualScanner
         {
             base.Update();
 
-            // Read memory to get current values
+            Int32 ProcessedPages = 0;
 
+            // Read memory to get current values
             Parallel.ForEach(Snapshot.Cast<Object>(), (RegionObject) =>
             {
                 SnapshotRegion Region = (SnapshotRegion)RegionObject;
@@ -124,6 +130,11 @@ namespace Anathema.Scanners.ManualScanner
 
                 } // End foreach Element
 
+                Interlocked.Increment(ref ProcessedPages);
+
+                if (ProcessedPages < Snapshot.GetRegionCount())
+                    ScanProgress.UpdateProgress(ProcessedPages, Snapshot.GetRegionCount());
+
             }); // End foreach Region
             
             CancelFlag = true;
@@ -137,8 +148,8 @@ namespace Anathema.Scanners.ManualScanner
             Snapshot.SetScanMethod("Manual Scan");
             
             SnapshotManager.GetInstance().SaveSnapshot(Snapshot);
-
             OnEventScanFinished(new ManualScannerEventArgs());
+            ScanProgress.FinishProgress();
 
             CleanUp();
         }

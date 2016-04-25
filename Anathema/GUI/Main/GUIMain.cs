@@ -1,8 +1,10 @@
-﻿using Anathema.User.Registration;
+﻿using Anathema.Source.Utils;
+using Anathema.User.Registration;
 using Anathema.Utils;
 using Anathema.Utils.MVP;
 using System;
 using System.Diagnostics;
+using System.Drawing;
 using System.IO;
 using System.Net;
 using System.Reflection;
@@ -51,14 +53,10 @@ namespace Anathema.GUI
 
             MainPresenter = new MainPresenter(this, Main.GetInstance());
 
-            // Update theme so that everything looks cool
-            this.ContentPanel.Theme = new VS2013BlueTheme();
+            InitializeTheme();
+            InitializeStatus();
 
-            // Set default dock space sizes
-            ContentPanel.DockRightPortion = 0.4;
-            ContentPanel.DockBottomPortion = 0.4;
-            
-            CheckRegistration();
+            // CheckRegistration();
             CreateTools();
             
             this.Show();
@@ -95,6 +93,8 @@ namespace Anathema.GUI
             }
         }
 
+        #region Public Methods
+        
         /// <summary>
         /// Update the target process 
         /// </summary>
@@ -104,11 +104,25 @@ namespace Anathema.GUI
             // Update process text
             ControlThreadingHelper.InvokeControlAction(GUIToolStrip, () =>
             {
-                ProcessTitleLabel.Text = ProcessTitle;
+                this.ProcessTitleLabel.Text = ProcessTitle;
             });
         }
 
-        #region Public Methods
+        public void UpdateProgress(ProgressItem ProgressItem)
+        {
+            ControlThreadingHelper.InvokeControlAction(GUIStatusStrip, () =>
+            {
+                if (ProgressItem == null)
+                {
+                    this.ActionProgressBar.ProgressBar.Value = 0;
+                    this.ActionLabel.Text = String.Empty;
+                    return;
+                }
+
+                this.ActionProgressBar.ProgressBar.Value = ProgressItem.GetProgress();
+                this.ActionLabel.Text = ProgressItem.GetProgressLabel();
+            });
+        }
 
         public void OpenScriptEditor()
         {
@@ -123,6 +137,22 @@ namespace Anathema.GUI
         #endregion
 
         #region Private Methods
+
+        private void InitializeTheme()
+        {
+            // Update theme so that everything looks cool
+            this.ContentPanel.Theme = new VS2013BlueTheme();
+
+            // Set default dock space sizes
+            ContentPanel.DockRightPortion = 0.4;
+            ContentPanel.DockBottomPortion = 0.4;
+        }
+
+        private void InitializeStatus()
+        {
+            // Initialize progress
+            UpdateProgress(null);
+        }
 
         private void SaveConfiguration()
         {
@@ -173,7 +203,8 @@ namespace Anathema.GUI
 
         private void CreateDefaultTools()
         {
-            CreateChunkScanner();
+            // CreateChunkScanner();
+            CreateManualScanner();
             CreateInputCorrelator();
             CreateSnapshotManager();
             CreateResults();

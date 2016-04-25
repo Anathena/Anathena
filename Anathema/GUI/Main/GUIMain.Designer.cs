@@ -69,8 +69,13 @@
             this.CollectValuesButton = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
             this.ProcessTitleLabel = new System.Windows.Forms.ToolStripLabel();
+            this.GUIStatusStrip = new System.Windows.Forms.StatusStrip();
+            this.toolStripDropDownButton1 = new System.Windows.Forms.ToolStripDropDownButton();
+            this.ActionLabel = new System.Windows.Forms.ToolStripStatusLabel();
+            this.ActionProgressBar = new System.Windows.Forms.ToolStripProgressBar();
             this.GUIMenuStrip.SuspendLayout();
             this.GUIToolStrip.SuspendLayout();
+            this.GUIStatusStrip.SuspendLayout();
             this.SuspendLayout();
             // 
             // GUIMenuStrip
@@ -186,6 +191,7 @@
             this.ChunkScannerToolStripMenuItem.Name = "ChunkScannerToolStripMenuItem";
             this.ChunkScannerToolStripMenuItem.Size = new System.Drawing.Size(177, 22);
             this.ChunkScannerToolStripMenuItem.Text = "Chunk Scanner";
+            this.ChunkScannerToolStripMenuItem.Visible = false;
             this.ChunkScannerToolStripMenuItem.Click += new System.EventHandler(this.ChunkScannerToolStripMenuItem_Click);
             // 
             // TreeScannerToolStripMenuItem
@@ -323,7 +329,7 @@
             this.ContentPanel.DockBackColor = System.Drawing.SystemColors.AppWorkspace;
             this.ContentPanel.Location = new System.Drawing.Point(0, 49);
             this.ContentPanel.Name = "ContentPanel";
-            this.ContentPanel.Size = new System.Drawing.Size(732, 492);
+            this.ContentPanel.Size = new System.Drawing.Size(732, 470);
             this.ContentPanel.TabIndex = 145;
             // 
             // GUIToolStrip
@@ -405,6 +411,40 @@
             this.ProcessTitleLabel.Size = new System.Drawing.Size(113, 22);
             this.ProcessTitleLabel.Text = "No Process Selected";
             // 
+            // GUIStatusStrip
+            // 
+            this.GUIStatusStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripDropDownButton1,
+            this.ActionLabel,
+            this.ActionProgressBar});
+            this.GUIStatusStrip.Location = new System.Drawing.Point(0, 519);
+            this.GUIStatusStrip.Name = "GUIStatusStrip";
+            this.GUIStatusStrip.Size = new System.Drawing.Size(732, 22);
+            this.GUIStatusStrip.TabIndex = 150;
+            this.GUIStatusStrip.Text = "statusStrip1";
+            // 
+            // toolStripDropDownButton1
+            // 
+            this.toolStripDropDownButton1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripDropDownButton1.Image = global::Anathema.Properties.Resources.Cancel;
+            this.toolStripDropDownButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripDropDownButton1.Name = "toolStripDropDownButton1";
+            this.toolStripDropDownButton1.ShowDropDownArrow = false;
+            this.toolStripDropDownButton1.Size = new System.Drawing.Size(20, 20);
+            this.toolStripDropDownButton1.Text = "Cancel Pending Action";
+            this.toolStripDropDownButton1.ToolTipText = "Cancel Pending Action";
+            // 
+            // ActionLabel
+            // 
+            this.ActionLabel.Name = "ActionLabel";
+            this.ActionLabel.Size = new System.Drawing.Size(51, 17);
+            this.ActionLabel.Text = "ACTION";
+            // 
+            // ActionProgressBar
+            // 
+            this.ActionProgressBar.Name = "ActionProgressBar";
+            this.ActionProgressBar.Size = new System.Drawing.Size(100, 16);
+            // 
             // GUIMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -413,6 +453,7 @@
             this.Controls.Add(this.ContentPanel);
             this.Controls.Add(this.GUIToolStrip);
             this.Controls.Add(this.GUIMenuStrip);
+            this.Controls.Add(this.GUIStatusStrip);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.IsMdiContainer = true;
             this.Name = "GUIMain";
@@ -422,6 +463,8 @@
             this.GUIMenuStrip.PerformLayout();
             this.GUIToolStrip.ResumeLayout(false);
             this.GUIToolStrip.PerformLayout();
+            this.GUIStatusStrip.ResumeLayout(false);
+            this.GUIStatusStrip.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -468,6 +511,10 @@
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator5;
         private System.Windows.Forms.ToolStripMenuItem HelpToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem RegisterToolStripMenuItem;
+        private System.Windows.Forms.StatusStrip GUIStatusStrip;
+        private System.Windows.Forms.ToolStripStatusLabel ActionLabel;
+        private System.Windows.Forms.ToolStripProgressBar ActionProgressBar;
+        private System.Windows.Forms.ToolStripDropDownButton toolStripDropDownButton1;
     }
 }
 

@@ -241,6 +241,7 @@
     <Compile Include="Source\Utils\Lua\LuaEngine.cs" />
     <Compile Include="Settings.cs" />
     <Compile Include="Source\Utils\ListViewCache.cs" />
+    <Compile Include="Source\Utils\ProgressItem.cs" />
     <Compile Include="Source\Utils\RepeatedTask.cs" />
     <Compile Include="Source\Utils\Lua\LuaKeywordManager.cs" />
     <Compile Include="Source\Utils\Lua\LuaMemoryCore.cs" />

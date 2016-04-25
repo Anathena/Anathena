@@ -8,6 +8,9 @@ using Anathema.Scanners;
 using Anathema.Utils.Extensions;
 using System.Linq;
 using Anathema.Source.Utils.Extensions;
+using System.Threading.Tasks;
+using System.Collections.Concurrent;
+using Anathema.Source.Utils;
 
 namespace Anathema.Services.Snapshots
 {
@@ -32,17 +35,26 @@ namespace Anathema.Services.Snapshots
 
         private OSInterface OSInterface;
 
-        private const Int32 ChunkLimit = 4096;
+        private const Int32 ChunkLimit = 65536;
         private const Int32 ChunkSize = 2048;
         private const Int32 RescanTime = 200;
 
         private Queue<RegionProperties> ChunkQueue;
         private Object QueueLock;
+        private Object ElementLock;
+
+        private ProgressItem PrefilterProgress;
 
         private SnapshotPrefilter()
         {
             ChunkQueue = new Queue<RegionProperties>();
             QueueLock = new Object();
+            ElementLock = new Object();
+
+            PrefilterProgress = new ProgressItem();
+            PrefilterProgress.SetProgressLabel("Analyzing");
+            PrefilterProgress.SetCompletionThreshold(0.97);
+            PrefilterProgress.RestrictProgress();
 
             InitializeProcessObserver();
         }
@@ -163,43 +175,60 @@ namespace Anathema.Services.Snapshots
 
         private void ProcessPages(IEnumerable<RegionProperties> NewPages)
         {
+            UpdateProgress(NewPages);
+
             lock (QueueLock)
             {
-                Int32 ProcessedCount = 0;
-
                 // Construct queue
                 ChunkQueue = new Queue<RegionProperties>();
                 IOrderedEnumerable<RegionProperties> QueriedRegionsSorted = NewPages.OrderBy(X => X.GetLastUpdatedTimeStamp());
                 QueriedRegionsSorted.ForEach(X => ChunkQueue.Enqueue(X));
 
                 // Process the allowed amount of chunks from the priority queue
-                while (ChunkQueue.Count > 0 && ProcessedCount < ChunkLimit)
+                Parallel.For(0, Math.Min(ChunkQueue.Count, ChunkLimit), Index =>
                 {
-                    RegionProperties RegionProperties = ChunkQueue.Dequeue();
-                    ChunkQueue.Enqueue(RegionProperties);
-
-                    // Heuristic to avoid re-processing pages flagged as changed. Pros: Speed Cons: Entropy, loss of benefits
-                    if (RegionProperties.HasChanged())
-                        continue;
-
                     Boolean Success;
+                    RegionProperties RegionProperties;
+
+                    // Search for next page that needs processing
+                    lock (ElementLock)
+                    {
+                        do
+                        {
+                            if (ChunkQueue.Count <= 0)
+                                return;
+
+                            RegionProperties = ChunkQueue.Dequeue();
+                            ChunkQueue.Enqueue(RegionProperties);
+
+                        } while (RegionProperties.HasChanged()) ;
+                    }
+
+                    if (RegionProperties.HasChanged())
+                        return;
+
                     Byte[] PageData = OSInterface.Process.ReadBytes(RegionProperties.BaseAddress, RegionProperties.RegionSize, out Success);
 
                     if (!Success)
-                        continue;
+                        return;
 
                     RegionProperties.Update(PageData);
-                    ProcessedCount++;
-
-                    if (ProcessedCount > ChunkLimit)
-                        break;
-                }
+                });
             }
         }
 
         public override void End()
         {
             base.End();
+        }
+
+        private void UpdateProgress(IEnumerable<RegionProperties> NewPages)
+        {
+            Int32 UnprocessedCount = 0;
+
+            UnprocessedCount = NewPages.Where(X => X.IsProcessed()).Count();
+
+            PrefilterProgress.UpdateProgress((Double)UnprocessedCount / (Double)NewPages.Count());
         }
 
         internal class RegionProperties : NormalizedRegion
@@ -214,6 +243,14 @@ namespace Anathema.Services.Snapshots
                 LastUpdatedTimeStamp = DateTime.MinValue;
                 Checksum = null;
                 Changed = false;
+            }
+
+            public Boolean IsProcessed()
+            {
+                if (Checksum == null)
+                    return false;
+
+                return true;
             }
 
             public Boolean HasChanged()
