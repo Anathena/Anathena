@@ -314,6 +314,7 @@
             this.HelpToolStripMenuItem.Name = "HelpToolStripMenuItem";
             this.HelpToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
             this.HelpToolStripMenuItem.Text = "Help";
+            this.HelpToolStripMenuItem.Visible = false;
             // 
             // RegisterToolStripMenuItem
             // 
