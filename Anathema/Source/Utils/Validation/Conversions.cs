@@ -64,10 +64,10 @@ namespace Anathema.Utils.Validation
             switch (Type.GetTypeCode(ValueType))
             {
                 case TypeCode.Byte: return RealValue.ToString();
-                case TypeCode.SByte: return RealValue.ToString();
-                case TypeCode.Int16: return RealValue.ToString();
-                case TypeCode.Int32: return RealValue.ToString();
-                case TypeCode.Int64: return RealValue.ToString();
+                case TypeCode.SByte: return unchecked((SByte)(RealValue)).ToString();
+                case TypeCode.Int16: return unchecked((Int16)(RealValue)).ToString();
+                case TypeCode.Int32: return unchecked((Int32)(RealValue)).ToString();
+                case TypeCode.Int64: return unchecked((Int64)(RealValue)).ToString();
                 case TypeCode.UInt16: return RealValue.ToString();
                 case TypeCode.UInt32: return RealValue.ToString();
                 case TypeCode.UInt64: return RealValue.ToString();
