@@ -70,7 +70,7 @@
             this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
             this.ProcessTitleLabel = new System.Windows.Forms.ToolStripLabel();
             this.GUIStatusStrip = new System.Windows.Forms.StatusStrip();
-            this.toolStripDropDownButton1 = new System.Windows.Forms.ToolStripDropDownButton();
+            this.CancelActionButton = new System.Windows.Forms.ToolStripDropDownButton();
             this.ActionLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.ActionProgressBar = new System.Windows.Forms.ToolStripProgressBar();
             this.GUIMenuStrip.SuspendLayout();
@@ -414,7 +414,7 @@
             // GUIStatusStrip
             // 
             this.GUIStatusStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripDropDownButton1,
+            this.CancelActionButton,
             this.ActionLabel,
             this.ActionProgressBar});
             this.GUIStatusStrip.Location = new System.Drawing.Point(0, 519);
@@ -423,16 +423,17 @@
             this.GUIStatusStrip.TabIndex = 150;
             this.GUIStatusStrip.Text = "statusStrip1";
             // 
-            // toolStripDropDownButton1
+            // CancelActionButton
             // 
-            this.toolStripDropDownButton1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripDropDownButton1.Image = global::Anathema.Properties.Resources.Cancel;
-            this.toolStripDropDownButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripDropDownButton1.Name = "toolStripDropDownButton1";
-            this.toolStripDropDownButton1.ShowDropDownArrow = false;
-            this.toolStripDropDownButton1.Size = new System.Drawing.Size(20, 20);
-            this.toolStripDropDownButton1.Text = "Cancel Pending Action";
-            this.toolStripDropDownButton1.ToolTipText = "Cancel Pending Action";
+            this.CancelActionButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.CancelActionButton.Image = global::Anathema.Properties.Resources.Cancel;
+            this.CancelActionButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.CancelActionButton.Name = "CancelActionButton";
+            this.CancelActionButton.ShowDropDownArrow = false;
+            this.CancelActionButton.Size = new System.Drawing.Size(20, 20);
+            this.CancelActionButton.Text = "Cancel Pending Action";
+            this.CancelActionButton.ToolTipText = "Cancel Pending Action";
+            this.CancelActionButton.Visible = false;
             // 
             // ActionLabel
             // 
@@ -514,7 +515,7 @@
         private System.Windows.Forms.StatusStrip GUIStatusStrip;
         private System.Windows.Forms.ToolStripStatusLabel ActionLabel;
         private System.Windows.Forms.ToolStripProgressBar ActionProgressBar;
-        private System.Windows.Forms.ToolStripDropDownButton toolStripDropDownButton1;
+        private System.Windows.Forms.ToolStripDropDownButton CancelActionButton;
     }
 }
 

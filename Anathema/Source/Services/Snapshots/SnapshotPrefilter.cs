@@ -3,13 +3,11 @@ using System.Collections.Generic;
 using Anathema.Utils.OS;
 using Anathema.Utils;
 using Anathema.Services.ProcessManager;
-using Anathema.Services.Snapshots;
 using Anathema.Scanners;
 using Anathema.Utils.Extensions;
 using System.Linq;
 using Anathema.Source.Utils.Extensions;
 using System.Threading.Tasks;
-using System.Collections.Concurrent;
 using Anathema.Source.Utils;
 
 namespace Anathema.Services.Snapshots
@@ -19,8 +17,8 @@ namespace Anathema.Services.Snapshots
     /// > 95% of memory remains constant in most processes, at least for a short time span. Users will
     /// likely be hunting variables that are in the remaining 5%, which Divine will isolate.
     /// 
-    /// This is a heuristic because it assumes that the variable, or one on the same page, has changed before the user
-    /// requests a snapshot of the target processes memory
+    /// This is a heuristic because it assumes that the variable, or a variable in the same chunk on the same page,
+    /// has changed before the user requests a snapshot of the target processes memory
     /// 
     /// Steps are as follows:
     /// 1) Update a queue of chunks to process, based on timestamp since last edit. Add or remove chunks that
