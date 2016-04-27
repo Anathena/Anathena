@@ -144,6 +144,12 @@ namespace Anathema.GUI
 
         private void InitializeTheme()
         {
+            Assembly Assembly = Assembly.GetExecutingAssembly();
+            FileVersionInfo FileVersionInfo = FileVersionInfo.GetVersionInfo(Assembly.Location);
+            String[] CurrentVersion = FileVersionInfo.ProductVersion.Split('.');
+
+            this.Text += " " + CurrentVersion[0] + "." + CurrentVersion[1] + " " + "Beta";
+
             // Update theme so that everything looks cool
             this.ContentPanel.Theme = new VS2013BlueTheme();
 

@@ -459,7 +459,7 @@
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.IsMdiContainer = true;
             this.Name = "GUIMain";
-            this.Text = "Anathema v1.0 Beta";
+            this.Text = "Anathema";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.GUIMain_FormClosing);
             this.GUIMenuStrip.ResumeLayout(false);
             this.GUIMenuStrip.PerformLayout();
