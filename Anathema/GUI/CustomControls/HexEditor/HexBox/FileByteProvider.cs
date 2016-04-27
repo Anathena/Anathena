@@ -1,6 +1,7 @@
 using System;
 using System.IO;
 using System.Collections;
+using System.Reflection;
 
 namespace Be.Windows.Forms
 {
@@ -15,10 +16,11 @@ namespace Be.Windows.Forms
 		/// </summary>
 		class WriteCollection : DictionaryBase
 		{
-			/// <summary>
-			/// Gets or sets a byte in the collection
-			/// </summary>
-			public byte this[long index]
+            /// <summary>
+            /// Gets or sets a byte in the collection
+            /// </summary>
+            [Obfuscation(Exclude = true)]
+            public byte this[long index]
 			{
 				get { return (byte)this.Dictionary[index]; }
 				set { Dictionary[index] = value; }

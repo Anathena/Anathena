@@ -83,19 +83,20 @@
             this.OpenScriptToolStripMenuItem,
             this.DeleteScriptToolStripMenuItem});
             this.ScriptTableContextMenuStrip.Name = "RightClickMenu";
-            this.ScriptTableContextMenuStrip.Size = new System.Drawing.Size(141, 48);
+            this.ScriptTableContextMenuStrip.Size = new System.Drawing.Size(153, 70);
+            this.ScriptTableContextMenuStrip.Opening += new System.ComponentModel.CancelEventHandler(this.ScriptTableContextMenuStrip_Opening);
             // 
             // OpenScriptToolStripMenuItem
             // 
             this.OpenScriptToolStripMenuItem.Name = "OpenScriptToolStripMenuItem";
-            this.OpenScriptToolStripMenuItem.Size = new System.Drawing.Size(140, 22);
+            this.OpenScriptToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.OpenScriptToolStripMenuItem.Text = "Open Script";
             this.OpenScriptToolStripMenuItem.Click += new System.EventHandler(this.OpenScriptToolStripMenuItem_Click);
             // 
             // DeleteScriptToolStripMenuItem
             // 
             this.DeleteScriptToolStripMenuItem.Name = "DeleteScriptToolStripMenuItem";
-            this.DeleteScriptToolStripMenuItem.Size = new System.Drawing.Size(140, 22);
+            this.DeleteScriptToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.DeleteScriptToolStripMenuItem.Text = "Delete Script";
             this.DeleteScriptToolStripMenuItem.Click += new System.EventHandler(this.DeleteScriptToolStripMenuItem_Click);
             // 

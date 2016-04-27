@@ -77,7 +77,7 @@ namespace Anathema.GUI
                     String PublicVersion = (new VersionChecker()).DownloadString("http://www.anathemaengine.com/release/version.txt");
 
                     if (PublicVersion != CurrentVersion)
-                        MessageBoxEx.Show(this, "New Version Available at http://wwww.anethemaengine.com/" + Environment.NewLine +
+                        MessageBoxEx.Show(this, "New Version Available at http://www.anethemaengine.com/" + Environment.NewLine +
                             "Current Version: " + CurrentVersion + Environment.NewLine +
                             "New Version: " + PublicVersion + Environment.NewLine +
                             "Anathema is still in beta, so this update will likely provide critical performance and feature changes.",

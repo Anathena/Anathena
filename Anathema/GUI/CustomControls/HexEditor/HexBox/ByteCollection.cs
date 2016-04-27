@@ -1,6 +1,7 @@
 using System;
 
 using System.Collections;
+using System.Reflection;
 
 namespace Be.Windows.Forms
 {
@@ -21,10 +22,11 @@ namespace Be.Windows.Forms
 		public ByteCollection(byte[] bs)
 		{ AddRange(bs); }
 
-		/// <summary>
-		/// Gets or sets the value of a byte
-		/// </summary>
-		public byte this[int index]
+        /// <summary>
+        /// Gets or sets the value of a byte
+        /// </summary>
+        [Obfuscation(Exclude = true)]
+        public byte this[int index]
 		{
 			get { return (byte)List[index]; }
 			set { List[index] = value; }

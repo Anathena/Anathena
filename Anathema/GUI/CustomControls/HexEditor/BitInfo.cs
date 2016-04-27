@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Collections;
+using System.Reflection;
 
 namespace Be.HexEditor
 {
@@ -46,7 +47,8 @@ namespace Be.HexEditor
 				return "0";
 		}
 
-		public bool this[int index]
+        [Obfuscation(Exclude = true)]
+        public bool this[int index]
 		{
 			get
 			{

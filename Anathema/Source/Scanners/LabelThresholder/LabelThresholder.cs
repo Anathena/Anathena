@@ -4,6 +4,7 @@ using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
 
 namespace Anathema.Scanners.LabelThresholder
@@ -16,7 +17,9 @@ namespace Anathema.Scanners.LabelThresholder
         private Boolean Inverted;
         private Object ItemLock;
 
+        [Obfuscation(Exclude = true)]
         private dynamic MinValue;
+        [Obfuscation(Exclude = true)]
         private dynamic MaxValue;
 
         public LabelThresholder()

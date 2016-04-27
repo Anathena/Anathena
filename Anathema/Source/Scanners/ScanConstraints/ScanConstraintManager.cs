@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 
 namespace Anathema.Scanners.ScanConstraints
 {
@@ -18,6 +19,7 @@ namespace Anathema.Scanners.ScanConstraints
             ValueConstraints = new List<ScanConstraint>();
         }
 
+        [Obfuscation(Exclude = true)]
         public ScanConstraint this[Int32 Index] { get { return ValueConstraints[Index]; } }
 
         public Type GetElementType()

@@ -1,6 +1,7 @@
 ﻿using Anathema.Scanners.ScanConstraints;
 using System;
 using System.Drawing;
+using System.Reflection;
 
 namespace Anathema.Scanners.FiniteStateScanner
 {
@@ -19,6 +20,7 @@ namespace Anathema.Scanners.FiniteStateScanner
         private Int32 StateRadius;
         private Int32 StateEdgeSize;
 
+        [Obfuscation(Exclude = true)]
         private dynamic CurrentValue;
 
         public FiniteStateBuilder()
@@ -36,6 +38,7 @@ namespace Anathema.Scanners.FiniteStateScanner
             return FiniteStateMachine.GetElementType();
         }
 
+        [Obfuscation(Exclude = true)]
         public void SetCurrentValue(dynamic CurrentValue)
         {
             this.CurrentValue = CurrentValue;

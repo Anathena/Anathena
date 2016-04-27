@@ -1,6 +1,7 @@
 ﻿using Anathema.Utils.Extensions;
 using System;
 using System.Linq;
+using System.Reflection;
 
 namespace Anathema.Utils.Validation
 {
@@ -14,6 +15,7 @@ namespace Anathema.Utils.Validation
             return PrimitiveTypes.GetPrimitiveTypes().Where(x => x.Name == Value).First();
         }
 
+        [Obfuscation(Exclude = true)]
         public static dynamic ParseValue(Type ValueType, String Value)
         {
             switch (Type.GetTypeCode(ValueType))

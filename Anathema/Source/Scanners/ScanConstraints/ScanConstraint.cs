@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Reflection;
 
 namespace Anathema.Scanners.ScanConstraints
 {
@@ -27,6 +28,7 @@ namespace Anathema.Scanners.ScanConstraints
     public class ScanConstraint
     {
         public ConstraintsEnum Constraint { get; set; }
+        [Obfuscation(Exclude = true)]
         public dynamic Value { get; set; }
 
         public ScanConstraint()

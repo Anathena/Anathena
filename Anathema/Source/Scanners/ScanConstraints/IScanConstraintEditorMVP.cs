@@ -5,6 +5,7 @@ using System.Linq;
 using System.Windows.Forms;
 using Anathema.Utils.MVP;
 using Anathema.Utils.Validation;
+using System.Reflection;
 
 namespace Anathema.Scanners.ScanConstraints
 {
@@ -29,7 +30,9 @@ namespace Anathema.Scanners.ScanConstraints
         void SetElementType(Type ElementType);
         Type GetElementType();
         ScanConstraint GetConstraintAt(Int32 Index);
+        [Obfuscation(Exclude = true)]
         void AddConstraint(ConstraintsEnum ValueConstraint, dynamic Value);
+        [Obfuscation(Exclude = true)]
         void UpdateConstraint(Int32 Index, dynamic Value);
         void RemoveConstraints(Int32[] ConstraintIndicies);
         void ClearConstraints();

@@ -6,6 +6,7 @@ using System.Collections;
 using Anathema.Utils.Extensions;
 using Anathema.Utils.OS;
 using Anathema.Services.ProcessManager;
+using System.Reflection;
 
 namespace Anathema.Services.Snapshots
 {
@@ -30,6 +31,7 @@ namespace Anathema.Services.Snapshots
         /// </summary>
         /// <param name="Index"></param>
         /// <returns></returns>
+        [Obfuscation(Exclude = true)]
         public SnapshotElement this[Int32 Index]
         {
             get

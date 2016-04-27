@@ -4,6 +4,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Runtime.InteropServices;
 
 namespace Anathema.Services.Snapshots
@@ -28,6 +29,7 @@ namespace Anathema.Services.Snapshots
         public SnapshotRegion(NormalizedRegion RemoteRegion) : base(RemoteRegion.BaseAddress, RemoteRegion.RegionSize) { RegionExtension = 0; }
         public SnapshotRegion(SnapshotRegion SnapshotRegion) : base(SnapshotRegion.BaseAddress, SnapshotRegion.RegionSize) { this.RegionExtension = SnapshotRegion.RegionExtension; }
 
+        [Obfuscation(Exclude = true)]
         public unsafe abstract SnapshotElement this[Int32 Index] { get; }
 
         /// <summary>
@@ -279,6 +281,7 @@ namespace Anathema.Services.Snapshots
         /// </summary>
         /// <param name="Index"></param>
         /// <returns></returns>
+        [Obfuscation(Exclude = true)]
         public unsafe override SnapshotElement this[Int32 Index]
         {
             get
