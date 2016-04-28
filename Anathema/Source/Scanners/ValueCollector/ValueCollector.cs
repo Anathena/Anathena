@@ -15,7 +15,7 @@ namespace Anathema.Scanners.ValueCollector
 
         public override void Begin()
         {
-            this.Snapshot = new Snapshot<Null>(SnapshotManager.GetInstance().GetActiveSnapshot(true));
+            this.Snapshot = new Snapshot<Null>(SnapshotManager.GetInstance().GetActiveSnapshot());
             this.Snapshot.SetElementType(typeof(Int32));
             this.Snapshot.SetAlignment(Settings.GetInstance().GetAlignmentSettings());
 

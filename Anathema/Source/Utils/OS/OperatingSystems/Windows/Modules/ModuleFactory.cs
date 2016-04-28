@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using Anathema.MemoryManagement.Internals;
 using Anathema.MemoryManagement.Memory;
+using System.Reflection;
 
 namespace Anathema.MemoryManagement.Modules
 {
@@ -39,6 +40,7 @@ namespace Anathema.MemoryManagement.Modules
         /// </summary>
         /// <param name="address">The address of the pointer.</param>
         /// <returns>A new instance of a <see cref="RemotePointer"/> class.</returns>
+        [Obfuscation(Exclude = true)]
         public RemotePointer this[IntPtr address]
         {
             get { return new RemotePointer(MemorySharp, address); }
@@ -49,6 +51,7 @@ namespace Anathema.MemoryManagement.Modules
         /// </summary>
         /// <param name="moduleName">The name of module (not case sensitive).</param>
         /// <returns>A new instance of a <see cref="RemoteModule"/> class.</returns>
+        [Obfuscation(Exclude = true)]
         public RemoteModule this[string moduleName]
         {
             get { return FetchModule(moduleName); }

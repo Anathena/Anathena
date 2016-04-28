@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using Anathema.MemoryManagement.Memory;
 using Anathema.MemoryManagement.Native;
+using System.Reflection;
 
 namespace Anathema.MemoryManagement.Modules
 {
@@ -63,6 +64,7 @@ namespace Anathema.MemoryManagement.Modules
         /// </summary>
         /// <param name="functionName">The name of the function.</param>
         /// <returns>A new instance of a <see cref="RemoteFunction"/> class.</returns>
+        [Obfuscation(Exclude = true)]
         public RemoteFunction this[string functionName]
         {
             get { return FindFunction(functionName); }

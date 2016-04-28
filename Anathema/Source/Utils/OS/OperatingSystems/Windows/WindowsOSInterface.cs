@@ -10,6 +10,7 @@ using Anathema.MemoryManagement.Native;
 using System.Runtime.InteropServices;
 using Anathema.Utils.OS;
 using Anathema.Utils.Extensions;
+using System.Reflection;
 
 namespace Anathema.MemoryManagement
 {
@@ -60,6 +61,7 @@ namespace Anathema.MemoryManagement
         /// </summary>
         /// <param name="ModuleName">The name of module (not case sensitive).</param>
         /// <returns>A new instance of a <see cref="RemoteModule"/> class.</returns>
+        [Obfuscation(Exclude = true)]
         public RemoteModule this[String ModuleName]
         {
             get { return Modules[ModuleName]; }
@@ -70,6 +72,7 @@ namespace Anathema.MemoryManagement
         /// </summary>
         /// <param name="Address">The address pointed.</param>
         /// <returns>A new instance of a <see cref="RemotePointer"/> class.</returns>
+        [Obfuscation(Exclude = true)]
         public RemotePointer this[IntPtr Address]
         {
             get { return new RemotePointer(this, Address); }
@@ -191,6 +194,7 @@ namespace Anathema.MemoryManagement
         /// <param name="Address">The address where the value is read.</param>
         /// <param name="IsRelative">[Optional] State if the address is relative to the main module.</param>
         /// <returns>A value.</returns>
+        [Obfuscation(Exclude = true)]
         public dynamic Read(Type ValueType, IntPtr Address, out Boolean Success)
         {
             dynamic Value;
@@ -295,8 +299,9 @@ namespace Anathema.MemoryManagement
         }
 
         #endregion
-        #region Write
 
+        #region Write
+        [Obfuscation(Exclude = true)]
         public void Write(Type ValueType, IntPtr Address, dynamic Value)
         {
             switch (Type.GetTypeCode(ValueType))

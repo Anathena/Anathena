@@ -226,8 +226,9 @@
     <Compile Include="GUI\Tools\Table\GUIAddressTable.Designer.cs">
       <DependentUpon>GUIAddressTable.cs</DependentUpon>
     </Compile>
-    <Compile Include="Source\Services\Divine\Divine.cs" />
+    <Compile Include="Source\Services\Snapshots\SnapshotPrefilter.cs" />
     <Compile Include="Source\Utils\Browser\BrowserHelper.cs" />
+    <Compile Include="Source\Utils\Extensions\IEnumerableExtensions.cs" />
     <Compile Include="Source\Utils\Extensions\IntExtensions.cs" />
     <Compile Include="Source\Utils\Extensions\IntPtrExtensions.cs" />
     <Compile Include="Source\Utils\ObjectCache.cs" />
@@ -240,6 +241,7 @@
     <Compile Include="Source\Utils\Lua\LuaEngine.cs" />
     <Compile Include="Settings.cs" />
     <Compile Include="Source\Utils\ListViewCache.cs" />
+    <Compile Include="Source\Utils\ProgressItem.cs" />
     <Compile Include="Source\Utils\RepeatedTask.cs" />
     <Compile Include="Source\Utils\Lua\LuaKeywordManager.cs" />
     <Compile Include="Source\Utils\Lua\LuaMemoryCore.cs" />
@@ -806,7 +808,6 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
-    <None Include="ClassDiagram1.cd" />
     <None Include="Content\Font\MonoSpace.ttf" />
     <None Include="Content\FSM\States.psd" />
     <None Include="Content\Icons\Thumbs.db" />

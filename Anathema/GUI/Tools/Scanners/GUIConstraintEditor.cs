@@ -47,8 +47,6 @@ namespace Anathema.GUI
 
             InitializeValueTypeComboBox();
             UpdateScanOptions(EqualToToolStripMenuItem, ConstraintsEnum.Equal);
-
-            ValueTextBox.SetValue(0);
         }
 
         private void InitializeValueTypeComboBox()

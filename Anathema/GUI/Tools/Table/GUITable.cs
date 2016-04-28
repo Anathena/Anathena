@@ -71,6 +71,8 @@ namespace Anathema
             SaveFileDialog.Title = "Save Cheat Table";
             SaveFileDialog.ShowDialog();
 
+            ActiveTablePath = SaveFileDialog.FileName;
+
             TablePresenter.SaveTable(SaveFileDialog.FileName);
         }
 

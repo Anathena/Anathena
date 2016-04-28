@@ -1,6 +1,7 @@
-﻿using Anathema.Services.Divine;
-using Anathema.Services.Snapshots;
+﻿using Anathema.Services.Snapshots;
+using Anathema.Source.Utils;
 using Anathema.Utils.OS;
+using System;
 
 namespace Anathema
 {
@@ -10,6 +11,7 @@ namespace Anathema
         private static Main MainInstance;
 
         public event MainEventHandler EventUpdateProcessTitle;
+        public event MainEventHandler EventUpdateProgress;
         public event MainEventHandler EventOpenScriptEditor;
         public event MainEventHandler EventOpenLabelThresholder;
 
@@ -17,8 +19,7 @@ namespace Anathema
         {
             InitializeProcessObserver();
 
-            // TEMP DEBUG
-            Divine.GetInstance();
+            SnapshotPrefilter.GetInstance().Begin();
         }
 
         public static Main GetInstance()
@@ -40,6 +41,13 @@ namespace Anathema
             MainEventArgs MainEventArgs = new MainEventArgs();
             MainEventArgs.ProcessTitle = OSInterface.Process.GetProcessName();
             EventUpdateProcessTitle(this, MainEventArgs);
+        }
+
+        public void UpdateActionProgress(ProgressItem ProgressItem)
+        {
+            MainEventArgs MainEventArgs = new MainEventArgs();
+            MainEventArgs.ProgressItem = ProgressItem;
+            EventUpdateProgress(this, MainEventArgs);
         }
 
         public void OpenScriptEditor()

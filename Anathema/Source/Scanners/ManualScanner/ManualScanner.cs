@@ -1,8 +1,10 @@
 ﻿using Anathema.Scanners.ScanConstraints;
 using Anathema.Services.Snapshots;
+using Anathema.Source.Utils;
 using Anathema.User.UserSettings;
 using System;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Anathema.Scanners.ManualScanner
@@ -12,10 +14,14 @@ namespace Anathema.Scanners.ManualScanner
         private Snapshot<Null> Snapshot;
 
         private ScanConstraintManager ScanConstraintManager;
+        private ProgressItem ScanProgress;
+        private Object ProgressLock;
 
         public ManualScanner()
         {
-
+            ScanProgress = new ProgressItem();
+            ProgressLock = new Object();
+            ScanProgress.SetProgressLabel("Manual Scan");
         }
 
         public override void SetScanConstraintManager(ScanConstraintManager ScanConstraintManager)
@@ -37,7 +43,7 @@ namespace Anathema.Scanners.ManualScanner
             Snapshot.MarkAllValid();
             Snapshot.SetElementType(ScanConstraintManager.GetElementType());
             Snapshot.SetAlignment(Settings.GetInstance().GetAlignmentSettings());
-            
+
             base.Begin();
         }
 
@@ -45,15 +51,16 @@ namespace Anathema.Scanners.ManualScanner
         {
             base.Update();
 
-            // Read memory to get current values
+            Int32 ProcessedPages = 0;
 
+            // Read memory to get current values
             Parallel.ForEach(Snapshot.Cast<Object>(), (RegionObject) =>
             {
                 SnapshotRegion Region = (SnapshotRegion)RegionObject;
 
                 Region.ReadAllSnapshotMemory(Snapshot.GetOSInterface(), true);
 
-                if (!Region.CanCompare())
+                if (ScanConstraintManager.HasRelativeConstraint() && !Region.CanCompare())
                 {
                     Region.MarkAllInvalid();
                     return;
@@ -124,21 +131,29 @@ namespace Anathema.Scanners.ManualScanner
 
                 } // End foreach Element
 
+                lock (ProgressLock)
+                {
+                    ProcessedPages++;
+
+                    if (ProcessedPages < Snapshot.GetRegionCount())
+                        ScanProgress.UpdateProgress(ProcessedPages, Snapshot.GetRegionCount());
+                }
+
             }); // End foreach Region
-            
+
             CancelFlag = true;
         }
 
         public override void End()
         {
             base.End();
-            
+
             Snapshot.DiscardInvalidRegions();
             Snapshot.SetScanMethod("Manual Scan");
-            
-            SnapshotManager.GetInstance().SaveSnapshot(Snapshot);
 
+            SnapshotManager.GetInstance().SaveSnapshot(Snapshot);
             OnEventScanFinished(new ManualScannerEventArgs());
+            ScanProgress.FinishProgress();
 
             CleanUp();
         }

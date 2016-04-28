@@ -1,4 +1,5 @@
 ﻿using Anathema.Services.Snapshots;
+using Anathema.Source.Utils;
 using Anathema.User.UserSettings;
 using Gma.System.MouseKeyHook;
 using System;
@@ -27,9 +28,16 @@ namespace Anathema.Scanners.InputCorrelator
         private Int32 TimeOutInterval;  // ms to consider a fired key event as active
 
         private InputNode InputConditionTree;
+        
+        private ProgressItem ScanProgress;
+        private Object ProgressLock;
 
         public InputCorrelator()
         {
+            ScanProgress = new ProgressItem();
+            ProgressLock = new Object();
+            ScanProgress.SetProgressLabel("Input Correlator");
+
             // Initialize input hook
             InputHook = Hook.GlobalEvents();
         }
@@ -43,6 +51,7 @@ namespace Anathema.Scanners.InputCorrelator
         {
             if (InputConditionTree != null)
                 InputConditionTree.EvaluateText();
+
             InputCorrelatorEventArgs InputCorrelatorEventArgs = new InputCorrelatorEventArgs();
             InputCorrelatorEventArgs.Root = InputConditionTree;
             OnEventUpdateDisplay(InputCorrelatorEventArgs);
@@ -141,6 +150,8 @@ namespace Anathema.Scanners.InputCorrelator
         {
             base.Update();
 
+            Int32 ProcessedPages = 0;
+
             // Read memory to update previous and current values
             Snapshot.ReadAllSnapshotMemory();
 
@@ -162,7 +173,14 @@ namespace Anathema.Scanners.InputCorrelator
                         else
                             Element.ElementLabel--;
                     }
+                }
 
+                lock (ProgressLock)
+                {
+                    ProcessedPages++;
+
+                    if (ProcessedPages < Snapshot.GetRegionCount())
+                        ScanProgress.UpdateProgress(ProcessedPages, Snapshot.GetRegionCount());
                 }
             });
 
@@ -188,6 +206,7 @@ namespace Anathema.Scanners.InputCorrelator
             Snapshot.SetScanMethod("Input Correlator");
 
             SnapshotManager.GetInstance().SaveSnapshot(Snapshot);
+            ScanProgress.FinishProgress();
 
             CleanUp();
 

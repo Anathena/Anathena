@@ -5,6 +5,7 @@ using WeifenLuo.WinFormsUI.Docking;
 using Anathema.Utils.MVP;
 using Anathema.Utils.Validation;
 using Anathema.Scanners.LabelThresholder;
+using System.Reflection;
 
 namespace Anathema.GUI
 {
@@ -21,6 +22,7 @@ namespace Anathema.GUI
             LabelThresholderPresenter.Begin();
         }
 
+        [Obfuscation(Exclude = true)]
         public void DisplayHistogram(SortedDictionary<dynamic, Int64> SortedDictionary)
         {
             Int32 BarCount = 0;

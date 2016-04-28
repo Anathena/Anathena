@@ -1,6 +1,7 @@
 ﻿using Anathema.Utils.Validation;
 using System;
 using System.Drawing;
+using System.Reflection;
 using System.Windows.Forms;
 
 namespace Anathema.GUI
@@ -90,6 +91,7 @@ namespace Anathema.GUI
                 return Conversions.ParseValueAsHex(ElementType, Conversions.ParseValue(ElementType, this.Text));
         }
 
+        [Obfuscation(Exclude = true)]
         public void SetValue(dynamic Value)
         {
             if (Value == null)

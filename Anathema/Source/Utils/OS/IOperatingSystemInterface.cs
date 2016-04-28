@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Reflection;
 
 namespace Anathema.Utils.OS
 {
@@ -45,11 +46,13 @@ namespace Anathema.Utils.OS
         IntPtr[] SearchllAOB(String Pattern);
 
         // Reading
+        [Obfuscation(Exclude = true)]
         dynamic Read(Type ElementType, IntPtr Address, out Boolean Success);
         T Read<T>(IntPtr Address, out Boolean Success);
         Byte[] ReadBytes(IntPtr Address, Int32 Count, out Boolean Success);
 
         // Writing
+        [Obfuscation(Exclude = true)]
         void Write(Type ElementType, IntPtr Address, dynamic Value);
         void Write<T>(IntPtr Address, T Value);
         void WriteBytes(IntPtr Address, Byte[] Values);

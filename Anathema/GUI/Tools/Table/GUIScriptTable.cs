@@ -3,6 +3,7 @@ using System.Drawing;
 using System.Windows.Forms;
 using Anathema.Utils.MVP;
 using Anathema.User.UserScriptTable;
+using System.ComponentModel;
 
 namespace Anathema
 {
@@ -90,6 +91,15 @@ namespace Anathema
             ScriptTablePresenter.DeleteScript(SelectedItem.Index);
         }
 
+        private void ScriptTableContextMenuStrip_Opening(Object Sender, CancelEventArgs E)
+        {
+            ListViewHitTestInfo HitTest = ScriptTableListView.HitTest(ScriptTableListView.PointToClient(MousePosition));
+            ListViewItem SelectedItem = HitTest.Item;
+
+            if (SelectedItem == null)
+                E.Cancel = true;
+        }
+
         private ListViewItem DraggedItem;
         private void ScriptTableListView_ItemDrag(Object Sender, ItemDragEventArgs E)
         {
@@ -117,7 +127,7 @@ namespace Anathema
         }
 
         #endregion
-
+        
     } // End class
 
 } // End namespace

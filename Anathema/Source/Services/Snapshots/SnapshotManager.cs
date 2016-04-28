@@ -1,4 +1,5 @@
 ﻿using Anathema.Scanners.ValueCollector;
+using Anathema.Source.Utils.Extensions;
 using Anathema.User.UserSettings;
 using Anathema.Utils.Extensions;
 using Anathema.Utils.OS;
@@ -56,7 +57,7 @@ namespace Anathema.Services.Snapshots
         /// </summary>
         /// <param name="CreateIfNone"></param>
         /// <returns></returns>
-        public Snapshot GetActiveSnapshot(Boolean CreateIfNone = false)
+        public Snapshot GetActiveSnapshot(Boolean CreateIfNone = true)
         {
             lock (AccessLock)
             {
@@ -64,7 +65,7 @@ namespace Anathema.Services.Snapshots
                 if (Snapshots.Count == 0 || Snapshots.Peek() == null || Snapshots.Peek().GetElementCount() == 0)
                 {
                     if (CreateIfNone)
-                        return SnapshotAllRegions();
+                        return CollectSnapshot();
                     else
                         return null;
                 }
@@ -74,14 +75,8 @@ namespace Anathema.Services.Snapshots
             }
         }
 
-        /// <summary>
-        /// Take a snapshot of all memory regions in the target process
-        /// </summary>
-        public Snapshot SnapshotAllRegions(Boolean UseSettings = true)
+        public IEnumerable<NormalizedRegion> CollectSnapshotRegions(Boolean UseSettings = true)
         {
-            if (OSInterface == null)
-                return new Snapshot<Null>();
-
             IntPtr StartAddress;
             IntPtr EndAddress;
 
@@ -122,10 +117,25 @@ namespace Anathema.Services.Snapshots
             foreach (NormalizedRegion Page in OSInterface.Process.GetVirtualPages(RequiredPageFlags, ExcludedPageFlags, AllowedTypeFlags, StartAddress, EndAddress))
                 VirtualPages.Add(Page);
 
-            // Convert each virtual page to a remote region (a more condensed representation of the information)
+            return VirtualPages;
+        }
+
+        /// <summary>
+        /// Take a snapshot of all memory regions in the target process
+        /// </summary>
+        public Snapshot CollectSnapshot(Boolean UseSettings = true, Boolean UsePrefilter = true)
+        {
+            if (OSInterface == null)
+                return new Snapshot<Null>();
+
+            if (UsePrefilter)
+                return SnapshotPrefilter.GetInstance().GetPrefilteredSnapshot();
+
+            IEnumerable<NormalizedRegion> VirtualPages = CollectSnapshotRegions(UseSettings);
+
+            // Convert each virtual page to a snapshot region (a more condensed representation of the information)
             List<SnapshotRegion> MemoryRegions = new List<SnapshotRegion>();
-            for (int PageIndex = 0; PageIndex < VirtualPages.Count; PageIndex++)
-                MemoryRegions.Add(new SnapshotRegion<Null>(VirtualPages[PageIndex].BaseAddress, (Int32)VirtualPages[PageIndex].RegionSize));
+            VirtualPages.ForEach(X => MemoryRegions.Add(new SnapshotRegion<Null>(X.BaseAddress, X.RegionSize)));
 
             return new Snapshot<Null>(MemoryRegions);
         }

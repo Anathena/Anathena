@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
+using System.Reflection;
 
 namespace Anathema.Scanners.FiniteStateScanner
 {
@@ -23,6 +24,7 @@ namespace Anathema.Scanners.FiniteStateScanner
             States = new List<FiniteState>();
         }
 
+        [Obfuscation(Exclude = true)]
         public FiniteState this[Int32 Index] { get { return States[Index]; } }
 
         public Byte IndexOf(FiniteState State)

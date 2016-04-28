@@ -1,11 +1,14 @@
-﻿using Anathema.User.Registration;
+﻿using Anathema.Source.Utils;
+using Anathema.User.Registration;
 using Anathema.Utils;
 using Anathema.Utils.MVP;
 using System;
 using System.Diagnostics;
+using System.Drawing;
 using System.IO;
 using System.Net;
 using System.Reflection;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 using WeifenLuo.WinFormsUI.Docking;
 
@@ -51,38 +54,37 @@ namespace Anathema.GUI
 
             MainPresenter = new MainPresenter(this, Main.GetInstance());
 
-            // Update theme so that everything looks cool
-            this.ContentPanel.Theme = new VS2013BlueTheme();
+            InitializeTheme();
+            InitializeStatus();
 
-            // Set default dock space sizes
-            ContentPanel.DockRightPortion = 0.4;
-            ContentPanel.DockBottomPortion = 0.4;
-            
-            CheckRegistration();
+            // CheckRegistration();
             CreateTools();
-            
-            this.Show();
             CheckNewVersion();
+
+            this.Show();
         }
 
         private void CheckNewVersion()
         {
-            Assembly Assembly = Assembly.GetExecutingAssembly();
-            FileVersionInfo FileVersionInfo = FileVersionInfo.GetVersionInfo(Assembly.Location);
-            String CurrentVersion = FileVersionInfo.ProductVersion;
-            
-            try
+            Task.Run(() =>
             {
-                String PublicVersion = (new VersionChecker()).DownloadString("http://www.anathemaengine.com/release/version.txt");
+                Assembly Assembly = Assembly.GetExecutingAssembly();
+                FileVersionInfo FileVersionInfo = FileVersionInfo.GetVersionInfo(Assembly.Location);
+                String CurrentVersion = FileVersionInfo.ProductVersion;
 
-                if (PublicVersion != CurrentVersion)
-                    MessageBoxEx.Show(this, "New Version Available at http://wwww.anethemaengine.com/" + Environment.NewLine +
-                        "Current Version: " + CurrentVersion + Environment.NewLine +
-                        "New Version: " + PublicVersion + Environment.NewLine +
-                        "Anathema is still in beta, so this update will likely provide critical performance and feature changes.",
-                        "New Version Available");
-            }
-            catch { }
+                try
+                {
+                    String PublicVersion = (new VersionChecker()).DownloadString("http://www.anathemaengine.com/release/version.txt");
+
+                    if (PublicVersion != CurrentVersion)
+                        MessageBoxEx.Show(this, "New Version Available at http://www.anethemaengine.com/" + Environment.NewLine +
+                            "Current Version: " + CurrentVersion + Environment.NewLine +
+                            "New Version: " + PublicVersion + Environment.NewLine +
+                            "Anathema is still in beta, so this update will likely provide critical performance and feature changes.",
+                            "New Version Available");
+                }
+                catch { }
+            });
         }
 
         public class VersionChecker : WebClient
@@ -95,6 +97,8 @@ namespace Anathema.GUI
             }
         }
 
+        #region Public Methods
+        
         /// <summary>
         /// Update the target process 
         /// </summary>
@@ -104,11 +108,25 @@ namespace Anathema.GUI
             // Update process text
             ControlThreadingHelper.InvokeControlAction(GUIToolStrip, () =>
             {
-                ProcessTitleLabel.Text = ProcessTitle;
+                this.ProcessTitleLabel.Text = ProcessTitle;
             });
         }
 
-        #region Public Methods
+        public void UpdateProgress(ProgressItem ProgressItem)
+        {
+            ControlThreadingHelper.InvokeControlAction(GUIStatusStrip, () =>
+            {
+                if (ProgressItem == null)
+                {
+                    this.ActionProgressBar.ProgressBar.Value = 0;
+                    this.ActionLabel.Text = String.Empty;
+                    return;
+                }
+
+                this.ActionProgressBar.ProgressBar.Value = ProgressItem.GetProgress();
+                this.ActionLabel.Text = ProgressItem.GetProgressLabel();
+            });
+        }
 
         public void OpenScriptEditor()
         {
@@ -123,6 +141,28 @@ namespace Anathema.GUI
         #endregion
 
         #region Private Methods
+
+        private void InitializeTheme()
+        {
+            Assembly Assembly = Assembly.GetExecutingAssembly();
+            FileVersionInfo FileVersionInfo = FileVersionInfo.GetVersionInfo(Assembly.Location);
+            String[] CurrentVersion = FileVersionInfo.ProductVersion.Split('.');
+
+            this.Text += " " + CurrentVersion[0] + "." + CurrentVersion[1] + " " + "Beta";
+
+            // Update theme so that everything looks cool
+            this.ContentPanel.Theme = new VS2013BlueTheme();
+
+            // Set default dock space sizes
+            ContentPanel.DockRightPortion = 0.4;
+            ContentPanel.DockBottomPortion = 0.4;
+        }
+
+        private void InitializeStatus()
+        {
+            // Initialize progress
+            UpdateProgress(null);
+        }
 
         private void SaveConfiguration()
         {
@@ -173,7 +213,8 @@ namespace Anathema.GUI
 
         private void CreateDefaultTools()
         {
-            CreateChunkScanner();
+            // CreateChunkScanner();
+            CreateManualScanner();
             CreateInputCorrelator();
             CreateSnapshotManager();
             CreateResults();

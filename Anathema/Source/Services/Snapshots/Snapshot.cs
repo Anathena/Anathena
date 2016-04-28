@@ -6,6 +6,7 @@ using System.Collections;
 using Anathema.Utils.Extensions;
 using Anathema.Utils.OS;
 using Anathema.Services.ProcessManager;
+using System.Reflection;
 
 namespace Anathema.Services.Snapshots
 {
@@ -30,6 +31,7 @@ namespace Anathema.Services.Snapshots
         /// </summary>
         /// <param name="Index"></param>
         /// <returns></returns>
+        [Obfuscation(Exclude = true)]
         public SnapshotElement this[Int32 Index]
         {
             get
@@ -483,7 +485,7 @@ namespace Anathema.Services.Snapshots
                 NewSnapshotRegions.Remove(Region);
 
             // Get current memory regions
-            Snapshot<LabelType> Mask = new Snapshot<LabelType>(SnapshotManager.GetInstance().SnapshotAllRegions(false));
+            Snapshot<LabelType> Mask = new Snapshot<LabelType>(SnapshotManager.GetInstance().CollectSnapshot(false, false));
 
             // Mask each region against the current virtual memory regions
             IEnumerable<SnapshotRegion<LabelType>> MaskedRegions = MaskRegions(Mask, DeallocatedRegions);

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Reflection;
 
 namespace Anathema.Scanners.ScanConstraints
 {
@@ -42,12 +43,14 @@ namespace Anathema.Scanners.ScanConstraints
             return ScanConstraints[Index];
         }
 
+        [Obfuscation(Exclude = true)]
         public void AddConstraint(ConstraintsEnum ValueConstraint, dynamic Value)
         {
             ScanConstraints.AddConstraint(new ScanConstraint(ValueConstraint, Value));
             UpdateDisplay();
         }
 
+        [Obfuscation(Exclude = true)]
         public void UpdateConstraint(Int32 Index, dynamic Value)
         {
             ScanConstraints[Index].Value = Value;

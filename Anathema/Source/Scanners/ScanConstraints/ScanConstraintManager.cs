@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 
 namespace Anathema.Scanners.ScanConstraints
 {
@@ -18,6 +19,7 @@ namespace Anathema.Scanners.ScanConstraints
             ValueConstraints = new List<ScanConstraint>();
         }
 
+        [Obfuscation(Exclude = true)]
         public ScanConstraint this[Int32 Index] { get { return ValueConstraints[Index]; } }
 
         public Type GetElementType()
@@ -59,6 +61,17 @@ namespace Anathema.Scanners.ScanConstraints
                     ValueConstraints.Remove(ScanConstraint);
                 }
             }
+        }
+
+        public Boolean HasRelativeConstraint()
+        {
+            foreach (ScanConstraint ValueConstraint in this)
+            {
+                if (ValueConstraint.IsRelativeConstraint())
+                    return true;
+            }
+
+            return false;
         }
 
         public void AddConstraint(ScanConstraint ScanConstraint)

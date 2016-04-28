@@ -145,6 +145,8 @@ namespace Anathema.User.UserTable
 
         /// <summary>
         /// A serializable class (via DataContractSerializer) to allow for easy XML saving of our addresses, scripts, and FSMs
+        /// Note that because of this, C# will be using reflection to reconstruct the table upon table load, which means
+        /// things will break if we obfuscate members of this class.
         /// </summary>
         [Obfuscation(ApplyToMembers = false)]
         [Obfuscation(Exclude = true)]

@@ -3,6 +3,7 @@ using Anathema.Utils.MVP;
 using Anathema.Utils.Validation;
 using System;
 using System.Drawing;
+using System.Reflection;
 
 namespace Anathema.Scanners.FiniteStateScanner
 {
@@ -34,6 +35,7 @@ namespace Anathema.Scanners.FiniteStateScanner
         Type GetElementType();
 
         void SetCurrentValueConstraint(ConstraintsEnum CurrentValueConstraint);
+        [Obfuscation(Exclude = true)]
         void SetCurrentValue(dynamic CurrentValue);
         void SetFiniteStateMachine(FiniteStateMachine FiniteStateMachine);
         void SetElementType(Type ElementType);

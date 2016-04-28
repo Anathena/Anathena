@@ -43,7 +43,7 @@ namespace Anathema.Scanners.ChunkScanner
 
         public override void Begin()
         {
-            this.Snapshot = new Snapshot<Null>(SnapshotManager.GetInstance().GetActiveSnapshot(true));
+            this.Snapshot = new Snapshot<Null>(SnapshotManager.GetInstance().GetActiveSnapshot());
             this.Snapshot.SetElementType(typeof(Byte));
             this.Snapshot.SetAlignment(Settings.GetInstance().GetAlignmentSettings());
             this.ChunkRoots = new List<MemoryChunkRoots>();
