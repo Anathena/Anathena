@@ -23,8 +23,6 @@ namespace Anathema.Services.Snapshots
 
         // Event stubs
         public event SnapshotManagerEventHandler UpdateSnapshotCount;
-        public event SnapshotManagerEventHandler RefreshSnapshots;
-        public event SnapshotManagerEventHandler FlushCache;
 
         private SnapshotManager()
         {
@@ -293,9 +291,6 @@ namespace Anathema.Services.Snapshots
             }
 
             UpdateSnapshotCount.Invoke(this, SnapshotManagerEventArgs);
-            RefreshSnapshots.Invoke(this, SnapshotManagerEventArgs);
-            FlushCache.Invoke(this, SnapshotManagerEventArgs);
-
         }
 
     } // End class

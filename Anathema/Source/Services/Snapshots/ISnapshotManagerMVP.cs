@@ -1,10 +1,6 @@
 ﻿using Anathema.Services.ProcessManager;
-using Anathema.Utils;
 using Anathema.Utils.MVP;
-using Anathema.Utils.Validation;
 using System;
-using System.Drawing;
-using System.Windows.Forms;
 
 namespace Anathema.Services.Snapshots
 {
@@ -18,23 +14,19 @@ namespace Anathema.Services.Snapshots
     interface ISnapshotManagerView : IView
     {
         // Methods invoked by the presenter (upstream)
-        void UpdateSnapshotCount(Int32 SnapshotCount);
-        void RefreshSnapshots();
+        void UpdateSnapshotCount(Int32 SnapshotCount, Int32 DeletedSnapshotCount);
     }
 
     interface ISnapshotManagerModel : IModel, IProcessObserver
     {
         // Events triggered by the model (upstream)
         event SnapshotManagerEventHandler UpdateSnapshotCount;
-        event SnapshotManagerEventHandler RefreshSnapshots;
-        event SnapshotManagerEventHandler FlushCache;
 
         // Functions invoked by presenter (downstream)
         void CreateNewSnapshot();
         void RedoSnapshot();
         void UndoSnapshot();
         void ClearSnapshots();
-        void ForceRefresh();
 
         Snapshot GetSnapshotAt(Int32 Index);
     }
@@ -43,55 +35,21 @@ namespace Anathema.Services.Snapshots
     {
         protected new ISnapshotManagerView View;
         protected new ISnapshotManagerModel Model;
-
-        private ListViewCache ListViewCache;
-        private Int32 DeletedSnapshotCount;
-        private Int32 SnapshotCount;
-
-        private Int32 ScanTypeIndex = 0;
-        private Int32 MemorySizeIndex = 1;
-        private Int32 TimeStampIndex = 2;
-
+        
         public SnapshotManagerPresenter(ISnapshotManagerView View, ISnapshotManagerModel Model) : base(View, Model)
         {
             this.View = View;
             this.Model = Model;
-
-            ListViewCache = new ListViewCache();
-
+            
             // Bind events triggered by the model
             Model.UpdateSnapshotCount += UpdateSnapshotCount;
-            Model.RefreshSnapshots += RefreshSnapshots;
-            Model.FlushCache += FlushCache;
-
-            Model.ForceRefresh();
         }
 
         #region Method definitions called by the view (downstream)
 
-        public ListViewItem GetItemAt(Int32 Index)
+        public Snapshot GetItemAt(Int32 Index)
         {
-            ListViewItem Item = ListViewCache.Get((UInt64)Index);
-            Snapshot Snapshot = Model.GetSnapshotAt(Index);
-
-            // Try to update and return the item if it is a valid item
-            if (Item != null)
-            {
-                Item.ForeColor = Index > (SnapshotCount - DeletedSnapshotCount) ? Color.LightGray : SystemColors.ControlText;
-                Item.BackColor = Index == (SnapshotCount - 1) ? SystemColors.Highlight : SystemColors.Control;
-                return Item;
-            }
-
-            // Add the properties to the manager and get the list view item back
-            Item = ListViewCache.Add(Index, new String[] { String.Empty, String.Empty, String.Empty });
-
-            Item.SubItems[ScanTypeIndex].Text = Snapshot == null ? "New Scan" : Snapshot.GetScanMethod();
-            Item.SubItems[MemorySizeIndex].Text = Snapshot == null ? "-" : Conversions.BytesToMetric(Snapshot.GetMemorySize());
-            Item.SubItems[TimeStampIndex].Text = Snapshot == null ? "-" : Snapshot.GetTimeStamp().ToLongTimeString();
-
-            Item.ForeColor = Index > (SnapshotCount - DeletedSnapshotCount) ? Color.LightGray : SystemColors.ControlText;
-            Item.BackColor = Index == (SnapshotCount - 1) ? SystemColors.Highlight : SystemColors.Control;
-            return Item;
+            return Model.GetSnapshotAt(Index);
         }
 
         public void CreateNewSnapshot()
@@ -120,22 +78,11 @@ namespace Anathema.Services.Snapshots
 
         private void UpdateSnapshotCount(Object Sender, SnapshotManagerEventArgs E)
         {
-            this.SnapshotCount = E.SnapshotCount;
-            this.DeletedSnapshotCount = E.DeletedSnapshotCount;
-            View.UpdateSnapshotCount(E.SnapshotCount + E.DeletedSnapshotCount);
-        }
-
-        private void RefreshSnapshots(Object Sender, SnapshotManagerEventArgs E)
-        {
-            View.RefreshSnapshots();
-        }
-
-        private void FlushCache(Object Sender, SnapshotManagerEventArgs E)
-        {
-            ListViewCache.FlushCache();
-            View.RefreshSnapshots();
+            View.UpdateSnapshotCount(E.SnapshotCount, E.DeletedSnapshotCount);
         }
 
         #endregion
-    }
-}
+
+    } // End class
+
+} // End namespace

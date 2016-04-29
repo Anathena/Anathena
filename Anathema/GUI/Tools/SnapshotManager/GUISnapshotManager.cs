@@ -3,35 +3,43 @@ using System.Windows.Forms;
 using WeifenLuo.WinFormsUI.Docking;
 using Anathema.Utils.MVP;
 using Anathema.Services.Snapshots;
+using Anathema.Utils;
+using System.Drawing;
+using Anathema.Utils.Validation;
 
 namespace Anathema
 {
     public partial class GUISnapshotManager : DockContent, ISnapshotManagerView
     {
-        SnapshotManagerPresenter SnapshotManagerPresenter;
+        private SnapshotManagerPresenter SnapshotManagerPresenter;
+        private ListViewCache ListViewCache;
+
+        private Int32 SnapshotCount;
+
+        // TODO: Kill these and use some smart indexof() stuff
+        private Int32 ScanTypeIndex = 0;
+        private Int32 MemorySizeIndex = 1;
+        private Int32 TimeStampIndex = 2;
 
         public GUISnapshotManager()
         {
             InitializeComponent();
 
-            // Initialize presenter
             SnapshotManagerPresenter = new SnapshotManagerPresenter(this, SnapshotManager.GetInstance());
+            ListViewCache = new ListViewCache();
         }
 
-        public void RefreshSnapshots()
+        public void UpdateSnapshotCount(Int32 SnapshotCount, Int32 DeletedSnapshotCount)
         {
+            this.SnapshotCount = SnapshotCount;
+
+            ListViewCache.FlushCache();
+
             ControlThreadingHelper.InvokeControlAction(SnapshotListView, () =>
             {
+                SnapshotListView.SetItemCount(SnapshotCount + DeletedSnapshotCount);
                 SnapshotListView.BeginUpdate();
                 SnapshotListView.EndUpdate();
-            });
-        }
-
-        public void UpdateSnapshotCount(Int32 SnapshotCount)
-        {
-            ControlThreadingHelper.InvokeControlAction(SnapshotListView, () =>
-            {
-                SnapshotListView.SetItemCount(SnapshotCount);
             });
         }
 
@@ -59,7 +67,26 @@ namespace Anathema
 
         private void SnapshotListView_RetrieveVirtualItem(Object Sender, RetrieveVirtualItemEventArgs E)
         {
-            E.Item = SnapshotManagerPresenter.GetItemAt(E.ItemIndex);
+            ListViewItem Item = ListViewCache.Get((UInt64)E.ItemIndex);
+            
+            if (Item != null)
+            {
+                E.Item = Item;
+                return;
+            }
+
+            Snapshot Snapshot = SnapshotManagerPresenter.GetItemAt(E.ItemIndex);
+
+            Item = ListViewCache.Add(E.ItemIndex, new String[] { String.Empty, String.Empty, String.Empty });
+
+            Item.ForeColor = (E.ItemIndex + 1 > SnapshotCount) ? Color.LightGray : SystemColors.ControlText;
+            Item.BackColor = (E.ItemIndex + 1 == SnapshotCount) ? SystemColors.Highlight : SystemColors.Control;
+
+            Item.SubItems[ScanTypeIndex].Text = Snapshot == null ? "New Scan" : Snapshot.GetScanMethod();
+            Item.SubItems[MemorySizeIndex].Text = Snapshot == null ? "-" : Conversions.BytesToMetric(Snapshot.GetMemorySize());
+            Item.SubItems[TimeStampIndex].Text = Snapshot == null ? "-" : Snapshot.GetTimeStamp().ToLongTimeString();
+
+            E.Item = Item;
         }
 
         private void NewSnapshotButton_Click(Object Sender, EventArgs E)
@@ -83,7 +110,7 @@ namespace Anathema
         }
 
         #endregion
-        
+
     } // End class
 
 } // End namespace
