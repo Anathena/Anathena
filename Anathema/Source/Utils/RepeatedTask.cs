@@ -9,7 +9,7 @@ namespace Anathema.Utils
         private CancellationTokenSource CancelRequest;  // Tells the task to finish
         private Task Task;                              // Event that constantly checks the target process for changes
 
-        private Object CancelLock = new Object();
+        private Object CancelLock;
         protected Boolean CancelFlag;   // Flag that may be triggered in the update cycle to end the task
         protected Int32 AbortTime;      // Time to wait (in ms) before giving up when ending scan
         protected Int32 WaitTime;       // Time to wait (in ms) for a cancel request between each scan
@@ -18,6 +18,7 @@ namespace Anathema.Utils
 
         public RepeatedTask()
         {
+            CancelLock = new Object();
             AbortTime = 3000;   // Set a default abort time
             WaitTime = 400;     // Set a default wait time
         }

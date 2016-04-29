@@ -23,8 +23,11 @@ namespace Anathema.Services.ScanResults
         private ConcurrentDictionary<Int32, String> IndexValueMap;
         private Boolean ForceRefreshFlag;
 
+        private Object ResultsLock;
+
         private Results()
         {
+            ResultsLock = new Object();
             InitializeProcessObserver();
             SetScanType(typeof(Int32));
             ForceRefreshFlag = false;
@@ -56,7 +59,10 @@ namespace Anathema.Services.ScanResults
 
         public override void ForceRefresh()
         {
-            ForceRefreshFlag = true;
+            lock (ResultsLock)
+            {
+                ForceRefreshFlag = true;
+            }
         }
 
         public void EnableResults()
@@ -67,65 +73,83 @@ namespace Anathema.Services.ScanResults
 
         public void DisableResults()
         {
-            CancelFlag = true;
+            lock (ResultsLock)
+            {
+                CancelFlag = true;
+            }
             OnEventDisableResults(new ResultsEventArgs());
         }
 
         public override void SetScanType(Type ScanType)
         {
-            this.ScanType = ScanType;
+            lock (ResultsLock)
+            {
+                this.ScanType = ScanType;
+            }
         }
 
         public override Type GetScanType()
         {
-            return ScanType;
+            lock (ResultsLock)
+            {
+                return ScanType;
+            }
         }
 
         public override void UpdateReadBounds(Int32 StartReadIndex, Int32 EndReadIndex)
         {
-            this.StartReadIndex = StartReadIndex;
-            this.EndReadIndex = EndReadIndex;
+            lock (ResultsLock)
+            {
+                this.StartReadIndex = StartReadIndex;
+                this.EndReadIndex = EndReadIndex;
+            }
         }
 
         public override void Begin()
         {
-            base.Begin();
+            lock (ResultsLock)
+            {
+                base.Begin();
+            }
         }
 
         protected override void Update()
         {
-            base.Update();
-
-            Snapshot ActiveSnapshot = SnapshotManager.GetInstance().GetActiveSnapshot(false);
-            if (ForceRefreshFlag || Snapshot != ActiveSnapshot)
+            lock (ResultsLock)
             {
-                ForceRefreshFlag = false;
-                Snapshot = ActiveSnapshot;
+                base.Update();
 
-                // Send the size of the filtered memory to the display
-                ResultsEventArgs Args = new ResultsEventArgs();
-                Args.ElementCount = (Snapshot == null ? 0 : Snapshot.GetElementCount());
-                Args.MemorySize = (Snapshot == null ? 0 : Snapshot.GetMemorySize());
-                OnEventFlushCache(Args);
-                return;
-            }
+                Snapshot ActiveSnapshot = SnapshotManager.GetInstance().GetActiveSnapshot(false);
+                if (ForceRefreshFlag || Snapshot != ActiveSnapshot)
+                {
+                    ForceRefreshFlag = false;
+                    Snapshot = ActiveSnapshot;
 
-            if (Snapshot == null)
-                return;
+                    // Send the size of the filtered memory to the display
+                    ResultsEventArgs Args = new ResultsEventArgs();
+                    Args.ElementCount = (Snapshot == null ? 0 : Snapshot.GetElementCount());
+                    Args.MemorySize = (Snapshot == null ? 0 : Snapshot.GetMemorySize());
+                    OnEventFlushCache(Args);
+                    return;
+                }
 
-            IndexValueMap.Clear();
+                if (Snapshot == null)
+                    return;
 
-            Int32 ElementCount = (Int32)(Math.Min((UInt64)Int32.MaxValue, Snapshot.GetElementCount()));
+                IndexValueMap.Clear();
 
-            for (Int32 Index = StartReadIndex; Index <= EndReadIndex; Index++)
-            {
-                if (Index < 0 || Index >= ElementCount)
-                    continue;
+                Int32 ElementCount = (Int32)(Math.Min((UInt64)Int32.MaxValue, Snapshot.GetElementCount()));
 
-                Boolean ReadSuccess;
-                String Value = OSInterface.Process.Read(ScanType, Snapshot[Index].BaseAddress, out ReadSuccess).ToString();
+                for (Int32 Index = StartReadIndex; Index <= EndReadIndex; Index++)
+                {
+                    if (Index < 0 || Index >= ElementCount)
+                        continue;
 
-                IndexValueMap[Index] = Value;
+                    Boolean ReadSuccess;
+                    String Value = OSInterface.Process.Read(ScanType, Snapshot[Index].BaseAddress, out ReadSuccess).ToString();
+
+                    IndexValueMap[Index] = Value;
+                }
             }
 
             OnEventReadValues(new ResultsEventArgs());
@@ -133,58 +157,70 @@ namespace Anathema.Services.ScanResults
 
         public override void AddSelectionToTable(Int32 MinIndex, Int32 MaxIndex)
         {
-            const Int32 MaxAdd = 4096;
-
-            Snapshot ActiveSnapshot = SnapshotManager.GetInstance().GetActiveSnapshot(false);
-
-            if (ActiveSnapshot == null)
-                return;
-
-            if (MinIndex < 0)
-                MinIndex = 0;
-
-            if (MaxIndex > (Int32)ActiveSnapshot.GetElementCount())
-                MaxIndex = (Int32)ActiveSnapshot.GetElementCount();
-
-            Int32 Count = 0;
-            for (Int32 Index = MinIndex; Index <= MaxIndex; Index++)
+            lock (ResultsLock)
             {
-                String Value = String.Empty;
-                IndexValueMap.TryGetValue(Index, out Value);
+                const Int32 MaxAdd = 4096;
 
-                AddressTable.GetInstance().AddAddressItem(ActiveSnapshot[Index].BaseAddress, ScanType, "No Description", Value: Value);
+                Snapshot ActiveSnapshot = SnapshotManager.GetInstance().GetActiveSnapshot(false);
 
-                if (++Count >= MaxAdd)
-                    break;
+                if (ActiveSnapshot == null)
+                    return;
+
+                if (MinIndex < 0)
+                    MinIndex = 0;
+
+                if (MaxIndex > (Int32)ActiveSnapshot.GetElementCount())
+                    MaxIndex = (Int32)ActiveSnapshot.GetElementCount();
+
+                Int32 Count = 0;
+                for (Int32 Index = MinIndex; Index <= MaxIndex; Index++)
+                {
+                    String Value = String.Empty;
+                    IndexValueMap.TryGetValue(Index, out Value);
+
+                    AddressTable.GetInstance().AddAddressItem(ActiveSnapshot[Index].BaseAddress, ScanType, "No Description", Value: Value);
+
+                    if (++Count >= MaxAdd)
+                        break;
+                }
             }
         }
 
         public override IntPtr GetAddressAtIndex(Int32 Index)
         {
-            if (Snapshot == null || Index >= (Int32)Snapshot.GetElementCount())
-                return IntPtr.Zero;
+            lock (ResultsLock)
+            {
+                if (Snapshot == null || Index >= (Int32)Snapshot.GetElementCount())
+                    return IntPtr.Zero;
 
-            return Snapshot[Index].BaseAddress;
+                return Snapshot[Index].BaseAddress;
+            }
         }
 
         public override String GetValueAtIndex(Int32 Index)
         {
-            if (IndexValueMap.ContainsKey(Index))
-                return IndexValueMap[Index];
+            lock (ResultsLock)
+            {
+                if (IndexValueMap.ContainsKey(Index))
+                    return IndexValueMap[Index];
 
-            return "-";
+                return "-";
+            }
         }
 
         public override String GetLabelAtIndex(Int32 Index)
         {
-            if (Snapshot == null || Index >= (Int32)Snapshot.GetElementCount())
-                return "-";
+            lock (ResultsLock)
+            {
+                if (Snapshot == null || Index >= (Int32)Snapshot.GetElementCount())
+                    return "-";
 
-            dynamic Label = String.Empty;
-            if (((dynamic)Snapshot)[Index].ElementLabel != null)
-                Label = ((dynamic)Snapshot)[Index].ElementLabel;
+                dynamic Label = String.Empty;
+                if (((dynamic)Snapshot)[Index].ElementLabel != null)
+                    Label = ((dynamic)Snapshot)[Index].ElementLabel;
 
-            return Label.ToString();
+                return Label.ToString();
+            }
         }
 
     } // End class
