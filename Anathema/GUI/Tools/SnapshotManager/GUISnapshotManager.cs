@@ -14,12 +14,10 @@ namespace Anathema
         private SnapshotManagerPresenter SnapshotManagerPresenter;
         private ListViewCache ListViewCache;
 
-        private Int32 SnapshotCount;
+        private const String NewScanText = "NewScan";
+        private const String EmptyEntry = "-";
 
-        // TODO: Kill these and use some smart indexof() stuff
-        private Int32 ScanTypeIndex = 0;
-        private Int32 MemorySizeIndex = 1;
-        private Int32 TimeStampIndex = 2;
+        private Int32 SnapshotCount;
 
         public GUISnapshotManager()
         {
@@ -37,8 +35,8 @@ namespace Anathema
 
             ControlThreadingHelper.InvokeControlAction(SnapshotListView, () =>
             {
-                SnapshotListView.SetItemCount(SnapshotCount + DeletedSnapshotCount);
                 SnapshotListView.BeginUpdate();
+                SnapshotListView.SetItemCount(SnapshotCount + DeletedSnapshotCount);
                 SnapshotListView.EndUpdate();
             });
         }
@@ -77,14 +75,23 @@ namespace Anathema
 
             Snapshot Snapshot = SnapshotManagerPresenter.GetSnapshotAt(E.ItemIndex);
 
-            Item = ListViewCache.Add(E.ItemIndex, new String[] { String.Empty, String.Empty, String.Empty });
+            Item = ListViewCache.Add(E.ItemIndex, new String[SnapshotListView.Columns.Count]);
 
             Item.ForeColor = (E.ItemIndex + 1 > SnapshotCount) ? Color.LightGray : SystemColors.ControlText;
             Item.BackColor = (E.ItemIndex + 1 == SnapshotCount) ? SystemColors.Highlight : SystemColors.Control;
 
-            Item.SubItems[ScanTypeIndex].Text = Snapshot == null ? "New Scan" : Snapshot.GetScanMethod();
-            Item.SubItems[MemorySizeIndex].Text = Snapshot == null ? "-" : Conversions.BytesToMetric(Snapshot.GetMemorySize());
-            Item.SubItems[TimeStampIndex].Text = Snapshot == null ? "-" : Snapshot.GetTimeStamp().ToLongTimeString();
+            if (Snapshot == null)
+            {
+                Item.SubItems[SnapshotListView.Columns.IndexOf(ScanMethodHeader)].Text = NewScanText;
+                Item.SubItems[SnapshotListView.Columns.IndexOf(SizeHeader)].Text = EmptyEntry;
+                Item.SubItems[SnapshotListView.Columns.IndexOf(TimeStampHeader)].Text = EmptyEntry;
+            }
+            else
+            {
+                Item.SubItems[SnapshotListView.Columns.IndexOf(ScanMethodHeader)].Text = Snapshot.GetScanMethod();
+                Item.SubItems[SnapshotListView.Columns.IndexOf(SizeHeader)].Text = Conversions.BytesToMetric(Snapshot.GetMemorySize());
+                Item.SubItems[SnapshotListView.Columns.IndexOf(TimeStampHeader)].Text = Snapshot.GetTimeStamp().ToLongTimeString();
+            }
 
             E.Item = Item;
         }
