@@ -47,7 +47,7 @@ namespace Anathema.Services.Snapshots
 
         #region Method definitions called by the view (downstream)
 
-        public Snapshot GetItemAt(Int32 Index)
+        public Snapshot GetSnapshotAt(Int32 Index)
         {
             return Model.GetSnapshotAt(Index);
         }

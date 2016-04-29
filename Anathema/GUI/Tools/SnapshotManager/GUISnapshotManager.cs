@@ -75,7 +75,7 @@ namespace Anathema
                 return;
             }
 
-            Snapshot Snapshot = SnapshotManagerPresenter.GetItemAt(E.ItemIndex);
+            Snapshot Snapshot = SnapshotManagerPresenter.GetSnapshotAt(E.ItemIndex);
 
             Item = ListViewCache.Add(E.ItemIndex, new String[] { String.Empty, String.Empty, String.Empty });
 
