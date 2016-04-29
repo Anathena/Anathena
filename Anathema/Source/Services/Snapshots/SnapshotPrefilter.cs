@@ -9,6 +9,7 @@ using System.Linq;
 using Anathema.Source.Utils.Extensions;
 using System.Threading.Tasks;
 using Anathema.Source.Utils;
+using Anathema.User.UserSettings;
 
 namespace Anathema.Services.Snapshots
 {
@@ -85,8 +86,20 @@ namespace Anathema.Services.Snapshots
             {
                 List<SnapshotRegion> Regions = new List<SnapshotRegion>();
                 foreach (RegionProperties VirtualPage in ChunkQueue)
+                {
                     if (VirtualPage.HasChanged())
-                        Regions.Add(new SnapshotRegion<Null>(VirtualPage));
+                    {
+                        SnapshotRegion NewRegion = new SnapshotRegion<Null>(VirtualPage);
+                        NewRegion.SetAlignment(Settings.GetInstance().GetAlignmentSettings());
+                        Regions.Add(NewRegion);
+                    }
+                }
+
+                // Create snapshot from valid regions, do standard expand/mask operations to catch lost bytes for larger data types
+                Snapshot<Null> PrefilteredSnapshot = new Snapshot<Null>(Regions);
+                PrefilteredSnapshot.SetAlignment(Settings.GetInstance().GetAlignmentSettings());
+                PrefilteredSnapshot.ExpandAllRegionsOutward(PrimitiveTypes.GetLargestPrimitiveSize() - 1);
+                PrefilteredSnapshot = new Snapshot<Null>(PrefilteredSnapshot.MaskRegions(PrefilteredSnapshot, Regions));
 
                 return new Snapshot<Null>(Regions);
             }
@@ -204,7 +217,7 @@ namespace Anathema.Services.Snapshots
                             RegionProperties = ChunkQueue.Dequeue();
                             ChunkQueue.Enqueue(RegionProperties);
 
-                        } while (RegionProperties.HasChanged()) ;
+                        } while (RegionProperties.HasChanged());
                     }
 
                     if (RegionProperties.HasChanged())

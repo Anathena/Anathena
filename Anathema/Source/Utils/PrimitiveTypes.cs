@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Runtime.InteropServices;
 
 namespace Anathema.Utils
 {
@@ -9,7 +10,12 @@ namespace Anathema.Utils
 
         public static Type[] GetPrimitiveTypes()
         {
-            return typeof(Int32).Assembly.GetTypes().Where(x => x.IsPrimitive && !ExcludedTypes.Contains(x)).ToArray();
+            return typeof(Int32).Assembly.GetTypes().Where(X => X.IsPrimitive && !ExcludedTypes.Contains(X)).ToArray();
+        }
+
+        public static Int32 GetLargestPrimitiveSize()
+        {
+            return GetPrimitiveTypes().Select(X => Marshal.SizeOf(X)).Max();
         }
 
     } // End class

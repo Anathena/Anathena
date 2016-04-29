@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Anathema.Utils.OS;
 using Anathema.Services.Snapshots;
 using Anathema.User.UserSettings;
+using Anathema.Utils;
 
 namespace Anathema.Scanners.ChunkScanner
 {
@@ -92,7 +93,7 @@ namespace Anathema.Scanners.ChunkScanner
             Snapshot.SetAlignment(Settings.GetInstance().GetAlignmentSettings());
 
             // Grow regions by the size of the largest standard variable and mask this with the original memory list.
-            Snapshot.ExpandAllRegionsOutward(sizeof(UInt64) - 1);
+            Snapshot.ExpandAllRegionsOutward(PrimitiveTypes.GetLargestPrimitiveSize() - 1);
             Snapshot = new Snapshot<Null>(Snapshot.MaskRegions(Snapshot, Snapshot.GetSnapshotRegions()));
             Snapshot.SetAlignment(Settings.GetInstance().GetAlignmentSettings());
 
