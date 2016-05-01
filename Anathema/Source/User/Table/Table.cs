@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
+using System.Runtime.CompilerServices;
 using System.Runtime.Serialization;
 
 namespace Anathema.User.UserTable
@@ -34,6 +35,7 @@ namespace Anathema.User.UserTable
         }
 
         [Obfuscation(Exclude = true)]
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public static Table GetInstance()
         {
             if (TableInstance == null)

@@ -1,4 +1,5 @@
 ﻿using Anathema.Scanners.ValueCollector;
+using Anathema.Source.Utils;
 using Anathema.Source.Utils.Extensions;
 using Anathema.User.UserSettings;
 using Anathema.Utils.Extensions;
@@ -6,6 +7,7 @@ using Anathema.Utils.OS;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 
 namespace Anathema.Services.Snapshots
 {
@@ -33,6 +35,7 @@ namespace Anathema.Services.Snapshots
             InitializeProcessObserver();
         }
 
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public static SnapshotManager GetInstance()
         {
             if (SnapshotManagerInstance == null)
@@ -43,18 +46,12 @@ namespace Anathema.Services.Snapshots
 
         public void InitializeProcessObserver()
         {
-            lock (AccessLock)
-            {
-                ProcessSelector.GetInstance().Subscribe(this);
-            }
+            ProcessSelector.GetInstance().Subscribe(this);
         }
 
         public void UpdateOSInterface(OSInterface OSInterface)
         {
-            lock (AccessLock)
-            {
-                this.OSInterface = OSInterface;
-            }
+            this.OSInterface = OSInterface;
         }
 
         /// <summary>
@@ -64,7 +61,8 @@ namespace Anathema.Services.Snapshots
         /// <returns></returns>
         public Snapshot GetActiveSnapshot(Boolean CreateIfNone = true)
         {
-            lock (AccessLock)
+            using (TimedLock.Lock(AccessLock))
+            // lock (AccessLock)
             {
                 // Take a snapshot if there are none, or the current one is empty
                 if (Snapshots.Count == 0 || Snapshots.Peek() == null || Snapshots.Peek().GetElementCount() == 0)
@@ -82,50 +80,47 @@ namespace Anathema.Services.Snapshots
 
         public IEnumerable<NormalizedRegion> CollectSnapshotRegions(Boolean UseSettings = true)
         {
-            lock (AccessLock)
+            IntPtr StartAddress;
+            IntPtr EndAddress;
+
+            MemoryProtectionEnum RequiredPageFlags;
+            MemoryProtectionEnum ExcludedPageFlags;
+            MemoryTypeEnum AllowedTypeFlags;
+
+            // Use settings parameters
+            if (UseSettings)
             {
-                IntPtr StartAddress;
-                IntPtr EndAddress;
+                RequiredPageFlags = Settings.GetInstance().GetRequiredProtectionSettings();
+                ExcludedPageFlags = Settings.GetInstance().GetExcludedProtectionSettings();
+                AllowedTypeFlags = Settings.GetInstance().GetAllowedTypeSettings();
 
-                MemoryProtectionEnum RequiredPageFlags;
-                MemoryProtectionEnum ExcludedPageFlags;
-                MemoryTypeEnum AllowedTypeFlags;
-
-                // Use settings parameters
-                if (UseSettings)
-                {
-                    RequiredPageFlags = Settings.GetInstance().GetRequiredProtectionSettings();
-                    ExcludedPageFlags = Settings.GetInstance().GetExcludedProtectionSettings();
-                    AllowedTypeFlags = Settings.GetInstance().GetAllowedTypeSettings();
-
-                    if (Settings.GetInstance().GetIsUserMode())
-                    {
-                        StartAddress = IntPtr.Zero;
-                        EndAddress = IntPtr.Zero.MaxUserMode(OSInterface.Process.Is32Bit());
-                    }
-                    else
-                    {
-                        StartAddress = Settings.GetInstance().GetStartAddress().ToIntPtr();
-                        EndAddress = Settings.GetInstance().GetEndAddress().ToIntPtr();
-                    }
-                }
-                // Standard pointer scan parameters
-                else
+                if (Settings.GetInstance().GetIsUserMode())
                 {
                     StartAddress = IntPtr.Zero;
                     EndAddress = IntPtr.Zero.MaxUserMode(OSInterface.Process.Is32Bit());
-                    RequiredPageFlags = 0;
-                    ExcludedPageFlags = 0;
-                    AllowedTypeFlags = MemoryTypeEnum.None | MemoryTypeEnum.Private | MemoryTypeEnum.Image | MemoryTypeEnum.Mapped;
                 }
-
-                // Collect virtual pages
-                List<NormalizedRegion> VirtualPages = new List<NormalizedRegion>();
-                foreach (NormalizedRegion Page in OSInterface.Process.GetVirtualPages(RequiredPageFlags, ExcludedPageFlags, AllowedTypeFlags, StartAddress, EndAddress))
-                    VirtualPages.Add(Page);
-
-                return VirtualPages;
+                else
+                {
+                    StartAddress = Settings.GetInstance().GetStartAddress().ToIntPtr();
+                    EndAddress = Settings.GetInstance().GetEndAddress().ToIntPtr();
+                }
             }
+            // Standard pointer scan parameters
+            else
+            {
+                StartAddress = IntPtr.Zero;
+                EndAddress = IntPtr.Zero.MaxUserMode(OSInterface.Process.Is32Bit());
+                RequiredPageFlags = 0;
+                ExcludedPageFlags = 0;
+                AllowedTypeFlags = MemoryTypeEnum.None | MemoryTypeEnum.Private | MemoryTypeEnum.Image | MemoryTypeEnum.Mapped;
+            }
+
+            // Collect virtual pages
+            List<NormalizedRegion> VirtualPages = new List<NormalizedRegion>();
+            foreach (NormalizedRegion Page in OSInterface.Process.GetVirtualPages(RequiredPageFlags, ExcludedPageFlags, AllowedTypeFlags, StartAddress, EndAddress))
+                VirtualPages.Add(Page);
+
+            return VirtualPages;
         }
 
         /// <summary>
@@ -133,22 +128,19 @@ namespace Anathema.Services.Snapshots
         /// </summary>
         public Snapshot CollectSnapshot(Boolean UseSettings = true, Boolean UsePrefilter = true)
         {
-            lock (AccessLock)
-            {
-                if (OSInterface == null)
-                    return new Snapshot<Null>();
+            if (OSInterface == null)
+                return new Snapshot<Null>();
 
-                if (UsePrefilter)
-                    return SnapshotPrefilter.GetInstance().GetPrefilteredSnapshot();
+            if (UsePrefilter)
+                return SnapshotPrefilter.GetInstance().GetPrefilteredSnapshot();
 
-                IEnumerable<NormalizedRegion> VirtualPages = CollectSnapshotRegions(UseSettings);
+            IEnumerable<NormalizedRegion> VirtualPages = CollectSnapshotRegions(UseSettings);
 
-                // Convert each virtual page to a snapshot region (a more condensed representation of the information)
-                List<SnapshotRegion> MemoryRegions = new List<SnapshotRegion>();
-                VirtualPages.ForEach(X => MemoryRegions.Add(new SnapshotRegion<Null>(X.BaseAddress, X.RegionSize)));
+            // Convert each virtual page to a snapshot region (a more condensed representation of the information)
+            List<SnapshotRegion> MemoryRegions = new List<SnapshotRegion>();
+            VirtualPages.ForEach(X => MemoryRegions.Add(new SnapshotRegion<Null>(X.BaseAddress, X.RegionSize)));
 
-                return new Snapshot<Null>(MemoryRegions);
-            }
+            return new Snapshot<Null>(MemoryRegions);
         }
 
         /// <summary>
@@ -156,11 +148,8 @@ namespace Anathema.Services.Snapshots
         /// </summary>
         public void CollectValues()
         {
-            lock (AccessLock)
-            {
-                ValueCollector ValueCollector = new ValueCollector();
-                ValueCollector.Begin();
-            }
+            ValueCollector ValueCollector = new ValueCollector();
+            ValueCollector.Begin();
         }
 
         /// <summary>
@@ -168,7 +157,8 @@ namespace Anathema.Services.Snapshots
         /// </summary>
         public void CreateNewSnapshot()
         {
-            lock (AccessLock)
+            using (TimedLock.Lock(AccessLock))
+            // lock (AccessLock)
             {
                 if (Snapshots.Count != 0 && Snapshots.Peek() == null)
                     return;
@@ -184,7 +174,8 @@ namespace Anathema.Services.Snapshots
         /// </summary>
         public void RedoSnapshot()
         {
-            lock (AccessLock)
+            using (TimedLock.Lock(AccessLock))
+            // lock (AccessLock)
             {
                 if (DeletedSnapshots.Count == 0)
                     return;
@@ -200,7 +191,8 @@ namespace Anathema.Services.Snapshots
         /// </summary>
         public void UndoSnapshot()
         {
-            lock (AccessLock)
+            using (TimedLock.Lock(AccessLock))
+            // lock (AccessLock)
             {
                 if (Snapshots.Count == 0)
                     return;
@@ -219,7 +211,8 @@ namespace Anathema.Services.Snapshots
         /// </summary>
         public void ClearSnapshots()
         {
-            lock (AccessLock)
+            using (TimedLock.Lock(AccessLock))
+            // lock (AccessLock)
             {
                 Snapshots.Clear();
                 DeletedSnapshots.Clear();
@@ -234,7 +227,8 @@ namespace Anathema.Services.Snapshots
         /// <param name="Snapshot"></param>
         public void SaveSnapshot(Snapshot Snapshot)
         {
-            lock (AccessLock)
+            using (TimedLock.Lock(AccessLock))
+            // lock (AccessLock)
             {
                 if (Snapshot != null)
                     Snapshot.SetTimeStampToNow();
@@ -252,7 +246,8 @@ namespace Anathema.Services.Snapshots
 
         public Snapshot GetSnapshotAt(Int32 Index)
         {
-            lock (AccessLock)
+            using (TimedLock.Lock(AccessLock))
+            // lock (AccessLock)
             {
                 if (Index < Snapshots.Count)
                 {
@@ -284,7 +279,8 @@ namespace Anathema.Services.Snapshots
         {
             SnapshotManagerEventArgs SnapshotManagerEventArgs = new SnapshotManagerEventArgs();
 
-            lock (AccessLock)
+            using (TimedLock.Lock(AccessLock))
+            // lock (AccessLock)
             {
                 SnapshotManagerEventArgs.DeletedSnapshotCount = DeletedSnapshots.Count;
                 SnapshotManagerEventArgs.SnapshotCount = Snapshots.Count;

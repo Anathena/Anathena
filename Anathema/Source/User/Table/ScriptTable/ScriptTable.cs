@@ -2,6 +2,7 @@
 using Anathema.User.UserTable;
 using System;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 
 namespace Anathema.User.UserScriptTable
 {
@@ -22,6 +23,7 @@ namespace Anathema.User.UserScriptTable
             ScriptItems = new List<ScriptItem>();
         }
 
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public static ScriptTable GetInstance()
         {
             if (ScriptTableInstance == null)

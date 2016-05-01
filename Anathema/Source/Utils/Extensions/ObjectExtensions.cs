@@ -7,18 +7,26 @@ namespace Anathema.Utils.Extensions
 {
     public static class ObjectExtensions
     {
-        [MethodImpl(MethodImplOptions.NoInlining)]
-        public static void PrintDebugTag(this Object Object, params String[] Params)
+        /// <summary>
+        /// Prints the method that called this function, as well as any provided parameters.
+        /// Returns the same object being operated on, allowing for lock(Object.PrintDebugTag()) for lock debugging.
+        /// TODO: Debug channel specification
+        /// </summary>
+        /// <param name="Object"></param>
+        /// <param name="Params"></param>
+        /// <returns></returns>
+        public static Object PrintDebugTag(this Object Object, [CallerMemberName] String CallerName = "", params String[] Params)
         {
-            StackTrace StackTrace = new StackTrace();
-
             // Write calling class and method name
-            Console.Write("[" + Object.GetType().Name + "] - " + StackTrace.GetFrame(1).GetMethod().Name);
+            String Tag = "[" + Object.GetType().Name + "] - " + CallerName;
 
             // Write parameters
-            (new List<String>(Params)).ForEach(x => Console.Write(" " + x));
+            if (Params.Length > 0)
+                (new List<String>(Params)).ForEach(x => Tag += " " + x);
 
-            Console.WriteLine();
+            Console.WriteLine(Tag);
+
+            return Object;
         }
 
     } // End calss

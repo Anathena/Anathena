@@ -2,6 +2,7 @@
 using Anathema.Utils.LUA;
 using System;
 using Anathema.User.UserScriptTable;
+using System.Runtime.CompilerServices;
 
 namespace Anathema.User.UserScriptEditor
 {
@@ -22,6 +23,7 @@ namespace Anathema.User.UserScriptEditor
             ScriptItem = new ScriptItem();
         }
 
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public static ScriptEditor GetInstance()
         {
             if (_ScriptEditor == null)

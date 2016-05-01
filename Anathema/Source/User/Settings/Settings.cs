@@ -1,6 +1,7 @@
 ﻿using Anathema.Utils.OS;
 using System;
 using System.Reflection;
+using System.Runtime.CompilerServices;
 
 namespace Anathema.User.UserSettings
 {
@@ -15,6 +16,7 @@ namespace Anathema.User.UserSettings
         }
 
         [Obfuscation(Exclude = true)]
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public static Settings GetInstance()
         {
             if (_Settings == null)

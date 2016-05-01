@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Anathema.Source.Utils;
+using Anathema.Utils.Extensions;
+using System;
 using System.Windows.Forms;
 
 namespace Anathema.Utils
@@ -11,7 +13,8 @@ namespace Anathema.Utils
 
         public Boolean TryUpdateSubItem(Int32 Index, Int32 SubItemIndex, String Item)
         {
-            lock (AccessLock)
+            using (TimedLock.Lock(AccessLock))
+            // lock (AccessLock)
             {
                 if (!Cache.ContainsKey((UInt64)Index))
                     return false;
@@ -23,7 +26,8 @@ namespace Anathema.Utils
 
         public ListViewItem Add(Int32 Index, String[] Items)
         {
-            lock (AccessLock)
+            using (TimedLock.Lock(AccessLock))
+            // lock (AccessLock)
             {
                 if (Cache.Count == CacheSize)
                 {
@@ -41,7 +45,8 @@ namespace Anathema.Utils
 
         public new ListViewItem Get(UInt64 Index)
         {
-            lock (AccessLock)
+            using (TimedLock.Lock(AccessLock))
+            // lock (AccessLock)
             {
                 ListViewItem Item = null;
                 if (Cache.TryGetValue((UInt64)Index, out Item))

@@ -1,5 +1,7 @@
 ﻿using Anathema.Services.ScanResults;
 using Anathema.Services.Snapshots;
+using Anathema.Source.Utils;
+using Anathema.Utils.Extensions;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
@@ -73,7 +75,8 @@ namespace Anathema.Scanners.LabelThresholder
                     if (Element.ElementLabel == null)
                         return;
 
-                    lock (ItemLock)
+                    using (TimedLock.Lock(ItemLock))
+                    // lock (ProgressLock)
                     {
                         if (Histogram.ContainsKey(Element.ElementLabel))
                             Histogram[((dynamic)Element.ElementLabel)]++;

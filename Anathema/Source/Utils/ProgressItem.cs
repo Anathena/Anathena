@@ -103,6 +103,7 @@ namespace Anathema.Source.Utils
         /// <param name="ActionProgress"></param>
         public void UpdateProgress(Double ActionProgress)
         {
+            return;
             Boolean Finished = false;
 
             if (ActionProgress < 0.0 || ActionProgress > 1.0)

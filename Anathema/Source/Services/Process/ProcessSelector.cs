@@ -8,6 +8,7 @@ using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using Anathema.Utils.OS;
 using Anathema.Services.ProcessManager;
+using System.Runtime.CompilerServices;
 
 namespace Anathema
 {
@@ -54,6 +55,7 @@ namespace Anathema
             ProcessObservers = new List<IProcessObserver>();
         }
 
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public static ProcessSelector GetInstance()
         {
             if (_ProcessSelector == null)

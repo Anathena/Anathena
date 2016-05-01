@@ -1,8 +1,11 @@
-﻿using Anathema.Utils.OS;
+﻿using Anathema.Source.Utils;
+using Anathema.Utils.Extensions;
+using Anathema.Utils.OS;
 using Gecko;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Runtime.CompilerServices;
 using System.Windows.Forms;
 
 namespace Anathema.Utils.Browser
@@ -22,6 +25,7 @@ namespace Anathema.Utils.Browser
             RunOnce = true;
         }
 
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public static BrowserHelper GetInstance()
         {
             if (_BrowserHelper == null)
@@ -31,7 +35,8 @@ namespace Anathema.Utils.Browser
 
         public void InitializeBrowserStatic(params String[] NewBackGroundDownloadTags)
         {
-            lock (InitializeLock)
+            using (TimedLock.Lock(InitializeLock))
+            // lock (InitializeLock)
             {
                 if (NewBackGroundDownloadTags != null)
                     foreach (String Tag in NewBackGroundDownloadTags)
@@ -55,7 +60,8 @@ namespace Anathema.Utils.Browser
 
         public String GetLastDownloadedFile()
         {
-            lock (InitializeLock)
+            using (TimedLock.Lock(InitializeLock))
+            // lock (InitializeLock)
             {
                 return LastDownloadedFile;
             }

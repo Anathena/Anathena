@@ -1,5 +1,6 @@
 ﻿using Microsoft.Win32;
 using System;
+using System.Runtime.CompilerServices;
 
 namespace Anathema.User.Registration
 {
@@ -20,6 +21,7 @@ namespace Anathema.User.Registration
 
         private RegistrationManager() { }
 
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public static RegistrationManager GetInstance()
         {
             if (RegistrationManagerInstance == null)

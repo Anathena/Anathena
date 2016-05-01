@@ -496,6 +496,7 @@
       <DependentUpon>GUIMain.cs</DependentUpon>
     </Compile>
     <Compile Include="Source\Scanners\FiniteStateScanner\FiniteStateScanner.cs" />
+    <Compile Include="Source\Utils\TimedLock.cs" />
     <Compile Include="Source\Utils\Validation\CheckSyntax.cs" />
     <Compile Include="Source\Scanners\InputCorrelator\InputCorrelator.cs" />
     <Compile Include="Source\Scanners\InputCorrelator\InputHook\Hook.cs" />

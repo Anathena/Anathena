@@ -1,9 +1,12 @@
 ﻿using Anathema.Services.ProcessManager;
 using Anathema.Services.Snapshots;
+using Anathema.Source.Utils;
 using Anathema.User.UserAddressTable;
+using Anathema.Utils.Extensions;
 using Anathema.Utils.OS;
 using System;
 using System.Collections.Concurrent;
+using System.Runtime.CompilerServices;
 
 namespace Anathema.Services.ScanResults
 {
@@ -38,6 +41,7 @@ namespace Anathema.Services.ScanResults
             Begin();
         }
 
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public static Results GetInstance()
         {
             if (ResultsInstance == null)
@@ -62,7 +66,8 @@ namespace Anathema.Services.ScanResults
 
         public override void ForceRefresh()
         {
-            lock (ResultsLock)
+            using (TimedLock.Lock(ResultsLock))
+            // lock (ResultsLock)
             {
                 ForceRefreshFlag = true;
             }
@@ -76,49 +81,35 @@ namespace Anathema.Services.ScanResults
 
         public void DisableResults()
         {
-            lock (ResultsLock)
-            {
-                CancelFlag = true;
-            }
+            CancelFlag = true;
             OnEventDisableResults(new ResultsEventArgs());
         }
 
         public override void SetScanType(Type ScanType)
         {
-            lock (ResultsLock)
-            {
-                this.ScanType = ScanType;
-            }
+            this.ScanType = ScanType;
         }
 
         public override Type GetScanType()
         {
-            lock (ResultsLock)
-            {
-                return ScanType;
-            }
+            return ScanType;
         }
 
         public override void UpdateReadBounds(Int32 StartReadIndex, Int32 EndReadIndex)
         {
-            lock (ResultsLock)
-            {
-                this.StartReadIndex = StartReadIndex;
-                this.EndReadIndex = EndReadIndex;
-            }
+            this.StartReadIndex = StartReadIndex;
+            this.EndReadIndex = EndReadIndex;
         }
 
         public override void Begin()
         {
-            lock (ResultsLock)
-            {
-                base.Begin();
-            }
+            base.Begin();
         }
 
         protected override void Update()
         {
-            lock (ResultsLock)
+            using (TimedLock.Lock(ResultsLock))
+            // lock (ResultsLock)
             {
                 base.Update();
 
@@ -160,7 +151,8 @@ namespace Anathema.Services.ScanResults
 
         public override void AddSelectionToTable(Int32 MinIndex, Int32 MaxIndex)
         {
-            lock (ResultsLock)
+            using (TimedLock.Lock(ResultsLock))
+            // lock (ResultsLock)
             {
                 const Int32 MaxAdd = 4096;
 
@@ -191,7 +183,8 @@ namespace Anathema.Services.ScanResults
 
         public override IntPtr GetAddressAtIndex(Int32 Index)
         {
-            lock (ResultsLock)
+            using (TimedLock.Lock(ResultsLock))
+            // lock (ResultsLock)
             {
                 if (Snapshot == null || Index >= (Int32)Snapshot.GetElementCount())
                     return IntPtr.Zero;
@@ -202,7 +195,8 @@ namespace Anathema.Services.ScanResults
 
         public override String GetValueAtIndex(Int32 Index)
         {
-            lock (ResultsLock)
+            using (TimedLock.Lock(ResultsLock))
+            // lock (ResultsLock)
             {
                 if (IndexValueMap.ContainsKey(Index))
                     return IndexValueMap[Index];
@@ -213,7 +207,8 @@ namespace Anathema.Services.ScanResults
 
         public override String GetLabelAtIndex(Int32 Index)
         {
-            lock (ResultsLock)
+            using (TimedLock.Lock(ResultsLock))
+            // lock (ResultsLock)
             {
                 if (Snapshot == null || Index >= (Int32)Snapshot.GetElementCount())
                     return EmptyLabel;

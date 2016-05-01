@@ -10,6 +10,7 @@ using Anathema.Source.Utils.Extensions;
 using System.Threading.Tasks;
 using Anathema.Source.Utils;
 using Anathema.User.UserSettings;
+using System.Runtime.CompilerServices;
 
 namespace Anathema.Services.Snapshots
 {
@@ -58,6 +59,7 @@ namespace Anathema.Services.Snapshots
             InitializeProcessObserver();
         }
 
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public static SnapshotPrefilter GetInstance()
         {
             if (SnapshotPrefilterInstance == null)
@@ -73,7 +75,8 @@ namespace Anathema.Services.Snapshots
         public void UpdateOSInterface(OSInterface OSInterface)
         {
             // Clear processing queue on process update
-            lock (QueueLock)
+            using (TimedLock.Lock(QueueLock))
+            // lock (QueueLock)
             {
                 this.OSInterface = OSInterface;
                 ChunkQueue = new Queue<RegionProperties>();
@@ -82,7 +85,8 @@ namespace Anathema.Services.Snapshots
 
         public Snapshot GetPrefilteredSnapshot()
         {
-            lock (QueueLock)
+            using (TimedLock.Lock(QueueLock))
+            // lock (QueueLock)
             {
                 List<SnapshotRegion> Regions = new List<SnapshotRegion>();
                 foreach (RegionProperties VirtualPage in ChunkQueue)
@@ -124,7 +128,8 @@ namespace Anathema.Services.Snapshots
         /// </summary>
         private IEnumerable<RegionProperties> ResolvePages()
         {
-            lock (QueueLock)
+            using (TimedLock.Lock(QueueLock))
+            // lock (QueueLock)
             {
                 List<RegionProperties> NewRegions = new List<RegionProperties>();
 
@@ -191,7 +196,8 @@ namespace Anathema.Services.Snapshots
 
         private void ProcessPages(IEnumerable<RegionProperties> NewPages)
         {
-            lock (QueueLock)
+            using (TimedLock.Lock(QueueLock))
+            // lock (QueueLock)
             {
                 UpdateProgress(NewPages);
 
@@ -207,7 +213,8 @@ namespace Anathema.Services.Snapshots
                     RegionProperties RegionProperties;
 
                     // Search for next page that needs processing
-                    lock (ElementLock)
+                    using (TimedLock.Lock(ElementLock))
+                    // lock (ElementLock)
                     {
                         do
                         {

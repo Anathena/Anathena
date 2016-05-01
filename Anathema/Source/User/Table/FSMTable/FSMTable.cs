@@ -3,6 +3,7 @@ using Anathema.User.UserScriptTable;
 using Anathema.Utils.OS;
 using System;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 
 namespace Anathema.User.UserFSMTable
 {
@@ -25,6 +26,7 @@ namespace Anathema.User.UserFSMTable
             FiniteStateMachines = new List<FiniteStateMachine>();
         }
 
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public static FSMTable GetInstance()
         {
             if (FSMTableInstance == null)

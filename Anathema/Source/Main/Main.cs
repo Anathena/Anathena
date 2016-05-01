@@ -2,6 +2,7 @@
 using Anathema.Source.Utils;
 using Anathema.Utils.OS;
 using System;
+using System.Runtime.CompilerServices;
 
 namespace Anathema
 {
@@ -22,6 +23,7 @@ namespace Anathema
             SnapshotPrefilter.GetInstance().Begin();
         }
 
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public static Main GetInstance()
         {
             if (MainInstance == null)

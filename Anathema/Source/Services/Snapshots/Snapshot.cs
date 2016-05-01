@@ -7,6 +7,7 @@ using Anathema.Utils.Extensions;
 using Anathema.Utils.OS;
 using Anathema.Services.ProcessManager;
 using System.Reflection;
+using Anathema.Source.Utils;
 
 namespace Anathema.Services.Snapshots
 {
@@ -295,7 +296,8 @@ namespace Anathema.Services.Snapshots
                 }
                 catch (ScanFailedException)
                 {
-                    lock (DeallocatedRegionLock)
+                    using (TimedLock.Lock(DeallocatedRegionLock))
+                    // lock (DeallocatedRegionLock)
                     {
                         if (!DeallocatedRegions.Contains(SnapshotRegion))
                             DeallocatedRegions.Add(SnapshotRegion);

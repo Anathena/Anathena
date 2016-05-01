@@ -3,6 +3,7 @@ using Anathema.User.UserTable;
 using Anathema.Utils.OS;
 using System;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 
 namespace Anathema.User.UserAddressTable
 {
@@ -36,6 +37,7 @@ namespace Anathema.User.UserAddressTable
             Begin();
         }
 
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public static AddressTable GetInstance()
         {
             if (AddressTableInstance == null)
