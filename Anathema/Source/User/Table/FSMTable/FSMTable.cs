@@ -16,11 +16,6 @@ namespace Anathema.User.UserFSMTable
 
         private List<FiniteStateMachine> FiniteStateMachines;
 
-        public event ScriptTableEventHandler EventClearScriptCacheItem;
-        public event ScriptTableEventHandler EventClearScriptCache;
-        public event FSMTableEventHandler EventClearFSMCacheItem;
-        public event FSMTableEventHandler EventClearFSMCache;
-
         private FSMTable()
         {
             FiniteStateMachines = new List<FiniteStateMachine>();

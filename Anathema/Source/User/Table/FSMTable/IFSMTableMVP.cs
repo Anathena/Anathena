@@ -23,8 +23,6 @@ namespace Anathema.User.UserFSMTable
     interface IFSMTableModel : IModel, IProcessObserver
     {
         // Events triggered by the model (upstream)
-        event FSMTableEventHandler EventClearFSMCacheItem;
-        event FSMTableEventHandler EventClearFSMCache;
 
         // Functions invoked by presenter (downstream)
         Boolean SaveTable(String Path);
@@ -39,19 +37,13 @@ namespace Anathema.User.UserFSMTable
     {
         protected new IFSMTableView View { get; set; }
         protected new IFSMTableModel Model { get; set; }
-
-        private ListViewCache FSMTableCache;
-
+        
         public FSMTablePresenter(IFSMTableView View, IFSMTableModel Model) : base(View, Model)
         {
             this.View = View;
             this.Model = Model;
-
-            FSMTableCache = new ListViewCache();
-
+            
             // Bind events triggered by the model
-            Model.EventClearFSMCacheItem += EventClearFSMCacheItem;
-            Model.EventClearFSMCache += EventClearFSMCache;
         }
 
         #region Method definitions called by the view (downstream)
@@ -81,18 +73,8 @@ namespace Anathema.User.UserFSMTable
 
         #region Event definitions for events triggered by the model (upstream)
 
-        private void EventClearFSMCacheItem(Object Sender, FSMTableEventArgs E)
-        {
-            FSMTableCache.Delete((UInt64)E.ClearCacheIndex);
-            View.UpdateFSMTableItemCount(E.ItemCount);
-        }
-
-        private void EventClearFSMCache(Object Sender, FSMTableEventArgs E)
-        {
-            FSMTableCache.FlushCache();
-            View.UpdateFSMTableItemCount(E.ItemCount);
-        }
-
         #endregion
-    }
-}
+
+    } // End class
+
+} // End namespace
