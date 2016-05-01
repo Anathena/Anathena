@@ -1,5 +1,6 @@
 ﻿using Anathema.User.UserSettings;
 using Anathema.Utils;
+using Anathema.Utils.Cache;
 using Anathema.Utils.MVP;
 using Anathema.Utils.Validation;
 using System;

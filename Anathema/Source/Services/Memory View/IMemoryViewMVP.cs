@@ -1,12 +1,13 @@
-﻿using Be.Windows.Forms;
+﻿using Anathema.User.UserSettings;
+using Anathema.Utils;
+using Anathema.Utils.Cache;
+using Anathema.Utils.Extensions;
+using Anathema.Utils.MVP;
+using Anathema.Utils.OS;
+using Be.Windows.Forms;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Anathema.Utils.OS;
-using Anathema.Utils.MVP;
-using Anathema.Utils;
-using Anathema.Utils.Extensions;
-using Anathema.User.UserSettings;
 
 namespace Anathema.Services.MemoryView
 {

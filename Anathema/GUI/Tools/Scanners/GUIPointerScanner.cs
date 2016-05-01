@@ -4,9 +4,9 @@ using System.Windows.Forms;
 using WeifenLuo.WinFormsUI.Docking;
 using Anathema.Utils.Validation;
 using Anathema.Utils;
+using Anathema.Utils.Cache;
 using Anathema.Utils.MVP;
 using Anathema.Scanners.PointerScanner;
-using System.Linq;
 
 namespace Anathema.GUI
 {

@@ -1,9 +1,8 @@
 ﻿using Anathema.Source.Utils;
-using Anathema.Utils.Extensions;
 using System;
 using System.Windows.Forms;
 
-namespace Anathema.Utils
+namespace Anathema.Utils.Cache
 {
     class ListViewCache : ObjectCache<ListViewItem>
     {
