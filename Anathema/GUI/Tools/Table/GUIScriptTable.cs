@@ -1,21 +1,24 @@
-﻿using System;
+﻿using Anathema.User.UserScriptTable;
+using Anathema.Utils.Cache;
+using Anathema.Utils.MVP;
+using System;
+using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
-using Anathema.Utils.MVP;
-using Anathema.User.UserScriptTable;
-using System.ComponentModel;
 
 namespace Anathema
 {
     public partial class GUIScriptTable : UserControl, IScriptTableView
     {
         private ScriptTablePresenter ScriptTablePresenter;
+        private ListViewCache ScriptTableCache;
 
         public GUIScriptTable()
         {
             InitializeComponent();
 
             ScriptTablePresenter = new ScriptTablePresenter(this, ScriptTable.GetInstance());
+            ScriptTableCache = new ListViewCache();
         }
 
         public void UpdateScriptTableItemCount(Int32 ItemCount)
@@ -26,6 +29,8 @@ namespace Anathema
                 ScriptTableListView.SetItemCount(ItemCount);
                 ScriptTableListView.EndUpdate();
             });
+
+            ScriptTableCache.FlushCache();
         }
 
         #region Events
@@ -34,7 +39,25 @@ namespace Anathema
 
         private void ScriptTableListView_RetrieveVirtualItem(Object Sender, RetrieveVirtualItemEventArgs E)
         {
-            E.Item = ScriptTablePresenter.GetScriptTableItemAt(E.ItemIndex);
+            ListViewItem Item = ScriptTableCache.Get((UInt64)E.ItemIndex);
+            ScriptItem ScriptItem = ScriptTablePresenter.GetScriptTableItemAt(E.ItemIndex);
+
+            // Try to update and return the item if it is a valid item
+            if (Item != null)
+            {
+                Item.Checked = ScriptItem.GetActivationState();
+                E.Item = Item;
+                return;
+            }
+
+            // Add the properties to the manager and get the list view item back
+            Item = ScriptTableCache.Add(E.ItemIndex, new String[ScriptTableListView.Columns.Count]);
+            
+            Item.SubItems[ScriptTableListView.Columns.IndexOf(ScriptActiveHeader)].Text = String.Empty;
+            Item.SubItems[ScriptTableListView.Columns.IndexOf(ScriptDescriptionHeader)].Text = ScriptItem.GetDescription();
+            Item.Checked = ScriptItem.GetActivationState();
+
+            E.Item = Item;
         }
 
         private void ScriptTableListView_MouseClick(Object Sender, MouseEventArgs E)
