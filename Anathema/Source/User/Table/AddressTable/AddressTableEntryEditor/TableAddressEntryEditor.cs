@@ -1,5 +1,6 @@
 ﻿using Anathema.User.UserAddressTable;
 using System;
+using System.Collections.Generic;
 
 namespace Anathema.User.UserAddressTableEntryEditor
 {
@@ -11,7 +12,7 @@ namespace Anathema.User.UserAddressTableEntryEditor
 
         public TableAddressEntryEditor()  { }
 
-        public void AddTableEntryItem(Int32 MainSelection, Int32[] SelectedIndicies, AddressItem AddressItem)
+        public void AddTableEntryItem(Int32 MainSelection, IEnumerable<Int32> SelectedIndicies, AddressItem AddressItem)
         {
             AddressTable.GetInstance().SetAddressItemAt(MainSelection, AddressItem);
         }

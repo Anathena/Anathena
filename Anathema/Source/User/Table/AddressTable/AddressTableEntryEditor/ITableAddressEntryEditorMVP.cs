@@ -23,7 +23,7 @@ namespace Anathema.User.UserAddressTableEntryEditor
         // Events triggered by the model (upstream)
 
         // Functions invoked by presenter (downstream)
-        void AddTableEntryItem(Int32 MainSelection, Int32[] SelectedIndicies, AddressItem AddressItem);
+        void AddTableEntryItem(Int32 MainSelection, IEnumerable<Int32> SelectedIndicies, AddressItem AddressItem);
     }
 
     class TableAddressEntryEditorPresenter : Presenter<ITableAddressEntryEditorView, ITableAddressEntryEditorModel>
@@ -39,7 +39,8 @@ namespace Anathema.User.UserAddressTableEntryEditor
 
         #region Method definitions called by the view (downstream)
 
-        public void AcceptChanges(Int32 MainSelection, Int32[] SelectedIndicies, String Description, String Address, String ValueType, String Value, String[] Offsets, Boolean IsHex)
+        public void AcceptChanges(Int32 MainSelection, IEnumerable<Int32> SelectedIndicies, String Description, String Address, String ValueType,
+            String Value, IEnumerable<String> Offsets, Boolean IsHex)
         {
             // Convert passed parameters to the appropriate types to construct an AddressItem
             List<Int32> OffsetsInt = new List<int>();
@@ -47,7 +48,7 @@ namespace Anathema.User.UserAddressTableEntryEditor
                 OffsetsInt.Add((Int32)Conversions.AddressToValue(Offset));
 
             AddressItem AddressItem = new AddressItem(Conversions.AddressToValue(Address).ToIntPtr(), Conversions.StringToPrimitiveType(ValueType), Description,
-                 OffsetsInt.ToArray(), IsHex);
+                 OffsetsInt, IsHex);
 
             if (CheckSyntax.CanParseValue(Conversions.StringToPrimitiveType(ValueType), Value))
                 AddressItem.Value = Conversions.ParseValue(Conversions.StringToPrimitiveType(ValueType), Value);

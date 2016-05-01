@@ -1,11 +1,11 @@
 ﻿using Anathema.Properties;
+using Anathema.Utils.MVP;
+using Anathema.Utils.Validation;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Windows.Forms;
-using Anathema.Utils.MVP;
-using Anathema.Utils.Validation;
 using System.Reflection;
+using System.Windows.Forms;
 
 namespace Anathema.Scanners.ScanConstraints
 {
@@ -18,7 +18,7 @@ namespace Anathema.Scanners.ScanConstraints
     interface IScanConstraintEditorView : IView
     {
         // Methods invoked by the presenter (upstream)
-        void UpdateDisplay(ListViewItem[] ListViewItems, ImageList ImageList);
+        void UpdateDisplay(IEnumerable<ListViewItem> ListViewItems, ImageList ImageList);
     }
 
     interface IScanConstraintEditorModel : IModel
@@ -34,7 +34,7 @@ namespace Anathema.Scanners.ScanConstraints
         void AddConstraint(ConstraintsEnum ValueConstraint, dynamic Value);
         [Obfuscation(Exclude = true)]
         void UpdateConstraint(Int32 Index, dynamic Value);
-        void RemoveConstraints(Int32[] ConstraintIndicies);
+        void RemoveConstraints(IEnumerable<Int32> ConstraintIndicies);
         void ClearConstraints();
 
         ScanConstraintManager GetScanConstraintManager();
@@ -143,6 +143,11 @@ namespace Anathema.Scanners.ScanConstraints
             Model.RemoveConstraints(ConstraintIndicies);
         }
 
+        public void RemoveConstraints(IEnumerable<Int32> ConstraintIndicies)
+        {
+            Model.RemoveConstraints(ConstraintIndicies);
+        }
+
         public void ClearConstraints()
         {
             Model.ClearConstraints();
@@ -184,7 +189,7 @@ namespace Anathema.Scanners.ScanConstraints
                 ScanConstraintItems.Last().ImageIndex = ImageIndex++;
             }
 
-            View.UpdateDisplay(ScanConstraintItems.ToArray(), ImageList);
+            View.UpdateDisplay(ScanConstraintItems, ImageList);
         }
 
         #endregion

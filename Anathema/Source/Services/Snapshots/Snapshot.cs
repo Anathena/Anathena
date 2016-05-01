@@ -480,7 +480,7 @@ namespace Anathema.Services.Snapshots
             if (DeallocatedRegions == null || DeallocatedRegions.Count <= 0 || SnapshotRegions == null || SnapshotRegions.Count() <= 0)
                 return null;
 
-            List<SnapshotRegion<LabelType>> NewSnapshotRegions = SnapshotRegions.Select(x => (SnapshotRegion<LabelType>)x).ToList();
+            List<SnapshotRegion<LabelType>> NewSnapshotRegions = SnapshotRegions.Select(X => (SnapshotRegion<LabelType>)X).ToList();
 
             // Remove invalid items from collection
             foreach (SnapshotRegion<LabelType> Region in DeallocatedRegions)

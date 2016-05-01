@@ -7,6 +7,8 @@ using Anathema.Utils;
 using Anathema.Utils.Cache;
 using Anathema.Utils.MVP;
 using Anathema.Scanners.PointerScanner;
+using System.Collections.Generic;
+using Anathema.Source.Utils.Extensions;
 
 namespace Anathema.GUI
 {
@@ -203,17 +205,15 @@ namespace Anathema.GUI
                 return;
             }
 
+            IEnumerable<String> Offsets = PointerScannerPresenter.GetOffsetsAtIndex(E.ItemIndex);
             Int32 OffsetStartIndex = PointerListView.Columns.IndexOf(BaseHeader) + 1;
 
             // Add the properties to the cache and get the list view item back
             Item = ListViewCache.Add(E.ItemIndex, new String[OffsetStartIndex + PointerScannerPresenter.GetMaxPointerLevel()]);
-
+            
             Item.SubItems[PointerListView.Columns.IndexOf(ValueHeader)].Text = EmptyValue;
             Item.SubItems[PointerListView.Columns.IndexOf(BaseHeader)].Text = PointerScannerPresenter.GetAddressAtIndex(E.ItemIndex);
-
-            String[] Offsets = PointerScannerPresenter.GetOffsetsAtIndex(E.ItemIndex);
-            for (Int32 OffsetIndex = OffsetStartIndex; OffsetIndex < OffsetStartIndex + PointerScannerPresenter.GetMaxPointerLevel(); OffsetIndex++)
-                Item.SubItems[OffsetIndex].Text = (OffsetIndex - OffsetStartIndex) < Offsets.Length ? Offsets[OffsetIndex - OffsetStartIndex] : String.Empty;
+            Offsets?.ForEach(X => Item.SubItems[OffsetStartIndex++].Text = X);
 
             E.Item = Item;
         }

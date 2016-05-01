@@ -1,4 +1,5 @@
-﻿using Anathema.User.UserSettings;
+﻿using Anathema.Source.Utils.Extensions;
+using Anathema.User.UserSettings;
 using Anathema.Utils;
 using Anathema.Utils.Cache;
 using Anathema.Utils.Extensions;
@@ -7,7 +8,6 @@ using Anathema.Utils.OS;
 using Be.Windows.Forms;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace Anathema.Services.MemoryView
 {
@@ -22,7 +22,7 @@ namespace Anathema.Services.MemoryView
     {
         // Methods invoked by the presenter (upstream)
         void ReadValues();
-        void UpdateVirtualPages(List<String> VirtualPages);
+        void UpdateVirtualPages(IEnumerable<String> VirtualPages);
         void GoToAddress(IntPtr Address);
     }
 
@@ -175,7 +175,7 @@ namespace Anathema.Services.MemoryView
             List<String> VirtualPages = new List<String>();
 
             if (E.VirtualPages != null)
-                E.VirtualPages.ToList().ForEach(x => VirtualPages.Add(x.BaseAddress.ToString("X")));
+                E.VirtualPages.ForEach(x => VirtualPages.Add(x.BaseAddress.ToString("X")));
 
             View.UpdateVirtualPages(VirtualPages);
         }

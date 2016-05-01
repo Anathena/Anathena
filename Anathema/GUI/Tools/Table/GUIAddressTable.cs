@@ -79,7 +79,7 @@ namespace Anathema
                 ColumnSelection = AddressTable.TableColumnEnum.Value;
 
             // Create editor for this entry
-            GUIAddressTableEntryEditor GUIAddressTableEntryEditor = new GUIAddressTableEntryEditor(SelectedItemIndex, Indicies.ToArray(), ColumnSelection);
+            GUIAddressTableEntryEditor GUIAddressTableEntryEditor = new GUIAddressTableEntryEditor(SelectedItemIndex, Indicies, ColumnSelection);
             GUIAddressTableEntryEditor.ShowDialog(this);
         }
 
@@ -93,7 +93,7 @@ namespace Anathema
             if (AddressTableListView.SelectedIndices == null || AddressTableListView.SelectedIndices.Count <= 0)
                 return;
 
-            AddressTablePresenter.DeleteTableItems(AddressTableListView.SelectedIndices.Cast<Int32>().ToList());
+            AddressTablePresenter.DeleteTableItems(AddressTableListView.SelectedIndices.Cast<Int32>());
         }
 
         #region Events

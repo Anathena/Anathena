@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Reflection;
 
 namespace Anathema.Scanners.ScanConstraints
@@ -57,7 +58,7 @@ namespace Anathema.Scanners.ScanConstraints
             UpdateDisplay();
         }
 
-        public void RemoveConstraints(Int32[] ConstraintIndicies)
+        public void RemoveConstraints(IEnumerable<Int32> ConstraintIndicies)
         {
             ScanConstraints.RemoveConstraints(ConstraintIndicies);
             UpdateDisplay();

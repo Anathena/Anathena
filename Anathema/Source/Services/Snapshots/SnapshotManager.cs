@@ -247,13 +247,13 @@ namespace Anathema.Services.Snapshots
                 if (Index < Snapshots.Count)
                 {
                     if (Index < Snapshots.Count)
-                        return Snapshots.Select(x => x).Reverse().ToList()[Index];
+                        return Snapshots.Reverse().ElementAt(Index);
                 }
                 else
                 {
                     Index -= Snapshots.Count;
                     if (Index < DeletedSnapshots.Count)
-                        return DeletedSnapshots.Select(x => x).ToList()[Index];
+                        return DeletedSnapshots.ElementAt(Index);
                 }
             }
             return null;

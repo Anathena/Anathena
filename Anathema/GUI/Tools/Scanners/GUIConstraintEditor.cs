@@ -1,13 +1,15 @@
-﻿using System;
+﻿using Anathema.Scanners.ScanConstraints;
+using Anathema.Source.Utils.Extensions;
+using Anathema.Utils;
+using Anathema.Utils.MVP;
+using Anathema.Utils.Validation;
+using System;
+using System.Collections.Generic;
 using System.ComponentModel;
-using System.Drawing;
 using System.Data;
+using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
-using Anathema.Utils.Validation;
-using Anathema.Utils.MVP;
-using Anathema.Utils;
-using Anathema.Scanners.ScanConstraints;
 
 namespace Anathema.GUI
 {
@@ -121,12 +123,12 @@ namespace Anathema.GUI
             ValueTextBox.SetElementType(ElementType);
         }
 
-        public void UpdateDisplay(ListViewItem[] ListViewItems, ImageList ImageList)
+        public void UpdateDisplay(IEnumerable<ListViewItem> ListViewItems, ImageList ImageList)
         {
             ControlThreadingHelper.InvokeControlAction(ConstraintsListView, () =>
             {
                 ConstraintsListView.Items.Clear();
-                ConstraintsListView.Items.AddRange(ListViewItems);
+                ListViewItems?.ForEach(X => ConstraintsListView.Items.Add(X));
                 ConstraintsListView.SmallImageList = ImageList;
             });
         }
@@ -203,7 +205,7 @@ namespace Anathema.GUI
 
         private void RemoveConstraintButton_Click(Object Sender, EventArgs E)
         {
-            ScanConstraintEditorPresenter.RemoveConstraints(ConstraintsListView.SelectedIndices.Cast<Int32>().ToArray());
+            ScanConstraintEditorPresenter.RemoveConstraints(ConstraintsListView.SelectedIndices.Cast<Int32>());
         }
 
         private void ClearConstraintsButton_Click(Object Sender, EventArgs E)

@@ -1,11 +1,13 @@
-﻿using System;
+﻿using Anathema.Services.MemoryView;
+using Anathema.Source.Utils.Extensions;
+using Anathema.Utils.Extensions;
+using Anathema.Utils.MVP;
+using Be.Windows.Forms;
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Windows.Forms;
 using WeifenLuo.WinFormsUI.Docking;
-using Be.Windows.Forms;
-using Anathema.Utils.MVP;
-using Anathema.Utils.Extensions;
-using Anathema.Services.MemoryView;
 
 namespace Anathema.GUI
 {
@@ -63,13 +65,12 @@ namespace Anathema.GUI
             });
         }
 
-        public void UpdateVirtualPages(List<String> VirtualPages)
+        public void UpdateVirtualPages(IEnumerable<String> VirtualPages)
         {
             ControlThreadingHelper.InvokeControlAction<Control>(GUIToolStrip, () =>
             {
                 QuickNavComboBox.Items.Clear();
-                if (VirtualPages != null)
-                    QuickNavComboBox.Items.AddRange(VirtualPages.ToArray());
+                VirtualPages?.ForEach(X => QuickNavComboBox.Items.Add(X));
 
                 if (QuickNavComboBox.Items.Count > 0)
                     QuickNavComboBox.SelectedIndex = 0;

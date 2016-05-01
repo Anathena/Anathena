@@ -1,8 +1,10 @@
-﻿using System;
+﻿using Anathema.Services.ProcessManager;
+using Anathema.Source.Utils.Extensions;
+using System;
+using System.Collections.Generic;
+using System.Diagnostics;
 using System.Windows.Forms;
 using WeifenLuo.WinFormsUI.Docking;
-using System.Diagnostics;
-using Anathema.Services.ProcessManager;
 
 namespace Anathema.GUI
 {
@@ -33,13 +35,13 @@ namespace Anathema.GUI
             this.Close();
         }
 
-        public void DisplayProcesses(ListViewItem[] Items, ImageList ImageList)
+        public void DisplayProcesses(IEnumerable<ListViewItem> Items, ImageList ImageList)
         {
             // Clear the old items in the process list
             ProcessListView.Items.Clear();
 
             // Add all of the new items
-            ProcessListView.Items.AddRange(Items);
+            Items?.ForEach(X => ProcessListView.Items.Add(X));
             ProcessListView.SmallImageList = ImageList;
         }
 

@@ -3,6 +3,7 @@ using Anathema.User.UserTable;
 using Anathema.Utils.OS;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Runtime.CompilerServices;
 
 namespace Anathema.User.UserAddressTable
@@ -86,7 +87,7 @@ namespace Anathema.User.UserAddressTable
             AddressItems[Index].SetActivationState(Activated);
         }
 
-        public override void AddAddressItem(IntPtr BaseAddress, Type ElementType, String Description, Int32[] Offsets = null, Boolean IsHex = false, String Value = null)
+        public override void AddAddressItem(IntPtr BaseAddress, Type ElementType, String Description, IEnumerable<Int32> Offsets = null, Boolean IsHex = false, String Value = null)
         {
             AddressItems.Add(new AddressItem(BaseAddress, ElementType, Description, Offsets, IsHex, Value));
 
@@ -103,12 +104,9 @@ namespace Anathema.User.UserAddressTable
             Table.GetInstance().TableChanged();
         }
 
-        public override void DeleteTableItems(List<Int32> Indicies)
+        public override void DeleteTableItems(IEnumerable<Int32> Indicies)
         {
-            Indicies.Sort();
-            Indicies.Reverse();
-
-            foreach (Int32 Index in Indicies)
+            foreach (Int32 Index in Indicies.OrderByDescending(X => X))
                 AddressItems.RemoveAt(Index);
 
             UpdateAddressTableItemCount();

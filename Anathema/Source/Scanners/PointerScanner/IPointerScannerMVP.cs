@@ -2,6 +2,7 @@
 using Anathema.Utils.Extensions;
 using Anathema.Utils.Validation;
 using System;
+using System.Collections.Generic;
 
 namespace Anathema.Scanners.PointerScanner
 {
@@ -42,7 +43,7 @@ namespace Anathema.Scanners.PointerScanner
 
         public abstract String GetValueAtIndex(Int32 Index);
         public abstract String GetAddressAtIndex(Int32 Index);
-        public abstract String[] GetOffsetsAtIndex(Int32 Index);
+        public abstract IEnumerable<String> GetOffsetsAtIndex(Int32 Index);
         public abstract Int32 GetMaxPointerLevel();
         public abstract Int32 GetMaxPointerOffset();
 
@@ -109,7 +110,7 @@ namespace Anathema.Scanners.PointerScanner
             return Model.GetAddressAtIndex(Index);
         }
 
-        public String[] GetOffsetsAtIndex(Int32 Index)
+        public IEnumerable<String> GetOffsetsAtIndex(Int32 Index)
         {
             return Model.GetOffsetsAtIndex(Index);
         }

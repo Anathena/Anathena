@@ -19,7 +19,7 @@ namespace Anathema.Services.ProcessManager
     interface IProcessSelectorView : IView
     {
         // Methods invoked by the presenter (upstream)
-        void DisplayProcesses(ListViewItem[] Items, ImageList ImageList);
+        void DisplayProcesses(IEnumerable<ListViewItem> Items, ImageList ImageList);
         void SelectProcess(Process TargetProcess);
     }
 
@@ -70,7 +70,7 @@ namespace Anathema.Services.ProcessManager
             View.SelectProcess(E.SelectedProcess);
         }
 
-        private ListViewItem[] GetProcessListViewItems(List<Process> Processes, List<Icon> ProcessIcons, out ImageList ImageList)
+        private IEnumerable<ListViewItem> GetProcessListViewItems(List<Process> Processes, List<Icon> ProcessIcons, out ImageList ImageList)
         {
             ImageList = new ImageList();
 
@@ -88,7 +88,7 @@ namespace Anathema.Services.ProcessManager
                 ListViewItems[Index].ImageIndex = ImageIndex++;
             }
 
-            return ListViewItems.ToArray();
+            return ListViewItems;
         }
 
         private String GetProcessTitle(Process Process)

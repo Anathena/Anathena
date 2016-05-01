@@ -58,9 +58,9 @@ namespace Anathema.User.UserAddressTable
 
         public abstract void ReorderItem(Int32 SourceIndex, Int32 DestinationIndex);
 
-        public abstract void AddAddressItem(IntPtr BaseAddress, Type ElementType, String Description, Int32[] Offsets = null, Boolean IsHex = false, String Value = null);
+        public abstract void AddAddressItem(IntPtr BaseAddress, Type ElementType, String Description, IEnumerable<Int32> Offsets = null, Boolean IsHex = false, String Value = null);
         public abstract void AddAddressItem(AddressItem AddressItem);
-        public abstract void DeleteTableItems(List<Int32> Items);
+        public abstract void DeleteTableItems(IEnumerable<Int32> Items);
 
         public abstract void UpdateReadBounds(Int32 StartReadIndex, Int32 EndReadIndex);
     }
@@ -97,7 +97,7 @@ namespace Anathema.User.UserAddressTable
             Model.AddAddressItem(IntPtr.Zero, typeof(Int32), "No Description");
         }
 
-        public void DeleteTableItems(List<Int32> Indicies)
+        public void DeleteTableItems(IEnumerable<Int32> Indicies)
         {
             Model.DeleteTableItems(Indicies);
         }

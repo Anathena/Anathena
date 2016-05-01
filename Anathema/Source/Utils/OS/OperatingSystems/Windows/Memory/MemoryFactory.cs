@@ -120,7 +120,7 @@ namespace Anathema.MemoryManagement.Memory
         public virtual void Dispose()
         {
             // Release all allocated memories which must be disposed
-            foreach (RemoteAllocation AllocatedMemory in InternalRemoteAllocations.Where(x => x.MustBeDisposed).ToArray())
+            foreach (RemoteAllocation AllocatedMemory in InternalRemoteAllocations.Where(X => X.MustBeDisposed).ToArray())
             {
                 AllocatedMemory.Dispose();
             }

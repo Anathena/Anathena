@@ -1,13 +1,12 @@
-﻿using System;
-using System.Linq;
-using Anathema.Assemblers.Fasm;
-using System.Runtime.Remoting.Channels.Ipc;
-using System.Runtime.Remoting.Channels;
-using System.Runtime.Remoting;
-using System.Threading;
-using System.Diagnostics;
-using System.IO;
+﻿using Anathema.Assemblers.Fasm;
 using FASMSharedInterface;
+using System;
+using System.IO;
+using System.Linq;
+using System.Runtime.Remoting;
+using System.Runtime.Remoting.Channels;
+using System.Runtime.Remoting.Channels.Ipc;
+using System.Threading;
 
 namespace FASMHelper
 {
@@ -62,7 +61,7 @@ namespace FASMHelper
                     Result = FasmNet.Assemble(Assembly);
 
                     // Print bytes to console
-                    Result.ToList().ForEach(x => Console.Write(x.ToString() + " "));
+                    Array.ForEach(Result, (X => Console.Write(X.ToString() + " ")));
                 }
                 catch
                 {

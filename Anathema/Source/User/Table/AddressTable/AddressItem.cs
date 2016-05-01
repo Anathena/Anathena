@@ -3,6 +3,8 @@ using Anathema.Utils.Extensions;
 using Anathema.Utils.OS;
 using Anathema.Utils.Validation;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using System.Runtime.Serialization;
 
@@ -27,7 +29,7 @@ namespace Anathema.User.UserAddressTable
 
         [Obfuscation(Exclude = true)]
         [DataMember()]
-        public Int32[] Offsets { get; set; }
+        public IEnumerable<Int32> Offsets { get; set; }
 
         [Obfuscation(Exclude = true)]
         [DataMember()]
@@ -67,7 +69,7 @@ namespace Anathema.User.UserAddressTable
             [Obfuscation(Exclude = true)] private set { _EffectiveAddress = value; }
         }
 
-        public AddressItem(IntPtr BaseAddress, Type ElementType, String Description = null, Int32[] Offsets = null, Boolean IsHex = false, String Value = null)
+        public AddressItem(IntPtr BaseAddress, Type ElementType, String Description = null, IEnumerable<Int32> Offsets = null, Boolean IsHex = false, String Value = null)
         {
             this.BaseAddress = BaseAddress;
             this.Description = Description == null ? String.Empty : Description;
@@ -126,10 +128,10 @@ namespace Anathema.User.UserAddressTable
         [Obfuscation(Exclude = true)]
         public String GetAddressString()
         {
-            if (Offsets == null || Offsets.Length == 1)
+            if (Offsets == null || Offsets.Count() == 1)
                 EffectiveAddress = BaseAddress;
 
-            if (Offsets != null && Offsets.Length > 0)
+            if (Offsets != null && Offsets.Count() > 0)
                 return "P->" + Conversions.ToAddress(EffectiveAddress);
 
             return Conversions.ToAddress(EffectiveAddress);
@@ -143,7 +145,7 @@ namespace Anathema.User.UserAddressTable
 
             if (OSInterface == null)
             {
-                if (Offsets == null || Offsets.Length == 0)
+                if (Offsets == null || Offsets.Count() == 0)
                     EffectiveAddress = Pointer;
                 else
                     EffectiveAddress = IntPtr.Zero;
@@ -151,7 +153,7 @@ namespace Anathema.User.UserAddressTable
                 return;
             }
 
-            if (Offsets == null || Offsets.Length == 0)
+            if (Offsets == null || Offsets.Count() == 0)
             {
                 this.EffectiveAddress = Pointer;
                 return;

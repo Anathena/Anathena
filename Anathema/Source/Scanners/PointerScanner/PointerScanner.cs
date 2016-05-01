@@ -1,6 +1,7 @@
 ﻿using Anathema.Scanners.ScanConstraints;
 using Anathema.Services.ProcessManager;
 using Anathema.Services.Snapshots;
+using Anathema.Source.Utils.Extensions;
 using Anathema.User.UserAddressTable;
 using Anathema.Utils.Extensions;
 using Anathema.Utils.OS;
@@ -44,8 +45,7 @@ namespace Anathema.Scanners.PointerScanner
 
         ScanConstraintManager ScanConstraintManager;
         private Boolean IsAddressMode;
-
-
+        
         private List<Tuple<IntPtr, List<Int32>>> AcceptedPointers;
 
         // User parameters
@@ -150,7 +150,7 @@ namespace Anathema.Scanners.PointerScanner
                 String Value = String.Empty;
                 IndexValueMap.TryGetValue(Index, out Value);
 
-                AddressTable.GetInstance().AddAddressItem(AcceptedPointers[Index].Item1, ElementType, "Pointer", AcceptedPointers[Index].Item2.ToArray(), Value: Value);
+                AddressTable.GetInstance().AddAddressItem(AcceptedPointers[Index].Item1, ElementType, "Pointer", AcceptedPointers[Index].Item2, Value: Value);
 
                 if (++Count >= MaxAdd)
                     break;
@@ -170,11 +170,11 @@ namespace Anathema.Scanners.PointerScanner
             return Conversions.ToAddress(AcceptedPointers[Index].Item1);
         }
 
-        public override String[] GetOffsetsAtIndex(Int32 Index)
+        public override IEnumerable<String> GetOffsetsAtIndex(Int32 Index)
         {
             List<String> Offsets = new List<String>();
             AcceptedPointers[Index].Item2.ForEach(x => Offsets.Add((x < 0 ? "-" : "") + Math.Abs(x).ToString("X")));
-            return Offsets.ToArray();
+            return Offsets;
         }
 
         public override Int32 GetMaxPointerLevel()
@@ -436,7 +436,7 @@ namespace Anathema.Scanners.PointerScanner
             List<SnapshotRegion> AcceptedBaseRegions = new List<SnapshotRegion>();
 
             // Gather regions from every module as valid base addresses
-            Modules.ToList().ForEach(x => AcceptedBaseRegions.Add(new SnapshotRegion<Null>(new NormalizedRegion(x.BaseAddress, x.RegionSize))));
+            Modules.ForEach(x => AcceptedBaseRegions.Add(new SnapshotRegion<Null>(new NormalizedRegion(x.BaseAddress, x.RegionSize))));
 
             // Convert regions into a snapshot
             AcceptedBases = new Snapshot<Null>(AcceptedBaseRegions);
