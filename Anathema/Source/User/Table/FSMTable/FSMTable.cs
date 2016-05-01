@@ -12,7 +12,8 @@ namespace Anathema.User.UserFSMTable
     /// </summary>
     class FSMTable : IFSMTableModel
     {
-        private static FSMTable FSMTableInstance;
+        // Singleton instance of fsm table
+        private static Lazy<FSMTable> FSMTableInstance = new Lazy<FSMTable>(() => { return new FSMTable(); });
 
         private List<FiniteStateMachine> FiniteStateMachines;
 
@@ -20,13 +21,10 @@ namespace Anathema.User.UserFSMTable
         {
             FiniteStateMachines = new List<FiniteStateMachine>();
         }
-
-        [MethodImpl(MethodImplOptions.Synchronized)]
+        
         public static FSMTable GetInstance()
         {
-            if (FSMTableInstance == null)
-                FSMTableInstance = new FSMTable();
-            return FSMTableInstance;
+            return FSMTableInstance.Value;
         }
 
         public bool SaveTable(String Path)

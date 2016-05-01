@@ -1,16 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using Anathema.Utils.OS;
-using Anathema.Utils;
+﻿using Anathema.Scanners;
 using Anathema.Services.ProcessManager;
-using Anathema.Scanners;
-using Anathema.Utils.Extensions;
-using System.Linq;
-using Anathema.Source.Utils.Extensions;
-using System.Threading.Tasks;
 using Anathema.Source.Utils;
+using Anathema.Source.Utils.Extensions;
 using Anathema.User.UserSettings;
+using Anathema.Utils;
+using Anathema.Utils.Extensions;
+using Anathema.Utils.OS;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Threading.Tasks;
 
 namespace Anathema.Services.Snapshots
 {
@@ -31,7 +31,8 @@ namespace Anathema.Services.Snapshots
     /// </summary>
     class SnapshotPrefilter : RepeatedTask, IProcessObserver
     {
-        private static SnapshotPrefilter SnapshotPrefilterInstance;
+        // Singleton instance of prefilter
+        private static Lazy<SnapshotPrefilter> SnapshotPrefilterInstance = new Lazy<SnapshotPrefilter>(() => { return new SnapshotPrefilter(); });
 
         private OSInterface OSInterface;
 
@@ -58,13 +59,10 @@ namespace Anathema.Services.Snapshots
 
             InitializeProcessObserver();
         }
-
-        [MethodImpl(MethodImplOptions.Synchronized)]
+        
         public static SnapshotPrefilter GetInstance()
         {
-            if (SnapshotPrefilterInstance == null)
-                SnapshotPrefilterInstance = new SnapshotPrefilter();
-            return SnapshotPrefilterInstance;
+            return SnapshotPrefilterInstance.Value;
         }
 
         public void InitializeProcessObserver()

@@ -21,7 +21,9 @@ namespace Anathema.User.UserAddressTable
             Value
         }
 
-        private static AddressTable AddressTableInstance;
+        // Singleton instance of address table
+        private static Lazy<AddressTable> AddressTableInstance = new Lazy<AddressTable>(() => { return new AddressTable(); });
+
         private OSInterface OSInterface;
 
         private List<AddressItem> AddressItems;
@@ -36,13 +38,10 @@ namespace Anathema.User.UserAddressTable
 
             Begin();
         }
-
-        [MethodImpl(MethodImplOptions.Synchronized)]
+        
         public static AddressTable GetInstance()
         {
-            if (AddressTableInstance == null)
-                AddressTableInstance = new AddressTable();
-            return AddressTableInstance;
+            return AddressTableInstance.Value;
         }
 
         ~AddressTable()

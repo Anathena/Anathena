@@ -1,17 +1,17 @@
 ﻿using Microsoft.Win32;
 using System;
-using System.Runtime.CompilerServices;
 
 namespace Anathema.User.Registration
 {
     class RegistrationManager
     {
+        // Singleton instance of Registration Manager
+        private static Lazy<RegistrationManager> RegistrationManagerInstance = new Lazy<RegistrationManager>(() => { return new RegistrationManager(); });
+
         private const String RegistryKeyIsRegistered = "AnathemaRegistered";
         private const String RegistryKeyTrialStart = "AnathemaTrialStart";
 
-        private static RegistrationManager RegistrationManagerInstance;
-
-        private TimeSpan TrialTimeout = new TimeSpan(14, 0, 0, 0);
+        private TimeSpan TrialTimeout = TimeSpan.FromDays(14);
 
         internal class RegistryObject<T>
         {
@@ -20,13 +20,10 @@ namespace Anathema.User.Registration
         }
 
         private RegistrationManager() { }
-
-        [MethodImpl(MethodImplOptions.Synchronized)]
+        
         public static RegistrationManager GetInstance()
         {
-            if (RegistrationManagerInstance == null)
-                RegistrationManagerInstance = new RegistrationManager();
-            return RegistrationManagerInstance;
+            return RegistrationManagerInstance.Value;
         }
 
         public Boolean Register()
@@ -39,8 +36,8 @@ namespace Anathema.User.Registration
 
         public void Unregister()
         {
-            WriteRegistryKey(RegistryKeyTrialStart, "");
-            WriteRegistryKey(RegistryKeyIsRegistered, "");
+            WriteRegistryKey(RegistryKeyTrialStart, String.Empty);
+            WriteRegistryKey(RegistryKeyIsRegistered, String.Empty);
         }
 
         public TimeSpan GetRemainingTime()

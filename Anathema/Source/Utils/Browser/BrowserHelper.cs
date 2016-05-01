@@ -12,7 +12,9 @@ namespace Anathema.Utils.Browser
 {
     class BrowserHelper
     {
-        private static BrowserHelper _BrowserHelper;
+        // Singleton instance of Registration Manager
+        private static Lazy<BrowserHelper> BrowserHelperInstance = new Lazy<BrowserHelper>(() => { return new BrowserHelper(); });
+
         private static Boolean RunOnce;
         private static Object InitializeLock;
         private List<String> BackgroundDownloadTags;
@@ -24,13 +26,10 @@ namespace Anathema.Utils.Browser
             BackgroundDownloadTags = new List<String>();
             RunOnce = true;
         }
-
-        [MethodImpl(MethodImplOptions.Synchronized)]
+        
         public static BrowserHelper GetInstance()
         {
-            if (_BrowserHelper == null)
-                _BrowserHelper = new BrowserHelper();
-            return _BrowserHelper;
+            return BrowserHelperInstance.Value;
         }
 
         public void InitializeBrowserStatic(params String[] NewBackGroundDownloadTags)

@@ -2,14 +2,13 @@
 using Anathema.Source.Utils;
 using Anathema.Utils.OS;
 using System;
-using System.Runtime.CompilerServices;
 
 namespace Anathema
 {
     class Main : IMainModel
     {
+        private static Lazy<Main> MainInstance = new Lazy<Main>(() => { return new Main(); });
         private OSInterface OSInterface;
-        private static Main MainInstance;
 
         public event MainEventHandler EventUpdateProcessTitle;
         public event MainEventHandler EventUpdateProgress;
@@ -23,12 +22,9 @@ namespace Anathema
             SnapshotPrefilter.GetInstance().Begin();
         }
 
-        [MethodImpl(MethodImplOptions.Synchronized)]
         public static Main GetInstance()
         {
-            if (MainInstance == null)
-                MainInstance = new Main();
-            return MainInstance;
+            return MainInstance.Value;
         }
 
         public void InitializeProcessObserver()
@@ -61,7 +57,7 @@ namespace Anathema
         {
             EventOpenLabelThresholder(this, new MainEventArgs());
         }
-        
+
         public void RequestCollectValues()
         {
             SnapshotManager.GetInstance().CollectValues();

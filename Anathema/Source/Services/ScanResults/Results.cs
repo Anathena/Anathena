@@ -2,11 +2,9 @@
 using Anathema.Services.Snapshots;
 using Anathema.Source.Utils;
 using Anathema.User.UserAddressTable;
-using Anathema.Utils.Extensions;
 using Anathema.Utils.OS;
 using System;
 using System.Collections.Concurrent;
-using System.Runtime.CompilerServices;
 
 namespace Anathema.Services.ScanResults
 {
@@ -15,7 +13,9 @@ namespace Anathema.Services.ScanResults
     /// </summary>
     class Results : IResultsModel, IProcessObserver
     {
-        private static Results ResultsInstance;
+        // Singleton instance of results
+        private static Lazy<Results> ResultsInstance = new Lazy<Results>(() => { return new Results(); });
+
         private OSInterface OSInterface;
         private Snapshot Snapshot;
 
@@ -40,13 +40,10 @@ namespace Anathema.Services.ScanResults
             IndexValueMap = new ConcurrentDictionary<Int32, String>();
             Begin();
         }
-
-        [MethodImpl(MethodImplOptions.Synchronized)]
+        
         public static Results GetInstance()
         {
-            if (ResultsInstance == null)
-                ResultsInstance = new Results();
-            return ResultsInstance;
+            return ResultsInstance.Value;
         }
 
         ~Results()

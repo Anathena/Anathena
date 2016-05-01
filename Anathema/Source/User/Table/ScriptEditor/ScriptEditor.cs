@@ -8,8 +8,10 @@ namespace Anathema.User.UserScriptEditor
 {
     class ScriptEditor : IScriptEditorModel
     {
+        // Singleton instance of Script Editor
+        private static Lazy<ScriptEditor> ScriptEditorInstance = new Lazy<ScriptEditor>(() => { return new ScriptEditor(); });
+
         private OSInterface OSInterface;
-        private static ScriptEditor _ScriptEditor;
 
         public event ScriptEditorEventHandler EventOpenScript;
         public event ScriptEditorEventHandler EventSetScriptText;
@@ -22,13 +24,10 @@ namespace Anathema.User.UserScriptEditor
 
             ScriptItem = new ScriptItem();
         }
-
-        [MethodImpl(MethodImplOptions.Synchronized)]
+        
         public static ScriptEditor GetInstance()
         {
-            if (_ScriptEditor == null)
-                _ScriptEditor = new ScriptEditor();
-            return _ScriptEditor;
+            return ScriptEditorInstance.Value;
         }
         
         public void InitializeProcessObserver()

@@ -11,7 +11,8 @@ namespace Anathema.User.UserScriptTable
     /// </summary>
     class ScriptTable : IScriptTableModel
     {
-        private static ScriptTable ScriptTableInstance;
+        // Singleton instance of Script Table
+        private static Lazy<ScriptTable> ScriptTableInstance = new Lazy<ScriptTable>(() => { return new ScriptTable(); });
 
         private List<ScriptItem> ScriptItems;
 
@@ -21,13 +22,10 @@ namespace Anathema.User.UserScriptTable
         {
             ScriptItems = new List<ScriptItem>();
         }
-
-        [MethodImpl(MethodImplOptions.Synchronized)]
+        
         public static ScriptTable GetInstance()
         {
-            if (ScriptTableInstance == null)
-                ScriptTableInstance = new ScriptTable();
-            return ScriptTableInstance;
+            return ScriptTableInstance.Value;
         }
 
         private void UpdateScriptTableItemCount()

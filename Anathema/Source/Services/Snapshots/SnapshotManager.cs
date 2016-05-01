@@ -7,14 +7,13 @@ using Anathema.Utils.OS;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.CompilerServices;
 
 namespace Anathema.Services.Snapshots
 {
     class SnapshotManager : ISnapshotManagerModel
     {
-        // Singleton class instance
-        private static SnapshotManager SnapshotManagerInstance;
+        // Singleton instance of Snapshot Manager
+        private static Lazy<SnapshotManager> SnapshotManagerInstance = new Lazy<SnapshotManager>(() => { return new SnapshotManager(); });
 
         // Lock to ensure multiple entities do not try and update the snapshot list at the same time
         private Object AccessLock;
@@ -35,13 +34,9 @@ namespace Anathema.Services.Snapshots
             InitializeProcessObserver();
         }
 
-        [MethodImpl(MethodImplOptions.Synchronized)]
         public static SnapshotManager GetInstance()
         {
-            if (SnapshotManagerInstance == null)
-                SnapshotManagerInstance = new SnapshotManager();
-
-            return SnapshotManagerInstance;
+            return SnapshotManagerInstance.Value;
         }
 
         public void InitializeProcessObserver()
