@@ -1,10 +1,8 @@
 ﻿using Anathema.User.UserSettings;
 using Anathema.Utils;
-using Anathema.Utils.Extensions;
 using Anathema.Utils.MVP;
 using Anathema.Utils.Validation;
 using System;
-using System.Windows.Forms;
 
 namespace Anathema.Services.ScanResults
 {
@@ -46,10 +44,10 @@ namespace Anathema.Services.ScanResults
             EventDisableResults(this, E);
         }
 
-        public event ResultsEventHandler EventFlushCache;
-        protected virtual void OnEventFlushCache(ResultsEventArgs E)
+        public event ResultsEventHandler EventUpdateItemCounts;
+        protected virtual void OnEventUpdateItemCounts(ResultsEventArgs E)
         {
-            if (EventFlushCache != null) EventFlushCache(this, E);
+            EventUpdateItemCounts(this, E);
         }
 
         public override void Begin()
@@ -82,24 +80,16 @@ namespace Anathema.Services.ScanResults
         protected new IResultsView View;
         protected new IResultsModel Model;
 
-        private ListViewCache ListViewCache;
-
-        private const Int32 AddressIndex = 0;
-        private const Int32 ValueIndex = 1;
-        private const Int32 LabelIndex = 2;
-
         public ResultsPresenter(IResultsView View, IResultsModel Model) : base(View, Model)
         {
             this.View = View;
             this.Model = Model;
 
-            ListViewCache = new ListViewCache();
-
             // Bind events triggered by the model
             Model.EventReadValues += EventReadValues;
             Model.EventEnableResults += EventEnableResults;
-            Model.EventDisableResults += EventDisableResults;
-            Model.EventFlushCache += EventFlushCache;
+            Model.EventDisableResults += EventDisableResults; 
+            Model.EventUpdateItemCounts += EventUpdateItemCounts;
 
             Model.ForceRefresh();
         }
@@ -111,22 +101,19 @@ namespace Anathema.Services.ScanResults
             Model.UpdateReadBounds(StartReadIndex, EndReadIndex);
         }
 
-        public ListViewItem GetItemAt(Int32 Index)
+        public String GetValueAtIndex(Int32 Index)
         {
-            ListViewItem Item = ListViewCache.Get((UInt64)Index);
+            return Model.GetValueAtIndex(Index);
+        }
 
-            // Try to update and return the item if it is a valid item
-            if (Item != null && ListViewCache.TryUpdateSubItem(Index, ValueIndex, Model.GetValueAtIndex(Index)))
-                return Item;
-            
-            // Add the properties to the cache and get the list view item back
-            Item = ListViewCache.Add(Index, new String[] { String.Empty, String.Empty, String.Empty });
+        public String GetAddressAtIndex(Int32 Index)
+        {
+            return Conversions.ToAddress(Model.GetAddressAtIndex(Index));
+        }
 
-            Item.SubItems[AddressIndex].Text = Conversions.ToAddress(Model.GetAddressAtIndex(Index).ToUInt64());
-            Item.SubItems[ValueIndex].Text = "-";
-            Item.SubItems[LabelIndex].Text = Model.GetLabelAtIndex(Index);
-
-            return Item;
+        public String GetLabelAtIndex(Int32 Index)
+        {
+            return Model.GetLabelAtIndex(Index);
         }
 
         public void AddSelectionToTable(Int32 MinIndex, Int32 MaxIndex)
@@ -194,9 +181,8 @@ namespace Anathema.Services.ScanResults
             View.DisableResults();
         }
 
-        private void EventFlushCache(Object Sender, ResultsEventArgs E)
+        private void EventUpdateItemCounts(Object Sender, ResultsEventArgs E)
         {
-            ListViewCache.FlushCache();
             View.UpdateMemorySizeLabel(Conversions.BytesToMetric(E.MemorySize), E.ElementCount.ToString());
             View.UpdateItemCount((Int32)Math.Min(E.ElementCount, (UInt64)Int32.MaxValue));
         }

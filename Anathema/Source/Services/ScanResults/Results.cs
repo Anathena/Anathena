@@ -25,6 +25,9 @@ namespace Anathema.Services.ScanResults
 
         private Object ResultsLock;
 
+        private const String EmptyValue = "-";
+        private const String EmptyLabel = "-";
+
         private Results()
         {
             ResultsLock = new Object();
@@ -129,7 +132,7 @@ namespace Anathema.Services.ScanResults
                     ResultsEventArgs Args = new ResultsEventArgs();
                     Args.ElementCount = (Snapshot == null ? 0 : Snapshot.GetElementCount());
                     Args.MemorySize = (Snapshot == null ? 0 : Snapshot.GetMemorySize());
-                    OnEventFlushCache(Args);
+                    OnEventUpdateItemCounts(Args);
                     return;
                 }
 
@@ -204,7 +207,7 @@ namespace Anathema.Services.ScanResults
                 if (IndexValueMap.ContainsKey(Index))
                     return IndexValueMap[Index];
 
-                return "-";
+                return EmptyValue;
             }
         }
 
@@ -213,7 +216,7 @@ namespace Anathema.Services.ScanResults
             lock (ResultsLock)
             {
                 if (Snapshot == null || Index >= (Int32)Snapshot.GetElementCount())
-                    return "-";
+                    return EmptyLabel;
 
                 dynamic Label = String.Empty;
                 if (((dynamic)Snapshot)[Index].ElementLabel != null)

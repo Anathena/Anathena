@@ -3,17 +3,22 @@ using System.Windows.Forms;
 using WeifenLuo.WinFormsUI.Docking;
 using Anathema.Utils.MVP;
 using Anathema.Services.ScanResults;
+using Anathema.Utils;
 
 namespace Anathema.GUI
 {
     public partial class GUIResults : DockContent, IResultsView
     {
         private ResultsPresenter ResultsPresenter;
+        private ListViewCache ListViewCache;
+
+        private const String NoValueString = "-";
 
         public GUIResults()
         {
             InitializeComponent();
             ResultsPresenter = new ResultsPresenter(this, Results.GetInstance());
+            ListViewCache = new ListViewCache();
         }
 
         public void UpdateMemorySizeLabel(String MemorySize, String ItemCount)
@@ -60,6 +65,7 @@ namespace Anathema.GUI
             {
                 ResultsListView.Enabled = false;
             });
+
             ControlThreadingHelper.InvokeControlAction(GUIToolStrip, () =>
             {
                 GUIToolStrip.Enabled = false;
@@ -125,7 +131,24 @@ namespace Anathema.GUI
 
         private void ResultsListView_RetrieveVirtualItem(Object Sender, RetrieveVirtualItemEventArgs E)
         {
-            E.Item = ResultsPresenter.GetItemAt(E.ItemIndex);
+            ListViewItem Item = ListViewCache.Get((UInt64)E.ItemIndex);
+
+            // Try to update value and return the item if it is a valid item
+            if (Item != null && ListViewCache.TryUpdateSubItem(E.ItemIndex,
+                ResultsListView.Columns.IndexOf(ValueHeader), ResultsPresenter.GetValueAtIndex(E.ItemIndex)))
+            {
+                E.Item = Item;
+                return;
+            }
+
+            // Add the properties to the cache and get the list view item back
+            Item = ListViewCache.Add(E.ItemIndex, new String[ResultsListView.Columns.Count]);
+
+            Item.SubItems[ResultsListView.Columns.IndexOf(AddressHeader)].Text = ResultsPresenter.GetAddressAtIndex(E.ItemIndex);
+            Item.SubItems[ResultsListView.Columns.IndexOf(ValueHeader)].Text = NoValueString;
+            Item.SubItems[ResultsListView.Columns.IndexOf(LabelHeader)].Text = ResultsPresenter.GetLabelAtIndex(E.ItemIndex);
+
+            E.Item = Item;
         }
 
         private void AddSelectedResultsButton_Click(Object Sender, EventArgs E)
