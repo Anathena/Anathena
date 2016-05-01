@@ -31,10 +31,9 @@ namespace Anathema
             {
                 AddressTableListView.BeginUpdate();
                 AddressTableListView.SetItemCount(ItemCount);
+                AddressTableCache.FlushCache();
                 AddressTableListView.EndUpdate();
             });
-
-            AddressTableCache.FlushCache();
         }
 
         public void ReadValues()

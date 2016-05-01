@@ -27,10 +27,9 @@ namespace Anathema
             {
                 ScriptTableListView.BeginUpdate();
                 ScriptTableListView.SetItemCount(ItemCount);
+                ScriptTableCache.FlushCache();
                 ScriptTableListView.EndUpdate();
             });
-
-            ScriptTableCache.FlushCache();
         }
 
         #region Events

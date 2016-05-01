@@ -30,13 +30,12 @@ namespace Anathema
         public void UpdateSnapshotCount(Int32 SnapshotCount, Int32 DeletedSnapshotCount)
         {
             this.SnapshotCount = SnapshotCount;
-
-            ListViewCache.FlushCache();
-
+            
             ControlThreadingHelper.InvokeControlAction(SnapshotListView, () =>
             {
                 SnapshotListView.BeginUpdate();
                 SnapshotListView.SetItemCount(SnapshotCount + DeletedSnapshotCount);
+                ListViewCache.FlushCache();
                 SnapshotListView.EndUpdate();
             });
         }
