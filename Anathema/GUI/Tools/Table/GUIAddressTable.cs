@@ -7,18 +7,22 @@ using System.Linq;
 using System.Windows.Forms;
 using Anathema.Utils.MVP;
 using Anathema.User.UserAddressTable;
+using Anathema.Utils.Cache;
+using Anathema.Utils.Validation;
 
 namespace Anathema
 {
     public partial class GUIAddressTable : UserControl, IAddressTableView
     {
         private AddressTablePresenter AddressTablePresenter;
+        private ListViewCache AddressTableCache;
 
         public GUIAddressTable()
         {
             InitializeComponent();
 
             AddressTablePresenter = new AddressTablePresenter(this, AddressTable.GetInstance());
+            AddressTableCache = new ListViewCache();
         }
 
         public void UpdateAddressTableItemCount(Int32 ItemCount)
@@ -29,6 +33,8 @@ namespace Anathema
                 AddressTableListView.SetItemCount(ItemCount);
                 AddressTableListView.EndUpdate();
             });
+
+            AddressTableCache.FlushCache();
         }
 
         public void ReadValues()
@@ -64,7 +70,7 @@ namespace Anathema
             AddressTable.TableColumnEnum ColumnSelection = AddressTable.TableColumnEnum.Frozen;
             if (ColumnIndex == AddressTableListView.Columns.IndexOf(FrozenHeader))
                 ColumnSelection = AddressTable.TableColumnEnum.Frozen;
-            else if (ColumnIndex == AddressTableListView.Columns.IndexOf(AddressDescriptionHeader))
+            else if (ColumnIndex == AddressTableListView.Columns.IndexOf(DescriptionHeader))
                 ColumnSelection = AddressTable.TableColumnEnum.Description;
             else if (ColumnIndex == AddressTableListView.Columns.IndexOf(AddressHeader))
                 ColumnSelection = AddressTable.TableColumnEnum.Address;
@@ -97,7 +103,33 @@ namespace Anathema
 
         private void AddressTableListView_RetrieveVirtualItem(Object Sender, RetrieveVirtualItemEventArgs E)
         {
-            E.Item = AddressTablePresenter.GetAddressTableItemAt(E.ItemIndex);
+            ListViewItem Item = AddressTableCache.Get((UInt64)E.ItemIndex);
+            AddressItem AddressItem = AddressTablePresenter.GetAddressItemAt(E.ItemIndex);
+            
+            // Try to update and return the item if it is a valid item
+            if (Item != null &&
+                AddressTableCache.TryUpdateSubItem(E.ItemIndex, AddressTableListView.Columns.IndexOf(ValueHeader), AddressItem.GetValueString()) &&
+                AddressTableCache.TryUpdateSubItem(E.ItemIndex, AddressTableListView.Columns.IndexOf(AddressHeader), AddressItem.GetAddressString()))
+            {
+                Item.Checked = AddressItem.GetActivationState();
+                E.Item = Item;
+            }
+
+            // Add the properties to the manager and get the list view item back
+            Item = AddressTableCache.Add(E.ItemIndex, new String[AddressTableListView.Columns.Count]);
+
+            Item.ForeColor = AddressItem.IsHex ? Color.Green : SystemColors.ControlText;
+
+            Item.SubItems[AddressTableListView.Columns.IndexOf(FrozenHeader)].Text = String.Empty;
+            Item.SubItems[AddressTableListView.Columns.IndexOf(DescriptionHeader)].Text = (AddressItem.Description == null ? String.Empty : AddressItem.Description);
+            Item.SubItems[AddressTableListView.Columns.IndexOf(AddressHeader)].Text = Conversions.ToAddress(AddressItem.BaseAddress);
+            Item.SubItems[AddressTableListView.Columns.IndexOf(TypeHeader)].Text = AddressItem.ElementType == null ? String.Empty : AddressItem.ElementType.Name;
+            Item.SubItems[AddressTableListView.Columns.IndexOf(ValueHeader)].Text = AddressItem.GetValueString();
+
+            Item.Checked = AddressItem.GetActivationState();
+
+            // AddressTablePresenter.GetAddressTableItemAt(E.ItemIndex);
+            E.Item = Item;
         }
 
         private void AddressTableListView_MouseClick(Object Sender, MouseEventArgs E)
