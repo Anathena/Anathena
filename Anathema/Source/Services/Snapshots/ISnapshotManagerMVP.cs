@@ -28,7 +28,7 @@ namespace Anathema.Services.Snapshots
         void UndoSnapshot();
         void ClearSnapshots();
 
-        Snapshot GetSnapshotAt(Int32 Index);
+        Snapshot GetSnapshotAtIndex(Int32 Index);
     }
 
     class SnapshotManagerPresenter : Presenter<ISnapshotManagerView, ISnapshotManagerModel>
@@ -47,9 +47,9 @@ namespace Anathema.Services.Snapshots
 
         #region Method definitions called by the view (downstream)
 
-        public Snapshot GetSnapshotAt(Int32 Index)
+        public Snapshot GetSnapshotAtIndex(Int32 Index)
         {
-            return Model.GetSnapshotAt(Index);
+            return Model.GetSnapshotAtIndex(Index);
         }
 
         public void CreateNewSnapshot()

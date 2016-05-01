@@ -244,7 +244,7 @@ namespace Anathema.Services.Snapshots
             UpdateDisplay();
         }
 
-        public Snapshot GetSnapshotAt(Int32 Index)
+        public Snapshot GetSnapshotAtIndex(Int32 Index)
         {
             using (TimedLock.Lock(AccessLock))
             // lock (AccessLock)

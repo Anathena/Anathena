@@ -73,7 +73,7 @@ namespace Anathema
                 return;
             }
 
-            Snapshot Snapshot = SnapshotManagerPresenter.GetSnapshotAt(E.ItemIndex);
+            Snapshot Snapshot = SnapshotManagerPresenter.GetSnapshotAtIndex(E.ItemIndex);
 
             Item = ListViewCache.Add(E.ItemIndex, new String[SnapshotListView.Columns.Count]);
 
