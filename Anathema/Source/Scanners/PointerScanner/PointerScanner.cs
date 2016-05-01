@@ -165,16 +165,26 @@ namespace Anathema.Scanners.PointerScanner
             return "-";
         }
 
-        public override String GetBaseAddress(Int32 Index)
+        public override String GetAddressAtIndex(Int32 Index)
         {
             return Conversions.ToAddress(AcceptedPointers[Index].Item1);
         }
 
-        public override String[] GetOffsets(Int32 Index)
+        public override String[] GetOffsetsAtIndex(Int32 Index)
         {
             List<String> Offsets = new List<String>();
             AcceptedPointers[Index].Item2.ForEach(x => Offsets.Add((x < 0 ? "-" : "") + Math.Abs(x).ToString("X")));
             return Offsets.ToArray();
+        }
+
+        public override Int32 GetMaxPointerLevel()
+        {
+            return MaxPointerLevel;
+        }
+
+        public override Int32 GetMaxPointerOffset()
+        {
+            return MaxPointerOffset;
         }
 
         private IntPtr ResolvePointer(Tuple<IntPtr, List<Int32>> FullPointer)

@@ -6,6 +6,7 @@ using Anathema.Utils.Validation;
 using Anathema.Utils;
 using Anathema.Utils.MVP;
 using Anathema.Scanners.PointerScanner;
+using System.Linq;
 
 namespace Anathema.GUI
 {
@@ -16,14 +17,19 @@ namespace Anathema.GUI
         private const Int32 DefaultLevel = 3;
         private const Int32 DefaultOffset = 2048;
 
+        private ListViewCache ListViewCache;
+
+        private const String EmptyValue = "-";
+
         public GUIPointerScanner()
         {
             InitializeComponent();
 
             PointerScannerPresenter = new PointerScannerPresenter(this, new PointerScanner());
+            ListViewCache = new ListViewCache();
 
             GUIConstraintEditor.RemoveRelativeScans();
-            
+
             InitializeValueTypeComboBox();
             InitializeDefaults();
             UpdateRescanMode();
@@ -188,7 +194,28 @@ namespace Anathema.GUI
 
         private void PointerListView_RetrieveVirtualItem(Object Sender, RetrieveVirtualItemEventArgs E)
         {
-            E.Item = PointerScannerPresenter.GetItemAt(E.ItemIndex);
+            ListViewItem Item = ListViewCache.Get((UInt64)E.ItemIndex);
+
+            // Try to update and return the item if it is a valid item
+            if (Item != null && ListViewCache.TryUpdateSubItem(E.ItemIndex, PointerListView.Columns.IndexOf(ValueHeader), PointerScannerPresenter.GetValueAtIndex(E.ItemIndex)))
+            {
+                E.Item = Item;
+                return;
+            }
+
+            Int32 OffsetStartIndex = PointerListView.Columns.IndexOf(BaseHeader) + 1;
+
+            // Add the properties to the cache and get the list view item back
+            Item = ListViewCache.Add(E.ItemIndex, new String[OffsetStartIndex + PointerScannerPresenter.GetMaxPointerLevel()]);
+
+            Item.SubItems[PointerListView.Columns.IndexOf(ValueHeader)].Text = EmptyValue;
+            Item.SubItems[PointerListView.Columns.IndexOf(BaseHeader)].Text = PointerScannerPresenter.GetAddressAtIndex(E.ItemIndex);
+
+            String[] Offsets = PointerScannerPresenter.GetOffsetsAtIndex(E.ItemIndex);
+            for (Int32 OffsetIndex = OffsetStartIndex; OffsetIndex < OffsetStartIndex + PointerScannerPresenter.GetMaxPointerLevel(); OffsetIndex++)
+                Item.SubItems[OffsetIndex].Text = (OffsetIndex - OffsetStartIndex) < Offsets.Length ? Offsets[OffsetIndex - OffsetStartIndex] : String.Empty;
+
+            E.Item = Item;
         }
 
         private void ValueTypeComboBox_SelectedIndexChanged(Object Sender, EventArgs E)
