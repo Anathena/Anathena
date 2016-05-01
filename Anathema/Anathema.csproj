@@ -428,8 +428,8 @@
     <Compile Include="Source\Services\Process\IProcessObserver.cs" />
     <Compile Include="Source\Services\Process\IProcessSelectorMVP.cs" />
     <Compile Include="Source\Services\Process\ProcessSelector.cs" />
-    <Compile Include="Source\Services\ScanResults\IResultsMVP.cs" />
-    <Compile Include="Source\Services\ScanResults\Results.cs" />
+    <Compile Include="Source\Services\Results\IResultsMVP.cs" />
+    <Compile Include="Source\Services\Results\Results.cs" />
     <Compile Include="Source\Services\Snapshots\ISnapshotManagerMVP.cs" />
     <Compile Include="Source\Scanners\IScannerMVP.cs" />
     <Compile Include="Source\Services\Snapshots\Snapshot.cs" />

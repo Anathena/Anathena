@@ -97,7 +97,7 @@ namespace Anathema.GUI
         }
 
         #region Public Methods
-        
+
         /// <summary>
         /// Update the target process 
         /// </summary>

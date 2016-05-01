@@ -40,7 +40,7 @@ namespace Anathema.Services.ScanResults
             IndexValueMap = new ConcurrentDictionary<Int32, String>();
             Begin();
         }
-        
+
         public static Results GetInstance()
         {
             return ResultsInstance.Value;

@@ -13,7 +13,7 @@ namespace Anathema.GUI
         {
             InitializeComponent();
             ChunkScannerPresenter = new ChunkScannerPresenter(this, new ChunkScanner());
-            
+
             SetMinChanges();
             EnableGUI();
         }

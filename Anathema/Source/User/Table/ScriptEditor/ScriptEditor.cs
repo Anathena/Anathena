@@ -23,12 +23,12 @@ namespace Anathema.User.UserScriptEditor
 
             ScriptItem = new ScriptItem();
         }
-        
+
         public static ScriptEditor GetInstance()
         {
             return ScriptEditorInstance.Value;
         }
-        
+
         public void InitializeProcessObserver()
         {
             ProcessSelector.GetInstance().Subscribe(this);
@@ -45,7 +45,7 @@ namespace Anathema.User.UserScriptEditor
 
             ScriptEditorEventArgs ScriptEditorEventArgs = new ScriptEditorEventArgs();
             ScriptEditorEventArgs.ScriptItem = ScriptItem;
-            EventOpenScript(this, ScriptEditorEventArgs);
+            EventOpenScript?.Invoke(this, ScriptEditorEventArgs);
         }
 
         public void OpenNewScript()
@@ -72,7 +72,7 @@ namespace Anathema.User.UserScriptEditor
             String NewScript = LuaEngine.AddCodeInjectionTemplate(ScriptItem.Script, "module.exe", new IntPtr(0x1abcd));
             ScriptEditorEventArgs ScriptEditorEventArgs = new ScriptEditorEventArgs();
             ScriptEditorEventArgs.NewScript = NewScript;
-            EventSetScriptText(this, ScriptEditorEventArgs);
+            EventSetScriptText?.Invoke(this, ScriptEditorEventArgs);
         }
 
     } // End class

@@ -8,6 +8,7 @@ using Anathema.Utils.OS;
 using Be.Windows.Forms;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Anathema.Services.MemoryView
 {
@@ -32,22 +33,22 @@ namespace Anathema.Services.MemoryView
         public event MemoryViewEventHandler EventUpdateVirtualPages;
         protected virtual void OnEventUpdateVirtualPages(MemoryViewEventArgs E)
         {
-            if (EventUpdateVirtualPages != null) EventUpdateVirtualPages(this, E);
+            EventUpdateVirtualPages?.Invoke(this, E);
         }
         public event MemoryViewEventHandler EventGoToAddress;
         protected virtual void OnEventEventGoToAddress(MemoryViewEventArgs E)
         {
-            if (EventGoToAddress != null) EventGoToAddress(this, E);
+            EventGoToAddress?.Invoke(this, E);
         }
         public event MemoryViewEventHandler EventReadValues;
         protected virtual void OnEventReadValues(MemoryViewEventArgs E)
         {
-            if (EventReadValues != null) EventReadValues(this, E);
+            EventReadValues?.Invoke(this, E);
         }
         public event MemoryViewEventHandler EventFlushCache;
         protected virtual void OnEventFlushCache(MemoryViewEventArgs E)
         {
-            if (EventFlushCache != null) EventFlushCache(this, E);
+            EventFlushCache?.Invoke(this, E);
         }
 
         public override void Begin()
@@ -101,7 +102,7 @@ namespace Anathema.Services.MemoryView
         #region ByteProvider
 
         public Int64 Length { get { return ViewRange; } }
-        
+
         public Byte ReadByte(Int64 Index)
         {
             IntPtr EffectiveAddress = BaseAddress.Add(Index);
@@ -172,27 +173,30 @@ namespace Anathema.Services.MemoryView
 
         private void EventUpdateVirtualPages(Object Sender, MemoryViewEventArgs E)
         {
-            List<String> VirtualPages = new List<String>();
+            Task.Run(() =>
+            {
+                List<String> VirtualPages = new List<String>();
 
-            if (E.VirtualPages != null)
-                E.VirtualPages.ForEach(x => VirtualPages.Add(x.BaseAddress.ToString("X")));
+                if (E.VirtualPages != null)
+                    E.VirtualPages.ForEach(x => VirtualPages.Add(x.BaseAddress.ToString("X")));
 
-            View.UpdateVirtualPages(VirtualPages);
+                View.UpdateVirtualPages(VirtualPages);
+            });
         }
 
         private void EventGoToAddress(Object Sender, MemoryViewEventArgs E)
         {
-            View.GoToAddress(E.Address);
+            Task.Run(() => { View.GoToAddress(E.Address); });
         }
 
         private void EventReadValues(Object Sender, MemoryViewEventArgs E)
         {
-            View.ReadValues();
+            Task.Run(() => { View.ReadValues(); });
         }
 
         private void EventFlushCache(Object Sender, MemoryViewEventArgs E)
         {
-            ByteCache.FlushCache();
+            Task.Run(() => { ByteCache.FlushCache(); });
         }
 
         #endregion

@@ -3,6 +3,7 @@ using Anathema.Utils;
 using Anathema.Utils.MVP;
 using Anathema.Utils.Validation;
 using System;
+using System.Threading.Tasks;
 
 namespace Anathema.Services.ScanResults
 {
@@ -17,8 +18,7 @@ namespace Anathema.Services.ScanResults
     {
         // Methods invoked by the presenter (upstream)
         void ReadValues();
-        void EnableResults();
-        void DisableResults();
+        void SetEnabled(Boolean Enabled);
         void UpdateMemorySizeLabel(String MemorySize, String ItemCount);
         void UpdateItemCount(Int32 ItemCount);
     }
@@ -29,25 +29,25 @@ namespace Anathema.Services.ScanResults
         public event ResultsEventHandler EventReadValues;
         protected virtual void OnEventReadValues(ResultsEventArgs E)
         {
-            EventReadValues(this, E);
+            Task.Run(() => { EventReadValues?.Invoke(this, E); });
         }
 
         public event ResultsEventHandler EventEnableResults;
         protected virtual void OnEventEnableResults(ResultsEventArgs E)
         {
-            EventEnableResults(this, E);
+            EventEnableResults?.Invoke(this, E);
         }
 
         public event ResultsEventHandler EventDisableResults;
         protected virtual void OnEventDisableResults(ResultsEventArgs E)
         {
-            EventDisableResults(this, E);
+            EventDisableResults?.Invoke(this, E);
         }
 
         public event ResultsEventHandler EventUpdateItemCounts;
         protected virtual void OnEventUpdateItemCounts(ResultsEventArgs E)
         {
-            EventUpdateItemCounts(this, E);
+            EventUpdateItemCounts?.Invoke(this, E);
         }
 
         public override void Begin()
@@ -88,14 +88,14 @@ namespace Anathema.Services.ScanResults
             // Bind events triggered by the model
             Model.EventReadValues += EventReadValues;
             Model.EventEnableResults += EventEnableResults;
-            Model.EventDisableResults += EventDisableResults; 
+            Model.EventDisableResults += EventDisableResults;
             Model.EventUpdateItemCounts += EventUpdateItemCounts;
 
             Model.ForceRefresh();
         }
 
         #region Method definitions called by the view (downstream)
-        
+
         public void UpdateReadBounds(Int32 StartReadIndex, Int32 EndReadIndex)
         {
             Model.UpdateReadBounds(StartReadIndex, EndReadIndex);
@@ -168,23 +168,23 @@ namespace Anathema.Services.ScanResults
 
         private void EventReadValues(Object Sender, ResultsEventArgs E)
         {
-            View.ReadValues();
+            Task.Run(() => { View.ReadValues(); });
         }
 
         private void EventEnableResults(Object Sender, ResultsEventArgs E)
         {
-            View.EnableResults();
+            Task.Run(() => { View.SetEnabled(true); });
         }
 
         private void EventDisableResults(Object Sender, ResultsEventArgs E)
         {
-            View.DisableResults();
+            Task.Run(() => { View.SetEnabled(false); });
         }
 
         private void EventUpdateItemCounts(Object Sender, ResultsEventArgs E)
         {
-            View.UpdateMemorySizeLabel(Conversions.BytesToMetric(E.MemorySize), E.ElementCount.ToString());
-            View.UpdateItemCount((Int32)Math.Min(E.ElementCount, (UInt64)Int32.MaxValue));
+            Task.Run(() => { View.UpdateMemorySizeLabel(Conversions.BytesToMetric(E.MemorySize), E.ElementCount.ToString()); });
+            Task.Run(() => { View.UpdateItemCount((Int32)Math.Min(E.ElementCount, (UInt64)Int32.MaxValue)); });
         }
 
         #endregion

@@ -471,8 +471,14 @@ namespace Anathema.Scanners.PointerScanner
                 SnapshotRegion Region = (SnapshotRegion)RegionObject;
 
                 // Read the memory of this region
-                try { Region.ReadAllSnapshotMemory(Snapshot.GetOSInterface(), true); }
-                catch (ScanFailedException) { return; }
+                try
+                {
+                    Region.ReadAllSnapshotMemory(Snapshot.GetOSInterface(), true);
+                }
+                catch (ScanFailedException)
+                {
+                    return;
+                }
 
                 if (!Region.HasValues())
                     return;

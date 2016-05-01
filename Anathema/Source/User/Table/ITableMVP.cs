@@ -1,5 +1,6 @@
 ﻿using Anathema.Utils.MVP;
 using System;
+using System.Threading.Tasks;
 
 namespace Anathema.User.UserTable
 {
@@ -27,7 +28,7 @@ namespace Anathema.User.UserTable
 
         Boolean HasChanges();
     }
-    
+
     class TablePresenter : Presenter<ITableView, ITableModel>
     {
         protected new ITableView View { get; set; }
@@ -78,7 +79,7 @@ namespace Anathema.User.UserTable
 
         private void EventHasChanges(Object Sender, TableEventArgs E)
         {
-            View.UpdateHasChanges(E.HasChanges);
+            Task.Run(() => { View.UpdateHasChanges(E.HasChanges); });
         }
 
         #endregion

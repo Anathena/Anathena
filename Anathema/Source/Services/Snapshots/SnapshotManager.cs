@@ -281,7 +281,7 @@ namespace Anathema.Services.Snapshots
                 SnapshotManagerEventArgs.SnapshotCount = Snapshots.Count;
             }
 
-            UpdateSnapshotCount.Invoke(this, SnapshotManagerEventArgs);
+            UpdateSnapshotCount?.Invoke(this, SnapshotManagerEventArgs);
         }
 
     } // End class

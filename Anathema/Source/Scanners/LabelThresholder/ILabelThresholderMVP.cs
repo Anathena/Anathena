@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
+using System.Threading.Tasks;
 
 namespace Anathema.Scanners.LabelThresholder
 {
@@ -23,7 +24,7 @@ namespace Anathema.Scanners.LabelThresholder
         public event LabelThresholderEventHandler EventUpdateHistogram;
         protected virtual void OnEventUpdateHistogram(LabelThresholderEventArgs E)
         {
-            EventUpdateHistogram(this, E);
+            EventUpdateHistogram?.Invoke(this, E);
         }
 
         // Functions invoked by presenter (downstream)
@@ -42,7 +43,7 @@ namespace Anathema.Scanners.LabelThresholder
         }
 
         #region Method definitions called by the view (downstream)
-        
+
         public void Begin()
         {
             Model.Begin();
@@ -77,9 +78,11 @@ namespace Anathema.Scanners.LabelThresholder
 
         void EventUpdateHistogram(Object Sender, LabelThresholderEventArgs E)
         {
-            View.DisplayHistogram(E.SortedDictionary);
+            Task.Run(() => { View.DisplayHistogram(E.SortedDictionary); });
         }
 
         #endregion
-    }
-}
+
+    } // End class
+
+} // End namespace

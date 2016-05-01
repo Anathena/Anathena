@@ -1,8 +1,6 @@
-﻿using Anathema.MemoryManagement.Memory;
-using Anathema.Scanners.TreeScanner;
+﻿using Anathema.Scanners.TreeScanner;
 using Anathema.Utils.MVP;
 using System;
-using System.Collections.Generic;
 using WeifenLuo.WinFormsUI.Docking;
 
 namespace Anathema.GUI
@@ -17,11 +15,6 @@ namespace Anathema.GUI
 
             TreeScannerPresenter = new TreeScannerPresenter(this, new TreeScanner());
             EnableGUI();
-        }
-
-        public void EventFilterFinished(List<RemoteRegion> MemoryRegions)
-        {
-
         }
 
         public void DisplayScanCount(Int32 ScanCount)

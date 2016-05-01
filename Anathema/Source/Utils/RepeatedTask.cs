@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -40,7 +39,6 @@ namespace Anathema.Utils
             }, CancelRequest.Token);
         }
 
-        [MethodImpl(MethodImplOptions.Synchronized)]
         private void UpdateController()
         {
             if (FinishedFlag)

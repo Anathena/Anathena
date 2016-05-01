@@ -15,7 +15,7 @@ namespace Anathema.GUI
             InitializeComponent();
 
             ManualScannerPresenter = new ManualScannerPresenter(this, new ManualScanner());
-            
+
             ToolStripManager.Merge(GUIConstraintEditor.AcquireToolStrip(), ScanToolStrip);
             EnableGUI();
         }

@@ -3,6 +3,7 @@ using Anathema.Source.Utils;
 using Anathema.Utils.MVP;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Anathema
 {
@@ -76,30 +77,33 @@ namespace Anathema
 
         private void UpdateProcessTitle(Object Sender, MainEventArgs E)
         {
-            View.UpdateProcessTitle(E.ProcessTitle);
+            Task.Run(() => { View.UpdateProcessTitle(E.ProcessTitle); });
         }
 
         private void UpdateProgress(Object Sender, MainEventArgs E)
         {
-            if (E.ProgressItem.ActionComplete() && PendingActions.Contains(E.ProgressItem))
-                PendingActions.Remove(E.ProgressItem);
-            else if (!E.ProgressItem.ActionComplete() && !PendingActions.Contains(E.ProgressItem))
-                PendingActions.Add(E.ProgressItem);
+            Task.Run(() =>
+            {
+                if (E.ProgressItem.ActionComplete() && PendingActions.Contains(E.ProgressItem))
+                    PendingActions.Remove(E.ProgressItem);
+                else if (!E.ProgressItem.ActionComplete() && !PendingActions.Contains(E.ProgressItem))
+                    PendingActions.Add(E.ProgressItem);
 
-            if (PendingActions.Count > 0)
-                View.UpdateProgress(PendingActions[0]);
-            else
-                View.UpdateProgress(null);
+                if (PendingActions.Count > 0)
+                    View.UpdateProgress(PendingActions[0]);
+                else
+                    View.UpdateProgress(null);
+            });
         }
 
         private void OpenScriptEditor(Object Sender, MainEventArgs E)
         {
-            View.OpenScriptEditor();
+            Task.Run(() => { View.OpenScriptEditor(); });
         }
 
         private void OpenLabelThresholder(Object Sender, MainEventArgs E)
         {
-            View.OpenLabelThresholder();
+            Task.Run(() => { View.OpenLabelThresholder(); });
         }
 
         #endregion

@@ -1,5 +1,6 @@
 ﻿using Anathema.Scanners.ScanConstraints;
 using System;
+using System.Threading.Tasks;
 
 namespace Anathema.Scanners.ManualScanner
 {
@@ -21,7 +22,7 @@ namespace Anathema.Scanners.ManualScanner
         public event ManualScannerEventHandler EventScanFinished;
         protected virtual void OnEventScanFinished(ManualScannerEventArgs E)
         {
-            EventScanFinished(this, E);
+            EventScanFinished?.Invoke(this, E);
         }
 
         // Functions invoked by presenter (downstream)
@@ -43,7 +44,7 @@ namespace Anathema.Scanners.ManualScanner
         }
 
         #region Method definitions called by the view (downstream)
-        
+
         public void SetScanConstraintManager(ScanConstraintManager ScanConstraintManager)
         {
             Model.SetScanConstraintManager(ScanConstraintManager);
@@ -55,9 +56,11 @@ namespace Anathema.Scanners.ManualScanner
 
         public void EventScanFinished(Object Sender, ManualScannerEventArgs E)
         {
-            View.ScanFinished();
+            Task.Run(() => { View.ScanFinished(); });
         }
 
         #endregion
-    }
-}
+
+    } // End class
+
+} // End namespace

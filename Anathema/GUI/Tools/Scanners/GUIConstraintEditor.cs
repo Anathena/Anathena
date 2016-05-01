@@ -86,6 +86,16 @@ namespace Anathema.GUI
             ScanConstraintEditorPresenter.SetCurrentValueConstraint(ValueConstraint);
         }
 
+        public void UpdateDisplay(IEnumerable<ListViewItem> ListViewItems, ImageList ImageList)
+        {
+            ControlThreadingHelper.InvokeControlAction(ConstraintsListView, () =>
+            {
+                ConstraintsListView.Items.Clear();
+                ListViewItems?.ForEach(X => ConstraintsListView.Items.Add(X));
+                ConstraintsListView.SmallImageList = ImageList;
+            });
+        }
+
         public void RemoveRelativeScans()
         {
             ScanOptionsToolStripDropDownButton.DropDownItems.Remove(ChangedToolStripMenuItem);
@@ -121,16 +131,6 @@ namespace Anathema.GUI
         {
             ScanConstraintEditorPresenter.SetElementType(ElementType);
             ValueTextBox.SetElementType(ElementType);
-        }
-
-        public void UpdateDisplay(IEnumerable<ListViewItem> ListViewItems, ImageList ImageList)
-        {
-            ControlThreadingHelper.InvokeControlAction(ConstraintsListView, () =>
-            {
-                ConstraintsListView.Items.Clear();
-                ListViewItems?.ForEach(X => ConstraintsListView.Items.Add(X));
-                ConstraintsListView.SmallImageList = ImageList;
-            });
         }
 
         private void AddConstraint()

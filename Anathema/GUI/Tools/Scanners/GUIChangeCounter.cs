@@ -43,7 +43,7 @@ namespace Anathema.GUI
         {
             UInt16 MaxChanges = (UInt16)MaxChangesTrackBar.Value;
             String MaxChangesString = MaxChanges.ToString();
-            
+
             if (MaxChanges == MaxChangesTrackBar.Maximum)
             {
                 MaxChanges = UInt16.MaxValue;

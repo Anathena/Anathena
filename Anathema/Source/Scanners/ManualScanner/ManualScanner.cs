@@ -57,7 +57,15 @@ namespace Anathema.Scanners.ManualScanner
             {
                 SnapshotRegion Region = (SnapshotRegion)RegionObject;
 
-                Region.ReadAllSnapshotMemory(Snapshot.GetOSInterface(), true);
+                try
+                {
+                    Region.ReadAllSnapshotMemory(Snapshot.GetOSInterface(), true);
+                }
+                catch (ScanFailedException Ex)
+                {
+                    Region.MarkAllInvalid();
+                    return;
+                }
 
                 if (ScanConstraintManager.HasRelativeConstraint() && !Region.CanCompare())
                 {

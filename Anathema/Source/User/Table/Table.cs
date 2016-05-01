@@ -47,7 +47,7 @@ namespace Anathema.User.UserTable
 
             TableEventArgs Args = new TableEventArgs();
             Args.HasChanges = Changed;
-            EventHasChanges(this, Args);
+            EventHasChanges?.Invoke(this, Args);
         }
 
         [Obfuscation(Exclude = true)]
@@ -57,7 +57,7 @@ namespace Anathema.User.UserTable
 
             TableEventArgs Args = new TableEventArgs();
             Args.HasChanges = Changed;
-            EventHasChanges(this, Args);
+            EventHasChanges?.Invoke(this, Args);
         }
 
         [Obfuscation(Exclude = true)]

@@ -21,7 +21,7 @@ namespace Anathema.User.UserScriptTable
         {
             ScriptItems = new List<ScriptItem>();
         }
-        
+
         public static ScriptTable GetInstance()
         {
             return ScriptTableInstance.Value;
@@ -32,7 +32,7 @@ namespace Anathema.User.UserScriptTable
             // Request that all data be updated
             ScriptTableEventArgs Args = new ScriptTableEventArgs();
             Args.ItemCount = ScriptItems.Count;
-            EventUpdateScriptTableItemCount(this, Args);
+            EventUpdateScriptTableItemCount?.Invoke(this, Args);
         }
 
         public void OpenScript(Int32 Index)

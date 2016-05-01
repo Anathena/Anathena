@@ -57,15 +57,6 @@ namespace Anathema.GUI
 
         public void DisplayScanCount(Int32 ScanCount) { }
 
-        private void UpdateReadBounds()
-        {
-            ControlThreadingHelper.InvokeControlAction(PointerListView, () =>
-            {
-                Tuple<Int32, Int32> ReadBounds = PointerListView.GetReadBounds();
-                PointerScannerPresenter.UpdateReadBounds(ReadBounds.Item1, ReadBounds.Item2);
-            });
-        }
-
         public void ScanFinished(Int32 ItemCount, Int32 MaxPointerLevel)
         {
             ControlThreadingHelper.InvokeControlAction<Control>(PointerListView, () =>
@@ -94,6 +85,14 @@ namespace Anathema.GUI
             {
                 PointerListView.BeginUpdate();
                 PointerListView.EndUpdate();
+            });
+        }
+        private void UpdateReadBounds()
+        {
+            ControlThreadingHelper.InvokeControlAction(PointerListView, () =>
+            {
+                Tuple<Int32, Int32> ReadBounds = PointerListView.GetReadBounds();
+                PointerScannerPresenter.UpdateReadBounds(ReadBounds.Item1, ReadBounds.Item2);
             });
         }
 

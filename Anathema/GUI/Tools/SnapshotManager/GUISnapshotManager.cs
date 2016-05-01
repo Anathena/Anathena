@@ -30,7 +30,7 @@ namespace Anathema
         public void UpdateSnapshotCount(Int32 SnapshotCount, Int32 DeletedSnapshotCount)
         {
             this.SnapshotCount = SnapshotCount;
-            
+
             ControlThreadingHelper.InvokeControlAction(SnapshotListView, () =>
             {
                 SnapshotListView.BeginUpdate();
@@ -65,7 +65,7 @@ namespace Anathema
         private void SnapshotListView_RetrieveVirtualItem(Object Sender, RetrieveVirtualItemEventArgs E)
         {
             ListViewItem Item = ListViewCache.Get((UInt64)E.ItemIndex);
-            
+
             if (Item != null)
             {
                 E.Item = Item;

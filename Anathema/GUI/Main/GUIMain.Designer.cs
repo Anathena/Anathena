@@ -73,6 +73,7 @@
             this.CancelActionButton = new System.Windows.Forms.ToolStripDropDownButton();
             this.ActionLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.ActionProgressBar = new System.Windows.Forms.ToolStripProgressBar();
+            this.toolStripSeparator6 = new System.Windows.Forms.ToolStripSeparator();
             this.GUIMenuStrip.SuspendLayout();
             this.GUIToolStrip.SuspendLayout();
             this.GUIStatusStrip.SuspendLayout();
@@ -340,9 +341,10 @@
             this.ProcessSelectorButton,
             this.toolStripSeparator3,
             this.NewScanButton,
-            this.UndoScanButton,
-            this.toolStripSeparator1,
+            this.toolStripSeparator6,
             this.CollectValuesButton,
+            this.toolStripSeparator1,
+            this.UndoScanButton,
             this.toolStripSeparator5,
             this.ProcessTitleLabel});
             this.GUIToolStrip.Location = new System.Drawing.Point(0, 24);
@@ -359,6 +361,7 @@
             this.ProcessSelectorButton.Name = "ProcessSelectorButton";
             this.ProcessSelectorButton.Size = new System.Drawing.Size(23, 22);
             this.ProcessSelectorButton.Text = "SelectProcessButton";
+            this.ProcessSelectorButton.ToolTipText = "Select Process";
             this.ProcessSelectorButton.Click += new System.EventHandler(this.ProcessSelectorButton_Click);
             // 
             // toolStripSeparator3
@@ -447,6 +450,11 @@
             this.ActionProgressBar.Name = "ActionProgressBar";
             this.ActionProgressBar.Size = new System.Drawing.Size(100, 16);
             // 
+            // toolStripSeparator6
+            // 
+            this.toolStripSeparator6.Name = "toolStripSeparator6";
+            this.toolStripSeparator6.Size = new System.Drawing.Size(6, 25);
+            // 
             // GUIMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -517,6 +525,7 @@
         private System.Windows.Forms.ToolStripStatusLabel ActionLabel;
         private System.Windows.Forms.ToolStripProgressBar ActionProgressBar;
         private System.Windows.Forms.ToolStripDropDownButton CancelActionButton;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator6;
     }
 }
 

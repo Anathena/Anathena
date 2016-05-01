@@ -20,7 +20,7 @@ namespace Anathema.Scanners.ScanConstraints
         {
             ScanConstraintEditorEventArgs FilterManualScanEventArgs = new ScanConstraintEditorEventArgs();
             FilterManualScanEventArgs.ScanConstraints = ScanConstraints;
-            EventUpdateDisplay(this, FilterManualScanEventArgs);
+            EventUpdateDisplay?.Invoke(this, FilterManualScanEventArgs);
         }
 
         public ScanConstraintManager GetScanConstraintManager()

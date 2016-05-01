@@ -72,7 +72,6 @@ namespace Anathema
             InputCorrelatorTimeOutIntervalTextBox.SetValue(SettingsPresenter.GetInputCorrelatorTimeOutInterval());
         }
 
-
         private void SaveSettings()
         {
             SaveGeneralSettings();

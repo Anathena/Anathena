@@ -1,5 +1,6 @@
 ﻿using Anathema.Utils.MVP;
 using System;
+using System.Threading.Tasks;
 
 namespace Anathema.User.UserScriptTable
 {
@@ -83,7 +84,7 @@ namespace Anathema.User.UserScriptTable
 
         private void EventUpdateScriptTableItemCount(Object Sender, ScriptTableEventArgs E)
         {
-            View.UpdateScriptTableItemCount(E.ItemCount);
+            Task.Run(() => { View.UpdateScriptTableItemCount(E.ItemCount); });
         }
 
         #endregion

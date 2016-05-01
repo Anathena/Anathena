@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Anathema.Services.ProcessManager
@@ -41,33 +42,6 @@ namespace Anathema.Services.ProcessManager
             // Bind events triggered by the model
             Model.EventDisplayProcesses += EventDisplayProcesses;
             Model.EventSelectProcess += EventSelectProcess;
-        }
-
-        #region Method definitions called by the view (downstream)
-
-        public void RefreshProcesses(IntPtr ProcessSelectorHandle)
-        {
-            Model.RefreshProcesses(ProcessSelectorHandle);
-        }
-
-        public void SelectProcess(Int32 Index)
-        {
-            Model.SelectProcess(Index);
-        }
-
-        #endregion
-
-        #region Event definitions for events triggered by the model (upstream)
-        public void EventDisplayProcesses(Object Sender, ProcessSelectorEventArgs E)
-        {
-            ImageList ImageList;
-
-            View.DisplayProcesses(GetProcessListViewItems(E.ProcessList, E.ProcessIcons, out ImageList), ImageList);
-        }
-
-        public void EventSelectProcess(Object Sender, ProcessSelectorEventArgs E)
-        {
-            View.SelectProcess(E.SelectedProcess);
         }
 
         private IEnumerable<ListViewItem> GetProcessListViewItems(List<Process> Processes, List<Icon> ProcessIcons, out ImageList ImageList)
@@ -112,6 +86,36 @@ namespace Anathema.Services.ProcessManager
 
             return ProcessTitles;
         }
+
+        #region Method definitions called by the view (downstream)
+
+        public void RefreshProcesses(IntPtr ProcessSelectorHandle)
+        {
+            Model.RefreshProcesses(ProcessSelectorHandle);
+        }
+
+        public void SelectProcess(Int32 Index)
+        {
+            Model.SelectProcess(Index);
+        }
+
+        #endregion
+
+        #region Event definitions for events triggered by the model (upstream)
+        public void EventDisplayProcesses(Object Sender, ProcessSelectorEventArgs E)
+        {
+            Task.Run(() =>
+            {
+                ImageList ImageList = null;
+                View.DisplayProcesses(GetProcessListViewItems(E.ProcessList, E.ProcessIcons, out ImageList), ImageList);
+            });
+        }
+
+        public void EventSelectProcess(Object Sender, ProcessSelectorEventArgs E)
+        {
+            Task.Run(() => { View.SelectProcess(E.SelectedProcess); });
+        }
+
         #endregion
 
     } // End class

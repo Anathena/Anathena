@@ -32,10 +32,10 @@ namespace Anathema.GUI
             InitializeComponent();
 
             FiniteStateBuilderPresenter = new FiniteStateBuilderPresenter(this, new FiniteStateBuilder());
-            
+
             FiniteStateBuilderPresenter.SetStateRadius(StateRadius);
             FiniteStateBuilderPresenter.SetStateEdgeSize(StateEdgeSize);
-            
+
             BlockNextMouseEvent = false;
 
             this.Paint += new PaintEventHandler(FSMBuilderPanel_Paint);
@@ -86,7 +86,7 @@ namespace Anathema.GUI
 
             FiniteStateBuilderPresenter.FinishAction(E.Location);
         }
-        
+
         private void DragModeButton_Click(Object Sender, EventArgs E)
         {
 

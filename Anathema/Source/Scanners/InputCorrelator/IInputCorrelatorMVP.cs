@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Anathema.Scanners.InputCorrelator
@@ -23,7 +24,7 @@ namespace Anathema.Scanners.InputCorrelator
         public event InputCorrelatorEventHandler EventUpdateDisplay;
         protected virtual void OnEventUpdateDisplay(InputCorrelatorEventArgs E)
         {
-            EventUpdateDisplay(this, E);
+            EventUpdateDisplay?.Invoke(this, E);
         }
 
         // Functions invoked by presenter (downstream)
@@ -111,9 +112,11 @@ namespace Anathema.Scanners.InputCorrelator
 
         public void EventUpdateDisplay(Object Sender, InputCorrelatorEventArgs E)
         {
-            View.UpdateDisplay(E.Root);
+            Task.Run(() => { View.UpdateDisplay(E.Root); });
         }
 
         #endregion
-    }
-}
+
+    } // End class
+
+} // End namespace

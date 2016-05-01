@@ -8,15 +8,15 @@ namespace Anathema.GUI
     public partial class GUIFiniteStateScanner : DockContent, IFiniteStateScannerView
     {
         private FiniteStateScannerPresenter FiniteStateScannerPresenter;
-        
+
         private FiniteStateMachine FiniteStateMachine;
-        
+
         public GUIFiniteStateScanner()
         {
             InitializeComponent();
 
             FiniteStateScannerPresenter = new FiniteStateScannerPresenter(this, new FiniteStateScanner());
-            
+
             EnableGUI();
         }
 
@@ -28,11 +28,6 @@ namespace Anathema.GUI
             });
         }
 
-        public void ScanFinished()
-        {
-            EnableGUI();
-        }
-        
         private void DisableGUI()
         {
             StartScanButton.Enabled = false;
@@ -46,7 +41,7 @@ namespace Anathema.GUI
         }
 
         #region Events
-         
+
         private void StartScanButton_Click(Object Sender, EventArgs E)
         {
             FiniteStateScannerPresenter.BeginScan();

@@ -64,5 +64,7 @@ namespace Anathema.User.UserAddressTableEntryEditor
         #region Event definitions for events triggered by the model (upstream)
 
         #endregion
-    }
-}
+
+    } // End classes
+
+} // End namespace

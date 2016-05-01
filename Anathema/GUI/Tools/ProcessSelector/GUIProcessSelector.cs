@@ -1,5 +1,6 @@
 ﻿using Anathema.Services.ProcessManager;
 using Anathema.Source.Utils.Extensions;
+using Anathema.Utils.MVP;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -32,17 +33,23 @@ namespace Anathema.GUI
 
         public void SelectProcess(Process TargetProcess)
         {
-            this.Close();
+            ControlThreadingHelper.InvokeControlAction(this, () =>
+            {
+                this.Close();
+            });
         }
 
         public void DisplayProcesses(IEnumerable<ListViewItem> Items, ImageList ImageList)
         {
-            // Clear the old items in the process list
-            ProcessListView.Items.Clear();
+            ControlThreadingHelper.InvokeControlAction(ProcessListView, () =>
+            {
+                // Clear the old items in the process list
+                ProcessListView.Items.Clear();
 
-            // Add all of the new items
-            Items?.ForEach(X => ProcessListView.Items.Add(X));
-            ProcessListView.SmallImageList = ImageList;
+                // Add all of the new items
+                Items?.ForEach(X => ProcessListView.Items.Add(X));
+                ProcessListView.SmallImageList = ImageList;
+            });
         }
 
         private void TrySelectingProcess()

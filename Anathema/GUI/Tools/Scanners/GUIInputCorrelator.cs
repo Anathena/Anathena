@@ -245,7 +245,7 @@ namespace Anathema.GUI
         }
 
         #endregion
-        
+
     } // End class
 
 } // End namespace

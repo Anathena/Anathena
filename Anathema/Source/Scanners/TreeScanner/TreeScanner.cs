@@ -69,8 +69,17 @@ namespace Anathema.Scanners.TreeScanner
                 Parallel.ForEach(FilterTrees, (Tree) =>
                 {
                     // Process the changes that have occurred since the last sampling for this memory page
-                    Tree.ProcessChanges(Tree.ReadAllSnapshotMemory(MemoryEditor, false), Tree.BaseAddress);
-                });
+                    try
+                    {
+                        Tree.ProcessChanges(Tree.ReadAllSnapshotMemory(MemoryEditor, false), Tree.BaseAddress);
+                    }
+                    catch (ScanFailedException Ex)
+                    {
+                        return;
+                    }
+
+                }
+                );
             }
             catch (ScanFailedException)
             {

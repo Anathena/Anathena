@@ -4,6 +4,7 @@ using Anathema.Utils.MVP;
 using System;
 using System.ComponentModel;
 using System.Drawing;
+using System.Runtime.CompilerServices;
 using System.Windows.Forms;
 
 namespace Anathema
@@ -20,7 +21,7 @@ namespace Anathema
             ScriptTablePresenter = new ScriptTablePresenter(this, ScriptTable.GetInstance());
             ScriptTableCache = new ListViewCache();
         }
-
+        
         public void UpdateScriptTableItemCount(Int32 ItemCount)
         {
             ControlThreadingHelper.InvokeControlAction(ScriptTableListView, () =>
@@ -51,7 +52,7 @@ namespace Anathema
 
             // Add the properties to the manager and get the list view item back
             Item = ScriptTableCache.Add(E.ItemIndex, new String[ScriptTableListView.Columns.Count]);
-            
+
             Item.SubItems[ScriptTableListView.Columns.IndexOf(ScriptActiveHeader)].Text = String.Empty;
             Item.SubItems[ScriptTableListView.Columns.IndexOf(ScriptDescriptionHeader)].Text = ScriptItem.GetDescription();
             Item.Checked = ScriptItem.GetActivationState();
@@ -149,7 +150,7 @@ namespace Anathema
         }
 
         #endregion
-        
+
     } // End class
 
 } // End namespace

@@ -38,24 +38,24 @@ namespace Anathema
 
             MainEventArgs MainEventArgs = new MainEventArgs();
             MainEventArgs.ProcessTitle = OSInterface.Process.GetProcessName();
-            EventUpdateProcessTitle(this, MainEventArgs);
+            EventUpdateProcessTitle?.Invoke(this, MainEventArgs);
         }
 
         public void UpdateActionProgress(ProgressItem ProgressItem)
         {
             MainEventArgs MainEventArgs = new MainEventArgs();
             MainEventArgs.ProgressItem = ProgressItem;
-            EventUpdateProgress(this, MainEventArgs);
+            EventUpdateProgress?.Invoke(this, MainEventArgs);
         }
 
         public void OpenScriptEditor()
         {
-            EventOpenScriptEditor(this, new MainEventArgs());
+            EventOpenScriptEditor?.Invoke(this, new MainEventArgs());
         }
 
         public void OpenLabelThresholder()
         {
-            EventOpenLabelThresholder(this, new MainEventArgs());
+            EventOpenLabelThresholder?.Invoke(this, new MainEventArgs());
         }
 
         public void RequestCollectValues()

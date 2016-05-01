@@ -2,6 +2,7 @@
 using Anathema.User.UserScriptTable;
 using Anathema.Utils.MVP;
 using System;
+using System.Threading.Tasks;
 
 namespace Anathema.User.UserScriptEditor
 {
@@ -43,7 +44,7 @@ namespace Anathema.User.UserScriptEditor
         }
 
         #region Method definitions called by the view (downstream)
-        
+
         public void SaveScript(String ScriptText)
         {
             Model.SaveScript(ScriptText);
@@ -53,7 +54,7 @@ namespace Anathema.User.UserScriptEditor
         {
             Model.OpenNewScript();
         }
-        
+
         public Boolean HasChanges(String Script)
         {
             return Model.HasChanges(Script);
@@ -70,12 +71,12 @@ namespace Anathema.User.UserScriptEditor
 
         void EventOpenScript(Object Sender, ScriptEditorEventArgs E)
         {
-            View.OpenScript(E.ScriptItem.Script);
+            Task.Run(() => { View.OpenScript(E.ScriptItem.Script); });
         }
 
         void EventSetScriptText(Object Sender, ScriptEditorEventArgs E)
         {
-            View.SetScriptText(E.NewScript);
+            Task.Run(() => { View.SetScriptText(E.NewScript); });
         }
 
         #endregion

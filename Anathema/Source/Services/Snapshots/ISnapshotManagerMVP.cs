@@ -1,6 +1,7 @@
 ﻿using Anathema.Services.ProcessManager;
 using Anathema.Utils.MVP;
 using System;
+using System.Threading.Tasks;
 
 namespace Anathema.Services.Snapshots
 {
@@ -35,12 +36,12 @@ namespace Anathema.Services.Snapshots
     {
         protected new ISnapshotManagerView View;
         protected new ISnapshotManagerModel Model;
-        
+
         public SnapshotManagerPresenter(ISnapshotManagerView View, ISnapshotManagerModel Model) : base(View, Model)
         {
             this.View = View;
             this.Model = Model;
-            
+
             // Bind events triggered by the model
             Model.UpdateSnapshotCount += UpdateSnapshotCount;
         }
@@ -78,7 +79,7 @@ namespace Anathema.Services.Snapshots
 
         private void UpdateSnapshotCount(Object Sender, SnapshotManagerEventArgs E)
         {
-            View.UpdateSnapshotCount(E.SnapshotCount, E.DeletedSnapshotCount);
+            Task.Run(() => { View.UpdateSnapshotCount(E.SnapshotCount, E.DeletedSnapshotCount); });
         }
 
         #endregion

@@ -23,7 +23,7 @@ namespace Anathema.GUI
 
         public void UpdateMemorySizeLabel(String MemorySize, String ItemCount)
         {
-            ControlThreadingHelper.InvokeControlAction(GUIToolStrip, () =>
+            ControlThreadingHelper.InvokeControlAction(SnapshotSizeValueLabel.GetCurrentParent(), () =>
             {
                 SnapshotSizeValueLabel.Text = MemorySize + " - (" + ItemCount + ")";
             });
@@ -33,7 +33,9 @@ namespace Anathema.GUI
         {
             ControlThreadingHelper.InvokeControlAction(ResultsListView, () =>
             {
+                ResultsListView.BeginUpdate();
                 ResultsListView.SetItemCount(ItemCount);
+                ResultsListView.EndUpdate();
             });
         }
 
@@ -46,29 +48,16 @@ namespace Anathema.GUI
             });
         }
 
-        public void EnableResults()
+        public void SetEnabled(Boolean IsEnabled)
         {
             ControlThreadingHelper.InvokeControlAction(ResultsListView, () =>
             {
-                ResultsListView.Enabled = true;
+                ResultsListView.Enabled = IsEnabled;
             });
 
             ControlThreadingHelper.InvokeControlAction(GUIToolStrip, () =>
             {
-                GUIToolStrip.Enabled = true;
-            });
-        }
-
-        public void DisableResults()
-        {
-            ControlThreadingHelper.InvokeControlAction(ResultsListView, () =>
-            {
-                ResultsListView.Enabled = false;
-            });
-
-            ControlThreadingHelper.InvokeControlAction(GUIToolStrip, () =>
-            {
-                GUIToolStrip.Enabled = false;
+                GUIToolStrip.Enabled = IsEnabled;
             });
         }
 
