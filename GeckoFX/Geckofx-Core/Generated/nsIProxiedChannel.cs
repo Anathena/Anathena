@@ -20,19 +20,18 @@
 // --------------------------------------------------------------------------------------------
 namespace Gecko
 {
-	using System;
-	using System.Runtime.InteropServices;
-	using System.Runtime.InteropServices.ComTypes;
-	using System.Runtime.CompilerServices;
-	
-	
-	/// <summary>
+    using System;
+    using System.Runtime.CompilerServices;
+    using System.Runtime.InteropServices;
+
+
+    /// <summary>
     /// An interface for accessing the proxy info that a channel was
     /// constructed with.
     ///
     /// @see nsIProxiedProtocolHandler
     /// </summary>
-	[ComImport()]
+    [ComImport()]
 	[InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 	[Guid("6238f134-8c3f-4354-958f-dfd9d54a4446")]
 	public interface nsIProxiedChannel

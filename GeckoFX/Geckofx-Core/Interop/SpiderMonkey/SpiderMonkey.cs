@@ -1,12 +1,12 @@
-﻿using System.Runtime.InteropServices;
-using System;
+﻿using System;
+using System.Runtime.InteropServices;
 
 // functions are declared like
 // extern JS_PUBLIC_API(JSContextCallback) JS_SetContextCallback(JSRuntime *rt, JSContextCallback cxCallback);
 // C++ default convention is Cdecl
 namespace Gecko
 {
-	public static class SpiderMonkey
+    public static class SpiderMonkey
 	{
 		// Different compilers name munge C++ signitures differently.
 		// Assumes Firefox built with MSVC compiler on Windows and gcc compiler on Linux

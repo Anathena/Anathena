@@ -1,6 +1,6 @@
 ﻿namespace Gecko
 {
-	public interface Element : nsIDOMElement
+    public interface Element : nsIDOMElement
 	{
 
 	}

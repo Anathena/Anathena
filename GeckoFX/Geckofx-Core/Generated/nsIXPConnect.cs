@@ -20,14 +20,13 @@
 // --------------------------------------------------------------------------------------------
 namespace Gecko
 {
-	using System;
-	using System.Runtime.InteropServices;
-	using System.Runtime.InteropServices.ComTypes;
-	using System.Runtime.CompilerServices;
-	
-	
-	/// <summary> </summary>
-	[ComImport()]
+    using System;
+    using System.Runtime.CompilerServices;
+    using System.Runtime.InteropServices;
+
+
+    /// <summary> </summary>
+    [ComImport()]
 	[InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 	[Guid("909e8641-7c54-4dff-9b94-ba631f057b33")]
 	public interface nsIXPConnectJSObjectHolder

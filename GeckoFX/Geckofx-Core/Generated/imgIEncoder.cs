@@ -20,16 +20,15 @@
 // --------------------------------------------------------------------------------------------
 namespace Gecko
 {
-	using System;
-	using System.Runtime.InteropServices;
-	using System.Runtime.InteropServices.ComTypes;
-	using System.Runtime.CompilerServices;
-	
-	
-	/// <summary>
+    using System;
+    using System.Runtime.CompilerServices;
+    using System.Runtime.InteropServices;
+
+
+    /// <summary>
     /// imgIEncoder interface
     /// </summary>
-	[ComImport()]
+    [ComImport()]
 	[InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 	[Guid("4baa2d6e-fee7-42df-ae3f-5fbebc0c267c")]
 	public interface imgIEncoder : nsIAsyncInputStream

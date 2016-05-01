@@ -20,17 +20,16 @@
 // --------------------------------------------------------------------------------------------
 namespace Gecko
 {
-	using System;
-	using System.Runtime.InteropServices;
-	using System.Runtime.InteropServices.ComTypes;
-	using System.Runtime.CompilerServices;
-	
-	
-	/// <summary>
+    using System;
+    using System.Runtime.CompilerServices;
+    using System.Runtime.InteropServices;
+
+
+    /// <summary>
     /// nsIWebSocketListener: passed to nsIWebSocketChannel::AsyncOpen. Receives
     /// websocket traffic events as they arrive.
     /// </summary>
-	[ComImport()]
+    [ComImport()]
 	[InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 	[Guid("d74c96b2-65b3-4e39-9e39-c577de5d7a73")]
 	public interface nsIWebSocketListener

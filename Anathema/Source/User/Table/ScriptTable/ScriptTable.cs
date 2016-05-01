@@ -2,7 +2,6 @@
 using Anathema.User.UserTable;
 using System;
 using System.Collections.Generic;
-using System.Runtime.CompilerServices;
 
 namespace Anathema.User.UserScriptTable
 {

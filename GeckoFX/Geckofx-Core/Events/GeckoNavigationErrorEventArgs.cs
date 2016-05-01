@@ -1,14 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.ComponentModel;
 
 namespace Gecko.Events
 {
-	#region GeckoNavigationErrorEventArgs
-	/// <summary>Provides data for event.</summary>
-	public class GeckoNavigationErrorEventArgs
+    #region GeckoNavigationErrorEventArgs
+    /// <summary>Provides data for event.</summary>
+    public class GeckoNavigationErrorEventArgs
 		: EventArgs
 	{
 		public readonly GeckoWindow DomWindow;

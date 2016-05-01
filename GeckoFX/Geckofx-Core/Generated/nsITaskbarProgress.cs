@@ -20,17 +20,16 @@
 // --------------------------------------------------------------------------------------------
 namespace Gecko
 {
-	using System;
-	using System.Runtime.InteropServices;
-	using System.Runtime.InteropServices.ComTypes;
-	using System.Runtime.CompilerServices;
-	
-	
-	/// <summary>
+    using System;
+    using System.Runtime.CompilerServices;
+    using System.Runtime.InteropServices;
+
+
+    /// <summary>
     /// Starting in Windows 7, applications can display a progress notification in
     /// the taskbar. This class wraps around the native functionality to do this.
     /// </summary>
-	[ComImport()]
+    [ComImport()]
 	[InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 	[Guid("23ac257d-ef3c-4033-b424-be7fef91a86c")]
 	public interface nsITaskbarProgress

@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
+﻿using Be.HexEditor.Properties;
+using System;
 using System.Data;
-using System.Drawing;
-using System.Text;
-using System.Windows.Forms;
 using System.Globalization;
-using Be.HexEditor.Properties;
+using System.Windows.Forms;
 
 namespace Be.HexEditor
 {

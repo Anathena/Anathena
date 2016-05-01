@@ -20,17 +20,16 @@
 // --------------------------------------------------------------------------------------------
 namespace Gecko
 {
-	using System;
-	using System.Runtime.InteropServices;
-	using System.Runtime.InteropServices.ComTypes;
-	using System.Runtime.CompilerServices;
-	
-	
-	/// <summary>
+    using System;
+    using System.Runtime.CompilerServices;
+    using System.Runtime.InteropServices;
+
+
+    /// <summary>
     /// This is used to ask a user what they would like to do with a given piece of
     /// content.
     /// </summary>
-	[ComImport()]
+    [ComImport()]
 	[InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 	[Guid("456ca3b2-02be-4f97-89a2-08c08d3ad88f")]
 	public interface nsIContentDispatchChooser

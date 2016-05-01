@@ -20,18 +20,17 @@
 // --------------------------------------------------------------------------------------------
 namespace Gecko
 {
-	using System;
-	using System.Runtime.InteropServices;
-	using System.Runtime.InteropServices.ComTypes;
-	using System.Runtime.CompilerServices;
-	
-	
-	/// <summary>
+    using System;
+    using System.Runtime.CompilerServices;
+    using System.Runtime.InteropServices;
+
+
+    /// <summary>
     /// This is a private interface used by Places components to get access to the
     /// database.  If outside consumers wish to use this, they should only read from
     /// the database so they do not break any internal invariants.
     /// </summary>
-	[ComImport()]
+    [ComImport()]
 	[InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 	[Guid("6eb7ed3d-13ca-450b-b370-15c75e2f3dab")]
 	public interface nsPIPlacesDatabase

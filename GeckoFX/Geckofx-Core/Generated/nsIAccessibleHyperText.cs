@@ -20,20 +20,19 @@
 // --------------------------------------------------------------------------------------------
 namespace Gecko
 {
-	using System;
-	using System.Runtime.InteropServices;
-	using System.Runtime.InteropServices.ComTypes;
-	using System.Runtime.CompilerServices;
-	
-	
-	/// <summary>
+    using System;
+    using System.Runtime.CompilerServices;
+    using System.Runtime.InteropServices;
+
+
+    /// <summary>
     /// A cross-platform interface that deals with text which contains hyperlinks.
     /// Each link is an embedded object representing exactly 1 character within
     /// the hypertext.
     ///
     /// Current implementation assumes every embedded object is a link.
     /// </summary>
-	[ComImport()]
+    [ComImport()]
 	[InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 	[Guid("b33684e2-090c-4e1d-a3d9-f4b46f4237b9")]
 	public interface nsIAccessibleHyperText

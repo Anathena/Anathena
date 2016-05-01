@@ -1,11 +1,8 @@
 ﻿using Anathema.User.UserSettings;
 using Anathema.Utils;
 using Anathema.Utils.MVP;
-using Anathema.Utils.Validation;
 using System;
 using System.Collections.Generic;
-using System.Drawing;
-using System.Windows.Forms;
 
 namespace Anathema.User.UserAddressTable
 {
@@ -69,12 +66,12 @@ namespace Anathema.User.UserAddressTable
     {
         protected new IAddressTableView View { get; set; }
         protected new IAddressTableModel Model { get; set; }
-        
+
         public AddressTablePresenter(IAddressTableView View, IAddressTableModel Model) : base(View, Model)
         {
             this.View = View;
             this.Model = Model;
-            
+
             // Bind events triggered by the model
             Model.EventReadValues += EventReadValues;
             Model.EventUpdateAddressTableItemCount += EventUpdateAddressTableItemCount;
@@ -106,7 +103,7 @@ namespace Anathema.User.UserAddressTable
         {
             Model.SetAddressFrozen(Index, Activated);
         }
-        
+
         public void ReorderItem(Int32 SourceIndex, Int32 DestinationIndex)
         {
             Model.ReorderItem(SourceIndex, DestinationIndex);

@@ -20,16 +20,15 @@
 // --------------------------------------------------------------------------------------------
 namespace Gecko
 {
-	using System;
-	using System.Runtime.InteropServices;
-	using System.Runtime.InteropServices.ComTypes;
-	using System.Runtime.CompilerServices;
-	
-	
-	/// <summary>
+    using System;
+    using System.Runtime.CompilerServices;
+    using System.Runtime.InteropServices;
+
+
+    /// <summary>
     /// nsIWebBrowserChrome2 is an extension to nsIWebBrowserChrome.
     /// </summary>
-	[ComImport()]
+    [ComImport()]
 	[InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 	[Guid("2585a7b1-7b47-43c4-bf17-c6bf84e09b7b")]
 	public interface nsIWebBrowserChrome2 : nsIWebBrowserChrome

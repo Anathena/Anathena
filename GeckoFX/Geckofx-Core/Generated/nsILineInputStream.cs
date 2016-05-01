@@ -20,19 +20,18 @@
 // --------------------------------------------------------------------------------------------
 namespace Gecko
 {
-	using System;
-	using System.Runtime.InteropServices;
-	using System.Runtime.InteropServices.ComTypes;
-	using System.Runtime.CompilerServices;
-	
-	
-	/// <summary>
+    using System;
+    using System.Runtime.CompilerServices;
+    using System.Runtime.InteropServices;
+
+
+    /// <summary>
     ///-*- Mode: C++; tab-width: 2; indent-tabs-mode: nil; c-basic-offset: 2 -*-
     ///
     /// This Source Code Form is subject to the terms of the Mozilla Public
     /// License, v. 2.0. If a copy of the MPL was not distributed with this
     /// file, You can obtain one at http://mozilla.org/MPL/2.0/. </summary>
-	[ComImport()]
+    [ComImport()]
 	[InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 	[Guid("c97b466c-1e6e-4773-a4ab-2b2b3190a7a6")]
 	public interface nsILineInputStream

@@ -1,6 +1,6 @@
 ﻿namespace Gecko
 {
-	public enum JSType : int
+    public enum JSType : int
 	{
 		JSTYPE_VOID,                /* undefined */
 		JSTYPE_OBJECT,              /* object */

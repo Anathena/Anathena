@@ -20,20 +20,19 @@
 // --------------------------------------------------------------------------------------------
 namespace Gecko
 {
-	using System;
-	using System.Runtime.InteropServices;
-	using System.Runtime.InteropServices.ComTypes;
-	using System.Runtime.CompilerServices;
-	
-	
-	/// <summary>
+    using System;
+    using System.Runtime.CompilerServices;
+    using System.Runtime.InteropServices;
+
+
+    /// <summary>
     /// nsIHttpChannel
     ///
     /// This interface allows for the modification of HTTP request parameters and
     /// the inspection of the resulting HTTP response status and headers when they
     /// become available.
     /// </summary>
-	[ComImport()]
+    [ComImport()]
 	[InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 	[Guid("a01362a0-5c45-11e2-bcfd-0800200c9a66")]
 	public interface nsIHttpChannel : nsIChannel

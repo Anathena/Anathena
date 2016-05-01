@@ -20,20 +20,19 @@
 // --------------------------------------------------------------------------------------------
 namespace Gecko
 {
-	using System;
-	using System.Runtime.InteropServices;
-	using System.Runtime.InteropServices.ComTypes;
-	using System.Runtime.CompilerServices;
-	
-	
-	/// <summary>
+    using System;
+    using System.Runtime.CompilerServices;
+    using System.Runtime.InteropServices;
+
+
+    /// <summary>
     /// nsIURIContentListener is an interface used by components which
     /// want to know (and have a chance to handle) a particular content type.
     /// Typical usage scenarios will include running applications which register
     /// a nsIURIContentListener for each of its content windows with the uri
     /// dispatcher service.
     /// </summary>
-	[ComImport()]
+    [ComImport()]
 	[InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 	[Guid("94928AB3-8B63-11d3-989D-001083010E9B")]
 	public interface nsIURIContentListener

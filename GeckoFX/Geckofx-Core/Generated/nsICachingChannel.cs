@@ -20,13 +20,12 @@
 // --------------------------------------------------------------------------------------------
 namespace Gecko
 {
-	using System;
-	using System.Runtime.InteropServices;
-	using System.Runtime.InteropServices.ComTypes;
-	using System.Runtime.CompilerServices;
-	
-	
-	/// <summary>
+    using System;
+    using System.Runtime.CompilerServices;
+    using System.Runtime.InteropServices;
+
+
+    /// <summary>
     /// A channel may optionally implement this interface to allow clients
     /// to affect its behavior with respect to how it uses the cache service.
     ///
@@ -36,7 +35,7 @@ namespace Gecko
     /// 3) Support for uniquely identifying cached data in cases when the URL
     /// is insufficient (e.g., HTTP form submission).
     /// </summary>
-	[ComImport()]
+    [ComImport()]
 	[InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 	[Guid("a77b664e-e707-4017-9c03-47bcedcb5b05")]
 	public interface nsICachingChannel : nsICacheInfoChannel

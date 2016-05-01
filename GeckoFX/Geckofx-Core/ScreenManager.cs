@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Gecko.Interop;
+﻿using Gecko.Interop;
 
 namespace Gecko
 {
-	public static class ScreenManager
+    public static class ScreenManager
 	{
 		private static ComPtr<nsIScreenManager> _screenManager;
 

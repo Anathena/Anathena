@@ -20,13 +20,12 @@
 // --------------------------------------------------------------------------------------------
 namespace Gecko
 {
-	using System;
-	using System.Runtime.InteropServices;
-	using System.Runtime.InteropServices.ComTypes;
-	using System.Runtime.CompilerServices;
-	
-	
-	/// <summary>
+    using System;
+    using System.Runtime.CompilerServices;
+    using System.Runtime.InteropServices;
+
+
+    /// <summary>
     /// The interface JS code should implement to receive annotations logged by an
     /// @mozilla.org/cycle-collector-logger;1 instance. Pass an instance of this to
     /// the logger's 'processNext' method.
@@ -34,7 +33,7 @@ namespace Gecko
     /// The methods are a subset of those in nsICycleCollectorListener; see the
     /// descriptions there.
     /// </summary>
-	[ComImport()]
+    [ComImport()]
 	[InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 	[Guid("39a8f80e-7eee-4141-b9ef-6e2a7d6e466d")]
 	public interface nsICycleCollectorHandler

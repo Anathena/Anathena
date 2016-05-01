@@ -1,11 +1,6 @@
-using System;
-using System.Collections.Generic;
-using System.Runtime.InteropServices;
-using System.Text;
-
 namespace Gecko.DOM
-{	
-	public class GeckoButtonElement : GeckoHtmlElement
+{
+    public class GeckoButtonElement : GeckoHtmlElement
 	{
 		nsIDOMHTMLButtonElement DOMHTMLElement;
 		internal GeckoButtonElement(nsIDOMHTMLButtonElement element) : base(element)

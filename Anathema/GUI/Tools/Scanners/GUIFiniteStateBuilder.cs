@@ -1,12 +1,12 @@
-﻿using System;
+﻿using Anathema.Properties;
+using Anathema.Scanners.FiniteStateScanner;
+using Anathema.Scanners.ScanConstraints;
+using Anathema.Utils.MVP;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
-using Anathema.Properties;
-using Anathema.Utils.MVP;
-using Anathema.Scanners.ScanConstraints;
-using Anathema.Scanners.FiniteStateScanner;
 
 namespace Anathema.GUI
 {

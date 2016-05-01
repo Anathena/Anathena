@@ -20,13 +20,12 @@
 // --------------------------------------------------------------------------------------------
 namespace Gecko
 {
-	using System;
-	using System.Runtime.InteropServices;
-	using System.Runtime.InteropServices.ComTypes;
-	using System.Runtime.CompilerServices;
-	
-	
-	/// <summary>
+    using System;
+    using System.Runtime.CompilerServices;
+    using System.Runtime.InteropServices;
+
+
+    /// <summary>
     /// mozIStorageConnection represents a database connection attached to
     /// a specific file or to the in-memory data storage.  It is the
     /// primary interface for interacting with a database, including
@@ -37,7 +36,7 @@ namespace Gecko
     ///
     /// @threadsafe
     /// </summary>
-	[ComImport()]
+    [ComImport()]
 	[InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 	[Guid("4aa2ac47-8d24-4004-9b31-ec0bd85f0cc3")]
 	public interface mozIStorageConnection : mozIStorageAsyncConnection

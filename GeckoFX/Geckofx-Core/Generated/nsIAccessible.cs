@@ -20,13 +20,12 @@
 // --------------------------------------------------------------------------------------------
 namespace Gecko
 {
-	using System;
-	using System.Runtime.InteropServices;
-	using System.Runtime.InteropServices.ComTypes;
-	using System.Runtime.CompilerServices;
-	
-	
-	/// <summary>
+    using System;
+    using System.Runtime.CompilerServices;
+    using System.Runtime.InteropServices;
+
+
+    /// <summary>
     /// A cross-platform interface that supports platform-specific
     /// accessibility APIs like MSAA and ATK. Contains the sum of what's needed
     /// to support IAccessible as well as ATK's generic accessibility objects.
@@ -36,7 +35,7 @@ namespace Gecko
     /// Mozilla creates the implementations of nsIAccessible on demand.
     /// See http://www.mozilla.org/projects/ui/accessibility for more information.
     /// </summary>
-	[ComImport()]
+    [ComImport()]
 	[InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 	[Guid("ee62158b-bb83-424b-a88d-d7d7f9cf460d")]
 	public interface nsIAccessible

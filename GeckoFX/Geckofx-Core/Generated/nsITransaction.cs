@@ -20,19 +20,18 @@
 // --------------------------------------------------------------------------------------------
 namespace Gecko
 {
-	using System;
-	using System.Runtime.InteropServices;
-	using System.Runtime.InteropServices.ComTypes;
-	using System.Runtime.CompilerServices;
-	
-	
-	/// <summary>
+    using System;
+    using System.Runtime.CompilerServices;
+    using System.Runtime.InteropServices;
+
+
+    /// <summary>
     /// The nsITransaction interface.
     /// <P>
     /// This interface is implemented by an object that needs to
     /// execute some behavior that must be tracked by the transaction manager.
     /// </summary>
-	[ComImport()]
+    [ComImport()]
 	[InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 	[Guid("58e330c1-7b48-11d2-98b9-00805f297d89")]
 	public interface nsITransaction

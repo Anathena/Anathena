@@ -20,19 +20,18 @@
 // --------------------------------------------------------------------------------------------
 namespace Gecko
 {
-	using System;
-	using System.Runtime.InteropServices;
-	using System.Runtime.InteropServices.ComTypes;
-	using System.Runtime.CompilerServices;
-	
-	
-	/// <summary>
+    using System;
+    using System.Runtime.CompilerServices;
+    using System.Runtime.InteropServices;
+
+
+    /// <summary>
     /// Very simple test interfaces.
     ///
     /// This is used by the other test functionality when it needs to play around with
     /// interface pointers.
     /// </summary>
-	[ComImport()]
+    [ComImport()]
 	[InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 	[Guid("3c8fd2f5-970c-42c6-b5dd-cda1c16dcfd8")]
 	public interface nsIXPCTestInterfaceA

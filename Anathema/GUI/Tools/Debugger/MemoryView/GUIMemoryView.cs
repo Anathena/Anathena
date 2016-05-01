@@ -5,7 +5,6 @@ using Anathema.Utils.MVP;
 using Be.Windows.Forms;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Windows.Forms;
 using WeifenLuo.WinFormsUI.Docking;
 

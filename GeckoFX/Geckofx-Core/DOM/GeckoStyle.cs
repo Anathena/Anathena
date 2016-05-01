@@ -35,17 +35,16 @@
 
 using System;
 using System.Collections.Generic;
-using System.Runtime.InteropServices;
 
 namespace Gecko
 {
-	/// <summary>
-	/// Wrapper around nsIDOMCSSStyleDeclaration
-	/// Allows viewing and modifying inline CSS styles.
-	/// TODO: could add the following functionality if needed:
-	/// GetParentRule, RemoveProperty, GetPropertyPriority
-	/// </summary>
-	public class GeckoStyle
+    /// <summary>
+    /// Wrapper around nsIDOMCSSStyleDeclaration
+    /// Allows viewing and modifying inline CSS styles.
+    /// TODO: could add the following functionality if needed:
+    /// GetParentRule, RemoveProperty, GetPropertyPriority
+    /// </summary>
+    public class GeckoStyle
 	{
 		nsIDOMCSSStyleDeclaration StyleDelcaration;
 		

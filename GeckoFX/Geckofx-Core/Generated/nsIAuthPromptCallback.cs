@@ -20,19 +20,18 @@
 // --------------------------------------------------------------------------------------------
 namespace Gecko
 {
-	using System;
-	using System.Runtime.InteropServices;
-	using System.Runtime.InteropServices.ComTypes;
-	using System.Runtime.CompilerServices;
-	
-	
-	/// <summary>
+    using System;
+    using System.Runtime.CompilerServices;
+    using System.Runtime.InteropServices;
+
+
+    /// <summary>
     /// Interface for callback methods for the asynchronous nsIAuthPrompt2 method.
     /// Callers MUST call exactly one method if nsIAuthPrompt2::promptPasswordAsync
     /// returns successfully. They MUST NOT call any method on this interface before
     /// promptPasswordAsync returns.
     /// </summary>
-	[ComImport()]
+    [ComImport()]
 	[InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 	[Guid("bdc387d7-2d29-4cac-92f1-dd75d786631d")]
 	public interface nsIAuthPromptCallback

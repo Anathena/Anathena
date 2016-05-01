@@ -20,13 +20,12 @@
 // --------------------------------------------------------------------------------------------
 namespace Gecko
 {
-	using System;
-	using System.Runtime.InteropServices;
-	using System.Runtime.InteropServices.ComTypes;
-	using System.Runtime.CompilerServices;
-	
-	
-	/// <summary>
+    using System;
+    using System.Runtime.CompilerServices;
+    using System.Runtime.InteropServices;
+
+
+    /// <summary>
     /// Validates arguments on the command line of an XUL application.
     ///
     /// Each validator is registered in the category "command-line-validator".
@@ -43,7 +42,7 @@ namespace Gecko
     /// command-line-validator m-irc          @mozilla.org/chatzilla/clh;1
     ///
     /// </summary>
-	[ComImport()]
+    [ComImport()]
 	[InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 	[Guid("5ecaa593-7660-4a3a-957a-92d5770671c7")]
 	public interface nsICommandLineValidator

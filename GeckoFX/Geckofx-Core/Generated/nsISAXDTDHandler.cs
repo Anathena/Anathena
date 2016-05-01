@@ -20,13 +20,12 @@
 // --------------------------------------------------------------------------------------------
 namespace Gecko
 {
-	using System;
-	using System.Runtime.InteropServices;
-	using System.Runtime.InteropServices.ComTypes;
-	using System.Runtime.CompilerServices;
-	
-	
-	/// <summary>
+    using System;
+    using System.Runtime.CompilerServices;
+    using System.Runtime.InteropServices;
+
+
+    /// <summary>
     /// Receive notification of basic DTD-related events.
     ///
     /// If a SAX application needs information about notations and
@@ -46,7 +45,7 @@ namespace Gecko
     /// startElement event. (If the LexicalHandler is used, these events
     /// must also be reported before the endDTD event.)
     /// </summary>
-	[ComImport()]
+    [ComImport()]
 	[InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 	[Guid("4d01f225-6cc5-11da-be43-001422106990")]
 	public interface nsISAXDTDHandler

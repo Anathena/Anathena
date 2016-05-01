@@ -20,20 +20,19 @@
 // --------------------------------------------------------------------------------------------
 namespace Gecko
 {
-	using System;
-	using System.Runtime.InteropServices;
-	using System.Runtime.InteropServices.ComTypes;
-	using System.Runtime.CompilerServices;
-	
-	
-	/// <summary>
+    using System;
+    using System.Runtime.CompilerServices;
+    using System.Runtime.InteropServices;
+
+
+    /// <summary>
     /// Print options interface
     ///
     /// Do not attempt to freeze this API - it still needs lots of work. Consult
     /// John Keiser <jkeiser@netscape.com> and Roland Mainz
     /// <roland.mainz@informatik.med.uni-giessen.de> for futher details.
     /// </summary>
-	[ComImport()]
+    [ComImport()]
 	[InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 	[Guid("92597c2b-109b-40bb-8f93-9b9acfa31de8")]
 	public interface nsIPrintOptions

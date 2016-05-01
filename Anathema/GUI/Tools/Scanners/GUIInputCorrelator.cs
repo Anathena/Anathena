@@ -1,12 +1,12 @@
-﻿using System;
+﻿using Anathema.Scanners.InputCorrelator;
+using Anathema.Utils.MVP;
+using Anathema.Utils.Validation;
+using Gma.System.MouseKeyHook;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Windows.Forms;
 using WeifenLuo.WinFormsUI.Docking;
-using Gma.System.MouseKeyHook;
-using Anathema.Utils.Validation;
-using Anathema.Utils.MVP;
-using Anathema.Scanners.InputCorrelator;
 
 namespace Anathema.GUI
 {

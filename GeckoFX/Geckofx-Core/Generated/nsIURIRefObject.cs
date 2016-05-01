@@ -20,20 +20,19 @@
 // --------------------------------------------------------------------------------------------
 namespace Gecko
 {
-	using System;
-	using System.Runtime.InteropServices;
-	using System.Runtime.InteropServices.ComTypes;
-	using System.Runtime.CompilerServices;
-	
-	
-	/// <summary>
+    using System;
+    using System.Runtime.CompilerServices;
+    using System.Runtime.InteropServices;
+
+
+    /// <summary>
     ///A class which can represent any node which points to an
     /// external URI, e.g. <a>, <img>, <script> etc,
     /// and has the capability to rewrite URLs to be
     /// relative or absolute.
     /// Used by the editor but not dependant on it.
     /// </summary>
-	[ComImport()]
+    [ComImport()]
 	[InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 	[Guid("2226927e-1dd2-11b2-b57f-faab47288563")]
 	public interface nsIURIRefObject

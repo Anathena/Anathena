@@ -2,7 +2,7 @@ using Gecko.Interop;
 
 namespace Gecko.DOM
 {
-	public sealed class DomEventTarget
+    public sealed class DomEventTarget
 	{
 		private ComPtr<nsIDOMEventTarget> _target;
 		

@@ -20,13 +20,12 @@
 // --------------------------------------------------------------------------------------------
 namespace Gecko
 {
-	using System;
-	using System.Runtime.InteropServices;
-	using System.Runtime.InteropServices.ComTypes;
-	using System.Runtime.CompilerServices;
-	
-	
-	/// <summary>
+    using System;
+    using System.Runtime.CompilerServices;
+    using System.Runtime.InteropServices;
+
+
+    /// <summary>
     /// nsIHttpEventSink
     ///
     /// Implement this interface to receive control over various HTTP events.  The
@@ -40,7 +39,7 @@ namespace Gecko
     /// @deprecated Newly written code should use nsIChannelEventSink instead of this
     /// interface.
     /// </summary>
-	[ComImport()]
+    [ComImport()]
 	[InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 	[Guid("9475a6af-6352-4251-90f9-d65b1cd2ea15")]
 	public interface nsIHttpEventSink

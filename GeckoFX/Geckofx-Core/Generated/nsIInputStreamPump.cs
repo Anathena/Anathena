@@ -20,13 +20,12 @@
 // --------------------------------------------------------------------------------------------
 namespace Gecko
 {
-	using System;
-	using System.Runtime.InteropServices;
-	using System.Runtime.InteropServices.ComTypes;
-	using System.Runtime.CompilerServices;
-	
-	
-	/// <summary>
+    using System;
+    using System.Runtime.CompilerServices;
+    using System.Runtime.InteropServices;
+
+
+    /// <summary>
     /// nsIInputStreamPump
     ///
     /// This interface provides a means to configure and use a input stream pump
@@ -41,7 +40,7 @@ namespace Gecko
     /// the stream will be read on a background thread utilizing the stream
     /// transport service.  More details are provided below.
     /// </summary>
-	[ComImport()]
+    [ComImport()]
 	[InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 	[Guid("400F5468-97E7-4d2b-9C65-A82AECC7AE82")]
 	public interface nsIInputStreamPump : nsIRequest

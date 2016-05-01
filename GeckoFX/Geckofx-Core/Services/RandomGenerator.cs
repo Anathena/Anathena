@@ -1,10 +1,10 @@
+using Gecko.Interop;
 using System;
 using System.Runtime.InteropServices;
-using Gecko.Interop;
 
 namespace Gecko
 {
-	public static class RandomGenerator
+    public static class RandomGenerator
 	{
 		private static ComPtr<nsIRandomGenerator> _randomGenerator;
 

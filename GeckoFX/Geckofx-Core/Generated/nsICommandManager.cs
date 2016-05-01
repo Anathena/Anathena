@@ -20,13 +20,12 @@
 // --------------------------------------------------------------------------------------------
 namespace Gecko
 {
-	using System;
-	using System.Runtime.InteropServices;
-	using System.Runtime.InteropServices.ComTypes;
-	using System.Runtime.CompilerServices;
-	
-	
-	/// <summary>
+    using System;
+    using System.Runtime.CompilerServices;
+    using System.Runtime.InteropServices;
+
+
+    /// <summary>
     /// nsICommandManager is an interface used to executing user-level commands,
     /// and getting the state of available commands.
     ///
@@ -35,7 +34,7 @@ namespace Gecko
     /// each command, that are passed in via the nsICommandParams, are
     /// also documented elsewhere. (Where? Need a good location for this).
     /// </summary>
-	[ComImport()]
+    [ComImport()]
 	[InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 	[Guid("080D2001-F91E-11D4-A73C-F9242928207C")]
 	public interface nsICommandManager

@@ -20,13 +20,12 @@
 // --------------------------------------------------------------------------------------------
 namespace Gecko
 {
-	using System;
-	using System.Runtime.InteropServices;
-	using System.Runtime.InteropServices.ComTypes;
-	using System.Runtime.CompilerServices;
-	
-	
-	/// <summary>
+    using System;
+    using System.Runtime.CompilerServices;
+    using System.Runtime.InteropServices;
+
+
+    /// <summary>
     /// DocumentFragment is a "lightweight" or "minimal" Document object.
     /// nsIDOMDocumentFragment is used in situations where the Document
     /// interface can potentially be a heavyweight interface.
@@ -34,7 +33,7 @@ namespace Gecko
     /// For more information on this interface please see
     /// http://www.w3.org/TR/DOM-Level-2-Core/
     /// </summary>
-	[ComImport()]
+    [ComImport()]
 	[InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 	[Guid("75a237af-133e-40f0-8196-2a172867c41a")]
 	public interface nsIDOMDocumentFragment : nsIDOMNode

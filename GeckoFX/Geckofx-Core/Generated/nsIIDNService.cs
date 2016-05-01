@@ -20,13 +20,12 @@
 // --------------------------------------------------------------------------------------------
 namespace Gecko
 {
-	using System;
-	using System.Runtime.InteropServices;
-	using System.Runtime.InteropServices.ComTypes;
-	using System.Runtime.CompilerServices;
-	
-	
-	/// <summary>
+    using System;
+    using System.Runtime.CompilerServices;
+    using System.Runtime.InteropServices;
+
+
+    /// <summary>
     /// nsIIDNService interface.
     ///
     /// IDN (Internationalized Domain Name) support. Provides facilities
@@ -40,7 +39,7 @@ namespace Gecko
     /// IDNA specification:
     /// http://search.ietf.org/internet-drafts/draft-ietf-idn-idna-06.txt
     /// </summary>
-	[ComImport()]
+    [ComImport()]
 	[InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 	[Guid("a592a60e-3621-4f19-a318-2bf233cfad3e")]
 	public interface nsIIDNService

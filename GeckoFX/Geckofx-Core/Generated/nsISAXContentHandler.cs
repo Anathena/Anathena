@@ -20,13 +20,12 @@
 // --------------------------------------------------------------------------------------------
 namespace Gecko
 {
-	using System;
-	using System.Runtime.InteropServices;
-	using System.Runtime.InteropServices.ComTypes;
-	using System.Runtime.CompilerServices;
-	
-	
-	/// <summary>
+    using System;
+    using System.Runtime.CompilerServices;
+    using System.Runtime.InteropServices;
+
+
+    /// <summary>
     /// Receive notification of the logical content of a document.
     ///
     /// This is the main interface that most SAX applications implement: if
@@ -42,7 +41,7 @@ namespace Gecko
     /// instructions, and/or subelements) will appear, in order, between
     /// the startElement event and the corresponding endElement event.
     /// </summary>
-	[ComImport()]
+    [ComImport()]
 	[InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 	[Guid("2a99c757-dfee-4806-bff3-f721440412e0")]
 	public interface nsISAXContentHandler

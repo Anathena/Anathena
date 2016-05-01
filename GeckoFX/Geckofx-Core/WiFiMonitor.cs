@@ -1,14 +1,14 @@
-using System;
 using Gecko.Interop;
+using System;
 
 namespace Gecko
 {
-	/// <summary>
-	/// This code is not crashes (cool :) ) but always return zero length array of access points :(
-	/// 
-	/// https://developer.mozilla.org/En/Monitoring_WiFi_access_points
-	/// </summary>
-	public static class WiFiMonitor
+    /// <summary>
+    /// This code is not crashes (cool :) ) but always return zero length array of access points :(
+    /// 
+    /// https://developer.mozilla.org/En/Monitoring_WiFi_access_points
+    /// </summary>
+    public static class WiFiMonitor
 	{
 		private static ComPtr<nsIWifiMonitor> _wifiMonitor;
 

@@ -20,13 +20,12 @@
 // --------------------------------------------------------------------------------------------
 namespace Gecko
 {
-	using System;
-	using System.Runtime.InteropServices;
-	using System.Runtime.InteropServices.ComTypes;
-	using System.Runtime.CompilerServices;
-	
-	
-	/// <summary>
+    using System;
+    using System.Runtime.CompilerServices;
+    using System.Runtime.InteropServices;
+
+
+    /// <summary>
     /// Handles arguments on the command line of an XUL application.
     ///
     /// Each handler is registered in the category "command-line-handler".
@@ -48,7 +47,7 @@ namespace Gecko
     /// or provide a generic solution of some sort? Don't freeze this interface
     /// without thinking about this!
     /// </summary>
-	[ComImport()]
+    [ComImport()]
 	[InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 	[Guid("d4b123df-51ee-48b1-a663-002180e60d3b")]
 	public interface nsICommandLineHandler

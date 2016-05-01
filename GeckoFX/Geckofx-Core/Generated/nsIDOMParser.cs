@@ -20,13 +20,12 @@
 // --------------------------------------------------------------------------------------------
 namespace Gecko
 {
-	using System;
-	using System.Runtime.InteropServices;
-	using System.Runtime.InteropServices.ComTypes;
-	using System.Runtime.CompilerServices;
-	
-	
-	/// <summary>
+    using System;
+    using System.Runtime.CompilerServices;
+    using System.Runtime.InteropServices;
+
+
+    /// <summary>
     /// The nsIDOMParser interface is a non-SAX interface that can be used
     /// to parse a string or byte stream containing XML or HTML content
     /// to a DOM document. Parsing is always synchronous - a document is always
@@ -34,7 +33,7 @@ namespace Gecko
     /// parsing with the XMLHttpRequest interface, which can be used for
     /// asynchronous (callback-based) loading.
     /// </summary>
-	[ComImport()]
+    [ComImport()]
 	[InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 	[Guid("5677f36e-1842-4c6f-a39c-2e5576ab8b40")]
 	public interface nsIDOMParser

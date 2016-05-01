@@ -20,13 +20,12 @@
 // --------------------------------------------------------------------------------------------
 namespace Gecko
 {
-	using System;
-	using System.Runtime.InteropServices;
-	using System.Runtime.InteropServices.ComTypes;
-	using System.Runtime.CompilerServices;
-	
-	
-	/// <summary>
+    using System;
+    using System.Runtime.CompilerServices;
+    using System.Runtime.InteropServices;
+
+
+    /// <summary>
     /// The uuid is a unique number identifying the interface normally
     /// called IID. It can be generated as follows:
     ///
@@ -38,7 +37,7 @@ namespace Gecko
     /// /msg mozbot uuid
     ///
     /// </summary>
-	[ComImport()]
+    [ComImport()]
 	[InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 	[Guid("7CB5B7A1-07D7-11d3-BDE2-000064657374")]
 	public interface nsISample

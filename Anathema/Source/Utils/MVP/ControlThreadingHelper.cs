@@ -1,6 +1,6 @@
-﻿using System;
+﻿using Be.Windows.Forms;
+using System;
 using System.Windows.Forms;
-using Be.Windows.Forms;
 
 namespace Anathema.Utils.MVP
 {
@@ -24,6 +24,11 @@ namespace Anathema.Utils.MVP
         }
 
         internal static void InvokeControlAction<T>(HexBox hexEditorBox, Action p)
+        {
+            throw new NotImplementedException();
+        }
+
+        internal static void InvokeControlAction(ListView constraintsListView, Action p)
         {
             throw new NotImplementedException();
         }

@@ -1,8 +1,8 @@
-﻿using System;
+﻿using Anathema.Utils.Browser;
+using Gecko;
+using System;
 using System.Windows.Forms;
 using WeifenLuo.WinFormsUI.Docking;
-using Gecko;
-using Anathema.Utils.Browser;
 
 namespace Anathema.GUI
 {

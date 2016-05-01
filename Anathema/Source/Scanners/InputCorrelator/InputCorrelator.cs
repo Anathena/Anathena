@@ -1,7 +1,6 @@
 ﻿using Anathema.Services.Snapshots;
 using Anathema.Source.Utils;
 using Anathema.User.UserSettings;
-using Anathema.Utils.Extensions;
 using Gma.System.MouseKeyHook;
 using System;
 using System.Collections.Generic;

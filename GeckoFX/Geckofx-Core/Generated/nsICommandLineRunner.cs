@@ -20,13 +20,12 @@
 // --------------------------------------------------------------------------------------------
 namespace Gecko
 {
-	using System;
-	using System.Runtime.InteropServices;
-	using System.Runtime.InteropServices.ComTypes;
-	using System.Runtime.CompilerServices;
-	
-	
-	/// <summary>
+    using System;
+    using System.Runtime.CompilerServices;
+    using System.Runtime.InteropServices;
+
+
+    /// <summary>
     /// Extension of nsICommandLine that allows for initialization of new command lines
     /// and running the command line actions by processing the command line handlers.
     ///
@@ -35,7 +34,7 @@ namespace Gecko
     /// functionality provided by this interface, talk to Benjamin
     /// Smedberg <benjamin@smedbergs.us>.
     /// </summary>
-	[ComImport()]
+    [ComImport()]
 	[InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 	[Guid("c9f2996c-b25a-4d3d-821f-4cd0c4bc8afb")]
 	public interface nsICommandLineRunner : nsICommandLine

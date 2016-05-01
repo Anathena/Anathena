@@ -20,13 +20,12 @@
 // --------------------------------------------------------------------------------------------
 namespace Gecko
 {
-	using System;
-	using System.Runtime.InteropServices;
-	using System.Runtime.InteropServices.ComTypes;
-	using System.Runtime.CompilerServices;
-	
-	
-	/// <summary>
+    using System;
+    using System.Runtime.CompilerServices;
+    using System.Runtime.InteropServices;
+
+
+    /// <summary>
     /// nsIProgressEventSink
     ///
     /// This interface is used to asynchronously convey channel status and progress
@@ -45,7 +44,7 @@ namespace Gecko
     /// NOTE: This interface is actually not specific to channels and may be used
     /// with other implementations of nsIRequest.
     /// </summary>
-	[ComImport()]
+    [ComImport()]
 	[InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 	[Guid("D974C99E-4148-4df9-8D98-DE834A2F6462")]
 	public interface nsIProgressEventSink

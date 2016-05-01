@@ -1,11 +1,9 @@
-﻿using System;
-using System.Linq;
-using System.Text;
-using Gecko.Interop;
+﻿using Gecko.Interop;
+using System;
 
 namespace Gecko.Net
 {
-	public class Request
+    public class Request
 		:IDisposable
 	{
 		private ComPtr<nsIRequest> _request;

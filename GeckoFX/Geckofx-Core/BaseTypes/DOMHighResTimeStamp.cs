@@ -1,8 +1,6 @@
-﻿using System;
-
-namespace Gecko
+﻿namespace Gecko
 {
-	public struct DOMHighResTimeStamp
+    public struct DOMHighResTimeStamp
 	{
 		public double value;
 	}

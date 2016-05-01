@@ -1,9 +1,9 @@
-﻿using System;
+﻿using Anathema.Scanners.ChangeCounter;
+using Anathema.Utils.MVP;
+using Anathema.Utils.Validation;
+using System;
 using System.Drawing;
 using WeifenLuo.WinFormsUI.Docking;
-using Anathema.Utils.Validation;
-using Anathema.Utils.MVP;
-using Anathema.Scanners.ChangeCounter;
 
 namespace Anathema.GUI
 {

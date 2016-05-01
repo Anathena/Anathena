@@ -20,13 +20,12 @@
 // --------------------------------------------------------------------------------------------
 namespace Gecko
 {
-	using System;
-	using System.Runtime.InteropServices;
-	using System.Runtime.InteropServices.ComTypes;
-	using System.Runtime.CompilerServices;
-	
-	
-	/// <summary>
+    using System;
+    using System.Runtime.CompilerServices;
+    using System.Runtime.InteropServices;
+
+
+    /// <summary>
     /// When a domain policy is instantiated by invoking activateDomainPolicy() on
     /// nsIScriptSecurityManager, these domain sets are consulted when each new
     /// global is created (they have no effect on already-created globals).
@@ -38,7 +37,7 @@ namespace Gecko
     /// When deactivate() is invoked, the domain sets are emptied, and the
     /// nsIDomainPolicy ceases to have any effect on the system.
     /// </summary>
-	[ComImport()]
+    [ComImport()]
 	[InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 	[Guid("27b10f54-f34b-42b7-8594-4348d3ad7953")]
 	public interface nsIDomainPolicy

@@ -20,19 +20,18 @@
 // --------------------------------------------------------------------------------------------
 namespace Gecko
 {
-	using System;
-	using System.Runtime.InteropServices;
-	using System.Runtime.InteropServices.ComTypes;
-	using System.Runtime.CompilerServices;
-	
-	
-	/// <summary>
+    using System;
+    using System.Runtime.CompilerServices;
+    using System.Runtime.InteropServices;
+
+
+    /// <summary>
     /// The nsIDOMRange interface is an interface to a DOM range object.
     ///
     /// For more information on this interface please see
     /// http://www.w3.org/TR/DOM-Level-2-Traversal-Range/
     /// </summary>
-	[ComImport()]
+    [ComImport()]
 	[InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 	[Guid("1f94055c-42e7-4a30-96a1-6a804f1c2d1e")]
 	public interface nsIDOMRange

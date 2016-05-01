@@ -20,13 +20,12 @@
 // --------------------------------------------------------------------------------------------
 namespace Gecko
 {
-	using System;
-	using System.Runtime.InteropServices;
-	using System.Runtime.InteropServices.ComTypes;
-	using System.Runtime.CompilerServices;
-	
-	
-	/// <summary>
+    using System;
+    using System.Runtime.CompilerServices;
+    using System.Runtime.InteropServices;
+
+
+    /// <summary>
     /// The nsIPrefService interface is the main entry point into the back end
     /// preferences management library. The preference service is directly
     /// responsible for the management of the preferences files and also facilitates
@@ -35,7 +34,7 @@ namespace Gecko
     ///
     /// @see nsIPrefBranch
     /// </summary>
-	[ComImport()]
+    [ComImport()]
 	[InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 	[Guid("decb9cc7-c08f-4ea5-be91-a8fc637ce2d2")]
 	public interface nsIPrefService

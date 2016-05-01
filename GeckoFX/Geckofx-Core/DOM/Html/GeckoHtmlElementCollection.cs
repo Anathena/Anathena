@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Gecko
 {
-	public class GeckoHtmlElementCollection
+    public class GeckoHtmlElementCollection
 		: GeckoElementCollection
 	{
 		internal GeckoHtmlElementCollection(nsIDOMHTMLCollection col) : base(null)

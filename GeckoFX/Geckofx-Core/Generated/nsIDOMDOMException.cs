@@ -20,13 +20,12 @@
 // --------------------------------------------------------------------------------------------
 namespace Gecko
 {
-	using System;
-	using System.Runtime.InteropServices;
-	using System.Runtime.InteropServices.ComTypes;
-	using System.Runtime.CompilerServices;
-	
-	
-	/// <summary>
+    using System;
+    using System.Runtime.CompilerServices;
+    using System.Runtime.InteropServices;
+
+
+    /// <summary>
     /// In general, DOM methods return specific error values in ordinary
     /// processing situations, such as out-of-bound errors.
     /// However, DOM operations can raise exceptions in "exceptional"
@@ -37,7 +36,7 @@ namespace Gecko
     /// For more information on this interface please see
     /// http://dvcs.w3.org/hg/domcore/raw-file/tip/Overview.html#domexception
     /// </summary>
-	[ComImport()]
+    [ComImport()]
 	[InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 	[Guid("5bd766d3-57a9-4833-995d-dbe21da29595")]
 	public interface nsIDOMDOMException

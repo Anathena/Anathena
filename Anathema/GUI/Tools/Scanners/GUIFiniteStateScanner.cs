@@ -1,7 +1,7 @@
-﻿using System;
-using WeifenLuo.WinFormsUI.Docking;
+﻿using Anathema.Scanners.FiniteStateScanner;
 using Anathema.Utils.MVP;
-using Anathema.Scanners.FiniteStateScanner;
+using System;
+using WeifenLuo.WinFormsUI.Docking;
 
 namespace Anathema.GUI
 {

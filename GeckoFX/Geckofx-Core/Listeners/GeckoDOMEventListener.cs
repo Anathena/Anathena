@@ -1,11 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace Gecko.Listeners
 {
-	[Obsolete]
+    [Obsolete]
     class GeckoDOMEventListener : GeckoBaseListener, nsIDOMEventListener
     {
         public GeckoDOMEventListener(nsIDOMEventListener p_broowser)

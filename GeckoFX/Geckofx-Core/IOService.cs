@@ -1,13 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using Gecko.Interop;
 using System.Runtime.InteropServices;
-using System.Text;
-using Gecko.Interop;
 
 namespace Gecko
 {
-	public static class IOService
+    public static class IOService
 	{
 		private static ComPtr<nsIIOService2> _service;
 

@@ -20,16 +20,15 @@
 // --------------------------------------------------------------------------------------------
 namespace Gecko
 {
-	using System;
-	using System.Runtime.InteropServices;
-	using System.Runtime.InteropServices.ComTypes;
-	using System.Runtime.CompilerServices;
-	
-	
-	/// <summary>
+    using System;
+    using System.Runtime.CompilerServices;
+    using System.Runtime.InteropServices;
+
+
+    /// <summary>
     /// An input stream that allows you to read from a file.
     /// </summary>
-	[ComImport()]
+    [ComImport()]
 	[Guid("e3d56a20-c7ec-11d3-8cda-0060b0fc14a3")]
 	public interface nsIFileInputStream : nsIInputStream
 	{

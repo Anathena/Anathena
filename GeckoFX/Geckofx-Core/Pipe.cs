@@ -1,16 +1,15 @@
-using System;
-using System.Runtime.InteropServices;
-using System.Threading;
 using Gecko.Interop;
+using System;
+using System.Threading;
 
 namespace Gecko
 {
-	/// <summary>
-	/// Pipe transfers data from nsIAsyncOutputStream to nsIAsyncInputStream
-	/// Can be used for transfer data between threads
-	/// WARNING it seems that this class can be created only one time :(
-	/// </summary>
-	public sealed class Pipe
+    /// <summary>
+    /// Pipe transfers data from nsIAsyncOutputStream to nsIAsyncInputStream
+    /// Can be used for transfer data between threads
+    /// WARNING it seems that this class can be created only one time :(
+    /// </summary>
+    public sealed class Pipe
 		:IDisposable 
 	{
 		internal ComPtr<nsIPipe> _pipe;

@@ -1,14 +1,14 @@
+using Gecko.Interop;
 using System;
 using System.Drawing;
 using System.Runtime.InteropServices;
-using Gecko.Interop;
 
 namespace Gecko
 {
-	/// <summary>
-	/// Represents a DOM HTML element.
-	/// </summary>
-	public class GeckoHtmlElement
+    /// <summary>
+    /// Represents a DOM HTML element.
+    /// </summary>
+    public class GeckoHtmlElement
 		: GeckoElement
 	{
 		private nsIDOMHTMLElement _domHtmlElement;

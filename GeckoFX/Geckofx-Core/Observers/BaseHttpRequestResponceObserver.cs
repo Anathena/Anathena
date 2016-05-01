@@ -1,10 +1,9 @@
-using System;
-using System.Runtime.InteropServices;
 using Gecko.Net;
+using System;
 
 namespace Gecko.Observers
 {
-	public class BaseHttpRequestResponseObserver
+    public class BaseHttpRequestResponseObserver
 		: NsSupportsBase, nsIObserver
 	{
 		internal bool _isRegistered;

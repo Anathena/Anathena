@@ -20,20 +20,19 @@
 // --------------------------------------------------------------------------------------------
 namespace Gecko
 {
-	using System;
-	using System.Runtime.InteropServices;
-	using System.Runtime.InteropServices.ComTypes;
-	using System.Runtime.CompilerServices;
-	
-	
-	/// <summary>
+    using System;
+    using System.Runtime.CompilerServices;
+    using System.Runtime.InteropServices;
+
+
+    /// <summary>
     /// mozIStorageAsyncConnection represents an asynchronous database
     /// connection attached to a specific file or to an in-memory data
     /// storage.  It is the primary interface for interacting with a
     /// database from the main thread, including creating prepared
     /// statements, executing SQL, and examining database errors.
     /// </summary>
-	[ComImport()]
+    [ComImport()]
 	[InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 	[Guid("8bfd34d5-4ddf-4e4b-89dd-9b14f33534c6")]
 	public interface mozIStorageAsyncConnection

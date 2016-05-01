@@ -20,13 +20,11 @@
 // --------------------------------------------------------------------------------------------
 namespace Gecko
 {
-	using System;
-	using System.Runtime.InteropServices;
-	using System.Runtime.InteropServices.ComTypes;
-	using System.Runtime.CompilerServices;
-	
-	
-	/// <summary>
+    using System;
+    using System.Runtime.InteropServices;
+
+
+    /// <summary>
     /// This interface remains only for the constants, for a context, use the
     /// WebIDL/Paris bindings instead (CanvasRenderingContext2D.webidl).
     /// The constants are used by CanvasRenderingContext2D::DrawWindow and are
@@ -34,7 +32,7 @@ namespace Gecko
     /// be referenced directly via a canvas context 2d rather than this interface,
     /// and that should be preferred in new code.
     /// </summary>
-	[ComImport()]
+    [ComImport()]
 	[InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 	[Guid("4417cab7-c7eb-4e0c-b00a-c43842f0cba8")]
 	public interface nsIDOMCanvasRenderingContext2D

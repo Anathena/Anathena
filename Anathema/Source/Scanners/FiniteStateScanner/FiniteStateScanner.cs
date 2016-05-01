@@ -1,11 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Threading;
-using Anathema.Scanners.ScanConstraints;
+﻿using Anathema.Scanners.ScanConstraints;
 using Anathema.Services.Snapshots;
 using Anathema.User.UserSettings;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Anathema.Scanners.FiniteStateScanner
 {

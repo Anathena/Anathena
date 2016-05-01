@@ -20,18 +20,17 @@
 // --------------------------------------------------------------------------------------------
 namespace Gecko
 {
-	using System;
-	using System.Runtime.InteropServices;
-	using System.Runtime.InteropServices.ComTypes;
-	using System.Runtime.CompilerServices;
-	
-	
-	/// <summary>
+    using System;
+    using System.Runtime.CompilerServices;
+    using System.Runtime.InteropServices;
+
+
+    /// <summary>
     /// The result of query content events.  succeeded propery can be used always.
     /// Whether other properties can be used or not depends on the event.
     /// See nsIDOMWindowUtils.idl, which properites can be used was documented.
     /// </summary>
-	[ComImport()]
+    [ComImport()]
 	[InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 	[Guid("4b4ba266-b51e-4f0f-8d0e-9f13cb2a0056")]
 	public interface nsIQueryContentEventResult

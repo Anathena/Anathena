@@ -20,18 +20,17 @@
 // --------------------------------------------------------------------------------------------
 namespace Gecko
 {
-	using System;
-	using System.Runtime.InteropServices;
-	using System.Runtime.InteropServices.ComTypes;
-	using System.Runtime.CompilerServices;
-	
-	
-	/// <summary>
+    using System;
+    using System.Runtime.CompilerServices;
+    using System.Runtime.InteropServices;
+
+
+    /// <summary>
     /// The nsIDocShellTreeItem supplies the methods that are required of any item
     /// that wishes to be able to live within the docshell tree either as a middle
     /// node or a leaf.
     /// </summary>
-	[ComImport()]
+    [ComImport()]
 	[InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 	[Guid("f897f4af-f67e-4115-9d37-ce09f71122e2")]
 	public interface nsIDocShellTreeItem

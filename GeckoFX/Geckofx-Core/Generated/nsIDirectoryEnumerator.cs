@@ -20,19 +20,18 @@
 // --------------------------------------------------------------------------------------------
 namespace Gecko
 {
-	using System;
-	using System.Runtime.InteropServices;
-	using System.Runtime.InteropServices.ComTypes;
-	using System.Runtime.CompilerServices;
-	
-	
-	/// <summary>
+    using System;
+    using System.Runtime.CompilerServices;
+    using System.Runtime.InteropServices;
+
+
+    /// <summary>
     /// This interface provides a means for enumerating the contents of a directory.
     /// It is similar to nsISimpleEnumerator except the retrieved entries are QI'ed
     /// to nsIFile, and there is a mechanism for closing the directory when the
     /// enumeration is complete.
     /// </summary>
-	[ComImport()]
+    [ComImport()]
 	[InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 	[Guid("31f7f4ae-6916-4f2d-a81e-926a4e3022ee")]
 	public interface nsIDirectoryEnumerator

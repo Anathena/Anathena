@@ -20,18 +20,17 @@
 // --------------------------------------------------------------------------------------------
 namespace Gecko
 {
-	using System;
-	using System.Runtime.InteropServices;
-	using System.Runtime.InteropServices.ComTypes;
-	using System.Runtime.CompilerServices;
-	
-	
-	/// <summary>
+    using System;
+    using System.Runtime.CompilerServices;
+    using System.Runtime.InteropServices;
+
+
+    /// <summary>
     /// Transition events are defined in:
     /// http://www.w3.org/TR/css3-transitions/#transition-events-
     /// http://dev.w3.org/csswg/css3-transitions/#transition-events-
     /// </summary>
-	[ComImport()]
+    [ComImport()]
 	[InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 	[Guid("a37171e0-9f43-41ea-a25c-0b78a3329683")]
 	public interface nsIDOMTransitionEvent : nsIDOMEvent

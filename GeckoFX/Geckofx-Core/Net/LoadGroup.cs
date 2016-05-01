@@ -1,9 +1,9 @@
-using System.Collections.Generic;
 using Gecko.Interop;
+using System.Collections.Generic;
 
 namespace Gecko.Net
 {
-	public sealed class LoadGroup
+    public sealed class LoadGroup
 		:Request
 	{
 		internal nsILoadGroup _loadGroup;

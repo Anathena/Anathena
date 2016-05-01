@@ -1,13 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.InteropServices;
-using System.Text;
+﻿using System.Runtime.InteropServices;
 
 namespace Gecko
 {
-	// TODO: make this class binary marshalable from struct nsRect
-	/*	  
+    // TODO: make this class binary marshalable from struct nsRect
+    /*	  
 	 *	struct NS_GFX nsRect {
 		nscoord x, y;
 		nscoord width, height;
@@ -18,7 +14,7 @@ namespace Gecko
 	 * float -> 32 bit
 	 * int -> 32 bit
 	 */
-	[StructLayout(LayoutKind.Sequential)]
+    [StructLayout(LayoutKind.Sequential)]
 	public class nsIntRect
 	{
 		public int X;

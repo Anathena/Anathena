@@ -20,13 +20,12 @@
 // --------------------------------------------------------------------------------------------
 namespace Gecko
 {
-	using System;
-	using System.Runtime.InteropServices;
-	using System.Runtime.InteropServices.ComTypes;
-	using System.Runtime.CompilerServices;
-	
-	
-	/// <summary>
+    using System;
+    using System.Runtime.CompilerServices;
+    using System.Runtime.InteropServices;
+
+
+    /// <summary>
     /// The nsIWindowProvider interface exists so that the window watcher's default
     /// behavior of opening a new window can be easly modified.  When the window
     /// watcher needs to open a new window, it will first check with the
@@ -34,7 +33,7 @@ namespace Gecko
     /// or the provider does not provide a window, the window watcher will proceed
     /// to actually open a new window.
     /// </summary>
-	[ComImport()]
+    [ComImport()]
 	[InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 	[Guid("f607bd66-08e5-4d2e-ad83-9f9f3ca17658")]
 	public interface nsIWindowProvider

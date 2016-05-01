@@ -20,13 +20,12 @@
 // --------------------------------------------------------------------------------------------
 namespace Gecko
 {
-	using System;
-	using System.Runtime.InteropServices;
-	using System.Runtime.InteropServices.ComTypes;
-	using System.Runtime.CompilerServices;
-	
-	
-	/// <summary>
+    using System;
+    using System.Runtime.CompilerServices;
+    using System.Runtime.InteropServices;
+
+
+    /// <summary>
     /// The nsIDOMHTMLAreaElement interface is the interface to a [X]HTML
     /// area element.
     ///
@@ -36,7 +35,7 @@ namespace Gecko
     /// with changes from the work-in-progress WHATWG HTML specification:
     /// http://www.whatwg.org/specs/web-apps/current-work/
     /// </summary>
-	[ComImport()]
+    [ComImport()]
 	[InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 	[Guid("40c78026-36dc-40ca-9221-de73267e9e99")]
 	public interface nsIDOMHTMLAreaElement

@@ -1,11 +1,9 @@
 ﻿using Anathema.Source.Utils;
-using Anathema.Utils.Extensions;
 using Anathema.Utils.OS;
 using Gecko;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Runtime.CompilerServices;
 using System.Windows.Forms;
 
 namespace Anathema.Utils.Browser
@@ -26,7 +24,7 @@ namespace Anathema.Utils.Browser
             BackgroundDownloadTags = new List<String>();
             RunOnce = true;
         }
-        
+
         public static BrowserHelper GetInstance()
         {
             return BrowserHelperInstance.Value;

@@ -20,16 +20,14 @@
 // --------------------------------------------------------------------------------------------
 namespace Gecko
 {
-	using System;
-	using System.Runtime.InteropServices;
-	using System.Runtime.InteropServices.ComTypes;
-	using System.Runtime.CompilerServices;
-	
-	
-	/// <summary>
+    using System;
+    using System.Runtime.InteropServices;
+
+
+    /// <summary>
     /// Exists so that | element instanceof Ci.nsIDOMHTMLDirectoryElement | works.
     /// </summary>
-	[ComImport()]
+    [ComImport()]
 	[InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 	[Guid("8cfff7a4-8b14-4ce0-97b0-babe78da16f8")]
 	public interface nsIDOMHTMLDirectoryElement

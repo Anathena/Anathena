@@ -20,13 +20,12 @@
 // --------------------------------------------------------------------------------------------
 namespace Gecko
 {
-	using System;
-	using System.Runtime.InteropServices;
-	using System.Runtime.InteropServices.ComTypes;
-	using System.Runtime.CompilerServices;
-	
-	
-	/// <summary>
+    using System;
+    using System.Runtime.CompilerServices;
+    using System.Runtime.InteropServices;
+
+
+    /// <summary>
     /// A container for policy information to be used during channel creation.
     ///
     /// This interface exists to allow the content policy mechanism to function
@@ -34,7 +33,7 @@ namespace Gecko
     /// interface placed in the property bag and upon redirect, the interface can
     /// be transferred from the old channel to the new channel.
     /// </summary>
-	[ComImport()]
+    [ComImport()]
 	[InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 	[Guid("18045e96-1afe-4162-837a-04691267158c")]
 	public interface nsIChannelPolicy

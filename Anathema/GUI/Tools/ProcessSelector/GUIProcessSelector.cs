@@ -18,7 +18,7 @@ namespace Anathema.GUI
         public GUIProcessSelector()
         {
             InitializeComponent();
-            
+
             // Set custom properties for our process List View
             ProcessListView.Columns.Add(Alignment + "Processes");
             ProcessListView.View = View.Details;
@@ -64,7 +64,7 @@ namespace Anathema.GUI
         {
             ProcessSelectorPresenter.RefreshProcesses(this.Handle);
         }
-        
+
         private void HandleResize()
         {
             ProcessListView.Columns[0].Width = ProcessListView.Width - 24;
@@ -96,5 +96,5 @@ namespace Anathema.GUI
 
     }
 
-  
+
 }

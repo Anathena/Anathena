@@ -1,7 +1,5 @@
-﻿using Anathema.Utils.Cache;
-using Anathema.Utils.MVP;
+﻿using Anathema.Utils.MVP;
 using System;
-using System.Windows.Forms;
 
 namespace Anathema.User.UserScriptTable
 {

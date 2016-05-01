@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace ScintillaNET
+﻿namespace ScintillaNET
 {
     /// <summary>
     /// Visibility and location of annotations in a <see cref="Scintilla" /> control

@@ -20,19 +20,18 @@
 // --------------------------------------------------------------------------------------------
 namespace Gecko
 {
-	using System;
-	using System.Runtime.InteropServices;
-	using System.Runtime.InteropServices.ComTypes;
-	using System.Runtime.CompilerServices;
-	
-	
-	/// <summary>
+    using System;
+    using System.Runtime.CompilerServices;
+    using System.Runtime.InteropServices;
+
+
+    /// <summary>
     /// Allow applications to interface with the Mac OS X Dock.
     ///
     /// Applications may indicate progress on their Dock icon. Only one such
     /// progress indicator is available to the entire application.
     /// </summary>
-	[ComImport()]
+    [ComImport()]
 	[InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 	[Guid("8BE66B0C-5F71-4B74-98CF-6C2551B999B1")]
 	public interface nsIMacDockSupport

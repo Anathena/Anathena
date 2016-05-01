@@ -20,17 +20,16 @@
 // --------------------------------------------------------------------------------------------
 namespace Gecko
 {
-	using System;
-	using System.Runtime.InteropServices;
-	using System.Runtime.InteropServices.ComTypes;
-	using System.Runtime.CompilerServices;
-	
-	
-	/// <summary>
+    using System;
+    using System.Runtime.CompilerServices;
+    using System.Runtime.InteropServices;
+
+
+    /// <summary>
     /// An input stream that reads ahead and keeps a buffer coming from another input
     /// stream so that fewer accesses to the underlying stream are necessary.
     /// </summary>
-	[ComImport()]
+    [ComImport()]
 	[Guid("616f5b48-da09-11d3-8cda-0060b0fc14a3")]
 	public interface nsIBufferedInputStream : nsIInputStream
 	{

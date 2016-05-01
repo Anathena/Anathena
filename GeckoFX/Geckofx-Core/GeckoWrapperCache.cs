@@ -1,15 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace Gecko
 {
-	/// <summary>
-	/// To enable Caching of GeckoWrapper, 
-	/// include the include the following statement in your application: GeckoWrapperCache.Enabled = true;
-	/// </summary>
-	public static class GeckoWrapperCache
+    /// <summary>
+    /// To enable Caching of GeckoWrapper, 
+    /// include the include the following statement in your application: GeckoWrapperCache.Enabled = true;
+    /// </summary>
+    public static class GeckoWrapperCache
 	{
 		static public bool Enabled = false;
 	}

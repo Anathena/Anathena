@@ -31,7 +31,6 @@
  * the provisions above, a recipient may use your version of this file under
  * the terms of any one of the MPL, the GPL or the LGPL.
  */
-using Gecko.DOM;
 using Gecko.Services;
 
 
@@ -63,10 +62,10 @@ using Gecko.Windows;
 
 namespace Gecko
 {
-	/// <summary>
-	/// Provides low-level access to XPCOM.
-	/// </summary>
-	public static class Xpcom
+    /// <summary>
+    /// Provides low-level access to XPCOM.
+    /// </summary>
+    public static class Xpcom
 	{
 		#region XpCom Methods
 		/// <summary>

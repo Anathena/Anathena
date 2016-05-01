@@ -1,13 +1,6 @@
-
-
-using System;
-using System.Collections.Generic;
-using System.Runtime.InteropServices;
-using System.Text;
-
 namespace Gecko.DOM
-{	
-	public class GeckoFrameElement : GeckoHtmlElement
+{
+    public class GeckoFrameElement : GeckoHtmlElement
 	{
 		nsIDOMHTMLFrameElement DOMHTMLElement;
 		internal GeckoFrameElement(nsIDOMHTMLFrameElement element) : base(element)

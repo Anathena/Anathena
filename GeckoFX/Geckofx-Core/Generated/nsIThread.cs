@@ -20,13 +20,12 @@
 // --------------------------------------------------------------------------------------------
 namespace Gecko
 {
-	using System;
-	using System.Runtime.InteropServices;
-	using System.Runtime.InteropServices.ComTypes;
-	using System.Runtime.CompilerServices;
-	
-	
-	/// <summary>
+    using System;
+    using System.Runtime.CompilerServices;
+    using System.Runtime.InteropServices;
+
+
+    /// <summary>
     /// This interface provides a high-level abstraction for an operating system
     /// thread.
     ///
@@ -35,7 +34,7 @@ namespace Gecko
     ///
     /// See nsIThreadManager for the API used to create and locate threads.
     /// </summary>
-	[ComImport()]
+    [ComImport()]
 	[InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 	[Guid("9c889946-a73a-4af3-ae9a-ea64f7d4e3ca")]
 	public interface nsIThread : nsIEventTarget

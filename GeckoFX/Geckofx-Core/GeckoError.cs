@@ -1,6 +1,6 @@
 ﻿namespace Gecko
 {
-	public static class GeckoError
+    public static class GeckoError
 	{
 
 		/**

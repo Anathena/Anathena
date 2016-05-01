@@ -34,15 +34,15 @@
 #endregion END LICENSE BLOCK
 
 using System;
-using System.Drawing;
 using System.Collections.Generic;
+using System.Drawing;
 
 namespace Gecko
 {
-	/// <summary>
-	/// Manipulates and queries the current selected range of nodes within the document.
-	/// </summary>
-	public class GeckoSelection
+    /// <summary>
+    /// Manipulates and queries the current selected range of nodes within the document.
+    /// </summary>
+    public class GeckoSelection
 	{
 		private GeckoSelection(nsISelection selection)
 		{

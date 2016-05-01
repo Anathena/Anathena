@@ -1,15 +1,12 @@
 ﻿using System;
-using System.Drawing.Imaging;
-using System.IO;
 using System.Drawing;
-using Gecko.DOM;
 
 namespace Gecko
 {
-	/// <summary>
-	/// Creates Png images of webbrowser
-	/// </summary>
-	public class ImageCreator
+    /// <summary>
+    /// Creates Png images of webbrowser
+    /// </summary>
+    public class ImageCreator
 	{
 		IGeckoWebBrowser m_browser;
 

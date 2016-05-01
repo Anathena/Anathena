@@ -20,13 +20,12 @@
 // --------------------------------------------------------------------------------------------
 namespace Gecko
 {
-	using System;
-	using System.Runtime.InteropServices;
-	using System.Runtime.InteropServices.ComTypes;
-	using System.Runtime.CompilerServices;
-	
-	
-	/// <summary>
+    using System;
+    using System.Runtime.CompilerServices;
+    using System.Runtime.InteropServices;
+
+
+    /// <summary>
     /// These interfaces do *not* scroll or scale the content document;
     /// instead they set a "goal" scroll/scale wrt the current content
     /// view.  When the content document is painted, the scroll*
@@ -46,7 +45,7 @@ namespace Gecko
     /// These APIs are designed to be used with nsIDOMWindowUtils
     /// setDisplayPort() and setResolution().
     /// </summary>
-	[ComImport()]
+    [ComImport()]
 	[InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 	[Guid("c04c5c40-fa2a-4e9c-94f5-b362a10a86cb")]
 	public interface nsIContentView

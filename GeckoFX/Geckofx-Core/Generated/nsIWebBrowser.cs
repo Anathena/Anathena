@@ -20,20 +20,19 @@
 // --------------------------------------------------------------------------------------------
 namespace Gecko
 {
-	using System;
-	using System.Runtime.InteropServices;
-	using System.Runtime.InteropServices.ComTypes;
-	using System.Runtime.CompilerServices;
-	
-	
-	/// <summary>
+    using System;
+    using System.Runtime.CompilerServices;
+    using System.Runtime.InteropServices;
+
+
+    /// <summary>
     /// The nsIWebBrowser interface is implemented by web browser objects.
     /// Embedders use this interface during initialisation to associate
     /// the new web browser instance with the embedders chrome and
     /// to register any listeners. The interface may also be used at runtime
     /// to obtain the content DOM window and from that the rest of the DOM.
     /// </summary>
-	[ComImport()]
+    [ComImport()]
 	[InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 	[Guid("33e9d001-caab-4ba9-8961-54902f197202")]
 	public interface nsIWebBrowser

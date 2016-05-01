@@ -20,13 +20,12 @@
 // --------------------------------------------------------------------------------------------
 namespace Gecko
 {
-	using System;
-	using System.Runtime.InteropServices;
-	using System.Runtime.InteropServices.ComTypes;
-	using System.Runtime.CompilerServices;
-	
-	
-	/// <summary>
+    using System;
+    using System.Runtime.CompilerServices;
+    using System.Runtime.InteropServices;
+
+
+    /// <summary>
     /// The nsIStreamConverterService is a higher level stream converter factory
     /// responsible for locating and creating stream converters
     /// (nsIStreamConverter).
@@ -39,7 +38,7 @@ namespace Gecko
     /// @author Jud Valeski
     /// @see nsIStreamConverter
     /// </summary>
-	[ComImport()]
+    [ComImport()]
 	[InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 	[Guid("f2b1ab53-f0bd-4adb-9365-e59b1701a258")]
 	public interface nsIStreamConverterService

@@ -20,20 +20,19 @@
 // --------------------------------------------------------------------------------------------
 namespace Gecko
 {
-	using System;
-	using System.Runtime.InteropServices;
-	using System.Runtime.InteropServices.ComTypes;
-	using System.Runtime.CompilerServices;
-	
-	
-	/// <summary>
+    using System;
+    using System.Runtime.CompilerServices;
+    using System.Runtime.InteropServices;
+
+
+    /// <summary>
     /// The nsIDOMCSSRuleList interface is a datatype for a list of CSS
     /// style rules in the Document Object Model.
     ///
     /// For more information on this interface please see
     /// http://www.w3.org/TR/DOM-Level-2-Style
     /// </summary>
-	[ComImport()]
+    [ComImport()]
 	[InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 	[Guid("a6cf90c0-15b3-11d2-932e-00805f8add32")]
 	public interface nsIDOMCSSRuleList

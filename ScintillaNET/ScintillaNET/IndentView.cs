@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace ScintillaNET
+﻿namespace ScintillaNET
 {
     /// <summary>
     /// Options for displaying indentation guides in a <see cref="Scintilla" /> control.

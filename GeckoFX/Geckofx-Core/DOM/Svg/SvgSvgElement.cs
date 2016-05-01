@@ -1,6 +1,6 @@
 namespace Gecko.DOM.Svg
 {
-	public class SvgSvgElement
+    public class SvgSvgElement
 		:SvgElement
 	{
 		protected SvgSvgElement(nsIDOMSVGElement svgSvgElement)

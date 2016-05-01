@@ -1,13 +1,13 @@
+using Gecko.DOM;
 using System;
 using System.Collections.Generic;
-using Gecko.DOM;
 
 namespace Gecko
 {
-	/// <summary>
-	/// Represents a DOM HTML document.
-	/// </summary>
-	public class GeckoDocument : GeckoDomDocument
+    /// <summary>
+    /// Represents a DOM HTML document.
+    /// </summary>
+    public class GeckoDocument : GeckoDomDocument
 	{
 		private nsIDOMHTMLDocument _domHtmlDocument;
 

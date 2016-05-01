@@ -1,14 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace Gecko.Cryptography
+﻿namespace Gecko.Cryptography
 {
-	/// <summary>
-	/// Hash Algorith type
-	/// </summary>
-	public enum HashAlgorithm
+    /// <summary>
+    /// Hash Algorith type
+    /// </summary>
+    public enum HashAlgorithm
 	{
 		/// <summary>
 		/// Message Digest Algorithm 2

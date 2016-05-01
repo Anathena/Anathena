@@ -20,20 +20,19 @@
 // --------------------------------------------------------------------------------------------
 namespace Gecko
 {
-	using System;
-	using System.Runtime.InteropServices;
-	using System.Runtime.InteropServices.ComTypes;
-	using System.Runtime.CompilerServices;
-	
-	
-	/// <summary>
+    using System;
+    using System.Runtime.CompilerServices;
+    using System.Runtime.InteropServices;
+
+
+    /// <summary>
     /// The nsIWebBrowserSetup interface lets you set properties on a browser
     /// object; you can do so at any time during the life cycle of the browser.
     ///
     /// @note Unless stated otherwise, settings are presumed to be enabled by
     /// default.
     /// </summary>
-	[ComImport()]
+    [ComImport()]
 	[InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 	[Guid("F15398A0-8018-11d3-AF70-00A024FFC08C")]
 	public interface nsIWebBrowserSetup

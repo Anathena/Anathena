@@ -20,13 +20,12 @@
 // --------------------------------------------------------------------------------------------
 namespace Gecko
 {
-	using System;
-	using System.Runtime.InteropServices;
-	using System.Runtime.InteropServices.ComTypes;
-	using System.Runtime.CompilerServices;
-	
-	
-	/// <summary>
+    using System;
+    using System.Runtime.CompilerServices;
+    using System.Runtime.InteropServices;
+
+
+    /// <summary>
     /// mozIStorageFunction is to be implemented by storage consumers that
     /// wish to receive callbacks during the request execution.
     ///
@@ -39,7 +38,7 @@ namespace Gecko
     /// These functions can be called from triggers, too.
     ///
     /// </summary>
-	[ComImport()]
+    [ComImport()]
 	[InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 	[Guid("9ff02465-21cb-49f3-b975-7d5b38ceec73")]
 	public interface mozIStorageFunction

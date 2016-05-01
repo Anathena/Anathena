@@ -20,13 +20,12 @@
 // --------------------------------------------------------------------------------------------
 namespace Gecko
 {
-	using System;
-	using System.Runtime.InteropServices;
-	using System.Runtime.InteropServices.ComTypes;
-	using System.Runtime.CompilerServices;
-	
-	
-	/// <summary>
+    using System;
+    using System.Runtime.CompilerServices;
+    using System.Runtime.InteropServices;
+
+
+    /// <summary>
     /// Interface for an XML filter.
     ///
     /// An XML filter is like an XML reader, except that it obtains its
@@ -34,7 +33,7 @@ namespace Gecko
     /// XML document or database.  Filters can modify a stream of events as
     /// they pass on to the final application.
     /// </summary>
-	[ComImport()]
+    [ComImport()]
 	[InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 	[Guid("77a22cf0-6cdf-11da-be43-001422106990")]
 	public interface nsISAXXMLFilter : nsISAXXMLReader

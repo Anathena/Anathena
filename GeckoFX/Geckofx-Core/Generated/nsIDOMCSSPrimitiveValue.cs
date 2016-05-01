@@ -20,20 +20,19 @@
 // --------------------------------------------------------------------------------------------
 namespace Gecko
 {
-	using System;
-	using System.Runtime.InteropServices;
-	using System.Runtime.InteropServices.ComTypes;
-	using System.Runtime.CompilerServices;
-	
-	
-	/// <summary>
+    using System;
+    using System.Runtime.CompilerServices;
+    using System.Runtime.InteropServices;
+
+
+    /// <summary>
     /// The nsIDOMCSSPrimitiveValue interface is a datatype for a primitive
     /// CSS value in the Document Object Model.
     ///
     /// For more information on this interface please see
     /// http://www.w3.org/TR/DOM-Level-2-Style
     /// </summary>
-	[ComImport()]
+    [ComImport()]
 	[InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 	[Guid("f6df7293-2dc9-4cb9-9531-778caf4370e0")]
 	public interface nsIDOMCSSPrimitiveValue : nsIDOMCSSValue

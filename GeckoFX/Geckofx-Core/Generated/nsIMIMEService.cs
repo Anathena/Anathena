@@ -20,13 +20,12 @@
 // --------------------------------------------------------------------------------------------
 namespace Gecko
 {
-	using System;
-	using System.Runtime.InteropServices;
-	using System.Runtime.InteropServices.ComTypes;
-	using System.Runtime.CompilerServices;
-	
-	
-	/// <summary>
+    using System;
+    using System.Runtime.CompilerServices;
+    using System.Runtime.InteropServices;
+
+
+    /// <summary>
     /// The MIME service is responsible for mapping file extensions to MIME-types
     /// (see RFC 2045). It also provides access to nsIMIMEInfo interfaces and
     /// acts as a general convenience wrapper of nsIMIMEInfo interfaces.
@@ -37,7 +36,7 @@ namespace Gecko
     ///
     /// @see nsIMIMEInfo
     /// </summary>
-	[ComImport()]
+    [ComImport()]
 	[InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 	[Guid("5b3675a1-02db-4f8f-a560-b34736635f47")]
 	public interface nsIMIMEService

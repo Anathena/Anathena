@@ -20,13 +20,12 @@
 // --------------------------------------------------------------------------------------------
 namespace Gecko
 {
-	using System;
-	using System.Runtime.InteropServices;
-	using System.Runtime.InteropServices.ComTypes;
-	using System.Runtime.CompilerServices;
-	
-	
-	/// <summary>
+    using System;
+    using System.Runtime.CompilerServices;
+    using System.Runtime.InteropServices;
+
+
+    /// <summary>
     /// This file contains an interface to the Permission Manager,
     /// used to persistenly store permissions for different object types (cookies,
     /// images etc) on a site-by-site basis.
@@ -50,7 +49,7 @@ namespace Gecko
     /// "cleared"
     /// the entire permission list was cleared. the subject is null.
     /// </summary>
-	[ComImport()]
+    [ComImport()]
 	[InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 	[Guid("c9fec678-f194-43c9-96b0-7bd9dbdd6bb0")]
 	public interface nsIPermissionManager

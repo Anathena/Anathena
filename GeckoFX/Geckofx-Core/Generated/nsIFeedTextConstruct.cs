@@ -20,18 +20,17 @@
 // --------------------------------------------------------------------------------------------
 namespace Gecko
 {
-	using System;
-	using System.Runtime.InteropServices;
-	using System.Runtime.InteropServices.ComTypes;
-	using System.Runtime.CompilerServices;
-	
-	
-	/// <summary>
+    using System;
+    using System.Runtime.CompilerServices;
+    using System.Runtime.InteropServices;
+
+
+    /// <summary>
     /// nsIFeedTextConstructs represent feed text fields that can contain
     /// one of text, HTML, or XHTML. Some extension elements also have "type"
     /// parameters, and this interface could be used there as well.
     /// </summary>
-	[ComImport()]
+    [ComImport()]
 	[InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 	[Guid("fc97a2a9-d649-4494-931e-db81a156c873")]
 	public interface nsIFeedTextConstruct

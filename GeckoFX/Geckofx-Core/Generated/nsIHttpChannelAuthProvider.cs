@@ -20,13 +20,12 @@
 // --------------------------------------------------------------------------------------------
 namespace Gecko
 {
-	using System;
-	using System.Runtime.InteropServices;
-	using System.Runtime.InteropServices.ComTypes;
-	using System.Runtime.CompilerServices;
-	
-	
-	/// <summary>
+    using System;
+    using System.Runtime.CompilerServices;
+    using System.Runtime.InteropServices;
+
+
+    /// <summary>
     /// nsIHttpChannelAuthProvider
     ///
     /// This interface is intended for providing authentication for http-style
@@ -41,7 +40,7 @@ namespace Gecko
     /// request, checkForSuperfluousAuth MAY be called, and disconnect MUST be
     /// called.
     /// </summary>
-	[ComImport()]
+    [ComImport()]
 	[InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 	[Guid("c68f3def-c7c8-4ee8-861c-eef49a48b702")]
 	public interface nsIHttpChannelAuthProvider : nsICancelable

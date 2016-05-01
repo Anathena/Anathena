@@ -20,20 +20,19 @@
 // --------------------------------------------------------------------------------------------
 namespace Gecko
 {
-	using System;
-	using System.Runtime.InteropServices;
-	using System.Runtime.InteropServices.ComTypes;
-	using System.Runtime.CompilerServices;
-	
-	
-	/// <summary>
+    using System;
+    using System.Runtime.CompilerServices;
+    using System.Runtime.InteropServices;
+
+
+    /// <summary>
     /// The CloseEvent interface is the interface to the event
     /// close on a WebSocket object.
     ///
     /// For more information on this interface, please see
     /// http://dev.w3.org/html5/websockets/#closeevent
     /// </summary>
-	[ComImport()]
+    [ComImport()]
 	[InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 	[Guid("0b85dc61-2436-4786-b153-097f5c3a33b6")]
 	public interface nsIDOMCloseEvent : nsIDOMEvent

@@ -20,13 +20,12 @@
 // --------------------------------------------------------------------------------------------
 namespace Gecko
 {
-	using System;
-	using System.Runtime.InteropServices;
-	using System.Runtime.InteropServices.ComTypes;
-	using System.Runtime.CompilerServices;
-	
-	
-	/// <summary>
+    using System;
+    using System.Runtime.CompilerServices;
+    using System.Runtime.InteropServices;
+
+
+    /// <summary>
     /// Version strings are dot-separated sequences of version-parts.
     ///
     /// A version-part consists of up to four parts, all of which are optional:
@@ -54,7 +53,7 @@ namespace Gecko
     /// Although not required by this interface, it is recommended that
     /// numbers remain within the limits of a signed char, i.e. -127 to 128.
     /// </summary>
-	[ComImport()]
+    [ComImport()]
 	[InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 	[Guid("e6cd620a-edbb-41d2-9e42-9a2ffc8107f3")]
 	public interface nsIVersionComparator

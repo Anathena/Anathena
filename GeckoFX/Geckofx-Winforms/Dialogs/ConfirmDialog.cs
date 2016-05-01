@@ -40,7 +40,7 @@ using System.Windows.Forms;
 
 namespace Gecko
 {
-	partial class ConfirmDialog : Form
+    partial class ConfirmDialog : Form
 	{
 		public ConfirmDialog()
 		{

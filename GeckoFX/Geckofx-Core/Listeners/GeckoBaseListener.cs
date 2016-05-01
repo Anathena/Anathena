@@ -1,12 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Runtime.InteropServices;
 
 namespace Gecko.Listeners
 {
-	[Obsolete]
+    [Obsolete]
     abstract class GeckoBaseListener : nsISupportsWeakReference, nsIWeakReference
     {
         protected System.WeakReference _weakBrowser;

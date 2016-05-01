@@ -20,13 +20,12 @@
 // --------------------------------------------------------------------------------------------
 namespace Gecko
 {
-	using System;
-	using System.Runtime.InteropServices;
-	using System.Runtime.InteropServices.ComTypes;
-	using System.Runtime.CompilerServices;
-	
-	
-	/// <summary>
+    using System;
+    using System.Runtime.CompilerServices;
+    using System.Runtime.InteropServices;
+
+
+    /// <summary>
     /// Basic interface for SAX error handlers.
     ///
     /// If a SAX application needs to implement customized error
@@ -40,7 +39,7 @@ namespace Gecko
     /// be registered.
     ///
     /// </summary>
-	[ComImport()]
+    [ComImport()]
 	[InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 	[Guid("e02b6693-6cca-11da-be43-001422106990")]
 	public interface nsISAXErrorHandler

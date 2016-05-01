@@ -3,7 +3,7 @@ using System.Globalization;
 
 namespace Gecko.JQuery
 {
-	public class JQueryExecutor
+    public class JQueryExecutor
 	{
 		private readonly GeckoWindow _window;
 

@@ -20,20 +20,19 @@
 // --------------------------------------------------------------------------------------------
 namespace Gecko
 {
-	using System;
-	using System.Runtime.InteropServices;
-	using System.Runtime.InteropServices.ComTypes;
-	using System.Runtime.CompilerServices;
-	
-	
-	/// <summary>
+    using System;
+    using System.Runtime.CompilerServices;
+    using System.Runtime.InteropServices;
+
+
+    /// <summary>
     ///The nsPICommandUpdater interface is used by modules that implement
     ///	commands, to tell the command manager that commands need updating.
     ///	This is a private interface; embedders should not use it.
     ///	
     ///	Command-implementing modules should get one of these by a QI
     ///	from an nsICommandManager. </summary>
-	[ComImport()]
+    [ComImport()]
 	[InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 	[Guid("B135F602-0BFE-11D5-A73C-F0E420E8293C")]
 	public interface nsPICommandUpdater

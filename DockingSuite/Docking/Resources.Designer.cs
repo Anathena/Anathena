@@ -8,10 +8,10 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace WeifenLuo.WinFormsUI.Docking {
-    using System;
-    
-    
+namespace WeifenLuo.WinFormsUI.Docking
+{
+
+
     /// <summary>
     ///   A strongly-typed resource class, for looking up localized strings, etc.
     /// </summary>

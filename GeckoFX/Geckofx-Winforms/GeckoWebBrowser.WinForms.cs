@@ -1,20 +1,17 @@
-﻿using System;
+﻿using Gecko.Interop;
+using Gecko.Windows;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
-using System.Linq;
 using System.Reflection;
 using System.Runtime.InteropServices;
-using System.Text;
 using System.Windows.Forms;
-using Gecko.Listeners;
-using Gecko.Windows;
-using Gecko.Interop;
 
 // PLZ keep all Windows Forms related code here
 namespace Gecko
 {
-	partial class GeckoWebBrowser
+    partial class GeckoWebBrowser
 		: Control
 	{
 		#region Overridden Properties

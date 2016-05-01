@@ -1,6 +1,6 @@
 ﻿namespace Be.HexEditor
 {
-	partial class BitControl
+    partial class BitControl
 	{
 		/// <summary> 
 		/// Required designer variable.

@@ -20,20 +20,19 @@
 // --------------------------------------------------------------------------------------------
 namespace Gecko
 {
-	using System;
-	using System.Runtime.InteropServices;
-	using System.Runtime.InteropServices.ComTypes;
-	using System.Runtime.CompilerServices;
-	
-	
-	/// <summary>
+    using System;
+    using System.Runtime.CompilerServices;
+    using System.Runtime.InteropServices;
+
+
+    /// <summary>
     /// This entire interface is deprecated and should not be used.
     /// See nsIArray and nsIMutableArray for the new implementations.
     ///
     /// http://groups.google.com/groups?q=nsisupportsarray+group:netscape.public.mozilla.xpcom&hl=en&lr=&ie=UTF-8&oe=UTF-8&selm=3D779491.3050506%40netscape.com&rnum=2
     /// http://groups.google.com/groups?q=nsisupportsarray+group:netscape.public.mozilla.xpcom&hl=en&lr=&ie=UTF-8&oe=UTF-8&selm=al8412%245ab2%40ripley.netscape.com&rnum=8
     /// </summary>
-	[ComImport()]
+    [ComImport()]
 	[InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 	[Guid("241addc8-3608-4e73-8083-2fd6fa09eba2")]
 	public interface nsISupportsArray : nsICollection

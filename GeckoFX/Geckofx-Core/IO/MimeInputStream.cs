@@ -1,8 +1,6 @@
-using Gecko.Interop;
-
 namespace Gecko.IO
 {
-	public sealed class MimeInputStream
+    public sealed class MimeInputStream
 		:InputStream
 	{
 		private nsIMIMEInputStream _mimeInputStream;

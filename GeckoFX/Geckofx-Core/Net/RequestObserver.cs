@@ -2,7 +2,7 @@ using System;
 
 namespace Gecko.Net
 {
-	public sealed class RequestObserver
+    public sealed class RequestObserver
 		:nsIRequestObserver
 	{
 		void nsIRequestObserver.OnStartRequest( nsIRequest aRequest, nsISupports aContext )

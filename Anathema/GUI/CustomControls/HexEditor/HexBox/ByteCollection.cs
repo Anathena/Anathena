@@ -1,14 +1,13 @@
-using System;
 
 using System.Collections;
 using System.Reflection;
 
 namespace Be.Windows.Forms
 {
-	/// <summary>
-	/// Represents a collection of bytes.
-	/// </summary>
-	public class ByteCollection : CollectionBase
+    /// <summary>
+    /// Represents a collection of bytes.
+    /// </summary>
+    public class ByteCollection : CollectionBase
 	{
 		/// <summary>
 		/// Initializes a new instance of ByteCollection class.

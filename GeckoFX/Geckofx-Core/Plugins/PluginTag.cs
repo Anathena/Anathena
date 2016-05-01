@@ -1,6 +1,6 @@
 namespace Gecko.Plugins
 {
-	public sealed class PluginTag
+    public sealed class PluginTag
 	{
 		internal nsIPluginTag _pluginTag;
 

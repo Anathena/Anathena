@@ -20,13 +20,12 @@
 // --------------------------------------------------------------------------------------------
 namespace Gecko
 {
-	using System;
-	using System.Runtime.InteropServices;
-	using System.Runtime.InteropServices.ComTypes;
-	using System.Runtime.CompilerServices;
-	
-	
-	/// <summary>
+    using System;
+    using System.Runtime.CompilerServices;
+    using System.Runtime.InteropServices;
+
+
+    /// <summary>
     /// The nsIURL interface provides convenience methods that further
     /// break down the path portion of nsIURI:
     ///
@@ -40,7 +39,7 @@ namespace Gecko
     /// |
     /// filePath
     /// </summary>
-	[ComImport()]
+    [ComImport()]
 	[InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 	[Guid("1419aa16-f134-4154-9886-00c7c5147a13")]
 	public interface nsIURL : nsIURI

@@ -20,13 +20,12 @@
 // --------------------------------------------------------------------------------------------
 namespace Gecko
 {
-	using System;
-	using System.Runtime.InteropServices;
-	using System.Runtime.InteropServices.ComTypes;
-	using System.Runtime.CompilerServices;
-	
-	
-	/// <summary>
+    using System;
+    using System.Runtime.CompilerServices;
+    using System.Runtime.InteropServices;
+
+
+    /// <summary>
     /// The nsIDOMHTMLLIElement interface is the interface to a [X]HTML li
     /// element.
     ///
@@ -36,7 +35,7 @@ namespace Gecko
     /// with changes from the work-in-progress WHATWG HTML specification:
     /// http://www.whatwg.org/specs/web-apps/current-work/
     /// </summary>
-	[ComImport()]
+    [ComImport()]
 	[InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 	[Guid("17bd5c1c-3746-4268-a9f6-45018025f09c")]
 	public interface nsIDOMHTMLLIElement

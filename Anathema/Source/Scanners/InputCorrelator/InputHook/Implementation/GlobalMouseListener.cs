@@ -2,8 +2,8 @@
 // Copyright (c) 2015 George Mamaladze
 // See license.txt or http://opensource.org/licenses/mit-license.php
 
-using System.Windows.Forms;
 using Gma.System.MouseKeyHook.WinApi;
+using System.Windows.Forms;
 
 namespace Gma.System.MouseKeyHook.Implementation
 {

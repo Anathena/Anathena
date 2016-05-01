@@ -20,13 +20,12 @@
 // --------------------------------------------------------------------------------------------
 namespace Gecko
 {
-	using System;
-	using System.Runtime.InteropServices;
-	using System.Runtime.InteropServices.ComTypes;
-	using System.Runtime.CompilerServices;
-	
-	
-	/// <summary>
+    using System;
+    using System.Runtime.CompilerServices;
+    using System.Runtime.InteropServices;
+
+
+    /// <summary>
     /// nsIIconURI
     ///
     /// This interface derives from nsIURI, to provide additional information
@@ -59,7 +58,7 @@ namespace Gecko
     /// Values:      <mime-type>
     /// Description: The mime type we want an icon for. This is ignored by stock images.
     /// </summary>
-	[ComImport()]
+    [ComImport()]
 	[InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 	[Guid("da53adda-cbe3-41bc-a57d-fdd7a0ff448b")]
 	public interface nsIMozIconURI : nsIURI

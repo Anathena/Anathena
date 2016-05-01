@@ -2,7 +2,7 @@
 
 namespace Gecko.Interop
 {
-	public class ClassInfo
+    public class ClassInfo
 	{
 		private ComPtr<nsIClassInfo> _classInfo;
 

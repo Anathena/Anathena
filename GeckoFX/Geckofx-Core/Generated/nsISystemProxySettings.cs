@@ -20,20 +20,19 @@
 // --------------------------------------------------------------------------------------------
 namespace Gecko
 {
-	using System;
-	using System.Runtime.InteropServices;
-	using System.Runtime.InteropServices.ComTypes;
-	using System.Runtime.CompilerServices;
-	
-	
-	/// <summary>
+    using System;
+    using System.Runtime.CompilerServices;
+    using System.Runtime.InteropServices;
+
+
+    /// <summary>
     /// This interface allows the proxy code to use platform-specific proxy
     /// settings when the proxy preference is set to "automatic discovery". This service
     /// acts like a PAC parser to netwerk, but it will actually read the system settings and
     /// either return the proper proxy data from the autoconfig URL specified in the system proxy,
     /// or generate proxy data based on the system's manual proxy settings.
     /// </summary>
-	[ComImport()]
+    [ComImport()]
 	[InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 	[Guid("971591cd-277e-409a-bbf6-0a79879cd307")]
 	public interface nsISystemProxySettings

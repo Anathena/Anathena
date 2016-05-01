@@ -1,6 +1,6 @@
 namespace Gecko.Net
 {
-	public class AsyncStreamCopier
+    public class AsyncStreamCopier
 		:Request
 	{
 		private nsIAsyncStreamCopier _asyncStreamCopier;

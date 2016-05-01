@@ -45,7 +45,7 @@ namespace Anathema.Scanners.PointerScanner
 
         ScanConstraintManager ScanConstraintManager;
         private Boolean IsAddressMode;
-        
+
         private List<Tuple<IntPtr, List<Int32>>> AcceptedPointers;
 
         // User parameters

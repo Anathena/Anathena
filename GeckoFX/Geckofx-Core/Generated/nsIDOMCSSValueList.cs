@@ -20,17 +20,16 @@
 // --------------------------------------------------------------------------------------------
 namespace Gecko
 {
-	using System;
-	using System.Runtime.InteropServices;
-	using System.Runtime.InteropServices.ComTypes;
-	using System.Runtime.CompilerServices;
-	
-	
-	/// <summary>
+    using System;
+    using System.Runtime.CompilerServices;
+    using System.Runtime.InteropServices;
+
+
+    /// <summary>
     ///This Source Code Form is subject to the terms of the Mozilla Public
     /// License, v. 2.0. If a copy of the MPL was not distributed with this
     /// file, You can obtain one at http://mozilla.org/MPL/2.0/. </summary>
-	[ComImport()]
+    [ComImport()]
 	[InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 	[Guid("92364ed1-e364-4175-bc52-c2fe9671cbc7")]
 	public interface nsIDOMCSSValueList : nsIDOMCSSValue

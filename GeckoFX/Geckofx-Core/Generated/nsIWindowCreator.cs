@@ -20,20 +20,19 @@
 // --------------------------------------------------------------------------------------------
 namespace Gecko
 {
-	using System;
-	using System.Runtime.InteropServices;
-	using System.Runtime.InteropServices.ComTypes;
-	using System.Runtime.CompilerServices;
-	
-	
-	/// <summary>
+    using System;
+    using System.Runtime.CompilerServices;
+    using System.Runtime.InteropServices;
+
+
+    /// <summary>
     /// nsIWindowCreator is a callback interface used by Gecko to create
     /// new browser windows. The application, either Mozilla or an embedding app,
     /// must provide an implementation of the Window Watcher component and
     /// notify the WindowWatcher during application initialization.
     /// @see nsIWindowWatcher
     /// </summary>
-	[ComImport()]
+    [ComImport()]
 	[InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 	[Guid("30465632-A777-44cc-90F9-8145475EF999")]
 	public interface nsIWindowCreator

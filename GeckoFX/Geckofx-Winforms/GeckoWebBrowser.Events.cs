@@ -1,12 +1,10 @@
-﻿using System;
+﻿using Gecko.Events;
+using Gecko.Net;
+using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
-using System.Runtime.InteropServices;
 using System.Windows.Forms;
-using Gecko.Events;
-using Gecko.Interop;
-using Gecko.Net;
-using System.Collections.Generic;
 
 //EventHandlerList http://msdn.microsoft.com/en-us/library/system.componentmodel.eventhandlerlist.aspx
 //Generic EventHandler http://msdn.microsoft.com/en-us/library/db0etb8x.aspx
@@ -15,7 +13,7 @@ using System.Collections.Generic;
 // I have placed to readonly fields only basic .NET Framework objects - value types,strings, Uri's
 namespace Gecko
 {
-	partial class GeckoWebBrowser
+    partial class GeckoWebBrowser
 	{
 		#region Event Keys
 		// Navigation

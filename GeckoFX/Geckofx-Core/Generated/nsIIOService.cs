@@ -20,13 +20,12 @@
 // --------------------------------------------------------------------------------------------
 namespace Gecko
 {
-	using System;
-	using System.Runtime.InteropServices;
-	using System.Runtime.InteropServices.ComTypes;
-	using System.Runtime.CompilerServices;
-	
-	
-	/// <summary>
+    using System;
+    using System.Runtime.CompilerServices;
+    using System.Runtime.InteropServices;
+
+
+    /// <summary>
     /// nsIIOService provides a set of network utility functions.  This interface
     /// duplicates many of the nsIProtocolHandler methods in a protocol handler
     /// independent way (e.g., NewURI inspects the scheme in order to delegate
@@ -35,7 +34,7 @@ namespace Gecko
     /// as a convenience to the programmer and in some cases to improve performance
     /// by eliminating intermediate data structures and interfaces.
     /// </summary>
-	[ComImport()]
+    [ComImport()]
 	[InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 	[Guid("bddeda3f-9020-4d12-8c70-984ee9f7935e")]
 	public interface nsIIOService

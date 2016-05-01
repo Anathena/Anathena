@@ -1,10 +1,10 @@
-﻿using System;
+﻿using Anathema.Services.ProcessManager;
+using Anathema.Utils.Extensions;
+using Anathema.Utils.OS;
+using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
-using Anathema.Utils.Extensions;
-using Anathema.Utils.OS;
-using Anathema.Services.ProcessManager;
 
 namespace Anathema.Services.MemoryView
 {

@@ -20,13 +20,12 @@
 // --------------------------------------------------------------------------------------------
 namespace Gecko
 {
-	using System;
-	using System.Runtime.InteropServices;
-	using System.Runtime.InteropServices.ComTypes;
-	using System.Runtime.CompilerServices;
-	
-	
-	/// <summary>
+    using System;
+    using System.Runtime.CompilerServices;
+    using System.Runtime.InteropServices;
+
+
+    /// <summary>
     /// DO NOT USE THIS INTERFACE.  IT IS HORRIBLY BROKEN, USES NS_COMFALSE
     /// AND IS BASICALLY IMPOSSIBLE TO USE CORRECTLY THROUGH PROXIES OR
     /// XPCONNECT.  IF YOU SEE NEW USES OF THIS INTERFACE IN CODE YOU ARE
@@ -34,7 +33,7 @@ namespace Gecko
     ///
     /// DON'T MAKE ME COME OVER THERE.
     /// </summary>
-	[ComImport()]
+    [ComImport()]
 	[InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 	[Guid("ad385286-cbc4-11d2-8cca-0060b0fc14a3")]
 	public interface nsIEnumerator

@@ -46,7 +46,7 @@ namespace Anathema.Scanners.ScanConstraints
         protected new IScanConstraintEditorModel Model;
 
         private ConstraintsEnum ValueConstraint;
-        
+
         public ScanConstraintEditorPresenter(IScanConstraintEditorView View, IScanConstraintEditorModel Model) : base(View, Model)
         {
             this.View = View;

@@ -1,15 +1,9 @@
-using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Runtime.InteropServices;
-using System.Runtime.CompilerServices;
-
 namespace Gecko
 {
-	/// <summary>
-	/// Represents a response to a Gecko web request.
-	/// </summary>
-	public class GeckoResponse
+    /// <summary>
+    /// Represents a response to a Gecko web request.
+    /// </summary>
+    public class GeckoResponse
 	{			
 		public GeckoResponse(nsIRequest request)
 		{

@@ -20,20 +20,19 @@
 // --------------------------------------------------------------------------------------------
 namespace Gecko
 {
-	using System;
-	using System.Runtime.InteropServices;
-	using System.Runtime.InteropServices.ComTypes;
-	using System.Runtime.CompilerServices;
-	
-	
-	/// <summary>
+    using System;
+    using System.Runtime.CompilerServices;
+    using System.Runtime.InteropServices;
+
+
+    /// <summary>
     /// imgIContainer is the interface that represents an image. It allows
     /// access to frames as Thebes surfaces. It also allows drawing of images
     /// onto Thebes contexts.
     ///
     /// Internally, imgIContainer also manages animation of images.
     /// </summary>
-	[ComImport()]
+    [ComImport()]
 	[InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 	[Guid("503a830c-734d-4362-91f6-73f83ac59646")]
 	public interface imgIContainer

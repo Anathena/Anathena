@@ -20,18 +20,17 @@
 // --------------------------------------------------------------------------------------------
 namespace Gecko
 {
-	using System;
-	using System.Runtime.InteropServices;
-	using System.Runtime.InteropServices.ComTypes;
-	using System.Runtime.CompilerServices;
-	
-	
-	/// <summary>
+    using System;
+    using System.Runtime.CompilerServices;
+    using System.Runtime.InteropServices;
+
+
+    /// <summary>
     /// An interface for in-process accessibility clients wishing to get an
     /// nsIAccessible for a given DOM node.  More documentation at:
     /// http://www.mozilla.org/projects/ui/accessibility
     /// </summary>
-	[ComImport()]
+    [ComImport()]
 	[InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 	[Guid("17f86615-1a3d-4021-b227-3a2ef5cbffd8")]
 	public interface nsIAccessibleRetrieval

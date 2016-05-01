@@ -1,13 +1,6 @@
-
-
-using System;
-using System.Collections.Generic;
-using System.Runtime.InteropServices;
-using System.Text;
-
 namespace Gecko.DOM
-{	
-	public class GeckoLinkElement : GeckoHtmlElement
+{
+    public class GeckoLinkElement : GeckoHtmlElement
 	{
 		nsIDOMHTMLLinkElement DOMHTMLElement;
 		internal GeckoLinkElement(nsIDOMHTMLLinkElement element) : base(element)

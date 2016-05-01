@@ -20,13 +20,12 @@
 // --------------------------------------------------------------------------------------------
 namespace Gecko
 {
-	using System;
-	using System.Runtime.InteropServices;
-	using System.Runtime.InteropServices.ComTypes;
-	using System.Runtime.CompilerServices;
-	
-	
-	/// <summary>
+    using System;
+    using System.Runtime.CompilerServices;
+    using System.Runtime.InteropServices;
+
+
+    /// <summary>
     /// Interface for client side storage. See
     /// http://www.whatwg.org/specs/web-apps/current-work/multipage/structured.html#storage0
     /// for more information.
@@ -39,7 +38,7 @@ namespace Gecko
     /// the value associated with a key, but the order may change when a
     /// key is added or removed.
     /// </summary>
-	[ComImport()]
+    [ComImport()]
 	[InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 	[Guid("43E5EDAD-1E02-42c4-9D99-C3D9DEE22A20")]
 	public interface nsIDOMStorage

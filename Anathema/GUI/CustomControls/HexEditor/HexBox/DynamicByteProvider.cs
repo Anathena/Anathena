@@ -3,10 +3,10 @@ using System.Collections.Generic;
 
 namespace Be.Windows.Forms
 {
-	/// <summary>
-	/// Byte provider for a small amount of data.
-	/// </summary>
-	public class DynamicByteProvider : IByteProvider
+    /// <summary>
+    /// Byte provider for a small amount of data.
+    /// </summary>
+    public class DynamicByteProvider : IByteProvider
 	{
 		/// <summary>
 		/// Contains information about changes.

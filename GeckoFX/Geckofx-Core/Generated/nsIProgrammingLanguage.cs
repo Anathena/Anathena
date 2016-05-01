@@ -20,16 +20,14 @@
 // --------------------------------------------------------------------------------------------
 namespace Gecko
 {
-	using System;
-	using System.Runtime.InteropServices;
-	using System.Runtime.InteropServices.ComTypes;
-	using System.Runtime.CompilerServices;
-	
-	
-	/// <summary>
+    using System;
+    using System.Runtime.InteropServices;
+
+
+    /// <summary>
     /// Enumeration of Programming Languages
     /// </summary>
-	[ComImport()]
+    [ComImport()]
 	[InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 	[Guid("ea604e90-40ba-11d5-90bb-0010a4e73d9a")]
 	public interface nsIProgrammingLanguage

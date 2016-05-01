@@ -20,20 +20,19 @@
 // --------------------------------------------------------------------------------------------
 namespace Gecko
 {
-	using System;
-	using System.Runtime.InteropServices;
-	using System.Runtime.InteropServices.ComTypes;
-	using System.Runtime.CompilerServices;
-	
-	
-	/// <summary>
+    using System;
+    using System.Runtime.CompilerServices;
+    using System.Runtime.InteropServices;
+
+
+    /// <summary>
     /// The C++ source has access to the browser script source through
     /// nsIBrowserDOMWindow. It is intended to be attached to the chrome DOMWindow
     /// of a toplevel browser window (a XUL window). A DOMWindow that does not
     /// happen to be a browser chrome window will simply have no access to any such
     /// interface.
     /// </summary>
-	[ComImport()]
+    [ComImport()]
 	[InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 	[Guid("e420bd32-b8c4-4b47-8cca-09e0bddbb0c3")]
 	public interface nsIBrowserDOMWindow

@@ -39,10 +39,10 @@ using System.Text;
 
 namespace Gecko
 {
-	/// <summary>
-	/// Provides helper methods to get and set string attributes on XPCOM interfaces.
-	/// </summary>
-	public static class nsString
+    /// <summary>
+    /// Provides helper methods to get and set string attributes on XPCOM interfaces.
+    /// </summary>
+    public static class nsString
 	{
 		// functions that set one or more [gecko string]s and return void
 		#region Generic Setters

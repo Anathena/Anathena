@@ -1,11 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Drawing;
-using WeifenLuo.WinFormsUI.Docking;
+﻿using Anathema.Scanners.LabelThresholder;
 using Anathema.Utils.MVP;
 using Anathema.Utils.Validation;
-using Anathema.Scanners.LabelThresholder;
+using System;
+using System.Collections.Generic;
+using System.Drawing;
 using System.Reflection;
+using WeifenLuo.WinFormsUI.Docking;
 
 namespace Anathema.GUI
 {

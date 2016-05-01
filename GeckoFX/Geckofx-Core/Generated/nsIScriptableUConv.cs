@@ -20,19 +20,18 @@
 // --------------------------------------------------------------------------------------------
 namespace Gecko
 {
-	using System;
-	using System.Runtime.InteropServices;
-	using System.Runtime.InteropServices.ComTypes;
-	using System.Runtime.CompilerServices;
-	
-	
-	/// <summary>
+    using System;
+    using System.Runtime.CompilerServices;
+    using System.Runtime.InteropServices;
+
+
+    /// <summary>
     /// This interface is a unicode encoder for use by scripts
     ///
     /// @created         8/Jun/2000
     /// @author          Makoto Kato [m_kato@ga2.so-net.ne.jp]
     /// </summary>
-	[ComImport()]
+    [ComImport()]
 	[InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 	[Guid("f36ee324-5c1c-437f-ba10-2b4db7a18031")]
 	public interface nsIScriptableUnicodeConverter

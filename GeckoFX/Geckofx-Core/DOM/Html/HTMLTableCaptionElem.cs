@@ -1,13 +1,6 @@
-
-
-using System;
-using System.Collections.Generic;
-using System.Runtime.InteropServices;
-using System.Text;
-
 namespace Gecko.DOM
-{	
-	public class GeckoTableCaptionElement : GeckoHtmlElement
+{
+    public class GeckoTableCaptionElement : GeckoHtmlElement
 	{
 		nsIDOMHTMLTableCaptionElement DOMHTMLElement;
 		internal GeckoTableCaptionElement(nsIDOMHTMLTableCaptionElement element) : base(element)

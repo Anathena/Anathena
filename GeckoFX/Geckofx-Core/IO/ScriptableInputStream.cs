@@ -1,8 +1,6 @@
-using System.Text;
-
 namespace Gecko.IO
 {
-	public sealed class ScriptableInputStream
+    public sealed class ScriptableInputStream
 	{
 		private nsIScriptableInputStream _scriptableInputStream;
 

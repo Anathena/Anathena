@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace ScintillaNET
+﻿namespace ScintillaNET
 {
     /// <summary>
     /// Additional location options for line wrapping visual indicators.

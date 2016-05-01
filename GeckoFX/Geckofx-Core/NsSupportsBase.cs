@@ -3,7 +3,7 @@ using System.Runtime.InteropServices;
 
 namespace Gecko
 {
-	public abstract class NsSupportsBase : nsISupports
+    public abstract class NsSupportsBase : nsISupports
 	{
 		public virtual IntPtr QueryInterface(ref System.Guid uuid)
 		{

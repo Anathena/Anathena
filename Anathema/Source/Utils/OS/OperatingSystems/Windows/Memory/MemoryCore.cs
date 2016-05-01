@@ -1,12 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using Anathema.MemoryManagement.Helpers;
+﻿using Anathema.MemoryManagement.Helpers;
 using Anathema.MemoryManagement.Internals;
 using Anathema.MemoryManagement.Native;
-using Anathema;
 using Anathema.Utils.Extensions;
 using Anathema.Utils.OS;
+using System;
+using System.Collections.Generic;
 
 namespace Anathema.MemoryManagement.Memory
 {

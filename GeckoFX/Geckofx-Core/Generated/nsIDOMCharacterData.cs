@@ -20,20 +20,19 @@
 // --------------------------------------------------------------------------------------------
 namespace Gecko
 {
-	using System;
-	using System.Runtime.InteropServices;
-	using System.Runtime.InteropServices.ComTypes;
-	using System.Runtime.CompilerServices;
-	
-	
-	/// <summary>
+    using System;
+    using System.Runtime.CompilerServices;
+    using System.Runtime.InteropServices;
+
+
+    /// <summary>
     /// The nsIDOMCharacterData interface extends nsIDOMNode with a set of
     /// attributes and methods for accessing character data in the DOM.
     ///
     /// For more information on this interface please see
     /// http://www.w3.org/TR/DOM-Level-2-Core/
     /// </summary>
-	[ComImport()]
+    [ComImport()]
 	[InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 	[Guid("84f72a38-1873-46f8-937c-1df22d7e7cae")]
 	public interface nsIDOMCharacterData : nsIDOMNode

@@ -20,13 +20,12 @@
 // --------------------------------------------------------------------------------------------
 namespace Gecko
 {
-	using System;
-	using System.Runtime.InteropServices;
-	using System.Runtime.InteropServices.ComTypes;
-	using System.Runtime.CompilerServices;
-	
-	
-	/// <summary>
+    using System;
+    using System.Runtime.CompilerServices;
+    using System.Runtime.InteropServices;
+
+
+    /// <summary>
     /// This interface allows consumption of primitive data types from a "binary
     /// stream" containing untagged, big-endian binary data, i.e. as produced by an
     /// implementation of nsIBinaryOutputStream.  This might be used, for example,
@@ -36,7 +35,7 @@ namespace Gecko
     ///
     /// @See nsIBinaryOutputStream
     /// </summary>
-	[ComImport()]
+    [ComImport()]
 	[InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 	[Guid("42084755-fedc-4310-831c-4f43e7b42e20")]
 	public interface nsIBinaryInputStream : nsIInputStream

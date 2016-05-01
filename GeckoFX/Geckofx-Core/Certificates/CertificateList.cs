@@ -1,12 +1,12 @@
+using Gecko.Collections;
+using Gecko.Interop;
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using Gecko.Collections;
-using Gecko.Interop;
 
 namespace Gecko.Certificates
 {
-	public sealed class CertificateList
+    public sealed class CertificateList
 		:IEnumerable<Certificate>
 	{
 		internal ComPtr<nsIX509CertList> _list;

@@ -3,7 +3,7 @@ using System.IO;
 
 namespace Gecko.IO
 {
-	public sealed class OutputStream
+    public sealed class OutputStream
 		: Stream
 	{
 		private bool _seekable;

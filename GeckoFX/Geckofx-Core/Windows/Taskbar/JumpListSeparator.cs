@@ -1,6 +1,6 @@
 namespace Gecko.Windows
 {
-	public sealed class JumpListSeparator
+    public sealed class JumpListSeparator
 		:JumpListItem
 	{
 		private nsIJumpListSeparator _separator;

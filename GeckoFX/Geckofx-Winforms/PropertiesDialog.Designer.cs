@@ -1,6 +1,6 @@
 ﻿namespace Gecko
 {
-	partial class PropertiesDialog
+    partial class PropertiesDialog
 	{
 		/// <summary>
 		/// Required designer variable.

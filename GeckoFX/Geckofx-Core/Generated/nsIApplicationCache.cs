@@ -20,19 +20,18 @@
 // --------------------------------------------------------------------------------------------
 namespace Gecko
 {
-	using System;
-	using System.Runtime.InteropServices;
-	using System.Runtime.InteropServices.ComTypes;
-	using System.Runtime.CompilerServices;
-	
-	
-	/// <summary>
+    using System;
+    using System.Runtime.CompilerServices;
+    using System.Runtime.InteropServices;
+
+
+    /// <summary>
     /// Application caches can store a set of namespace entries that affect
     /// loads from the application cache.  If a load from the cache fails
     /// to match an exact cache entry, namespaces entries will be searched
     /// for a substring match, and should be applied appropriately.
     /// </summary>
-	[ComImport()]
+    [ComImport()]
 	[InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 	[Guid("96e4c264-2065-4ce9-93bb-43734c62c4eb")]
 	public interface nsIApplicationCacheNamespace

@@ -20,18 +20,17 @@
 // --------------------------------------------------------------------------------------------
 namespace Gecko
 {
-	using System;
-	using System.Runtime.InteropServices;
-	using System.Runtime.InteropServices.ComTypes;
-	using System.Runtime.CompilerServices;
-	
-	
-	/// <summary>
+    using System;
+    using System.Runtime.CompilerServices;
+    using System.Runtime.InteropServices;
+
+
+    /// <summary>
     /// A mechanism to report a broken SSL status. The recipient should NOT block.
     /// Can be used to obtain the SSL handshake status of a connection
     /// that will be canceled because of improper cert status.
     /// </summary>
-	[ComImport()]
+    [ComImport()]
 	[InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 	[Guid("2c3d268c-ad82-49f3-99aa-e9ffddd7a0dc")]
 	public interface nsIBadCertListener2

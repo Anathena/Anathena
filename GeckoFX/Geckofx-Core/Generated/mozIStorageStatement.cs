@@ -20,17 +20,16 @@
 // --------------------------------------------------------------------------------------------
 namespace Gecko
 {
-	using System;
-	using System.Runtime.InteropServices;
-	using System.Runtime.InteropServices.ComTypes;
-	using System.Runtime.CompilerServices;
-	
-	
-	/// <summary>
+    using System;
+    using System.Runtime.CompilerServices;
+    using System.Runtime.InteropServices;
+
+
+    /// <summary>
     /// A SQL statement that can be used for both synchronous and asynchronous
     /// purposes.
     /// </summary>
-	[ComImport()]
+    [ComImport()]
 	[Guid("b3c4476e-c490-4e3b-9db1-e2d3a6f0287c")]
 	public interface mozIStorageStatement : mozIStorageBaseStatement
 	{

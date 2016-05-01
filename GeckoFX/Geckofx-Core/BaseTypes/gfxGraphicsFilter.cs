@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace Gecko
-{	
-	public enum gfxGraphicsFilter
+﻿namespace Gecko
+{
+    public enum gfxGraphicsFilter
 	{
 		/// <summary>
 		/// FILTER_FAST

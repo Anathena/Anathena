@@ -1,11 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace Gecko
 {
-	public static class GeckoElementExtensions
+    public static class GeckoElementExtensions
 	{
 		/// <summary>
 		/// Gets the value of the data-xxx attributes

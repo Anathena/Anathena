@@ -1,6 +1,6 @@
 ﻿namespace Gecko
 {
-	public enum PivotMoveReason : short
+    public enum PivotMoveReason : short
 	{
 		None = (short)nsIAccessiblePivotConsts.REASON_NONE,
 		

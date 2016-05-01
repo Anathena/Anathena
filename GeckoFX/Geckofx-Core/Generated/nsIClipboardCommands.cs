@@ -20,19 +20,18 @@
 // --------------------------------------------------------------------------------------------
 namespace Gecko
 {
-	using System;
-	using System.Runtime.InteropServices;
-	using System.Runtime.InteropServices.ComTypes;
-	using System.Runtime.CompilerServices;
-	
-	
-	/// <summary>
+    using System;
+    using System.Runtime.CompilerServices;
+    using System.Runtime.InteropServices;
+
+
+    /// <summary>
     /// An interface for embedding clients who wish to interact with
     /// the system-wide OS clipboard. Mozilla does not use a private
     /// clipboard, instead it places its data directly onto the system
     /// clipboard. The webshell implements this interface.
     /// </summary>
-	[ComImport()]
+    [ComImport()]
 	[InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 	[Guid("b8100c90-73be-11d2-92a5-00105a1b0d64")]
 	public interface nsIClipboardCommands

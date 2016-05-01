@@ -20,20 +20,19 @@
 // --------------------------------------------------------------------------------------------
 namespace Gecko
 {
-	using System;
-	using System.Runtime.InteropServices;
-	using System.Runtime.InteropServices.ComTypes;
-	using System.Runtime.CompilerServices;
-	
-	
-	/// <summary>
+    using System;
+    using System.Runtime.CompilerServices;
+    using System.Runtime.InteropServices;
+
+
+    /// <summary>
     /// NOTE: This interface is intended to be implemented by modules
     /// providing storage mechanisms for the login manager.
     /// Other code should use the login manager's interfaces
     /// (nsILoginManager), and should not call storage modules
     /// directly.
     /// </summary>
-	[ComImport()]
+    [ComImport()]
 	[InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 	[Guid("fe0a4e80-d36f-43cc-a37b-4e1906e77257")]
 	public interface nsILoginManagerStorage

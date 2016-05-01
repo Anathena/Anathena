@@ -20,13 +20,12 @@
 // --------------------------------------------------------------------------------------------
 namespace Gecko
 {
-	using System;
-	using System.Runtime.InteropServices;
-	using System.Runtime.InteropServices.ComTypes;
-	using System.Runtime.CompilerServices;
-	
-	
-	/// <summary>
+    using System;
+    using System.Runtime.CompilerServices;
+    using System.Runtime.InteropServices;
+
+
+    /// <summary>
     ///A minimally extended progress listener used by download manager
     /// to update its default UI.  This is implemented in nsDownloadProgressListener.js.
     /// See nsIWebProgressListener for documentation, and use its constants.  This isn't
@@ -34,7 +33,7 @@ namespace Gecko
     /// adding an |item| attribute, which would mean a separate nsIDownloadProgressListener
     /// for every nsIDownloadItem, which is a waste...
     /// </summary>
-	[ComImport()]
+    [ComImport()]
 	[InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 	[Guid("7acb07ea-cac2-4c15-a3ad-23aaa789ed51")]
 	public interface nsIDownloadProgressListener

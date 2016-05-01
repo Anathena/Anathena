@@ -20,13 +20,12 @@
 // --------------------------------------------------------------------------------------------
 namespace Gecko
 {
-	using System;
-	using System.Runtime.InteropServices;
-	using System.Runtime.InteropServices.ComTypes;
-	using System.Runtime.CompilerServices;
-	
-	
-	/// <summary>
+    using System;
+    using System.Runtime.CompilerServices;
+    using System.Runtime.InteropServices;
+
+
+    /// <summary>
     /// nsIWinTaskbar
     ///
     /// This interface represents a service which exposes the APIs provided by the
@@ -57,7 +56,7 @@ namespace Gecko
     /// Applications may also define custom taskbar jump lists on application shortcuts.
     /// See nsIJumpListBuilder for more information.
     /// </summary>
-	[ComImport()]
+    [ComImport()]
 	[InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 	[Guid("3232f40a-e94b-432d-9496-096abf1387bd")]
 	public interface nsIWinTaskbar

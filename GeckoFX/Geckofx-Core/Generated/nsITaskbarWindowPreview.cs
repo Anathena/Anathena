@@ -20,13 +20,12 @@
 // --------------------------------------------------------------------------------------------
 namespace Gecko
 {
-	using System;
-	using System.Runtime.InteropServices;
-	using System.Runtime.InteropServices.ComTypes;
-	using System.Runtime.CompilerServices;
-	
-	
-	/// <summary>
+    using System;
+    using System.Runtime.CompilerServices;
+    using System.Runtime.InteropServices;
+
+
+    /// <summary>
     /// nsITaskbarWindowPreview
     ///
     /// This interface represents the preview for a window in the taskbar. By
@@ -59,7 +58,7 @@ namespace Gecko
     /// Window previews may have a toolbar with up to 7 buttons. See
     /// nsITaskbarPreviewButton for more information about button properties.
     /// </summary>
-	[ComImport()]
+    [ComImport()]
 	[InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 	[Guid("EC67CC57-342D-4064-B4C6-74A375E07B10")]
 	public interface nsITaskbarWindowPreview : nsITaskbarPreview

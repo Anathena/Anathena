@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Gecko.Interop;
+﻿using Gecko.Interop;
 
 namespace Gecko.Cache
 {
-	public static class ImageCache
+    public static class ImageCache
 	{
 		private static ComPtr<imgICache> _imgCache;
 

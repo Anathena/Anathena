@@ -2,7 +2,6 @@
 using FASMSharedInterface;
 using System;
 using System.IO;
-using System.Linq;
 using System.Runtime.Remoting;
 using System.Runtime.Remoting.Channels;
 using System.Runtime.Remoting.Channels.Ipc;
@@ -31,7 +30,7 @@ namespace FASMHelper
 
             // Indicate that the FASM console is ready to receive commands
             ProcessStartingEvent.Set();
-            
+
             // Keep console open
             Console.ReadLine();
         }

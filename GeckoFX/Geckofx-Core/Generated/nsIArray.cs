@@ -20,13 +20,12 @@
 // --------------------------------------------------------------------------------------------
 namespace Gecko
 {
-	using System;
-	using System.Runtime.InteropServices;
-	using System.Runtime.InteropServices.ComTypes;
-	using System.Runtime.CompilerServices;
-	
-	
-	/// <summary>
+    using System;
+    using System.Runtime.CompilerServices;
+    using System.Runtime.InteropServices;
+
+
+    /// <summary>
     /// nsIArray
     ///
     /// An indexed collection of elements. Provides basic functionality for
@@ -50,7 +49,7 @@ namespace Gecko
     /// null is a valid entry in the array, and as such any nsISupports
     /// parameters may be null, except where noted.
     /// </summary>
-	[ComImport()]
+    [ComImport()]
 	[InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 	[Guid("114744d9-c369-456e-b55a-52fe52880d2d")]
 	public interface nsIArray

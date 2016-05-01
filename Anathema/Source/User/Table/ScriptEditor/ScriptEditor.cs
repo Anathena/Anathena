@@ -1,8 +1,7 @@
-﻿using Anathema.Utils.OS;
+﻿using Anathema.User.UserScriptTable;
 using Anathema.Utils.LUA;
+using Anathema.Utils.OS;
 using System;
-using Anathema.User.UserScriptTable;
-using System.Runtime.CompilerServices;
 
 namespace Anathema.User.UserScriptEditor
 {

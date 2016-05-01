@@ -20,16 +20,14 @@
 // --------------------------------------------------------------------------------------------
 namespace Gecko
 {
-	using System;
-	using System.Runtime.InteropServices;
-	using System.Runtime.InteropServices.ComTypes;
-	using System.Runtime.CompilerServices;
-	
-	
-	/// <summary>
+    using System;
+    using System.Runtime.InteropServices;
+
+
+    /// <summary>
     /// undef the GetCurrentTime macro defined in WinBase.h from the MS Platform SDK
     /// </summary>
-	[ComImport()]
+    [ComImport()]
 	[InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 	[Guid("3ef760bb-ff19-4dbb-b552-af27ab84b9b8")]
 	public interface nsIDOMMediaStream

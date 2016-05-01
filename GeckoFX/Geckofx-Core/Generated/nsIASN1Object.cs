@@ -20,13 +20,12 @@
 // --------------------------------------------------------------------------------------------
 namespace Gecko
 {
-	using System;
-	using System.Runtime.InteropServices;
-	using System.Runtime.InteropServices.ComTypes;
-	using System.Runtime.CompilerServices;
-	
-	
-	/// <summary>
+    using System;
+    using System.Runtime.CompilerServices;
+    using System.Runtime.InteropServices;
+
+
+    /// <summary>
     /// This represents an ASN.1 object,
     /// where ASN.1 is "Abstract Syntax Notation number One".
     ///
@@ -36,7 +35,7 @@ namespace Gecko
     /// in a human user interface, like in a tree widget
     /// where open/close state of nodes must be remembered.
     /// </summary>
-	[ComImport()]
+    [ComImport()]
 	[InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 	[Guid("ba8bf582-1dd1-11b2-898c-f40246bc9a63")]
 	public interface nsIASN1Object

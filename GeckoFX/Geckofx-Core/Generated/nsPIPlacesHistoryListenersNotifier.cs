@@ -20,20 +20,19 @@
 // --------------------------------------------------------------------------------------------
 namespace Gecko
 {
-	using System;
-	using System.Runtime.InteropServices;
-	using System.Runtime.InteropServices.ComTypes;
-	using System.Runtime.CompilerServices;
-	
-	
-	/// <summary>
+    using System;
+    using System.Runtime.CompilerServices;
+    using System.Runtime.InteropServices;
+
+
+    /// <summary>
     /// This is a private interface used by Places components to notify history
     /// listeners about important notifications.  These should not be used by any
     /// code that is not part of core.
     ///
     /// @note See also: nsINavHistoryObserver
     /// </summary>
-	[ComImport()]
+    [ComImport()]
 	[InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 	[Guid("808cf36c-4c9a-4bdb-91a4-d60a6fc25add")]
 	public interface nsPIPlacesHistoryListenersNotifier

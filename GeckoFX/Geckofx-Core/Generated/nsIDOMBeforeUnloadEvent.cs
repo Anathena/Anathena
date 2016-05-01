@@ -20,13 +20,12 @@
 // --------------------------------------------------------------------------------------------
 namespace Gecko
 {
-	using System;
-	using System.Runtime.InteropServices;
-	using System.Runtime.InteropServices.ComTypes;
-	using System.Runtime.CompilerServices;
-	
-	
-	/// <summary>
+    using System;
+    using System.Runtime.CompilerServices;
+    using System.Runtime.InteropServices;
+
+
+    /// <summary>
     /// The nsIDOMBeforeUnloadEvent interface is the interface for events
     /// sent to handlers of the "beforeunload" event. This event is
     /// non-standard. Interface derived from Microsoft IE's event
@@ -35,7 +34,7 @@ namespace Gecko
     /// http://msdn.microsoft.com/library/default.asp?url=/workshop/author/dhtml/reference/events.asp
     ///
     /// </summary>
-	[ComImport()]
+    [ComImport()]
 	[InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 	[Guid("ee7b8943-440e-4cc3-b25e-c17c8a821d8b")]
 	public interface nsIDOMBeforeUnloadEvent : nsIDOMEvent

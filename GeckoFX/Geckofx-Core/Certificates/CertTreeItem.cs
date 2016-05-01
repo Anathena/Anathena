@@ -1,9 +1,8 @@
-using System.Runtime.CompilerServices;
 using Gecko.Interop;
 
 namespace Gecko.Certificates
 {
-	public sealed class CertTreeItem
+    public sealed class CertTreeItem
 	{
 		private ComPtr<nsICertTreeItem> _certTreeItem;
 

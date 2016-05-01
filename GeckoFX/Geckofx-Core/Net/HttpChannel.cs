@@ -1,12 +1,11 @@
+using Gecko.Interop;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Runtime.InteropServices;
-using Gecko.Interop;
 
 namespace Gecko.Net
 {
-	public class HttpChannel
+    public class HttpChannel
 		: Channel
 	{
 		private nsIHttpChannel _httpChannel;

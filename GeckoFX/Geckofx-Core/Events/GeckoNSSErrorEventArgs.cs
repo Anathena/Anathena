@@ -1,12 +1,12 @@
-﻿using System;
+﻿using Gecko.Interop;
+using System;
 using System.ComponentModel;
 using System.Runtime.InteropServices;
-using Gecko.Interop;
 
 
 namespace Gecko.Events
 {
-	public class GeckoNSSErrorEventArgs : HandledEventArgs 
+    public class GeckoNSSErrorEventArgs : HandledEventArgs 
 	{
 		private ComPtr<nsINSSErrorsService> _nssErrorSvc;
 		private int _statusCode;

@@ -5,7 +5,7 @@ using System.Threading;
 
 namespace Gecko.Interop
 {
-	sealed class COMGC : nsITimerCallback, IDisposable
+    sealed class COMGC : nsITimerCallback, IDisposable
 	{
 		private sealed class GCData
 		{

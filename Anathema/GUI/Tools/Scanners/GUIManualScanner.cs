@@ -1,8 +1,8 @@
-﻿using System;
+﻿using Anathema.Scanners.ManualScanner;
+using Anathema.Utils.MVP;
+using System;
 using System.Windows.Forms;
 using WeifenLuo.WinFormsUI.Docking;
-using Anathema.Utils.MVP;
-using Anathema.Scanners.ManualScanner;
 
 namespace Anathema.GUI
 {

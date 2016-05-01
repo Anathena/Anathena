@@ -20,13 +20,12 @@
 // --------------------------------------------------------------------------------------------
 namespace Gecko
 {
-	using System;
-	using System.Runtime.InteropServices;
-	using System.Runtime.InteropServices.ComTypes;
-	using System.Runtime.CompilerServices;
-	
-	
-	/// <summary>
+    using System;
+    using System.Runtime.CompilerServices;
+    using System.Runtime.InteropServices;
+
+
+    /// <summary>
     /// Used to enumerate over elements defined by its implementor.
     /// Although hasMoreElements() can be called independently of getNext(),
     /// getNext() must be pre-ceeded by a call to hasMoreElements(). There is
@@ -34,7 +33,7 @@ namespace Gecko
     ///
     /// @version 1.0
     /// </summary>
-	[ComImport()]
+    [ComImport()]
 	[InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 	[Guid("D1899240-F9D2-11D2-BDD6-000064657374")]
 	public interface nsISimpleEnumerator

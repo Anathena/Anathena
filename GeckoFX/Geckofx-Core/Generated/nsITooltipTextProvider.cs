@@ -20,13 +20,12 @@
 // --------------------------------------------------------------------------------------------
 namespace Gecko
 {
-	using System;
-	using System.Runtime.InteropServices;
-	using System.Runtime.InteropServices.ComTypes;
-	using System.Runtime.CompilerServices;
-	
-	
-	/// <summary>
+    using System;
+    using System.Runtime.CompilerServices;
+    using System.Runtime.InteropServices;
+
+
+    /// <summary>
     /// An interface implemented by a tooltip text provider service. This
     /// service is called to discover what tooltip text is associated
     /// with the node that the pointer is positioned over.
@@ -45,7 +44,7 @@ namespace Gecko
     /// @see nsIComponentManager
     /// @see nsIDOMNode
     /// </summary>
-	[ComImport()]
+    [ComImport()]
 	[InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 	[Guid("b128a1e6-44f3-4331-8fbe-5af360ff21ee")]
 	public interface nsITooltipTextProvider

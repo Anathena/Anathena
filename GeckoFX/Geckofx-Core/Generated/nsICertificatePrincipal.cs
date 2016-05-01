@@ -20,13 +20,12 @@
 // --------------------------------------------------------------------------------------------
 namespace Gecko
 {
-	using System;
-	using System.Runtime.InteropServices;
-	using System.Runtime.InteropServices.ComTypes;
-	using System.Runtime.CompilerServices;
-	
-	
-	/// <summary>
+    using System;
+    using System.Runtime.CompilerServices;
+    using System.Runtime.InteropServices;
+
+
+    /// <summary>
     /// Historically, principals, certificates, and signed JARs were all linked
     /// together in one big mess. When that mess was cleaned up, it turned out that
     /// the principals used to store certificate information didn't overlap at all
@@ -37,7 +36,7 @@ namespace Gecko
     /// better be called nsICertificateHolder or something. But that would require
     /// renaming some APIs, so let's just let this be for now.
     /// </summary>
-	[ComImport()]
+    [ComImport()]
 	[InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 	[Guid("7cd4af5a-64d3-44a8-9700-804a42a6109a")]
 	public interface nsICertificatePrincipal

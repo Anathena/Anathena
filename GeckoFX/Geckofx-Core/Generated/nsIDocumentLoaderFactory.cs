@@ -20,20 +20,19 @@
 // --------------------------------------------------------------------------------------------
 namespace Gecko
 {
-	using System;
-	using System.Runtime.InteropServices;
-	using System.Runtime.InteropServices.ComTypes;
-	using System.Runtime.CompilerServices;
-	
-	
-	/// <summary>
+    using System;
+    using System.Runtime.CompilerServices;
+    using System.Runtime.InteropServices;
+
+
+    /// <summary>
     /// To get a component that implements nsIDocumentLoaderFactory
     /// for a given mimetype, use nsICategoryManager to find an entry
     /// with the mimetype as its name in the category "Gecko-Content-Viewers".
     /// The value of the entry is the contractid of the component.
     /// The component is a service, so use GetService, not CreateInstance to get it.
     /// </summary>
-	[ComImport()]
+    [ComImport()]
 	[InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 	[Guid("70905274-8494-4e39-b011-d559adde3733")]
 	public interface nsIDocumentLoaderFactory

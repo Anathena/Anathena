@@ -1,13 +1,6 @@
-
-
-using System;
-using System.Collections.Generic;
-using System.Runtime.InteropServices;
-using System.Text;
-
 namespace Gecko.DOM
-{	
-	public class GeckoAnchorElement : GeckoHtmlElement
+{
+    public class GeckoAnchorElement : GeckoHtmlElement
 	{
 		nsIDOMHTMLAnchorElement DOMHTMLElement;
 		internal GeckoAnchorElement(nsIDOMHTMLAnchorElement element) : base(element)

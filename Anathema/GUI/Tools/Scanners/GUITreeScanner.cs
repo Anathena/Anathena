@@ -1,9 +1,9 @@
-﻿using System;
+﻿using Anathema.MemoryManagement.Memory;
+using Anathema.Scanners.TreeScanner;
+using Anathema.Utils.MVP;
+using System;
 using System.Collections.Generic;
 using WeifenLuo.WinFormsUI.Docking;
-using Anathema.MemoryManagement.Memory;
-using Anathema.Utils.MVP;
-using Anathema.Scanners.TreeScanner;
 
 namespace Anathema.GUI
 {

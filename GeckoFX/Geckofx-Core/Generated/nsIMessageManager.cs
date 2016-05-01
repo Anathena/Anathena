@@ -20,13 +20,12 @@
 // --------------------------------------------------------------------------------------------
 namespace Gecko
 {
-	using System;
-	using System.Runtime.InteropServices;
-	using System.Runtime.InteropServices.ComTypes;
-	using System.Runtime.CompilerServices;
-	
-	
-	/// <summary>
+    using System;
+    using System.Runtime.CompilerServices;
+    using System.Runtime.InteropServices;
+
+
+    /// <summary>
     /// Message managers provide a way for chrome-privileged JS code to
     /// communicate with each other, even across process boundaries.
     ///
@@ -162,7 +161,7 @@ namespace Gecko
     /// }
     /// };
     /// </summary>
-	[ComImport()]
+    [ComImport()]
 	[InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 	[Guid("2b44eb57-a9c6-4773-9a1e-fe0818739a4c")]
 	public interface nsIMessageListener

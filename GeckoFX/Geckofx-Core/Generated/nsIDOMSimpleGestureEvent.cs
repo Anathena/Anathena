@@ -20,13 +20,12 @@
 // --------------------------------------------------------------------------------------------
 namespace Gecko
 {
-	using System;
-	using System.Runtime.InteropServices;
-	using System.Runtime.InteropServices.ComTypes;
-	using System.Runtime.CompilerServices;
-	
-	
-	/// <summary>
+    using System;
+    using System.Runtime.CompilerServices;
+    using System.Runtime.InteropServices;
+
+
+    /// <summary>
     /// The nsIDOMSimpleGestureEvent interface is the datatype for all
     /// Mozilla-specific simple gesture events in the Document Object Model.
     ///
@@ -118,7 +117,7 @@ namespace Gecko
     /// use event.preventDefault() to prevent default behavior when
     /// consuming events.
     /// </summary>
-	[ComImport()]
+    [ComImport()]
 	[InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 	[Guid("d78656ab-9d68-4f03-83f9-7c7bee071aa7")]
 	public interface nsIDOMSimpleGestureEvent : nsIDOMMouseEvent

@@ -1,13 +1,9 @@
 ﻿using System;
 using System.Runtime.InteropServices;
-using System.Text;
-using System.Windows.Forms;
-using Microsoft.Win32;
-using System.IO;
 
 namespace Gecko
 {
-	static class nsIHelperAppLauncherConstants
+    static class nsIHelperAppLauncherConstants
 	{
 		public const int NS_BINDING_ABORTED = unchecked((int)0x804b0002);
 	}

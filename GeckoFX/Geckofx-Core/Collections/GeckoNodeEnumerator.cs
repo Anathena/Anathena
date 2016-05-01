@@ -1,18 +1,16 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace Gecko.Collections
 {
-	/// <summary>
-	/// Generic wrapper for Enumerator to classes nsIDOMNodeList/nsIDOMHTMLCollection
-	/// It looks like nsIDOMHTMLCollection MUST BE subclass of nsIDOMNodeList - but :-(
-	/// </summary>
-	/// <typeparam name="TWrapper"></typeparam>
-	/// <typeparam name="TGeckoObject"></typeparam>
-	internal sealed class GeckoNodeEnumerator<TWrapper, TGeckoNode>
+    /// <summary>
+    /// Generic wrapper for Enumerator to classes nsIDOMNodeList/nsIDOMHTMLCollection
+    /// It looks like nsIDOMHTMLCollection MUST BE subclass of nsIDOMNodeList - but :-(
+    /// </summary>
+    /// <typeparam name="TWrapper"></typeparam>
+    /// <typeparam name="TGeckoObject"></typeparam>
+    internal sealed class GeckoNodeEnumerator<TWrapper, TGeckoNode>
 		: IEnumerator<TWrapper>
 		where TGeckoNode : class, nsIDOMNode
 		where TWrapper : class

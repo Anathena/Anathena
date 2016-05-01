@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace ScintillaNET
+﻿namespace ScintillaNET
 {
     /// <summary>
     /// Actions which can be performed by the application or bound to keys in a <see cref="Scintilla" /> control.

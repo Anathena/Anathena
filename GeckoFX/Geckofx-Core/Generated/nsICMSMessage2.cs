@@ -20,19 +20,18 @@
 // --------------------------------------------------------------------------------------------
 namespace Gecko
 {
-	using System;
-	using System.Runtime.InteropServices;
-	using System.Runtime.InteropServices.ComTypes;
-	using System.Runtime.CompilerServices;
-	
-	
-	/// <summary>
+    using System;
+    using System.Runtime.CompilerServices;
+    using System.Runtime.InteropServices;
+
+
+    /// <summary>
     /// This interface is currently not marked scriptable,
     /// because its verification functions are meant to look like those
     /// in nsICMSMessage. At the time the ptr type is eliminated in both
     /// interfaces, both should be made scriptable.
     /// </summary>
-	[ComImport()]
+    [ComImport()]
 	[InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 	[Guid("a99a3203-39e3-45e1-909c-175b0e471c2b")]
 	public interface nsICMSMessage2

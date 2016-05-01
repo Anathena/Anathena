@@ -2,7 +2,7 @@
 
 namespace Gecko
 {
-	public enum NSSErrors
+    public enum NSSErrors
 	{
 		SEC_ERROR_BASE = (int)nsINSSErrorsServiceConsts.NSS_SEC_ERROR_BASE,
 		SEC_ERROR_LIMIT = (int)nsINSSErrorsServiceConsts.NSS_SEC_ERROR_LIMIT,

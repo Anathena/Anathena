@@ -1,10 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using Anathema.Utils.OS;
-using Anathema.Services.Snapshots;
+﻿using Anathema.Services.Snapshots;
 using Anathema.User.UserSettings;
 using Anathema.Utils;
+using Anathema.Utils.OS;
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Anathema.Scanners.ChunkScanner
 {

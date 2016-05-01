@@ -20,13 +20,12 @@
 // --------------------------------------------------------------------------------------------
 namespace Gecko
 {
-	using System;
-	using System.Runtime.InteropServices;
-	using System.Runtime.InteropServices.ComTypes;
-	using System.Runtime.CompilerServices;
-	
-	
-	/// <summary>
+    using System;
+    using System.Runtime.CompilerServices;
+    using System.Runtime.InteropServices;
+
+
+    /// <summary>
     /// A single result generated from a template query. Each result is identified
     /// by an id, which must be unique within the set of results produced from a
     /// query. The result may optionally be identified by an RDF resource.
@@ -41,7 +40,7 @@ namespace Gecko
     /// particular variable may be retrieved using the getBindingFor and
     /// getBindingObjectFor methods.
     /// </summary>
-	[ComImport()]
+    [ComImport()]
 	[InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 	[Guid("ebea0230-36fa-41b7-8e31-760806057965")]
 	public interface nsIXULTemplateResult

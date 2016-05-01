@@ -20,19 +20,18 @@
 // --------------------------------------------------------------------------------------------
 namespace Gecko
 {
-	using System;
-	using System.Runtime.InteropServices;
-	using System.Runtime.InteropServices.ComTypes;
-	using System.Runtime.CompilerServices;
-	
-	
-	/// <summary>
+    using System;
+    using System.Runtime.CompilerServices;
+    using System.Runtime.InteropServices;
+
+
+    /// <summary>
     /// The pivot interface encapsulates a reference to a single place in an accessible
     /// subtree. The pivot is a point or a range in the accessible tree. This interface
     /// provides traversal methods to move the pivot to next/prev state that complies
     /// to a given rule.
     /// </summary>
-	[ComImport()]
+    [ComImport()]
 	[InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 	[Guid("c2938033-e240-4fe5-9cb6-e7ad649ccd10")]
 	public interface nsIAccessiblePivot

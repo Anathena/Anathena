@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Gecko.Interop;
+﻿using Gecko.Interop;
+using System;
 using System.Runtime.InteropServices;
 
 namespace Gecko.Plugins
 {
-	public static class PluginHost
+    public static class PluginHost
 	{
 		private static ComPtr<nsIPluginHost> _pluginHost;
 

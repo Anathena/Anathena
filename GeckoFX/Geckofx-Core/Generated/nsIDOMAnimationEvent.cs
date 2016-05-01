@@ -20,18 +20,17 @@
 // --------------------------------------------------------------------------------------------
 namespace Gecko
 {
-	using System;
-	using System.Runtime.InteropServices;
-	using System.Runtime.InteropServices.ComTypes;
-	using System.Runtime.CompilerServices;
-	
-	
-	/// <summary>
+    using System;
+    using System.Runtime.CompilerServices;
+    using System.Runtime.InteropServices;
+
+
+    /// <summary>
     /// Animation events are defined in:
     /// http://www.w3.org/TR/css3-animations/#animation-events-
     /// http://dev.w3.org/csswg/css3-animations/#animation-events-
     /// </summary>
-	[ComImport()]
+    [ComImport()]
 	[InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 	[Guid("b1bea1bc-689b-4e07-8cbc-ef342725f9a6")]
 	public interface nsIDOMAnimationEvent : nsIDOMEvent

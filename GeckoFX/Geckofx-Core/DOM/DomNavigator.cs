@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace Gecko.DOM
+﻿namespace Gecko.DOM
 {
-	public sealed class DomNavigator
+    public sealed class DomNavigator
 	{
 		private nsIDOMNavigator _navigator;
 

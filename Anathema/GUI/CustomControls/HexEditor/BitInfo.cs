@@ -1,12 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Collections;
 using System.Reflection;
 
 namespace Be.HexEditor
 {
-	public class BitInfo
+    public class BitInfo
 	{
 		private byte _value;
 

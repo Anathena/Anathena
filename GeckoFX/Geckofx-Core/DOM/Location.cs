@@ -2,7 +2,7 @@
 
 namespace Gecko.DOM
 {
-	public sealed class Location
+    public sealed class Location
 	{
 		private ComPtr<nsIDOMLocation> _location;
 

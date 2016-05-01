@@ -20,17 +20,15 @@
 // --------------------------------------------------------------------------------------------
 namespace Gecko
 {
-	using System;
-	using System.Runtime.InteropServices;
-	using System.Runtime.InteropServices.ComTypes;
-	using System.Runtime.CompilerServices;
-	
-	
-	/// <summary>
+    using System;
+    using System.Runtime.InteropServices;
+
+
+    /// <summary>
     /// nsICache is a namespace for various cache constants.  It does not represent
     /// an actual object.
     /// </summary>
-	[ComImport()]
+    [ComImport()]
 	[Guid("d6c67f38-b39a-4582-8a48-4c4f8a56dfd0")]
 	public interface nsICache
 	{

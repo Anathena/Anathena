@@ -20,18 +20,17 @@
 // --------------------------------------------------------------------------------------------
 namespace Gecko
 {
-	using System;
-	using System.Runtime.InteropServices;
-	using System.Runtime.InteropServices.ComTypes;
-	using System.Runtime.CompilerServices;
-	
-	
-	/// <summary>
+    using System;
+    using System.Runtime.CompilerServices;
+    using System.Runtime.InteropServices;
+
+
+    /// <summary>
     /// Non-Web HTML parser functionality to Firefox extensions and XULRunner apps.
     /// Don't use this from within Gecko--use nsContentUtils, nsTreeSanitizer, etc.
     /// directly instead.
     /// </summary>
-	[ComImport()]
+    [ComImport()]
 	[InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 	[Guid("a1101145-0025-411e-8873-fdf57bf28128")]
 	public interface nsIParserUtils

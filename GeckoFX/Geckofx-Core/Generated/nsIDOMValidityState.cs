@@ -20,20 +20,19 @@
 // --------------------------------------------------------------------------------------------
 namespace Gecko
 {
-	using System;
-	using System.Runtime.InteropServices;
-	using System.Runtime.InteropServices.ComTypes;
-	using System.Runtime.CompilerServices;
-	
-	
-	/// <summary>
+    using System;
+    using System.Runtime.CompilerServices;
+    using System.Runtime.InteropServices;
+
+
+    /// <summary>
     /// The nsIDOMValidityState interface is the interface to a ValidityState
     /// object which represents the validity states of an element.
     ///
     /// For more information on this interface please see
     /// http://www.whatwg.org/specs/web-apps/current-work/#validitystate
     /// </summary>
-	[ComImport()]
+    [ComImport()]
 	[InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 	[Guid("00bed276-f1f7-492f-a039-dbd9b9efc10b")]
 	public interface nsIDOMValidityState

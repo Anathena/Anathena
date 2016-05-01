@@ -1,17 +1,14 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace Gecko
 {
-	/// <summary>
-	///  REPORT_ERROR 0 - Report is an error.
-	///  REPORT_WARNING 1 - Report is a warning.
-	///  REPORT_EXCEPTION 2 - Report represents an uncaught exception.
-	///  REPORT_STRICT 4 - Report is due to strict mode.
-	/// </summary> 
-	[Flags]
+    /// <summary>
+    ///  REPORT_ERROR 0 - Report is an error.
+    ///  REPORT_WARNING 1 - Report is a warning.
+    ///  REPORT_EXCEPTION 2 - Report represents an uncaught exception.
+    ///  REPORT_STRICT 4 - Report is due to strict mode.
+    /// </summary> 
+    [Flags]
 	public enum ErrorFlags
 	{
 		REPORT_ERROR = 0,

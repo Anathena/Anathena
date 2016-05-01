@@ -1,22 +1,21 @@
 ﻿using System;
 using System.Runtime.InteropServices;
-using System.Text;
 
 namespace Gecko
 {
-	/// <summary>
-	/// Implements nsIXULAppInfo for geckofx.
-	/// Object "@mozilla.org/xre/app-info;1" in XULRunner embedded in geckofx only implements nsIXULRuntime, but not nsIXULAppInfo.
-	/// This can cause a few issues, such as AddonManager refuses to start, which in turn affects remote debugging and about:plugins.
-	/// So we replace the original "@mozilla.org/xre/app-info;1" with an instance of XULAppInfo, which implements nsIXULAppInfo's 
-	/// methods, and delegate nsIXULRuntime's methods to the original object.
-	/// 
-	/// P.S., To start AddonManager, run
-	///   Components.utils.import("resource://gre/modules/AddonManager.jsm");
-	///   AddonManagerPrivate.startup();
-	/// in some chrome JS code.
-	/// </summary>
-	[Guid("8E4AABE2-B832-4cff-B213-2174DE2B839F")]
+    /// <summary>
+    /// Implements nsIXULAppInfo for geckofx.
+    /// Object "@mozilla.org/xre/app-info;1" in XULRunner embedded in geckofx only implements nsIXULRuntime, but not nsIXULAppInfo.
+    /// This can cause a few issues, such as AddonManager refuses to start, which in turn affects remote debugging and about:plugins.
+    /// So we replace the original "@mozilla.org/xre/app-info;1" with an instance of XULAppInfo, which implements nsIXULAppInfo's 
+    /// methods, and delegate nsIXULRuntime's methods to the original object.
+    /// 
+    /// P.S., To start AddonManager, run
+    ///   Components.utils.import("resource://gre/modules/AddonManager.jsm");
+    ///   AddonManagerPrivate.startup();
+    /// in some chrome JS code.
+    /// </summary>
+    [Guid("8E4AABE2-B832-4cff-B213-2174DE2B839F")]
 	[ContractID(XULAppInfoFactory.ContractID)]
 	class XULAppInfoFactory
 		: GenericOneClassNsFactory<XULAppInfoFactory, XULAppInfo>

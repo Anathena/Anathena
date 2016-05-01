@@ -33,17 +33,15 @@
  */
 #endregion END LICENSE BLOCK
 
-using System;
-using System.Drawing;
-using System.Runtime.InteropServices;
-using System.Diagnostics;
 using Gecko.Collections;
 using Gecko.DOM;
 using Gecko.Interop;
+using System;
+using System.Runtime.InteropServices;
 
 namespace Gecko
 {
-	public class GeckoElement
+    public class GeckoElement
 		: GeckoNode
 	{
 		private nsIDOMElement _domElement;

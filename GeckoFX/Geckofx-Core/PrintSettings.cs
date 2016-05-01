@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace Gecko
 {
-	public class PrintSettings : nsIPrintSettings
+    public class PrintSettings : nsIPrintSettings
 	{
 		Dictionary<int, bool> m_printOptions = new Dictionary<int, bool>();
 		int m_printOptionsBits;

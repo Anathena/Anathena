@@ -1,14 +1,14 @@
-using System;
-using System.Runtime.InteropServices;
 using Gecko.DOM;
 using Gecko.Interop;
+using System;
+using System.Runtime.InteropServices;
 
 namespace Gecko
 {
-	/// <summary>
-	/// Represents a DOM window.
-	/// </summary>
-	public class GeckoWindow
+    /// <summary>
+    /// Represents a DOM window.
+    /// </summary>
+    public class GeckoWindow
 		:IEquatable<GeckoWindow>,IDisposable 
 	{
 		private ComPtr<nsIDOMWindow> _domWindow;

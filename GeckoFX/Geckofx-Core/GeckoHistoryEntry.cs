@@ -35,17 +35,13 @@
 
 using System;
 using System.Collections.Generic;
-using System.Runtime.InteropServices;
-using System.Runtime.Remoting.Proxies;
-using System.Reflection;
-using System.Runtime.CompilerServices;
 
 namespace Gecko
 {
-	/// <summary>
-	/// Represents an entry in a <see cref="GeckoWebBrowser"/> session history.
-	/// </summary>
-	public class GeckoHistoryEntry
+    /// <summary>
+    /// Represents an entry in a <see cref="GeckoWebBrowser"/> session history.
+    /// </summary>
+    public class GeckoHistoryEntry
 	{
 		internal GeckoHistoryEntry()
 		{

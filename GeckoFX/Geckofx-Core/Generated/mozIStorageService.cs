@@ -20,13 +20,12 @@
 // --------------------------------------------------------------------------------------------
 namespace Gecko
 {
-	using System;
-	using System.Runtime.InteropServices;
-	using System.Runtime.InteropServices.ComTypes;
-	using System.Runtime.CompilerServices;
-	
-	
-	/// <summary>
+    using System;
+    using System.Runtime.CompilerServices;
+    using System.Runtime.InteropServices;
+
+
+    /// <summary>
     /// The mozIStorageService interface is intended to be implemented by
     /// a service that can create storage connections (mozIStorageConnection)
     /// to either a well-known profile database or to a specific database file.
@@ -36,7 +35,7 @@ namespace Gecko
     /// @note The first reference to mozIStorageService must be made on the main
     /// thread.
     /// </summary>
-	[ComImport()]
+    [ComImport()]
 	[InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 	[Guid("07b6b2f5-6d97-47b4-9584-e65bc467fe9e")]
 	public interface mozIStorageService

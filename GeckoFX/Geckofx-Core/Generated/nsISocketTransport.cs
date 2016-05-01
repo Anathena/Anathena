@@ -20,13 +20,12 @@
 // --------------------------------------------------------------------------------------------
 namespace Gecko
 {
-	using System;
-	using System.Runtime.InteropServices;
-	using System.Runtime.InteropServices.ComTypes;
-	using System.Runtime.CompilerServices;
-	
-	
-	/// <summary>
+    using System;
+    using System.Runtime.CompilerServices;
+    using System.Runtime.InteropServices;
+
+
+    /// <summary>
     /// nsISocketTransport
     ///
     /// NOTE: Connection setup is triggered by opening an input or output stream,
@@ -36,7 +35,7 @@ namespace Gecko
     /// NOTE: This is a free-threaded interface, meaning that the methods on
     /// this interface may be called from any thread.
     /// </summary>
-	[ComImport()]
+    [ComImport()]
 	[InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 	[Guid("3F41704C-CD5D-4537-8C4C-7B2EBFC5D972")]
 	public interface nsISocketTransport : nsITransport

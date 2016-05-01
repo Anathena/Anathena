@@ -20,13 +20,12 @@
 // --------------------------------------------------------------------------------------------
 namespace Gecko
 {
-	using System;
-	using System.Runtime.InteropServices;
-	using System.Runtime.InteropServices.ComTypes;
-	using System.Runtime.CompilerServices;
-	
-	
-	/// <summary>
+    using System;
+    using System.Runtime.CompilerServices;
+    using System.Runtime.InteropServices;
+
+
+    /// <summary>
     /// The nsIDOMWindow interface is the primary interface for a DOM
     /// window object. It represents a single window object that may
     /// contain child windows if the document in the window contains a
@@ -34,7 +33,7 @@ namespace Gecko
     ///
     /// @see <http://www.whatwg.org/html/#window>
     /// </summary>
-	[ComImport()]
+    [ComImport()]
 	[InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 	[Guid("1b4a23a2-2ccf-4690-9da7-f3a7a8308381")]
 	public interface nsIDOMWindow

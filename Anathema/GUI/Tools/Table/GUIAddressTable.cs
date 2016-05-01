@@ -1,14 +1,14 @@
-﻿using System;
+﻿using Anathema.User.UserAddressTable;
+using Anathema.Utils.Cache;
+using Anathema.Utils.MVP;
+using Anathema.Utils.Validation;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Drawing;
 using System.Data;
+using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
-using Anathema.Utils.MVP;
-using Anathema.User.UserAddressTable;
-using Anathema.Utils.Cache;
-using Anathema.Utils.Validation;
 
 namespace Anathema
 {
@@ -104,7 +104,7 @@ namespace Anathema
         {
             ListViewItem Item = AddressTableCache.Get((UInt64)E.ItemIndex);
             AddressItem AddressItem = AddressTablePresenter.GetAddressItemAt(E.ItemIndex);
-            
+
             // Try to update and return the item if it is a valid item
             if (Item != null &&
                 AddressTableCache.TryUpdateSubItem(E.ItemIndex, AddressTableListView.Columns.IndexOf(ValueHeader), AddressItem.GetValueString()) &&

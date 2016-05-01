@@ -35,10 +35,6 @@
 // --------------------------------------------------------------------------------
 
 // Do not edit. File generated from optable.xml on 27-Feb-2016 09:45 PM
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 #pragma warning disable 1591
 namespace SharpDisasm.Udis86

@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace Gecko.DOM.Xml
+﻿namespace Gecko.DOM.Xml
 {
-	public sealed class XmlDocument
+    public sealed class XmlDocument
 		:GeckoDomDocument
 	{
 		private nsIDOMXMLDocument _xmlDocument;

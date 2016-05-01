@@ -20,13 +20,12 @@
 // --------------------------------------------------------------------------------------------
 namespace Gecko
 {
-	using System;
-	using System.Runtime.InteropServices;
-	using System.Runtime.InteropServices.ComTypes;
-	using System.Runtime.CompilerServices;
-	
-	
-	/// <summary>
+    using System;
+    using System.Runtime.CompilerServices;
+    using System.Runtime.InteropServices;
+
+
+    /// <summary>
     /// The nsIDOMHTMLVideoElement interface is the interface to a HTML
     /// <video> element.
     ///
@@ -35,7 +34,7 @@ namespace Gecko
     ///
     /// @status UNDER_DEVELOPMENT
     /// </summary>
-	[ComImport()]
+    [ComImport()]
 	[InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 	[Guid("185a3e8f-56a7-4bda-8dc7-2cff6ed07d1d")]
 	public interface nsIDOMHTMLVideoElement : nsIDOMHTMLMediaElement

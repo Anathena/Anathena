@@ -20,13 +20,12 @@
 // --------------------------------------------------------------------------------------------
 namespace Gecko
 {
-	using System;
-	using System.Runtime.InteropServices;
-	using System.Runtime.InteropServices.ComTypes;
-	using System.Runtime.CompilerServices;
-	
-	
-	/// <summary>
+    using System;
+    using System.Runtime.CompilerServices;
+    using System.Runtime.InteropServices;
+
+
+    /// <summary>
     /// nsITaskbarTabPreview
     ///
     /// This interface controls tab preview-specific behavior. Creating an
@@ -38,7 +37,7 @@ namespace Gecko
     /// An application may have as many tab previews per window as memory allows.
     ///
     /// </summary>
-	[ComImport()]
+    [ComImport()]
 	[InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 	[Guid("11E4C8BD-5C2D-4E1A-A9A1-79DD5B0FE544")]
 	public interface nsITaskbarTabPreview : nsITaskbarPreview

@@ -1,13 +1,13 @@
-﻿using System;
-using System.Drawing;
-using System.Windows.Forms;
-using WeifenLuo.WinFormsUI.Docking;
-using ScintillaNET;
-using System.Linq;
+﻿using Anathema.User.UserScriptEditor;
+using Anathema.Utils;
 using Anathema.Utils.LUA;
 using Anathema.Utils.MVP;
-using Anathema.Utils;
-using Anathema.User.UserScriptEditor;
+using ScintillaNET;
+using System;
+using System.Drawing;
+using System.Linq;
+using System.Windows.Forms;
+using WeifenLuo.WinFormsUI.Docking;
 
 namespace Anathema
 {

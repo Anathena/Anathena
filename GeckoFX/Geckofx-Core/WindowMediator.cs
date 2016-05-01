@@ -3,10 +3,10 @@ using System.Collections.Generic;
 
 namespace Gecko
 {
-	/// <summary>
-	/// May be for future use (tabbed browser)
-	/// </summary>
-	public static class WindowMediator
+    /// <summary>
+    /// May be for future use (tabbed browser)
+    /// </summary>
+    public static class WindowMediator
 	{
 		private static ComPtr<nsIWindowMediator> _windowMediator;
 

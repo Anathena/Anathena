@@ -20,19 +20,18 @@
 // --------------------------------------------------------------------------------------------
 namespace Gecko
 {
-	using System;
-	using System.Runtime.InteropServices;
-	using System.Runtime.InteropServices.ComTypes;
-	using System.Runtime.CompilerServices;
-	
-	
-	/// <summary>
+    using System;
+    using System.Runtime.CompilerServices;
+    using System.Runtime.InteropServices;
+
+
+    /// <summary>
     /// nsIStandardURL defines the interface to an URL with the standard
     /// file path format common to protocols like http, ftp, and file.
     /// It supports initialization from a relative path and provides
     /// some customization on how URLs are normalized.
     /// </summary>
-	[ComImport()]
+    [ComImport()]
 	[InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 	[Guid("babd6cca-ebe7-4329-967c-d6b9e33caa81")]
 	public interface nsIStandardURL : nsIMutable

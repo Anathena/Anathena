@@ -1,12 +1,11 @@
-using System;
-using System.Collections.Generic;
-using System.Threading;
 using Gecko.Collections;
 using Gecko.Interop;
+using System;
+using System.Collections.Generic;
 
 namespace Gecko.IO
 {
-	public sealed class ZipReader
+    public sealed class ZipReader
 		:IDisposable
 	{
 		private ComPtr<nsIZipReader> _zipReader;

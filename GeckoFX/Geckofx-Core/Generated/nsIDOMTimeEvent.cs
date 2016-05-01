@@ -20,20 +20,19 @@
 // --------------------------------------------------------------------------------------------
 namespace Gecko
 {
-	using System;
-	using System.Runtime.InteropServices;
-	using System.Runtime.InteropServices.ComTypes;
-	using System.Runtime.CompilerServices;
-	
-	
-	/// <summary>
+    using System;
+    using System.Runtime.CompilerServices;
+    using System.Runtime.InteropServices;
+
+
+    /// <summary>
     /// The SMIL TimeEvent interface.
     ///
     /// For more information please refer to:
     /// http://www.w3.org/TR/SMIL/smil-timing.html#Events-TimeEvent
     /// http://www.w3.org/TR/SVG/animate.html#InterfaceTimeEvent
     /// </summary>
-	[ComImport()]
+    [ComImport()]
 	[InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 	[Guid("4a5a5fa6-2783-4171-b8bb-cae4ab06e6ff")]
 	public interface nsIDOMTimeEvent : nsIDOMEvent

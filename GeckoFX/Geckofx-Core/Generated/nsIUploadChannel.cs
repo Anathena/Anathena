@@ -20,20 +20,19 @@
 // --------------------------------------------------------------------------------------------
 namespace Gecko
 {
-	using System;
-	using System.Runtime.InteropServices;
-	using System.Runtime.InteropServices.ComTypes;
-	using System.Runtime.CompilerServices;
-	
-	
-	/// <summary>
+    using System;
+    using System.Runtime.CompilerServices;
+    using System.Runtime.InteropServices;
+
+
+    /// <summary>
     /// nsIUploadChannel
     ///
     /// A channel may optionally implement this interface if it supports the
     /// notion of uploading a data stream.  The upload stream may only be set
     /// prior to the invocation of asyncOpen on the channel.
     /// </summary>
-	[ComImport()]
+    [ComImport()]
 	[InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 	[Guid("5cfe15bd-5adb-4a7f-9e55-4f5a67d15794")]
 	public interface nsIUploadChannel

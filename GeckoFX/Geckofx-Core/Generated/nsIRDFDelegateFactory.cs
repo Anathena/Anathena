@@ -20,13 +20,12 @@
 // --------------------------------------------------------------------------------------------
 namespace Gecko
 {
-	using System;
-	using System.Runtime.InteropServices;
-	using System.Runtime.InteropServices.ComTypes;
-	using System.Runtime.CompilerServices;
-	
-	
-	/// <summary>
+    using System;
+    using System.Runtime.CompilerServices;
+    using System.Runtime.InteropServices;
+
+
+    /// <summary>
     /// This interface should be implemented by an XPCOM factory that
     /// is registered to handle "@mozilla.org/rdf/delegate-factory/[key]/[scheme];1"
     /// ContractIDs.
@@ -34,7 +33,7 @@ namespace Gecko
     /// The factory will be invoked to create delegate objects from
     /// nsIRDFResource::GetDelegate().
     /// </summary>
-	[ComImport()]
+    [ComImport()]
 	[InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 	[Guid("A1B89470-A124-11d3-BE59-0020A6361667")]
 	public interface nsIRDFDelegateFactory

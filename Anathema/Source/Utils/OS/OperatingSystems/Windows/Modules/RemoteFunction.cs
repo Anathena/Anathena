@@ -1,5 +1,5 @@
-﻿using System;
-using Anathema.MemoryManagement.Memory;
+﻿using Anathema.MemoryManagement.Memory;
+using System;
 
 namespace Anathema.MemoryManagement.Modules
 {

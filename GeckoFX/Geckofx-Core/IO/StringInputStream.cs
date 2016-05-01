@@ -3,7 +3,7 @@ using System.Runtime.InteropServices;
 
 namespace Gecko.IO
 {
-	public sealed class StringInputStream
+    public sealed class StringInputStream
 		:InputStream
 	{
 		private nsIStringInputStream _stringInputStream;

@@ -2,7 +2,7 @@ using System;
 
 namespace Gecko.Search
 {
-	public sealed class SearchSubmission
+    public sealed class SearchSubmission
 	{
 		private nsISearchSubmission _searchSubmission;
 

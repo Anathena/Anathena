@@ -20,18 +20,17 @@
 // --------------------------------------------------------------------------------------------
 namespace Gecko
 {
-	using System;
-	using System.Runtime.InteropServices;
-	using System.Runtime.InteropServices.ComTypes;
-	using System.Runtime.CompilerServices;
-	
-	
-	/// <summary>
+    using System;
+    using System.Runtime.CompilerServices;
+    using System.Runtime.InteropServices;
+
+
+    /// <summary>
     /// The nsIDOMNotifyPaintEvent interface is used for the MozDOMAfterPaint
     /// event, which fires at a window when painting has happened in
     /// that window.
     /// </summary>
-	[ComImport()]
+    [ComImport()]
 	[InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 	[Guid("ef68f0d5-5b55-4198-9e59-a5e2c57d3adc")]
 	public interface nsIDOMNotifyPaintEvent : nsIDOMEvent

@@ -20,13 +20,11 @@
 // --------------------------------------------------------------------------------------------
 namespace Gecko
 {
-	using System;
-	using System.Runtime.InteropServices;
-	using System.Runtime.InteropServices.ComTypes;
-	using System.Runtime.CompilerServices;
-	
-	
-	/// <summary>
+    using System;
+    using System.Runtime.InteropServices;
+
+
+    /// <summary>
     /// The functionality of the nsIDocCharset interface has been incorporated into
     /// nsIDocShell.
     ///
@@ -34,7 +32,7 @@ namespace Gecko
     /// some point in the future
     ///
     /// </summary>
-	[ComImport()]
+    [ComImport()]
 	[InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 	[Guid("c3faaf6e-40f0-11e1-95fc-6c626d69675c")]
 	public interface nsIDocCharset

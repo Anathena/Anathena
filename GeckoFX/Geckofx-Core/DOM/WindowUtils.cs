@@ -1,9 +1,9 @@
-﻿using System;
-using Gecko.Interop;
+﻿using Gecko.Interop;
+using System;
 
 namespace Gecko.DOM
 {
-	public class WindowUtils
+    public class WindowUtils
 	{
 		private ComPtr<nsIDOMWindowUtils> _windowUtils;
 

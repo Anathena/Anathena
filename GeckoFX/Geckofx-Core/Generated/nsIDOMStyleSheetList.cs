@@ -20,20 +20,19 @@
 // --------------------------------------------------------------------------------------------
 namespace Gecko
 {
-	using System;
-	using System.Runtime.InteropServices;
-	using System.Runtime.InteropServices.ComTypes;
-	using System.Runtime.CompilerServices;
-	
-	
-	/// <summary>
+    using System;
+    using System.Runtime.CompilerServices;
+    using System.Runtime.InteropServices;
+
+
+    /// <summary>
     /// The nsIDOMStyleSheetList interface is a datatype for a style sheet
     /// list in the Document Object Model.
     ///
     /// For more information on this interface please see
     /// http://www.w3.org/TR/DOM-Level-2-Style
     /// </summary>
-	[ComImport()]
+    [ComImport()]
 	[InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 	[Guid("0e424250-ac2a-4fe2-bccd-a45824af090e")]
 	public interface nsIDOMStyleSheetList

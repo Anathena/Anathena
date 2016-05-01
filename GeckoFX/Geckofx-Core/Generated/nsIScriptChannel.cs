@@ -20,13 +20,12 @@
 // --------------------------------------------------------------------------------------------
 namespace Gecko
 {
-	using System;
-	using System.Runtime.InteropServices;
-	using System.Runtime.InteropServices.ComTypes;
-	using System.Runtime.CompilerServices;
-	
-	
-	/// <summary>
+    using System;
+    using System.Runtime.CompilerServices;
+    using System.Runtime.InteropServices;
+
+
+    /// <summary>
     /// An interface representing a channel which will have to execute some sort of
     /// program provided via its URI to compute the data it should return.
     ///
@@ -42,7 +41,7 @@ namespace Gecko
     /// principal of the environment in which the program is to be executed the
     /// execution will be forced to happen in a sandbox.
     /// </summary>
-	[ComImport()]
+    [ComImport()]
 	[InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 	[Guid("33234b99-9588-4c7d-9da6-86b8b7cba565")]
 	public interface nsIScriptChannel

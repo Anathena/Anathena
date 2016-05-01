@@ -20,20 +20,19 @@
 // --------------------------------------------------------------------------------------------
 namespace Gecko
 {
-	using System;
-	using System.Runtime.InteropServices;
-	using System.Runtime.InteropServices.ComTypes;
-	using System.Runtime.CompilerServices;
-	
-	
-	/// <summary>
+    using System;
+    using System.Runtime.CompilerServices;
+    using System.Runtime.InteropServices;
+
+
+    /// <summary>
     /// The nsIDOMMediaList interface is a datatype for a list of media
     /// types in the Document Object Model.
     ///
     /// For more information on this interface please see
     /// http://www.w3.org/TR/DOM-Level-2-Style
     /// </summary>
-	[ComImport()]
+    [ComImport()]
 	[InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 	[Guid("9b0c2ed7-111c-4824-adf9-ef0da6dad371")]
 	public interface nsIDOMMediaList

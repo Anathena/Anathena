@@ -3,7 +3,7 @@ using System.Runtime.InteropServices;
 
 namespace Gecko.Windows
 {
-	public static class Gdi32
+    public static class Gdi32
 	{
 		public const int SRCCOPY = 0x00CC0020; // BitBlt dwRop parameter
 		[DllImport("gdi32.dll")]

@@ -1,12 +1,10 @@
+using Gecko.Interop;
 using System;
 using System.Diagnostics;
-using System.Runtime.InteropServices;
-using System.Threading;
-using Gecko.Interop;
 
 namespace Gecko.Cache
 {
-	public sealed class CacheSession
+    public sealed class CacheSession
 	{
 		private ComPtr<nsICacheSession> _cacheSession;
 

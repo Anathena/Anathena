@@ -1,7 +1,8 @@
 ﻿using System.Drawing;
 using System.Drawing.Drawing2D;
 
-namespace WeifenLuo.WinFormsUI.Docking {
+namespace WeifenLuo.WinFormsUI.Docking
+{
     public static class DrawingRoutines {
         public static void SafelyDrawLinearGradient(Rectangle rectangle, Color startColor, Color endColor,
             LinearGradientMode mode, Graphics graphics)

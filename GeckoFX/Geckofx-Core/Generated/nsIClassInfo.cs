@@ -20,18 +20,17 @@
 // --------------------------------------------------------------------------------------------
 namespace Gecko
 {
-	using System;
-	using System.Runtime.InteropServices;
-	using System.Runtime.InteropServices.ComTypes;
-	using System.Runtime.CompilerServices;
-	
-	
-	/// <summary>
+    using System;
+    using System.Runtime.CompilerServices;
+    using System.Runtime.InteropServices;
+
+
+    /// <summary>
     /// Provides information about a specific implementation class.  If you want
     /// your class to implement nsIClassInfo, see nsIClassInfoImpl.h for
     /// instructions--you most likely do not want to inherit from nsIClassInfo.
     /// </summary>
-	[ComImport()]
+    [ComImport()]
 	[InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 	[Guid("986c11d0-f340-11d4-9075-0010a4e73d9a")]
 	public interface nsIClassInfo

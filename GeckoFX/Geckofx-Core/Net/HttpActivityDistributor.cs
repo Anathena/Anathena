@@ -2,7 +2,7 @@ using Gecko.Interop;
 
 namespace Gecko.Net
 {
-	public static class HttpActivityDistributor
+    public static class HttpActivityDistributor
 	{
 		private static ComPtr<nsIHttpActivityDistributor> _httpActivityDistributor;
 

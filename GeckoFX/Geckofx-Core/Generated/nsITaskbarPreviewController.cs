@@ -20,13 +20,12 @@
 // --------------------------------------------------------------------------------------------
 namespace Gecko
 {
-	using System;
-	using System.Runtime.InteropServices;
-	using System.Runtime.InteropServices.ComTypes;
-	using System.Runtime.CompilerServices;
-	
-	
-	/// <summary>
+    using System;
+    using System.Runtime.CompilerServices;
+    using System.Runtime.InteropServices;
+
+
+    /// <summary>
     /// nsITaskbarPreviewController
     ///
     /// nsITaskbarPreviewController provides the behavior for the taskbar previews.
@@ -35,7 +34,7 @@ namespace Gecko
     /// the interface the controller is attached to, only certain methods/attributes
     /// are required to be implemented.
     /// </summary>
-	[ComImport()]
+    [ComImport()]
 	[InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 	[Guid("4FC0AFBB-3E22-4FBA-AC21-953350AF0411")]
 	public interface nsITaskbarPreviewController

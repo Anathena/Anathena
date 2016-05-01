@@ -1,6 +1,6 @@
 namespace Gecko.Windows
 {
-	public class JumpListItem
+    public class JumpListItem
 	{
 		internal nsIJumpListItem _item;
 

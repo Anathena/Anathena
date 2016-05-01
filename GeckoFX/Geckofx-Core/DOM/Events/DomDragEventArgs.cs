@@ -1,9 +1,9 @@
 namespace Gecko
 {
-	/// <summary>
-	/// Provides data about a drag event
-	/// </summary>
-	public class DomDragEventArgs
+    /// <summary>
+    /// Provides data about a drag event
+    /// </summary>
+    public class DomDragEventArgs
 		: DomMouseEventArgs
 	{
 		private nsIDOMDragEvent _domDragEvent;

@@ -67,7 +67,7 @@ namespace Anathema.Scanners.PointerScanner
         {
             this.View = View;
             this.Model = Model;
-            
+
             // Bind events triggered by the model
             Model.EventReadValues += EventReadValues;
             Model.EventUpdateItemCount += EventScanFinished;

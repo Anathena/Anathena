@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Gecko.Interop;
+﻿using Gecko.Interop;
 
 namespace Gecko.DOM.Svg
 {
-	public class DomSvgLength
+    public class DomSvgLength
 	{
 		private ComPtr<nsIDOMSVGLength> _domSvgLength;
 

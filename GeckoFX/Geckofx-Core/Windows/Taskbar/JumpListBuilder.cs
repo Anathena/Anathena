@@ -2,7 +2,7 @@ using Gecko.Collections;
 
 namespace Gecko.Windows
 {
-	public sealed class JumpListBuilder
+    public sealed class JumpListBuilder
 	{
 		private readonly nsIJumpListBuilder _jumpListBuilder;
 

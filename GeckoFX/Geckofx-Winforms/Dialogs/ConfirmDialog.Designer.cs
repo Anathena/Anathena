@@ -1,9 +1,7 @@
 ﻿using System.Windows.Forms;
-using System.ComponentModel;
-using System.Drawing;
 namespace Gecko
 {
-	partial class ConfirmDialog
+    partial class ConfirmDialog
 	{
 		/// <summary>
 		/// Required designer variable.

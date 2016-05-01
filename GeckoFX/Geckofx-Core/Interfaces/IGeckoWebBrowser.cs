@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Gecko.IO;
+﻿using Gecko.IO;
+using System;
 
 namespace Gecko
 {
-	#region public enum GeckoLoadFlags
-	[Flags]
+    #region public enum GeckoLoadFlags
+    [Flags]
 	public enum GeckoLoadFlags
 	{
 		/// <summary>

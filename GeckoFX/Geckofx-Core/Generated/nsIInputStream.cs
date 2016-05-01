@@ -20,13 +20,12 @@
 // --------------------------------------------------------------------------------------------
 namespace Gecko
 {
-	using System;
-	using System.Runtime.InteropServices;
-	using System.Runtime.InteropServices.ComTypes;
-	using System.Runtime.CompilerServices;
-	
-	
-	/// <summary>
+    using System;
+    using System.Runtime.CompilerServices;
+    using System.Runtime.InteropServices;
+
+
+    /// <summary>
     /// nsIInputStream
     ///
     /// An interface describing a readable stream of data.  An input stream may be
@@ -40,7 +39,7 @@ namespace Gecko
     /// the case that a blocking input stream should be implemented using thread-
     /// safe AddRef and Release.
     /// </summary>
-	[ComImport()]
+    [ComImport()]
 	[InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 	[Guid("53cdbc97-c2d7-4e30-b2c3-45b2ee79db18")]
 	public interface nsIInputStream

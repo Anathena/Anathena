@@ -20,13 +20,12 @@
 // --------------------------------------------------------------------------------------------
 namespace Gecko
 {
-	using System;
-	using System.Runtime.InteropServices;
-	using System.Runtime.InteropServices.ComTypes;
-	using System.Runtime.CompilerServices;
-	
-	
-	/// <summary>
+    using System;
+    using System.Runtime.CompilerServices;
+    using System.Runtime.InteropServices;
+
+
+    /// <summary>
     /// CDATA sections are used to escape blocks of text containing characters
     /// that would otherwise be regarded as markup.
     /// Their primary purpose is for including material such as XML fragments,
@@ -35,7 +34,7 @@ namespace Gecko
     /// For more information on this interface please see
     /// http://www.w3.org/TR/DOM-Level-2-Core/
     /// </summary>
-	[ComImport()]
+    [ComImport()]
 	[InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 	[Guid("0f401429-30b3-46de-b1bf-d7d5fa7563f9")]
 	public interface nsIDOMCDATASection : nsIDOMText

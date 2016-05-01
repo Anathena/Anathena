@@ -1,17 +1,15 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace Gecko.Collections
 {
-	/// <summary>
-	/// Internal wrapper realization
-	/// </summary>
-	/// <typeparam name="TWrapper"></typeparam>
-	/// <typeparam name="TGeckoObject"></typeparam>
-	internal sealed class GeckoArray<TWrapper,TGeckoObject>
+    /// <summary>
+    /// Internal wrapper realization
+    /// </summary>
+    /// <typeparam name="TWrapper"></typeparam>
+    /// <typeparam name="TGeckoObject"></typeparam>
+    internal sealed class GeckoArray<TWrapper,TGeckoObject>
 		: IGeckoArray<TWrapper>
 		where TGeckoObject :class
 		where TWrapper :class

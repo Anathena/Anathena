@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using Be.HexEditor.Properties;
+using System;
 using System.Collections.Specialized;
 using System.ComponentModel;
-using System.Diagnostics;
-using System.Text;
 using System.Windows.Forms;
-using Be.HexEditor.Properties;
 
 namespace Be.HexEditor
 {

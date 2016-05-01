@@ -27,23 +27,21 @@
 // NOT COMPLETE
 
 using System;
-using System.ComponentModel;
-using System.Collections;
 using System.Drawing;
-using System.Diagnostics;
+using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
-using System.Reflection; 
 
 // X11 Version
-namespace X11 {
-	//
-	// In the structures below, fields of type long are mapped to IntPtr.
-	// This will work on all platforms where sizeof(long)==sizeof(void*), which
-	// is almost all platforms except WIN64.
-	//
+namespace X11
+{
+    //
+    // In the structures below, fields of type long are mapped to IntPtr.
+    // This will work on all platforms where sizeof(long)==sizeof(void*), which
+    // is almost all platforms except WIN64.
+    //
 
-	[StructLayout(LayoutKind.Sequential)]
+    [StructLayout(LayoutKind.Sequential)]
 	internal struct XAnyEvent {
 		internal XEventName	type;
 		internal IntPtr		serial;

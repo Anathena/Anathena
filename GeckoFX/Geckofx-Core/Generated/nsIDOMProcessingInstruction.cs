@@ -20,13 +20,12 @@
 // --------------------------------------------------------------------------------------------
 namespace Gecko
 {
-	using System;
-	using System.Runtime.InteropServices;
-	using System.Runtime.InteropServices.ComTypes;
-	using System.Runtime.CompilerServices;
-	
-	
-	/// <summary>
+    using System;
+    using System.Runtime.CompilerServices;
+    using System.Runtime.InteropServices;
+
+
+    /// <summary>
     /// The nsIDOMProcessingInstruction interface represents a
     /// "processing instruction", used in XML as a way to keep processor-specific
     /// information in the text of the document.
@@ -35,7 +34,7 @@ namespace Gecko
     /// http://www.w3.org/TR/DOM-Level-2-Core/ and
     /// http://dvcs.w3.org/hg/domcore/raw-file/tip/Overview.html
     /// </summary>
-	[ComImport()]
+    [ComImport()]
 	[InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 	[Guid("91f2e856-5596-44d6-b396-0a02d8ec28c6")]
 	public interface nsIDOMProcessingInstruction : nsIDOMCharacterData

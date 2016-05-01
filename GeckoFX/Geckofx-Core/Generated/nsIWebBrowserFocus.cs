@@ -20,13 +20,12 @@
 // --------------------------------------------------------------------------------------------
 namespace Gecko
 {
-	using System;
-	using System.Runtime.InteropServices;
-	using System.Runtime.InteropServices.ComTypes;
-	using System.Runtime.CompilerServices;
-	
-	
-	/// <summary>
+    using System;
+    using System.Runtime.CompilerServices;
+    using System.Runtime.InteropServices;
+
+
+    /// <summary>
     /// nsIWebBrowserFocus
     /// Interface that embedders use for controlling and interacting
     /// with the browser focus management. The embedded browser can be focused by
@@ -35,7 +34,7 @@ namespace Gecko
     /// be called, and activate() called again when the top level window is
     /// reactivated for the browser's focus memory to work correctly.
     /// </summary>
-	[ComImport()]
+    [ComImport()]
 	[InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 	[Guid("9c5d3c58-1dd1-11b2-a1c9-f3699284657a")]
 	public interface nsIWebBrowserFocus

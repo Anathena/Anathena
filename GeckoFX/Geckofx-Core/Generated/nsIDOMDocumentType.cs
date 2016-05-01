@@ -20,13 +20,12 @@
 // --------------------------------------------------------------------------------------------
 namespace Gecko
 {
-	using System;
-	using System.Runtime.InteropServices;
-	using System.Runtime.InteropServices.ComTypes;
-	using System.Runtime.CompilerServices;
-	
-	
-	/// <summary>
+    using System;
+    using System.Runtime.CompilerServices;
+    using System.Runtime.InteropServices;
+
+
+    /// <summary>
     /// Each Document has a doctype attribute whose value is either null
     /// or a DocumentType object.
     /// The nsIDOMDocumentType interface in the DOM Core provides an
@@ -35,7 +34,7 @@ namespace Gecko
     /// For more information on this interface please see
     /// http://www.w3.org/TR/DOM-Level-2-Core/
     /// </summary>
-	[ComImport()]
+    [ComImport()]
 	[InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 	[Guid("aa7d28b2-7122-422d-8fcf-634771fb9ac1")]
 	public interface nsIDOMDocumentType : nsIDOMNode

@@ -1,20 +1,18 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Runtime.InteropServices;
+using System.Text;
 
 namespace Gecko.CustomMarshalers
 {
-	/// <summary>
-	/// Custom Marshaler for xpcom/xulrunner native type wstring wstring
-	/// 
-	/// To use managed type string as parameter and apply attribute:
-	/// [MarshalAs(UnmanagedType.CustomMarshaler, MarshalType = "Gecko.CustomMarshalers.WStringMarshaler")] string
-	/// or for string return types use:
-	/// [return: MarshalAs(UnmanagedType.CustomMarshaler, MarshalType = "Gecko.CustomMarshalers.WStringMarshaler")]
-	/// </summary>
-	public class WStringMarshaler
+    /// <summary>
+    /// Custom Marshaler for xpcom/xulrunner native type wstring wstring
+    /// 
+    /// To use managed type string as parameter and apply attribute:
+    /// [MarshalAs(UnmanagedType.CustomMarshaler, MarshalType = "Gecko.CustomMarshalers.WStringMarshaler")] string
+    /// or for string return types use:
+    /// [return: MarshalAs(UnmanagedType.CustomMarshaler, MarshalType = "Gecko.CustomMarshalers.WStringMarshaler")]
+    /// </summary>
+    public class WStringMarshaler
 		: ICustomMarshaler
 	{
 		public void CleanUpManagedData(object ManagedObj)

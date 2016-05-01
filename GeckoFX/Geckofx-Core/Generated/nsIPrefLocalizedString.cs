@@ -20,13 +20,12 @@
 // --------------------------------------------------------------------------------------------
 namespace Gecko
 {
-	using System;
-	using System.Runtime.InteropServices;
-	using System.Runtime.InteropServices.ComTypes;
-	using System.Runtime.CompilerServices;
-	
-	
-	/// <summary>
+    using System;
+    using System.Runtime.CompilerServices;
+    using System.Runtime.InteropServices;
+
+
+    /// <summary>
     /// The nsIPrefLocalizedString interface is simply a wrapper interface for
     /// nsISupportsString so the preferences service can have a unique identifier
     /// to distinguish between requests for normal wide strings (nsISupportsString)
@@ -36,7 +35,7 @@ namespace Gecko
     /// @see nsIPrefBranch
     /// @see nsISupportsString
     /// </summary>
-	[ComImport()]
+    [ComImport()]
 	[InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 	[Guid("ae419e24-1dd1-11b2-b39a-d3e5e7073802")]
 	public interface nsIPrefLocalizedString

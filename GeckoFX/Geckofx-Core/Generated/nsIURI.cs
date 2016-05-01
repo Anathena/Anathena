@@ -20,13 +20,12 @@
 // --------------------------------------------------------------------------------------------
 namespace Gecko
 {
-	using System;
-	using System.Runtime.InteropServices;
-	using System.Runtime.InteropServices.ComTypes;
-	using System.Runtime.CompilerServices;
-	
-	
-	/// <summary>
+    using System;
+    using System.Runtime.CompilerServices;
+    using System.Runtime.InteropServices;
+
+
+    /// <summary>
     /// nsIURI - interface for an uniform resource identifier w/ i18n support.
     ///
     /// AUTF8String attributes may contain unescaped UTF-8 characters.
@@ -49,7 +48,7 @@ namespace Gecko
     /// we will need to add additional checks there for all intermediate IIDs, until
     /// nsPrincipal is fixed to serialize its URIs as nsISupports (bug 662693).
     /// </summary>
-	[ComImport()]
+    [ComImport()]
 	[InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 	[Guid("395fe045-7d18-4adb-a3fd-af98c8a1af11")]
 	public interface nsIURI

@@ -1,10 +1,9 @@
 using System;
-using System.Drawing;
 using System.Runtime.InteropServices;
 
 namespace Be.Windows.Forms
 {
-	internal static class NativeMethods
+    internal static class NativeMethods
 	{
 		// Caret definitions
 		[DllImport("user32.dll", SetLastError=true)]

@@ -2,21 +2,21 @@
 
 namespace Gecko.Events
 {
-	/// <summary>
-	/// NOT TESTED YET :)
-	/// 
-	/// Based on System.ComponentModel.EventHandlerList but:
-	/// 1. use integer as key
-	/// 2. use binary search for finding delegate
-	/// 3. use array for store entries
-	/// 4. special method for fast initialize
-	/// Why:
-	/// 1. adding new delegates operations are not frequent
-	/// 2. call/combine operation must perform fast
-	/// result:
-	/// 1. log(N) searching -> fast call and combine
-	/// </summary>
-	public sealed class GeckoEventList
+    /// <summary>
+    /// NOT TESTED YET :)
+    /// 
+    /// Based on System.ComponentModel.EventHandlerList but:
+    /// 1. use integer as key
+    /// 2. use binary search for finding delegate
+    /// 3. use array for store entries
+    /// 4. special method for fast initialize
+    /// Why:
+    /// 1. adding new delegates operations are not frequent
+    /// 2. call/combine operation must perform fast
+    /// result:
+    /// 1. log(N) searching -> fast call and combine
+    /// </summary>
+    public sealed class GeckoEventList
 	{
 		private HashTableEntry[] _entries;
 		private int _count = 0;

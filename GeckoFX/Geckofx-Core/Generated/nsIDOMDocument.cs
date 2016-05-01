@@ -20,13 +20,12 @@
 // --------------------------------------------------------------------------------------------
 namespace Gecko
 {
-	using System;
-	using System.Runtime.InteropServices;
-	using System.Runtime.InteropServices.ComTypes;
-	using System.Runtime.CompilerServices;
-	
-	
-	/// <summary>
+    using System;
+    using System.Runtime.CompilerServices;
+    using System.Runtime.InteropServices;
+
+
+    /// <summary>
     /// The nsIDOMDocument interface represents the entire HTML or XML document.
     /// Conceptually, it is the root of the document tree, and provides the
     /// primary access to the document's data.
@@ -38,7 +37,7 @@ namespace Gecko
     /// For more information on this interface please see
     /// http://dvcs.w3.org/hg/domcore/raw-file/tip/Overview.html
     /// </summary>
-	[ComImport()]
+    [ComImport()]
 	[InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 	[Guid("d24d1118-a527-4d5a-9c4e-fb07dfc2fc27")]
 	public interface nsIDOMDocument : nsIDOMNode

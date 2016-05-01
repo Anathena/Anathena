@@ -5,11 +5,11 @@ using System;
 
 namespace Gecko
 {
-	/// <summary>
-	/// Base exception class for all xullrunner exceptions
-	/// General errors may be mapped here
-	/// </summary>
-	public class GeckoException
+    /// <summary>
+    /// Base exception class for all xullrunner exceptions
+    /// General errors may be mapped here
+    /// </summary>
+    public class GeckoException
 		:Exception
 	{
 		internal GeckoException()

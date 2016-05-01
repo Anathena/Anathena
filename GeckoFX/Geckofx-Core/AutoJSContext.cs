@@ -33,19 +33,18 @@
  */
 #endregion END LICENSE BLOCK
 
-using System;
-using System.Collections;
-using System.Runtime.InteropServices;
 using Gecko.Interop;
+using System;
 using System.Collections.Generic;
+using System.Runtime.InteropServices;
 
 namespace Gecko
 {
-	/// <summary>
-	/// Creates a scoped, fake "system principal" security context.  This class is used primarly to work around bugs in gecko
-	/// which prevent methods on nsIDOMCSSStyleSheet from working outside of javascript.
-	/// </summary>
-	public class AutoJSContext : IDisposable
+    /// <summary>
+    /// Creates a scoped, fake "system principal" security context.  This class is used primarly to work around bugs in gecko
+    /// which prevent methods on nsIDOMCSSStyleSheet from working outside of javascript.
+    /// </summary>
+    public class AutoJSContext : IDisposable
 	{
 		private IntPtr _cx;
 		private JSAutoCompartment _defaultCompartment;

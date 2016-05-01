@@ -20,20 +20,19 @@
 // --------------------------------------------------------------------------------------------
 namespace Gecko
 {
-	using System;
-	using System.Runtime.InteropServices;
-	using System.Runtime.InteropServices.ComTypes;
-	using System.Runtime.CompilerServices;
-	
-	
-	/// <summary>
+    using System;
+    using System.Runtime.CompilerServices;
+    using System.Runtime.InteropServices;
+
+
+    /// <summary>
     /// This is the printing prompt interface which can be used without knowlege of a
     /// parent window. The parentage is hidden by the GetInterface though
     /// which it is gotten. This interface is identical to nsIPintingPromptService
     /// but without the parent nsIDOMWindow parameter. See nsIPrintingPromptService
     /// for all documentation.
     /// </summary>
-	[ComImport()]
+    [ComImport()]
 	[InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 	[Guid("44E314CA-75B1-4f3d-9553-9B3507912108")]
 	public interface nsIPrintingPrompt

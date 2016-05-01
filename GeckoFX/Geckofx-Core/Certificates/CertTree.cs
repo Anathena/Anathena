@@ -1,6 +1,6 @@
 namespace Gecko.Certificates
 {
-	public sealed class CertTree
+    public sealed class CertTree
 		:TreeView
 	{
 		private nsICertTree _certTree;

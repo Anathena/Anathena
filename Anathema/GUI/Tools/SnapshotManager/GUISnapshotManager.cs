@@ -1,11 +1,11 @@
-﻿using System;
+﻿using Anathema.Services.Snapshots;
+using Anathema.Utils.Cache;
+using Anathema.Utils.MVP;
+using Anathema.Utils.Validation;
+using System;
+using System.Drawing;
 using System.Windows.Forms;
 using WeifenLuo.WinFormsUI.Docking;
-using Anathema.Utils.MVP;
-using Anathema.Services.Snapshots;
-using Anathema.Utils.Cache;
-using System.Drawing;
-using Anathema.Utils.Validation;
 
 namespace Anathema
 {

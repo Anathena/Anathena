@@ -20,13 +20,12 @@
 // --------------------------------------------------------------------------------------------
 namespace Gecko
 {
-	using System;
-	using System.Runtime.InteropServices;
-	using System.Runtime.InteropServices.ComTypes;
-	using System.Runtime.CompilerServices;
-	
-	
-	/// <summary>
+    using System;
+    using System.Runtime.CompilerServices;
+    using System.Runtime.InteropServices;
+
+
+    /// <summary>
     /// nsIErrorService: This is an interim service that allows nsresult codes to be mapped to
     /// string bundles that can be used to look up error messages. String bundle keys can also
     /// be mapped.
@@ -34,7 +33,7 @@ namespace Gecko
     /// This service will eventually get replaced by extending xpidl to allow errors to be defined.
     /// (http://bugzilla.mozilla.org/show_bug.cgi?id=13423).
     /// </summary>
-	[ComImport()]
+    [ComImport()]
 	[InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 	[Guid("afe1f190-a3c2-11e3-a5e2-0800200c9a66")]
 	public interface nsIErrorService

@@ -20,19 +20,18 @@
 // --------------------------------------------------------------------------------------------
 namespace Gecko
 {
-	using System;
-	using System.Runtime.InteropServices;
-	using System.Runtime.InteropServices.ComTypes;
-	using System.Runtime.CompilerServices;
-	
-	
-	/// <summary>
+    using System;
+    using System.Runtime.CompilerServices;
+    using System.Runtime.InteropServices;
+
+
+    /// <summary>
     /// An interface allowing to prompt for a username and password. This interface
     /// is usually acquired using getInterface on notification callbacks or similar.
     /// It can be used to prompt users for authentication information, either
     /// synchronously or asynchronously.
     /// </summary>
-	[ComImport()]
+    [ComImport()]
 	[InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 	[Guid("651395EB-8612-4876-8AC0-A88D4DCE9E1E")]
 	public interface nsIAuthPrompt2

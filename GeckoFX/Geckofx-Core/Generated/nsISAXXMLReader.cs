@@ -20,13 +20,12 @@
 // --------------------------------------------------------------------------------------------
 namespace Gecko
 {
-	using System;
-	using System.Runtime.InteropServices;
-	using System.Runtime.InteropServices.ComTypes;
-	using System.Runtime.CompilerServices;
-	
-	
-	/// <summary>
+    using System;
+    using System.Runtime.CompilerServices;
+    using System.Runtime.InteropServices;
+
+
+    /// <summary>
     /// Interface for reading an XML document using callbacks.
     ///
     /// nsISAXXMLReader is the interface that an XML parser's SAX2
@@ -35,7 +34,7 @@ namespace Gecko
     /// handlers for document processing, and to initiate a document
     /// parse.
     /// </summary>
-	[ComImport()]
+    [ComImport()]
 	[InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 	[Guid("5b1de802-9091-454f-9972-5753c0d0c70e")]
 	public interface nsISAXXMLReader : nsIStreamListener

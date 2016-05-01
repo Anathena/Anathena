@@ -20,19 +20,18 @@
 // --------------------------------------------------------------------------------------------
 namespace Gecko
 {
-	using System;
-	using System.Runtime.InteropServices;
-	using System.Runtime.InteropServices.ComTypes;
-	using System.Runtime.CompilerServices;
-	
-	
-	/// <summary>
+    using System;
+    using System.Runtime.CompilerServices;
+    using System.Runtime.InteropServices;
+
+
+    /// <summary>
     /// This class implements nsIAutoCompleteResult and provides simple methods
     /// for setting the value and result items. It can be used whenever some basic
     /// auto complete results are needed that can be pre-generated and filled into
     /// an array.
     /// </summary>
-	[ComImport()]
+    [ComImport()]
 	[InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 	[Guid("fe8802f9-c2b7-4141-8e5b-280df3f62251")]
 	public interface nsIAutoCompleteSimpleResult : nsIAutoCompleteResult

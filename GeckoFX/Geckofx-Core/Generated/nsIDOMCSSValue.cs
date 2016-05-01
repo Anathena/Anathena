@@ -20,20 +20,19 @@
 // --------------------------------------------------------------------------------------------
 namespace Gecko
 {
-	using System;
-	using System.Runtime.InteropServices;
-	using System.Runtime.InteropServices.ComTypes;
-	using System.Runtime.CompilerServices;
-	
-	
-	/// <summary>
+    using System;
+    using System.Runtime.CompilerServices;
+    using System.Runtime.InteropServices;
+
+
+    /// <summary>
     /// The nsIDOMCSSValue interface is a datatype for a CSS value in the
     /// Document Object Model.
     ///
     /// For more information on this interface please see
     /// http://www.w3.org/TR/DOM-Level-2-Style
     /// </summary>
-	[ComImport()]
+    [ComImport()]
 	[InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 	[Guid("009f7ea5-9e80-41be-b008-db62f10823f2")]
 	public interface nsIDOMCSSValue

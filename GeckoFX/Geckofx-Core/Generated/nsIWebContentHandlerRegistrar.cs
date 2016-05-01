@@ -20,13 +20,12 @@
 // --------------------------------------------------------------------------------------------
 namespace Gecko
 {
-	using System;
-	using System.Runtime.InteropServices;
-	using System.Runtime.InteropServices.ComTypes;
-	using System.Runtime.CompilerServices;
-	
-	
-	/// <summary>
+    using System;
+    using System.Runtime.CompilerServices;
+    using System.Runtime.InteropServices;
+
+
+    /// <summary>
     /// nsIWebContentHandlerRegistrar
     ///
     /// Applications wishing to use web content handlers need to implement this
@@ -36,7 +35,7 @@ namespace Gecko
     /// The component must have the contract id defined below so that nsNavigator
     /// can invoke it.
     /// </summary>
-	[ComImport()]
+    [ComImport()]
 	[InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 	[Guid("e6a75410-c93e-42bf-84ca-a5c3ec34a2f1")]
 	public interface nsIWebContentHandlerRegistrar

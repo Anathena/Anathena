@@ -20,13 +20,12 @@
 // --------------------------------------------------------------------------------------------
 namespace Gecko
 {
-	using System;
-	using System.Runtime.InteropServices;
-	using System.Runtime.InteropServices.ComTypes;
-	using System.Runtime.CompilerServices;
-	
-	
-	/// <summary>
+    using System;
+    using System.Runtime.CompilerServices;
+    using System.Runtime.InteropServices;
+
+
+    /// <summary>
     /// nsIWindowCreator2 is an extension of nsIWindowCreator which allows
     /// additional information about the context of the window creation to
     /// be passed.
@@ -36,7 +35,7 @@ namespace Gecko
     ///
     /// @status
     /// </summary>
-	[ComImport()]
+    [ComImport()]
 	[InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 	[Guid("f673ec81-a4b0-11d6-964b-eb5a2bf216fc")]
 	public interface nsIWindowCreator2 : nsIWindowCreator

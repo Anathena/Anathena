@@ -18,7 +18,7 @@ namespace GtkDotNet
 		/// </summary>
 		protected Gdk.Window m_gdkWrapperOfForm;
 		
-		#region XSetInputFocus
+#region XSetInputFocus
 		[DllImport("libgdk-x11-2.0.so.0")]
 		internal static extern IntPtr gdk_x11_drawable_get_xid(IntPtr gdkDrawable);
 
@@ -39,7 +39,7 @@ namespace GtkDotNet
         public extern static int XGetInputFocus(IntPtr display, out IntPtr focus_return, out RevertTo revert_to_return);
 
 		IntPtr m_xDisplayPointer;		
-		#endregion
+#endregion
 		
 		/// <summary>
 		/// popupWindow must be a Gtk.Window of type WindowType.Popup

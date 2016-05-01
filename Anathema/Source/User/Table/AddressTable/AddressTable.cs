@@ -4,7 +4,6 @@ using Anathema.Utils.OS;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.CompilerServices;
 
 namespace Anathema.User.UserAddressTable
 {
@@ -39,7 +38,7 @@ namespace Anathema.User.UserAddressTable
 
             Begin();
         }
-        
+
         public static AddressTable GetInstance()
         {
             return AddressTableInstance.Value;
@@ -151,7 +150,7 @@ namespace Anathema.User.UserAddressTable
                 if (OSInterface != null)
                     OSInterface.Process.Write(AddressItems[Index].ElementType, AddressItems[Index].EffectiveAddress, AddressItems[Index].Value);
             }
-            
+
             UpdateAddressTableItemCount();
 
             Table.GetInstance().TableChanged();

@@ -20,13 +20,12 @@
 // --------------------------------------------------------------------------------------------
 namespace Gecko
 {
-	using System;
-	using System.Runtime.InteropServices;
-	using System.Runtime.InteropServices.ComTypes;
-	using System.Runtime.CompilerServices;
-	
-	
-	/// <summary>
+    using System;
+    using System.Runtime.CompilerServices;
+    using System.Runtime.InteropServices;
+
+
+    /// <summary>
     /// SAX2 extension handler for lexical events.
     ///
     /// This is an extension handler for SAX2 to provide lexical
@@ -38,7 +37,7 @@ namespace Gecko
     /// must appear between the content handler's startDocument and
     /// endDocument events.
     /// </summary>
-	[ComImport()]
+    [ComImport()]
 	[InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 	[Guid("23c26a56-adff-440c-8caf-95c2dc2e399b")]
 	public interface nsISAXLexicalHandler

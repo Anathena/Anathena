@@ -20,13 +20,12 @@
 // --------------------------------------------------------------------------------------------
 namespace Gecko
 {
-	using System;
-	using System.Runtime.InteropServices;
-	using System.Runtime.InteropServices.ComTypes;
-	using System.Runtime.CompilerServices;
-	
-	
-	/// <summary>
+    using System;
+    using System.Runtime.CompilerServices;
+    using System.Runtime.InteropServices;
+
+
+    /// <summary>
     /// The nsIFormHistory object is a service which holds a set of name/value
     /// pairs.  The names correspond to form field names, and the values correspond
     /// to values the user has submitted.  So, several values may exist for a single
@@ -38,7 +37,7 @@ namespace Gecko
     ///
     /// @deprecated use FormHistory.jsm instead.
     /// </summary>
-	[ComImport()]
+    [ComImport()]
 	[InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 	[Guid("5d7d84d1-9798-4016-bf61-a32acf09b29d")]
 	public interface nsIFormHistory2

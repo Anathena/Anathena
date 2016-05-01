@@ -35,15 +35,12 @@
 // --------------------------------------------------------------------------------
 
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Runtime.InteropServices;
-using System.Text;
 
 
 namespace SharpDisasm.Udis86
 {
-    #pragma warning disable 1591
+#pragma warning disable 1591
     [StructLayout(LayoutKind.Explicit)]
     public struct ud_lval
     {

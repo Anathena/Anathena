@@ -1,14 +1,14 @@
-﻿using System;
-using System.Drawing;
-using System.Windows.Forms;
-using WeifenLuo.WinFormsUI.Docking;
-using Anathema.Utils.Validation;
+﻿using Anathema.Scanners.PointerScanner;
+using Anathema.Source.Utils.Extensions;
 using Anathema.Utils;
 using Anathema.Utils.Cache;
 using Anathema.Utils.MVP;
-using Anathema.Scanners.PointerScanner;
+using Anathema.Utils.Validation;
+using System;
 using System.Collections.Generic;
-using Anathema.Source.Utils.Extensions;
+using System.Drawing;
+using System.Windows.Forms;
+using WeifenLuo.WinFormsUI.Docking;
 
 namespace Anathema.GUI
 {
@@ -210,7 +210,7 @@ namespace Anathema.GUI
 
             // Add the properties to the cache and get the list view item back
             Item = ListViewCache.Add(E.ItemIndex, new String[OffsetStartIndex + PointerScannerPresenter.GetMaxPointerLevel()]);
-            
+
             Item.SubItems[PointerListView.Columns.IndexOf(ValueHeader)].Text = EmptyValue;
             Item.SubItems[PointerListView.Columns.IndexOf(BaseHeader)].Text = PointerScannerPresenter.GetAddressAtIndex(E.ItemIndex);
             Offsets?.ForEach(X => Item.SubItems[OffsetStartIndex++].Text = X);

@@ -1,13 +1,11 @@
-﻿using System;
+﻿using Gecko.Interop;
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Runtime.InteropServices;
-using Gecko.Interop;
 
 namespace Gecko
 {
-	public static class GlobalJSContextHolder
+    public static class GlobalJSContextHolder
 	{
 		private static bool _isInitialized = false;
 		private static readonly SpiderMonkey.JSContextCallback _globalContextCallback = GlobalContextCallback;

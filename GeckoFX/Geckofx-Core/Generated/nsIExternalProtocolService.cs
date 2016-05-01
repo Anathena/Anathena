@@ -20,13 +20,12 @@
 // --------------------------------------------------------------------------------------------
 namespace Gecko
 {
-	using System;
-	using System.Runtime.InteropServices;
-	using System.Runtime.InteropServices.ComTypes;
-	using System.Runtime.CompilerServices;
-	
-	
-	/// <summary>
+    using System;
+    using System.Runtime.CompilerServices;
+    using System.Runtime.InteropServices;
+
+
+    /// <summary>
     /// The external protocol service is used for finding and launching
     /// web handlers (a la registerProtocolHandler in the HTML5 draft) or
     /// platform-specific applications for handling particular protocols.
@@ -35,7 +34,7 @@ namespace Gecko
     /// handler for a given protocol scheme. And you can ask it to load
     /// the url using the default handler.
     /// </summary>
-	[ComImport()]
+    [ComImport()]
 	[InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 	[Guid("70f93b7a-3ec6-4bcb-b093-92d9984c9f83")]
 	public interface nsIExternalProtocolService

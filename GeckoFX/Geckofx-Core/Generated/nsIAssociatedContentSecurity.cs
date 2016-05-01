@@ -20,13 +20,12 @@
 // --------------------------------------------------------------------------------------------
 namespace Gecko
 {
-	using System;
-	using System.Runtime.InteropServices;
-	using System.Runtime.InteropServices.ComTypes;
-	using System.Runtime.CompilerServices;
-	
-	
-	/// <summary>
+    using System;
+    using System.Runtime.CompilerServices;
+    using System.Runtime.InteropServices;
+
+
+    /// <summary>
     /// This interface is used to cache associated (sub) content security
     /// state. That is determined asynchronously based on callback notification
     /// while loading the content and its sub content particles.
@@ -35,7 +34,7 @@ namespace Gecko
     /// and therefor the subcontent state could not be determined. In such
     /// a case it is loaded from this object stored in nsIChannel.securityInfo.
     /// </summary>
-	[ComImport()]
+    [ComImport()]
 	[InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 	[Guid("a8285dae-f125-454f-9d1b-089e3f01b2c4")]
 	public interface nsIAssociatedContentSecurity

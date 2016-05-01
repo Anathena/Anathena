@@ -4,7 +4,6 @@ using Anathema.Utils;
 using Anathema.Utils.MVP;
 using System;
 using System.Diagnostics;
-using System.Drawing;
 using System.IO;
 using System.Net;
 using System.Reflection;

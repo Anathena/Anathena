@@ -1,9 +1,7 @@
 ﻿using Anathema.Scanners.FiniteStateScanner;
-using Anathema.User.UserScriptTable;
 using Anathema.Utils.OS;
 using System;
 using System.Collections.Generic;
-using System.Runtime.CompilerServices;
 
 namespace Anathema.User.UserFSMTable
 {

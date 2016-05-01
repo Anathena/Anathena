@@ -1,6 +1,6 @@
 namespace Gecko
 {
-	partial class ChromeDialog
+    partial class ChromeDialog
 	{
 		/// <summary>
 		/// Required designer variable.

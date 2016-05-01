@@ -20,13 +20,12 @@
 // --------------------------------------------------------------------------------------------
 namespace Gecko
 {
-	using System;
-	using System.Runtime.InteropServices;
-	using System.Runtime.InteropServices.ComTypes;
-	using System.Runtime.CompilerServices;
-	
-	
-	/// <summary>
+    using System;
+    using System.Runtime.CompilerServices;
+    using System.Runtime.InteropServices;
+
+
+    /// <summary>
     /// The nsIDOMAttr interface represents an attribute in an "Element" object.
     /// Typically the allowable values for the attribute are defined in a document
     /// type definition.
@@ -34,7 +33,7 @@ namespace Gecko
     /// For more information on this interface please see
     /// http://www.w3.org/TR/DOM-Level-2-Core/
     /// </summary>
-	[ComImport()]
+    [ComImport()]
 	[InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 	[Guid("a974a4d3-2ff1-445b-8b8e-0aada5d4eedc")]
 	public interface nsIDOMAttr : nsIDOMNode

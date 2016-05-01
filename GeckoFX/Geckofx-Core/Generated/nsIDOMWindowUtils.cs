@@ -20,20 +20,19 @@
 // --------------------------------------------------------------------------------------------
 namespace Gecko
 {
-	using System;
-	using System.Runtime.InteropServices;
-	using System.Runtime.InteropServices.ComTypes;
-	using System.Runtime.CompilerServices;
-	
-	
-	/// <summary>
+    using System;
+    using System.Runtime.CompilerServices;
+    using System.Runtime.InteropServices;
+
+
+    /// <summary>
     /// nsIDOMWindowUtils is intended for infrequently-used methods related
     /// to the current nsIDOMWindow.  Some of the methods may require
     /// elevated privileges; the method implementations should contain the
     /// necessary security checks.  Access this interface by calling
     /// getInterface on a DOMWindow.
     /// </summary>
-	[ComImport()]
+    [ComImport()]
 	[InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 	[Guid("d4ed34fc-9c07-4cef-b9e1-623794558db3")]
 	public interface nsIDOMWindowUtils

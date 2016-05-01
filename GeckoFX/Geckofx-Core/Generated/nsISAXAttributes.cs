@@ -20,13 +20,12 @@
 // --------------------------------------------------------------------------------------------
 namespace Gecko
 {
-	using System;
-	using System.Runtime.InteropServices;
-	using System.Runtime.InteropServices.ComTypes;
-	using System.Runtime.CompilerServices;
-	
-	
-	/// <summary>
+    using System;
+    using System.Runtime.CompilerServices;
+    using System.Runtime.InteropServices;
+
+
+    /// <summary>
     /// Interface for a list of XML attributes.
     ///
     /// This interface allows access to a list of attributes in
@@ -44,7 +43,7 @@ namespace Gecko
     ///
     /// The order of attributes in the list is unspecified.
     /// </summary>
-	[ComImport()]
+    [ComImport()]
 	[InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 	[Guid("e347005e-6cd0-11da-be43-001422106990")]
 	public interface nsISAXAttributes

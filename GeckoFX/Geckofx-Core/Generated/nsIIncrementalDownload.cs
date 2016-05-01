@@ -20,20 +20,19 @@
 // --------------------------------------------------------------------------------------------
 namespace Gecko
 {
-	using System;
-	using System.Runtime.InteropServices;
-	using System.Runtime.InteropServices.ComTypes;
-	using System.Runtime.CompilerServices;
-	
-	
-	/// <summary>
+    using System;
+    using System.Runtime.CompilerServices;
+    using System.Runtime.InteropServices;
+
+
+    /// <summary>
     /// An incremental download object attempts to fetch a file piecemeal over time
     /// in an effort to minimize network bandwidth usage.
     ///
     /// Canceling a background download does not cause the file on disk to be
     /// deleted.
     /// </summary>
-	[ComImport()]
+    [ComImport()]
 	[InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 	[Guid("6687823f-56c4-461d-93a1-7f6cb7dfbfba")]
 	public interface nsIIncrementalDownload : nsIRequest

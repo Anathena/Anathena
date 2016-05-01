@@ -1,9 +1,8 @@
 using System;
-using System.Collections.Generic;
 
 namespace Gecko
 {
-	public static class nsSupportsPrimitiveConverter
+    public static class nsSupportsPrimitiveConverter
 	{
 		#region Get
 		public static object GetObject(nsISupportsPrimitive value)

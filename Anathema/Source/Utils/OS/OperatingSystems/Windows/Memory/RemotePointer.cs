@@ -1,6 +1,6 @@
-﻿using System;
+﻿using Anathema.MemoryManagement.Native;
+using System;
 using System.Text;
-using Anathema.MemoryManagement.Native;
 
 namespace Anathema.MemoryManagement.Memory
 {

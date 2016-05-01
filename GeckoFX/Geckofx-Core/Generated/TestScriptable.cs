@@ -20,14 +20,13 @@
 // --------------------------------------------------------------------------------------------
 namespace Gecko
 {
-	using System;
-	using System.Runtime.InteropServices;
-	using System.Runtime.InteropServices.ComTypes;
-	using System.Runtime.CompilerServices;
-	
-	
-	/// <summary>testScriptableInterface </summary>
-	[ComImport()]
+    using System;
+    using System.Runtime.CompilerServices;
+    using System.Runtime.InteropServices;
+
+
+    /// <summary>testScriptableInterface </summary>
+    [ComImport()]
 	[Guid("76d74662-0eae-404c-9d1f-697c0e321c0a")]
 	public interface testScriptableInterface
 	{

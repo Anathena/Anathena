@@ -2,7 +2,7 @@ using Gecko.DOM;
 
 namespace Gecko
 {
-	public class DomMouseScrollEventArgs
+    public class DomMouseScrollEventArgs
 		: DomMouseEventArgs
 	{
 		private nsIDOMMouseScrollEvent _mouseScrollEvent;

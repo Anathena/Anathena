@@ -32,29 +32,26 @@
  * the terms of any one of the MPL, the GPL or the LGPL.
  */
 #endregion END LICENSE BLOCK
- 
+
+using Gecko.Events;
+using Gecko.Interop;
+using Gecko.IO;
+using Gecko.Net;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Drawing;
-using System.Runtime.InteropServices;
-using System.Threading;
-using System.Windows.Forms;
-using System.IO;
-using System.Reflection;
 using System.Diagnostics;
-using System.Text;
-using Gecko.Events;
-using Gecko.Interop;
-using Gecko.Net;
-using Gecko.IO;
+using System.Drawing;
+using System.IO;
+using System.Runtime.InteropServices;
+using System.Windows.Forms;
 
 namespace Gecko
 {
-	/// <summary>
-	/// A Gecko-based web browser.
-	/// </summary>
-	public partial class GeckoWebBrowser :
+    /// <summary>
+    /// A Gecko-based web browser.
+    /// </summary>
+    public partial class GeckoWebBrowser :
  		IGeckoWebBrowser, 
 		nsIWebBrowserChrome,
 		nsIContextMenuListener2,

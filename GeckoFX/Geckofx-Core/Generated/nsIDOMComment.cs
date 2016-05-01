@@ -20,13 +20,12 @@
 // --------------------------------------------------------------------------------------------
 namespace Gecko
 {
-	using System;
-	using System.Runtime.InteropServices;
-	using System.Runtime.InteropServices.ComTypes;
-	using System.Runtime.CompilerServices;
-	
-	
-	/// <summary>
+    using System;
+    using System.Runtime.CompilerServices;
+    using System.Runtime.InteropServices;
+
+
+    /// <summary>
     /// The nsIDOMComment interface inherits from nsIDOMCharacterData and represents
     /// the content of a comment, i.e., all the characters between the starting
     /// '<!--' and ending '-->'.
@@ -34,7 +33,7 @@ namespace Gecko
     /// For more information on this interface please see
     /// http://www.w3.org/TR/DOM-Level-2-Core/
     /// </summary>
-	[ComImport()]
+    [ComImport()]
 	[InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 	[Guid("e702a5d2-3aa8-4788-b048-2d3b3e6d16f2")]
 	public interface nsIDOMComment : nsIDOMCharacterData

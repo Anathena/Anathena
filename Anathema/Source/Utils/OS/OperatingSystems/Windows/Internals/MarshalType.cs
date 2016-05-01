@@ -1,7 +1,7 @@
-﻿using System;
+﻿using Anathema.MemoryManagement.Memory;
+using System;
 using System.Runtime.InteropServices;
 using System.Text;
-using Anathema.MemoryManagement.Memory;
 
 namespace Anathema.MemoryManagement.Internals
 {

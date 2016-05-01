@@ -20,13 +20,12 @@
 // --------------------------------------------------------------------------------------------
 namespace Gecko
 {
-	using System;
-	using System.Runtime.InteropServices;
-	using System.Runtime.InteropServices.ComTypes;
-	using System.Runtime.CompilerServices;
-	
-	
-	/// <summary>
+    using System;
+    using System.Runtime.CompilerServices;
+    using System.Runtime.InteropServices;
+
+
+    /// <summary>
     /// An interface to the primary properties of the Session History
     /// component. In an embedded browser environment, the nsIWebBrowser
     /// object creates an instance of session history for each open window.
@@ -36,7 +35,7 @@ namespace Gecko
     /// it in the nsIWebNavigation object.
     /// This interface is accessible from javascript.
     /// </summary>
-	[ComImport()]
+    [ComImport()]
 	[InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 	[Guid("7b807041-e60a-4384-935f-af3061d8b815")]
 	public interface nsISHistory

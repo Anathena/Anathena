@@ -33,13 +33,12 @@
  */
 #endregion END LICENSE BLOCK
 
-using System;
 using System.Drawing;
 using System.Windows.Forms;
 
 namespace Gecko
 {
-	partial class PasswordDialog : Form
+    partial class PasswordDialog : Form
 	{
 		public PasswordDialog()
 		{

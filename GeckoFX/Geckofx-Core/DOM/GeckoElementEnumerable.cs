@@ -2,10 +2,10 @@ using System.Collections.Generic;
 
 namespace Gecko
 {
-	/// <summary>
-	/// Represents a collection of GeckoNode's
-	/// </summary>
-	internal class GeckoElementEnumerable : IEnumerable<GeckoHtmlElement>
+    /// <summary>
+    /// Represents a collection of GeckoNode's
+    /// </summary>
+    internal class GeckoElementEnumerable : IEnumerable<GeckoHtmlElement>
 	{
 		private nsIDOMXPathResult xpathResult = null;
 

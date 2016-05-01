@@ -20,13 +20,12 @@
 // --------------------------------------------------------------------------------------------
 namespace Gecko
 {
-	using System;
-	using System.Runtime.InteropServices;
-	using System.Runtime.InteropServices.ComTypes;
-	using System.Runtime.CompilerServices;
-	
-	
-	/// <summary>
+    using System;
+    using System.Runtime.CompilerServices;
+    using System.Runtime.InteropServices;
+
+
+    /// <summary>
     /// The nsIInterfaceRequestor interface defines a generic interface for
     /// requesting interfaces that a given object might provide access to.
     /// This is very similar to QueryInterface found in nsISupports.
@@ -37,7 +36,7 @@ namespace Gecko
     /// to A.  This interface however allows you to obtain an interface C from A
     /// that may or most likely will not have the ability to get back to A.
     /// </summary>
-	[ComImport()]
+    [ComImport()]
 	[InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 	[Guid("033A1470-8B2A-11d3-AF88-00A024FFC08C")]
 	public interface nsIInterfaceRequestor

@@ -1,11 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace Gecko.Events
 {
-	public class GeckoDocumentCompletedEventArgs : EventArgs
+    public class GeckoDocumentCompletedEventArgs : EventArgs
 	{
 		public Uri Uri { get; private set; }
 		public GeckoWindow Window { get; private set; }

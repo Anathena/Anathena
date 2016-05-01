@@ -1,10 +1,8 @@
 using System;
-using System.Runtime.InteropServices;
-using Gecko.Interop;
 
 namespace Gecko.Net
 {
-	public class Channel
+    public class Channel
 		:Request
 	{
 		private nsIChannel _channel;

@@ -2,7 +2,7 @@ using Gecko.Interop;
 
 namespace Gecko.Cache
 {
-	public sealed class CacheDeviceInfo
+    public sealed class CacheDeviceInfo
 	{
 		private ComPtr<nsICacheDeviceInfo> _cacheDeviceInfo;
 

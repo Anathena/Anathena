@@ -1,14 +1,14 @@
-﻿using System;
-using Gecko.Events;
+﻿using Gecko.Events;
 using Gecko.Interop;
+using System;
 
 namespace Gecko
 {
-	/// <summary>
-	/// nsIWebProgressListener2 callback listener
-	/// is needed to share code between 2 different GUI implementations of GeckoWebBrowser
-	/// </summary>
-	public sealed class WebProgressListener
+    /// <summary>
+    /// nsIWebProgressListener2 callback listener
+    /// is needed to share code between 2 different GUI implementations of GeckoWebBrowser
+    /// </summary>
+    public sealed class WebProgressListener
 		: nsIWebProgressListener, nsIWebProgressListener2,
 		nsISupportsWeakReference
 	{

@@ -1,7 +1,6 @@
 ﻿using Anathema.Utils.OS;
 using System;
 using System.Reflection;
-using System.Runtime.CompilerServices;
 
 namespace Anathema.User.UserSettings
 {

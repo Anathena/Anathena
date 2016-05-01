@@ -1,6 +1,6 @@
 namespace Gecko.Cryptography
 {
-	public sealed class KeyObject
+    public sealed class KeyObject
 	{
 		private nsIKeyObject _keyObject;
 		internal KeyObject(nsIKeyObject keyObject)

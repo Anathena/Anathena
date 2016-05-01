@@ -2,11 +2,11 @@ using System;
 
 namespace Gecko.IO.Native
 {
-	/// <summary>
-	/// Basic nsIInputStream stream implementation
-	/// this class does not perform any memory allocation operations
-	/// </summary>
-	public abstract class BaseNativeInputStream
+    /// <summary>
+    /// Basic nsIInputStream stream implementation
+    /// this class does not perform any memory allocation operations
+    /// </summary>
+    public abstract class BaseNativeInputStream
 		: BaseNativeStream,nsIInputStream
 	{
 		public uint Available()

@@ -1,13 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Gecko.Collections;
+﻿using Gecko.Collections;
 using Gecko.Interop;
+using System;
+using System.Collections.Generic;
 
 namespace Gecko.DOM
 {
-	public class GeckoNamedNodeMap
+    public class GeckoNamedNodeMap
 		:IGeckoArray<GeckoNode>, IEnumerable<GeckoNode>
 	{
 		private ComPtr<nsIDOMMozNamedAttrMap> _map;

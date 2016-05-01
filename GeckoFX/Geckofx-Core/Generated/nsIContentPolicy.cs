@@ -20,13 +20,12 @@
 // --------------------------------------------------------------------------------------------
 namespace Gecko
 {
-	using System;
-	using System.Runtime.InteropServices;
-	using System.Runtime.InteropServices.ComTypes;
-	using System.Runtime.CompilerServices;
-	
-	
-	/// <summary>
+    using System;
+    using System.Runtime.CompilerServices;
+    using System.Runtime.InteropServices;
+
+
+    /// <summary>
     /// Interface for content policy mechanism.  Implementations of this
     /// interface can be used to control loading of various types of out-of-line
     /// content, or processing of certain types of in-line content.
@@ -34,7 +33,7 @@ namespace Gecko
     /// WARNING: do not block the caller from shouldLoad or shouldProcess (e.g.,
     /// by launching a dialog to prompt the user for something).
     /// </summary>
-	[ComImport()]
+    [ComImport()]
 	[InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 	[Guid("b6a71698-c117-441d-86b9-480cf06e3952")]
 	public interface nsIContentPolicy
