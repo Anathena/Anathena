@@ -9,12 +9,15 @@ namespace Anathema
     public partial class GUISettings : Form, ISettingsView
     {
         private SettingsPresenter SettingsPresenter;
+        private Object AccessLock;
 
         public GUISettings()
         {
             InitializeComponent();
 
             SettingsPresenter = new SettingsPresenter(this, Settings.GetInstance());
+            AccessLock = new Object();
+
             AlignmentTextBox.SetElementType(typeof(Int32));
             StartAddressTextBox.SetElementType(typeof(UInt64));
             EndAddressTextBox.SetElementType(typeof(UInt64));

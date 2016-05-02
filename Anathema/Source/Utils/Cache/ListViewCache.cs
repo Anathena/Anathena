@@ -13,7 +13,6 @@ namespace Anathema.Utils.Cache
         public Boolean TryUpdateSubItem(Int32 Index, Int32 SubItemIndex, String Item)
         {
             using (TimedLock.Lock(AccessLock))
-            // lock (AccessLock)
             {
                 if (!Cache.ContainsKey((UInt64)Index))
                     return false;
@@ -26,7 +25,6 @@ namespace Anathema.Utils.Cache
         public ListViewItem Add(Int32 Index, String[] Items)
         {
             using (TimedLock.Lock(AccessLock))
-            // lock (AccessLock)
             {
                 if (Cache.Count == CacheSize)
                 {
@@ -45,7 +43,6 @@ namespace Anathema.Utils.Cache
         public new ListViewItem Get(UInt64 Index)
         {
             using (TimedLock.Lock(AccessLock))
-            // lock (AccessLock)
             {
                 ListViewItem Item = null;
                 if (Cache.TryGetValue((UInt64)Index, out Item))

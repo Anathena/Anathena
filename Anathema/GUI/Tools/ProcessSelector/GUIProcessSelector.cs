@@ -1,4 +1,5 @@
 ﻿using Anathema.Services.ProcessManager;
+using Anathema.Source.Utils;
 using Anathema.Source.Utils.Extensions;
 using Anathema.Utils.MVP;
 using System;
@@ -12,6 +13,7 @@ namespace Anathema.GUI
     public partial class GUIProcessSelector : DockContent, IProcessSelectorView
     {
         private ProcessSelectorPresenter ProcessSelectorPresenter;
+        private Object AccessLock;
 
         // Column text alignment. Without this the column title lines up with the icon rather than text
         private const string Alignment = "     ";
@@ -26,6 +28,7 @@ namespace Anathema.GUI
 
             // Initialize presenter
             ProcessSelectorPresenter = new ProcessSelectorPresenter(this, ProcessSelector.GetInstance());
+            AccessLock = new Object();
 
             // Initialize process list
             RefreshProcesses();
@@ -33,48 +36,63 @@ namespace Anathema.GUI
 
         public void SelectProcess(Process TargetProcess)
         {
-            ControlThreadingHelper.InvokeControlAction(this, () =>
+            using (TimedLock.Lock(AccessLock))
             {
-                this.Close();
-            });
+                ControlThreadingHelper.InvokeControlAction(this, () =>
+                {
+                    this.Close();
+                });
+            }
         }
 
         public void DisplayProcesses(IEnumerable<ListViewItem> Items, ImageList ImageList)
         {
-            ControlThreadingHelper.InvokeControlAction(ProcessListView, () =>
+            using (TimedLock.Lock(AccessLock))
             {
-                // Clear the old items in the process list
-                ProcessListView.Items.Clear();
+                ControlThreadingHelper.InvokeControlAction(ProcessListView, () =>
+                {
+                    // Clear the old items in the process list
+                    ProcessListView.Items.Clear();
 
-                // Add all of the new items
-                Items?.ForEach(X => ProcessListView.Items.Add(X));
-                ProcessListView.SmallImageList = ImageList;
-            });
+                    // Add all of the new items
+                    Items?.ForEach(X => ProcessListView.Items.Add(X));
+                    ProcessListView.SmallImageList = ImageList;
+                });
+            }
         }
 
         private void TrySelectingProcess()
         {
-            if (ProcessListView.SelectedIndices.Count <= 0)
-                return;
+            using (TimedLock.Lock(AccessLock))
+            {
+                ControlThreadingHelper.InvokeControlAction(ProcessListView, () =>
+                {
+                    if (ProcessListView.SelectedIndices.Count <= 0)
+                        return;
 
-            try
-            {
-                ProcessSelectorPresenter.SelectProcess(ProcessListView.SelectedIndices[0]);
+                    try
+                    {
+                        ProcessSelectorPresenter.SelectProcess(ProcessListView.SelectedIndices[0]);
+                    }
+                    catch (Exception Ex)
+                    {
+                        MessageBox.Show(Ex.Message, "Error making selection.", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    }
+                });
             }
-            catch (Exception Ex)
+        }
+
+        private void HandleResize()
+        {
+            using (TimedLock.Lock(AccessLock))
             {
-                MessageBox.Show(Ex.Message, "Error making selection.", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                ProcessListView.Columns[0].Width = ProcessListView.Width - 24;
             }
         }
 
         private void RefreshProcesses()
         {
             ProcessSelectorPresenter.RefreshProcesses(this.Handle);
-        }
-
-        private void HandleResize()
-        {
-            ProcessListView.Columns[0].Width = ProcessListView.Width - 24;
         }
 
         #region Events
@@ -101,7 +119,6 @@ namespace Anathema.GUI
 
         #endregion
 
-    }
+    } // End class
 
-
-}
+} // End namespace

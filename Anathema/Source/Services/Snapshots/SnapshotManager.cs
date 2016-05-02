@@ -57,7 +57,6 @@ namespace Anathema.Services.Snapshots
         public Snapshot GetActiveSnapshot(Boolean CreateIfNone = true)
         {
             using (TimedLock.Lock(AccessLock))
-            // lock (AccessLock)
             {
                 // Take a snapshot if there are none, or the current one is empty
                 if (Snapshots.Count == 0 || Snapshots.Peek() == null || Snapshots.Peek().GetElementCount() == 0)
@@ -153,7 +152,6 @@ namespace Anathema.Services.Snapshots
         public void CreateNewSnapshot()
         {
             using (TimedLock.Lock(AccessLock))
-            // lock (AccessLock)
             {
                 if (Snapshots.Count != 0 && Snapshots.Peek() == null)
                     return;
@@ -170,7 +168,6 @@ namespace Anathema.Services.Snapshots
         public void RedoSnapshot()
         {
             using (TimedLock.Lock(AccessLock))
-            // lock (AccessLock)
             {
                 if (DeletedSnapshots.Count == 0)
                     return;
@@ -187,7 +184,6 @@ namespace Anathema.Services.Snapshots
         public void UndoSnapshot()
         {
             using (TimedLock.Lock(AccessLock))
-            // lock (AccessLock)
             {
                 if (Snapshots.Count == 0)
                     return;
@@ -207,7 +203,6 @@ namespace Anathema.Services.Snapshots
         public void ClearSnapshots()
         {
             using (TimedLock.Lock(AccessLock))
-            // lock (AccessLock)
             {
                 Snapshots.Clear();
                 DeletedSnapshots.Clear();
@@ -223,7 +218,6 @@ namespace Anathema.Services.Snapshots
         public void SaveSnapshot(Snapshot Snapshot)
         {
             using (TimedLock.Lock(AccessLock))
-            // lock (AccessLock)
             {
                 if (Snapshot != null)
                     Snapshot.SetTimeStampToNow();
@@ -242,7 +236,6 @@ namespace Anathema.Services.Snapshots
         public Snapshot GetSnapshotAtIndex(Int32 Index)
         {
             using (TimedLock.Lock(AccessLock))
-            // lock (AccessLock)
             {
                 if (Index < Snapshots.Count)
                 {
@@ -275,7 +268,6 @@ namespace Anathema.Services.Snapshots
             SnapshotManagerEventArgs SnapshotManagerEventArgs = new SnapshotManagerEventArgs();
 
             using (TimedLock.Lock(AccessLock))
-            // lock (AccessLock)
             {
                 SnapshotManagerEventArgs.DeletedSnapshotCount = DeletedSnapshots.Count;
                 SnapshotManagerEventArgs.SnapshotCount = Snapshots.Count;

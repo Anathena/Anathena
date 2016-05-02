@@ -1,4 +1,5 @@
 ﻿using Anathema.Scanners.FiniteStateScanner;
+using Anathema.Source.Utils;
 using Anathema.Utils.MVP;
 using System;
 using WeifenLuo.WinFormsUI.Docking;
@@ -8,6 +9,7 @@ namespace Anathema.GUI
     public partial class GUIFiniteStateScanner : DockContent, IFiniteStateScannerView
     {
         private FiniteStateScannerPresenter FiniteStateScannerPresenter;
+        private Object AccessLock;
 
         private FiniteStateMachine FiniteStateMachine;
 
@@ -16,28 +18,38 @@ namespace Anathema.GUI
             InitializeComponent();
 
             FiniteStateScannerPresenter = new FiniteStateScannerPresenter(this, new FiniteStateScanner());
+            AccessLock = new Object();
 
             EnableGUI();
         }
 
         public void DisplayScanCount(Int32 ScanCount)
         {
-            ControlThreadingHelper.InvokeControlAction(ScanToolStrip, () =>
+            using (TimedLock.Lock(AccessLock))
             {
-                ScanCountLabel.Text = "Scan Count: " + ScanCount.ToString();
-            });
+                ControlThreadingHelper.InvokeControlAction(ScanToolStrip, () =>
+                {
+                    ScanCountLabel.Text = "Scan Count: " + ScanCount.ToString();
+                });
+            }
         }
 
         private void DisableGUI()
         {
-            StartScanButton.Enabled = false;
-            StopScanButton.Enabled = true;
+            using (TimedLock.Lock(AccessLock))
+            {
+                StartScanButton.Enabled = false;
+                StopScanButton.Enabled = true;
+            }
         }
 
         private void EnableGUI()
         {
-            StartScanButton.Enabled = true;
-            StopScanButton.Enabled = false;
+            using (TimedLock.Lock(AccessLock))
+            {
+                StartScanButton.Enabled = true;
+                StopScanButton.Enabled = false;
+            }
         }
 
         #region Events
@@ -48,7 +60,7 @@ namespace Anathema.GUI
             DisableGUI();
         }
 
-        private void StopScanButton_Click(object sender, EventArgs e)
+        private void StopScanButton_Click(Object Sender, EventArgs E)
         {
             FiniteStateScannerPresenter.EndScan();
             EnableGUI();

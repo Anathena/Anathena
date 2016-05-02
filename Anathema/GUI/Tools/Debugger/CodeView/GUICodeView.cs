@@ -6,12 +6,14 @@ namespace Anathema.GUI
     public partial class GUICodeView : DockContent
     {
         //private DebuggerPresenter DebuggerPresenter;
+        private Object AccessLock;
 
         public GUICodeView()
         {
             InitializeComponent();
 
             //DebuggerPresenter = new DebuggerPresenter(this, new Debugger());
+            AccessLock = new Object();
         }
 
         public void DisableDebugger()

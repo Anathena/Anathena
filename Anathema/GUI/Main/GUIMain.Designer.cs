@@ -64,16 +64,16 @@
             this.ProcessSelectorButton = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
             this.NewScanButton = new System.Windows.Forms.ToolStripButton();
-            this.UndoScanButton = new System.Windows.Forms.ToolStripButton();
-            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolStripSeparator6 = new System.Windows.Forms.ToolStripSeparator();
             this.CollectValuesButton = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.UndoScanButton = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
             this.ProcessTitleLabel = new System.Windows.Forms.ToolStripLabel();
             this.GUIStatusStrip = new System.Windows.Forms.StatusStrip();
             this.CancelActionButton = new System.Windows.Forms.ToolStripDropDownButton();
             this.ActionLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.ActionProgressBar = new System.Windows.Forms.ToolStripProgressBar();
-            this.toolStripSeparator6 = new System.Windows.Forms.ToolStripSeparator();
             this.GUIMenuStrip.SuspendLayout();
             this.GUIToolStrip.SuspendLayout();
             this.GUIStatusStrip.SuspendLayout();
@@ -379,20 +379,10 @@
             this.NewScanButton.Text = "New Scan";
             this.NewScanButton.Click += new System.EventHandler(this.NewScanButton_Click);
             // 
-            // UndoScanButton
+            // toolStripSeparator6
             // 
-            this.UndoScanButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.UndoScanButton.Image = global::Anathema.Properties.Resources.Undo;
-            this.UndoScanButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.UndoScanButton.Name = "UndoScanButton";
-            this.UndoScanButton.Size = new System.Drawing.Size(23, 22);
-            this.UndoScanButton.Text = "Undo Scan";
-            this.UndoScanButton.Click += new System.EventHandler(this.UndoScanButton_Click);
-            // 
-            // toolStripSeparator1
-            // 
-            this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 25);
+            this.toolStripSeparator6.Name = "toolStripSeparator6";
+            this.toolStripSeparator6.Size = new System.Drawing.Size(6, 25);
             // 
             // CollectValuesButton
             // 
@@ -403,6 +393,21 @@
             this.CollectValuesButton.Size = new System.Drawing.Size(23, 22);
             this.CollectValuesButton.Text = "Collect Values";
             this.CollectValuesButton.Click += new System.EventHandler(this.CollectValuesButton_Click);
+            // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 25);
+            // 
+            // UndoScanButton
+            // 
+            this.UndoScanButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.UndoScanButton.Image = global::Anathema.Properties.Resources.Undo;
+            this.UndoScanButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.UndoScanButton.Name = "UndoScanButton";
+            this.UndoScanButton.Size = new System.Drawing.Size(23, 22);
+            this.UndoScanButton.Text = "Undo Scan";
+            this.UndoScanButton.Click += new System.EventHandler(this.UndoScanButton_Click);
             // 
             // toolStripSeparator5
             // 
@@ -449,11 +454,6 @@
             // 
             this.ActionProgressBar.Name = "ActionProgressBar";
             this.ActionProgressBar.Size = new System.Drawing.Size(100, 16);
-            // 
-            // toolStripSeparator6
-            // 
-            this.toolStripSeparator6.Name = "toolStripSeparator6";
-            this.toolStripSeparator6.Size = new System.Drawing.Size(6, 25);
             // 
             // GUIMain
             // 

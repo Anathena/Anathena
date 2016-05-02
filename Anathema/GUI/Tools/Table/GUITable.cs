@@ -1,4 +1,5 @@
-﻿using Anathema.User.UserTable;
+﻿using Anathema.Source.Utils;
+using Anathema.User.UserTable;
 using Anathema.Utils;
 using Anathema.Utils.MVP;
 using System;
@@ -11,6 +12,7 @@ namespace Anathema
     public partial class GUITable : DockContent, ITableView
     {
         private TablePresenter TablePresenter;
+        private Object AccessLock;
 
         private String Title;
         private String ActiveTablePath;
@@ -21,6 +23,7 @@ namespace Anathema
             Title = this.Text;
 
             TablePresenter = new TablePresenter(this, Table.GetInstance());
+            AccessLock = new Object();
 
             ActiveTablePath = String.Empty;
 
@@ -29,28 +32,37 @@ namespace Anathema
 
         private void ViewCheatTable()
         {
-            CheatTableButton.Checked = true;
-            FSMTableButton.Checked = false;
-            CheatTableSplitContainer.Visible = true;
-            GUIFSMTable.Visible = false;
+            using (TimedLock.Lock(AccessLock))
+            {
+                CheatTableButton.Checked = true;
+                FSMTableButton.Checked = false;
+                CheatTableSplitContainer.Visible = true;
+                GUIFSMTable.Visible = false;
+            }
         }
 
         private void ViewFSMTable()
         {
-            CheatTableButton.Checked = false;
-            FSMTableButton.Checked = true;
-            CheatTableSplitContainer.Visible = false;
-            GUIFSMTable.Visible = true;
+            using (TimedLock.Lock(AccessLock))
+            {
+                CheatTableButton.Checked = false;
+                FSMTableButton.Checked = true;
+                CheatTableSplitContainer.Visible = false;
+                GUIFSMTable.Visible = true;
+            }
         }
 
         public void UpdateHasChanges(Boolean HasChanges)
         {
-            ControlThreadingHelper.InvokeControlAction(this, () =>
+            using (TimedLock.Lock(AccessLock))
             {
-                this.Text = Title + " - " + ActiveTablePath;
-                if (HasChanges)
-                    this.Text += "*";
-            });
+                ControlThreadingHelper.InvokeControlAction(this, () =>
+                {
+                    this.Text = Title + " - " + ActiveTablePath;
+                    if (HasChanges)
+                        this.Text += "*";
+                });
+            }
         }
 
         public void BeginSaveTable()

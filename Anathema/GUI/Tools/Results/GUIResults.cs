@@ -1,4 +1,5 @@
 ﻿using Anathema.Services.ScanResults;
+using Anathema.Source.Utils;
 using Anathema.Utils.Cache;
 using Anathema.Utils.MVP;
 using System;
@@ -11,6 +12,7 @@ namespace Anathema.GUI
     {
         private ResultsPresenter ResultsPresenter;
         private ListViewCache ListViewCache;
+        private Object AccessLock;
 
         private const String NoValueString = "-";
 
@@ -19,68 +21,89 @@ namespace Anathema.GUI
             InitializeComponent();
             ResultsPresenter = new ResultsPresenter(this, Results.GetInstance());
             ListViewCache = new ListViewCache();
+            AccessLock = new Object();
         }
 
         public void UpdateMemorySizeLabel(String MemorySize, String ItemCount)
         {
-            ControlThreadingHelper.InvokeControlAction(SnapshotSizeValueLabel.GetCurrentParent(), () =>
+            using (TimedLock.Lock(AccessLock))
             {
-                SnapshotSizeValueLabel.Text = MemorySize + " - (" + ItemCount + ")";
-            });
+                ControlThreadingHelper.InvokeControlAction(SnapshotSizeValueLabel.GetCurrentParent(), () =>
+                {
+                    SnapshotSizeValueLabel.Text = MemorySize + " - (" + ItemCount + ")";
+                });
+            }
         }
 
         public void UpdateItemCount(Int32 ItemCount)
         {
-            ControlThreadingHelper.InvokeControlAction(ResultsListView, () =>
+            using (TimedLock.Lock(AccessLock))
             {
-                ResultsListView.BeginUpdate();
-                ResultsListView.SetItemCount(ItemCount);
-                ResultsListView.EndUpdate();
-            });
+                ControlThreadingHelper.InvokeControlAction(ResultsListView, () =>
+                {
+                    ResultsListView.BeginUpdate();
+                    ResultsListView.SetItemCount(ItemCount);
+                    ResultsListView.EndUpdate();
+                });
+            }
         }
 
         private void UpdateReadBounds()
         {
-            ControlThreadingHelper.InvokeControlAction(ResultsListView, () =>
+            using (TimedLock.Lock(AccessLock))
             {
-                Tuple<Int32, Int32> ReadBounds = ResultsListView.GetReadBounds();
-                ResultsPresenter.UpdateReadBounds(ReadBounds.Item1, ReadBounds.Item2);
-            });
+                ControlThreadingHelper.InvokeControlAction(ResultsListView, () =>
+                {
+                    Tuple<Int32, Int32> ReadBounds = ResultsListView.GetReadBounds();
+                    ResultsPresenter.UpdateReadBounds(ReadBounds.Item1, ReadBounds.Item2);
+                });
+            }
         }
 
         public void SetEnabled(Boolean IsEnabled)
         {
-            ControlThreadingHelper.InvokeControlAction(ResultsListView, () =>
+            using (TimedLock.Lock(AccessLock))
             {
-                ResultsListView.Enabled = IsEnabled;
-            });
+                ControlThreadingHelper.InvokeControlAction(ResultsListView, () =>
+                {
+                    ResultsListView.Enabled = IsEnabled;
+                });
 
-            ControlThreadingHelper.InvokeControlAction(GUIToolStrip, () =>
-            {
-                GUIToolStrip.Enabled = IsEnabled;
-            });
+                ControlThreadingHelper.InvokeControlAction(GUIToolStrip, () =>
+                {
+                    GUIToolStrip.Enabled = IsEnabled;
+                });
+            }
         }
 
         public void ReadValues()
         {
             UpdateReadBounds();
 
-            // Force the list view to retrieve items again by signaling an update
-            ControlThreadingHelper.InvokeControlAction(ResultsListView, () =>
+            using (TimedLock.Lock(AccessLock))
             {
-                ResultsListView.BeginUpdate();
-                ResultsListView.EndUpdate();
-            });
+                // Force the list view to retrieve items again by signaling an update
+                ControlThreadingHelper.InvokeControlAction(ResultsListView, () =>
+                {
+                    ResultsListView.BeginUpdate();
+                    ResultsListView.EndUpdate();
+                });
+            }
         }
 
         private void AddSelectedElements()
         {
-            if (ResultsListView.SelectedIndices.Count <= 0)
-                return;
+            using (TimedLock.Lock(AccessLock))
+            {
+                ControlThreadingHelper.InvokeControlAction(ResultsListView, () =>
+                {
+                    if (ResultsListView.SelectedIndices.Count <= 0)
+                        return;
 
-            ResultsPresenter.AddSelectionToTable(ResultsListView.SelectedIndices[0], ResultsListView.SelectedIndices[ResultsListView.SelectedIndices.Count - 1]);
+                    ResultsPresenter.AddSelectionToTable(ResultsListView.SelectedIndices[0], ResultsListView.SelectedIndices[ResultsListView.SelectedIndices.Count - 1]);
+                });
+            }
         }
-
         #region Events
 
         private void ByteToolStripMenuItem_Click(Object Sender, EventArgs E)

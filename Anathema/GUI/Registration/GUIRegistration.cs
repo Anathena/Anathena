@@ -1,4 +1,5 @@
-﻿using Anathema.User.Registration;
+﻿using Anathema.Source.Utils;
+using Anathema.User.Registration;
 using Anathema.Utils;
 using Anathema.Utils.Browser;
 using Gecko;
@@ -16,26 +17,36 @@ namespace Anathema.GUI
         private const String AnathemaRegisterURL = "www.anathemaengine.com/account.php" + BrowserTag;
 
         private GeckoWebBrowser Browser;
+        private Object AccessLock;
 
         public GUIRegistration()
         {
             InitializeComponent();
 
+            AccessLock = new Object();
+        }
+
+        // Browser initialization done on load event rather than constructor to reduce visual lag
+        private void GUIRegistration_Load(Object Sender, EventArgs E)
+        {
             InitializeBrowser();
         }
 
         private void InitializeBrowser()
         {
-            BrowserHelper.GetInstance().InitializeBrowserStatic(BrowserTag);
+            using (TimedLock.Lock(AccessLock))
+            {
+                BrowserHelper.GetInstance().InitializeBrowserStatic(BrowserTag);
 
-            Browser = new GeckoWebBrowser();
-            Browser.Navigate(AnathemaRegisterURL);
-            Browser.Dock = DockStyle.Fill;
-            ContentPanel.Controls.Add(Browser);
+                Browser = new GeckoWebBrowser();
+                Browser.Navigate(AnathemaRegisterURL);
+                Browser.Dock = DockStyle.Fill;
+                ContentPanel.Controls.Add(Browser);
 
-            Browser.Navigating += Browser_Navigating;
+                Browser.Navigating += Browser_Navigating;
 
-            LauncherDialog.Download += LauncherDialog_Download;
+                LauncherDialog.Download += LauncherDialog_Download;
+            }
         }
 
         internal class CheckRegistered : RepeatedTask
@@ -76,21 +87,27 @@ namespace Anathema.GUI
 
         private void Browser_Navigating(Object Sender, GeckoNavigatingEventArgs E)
         {
-            if (E.Uri.AbsoluteUri.Contains(BrowserTag))
-                return;
+            using (TimedLock.Lock(AccessLock))
+            {
+                if (E.Uri.AbsoluteUri.Contains(BrowserTag))
+                    return;
 
-            Browser.Navigate(E.Uri.AbsoluteUri + BrowserTag);
+                Browser.Navigate(E.Uri.AbsoluteUri + BrowserTag);
+            }
         }
 
         /// <summary>
-        ///  TODO: Change this to read in downloaded serial code
+        /// TODO: Change this to read in downloaded serial code
         /// </summary>
         /// <param name="Sender"></param>
         /// <param name="E"></param>
         private void LauncherDialog_Download(Object Sender, LauncherDialogEvent E)
         {
-            CheckRegistered CheckRegistered = new CheckRegistered(this);
-            CheckRegistered.Begin();
+            using (TimedLock.Lock(AccessLock))
+            {
+                CheckRegistered CheckRegistered = new CheckRegistered(this);
+                CheckRegistered.Begin();
+            }
         }
 
         #endregion

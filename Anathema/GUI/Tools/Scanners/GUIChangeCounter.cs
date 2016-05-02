@@ -1,4 +1,5 @@
 ﻿using Anathema.Scanners.ChangeCounter;
+using Anathema.Source.Utils;
 using Anathema.Utils.MVP;
 using Anathema.Utils.Validation;
 using System;
@@ -9,13 +10,15 @@ namespace Anathema.GUI
 {
     public partial class GUIChangeCounter : DockContent, IChangeCounterView
     {
-        ChangeCounterPresenter ChangeCounterPresenter;
+        private ChangeCounterPresenter ChangeCounterPresenter;
+        private Object AccessLock;
 
         public GUIChangeCounter()
         {
             InitializeComponent();
 
             ChangeCounterPresenter = new ChangeCounterPresenter(this, new ChangeCounter());
+            AccessLock = new Object();
 
             SetMinChanges();
             SetMaxChanges();
@@ -26,88 +29,106 @@ namespace Anathema.GUI
 
         public void DisplayScanCount(Int32 ScanCount)
         {
-            ControlThreadingHelper.InvokeControlAction(ScanToolStrip, () =>
+            using (TimedLock.Lock(AccessLock))
             {
-                ScanCountLabel.Text = "Scan Count: " + ScanCount.ToString();
-            });
+                ControlThreadingHelper.InvokeControlAction(ScanToolStrip, () =>
+                {
+                    ScanCountLabel.Text = "Scan Count: " + ScanCount.ToString();
+                });
+            }
         }
 
         private void SetMinChanges()
         {
-            UInt16 MinChanges = (UInt16)MinChangesTrackBar.Value;
-            MinChangesValueLabel.Text = MinChanges.ToString();
-            ChangeCounterPresenter.SetMinChanges(MinChanges);
+            using (TimedLock.Lock(AccessLock))
+            {
+                if (MaxChangesTrackBar.Value < MinChangesTrackBar.Value)
+                    MinChangesTrackBar.Value = MaxChangesTrackBar.Value;
+
+                UInt16 MinChanges = (UInt16)MinChangesTrackBar.Value;
+                MinChangesValueLabel.Text = MinChanges.ToString();
+                ChangeCounterPresenter.SetMinChanges(MinChanges);
+            }
         }
 
         private void SetMaxChanges()
         {
-            UInt16 MaxChanges = (UInt16)MaxChangesTrackBar.Value;
-            String MaxChangesString = MaxChanges.ToString();
-
-            if (MaxChanges == MaxChangesTrackBar.Maximum)
+            using (TimedLock.Lock(AccessLock))
             {
-                MaxChanges = UInt16.MaxValue;
-                MaxChangesString = "Inf";
-            }
+                if (MinChangesTrackBar.Value > MaxChangesTrackBar.Value)
+                    MaxChangesTrackBar.Value = MinChangesTrackBar.Value;
 
-            MaxChangesValueLabel.Text = MaxChangesString;
-            ChangeCounterPresenter.SetMaxChanges(MaxChanges);
+                UInt16 MaxChanges = (UInt16)MaxChangesTrackBar.Value;
+                String MaxChangesString = MaxChanges.ToString();
+
+                if (MaxChanges == MaxChangesTrackBar.Maximum)
+                {
+                    MaxChanges = UInt16.MaxValue;
+                    MaxChangesString = "Inf";
+                }
+
+                MaxChangesValueLabel.Text = MaxChangesString;
+                ChangeCounterPresenter.SetMaxChanges(MaxChanges);
+            }
         }
 
         private void SetVariableSize()
         {
-            Int32 VariableSize = (Int32)Math.Pow(2, VariableSizeTrackBar.Value);
-            VariableSizeValueLabel.Text = Conversions.BytesToMetric(VariableSize);
-            ChangeCounterPresenter.SetVariableSize(VariableSize);
+            using (TimedLock.Lock(AccessLock))
+            {
+                Int32 VariableSize = (Int32)Math.Pow(2, VariableSizeTrackBar.Value);
+                VariableSizeValueLabel.Text = Conversions.BytesToMetric(VariableSize);
+                ChangeCounterPresenter.SetVariableSize(VariableSize);
+            }
         }
 
         private void EnableGUI()
         {
-            StartScanButton.Enabled = true;
-            StopScanButton.Enabled = false;
-            MinChangesTrackBar.Enabled = true;
-            MaxChangesTrackBar.Enabled = true;
-            VariableSizeTrackBar.Enabled = true;
+            using (TimedLock.Lock(AccessLock))
+            {
+                StartScanButton.Enabled = true;
+                StopScanButton.Enabled = false;
+                MinChangesTrackBar.Enabled = true;
+                MaxChangesTrackBar.Enabled = true;
+                VariableSizeTrackBar.Enabled = true;
+            }
         }
 
         private void DisableGUI()
         {
-            StartScanButton.Enabled = false;
-            StopScanButton.Enabled = true;
-            MinChangesTrackBar.Enabled = false;
-            MaxChangesTrackBar.Enabled = false;
-            VariableSizeTrackBar.Enabled = false;
+            using (TimedLock.Lock(AccessLock))
+            {
+                StartScanButton.Enabled = false;
+                StopScanButton.Enabled = true;
+                MinChangesTrackBar.Enabled = false;
+                MaxChangesTrackBar.Enabled = false;
+                VariableSizeTrackBar.Enabled = false;
+            }
         }
 
         private void HandleResize()
         {
-            MinChangesTrackBar.Width = (this.Width - MinChangesTrackBar.Location.X) / 2;
-            MaxChangesTrackBar.Location = new Point(MinChangesTrackBar.Location.X + MinChangesTrackBar.Width, MaxChangesTrackBar.Location.Y);
-            MaxChangesTrackBar.Width = MinChangesTrackBar.Width;
+            using (TimedLock.Lock(AccessLock))
+            {
+                MinChangesTrackBar.Width = (this.Width - MinChangesTrackBar.Location.X) / 2;
+                MaxChangesTrackBar.Location = new Point(MinChangesTrackBar.Location.X + MinChangesTrackBar.Width, MaxChangesTrackBar.Location.Y);
+                MaxChangesTrackBar.Width = MinChangesTrackBar.Width;
 
-            VariableSizeTrackBar.Width = (this.Width - VariableSizeTrackBar.Location.X) / 2;
+                VariableSizeTrackBar.Width = (this.Width - VariableSizeTrackBar.Location.X) / 2;
+            }
         }
 
         #region Events
 
         private void MinChangesTrackBar_Scroll(Object Sender, EventArgs E)
         {
-            if (MinChangesTrackBar.Value > MaxChangesTrackBar.Value)
-            {
-                MaxChangesTrackBar.Value = MinChangesTrackBar.Value;
-                SetMaxChanges();
-            }
-
+            SetMaxChanges();
             SetMinChanges();
         }
 
         private void MaxChangesTrackBar_Scroll(Object Sender, EventArgs E)
         {
-            if (MaxChangesTrackBar.Value < MinChangesTrackBar.Value)
-            {
-                MinChangesTrackBar.Value = MaxChangesTrackBar.Value;
-                SetMinChanges();
-            }
+            SetMinChanges();
             SetMaxChanges();
         }
 

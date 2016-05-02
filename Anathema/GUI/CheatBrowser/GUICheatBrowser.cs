@@ -1,4 +1,6 @@
-﻿using Anathema.Utils.Browser;
+﻿using Anathema.Source.Utils;
+using Anathema.Utils.Browser;
+using Anathema.Utils.MVP;
 using Gecko;
 using System;
 using System.Windows.Forms;
@@ -13,6 +15,7 @@ namespace Anathema.GUI
         private const String AnathemaCheatUploadURL = "www.anathemaengine.com/upload.php";
 
         private GeckoWebBrowser Browser;
+        private Object AccessLock;
 
         public GUICheatBrowser()
         {
@@ -20,48 +23,67 @@ namespace Anathema.GUI
 
             // Initialize presenter
             // (No presenter currently, since the browser does all the work)
+            AccessLock = new Object();
 
             WindowState = FormWindowState.Maximized;
         }
 
+        // Browser initialization done on load event rather than constructor to reduce visual lag
         private void GUICheatBrowser_Load(Object Sender, EventArgs E)
         {
-            // Initialize browser after load to reduce lag before window appears
             InitializeBrowser();
         }
 
         private void InitializeBrowser()
         {
-            BrowserHelper.GetInstance().InitializeBrowserStatic();
+            using (TimedLock.Lock(AccessLock))
+            {
+                BrowserHelper.GetInstance().InitializeBrowserStatic();
 
-            Browser = new GeckoWebBrowser();
-            Browser.Navigate(AnathemaCheatBrowseURL);
-            Browser.Dock = DockStyle.Fill;
-            ContentPanel.Controls.Add(Browser);
+                ControlThreadingHelper.InvokeControlAction(ContentPanel, () =>
+                {
+                    Browser = new GeckoWebBrowser();
+                    Browser.Navigate(AnathemaCheatBrowseURL);
+                    Browser.Dock = DockStyle.Fill;
+                    ContentPanel.Controls.Add(Browser);
+                });
+            }
         }
 
         #region Events
-        
+
         private void HomeButton_Click(Object Sender, EventArgs E)
         {
-            Browser.Navigate(AnathemaCheatBrowseURL);
+            using (TimedLock.Lock(AccessLock))
+            {
+                Browser.Navigate(AnathemaCheatBrowseURL);
+            }
         }
 
         private void UploadButton_Click(Object Sender, EventArgs E)
         {
-            Browser.Navigate(AnathemaCheatUploadURL);
+            using (TimedLock.Lock(AccessLock))
+            {
+                Browser.Navigate(AnathemaCheatUploadURL);
+            }
         }
 
         private void BackButton_Click(Object Sender, EventArgs E)
         {
-            if (Browser.CanGoBack)
-                Browser.GoBack();
+            using (TimedLock.Lock(AccessLock))
+            {
+                if (Browser.CanGoBack)
+                    Browser.GoBack();
+            }
         }
 
         private void ForwardButton_Click(Object Sender, EventArgs E)
         {
-            if (Browser.CanGoForward)
-                Browser.GoForward();
+            using (TimedLock.Lock(AccessLock))
+            {
+                if (Browser.CanGoForward)
+                    Browser.GoForward();
+            }
         }
 
         #endregion

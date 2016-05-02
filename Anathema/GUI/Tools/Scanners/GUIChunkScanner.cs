@@ -1,4 +1,5 @@
 ﻿using Anathema.Scanners.ChunkScanner;
+using Anathema.Source.Utils;
 using Anathema.Utils.MVP;
 using System;
 using WeifenLuo.WinFormsUI.Docking;
@@ -8,11 +9,13 @@ namespace Anathema.GUI
     public partial class GUIChunkScanner : DockContent, IChunkScannerView
     {
         private ChunkScannerPresenter ChunkScannerPresenter;
+        private Object AccessLock;
 
         public GUIChunkScanner()
         {
             InitializeComponent();
             ChunkScannerPresenter = new ChunkScannerPresenter(this, new ChunkScanner());
+            AccessLock = new Object();
 
             SetMinChanges();
             EnableGUI();
@@ -20,35 +23,50 @@ namespace Anathema.GUI
 
         public void DisplayScanCount(Int32 ScanCount)
         {
-            ControlThreadingHelper.InvokeControlAction(ScanToolStrip, () =>
+            using (TimedLock.Lock(AccessLock))
             {
-                ScanCountLabel.Text = "Scan Count: " + ScanCount.ToString();
-            });
+                ControlThreadingHelper.InvokeControlAction(ScanToolStrip, () =>
+                {
+                    ScanCountLabel.Text = "Scan Count: " + ScanCount.ToString();
+                });
+            }
         }
 
         private void SetMinChanges()
         {
-            Int32 MinChanges = MinChangesTrackBar.Value;
-            MinChangesValueLabel.Text = MinChanges.ToString();
+            using (TimedLock.Lock(AccessLock))
+            {
+                Int32 MinChanges = MinChangesTrackBar.Value;
+                MinChangesValueLabel.Text = MinChanges.ToString();
 
-            ChunkScannerPresenter.SetMinChanges(MinChanges);
+                ChunkScannerPresenter.SetMinChanges(MinChanges);
+            }
         }
 
         private void HandleResize()
         {
-            MinChangesTrackBar.Width = (this.Width - MinChangesTrackBar.Location.X) / 2;
+            using (TimedLock.Lock(AccessLock))
+            {
+                MinChangesTrackBar.Width = (this.Width - MinChangesTrackBar.Location.X) / 2;
+            }
         }
 
         private void DisableGUI()
         {
-            StartScanButton.Enabled = false;
-            StopScanButton.Enabled = true;
+            using (TimedLock.Lock(AccessLock))
+            {
+                StartScanButton.Enabled = false;
+                StopScanButton.Enabled = true;
+            }
         }
 
         private void EnableGUI()
         {
-            StartScanButton.Enabled = true;
-            StopScanButton.Enabled = false;
+            using (TimedLock.Lock(AccessLock))
+            {
+                StartScanButton.Enabled = true;
+                StopScanButton.Enabled = false;
+            }
         }
 
         #region Events

@@ -29,7 +29,6 @@ namespace Anathema.Utils.Cache
         public Boolean TryUpdateItem(UInt64 Index, T Item)
         {
             using (TimedLock.Lock(AccessLock))
-            // lock (AccessLock)
             {
                 if (!Cache.ContainsKey(Index))
                     return false;
@@ -42,7 +41,6 @@ namespace Anathema.Utils.Cache
         public virtual T Add(UInt64 Index, T Item)
         {
             using (TimedLock.Lock(AccessLock))
-            // lock (AccessLock)
             {
                 if (Cache.Count == CacheSize)
                 {
@@ -60,7 +58,6 @@ namespace Anathema.Utils.Cache
         public virtual void Delete(UInt64 Index)
         {
             using (TimedLock.Lock(AccessLock))
-            // lock (AccessLock)
             {
                 if (Cache.ContainsKey(Index))
                     Cache.Remove(Index);
@@ -72,7 +69,6 @@ namespace Anathema.Utils.Cache
         public T Get(UInt64 Index)
         {
             using (TimedLock.Lock(AccessLock))
-            // lock (AccessLock)
             {
                 T Item;
                 if (Cache.TryGetValue(Index, out Item))
@@ -91,7 +87,6 @@ namespace Anathema.Utils.Cache
         public virtual void FlushCache()
         {
             using (TimedLock.Lock(AccessLock))
-            // lock (AccessLock)
             {
                 Cache.Clear();
                 LRUList.Clear();

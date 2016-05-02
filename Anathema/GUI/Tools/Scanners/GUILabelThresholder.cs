@@ -12,12 +12,14 @@ namespace Anathema.GUI
     public partial class GUILabelThresholder : DockContent, ILabelThresholderView
     {
         private LabelThresholderPresenter LabelThresholderPresenter;
+        private Object AccessObject;
 
         public GUILabelThresholder()
         {
             InitializeComponent();
 
             LabelThresholderPresenter = new LabelThresholderPresenter(this, new LabelThresholder());
+            AccessObject = new Object();
 
             LabelThresholderPresenter.Begin();
         }
@@ -27,12 +29,15 @@ namespace Anathema.GUI
         {
             Int32 BarCount = 0;
 
-            ControlThreadingHelper.InvokeControlAction(LabelFrequencyChart, () =>
+            lock (AccessObject)
             {
-                foreach (KeyValuePair<dynamic, Int64> Item in SortedDictionary)
-                    LabelFrequencyChart.Series["Frequency"].Points.AddXY(Item.Key, Item.Value);
-                BarCount = LabelFrequencyChart.Series["Frequency"].Points.Count;
-            });
+                ControlThreadingHelper.InvokeControlAction(LabelFrequencyChart, () =>
+                {
+                    foreach (KeyValuePair<dynamic, Int64> Item in SortedDictionary)
+                        LabelFrequencyChart.Series["Frequency"].Points.AddXY(Item.Key, Item.Value);
+                    BarCount = LabelFrequencyChart.Series["Frequency"].Points.Count;
+                });
+            }
 
             UpdateTrackBarRanges(BarCount);
             VisualizeSelection();
@@ -40,116 +45,125 @@ namespace Anathema.GUI
 
         private void VisualizeSelection()
         {
-            Int32 BarCount = 0;
-            UInt64 FrequencyTotal = 0;
-            UInt64 FrequencySelected = 0;
-            Int32 MinValue = 0;
-            Int32 MaxValue = 0;
-            Int32 HighlightMinValue = 0;
-            Int32 HighlightMaxvalue = 0;
-            Boolean SelectionInverted = false;
-
-            ControlThreadingHelper.InvokeControlAction(MinValueTrackBar, () =>
+            lock (AccessObject)
             {
-                MinValue = MinValueTrackBar.Value;
-            });
+                Int32 BarCount = 0;
+                UInt64 FrequencyTotal = 0;
+                UInt64 FrequencySelected = 0;
+                Int32 MinValue = 0;
+                Int32 MaxValue = 0;
+                Int32 HighlightMinValue = 0;
+                Int32 HighlightMaxvalue = 0;
+                Boolean SelectionInverted = false;
 
-            ControlThreadingHelper.InvokeControlAction(MaxValueTrackBar, () =>
-            {
-                MaxValue = MaxValueTrackBar.Value;
-            });
-
-            ControlThreadingHelper.InvokeControlAction(ScanToolStrip, () =>
-            {
-                SelectionInverted = InvertSelectionButton.Checked;
-            });
-
-            // Update chart colors
-            ControlThreadingHelper.InvokeControlAction(LabelFrequencyChart, () =>
-            {
-                BarCount = LabelFrequencyChart.Series["Frequency"].Points.Count;
-
-                for (Int32 Index = 0; Index < BarCount; Index++)
+                ControlThreadingHelper.InvokeControlAction(MinValueTrackBar, () =>
                 {
-                    if (!SelectionInverted && (Index < MinValue || Index > MaxValue) ||
-                        SelectionInverted && (Index >= MinValue && Index <= MaxValue))
+                    MinValue = MinValueTrackBar.Value;
+                });
+
+                ControlThreadingHelper.InvokeControlAction(MaxValueTrackBar, () =>
+                {
+                    MaxValue = MaxValueTrackBar.Value;
+                });
+
+                ControlThreadingHelper.InvokeControlAction(ScanToolStrip, () =>
+                {
+                    SelectionInverted = InvertSelectionButton.Checked;
+                });
+
+                // Update chart colors
+                ControlThreadingHelper.InvokeControlAction(LabelFrequencyChart, () =>
+                {
+                    BarCount = LabelFrequencyChart.Series["Frequency"].Points.Count;
+
+                    for (Int32 Index = 0; Index < BarCount; Index++)
                     {
-                        LabelFrequencyChart.Series["Frequency"].Points[Index].Color = Color.Red;
+                        if (!SelectionInverted && (Index < MinValue || Index > MaxValue) ||
+                            SelectionInverted && (Index >= MinValue && Index <= MaxValue))
+                        {
+                            LabelFrequencyChart.Series["Frequency"].Points[Index].Color = Color.Red;
+                        }
+                        else
+                        {
+                            LabelFrequencyChart.Series["Frequency"].Points[Index].Color = Color.Blue;
+                            FrequencySelected += (UInt64)LabelFrequencyChart.Series["Frequency"].Points[Index].YValues[0];
+                        }
+                        FrequencyTotal += (UInt64)LabelFrequencyChart.Series["Frequency"].Points[Index].YValues[0];
                     }
-                    else
-                    {
-                        LabelFrequencyChart.Series["Frequency"].Points[Index].Color = Color.Blue;
-                        FrequencySelected += (UInt64)LabelFrequencyChart.Series["Frequency"].Points[Index].YValues[0];
-                    }
-                    FrequencyTotal += (UInt64)LabelFrequencyChart.Series["Frequency"].Points[Index].YValues[0];
-                }
-                if (MinValue < BarCount)
-                    HighlightMinValue = (Int32)LabelFrequencyChart.Series["Frequency"].Points[MinValue].XValue;
-                if (MaxValue < BarCount)
-                    HighlightMaxvalue = (Int32)LabelFrequencyChart.Series["Frequency"].Points[MaxValue].XValue;
-            });
+                    if (MinValue < BarCount)
+                        HighlightMinValue = (Int32)LabelFrequencyChart.Series["Frequency"].Points[MinValue].XValue;
+                    if (MaxValue < BarCount)
+                        HighlightMaxvalue = (Int32)LabelFrequencyChart.Series["Frequency"].Points[MaxValue].XValue;
+                });
 
-            // Update min/max values in presenter
-            LabelThresholderPresenter.UpdateThreshold(MinValue, MaxValue);
+                // Update min/max values in presenter
+                LabelThresholderPresenter.UpdateThreshold(MinValue, MaxValue);
 
-            // Update trackbar value text
-            ControlThreadingHelper.InvokeControlAction(MinLabelLabel, () =>
-            {
-                if (MinValue < BarCount)
-                    MinLabelLabel.Text = "Min: " + HighlightMinValue.ToString();
-            });
+                // Update trackbar value text
+                ControlThreadingHelper.InvokeControlAction(MinLabelLabel, () =>
+                {
+                    if (MinValue < BarCount)
+                        MinLabelLabel.Text = "Min: " + HighlightMinValue.ToString();
+                });
 
-            ControlThreadingHelper.InvokeControlAction(MaxLabelLabel, () =>
-            {
-                if (MaxValue < BarCount)
-                    MaxLabelLabel.Text = "Max: " + HighlightMaxvalue.ToString();
-            });
+                ControlThreadingHelper.InvokeControlAction(MaxLabelLabel, () =>
+                {
+                    if (MaxValue < BarCount)
+                        MaxLabelLabel.Text = "Max: " + HighlightMaxvalue.ToString();
+                });
 
-            // Update threshold size text
-            ControlThreadingHelper.InvokeControlAction(ScanToolStrip, () =>
-            {
-                ReductionLabel.Text = FrequencySelected.ToString() + " / " + FrequencyTotal.ToString() +
-                " (~" + Conversions.BytesToMetric(FrequencySelected * (UInt64)LabelThresholderPresenter.GetElementSize()) +
-                " / ~" + Conversions.BytesToMetric(FrequencyTotal * (UInt64)LabelThresholderPresenter.GetElementSize()) + ")";
-            });
+                // Update threshold size text
+                ControlThreadingHelper.InvokeControlAction(ScanToolStrip, () =>
+                {
+                    ReductionLabel.Text = FrequencySelected.ToString() + " / " + FrequencyTotal.ToString() +
+                    " (~" + Conversions.BytesToMetric(FrequencySelected * (UInt64)LabelThresholderPresenter.GetElementSize()) +
+                    " / ~" + Conversions.BytesToMetric(FrequencyTotal * (UInt64)LabelThresholderPresenter.GetElementSize()) + ")";
+                });
+            }
         }
 
         private void ClearGraph()
         {
-            ControlThreadingHelper.InvokeControlAction(LabelFrequencyChart, () =>
+            lock (AccessObject)
             {
-                LabelFrequencyChart.Series["Frequency"].Points.Clear();
-            });
+                ControlThreadingHelper.InvokeControlAction(LabelFrequencyChart, () =>
+                {
+                    LabelFrequencyChart.Series["Frequency"].Points.Clear();
+                });
 
-            ControlThreadingHelper.InvokeControlAction(ScanToolStrip, () =>
-            {
-                ReductionLabel.Text = String.Empty;
-            });
+                ControlThreadingHelper.InvokeControlAction(ScanToolStrip, () =>
+                {
+                    ReductionLabel.Text = String.Empty;
+                });
 
-            ControlThreadingHelper.InvokeControlAction(MinLabelLabel, () =>
-            {
-                MinLabelLabel.Text = "Min: ";
-            });
+                ControlThreadingHelper.InvokeControlAction(MinLabelLabel, () =>
+                {
+                    MinLabelLabel.Text = "Min: ";
+                });
 
-            ControlThreadingHelper.InvokeControlAction(MaxLabelLabel, () =>
-            {
-                MaxLabelLabel.Text = "Max: ";
-            });
+                ControlThreadingHelper.InvokeControlAction(MaxLabelLabel, () =>
+                {
+                    MaxLabelLabel.Text = "Max: ";
+                });
+            }
         }
 
         private void UpdateTrackBarRanges(Int32 BarCount)
         {
-            ControlThreadingHelper.InvokeControlAction(MinValueTrackBar, () =>
+            lock (AccessObject)
             {
-                MinValueTrackBar.Maximum = BarCount == 0 ? 0 : BarCount - 1;
-                MinValueTrackBar.Value = 0;
-            });
+                ControlThreadingHelper.InvokeControlAction(MinValueTrackBar, () =>
+                {
+                    MinValueTrackBar.Maximum = BarCount == 0 ? 0 : BarCount - 1;
+                    MinValueTrackBar.Value = 0;
+                });
 
-            ControlThreadingHelper.InvokeControlAction(MaxValueTrackBar, () =>
-            {
-                MaxValueTrackBar.Maximum = BarCount == 0 ? 0 : BarCount - 1;
-                MaxValueTrackBar.Value = MaxValueTrackBar.Maximum;
-            });
+                ControlThreadingHelper.InvokeControlAction(MaxValueTrackBar, () =>
+                {
+                    MaxValueTrackBar.Maximum = BarCount == 0 ? 0 : BarCount - 1;
+                    MaxValueTrackBar.Value = MaxValueTrackBar.Maximum;
+                });
+            }
         }
 
         #region Events
