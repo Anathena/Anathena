@@ -155,7 +155,7 @@ namespace Anathema
 
         private void AddressTableListView_MouseClick(Object Sender, MouseEventArgs E)
         {
-            using (TimedLock.Lock(AccessLock))
+            // using (TimedLock.Lock(AccessLock))
             {
                 if (E.Button == MouseButtons.Right)
                     LastRightClickLocation = E.Location;
@@ -172,7 +172,7 @@ namespace Anathema
 
         private void AddressTableListView_KeyPress(Object Sender, KeyPressEventArgs E)
         {
-            using (TimedLock.Lock(AccessLock))
+            // using (TimedLock.Lock(AccessLock))
             {
                 if (E.KeyChar != ' ')
                     return;
@@ -185,7 +185,7 @@ namespace Anathema
 
         private void ToggleFreezeToolStripMenuItem_Click(Object Sender, EventArgs E)
         {
-            using (TimedLock.Lock(AccessLock))
+            // using (TimedLock.Lock(AccessLock))
             {
                 Boolean FreezeState = AddressTableListView.SelectedIndices == null ? false : !AddressTableListView.Items[AddressTableListView.SelectedIndices[0]].Checked;
                 foreach (Int32 Index in AddressTableListView.SelectedIndices)
@@ -198,7 +198,7 @@ namespace Anathema
             ListViewItem SelectedItem;
             Int32 ColumnIndex;
 
-            using (TimedLock.Lock(AccessLock))
+            // using (TimedLock.Lock(AccessLock))
             {
                 ListViewHitTestInfo HitTest = AddressTableListView.HitTest(E.Location);
                 SelectedItem = HitTest.Item;
@@ -221,7 +221,7 @@ namespace Anathema
             ListViewItem SelectedItem;
             Int32 ColumnIndex;
 
-            using (TimedLock.Lock(AccessLock))
+            // using (TimedLock.Lock(AccessLock))
             {
                 ListViewHitTestInfo HitTest = AddressTableListView.HitTest(LastRightClickLocation);
                 SelectedItem = HitTest.Item;
@@ -239,7 +239,7 @@ namespace Anathema
             ListViewItem SelectedItem;
             Int32 ColumnIndex;
 
-            using (TimedLock.Lock(AccessLock))
+            // using (TimedLock.Lock(AccessLock))
             {
                 ListViewHitTestInfo HitTest = AddressTableListView.HitTest(LastRightClickLocation);
                 SelectedItem = HitTest.Item;
@@ -251,7 +251,7 @@ namespace Anathema
 
             DeleteAddressTableEntries(SelectedItem.Index, SelectedItem.Index);
 
-            using (TimedLock.Lock(AccessLock))
+            // using (TimedLock.Lock(AccessLock))
             {
                 AddressTableListView.SelectedIndices.Clear();
             }
@@ -264,7 +264,7 @@ namespace Anathema
 
         private void AddressTableContextMenuStrip_Opening(Object Sender, CancelEventArgs E)
         {
-            using (TimedLock.Lock(AccessLock))
+            // using (TimedLock.Lock(AccessLock))
             {
                 ListViewHitTestInfo HitTest = AddressTableListView.HitTest(AddressTableListView.PointToClient(MousePosition));
                 ListViewItem SelectedItem = HitTest.Item;
@@ -300,7 +300,7 @@ namespace Anathema
 
         private void AddressTableListView_DragDrop(Object Sender, DragEventArgs E)
         {
-            using (TimedLock.Lock(AccessLock))
+            // using (TimedLock.Lock(AccessLock))
             {
                 ListViewHitTestInfo HitTest = AddressTableListView.HitTest(AddressTableListView.PointToClient(new Point(E.X, E.Y)));
                 ListViewItem SelectedItem = HitTest.Item;

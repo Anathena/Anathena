@@ -33,11 +33,11 @@ namespace Anathema.Scanners.ManualScanner
             // Initialize snapshot
             Snapshot = new Snapshot<Null>(SnapshotManager.GetInstance().GetActiveSnapshot());
 
-            if (Snapshot == null)
+            if (Snapshot == null || ScanConstraintManager == null || ScanConstraintManager.GetCount() <= 0)
+            {
+                End();
                 return;
-
-            if (ScanConstraintManager == null)
-                return;
+            }
 
             Snapshot.MarkAllValid();
             Snapshot.SetElementType(ScanConstraintManager.GetElementType());
@@ -148,6 +148,8 @@ namespace Anathema.Scanners.ManualScanner
 
             }); // End foreach Region
 
+            ScanProgress.FinishProgress();
+
             CancelFlag = true;
         }
 
@@ -160,7 +162,6 @@ namespace Anathema.Scanners.ManualScanner
 
             SnapshotManager.GetInstance().SaveSnapshot(Snapshot);
             OnEventScanFinished(new ManualScannerEventArgs());
-            ScanProgress.FinishProgress();
 
             CleanUp();
         }

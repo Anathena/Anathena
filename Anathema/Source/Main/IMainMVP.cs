@@ -86,9 +86,9 @@ namespace Anathema
 
         private void EventUpdateProgress(Object Sender, MainEventArgs E)
         {
-            using (TimedLock.Lock(AccessLock))
+            Task.Run(() =>
             {
-                Task.Run(() =>
+                using (TimedLock.Lock(AccessLock))
                 {
                     if (!PendingActions.Contains(E.ProgressItem))
                         PendingActions.Add(E.ProgressItem);
@@ -97,15 +97,16 @@ namespace Anathema
                         View.UpdateProgress(PendingActions[0]);
                     else
                         View.UpdateProgress(null);
-                });
-            }
+                }
+            });
+
         }
 
         private void EventFinishProgress(Object Sender, MainEventArgs E)
         {
-            using (TimedLock.Lock(AccessLock))
+            Task.Run(() =>
             {
-                Task.Run(() =>
+                using (TimedLock.Lock(AccessLock))
                 {
                     if (PendingActions.Contains(E.ProgressItem))
                         PendingActions.Remove(E.ProgressItem);
@@ -114,8 +115,8 @@ namespace Anathema
                         View.UpdateProgress(PendingActions[0]);
                     else
                         View.UpdateProgress(null);
-                });
-            }
+                }
+            });
         }
 
         private void EventOpenScriptEditor(Object Sender, MainEventArgs E)
