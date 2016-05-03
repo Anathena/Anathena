@@ -28,7 +28,7 @@ namespace Anathema.Scanners.InputCorrelator
         private Int32 TimeOutInterval;  // ms to consider a fired key event as active
 
         private InputNode InputConditionTree;
-        
+
         private ProgressItem ScanProgress;
         private Object ProgressLock;
 
@@ -180,10 +180,11 @@ namespace Anathema.Scanners.InputCorrelator
                 {
                     ProcessedPages++;
 
-                    if (ProcessedPages < Snapshot.GetRegionCount())
-                        ScanProgress.UpdateProgress(ProcessedPages, Snapshot.GetRegionCount());
+                    ScanProgress.UpdateProgress(ProcessedPages, Snapshot.GetRegionCount());
                 }
             });
+
+            ScanProgress.FinishProgress();
 
             OnEventUpdateScanCount(new ScannerEventArgs(this.ScanCount));
         }
@@ -207,7 +208,6 @@ namespace Anathema.Scanners.InputCorrelator
             Snapshot.SetScanMethod("Input Correlator");
 
             SnapshotManager.GetInstance().SaveSnapshot(Snapshot);
-            ScanProgress.FinishProgress();
 
             CleanUp();
 

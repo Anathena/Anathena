@@ -139,7 +139,6 @@ namespace Anathema.Scanners.ManualScanner
                 } // End foreach Element
 
                 using (TimedLock.Lock(ProgressLock))
-                // lock (ProgressLock)
                 {
                     ProcessedPages++;
 

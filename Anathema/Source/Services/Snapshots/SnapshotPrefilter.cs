@@ -53,12 +53,11 @@ namespace Anathema.Services.Snapshots
 
             PrefilterProgress = new ProgressItem();
             PrefilterProgress.SetProgressLabel("Analyzing");
-            PrefilterProgress.SetCompletionThreshold(0.97);
             PrefilterProgress.RestrictProgress();
 
             InitializeProcessObserver();
         }
-        
+
         public static SnapshotPrefilter GetInstance()
         {
             return SnapshotPrefilterInstance.Value;
@@ -249,6 +248,9 @@ namespace Anathema.Services.Snapshots
             UnprocessedCount = NewPages.Where(X => X.IsProcessed()).Count();
 
             PrefilterProgress.UpdateProgress((Double)UnprocessedCount / (Double)NewPages.Count());
+
+            if (PrefilterProgress.GetProgress() > 97)
+                PrefilterProgress.FinishProgress();
         }
 
         internal class RegionProperties : NormalizedRegion

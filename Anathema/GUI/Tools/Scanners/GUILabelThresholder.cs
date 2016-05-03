@@ -1,4 +1,5 @@
 ﻿using Anathema.Scanners.LabelThresholder;
+using Anathema.Source.Utils;
 using Anathema.Utils.MVP;
 using Anathema.Utils.Validation;
 using System;
@@ -12,14 +13,14 @@ namespace Anathema.GUI
     public partial class GUILabelThresholder : DockContent, ILabelThresholderView
     {
         private LabelThresholderPresenter LabelThresholderPresenter;
-        private Object AccessObject;
+        private Object AccessLock;
 
         public GUILabelThresholder()
         {
             InitializeComponent();
 
             LabelThresholderPresenter = new LabelThresholderPresenter(this, new LabelThresholder());
-            AccessObject = new Object();
+            AccessLock = new Object();
 
             LabelThresholderPresenter.Begin();
         }
@@ -29,7 +30,7 @@ namespace Anathema.GUI
         {
             Int32 BarCount = 0;
 
-            lock (AccessObject)
+            using (TimedLock.Lock(AccessLock))
             {
                 ControlThreadingHelper.InvokeControlAction(LabelFrequencyChart, () =>
                 {
@@ -45,7 +46,7 @@ namespace Anathema.GUI
 
         private void VisualizeSelection()
         {
-            lock (AccessObject)
+            using (TimedLock.Lock(AccessLock))
             {
                 Int32 BarCount = 0;
                 UInt64 FrequencyTotal = 0;
@@ -124,7 +125,7 @@ namespace Anathema.GUI
 
         private void ClearGraph()
         {
-            lock (AccessObject)
+            using (TimedLock.Lock(AccessLock))
             {
                 ControlThreadingHelper.InvokeControlAction(LabelFrequencyChart, () =>
                 {
@@ -150,7 +151,7 @@ namespace Anathema.GUI
 
         private void UpdateTrackBarRanges(Int32 BarCount)
         {
-            lock (AccessObject)
+            using (TimedLock.Lock(AccessLock))
             {
                 ControlThreadingHelper.InvokeControlAction(MinValueTrackBar, () =>
                 {

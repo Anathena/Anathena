@@ -58,7 +58,7 @@ namespace Anathema
 
         private void UpdateReadBounds()
         {
-            using (TimedLock.Lock(AccessLock))
+            // using (TimedLock.Lock(AccessLock))
             {
                 ControlThreadingHelper.InvokeControlAction(AddressTableListView, () =>
                 {

@@ -43,6 +43,7 @@ namespace Anathema.GUI
                 {
                     ResultsListView.BeginUpdate();
                     ResultsListView.SetItemCount(ItemCount);
+                    ListViewCache.FlushCache();
                     ResultsListView.EndUpdate();
                 });
             }
@@ -50,7 +51,7 @@ namespace Anathema.GUI
 
         private void UpdateReadBounds()
         {
-            using (TimedLock.Lock(AccessLock))
+            // using (TimedLock.Lock(AccessLock))
             {
                 ControlThreadingHelper.InvokeControlAction(ResultsListView, () =>
                 {

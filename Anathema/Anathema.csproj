@@ -238,6 +238,7 @@
     <Compile Include="Source\Utils\Extensions\IntExtensions.cs" />
     <Compile Include="Source\Utils\Extensions\IntPtrExtensions.cs" />
     <Compile Include="Source\Utils\Cache\ObjectCache.cs" />
+    <Compile Include="Source\Utils\Extensions\PrimitiveExtensions.cs" />
     <Compile Include="Source\Utils\MessageBoxEx.cs" />
     <Compile Include="Source\Utils\Extensions\ObjectExtensions.cs" />
     <Compile Include="Source\Utils\OS\Architecture\Architecture.cs" />

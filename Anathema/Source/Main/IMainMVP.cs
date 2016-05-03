@@ -29,6 +29,7 @@ namespace Anathema
         // Events triggered by the model (upstream)
         event MainEventHandler EventUpdateProcessTitle;
         event MainEventHandler EventUpdateProgress;
+        event MainEventHandler EventFinishProgress;
         event MainEventHandler EventOpenScriptEditor;
         event MainEventHandler EventOpenLabelThresholder;
 
@@ -42,16 +43,19 @@ namespace Anathema
     class MainPresenter : Presenter<IMainView, IMainModel>
     {
         private List<ProgressItem> PendingActions;
+        private Object AccessLock;
 
         public MainPresenter(IMainView View, IMainModel Model) : base(View, Model)
         {
             PendingActions = new List<ProgressItem>();
+            AccessLock = new Object();
 
             // Bind events triggered by the model
-            Model.EventUpdateProcessTitle += UpdateProcessTitle;
-            Model.EventUpdateProgress += UpdateProgress;
-            Model.EventOpenScriptEditor += OpenScriptEditor;
-            Model.EventOpenLabelThresholder += OpenLabelThresholder;
+            Model.EventUpdateProcessTitle += EventUpdateProcessTitle;
+            Model.EventUpdateProgress += EventUpdateProgress;
+            Model.EventFinishProgress += EventFinishProgress;
+            Model.EventOpenScriptEditor += EventOpenScriptEditor;
+            Model.EventOpenLabelThresholder += EventOpenLabelThresholder;
         }
 
         #region Method definitions called by the view (downstream)
@@ -75,33 +79,51 @@ namespace Anathema
 
         #region Event definitions for events triggered by the model (upstream)
 
-        private void UpdateProcessTitle(Object Sender, MainEventArgs E)
+        private void EventUpdateProcessTitle(Object Sender, MainEventArgs E)
         {
             Task.Run(() => { View.UpdateProcessTitle(E.ProcessTitle); });
         }
 
-        private void UpdateProgress(Object Sender, MainEventArgs E)
+        private void EventUpdateProgress(Object Sender, MainEventArgs E)
         {
-            Task.Run(() =>
+            using (TimedLock.Lock(AccessLock))
             {
-                if (E.ProgressItem.ActionComplete() && PendingActions.Contains(E.ProgressItem))
-                    PendingActions.Remove(E.ProgressItem);
-                else if (!E.ProgressItem.ActionComplete() && !PendingActions.Contains(E.ProgressItem))
-                    PendingActions.Add(E.ProgressItem);
+                Task.Run(() =>
+                {
+                    if (!PendingActions.Contains(E.ProgressItem))
+                        PendingActions.Add(E.ProgressItem);
 
-                if (PendingActions.Count > 0)
-                    View.UpdateProgress(PendingActions[0]);
-                else
-                    View.UpdateProgress(null);
-            });
+                    if (PendingActions.Count > 0)
+                        View.UpdateProgress(PendingActions[0]);
+                    else
+                        View.UpdateProgress(null);
+                });
+            }
         }
 
-        private void OpenScriptEditor(Object Sender, MainEventArgs E)
+        private void EventFinishProgress(Object Sender, MainEventArgs E)
+        {
+            using (TimedLock.Lock(AccessLock))
+            {
+                Task.Run(() =>
+                {
+                    if (PendingActions.Contains(E.ProgressItem))
+                        PendingActions.Remove(E.ProgressItem);
+
+                    if (PendingActions.Count > 0)
+                        View.UpdateProgress(PendingActions[0]);
+                    else
+                        View.UpdateProgress(null);
+                });
+            }
+        }
+
+        private void EventOpenScriptEditor(Object Sender, MainEventArgs E)
         {
             Task.Run(() => { View.OpenScriptEditor(); });
         }
 
-        private void OpenLabelThresholder(Object Sender, MainEventArgs E)
+        private void EventOpenLabelThresholder(Object Sender, MainEventArgs E)
         {
             Task.Run(() => { View.OpenLabelThresholder(); });
         }

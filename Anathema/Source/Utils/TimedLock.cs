@@ -5,68 +5,74 @@ namespace Anathema.Source.Utils
 {
     public struct TimedLock : IDisposable
     {
-        public static TimedLock Lock(object o)
+        public static TimedLock Lock(Object Object)
         {
-            return Lock(o, TimeSpan.FromSeconds(10));
+#if DEBUG
+            return Lock(Object, TimeSpan.FromSeconds(10));
+#else
+            return Lock(Object, TimeSpan.FromSeconds(1000));
+#endif
         }
 
-        public static TimedLock Lock(object o, TimeSpan timeout)
+        public static TimedLock Lock(Object Object, TimeSpan Timeout)
         {
-            TimedLock tl = new TimedLock(o);
-            if (!Monitor.TryEnter(o, timeout))
+            TimedLock TimedLock = new TimedLock(Object);
+            if (!Monitor.TryEnter(Object, Timeout))
             {
 #if DEBUG
-            System.GC.SuppressFinalize(tl.leakDetector);
+                System.GC.SuppressFinalize(TimedLock.LeakDetector);
 #endif
                 throw new LockTimeoutException();
             }
 
-            return tl;
+            return TimedLock;
         }
 
-        private TimedLock(object o)
+        private TimedLock(Object Object)
         {
-            target = o;
+            Target = Object;
 #if DEBUG
-        leakDetector = new Sentinel();
+            LeakDetector = new Sentinel();
 #endif
         }
-        private object target;
+        private object Target;
 
         public void Dispose()
         {
-            Monitor.Exit(target);
+            if (Target != null)
+                Monitor.Exit(Target);
 
             // It's a bad error if someone forgets to call Dispose,
             // so in Debug builds, we put a finalizer in to detect
             // the error. If Dispose is called, we suppress the
             // finalizer.
 #if DEBUG
-        GC.SuppressFinalize(leakDetector);
+            if (LeakDetector != null)
+                GC.SuppressFinalize(LeakDetector);
 #endif
         }
 
 #if DEBUG
-    // (In Debug mode, we make it a class so that we can add a finalizer
-    // in order to detect when the object is not freed.)
-    private class Sentinel
-    {
-        ~Sentinel()
+        // (In Debug mode, we make it a class so that we can add a finalizer
+        // in order to detect when the object is not freed.)
+        private class Sentinel
         {
-            // If this finalizer runs, someone somewhere failed to
-            // call Dispose, which means we've failed to leave
-            // a monitor!
-            System.Diagnostics.Debug.Fail("Undisposed lock");
+            ~Sentinel()
+            {
+                // If this finalizer runs, someone somewhere failed to
+                // call Dispose, which means we've failed to leave
+                // a monitor!
+                System.Diagnostics.Debug.Fail("Undisposed lock");
+            }
         }
-    }
-    private Sentinel leakDetector;
+        private Sentinel LeakDetector;
 #endif
 
     }
     public class LockTimeoutException : ApplicationException
     {
-        public LockTimeoutException() : base("Timeout waiting for lock")
-        {
-        }
-    }
-}
+        public LockTimeoutException() : base("Timeout waiting for lock") { }
+
+    } // End class
+
+} // End namespace

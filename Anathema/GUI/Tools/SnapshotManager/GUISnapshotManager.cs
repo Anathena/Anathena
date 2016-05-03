@@ -70,39 +70,36 @@ namespace Anathema
 
         private void SnapshotListView_RetrieveVirtualItem(Object Sender, RetrieveVirtualItemEventArgs E)
         {
-            using (TimedLock.Lock(AccessLock))
+            ListViewItem Item = ListViewCache.Get((UInt64)E.ItemIndex);
+
+            if (Item != null)
             {
-                ListViewItem Item = ListViewCache.Get((UInt64)E.ItemIndex);
-
-                if (Item != null)
-                {
-                    E.Item = Item;
-                    return;
-                }
-
-                Snapshot Snapshot = SnapshotManagerPresenter.GetSnapshotAtIndex(E.ItemIndex);
-
-
-                Item = ListViewCache.Add(E.ItemIndex, new String[SnapshotListView.Columns.Count]);
-
-                Item.ForeColor = (E.ItemIndex + 1 > SnapshotCount) ? Color.LightGray : SystemColors.ControlText;
-                Item.BackColor = (E.ItemIndex + 1 == SnapshotCount) ? SystemColors.Highlight : SystemColors.Control;
-
-                if (Snapshot == null)
-                {
-                    Item.SubItems[SnapshotListView.Columns.IndexOf(ScanMethodHeader)].Text = NewScanText;
-                    Item.SubItems[SnapshotListView.Columns.IndexOf(SizeHeader)].Text = EmptyEntry;
-                    Item.SubItems[SnapshotListView.Columns.IndexOf(TimeStampHeader)].Text = EmptyEntry;
-                }
-                else
-                {
-                    Item.SubItems[SnapshotListView.Columns.IndexOf(ScanMethodHeader)].Text = Snapshot.GetScanMethod();
-                    Item.SubItems[SnapshotListView.Columns.IndexOf(SizeHeader)].Text = Conversions.BytesToMetric(Snapshot.GetMemorySize());
-                    Item.SubItems[SnapshotListView.Columns.IndexOf(TimeStampHeader)].Text = Snapshot.GetTimeStamp().ToLongTimeString();
-                }
-
                 E.Item = Item;
+                return;
             }
+
+            Snapshot Snapshot = SnapshotManagerPresenter.GetSnapshotAtIndex(E.ItemIndex);
+
+
+            Item = ListViewCache.Add(E.ItemIndex, new String[SnapshotListView.Columns.Count]);
+
+            Item.ForeColor = (E.ItemIndex + 1 > SnapshotCount) ? Color.LightGray : SystemColors.ControlText;
+            Item.BackColor = (E.ItemIndex + 1 == SnapshotCount) ? SystemColors.Highlight : SystemColors.Control;
+
+            if (Snapshot == null)
+            {
+                Item.SubItems[SnapshotListView.Columns.IndexOf(ScanMethodHeader)].Text = NewScanText;
+                Item.SubItems[SnapshotListView.Columns.IndexOf(SizeHeader)].Text = EmptyEntry;
+                Item.SubItems[SnapshotListView.Columns.IndexOf(TimeStampHeader)].Text = EmptyEntry;
+            }
+            else
+            {
+                Item.SubItems[SnapshotListView.Columns.IndexOf(ScanMethodHeader)].Text = Snapshot.GetScanMethod();
+                Item.SubItems[SnapshotListView.Columns.IndexOf(SizeHeader)].Text = Conversions.BytesToMetric(Snapshot.GetMemorySize());
+                Item.SubItems[SnapshotListView.Columns.IndexOf(TimeStampHeader)].Text = Snapshot.GetTimeStamp().ToLongTimeString();
+            }
+
+            E.Item = Item;
         }
 
         private void NewSnapshotButton_Click(Object Sender, EventArgs E)

@@ -47,14 +47,14 @@ namespace Anathema.GUI
         // HELP ITEMS
         private GUIRegistration GUIRegistration;
 
-        private Object GUILock;
+        private Object AccessLock;
 
         public GUIMain()
         {
             InitializeComponent();
 
             MainPresenter = new MainPresenter(this, Main.GetInstance());
-            GUILock = new Object();
+            AccessLock = new Object();
 
             InitializeTheme();
             InitializeStatus();
@@ -107,7 +107,7 @@ namespace Anathema.GUI
         /// <param name="ProcessTitle"></param>
         public void UpdateProcessTitle(String ProcessTitle)
         {
-            lock (GUILock)
+            using (TimedLock.Lock(AccessLock))
             {
                 // Update process text
                 ControlThreadingHelper.InvokeControlAction(GUIToolStrip, () =>
@@ -119,7 +119,7 @@ namespace Anathema.GUI
 
         public void UpdateProgress(ProgressItem ProgressItem)
         {
-            lock (GUILock)
+            using (TimedLock.Lock(AccessLock))
             {
                 ControlThreadingHelper.InvokeControlAction(GUIStatusStrip, () =>
                 {
@@ -156,7 +156,7 @@ namespace Anathema.GUI
             FileVersionInfo FileVersionInfo = FileVersionInfo.GetVersionInfo(Assembly.Location);
             String[] CurrentVersion = FileVersionInfo.ProductVersion.Split('.');
 
-            lock (GUILock)
+            using (TimedLock.Lock(AccessLock))
             {
                 this.Text += " " + CurrentVersion[0] + "." + CurrentVersion[1] + " " + "Beta";
 
@@ -191,7 +191,7 @@ namespace Anathema.GUI
                 TimeSpan RemainingTime = RegistrationManager.GetInstance().GetRemainingTime();
 
                 // Append trial mode remaining time
-                lock (GUILock)
+                using (TimedLock.Lock(AccessLock))
                 {
                     this.Text += " - Trial Mode";
                 }
@@ -208,7 +208,7 @@ namespace Anathema.GUI
 
         private void CreateTools()
         {
-            lock (GUILock)
+            using (TimedLock.Lock(AccessLock))
             {
                 if (File.Exists(ConfigFile))
                 {
@@ -240,7 +240,7 @@ namespace Anathema.GUI
 
         private void CreateCheatBrowser()
         {
-            lock (GUILock)
+            using (TimedLock.Lock(AccessLock))
             {
                 if (GUICheatBrowser == null || GUICheatBrowser.IsDisposed)
                     GUICheatBrowser = new GUICheatBrowser();
@@ -254,7 +254,7 @@ namespace Anathema.GUI
 
         private void CreateCodeView()
         {
-            lock (GUILock)
+            using (TimedLock.Lock(AccessLock))
             {
                 if (GUICodeView == null || GUICodeView.IsDisposed)
                     GUICodeView = new GUICodeView();
@@ -268,7 +268,7 @@ namespace Anathema.GUI
 
         private void CreateMemoryView()
         {
-            lock (GUILock)
+            using (TimedLock.Lock(AccessLock))
             {
                 if (GUIMemoryView == null || GUIMemoryView.IsDisposed)
                     GUIMemoryView = new GUIMemoryView();
@@ -282,7 +282,7 @@ namespace Anathema.GUI
 
         private void CreateFiniteStateScanner()
         {
-            lock (GUILock)
+            using (TimedLock.Lock(AccessLock))
             {
                 if (GUIFiniteStateScanner == null || GUIFiniteStateScanner.IsDisposed)
                     GUIFiniteStateScanner = new GUIFiniteStateScanner();
@@ -296,7 +296,7 @@ namespace Anathema.GUI
 
         private void CreateManualScanner()
         {
-            lock (GUILock)
+            using (TimedLock.Lock(AccessLock))
             {
                 if (GUIManualScanner == null || GUIManualScanner.IsDisposed)
                     GUIManualScanner = new GUIManualScanner();
@@ -310,7 +310,7 @@ namespace Anathema.GUI
 
         private void CreateTreeScanner()
         {
-            lock (GUILock)
+            using (TimedLock.Lock(AccessLock))
             {
                 if (GUITreeScanner == null || GUITreeScanner.IsDisposed)
                     GUITreeScanner = new GUITreeScanner();
@@ -324,7 +324,7 @@ namespace Anathema.GUI
 
         private void CreateChunkScanner()
         {
-            lock (GUILock)
+            using (TimedLock.Lock(AccessLock))
             {
                 if (GUIChunkScanner == null || GUIChunkScanner.IsDisposed)
                     GUIChunkScanner = new GUIChunkScanner();
@@ -338,7 +338,7 @@ namespace Anathema.GUI
 
         private void CreateInputCorrelator()
         {
-            lock (GUILock)
+            using (TimedLock.Lock(AccessLock))
             {
                 if (GUIInputCorrelator == null || GUIInputCorrelator.IsDisposed)
                     GUIInputCorrelator = new GUIInputCorrelator();
@@ -352,7 +352,7 @@ namespace Anathema.GUI
 
         private void CreateChangeCounter()
         {
-            lock (GUILock)
+            using (TimedLock.Lock(AccessLock))
             {
                 if (GUIChangeCounter == null || GUIChangeCounter.IsDisposed)
                     GUIChangeCounter = new GUIChangeCounter();
@@ -366,7 +366,7 @@ namespace Anathema.GUI
 
         private void CreateLabelThresholder()
         {
-            lock (GUILock)
+            using (TimedLock.Lock(AccessLock))
             {
                 if (GUILabelThresholder == null || GUILabelThresholder.IsDisposed)
                     GUILabelThresholder = new GUILabelThresholder();
@@ -380,7 +380,7 @@ namespace Anathema.GUI
 
         private void CreatePointerScanner()
         {
-            lock (GUILock)
+            using (TimedLock.Lock(AccessLock))
             {
                 if (GUIPointerScanner == null || GUIPointerScanner.IsDisposed)
                     GUIPointerScanner = new GUIPointerScanner();
@@ -394,7 +394,7 @@ namespace Anathema.GUI
 
         private void CreateSnapshotManager()
         {
-            lock (GUILock)
+            using (TimedLock.Lock(AccessLock))
             {
                 if (GUISnapshotManager == null || GUISnapshotManager.IsDisposed)
                     GUISnapshotManager = new GUISnapshotManager();
@@ -408,7 +408,7 @@ namespace Anathema.GUI
 
         private void CreateResults()
         {
-            lock (GUILock)
+            using (TimedLock.Lock(AccessLock))
             {
                 if (GUIResults == null || GUIResults.IsDisposed)
                     GUIResults = new GUIResults();
@@ -422,7 +422,7 @@ namespace Anathema.GUI
 
         private void CreateTable()
         {
-            lock (GUILock)
+            using (TimedLock.Lock(AccessLock))
             {
                 if (GUITable == null || GUITable.IsDisposed)
                     GUITable = new GUITable();
@@ -436,7 +436,7 @@ namespace Anathema.GUI
 
         private void CreateProcessSelector()
         {
-            lock (GUILock)
+            using (TimedLock.Lock(AccessLock))
             {
                 if (GUIProcessSelector == null || GUIProcessSelector.IsDisposed)
                     GUIProcessSelector = new GUIProcessSelector();
@@ -450,7 +450,7 @@ namespace Anathema.GUI
 
         private void CreateScriptEditor()
         {
-            lock (GUILock)
+            using (TimedLock.Lock(AccessLock))
             {
                 if (GUIScriptEditor == null || GUIScriptEditor.IsDisposed)
                     GUIScriptEditor = new GUIScriptEditor();
@@ -464,7 +464,7 @@ namespace Anathema.GUI
 
         private void CreateRegistration()
         {
-            lock (GUILock)
+            using (TimedLock.Lock(AccessLock))
             {
                 if (GUIRegistration == null || GUIRegistration.IsDisposed)
                     GUIRegistration = new GUIRegistration();
@@ -478,7 +478,7 @@ namespace Anathema.GUI
 
         private void CreateSettings()
         {
-            lock (GUILock)
+            using (TimedLock.Lock(AccessLock))
             {
                 if (GUISettings == null || GUISettings.IsDisposed)
                     GUISettings = new GUISettings();
@@ -624,7 +624,7 @@ namespace Anathema.GUI
         private void GUIMenuStrip_MenuActivate(Object Sender, EventArgs E)
         {
             // Check / uncheck items if the windows are open
-            lock (GUILock)
+            using (TimedLock.Lock(AccessLock))
             {
                 CheatBrowserToolStripMenuItem.Checked = (GUICheatBrowser == null || GUICheatBrowser.IsDisposed) ? false : true;
                 ProcessSelectorToolStripMenuItem.Checked = (GUIProcessSelector == null || GUIProcessSelector.IsDisposed) ? false : true;
@@ -650,7 +650,7 @@ namespace Anathema.GUI
         private void GUIMain_FormClosing(Object Sender, FormClosingEventArgs E)
         {
             // Give the table a chance to ask to save changes
-            lock (GUILock)
+            using (TimedLock.Lock(AccessLock))
             {
                 if (GUITable != null && !GUITable.IsDisposed)
                     GUITable.Close();

@@ -12,6 +12,7 @@ namespace Anathema
 
         public event MainEventHandler EventUpdateProcessTitle;
         public event MainEventHandler EventUpdateProgress;
+        public event MainEventHandler EventFinishProgress;
         public event MainEventHandler EventOpenScriptEditor;
         public event MainEventHandler EventOpenLabelThresholder;
 
@@ -46,6 +47,13 @@ namespace Anathema
             MainEventArgs MainEventArgs = new MainEventArgs();
             MainEventArgs.ProgressItem = ProgressItem;
             EventUpdateProgress?.Invoke(this, MainEventArgs);
+        }
+
+        public void FinishActionProgress(ProgressItem ProgressItem)
+        {
+            MainEventArgs MainEventArgs = new MainEventArgs();
+            MainEventArgs.ProgressItem = ProgressItem;
+            EventFinishProgress?.Invoke(this, MainEventArgs);
         }
 
         public void OpenScriptEditor()
