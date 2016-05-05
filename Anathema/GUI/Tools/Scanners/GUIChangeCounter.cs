@@ -29,13 +29,10 @@ namespace Anathema.GUI
 
         public void DisplayScanCount(Int32 ScanCount)
         {
-            using (TimedLock.Lock(AccessLock))
+            ControlThreadingHelper.InvokeControlAction(ScanToolStrip, () =>
             {
-                ControlThreadingHelper.InvokeControlAction(ScanToolStrip, () =>
-                {
-                    ScanCountLabel.Text = "Scan Count: " + ScanCount.ToString();
-                });
-            }
+                ScanCountLabel.Text = "Scan Count: " + ScanCount.ToString();
+            });
         }
 
         private void SetMinChanges()
@@ -108,14 +105,11 @@ namespace Anathema.GUI
 
         private void HandleResize()
         {
-            using (TimedLock.Lock(AccessLock))
-            {
-                MinChangesTrackBar.Width = (this.Width - MinChangesTrackBar.Location.X) / 2;
-                MaxChangesTrackBar.Location = new Point(MinChangesTrackBar.Location.X + MinChangesTrackBar.Width, MaxChangesTrackBar.Location.Y);
-                MaxChangesTrackBar.Width = MinChangesTrackBar.Width;
+            MinChangesTrackBar.Width = (this.Width - MinChangesTrackBar.Location.X) / 2;
+            MaxChangesTrackBar.Location = new Point(MinChangesTrackBar.Location.X + MinChangesTrackBar.Width, MaxChangesTrackBar.Location.Y);
+            MaxChangesTrackBar.Width = MinChangesTrackBar.Width;
 
-                VariableSizeTrackBar.Width = (this.Width - VariableSizeTrackBar.Location.X) / 2;
-            }
+            VariableSizeTrackBar.Width = (this.Width - VariableSizeTrackBar.Location.X) / 2;
         }
 
         #region Events

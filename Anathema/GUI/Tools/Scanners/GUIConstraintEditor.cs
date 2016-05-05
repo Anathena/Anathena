@@ -59,43 +59,37 @@ namespace Anathema.GUI
 
         private void InitializeValueTypeComboBox()
         {
-            using (TimedLock.Lock(AccessLock))
-            {
-                foreach (Type Primitive in PrimitiveTypes.GetPrimitiveTypes())
-                    ValueTypeComboBox.Items.Add(Primitive.Name);
+            foreach (Type Primitive in PrimitiveTypes.GetPrimitiveTypes())
+                ValueTypeComboBox.Items.Add(Primitive.Name);
 
-                ValueTypeComboBox.SelectedIndex = ValueTypeComboBox.Items.IndexOf(typeof(Int32).Name);
-            }
+            ValueTypeComboBox.SelectedIndex = ValueTypeComboBox.Items.IndexOf(typeof(Int32).Name);
         }
 
         private void UpdateScanOptions(ToolStripMenuItem Sender, ConstraintsEnum ValueConstraint, Boolean AddNewConstraint = true)
         {
-            using (TimedLock.Lock(AccessLock))
+            switch (ValueConstraint)
             {
-                switch (ValueConstraint)
-                {
-                    case ConstraintsEnum.Changed:
-                    case ConstraintsEnum.Unchanged:
-                    case ConstraintsEnum.Decreased:
-                    case ConstraintsEnum.Increased:
-                    case ConstraintsEnum.NotScientificNotation:
-                        ValueRequired = false;
-                        break;
-                    case ConstraintsEnum.Invalid:
-                    case ConstraintsEnum.GreaterThan:
-                    case ConstraintsEnum.GreaterThanOrEqual:
-                    case ConstraintsEnum.LessThan:
-                    case ConstraintsEnum.LessThanOrEqual:
-                    case ConstraintsEnum.Equal:
-                    case ConstraintsEnum.NotEqual:
-                    case ConstraintsEnum.IncreasedByX:
-                    case ConstraintsEnum.DecreasedByX:
-                        ValueRequired = true;
-                        break;
-                }
-
-                ScanConstraintEditorPresenter.SetCurrentValueConstraint(ValueConstraint);
+                case ConstraintsEnum.Changed:
+                case ConstraintsEnum.Unchanged:
+                case ConstraintsEnum.Decreased:
+                case ConstraintsEnum.Increased:
+                case ConstraintsEnum.NotScientificNotation:
+                    ValueRequired = false;
+                    break;
+                case ConstraintsEnum.Invalid:
+                case ConstraintsEnum.GreaterThan:
+                case ConstraintsEnum.GreaterThanOrEqual:
+                case ConstraintsEnum.LessThan:
+                case ConstraintsEnum.LessThanOrEqual:
+                case ConstraintsEnum.Equal:
+                case ConstraintsEnum.NotEqual:
+                case ConstraintsEnum.IncreasedByX:
+                case ConstraintsEnum.DecreasedByX:
+                    ValueRequired = true;
+                    break;
             }
+
+            ScanConstraintEditorPresenter.SetCurrentValueConstraint(ValueConstraint);
 
             if (AddNewConstraint)
                 AddConstraint();
@@ -103,22 +97,22 @@ namespace Anathema.GUI
 
         public void UpdateDisplay(IEnumerable<ListViewItem> ListViewItems, ImageList ImageList)
         {
-            using (TimedLock.Lock(AccessLock))
+            ControlThreadingHelper.InvokeControlAction(ConstraintsListView, () =>
             {
-                ControlThreadingHelper.InvokeControlAction(ConstraintsListView, () =>
+                using (TimedLock.Lock(AccessLock))
                 {
                     ConstraintsListView.Items.Clear();
                     ListViewItems?.ForEach(X => ConstraintsListView.Items.Add(X));
                     ConstraintsListView.SmallImageList = ImageList;
-                });
-            }
+                }
+            });
         }
 
         public void RemoveRelativeScans()
         {
-            using (TimedLock.Lock(AccessLock))
+            ControlThreadingHelper.InvokeControlAction(ScanOptionsToolStripDropDownButton.GetCurrentParent(), () =>
             {
-                ControlThreadingHelper.InvokeControlAction(ScanOptionsToolStripDropDownButton.GetCurrentParent(), () =>
+                using (TimedLock.Lock(AccessLock))
                 {
                     ScanOptionsToolStripDropDownButton.DropDownItems.Remove(ChangedToolStripMenuItem);
                     ScanOptionsToolStripDropDownButton.DropDownItems.Remove(UnchangedToolStripMenuItem);
@@ -126,8 +120,8 @@ namespace Anathema.GUI
                     ScanOptionsToolStripDropDownButton.DropDownItems.Remove(DecreasedByToolStripMenuItem);
                     ScanOptionsToolStripDropDownButton.DropDownItems.Remove(IncreasedByToolStripMenuItem);
                     ScanOptionsToolStripDropDownButton.DropDownItems.Remove(DecreasedByToolStripMenuItem);
-                });
-            }
+                }
+            });
         }
 
         public ToolStrip AcquireToolStrip()
@@ -139,12 +133,15 @@ namespace Anathema.GUI
 
                 ControlThreadingHelper.InvokeControlAction(this, () =>
                 {
-                    this.Controls.Remove(ConstraintToolStrip);
+                    using (TimedLock.Lock(AccessLock))
+                    {
+                        this.Controls.Remove(ConstraintToolStrip);
 
-                    ValueTextBox.Location = new Point(ValueTextBox.Location.X, ValueTextBox.Location.Y - ConstraintToolStrip.Height);
-                    ValueTypeComboBox.Location = new Point(ValueTypeComboBox.Location.X, ValueTypeComboBox.Location.Y - ConstraintToolStrip.Height);
-                    ConstraintsListView.Location = new Point(ConstraintsListView.Location.X, ConstraintsListView.Location.Y - ConstraintToolStrip.Height);
-                    ConstraintsListView.Height += ConstraintToolStrip.Height;
+                        ValueTextBox.Location = new Point(ValueTextBox.Location.X, ValueTextBox.Location.Y - ConstraintToolStrip.Height);
+                        ValueTypeComboBox.Location = new Point(ValueTypeComboBox.Location.X, ValueTypeComboBox.Location.Y - ConstraintToolStrip.Height);
+                        ConstraintsListView.Location = new Point(ConstraintsListView.Location.X, ConstraintsListView.Location.Y - ConstraintToolStrip.Height);
+                        ConstraintsListView.Height += ConstraintToolStrip.Height;
+                    }
                 });
 
                 return ConstraintToolStrip;
@@ -158,26 +155,26 @@ namespace Anathema.GUI
 
         public void SetElementType(Type ElementType)
         {
-            using (TimedLock.Lock(AccessLock))
+            ControlThreadingHelper.InvokeControlAction(ValueTextBox, () =>
             {
-                ControlThreadingHelper.InvokeControlAction(ValueTextBox, () =>
+                using (TimedLock.Lock(AccessLock))
                 {
                     ScanConstraintEditorPresenter.SetElementType(ElementType);
                     ValueTextBox.SetElementType(ElementType);
-                });
-            }
+                }
+            });
         }
 
         private void AddConstraint()
         {
-            using (TimedLock.Lock(AccessLock))
+            ControlThreadingHelper.InvokeControlAction(ValueTextBox, () =>
             {
-                ControlThreadingHelper.InvokeControlAction(ValueTextBox, () =>
+                using (TimedLock.Lock(AccessLock))
                 {
                     if (!ValueRequired || ValueTextBox.IsValid())
                         ScanConstraintEditorPresenter.AddConstraint(ValueTextBox.GetValueAsDecimal());
-                });
-            }
+                }
+            });
         }
 
         #region Events

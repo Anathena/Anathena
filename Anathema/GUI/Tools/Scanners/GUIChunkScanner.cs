@@ -23,32 +23,31 @@ namespace Anathema.GUI
 
         public void DisplayScanCount(Int32 ScanCount)
         {
-            using (TimedLock.Lock(AccessLock))
+            ControlThreadingHelper.InvokeControlAction(ScanCountLabel.GetCurrentParent(), () =>
             {
-                ControlThreadingHelper.InvokeControlAction(ScanToolStrip, () =>
+                using (TimedLock.Lock(AccessLock))
                 {
                     ScanCountLabel.Text = "Scan Count: " + ScanCount.ToString();
-                });
-            }
+                }
+            });
         }
 
         private void SetMinChanges()
         {
-            using (TimedLock.Lock(AccessLock))
+            ControlThreadingHelper.InvokeControlAction(MinChangesValueLabel, () =>
             {
-                Int32 MinChanges = MinChangesTrackBar.Value;
-                MinChangesValueLabel.Text = MinChanges.ToString();
-
-                ChunkScannerPresenter.SetMinChanges(MinChanges);
-            }
+                using (TimedLock.Lock(AccessLock))
+                {
+                    Int32 MinChanges = MinChangesTrackBar.Value;
+                    MinChangesValueLabel.Text = MinChanges.ToString();
+                    ChunkScannerPresenter.SetMinChanges(MinChanges);
+                }
+            });
         }
 
         private void HandleResize()
         {
-            using (TimedLock.Lock(AccessLock))
-            {
-                MinChangesTrackBar.Width = (this.Width - MinChangesTrackBar.Location.X) / 2;
-            }
+            MinChangesTrackBar.Width = (this.Width - MinChangesTrackBar.Location.X) / 2;
         }
 
         private void DisableGUI()
@@ -83,12 +82,12 @@ namespace Anathema.GUI
             EnableGUI();
         }
 
-        private void GUIFilterChunks_Resize(object sender, EventArgs e)
+        private void GUIFilterChunks_Resize(Object Sender, EventArgs E)
         {
             HandleResize();
         }
 
-        private void MinChangesTrackBar_Scroll(object sender, EventArgs e)
+        private void MinChangesTrackBar_Scroll(Object Sender, EventArgs E)
         {
             SetMinChanges();
         }

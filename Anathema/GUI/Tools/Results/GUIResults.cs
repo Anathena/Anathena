@@ -26,39 +26,40 @@ namespace Anathema.GUI
 
         public void UpdateMemorySizeLabel(String MemorySize, String ItemCount)
         {
-            using (TimedLock.Lock(AccessLock))
+            ControlThreadingHelper.InvokeControlAction(SnapshotSizeValueLabel.GetCurrentParent(), () =>
             {
-                ControlThreadingHelper.InvokeControlAction(SnapshotSizeValueLabel.GetCurrentParent(), () =>
-                {
-                    SnapshotSizeValueLabel.Text = MemorySize + " - (" + ItemCount + ")";
-                });
-            }
+                SnapshotSizeValueLabel.Text = MemorySize + " - (" + ItemCount + ")";
+            });
         }
 
         public void UpdateItemCount(Int32 ItemCount)
         {
-            using (TimedLock.Lock(AccessLock))
+            ControlThreadingHelper.InvokeControlAction(ResultsListView, () =>
             {
-                ControlThreadingHelper.InvokeControlAction(ResultsListView, () =>
+                using (TimedLock.Lock(AccessLock))
                 {
                     ResultsListView.BeginUpdate();
                     ResultsListView.SetItemCount(ItemCount);
                     ListViewCache.FlushCache();
                     ResultsListView.EndUpdate();
-                });
-            }
+                }
+            });
         }
 
         private void UpdateReadBounds()
         {
-            // using (TimedLock.Lock(AccessLock))
+            Tuple<Int32, Int32> ReadBounds = null;
+
+            ControlThreadingHelper.InvokeControlAction(ResultsListView, () =>
             {
-                ControlThreadingHelper.InvokeControlAction(ResultsListView, () =>
+                using (TimedLock.Lock(AccessLock))
                 {
-                    Tuple<Int32, Int32> ReadBounds = ResultsListView.GetReadBounds();
-                    ResultsPresenter.UpdateReadBounds(ReadBounds.Item1, ReadBounds.Item2);
-                });
-            }
+                    ReadBounds = ResultsListView.GetReadBounds();
+                }
+            });
+
+            if (ReadBounds != null)
+                ResultsPresenter.UpdateReadBounds(ReadBounds.Item1, ReadBounds.Item2);
         }
 
         public void SetEnabled(Boolean IsEnabled)
@@ -81,29 +82,29 @@ namespace Anathema.GUI
         {
             UpdateReadBounds();
 
-            using (TimedLock.Lock(AccessLock))
+            // Force the list view to retrieve items again by signaling an update
+            ControlThreadingHelper.InvokeControlAction(ResultsListView, () =>
             {
-                // Force the list view to retrieve items again by signaling an update
-                ControlThreadingHelper.InvokeControlAction(ResultsListView, () =>
+                using (TimedLock.Lock(AccessLock))
                 {
                     ResultsListView.BeginUpdate();
                     ResultsListView.EndUpdate();
-                });
-            }
+                }
+            });
         }
 
         private void AddSelectedElements()
         {
-            using (TimedLock.Lock(AccessLock))
+            ControlThreadingHelper.InvokeControlAction(ResultsListView, () =>
             {
-                ControlThreadingHelper.InvokeControlAction(ResultsListView, () =>
+                using (TimedLock.Lock(AccessLock))
                 {
                     if (ResultsListView.SelectedIndices.Count <= 0)
                         return;
 
                     ResultsPresenter.AddSelectionToTable(ResultsListView.SelectedIndices[0], ResultsListView.SelectedIndices[ResultsListView.SelectedIndices.Count - 1]);
-                });
-            }
+                }
+            });
         }
         #region Events
 

@@ -70,21 +70,21 @@ namespace Anathema.Services.Snapshots
 
         public void UpdateOSInterface(OSInterface OSInterface)
         {
+            this.OSInterface = OSInterface;
+
             // Clear processing queue on process update
             using (TimedLock.Lock(QueueLock))
-            // lock (QueueLock)
             {
-                this.OSInterface = OSInterface;
                 ChunkQueue = new Queue<RegionProperties>();
             }
         }
 
         public Snapshot GetPrefilteredSnapshot()
         {
+            List<SnapshotRegion> Regions = new List<SnapshotRegion>();
+
             using (TimedLock.Lock(QueueLock))
-            // lock (QueueLock)
             {
-                List<SnapshotRegion> Regions = new List<SnapshotRegion>();
                 foreach (RegionProperties VirtualPage in ChunkQueue)
                 {
                     if (VirtualPage.HasChanged())
@@ -94,15 +94,16 @@ namespace Anathema.Services.Snapshots
                         Regions.Add(NewRegion);
                     }
                 }
-
-                // Create snapshot from valid regions, do standard expand/mask operations to catch lost bytes for larger data types
-                Snapshot<Null> PrefilteredSnapshot = new Snapshot<Null>(Regions);
-                PrefilteredSnapshot.SetAlignment(Settings.GetInstance().GetAlignmentSettings());
-                PrefilteredSnapshot.ExpandAllRegionsOutward(PrimitiveTypes.GetLargestPrimitiveSize() - 1);
-                PrefilteredSnapshot = new Snapshot<Null>(PrefilteredSnapshot.MaskRegions(PrefilteredSnapshot, Regions));
-
-                return new Snapshot<Null>(Regions);
             }
+
+            // Create snapshot from valid regions, do standard expand/mask operations to catch lost bytes for larger data types
+            Snapshot<Null> PrefilteredSnapshot = new Snapshot<Null>(Regions);
+            PrefilteredSnapshot.SetAlignment(Settings.GetInstance().GetAlignmentSettings());
+            PrefilteredSnapshot.ExpandAllRegionsOutward(PrimitiveTypes.GetLargestPrimitiveSize() - 1);
+            PrefilteredSnapshot = new Snapshot<Null>(PrefilteredSnapshot.MaskRegions(PrefilteredSnapshot, Regions));
+
+            return new Snapshot<Null>(Regions);
+
         }
 
         public override void Begin()
@@ -124,115 +125,123 @@ namespace Anathema.Services.Snapshots
         /// </summary>
         private IEnumerable<RegionProperties> ResolvePages()
         {
+
+            List<RegionProperties> NewRegions = new List<RegionProperties>();
+
+            // Gather current regions from the target process
+            IEnumerable<NormalizedRegion> QueriedVirtualRegions = SnapshotManager.GetInstance().CollectSnapshotRegions();
+            List<NormalizedRegion> QueriedChunkedRegions = new List<NormalizedRegion>();
+
+            // Chunk all virtual regions into a standardized size
+            QueriedVirtualRegions.ForEach(x => QueriedChunkedRegions.AddRange(x.ChunkNormalizedRegion(ChunkSize)));
+
+            // Sort our lists (descending)
+            IOrderedEnumerable<NormalizedRegion> QueriedRegionsSorted = QueriedChunkedRegions.OrderByDescending(X => X.BaseAddress.ToUInt64());
+            IOrderedEnumerable<RegionProperties> CurrentRegionsSorted;
+
             using (TimedLock.Lock(QueueLock))
-            // lock (QueueLock)
             {
-                List<RegionProperties> NewRegions = new List<RegionProperties>();
+                CurrentRegionsSorted = ChunkQueue.OrderByDescending(X => X.BaseAddress.ToUInt64());
+            }
 
-                // Gather current regions from the target process
-                IEnumerable<NormalizedRegion> QueriedVirtualRegions = SnapshotManager.GetInstance().CollectSnapshotRegions();
-                List<NormalizedRegion> QueriedChunkedRegions = new List<NormalizedRegion>();
+            // Create comparison stacks
+            Stack<RegionProperties> CurrentRegionStack = new Stack<RegionProperties>();
+            Stack<NormalizedRegion> QueriedRegionStack = new Stack<NormalizedRegion>();
 
-                // Chunk all virtual regions into a standardized size
-                QueriedVirtualRegions.ForEach(x => QueriedChunkedRegions.AddRange(x.ChunkNormalizedRegion(ChunkSize)));
+            CurrentRegionsSorted.ForEach(X => CurrentRegionStack.Push(X));
+            QueriedRegionsSorted.ForEach(X => QueriedRegionStack.Push(X));
 
-                // Sort our lists (descending)
-                IOrderedEnumerable<RegionProperties> CurrentRegionsSorted = ChunkQueue.OrderByDescending(X => X.BaseAddress.ToUInt64());
-                IOrderedEnumerable<NormalizedRegion> QueriedRegionsSorted = QueriedChunkedRegions.OrderByDescending(X => X.BaseAddress.ToUInt64());
+            // Begin stack based comparison algorithm to resolve our chunk processing queue
+            NormalizedRegion QueriedRegion = QueriedRegionStack.Count == 0 ? null : QueriedRegionStack.Pop();
+            RegionProperties CurrentRegion = CurrentRegionStack.Count == 0 ? null : CurrentRegionStack.Pop();
 
-                // Create comparison stacks
-                Stack<RegionProperties> CurrentRegionStack = new Stack<RegionProperties>();
-                Stack<NormalizedRegion> QueriedRegionStack = new Stack<NormalizedRegion>();
-
-                CurrentRegionsSorted.ForEach(X => CurrentRegionStack.Push(X));
-                QueriedRegionsSorted.ForEach(X => QueriedRegionStack.Push(X));
-
-                // Begin stack based comparison algorithm to resolve our chunk processing queue
-                NormalizedRegion QueriedRegion = QueriedRegionStack.Count == 0 ? null : QueriedRegionStack.Pop();
-                RegionProperties CurrentRegion = CurrentRegionStack.Count == 0 ? null : CurrentRegionStack.Pop();
-
-                while (QueriedRegionStack.Count > 0 && CurrentRegionStack.Count > 0)
-                {
-                    // New region we have not seen yet
-                    if (QueriedRegion < CurrentRegion)
-                    {
-                        NewRegions.Add(new RegionProperties(QueriedRegion));
-
-                        QueriedRegion = QueriedRegionStack.Pop();
-                    }
-                    // Region that went missing (deallocated)
-                    else if (QueriedRegion > CurrentRegion)
-                    {
-                        CurrentRegion = CurrentRegionStack.Pop();
-                    }
-                    // Region we have already seen
-                    else
-                    {
-                        // Check for deallocation + reallocation of a different size
-                        if (CurrentRegion.RegionSize != QueriedRegion.RegionSize)
-                            NewRegions.Add(new RegionProperties(QueriedRegion));
-                        else
-                            NewRegions.Add(CurrentRegion);
-
-                        QueriedRegion = QueriedRegionStack.Pop();
-                        CurrentRegion = CurrentRegionStack.Pop();
-                    }
-                }
-
-                // Add remaining queried regions
-                while (QueriedRegionStack.Count > 0)
+            while (QueriedRegionStack.Count > 0 && CurrentRegionStack.Count > 0)
+            {
+                // New region we have not seen yet
+                if (QueriedRegion < CurrentRegion)
                 {
                     NewRegions.Add(new RegionProperties(QueriedRegion));
+
                     QueriedRegion = QueriedRegionStack.Pop();
                 }
+                // Region that went missing (deallocated)
+                else if (QueriedRegion > CurrentRegion)
+                {
+                    CurrentRegion = CurrentRegionStack.Pop();
+                }
+                // Region we have already seen
+                else
+                {
+                    // Check for deallocation + reallocation of a different size
+                    if (CurrentRegion.RegionSize != QueriedRegion.RegionSize)
+                        NewRegions.Add(new RegionProperties(QueriedRegion));
+                    else
+                        NewRegions.Add(CurrentRegion);
 
-                return NewRegions;
+                    QueriedRegion = QueriedRegionStack.Pop();
+                    CurrentRegion = CurrentRegionStack.Pop();
+                }
             }
+
+            // Add remaining queried regions
+            while (QueriedRegionStack.Count > 0)
+            {
+                NewRegions.Add(new RegionProperties(QueriedRegion));
+                QueriedRegion = QueriedRegionStack.Pop();
+            }
+
+            return NewRegions;
         }
 
         private void ProcessPages(IEnumerable<RegionProperties> NewPages)
         {
-            using (TimedLock.Lock(QueueLock))
-            // lock (QueueLock)
+            UpdateProgress(NewPages);
+
+            Queue<RegionProperties> OriginalQueue = ChunkQueue;
+
+            // Construct queue
+            Queue<RegionProperties> NewChunkQueue = new Queue<RegionProperties>();
+            IOrderedEnumerable<RegionProperties> QueriedRegionsSorted = NewPages.OrderBy(X => X.GetLastUpdatedTimeStamp());
+            QueriedRegionsSorted.ForEach(X => NewChunkQueue.Enqueue(X));
+
+            // Process the allowed amount of chunks from the priority queue
+            Parallel.For(0, Math.Min(NewChunkQueue.Count, ChunkLimit), Index =>
             {
-                UpdateProgress(NewPages);
+                Boolean Success;
+                RegionProperties RegionProperties;
 
-                // Construct queue
-                ChunkQueue = new Queue<RegionProperties>();
-                IOrderedEnumerable<RegionProperties> QueriedRegionsSorted = NewPages.OrderBy(X => X.GetLastUpdatedTimeStamp());
-                QueriedRegionsSorted.ForEach(X => ChunkQueue.Enqueue(X));
-
-                // Process the allowed amount of chunks from the priority queue
-                Parallel.For(0, Math.Min(ChunkQueue.Count, ChunkLimit), Index =>
+                // Search for next page that needs processing
+                using (TimedLock.Lock(ElementLock))
+                // lock (ElementLock)
                 {
-                    Boolean Success;
-                    RegionProperties RegionProperties;
-
-                    // Search for next page that needs processing
-                    using (TimedLock.Lock(ElementLock))
-                    // lock (ElementLock)
+                    do
                     {
-                        do
-                        {
-                            if (ChunkQueue.Count <= 0)
-                                return;
+                        if (NewChunkQueue.Count <= 0)
+                            return;
 
-                            RegionProperties = ChunkQueue.Dequeue();
-                            ChunkQueue.Enqueue(RegionProperties);
+                        RegionProperties = NewChunkQueue.Dequeue();
+                        NewChunkQueue.Enqueue(RegionProperties);
 
-                        } while (RegionProperties.HasChanged());
-                    }
+                    } while (RegionProperties.HasChanged());
+                }
 
-                    if (RegionProperties.HasChanged())
-                        return;
+                if (RegionProperties.HasChanged())
+                    return;
 
-                    Byte[] PageData = OSInterface.Process.ReadBytes(RegionProperties.BaseAddress, RegionProperties.RegionSize, out Success);
+                Byte[] PageData = OSInterface.Process.ReadBytes(RegionProperties.BaseAddress, RegionProperties.RegionSize, out Success);
 
-                    if (!Success)
-                        return;
+                if (!Success)
+                    return;
 
-                    RegionProperties.Update(PageData);
-                });
+                RegionProperties.Update(PageData);
+            });
+
+            using (TimedLock.Lock(QueueLock))
+            {
+                if (OriginalQueue != ChunkQueue)
+                    return;
+
+                ChunkQueue = NewChunkQueue;
             }
         }
 

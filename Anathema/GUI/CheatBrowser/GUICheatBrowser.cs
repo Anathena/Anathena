@@ -36,54 +36,67 @@ namespace Anathema.GUI
 
         private void InitializeBrowser()
         {
-            using (TimedLock.Lock(AccessLock))
-            {
-                BrowserHelper.GetInstance().InitializeBrowserStatic();
 
-                ControlThreadingHelper.InvokeControlAction(ContentPanel, () =>
+            BrowserHelper.GetInstance().InitializeBrowserStatic();
+
+            ControlThreadingHelper.InvokeControlAction(ContentPanel, () =>
+            {
+                using (TimedLock.Lock(AccessLock))
                 {
                     Browser = new GeckoWebBrowser();
                     Browser.Navigate(AnathemaCheatBrowseURL);
                     Browser.Dock = DockStyle.Fill;
                     ContentPanel.Controls.Add(Browser);
-                });
-            }
+                }
+            });
         }
 
         #region Events
 
         private void HomeButton_Click(Object Sender, EventArgs E)
         {
-            using (TimedLock.Lock(AccessLock))
+            ControlThreadingHelper.InvokeControlAction(Browser, () =>
             {
-                Browser.Navigate(AnathemaCheatBrowseURL);
-            }
+                using (TimedLock.Lock(AccessLock))
+                {
+                    Browser.Navigate(AnathemaCheatBrowseURL);
+                }
+            });
         }
 
         private void UploadButton_Click(Object Sender, EventArgs E)
         {
-            using (TimedLock.Lock(AccessLock))
+            ControlThreadingHelper.InvokeControlAction(Browser, () =>
             {
-                Browser.Navigate(AnathemaCheatUploadURL);
-            }
+                using (TimedLock.Lock(AccessLock))
+                {
+                    Browser.Navigate(AnathemaCheatUploadURL);
+                }
+            });
         }
 
         private void BackButton_Click(Object Sender, EventArgs E)
         {
-            using (TimedLock.Lock(AccessLock))
+            ControlThreadingHelper.InvokeControlAction(Browser, () =>
             {
-                if (Browser.CanGoBack)
-                    Browser.GoBack();
-            }
+                using (TimedLock.Lock(AccessLock))
+                {
+                    if (Browser.CanGoBack)
+                        Browser.GoBack();
+                }
+            });
         }
 
         private void ForwardButton_Click(Object Sender, EventArgs E)
         {
-            using (TimedLock.Lock(AccessLock))
+            ControlThreadingHelper.InvokeControlAction(Browser, () =>
             {
-                if (Browser.CanGoForward)
-                    Browser.GoForward();
-            }
+                using (TimedLock.Lock(AccessLock))
+                {
+                    if (Browser.CanGoForward)
+                        Browser.GoForward();
+                }
+            });
         }
 
         #endregion

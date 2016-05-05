@@ -36,20 +36,19 @@ namespace Anathema.GUI
 
         public void SelectProcess(Process TargetProcess)
         {
-            using (TimedLock.Lock(AccessLock))
+            ControlThreadingHelper.InvokeControlAction(this, () =>
             {
-                ControlThreadingHelper.InvokeControlAction(this, () =>
-                {
-                    this.Close();
-                });
-            }
+                // May potentially use target process in the future if we enable multi-process selection
+
+                this.Close();
+            });
         }
 
         public void DisplayProcesses(IEnumerable<ListViewItem> Items, ImageList ImageList)
         {
-            using (TimedLock.Lock(AccessLock))
+            ControlThreadingHelper.InvokeControlAction(ProcessListView, () =>
             {
-                ControlThreadingHelper.InvokeControlAction(ProcessListView, () =>
+                using (TimedLock.Lock(AccessLock))
                 {
                     // Clear the old items in the process list
                     ProcessListView.Items.Clear();
@@ -57,15 +56,15 @@ namespace Anathema.GUI
                     // Add all of the new items
                     Items?.ForEach(X => ProcessListView.Items.Add(X));
                     ProcessListView.SmallImageList = ImageList;
-                });
-            }
+                }
+            });
         }
 
         private void TrySelectingProcess()
         {
-            using (TimedLock.Lock(AccessLock))
+            ControlThreadingHelper.InvokeControlAction(ProcessListView, () =>
             {
-                ControlThreadingHelper.InvokeControlAction(ProcessListView, () =>
+                using (TimedLock.Lock(AccessLock))
                 {
                     if (ProcessListView.SelectedIndices.Count <= 0)
                         return;
@@ -78,16 +77,13 @@ namespace Anathema.GUI
                     {
                         MessageBox.Show(Ex.Message, "Error making selection.", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     }
-                });
-            }
+                }
+            });
         }
 
         private void HandleResize()
         {
-            using (TimedLock.Lock(AccessLock))
-            {
-                ProcessListView.Columns[0].Width = ProcessListView.Width - 24;
-            }
+            ProcessListView.Columns[0].Width = ProcessListView.Width - 24;
         }
 
         private void RefreshProcesses()
