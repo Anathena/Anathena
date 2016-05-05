@@ -8,7 +8,6 @@ using Anathema.Utils.OS;
 using Be.Windows.Forms;
 using System;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace Anathema.Services.MemoryView
 {
@@ -173,30 +172,27 @@ namespace Anathema.Services.MemoryView
 
         private void EventUpdateVirtualPages(Object Sender, MemoryViewEventArgs E)
         {
-            Task.Run(() =>
-            {
-                List<String> VirtualPages = new List<String>();
+            List<String> VirtualPages = new List<String>();
 
-                if (E.VirtualPages != null)
-                    E.VirtualPages.ForEach(x => VirtualPages.Add(x.BaseAddress.ToString("X")));
+            if (E.VirtualPages != null)
+                E.VirtualPages.ForEach(x => VirtualPages.Add(x.BaseAddress.ToString("X")));
 
-                View.UpdateVirtualPages(VirtualPages);
-            });
+            View.UpdateVirtualPages(VirtualPages);
         }
 
         private void EventGoToAddress(Object Sender, MemoryViewEventArgs E)
         {
-            Task.Run(() => { View.GoToAddress(E.Address); });
+            View.GoToAddress(E.Address);
         }
 
         private void EventReadValues(Object Sender, MemoryViewEventArgs E)
         {
-            Task.Run(() => { View.ReadValues(); });
+            View.ReadValues();
         }
 
         private void EventFlushCache(Object Sender, MemoryViewEventArgs E)
         {
-            Task.Run(() => { ByteCache.FlushCache(); });
+            ByteCache.FlushCache();
         }
 
         #endregion

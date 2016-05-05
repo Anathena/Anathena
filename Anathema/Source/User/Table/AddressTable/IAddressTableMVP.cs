@@ -3,7 +3,6 @@ using Anathema.Utils;
 using Anathema.Utils.MVP;
 using System;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace Anathema.User.UserAddressTable
 {
@@ -116,12 +115,12 @@ namespace Anathema.User.UserAddressTable
 
         private void EventReadValues(Object Sender, AddressTableEventArgs E)
         {
-            Task.Run(() => { View.ReadValues(); });
+            View.ReadValues();
         }
 
         private void EventUpdateAddressTableItemCount(Object Sender, AddressTableEventArgs E)
         {
-            Task.Run(() => { View.UpdateAddressTableItemCount(E.ItemCount); });
+            View.UpdateAddressTableItemCount(E.ItemCount);
         }
 
         #endregion

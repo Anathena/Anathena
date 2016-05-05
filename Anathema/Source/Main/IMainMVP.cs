@@ -3,7 +3,6 @@ using Anathema.Source.Utils;
 using Anathema.Utils.MVP;
 using System;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace Anathema
 {
@@ -81,52 +80,46 @@ namespace Anathema
 
         private void EventUpdateProcessTitle(Object Sender, MainEventArgs E)
         {
-            Task.Run(() => { View.UpdateProcessTitle(E.ProcessTitle); });
+            View.UpdateProcessTitle(E.ProcessTitle);
         }
 
         private void EventUpdateProgress(Object Sender, MainEventArgs E)
         {
-            Task.Run(() =>
+            using (TimedLock.Lock(AccessLock))
             {
-                using (TimedLock.Lock(AccessLock))
-                {
-                    if (!PendingActions.Contains(E.ProgressItem))
-                        PendingActions.Add(E.ProgressItem);
+                if (!PendingActions.Contains(E.ProgressItem))
+                    PendingActions.Add(E.ProgressItem);
 
-                    if (PendingActions.Count > 0)
-                        View.UpdateProgress(PendingActions[0]);
-                    else
-                        View.UpdateProgress(null);
-                }
-            });
+                if (PendingActions.Count > 0)
+                    View.UpdateProgress(PendingActions[0]);
+                else
+                    View.UpdateProgress(null);
+            }
 
         }
 
         private void EventFinishProgress(Object Sender, MainEventArgs E)
         {
-            Task.Run(() =>
+            using (TimedLock.Lock(AccessLock))
             {
-                using (TimedLock.Lock(AccessLock))
-                {
-                    if (PendingActions.Contains(E.ProgressItem))
-                        PendingActions.Remove(E.ProgressItem);
+                if (PendingActions.Contains(E.ProgressItem))
+                    PendingActions.Remove(E.ProgressItem);
 
-                    if (PendingActions.Count > 0)
-                        View.UpdateProgress(PendingActions[0]);
-                    else
-                        View.UpdateProgress(null);
-                }
-            });
+                if (PendingActions.Count > 0)
+                    View.UpdateProgress(PendingActions[0]);
+                else
+                    View.UpdateProgress(null);
+            }
         }
 
         private void EventOpenScriptEditor(Object Sender, MainEventArgs E)
         {
-            Task.Run(() => { View.OpenScriptEditor(); });
+            View.OpenScriptEditor();
         }
 
         private void EventOpenLabelThresholder(Object Sender, MainEventArgs E)
         {
-            Task.Run(() => { View.OpenLabelThresholder(); });
+            View.OpenLabelThresholder();
         }
 
         #endregion

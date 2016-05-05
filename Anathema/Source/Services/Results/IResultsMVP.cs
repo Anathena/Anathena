@@ -3,7 +3,6 @@ using Anathema.Utils;
 using Anathema.Utils.MVP;
 using Anathema.Utils.Validation;
 using System;
-using System.Threading.Tasks;
 
 namespace Anathema.Services.ScanResults
 {
@@ -29,7 +28,7 @@ namespace Anathema.Services.ScanResults
         public event ResultsEventHandler EventReadValues;
         protected virtual void OnEventReadValues(ResultsEventArgs E)
         {
-            Task.Run(() => { EventReadValues?.Invoke(this, E); });
+            EventReadValues?.Invoke(this, E);
         }
 
         public event ResultsEventHandler EventEnableResults;
@@ -168,23 +167,23 @@ namespace Anathema.Services.ScanResults
 
         private void EventReadValues(Object Sender, ResultsEventArgs E)
         {
-            Task.Run(() => { View.ReadValues(); });
+            View.ReadValues();
         }
 
         private void EventEnableResults(Object Sender, ResultsEventArgs E)
         {
-            Task.Run(() => { View.SetEnabled(true); });
+            View.SetEnabled(true);
         }
 
         private void EventDisableResults(Object Sender, ResultsEventArgs E)
         {
-            Task.Run(() => { View.SetEnabled(false); });
+            View.SetEnabled(false);
         }
 
         private void EventUpdateItemCounts(Object Sender, ResultsEventArgs E)
         {
-            Task.Run(() => { View.UpdateMemorySizeLabel(Conversions.BytesToMetric(E.MemorySize), E.ElementCount.ToString()); });
-            Task.Run(() => { View.UpdateItemCount((Int32)Math.Min(E.ElementCount, (UInt64)Int32.MaxValue)); });
+            View.UpdateMemorySizeLabel(Conversions.BytesToMetric(E.MemorySize), E.ElementCount.ToString());
+            View.UpdateItemCount((Int32)Math.Min(E.ElementCount, (UInt64)Int32.MaxValue));
         }
 
         #endregion

@@ -3,7 +3,6 @@ using Anathema.Utils.Extensions;
 using Anathema.Utils.Validation;
 using System;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace Anathema.Scanners.PointerScanner
 {
@@ -167,12 +166,12 @@ namespace Anathema.Scanners.PointerScanner
 
         private void EventReadValues(Object Sender, PointerScannerEventArgs E)
         {
-            Task.Run(() => { View.ReadValues(); });
+            View.ReadValues();
         }
 
         private void EventScanFinished(Object Sender, PointerScannerEventArgs E)
         {
-            Task.Run(() => { View.ScanFinished(E.ItemCount, E.MaxPointerLevel); });
+            View.ScanFinished(E.ItemCount, E.MaxPointerLevel);
         }
 
         #endregion

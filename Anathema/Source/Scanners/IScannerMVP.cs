@@ -2,7 +2,6 @@
 using Anathema.Utils;
 using Anathema.Utils.MVP;
 using System;
-using System.Threading.Tasks;
 
 namespace Anathema.Scanners
 {
@@ -74,7 +73,7 @@ namespace Anathema.Scanners
 
         protected void EventDisplayScanCount(Object Sender, ScannerEventArgs E)
         {
-            Task.Run(() => { View.DisplayScanCount(E.ScanCount); });
+            View.DisplayScanCount(E.ScanCount);
         }
 
         #endregion

@@ -2,7 +2,6 @@
 using Anathema.User.UserScriptTable;
 using Anathema.Utils.MVP;
 using System;
-using System.Threading.Tasks;
 
 namespace Anathema.User.UserScriptEditor
 {
@@ -71,12 +70,12 @@ namespace Anathema.User.UserScriptEditor
 
         void EventOpenScript(Object Sender, ScriptEditorEventArgs E)
         {
-            Task.Run(() => { View.OpenScript(E.ScriptItem.Script); });
+            View.OpenScript(E.ScriptItem.Script);
         }
 
         void EventSetScriptText(Object Sender, ScriptEditorEventArgs E)
         {
-            Task.Run(() => { View.SetScriptText(E.NewScript); });
+            View.SetScriptText(E.NewScript);
         }
 
         #endregion

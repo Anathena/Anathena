@@ -1,6 +1,5 @@
 ﻿using Anathema.Scanners.ScanConstraints;
 using System;
-using System.Threading.Tasks;
 
 namespace Anathema.Scanners.ManualScanner
 {
@@ -56,7 +55,7 @@ namespace Anathema.Scanners.ManualScanner
 
         public void EventScanFinished(Object Sender, ManualScannerEventArgs E)
         {
-            Task.Run(() => { View.ScanFinished(); });
+            View.ScanFinished();
         }
 
         #endregion

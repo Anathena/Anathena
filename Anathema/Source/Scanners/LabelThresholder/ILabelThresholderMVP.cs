@@ -2,7 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
-using System.Threading.Tasks;
 
 namespace Anathema.Scanners.LabelThresholder
 {
@@ -78,7 +77,7 @@ namespace Anathema.Scanners.LabelThresholder
 
         void EventUpdateHistogram(Object Sender, LabelThresholderEventArgs E)
         {
-            Task.Run(() => { View.DisplayHistogram(E.SortedDictionary); });
+            View.DisplayHistogram(E.SortedDictionary);
         }
 
         #endregion

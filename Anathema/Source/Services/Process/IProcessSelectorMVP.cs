@@ -4,7 +4,6 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Anathema.Services.ProcessManager
@@ -104,16 +103,13 @@ namespace Anathema.Services.ProcessManager
         #region Event definitions for events triggered by the model (upstream)
         public void EventDisplayProcesses(Object Sender, ProcessSelectorEventArgs E)
         {
-            Task.Run(() =>
-            {
-                ImageList ImageList = null;
-                View.DisplayProcesses(GetProcessListViewItems(E.ProcessList, E.ProcessIcons, out ImageList), ImageList);
-            });
+            ImageList ImageList = null;
+            View.DisplayProcesses(GetProcessListViewItems(E.ProcessList, E.ProcessIcons, out ImageList), ImageList);
         }
 
         public void EventSelectProcess(Object Sender, ProcessSelectorEventArgs E)
         {
-            Task.Run(() => { View.SelectProcess(E.SelectedProcess); });
+            View.SelectProcess(E.SelectedProcess);
         }
 
         #endregion

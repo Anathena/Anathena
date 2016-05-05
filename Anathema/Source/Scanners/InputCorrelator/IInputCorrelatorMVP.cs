@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Anathema.Scanners.InputCorrelator
@@ -112,7 +111,7 @@ namespace Anathema.Scanners.InputCorrelator
 
         public void EventUpdateDisplay(Object Sender, InputCorrelatorEventArgs E)
         {
-            Task.Run(() => { View.UpdateDisplay(E.Root); });
+            View.UpdateDisplay(E.Root);
         }
 
         #endregion

@@ -4,7 +4,6 @@ using Anathema.Utils.Validation;
 using System;
 using System.Drawing;
 using System.Reflection;
-using System.Threading.Tasks;
 
 namespace Anathema.Scanners.FiniteStateScanner
 {
@@ -126,7 +125,7 @@ namespace Anathema.Scanners.FiniteStateScanner
 
         public void EventUpdateDisplay(Object Sender, FiniteStateBuilderEventArgs E)
         {
-            Task.Run(() => { View.UpdateDisplay(); });
+            View.UpdateDisplay();
         }
 
         #endregion
