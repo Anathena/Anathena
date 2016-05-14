@@ -134,6 +134,7 @@ namespace Anathema
             {
                 Item.Checked = AddressItem.GetActivationState();
                 E.Item = Item;
+                return;
             }
 
             // Add the properties to the manager and get the list view item back

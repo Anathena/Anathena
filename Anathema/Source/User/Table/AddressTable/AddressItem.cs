@@ -65,8 +65,10 @@ namespace Anathema.User.UserAddressTable
         [Obfuscation(Exclude = true)]
         public IntPtr EffectiveAddress
         {
-            [Obfuscation(Exclude = true)] get { return _EffectiveAddress; }
-            [Obfuscation(Exclude = true)] private set { _EffectiveAddress = value; }
+            [Obfuscation(Exclude = true)]
+            get { return _EffectiveAddress; }
+            [Obfuscation(Exclude = true)]
+            private set { _EffectiveAddress = value; }
         }
 
         public AddressItem(IntPtr BaseAddress, Type ElementType, String Description = null, IEnumerable<Int32> Offsets = null, Boolean IsHex = false, String Value = null)
@@ -96,10 +98,10 @@ namespace Anathema.User.UserAddressTable
             switch (Type.GetTypeCode(ElementType))
             {
                 case TypeCode.Single:
-                    ParseValue = BitConverter.ToUInt32(BitConverter.GetBytes(Value), 0);
+                    ParseValue = BitConverter.ToSingle(BitConverter.GetBytes(Value), 0);
                     break;
                 case TypeCode.Double:
-                    ParseValue = BitConverter.ToUInt64(BitConverter.GetBytes(Value), 0);
+                    ParseValue = BitConverter.ToDouble(BitConverter.GetBytes(Value), 0);
                     break;
                 default:
                     ParseValue = Value;
