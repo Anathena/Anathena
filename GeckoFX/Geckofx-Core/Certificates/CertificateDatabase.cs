@@ -1,10 +1,8 @@
-﻿using System.Linq;
-using System.Text;
-using Gecko.Interop;
+﻿using Gecko.Interop;
 
 namespace Gecko.Certificates
 {
-	public static class CertificateDatabase
+    public static class CertificateDatabase
 	{
 		private static ComPtr<nsIX509CertDB> _certDb;
 		private static ComPtr<nsIX509CertDB2> _certDb2;

@@ -1,6 +1,6 @@
 namespace Gecko.Windows
 {
-	public sealed class JumpListShortcut
+    public sealed class JumpListShortcut
 		: JumpListItem
 	{
 		private nsIJumpListShortcut _shortcut;

@@ -1,4 +1,5 @@
-﻿using Anathema.Utils.OS;
+﻿using Anathema.Source.Utils;
+using Anathema.Utils.OS;
 using Gecko;
 using System;
 using System.Collections.Generic;
@@ -9,7 +10,9 @@ namespace Anathema.Utils.Browser
 {
     class BrowserHelper
     {
-        private static BrowserHelper _BrowserHelper;
+        // Singleton instance of Registration Manager
+        private static Lazy<BrowserHelper> BrowserHelperInstance = new Lazy<BrowserHelper>(() => { return new BrowserHelper(); });
+
         private static Boolean RunOnce;
         private static Object InitializeLock;
         private List<String> BackgroundDownloadTags;
@@ -24,14 +27,13 @@ namespace Anathema.Utils.Browser
 
         public static BrowserHelper GetInstance()
         {
-            if (_BrowserHelper == null)
-                _BrowserHelper = new BrowserHelper();
-            return _BrowserHelper;
+            return BrowserHelperInstance.Value;
         }
 
         public void InitializeBrowserStatic(params String[] NewBackGroundDownloadTags)
         {
-            lock (InitializeLock)
+            using (TimedLock.Lock(InitializeLock))
+            // lock (InitializeLock)
             {
                 if (NewBackGroundDownloadTags != null)
                     foreach (String Tag in NewBackGroundDownloadTags)
@@ -55,7 +57,8 @@ namespace Anathema.Utils.Browser
 
         public String GetLastDownloadedFile()
         {
-            lock (InitializeLock)
+            using (TimedLock.Lock(InitializeLock))
+            // lock (InitializeLock)
             {
                 return LastDownloadedFile;
             }

@@ -1,13 +1,6 @@
-
-
-using System;
-using System.Collections.Generic;
-using System.Runtime.InteropServices;
-using System.Text;
-
 namespace Gecko.DOM
-{	
-	public class GeckoFieldSetElement : GeckoHtmlElement
+{
+    public class GeckoFieldSetElement : GeckoHtmlElement
 	{
 		nsIDOMHTMLFieldSetElement DOMHTMLElement;
 		internal GeckoFieldSetElement(nsIDOMHTMLFieldSetElement element) : base(element)

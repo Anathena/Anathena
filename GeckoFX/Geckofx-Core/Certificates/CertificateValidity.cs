@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Gecko.Interop;
+﻿using Gecko.Interop;
 
 namespace Gecko.Certificates
 {
-	public sealed class CertificateValidity
+    public sealed class CertificateValidity
 	{
 		private ComPtr<nsIX509CertValidity> _validity;
 

@@ -1,6 +1,6 @@
 ﻿namespace Gecko
 {
-	public enum TextBoundaryType : long
+    public enum TextBoundaryType : long
 	{
 		CharBoundary = nsIAccessiblePivotConsts.CHAR_BOUNDARY,
 		WordBoundary = nsIAccessiblePivotConsts.WORD_BOUNDARY,

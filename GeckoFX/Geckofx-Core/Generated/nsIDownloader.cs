@@ -20,13 +20,12 @@
 // --------------------------------------------------------------------------------------------
 namespace Gecko
 {
-	using System;
-	using System.Runtime.InteropServices;
-	using System.Runtime.InteropServices.ComTypes;
-	using System.Runtime.CompilerServices;
-	
-	
-	/// <summary>
+    using System;
+    using System.Runtime.CompilerServices;
+    using System.Runtime.InteropServices;
+
+
+    /// <summary>
     /// nsIDownloader
     ///
     /// A downloader is a special implementation of a nsIStreamListener that will
@@ -35,7 +34,7 @@ namespace Gecko
     /// The resulting file is valid from the time the downloader completes until
     /// the last reference to the downloader is released.
     /// </summary>
-	[ComImport()]
+    [ComImport()]
 	[InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 	[Guid("fafe41a9-a531-4d6d-89bc-588a6522fb4e")]
 	public interface nsIDownloader : nsIStreamListener

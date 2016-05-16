@@ -1,10 +1,9 @@
-﻿using System;
-using System.Runtime.InteropServices;
-using Gecko.Interop;
+﻿using Gecko.Interop;
+using System;
 
 namespace Gecko.Search
 {
-	public static class BrowserSearchService
+    public static class BrowserSearchService
 	{
 		private static ComPtr<nsIBrowserSearchService> _browserSearchService;
 

@@ -1,15 +1,14 @@
 ﻿//License MPL, the GPL or the LGPL.
 
 using System;
-using System.Runtime.InteropServices;
 
 namespace Gecko
 {
-	/// <summary>
-	/// Provides data froma a message event.
-	/// doxygen.db48x.net/mozilla.../interfacensIDOMMessageEvent.html
-	/// </summary>
-	public class DomMessageEventArgs
+    /// <summary>
+    /// Provides data froma a message event.
+    /// doxygen.db48x.net/mozilla.../interfacensIDOMMessageEvent.html
+    /// </summary>
+    public class DomMessageEventArgs
 		: DomEventArgs
 	{
 		private nsIDOMMessageEvent _messageEvent;

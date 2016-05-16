@@ -1,9 +1,10 @@
-﻿using System;
+﻿using Anathema.Services.Snapshots;
+using Anathema.User.UserSettings;
+using Anathema.Utils;
+using Anathema.Utils.OS;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Anathema.Utils.OS;
-using Anathema.Services.Snapshots;
-using Anathema.User.UserSettings;
 
 namespace Anathema.Scanners.ChunkScanner
 {
@@ -77,11 +78,8 @@ namespace Anathema.Scanners.ChunkScanner
             OnEventUpdateScanCount(new ScannerEventArgs(this.ScanCount));
         }
 
-        public override void End()
+        protected override void End()
         {
-            // Wait for the filter to finish
-            base.End();
-            
             // Collect the pages that have changed
             List<SnapshotRegion> FilteredRegions = new List<SnapshotRegion>();
             for (Int32 Index = 0; Index < ChunkRoots.Count; Index++)
@@ -92,7 +90,7 @@ namespace Anathema.Scanners.ChunkScanner
             Snapshot.SetAlignment(Settings.GetInstance().GetAlignmentSettings());
 
             // Grow regions by the size of the largest standard variable and mask this with the original memory list.
-            Snapshot.ExpandAllRegionsOutward(sizeof(UInt64) - 1);
+            Snapshot.ExpandAllRegionsOutward(PrimitiveTypes.GetLargestPrimitiveSize() - 1);
             Snapshot = new Snapshot<Null>(Snapshot.MaskRegions(Snapshot, Snapshot.GetSnapshotRegions()));
             Snapshot.SetAlignment(Settings.GetInstance().GetAlignmentSettings());
 
@@ -155,7 +153,7 @@ namespace Anathema.Scanners.ChunkScanner
                         AcceptedRegions.Add(Chunks[ChunkIndex]);
                 }
             }
-            
+
             /// <summary>
             /// Processes a chunk of data to determine if it has changed
             /// </summary>
@@ -179,7 +177,7 @@ namespace Anathema.Scanners.ChunkScanner
                         // Initialize change count
                         ChangeCounts[ChunkIndex] = 0;
                     }
-                    
+
                     Checksums[ChunkIndex] = NewChecksum;
                 }
             }

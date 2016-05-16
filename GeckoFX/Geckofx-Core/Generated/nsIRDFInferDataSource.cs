@@ -20,20 +20,19 @@
 // --------------------------------------------------------------------------------------------
 namespace Gecko
 {
-	using System;
-	using System.Runtime.InteropServices;
-	using System.Runtime.InteropServices.ComTypes;
-	using System.Runtime.CompilerServices;
-	
-	
-	/// <summary>
+    using System;
+    using System.Runtime.CompilerServices;
+    using System.Runtime.InteropServices;
+
+
+    /// <summary>
     /// An nsIRDFInferDataSource is implemented by a infer engine. This
     /// engine mimics assertions in addition to those in the baseDataSource
     /// according to a particular vocabulary.
     /// Infer engines have contract IDs in the form of
     /// "@mozilla.org/rdf/infer-datasource;1?engine="
     /// </summary>
-	[ComImport()]
+    [ComImport()]
 	[InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 	[Guid("2b04860f-4017-40f6-8a57-784a1e35077a")]
 	public interface nsIRDFInferDataSource : nsIRDFDataSource

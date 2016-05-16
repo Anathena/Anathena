@@ -20,18 +20,17 @@
 // --------------------------------------------------------------------------------------------
 namespace Gecko
 {
-	using System;
-	using System.Runtime.InteropServices;
-	using System.Runtime.InteropServices.ComTypes;
-	using System.Runtime.CompilerServices;
-	
-	
-	/// <summary>
+    using System;
+    using System.Runtime.CompilerServices;
+    using System.Runtime.InteropServices;
+
+
+    /// <summary>
     /// The nsIWebBrowserChromeFocus is implemented by the same object as the
     /// nsIEmbeddingSiteWindow. It represents the focus up-calls from mozilla
     /// to the embedding chrome. See mozilla bug #70224 for gratuitous info.
     /// </summary>
-	[ComImport()]
+    [ComImport()]
 	[InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 	[Guid("d2206418-1dd1-11b2-8e55-acddcd2bcfb8")]
 	public interface nsIWebBrowserChromeFocus

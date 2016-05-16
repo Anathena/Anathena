@@ -1,18 +1,20 @@
-﻿using System;
+﻿using Anathema.Scanners.InputCorrelator;
+using Anathema.Source.Utils;
+using Anathema.Utils.MVP;
+using Anathema.Utils.Validation;
+using Gma.System.MouseKeyHook;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Windows.Forms;
 using WeifenLuo.WinFormsUI.Docking;
-using Gma.System.MouseKeyHook;
-using Anathema.Utils.Validation;
-using Anathema.Utils.MVP;
-using Anathema.Scanners.InputCorrelator;
 
 namespace Anathema.GUI
 {
     public partial class GUIInputCorrelator : DockContent, IInputCorrelatorView
     {
         private InputCorrelatorPresenter InputCorrelatorPresenter;
+        private Object AccessLock;
 
         private readonly IKeyboardMouseEvents InputHook;    // Input capturing class
         private Boolean UpdatingInputTextBox;
@@ -24,6 +26,7 @@ namespace Anathema.GUI
             InitializeComponent();
 
             InputCorrelatorPresenter = new InputCorrelatorPresenter(this, new InputCorrelator());
+            AccessLock = new Object();
 
             InputHook = Hook.GlobalEvents();
 
@@ -35,32 +38,44 @@ namespace Anathema.GUI
 
         public void DisplayScanCount(Int32 ScanCount)
         {
-            ControlThreadingHelper.InvokeControlAction(ScanToolStrip, () =>
+            using (TimedLock.Lock(AccessLock))
             {
-                ScanCountLabel.Text = "Scan Count: " + ScanCount.ToString();
-            });
+                ControlThreadingHelper.InvokeControlAction(ScanToolStrip, () =>
+                {
+                    ScanCountLabel.Text = "Scan Count: " + ScanCount.ToString();
+                });
+            }
         }
 
         private void SetVariableSize()
         {
-            Int32 VariableSize = (Int32)Math.Pow(2, VariableSizeTrackBar.Value);
-            VariableSizeValueLabel.Text = Conversions.BytesToMetric(VariableSize).ToString();
+            using (TimedLock.Lock(AccessLock))
+            {
+                Int32 VariableSize = (Int32)Math.Pow(2, VariableSizeTrackBar.Value);
+                VariableSizeValueLabel.Text = Conversions.BytesToMetric(VariableSize).ToString();
 
-            InputCorrelatorPresenter.SetVariableSize(VariableSize);
+                InputCorrelatorPresenter.SetVariableSize(VariableSize);
+            }
         }
 
         private void EnableGUI()
         {
-            StartScanButton.Enabled = true;
-            StopScanButton.Enabled = false;
-            VariableSizeTrackBar.Enabled = true;
+            using (TimedLock.Lock(AccessLock))
+            {
+                StartScanButton.Enabled = true;
+                StopScanButton.Enabled = false;
+                VariableSizeTrackBar.Enabled = true;
+            }
         }
 
         private void DisableGUI()
         {
-            StartScanButton.Enabled = false;
-            StopScanButton.Enabled = true;
-            VariableSizeTrackBar.Enabled = false;
+            using (TimedLock.Lock(AccessLock))
+            {
+                StartScanButton.Enabled = false;
+                StopScanButton.Enabled = true;
+                VariableSizeTrackBar.Enabled = false;
+            }
         }
 
         /// <summary>
@@ -68,43 +83,49 @@ namespace Anathema.GUI
         /// </summary>
         public void ClearDisplay()
         {
-            ControlThreadingHelper.InvokeControlAction(InputTreeView, () =>
+            using (TimedLock.Lock(AccessLock))
             {
-                SelectionIndecies = GetSelectionIndicies();
-                this.InputTreeView.Nodes.Clear();
-            });
+                ControlThreadingHelper.InvokeControlAction(InputTreeView, () =>
+                {
+                    SelectionIndecies = GetSelectionIndicies();
+                    this.InputTreeView.Nodes.Clear();
+                });
+            }
         }
 
         public void UpdateDisplay(TreeNode Root)
         {
-            ControlThreadingHelper.InvokeControlAction(InputTreeView, () =>
+            using (TimedLock.Lock(AccessLock))
             {
-                this.InputTreeView.Nodes.Clear();
+                ControlThreadingHelper.InvokeControlAction(InputTreeView, () =>
+                {
+                    this.InputTreeView.Nodes.Clear();
 
-                if (Root == null)
-                    return;
+                    if (Root == null)
+                        return;
 
-                this.InputTreeView.Nodes.Add(Root);
+                    this.InputTreeView.Nodes.Add(Root);
 
-                AddContextMenuToNodes(InputTreeView.Nodes);
+                    AddContextMenuToNodes(InputTreeView.Nodes);
 
-                // Attempt to restore selection if possible
-                InputNode TargetNode = InputTreeView.Nodes.Count == 0 ? null : (InputNode)InputTreeView.Nodes[0];
+                    // Attempt to restore selection if possible
+                    InputNode TargetNode = InputTreeView.Nodes.Count == 0 ? null : (InputNode)InputTreeView.Nodes[0];
 
-                // Always throw away the first one, we only allow for a single root
-                if (SelectionIndecies.Count != 0)
-                    SelectionIndecies.Pop();
+                    // Always throw away the first one, we only allow for a single root
+                    if (SelectionIndecies.Count != 0)
+                        SelectionIndecies.Pop();
 
-                // Try to recover the original selection if it exists
-                while (TargetNode != null && SelectionIndecies.Count > 0)
-                    TargetNode = TargetNode.GetChildAtIndex(SelectionIndecies.Pop());
+                    // Try to recover the original selection if it exists
+                    while (TargetNode != null && SelectionIndecies.Count > 0)
+                        TargetNode = TargetNode.GetChildAtIndex(SelectionIndecies.Pop());
 
-                // Update selection
-                if (ContainsNode(InputTreeView.Nodes, TargetNode))
-                    InputTreeView.SetSelection(TargetNode);
+                    // Update selection
+                    if (ContainsNode(InputTreeView.Nodes, TargetNode))
+                        InputTreeView.SetSelection(TargetNode);
 
-                InputTreeView.ExpandAll();
-            });
+                    InputTreeView.ExpandAll();
+                });
+            }
         }
 
         private void AddContextMenuToNodes(TreeNodeCollection Nodes)
@@ -137,22 +158,28 @@ namespace Anathema.GUI
 
         private Stack<Int32> GetSelectionIndicies()
         {
-            Stack<Int32> Indicies = new Stack<Int32>();
-            TreeNode CurrentNode = InputTreeView.SelectedNode;
-            while (CurrentNode != null)
+            using (TimedLock.Lock(AccessLock))
             {
-                Indicies.Push(CurrentNode.Index);
-                CurrentNode = CurrentNode.Parent;
-            }
+                Stack<Int32> Indicies = new Stack<Int32>();
+                TreeNode CurrentNode = InputTreeView.SelectedNode;
+                while (CurrentNode != null)
+                {
+                    Indicies.Push(CurrentNode.Index);
+                    CurrentNode = CurrentNode.Parent;
+                }
 
-            return Indicies;
+                return Indicies;
+            }
         }
 
         private void GlobalHookKeyUp(Object Sender, KeyEventArgs E)
         {
-            InputCorrelatorPresenter.SetCurrentKey(E.KeyCode);
-            UpdatingInputTextBox = true;
-            InputTextBox.Text = E.KeyCode.ToString();
+            using (TimedLock.Lock(AccessLock))
+            {
+                InputCorrelatorPresenter.SetCurrentKey(E.KeyCode);
+                UpdatingInputTextBox = true;
+                InputTextBox.Text = E.KeyCode.ToString();
+            }
         }
 
         #region Events
@@ -171,7 +198,10 @@ namespace Anathema.GUI
 
         private void HandleResize()
         {
-            //VariableSizeTrackBar.Width = this.Width / 2 - VariableSizeTrackBar.Location.X;
+            using (TimedLock.Lock(AccessLock))
+            {
+                //VariableSizeTrackBar.Width = this.Width / 2 - VariableSizeTrackBar.Location.X;
+            }
         }
 
         private void VariableSizeTrackBar_Scroll(Object Sender, EventArgs E)
@@ -181,20 +211,29 @@ namespace Anathema.GUI
 
         private void InputTextBox_Enter(Object Sender, EventArgs E)
         {
-            InputHook.KeyUp += GlobalHookKeyUp;
+            using (TimedLock.Lock(AccessLock))
+            {
+                InputHook.KeyUp += GlobalHookKeyUp;
+            }
         }
 
         private void InputTextBox_Leave(object sender, EventArgs e)
         {
-            InputHook.KeyUp -= GlobalHookKeyUp;
+            using (TimedLock.Lock(AccessLock))
+            {
+                InputHook.KeyUp -= GlobalHookKeyUp;
+            }
         }
 
         private void InputTextBox_TextChanged(Object Sender, EventArgs E)
         {
-            if (!UpdatingInputTextBox)
-                InputTextBox.Text = String.Empty;
-            else
-                UpdatingInputTextBox = false;
+            using (TimedLock.Lock(AccessLock))
+            {
+                if (!UpdatingInputTextBox)
+                    InputTextBox.Text = String.Empty;
+                else
+                    UpdatingInputTextBox = false;
+            }
         }
 
         private void DeleteNodeButton_Click(Object Sender, EventArgs E)
@@ -230,8 +269,11 @@ namespace Anathema.GUI
 
         private void InputContextMenuStrip_Opening(Object Sender, CancelEventArgs E)
         {
-            if (InputTreeView.SelectedNode == null)
-                E.Cancel = true;
+            using (TimedLock.Lock(AccessLock))
+            {
+                if (InputTreeView.SelectedNode == null)
+                    E.Cancel = true;
+            }
         }
 
         private void DeleteToolStripMenuItem_Click(Object Sender, EventArgs E)
@@ -245,7 +287,7 @@ namespace Anathema.GUI
         }
 
         #endregion
-        
+
     } // End class
 
 } // End namespace

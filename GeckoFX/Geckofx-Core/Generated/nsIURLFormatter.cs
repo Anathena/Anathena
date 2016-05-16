@@ -20,13 +20,12 @@
 // --------------------------------------------------------------------------------------------
 namespace Gecko
 {
-	using System;
-	using System.Runtime.InteropServices;
-	using System.Runtime.InteropServices.ComTypes;
-	using System.Runtime.CompilerServices;
-	
-	
-	/// <summary>
+    using System;
+    using System.Runtime.CompilerServices;
+    using System.Runtime.InteropServices;
+
+
+    /// <summary>
     /// nsIURLFormatter
     ///
     /// nsIURLFormatter exposes methods to substitute variables in URL formats.
@@ -37,7 +36,7 @@ namespace Gecko
     ///
     /// http[s]://%SERVICE%.mozilla.[com|org]/%LOCALE%/
     /// </summary>
-	[ComImport()]
+    [ComImport()]
 	[InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 	[Guid("4ab31d30-372d-11db-a98b-0800200c9a66")]
 	public interface nsIURLFormatter

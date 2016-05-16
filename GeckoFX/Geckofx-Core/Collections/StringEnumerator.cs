@@ -4,10 +4,10 @@ using System.Collections.Generic;
 
 namespace Gecko.Collections
 {
-	/// <summary>
-	/// String Enumerator
-	/// </summary>
-	internal sealed class StringEnumerator
+    /// <summary>
+    /// String Enumerator
+    /// </summary>
+    internal sealed class StringEnumerator
 		:IEnumerator<string>
 	{
 		private nsIStringEnumerator _enumerator;

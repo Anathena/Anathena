@@ -1,11 +1,9 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using Gecko.Interop;
+using System.Collections.Generic;
 
 namespace Gecko.Net
 {
-	public sealed class DnsRecord
+    public sealed class DnsRecord
 	{
 		private ComPtr<nsIDNSRecord> _record;
 

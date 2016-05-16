@@ -1,13 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.InteropServices;
-using System.Text;
-using Gecko.Net;
+﻿using Gecko.Net;
 
 namespace Gecko.Observers
 {
-	public class BaseHttpModifyRequestObserver
+    public class BaseHttpModifyRequestObserver
 		: NsSupportsBase, nsIObserver
 	{
 		internal bool _isRegistered;

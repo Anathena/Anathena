@@ -4,14 +4,13 @@
 using System;
 using System.ComponentModel;
 using System.Reflection;
-using System.Windows.Forms;
 
 namespace FlagsEnumTypeConverter
 {
-	/// <summary>
-	/// Flags enumeration type converter.
-	/// </summary>
-	internal class FlagsEnumConverter: EnumConverter
+    /// <summary>
+    /// Flags enumeration type converter.
+    /// </summary>
+    internal class FlagsEnumConverter: EnumConverter
 	{
 		/// <summary>
 		/// This class represents an enumeration field in the property grid.

@@ -1,15 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
-using System.Threading;
-using Gecko.Interop;
 
 namespace Gecko.IO
 {
-	public class InputStream
+    public class InputStream
 		: System.IO.Stream
 	{
 		private bool _seekable;

@@ -20,18 +20,17 @@
 // --------------------------------------------------------------------------------------------
 namespace Gecko
 {
-	using System;
-	using System.Runtime.InteropServices;
-	using System.Runtime.InteropServices.ComTypes;
-	using System.Runtime.CompilerServices;
-	
-	
-	/// <summary>
+    using System;
+    using System.Runtime.CompilerServices;
+    using System.Runtime.InteropServices;
+
+
+    /// <summary>
     ///In order to get both the right typelib and the right header we force
     /// the 'real' output from xpidl to be commented out in the generated header
     /// and includes a copy of the original nsISupports.h. This is all just to deal
     /// with the Mac specific ": public __comobject" thing. </summary>
-	[ComImport()]
+    [ComImport()]
 	[Guid("00000000-0000-0000-c000-000000000046")]
 	public interface nsISupports
 	{

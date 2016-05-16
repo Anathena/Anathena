@@ -1,10 +1,10 @@
-﻿using System;
+﻿using Anathema.MemoryManagement.Internals;
+using Anathema.MemoryManagement.Memory;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using Anathema.MemoryManagement.Internals;
-using Anathema.MemoryManagement.Memory;
 using System.Reflection;
 
 namespace Anathema.MemoryManagement.Modules

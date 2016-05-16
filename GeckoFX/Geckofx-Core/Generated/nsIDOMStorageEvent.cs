@@ -20,20 +20,19 @@
 // --------------------------------------------------------------------------------------------
 namespace Gecko
 {
-	using System;
-	using System.Runtime.InteropServices;
-	using System.Runtime.InteropServices.ComTypes;
-	using System.Runtime.CompilerServices;
-	
-	
-	/// <summary>
+    using System;
+    using System.Runtime.CompilerServices;
+    using System.Runtime.InteropServices;
+
+
+    /// <summary>
     /// Interface for a client side storage. See
     /// http://dev.w3.org/html5/webstorage/#the-storage-event
     /// for more information.
     ///
     /// Event sent to a window when a storage area changes.
     /// </summary>
-	[ComImport()]
+    [ComImport()]
 	[InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 	[Guid("85f04275-4679-4e89-b43f-142bbbab1e89")]
 	public interface nsIDOMStorageEvent : nsIDOMEvent

@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Anathema.Utils.Extensions;
+using System;
 
 namespace Anathema.Source.Utils
 {
@@ -10,7 +7,6 @@ namespace Anathema.Source.Utils
     {
         private String ProgressLabel;
         private Double ActionProgress;
-        private Double CompletionThreshold;
         private Boolean RestictProgressUpdates;
 
         public ProgressItem() : this(String.Empty, 0) { }
@@ -20,20 +16,7 @@ namespace Anathema.Source.Utils
             this.ProgressLabel = ProgressLabel;
             this.ActionProgress = Progress;
 
-            SetCompletionThreshold(1.0);
             RestrictProgress();
-        }
-
-        /// <summary>
-        /// Returns true if the progress item is complete, or passed the set threshold
-        /// </summary>
-        /// <returns></returns>
-        public Boolean ActionComplete()
-        {
-            if (ActionProgress >= CompletionThreshold)
-                return true;
-
-            return false;
         }
 
         /// <summary>
@@ -53,6 +36,15 @@ namespace Anathema.Source.Utils
         }
 
         /// <summary>
+        /// Update the label associated with this progress item
+        /// </summary>
+        /// <param name="ProgressLabel"></param>
+        public void SetProgressLabel(String ProgressLabel)
+        {
+            this.ProgressLabel = ProgressLabel;
+        }
+
+        /// <summary>
         /// Return the label associated with this progress item
         /// </summary>
         /// <returns></returns>
@@ -67,16 +59,7 @@ namespace Anathema.Source.Utils
         /// <returns></returns>
         public Int32 GetProgress()
         {
-            return (Int32)(ActionProgress * 100.0);
-        }
-
-        /// <summary>
-        /// Update the label associated with this progress item
-        /// </summary>
-        /// <param name="ProgressLabel"></param>
-        public void SetProgressLabel(String ProgressLabel)
-        {
-            this.ProgressLabel = ProgressLabel;
+            return (Int32)(ActionProgress * 100.0).Clamp(0, 100);
         }
 
         /// <summary>
@@ -84,7 +67,8 @@ namespace Anathema.Source.Utils
         /// </summary>
         public void FinishProgress()
         {
-            UpdateProgress(1.0);
+            ActionProgress = 0.0;
+            Main.GetInstance().FinishActionProgress(this);
         }
 
         /// <summary>
@@ -94,7 +78,7 @@ namespace Anathema.Source.Utils
         /// <param name="Max"></param>
         public void UpdateProgress(Int32 Amount, Int32 Max)
         {
-            UpdateProgress((Double)Amount / (Double)Max);
+            UpdateProgress(Max == 0 ? 0 : ((Double)Amount / (Double)Max).Clamp(0.0, 1.0));
         }
 
         /// <summary>
@@ -103,20 +87,9 @@ namespace Anathema.Source.Utils
         /// <param name="ActionProgress"></param>
         public void UpdateProgress(Double ActionProgress)
         {
-            Boolean Finished = false;
-
-            if (ActionProgress < 0.0 || ActionProgress > 1.0)
-                throw new Exception("Invalid progress amount");
-
+            // Do nothing if progress has not changed
             if (ActionProgress == this.ActionProgress)
                 return;
-
-            // Once passed the completion threshold, we can consider this event finished
-            if (ActionProgress >= CompletionThreshold)
-            {
-                ActionProgress = 1.0;
-                Finished = true;
-            }
 
             // If update restriction is enabled, ensure the new progress is greater than the old
             if (RestictProgressUpdates && this.ActionProgress > ActionProgress)
@@ -125,19 +98,6 @@ namespace Anathema.Source.Utils
             this.ActionProgress = ActionProgress;
 
             Main.GetInstance().UpdateActionProgress(this);
-
-            if (Finished)
-                ActionProgress = 0.0;
-        }
-
-        /// <summary>
-        /// Sets a threshold of % to mark the action as complete. This is useful when events are continuous
-        /// and never actually end, such as snapshot prefiltering, but 
-        /// </summary>
-        /// <param name="CompletionThreshold"></param>
-        public void SetCompletionThreshold(Double CompletionThreshold)
-        {
-            this.CompletionThreshold = CompletionThreshold;
         }
 
     } // End class

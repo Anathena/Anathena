@@ -20,13 +20,12 @@
 // --------------------------------------------------------------------------------------------
 namespace Gecko
 {
-	using System;
-	using System.Runtime.InteropServices;
-	using System.Runtime.InteropServices.ComTypes;
-	using System.Runtime.CompilerServices;
-	
-	
-	/// <summary>
+    using System;
+    using System.Runtime.CompilerServices;
+    using System.Runtime.InteropServices;
+
+
+    /// <summary>
     /// Debugger service. It is not a good idea to have more than one active client
     /// of the debugger service.
     ///
@@ -34,7 +33,7 @@ namespace Gecko
     /// these interfaces should switch to using the new Debugger API, documented
     /// here: https://wiki.mozilla.org/Debugger
     /// </summary>
-	[ComImport()]
+    [ComImport()]
 	[InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 	[Guid("39609752-2d73-4019-a324-a374dee16d3c")]
 	public interface jsdIDebuggerService

@@ -20,18 +20,17 @@
 // --------------------------------------------------------------------------------------------
 namespace Gecko
 {
-	using System;
-	using System.Runtime.InteropServices;
-	using System.Runtime.InteropServices.ComTypes;
-	using System.Runtime.CompilerServices;
-	
-	
-	/// <summary>
+    using System;
+    using System.Runtime.CompilerServices;
+    using System.Runtime.InteropServices;
+
+
+    /// <summary>
     /// The nsIDOMPageTransitionEvent interface is used for the pageshow and
     /// pagehide events, which are generic events that apply to both page
     /// load/unload and saving/restoring a document from session history.
     /// </summary>
-	[ComImport()]
+    [ComImport()]
 	[InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 	[Guid("8a69a3d6-c7da-4caa-993c-7f9583d9f896")]
 	public interface nsIDOMPageTransitionEvent : nsIDOMEvent

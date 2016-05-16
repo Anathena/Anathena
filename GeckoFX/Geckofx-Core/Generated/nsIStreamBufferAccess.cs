@@ -20,13 +20,12 @@
 // --------------------------------------------------------------------------------------------
 namespace Gecko
 {
-	using System;
-	using System.Runtime.InteropServices;
-	using System.Runtime.InteropServices.ComTypes;
-	using System.Runtime.CompilerServices;
-	
-	
-	/// <summary>
+    using System;
+    using System.Runtime.CompilerServices;
+    using System.Runtime.InteropServices;
+
+
+    /// <summary>
     /// An interface for access to a buffering stream implementation's underlying
     /// memory buffer.
     ///
@@ -35,7 +34,7 @@ namespace Gecko
     /// the current architecture (e.g., sizeof(double) for RISCy CPUs).  malloc(3)
     /// satisfies this requirement.
     /// </summary>
-	[ComImport()]
+    [ComImport()]
 	[InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 	[Guid("ac923b72-ac87-4892-ac7a-ca385d429435")]
 	public interface nsIStreamBufferAccess

@@ -20,13 +20,12 @@
 // --------------------------------------------------------------------------------------------
 namespace Gecko
 {
-	using System;
-	using System.Runtime.InteropServices;
-	using System.Runtime.InteropServices.ComTypes;
-	using System.Runtime.CompilerServices;
-	
-	
-	/// <summary>
+    using System;
+    using System.Runtime.CompilerServices;
+    using System.Runtime.InteropServices;
+
+
+    /// <summary>
     /// nsISHistoryListener defines the interface one can implement to receive
     /// notifications about activities in session history and to be able to
     /// cancel them.
@@ -39,7 +38,7 @@ namespace Gecko
     /// A session history listener can be registered on a particular nsISHistory
     /// instance via the nsISHistory::addSHistoryListener() method.
     /// </summary>
-	[ComImport()]
+    [ComImport()]
 	[InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 	[Guid("125c0833-746a-400e-9b89-d2d18545c08a")]
 	public interface nsISHistoryListener

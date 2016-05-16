@@ -20,13 +20,12 @@
 // --------------------------------------------------------------------------------------------
 namespace Gecko
 {
-	using System;
-	using System.Runtime.InteropServices;
-	using System.Runtime.InteropServices.ComTypes;
-	using System.Runtime.CompilerServices;
-	
-	
-	/// <summary>
+    using System;
+    using System.Runtime.CompilerServices;
+    using System.Runtime.InteropServices;
+
+
+    /// <summary>
     /// Represents a download object.
     ///
     /// @note This object is no longer updated once it enters a completed state.
@@ -38,7 +37,7 @@ namespace Gecko
     /// nsIDownloadManager::DOWNLOAD_DIRTY
     /// nsIDownloadManager::DOWNLOAD_BLOCKED_POLICY
     /// </summary>
-	[ComImport()]
+    [ComImport()]
 	[InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 	[Guid("b02be33b-d47c-4bd3-afd9-402a942426b0")]
 	public interface nsIDownload : nsITransfer

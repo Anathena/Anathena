@@ -20,13 +20,12 @@
 // --------------------------------------------------------------------------------------------
 namespace Gecko
 {
-	using System;
-	using System.Runtime.InteropServices;
-	using System.Runtime.InteropServices.ComTypes;
-	using System.Runtime.CompilerServices;
-	
-	
-	/// <summary>
+    using System;
+    using System.Runtime.CompilerServices;
+    using System.Runtime.InteropServices;
+
+
+    /// <summary>
     ///nsINativeAppSupport
     ///
     /// This "pseudo" (in the XPCOM sense) interface provides for
@@ -109,7 +108,7 @@ namespace Gecko
     /// onLastWindowClosing -  Called when the last window is closed. Used as a
     /// "soft" shutdown, passwords are flushed.
     /// </summary>
-	[ComImport()]
+    [ComImport()]
 	[InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 	[Guid("5fdf8480-1f98-11d4-8077-00600811a9c3")]
 	public interface nsINativeAppSupport

@@ -52,6 +52,7 @@
             this.Name = "GUIRegistration";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Register Anethema";
+            this.Load += new System.EventHandler(this.GUIRegistration_Load);
             this.ResumeLayout(false);
 
         }

@@ -1,6 +1,6 @@
 namespace Gecko
 {
-	public class DomUIEventArgs
+    public class DomUIEventArgs
 		: DomEventArgs
 	{
 		nsIDOMUIEvent _Event;

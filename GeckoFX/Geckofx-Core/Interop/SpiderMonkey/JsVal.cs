@@ -1,22 +1,22 @@
-﻿using System.Runtime.InteropServices;
-using System;
+﻿using System;
+using System.Runtime.InteropServices;
 namespace Gecko
 {
 
-	/// <summary>
-	/// This is just a piece of a JsVal implementation, just enough to get the message out.
-	/// netmonkey and spidermonkeydotnet have fuller implementations
-	/// </summary>
-	/// <remarks>
-	/// 		/// WARNING:
-	/// https://developer.mozilla.org/En/SpiderMonkey/JSAPI_Reference/Jsval
-	/// Says: "jsval is a variant type whose exact representation varies by architecture.  
-	///			Embeddings should not rely on observed representation details, the size of jsval, 
-	///			or whether jsval is a primitive type."
-	///	In the code below, we are just using API calls to access it, except for the attempt to get at the value tag directly (which didn't work).
-	///		
-	/// </remarks>
-	[StructLayout(LayoutKind.Explicit)]
+    /// <summary>
+    /// This is just a piece of a JsVal implementation, just enough to get the message out.
+    /// netmonkey and spidermonkeydotnet have fuller implementations
+    /// </summary>
+    /// <remarks>
+    /// 		/// WARNING:
+    /// https://developer.mozilla.org/En/SpiderMonkey/JSAPI_Reference/Jsval
+    /// Says: "jsval is a variant type whose exact representation varies by architecture.  
+    ///			Embeddings should not rely on observed representation details, the size of jsval, 
+    ///			or whether jsval is a primitive type."
+    ///	In the code below, we are just using API calls to access it, except for the attempt to get at the value tag directly (which didn't work).
+    ///		
+    /// </remarks>
+    [StructLayout(LayoutKind.Explicit)]
 	public struct JsVal
 	{
 		public static JsVal FromPtr(ulong value)

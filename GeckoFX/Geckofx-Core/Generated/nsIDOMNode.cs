@@ -20,13 +20,12 @@
 // --------------------------------------------------------------------------------------------
 namespace Gecko
 {
-	using System;
-	using System.Runtime.InteropServices;
-	using System.Runtime.InteropServices.ComTypes;
-	using System.Runtime.CompilerServices;
-	
-	
-	/// <summary>
+    using System;
+    using System.Runtime.CompilerServices;
+    using System.Runtime.InteropServices;
+
+
+    /// <summary>
     /// The nsIDOMNode interface is the primary datatype for the entire
     /// Document Object Model.
     /// It represents a single node in the document tree.
@@ -34,7 +33,7 @@ namespace Gecko
     /// For more information on this interface please see
     /// http://dvcs.w3.org/hg/domcore/raw-file/tip/Overview.html
     /// </summary>
-	[ComImport()]
+    [ComImport()]
 	[InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 	[Guid("56545150-a001-484e-9ed4-cb319eebd7b3")]
 	public interface nsIDOMNode

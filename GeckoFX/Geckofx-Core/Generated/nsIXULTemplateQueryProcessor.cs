@@ -20,13 +20,12 @@
 // --------------------------------------------------------------------------------------------
 namespace Gecko
 {
-	using System;
-	using System.Runtime.InteropServices;
-	using System.Runtime.InteropServices.ComTypes;
-	using System.Runtime.CompilerServices;
-	
-	
-	/// <summary>
+    using System;
+    using System.Runtime.CompilerServices;
+    using System.Runtime.InteropServices;
+
+
+    /// <summary>
     /// A query processor takes a template query and generates results for it given
     /// a datasource and a reference point. There is a one-to-one relationship
     /// between a template builder and a query processor. The template builder
@@ -88,7 +87,7 @@ namespace Gecko
     /// nsIRDFDataSource or a DOM node, and will always be the same one in between
     /// calls to initializeForBuilding and done.
     /// </summary>
-	[ComImport()]
+    [ComImport()]
 	[InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 	[Guid("C257573F-444F-468A-BA27-DE979DC55FE4")]
 	public interface nsIXULTemplateQueryProcessor

@@ -1,6 +1,6 @@
 ﻿namespace Gecko
 {
-	partial class PasswordDialog
+    partial class PasswordDialog
 	{
 		/// <summary>
 		/// Required designer variable.

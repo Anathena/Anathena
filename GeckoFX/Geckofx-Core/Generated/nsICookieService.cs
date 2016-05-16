@@ -20,13 +20,12 @@
 // --------------------------------------------------------------------------------------------
 namespace Gecko
 {
-	using System;
-	using System.Runtime.InteropServices;
-	using System.Runtime.InteropServices.ComTypes;
-	using System.Runtime.CompilerServices;
-	
-	
-	/// <summary>
+    using System;
+    using System.Runtime.CompilerServices;
+    using System.Runtime.InteropServices;
+
+
+    /// <summary>
     /// nsICookieService
     ///
     /// Provides methods for setting and getting cookies in the context of a
@@ -88,7 +87,7 @@ namespace Gecko
     /// to set the cookie.
     /// data   :  the referrer, or "?" if unknown
     /// </summary>
-	[ComImport()]
+    [ComImport()]
 	[InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 	[Guid("2aaa897a-293c-4d2b-a657-8c9b7136996d")]
 	public interface nsICookieService

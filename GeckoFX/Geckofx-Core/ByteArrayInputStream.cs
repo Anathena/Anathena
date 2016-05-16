@@ -3,10 +3,10 @@ using System.Runtime.InteropServices;
 
 namespace Gecko
 {
-	/// <summary>
-	/// Streams a byte array using nsIInputStream.
-	/// </summary>
-	public class ByteArrayInputStream
+    /// <summary>
+    /// Streams a byte array using nsIInputStream.
+    /// </summary>
+    public class ByteArrayInputStream
 		: nsIInputStream
 	{
 		private byte[] _data;

@@ -20,13 +20,12 @@
 // --------------------------------------------------------------------------------------------
 namespace Gecko
 {
-	using System;
-	using System.Runtime.InteropServices;
-	using System.Runtime.InteropServices.ComTypes;
-	using System.Runtime.CompilerServices;
-	
-	
-	/// <summary>
+    using System;
+    using System.Runtime.CompilerServices;
+    using System.Runtime.InteropServices;
+
+
+    /// <summary>
     /// If an input stream is non-blocking, it may return NS_BASE_STREAM_WOULD_BLOCK
     /// when read.  The caller must then wait for the stream to have some data to
     /// read.  If the stream implements nsIAsyncInputStream, then the caller can use
@@ -38,7 +37,7 @@ namespace Gecko
     /// necessary that a non-blocking nsIInputStream implementation also implement
     /// nsIAsyncInputStream.
     /// </summary>
-	[ComImport()]
+    [ComImport()]
 	[InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 	[Guid("a5f255ab-4801-4161-8816-277ac92f6ad1")]
 	public interface nsIAsyncInputStream : nsIInputStream

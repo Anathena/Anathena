@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Gecko.Events
 {
-	public sealed class GeckoEventListTmp
+    public sealed class GeckoEventListTmp
 	{
 		private Dictionary<int,Delegate> _delegates=new Dictionary<int, Delegate>();
 

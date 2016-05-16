@@ -20,13 +20,12 @@
 // --------------------------------------------------------------------------------------------
 namespace Gecko
 {
-	using System;
-	using System.Runtime.InteropServices;
-	using System.Runtime.InteropServices.ComTypes;
-	using System.Runtime.CompilerServices;
-	
-	
-	/// <summary>
+    using System;
+    using System.Runtime.CompilerServices;
+    using System.Runtime.InteropServices;
+
+
+    /// <summary>
     /// nsIDNSRecord
     ///
     /// this interface represents the result of a DNS lookup.  since a DNS
@@ -34,7 +33,7 @@ namespace Gecko
     /// like an enumerator, allowing the caller to easily step through the
     /// list of IP addresses.
     /// </summary>
-	[ComImport()]
+    [ComImport()]
 	[InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 	[Guid("95ced6f3-44b4-4427-a149-c9a1e033d852")]
 	public interface nsIDNSRecord

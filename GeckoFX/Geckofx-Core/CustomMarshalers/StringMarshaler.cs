@@ -1,21 +1,20 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using System.Text;
 
 namespace Gecko.CustomMarshalers
 {
-	/// <summary>
-	/// Custom Marshaler for xpcom/xulrunner native type string string
-	/// Introduced to marshal return values from preference service (fix AccessViolationException)
-	/// 
-	/// To use managed type string as parameter and apply attribute:
-	/// [MarshalAs(UnmanagedType.CustomMarshaler, MarshalType = "Gecko.CustomMarshalers.StringMarshaler")] string
-	/// or for string return types use:
-	/// [return: MarshalAs(UnmanagedType.CustomMarshaler, MarshalType = "Gecko.CustomMarshalers.StringMarshaler")]
-	/// </summary>
-	public class StringMarshaler
+    /// <summary>
+    /// Custom Marshaler for xpcom/xulrunner native type string string
+    /// Introduced to marshal return values from preference service (fix AccessViolationException)
+    /// 
+    /// To use managed type string as parameter and apply attribute:
+    /// [MarshalAs(UnmanagedType.CustomMarshaler, MarshalType = "Gecko.CustomMarshalers.StringMarshaler")] string
+    /// or for string return types use:
+    /// [return: MarshalAs(UnmanagedType.CustomMarshaler, MarshalType = "Gecko.CustomMarshalers.StringMarshaler")]
+    /// </summary>
+    public class StringMarshaler
 		: ICustomMarshaler
 	{
 		private List<IntPtr> allocs = new List<IntPtr>(5);

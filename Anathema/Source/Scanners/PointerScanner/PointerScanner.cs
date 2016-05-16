@@ -1,6 +1,7 @@
 ﻿using Anathema.Scanners.ScanConstraints;
 using Anathema.Services.ProcessManager;
 using Anathema.Services.Snapshots;
+using Anathema.Source.Utils.Extensions;
 using Anathema.User.UserAddressTable;
 using Anathema.Utils.Extensions;
 using Anathema.Utils.OS;
@@ -44,7 +45,6 @@ namespace Anathema.Scanners.PointerScanner
 
         ScanConstraintManager ScanConstraintManager;
         private Boolean IsAddressMode;
-
 
         private List<Tuple<IntPtr, List<Int32>>> AcceptedPointers;
 
@@ -150,7 +150,7 @@ namespace Anathema.Scanners.PointerScanner
                 String Value = String.Empty;
                 IndexValueMap.TryGetValue(Index, out Value);
 
-                AddressTable.GetInstance().AddAddressItem(AcceptedPointers[Index].Item1, ElementType, "Pointer", AcceptedPointers[Index].Item2.ToArray(), Value: Value);
+                AddressTable.GetInstance().AddAddressItem(AcceptedPointers[Index].Item1, ElementType, "Pointer", AcceptedPointers[Index].Item2, Value: Value);
 
                 if (++Count >= MaxAdd)
                     break;
@@ -165,16 +165,26 @@ namespace Anathema.Scanners.PointerScanner
             return "-";
         }
 
-        public override String GetBaseAddress(Int32 Index)
+        public override String GetAddressAtIndex(Int32 Index)
         {
             return Conversions.ToAddress(AcceptedPointers[Index].Item1);
         }
 
-        public override String[] GetOffsets(Int32 Index)
+        public override IEnumerable<String> GetOffsetsAtIndex(Int32 Index)
         {
             List<String> Offsets = new List<String>();
             AcceptedPointers[Index].Item2.ForEach(x => Offsets.Add((x < 0 ? "-" : "") + Math.Abs(x).ToString("X")));
-            return Offsets.ToArray();
+            return Offsets;
+        }
+
+        public override Int32 GetMaxPointerLevel()
+        {
+            return MaxPointerLevel;
+        }
+
+        public override Int32 GetMaxPointerOffset()
+        {
+            return MaxPointerOffset;
         }
 
         private IntPtr ResolvePointer(Tuple<IntPtr, List<Int32>> FullPointer)
@@ -258,10 +268,7 @@ namespace Anathema.Scanners.PointerScanner
             }
         }
 
-        public override void End()
-        {
-            base.End();
-        }
+        protected override void End() { }
 
         private void PointerRescan()
         {
@@ -426,7 +433,7 @@ namespace Anathema.Scanners.PointerScanner
             List<SnapshotRegion> AcceptedBaseRegions = new List<SnapshotRegion>();
 
             // Gather regions from every module as valid base addresses
-            Modules.ToList().ForEach(x => AcceptedBaseRegions.Add(new SnapshotRegion<Null>(new NormalizedRegion(x.BaseAddress, x.RegionSize))));
+            Modules.ForEach(x => AcceptedBaseRegions.Add(new SnapshotRegion<Null>(new NormalizedRegion(x.BaseAddress, x.RegionSize))));
 
             // Convert regions into a snapshot
             AcceptedBases = new Snapshot<Null>(AcceptedBaseRegions);
@@ -461,8 +468,14 @@ namespace Anathema.Scanners.PointerScanner
                 SnapshotRegion Region = (SnapshotRegion)RegionObject;
 
                 // Read the memory of this region
-                try { Region.ReadAllSnapshotMemory(Snapshot.GetOSInterface(), true); }
-                catch (ScanFailedException) { return; }
+                try
+                {
+                    Region.ReadAllSnapshotMemory(Snapshot.GetOSInterface(), true);
+                }
+                catch (ScanFailedException)
+                {
+                    return;
+                }
 
                 if (!Region.HasValues())
                     return;

@@ -20,19 +20,18 @@
 // --------------------------------------------------------------------------------------------
 namespace Gecko
 {
-	using System;
-	using System.Runtime.InteropServices;
-	using System.Runtime.InteropServices.ComTypes;
-	using System.Runtime.CompilerServices;
-	
-	
-	/// <summary>
+    using System;
+    using System.Runtime.CompilerServices;
+    using System.Runtime.InteropServices;
+
+
+    /// <summary>
     /// The nsIDOMSerializer interface is really a placeholder till the W3C
     /// DOM Working Group defines a mechanism for serializing DOM nodes.
     /// An instance of this interface can be used to serialize a DOM document
     /// or any DOM subtree.
     /// </summary>
-	[ComImport()]
+    [ComImport()]
 	[InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 	[Guid("9fd4ba15-e67c-4c98-b52c-7715f62c9196")]
 	public interface nsIDOMSerializer

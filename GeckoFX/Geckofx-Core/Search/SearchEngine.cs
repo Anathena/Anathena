@@ -1,6 +1,6 @@
 namespace Gecko.Search
 {
-	public sealed class SearchEngine
+    public sealed class SearchEngine
 	{
 		internal nsISearchEngine _searchEngine;
 

@@ -20,20 +20,19 @@
 // --------------------------------------------------------------------------------------------
 namespace Gecko
 {
-	using System;
-	using System.Runtime.InteropServices;
-	using System.Runtime.InteropServices.ComTypes;
-	using System.Runtime.CompilerServices;
-	
-	
-	/// <summary>
+    using System;
+    using System.Runtime.CompilerServices;
+    using System.Runtime.InteropServices;
+
+
+    /// <summary>
     /// Low-level websocket API: handles network protocol.
     ///
     /// This is primarly intended for use by the higher-level nsIWebSocket.idl.
     /// We are also making it scriptable for now, but this may change once we have
     /// WebSockets for Workers.
     /// </summary>
-	[ComImport()]
+    [ComImport()]
 	[InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 	[Guid("9ee5874c-ec39-4bc2-b2d7-194a4c98c9d2")]
 	public interface nsIWebSocketChannel

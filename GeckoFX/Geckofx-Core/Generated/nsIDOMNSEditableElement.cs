@@ -20,13 +20,12 @@
 // --------------------------------------------------------------------------------------------
 namespace Gecko
 {
-	using System;
-	using System.Runtime.InteropServices;
-	using System.Runtime.InteropServices.ComTypes;
-	using System.Runtime.CompilerServices;
-	
-	
-	/// <summary>
+    using System;
+    using System.Runtime.CompilerServices;
+    using System.Runtime.InteropServices;
+
+
+    /// <summary>
     /// This interface is implemented by elements which have inner editable content,
     /// such as HTML input and textarea.
     ///
@@ -34,7 +33,7 @@ namespace Gecko
     /// Web IDL interfaces to mirror this interface when changing it.
     ///
     /// </summary>
-	[ComImport()]
+    [ComImport()]
 	[InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 	[Guid("b33eb56c-3120-418c-892b-774b00c7dde8")]
 	public interface nsIDOMNSEditableElement

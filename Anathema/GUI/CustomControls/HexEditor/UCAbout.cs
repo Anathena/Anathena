@@ -1,18 +1,14 @@
 using System;
-using System.Collections;
-using System.ComponentModel;
 using System.Drawing;
-using System.Windows.Forms;
-using System.Diagnostics;
 using System.Reflection;
-using System.IO;
+using System.Windows.Forms;
 
 namespace Be.HexEditor
 {
-	/// <summary>
-	/// Summary description for UCAbout.
-	/// </summary>
-	public class UCAbout : System.Windows.Forms.UserControl
+    /// <summary>
+    /// Summary description for UCAbout.
+    /// </summary>
+    public class UCAbout : System.Windows.Forms.UserControl
 	{
 		private System.Windows.Forms.Label label1;
 		private System.Windows.Forms.Label label5;

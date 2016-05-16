@@ -20,13 +20,12 @@
 // --------------------------------------------------------------------------------------------
 namespace Gecko
 {
-	using System;
-	using System.Runtime.InteropServices;
-	using System.Runtime.InteropServices.ComTypes;
-	using System.Runtime.CompilerServices;
-	
-	
-	/// <summary>
+    using System;
+    using System.Runtime.CompilerServices;
+    using System.Runtime.InteropServices;
+
+
+    /// <summary>
     /// nsIFlavorDataProvider allows a flavor to 'promise' data later,
     /// supplying the data lazily.
     ///
@@ -38,7 +37,7 @@ namespace Gecko
     /// and its getFlavorData called.
     ///
     /// </summary>
-	[ComImport()]
+    [ComImport()]
 	[InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 	[Guid("7E225E5F-711C-11D7-9FAE-000393636592")]
 	public interface nsIFlavorDataProvider

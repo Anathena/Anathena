@@ -20,19 +20,18 @@
 // --------------------------------------------------------------------------------------------
 namespace Gecko
 {
-	using System;
-	using System.Runtime.InteropServices;
-	using System.Runtime.InteropServices.ComTypes;
-	using System.Runtime.CompilerServices;
-	
-	
-	/// <summary>
+    using System;
+    using System.Runtime.CompilerServices;
+    using System.Runtime.InteropServices;
+
+
+    /// <summary>
     /// Provides information about the XUL runtime.
     /// @status UNSTABLE - This interface is not frozen and will probably change in
     /// future releases. If you need this functionality to be
     /// stable/frozen, please contact Benjamin Smedberg.
     /// </summary>
-	[ComImport()]
+    [ComImport()]
 	[InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 	[Guid("e080b1f6-8452-4bde-9368-c795808b86d1")]
 	public interface nsIXULRuntime

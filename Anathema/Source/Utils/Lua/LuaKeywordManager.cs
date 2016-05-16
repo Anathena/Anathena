@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Anathema.Source.Utils.Extensions;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -114,8 +115,8 @@ namespace Anathema.Utils.LUA
 
             // Sort Anathema keywords
             List<String> FunctionKeywords = new List<String>();
-            typeof(LuaFunctions).GetMethods().ToList().ForEach(x => FunctionKeywords.Add(x.Name));
-            _AnathemaKeywords = String.Join(" ", _AnathemaKeywords.Split(' ').Concat(FunctionKeywords.ToArray()));
+            typeof(LuaFunctions).GetMethods().ForEach(X => FunctionKeywords.Add(X.Name));
+            _AnathemaKeywords = String.Join(" ", _AnathemaKeywords.Split(' ').Concat(FunctionKeywords));
             SortedKeywords = String.Empty;
             Keywords = new List<String>(_AnathemaKeywords.Split(' '));
             Keywords.Sort();

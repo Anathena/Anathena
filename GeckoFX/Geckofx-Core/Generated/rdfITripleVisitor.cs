@@ -20,20 +20,19 @@
 // --------------------------------------------------------------------------------------------
 namespace Gecko
 {
-	using System;
-	using System.Runtime.InteropServices;
-	using System.Runtime.InteropServices.ComTypes;
-	using System.Runtime.CompilerServices;
-	
-	
-	/// <summary>
+    using System;
+    using System.Runtime.CompilerServices;
+    using System.Runtime.InteropServices;
+
+
+    /// <summary>
     /// Interface used in RDF to enumerate triples.
     /// Also used by rdfIDataSource::getAllSubjects, then aPredicate,
     /// aObject and aTruthValue are ignored.
     ///
     /// @status PLASMA
     /// </summary>
-	[ComImport()]
+    [ComImport()]
 	[InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 	[Guid("aafea151-c271-4505-9978-a100d292800c")]
 	public interface rdfITripleVisitor

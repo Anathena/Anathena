@@ -1,6 +1,6 @@
 ﻿namespace Gecko
 {
-	public enum AccessibleTextBoundary : int
+    public enum AccessibleTextBoundary : int
 	{
 		TextOffsetEndOfText = (int)nsIAccessibleTextConsts.TEXT_OFFSET_END_OF_TEXT,
 		TextOffsetCaret = (int)nsIAccessibleTextConsts.TEXT_OFFSET_CARET,

@@ -1,10 +1,8 @@
-using System;
-using System.Runtime.InteropServices;
 using Gecko.Interop;
 
 namespace Gecko
 {
-	public static class ObserverService
+    public static class ObserverService
 	{
 		private static ComPtr<nsIObserverService> _observerService;
 

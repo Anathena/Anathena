@@ -20,18 +20,17 @@
 // --------------------------------------------------------------------------------------------
 namespace Gecko
 {
-	using System;
-	using System.Runtime.InteropServices;
-	using System.Runtime.InteropServices.ComTypes;
-	using System.Runtime.CompilerServices;
-	
-	
-	/// <summary>
+    using System;
+    using System.Runtime.CompilerServices;
+    using System.Runtime.InteropServices;
+
+
+    /// <summary>
     /// The nsIEmbeddingSiteWindow is implemented by the embedder to provide
     /// Gecko with the means to call up to the host to resize the window,
     /// hide or show it and set/get its title.
     /// </summary>
-	[ComImport()]
+    [ComImport()]
 	[InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 	[Guid("0b976267-4aaa-4f36-a2d4-27b5ca8d73bb")]
 	public interface nsIEmbeddingSiteWindow

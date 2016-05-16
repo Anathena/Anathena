@@ -20,20 +20,19 @@
 // --------------------------------------------------------------------------------------------
 namespace Gecko
 {
-	using System;
-	using System.Runtime.InteropServices;
-	using System.Runtime.InteropServices.ComTypes;
-	using System.Runtime.CompilerServices;
-	
-	
-	/// <summary>
+    using System;
+    using System.Runtime.CompilerServices;
+    using System.Runtime.InteropServices;
+
+
+    /// <summary>
     /// A scriptable interface used on Windows only to do some work from
     /// a special process that gets created with elevated privileges.
     ///
     /// @status UNSTABLE - This interface is not frozen and will probably change in
     /// future releases.
     /// </summary>
-	[ComImport()]
+    [ComImport()]
 	[InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 	[Guid("dc263ca8-b257-47eb-b5b7-339d9e0b90f7")]
 	public interface nsIWinAppHelper

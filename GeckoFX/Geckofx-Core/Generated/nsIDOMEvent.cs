@@ -20,13 +20,12 @@
 // --------------------------------------------------------------------------------------------
 namespace Gecko
 {
-	using System;
-	using System.Runtime.InteropServices;
-	using System.Runtime.InteropServices.ComTypes;
-	using System.Runtime.CompilerServices;
-	
-	
-	/// <summary>
+    using System;
+    using System.Runtime.CompilerServices;
+    using System.Runtime.InteropServices;
+
+
+    /// <summary>
     /// The nsIDOMEvent interface is the primary datatype for all events in
     /// the Document Object Model.
     ///
@@ -34,7 +33,7 @@ namespace Gecko
     /// http://dev.w3.org/2006/webapi/DOM-Level-3-Events/html/DOM3-Events.html and
     /// http://dvcs.w3.org/hg/domcore/raw-file/tip/Overview.html
     /// </summary>
-	[ComImport()]
+    [ComImport()]
 	[InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 	[Guid("02d54f52-a1f5-4ad2-b560-36f14012935e")]
 	public interface nsIDOMEvent

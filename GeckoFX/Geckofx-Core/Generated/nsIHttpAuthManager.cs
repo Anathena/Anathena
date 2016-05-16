@@ -20,13 +20,12 @@
 // --------------------------------------------------------------------------------------------
 namespace Gecko
 {
-	using System;
-	using System.Runtime.InteropServices;
-	using System.Runtime.InteropServices.ComTypes;
-	using System.Runtime.CompilerServices;
-	
-	
-	/// <summary>
+    using System;
+    using System.Runtime.CompilerServices;
+    using System.Runtime.InteropServices;
+
+
+    /// <summary>
     /// nsIHttpAuthManager
     ///
     /// This service provides access to cached HTTP authentication
@@ -40,7 +39,7 @@ namespace Gecko
     /// Java client fetches content from a HTTP site that the user
     /// has already logged into.
     /// </summary>
-	[ComImport()]
+    [ComImport()]
 	[InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 	[Guid("54f90444-c52b-4d2d-8916-c59a2bb25938")]
 	public interface nsIHttpAuthManager

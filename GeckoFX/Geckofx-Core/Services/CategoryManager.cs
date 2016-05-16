@@ -1,13 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Gecko.Collections;
+﻿using Gecko.Collections;
 using Gecko.Interop;
+using System;
+using System.Collections.Generic;
 
 namespace Gecko
 {
-	public static class CategoryManager
+    public static class CategoryManager
 	{
 		private static ComPtr<nsICategoryManager> _categoryManager;
 

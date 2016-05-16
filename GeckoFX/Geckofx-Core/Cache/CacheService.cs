@@ -1,10 +1,10 @@
+using Gecko.Interop;
 using System;
 using System.Collections.Generic;
-using Gecko.Interop;
 
 namespace Gecko.Cache
 {
-	public static class CacheService
+    public static class CacheService
 	{
 		private static ComPtr<nsICacheService> _cacheService;
 

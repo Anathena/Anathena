@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
-
-namespace Gecko
+﻿namespace Gecko
 {
-	public class Properties
+    public class Properties
 	{
 		private nsIProperties _properties;
 

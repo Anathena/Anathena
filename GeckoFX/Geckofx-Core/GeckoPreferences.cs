@@ -1,17 +1,14 @@
-using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Runtime.InteropServices.ComTypes;
-using System.Runtime.InteropServices;
-using System.IO;
 using Gecko.Interop;
+using System;
+using System.IO;
+using System.Runtime.InteropServices;
 
 namespace Gecko
 {
-	/// <summary>
-	/// Provides access to Gecko preferences.
-	/// </summary>
-	public class GeckoPreferences: IDisposable
+    /// <summary>
+    /// Provides access to Gecko preferences.
+    /// </summary>
+    public class GeckoPreferences: IDisposable
 	{
 		const int PREF_INVALID = 0;
 		const int PREF_STRING = 32;

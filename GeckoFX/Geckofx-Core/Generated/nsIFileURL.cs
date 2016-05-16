@@ -20,18 +20,17 @@
 // --------------------------------------------------------------------------------------------
 namespace Gecko
 {
-	using System;
-	using System.Runtime.InteropServices;
-	using System.Runtime.InteropServices.ComTypes;
-	using System.Runtime.CompilerServices;
-	
-	
-	/// <summary>
+    using System;
+    using System.Runtime.CompilerServices;
+    using System.Runtime.InteropServices;
+
+
+    /// <summary>
     /// nsIFileURL provides access to the underlying nsIFile object corresponding to
     /// an URL.  The URL scheme need not be file:, since other local protocols may
     /// map URLs to files (e.g., resource:).
     /// </summary>
-	[ComImport()]
+    [ComImport()]
 	[InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 	[Guid("7750029c-1b0a-414e-8359-a77f24a2a0a6")]
 	public interface nsIFileURL : nsIURL

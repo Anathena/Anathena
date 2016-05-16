@@ -20,19 +20,18 @@
 // --------------------------------------------------------------------------------------------
 namespace Gecko
 {
-	using System;
-	using System.Runtime.InteropServices;
-	using System.Runtime.InteropServices.ComTypes;
-	using System.Runtime.CompilerServices;
-	
-	
-	/// <summary>
+    using System;
+    using System.Runtime.CompilerServices;
+    using System.Runtime.InteropServices;
+
+
+    /// <summary>
     /// The base interface for both pure asynchronous storage statements
     /// (mozIStorageAsyncStatement) and 'classic' storage statements
     /// (mozIStorageStatement) that can be used for both synchronous and asynchronous
     /// purposes.
     /// </summary>
-	[ComImport()]
+    [ComImport()]
 	[Guid("5d34f333-ed3f-4aa2-ba51-f2a8b0cfa33a")]
 	public interface mozIStorageBaseStatement : mozIStorageBindingParams
 	{

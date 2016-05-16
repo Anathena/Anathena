@@ -1,6 +1,6 @@
 namespace Gecko.Certificates
 {
-	public sealed class ASN1Tree
+    public sealed class ASN1Tree
 		:TreeView
 	{
 		private nsIASN1Tree _asnTree;

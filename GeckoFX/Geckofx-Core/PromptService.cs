@@ -35,11 +35,10 @@
 
 using System;
 using System.Runtime.InteropServices;
-using System.Text;
 
 namespace Gecko
-{	
-	[Guid("8E4AABE2-B832-4cff-B213-2174DE2B818D")]
+{
+    [Guid("8E4AABE2-B832-4cff-B213-2174DE2B818D")]
 	[ContractID(PromptServiceFactory.ContractID)]
 	class PromptServiceFactory
 		: GenericOneClassNsFactory<PromptServiceFactory, PromptService>

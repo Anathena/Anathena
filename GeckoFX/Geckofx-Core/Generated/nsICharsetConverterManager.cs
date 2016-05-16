@@ -20,13 +20,12 @@
 // --------------------------------------------------------------------------------------------
 namespace Gecko
 {
-	using System;
-	using System.Runtime.InteropServices;
-	using System.Runtime.InteropServices.ComTypes;
-	using System.Runtime.CompilerServices;
-	
-	
-	/// <summary>
+    using System;
+    using System.Runtime.CompilerServices;
+    using System.Runtime.InteropServices;
+
+
+    /// <summary>
     /// DON'T ADD NEW USES OF THIS INTERFACE TO MOZILLA-CENTRAL. Use
     /// mozilla::dom::EncodingUtils instead.
     ///
@@ -38,7 +37,7 @@ namespace Gecko
     /// @created         21/Feb/2000
     /// @author  Catalin Rotaru [CATA]
     /// </summary>
-	[ComImport()]
+    [ComImport()]
 	[InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 	[Guid("a0550d46-8d9c-47dd-acc7-c083620dff12")]
 	public interface nsICharsetConverterManager

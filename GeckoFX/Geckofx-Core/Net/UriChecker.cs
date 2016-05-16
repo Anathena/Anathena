@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.InteropServices;
-using System.Text;
+﻿using System.Runtime.InteropServices;
 
 namespace Gecko.Net
 {
-	public sealed class UriChecker
+    public sealed class UriChecker
 		: Request
 	{
 		private nsIURIChecker _checker;

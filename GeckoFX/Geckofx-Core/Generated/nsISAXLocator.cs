@@ -20,13 +20,12 @@
 // --------------------------------------------------------------------------------------------
 namespace Gecko
 {
-	using System;
-	using System.Runtime.InteropServices;
-	using System.Runtime.InteropServices.ComTypes;
-	using System.Runtime.CompilerServices;
-	
-	
-	/// <summary>
+    using System;
+    using System.Runtime.CompilerServices;
+    using System.Runtime.InteropServices;
+
+
+    /// <summary>
     /// Interface for associating a SAX event with a document location.
     ///
     /// Note that the results returned by the object will be valid only
@@ -34,7 +33,7 @@ namespace Gecko
     /// receive unpredictable results if it attempts to use the locator at
     /// any other time, or after parsing completes.
     /// </summary>
-	[ComImport()]
+    [ComImport()]
 	[InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 	[Guid("7a307c6c-6cc9-11da-be43-001422106990")]
 	public interface nsISAXLocator

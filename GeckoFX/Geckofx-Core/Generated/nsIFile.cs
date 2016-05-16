@@ -20,13 +20,12 @@
 // --------------------------------------------------------------------------------------------
 namespace Gecko
 {
-	using System;
-	using System.Runtime.InteropServices;
-	using System.Runtime.InteropServices.ComTypes;
-	using System.Runtime.CompilerServices;
-	
-	
-	/// <summary>
+    using System;
+    using System.Runtime.CompilerServices;
+    using System.Runtime.InteropServices;
+
+
+    /// <summary>
     /// An nsIFile is an abstract representation of a filename. It manages
     /// filename encoding issues, pathname component separators ('/' vs. '\\'
     /// vs. ':') and weird stuff like differing volumes with identical names, as
@@ -51,7 +50,7 @@ namespace Gecko
     /// be safely passed to javascript via xpconnect.  Therefore, the "native
     /// methods" are not scriptable.
     /// </summary>
-	[ComImport()]
+    [ComImport()]
 	[InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 	[Guid("a99a6a06-f90d-4659-8fce-c2f87feb1167")]
 	public interface nsIFile

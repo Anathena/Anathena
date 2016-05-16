@@ -20,13 +20,12 @@
 // --------------------------------------------------------------------------------------------
 namespace Gecko
 {
-	using System;
-	using System.Runtime.InteropServices;
-	using System.Runtime.InteropServices.ComTypes;
-	using System.Runtime.CompilerServices;
-	
-	
-	/// <summary>
+    using System;
+    using System.Runtime.CompilerServices;
+    using System.Runtime.InteropServices;
+
+
+    /// <summary>
     /// This interface acts as a container for an object serialized using the
     /// structured clone algorithm.
     ///
@@ -39,7 +38,7 @@ namespace Gecko
     /// string containing a copy of the container's serialized data, using
     /// getDataAsBase64.
     /// </summary>
-	[ComImport()]
+    [ComImport()]
 	[InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 	[Guid("c8852f01-4c05-47c3-acca-253a958f39f6")]
 	public interface nsIStructuredCloneContainer

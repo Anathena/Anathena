@@ -43,7 +43,7 @@ namespace Anathema.User.UserScriptEditor
         }
 
         #region Method definitions called by the view (downstream)
-        
+
         public void SaveScript(String ScriptText)
         {
             Model.SaveScript(ScriptText);
@@ -53,7 +53,7 @@ namespace Anathema.User.UserScriptEditor
         {
             Model.OpenNewScript();
         }
-        
+
         public Boolean HasChanges(String Script)
         {
             return Model.HasChanges(Script);

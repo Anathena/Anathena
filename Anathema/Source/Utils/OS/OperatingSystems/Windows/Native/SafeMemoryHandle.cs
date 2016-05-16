@@ -1,7 +1,7 @@
-﻿using System;
+﻿using Microsoft.Win32.SafeHandles;
+using System;
 using System.Runtime.ConstrainedExecution;
 using System.Security.Permissions;
-using Microsoft.Win32.SafeHandles;
 
 namespace Anathema.MemoryManagement.Native
 {

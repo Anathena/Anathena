@@ -20,18 +20,17 @@
 // --------------------------------------------------------------------------------------------
 namespace Gecko
 {
-	using System;
-	using System.Runtime.InteropServices;
-	using System.Runtime.InteropServices.ComTypes;
-	using System.Runtime.CompilerServices;
-	
-	
-	/// <summary>
+    using System;
+    using System.Runtime.CompilerServices;
+    using System.Runtime.InteropServices;
+
+
+    /// <summary>
     /// A nsIInputStreamTee is a wrapper for an input stream, that when read
     /// reads the specified amount of data from its |source| and copies that
     /// data to its |sink|.  |sink| must be a blocking output stream.
     /// </summary>
-	[ComImport()]
+    [ComImport()]
 	[InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 	[Guid("90a9d790-3bca-421e-a73b-98f68e13c917")]
 	public interface nsIInputStreamTee : nsIInputStream

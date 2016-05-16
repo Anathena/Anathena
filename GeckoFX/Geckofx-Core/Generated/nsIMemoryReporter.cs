@@ -20,19 +20,18 @@
 // --------------------------------------------------------------------------------------------
 namespace Gecko
 {
-	using System;
-	using System.Runtime.InteropServices;
-	using System.Runtime.InteropServices.ComTypes;
-	using System.Runtime.CompilerServices;
-	
-	
-	/// <summary>
+    using System;
+    using System.Runtime.CompilerServices;
+    using System.Runtime.InteropServices;
+
+
+    /// <summary>
     /// Memory reporters measure Firefox's memory usage.  They are primarily used to
     /// generate the about:memory page.  You should read
     /// https://wiki.mozilla.org/Memory_Reporting before writing a memory
     /// reporter.
     /// </summary>
-	[ComImport()]
+    [ComImport()]
 	[InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 	[Guid("3a61be3b-b93b-461a-a4f8-388214f558b1")]
 	public interface nsIMemoryReporterCallback

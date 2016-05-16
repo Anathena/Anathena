@@ -20,13 +20,12 @@
 // --------------------------------------------------------------------------------------------
 namespace Gecko
 {
-	using System;
-	using System.Runtime.InteropServices;
-	using System.Runtime.InteropServices.ComTypes;
-	using System.Runtime.CompilerServices;
-	
-	
-	/// <summary>
+    using System;
+    using System.Runtime.CompilerServices;
+    using System.Runtime.InteropServices;
+
+
+    /// <summary>
     /// For use by consumers in scripted languages (JavaScript, Java, Python,
     /// Perl, ...).
     ///
@@ -35,7 +34,7 @@ namespace Gecko
     /// glue instead.
     ///
     /// </summary>
-	[ComImport()]
+    [ComImport()]
 	[InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 	[Guid("3bf0c3d7-3bd9-4cf2-a971-33572c503e1e")]
 	public interface nsIDebug

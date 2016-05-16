@@ -1,9 +1,9 @@
-using Gecko.IO;
 using Gecko.Interop;
+using Gecko.IO;
 
 namespace Gecko.Net
 {
-	public sealed class UploadChannel
+    public sealed class UploadChannel
 	{
 		private ComPtr<nsIUploadChannel> _uploadChannel;
 

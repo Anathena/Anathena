@@ -20,13 +20,12 @@
 // --------------------------------------------------------------------------------------------
 namespace Gecko
 {
-	using System;
-	using System.Runtime.InteropServices;
-	using System.Runtime.InteropServices.ComTypes;
-	using System.Runtime.CompilerServices;
-	
-	
-	/// <summary>
+    using System;
+    using System.Runtime.CompilerServices;
+    using System.Runtime.InteropServices;
+
+
+    /// <summary>
     /// nsISessionStore keeps track of the current browsing state - i.e.
     /// tab history, cookies, scroll state, form data, and window features
     /// - and allows to restore everything into one browser window.
@@ -43,7 +42,7 @@ namespace Gecko
     /// * "Tabbrowser tabs" are all the child nodes of a browser window's
     /// |gBrowser.tabContainer| such as e.g. |gBrowser.selectedTab|.
     /// </summary>
-	[ComImport()]
+    [ComImport()]
 	[InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 	[Guid("0c99811f-6c5f-4a78-9c31-2d266d714175")]
 	public interface nsISessionStore

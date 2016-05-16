@@ -20,13 +20,12 @@
 // --------------------------------------------------------------------------------------------
 namespace Gecko
 {
-	using System;
-	using System.Runtime.InteropServices;
-	using System.Runtime.InteropServices.ComTypes;
-	using System.Runtime.CompilerServices;
-	
-	
-	/// <summary>
+    using System;
+    using System.Runtime.CompilerServices;
+    using System.Runtime.InteropServices;
+
+
+    /// <summary>
     /// A template builder, given an input source of data, a template, and a
     /// reference point, generates a list of results from the input, and copies
     /// part of the template for each result. Templates may generate content
@@ -132,7 +131,7 @@ namespace Gecko
     ///
     /// See http://wiki.mozilla.org/XUL:Templates_Plan for details about templates.
     /// </summary>
-	[ComImport()]
+    [ComImport()]
 	[InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 	[Guid("A583B676-5B02-4F9C-A0C9-CB850CB99818")]
 	public interface nsIXULTemplateBuilder

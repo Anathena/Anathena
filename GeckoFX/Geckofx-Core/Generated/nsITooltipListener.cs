@@ -20,13 +20,12 @@
 // --------------------------------------------------------------------------------------------
 namespace Gecko
 {
-	using System;
-	using System.Runtime.InteropServices;
-	using System.Runtime.InteropServices.ComTypes;
-	using System.Runtime.CompilerServices;
-	
-	
-	/// <summary>
+    using System;
+    using System.Runtime.CompilerServices;
+    using System.Runtime.InteropServices;
+
+
+    /// <summary>
     /// An optional interface for embedding clients wishing to receive
     /// notifications for when a tooltip should be displayed or removed.
     /// The embedder implements this interface on the web browser chrome
@@ -35,7 +34,7 @@ namespace Gecko
     ///
     /// @see nsITooltipTextProvider
     /// </summary>
-	[ComImport()]
+    [ComImport()]
 	[InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 	[Guid("44b78386-1dd2-11b2-9ad2-e4eee2ca1916")]
 	public interface nsITooltipListener

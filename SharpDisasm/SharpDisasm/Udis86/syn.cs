@@ -35,15 +35,13 @@
 // --------------------------------------------------------------------------------
 
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using System.Text;
 
 
 namespace SharpDisasm.Udis86
 {
-    #pragma warning disable 1591
+#pragma warning disable 1591
     public class syn
     {
         public static readonly string[] ud_reg_tab = new string[] {

@@ -20,13 +20,12 @@
 // --------------------------------------------------------------------------------------------
 namespace Gecko
 {
-	using System;
-	using System.Runtime.InteropServices;
-	using System.Runtime.InteropServices.ComTypes;
-	using System.Runtime.CompilerServices;
-	
-	
-	/// <summary>
+    using System;
+    using System.Runtime.CompilerServices;
+    using System.Runtime.InteropServices;
+
+
+    /// <summary>
     /// nsIContextMenuListener2
     ///
     /// This is an extended version of nsIContextMenuListener
@@ -36,7 +35,7 @@ namespace Gecko
     /// @see nsIContextMenuListener
     /// @see nsIContextMenuInfo
     /// </summary>
-	[ComImport()]
+    [ComImport()]
 	[InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 	[Guid("7fb719b3-d804-4964-9596-77cf924ee314")]
 	public interface nsIContextMenuListener2

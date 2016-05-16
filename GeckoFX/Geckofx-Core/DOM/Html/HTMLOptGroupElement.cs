@@ -1,13 +1,6 @@
-
-
-using System;
-using System.Collections.Generic;
-using System.Runtime.InteropServices;
-using System.Text;
-
 namespace Gecko.DOM
-{	
-	public class GeckoOptGroupElement : GeckoHtmlElement
+{
+    public class GeckoOptGroupElement : GeckoHtmlElement
 	{
 		nsIDOMHTMLOptGroupElement DOMHTMLElement;
 		internal GeckoOptGroupElement(nsIDOMHTMLOptGroupElement element) : base(element)

@@ -20,13 +20,12 @@
 // --------------------------------------------------------------------------------------------
 namespace Gecko
 {
-	using System;
-	using System.Runtime.InteropServices;
-	using System.Runtime.InteropServices.ComTypes;
-	using System.Runtime.CompilerServices;
-	
-	
-	/// <summary>
+    using System;
+    using System.Runtime.CompilerServices;
+    using System.Runtime.InteropServices;
+
+
+    /// <summary>
     /// nsIStreamConverter provides an interface to implement when you have code
     /// that converts data from one type to another.
     ///
@@ -68,7 +67,7 @@ namespace Gecko
     /// @author Jud Valeski
     /// @see nsIStreamConverterService
     /// </summary>
-	[ComImport()]
+    [ComImport()]
 	[InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 	[Guid("0b6e2c69-5cf5-48b0-9dfd-c95950e2cc7b")]
 	public interface nsIStreamConverter : nsIStreamListener

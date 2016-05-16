@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace Gecko
+﻿namespace Gecko
 {
-	public static class Contracts
+    public static class Contracts
 	{
 		#region base services
 		public const string PreferenceService = "@mozilla.org/preferences-service;1";

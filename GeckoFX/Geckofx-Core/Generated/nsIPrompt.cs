@@ -20,13 +20,12 @@
 // --------------------------------------------------------------------------------------------
 namespace Gecko
 {
-	using System;
-	using System.Runtime.InteropServices;
-	using System.Runtime.InteropServices.ComTypes;
-	using System.Runtime.CompilerServices;
-	
-	
-	/// <summary>
+    using System;
+    using System.Runtime.CompilerServices;
+    using System.Runtime.InteropServices;
+
+
+    /// <summary>
     /// This is the prompt interface which can be used without knowlege of a
     /// parent window. The parentage is hidden by the GetInterface though
     /// which it is gotten. This interface is identical to nsIPromptService
@@ -36,7 +35,7 @@ namespace Gecko
     /// Accesskeys can be attached to buttons and checkboxes by inserting
     /// an & before the accesskey character. For a real &, use && instead.
     /// </summary>
-	[ComImport()]
+    [ComImport()]
 	[InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 	[Guid("a63f70c0-148b-11d3-9333-00104ba0fd40")]
 	public interface nsIPrompt

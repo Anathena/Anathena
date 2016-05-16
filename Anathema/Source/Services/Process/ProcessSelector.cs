@@ -1,13 +1,13 @@
-﻿using System;
+﻿using Anathema.Services.ProcessManager;
+using Anathema.Utils.OS;
+using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Drawing;
 using System.Diagnostics;
-using System.Collections.Concurrent;
+using System.Drawing;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
-using Anathema.Utils.OS;
-using Anathema.Services.ProcessManager;
 
 namespace Anathema
 {
@@ -36,7 +36,7 @@ namespace Anathema
     class ProcessSelector : IProcessSelectorModel
     {
         // Singleton instance of the process selector. There is no reason to have more than one of these active at once.
-        private static ProcessSelector _ProcessSelector;
+        private static Lazy<ProcessSelector> ProcessSelectorInstance = new Lazy<ProcessSelector>(() => { return new ProcessSelector(); });
 
         // Complete list of running processes
         private List<Process> ProcessList;
@@ -56,10 +56,7 @@ namespace Anathema
 
         public static ProcessSelector GetInstance()
         {
-            if (_ProcessSelector == null)
-                _ProcessSelector = new ProcessSelector();
-
-            return _ProcessSelector;
+            return ProcessSelectorInstance.Value;
         }
 
         public void Subscribe(IProcessObserver Observer)

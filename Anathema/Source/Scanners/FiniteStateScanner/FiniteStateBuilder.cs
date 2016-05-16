@@ -209,7 +209,9 @@ namespace Anathema.Scanners.FiniteStateScanner
         private void UpdateDisplay()
         {
             FiniteStateBuilderEventArgs FilterFSMEventArgs = new FiniteStateBuilderEventArgs();
-            EventUpdateDisplay(this, FilterFSMEventArgs);
+            EventUpdateDisplay?.Invoke(this, FilterFSMEventArgs);
         }
-    }
-}
+
+    } // End class
+
+} // End namespace

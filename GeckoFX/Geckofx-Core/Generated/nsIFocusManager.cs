@@ -20,13 +20,12 @@
 // --------------------------------------------------------------------------------------------
 namespace Gecko
 {
-	using System;
-	using System.Runtime.InteropServices;
-	using System.Runtime.InteropServices.ComTypes;
-	using System.Runtime.CompilerServices;
-	
-	
-	/// <summary>
+    using System;
+    using System.Runtime.CompilerServices;
+    using System.Runtime.InteropServices;
+
+
+    /// <summary>
     /// The focus manager deals with all focus related behaviour. Only one element
     /// in the entire application may have the focus at a time; this element
     /// receives any keyboard events. While there is only one application-wide
@@ -54,7 +53,7 @@ namespace Gecko
     ///
     /// Blur and focus events do not bubble as per the W3C DOM Events spec.
     /// </summary>
-	[ComImport()]
+    [ComImport()]
 	[InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 	[Guid("51db277b-7ee7-4bce-9b84-fd2efcd2c8bd")]
 	public interface nsIFocusManager

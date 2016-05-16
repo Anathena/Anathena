@@ -20,13 +20,11 @@
 // --------------------------------------------------------------------------------------------
 namespace Gecko
 {
-	using System;
-	using System.Runtime.InteropServices;
-	using System.Runtime.InteropServices.ComTypes;
-	using System.Runtime.CompilerServices;
-	
-	
-	/// <summary>
+    using System;
+    using System.Runtime.InteropServices;
+
+
+    /// <summary>
     /// nsIPrintSession
     ///
     /// Stores data pertaining only to a single print job. This
@@ -44,7 +42,7 @@ namespace Gecko
     ///
     /// @status
     /// </summary>
-	[ComImport()]
+    [ComImport()]
 	[InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 	[Guid("2f977d52-5485-11d4-87e2-0010a4e75ef2")]
 	public interface nsIPrintSession

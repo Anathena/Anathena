@@ -1,13 +1,6 @@
-
-
-using System;
-using System.Collections.Generic;
-using System.Runtime.InteropServices;
-using System.Text;
-
 namespace Gecko.DOM
-{	
-	public class GeckoMapElement : GeckoHtmlElement
+{
+    public class GeckoMapElement : GeckoHtmlElement
 	{
 		nsIDOMHTMLMapElement DOMHTMLElement;
 		internal GeckoMapElement(nsIDOMHTMLMapElement element) : base(element)

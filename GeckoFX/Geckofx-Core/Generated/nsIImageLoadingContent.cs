@@ -20,13 +20,12 @@
 // --------------------------------------------------------------------------------------------
 namespace Gecko
 {
-	using System;
-	using System.Runtime.InteropServices;
-	using System.Runtime.InteropServices.ComTypes;
-	using System.Runtime.CompilerServices;
-	
-	
-	/// <summary>
+    using System;
+    using System.Runtime.CompilerServices;
+    using System.Runtime.InteropServices;
+
+
+    /// <summary>
     /// This interface represents a content node that loads images.  The interface
     /// exists to allow getting information on the images that the content node
     /// loads and to allow registration of observers for the image loads.
@@ -50,7 +49,7 @@ namespace Gecko
     /// Please make sure to update the MozImageLoadingContent WebIDL
     /// interface to mirror this interface when changing it.
     /// </summary>
-	[ComImport()]
+    [ComImport()]
 	[InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 	[Guid("e3968acd-b796-4ca3-aec0-e7f0880f2219")]
 	public interface nsIImageLoadingContent : imgINotificationObserver

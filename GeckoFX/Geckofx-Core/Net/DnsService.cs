@@ -1,15 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Gecko.Collections;
-using Gecko.Interop;
+﻿using Gecko.Interop;
+using System;
 
 namespace Gecko.Net
 {
-	//IAsyncResult
+    //IAsyncResult
 
-	public static class DnsService
+    public static class DnsService
 	{
 		private static ComPtr<nsIDNSService> _dnsService;
 

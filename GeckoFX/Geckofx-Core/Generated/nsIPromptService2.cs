@@ -20,19 +20,18 @@
 // --------------------------------------------------------------------------------------------
 namespace Gecko
 {
-	using System;
-	using System.Runtime.InteropServices;
-	using System.Runtime.InteropServices.ComTypes;
-	using System.Runtime.CompilerServices;
-	
-	
-	/// <summary>
+    using System;
+    using System.Runtime.CompilerServices;
+    using System.Runtime.InteropServices;
+
+
+    /// <summary>
     /// This is an improved version of nsIPromptService that is less prescriptive
     /// about the resulting user interface.
     ///
     /// @status INCOMPLETE do not freeze before fixing bug 228207
     /// </summary>
-	[ComImport()]
+    [ComImport()]
 	[InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 	[Guid("cf86d196-dbee-4482-9dfa-3477aa128319")]
 	public interface nsIPromptService2 : nsIPromptService

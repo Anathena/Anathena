@@ -20,13 +20,12 @@
 // --------------------------------------------------------------------------------------------
 namespace Gecko
 {
-	using System;
-	using System.Runtime.InteropServices;
-	using System.Runtime.InteropServices.ComTypes;
-	using System.Runtime.CompilerServices;
-	
-	
-	/// <summary>
+    using System;
+    using System.Runtime.CompilerServices;
+    using System.Runtime.InteropServices;
+
+
+    /// <summary>
     /// A rule filter may be used to add additional filtering of results to a rule.
     /// The filter is used to further reject results from matching the template's
     /// rules, beyond what the template syntax can do itself, thus allowing for
@@ -36,7 +35,7 @@ namespace Gecko
     /// Only one filter may apply to each rule within the template and may be
     /// assigned using the template builder's addRuleFilter method.
     /// </summary>
-	[ComImport()]
+    [ComImport()]
 	[InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 	[Guid("819cd1ed-8010-42e1-a8b9-778b726a1ff3")]
 	public interface nsIXULTemplateRuleFilter

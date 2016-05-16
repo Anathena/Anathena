@@ -23,7 +23,7 @@ namespace Anathema.Scanners.LabelThresholder
         public event LabelThresholderEventHandler EventUpdateHistogram;
         protected virtual void OnEventUpdateHistogram(LabelThresholderEventArgs E)
         {
-            EventUpdateHistogram(this, E);
+            EventUpdateHistogram?.Invoke(this, E);
         }
 
         // Functions invoked by presenter (downstream)
@@ -42,7 +42,7 @@ namespace Anathema.Scanners.LabelThresholder
         }
 
         #region Method definitions called by the view (downstream)
-        
+
         public void Begin()
         {
             Model.Begin();
@@ -81,5 +81,7 @@ namespace Anathema.Scanners.LabelThresholder
         }
 
         #endregion
-    }
-}
+
+    } // End class
+
+} // End namespace

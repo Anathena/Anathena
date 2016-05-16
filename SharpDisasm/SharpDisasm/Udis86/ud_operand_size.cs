@@ -34,15 +34,11 @@
 // SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // --------------------------------------------------------------------------------
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 
 namespace SharpDisasm.Udis86
 {
-    #pragma warning disable 1591
+#pragma warning disable 1591
     /// <summary>
     /// Operand size constants
     /// </summary>

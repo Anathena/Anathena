@@ -1,16 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.InteropServices;
-using System.Text;
+﻿using System.Runtime.InteropServices;
 
 namespace Gecko
 {
-	// TODO: make this class binary marshalable from struct nscolor
-	/// <summary>
-	/// nscolor is 32 bit integer value
-	/// </summary>
-	[StructLayout(LayoutKind.Explicit,Size = 4)]
+    // TODO: make this class binary marshalable from struct nscolor
+    /// <summary>
+    /// nscolor is 32 bit integer value
+    /// </summary>
+    [StructLayout(LayoutKind.Explicit,Size = 4)]
 	public struct nscolor
 	{
 		[FieldOffset( 0 )]

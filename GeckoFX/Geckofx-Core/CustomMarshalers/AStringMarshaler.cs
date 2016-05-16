@@ -1,18 +1,15 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Runtime.InteropServices;
 
 namespace Gecko.CustomMarshalers
 {
-	/// <summary>
-	/// Custom Marshaler for xpcom/xulrunner native type nsAString
-	/// 
-	/// To use managed type nsAStringBase as parameter and apply attribute:
-	/// [MarshalAs(UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof(Gecko.CustomMarshalers.AStringMarshaler))] nsAStringBase
-	/// </summary>
-	public class AStringMarshaler
+    /// <summary>
+    /// Custom Marshaler for xpcom/xulrunner native type nsAString
+    /// 
+    /// To use managed type nsAStringBase as parameter and apply attribute:
+    /// [MarshalAs(UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof(Gecko.CustomMarshalers.AStringMarshaler))] nsAStringBase
+    /// </summary>
+    public class AStringMarshaler
 		: ICustomMarshaler
 	{
 		public static readonly AStringMarshaler Instance = new AStringMarshaler();

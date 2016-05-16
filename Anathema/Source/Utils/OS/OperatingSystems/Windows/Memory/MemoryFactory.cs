@@ -1,10 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using Anathema.MemoryManagement.Internals;
+﻿using Anathema.MemoryManagement.Internals;
 using Anathema.MemoryManagement.Native;
 using Anathema.Utils.Extensions;
 using Anathema.Utils.OS;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Anathema.MemoryManagement.Memory
 {
@@ -120,7 +120,7 @@ namespace Anathema.MemoryManagement.Memory
         public virtual void Dispose()
         {
             // Release all allocated memories which must be disposed
-            foreach (RemoteAllocation AllocatedMemory in InternalRemoteAllocations.Where(x => x.MustBeDisposed).ToArray())
+            foreach (RemoteAllocation AllocatedMemory in InternalRemoteAllocations.Where(X => X.MustBeDisposed).ToArray())
             {
                 AllocatedMemory.Dispose();
             }

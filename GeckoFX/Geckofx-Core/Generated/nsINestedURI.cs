@@ -20,13 +20,12 @@
 // --------------------------------------------------------------------------------------------
 namespace Gecko
 {
-	using System;
-	using System.Runtime.InteropServices;
-	using System.Runtime.InteropServices.ComTypes;
-	using System.Runtime.CompilerServices;
-	
-	
-	/// <summary>
+    using System;
+    using System.Runtime.CompilerServices;
+    using System.Runtime.InteropServices;
+
+
+    /// <summary>
     /// nsINestedURI is an interface that must be implemented by any nsIURI
     /// implementation which has an "inner" URI that it actually gets data
     /// from.
@@ -40,7 +39,7 @@ namespace Gecko
     /// should implement nsINestedURI and return the http://example.com URI as its
     /// inner URI.
     /// </summary>
-	[ComImport()]
+    [ComImport()]
 	[InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 	[Guid("6de2c874-796c-46bf-b57f-0d7bd7d6cab0")]
 	public interface nsINestedURI

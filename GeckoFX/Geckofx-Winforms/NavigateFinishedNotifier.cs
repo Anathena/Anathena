@@ -1,16 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Windows.Forms;
-using System.Runtime.InteropServices;
 
 namespace Gecko
 {
-	/// <summary>
-	/// Use the DocumentCompleted event instead of the NavigateFinished event.
-	/// </summary>
-	[Obsolete("Use the DocumentCompleted event instead of the NavigateFinished event.",false)]
+    /// <summary>
+    /// Use the DocumentCompleted event instead of the NavigateFinished event.
+    /// </summary>
+    [Obsolete("Use the DocumentCompleted event instead of the NavigateFinished event.",false)]
 	public class NavigateFinishedNotifier : IDisposable
 	{
 		GeckoWebBrowser m_browser;

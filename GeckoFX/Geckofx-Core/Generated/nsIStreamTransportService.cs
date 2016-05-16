@@ -20,20 +20,19 @@
 // --------------------------------------------------------------------------------------------
 namespace Gecko
 {
-	using System;
-	using System.Runtime.InteropServices;
-	using System.Runtime.InteropServices.ComTypes;
-	using System.Runtime.CompilerServices;
-	
-	
-	/// <summary>
+    using System;
+    using System.Runtime.CompilerServices;
+    using System.Runtime.InteropServices;
+
+
+    /// <summary>
     /// This service read/writes a stream on a background thread.
     ///
     /// Use this service to transform any blocking stream (e.g., file stream)
     /// into a fully asynchronous stream that can be read/written without
     /// blocking the main thread.
     /// </summary>
-	[ComImport()]
+    [ComImport()]
 	[InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 	[Guid("5e0adf7d-9785-45c3-a193-04f25a75da8f")]
 	public interface nsIStreamTransportService

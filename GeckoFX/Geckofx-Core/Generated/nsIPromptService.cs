@@ -20,13 +20,12 @@
 // --------------------------------------------------------------------------------------------
 namespace Gecko
 {
-	using System;
-	using System.Runtime.InteropServices;
-	using System.Runtime.InteropServices.ComTypes;
-	using System.Runtime.CompilerServices;
-	
-	
-	/// <summary>
+    using System;
+    using System.Runtime.CompilerServices;
+    using System.Runtime.InteropServices;
+
+
+    /// <summary>
     /// This is the interface to the embeddable prompt service; the service that
     /// implements nsIPrompt.  Its interface is designed to be just nsIPrompt, each
     /// method modified to take a parent window parameter.
@@ -56,7 +55,7 @@ namespace Gecko
     /// tell the user to "Press OK to proceed."  Instead, such a prompt might be
     /// rewritten to ask the user: "Would you like to proceed?"
     /// </summary>
-	[ComImport()]
+    [ComImport()]
 	[InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 	[Guid("1630C61A-325E-49ca-8759-A31B16C47AA5")]
 	public interface nsIPromptService

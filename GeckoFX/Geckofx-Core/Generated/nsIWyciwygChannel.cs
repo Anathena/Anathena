@@ -20,19 +20,18 @@
 // --------------------------------------------------------------------------------------------
 namespace Gecko
 {
-	using System;
-	using System.Runtime.InteropServices;
-	using System.Runtime.InteropServices.ComTypes;
-	using System.Runtime.CompilerServices;
-	
-	
-	/// <summary>
+    using System;
+    using System.Runtime.CompilerServices;
+    using System.Runtime.InteropServices;
+
+
+    /// <summary>
     /// A channel to  manage all cache-related interactions for layout
     /// when it is dealing with dynamic pages created through
     /// document.write(). This interface provides methods that will
     /// help layout save dynamic pages in cache for future retrievals.
     /// </summary>
-	[ComImport()]
+    [ComImport()]
 	[InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 	[Guid("89b0674a-9e2f-4124-9b59-481444be841d")]
 	public interface nsIWyciwygChannel : nsIChannel

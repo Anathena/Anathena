@@ -23,7 +23,7 @@ namespace Anathema.Scanners.InputCorrelator
         public event InputCorrelatorEventHandler EventUpdateDisplay;
         protected virtual void OnEventUpdateDisplay(InputCorrelatorEventArgs E)
         {
-            EventUpdateDisplay(this, E);
+            EventUpdateDisplay?.Invoke(this, E);
         }
 
         // Functions invoked by presenter (downstream)
@@ -115,5 +115,7 @@ namespace Anathema.Scanners.InputCorrelator
         }
 
         #endregion
-    }
-}
+
+    } // End class
+
+} // End namespace

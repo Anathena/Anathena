@@ -20,13 +20,12 @@
 // --------------------------------------------------------------------------------------------
 namespace Gecko
 {
-	using System;
-	using System.Runtime.InteropServices;
-	using System.Runtime.InteropServices.ComTypes;
-	using System.Runtime.CompilerServices;
-	
-	
-	/// <summary>
+    using System;
+    using System.Runtime.CompilerServices;
+    using System.Runtime.InteropServices;
+
+
+    /// <summary>
     /// The nsIDOMHTMLSourceElement interface is the interface to a HTML
     /// <source> element.
     ///
@@ -35,7 +34,7 @@ namespace Gecko
     ///
     /// @status UNDER_DEVELOPMENT
     /// </summary>
-	[ComImport()]
+    [ComImport()]
 	[InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 	[Guid("7adbaf06-572d-4c99-bd59-ac673ddcca93")]
 	public interface nsIDOMHTMLSourceElement

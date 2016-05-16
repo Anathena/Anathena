@@ -20,18 +20,17 @@
 // --------------------------------------------------------------------------------------------
 namespace Gecko
 {
-	using System;
-	using System.Runtime.InteropServices;
-	using System.Runtime.InteropServices.ComTypes;
-	using System.Runtime.CompilerServices;
-	
-	
-	/// <summary>
+    using System;
+    using System.Runtime.CompilerServices;
+    using System.Runtime.InteropServices;
+
+
+    /// <summary>
     /// General purpose interface that has two implementations, for localStorage
     /// resp. sessionStorage with "@mozilla.org/dom/localStorage-manager;1" resp.
     /// "@mozilla.org/dom/sessionStorage-manager;1" contract IDs.
     /// </summary>
-	[ComImport()]
+    [ComImport()]
 	[InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 	[Guid("8096f9ea-fa61-4960-b5d7-fb30ac42c8d8")]
 	public interface nsIDOMStorageManager

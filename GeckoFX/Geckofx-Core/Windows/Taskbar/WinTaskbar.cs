@@ -1,17 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Gecko.Interop;
+﻿using Gecko.Interop;
+using System;
 
 namespace Gecko.Windows
 {
-	/// <summary>
-	/// Class for controling Windows 7 taskbar behavior
-	/// ONLY Windows 7+
-	/// Check Available property if platform is supported
-	/// </summary>
-	public sealed class WinTaskbar
+    /// <summary>
+    /// Class for controling Windows 7 taskbar behavior
+    /// ONLY Windows 7+
+    /// Check Available property if platform is supported
+    /// </summary>
+    public sealed class WinTaskbar
 	{
 		private readonly ComPtr<nsIWinTaskbar> _winTaskbar;
 

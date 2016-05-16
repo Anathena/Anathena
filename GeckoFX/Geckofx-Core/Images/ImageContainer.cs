@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Gecko.Interop;
+﻿using Gecko.Interop;
+using System;
 
 namespace Gecko.Images
 {
-	public sealed class ImgContainer
+    public sealed class ImgContainer
 	{
 		private ComPtr<imgIContainer> _container;
 

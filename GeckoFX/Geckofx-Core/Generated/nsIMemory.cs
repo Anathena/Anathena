@@ -20,13 +20,12 @@
 // --------------------------------------------------------------------------------------------
 namespace Gecko
 {
-	using System;
-	using System.Runtime.InteropServices;
-	using System.Runtime.InteropServices.ComTypes;
-	using System.Runtime.CompilerServices;
-	
-	
-	/// <summary>
+    using System;
+    using System.Runtime.CompilerServices;
+    using System.Runtime.InteropServices;
+
+
+    /// <summary>
     ///
     /// nsIMemory: interface to allocate and deallocate memory. Also provides
     /// for notifications in low-memory situations.
@@ -67,7 +66,7 @@ namespace Gecko
     /// observer has been asked to flush because a malloc() or
     /// realloc() has failed.
     /// </summary>
-	[ComImport()]
+    [ComImport()]
 	[InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 	[Guid("6aef11c4-8615-44a6-9711-98f43805693d")]
 	public interface nsIMemory

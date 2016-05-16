@@ -3,11 +3,11 @@ using System.Runtime.InteropServices;
 
 namespace Gecko.IO.Native
 {
-	/// <summary>
-	/// Base Native Gecko Stream implementation
-	/// 
-	/// </summary>
-	public abstract unsafe class BaseNativeStream
+    /// <summary>
+    /// Base Native Gecko Stream implementation
+    /// 
+    /// </summary>
+    public abstract unsafe class BaseNativeStream
 	{
 		private IntPtr _buffer;
 		private byte* _currentPointer;

@@ -34,15 +34,11 @@
 // SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // --------------------------------------------------------------------------------
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 
 namespace SharpDisasm.Udis86
 {
-    #pragma warning disable 1591
+#pragma warning disable 1591
     public struct ud_lookup_table_list_entry
     {
         public ushort[] Table;

@@ -20,13 +20,12 @@
 // --------------------------------------------------------------------------------------------
 namespace Gecko
 {
-	using System;
-	using System.Runtime.InteropServices;
-	using System.Runtime.InteropServices.ComTypes;
-	using System.Runtime.CompilerServices;
-	
-	
-	/// <summary>
+    using System;
+    using System.Runtime.CompilerServices;
+    using System.Runtime.InteropServices;
+
+
+    /// <summary>
     /// The nsIRelativeFilePref interface is a wrapper for an nsIFile and
     /// and a directory service key. When used as a pref value, it stores a
     /// relative path to the file from the location pointed to by the directory
@@ -36,7 +35,7 @@ namespace Gecko
     /// @see nsIPrefBranch::setComplexValue
     ///
     /// </summary>
-	[ComImport()]
+    [ComImport()]
 	[InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 	[Guid("2f977d4e-5485-11d4-87e2-0010a4e75ef2")]
 	public interface nsIRelativeFilePref

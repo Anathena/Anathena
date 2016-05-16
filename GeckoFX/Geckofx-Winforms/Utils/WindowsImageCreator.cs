@@ -1,18 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using Gecko.Windows;
+using System;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Windows.Forms;
-using Gecko.Windows;
 
 namespace Gecko.Utils
 {
 #if GTK
 #else
-	public static class WindowsImageCreator
+    public static class WindowsImageCreator
 	{
 		private static byte[] SaveBmpAsPng(Bitmap bmp)
 		{

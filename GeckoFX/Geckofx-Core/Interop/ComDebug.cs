@@ -1,18 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
 using System.Runtime.InteropServices;
-using System.Text;
 using System.Threading;
 
 namespace Gecko.Interop
 {
 #if DEBUG
-	/// <summary>
-	/// Class for gebug help
-	/// </summary>
-	public static class ComDebug
+    /// <summary>
+    /// Class for gebug help
+    /// </summary>
+    public static class ComDebug
 	{
 		/// <summary>
 		/// Gets reference count of gecko object

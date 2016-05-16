@@ -1,11 +1,11 @@
 using System;
-using System.Windows.Forms;
-using System.Drawing;
-using System.Drawing.Drawing2D;
 using System.Collections;
 using System.Collections.Generic;
-using System.Security.Permissions;
 using System.Diagnostics.CodeAnalysis;
+using System.Drawing;
+using System.Drawing.Drawing2D;
+using System.Security.Permissions;
+using System.Windows.Forms;
 
 namespace WeifenLuo.WinFormsUI.Docking
 {

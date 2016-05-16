@@ -2,7 +2,7 @@ using Gecko.Interop;
 
 namespace Gecko.DOM
 {
-	public class GeckoTextNode
+    public class GeckoTextNode
 		:DomCharacterData
 	{
 		private nsIDOMText _domText;

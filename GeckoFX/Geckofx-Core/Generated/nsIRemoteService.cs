@@ -20,13 +20,12 @@
 // --------------------------------------------------------------------------------------------
 namespace Gecko
 {
-	using System;
-	using System.Runtime.InteropServices;
-	using System.Runtime.InteropServices.ComTypes;
-	using System.Runtime.CompilerServices;
-	
-	
-	/// <summary>
+    using System;
+    using System.Runtime.CompilerServices;
+    using System.Runtime.InteropServices;
+
+
+    /// <summary>
     /// Start and stop the remote service (xremote/phremote), and register
     /// windows with the service for backwards compatibility with old xremote
     /// clients.
@@ -36,7 +35,7 @@ namespace Gecko
     /// functionality, contact Benjamin Smedberg about the possibility
     /// of freezing the functionality you need.
     /// </summary>
-	[ComImport()]
+    [ComImport()]
 	[InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 	[Guid("a2240f6a-f1e4-4548-9e1a-6f3bc9b2426c")]
 	public interface nsIRemoteService

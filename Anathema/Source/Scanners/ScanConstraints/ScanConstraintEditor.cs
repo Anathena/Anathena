@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Reflection;
 
 namespace Anathema.Scanners.ScanConstraints
@@ -19,7 +20,7 @@ namespace Anathema.Scanners.ScanConstraints
         {
             ScanConstraintEditorEventArgs FilterManualScanEventArgs = new ScanConstraintEditorEventArgs();
             FilterManualScanEventArgs.ScanConstraints = ScanConstraints;
-            EventUpdateDisplay(this, FilterManualScanEventArgs);
+            EventUpdateDisplay?.Invoke(this, FilterManualScanEventArgs);
         }
 
         public ScanConstraintManager GetScanConstraintManager()
@@ -57,7 +58,7 @@ namespace Anathema.Scanners.ScanConstraints
             UpdateDisplay();
         }
 
-        public void RemoveConstraints(Int32[] ConstraintIndicies)
+        public void RemoveConstraints(IEnumerable<Int32> ConstraintIndicies)
         {
             ScanConstraints.RemoveConstraints(ConstraintIndicies);
             UpdateDisplay();

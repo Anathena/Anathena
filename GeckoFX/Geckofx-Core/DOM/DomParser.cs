@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Gecko.Interop;
+﻿using Gecko.Interop;
 
 namespace Gecko.DOM
 {
-	public sealed class DomParser
+    public sealed class DomParser
 	{
 		private ComPtr<nsIDOMParser> _domParser;
 

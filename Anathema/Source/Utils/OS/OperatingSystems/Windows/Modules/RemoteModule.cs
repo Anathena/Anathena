@@ -1,9 +1,9 @@
-﻿using System;
+﻿using Anathema.MemoryManagement.Memory;
+using Anathema.MemoryManagement.Native;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using Anathema.MemoryManagement.Memory;
-using Anathema.MemoryManagement.Native;
 using System.Reflection;
 
 namespace Anathema.MemoryManagement.Modules

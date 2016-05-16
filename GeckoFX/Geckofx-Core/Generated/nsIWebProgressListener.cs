@@ -20,20 +20,19 @@
 // --------------------------------------------------------------------------------------------
 namespace Gecko
 {
-	using System;
-	using System.Runtime.InteropServices;
-	using System.Runtime.InteropServices.ComTypes;
-	using System.Runtime.CompilerServices;
-	
-	
-	/// <summary>
+    using System;
+    using System.Runtime.CompilerServices;
+    using System.Runtime.InteropServices;
+
+
+    /// <summary>
     /// The nsIWebProgressListener interface is implemented by clients wishing to
     /// listen in on the progress associated with the loading of asynchronous
     /// requests in the context of a nsIWebProgress instance as well as any child
     /// nsIWebProgress instances.  nsIWebProgress.idl describes the parent-child
     /// relationship of nsIWebProgress instances.
     /// </summary>
-	[ComImport()]
+    [ComImport()]
 	[InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 	[Guid("a0cda7e4-c6ca-11e0-b6a5-001320257da5")]
 	public interface nsIWebProgressListener

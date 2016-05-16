@@ -20,19 +20,18 @@
 // --------------------------------------------------------------------------------------------
 namespace Gecko
 {
-	using System;
-	using System.Runtime.InteropServices;
-	using System.Runtime.InteropServices.ComTypes;
-	using System.Runtime.CompilerServices;
-	
-	
-	/// <summary>
+    using System;
+    using System.Runtime.CompilerServices;
+    using System.Runtime.InteropServices;
+
+
+    /// <summary>
     /// Note: This is not really an XPCOM interface.  For example, callers must
     /// guarantee that they set the *_retval of the various methods that return a
     /// boolean to PR_TRUE before making the call.  Implementations may skip writing
     /// to *_retval unless they want to return PR_FALSE.
     /// </summary>
-	[ComImport()]
+    [ComImport()]
 	[InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 	[Guid("9bae4ff5-5618-4ccd-b106-8e21e3fb64d3")]
 	public interface nsIXPCScriptable

@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace Gecko.DOM
+﻿namespace Gecko.DOM
 {
-	public class DomCharacterData
+    public class DomCharacterData
 		:GeckoNode
 	{
 		private nsIDOMCharacterData _domCharacterData;

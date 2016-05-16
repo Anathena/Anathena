@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Gecko.Interop;
+﻿using Gecko.Interop;
 
 namespace Gecko
 {
-	public class Variant
+    public class Variant
 	{
 		private ComPtr<nsIVariant> _variant;
 

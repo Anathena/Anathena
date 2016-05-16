@@ -20,13 +20,12 @@
 // --------------------------------------------------------------------------------------------
 namespace Gecko
 {
-	using System;
-	using System.Runtime.InteropServices;
-	using System.Runtime.InteropServices.ComTypes;
-	using System.Runtime.CompilerServices;
-	
-	
-	/// <summary>
+    using System;
+    using System.Runtime.CompilerServices;
+    using System.Runtime.InteropServices;
+
+
+    /// <summary>
     /// An interface for in-process accessibility clients
     /// that wish to retrieve information about a document.
     /// When accessibility is turned on in Gecko,
@@ -37,7 +36,7 @@ namespace Gecko
     /// nsIAccessible::GetAccessibleDocument() or
     /// nsIAccessibleEvent::GetAccessibleDocument()
     /// </summary>
-	[ComImport()]
+    [ComImport()]
 	[InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 	[Guid("fe5b3886-2b6a-491a-80cd-a3e6342c451d")]
 	public interface nsIAccessibleDocument

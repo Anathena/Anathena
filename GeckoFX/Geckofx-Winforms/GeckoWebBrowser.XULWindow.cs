@@ -3,11 +3,11 @@
 namespace Gecko
 {
 
-	// Implement nsIXULWindow interface on GeckoWebBrowser, so that nsIWindowMediator can find GeckoWebBrowser.
-	// It seems that only GetDocShellAttribute() is required by nsIWindowMediator, so we leave other method not implemented.
-	// 
-	// It was a bad idea to throw NotImplementedException, because this methods are called in XUL specific urls like about:config
-	public partial class GeckoWebBrowser : nsIXULWindow
+    // Implement nsIXULWindow interface on GeckoWebBrowser, so that nsIWindowMediator can find GeckoWebBrowser.
+    // It seems that only GetDocShellAttribute() is required by nsIWindowMediator, so we leave other method not implemented.
+    // 
+    // It was a bad idea to throw NotImplementedException, because this methods are called in XUL specific urls like about:config
+    public partial class GeckoWebBrowser : nsIXULWindow
 	{
 
 		public nsIDocShell GetDocShellAttribute()

@@ -20,13 +20,12 @@
 // --------------------------------------------------------------------------------------------
 namespace Gecko
 {
-	using System;
-	using System.Runtime.InteropServices;
-	using System.Runtime.InteropServices.ComTypes;
-	using System.Runtime.CompilerServices;
-	
-	
-	/// <summary>
+    using System;
+    using System.Runtime.CompilerServices;
+    using System.Runtime.InteropServices;
+
+
+    /// <summary>
     /// The nsITransactionList interface.
     /// <P>
     /// The implementation for this interface is provided by the Transaction Manager.
@@ -34,7 +33,7 @@ namespace Gecko
     /// Undo or Redo stacks as well as any auto-aggregated children that a
     /// transaction may have.
     /// </summary>
-	[ComImport()]
+    [ComImport()]
 	[InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 	[Guid("d007ceff-c978-486a-b697-384ca01997be")]
 	public interface nsITransactionList

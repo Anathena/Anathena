@@ -1,16 +1,14 @@
 ﻿using System;
 using System.Runtime.InteropServices;
-using System.Threading;
-using System.Diagnostics;
 
 namespace Gecko.Interop
 {
-	/// <summary>
-	/// COM pointer wrapper
-	/// SHOULD be used for temporal variables
-	/// </summary>
-	/// <typeparam name="T"></typeparam>
-	public class ComPtr<T>
+    /// <summary>
+    /// COM pointer wrapper
+    /// SHOULD be used for temporal variables
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    public class ComPtr<T>
 		: IDisposable, IEquatable<ComPtr<T>>,IEquatable<T>
 		where T:class
 	{

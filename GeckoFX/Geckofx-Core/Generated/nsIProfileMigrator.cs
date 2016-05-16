@@ -20,20 +20,19 @@
 // --------------------------------------------------------------------------------------------
 namespace Gecko
 {
-	using System;
-	using System.Runtime.InteropServices;
-	using System.Runtime.InteropServices.ComTypes;
-	using System.Runtime.CompilerServices;
-	
-	
-	/// <summary>
+    using System;
+    using System.Runtime.CompilerServices;
+    using System.Runtime.InteropServices;
+
+
+    /// <summary>
     /// Helper interface for nsIProfileMigrator.
     ///
     /// @provider Toolkit (Startup code)
     /// @client   Application (Profile-migration code)
     /// @obtainable nsIProfileMigrator.migrate
     /// </summary>
-	[ComImport()]
+    [ComImport()]
 	[InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 	[Guid("048e5ca1-0eb7-4bb1-a9a2-a36f7d4e0e3c")]
 	public interface nsIProfileStartup

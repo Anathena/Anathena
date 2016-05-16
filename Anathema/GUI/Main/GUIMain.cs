@@ -4,7 +4,6 @@ using Anathema.Utils;
 using Anathema.Utils.MVP;
 using System;
 using System.Diagnostics;
-using System.Drawing;
 using System.IO;
 using System.Net;
 using System.Reflection;
@@ -48,11 +47,14 @@ namespace Anathema.GUI
         // HELP ITEMS
         private GUIRegistration GUIRegistration;
 
+        private Object AccessLock;
+
         public GUIMain()
         {
             InitializeComponent();
 
             MainPresenter = new MainPresenter(this, Main.GetInstance());
+            AccessLock = new Object();
 
             InitializeTheme();
             InitializeStatus();
@@ -76,12 +78,17 @@ namespace Anathema.GUI
                 {
                     String PublicVersion = (new VersionChecker()).DownloadString("http://www.anathemaengine.com/release/version.txt");
 
-                    if (PublicVersion != CurrentVersion)
+                    if (PublicVersion == CurrentVersion)
+                        return;
+
+                    ControlThreadingHelper.InvokeControlAction(this, () =>
+                    {
                         MessageBoxEx.Show(this, "New Version Available at http://www.anethemaengine.com/" + Environment.NewLine +
                             "Current Version: " + CurrentVersion + Environment.NewLine +
                             "New Version: " + PublicVersion + Environment.NewLine +
                             "Anathema is still in beta, so this update will likely provide critical performance and feature changes.",
                             "New Version Available");
+                    });
                 }
                 catch { }
             });
@@ -98,7 +105,7 @@ namespace Anathema.GUI
         }
 
         #region Public Methods
-        
+
         /// <summary>
         /// Update the target process 
         /// </summary>
@@ -116,15 +123,18 @@ namespace Anathema.GUI
         {
             ControlThreadingHelper.InvokeControlAction(GUIStatusStrip, () =>
             {
-                if (ProgressItem == null)
+                using (TimedLock.Lock(AccessLock))
                 {
-                    this.ActionProgressBar.ProgressBar.Value = 0;
-                    this.ActionLabel.Text = String.Empty;
-                    return;
-                }
+                    if (ProgressItem == null)
+                    {
+                        this.ActionProgressBar.ProgressBar.Value = 0;
+                        this.ActionLabel.Text = String.Empty;
+                        return;
+                    }
 
-                this.ActionProgressBar.ProgressBar.Value = ProgressItem.GetProgress();
-                this.ActionLabel.Text = ProgressItem.GetProgressLabel();
+                    this.ActionProgressBar.ProgressBar.Value = ProgressItem.GetProgress();
+                    this.ActionLabel.Text = ProgressItem.GetProgressLabel();
+                }
             });
         }
 
@@ -223,128 +233,254 @@ namespace Anathema.GUI
 
         private void CreateCheatBrowser()
         {
-            if (GUICheatBrowser == null || GUICheatBrowser.IsDisposed)
-                GUICheatBrowser = new GUICheatBrowser();
-            GUICheatBrowser.Show(ContentPanel);
+            ControlThreadingHelper.InvokeControlAction(ContentPanel, () =>
+            {
+                using (TimedLock.Lock(AccessLock))
+                {
+                    if (GUICheatBrowser == null || GUICheatBrowser.IsDisposed)
+                        GUICheatBrowser = new GUICheatBrowser();
+
+                    GUICheatBrowser.Show(ContentPanel);
+                }
+            });
         }
 
         private void CreateCodeView()
         {
-            if (GUICodeView == null || GUICodeView.IsDisposed)
-                GUICodeView = new GUICodeView();
-            GUICodeView.Show(ContentPanel);
+            ControlThreadingHelper.InvokeControlAction(ContentPanel, () =>
+            {
+                using (TimedLock.Lock(AccessLock))
+                {
+                    if (GUICodeView == null || GUICodeView.IsDisposed)
+                        GUICodeView = new GUICodeView();
+
+                    GUICodeView.Show(ContentPanel);
+                }
+            });
         }
 
         private void CreateMemoryView()
         {
-            if (GUIMemoryView == null || GUIMemoryView.IsDisposed)
-                GUIMemoryView = new GUIMemoryView();
-            GUIMemoryView.Show(ContentPanel);
+            ControlThreadingHelper.InvokeControlAction(ContentPanel, () =>
+            {
+                using (TimedLock.Lock(AccessLock))
+                {
+                    if (GUIMemoryView == null || GUIMemoryView.IsDisposed)
+                        GUIMemoryView = new GUIMemoryView();
+
+                    GUIMemoryView.Show(ContentPanel);
+                }
+            });
         }
 
         private void CreateFiniteStateScanner()
         {
-            if (GUIFiniteStateScanner == null || GUIFiniteStateScanner.IsDisposed)
-                GUIFiniteStateScanner = new GUIFiniteStateScanner();
-            GUIFiniteStateScanner.Show(ContentPanel);
+            ControlThreadingHelper.InvokeControlAction(ContentPanel, () =>
+            {
+                using (TimedLock.Lock(AccessLock))
+                {
+                    if (GUIFiniteStateScanner == null || GUIFiniteStateScanner.IsDisposed)
+                        GUIFiniteStateScanner = new GUIFiniteStateScanner();
+
+                    GUIFiniteStateScanner.Show(ContentPanel);
+                }
+            });
         }
 
         private void CreateManualScanner()
         {
-            if (GUIManualScanner == null || GUIManualScanner.IsDisposed)
-                GUIManualScanner = new GUIManualScanner();
-            GUIManualScanner.Show(ContentPanel);
+            ControlThreadingHelper.InvokeControlAction(ContentPanel, () =>
+            {
+                using (TimedLock.Lock(AccessLock))
+                {
+                    if (GUIManualScanner == null || GUIManualScanner.IsDisposed)
+                        GUIManualScanner = new GUIManualScanner();
+
+                    GUIManualScanner.Show(ContentPanel);
+                }
+            });
         }
 
         private void CreateTreeScanner()
         {
-            if (GUITreeScanner == null || GUITreeScanner.IsDisposed)
-                GUITreeScanner = new GUITreeScanner();
-            GUITreeScanner.Show(ContentPanel);
+            ControlThreadingHelper.InvokeControlAction(ContentPanel, () =>
+            {
+                using (TimedLock.Lock(AccessLock))
+                {
+                    if (GUITreeScanner == null || GUITreeScanner.IsDisposed)
+                        GUITreeScanner = new GUITreeScanner();
+
+                    GUITreeScanner.Show(ContentPanel);
+                }
+            });
         }
 
         private void CreateChunkScanner()
         {
-            if (GUIChunkScanner == null || GUIChunkScanner.IsDisposed)
-                GUIChunkScanner = new GUIChunkScanner();
-            GUIChunkScanner.Show(ContentPanel);
+            ControlThreadingHelper.InvokeControlAction(ContentPanel, () =>
+            {
+                using (TimedLock.Lock(AccessLock))
+                {
+                    if (GUIChunkScanner == null || GUIChunkScanner.IsDisposed)
+                        GUIChunkScanner = new GUIChunkScanner();
+
+                    GUIChunkScanner.Show(ContentPanel);
+                }
+            });
         }
 
         private void CreateInputCorrelator()
         {
-            if (GUIInputCorrelator == null || GUIInputCorrelator.IsDisposed)
-                GUIInputCorrelator = new GUIInputCorrelator();
-            GUIInputCorrelator.Show(ContentPanel);
+            ControlThreadingHelper.InvokeControlAction(ContentPanel, () =>
+            {
+                using (TimedLock.Lock(AccessLock))
+                {
+                    if (GUIInputCorrelator == null || GUIInputCorrelator.IsDisposed)
+                        GUIInputCorrelator = new GUIInputCorrelator();
+
+                    GUIInputCorrelator.Show(ContentPanel);
+                }
+            });
         }
 
         private void CreateChangeCounter()
         {
-            if (GUIChangeCounter == null || GUIChangeCounter.IsDisposed)
-                GUIChangeCounter = new GUIChangeCounter();
-            GUIChangeCounter.Show(ContentPanel);
+            ControlThreadingHelper.InvokeControlAction(ContentPanel, () =>
+            {
+                using (TimedLock.Lock(AccessLock))
+                {
+                    if (GUIChangeCounter == null || GUIChangeCounter.IsDisposed)
+                        GUIChangeCounter = new GUIChangeCounter();
+
+                    GUIChangeCounter.Show(ContentPanel);
+                }
+            });
         }
 
         private void CreateLabelThresholder()
         {
-            if (GUILabelThresholder == null || GUILabelThresholder.IsDisposed)
-                GUILabelThresholder = new GUILabelThresholder();
-            GUILabelThresholder.Show(ContentPanel);
+            ControlThreadingHelper.InvokeControlAction(ContentPanel, () =>
+            {
+                using (TimedLock.Lock(AccessLock))
+                {
+                    if (GUILabelThresholder == null || GUILabelThresholder.IsDisposed)
+                        GUILabelThresholder = new GUILabelThresholder();
+
+                    GUILabelThresholder.Show(ContentPanel);
+                }
+            });
         }
 
         private void CreatePointerScanner()
         {
-            if (GUIPointerScanner == null || GUIPointerScanner.IsDisposed)
-                GUIPointerScanner = new GUIPointerScanner();
-            GUIPointerScanner.Show(ContentPanel);
+            ControlThreadingHelper.InvokeControlAction(ContentPanel, () =>
+            {
+                using (TimedLock.Lock(AccessLock))
+                {
+                    if (GUIPointerScanner == null || GUIPointerScanner.IsDisposed)
+                        GUIPointerScanner = new GUIPointerScanner();
+
+                    GUIPointerScanner.Show(ContentPanel);
+                }
+            });
         }
 
         private void CreateSnapshotManager()
         {
-            if (GUISnapshotManager == null || GUISnapshotManager.IsDisposed)
-                GUISnapshotManager = new GUISnapshotManager();
-            GUISnapshotManager.Show(ContentPanel, DockState.DockRight);
+            ControlThreadingHelper.InvokeControlAction(ContentPanel, () =>
+            {
+                using (TimedLock.Lock(AccessLock))
+                {
+                    if (GUISnapshotManager == null || GUISnapshotManager.IsDisposed)
+                        GUISnapshotManager = new GUISnapshotManager();
+
+                    GUISnapshotManager.Show(ContentPanel, DockState.DockRight);
+                }
+            });
         }
 
         private void CreateResults()
         {
-            if (GUIResults == null || GUIResults.IsDisposed)
-                GUIResults = new GUIResults();
-            GUIResults.Show(ContentPanel, DockState.DockRight);
+            ControlThreadingHelper.InvokeControlAction(ContentPanel, () =>
+            {
+                using (TimedLock.Lock(AccessLock))
+                {
+                    if (GUIResults == null || GUIResults.IsDisposed)
+                        GUIResults = new GUIResults();
+
+                    GUIResults.Show(ContentPanel, DockState.DockRight);
+                }
+            });
         }
 
         private void CreateTable()
         {
-            if (GUITable == null || GUITable.IsDisposed)
-                GUITable = new GUITable();
-            GUITable.Show(ContentPanel, DockState.DockBottom);
+            ControlThreadingHelper.InvokeControlAction(ContentPanel, () =>
+            {
+                using (TimedLock.Lock(AccessLock))
+                {
+                    if (GUITable == null || GUITable.IsDisposed)
+                        GUITable = new GUITable();
+
+                    GUITable.Show(ContentPanel, DockState.DockBottom);
+                }
+            });
         }
 
         private void CreateProcessSelector()
         {
-            if (GUIProcessSelector == null || GUIProcessSelector.IsDisposed)
-                GUIProcessSelector = new GUIProcessSelector();
-            GUIProcessSelector.Show(ContentPanel);
+            ControlThreadingHelper.InvokeControlAction(ContentPanel, () =>
+            {
+                using (TimedLock.Lock(AccessLock))
+                {
+                    if (GUIProcessSelector == null || GUIProcessSelector.IsDisposed)
+                        GUIProcessSelector = new GUIProcessSelector();
+
+                    GUIProcessSelector.Show(ContentPanel);
+                }
+            });
         }
 
         private void CreateScriptEditor()
         {
-            if (GUIScriptEditor == null || GUIScriptEditor.IsDisposed)
-                GUIScriptEditor = new GUIScriptEditor();
-            GUIScriptEditor.Show(ContentPanel);
+            ControlThreadingHelper.InvokeControlAction(this, () =>
+            {
+                using (TimedLock.Lock(AccessLock))
+                {
+                    if (GUIScriptEditor == null || GUIScriptEditor.IsDisposed)
+                        GUIScriptEditor = new GUIScriptEditor();
+
+                    GUIScriptEditor.Show(ContentPanel);
+                }
+            });
         }
 
         private void CreateRegistration()
         {
-            if (GUIRegistration == null || GUIRegistration.IsDisposed)
-                GUIRegistration = new GUIRegistration();
-            GUIRegistration.ShowDialog(this);
+            ControlThreadingHelper.InvokeControlAction(GUIRegistration, () =>
+            {
+                using (TimedLock.Lock(AccessLock))
+                {
+                    if (GUIRegistration == null || GUIRegistration.IsDisposed)
+                        GUIRegistration = new GUIRegistration();
+
+                    GUIRegistration.ShowDialog(this);
+                }
+            });
         }
 
         private void CreateSettings()
         {
-            if (GUISettings == null || GUISettings.IsDisposed)
-                GUISettings = new GUISettings();
-            GUISettings.ShowDialog(this);
+            ControlThreadingHelper.InvokeControlAction(GUISettings, () =>
+            {
+                using (TimedLock.Lock(AccessLock))
+                {
+                    if (GUISettings == null || GUISettings.IsDisposed)
+                        GUISettings = new GUISettings();
+
+                    GUISettings.ShowDialog(this);
+                }
+            });
         }
 
         #endregion
@@ -481,42 +617,47 @@ namespace Anathema.GUI
         private void GUIMenuStrip_MenuActivate(Object Sender, EventArgs E)
         {
             // Check / uncheck items if the windows are open
-            CheatBrowserToolStripMenuItem.Checked = (GUICheatBrowser == null || GUICheatBrowser.IsDisposed) ? false : true;
-            ProcessSelectorToolStripMenuItem.Checked = (GUIProcessSelector == null || GUIProcessSelector.IsDisposed) ? false : true;
-            ScriptEditorToolStripMenuItem.Checked = (GUIScriptEditor == null || GUIScriptEditor.IsDisposed) ? false : true;
-            SnapshotManagerToolStripMenuItem.Checked = (GUISnapshotManager == null || GUISnapshotManager.IsDisposed) ? false : true;
-            ResultsToolStripMenuItem.Checked = (GUIResults == null || GUIResults.IsDisposed) ? false : true;
-            TableToolStripMenuItem.Checked = (GUITable == null || GUITable.IsDisposed) ? false : true;
+            using (TimedLock.Lock(AccessLock))
+            {
+                CheatBrowserToolStripMenuItem.Checked = (GUICheatBrowser == null || GUICheatBrowser.IsDisposed) ? false : true;
+                ProcessSelectorToolStripMenuItem.Checked = (GUIProcessSelector == null || GUIProcessSelector.IsDisposed) ? false : true;
+                ScriptEditorToolStripMenuItem.Checked = (GUIScriptEditor == null || GUIScriptEditor.IsDisposed) ? false : true;
+                SnapshotManagerToolStripMenuItem.Checked = (GUISnapshotManager == null || GUISnapshotManager.IsDisposed) ? false : true;
+                ResultsToolStripMenuItem.Checked = (GUIResults == null || GUIResults.IsDisposed) ? false : true;
+                TableToolStripMenuItem.Checked = (GUITable == null || GUITable.IsDisposed) ? false : true;
 
-            CodeViewToolStripMenuItem.Checked = (GUICodeView == null || GUICodeView.IsDisposed) ? false : true;
-            MemoryViewToolStripMenuItem.Checked = (GUIMemoryView == null || GUIMemoryView.IsDisposed) ? false : true;
+                CodeViewToolStripMenuItem.Checked = (GUICodeView == null || GUICodeView.IsDisposed) ? false : true;
+                MemoryViewToolStripMenuItem.Checked = (GUIMemoryView == null || GUIMemoryView.IsDisposed) ? false : true;
 
-            FiniteStateScannerToolStripMenuItem.Checked = (GUIFiniteStateScanner == null || GUIFiniteStateScanner.IsDisposed) ? false : true;
-            ManualScannerToolStripMenuItem.Checked = (GUIManualScanner == null || GUIManualScanner.IsDisposed) ? false : true;
-            TreeScannerToolStripMenuItem.Checked = (GUITreeScanner == null || GUITreeScanner.IsDisposed) ? false : true;
-            ChunkScannerToolStripMenuItem.Checked = (GUIChunkScanner == null || GUIChunkScanner.IsDisposed) ? false : true;
-            ChangeCounterToolStripMenuItem.Checked = (GUIChangeCounter == null || GUIChangeCounter.IsDisposed) ? false : true;
-            LabelThresholderToolStripMenuItem.Checked = (GUILabelThresholder == null || GUILabelThresholder.IsDisposed) ? false : true;
-            InputCorrelatorToolStripMenuItem.Checked = (GUIInputCorrelator == null || GUIInputCorrelator.IsDisposed) ? false : true;
-            PointerScannerToolStripMenuItem.Checked = (GUIPointerScanner == null || GUIPointerScanner.IsDisposed) ? false : true;
-
+                FiniteStateScannerToolStripMenuItem.Checked = (GUIFiniteStateScanner == null || GUIFiniteStateScanner.IsDisposed) ? false : true;
+                ManualScannerToolStripMenuItem.Checked = (GUIManualScanner == null || GUIManualScanner.IsDisposed) ? false : true;
+                TreeScannerToolStripMenuItem.Checked = (GUITreeScanner == null || GUITreeScanner.IsDisposed) ? false : true;
+                ChunkScannerToolStripMenuItem.Checked = (GUIChunkScanner == null || GUIChunkScanner.IsDisposed) ? false : true;
+                ChangeCounterToolStripMenuItem.Checked = (GUIChangeCounter == null || GUIChangeCounter.IsDisposed) ? false : true;
+                LabelThresholderToolStripMenuItem.Checked = (GUILabelThresholder == null || GUILabelThresholder.IsDisposed) ? false : true;
+                InputCorrelatorToolStripMenuItem.Checked = (GUIInputCorrelator == null || GUIInputCorrelator.IsDisposed) ? false : true;
+                PointerScannerToolStripMenuItem.Checked = (GUIPointerScanner == null || GUIPointerScanner.IsDisposed) ? false : true;
+            }
         }
 
         private void GUIMain_FormClosing(Object Sender, FormClosingEventArgs E)
         {
             // Give the table a chance to ask to save changes
-            if (GUITable != null && !GUITable.IsDisposed)
-                GUITable.Close();
-
-            try
+            using (TimedLock.Lock(AccessLock))
             {
                 if (GUITable != null && !GUITable.IsDisposed)
+                    GUITable.Close();
+
+                try
                 {
-                    E.Cancel = true;
-                    return;
+                    if (GUITable != null && !GUITable.IsDisposed)
+                    {
+                        E.Cancel = true;
+                        return;
+                    }
                 }
+                catch { }
             }
-            catch { }
 
             SaveConfiguration();
 

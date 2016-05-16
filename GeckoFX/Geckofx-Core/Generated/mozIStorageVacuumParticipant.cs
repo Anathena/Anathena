@@ -20,20 +20,19 @@
 // --------------------------------------------------------------------------------------------
 namespace Gecko
 {
-	using System;
-	using System.Runtime.InteropServices;
-	using System.Runtime.InteropServices.ComTypes;
-	using System.Runtime.CompilerServices;
-	
-	
-	/// <summary>
+    using System;
+    using System.Runtime.CompilerServices;
+    using System.Runtime.InteropServices;
+
+
+    /// <summary>
     /// This interface contains the information that the Storage service needs to
     /// vacuum a database.  This interface is created as a service through the
     /// category manager with the category "vacuum-participant".
     /// Please see https://developer.mozilla.org/en/mozIStorageVacuumParticipant for
     /// more information.
     /// </summary>
-	[ComImport()]
+    [ComImport()]
 	[InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 	[Guid("8f367508-1d9a-4d3f-be0c-ac11b6dd7dbf")]
 	public interface mozIStorageVacuumParticipant

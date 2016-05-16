@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 
 namespace Anathema.Utils
 {
@@ -7,9 +9,14 @@ namespace Anathema.Utils
     {
         private static Type[] ExcludedTypes = new Type[]{ typeof(IntPtr), typeof(UIntPtr), typeof(Boolean) };
 
-        public static Type[] GetPrimitiveTypes()
+        public static IEnumerable<Type> GetPrimitiveTypes()
         {
-            return typeof(Int32).Assembly.GetTypes().Where(x => x.IsPrimitive && !ExcludedTypes.Contains(x)).ToArray();
+            return typeof(Int32).Assembly.GetTypes().Where(X => X.IsPrimitive && !ExcludedTypes.Contains(X));
+        }
+
+        public static Int32 GetLargestPrimitiveSize()
+        {
+            return GetPrimitiveTypes().Select(X => Marshal.SizeOf(X)).Max();
         }
 
     } // End class

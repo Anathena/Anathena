@@ -20,20 +20,19 @@
 // --------------------------------------------------------------------------------------------
 namespace Gecko
 {
-	using System;
-	using System.Runtime.InteropServices;
-	using System.Runtime.InteropServices.ComTypes;
-	using System.Runtime.CompilerServices;
-	
-	
-	/// <summary>
+    using System;
+    using System.Runtime.CompilerServices;
+    using System.Runtime.InteropServices;
+
+
+    /// <summary>
     /// The nsIDOMMessageEvent interface is used for server-sent events and for
     /// cross-domain messaging.
     ///
     /// For more information on this interface, please see
     /// http://www.whatwg.org/specs/web-apps/current-work/#messageevent
     /// </summary>
-	[ComImport()]
+    [ComImport()]
 	[InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 	[Guid("bb869a03-5fc0-4a1b-838a-342e5025fc05")]
 	public interface nsIDOMMessageEvent : nsIDOMEvent

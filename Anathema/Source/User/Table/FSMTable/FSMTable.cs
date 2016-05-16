@@ -1,5 +1,4 @@
 ﻿using Anathema.Scanners.FiniteStateScanner;
-using Anathema.User.UserScriptTable;
 using Anathema.Utils.OS;
 using System;
 using System.Collections.Generic;
@@ -11,25 +10,19 @@ namespace Anathema.User.UserFSMTable
     /// </summary>
     class FSMTable : IFSMTableModel
     {
-        private static FSMTable FSMTableInstance;
+        // Singleton instance of fsm table
+        private static Lazy<FSMTable> FSMTableInstance = new Lazy<FSMTable>(() => { return new FSMTable(); });
 
         private List<FiniteStateMachine> FiniteStateMachines;
-
-        public event ScriptTableEventHandler EventClearScriptCacheItem;
-        public event ScriptTableEventHandler EventClearScriptCache;
-        public event FSMTableEventHandler EventClearFSMCacheItem;
-        public event FSMTableEventHandler EventClearFSMCache;
 
         private FSMTable()
         {
             FiniteStateMachines = new List<FiniteStateMachine>();
         }
-
+        
         public static FSMTable GetInstance()
         {
-            if (FSMTableInstance == null)
-                FSMTableInstance = new FSMTable();
-            return FSMTableInstance;
+            return FSMTableInstance.Value;
         }
 
         public bool SaveTable(String Path)

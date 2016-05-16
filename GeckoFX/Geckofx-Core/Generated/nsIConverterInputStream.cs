@@ -20,18 +20,17 @@
 // --------------------------------------------------------------------------------------------
 namespace Gecko
 {
-	using System;
-	using System.Runtime.InteropServices;
-	using System.Runtime.InteropServices.ComTypes;
-	using System.Runtime.CompilerServices;
-	
-	
-	/// <summary>
+    using System;
+    using System.Runtime.CompilerServices;
+    using System.Runtime.InteropServices;
+
+
+    /// <summary>
     /// A unichar input stream that wraps an input stream.
     /// This allows reading unicode strings from a stream, automatically converting
     /// the bytes from a selected character encoding.
     /// </summary>
-	[ComImport()]
+    [ComImport()]
 	[InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 	[Guid("FC66FFB6-5404-4908-A4A3-27F92FA0579D")]
 	public interface nsIConverterInputStream : nsIUnicharInputStream

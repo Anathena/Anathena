@@ -1,16 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Runtime.InteropServices;
-using System.Diagnostics;
-using Gecko.DOM;
+﻿using Gecko.DOM;
 using Gecko.Interop;
+using System;
 
 namespace Gecko
 {
-	/// <summary>
-	/// Provides a base class for DOM nodes.
-	/// </summary>
-	public class GeckoNode
+    /// <summary>
+    /// Provides a base class for DOM nodes.
+    /// </summary>
+    public class GeckoNode
 		:IDisposable
 	{
 		static GeckoWrapperCache<nsIDOMNode, GeckoNode> m_nodeCache = new GeckoWrapperCache<nsIDOMNode, GeckoNode>(DOMSelector.CreateDomNodeWrapper);

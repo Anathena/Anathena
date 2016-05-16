@@ -20,13 +20,12 @@
 // --------------------------------------------------------------------------------------------
 namespace Gecko
 {
-	using System;
-	using System.Runtime.InteropServices;
-	using System.Runtime.InteropServices.ComTypes;
-	using System.Runtime.CompilerServices;
-	
-	
-	/// <summary>
+    using System;
+    using System.Runtime.CompilerServices;
+    using System.Runtime.InteropServices;
+
+
+    /// <summary>
     /// A generic editor action listener interface.
     /// <P>
     /// nsIEditActionListener is the interface used by applications wishing to be notified
@@ -36,7 +35,7 @@ namespace Gecko
     /// change notifications.  For generic notifications, you should implement
     /// nsIDocumentObserver.
     /// </summary>
-	[ComImport()]
+    [ComImport()]
 	[InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 	[Guid("b22907b1-ee93-11d2-8d50-000064657374")]
 	public interface nsIEditActionListener

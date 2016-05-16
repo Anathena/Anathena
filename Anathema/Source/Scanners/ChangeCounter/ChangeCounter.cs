@@ -81,7 +81,8 @@ namespace Anathema.Scanners.ChangeCounter
                         Element.ElementLabel++;
                 }
 
-                lock (ProgressLock)
+                using (TimedLock.Lock(ProgressLock))
+                // lock (ProgressLock)
                 {
                     ProcessedPages++;
 
@@ -94,10 +95,8 @@ namespace Anathema.Scanners.ChangeCounter
             OnEventUpdateScanCount(new ScannerEventArgs(this.ScanCount));
         }
 
-        public override void End()
+        protected override void End()
         {
-            base.End();
-
             // Mark regions as valid or invalid based on number of changes
             Snapshot.MarkAllInvalid();
 

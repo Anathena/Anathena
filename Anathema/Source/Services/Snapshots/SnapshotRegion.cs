@@ -14,11 +14,11 @@ namespace Anathema.Services.Snapshots
     /// </summary>
     public abstract class SnapshotRegion : NormalizedRegion, IEnumerable
     {
-        protected Int32 RegionExtension;    // Variable to indicate a safe number of read-over bytes
-        protected unsafe Byte[] CurrentValues;      // Most recently read values
-        protected unsafe Byte[] PreviousValues;     // Previously read values
+        protected Int32 RegionExtension;        // Variable to indicate a safe number of read-over bytes
+        protected unsafe Byte[] CurrentValues;  // Most recently read values
+        protected unsafe Byte[] PreviousValues; // Previously read values
 
-        protected Int32 Alignment;
+        protected Int32 Alignment;  // Memory alignment, typically aligned with native platform bit size
 
         // These fields are public as an access optimization from SnapshotElement, and otherwise should be accessed via get/set functions
         public Type ElementType;                        // Element type for this

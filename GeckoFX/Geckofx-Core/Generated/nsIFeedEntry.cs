@@ -20,18 +20,17 @@
 // --------------------------------------------------------------------------------------------
 namespace Gecko
 {
-	using System;
-	using System.Runtime.InteropServices;
-	using System.Runtime.InteropServices.ComTypes;
-	using System.Runtime.CompilerServices;
-	
-	
-	/// <summary>
+    using System;
+    using System.Runtime.CompilerServices;
+    using System.Runtime.InteropServices;
+
+
+    /// <summary>
     /// An nsIFeedEntry represents an Atom or RSS entry/item. Summary
     /// and/or full-text content may be available, but callers will have to
     /// check both.
     /// </summary>
-	[ComImport()]
+    [ComImport()]
 	[InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 	[Guid("31bfd5b4-8ff5-4bfd-a8cb-b3dfbd4f0a5b")]
 	public interface nsIFeedEntry : nsIFeedContainer

@@ -1,18 +1,16 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Runtime.InteropServices;
 
 // This file will contain BaseNativeInputStream implementations, that DIFF'ers by memory allocation routines
 
 namespace Gecko.IO.Native
 {
-	/// <summary>
-	/// Replacement for ByteArrayInputStream
-	/// Native memory will be faster then managed byte[] (ByteArrayInputStream)
-	/// We must check what is faster NativeInputStream or NativeInputStream2
-	/// </summary>
-	public sealed class NativeInputStream
+    /// <summary>
+    /// Replacement for ByteArrayInputStream
+    /// Native memory will be faster then managed byte[] (ByteArrayInputStream)
+    /// We must check what is faster NativeInputStream or NativeInputStream2
+    /// </summary>
+    public sealed class NativeInputStream
 		: BaseNativeInputStream, IDisposable
 	{
 		private GCHandle _handle;

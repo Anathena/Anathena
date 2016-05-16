@@ -10,12 +10,12 @@ namespace Anathema.User.UserScriptTable
     /// </summary>
     class ScriptTable : IScriptTableModel
     {
-        private static ScriptTable ScriptTableInstance;
+        // Singleton instance of Script Table
+        private static Lazy<ScriptTable> ScriptTableInstance = new Lazy<ScriptTable>(() => { return new ScriptTable(); });
 
         private List<ScriptItem> ScriptItems;
 
-        public event ScriptTableEventHandler EventClearScriptCacheItem;
-        public event ScriptTableEventHandler EventClearScriptCache;
+        public event ScriptTableEventHandler EventUpdateScriptTableItemCount;
 
         private ScriptTable()
         {
@@ -24,17 +24,15 @@ namespace Anathema.User.UserScriptTable
 
         public static ScriptTable GetInstance()
         {
-            if (ScriptTableInstance == null)
-                ScriptTableInstance = new ScriptTable();
-            return ScriptTableInstance;
+            return ScriptTableInstance.Value;
         }
 
-        private void RefreshDisplay()
+        private void UpdateScriptTableItemCount()
         {
             // Request that all data be updated
             ScriptTableEventArgs Args = new ScriptTableEventArgs();
             Args.ItemCount = ScriptItems.Count;
-            EventClearScriptCache(this, Args);
+            EventUpdateScriptTableItemCount?.Invoke(this, Args);
         }
 
         public void OpenScript(Int32 Index)
@@ -49,10 +47,7 @@ namespace Anathema.User.UserScriptTable
         public void AddScriptItem(ScriptItem Item)
         {
             ScriptItems.Add(Item);
-
-            ScriptTableEventArgs ScriptTableEventArgs = new ScriptTableEventArgs();
-            ScriptTableEventArgs.ItemCount = ScriptItems.Count;
-            EventClearScriptCache(this, ScriptTableEventArgs);
+            UpdateScriptTableItemCount();
 
             Table.GetInstance().TableChanged();
         }
@@ -60,10 +55,7 @@ namespace Anathema.User.UserScriptTable
         public void DeleteScript(Int32 Index)
         {
             ScriptItems.RemoveAt(Index);
-
-            ScriptTableEventArgs ScriptTableEventArgs = new ScriptTableEventArgs();
-            ScriptTableEventArgs.ItemCount = ScriptItems.Count;
-            EventClearScriptCache(this, ScriptTableEventArgs);
+            UpdateScriptTableItemCount();
 
             Table.GetInstance().TableChanged();
         }
@@ -85,31 +77,18 @@ namespace Anathema.User.UserScriptTable
             ScriptItem Item = ScriptItems[SourceIndex];
             ScriptItems.RemoveAt(SourceIndex);
             ScriptItems.Insert(DestinationIndex, Item);
-
-            ScriptTableEventArgs ScriptTableEventArgs = new ScriptTableEventArgs();
-            ScriptTableEventArgs.ItemCount = ScriptItems.Count;
-            EventClearScriptCache(this, ScriptTableEventArgs);
+            UpdateScriptTableItemCount();
 
             Table.GetInstance().TableChanged();
         }
 
         public void SaveScript(ScriptItem ScriptItem)
         {
+            // Adding a new script if we do not contain this, otherwise it is already updated
             if (!ScriptItems.Contains(ScriptItem))
-            {
-                // Adding a new script
                 ScriptItems.Add(ScriptItem);
 
-                ScriptTableEventArgs ScriptTableEventArgs = new ScriptTableEventArgs();
-                ScriptTableEventArgs.ItemCount = ScriptItems.Count;
-                EventClearScriptCache(this, ScriptTableEventArgs);
-            }
-            else
-            {
-                // Updating an existing script, clear it from the cache
-                ClearScriptItemFromCache(ScriptItem);
-            }
-
+            UpdateScriptTableItemCount();
             Table.GetInstance().TableChanged();
         }
 
@@ -126,9 +105,7 @@ namespace Anathema.User.UserScriptTable
         public void SetScriptItems(List<ScriptItem> ScriptItems)
         {
             this.ScriptItems = ScriptItems;
-            ScriptTableEventArgs ScriptTableEventArgs = new ScriptTableEventArgs();
-            ScriptTableEventArgs.ItemCount = ScriptItems.Count;
-            EventClearScriptCache(this, ScriptTableEventArgs);
+            UpdateScriptTableItemCount();
 
             Table.GetInstance().TableChanged();
         }
@@ -137,15 +114,7 @@ namespace Anathema.User.UserScriptTable
         {
             // Try to update the activation state
             ScriptItems[Index].SetActivationState(Activated);
-            ClearScriptItemFromCache(ScriptItems[Index]);
-        }
-
-        private void ClearScriptItemFromCache(ScriptItem ScriptItem)
-        {
-            ScriptTableEventArgs ScriptTableEventArgs = new ScriptTableEventArgs();
-            ScriptTableEventArgs.ClearCacheIndex = ScriptItems.IndexOf(ScriptItem);
-            ScriptTableEventArgs.ItemCount = ScriptItems.Count;
-            EventClearScriptCacheItem(this, ScriptTableEventArgs);
+            UpdateScriptTableItemCount();
         }
 
     } // End class

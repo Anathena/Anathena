@@ -20,13 +20,12 @@
 // --------------------------------------------------------------------------------------------
 namespace Gecko
 {
-	using System;
-	using System.Runtime.InteropServices;
-	using System.Runtime.InteropServices.ComTypes;
-	using System.Runtime.CompilerServices;
-	
-	
-	/// <summary>
+    using System;
+    using System.Runtime.CompilerServices;
+    using System.Runtime.InteropServices;
+
+
+    /// <summary>
     /// A request observer proxy is used to ship data over to another thread
     /// specified by the thread's dispatch target. The "true" request observer's
     /// methods are invoked on the other thread.
@@ -34,7 +33,7 @@ namespace Gecko
     /// This interface only provides the initialization needed after construction.
     /// Otherwise, these objects are used simply as nsIRequestObserver's.
     /// </summary>
-	[ComImport()]
+    [ComImport()]
 	[InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 	[Guid("c2b06151-1bf8-4eef-aea9-1532f12f5a10")]
 	public interface nsIRequestObserverProxy : nsIRequestObserver

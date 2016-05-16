@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Gecko.Interop;
+﻿using Gecko.Interop;
 
 namespace Gecko
 {
-	public static class AppShellService
+    public static class AppShellService
 	{
 		private static ComPtr<nsIAppShellService> _appShellService;
 

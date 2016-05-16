@@ -1,6 +1,6 @@
 namespace Gecko.Net
 {
-	public class ImgRequest
+    public class ImgRequest
 		: Request
 	{
 		private imgIRequest _imgRequest;

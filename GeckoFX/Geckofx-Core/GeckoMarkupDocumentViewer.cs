@@ -1,9 +1,7 @@
-﻿using System;
-
-namespace Gecko
+﻿namespace Gecko
 {
 
-	public class GeckoMarkupDocumentViewer
+    public class GeckoMarkupDocumentViewer
 	{
 		nsIMarkupDocumentViewer m_markupDocumentViewer;
 

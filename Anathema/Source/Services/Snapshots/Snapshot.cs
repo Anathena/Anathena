@@ -1,12 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Collections;
+﻿using Anathema.Services.ProcessManager;
+using Anathema.Source.Utils;
 using Anathema.Utils.Extensions;
 using Anathema.Utils.OS;
-using Anathema.Services.ProcessManager;
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
+using System.Threading.Tasks;
 
 namespace Anathema.Services.Snapshots
 {
@@ -295,7 +296,8 @@ namespace Anathema.Services.Snapshots
                 }
                 catch (ScanFailedException)
                 {
-                    lock (DeallocatedRegionLock)
+                    using (TimedLock.Lock(DeallocatedRegionLock))
+                    // lock (DeallocatedRegionLock)
                     {
                         if (!DeallocatedRegions.Contains(SnapshotRegion))
                             DeallocatedRegions.Add(SnapshotRegion);
@@ -478,7 +480,7 @@ namespace Anathema.Services.Snapshots
             if (DeallocatedRegions == null || DeallocatedRegions.Count <= 0 || SnapshotRegions == null || SnapshotRegions.Count() <= 0)
                 return null;
 
-            List<SnapshotRegion<LabelType>> NewSnapshotRegions = SnapshotRegions.Select(x => (SnapshotRegion<LabelType>)x).ToList();
+            List<SnapshotRegion<LabelType>> NewSnapshotRegions = SnapshotRegions.Select(X => (SnapshotRegion<LabelType>)X).ToList();
 
             // Remove invalid items from collection
             foreach (SnapshotRegion<LabelType> Region in DeallocatedRegions)

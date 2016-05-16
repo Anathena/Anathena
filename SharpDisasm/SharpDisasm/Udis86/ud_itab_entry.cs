@@ -35,14 +35,11 @@
 // --------------------------------------------------------------------------------
 
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 
 namespace SharpDisasm.Udis86
 {
-    #pragma warning disable 1591
+#pragma warning disable 1591
     /// <summary>
     /// A single entry within an instruction table
     /// </summary>

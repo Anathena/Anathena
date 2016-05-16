@@ -1,9 +1,9 @@
-﻿using System;
-using Gecko.Interop;
+﻿using Gecko.Interop;
+using System;
 
 namespace Gecko
 {
-	public static class CertOverrideService
+    public static class CertOverrideService
 	{
 		private static ComPtr<nsICertOverrideService> GetService()
 		{

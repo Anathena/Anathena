@@ -1,13 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.InteropServices;
-using System.Text;
+﻿using System.Runtime.InteropServices;
 
 namespace Gecko
 {
-	// TODO: make this class binary marshalable from struct gfxRect
-	[StructLayout(LayoutKind.Sequential)]
+    // TODO: make this class binary marshalable from struct gfxRect
+    [StructLayout(LayoutKind.Sequential)]
 	public class gfxRect
 	{
 		public double X;

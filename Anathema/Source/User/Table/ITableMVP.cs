@@ -27,7 +27,7 @@ namespace Anathema.User.UserTable
 
         Boolean HasChanges();
     }
-    
+
     class TablePresenter : Presenter<ITableView, ITableModel>
     {
         protected new ITableView View { get; set; }

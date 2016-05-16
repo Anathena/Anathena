@@ -20,18 +20,17 @@
 // --------------------------------------------------------------------------------------------
 namespace Gecko
 {
-	using System;
-	using System.Runtime.InteropServices;
-	using System.Runtime.InteropServices.ComTypes;
-	using System.Runtime.CompilerServices;
-	
-	
-	/// <summary>
+    using System;
+    using System.Runtime.CompilerServices;
+    using System.Runtime.InteropServices;
+
+
+    /// <summary>
     /// The nsIHTTPHeaderListener interface allows plugin authors to
     /// access HTTP Response headers after issuing an
     /// nsIPluginHost::{GetURL,PostURL}() call. <P>
     /// </summary>
-	[ComImport()]
+    [ComImport()]
 	[InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 	[Guid("ea51e0b8-871c-4b85-92da-6f400394c5ec")]
 	public interface nsIHTTPHeaderListener

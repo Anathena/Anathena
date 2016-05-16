@@ -20,13 +20,12 @@
 // --------------------------------------------------------------------------------------------
 namespace Gecko
 {
-	using System;
-	using System.Runtime.InteropServices;
-	using System.Runtime.InteropServices.ComTypes;
-	using System.Runtime.CompilerServices;
-	
-	
-	/// <summary>
+    using System;
+    using System.Runtime.CompilerServices;
+    using System.Runtime.InteropServices;
+
+
+    /// <summary>
     /// mozIStorageAggregateFunction represents aggregate SQL function.
     /// Common examples of aggregate functions are SUM() and COUNT().
     ///
@@ -34,7 +33,7 @@ namespace Gecko
     /// a set of data is a group of tuples. There can be one group
     /// per request or many of them, if GROUP BY clause is used or not.
     /// </summary>
-	[ComImport()]
+    [ComImport()]
 	[InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 	[Guid("763217b7-3123-11da-918d-000347412e16")]
 	public interface mozIStorageAggregateFunction

@@ -31,10 +31,10 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(GUICheatBrowser));
             this.ContentPanel = new System.Windows.Forms.Panel();
             this.GUIToolStrip = new System.Windows.Forms.ToolStrip();
-            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.HomeButton = new System.Windows.Forms.ToolStripButton();
             this.BackButton = new System.Windows.Forms.ToolStripButton();
             this.ForwardButton = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.UploadButton = new System.Windows.Forms.ToolStripButton();
             this.GUIToolStrip.SuspendLayout();
             this.SuspendLayout();
@@ -62,11 +62,6 @@
             this.GUIToolStrip.Size = new System.Drawing.Size(248, 25);
             this.GUIToolStrip.TabIndex = 149;
             this.GUIToolStrip.Text = "Main Tool Strip";
-            // 
-            // toolStripSeparator1
-            // 
-            this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 25);
             // 
             // HomeButton
             // 
@@ -97,6 +92,11 @@
             this.ForwardButton.Size = new System.Drawing.Size(23, 22);
             this.ForwardButton.Text = "Forwards";
             this.ForwardButton.Click += new System.EventHandler(this.ForwardButton_Click);
+            // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 25);
             // 
             // UploadButton
             // 

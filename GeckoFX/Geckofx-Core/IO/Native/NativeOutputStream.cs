@@ -1,10 +1,9 @@
 using System;
 using System.Runtime.InteropServices;
-using System.Text;
 
 namespace Gecko.IO.Native
 {
-	public sealed class NativeOutputStream
+    public sealed class NativeOutputStream
 		:BaseNativeStream, nsIOutputStream,IDisposable
 	{
 

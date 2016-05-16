@@ -20,13 +20,12 @@
 // --------------------------------------------------------------------------------------------
 namespace Gecko
 {
-	using System;
-	using System.Runtime.InteropServices;
-	using System.Runtime.InteropServices.ComTypes;
-	using System.Runtime.CompilerServices;
-	
-	
-	/// <summary>
+    using System;
+    using System.Runtime.CompilerServices;
+    using System.Runtime.InteropServices;
+
+
+    /// <summary>
     /// JAR URLs have the following syntax
     ///
     /// jar:<jar-file-uri>!/<jar-entry>
@@ -35,7 +34,7 @@ namespace Gecko
     ///
     /// The nsIURL methods operate on the <jar-entry> part of the spec.
     /// </summary>
-	[ComImport()]
+    [ComImport()]
 	[InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 	[Guid("1ee60719-c056-43b3-8f54-6a6e7ba0ca6c")]
 	public interface nsIJARURI : nsIURL

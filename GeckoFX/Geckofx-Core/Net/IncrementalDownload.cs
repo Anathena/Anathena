@@ -1,6 +1,6 @@
 namespace Gecko.Net
 {
-	public class IncrementalDownload
+    public class IncrementalDownload
 		:Request
 	{
 		private nsIIncrementalDownload _incrementalDownload;

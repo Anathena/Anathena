@@ -1,12 +1,9 @@
-﻿using System;
+﻿using Gecko.Interop;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Gecko.Interop;
 
 namespace Gecko.Services
 {
-	public static class WindowWatcher
+    public static class WindowWatcher
 	{
 		private static ComPtr<nsIWindowWatcher> _watcher;
 		private static bool _windowCreatorLocked;

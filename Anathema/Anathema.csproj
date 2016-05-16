@@ -44,6 +44,7 @@
     <WarningLevel>4</WarningLevel>
     <Prefer32Bit>false</Prefer32Bit>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <CodeAnalysisRuleSet />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -54,6 +55,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <CodeAnalysisRuleSet />
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
     <DebugSymbols>true</DebugSymbols>
@@ -63,7 +65,8 @@
     <DebugType>full</DebugType>
     <PlatformTarget>x86</PlatformTarget>
     <ErrorReport>prompt</ErrorReport>
-    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRuleSet>
+    </CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
     <OutputPath>bin\x86\Release\</OutputPath>
@@ -72,7 +75,8 @@
     <DebugType>pdbonly</DebugType>
     <PlatformTarget>x86</PlatformTarget>
     <ErrorReport>prompt</ErrorReport>
-    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRuleSet>
+    </CodeAnalysisRuleSet>
     <Prefer32Bit>true</Prefer32Bit>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
@@ -84,7 +88,8 @@
     <DebugType>full</DebugType>
     <PlatformTarget>x64</PlatformTarget>
     <ErrorReport>prompt</ErrorReport>
-    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRuleSet>
+    </CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
     <OutputPath>bin\x64\Release\</OutputPath>
@@ -93,7 +98,8 @@
     <DebugType>pdbonly</DebugType>
     <PlatformTarget>x64</PlatformTarget>
     <ErrorReport>prompt</ErrorReport>
-    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRuleSet>
+    </CodeAnalysisRuleSet>
     <Prefer32Bit>true</Prefer32Bit>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
@@ -231,7 +237,8 @@
     <Compile Include="Source\Utils\Extensions\IEnumerableExtensions.cs" />
     <Compile Include="Source\Utils\Extensions\IntExtensions.cs" />
     <Compile Include="Source\Utils\Extensions\IntPtrExtensions.cs" />
-    <Compile Include="Source\Utils\ObjectCache.cs" />
+    <Compile Include="Source\Utils\Cache\ObjectCache.cs" />
+    <Compile Include="Source\Utils\Extensions\PrimitiveExtensions.cs" />
     <Compile Include="Source\Utils\MessageBoxEx.cs" />
     <Compile Include="Source\Utils\Extensions\ObjectExtensions.cs" />
     <Compile Include="Source\Utils\OS\Architecture\Architecture.cs" />
@@ -240,7 +247,7 @@
     <Compile Include="Source\Utils\OS\IOperatingSystemInterface.cs" />
     <Compile Include="Source\Utils\Lua\LuaEngine.cs" />
     <Compile Include="Settings.cs" />
-    <Compile Include="Source\Utils\ListViewCache.cs" />
+    <Compile Include="Source\Utils\Cache\ListViewCache.cs" />
     <Compile Include="Source\Utils\ProgressItem.cs" />
     <Compile Include="Source\Utils\RepeatedTask.cs" />
     <Compile Include="Source\Utils\Lua\LuaKeywordManager.cs" />
@@ -422,8 +429,8 @@
     <Compile Include="Source\Services\Process\IProcessObserver.cs" />
     <Compile Include="Source\Services\Process\IProcessSelectorMVP.cs" />
     <Compile Include="Source\Services\Process\ProcessSelector.cs" />
-    <Compile Include="Source\Services\ScanResults\IResultsMVP.cs" />
-    <Compile Include="Source\Services\ScanResults\Results.cs" />
+    <Compile Include="Source\Services\Results\IResultsMVP.cs" />
+    <Compile Include="Source\Services\Results\Results.cs" />
     <Compile Include="Source\Services\Snapshots\ISnapshotManagerMVP.cs" />
     <Compile Include="Source\Scanners\IScannerMVP.cs" />
     <Compile Include="Source\Services\Snapshots\Snapshot.cs" />
@@ -490,6 +497,7 @@
       <DependentUpon>GUIMain.cs</DependentUpon>
     </Compile>
     <Compile Include="Source\Scanners\FiniteStateScanner\FiniteStateScanner.cs" />
+    <Compile Include="Source\Utils\TimedLock.cs" />
     <Compile Include="Source\Utils\Validation\CheckSyntax.cs" />
     <Compile Include="Source\Scanners\InputCorrelator\InputCorrelator.cs" />
     <Compile Include="Source\Scanners\InputCorrelator\InputHook\Hook.cs" />

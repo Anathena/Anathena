@@ -20,20 +20,19 @@
 // --------------------------------------------------------------------------------------------
 namespace Gecko
 {
-	using System;
-	using System.Runtime.InteropServices;
-	using System.Runtime.InteropServices.ComTypes;
-	using System.Runtime.CompilerServices;
-	
-	
-	/// <summary>
+    using System;
+    using System.Runtime.CompilerServices;
+    using System.Runtime.InteropServices;
+
+
+    /// <summary>
     /// The nsIDOMElement interface represents an element in an HTML or
     /// XML document.
     ///
     /// For more information on this interface please see
     /// http://dvcs.w3.org/hg/domcore/raw-file/tip/Overview.html#interface-element
     /// </summary>
-	[ComImport()]
+    [ComImport()]
 	[InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 	[Guid("989422ef-120d-4d29-8a56-6aa2505a8b02")]
 	public interface nsIDOMElement : nsIDOMNode

@@ -1,31 +1,42 @@
-﻿using System;
+﻿using Anathema.Source.Utils;
+using Anathema.User.UserScriptTable;
+using Anathema.Utils.Cache;
+using Anathema.Utils.MVP;
+using System;
+using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
-using Anathema.Utils.MVP;
-using Anathema.User.UserScriptTable;
-using System.ComponentModel;
 
 namespace Anathema
 {
     public partial class GUIScriptTable : UserControl, IScriptTableView
     {
         private ScriptTablePresenter ScriptTablePresenter;
+        private ListViewCache ScriptTableCache;
+        private Object AccessLock;
 
         public GUIScriptTable()
         {
             InitializeComponent();
 
             ScriptTablePresenter = new ScriptTablePresenter(this, ScriptTable.GetInstance());
+            ScriptTableCache = new ListViewCache();
+            AccessLock = new Object();
+
         }
 
         public void UpdateScriptTableItemCount(Int32 ItemCount)
         {
-            ControlThreadingHelper.InvokeControlAction(ScriptTableListView, () =>
+            using (TimedLock.Lock(AccessLock))
             {
-                ScriptTableListView.BeginUpdate();
-                ScriptTableListView.SetItemCount(ItemCount);
-                ScriptTableListView.EndUpdate();
-            });
+                ControlThreadingHelper.InvokeControlAction(ScriptTableListView, () =>
+                {
+                    ScriptTableListView.BeginUpdate();
+                    ScriptTableListView.SetItemCount(ItemCount);
+                    ScriptTableCache.FlushCache();
+                    ScriptTableListView.EndUpdate();
+                });
+            }
         }
 
         #region Events
@@ -34,70 +45,103 @@ namespace Anathema
 
         private void ScriptTableListView_RetrieveVirtualItem(Object Sender, RetrieveVirtualItemEventArgs E)
         {
-            E.Item = ScriptTablePresenter.GetScriptTableItemAt(E.ItemIndex);
+            ListViewItem Item = ScriptTableCache.Get((UInt64)E.ItemIndex);
+            ScriptItem ScriptItem = ScriptTablePresenter.GetScriptTableItemAt(E.ItemIndex);
+
+            // Try to update and return the item if it is a valid item
+            if (Item != null)
+            {
+                Item.Checked = ScriptItem.GetActivationState();
+                E.Item = Item;
+                return;
+            }
+
+            // Add the properties to the manager and get the list view item back
+            Item = ScriptTableCache.Add(E.ItemIndex, new String[ScriptTableListView.Columns.Count]);
+
+            Item.SubItems[ScriptTableListView.Columns.IndexOf(ScriptActiveHeader)].Text = String.Empty;
+            Item.SubItems[ScriptTableListView.Columns.IndexOf(ScriptDescriptionHeader)].Text = ScriptItem.GetDescription();
+            Item.Checked = ScriptItem.GetActivationState();
+
+            E.Item = Item;
         }
 
         private void ScriptTableListView_MouseClick(Object Sender, MouseEventArgs E)
         {
-            if (E.Button == MouseButtons.Right)
-                LastRightClickLocation = E.Location;
+            using (TimedLock.Lock(AccessLock))
+            {
+                if (E.Button == MouseButtons.Right)
+                    LastRightClickLocation = E.Location;
 
-            ListViewItem ListViewItem = ScriptTableListView.GetItemAt(E.X, E.Y);
+                ListViewItem ListViewItem = ScriptTableListView.GetItemAt(E.X, E.Y);
 
-            if (ListViewItem == null)
-                return;
+                if (ListViewItem == null)
+                    return;
 
-            if (E.X < (ListViewItem.Bounds.Left + 16))
-                ScriptTablePresenter.SetScriptActivation(ListViewItem.Index, !ListViewItem.Checked); // (Has to be negated, click happens before check change)
+                if (E.X < (ListViewItem.Bounds.Left + 16))
+                    ScriptTablePresenter.SetScriptActivation(ListViewItem.Index, !ListViewItem.Checked); // (Has to be negated, click happens before check change)
+            }
         }
 
         private void ScriptTableListView_MouseDoubleClick(Object Sender, MouseEventArgs E)
         {
-            ListViewHitTestInfo HitTest = ScriptTableListView.HitTest(E.Location);
-            ListViewItem SelectedItem = HitTest.Item;
-            Int32 ColumnIndex = HitTest.Item.SubItems.IndexOf(HitTest.SubItem);
+            using (TimedLock.Lock(AccessLock))
+            {
+                ListViewHitTestInfo HitTest = ScriptTableListView.HitTest(E.Location);
+                ListViewItem SelectedItem = HitTest.Item;
+                Int32 ColumnIndex = HitTest.Item.SubItems.IndexOf(HitTest.SubItem);
 
-            // Do not bring up edit menu on double clicks to checkbox
-            if (ColumnIndex == ScriptTableListView.Columns.IndexOf(ScriptActiveHeader))
-                return;
+                // Do not bring up edit menu on double clicks to checkbox
+                if (ColumnIndex == ScriptTableListView.Columns.IndexOf(ScriptActiveHeader))
+                    return;
 
-            if (SelectedItem == null)
-                return;
+                if (SelectedItem == null)
+                    return;
 
-            ScriptTablePresenter.OpenScript(SelectedItem.Index);
+                ScriptTablePresenter.OpenScript(SelectedItem.Index);
+            }
         }
 
         private void OpenScriptToolStripMenuItem_Click(Object Sender, EventArgs E)
         {
-            ListViewHitTestInfo HitTest = ScriptTableListView.HitTest(LastRightClickLocation);
-            ListViewItem SelectedItem = HitTest.Item;
-            Int32 ColumnIndex = HitTest.Item.SubItems.IndexOf(HitTest.SubItem);
+            using (TimedLock.Lock(AccessLock))
+            {
+                ListViewHitTestInfo HitTest = ScriptTableListView.HitTest(LastRightClickLocation);
+                ListViewItem SelectedItem = HitTest.Item;
+                Int32 ColumnIndex = HitTest.Item.SubItems.IndexOf(HitTest.SubItem);
 
-            if (SelectedItem == null)
-                return;
+                if (SelectedItem == null)
+                    return;
 
-            ScriptTablePresenter.OpenScript(SelectedItem.Index);
+                ScriptTablePresenter.OpenScript(SelectedItem.Index);
+            }
         }
 
         private void DeleteScriptToolStripMenuItem_Click(Object Sender, EventArgs E)
         {
-            ListViewHitTestInfo HitTest = ScriptTableListView.HitTest(LastRightClickLocation);
-            ListViewItem SelectedItem = HitTest.Item;
-            Int32 ColumnIndex = HitTest.Item.SubItems.IndexOf(HitTest.SubItem);
+            using (TimedLock.Lock(AccessLock))
+            {
+                ListViewHitTestInfo HitTest = ScriptTableListView.HitTest(LastRightClickLocation);
+                ListViewItem SelectedItem = HitTest.Item;
+                Int32 ColumnIndex = HitTest.Item.SubItems.IndexOf(HitTest.SubItem);
 
-            if (SelectedItem == null)
-                return;
+                if (SelectedItem == null)
+                    return;
 
-            ScriptTablePresenter.DeleteScript(SelectedItem.Index);
+                ScriptTablePresenter.DeleteScript(SelectedItem.Index);
+            }
         }
 
         private void ScriptTableContextMenuStrip_Opening(Object Sender, CancelEventArgs E)
         {
-            ListViewHitTestInfo HitTest = ScriptTableListView.HitTest(ScriptTableListView.PointToClient(MousePosition));
-            ListViewItem SelectedItem = HitTest.Item;
+            using (TimedLock.Lock(AccessLock))
+            {
+                ListViewHitTestInfo HitTest = ScriptTableListView.HitTest(ScriptTableListView.PointToClient(MousePosition));
+                ListViewItem SelectedItem = HitTest.Item;
 
-            if (SelectedItem == null)
-                E.Cancel = true;
+                if (SelectedItem == null)
+                    E.Cancel = true;
+            }
         }
 
         private ListViewItem DraggedItem;
@@ -114,20 +158,23 @@ namespace Anathema
 
         private void ScriptTableListView_DragDrop(Object Sender, DragEventArgs E)
         {
-            ListViewHitTestInfo HitTest = ScriptTableListView.HitTest(ScriptTableListView.PointToClient(new Point(E.X, E.Y)));
-            ListViewItem SelectedItem = HitTest.Item;
+            using (TimedLock.Lock(AccessLock))
+            {
+                ListViewHitTestInfo HitTest = ScriptTableListView.HitTest(ScriptTableListView.PointToClient(new Point(E.X, E.Y)));
+                ListViewItem SelectedItem = HitTest.Item;
 
-            if (DraggedItem == null || DraggedItem == SelectedItem)
-                return;
+                if (DraggedItem == null || DraggedItem == SelectedItem)
+                    return;
 
-            if ((SelectedItem != null && SelectedItem.GetType() != typeof(ListViewItem)) || DraggedItem.GetType() != typeof(ListViewItem))
-                return;
+                if ((SelectedItem != null && SelectedItem.GetType() != typeof(ListViewItem)) || DraggedItem.GetType() != typeof(ListViewItem))
+                    return;
 
-            ScriptTablePresenter.ReorderScript(DraggedItem.Index, SelectedItem == null ? ScriptTableListView.Items.Count : SelectedItem.Index);
+                ScriptTablePresenter.ReorderScript(DraggedItem.Index, SelectedItem == null ? ScriptTableListView.Items.Count : SelectedItem.Index);
+            }
         }
 
         #endregion
-        
+
     } // End class
 
 } // End namespace

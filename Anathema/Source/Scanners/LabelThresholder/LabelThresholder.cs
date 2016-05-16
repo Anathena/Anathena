@@ -1,5 +1,6 @@
 ﻿using Anathema.Services.ScanResults;
 using Anathema.Services.Snapshots;
+using Anathema.Source.Utils;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
@@ -73,7 +74,7 @@ namespace Anathema.Scanners.LabelThresholder
                     if (Element.ElementLabel == null)
                         return;
 
-                    lock (ItemLock)
+                    using (TimedLock.Lock(ItemLock))
                     {
                         if (Histogram.ContainsKey(Element.ElementLabel))
                             Histogram[((dynamic)Element.ElementLabel)]++;
@@ -94,10 +95,7 @@ namespace Anathema.Scanners.LabelThresholder
             CancelFlag = true;
         }
 
-        public override void End()
-        {
-            base.End();
-        }
+        protected override void End() { }
 
         public override void ApplyThreshold()
         {

@@ -33,15 +33,13 @@
  */
 #endregion END LICENSE BLOCK
 
-using System.Collections.Generic;
-using System.Text;
 
 namespace Gecko
 {
-	/// <summary>
-	/// Provides data about a DOM key event.
-	/// </summary>
-	public class DomKeyEventArgs
+    /// <summary>
+    /// Provides data about a DOM key event.
+    /// </summary>
+    public class DomKeyEventArgs
 		: DomUIEventArgs
 	{
 		nsIDOMKeyEvent _Event;

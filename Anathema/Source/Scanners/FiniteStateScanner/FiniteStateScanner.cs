@@ -1,11 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Threading;
-using Anathema.Scanners.ScanConstraints;
+﻿using Anathema.Scanners.ScanConstraints;
 using Anathema.Services.Snapshots;
 using Anathema.User.UserSettings;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Anathema.Scanners.FiniteStateScanner
 {
@@ -138,7 +138,7 @@ namespace Anathema.Scanners.FiniteStateScanner
                             // Update counts (thread safe)
                             Interlocked.Decrement(ref FiniteStateMachine[Element.ElementLabel.Value].StateCount);
                             Interlocked.Increment(ref Transition.Value.StateCount);
-                            
+
                             // Do transition and transition event
                             Element.ElementLabel = FiniteStateMachine.IndexOf(Transition.Value);
                             switch (Transition.Value.GetStateEvent())
@@ -162,14 +162,12 @@ namespace Anathema.Scanners.FiniteStateScanner
                 } // End foreach Element
 
             }); // End foreach Region
-            
+
             OnEventUpdateScanCount(new ScannerEventArgs(this.ScanCount));
         }
 
-        public override void End()
+        protected override void End()
         {
-            base.End();
-
             Snapshot.DiscardInvalidRegions();
             Snapshot.SetScanMethod("Manual Scan");
 

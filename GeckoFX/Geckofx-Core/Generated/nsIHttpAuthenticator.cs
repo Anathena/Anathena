@@ -20,13 +20,12 @@
 // --------------------------------------------------------------------------------------------
 namespace Gecko
 {
-	using System;
-	using System.Runtime.InteropServices;
-	using System.Runtime.InteropServices.ComTypes;
-	using System.Runtime.CompilerServices;
-	
-	
-	/// <summary>
+    using System;
+    using System.Runtime.CompilerServices;
+    using System.Runtime.InteropServices;
+
+
+    /// <summary>
     /// nsIHttpAuthenticator
     ///
     /// Interface designed to allow for pluggable HTTP authentication modules.
@@ -37,7 +36,7 @@ namespace Gecko
     /// where <auth-scheme> is the lower-cased value of the authentication scheme
     /// found in the server challenge per the rules of RFC 2617.
     /// </summary>
-	[ComImport()]
+    [ComImport()]
 	[InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 	[Guid("16784db0-fcb1-4352-b0c9-6a3a67e3cf79")]
 	public interface nsIHttpAuthenticator

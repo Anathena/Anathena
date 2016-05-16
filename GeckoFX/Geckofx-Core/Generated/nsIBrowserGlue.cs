@@ -20,13 +20,12 @@
 // --------------------------------------------------------------------------------------------
 namespace Gecko
 {
-	using System;
-	using System.Runtime.InteropServices;
-	using System.Runtime.InteropServices.ComTypes;
-	using System.Runtime.CompilerServices;
-	
-	
-	/// <summary>
+    using System;
+    using System.Runtime.CompilerServices;
+    using System.Runtime.InteropServices;
+
+
+    /// <summary>
     /// nsIBrowserGlue is a dirty and rather fluid interface to host shared utility
     /// methods used by browser UI code, but which are not local to a browser window.
     /// The component implementing this interface is meant to be a singleton
@@ -42,7 +41,7 @@ namespace Gecko
     /// sanitization (see bug #284086)
     ///
     /// </summary>
-	[ComImport()]
+    [ComImport()]
 	[InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 	[Guid("781df699-17dc-4237-b3d7-876ddb7085e3")]
 	public interface nsIBrowserGlue

@@ -20,13 +20,12 @@
 // --------------------------------------------------------------------------------------------
 namespace Gecko
 {
-	using System;
-	using System.Runtime.InteropServices;
-	using System.Runtime.InteropServices.ComTypes;
-	using System.Runtime.CompilerServices;
-	
-	
-	/// <summary>
+    using System;
+    using System.Runtime.CompilerServices;
+    using System.Runtime.InteropServices;
+
+
+    /// <summary>
     /// The nsIDOMHTMLAudioElement interface is the interface to a HTML
     /// <audio> element.
     ///
@@ -35,7 +34,7 @@ namespace Gecko
     ///
     /// @status UNDER_DEVELOPMENT
     /// </summary>
-	[ComImport()]
+    [ComImport()]
 	[InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 	[Guid("75a7f3ca-0761-4b63-863b-6fd6a87ed51c")]
 	public interface nsIDOMHTMLAudioElement : nsIDOMHTMLMediaElement

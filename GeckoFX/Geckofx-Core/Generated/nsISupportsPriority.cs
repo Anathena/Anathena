@@ -20,13 +20,12 @@
 // --------------------------------------------------------------------------------------------
 namespace Gecko
 {
-	using System;
-	using System.Runtime.InteropServices;
-	using System.Runtime.InteropServices.ComTypes;
-	using System.Runtime.CompilerServices;
-	
-	
-	/// <summary>
+    using System;
+    using System.Runtime.CompilerServices;
+    using System.Runtime.InteropServices;
+
+
+    /// <summary>
     /// This interface exposes the general notion of a scheduled object with a
     /// integral priority value.  Following UNIX conventions, smaller (and possibly
     /// negative) values have higher priority.
@@ -37,7 +36,7 @@ namespace Gecko
     /// changing the priority of an object may be disallowed (resulting in an
     /// exception being thrown) or may simply be ignored.
     /// </summary>
-	[ComImport()]
+    [ComImport()]
 	[InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 	[Guid("aa578b44-abd5-4c19-8b14-36d4de6fdc36")]
 	public interface nsISupportsPriority

@@ -4,12 +4,12 @@ using System.Collections.Generic;
 
 namespace Gecko.Collections
 {
-	/// <summary>
-	/// Generic wrapper for nsISimpleEnumerator
-	/// </summary>
-	/// <typeparam name="TWrapper"></typeparam>
-	/// <typeparam name="TGeckoObject"></typeparam>
-	internal sealed class GeckoEnumerator<TWrapper, TGeckoObject>
+    /// <summary>
+    /// Generic wrapper for nsISimpleEnumerator
+    /// </summary>
+    /// <typeparam name="TWrapper"></typeparam>
+    /// <typeparam name="TGeckoObject"></typeparam>
+    internal sealed class GeckoEnumerator<TWrapper, TGeckoObject>
 		: IEnumerator<TWrapper>
 	{ 
 		private nsISimpleEnumerator _enumerator;

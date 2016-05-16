@@ -1,22 +1,23 @@
-﻿using System;
-using System.Data;
-using System.Drawing;
-using System.Windows.Forms;
-using System.Linq;
+﻿using Anathema.User.UserAddressTable;
+using Anathema.User.UserAddressTableEntryEditor;
 using Anathema.Utils;
 using Anathema.Utils.Validation;
-using Anathema.User.UserAddressTableEntryEditor;
-using Anathema.User.UserAddressTable;
+using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Windows.Forms;
 
 namespace Anathema
 {
     partial class GUIAddressTableEntryEditor : Form, ITableAddressEntryEditorView
     {
         private TableAddressEntryEditorPresenter TableAddressEntryEditorPresenter;
-        private Int32[] AddressTableItemIndicies;
+        private IEnumerable<Int32> AddressTableItemIndicies;
         private Int32 MainSelection;
 
-        public GUIAddressTableEntryEditor(Int32 MainSelection, Int32[] AddressTableItemIndicies, AddressTable.TableColumnEnum ColumnSelection)
+        public GUIAddressTableEntryEditor(Int32 MainSelection, IEnumerable<Int32> AddressTableItemIndicies, AddressTable.TableColumnEnum ColumnSelection)
         {
             InitializeComponent();
 
@@ -91,7 +92,7 @@ namespace Anathema
         {
             // Accept the updated changes
             TableAddressEntryEditorPresenter.AcceptChanges(MainSelection, AddressTableItemIndicies, DescriptionTextBox.Text, AddressTextBox.GetValueAsHexidecimal(),
-                ValueTypeComboBox.SelectedItem.ToString(), ValueTextBox.GetValueAsDecimal(), OffsetListBox.Items.OfType<String>().ToArray(), ValueTextBox.IsHex);
+                ValueTypeComboBox.SelectedItem.ToString(), ValueTextBox.GetValueAsDecimal(), OffsetListBox.Items.OfType<String>(), ValueTextBox.IsHex);
 
             this.Close();
         }

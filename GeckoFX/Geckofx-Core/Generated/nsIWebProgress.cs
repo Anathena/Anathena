@@ -20,13 +20,12 @@
 // --------------------------------------------------------------------------------------------
 namespace Gecko
 {
-	using System;
-	using System.Runtime.InteropServices;
-	using System.Runtime.InteropServices.ComTypes;
-	using System.Runtime.CompilerServices;
-	
-	
-	/// <summary>
+    using System;
+    using System.Runtime.CompilerServices;
+    using System.Runtime.InteropServices;
+
+
+    /// <summary>
     /// The nsIWebProgress interface is used to add or remove nsIWebProgressListener
     /// instances to observe the loading of asynchronous requests (usually in the
     /// context of a DOM window).
@@ -43,7 +42,7 @@ namespace Gecko
     /// notifications from any nsIWebProgress instances that are children of that
     /// nsIWebProgress instance.
     /// </summary>
-	[ComImport()]
+    [ComImport()]
 	[InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 	[Guid("bd0efb3b-1c81-4fb0-b16d-576a2be48a95")]
 	public interface nsIWebProgress

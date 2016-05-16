@@ -1,11 +1,10 @@
-﻿using System;
+﻿using Gecko.Interop;
+using System;
 using System.Runtime.InteropServices;
-using System.Threading;
-using Gecko.Interop;
 
 namespace Gecko
 {
-	public sealed class Sound
+    public sealed class Sound
 		:IDisposable 
 	{
 		private ComPtr<nsISound> _sound;

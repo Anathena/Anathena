@@ -2,10 +2,10 @@ using System;
 
 namespace Gecko.Interop
 {
-	/// <summary>
-	/// nsIWeakReference implementation for .NET object
-	/// </summary>
-	public class nsWeakReference
+    /// <summary>
+    /// nsIWeakReference implementation for .NET object
+    /// </summary>
+    public class nsWeakReference
 		: nsIWeakReference
 	{
 		protected WeakReference _weakReference;

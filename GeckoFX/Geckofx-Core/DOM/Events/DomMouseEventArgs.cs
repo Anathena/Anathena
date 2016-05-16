@@ -1,13 +1,11 @@
-using System.Runtime.CompilerServices;
-using System.Runtime.InteropServices;
 using Gecko.DOM;
 
 namespace Gecko
 {
-	/// <summary>
-	/// Provides data about a DOM mouse event.
-	/// </summary>
-	public class DomMouseEventArgs
+    /// <summary>
+    /// Provides data about a DOM mouse event.
+    /// </summary>
+    public class DomMouseEventArgs
 		: DomUIEventArgs
 	{
 		nsIDOMMouseEvent _domMouseEvent;

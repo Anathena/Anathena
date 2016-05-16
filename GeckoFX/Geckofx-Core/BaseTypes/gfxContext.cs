@@ -1,6 +1,6 @@
 namespace Gecko
 {
-	public class gfxContext
+    public class gfxContext
 	{
 		
 	}

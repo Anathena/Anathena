@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Gecko.Interop;
+﻿using Gecko.Interop;
 
 namespace Gecko.Services
 {
-	public static class VersionComparator
+    public static class VersionComparator
 	{
 		private static ComPtr<nsIVersionComparator> _versionComparator;
 

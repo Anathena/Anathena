@@ -1,14 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Linq;
+﻿using System.Drawing;
 using System.Runtime.InteropServices;
-using System.Text;
-using Gecko;
 
 namespace Gecko.DOM
 {
-	public static class GeckoElementExtensionMethods
+    public static class GeckoElementExtensionMethods
 	{
 		/// <summary>
 		/// UI specific implementation extension method GetBoundingClientRect()

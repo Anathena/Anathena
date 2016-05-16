@@ -1,6 +1,6 @@
 namespace Gecko
 {
-	public class DomHashChangeEventArgs
+    public class DomHashChangeEventArgs
 		: DomEventArgs
 	{
 		private nsIDOMHashChangeEvent _hashChangeEvent;

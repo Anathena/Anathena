@@ -1,6 +1,6 @@
 namespace Gecko.DOM
 {
-	public class DomDocumentType
+    public class DomDocumentType
 		:GeckoNode
 	{
 		private nsIDOMDocumentType _documentType;

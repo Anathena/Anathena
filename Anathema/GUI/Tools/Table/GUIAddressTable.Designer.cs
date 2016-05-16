@@ -36,7 +36,7 @@
             this.AddNewAddressToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.AddressTableListView = new Anathema.GUI.CheckableListView();
             this.FrozenHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.AddressDescriptionHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.DescriptionHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.AddressHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.TypeHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.ValueHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
@@ -89,7 +89,7 @@
             this.AddressTableListView.CheckBoxes = true;
             this.AddressTableListView.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.FrozenHeader,
-            this.AddressDescriptionHeader,
+            this.DescriptionHeader,
             this.AddressHeader,
             this.TypeHeader,
             this.ValueHeader});
@@ -121,8 +121,8 @@
             // 
             // AddressDescriptionHeader
             // 
-            this.AddressDescriptionHeader.Text = "Description";
-            this.AddressDescriptionHeader.Width = 115;
+            this.DescriptionHeader.Text = "Description";
+            this.DescriptionHeader.Width = 115;
             // 
             // AddressHeader
             // 
@@ -155,7 +155,7 @@
 
         private GUI.CheckableListView AddressTableListView;
         private System.Windows.Forms.ColumnHeader FrozenHeader;
-        private System.Windows.Forms.ColumnHeader AddressDescriptionHeader;
+        private System.Windows.Forms.ColumnHeader DescriptionHeader;
         private System.Windows.Forms.ColumnHeader AddressHeader;
         private System.Windows.Forms.ColumnHeader TypeHeader;
         private System.Windows.Forms.ColumnHeader ValueHeader;

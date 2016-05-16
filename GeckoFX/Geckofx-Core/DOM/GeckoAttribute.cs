@@ -1,9 +1,9 @@
 namespace Gecko
 {
-	/// <summary>
-	/// Represents a DOM attribute.
-	/// </summary>
-	public class GeckoAttribute : GeckoNode
+    /// <summary>
+    /// Represents a DOM attribute.
+    /// </summary>
+    public class GeckoAttribute : GeckoNode
 	{
 		internal GeckoAttribute(nsIDOMAttr attr) : base(attr)
 		{

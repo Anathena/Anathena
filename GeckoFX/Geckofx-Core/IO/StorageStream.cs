@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Gecko.Interop;
+﻿using Gecko.Interop;
 
 namespace Gecko.IO
 {
-	public sealed class StorageStream
+    public sealed class StorageStream
 	{
 		private ComPtr<nsIStorageStream> _storageStream;
 

@@ -28,7 +28,7 @@ namespace Anathema.Scanners.FiniteStateScanner
         void BeginAction(Point Location);
         void UpdateAction(Point Location);
         void FinishAction(Point Location);
-        
+
         FiniteStateMachine GetFiniteStateMachine();
         FiniteState GetMousedOverState();
         Point[] GetSelectionLine();
@@ -47,7 +47,7 @@ namespace Anathema.Scanners.FiniteStateScanner
     {
         new IFiniteStateBuilderView View;
         new IFiniteStateBuilderModel Model;
-        
+
         public FiniteStateBuilderPresenter(IFiniteStateBuilderView View, IFiniteStateBuilderModel Model) : base(View, Model)
         {
             this.View = View;
@@ -88,7 +88,7 @@ namespace Anathema.Scanners.FiniteStateScanner
         {
             return Model.GetSelectionLine();
         }
-        
+
         public void SetStateRadius(Int32 StateRadius)
         {
             Model.SetStateRadius(StateRadius);
@@ -107,7 +107,7 @@ namespace Anathema.Scanners.FiniteStateScanner
         public Boolean TrySetValue(String ValueText)
         {
             if (CheckSyntax.CanParseValue(Model.GetElementType(), ValueText))
-            { 
+            {
                 Model.SetCurrentValue(Conversions.ParseValue(Model.GetElementType(), ValueText));
                 return true;
             }

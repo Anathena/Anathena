@@ -1,15 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Gecko.Interop;
+﻿using Gecko.Interop;
 
 namespace Gecko.Cryptography
 {
-	/// <summary>
-	/// DO NOT USE KeyFromString or expose it (according to xulrunner comments)
-	/// </summary>
-	public static class KeyObjectFactory
+    /// <summary>
+    /// DO NOT USE KeyFromString or expose it (according to xulrunner comments)
+    /// </summary>
+    public static class KeyObjectFactory
 	{
 		private static ComPtr<nsIKeyObjectFactory> _keyObjectFactory;
 

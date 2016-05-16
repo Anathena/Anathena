@@ -1,11 +1,10 @@
-using System;
 using Gecko.Interop;
-using Gecko.IO;
 using Gecko.IO.Native;
+using System;
 
 namespace Gecko.Net
 {
-	public class StreamListenerTee
+    public class StreamListenerTee
 		:IDisposable
 	{
 		internal ComPtr<nsIStreamListenerTee> _streamListenerTee;

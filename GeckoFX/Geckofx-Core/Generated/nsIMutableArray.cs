@@ -20,13 +20,12 @@
 // --------------------------------------------------------------------------------------------
 namespace Gecko
 {
-	using System;
-	using System.Runtime.InteropServices;
-	using System.Runtime.InteropServices.ComTypes;
-	using System.Runtime.CompilerServices;
-	
-	
-	/// <summary>
+    using System;
+    using System.Runtime.CompilerServices;
+    using System.Runtime.InteropServices;
+
+
+    /// <summary>
     /// nsIMutableArray
     /// A separate set of methods that will act on the array. Consumers of
     /// nsIArray should not QueryInterface to nsIMutableArray unless they
@@ -41,7 +40,7 @@ namespace Gecko
     /// Any of these methods may throw NS_ERROR_OUT_OF_MEMORY when the
     /// array must grow to complete the call, but the allocation fails.
     /// </summary>
-	[ComImport()]
+    [ComImport()]
 	[InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 	[Guid("af059da0-c85b-40ec-af07-ae4bfdc192cc")]
 	public interface nsIMutableArray : nsIArray

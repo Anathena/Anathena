@@ -1,14 +1,11 @@
 using System;
-using System.Drawing;
-using System.Collections;
-using System.ComponentModel;
 using System.Windows.Forms;
 
 namespace Be.HexEditor
 {
-	/// <summary>
-	/// Summary description for FormGoTo.
-	/// </summary>
+    /// <summary>
+    /// Summary description for FormGoTo.
+    /// </summary>
     public class FormGoTo : Core.FormEx
 	{
 		private System.Windows.Forms.Label label1;

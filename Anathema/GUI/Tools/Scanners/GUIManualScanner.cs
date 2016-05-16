@@ -1,21 +1,24 @@
-﻿using System;
+﻿using Anathema.Scanners.ManualScanner;
+using Anathema.Source.Utils;
+using Anathema.Utils.MVP;
+using System;
 using System.Windows.Forms;
 using WeifenLuo.WinFormsUI.Docking;
-using Anathema.Utils.MVP;
-using Anathema.Scanners.ManualScanner;
 
 namespace Anathema.GUI
 {
     public partial class GUIManualScanner : DockContent, IManualScannerView
     {
         private ManualScannerPresenter ManualScannerPresenter;
+        private Object AccessLock;
 
         public GUIManualScanner()
         {
             InitializeComponent();
 
             ManualScannerPresenter = new ManualScannerPresenter(this, new ManualScanner());
-            
+            AccessLock = new Object();
+
             ToolStripManager.Merge(GUIConstraintEditor.AcquireToolStrip(), ScanToolStrip);
             EnableGUI();
         }
@@ -29,18 +32,24 @@ namespace Anathema.GUI
 
         private void EnableGUI()
         {
-            ControlThreadingHelper.InvokeControlAction(ScanToolStrip, () =>
+            using (TimedLock.Lock(AccessLock))
             {
-                ScanToolStrip.Items[ScanToolStrip.Items.IndexOf(StartScanButton)].Enabled = true;
-            });
+                ControlThreadingHelper.InvokeControlAction(ScanToolStrip, () =>
+                {
+                    ScanToolStrip.Items[ScanToolStrip.Items.IndexOf(StartScanButton)].Enabled = true;
+                });
+            }
         }
 
         private void DisableGUI()
         {
-            ControlThreadingHelper.InvokeControlAction(ScanToolStrip, () =>
+            using (TimedLock.Lock(AccessLock))
             {
-                ScanToolStrip.Items[ScanToolStrip.Items.IndexOf(StartScanButton)].Enabled = false;
-            });
+                ControlThreadingHelper.InvokeControlAction(ScanToolStrip, () =>
+                {
+                    ScanToolStrip.Items[ScanToolStrip.Items.IndexOf(StartScanButton)].Enabled = false;
+                });
+            }
         }
 
         #region Events

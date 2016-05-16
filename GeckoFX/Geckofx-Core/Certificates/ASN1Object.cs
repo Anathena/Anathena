@@ -1,6 +1,6 @@
 namespace Gecko.Certificates
 {
-	public sealed class ASN1Object
+    public sealed class ASN1Object
 	{
 		internal nsIASN1Object _object;
 

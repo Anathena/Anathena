@@ -1,5 +1,5 @@
-﻿using System;
-using Anathema.Utils.Extensions;
+﻿using Anathema.Utils.Extensions;
+using System;
 using System.Collections.Generic;
 
 namespace Anathema.Utils.OS

@@ -1,11 +1,11 @@
 namespace Gecko
 {
-	/// <summary>
-	/// Observer notification strings
-	/// Some of them will be unavaliable in GeckoFX (they may be avaliable only in XUL App or Firefox/Seamonkey)
-	/// https://developer.mozilla.org/en/Observer_Notifications
-	/// </summary>
-	public static class ObserverNotifications
+    /// <summary>
+    /// Observer notification strings
+    /// Some of them will be unavaliable in GeckoFX (they may be avaliable only in XUL App or Firefox/Seamonkey)
+    /// https://developer.mozilla.org/en/Observer_Notifications
+    /// </summary>
+    public static class ObserverNotifications
 	{
 		public const string Everything = "*";
 

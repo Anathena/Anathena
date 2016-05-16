@@ -1,14 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.ComponentModel;
 
 namespace Gecko.Events
 {
-	#region GeckoNavigatingEventArgs
-	/// <summary>Provides data for event.</summary>
-	public class GeckoNavigatingEventArgs
+    #region GeckoNavigatingEventArgs
+    /// <summary>Provides data for event.</summary>
+    public class GeckoNavigatingEventArgs
 		: CancelEventArgs
 	{
 		public readonly Uri Uri;

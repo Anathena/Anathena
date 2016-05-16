@@ -1,14 +1,14 @@
 using System;
-using System.IO;
 using System.Collections;
+using System.IO;
 using System.Reflection;
 
 namespace Be.Windows.Forms
 {
-	/// <summary>
-	/// Byte provider for (big) files.
-	/// </summary>
-	public class FileByteProvider : IByteProvider, IDisposable
+    /// <summary>
+    /// Byte provider for (big) files.
+    /// </summary>
+    public class FileByteProvider : IByteProvider, IDisposable
 	{
 		#region WriteCollection class
 		/// <summary>

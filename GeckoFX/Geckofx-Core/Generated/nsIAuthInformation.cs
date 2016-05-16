@@ -20,13 +20,12 @@
 // --------------------------------------------------------------------------------------------
 namespace Gecko
 {
-	using System;
-	using System.Runtime.InteropServices;
-	using System.Runtime.InteropServices.ComTypes;
-	using System.Runtime.CompilerServices;
-	
-	
-	/// <summary>
+    using System;
+    using System.Runtime.CompilerServices;
+    using System.Runtime.InteropServices;
+
+
+    /// <summary>
     /// A object that hold authentication information. The caller of
     /// nsIAuthPrompt2::promptUsernameAndPassword or
     /// nsIAuthPrompt2::promptPasswordAsync provides an object implementing this
@@ -35,7 +34,7 @@ namespace Gecko
     /// set the attributes of this object to indicate to the caller what was entered
     /// by the user.
     /// </summary>
-	[ComImport()]
+    [ComImport()]
 	[InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 	[Guid("0d73639c-2a92-4518-9f92-28f71fea5f20")]
 	public interface nsIAuthInformation

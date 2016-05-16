@@ -20,13 +20,12 @@
 // --------------------------------------------------------------------------------------------
 namespace Gecko
 {
-	using System;
-	using System.Runtime.InteropServices;
-	using System.Runtime.InteropServices.ComTypes;
-	using System.Runtime.CompilerServices;
-	
-	
-	/// <summary>
+    using System;
+    using System.Runtime.CompilerServices;
+    using System.Runtime.InteropServices;
+
+
+    /// <summary>
     /// nsIScriptableBase64Encoder efficiently encodes the contents
     /// of a nsIInputStream to a Base64 string.  This avoids the need
     /// to read the entire stream into a buffer, and only then do the
@@ -35,7 +34,7 @@ namespace Gecko
     /// If you already have a buffer full of data, you should use
     /// btoa instead!
     /// </summary>
-	[ComImport()]
+    [ComImport()]
 	[InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 	[Guid("9479c864-d1f9-45ab-b7b9-28b907bd2ba9")]
 	public interface nsIScriptableBase64Encoder

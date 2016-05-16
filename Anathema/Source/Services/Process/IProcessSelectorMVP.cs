@@ -19,7 +19,7 @@ namespace Anathema.Services.ProcessManager
     interface IProcessSelectorView : IView
     {
         // Methods invoked by the presenter (upstream)
-        void DisplayProcesses(ListViewItem[] Items, ImageList ImageList);
+        void DisplayProcesses(IEnumerable<ListViewItem> Items, ImageList ImageList);
         void SelectProcess(Process TargetProcess);
     }
 
@@ -43,34 +43,7 @@ namespace Anathema.Services.ProcessManager
             Model.EventSelectProcess += EventSelectProcess;
         }
 
-        #region Method definitions called by the view (downstream)
-
-        public void RefreshProcesses(IntPtr ProcessSelectorHandle)
-        {
-            Model.RefreshProcesses(ProcessSelectorHandle);
-        }
-
-        public void SelectProcess(Int32 Index)
-        {
-            Model.SelectProcess(Index);
-        }
-
-        #endregion
-
-        #region Event definitions for events triggered by the model (upstream)
-        public void EventDisplayProcesses(Object Sender, ProcessSelectorEventArgs E)
-        {
-            ImageList ImageList;
-
-            View.DisplayProcesses(GetProcessListViewItems(E.ProcessList, E.ProcessIcons, out ImageList), ImageList);
-        }
-
-        public void EventSelectProcess(Object Sender, ProcessSelectorEventArgs E)
-        {
-            View.SelectProcess(E.SelectedProcess);
-        }
-
-        private ListViewItem[] GetProcessListViewItems(List<Process> Processes, List<Icon> ProcessIcons, out ImageList ImageList)
+        private IEnumerable<ListViewItem> GetProcessListViewItems(List<Process> Processes, List<Icon> ProcessIcons, out ImageList ImageList)
         {
             ImageList = new ImageList();
 
@@ -88,7 +61,7 @@ namespace Anathema.Services.ProcessManager
                 ListViewItems[Index].ImageIndex = ImageIndex++;
             }
 
-            return ListViewItems.ToArray();
+            return ListViewItems;
         }
 
         private String GetProcessTitle(Process Process)
@@ -112,6 +85,33 @@ namespace Anathema.Services.ProcessManager
 
             return ProcessTitles;
         }
+
+        #region Method definitions called by the view (downstream)
+
+        public void RefreshProcesses(IntPtr ProcessSelectorHandle)
+        {
+            Model.RefreshProcesses(ProcessSelectorHandle);
+        }
+
+        public void SelectProcess(Int32 Index)
+        {
+            Model.SelectProcess(Index);
+        }
+
+        #endregion
+
+        #region Event definitions for events triggered by the model (upstream)
+        public void EventDisplayProcesses(Object Sender, ProcessSelectorEventArgs E)
+        {
+            ImageList ImageList = null;
+            View.DisplayProcesses(GetProcessListViewItems(E.ProcessList, E.ProcessIcons, out ImageList), ImageList);
+        }
+
+        public void EventSelectProcess(Object Sender, ProcessSelectorEventArgs E)
+        {
+            View.SelectProcess(E.SelectedProcess);
+        }
+
         #endregion
 
     } // End class

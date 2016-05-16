@@ -1,10 +1,9 @@
 using System;
 using System.Collections.Generic;
-using System.Text;
 using System.ComponentModel;
+using System.Diagnostics.CodeAnalysis;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
-using System.Diagnostics.CodeAnalysis;
 
 namespace WeifenLuo.WinFormsUI.Docking
 {
@@ -128,7 +127,7 @@ namespace WeifenLuo.WinFormsUI.Docking
             {
                 m_dockPanel = dockPanel;
                 if (Win32Helper.IsRunningOnMono)
-                    return;                
+                    return;
                 m_hookEventHandler = new LocalWindowsHook.HookEventHandler(HookEventHandler);
 
                 // Ensure the windows hook has been created for this thread
@@ -197,7 +196,7 @@ namespace WeifenLuo.WinFormsUI.Docking
                 if (handler.Form.SelectNextControl(handler.Form.ActiveControl, true, true, true, true))
                     return;
 
-                if (Win32Helper.IsRunningOnMono) 
+                if (Win32Helper.IsRunningOnMono)
                     return;
 
                 // Since DockContent Form is not selectalbe, use Win32 SetFocus instead
@@ -312,7 +311,7 @@ namespace WeifenLuo.WinFormsUI.Docking
 
                 if (m_countSuspendFocusTracking++ == 0)
                 {
-                    if (!Win32Helper.IsRunningOnMono)
+                    if (sm_localWindowsHook != null && !Win32Helper.IsRunningOnMono)
                         sm_localWindowsHook.HookInvoked -= m_hookEventHandler;
                 }
             }

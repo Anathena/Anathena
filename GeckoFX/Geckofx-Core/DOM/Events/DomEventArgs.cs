@@ -1,12 +1,12 @@
-using System;
 using Gecko.Interop;
+using System;
 
 namespace Gecko
 {
-	/// <summary>
-	/// Provides data about a DOM event.
-	/// </summary>
-	public class DomEventArgs
+    /// <summary>
+    /// Provides data about a DOM event.
+    /// </summary>
+    public class DomEventArgs
 		: EventArgs
 	{
 		private nsIDOMEvent _event;

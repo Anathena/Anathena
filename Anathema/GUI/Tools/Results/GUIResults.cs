@@ -1,24 +1,32 @@
-﻿using System;
+﻿using Anathema.Services.ScanResults;
+using Anathema.Source.Utils;
+using Anathema.Utils.Cache;
+using Anathema.Utils.MVP;
+using System;
 using System.Windows.Forms;
 using WeifenLuo.WinFormsUI.Docking;
-using Anathema.Utils.MVP;
-using Anathema.Services.ScanResults;
 
 namespace Anathema.GUI
 {
     public partial class GUIResults : DockContent, IResultsView
     {
         private ResultsPresenter ResultsPresenter;
+        private ListViewCache ListViewCache;
+        private Object AccessLock;
+
+        private const String NoValueString = "-";
 
         public GUIResults()
         {
             InitializeComponent();
             ResultsPresenter = new ResultsPresenter(this, Results.GetInstance());
+            ListViewCache = new ListViewCache();
+            AccessLock = new Object();
         }
 
         public void UpdateMemorySizeLabel(String MemorySize, String ItemCount)
         {
-            ControlThreadingHelper.InvokeControlAction(GUIToolStrip, () =>
+            ControlThreadingHelper.InvokeControlAction(SnapshotSizeValueLabel.GetCurrentParent(), () =>
             {
                 SnapshotSizeValueLabel.Text = MemorySize + " - (" + ItemCount + ")";
             });
@@ -28,42 +36,46 @@ namespace Anathema.GUI
         {
             ControlThreadingHelper.InvokeControlAction(ResultsListView, () =>
             {
-                ResultsListView.SetItemCount(ItemCount);
+                using (TimedLock.Lock(AccessLock))
+                {
+                    ResultsListView.BeginUpdate();
+                    ResultsListView.SetItemCount(ItemCount);
+                    ListViewCache.FlushCache();
+                    ResultsListView.EndUpdate();
+                }
             });
         }
 
         private void UpdateReadBounds()
         {
+            Tuple<Int32, Int32> ReadBounds = null;
+
             ControlThreadingHelper.InvokeControlAction(ResultsListView, () =>
             {
-                Tuple<Int32, Int32> ReadBounds = ResultsListView.GetReadBounds();
+                using (TimedLock.Lock(AccessLock))
+                {
+                    ReadBounds = ResultsListView.GetReadBounds();
+                }
+            });
+
+            if (ReadBounds != null)
                 ResultsPresenter.UpdateReadBounds(ReadBounds.Item1, ReadBounds.Item2);
-            });
         }
 
-        public void EnableResults()
+        public void SetEnabled(Boolean IsEnabled)
         {
-            ControlThreadingHelper.InvokeControlAction(ResultsListView, () =>
+            using (TimedLock.Lock(AccessLock))
             {
-                ResultsListView.Enabled = true;
-            });
+                ControlThreadingHelper.InvokeControlAction(ResultsListView, () =>
+                {
+                    ResultsListView.Enabled = IsEnabled;
+                });
 
-            ControlThreadingHelper.InvokeControlAction(GUIToolStrip, () =>
-            {
-                GUIToolStrip.Enabled = true;
-            });
-        }
-
-        public void DisableResults()
-        {
-            ControlThreadingHelper.InvokeControlAction(ResultsListView, () =>
-            {
-                ResultsListView.Enabled = false;
-            });
-            ControlThreadingHelper.InvokeControlAction(GUIToolStrip, () =>
-            {
-                GUIToolStrip.Enabled = false;
-            });
+                ControlThreadingHelper.InvokeControlAction(GUIToolStrip, () =>
+                {
+                    GUIToolStrip.Enabled = IsEnabled;
+                });
+            }
         }
 
         public void ReadValues()
@@ -73,19 +85,27 @@ namespace Anathema.GUI
             // Force the list view to retrieve items again by signaling an update
             ControlThreadingHelper.InvokeControlAction(ResultsListView, () =>
             {
-                ResultsListView.BeginUpdate();
-                ResultsListView.EndUpdate();
+                using (TimedLock.Lock(AccessLock))
+                {
+                    ResultsListView.BeginUpdate();
+                    ResultsListView.EndUpdate();
+                }
             });
         }
 
         private void AddSelectedElements()
         {
-            if (ResultsListView.SelectedIndices.Count <= 0)
-                return;
+            ControlThreadingHelper.InvokeControlAction(ResultsListView, () =>
+            {
+                using (TimedLock.Lock(AccessLock))
+                {
+                    if (ResultsListView.SelectedIndices.Count <= 0)
+                        return;
 
-            ResultsPresenter.AddSelectionToTable(ResultsListView.SelectedIndices[0], ResultsListView.SelectedIndices[ResultsListView.SelectedIndices.Count - 1]);
+                    ResultsPresenter.AddSelectionToTable(ResultsListView.SelectedIndices[0], ResultsListView.SelectedIndices[ResultsListView.SelectedIndices.Count - 1]);
+                }
+            });
         }
-
         #region Events
 
         private void ByteToolStripMenuItem_Click(Object Sender, EventArgs E)
@@ -125,7 +145,24 @@ namespace Anathema.GUI
 
         private void ResultsListView_RetrieveVirtualItem(Object Sender, RetrieveVirtualItemEventArgs E)
         {
-            E.Item = ResultsPresenter.GetItemAt(E.ItemIndex);
+            ListViewItem Item = ListViewCache.Get((UInt64)E.ItemIndex);
+
+            // Try to update value and return the item if it is a valid item
+            if (Item != null && ListViewCache.TryUpdateSubItem(E.ItemIndex,
+                ResultsListView.Columns.IndexOf(ValueHeader), ResultsPresenter.GetValueAtIndex(E.ItemIndex)))
+            {
+                E.Item = Item;
+                return;
+            }
+
+            // Add the properties to the cache and get the list view item back
+            Item = ListViewCache.Add(E.ItemIndex, new String[ResultsListView.Columns.Count]);
+
+            Item.SubItems[ResultsListView.Columns.IndexOf(AddressHeader)].Text = ResultsPresenter.GetAddressAtIndex(E.ItemIndex);
+            Item.SubItems[ResultsListView.Columns.IndexOf(ValueHeader)].Text = NoValueString;
+            Item.SubItems[ResultsListView.Columns.IndexOf(LabelHeader)].Text = ResultsPresenter.GetLabelAtIndex(E.ItemIndex);
+
+            E.Item = Item;
         }
 
         private void AddSelectedResultsButton_Click(Object Sender, EventArgs E)

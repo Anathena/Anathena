@@ -20,13 +20,12 @@
 // --------------------------------------------------------------------------------------------
 namespace Gecko
 {
-	using System;
-	using System.Runtime.InteropServices;
-	using System.Runtime.InteropServices.ComTypes;
-	using System.Runtime.CompilerServices;
-	
-	
-	/// <summary>
+    using System;
+    using System.Runtime.CompilerServices;
+    using System.Runtime.InteropServices;
+
+
+    /// <summary>
     /// This interface provides a mechanism to control an output stream
     /// that takes care not to overwrite an existing target until it is known
     /// that all writes to the destination succeeded.
@@ -45,7 +44,7 @@ namespace Gecko
     ///
     /// Currently, this interface is implemented only for file output streams.
     /// </summary>
-	[ComImport()]
+    [ComImport()]
 	[InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 	[Guid("5f914307-5c34-4e1f-8e32-ec749d25b27a")]
 	public interface nsISafeOutputStream

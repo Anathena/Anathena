@@ -20,13 +20,12 @@
 // --------------------------------------------------------------------------------------------
 namespace Gecko
 {
-	using System;
-	using System.Runtime.InteropServices;
-	using System.Runtime.InteropServices.ComTypes;
-	using System.Runtime.CompilerServices;
-	
-	
-	/// <summary>
+    using System;
+    using System.Runtime.CompilerServices;
+    using System.Runtime.InteropServices;
+
+
+    /// <summary>
     /// The nsIPrefBranch interface is used to manipulate the preferences data. This
     /// object may be obtained from the preferences service (nsIPrefService) and
     /// used to get and set default and/or user preferences across the application.
@@ -41,7 +40,7 @@ namespace Gecko
     ///
     /// @see nsIPrefService
     /// </summary>
-	[ComImport()]
+    [ComImport()]
 	[InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 	[Guid("55d25e49-793f-4727-a69f-de8b15f4b985")]
 	public interface nsIPrefBranch

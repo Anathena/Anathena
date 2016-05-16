@@ -1,6 +1,6 @@
 namespace Gecko.Windows
 {
-	public sealed class JumpListLink
+    public sealed class JumpListLink
 		: JumpListItem
 	{
 		private nsIJumpListLink _link;

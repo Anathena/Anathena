@@ -1,8 +1,9 @@
-﻿using System;
+﻿using Anathema.Source.Utils;
+using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
 
-namespace Anathema.Utils
+namespace Anathema.Utils.Cache
 {
     class ObjectCache<T>
     {
@@ -27,7 +28,7 @@ namespace Anathema.Utils
 
         public Boolean TryUpdateItem(UInt64 Index, T Item)
         {
-            lock (AccessLock)
+            using (TimedLock.Lock(AccessLock))
             {
                 if (!Cache.ContainsKey(Index))
                     return false;
@@ -39,7 +40,7 @@ namespace Anathema.Utils
 
         public virtual T Add(UInt64 Index, T Item)
         {
-            lock (AccessLock)
+            using (TimedLock.Lock(AccessLock))
             {
                 if (Cache.Count == CacheSize)
                 {
@@ -56,7 +57,7 @@ namespace Anathema.Utils
 
         public virtual void Delete(UInt64 Index)
         {
-            lock (AccessLock)
+            using (TimedLock.Lock(AccessLock))
             {
                 if (Cache.ContainsKey(Index))
                     Cache.Remove(Index);
@@ -67,7 +68,7 @@ namespace Anathema.Utils
 
         public T Get(UInt64 Index)
         {
-            lock (AccessLock)
+            using (TimedLock.Lock(AccessLock))
             {
                 T Item;
                 if (Cache.TryGetValue(Index, out Item))
@@ -85,7 +86,7 @@ namespace Anathema.Utils
 
         public virtual void FlushCache()
         {
-            lock (AccessLock)
+            using (TimedLock.Lock(AccessLock))
             {
                 Cache.Clear();
                 LRUList.Clear();

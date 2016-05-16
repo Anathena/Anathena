@@ -2,7 +2,7 @@ using System;
 
 namespace Gecko.Collections
 {
-	internal static class GeckoCollectionsHelper
+    internal static class GeckoCollectionsHelper
 	{
 		internal static nsIMutableArray CreateArray()
 		{

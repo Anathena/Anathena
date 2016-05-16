@@ -1,10 +1,8 @@
-using System;
-using System.Runtime.InteropServices;
 using Gecko.Interop;
 
 namespace Gecko
 {
-	public static class ConsoleService
+    public static class ConsoleService
 	{
 		internal static ComPtr<nsIConsoleService> _consoleService;
 

@@ -20,20 +20,19 @@
 // --------------------------------------------------------------------------------------------
 namespace Gecko
 {
-	using System;
-	using System.Runtime.InteropServices;
-	using System.Runtime.InteropServices.ComTypes;
-	using System.Runtime.CompilerServices;
-	
-	
-	/// <summary>
+    using System;
+    using System.Runtime.CompilerServices;
+    using System.Runtime.InteropServices;
+
+
+    /// <summary>
     ///Description: Currently only functions to enhance plain text with HTML tags.
     ///  <p>
     ///  Wrapper class for various parsing routines, that convert plain text to HTML.
     ///  They try to recognize cites, URLs, plain text formattting like *bold* etc.
     ///  See <http://www.bucksch.org/1/projects/mozilla/16507/> for a description.
     /// </summary>
-	[ComImport()]
+    [ComImport()]
 	[InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 	[Guid("77c0e42a-1dd2-11b2-8ebf-edc6606f2f4b")]
 	public interface mozITXTToHTMLConv : nsIStreamConverter

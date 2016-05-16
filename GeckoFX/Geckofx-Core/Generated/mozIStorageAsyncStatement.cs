@@ -20,13 +20,12 @@
 // --------------------------------------------------------------------------------------------
 namespace Gecko
 {
-	using System;
-	using System.Runtime.InteropServices;
-	using System.Runtime.InteropServices.ComTypes;
-	using System.Runtime.CompilerServices;
-	
-	
-	/// <summary>
+    using System;
+    using System.Runtime.CompilerServices;
+    using System.Runtime.InteropServices;
+
+
+    /// <summary>
     /// An asynchronous SQL statement.  This differs from mozIStorageStatement by
     /// only being usable for asynchronous execution.  (mozIStorageStatement can
     /// be used for both synchronous and asynchronous purposes.)  This specialization
@@ -36,7 +35,7 @@ namespace Gecko
     /// consequently can cause the main thread to lock for extended intervals while
     /// the asynchronous thread performs some long-running operation.
     /// </summary>
-	[ComImport()]
+    [ComImport()]
 	[Guid("52e49370-3b2e-4a27-a3fc-79e20ad4056b")]
 	public interface mozIStorageAsyncStatement : mozIStorageBaseStatement
 	{

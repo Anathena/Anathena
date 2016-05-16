@@ -1,38 +1,49 @@
-﻿using System;
+﻿using Anathema.Services.Snapshots;
+using Anathema.Source.Utils;
+using Anathema.Utils.Cache;
+using Anathema.Utils.MVP;
+using Anathema.Utils.Validation;
+using System;
+using System.Drawing;
 using System.Windows.Forms;
 using WeifenLuo.WinFormsUI.Docking;
-using Anathema.Utils.MVP;
-using Anathema.Services.Snapshots;
 
 namespace Anathema
 {
     public partial class GUISnapshotManager : DockContent, ISnapshotManagerView
     {
-        SnapshotManagerPresenter SnapshotManagerPresenter;
+        private SnapshotManagerPresenter SnapshotManagerPresenter;
+        private ListViewCache ListViewCache;
+        private Object AccessLock;
+
+        private const String NewScanText = "NewScan";
+        private const String EmptyEntry = "-";
+
+        private Int32 SnapshotCount;
 
         public GUISnapshotManager()
         {
             InitializeComponent();
 
-            // Initialize presenter
             SnapshotManagerPresenter = new SnapshotManagerPresenter(this, SnapshotManager.GetInstance());
+            ListViewCache = new ListViewCache();
+            AccessLock = new Object();
         }
 
-        public void RefreshSnapshots()
+        public void UpdateSnapshotCount(Int32 SnapshotCount, Int32 DeletedSnapshotCount)
         {
-            ControlThreadingHelper.InvokeControlAction(SnapshotListView, () =>
+            using (TimedLock.Lock(AccessLock))
             {
-                SnapshotListView.BeginUpdate();
-                SnapshotListView.EndUpdate();
-            });
-        }
+                this.SnapshotCount = SnapshotCount;
 
-        public void UpdateSnapshotCount(Int32 SnapshotCount)
-        {
-            ControlThreadingHelper.InvokeControlAction(SnapshotListView, () =>
-            {
-                SnapshotListView.SetItemCount(SnapshotCount);
-            });
+                ControlThreadingHelper.InvokeControlAction(SnapshotListView, () =>
+                {
+                    SnapshotListView.BeginUpdate();
+                    SnapshotListView.SetItemCount(SnapshotCount + DeletedSnapshotCount);
+                    ListViewCache.FlushCache();
+                    SnapshotListView.EndUpdate();
+                });
+            }
         }
 
         private void CreateNewSnapshot()
@@ -59,7 +70,36 @@ namespace Anathema
 
         private void SnapshotListView_RetrieveVirtualItem(Object Sender, RetrieveVirtualItemEventArgs E)
         {
-            E.Item = SnapshotManagerPresenter.GetItemAt(E.ItemIndex);
+            ListViewItem Item = ListViewCache.Get((UInt64)E.ItemIndex);
+
+            if (Item != null)
+            {
+                E.Item = Item;
+                return;
+            }
+
+            Snapshot Snapshot = SnapshotManagerPresenter.GetSnapshotAtIndex(E.ItemIndex);
+
+
+            Item = ListViewCache.Add(E.ItemIndex, new String[SnapshotListView.Columns.Count]);
+
+            Item.ForeColor = (E.ItemIndex + 1 > SnapshotCount) ? Color.LightGray : SystemColors.ControlText;
+            Item.BackColor = (E.ItemIndex + 1 == SnapshotCount) ? SystemColors.Highlight : SystemColors.Control;
+
+            if (Snapshot == null)
+            {
+                Item.SubItems[SnapshotListView.Columns.IndexOf(ScanMethodHeader)].Text = NewScanText;
+                Item.SubItems[SnapshotListView.Columns.IndexOf(SizeHeader)].Text = EmptyEntry;
+                Item.SubItems[SnapshotListView.Columns.IndexOf(TimeStampHeader)].Text = EmptyEntry;
+            }
+            else
+            {
+                Item.SubItems[SnapshotListView.Columns.IndexOf(ScanMethodHeader)].Text = Snapshot.GetScanMethod();
+                Item.SubItems[SnapshotListView.Columns.IndexOf(SizeHeader)].Text = Conversions.BytesToMetric(Snapshot.GetMemorySize());
+                Item.SubItems[SnapshotListView.Columns.IndexOf(TimeStampHeader)].Text = Snapshot.GetTimeStamp().ToLongTimeString();
+            }
+
+            E.Item = Item;
         }
 
         private void NewSnapshotButton_Click(Object Sender, EventArgs E)
@@ -83,7 +123,7 @@ namespace Anathema
         }
 
         #endregion
-        
+
     } // End class
 
 } // End namespace

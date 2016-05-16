@@ -26,6 +26,7 @@ namespace Anathema.Scanners.ChangeCounter
         {
             this.View = View;
             this.Model = Model;
+
             // Bind events triggered by the model
         }
 
@@ -54,5 +55,7 @@ namespace Anathema.Scanners.ChangeCounter
         #region Event definitions for events triggered by the model (upstream)
 
         #endregion
-    }
-}
+
+    } // End class
+
+} // End namespace

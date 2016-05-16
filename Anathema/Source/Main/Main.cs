@@ -7,11 +7,12 @@ namespace Anathema
 {
     class Main : IMainModel
     {
+        private static Lazy<Main> MainInstance = new Lazy<Main>(() => { return new Main(); });
         private OSInterface OSInterface;
-        private static Main MainInstance;
 
         public event MainEventHandler EventUpdateProcessTitle;
         public event MainEventHandler EventUpdateProgress;
+        public event MainEventHandler EventFinishProgress;
         public event MainEventHandler EventOpenScriptEditor;
         public event MainEventHandler EventOpenLabelThresholder;
 
@@ -24,9 +25,7 @@ namespace Anathema
 
         public static Main GetInstance()
         {
-            if (MainInstance == null)
-                MainInstance = new Main();
-            return MainInstance;
+            return MainInstance.Value;
         }
 
         public void InitializeProcessObserver()
@@ -40,26 +39,33 @@ namespace Anathema
 
             MainEventArgs MainEventArgs = new MainEventArgs();
             MainEventArgs.ProcessTitle = OSInterface.Process.GetProcessName();
-            EventUpdateProcessTitle(this, MainEventArgs);
+            EventUpdateProcessTitle?.Invoke(this, MainEventArgs);
         }
 
         public void UpdateActionProgress(ProgressItem ProgressItem)
         {
             MainEventArgs MainEventArgs = new MainEventArgs();
             MainEventArgs.ProgressItem = ProgressItem;
-            EventUpdateProgress(this, MainEventArgs);
+            EventUpdateProgress?.Invoke(this, MainEventArgs);
+        }
+
+        public void FinishActionProgress(ProgressItem ProgressItem)
+        {
+            MainEventArgs MainEventArgs = new MainEventArgs();
+            MainEventArgs.ProgressItem = ProgressItem;
+            EventFinishProgress?.Invoke(this, MainEventArgs);
         }
 
         public void OpenScriptEditor()
         {
-            EventOpenScriptEditor(this, new MainEventArgs());
+            EventOpenScriptEditor?.Invoke(this, new MainEventArgs());
         }
 
         public void OpenLabelThresholder()
         {
-            EventOpenLabelThresholder(this, new MainEventArgs());
+            EventOpenLabelThresholder?.Invoke(this, new MainEventArgs());
         }
-        
+
         public void RequestCollectValues()
         {
             SnapshotManager.GetInstance().CollectValues();

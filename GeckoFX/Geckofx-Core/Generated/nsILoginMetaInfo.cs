@@ -20,13 +20,12 @@
 // --------------------------------------------------------------------------------------------
 namespace Gecko
 {
-	using System;
-	using System.Runtime.InteropServices;
-	using System.Runtime.InteropServices.ComTypes;
-	using System.Runtime.CompilerServices;
-	
-	
-	/// <summary>
+    using System;
+    using System.Runtime.CompilerServices;
+    using System.Runtime.InteropServices;
+
+
+    /// <summary>
     /// An object containing metainfo for a login stored by the login manager.
     ///
     /// Code using login manager can generally ignore this interface. When adding
@@ -35,7 +34,7 @@ namespace Gecko
     /// using modifyLogin() with a nsIPropertyBag]. When deleting a login or
     /// comparing logins, these properties are ignored.
     /// </summary>
-	[ComImport()]
+    [ComImport()]
 	[InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 	[Guid("20d8eb40-c494-497f-b2a6-aaa32f807ebd")]
 	public interface nsILoginMetaInfo

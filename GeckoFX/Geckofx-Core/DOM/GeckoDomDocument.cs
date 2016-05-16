@@ -1,15 +1,14 @@
+using Gecko.DOM;
+using Gecko.Interop;
 using System;
 using System.Runtime.InteropServices;
-using Gecko.DOM;
-using Gecko.DOM.Svg;
-using Gecko.Interop;
 
 namespace Gecko
 {
-	/// <summary>
-	/// Base document class (documents can be HTML,SVG,XUL)
-	/// </summary>
-	public class GeckoDomDocument
+    /// <summary>
+    /// Base document class (documents can be HTML,SVG,XUL)
+    /// </summary>
+    public class GeckoDomDocument
 		: GeckoNode
 	{
 		public nsIDOMDocument _domDocument;

@@ -14,20 +14,24 @@ namespace Anathema.User.UserTable
         [DataMember()]
         public Int32 TextColorARGB
         {
-            [Obfuscation(Exclude = true)]get;
-            [Obfuscation(Exclude = true)]set;
+            [Obfuscation(Exclude = true)]
+            get;
+            [Obfuscation(Exclude = true)]
+            set;
         }
 
         [Obfuscation(Exclude = true)]
         public Color TextColor
         {
-            [Obfuscation(Exclude = true)] get { return Color.FromArgb(TextColorARGB); }
-            [Obfuscation(Exclude = true)] set { TextColorARGB = value.ToArgb(); }
+            [Obfuscation(Exclude = true)]
+            get { return Color.FromArgb(TextColorARGB); }
+            [Obfuscation(Exclude = true)]
+            set { TextColorARGB = value.ToArgb(); }
         }
 
         [Obfuscation(Exclude = true)]
         protected Boolean Activated;
-        
+
         public TableItem()
         {
             TextColor = Color.Black;

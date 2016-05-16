@@ -20,13 +20,12 @@
 // --------------------------------------------------------------------------------------------
 namespace Gecko
 {
-	using System;
-	using System.Runtime.InteropServices;
-	using System.Runtime.InteropServices.ComTypes;
-	using System.Runtime.CompilerServices;
-	
-	
-	/// <summary>
+    using System;
+    using System.Runtime.CompilerServices;
+    using System.Runtime.InteropServices;
+
+
+    /// <summary>
     /// Implements Win7 Taskbar jump list item interfaces.
     ///
     /// Note to consumers: it's reasonable to expect we'll need support for other types
@@ -35,7 +34,7 @@ namespace Gecko
     /// and add support to addListBuild & removed items processing.
     ///
     /// </summary>
-	[ComImport()]
+    [ComImport()]
 	[InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 	[Guid("ACB8FB3C-E1B0-4044-8A50-E52C3E7C1057")]
 	public interface nsIJumpListItem

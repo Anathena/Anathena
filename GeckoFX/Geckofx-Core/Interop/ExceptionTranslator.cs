@@ -1,12 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Runtime.InteropServices;
-using System.Text;
 
 namespace Gecko.Interop
 {
-	internal static class ExceptionTranslator
+    internal static class ExceptionTranslator
 	{
 		internal static void AutotranslateComErrors(Action action)
 		{

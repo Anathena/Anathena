@@ -1,11 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace Gecko.Interop
 {
-	public static class ExtensionMethods
+    public static class ExtensionMethods
 	{
 		/// <summary>
 		/// Function that check if object is null -> then call wrapper creator

@@ -20,19 +20,18 @@
 // --------------------------------------------------------------------------------------------
 namespace Gecko
 {
-	using System;
-	using System.Runtime.InteropServices;
-	using System.Runtime.InteropServices.ComTypes;
-	using System.Runtime.CompilerServices;
-	
-	
-	/// <summary>
+    using System;
+    using System.Runtime.CompilerServices;
+    using System.Runtime.InteropServices;
+
+
+    /// <summary>
     /// An empty interface to provide backwards compatibility for existing code that
     /// bsmedberg didn't want to break all at once. Don't use me!
     ///
     /// @status NON-FROZEN interface WHICH WILL PROBABLY GO AWAY.
     /// </summary>
-	[ComImport()]
+    [ComImport()]
 	[InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 	[Guid("355bd1e9-248a-438b-809d-e0db1b287882")]
 	public interface nsIPrefBranchInternal : nsIPrefBranch2

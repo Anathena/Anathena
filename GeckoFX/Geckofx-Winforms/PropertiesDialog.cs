@@ -35,14 +35,13 @@
 
 using System;
 using System.Drawing;
-using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
 using System.Windows.Forms.VisualStyles;
 
 namespace Gecko
 {
-	partial class PropertiesDialog : Form
+    partial class PropertiesDialog : Form
 	{
 		public PropertiesDialog()
 		{

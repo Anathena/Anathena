@@ -20,19 +20,18 @@
 // --------------------------------------------------------------------------------------------
 namespace Gecko
 {
-	using System;
-	using System.Runtime.InteropServices;
-	using System.Runtime.InteropServices.ComTypes;
-	using System.Runtime.CompilerServices;
-	
-	
-	/// <summary>
+    using System;
+    using System.Runtime.CompilerServices;
+    using System.Runtime.InteropServices;
+
+
+    /// <summary>
     /// Helper interface to carry informatin about the load context
     /// encapsulating an AppID, IsInBrowser and IsPrivite properties.
     /// It shall be used where nsILoadContext cannot be used or is not
     /// available.
     /// </summary>
-	[ComImport()]
+    [ComImport()]
 	[InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 	[Guid("1ea9cbdb-9df4-46a0-8c45-f4091aad9459")]
 	public interface nsILoadContextInfo

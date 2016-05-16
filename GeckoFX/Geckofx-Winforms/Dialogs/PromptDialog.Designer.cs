@@ -1,6 +1,6 @@
 ﻿namespace Gecko
 {
-	partial class PromptDialog
+    partial class PromptDialog
 	{
 		/// <summary>
 		/// Required designer variable.

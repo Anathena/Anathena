@@ -1,11 +1,9 @@
-using System;
-using System.Runtime.InteropServices;
-using System.Threading;
 using Gecko.Interop;
+using System;
 
 namespace Gecko.Cache
 {
-	public class CacheEntryInfo
+    public class CacheEntryInfo
 		:IDisposable
 	{
 		private ComPtr<nsICacheEntryInfo> _cacheEntryInfo;

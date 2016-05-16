@@ -1,37 +1,48 @@
-﻿using System;
-using WeifenLuo.WinFormsUI.Docking;
+﻿using Anathema.Scanners.ChunkScanner;
+using Anathema.Source.Utils;
 using Anathema.Utils.MVP;
-using Anathema.Scanners.ChunkScanner;
+using System;
+using WeifenLuo.WinFormsUI.Docking;
 
 namespace Anathema.GUI
 {
     public partial class GUIChunkScanner : DockContent, IChunkScannerView
     {
         private ChunkScannerPresenter ChunkScannerPresenter;
+        private Object AccessLock;
 
         public GUIChunkScanner()
         {
             InitializeComponent();
             ChunkScannerPresenter = new ChunkScannerPresenter(this, new ChunkScanner());
-            
+            AccessLock = new Object();
+
             SetMinChanges();
             EnableGUI();
         }
 
         public void DisplayScanCount(Int32 ScanCount)
         {
-            ControlThreadingHelper.InvokeControlAction(ScanToolStrip, () =>
+            ControlThreadingHelper.InvokeControlAction(ScanCountLabel.GetCurrentParent(), () =>
             {
-                ScanCountLabel.Text = "Scan Count: " + ScanCount.ToString();
+                using (TimedLock.Lock(AccessLock))
+                {
+                    ScanCountLabel.Text = "Scan Count: " + ScanCount.ToString();
+                }
             });
         }
 
         private void SetMinChanges()
         {
-            Int32 MinChanges = MinChangesTrackBar.Value;
-            MinChangesValueLabel.Text = MinChanges.ToString();
-
-            ChunkScannerPresenter.SetMinChanges(MinChanges);
+            ControlThreadingHelper.InvokeControlAction(MinChangesValueLabel, () =>
+            {
+                using (TimedLock.Lock(AccessLock))
+                {
+                    Int32 MinChanges = MinChangesTrackBar.Value;
+                    MinChangesValueLabel.Text = MinChanges.ToString();
+                    ChunkScannerPresenter.SetMinChanges(MinChanges);
+                }
+            });
         }
 
         private void HandleResize()
@@ -41,14 +52,20 @@ namespace Anathema.GUI
 
         private void DisableGUI()
         {
-            StartScanButton.Enabled = false;
-            StopScanButton.Enabled = true;
+            using (TimedLock.Lock(AccessLock))
+            {
+                StartScanButton.Enabled = false;
+                StopScanButton.Enabled = true;
+            }
         }
 
         private void EnableGUI()
         {
-            StartScanButton.Enabled = true;
-            StopScanButton.Enabled = false;
+            using (TimedLock.Lock(AccessLock))
+            {
+                StartScanButton.Enabled = true;
+                StopScanButton.Enabled = false;
+            }
         }
 
         #region Events
@@ -65,12 +82,12 @@ namespace Anathema.GUI
             EnableGUI();
         }
 
-        private void GUIFilterChunks_Resize(object sender, EventArgs e)
+        private void GUIFilterChunks_Resize(Object Sender, EventArgs E)
         {
             HandleResize();
         }
 
-        private void MinChangesTrackBar_Scroll(object sender, EventArgs e)
+        private void MinChangesTrackBar_Scroll(Object Sender, EventArgs E)
         {
             SetMinChanges();
         }

@@ -3,6 +3,7 @@ using Anathema.User.UserTable;
 using Anathema.Utils.OS;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Anathema.User.UserAddressTable
 {
@@ -20,7 +21,9 @@ namespace Anathema.User.UserAddressTable
             Value
         }
 
-        private static AddressTable AddressTableInstance;
+        // Singleton instance of address table
+        private static Lazy<AddressTable> AddressTableInstance = new Lazy<AddressTable>(() => { return new AddressTable(); });
+
         private OSInterface OSInterface;
 
         private List<AddressItem> AddressItems;
@@ -38,14 +41,12 @@ namespace Anathema.User.UserAddressTable
 
         public static AddressTable GetInstance()
         {
-            if (AddressTableInstance == null)
-                AddressTableInstance = new AddressTable();
-            return AddressTableInstance;
+            return AddressTableInstance.Value;
         }
 
         ~AddressTable()
         {
-            End();
+            TriggerEnd();
         }
 
         public void InitializeProcessObserver()
@@ -58,23 +59,10 @@ namespace Anathema.User.UserAddressTable
             this.OSInterface = OSInterface;
         }
 
-        public override void ForceRefresh()
-        {
-            RefreshDisplay();
-        }
-
         public override void UpdateReadBounds(Int32 StartReadIndex, Int32 EndReadIndex)
         {
             this.StartReadIndex = StartReadIndex;
             this.EndReadIndex = EndReadIndex;
-        }
-
-        private void RefreshDisplay()
-        {
-            // Request that all data be updated
-            AddressTableEventArgs Args = new AddressTableEventArgs();
-            Args.ItemCount = AddressItems.Count;
-            OnEventClearAddressCache(Args);
         }
 
         public override void SetAddressFrozen(Int32 Index, Boolean Activated)
@@ -98,13 +86,11 @@ namespace Anathema.User.UserAddressTable
             AddressItems[Index].SetActivationState(Activated);
         }
 
-        public override void AddAddressItem(IntPtr BaseAddress, Type ElementType, String Description, Int32[] Offsets = null, Boolean IsHex = false, String Value = null)
+        public override void AddAddressItem(IntPtr BaseAddress, Type ElementType, String Description, IEnumerable<Int32> Offsets = null, Boolean IsHex = false, String Value = null)
         {
             AddressItems.Add(new AddressItem(BaseAddress, ElementType, Description, Offsets, IsHex, Value));
 
-            AddressTableEventArgs AddressTableEventArgs = new AddressTableEventArgs();
-            AddressTableEventArgs.ItemCount = AddressItems.Count;
-            OnEventClearAddressCache(AddressTableEventArgs);
+            UpdateAddressTableItemCount();
 
             Table.GetInstance().TableChanged();
         }
@@ -112,25 +98,17 @@ namespace Anathema.User.UserAddressTable
         public override void AddAddressItem(AddressItem AddressItem)
         {
             AddressItems.Add(AddressItem);
-
-            AddressTableEventArgs AddressTableEventArgs = new AddressTableEventArgs();
-            AddressTableEventArgs.ItemCount = AddressItems.Count;
-            OnEventClearAddressCache(AddressTableEventArgs);
+            UpdateAddressTableItemCount();
 
             Table.GetInstance().TableChanged();
         }
 
-        public override void DeleteTableItems(List<Int32> Indicies)
+        public override void DeleteTableItems(IEnumerable<Int32> Indicies)
         {
-            Indicies.Sort();
-            Indicies.Reverse();
-
-            foreach (Int32 Index in Indicies)
+            foreach (Int32 Index in Indicies.OrderByDescending(X => X))
                 AddressItems.RemoveAt(Index);
 
-            AddressTableEventArgs AddressTableEventArgs = new AddressTableEventArgs();
-            AddressTableEventArgs.ItemCount = AddressItems.Count;
-            OnEventClearAddressCache(AddressTableEventArgs);
+            UpdateAddressTableItemCount();
 
             Table.GetInstance().TableChanged();
         }
@@ -148,10 +126,7 @@ namespace Anathema.User.UserAddressTable
         public void SetAddressItems(List<AddressItem> AddressItems)
         {
             this.AddressItems = AddressItems;
-
-            AddressTableEventArgs AddressTableEventArgs = new AddressTableEventArgs();
-            AddressTableEventArgs.ItemCount = AddressItems.Count;
-            OnEventClearAddressCache(AddressTableEventArgs);
+            UpdateAddressTableItemCount();
 
             Table.GetInstance().TableChanged();
         }
@@ -176,8 +151,7 @@ namespace Anathema.User.UserAddressTable
                     OSInterface.Process.Write(AddressItems[Index].ElementType, AddressItems[Index].EffectiveAddress, AddressItems[Index].Value);
             }
 
-            // Clear this entry in the cache since it has been updated
-            ClearAddressItemFromCache(AddressItems[Index]);
+            UpdateAddressTableItemCount();
 
             Table.GetInstance().TableChanged();
         }
@@ -199,20 +173,16 @@ namespace Anathema.User.UserAddressTable
             AddressItem Item = AddressItems[SourceIndex];
             AddressItems.RemoveAt(SourceIndex);
             AddressItems.Insert(DestinationIndex, Item);
-
-            AddressTableEventArgs AddressTableEventArgs = new AddressTableEventArgs();
-            AddressTableEventArgs.ItemCount = AddressItems.Count;
-            OnEventClearAddressCache(AddressTableEventArgs);
+            UpdateAddressTableItemCount();
 
             Table.GetInstance().TableChanged();
         }
 
-        private void ClearAddressItemFromCache(AddressItem AddressItem)
+        private void UpdateAddressTableItemCount()
         {
             AddressTableEventArgs AddressTableEventArgs = new AddressTableEventArgs();
-            AddressTableEventArgs.ClearCacheIndex = AddressItems.IndexOf(AddressItem);
             AddressTableEventArgs.ItemCount = AddressItems.Count;
-            OnEventClearAddressCacheItem(AddressTableEventArgs);
+            OnEventUpdateAddressTableItemCount(AddressTableEventArgs);
         }
 
         public override void Begin()
@@ -249,6 +219,8 @@ namespace Anathema.User.UserAddressTable
             if (AddressItems.Count != 0)
                 OnEventReadValues(new AddressTableEventArgs());
         }
+
+        protected override void End() { }
 
     } // End class
 

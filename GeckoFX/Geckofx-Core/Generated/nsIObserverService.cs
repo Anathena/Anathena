@@ -20,13 +20,12 @@
 // --------------------------------------------------------------------------------------------
 namespace Gecko
 {
-	using System;
-	using System.Runtime.InteropServices;
-	using System.Runtime.InteropServices.ComTypes;
-	using System.Runtime.CompilerServices;
-	
-	
-	/// <summary>
+    using System;
+    using System.Runtime.CompilerServices;
+    using System.Runtime.InteropServices;
+
+
+    /// <summary>
     /// nsIObserverService
     ///
     /// Service allows a client listener (nsIObserver) to register and unregister for
@@ -34,7 +33,7 @@ namespace Gecko
     /// way to notify registered listeners and a way to enumerate registered client
     /// listeners.
     /// </summary>
-	[ComImport()]
+    [ComImport()]
 	[InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 	[Guid("D07F5192-E3D1-11d2-8ACD-00105A1B8860")]
 	public interface nsIObserverService

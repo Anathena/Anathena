@@ -20,20 +20,19 @@
 // --------------------------------------------------------------------------------------------
 namespace Gecko
 {
-	using System;
-	using System.Runtime.InteropServices;
-	using System.Runtime.InteropServices.ComTypes;
-	using System.Runtime.CompilerServices;
-	
-	
-	/// <summary>
+    using System;
+    using System.Runtime.CompilerServices;
+    using System.Runtime.InteropServices;
+
+
+    /// <summary>
     /// Used on the chrome process as a service to join channel implementation
     /// and parent IPC protocol side under a unique id.  Provides this way a generic
     /// communication while redirecting to various protocols.
     ///
     /// See also nsIChildChannel and nsIParentChannel.
     /// </summary>
-	[ComImport()]
+    [ComImport()]
 	[InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 	[Guid("efa36ea2-5b07-46fc-9534-a5acb8b77b72")]
 	public interface nsIRedirectChannelRegistrar

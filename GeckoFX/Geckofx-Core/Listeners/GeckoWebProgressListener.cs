@@ -1,12 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Runtime.InteropServices;
 
 namespace Gecko.Listeners
 {
-	[Obsolete]
+    [Obsolete]
     class GeckoWebProgressListener : GeckoBaseListener, nsIWebProgressListener
     {
         public GeckoWebProgressListener(nsIWebProgressListener p_broowser)

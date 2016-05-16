@@ -20,13 +20,12 @@
 // --------------------------------------------------------------------------------------------
 namespace Gecko
 {
-	using System;
-	using System.Runtime.InteropServices;
-	using System.Runtime.InteropServices.ComTypes;
-	using System.Runtime.CompilerServices;
-	
-	
-	/// <summary>
+    using System;
+    using System.Runtime.CompilerServices;
+    using System.Runtime.InteropServices;
+
+
+    /// <summary>
     /// This interface allows writing of primitive data types (integers,
     /// floating-point values, booleans, etc.) to a stream in a binary, untagged,
     /// fixed-endianness format.  This might be used, for example, to implement
@@ -37,7 +36,7 @@ namespace Gecko
     ///
     /// @See nsIBinaryInputStream
     /// </summary>
-	[ComImport()]
+    [ComImport()]
 	[InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 	[Guid("204ee610-8765-11d3-90cf-0040056a906e")]
 	public interface nsIBinaryOutputStream : nsIOutputStream

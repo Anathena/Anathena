@@ -20,20 +20,19 @@
 // --------------------------------------------------------------------------------------------
 namespace Gecko
 {
-	using System;
-	using System.Runtime.InteropServices;
-	using System.Runtime.InteropServices.ComTypes;
-	using System.Runtime.CompilerServices;
-	
-	
-	/// <summary>
+    using System;
+    using System.Runtime.CompilerServices;
+    using System.Runtime.InteropServices;
+
+
+    /// <summary>
     /// This interface is designed to provide scriptable access to the Windows
     /// registry system ("With Great Power Comes Great Responsibility").  The
     /// interface represents a single key in the registry.
     ///
     /// This interface is highly Win32 specific.
     /// </summary>
-	[ComImport()]
+    [ComImport()]
 	[InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 	[Guid("2555b930-d64f-437e-9be7-0a2cb252c1f4")]
 	public interface nsIWindowsRegKey

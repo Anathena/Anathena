@@ -1,14 +1,19 @@
-﻿using System;
+﻿using Anathema.Services.ProcessManager;
+using Anathema.Source.Utils;
+using Anathema.Source.Utils.Extensions;
+using Anathema.Utils.MVP;
+using System;
+using System.Collections.Generic;
+using System.Diagnostics;
 using System.Windows.Forms;
 using WeifenLuo.WinFormsUI.Docking;
-using System.Diagnostics;
-using Anathema.Services.ProcessManager;
 
 namespace Anathema.GUI
 {
     public partial class GUIProcessSelector : DockContent, IProcessSelectorView
     {
         private ProcessSelectorPresenter ProcessSelectorPresenter;
+        private Object AccessLock;
 
         // Column text alignment. Without this the column title lines up with the icon rather than text
         private const string Alignment = "     ";
@@ -16,13 +21,14 @@ namespace Anathema.GUI
         public GUIProcessSelector()
         {
             InitializeComponent();
-            
+
             // Set custom properties for our process List View
             ProcessListView.Columns.Add(Alignment + "Processes");
             ProcessListView.View = View.Details;
 
             // Initialize presenter
             ProcessSelectorPresenter = new ProcessSelectorPresenter(this, ProcessSelector.GetInstance());
+            AccessLock = new Object();
 
             // Initialize process list
             RefreshProcesses();
@@ -30,42 +36,59 @@ namespace Anathema.GUI
 
         public void SelectProcess(Process TargetProcess)
         {
-            this.Close();
+            ControlThreadingHelper.InvokeControlAction(this, () =>
+            {
+                // May potentially use target process in the future if we enable multi-process selection
+
+                this.Close();
+            });
         }
 
-        public void DisplayProcesses(ListViewItem[] Items, ImageList ImageList)
+        public void DisplayProcesses(IEnumerable<ListViewItem> Items, ImageList ImageList)
         {
-            // Clear the old items in the process list
-            ProcessListView.Items.Clear();
+            ControlThreadingHelper.InvokeControlAction(ProcessListView, () =>
+            {
+                using (TimedLock.Lock(AccessLock))
+                {
+                    // Clear the old items in the process list
+                    ProcessListView.Items.Clear();
 
-            // Add all of the new items
-            ProcessListView.Items.AddRange(Items);
-            ProcessListView.SmallImageList = ImageList;
+                    // Add all of the new items
+                    Items?.ForEach(X => ProcessListView.Items.Add(X));
+                    ProcessListView.SmallImageList = ImageList;
+                }
+            });
         }
 
         private void TrySelectingProcess()
         {
-            if (ProcessListView.SelectedIndices.Count <= 0)
-                return;
+            ControlThreadingHelper.InvokeControlAction(ProcessListView, () =>
+            {
+                using (TimedLock.Lock(AccessLock))
+                {
+                    if (ProcessListView.SelectedIndices.Count <= 0)
+                        return;
 
-            try
-            {
-                ProcessSelectorPresenter.SelectProcess(ProcessListView.SelectedIndices[0]);
-            }
-            catch (Exception Ex)
-            {
-                MessageBox.Show(Ex.Message, "Error making selection.", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-            }
+                    try
+                    {
+                        ProcessSelectorPresenter.SelectProcess(ProcessListView.SelectedIndices[0]);
+                    }
+                    catch (Exception Ex)
+                    {
+                        MessageBox.Show(Ex.Message, "Error making selection.", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    }
+                }
+            });
+        }
+
+        private void HandleResize()
+        {
+            ProcessListView.Columns[0].Width = ProcessListView.Width - 24;
         }
 
         private void RefreshProcesses()
         {
             ProcessSelectorPresenter.RefreshProcesses(this.Handle);
-        }
-        
-        private void HandleResize()
-        {
-            ProcessListView.Columns[0].Width = ProcessListView.Width - 24;
         }
 
         #region Events
@@ -92,7 +115,6 @@ namespace Anathema.GUI
 
         #endregion
 
-    }
+    } // End class
 
-  
-}
+} // End namespace

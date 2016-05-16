@@ -20,13 +20,12 @@
 // --------------------------------------------------------------------------------------------
 namespace Gecko
 {
-	using System;
-	using System.Runtime.InteropServices;
-	using System.Runtime.InteropServices.ComTypes;
-	using System.Runtime.CompilerServices;
-	
-	
-	/// <summary>
+    using System;
+    using System.Runtime.CompilerServices;
+    using System.Runtime.InteropServices;
+
+
+    /// <summary>
     /// This interface lets you monitor how long the user has been 'idle',
     /// i.e. not used their mouse or keyboard. You can get the idle time directly,
     /// but in most cases you will want to register an observer for a predefined
@@ -34,7 +33,7 @@ namespace Gecko
     /// for that interval (or longer), and receive an 'active' notification when the
     /// user starts using their computer again.
     /// </summary>
-	[ComImport()]
+    [ComImport()]
 	[InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 	[Guid("cc52f19a-63ae-4a1c-9cc3-e79eace0b471")]
 	public interface nsIIdleService

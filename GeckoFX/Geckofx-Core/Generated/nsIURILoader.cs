@@ -20,13 +20,12 @@
 // --------------------------------------------------------------------------------------------
 namespace Gecko
 {
-	using System;
-	using System.Runtime.InteropServices;
-	using System.Runtime.InteropServices.ComTypes;
-	using System.Runtime.CompilerServices;
-	
-	
-	/// <summary>
+    using System;
+    using System.Runtime.CompilerServices;
+    using System.Runtime.InteropServices;
+
+
+    /// <summary>
     /// The uri dispatcher is responsible for taking uri's, determining
     /// the content and routing the opened url to the correct content
     /// handler.
@@ -46,7 +45,7 @@ namespace Gecko
     /// or helper app. Or it may hand the url off to an OS registered
     /// application.
     /// </summary>
-	[ComImport()]
+    [ComImport()]
 	[InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 	[Guid("8762c4e7-be35-4958-9b81-a05685bb516d")]
 	public interface nsIURILoader

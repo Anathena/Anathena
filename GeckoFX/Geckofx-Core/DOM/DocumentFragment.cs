@@ -1,6 +1,6 @@
 namespace Gecko.DOM
 {
-	public class DocumentFragment
+    public class DocumentFragment
 		:GeckoNode
 	{
 		private nsIDOMDocumentFragment _documentFragment;

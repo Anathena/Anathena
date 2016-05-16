@@ -1,13 +1,6 @@
-
-
-using System;
-using System.Collections.Generic;
-using System.Runtime.InteropServices;
-using System.Text;
-
 namespace Gecko.DOM
-{	
-	public class GeckoBRElement : GeckoHtmlElement
+{
+    public class GeckoBRElement : GeckoHtmlElement
 	{
 		private nsIDOMHTMLBRElement _domHtmlBrElement;
 

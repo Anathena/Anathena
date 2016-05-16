@@ -1,14 +1,16 @@
-﻿using Anathema.Utils.OS;
+﻿using Anathema.User.UserScriptTable;
 using Anathema.Utils.LUA;
+using Anathema.Utils.OS;
 using System;
-using Anathema.User.UserScriptTable;
 
 namespace Anathema.User.UserScriptEditor
 {
     class ScriptEditor : IScriptEditorModel
     {
+        // Singleton instance of Script Editor
+        private static Lazy<ScriptEditor> ScriptEditorInstance = new Lazy<ScriptEditor>(() => { return new ScriptEditor(); });
+
         private OSInterface OSInterface;
-        private static ScriptEditor _ScriptEditor;
 
         public event ScriptEditorEventHandler EventOpenScript;
         public event ScriptEditorEventHandler EventSetScriptText;
@@ -24,11 +26,9 @@ namespace Anathema.User.UserScriptEditor
 
         public static ScriptEditor GetInstance()
         {
-            if (_ScriptEditor == null)
-                _ScriptEditor = new ScriptEditor();
-            return _ScriptEditor;
+            return ScriptEditorInstance.Value;
         }
-        
+
         public void InitializeProcessObserver()
         {
             ProcessSelector.GetInstance().Subscribe(this);
@@ -45,7 +45,7 @@ namespace Anathema.User.UserScriptEditor
 
             ScriptEditorEventArgs ScriptEditorEventArgs = new ScriptEditorEventArgs();
             ScriptEditorEventArgs.ScriptItem = ScriptItem;
-            EventOpenScript(this, ScriptEditorEventArgs);
+            EventOpenScript?.Invoke(this, ScriptEditorEventArgs);
         }
 
         public void OpenNewScript()
@@ -72,7 +72,7 @@ namespace Anathema.User.UserScriptEditor
             String NewScript = LuaEngine.AddCodeInjectionTemplate(ScriptItem.Script, "module.exe", new IntPtr(0x1abcd));
             ScriptEditorEventArgs ScriptEditorEventArgs = new ScriptEditorEventArgs();
             ScriptEditorEventArgs.NewScript = NewScript;
-            EventSetScriptText(this, ScriptEditorEventArgs);
+            EventSetScriptText?.Invoke(this, ScriptEditorEventArgs);
         }
 
     } // End class

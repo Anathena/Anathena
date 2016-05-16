@@ -20,13 +20,12 @@
 // --------------------------------------------------------------------------------------------
 namespace Gecko
 {
-	using System;
-	using System.Runtime.InteropServices;
-	using System.Runtime.InteropServices.ComTypes;
-	using System.Runtime.CompilerServices;
-	
-	
-	/// <summary>
+    using System;
+    using System.Runtime.CompilerServices;
+    using System.Runtime.InteropServices;
+
+
+    /// <summary>
     /// nsIFormFillController is an interface for controlling form fill behavior
     /// on HTML documents.  Any number of docShells can be controller concurrently.
     /// While a docShell is attached, all HTML documents that are loaded within it
@@ -34,7 +33,7 @@ namespace Gecko
     /// is focused.  When this happens, the input will be bound to the
     /// global nsIAutoCompleteController service.
     /// </summary>
-	[ComImport()]
+    [ComImport()]
 	[InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 	[Guid("07f0a0dc-f6e9-4cdd-a55f-56d770523a4c")]
 	public interface nsIFormFillController

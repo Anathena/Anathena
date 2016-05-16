@@ -83,9 +83,9 @@ namespace Anathema.Scanners.ScanConstraints
             this.ValueConstraints.Add(ScanConstraint);
         }
 
-        public void RemoveConstraints(Int32[] ConstraintIndicies)
+        public void RemoveConstraints(IEnumerable<Int32> ConstraintIndicies)
         {
-            foreach (Int32 Index in ConstraintIndicies.ToList().Select(x => x).Reverse())
+            foreach (Int32 Index in ConstraintIndicies.OrderByDescending(X => X))
                 this.ValueConstraints.RemoveAt(Index);
         }
 

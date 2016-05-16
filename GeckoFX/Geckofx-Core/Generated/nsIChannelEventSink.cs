@@ -20,13 +20,12 @@
 // --------------------------------------------------------------------------------------------
 namespace Gecko
 {
-	using System;
-	using System.Runtime.InteropServices;
-	using System.Runtime.InteropServices.ComTypes;
-	using System.Runtime.CompilerServices;
-	
-	
-	/// <summary>
+    using System;
+    using System.Runtime.CompilerServices;
+    using System.Runtime.InteropServices;
+
+
+    /// <summary>
     /// Implement this interface to receive control over various channel events.
     /// Channels will try to get this interface from a channel's
     /// notificationCallbacks or, if not available there, from the loadGroup's
@@ -34,7 +33,7 @@ namespace Gecko
     ///
     /// These methods are called before onStartRequest.
     /// </summary>
-	[ComImport()]
+    [ComImport()]
 	[InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 	[Guid("a430d870-df77-4502-9570-d46a8de33154")]
 	public interface nsIChannelEventSink

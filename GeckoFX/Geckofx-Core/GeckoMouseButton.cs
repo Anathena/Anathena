@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace Gecko
+﻿namespace Gecko
 {
-	public enum GeckoMouseButton
+    public enum GeckoMouseButton
 	{
 		None = 0,
 		Left = 0,

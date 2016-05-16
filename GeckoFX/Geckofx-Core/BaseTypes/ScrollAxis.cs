@@ -1,12 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Runtime.InteropServices;
 
 namespace Gecko
 {
-	public enum WhenToScroll : int
+    public enum WhenToScroll : int
 	{
 		SCROLL_ALWAYS = 0 ,
 		SCROLL_IF_NOT_VISIBLE = 1,

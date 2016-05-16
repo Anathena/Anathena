@@ -28,7 +28,7 @@ namespace Anathema.Scanners.InputCorrelator
         private Int32 TimeOutInterval;  // ms to consider a fired key event as active
 
         private InputNode InputConditionTree;
-        
+
         private ProgressItem ScanProgress;
         private Object ProgressLock;
 
@@ -175,38 +175,36 @@ namespace Anathema.Scanners.InputCorrelator
                     }
                 }
 
-                lock (ProgressLock)
+                /*using (TimedLock.Lock(ProgressLock))
                 {
                     ProcessedPages++;
 
-                    if (ProcessedPages < Snapshot.GetRegionCount())
-                        ScanProgress.UpdateProgress(ProcessedPages, Snapshot.GetRegionCount());
-                }
+                    ScanProgress.UpdateProgress(ProcessedPages, Snapshot.GetRegionCount());
+                }*/
             });
+
+            ScanProgress.FinishProgress();
 
             OnEventUpdateScanCount(new ScannerEventArgs(this.ScanCount));
         }
 
-        public override void End()
+        protected override void End()
         {
-            base.End();
-
             // Cleanup for the input hook
             //InputHook.MouseDownExt -= GlobalHookMouseDownExt;
             InputHook.KeyUp -= GlobalHookKeyUp;
             InputHook.KeyDown -= GlobalHookKeyDown;
 
+            // Prefilter items with negative penalties (ie constantly changing variables)
             Snapshot.MarkAllInvalid();
             foreach (SnapshotRegion<Int16> Region in Snapshot)
                 foreach (SnapshotElement<Int16> Element in Region)
                     if (Element.ElementLabel.Value > 0)
                         Element.Valid = true;
-
             Snapshot.DiscardInvalidRegions();
             Snapshot.SetScanMethod("Input Correlator");
 
             SnapshotManager.GetInstance().SaveSnapshot(Snapshot);
-            ScanProgress.FinishProgress();
 
             CleanUp();
 

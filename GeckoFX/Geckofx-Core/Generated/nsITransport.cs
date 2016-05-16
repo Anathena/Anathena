@@ -20,13 +20,12 @@
 // --------------------------------------------------------------------------------------------
 namespace Gecko
 {
-	using System;
-	using System.Runtime.InteropServices;
-	using System.Runtime.InteropServices.ComTypes;
-	using System.Runtime.CompilerServices;
-	
-	
-	/// <summary>
+    using System;
+    using System.Runtime.CompilerServices;
+    using System.Runtime.InteropServices;
+
+
+    /// <summary>
     /// nsITransport
     ///
     /// This interface provides a common way of accessing i/o streams connected
@@ -41,7 +40,7 @@ namespace Gecko
     /// socket transport, these events can include status about the connection.
     /// See nsISocketTransport for more info about socket transport specifics.
     /// </summary>
-	[ComImport()]
+    [ComImport()]
 	[InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 	[Guid("d8786c64-eb49-4a0b-b42c-0936a745fbe8")]
 	public interface nsITransport

@@ -1,6 +1,6 @@
 namespace Gecko.IO
 {
-	public sealed class InputStreamTee
+    public sealed class InputStreamTee
 		:InputStream
 	{
 		private nsIInputStreamTee _inputStreamTee;

@@ -20,13 +20,12 @@
 // --------------------------------------------------------------------------------------------
 namespace Gecko
 {
-	using System;
-	using System.Runtime.InteropServices;
-	using System.Runtime.InteropServices.ComTypes;
-	using System.Runtime.CompilerServices;
-	
-	
-	/// <summary>
+    using System;
+    using System.Runtime.CompilerServices;
+    using System.Runtime.InteropServices;
+
+
+    /// <summary>
     /// nsIZipWriter
     ///
     /// An interface for a zip archiver that can be used from script.
@@ -52,7 +51,7 @@ namespace Gecko
     /// entries within them, however it is possible that some zip programs may
     /// experience problems what that.
     /// </summary>
-	[ComImport()]
+    [ComImport()]
 	[InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 	[Guid("3ca10750-797e-4a22-bcfe-66170b5e96dd")]
 	public interface nsIZipWriter

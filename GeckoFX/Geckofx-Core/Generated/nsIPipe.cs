@@ -20,13 +20,12 @@
 // --------------------------------------------------------------------------------------------
 namespace Gecko
 {
-	using System;
-	using System.Runtime.InteropServices;
-	using System.Runtime.InteropServices.ComTypes;
-	using System.Runtime.CompilerServices;
-	
-	
-	/// <summary>
+    using System;
+    using System.Runtime.CompilerServices;
+    using System.Runtime.InteropServices;
+
+
+    /// <summary>
     /// nsIPipe represents an in-process buffer that can be read using nsIInputStream
     /// and written using nsIOutputStream.  The reader and writer of a pipe do not
     /// have to be on the same thread.  As a result, the pipe is an ideal mechanism
@@ -54,7 +53,7 @@ namespace Gecko
     /// references to the pipe's input and output end.  In which case, the pipe is
     /// automatically closed when the respective pipe ends are released.
     /// </summary>
-	[ComImport()]
+    [ComImport()]
 	[InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 	[Guid("25d0de93-685e-4ea4-95d3-d884e31df63c")]
 	public interface nsIPipe

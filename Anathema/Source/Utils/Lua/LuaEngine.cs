@@ -1,5 +1,5 @@
-﻿using System;
-using NLua;
+﻿using NLua;
+using System;
 
 namespace Anathema.Utils.LUA
 {

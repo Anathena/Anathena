@@ -2,10 +2,10 @@ using System;
 
 namespace Gecko.Interop
 {
-	/// <summary>
-	/// Internal unsafe memory copier
-	/// </summary>
-	internal static class MemCopy
+    /// <summary>
+    /// Internal unsafe memory copier
+    /// </summary>
+    internal static class MemCopy
 	{
 		/// <summary>
 		/// Architecture independent memory copy

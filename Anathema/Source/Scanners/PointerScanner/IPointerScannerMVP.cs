@@ -1,10 +1,8 @@
 ﻿using Anathema.Scanners.ScanConstraints;
-using Anathema.Utils;
 using Anathema.Utils.Extensions;
 using Anathema.Utils.Validation;
 using System;
-using System.Linq;
-using System.Windows.Forms;
+using System.Collections.Generic;
 
 namespace Anathema.Scanners.PointerScanner
 {
@@ -28,13 +26,13 @@ namespace Anathema.Scanners.PointerScanner
         public event PointerScannerEventHandler EventReadValues;
         protected virtual void OnEventReadValues(PointerScannerEventArgs E)
         {
-            EventReadValues(this, E);
+            EventReadValues?.Invoke(this, E);
         }
 
         public event PointerScannerEventHandler EventUpdateItemCount;
         protected virtual void OnEventScanFinished(PointerScannerEventArgs E)
         {
-            EventUpdateItemCount(this, E);
+            EventUpdateItemCount?.Invoke(this, E);
         }
 
         // Functions invoked by presenter (downstream)
@@ -44,8 +42,10 @@ namespace Anathema.Scanners.PointerScanner
         public abstract void AddSelectionToTable(Int32 MinIndex, Int32 MaxIndex);
 
         public abstract String GetValueAtIndex(Int32 Index);
-        public abstract String GetBaseAddress(Int32 Index);
-        public abstract String[] GetOffsets(Int32 Index);
+        public abstract String GetAddressAtIndex(Int32 Index);
+        public abstract IEnumerable<String> GetOffsetsAtIndex(Int32 Index);
+        public abstract Int32 GetMaxPointerLevel();
+        public abstract Int32 GetMaxPointerOffset();
 
         public abstract void SetElementType(Type ElementType);
         public abstract void SetRescanMode(Boolean IsAddressMode);
@@ -63,19 +63,10 @@ namespace Anathema.Scanners.PointerScanner
         protected new IPointerScannerView View;
         protected new IPointerScannerModel Model;
 
-        private const Int32 ValueIndex = 0;
-        private const Int32 BaseIndex = 1;
-        private const Int32 OffsetStartIndex = 2;
-
-        private ListViewCache ListViewCache;
-        private Int32 MaxPointerLevel;
-
         public PointerScannerPresenter(IPointerScannerView View, IPointerScannerModel Model) : base(View, Model)
         {
             this.View = View;
             this.Model = Model;
-
-            ListViewCache = new ListViewCache();
 
             // Bind events triggered by the model
             Model.EventReadValues += EventReadValues;
@@ -109,26 +100,29 @@ namespace Anathema.Scanners.PointerScanner
             Model.SetRescanMode(IsAddressMode);
         }
 
-        public ListViewItem GetItemAt(Int32 Index)
+        public String GetValueAtIndex(Int32 Index)
         {
-            ListViewItem Item = ListViewCache.Get((UInt64)Index);
+            return Model.GetValueAtIndex(Index);
+        }
 
-            // Try to update and return the item if it is a valid item
-            if (Item != null && ListViewCache.TryUpdateSubItem(Index, ValueIndex, Model.GetValueAtIndex(Index)))
-                return Item;
+        public String GetAddressAtIndex(Int32 Index)
+        {
+            return Model.GetAddressAtIndex(Index);
+        }
 
-            // Add the properties to the cache and get the list view item back
-            Item = ListViewCache.Add(Index, Enumerable.Repeat(String.Empty, OffsetStartIndex + MaxPointerLevel).ToArray());
+        public IEnumerable<String> GetOffsetsAtIndex(Int32 Index)
+        {
+            return Model.GetOffsetsAtIndex(Index);
+        }
 
-            Item.SubItems[ValueIndex].Text = "-";
-            Item.SubItems[BaseIndex].Text = Model.GetBaseAddress(Index);
+        public Int32 GetMaxPointerLevel()
+        {
+            return Model.GetMaxPointerLevel();
+        }
 
-            String[] Offsets = Model.GetOffsets(Index);
-            for (Int32 OffsetIndex = OffsetStartIndex; OffsetIndex < OffsetStartIndex + MaxPointerLevel; OffsetIndex++)
-                Item.SubItems[OffsetIndex].Text = (OffsetIndex - OffsetStartIndex) < Offsets.Length ? Offsets[OffsetIndex - OffsetStartIndex] : String.Empty;
-
-
-            return Item;
+        public Int32 GetMaxPointerOffset()
+        {
+            return Model.GetMaxPointerOffset();
         }
 
         public void AddSelectionToTable(Int32 MinIndex, Int32 MaxIndex)
@@ -153,8 +147,6 @@ namespace Anathema.Scanners.PointerScanner
         {
             if (!CheckSyntax.CanParseValue(typeof(Int32), MaxPointerLevel))
                 return;
-
-            this.MaxPointerLevel = Conversions.ParseValue(typeof(Int32), MaxPointerLevel);
 
             Model.SetMaxPointerLevel(Conversions.ParseValue(typeof(Int32), MaxPointerLevel));
         }

@@ -1,12 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.Mime;
-using System.Text;
 
 namespace Gecko
 {
-	public sealed class JSAutoCompartment : IDisposable
+    public sealed class JSAutoCompartment : IDisposable
 	{
 		private IntPtr _oldCompartment;
 		private IntPtr _cx;

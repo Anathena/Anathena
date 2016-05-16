@@ -20,13 +20,12 @@
 // --------------------------------------------------------------------------------------------
 namespace Gecko
 {
-	using System;
-	using System.Runtime.InteropServices;
-	using System.Runtime.InteropServices.ComTypes;
-	using System.Runtime.CompilerServices;
-	
-	
-	/// <summary>
+    using System;
+    using System.Runtime.CompilerServices;
+    using System.Runtime.InteropServices;
+
+
+    /// <summary>
     /// The nsIChannel interface allows clients to construct "GET" requests for
     /// specific protocols, and manage them in a uniform way.  Once a channel is
     /// created (via nsIIOService::newChannel), parameters for that request may
@@ -40,7 +39,7 @@ namespace Gecko
     ///
     /// This interface must be used only from the XPCOM main thread.
     /// </summary>
-	[ComImport()]
+    [ComImport()]
 	[InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 	[Guid("2a8a7237-c1e2-4de7-b669-2002af29e42d")]
 	public interface nsIChannel : nsIRequest

@@ -1,6 +1,6 @@
 ﻿namespace Gecko
 {
-	public enum NodeType
+    public enum NodeType
 	{
 		Element = ( int ) nsIDOMNodeConsts.ELEMENT_NODE,
 		Attribute = ( int ) nsIDOMNodeConsts.ATTRIBUTE_NODE,

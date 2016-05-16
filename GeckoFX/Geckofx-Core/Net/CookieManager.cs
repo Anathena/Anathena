@@ -1,9 +1,9 @@
-﻿using System.Collections.Generic;
-using Gecko.Interop;
+﻿using Gecko.Interop;
+using System.Collections.Generic;
 
 namespace Gecko
 {
-	public static class CookieManager
+    public static class CookieManager
 	{
 		private static ComPtr<nsICookieManager2> _cookieManager;
 

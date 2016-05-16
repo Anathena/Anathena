@@ -2,7 +2,7 @@ using Gecko.Interop;
 
 namespace Gecko.Certificates
 {
-	public sealed class CertCache
+    public sealed class CertCache
 	{
 		internal ComPtr<nsINSSCertCache> _certCache;
 

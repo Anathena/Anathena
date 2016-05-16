@@ -20,19 +20,18 @@
 // --------------------------------------------------------------------------------------------
 namespace Gecko
 {
-	using System;
-	using System.Runtime.InteropServices;
-	using System.Runtime.InteropServices.ComTypes;
-	using System.Runtime.CompilerServices;
-	
-	
-	/// <summary>
+    using System;
+    using System.Runtime.CompilerServices;
+    using System.Runtime.InteropServices;
+
+
+    /// <summary>
     /// The nsIWebNavigation interface defines an interface for navigating the web.
     /// It provides methods and attributes to direct an object to navigate to a new
     /// location, stop or restart an in process load, or determine where the object
     /// has previously gone.
     /// </summary>
-	[ComImport()]
+    [ComImport()]
 	[InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 	[Guid("b7568a50-4c50-442c-a6be-3a340a48d89a")]
 	public interface nsIWebNavigation

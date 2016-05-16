@@ -16,8 +16,9 @@ namespace Anathema.User.UserTable
     [Obfuscation(Exclude = true)]
     class Table : ITableModel
     {
+        // Singleton instance of Table
         [Obfuscation(Exclude = true)]
-        private static Table TableInstance;
+        private static Lazy<Table> TableInstance = new Lazy<Table>(() => { return new Table(); });
 
         [Obfuscation(Exclude = true)]
         public event TableEventHandler EventHasChanges;
@@ -36,9 +37,7 @@ namespace Anathema.User.UserTable
         [Obfuscation(Exclude = true)]
         public static Table GetInstance()
         {
-            if (TableInstance == null)
-                TableInstance = new Table();
-            return TableInstance;
+            return TableInstance.Value;
         }
 
         [Obfuscation(Exclude = true)]
@@ -48,7 +47,7 @@ namespace Anathema.User.UserTable
 
             TableEventArgs Args = new TableEventArgs();
             Args.HasChanges = Changed;
-            EventHasChanges(this, Args);
+            EventHasChanges?.Invoke(this, Args);
         }
 
         [Obfuscation(Exclude = true)]
@@ -58,7 +57,7 @@ namespace Anathema.User.UserTable
 
             TableEventArgs Args = new TableEventArgs();
             Args.HasChanges = Changed;
-            EventHasChanges(this, Args);
+            EventHasChanges?.Invoke(this, Args);
         }
 
         [Obfuscation(Exclude = true)]

@@ -7,7 +7,8 @@ namespace Anathema.User.UserSettings
     [Obfuscation(Exclude = true)]
     class Settings : ISettingsModel
     {
-        private static Settings _Settings;
+        // Singleton instance of settings
+        private static Lazy<Settings> SettingsInstance = new Lazy<Settings>(() => { return new Settings(); });
 
         private Settings()
         {
@@ -17,9 +18,7 @@ namespace Anathema.User.UserSettings
         [Obfuscation(Exclude = true)]
         public static Settings GetInstance()
         {
-            if (_Settings == null)
-                _Settings = new Settings();
-            return _Settings;
+            return SettingsInstance.Value;
         }
 
         [Obfuscation(Exclude = true)]

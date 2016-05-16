@@ -1,13 +1,13 @@
+using Gecko.Collections;
 using System;
 using System.Collections.Generic;
-using Gecko.Collections;
 
 namespace Gecko
 {
-	/// <summary>
-	/// Represents a collection of <see cref="GeckoHtmlElement"/> objects.
-	/// </summary>
-	public class GeckoNodeCollection
+    /// <summary>
+    /// Represents a collection of <see cref="GeckoHtmlElement"/> objects.
+    /// </summary>
+    public class GeckoNodeCollection
 		: IGeckoArray<GeckoNode>, IEnumerable<GeckoNode>
 	{
 		protected GeckoNodeCollection(nsIDOMNodeList list)

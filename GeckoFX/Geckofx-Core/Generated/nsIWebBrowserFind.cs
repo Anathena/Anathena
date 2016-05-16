@@ -20,13 +20,12 @@
 // --------------------------------------------------------------------------------------------
 namespace Gecko
 {
-	using System;
-	using System.Runtime.InteropServices;
-	using System.Runtime.InteropServices.ComTypes;
-	using System.Runtime.CompilerServices;
-	
-	
-	/// <summary>
+    using System;
+    using System.Runtime.CompilerServices;
+    using System.Runtime.InteropServices;
+
+
+    /// <summary>
     /// nsIWebBrowserFind
     ///
     /// Searches for text in a web browser.
@@ -39,7 +38,7 @@ namespace Gecko
     /// behaviour, and to explicitly set the frame to search,
     /// QueryInterface to nsIWebBrowserFindInFrames.
     /// </summary>
-	[ComImport()]
+    [ComImport()]
 	[InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 	[Guid("2f977d44-5485-11d4-87e2-0010a4e75ef2")]
 	public interface nsIWebBrowserFind

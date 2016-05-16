@@ -1,13 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Runtime.InteropServices;
-using System.Text;
 
 namespace Gecko.IO
 {
-	public class WrapperInputStream
+    public class WrapperInputStream
 		:nsIInputStream
 	{
 		private Stream _stream;

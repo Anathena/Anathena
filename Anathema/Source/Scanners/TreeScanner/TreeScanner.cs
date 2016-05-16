@@ -1,9 +1,10 @@
-﻿using System;
+﻿using Anathema.Services.Snapshots;
+using Anathema.User.UserSettings;
+using Anathema.Utils;
+using Anathema.Utils.OS;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Anathema.Utils.OS;
-using Anathema.Services.Snapshots;
-using Anathema.User.UserSettings;
 
 namespace Anathema.Scanners.TreeScanner
 {
@@ -68,8 +69,17 @@ namespace Anathema.Scanners.TreeScanner
                 Parallel.ForEach(FilterTrees, (Tree) =>
                 {
                     // Process the changes that have occurred since the last sampling for this memory page
-                    Tree.ProcessChanges(Tree.ReadAllSnapshotMemory(MemoryEditor, false), Tree.BaseAddress);
-                });
+                    try
+                    {
+                        Tree.ProcessChanges(Tree.ReadAllSnapshotMemory(MemoryEditor, false), Tree.BaseAddress);
+                    }
+                    catch (ScanFailedException Ex)
+                    {
+                        return;
+                    }
+
+                }
+                );
             }
             catch (ScanFailedException)
             {
@@ -79,11 +89,8 @@ namespace Anathema.Scanners.TreeScanner
             OnEventUpdateScanCount(new ScannerEventArgs(this.ScanCount));
         }
 
-        public override void End()
+        protected override void End()
         {
-            // Wait for the filter to finish
-            base.End();
-
             // Collect the pages that have changed
             List<SnapshotRegion> FilteredRegions = new List<SnapshotRegion>();
             for (Int32 Index = 0; Index < FilterTrees.Count; Index++)
@@ -94,7 +101,7 @@ namespace Anathema.Scanners.TreeScanner
             Snapshot.SetAlignment(Settings.GetInstance().GetAlignmentSettings());
 
             // Grow regions by the size of the largest standard variable and mask this with the original memory list.
-            Snapshot.ExpandAllRegionsOutward(sizeof(UInt64) - 1);
+            Snapshot.ExpandAllRegionsOutward(PrimitiveTypes.GetLargestPrimitiveSize() - 1);
             Snapshot = new Snapshot<Null>(Snapshot.MaskRegions(Snapshot, Snapshot.GetSnapshotRegions()));
             Snapshot.SetAlignment(Settings.GetInstance().GetAlignmentSettings());
 

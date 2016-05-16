@@ -20,19 +20,18 @@
 // --------------------------------------------------------------------------------------------
 namespace Gecko
 {
-	using System;
-	using System.Runtime.InteropServices;
-	using System.Runtime.InteropServices.ComTypes;
-	using System.Runtime.CompilerServices;
-	
-	
-	/// <summary>
+    using System;
+    using System.Runtime.CompilerServices;
+    using System.Runtime.InteropServices;
+
+
+    /// <summary>
     /// nsIContentSecurityPolicy
     /// Describes an XPCOM component used to model and enforce CSPs.  Instances of
     /// this class may have multiple policies within them, but there should only be
     /// one of these per document/principal.
     /// </summary>
-	[ComImport()]
+    [ComImport()]
 	[InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 	[Guid("8b91f829-b1bf-4327-8ece-4000aa823394")]
 	public interface nsIContentSecurityPolicy : nsISerializable

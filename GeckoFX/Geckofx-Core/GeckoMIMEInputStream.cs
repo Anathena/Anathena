@@ -1,13 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Runtime.InteropServices;
-using Gecko.Interop;
+﻿using Gecko.Interop;
+using System;
 
 namespace Gecko
 {
-	[Obsolete("Use Gecko.IO.MimeInputStream",true)]
+    [Obsolete("Use Gecko.IO.MimeInputStream",true)]
 	public class GeckoMIMEInputStream
 		:IDisposable
 	{

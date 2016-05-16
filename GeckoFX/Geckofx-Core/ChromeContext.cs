@@ -1,10 +1,9 @@
-﻿using System;
-using Gecko.Interop;
-using System.Runtime.InteropServices;
+﻿using Gecko.Interop;
+using System;
 
 namespace Gecko
 {
-	sealed class ChromeContext: IDisposable
+    sealed class ChromeContext: IDisposable
 	{
 		private bool _isInitialized;
 		private ComPtr<nsIWebNavigation> webNav;

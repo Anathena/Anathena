@@ -1,4 +1,5 @@
 ﻿using Anathema.Scanners.ValueCollector;
+using Anathema.Source.Utils;
 using Anathema.Source.Utils.Extensions;
 using Anathema.User.UserSettings;
 using Anathema.Utils.Extensions;
@@ -11,11 +12,11 @@ namespace Anathema.Services.Snapshots
 {
     class SnapshotManager : ISnapshotManagerModel
     {
-        // Singleton class instance
-        private static SnapshotManager SnapshotManagerInstance;
+        // Singleton instance of Snapshot Manager
+        private static Lazy<SnapshotManager> SnapshotManagerInstance = new Lazy<SnapshotManager>(() => { return new SnapshotManager(); });
 
         // Lock to ensure multiple entities do not try and update the snapshot list at the same time
-        private Object AccessLock = new Object();
+        private Object AccessLock;
 
         private OSInterface OSInterface;
         private Stack<Snapshot> Snapshots;          // Snapshots being managed
@@ -23,11 +24,10 @@ namespace Anathema.Services.Snapshots
 
         // Event stubs
         public event SnapshotManagerEventHandler UpdateSnapshotCount;
-        public event SnapshotManagerEventHandler RefreshSnapshots;
-        public event SnapshotManagerEventHandler FlushCache;
 
         private SnapshotManager()
         {
+            AccessLock = new Object();
             Snapshots = new Stack<Snapshot>();
             DeletedSnapshots = new Stack<Snapshot>();
 
@@ -36,10 +36,7 @@ namespace Anathema.Services.Snapshots
 
         public static SnapshotManager GetInstance()
         {
-            if (SnapshotManagerInstance == null)
-                SnapshotManagerInstance = new SnapshotManager();
-
-            return SnapshotManagerInstance;
+            return SnapshotManagerInstance.Value;
         }
 
         public void InitializeProcessObserver()
@@ -59,7 +56,7 @@ namespace Anathema.Services.Snapshots
         /// <returns></returns>
         public Snapshot GetActiveSnapshot(Boolean CreateIfNone = true)
         {
-            lock (AccessLock)
+            using (TimedLock.Lock(AccessLock))
             {
                 // Take a snapshot if there are none, or the current one is empty
                 if (Snapshots.Count == 0 || Snapshots.Peek() == null || Snapshots.Peek().GetElementCount() == 0)
@@ -154,7 +151,7 @@ namespace Anathema.Services.Snapshots
         /// </summary>
         public void CreateNewSnapshot()
         {
-            lock (AccessLock)
+            using (TimedLock.Lock(AccessLock))
             {
                 if (Snapshots.Count != 0 && Snapshots.Peek() == null)
                     return;
@@ -170,13 +167,14 @@ namespace Anathema.Services.Snapshots
         /// </summary>
         public void RedoSnapshot()
         {
-            lock (AccessLock)
+            using (TimedLock.Lock(AccessLock))
             {
                 if (DeletedSnapshots.Count == 0)
                     return;
 
                 Snapshots.Push(DeletedSnapshots.Pop());
             }
+
             UpdateDisplay();
         }
 
@@ -185,7 +183,7 @@ namespace Anathema.Services.Snapshots
         /// </summary>
         public void UndoSnapshot()
         {
-            lock (AccessLock)
+            using (TimedLock.Lock(AccessLock))
             {
                 if (Snapshots.Count == 0)
                     return;
@@ -204,11 +202,12 @@ namespace Anathema.Services.Snapshots
         /// </summary>
         public void ClearSnapshots()
         {
-            lock (AccessLock)
+            using (TimedLock.Lock(AccessLock))
             {
                 Snapshots.Clear();
                 DeletedSnapshots.Clear();
             }
+
             UpdateDisplay();
         }
 
@@ -218,7 +217,7 @@ namespace Anathema.Services.Snapshots
         /// <param name="Snapshot"></param>
         public void SaveSnapshot(Snapshot Snapshot)
         {
-            lock (AccessLock)
+            using (TimedLock.Lock(AccessLock))
             {
                 if (Snapshot != null)
                     Snapshot.SetTimeStampToNow();
@@ -234,20 +233,20 @@ namespace Anathema.Services.Snapshots
             UpdateDisplay();
         }
 
-        public Snapshot GetSnapshotAt(Int32 Index)
+        public Snapshot GetSnapshotAtIndex(Int32 Index)
         {
-            lock (AccessLock)
+            using (TimedLock.Lock(AccessLock))
             {
                 if (Index < Snapshots.Count)
                 {
                     if (Index < Snapshots.Count)
-                        return Snapshots.Select(x => x).Reverse().ToList()[Index];
+                        return Snapshots.Reverse().ElementAt(Index);
                 }
                 else
                 {
                     Index -= Snapshots.Count;
                     if (Index < DeletedSnapshots.Count)
-                        return DeletedSnapshots.Select(x => x).ToList()[Index];
+                        return DeletedSnapshots.ElementAt(Index);
                 }
             }
             return null;
@@ -266,15 +265,15 @@ namespace Anathema.Services.Snapshots
         /// </summary>
         private void UpdateDisplay()
         {
-            lock (AccessLock)
+            SnapshotManagerEventArgs SnapshotManagerEventArgs = new SnapshotManagerEventArgs();
+
+            using (TimedLock.Lock(AccessLock))
             {
-                SnapshotManagerEventArgs SnapshotManagerEventArgs = new SnapshotManagerEventArgs();
                 SnapshotManagerEventArgs.DeletedSnapshotCount = DeletedSnapshots.Count;
                 SnapshotManagerEventArgs.SnapshotCount = Snapshots.Count;
-                UpdateSnapshotCount.Invoke(this, SnapshotManagerEventArgs);
-                RefreshSnapshots.Invoke(this, SnapshotManagerEventArgs);
-                FlushCache.Invoke(this, SnapshotManagerEventArgs);
             }
+
+            UpdateSnapshotCount?.Invoke(this, SnapshotManagerEventArgs);
         }
 
     } // End class

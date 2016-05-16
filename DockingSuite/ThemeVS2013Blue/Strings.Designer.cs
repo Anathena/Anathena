@@ -8,10 +8,10 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace WeifenLuo.WinFormsUI.ThemeVS2013Blue {
-    using System;
-    
-    
+namespace WeifenLuo.WinFormsUI.ThemeVS2013Blue
+{
+
+
     /// <summary>
     ///   A strongly-typed resource class, for looking up localized strings, etc.
     /// </summary>

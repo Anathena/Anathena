@@ -20,13 +20,12 @@
 // --------------------------------------------------------------------------------------------
 namespace Gecko
 {
-	using System;
-	using System.Runtime.InteropServices;
-	using System.Runtime.InteropServices.ComTypes;
-	using System.Runtime.CompilerServices;
-	
-	
-	/// <summary>
+    using System;
+    using System.Runtime.CompilerServices;
+    using System.Runtime.InteropServices;
+
+
+    /// <summary>
     /// The nsIDOMHTMLCanvasElement interface is the interface to a HTML
     /// <canvas> element.
     ///
@@ -35,7 +34,7 @@ namespace Gecko
     ///
     /// @status UNDER_DEVELOPMENT
     /// </summary>
-	[ComImport()]
+    [ComImport()]
 	[InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 	[Guid("8978d1c5-2981-4678-a1c3-b0b7bae04fbc")]
 	public interface nsIDOMHTMLCanvasElement

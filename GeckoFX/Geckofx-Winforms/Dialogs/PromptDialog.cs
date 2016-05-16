@@ -38,7 +38,7 @@ using System.Windows.Forms;
 
 namespace Gecko
 {
-	partial class PromptDialog : Form
+    partial class PromptDialog : Form
 	{
 		public PromptDialog()
 		{

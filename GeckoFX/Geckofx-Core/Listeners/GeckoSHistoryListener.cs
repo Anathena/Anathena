@@ -1,11 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace Gecko.Listeners
 {
-	[Obsolete]
+    [Obsolete]
     class GeckoSHistoryListener : GeckoBaseListener, nsISHistoryListener
     {
         public GeckoSHistoryListener(nsISHistoryListener p_broowser)

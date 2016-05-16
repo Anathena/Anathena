@@ -1,13 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Text;
 
 namespace Be.Windows.Forms
 {
-	/// <summary>
-	/// Defines the type of the Find operation.
-	/// </summary>
-	public enum FindType 
+    /// <summary>
+    /// Defines the type of the Find operation.
+    /// </summary>
+    public enum FindType 
 	{ 
 		/// <summary>
 		/// Used for Text Find operations

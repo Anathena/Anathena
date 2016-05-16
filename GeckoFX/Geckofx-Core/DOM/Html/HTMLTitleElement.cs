@@ -1,13 +1,6 @@
-
-
-using System;
-using System.Collections.Generic;
-using System.Runtime.InteropServices;
-using System.Text;
-
 namespace Gecko.DOM
-{	
-	public class GeckoTitleElement : GeckoHtmlElement
+{
+    public class GeckoTitleElement : GeckoHtmlElement
 	{
 		nsIDOMHTMLTitleElement DOMHTMLElement;
 		internal GeckoTitleElement(nsIDOMHTMLTitleElement element) : base(element)

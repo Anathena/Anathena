@@ -20,13 +20,12 @@
 // --------------------------------------------------------------------------------------------
 namespace Gecko
 {
-	using System;
-	using System.Runtime.InteropServices;
-	using System.Runtime.InteropServices.ComTypes;
-	using System.Runtime.CompilerServices;
-	
-	
-	/// <summary>
+    using System;
+    using System.Runtime.CompilerServices;
+    using System.Runtime.InteropServices;
+
+
+    /// <summary>
     /// An instance of |nsIWeakReference| is a proxy object that cooperates with
     /// its referent to give clients a non-owning, non-dangling reference.  Clients
     /// own the proxy, and should generally manage it with an |nsCOMPtr| (see the
@@ -40,7 +39,7 @@ namespace Gecko
     /// @see nsWeakReference
     /// @see nsWeakPtr
     /// </summary>
-	[ComImport()]
+    [ComImport()]
 	[InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 	[Guid("9188bc85-f92e-11d2-81ef-0060083a0bcf")]
 	public interface nsIWeakReference

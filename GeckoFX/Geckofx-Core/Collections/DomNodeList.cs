@@ -1,18 +1,16 @@
-﻿using System;
+﻿using Gecko.Interop;
+using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Gecko.Interop;
 
 namespace Gecko.Collections
 {
-	/// <summary>
-	/// Generic wrapper for nsIDOMNodeList
-	/// </summary>
-	/// <typeparam name="TWrapper"></typeparam>
-	/// <typeparam name="TGeckoNode"></typeparam>
-	internal sealed class DomNodeList<TWrapper, TGeckoNode>
+    /// <summary>
+    /// Generic wrapper for nsIDOMNodeList
+    /// </summary>
+    /// <typeparam name="TWrapper"></typeparam>
+    /// <typeparam name="TGeckoNode"></typeparam>
+    internal sealed class DomNodeList<TWrapper, TGeckoNode>
 		: IGeckoArray<TWrapper>
 		where TWrapper : GeckoNode
 		where TGeckoNode : class, nsIDOMNode

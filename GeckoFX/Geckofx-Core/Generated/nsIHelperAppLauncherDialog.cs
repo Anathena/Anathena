@@ -20,13 +20,12 @@
 // --------------------------------------------------------------------------------------------
 namespace Gecko
 {
-	using System;
-	using System.Runtime.InteropServices;
-	using System.Runtime.InteropServices.ComTypes;
-	using System.Runtime.CompilerServices;
-	
-	
-	/// <summary>
+    using System;
+    using System.Runtime.CompilerServices;
+    using System.Runtime.InteropServices;
+
+
+    /// <summary>
     /// This interface is used to display a confirmation dialog before
     /// launching a "helper app" to handle content not handled by
     /// Mozilla.
@@ -39,7 +38,7 @@ namespace Gecko
     /// will access methods of the nsIHelperAppLauncher passed in to show()
     /// in order to cause a "save to disk" or "open using" action.
     /// </summary>
-	[ComImport()]
+    [ComImport()]
 	[InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 	[Guid("3ae4dca8-ac91-4891-adcf-3fbebed6170e")]
 	public interface nsIHelperAppLauncherDialog

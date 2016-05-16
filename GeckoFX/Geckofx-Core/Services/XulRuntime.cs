@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Gecko.Interop;
+﻿using Gecko.Interop;
 
 namespace Gecko
 {
-	public static class XulRuntime
+    public static class XulRuntime
 	{
 		private static ComPtr<nsIXULRuntime> _xulRuntime;
 

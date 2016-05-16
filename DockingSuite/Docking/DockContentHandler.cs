@@ -1,8 +1,8 @@
 using System;
-using System.Windows.Forms;
-using System.Drawing;
 using System.ComponentModel;
 using System.Diagnostics.CodeAnalysis;
+using System.Drawing;
+using System.Windows.Forms;
 
 namespace WeifenLuo.WinFormsUI.Docking
 {

@@ -21,7 +21,7 @@ namespace Anathema.Scanners.ManualScanner
         public event ManualScannerEventHandler EventScanFinished;
         protected virtual void OnEventScanFinished(ManualScannerEventArgs E)
         {
-            EventScanFinished(this, E);
+            EventScanFinished?.Invoke(this, E);
         }
 
         // Functions invoked by presenter (downstream)
@@ -43,7 +43,7 @@ namespace Anathema.Scanners.ManualScanner
         }
 
         #region Method definitions called by the view (downstream)
-        
+
         public void SetScanConstraintManager(ScanConstraintManager ScanConstraintManager)
         {
             Model.SetScanConstraintManager(ScanConstraintManager);
@@ -59,5 +59,7 @@ namespace Anathema.Scanners.ManualScanner
         }
 
         #endregion
-    }
-}
+
+    } // End class
+
+} // End namespace

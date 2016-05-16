@@ -1,11 +1,11 @@
-﻿﻿using System;
+﻿using Gecko.Interop;
+using System;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
-﻿using Gecko.Interop;
 
 namespace Gecko
 {
-	public class GeckoWindowCollection : IEnumerable<GeckoWindow>
+    public class GeckoWindowCollection : IEnumerable<GeckoWindow>
 	{
 		private ComPtr<nsIDOMWindowCollection> _collection;
 

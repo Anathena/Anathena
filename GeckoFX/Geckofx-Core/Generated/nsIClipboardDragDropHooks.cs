@@ -20,13 +20,12 @@
 // --------------------------------------------------------------------------------------------
 namespace Gecko
 {
-	using System;
-	using System.Runtime.InteropServices;
-	using System.Runtime.InteropServices.ComTypes;
-	using System.Runtime.CompilerServices;
-	
-	
-	/// <summary>
+    using System;
+    using System.Runtime.CompilerServices;
+    using System.Runtime.InteropServices;
+
+
+    /// <summary>
     /// Interfaces for overriding the built-in drag, drop, copy, and paste
     /// implementations in the content area and editors. Use this to do things
     /// such as prevent a drag from starting, adding or removing
@@ -56,7 +55,7 @@ namespace Gecko
     /// * AllowDrop will be called MANY times during drag so ensure that it is
     /// efficient.
     /// </summary>
-	[ComImport()]
+    [ComImport()]
 	[InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 	[Guid("e03e6c5e-0d84-4c0b-8739-e6b8d51922de")]
 	public interface nsIClipboardDragDropHooks

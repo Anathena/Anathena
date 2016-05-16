@@ -25,7 +25,7 @@ namespace Anathema.Scanners
         public event ScannerEventHandler EventUpdateScanCount;
         protected virtual void OnEventUpdateScanCount(ScannerEventArgs E)
         {
-            EventUpdateScanCount(this, E);
+            EventUpdateScanCount?.Invoke(this, E);
         }
 
         public override void Begin()
@@ -39,11 +39,6 @@ namespace Anathema.Scanners
         {
             ScanCount++;
             WaitTime = Settings.GetInstance().GetRescanInterval();
-        }
-
-        public override void End()
-        {
-            base.End();
         }
     }
 
@@ -64,7 +59,7 @@ namespace Anathema.Scanners
 
         public void EndScan()
         {
-            Model.End();
+            Model.TriggerEnd();
         }
 
         #endregion

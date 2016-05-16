@@ -20,13 +20,12 @@
 // --------------------------------------------------------------------------------------------
 namespace Gecko
 {
-	using System;
-	using System.Runtime.InteropServices;
-	using System.Runtime.InteropServices.ComTypes;
-	using System.Runtime.CompilerServices;
-	
-	
-	/// <summary>
+    using System;
+    using System.Runtime.CompilerServices;
+    using System.Runtime.InteropServices;
+
+
+    /// <summary>
     /// nsIWindowWatcher is the keeper of Gecko/DOM Windows. It maintains
     /// a list of open top-level windows, and allows some operations on them.
     /// Usage notes:
@@ -44,7 +43,7 @@ namespace Gecko
     /// This component must be initialized at application startup by calling
     /// setWindowCreator.
     /// </summary>
-	[ComImport()]
+    [ComImport()]
 	[InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 	[Guid("67bc1691-fbaf-484a-a15b-c96212b45034")]
 	public interface nsIWindowWatcher

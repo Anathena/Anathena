@@ -1,6 +1,6 @@
-﻿using System;
+﻿using Anathema.MemoryManagement.Internals;
+using System;
 using System.Runtime.InteropServices;
-using Anathema.MemoryManagement.Internals;
 
 namespace Anathema.MemoryManagement.Native
 {

@@ -4,13 +4,13 @@ using System.Collections.Generic;
 
 namespace Gecko.Collections
 {
-	/// <summary>
-	/// Generic Gecko enumerable collection
-	/// this class don't actualy have any fields with gecko objects (it create them if it is needed)
-	/// </summary>
-	/// <typeparam name="TWrapper">Wraper type</typeparam>
-	/// <typeparam name="TGeckoObject">Gecko object type</typeparam>
-	internal sealed class GeckoEnumerableCollection<TWrapper, TGeckoObject>
+    /// <summary>
+    /// Generic Gecko enumerable collection
+    /// this class don't actualy have any fields with gecko objects (it create them if it is needed)
+    /// </summary>
+    /// <typeparam name="TWrapper">Wraper type</typeparam>
+    /// <typeparam name="TGeckoObject">Gecko object type</typeparam>
+    internal sealed class GeckoEnumerableCollection<TWrapper, TGeckoObject>
 	: IEnumerable<TWrapper>
 	{
 		private readonly Func<TGeckoObject, TWrapper> _translator;

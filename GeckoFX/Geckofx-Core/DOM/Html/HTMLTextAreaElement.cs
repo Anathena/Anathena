@@ -1,13 +1,6 @@
-
-
-using System;
-using System.Collections.Generic;
-using System.Runtime.InteropServices;
-using System.Text;
-
 namespace Gecko.DOM
 {
-	public class GeckoTextAreaElement : GeckoHtmlElement
+    public class GeckoTextAreaElement : GeckoHtmlElement
 	{
 		nsIDOMHTMLTextAreaElement DOMHTMLElement;
 		internal GeckoTextAreaElement(nsIDOMHTMLTextAreaElement element) : base(element)

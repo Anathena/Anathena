@@ -1,7 +1,5 @@
-﻿using Anathema.Utils;
-using Anathema.Utils.MVP;
+﻿using Anathema.Utils.MVP;
 using System;
-using System.Windows.Forms;
 
 namespace Anathema.User.UserScriptTable
 {
@@ -21,8 +19,7 @@ namespace Anathema.User.UserScriptTable
     interface IScriptTableModel : IModel
     {
         // Events triggered by the model (upstream)
-        event ScriptTableEventHandler EventClearScriptCacheItem;
-        event ScriptTableEventHandler EventClearScriptCache;
+        event ScriptTableEventHandler EventUpdateScriptTableItemCount;
 
         // Functions invoked by presenter (downstream)
         void OpenScript(Int32 Index);
@@ -38,46 +35,21 @@ namespace Anathema.User.UserScriptTable
     {
         protected new IScriptTableView View { get; set; }
         protected new IScriptTableModel Model { get; set; }
-        
-        private ListViewCache ScriptTableCache;
-
-        private const Int32 ActivationCheckBoxIndex = 0;
-        private const Int32 ScriptDescriptionIndex = 1;
 
         public ScriptTablePresenter(IScriptTableView View, IScriptTableModel Model) : base(View, Model)
         {
             this.View = View;
             this.Model = Model;
-            
-            ScriptTableCache = new ListViewCache();
 
             // Bind events triggered by the model
-
-            Model.EventClearScriptCacheItem += EventClearScriptCacheItem;
-            Model.EventClearScriptCache += EventClearScriptCache;
+            Model.EventUpdateScriptTableItemCount += EventUpdateScriptTableItemCount;
         }
 
         #region Method definitions called by the view (downstream)
 
-        public ListViewItem GetScriptTableItemAt(Int32 Index)
+        public ScriptItem GetScriptTableItemAt(Int32 Index)
         {
-            ListViewItem Item = ScriptTableCache.Get((UInt64)Index);
-            ScriptItem ScriptItem = Model.GetScriptItemAt(Index);
-
-            // Try to update and return the item if it is a valid item
-            if (Item != null)
-            {
-                Item.Checked = ScriptItem.GetActivationState();
-                return Item;
-            }
-            // Add the properties to the manager and get the list view item back
-            Item = ScriptTableCache.Add(Index, new String[] { String.Empty, String.Empty });
-
-            Item.SubItems[ActivationCheckBoxIndex].Text = String.Empty;
-            Item.SubItems[ScriptDescriptionIndex].Text = ScriptItem.GetDescription();
-            Item.Checked = ScriptItem.GetActivationState();
-
-            return Item;
+            return Model.GetScriptItemAt(Index);
         }
 
         public void OpenScript(Int32 Index)
@@ -108,19 +80,14 @@ namespace Anathema.User.UserScriptTable
         #endregion
 
         #region Event definitions for events triggered by the model (upstream)
-        
-        private void EventClearScriptCacheItem(Object Sender, ScriptTableEventArgs E)
-        {
-            ScriptTableCache.Delete((UInt64)E.ClearCacheIndex);
-            View.UpdateScriptTableItemCount(E.ItemCount);
-        }
 
-        private void EventClearScriptCache(Object Sender, ScriptTableEventArgs E)
+        private void EventUpdateScriptTableItemCount(Object Sender, ScriptTableEventArgs E)
         {
-            ScriptTableCache.FlushCache();
             View.UpdateScriptTableItemCount(E.ItemCount);
         }
 
         #endregion
-    }
-}
+
+    } // End class
+
+} // End namespace

@@ -20,13 +20,12 @@
 // --------------------------------------------------------------------------------------------
 namespace Gecko
 {
-	using System;
-	using System.Runtime.InteropServices;
-	using System.Runtime.InteropServices.ComTypes;
-	using System.Runtime.CompilerServices;
-	
-	
-	/// <summary>
+    using System;
+    using System.Runtime.CompilerServices;
+    using System.Runtime.InteropServices;
+
+
+    /// <summary>
     /// nsIURIChecker
     ///
     /// The URI checker is a component that can be used to verify the existence
@@ -34,7 +33,7 @@ namespace Gecko
     /// protocol specific methods to verify the URI (e.g., use of HEAD request
     /// for HTTP URIs).
     /// </summary>
-	[ComImport()]
+    [ComImport()]
 	[InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 	[Guid("4660c1a1-be2d-4c78-9baf-c22984176c28")]
 	public interface nsIURIChecker : nsIRequest

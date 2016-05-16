@@ -1,16 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 
 namespace Gecko.Interop
 {
-	/// <summary>
-	/// Special implementation for Control objects
-	/// </summary>
-	sealed class ControlWeakReference
+    /// <summary>
+    /// Special implementation for Control objects
+    /// </summary>
+    sealed class ControlWeakReference
 		: nsWeakReference
 	{
 

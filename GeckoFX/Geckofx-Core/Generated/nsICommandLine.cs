@@ -20,13 +20,12 @@
 // --------------------------------------------------------------------------------------------
 namespace Gecko
 {
-	using System;
-	using System.Runtime.InteropServices;
-	using System.Runtime.InteropServices.ComTypes;
-	using System.Runtime.CompilerServices;
-	
-	
-	/// <summary>
+    using System;
+    using System.Runtime.CompilerServices;
+    using System.Runtime.InteropServices;
+
+
+    /// <summary>
     /// Represents the command line used to invoke a XUL application. This may be the
     /// original command-line of this instance, or a command line remoted from another
     /// instance of the application.
@@ -36,7 +35,7 @@ namespace Gecko
     /// "flags" are switches. In normalized form they are preceded by a single dash.
     /// Some flags may take "parameters", e.g. "-url <param>" or "-install-xpi <param>"
     /// </summary>
-	[ComImport()]
+    [ComImport()]
 	[InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 	[Guid("bc3173bd-aa46-46a0-9d25-d9867a9659b6")]
 	public interface nsICommandLine

@@ -20,13 +20,12 @@
 // --------------------------------------------------------------------------------------------
 namespace Gecko
 {
-	using System;
-	using System.Runtime.InteropServices;
-	using System.Runtime.InteropServices.ComTypes;
-	using System.Runtime.CompilerServices;
-	
-	
-	/// <summary>
+    using System;
+    using System.Runtime.CompilerServices;
+    using System.Runtime.InteropServices;
+
+
+    /// <summary>
     /// nsIControllerCommandTable
     ///
     /// An interface via which a controller can maintain a series of commands,
@@ -37,7 +36,7 @@ namespace Gecko
     /// controller command table via getInterface().
     ///
     /// </summary>
-	[ComImport()]
+    [ComImport()]
 	[InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 	[Guid("d1a47834-6ad4-11d7-bfad-000393636592")]
 	public interface nsIControllerCommandTable
