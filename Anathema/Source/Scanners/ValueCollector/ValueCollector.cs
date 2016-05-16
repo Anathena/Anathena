@@ -31,11 +31,8 @@ namespace Anathema.Scanners.ValueCollector
             CancelFlag = true;
         }
 
-        public override void End()
+        protected override void End()
         {
-            // Wait for the scan to finish
-            base.End();
-
             Snapshot.SetScanMethod("Value Collector");
 
             // Save result

@@ -59,7 +59,7 @@ namespace Anathema.Source.Utils
         /// <returns></returns>
         public Int32 GetProgress()
         {
-            return (Int32)(ActionProgress * 100.0);
+            return (Int32)(ActionProgress * 100.0).Clamp(0, 100);
         }
 
         /// <summary>

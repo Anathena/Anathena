@@ -75,7 +75,6 @@ namespace Anathema.Scanners.LabelThresholder
                         return;
 
                     using (TimedLock.Lock(ItemLock))
-                    // lock (ProgressLock)
                     {
                         if (Histogram.ContainsKey(Element.ElementLabel))
                             Histogram[((dynamic)Element.ElementLabel)]++;
@@ -96,10 +95,7 @@ namespace Anathema.Scanners.LabelThresholder
             CancelFlag = true;
         }
 
-        public override void End()
-        {
-            base.End();
-        }
+        protected override void End() { }
 
         public override void ApplyThreshold()
         {

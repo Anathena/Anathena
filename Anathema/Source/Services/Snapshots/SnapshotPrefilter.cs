@@ -245,10 +245,7 @@ namespace Anathema.Services.Snapshots
             }
         }
 
-        public override void End()
-        {
-            base.End();
-        }
+        protected override void End() { }
 
         private void UpdateProgress(IEnumerable<RegionProperties> NewPages)
         {

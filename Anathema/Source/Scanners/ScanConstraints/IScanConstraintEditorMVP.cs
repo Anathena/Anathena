@@ -181,7 +181,7 @@ namespace Anathema.Scanners.ScanConstraints
                     case ConstraintsEnum.NotEqual: ImageList.Images.Add(Resources.NotEqual); break;
                     case ConstraintsEnum.IncreasedByX: ImageList.Images.Add(Resources.PlusX); break;
                     case ConstraintsEnum.DecreasedByX: ImageList.Images.Add(Resources.MinusX); break;
-                    case ConstraintsEnum.NotScientificNotation: ImageList.Images.Add(Resources.Intersection); break;
+                    case ConstraintsEnum.NotScientificNotation: ImageList.Images.Add(Resources.ENotation); break;
                     default: case ConstraintsEnum.Invalid: ImageList.Images.Add(Resources.AnathemaIcon); break;
                 }
 

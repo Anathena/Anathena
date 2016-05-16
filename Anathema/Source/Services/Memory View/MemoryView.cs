@@ -113,9 +113,11 @@ namespace Anathema.Services.MemoryView
                 if (ReadSuccess)
                     AddressValueMap[Address] = Value;
             }
-            
+
             OnEventReadValues(new MemoryViewEventArgs());
         }
+
+        protected override void End() { }
 
         public override Byte GetValueAtAddress(IntPtr Address)
         {

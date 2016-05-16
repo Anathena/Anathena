@@ -78,11 +78,8 @@ namespace Anathema.Scanners.ChunkScanner
             OnEventUpdateScanCount(new ScannerEventArgs(this.ScanCount));
         }
 
-        public override void End()
+        protected override void End()
         {
-            // Wait for the filter to finish
-            base.End();
-            
             // Collect the pages that have changed
             List<SnapshotRegion> FilteredRegions = new List<SnapshotRegion>();
             for (Int32 Index = 0; Index < ChunkRoots.Count; Index++)
@@ -156,7 +153,7 @@ namespace Anathema.Scanners.ChunkScanner
                         AcceptedRegions.Add(Chunks[ChunkIndex]);
                 }
             }
-            
+
             /// <summary>
             /// Processes a chunk of data to determine if it has changed
             /// </summary>
@@ -180,7 +177,7 @@ namespace Anathema.Scanners.ChunkScanner
                         // Initialize change count
                         ChangeCounts[ChunkIndex] = 0;
                     }
-                    
+
                     Checksums[ChunkIndex] = NewChecksum;
                 }
             }

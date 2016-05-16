@@ -63,13 +63,24 @@ namespace Anathema.Utils
 
         protected abstract void Update();
 
-        public virtual void End()
+        public void TriggerEnd()
         {
-            // Wait for the task to finish
-            CancelRequest?.Cancel();
-            try { Task?.Wait(AbortTime); }
-            catch (AggregateException) { }
+            Task.Run(() =>
+           {
+               // Wait for the task to finish
+               try
+               {
+                   CancelRequest?.Cancel();
+                   Task?.Wait(AbortTime);
+               }
+               catch (Exception) { }
+
+
+               End();
+           });
         }
+
+        protected abstract void End();
 
     } // End class
 

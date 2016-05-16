@@ -46,7 +46,7 @@ namespace Anathema.User.UserAddressTable
 
         ~AddressTable()
         {
-            End();
+            TriggerEnd();
         }
 
         public void InitializeProcessObserver()
@@ -219,6 +219,8 @@ namespace Anathema.User.UserAddressTable
             if (AddressItems.Count != 0)
                 OnEventReadValues(new AddressTableEventArgs());
         }
+
+        protected override void End() { }
 
     } // End class
 

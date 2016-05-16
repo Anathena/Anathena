@@ -30,7 +30,7 @@ namespace Anathema
 
         public void UpdateAddressTableItemCount(Int32 ItemCount)
         {
-            using (TimedLock.Lock(AccessLock))
+            // using (TimedLock.Lock(AccessLock))
             {
                 ControlThreadingHelper.InvokeControlAction(AddressTableListView, () =>
                 {
@@ -46,7 +46,7 @@ namespace Anathema
         {
             UpdateReadBounds();
 
-            using (TimedLock.Lock(AccessLock))
+            // using (TimedLock.Lock(AccessLock))
             {
                 ControlThreadingHelper.InvokeControlAction(AddressTableListView, () =>
                 {

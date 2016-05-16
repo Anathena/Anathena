@@ -81,6 +81,9 @@ namespace Anathema.GUI
                     MessageBox.Show("Timed out acquiring activation file");
                 }
             }
+
+            protected override void End() { }
+
         }
 
         #region Events

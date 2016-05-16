@@ -268,10 +268,7 @@ namespace Anathema.Scanners.PointerScanner
             }
         }
 
-        public override void End()
-        {
-            base.End();
-        }
+        protected override void End() { }
 
         private void PointerRescan()
         {

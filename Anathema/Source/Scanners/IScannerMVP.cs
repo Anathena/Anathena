@@ -40,11 +40,6 @@ namespace Anathema.Scanners
             ScanCount++;
             WaitTime = Settings.GetInstance().GetRescanInterval();
         }
-
-        public override void End()
-        {
-            base.End();
-        }
     }
 
     class ScannerPresenter : Presenter<IScannerView, IScannerModel>
@@ -64,7 +59,7 @@ namespace Anathema.Scanners
 
         public void EndScan()
         {
-            Model.End();
+            Model.TriggerEnd();
         }
 
         #endregion

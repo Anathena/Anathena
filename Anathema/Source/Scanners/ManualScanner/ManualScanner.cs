@@ -35,7 +35,7 @@ namespace Anathema.Scanners.ManualScanner
 
             if (Snapshot == null || ScanConstraintManager == null || ScanConstraintManager.GetCount() <= 0)
             {
-                End();
+                TriggerEnd();
                 return;
             }
 
@@ -153,10 +153,8 @@ namespace Anathema.Scanners.ManualScanner
             CancelFlag = true;
         }
 
-        public override void End()
+        protected override void End()
         {
-            base.End();
-
             Snapshot.DiscardInvalidRegions();
             Snapshot.SetScanMethod("Manual Scan");
 

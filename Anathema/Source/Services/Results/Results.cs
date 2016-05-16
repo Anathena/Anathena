@@ -5,6 +5,7 @@ using Anathema.User.UserAddressTable;
 using Anathema.Utils.OS;
 using System;
 using System.Collections.Concurrent;
+using System.Threading.Tasks;
 
 namespace Anathema.Services.ScanResults
 {
@@ -48,7 +49,7 @@ namespace Anathema.Services.ScanResults
 
         ~Results()
         {
-            End();
+            TriggerEnd();
         }
 
         public void InitializeProcessObserver()
@@ -64,7 +65,6 @@ namespace Anathema.Services.ScanResults
         public override void ForceRefresh()
         {
             using (TimedLock.Lock(ResultsLock))
-            // lock (ResultsLock)
             {
                 ForceRefreshFlag = true;
             }
@@ -106,7 +106,6 @@ namespace Anathema.Services.ScanResults
         protected override void Update()
         {
             using (TimedLock.Lock(ResultsLock))
-            // lock (ResultsLock)
             {
                 base.Update();
 
@@ -120,7 +119,7 @@ namespace Anathema.Services.ScanResults
                     ResultsEventArgs Args = new ResultsEventArgs();
                     Args.ElementCount = (Snapshot == null ? 0 : Snapshot.GetElementCount());
                     Args.MemorySize = (Snapshot == null ? 0 : Snapshot.GetMemorySize());
-                    OnEventUpdateItemCounts(Args);
+                    Task.Run(() => { OnEventUpdateItemCounts(Args); });
                     return;
                 }
 
@@ -146,10 +145,11 @@ namespace Anathema.Services.ScanResults
             OnEventReadValues(new ResultsEventArgs());
         }
 
+        protected override void End() { }
+
         public override void AddSelectionToTable(Int32 MinIndex, Int32 MaxIndex)
         {
             using (TimedLock.Lock(ResultsLock))
-            // lock (ResultsLock)
             {
                 const Int32 MaxAdd = 4096;
 
@@ -181,7 +181,6 @@ namespace Anathema.Services.ScanResults
         public override IntPtr GetAddressAtIndex(Int32 Index)
         {
             using (TimedLock.Lock(ResultsLock))
-            // lock (ResultsLock)
             {
                 if (Snapshot == null || Index >= (Int32)Snapshot.GetElementCount())
                     return IntPtr.Zero;
@@ -193,7 +192,6 @@ namespace Anathema.Services.ScanResults
         public override String GetValueAtIndex(Int32 Index)
         {
             using (TimedLock.Lock(ResultsLock))
-            // lock (ResultsLock)
             {
                 if (IndexValueMap.ContainsKey(Index))
                     return IndexValueMap[Index];
@@ -205,7 +203,6 @@ namespace Anathema.Services.ScanResults
         public override String GetLabelAtIndex(Int32 Index)
         {
             using (TimedLock.Lock(ResultsLock))
-            // lock (ResultsLock)
             {
                 if (Snapshot == null || Index >= (Int32)Snapshot.GetElementCount())
                     return EmptyLabel;

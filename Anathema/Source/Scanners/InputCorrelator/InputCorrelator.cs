@@ -175,13 +175,12 @@ namespace Anathema.Scanners.InputCorrelator
                     }
                 }
 
-                using (TimedLock.Lock(ProgressLock))
-                // lock (ProgressLock)
+                /*using (TimedLock.Lock(ProgressLock))
                 {
                     ProcessedPages++;
 
                     ScanProgress.UpdateProgress(ProcessedPages, Snapshot.GetRegionCount());
-                }
+                }*/
             });
 
             ScanProgress.FinishProgress();
@@ -189,21 +188,19 @@ namespace Anathema.Scanners.InputCorrelator
             OnEventUpdateScanCount(new ScannerEventArgs(this.ScanCount));
         }
 
-        public override void End()
+        protected override void End()
         {
-            base.End();
-
             // Cleanup for the input hook
             //InputHook.MouseDownExt -= GlobalHookMouseDownExt;
             InputHook.KeyUp -= GlobalHookKeyUp;
             InputHook.KeyDown -= GlobalHookKeyDown;
 
+            // Prefilter items with negative penalties (ie constantly changing variables)
             Snapshot.MarkAllInvalid();
             foreach (SnapshotRegion<Int16> Region in Snapshot)
                 foreach (SnapshotElement<Int16> Element in Region)
                     if (Element.ElementLabel.Value > 0)
                         Element.Valid = true;
-
             Snapshot.DiscardInvalidRegions();
             Snapshot.SetScanMethod("Input Correlator");
 
