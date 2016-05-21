@@ -15,7 +15,7 @@
     <IsWebBootstrapper>true</IsWebBootstrapper>
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
-    <PublishUrl>publish\</PublishUrl>
+    <PublishUrl>F:\Users\Zachary\Documents\Visual Studio 2015\Projects\AnathemaWeb\release\x86\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Web</InstallFrom>
     <UpdateEnabled>true</UpdateEnabled>
@@ -23,13 +23,14 @@
     <UpdateInterval>7</UpdateInterval>
     <UpdateIntervalUnits>Days</UpdateIntervalUnits>
     <UpdatePeriodically>false</UpdatePeriodically>
-    <UpdateRequired>false</UpdateRequired>
+    <UpdateRequired>true</UpdateRequired>
     <MapFileExtensions>true</MapFileExtensions>
-    <InstallUrl>http://anathemaengine.com/release/</InstallUrl>
+    <InstallUrl>http://anathemaengine.com/release/x86/</InstallUrl>
     <ProductName>Anathema Engine</ProductName>
     <PublisherName>Anathema Engine</PublisherName>
-    <ApplicationRevision>19</ApplicationRevision>
-    <ApplicationVersion>1.2.0.%2a</ApplicationVersion>
+    <MinimumRequiredVersion>1.2.0.22</MinimumRequiredVersion>
+    <ApplicationRevision>22</ApplicationRevision>
+    <ApplicationVersion>1.2.0.22</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <PublishWizardCompleted>true</PublishWizardCompleted>
     <BootstrapperEnabled>true</BootstrapperEnabled>
@@ -122,7 +123,8 @@
     <SignAssembly>false</SignAssembly>
   </PropertyGroup>
   <PropertyGroup>
-    <AssemblyOriginatorKeyFile>Anathema_TemporaryKey.pfx</AssemblyOriginatorKeyFile>
+    <AssemblyOriginatorKeyFile>
+    </AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <PropertyGroup>
     <ApplicationManifest>Properties\app.manifest</ApplicationManifest>
@@ -834,7 +836,6 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
-    <None Include="Anathema_TemporaryKey.pfx" />
     <None Include="Properties\app.manifest" />
     <None Include="Content\Font\MonoSpace.ttf" />
     <None Include="Content\FSM\States.psd" />
@@ -904,28 +905,20 @@
     <Content Include="Content\FSM\StartState.png" />
     <Content Include="Content\FSM\StateHighlighted.png" />
     <None Include="Content\FSM\Valid.png" />
-    <Content Include="Content\Icons\AddAddress.png" />
     <Content Include="Content\Icons\AnathemaIcon.png" />
     <Content Include="Content\Icons\BenedictionIcon.png" />
     <Content Include="Content\Icons\Cancel.png" />
     <Content Include="Content\Icons\CelestialIcon.png" />
     <Content Include="Content\Icons\Changed.png" />
-    <Content Include="Content\Icons\Close.png" />
     <None Include="Content\Icons\CollectValues.png" />
-    <Content Include="Content\Icons\Convert.png" />
     <Content Include="Content\Icons\Decreased.png" />
-    <Content Include="Content\Icons\Disable.png" />
     <Content Include="Content\Icons\DownArrows.png" />
-    <Content Include="Content\Icons\Enable.png" />
     <None Include="Content\Icons\ENotation.png" />
     <Content Include="Content\Icons\Equal.png" />
-    <Content Include="Content\Icons\FiniteStateMachine.png" />
     <Content Include="Content\Icons\GreaterThan.png" />
     <None Include="Content\Icons\GreaterThanOrEqual.png" />
-    <Content Include="Content\Icons\Hide.png" />
     <None Include="Content\Icons\Home.png" />
     <Content Include="Content\Icons\Increased.png" />
-    <Content Include="Content\Icons\InputCorrelator.png" />
     <None Include="Content\Icons\Intersection.png" />
     <None Include="Content\Icons\Invert.png" />
     <Content Include="Content\Icons\LeftArrow.png" />
@@ -934,11 +927,7 @@
     <None Include="Content\Icons\LessThanOrEqual.png" />
     <None Include="Content\Icons\LogicalAND.png" />
     <Content Include="Content\Icons\MainIcon.ico" />
-    <Content Include="Content\Icons\ManualScan.png" />
-    <Content Include="Content\Icons\Maximize.png" />
-    <Content Include="Content\Icons\MemoryTree.png" />
     <Content Include="Content\Icons\Merge.png" />
-    <Content Include="Content\Icons\Minimize.png" />
     <Content Include="Content\Icons\MinusX.png" />
     <Content Include="Content\Icons\MoveDown.png" />
     <None Include="Content\Icons\MoveRight.png" />
@@ -948,22 +937,16 @@
     <Content Include="Content\Icons\New.png" />
     <Content Include="Content\Icons\NextScan.png" />
     <Content Include="Content\Icons\NotEqual.png" />
-    <Content Include="Content\Icons\OnBottom.png" />
-    <Content Include="Content\Icons\OnTop.png" />
     <Content Include="Content\Icons\Open.png" />
-    <Content Include="Content\Icons\Options.png" />
     <Content Include="Content\Icons\PlusX.png" />
-    <Content Include="Content\Icons\Restore.png" />
     <Content Include="Content\Icons\RightArrow.png" />
     <Content Include="Content\Icons\Save.png" />
-    <Content Include="Content\Icons\ScanHistory.png" />
     <Content Include="Content\Icons\SelectProcess.png" />
     <Content Include="Content\Icons\Stop.png" />
     <Content Include="Content\Icons\Unchanged.png" />
     <Content Include="Content\Icons\Undo.png" />
     <None Include="Content\Icons\Union.png" />
     <Content Include="Content\Icons\UnknownValue.png" />
-    <Content Include="Content\Icons\Visible.png" />
     <Content Include="Content\Icons\X.png" />
     <Content Include="Source\Scanners\InputCorrelator\InputHook\HotKeys\ReadMe.txt" />
   </ItemGroup>
@@ -1101,16 +1084,6 @@
       <IncludeHash>False</IncludeHash>
       <FileType>File</FileType>
     </PublishFile>
-    <PublishFile Include="Content\Icons\AddAddress.png">
-      <Visible>False</Visible>
-      <Group>
-      </Group>
-      <TargetPath>
-      </TargetPath>
-      <PublishState>Exclude</PublishState>
-      <IncludeHash>True</IncludeHash>
-      <FileType>File</FileType>
-    </PublishFile>
     <PublishFile Include="Content\Icons\AnathemaIcon.png">
       <Visible>False</Visible>
       <Group>
@@ -1161,26 +1134,6 @@
       <IncludeHash>False</IncludeHash>
       <FileType>File</FileType>
     </PublishFile>
-    <PublishFile Include="Content\Icons\Close.png">
-      <Visible>False</Visible>
-      <Group>
-      </Group>
-      <TargetPath>
-      </TargetPath>
-      <PublishState>Exclude</PublishState>
-      <IncludeHash>True</IncludeHash>
-      <FileType>File</FileType>
-    </PublishFile>
-    <PublishFile Include="Content\Icons\Convert.png">
-      <Visible>False</Visible>
-      <Group>
-      </Group>
-      <TargetPath>
-      </TargetPath>
-      <PublishState>Exclude</PublishState>
-      <IncludeHash>True</IncludeHash>
-      <FileType>File</FileType>
-    </PublishFile>
     <PublishFile Include="Content\Icons\Decreased.png">
       <Visible>False</Visible>
       <Group>
@@ -1189,16 +1142,6 @@
       </TargetPath>
       <PublishState>Auto</PublishState>
       <IncludeHash>False</IncludeHash>
-      <FileType>File</FileType>
-    </PublishFile>
-    <PublishFile Include="Content\Icons\Disable.png">
-      <Visible>False</Visible>
-      <Group>
-      </Group>
-      <TargetPath>
-      </TargetPath>
-      <PublishState>Exclude</PublishState>
-      <IncludeHash>True</IncludeHash>
       <FileType>File</FileType>
     </PublishFile>
     <PublishFile Include="Content\Icons\DownArrows.png">
@@ -1211,16 +1154,6 @@
       <IncludeHash>False</IncludeHash>
       <FileType>File</FileType>
     </PublishFile>
-    <PublishFile Include="Content\Icons\Enable.png">
-      <Visible>False</Visible>
-      <Group>
-      </Group>
-      <TargetPath>
-      </TargetPath>
-      <PublishState>Exclude</PublishState>
-      <IncludeHash>True</IncludeHash>
-      <FileType>File</FileType>
-    </PublishFile>
     <PublishFile Include="Content\Icons\Equal.png">
       <Visible>False</Visible>
       <Group>
@@ -1229,16 +1162,6 @@
       </TargetPath>
       <PublishState>Auto</PublishState>
       <IncludeHash>False</IncludeHash>
-      <FileType>File</FileType>
-    </PublishFile>
-    <PublishFile Include="Content\Icons\FiniteStateMachine.png">
-      <Visible>False</Visible>
-      <Group>
-      </Group>
-      <TargetPath>
-      </TargetPath>
-      <PublishState>Exclude</PublishState>
-      <IncludeHash>True</IncludeHash>
       <FileType>File</FileType>
     </PublishFile>
     <PublishFile Include="Content\Icons\GreaterThan.png">
@@ -1251,16 +1174,6 @@
       <IncludeHash>False</IncludeHash>
       <FileType>File</FileType>
     </PublishFile>
-    <PublishFile Include="Content\Icons\Hide.png">
-      <Visible>False</Visible>
-      <Group>
-      </Group>
-      <TargetPath>
-      </TargetPath>
-      <PublishState>Exclude</PublishState>
-      <IncludeHash>True</IncludeHash>
-      <FileType>File</FileType>
-    </PublishFile>
     <PublishFile Include="Content\Icons\Increased.png">
       <Visible>False</Visible>
       <Group>
@@ -1269,16 +1182,6 @@
       </TargetPath>
       <PublishState>Auto</PublishState>
       <IncludeHash>False</IncludeHash>
-      <FileType>File</FileType>
-    </PublishFile>
-    <PublishFile Include="Content\Icons\InputCorrelator.png">
-      <Visible>False</Visible>
-      <Group>
-      </Group>
-      <TargetPath>
-      </TargetPath>
-      <PublishState>Exclude</PublishState>
-      <IncludeHash>True</IncludeHash>
       <FileType>File</FileType>
     </PublishFile>
     <PublishFile Include="Content\Icons\LeftArrow.png">
@@ -1311,36 +1214,6 @@
       <IncludeHash>False</IncludeHash>
       <FileType>File</FileType>
     </PublishFile>
-    <PublishFile Include="Content\Icons\ManualScan.png">
-      <Visible>False</Visible>
-      <Group>
-      </Group>
-      <TargetPath>
-      </TargetPath>
-      <PublishState>Exclude</PublishState>
-      <IncludeHash>True</IncludeHash>
-      <FileType>File</FileType>
-    </PublishFile>
-    <PublishFile Include="Content\Icons\Maximize.png">
-      <Visible>False</Visible>
-      <Group>
-      </Group>
-      <TargetPath>
-      </TargetPath>
-      <PublishState>Exclude</PublishState>
-      <IncludeHash>True</IncludeHash>
-      <FileType>File</FileType>
-    </PublishFile>
-    <PublishFile Include="Content\Icons\MemoryTree.png">
-      <Visible>False</Visible>
-      <Group>
-      </Group>
-      <TargetPath>
-      </TargetPath>
-      <PublishState>Exclude</PublishState>
-      <IncludeHash>True</IncludeHash>
-      <FileType>File</FileType>
-    </PublishFile>
     <PublishFile Include="Content\Icons\Merge.png">
       <Visible>False</Visible>
       <Group>
@@ -1349,16 +1222,6 @@
       </TargetPath>
       <PublishState>Auto</PublishState>
       <IncludeHash>False</IncludeHash>
-      <FileType>File</FileType>
-    </PublishFile>
-    <PublishFile Include="Content\Icons\Minimize.png">
-      <Visible>False</Visible>
-      <Group>
-      </Group>
-      <TargetPath>
-      </TargetPath>
-      <PublishState>Exclude</PublishState>
-      <IncludeHash>True</IncludeHash>
       <FileType>File</FileType>
     </PublishFile>
     <PublishFile Include="Content\Icons\MinusX.png">
@@ -1431,26 +1294,6 @@
       <IncludeHash>False</IncludeHash>
       <FileType>File</FileType>
     </PublishFile>
-    <PublishFile Include="Content\Icons\OnBottom.png">
-      <Visible>False</Visible>
-      <Group>
-      </Group>
-      <TargetPath>
-      </TargetPath>
-      <PublishState>Exclude</PublishState>
-      <IncludeHash>True</IncludeHash>
-      <FileType>File</FileType>
-    </PublishFile>
-    <PublishFile Include="Content\Icons\OnTop.png">
-      <Visible>False</Visible>
-      <Group>
-      </Group>
-      <TargetPath>
-      </TargetPath>
-      <PublishState>Exclude</PublishState>
-      <IncludeHash>True</IncludeHash>
-      <FileType>File</FileType>
-    </PublishFile>
     <PublishFile Include="Content\Icons\Open.png">
       <Visible>False</Visible>
       <Group>
@@ -1461,16 +1304,6 @@
       <IncludeHash>False</IncludeHash>
       <FileType>File</FileType>
     </PublishFile>
-    <PublishFile Include="Content\Icons\Options.png">
-      <Visible>False</Visible>
-      <Group>
-      </Group>
-      <TargetPath>
-      </TargetPath>
-      <PublishState>Exclude</PublishState>
-      <IncludeHash>True</IncludeHash>
-      <FileType>File</FileType>
-    </PublishFile>
     <PublishFile Include="Content\Icons\PlusX.png">
       <Visible>False</Visible>
       <Group>
@@ -1478,16 +1311,6 @@
       <TargetPath>
       </TargetPath>
       <PublishState>Auto</PublishState>
-      <IncludeHash>False</IncludeHash>
-      <FileType>File</FileType>
-    </PublishFile>
-    <PublishFile Include="Content\Icons\Restore.png">
-      <Visible>False</Visible>
-      <Group>
-      </Group>
-      <TargetPath>
-      </TargetPath>
-      <PublishState>Exclude</PublishState>
       <IncludeHash>False</IncludeHash>
       <FileType>File</FileType>
     </PublishFile>
@@ -1509,16 +1332,6 @@
       </TargetPath>
       <PublishState>Auto</PublishState>
       <IncludeHash>False</IncludeHash>
-      <FileType>File</FileType>
-    </PublishFile>
-    <PublishFile Include="Content\Icons\ScanHistory.png">
-      <Visible>False</Visible>
-      <Group>
-      </Group>
-      <TargetPath>
-      </TargetPath>
-      <PublishState>Exclude</PublishState>
-      <IncludeHash>True</IncludeHash>
       <FileType>File</FileType>
     </PublishFile>
     <PublishFile Include="Content\Icons\SelectProcess.png">
@@ -1569,16 +1382,6 @@
       </TargetPath>
       <PublishState>Auto</PublishState>
       <IncludeHash>False</IncludeHash>
-      <FileType>File</FileType>
-    </PublishFile>
-    <PublishFile Include="Content\Icons\Visible.png">
-      <Visible>False</Visible>
-      <Group>
-      </Group>
-      <TargetPath>
-      </TargetPath>
-      <PublishState>Exclude</PublishState>
-      <IncludeHash>True</IncludeHash>
       <FileType>File</FileType>
     </PublishFile>
     <PublishFile Include="Content\Icons\X.png">

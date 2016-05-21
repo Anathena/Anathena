@@ -4,9 +4,9 @@ using Anathema.User.Registration;
 using Anathema.Utils;
 using Anathema.Utils.MVP;
 using System;
+using System.Deployment.Application;
 using System.Diagnostics;
 using System.IO;
-using System.Reflection;
 using System.Windows.Forms;
 using WeifenLuo.WinFormsUI.Docking;
 
@@ -122,11 +122,14 @@ namespace Anathema.GUI
 
         private void InitializeTheme()
         {
-            Assembly Assembly = Assembly.GetExecutingAssembly();
-            FileVersionInfo FileVersionInfo = FileVersionInfo.GetVersionInfo(Assembly.Location);
-            String[] CurrentVersion = FileVersionInfo.ProductVersion.Split('.');
+            String Version;
 
-            this.Text += " " + CurrentVersion[0] + "." + CurrentVersion[1] + " " + "Beta";
+            if (!Debugger.IsAttached && ApplicationDeployment.IsNetworkDeployed)
+                Version = ApplicationDeployment.CurrentDeployment.CurrentVersion.ToString();
+            else
+                Version = ProductVersion;
+
+            this.Text += " " + Version + " " + "Beta";
 
             // Update theme so that everything looks cool
             this.ContentPanel.Theme = new VS2013BlueTheme();
