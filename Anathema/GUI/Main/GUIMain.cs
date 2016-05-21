@@ -1,4 +1,5 @@
 ﻿using Anathema.Source.Utils;
+using Anathema.Source.Utils.Extensions;
 using Anathema.User.Registration;
 using Anathema.Utils;
 using Anathema.Utils.MVP;
@@ -39,7 +40,8 @@ namespace Anathema.GUI
 
         private GUISnapshotManager GUISnapshotManager;
         private GUIResults GUIResults;
-        private GUITable GUITable;
+        private GUIAddressTable GUIAddressTable;
+        private GUIScriptTable GUIScriptTable;
 
         // EDIT MENU ITEMS
         private GUISettings GUISettings;
@@ -57,6 +59,7 @@ namespace Anathema.GUI
             AccessLock = new Object();
 
             InitializeTheme();
+            InitializeControls();
             InitializeStatus();
 
             // CheckRegistration();
@@ -152,6 +155,12 @@ namespace Anathema.GUI
 
         #region Private Methods
 
+        private void InitializeControls()
+        {
+            PrimitiveTypes.GetPrimitiveTypes().ForEach(X => ValueTypeComboBox.Items.Add(X.Name));
+            ValueTypeComboBox.SelectedIndex = ValueTypeComboBox.Items.IndexOf(typeof(Int32).Name);
+        }
+
         private void InitializeTheme()
         {
             Assembly Assembly = Assembly.GetExecutingAssembly();
@@ -164,7 +173,7 @@ namespace Anathema.GUI
             this.ContentPanel.Theme = new VS2013BlueTheme();
 
             // Set default dock space sizes
-            ContentPanel.DockRightPortion = 0.4;
+            ContentPanel.DockRightPortion = 0.5;
             ContentPanel.DockBottomPortion = 0.4;
         }
 
@@ -223,12 +232,16 @@ namespace Anathema.GUI
 
         private void CreateDefaultTools()
         {
-            // CreateChunkScanner();
             CreateManualScanner();
             CreateInputCorrelator();
-            CreateSnapshotManager();
             CreateResults();
-            CreateTable();
+            CreateSnapshotManager();
+            CreateAddressTable();
+            CreateScriptTable();
+
+            // Force focus preferred windows with shared GUI tabs
+            GUIResults.Show();
+            GUIAddressTable.Show();
         }
 
         private void CreateCheatBrowser()
@@ -413,16 +426,30 @@ namespace Anathema.GUI
             });
         }
 
-        private void CreateTable()
+        private void CreateAddressTable()
         {
             ControlThreadingHelper.InvokeControlAction(ContentPanel, () =>
             {
                 using (TimedLock.Lock(AccessLock))
                 {
-                    if (GUITable == null || GUITable.IsDisposed)
-                        GUITable = new GUITable();
+                    if (GUIAddressTable == null || GUIAddressTable.IsDisposed)
+                        GUIAddressTable = new GUIAddressTable();
 
-                    GUITable.Show(ContentPanel, DockState.DockBottom);
+                    GUIAddressTable.Show(ContentPanel, DockState.DockBottom);
+                }
+            });
+        }
+
+        private void CreateScriptTable()
+        {
+            ControlThreadingHelper.InvokeControlAction(ContentPanel, () =>
+            {
+                using (TimedLock.Lock(AccessLock))
+                {
+                    if (GUIScriptTable == null || GUIScriptTable.IsDisposed)
+                        GUIScriptTable = new GUIScriptTable();
+
+                    GUIScriptTable.Show(ContentPanel, DockState.DockBottom);
                 }
             });
         }
@@ -552,9 +579,14 @@ namespace Anathema.GUI
             CreateResults();
         }
 
-        private void TableToolStripMenuItem_Click(Object Sender, EventArgs E)
+        private void CodesToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            CreateTable();
+            CreateAddressTable();
+        }
+
+        private void ScriptsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            CreateScriptTable();
         }
 
         private void ProcessSelectorToolStripMenuItem_Click(Object Sender, EventArgs E)
@@ -599,14 +631,14 @@ namespace Anathema.GUI
 
         private void OpenToolStripMenuItem_Click(Object Sender, EventArgs E)
         {
-            CreateTable();
-            GUITable.BeginOpenTable();
+            // CreateAddressTable();
+            // GUIAddressTable.BeginOpenTable();
         }
 
         private void SaveToolStripMenuItem_Click(Object Sender, EventArgs E)
         {
-            CreateTable();
-            GUITable.BeginSaveTable();
+            // CreateAddressTable();
+            // GUIAddressTable.BeginSaveTable();
         }
 
         private void ExitToolStripMenuItem_Click(Object Sender, EventArgs E)
@@ -624,7 +656,8 @@ namespace Anathema.GUI
                 ScriptEditorToolStripMenuItem.Checked = (GUIScriptEditor == null || GUIScriptEditor.IsDisposed) ? false : true;
                 SnapshotManagerToolStripMenuItem.Checked = (GUISnapshotManager == null || GUISnapshotManager.IsDisposed) ? false : true;
                 ResultsToolStripMenuItem.Checked = (GUIResults == null || GUIResults.IsDisposed) ? false : true;
-                TableToolStripMenuItem.Checked = (GUITable == null || GUITable.IsDisposed) ? false : true;
+                CodesToolStripMenuItem.Checked = (GUIAddressTable == null || GUIAddressTable.IsDisposed) ? false : true;
+                ScriptsToolStripMenuItem.Checked = (GUIScriptTable == null || GUIScriptTable.IsDisposed) ? false : true;
 
                 CodeViewToolStripMenuItem.Checked = (GUICodeView == null || GUICodeView.IsDisposed) ? false : true;
                 MemoryViewToolStripMenuItem.Checked = (GUIMemoryView == null || GUIMemoryView.IsDisposed) ? false : true;
@@ -645,12 +678,12 @@ namespace Anathema.GUI
             // Give the table a chance to ask to save changes
             using (TimedLock.Lock(AccessLock))
             {
-                if (GUITable != null && !GUITable.IsDisposed)
-                    GUITable.Close();
+                if (GUIAddressTable != null && !GUIAddressTable.IsDisposed)
+                    GUIAddressTable.Close();
 
                 try
                 {
-                    if (GUITable != null && !GUITable.IsDisposed)
+                    if (GUIAddressTable != null && !GUIAddressTable.IsDisposed)
                     {
                         E.Cancel = true;
                         return;

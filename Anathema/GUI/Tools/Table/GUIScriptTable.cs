@@ -6,10 +6,11 @@ using System;
 using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
+using WeifenLuo.WinFormsUI.Docking;
 
 namespace Anathema
 {
-    public partial class GUIScriptTable : UserControl, IScriptTableView
+    public partial class GUIScriptTable : DockContent, IScriptTableView
     {
         private ScriptTablePresenter ScriptTablePresenter;
         private ListViewCache ScriptTableCache;
@@ -104,44 +105,17 @@ namespace Anathema
 
         private void OpenScriptToolStripMenuItem_Click(Object Sender, EventArgs E)
         {
-            using (TimedLock.Lock(AccessLock))
-            {
-                ListViewHitTestInfo HitTest = ScriptTableListView.HitTest(LastRightClickLocation);
-                ListViewItem SelectedItem = HitTest.Item;
-                Int32 ColumnIndex = HitTest.Item.SubItems.IndexOf(HitTest.SubItem);
 
-                if (SelectedItem == null)
-                    return;
-
-                ScriptTablePresenter.OpenScript(SelectedItem.Index);
-            }
         }
 
         private void DeleteScriptToolStripMenuItem_Click(Object Sender, EventArgs E)
         {
-            using (TimedLock.Lock(AccessLock))
-            {
-                ListViewHitTestInfo HitTest = ScriptTableListView.HitTest(LastRightClickLocation);
-                ListViewItem SelectedItem = HitTest.Item;
-                Int32 ColumnIndex = HitTest.Item.SubItems.IndexOf(HitTest.SubItem);
 
-                if (SelectedItem == null)
-                    return;
-
-                ScriptTablePresenter.DeleteScript(SelectedItem.Index);
-            }
         }
 
         private void ScriptTableContextMenuStrip_Opening(Object Sender, CancelEventArgs E)
         {
-            using (TimedLock.Lock(AccessLock))
-            {
-                ListViewHitTestInfo HitTest = ScriptTableListView.HitTest(ScriptTableListView.PointToClient(MousePosition));
-                ListViewItem SelectedItem = HitTest.Item;
 
-                if (SelectedItem == null)
-                    E.Cancel = true;
-            }
         }
 
         private ListViewItem DraggedItem;

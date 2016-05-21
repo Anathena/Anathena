@@ -208,29 +208,23 @@
     <Compile Include="GUI\Tools\ScriptEditor\GUIScriptEditor.Designer.cs">
       <DependentUpon>GUIScriptEditor.cs</DependentUpon>
     </Compile>
+    <Compile Include="GUI\Tools\Table\GUIScriptTable.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI\Tools\Table\GUIScriptTable.Designer.cs">
+      <DependentUpon>GUIScriptTable.cs</DependentUpon>
+    </Compile>
     <Compile Include="GUI\Tools\Table\GUIFSMTable.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="GUI\Tools\Table\GUIFSMTable.Designer.cs">
       <DependentUpon>GUIFSMTable.cs</DependentUpon>
     </Compile>
-    <Compile Include="GUI\Tools\Table\GUIScriptTable.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="GUI\Tools\Table\GUIScriptTable.Designer.cs">
-      <DependentUpon>GUIScriptTable.cs</DependentUpon>
-    </Compile>
     <Compile Include="GUI\Tools\Table\GUIAddressTableEntryEditor.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="GUI\Tools\Table\GUIAddressTableEntryEditor.Designer.cs">
       <DependentUpon>GUIAddressTableEntryEditor.cs</DependentUpon>
-    </Compile>
-    <Compile Include="GUI\Tools\Table\GUIAddressTable.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="GUI\Tools\Table\GUIAddressTable.Designer.cs">
-      <DependentUpon>GUIAddressTable.cs</DependentUpon>
     </Compile>
     <Compile Include="Source\Services\Snapshots\SnapshotPrefilter.cs" />
     <Compile Include="Source\Utils\Browser\BrowserHelper.cs" />
@@ -484,11 +478,11 @@
     <Compile Include="GUI\Tools\SnapshotManager\GUISnapshotManager.Designer.cs">
       <DependentUpon>GUISnapshotManager.cs</DependentUpon>
     </Compile>
-    <Compile Include="GUI\Tools\Table\GUITable.cs">
+    <Compile Include="GUI\Tools\Table\GUIAddressTable.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="GUI\Tools\Table\GUITable.Designer.cs">
-      <DependentUpon>GUITable.cs</DependentUpon>
+    <Compile Include="GUI\Tools\Table\GUIAddressTable.Designer.cs">
+      <DependentUpon>GUIAddressTable.cs</DependentUpon>
     </Compile>
     <Compile Include="GUI\Main\GUIMain.cs">
       <SubType>Form</SubType>
@@ -788,20 +782,17 @@
     <EmbeddedResource Include="GUI\Tools\SnapshotManager\GUISnapshotManager.resx">
       <DependentUpon>GUISnapshotManager.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="GUI\Tools\Table\GUIFSMTable.resx">
-      <DependentUpon>GUIFSMTable.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="GUI\Tools\Table\GUIScriptTable.resx">
       <DependentUpon>GUIScriptTable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\Tools\Table\GUIFSMTable.resx">
+      <DependentUpon>GUIFSMTable.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\Tools\Table\GUIAddressTableEntryEditor.resx">
       <DependentUpon>GUIAddressTableEntryEditor.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\Tools\Table\GUIAddressTable.resx">
       <DependentUpon>GUIAddressTable.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="GUI\Tools\Table\GUITable.resx">
-      <DependentUpon>GUITable.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\Main\GUIMain.resx">
       <DependentUpon>GUIMain.cs</DependentUpon>

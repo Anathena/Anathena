@@ -6,14 +6,14 @@ using Anathema.Utils.Validation;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
+using WeifenLuo.WinFormsUI.Docking;
 
 namespace Anathema
 {
-    public partial class GUIAddressTable : UserControl, IAddressTableView
+    public partial class GUIAddressTable : DockContent, IAddressTableView
     {
         private AddressTablePresenter AddressTablePresenter;
         private ListViewCache AddressTableCache;
@@ -186,12 +186,7 @@ namespace Anathema
 
         private void ToggleFreezeToolStripMenuItem_Click(Object Sender, EventArgs E)
         {
-            // using (TimedLock.Lock(AccessLock))
-            {
-                Boolean FreezeState = AddressTableListView.SelectedIndices == null ? false : !AddressTableListView.Items[AddressTableListView.SelectedIndices[0]].Checked;
-                foreach (Int32 Index in AddressTableListView.SelectedIndices)
-                    AddressTablePresenter.SetAddressFrozen(Index, FreezeState);
-            }
+
         }
 
         private void AddressTableListView_MouseDoubleClick(Object Sender, MouseEventArgs E)
@@ -219,43 +214,12 @@ namespace Anathema
 
         private void EditAddressEntryToolStripMenuItem_Click(Object Sender, EventArgs E)
         {
-            ListViewItem SelectedItem;
-            Int32 ColumnIndex;
 
-            // using (TimedLock.Lock(AccessLock))
-            {
-                ListViewHitTestInfo HitTest = AddressTableListView.HitTest(LastRightClickLocation);
-                SelectedItem = HitTest.Item;
-                ColumnIndex = HitTest.Item.SubItems.IndexOf(HitTest.SubItem);
-
-                if (SelectedItem == null)
-                    return;
-            }
-
-            EditAddressTableEntry(SelectedItem.Index, ColumnIndex);
         }
 
         private void DeleteSelectionToolStripMenuItem_Click(Object Sender, EventArgs E)
         {
-            ListViewItem SelectedItem;
-            Int32 ColumnIndex;
 
-            // using (TimedLock.Lock(AccessLock))
-            {
-                ListViewHitTestInfo HitTest = AddressTableListView.HitTest(LastRightClickLocation);
-                SelectedItem = HitTest.Item;
-                ColumnIndex = HitTest.Item.SubItems.IndexOf(HitTest.SubItem);
-
-                if (SelectedItem == null)
-                    return;
-            }
-
-            DeleteAddressTableEntries(SelectedItem.Index, SelectedItem.Index);
-
-            // using (TimedLock.Lock(AccessLock))
-            {
-                AddressTableListView.SelectedIndices.Clear();
-            }
         }
 
         private void AddNewAddressToolStripMenuItem_Click(Object Sender, EventArgs E)
@@ -317,7 +281,175 @@ namespace Anathema
         }
 
         #endregion
+    }
+}
+/*
+public partial class GUITable : DockContent, ITableView
+{
+    private TablePresenter TablePresenter;
+    private Object AccessLock;
 
-    } // End class
+    private String Title;
+    private String ActiveTablePath;
 
-} // End namespace
+    public GUITable()
+    {
+        InitializeComponent();
+        Title = this.Text;
+
+        TablePresenter = new TablePresenter(this, Table.GetInstance());
+        AccessLock = new Object();
+
+        ActiveTablePath = String.Empty;
+
+        ViewCheatTable();
+    }
+
+    private void ViewCheatTable()
+    {
+        using (TimedLock.Lock(AccessLock))
+        {
+            CheatTableButton.Checked = true;
+            FSMTableButton.Checked = false;
+        }
+    }
+
+    private void ViewFSMTable()
+    {
+        using (TimedLock.Lock(AccessLock))
+        {
+            CheatTableButton.Checked = false;
+            FSMTableButton.Checked = true;
+        }
+    }
+
+    public void UpdateHasChanges(Boolean HasChanges)
+    {
+        using (TimedLock.Lock(AccessLock))
+        {
+            ControlThreadingHelper.InvokeControlAction(this, () =>
+            {
+                this.Text = Title + " - " + ActiveTablePath;
+                if (HasChanges)
+                    this.Text += "*";
+            });
+        }
+    }
+
+    public void BeginSaveTable()
+    {
+        if (ActiveTablePath == String.Empty)
+        {
+            BeginSaveAsTable();
+            return;
+        }
+
+        TablePresenter.SaveTable(ActiveTablePath);
+    }
+
+    public void BeginSaveAsTable()
+    {
+        SaveFileDialog SaveFileDialog = new SaveFileDialog();
+        SaveFileDialog.Filter = "Anathema Table | *.ana";
+        SaveFileDialog.Title = "Save Cheat Table";
+        SaveFileDialog.ShowDialog();
+
+        ActiveTablePath = SaveFileDialog.FileName;
+
+        TablePresenter.SaveTable(SaveFileDialog.FileName);
+    }
+
+    public void BeginOpenTable()
+    {
+        OpenFileDialog OpenFileDialog = new OpenFileDialog();
+        OpenFileDialog.Filter = "Anathema Table | *.ana";
+        OpenFileDialog.Title = "Open Cheat Table";
+        OpenFileDialog.ShowDialog();
+
+        ActiveTablePath = OpenFileDialog.FileName;
+
+        TablePresenter.OpenTable(OpenFileDialog.FileName);
+    }
+
+    public void BeginMergeTable()
+    {
+        OpenFileDialog OpenFileDialog = new OpenFileDialog();
+        OpenFileDialog.Filter = "Anathema Table | *.ana";
+        OpenFileDialog.Title = "Open and Merge Cheat Table";
+        OpenFileDialog.ShowDialog();
+
+        // Prioritize whatever is open already. If nothing, use the merge filename.
+        if (ActiveTablePath == String.Empty)
+            ActiveTablePath = OpenFileDialog.FileName;
+
+        TablePresenter.MergeTable(OpenFileDialog.FileName);
+    }
+
+    private Boolean AskSaveChanges()
+    {
+        // Check if there are even changes to save
+        if (!TablePresenter.HasChanges())
+            return false;
+
+        DialogResult Result = MessageBoxEx.Show(this, "This table has not been saved. Save the changes before closing?", "Save Changes?", MessageBoxButtons.YesNoCancel);
+
+        switch (Result)
+        {
+            case DialogResult.Yes:
+                BeginSaveTable();
+                return false;
+            case DialogResult.No:
+                return false;
+            case DialogResult.Cancel:
+                break;
+        }
+
+        // User wishes to cancel
+        return true;
+    }
+
+    #region Events
+
+    private Point LastRightClickLocation = Point.Empty;
+
+    private void SaveTableButton_Click(Object Sender, EventArgs E)
+    {
+        BeginSaveTable();
+    }
+
+    private void OpenTableButton_Click(Object Sender, EventArgs E)
+    {
+        BeginOpenTable();
+    }
+
+    private void OpenAndMergeTableButton_Click(Object Sender, EventArgs E)
+    {
+        BeginMergeTable();
+    }
+
+    private void CheatTableButton_Click(Object Sender, EventArgs E)
+    {
+        ViewCheatTable();
+    }
+
+    private void FSMTableButton_Click(Object Sender, EventArgs E)
+    {
+        ViewFSMTable();
+    }
+
+    private void AddAddressButton_Click(Object Sender, EventArgs E)
+    {
+
+    }
+
+    private void GUITable_FormClosing(Object Sender, FormClosingEventArgs E)
+    {
+        if (AskSaveChanges())
+            E.Cancel = true;
+    }
+
+    #endregion
+
+} // End class
+
+} // End namespace*/
