@@ -32,12 +32,12 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(GUIScriptTable));
             this.AddAddressButton = new System.Windows.Forms.ToolStripButton();
             this.TableToolStrip = new System.Windows.Forms.ToolStrip();
-            this.ScriptTableListView = new Anathema.GUI.CheckableListView();
-            this.ScriptActiveHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.ScriptDescriptionHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.ScriptTableContextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.OpenScriptToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.DeleteScriptToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.ScriptTableListView = new Anathema.GUI.CheckableListView();
+            this.ScriptActiveHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.ScriptDescriptionHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.TableToolStrip.SuspendLayout();
             this.ScriptTableContextMenuStrip.SuspendLayout();
             this.SuspendLayout();
@@ -63,6 +63,28 @@
             this.TableToolStrip.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
             this.TableToolStrip.Size = new System.Drawing.Size(24, 225);
             this.TableToolStrip.TabIndex = 150;
+            // 
+            // ScriptTableContextMenuStrip
+            // 
+            this.ScriptTableContextMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.OpenScriptToolStripMenuItem,
+            this.DeleteScriptToolStripMenuItem});
+            this.ScriptTableContextMenuStrip.Name = "RightClickMenu";
+            this.ScriptTableContextMenuStrip.Size = new System.Drawing.Size(153, 70);
+            // 
+            // OpenScriptToolStripMenuItem
+            // 
+            this.OpenScriptToolStripMenuItem.Name = "OpenScriptToolStripMenuItem";
+            this.OpenScriptToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.OpenScriptToolStripMenuItem.Text = "Open Script";
+            this.OpenScriptToolStripMenuItem.Click += new System.EventHandler(this.OpenScriptToolStripMenuItem_Click);
+            // 
+            // DeleteScriptToolStripMenuItem
+            // 
+            this.DeleteScriptToolStripMenuItem.Name = "DeleteScriptToolStripMenuItem";
+            this.DeleteScriptToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.DeleteScriptToolStripMenuItem.Text = "Delete Script";
+            this.DeleteScriptToolStripMenuItem.Click += new System.EventHandler(this.DeleteScriptToolStripMenuItem_Click);
             // 
             // ScriptTableListView
             // 
@@ -102,26 +124,6 @@
             // 
             this.ScriptDescriptionHeader.Text = "Description";
             this.ScriptDescriptionHeader.Width = 191;
-            // 
-            // ScriptTableContextMenuStrip
-            // 
-            this.ScriptTableContextMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.OpenScriptToolStripMenuItem,
-            this.DeleteScriptToolStripMenuItem});
-            this.ScriptTableContextMenuStrip.Name = "RightClickMenu";
-            this.ScriptTableContextMenuStrip.Size = new System.Drawing.Size(141, 48);
-            // 
-            // OpenScriptToolStripMenuItem
-            // 
-            this.OpenScriptToolStripMenuItem.Name = "OpenScriptToolStripMenuItem";
-            this.OpenScriptToolStripMenuItem.Size = new System.Drawing.Size(140, 22);
-            this.OpenScriptToolStripMenuItem.Text = "Open Script";
-            // 
-            // DeleteScriptToolStripMenuItem
-            // 
-            this.DeleteScriptToolStripMenuItem.Name = "DeleteScriptToolStripMenuItem";
-            this.DeleteScriptToolStripMenuItem.Size = new System.Drawing.Size(140, 22);
-            this.DeleteScriptToolStripMenuItem.Text = "Delete Script";
             // 
             // GUIScriptTable
             // 

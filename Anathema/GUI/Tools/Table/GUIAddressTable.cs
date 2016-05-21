@@ -120,6 +120,11 @@ namespace Anathema
 
         #region Events
 
+        private void AddAddressButton_Click(Object Sender, EventArgs E)
+        {
+            AddNewAddressItem();
+        }
+
         private Point LastRightClickLocation = Point.Empty;
 
         private void AddressTableListView_RetrieveVirtualItem(Object Sender, RetrieveVirtualItemEventArgs E)
@@ -281,6 +286,7 @@ namespace Anathema
         }
 
         #endregion
+
     }
 }
 /*

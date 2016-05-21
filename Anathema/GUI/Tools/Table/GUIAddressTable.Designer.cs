@@ -62,24 +62,28 @@
             this.ToggleFreezeToolStripMenuItem.Name = "ToggleFreezeToolStripMenuItem";
             this.ToggleFreezeToolStripMenuItem.Size = new System.Drawing.Size(168, 22);
             this.ToggleFreezeToolStripMenuItem.Text = "Toggle Freeze";
+            this.ToggleFreezeToolStripMenuItem.Click += new System.EventHandler(this.ToggleFreezeToolStripMenuItem_Click);
             // 
             // EditAddressEntryToolStripMenuItem
             // 
             this.EditAddressEntryToolStripMenuItem.Name = "EditAddressEntryToolStripMenuItem";
             this.EditAddressEntryToolStripMenuItem.Size = new System.Drawing.Size(168, 22);
             this.EditAddressEntryToolStripMenuItem.Text = "Edit Entry";
+            this.EditAddressEntryToolStripMenuItem.Click += new System.EventHandler(this.EditAddressEntryToolStripMenuItem_Click);
             // 
             // DeleteSelectionToolStripMenuItem
             // 
             this.DeleteSelectionToolStripMenuItem.Name = "DeleteSelectionToolStripMenuItem";
             this.DeleteSelectionToolStripMenuItem.Size = new System.Drawing.Size(168, 22);
             this.DeleteSelectionToolStripMenuItem.Text = "Delete Selection";
+            this.DeleteSelectionToolStripMenuItem.Click += new System.EventHandler(this.DeleteSelectionToolStripMenuItem_Click);
             // 
             // AddNewAddressToolStripMenuItem
             // 
             this.AddNewAddressToolStripMenuItem.Name = "AddNewAddressToolStripMenuItem";
             this.AddNewAddressToolStripMenuItem.Size = new System.Drawing.Size(168, 22);
             this.AddNewAddressToolStripMenuItem.Text = "Add New Address";
+            this.AddNewAddressToolStripMenuItem.Click += new System.EventHandler(this.AddNewAddressToolStripMenuItem_Click);
             // 
             // AddressTableListView
             // 
@@ -145,6 +149,7 @@
             this.AddAddressButton.Name = "AddAddressButton";
             this.AddAddressButton.Size = new System.Drawing.Size(21, 20);
             this.AddAddressButton.Text = "Add New Address";
+            this.AddAddressButton.Click += new System.EventHandler(this.AddAddressButton_Click);
             // 
             // TableToolStrip
             // 

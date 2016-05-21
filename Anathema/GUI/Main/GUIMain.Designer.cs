@@ -66,9 +66,7 @@
             this.ProcessSelectorButton = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
             this.NewScanButton = new System.Windows.Forms.ToolStripButton();
-            this.toolStripSeparator6 = new System.Windows.Forms.ToolStripSeparator();
             this.CollectValuesButton = new System.Windows.Forms.ToolStripButton();
-            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.UndoScanButton = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
             this.ValueTypeComboBox = new System.Windows.Forms.ToolStripComboBox();
@@ -77,6 +75,10 @@
             this.CancelActionButton = new System.Windows.Forms.ToolStripDropDownButton();
             this.ActionLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.ActionProgressBar = new System.Windows.Forms.ToolStripProgressBar();
+            this.SaveButton = new System.Windows.Forms.ToolStripButton();
+            this.MergeButton = new System.Windows.Forms.ToolStripButton();
+            this.OpenButton = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator7 = new System.Windows.Forms.ToolStripSeparator();
             this.GUIMenuStrip.SuspendLayout();
             this.GUIToolStrip.SuspendLayout();
             this.GUIStatusStrip.SuspendLayout();
@@ -302,14 +304,14 @@
             // CodesToolStripMenuItem
             // 
             this.CodesToolStripMenuItem.Name = "CodesToolStripMenuItem";
-            this.CodesToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.CodesToolStripMenuItem.Size = new System.Drawing.Size(109, 22);
             this.CodesToolStripMenuItem.Text = "Codes";
             this.CodesToolStripMenuItem.Click += new System.EventHandler(this.CodesToolStripMenuItem_Click);
             // 
             // ScriptsToolStripMenuItem
             // 
             this.ScriptsToolStripMenuItem.Name = "ScriptsToolStripMenuItem";
-            this.ScriptsToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.ScriptsToolStripMenuItem.Size = new System.Drawing.Size(109, 22);
             this.ScriptsToolStripMenuItem.Text = "Scripts";
             this.ScriptsToolStripMenuItem.Click += new System.EventHandler(this.ScriptsToolStripMenuItem_Click);
             // 
@@ -358,11 +360,13 @@
             this.GUIToolStrip.BackColor = System.Drawing.SystemColors.Control;
             this.GUIToolStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.ProcessSelectorButton,
+            this.toolStripSeparator7,
+            this.OpenButton,
+            this.MergeButton,
+            this.SaveButton,
             this.toolStripSeparator3,
             this.NewScanButton,
-            this.toolStripSeparator6,
             this.CollectValuesButton,
-            this.toolStripSeparator1,
             this.UndoScanButton,
             this.toolStripSeparator5,
             this.ValueTypeComboBox,
@@ -399,11 +403,6 @@
             this.NewScanButton.Text = "New Scan";
             this.NewScanButton.Click += new System.EventHandler(this.NewScanButton_Click);
             // 
-            // toolStripSeparator6
-            // 
-            this.toolStripSeparator6.Name = "toolStripSeparator6";
-            this.toolStripSeparator6.Size = new System.Drawing.Size(6, 25);
-            // 
             // CollectValuesButton
             // 
             this.CollectValuesButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
@@ -413,11 +412,6 @@
             this.CollectValuesButton.Size = new System.Drawing.Size(23, 22);
             this.CollectValuesButton.Text = "Collect Values";
             this.CollectValuesButton.Click += new System.EventHandler(this.CollectValuesButton_Click);
-            // 
-            // toolStripSeparator1
-            // 
-            this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 25);
             // 
             // UndoScanButton
             // 
@@ -481,6 +475,39 @@
             this.ActionProgressBar.Name = "ActionProgressBar";
             this.ActionProgressBar.Size = new System.Drawing.Size(100, 16);
             // 
+            // SaveButton
+            // 
+            this.SaveButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.SaveButton.Image = global::Anathema.Properties.Resources.Save;
+            this.SaveButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.SaveButton.Name = "SaveButton";
+            this.SaveButton.Size = new System.Drawing.Size(23, 22);
+            this.SaveButton.Text = "toolStripButton1";
+            this.SaveButton.ToolTipText = "Save Cheats";
+            // 
+            // MergeButton
+            // 
+            this.MergeButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.MergeButton.Image = global::Anathema.Properties.Resources.Merge;
+            this.MergeButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.MergeButton.Name = "MergeButton";
+            this.MergeButton.Size = new System.Drawing.Size(23, 22);
+            this.MergeButton.Text = "Open and Merge Cheat File";
+            // 
+            // OpenButton
+            // 
+            this.OpenButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.OpenButton.Image = global::Anathema.Properties.Resources.Open;
+            this.OpenButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.OpenButton.Name = "OpenButton";
+            this.OpenButton.Size = new System.Drawing.Size(23, 22);
+            this.OpenButton.Text = "Open Cheat File";
+            // 
+            // toolStripSeparator7
+            // 
+            this.toolStripSeparator7.Name = "toolStripSeparator7";
+            this.toolStripSeparator7.Size = new System.Drawing.Size(6, 25);
+            // 
             // GUIMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -525,7 +552,6 @@
         private System.Windows.Forms.ToolStripMenuItem TreeScannerToolStripMenuItem;
         private System.Windows.Forms.ToolStrip GUIToolStrip;
         private System.Windows.Forms.ToolStripButton ProcessSelectorButton;
-        private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.ToolStripMenuItem ProcessSelectorToolStripMenuItem;
         private System.Windows.Forms.ToolStripLabel ProcessTitleLabel;
         private System.Windows.Forms.ToolStripMenuItem ChunkScannerToolStripMenuItem;
@@ -551,10 +577,13 @@
         private System.Windows.Forms.ToolStripStatusLabel ActionLabel;
         private System.Windows.Forms.ToolStripProgressBar ActionProgressBar;
         private System.Windows.Forms.ToolStripDropDownButton CancelActionButton;
-        private System.Windows.Forms.ToolStripSeparator toolStripSeparator6;
         private System.Windows.Forms.ToolStripComboBox ValueTypeComboBox;
         private System.Windows.Forms.ToolStripMenuItem CodesToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem ScriptsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator7;
+        private System.Windows.Forms.ToolStripButton OpenButton;
+        private System.Windows.Forms.ToolStripButton MergeButton;
+        private System.Windows.Forms.ToolStripButton SaveButton;
     }
 }
 
