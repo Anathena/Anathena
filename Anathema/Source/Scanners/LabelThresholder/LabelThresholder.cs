@@ -33,13 +33,13 @@ namespace Anathema.Scanners.LabelThresholder
             this.Inverted = Inverted;
         }
 
-        public override void UpdateThreshold(Int32 MinimumIndex, Int32 MaximumIndex)
+        public override void UpdateThreshold(Int32 MinimumValue, Int32 MaximumValue)
         {
             if (SortedDictionary == null)
                 return;
 
-            this.MinValue = MinimumIndex;
-            this.MaxValue = MaximumIndex;
+            this.MinValue = MinimumValue;
+            this.MaxValue = MaximumValue;
         }
 
         public override Type GetElementType()

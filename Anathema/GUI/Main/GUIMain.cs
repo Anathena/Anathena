@@ -627,12 +627,12 @@ namespace Anathema.GUI
             CreateResults();
         }
 
-        private void CodesToolStripMenuItem_Click(object sender, EventArgs e)
+        private void CodesToolStripMenuItem_Click(Object Sender, EventArgs E)
         {
             CreateAddressTable();
         }
 
-        private void ScriptsToolStripMenuItem_Click(object sender, EventArgs e)
+        private void ScriptsToolStripMenuItem_Click(Object Sender, EventArgs E)
         {
             CreateScriptTable();
         }
@@ -652,7 +652,7 @@ namespace Anathema.GUI
             CreateScriptEditor();
         }
 
-        private void SettingsToolStripMenuItem_Click(object sender, EventArgs e)
+        private void SettingsToolStripMenuItem_Click(Object Sender, EventArgs E)
         {
             CreateSettings();
         }

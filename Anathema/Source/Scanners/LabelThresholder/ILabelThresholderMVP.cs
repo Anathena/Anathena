@@ -61,9 +61,9 @@ namespace Anathema.Scanners.LabelThresholder
             Model.ApplyThreshold();
         }
 
-        public void UpdateThreshold(Int32 MinimumIndex, Int32 MaximumIndex)
+        public void UpdateThreshold(Int32 MinimumValue, Int32 MaximumValue)
         {
-            Model.UpdateThreshold(MinimumIndex, MaximumIndex);
+            Model.UpdateThreshold(MinimumValue, MaximumValue);
         }
 
         public void SetInverted(Boolean Inverted)
