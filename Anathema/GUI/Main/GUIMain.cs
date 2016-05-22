@@ -47,6 +47,8 @@ namespace Anathema.GUI
         // HELP ITEMS
         private GUIRegistration GUIRegistration;
 
+        // Variables
+        private String ActiveTablePath;
         private Object AccessLock;
 
         public GUIMain()
@@ -472,6 +474,78 @@ namespace Anathema.GUI
             });
         }
 
+        public void BeginSaveTable()
+        {
+            if (ActiveTablePath == String.Empty)
+            {
+                BeginSaveAsTable();
+                return;
+            }
+
+            MainPresenter.RequestSaveTable(ActiveTablePath);
+        }
+
+        public void BeginSaveAsTable()
+        {
+            SaveFileDialog SaveFileDialog = new SaveFileDialog();
+            SaveFileDialog.Filter = "Anathema Table | *.ana";
+            SaveFileDialog.Title = "Save Cheat Table";
+            SaveFileDialog.ShowDialog();
+
+            ActiveTablePath = SaveFileDialog.FileName;
+
+            MainPresenter.RequestSaveTable(SaveFileDialog.FileName);
+        }
+
+        public void BeginOpenTable()
+        {
+            OpenFileDialog OpenFileDialog = new OpenFileDialog();
+            OpenFileDialog.Filter = "Anathema Table | *.ana";
+            OpenFileDialog.Title = "Open Cheat Table";
+            OpenFileDialog.ShowDialog();
+
+            ActiveTablePath = OpenFileDialog.FileName;
+
+            MainPresenter.RequestOpenTable(OpenFileDialog.FileName);
+        }
+
+        public void BeginMergeTable()
+        {
+            OpenFileDialog OpenFileDialog = new OpenFileDialog();
+            OpenFileDialog.Filter = "Anathema Table | *.ana";
+            OpenFileDialog.Title = "Open and Merge Cheat Table";
+            OpenFileDialog.ShowDialog();
+
+            // Prioritize whatever is open already. If nothing, use the merge filename.
+            if (ActiveTablePath == String.Empty)
+                ActiveTablePath = OpenFileDialog.FileName;
+
+            MainPresenter.RequestMergeTable(OpenFileDialog.FileName);
+        }
+
+        private Boolean AskSaveChanges()
+        {
+            // Check if there are even changes to save
+            if (!MainPresenter.RequestHasChanges())
+                return false;
+
+            DialogResult Result = MessageBoxEx.Show(this, "This table has not been saved. Save the changes before closing?", "Save Changes?", MessageBoxButtons.YesNoCancel);
+
+            switch (Result)
+            {
+                case DialogResult.Yes:
+                    BeginSaveTable();
+                    return false;
+                case DialogResult.No:
+                    return false;
+                case DialogResult.Cancel:
+                    break;
+            }
+
+            // User wishes to cancel
+            return true;
+        }
+
         #endregion
 
         #region Events
@@ -576,6 +650,36 @@ namespace Anathema.GUI
             CreateRegistration();
         }
 
+        private void OpenToolStripMenuItem_Click(Object Sender, EventArgs E)
+        {
+            BeginOpenTable();
+        }
+
+        private void SaveToolStripMenuItem_Click(Object Sender, EventArgs E)
+        {
+            BeginSaveTable();
+        }
+
+        private void OpenButton_Click(Object Sender, EventArgs E)
+        {
+            BeginOpenTable();
+        }
+
+        private void SaveButton_Click(Object Sender, EventArgs E)
+        {
+            BeginSaveTable();
+        }
+
+        private void MergeTableToolStripMenuItem_Click(Object Sender, EventArgs E)
+        {
+            BeginMergeTable();
+        }
+
+        private void SaveAsToolStripMenuItem_Click(Object Sender, EventArgs E)
+        {
+            BeginSaveAsTable();
+        }
+
         private void CollectValuesButton_Click(Object Sender, EventArgs E)
         {
             MainPresenter.RequestCollectValues();
@@ -589,18 +693,6 @@ namespace Anathema.GUI
         private void UndoScanButton_Click(Object Sender, EventArgs E)
         {
             MainPresenter.RequestUndoScan();
-        }
-
-        private void OpenToolStripMenuItem_Click(Object Sender, EventArgs E)
-        {
-            // CreateAddressTable();
-            // GUIAddressTable.BeginOpenTable();
-        }
-
-        private void SaveToolStripMenuItem_Click(Object Sender, EventArgs E)
-        {
-            // CreateAddressTable();
-            // GUIAddressTable.BeginSaveTable();
         }
 
         private void ExitToolStripMenuItem_Click(Object Sender, EventArgs E)

@@ -33,7 +33,10 @@ namespace Anathema
         event MainEventHandler EventOpenLabelThresholder;
 
         // Functions invoked by presenter (downstream)
-
+        void RequestOpenTable(String FilePath);
+        void RequestMergeTable(String FilePath);
+        void RequestSaveTable(String FilePath);
+        Boolean RequestHasChanges();
         void RequestCollectValues();
         void RequestNewScan();
         void RequestUndoScan();
@@ -58,6 +61,26 @@ namespace Anathema
         }
 
         #region Method definitions called by the view (downstream)
+
+        public void RequestOpenTable(String FilePath)
+        {
+            Model.RequestOpenTable(FilePath);
+        }
+
+        public void RequestMergeTable(String FilePath)
+        {
+            Model.RequestMergeTable(FilePath);
+        }
+
+        public void RequestSaveTable(String FilePath)
+        {
+            Model.RequestSaveTable(FilePath);
+        }
+
+        public Boolean RequestHasChanges()
+        {
+            return Model.RequestHasChanges();
+        }
 
         public void RequestCollectValues()
         {

@@ -1,5 +1,6 @@
 ﻿using Anathema.Services.Snapshots;
 using Anathema.Source.Utils;
+using Anathema.User.UserTable;
 using Anathema.Utils.OS;
 using System;
 
@@ -64,6 +65,26 @@ namespace Anathema
         public void OpenLabelThresholder()
         {
             EventOpenLabelThresholder?.Invoke(this, new MainEventArgs());
+        }
+
+        public void RequestOpenTable(String FilePath)
+        {
+            TableManager.GetInstance().OpenTable(FilePath);
+        }
+
+        public void RequestMergeTable(String FilePath)
+        {
+            TableManager.GetInstance().MergeTable(FilePath);
+        }
+
+        public void RequestSaveTable(String FilePath)
+        {
+            TableManager.GetInstance().SaveTable(FilePath);
+        }
+
+        public Boolean RequestHasChanges()
+        {
+            return TableManager.GetInstance().HasChanges();
         }
 
         public void RequestCollectValues()

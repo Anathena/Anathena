@@ -92,7 +92,7 @@ namespace Anathema.User.UserAddressTable
 
             UpdateAddressTableItemCount();
 
-            Table.GetInstance().TableChanged();
+            TableManager.GetInstance().TableChanged();
         }
 
         public override void AddAddressItem(AddressItem AddressItem)
@@ -100,7 +100,7 @@ namespace Anathema.User.UserAddressTable
             AddressItems.Add(AddressItem);
             UpdateAddressTableItemCount();
 
-            Table.GetInstance().TableChanged();
+            TableManager.GetInstance().TableChanged();
         }
 
         public override void DeleteTableItems(IEnumerable<Int32> Indicies)
@@ -110,7 +110,7 @@ namespace Anathema.User.UserAddressTable
 
             UpdateAddressTableItemCount();
 
-            Table.GetInstance().TableChanged();
+            TableManager.GetInstance().TableChanged();
         }
 
         public override AddressItem GetAddressItemAt(Int32 Index)
@@ -128,7 +128,7 @@ namespace Anathema.User.UserAddressTable
             this.AddressItems = AddressItems;
             UpdateAddressTableItemCount();
 
-            Table.GetInstance().TableChanged();
+            TableManager.GetInstance().TableChanged();
         }
 
         public override void SetAddressItemAt(Int32 Index, AddressItem AddressItem)
@@ -153,7 +153,7 @@ namespace Anathema.User.UserAddressTable
 
             UpdateAddressTableItemCount();
 
-            Table.GetInstance().TableChanged();
+            TableManager.GetInstance().TableChanged();
         }
 
         public override void ReorderItem(Int32 SourceIndex, Int32 DestinationIndex)
@@ -175,7 +175,7 @@ namespace Anathema.User.UserAddressTable
             AddressItems.Insert(DestinationIndex, Item);
             UpdateAddressTableItemCount();
 
-            Table.GetInstance().TableChanged();
+            TableManager.GetInstance().TableChanged();
         }
 
         private void UpdateAddressTableItemCount()

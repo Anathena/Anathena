@@ -580,10 +580,10 @@
     <Compile Include="Source\User\Table\AddressTable\AddressItem.cs" />
     <Compile Include="Source\User\Table\ScriptTable\ScriptTable.cs" />
     <Compile Include="Source\User\Table\AddressTable\AddressTableEntryEditor\ITableAddressEntryEditorMVP.cs" />
-    <Compile Include="Source\User\Table\ITableMVP.cs" />
+    <Compile Include="Source\User\Table\ITableManagerMVP.cs" />
     <Compile Include="Source\User\Table\ScriptTable\ScriptItem.cs" />
     <Compile Include="Source\User\Table\AddressTable\AddressTableEntryEditor\TableAddressEntryEditor.cs" />
-    <Compile Include="Source\User\Table\Table.cs" />
+    <Compile Include="Source\User\Table\TableManager.cs" />
     <Compile Include="Source\User\Table\TableItem.cs" />
     <Compile Include="Source\Scanners\ScanConstraints\ScanConstraint.cs" />
     <EmbeddedResource Include="GUI\CheatBrowser\GUICheatBrowser.resx">

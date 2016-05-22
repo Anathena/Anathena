@@ -292,42 +292,15 @@ namespace Anathema
 /*
 public partial class GUITable : DockContent, ITableView
 {
-    private TablePresenter TablePresenter;
-    private Object AccessLock;
-
     private String Title;
     private String ActiveTablePath;
 
     public GUITable()
     {
-        InitializeComponent();
         Title = this.Text;
-
-        TablePresenter = new TablePresenter(this, Table.GetInstance());
-        AccessLock = new Object();
-
         ActiveTablePath = String.Empty;
-
-        ViewCheatTable();
     }
 
-    private void ViewCheatTable()
-    {
-        using (TimedLock.Lock(AccessLock))
-        {
-            CheatTableButton.Checked = true;
-            FSMTableButton.Checked = false;
-        }
-    }
-
-    private void ViewFSMTable()
-    {
-        using (TimedLock.Lock(AccessLock))
-        {
-            CheatTableButton.Checked = false;
-            FSMTableButton.Checked = true;
-        }
-    }
 
     public void UpdateHasChanges(Boolean HasChanges)
     {

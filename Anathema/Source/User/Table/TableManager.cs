@@ -14,14 +14,11 @@ namespace Anathema.User.UserTable
     /// </summary>
     [Obfuscation(ApplyToMembers = false)]
     [Obfuscation(Exclude = true)]
-    class Table : ITableModel
+    class TableManager
     {
         // Singleton instance of Table
         [Obfuscation(Exclude = true)]
-        private static Lazy<Table> TableInstance = new Lazy<Table>(() => { return new Table(); });
-
-        [Obfuscation(Exclude = true)]
-        public event TableEventHandler EventHasChanges;
+        private static Lazy<TableManager> TableInstance = new Lazy<TableManager>(() => { return new TableManager(); });
 
         [Obfuscation(Exclude = true)]
         private TableData CurrentTableData;
@@ -29,13 +26,13 @@ namespace Anathema.User.UserTable
         [Obfuscation(Exclude = true)]
         private Boolean Changed;
 
-        private Table()
+        private TableManager()
         {
             CurrentTableData = new TableData();
         }
 
         [Obfuscation(Exclude = true)]
-        public static Table GetInstance()
+        public static TableManager GetInstance()
         {
             return TableInstance.Value;
         }
@@ -44,20 +41,12 @@ namespace Anathema.User.UserTable
         public void TableChanged()
         {
             Changed = true;
-
-            TableEventArgs Args = new TableEventArgs();
-            Args.HasChanges = Changed;
-            EventHasChanges?.Invoke(this, Args);
         }
 
         [Obfuscation(Exclude = true)]
         public void TableSaved()
         {
             Changed = false;
-
-            TableEventArgs Args = new TableEventArgs();
-            Args.HasChanges = Changed;
-            EventHasChanges?.Invoke(this, Args);
         }
 
         [Obfuscation(Exclude = true)]

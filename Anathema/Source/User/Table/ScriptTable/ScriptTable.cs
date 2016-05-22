@@ -49,7 +49,7 @@ namespace Anathema.User.UserScriptTable
             ScriptItems.Add(Item);
             UpdateScriptTableItemCount();
 
-            Table.GetInstance().TableChanged();
+            TableManager.GetInstance().TableChanged();
         }
 
         public void DeleteScript(Int32 Index)
@@ -57,7 +57,7 @@ namespace Anathema.User.UserScriptTable
             ScriptItems.RemoveAt(Index);
             UpdateScriptTableItemCount();
 
-            Table.GetInstance().TableChanged();
+            TableManager.GetInstance().TableChanged();
         }
 
         public void ReorderScript(Int32 SourceIndex, Int32 DestinationIndex)
@@ -79,7 +79,7 @@ namespace Anathema.User.UserScriptTable
             ScriptItems.Insert(DestinationIndex, Item);
             UpdateScriptTableItemCount();
 
-            Table.GetInstance().TableChanged();
+            TableManager.GetInstance().TableChanged();
         }
 
         public void SaveScript(ScriptItem ScriptItem)
@@ -89,7 +89,7 @@ namespace Anathema.User.UserScriptTable
                 ScriptItems.Add(ScriptItem);
 
             UpdateScriptTableItemCount();
-            Table.GetInstance().TableChanged();
+            TableManager.GetInstance().TableChanged();
         }
 
         public ScriptItem GetScriptItemAt(Int32 Index)
@@ -107,7 +107,7 @@ namespace Anathema.User.UserScriptTable
             this.ScriptItems = ScriptItems;
             UpdateScriptTableItemCount();
 
-            Table.GetInstance().TableChanged();
+            TableManager.GetInstance().TableChanged();
         }
 
         public void SetScriptActivation(Int32 Index, Boolean Activated)
