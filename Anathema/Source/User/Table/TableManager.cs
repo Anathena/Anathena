@@ -41,12 +41,14 @@ namespace Anathema.User.UserTable
         public void TableChanged()
         {
             Changed = true;
+            Main.GetInstance().UpdateHasChanges(Changed);
         }
 
         [Obfuscation(Exclude = true)]
         public void TableSaved()
         {
             Changed = false;
+            Main.GetInstance().UpdateHasChanges(Changed);
         }
 
         [Obfuscation(Exclude = true)]

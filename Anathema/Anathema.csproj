@@ -580,7 +580,6 @@
     <Compile Include="Source\User\Table\AddressTable\AddressItem.cs" />
     <Compile Include="Source\User\Table\ScriptTable\ScriptTable.cs" />
     <Compile Include="Source\User\Table\AddressTable\AddressTableEntryEditor\ITableAddressEntryEditorMVP.cs" />
-    <Compile Include="Source\User\Table\ITableManagerMVP.cs" />
     <Compile Include="Source\User\Table\ScriptTable\ScriptItem.cs" />
     <Compile Include="Source\User\Table\AddressTable\AddressTableEntryEditor\TableAddressEntryEditor.cs" />
     <Compile Include="Source\User\Table\TableManager.cs" />

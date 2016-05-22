@@ -49,6 +49,7 @@ namespace Anathema.GUI
 
         // Variables
         private String ActiveTablePath;
+        private String Title;
         private Object AccessLock;
 
         public GUIMain()
@@ -132,6 +133,7 @@ namespace Anathema.GUI
                 Version = ProductVersion;
 
             this.Text += " " + Version + " " + "Beta";
+            Title = this.Text;
 
             // Update theme so that everything looks cool
             this.ContentPanel.Theme = new VS2013BlueTheme();
@@ -544,6 +546,16 @@ namespace Anathema.GUI
 
             // User wishes to cancel
             return true;
+        }
+
+        public void UpdateHasChanges(Boolean HasChanges)
+        {
+            ControlThreadingHelper.InvokeControlAction(this, () =>
+            {
+                this.Text = Title + " - " + ActiveTablePath;
+                if (HasChanges)
+                    this.Text += "*";
+            });
         }
 
         #endregion

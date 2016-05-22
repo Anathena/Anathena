@@ -11,6 +11,7 @@ namespace Anathema
     {
         public String ProcessTitle = String.Empty;
         public ProgressItem ProgressItem = null;
+        public Boolean Changed = false;
     }
 
     interface IMainView : IView
@@ -18,6 +19,7 @@ namespace Anathema
         // Methods invoked by the presenter (upstream)
         void UpdateProcessTitle(String ProcessTitle);
         void UpdateProgress(ProgressItem ProgressItem);
+        void UpdateHasChanges(Boolean Changed);
 
         void OpenScriptEditor();
         void OpenLabelThresholder();
@@ -28,6 +30,7 @@ namespace Anathema
         // Events triggered by the model (upstream)
         event MainEventHandler EventUpdateProcessTitle;
         event MainEventHandler EventUpdateProgress;
+        event MainEventHandler EventUpdateHasChanges;
         event MainEventHandler EventFinishProgress;
         event MainEventHandler EventOpenScriptEditor;
         event MainEventHandler EventOpenLabelThresholder;
@@ -55,6 +58,7 @@ namespace Anathema
             // Bind events triggered by the model
             Model.EventUpdateProcessTitle += EventUpdateProcessTitle;
             Model.EventUpdateProgress += EventUpdateProgress;
+            Model.EventUpdateHasChanges += EventUpdateHasChanges;
             Model.EventFinishProgress += EventFinishProgress;
             Model.EventOpenScriptEditor += EventOpenScriptEditor;
             Model.EventOpenLabelThresholder += EventOpenLabelThresholder;
@@ -119,6 +123,11 @@ namespace Anathema
                     View.UpdateProgress(null);
             }
 
+        }
+
+        private void EventUpdateHasChanges(Object Sender, MainEventArgs E)
+        {
+            View.UpdateHasChanges(E.Changed);
         }
 
         private void EventFinishProgress(Object Sender, MainEventArgs E)
