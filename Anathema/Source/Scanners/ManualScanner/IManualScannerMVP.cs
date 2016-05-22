@@ -30,8 +30,8 @@ namespace Anathema.Scanners.ManualScanner
 
     class ManualScannerPresenter : ScannerPresenter
     {
-        new IManualScannerView View;
-        new IManualScannerModel Model;
+        private new IManualScannerView View;
+        private new IManualScannerModel Model;
 
         public ManualScannerPresenter(IManualScannerView View, IManualScannerModel Model) : base(View, Model)
         {
@@ -40,6 +40,8 @@ namespace Anathema.Scanners.ManualScanner
 
             // Bind events triggered by the model
             Model.EventScanFinished += EventScanFinished;
+
+            Model.OnGUIOpen();
         }
 
         #region Method definitions called by the view (downstream)

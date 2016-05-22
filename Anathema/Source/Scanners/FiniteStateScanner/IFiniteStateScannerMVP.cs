@@ -16,8 +16,8 @@
 
     class FiniteStateScannerPresenter : ScannerPresenter
     {
-        new IFiniteStateScannerView View;
-        new IFiniteStateScannerModel Model;
+        private new IFiniteStateScannerView View;
+        private new IFiniteStateScannerModel Model;
 
         public FiniteStateScannerPresenter(IFiniteStateScannerView View, IFiniteStateScannerModel Model) : base(View, Model)
         {
@@ -26,6 +26,7 @@
 
             // Bind events triggered by the model
 
+            Model.OnGUIOpen();
         }
 
         #region Method definitions called by the view (downstream)

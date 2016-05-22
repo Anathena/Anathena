@@ -35,11 +35,16 @@ namespace Anathema.User.UserScriptEditor
 
     class ScriptEditorPresenter : Presenter<IScriptEditorView, IScriptEditorModel>
     {
+        private new IScriptEditorView View;
+        private new IScriptEditorModel Model;
+
         public ScriptEditorPresenter(IScriptEditorView View, IScriptEditorModel Model) : base(View, Model)
         {
             // Bind events triggered by the model
             Model.EventOpenScript += EventOpenScript;
             Model.EventSetScriptText += EventSetScriptText;
+
+            Model.OnGUIOpen();
         }
 
         #region Method definitions called by the view (downstream)

@@ -19,7 +19,9 @@ namespace Anathema.User.UserFSMTable
         {
             FiniteStateMachines = new List<FiniteStateMachine>();
         }
-        
+
+        public void OnGUIOpen() { }
+
         public static FSMTable GetInstance()
         {
             return FSMTableInstance.Value;

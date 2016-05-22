@@ -28,6 +28,8 @@ namespace Anathema.Services.MemoryView
 
     abstract class IMemoryViewModel : RepeatedTask, IModel
     {
+        public void OnGUIOpen() { }
+
         // Events triggered by the model (upstream)
         public event MemoryViewEventHandler EventUpdateVirtualPages;
         protected virtual void OnEventUpdateVirtualPages(MemoryViewEventArgs E)
@@ -76,8 +78,8 @@ namespace Anathema.Services.MemoryView
 
     class MemoryViewPresenter : Presenter<IMemoryViewView, IMemoryViewModel>, IByteProvider
     {
-        protected new IMemoryViewView View;
-        protected new IMemoryViewModel Model;
+        private new IMemoryViewView View;
+        private new IMemoryViewModel Model;
 
         private const Int32 ViewRange = UInt16.MaxValue;
 
@@ -96,6 +98,8 @@ namespace Anathema.Services.MemoryView
             Model.EventGoToAddress += EventGoToAddress;
             Model.EventReadValues += EventReadValues;
             Model.EventFlushCache += EventFlushCache;
+
+            Model.OnGUIOpen();
         }
 
         #region ByteProvider

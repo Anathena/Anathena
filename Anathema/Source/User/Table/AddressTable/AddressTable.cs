@@ -39,6 +39,11 @@ namespace Anathema.User.UserAddressTable
             Begin();
         }
 
+        public override void OnGUIOpen()
+        {
+            UpdateAddressTableItemCount();
+        }
+
         public static AddressTable GetInstance()
         {
             return AddressTableInstance.Value;

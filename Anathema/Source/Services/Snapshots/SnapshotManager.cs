@@ -34,6 +34,8 @@ namespace Anathema.Services.Snapshots
             InitializeProcessObserver();
         }
 
+        public void OnGUIOpen() { }
+
         public static SnapshotManager GetInstance()
         {
             return SnapshotManagerInstance.Value;

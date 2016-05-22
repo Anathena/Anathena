@@ -33,8 +33,8 @@ namespace Anathema.User.UserScriptTable
 
     class ScriptTablePresenter : Presenter<IScriptTableView, IScriptTableModel>
     {
-        protected new IScriptTableView View { get; set; }
-        protected new IScriptTableModel Model { get; set; }
+        private new IScriptTableView View { get; set; }
+        private new IScriptTableModel Model { get; set; }
 
         public ScriptTablePresenter(IScriptTableView View, IScriptTableModel Model) : base(View, Model)
         {
@@ -43,6 +43,8 @@ namespace Anathema.User.UserScriptTable
 
             // Bind events triggered by the model
             Model.EventUpdateScriptTableItemCount += EventUpdateScriptTableItemCount;
+
+            Model.OnGUIOpen();
         }
 
         #region Method definitions called by the view (downstream)

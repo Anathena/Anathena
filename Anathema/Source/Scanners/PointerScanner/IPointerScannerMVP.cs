@@ -60,8 +60,8 @@ namespace Anathema.Scanners.PointerScanner
 
     class PointerScannerPresenter : ScannerPresenter
     {
-        protected new IPointerScannerView View;
-        protected new IPointerScannerModel Model;
+        private new IPointerScannerView View;
+        private new IPointerScannerModel Model;
 
         public PointerScannerPresenter(IPointerScannerView View, IPointerScannerModel Model) : base(View, Model)
         {
@@ -71,6 +71,8 @@ namespace Anathema.Scanners.PointerScanner
             // Bind events triggered by the model
             Model.EventReadValues += EventReadValues;
             Model.EventUpdateItemCount += EventScanFinished;
+
+            Model.OnGUIOpen();
         }
 
         #region Method definitions called by the view (downstream)

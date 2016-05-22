@@ -22,6 +22,8 @@ namespace Anathema.User.UserAddressTable
 
     abstract class IAddressTableModel : RepeatedTask, IModel
     {
+        public virtual void OnGUIOpen() { }
+
         // Events triggered by the model (upstream)
         public event AddressTableEventHandler EventReadValues;
         protected virtual void OnEventReadValues(AddressTableEventArgs E)
@@ -64,8 +66,8 @@ namespace Anathema.User.UserAddressTable
 
     class AddressTablePresenter : Presenter<IAddressTableView, IAddressTableModel>
     {
-        protected new IAddressTableView View { get; set; }
-        protected new IAddressTableModel Model { get; set; }
+        private new IAddressTableView View { get; set; }
+        private new IAddressTableModel Model { get; set; }
 
         public AddressTablePresenter(IAddressTableView View, IAddressTableModel Model) : base(View, Model)
         {
@@ -75,6 +77,8 @@ namespace Anathema.User.UserAddressTable
             // Bind events triggered by the model
             Model.EventReadValues += EventReadValues;
             Model.EventUpdateAddressTableItemCount += EventUpdateAddressTableItemCount;
+
+            Model.OnGUIOpen();
         }
 
         #region Method definitions called by the view (downstream)

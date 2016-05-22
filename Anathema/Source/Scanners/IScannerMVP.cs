@@ -23,6 +23,9 @@ namespace Anathema.Scanners
     {
         public Int32 ScanCount;
         public event ScannerEventHandler EventUpdateScanCount;
+
+        public virtual void OnGUIOpen() { }
+
         protected virtual void OnEventUpdateScanCount(ScannerEventArgs E)
         {
             EventUpdateScanCount?.Invoke(this, E);
@@ -44,6 +47,9 @@ namespace Anathema.Scanners
 
     class ScannerPresenter : Presenter<IScannerView, IScannerModel>
     {
+        private new IScannerView View;
+        private new IScannerModel Model;
+
         public ScannerPresenter(IScannerView View, IScannerModel Model) : base(View, Model)
         {
             // Bind events triggered by the model

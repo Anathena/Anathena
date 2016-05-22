@@ -25,6 +25,8 @@ namespace Anathema
             SnapshotPrefilter.GetInstance().Begin();
         }
 
+        public void OnGUIOpen() { }
+
         public static Main GetInstance()
         {
             return MainInstance.Value;

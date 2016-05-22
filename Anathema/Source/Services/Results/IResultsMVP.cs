@@ -24,6 +24,8 @@ namespace Anathema.Services.ScanResults
 
     abstract class IResultsModel : RepeatedTask, IModel
     {
+        public virtual void OnGUIOpen() { }
+
         // Events triggered by the model (upstream)
         public event ResultsEventHandler EventReadValues;
         protected virtual void OnEventReadValues(ResultsEventArgs E)
@@ -76,8 +78,8 @@ namespace Anathema.Services.ScanResults
 
     class ResultsPresenter : Presenter<IResultsView, IResultsModel>
     {
-        protected new IResultsView View;
-        protected new IResultsModel Model;
+        private new IResultsView View;
+        private new IResultsModel Model;
 
         public ResultsPresenter(IResultsView View, IResultsModel Model) : base(View, Model)
         {
@@ -90,7 +92,7 @@ namespace Anathema.Services.ScanResults
             Model.EventDisableResults += EventDisableResults;
             Model.EventUpdateItemCounts += EventUpdateItemCounts;
 
-            Model.ForceRefresh();
+            Model.OnGUIOpen();
         }
 
         #region Method definitions called by the view (downstream)

@@ -35,10 +35,18 @@ namespace Anathema.Scanners.LabelThresholder
 
     class LabelThresholderPresenter : Presenter<ILabelThresholderView, ILabelThresholderModel>
     {
+        private new ILabelThresholderView View;
+        private new ILabelThresholderModel Model;
+
         public LabelThresholderPresenter(ILabelThresholderView View, ILabelThresholderModel Model) : base(View, Model)
         {
+            this.View = View;
+            this.Model = Model;
+
             // Bind events triggered by the model
             Model.EventUpdateHistogram += EventUpdateHistogram;
+
+            Model.OnGUIOpen();
         }
 
         #region Method definitions called by the view (downstream)

@@ -15,7 +15,7 @@ namespace Anathema.Utils.MVP
     /// </summary>
     public interface IModel
     {
-        // Nothing here yet, may not be needed.
+        void OnGUIOpen();
     }
 
     /// <summary>
@@ -38,5 +38,7 @@ namespace Anathema.Utils.MVP
             this.View = View;
             this.Model = Model;
         }
-    }
-}
+
+    } // End class
+
+} // End namespace

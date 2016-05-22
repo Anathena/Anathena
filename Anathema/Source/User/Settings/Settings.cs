@@ -15,6 +15,8 @@ namespace Anathema.User.UserSettings
 
         }
 
+        public void OnGUIOpen() { }
+
         [Obfuscation(Exclude = true)]
         public static Settings GetInstance()
         {

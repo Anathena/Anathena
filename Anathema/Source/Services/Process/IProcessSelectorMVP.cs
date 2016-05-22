@@ -36,11 +36,16 @@ namespace Anathema.Services.ProcessManager
 
     class ProcessSelectorPresenter : Presenter<IProcessSelectorView, IProcessSelectorModel>
     {
+        private new IProcessSelectorView View;
+        private new IProcessSelectorModel Model;
+
         public ProcessSelectorPresenter(IProcessSelectorView View, IProcessSelectorModel Model) : base(View, Model)
         {
             // Bind events triggered by the model
             Model.EventDisplayProcesses += EventDisplayProcesses;
             Model.EventSelectProcess += EventSelectProcess;
+
+            Model.OnGUIOpen();
         }
 
         private IEnumerable<ListViewItem> GetProcessListViewItems(List<Process> Processes, List<Icon> ProcessIcons, out ImageList ImageList)

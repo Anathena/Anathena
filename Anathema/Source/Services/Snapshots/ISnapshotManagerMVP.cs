@@ -33,8 +33,8 @@ namespace Anathema.Services.Snapshots
 
     class SnapshotManagerPresenter : Presenter<ISnapshotManagerView, ISnapshotManagerModel>
     {
-        protected new ISnapshotManagerView View;
-        protected new ISnapshotManagerModel Model;
+        private new ISnapshotManagerView View;
+        private new ISnapshotManagerModel Model;
 
         public SnapshotManagerPresenter(ISnapshotManagerView View, ISnapshotManagerModel Model) : base(View, Model)
         {
@@ -43,6 +43,8 @@ namespace Anathema.Services.Snapshots
 
             // Bind events triggered by the model
             Model.UpdateSnapshotCount += UpdateSnapshotCount;
+
+            Model.OnGUIOpen();
         }
 
         #region Method definitions called by the view (downstream)

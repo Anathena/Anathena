@@ -24,6 +24,8 @@ namespace Anathema.User.UserScriptEditor
             ScriptItem = new ScriptItem();
         }
 
+        public void OnGUIOpen() { }
+
         public static ScriptEditor GetInstance()
         {
             return ScriptEditorInstance.Value;

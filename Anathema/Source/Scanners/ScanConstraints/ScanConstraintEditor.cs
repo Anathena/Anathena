@@ -16,6 +16,8 @@ namespace Anathema.Scanners.ScanConstraints
             ScanConstraints = new ScanConstraintManager();
         }
 
+        public void OnGUIOpen() { }
+
         private void UpdateDisplay()
         {
             ScanConstraintEditorEventArgs FilterManualScanEventArgs = new ScanConstraintEditorEventArgs();

@@ -45,8 +45,8 @@ namespace Anathema.Scanners.FiniteStateScanner
 
     class FiniteStateBuilderPresenter : Presenter<IFiniteStateBuilderView, IFiniteStateBuilderModel>
     {
-        new IFiniteStateBuilderView View;
-        new IFiniteStateBuilderModel Model;
+        private new IFiniteStateBuilderView View;
+        private new IFiniteStateBuilderModel Model;
 
         public FiniteStateBuilderPresenter(IFiniteStateBuilderView View, IFiniteStateBuilderModel Model) : base(View, Model)
         {
@@ -55,6 +55,8 @@ namespace Anathema.Scanners.FiniteStateScanner
 
             // Bind events triggered by the model
             Model.EventUpdateDisplay += EventUpdateDisplay;
+
+            Model.OnGUIOpen();
         }
 
         #region Method definitions called by the view (downstream)

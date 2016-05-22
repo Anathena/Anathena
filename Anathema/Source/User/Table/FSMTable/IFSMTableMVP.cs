@@ -28,21 +28,24 @@ namespace Anathema.User.UserFSMTable
         Boolean LoadTable(String Path);
 
         void OpenFSM(Int32 Index);
-        
+
         FiniteStateMachine GetFSMItemAt(Int32 Index);
     }
 
     class FSMTablePresenter : Presenter<IFSMTableView, IFSMTableModel>
     {
-        protected new IFSMTableView View { get; set; }
-        protected new IFSMTableModel Model { get; set; }
-        
+        private new IFSMTableView View { get; set; }
+        private new IFSMTableModel Model { get; set; }
+
         public FSMTablePresenter(IFSMTableView View, IFSMTableModel Model) : base(View, Model)
         {
             this.View = View;
             this.Model = Model;
-            
+
             // Bind events triggered by the model
+
+
+            Model.OnGUIOpen();
         }
 
         #region Method definitions called by the view (downstream)

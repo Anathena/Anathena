@@ -54,6 +54,8 @@ namespace Anathema
             ProcessObservers = new List<IProcessObserver>();
         }
 
+        public void OnGUIOpen() { }
+
         public static ProcessSelector GetInstance()
         {
             return ProcessSelectorInstance.Value;

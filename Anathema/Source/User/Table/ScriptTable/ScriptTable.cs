@@ -22,6 +22,11 @@ namespace Anathema.User.UserScriptTable
             ScriptItems = new List<ScriptItem>();
         }
 
+        public void OnGUIOpen()
+        {
+            UpdateScriptTableItemCount();
+        }
+
         public static ScriptTable GetInstance()
         {
             return ScriptTableInstance.Value;

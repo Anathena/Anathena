@@ -36,8 +36,8 @@ namespace Anathema.Scanners.InputCorrelator
 
     class InputCorrelatorPresenter : ScannerPresenter
     {
-        new IInputCorrelatorView View;
-        new IInputCorrelatorModel Model;
+        private new IInputCorrelatorView View;
+        private new IInputCorrelatorModel Model;
 
         private Keys Key;
 
@@ -50,6 +50,8 @@ namespace Anathema.Scanners.InputCorrelator
 
             // Bind events triggered by the model
             Model.EventUpdateDisplay += EventUpdateDisplay;
+
+            Model.OnGUIOpen();
         }
 
         #region Method definitions called by the view (downstream)

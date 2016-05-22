@@ -28,6 +28,8 @@ namespace Anathema.Scanners.FiniteStateScanner
             FiniteStateMachine = new FiniteStateMachine();
         }
 
+        public void OnGUIOpen() { }
+
         public void SetElementType(Type ElementType)
         {
             FiniteStateMachine.SetElementType(ElementType);

@@ -23,9 +23,10 @@ namespace Anathema
         {
             InitializeComponent();
 
-            AddressTablePresenter = new AddressTablePresenter(this, AddressTable.GetInstance());
             AddressTableCache = new ListViewCache();
             AccessLock = new Object();
+
+            AddressTablePresenter = new AddressTablePresenter(this, AddressTable.GetInstance());
         }
 
         public void UpdateAddressTableItemCount(Int32 ItemCount)

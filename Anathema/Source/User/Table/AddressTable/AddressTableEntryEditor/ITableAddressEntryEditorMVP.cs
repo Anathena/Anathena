@@ -28,13 +28,18 @@ namespace Anathema.User.UserAddressTableEntryEditor
 
     class TableAddressEntryEditorPresenter : Presenter<ITableAddressEntryEditorView, ITableAddressEntryEditorModel>
     {
-        protected new ITableAddressEntryEditorView View { get; set; }
-        protected new ITableAddressEntryEditorModel Model { get; set; }
+        private new ITableAddressEntryEditorView View { get; set; }
+        private new ITableAddressEntryEditorModel Model { get; set; }
 
         public TableAddressEntryEditorPresenter(ITableAddressEntryEditorView View, ITableAddressEntryEditorModel Model) : base(View, Model)
         {
             this.View = View;
             this.Model = Model;
+
+            // Bind events triggered by the model
+
+
+            Model.OnGUIOpen();
         }
 
         #region Method definitions called by the view (downstream)

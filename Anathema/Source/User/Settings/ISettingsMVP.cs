@@ -76,9 +76,9 @@ namespace Anathema.User.UserSettings
     class SettingsPresenter : Presenter<ISettingsView, ISettingsModel>
     {
         [Obfuscation(Exclude = true)]
-        protected new ISettingsView View { get; set; }
+        private new ISettingsView View { get; set; }
         [Obfuscation(Exclude = true)]
-        protected new ISettingsModel Model { get; set; }
+        private new ISettingsModel Model { get; set; }
 
         public SettingsPresenter(ISettingsView View, ISettingsModel Model) : base(View, Model)
         {
@@ -86,6 +86,9 @@ namespace Anathema.User.UserSettings
             this.Model = Model;
 
             // Bind events triggered by the model
+
+
+            Model.OnGUIOpen();
         }
 
         #region Method definitions called by the view (downstream)

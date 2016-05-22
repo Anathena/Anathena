@@ -47,11 +47,17 @@ namespace Anathema
 
     class MainPresenter : Presenter<IMainView, IMainModel>
     {
+        private new IMainView View;
+        private new IMainModel Model;
+
         private List<ProgressItem> PendingActions;
         private Object AccessLock;
 
         public MainPresenter(IMainView View, IMainModel Model) : base(View, Model)
         {
+            this.View = View;
+            this.Model = Model;
+
             PendingActions = new List<ProgressItem>();
             AccessLock = new Object();
 
@@ -62,6 +68,8 @@ namespace Anathema
             Model.EventFinishProgress += EventFinishProgress;
             Model.EventOpenScriptEditor += EventOpenScriptEditor;
             Model.EventOpenLabelThresholder += EventOpenLabelThresholder;
+
+            Model.OnGUIOpen();
         }
 
         #region Method definitions called by the view (downstream)

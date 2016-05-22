@@ -42,8 +42,8 @@ namespace Anathema.Scanners.ScanConstraints
 
     class ScanConstraintEditorPresenter : Presenter<IScanConstraintEditorView, IScanConstraintEditorModel>
     {
-        protected new IScanConstraintEditorView View;
-        protected new IScanConstraintEditorModel Model;
+        private new IScanConstraintEditorView View;
+        private new IScanConstraintEditorModel Model;
 
         private ConstraintsEnum ValueConstraint;
 
@@ -54,6 +54,8 @@ namespace Anathema.Scanners.ScanConstraints
 
             // Bind events triggered by the model
             Model.EventUpdateDisplay += EventUpdateDisplay;
+
+            Model.OnGUIOpen();
         }
 
         #region Method definitions called by the view (downstream)

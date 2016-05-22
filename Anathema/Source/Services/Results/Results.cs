@@ -62,12 +62,14 @@ namespace Anathema.Services.ScanResults
             this.OSInterface = OSInterface;
         }
 
+        public override void OnGUIOpen()
+        {
+            ForceRefresh();
+        }
+
         public override void ForceRefresh()
         {
-            using (TimedLock.Lock(ResultsLock))
-            {
-                ForceRefreshFlag = true;
-            }
+            ForceRefreshFlag = true;
         }
 
         public void EnableResults()

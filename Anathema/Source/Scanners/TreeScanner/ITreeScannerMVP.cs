@@ -15,14 +15,18 @@
 
     class TreeScannerPresenter : ScannerPresenter
     {
-        new ITreeScannerView View;
-        new ITreeScannerModel Model;
+        private new ITreeScannerView View;
+        private new ITreeScannerModel Model;
 
         public TreeScannerPresenter(ITreeScannerView View, ITreeScannerModel Model) : base(View, Model)
         {
             this.View = View;
             this.Model = Model;
+
             // Bind events triggered by the model
+
+
+            Model.OnGUIOpen();
         }
 
         #region Method definitions called by the view (downstream)
@@ -30,7 +34,7 @@
         #endregion
 
         #region Event definitions for events triggered by the model (upstream)
-        
+
         #endregion
 
     } // End class

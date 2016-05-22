@@ -19,8 +19,8 @@ namespace Anathema.Scanners.ChangeCounter
 
     class ChangeCounterPresenter : ScannerPresenter
     {
-        new IChangeCounterView View;
-        new IChangeCounterModel Model;
+        private new IChangeCounterView View;
+        private new IChangeCounterModel Model;
 
         public ChangeCounterPresenter(IChangeCounterView View, IChangeCounterModel Model) : base(View, Model)
         {
@@ -28,6 +28,9 @@ namespace Anathema.Scanners.ChangeCounter
             this.Model = Model;
 
             // Bind events triggered by the model
+
+
+            Model.OnGUIOpen();
         }
 
         #region Method definitions called by the view (downstream)
