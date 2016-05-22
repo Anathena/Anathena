@@ -35,8 +35,8 @@ namespace Anathema.Scanners.LabelThresholder
 
     class LabelThresholderPresenter : Presenter<ILabelThresholderView, ILabelThresholderModel>
     {
-        private new ILabelThresholderView View;
-        private new ILabelThresholderModel Model;
+        private new ILabelThresholderView View { get; set; }
+        private new ILabelThresholderModel Model { get; set; }
 
         public LabelThresholderPresenter(ILabelThresholderView View, ILabelThresholderModel Model) : base(View, Model)
         {

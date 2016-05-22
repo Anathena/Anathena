@@ -19,8 +19,8 @@ namespace Anathema.Scanners.ChangeCounter
 
     class ChangeCounterPresenter : ScannerPresenter
     {
-        private new IChangeCounterView View;
-        private new IChangeCounterModel Model;
+        private new IChangeCounterView View { get; set; }
+        private new IChangeCounterModel Model { get; set; }
 
         public ChangeCounterPresenter(IChangeCounterView View, IChangeCounterModel Model) : base(View, Model)
         {

@@ -33,8 +33,8 @@ namespace Anathema.Services.Snapshots
 
     class SnapshotManagerPresenter : Presenter<ISnapshotManagerView, ISnapshotManagerModel>
     {
-        private new ISnapshotManagerView View;
-        private new ISnapshotManagerModel Model;
+        private new ISnapshotManagerView View { get; set; }
+        private new ISnapshotManagerModel Model { get; set; }
 
         public SnapshotManagerPresenter(ISnapshotManagerView View, ISnapshotManagerModel Model) : base(View, Model)
         {

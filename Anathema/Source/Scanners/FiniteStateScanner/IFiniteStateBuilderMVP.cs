@@ -45,8 +45,8 @@ namespace Anathema.Scanners.FiniteStateScanner
 
     class FiniteStateBuilderPresenter : Presenter<IFiniteStateBuilderView, IFiniteStateBuilderModel>
     {
-        private new IFiniteStateBuilderView View;
-        private new IFiniteStateBuilderModel Model;
+        private new IFiniteStateBuilderView View { get; set; }
+        private new IFiniteStateBuilderModel Model { get; set; }
 
         public FiniteStateBuilderPresenter(IFiniteStateBuilderView View, IFiniteStateBuilderModel Model) : base(View, Model)
         {

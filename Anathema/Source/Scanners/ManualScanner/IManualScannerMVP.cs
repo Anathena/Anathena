@@ -30,8 +30,8 @@ namespace Anathema.Scanners.ManualScanner
 
     class ManualScannerPresenter : ScannerPresenter
     {
-        private new IManualScannerView View;
-        private new IManualScannerModel Model;
+        private new IManualScannerView View { get; set; }
+        private new IManualScannerModel Model { get; set; }
 
         public ManualScannerPresenter(IManualScannerView View, IManualScannerModel Model) : base(View, Model)
         {

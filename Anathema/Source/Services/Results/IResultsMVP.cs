@@ -78,8 +78,8 @@ namespace Anathema.Services.ScanResults
 
     class ResultsPresenter : Presenter<IResultsView, IResultsModel>
     {
-        private new IResultsView View;
-        private new IResultsModel Model;
+        private new IResultsView View { get; set; }
+        private new IResultsModel Model { get; set; }
 
         public ResultsPresenter(IResultsView View, IResultsModel Model) : base(View, Model)
         {

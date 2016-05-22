@@ -35,11 +35,14 @@ namespace Anathema.User.UserScriptEditor
 
     class ScriptEditorPresenter : Presenter<IScriptEditorView, IScriptEditorModel>
     {
-        private new IScriptEditorView View;
-        private new IScriptEditorModel Model;
+        private new IScriptEditorView View { get; set; }
+        private new IScriptEditorModel Model { get; set; }
 
         public ScriptEditorPresenter(IScriptEditorView View, IScriptEditorModel Model) : base(View, Model)
         {
+            this.View = View;
+            this.Model = Model;
+
             // Bind events triggered by the model
             Model.EventOpenScript += EventOpenScript;
             Model.EventSetScriptText += EventSetScriptText;

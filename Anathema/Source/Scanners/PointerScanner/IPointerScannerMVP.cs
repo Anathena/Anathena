@@ -60,8 +60,8 @@ namespace Anathema.Scanners.PointerScanner
 
     class PointerScannerPresenter : ScannerPresenter
     {
-        private new IPointerScannerView View;
-        private new IPointerScannerModel Model;
+        private new IPointerScannerView View { get; set; }
+        private new IPointerScannerModel Model { get; set; }
 
         public PointerScannerPresenter(IPointerScannerView View, IPointerScannerModel Model) : base(View, Model)
         {

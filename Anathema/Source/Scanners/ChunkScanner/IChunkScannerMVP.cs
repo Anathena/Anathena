@@ -17,8 +17,8 @@ namespace Anathema.Scanners.ChunkScanner
 
     class ChunkScannerPresenter : ScannerPresenter
     {
-        private new IChunkScannerView View;
-        private new IChunkScannerModel Model;
+        private new IChunkScannerView View { get; set; }
+        private new IChunkScannerModel Model { get; set; }
 
         public ChunkScannerPresenter(IChunkScannerView View, IChunkScannerModel Model) : base(View, Model)
         {

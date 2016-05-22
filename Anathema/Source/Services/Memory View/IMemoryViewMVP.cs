@@ -78,8 +78,8 @@ namespace Anathema.Services.MemoryView
 
     class MemoryViewPresenter : Presenter<IMemoryViewView, IMemoryViewModel>, IByteProvider
     {
-        private new IMemoryViewView View;
-        private new IMemoryViewModel Model;
+        private new IMemoryViewView View { get; set; }
+        private new IMemoryViewModel Model { get; set; }
 
         private const Int32 ViewRange = UInt16.MaxValue;
 

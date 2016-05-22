@@ -20,10 +20,10 @@ namespace Anathema
         {
             InitializeComponent();
 
-            ScriptTablePresenter = new ScriptTablePresenter(this, ScriptTable.GetInstance());
             ScriptTableCache = new ListViewCache();
             AccessLock = new Object();
 
+            ScriptTablePresenter = new ScriptTablePresenter(this, ScriptTable.GetInstance());
         }
 
         public void UpdateScriptTableItemCount(Int32 ItemCount)

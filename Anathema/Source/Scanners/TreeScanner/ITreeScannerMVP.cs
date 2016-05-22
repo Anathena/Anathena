@@ -15,8 +15,8 @@
 
     class TreeScannerPresenter : ScannerPresenter
     {
-        private new ITreeScannerView View;
-        private new ITreeScannerModel Model;
+        private new ITreeScannerView View { get; set; }
+        private new ITreeScannerModel Model { get; set; }
 
         public TreeScannerPresenter(ITreeScannerView View, ITreeScannerModel Model) : base(View, Model)
         {

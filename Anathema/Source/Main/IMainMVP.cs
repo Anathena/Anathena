@@ -47,8 +47,8 @@ namespace Anathema
 
     class MainPresenter : Presenter<IMainView, IMainModel>
     {
-        private new IMainView View;
-        private new IMainModel Model;
+        private new IMainView View { get; set; }
+        private new IMainModel Model { get; set; }
 
         private List<ProgressItem> PendingActions;
         private Object AccessLock;

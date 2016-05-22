@@ -16,8 +16,8 @@
 
     class FiniteStateScannerPresenter : ScannerPresenter
     {
-        private new IFiniteStateScannerView View;
-        private new IFiniteStateScannerModel Model;
+        private new IFiniteStateScannerView View { get; set; }
+        private new IFiniteStateScannerModel Model { get; set; }
 
         public FiniteStateScannerPresenter(IFiniteStateScannerView View, IFiniteStateScannerModel Model) : base(View, Model)
         {

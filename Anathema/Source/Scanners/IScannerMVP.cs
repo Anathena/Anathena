@@ -47,11 +47,14 @@ namespace Anathema.Scanners
 
     class ScannerPresenter : Presenter<IScannerView, IScannerModel>
     {
-        private new IScannerView View;
-        private new IScannerModel Model;
+        private new IScannerView View { get; set; }
+        private new IScannerModel Model { get; set; }
 
         public ScannerPresenter(IScannerView View, IScannerModel Model) : base(View, Model)
         {
+            this.View = View;
+            this.Model = Model;
+
             // Bind events triggered by the model
             Model.EventUpdateScanCount += EventDisplayScanCount;
         }

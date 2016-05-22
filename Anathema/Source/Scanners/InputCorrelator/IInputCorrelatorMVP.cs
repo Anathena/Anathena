@@ -36,8 +36,8 @@ namespace Anathema.Scanners.InputCorrelator
 
     class InputCorrelatorPresenter : ScannerPresenter
     {
-        private new IInputCorrelatorView View;
-        private new IInputCorrelatorModel Model;
+        private new IInputCorrelatorView View { get; set; }
+        private new IInputCorrelatorModel Model { get; set; }
 
         private Keys Key;
 
