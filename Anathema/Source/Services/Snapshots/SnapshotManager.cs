@@ -1,4 +1,5 @@
 ﻿using Anathema.Scanners.ValueCollector;
+using Anathema.Services.Snapshots.Prefilter;
 using Anathema.Source.Utils;
 using Anathema.Source.Utils.Extensions;
 using Anathema.User.UserSettings;
@@ -128,7 +129,7 @@ namespace Anathema.Services.Snapshots
                 return new Snapshot<Null>();
 
             if (UsePrefilter)
-                return SnapshotPrefilter.GetInstance().GetPrefilteredSnapshot();
+                return QueueSnapshotPrefilter.GetInstance().GetPrefilteredSnapshot();
 
             IEnumerable<NormalizedRegion> VirtualPages = CollectSnapshotRegions(UseSettings);
 

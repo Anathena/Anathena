@@ -46,7 +46,7 @@ namespace Anathema.GUI
 
         private void VisualizeSelection()
         {
-            using (TimedLock.Lock(AccessLock))
+            // using (TimedLock.Lock(AccessLock))
             {
                 Int32 BarCount = 0;
                 UInt64 FrequencyTotal = 0;

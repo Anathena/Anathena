@@ -1,4 +1,5 @@
 ﻿using Anathema.Services.Snapshots;
+using Anathema.Services.Snapshots.Prefilter;
 using Anathema.Source.Utils;
 using Anathema.User.UserTable;
 using Anathema.Utils.OS;
@@ -22,7 +23,7 @@ namespace Anathema
         {
             InitializeProcessObserver();
 
-            SnapshotPrefilter.GetInstance().Begin();
+            SnapshotPrefilterFactory.GetSnapshotPrefilter(typeof(LinkedListSnapshotPrefilter)).BeginPrefilter();
         }
 
         public void OnGUIOpen() { }

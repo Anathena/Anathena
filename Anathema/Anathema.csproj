@@ -255,7 +255,10 @@
     <Compile Include="GUI\Tools\Table\GUIAddressTableEntryEditor.Designer.cs">
       <DependentUpon>GUIAddressTableEntryEditor.cs</DependentUpon>
     </Compile>
-    <Compile Include="Source\Services\Snapshots\SnapshotPrefilter.cs" />
+    <Compile Include="Source\Services\Snapshots\Prefilter\ISnapshotPrefilter.cs" />
+    <Compile Include="Source\Services\Snapshots\Prefilter\LinkedListSnapshotPrefilter.cs" />
+    <Compile Include="Source\Services\Snapshots\Prefilter\QueueSnapshotPrefilter.cs" />
+    <Compile Include="Source\Services\Snapshots\Prefilter\SnapshotPrefilterFactory.cs" />
     <Compile Include="Source\Utils\Browser\BrowserHelper.cs" />
     <Compile Include="Source\Utils\Extensions\IEnumerableExtensions.cs" />
     <Compile Include="Source\Utils\Extensions\IntExtensions.cs" />

@@ -11,7 +11,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Anathema.Services.Snapshots
+namespace Anathema.Services.Snapshots.Prefilter
 {
     /// <summary>
     /// SnapshotPrefilter is a heuristic process that drastically improves scan speed. It capitalizes on the fact that
@@ -28,16 +28,16 @@ namespace Anathema.Services.Snapshots
     ///     that have already changed. We can indefinitely mark them as a dynamic region.
     /// 3) On snapshot request, we can do a grow+mask operation of current chunks against the current virtual pages.
     /// </summary>
-    class SnapshotPrefilter : RepeatedTask, IProcessObserver
+    class QueueSnapshotPrefilter : RepeatedTask, ISnapshotPrefilter, IProcessObserver
     {
         // Singleton instance of prefilter
-        private static Lazy<SnapshotPrefilter> SnapshotPrefilterInstance = new Lazy<SnapshotPrefilter>(() => { return new SnapshotPrefilter(); });
+        private static Lazy<ISnapshotPrefilter> SnapshotPrefilterInstance = new Lazy<ISnapshotPrefilter>(() => { return new QueueSnapshotPrefilter(); });
 
         private OSInterface OSInterface;
 
-        private const Int32 ChunkLimit = 65536;
-        private const Int32 ChunkSize = 2048;
-        private const Int32 RescanTime = 200;
+        private const Int32 ChunkLimit = 32768;
+        private const Int32 ChunkSize = 4096;
+        private const Int32 RescanTime = 400;
 
         private Queue<RegionProperties> ChunkQueue;
         private Object QueueLock;
@@ -45,20 +45,20 @@ namespace Anathema.Services.Snapshots
 
         private ProgressItem PrefilterProgress;
 
-        private SnapshotPrefilter()
+        private QueueSnapshotPrefilter()
         {
             ChunkQueue = new Queue<RegionProperties>();
             QueueLock = new Object();
             ElementLock = new Object();
 
             PrefilterProgress = new ProgressItem();
-            PrefilterProgress.SetProgressLabel("Analyzing");
+            PrefilterProgress.SetProgressLabel("Prefiltering");
             PrefilterProgress.RestrictProgress();
 
             InitializeProcessObserver();
         }
 
-        public static SnapshotPrefilter GetInstance()
+        public static ISnapshotPrefilter GetInstance()
         {
             return SnapshotPrefilterInstance.Value;
         }
@@ -79,6 +79,11 @@ namespace Anathema.Services.Snapshots
             }
         }
 
+        public void BeginPrefilter()
+        {
+            this.Begin();
+        }
+
         public Snapshot GetPrefilteredSnapshot()
         {
             List<SnapshotRegion> Regions = new List<SnapshotRegion>();
@@ -87,12 +92,12 @@ namespace Anathema.Services.Snapshots
             {
                 foreach (RegionProperties VirtualPage in ChunkQueue)
                 {
-                    if (VirtualPage.HasChanged())
-                    {
-                        SnapshotRegion NewRegion = new SnapshotRegion<Null>(VirtualPage);
-                        NewRegion.SetAlignment(Settings.GetInstance().GetAlignmentSettings());
-                        Regions.Add(NewRegion);
-                    }
+                    if (!VirtualPage.HasChanged())
+                        continue;
+
+                    SnapshotRegion NewRegion = new SnapshotRegion<Null>(VirtualPage);
+                    NewRegion.SetAlignment(Settings.GetInstance().GetAlignmentSettings());
+                    Regions.Add(NewRegion);
                 }
             }
 
