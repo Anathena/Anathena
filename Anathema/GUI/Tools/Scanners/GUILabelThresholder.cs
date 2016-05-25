@@ -51,20 +51,20 @@ namespace Anathema.GUI
                 Int32 BarCount = 0;
                 UInt64 FrequencyTotal = 0;
                 UInt64 FrequencySelected = 0;
-                Int32 MinValue = 0;
-                Int32 MaxValue = 0;
+                Int32 MinimumIndex = 0;
+                Int32 MaximumIndex = 0;
                 Int32 HighlightMinValue = 0;
                 Int32 HighlightMaxvalue = 0;
                 Boolean SelectionInverted = false;
 
                 ControlThreadingHelper.InvokeControlAction(MinValueTrackBar, () =>
                 {
-                    MinValue = MinValueTrackBar.Value;
+                    MinimumIndex = MinValueTrackBar.Value;
                 });
 
                 ControlThreadingHelper.InvokeControlAction(MaxValueTrackBar, () =>
                 {
-                    MaxValue = MaxValueTrackBar.Value;
+                    MaximumIndex = MaxValueTrackBar.Value;
                 });
 
                 ControlThreadingHelper.InvokeControlAction(ScanToolStrip, () =>
@@ -79,8 +79,8 @@ namespace Anathema.GUI
 
                     for (Int32 Index = 0; Index < BarCount; Index++)
                     {
-                        if (!SelectionInverted && (Index < MinValue || Index > MaxValue) ||
-                            SelectionInverted && (Index >= MinValue && Index <= MaxValue))
+                        if (!SelectionInverted && (Index < MinimumIndex || Index > MaximumIndex) ||
+                            SelectionInverted && (Index >= MinimumIndex && Index <= MaximumIndex))
                         {
                             LabelFrequencyChart.Series["Frequency"].Points[Index].Color = Color.Red;
                         }
@@ -91,25 +91,25 @@ namespace Anathema.GUI
                         }
                         FrequencyTotal += (UInt64)LabelFrequencyChart.Series["Frequency"].Points[Index].YValues[0];
                     }
-                    if (MinValue < BarCount)
-                        HighlightMinValue = (Int32)LabelFrequencyChart.Series["Frequency"].Points[MinValue].XValue;
-                    if (MaxValue < BarCount)
-                        HighlightMaxvalue = (Int32)LabelFrequencyChart.Series["Frequency"].Points[MaxValue].XValue;
+                    if (MinimumIndex < BarCount)
+                        HighlightMinValue = (Int32)LabelFrequencyChart.Series["Frequency"].Points[MinimumIndex].XValue;
+                    if (MaximumIndex < BarCount)
+                        HighlightMaxvalue = (Int32)LabelFrequencyChart.Series["Frequency"].Points[MaximumIndex].XValue;
                 });
 
                 // Update min/max values in presenter
-                LabelThresholderPresenter.UpdateThreshold(MinValue, MaxValue);
+                LabelThresholderPresenter.UpdateThreshold(MinimumIndex, MaximumIndex);
 
                 // Update trackbar value text
                 ControlThreadingHelper.InvokeControlAction(MinLabelLabel, () =>
                 {
-                    if (MinValue < BarCount)
+                    if (MinimumIndex < BarCount)
                         MinLabelLabel.Text = "Min: " + HighlightMinValue.ToString();
                 });
 
                 ControlThreadingHelper.InvokeControlAction(MaxLabelLabel, () =>
                 {
-                    if (MaxValue < BarCount)
+                    if (MaximumIndex < BarCount)
                         MaxLabelLabel.Text = "Max: " + HighlightMaxvalue.ToString();
                 });
 
