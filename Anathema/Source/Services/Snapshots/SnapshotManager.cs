@@ -129,7 +129,7 @@ namespace Anathema.Services.Snapshots
                 return new Snapshot<Null>();
 
             if (UsePrefilter)
-                return QueueSnapshotPrefilter.GetInstance().GetPrefilteredSnapshot();
+                return SnapshotPrefilterFactory.GetSnapshotPrefilter(typeof(LinkedListSnapshotPrefilter)).GetPrefilteredSnapshot();
 
             IEnumerable<NormalizedRegion> VirtualPages = CollectSnapshotRegions(UseSettings);
 

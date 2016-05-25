@@ -61,6 +61,10 @@ namespace Anathema
             return ProcessSelectorInstance.Value;
         }
 
+        /// <summary>
+        /// Adds an observer to the notification list
+        /// </summary>
+        /// <param name="Observer"></param>
         public void Subscribe(IProcessObserver Observer)
         {
             if (ProcessObservers.Contains(Observer))
@@ -68,9 +72,17 @@ namespace Anathema
 
             ProcessObservers.Add(Observer);
 
-            Notify();
+            if (OSInterface == null)
+                return;
+
+            // Notify just this observer
+            Observer.UpdateOSInterface(OSInterface);
         }
 
+        /// <summary>
+        /// Removes an observer from the notification list
+        /// </summary>
+        /// <param name="Observer"></param>
         public void Unsubscribe(IProcessObserver Observer)
         {
             if (!ProcessObservers.Contains(Observer))
@@ -79,6 +91,10 @@ namespace Anathema
             ProcessObservers.Remove(Observer);
         }
 
+        /// <summary>
+        /// Notifies all observers that the process has changed, supplying the new OSInterface instance
+        /// </summary>
+        /// <param name="Process"></param>
         public void Notify(Process Process = null)
         {
             // Update memory editor if applicable

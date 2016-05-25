@@ -35,9 +35,9 @@ namespace Anathema.Services.Snapshots.Prefilter
 
         private OSInterface OSInterface;
 
-        private const Int32 ChunkLimit = 32768;
-        private const Int32 ChunkSize = 4096;
-        private const Int32 RescanTime = 400;
+        private const Int32 ChunkLimit = 4096;
+        private const Int32 ChunkSize = 2048;
+        private const Int32 RescanTime = 800;
 
         private LinkedList<RegionProperties> ChunkList;
         private Object ChunkLock;
@@ -122,15 +122,15 @@ namespace Anathema.Services.Snapshots.Prefilter
             if (OSInterface == null)
                 return;
 
-            ProcessPages(ResolvePages());
+            ProcessPages();
+            UpdateProgress();
         }
 
         /// <summary>
         /// Queries virtual pages from the OS to dertermine if any allocations or deallocations have happened
         /// </summary>
-        private IEnumerable<RegionProperties> ResolvePages()
+        private IEnumerable<RegionProperties> CollectNewPages()
         {
-
             List<RegionProperties> NewRegions = new List<RegionProperties>();
 
             // Gather current regions from the target process
@@ -138,7 +138,7 @@ namespace Anathema.Services.Snapshots.Prefilter
             List<NormalizedRegion> QueriedChunkedRegions = new List<NormalizedRegion>();
 
             // Chunk all virtual regions into a standardized size
-            QueriedVirtualRegions.ForEach(x => QueriedChunkedRegions.AddRange(x.ChunkNormalizedRegion(ChunkSize)));
+            QueriedVirtualRegions.ForEach(X => QueriedChunkedRegions.AddRange(X.ChunkNormalizedRegion(ChunkSize)));
 
             // Sort our lists (descending)
             IOrderedEnumerable<NormalizedRegion> QueriedRegionsSorted = QueriedChunkedRegions.OrderByDescending(X => X.BaseAddress.ToUInt64());
@@ -177,12 +177,6 @@ namespace Anathema.Services.Snapshots.Prefilter
                 // Region we have already seen
                 else
                 {
-                    // Check for deallocation + reallocation of a different size
-                    if (CurrentRegion.RegionSize != QueriedRegion.RegionSize)
-                        NewRegions.Add(new RegionProperties(QueriedRegion));
-                    else
-                        NewRegions.Add(CurrentRegion);
-
                     QueriedRegion = QueriedRegionStack.Pop();
                     CurrentRegion = CurrentRegionStack.Pop();
                 }
@@ -198,67 +192,73 @@ namespace Anathema.Services.Snapshots.Prefilter
             return NewRegions;
         }
 
-        private void ProcessPages(IEnumerable<RegionProperties> NewPages)
+        /// <summary>
+        /// Processes all pages, computing checksums to determine chunks of virtual pages that have changed
+        /// </summary>
+        private void ProcessPages()
         {
-            UpdateProgress(NewPages);
-
-            LinkedList<RegionProperties> OriginalQueue = ChunkList;
-
-            // Construct queue
-            LinkedList<RegionProperties> NewChunkQueue = new LinkedList<RegionProperties>();
-            IOrderedEnumerable<RegionProperties> QueriedRegionsSorted = NewPages.OrderBy(X => X.GetLastUpdatedTimeStamp());
-            QueriedRegionsSorted.ForEach(X => NewChunkQueue.AddLast(X));
-
-            // Process the allowed amount of chunks from the priority queue
-            Parallel.For(0, Math.Min(NewChunkQueue.Count, ChunkLimit), Index =>
+            using (TimedLock.Lock(ChunkLock))
             {
-                Boolean Success;
-                RegionProperties RegionProperties;
-
-                // Search for next page that needs processing
-                using (TimedLock.Lock(ElementLock))
-                // lock (ElementLock)
-                {
-                    do
-                    {
-                        if (NewChunkQueue.Count <= 0)
-                            return;
-
-                        RegionProperties = NewChunkQueue.Last();
-                        NewChunkQueue.AddLast(RegionProperties);
-
-                    } while (RegionProperties.HasChanged());
-                }
-
-                if (RegionProperties.HasChanged())
-                    return;
-
-                Byte[] PageData = OSInterface.Process.ReadBytes(RegionProperties.BaseAddress, RegionProperties.RegionSize, out Success);
-
-                if (!Success)
-                    return;
-
-                RegionProperties.Update(PageData);
-            });
+                foreach (RegionProperties NewPage in CollectNewPages())
+                    ChunkList.AddFirst(NewPage);
+            }
 
             using (TimedLock.Lock(ChunkLock))
             {
-                if (OriginalQueue != ChunkList)
-                    return;
+                // Process the allowed amount of chunks from the priority queue
+                Parallel.For(0, Math.Min(ChunkList.Count, ChunkLimit), Index =>
+                {
+                    Boolean Success;
+                    RegionProperties RegionProperties;
 
-                ChunkList = NewChunkQueue;
+                    // Search for next page that needs processing
+                    using (TimedLock.Lock(ElementLock))
+                    {
+                        do
+                        {
+                            if (ChunkList.Count <= 0)
+                                return;
+
+                            RegionProperties = ChunkList.First();
+                            ChunkList.RemoveFirst();
+                            ChunkList.AddLast(RegionProperties);
+
+                        } while (RegionProperties.HasChanged());
+                    }
+
+                    if (RegionProperties.HasChanged())
+                        return;
+
+                    Byte[] PageData = OSInterface.Process.ReadBytes(RegionProperties.BaseAddress, RegionProperties.RegionSize, out Success);
+
+                    if (!Success)
+                    {
+                        using (TimedLock.Lock(ElementLock))
+                        {
+                            ChunkList.Remove(RegionProperties);
+                        }
+                        return;
+                    }
+
+                    RegionProperties.Update(PageData);
+                });
             }
         }
 
         protected override void End() { }
 
-        private void UpdateProgress(IEnumerable<RegionProperties> NewPages)
+        private void UpdateProgress()
         {
-            Int32 UnprocessedCount = 0;
+            Int32 UnprocessedCount;
+            Int32 ChunkCount;
 
-            UnprocessedCount = NewPages.Where(X => X.IsProcessed()).Count();
+            using (TimedLock.Lock(ChunkLock))
+            {
+                UnprocessedCount = ChunkList.Where(X => X.IsProcessed()).Count();
+                ChunkCount = ChunkList.Count();
+            }
 
-            PrefilterProgress.UpdateProgress((Double)UnprocessedCount / (Double)NewPages.Count());
+            PrefilterProgress.UpdateProgress((Double)UnprocessedCount / (Double)ChunkCount);
 
             if (PrefilterProgress.GetProgress() > 97)
                 PrefilterProgress.FinishProgress();
@@ -266,14 +266,12 @@ namespace Anathema.Services.Snapshots.Prefilter
 
         internal class RegionProperties : NormalizedRegion
         {
-            private DateTime LastUpdatedTimeStamp;
             private UInt64? Checksum;
             private Boolean Changed;
 
             public RegionProperties(NormalizedRegion Region) : this(Region.BaseAddress, Region.RegionSize) { }
             public RegionProperties(IntPtr BaseAddress, Int32 RegionSize) : base(BaseAddress, RegionSize)
             {
-                LastUpdatedTimeStamp = DateTime.MinValue;
                 Checksum = null;
                 Changed = false;
             }
@@ -295,7 +293,6 @@ namespace Anathema.Services.Snapshots.Prefilter
             {
                 UInt64 CurrentChecksum;
 
-                LastUpdatedTimeStamp = DateTime.Now;
                 CurrentChecksum = Hashing.ComputeCheckSum(Memory);
 
                 if (this.Checksum == null)
@@ -305,11 +302,6 @@ namespace Anathema.Services.Snapshots.Prefilter
                 }
 
                 Changed = this.Checksum != CurrentChecksum;
-            }
-
-            public DateTime GetLastUpdatedTimeStamp()
-            {
-                return LastUpdatedTimeStamp;
             }
 
         } // End class

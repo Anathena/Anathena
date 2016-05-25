@@ -130,7 +130,6 @@ namespace Anathema.Services.Snapshots.Prefilter
         /// </summary>
         private IEnumerable<RegionProperties> ResolvePages()
         {
-
             List<RegionProperties> NewRegions = new List<RegionProperties>();
 
             // Gather current regions from the target process
@@ -138,7 +137,7 @@ namespace Anathema.Services.Snapshots.Prefilter
             List<NormalizedRegion> QueriedChunkedRegions = new List<NormalizedRegion>();
 
             // Chunk all virtual regions into a standardized size
-            QueriedVirtualRegions.ForEach(x => QueriedChunkedRegions.AddRange(x.ChunkNormalizedRegion(ChunkSize)));
+            QueriedVirtualRegions.ForEach(X => QueriedChunkedRegions.AddRange(X.ChunkNormalizedRegion(ChunkSize)));
 
             // Sort our lists (descending)
             IOrderedEnumerable<NormalizedRegion> QueriedRegionsSorted = QueriedChunkedRegions.OrderByDescending(X => X.BaseAddress.ToUInt64());
@@ -217,7 +216,6 @@ namespace Anathema.Services.Snapshots.Prefilter
 
                 // Search for next page that needs processing
                 using (TimedLock.Lock(ElementLock))
-                // lock (ElementLock)
                 {
                     do
                     {
