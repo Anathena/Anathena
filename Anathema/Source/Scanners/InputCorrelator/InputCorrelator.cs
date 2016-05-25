@@ -150,8 +150,6 @@ namespace Anathema.Scanners.InputCorrelator
         {
             base.Update();
 
-            Int32 ProcessedPages = 0;
-
             // Read memory to update previous and current values
             Snapshot.ReadAllSnapshotMemory();
 
@@ -174,13 +172,6 @@ namespace Anathema.Scanners.InputCorrelator
                             Element.ElementLabel--;
                     }
                 }
-
-                /*using (TimedLock.Lock(ProgressLock))
-                {
-                    ProcessedPages++;
-
-                    ScanProgress.UpdateProgress(ProcessedPages, Snapshot.GetRegionCount());
-                }*/
             });
 
             ScanProgress.FinishProgress();
@@ -197,10 +188,21 @@ namespace Anathema.Scanners.InputCorrelator
 
             // Prefilter items with negative penalties (ie constantly changing variables)
             Snapshot.MarkAllInvalid();
+            IntPtr whatever = new IntPtr(0x84896c);
             foreach (SnapshotRegion<Int16> Region in Snapshot)
                 foreach (SnapshotElement<Int16> Element in Region)
+                {
                     if (Element.ElementLabel.Value > 0)
                         Element.Valid = true;
+
+                    if (Element.BaseAddress == whatever)
+                    {
+                        int breakpoint = 1;
+                        breakpoint++;
+                    }
+                }
+
+
             Snapshot.DiscardInvalidRegions();
             Snapshot.SetScanMethod("Input Correlator");
 

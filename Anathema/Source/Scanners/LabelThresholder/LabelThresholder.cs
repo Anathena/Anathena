@@ -38,8 +38,8 @@ namespace Anathema.Scanners.LabelThresholder
             if (SortedDictionary == null)
                 return;
 
-            this.MinValue = MinimumValue;
-            this.MaxValue = MaximumValue;
+            this.MinValue = SortedDictionary.ElementAt(MinimumValue).Key;
+            this.MaxValue = SortedDictionary.ElementAt(MaximumValue).Key;
         }
 
         public override Type GetElementType()
