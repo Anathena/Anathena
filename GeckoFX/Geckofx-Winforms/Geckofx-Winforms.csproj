@@ -138,10 +138,6 @@
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
-    <Reference Include="gdk-sharp" />
-    <Reference Include="glib-sharp" />
-    <Reference Include="gtk-sharp" />
-    <Reference Include="atk-sharp" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Dialogs\ChromeDialog.cs">
@@ -169,13 +165,9 @@
     <Compile Include="GeckoWebBrowser.XULWindow.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Linux\OffScreenGeckoWebBrowser.cs" />
-    <Compile Include="Linux\GeckoWebBrowser.GTK.cs" />
     <Compile Include="GeckoWebBrowser.WinForms.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Linux\GtkReparentingWrapperNoThread.cs" />
-    <Compile Include="Linux\GtkWrapperNoThread.cs" />
     <Compile Include="Interop\nsWeakReference.cs" />
     <Compile Include="NavigateFinishedNotifier.cs" />
     <Compile Include="Dialogs\PasswordDialog.cs">
@@ -199,7 +191,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utils\SaveImageElement.cs" />
     <Compile Include="Linux\X11Structs.cs" />
-    <Compile Include="Linux\GtkOnceOnly.cs" />
     <Compile Include="Utils\WindowsImageCreator.cs" />
   </ItemGroup>
   <ItemGroup>
