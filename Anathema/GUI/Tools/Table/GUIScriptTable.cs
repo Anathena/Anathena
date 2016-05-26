@@ -105,17 +105,35 @@ namespace Anathema
 
         private void OpenScriptToolStripMenuItem_Click(Object Sender, EventArgs E)
         {
+            ListViewHitTestInfo HitTest = ScriptTableListView.HitTest(LastRightClickLocation);
+            ListViewItem SelectedItem = HitTest.Item;
+            Int32 ColumnIndex = HitTest.Item.SubItems.IndexOf(HitTest.SubItem);
 
+            if (SelectedItem == null)
+                return;
+
+            ScriptTablePresenter.OpenScript(SelectedItem.Index);
         }
 
         private void DeleteScriptToolStripMenuItem_Click(Object Sender, EventArgs E)
         {
+            ListViewHitTestInfo HitTest = ScriptTableListView.HitTest(LastRightClickLocation);
+            ListViewItem SelectedItem = HitTest.Item;
+            Int32 ColumnIndex = HitTest.Item.SubItems.IndexOf(HitTest.SubItem);
 
+            if (SelectedItem == null)
+                return;
+
+            ScriptTablePresenter.DeleteScript(SelectedItem.Index);
         }
 
         private void ScriptTableContextMenuStrip_Opening(Object Sender, CancelEventArgs E)
         {
+            ListViewHitTestInfo HitTest = ScriptTableListView.HitTest(ScriptTableListView.PointToClient(MousePosition));
+            ListViewItem SelectedItem = HitTest.Item;
 
+            if (SelectedItem == null)
+                E.Cancel = true;
         }
 
         private ListViewItem DraggedItem;
