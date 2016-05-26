@@ -55,7 +55,7 @@
             this.DeleteSelectionToolStripMenuItem,
             this.AddNewAddressToolStripMenuItem});
             this.AddressTableContextMenuStrip.Name = "RightClickMenu";
-            this.AddressTableContextMenuStrip.Size = new System.Drawing.Size(169, 92);
+            this.AddressTableContextMenuStrip.Size = new System.Drawing.Size(169, 114);
             // 
             // ToggleFreezeToolStripMenuItem
             // 
