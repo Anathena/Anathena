@@ -35,8 +35,8 @@ namespace Anathema.Services.Snapshots.Prefilter
 
         private OSInterface OSInterface;
 
-        private const Int32 ChunkLimit = 4096;
-        private const Int32 ChunkSize = 2048;
+        private const Int32 ChunkLimit = 8192;
+        private const Int32 ChunkSize = 4096;
         private const Int32 RescanTime = 800;
 
         private LinkedList<RegionProperties> ChunkList;
@@ -197,6 +197,7 @@ namespace Anathema.Services.Snapshots.Prefilter
         /// </summary>
         private void ProcessPages()
         {
+            // Check for newly allocated pages
             using (TimedLock.Lock(ChunkLock))
             {
                 foreach (RegionProperties NewPage in CollectNewPages())
@@ -208,39 +209,38 @@ namespace Anathema.Services.Snapshots.Prefilter
                 // Process the allowed amount of chunks from the priority queue
                 Parallel.For(0, Math.Min(ChunkList.Count, ChunkLimit), Index =>
                 {
+                    RegionProperties Chunk;
                     Boolean Success;
-                    RegionProperties RegionProperties;
 
-                    // Search for next page that needs processing
+                    // Grab next available element
+                    lock (ElementLock)
+                    {
+                        Chunk = ChunkList.First();
+                        ChunkList.RemoveFirst();
+
+                        // Do not process chunks that have been marked as changed
+                        if (Chunk.HasChanged())
+                        {
+                            ChunkList.AddLast(Chunk);
+                            return;
+                        }
+                    }
+
+                    // Read current page data for chunk
+                    Byte[] PageData = OSInterface.Process.ReadBytes(Chunk.BaseAddress, Chunk.RegionSize, out Success);
+
+                    // Read failed; Deallocated page
+                    if (!Success)
+                        return;
+
+                    // Update chunk
+                    Chunk.Update(PageData);
+
+                    // Recycle it
                     using (TimedLock.Lock(ElementLock))
                     {
-                        do
-                        {
-                            if (ChunkList.Count <= 0)
-                                return;
-
-                            RegionProperties = ChunkList.First();
-                            ChunkList.RemoveFirst();
-                            ChunkList.AddLast(RegionProperties);
-
-                        } while (RegionProperties.HasChanged());
+                        ChunkList.AddLast(Chunk);
                     }
-
-                    if (RegionProperties.HasChanged())
-                        return;
-
-                    Byte[] PageData = OSInterface.Process.ReadBytes(RegionProperties.BaseAddress, RegionProperties.RegionSize, out Success);
-
-                    if (!Success)
-                    {
-                        using (TimedLock.Lock(ElementLock))
-                        {
-                            ChunkList.Remove(RegionProperties);
-                        }
-                        return;
-                    }
-
-                    RegionProperties.Update(PageData);
                 });
             }
         }
