@@ -1,9 +1,9 @@
-﻿using Anathema.User.UserSettings;
-using Anathema.Utils;
-using Anathema.Utils.MVP;
+﻿using Anathema.Source.Utils;
+using Anathema.Source.Utils.MVP;
+using Anathema.Source.Utils.Setting;
 using System;
 
-namespace Anathema.Scanners
+namespace Anathema.Source.Scanners
 {
     delegate void ScannerEventHandler(Object Sender, ScannerEventArgs Args);
     class ScannerEventArgs : EventArgs

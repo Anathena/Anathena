@@ -1,7 +1,7 @@
-﻿using Anathema.Scanners.LabelThresholder;
+﻿using Anathema.Source.Scanners.LabelThresholder;
 using Anathema.Source.Utils;
-using Anathema.Utils.MVP;
-using Anathema.Utils.Validation;
+using Anathema.Source.Utils.MVP;
+using Anathema.Source.Utils.Validation;
 using System;
 using System.Collections.Generic;
 using System.Drawing;

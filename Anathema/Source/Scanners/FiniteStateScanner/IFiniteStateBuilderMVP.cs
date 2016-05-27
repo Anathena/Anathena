@@ -1,11 +1,11 @@
-﻿using Anathema.Scanners.ScanConstraints;
-using Anathema.Utils.MVP;
-using Anathema.Utils.Validation;
+﻿using Anathema.Source.Scanners.ScanConstraints;
+using Anathema.Source.Utils.MVP;
+using Anathema.Source.Utils.Validation;
 using System;
 using System.Drawing;
 using System.Reflection;
 
-namespace Anathema.Scanners.FiniteStateScanner
+namespace Anathema.Source.Scanners.FiniteStateScanner
 {
     delegate void FiniteStateBuilderEventHandler(Object Sender, FiniteStateBuilderEventArgs Args);
     class FiniteStateBuilderEventArgs : EventArgs

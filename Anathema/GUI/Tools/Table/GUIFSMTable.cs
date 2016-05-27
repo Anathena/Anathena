@@ -1,6 +1,6 @@
-﻿using Anathema.User.UserFSMTable;
-using Anathema.Utils.Cache;
-using Anathema.Utils.MVP;
+﻿using Anathema.Source.Tables.FSMs;
+using Anathema.Source.Utils.Caches;
+using Anathema.Source.Utils.MVP;
 using System;
 using System.Windows.Forms;
 

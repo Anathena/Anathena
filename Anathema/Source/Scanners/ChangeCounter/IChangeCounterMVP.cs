@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Anathema.Scanners.ChangeCounter
+namespace Anathema.Source.Scanners.ChangeCounter
 {
     interface IChangeCounterView : IScannerView
     {

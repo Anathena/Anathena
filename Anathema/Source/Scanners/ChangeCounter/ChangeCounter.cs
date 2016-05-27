@@ -1,11 +1,12 @@
-﻿using Anathema.Services.Snapshots;
+﻿using Anathema.Source.Controller;
 using Anathema.Source.Utils;
-using Anathema.User.UserSettings;
+using Anathema.Source.Utils.Setting;
+using Anathema.Source.Utils.Snapshots;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Anathema.Scanners.ChangeCounter
+namespace Anathema.Source.Scanners.ChangeCounter
 {
     class ChangeCounter : IChangeCounterModel
     {

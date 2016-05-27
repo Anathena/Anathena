@@ -1,13 +1,13 @@
 ﻿using NLua;
 using System;
 
-namespace Anathema.Utils.LUA
+namespace Anathema.Source.Utils.LUA
 {
     public class LuaEngine
     {
         private Lua ScriptEngine;
         private LuaMemoryCore LuaMemoryCore;
-        
+
         public LuaEngine()
         {
             InitializeLuaEngine();
@@ -81,7 +81,7 @@ namespace Anathema.Utils.LUA
         public Boolean RunDeactivationFunction(String Script)
         {
             Script = ReplaceTags(Script);
-            
+
             try
             {
                 ScriptEngine.DoString(Script);

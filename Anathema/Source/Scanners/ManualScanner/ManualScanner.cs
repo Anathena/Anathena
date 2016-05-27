@@ -1,12 +1,12 @@
-﻿using Anathema.Scanners.ScanConstraints;
-using Anathema.Services.Snapshots;
+﻿using Anathema.Source.Scanners.ScanConstraints;
 using Anathema.Source.Utils;
-using Anathema.User.UserSettings;
+using Anathema.Source.Utils.Setting;
+using Anathema.Source.Utils.Snapshots;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Anathema.Scanners.ManualScanner
+namespace Anathema.Source.Scanners.ManualScanner
 {
     class ManualScanner : IManualScannerModel
     {

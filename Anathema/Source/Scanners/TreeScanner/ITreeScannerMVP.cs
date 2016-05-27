@@ -1,4 +1,4 @@
-﻿namespace Anathema.Scanners.TreeScanner
+﻿namespace Anathema.Source.Scanners.TreeScanner
 {
     interface ITreeScannerView : IScannerView
     {

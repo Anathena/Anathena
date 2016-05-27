@@ -4,7 +4,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Windows.Forms;
 
-namespace Anathema.Utils
+namespace Anathema.Source.Utils
 {
     public class MessageBoxEx
     {

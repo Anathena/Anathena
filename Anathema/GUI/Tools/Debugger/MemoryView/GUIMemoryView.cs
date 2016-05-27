@@ -1,8 +1,7 @@
-﻿using Anathema.Services.MemoryView;
-using Anathema.Source.Utils;
+﻿using Anathema.Source.Utils;
 using Anathema.Source.Utils.Extensions;
-using Anathema.Utils.Extensions;
-using Anathema.Utils.MVP;
+using Anathema.Source.Utils.MemoryView;
+using Anathema.Source.Utils.MVP;
 using Be.Windows.Forms;
 using System;
 using System.Collections.Generic;

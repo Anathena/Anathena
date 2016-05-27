@@ -1,6 +1,6 @@
 ﻿using Anathema.Source.Utils;
-using Anathema.Utils.Browser;
-using Anathema.Utils.MVP;
+using Anathema.Source.Utils.Browser;
+using Anathema.Source.Utils.MVP;
 using Gecko;
 using System;
 using System.Windows.Forms;

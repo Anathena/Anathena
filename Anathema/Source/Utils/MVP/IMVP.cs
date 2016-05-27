@@ -1,4 +1,4 @@
-﻿namespace Anathema.Utils.MVP
+﻿namespace Anathema.Source.Utils.MVP
 {
     /// <summary>
     /// Interface for GUI components

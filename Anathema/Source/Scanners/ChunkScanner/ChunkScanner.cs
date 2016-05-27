@@ -1,12 +1,12 @@
-﻿using Anathema.Services.Snapshots;
-using Anathema.User.UserSettings;
-using Anathema.Utils;
-using Anathema.Utils.OS;
+﻿using Anathema.Source.OS;
+using Anathema.Source.Utils;
+using Anathema.Source.Utils.Setting;
+using Anathema.Source.Utils.Snapshots;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace Anathema.Scanners.ChunkScanner
+namespace Anathema.Source.Scanners.ChunkScanner
 {
     class ChunkScanner : IChunkScannerModel
     {

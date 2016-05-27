@@ -1,7 +1,7 @@
-﻿using Anathema.Source.Utils;
-using Anathema.User.UserScriptTable;
-using Anathema.Utils.Cache;
-using Anathema.Utils.MVP;
+﻿using Anathema.Source.Tables.Scripts;
+using Anathema.Source.Utils;
+using Anathema.Source.Utils.Caches;
+using Anathema.Source.Utils.MVP;
 using System;
 using System.ComponentModel;
 using System.Drawing;

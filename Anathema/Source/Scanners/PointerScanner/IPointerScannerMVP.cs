@@ -1,10 +1,10 @@
-﻿using Anathema.Scanners.ScanConstraints;
-using Anathema.Utils.Extensions;
-using Anathema.Utils.Validation;
+﻿using Anathema.Source.Scanners.ScanConstraints;
+using Anathema.Source.Utils.Extensions;
+using Anathema.Source.Utils.Validation;
 using System;
 using System.Collections.Generic;
 
-namespace Anathema.Scanners.PointerScanner
+namespace Anathema.Source.Scanners.PointerScanner
 {
     delegate void PointerScannerEventHandler(Object Sender, PointerScannerEventArgs Args);
     class PointerScannerEventArgs : EventArgs

@@ -1,7 +1,7 @@
-﻿using Anathema.Scanners.InputCorrelator;
+﻿using Anathema.Source.Scanners.InputCorrelator;
 using Anathema.Source.Utils;
-using Anathema.Utils.MVP;
-using Anathema.Utils.Validation;
+using Anathema.Source.Utils.MVP;
+using Anathema.Source.Utils.Validation;
 using Gma.System.MouseKeyHook;
 using System;
 using System.Collections.Generic;

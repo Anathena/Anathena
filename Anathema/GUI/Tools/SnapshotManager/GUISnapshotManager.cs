@@ -1,8 +1,8 @@
-﻿using Anathema.Services.Snapshots;
-using Anathema.Source.Utils;
-using Anathema.Utils.Cache;
-using Anathema.Utils.MVP;
-using Anathema.Utils.Validation;
+﻿using Anathema.Source.Utils;
+using Anathema.Source.Utils.Caches;
+using Anathema.Source.Utils.MVP;
+using Anathema.Source.Utils.Snapshots;
+using Anathema.Source.Utils.Validation;
 using System;
 using System.Drawing;
 using System.Windows.Forms;

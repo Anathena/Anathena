@@ -1,11 +1,10 @@
-﻿using Anathema.Scanners.ScanConstraints;
-using Anathema.Services.ProcessManager;
-using Anathema.Services.Snapshots;
+﻿using Anathema.Source.OS;
+using Anathema.Source.OS.Processes;
+using Anathema.Source.Scanners.ScanConstraints;
+using Anathema.Source.Tables.Addresses;
 using Anathema.Source.Utils.Extensions;
-using Anathema.User.UserAddressTable;
-using Anathema.Utils.Extensions;
-using Anathema.Utils.OS;
-using Anathema.Utils.Validation;
+using Anathema.Source.Utils.Snapshots;
+using Anathema.Source.Utils.Validation;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
@@ -13,7 +12,7 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 
-namespace Anathema.Scanners.PointerScanner
+namespace Anathema.Source.Scanners.PointerScanner
 {
     /*
     Trace-Retrace Algorithm:

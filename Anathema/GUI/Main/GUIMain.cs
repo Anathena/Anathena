@@ -1,8 +1,8 @@
-﻿using Anathema.Source.Utils;
+﻿using Anathema.Source.Controller;
+using Anathema.Source.Utils;
 using Anathema.Source.Utils.Extensions;
-using Anathema.User.Registration;
-using Anathema.Utils;
-using Anathema.Utils.MVP;
+using Anathema.Source.Utils.MVP;
+using Anathema.Source.Utils.Registration;
 using System;
 using System.Deployment.Application;
 using System.Diagnostics;

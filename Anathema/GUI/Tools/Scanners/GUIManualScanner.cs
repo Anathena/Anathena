@@ -1,6 +1,6 @@
-﻿using Anathema.Scanners.ManualScanner;
+﻿using Anathema.Source.Scanners.ManualScanner;
 using Anathema.Source.Utils;
-using Anathema.Utils.MVP;
+using Anathema.Source.Utils.MVP;
 using System;
 using System.Windows.Forms;
 using WeifenLuo.WinFormsUI.Docking;

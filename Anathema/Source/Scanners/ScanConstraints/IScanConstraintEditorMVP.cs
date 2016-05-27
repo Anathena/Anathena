@@ -1,13 +1,13 @@
 ﻿using Anathema.Properties;
-using Anathema.Utils.MVP;
-using Anathema.Utils.Validation;
+using Anathema.Source.Utils.MVP;
+using Anathema.Source.Utils.Validation;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Windows.Forms;
 
-namespace Anathema.Scanners.ScanConstraints
+namespace Anathema.Source.Scanners.ScanConstraints
 {
     delegate void ScanConstraintEditorEventHandler(Object Sender, ScanConstraintEditorEventArgs Args);
     class ScanConstraintEditorEventArgs : EventArgs

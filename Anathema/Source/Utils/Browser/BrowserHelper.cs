@@ -1,12 +1,11 @@
-﻿using Anathema.Source.Utils;
-using Anathema.Utils.OS;
+﻿using Anathema.Source.OS;
 using Gecko;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Windows.Forms;
 
-namespace Anathema.Utils.Browser
+namespace Anathema.Source.Utils.Browser
 {
     class BrowserHelper
     {

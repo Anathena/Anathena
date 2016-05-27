@@ -1,7 +1,7 @@
-﻿using Anathema.Scanners.ScanConstraints;
+﻿using Anathema.Source.Scanners.ScanConstraints;
 using System;
 
-namespace Anathema.Scanners.ManualScanner
+namespace Anathema.Source.Scanners.ManualScanner
 {
     delegate void ManualScannerEventHandler(Object Sender, ManualScannerEventArgs Args);
     class ManualScannerEventArgs : EventArgs

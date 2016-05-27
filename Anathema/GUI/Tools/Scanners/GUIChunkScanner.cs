@@ -1,6 +1,6 @@
-﻿using Anathema.Scanners.ChunkScanner;
+﻿using Anathema.Source.Scanners.ChunkScanner;
 using Anathema.Source.Utils;
-using Anathema.Utils.MVP;
+using Anathema.Source.Utils.MVP;
 using System;
 using WeifenLuo.WinFormsUI.Docking;
 

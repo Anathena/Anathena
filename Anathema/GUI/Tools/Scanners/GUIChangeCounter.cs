@@ -1,7 +1,7 @@
-﻿using Anathema.Scanners.ChangeCounter;
+﻿using Anathema.Source.Scanners.ChangeCounter;
 using Anathema.Source.Utils;
-using Anathema.Utils.MVP;
-using Anathema.Utils.Validation;
+using Anathema.Source.Utils.MVP;
+using Anathema.Source.Utils.Validation;
 using System;
 using System.Drawing;
 using WeifenLuo.WinFormsUI.Docking;

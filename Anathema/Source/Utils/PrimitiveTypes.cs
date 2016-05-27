@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices;
 
-namespace Anathema.Utils
+namespace Anathema.Source.Utils
 {
     class PrimitiveTypes
     {
-        private static Type[] ExcludedTypes = new Type[]{ typeof(IntPtr), typeof(UIntPtr), typeof(Boolean) };
+        private static Type[] ExcludedTypes = new Type[] { typeof(IntPtr), typeof(UIntPtr), typeof(Boolean) };
 
         public static IEnumerable<Type> GetPrimitiveTypes()
         {

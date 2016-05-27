@@ -1,8 +1,8 @@
-﻿using Anathema.Source.Utils;
-using Anathema.User.UserAddressTable;
-using Anathema.Utils.Cache;
-using Anathema.Utils.MVP;
-using Anathema.Utils.Validation;
+﻿using Anathema.Source.Tables.Addresses;
+using Anathema.Source.Utils;
+using Anathema.Source.Utils.Caches;
+using Anathema.Source.Utils.MVP;
+using Anathema.Source.Utils.Validation;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;

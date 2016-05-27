@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Anathema.Scanners.ChunkScanner
+namespace Anathema.Source.Scanners.ChunkScanner
 {
     interface IChunkScannerView : IScannerView
     {

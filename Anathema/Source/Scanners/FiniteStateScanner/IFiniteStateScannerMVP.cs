@@ -1,4 +1,4 @@
-﻿namespace Anathema.Scanners.FiniteStateScanner
+﻿namespace Anathema.Source.Scanners.FiniteStateScanner
 {
     interface IFiniteStateScannerView : IScannerView
     {

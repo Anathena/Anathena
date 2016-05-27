@@ -1,12 +1,12 @@
-﻿using Anathema.Services.Snapshots;
-using Anathema.User.UserSettings;
-using Anathema.Utils;
-using Anathema.Utils.OS;
+﻿using Anathema.Source.OS;
+using Anathema.Source.Utils;
+using Anathema.Source.Utils.Setting;
+using Anathema.Source.Utils.Snapshots;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace Anathema.Scanners.TreeScanner
+namespace Anathema.Source.Scanners.TreeScanner
 {
     /// <summary>
     /// Consantly queries the OS for all of the memory of the target program to determine if any of it has changed via chunk hashing.

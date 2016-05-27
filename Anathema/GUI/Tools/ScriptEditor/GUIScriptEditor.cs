@@ -1,8 +1,7 @@
-﻿using Anathema.Source.Utils;
-using Anathema.User.UserScriptEditor;
-using Anathema.Utils;
-using Anathema.Utils.LUA;
-using Anathema.Utils.MVP;
+﻿using Anathema.Source.Tables.Scripts.Editor;
+using Anathema.Source.Utils;
+using Anathema.Source.Utils.LUA;
+using Anathema.Source.Utils.MVP;
 using ScintillaNET;
 using System;
 using System.Drawing;
