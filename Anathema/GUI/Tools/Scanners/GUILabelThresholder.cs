@@ -19,9 +19,9 @@ namespace Anathema.GUI
         {
             InitializeComponent();
 
-            LabelThresholderPresenter = new LabelThresholderPresenter(this, new LabelThresholder());
             AccessLock = new Object();
 
+            LabelThresholderPresenter = new LabelThresholderPresenter(this, new LabelThresholder());
             LabelThresholderPresenter.Begin();
         }
 
@@ -42,6 +42,11 @@ namespace Anathema.GUI
 
             UpdateTrackBarRanges(BarCount);
             VisualizeSelection();
+
+            ControlThreadingHelper.InvokeControlAction(LabelFrequencyChart, () =>
+            {
+                LabelFrequencyChart.Invalidate();
+            });
         }
 
         private void VisualizeSelection()
