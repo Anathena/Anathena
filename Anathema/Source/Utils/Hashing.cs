@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Anathema.Source.Scanners
+namespace Anathema.Source.Utils
 {
     class Hashing
     {

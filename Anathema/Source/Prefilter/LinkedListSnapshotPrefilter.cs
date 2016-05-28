@@ -1,6 +1,5 @@
 ﻿using Anathema.Source.OS;
 using Anathema.Source.OS.Processes;
-using Anathema.Source.Scanners;
 using Anathema.Source.Utils;
 using Anathema.Source.Utils.Extensions;
 using Anathema.Source.Utils.Setting;
