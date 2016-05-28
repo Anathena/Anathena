@@ -30,7 +30,7 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(GUIScriptTable));
-            this.AddAddressButton = new System.Windows.Forms.ToolStripButton();
+            this.AddScriptButton = new System.Windows.Forms.ToolStripButton();
             this.TableToolStrip = new System.Windows.Forms.ToolStrip();
             this.ScriptTableContextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.OpenScriptToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -38,25 +38,27 @@
             this.ScriptTableListView = new Anathema.GUI.CheckableListView();
             this.ScriptActiveHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.ScriptDescriptionHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.NewScriptToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.TableToolStrip.SuspendLayout();
             this.ScriptTableContextMenuStrip.SuspendLayout();
             this.SuspendLayout();
             // 
-            // AddAddressButton
+            // AddScriptButton
             // 
-            this.AddAddressButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.AddAddressButton.Image = global::Anathema.Properties.Resources.Increased;
-            this.AddAddressButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.AddAddressButton.Name = "AddAddressButton";
-            this.AddAddressButton.Size = new System.Drawing.Size(21, 20);
-            this.AddAddressButton.Text = "Add New Address";
+            this.AddScriptButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.AddScriptButton.Image = global::Anathema.Properties.Resources.Increased;
+            this.AddScriptButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.AddScriptButton.Name = "AddScriptButton";
+            this.AddScriptButton.Size = new System.Drawing.Size(21, 20);
+            this.AddScriptButton.Text = "Add New Script";
+            this.AddScriptButton.Click += new System.EventHandler(this.AddScriptButton_Click);
             // 
             // TableToolStrip
             // 
             this.TableToolStrip.Dock = System.Windows.Forms.DockStyle.Right;
             this.TableToolStrip.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
             this.TableToolStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.AddAddressButton});
+            this.AddScriptButton});
             this.TableToolStrip.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.VerticalStackWithOverflow;
             this.TableToolStrip.Location = new System.Drawing.Point(459, 0);
             this.TableToolStrip.Name = "TableToolStrip";
@@ -67,10 +69,11 @@
             // ScriptTableContextMenuStrip
             // 
             this.ScriptTableContextMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.NewScriptToolStripMenuItem,
             this.OpenScriptToolStripMenuItem,
             this.DeleteScriptToolStripMenuItem});
             this.ScriptTableContextMenuStrip.Name = "RightClickMenu";
-            this.ScriptTableContextMenuStrip.Size = new System.Drawing.Size(153, 70);
+            this.ScriptTableContextMenuStrip.Size = new System.Drawing.Size(153, 92);
             // 
             // OpenScriptToolStripMenuItem
             // 
@@ -125,6 +128,13 @@
             this.ScriptDescriptionHeader.Text = "Description";
             this.ScriptDescriptionHeader.Width = 191;
             // 
+            // NewScriptToolStripMenuItem
+            // 
+            this.NewScriptToolStripMenuItem.Name = "NewScriptToolStripMenuItem";
+            this.NewScriptToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.NewScriptToolStripMenuItem.Text = "New Script";
+            this.NewScriptToolStripMenuItem.Click += new System.EventHandler(this.NewScriptToolStripMenuItem_Click);
+            // 
             // GUIScriptTable
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -145,7 +155,7 @@
         }
 
         #endregion
-        private System.Windows.Forms.ToolStripButton AddAddressButton;
+        private System.Windows.Forms.ToolStripButton AddScriptButton;
         private System.Windows.Forms.ToolStrip TableToolStrip;
         private GUI.CheckableListView ScriptTableListView;
         private System.Windows.Forms.ColumnHeader ScriptActiveHeader;
@@ -153,5 +163,6 @@
         private System.Windows.Forms.ContextMenuStrip ScriptTableContextMenuStrip;
         private System.Windows.Forms.ToolStripMenuItem OpenScriptToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem DeleteScriptToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem NewScriptToolStripMenuItem;
     }
 }

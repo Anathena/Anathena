@@ -23,7 +23,7 @@ namespace Anathema.GUI
 
         public void DisplayScanCount(Int32 ScanCount)
         {
-            ControlThreadingHelper.InvokeControlAction(ScanCountLabel.GetCurrentParent(), () =>
+            ControlThreadingHelper.InvokeControlAction(ScanToolStrip, () =>
             {
                 using (TimedLock.Lock(AccessLock))
                 {

@@ -307,7 +307,7 @@
     <Compile Include="Source\Tables\Scripts\Editor\ScriptEditor.cs" />
     <Compile Include="Source\Utils\Snapshots\SnapshotRegion.cs" />
     <Compile Include="Source\Utils\Snapshots\SnapshotElement.cs" />
-    <Compile Include="Source\Scanners\Hashing.cs" />
+    <Compile Include="Source\Utils\Hashing.cs" />
     <Compile Include="GUI\CustomControls\HexEditor\BitControl.cs">
       <SubType>UserControl</SubType>
     </Compile>

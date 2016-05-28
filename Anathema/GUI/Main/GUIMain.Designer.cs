@@ -484,6 +484,7 @@
             this.ValueTypeComboBox.DropDownWidth = 84;
             this.ValueTypeComboBox.Name = "ValueTypeComboBox";
             this.ValueTypeComboBox.Size = new System.Drawing.Size(84, 25);
+            this.ValueTypeComboBox.Visible = false;
             // 
             // ProcessTitleLabel
             // 

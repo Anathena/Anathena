@@ -31,8 +31,8 @@ namespace Anathema.Source.Utils.LUA
                 "end" + "\n\t\n" +
 
                 "function CheatA()" + "\n\t\n" +
-                "\t" + "local Entry = Ana:GetModuleAddress(\"" + ModuleName + "\") + 0x" + ModuleOffset.ToString("x") + "\n" +
-                "\t" + "Ana:SetKeyword(\"exit\", Ana:GetCaveExitAddress(Entry))" + "\n\t\n" +
+                "\t" + "local Entry = Engine:GetModuleAddress(\"" + ModuleName + "\") + 0x" + ModuleOffset.ToString("x") + "\n" +
+                "\t" + "Engine:SetKeyword(\"exit\", Engine:GetCaveExitAddress(Entry))" + "\n\t\n" +
 
                 "\t" + "local Assembly = (" + "\n" +
                 "\t" + "[fasm]" + "\n" +
@@ -40,12 +40,12 @@ namespace Anathema.Source.Utils.LUA
                 "\t" + "jmp exit" + "\n" +
                 "\t" + "[/fasm])" + "\n\t\n" +
 
-                "\tAna:CreateCodeCave(Entry, Assembly)" + "\n" +
+                "\t" + "Engine:CreateCodeCave(Entry, Assembly)" + "\n" +
                 "end" + "\n\t\n" +
 
                 "function OnDeactivate()" + "\n\t\n" +
-                "\t" + "Ana:ClearAllKeywords()" + "\n" +
-                "\t" + "Ana:RemoveAllCodeCaves()" + "\n\t\n" +
+                "\t" + "Engine:ClearAllKeywords()" + "\n" +
+                "\t" + "Engine:RemoveAllCodeCaves()" + "\n\t\n" +
                 "end";
 
             return Script + CodeInjection;
@@ -55,7 +55,9 @@ namespace Anathema.Source.Utils.LUA
         {
             // Disallow users to import libraries
             ScriptEngine.DoString(@" import = function () end ");
-            ScriptEngine["Ana"] = LuaMemoryCore;
+
+            // Bind the lua functions to a user accessible object
+            ScriptEngine["Engine"] = LuaMemoryCore;
         }
 
         public Boolean RunActivationFunction(String Script)

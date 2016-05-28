@@ -26,7 +26,7 @@ namespace Anathema.GUI
 
         public void UpdateMemorySizeLabel(String MemorySize, String ItemCount)
         {
-            ControlThreadingHelper.InvokeControlAction(SnapshotSizeValueLabel.GetCurrentParent(), () =>
+            ControlThreadingHelper.InvokeControlAction(GUIToolStrip, () =>
             {
                 SnapshotSizeValueLabel.Text = MemorySize + " - (" + ItemCount + ")";
             });

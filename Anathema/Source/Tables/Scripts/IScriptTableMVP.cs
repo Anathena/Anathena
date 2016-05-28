@@ -59,6 +59,11 @@ namespace Anathema.Source.Tables.Scripts
             Model.OpenScript(Index);
         }
 
+        public void AddNewScript()
+        {
+            Model.AddScriptItem(new ScriptItem());
+        }
+
         public void DeleteScript(Int32 Index)
         {
             Model.DeleteScript(Index);

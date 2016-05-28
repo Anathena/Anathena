@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
 using System.Runtime.Serialization;
+using System.Runtime.Serialization.Json;
 
 namespace Anathema.Source.Tables
 {
@@ -65,7 +66,7 @@ namespace Anathema.Source.Tables
             {
                 using (FileStream FileStream = new FileStream(Path, FileMode.Create, FileAccess.Write))
                 {
-                    DataContractSerializer Serializer = new DataContractSerializer(typeof(TableData));
+                    DataContractJsonSerializer Serializer = new DataContractJsonSerializer(typeof(TableData));
 
                     // Gather items we need to save
                     CurrentTableData.AddressItems = AddressTable.GetInstance().GetAddressItems();
@@ -86,6 +87,7 @@ namespace Anathema.Source.Tables
         [Obfuscation(Exclude = true)]
         public Boolean OpenTable(String Path)
         {
+            // DELETE XML SERIALIZER EVENTUALLY (Legacy loading scheme, switched to JSON)
             try
             {
                 using (FileStream FileStream = new FileStream(Path, FileMode.Open, FileAccess.Read))
@@ -100,7 +102,22 @@ namespace Anathema.Source.Tables
             }
             catch
             {
-                return false;
+                try
+                {
+                    using (FileStream FileStream = new FileStream(Path, FileMode.Open, FileAccess.Read))
+                    {
+                        DataContractJsonSerializer Serializer = new DataContractJsonSerializer(typeof(TableData));
+                        CurrentTableData = (TableData)Serializer.ReadObject(FileStream);
+
+                        // Distribute loaded items to the appropriate tables
+                        AddressTable.GetInstance().SetAddressItems(CurrentTableData.AddressItems);
+                        ScriptTable.GetInstance().SetScriptItems(CurrentTableData.ScriptItems);
+                    }
+                }
+                catch
+                {
+                    return false;
+                }
             }
 
             TableSaved();

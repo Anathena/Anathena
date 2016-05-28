@@ -109,7 +109,7 @@ namespace Anathema.GUI
 
         public void RemoveRelativeScans()
         {
-            ControlThreadingHelper.InvokeControlAction(ScanOptionsToolStripDropDownButton.GetCurrentParent(), () =>
+            ControlThreadingHelper.InvokeControlAction(ConstraintToolStrip, () =>
             {
                 using (TimedLock.Lock(AccessLock))
                 {

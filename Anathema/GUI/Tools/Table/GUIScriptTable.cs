@@ -67,6 +67,11 @@ namespace Anathema
             E.Item = Item;
         }
 
+        private void AddScriptButton_Click(Object Sender, EventArgs E)
+        {
+            ScriptTablePresenter.AddNewScript();
+        }
+
         private void ScriptTableListView_MouseClick(Object Sender, MouseEventArgs E)
         {
             using (TimedLock.Lock(AccessLock))
@@ -101,6 +106,10 @@ namespace Anathema
 
                 ScriptTablePresenter.OpenScript(SelectedItem.Index);
             }
+        }
+        private void NewScriptToolStripMenuItem_Click(Object Sender, EventArgs E)
+        {
+            ScriptTablePresenter.AddNewScript();
         }
 
         private void OpenScriptToolStripMenuItem_Click(Object Sender, EventArgs E)

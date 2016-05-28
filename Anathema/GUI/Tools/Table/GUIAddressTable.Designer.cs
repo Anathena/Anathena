@@ -35,14 +35,14 @@
             this.EditAddressEntryToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.DeleteSelectionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.AddNewAddressToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.AddAddressButton = new System.Windows.Forms.ToolStripButton();
+            this.TableToolStrip = new System.Windows.Forms.ToolStrip();
             this.AddressTableListView = new Anathema.GUI.CheckableListView();
             this.FrozenHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.DescriptionHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.AddressHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.TypeHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.ValueHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.AddAddressButton = new System.Windows.Forms.ToolStripButton();
-            this.TableToolStrip = new System.Windows.Forms.ToolStrip();
             this.AddressTableContextMenuStrip.SuspendLayout();
             this.TableToolStrip.SuspendLayout();
             this.SuspendLayout();
@@ -55,7 +55,7 @@
             this.DeleteSelectionToolStripMenuItem,
             this.AddNewAddressToolStripMenuItem});
             this.AddressTableContextMenuStrip.Name = "RightClickMenu";
-            this.AddressTableContextMenuStrip.Size = new System.Drawing.Size(169, 114);
+            this.AddressTableContextMenuStrip.Size = new System.Drawing.Size(169, 92);
             // 
             // ToggleFreezeToolStripMenuItem
             // 
@@ -84,6 +84,29 @@
             this.AddNewAddressToolStripMenuItem.Size = new System.Drawing.Size(168, 22);
             this.AddNewAddressToolStripMenuItem.Text = "Add New Address";
             this.AddNewAddressToolStripMenuItem.Click += new System.EventHandler(this.AddNewAddressToolStripMenuItem_Click);
+            // 
+            // AddAddressButton
+            // 
+            this.AddAddressButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.AddAddressButton.Image = global::Anathema.Properties.Resources.Increased;
+            this.AddAddressButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.AddAddressButton.Name = "AddAddressButton";
+            this.AddAddressButton.Size = new System.Drawing.Size(21, 20);
+            this.AddAddressButton.Text = "Add New Address";
+            this.AddAddressButton.Click += new System.EventHandler(this.AddAddressButton_Click);
+            // 
+            // TableToolStrip
+            // 
+            this.TableToolStrip.Dock = System.Windows.Forms.DockStyle.Right;
+            this.TableToolStrip.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
+            this.TableToolStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.AddAddressButton});
+            this.TableToolStrip.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.VerticalStackWithOverflow;
+            this.TableToolStrip.Location = new System.Drawing.Point(459, 0);
+            this.TableToolStrip.Name = "TableToolStrip";
+            this.TableToolStrip.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
+            this.TableToolStrip.Size = new System.Drawing.Size(24, 225);
+            this.TableToolStrip.TabIndex = 150;
             // 
             // AddressTableListView
             // 
@@ -141,29 +164,6 @@
             this.ValueHeader.Text = "Value";
             this.ValueHeader.Width = 104;
             // 
-            // AddAddressButton
-            // 
-            this.AddAddressButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.AddAddressButton.Image = global::Anathema.Properties.Resources.Increased;
-            this.AddAddressButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.AddAddressButton.Name = "AddAddressButton";
-            this.AddAddressButton.Size = new System.Drawing.Size(21, 20);
-            this.AddAddressButton.Text = "Add New Address";
-            this.AddAddressButton.Click += new System.EventHandler(this.AddAddressButton_Click);
-            // 
-            // TableToolStrip
-            // 
-            this.TableToolStrip.Dock = System.Windows.Forms.DockStyle.Right;
-            this.TableToolStrip.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
-            this.TableToolStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.AddAddressButton});
-            this.TableToolStrip.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.VerticalStackWithOverflow;
-            this.TableToolStrip.Location = new System.Drawing.Point(459, 0);
-            this.TableToolStrip.Name = "TableToolStrip";
-            this.TableToolStrip.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
-            this.TableToolStrip.Size = new System.Drawing.Size(24, 225);
-            this.TableToolStrip.TabIndex = 150;
-            // 
             // GUIAddressTable
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -174,7 +174,7 @@
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "GUIAddressTable";
-            this.Text = "Codes";
+            this.Text = "Addresses";
             this.AddressTableContextMenuStrip.ResumeLayout(false);
             this.TableToolStrip.ResumeLayout(false);
             this.TableToolStrip.PerformLayout();

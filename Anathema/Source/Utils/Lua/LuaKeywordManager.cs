@@ -71,9 +71,10 @@ namespace Anathema.Source.Utils.LUA
             " VPGATHERDQ VPGATHERQD VPGATHERQQ VPMASKMOV VPSLLVD VPSLLVQ VPSRAVD VPSRLVD VPSRLVQ VTESTPD VTESTPS VZEROALL VZEROUPPER" +
             " WAIT WBINVD WRFSBASE WRGSBASE WRMSR XABORT XACQUIRE XADD XBEGIN XCHG XEND XGETBV XLAT XLATB XOR XORPD XORPS XRELEASE" +
             " XRSTOR XRSTORS XSAVE XSAVEC XSAVEOPT XSAVES XSETBV XTEST";
+
         public static String AsmInstructionKeywords { get { SortKeywords(); return _AsmInstructionKeywords; } private set { _AsmInstructionKeywords = value; } }
 
-        private static String _AnathemaKeywords = "Ana fasm nasm masm";
+        private static String _AnathemaKeywords = "Engine fasm nasm masm";
         public static String AnathemaKeywords { get { SortKeywords(); return _AnathemaKeywords; } private set { _AnathemaKeywords = value; } }
 
         private static String _AllLuaKeywords = String.Empty;
