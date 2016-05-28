@@ -478,7 +478,7 @@ namespace Anathema.GUI
 
         public void BeginSaveTable()
         {
-            if (ActiveTablePath == String.Empty)
+            if (ActiveTablePath == null || ActiveTablePath == String.Empty)
             {
                 BeginSaveAsTable();
                 return;

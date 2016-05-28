@@ -290,6 +290,12 @@ namespace Anathema.Source.OS.OperatingSystems.Windows.Memory
                     QueryResult = NativeMethods.VirtualQueryEx(ProcessHandle, StartAddress, out MemoryInfo, MarshalType<MemoryBasicInformation64>.Size);
                 }
 
+                if (StartAddress.ToUInt64() >= 2147450000)
+                {
+                    int i = 0;
+                    i++;
+                }
+
                 // Increment the starting address with the size of the page
                 IntPtr PreviousFrom = StartAddress;
                 StartAddress = StartAddress.Add(MemoryInfo.RegionSize);
