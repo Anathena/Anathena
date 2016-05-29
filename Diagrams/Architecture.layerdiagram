@@ -1,0 +1,52 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<layerModel xmlns:dm0="http://schemas.microsoft.com/VisualStudio/2008/DslTools/Core" xmlns:dm1="http://schemas.microsoft.com/dsltools/SimpleShapesModel" dslVersion="1.0.0.0" Id="4f0440b7-415a-4806-8f73-f34ee1d4961f" xmlns="http://schemas.microsoft.com/VisualStudio/TeamArchitect/LayerDesigner">
+  <layers>
+    <layer Id="14eb49b9-2594-42a2-b842-05256ea83d7d" name="Operating System">
+      <dependencyToLayers>
+        <dependencyFromLayerToLayer Id="53683232-3864-4b09-af7a-ec88cbddb8ac" direction="Forward">
+          <layerMoniker Id="dc9db3e4-3f72-400c-8053-29fa0d99695d" />
+        </dependencyFromLayerToLayer>
+      </dependencyToLayers>
+    </layer>
+    <layer Id="46dcb7ea-f263-4827-9ff4-9dce87ebdc7d" name="Target Process">
+      <dependencyToLayers>
+        <dependencyFromLayerToLayer Id="f5dfdfa8-8150-4d71-a1ff-84098268fe76" direction="Forward">
+          <layerMoniker Id="14eb49b9-2594-42a2-b842-05256ea83d7d" />
+        </dependencyFromLayerToLayer>
+      </dependencyToLayers>
+    </layer>
+    <layer Id="4058aa91-102f-4a50-b51b-52aa516a8fa9" name="Anathema">
+      <childLayers>
+        <layer Id="dc9db3e4-3f72-400c-8053-29fa0d99695d" name="OS Interface">
+          <dependencyToLayers>
+            <dependencyFromLayerToLayer Id="39adf485-55a5-4404-9594-43f3baa51191" direction="Forward">
+              <layerMoniker Id="6615d7b3-8f9b-4f18-8d2c-f44b6d30e3b9" />
+            </dependencyFromLayerToLayer>
+          </dependencyToLayers>
+        </layer>
+        <layer Id="6615d7b3-8f9b-4f18-8d2c-f44b6d30e3b9" name="Prefilter">
+          <dependencyToLayers>
+            <dependencyFromLayerToLayer Id="f04900dd-4a49-4a30-86fd-cad7e9e526d2" direction="Forward">
+              <layerMoniker Id="a6b85750-87c9-48cb-8f44-79923658053d" />
+            </dependencyFromLayerToLayer>
+          </dependencyToLayers>
+        </layer>
+        <layer Id="a6b85750-87c9-48cb-8f44-79923658053d" name="Scanners">
+          <dependencyToLayers>
+            <dependencyFromLayerToLayer Id="c558636c-0fe4-4cde-b087-a1155949f1f9" direction="Forward">
+              <layerMoniker Id="b5ee2d19-a506-43d1-876a-96ca942c35e3" />
+            </dependencyFromLayerToLayer>
+          </dependencyToLayers>
+        </layer>
+        <layer Id="b5ee2d19-a506-43d1-876a-96ca942c35e3" name="Results">
+          <dependencyToLayers>
+            <dependencyFromLayerToLayer Id="88a58286-cacf-4927-a7e8-6e111e50397d" direction="Forward">
+              <layerMoniker Id="1f83d2d9-dcde-46a1-8f44-b9bdd519a39b" />
+            </dependencyFromLayerToLayer>
+          </dependencyToLayers>
+        </layer>
+        <layer Id="1f83d2d9-dcde-46a1-8f44-b9bdd519a39b" name="Table" />
+      </childLayers>
+    </layer>
+  </layers>
+</layerModel>

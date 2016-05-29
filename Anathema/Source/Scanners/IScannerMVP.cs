@@ -1,9 +1,9 @@
-﻿using Anathema.User.UserSettings;
-using Anathema.Utils;
-using Anathema.Utils.MVP;
+﻿using Anathema.Source.Utils;
+using Anathema.Source.Utils.MVP;
+using Anathema.Source.Utils.Setting;
 using System;
 
-namespace Anathema.Scanners
+namespace Anathema.Source.Scanners
 {
     delegate void ScannerEventHandler(Object Sender, ScannerEventArgs Args);
     class ScannerEventArgs : EventArgs
@@ -23,6 +23,9 @@ namespace Anathema.Scanners
     {
         public Int32 ScanCount;
         public event ScannerEventHandler EventUpdateScanCount;
+
+        public virtual void OnGUIOpen() { }
+
         protected virtual void OnEventUpdateScanCount(ScannerEventArgs E)
         {
             EventUpdateScanCount?.Invoke(this, E);
@@ -44,8 +47,14 @@ namespace Anathema.Scanners
 
     class ScannerPresenter : Presenter<IScannerView, IScannerModel>
     {
+        private new IScannerView View { get; set; }
+        private new IScannerModel Model { get; set; }
+
         public ScannerPresenter(IScannerView View, IScannerModel Model) : base(View, Model)
         {
+            this.View = View;
+            this.Model = Model;
+
             // Bind events triggered by the model
             Model.EventUpdateScanCount += EventDisplayScanCount;
         }

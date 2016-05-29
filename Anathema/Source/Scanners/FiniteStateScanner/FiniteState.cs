@@ -1,10 +1,10 @@
-﻿using Anathema.Scanners.ScanConstraints;
+﻿using Anathema.Source.Scanners.ScanConstraints;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Drawing;
 
-namespace Anathema.Scanners.FiniteStateScanner
+namespace Anathema.Source.Scanners.FiniteStateScanner
 {
     /// <summary>
     /// Extension of scan constraints, however this keeps track of transitions and their resulting actions for FSM scans
@@ -50,7 +50,7 @@ namespace Anathema.Scanners.FiniteStateScanner
         {
             return this.StateEvent;
         }
-        
+
         public void AddTransition(ScanConstraint Constraint, FiniteState State)
         {
             // Enforce unique outgoing constraints and only one transition to a given state from this one

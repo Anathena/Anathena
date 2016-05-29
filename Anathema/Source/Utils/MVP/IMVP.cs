@@ -1,13 +1,11 @@
-﻿using System;
-
-namespace Anathema.Utils.MVP
+﻿namespace Anathema.Source.Utils.MVP
 {
     /// <summary>
     /// Interface for GUI components
     /// </summary>
     public interface IView
     {
-        // Nothing here yet, may not be needed.
+        // Base view interface. No functions yet, this may change.
     }
 
     /// <summary>
@@ -15,7 +13,7 @@ namespace Anathema.Utils.MVP
     /// </summary>
     public interface IModel
     {
-        // Nothing here yet, may not be needed.
+        void OnGUIOpen();
     }
 
     /// <summary>
@@ -29,14 +27,10 @@ namespace Anathema.Utils.MVP
 
         public Presenter(TView View, TModel Model)
         {
-            if (View == null)
-                throw new ArgumentNullException("View");
-
-            if (Model == null)
-                throw new ArgumentNullException("Model");
-
             this.View = View;
             this.Model = Model;
         }
-    }
-}
+
+    } // End class
+
+} // End namespace

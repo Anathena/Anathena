@@ -1,7 +1,7 @@
-﻿using Anathema.User.UserAddressTable;
-using Anathema.User.UserAddressTableEntryEditor;
-using Anathema.Utils;
-using Anathema.Utils.Validation;
+﻿using Anathema.Source.Tables.Addresses;
+using Anathema.Source.Tables.Addresses.Editor;
+using Anathema.Source.Utils;
+using Anathema.Source.Utils.Validation;
 using System;
 using System.Collections.Generic;
 using System.Data;

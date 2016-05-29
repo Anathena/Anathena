@@ -15,22 +15,24 @@
     <IsWebBootstrapper>true</IsWebBootstrapper>
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
-    <PublishUrl>F:\Users\Zachary\Documents\Visual Studio 2015\Projects\AnathemaWeb\release\</PublishUrl>
+    <PublishUrl>F:\Users\Zachary\Documents\Visual Studio 2015\Projects\AnathemaWeb\release\x86\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Web</InstallFrom>
     <UpdateEnabled>true</UpdateEnabled>
-    <UpdateMode>Foreground</UpdateMode>
+    <UpdateMode>Background</UpdateMode>
     <UpdateInterval>7</UpdateInterval>
     <UpdateIntervalUnits>Days</UpdateIntervalUnits>
     <UpdatePeriodically>false</UpdatePeriodically>
-    <UpdateRequired>false</UpdateRequired>
+    <UpdateRequired>true</UpdateRequired>
     <MapFileExtensions>true</MapFileExtensions>
-    <InstallUrl>http://anathemaengine.com/release/</InstallUrl>
+    <InstallUrl>http://anathemaengine.com/release/x86/</InstallUrl>
     <ProductName>Anathema Engine</ProductName>
     <PublisherName>Anathema Engine</PublisherName>
-    <ApplicationRevision>0</ApplicationRevision>
-    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <MinimumRequiredVersion>1.3.0.3</MinimumRequiredVersion>
+    <ApplicationRevision>3</ApplicationRevision>
+    <ApplicationVersion>1.3.0.3</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
+    <PublishWizardCompleted>true</PublishWizardCompleted>
     <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -88,20 +90,47 @@
     <DebugType>full</DebugType>
     <PlatformTarget>x64</PlatformTarget>
     <ErrorReport>prompt</ErrorReport>
-    <CodeAnalysisRuleSet>
-    </CodeAnalysisRuleSet>
+    <CodeAnalysisRuleSet>SecurityRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
     <OutputPath>bin\x64\Release\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
-    <Optimize>false</Optimize>
+    <Optimize>true</Optimize>
     <DebugType>pdbonly</DebugType>
     <PlatformTarget>x64</PlatformTarget>
     <ErrorReport>prompt</ErrorReport>
-    <CodeAnalysisRuleSet>
-    </CodeAnalysisRuleSet>
+    <CodeAnalysisRuleSet>SecurityRules.ruleset</CodeAnalysisRuleSet>
     <Prefer32Bit>true</Prefer32Bit>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignManifests>false</SignManifests>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ManifestCertificateThumbprint>31989FD0C8E5CF4C6CDDE1AFBAF613486281F72E</ManifestCertificateThumbprint>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ManifestKeyFile>Anathema_TemporaryKey.pfx</ManifestKeyFile>
+  </PropertyGroup>
+  <PropertyGroup>
+    <GenerateManifests>true</GenerateManifests>
+  </PropertyGroup>
+  <PropertyGroup>
+    <TargetZone>LocalIntranet</TargetZone>
+  </PropertyGroup>
+  <PropertyGroup />
+  <PropertyGroup>
+    <SignAssembly>false</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>
+    </AssemblyOriginatorKeyFile>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationManifest>Properties\app.manifest</ApplicationManifest>
+  </PropertyGroup>
+  <PropertyGroup>
+    <DelaySign>false</DelaySign>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="KopiLua">
@@ -112,6 +141,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Deployment" />
     <Reference Include="System.Runtime.Remoting" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Security" />
@@ -120,7 +150,6 @@
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
-    <Reference Include="System.Deployment" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Windows.Forms" />
@@ -166,10 +195,10 @@
     <Compile Include="GUI\Tools\Scanners\GUIConstraintEditor.Designer.cs">
       <DependentUpon>GUIConstraintEditor.cs</DependentUpon>
     </Compile>
-    <Compile Include="GUI\Tools\Settings\GUISettings.cs">
+    <Compile Include="GUI\Tools\UserSettings\GUISettings.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="GUI\Tools\Settings\GUISettings.Designer.cs">
+    <Compile Include="GUI\Tools\UserSettings\GUISettings.Designer.cs">
       <DependentUpon>GUISettings.cs</DependentUpon>
     </Compile>
     <Compile Include="GUI\Tools\Debugger\CodeView\GUICodeView.cs">
@@ -208,17 +237,17 @@
     <Compile Include="GUI\Tools\ScriptEditor\GUIScriptEditor.Designer.cs">
       <DependentUpon>GUIScriptEditor.cs</DependentUpon>
     </Compile>
+    <Compile Include="GUI\Tools\Table\GUIScriptTable.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI\Tools\Table\GUIScriptTable.Designer.cs">
+      <DependentUpon>GUIScriptTable.cs</DependentUpon>
+    </Compile>
     <Compile Include="GUI\Tools\Table\GUIFSMTable.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="GUI\Tools\Table\GUIFSMTable.Designer.cs">
       <DependentUpon>GUIFSMTable.cs</DependentUpon>
-    </Compile>
-    <Compile Include="GUI\Tools\Table\GUIScriptTable.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="GUI\Tools\Table\GUIScriptTable.Designer.cs">
-      <DependentUpon>GUIScriptTable.cs</DependentUpon>
     </Compile>
     <Compile Include="GUI\Tools\Table\GUIAddressTableEntryEditor.cs">
       <SubType>Form</SubType>
@@ -226,39 +255,41 @@
     <Compile Include="GUI\Tools\Table\GUIAddressTableEntryEditor.Designer.cs">
       <DependentUpon>GUIAddressTableEntryEditor.cs</DependentUpon>
     </Compile>
-    <Compile Include="GUI\Tools\Table\GUIAddressTable.cs">
-      <SubType>UserControl</SubType>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="GUI\Tools\Table\GUIAddressTable.Designer.cs">
-      <DependentUpon>GUIAddressTable.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Source\Services\Snapshots\SnapshotPrefilter.cs" />
+    <Compile Include="Source\Prefilter\ISnapshotPrefilter.cs" />
+    <Compile Include="Source\Prefilter\LinkedListSnapshotPrefilter.cs" />
+    <Compile Include="Source\Prefilter\QueueSnapshotPrefilter.cs" />
+    <Compile Include="Source\Prefilter\SnapshotPrefilterFactory.cs" />
     <Compile Include="Source\Utils\Browser\BrowserHelper.cs" />
     <Compile Include="Source\Utils\Extensions\IEnumerableExtensions.cs" />
     <Compile Include="Source\Utils\Extensions\IntExtensions.cs" />
     <Compile Include="Source\Utils\Extensions\IntPtrExtensions.cs" />
-    <Compile Include="Source\Utils\Cache\ObjectCache.cs" />
+    <Compile Include="Source\Utils\Caches\ObjectCache.cs" />
     <Compile Include="Source\Utils\Extensions\PrimitiveExtensions.cs" />
     <Compile Include="Source\Utils\MessageBoxEx.cs" />
     <Compile Include="Source\Utils\Extensions\ObjectExtensions.cs" />
-    <Compile Include="Source\Utils\OS\Architecture\Architecture.cs" />
-    <Compile Include="Source\Utils\OS\NormalizedModule.cs" />
-    <Compile Include="Source\Utils\OS\NormalizedRegion.cs" />
-    <Compile Include="Source\Utils\OS\IOperatingSystemInterface.cs" />
+    <Compile Include="Source\OS\Architecture\Architecture.cs" />
+    <Compile Include="Source\OS\NormalizedModule.cs" />
+    <Compile Include="Source\OS\NormalizedRegion.cs" />
+    <Compile Include="Source\OS\IOperatingSystemInterface.cs" />
     <Compile Include="Source\Utils\Lua\LuaEngine.cs" />
-    <Compile Include="Settings.cs" />
-    <Compile Include="Source\Utils\Cache\ListViewCache.cs" />
+    <Compile Include="Properties\Settings.cs" />
+    <Compile Include="Source\Utils\Caches\ListViewCache.cs" />
     <Compile Include="Source\Utils\ProgressItem.cs" />
     <Compile Include="Source\Utils\RepeatedTask.cs" />
     <Compile Include="Source\Utils\Lua\LuaKeywordManager.cs" />
     <Compile Include="Source\Utils\Lua\LuaMemoryCore.cs" />
-    <Compile Include="Source\Utils\OS\OSInterface.cs" />
-    <Compile Include="Source\Utils\OS\Architecture\Disassembler\SharpDisassembler.cs" />
-    <Compile Include="Source\Utils\OS\Architecture\Disassembler\IDisassembler.cs" />
-    <Compile Include="Source\User\Registration\RegistrationManager.cs" />
-    <Compile Include="Source\User\Settings\ISettingsMVP.cs" />
-    <Compile Include="Source\Services\Memory View\IMemoryViewMVP.cs" />
-    <Compile Include="Source\Services\Memory View\MemoryView.cs" />
+    <Compile Include="Source\OS\OSInterface.cs" />
+    <Compile Include="Source\OS\Architecture\Disassembler\SharpDisassembler.cs" />
+    <Compile Include="Source\OS\Architecture\Disassembler\IDisassembler.cs" />
+    <Compile Include="Source\Utils\Registration\RegistrationManager.cs" />
+    <Compile Include="Source\Utils\UserSettings\ISettingsMVP.cs" />
+    <Compile Include="Source\Utils\Memory View\IMemoryViewMVP.cs" />
+    <Compile Include="Source\Utils\Memory View\MemoryView.cs" />
     <Compile Include="Source\Scanners\ValueCollector\ValueCollector.cs" />
     <Compile Include="Source\Scanners\FiniteStateScanner\FiniteStateBuilder.cs" />
     <Compile Include="Source\Scanners\FiniteStateScanner\IFiniteStateScannerMVP.cs" />
@@ -277,11 +308,11 @@
     <Compile Include="Source\Scanners\ManualScanner\IManualScannerMVP.cs" />
     <Compile Include="Source\Scanners\ManualScanner\ManualScanner.cs" />
     <Compile Include="Source\Scanners\InputCorrelator\IInputCorrelatorMVP.cs" />
-    <Compile Include="Source\User\Table\ScriptEditor\IScriptEditorMVP.cs" />
-    <Compile Include="Source\User\Table\ScriptEditor\ScriptEditor.cs" />
-    <Compile Include="Source\Services\Snapshots\SnapshotRegion.cs" />
-    <Compile Include="Source\Services\Snapshots\SnapshotElement.cs" />
-    <Compile Include="Source\Scanners\Hashing.cs" />
+    <Compile Include="Source\Tables\Scripts\Editor\IScriptEditorMVP.cs" />
+    <Compile Include="Source\Tables\Scripts\Editor\ScriptEditor.cs" />
+    <Compile Include="Source\Utils\Snapshots\SnapshotRegion.cs" />
+    <Compile Include="Source\Utils\Snapshots\SnapshotElement.cs" />
+    <Compile Include="Source\Utils\Hashing.cs" />
     <Compile Include="GUI\CustomControls\HexEditor\BitControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -384,56 +415,55 @@
     <Compile Include="GUI\Tools\Scanners\GUIChunkScanner.Designer.cs">
       <DependentUpon>GUIChunkScanner.cs</DependentUpon>
     </Compile>
-    <Compile Include="Source\Main\Main.cs" />
-    <Compile Include="Source\Utils\OS\Architecture\Assembler\Fasm32Assembler.cs" />
-    <Compile Include="Source\Utils\OS\Architecture\Assembler\IAssembler.cs" />
-    <Compile Include="Source\Utils\OS\OperatingSystems\Windows\Debugger\Debugger.cs" />
-    <Compile Include="Source\Utils\OS\OperatingSystems\Windows\Debugger\DebuggerException.cs" />
-    <Compile Include="Source\Utils\OS\OperatingSystems\Windows\Debugger\DebuggerSettings.cs" />
-    <Compile Include="Source\Utils\OS\OperatingSystems\Windows\Debugger\ErrorCode.cs" />
-    <Compile Include="Source\Utils\OS\OperatingSystems\Windows\Helpers\ApplicationFinder.cs" />
-    <Compile Include="Source\Utils\OS\OperatingSystems\Windows\Helpers\HandleManipulator.cs" />
-    <Compile Include="Source\Utils\OS\OperatingSystems\Windows\Helpers\Randomizer.cs" />
-    <Compile Include="Source\Utils\OS\OperatingSystems\Windows\Helpers\SerializationHelper.cs" />
-    <Compile Include="Source\Utils\OS\OperatingSystems\Windows\Helpers\Singleton.cs" />
-    <Compile Include="Source\Utils\OS\OperatingSystems\Windows\Internals\IApplicableElement.cs" />
-    <Compile Include="Source\Utils\OS\OperatingSystems\Windows\Internals\IDisposableState.cs" />
-    <Compile Include="Source\Utils\OS\OperatingSystems\Windows\Internals\IFactory.cs" />
-    <Compile Include="Source\Utils\OS\OperatingSystems\Windows\Internals\IMarshalledValue.cs" />
-    <Compile Include="Source\Utils\OS\OperatingSystems\Windows\Internals\INamedElement.cs" />
-    <Compile Include="Source\Utils\OS\OperatingSystems\Windows\Internals\Manager.cs" />
-    <Compile Include="Source\Utils\OS\OperatingSystems\Windows\Internals\MarshalType.cs" />
-    <Compile Include="Source\Utils\OS\OperatingSystems\Windows\Internals\MarshalValue.cs" />
-    <Compile Include="Source\Utils\OS\OperatingSystems\Windows\WindowsOSInterface.cs" />
-    <Compile Include="Source\Utils\OS\OperatingSystems\Windows\Memory\LocalUnmanagedMemory.cs" />
-    <Compile Include="Source\Utils\OS\OperatingSystems\Windows\Memory\MemoryCore.cs" />
-    <Compile Include="Source\Utils\OS\OperatingSystems\Windows\Memory\MemoryFactory.cs" />
-    <Compile Include="Source\Utils\OS\OperatingSystems\Windows\Memory\MemoryProtection.cs" />
-    <Compile Include="Source\Utils\OS\OperatingSystems\Windows\Memory\RemoteAllocation.cs" />
-    <Compile Include="Source\Utils\OS\OperatingSystems\Windows\Memory\RemotePointer.cs" />
-    <Compile Include="Source\Utils\OS\OperatingSystems\Windows\Memory\RemoteRegion.cs" />
-    <Compile Include="Source\Utils\OS\OperatingSystems\Windows\Memory\RemoteVirtualPage.cs" />
-    <Compile Include="Source\Utils\OS\OperatingSystems\Windows\Modules\ModuleCore.cs" />
-    <Compile Include="Source\Utils\OS\OperatingSystems\Windows\Modules\ModuleFactory.cs" />
-    <Compile Include="Source\Utils\OS\OperatingSystems\Windows\Modules\RemoteFunction.cs" />
-    <Compile Include="Source\Utils\OS\OperatingSystems\Windows\Modules\RemoteModule.cs" />
-    <Compile Include="Source\Utils\OS\OperatingSystems\Windows\Native\Enumerations.cs" />
-    <Compile Include="Source\Utils\OS\OperatingSystems\Windows\Native\NativeMethods.cs" />
-    <Compile Include="Source\Utils\OS\OperatingSystems\Windows\Native\SafeMemoryHandle.cs" />
-    <Compile Include="Source\Utils\OS\OperatingSystems\Windows\Native\Structures.cs" />
+    <Compile Include="Source\Controller\Main.cs" />
+    <Compile Include="Source\OS\Architecture\Assembler\Fasm32Assembler.cs" />
+    <Compile Include="Source\OS\Architecture\Assembler\IAssembler.cs" />
+    <Compile Include="Source\OS\OperatingSystems\Windows\Debugger\Debugger.cs" />
+    <Compile Include="Source\OS\OperatingSystems\Windows\Debugger\DebuggerException.cs" />
+    <Compile Include="Source\OS\OperatingSystems\Windows\Debugger\DebuggerSettings.cs" />
+    <Compile Include="Source\OS\OperatingSystems\Windows\Debugger\ErrorCode.cs" />
+    <Compile Include="Source\OS\OperatingSystems\Windows\Helpers\ApplicationFinder.cs" />
+    <Compile Include="Source\OS\OperatingSystems\Windows\Helpers\HandleManipulator.cs" />
+    <Compile Include="Source\OS\OperatingSystems\Windows\Helpers\Randomizer.cs" />
+    <Compile Include="Source\OS\OperatingSystems\Windows\Helpers\SerializationHelper.cs" />
+    <Compile Include="Source\OS\OperatingSystems\Windows\Internals\IApplicableElement.cs" />
+    <Compile Include="Source\OS\OperatingSystems\Windows\Internals\IDisposableState.cs" />
+    <Compile Include="Source\OS\OperatingSystems\Windows\Internals\IFactory.cs" />
+    <Compile Include="Source\OS\OperatingSystems\Windows\Internals\IMarshalledValue.cs" />
+    <Compile Include="Source\OS\OperatingSystems\Windows\Internals\INamedElement.cs" />
+    <Compile Include="Source\OS\OperatingSystems\Windows\Internals\Manager.cs" />
+    <Compile Include="Source\OS\OperatingSystems\Windows\Internals\MarshalType.cs" />
+    <Compile Include="Source\OS\OperatingSystems\Windows\Internals\MarshalValue.cs" />
+    <Compile Include="Source\OS\OperatingSystems\Windows\WindowsOSInterface.cs" />
+    <Compile Include="Source\OS\OperatingSystems\Windows\Memory\LocalUnmanagedMemory.cs" />
+    <Compile Include="Source\OS\OperatingSystems\Windows\Memory\MemoryCore.cs" />
+    <Compile Include="Source\OS\OperatingSystems\Windows\Memory\MemoryFactory.cs" />
+    <Compile Include="Source\OS\OperatingSystems\Windows\Memory\MemoryProtection.cs" />
+    <Compile Include="Source\OS\OperatingSystems\Windows\Memory\RemoteAllocation.cs" />
+    <Compile Include="Source\OS\OperatingSystems\Windows\Memory\RemotePointer.cs" />
+    <Compile Include="Source\OS\OperatingSystems\Windows\Memory\RemoteRegion.cs" />
+    <Compile Include="Source\OS\OperatingSystems\Windows\Memory\RemoteVirtualPage.cs" />
+    <Compile Include="Source\OS\OperatingSystems\Windows\Modules\ModuleCore.cs" />
+    <Compile Include="Source\OS\OperatingSystems\Windows\Modules\ModuleFactory.cs" />
+    <Compile Include="Source\OS\OperatingSystems\Windows\Modules\RemoteFunction.cs" />
+    <Compile Include="Source\OS\OperatingSystems\Windows\Modules\RemoteModule.cs" />
+    <Compile Include="Source\OS\OperatingSystems\Windows\Native\Enumerations.cs" />
+    <Compile Include="Source\OS\OperatingSystems\Windows\Native\NativeMethods.cs" />
+    <Compile Include="Source\OS\OperatingSystems\Windows\Native\SafeMemoryHandle.cs" />
+    <Compile Include="Source\OS\OperatingSystems\Windows\Native\Structures.cs" />
     <Compile Include="Source\Scanners\ChunkScanner\ChunkScanner.cs" />
     <Compile Include="Source\Scanners\ChunkScanner\IChunkScannerMVP.cs" />
     <Compile Include="Source\Scanners\TreeScanner\ITreeScannerMVP.cs" />
     <Compile Include="Source\Scanners\ChangeCounter\ChangeCounter.cs" />
     <Compile Include="Source\Scanners\ChangeCounter\IChangeCounterMVP.cs" />
-    <Compile Include="Source\Services\Process\IProcessObserver.cs" />
-    <Compile Include="Source\Services\Process\IProcessSelectorMVP.cs" />
-    <Compile Include="Source\Services\Process\ProcessSelector.cs" />
-    <Compile Include="Source\Services\Results\IResultsMVP.cs" />
-    <Compile Include="Source\Services\Results\Results.cs" />
-    <Compile Include="Source\Services\Snapshots\ISnapshotManagerMVP.cs" />
+    <Compile Include="Source\OS\Processes\IProcessObserver.cs" />
+    <Compile Include="Source\OS\Processes\IProcessSelectorMVP.cs" />
+    <Compile Include="Source\OS\Processes\ProcessSelector.cs" />
+    <Compile Include="Source\Results\ScanResults\IScanResultsMVP.cs" />
+    <Compile Include="Source\Results\ScanResults\Results.cs" />
+    <Compile Include="Source\Utils\Snapshots\ISnapshotManagerMVP.cs" />
     <Compile Include="Source\Scanners\IScannerMVP.cs" />
-    <Compile Include="Source\Services\Snapshots\Snapshot.cs" />
+    <Compile Include="Source\Utils\Snapshots\Snapshot.cs" />
     <Compile Include="Source\Utils\MVP\ControlThreadingHelper.cs" />
     <Compile Include="Source\Utils\MVP\IMVP.cs" />
     <Compile Include="GUI\Tools\ProcessSelector\GUIProcessSelector.cs">
@@ -484,11 +514,11 @@
     <Compile Include="GUI\Tools\SnapshotManager\GUISnapshotManager.Designer.cs">
       <DependentUpon>GUISnapshotManager.cs</DependentUpon>
     </Compile>
-    <Compile Include="GUI\Tools\Table\GUITable.cs">
+    <Compile Include="GUI\Tools\Table\GUIAddressTable.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="GUI\Tools\Table\GUITable.Designer.cs">
-      <DependentUpon>GUITable.cs</DependentUpon>
+    <Compile Include="GUI\Tools\Table\GUIAddressTable.Designer.cs">
+      <DependentUpon>GUIAddressTable.cs</DependentUpon>
     </Compile>
     <Compile Include="GUI\Main\GUIMain.cs">
       <SubType>Form</SubType>
@@ -500,68 +530,67 @@
     <Compile Include="Source\Utils\TimedLock.cs" />
     <Compile Include="Source\Utils\Validation\CheckSyntax.cs" />
     <Compile Include="Source\Scanners\InputCorrelator\InputCorrelator.cs" />
-    <Compile Include="Source\Scanners\InputCorrelator\InputHook\Hook.cs" />
-    <Compile Include="Source\Scanners\InputCorrelator\InputHook\HotKeys\HotKeyArgs.cs" />
-    <Compile Include="Source\Scanners\InputCorrelator\InputHook\HotKeys\HotKeySet.cs" />
-    <Compile Include="Source\Scanners\InputCorrelator\InputHook\HotKeys\HotKeySetCollection.cs" />
-    <Compile Include="Source\Scanners\InputCorrelator\InputHook\HotKeys\HotKeySetsListener.cs" />
-    <Compile Include="Source\Scanners\InputCorrelator\InputHook\IKeyboardEvents.cs" />
-    <Compile Include="Source\Scanners\InputCorrelator\InputHook\IKeyboardMouseEvents.cs" />
-    <Compile Include="Source\Scanners\InputCorrelator\InputHook\IMouseEvents.cs" />
-    <Compile Include="Source\Scanners\InputCorrelator\InputHook\Implementation\AppEventFacade.cs" />
-    <Compile Include="Source\Scanners\InputCorrelator\InputHook\Implementation\AppKeyListener.cs" />
-    <Compile Include="Source\Scanners\InputCorrelator\InputHook\Implementation\AppMouseListener.cs" />
-    <Compile Include="Source\Scanners\InputCorrelator\InputHook\Implementation\BaseListener.cs" />
-    <Compile Include="Source\Scanners\InputCorrelator\InputHook\Implementation\ButtonSet.cs" />
-    <Compile Include="Source\Scanners\InputCorrelator\InputHook\Implementation\Callback.cs" />
-    <Compile Include="Source\Scanners\InputCorrelator\InputHook\Implementation\EventFacade.cs" />
-    <Compile Include="Source\Scanners\InputCorrelator\InputHook\Implementation\GlobalEventFacade.cs" />
-    <Compile Include="Source\Scanners\InputCorrelator\InputHook\Implementation\GlobalKeyListener.cs" />
-    <Compile Include="Source\Scanners\InputCorrelator\InputHook\Implementation\GlobalMouseListener.cs" />
-    <Compile Include="Source\Scanners\InputCorrelator\InputHook\Implementation\KeyboardState.cs" />
-    <Compile Include="Source\Scanners\InputCorrelator\InputHook\Implementation\KeyListener.cs" />
-    <Compile Include="Source\Scanners\InputCorrelator\InputHook\Implementation\MouseListener.cs" />
-    <Compile Include="Source\Scanners\InputCorrelator\InputHook\Implementation\Subscribe.cs" />
-    <Compile Include="Source\Scanners\InputCorrelator\InputHook\KeyEventArgsExt.cs" />
-    <Compile Include="Source\Scanners\InputCorrelator\InputHook\KeyPressEventArgsExt.cs" />
-    <Compile Include="Source\Scanners\InputCorrelator\InputHook\MouseEventExtArgs.cs" />
-    <Compile Include="Source\Scanners\InputCorrelator\InputHook\WinApi\AppMouseStruct.cs" />
-    <Compile Include="Source\Scanners\InputCorrelator\InputHook\WinApi\CallbackData.cs" />
-    <Compile Include="Source\Scanners\InputCorrelator\InputHook\WinApi\HookHelper.cs" />
-    <Compile Include="Source\Scanners\InputCorrelator\InputHook\WinApi\HookIds.cs" />
-    <Compile Include="Source\Scanners\InputCorrelator\InputHook\WinApi\HookNativeMethods.cs" />
-    <Compile Include="Source\Scanners\InputCorrelator\InputHook\WinApi\HookProcedure.cs" />
-    <Compile Include="Source\Scanners\InputCorrelator\InputHook\WinApi\HookProcedureHandle.cs" />
-    <Compile Include="Source\Scanners\InputCorrelator\InputHook\WinApi\HookResult.cs" />
-    <Compile Include="Source\Scanners\InputCorrelator\InputHook\WinApi\KeyboardHookStruct.cs" />
-    <Compile Include="Source\Scanners\InputCorrelator\InputHook\WinApi\KeyboardNativeMethods.cs" />
-    <Compile Include="Source\Scanners\InputCorrelator\InputHook\WinApi\Messages.cs" />
-    <Compile Include="Source\Scanners\InputCorrelator\InputHook\WinApi\MouseNativeMethods.cs" />
-    <Compile Include="Source\Scanners\InputCorrelator\InputHook\WinApi\MouseStruct.cs" />
-    <Compile Include="Source\Scanners\InputCorrelator\InputHook\WinApi\Point.cs" />
-    <Compile Include="Source\Scanners\InputCorrelator\InputHook\WinApi\ThreadNativeMethods.cs" />
+    <Compile Include="Source\Utils\InputHook\Hook.cs" />
+    <Compile Include="Source\Utils\InputHook\HotKeys\HotKeyArgs.cs" />
+    <Compile Include="Source\Utils\InputHook\HotKeys\HotKeySet.cs" />
+    <Compile Include="Source\Utils\InputHook\HotKeys\HotKeySetCollection.cs" />
+    <Compile Include="Source\Utils\InputHook\HotKeys\HotKeySetsListener.cs" />
+    <Compile Include="Source\Utils\InputHook\IKeyboardEvents.cs" />
+    <Compile Include="Source\Utils\InputHook\IKeyboardMouseEvents.cs" />
+    <Compile Include="Source\Utils\InputHook\IMouseEvents.cs" />
+    <Compile Include="Source\Utils\InputHook\Implementation\AppEventFacade.cs" />
+    <Compile Include="Source\Utils\InputHook\Implementation\AppKeyListener.cs" />
+    <Compile Include="Source\Utils\InputHook\Implementation\AppMouseListener.cs" />
+    <Compile Include="Source\Utils\InputHook\Implementation\BaseListener.cs" />
+    <Compile Include="Source\Utils\InputHook\Implementation\ButtonSet.cs" />
+    <Compile Include="Source\Utils\InputHook\Implementation\Callback.cs" />
+    <Compile Include="Source\Utils\InputHook\Implementation\EventFacade.cs" />
+    <Compile Include="Source\Utils\InputHook\Implementation\GlobalEventFacade.cs" />
+    <Compile Include="Source\Utils\InputHook\Implementation\GlobalKeyListener.cs" />
+    <Compile Include="Source\Utils\InputHook\Implementation\GlobalMouseListener.cs" />
+    <Compile Include="Source\Utils\InputHook\Implementation\KeyboardState.cs" />
+    <Compile Include="Source\Utils\InputHook\Implementation\KeyListener.cs" />
+    <Compile Include="Source\Utils\InputHook\Implementation\MouseListener.cs" />
+    <Compile Include="Source\Utils\InputHook\Implementation\Subscribe.cs" />
+    <Compile Include="Source\Utils\InputHook\KeyEventArgsExt.cs" />
+    <Compile Include="Source\Utils\InputHook\KeyPressEventArgsExt.cs" />
+    <Compile Include="Source\Utils\InputHook\MouseEventExtArgs.cs" />
+    <Compile Include="Source\Utils\InputHook\WinApi\AppMouseStruct.cs" />
+    <Compile Include="Source\Utils\InputHook\WinApi\CallbackData.cs" />
+    <Compile Include="Source\Utils\InputHook\WinApi\HookHelper.cs" />
+    <Compile Include="Source\Utils\InputHook\WinApi\HookIds.cs" />
+    <Compile Include="Source\Utils\InputHook\WinApi\HookNativeMethods.cs" />
+    <Compile Include="Source\Utils\InputHook\WinApi\HookProcedure.cs" />
+    <Compile Include="Source\Utils\InputHook\WinApi\HookProcedureHandle.cs" />
+    <Compile Include="Source\Utils\InputHook\WinApi\HookResult.cs" />
+    <Compile Include="Source\Utils\InputHook\WinApi\KeyboardHookStruct.cs" />
+    <Compile Include="Source\Utils\InputHook\WinApi\KeyboardNativeMethods.cs" />
+    <Compile Include="Source\Utils\InputHook\WinApi\Messages.cs" />
+    <Compile Include="Source\Utils\InputHook\WinApi\MouseNativeMethods.cs" />
+    <Compile Include="Source\Utils\InputHook\WinApi\MouseStruct.cs" />
+    <Compile Include="Source\Utils\InputHook\WinApi\Point.cs" />
+    <Compile Include="Source\Utils\InputHook\WinApi\ThreadNativeMethods.cs" />
     <Compile Include="Source\Scanners\TreeScanner\TreeScanner.cs" />
     <Compile Include="Source\Utils\Validation\Conversions.cs" />
-    <Compile Include="Source\Main\IMainMVP.cs" />
-    <Compile Include="Source\Services\Process\IProcessSubject.cs" />
+    <Compile Include="Source\Controller\IMainMVP.cs" />
+    <Compile Include="Source\OS\Processes\IProcessSubject.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Source\User\Settings\Settings.cs" />
-    <Compile Include="Source\Services\Snapshots\SnapshotManager.cs" />
+    <Compile Include="Source\Utils\UserSettings\Settings.cs" />
+    <Compile Include="Source\Utils\Snapshots\SnapshotManager.cs" />
     <Compile Include="Source\Utils\Extensions\ArrayExtensions.cs" />
-    <Compile Include="Source\User\Table\AddressTable\AddressTable.cs" />
-    <Compile Include="Source\User\Table\FSMTable\FSMTable.cs" />
-    <Compile Include="Source\User\Table\ScriptTable\IScriptTableMVP.cs" />
-    <Compile Include="Source\User\Table\AddressTable\IAddressTableMVP.cs" />
-    <Compile Include="Source\User\Table\FSMTable\IFSMTableMVP.cs" />
-    <Compile Include="Source\User\Table\AddressTable\AddressItem.cs" />
-    <Compile Include="Source\User\Table\ScriptTable\ScriptTable.cs" />
-    <Compile Include="Source\User\Table\AddressTable\AddressTableEntryEditor\ITableAddressEntryEditorMVP.cs" />
-    <Compile Include="Source\User\Table\ITableMVP.cs" />
-    <Compile Include="Source\User\Table\ScriptTable\ScriptItem.cs" />
-    <Compile Include="Source\User\Table\AddressTable\AddressTableEntryEditor\TableAddressEntryEditor.cs" />
-    <Compile Include="Source\User\Table\Table.cs" />
-    <Compile Include="Source\User\Table\TableItem.cs" />
+    <Compile Include="Source\Tables\Addresses\AddressTable.cs" />
+    <Compile Include="Source\Tables\FSMs\FSMTable.cs" />
+    <Compile Include="Source\Tables\Scripts\IScriptTableMVP.cs" />
+    <Compile Include="Source\Tables\Addresses\IAddressTableMVP.cs" />
+    <Compile Include="Source\Tables\FSMs\IFSMTableMVP.cs" />
+    <Compile Include="Source\Tables\Addresses\AddressItem.cs" />
+    <Compile Include="Source\Tables\Scripts\ScriptTable.cs" />
+    <Compile Include="Source\Tables\Addresses\Editor\ITableAddressEntryEditorMVP.cs" />
+    <Compile Include="Source\Tables\Scripts\ScriptItem.cs" />
+    <Compile Include="Source\Tables\Addresses\Editor\TableAddressEntryEditor.cs" />
+    <Compile Include="Source\Tables\TableManager.cs" />
+    <Compile Include="Source\Tables\TableItem.cs" />
     <Compile Include="Source\Scanners\ScanConstraints\ScanConstraint.cs" />
     <EmbeddedResource Include="GUI\CheatBrowser\GUICheatBrowser.resx">
       <DependentUpon>GUICheatBrowser.cs</DependentUpon>
@@ -740,7 +769,7 @@
     <EmbeddedResource Include="GUI\Tools\Scanners\GUIConstraintEditor.resx">
       <DependentUpon>GUIConstraintEditor.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="GUI\Tools\Settings\GUISettings.resx">
+    <EmbeddedResource Include="GUI\Tools\UserSettings\GUISettings.resx">
       <DependentUpon>GUISettings.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\Tools\Debugger\CodeView\GUICodeView.resx">
@@ -788,11 +817,11 @@
     <EmbeddedResource Include="GUI\Tools\SnapshotManager\GUISnapshotManager.resx">
       <DependentUpon>GUISnapshotManager.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="GUI\Tools\Table\GUIFSMTable.resx">
-      <DependentUpon>GUIFSMTable.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="GUI\Tools\Table\GUIScriptTable.resx">
       <DependentUpon>GUIScriptTable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\Tools\Table\GUIFSMTable.resx">
+      <DependentUpon>GUIFSMTable.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\Tools\Table\GUIAddressTableEntryEditor.resx">
       <DependentUpon>GUIAddressTableEntryEditor.cs</DependentUpon>
@@ -800,22 +829,15 @@
     <EmbeddedResource Include="GUI\Tools\Table\GUIAddressTable.resx">
       <DependentUpon>GUIAddressTable.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="GUI\Tools\Table\GUITable.resx">
-      <DependentUpon>GUITable.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="GUI\Main\GUIMain.resx">
       <DependentUpon>GUIMain.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <Compile Include="Properties\Resources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Resources.resx</DependentUpon>
-      <DesignTime>True</DesignTime>
-    </Compile>
+    <None Include="Properties\app.manifest" />
     <None Include="Content\Font\MonoSpace.ttf" />
     <None Include="Content\FSM\States.psd" />
     <None Include="Content\Icons\Thumbs.db" />
@@ -878,34 +900,22 @@
     <None Include="GUI\CustomControls\HexEditor\Resources\Save24.png" />
     <None Include="GUI\CustomControls\HexEditor\Resources\Save32.png" />
     <EmbeddedResource Include="GUI\CustomControls\HexEditor\App.ico" />
-    <Content Include="Content\FSM\EndState.png" />
     <Content Include="Content\FSM\IntermediateState.png" />
     <None Include="Content\FSM\Invalid.png" />
     <Content Include="Content\FSM\StartState.png" />
     <Content Include="Content\FSM\StateHighlighted.png" />
     <None Include="Content\FSM\Valid.png" />
-    <Content Include="Content\Icons\AddAddress.png" />
-    <Content Include="Content\Icons\AnathemaIcon.png" />
-    <Content Include="Content\Icons\BenedictionIcon.png" />
     <Content Include="Content\Icons\Cancel.png" />
-    <Content Include="Content\Icons\CelestialIcon.png" />
     <Content Include="Content\Icons\Changed.png" />
-    <Content Include="Content\Icons\Close.png" />
     <None Include="Content\Icons\CollectValues.png" />
-    <Content Include="Content\Icons\Convert.png" />
     <Content Include="Content\Icons\Decreased.png" />
-    <Content Include="Content\Icons\Disable.png" />
     <Content Include="Content\Icons\DownArrows.png" />
-    <Content Include="Content\Icons\Enable.png" />
     <None Include="Content\Icons\ENotation.png" />
     <Content Include="Content\Icons\Equal.png" />
-    <Content Include="Content\Icons\FiniteStateMachine.png" />
     <Content Include="Content\Icons\GreaterThan.png" />
     <None Include="Content\Icons\GreaterThanOrEqual.png" />
-    <Content Include="Content\Icons\Hide.png" />
     <None Include="Content\Icons\Home.png" />
     <Content Include="Content\Icons\Increased.png" />
-    <Content Include="Content\Icons\InputCorrelator.png" />
     <None Include="Content\Icons\Intersection.png" />
     <None Include="Content\Icons\Invert.png" />
     <Content Include="Content\Icons\LeftArrow.png" />
@@ -914,11 +924,8 @@
     <None Include="Content\Icons\LessThanOrEqual.png" />
     <None Include="Content\Icons\LogicalAND.png" />
     <Content Include="Content\Icons\MainIcon.ico" />
-    <Content Include="Content\Icons\ManualScan.png" />
-    <Content Include="Content\Icons\Maximize.png" />
-    <Content Include="Content\Icons\MemoryTree.png" />
+    <Content Include="Content\Icons\MainIconSmall.ico" />
     <Content Include="Content\Icons\Merge.png" />
-    <Content Include="Content\Icons\Minimize.png" />
     <Content Include="Content\Icons\MinusX.png" />
     <Content Include="Content\Icons\MoveDown.png" />
     <None Include="Content\Icons\MoveRight.png" />
@@ -928,24 +935,19 @@
     <Content Include="Content\Icons\New.png" />
     <Content Include="Content\Icons\NextScan.png" />
     <Content Include="Content\Icons\NotEqual.png" />
-    <Content Include="Content\Icons\OnBottom.png" />
-    <Content Include="Content\Icons\OnTop.png" />
     <Content Include="Content\Icons\Open.png" />
-    <Content Include="Content\Icons\Options.png" />
     <Content Include="Content\Icons\PlusX.png" />
-    <Content Include="Content\Icons\Restore.png" />
     <Content Include="Content\Icons\RightArrow.png" />
     <Content Include="Content\Icons\Save.png" />
-    <Content Include="Content\Icons\ScanHistory.png" />
     <Content Include="Content\Icons\SelectProcess.png" />
     <Content Include="Content\Icons\Stop.png" />
     <Content Include="Content\Icons\Unchanged.png" />
     <Content Include="Content\Icons\Undo.png" />
     <None Include="Content\Icons\Union.png" />
     <Content Include="Content\Icons\UnknownValue.png" />
-    <Content Include="Content\Icons\Visible.png" />
     <Content Include="Content\Icons\X.png" />
-    <Content Include="Source\Scanners\InputCorrelator\InputHook\HotKeys\ReadMe.txt" />
+    <Content Include="MainIconSmall.ico" />
+    <Content Include="Source\Utils\InputHook\HotKeys\ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DockingSuite\DockingSuite.csproj">
@@ -986,8 +988,8 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Source\Services\Debugger\" />
-    <Folder Include="Source\Services\PointerScanResults\" />
+    <Folder Include="Source\Results\PointerScanResults\" />
+    <Folder Include="Source\Utils\Debugger\" />
     <Folder Include="Source\Utils\DesignPatterns\" />
   </ItemGroup>
   <ItemGroup>
@@ -1003,12 +1005,574 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <FileAssociation Include=".Ana">
+    <FileAssociation Include=".hax">
       <Visible>False</Visible>
-      <Description>Anathema Cheat Table</Description>
-      <Progid>Ana</Progid>
-      <DefaultIcon>Content\Icons\MainIcon.ico</DefaultIcon>
+      <Description>Game Cheat FIle</Description>
+      <Progid>hax</Progid>
+      <DefaultIcon>Content\Icons\MainIconSmall.ico</DefaultIcon>
     </FileAssociation>
+  </ItemGroup>
+  <ItemGroup>
+    <PublishFile Include="Anathema.exe">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Auto</PublishState>
+      <IncludeHash>False</IncludeHash>
+      <FileType>ManifestEntryPoint</FileType>
+    </PublishFile>
+    <PublishFile Include="Anathema.exe.config">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Auto</PublishState>
+      <IncludeHash>False</IncludeHash>
+      <FileType>File</FileType>
+    </PublishFile>
+    <PublishFile Include="Anathema.exe.manifest">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Auto</PublishState>
+      <IncludeHash>False</IncludeHash>
+      <FileType>ManifestEntryPoint</FileType>
+    </PublishFile>
+    <PublishFile Include="Content\FSM\EndState.png">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Exclude</PublishState>
+      <IncludeHash>True</IncludeHash>
+      <FileType>File</FileType>
+    </PublishFile>
+    <PublishFile Include="Content\FSM\IntermediateState.png">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Auto</PublishState>
+      <IncludeHash>False</IncludeHash>
+      <FileType>File</FileType>
+    </PublishFile>
+    <PublishFile Include="Content\FSM\StartState.png">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Auto</PublishState>
+      <IncludeHash>False</IncludeHash>
+      <FileType>File</FileType>
+    </PublishFile>
+    <PublishFile Include="Content\FSM\StateHighlighted.png">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Auto</PublishState>
+      <IncludeHash>False</IncludeHash>
+      <FileType>File</FileType>
+    </PublishFile>
+    <PublishFile Include="Content\Icons\Cancel.png">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Auto</PublishState>
+      <IncludeHash>False</IncludeHash>
+      <FileType>File</FileType>
+    </PublishFile>
+    <PublishFile Include="Content\Icons\Changed.png">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Auto</PublishState>
+      <IncludeHash>False</IncludeHash>
+      <FileType>File</FileType>
+    </PublishFile>
+    <PublishFile Include="Content\Icons\Decreased.png">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Auto</PublishState>
+      <IncludeHash>False</IncludeHash>
+      <FileType>File</FileType>
+    </PublishFile>
+    <PublishFile Include="Content\Icons\DownArrows.png">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Auto</PublishState>
+      <IncludeHash>False</IncludeHash>
+      <FileType>File</FileType>
+    </PublishFile>
+    <PublishFile Include="Content\Icons\Equal.png">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Auto</PublishState>
+      <IncludeHash>False</IncludeHash>
+      <FileType>File</FileType>
+    </PublishFile>
+    <PublishFile Include="Content\Icons\GreaterThan.png">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Auto</PublishState>
+      <IncludeHash>False</IncludeHash>
+      <FileType>File</FileType>
+    </PublishFile>
+    <PublishFile Include="Content\Icons\Increased.png">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Auto</PublishState>
+      <IncludeHash>False</IncludeHash>
+      <FileType>File</FileType>
+    </PublishFile>
+    <PublishFile Include="Content\Icons\LeftArrow.png">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Auto</PublishState>
+      <IncludeHash>False</IncludeHash>
+      <FileType>File</FileType>
+    </PublishFile>
+    <PublishFile Include="Content\Icons\LessThan.png">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Auto</PublishState>
+      <IncludeHash>False</IncludeHash>
+      <FileType>File</FileType>
+    </PublishFile>
+    <PublishFile Include="Content\Icons\MainIcon.ico">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Auto</PublishState>
+      <IncludeHash>False</IncludeHash>
+      <FileType>File</FileType>
+    </PublishFile>
+    <PublishFile Include="Content\Icons\MainIconSmall.ico">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Auto</PublishState>
+      <IncludeHash>False</IncludeHash>
+      <FileType>File</FileType>
+    </PublishFile>
+    <PublishFile Include="Content\Icons\Merge.png">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Auto</PublishState>
+      <IncludeHash>False</IncludeHash>
+      <FileType>File</FileType>
+    </PublishFile>
+    <PublishFile Include="Content\Icons\MinusX.png">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Auto</PublishState>
+      <IncludeHash>False</IncludeHash>
+      <FileType>File</FileType>
+    </PublishFile>
+    <PublishFile Include="Content\Icons\MoveDown.png">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Auto</PublishState>
+      <IncludeHash>False</IncludeHash>
+      <FileType>File</FileType>
+    </PublishFile>
+    <PublishFile Include="Content\Icons\MoveUp.png">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Auto</PublishState>
+      <IncludeHash>False</IncludeHash>
+      <FileType>File</FileType>
+    </PublishFile>
+    <PublishFile Include="Content\Icons\Negation.png">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Auto</PublishState>
+      <IncludeHash>False</IncludeHash>
+      <FileType>File</FileType>
+    </PublishFile>
+    <PublishFile Include="Content\Icons\New.png">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Auto</PublishState>
+      <IncludeHash>False</IncludeHash>
+      <FileType>File</FileType>
+    </PublishFile>
+    <PublishFile Include="Content\Icons\NextScan.png">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Auto</PublishState>
+      <IncludeHash>False</IncludeHash>
+      <FileType>File</FileType>
+    </PublishFile>
+    <PublishFile Include="Content\Icons\NotEqual.png">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Auto</PublishState>
+      <IncludeHash>False</IncludeHash>
+      <FileType>File</FileType>
+    </PublishFile>
+    <PublishFile Include="Content\Icons\Open.png">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Auto</PublishState>
+      <IncludeHash>False</IncludeHash>
+      <FileType>File</FileType>
+    </PublishFile>
+    <PublishFile Include="Content\Icons\PlusX.png">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Auto</PublishState>
+      <IncludeHash>False</IncludeHash>
+      <FileType>File</FileType>
+    </PublishFile>
+    <PublishFile Include="Content\Icons\RightArrow.png">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Auto</PublishState>
+      <IncludeHash>False</IncludeHash>
+      <FileType>File</FileType>
+    </PublishFile>
+    <PublishFile Include="Content\Icons\Save.png">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Auto</PublishState>
+      <IncludeHash>False</IncludeHash>
+      <FileType>File</FileType>
+    </PublishFile>
+    <PublishFile Include="Content\Icons\SelectProcess.png">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Auto</PublishState>
+      <IncludeHash>False</IncludeHash>
+      <FileType>File</FileType>
+    </PublishFile>
+    <PublishFile Include="Content\Icons\Stop.png">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Auto</PublishState>
+      <IncludeHash>False</IncludeHash>
+      <FileType>File</FileType>
+    </PublishFile>
+    <PublishFile Include="Content\Icons\Unchanged.png">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Auto</PublishState>
+      <IncludeHash>False</IncludeHash>
+      <FileType>File</FileType>
+    </PublishFile>
+    <PublishFile Include="Content\Icons\Undo.png">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Auto</PublishState>
+      <IncludeHash>False</IncludeHash>
+      <FileType>File</FileType>
+    </PublishFile>
+    <PublishFile Include="Content\Icons\UnknownValue.png">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Auto</PublishState>
+      <IncludeHash>False</IncludeHash>
+      <FileType>File</FileType>
+    </PublishFile>
+    <PublishFile Include="Content\Icons\X.png">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Auto</PublishState>
+      <IncludeHash>False</IncludeHash>
+      <FileType>File</FileType>
+    </PublishFile>
+    <PublishFile Include="de\Anathema.resources">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Auto</PublishState>
+      <IncludeHash>False</IncludeHash>
+      <FileType>Satellite</FileType>
+    </PublishFile>
+    <PublishFile Include="Fasm.NET">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Auto</PublishState>
+      <IncludeHash>False</IncludeHash>
+      <FileType>Assembly</FileType>
+    </PublishFile>
+    <PublishFile Include="FASMHelper">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Auto</PublishState>
+      <IncludeHash>False</IncludeHash>
+      <FileType>Assembly</FileType>
+    </PublishFile>
+    <PublishFile Include="FASMSharedInterface">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Auto</PublishState>
+      <IncludeHash>False</IncludeHash>
+      <FileType>Assembly</FileType>
+    </PublishFile>
+    <PublishFile Include="FASMSharedInterface32">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Auto</PublishState>
+      <IncludeHash>False</IncludeHash>
+      <FileType>Assembly</FileType>
+    </PublishFile>
+    <PublishFile Include="Geckofx-Core">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Auto</PublishState>
+      <IncludeHash>False</IncludeHash>
+      <FileType>Assembly</FileType>
+    </PublishFile>
+    <PublishFile Include="Geckofx-Winforms">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Auto</PublishState>
+      <IncludeHash>False</IncludeHash>
+      <FileType>Assembly</FileType>
+    </PublishFile>
+    <PublishFile Include="it\Anathema.resources">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Auto</PublishState>
+      <IncludeHash>False</IncludeHash>
+      <FileType>Satellite</FileType>
+    </PublishFile>
+    <PublishFile Include="ja\Anathema.resources">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Auto</PublishState>
+      <IncludeHash>False</IncludeHash>
+      <FileType>Satellite</FileType>
+    </PublishFile>
+    <PublishFile Include="KopiLua">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Auto</PublishState>
+      <IncludeHash>False</IncludeHash>
+      <FileType>Assembly</FileType>
+    </PublishFile>
+    <PublishFile Include="MainIconSmall.ico">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Auto</PublishState>
+      <IncludeHash>False</IncludeHash>
+      <FileType>File</FileType>
+    </PublishFile>
+    <PublishFile Include="NLua">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Auto</PublishState>
+      <IncludeHash>False</IncludeHash>
+      <FileType>Assembly</FileType>
+    </PublishFile>
+    <PublishFile Include="ru\Anathema.resources">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Auto</PublishState>
+      <IncludeHash>False</IncludeHash>
+      <FileType>Satellite</FileType>
+    </PublishFile>
+    <PublishFile Include="ScintillaNET">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Auto</PublishState>
+      <IncludeHash>False</IncludeHash>
+      <FileType>Assembly</FileType>
+    </PublishFile>
+    <PublishFile Include="SharpDisasm">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Auto</PublishState>
+      <IncludeHash>False</IncludeHash>
+      <FileType>Assembly</FileType>
+    </PublishFile>
+    <PublishFile Include="Source\Scanners\InputCorrelator\InputHook\HotKeys\ReadMe.txt">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Auto</PublishState>
+      <IncludeHash>False</IncludeHash>
+      <FileType>File</FileType>
+    </PublishFile>
+    <PublishFile Include="Source\Utils\InputHook\HotKeys\ReadMe.txt">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Auto</PublishState>
+      <IncludeHash>False</IncludeHash>
+      <FileType>File</FileType>
+    </PublishFile>
+    <PublishFile Include="ThemeVS2013Blue">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Auto</PublishState>
+      <IncludeHash>False</IncludeHash>
+      <FileType>Assembly</FileType>
+    </PublishFile>
+    <PublishFile Include="WeifenLuo.WinFormsUI.Docking">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Auto</PublishState>
+      <IncludeHash>False</IncludeHash>
+      <FileType>Assembly</FileType>
+    </PublishFile>
+    <PublishFile Include="zh-Hans\Anathema.resources">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Auto</PublishState>
+      <IncludeHash>False</IncludeHash>
+      <FileType>Satellite</FileType>
+    </PublishFile>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

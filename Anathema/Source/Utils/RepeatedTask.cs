@@ -1,9 +1,8 @@
-﻿using Anathema.Source.Utils;
-using System;
+﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Anathema.Utils
+namespace Anathema.Source.Utils
 {
     abstract class RepeatedTask
     {

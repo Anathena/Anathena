@@ -1,9 +1,9 @@
-﻿using Anathema.Utils.Extensions;
+﻿using Anathema.Source.Utils.Extensions;
 using System;
 using System.Linq;
 using System.Reflection;
 
-namespace Anathema.Utils.Validation
+namespace Anathema.Source.Utils.Validation
 {
     /// <summary>
     /// Converts a value from one format to another format. No validation checking is done, see CheckSyntax class for this

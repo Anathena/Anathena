@@ -41,116 +41,116 @@ using System.Windows.Forms;
 namespace Gecko
 {
     partial class ConfirmDialog : Form
-	{
-		public ConfirmDialog()
-		{
-			InitializeComponent();
-		}
-		
-		public ConfirmDialog(string message, string title, string button1Text, string button2Text, string button3Text, string checkBoxText)
-		{
-			InitializeComponent();
-			
-			this.Font = SystemFonts.MessageBoxFont;
-			this.Text = title;
-			
-			List<String> buttonText = new List<String>();
-			
-			if (button1Text != null)
-				buttonText.Add(button1Text);
-			if (button2Text != null)
-				buttonText.Add(button2Text);
-			if (button3Text != null)
-				buttonText.Add(button3Text);
-			
-			int buttonCount = buttonText.Count;
-			
-			while (buttonText.Count < 3)
-				buttonText.Insert(0, null);
-			
-			if (buttonCount > 1)
-			{
-				// assign the icon
-				this.MBIcon = MessageBoxIcon.Question;
-			}
-			else
-			{
-				// hide the icon
-				int right = label.Right;
-				pictureBox.Visible = false;
-				label.Left = pictureBox.Left;
-				label.Width = right - label.Left;
-			}
-			
-			Button [] buttons = { button1, button2, button3 };
-			
-			int b = 1;
-			for (int i = 0; i < 3; i++)
-			{
-				if (buttonText[i] != null)
-				{
-					buttons[i].Text = buttonText[i];
-					buttons[i].DialogResult = (DialogResult)b++;
-				}
-				else
-				{
-					buttons[i].Visible = false;
-				}
-			}
-			
-			// set checkbox text
-			if (checkBoxText != null)
-			{
-				checkBox.Text = checkBoxText;
-			}
-			else
-			{
-				panel1.Height = label1.Top - 1;
-				checkBox.Visible = false;
-			}
-			
-			// set label text
-			label.Text = message;
-			label.Size = label.GetPreferredSize(new Size(label.Width, label.Height));
-			
-			// update window size
-			int bottomOfContent = Math.Max(label.Bottom, ((MBIcon != MessageBoxIcon.None) ? pictureBox.Bottom : label.Bottom));
-			int clientHeight = bottomOfContent + label.Top + panel1.Height;
-			
-			int buttonExtent = ((buttonText[0] != null) ? (button1.Width + 4) : 0) +
-				((buttonText[1] != null) ? (button2.Width + 4) : 0) +
-				((buttonText[2] != null) ? (button3.Width + 4) : 0);
-			
-			int clientWidth = Math.Max(buttonExtent + 16, label.Right + 8);
-			
-			this.ClientSize = new Size(clientWidth, clientHeight);
-		}
-		
-		private MessageBoxIcon MBIcon;
-		
-		private void pictureBox_Paint(object sender, PaintEventArgs e)
-		{
-			e.Graphics.DrawIcon(SystemIcons.Question, 0, 0);
-		}
+    {
+        public ConfirmDialog()
+        {
+            InitializeComponent();
+        }
 
-		public bool CheckBoxChecked
-		{
-			get { return this.checkBox.Checked; }
-		}
+        public ConfirmDialog(string message, string title, string button1Text, string button2Text, string button3Text, string checkBoxText)
+        {
+            InitializeComponent();
 
-		protected override void WndProc(ref Message m)
-		{
-			const int WM_NCHITTEST = 0x84;
-			const int HTCLIENT = 0x1;
-			const int HTCAPTION = 0x2;
-			
-			base.WndProc(ref m);
-			
-			if (m.Msg == WM_NCHITTEST)
-			{
-				if (m.Result != (IntPtr)HTCLIENT)
-					m.Result = (IntPtr)HTCAPTION;
-			}
-		}
-	}
+            this.Font = SystemFonts.MessageBoxFont;
+            this.Text = title;
+
+            List<String> buttonText = new List<String>();
+
+            if (button1Text != null)
+                buttonText.Add(button1Text);
+            if (button2Text != null)
+                buttonText.Add(button2Text);
+            if (button3Text != null)
+                buttonText.Add(button3Text);
+
+            int buttonCount = buttonText.Count;
+
+            while (buttonText.Count < 3)
+                buttonText.Insert(0, null);
+
+            if (buttonCount > 1)
+            {
+                // assign the icon
+                this.MBIcon = MessageBoxIcon.Question;
+            }
+            else
+            {
+                // hide the icon
+                int right = label.Right;
+                pictureBox.Visible = false;
+                label.Left = pictureBox.Left;
+                label.Width = right - label.Left;
+            }
+
+            Button[] buttons = { button1, button2, button3 };
+
+            int b = 1;
+            for (int i = 0; i < 3; i++)
+            {
+                if (buttonText[i] != null)
+                {
+                    buttons[i].Text = buttonText[i];
+                    buttons[i].DialogResult = (DialogResult)b++;
+                }
+                else
+                {
+                    buttons[i].Visible = false;
+                }
+            }
+
+            // set checkbox text
+            if (checkBoxText != null)
+            {
+                checkBox.Text = checkBoxText;
+            }
+            else
+            {
+                panel1.Height = label1.Top - 1;
+                checkBox.Visible = false;
+            }
+
+            // set label text
+            label.Text = message;
+            label.Size = label.GetPreferredSize(new Size(label.Width, label.Height));
+
+            // update window size
+            int bottomOfContent = Math.Max(label.Bottom, ((MBIcon != MessageBoxIcon.None) ? pictureBox.Bottom : label.Bottom));
+            int clientHeight = bottomOfContent + label.Top + panel1.Height;
+
+            int buttonExtent = ((buttonText[0] != null) ? (button1.Width + 4) : 0) +
+                ((buttonText[1] != null) ? (button2.Width + 4) : 0) +
+                ((buttonText[2] != null) ? (button3.Width + 4) : 0);
+
+            int clientWidth = Math.Max(buttonExtent + 16, label.Right + 8);
+
+            this.ClientSize = new Size(clientWidth, clientHeight);
+        }
+
+        private MessageBoxIcon MBIcon;
+
+        private void pictureBox_Paint(object sender, PaintEventArgs e)
+        {
+            e.Graphics.DrawIcon(SystemIcons.Question, 0, 0);
+        }
+
+        public bool CheckBoxChecked
+        {
+            get { return this.checkBox.Checked; }
+        }
+
+        protected override void WndProc(ref Message m)
+        {
+            const int WM_NCHITTEST = 0x84;
+            const int HTCLIENT = 0x1;
+            const int HTCAPTION = 0x2;
+
+            base.WndProc(ref m);
+
+            if (m.Msg == WM_NCHITTEST)
+            {
+                if (m.Result != (IntPtr)HTCLIENT)
+                    m.Result = (IntPtr)HTCAPTION;
+            }
+        }
+    }
 }

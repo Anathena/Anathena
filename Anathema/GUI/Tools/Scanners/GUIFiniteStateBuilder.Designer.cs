@@ -66,7 +66,7 @@
             // 
             this.DragModeButton.CheckOnClick = true;
             this.DragModeButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.DragModeButton.Image = global::Anathema.Properties.Resources.AnathemaIcon;
+            this.DragModeButton.Image = global::Anathema.Properties.Resources.Valid;
             this.DragModeButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.DragModeButton.Name = "DragModeButton";
             this.DragModeButton.Size = new System.Drawing.Size(31, 20);

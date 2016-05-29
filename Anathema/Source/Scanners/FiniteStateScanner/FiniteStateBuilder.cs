@@ -1,9 +1,9 @@
-﻿using Anathema.Scanners.ScanConstraints;
+﻿using Anathema.Source.Scanners.ScanConstraints;
 using System;
 using System.Drawing;
 using System.Reflection;
 
-namespace Anathema.Scanners.FiniteStateScanner
+namespace Anathema.Source.Scanners.FiniteStateScanner
 {
     class FiniteStateBuilder : IFiniteStateBuilderModel
     {
@@ -27,6 +27,8 @@ namespace Anathema.Scanners.FiniteStateScanner
         {
             FiniteStateMachine = new FiniteStateMachine();
         }
+
+        public void OnGUIOpen() { }
 
         public void SetElementType(Type ElementType)
         {

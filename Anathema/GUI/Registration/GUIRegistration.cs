@@ -1,7 +1,5 @@
 ﻿using Anathema.Source.Utils;
-using Anathema.User.Registration;
-using Anathema.Utils;
-using Anathema.Utils.Browser;
+using Anathema.Source.Utils.Browser;
 using Gecko;
 using Gecko.Events;
 using System;
@@ -71,7 +69,7 @@ namespace Anathema.GUI
 
                 if (Regex.IsMatch(ActivationCode, "....-....-....-....-...."))
                 {
-                    RegistrationManager.GetInstance().Register();
+                    Source.Utils.Registration.RegistrationManager.GetInstance().Register();
                     CancelFlag = true;
                     MessageBox.Show("Registration Complete. Restart Anathema for all changes to take effect.", "Registration Complete");
                 }

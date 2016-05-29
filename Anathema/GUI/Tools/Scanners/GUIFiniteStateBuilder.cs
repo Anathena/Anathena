@@ -1,8 +1,8 @@
 ﻿using Anathema.Properties;
-using Anathema.Scanners.FiniteStateScanner;
-using Anathema.Scanners.ScanConstraints;
+using Anathema.Source.Scanners.FiniteStateScanner;
+using Anathema.Source.Scanners.ScanConstraints;
 using Anathema.Source.Utils;
-using Anathema.Utils.MVP;
+using Anathema.Source.Utils.MVP;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;

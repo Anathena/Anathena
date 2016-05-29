@@ -1,7 +1,7 @@
-﻿using Anathema.Scanners.InputCorrelator;
+﻿using Anathema.Source.Scanners.InputCorrelator;
 using Anathema.Source.Utils;
-using Anathema.Utils.MVP;
-using Anathema.Utils.Validation;
+using Anathema.Source.Utils.MVP;
+using Anathema.Source.Utils.Validation;
 using Gma.System.MouseKeyHook;
 using System;
 using System.Collections.Generic;
@@ -158,28 +158,27 @@ namespace Anathema.GUI
 
         private Stack<Int32> GetSelectionIndicies()
         {
-            using (TimedLock.Lock(AccessLock))
-            {
-                Stack<Int32> Indicies = new Stack<Int32>();
-                TreeNode CurrentNode = InputTreeView.SelectedNode;
-                while (CurrentNode != null)
-                {
-                    Indicies.Push(CurrentNode.Index);
-                    CurrentNode = CurrentNode.Parent;
-                }
+            Stack<Int32> Indicies = new Stack<Int32>();
+            TreeNode CurrentNode = InputTreeView.SelectedNode;
 
-                return Indicies;
+            while (CurrentNode != null)
+            {
+                Indicies.Push(CurrentNode.Index);
+                CurrentNode = CurrentNode.Parent;
             }
+
+            return Indicies;
         }
 
         private void GlobalHookKeyUp(Object Sender, KeyEventArgs E)
         {
-            using (TimedLock.Lock(AccessLock))
+            InputCorrelatorPresenter.SetCurrentKey(E.KeyCode);
+            UpdatingInputTextBox = true;
+
+            ControlThreadingHelper.InvokeControlAction(InputTextBox, () =>
             {
-                InputCorrelatorPresenter.SetCurrentKey(E.KeyCode);
-                UpdatingInputTextBox = true;
                 InputTextBox.Text = E.KeyCode.ToString();
-            }
+            });
         }
 
         #region Events

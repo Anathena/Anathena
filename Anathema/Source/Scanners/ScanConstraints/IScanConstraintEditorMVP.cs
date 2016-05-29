@@ -1,13 +1,13 @@
 ﻿using Anathema.Properties;
-using Anathema.Utils.MVP;
-using Anathema.Utils.Validation;
+using Anathema.Source.Utils.MVP;
+using Anathema.Source.Utils.Validation;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Windows.Forms;
 
-namespace Anathema.Scanners.ScanConstraints
+namespace Anathema.Source.Scanners.ScanConstraints
 {
     delegate void ScanConstraintEditorEventHandler(Object Sender, ScanConstraintEditorEventArgs Args);
     class ScanConstraintEditorEventArgs : EventArgs
@@ -42,8 +42,8 @@ namespace Anathema.Scanners.ScanConstraints
 
     class ScanConstraintEditorPresenter : Presenter<IScanConstraintEditorView, IScanConstraintEditorModel>
     {
-        protected new IScanConstraintEditorView View;
-        protected new IScanConstraintEditorModel Model;
+        private new IScanConstraintEditorView View { get; set; }
+        private new IScanConstraintEditorModel Model { get; set; }
 
         private ConstraintsEnum ValueConstraint;
 
@@ -54,6 +54,8 @@ namespace Anathema.Scanners.ScanConstraints
 
             // Bind events triggered by the model
             Model.EventUpdateDisplay += EventUpdateDisplay;
+
+            Model.OnGUIOpen();
         }
 
         #region Method definitions called by the view (downstream)
@@ -182,7 +184,7 @@ namespace Anathema.Scanners.ScanConstraints
                     case ConstraintsEnum.IncreasedByX: ImageList.Images.Add(Resources.PlusX); break;
                     case ConstraintsEnum.DecreasedByX: ImageList.Images.Add(Resources.MinusX); break;
                     case ConstraintsEnum.NotScientificNotation: ImageList.Images.Add(Resources.ENotation); break;
-                    default: case ConstraintsEnum.Invalid: ImageList.Images.Add(Resources.AnathemaIcon); break;
+                    default: case ConstraintsEnum.Invalid: ImageList.Images.Add(Resources.X); break;
                 }
 
                 ScanConstraintItems.Add(new ListViewItem(Value));

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Anathema.Scanners.ChunkScanner
+namespace Anathema.Source.Scanners.ChunkScanner
 {
     interface IChunkScannerView : IScannerView
     {
@@ -17,8 +17,8 @@ namespace Anathema.Scanners.ChunkScanner
 
     class ChunkScannerPresenter : ScannerPresenter
     {
-        new IChunkScannerView View;
-        new IChunkScannerModel Model;
+        private new IChunkScannerView View { get; set; }
+        private new IChunkScannerModel Model { get; set; }
 
         public ChunkScannerPresenter(IChunkScannerView View, IChunkScannerModel Model) : base(View, Model)
         {
@@ -27,6 +27,8 @@ namespace Anathema.Scanners.ChunkScanner
 
             // Bind events triggered by the model
 
+
+            Model.OnGUIOpen();
         }
 
         #region Method definitions called by the view (downstream)

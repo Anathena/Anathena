@@ -1,13 +1,13 @@
-﻿using Anathema.Scanners.ScanConstraints;
-using Anathema.Services.Snapshots;
-using Anathema.User.UserSettings;
+﻿using Anathema.Source.Scanners.ScanConstraints;
+using Anathema.Source.Utils.Setting;
+using Anathema.Source.Utils.Snapshots;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Anathema.Scanners.FiniteStateScanner
+namespace Anathema.Source.Scanners.FiniteStateScanner
 {
     class FiniteStateScanner : IFiniteStateScannerModel
     {

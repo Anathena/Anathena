@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Anathema.Utils.Validation
+namespace Anathema.Source.Utils.Validation
 {
     public static class CheckSyntax
     {

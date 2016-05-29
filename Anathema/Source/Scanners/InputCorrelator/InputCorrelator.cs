@@ -1,6 +1,7 @@
-﻿using Anathema.Services.Snapshots;
+﻿using Anathema.Source.Controller;
 using Anathema.Source.Utils;
-using Anathema.User.UserSettings;
+using Anathema.Source.Utils.Setting;
+using Anathema.Source.Utils.Snapshots;
 using Gma.System.MouseKeyHook;
 using System;
 using System.Collections.Generic;
@@ -8,13 +9,12 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace Anathema.Scanners.InputCorrelator
+namespace Anathema.Source.Scanners.InputCorrelator
 {
     // I Originally thought these might be a good idea:
     // http://www.ucl.ac.uk/english-usage/staff/sean/resources/phimeasures.pdf
     // https://en.wikipedia.org/wiki/Contingency_table#Measures_of_association
     // It turns out a simple pentalty/reward system works fine
-
     class InputCorrelator : IInputCorrelatorModel
     {
         private Snapshot<Int16> Snapshot;
@@ -150,8 +150,6 @@ namespace Anathema.Scanners.InputCorrelator
         {
             base.Update();
 
-            Int32 ProcessedPages = 0;
-
             // Read memory to update previous and current values
             Snapshot.ReadAllSnapshotMemory();
 
@@ -174,13 +172,6 @@ namespace Anathema.Scanners.InputCorrelator
                             Element.ElementLabel--;
                     }
                 }
-
-                /*using (TimedLock.Lock(ProgressLock))
-                {
-                    ProcessedPages++;
-
-                    ScanProgress.UpdateProgress(ProcessedPages, Snapshot.GetRegionCount());
-                }*/
             });
 
             ScanProgress.FinishProgress();
@@ -197,10 +188,21 @@ namespace Anathema.Scanners.InputCorrelator
 
             // Prefilter items with negative penalties (ie constantly changing variables)
             Snapshot.MarkAllInvalid();
+            IntPtr whatever = new IntPtr(0x84896c);
             foreach (SnapshotRegion<Int16> Region in Snapshot)
                 foreach (SnapshotElement<Int16> Element in Region)
+                {
                     if (Element.ElementLabel.Value > 0)
                         Element.Valid = true;
+
+                    if (Element.BaseAddress == whatever)
+                    {
+                        int breakpoint = 1;
+                        breakpoint++;
+                    }
+                }
+
+
             Snapshot.DiscardInvalidRegions();
             Snapshot.SetScanMethod("Input Correlator");
 

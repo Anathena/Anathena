@@ -32,7 +32,7 @@
             this.StartScanButton = new System.Windows.Forms.ToolStripButton();
             this.ScanToolStrip = new System.Windows.Forms.ToolStrip();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
-            this.GUIConstraintEditor = new GUIConstraintEditor();
+            this.GUIConstraintEditor = new Anathema.GUI.GUIConstraintEditor();
             this.ScanToolStrip.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -67,6 +67,7 @@
             // GUIConstraintEditor
             // 
             this.GUIConstraintEditor.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.GUIConstraintEditor.HideElementType = false;
             this.GUIConstraintEditor.Location = new System.Drawing.Point(0, 25);
             this.GUIConstraintEditor.Name = "GUIConstraintEditor";
             this.GUIConstraintEditor.Size = new System.Drawing.Size(300, 161);
@@ -82,7 +83,7 @@
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "GUIManualScanner";
-            this.Text = "Manual Scanner";
+            this.Text = "Manual";
             this.ScanToolStrip.ResumeLayout(false);
             this.ScanToolStrip.PerformLayout();
             this.ResumeLayout(false);

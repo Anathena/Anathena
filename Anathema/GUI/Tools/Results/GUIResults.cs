@@ -1,16 +1,16 @@
-﻿using Anathema.Services.ScanResults;
+﻿using Anathema.Source.Results.ScanResults;
 using Anathema.Source.Utils;
-using Anathema.Utils.Cache;
-using Anathema.Utils.MVP;
+using Anathema.Source.Utils.Caches;
+using Anathema.Source.Utils.MVP;
 using System;
 using System.Windows.Forms;
 using WeifenLuo.WinFormsUI.Docking;
 
 namespace Anathema.GUI
 {
-    public partial class GUIResults : DockContent, IResultsView
+    public partial class GUIResults : DockContent, IScanResultsView
     {
-        private ResultsPresenter ResultsPresenter;
+        private ScanResultsPresenter ScanResultsPresenter;
         private ListViewCache ListViewCache;
         private Object AccessLock;
 
@@ -19,14 +19,14 @@ namespace Anathema.GUI
         public GUIResults()
         {
             InitializeComponent();
-            ResultsPresenter = new ResultsPresenter(this, Results.GetInstance());
+            ScanResultsPresenter = new ScanResultsPresenter(this, ScanResults.GetInstance());
             ListViewCache = new ListViewCache();
             AccessLock = new Object();
         }
 
         public void UpdateMemorySizeLabel(String MemorySize, String ItemCount)
         {
-            ControlThreadingHelper.InvokeControlAction(SnapshotSizeValueLabel.GetCurrentParent(), () =>
+            ControlThreadingHelper.InvokeControlAction(GUIToolStrip, () =>
             {
                 SnapshotSizeValueLabel.Text = MemorySize + " - (" + ItemCount + ")";
             });
@@ -59,7 +59,7 @@ namespace Anathema.GUI
             });
 
             if (ReadBounds != null)
-                ResultsPresenter.UpdateReadBounds(ReadBounds.Item1, ReadBounds.Item2);
+                ScanResultsPresenter.UpdateReadBounds(ReadBounds.Item1, ReadBounds.Item2);
         }
 
         public void SetEnabled(Boolean IsEnabled)
@@ -102,7 +102,7 @@ namespace Anathema.GUI
                     if (ResultsListView.SelectedIndices.Count <= 0)
                         return;
 
-                    ResultsPresenter.AddSelectionToTable(ResultsListView.SelectedIndices[0], ResultsListView.SelectedIndices[ResultsListView.SelectedIndices.Count - 1]);
+                    ScanResultsPresenter.AddSelectionToTable(ResultsListView.SelectedIndices[0], ResultsListView.SelectedIndices[ResultsListView.SelectedIndices.Count - 1]);
                 }
             });
         }
@@ -110,37 +110,37 @@ namespace Anathema.GUI
 
         private void ByteToolStripMenuItem_Click(Object Sender, EventArgs E)
         {
-            ResultsPresenter.UpdateScanType(typeof(SByte));
+            ScanResultsPresenter.UpdateScanType(typeof(SByte));
         }
 
         private void Int16ToolStripMenuItem_Click(Object Sender, EventArgs E)
         {
-            ResultsPresenter.UpdateScanType(typeof(Int16));
+            ScanResultsPresenter.UpdateScanType(typeof(Int16));
         }
 
         private void Int32ToolStripMenuItem_Click(Object Sender, EventArgs E)
         {
-            ResultsPresenter.UpdateScanType(typeof(Int32));
+            ScanResultsPresenter.UpdateScanType(typeof(Int32));
         }
 
         private void Int64ToolStripMenuItem_Click(Object Sender, EventArgs E)
         {
-            ResultsPresenter.UpdateScanType(typeof(Int64));
+            ScanResultsPresenter.UpdateScanType(typeof(Int64));
         }
 
         private void SingleToolStripMenuItem_Click(Object Sender, EventArgs E)
         {
-            ResultsPresenter.UpdateScanType(typeof(Single));
+            ScanResultsPresenter.UpdateScanType(typeof(Single));
         }
 
         private void DoubleToolStripMenuItem_Click(Object Sender, EventArgs E)
         {
-            ResultsPresenter.UpdateScanType(typeof(Double));
+            ScanResultsPresenter.UpdateScanType(typeof(Double));
         }
 
         private void ChangeSignToolStripMenuItem_Click(Object Sender, EventArgs E)
         {
-            ResultsPresenter.ChangeSign();
+            ScanResultsPresenter.ChangeSign();
         }
 
         private void ResultsListView_RetrieveVirtualItem(Object Sender, RetrieveVirtualItemEventArgs E)
@@ -149,7 +149,7 @@ namespace Anathema.GUI
 
             // Try to update value and return the item if it is a valid item
             if (Item != null && ListViewCache.TryUpdateSubItem(E.ItemIndex,
-                ResultsListView.Columns.IndexOf(ValueHeader), ResultsPresenter.GetValueAtIndex(E.ItemIndex)))
+                ResultsListView.Columns.IndexOf(ValueHeader), ScanResultsPresenter.GetValueAtIndex(E.ItemIndex)))
             {
                 E.Item = Item;
                 return;
@@ -158,9 +158,9 @@ namespace Anathema.GUI
             // Add the properties to the cache and get the list view item back
             Item = ListViewCache.Add(E.ItemIndex, new String[ResultsListView.Columns.Count]);
 
-            Item.SubItems[ResultsListView.Columns.IndexOf(AddressHeader)].Text = ResultsPresenter.GetAddressAtIndex(E.ItemIndex);
+            Item.SubItems[ResultsListView.Columns.IndexOf(AddressHeader)].Text = ScanResultsPresenter.GetAddressAtIndex(E.ItemIndex);
             Item.SubItems[ResultsListView.Columns.IndexOf(ValueHeader)].Text = NoValueString;
-            Item.SubItems[ResultsListView.Columns.IndexOf(LabelHeader)].Text = ResultsPresenter.GetLabelAtIndex(E.ItemIndex);
+            Item.SubItems[ResultsListView.Columns.IndexOf(LabelHeader)].Text = ScanResultsPresenter.GetLabelAtIndex(E.ItemIndex);
 
             E.Item = Item;
         }

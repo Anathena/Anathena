@@ -1,15 +1,16 @@
-﻿using Anathema.Source.Utils;
-using Anathema.User.UserScriptTable;
-using Anathema.Utils.Cache;
-using Anathema.Utils.MVP;
+﻿using Anathema.Source.Tables.Scripts;
+using Anathema.Source.Utils;
+using Anathema.Source.Utils.Caches;
+using Anathema.Source.Utils.MVP;
 using System;
 using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
+using WeifenLuo.WinFormsUI.Docking;
 
 namespace Anathema
 {
-    public partial class GUIScriptTable : UserControl, IScriptTableView
+    public partial class GUIScriptTable : DockContent, IScriptTableView
     {
         private ScriptTablePresenter ScriptTablePresenter;
         private ListViewCache ScriptTableCache;
@@ -19,10 +20,10 @@ namespace Anathema
         {
             InitializeComponent();
 
-            ScriptTablePresenter = new ScriptTablePresenter(this, ScriptTable.GetInstance());
             ScriptTableCache = new ListViewCache();
             AccessLock = new Object();
 
+            ScriptTablePresenter = new ScriptTablePresenter(this, ScriptTable.GetInstance());
         }
 
         public void UpdateScriptTableItemCount(Int32 ItemCount)
@@ -66,6 +67,11 @@ namespace Anathema
             E.Item = Item;
         }
 
+        private void AddScriptButton_Click(Object Sender, EventArgs E)
+        {
+            ScriptTablePresenter.AddNewScript();
+        }
+
         private void ScriptTableListView_MouseClick(Object Sender, MouseEventArgs E)
         {
             using (TimedLock.Lock(AccessLock))
@@ -101,47 +107,42 @@ namespace Anathema
                 ScriptTablePresenter.OpenScript(SelectedItem.Index);
             }
         }
+        private void NewScriptToolStripMenuItem_Click(Object Sender, EventArgs E)
+        {
+            ScriptTablePresenter.AddNewScript();
+        }
 
         private void OpenScriptToolStripMenuItem_Click(Object Sender, EventArgs E)
         {
-            using (TimedLock.Lock(AccessLock))
-            {
-                ListViewHitTestInfo HitTest = ScriptTableListView.HitTest(LastRightClickLocation);
-                ListViewItem SelectedItem = HitTest.Item;
-                Int32 ColumnIndex = HitTest.Item.SubItems.IndexOf(HitTest.SubItem);
+            ListViewHitTestInfo HitTest = ScriptTableListView.HitTest(LastRightClickLocation);
+            ListViewItem SelectedItem = HitTest.Item;
+            Int32 ColumnIndex = HitTest.Item.SubItems.IndexOf(HitTest.SubItem);
 
-                if (SelectedItem == null)
-                    return;
+            if (SelectedItem == null)
+                return;
 
-                ScriptTablePresenter.OpenScript(SelectedItem.Index);
-            }
+            ScriptTablePresenter.OpenScript(SelectedItem.Index);
         }
 
         private void DeleteScriptToolStripMenuItem_Click(Object Sender, EventArgs E)
         {
-            using (TimedLock.Lock(AccessLock))
-            {
-                ListViewHitTestInfo HitTest = ScriptTableListView.HitTest(LastRightClickLocation);
-                ListViewItem SelectedItem = HitTest.Item;
-                Int32 ColumnIndex = HitTest.Item.SubItems.IndexOf(HitTest.SubItem);
+            ListViewHitTestInfo HitTest = ScriptTableListView.HitTest(LastRightClickLocation);
+            ListViewItem SelectedItem = HitTest.Item;
+            Int32 ColumnIndex = HitTest.Item.SubItems.IndexOf(HitTest.SubItem);
 
-                if (SelectedItem == null)
-                    return;
+            if (SelectedItem == null)
+                return;
 
-                ScriptTablePresenter.DeleteScript(SelectedItem.Index);
-            }
+            ScriptTablePresenter.DeleteScript(SelectedItem.Index);
         }
 
         private void ScriptTableContextMenuStrip_Opening(Object Sender, CancelEventArgs E)
         {
-            using (TimedLock.Lock(AccessLock))
-            {
-                ListViewHitTestInfo HitTest = ScriptTableListView.HitTest(ScriptTableListView.PointToClient(MousePosition));
-                ListViewItem SelectedItem = HitTest.Item;
+            ListViewHitTestInfo HitTest = ScriptTableListView.HitTest(ScriptTableListView.PointToClient(MousePosition));
+            ListViewItem SelectedItem = HitTest.Item;
 
-                if (SelectedItem == null)
-                    E.Cancel = true;
-            }
+            if (SelectedItem == null)
+                E.Cancel = true;
         }
 
         private ListViewItem DraggedItem;

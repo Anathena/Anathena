@@ -1,14 +1,14 @@
-﻿using Anathema.Services.ProcessManager;
-using Anathema.Utils.Extensions;
-using Anathema.Utils.OS;
-using Anathema.Utils.Validation;
+﻿using Anathema.Source.OS;
+using Anathema.Source.OS.Processes;
+using Anathema.Source.Utils.Extensions;
+using Anathema.Source.Utils.Validation;
 using SharpDisasm;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Anathema.Utils.LUA
+namespace Anathema.Source.Utils.LUA
 {
     public interface LuaFunctions
     {

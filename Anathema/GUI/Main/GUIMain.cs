@@ -1,13 +1,12 @@
-﻿using Anathema.Source.Utils;
-using Anathema.User.Registration;
-using Anathema.Utils;
-using Anathema.Utils.MVP;
+﻿using Anathema.Source.Controller;
+using Anathema.Source.Utils;
+using Anathema.Source.Utils.Extensions;
+using Anathema.Source.Utils.MVP;
+using Anathema.Source.Utils.Registration;
 using System;
+using System.Deployment.Application;
 using System.Diagnostics;
 using System.IO;
-using System.Net;
-using System.Reflection;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using WeifenLuo.WinFormsUI.Docking;
 
@@ -39,7 +38,8 @@ namespace Anathema.GUI
 
         private GUISnapshotManager GUISnapshotManager;
         private GUIResults GUIResults;
-        private GUITable GUITable;
+        private GUIAddressTable GUIAddressTable;
+        private GUIScriptTable GUIScriptTable;
 
         // EDIT MENU ITEMS
         private GUISettings GUISettings;
@@ -47,6 +47,9 @@ namespace Anathema.GUI
         // HELP ITEMS
         private GUIRegistration GUIRegistration;
 
+        // Variables
+        private String ActiveTablePath;
+        private String Title;
         private Object AccessLock;
 
         public GUIMain()
@@ -57,51 +60,13 @@ namespace Anathema.GUI
             AccessLock = new Object();
 
             InitializeTheme();
+            InitializeControls();
             InitializeStatus();
 
             // CheckRegistration();
             CreateTools();
-            CheckNewVersion();
 
             this.Show();
-        }
-
-        private void CheckNewVersion()
-        {
-            Task.Run(() =>
-            {
-                Assembly Assembly = Assembly.GetExecutingAssembly();
-                FileVersionInfo FileVersionInfo = FileVersionInfo.GetVersionInfo(Assembly.Location);
-                String CurrentVersion = FileVersionInfo.ProductVersion;
-
-                try
-                {
-                    String PublicVersion = (new VersionChecker()).DownloadString("http://www.anathemaengine.com/release/version.txt");
-
-                    if (PublicVersion == CurrentVersion)
-                        return;
-
-                    ControlThreadingHelper.InvokeControlAction(this, () =>
-                    {
-                        MessageBoxEx.Show(this, "New Version Available at http://www.anethemaengine.com/" + Environment.NewLine +
-                            "Current Version: " + CurrentVersion + Environment.NewLine +
-                            "New Version: " + PublicVersion + Environment.NewLine +
-                            "Anathema is still in beta, so this update will likely provide critical performance and feature changes.",
-                            "New Version Available");
-                    });
-                }
-                catch { }
-            });
-        }
-
-        public class VersionChecker : WebClient
-        {
-            protected override WebRequest GetWebRequest(Uri Address)
-            {
-                WebRequest WebRequest = base.GetWebRequest(Address);
-                WebRequest.Timeout = 5000;
-                return WebRequest;
-            }
         }
 
         #region Public Methods
@@ -152,19 +117,29 @@ namespace Anathema.GUI
 
         #region Private Methods
 
+        private void InitializeControls()
+        {
+            PrimitiveTypes.GetPrimitiveTypes().ForEach(X => ValueTypeComboBox.Items.Add(X.Name));
+            ValueTypeComboBox.SelectedIndex = ValueTypeComboBox.Items.IndexOf(typeof(Int32).Name);
+        }
+
         private void InitializeTheme()
         {
-            Assembly Assembly = Assembly.GetExecutingAssembly();
-            FileVersionInfo FileVersionInfo = FileVersionInfo.GetVersionInfo(Assembly.Location);
-            String[] CurrentVersion = FileVersionInfo.ProductVersion.Split('.');
+            String Version;
 
-            this.Text += " " + CurrentVersion[0] + "." + CurrentVersion[1] + " " + "Beta";
+            if (!Debugger.IsAttached && ApplicationDeployment.IsNetworkDeployed)
+                Version = ApplicationDeployment.CurrentDeployment.CurrentVersion.ToString();
+            else
+                Version = ProductVersion;
+
+            this.Text += " " + Version + " " + "Beta";
+            Title = this.Text;
 
             // Update theme so that everything looks cool
             this.ContentPanel.Theme = new VS2013BlueTheme();
 
             // Set default dock space sizes
-            ContentPanel.DockRightPortion = 0.4;
+            ContentPanel.DockRightPortion = 0.5;
             ContentPanel.DockBottomPortion = 0.4;
         }
 
@@ -223,12 +198,16 @@ namespace Anathema.GUI
 
         private void CreateDefaultTools()
         {
-            // CreateChunkScanner();
             CreateManualScanner();
             CreateInputCorrelator();
-            CreateSnapshotManager();
             CreateResults();
-            CreateTable();
+            CreateSnapshotManager();
+            CreateAddressTable();
+            CreateScriptTable();
+
+            // Force focus preferred windows with shared GUI tabs
+            GUIResults.Show();
+            GUIAddressTable.Show();
         }
 
         private void CreateCheatBrowser()
@@ -413,16 +392,30 @@ namespace Anathema.GUI
             });
         }
 
-        private void CreateTable()
+        private void CreateAddressTable()
         {
             ControlThreadingHelper.InvokeControlAction(ContentPanel, () =>
             {
                 using (TimedLock.Lock(AccessLock))
                 {
-                    if (GUITable == null || GUITable.IsDisposed)
-                        GUITable = new GUITable();
+                    if (GUIAddressTable == null || GUIAddressTable.IsDisposed)
+                        GUIAddressTable = new GUIAddressTable();
 
-                    GUITable.Show(ContentPanel, DockState.DockBottom);
+                    GUIAddressTable.Show(ContentPanel, DockState.DockBottom);
+                }
+            });
+        }
+
+        private void CreateScriptTable()
+        {
+            ControlThreadingHelper.InvokeControlAction(ContentPanel, () =>
+            {
+                using (TimedLock.Lock(AccessLock))
+                {
+                    if (GUIScriptTable == null || GUIScriptTable.IsDisposed)
+                        GUIScriptTable = new GUIScriptTable();
+
+                    GUIScriptTable.Show(ContentPanel, DockState.DockBottom);
                 }
             });
         }
@@ -480,6 +473,88 @@ namespace Anathema.GUI
 
                     GUISettings.ShowDialog(this);
                 }
+            });
+        }
+
+        public void BeginSaveTable()
+        {
+            if (ActiveTablePath == null || ActiveTablePath == String.Empty)
+            {
+                BeginSaveAsTable();
+                return;
+            }
+
+            MainPresenter.RequestSaveTable(ActiveTablePath);
+        }
+
+        public void BeginSaveAsTable()
+        {
+            SaveFileDialog SaveFileDialog = new SaveFileDialog();
+            SaveFileDialog.Filter = "Cheat File (*.Hax)|*.hax|All files (*.*)|*.*";
+            SaveFileDialog.Title = "Save Cheat File";
+            SaveFileDialog.ShowDialog();
+
+            ActiveTablePath = SaveFileDialog.FileName;
+
+            MainPresenter.RequestSaveTable(SaveFileDialog.FileName);
+        }
+
+        public void BeginOpenTable()
+        {
+            OpenFileDialog OpenFileDialog = new OpenFileDialog();
+            OpenFileDialog.Filter = "Cheat File (*.Hax)|*.hax|All files (*.*)|*.*";
+            OpenFileDialog.Title = "Open Cheat File";
+            OpenFileDialog.ShowDialog();
+
+            ActiveTablePath = OpenFileDialog.FileName;
+
+            MainPresenter.RequestOpenTable(OpenFileDialog.FileName);
+        }
+
+        public void BeginMergeTable()
+        {
+            OpenFileDialog OpenFileDialog = new OpenFileDialog();
+            OpenFileDialog.Filter = "Cheat File (*.Hax)|*.hax|All files (*.*)|*.*";
+            OpenFileDialog.Title = "Open and Merge Cheat File";
+            OpenFileDialog.ShowDialog();
+
+            // Prioritize whatever is open already. If nothing, use the merge filename.
+            if (ActiveTablePath == String.Empty)
+                ActiveTablePath = OpenFileDialog.FileName;
+
+            MainPresenter.RequestMergeTable(OpenFileDialog.FileName);
+        }
+
+        private Boolean AskSaveChanges()
+        {
+            // Check if there are even changes to save
+            if (!MainPresenter.RequestHasChanges())
+                return false;
+
+            DialogResult Result = MessageBoxEx.Show(this, "This table has not been saved. Save the changes before closing?", "Save Changes?", MessageBoxButtons.YesNoCancel);
+
+            switch (Result)
+            {
+                case DialogResult.Yes:
+                    BeginSaveTable();
+                    return false;
+                case DialogResult.No:
+                    return false;
+                case DialogResult.Cancel:
+                    break;
+            }
+
+            // User wishes to cancel
+            return true;
+        }
+
+        public void UpdateHasChanges(Boolean HasChanges)
+        {
+            ControlThreadingHelper.InvokeControlAction(this, () =>
+            {
+                this.Text = Title + " - " + ActiveTablePath;
+                if (HasChanges)
+                    this.Text += "*";
             });
         }
 
@@ -552,9 +627,14 @@ namespace Anathema.GUI
             CreateResults();
         }
 
-        private void TableToolStripMenuItem_Click(Object Sender, EventArgs E)
+        private void AddressesToolStripMenuItem_Click(Object Sender, EventArgs E)
         {
-            CreateTable();
+            CreateAddressTable();
+        }
+
+        private void ScriptsToolStripMenuItem_Click(Object Sender, EventArgs E)
+        {
+            CreateScriptTable();
         }
 
         private void ProcessSelectorToolStripMenuItem_Click(Object Sender, EventArgs E)
@@ -572,7 +652,7 @@ namespace Anathema.GUI
             CreateScriptEditor();
         }
 
-        private void SettingsToolStripMenuItem_Click(object sender, EventArgs e)
+        private void SettingsToolStripMenuItem_Click(Object Sender, EventArgs E)
         {
             CreateSettings();
         }
@@ -580,6 +660,36 @@ namespace Anathema.GUI
         private void RegisterToolStripMenuItem_Click(Object Sender, EventArgs E)
         {
             CreateRegistration();
+        }
+
+        private void OpenToolStripMenuItem_Click(Object Sender, EventArgs E)
+        {
+            BeginOpenTable();
+        }
+
+        private void SaveToolStripMenuItem_Click(Object Sender, EventArgs E)
+        {
+            BeginSaveTable();
+        }
+
+        private void OpenButton_Click(Object Sender, EventArgs E)
+        {
+            BeginOpenTable();
+        }
+
+        private void SaveButton_Click(Object Sender, EventArgs E)
+        {
+            BeginSaveTable();
+        }
+
+        private void MergeTableToolStripMenuItem_Click(Object Sender, EventArgs E)
+        {
+            BeginMergeTable();
+        }
+
+        private void SaveAsToolStripMenuItem_Click(Object Sender, EventArgs E)
+        {
+            BeginSaveAsTable();
         }
 
         private void CollectValuesButton_Click(Object Sender, EventArgs E)
@@ -597,18 +707,6 @@ namespace Anathema.GUI
             MainPresenter.RequestUndoScan();
         }
 
-        private void OpenToolStripMenuItem_Click(Object Sender, EventArgs E)
-        {
-            CreateTable();
-            GUITable.BeginOpenTable();
-        }
-
-        private void SaveToolStripMenuItem_Click(Object Sender, EventArgs E)
-        {
-            CreateTable();
-            GUITable.BeginSaveTable();
-        }
-
         private void ExitToolStripMenuItem_Click(Object Sender, EventArgs E)
         {
             this.Close();
@@ -624,7 +722,8 @@ namespace Anathema.GUI
                 ScriptEditorToolStripMenuItem.Checked = (GUIScriptEditor == null || GUIScriptEditor.IsDisposed) ? false : true;
                 SnapshotManagerToolStripMenuItem.Checked = (GUISnapshotManager == null || GUISnapshotManager.IsDisposed) ? false : true;
                 ResultsToolStripMenuItem.Checked = (GUIResults == null || GUIResults.IsDisposed) ? false : true;
-                TableToolStripMenuItem.Checked = (GUITable == null || GUITable.IsDisposed) ? false : true;
+                AddressesToolStripMenuItem.Checked = (GUIAddressTable == null || GUIAddressTable.IsDisposed) ? false : true;
+                ScriptsToolStripMenuItem.Checked = (GUIScriptTable == null || GUIScriptTable.IsDisposed) ? false : true;
 
                 CodeViewToolStripMenuItem.Checked = (GUICodeView == null || GUICodeView.IsDisposed) ? false : true;
                 MemoryViewToolStripMenuItem.Checked = (GUIMemoryView == null || GUIMemoryView.IsDisposed) ? false : true;
@@ -645,12 +744,12 @@ namespace Anathema.GUI
             // Give the table a chance to ask to save changes
             using (TimedLock.Lock(AccessLock))
             {
-                if (GUITable != null && !GUITable.IsDisposed)
-                    GUITable.Close();
+                if (GUIAddressTable != null && !GUIAddressTable.IsDisposed)
+                    GUIAddressTable.Close();
 
                 try
                 {
-                    if (GUITable != null && !GUITable.IsDisposed)
+                    if (GUIAddressTable != null && !GUIAddressTable.IsDisposed)
                     {
                         E.Cancel = true;
                         return;

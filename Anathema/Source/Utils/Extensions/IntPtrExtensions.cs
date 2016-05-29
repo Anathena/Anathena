@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Anathema.Utils.Extensions
+namespace Anathema.Source.Utils.Extensions
 {
     public static class IntPtrExtensions
     {
@@ -28,27 +28,27 @@ namespace Anathema.Utils.Extensions
 
         public static IntPtr MaxValue(this IntPtr Self)
         {
-            if (IntPtr.Size == 4)
+            if (IntPtr.Size == sizeof(Int32))
                 return unchecked((IntPtr)(Int32)UInt32.MaxValue);
-            else if (IntPtr.Size == 8)
+            else if (IntPtr.Size == sizeof(Int64))
                 return unchecked((IntPtr)(Int64)UInt64.MaxValue);
             return IntPtr.Zero;
         }
 
         public static UIntPtr MaxValue(this UIntPtr Self)
         {
-            if (UIntPtr.Size == 4)
+            if (UIntPtr.Size == sizeof(Int32))
                 return unchecked((UIntPtr)UInt32.MaxValue);
-            else if (UIntPtr.Size == 8)
+            else if (UIntPtr.Size == sizeof(Int64))
                 return unchecked((UIntPtr)UInt64.MaxValue);
             return UIntPtr.Zero;
         }
 
         public static IntPtr MaxUserMode(this IntPtr Self)
         {
-            if (IntPtr.Size == 4)
+            if (IntPtr.Size == sizeof(Int32))
                 return unchecked((IntPtr)Int32.MaxValue);
-            else if (IntPtr.Size == 8)
+            else if (IntPtr.Size == sizeof(Int64))
                 return unchecked((IntPtr)Int64.MaxValue);
             return IntPtr.Zero;
         }
@@ -57,16 +57,16 @@ namespace Anathema.Utils.Extensions
         {
             if (Is32Bit)
                 return unchecked((IntPtr)Int32.MaxValue);
-            else if (IntPtr.Size == 8)
+            else if (IntPtr.Size == sizeof(Int64))
                 return unchecked((IntPtr)Int64.MaxValue);
             return IntPtr.Zero;
         }
 
         public static UIntPtr MaxUserMode(this UIntPtr Self)
         {
-            if (UIntPtr.Size == 4)
+            if (UIntPtr.Size == sizeof(Int32))
                 return unchecked((UIntPtr)Int32.MaxValue);
-            else if (UIntPtr.Size == 8)
+            else if (UIntPtr.Size == sizeof(Int64))
                 return unchecked((UIntPtr)Int64.MaxValue);
             return UIntPtr.Zero;
         }
@@ -75,7 +75,7 @@ namespace Anathema.Utils.Extensions
         {
             if (Is32Bit)
                 return unchecked((UIntPtr)Int32.MaxValue);
-            else if (UIntPtr.Size == 8)
+            else if (UIntPtr.Size == sizeof(Int64))
                 return unchecked((UIntPtr)Int64.MaxValue);
             return UIntPtr.Zero;
         }
@@ -86,227 +86,407 @@ namespace Anathema.Utils.Extensions
 
         public static IntPtr Add(this IntPtr Left, IntPtr Right)
         {
-            return unchecked(Left.ToUInt64() + Right.ToUInt64()).ToIntPtr();
+            switch (IntPtr.Size)
+            {
+                case sizeof(Int32): return unchecked((Int32)(Left.ToUInt32() + (UInt32)Right)).ToIntPtr();
+                default: return unchecked(Left.ToUInt64() + (UInt64)Right).ToIntPtr();
+            }
         }
 
         public static IntPtr Add(this IntPtr Left, Byte Right)
         {
-            return unchecked(Left.ToUInt64() + (UInt64)Right).ToIntPtr();
+            switch (IntPtr.Size)
+            {
+                case sizeof(Int32): return unchecked((Int32)(Left.ToUInt32() + (UInt32)Right)).ToIntPtr();
+                default: return unchecked(Left.ToUInt64() + (UInt64)Right).ToIntPtr();
+            }
         }
 
         public static IntPtr Add(this IntPtr Left, SByte Right)
         {
-            return unchecked(Left.ToUInt64() + (UInt64)Right).ToIntPtr();
+            switch (IntPtr.Size)
+            {
+                case sizeof(Int32): return unchecked((Int32)(Left.ToUInt32() + (UInt32)Right)).ToIntPtr();
+                default: return unchecked(Left.ToUInt64() + (UInt64)Right).ToIntPtr();
+            }
         }
 
         public static IntPtr Add(this IntPtr Left, Int16 Right)
         {
-            return unchecked(Left.ToUInt64() + (UInt64)Right).ToIntPtr();
+            switch (IntPtr.Size)
+            {
+                case sizeof(Int32): return unchecked((Int32)(Left.ToUInt32() + (UInt32)Right)).ToIntPtr();
+                default: return unchecked(Left.ToUInt64() + (UInt64)Right).ToIntPtr();
+            }
         }
 
         public static IntPtr Add(this IntPtr Left, UInt16 Right)
         {
-            return unchecked(Left.ToUInt64() + (UInt64)Right).ToIntPtr();
+            switch (IntPtr.Size)
+            {
+                case sizeof(Int32): return unchecked((Int32)(Left.ToUInt32() + (UInt32)Right)).ToIntPtr();
+                default: return unchecked(Left.ToUInt64() + (UInt64)Right).ToIntPtr();
+            }
         }
 
         public static IntPtr Add(this IntPtr Left, Int32 Right)
         {
-            return unchecked(Left.ToUInt64() + (UInt64)Right).ToIntPtr();
+            switch (IntPtr.Size)
+            {
+                case sizeof(Int32): return unchecked((Int32)(Left.ToUInt32() + (UInt32)Right)).ToIntPtr();
+                default: return unchecked(Left.ToUInt64() + (UInt64)Right).ToIntPtr();
+            }
         }
 
         public static IntPtr Add(this IntPtr Left, UInt32 Right)
         {
-            return unchecked(Left.ToUInt64() + (UInt64)Right).ToIntPtr();
+            switch (IntPtr.Size)
+            {
+                case sizeof(Int32): return unchecked((Int32)(Left.ToUInt32() + (UInt32)Right)).ToIntPtr();
+                default: return unchecked(Left.ToUInt64() + (UInt64)Right).ToIntPtr();
+            }
         }
 
         public static IntPtr Add(this IntPtr Left, Int64 Right)
         {
-            return unchecked(Left.ToUInt64() + (UInt64)Right).ToIntPtr();
+            switch (IntPtr.Size)
+            {
+                case sizeof(Int32): return unchecked((Int32)(Left.ToUInt32() + (UInt32)Right)).ToIntPtr();
+                default: return unchecked(Left.ToUInt64() + (UInt64)Right).ToIntPtr();
+            }
         }
 
         public static IntPtr Add(this IntPtr Left, UInt64 Right)
         {
-            return unchecked(Left.ToUInt64() + (UInt64)Right).ToIntPtr();
+            switch (IntPtr.Size)
+            {
+                case sizeof(Int32): return unchecked((Int32)(Left.ToUInt32() + (UInt32)Right)).ToIntPtr();
+                default: return unchecked(Left.ToUInt64() + (UInt64)Right).ToIntPtr();
+            }
         }
 
         public static IntPtr Subtract(this IntPtr Left, IntPtr Right)
         {
-            return unchecked(Left.ToUInt64() - (UInt64)Right).ToIntPtr();
+            switch (IntPtr.Size)
+            {
+                case sizeof(Int32): return unchecked((Int32)(Left.ToUInt32() - (UInt32)Right)).ToIntPtr();
+                default: return unchecked(Left.ToUInt64() - (UInt64)Right).ToIntPtr();
+            }
         }
 
         public static IntPtr Subtract(this IntPtr Left, Byte Right)
         {
-            return unchecked(Left.ToUInt64() - (UInt64)Right).ToIntPtr();
+            switch (IntPtr.Size)
+            {
+                case sizeof(Int32): return unchecked((Int32)(Left.ToUInt32() - (UInt32)Right)).ToIntPtr();
+                default: return unchecked(Left.ToUInt64() - (UInt64)Right).ToIntPtr();
+            }
         }
 
         public static IntPtr Subtract(this IntPtr Left, SByte Right)
         {
-            return unchecked(Left.ToUInt64() - (UInt64)Right).ToIntPtr();
+            switch (IntPtr.Size)
+            {
+                case sizeof(Int32): return unchecked((Int32)(Left.ToUInt32() - (UInt32)Right)).ToIntPtr();
+                default: return unchecked(Left.ToUInt64() - (UInt64)Right).ToIntPtr();
+            }
         }
 
         public static IntPtr Subtract(this IntPtr Left, Int16 Right)
         {
-            return unchecked(Left.ToUInt64() - (UInt64)Right).ToIntPtr();
+            switch (IntPtr.Size)
+            {
+                case sizeof(Int32): return unchecked((Int32)(Left.ToUInt32() - (UInt32)Right)).ToIntPtr();
+                default: return unchecked(Left.ToUInt64() - (UInt64)Right).ToIntPtr();
+            }
         }
 
         public static IntPtr Subtract(this IntPtr Left, UInt16 Right)
         {
-            return unchecked(Left.ToUInt64() - (UInt64)Right).ToIntPtr();
+            switch (IntPtr.Size)
+            {
+                case sizeof(Int32): return unchecked((Int32)(Left.ToUInt32() - (UInt32)Right)).ToIntPtr();
+                default: return unchecked(Left.ToUInt64() - (UInt64)Right).ToIntPtr();
+            }
         }
 
         public static IntPtr Subtract(this IntPtr Left, Int32 Right)
         {
-            return unchecked(Left.ToUInt64() - (UInt64)Right).ToIntPtr();
+            switch (IntPtr.Size)
+            {
+                case sizeof(Int32): return unchecked((Int32)(Left.ToUInt32() - (UInt32)Right)).ToIntPtr();
+                default: return unchecked(Left.ToUInt64() - (UInt64)Right).ToIntPtr();
+            }
         }
 
         public static IntPtr Subtract(this IntPtr Left, UInt32 Right)
         {
-            return unchecked(Left.ToUInt64() - (UInt64)Right).ToIntPtr();
+            switch (IntPtr.Size)
+            {
+                case sizeof(Int32): return unchecked((Int32)(Left.ToUInt32() - (UInt32)Right)).ToIntPtr();
+                default: return unchecked(Left.ToUInt64() - (UInt64)Right).ToIntPtr();
+            }
         }
 
         public static IntPtr Subtract(this IntPtr Left, Int64 Right)
         {
-            return unchecked(Left.ToUInt64() - (UInt64)Right).ToIntPtr();
+            switch (IntPtr.Size)
+            {
+                case sizeof(Int32): return unchecked((Int32)(Left.ToUInt32() - (UInt32)Right)).ToIntPtr();
+                default: return unchecked(Left.ToUInt64() - (UInt64)Right).ToIntPtr();
+            }
         }
 
         public static IntPtr Subtract(this IntPtr Left, UInt64 Right)
         {
-            return unchecked(Left.ToUInt64() - (UInt64)Right).ToIntPtr();
+            switch (IntPtr.Size)
+            {
+                case sizeof(Int32): return unchecked((Int32)(Left.ToUInt32() - (UInt32)Right)).ToIntPtr();
+                default: return unchecked(Left.ToUInt64() - (UInt64)Right).ToIntPtr();
+            }
         }
 
         public static IntPtr Multiply(this IntPtr Left, IntPtr Right)
         {
-            return unchecked(Left.ToUInt64() * (UInt64)Right).ToIntPtr();
+            switch (IntPtr.Size)
+            {
+                case sizeof(Int32): return unchecked((Int32)(Left.ToUInt32() * (UInt32)Right)).ToIntPtr();
+                default: return unchecked(Left.ToUInt64() * (UInt64)Right).ToIntPtr();
+            }
         }
 
         public static IntPtr Multiply(this IntPtr Left, Byte Right)
         {
-            return unchecked(Left.ToUInt64() * (UInt64)Right).ToIntPtr();
+            switch (IntPtr.Size)
+            {
+                case sizeof(Int32): return unchecked((Int32)(Left.ToUInt32() * (UInt32)Right)).ToIntPtr();
+                default: return unchecked(Left.ToUInt64() * (UInt64)Right).ToIntPtr();
+            }
         }
 
         public static IntPtr Multiply(this IntPtr Left, SByte Right)
         {
-            return unchecked(Left.ToUInt64() * (UInt64)Right).ToIntPtr();
+            switch (IntPtr.Size)
+            {
+                case sizeof(Int32): return unchecked((Int32)(Left.ToUInt32() * (UInt32)Right)).ToIntPtr();
+                default: return unchecked(Left.ToUInt64() * (UInt64)Right).ToIntPtr();
+            }
         }
 
         public static IntPtr Multiply(this IntPtr Left, Int16 Right)
         {
-            return unchecked(Left.ToUInt64() * (UInt64)Right).ToIntPtr();
+            switch (IntPtr.Size)
+            {
+                case sizeof(Int32): return unchecked((Int32)(Left.ToUInt32() * (UInt32)Right)).ToIntPtr();
+                default: return unchecked(Left.ToUInt64() * (UInt64)Right).ToIntPtr();
+            }
         }
 
         public static IntPtr Multiply(this IntPtr Left, UInt16 Right)
         {
-            return unchecked(Left.ToUInt64() * (UInt64)Right).ToIntPtr();
+            switch (IntPtr.Size)
+            {
+                case sizeof(Int32): return unchecked((Int32)(Left.ToUInt32() * (UInt32)Right)).ToIntPtr();
+                default: return unchecked(Left.ToUInt64() * (UInt64)Right).ToIntPtr();
+            }
         }
 
         public static IntPtr Multiply(this IntPtr Left, Int32 Right)
         {
-            return unchecked(Left.ToUInt64() * (UInt64)Right).ToIntPtr();
+            switch (IntPtr.Size)
+            {
+                case sizeof(Int32): return unchecked((Int32)(Left.ToUInt32() * (UInt32)Right)).ToIntPtr();
+                default: return unchecked(Left.ToUInt64() * (UInt64)Right).ToIntPtr();
+            }
         }
 
         public static IntPtr Multiply(this IntPtr Left, UInt32 Right)
         {
-            return unchecked(Left.ToUInt64() * (UInt64)Right).ToIntPtr();
+            switch (IntPtr.Size)
+            {
+                case sizeof(Int32): return unchecked((Int32)(Left.ToUInt32() * (UInt32)Right)).ToIntPtr();
+                default: return unchecked(Left.ToUInt64() * (UInt64)Right).ToIntPtr();
+            }
         }
 
         public static IntPtr Multiply(this IntPtr Left, Int64 Right)
         {
-            return unchecked(Left.ToUInt64() * (UInt64)Right).ToIntPtr();
+            switch (IntPtr.Size)
+            {
+                case sizeof(Int32): return unchecked((Int32)(Left.ToUInt32() * (UInt32)Right)).ToIntPtr();
+                default: return unchecked(Left.ToUInt64() * (UInt64)Right).ToIntPtr();
+            }
         }
 
         public static IntPtr Multiply(this IntPtr Left, UInt64 Right)
         {
-            return unchecked(Left.ToUInt64() * (UInt64)Right).ToIntPtr();
+            switch (IntPtr.Size)
+            {
+                case sizeof(Int32): return unchecked((Int32)(Left.ToUInt32() * (UInt32)Right)).ToIntPtr();
+                default: return unchecked(Left.ToUInt64() * (UInt64)Right).ToIntPtr();
+            }
         }
 
         public static IntPtr Divide(this IntPtr Left, IntPtr Right)
         {
-            return unchecked(Left.ToUInt64() / (UInt64)Right).ToIntPtr();
+            switch (IntPtr.Size)
+            {
+                case sizeof(Int32): return unchecked((Int32)(Left.ToUInt32() / (UInt32)Right)).ToIntPtr();
+                default: return unchecked(Left.ToUInt64() / (UInt64)Right).ToIntPtr();
+            }
         }
 
         public static IntPtr Divide(this IntPtr Left, Byte Right)
         {
-            return unchecked(Left.ToUInt64() / (UInt64)Right).ToIntPtr();
+            switch (IntPtr.Size)
+            {
+                case sizeof(Int32): return unchecked((Int32)(Left.ToUInt32() / (UInt32)Right)).ToIntPtr();
+                default: return unchecked(Left.ToUInt64() / (UInt64)Right).ToIntPtr();
+            }
         }
 
         public static IntPtr Divide(this IntPtr Left, SByte Right)
         {
-            return unchecked(Left.ToUInt64() / (UInt64)Right).ToIntPtr();
+            switch (IntPtr.Size)
+            {
+                case sizeof(Int32): return unchecked((Int32)(Left.ToUInt32() / (UInt32)Right)).ToIntPtr();
+                default: return unchecked(Left.ToUInt64() / (UInt64)Right).ToIntPtr();
+            }
         }
 
         public static IntPtr Divide(this IntPtr Left, Int16 Right)
         {
-            return unchecked(Left.ToUInt64() / (UInt64)Right).ToIntPtr();
+            switch (IntPtr.Size)
+            {
+                case sizeof(Int32): return unchecked((Int32)(Left.ToUInt32() / (UInt32)Right)).ToIntPtr();
+                default: return unchecked(Left.ToUInt64() / (UInt64)Right).ToIntPtr();
+            }
         }
 
         public static IntPtr Divide(this IntPtr Left, UInt16 Right)
         {
-            return unchecked(Left.ToUInt64() / (UInt64)Right).ToIntPtr();
+            switch (IntPtr.Size)
+            {
+                case sizeof(Int32): return unchecked((Int32)(Left.ToUInt32() / (UInt32)Right)).ToIntPtr();
+                default: return unchecked(Left.ToUInt64() / (UInt64)Right).ToIntPtr();
+            }
         }
 
         public static IntPtr Divide(this IntPtr Left, Int32 Right)
         {
-            return unchecked(Left.ToUInt64() / (UInt64)Right).ToIntPtr();
+            switch (IntPtr.Size)
+            {
+                case sizeof(Int32): return unchecked((Int32)(Left.ToUInt32() / (UInt32)Right)).ToIntPtr();
+                default: return unchecked(Left.ToUInt64() / (UInt64)Right).ToIntPtr();
+            }
         }
 
         public static IntPtr Divide(this IntPtr Left, UInt32 Right)
         {
-            return unchecked(Left.ToUInt64() / (UInt64)Right).ToIntPtr();
+            switch (IntPtr.Size)
+            {
+                case sizeof(Int32): return unchecked((Int32)(Left.ToUInt32() / (UInt32)Right)).ToIntPtr();
+                default: return unchecked(Left.ToUInt64() / (UInt64)Right).ToIntPtr();
+            }
         }
 
         public static IntPtr Divide(this IntPtr Left, Int64 Right)
         {
-            return unchecked(Left.ToUInt64() / (UInt64)Right).ToIntPtr();
+            switch (IntPtr.Size)
+            {
+                case sizeof(Int32): return unchecked((Int32)(Left.ToUInt32() / (UInt32)Right)).ToIntPtr();
+                default: return unchecked(Left.ToUInt64() / (UInt64)Right).ToIntPtr();
+            }
         }
 
         public static IntPtr Divide(this IntPtr Left, UInt64 Right)
         {
-            return unchecked(Left.ToUInt64() / (UInt64)Right).ToIntPtr();
+            switch (IntPtr.Size)
+            {
+                case sizeof(Int32): return unchecked((Int32)(Left.ToUInt32() / (UInt32)Right)).ToIntPtr();
+                default: return unchecked(Left.ToUInt64() / (UInt64)Right).ToIntPtr();
+            }
         }
 
         public static IntPtr Mod(this IntPtr Left, IntPtr Right)
         {
-            return unchecked(Left.ToUInt64() % (UInt64)Right).ToIntPtr();
+            switch (IntPtr.Size)
+            {
+                case sizeof(Int32): return unchecked((Int32)(Left.ToUInt32() % (UInt32)Right)).ToIntPtr();
+                default: return unchecked(Left.ToUInt64() % (UInt64)Right).ToIntPtr();
+            }
         }
 
         public static IntPtr Mod(this IntPtr Left, Byte Right)
         {
-            return unchecked(Left.ToUInt64() % (UInt64)Right).ToIntPtr();
+            switch (IntPtr.Size)
+            {
+                case sizeof(Int32): return unchecked((Int32)(Left.ToUInt32() % (UInt32)Right)).ToIntPtr();
+                default: return unchecked(Left.ToUInt64() % (UInt64)Right).ToIntPtr();
+            }
         }
 
         public static IntPtr Mod(this IntPtr Left, SByte Right)
         {
-            return unchecked(Left.ToUInt64() % (UInt64)Right).ToIntPtr();
+            switch (IntPtr.Size)
+            {
+                case sizeof(Int32): return unchecked((Int32)(Left.ToUInt32() % (UInt32)Right)).ToIntPtr();
+                default: return unchecked(Left.ToUInt64() % (UInt64)Right).ToIntPtr();
+            }
         }
 
         public static IntPtr Mod(this IntPtr Left, Int16 Right)
         {
-            return unchecked(Left.ToUInt64() % (UInt64)Right).ToIntPtr();
+            switch (IntPtr.Size)
+            {
+                case sizeof(Int32): return unchecked((Int32)(Left.ToUInt32() % (UInt32)Right)).ToIntPtr();
+                default: return unchecked(Left.ToUInt64() % (UInt64)Right).ToIntPtr();
+            }
         }
 
         public static IntPtr Mod(this IntPtr Left, UInt16 Right)
         {
-            return unchecked(Left.ToUInt64() % (UInt64)Right).ToIntPtr();
+            switch (IntPtr.Size)
+            {
+                case sizeof(Int32): return unchecked((Int32)(Left.ToUInt32() % (UInt32)Right)).ToIntPtr();
+                default: return unchecked(Left.ToUInt64() % (UInt64)Right).ToIntPtr();
+            }
         }
 
         public static IntPtr Mod(this IntPtr Left, Int32 Right)
         {
-            return unchecked(Left.ToUInt64()  % (UInt64)Right).ToIntPtr();
+            switch (IntPtr.Size)
+            {
+                case sizeof(Int32): return unchecked((Int32)(Left.ToUInt32() % (UInt32)Right)).ToIntPtr();
+                default: return unchecked(Left.ToUInt64() % (UInt64)Right).ToIntPtr();
+            }
         }
 
         public static IntPtr Mod(this IntPtr Left, UInt32 Right)
         {
-            return unchecked(Left.ToUInt64()  % (UInt64)Right).ToIntPtr();
+            switch (IntPtr.Size)
+            {
+                case sizeof(Int32): return unchecked((Int32)(Left.ToUInt32() % (UInt32)Right)).ToIntPtr();
+                default: return unchecked(Left.ToUInt64() % (UInt64)Right).ToIntPtr();
+            }
         }
 
         public static IntPtr Mod(this IntPtr Left, Int64 Right)
         {
-            return unchecked(Left.ToUInt64()  % (UInt64)Right).ToIntPtr();
+            switch (IntPtr.Size)
+            {
+                case sizeof(Int32): return unchecked((Int32)(Left.ToUInt32() % (UInt32)Right)).ToIntPtr();
+                default: return unchecked(Left.ToUInt64() % (UInt64)Right).ToIntPtr();
+            }
         }
 
         public static IntPtr Mod(this IntPtr Left, UInt64 Right)
         {
-            return unchecked(Left.ToUInt64()  % (UInt64)Right).ToIntPtr();
+            switch (IntPtr.Size)
+            {
+                case sizeof(Int32): return unchecked((Int32)(Left.ToUInt32() % (UInt32)Right)).ToIntPtr();
+                default: return unchecked(Left.ToUInt64() % (UInt64)Right).ToIntPtr();
+            }
         }
 
         #endregion
@@ -315,227 +495,407 @@ namespace Anathema.Utils.Extensions
 
         public static UIntPtr Add(this UIntPtr Left, UIntPtr Right)
         {
-            return unchecked(Left.ToUInt64()  + (UInt64)Right).ToUIntPtr();
+            switch (IntPtr.Size)
+            {
+                case sizeof(Int32): return unchecked(Left.ToUInt32() + (UInt32)Right).ToUIntPtr();
+                default: return unchecked(Left.ToUInt64() + (UInt64)Right).ToUIntPtr();
+            }
         }
 
         public static UIntPtr Add(this UIntPtr Left, Byte Right)
         {
-            return unchecked(Left.ToUInt64()  + (UInt64)Right).ToUIntPtr();
+            switch (IntPtr.Size)
+            {
+                case sizeof(Int32): return unchecked(Left.ToUInt32() + (UInt32)Right).ToUIntPtr();
+                default: return unchecked(Left.ToUInt64() + (UInt64)Right).ToUIntPtr();
+            }
         }
 
         public static UIntPtr Add(this UIntPtr Left, SByte Right)
         {
-            return unchecked(Left.ToUInt64()  + (UInt64)Right).ToUIntPtr();
+            switch (IntPtr.Size)
+            {
+                case sizeof(Int32): return unchecked(Left.ToUInt32() + (UInt32)Right).ToUIntPtr();
+                default: return unchecked(Left.ToUInt64() + (UInt64)Right).ToUIntPtr();
+            }
         }
 
         public static UIntPtr Add(this UIntPtr Left, Int16 Right)
         {
-            return unchecked(Left.ToUInt64()  + (UInt64)Right).ToUIntPtr();
+            switch (IntPtr.Size)
+            {
+                case sizeof(Int32): return unchecked(Left.ToUInt32() + (UInt32)Right).ToUIntPtr();
+                default: return unchecked(Left.ToUInt64() + (UInt64)Right).ToUIntPtr();
+            }
         }
 
         public static UIntPtr Add(this UIntPtr Left, UInt16 Right)
         {
-            return unchecked(Left.ToUInt64()  + (UInt64)Right).ToUIntPtr();
+            switch (IntPtr.Size)
+            {
+                case sizeof(Int32): return unchecked(Left.ToUInt32() + (UInt32)Right).ToUIntPtr();
+                default: return unchecked(Left.ToUInt64() + (UInt64)Right).ToUIntPtr();
+            }
         }
 
         public static UIntPtr Add(this UIntPtr Left, Int32 Right)
         {
-            return unchecked(Left.ToUInt64()  + (UInt64)Right).ToUIntPtr();
+            switch (IntPtr.Size)
+            {
+                case sizeof(Int32): return unchecked(Left.ToUInt32() + (UInt32)Right).ToUIntPtr();
+                default: return unchecked(Left.ToUInt64() + (UInt64)Right).ToUIntPtr();
+            }
         }
 
         public static UIntPtr Add(this UIntPtr Left, UInt32 Right)
         {
-            return unchecked(Left.ToUInt64()  + (UInt64)Right).ToUIntPtr();
+            switch (IntPtr.Size)
+            {
+                case sizeof(Int32): return unchecked(Left.ToUInt32() + (UInt32)Right).ToUIntPtr();
+                default: return unchecked(Left.ToUInt64() + (UInt64)Right).ToUIntPtr();
+            }
         }
 
         public static UIntPtr Add(this UIntPtr Left, Int64 Right)
         {
-            return unchecked(Left.ToUInt64()  + (UInt64)Right).ToUIntPtr();
+            switch (IntPtr.Size)
+            {
+                case sizeof(Int32): return unchecked(Left.ToUInt32() + (UInt32)Right).ToUIntPtr();
+                default: return unchecked(Left.ToUInt64() + (UInt64)Right).ToUIntPtr();
+            }
         }
 
         public static UIntPtr Add(this UIntPtr Left, UInt64 Right)
         {
-            return unchecked(Left.ToUInt64()  + (UInt64)Right).ToUIntPtr();
+            switch (IntPtr.Size)
+            {
+                case sizeof(Int32): return unchecked(Left.ToUInt32() + (UInt32)Right).ToUIntPtr();
+                default: return unchecked(Left.ToUInt64() + (UInt64)Right).ToUIntPtr();
+            }
         }
 
         public static UIntPtr Subtract(this UIntPtr Left, UIntPtr Right)
         {
-            return unchecked(Left.ToUInt64()  - (UInt64)Right).ToUIntPtr();
+            switch (IntPtr.Size)
+            {
+                case sizeof(Int32): return unchecked(Left.ToUInt32() - (UInt32)Right).ToUIntPtr();
+                default: return unchecked(Left.ToUInt64() - (UInt64)Right).ToUIntPtr();
+            }
         }
 
         public static UIntPtr Subtract(this UIntPtr Left, Byte Right)
         {
-            return unchecked(Left.ToUInt64()  - (UInt64)Right).ToUIntPtr();
+            switch (IntPtr.Size)
+            {
+                case sizeof(Int32): return unchecked(Left.ToUInt32() - (UInt32)Right).ToUIntPtr();
+                default: return unchecked(Left.ToUInt64() - (UInt64)Right).ToUIntPtr();
+            }
         }
 
         public static UIntPtr Subtract(this UIntPtr Left, SByte Right)
         {
-            return unchecked(Left.ToUInt64()  - (UInt64)Right).ToUIntPtr();
+            switch (IntPtr.Size)
+            {
+                case sizeof(Int32): return unchecked(Left.ToUInt32() - (UInt32)Right).ToUIntPtr();
+                default: return unchecked(Left.ToUInt64() - (UInt64)Right).ToUIntPtr();
+            }
         }
 
         public static UIntPtr Subtract(this UIntPtr Left, Int16 Right)
         {
-            return unchecked(Left.ToUInt64()  - (UInt64)Right).ToUIntPtr();
+            switch (IntPtr.Size)
+            {
+                case sizeof(Int32): return unchecked(Left.ToUInt32() - (UInt32)Right).ToUIntPtr();
+                default: return unchecked(Left.ToUInt64() - (UInt64)Right).ToUIntPtr();
+            }
         }
 
         public static UIntPtr Subtract(this UIntPtr Left, UInt16 Right)
         {
-            return unchecked(Left.ToUInt64()  - (UInt64)Right).ToUIntPtr();
+            switch (IntPtr.Size)
+            {
+                case sizeof(Int32): return unchecked(Left.ToUInt32() - (UInt32)Right).ToUIntPtr();
+                default: return unchecked(Left.ToUInt64() - (UInt64)Right).ToUIntPtr();
+            }
         }
 
         public static UIntPtr Subtract(this UIntPtr Left, Int32 Right)
         {
-            return unchecked(Left.ToUInt64()  - (UInt64)Right).ToUIntPtr();
+            switch (IntPtr.Size)
+            {
+                case sizeof(Int32): return unchecked(Left.ToUInt32() - (UInt32)Right).ToUIntPtr();
+                default: return unchecked(Left.ToUInt64() - (UInt64)Right).ToUIntPtr();
+            }
         }
 
         public static UIntPtr Subtract(this UIntPtr Left, UInt32 Right)
         {
-            return unchecked(Left.ToUInt64()  - (UInt64)Right).ToUIntPtr();
+            switch (IntPtr.Size)
+            {
+                case sizeof(Int32): return unchecked(Left.ToUInt32() - (UInt32)Right).ToUIntPtr();
+                default: return unchecked(Left.ToUInt64() - (UInt64)Right).ToUIntPtr();
+            }
         }
 
         public static UIntPtr Subtract(this UIntPtr Left, Int64 Right)
         {
-            return unchecked(Left.ToUInt64()  - (UInt64)Right).ToUIntPtr();
+            switch (IntPtr.Size)
+            {
+                case sizeof(Int32): return unchecked(Left.ToUInt32() - (UInt32)Right).ToUIntPtr();
+                default: return unchecked(Left.ToUInt64() - (UInt64)Right).ToUIntPtr();
+            }
         }
 
         public static UIntPtr Subtract(this UIntPtr Left, UInt64 Right)
         {
-            return unchecked(Left.ToUInt64()  - (UInt64)Right).ToUIntPtr();
+            switch (IntPtr.Size)
+            {
+                case sizeof(Int32): return unchecked(Left.ToUInt32() - (UInt32)Right).ToUIntPtr();
+                default: return unchecked(Left.ToUInt64() - (UInt64)Right).ToUIntPtr();
+            }
         }
 
         public static UIntPtr Multiply(this UIntPtr Left, UIntPtr Right)
         {
-            return unchecked(Left.ToUInt64()  * (UInt64)Right).ToUIntPtr();
+            switch (IntPtr.Size)
+            {
+                case sizeof(Int32): return unchecked(Left.ToUInt32() * (UInt32)Right).ToUIntPtr();
+                default: return unchecked(Left.ToUInt64() * (UInt64)Right).ToUIntPtr();
+            }
         }
 
         public static UIntPtr Multiply(this UIntPtr Left, Byte Right)
         {
-            return unchecked(Left.ToUInt64()  * (UInt64)Right).ToUIntPtr();
+            switch (IntPtr.Size)
+            {
+                case sizeof(Int32): return unchecked(Left.ToUInt32() * (UInt32)Right).ToUIntPtr();
+                default: return unchecked(Left.ToUInt64() * (UInt64)Right).ToUIntPtr();
+            }
         }
 
         public static UIntPtr Multiply(this UIntPtr Left, SByte Right)
         {
-            return unchecked(Left.ToUInt64()  * (UInt64)Right).ToUIntPtr();
+            switch (IntPtr.Size)
+            {
+                case sizeof(Int32): return unchecked(Left.ToUInt32() * (UInt32)Right).ToUIntPtr();
+                default: return unchecked(Left.ToUInt64() * (UInt64)Right).ToUIntPtr();
+            }
         }
 
         public static UIntPtr Multiply(this UIntPtr Left, Int16 Right)
         {
-            return unchecked(Left.ToUInt64()  * (UInt64)Right).ToUIntPtr();
+            switch (IntPtr.Size)
+            {
+                case sizeof(Int32): return unchecked(Left.ToUInt32() * (UInt32)Right).ToUIntPtr();
+                default: return unchecked(Left.ToUInt64() * (UInt64)Right).ToUIntPtr();
+            }
         }
 
         public static UIntPtr Multiply(this UIntPtr Left, UInt16 Right)
         {
-            return unchecked(Left.ToUInt64()  * (UInt64)Right).ToUIntPtr();
+            switch (IntPtr.Size)
+            {
+                case sizeof(Int32): return unchecked(Left.ToUInt32() * (UInt32)Right).ToUIntPtr();
+                default: return unchecked(Left.ToUInt64() * (UInt64)Right).ToUIntPtr();
+            }
         }
 
         public static UIntPtr Multiply(this UIntPtr Left, Int32 Right)
         {
-            return unchecked(Left.ToUInt64()  * (UInt64)Right).ToUIntPtr();
+            switch (IntPtr.Size)
+            {
+                case sizeof(Int32): return unchecked(Left.ToUInt32() * (UInt32)Right).ToUIntPtr();
+                default: return unchecked(Left.ToUInt64() * (UInt64)Right).ToUIntPtr();
+            }
         }
 
         public static UIntPtr Multiply(this UIntPtr Left, UInt32 Right)
         {
-            return unchecked(Left.ToUInt64()  * (UInt64)Right).ToUIntPtr();
+            switch (IntPtr.Size)
+            {
+                case sizeof(Int32): return unchecked(Left.ToUInt32() * (UInt32)Right).ToUIntPtr();
+                default: return unchecked(Left.ToUInt64() * (UInt64)Right).ToUIntPtr();
+            }
         }
 
         public static UIntPtr Multiply(this UIntPtr Left, Int64 Right)
         {
-            return unchecked(Left.ToUInt64()  * (UInt64)Right).ToUIntPtr();
+            switch (IntPtr.Size)
+            {
+                case sizeof(Int32): return unchecked(Left.ToUInt32() * (UInt32)Right).ToUIntPtr();
+                default: return unchecked(Left.ToUInt64() * (UInt64)Right).ToUIntPtr();
+            }
         }
 
         public static UIntPtr Multiply(this UIntPtr Left, UInt64 Right)
         {
-            return unchecked(Left.ToUInt64()  * (UInt64)Right).ToUIntPtr();
+            switch (IntPtr.Size)
+            {
+                case sizeof(Int32): return unchecked(Left.ToUInt32() * (UInt32)Right).ToUIntPtr();
+                default: return unchecked(Left.ToUInt64() * (UInt64)Right).ToUIntPtr();
+            }
         }
 
         public static UIntPtr Divide(this UIntPtr Left, UIntPtr Right)
         {
-            return unchecked(Left.ToUInt64()  / (UInt64)Right).ToUIntPtr();
+            switch (IntPtr.Size)
+            {
+                case sizeof(Int32): return unchecked(Left.ToUInt32() / (UInt32)Right).ToUIntPtr();
+                default: return unchecked(Left.ToUInt64() / (UInt64)Right).ToUIntPtr();
+            }
         }
 
         public static UIntPtr Divide(this UIntPtr Left, Byte Right)
         {
-            return unchecked(Left.ToUInt64()  / (UInt64)Right).ToUIntPtr();
+            switch (IntPtr.Size)
+            {
+                case sizeof(Int32): return unchecked(Left.ToUInt32() / (UInt32)Right).ToUIntPtr();
+                default: return unchecked(Left.ToUInt64() / (UInt64)Right).ToUIntPtr();
+            }
         }
 
         public static UIntPtr Divide(this UIntPtr Left, SByte Right)
         {
-            return unchecked(Left.ToUInt64()  / (UInt64)Right).ToUIntPtr();
+            switch (IntPtr.Size)
+            {
+                case sizeof(Int32): return unchecked(Left.ToUInt32() / (UInt32)Right).ToUIntPtr();
+                default: return unchecked(Left.ToUInt64() / (UInt64)Right).ToUIntPtr();
+            }
         }
 
         public static UIntPtr Divide(this UIntPtr Left, Int16 Right)
         {
-            return unchecked(Left.ToUInt64()  / (UInt64)Right).ToUIntPtr();
+            switch (IntPtr.Size)
+            {
+                case sizeof(Int32): return unchecked(Left.ToUInt32() / (UInt32)Right).ToUIntPtr();
+                default: return unchecked(Left.ToUInt64() / (UInt64)Right).ToUIntPtr();
+            }
         }
 
         public static UIntPtr Divide(this UIntPtr Left, UInt16 Right)
         {
-            return unchecked(Left.ToUInt64()  / (UInt64)Right).ToUIntPtr();
+            switch (IntPtr.Size)
+            {
+                case sizeof(Int32): return unchecked(Left.ToUInt32() / (UInt32)Right).ToUIntPtr();
+                default: return unchecked(Left.ToUInt64() / (UInt64)Right).ToUIntPtr();
+            }
         }
 
         public static UIntPtr Divide(this UIntPtr Left, Int32 Right)
         {
-            return unchecked(Left.ToUInt64()  / (UInt64)Right).ToUIntPtr();
+            switch (IntPtr.Size)
+            {
+                case sizeof(Int32): return unchecked(Left.ToUInt32() / (UInt32)Right).ToUIntPtr();
+                default: return unchecked(Left.ToUInt64() / (UInt64)Right).ToUIntPtr();
+            }
         }
 
         public static UIntPtr Divide(this UIntPtr Left, UInt32 Right)
         {
-            return unchecked(Left.ToUInt64()  / (UInt64)Right).ToUIntPtr();
+            switch (IntPtr.Size)
+            {
+                case sizeof(Int32): return unchecked(Left.ToUInt32() / (UInt32)Right).ToUIntPtr();
+                default: return unchecked(Left.ToUInt64() / (UInt64)Right).ToUIntPtr();
+            }
         }
 
         public static UIntPtr Divide(this UIntPtr Left, Int64 Right)
         {
-            return unchecked(Left.ToUInt64()  / (UInt64)Right).ToUIntPtr();
+            switch (IntPtr.Size)
+            {
+                case sizeof(Int32): return unchecked(Left.ToUInt32() / (UInt32)Right).ToUIntPtr();
+                default: return unchecked(Left.ToUInt64() / (UInt64)Right).ToUIntPtr();
+            }
         }
 
         public static UIntPtr Divide(this UIntPtr Left, UInt64 Right)
         {
-            return unchecked(Left.ToUInt64()  / (UInt64)Right).ToUIntPtr();
+            switch (IntPtr.Size)
+            {
+                case sizeof(Int32): return unchecked(Left.ToUInt32() / (UInt32)Right).ToUIntPtr();
+                default: return unchecked(Left.ToUInt64() / (UInt64)Right).ToUIntPtr();
+            }
         }
 
         public static UIntPtr Mod(this UIntPtr Left, UIntPtr Right)
         {
-            return unchecked(Left.ToUInt64()  % (UInt64)Right).ToUIntPtr();
+            switch (IntPtr.Size)
+            {
+                case sizeof(Int32): return unchecked(Left.ToUInt32() % (UInt32)Right).ToUIntPtr();
+                default: return unchecked(Left.ToUInt64() % (UInt64)Right).ToUIntPtr();
+            }
         }
 
         public static UIntPtr Mod(this UIntPtr Left, Byte Right)
         {
-            return unchecked(Left.ToUInt64()  % (UInt64)Right).ToUIntPtr();
+            switch (IntPtr.Size)
+            {
+                case sizeof(Int32): return unchecked(Left.ToUInt32() % (UInt32)Right).ToUIntPtr();
+                default: return unchecked(Left.ToUInt64() % (UInt64)Right).ToUIntPtr();
+            }
         }
 
         public static UIntPtr Mod(this UIntPtr Left, SByte Right)
         {
-            return unchecked(Left.ToUInt64()  % (UInt64)Right).ToUIntPtr();
+            switch (IntPtr.Size)
+            {
+                case sizeof(Int32): return unchecked(Left.ToUInt32() % (UInt32)Right).ToUIntPtr();
+                default: return unchecked(Left.ToUInt64() % (UInt64)Right).ToUIntPtr();
+            }
         }
 
         public static UIntPtr Mod(this UIntPtr Left, Int16 Right)
         {
-            return unchecked(Left.ToUInt64()  % (UInt64)Right).ToUIntPtr();
+            switch (IntPtr.Size)
+            {
+                case sizeof(Int32): return unchecked(Left.ToUInt32() % (UInt32)Right).ToUIntPtr();
+                default: return unchecked(Left.ToUInt64() % (UInt64)Right).ToUIntPtr();
+            }
         }
 
         public static UIntPtr Mod(this UIntPtr Left, UInt16 Right)
         {
-            return unchecked(Left.ToUInt64()  % (UInt64)Right).ToUIntPtr();
+            switch (IntPtr.Size)
+            {
+                case sizeof(Int32): return unchecked(Left.ToUInt32() % (UInt32)Right).ToUIntPtr();
+                default: return unchecked(Left.ToUInt64() % (UInt64)Right).ToUIntPtr();
+            }
         }
 
         public static UIntPtr Mod(this UIntPtr Left, Int32 Right)
         {
-            return unchecked(Left.ToUInt64()  % (UInt64)Right).ToUIntPtr();
+            switch (IntPtr.Size)
+            {
+                case sizeof(Int32): return unchecked(Left.ToUInt32() % (UInt32)Right).ToUIntPtr();
+                default: return unchecked(Left.ToUInt64() % (UInt64)Right).ToUIntPtr();
+            }
         }
 
         public static UIntPtr Mod(this UIntPtr Left, UInt32 Right)
         {
-            return unchecked(Left.ToUInt64()  % (UInt64)Right).ToUIntPtr();
+            switch (IntPtr.Size)
+            {
+                case sizeof(Int32): return unchecked(Left.ToUInt32() % (UInt32)Right).ToUIntPtr();
+                default: return unchecked(Left.ToUInt64() % (UInt64)Right).ToUIntPtr();
+            }
         }
 
         public static UIntPtr Mod(this UIntPtr Left, Int64 Right)
         {
-            return unchecked(Left.ToUInt64()  % (UInt64)Right).ToUIntPtr();
+            switch (IntPtr.Size)
+            {
+                case sizeof(Int32): return unchecked(Left.ToUInt32() % (UInt32)Right).ToUIntPtr();
+                default: return unchecked(Left.ToUInt64() % (UInt64)Right).ToUIntPtr();
+            }
         }
 
         public static UIntPtr Mod(this UIntPtr Left, UInt64 Right)
         {
-            return unchecked(Left.ToUInt64()  % (UInt64)Right).ToUIntPtr();
+            switch (IntPtr.Size)
+            {
+                case sizeof(Int32): return unchecked(Left.ToUInt32() % (UInt32)Right).ToUIntPtr();
+                default: return unchecked(Left.ToUInt64() % (UInt64)Right).ToUIntPtr();
+            }
         }
 
         #endregion

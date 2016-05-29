@@ -1,8 +1,8 @@
-﻿using Anathema.Services.Snapshots;
-using Anathema.User.UserSettings;
+﻿using Anathema.Source.Utils.Setting;
+using Anathema.Source.Utils.Snapshots;
 using System;
 
-namespace Anathema.Scanners.ValueCollector
+namespace Anathema.Source.Scanners.ValueCollector
 {
     class ValueCollector : IScannerModel
     {

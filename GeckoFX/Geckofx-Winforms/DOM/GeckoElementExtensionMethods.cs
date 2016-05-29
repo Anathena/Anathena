@@ -3,7 +3,7 @@ using System.Runtime.InteropServices;
 
 namespace Gecko.DOM
 {
-    public static class GeckoElementExtensionMethods
+	public static class GeckoElementExtensionMethods
 	{
 		/// <summary>
 		/// UI specific implementation extension method GetBoundingClientRect()

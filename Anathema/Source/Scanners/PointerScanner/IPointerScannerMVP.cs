@@ -1,10 +1,10 @@
-﻿using Anathema.Scanners.ScanConstraints;
-using Anathema.Utils.Extensions;
-using Anathema.Utils.Validation;
+﻿using Anathema.Source.Scanners.ScanConstraints;
+using Anathema.Source.Utils.Extensions;
+using Anathema.Source.Utils.Validation;
 using System;
 using System.Collections.Generic;
 
-namespace Anathema.Scanners.PointerScanner
+namespace Anathema.Source.Scanners.PointerScanner
 {
     delegate void PointerScannerEventHandler(Object Sender, PointerScannerEventArgs Args);
     class PointerScannerEventArgs : EventArgs
@@ -60,8 +60,8 @@ namespace Anathema.Scanners.PointerScanner
 
     class PointerScannerPresenter : ScannerPresenter
     {
-        protected new IPointerScannerView View;
-        protected new IPointerScannerModel Model;
+        private new IPointerScannerView View { get; set; }
+        private new IPointerScannerModel Model { get; set; }
 
         public PointerScannerPresenter(IPointerScannerView View, IPointerScannerModel Model) : base(View, Model)
         {
@@ -71,6 +71,8 @@ namespace Anathema.Scanners.PointerScanner
             // Bind events triggered by the model
             Model.EventReadValues += EventReadValues;
             Model.EventUpdateItemCount += EventScanFinished;
+
+            Model.OnGUIOpen();
         }
 
         #region Method definitions called by the view (downstream)

@@ -1,7 +1,7 @@
-﻿using Anathema.Scanners.ScanConstraints;
+﻿using Anathema.Source.Scanners.ScanConstraints;
 using System;
 
-namespace Anathema.Scanners.ManualScanner
+namespace Anathema.Source.Scanners.ManualScanner
 {
     delegate void ManualScannerEventHandler(Object Sender, ManualScannerEventArgs Args);
     class ManualScannerEventArgs : EventArgs
@@ -30,8 +30,8 @@ namespace Anathema.Scanners.ManualScanner
 
     class ManualScannerPresenter : ScannerPresenter
     {
-        new IManualScannerView View;
-        new IManualScannerModel Model;
+        private new IManualScannerView View { get; set; }
+        private new IManualScannerModel Model { get; set; }
 
         public ManualScannerPresenter(IManualScannerView View, IManualScannerModel Model) : base(View, Model)
         {
@@ -40,6 +40,8 @@ namespace Anathema.Scanners.ManualScanner
 
             // Bind events triggered by the model
             Model.EventScanFinished += EventScanFinished;
+
+            Model.OnGUIOpen();
         }
 
         #region Method definitions called by the view (downstream)

@@ -1,9 +1,9 @@
-﻿using Anathema.Utils.MVP;
+﻿using Anathema.Source.Utils.MVP;
 using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 
-namespace Anathema.Scanners.LabelThresholder
+namespace Anathema.Source.Scanners.LabelThresholder
 {
     delegate void LabelThresholderEventHandler(Object Sender, LabelThresholderEventArgs Args);
     class LabelThresholderEventArgs : EventArgs
@@ -35,10 +35,18 @@ namespace Anathema.Scanners.LabelThresholder
 
     class LabelThresholderPresenter : Presenter<ILabelThresholderView, ILabelThresholderModel>
     {
+        private new ILabelThresholderView View { get; set; }
+        private new ILabelThresholderModel Model { get; set; }
+
         public LabelThresholderPresenter(ILabelThresholderView View, ILabelThresholderModel Model) : base(View, Model)
         {
+            this.View = View;
+            this.Model = Model;
+
             // Bind events triggered by the model
             Model.EventUpdateHistogram += EventUpdateHistogram;
+
+            Model.OnGUIOpen();
         }
 
         #region Method definitions called by the view (downstream)

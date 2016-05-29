@@ -1,4 +1,4 @@
-﻿namespace Anathema.Scanners.FiniteStateScanner
+﻿namespace Anathema.Source.Scanners.FiniteStateScanner
 {
     interface IFiniteStateScannerView : IScannerView
     {
@@ -16,8 +16,8 @@
 
     class FiniteStateScannerPresenter : ScannerPresenter
     {
-        new IFiniteStateScannerView View;
-        new IFiniteStateScannerModel Model;
+        private new IFiniteStateScannerView View { get; set; }
+        private new IFiniteStateScannerModel Model { get; set; }
 
         public FiniteStateScannerPresenter(IFiniteStateScannerView View, IFiniteStateScannerModel Model) : base(View, Model)
         {
@@ -26,6 +26,7 @@
 
             // Bind events triggered by the model
 
+            Model.OnGUIOpen();
         }
 
         #region Method definitions called by the view (downstream)

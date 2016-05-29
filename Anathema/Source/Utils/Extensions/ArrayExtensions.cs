@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Anathema.Utils.Extensions
+namespace Anathema.Source.Utils.Extensions
 {
     static class ArrayExtensions
     {

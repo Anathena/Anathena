@@ -1,9 +1,8 @@
-﻿using Anathema.Scanners.ScanConstraints;
+﻿using Anathema.Source.Scanners.ScanConstraints;
 using Anathema.Source.Utils;
 using Anathema.Source.Utils.Extensions;
-using Anathema.Utils;
-using Anathema.Utils.MVP;
-using Anathema.Utils.Validation;
+using Anathema.Source.Utils.MVP;
+using Anathema.Source.Utils.Validation;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -110,7 +109,7 @@ namespace Anathema.GUI
 
         public void RemoveRelativeScans()
         {
-            ControlThreadingHelper.InvokeControlAction(ScanOptionsToolStripDropDownButton.GetCurrentParent(), () =>
+            ControlThreadingHelper.InvokeControlAction(ConstraintToolStrip, () =>
             {
                 using (TimedLock.Lock(AccessLock))
                 {

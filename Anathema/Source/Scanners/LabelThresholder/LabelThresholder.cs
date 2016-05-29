@@ -1,6 +1,6 @@
-﻿using Anathema.Services.ScanResults;
-using Anathema.Services.Snapshots;
+﻿using Anathema.Source.Results.ScanResults;
 using Anathema.Source.Utils;
+using Anathema.Source.Utils.Snapshots;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
@@ -8,7 +8,7 @@ using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 
-namespace Anathema.Scanners.LabelThresholder
+namespace Anathema.Source.Scanners.LabelThresholder
 {
     class LabelThresholder : ILabelThresholderModel
     {
@@ -123,7 +123,7 @@ namespace Anathema.Scanners.LabelThresholder
             // Snapshot.SetScanMethod("Label Thresholder");
             // SnapshotManager.GetInstance().SaveSnapshot(Snapshot);
             SnapshotManager.GetInstance().ForceRefresh();
-            Results.GetInstance().ForceRefresh();
+            ScanResults.GetInstance().ForceRefresh();
         }
 
     } // End class

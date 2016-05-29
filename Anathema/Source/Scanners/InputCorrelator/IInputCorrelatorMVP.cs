@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Windows.Forms;
 
-namespace Anathema.Scanners.InputCorrelator
+namespace Anathema.Source.Scanners.InputCorrelator
 {
     delegate void InputCorrelatorEventHandler(Object Sender, InputCorrelatorEventArgs Args);
     class InputCorrelatorEventArgs : EventArgs
@@ -36,8 +36,8 @@ namespace Anathema.Scanners.InputCorrelator
 
     class InputCorrelatorPresenter : ScannerPresenter
     {
-        new IInputCorrelatorView View;
-        new IInputCorrelatorModel Model;
+        private new IInputCorrelatorView View { get; set; }
+        private new IInputCorrelatorModel Model { get; set; }
 
         private Keys Key;
 
@@ -50,6 +50,8 @@ namespace Anathema.Scanners.InputCorrelator
 
             // Bind events triggered by the model
             Model.EventUpdateDisplay += EventUpdateDisplay;
+
+            Model.OnGUIOpen();
         }
 
         #region Method definitions called by the view (downstream)

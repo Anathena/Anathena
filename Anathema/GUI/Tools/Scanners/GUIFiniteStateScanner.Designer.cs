@@ -33,7 +33,7 @@
             this.StartScanButton = new System.Windows.Forms.ToolStripButton();
             this.StopScanButton = new System.Windows.Forms.ToolStripButton();
             this.ScanCountLabel = new System.Windows.Forms.ToolStripLabel();
-            this.GUIFiniteStateBuilder = new GUIFiniteStateBuilder();
+            this.GUIFiniteStateBuilder = new Anathema.GUI.GUIFiniteStateBuilder();
             this.ScanToolStrip.SuspendLayout();
             this.SuspendLayout();
             // 

@@ -39,31 +39,31 @@ using System.Windows.Forms;
 namespace Gecko
 {
     partial class PromptDialog : Form
-	{
-		public PromptDialog()
-		{
-			InitializeComponent();
-		}
-		
-		public PromptDialog(string title, string message, string original, string checkMessage) : this()
-		{
-			this.Text = title;
-			this.label.Text = message;
-			this.txtResult.Text = original;
-			
-			if (!string.IsNullOrEmpty(checkMessage))
-			{
-				this.checkBox.Text = checkMessage;
-			}
-			else
-			{
-				this.ClientSize = new Size(this.ClientSize.Width, checkBox.Top - 4);
-				this.checkBox.Visible = false;
-			}
-		}
-		
-		public string Result { get { return this.txtResult.Text; } }	
-		
-		public bool IsChecked { get { return checkBox.Checked; } }
-	}
+    {
+        public PromptDialog()
+        {
+            InitializeComponent();
+        }
+
+        public PromptDialog(string title, string message, string original, string checkMessage) : this()
+        {
+            this.Text = title;
+            this.label.Text = message;
+            this.txtResult.Text = original;
+
+            if (!string.IsNullOrEmpty(checkMessage))
+            {
+                this.checkBox.Text = checkMessage;
+            }
+            else
+            {
+                this.ClientSize = new Size(this.ClientSize.Width, checkBox.Top - 4);
+                this.checkBox.Visible = false;
+            }
+        }
+
+        public string Result { get { return this.txtResult.Text; } }
+
+        public bool IsChecked { get { return checkBox.Checked; } }
+    }
 }

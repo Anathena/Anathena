@@ -43,12 +43,12 @@
             this.ValueTypeLabel = new System.Windows.Forms.Label();
             this.ValueModeRadioButton = new System.Windows.Forms.RadioButton();
             this.AddressModeRadioButton = new System.Windows.Forms.RadioButton();
+            this.GUIConstraintEditor = new Anathema.GUI.GUIConstraintEditor();
             this.ValueTypeComboBox = new System.Windows.Forms.ComboBox();
-            this.ResultsTabPage = new System.Windows.Forms.TabPage();
-            this.GUIConstraintEditor = new GUIConstraintEditor();
             this.MaxLevelTextBox = new Anathema.GUI.HexDecTextBox();
             this.MaxOffsetTextBox = new Anathema.GUI.HexDecTextBox();
             this.AddressTextBox = new Anathema.GUI.HexDecTextBox();
+            this.ResultsTabPage = new System.Windows.Forms.TabPage();
             this.PointerListView = new Anathema.GUI.FlickerFreeListView();
             this.ValueHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.BaseHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
@@ -206,27 +206,6 @@
             this.AddressModeRadioButton.UseVisualStyleBackColor = true;
             this.AddressModeRadioButton.Click += new System.EventHandler(this.AddressModeRadioButton_CheckedChanged);
             // 
-            // ValueTypeComboBox
-            // 
-            this.ValueTypeComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.ValueTypeComboBox.FormattingEnabled = true;
-            this.ValueTypeComboBox.Location = new System.Drawing.Point(70, 32);
-            this.ValueTypeComboBox.Name = "ValueTypeComboBox";
-            this.ValueTypeComboBox.Size = new System.Drawing.Size(130, 21);
-            this.ValueTypeComboBox.TabIndex = 166;
-            this.ValueTypeComboBox.SelectedIndexChanged += new System.EventHandler(this.ValueTypeComboBox_SelectedIndexChanged);
-            // 
-            // ResultsTabPage
-            // 
-            this.ResultsTabPage.BackColor = System.Drawing.SystemColors.Control;
-            this.ResultsTabPage.Controls.Add(this.PointerListView);
-            this.ResultsTabPage.Location = new System.Drawing.Point(4, 22);
-            this.ResultsTabPage.Name = "ResultsTabPage";
-            this.ResultsTabPage.Padding = new System.Windows.Forms.Padding(3);
-            this.ResultsTabPage.Size = new System.Drawing.Size(391, 227);
-            this.ResultsTabPage.TabIndex = 1;
-            this.ResultsTabPage.Text = "Results";
-            // 
             // GUIConstraintEditor
             // 
             this.GUIConstraintEditor.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
@@ -236,6 +215,16 @@
             this.GUIConstraintEditor.Name = "GUIConstraintEditor";
             this.GUIConstraintEditor.Size = new System.Drawing.Size(182, 127);
             this.GUIConstraintEditor.TabIndex = 171;
+            // 
+            // ValueTypeComboBox
+            // 
+            this.ValueTypeComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.ValueTypeComboBox.FormattingEnabled = true;
+            this.ValueTypeComboBox.Location = new System.Drawing.Point(70, 32);
+            this.ValueTypeComboBox.Name = "ValueTypeComboBox";
+            this.ValueTypeComboBox.Size = new System.Drawing.Size(130, 21);
+            this.ValueTypeComboBox.TabIndex = 166;
+            this.ValueTypeComboBox.SelectedIndexChanged += new System.EventHandler(this.ValueTypeComboBox_SelectedIndexChanged);
             // 
             // MaxLevelTextBox
             // 
@@ -272,6 +261,17 @@
             this.AddressTextBox.WatermarkColor = System.Drawing.Color.LightGray;
             this.AddressTextBox.WaterMarkFont = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.AddressTextBox.WaterMarkText = null;
+            // 
+            // ResultsTabPage
+            // 
+            this.ResultsTabPage.BackColor = System.Drawing.SystemColors.Control;
+            this.ResultsTabPage.Controls.Add(this.PointerListView);
+            this.ResultsTabPage.Location = new System.Drawing.Point(4, 22);
+            this.ResultsTabPage.Name = "ResultsTabPage";
+            this.ResultsTabPage.Padding = new System.Windows.Forms.Padding(3);
+            this.ResultsTabPage.Size = new System.Drawing.Size(391, 227);
+            this.ResultsTabPage.TabIndex = 1;
+            this.ResultsTabPage.Text = "Results";
             // 
             // PointerListView
             // 

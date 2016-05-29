@@ -1,19 +1,19 @@
-﻿using Anathema.Source.Utils;
-using Anathema.User.UserAddressTable;
-using Anathema.Utils.Cache;
-using Anathema.Utils.MVP;
-using Anathema.Utils.Validation;
+﻿using Anathema.Source.Tables.Addresses;
+using Anathema.Source.Utils;
+using Anathema.Source.Utils.Caches;
+using Anathema.Source.Utils.MVP;
+using Anathema.Source.Utils.Validation;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
+using WeifenLuo.WinFormsUI.Docking;
 
 namespace Anathema
 {
-    public partial class GUIAddressTable : UserControl, IAddressTableView
+    public partial class GUIAddressTable : DockContent, IAddressTableView
     {
         private AddressTablePresenter AddressTablePresenter;
         private ListViewCache AddressTableCache;
@@ -23,49 +23,41 @@ namespace Anathema
         {
             InitializeComponent();
 
-            AddressTablePresenter = new AddressTablePresenter(this, AddressTable.GetInstance());
             AddressTableCache = new ListViewCache();
             AccessLock = new Object();
+
+            AddressTablePresenter = new AddressTablePresenter(this, AddressTable.GetInstance());
         }
 
         public void UpdateAddressTableItemCount(Int32 ItemCount)
         {
-            // using (TimedLock.Lock(AccessLock))
+            ControlThreadingHelper.InvokeControlAction(AddressTableListView, () =>
             {
-                ControlThreadingHelper.InvokeControlAction(AddressTableListView, () =>
-                {
-                    AddressTableListView.BeginUpdate();
-                    AddressTableListView.SetItemCount(ItemCount);
-                    AddressTableCache.FlushCache();
-                    AddressTableListView.EndUpdate();
-                });
-            }
+                AddressTableListView.BeginUpdate();
+                AddressTableListView.SetItemCount(ItemCount);
+                AddressTableCache.FlushCache();
+                AddressTableListView.EndUpdate();
+            });
         }
 
         public void ReadValues()
         {
             UpdateReadBounds();
 
-            // using (TimedLock.Lock(AccessLock))
+            ControlThreadingHelper.InvokeControlAction(AddressTableListView, () =>
             {
-                ControlThreadingHelper.InvokeControlAction(AddressTableListView, () =>
-                {
-                    AddressTableListView.BeginUpdate();
-                    AddressTableListView.EndUpdate();
-                });
-            }
+                AddressTableListView.BeginUpdate();
+                AddressTableListView.EndUpdate();
+            });
         }
 
         private void UpdateReadBounds()
         {
-            // using (TimedLock.Lock(AccessLock))
+            ControlThreadingHelper.InvokeControlAction(AddressTableListView, () =>
             {
-                ControlThreadingHelper.InvokeControlAction(AddressTableListView, () =>
-                {
-                    Tuple<Int32, Int32> ReadBounds = AddressTableListView.GetReadBounds();
-                    AddressTablePresenter.UpdateReadBounds(ReadBounds.Item1, ReadBounds.Item2);
-                });
-            }
+                Tuple<Int32, Int32> ReadBounds = AddressTableListView.GetReadBounds();
+                AddressTablePresenter.UpdateReadBounds(ReadBounds.Item1, ReadBounds.Item2);
+            });
         }
 
         private void EditAddressTableEntry(Int32 SelectedItemIndex, Int32 ColumnIndex)
@@ -120,6 +112,11 @@ namespace Anathema
 
         #region Events
 
+        private void AddAddressButton_Click(Object Sender, EventArgs E)
+        {
+            AddNewAddressItem();
+        }
+
         private Point LastRightClickLocation = Point.Empty;
 
         private void AddressTableListView_RetrieveVirtualItem(Object Sender, RetrieveVirtualItemEventArgs E)
@@ -156,42 +153,33 @@ namespace Anathema
 
         private void AddressTableListView_MouseClick(Object Sender, MouseEventArgs E)
         {
-            // using (TimedLock.Lock(AccessLock))
-            {
-                if (E.Button == MouseButtons.Right)
-                    LastRightClickLocation = E.Location;
+            if (E.Button == MouseButtons.Right)
+                LastRightClickLocation = E.Location;
 
-                ListViewItem ListViewItem = AddressTableListView.GetItemAt(E.X, E.Y);
+            ListViewItem ListViewItem = AddressTableListView.GetItemAt(E.X, E.Y);
 
-                if (ListViewItem == null)
-                    return;
+            if (ListViewItem == null)
+                return;
 
-                if (E.X < (ListViewItem.Bounds.Left + 16))
-                    AddressTablePresenter.SetAddressFrozen(ListViewItem.Index, !ListViewItem.Checked);  // (Has to be negated, click happens before check change)
-            }
+            if (E.X < (ListViewItem.Bounds.Left + 16))
+                AddressTablePresenter.SetAddressFrozen(ListViewItem.Index, !ListViewItem.Checked);  // (Has to be negated, click happens before check change)
         }
 
         private void AddressTableListView_KeyPress(Object Sender, KeyPressEventArgs E)
         {
-            // using (TimedLock.Lock(AccessLock))
-            {
-                if (E.KeyChar != ' ')
-                    return;
+            if (E.KeyChar != ' ')
+                return;
 
-                Boolean FreezeState = AddressTableListView.SelectedIndices == null ? false : !AddressTableListView.Items[AddressTableListView.SelectedIndices[0]].Checked;
-                foreach (Int32 Index in AddressTableListView.SelectedIndices)
-                    AddressTablePresenter.SetAddressFrozen(Index, FreezeState);
-            }
+            Boolean FreezeState = AddressTableListView.SelectedIndices == null ? false : !AddressTableListView.Items[AddressTableListView.SelectedIndices[0]].Checked;
+            foreach (Int32 Index in AddressTableListView.SelectedIndices)
+                AddressTablePresenter.SetAddressFrozen(Index, FreezeState);
         }
 
         private void ToggleFreezeToolStripMenuItem_Click(Object Sender, EventArgs E)
         {
-            // using (TimedLock.Lock(AccessLock))
-            {
-                Boolean FreezeState = AddressTableListView.SelectedIndices == null ? false : !AddressTableListView.Items[AddressTableListView.SelectedIndices[0]].Checked;
-                foreach (Int32 Index in AddressTableListView.SelectedIndices)
-                    AddressTablePresenter.SetAddressFrozen(Index, FreezeState);
-            }
+            Boolean FreezeState = AddressTableListView.SelectedIndices == null ? false : !AddressTableListView.Items[AddressTableListView.SelectedIndices[0]].Checked;
+            foreach (Int32 Index in AddressTableListView.SelectedIndices)
+                AddressTablePresenter.SetAddressFrozen(Index, FreezeState);
         }
 
         private void AddressTableListView_MouseDoubleClick(Object Sender, MouseEventArgs E)
@@ -199,19 +187,16 @@ namespace Anathema
             ListViewItem SelectedItem;
             Int32 ColumnIndex;
 
-            // using (TimedLock.Lock(AccessLock))
-            {
-                ListViewHitTestInfo HitTest = AddressTableListView.HitTest(E.Location);
-                SelectedItem = HitTest.Item;
-                ColumnIndex = HitTest.Item.SubItems.IndexOf(HitTest.SubItem);
+            ListViewHitTestInfo HitTest = AddressTableListView.HitTest(E.Location);
+            SelectedItem = HitTest.Item;
+            ColumnIndex = HitTest.Item.SubItems.IndexOf(HitTest.SubItem);
 
-                // Do not bring up edit menu on double clicks to checkbox
-                if (ColumnIndex == AddressTableListView.Columns.IndexOf(FrozenHeader))
-                    return;
+            // Do not bring up edit menu on double clicks to checkbox
+            if (ColumnIndex == AddressTableListView.Columns.IndexOf(FrozenHeader))
+                return;
 
-                if (SelectedItem == null)
-                    return;
-            }
+            if (SelectedItem == null)
+                return;
 
             EditAddressTableEntry(SelectedItem.Index, ColumnIndex);
         }
@@ -222,15 +207,12 @@ namespace Anathema
             ListViewItem SelectedItem;
             Int32 ColumnIndex;
 
-            // using (TimedLock.Lock(AccessLock))
-            {
-                ListViewHitTestInfo HitTest = AddressTableListView.HitTest(LastRightClickLocation);
-                SelectedItem = HitTest.Item;
-                ColumnIndex = HitTest.Item.SubItems.IndexOf(HitTest.SubItem);
+            ListViewHitTestInfo HitTest = AddressTableListView.HitTest(LastRightClickLocation);
+            SelectedItem = HitTest.Item;
+            ColumnIndex = HitTest.Item.SubItems.IndexOf(HitTest.SubItem);
 
-                if (SelectedItem == null)
-                    return;
-            }
+            if (SelectedItem == null)
+                return;
 
             EditAddressTableEntry(SelectedItem.Index, ColumnIndex);
         }
@@ -240,22 +222,16 @@ namespace Anathema
             ListViewItem SelectedItem;
             Int32 ColumnIndex;
 
-            // using (TimedLock.Lock(AccessLock))
-            {
-                ListViewHitTestInfo HitTest = AddressTableListView.HitTest(LastRightClickLocation);
-                SelectedItem = HitTest.Item;
-                ColumnIndex = HitTest.Item.SubItems.IndexOf(HitTest.SubItem);
+            ListViewHitTestInfo HitTest = AddressTableListView.HitTest(LastRightClickLocation);
+            SelectedItem = HitTest.Item;
+            ColumnIndex = HitTest.Item.SubItems.IndexOf(HitTest.SubItem);
 
-                if (SelectedItem == null)
-                    return;
-            }
+            if (SelectedItem == null)
+                return;
 
             DeleteAddressTableEntries(SelectedItem.Index, SelectedItem.Index);
 
-            // using (TimedLock.Lock(AccessLock))
-            {
-                AddressTableListView.SelectedIndices.Clear();
-            }
+            AddressTableListView.SelectedIndices.Clear();
         }
 
         private void AddNewAddressToolStripMenuItem_Click(Object Sender, EventArgs E)

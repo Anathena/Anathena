@@ -1,12 +1,11 @@
-﻿using Anathema.Source.Utils;
-using Anathema.Utils.OS;
+﻿using Anathema.Source.OS;
 using Gecko;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Windows.Forms;
 
-namespace Anathema.Utils.Browser
+namespace Anathema.Source.Utils.Browser
 {
     class BrowserHelper
     {
@@ -97,7 +96,7 @@ namespace Anathema.Utils.Browser
             {
                 // Allow user to select the save location
                 SaveFileDialog SaveFileDialog = new SaveFileDialog();
-                SaveFileDialog.Filter = "Anathema Cheat Table (*.Ana)|*.Ana";
+                SaveFileDialog.Filter = "Cheat File (*.Hax)|*.hax|All files (*.*)|*.*";
                 SaveFileDialog.FilterIndex = 2;
                 SaveFileDialog.RestoreDirectory = true;
                 SaveFileDialog.FileName = E.Filename;
