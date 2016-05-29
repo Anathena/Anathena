@@ -81,7 +81,7 @@ namespace Anathema.Source.Tables.Addresses
             if (!IsHex && CheckSyntax.CanParseValue(ElementType, Value))
                 this.Value = Conversions.ParseValue(ElementType, Value);
             else if (IsHex && CheckSyntax.CanParseHex(ElementType, Value))
-                this.Value = Conversions.ParseHexAsValue(ElementType, Value);
+                this.Value = Conversions.ParseHexAsDec(ElementType, Value);
 
             this.EffectiveAddress = BaseAddress;
         }
@@ -92,29 +92,10 @@ namespace Anathema.Source.Tables.Addresses
             if (Value == null)
                 return "-";
 
-            dynamic ParseValue;
+            if (IsHex && CheckSyntax.CanParseValue(ElementType, Value.ToString()))
+                return Conversions.ParseDecAsHex(ElementType, Value.ToString());
 
-            switch (Type.GetTypeCode(ElementType))
-            {
-                case TypeCode.Single:
-                    ParseValue = BitConverter.ToSingle(BitConverter.GetBytes(Value), 0);
-                    break;
-                case TypeCode.Double:
-                    ParseValue = BitConverter.ToDouble(BitConverter.GetBytes(Value), 0);
-                    break;
-                default:
-                    ParseValue = Value;
-                    break;
-            }
-
-            try
-            {
-                if (IsHex)
-                    return ParseValue.ToString("X");
-            }
-            catch { }
-
-            return ParseValue.ToString();
+            return Value.ToString();
         }
 
         [Obfuscation(Exclude = true)]

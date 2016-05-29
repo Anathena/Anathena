@@ -39,7 +39,7 @@ namespace Anathema.Source.Utils.Validation
             return ParseValue(ValueType, Value).ToString();
         }
 
-        public static String ParseValueAsHex(Type ValueType, String Value)
+        public static String ParseDecAsHex(Type ValueType, String Value)
         {
             dynamic RealValue = ParseValue(ValueType, Value);
 
@@ -59,7 +59,7 @@ namespace Anathema.Source.Utils.Validation
             }
         }
 
-        public static String ParseHexAsValue(Type ValueType, String Value)
+        public static String ParseHexAsDec(Type ValueType, String Value)
         {
             UInt64 RealValue = AddressToValue(Value);
 
