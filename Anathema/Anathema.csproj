@@ -255,6 +255,11 @@
     <Compile Include="GUI\Tools\Table\GUIAddressTableEntryEditor.Designer.cs">
       <DependentUpon>GUIAddressTableEntryEditor.cs</DependentUpon>
     </Compile>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
     <Compile Include="Source\Prefilter\ISnapshotPrefilter.cs" />
     <Compile Include="Source\Prefilter\LinkedListSnapshotPrefilter.cs" />
     <Compile Include="Source\Prefilter\QueueSnapshotPrefilter.cs" />
@@ -829,14 +834,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <Compile Include="Properties\Resources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Resources.resx</DependentUpon>
-      <DesignTime>True</DesignTime>
-    </Compile>
     <None Include="Properties\app.manifest" />
     <None Include="Content\Font\MonoSpace.ttf" />
     <None Include="Content\FSM\States.psd" />
@@ -900,16 +900,12 @@
     <None Include="GUI\CustomControls\HexEditor\Resources\Save24.png" />
     <None Include="GUI\CustomControls\HexEditor\Resources\Save32.png" />
     <EmbeddedResource Include="GUI\CustomControls\HexEditor\App.ico" />
-    <Content Include="Content\FSM\EndState.png" />
     <Content Include="Content\FSM\IntermediateState.png" />
     <None Include="Content\FSM\Invalid.png" />
     <Content Include="Content\FSM\StartState.png" />
     <Content Include="Content\FSM\StateHighlighted.png" />
     <None Include="Content\FSM\Valid.png" />
-    <Content Include="Content\Icons\AnathemaIcon.png" />
-    <Content Include="Content\Icons\BenedictionIcon.png" />
     <Content Include="Content\Icons\Cancel.png" />
-    <Content Include="Content\Icons\CelestialIcon.png" />
     <Content Include="Content\Icons\Changed.png" />
     <None Include="Content\Icons\CollectValues.png" />
     <Content Include="Content\Icons\Decreased.png" />
@@ -928,6 +924,7 @@
     <None Include="Content\Icons\LessThanOrEqual.png" />
     <None Include="Content\Icons\LogicalAND.png" />
     <Content Include="Content\Icons\MainIcon.ico" />
+    <Content Include="Content\Icons\MainIconSmall.ico" />
     <Content Include="Content\Icons\Merge.png" />
     <Content Include="Content\Icons\MinusX.png" />
     <Content Include="Content\Icons\MoveDown.png" />
@@ -949,6 +946,7 @@
     <None Include="Content\Icons\Union.png" />
     <Content Include="Content\Icons\UnknownValue.png" />
     <Content Include="Content\Icons\X.png" />
+    <Content Include="MainIconSmall.ico" />
     <Content Include="Source\Utils\InputHook\HotKeys\ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
@@ -1007,11 +1005,11 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <FileAssociation Include=".Ana">
+    <FileAssociation Include=".hax">
       <Visible>False</Visible>
-      <Description>Anathema Cheat Table</Description>
-      <Progid>Ana</Progid>
-      <DefaultIcon>Content\Icons\MainIcon.ico</DefaultIcon>
+      <Description>Game Cheat FIle</Description>
+      <Progid>hax</Progid>
+      <DefaultIcon>Content\Icons\MainIconSmall.ico</DefaultIcon>
     </FileAssociation>
   </ItemGroup>
   <ItemGroup>
@@ -1085,37 +1083,7 @@
       <IncludeHash>False</IncludeHash>
       <FileType>File</FileType>
     </PublishFile>
-    <PublishFile Include="Content\Icons\AnathemaIcon.png">
-      <Visible>False</Visible>
-      <Group>
-      </Group>
-      <TargetPath>
-      </TargetPath>
-      <PublishState>Auto</PublishState>
-      <IncludeHash>False</IncludeHash>
-      <FileType>File</FileType>
-    </PublishFile>
-    <PublishFile Include="Content\Icons\BenedictionIcon.png">
-      <Visible>False</Visible>
-      <Group>
-      </Group>
-      <TargetPath>
-      </TargetPath>
-      <PublishState>Auto</PublishState>
-      <IncludeHash>False</IncludeHash>
-      <FileType>File</FileType>
-    </PublishFile>
     <PublishFile Include="Content\Icons\Cancel.png">
-      <Visible>False</Visible>
-      <Group>
-      </Group>
-      <TargetPath>
-      </TargetPath>
-      <PublishState>Auto</PublishState>
-      <IncludeHash>False</IncludeHash>
-      <FileType>File</FileType>
-    </PublishFile>
-    <PublishFile Include="Content\Icons\CelestialIcon.png">
       <Visible>False</Visible>
       <Group>
       </Group>
@@ -1206,6 +1174,16 @@
       <FileType>File</FileType>
     </PublishFile>
     <PublishFile Include="Content\Icons\MainIcon.ico">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Auto</PublishState>
+      <IncludeHash>False</IncludeHash>
+      <FileType>File</FileType>
+    </PublishFile>
+    <PublishFile Include="Content\Icons\MainIconSmall.ico">
       <Visible>False</Visible>
       <Group>
       </Group>
@@ -1495,6 +1473,16 @@
       <IncludeHash>False</IncludeHash>
       <FileType>Assembly</FileType>
     </PublishFile>
+    <PublishFile Include="MainIconSmall.ico">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Auto</PublishState>
+      <IncludeHash>False</IncludeHash>
+      <FileType>File</FileType>
+    </PublishFile>
     <PublishFile Include="NLua">
       <Visible>False</Visible>
       <Group>
@@ -1536,6 +1524,16 @@
       <FileType>Assembly</FileType>
     </PublishFile>
     <PublishFile Include="Source\Scanners\InputCorrelator\InputHook\HotKeys\ReadMe.txt">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Auto</PublishState>
+      <IncludeHash>False</IncludeHash>
+      <FileType>File</FileType>
+    </PublishFile>
+    <PublishFile Include="Source\Utils\InputHook\HotKeys\ReadMe.txt">
       <Visible>False</Visible>
       <Group>
       </Group>

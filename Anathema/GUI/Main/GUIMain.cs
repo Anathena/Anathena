@@ -490,8 +490,8 @@ namespace Anathema.GUI
         public void BeginSaveAsTable()
         {
             SaveFileDialog SaveFileDialog = new SaveFileDialog();
-            SaveFileDialog.Filter = "Anathema Table | *.ana";
-            SaveFileDialog.Title = "Save Cheat Table";
+            SaveFileDialog.Filter = "Cheat File (*.Hax)|*.hax|All files (*.*)|*.*";
+            SaveFileDialog.Title = "Save Cheat File";
             SaveFileDialog.ShowDialog();
 
             ActiveTablePath = SaveFileDialog.FileName;
@@ -502,8 +502,8 @@ namespace Anathema.GUI
         public void BeginOpenTable()
         {
             OpenFileDialog OpenFileDialog = new OpenFileDialog();
-            OpenFileDialog.Filter = "Anathema Table | *.ana";
-            OpenFileDialog.Title = "Open Cheat Table";
+            OpenFileDialog.Filter = "Cheat File (*.Hax)|*.hax|All files (*.*)|*.*";
+            OpenFileDialog.Title = "Open Cheat File";
             OpenFileDialog.ShowDialog();
 
             ActiveTablePath = OpenFileDialog.FileName;
@@ -514,8 +514,8 @@ namespace Anathema.GUI
         public void BeginMergeTable()
         {
             OpenFileDialog OpenFileDialog = new OpenFileDialog();
-            OpenFileDialog.Filter = "Anathema Table | *.ana";
-            OpenFileDialog.Title = "Open and Merge Cheat Table";
+            OpenFileDialog.Filter = "Cheat File (*.Hax)|*.hax|All files (*.*)|*.*";
+            OpenFileDialog.Title = "Open and Merge Cheat File";
             OpenFileDialog.ShowDialog();
 
             // Prioritize whatever is open already. If nothing, use the merge filename.
@@ -627,7 +627,7 @@ namespace Anathema.GUI
             CreateResults();
         }
 
-        private void CodesToolStripMenuItem_Click(Object Sender, EventArgs E)
+        private void AddressesToolStripMenuItem_Click(Object Sender, EventArgs E)
         {
             CreateAddressTable();
         }
@@ -722,7 +722,7 @@ namespace Anathema.GUI
                 ScriptEditorToolStripMenuItem.Checked = (GUIScriptEditor == null || GUIScriptEditor.IsDisposed) ? false : true;
                 SnapshotManagerToolStripMenuItem.Checked = (GUISnapshotManager == null || GUISnapshotManager.IsDisposed) ? false : true;
                 ResultsToolStripMenuItem.Checked = (GUIResults == null || GUIResults.IsDisposed) ? false : true;
-                CodesToolStripMenuItem.Checked = (GUIAddressTable == null || GUIAddressTable.IsDisposed) ? false : true;
+                AddressesToolStripMenuItem.Checked = (GUIAddressTable == null || GUIAddressTable.IsDisposed) ? false : true;
                 ScriptsToolStripMenuItem.Checked = (GUIScriptTable == null || GUIScriptTable.IsDisposed) ? false : true;
 
                 CodeViewToolStripMenuItem.Checked = (GUICodeView == null || GUICodeView.IsDisposed) ? false : true;

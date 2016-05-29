@@ -96,7 +96,7 @@ namespace Anathema.Source.Utils.Browser
             {
                 // Allow user to select the save location
                 SaveFileDialog SaveFileDialog = new SaveFileDialog();
-                SaveFileDialog.Filter = "Anathema Cheat Table (*.Ana)|*.Ana";
+                SaveFileDialog.Filter = "Cheat File (*.Hax)|*.hax|All files (*.*)|*.*";
                 SaveFileDialog.FilterIndex = 2;
                 SaveFileDialog.RestoreDirectory = true;
                 SaveFileDialog.FileName = E.Filename;

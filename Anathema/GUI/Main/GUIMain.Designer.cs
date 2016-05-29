@@ -58,13 +58,12 @@
             this.CodeViewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.MemoryViewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.TablesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.CodesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.AddressesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ScriptsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ResultsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.SnapshotManagerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.HelpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.RegisterToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.ContentPanel = new WeifenLuo.WinFormsUI.Docking.DockPanel();
             this.GUIToolStrip = new System.Windows.Forms.ToolStrip();
             this.ProcessSelectorButton = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator7 = new System.Windows.Forms.ToolStripSeparator();
@@ -81,6 +80,7 @@
             this.CancelActionButton = new System.Windows.Forms.ToolStripDropDownButton();
             this.ActionLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.ActionProgressBar = new System.Windows.Forms.ToolStripProgressBar();
+            this.ContentPanel = new WeifenLuo.WinFormsUI.Docking.DockPanel();
             this.GUIMenuStrip.SuspendLayout();
             this.GUIToolStrip.SuspendLayout();
             this.GUIStatusStrip.SuspendLayout();
@@ -321,23 +321,23 @@
             // TablesToolStripMenuItem
             // 
             this.TablesToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.CodesToolStripMenuItem,
+            this.AddressesToolStripMenuItem,
             this.ScriptsToolStripMenuItem});
             this.TablesToolStripMenuItem.Name = "TablesToolStripMenuItem";
             this.TablesToolStripMenuItem.Size = new System.Drawing.Size(173, 22);
             this.TablesToolStripMenuItem.Text = "Tables";
             // 
-            // CodesToolStripMenuItem
+            // AddressesToolStripMenuItem
             // 
-            this.CodesToolStripMenuItem.Name = "CodesToolStripMenuItem";
-            this.CodesToolStripMenuItem.Size = new System.Drawing.Size(109, 22);
-            this.CodesToolStripMenuItem.Text = "Codes";
-            this.CodesToolStripMenuItem.Click += new System.EventHandler(this.CodesToolStripMenuItem_Click);
+            this.AddressesToolStripMenuItem.Name = "AddressesToolStripMenuItem";
+            this.AddressesToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.AddressesToolStripMenuItem.Text = "Addresses";
+            this.AddressesToolStripMenuItem.Click += new System.EventHandler(this.AddressesToolStripMenuItem_Click);
             // 
             // ScriptsToolStripMenuItem
             // 
             this.ScriptsToolStripMenuItem.Name = "ScriptsToolStripMenuItem";
-            this.ScriptsToolStripMenuItem.Size = new System.Drawing.Size(109, 22);
+            this.ScriptsToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.ScriptsToolStripMenuItem.Text = "Scripts";
             this.ScriptsToolStripMenuItem.Click += new System.EventHandler(this.ScriptsToolStripMenuItem_Click);
             // 
@@ -370,16 +370,6 @@
             this.RegisterToolStripMenuItem.Size = new System.Drawing.Size(116, 22);
             this.RegisterToolStripMenuItem.Text = "Register";
             this.RegisterToolStripMenuItem.Click += new System.EventHandler(this.RegisterToolStripMenuItem_Click);
-            // 
-            // ContentPanel
-            // 
-            this.ContentPanel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.ContentPanel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.ContentPanel.DockBackColor = System.Drawing.SystemColors.AppWorkspace;
-            this.ContentPanel.Location = new System.Drawing.Point(0, 49);
-            this.ContentPanel.Name = "ContentPanel";
-            this.ContentPanel.Size = new System.Drawing.Size(496, 434);
-            this.ContentPanel.TabIndex = 145;
             // 
             // GUIToolStrip
             // 
@@ -527,6 +517,16 @@
             this.ActionProgressBar.Name = "ActionProgressBar";
             this.ActionProgressBar.Size = new System.Drawing.Size(100, 16);
             // 
+            // ContentPanel
+            // 
+            this.ContentPanel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.ContentPanel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.ContentPanel.DockBackColor = System.Drawing.SystemColors.AppWorkspace;
+            this.ContentPanel.Location = new System.Drawing.Point(0, 49);
+            this.ContentPanel.Name = "ContentPanel";
+            this.ContentPanel.Size = new System.Drawing.Size(496, 434);
+            this.ContentPanel.TabIndex = 145;
+            // 
             // GUIMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -597,7 +597,7 @@
         private System.Windows.Forms.ToolStripProgressBar ActionProgressBar;
         private System.Windows.Forms.ToolStripDropDownButton CancelActionButton;
         private System.Windows.Forms.ToolStripComboBox ValueTypeComboBox;
-        private System.Windows.Forms.ToolStripMenuItem CodesToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem AddressesToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem ScriptsToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator7;
         private System.Windows.Forms.ToolStripButton OpenButton;
