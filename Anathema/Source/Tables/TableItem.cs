@@ -12,6 +12,16 @@ namespace Anathema.Source.Tables
     {
         [Obfuscation(Exclude = true)]
         [DataMember()]
+        public Int32 ParentDepth
+        {
+            [Obfuscation(Exclude = true)]
+            get;
+            [Obfuscation(Exclude = true)]
+            set;
+        }
+
+        [Obfuscation(Exclude = true)]
+        [DataMember()]
         public Int32 TextColorARGB
         {
             [Obfuscation(Exclude = true)]
@@ -26,7 +36,7 @@ namespace Anathema.Source.Tables
             [Obfuscation(Exclude = true)]
             get { return Color.FromArgb(TextColorARGB); }
             [Obfuscation(Exclude = true)]
-            set { TextColorARGB = value.ToArgb(); }
+            set { TextColorARGB = value == null ? 0 : value.ToArgb(); }
         }
 
         [Obfuscation(Exclude = true)]
@@ -34,7 +44,8 @@ namespace Anathema.Source.Tables
 
         public TableItem()
         {
-            TextColor = Color.Black;
+            ParentDepth = 0;
+            TextColor = SystemColors.ControlText;
             Activated = false;
         }
 

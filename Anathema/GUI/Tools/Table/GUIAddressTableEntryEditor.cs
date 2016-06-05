@@ -16,6 +16,7 @@ namespace Anathema
         private TableAddressEntryEditorPresenter TableAddressEntryEditorPresenter;
         private IEnumerable<Int32> AddressTableItemIndicies;
         private Int32 MainSelection;
+        private Color ItemColor;
 
         public GUIAddressTableEntryEditor(Int32 MainSelection, IEnumerable<Int32> AddressTableItemIndicies, AddressTable.TableColumnEnum ColumnSelection)
         {
@@ -72,6 +73,14 @@ namespace Anathema
         }
 
         #region Events
+        private void ColorButton_Click(Object Sender, EventArgs E)
+        {
+            ColorDialog ColorDialog = new ColorDialog();
+            DialogResult DialogResult = ColorDialog.ShowDialog(this);
+
+            if (DialogResult == DialogResult.OK)
+                ItemColor = ColorDialog.Color;
+        }
 
         private void AddOffsetButton_Click(Object Sender, EventArgs E)
         {
@@ -92,7 +101,7 @@ namespace Anathema
         {
             // Accept the updated changes
             TableAddressEntryEditorPresenter.AcceptChanges(MainSelection, AddressTableItemIndicies, DescriptionTextBox.Text, AddressTextBox.GetValueAsHexidecimal(),
-                ValueTypeComboBox.SelectedItem.ToString(), ValueTextBox.GetValueAsDecimal(), OffsetListBox.Items.OfType<String>(), ValueTextBox.IsHex);
+                ValueTypeComboBox.SelectedItem.ToString(), ValueTextBox.GetValueAsDecimal(), OffsetListBox.Items.OfType<String>(), ValueTextBox.IsHex, ItemColor);
 
             this.Close();
         }

@@ -3,6 +3,7 @@ using Anathema.Source.Utils.MVP;
 using Anathema.Source.Utils.Validation;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 
 namespace Anathema.Source.Tables.Addresses.Editor
 {
@@ -44,7 +45,7 @@ namespace Anathema.Source.Tables.Addresses.Editor
         #region Method definitions called by the view (downstream)
 
         public void AcceptChanges(Int32 MainSelection, IEnumerable<Int32> SelectedIndicies, String Description, String Address, String ValueType,
-            String Value, IEnumerable<String> Offsets, Boolean IsHex)
+            String Value, IEnumerable<String> Offsets, Boolean IsHex, Color ItemColor)
         {
             // Convert passed parameters to the appropriate types to construct an AddressItem
             List<Int32> OffsetsInt = new List<int>();
@@ -58,6 +59,8 @@ namespace Anathema.Source.Tables.Addresses.Editor
                 AddressItem.Value = Conversions.ParseValue(Conversions.StringToPrimitiveType(ValueType), Value);
             else
                 AddressItem.Value = null;
+
+            AddressItem.TextColor = ItemColor;
 
             // Pass constructed item to model to send to the table
             Model.AddTableEntryItem(MainSelection, SelectedIndicies, AddressItem);

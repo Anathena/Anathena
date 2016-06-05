@@ -137,7 +137,7 @@ namespace Anathema
             // Add the properties to the manager and get the list view item back
             Item = AddressTableCache.Add(E.ItemIndex, new String[AddressTableListView.Columns.Count]);
 
-            Item.ForeColor = AddressItem.IsHex ? Color.Green : SystemColors.ControlText;
+            Item.ForeColor = AddressItem.TextColor;
 
             Item.SubItems[AddressTableListView.Columns.IndexOf(FrozenHeader)].Text = String.Empty;
             Item.SubItems[AddressTableListView.Columns.IndexOf(DescriptionHeader)].Text = (AddressItem.Description == null ? String.Empty : AddressItem.Description);

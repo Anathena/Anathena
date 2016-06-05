@@ -41,6 +41,7 @@
             this.OffsetLabel = new System.Windows.Forms.Label();
             this.OkButton = new System.Windows.Forms.Button();
             this.CancelButton = new System.Windows.Forms.Button();
+            this.ColorButton = new System.Windows.Forms.Button();
             this.ValueTextBox = new Anathema.GUI.HexDecTextBox();
             this.OffsetTextBox = new Anathema.GUI.HexDecTextBox();
             this.AddressTextBox = new Anathema.GUI.HexDecTextBox();
@@ -60,7 +61,7 @@
             this.ValueTypeComboBox.FormattingEnabled = true;
             this.ValueTypeComboBox.Location = new System.Drawing.Point(80, 38);
             this.ValueTypeComboBox.Name = "ValueTypeComboBox";
-            this.ValueTypeComboBox.Size = new System.Drawing.Size(212, 21);
+            this.ValueTypeComboBox.Size = new System.Drawing.Size(131, 21);
             this.ValueTypeComboBox.TabIndex = 1;
             this.ValueTypeComboBox.SelectedIndexChanged += new System.EventHandler(this.ValueTypeComboBox_SelectedIndexChanged);
             // 
@@ -166,6 +167,17 @@
             this.CancelButton.Text = "Cancel";
             this.CancelButton.UseVisualStyleBackColor = true;
             // 
+            // ColorButton
+            // 
+            this.ColorButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.ColorButton.Location = new System.Drawing.Point(217, 36);
+            this.ColorButton.Name = "ColorButton";
+            this.ColorButton.Size = new System.Drawing.Size(75, 23);
+            this.ColorButton.TabIndex = 13;
+            this.ColorButton.Text = "Color";
+            this.ColorButton.UseVisualStyleBackColor = true;
+            this.ColorButton.Click += new System.EventHandler(this.ColorButton_Click);
+            // 
             // ValueTextBox
             // 
             this.ValueTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
@@ -214,6 +226,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(304, 257);
+            this.Controls.Add(this.ColorButton);
             this.Controls.Add(this.ValueTextBox);
             this.Controls.Add(this.CancelButton);
             this.Controls.Add(this.OkButton);
@@ -256,5 +269,6 @@
         private System.Windows.Forms.Button OkButton;
         private System.Windows.Forms.Button CancelButton;
         private GUI.HexDecTextBox ValueTextBox;
+        private System.Windows.Forms.Button ColorButton;
     }
 }

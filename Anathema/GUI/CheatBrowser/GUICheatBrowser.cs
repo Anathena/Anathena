@@ -11,8 +11,7 @@ namespace Anathema.GUI
     public partial class GUICheatBrowser : DockContent
     {
         // private ChromiumWebBrowser Browser;
-        private const String AnathemaCheatBrowseURL = "www.anathemaengine.com/browser.php";
-        private const String AnathemaCheatUploadURL = "www.anathemaengine.com/upload.php";
+        private const String AnathemaCheatBrowseURL = "www.anathemaengine.com/browser/browser.php";
 
         private GeckoWebBrowser Browser;
         private Object AccessLock;
@@ -22,7 +21,7 @@ namespace Anathema.GUI
             InitializeComponent();
 
             // Initialize presenter
-            // (No presenter currently, since the browser does all the work)
+            // (No presenter currently, since the browser object does all the work)
             AccessLock = new Object();
 
             WindowState = FormWindowState.Maximized;
@@ -53,28 +52,6 @@ namespace Anathema.GUI
 
         #region Events
 
-        private void HomeButton_Click(Object Sender, EventArgs E)
-        {
-            ControlThreadingHelper.InvokeControlAction(Browser, () =>
-            {
-                using (TimedLock.Lock(AccessLock))
-                {
-                    Browser.Navigate(AnathemaCheatBrowseURL);
-                }
-            });
-        }
-
-        private void UploadButton_Click(Object Sender, EventArgs E)
-        {
-            ControlThreadingHelper.InvokeControlAction(Browser, () =>
-            {
-                using (TimedLock.Lock(AccessLock))
-                {
-                    Browser.Navigate(AnathemaCheatUploadURL);
-                }
-            });
-        }
-
         private void BackButton_Click(Object Sender, EventArgs E)
         {
             ControlThreadingHelper.InvokeControlAction(Browser, () =>
@@ -100,22 +77,6 @@ namespace Anathema.GUI
         }
 
         #endregion
-        /*
-        internal class DownloadHandler : IDownloadHandler
-        {
-            public void OnDownloadUpdated(IBrowser Browser, DownloadItem DownloadItem, IDownloadItemCallback Callback) { }
-            public void OnBeforeDownload(IBrowser Browser, DownloadItem DownloadItem, IBeforeDownloadCallback Callback)
-            {
-                if (!Callback.IsDisposed)
-                {
-                    using (Callback)
-                    {
-                        Callback.Continue(DownloadItem.SuggestedFileName, true);
-                    }
-                }
-            }
-
-        } // End class*/
 
     } // End class
 

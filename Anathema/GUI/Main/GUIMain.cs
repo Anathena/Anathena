@@ -6,6 +6,7 @@ using Anathema.Source.Utils.Registration;
 using System;
 using System.Deployment.Application;
 using System.Diagnostics;
+using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
 using WeifenLuo.WinFormsUI.Docking;
@@ -219,7 +220,7 @@ namespace Anathema.GUI
                     if (GUICheatBrowser == null || GUICheatBrowser.IsDisposed)
                         GUICheatBrowser = new GUICheatBrowser();
 
-                    GUICheatBrowser.Show(ContentPanel);
+                    GUICheatBrowser.Show(ContentPanel, new Rectangle(PointToScreen(ContentPanel.Location), GUICheatBrowser.Size));
                 }
             });
         }

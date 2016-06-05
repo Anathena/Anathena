@@ -150,7 +150,7 @@ namespace Anathema.Source.Utils.Validation
         {
             Single Temp;
             if (IsHex && IsUInt32(Value, IsHex))
-                return Single.TryParse(Conversions.ParseHexAsValue(typeof(Single), Value), out Temp);
+                return Single.TryParse(Conversions.ParseHexAsDec(typeof(Single), Value), out Temp);
             else
                 return Single.TryParse(Value, out Temp);
         }
@@ -159,7 +159,7 @@ namespace Anathema.Source.Utils.Validation
         {
             Double Temp;
             if (IsHex && IsUInt64(Value, IsHex))
-                return Double.TryParse(Conversions.ParseHexAsValue(typeof(Double), Value), out Temp);
+                return Double.TryParse(Conversions.ParseHexAsDec(typeof(Double), Value), out Temp);
             else
                 return Double.TryParse(Value, out Temp);
         }

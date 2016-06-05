@@ -137,22 +137,17 @@ namespace Anathema.Source.Tables.Addresses
 
         public override void SetAddressItemAt(Int32 Index, AddressItem AddressItem)
         {
-            // Copy over attributes from the new item (such as to keep this item's color attributes)
-            AddressItems[Index].Description = AddressItem.Description;
-            AddressItems[Index].ElementType = AddressItem.ElementType;
-            AddressItems[Index].BaseAddress = AddressItem.BaseAddress;
-            AddressItems[Index].Offsets = AddressItem.Offsets;
-            AddressItems[Index].IsHex = AddressItem.IsHex;
+            AddressItems[Index] = AddressItem;
 
             // Force update of value, regardless if frozen or not
-            AddressItems[Index].ForceUpdateValue(AddressItem.Value);
+            AddressItem.ForceUpdateValue(AddressItem.Value);
 
             // Write change to memory
             if (AddressItem.Value != null)
             {
-                AddressItems[Index].ResolveAddress(OSInterface);
+                AddressItem.ResolveAddress(OSInterface);
                 if (OSInterface != null)
-                    OSInterface.Process.Write(AddressItems[Index].ElementType, AddressItems[Index].EffectiveAddress, AddressItems[Index].Value);
+                    OSInterface.Process.Write(AddressItem.ElementType, AddressItem.EffectiveAddress, AddressItem.Value);
             }
 
             UpdateAddressTableItemCount();
