@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<topic id="70ba8bb5-61d9-467d-ac5b-ae150a3d534e" revisionNumber="0">
+  <developerConceptualDocument xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <introduction>
+      <para>
+        SlimDX is compatible with both Visual Studio 2008 and Visual Studio 2010.
+        As of the March 2011 release all internal development has been moved to VS 2010, so if
+        you wish to do a build yourself you will need access to this version.
+      </para>
+    </introduction>
+
+    <section>
+      <title>Building SlimDX in Visual Studio Express Edition</title>
+
+      <content>
+        <para>
+          SlimDX is fully supported in Visual Studio's Express Editions.
+          However, the solution files used by SlimDX incorporate multiple different types of projects, which the Express Edition products cannot handle.
+          The solutions will open in Express, but with a lot of errors. If this is something you have to do often, it's recommended that you create an Express-specific solution locally and add just the SlimDX project to it.
+          The samples will need their own solution if you wish to build them.
+        </para>
+      </content>
+    </section>
+  </developerConceptualDocument>
+</topic>

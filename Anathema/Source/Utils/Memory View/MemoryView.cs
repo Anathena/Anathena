@@ -1,5 +1,5 @@
-﻿using Anathema.Source.OS;
-using Anathema.Source.OS.Processes;
+﻿using Anathema.Source.SystemInternals.OperatingSystems;
+using Anathema.Source.SystemInternals.Processes;
 using Anathema.Source.Utils.Extensions;
 using System;
 using System.Collections.Concurrent;
@@ -13,7 +13,7 @@ namespace Anathema.Source.Utils.MemoryView
     /// </summary>
     class MemoryView : IMemoryViewModel, IProcessObserver
     {
-        private OSInterface OSInterface;
+        private Engine OSInterface;
         private IEnumerable<NormalizedRegion> VirtualPages;
 
         private IntPtr StartReadAddress;
@@ -34,7 +34,7 @@ namespace Anathema.Source.Utils.MemoryView
             ProcessSelector.GetInstance().Subscribe(this);
         }
 
-        public void UpdateOSInterface(OSInterface OSInterface)
+        public void UpdateOSInterface(Engine OSInterface)
         {
             this.OSInterface = OSInterface;
 

@@ -1,5 +1,5 @@
-﻿using Anathema.Source.OS;
-using Anathema.Source.OS.Processes;
+﻿using Anathema.Source.SystemInternals.OperatingSystems;
+using Anathema.Source.SystemInternals.Processes;
 using Anathema.Source.Tables.Addresses;
 using Anathema.Source.Utils;
 using Anathema.Source.Utils.Snapshots;
@@ -17,7 +17,7 @@ namespace Anathema.Source.Results.ScanResults
         // Singleton instance of results
         private static Lazy<ScanResults> ResultsInstance = new Lazy<ScanResults>(() => { return new ScanResults(); });
 
-        private OSInterface OSInterface;
+        private Engine OSInterface;
         private Snapshot Snapshot;
 
         private Type ScanType;
@@ -57,7 +57,7 @@ namespace Anathema.Source.Results.ScanResults
             ProcessSelector.GetInstance().Subscribe(this);
         }
 
-        public void UpdateOSInterface(OSInterface OSInterface)
+        public void UpdateOSInterface(Engine OSInterface)
         {
             this.OSInterface = OSInterface;
         }

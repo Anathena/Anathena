@@ -1,0 +1,111 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<topic id="802337a1-55c1-4f61-9169-17386463d720" revisionNumber="0">
+  <developerConceptualDocument xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <introduction>
+      <para>
+        The June 2008 release focused on adding features to the library. Missing corners of the DirectX APIs were addressed
+        and implemented. XAudio2, X3DAudio, RawInput, and the SampleFramework were all added for this release. This was also
+        the first release to provide an installer.
+      </para>
+    </introduction>
+    <section>
+      <title>Full Release Notes</title>
+      <content>
+        <para>
+          The following is a list of changes that were made to SlimDX for the June 2008 release.
+        </para>
+        <para>
+          <list class="bullet">
+            <listItem>
+              <legacyBold>General</legacyBold>
+              <list class="bullet">
+                <listItem>Added missing bounds checks in DataStream.</listItem>
+                <listItem>Fixed a bug in DataStream.WriteRange where the position wasn t being updated properly.</listItem>
+                <listItem>Patched a bug in DataStream (and a few other places) where the size of char was determined incorrectly, causing only half of the supplied data to be used.</listItem>
+                <listItem>Removed attempt to control Configuration s properties dynamically.</listItem>
+                <listItem>Resolved all remaining FxCop issues.</listItem>
+                <listItem>Changed each subsystem s Error class to be called ResultCode.</listItem>
+                <listItem>Upgraded the project from VS 2005 to VS 2008.</listItem>
+                <listItem>Added support for x64 configurations. All subsequent releases will contain x64 binaries.</listItem>
+              </list>
+            </listItem>
+            <listItem>
+              <legacyBold>Samples</legacyBold>
+              <list class="bullet">
+                <listItem>Fixed a bug in the SampleFramework where the device lost and not reset exceptions were not disabled.</listItem>
+                <listItem>Fixed a bug in the Joystick sample where the input timer wasn t being started.</listItem>
+                <listItem>Added the first prototype for a GUI framework.</listItem>
+                <listItem>Added a RawInput mouse sample.</listItem>
+                <listItem>Added the SimpleLighting sample for Direct3D9.</listItem>
+                <listItem>Added the Particles sample for Direct3D9.</listItem>
+              </list>
+            </listItem>
+            <listItem>
+              <legacyBold>Math</legacyBold>
+              <list class="bullet">
+                <listItem>Fixed a bug in Quaternion.RotationAxis where the input axis wasn t being normalized.</listItem>
+                <listItem>Added type converters to the vector and Color4 types to allow them to place nice with the VS designer.</listItem>
+              </list>
+            </listItem>
+            <listItem>
+              <legacyBold>Direct3D 9</legacyBold>
+              <list class="bullet">
+                <listItem>Added overloads to Device.Present and SwapChain.Present to accept source and destination rectangles.</listItem>
+                <listItem>Added TessellateNPatches, TessellateRectanglePatch, and TessellateTrianglePatch to the Mesh class.</listItem>
+                <listItem>Changed the type of Device.AvailableTextureMemory from an int to a long.</listItem>
+                <listItem>Fixed a bug in Vector3.Project and Vector3.Unproject where parameters weren t being passed correctly.</listItem>
+                <listItem>Fixed a bug in BoundingSphere.FromPoints where the stride of the vertex data wasn t being passed correctly.</listItem>
+                <listItem>Fixed a bug in BaseMesh.Intersects where tests that didn t have any intersections would try to access a null pointer.</listItem>
+                <listItem>Fixed a bug where the size of locked volumes was computed incorrectly.</listItem>
+                <listItem>Added the GetContainer() method to Surface.</listItem>
+                <listItem>Added the missing FogMode enum.</listItem>
+                <listItem>Documented all D3D9 enums and added any that we were still missing.</listItem>
+              </list>
+            </listItem>
+            <listItem>
+              <legacyBold>Direct3D 10</legacyBold>
+              <list class="bullet">
+                <listItem>Added Mesh interface.</listItem>
+                <listItem>Added overloads to Device construction methods allowing adapters to be specified.</listItem>
+                <listItem>Added Device.UpdateSubresource method.</listItem>
+              </list>
+            </listItem>
+            <listItem>
+              <legacyBold>XAudio2</legacyBold>
+              <list class="bullet">
+                <listItem>Scrapped the old version of XAudio2 and started reimplementing it from scratch.</listItem>
+                <listItem>Added the XAudio2 interface.</listItem>
+                <listItem>Added the Voice interface.</listItem>
+                <listItem>Added the SubmixVoice interface.</listItem>
+                <listItem>Added the MasteringVoice interface.</listItem>
+                <listItem>Added the SourceVoice interface.</listItem>
+                <listItem>XAudio2 is now considered usable.</listItem>
+              </list>
+            </listItem>
+            <listItem>
+              <legacyBold>X3DAudio</legacyBold>
+              <list class="bullet">
+                <listItem>Completely added X3DAudio support.</listItem>
+              </list>
+            </listItem>
+            <listItem>
+              <legacyBold>XAPO</legacyBold>
+              <list class="bullet">
+                <listItem>Started adding support for XAPO. Doesn t really work right now.</listItem>
+              </list>
+            </listItem>
+            <listItem>
+              <legacyBold>RawInput</legacyBold>
+              <list class="bullet">
+                <listItem>Started adding raw input support.</listItem>
+                <listItem>Added the Device class, which wraps most of raw input.</listItem>
+                <listItem>RawInput is now considered complete.</listItem>
+              </list>
+            </listItem>
+          </list>
+        </para>
+      </content>
+    </section>
+
+  </developerConceptualDocument>
+</topic>

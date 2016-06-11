@@ -1,0 +1,251 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<topic id="7d6bb54b-16e8-4a05-b93c-f22573895d6c" revisionNumber="0">
+  <developerConceptualDocument xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <introduction>
+      <para>
+        The June 2010 release of SlimDX focused on filling in existing APIs and adding missing functionality. In addition to
+        implementing most of DirectWrite and ensuring that Direct3D 11 support was feature complete, the June 2010 release also
+        refactored shared shader and effect functionality into a common D3DCompiler namespace. Several new samples were added
+        to showcase advanced interop features, and a .NET 4.0 build was added, along with VS 2010 support. On top of these
+        additions, the usual array of bug fixes and feature enhancements were made to continue improving the stability of the
+        SlimDX library.
+      </para>
+      <para>
+        SlimDX has been out of beta for almost two years now. Since first released, the team has tried to keep breaking changes to an absolute
+        minimum. This has led to a number of desired changes being postponed in favor of backwards compatibility. During the past few months
+        the SlimDX team has been doing initial design work and planning for a tentatively named "SlimDX 2.0" version, which will incorporate numerous
+        breaking changes and enhancements to the library's core design. This "2.0" version is currently slated for a late 2010 release, making
+        June 2010 one of the last "1.x" releases.
+      </para>
+    </introduction>
+
+    <section>
+      <title>Full Release Notes</title>
+      <content>
+        <para>
+          The following is a list of changes that were made to SlimDX for the June 2010 release.
+        </para>
+        <para>
+          <list class="bullet">
+            <listItem>
+              <legacyBold>General</legacyBold>
+              <list class="bullet">
+                <listItem>Added a .NET 4.0 build via Visual Studio 2010.</listItem>
+                <listItem>Added an option to disable throwing exceptions on compilation errors. See Configuration.ThrowOnShaderCompileError.</listItem>
+                <listItem>Added the PIXPlug tool to allow x64 application to run in PIX.</listItem>
+              </list>
+            </listItem>
+            <listItem>
+              <legacyBold>Samples</legacyBold>
+              <list class="bullet">
+                <listItem>Added a WPF D3D10 sample to demonstrate interop between 10.1, 10, 9Ex, and WPF.</listItem>
+              </list>
+            </listItem>
+            <listItem>
+              <legacyBold>Math</legacyBold>
+              <list class="bullet">
+                <listItem>Reverted changes to quaternion multiplication. We previously updated this to match XNA, but this broke compatibility with D3DX.</listItem>
+              </list>
+            </listItem>
+            <listItem>
+              <legacyBold>D3DCompiler</legacyBold>
+              <list class="bullet">
+                <listItem>Refactored shared shader and effect flags and interfaces into a new namespace.</listItem>
+                <listItem>Added overloads to the compiler methods to avoid having to pass a shader entry point.</listItem>
+                <listItem>
+                  Changed the <codeEntityReference>M:SlimDX.D3DCompiler.ShaderBytecode.Compile(System.Byte[],System.String,SlimDX.D3DCompiler.ShaderFlags,SlimDX.D3DCompiler.EffectFlags)</codeEntityReference> methods to use D3DCompiler instead of D3DX.
+                </listItem>
+                <listItem>
+                  Added a missing enum from <codeEntityReference>T:SlimDX.D3DCompiler.ShaderFlags</codeEntityReference>.
+                </listItem>
+                <listItem>
+                  Changed the <codeEntityReference>M:SlimDX.D3DCompiler.ShaderBytecode.CompileFromFile(System.String,System.String,SlimDX.D3DCompiler.ShaderFlags,SlimDX.D3DCompiler.EffectFlags)</codeEntityReference> methods to read the file manually and use D3DCompiler. This should solve the Unicode issue as well.
+                </listItem>
+                <listItem>
+                  Added <codeEntityReference>M:SlimDX.D3DCompiler.ShaderBytecode.Preprocess(System.Byte[])</codeEntityReference>, <codeEntityReference>M:SlimDX.D3DCompiler.ShaderBytecode.Disassemble</codeEntityReference>, and <codeEntityReference>M:SlimDX.D3DCompiler.ShaderBytecode.Strip(SlimDX.D3DCompiler.StripFlags)</codeEntityReference> to ShaderBytecode.
+                </listItem>
+                <listItem>Added shader reflection API.</listItem>
+                <listItem>Documented the entire subsystem.</listItem>
+              </list>
+            </listItem>
+            <listItem>
+              <legacyBold>Direct3D 9</legacyBold>
+              <list class="bullet">
+                <listItem>Changed the shared handle parameter for texture creation to be a ref parameter.</listItem>
+                <listItem>
+                  Changed <codeEntityReference>T:SlimDX.Direct3D9.Texture</codeEntityReference> shared handle parameter from out to ref.
+                </listItem>
+                <listItem>Fixed 9Ex methods that didn't properly initialize display mode parameters.</listItem>
+                <listItem>
+                  Added special casing for <codeEntityReference>M:SlimDX.Direct3D9.BaseEffect.GetValue``1(SlimDX.Direct3D9.EffectHandle)</codeEntityReference> with boolean results.
+                </listItem>
+                <listItem>
+                  Fixed a null reference issue in <codeEntityReference>M:SlimDX.Direct3D9.D3DX.OptimizeFaces(System.Int16[],System.Int32,System.Int32)</codeEntityReference> and <codeEntityReference>M:SlimDX.Direct3D9.D3DX.OptimizeVertices(System.Int16[],System.Int32,System.Int32)</codeEntityReference>.
+                </listItem>
+                <listItem>
+                  Changed <codeEntityReference>P:SlimDX.Direct3D9.Device.AvailableTextureMemory</codeEntityReference> to return an Int64 instead of Int32.
+                </listItem>
+                <listItem>Fixed Device.Set*ShaderConstant overloads that implicitly calculate the number of items to pass.</listItem>
+                <listItem>
+                  Vertex declarations no longer require <codeEntityReference>F:SlimDX.Direct3D9.VertexElement.VertexDeclarationEnd</codeEntityReference> at the end of the input array.
+                </listItem>
+                <listItem>
+                  Added <codeEntityReference>M:SlimDX.Direct3D9.Direct3D.RegisterSoftwareDevice(System.IntPtr)</codeEntityReference> to support software renderers.
+                </listItem>
+              </list>
+            </listItem>
+            <listItem>
+              <legacyBold>Direct3D 9Ex</legacyBold>
+              <list class="bullet">
+                <listItem>Added missing enumerations throughout D3D9.</listItem>
+                <listItem>Added support for new Windows 7 FlipEx functionality.</listItem>
+              </list>
+            </listItem>
+            <listItem>
+              <legacyBold>Direct3D 10</legacyBold>
+              <list class="bullet">
+                <listItem>Dropped stream size checks in texture ToStream functions.</listItem>
+                <listItem>
+                  Added a constructor to <codeEntityReference>T:SlimDX.Direct3D10.InputLayout</codeEntityReference> to take shader bytecode.
+                </listItem>
+                <listItem>
+                  Added <codeEntityReference>M:SlimDX.Direct3D10.Texture2D.ComputeNormalMap(SlimDX.Direct3D10.Texture2D,SlimDX.Direct3D10.Texture2D,SlimDX.Direct3D10.NormalMapFlags,SlimDX.Direct3D10.Channel,System.Single)</codeEntityReference>.
+                </listItem>
+                <listItem>
+                  Added <codeEntityReference>M:SlimDX.Direct3D10.ShaderResourceView.FromMemory(SlimDX.Direct3D10.Device,System.Byte[])</codeEntityReference> and <codeEntityReference>M:SlimDX.Direct3D10.ShaderResourceView.FromStream(SlimDX.Direct3D10.Device,System.IO.Stream,System.Int32)</codeEntityReference>.
+                </listItem>
+                <listItem>
+                  Added <codeEntityReference>M:SlimDX.Direct3D10.Resource.LoadTextureFromTexture(SlimDX.Direct3D10.Resource,SlimDX.Direct3D10.Resource,SlimDX.Direct3D10.TextureLoadInformation)</codeEntityReference> and <codeEntityReference>M:SlimDX.Direct3D10.Resource.FilterTexture(SlimDX.Direct3D10.Resource,System.Int32,SlimDX.Direct3D10.FilterFlags)</codeEntityReference>.
+                </listItem>
+                <listItem>
+                  Added <codeEntityReference>M:SlimDX.Direct3D10.Resource.AsSurface</codeEntityReference> to retrieve a DXGI Surface from a resource.
+                </listItem>
+                <listItem>Added missing WARP device type.</listItem>
+                <listItem>Fixed shader compilation to allow null entry points.</listItem>
+                <listItem>
+                  Fixed <codeEntityReference>T:SlimDX.D3DCompiler.ShaderSignature</codeEntityReference> Get*Signature methods.
+                </listItem>
+                <listItem>
+                  Fixed a crash bug in <codeEntityReference>M:SlimDX.Direct3D10.BlendStateDescription.GetHashCode</codeEntityReference>.
+                </listItem>
+                <listItem>
+                  Added overloads to <codeEntityReference>M:SlimDX.Direct3D10.EffectVectorVariable.Set(SlimDX.Color4)</codeEntityReference> to take color inputs.
+                </listItem>
+                <listItem>
+                  Added missing <codeEntityReference>M:SlimDX.Direct3D10.Device.OpenSharedResource``1(System.IntPtr)</codeEntityReference> method.
+                </listItem>
+              </list>
+            </listItem>
+            <listItem>
+              <legacyBold>Direct3D 11</legacyBold>
+              <list class="bullet">
+                <listItem>Dropped stream size checks in texture ToStream functions.</listItem>
+                <listItem>
+                  Added a constructor to <codeEntityReference>T:SlimDX.Direct3D11.InputLayout</codeEntityReference> to take shader bytecode.
+                </listItem>
+                <listItem>
+                  Added <codeEntityReference>M:SlimDX.Direct3D11.Texture2D.ComputeNormalMap(SlimDX.Direct3D11.DeviceContext,SlimDX.Direct3D11.Texture2D,SlimDX.Direct3D11.Texture2D,SlimDX.Direct3D11.NormalMapFlags,SlimDX.Direct3D11.Channel,System.Single)</codeEntityReference>.
+                </listItem>
+                <listItem>
+                  Added <codeEntityReference>M:SlimDX.Direct3D11.ShaderResourceView.FromFile(SlimDX.Direct3D11.Device,System.String)</codeEntityReference>, <codeEntityReference>M:SlimDX.Direct3D11.ShaderResourceView.FromMemory(SlimDX.Direct3D11.Device,System.Byte[])</codeEntityReference> and <codeEntityReference>M:SlimDX.Direct3D11.ShaderResourceView.FromStream(SlimDX.Direct3D11.Device,System.IO.Stream,System.Int32)</codeEntityReference>.
+                </listItem>
+                <listItem>
+                  Added <codeEntityReference>M:SlimDX.Direct3D11.Resource.LoadTextureFromTexture(SlimDX.Direct3D11.DeviceContext,SlimDX.Direct3D11.Resource,SlimDX.Direct3D11.Resource,SlimDX.Direct3D11.TextureLoadInformation)</codeEntityReference> and <codeEntityReference>M:SlimDX.Direct3D11.Resource.FilterTexture(SlimDX.Direct3D11.DeviceContext,SlimDX.Direct3D11.Resource,System.Int32,SlimDX.Direct3D11.FilterFlags)</codeEntityReference>.
+                </listItem>
+                <listItem>
+                  Added <codeEntityReference>M:SlimDX.Direct3D11.Resource.AsSurface</codeEntityReference> to retrieve a DXGI Surface from a resource.
+                </listItem>
+                <listItem>Fixed shader compilation to allow null entry points.</listItem>
+                <listItem>
+                  Added new overloads for <codeEntityReference>M:SlimDX.Direct3D11.Device.CreateWithSwapChain(SlimDX.Direct3D11.DriverType,SlimDX.Direct3D11.DeviceCreationFlags,SlimDX.Direct3D11.FeatureLevel[],SlimDX.DXGI.SwapChainDescription,SlimDX.Direct3D11.Device@,SlimDX.DXGI.SwapChain@)</codeEntityReference> that better prevent argument errors. Old overloads have been deprecated.
+                </listItem>
+                <listItem>
+                  Fixed the <codeEntityReference>M:SlimDX.Direct3D11.Device.GetSupportedFeatureLevel</codeEntityReference> functions.
+                </listItem>
+                <listItem>
+                  Fixed <codeEntityReference>T:SlimDX.D3DCompiler.ShaderSignature</codeEntityReference> Get*Signature methods.
+                </listItem>
+                <listItem>
+                  Added overloads to <codeEntityReference>M:SlimDX.Direct3D11.EffectVectorVariable.Set(SlimDX.Color4)</codeEntityReference> to take color inputs.
+                </listItem>
+                <listItem>Added stream-output support to geometry shaders.</listItem>
+                <listItem>Documented a large portion of the D3D11 types.</listItem>
+                <listItem>
+                  Added missing TextureCube members to <codeEntityReference>T:SlimDX.Direct3D11.ShaderResourceViewDescription</codeEntityReference>.
+                </listItem>
+                <listItem>Cleaned up the DirectCompute interfaces.</listItem>
+                <listItem>
+                  Added creation methods for the <codeEntityReference>T:SlimDX.Direct3D11.FastFourierTransform</codeEntityReference> type.
+                </listItem>
+                <listItem>
+                  Added support for the <codeEntityReference>T:SlimDX.Direct3D11.Debug</codeEntityReference> and SwitchToRef interfaces.
+                </listItem>
+                <listItem>Added support for effect groups.</listItem>
+                <listItem>Added missing effect variable types.</listItem>
+              </list>
+            </listItem>
+            <listItem>
+              <legacyBold>Windows</legacyBold>
+              <list class="bullet">
+                <listItem>
+                  Added several overloads to <codeEntityReference>M:SlimDX.Windows.MessagePump.Run(SlimDX.Windows.MainLoop)</codeEntityReference> to allow access to corresponding Application.Run overloads.
+                </listItem>
+                <listItem>
+                  Added <codeEntityReference>T:SlimDX.Windows.DisplayMonitor</codeEntityReference> class to retrieve system monitor information.
+                </listItem>
+              </list>
+            </listItem>
+            <listItem>
+              <legacyBold>DXGI</legacyBold>
+              <list class="bullet">
+                <listItem>
+                  Added missing member to <codeEntityReference>T:SlimDX.DXGI.Usage</codeEntityReference> enumeration.
+                </listItem>
+                <listItem>Added DXGI 1.1 interfaces.</listItem>
+              </list>
+            </listItem>
+            <listItem>
+              <legacyBold>DirectWrite</legacyBold>
+              <list class="bullet">
+                <listItem>Added several missing interfaces.</listItem>
+              </list>
+            </listItem>
+            <listItem>
+              <legacyBold>RawInput</legacyBold>
+              <list class="bullet">
+                <listItem>Fixed the data type of the mouse wheel delta.</listItem>
+              </list>
+            </listItem>
+            <listItem>
+              <legacyBold>XAPO</legacyBold>
+              <list class="bullet">
+                <listItem>Finished implementing the subsystem.</listItem>
+              </list>
+            </listItem>
+            <listItem>
+              <legacyBold>XACT3</legacyBold>
+              <list class="bullet">
+                <listItem>Added the subsystem.</listItem>
+              </list>
+            </listItem>
+            <listItem>
+              <legacyBold>XAudio2</legacyBold>
+              <list class="bullet">
+                <listItem>
+                  Fixed an issue in <codeEntityReference>T:SlimDX.Multimedia.WaveStream</codeEntityReference> that caused popping noises when loading data from an existing stream.
+                </listItem>
+                <listItem>
+                  Fixed a bug in <codeEntityReference>M:SlimDX.Multimedia.WaveStream.Read(System.Byte[],System.Int32,System.Int32)</codeEntityReference>; the offset parameter wasn't being used.
+                </listItem>
+                <listItem>
+                  Changed <codeEntityReference>M:SlimDX.XAudio2.SourceVoice.OnVoiceProcessingPassStart(System.Int32)</codeEntityReference> to only perform an allocation if an event handler is hooked up.
+                </listItem>
+                <listItem>Hooked up the effect chain portions to XAPO.</listItem>
+              </list>
+            </listItem>
+          </list>
+        </para>
+      </content>
+    </section>
+  </developerConceptualDocument>
+</topic>

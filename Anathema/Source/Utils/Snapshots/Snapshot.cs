@@ -1,5 +1,5 @@
-﻿using Anathema.Source.OS;
-using Anathema.Source.OS.Processes;
+﻿using Anathema.Source.SystemInternals.OperatingSystems;
+using Anathema.Source.SystemInternals.Processes;
 using Anathema.Source.Utils.Extensions;
 using System;
 using System.Collections;
@@ -15,7 +15,7 @@ namespace Anathema.Source.Utils.Snapshots
     /// </summary>
     abstract class Snapshot : IProcessObserver, IEnumerable
     {
-        protected OSInterface OSInterface;
+        protected Engine OSInterface;
 
         protected IEnumerable<SnapshotRegion> SnapshotRegions;
         protected List<SnapshotRegion> DeallocatedRegions;
@@ -52,12 +52,12 @@ namespace Anathema.Source.Utils.Snapshots
             ProcessSelector.GetInstance().Subscribe(this);
         }
 
-        public void UpdateOSInterface(OSInterface OSInterface)
+        public void UpdateOSInterface(Engine OSInterface)
         {
             this.OSInterface = OSInterface;
         }
 
-        public OSInterface GetOSInterface()
+        public Engine GetOSInterface()
         {
             return OSInterface;
         }

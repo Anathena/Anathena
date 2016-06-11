@@ -1,4 +1,4 @@
-﻿using Anathema.Source.OS;
+﻿using Anathema.Source.SystemInternals.OperatingSystems;
 using System;
 using System.Reflection;
 

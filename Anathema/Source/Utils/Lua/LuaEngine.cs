@@ -1,4 +1,5 @@
-﻿using NLua;
+﻿using Anathema.Source.Utils.LUA.Graphics3;
+using NLua;
 using System;
 
 namespace Anathema.Source.Utils.LUA
@@ -6,7 +7,8 @@ namespace Anathema.Source.Utils.LUA
     public class LuaEngine
     {
         private Lua ScriptEngine;
-        private LuaMemoryCore LuaMemoryCore;
+        private IMemoryCore LuaMemoryCore;
+        private IGraphicsCore LuaGraphicsCore;
 
         public LuaEngine()
         {
@@ -31,8 +33,8 @@ namespace Anathema.Source.Utils.LUA
                 "end" + "\n\t\n" +
 
                 "function CheatA()" + "\n\t\n" +
-                "\t" + "local Entry = Engine:GetModuleAddress(\"" + ModuleName + "\") + 0x" + ModuleOffset.ToString("x") + "\n" +
-                "\t" + "Engine:SetKeyword(\"exit\", Engine:GetCaveExitAddress(Entry))" + "\n\t\n" +
+                "\t" + "local Entry = Memory:GetModuleAddress(\"" + ModuleName + "\") + 0x" + ModuleOffset.ToString("x") + "\n" +
+                "\t" + "Memory:SetKeyword(\"exit\", Memory:GetCaveExitAddress(Entry))" + "\n\t\n" +
 
                 "\t" + "local Assembly = (" + "\n" +
                 "\t" + "[fasm]" + "\n" +
@@ -40,12 +42,12 @@ namespace Anathema.Source.Utils.LUA
                 "\t" + "jmp exit" + "\n" +
                 "\t" + "[/fasm])" + "\n\t\n" +
 
-                "\t" + "Engine:CreateCodeCave(Entry, Assembly)" + "\n" +
+                "\t" + "Memory:CreateCodeCave(Entry, Assembly)" + "\n" +
                 "end" + "\n\t\n" +
 
                 "function OnDeactivate()" + "\n\t\n" +
-                "\t" + "Engine:ClearAllKeywords()" + "\n" +
-                "\t" + "Engine:RemoveAllCodeCaves()" + "\n\t\n" +
+                "\t" + "Memory:ClearAllKeywords()" + "\n" +
+                "\t" + "Memory:RemoveAllCodeCaves()" + "\n\t\n" +
                 "end";
 
             return Script + CodeInjection;
@@ -57,7 +59,8 @@ namespace Anathema.Source.Utils.LUA
             ScriptEngine.DoString(@" import = function () end ");
 
             // Bind the lua functions to a user accessible object
-            ScriptEngine["Engine"] = LuaMemoryCore;
+            ScriptEngine["Memory"] = LuaMemoryCore;
+            ScriptEngine["Graphics"] = LuaGraphicsCore;
         }
 
         public Boolean RunActivationFunction(String Script)

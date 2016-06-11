@@ -1,4 +1,4 @@
-﻿using Anathema.Source.OS;
+﻿using Anathema.Source.SystemInternals.OperatingSystems;
 using Anathema.Source.Utils.Setting;
 using Anathema.Source.Utils.Validation;
 using System;

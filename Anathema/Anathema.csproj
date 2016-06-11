@@ -28,9 +28,9 @@
     <InstallUrl>http://anathemaengine.com/release/x64/</InstallUrl>
     <ProductName>Anathema Engine</ProductName>
     <PublisherName>Anathema Engine</PublisherName>
-    <MinimumRequiredVersion>1.3.1.0</MinimumRequiredVersion>
+    <MinimumRequiredVersion>1.3.2.0</MinimumRequiredVersion>
     <ApplicationRevision>0</ApplicationRevision>
-    <ApplicationVersion>1.3.1.0</ApplicationVersion>
+    <ApplicationVersion>1.3.2.0</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <PublishWizardCompleted>true</PublishWizardCompleted>
     <BootstrapperEnabled>true</BootstrapperEnabled>
@@ -260,32 +260,41 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="Source\SystemInternals\Architecture\Assembler\AssemblerFactory.cs" />
+    <Compile Include="Source\SystemInternals\Architecture\Disassembler\DisassemblerFactory.cs" />
+    <Compile Include="Source\SystemInternals\Graphics\IGraphicsInterface.cs" />
     <Compile Include="Source\Prefilter\ISnapshotPrefilter.cs" />
     <Compile Include="Source\Prefilter\LinkedListSnapshotPrefilter.cs" />
     <Compile Include="Source\Prefilter\QueueSnapshotPrefilter.cs" />
     <Compile Include="Source\Prefilter\SnapshotPrefilterFactory.cs" />
+    <Compile Include="Source\SystemInternals\OperatingSystems\NormalizedFlags.cs" />
+    <Compile Include="Source\SystemInternals\OperatingSystems\OperatingSystemFactory.cs" />
     <Compile Include="Source\Utils\Browser\BrowserHelper.cs" />
     <Compile Include="Source\Utils\Extensions\IEnumerableExtensions.cs" />
     <Compile Include="Source\Utils\Extensions\IntExtensions.cs" />
     <Compile Include="Source\Utils\Extensions\IntPtrExtensions.cs" />
     <Compile Include="Source\Utils\Caches\ObjectCache.cs" />
     <Compile Include="Source\Utils\Extensions\PrimitiveExtensions.cs" />
+    <Compile Include="Source\Utils\Lua\Graphics3\GraphicsFactory.cs" />
+    <Compile Include="Source\Utils\Lua\Graphics3\GraphicsDX9.cs" />
+    <Compile Include="Source\Utils\Lua\Graphics3\IGraphicsCore.cs" />
+    <Compile Include="Source\Utils\Lua\Memory\IMemoryCore.cs" />
     <Compile Include="Source\Utils\MessageBoxEx.cs" />
     <Compile Include="Source\Utils\Extensions\ObjectExtensions.cs" />
-    <Compile Include="Source\OS\Architecture\Architecture.cs" />
-    <Compile Include="Source\OS\NormalizedModule.cs" />
-    <Compile Include="Source\OS\NormalizedRegion.cs" />
-    <Compile Include="Source\OS\IOperatingSystemInterface.cs" />
+    <Compile Include="Source\SystemInternals\Architecture\ArchitectureInterface.cs" />
+    <Compile Include="Source\SystemInternals\OperatingSystems\NormalizedModule.cs" />
+    <Compile Include="Source\SystemInternals\OperatingSystems\NormalizedRegion.cs" />
+    <Compile Include="Source\SystemInternals\OperatingSystems\IOperatingSystem.cs" />
     <Compile Include="Source\Utils\Lua\LuaEngine.cs" />
     <Compile Include="Properties\Settings.cs" />
     <Compile Include="Source\Utils\Caches\ListViewCache.cs" />
     <Compile Include="Source\Utils\ProgressItem.cs" />
     <Compile Include="Source\Utils\RepeatedTask.cs" />
     <Compile Include="Source\Utils\Lua\LuaKeywordManager.cs" />
-    <Compile Include="Source\Utils\Lua\LuaMemoryCore.cs" />
-    <Compile Include="Source\OS\OSInterface.cs" />
-    <Compile Include="Source\OS\Architecture\Disassembler\SharpDisassembler.cs" />
-    <Compile Include="Source\OS\Architecture\Disassembler\IDisassembler.cs" />
+    <Compile Include="Source\Utils\Lua\Memory\LuaMemoryCore.cs" />
+    <Compile Include="Source\SystemInternals\Engine.cs" />
+    <Compile Include="Source\SystemInternals\Architecture\Disassembler\SharpDisassembler.cs" />
+    <Compile Include="Source\SystemInternals\Architecture\Disassembler\IDisassembler.cs" />
     <Compile Include="Source\Utils\Registration\RegistrationManager.cs" />
     <Compile Include="Source\Utils\UserSettings\ISettingsMVP.cs" />
     <Compile Include="Source\Utils\Memory View\IMemoryViewMVP.cs" />
@@ -416,49 +425,49 @@
       <DependentUpon>GUIChunkScanner.cs</DependentUpon>
     </Compile>
     <Compile Include="Source\Controller\Main.cs" />
-    <Compile Include="Source\OS\Architecture\Assembler\Fasm32Assembler.cs" />
-    <Compile Include="Source\OS\Architecture\Assembler\IAssembler.cs" />
-    <Compile Include="Source\OS\OperatingSystems\Windows\Debugger\Debugger.cs" />
-    <Compile Include="Source\OS\OperatingSystems\Windows\Debugger\DebuggerException.cs" />
-    <Compile Include="Source\OS\OperatingSystems\Windows\Debugger\DebuggerSettings.cs" />
-    <Compile Include="Source\OS\OperatingSystems\Windows\Debugger\ErrorCode.cs" />
-    <Compile Include="Source\OS\OperatingSystems\Windows\Helpers\ApplicationFinder.cs" />
-    <Compile Include="Source\OS\OperatingSystems\Windows\Helpers\HandleManipulator.cs" />
-    <Compile Include="Source\OS\OperatingSystems\Windows\Helpers\Randomizer.cs" />
-    <Compile Include="Source\OS\OperatingSystems\Windows\Helpers\SerializationHelper.cs" />
-    <Compile Include="Source\OS\OperatingSystems\Windows\Internals\IApplicableElement.cs" />
-    <Compile Include="Source\OS\OperatingSystems\Windows\Internals\IDisposableState.cs" />
-    <Compile Include="Source\OS\OperatingSystems\Windows\Internals\IFactory.cs" />
-    <Compile Include="Source\OS\OperatingSystems\Windows\Internals\IMarshalledValue.cs" />
-    <Compile Include="Source\OS\OperatingSystems\Windows\Internals\INamedElement.cs" />
-    <Compile Include="Source\OS\OperatingSystems\Windows\Internals\Manager.cs" />
-    <Compile Include="Source\OS\OperatingSystems\Windows\Internals\MarshalType.cs" />
-    <Compile Include="Source\OS\OperatingSystems\Windows\Internals\MarshalValue.cs" />
-    <Compile Include="Source\OS\OperatingSystems\Windows\WindowsOSInterface.cs" />
-    <Compile Include="Source\OS\OperatingSystems\Windows\Memory\LocalUnmanagedMemory.cs" />
-    <Compile Include="Source\OS\OperatingSystems\Windows\Memory\MemoryCore.cs" />
-    <Compile Include="Source\OS\OperatingSystems\Windows\Memory\MemoryFactory.cs" />
-    <Compile Include="Source\OS\OperatingSystems\Windows\Memory\MemoryProtection.cs" />
-    <Compile Include="Source\OS\OperatingSystems\Windows\Memory\RemoteAllocation.cs" />
-    <Compile Include="Source\OS\OperatingSystems\Windows\Memory\RemotePointer.cs" />
-    <Compile Include="Source\OS\OperatingSystems\Windows\Memory\RemoteRegion.cs" />
-    <Compile Include="Source\OS\OperatingSystems\Windows\Memory\RemoteVirtualPage.cs" />
-    <Compile Include="Source\OS\OperatingSystems\Windows\Modules\ModuleCore.cs" />
-    <Compile Include="Source\OS\OperatingSystems\Windows\Modules\ModuleFactory.cs" />
-    <Compile Include="Source\OS\OperatingSystems\Windows\Modules\RemoteFunction.cs" />
-    <Compile Include="Source\OS\OperatingSystems\Windows\Modules\RemoteModule.cs" />
-    <Compile Include="Source\OS\OperatingSystems\Windows\Native\Enumerations.cs" />
-    <Compile Include="Source\OS\OperatingSystems\Windows\Native\NativeMethods.cs" />
-    <Compile Include="Source\OS\OperatingSystems\Windows\Native\SafeMemoryHandle.cs" />
-    <Compile Include="Source\OS\OperatingSystems\Windows\Native\Structures.cs" />
+    <Compile Include="Source\SystemInternals\Architecture\Assembler\Fasm32Assembler.cs" />
+    <Compile Include="Source\SystemInternals\Architecture\Assembler\IAssembler.cs" />
+    <Compile Include="Source\SystemInternals\OperatingSystems\Windows\Debugger\Debugger.cs" />
+    <Compile Include="Source\SystemInternals\OperatingSystems\Windows\Debugger\DebuggerException.cs" />
+    <Compile Include="Source\SystemInternals\OperatingSystems\Windows\Debugger\DebuggerSettings.cs" />
+    <Compile Include="Source\SystemInternals\OperatingSystems\Windows\Debugger\ErrorCode.cs" />
+    <Compile Include="Source\SystemInternals\OperatingSystems\Windows\Helpers\ApplicationFinder.cs" />
+    <Compile Include="Source\SystemInternals\OperatingSystems\Windows\Helpers\HandleManipulator.cs" />
+    <Compile Include="Source\SystemInternals\OperatingSystems\Windows\Helpers\Randomizer.cs" />
+    <Compile Include="Source\SystemInternals\OperatingSystems\Windows\Helpers\SerializationHelper.cs" />
+    <Compile Include="Source\SystemInternals\OperatingSystems\Windows\Internals\IApplicableElement.cs" />
+    <Compile Include="Source\SystemInternals\OperatingSystems\Windows\Internals\IDisposableState.cs" />
+    <Compile Include="Source\SystemInternals\OperatingSystems\Windows\Internals\IFactory.cs" />
+    <Compile Include="Source\SystemInternals\OperatingSystems\Windows\Internals\IMarshalledValue.cs" />
+    <Compile Include="Source\SystemInternals\OperatingSystems\Windows\Internals\INamedElement.cs" />
+    <Compile Include="Source\SystemInternals\OperatingSystems\Windows\Internals\Manager.cs" />
+    <Compile Include="Source\SystemInternals\OperatingSystems\Windows\Internals\MarshalType.cs" />
+    <Compile Include="Source\SystemInternals\OperatingSystems\Windows\Internals\MarshalValue.cs" />
+    <Compile Include="Source\SystemInternals\OperatingSystems\Windows\WindowsOperatingSystem.cs" />
+    <Compile Include="Source\SystemInternals\OperatingSystems\Windows\Memory\LocalUnmanagedMemory.cs" />
+    <Compile Include="Source\SystemInternals\OperatingSystems\Windows\Memory\MemoryCore.cs" />
+    <Compile Include="Source\SystemInternals\OperatingSystems\Windows\Memory\MemoryFactory.cs" />
+    <Compile Include="Source\SystemInternals\OperatingSystems\Windows\Memory\MemoryProtection.cs" />
+    <Compile Include="Source\SystemInternals\OperatingSystems\Windows\Memory\RemoteAllocation.cs" />
+    <Compile Include="Source\SystemInternals\OperatingSystems\Windows\Memory\RemotePointer.cs" />
+    <Compile Include="Source\SystemInternals\OperatingSystems\Windows\Memory\RemoteRegion.cs" />
+    <Compile Include="Source\SystemInternals\OperatingSystems\Windows\Memory\RemoteVirtualPage.cs" />
+    <Compile Include="Source\SystemInternals\OperatingSystems\Windows\Modules\ModuleCore.cs" />
+    <Compile Include="Source\SystemInternals\OperatingSystems\Windows\Modules\ModuleFactory.cs" />
+    <Compile Include="Source\SystemInternals\OperatingSystems\Windows\Modules\RemoteFunction.cs" />
+    <Compile Include="Source\SystemInternals\OperatingSystems\Windows\Modules\RemoteModule.cs" />
+    <Compile Include="Source\SystemInternals\OperatingSystems\Windows\Native\Enumerations.cs" />
+    <Compile Include="Source\SystemInternals\OperatingSystems\Windows\Native\NativeMethods.cs" />
+    <Compile Include="Source\SystemInternals\OperatingSystems\Windows\Native\SafeMemoryHandle.cs" />
+    <Compile Include="Source\SystemInternals\OperatingSystems\Windows\Native\Structures.cs" />
     <Compile Include="Source\Scanners\ChunkScanner\ChunkScanner.cs" />
     <Compile Include="Source\Scanners\ChunkScanner\IChunkScannerMVP.cs" />
     <Compile Include="Source\Scanners\TreeScanner\ITreeScannerMVP.cs" />
     <Compile Include="Source\Scanners\ChangeCounter\ChangeCounter.cs" />
     <Compile Include="Source\Scanners\ChangeCounter\IChangeCounterMVP.cs" />
-    <Compile Include="Source\OS\Processes\IProcessObserver.cs" />
-    <Compile Include="Source\OS\Processes\IProcessSelectorMVP.cs" />
-    <Compile Include="Source\OS\Processes\ProcessSelector.cs" />
+    <Compile Include="Source\SystemInternals\Processes\IProcessObserver.cs" />
+    <Compile Include="Source\SystemInternals\Processes\IProcessSelectorMVP.cs" />
+    <Compile Include="Source\SystemInternals\Processes\ProcessSelector.cs" />
     <Compile Include="Source\Results\ScanResults\IScanResultsMVP.cs" />
     <Compile Include="Source\Results\ScanResults\Results.cs" />
     <Compile Include="Source\Utils\Snapshots\ISnapshotManagerMVP.cs" />
@@ -573,7 +582,7 @@
     <Compile Include="Source\Scanners\TreeScanner\TreeScanner.cs" />
     <Compile Include="Source\Utils\Validation\Conversions.cs" />
     <Compile Include="Source\Controller\IMainMVP.cs" />
-    <Compile Include="Source\OS\Processes\IProcessSubject.cs" />
+    <Compile Include="Source\SystemInternals\Processes\IProcessSubject.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Source\Utils\UserSettings\Settings.cs" />
@@ -864,11 +873,90 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <Content Include="xulrunner-32\crashreporter.ini" />
+    <Content Include="xulrunner-32\dependentlibs.list" />
+    <Content Include="xulrunner-32\dictionaries\en-US.aff" />
+    <Content Include="xulrunner-32\dictionaries\en-US.dic" />
+    <Content Include="xulrunner-32\freebl3.chk" />
+    <Content Include="xulrunner-32\LICENSE" />
+    <Content Include="xulrunner-32\nssdbm3.chk" />
+    <Content Include="xulrunner-32\omni.ja" />
+    <Content Include="xulrunner-32\platform.ini" />
+    <Content Include="xulrunner-32\precomplete" />
+    <Content Include="xulrunner-32\README.xulrunner" />
+    <Content Include="xulrunner-32\softokn3.chk" />
+    <Content Include="xulrunner-64\crashreporter.ini" />
+    <Content Include="xulrunner-64\dependentlibs.list" />
+    <Content Include="xulrunner-64\dictionaries\en-US.aff" />
+    <Content Include="xulrunner-64\dictionaries\en-US.dic" />
+    <Content Include="xulrunner-64\freebl3.chk" />
+    <Content Include="xulrunner-64\LICENSE" />
+    <Content Include="xulrunner-64\nssdbm3.chk" />
+    <Content Include="xulrunner-64\omni.ja" />
+    <Content Include="xulrunner-64\platform.ini" />
+    <Content Include="xulrunner-64\precomplete" />
+    <Content Include="xulrunner-64\README.xulrunner" />
+    <Content Include="xulrunner-64\softokn3.chk" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="xulrunner-32\AccessibleMarshal.dll" />
+    <Content Include="xulrunner-32\breakpadinjector.dll" />
+    <Content Include="xulrunner-32\crashreporter.exe" />
+    <Content Include="xulrunner-32\D3DCompiler_43.dll" />
+    <Content Include="xulrunner-32\freebl3.dll" />
+    <Content Include="xulrunner-32\gkmedias.dll" />
+    <Content Include="xulrunner-32\IA2Marshal.dll" />
+    <Content Include="xulrunner-32\install_app.py" />
+    <Content Include="xulrunner-32\js-gdb.py" />
+    <Content Include="xulrunner-32\js.exe" />
+    <Content Include="xulrunner-32\libEGL.dll" />
+    <Content Include="xulrunner-32\libGLESv2.dll" />
+    <Content Include="xulrunner-32\mozalloc.dll" />
+    <Content Include="xulrunner-32\mozglue.dll" />
+    <Content Include="xulrunner-32\mozjs.dll" />
+    <Content Include="xulrunner-32\msvcp100.dll" />
+    <Content Include="xulrunner-32\msvcr100.dll" />
+    <Content Include="xulrunner-32\nss3.dll" />
+    <Content Include="xulrunner-32\nssckbi.dll" />
+    <Content Include="xulrunner-32\nssdbm3.dll" />
+    <Content Include="xulrunner-32\plugin-container.exe" />
+    <Content Include="xulrunner-32\plugin-hang-ui.exe" />
+    <Content Include="xulrunner-32\redit.exe" />
+    <Content Include="xulrunner-32\softokn3.dll" />
+    <Content Include="xulrunner-32\updater.exe" />
+    <Content Include="xulrunner-32\xpcshell.exe" />
+    <Content Include="xulrunner-32\xul.dll" />
+    <Content Include="xulrunner-32\xulrunner-stub.exe" />
+    <Content Include="xulrunner-32\xulrunner.exe" />
+    <Content Include="xulrunner-64\AccessibleMarshal.dll" />
+    <Content Include="xulrunner-64\crashreporter.exe" />
+    <Content Include="xulrunner-64\D3DCompiler_43.dll" />
+    <Content Include="xulrunner-64\freebl3.dll" />
+    <Content Include="xulrunner-64\gkmedias.dll" />
+    <Content Include="xulrunner-64\IA2Marshal.dll" />
+    <Content Include="xulrunner-64\js-gdb.py" />
+    <Content Include="xulrunner-64\js.exe" />
+    <Content Include="xulrunner-64\libEGL.dll" />
+    <Content Include="xulrunner-64\libGLESv2.dll" />
+    <Content Include="xulrunner-64\mozalloc.dll" />
+    <Content Include="xulrunner-64\mozglue.dll" />
+    <Content Include="xulrunner-64\mozjs.dll" />
+    <Content Include="xulrunner-64\msvcp100.dll" />
+    <Content Include="xulrunner-64\msvcr100.dll" />
+    <Content Include="xulrunner-64\nss3.dll" />
+    <Content Include="xulrunner-64\nssckbi.dll" />
+    <Content Include="xulrunner-64\nssdbm3.dll" />
+    <Content Include="xulrunner-64\plugin-container.exe" />
+    <Content Include="xulrunner-64\plugin-hang-ui.exe" />
+    <Content Include="xulrunner-64\redit.exe" />
+    <Content Include="xulrunner-64\softokn3.dll" />
+    <Content Include="xulrunner-64\updater.exe" />
+    <Content Include="xulrunner-64\xul.dll" />
+    <Content Include="xulrunner-64\xulrunner-stub.exe" />
+    <Content Include="xulrunner-64\xulrunner.exe" />
     <EmbeddedResource Include="GUI\CustomControls\HexEditor\HexBox\HexBox.bmp" />
     <None Include="GUI\CustomControls\HexEditor\Images\CopyHS.png" />
     <None Include="GUI\CustomControls\HexEditor\Images\CutHS.png" />
@@ -989,6 +1077,11 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Source\Results\PointerScanResults\" />
+    <Folder Include="Source\SystemInternals\Graphics\DirectX10\" />
+    <Folder Include="Source\SystemInternals\Graphics\DirectX11\" />
+    <Folder Include="Source\SystemInternals\Graphics\DirectX9\" />
+    <Folder Include="Source\SystemInternals\Graphics\Ogre\" />
+    <Folder Include="Source\SystemInternals\Graphics\OpenGL\" />
     <Folder Include="Source\Utils\Debugger\" />
     <Folder Include="Source\Utils\DesignPatterns\" />
   </ItemGroup>
@@ -1562,6 +1655,796 @@
       <PublishState>Auto</PublishState>
       <IncludeHash>False</IncludeHash>
       <FileType>Assembly</FileType>
+    </PublishFile>
+    <PublishFile Include="xulrunner-32\AccessibleMarshal.dll">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Auto</PublishState>
+      <IncludeHash>False</IncludeHash>
+      <FileType>File</FileType>
+    </PublishFile>
+    <PublishFile Include="xulrunner-32\breakpadinjector.dll">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Auto</PublishState>
+      <IncludeHash>False</IncludeHash>
+      <FileType>File</FileType>
+    </PublishFile>
+    <PublishFile Include="xulrunner-32\crashreporter.exe">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Auto</PublishState>
+      <IncludeHash>False</IncludeHash>
+      <FileType>File</FileType>
+    </PublishFile>
+    <PublishFile Include="xulrunner-32\crashreporter.ini">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Auto</PublishState>
+      <IncludeHash>False</IncludeHash>
+      <FileType>File</FileType>
+    </PublishFile>
+    <PublishFile Include="xulrunner-32\D3DCompiler_43.dll">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Auto</PublishState>
+      <IncludeHash>False</IncludeHash>
+      <FileType>File</FileType>
+    </PublishFile>
+    <PublishFile Include="xulrunner-32\dependentlibs.list">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Auto</PublishState>
+      <IncludeHash>False</IncludeHash>
+      <FileType>File</FileType>
+    </PublishFile>
+    <PublishFile Include="xulrunner-32\dictionaries\en-US.aff">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Auto</PublishState>
+      <IncludeHash>False</IncludeHash>
+      <FileType>File</FileType>
+    </PublishFile>
+    <PublishFile Include="xulrunner-32\dictionaries\en-US.dic">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Auto</PublishState>
+      <IncludeHash>False</IncludeHash>
+      <FileType>File</FileType>
+    </PublishFile>
+    <PublishFile Include="xulrunner-32\freebl3.chk">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Auto</PublishState>
+      <IncludeHash>False</IncludeHash>
+      <FileType>File</FileType>
+    </PublishFile>
+    <PublishFile Include="xulrunner-32\freebl3.dll">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Auto</PublishState>
+      <IncludeHash>False</IncludeHash>
+      <FileType>File</FileType>
+    </PublishFile>
+    <PublishFile Include="xulrunner-32\gkmedias.dll">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Auto</PublishState>
+      <IncludeHash>False</IncludeHash>
+      <FileType>File</FileType>
+    </PublishFile>
+    <PublishFile Include="xulrunner-32\IA2Marshal.dll">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Auto</PublishState>
+      <IncludeHash>False</IncludeHash>
+      <FileType>File</FileType>
+    </PublishFile>
+    <PublishFile Include="xulrunner-32\install_app.py">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Auto</PublishState>
+      <IncludeHash>False</IncludeHash>
+      <FileType>File</FileType>
+    </PublishFile>
+    <PublishFile Include="xulrunner-32\js-gdb.py">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Auto</PublishState>
+      <IncludeHash>False</IncludeHash>
+      <FileType>File</FileType>
+    </PublishFile>
+    <PublishFile Include="xulrunner-32\js.exe">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Auto</PublishState>
+      <IncludeHash>False</IncludeHash>
+      <FileType>File</FileType>
+    </PublishFile>
+    <PublishFile Include="xulrunner-32\libEGL.dll">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Auto</PublishState>
+      <IncludeHash>False</IncludeHash>
+      <FileType>File</FileType>
+    </PublishFile>
+    <PublishFile Include="xulrunner-32\libGLESv2.dll">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Auto</PublishState>
+      <IncludeHash>False</IncludeHash>
+      <FileType>File</FileType>
+    </PublishFile>
+    <PublishFile Include="xulrunner-32\LICENSE">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Auto</PublishState>
+      <IncludeHash>False</IncludeHash>
+      <FileType>File</FileType>
+    </PublishFile>
+    <PublishFile Include="xulrunner-32\mozalloc.dll">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Auto</PublishState>
+      <IncludeHash>False</IncludeHash>
+      <FileType>File</FileType>
+    </PublishFile>
+    <PublishFile Include="xulrunner-32\mozglue.dll">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Auto</PublishState>
+      <IncludeHash>False</IncludeHash>
+      <FileType>File</FileType>
+    </PublishFile>
+    <PublishFile Include="xulrunner-32\mozjs.dll">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Auto</PublishState>
+      <IncludeHash>False</IncludeHash>
+      <FileType>File</FileType>
+    </PublishFile>
+    <PublishFile Include="xulrunner-32\msvcp100.dll">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Auto</PublishState>
+      <IncludeHash>False</IncludeHash>
+      <FileType>File</FileType>
+    </PublishFile>
+    <PublishFile Include="xulrunner-32\msvcr100.dll">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Auto</PublishState>
+      <IncludeHash>False</IncludeHash>
+      <FileType>File</FileType>
+    </PublishFile>
+    <PublishFile Include="xulrunner-32\nss3.dll">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Auto</PublishState>
+      <IncludeHash>False</IncludeHash>
+      <FileType>File</FileType>
+    </PublishFile>
+    <PublishFile Include="xulrunner-32\nssckbi.dll">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Auto</PublishState>
+      <IncludeHash>False</IncludeHash>
+      <FileType>File</FileType>
+    </PublishFile>
+    <PublishFile Include="xulrunner-32\nssdbm3.chk">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Auto</PublishState>
+      <IncludeHash>False</IncludeHash>
+      <FileType>File</FileType>
+    </PublishFile>
+    <PublishFile Include="xulrunner-32\nssdbm3.dll">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Auto</PublishState>
+      <IncludeHash>False</IncludeHash>
+      <FileType>File</FileType>
+    </PublishFile>
+    <PublishFile Include="xulrunner-32\omni.ja">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Auto</PublishState>
+      <IncludeHash>False</IncludeHash>
+      <FileType>File</FileType>
+    </PublishFile>
+    <PublishFile Include="xulrunner-32\platform.ini">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Auto</PublishState>
+      <IncludeHash>False</IncludeHash>
+      <FileType>File</FileType>
+    </PublishFile>
+    <PublishFile Include="xulrunner-32\plugin-container.exe">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Auto</PublishState>
+      <IncludeHash>False</IncludeHash>
+      <FileType>File</FileType>
+    </PublishFile>
+    <PublishFile Include="xulrunner-32\plugin-hang-ui.exe">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Auto</PublishState>
+      <IncludeHash>False</IncludeHash>
+      <FileType>File</FileType>
+    </PublishFile>
+    <PublishFile Include="xulrunner-32\precomplete">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Auto</PublishState>
+      <IncludeHash>False</IncludeHash>
+      <FileType>File</FileType>
+    </PublishFile>
+    <PublishFile Include="xulrunner-32\README.xulrunner">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Auto</PublishState>
+      <IncludeHash>False</IncludeHash>
+      <FileType>File</FileType>
+    </PublishFile>
+    <PublishFile Include="xulrunner-32\redit.exe">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Auto</PublishState>
+      <IncludeHash>False</IncludeHash>
+      <FileType>File</FileType>
+    </PublishFile>
+    <PublishFile Include="xulrunner-32\softokn3.chk">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Auto</PublishState>
+      <IncludeHash>False</IncludeHash>
+      <FileType>File</FileType>
+    </PublishFile>
+    <PublishFile Include="xulrunner-32\softokn3.dll">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Auto</PublishState>
+      <IncludeHash>False</IncludeHash>
+      <FileType>File</FileType>
+    </PublishFile>
+    <PublishFile Include="xulrunner-32\updater.exe">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Auto</PublishState>
+      <IncludeHash>False</IncludeHash>
+      <FileType>File</FileType>
+    </PublishFile>
+    <PublishFile Include="xulrunner-32\xpcshell.exe">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Auto</PublishState>
+      <IncludeHash>False</IncludeHash>
+      <FileType>File</FileType>
+    </PublishFile>
+    <PublishFile Include="xulrunner-32\xul.dll">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Auto</PublishState>
+      <IncludeHash>False</IncludeHash>
+      <FileType>File</FileType>
+    </PublishFile>
+    <PublishFile Include="xulrunner-32\xulrunner-stub.exe">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Auto</PublishState>
+      <IncludeHash>False</IncludeHash>
+      <FileType>File</FileType>
+    </PublishFile>
+    <PublishFile Include="xulrunner-32\xulrunner.exe">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Auto</PublishState>
+      <IncludeHash>False</IncludeHash>
+      <FileType>File</FileType>
+    </PublishFile>
+    <PublishFile Include="xulrunner-64\AccessibleMarshal.dll">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Auto</PublishState>
+      <IncludeHash>False</IncludeHash>
+      <FileType>File</FileType>
+    </PublishFile>
+    <PublishFile Include="xulrunner-64\crashreporter.exe">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Auto</PublishState>
+      <IncludeHash>False</IncludeHash>
+      <FileType>File</FileType>
+    </PublishFile>
+    <PublishFile Include="xulrunner-64\crashreporter.ini">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Auto</PublishState>
+      <IncludeHash>False</IncludeHash>
+      <FileType>File</FileType>
+    </PublishFile>
+    <PublishFile Include="xulrunner-64\D3DCompiler_43.dll">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Auto</PublishState>
+      <IncludeHash>False</IncludeHash>
+      <FileType>File</FileType>
+    </PublishFile>
+    <PublishFile Include="xulrunner-64\dependentlibs.list">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Auto</PublishState>
+      <IncludeHash>False</IncludeHash>
+      <FileType>File</FileType>
+    </PublishFile>
+    <PublishFile Include="xulrunner-64\dictionaries\en-US.aff">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Auto</PublishState>
+      <IncludeHash>False</IncludeHash>
+      <FileType>File</FileType>
+    </PublishFile>
+    <PublishFile Include="xulrunner-64\dictionaries\en-US.dic">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Auto</PublishState>
+      <IncludeHash>False</IncludeHash>
+      <FileType>File</FileType>
+    </PublishFile>
+    <PublishFile Include="xulrunner-64\freebl3.chk">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Auto</PublishState>
+      <IncludeHash>False</IncludeHash>
+      <FileType>File</FileType>
+    </PublishFile>
+    <PublishFile Include="xulrunner-64\freebl3.dll">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Auto</PublishState>
+      <IncludeHash>False</IncludeHash>
+      <FileType>File</FileType>
+    </PublishFile>
+    <PublishFile Include="xulrunner-64\gkmedias.dll">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Auto</PublishState>
+      <IncludeHash>False</IncludeHash>
+      <FileType>File</FileType>
+    </PublishFile>
+    <PublishFile Include="xulrunner-64\IA2Marshal.dll">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Auto</PublishState>
+      <IncludeHash>False</IncludeHash>
+      <FileType>File</FileType>
+    </PublishFile>
+    <PublishFile Include="xulrunner-64\js-gdb.py">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Auto</PublishState>
+      <IncludeHash>False</IncludeHash>
+      <FileType>File</FileType>
+    </PublishFile>
+    <PublishFile Include="xulrunner-64\js.exe">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Auto</PublishState>
+      <IncludeHash>False</IncludeHash>
+      <FileType>File</FileType>
+    </PublishFile>
+    <PublishFile Include="xulrunner-64\libEGL.dll">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Auto</PublishState>
+      <IncludeHash>False</IncludeHash>
+      <FileType>File</FileType>
+    </PublishFile>
+    <PublishFile Include="xulrunner-64\libGLESv2.dll">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Auto</PublishState>
+      <IncludeHash>False</IncludeHash>
+      <FileType>File</FileType>
+    </PublishFile>
+    <PublishFile Include="xulrunner-64\LICENSE">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Auto</PublishState>
+      <IncludeHash>False</IncludeHash>
+      <FileType>File</FileType>
+    </PublishFile>
+    <PublishFile Include="xulrunner-64\mozalloc.dll">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Auto</PublishState>
+      <IncludeHash>False</IncludeHash>
+      <FileType>File</FileType>
+    </PublishFile>
+    <PublishFile Include="xulrunner-64\mozglue.dll">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Auto</PublishState>
+      <IncludeHash>False</IncludeHash>
+      <FileType>File</FileType>
+    </PublishFile>
+    <PublishFile Include="xulrunner-64\mozjs.dll">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Auto</PublishState>
+      <IncludeHash>False</IncludeHash>
+      <FileType>File</FileType>
+    </PublishFile>
+    <PublishFile Include="xulrunner-64\msvcp100.dll">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Auto</PublishState>
+      <IncludeHash>False</IncludeHash>
+      <FileType>File</FileType>
+    </PublishFile>
+    <PublishFile Include="xulrunner-64\msvcr100.dll">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Auto</PublishState>
+      <IncludeHash>False</IncludeHash>
+      <FileType>File</FileType>
+    </PublishFile>
+    <PublishFile Include="xulrunner-64\nss3.dll">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Auto</PublishState>
+      <IncludeHash>False</IncludeHash>
+      <FileType>File</FileType>
+    </PublishFile>
+    <PublishFile Include="xulrunner-64\nssckbi.dll">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Auto</PublishState>
+      <IncludeHash>False</IncludeHash>
+      <FileType>File</FileType>
+    </PublishFile>
+    <PublishFile Include="xulrunner-64\nssdbm3.chk">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Auto</PublishState>
+      <IncludeHash>False</IncludeHash>
+      <FileType>File</FileType>
+    </PublishFile>
+    <PublishFile Include="xulrunner-64\nssdbm3.dll">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Auto</PublishState>
+      <IncludeHash>False</IncludeHash>
+      <FileType>File</FileType>
+    </PublishFile>
+    <PublishFile Include="xulrunner-64\omni.ja">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Auto</PublishState>
+      <IncludeHash>False</IncludeHash>
+      <FileType>File</FileType>
+    </PublishFile>
+    <PublishFile Include="xulrunner-64\platform.ini">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Auto</PublishState>
+      <IncludeHash>False</IncludeHash>
+      <FileType>File</FileType>
+    </PublishFile>
+    <PublishFile Include="xulrunner-64\plugin-container.exe">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Auto</PublishState>
+      <IncludeHash>False</IncludeHash>
+      <FileType>File</FileType>
+    </PublishFile>
+    <PublishFile Include="xulrunner-64\plugin-hang-ui.exe">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Auto</PublishState>
+      <IncludeHash>False</IncludeHash>
+      <FileType>File</FileType>
+    </PublishFile>
+    <PublishFile Include="xulrunner-64\precomplete">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Auto</PublishState>
+      <IncludeHash>False</IncludeHash>
+      <FileType>File</FileType>
+    </PublishFile>
+    <PublishFile Include="xulrunner-64\README.xulrunner">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Auto</PublishState>
+      <IncludeHash>False</IncludeHash>
+      <FileType>File</FileType>
+    </PublishFile>
+    <PublishFile Include="xulrunner-64\redit.exe">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Auto</PublishState>
+      <IncludeHash>False</IncludeHash>
+      <FileType>File</FileType>
+    </PublishFile>
+    <PublishFile Include="xulrunner-64\softokn3.chk">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Auto</PublishState>
+      <IncludeHash>False</IncludeHash>
+      <FileType>File</FileType>
+    </PublishFile>
+    <PublishFile Include="xulrunner-64\softokn3.dll">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Auto</PublishState>
+      <IncludeHash>False</IncludeHash>
+      <FileType>File</FileType>
+    </PublishFile>
+    <PublishFile Include="xulrunner-64\updater.exe">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Auto</PublishState>
+      <IncludeHash>False</IncludeHash>
+      <FileType>File</FileType>
+    </PublishFile>
+    <PublishFile Include="xulrunner-64\xul.dll">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Auto</PublishState>
+      <IncludeHash>False</IncludeHash>
+      <FileType>File</FileType>
+    </PublishFile>
+    <PublishFile Include="xulrunner-64\xulrunner-stub.exe">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Auto</PublishState>
+      <IncludeHash>False</IncludeHash>
+      <FileType>File</FileType>
+    </PublishFile>
+    <PublishFile Include="xulrunner-64\xulrunner.exe">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Auto</PublishState>
+      <IncludeHash>False</IncludeHash>
+      <FileType>File</FileType>
     </PublishFile>
     <PublishFile Include="zh-Hans\Anathema.resources">
       <Visible>False</Visible>

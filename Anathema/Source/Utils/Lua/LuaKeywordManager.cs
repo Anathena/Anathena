@@ -116,7 +116,7 @@ namespace Anathema.Source.Utils.LUA
 
             // Sort Anathema keywords
             List<String> FunctionKeywords = new List<String>();
-            typeof(LuaFunctions).GetMethods().ForEach(X => FunctionKeywords.Add(X.Name));
+            typeof(IMemoryCore).GetMethods().ForEach(X => FunctionKeywords.Add(X.Name));
             _AnathemaKeywords = String.Join(" ", _AnathemaKeywords.Split(' ').Concat(FunctionKeywords));
             SortedKeywords = String.Empty;
             Keywords = new List<String>(_AnathemaKeywords.Split(' '));

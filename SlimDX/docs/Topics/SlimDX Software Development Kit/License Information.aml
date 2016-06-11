@@ -1,0 +1,87 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<topic id="50c79538-1a3e-48b6-b06e-3f271c248434" revisionNumber="0">
+  <developerConceptualDocument xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <introduction>
+      <para>
+        All of the SlimDX source code, including all samples, is available under the terms of the MIT License.
+        All of the artwork, audio, and non text media is covered by the Creative Commons Attribution-Share Alike 3.0 License.
+        The full text of these licenses follows.
+      </para>
+    </introduction>
+
+    <section>
+      <title>The MIT License</title>
+
+      <content>
+        <para>
+          Copyright (c) 2007-2012 SlimDX Group
+        </para>
+        <para>
+          Permission is hereby granted, free of charge, to any person obtaining a copy
+          of this software and associated documentation files (the "Software"), to deal
+          in the Software without restriction, including without limitation the rights
+          to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+          copies of the Software, and to permit persons to whom the Software is
+          furnished to do so, subject to the following conditions:
+        </para>
+        <para>
+          The above copyright notice and this permission notice shall be included in
+          all copies or substantial portions of the Software.
+        </para>
+        <para>
+          THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+          IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+          FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+          AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+          LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+          OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+          THE SOFTWARE.
+        </para>
+      </content>
+    </section>
+
+    <section>
+      <title>The Creative Commons Attribution-Share Alike 3.0 License</title>
+
+      <content>
+        <para>
+          <externalLink>
+            <linkText>http://creativecommons.org/licenses/by-sa/3.0/us/</linkText>
+            <linkUri>http://creativecommons.org/licenses/by-sa/3.0/us/</linkUri>
+          </externalLink>.
+        </para>
+        <para>
+          You are free:
+          <list class="bullet">
+            <listItem>To Share — to copy, distribute, display, and perform the work</listItem>
+            <listItem>To Remix — to make derivative works</listItem>
+          </list>
+        </para>
+        <para>
+          Under the following conditions:
+          <list class="bullet">
+            <listItem>
+              Attribution - You must attribute the work in the manner specified by the author or
+              licensor (but not in any way that suggests that they endorse you or your use of the work).
+            </listItem>
+            <listItem>
+              Share Alike - If you alter, transform, or build upon this work, you may distribute
+              the resulting work only under the same, similar or a compatible license.
+            </listItem>
+          </list>
+        </para>
+        <para>
+          For any reuse or distribution, you must make clear to others the license terms of this work.
+          The best way to do this is with a link to the above web page.
+        </para>
+        <para>
+          Any of the above conditions can be waived if you get permission from the copyright holder.
+        </para>
+        <para>
+          Apart from the remix rights granted under this license, nothing in this license impairs or
+          restricts the author's moral rights.
+        </para>
+      </content>
+    </section>
+  </developerConceptualDocument>
+</topic>

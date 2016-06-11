@@ -1,0 +1,217 @@
+html {
+     height: 100%;
+	 }
+	 
+body {
+	font-family: Helvetica, Arial, sans-serif;
+	font-size: 12px;
+	font-style: normal;
+	font-weight: normal;
+	letter-spacing: normal;
+	line-height: 1.6em;
+	color: #4e4e4e;
+	height: 100%;
+	}
+
+a { text-decoration: none; color: #f56413; font-size: 12px; }
+h1 { font-size: 22px; color: #666666; margin-bottom: 10px; }
+h2 { font-size: 16px; color: #666666; margin-bottom: 5px; }
+h4 { font-size: 26px; color: #666666; margin-bottom: 12px; }
+ul { list-style: disc inside none; }
+li { margin-bottom: 4px }
+
+.wrapper {
+	margin: 0px auto;
+	padding-left: 15px;
+	padding-right: 15px;
+	width: 930px;
+	}
+
+/*---------------TOP----------------*/
+	
+#top1 {
+	height: 100px;
+	background: #000;
+	overflow: hidden;
+	}
+
+#logo {
+	float: left;
+	width: 260px;
+	height: 77px;
+	padding-top: 23px;
+	}
+
+	/*---------------MAIN MENU----------------*/
+	
+	.menu {
+		float: right;
+		list-style: none outside none;
+		}
+	
+	.menu li {
+		float: left;
+		}
+	
+	.menu li a {
+		float: left;
+		text-decoration:none;
+		display: block;
+		height: 27px;
+		min-width: 50px;
+		padding-top: 13px;
+		padding-left: 10px;
+		padding-right: 10px;
+		text-align: center;
+		color: #aeaeae;
+		font-family: Helvetica, Arial, sans-serif;
+		font-size: 10.4px;
+		font-style: normal;
+		font-weight: normal;
+		letter-spacing: normal;
+		line-height: 1.5em;
+		}
+	
+	.menu li a:hover{
+		background: #f56413;
+		color: #FFFFFF;
+		}
+	
+	.menu li.current a {
+		background: #f56413;
+		color: #FFFFFF;
+		}
+
+/*---------------CONTENT AREA----------------*/
+
+#content {
+	background: #fff url(/images/bg_1.jpg) repeat-x top;
+	padding-top: 40px;
+	}
+
+#clear {
+	clear: both;
+	}
+
+
+	/*---------------COLUMNS, PAGE SETTINGS----------------*/	
+	
+	
+	#left_column, #right_column {
+		float: left;
+		width: 280px;
+		margin-bottom: 20px;
+		}
+	
+	#mid_column {
+		float: left;
+		width: 280px;
+		margin-bottom: 20px;
+		margin-left: 45px;
+		margin-right: 45px;
+		}
+	
+	.homep{height: 170px; overflow: hidden;}
+	.homea{font-size: 11px;}
+	
+	#left {
+		float: left;
+		width: 580px;
+		margin-bottom: 20px;
+		margin-right: 40px;
+		}
+	
+	#right {
+		float: left;
+		width: 290px;
+		margin-bottom: 20px;
+		margin-left: 20px;
+		}
+	
+	.paragraph {
+		border-bottom: 1px solid #e9e9e9;
+		margin-bottom: 30px;
+		padding-bottom: 10px;
+		}
+
+/* Comparison Table */
+
+.table { text-align:left; font-size:12px; margin:10px 0 20px 0; border:solid 1px #d4d4d4; padding:0; }
+
+.table a { }
+
+.table_gradient { width:900px; }
+.table_gradient tr.table_header { font-size:14px; height:44px;
+                                       background:url(../images/table_header.png) no-repeat; }
+
+.table_plain { width:100%; background-color:#ffffff; }
+.table_plain tr.table_header { text-transform:uppercase; }
+.table_plain tr.table_header th { border-bottom:solid 1px #d4d4d4; white-space:nowrap;}
+
+.table tr.table_header th { text-align:center; padding:0 5px 0 20px; vertical-align:middle; }
+.table .table_header_cell1 { width: 200px; text-align:left !important; }
+
+.table tr.table_header th p, .table_plain tr.table_header th p, .table .table_header_cell1 p {margin:0; padding:0;font-size:10px;}
+
+.table td { background-color:#ffffff; border-bottom:solid 1px #d4d4d4; padding:7px 0 7px 5px;  text-align:center;}
+.table td.table_cell1 { padding-left:20px; }
+
+.table tr { height:25px; }
+.table .table_cell1 {text-align:left;  }
+
+.table_tally {margin-left:3px;} 
+
+.table_plus {margin-right:3px;}
+
+tr.hidden { display: none; }
+
+.child_row .table_cell1 div
+{
+    margin-left:13px;
+}
+
+.simple_table { text-align:left; font-size:12px; margin:10px 0 20px 0; padding:0; }
+.simple_table td { background-color:#ffffff; border:solid 1px #d4d4d4; padding:7px 7px 7px 7px;  text-align:center;}
+
+/*---------MULTICOLUMN LIST------------*/
+
+.mclist ul { width: 45em; margin-left: 1em; }
+
+.mclist ul li { float: left; width: 15em; }
+
+.mclist br { clear: left; }
+
+.mclist div { margin-bottom: 1em; }
+	
+	/*---------------SIDEMENU----------------*/
+	
+	.sidemenu li {
+		border-bottom: 1px solid #e9e9e9;
+		height: 22px;
+		padding-top: 8px;
+		padding-left: 8px;
+		}
+	
+	.sidemenu li a {
+		text-decoration:none;
+		color: #f56413;
+		font-size: 11px;
+		}
+	
+	.sidemenu li a:hover{
+		padding-left: 5px;
+		}
+	
+	.footer
+	{
+		margin: 0px auto;
+		width: 930px;
+	}
+	
+	.footer p
+	{
+		text-align: center;
+		font-size: 10px;
+	}
+
+

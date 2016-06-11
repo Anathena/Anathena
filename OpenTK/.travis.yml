@@ -1,0 +1,10 @@
+language: csharp
+solution: OpenTK.sln
+
+mono:
+ - latest
+ - 3.10.0
+ - 3.8.0
+
+script:
+  - xbuild /p:Configuration=Release OpenTK.sln

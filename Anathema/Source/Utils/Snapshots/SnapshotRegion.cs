@@ -1,4 +1,4 @@
-﻿using Anathema.Source.OS;
+﻿using Anathema.Source.SystemInternals.OperatingSystems;
 using Anathema.Source.Utils.Extensions;
 using System;
 using System.Collections;
@@ -191,7 +191,7 @@ namespace Anathema.Source.Utils.Snapshots
             return true;
         }
 
-        public Byte[] ReadAllSnapshotMemory(OSInterface OSInterface, Boolean KeepValues = true)
+        public Byte[] ReadAllSnapshotMemory(Engine OSInterface, Boolean KeepValues = true)
         {
             Boolean SuccessReading = false;
             Byte[] CurrentValues = OSInterface.Process.ReadBytes(this.BaseAddress, this.RegionSize + RegionExtension, out SuccessReading);

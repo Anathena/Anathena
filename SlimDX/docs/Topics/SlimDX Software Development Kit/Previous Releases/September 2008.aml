@@ -1,0 +1,122 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<topic id="c0c9b255-4e5d-41f9-ac5f-db348411df74" revisionNumber="0">
+  <developerConceptualDocument xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <introduction>
+      <para>
+        The September 2008 release didn't add many new features, but instead focused on fixing existing bugs and finding new
+        ones that may have been hidden or not yet found. Not only were many bugs fixed, but unit testing was also introduced
+        to help systematically track down bugs in the library.
+      </para>
+    </introduction>
+    <section>
+      <title>Full Release Notes</title>
+      <content>
+        <para>
+          The following is a list of changes that were made to SlimDX for the September 2008 release.
+        </para>
+        <para>
+          <list class="bullet">
+            <listItem>
+              <legacyBold>General</legacyBold>
+              <list class="bullet">
+                <listItem>Fixed a bug that was causing random crashes and exceptions throughout SlimDX.</listItem>
+                <listItem>Made performance improvements in FromStream methods when a DataStream is used.</listItem>
+                <listItem>Cut down on unnecessary temporary allocations in many Mesh methods.</listItem>
+                <listItem>Cleaned up some unnecessary finalizations.</listItem>
+                <listItem>Tweaked some classes to add GC memory pressure when making unmanaged allocations.</listItem>
+                <listItem>Enhanced debugging support</listItem>
+                <listItem>The library provides Configuration.Timer, which is started automatically but can be manipulated by users.</listItem>
+                <listItem>ObjectTable entries now record the time (using Configuration.Timer) that they were added to the table.</listItem>
+                <listItem>ObjectTable now supports raising events when COM objects are added or removed.</listItem>
+                <listItem>ComObject.DebugName was replaced with the more generic Tag member.</listItem>
+              </list>
+            </listItem>
+            <listItem>
+              <legacyBold>Samples</legacyBold>
+              <list class="bullet">
+                <listItem>Introduced the new SampleFramework, which is a big upgrade from the old version.</listItem>
+                <listItem>Introduced the first support for the SampleFramework Interface.</listItem>
+                <listItem>Not part of the September release.</listItem>
+                <listItem>Added an EmptyProject sample for Direct3D9.</listItem>
+                <listItem>Added a CustomUI sample.</listItem>
+                <listItem>Added a sample Asteroids game to show off both the library and the framework.</listItem>
+                <listItem>Cleaned up the Particles sample.</listItem>
+                <listItem>Cleaned up the SimpleLighting sample.</listItem>
+              </list>
+            </listItem>
+            <listItem>
+              <legacyBold>Testing</legacyBold>
+              <list class="bullet">
+                <listItem>Began adding a unit testing project.</listItem>
+                <listItem>Wrote tests for GetHashCode and Equals implementations.</listItem>
+              </list>
+            </listItem>
+            <listItem>
+              <legacyBold>Math</legacyBold>
+              <list class="bullet">
+                <listItem>Added default type converters for all of the math classes.</listItem>
+              </list>
+            </listItem>
+            <listItem>
+              <legacyBold>Direct3D9</legacyBold>
+              <list class="bullet">
+                <listItem>Changed the Direct3D class to be instance based instead of static.</listItem>
+                <listItem>This is a breaking change for everyone who uses the Direct3D9 portion of the library.</listItem>
+                <listItem>Fixed a bug relating to adjacency in the Mesh functions OptimizeInPlace, Optimize, and Clean.</listItem>
+                <listItem>Fixed a bug in the GetRenderState, GetSamplerState, and GetTextureStageState methods.</listItem>
+                <listItem>Fixed a bug in Device.Present that failed to properly handle empty source and destination rectangles.</listItem>
+                <listItem>Fixed creation bugs in XFile, XFileData, and XFileEnumeration.</listItem>
+                <listItem>Fixed a bug relating to multiple includes in shader files.</listItem>
+                <listItem>Fixed some confusion in the Device.SetStreamSourceFrequency method.</listItem>
+                <listItem>Fixed a bug in IndexBuffer where the SizeInBytes would sometimes not get set properly.</listItem>
+                <listItem>Fixed a few allocation errors / memory leaks in the Frame and MeshContainer classes.</listItem>
+                <listItem>Fixed a bug in Effect.ValidateTechnique that gave the opposite return value.</listItem>
+                <listItem>Made a slight adjustment to the GenerateAdjacency method in the BaseMesh class.</listItem>
+                <listItem>
+                  <legacyBold>Added support for Direct3D 9Ex.</legacyBold>
+                </listItem>
+                <listItem>Added the WeldVertices method to Mesh.</listItem>
+                <listItem>Added a constructor to ShaderBytecode to take already compiled bytecode.</listItem>
+                <listItem>Added a few missing methods in the BaseEffect class.</listItem>
+                <listItem>Added the missing Effect.Disassemble method.</listItem>
+                <listItem>Removed most of the individual BaseEffect.SetXXX methods and replaced them with a generic version.</listItem>
+                <listItem>Cleaned up and standardized the EffectCompiler class.</listItem>
+              </list>
+            </listItem>
+            <listItem>
+              <legacyBold>Direct3D10</legacyBold>
+              <list class="bullet">
+                <listItem>Added the StateBlock class.</listItem>
+                <listItem>Added the StateBlockMask class.</listItem>
+                <listItem>Added a Measure method to Font.</listItem>
+                <listItem>Added ToStream method to Texture.</listItem>
+                <listItem>Added Optimize method to Mesh.</listItem>
+              </list>
+            </listItem>
+            <listItem>
+              <legacyBold>DXGI</legacyBold>
+              <list class="bullet">
+                <listItem>Fixed a bug in OutputDescription where the DesktopBounds member was returning a reference to a rectangle.</listItem>
+                <listItem>Fixed a bug in SwapChain.GetBuffer that caused it to leak a reference to the returned COM interface.</listItem>
+              </list>
+            </listItem>
+            <listItem>
+              <legacyBold>XAudio2</legacyBold>
+              <list class="bullet">
+                <listItem>Fixed a bug in the Voice classes that could cause random AccessViolationExceptions.</listItem>
+              </list>
+            </listItem>
+            <listItem>
+              <legacyBold>DirectSound</legacyBold>
+              <list class="bullet">
+                <listItem>Started adding DirectSound support.</listItem>
+                <listItem>Finished adding DirectSound. It is now functionally complete.</listItem>
+              </list>
+            </listItem>
+          </list>
+        </para>
+      </content>
+    </section>
+
+  </developerConceptualDocument>
+</topic>

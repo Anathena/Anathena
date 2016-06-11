@@ -1,0 +1,187 @@
+/*#############################################################
+Name: Coffee N Cream
+Date: 2006-08-24
+Description: A smooth coffee style template.
+Author: Viktor Persson
+URL: http://templates.arcsin.se
+
+Feel free to use and modify but please provide credits.
+#############################################################*/
+
+/* standard elements */
+* {
+	margin: 0;
+	padding: 0;
+}
+a {
+	color: #963;
+}
+a:hover {
+	color: #C60;
+}
+body {
+	background: #655A46 url(img/bg.gif);
+	color: #543;
+	font: normal 62.5% "Lucida Sans Unicode",sans-serif;
+}
+input {
+	color: #555;
+	font: normal 1.1em "Lucida Sans Unicode",sans-serif;
+}
+p,cite,code,ul {
+	font-size: 1.2em;
+	padding-bottom: 1.2em;
+}
+h1 {
+	font-size: 1.4em;
+	margin-bottom: 4px;
+}
+code {
+	background: #FFE;
+	border: 1px solid #EED;
+	border-left: 6px solid #938262;
+	color: #554;
+	display: block;
+	font: normal 1.1em "Lucida Sans Unicode",serif;
+	margin-bottom: 12px;
+	padding: 8px 10px;
+	white-space: pre;
+}
+blockquote {
+	background: url(img/quote.gif) no-repeat;
+	color: #666;
+	display: block;
+	font: normal 1.3em "Lucida Sans Unicode",serif;
+	padding-left: 28px;
+}
+h1,h2,h3 {
+	color: #654;
+	padding-top: 6px;
+}
+
+/* misc */
+.clearer {
+	clear: both;
+}
+
+/* structure */
+.container {
+	background: url(img/bgcontainer.gif) repeat-y;
+	margin: 0 auto;
+	width: 780px;
+}
+
+/* header */
+.header {
+	background: url(img/bgheader.gif) repeat-x;
+	height: 120px;
+	margin: 0 auto;
+	width: 760px;
+}
+
+/* title */
+.title {
+	padding: 32px;
+}
+.title h1 {
+	color: #E4DBCF;
+	font: normal 3.4em "Lucida Sans Unicode","Trebuchet MS",sans-serif;
+}
+
+/* navigation */
+.navigation {
+	background: #FFF url(img/bgnavigation.gif) repeat-x;
+	font: bold 1.2em Verdana,sans-serif;
+	height: 44px;
+	margin: 0 auto;
+	padding: 0 18px;
+	width: 725px;
+}
+.navigation a {
+	color: #543;
+	text-decoration: none;
+	padding: 3px 4px;
+	margin-right: 12px;
+	line-height: 44px;
+}
+.navigation a:hover {
+	background: #CEBDA1;
+	color: #420;
+}
+
+/* main */
+.main {
+	clear: both;
+	padding: 0 10px 12px 28px;
+}
+
+/* sub navigation */
+.sidenav {
+	float: right;
+	width: 218px;
+}
+.sidenav h1 {
+	background: #BCB39F url(img/sidenavh1.gif) repeat-x;
+	border-bottom: 1px solid #999;
+	border-top: 1px solid #CCC;
+	color: #4A4A44;
+	font-size: 1.2em;
+	height: 22px;
+	margin: 0;
+	padding-left: 12px;
+}
+.sidenav ul {
+	margin: 0;
+	padding: 0;
+}
+.sidenav li {
+	border-bottom: 1px solid #A98;
+	border-top: 1px solid #DDC;
+	list-style: none;
+}
+.sidenav li a {
+	background: #CCC3AF;
+	color: #554;
+	display: block;
+	padding: 8px 4px 8px 12px;
+	text-decoration: none;
+}
+.sidenav li a:hover {
+	background: #D6CCB9;
+	color: #654;
+}
+
+/* content */
+.content {
+	padding-top: 12px;
+	float: left;
+	width: 68%;
+}
+.content .descr {
+	color: #987E57;
+	font-size: 1.1em;
+	margin-bottom: 6px;
+}
+.content li {
+	list-style: url(img/li.gif);
+	margin-left: 18px;
+}
+
+/* footer */
+.footer {
+	background: #958463 url(img/bgfooter.gif) repeat-x;
+	color: #FED;
+	font-size: 1.1em;
+	line-height: 40px;
+	margin: 0 auto;
+	text-align: center;
+	width: 760px;
+}
+.footer a {
+	color: #FFD;
+	text-decoration: none;
+}
+.footer a:hover {
+	color: #FFF;
+	text-decoration: underline;
+}

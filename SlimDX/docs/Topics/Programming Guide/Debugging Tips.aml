@@ -1,0 +1,149 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<topic id="531e076b-ade0-47f3-b11b-b75a426f94e8" revisionNumber="0">
+  <developerConceptualDocument xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <introduction>
+      <para>
+        Debugging DirectX applications can be a painful experience, but there are a number of simple steps you can take that will 
+        greatly simplify the process of finding, diagnosing, and fixing bugs in your code. This section details these steps,
+        and contains a list of common mistakes made while developing SlimDX applications.
+      </para>
+    </introduction>
+
+    <section>
+      <title>SlimDX-Specific Tips</title>
+
+      <content>
+        <para>
+          SlimDX provides several debugging aids that you should take advantage of when writing your program. The first is an automatic leak
+          detection system. When your program ends, all remaining COM objects will be dumped to the output window, along with a stack trace
+          so that you can figure out exactly where the object is being created. This makes it easy to determine when and where you're forgetting
+          to release a resource.
+        </para>
+        <para>
+          There are several options for handling errors in SlimDX, controlled from the <codeEntityReference>T:SlimDX.Configuration</codeEntityReference> class. 
+          The normal operation mode for SlimDX is to throw an exception on any failed result code. 
+          You can control this behavior with the global boolean flag <codeEntityReference>P:SlimDX.Configuration.ThrowOnError</codeEntityReference>. 
+          Its default value is true; if set to false, exceptions will not be thrown unless explicitly requested. 
+          Note that SlimDX constructors will always throw an exception if a failure occurs. 
+          The <codeInline>Configuration</codeInline> class allows you to place "watches" on specific result codes. 
+          These watches will allow you to control how SlimDX behaves when certain result codes are returned from DirectX. 
+          Keep in mind that many result code values are shared across subsystems in the unmanaged DirectX libraries, 
+          so if you set a watch for <codeInline>SlimDX.Direct3D10.ResultCode.InvalidCall</codeInline>, and you happen to be using both D3D9 and D3D10 in the same project, 
+          the watch will trigger if you make an invalid call to a D3D9 interface as well (in both subsystems, 
+          the D3DERR_INVALIDCALL value is returned for invalid calls).
+        </para>
+        <para>
+          You can do the following when a result comes through:
+        </para>
+        <para>
+          <list class="bullet">
+            <listItem><codeInline>AlwaysIgnore</codeInline> -- Do nothing. If an exception would normally be thrown, it will be supressed.</listItem>
+            <listItem><codeInline>Break</codeInline> -- Break into the debugger. Requires a debug build of your application (but not of SlimDX), but does not necessarily require the debugger to be attached at the time.</listItem>
+            <listItem><codeInline>Throw</codeInline> -- Throw an exception. If <codeEntityReference>P:SlimDX.Configuration.ThrowOnError</codeEntityReference> has been set to false, this is the only way to get exceptions out of functions other than constructors.</listItem>
+          </list>
+        </para>
+      </content>
+    </section>
+    
+    <section>
+      <title>Debug Runtimes</title>
+
+      <content>
+        <para>
+          Anybody who's worked with Direct3D for a while knows that it tends to be fairly generic about its errors.
+          In fact, most of the problems you'll see will be an exception for an "Invalid call" thrown by a SlimDX call.
+          These exceptions don't give you any more information than that, and unless it's an obvious mistake in the function call,
+          there's absolutely no hints about what went wrong. When working on Direct3D code, make sure to open the DirectX Control Panel
+          (found under DirectX utilities in the start menu folder for the SDK) and switch to the Debug runtime.
+          This will make Direct3D more verbose and strict. Note that this will affect performance of Direct3D applications, and in particular,
+          you'll want to turn it off before playing a game. Dustin Franklin wrote a convenient utility,
+          <externalLink>
+            <linkText>D3DTaskbar</linkText>
+            <linkUri>http://www.gamedev.net/community/forums/topic.asp?topic_id=374257</linkUri>
+            <linkAlternateText>Debug Runtime Taskbar Switcher</linkAlternateText>
+          </externalLink>, 
+          that allows you to get to this setting quickly. (This is also handy if you didn't install the full DirectX SDK.)
+        </para>
+        <para>
+          Direct3D also offers a built in leak tracking facility, where it reports an AllocID for leaked objects. 
+          The way to use this is to run your application (preferably in a way you can reproduce reliably), and note the leaked AllocIDs. 
+          Then use the DirectX Control Panel to enable breaking on an AllocID, 
+          so that you can stop your program at the precise point that the leaked object was created. 
+          Work your way from high to low until all the leaks are gone.
+        </para>
+        <para>
+          The debug runtimes are an invaluable resource for developing DirectX applications. In order to make full use of them from SlimDX,
+          you'll need to enable unmanaged code debugging from within Visual Studio. This allows you to see messages from DirectX in the Visual Studio output window.
+          If you have a non-express edition of Visual Studio, simply go into project properties and, under the Debug tab, check the 
+          Enable Unmanaged Code Debugging checkbox. If you are using an express edition, you won't this option. Instead, you'll need to download 
+          <externalLink>
+          <linkText>DebugView</linkText>
+          <linkUri>http://technet.microsoft.com/en-us/sysinternals/bb896647.aspx</linkUri>
+          <linkAlternateText>Debugging tool for express users</linkAlternateText>
+        </externalLink>, 
+        which will let you view debug output externally.
+        </para>
+      </content>
+    </section>
+
+    <section>
+      <title>Direct3D Tips</title>
+
+      <content>
+        <para>
+          When you're first building a Direct3D application, it's common to end up staring at a black screen. 
+          When you're debugging, don't clear to black or white. 
+          These colors tend to be common outputs when something goes wrong in the color computation stage of things, 
+          and using a black or white clear color just makes things harder to debug. Any other color should be fine.
+        </para>
+        <para>
+          It's also common for nothing to show up from a render call. There's a couple things you can try to debug the problem:
+        </para>
+        <para>
+          <list class="bullet">
+            <listItem>Change to a pixel shader that simply outputs white.</listItem>
+            <listItem>Turn off the depth test.</listItem>
+            <listItem>Turn off stenciling.</listItem>
+            <listItem>Turn off face culling.</listItem>
+            <listItem>Turn off alpha testing and alpha blending.</listItem>
+            <listItem>Turn off fog.</listItem>
+            <listItem>Turn off fixed function lighting.</listItem>
+            <listItem>Ensure that your vertex declaration is correct.</listItem>
+            <listItem>If you are using pretransformed vertices, don't expect them to respect transformations.</listItem>
+            <listItem>Switch to point rendering, and use a very large point size. (Note that DrawIndexedPrimitive can't be used with point lists, so you'll have to switch to DrawPrimitive.)</listItem>
+          </list>
+        </para>
+        <para>
+          Not all of these will help, depending on the situation, but some combination of them should help narrow down the source of the problem.
+        </para>
+      </content>
+    </section>
+
+    <section>
+      <title>PIX for Windows</title>
+
+      <content>
+        <para>
+          PIX is a tool included with the DirectX SDK that provides a wealth of information about your running DirectX application.
+          Using it, you can view each call made to DirectX in a particular frame, and view the currently active device settings that are
+          affecting rendering. Further, you can review parameters passed to each function to ensure that they are getting passed correctly.
+          When simple debugging tricks aren't helping, fire up PIX and get cracking.
+        </para>
+      </content>
+    </section>
+    
+    <section>
+      <title>Driver Issues</title>
+
+      <content>
+        <para>
+          When it seems like you've exhausted every possible avenue when debugging your program, it may be time to check whether the problem
+          even really exists in your own code. When mysterious and confusing bugs are occurring, oftentimes it's the work of a faulty driver.
+          Try running your program through the reference device (be prepared for slow frame rates!) and see if it resolves the problem. Finally,
+          check on the internet to see if there are updated drivers for your graphics card. If so, installing them may end up fixing your problem.
+        </para>
+      </content>
+    </section>
+    
+  </developerConceptualDocument>
+</topic>

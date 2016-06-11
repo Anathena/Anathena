@@ -1,4 +1,4 @@
-﻿using Anathema.Source.OS;
+﻿using Anathema.Source.SystemInternals.OperatingSystems;
 using Anathema.Source.Utils.Caches;
 using Anathema.Source.Utils.Extensions;
 using Anathema.Source.Utils.MVP;

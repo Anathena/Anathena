@@ -1,0 +1,221 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<topic id="8dae9bb0-ad12-4c93-a4cd-8715c4694e54" revisionNumber="0">
+  <developerConceptualDocument xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <introduction>
+      <para>
+        SlimDX official releases are always matched with a specific DirectX SDK.
+        For most people, this is the best option, since it provides access to all of the latest features and bug fixes available.
+        However, developers may wish to build SlimDX against a specific alternative version of the SDK.
+        This guide covers the steps necessary to do so.
+      </para>
+    </introduction>
+
+    <section>
+      <title>Version Selection</title>
+
+      <content>
+        <para>
+          The root version selection is handled by VersionConfig.h at the top level of the source tree.
+          This header file defines preprocessor constants that are used to conditonally compile code.
+          The code will also check that the expected versions match the SDK in use.
+          (This check is only in Direct3D 9 right now.)
+        </para>
+        <para>
+          In addition to the VersionConfig.h file, the delay load list for the linker must be updated.
+          These DLLs all end with the digits for their respective version numbers.
+          If any entries are not correctly updated, the linker will generate a warning.
+          As a result, it is not critical to get this correct immediately, since you will see what you've missed after completing a build.
+        </para>
+        <para>
+          Note that SlimDX releases no longer match DirectX releases. Microsoft is moving the DirectX components
+          into the Windows SDK and will be focusing on a longer release cycle.
+        </para>
+      </content>
+    </section>
+
+    <section>
+      <title>SDK Version Table</title>
+
+      <content>
+        <para>
+          The following table lists some recent DirectX SDK releases and the accompanying version numbers.
+          Note that D3DX versions for Direct3D 9 and Direct3D 10 will always match and so only one value is used.
+          Also, the delay load list only lists the DLLs that are dependent on SDK version, and not all of the DLLs that need to be delay loaded.
+        </para>
+
+        <table>
+          <tableHeader>
+            <row>
+              <entry>Version Name</entry>
+              <entry>D3DX Version</entry>
+              <entry>XAudio Version</entry>
+              <entry>X3DAudio Version</entry>
+              <entry>XACT Version</entry>
+              <entry>Delay Load List</entry>
+            </row>
+          </tableHeader>
+          
+          <row>
+            <entry>January 2012</entry>
+            <entry>43</entry>
+            <entry>2.7</entry>
+            <entry>1.7</entry>
+            <entry>3.7</entry>
+            <entry>
+              <para>d3dx9_43.dll</para>
+              <para>d3dx10_43.dll</para>
+              <para>d3dx11_43.dll</para>
+              <para>d3dcsx_43.dll</para>
+              <para>d3dcompiler_43.dll</para>
+              <para>x3daudio1_7.dll</para>
+            </entry>
+          </row>
+          
+          <row>
+            <entry>September 2011</entry>
+            <entry>43</entry>
+            <entry>2.7</entry>
+            <entry>1.7</entry>
+            <entry>3.7</entry>
+            <entry>
+              <para>d3dx9_43.dll</para>
+              <para>d3dx10_43.dll</para>
+              <para>d3dx11_43.dll</para>
+              <para>d3dcsx_43.dll</para>
+              <para>d3dcompiler_43.dll</para>
+              <para>x3daudio1_7.dll</para>
+            </entry>
+          </row>
+
+          <row>
+            <entry>March 2011</entry>
+            <entry>43</entry>
+            <entry>2.7</entry>
+            <entry>1.7</entry>
+            <entry>3.7</entry>
+            <entry>
+              <para>d3dx9_43.dll</para>
+              <para>d3dx10_43.dll</para>
+              <para>d3dx11_43.dll</para>
+              <para>d3dcsx_43.dll</para>
+              <para>d3dcompiler_43.dll</para>
+              <para>x3daudio1_7.dll</para>
+            </entry>
+          </row>
+
+          <row>
+            <entry>June 2010</entry>
+            <entry>43</entry>
+            <entry>2.7</entry>
+            <entry>1.7</entry>
+            <entry>3.7</entry>
+            <entry>
+              <para>d3dx9_43.dll</para>
+              <para>d3dx10_43.dll</para>
+              <para>d3dx11_43.dll</para>
+              <para>d3dcsx_43.dll</para>
+              <para>d3dcompiler_43.dll</para>
+              <para>x3daudio1_7.dll</para>
+            </entry>
+          </row>
+
+          <row>
+            <entry>February 2010</entry>
+            <entry>42</entry>
+            <entry>2.6</entry>
+            <entry>1.7</entry>
+            <entry>3.6</entry>
+            <entry>
+              <para>d3dx9_42.dll</para>
+              <para>d3dx10_42.dll</para>
+              <para>d3dx11_42.dll</para>
+              <para>d3dcsx_42.dll</para>
+              <para>d3dcompiler_42.dll</para>
+              <para>x3daudio1_7.dll</para>
+            </entry>
+          </row>
+
+          <row>
+            <entry>August 2009</entry>
+            <entry>42</entry>
+            <entry>2.5</entry>
+            <entry>1.6</entry>
+            <entry>3.5</entry>
+            <entry>
+              <para>d3dx9_42.dll</para>
+              <para>d3dx10_42.dll</para>
+              <para>d3dcsx_42.dll</para>
+              <para>d3dcompiler_42.dll</para>
+              <para>x3daudio1_6.dll</para>
+            </entry>
+          </row>
+
+          <row>
+            <entry>March 2009</entry>
+            <entry>41</entry>
+            <entry>2.4</entry>
+            <entry>1.6</entry>
+            <entry>3.4</entry>
+            <entry>
+              <para>d3dx9_41.dll</para>
+              <para>d3dx10_41.dll</para>
+              <para>x3daudio1_6.dll</para>
+            </entry>
+          </row>
+
+          <row>
+            <entry>November 2008</entry>
+            <entry>40</entry>
+            <entry>2.3</entry>
+            <entry>1.5</entry>
+            <entry>3.3</entry>
+            <entry>
+              <para>d3dx9_40.dll</para>
+              <para>d3dx10_40.dll</para>
+              <para>x3daudio1_5.dll</para>
+            </entry>
+          </row>
+
+          <row>
+            <entry>August 2008</entry>
+            <entry>39</entry>
+            <entry>2.2</entry>
+            <entry>1.4</entry>
+            <entry>3.2</entry>
+            <entry>
+              <para>d3dx9_39.dll</para>
+              <para>d3dx10_39.dll</para>
+              <para>x3daudio1_4.dll</para>
+            </entry>
+          </row>
+
+          <row>
+            <entry>June 2008</entry>
+            <entry>38</entry>
+            <entry>2.1</entry>
+            <entry>1.4</entry>
+            <entry>3.1</entry>
+            <entry>
+              <para>d3dx9_38.dll</para>
+              <para>d3dx10_38.dll</para>
+              <para>x3daudio1_4.dll</para>
+            </entry>
+          </row>
+
+          <row>
+            <entry>March 2008</entry>
+            <entry>37</entry>
+            <entry>2.0</entry>
+            <entry>1.3</entry>
+            <entry>3.0</entry>
+            <entry>
+              <para>d3dx9_37.dll</para>
+              <para>d3dx10_37.dll</para>
+              <para>x3daudio1_3.dll</para>
+            </entry>
+          </row>
+        </table>
+      </content>
+    </section>
+  </developerConceptualDocument>
+</topic>

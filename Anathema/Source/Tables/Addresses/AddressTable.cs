@@ -1,5 +1,5 @@
-﻿using Anathema.Source.OS;
-using Anathema.Source.OS.Processes;
+﻿using Anathema.Source.SystemInternals.OperatingSystems;
+using Anathema.Source.SystemInternals.Processes;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,7 +23,7 @@ namespace Anathema.Source.Tables.Addresses
         // Singleton instance of address table
         private static Lazy<AddressTable> AddressTableInstance = new Lazy<AddressTable>(() => { return new AddressTable(); });
 
-        private OSInterface OSInterface;
+        private Engine OSInterface;
 
         private List<AddressItem> AddressItems;
 
@@ -58,7 +58,7 @@ namespace Anathema.Source.Tables.Addresses
             ProcessSelector.GetInstance().Subscribe(this);
         }
 
-        public void UpdateOSInterface(OSInterface OSInterface)
+        public void UpdateOSInterface(Engine OSInterface)
         {
             this.OSInterface = OSInterface;
         }

@@ -1,0 +1,5 @@
+User-Agent: *
+Disallow: /latestdocs/help/html/
+Sitemap: http://slimdx.org/latestdocs/sitemap.xml
+Allow: /
+

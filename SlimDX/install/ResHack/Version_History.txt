@@ -1,0 +1,528 @@
+----------------------------------------------
+
+Resource Hacker™ - Version 3.4.0
+
+24 march 2002.
+Copyright 1999-2002 Angus Johnson
+
+http://rpi.net.au/~ajohnson/resourcehacker
+email: ajohnson@rpi.net.au
+
+FREEWARE utility to view, modify, add, rename 
+and delete resources in Win32 executables and
+resource files. Incorporates an internal 
+resource compiler and decompiler. Works on 
+Win9x, WinNT, Win2000 and WinXP.
+
+----------------------------------------------
+Version History:
+----------------------------------------------
+
+24 March 2002 (Version 3.4.0):
+
+  * 32bit Resource Files (*.res) can now also 
+  be viewed and edited.
+  * Added support for the following Dialog 
+  extended style flags: WS_EX_LAYERED,
+  WS_EX_NOINHERITLAYOUT, WS_EX_LAYOUTRTL and  
+  WS_EX_NOACTIVATE.
+  * All resource language ids (except those for 
+  cursors and icons) can now be easily changed.
+  * Bug Fix: LBS_NOINTEGRALHEIGHT and 
+  LBS_MULTICOLUMN listbox style flags in dialogs 
+  previously could not be combined.
+
+14 January 2002 (Version 3.3.4):
+
+  * Bug fix: Occasional error when trying to 
+  compile large plain text resources.
+  * Bug fix: Occasional error (introduced in 
+  the previous update) when replacing icons.
+
+6 January 2002 (Version 3.3.3):
+
+  * Searching has been speeded up dramatically.
+  * Numerous other minor improvements.
+
+23 December 2001 (Version 3.3.2):
+
+  * Bug fix: Export tables were being corrupted
+    when modifying Dlls compiled with LCC-Win32.
+  * Bug fix: Minor resource leak plugged.
+  * Bug fix: Progressbar styles PBS_SMOOTH 
+    and PBS_VERTICAL in resource Dialogs 
+    were not being decompiled.  
+
+7 December 2001 (Version 3.3.1):
+
+  * Resources can now be renamed either via 
+  the popup menu of the treeview control or 
+  via the main menu (once the specific resource 
+  has been selected in the treeview control).
+
+  * Numerous other minor improvements and 
+  bug fixes.
+
+29 October 2001 (Version 3.2.10):
+
+  * Bug fix: Resource Hacker™ caused an 
+  "access violation" occasionally when trying
+  to open 16bit executables (which aren't
+  supported).
+
+  * Bug fix: Occasional errors occured when 
+  decompiling messagetables and accelerators. 
+
+  * Bug fix: Closing Resource Hacker™ was 
+  delayed due to Windows caching *.ini 
+  updates. This made running RH scripts 
+  within batch files difficult. 
+
+7 August 2001 (Version 3.2.9):
+
+  * Bug fix: Resource Hacker™ will now display 
+  and edit resources stored in sections other 
+  than the '.rsrc' section.
+
+  * Bug fix: When closing Resource Hacker™ a 
+  delayed closure of a mutex handle made running 
+  RH scripts within batch files difficult.
+
+  * Bug fix: Another commandline bug fixed.
+
+  * Several minor functional improvements.
+
+16 June 2001 (Version 3.2.8):
+
+  * When editing dialog controls and the Editor 
+  has focus, the control corresponding to the 
+  current insertion point (if any) will be 
+  highlighted automatically in the dialog preview.
+
+  * When resources cannot be viewed due to 
+  non-standard resource layouts (eg when an "EXE 
+  compressor" has been used to shrink the file),
+  a message to this effect will now be displayed.
+
+  * Individual resource items' size will now be 
+  displayed in the statusbar.
+
+  * Bug fix: Commandline support was partially
+  broken in a previous update.
+
+  * Bug fix: Should now run on Win95 machines which
+  still have the original ComCtl32.dll. 
+
+  * Bug fix: Should now run on Win95 and Win98 
+  machines which do not have ImageHlp.dll installed.
+  (ImageHlp.dll is included on the Win98 install CD
+  and is installed automatically with Internet 
+  Explorer 3 or greater.)
+
+8 April 2001 (Version 3.2.7):
+
+  * DS_SETFONT is no longer decompiled into the
+  STYLE statement of Dialog resources to avoid
+  problems when recompiling scripts using 
+  Microsoft's resource compiler.
+
+  * Extended Dialog FONT definitions (font 
+  weight, italics etc) are no longer displayed 
+  in decompiled scripts unless they have been 
+  changed to non-default values. This avoids 
+  problems when trying to recompile these 
+  scripts with both MS's and Borland's resource 
+  compilers which still do not support full font 
+  definitions for Dialogs.
+
+  * Bug fix: Occasional error when saving
+  non-standard resource types to *.res files.
+
+10 March 2001 (Version 3.2.6):
+
+  * Resources can now be added to executables
+  which previously did not contain resources.
+
+  * Bug fix (introduced in the last update):
+  Unicode to multibyte character conversion
+  was causing problems with some non-English
+  resources.
+
+3 March 2001 (Version 3.2.5):
+
+  * Enhanced the Dialog Editor's functionality 
+  when adding new controls.
+  * The line number of Editor's insertion point 
+  is now displayed on the left of the statusbar.
+  * The Menu Preview is now able to display 
+  popup menus which don't have a caption.
+  * Bug fix (introduced in the previous update):
+  Dialogs displaying bitmaps would no longer 
+  always display the correct size of the bitmap.
+  * Other minor improvements.
+
+20 February 2001 (Version 3.2.4):
+
+  * A Dialog Editor has been added and can be 
+  activated by right clicking on a Dialog Preview.
+  * Plain text resources can now be modified and 
+  recompiled using the internal editor.
+  * Bug-fix: Dialog scripts were not being 
+  displayed if either the dialog width or 
+  dialog height equalled zero.
+  * Bug-fix: Occasionally a valid menu script 
+  would raise an error when compiling.
+  * Bug-fix: StringTable entries with more than 
+  50 special characters (\t,\n etc) could not be 
+  viewed and raised an error.
+
+
+28 January 2001 (Version 3.2.3):
+
+  * The Dialog Preview/Designer is now detached 
+  from the main window.
+  * Whenever a control is selected in the 
+  Dialog Designer, its definition in the script will also 
+  be flagged with a red marker.
+  * Several minor bug fixes.
+
+14 January 2001 (Version 3.2.2):
+
+  * Programs which are modified will now have their 
+  CheckSums updated too.
+  * Combobox controls in the preview dialog now
+  have resizing handles which reflect the size of its 
+  dropdown window (ie consistent with the dialog script).
+  * A control can now be deleted by using the DEL key 
+  once it has been selected in a preview dialog.
+  * Bug fix: Resource Hacker™ crashed when Alt+C 
+  was pressed when the Preview Dialog had focus. 
+
+9 January 2001 (Version 3.2.1):
+
+  * Numerous bug fixes: 
+  - STRINGTABLE with StringID = 0 will now compile; 
+  - ACCELETATOR recompile bug fixed.
+  - Old style bitmaps will now be displayed; 
+  - A maximised state will be retained between sessions; 
+  - Alt+C will now compile when Preview Dialog has focus; 
+  - Text ending with doubleslashes (eg: "bug\\") will compile;
+  - DIALOG scripts containing MENU or CLASS statements 
+  would occasionally raise an error on compiling. 
+  - FONT statement in DIALOGEX scripts now fully supports 
+  FontWeight, Italic and FontCharset parameters.
+  - Several other minor bug fixes/cosmetic improvements.
+
+1 January 2001 (Version 3.1):
+
+  * Most-Recently-Used file list added to File menu.
+
+  * Bug fix: Unusual characters in filenames would 
+  not be correctly read by the commandline script
+  parser.
+
+  * Visual redesign tool for dialogs improved.
+
+  * Warned dialog added whenever leaving a resource 
+  which has been modified but not recompiled.
+
+  * Edit menu added.
+
+  * Images can now be copied to the clipboard.
+
+  * User defined resources containing just plain text 
+  will now be displayed as text, not as binary data.
+
+12 December 2000 (Version 3.0):
+
+  * Resource items can now be added from files 
+  of any binary type, no longer needing to compile 
+  them into *.res files first. This includes, but is not 
+  restricted to image files (*.ico, *.cur, *.bmp).
+
+  * Commandline Scripting added. All the functionality 
+  of Resource Hacker™ (apart from viewing resources) 
+  can now be accessed from the commandline 
+  without having to open Resource Hacker™.
+
+  * Added Any File (*.*) option to Open File Dialog
+  File types (no longer limited to exe, dll, ocx and
+  cpl files). However, the file must still be a 
+  Win32 PE format file.
+
+  * Save As Dialog now warns users attempting to
+  save resources to non-existant directories.
+
+  * Bug fix: MSVC++ debug table offsets were not 
+  being updated when resources were modified.
+
+  * VersionInfo resources can now be modified etc.
+
+  * Numerous other minor improvements.
+
+1 November 2000 (Version 2.6): 
+
+  * Text search added - find resource items 
+  containing text compiled in both ANSI and 
+  UNICODE formats.
+
+  * "File Save" menu option added. The original 
+  file is backed up if a backup copy does not 
+  already exist. (eg: MyProgram.exe will be copied 
+  to MyProgram_original.exe, unless it already 
+  exists, before being modified.) 
+
+  * Bug Fix: VersionInfo resources would 
+  occasionally not decompile correctly.
+
+10 September 2000 (Version 2.5): 
+
+  * Resources can now be deleted.
+  (nb: VersionInfo resources cannot be deleted).
+
+  * Bug Fix: Modified applications occasionally 
+  displayed the generic executable icon, 
+  not the application's icon. 
+
+  * Fixes to a couple of other minor bugs.
+
+18  August 2000 (Version 2.4.0.4): 
+
+  * Bug Fix: Would not compile some Chinese text.
+
+  * Improved translation support. Scripts are now 
+  compiled using the codepage appropriate to the 
+  internal editor's selected font rather than the 
+  operating system's default codepage.
+
+  (Thanks to Frank Cheng for feedback while fixing 
+  both these DBCS issues.)
+
+  * Bug fix: Occasionally StringTable resources 
+  would not be decompiled.
+
+  * Bug fix: Accelerators would not compile if they 
+  included the ASCII keyword.
+
+   * The command line will now accept a filename 
+  as a parameter.
+
+  * The Samples.dll file is no longer included 
+  in the download.
+
+  * Homepage added: 
+  http://rpi.net.au/~ajohnson/resourcehacker.
+
+
+3  July 2000 (Version 2.4.0.3): 
+
+  * Bug Fix: Bug introduced with changes in the 
+  previous update which caused an error in 
+  "Update all Resources" preventing any updates.
+
+  * Bug Fix: Occasional bug when extracting 
+  resources to a RES file.
+
+  * A couple of very minor improvements to the 
+  compiler have also been made.
+
+
+26  May 2000 (Version 2.4.0.2): 
+
+  * Multibyte character set support (Japanese, 
+  Chinese etc) for the internal editor has been 
+  added (with thanks to Bob Ishida for feedback 
+  during debugging).
+
+  * Bug fix: Cursors with multiple images were not 
+  being correctly imported when replacing cursors.
+
+  * Numerous other improvements and cosmetic changes.
+
+  * A number of documentation errors in the 
+  help file have also been fixed.
+
+
+20  Apr 2000 (Version 2.3.0.6): 
+
+  * The JPG and MIDI data formats are now 
+  detected and displayed or played.
+
+  * Bug Fix: WAVE, AVI and GIF formats were 
+  not being detected in the RCDATA section.
+
+  * Bug Fix: The folder where resource data 
+  was last saved was not being stored between 
+  sessions.
+
+16  Apr 2000 (Version 2.3.0.5): 
+
+  * The AVI and WAVE data formats are now 
+  detected and displayed or played.
+
+  * The GIF data format is now detected and 
+  displayed (with thanks to Anders Melander 
+  for TGifImage).
+
+  * A number of sample resources have been 
+  removed from the Resource Hacker™ executable 
+  and placed in "Samples.dll". (This dll can be 
+  deleted without affecting Resource Hacker™.)
+
+13  Feb 2000 (Version 2.3.0.3): 
+
+  * The editor's font can now be changed. 
+  This enables changes to the editor's 
+  font script (character code) which is 
+  useful when translating resources.
+
+  * Menu editor [Show/Hide] button added.
+
+  * Coloured treeview cursor removed :-(.
+
+  * Dialog controls now have coordinates 
+  displayed when selected too. (see 
+  version 2.3.0.2).
+
+11  Feb 2000 (Version 2.3.0.2): 
+
+  *Bug Fix: Major modifications to dll's still 
+  occasionally failed. Now finally fixed.
+
+  *The treeview window width can now be 
+  adjusted. 
+
+  *Resource Hacker's window size and  position 
+  is now stored between sessions (in an *ini 
+  file ) as are the folders for the last opened 
+  and saved files. 
+
+  *While moving or resizing dialog controls - 
+  the control coordinates (in dialog units) 
+  are now displayed in the panel located above 
+  the dialog script.
+
+
+9  Feb 2000 (Version 2.3.0.1): 
+
+  *Resources can now be added.
+
+  *LANGUAGE statements in resource scripts are 
+  no longer "read-only".
+  
+  *Resources can now be updated with all 
+  matching resources in an external resource 
+  file (*.res) in a single operation.
+  
+  *Bug Fix: Replacing cursors & icons from
+  resource files (*.res) was broken.
+
+
+1  Feb 2000 (Version 2.2.0.1): 
+
+  *Bug Fix: Modifying dll's occasionally 
+  stopped them working (the relative virtual 
+  addresses of sections following the resource 
+  section were not being adjusted).
+
+  *MESSAGETABLE and ACCELERATOR resources can 
+  now also be edited and recompiled using the 
+  internal editor.
+
+  *Dialogs will be displayed even when they
+  contain unregistered controls (a gray 
+  rectangle will appear in the position of 
+  each unregistered control).
+
+  *Dialog editor now compiles controls defined 
+  by using either of the following styles:
+
+    CONTROL text, control-ID, control-class, 
+            control-style, x, y, width, height
+
+    CLASS_MAIN_STYLE text, control-ID, 
+            x, y, width, height, control-style
+
+  *Modified files now preserve the original 
+  file date and time.
+
+  *Resources (menus, dialogs, stringtables, 
+  accelerators & messagetables) can now be saved 
+  in a single operation to a single *.rc file.
+
+  *Numerous other minor improvements.
+
+
+17  Jan 2000 (Version 2.1.1.4): 
+
+  *Bug Fix: Memory leak fixed.
+
+  *Bug Fix: Numeric captions in dialog 
+  resources were not compiled correctly.
+
+  *Resources can now be saved to file as a binary.
+
+  *Improved handling of special characters (tab, 
+  newline, backslash & doublequote) in resource 
+  scripts.
+
+  *Dialog resource forms and controls can now be 
+  visually moved and resized.
+
+
+2 Jan 2000 (Version 2.0.1.2): 
+
+  *DIALOG, DIALOGEX, MENU, MENUEX, STRINGTABLE 
+  and BORLAND FORM resources can now be edited 
+  and recompiled using the internal editor.
+
+  *Bug Fix - large resources which were 
+  displayed as hexidecimal took forever to load. 
+  The display algorithm for these resources is 
+  now much faster.
+
+  *Bug Fix - Tab and Newline characters are now 
+  converted to  \t  and  \n   respectively in 
+  dialog script control captions.
+
+  *Bitmap Exchange Dialog added - enables 
+  viewing of bitmaps while selecting.
+
+  *Individual icons are no longer scaled but 
+  are displayed at their actual size.
+
+  *Files can now be opened by dragging them 
+  into Resource Hacker™.
+
+
+12 Dec 1999 (version 1.0.0.5): 
+
+  *Bug Fix - Exchanging cursors from *.cur files 
+  was broken.
+
+  *Bug Fix - Menu resource scripts did not always 
+  decompile correctly.
+
+  * Icon & Cursor Exchange Dialogs now display 
+  selected images.
+
+  *Icons & cursor resources are now hidden in 
+  the 'Exchange Other Resources' dialog.
+
+  *MENUEX and DIALOGEX resource scripts are now 
+  properly supported.
+
+  *Resource scripts now decompile control style 
+  attributes too.
+
+  *Borland Delphi form files now decompiled.
+
+  *Accelerators now decompiled.
+
+  *Help file added.
+
+
+03 Dec 1999 (version 0.5.0.1): 
+
+  *Initial Release.
+

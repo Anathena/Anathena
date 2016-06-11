@@ -1,5 +1,5 @@
-﻿using Anathema.Source.OS;
-using Anathema.Source.OS.Processes;
+﻿using Anathema.Source.SystemInternals.OperatingSystems;
+using Anathema.Source.SystemInternals.Processes;
 using Anathema.Source.Prefilter;
 using Anathema.Source.Scanners.ValueCollector;
 using Anathema.Source.Utils.Extensions;
@@ -18,7 +18,7 @@ namespace Anathema.Source.Utils.Snapshots
         // Lock to ensure multiple entities do not try and update the snapshot list at the same time
         private Object AccessLock;
 
-        private OSInterface OSInterface;
+        private Engine OSInterface;
         private Stack<Snapshot> Snapshots;          // Snapshots being managed
         private Stack<Snapshot> DeletedSnapshots;   // Deleted snapshots for the capability of redoing after undo
 
@@ -46,7 +46,7 @@ namespace Anathema.Source.Utils.Snapshots
             ProcessSelector.GetInstance().Subscribe(this);
         }
 
-        public void UpdateOSInterface(OSInterface OSInterface)
+        public void UpdateOSInterface(Engine OSInterface)
         {
             this.OSInterface = OSInterface;
         }

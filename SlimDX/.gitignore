@@ -1,0 +1,10 @@
+*.sdf
+*.opensdf
+*.suo
+*.user
+*.cache
+*.tlog
+*.pdb
+*.unsuccessfulbuild
+*.lastbuildstate
+*.log

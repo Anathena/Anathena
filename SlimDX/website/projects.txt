@@ -1,0 +1,25 @@
+If you're using SlimDX for a project, feel free to add yourself to this page. 
+
+* [http://www.eternix.co.il/ Eternix Blaze] - Advanced geo-spatial visualization application
+* [http://www.twins-solutions.com/ Visions] - 3D Image Management System (3DIMS) 
+* [http://sourceforge.net/projects/doombuilder/ Doom Builder 2] - A C# remake of the Doom/Hexen/Heretic map editor Doom Builder. 
+* [http://www.tape-worm.net/ Gorgon] - A 2D graphics library. 
+* Sirob's Sexy Project - Name is TBD. 
+* Whatever Deranged's next project is (Yes, he's actually breaking from OGRE for a while :D) 
+* [http://ilovevb.net/Web/blogs/nimble2d/default.aspx Nimble2D] - A 2D Game programming library. 
+* Thallon Wars - Space based combat Real Time Strategy Game. (We're using SlimDX for now... we haven't decided if it will meet our needs yet or not. =)) 
+* NeilN - classified research project. 
+* Space Dash - A C# Spaceship Racing Game 
+* RomantiqueX Engine - DX10 based engine for rendering and simulations, introducing state-of-art translucent surface rendering technology.
+* [http://www.benryves.com/?module=projects&product=cogwheel Cogwheel] - Sega SG-1000, SC-3000, Master System, Game Gear and ColecoVision emulator.
+* [http://gar.randchar.com/programs/XbC2K/ XbC2K] - Maps a Xbox 360 controller to keyboard keys; using XInput.
+* [http://www.gamedev.net/community/forums/mod/journal/journal.asp?jn=509257 FeverGames Engine] - FeverGames engine, an engine in development for games...
+* [http://www.tanky-tank.com/tanky-tank Tanky-Tank] - A 2D networked-multiplayer tank combat game written in C#.
+* [http://www.programsbyjery.com OceanExplorer] - VB Express 08 program free including source. Creates a underwater world with your terrain, fish and xfile structures.
+* Ucfchuck - ultrasound cancer research platform.
+* [http://www.sms-timing.com SMS-Timing] - High definition broadcasting system for racing.
+* [http://entanglar.dunnchurchill.com Entanglar] - Game engine supporting automatic networking.
+* [http://www.tek2shoot.com/products/foam-family/welcome-to-foam.html Foam 2.0] - Asset/Project Management for Digital Content Creation (We use SlimDX for real time playback of high definition image sequences).
+* [http://spazzarama.wordpress.com/2009/02/07/screencapture-with-direct3d/ C# Screen capture with Direct3D] - sample for taking screenshots of windowed Direct3D applications using SlimDX and Direct3D
+* [http://0x2a.at/b/slimdx-cuda-csharp-sample CUDA.NET and Direct3D 10] - sample showing how to use CUDA.NET and SlimDX
+* [http://youcodeit.co.cc/wiki/doku.php?id=slimdx_tutorials Tutorials] - Series of tutorials written by Gustavo Valdez.

@@ -1,0 +1,304 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<topic id="1fd5722e-4091-4843-bb1b-3341b85fd1ea" revisionNumber="0">
+  <developerConceptualDocument xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <introduction>
+      <para>
+        The March 2009 release was a major release in terms of new functionality and improvements behind the scenes. Many missing corners were filled in,
+        and several usability enhancements were made across the library on top of the standard array of bug fixes. A new DLL containing beta-level
+        technologies, such as Direct2D and Direct3D11, was added to showcase developing APIs. These APIs will be moved into the core SlimDX DLL
+        once they are given a full release by Microsoft. Until then, they should be viewed as previews, and should not be used for products that
+        expect stable behavior.
+      </para>
+      <para>
+        Performance is another issue focused on in the March release. After extensive testing, several improvements were made to the error handling
+        infrastructure, which showed significant performance increases across the entire library. On top of this, performance issues in the math
+        library were discovered and subsequently eliminated. This involved modifying the types to use fields instead of properties, as value type
+        getters are not inlined in .NET prior to version 3.5. These small changes could have a substantial impact on your application simply by recompiling
+        with the new DLL.
+      </para>
+    </introduction>
+
+    <section>
+      <title>Full Release Notes</title>
+      <content>
+        <para>
+          The following is a list of changes that were made to SlimDX for the March 2009 release.
+        </para>
+        <para>
+          <list class="bullet">
+            <listItem>
+              <legacyBold>General</legacyBold>
+              <list class="bullet">
+                <listItem>Added a second DLL, SlimDX.Windows7.dll, to the project to allow for the implementation of beta APIs, such as DX11 and Direct2D.</listItem>
+                <listItem>Refactored the handling of COM objects to allow SlimDX to correctly handle certain types / usage scenarios; in particular those having to do with implicitly created objects, such as a D3D9 device s render target, without requiring the user to Dispose() of those objects manually, which violates the Dispose() idiom). Users who were previously using the manual Dispose() workaround will need to remove that workaround, as it will now throw an exception indicating that implicit and ancillary objects should not be Dispose() d.</listItem>
+                <listItem>Improved the performance of the internal error checking mechanism.</listItem>
+                <listItem>Result watches can no longer be set on success results.</listItem>
+                <listItem>Fixed a bug that caused an ObjectDisposedException to be thrown whenever a constructor for an object failed.</listItem>
+              </list>
+            </listItem>
+            <listItem>
+              <legacyBold>Design</legacyBold>
+              <list class="bullet">
+                <listItem>
+                  Fixed an off-by-one bug in <codeEntityReference>T:SlimDX.Design.Color3Converter</codeEntityReference> and <codeEntityReference>T:SlimDX.Design.Color4Converter</codeEntityReference>.
+                </listItem>
+              </list>
+            </listItem>
+            <listItem>
+              <legacyBold>Samples</legacyBold>
+              <list class="bullet">
+                <listItem>Added a SkinnedMesh sample.</listItem>
+                <listItem>Added a simple Direct2D sample.</listItem>
+                <listItem>Added a simple text DirectWrite sample.</listItem>
+                <listItem>Added a multiformatted text DirectWrite sample.</listItem>
+                <listItem>The EnableVSync option in the SampleFramework wasn t being respected in D3D10 mode. That has been fixed.</listItem>
+              </list>
+            </listItem>
+            <listItem>
+              <legacyBold>Math</legacyBold>
+              <list class="bullet">
+                <listItem>Changed all math types to use fields instead of properties. This has been shown to give a substantial performance improvement.</listItem>
+                <listItem>Modified the type converters so that math types will still work correctly in PropertyGrid.</listItem>
+                <listItem>
+                  Added a <codeEntityReference>P:SlimDX.Matrix.Rows(System.Int32)</codeEntityReference> property and a <codeEntityReference>P:SlimDX.Matrix.Columns(System.Int32)</codeEntityReference> property to get and set the rows and columns of a matrix.
+                </listItem>
+                <listItem>
+                  Added array overloads for several math functions, notably <codeEntityReference>M:SlimDX.Matrix.Multiply(SlimDX.Matrix*,SlimDX.Matrix*,SlimDX.Matrix*,System.Int32)</codeEntityReference>.
+                </listItem>
+                <listItem>Some quick testing shows that for 5 or more matrices, the array multiply is 30% faster per matrix than doing them one at a time.</listItem>
+                <listItem>
+                  Added a <codeEntityReference>M:SlimDX.Matrix.ToArray</codeEntityReference> method to Matrix.
+                </listItem>
+              </list>
+            </listItem>
+            <listItem>
+              <legacyBold>Direct2D</legacyBold>
+              <list class="bullet">
+                <listItem>Set up the Direct2D subsystem.</listItem>
+                <listItem>Added the Factory class.</listItem>
+                <listItem>Added the RenderTarget base class.</listItem>
+                <listItem>Added the WindowRenderTarget class.</listItem>
+                <listItem>Added the Resource class.</listItem>
+                <listItem>Added the Brush class.</listItem>
+                <listItem>Added the SolidColorBrush class.</listItem>
+                <listItem>Added the StrokeStyle class.</listItem>
+                <listItem>Added the Bitmap class.</listItem>
+                <listItem>Added the Geometry class.</listItem>
+                <listItem>Added the Layer class.</listItem>
+                <listItem>Added the StateBlock class.</listItem>
+                <listItem>Added the BitmapBrush class.</listItem>
+                <listItem>Added the Mesh class.</listItem>
+                <listItem>Added the TessellationSink class.</listItem>
+                <listItem>Added the BitmapRenderTarget class.</listItem>
+                <listItem>Added the DeviceContextRenderTarget class.</listItem>
+                <listItem>Added the GdiInteropRenderTarget class.</listItem>
+                <listItem>Added the SimplifiedGeometrySink class.</listItem>
+                <listItem>Added the geometry classes: Rectangle, RoundedRectangle, Ellipse, Transformed, and Path.</listItem>
+                <listItem>Added the GeometrySink class.</listItem>
+                <listItem>Added gradient brush support.</listItem>
+                <listItem>Direct2D is functionally complete.</listItem>
+              </list>
+            </listItem>
+            <listItem>
+              <legacyBold>DirectWrite</legacyBold>
+              <list class="bullet">
+                <listItem>Set up the DirectWrite subsystem.</listItem>
+                <listItem>Added the Factory class.</listItem>
+                <listItem>Added the FontCollection class.</listItem>
+                <listItem>Added the TextFormat class.</listItem>
+                <listItem>Added the TextLayout class.</listItem>
+                <listItem>Added the Typography class.</listItem>
+                <listItem>Added font features.</listItem>
+                <listItem>Added the RenderingParameters class.</listItem>
+              </list>
+            </listItem>
+            <listItem>
+              <legacyBold>Direct3D 9</legacyBold>
+              <list class="bullet">
+                <listItem>
+                  Renamed DevCaps2 to <codeEntityReference>T:SlimDX.Direct3D9.DeviceCaps2</codeEntityReference> to conform to .NET naming style.
+                </listItem>
+                <listItem>
+                  Changed the texture <codeEntityReference>T:SlimDX.Direct3D9.Fill2DCallback</codeEntityReference> callbacks to return colors instead of vectors.
+                </listItem>
+                <listItem>
+                  Changed <codeEntityReference>T:SlimDX.Direct3D9.Frame</codeEntityReference> and <codeEntityReference>T:SlimDX.Direct3D9.MeshContainer</codeEntityReference> to no longer be abstract.
+                </listItem>
+                <listItem>
+                  Changed Surface.FromMemory and FromStream to <codeEntityReference>M:SlimDX.Direct3D9.Surface.FromFileInMemory(SlimDX.Direct3D9.Surface,System.Byte[],SlimDX.Direct3D9.Filter,System.Int32)</codeEntityReference> and <codeEntityReference>M:SlimDX.Direct3D9.Surface.FromFileInStream(SlimDX.Direct3D9.Surface,System.IO.Stream,SlimDX.Direct3D9.Filter,System.Int32)</codeEntityReference>.
+                </listItem>
+                <listItem>
+                  Changed Volume.FromMemory and FromStream to <codeEntityReference>M:SlimDX.Direct3D9.Volume.FromFileInMemory(SlimDX.Direct3D9.Volume,System.Byte[],SlimDX.Direct3D9.Filter,System.Int32)</codeEntityReference> and <codeEntityReference>M:SlimDX.Direct3D9.Volume.FromFileInStream(SlimDX.Direct3D9.Volume,System.IO.Stream,SlimDX.Direct3D9.Filter,System.Int32)</codeEntityReference>.
+                </listItem>
+                <listItem>
+                  Changed <codeEntityReference>T:SlimDX.Direct3D9.AnimationOutputFlags</codeEntityReference> values to be powers of two.
+                </listItem>
+                <listItem>
+                  Changed <codeEntityReference>T:SlimDX.Direct3D9.MeshData</codeEntityReference> to be immutable to avoid subtle bugs.
+                </listItem>
+                <listItem>
+                  Fixed a bug where the non-Ex Adapters member was not set in a <codeEntityReference>T:SlimDX.Direct3D9.Direct3DEx</codeEntityReference> object.
+                </listItem>
+                <listItem>
+                  Fixed a bug in <codeEntityReference>M:SlimDX.Direct3D9.BaseEffect.SetValue``1(SlimDX.Direct3D9.EffectHandle,``0)</codeEntityReference> for undersized matrices.
+                </listItem>
+                <listItem>Fixed a bug in the mesh loading functions that affected the loading of effect instances.</listItem>
+                <listItem>Fixed missing error checks in the adapter enumeration code (includes Ex).</listItem>
+                <listItem>Fixed functions accepting a palette array as a parameter to accept null.</listItem>
+                <listItem>
+                  Fixed a performance issue where FromStream methods would unnecessarily make copies when passed a <codeEntityReference>T:SlimDX.DataStream</codeEntityReference>.
+                </listItem>
+                <listItem>Fixed several Surface methods which were directly casting between RECT and System.Drawing.Rectangle.</listItem>
+                <listItem>
+                  Fixed a bug in <codeEntityReference>M:SlimDX.Direct3D9.Device.SetPixelShaderConstant(System.Int32,SlimDX.Matrix)</codeEntityReference> for boolean arrays that incorrectly copied the array.
+                </listItem>
+                <listItem>
+                  Fixed several bugs in <codeEntityReference>T:SlimDX.Direct3D9.IEffectStateManager</codeEntityReference> that caused it to be unusable.
+                </listItem>
+                <listItem>
+                  Added a <codeEntityReference>T:SlimDX.Direct3D9.DefaultAllocateHierarchy</codeEntityReference> class.
+                </listItem>
+                <listItem>
+                  Added new functions <codeEntityReference>M:SlimDX.Direct3D9.Surface.FromMemory(SlimDX.Direct3D9.Surface,System.Byte[],SlimDX.Direct3D9.Filter,System.Int32,SlimDX.Direct3D9.Format,System.Int32,System.Drawing.Rectangle)</codeEntityReference> and <codeEntityReference>M:SlimDX.Direct3D9.Surface.FromStream(SlimDX.Direct3D9.Surface,System.IO.Stream,SlimDX.Direct3D9.Filter,System.Int32,SlimDX.Direct3D9.Format,System.Int32,System.Drawing.Rectangle)</codeEntityReference> that call the expected native functions.
+                </listItem>
+                <listItem>Added support for passing arrays of present parameters when creating a device for multihead support.</listItem>
+                <listItem>
+                  Added support for <codeEntityReference>T:SlimDX.Direct3D9.UVAtlas</codeEntityReference>.
+                </listItem>
+                <listItem>
+                  Added <codeEntityReference>T:SlimDX.Matrix</codeEntityReference> overloads for <codeEntityReference>M:SlimDX.Direct3D9.Device.SetVertexShaderConstant(System.Int32,SlimDX.Matrix)</codeEntityReference> and <codeEntityReference>M:SlimDX.Direct3D9.Device.SetPixelShaderConstant(System.Int32,SlimDX.Matrix)</codeEntityReference>.
+                </listItem>
+                <listItem>
+                  Added support for default <codeEntityReference>T:SlimDX.Direct3D9.XFile</codeEntityReference> templates.
+                </listItem>
+                <listItem>
+                  Added <codeEntityReference>M:SlimDX.Direct3D9.Device.ResetStreamSourceFrequency(System.Int32)</codeEntityReference>.
+                </listItem>
+                <listItem>
+                  Added overloads to <codeEntityReference>M:SlimDX.Direct3D9.Effect.SetRawValue(SlimDX.Direct3D9.EffectHandle,SlimDX.DataStream)</codeEntityReference> for arrays.
+                </listItem>
+                <listItem>
+                  Added <codeEntityReference>P:SlimDX.Direct3D9.AdapterDetails.CertificationDate</codeEntityReference> property to <codeEntityReference>T:SlimDX.Direct3D9.AdapterDetails</codeEntityReference>.
+                </listItem>
+              </list>
+            </listItem>
+            <listItem>
+              <legacyBold>Direct3D 10</legacyBold>
+              <list class="bullet">
+                <listItem>
+                  Added <codeEntityReference>T:SlimDX.Direct3D10.QueryType</codeEntityReference> enumeration.
+                </listItem>
+                <listItem>
+                  Added <codeEntityReference>T:SlimDX.Direct3D10.QueryFlags</codeEntityReference> enumeration.
+                </listItem>
+                <listItem>
+                  Added <codeEntityReference>T:SlimDX.Direct3D10.Query</codeEntityReference> class.
+                </listItem>
+                <listItem>
+                  Added <codeEntityReference>T:SlimDX.Direct3D10.QueryDescription</codeEntityReference> structure.
+                </listItem>
+                <listItem>
+                  Added <codeEntityReference>T:SlimDX.Direct3D10.FilterFlags</codeEntityReference> enumeration.
+                </listItem>
+                <listItem>
+                  Added <codeEntityReference>T:SlimDX.Direct3D10.ImageInformation</codeEntityReference> class.
+                </listItem>
+                <listItem>
+                  Added <codeEntityReference>T:SlimDX.Direct3D10.ImageLoadInformation</codeEntityReference> class.
+                </listItem>
+                <listItem>
+                  Added overloads to texture loading methods to support passing <codeEntityReference>T:SlimDX.Direct3D10.ImageLoadInformation</codeEntityReference> structures.
+                </listItem>
+                <listItem>
+                  Fixed a crash that was caused by calling <codeEntityReference>M:SlimDX.Direct3D10.EffectPool.AsEffect</codeEntityReference> twice on any given <codeEntityReference>T:SlimDX.Direct3D10.EffectPool</codeEntityReference>.
+                </listItem>
+              </list>
+            </listItem>
+            <listItem>
+              <legacyBold>DXGI</legacyBold>
+              <list class="bullet">
+                <listItem>
+                  Fixed a crash bug that was caused by an extra Release() in <codeEntityReference>M:SlimDX.DXGI.SwapChain.GetBuffer``1(System.Int32)</codeEntityReference>.
+                </listItem>
+              </list>
+            </listItem>
+            <listItem>
+              <legacyBold>DirectInput</legacyBold>
+              <list class="bullet">
+                <listItem>
+                  Refactored the <codeEntityReference>T:SlimDX.DirectInput.DirectInput</codeEntityReference> class to be instance based. This mirrors the changes already made to other portions of the library.
+                </listItem>
+                <listItem>Removed the custom collections and replaced them with generic equivalents.</listItem>
+              </list>
+            </listItem>
+            <listItem>
+              <legacyBold>DirectSound</legacyBold>
+              <list class="bullet">
+                <listItem>Fixed a typo in an effect constant.</listItem>
+                <listItem>Fixed a bug that caused exceptions when enumerating devices.</listItem>
+                <listItem>
+                  Changed <codeEntityReference>T:SlimDX.DirectSound.SoundBuffer</codeEntityReference> to allow writing any arbitrary data type.
+                </listItem>
+                <listItem>
+                  <codeEntityReference>M:SlimDX.DirectSound.DirectSound.SetSpeakerConfiguration(SlimDX.DirectSound.SpeakerConfiguration,SlimDX.DirectSound.SpeakerGeometry)</codeEntityReference> used the wrong Speakers enum. This has been fixed.
+                </listItem>
+                <listItem>
+                  Added <codeEntityReference>M:SlimDX.DirectSound.DirectSound.DuplicateSoundBuffer(SlimDX.DirectSound.SoundBuffer,SlimDX.DirectSound.SoundBuffer@)</codeEntityReference>.
+                </listItem>
+              </list>
+            </listItem>
+            <listItem>
+              <legacyBold>XAudio2</legacyBold>
+              <list class="bullet">
+                <listItem>Fixed an issue that could cause access violations when disposing voices.</listItem>
+                <listItem>
+                  Changed <codeEntityReference>T:SlimDX.XAudio2.AudioBuffer</codeEntityReference> to take a Stream as data input instead of a byte array.
+                </listItem>
+                <listItem>
+                  Added the <codeEntityReference>T:SlimDX.XAudio2.VoiceSendDescriptor</codeEntityReference> class, and modified <codeEntityReference>M:SlimDX.XAudio2.Voice.SetOutputVoices(SlimDX.XAudio2.VoiceSendDescriptor[])</codeEntityReference> to take a list of VoiceSendDescriptor objects.
+                </listItem>
+                <listItem>
+                  Added the <codeEntityReference>M:SlimDX.XAudio2.SourceVoice.SetSourceSampleRate(System.Int32)</codeEntityReference> method to the SourceVoice class.
+                </listItem>
+              </list>
+            </listItem>
+            <listItem>
+              <legacyBold>Multimedia</legacyBold>
+              <list class="bullet">
+                <listItem>
+                  Replaced the erroneous use of auto_ptr for <codeEntityReference>T:SlimDX.Multimedia.WaveFormat</codeEntityReference> to a custom auto_array type.
+                </listItem>
+                <listItem>Invalid use of auto_ptr was also causing extended wave formats to drop extra bytes. This has been fixed.</listItem>
+                <listItem>
+                  Removed the WaveFile class and replaced it with <codeEntityReference>T:SlimDX.Multimedia.WaveStream</codeEntityReference>.
+                </listItem>
+                <listItem>
+                  Added the ability to construct a <codeEntityReference>T:SlimDX.Multimedia.WaveStream</codeEntityReference> from any other Stream type.
+                </listItem>
+              </list>
+            </listItem>
+            <listItem>
+              <legacyBold>Raw Input</legacyBold>
+              <list class="bullet">
+                <listItem>
+                  Added the ability to determine device handles from the <codeEntityReference>T:SlimDX.RawInput.DeviceInfo</codeEntityReference> class.
+                </listItem>
+              </list>
+            </listItem>
+            <listItem>
+              <legacyBold>Windows</legacyBold>
+              <list class="bullet">
+                <listItem>
+                  Added a new <codeEntityReference>N:SlimDX.Windows</codeEntityReference> namespace for Win32-specific interop.
+                </listItem>
+                <listItem>
+                  Added <codeEntityReference>T:SlimDX.Windows.MessagePump</codeEntityReference> class for handling common message loop capabilities.
+                </listItem>
+              </list>
+            </listItem>
+          </list>
+        </para>
+      </content>
+    </section>
+  </developerConceptualDocument>
+</topic>

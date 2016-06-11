@@ -1,4 +1,4 @@
-﻿using Anathema.Source.OS;
+﻿using Anathema.Source.SystemInternals.OperatingSystems;
 using Anathema.Source.Utils;
 using Anathema.Source.Utils.Setting;
 using Anathema.Source.Utils.Snapshots;
@@ -60,7 +60,7 @@ namespace Anathema.Source.Scanners.ChunkScanner
         {
             base.Update();
 
-            OSInterface OSInterface = Snapshot.GetOSInterface();
+            Engine OSInterface = Snapshot.GetOSInterface();
 
             Parallel.ForEach(ChunkRoots, (ChunkRoot) =>
             {

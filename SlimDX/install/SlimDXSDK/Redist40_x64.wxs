@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?define Version="2.0.12.43" ?>
+<?define ReleaseName="September 2011" ?>
+<?define ShortName="Sep2011" ?>
+<?define DXShortName="Jun2010" ?>
+
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi" xmlns:netfx="http://schemas.microsoft.com/wix/NetFxExtension">
+  <Product Id="DA899085-5492-4320-98BF-4F3ACEB23E01" Language="1033" Manufacturer="SlimDX Group" Name="SlimDX Redistributable for .NET 4.0 ($(var.ReleaseName))" Version="$(var.Version)">
+    <Package Id="*" InstallerVersion="300" Compressed="yes" />
+
+    <PropertyRef Id="NETFRAMEWORK40FULL" />
+    <PropertyRef Id="NETFRAMEWORK40CLIENT" />
+    
+    <WixVariable Id="WixUILicenseRtf" Value="..\ExtraFiles\License.rtf" />
+    <WixVariable Id="WixUIDialogBmp" Value="..\ExtraFiles\SdxSideLogo.jpg" />
+    <WixVariable Id="WixUIBannerBmp" Value="..\ExtraFiles\SdxLogo.jpg" />
+
+    <Media Id="1" Cabinet="SlimDX_$(var.ShortName)_Redist.cab" EmbedCab="yes" />
+
+    <Icon Id="SdxIconBlack.exe" SourceFile="..\..\media\sdx_icon_black.ico" />
+    <Property Id="ARPPRODUCTICON" Value="SdxIconBlack.exe" />
+    <Property Id="ALLUSERS" Value="1" />
+
+    <UIRef Id="WixUI_Minimal" />
+    <UI>
+      <ProgressText Action="InstallDirectX">Installing DirectX runtime components ($(var.ReleaseName))</ProgressText>
+    </UI>
+
+    <Directory Id="TARGETDIR" Name="SourceDir">
+      <Directory Id="x64_GAC" Name="x64_GAC">
+        <Component Id="x64_GAC" DiskId="1" Guid="49CD009B-2541-484D-BEEB-83D79E7DD9D7">
+          <Condition>
+            <![CDATA[Installed OR VersionNT64]]>
+          </Condition>
+          <File Id="SlimDX.dll_x64_GAC" Name="SlimDX.dll" Source="..\..\publish\Bin\net40\x64\SlimDX.dll"
+                KeyPath="yes" Checksum="yes" Assembly=".net" AssemblyManifest="SlimDX.dll_x64_GAC">
+            <netfx:NativeImage Id="SlimDX_NGEN_x64" Priority="1" Platform="64bit" />
+          </File>
+        </Component>
+      </Directory>
+      <Directory Id="x86_GAC" Name="x86_GAC">
+        <Component Id="x86_GAC" DiskId="1" Guid="862BB85B-0A7A-4FB4-9942-644387DF7B8D">
+          <File Id="SlimDX.dll_x86_GAC" Name="SlimDX.dll" Source="..\..\publish\Bin\net40\x86\SlimDX.dll"
+                KeyPath="yes" Checksum="yes" Assembly=".net" AssemblyManifest="SlimDX.dll_x86_GAC">
+            <netfx:NativeImage Id="SlimDX_NGEN_x86" Priority="1" Platform="32bit" />
+          </File>
+        </Component>
+      </Directory>
+      <Directory Id="TempFolder" Name="TempFolder" >
+        <Directory Id="DXRedist" Name="DirectX Redist">
+          <Component Id="DXRedist" DiskId="1" Guid="DE294C24-BB98-4479-86AD-FA2F3736DC73">
+            <File Id="DSETUP.dll" Name="DSETUP.dll" Source="..\ExtraFiles\DXRedist\DSETUP.dll" />
+            <File Id="dsetup32.dll" Name="dsetup32.dll" Source="..\ExtraFiles\DXRedist\dsetup32.dll" />
+            <File Id="dxdllreg_x86.cab" Name="dxdllreg_x86.cab" Source="..\ExtraFiles\DXRedist\dxdllreg_x86.cab" />
+            <File Id="DXSETUP.exe" Name="DXSETUP.exe" Source="..\ExtraFiles\DXRedist\DXSETUP.exe" />
+            <File Id="dxupdate.cab" Name="dxupdate.cab" Source="..\ExtraFiles\DXRedist\dxupdate.cab" />
+          </Component>
+          <Component Id="DXRedist_x86" Guid="21E764E6-B901-44db-B24C-2CFC012C6EA9">
+            <File Id="D3DCompiler_43_x86" Name="$(var.DXShortName)_D3DCompiler_43_x86.cab" Source="..\ExtraFiles\DXRedist\x86\$(var.DXShortName)_D3DCompiler_43_x86.cab" />
+            <File Id="d3dcsx_43_x86" Name="$(var.DXShortName)_d3dcsx_43_x86.cab" Source="..\ExtraFiles\DXRedist\x86\$(var.DXShortName)_d3dcsx_43_x86.cab" />
+            <File Id="d3dx9_43_x86.cab" Name="$(var.DXShortName)_d3dx9_43_x86.cab" Source="..\ExtraFiles\DXRedist\x86\$(var.DXShortName)_d3dx9_43_x86.cab" />
+            <File Id="d3dx10_43_x86.cab" Name="$(var.DXShortName)_d3dx10_43_x86.cab" Source="..\ExtraFiles\DXRedist\x86\$(var.DXShortName)_d3dx10_43_x86.cab" />
+            <File Id="d3dx11_43_x86.cab" Name="$(var.DXShortName)_d3dx11_43_x86.cab" Source="..\ExtraFiles\DXRedist\x86\$(var.DXShortName)_d3dx11_43_x86.cab" />
+            <File Id="X3DAudio_x86.cab" Name="Feb2010_X3DAudio_x86.cab" Source="..\ExtraFiles\DXRedist\x86\Feb2010_X3DAudio_x86.cab" />
+            <File Id="XAudio_x86.cab" Name="$(var.DXShortName)_XAudio_x86.cab" Source="..\ExtraFiles\DXRedist\x86\$(var.DXShortName)_XAudio_x86.cab" />
+            <File Id="xinput_x86.cab" Name="APR2007_xinput_x86.cab" Source="..\ExtraFiles\DXRedist\x86\APR2007_xinput_x86.cab" />
+          </Component>
+          <Component Id="DXRedist_x64" Guid="93812D6F-4DE3-409c-95C0-FB4CA8E26741">
+            <Condition>
+              <![CDATA[Installed OR VersionNT64]]>
+            </Condition>
+            <File Id="D3DCompiler_43_x64" Name="$(var.DXShortName)_D3DCompiler_43_x64.cab" Source="..\ExtraFiles\DXRedist\x64\$(var.DXShortName)_D3DCompiler_43_x64.cab" />
+            <File Id="d3dcsx_43_x64" Name="$(var.DXShortName)_d3dcsx_43_x64.cab" Source="..\ExtraFiles\DXRedist\x64\$(var.DXShortName)_d3dcsx_43_x64.cab" />
+            <File Id="d3dx9_43_x64.cab" Name="$(var.DXShortName)_d3dx9_43_x64.cab" Source="..\ExtraFiles\DXRedist\x64\$(var.DXShortName)_d3dx9_43_x64.cab" />
+            <File Id="d3dx10_43_x64.cab" Name="$(var.DXShortName)_d3dx10_43_x64.cab" Source="..\ExtraFiles\DXRedist\x64\$(var.DXShortName)_d3dx10_43_x64.cab" />
+            <File Id="d3dx11_43_x64.cab" Name="$(var.DXShortName)_d3dx11_43_x64.cab" Source="..\ExtraFiles\DXRedist\x64\$(var.DXShortName)_d3dx11_43_x64.cab" />
+            <File Id="X3DAudio_x64.cab" Name="Feb2010_X3DAudio_x64.cab" Source="..\ExtraFiles\DXRedist\x64\Feb2010_X3DAudio_x64.cab" />
+            <File Id="XAudio_x64.cab" Name="$(var.DXShortName)_XAudio_x64.cab" Source="..\ExtraFiles\DXRedist\x64\$(var.DXShortName)_XAudio_x64.cab" />
+            <File Id="xinput_x64.cab" Name="APR2007_xinput_x64.cab" Source="..\ExtraFiles\DXRedist\x64\APR2007_xinput_x64.cab" />
+          </Component>
+        </Directory>
+      </Directory>
+    </Directory>
+
+    <Feature Id="Binaries" Title="SlimDX Binaries" Absent="disallow" AllowAdvertise="no" Level="1" Description="SlimDX binary assemblies.">
+      <ComponentRef Id="x86_GAC" />
+      <ComponentRef Id="x64_GAC" />
+    </Feature>
+    <Feature Id="DirectX" Level="1" AllowAdvertise="no" Absent="disallow"
+             Title="DirectX runtime" Description="DirectX runtime components for $(var.ReleaseName). Does not include XACT or older releases. Strongly recommended.">
+      <ComponentRef Id="DXRedist" />
+      <ComponentRef Id="DXRedist_x86" />
+      <ComponentRef Id="DXRedist_x64" />
+    </Feature>
+
+    <Condition Message="This application requires .NET Framework 4.0. Please install the .NET Framework then run this installer again.">
+      <![CDATA[Installed OR NETFRAMEWORK40FULL OR NETFRAMEWORK40CLIENT]]>
+    </Condition>
+
+    <CustomAction Id="InstallDirectX" FileKey="DXSETUP.exe" ExeCommand="/silent" Execute="deferred" Impersonate="no" Return="check" />
+    <InstallExecuteSequence>
+      <Custom Action="InstallDirectX" Before="InstallFinalize"><![CDATA[NOT REMOVE]]></Custom>
+    </InstallExecuteSequence>
+  </Product>
+</Wix>

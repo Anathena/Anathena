@@ -1,5 +1,5 @@
-﻿using Anathema.Source.OS;
-using Anathema.Source.OS.Processes;
+﻿using Anathema.Source.SystemInternals.OperatingSystems;
+using Anathema.Source.SystemInternals.Processes;
 using Anathema.Source.Utils.LUA;
 using System;
 
@@ -10,7 +10,7 @@ namespace Anathema.Source.Tables.Scripts.Editor
         // Singleton instance of Script Editor
         private static Lazy<ScriptEditor> ScriptEditorInstance = new Lazy<ScriptEditor>(() => { return new ScriptEditor(); });
 
-        private OSInterface OSInterface;
+        private Engine OSInterface;
 
         public event ScriptEditorEventHandler EventOpenScript;
         public event ScriptEditorEventHandler EventSetScriptText;
@@ -36,7 +36,7 @@ namespace Anathema.Source.Tables.Scripts.Editor
             ProcessSelector.GetInstance().Subscribe(this);
         }
 
-        public void UpdateOSInterface(OSInterface OSInterface)
+        public void UpdateOSInterface(Engine OSInterface)
         {
             this.OSInterface = OSInterface;
         }

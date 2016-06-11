@@ -1,0 +1,44 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<topic id="39736a8d-047e-4395-bae5-1faa9b549ab3" revisionNumber="0">
+  <developerConceptualDocument xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <introduction>
+      <para>
+        The public builds of SlimDX that are signed and released by the SlimDX team are configured based on how we expect most developers to use the library.
+        However, we cannot possibly account for the needs of everyone, and so it's assumed that it will sometimes be necessary for developers to produce customized builds.
+        Some of these builds may be intended to fix bugs that are required for a product before the next SlimDX release.
+        Others may add in or strip out custom features, or may use a different DirectX version than the official build.
+        This section is intended to provide guidance to developers who need to produce custom builds of SlimDX, for whatever reason.
+      </para>
+    </introduction>
+
+    <section>
+      <title>Custom Build Considerations</title>
+      <content>
+        <para>
+          This guide is divided into the following sections:
+        </para>
+        <list class="bullet">
+          <listItem>
+            <para>
+              <link xlink:href="f8935b39-75cc-4663-9ba0-d7c84f2fb56d">Official Build Process</link>
+              - This section covers the process used to create the official SlimDX build that is released to the public.
+            </para>
+          </listItem>
+          <listItem>
+            <para>
+              <link xlink:href="8dae9bb0-ad12-4c93-a4cd-8715c4694e54">DirectX Versions</link>
+              - This section covers how SlimDX can be retargeted to use a different version of DirectX SDK than the latest released one.
+            </para>
+          </listItem>
+          <listItem>
+            <para>
+              <link xlink:href="70ba8bb5-61d9-467d-ac5b-ae150a3d534e">Visual Studio Versions</link>
+              - This section covers how to build SlimDX in different versions of Visual Studio.
+            </para>
+          </listItem>
+        </list>
+      </content>
+    </section>
+
+  </developerConceptualDocument>
+</topic>

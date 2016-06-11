@@ -1,0 +1,80 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<topic id="10407d29-3a6c-49cc-8c77-e96cd4659780" revisionNumber="0">
+  <developerConceptualDocument xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <introduction>
+      <para>
+        Getting started with SlimDX is easy, but the steps are not necessarily obvious.
+        This guide should help anyone interested to begin developing SlimDX based applications.
+      </para>
+    </introduction>
+
+    <section>
+      <title>Prequisites</title>
+
+      <content>
+        <para>
+          In order to work with SlimDX, you need to have a development environment that allows you to write and run code in a .NET language.
+          We recommend
+          <externalLink>
+            <linkText>Visual C# Express</linkText>
+            <linkUri>http://www.microsoft.com/express/Downloads/</linkUri>
+          </externalLink>, but any similar tool should work just fine.
+          It's also recommended that you download the latest DirectX SDK from the
+          <externalLink>
+            <linkText>Microsoft DirectX Developer Center</linkText>
+            <linkUri>http://msdn.microsoft.com/en-us/directx/default.aspx</linkUri>
+          </externalLink>.
+          This SDK contains a lot of Microsoft written documentation, as well as sample projects in C++ (which are easily translated to SlimDX code) showcasing many useful tricks and techniques.
+          However, this is a very large package, typically in excess of 450 MB, and not required to build SlimDX applications.
+          If you prefer, you can simply use online documentation, tutorials, and samples.
+        </para>
+      </content>
+    </section>
+
+    <section>
+      <title>Installing SlimDX</title>
+
+      <content>
+        <para>
+          Most people will want to use the latest public release of SlimDX, which can always be found on our
+          <externalLink>
+            <linkText>development home page</linkText>
+            <linkUri>http://code.google.com/p/slimdx/</linkUri>
+          </externalLink>.
+          The package there is a fully built and tested version, including an installer that will automatically ensure that your system has everything necessary to build and run SlimDX based applications.
+          New releases happen soon after Microsoft makes a new DirectX release, which currently happens several times a year.
+        </para>
+        <para>
+          You can also download and compile the SlimDX source code yourself.
+          This will require a Visual C++ 2010 installation that is correctly set up to compile DirectX applications and is recommended for advanced users only.
+          In order to download the source, you will need a Subversion client, such as TortoiseSVN or SmartSVN.
+          Once one has been installed, create a new folder on your system where you would like the source downloaded, and perform an SVN Checkout into that directory.
+          The exact process will vary depending on what client you have installed.
+          For TortoiseSVN, simply right click on the folder and select SVN Checkout from the menu.
+          The repository URL is http://slimdx.googlecode.com/svn/trunk/.
+          The client will then download the complete source code tree of SlimDX.
+        </para>
+      </content>
+    </section>
+
+    <section>
+      <title>Writing Applications</title>
+
+      <content>
+        <para>
+          There are a number of samples available for SlimDX that showcase the library and how to use it effectively.
+          A good starting point is the SimpleTriangle sample for Direct3D9, which is built on our SlimDX SampleFramework.
+          The SampleFramework source code is under the MIT license, so you should feel free to use as little or as much of it as you like.
+          If you prefer a more stripped down example, the MiniTri sample does the same thing in a single hundred line file.
+          There are similar minimal samples for most of the other supported APIs as well.
+        </para>
+
+        <para>
+          Apart from the SlimDX samples, there are hundreds of samples written by companies and individuals in C++, Managed DirectX, or XNA that demonstrate all kinds of useful things.
+          Although these cannot be copied verbatim to work with SlimDX, the code is typically very similar and we encourage people to use techniques learned from these samples with SlimDX.
+          The differences are generally quite minor, and so they can be a great additional resource for SlimDX developers.
+        </para>
+      </content>
+    </section>
+  </developerConceptualDocument>
+</topic>

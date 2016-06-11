@@ -1,4 +1,4 @@
-﻿using Anathema.Source.OS;
+﻿using Anathema.Source.SystemInternals.OperatingSystems;
 using Anathema.Source.Scanners.FiniteStateScanner;
 using System;
 using System.Collections.Generic;
@@ -52,7 +52,7 @@ namespace Anathema.Source.Tables.FSMs
             throw new NotImplementedException();
         }
 
-        public void UpdateOSInterface(OSInterface OSInterface)
+        public void UpdateOSInterface(Engine OSInterface)
         {
             throw new NotImplementedException();
         }

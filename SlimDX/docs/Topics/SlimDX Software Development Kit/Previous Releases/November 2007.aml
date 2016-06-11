@@ -1,0 +1,109 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<topic id="43f3f89e-a62a-477b-a584-81a1619629c6" revisionNumber="0">
+  <developerConceptualDocument xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <introduction>
+      <para>
+        This release showcased several major improvements to SlimDX. The core structure underlying the library was enhanced,
+        usability as a whole was reexamined, FxCop was put into use to detect issues in the code, and tons of missing
+        support for D3DX functionality was added.
+      </para>
+    </introduction>
+    <section>
+      <title>Full Release Notes</title>
+      <content>
+        <para>
+          The following is a list of changes that were made to SlimDX for the November 2007 release.
+        </para>
+        <para>
+          <list class="bullet">
+            <listItem>
+              <legacyBold>General</legacyBold>
+              <list class="bullet">
+                <listItem>Patched up the code structure so that DirectXObject members are now visible to VS. This includes a bool Disposed property, IntPtr access to the internal COM pointer, and an event handler that will Dispose the object when triggered (useful for building custom auto-release solutions).</listItem>
+                <listItem>Added constructors that take IntPtr to most SlimDX objects.</listItem>
+                <listItem>Many miscellaneous name and style changes. A lot of these were motivated by FxCop reports.</listItem>
+                <listItem>Unsealed most classes.</listItem>
+                <listItem>Added an ErrorCode class to each subsystem that contains all possible error codes for that system.</listItem>
+                <listItem>Made all exceptions serializable.</listItem>
+                <listItem>Added some DataStream functionality.</listItem>
+                <listItem>Fixed DataStream.Read so that it clamps its read to the end of the stream.</listItem>
+                <listItem>Renamed some DataStream methods.</listItem>
+              </list>
+            </listItem>
+            <listItem>
+              <legacyBold>Math</legacyBold>
+              <list class="bullet">
+                <listItem>Added tons of new functionality to Vector2.</listItem>
+                <listItem>Added tons of new functionality to Vector3.</listItem>
+                <listItem>Added tons of new functionality to Vector4.</listItem>
+                <listItem>Added tons of new functionality to Plane.</listItem>
+                <listItem>Added tons of new functionality to Matrix.</listItem>
+                <listItem>Added tons of new functionality to Quaternion.</listItem>
+                <listItem>Seriously. We added a lot.</listItem>
+              </list>
+            </listItem>
+            <listItem>
+              <legacyBold>Direct3D 9</legacyBold>
+              <list class="bullet">
+                <listItem>Reordered ColorValue components so that they would match their unmanaged counterparts.</listItem>
+                <listItem>Fixed a potential NULL pointer access.</listItem>
+                <listItem>Fixed GraphicsException so that LastError is always set, regardless of whether exceptions are enabled or an actual failure ocurred.</listItem>
+                <listItem>Fixed internal handling of certain structures in buffers, including materials and effect instances.</listItem>
+                <listItem>Massive improvements in D3DX Mesh support.</listItem>
+                <listItem>Added support for clip planes to Device.</listItem>
+                <listItem>Added GetFrontBufferData and GetRenderTargetData to Device.</listItem>
+                <listItem>Added support for ID3DXAnimationController.</listItem>
+                <listItem>Added support for ID3DXAnimationSet.</listItem>
+                <listItem>Added support for ID3DXCompressedAnimationSet.</listItem>
+                <listItem>Added support for ID3DXKeyframedAnimationSet.</listItem>
+                <listItem>Added support for ID3DXMatrixStack.</listItem>
+                <listItem>Added support for D3DXFRAME.</listItem>
+                <listItem>Added support for D3DXMESHCONTAINER.</listItem>
+                <listItem>Added support for ATI R2VB, based on work by Oliver  acid2  Charles.</listItem>
+                <listItem>Added missing ColorWriteEnable enumeration.</listItem>
+                <listItem>Added missing BlendOperation enumeration.</listItem>
+                <listItem>Added support for a number of D3DXGet  functions.</listItem>
+                <listItem>Added Elements property to VertexDeclaration.</listItem>
+                <listItem>Added support to explicitly request the constant table for a vertex shader or pixel shader to be cached.</listItem>
+                <listItem>Numerous smaller bug fixes.</listItem>
+              </list>
+            </listItem>
+            <listItem>
+              <legacyBold>Direct3D 10</legacyBold>
+              <list class="bullet">
+                <listItem>Split ShaderBytecode into ShaderBytecode and ShaderSignature, to semantically disambiguate them. A shader signature is a subset of the complete shader bytecode; to reflect this, ShaderBytecode is a subclass of ShaderSignature. ShaderBytecode may be used when a signature is expected, but a signature cannot be used when full bytecode is expected. This provides an additional measure of type safety.</listItem>
+                <listItem>Added shader reflection functionality (ShaderReflection and related parameter overloads).</listItem>
+                <listItem>Added some missing methods and type to the effect variable hierarchy (array form vector sets, shader variable types).</listItem>
+                <listItem>Added texture functionality (Texture1D, Texture3D).</listItem>
+              </list>
+            </listItem>
+            <listItem>
+              <legacyBold>DirectInput</legacyBold>
+              <list class="bullet">
+                <listItem>Changed the way lost devices are handled, so that the user handles all input lost problems.</listItem>
+                <listItem>Added a switch to InputException to block exceptions for input lost problems.</listItem>
+                <listItem>Changed the return value for GetBufferedData to return a BufferedDataCollection, instead of a generic collection of buffered data.</listItem>
+                <listItem>Works correctly on x64 targets now.</listItem>
+              </list>
+            </listItem>
+            <listItem>
+              <legacyBold>XInput</legacyBold>
+              <list class="bullet">
+                <listItem>Generally cleaned up and reorganized a few things to make it easier to work with.</listItem>
+              </list>
+            </listItem>
+            <listItem>
+              <legacyBold>Samples</legacyBold>
+              <list class="bullet">
+                <listItem>Added the Vortex sample.</listItem>
+                <listItem>Fixed a bug in the MiniTri example that could cause an exception to be thrown when the screen is cleared.</listItem>
+                <listItem>Added MiniTri10 for illustrating basic Direct3D10 use.</listItem>
+              </list>
+            </listItem>
+          </list>
+        </para>
+      </content>
+    </section>
+
+  </developerConceptualDocument>
+</topic>

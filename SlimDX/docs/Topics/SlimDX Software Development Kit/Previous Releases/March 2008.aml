@@ -1,0 +1,130 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<topic id="55b113e9-48e3-43aa-89ab-f1d9cc6b2d32" revisionNumber="0">
+  <developerConceptualDocument xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <introduction>
+      <para>
+        The March 2008 release was an important release that introduced the concept of the object table for keeping track of 
+        COM objects internally. This change improved on the library's stability, and made handling objects more intuitive for
+        .NET developers. Also, the samples were completely overhauled for this release.
+      </para>
+    </introduction>
+    <section>
+      <title>Full Release Notes</title>
+      <content>
+        <para>
+          The following is a list of changes that were made to SlimDX for the March 2008 release.
+        </para>
+        <para>
+          <list class="bullet">
+            <listItem>
+              <legacyBold>General</legacyBold>
+              <list class="bullet">
+                <listItem>Extensive refactoring was done to the library as a whole (excluding the DirectSound and XAudio subsystems, which are not currently very usable) to conform to our Conventions and present a more unified style. This has caused, unfortunately, some breaking changes. We ve tried very hard to complete this refactoring for this release and we do not expect to make another break on this scale.</listItem>
+                <listItem>Added the ObjectTable class for management and tracking of SlimDX objects.</listItem>
+                <listItem>Many bugs related to return values, disposal, properties, missing constructors, et cetera were fixed.</listItem>
+                <listItem>Fixed several string issues that could cause native strings to point to garbage.</listItem>
+                <listItem>Fixed numerous memory leaks, and moved away from general heap allocations towards safer alternatives (auto_ptr and vector).</listItem>
+                <listItem>Completely removed the entire Direct3D namespace. The few types that were there were moved to more appropriate locations.</listItem>
+                <listItem>Added a Result class for wrapping unmanaged HRESULTs and providing success/fail notification without exceptions.</listItem>
+                <listItem>Removed the static DirectX class, as it provided functionality that was redundant with that of the new Result class and System.Diagnostics.Debug.</listItem>
+                <listItem>LockedBox and LockedRect were named to DataBox and DataRectangle, respectively. This gives them some parity with the DataStream they wrap, as well as an API-agnostic name that does not look out of place in either D3D9 or D3D10 (which use "lock" and "map" for the same operation).</listItem>
+                <listItem>Drastically reduced the amount of exceptions thrown by SlimDX, in both number and type.</listItem>
+                <listItem>Moved configuration for library-level operations (such as whether to throw exceptions) to SlimDX.Configuration.</listItem>
+                <listItem>Added the ability to filter exceptions and first-chance breakpoints based on result code (see Debugging Tips for more information).</listItem>
+                <listItem>DataStream no longer accepts a size of zero (previously this was used to mean the stream size was unknown).</listItem>
+              </list>
+            </listItem>
+            <listItem>
+              <legacyBold>Samples</legacyBold>
+              <list class="bullet">
+                <listItem>Completely removed all old samples and cleaned up the sample layout in the repository.</listItem>
+                <listItem>Organized the samples into subsystem folders.</listItem>
+                <listItem>Added all samples to the FxCop project.</listItem>
+                <listItem>Added a sample framework for Direct3D9 samples.</listItem>
+                <listItem>Added the MiniTri Direct3D9 sample.</listItem>
+                <listItem>Added the SimpleTriangle Direct3D9 sample.</listItem>
+                <listItem>Added the Water Direct3D9 sample.</listItem>
+                <listItem>Added the Keyboard DirectInput sample.</listItem>
+                <listItem>Added the Mouse DirectInput sample.</listItem>
+                <listItem>Added the Joystick DirectInput sample.</listItem>
+                <listItem>Added the MiniTri Direct3D10 sample.</listItem>
+              </list>
+            </listItem>
+            <listItem>
+              <legacyBold>Math</legacyBold>
+              <list class="bullet">
+                <listItem>Fixed several bugs in the Matrix and Plane classes.</listItem>
+                <listItem>Added several missing functions from various classes.</listItem>
+                <listItem>Added Ray.</listItem>
+                <listItem>Added BoundingBox.</listItem>
+                <listItem>Added BoundingSphere.</listItem>
+                <listItem>Added Half (16-bit floating point).</listItem>
+                <listItem>Added Half2.</listItem>
+                <listItem>Added Half3.</listItem>
+                <listItem>Added Half4.</listItem>
+                <listItem>Added more intersection methods to Plane.</listItem>
+                <listItem>Added several more method to Matrix.</listItem>
+                <listItem>Added Color3 for RGB floating-point colors.</listItem>
+                <listItem>Renamed ColorValue to Color4 for parity.</listItem>
+                <listItem>Moved "Rational" from the Direct3D10 namespace into the general namespace with the rest of the math objects.</listItem>
+                <listItem>Removed ambiguous overloads.</listItem>
+              </list>
+            </listItem>
+            <listItem>
+              <legacyBold>Direct3D 10</legacyBold>
+              <list class="bullet">
+                <listItem>Added the Asynchronous interface.</listItem>
+                <listItem>Added the Counter interface.</listItem>
+                <listItem>Added the ConstantBuffer interface.</listItem>
+                <listItem>Added the Debug interface.</listItem>
+                <listItem>Added the DeviceChild interface.</listItem>
+                <listItem>Added the EffectPool interface.</listItem>
+                <listItem>Added the Font interface.</listItem>
+                <listItem>Added the Sprite interface.</listItem>
+                <listItem>Added a generic Texture interface as a base for the concrete (1D, 2D, et cetera) textures.</listItem>
+                <listItem>Added generic texture loading and saving methods, as well as fixed bugs in the concrete class loaders.</listItem>
+                <listItem>Added missing methods for construction and constant buffer manipulation to Effect.</listItem>
+                <listItem>Added constructors to ShaderResourceView for all three texture types.</listItem>
+                <listItem>SwapChain and some supporting structures and enumerations were moved to the new DXGI namespace (see below).</listItem>
+              </list>
+            </listItem>
+            <listItem>
+              <legacyBold>Direct3D 9</legacyBold>
+              <list class="bullet">
+                <listItem>Direct3D.Initialize is now optional.</listItem>
+                <listItem>Fixed bugs with Texture loading and saving.</listItem>
+                <listItem>Fixed several problems with Frame.LoadHierarchyFromX().</listItem>
+                <listItem>Fixed several issues arising from using interfaces and passing them into Direct3D callbacks.</listItem>
+                <listItem>Fixed a bug affecting GetSamplerState, GetRenderState, and GetTextureStageState.</listItem>
+                <listItem>Filled out ProgressiveMesh.</listItem>
+                <listItem>Filled out PatchMesh.</listItem>
+                <listItem>Filled out SkinInfo.</listItem>
+                <listItem>Added ID3DXSPMesh.</listItem>
+                <listItem>Added ID3DXRenderToEnvMap.</listItem>
+                <listItem>Added ID3DXTextureShader.</listItem>
+                <listItem>Added ID3DXEffectStateManager.</listItem>
+                <listItem>Added XFile support.</listItem>
+                <listItem>Added tons of new Mesh methods.</listItem>
+                <listItem>Added several miscellaneous functions to the D3DX helper class.</listItem>
+                <listItem>Added DrawTransformed to Line.</listItem>
+                <listItem>Added GetTransform to Device.</listItem>
+                <listItem>Added loading and saving to Surface.</listItem>
+                <listItem>Added loading and saving to Volume.</listItem>
+                <listItem>Added Fill methods to the texture classes.</listItem>
+                <listItem>Removed the BufferWrapper class.</listItem>
+                <listItem>All methods that used BufferWrapper now use DataStream directly.</listItem>
+              </list>
+            </listItem>
+            <listItem>
+              <legacyBold>DXGI</legacyBold>
+              <list class="bullet">
+                <listItem>Exposed DXGI; the subsystem is feature-complete.</listItem>
+              </list>
+            </listItem>
+          </list>
+        </para>
+      </content>
+    </section>
+
+  </developerConceptualDocument>
+</topic>

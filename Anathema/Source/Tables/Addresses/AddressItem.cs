@@ -1,4 +1,4 @@
-﻿using Anathema.Source.OS;
+﻿using Anathema.Source.SystemInternals.OperatingSystems;
 using Anathema.Source.Utils.Extensions;
 using Anathema.Source.Utils.Validation;
 using System;
@@ -120,7 +120,7 @@ namespace Anathema.Source.Tables.Addresses
         }
 
         [Obfuscation(Exclude = true)]
-        public void ResolveAddress(OSInterface OSInterface)
+        public void ResolveAddress(Engine OSInterface)
         {
             IntPtr Pointer = this.BaseAddress;
             Boolean SuccessReading = true;

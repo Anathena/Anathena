@@ -1,0 +1,145 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<topic id="3f421301-4a9f-446a-b9e6-87adf8d2f850" revisionNumber="0">
+  <developerConceptualDocument xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <introduction>
+      <para>
+        This section contains a complete reference for all types and methods contained in SlimDX.
+        Although they are not all completely documented at this point, we are working on rectifying
+        this situation. If you need clarification on a certain method, see the corresponding entry
+        in the DirectX SDK's documentation. The SlimDX methods closely match their DirectX counterparts.
+      </para>
+    </introduction>
+
+    <section>
+      <title>Namespaces</title>
+
+      <content>
+        <para>
+          SlimDX is divided into the following namespaces:
+        </para>
+        <list class="bullet">
+          <listItem>
+            <para>
+              <codeEntityReference>N:SlimDX</codeEntityReference>
+              - Contains common classes and functionality not linked to a specific piece of DirectX, including the math library.
+            </para>
+          </listItem>
+          <listItem>
+            <para>
+              <codeEntityReference>N:SlimDX.D3DCompiler</codeEntityReference>
+              - Contains classes and types for Direct3D shader and effect compilation.
+            </para>
+          </listItem>
+          <listItem>
+            <para>
+              <codeEntityReference>N:SlimDX.Design</codeEntityReference>
+              - Contains classes to support design time functionality with SlimDX.
+            </para>
+          </listItem>
+          <listItem>
+            <para>
+              <codeEntityReference>N:SlimDX.Direct2D</codeEntityReference>
+              - Contains classes and types for Direct2D graphics support.
+            </para>
+          </listItem>
+          <listItem>
+            <para>
+              <codeEntityReference>N:SlimDX.Direct3D10</codeEntityReference>
+              - Contains classes and types for Direct3D 10 graphics support.
+            </para>
+          </listItem>
+          <listItem>
+            <para>
+              <codeEntityReference>N:SlimDX.Direct3D10_1</codeEntityReference>
+              - Contains classes and types for Direct3D 10.1 graphics support.
+            </para>
+          </listItem>
+          <listItem>
+            <para>
+              <codeEntityReference>N:SlimDX.Direct3D11</codeEntityReference>
+              - Contains classes and types for Direct3D 11 graphics support.
+            </para>
+          </listItem>
+          <listItem>
+            <para>
+              <codeEntityReference>N:SlimDX.Direct3D9</codeEntityReference>
+              - Contains classes and types for Direct3D 9 graphics support.
+            </para>
+          </listItem>
+          <listItem>
+            <para>
+              <codeEntityReference>N:SlimDX.DirectInput</codeEntityReference>
+              - Contains classes and types for DirectInput 8 support.
+            </para>
+          </listItem>
+          <listItem>
+            <para>
+              <codeEntityReference>N:SlimDX.DirectSound</codeEntityReference>
+              - Contains classes and types for DirectSound 8 support.
+            </para>
+          </listItem>
+          <listItem>
+            <para>
+              <codeEntityReference>N:SlimDX.DirectWrite</codeEntityReference>
+              - Contains classes and types for DirectWrite font and text support.
+            </para>
+          </listItem>
+          <listItem>
+            <para>
+              <codeEntityReference>N:SlimDX.DXGI</codeEntityReference>
+              - Contains classes and types for DXGI support.
+            </para>
+          </listItem>
+          <listItem>
+            <para>
+              <codeEntityReference>N:SlimDX.Multimedia</codeEntityReference>
+              - Contains classes and types for loading and processing multimedia files, such as sounds.
+            </para>
+          </listItem>
+          <listItem>
+            <para>
+              <codeEntityReference>N:SlimDX.RawInput</codeEntityReference>
+              - Contains classes and types for using the RawInput API.
+            </para>
+          </listItem>
+          <listItem>
+            <para>
+              <codeEntityReference>N:SlimDX.Windows</codeEntityReference>
+              - Contains classes and types for various bits of Win32 functionality.
+            </para>
+          </listItem>
+          <listItem>
+            <para>
+              <codeEntityReference>N:SlimDX.X3DAudio</codeEntityReference>
+              - Contains classes and types for X3D Audio support.
+            </para>
+          </listItem>
+          <listItem>
+            <para>
+              <codeEntityReference>N:SlimDX.XACT3</codeEntityReference>
+              - Contains classes and types for the cross platform audio content library (XACT).
+            </para>
+          </listItem>
+          <listItem>
+            <para>
+              <codeEntityReference>N:SlimDX.XAPO</codeEntityReference>
+              - Contains classes and types for the cross platform audio processing object library (XAPO).
+            </para>
+          </listItem>
+          <listItem>
+            <para>
+              <codeEntityReference>N:SlimDX.XAudio2</codeEntityReference>
+              - Contains classes and types for XAudio 2 support.
+            </para>
+          </listItem>
+          <listItem>
+            <para>
+              <codeEntityReference>N:SlimDX.XInput</codeEntityReference>
+              - Contains classes and types for XInput support.
+            </para>
+          </listItem>
+        </list>
+      </content>
+    </section>
+  </developerConceptualDocument>
+</topic>

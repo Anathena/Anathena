@@ -1,0 +1,61 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<topic id="1db9c09e-396b-4631-b48e-2e5b4895c49b" revisionNumber="0">
+  <developerConceptualDocument xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <introduction>
+      <para>
+        SlimDX sports complete support for both 32 and 64 bit targets.
+        However, some special configuration tweaks are necessary in order to get applications using the correct bit width.
+        The default settings can result in unexpected crashes, so it's recommended to make these changes in order to get the smoothest possible experience.
+      </para>
+    </introduction>
+
+    <section>
+      <title>Architecture Selection in .NET</title>
+
+      <content>
+        <para>
+          Most .NET applications are compiled using the "Any CPU" configuration.
+          This setting indicates to the compiler that the code is fully compatible with both 32 and 64 bit targets, and that the generated CIL bytecodes should not assume a specific architecture.
+          It is also possible to force compilation for either x86 or x64, if necessary.
+          If one of these settings is not forced, then the runtime will select a target architecture when it begins running a program.
+          However, SlimDX cannot be compiled as an Any CPU binary because it links with native libraries that are compiled for a specific architecture.
+          As a result, there are separate assemblies for x86 and x64.
+          By default, Visual Studio will only allow you to reference one of these two.
+        </para>
+        <para>
+          Let's assume that you are writing an application that is fully compatible with Any CPU.
+          The obvious choice for the SlimDX reference would be the x86 version, since that should be fully compatible with x64 systems.
+          If you now attempt to run this program on a 64 bit system, it will crash as soon as SlimDX is loaded.
+          This happens because the runtime defaults to running Any CPU applications in 64 bit mode on 64 bit systems, regardless of the limitations of any assemblies it may depend on.
+          64 bit processes cannot load 32 bit DLLs, and so the program crashes.
+          The common solution to this problem is to force your compiler to compile for x86 instead of Any CPU, which will fix the crash.
+          The SlimDX team previously recommended forcing x86 or x64 mode as appropriate.
+          Unfortunately, this means that you cannot take advantage of architectural improvements available on the x64 platform unless you create a second binary and ask users to choose one depending on what system they are running.
+          Because of this, some work was done and it is now possible to write Any CPU SlimDX applications.
+        </para>
+      </content>
+    </section>
+
+    <section>
+      <title>Configuring Your Project for Any CPU</title>
+
+      <content>
+        <para>
+          When you add a SlimDX reference to a Visual C# project file, it generates a block of XML similar to:
+          <code language="XML">
+&lt;Reference Include="SlimDX, Version=2.0.13.43, Culture=neutral, PublicKeyToken=b1b0c32fd1ffe4f9, processorArchitecture=x86"&gt;
+  &lt;SpecificVersion&gt;False&lt;/SpecificVersion&gt;
+  &lt;HintPath&gt;..\..\..\..\..\..\Program Files (x86)\SlimDX SDK (January 2012)\Bin\x86\SlimDX.dll&lt;/HintPath&gt;
+&lt;/Reference&gt;
+          </code>
+          Open your project file in a text editor and delete the bolded processorArchitecture directive.
+          This is what forces your application to select a specific (and possibly wrong) build of SlimDX.
+          (The HintPath can be safely left in place, though it's recommended that you point it to the correct version for your development system.)
+          Without it, the runtime will see that both 32 and 64 bit versions of SlimDX are available, and select the correct one automatically.
+          This mechanism only works when both otherwise identical 32 and 64 bit builds of SlimDX have been registered as shared assemblies in the Global Assembly Cache.
+          We are not currently aware of any way to make Any CPU work with private SlimDX assemblies.
+        </para>
+      </content>
+    </section>
+  </developerConceptualDocument>
+</topic>

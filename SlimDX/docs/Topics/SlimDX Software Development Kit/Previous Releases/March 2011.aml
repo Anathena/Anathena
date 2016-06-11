@@ -1,0 +1,154 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<topic id="11897ba1-308d-4143-9101-28bcadd55811" revisionNumber="1">
+  <developerConceptualDocument xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <introduction>
+      <para>
+        The March 2011 release of SlimDX was a bug fixing and stability release. In this release we diverged from the
+        usual practice of synchronizing our schedule with that of the DirectX SDK, mostly due to the long wait since
+        the previous release, June 2010. March 2011 boasts several bug fixes, some performance improvements,
+        a few bits of missing functionality, and a couple new samples, and we decided that we couldn't wait any longer for the release.
+      </para>
+      <para>
+        As evidenced by the dwindling supply of bug reports, SlimDX is reaching a very stable point in its life cycle.
+        Because of this, we have had time to put the previously announced "SlimDX 2.0" into heavy development. We
+        are making steady progress, and hope to release towards the end of 2011, although the date is not set in stone.
+        Up to and past that point, we will continue to make bug fixes and requested improvements to the "1.x" production
+        branch, so rest assured that we are still committed to bringing you the best product we possibly can.
+      </para>
+    </introduction>
+
+    <section>
+      <title>Full Release Notes</title>
+      <content>
+        <para>
+          The following is a list of changes that were made to SlimDX for the March 2011 release.
+        </para>
+        <para>
+          <list class="bullet">
+            <listItem>
+              <legacyBold>General</legacyBold>
+              <list class="bullet">
+                <listItem>
+                  Added DebugName properties to appropriate D3D9, 10, 11, and DXGI objects. This property allows a friendly name to be attached to the object,
+                  which can be used in debug messages and in the PIX object table.
+                </listItem>
+              </list>
+            </listItem>
+            <listItem>
+              <legacyBold>Samples</legacyBold>
+              <list class="bullet">
+                <listItem>Fixed the MiniTri10 sample to not use the console subsystem.</listItem>
+                <listItem>Changed the sample framework to check for fullscreen DXGI swap chain before disposing.</listItem>
+                <listItem>Removed unused testing code from SimpleModel10.</listItem>
+                <listItem>Fixed configuration issues in MiniTri11.</listItem>
+                <listItem>Fixed Device.Clear depth value in WPF control.</listItem>
+                <listItem>Added BasicComputeShader sample for D3D11.</listItem>
+              </list>
+            </listItem>
+            <listItem>
+              <legacyBold>Math</legacyBold>
+              <list class="bullet">
+                <listItem>Added an overload of <codeEntityReference>M:SlimDX.Ray.Intersects(SlimDX.Ray,SlimDX.Vector3,SlimDX.Vector3,SlimDX.Vector3,System.Single@,System.Single@,System.Single@)</codeEntityReference> that returns the barycentric hit coordinates.</listItem>
+                <listItem>Moved the Direct2D <codeEntityReference>T:SlimDX.Matrix3x2</codeEntityReference> type into the main math library.</listItem>
+                <listItem>Added several helper methods to the Matrix3x2 type.</listItem>
+                <listItem>Fixed a bug in the <codeEntityReference>M:SlimDX.Matrix.Billboard(SlimDX.Vector3,SlimDX.Vector3,SlimDX.Vector3,SlimDX.Vector3)</codeEntityReference> methods.</listItem>
+              </list>
+            </listItem>
+            <listItem>
+              <legacyBold>Direct2D</legacyBold>
+              <list class="bullet">
+                <listItem>Added constructors for <codeEntityReference>T:SlimDX.Direct2D.Bitmap</codeEntityReference> that allow construction via DXGI shared surfaces.</listItem>
+              </list>
+            </listItem>
+            <listItem>
+              <legacyBold>Direct3D 9</legacyBold>
+              <list class="bullet">
+                <listItem>Fixed a memory issue in Utilities.ReadRange that affected many <codeEntityReference>T:SlimDX.Direct3D9.BaseMesh</codeEntityReference> methods.</listItem>
+                <listItem>Fixed a typo in the caps structure that filled <codeEntityReference>P:SlimDX.Direct3D9.Capabilities.VertexTextureFilterCaps</codeEntityReference> with the wrong value.</listItem>
+                <listItem>Fixed memory issue in <codeEntityReference>T:SlimDX.Direct3D9.Include</codeEntityReference> interface.</listItem>
+                <listItem>Changed <codeEntityReference>T:SlimDX.Direct3D9.AnimationOutput</codeEntityReference> to be a reference type, and pinned the memory to receive animation updates.</listItem>
+                <listItem>Added an overload to <codeEntityReference>M:SlimDX.Direct3D9.AnimationController.RegisterAnimationOutput(SlimDX.Direct3D9.Frame)</codeEntityReference> to take a <codeEntityReference>T:SlimDX.Direct3D9.Frame</codeEntityReference> instead.</listItem>
+                <listItem>Fixed overload defaults for texture creation functions when using D3D9Ex.</listItem>
+                <listItem>Changed BaseMesh index buffer and vertex buffer to be ancillary objects. They no longer require explicit cleanup.</listItem>
+                <listItem>Added <codeEntityReference>T:SlimDX.Direct3D9.SwapChainEx</codeEntityReference> class.</listItem>
+              </list>
+            </listItem>
+            <listItem>
+              <legacyBold>Direct3D 10</legacyBold>
+              <list class="bullet">
+                <listItem>Added missing creation method overloads to <codeEntityReference>T:SlimDX.Direct3D10.Effect</codeEntityReference>.</listItem>
+                <listItem>Added missing Get/SetRawValue methods to <codeEntityReference>T:SlimDX.Direct3D10.EffectVariable</codeEntityReference>.</listItem>
+                <listItem>Added <codeEntityReference>M:SlimDX.Direct3D10.InputAssemblerWrapper.GetInputLayout</codeEntityReference> to the InputAssember device stage.</listItem>
+                <listItem>Added <codeEntityReference>M:SlimDX.Direct3D10.InputAssemblerWrapper.GetPrimitiveTopology</codeEntityReference> to the InputAssember device stage.</listItem>
+                <listItem>Added <codeEntityReference>M:SlimDX.Direct3D10.InputAssemblerWrapper.GetIndexBuffer(SlimDX.Direct3D10.Buffer@,SlimDX.DXGI.Format@,System.Int32@)</codeEntityReference> to the InputAssember device stage.</listItem>
+                <listItem>Added <codeEntityReference>M:SlimDX.Direct3D10.InputAssemblerWrapper.GetVertexBuffers(System.Int32,System.Int32)</codeEntityReference> to the InputAssember device stage.</listItem>
+                <listItem>Added <codeEntityReference>T:SlimDX.Direct3D10.ResourceOptionFlags</codeEntityReference>.GdiCompatible and ResourceOptionFlags.KeyedMutex.</listItem>
+                <listItem>Added <codeEntityReference>M:SlimDX.Direct3D10.Resource.SaveTextureToFile(SlimDX.Direct3D10.Resource,SlimDX.Direct3D10.ImageFileFormat,System.String)</codeEntityReference>, which allows for saving a texture without knowing its concrete type.</listItem>
+                <listItem>Fixed a COM reference leak in <codeEntityReference>M:SlimDX.Direct3D10.Device.OpenSharedResource``1(System.IntPtr)</codeEntityReference>.</listItem>
+                <listItem>Fixed a typo in the <codeEntityReference>T:SlimDX.Direct3D10.StateBlock</codeEntityReference> constructor that prevented it from being used.</listItem>
+              </list>
+            </listItem>
+            <listItem>
+              <legacyBold>Direct3D 11</legacyBold>
+              <list class="bullet">
+                <listItem>Fixed a COM reference leak in <codeEntityReference>M:SlimDX.Direct3D11.Device.OpenSharedResource``1(System.IntPtr)</codeEntityReference>.</listItem>
+                <listItem>Added <codeEntityReference>M:SlimDX.Direct3D11.DeviceContext.IsDataAvailable(SlimDX.Direct3D11.Asynchronous)</codeEntityReference> to the DeviceContext interface.</listItem>
+                <listItem>Added <codeEntityReference>M:SlimDX.Direct3D11.Resource.SaveTextureToFile(SlimDX.Direct3D11.DeviceContext,SlimDX.Direct3D11.Resource,SlimDX.Direct3D11.ImageFileFormat,System.String)</codeEntityReference>, which allows for saving a texture without knowing its concrete type.</listItem>
+              </list>
+            </listItem>
+            <listItem>
+              <legacyBold>Windows</legacyBold>
+              <list class="bullet">
+                <listItem>Added functionality to the <codeEntityReference>T:SlimDX.Windows.RenderForm</codeEntityReference> class to add sizing and monitor change events.</listItem>
+              </list>
+            </listItem>
+            <listItem>
+              <legacyBold>DXGI</legacyBold>
+              <list class="bullet">
+                <listItem>Changed <codeEntityReference>T:SlimDX.DXGI.SwapChain</codeEntityReference>.Dispose to throw if the adapter is in fullscreen mode. This prevents a crash inside DXGI.</listItem>
+                <listItem>Added <codeEntityReference>P:SlimDX.DXGI.SwapChain.IsFullScreen</codeEntityReference> property to SwapChain as a convenient alternative to <codeEntityReference>M:SlimDX.DXGI.SwapChain.GetFullScreenState(System.Boolean@,SlimDX.DXGI.Output@)</codeEntityReference>.</listItem>
+                <listItem>Fixed a null reference check in <codeEntityReference>M:SlimDX.DXGI.Output.GetClosestMatchingMode(SlimDX.ComObject,SlimDX.DXGI.ModeDescription,SlimDX.DXGI.ModeDescription@)</codeEntityReference>.</listItem>
+                <listItem>Added <codeEntityReference>T:SlimDX.DXGI.Surface1</codeEntityReference> support.</listItem>
+                <listItem>Fixed DXGI constructors that acted like QueryInterface to handle creating objects that already exist in the object table.</listItem>
+              </list>
+            </listItem>
+            <listItem>
+              <legacyBold>DirectWrite</legacyBold>
+              <list class="bullet">
+                <listItem>Changed <codeEntityReference>T:SlimDX.DirectWrite.TextLayout</codeEntityReference> to inherit from <codeEntityReference>T:SlimDX.DirectWrite.TextFormat</codeEntityReference>.</listItem>
+              </list>
+            </listItem>
+            <listItem>
+              <legacyBold>D3DCompiler</legacyBold>
+              <list class="bullet">
+                <listItem>Fixed memory issue in <codeEntityReference>T:SlimDX.D3DCompiler.Include</codeEntityReference> interface.</listItem>
+                <listItem>Added overloads to <codeEntityReference>M:SlimDX.D3DCompiler.ShaderBytecode.Compile(System.Byte[],System.String)</codeEntityReference> to take source name for error reporting purposes.</listItem>
+                <listItem>Fixed the <codeEntityReference>M:SlimDX.D3DCompiler.ShaderBytecode.Strip(SlimDX.D3DCompiler.StripFlags)</codeEntityReference> function to return the stripped bytecode.</listItem>
+              </list>
+            </listItem>
+            <listItem>
+              <legacyBold>XAPO</legacyBold>
+              <list class="bullet">
+                <listItem>Fixed the flow of calls to the XAPO interfaces and their implementations.</listItem>
+                <listItem>Fixed a memory bug in the XAPO base class constructors.</listItem>
+              </list>
+            </listItem>
+            <listItem>
+              <legacyBold>Multimedia</legacyBold>
+              <list class="bullet">
+                <listItem>Added <codeEntityReference>T:SlimDX.Multimedia.XWMAStream</codeEntityReference> class for loading xWMA files.</listItem>
+              </list>
+            </listItem>
+            <listItem>
+              <legacyBold>DirectInput</legacyBold>
+              <list class="bullet">
+                <listItem>Fixed a typo in <codeEntityReference>M:SlimDX.DirectInput.Device.GetObjectInfoById(System.Int32)</codeEntityReference> that caused it to return info by usage instead.</listItem>
+                <listItem>Changed <codeEntityReference>P:SlimDX.DirectInput.ObjectProperties.LogicalRange</codeEntityReference> and <codeEntityReference>P:SlimDX.DirectInput.ObjectProperties.PhysicalRange</codeEntityReference> to return actual ranges instead of integers.</listItem>
+              </list>
+            </listItem>
+          </list>
+        </para>
+      </content>
+    </section>
+  </developerConceptualDocument>
+</topic>

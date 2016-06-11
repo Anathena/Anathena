@@ -1,4 +1,4 @@
-﻿using Anathema.Source.OS;
+﻿using Anathema.Source.SystemInternals.OperatingSystems;
 using Anathema.Source.Utils;
 using Anathema.Source.Utils.Setting;
 using Anathema.Source.Utils.Snapshots;
@@ -63,7 +63,7 @@ namespace Anathema.Source.Scanners.TreeScanner
 
         protected override void Update()
         {
-            OSInterface MemoryEditor = Snapshot.GetOSInterface();
+            Engine MemoryEditor = Snapshot.GetOSInterface();
             try
             {
                 Parallel.ForEach(FilterTrees, (Tree) =>

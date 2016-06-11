@@ -1,0 +1,24 @@
+This folder needs to be copied to "\Program Files\Microsoft SDKs\Windows\v6.0A\Bootstrapper\Packages" on the user's computer.
+There are a set of registry keys for this location:
+  HKLM\Software\Microsoft\GenericBootstrapper\3.5   // VS 2008
+  HKLM\Software\Microsoft\GenericBootstrapper\4.0   // VS 2010
+Under my x64 machine the registry keys are in this location:
+  HKLM\Software\Wow6432Node\Microsoft\GenericBootstrapper\3.5
+  HKLM\Software\Wow6432Node\Microsoft\GenericBootstrapper\4.0
+
+The Key in each case is "Path"
+
+The License.rtf file should be copied to ClickOnce/en/
+The MSI for the runtime should be copied to ClickOnce/
+
+The GUID for the MSI should be copied into the product.xml file, in the MsiProductCheck element
+The PublicKey for the MSI should be copied into the product.xml file, in the PackageFile element
+The name of the MSI for the runtime should be copied into the product.xml file, in the PackageFile element as well as the Command element
+The ProductCode in the product.xml file should match the SlimDX version
+The Command element in the product.xml should be adjusted for the runtime installed size in bytes
+
+The DisplayName string in en/package.xml should be modified to the correct string
+The SlimDXHomeSite string in en/package.xml should be modified to the correct download location
+
+The folder should be renamed from "ClickOnce" to something version specific, such as "sdx20942"
+

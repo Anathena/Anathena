@@ -1,5 +1,5 @@
-﻿using Anathema.Source.OS;
-using Anathema.Source.OS.Processes;
+﻿using Anathema.Source.SystemInternals.OperatingSystems;
+using Anathema.Source.SystemInternals.Processes;
 using Anathema.Source.Utils;
 using Anathema.Source.Utils.Extensions;
 using Anathema.Source.Utils.Setting;
@@ -31,7 +31,7 @@ namespace Anathema.Source.Prefilter
         // Singleton instance of prefilter
         private static Lazy<ISnapshotPrefilter> SnapshotPrefilterInstance = new Lazy<ISnapshotPrefilter>(() => { return new LinkedListSnapshotPrefilter(); });
 
-        private OSInterface OSInterface;
+        private Engine OSInterface;
 
         private const Int32 ChunkLimit = 32768;
         private const Int32 ChunkSize = 4096;
@@ -66,7 +66,7 @@ namespace Anathema.Source.Prefilter
             ProcessSelector.GetInstance().Subscribe(this);
         }
 
-        public void UpdateOSInterface(OSInterface OSInterface)
+        public void UpdateOSInterface(Engine OSInterface)
         {
             this.OSInterface = OSInterface;
 

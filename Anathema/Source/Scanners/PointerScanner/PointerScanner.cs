@@ -1,6 +1,6 @@
-﻿using Anathema.Source.OS;
-using Anathema.Source.OS.Processes;
-using Anathema.Source.Scanners.ScanConstraints;
+﻿using Anathema.Source.Scanners.ScanConstraints;
+using Anathema.Source.SystemInternals.OperatingSystems;
+using Anathema.Source.SystemInternals.Processes;
 using Anathema.Source.Tables.Addresses;
 using Anathema.Source.Utils.Extensions;
 using Anathema.Source.Utils.Snapshots;
@@ -31,7 +31,7 @@ namespace Anathema.Source.Scanners.PointerScanner
 
     class PointerScanner : IPointerScannerModel, IProcessObserver
     {
-        private OSInterface OSInterface;
+        private Engine OSInterface;
         private Snapshot<Null> Snapshot;
 
         private Int32 StartReadIndex;
@@ -79,7 +79,7 @@ namespace Anathema.Source.Scanners.PointerScanner
             ProcessSelector.GetInstance().Subscribe(this);
         }
 
-        public void UpdateOSInterface(OSInterface OSInterface)
+        public void UpdateOSInterface(Engine OSInterface)
         {
             this.OSInterface = OSInterface;
         }
