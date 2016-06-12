@@ -23,7 +23,7 @@ namespace Anathema.Source.Tables.Addresses
         // Singleton instance of address table
         private static Lazy<AddressTable> AddressTableInstance = new Lazy<AddressTable>(() => { return new AddressTable(); });
 
-        private Engine OSInterface;
+        private Engine Engine;
 
         private List<AddressItem> AddressItems;
 
@@ -58,9 +58,9 @@ namespace Anathema.Source.Tables.Addresses
             ProcessSelector.GetInstance().Subscribe(this);
         }
 
-        public void UpdateOSInterface(Engine OSInterface)
+        public void UpdateEngine(Engine Engine)
         {
-            this.OSInterface = OSInterface;
+            this.Engine = Engine;
         }
 
         public override void UpdateReadBounds(Int32 StartReadIndex, Int32 EndReadIndex)
@@ -71,7 +71,7 @@ namespace Anathema.Source.Tables.Addresses
 
         public override void SetAddressFrozen(Int32 Index, Boolean Activated)
         {
-            if (OSInterface == null)
+            if (Engine == null)
             {
                 // Allow disabling even if there is no valid process
                 if (!Activated)
@@ -83,8 +83,8 @@ namespace Anathema.Source.Tables.Addresses
             if (Activated)
             {
                 Boolean ReadSuccess;
-                AddressItems[Index].ResolveAddress(OSInterface);
-                AddressItems[Index].Value = OSInterface.Process.Read(AddressItems[Index].ElementType, AddressItems[Index].EffectiveAddress, out ReadSuccess);
+                AddressItems[Index].ResolveAddress(Engine);
+                AddressItems[Index].Value = Engine.Memory.Read(AddressItems[Index].ElementType, AddressItems[Index].EffectiveAddress, out ReadSuccess);
             }
 
             AddressItems[Index].SetActivationState(Activated);
@@ -145,9 +145,9 @@ namespace Anathema.Source.Tables.Addresses
             // Write change to memory
             if (AddressItem.Value != null)
             {
-                AddressItem.ResolveAddress(OSInterface);
-                if (OSInterface != null)
-                    OSInterface.Process.Write(AddressItem.ElementType, AddressItem.EffectiveAddress, AddressItem.Value);
+                AddressItem.ResolveAddress(Engine);
+                if (Engine != null)
+                    Engine.Memory.Write(AddressItem.ElementType, AddressItem.EffectiveAddress, AddressItem.Value);
             }
 
             UpdateAddressTableItemCount();
@@ -196,10 +196,10 @@ namespace Anathema.Source.Tables.Addresses
             {
                 if (Item.GetActivationState())
                 {
-                    Item.ResolveAddress(OSInterface);
+                    Item.ResolveAddress(Engine);
 
-                    if (OSInterface != null && Item.Value != null)
-                        OSInterface.Process.Write(Item.ElementType, Item.EffectiveAddress, Item.Value);
+                    if (Engine != null && Item.Value != null)
+                        Engine.Memory.Write(Item.ElementType, Item.EffectiveAddress, Item.Value);
                 }
             }
 
@@ -209,10 +209,10 @@ namespace Anathema.Source.Tables.Addresses
                     continue;
 
                 Boolean ReadSuccess;
-                AddressItems[Index].ResolveAddress(OSInterface);
+                AddressItems[Index].ResolveAddress(Engine);
 
-                if (OSInterface != null)
-                    AddressItems[Index].Value = OSInterface.Process.Read(AddressItems[Index].ElementType, AddressItems[Index].EffectiveAddress, out ReadSuccess);
+                if (Engine != null)
+                    AddressItems[Index].Value = Engine.Memory.Read(AddressItems[Index].ElementType, AddressItems[Index].EffectiveAddress, out ReadSuccess);
             }
 
             if (AddressItems.Count != 0)

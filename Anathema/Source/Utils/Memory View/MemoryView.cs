@@ -13,7 +13,7 @@ namespace Anathema.Source.Utils.MemoryView
     /// </summary>
     class MemoryView : IMemoryViewModel, IProcessObserver
     {
-        private Engine OSInterface;
+        private Engine Engine;
         private IEnumerable<NormalizedRegion> VirtualPages;
 
         private IntPtr StartReadAddress;
@@ -34,19 +34,19 @@ namespace Anathema.Source.Utils.MemoryView
             ProcessSelector.GetInstance().Subscribe(this);
         }
 
-        public void UpdateOSInterface(Engine OSInterface)
+        public void UpdateEngine(Engine Engine)
         {
-            this.OSInterface = OSInterface;
+            this.Engine = Engine;
 
             RefreshVirtualPages();
         }
 
         public override void RefreshVirtualPages()
         {
-            if (OSInterface == null)
+            if (Engine == null)
                 return;
 
-            VirtualPages = OSInterface.Process.GetAllVirtualPages();
+            VirtualPages = Engine.Memory.GetAllVirtualPages();
             MemoryViewEventArgs Args = new MemoryViewEventArgs();
             Args.VirtualPages = VirtualPages;
             OnEventUpdateVirtualPages(Args);
@@ -83,10 +83,10 @@ namespace Anathema.Source.Utils.MemoryView
 
         public override void WriteToAddress(IntPtr Address, Byte Value)
         {
-            if (OSInterface == null)
+            if (Engine == null)
                 return;
 
-            OSInterface.Process.Write<Byte>(Address, Value);
+            Engine.Memory.Write<Byte>(Address, Value);
         }
 
         public override void Begin()
@@ -98,7 +98,7 @@ namespace Anathema.Source.Utils.MemoryView
         {
             base.Update();
 
-            if (OSInterface == null)
+            if (Engine == null)
                 return;
 
             for (IntPtr Address = StartReadAddress; Address.ToUInt64() <= EndReadAddress.ToUInt64(); Address.Add(1))
@@ -108,7 +108,7 @@ namespace Anathema.Source.Utils.MemoryView
                     continue;
 
                 Boolean ReadSuccess;
-                Byte Value = OSInterface.Process.Read<Byte>(Address, out ReadSuccess);
+                Byte Value = Engine.Memory.Read<Byte>(Address, out ReadSuccess);
 
                 if (ReadSuccess)
                     AddressValueMap[Address] = Value;

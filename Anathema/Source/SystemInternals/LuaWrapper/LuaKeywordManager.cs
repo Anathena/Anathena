@@ -1,9 +1,10 @@
-﻿using Anathema.Source.Utils.Extensions;
+﻿using Anathema.Source.SystemInternals.LuaWrapper.Memory;
+using Anathema.Source.Utils.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Anathema.Source.Utils.LUA
+namespace Anathema.Source.SystemInternals.LuaWrapper
 {
     class LuaKeywordManager
     {
@@ -74,7 +75,7 @@ namespace Anathema.Source.Utils.LUA
 
         public static String AsmInstructionKeywords { get { SortKeywords(); return _AsmInstructionKeywords; } private set { _AsmInstructionKeywords = value; } }
 
-        private static String _AnathemaKeywords = "Engine fasm nasm masm";
+        private static String _AnathemaKeywords = "Memory Graphics fasm nasm masm";
         public static String AnathemaKeywords { get { SortKeywords(); return _AnathemaKeywords; } private set { _AnathemaKeywords = value; } }
 
         private static String _AllLuaKeywords = String.Empty;

@@ -11,7 +11,7 @@ namespace Anathema.Source.Controller
     class Main : IMainModel
     {
         private static Lazy<Main> MainInstance = new Lazy<Main>(() => { return new Main(); });
-        private Engine OSInterface;
+        private Engine Engine;
 
         public event MainEventHandler EventUpdateProcessTitle;
         public event MainEventHandler EventUpdateProgress;
@@ -39,12 +39,12 @@ namespace Anathema.Source.Controller
             ProcessSelector.GetInstance().Subscribe(this);
         }
 
-        public void UpdateOSInterface(Engine OSInterface)
+        public void UpdateEngine(Engine Engine)
         {
-            this.OSInterface = OSInterface;
+            this.Engine = Engine;
 
             MainEventArgs MainEventArgs = new MainEventArgs();
-            MainEventArgs.ProcessTitle = OSInterface.Process.GetProcessName();
+            MainEventArgs.ProcessTitle = Engine.Memory.GetProcessName();
             EventUpdateProcessTitle?.Invoke(this, MainEventArgs);
         }
 

@@ -191,10 +191,10 @@ namespace Anathema.Source.Utils.Snapshots
             return true;
         }
 
-        public Byte[] ReadAllSnapshotMemory(Engine OSInterface, Boolean KeepValues = true)
+        public Byte[] ReadAllSnapshotMemory(Engine Engine, Boolean KeepValues = true)
         {
             Boolean SuccessReading = false;
-            Byte[] CurrentValues = OSInterface.Process.ReadBytes(this.BaseAddress, this.RegionSize + RegionExtension, out SuccessReading);
+            Byte[] CurrentValues = Engine.Memory.ReadBytes(this.BaseAddress, this.RegionSize + RegionExtension, out SuccessReading);
 
             if (!SuccessReading)
                 throw new ScanFailedException();

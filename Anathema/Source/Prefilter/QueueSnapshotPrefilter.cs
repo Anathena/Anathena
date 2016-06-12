@@ -31,7 +31,7 @@ namespace Anathema.Source.Prefilter
         // Singleton instance of prefilter
         private static Lazy<ISnapshotPrefilter> SnapshotPrefilterInstance = new Lazy<ISnapshotPrefilter>(() => { return new QueueSnapshotPrefilter(); });
 
-        private Engine OSInterface;
+        private Engine Engine;
 
         private const Int32 ChunkLimit = 32768;
         private const Int32 ChunkSize = 4096;
@@ -66,9 +66,9 @@ namespace Anathema.Source.Prefilter
             ProcessSelector.GetInstance().Subscribe(this);
         }
 
-        public void UpdateOSInterface(Engine OSInterface)
+        public void UpdateEngine(Engine Engine)
         {
-            this.OSInterface = OSInterface;
+            this.Engine = Engine;
 
             // Clear processing queue on process update
             using (TimedLock.Lock(QueueLock))
@@ -117,7 +117,7 @@ namespace Anathema.Source.Prefilter
 
         protected override void Update()
         {
-            if (OSInterface == null)
+            if (Engine == null)
                 return;
 
             ProcessPages(ResolvePages());
@@ -229,7 +229,7 @@ namespace Anathema.Source.Prefilter
                 if (RegionProperties.HasChanged())
                     return;
 
-                Byte[] PageData = OSInterface.Process.ReadBytes(RegionProperties.BaseAddress, RegionProperties.RegionSize, out Success);
+                Byte[] PageData = Engine.Memory.ReadBytes(RegionProperties.BaseAddress, RegionProperties.RegionSize, out Success);
 
                 if (!Success)
                     return;

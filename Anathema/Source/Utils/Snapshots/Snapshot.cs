@@ -15,7 +15,7 @@ namespace Anathema.Source.Utils.Snapshots
     /// </summary>
     abstract class Snapshot : IProcessObserver, IEnumerable
     {
-        protected Engine OSInterface;
+        protected Engine Engine;
 
         protected IEnumerable<SnapshotRegion> SnapshotRegions;
         protected List<SnapshotRegion> DeallocatedRegions;
@@ -52,14 +52,14 @@ namespace Anathema.Source.Utils.Snapshots
             ProcessSelector.GetInstance().Subscribe(this);
         }
 
-        public void UpdateOSInterface(Engine OSInterface)
+        public void UpdateEngine(Engine Engine)
         {
-            this.OSInterface = OSInterface;
+            this.Engine = Engine;
         }
 
-        public Engine GetOSInterface()
+        public Engine GetEngine()
         {
-            return OSInterface;
+            return Engine;
         }
 
         public abstract void ReadAllSnapshotMemory();
@@ -291,7 +291,7 @@ namespace Anathema.Source.Utils.Snapshots
             {
                 try
                 {
-                    SnapshotRegion.ReadAllSnapshotMemory(OSInterface);
+                    SnapshotRegion.ReadAllSnapshotMemory(Engine);
                 }
                 catch (ScanFailedException)
                 {
@@ -315,7 +315,7 @@ namespace Anathema.Source.Utils.Snapshots
             {
                 try
                 {
-                    SnapshotRegion.ReadAllSnapshotMemory(OSInterface);
+                    SnapshotRegion.ReadAllSnapshotMemory(Engine);
                 }
                 catch (ScanFailedException)
                 {

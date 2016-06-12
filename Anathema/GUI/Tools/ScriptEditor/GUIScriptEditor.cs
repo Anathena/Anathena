@@ -1,6 +1,6 @@
-﻿using Anathema.Source.Tables.Scripts.Editor;
+﻿using Anathema.Source.SystemInternals.LuaWrapper;
+using Anathema.Source.Tables.Scripts.Editor;
 using Anathema.Source.Utils;
-using Anathema.Source.Utils.LUA;
 using Anathema.Source.Utils.MVP;
 using ScintillaNET;
 using System;

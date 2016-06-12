@@ -1,4 +1,4 @@
-﻿using Anathema.Source.Utils.LUA;
+﻿using Anathema.Source.SystemInternals.LuaWrapper;
 using System;
 using System.Reflection;
 using System.Runtime.Serialization;

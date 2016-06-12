@@ -262,11 +262,16 @@
     </Compile>
     <Compile Include="Source\SystemInternals\Architecture\Assembler\AssemblerFactory.cs" />
     <Compile Include="Source\SystemInternals\Architecture\Disassembler\DisassemblerFactory.cs" />
+    <Compile Include="Source\SystemInternals\Graphics\DirectX10\GraphicsDX10.cs" />
+    <Compile Include="Source\SystemInternals\Graphics\DirectX11\GraphicsDX11.cs" />
+    <Compile Include="Source\SystemInternals\Graphics\GraphicFactory.cs" />
     <Compile Include="Source\SystemInternals\Graphics\IGraphicsInterface.cs" />
     <Compile Include="Source\Prefilter\ISnapshotPrefilter.cs" />
     <Compile Include="Source\Prefilter\LinkedListSnapshotPrefilter.cs" />
     <Compile Include="Source\Prefilter\QueueSnapshotPrefilter.cs" />
     <Compile Include="Source\Prefilter\SnapshotPrefilterFactory.cs" />
+    <Compile Include="Source\SystemInternals\Graphics\Ogre\GraphicsOgre.cs" />
+    <Compile Include="Source\SystemInternals\Graphics\OpenGL\GraphicsOpenGL.cs" />
     <Compile Include="Source\SystemInternals\OperatingSystems\NormalizedFlags.cs" />
     <Compile Include="Source\SystemInternals\OperatingSystems\OperatingSystemFactory.cs" />
     <Compile Include="Source\Utils\Browser\BrowserHelper.cs" />
@@ -275,23 +280,23 @@
     <Compile Include="Source\Utils\Extensions\IntPtrExtensions.cs" />
     <Compile Include="Source\Utils\Caches\ObjectCache.cs" />
     <Compile Include="Source\Utils\Extensions\PrimitiveExtensions.cs" />
-    <Compile Include="Source\Utils\Lua\Graphics3\GraphicsFactory.cs" />
-    <Compile Include="Source\Utils\Lua\Graphics3\GraphicsDX9.cs" />
-    <Compile Include="Source\Utils\Lua\Graphics3\IGraphicsCore.cs" />
-    <Compile Include="Source\Utils\Lua\Memory\IMemoryCore.cs" />
+    <Compile Include="Source\SystemInternals\LuaWrapper\Graphics\GraphicsFactory.cs" />
+    <Compile Include="Source\SystemInternals\Graphics\DirectX9\GraphicsDX9.cs" />
+    <Compile Include="Source\SystemInternals\LuaWrapper\Graphics\IGraphicsCore.cs" />
+    <Compile Include="Source\SystemInternals\LuaWrapper\Memory\IMemoryCore.cs" />
     <Compile Include="Source\Utils\MessageBoxEx.cs" />
     <Compile Include="Source\Utils\Extensions\ObjectExtensions.cs" />
     <Compile Include="Source\SystemInternals\Architecture\ArchitectureInterface.cs" />
     <Compile Include="Source\SystemInternals\OperatingSystems\NormalizedModule.cs" />
     <Compile Include="Source\SystemInternals\OperatingSystems\NormalizedRegion.cs" />
     <Compile Include="Source\SystemInternals\OperatingSystems\IOperatingSystem.cs" />
-    <Compile Include="Source\Utils\Lua\LuaEngine.cs" />
+    <Compile Include="Source\SystemInternals\LuaWrapper\LuaEngine.cs" />
     <Compile Include="Properties\Settings.cs" />
     <Compile Include="Source\Utils\Caches\ListViewCache.cs" />
     <Compile Include="Source\Utils\ProgressItem.cs" />
     <Compile Include="Source\Utils\RepeatedTask.cs" />
-    <Compile Include="Source\Utils\Lua\LuaKeywordManager.cs" />
-    <Compile Include="Source\Utils\Lua\Memory\LuaMemoryCore.cs" />
+    <Compile Include="Source\SystemInternals\LuaWrapper\LuaKeywordManager.cs" />
+    <Compile Include="Source\SystemInternals\LuaWrapper\Memory\LuaMemoryCore.cs" />
     <Compile Include="Source\SystemInternals\Engine.cs" />
     <Compile Include="Source\SystemInternals\Architecture\Disassembler\SharpDisassembler.cs" />
     <Compile Include="Source\SystemInternals\Architecture\Disassembler\IDisassembler.cs" />
@@ -1077,11 +1082,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Source\Results\PointerScanResults\" />
-    <Folder Include="Source\SystemInternals\Graphics\DirectX10\" />
-    <Folder Include="Source\SystemInternals\Graphics\DirectX11\" />
-    <Folder Include="Source\SystemInternals\Graphics\DirectX9\" />
-    <Folder Include="Source\SystemInternals\Graphics\Ogre\" />
-    <Folder Include="Source\SystemInternals\Graphics\OpenGL\" />
     <Folder Include="Source\Utils\Debugger\" />
     <Folder Include="Source\Utils\DesignPatterns\" />
   </ItemGroup>

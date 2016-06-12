@@ -120,12 +120,12 @@ namespace Anathema.Source.Tables.Addresses
         }
 
         [Obfuscation(Exclude = true)]
-        public void ResolveAddress(Engine OSInterface)
+        public void ResolveAddress(Engine Engine)
         {
             IntPtr Pointer = this.BaseAddress;
             Boolean SuccessReading = true;
 
-            if (OSInterface == null)
+            if (Engine == null)
             {
                 if (Offsets == null || Offsets.Count() == 0)
                     EffectiveAddress = Pointer;
@@ -143,7 +143,7 @@ namespace Anathema.Source.Tables.Addresses
 
             foreach (Int32 Offset in Offsets)
             {
-                Pointer = OSInterface.Process.Read<IntPtr>(Pointer, out SuccessReading);
+                Pointer = Engine.Memory.Read<IntPtr>(Pointer, out SuccessReading);
                 Pointer = Pointer.Add(Offset);
 
                 if (!SuccessReading)

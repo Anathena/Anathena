@@ -1,8 +1,9 @@
-﻿using Anathema.Source.Utils.LUA.Graphics3;
+﻿using Anathema.Source.SystemInternals.LuaWrapper.Graphics;
+using Anathema.Source.SystemInternals.LuaWrapper.Memory;
 using NLua;
 using System;
 
-namespace Anathema.Source.Utils.LUA
+namespace Anathema.Source.SystemInternals.LuaWrapper
 {
     public class LuaEngine
     {

@@ -1,12 +1,10 @@
-﻿using Anathema.Source.Utils.LUA.Graphics3;
-
-namespace Anathema.Source.Utils.LUA
+﻿namespace Anathema.Source.SystemInternals.LuaWrapper.Graphics
 {
     class GraphicsFactory
     {
         public IGraphicsCore GetGraphicsObject()
         {
-            return new GraphicsDX9();
+            return null;
         }
 
     } // End class

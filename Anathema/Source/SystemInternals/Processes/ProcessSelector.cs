@@ -46,7 +46,7 @@ namespace Anathema.Source.SystemInternals.Processes
         // Observers that must be notified of a process selection change
         private List<IProcessObserver> ProcessObservers;
 
-        private Engine OSInterface;
+        private Engine Engine;
 
         private ProcessSelector()
         {
@@ -71,11 +71,11 @@ namespace Anathema.Source.SystemInternals.Processes
 
             ProcessObservers.Add(Observer);
 
-            if (OSInterface == null)
+            if (Engine == null)
                 return;
 
             // Notify just this observer
-            Observer.UpdateOSInterface(OSInterface);
+            Observer.UpdateEngine(Engine);
         }
 
         /// <summary>
@@ -98,14 +98,14 @@ namespace Anathema.Source.SystemInternals.Processes
         {
             // Update memory editor if applicable
             if (Process != null)
-                OSInterface = new Engine(Process);
+                Engine = new Engine(Process);
 
-            if (OSInterface == null)
+            if (Engine == null)
                 return;
 
             // Notify subscribers
             foreach (IProcessObserver ProcessObserver in ProcessObservers)
-                ProcessObserver.UpdateOSInterface(OSInterface);
+                ProcessObserver.UpdateEngine(Engine);
         }
 
         public void SelectProcess(Int32 Index)

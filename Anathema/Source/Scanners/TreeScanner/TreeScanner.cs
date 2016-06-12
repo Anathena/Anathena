@@ -63,7 +63,8 @@ namespace Anathema.Source.Scanners.TreeScanner
 
         protected override void Update()
         {
-            Engine MemoryEditor = Snapshot.GetOSInterface();
+            Engine Engine = Snapshot.GetEngine();
+
             try
             {
                 Parallel.ForEach(FilterTrees, (Tree) =>
@@ -71,15 +72,14 @@ namespace Anathema.Source.Scanners.TreeScanner
                     // Process the changes that have occurred since the last sampling for this memory page
                     try
                     {
-                        Tree.ProcessChanges(Tree.ReadAllSnapshotMemory(MemoryEditor, false), Tree.BaseAddress);
+                        Tree.ProcessChanges(Tree.ReadAllSnapshotMemory(Engine, false), Tree.BaseAddress);
                     }
                     catch (ScanFailedException Ex)
                     {
                         return;
                     }
 
-                }
-                );
+                });
             }
             catch (ScanFailedException)
             {

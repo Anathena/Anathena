@@ -1,4 +1,4 @@
-﻿namespace Anathema.Source.Utils.LUA.Graphics3
+﻿namespace Anathema.Source.SystemInternals.LuaWrapper.Graphics
 {
     interface IGraphicsCore
     {

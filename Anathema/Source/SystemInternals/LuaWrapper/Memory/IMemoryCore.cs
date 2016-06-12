@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Anathema.Source.Utils.LUA
+namespace Anathema.Source.SystemInternals.LuaWrapper.Memory
 {
     public interface IMemoryCore
     {

@@ -1,6 +1,6 @@
-﻿using Anathema.Source.SystemInternals.OperatingSystems;
+﻿using Anathema.Source.SystemInternals.LuaWrapper;
+using Anathema.Source.SystemInternals.OperatingSystems;
 using Anathema.Source.SystemInternals.Processes;
-using Anathema.Source.Utils.LUA;
 using System;
 
 namespace Anathema.Source.Tables.Scripts.Editor
@@ -10,7 +10,7 @@ namespace Anathema.Source.Tables.Scripts.Editor
         // Singleton instance of Script Editor
         private static Lazy<ScriptEditor> ScriptEditorInstance = new Lazy<ScriptEditor>(() => { return new ScriptEditor(); });
 
-        private Engine OSInterface;
+        private Engine Engine;
 
         public event ScriptEditorEventHandler EventOpenScript;
         public event ScriptEditorEventHandler EventSetScriptText;
@@ -36,9 +36,9 @@ namespace Anathema.Source.Tables.Scripts.Editor
             ProcessSelector.GetInstance().Subscribe(this);
         }
 
-        public void UpdateOSInterface(Engine OSInterface)
+        public void UpdateEngine(Engine Engine)
         {
-            this.OSInterface = OSInterface;
+            this.Engine = Engine;
         }
 
         public void OpenScript(ScriptItem ScriptItem)

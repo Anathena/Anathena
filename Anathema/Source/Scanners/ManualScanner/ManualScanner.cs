@@ -59,7 +59,7 @@ namespace Anathema.Source.Scanners.ManualScanner
 
                 try
                 {
-                    Region.ReadAllSnapshotMemory(Snapshot.GetOSInterface(), true);
+                    Region.ReadAllSnapshotMemory(Snapshot.GetEngine(), true);
                 }
                 catch (ScanFailedException Ex)
                 {

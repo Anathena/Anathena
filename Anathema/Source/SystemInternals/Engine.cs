@@ -12,7 +12,7 @@ namespace Anathema.Source.SystemInternals.OperatingSystems
     /// </summary>
     public class Engine
     {
-        public IOperatingSystem Process { get; private set; }
+        public IOperatingSystem Memory { get; private set; }
 
         public IAssembler Assembler { get; private set; }
 
@@ -22,9 +22,9 @@ namespace Anathema.Source.SystemInternals.OperatingSystems
 
         public Engine(Process TargetProcess)
         {
+            Memory = OperatingSystemFactory.GetOperatingSystem(TargetProcess);
             Assembler = AssemblerFactory.GetAssembler();
             Disassembler = DisassemblerFactory.GetDisassembler();
-            Process = OperatingSystemFactory.GetOperatingSystem(TargetProcess);
         }
 
         /// <summary>

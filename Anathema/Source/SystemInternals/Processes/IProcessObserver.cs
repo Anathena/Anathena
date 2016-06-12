@@ -5,7 +5,7 @@ namespace Anathema.Source.SystemInternals.Processes
     interface IProcessObserver
     {
         void InitializeProcessObserver();
-        void UpdateOSInterface(Engine OSInterface);
+        void UpdateEngine(Engine Engine);
 
     } // End interface
 

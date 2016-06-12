@@ -31,7 +31,7 @@ namespace Anathema.Source.Scanners.PointerScanner
 
     class PointerScanner : IPointerScannerModel, IProcessObserver
     {
-        private Engine OSInterface;
+        private Engine Engine;
         private Snapshot<Null> Snapshot;
 
         private Int32 StartReadIndex;
@@ -79,9 +79,9 @@ namespace Anathema.Source.Scanners.PointerScanner
             ProcessSelector.GetInstance().Subscribe(this);
         }
 
-        public void UpdateOSInterface(Engine OSInterface)
+        public void UpdateEngine(Engine Engine)
         {
-            this.OSInterface = OSInterface;
+            this.Engine = Engine;
         }
 
         public override void UpdateReadBounds(Int32 StartReadIndex, Int32 EndReadIndex)
@@ -198,7 +198,7 @@ namespace Anathema.Source.Scanners.PointerScanner
 
             foreach (Int32 Offset in Offsets)
             {
-                Pointer = OSInterface.Process.Read<IntPtr>(Pointer, out SuccessReading);
+                Pointer = Engine.Memory.Read<IntPtr>(Pointer, out SuccessReading);
                 Pointer = Pointer.Add(Offset);
 
                 if (!SuccessReading)
@@ -234,7 +234,7 @@ namespace Anathema.Source.Scanners.PointerScanner
 
                     for (Int32 Index = StartReadIndex; Index <= EndReadIndex; Index++)
                     {
-                        if (AcceptedPointers == null || OSInterface == null)
+                        if (AcceptedPointers == null || Engine == null)
                             break;
 
                         if (Index < 0 || Index >= AcceptedPointers.Count)
@@ -243,7 +243,7 @@ namespace Anathema.Source.Scanners.PointerScanner
                         IntPtr Pointer = ResolvePointer(AcceptedPointers[Index]);
 
                         Boolean SuccessReading;
-                        String Value = OSInterface.Process.Read(ElementType, Pointer, out SuccessReading).ToString();
+                        String Value = Engine.Memory.Read(ElementType, Pointer, out SuccessReading).ToString();
 
                         IndexValueMap[Index] = Value;
                     }
@@ -424,10 +424,10 @@ namespace Anathema.Source.Scanners.PointerScanner
         {
             this.PrintDebugTag();
 
-            if (OSInterface == null)
+            if (Engine == null)
                 return;
 
-            IEnumerable<NormalizedModule> Modules = OSInterface.Process.GetModules();
+            IEnumerable<NormalizedModule> Modules = Engine.Memory.GetModules();
 
             List<SnapshotRegion> AcceptedBaseRegions = new List<SnapshotRegion>();
 
@@ -449,15 +449,15 @@ namespace Anathema.Source.Scanners.PointerScanner
             Snapshot = new Snapshot<Null>(SnapshotManager.GetInstance().CollectSnapshot(false, false));
 
             // Set to type of a pointer
-            if (OSInterface.Process.Is32Bit())
+            if (Engine.Memory.Is32Bit())
                 Snapshot.SetElementType(typeof(Int32));
             else
                 Snapshot.SetElementType(typeof(Int64));
 
 
             // As far as I can tell, no valid pointers will end up being less than 0x10000 (UInt16.MaxValue), nor higher than usermode space.
-            dynamic InvalidPointerMin = OSInterface.Process.Is32Bit() ? (Int32)UInt16.MaxValue : (Int64)UInt16.MaxValue;
-            dynamic InvalidPointerMax = OSInterface.Process.Is32Bit() ? Int32.MaxValue : Int64.MaxValue;
+            dynamic InvalidPointerMin = Engine.Memory.Is32Bit() ? (Int32)UInt16.MaxValue : (Int64)UInt16.MaxValue;
+            dynamic InvalidPointerMax = Engine.Memory.Is32Bit() ? Int32.MaxValue : Int64.MaxValue;
 
             // Enforce 4-byte alignment of pointers
             Snapshot.SetAlignment(sizeof(Int32));
@@ -469,7 +469,7 @@ namespace Anathema.Source.Scanners.PointerScanner
                 // Read the memory of this region
                 try
                 {
-                    Region.ReadAllSnapshotMemory(Snapshot.GetOSInterface(), true);
+                    Region.ReadAllSnapshotMemory(Snapshot.GetEngine(), true);
                 }
                 catch (ScanFailedException)
                 {
