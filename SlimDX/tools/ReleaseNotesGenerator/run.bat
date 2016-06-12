@@ -1,1 +1,0 @@
-ReleaseNotesGenerator ../../build/ReleaseNotes.txt

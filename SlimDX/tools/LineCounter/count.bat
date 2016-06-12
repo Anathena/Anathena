@@ -1,1 +1,0 @@
-linecounter ../../build/SlimDX.sln > output.txt

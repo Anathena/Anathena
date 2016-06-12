@@ -1,5 +1,0 @@
-;!@Install@!UTF-8!
-Title="SlimDX SDK (August 2009)"
-Progress="no"
-ExecuteFile="SlimDXSDK.msi"
-;!@InstallEnd@!

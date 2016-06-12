@@ -1,0 +1,5 @@
+*.suo
+*.user
+Capture/obj
+TestScreenshot/obj
+bin
