@@ -1,18 +1,10 @@
-﻿using Anathema.Source.Graphics;
-using System;
-
-namespace Anathema.Source.SystemInternals.LuaWrapper.Graphics.OpenGL
+﻿namespace Anathema.Source.SystemInternals.Graphics.OpenGL
 {
-    class GraphicsOpenGL : IGraphicsInterface
+    class GraphicsOpenGL
     {
         public GraphicsOpenGL()
         {
 
-        }
-
-        public void DrawLine(int StartX, int StartY, int EndX, int EndY)
-        {
-            throw new NotImplementedException();
         }
 
     } // End class

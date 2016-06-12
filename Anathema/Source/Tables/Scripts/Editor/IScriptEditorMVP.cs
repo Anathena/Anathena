@@ -30,6 +30,7 @@ namespace Anathema.Source.Tables.Scripts.Editor
         Boolean HasChanges(String Script);
 
         void InsertCodeInjectionTemplate();
+        void InsertGraphicsOverlayTemplate();
     }
 
     class ScriptEditorPresenter : Presenter<IScriptEditorView, IScriptEditorModel>
@@ -69,6 +70,11 @@ namespace Anathema.Source.Tables.Scripts.Editor
         public void InsertCodeInjectionTemplate()
         {
             Model.InsertCodeInjectionTemplate();
+        }
+
+        public void InsertGraphicsOverlayTemplate()
+        {
+            Model.InsertGraphicsOverlayTemplate();
         }
 
         #endregion

@@ -20,6 +20,7 @@ namespace Anathema.Source.SystemInternals.LuaWrapper
         {
             ScriptEngine = new Lua();
             LuaMemoryCore = new LuaMemoryCore();
+            LuaGraphicsCore = new LuaGraphicsCore();
 
             BindFunctions();
             LuaMemoryCore.Initialize();
@@ -49,6 +50,24 @@ namespace Anathema.Source.SystemInternals.LuaWrapper
                 "function OnDeactivate()" + "\n\t\n" +
                 "\t" + "Memory:ClearAllKeywords()" + "\n" +
                 "\t" + "Memory:RemoveAllCodeCaves()" + "\n\t\n" +
+                "end";
+
+            return Script + CodeInjection;
+        }
+
+        public static String AddGraphicsOverlayTemplate(String Script)
+        {
+            String CodeInjection =
+                "-- No Description" + "\n\t\n" +
+                "function OnActivate()" + "\n\t\n" +
+                "\t" + "OverlayA()" + "\n\t\n" +
+                "end" + "\n\t\n" +
+
+                "function OverlayA()" + "\n\t\n" +
+                "\t" + "Graphics:Inject()" + "\n\t\n" +
+                "end" + "\n\t\n" +
+
+                "function OnDeactivate()" + "\n\t\n" +
                 "end";
 
             return Script + CodeInjection;

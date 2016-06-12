@@ -137,16 +137,16 @@ namespace Capture
 
         private bool InitialiseDirectXHook(CaptureConfig config)
         {
-            Direct3DVersion version = config.Direct3DVersion;
+            Direct3DVersionEnum version = config.Direct3DVersion;
 
-            List<Direct3DVersion> loadedVersions = new List<Direct3DVersion>();
+            List<Direct3DVersionEnum> loadedVersions = new List<Direct3DVersionEnum>();
 
             bool isX64Process = EasyHook.RemoteHooking.IsX64Process(EasyHook.RemoteHooking.GetCurrentProcessId());
             _interface.Message(MessageType.Information, "Remote process is a {0}-bit process.", isX64Process ? "64" : "32");
 
             try
             {
-                if (version == Direct3DVersion.AutoDetect || version == Direct3DVersion.Unknown)
+                if (version == Direct3DVersionEnum.AutoDetect || version == Direct3DVersionEnum.Unknown)
                 {
                     // Attempt to determine the correct version based on loaded module.
                     // In most cases this will work fine, however it is perfectly ok for an application to use a D3D10 device along with D3D11 devices
@@ -176,35 +176,35 @@ namespace Capture
                         }
                     }
 
-                    version = Direct3DVersion.Unknown;
+                    version = Direct3DVersionEnum.Unknown;
                     if (d3D11_1Loaded != IntPtr.Zero)
                     {
                         _interface.Message(MessageType.Debug, "Autodetect found Direct3D 11.1");
-                        version = Direct3DVersion.Direct3D11_1;
+                        version = Direct3DVersionEnum.Direct3D11_1;
                         loadedVersions.Add(version);
                     }
                     if (d3D11Loaded != IntPtr.Zero)
                     {
                         _interface.Message(MessageType.Debug, "Autodetect found Direct3D 11");
-                        version = Direct3DVersion.Direct3D11;
+                        version = Direct3DVersionEnum.Direct3D11;
                         loadedVersions.Add(version);
                     }
                     if (d3D10_1Loaded != IntPtr.Zero)
                     {
                         _interface.Message(MessageType.Debug, "Autodetect found Direct3D 10.1");
-                        version = Direct3DVersion.Direct3D10_1;
+                        version = Direct3DVersionEnum.Direct3D10_1;
                         loadedVersions.Add(version);
                     }
                     if (d3D10Loaded != IntPtr.Zero)
                     {
                         _interface.Message(MessageType.Debug, "Autodetect found Direct3D 10");
-                        version = Direct3DVersion.Direct3D10;
+                        version = Direct3DVersionEnum.Direct3D10;
                         loadedVersions.Add(version);
                     }
                     if (d3D9Loaded != IntPtr.Zero)
                     {
                         _interface.Message(MessageType.Debug, "Autodetect found Direct3D 9");
-                        version = Direct3DVersion.Direct3D9;
+                        version = Direct3DVersionEnum.Direct3D9;
                         loadedVersions.Add(version);
                     }
                 }
@@ -219,16 +219,16 @@ namespace Capture
                     version = dxVersion;
                     switch (version)
                     {
-                        case Direct3DVersion.Direct3D9:
+                        case Direct3DVersionEnum.Direct3D9:
                             _directXHook = new DXHookD3D9(_interface);
                             break;
-                        case Direct3DVersion.Direct3D10:
+                        case Direct3DVersionEnum.Direct3D10:
                             _directXHook = new DXHookD3D10(_interface);
                             break;
-                        case Direct3DVersion.Direct3D10_1:
+                        case Direct3DVersionEnum.Direct3D10_1:
                             _directXHook = new DXHookD3D10_1(_interface);
                             break;
-                        case Direct3DVersion.Direct3D11:
+                        case Direct3DVersionEnum.Direct3D11:
                             _directXHook = new DXHookD3D11(_interface);
                             break;
                         //case Direct3DVersion.Direct3D11_1:

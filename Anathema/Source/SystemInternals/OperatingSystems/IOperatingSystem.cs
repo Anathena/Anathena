@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Reflection;
 
 namespace Anathema.Source.SystemInternals.OperatingSystems
@@ -22,7 +23,7 @@ namespace Anathema.Source.SystemInternals.OperatingSystems
         // Process
         Boolean Is32Bit();
         Boolean Is64Bit();
-        String GetProcessName();
+        Process GetProcess();
 
         // Pattern
         IntPtr SearchAOB(Byte[] Bytes);

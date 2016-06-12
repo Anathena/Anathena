@@ -402,9 +402,9 @@ namespace Anathema.Source.SystemInternals.OperatingSystems.Windows
             throw new NotImplementedException();
         }
 
-        public String GetProcessName()
+        public Process GetProcess()
         {
-            return Native.ProcessName;
+            return Native;
         }
 
         public Boolean Is32Bit()

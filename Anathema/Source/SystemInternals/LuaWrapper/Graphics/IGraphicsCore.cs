@@ -2,6 +2,7 @@
 {
     interface IGraphicsCore
     {
+        void Inject();
 
     } // End interface
 

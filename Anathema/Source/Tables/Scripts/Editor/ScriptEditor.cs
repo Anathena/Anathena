@@ -77,6 +77,14 @@ namespace Anathema.Source.Tables.Scripts.Editor
             EventSetScriptText?.Invoke(this, ScriptEditorEventArgs);
         }
 
+        public void InsertGraphicsOverlayTemplate()
+        {
+            String NewScript = LuaEngine.AddGraphicsOverlayTemplate(ScriptItem.Script);
+            ScriptEditorEventArgs ScriptEditorEventArgs = new ScriptEditorEventArgs();
+            ScriptEditorEventArgs.NewScript = NewScript;
+            EventSetScriptText?.Invoke(this, ScriptEditorEventArgs);
+        }
+
     } // End class
 
 } // End namespace

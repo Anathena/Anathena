@@ -133,6 +133,10 @@
     <DelaySign>false</DelaySign>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="EasyHook, Version=2.7.5870.0, Culture=neutral, PublicKeyToken=4b580fca19d0b0c5, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>EasyHook\EasyHook.dll</HintPath>
+    </Reference>
     <Reference Include="KopiLua">
       <HintPath>..\Lua\KopiLua.dll</HintPath>
     </Reference>
@@ -262,9 +266,7 @@
     </Compile>
     <Compile Include="Source\SystemInternals\Architecture\Assembler\AssemblerFactory.cs" />
     <Compile Include="Source\SystemInternals\Architecture\Disassembler\DisassemblerFactory.cs" />
-    <Compile Include="Source\SystemInternals\Graphics\DirectX10\GraphicsDX10.cs" />
-    <Compile Include="Source\SystemInternals\Graphics\DirectX11\GraphicsDX11.cs" />
-    <Compile Include="Source\SystemInternals\Graphics\GraphicFactory.cs" />
+    <Compile Include="Source\SystemInternals\Graphics\GraphicsFactory.cs" />
     <Compile Include="Source\SystemInternals\Graphics\IGraphicsInterface.cs" />
     <Compile Include="Source\Prefilter\ISnapshotPrefilter.cs" />
     <Compile Include="Source\Prefilter\LinkedListSnapshotPrefilter.cs" />
@@ -272,6 +274,7 @@
     <Compile Include="Source\Prefilter\SnapshotPrefilterFactory.cs" />
     <Compile Include="Source\SystemInternals\Graphics\Ogre\GraphicsOgre.cs" />
     <Compile Include="Source\SystemInternals\Graphics\OpenGL\GraphicsOpenGL.cs" />
+    <Compile Include="Source\SystemInternals\LuaWrapper\Graphics\LuaGraphicsCore.cs" />
     <Compile Include="Source\SystemInternals\OperatingSystems\NormalizedFlags.cs" />
     <Compile Include="Source\SystemInternals\OperatingSystems\OperatingSystemFactory.cs" />
     <Compile Include="Source\Utils\Browser\BrowserHelper.cs" />
@@ -280,8 +283,7 @@
     <Compile Include="Source\Utils\Extensions\IntPtrExtensions.cs" />
     <Compile Include="Source\Utils\Caches\ObjectCache.cs" />
     <Compile Include="Source\Utils\Extensions\PrimitiveExtensions.cs" />
-    <Compile Include="Source\SystemInternals\LuaWrapper\Graphics\GraphicsFactory.cs" />
-    <Compile Include="Source\SystemInternals\Graphics\DirectX9\GraphicsDX9.cs" />
+    <Compile Include="Source\SystemInternals\Graphics\DirectX\GraphicsDirectX.cs" />
     <Compile Include="Source\SystemInternals\LuaWrapper\Graphics\IGraphicsCore.cs" />
     <Compile Include="Source\SystemInternals\LuaWrapper\Memory\IMemoryCore.cs" />
     <Compile Include="Source\Utils\MessageBoxEx.cs" />
@@ -851,6 +853,9 @@
       <SubType>Designer</SubType>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <Content Include="EasyHook\EasyHook64.lib" />
+    <Content Include="EasyHook\EasyLoad32.lib" />
+    <Content Include="EasyHook\EasyLoad64.lib" />
     <None Include="Properties\app.manifest" />
     <None Include="Content\Font\MonoSpace.ttf" />
     <None Include="Content\FSM\States.psd" />
@@ -878,6 +883,13 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <Content Include="EasyHook\EasyHook.dll" />
+    <Content Include="EasyHook\easyhook.h" />
+    <Content Include="EasyHook\EasyHook32.dll" />
+    <Content Include="EasyHook\EasyHook64.dll" />
+    <Content Include="EasyHook\EasyHook64Svc.exe" />
+    <Content Include="EasyHook\EasyLoad32.dll" />
+    <Content Include="EasyHook\EasyLoad64.dll" />
     <Content Include="xulrunner-32\crashreporter.ini" />
     <Content Include="xulrunner-32\dependentlibs.list" />
     <Content Include="xulrunner-32\dictionaries\en-US.aff" />
@@ -1043,6 +1055,10 @@
     <Content Include="Source\Utils\InputHook\HotKeys\ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\DirectX\DirectXShell.csproj">
+      <Project>{23178a3d-2ac0-419a-b1b6-59ca45191270}</Project>
+      <Name>DirectXShell</Name>
+    </ProjectReference>
     <ProjectReference Include="..\DockingSuite\DockingSuite.csproj">
       <Project>{c75532c4-765b-418e-b09b-46d36b2abdb1}</Project>
       <Name>DockingSuite</Name>
@@ -2462,7 +2478,8 @@
     <PreBuildEvent>(if exist "$(TargetDir)*old.pdb" del "$(TargetDir)*old.pdb") &amp; (if exist "$(TargetDir)*.pdb" ren "$(TargetDir)*.pdb" *.old.pdb)
 (if exist "$(TargetDir)*old.exe" del "$(TargetDir)*old.exe") &amp; (if exist "$(TargetDir)*.exe" ren "$(TargetDir)*.exe" *.old.exe)
 XCOPY "$(ProjectDir)xulrunner-32\*.*" "$(TargetDir)xulrunner-32"  /Q /S /I /Y
-XCOPY "$(ProjectDir)xulrunner-64\*.*" "$(TargetDir)xulrunner-64"  /Q /S /I /Y</PreBuildEvent>
+XCOPY "$(ProjectDir)xulrunner-64\*.*" "$(TargetDir)xulrunner-64"  /Q /S /I /Y
+XCOPY "$(ProjectDir)EasyHook\*.*" "$(TargetDir)" /Q /Y /C</PreBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
     <PostBuildEvent>

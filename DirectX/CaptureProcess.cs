@@ -22,27 +22,27 @@ namespace Capture
         /// <summary>
         /// Prepares capturing in the target process. Note that the process must not already be hooked, and must have a <see cref="Process.MainWindowHandle"/>.
         /// </summary>
-        /// <param name="process">The process to inject into</param>
-        /// <exception cref="ProcessHasNoWindowHandleException">Thrown if the <paramref name="process"/> does not have a window handle. This could mean that the process does not have a UI, or that the process has not yet finished starting.</exception>
-        /// <exception cref="ProcessAlreadyHookedException">Thrown if the <paramref name="process"/> is already hooked</exception>
+        /// <param name="Process">The process to inject into</param>
+        /// <exception cref="ProcessHasNoWindowHandleException">Thrown if the <paramref name="Process"/> does not have a window handle. This could mean that the process does not have a UI, or that the process has not yet finished starting.</exception>
+        /// <exception cref="ProcessAlreadyHookedException">Thrown if the <paramref name="Process"/> is already hooked</exception>
         /// <exception cref="InjectionFailedException">Thrown if the injection failed - see the InnerException for more details.</exception>
         /// <remarks>The target process will have its main window brought to the foreground after successful injection.</remarks>
-        public CaptureProcess(Process process, CaptureConfig config, CaptureInterface captureInterface)
+        public CaptureProcess(Process Process, CaptureConfig config, CaptureInterface CaptureInterface)
         {
             // If the process doesn't have a mainwindowhandle yet, skip it (we need to be able to get the hwnd to set foreground etc)
-            if (process.MainWindowHandle == IntPtr.Zero)
+            if (Process.MainWindowHandle == IntPtr.Zero)
             {
                 throw new ProcessHasNoWindowHandleException();
             }
 
             // Skip if the process is already hooked (and we want to hook multiple applications)
-            if (HookManager.IsHooked(process.Id))
+            if (HookManager.IsHooked(Process.Id))
             {
                 throw new ProcessAlreadyHookedException();
             }
 
-            captureInterface.ProcessId = process.Id;
-            _serverInterface = captureInterface;
+            CaptureInterface.ProcessId = Process.Id;
+            _serverInterface = CaptureInterface;
             //_serverInterface = new CaptureInterface() { ProcessId = process.Id };
 
             // Initialise the IPC server (with our instance of _serverInterface)
@@ -56,7 +56,7 @@ namespace Capture
 
                 // Inject DLL into target process
                 RemoteHooking.Inject(
-                    process.Id,
+                    Process.Id,
                     InjectionOptions.Default,
                     typeof(CaptureInterface).Assembly.Location,//"Capture.dll", // 32-bit version (the same because AnyCPU) could use different assembly that links to 32-bit C++ helper dll
                     typeof(CaptureInterface).Assembly.Location, //"Capture.dll", // 64-bit version (the same because AnyCPU) could use different assembly that links to 64-bit C++ helper dll
@@ -65,14 +65,14 @@ namespace Capture
                     config
                 );
             }
-            catch (Exception e)
+            catch (Exception E)
             {
-                throw new InjectionFailedException(e);
+                throw new InjectionFailedException(E);
             }
 
-            HookManager.AddHookedProcess(process.Id);
+            HookManager.AddHookedProcess(Process.Id);
 
-            Process = process;
+            this.Process = Process;
 
             // Ensure the target process is in the foreground,
             // this prevents an issue where the target app appears to be in 

@@ -44,7 +44,7 @@ namespace Anathema.Source.Controller
             this.Engine = Engine;
 
             MainEventArgs MainEventArgs = new MainEventArgs();
-            MainEventArgs.ProcessTitle = Engine.Memory.GetProcessName();
+            MainEventArgs.ProcessTitle = Engine.Memory.GetProcess().ProcessName;
             EventUpdateProcessTitle?.Invoke(this, MainEventArgs);
         }
 

@@ -39,6 +39,7 @@
             this.TemplatesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.CodeInjectionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ScriptEditorTextBox = new ScintillaNET.Scintilla();
+            this.GraphicsOverlayToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ScriptEditorMenuStrip.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -68,21 +69,21 @@
             // NewToolStripMenuItem
             // 
             this.NewToolStripMenuItem.Name = "NewToolStripMenuItem";
-            this.NewToolStripMenuItem.Size = new System.Drawing.Size(98, 22);
+            this.NewToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.NewToolStripMenuItem.Text = "New";
             this.NewToolStripMenuItem.Click += new System.EventHandler(this.NewToolStripMenuItem_Click);
             // 
             // SaveToolStripMenuItem
             // 
             this.SaveToolStripMenuItem.Name = "SaveToolStripMenuItem";
-            this.SaveToolStripMenuItem.Size = new System.Drawing.Size(98, 22);
+            this.SaveToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.SaveToolStripMenuItem.Text = "Save";
             this.SaveToolStripMenuItem.Click += new System.EventHandler(this.SaveToolStripMenuItem_Click);
             // 
             // ExitToolStripMenuItem
             // 
             this.ExitToolStripMenuItem.Name = "ExitToolStripMenuItem";
-            this.ExitToolStripMenuItem.Size = new System.Drawing.Size(98, 22);
+            this.ExitToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.ExitToolStripMenuItem.Text = "Exit";
             // 
             // EditToolStripMenuItem
@@ -100,7 +101,8 @@
             // TemplatesToolStripMenuItem
             // 
             this.TemplatesToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.CodeInjectionToolStripMenuItem});
+            this.CodeInjectionToolStripMenuItem,
+            this.GraphicsOverlayToolStripMenuItem});
             this.TemplatesToolStripMenuItem.Name = "TemplatesToolStripMenuItem";
             this.TemplatesToolStripMenuItem.Size = new System.Drawing.Size(73, 20);
             this.TemplatesToolStripMenuItem.Text = "Templates";
@@ -108,7 +110,7 @@
             // CodeInjectionToolStripMenuItem
             // 
             this.CodeInjectionToolStripMenuItem.Name = "CodeInjectionToolStripMenuItem";
-            this.CodeInjectionToolStripMenuItem.Size = new System.Drawing.Size(151, 22);
+            this.CodeInjectionToolStripMenuItem.Size = new System.Drawing.Size(163, 22);
             this.CodeInjectionToolStripMenuItem.Text = "Code Injection";
             this.CodeInjectionToolStripMenuItem.Click += new System.EventHandler(this.CodeInjectionToolStripMenuItem_Click);
             // 
@@ -119,6 +121,13 @@
             this.ScriptEditorTextBox.Name = "ScriptEditorTextBox";
             this.ScriptEditorTextBox.Size = new System.Drawing.Size(339, 254);
             this.ScriptEditorTextBox.TabIndex = 2;
+            // 
+            // GraphicsOverlayToolStripMenuItem
+            // 
+            this.GraphicsOverlayToolStripMenuItem.Name = "GraphicsOverlayToolStripMenuItem";
+            this.GraphicsOverlayToolStripMenuItem.Size = new System.Drawing.Size(163, 22);
+            this.GraphicsOverlayToolStripMenuItem.Text = "Graphics Overlay";
+            this.GraphicsOverlayToolStripMenuItem.Click += new System.EventHandler(this.GraphicsOverlayToolStripMenuItem_Click);
             // 
             // GUIScriptEditor
             // 
@@ -151,5 +160,6 @@
         private System.Windows.Forms.ToolStripMenuItem TemplatesToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem CodeInjectionToolStripMenuItem;
         private ScintillaNET.Scintilla ScriptEditorTextBox;
+        private System.Windows.Forms.ToolStripMenuItem GraphicsOverlayToolStripMenuItem;
     }
 }

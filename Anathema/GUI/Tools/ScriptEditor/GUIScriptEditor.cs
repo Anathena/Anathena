@@ -282,6 +282,10 @@ namespace Anathema
         {
             ScriptEditorPresenter.InsertCodeInjectionTemplate();
         }
+        private void GraphicsOverlayToolStripMenuItem_Click(Object Sender, EventArgs E)
+        {
+            ScriptEditorPresenter.InsertGraphicsOverlayTemplate();
+        }
 
         protected override Boolean ProcessCmdKey(ref Message Message, Keys Keys)
         {
