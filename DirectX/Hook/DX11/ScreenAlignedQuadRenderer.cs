@@ -1,23 +1,14 @@
-﻿namespace Capture.Hook.DX11
+﻿using SharpDX;
+using SharpDX.D3DCompiler;
+using SharpDX.Direct3D11;
+using System;
+using Buffer = SharpDX.Direct3D11.Buffer; // Resolve class name conflicts by explicitly stating namespace
+
+namespace DirectXShell.Hook.DX11
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
-    using System.Threading.Tasks;
-
-    using SharpDX;
-    using SharpDX.DXGI;
-    using SharpDX.Direct3D11;
-    using SharpDX.D3DCompiler;
-
-    // Resolve class name conflicts by explicitly stating
-    // which class they refer to:
-    using Buffer = SharpDX.Direct3D11.Buffer;
-
     public class ScreenAlignedQuadRenderer : RendererBase
     {
-        string shaderCodeVertexIn = @"Texture2D<float4> Texture0 : register(t0);
+        String ShaderCodeVertexIn = @"Texture2D<float4> Texture0 : register(t0);
 SamplerState Sampler : register(s0);
 
 struct VertexIn
@@ -57,7 +48,7 @@ float4 PSMain(PixelIn input) : SV_Target
 
 
 
-        string shaderCode = @"Texture2D<float4> Texture0 : register(t0);
+        String ShaderCode = @"Texture2D<float4> Texture0 : register(t0);
 SamplerState Sampler : register(s0);
 
 struct PixelIn
@@ -88,32 +79,30 @@ float4 PSMain(PixelIn input) : SV_Target
 }
 ";
 
-
         // The vertex shader
-        VertexShader vertexShader;
-
+        VertexShader VertexShader;
 
         // The pixel shader
-        PixelShader pixelShader;
+        PixelShader PixelShader;
 
-        SamplerState pointSamplerState;
-        SamplerState linearSampleState;
+        SamplerState PointSamplerState;
+        SamplerState LinearSampleState;
 
         // The vertex layout for the IA
-        InputLayout vertexLayout;
-        // The vertex buffer
-        Buffer vertexBuffer;
-        // The vertex buffer binding
-        VertexBufferBinding vertexBinding;
+        InputLayout VertexLayout;
 
-        public bool UseLinearSampling { get; set; }
+        // The vertex buffer
+        Buffer VertexBuffer;
+
+        // The vertex buffer binding
+        VertexBufferBinding VertexBinding;
+
+        public Boolean UseLinearSampling { get; set; }
         public ShaderResourceView ShaderResource { get; set; }
         public RenderTargetView RenderTargetView { get; set; }
         public Texture2D RenderTarget { get; set; }
 
-        public ScreenAlignedQuadRenderer()
-        {
-        }
+        public ScreenAlignedQuadRenderer() { }
 
         /// <summary>
         /// Create any device dependent resources here.
@@ -124,27 +113,27 @@ float4 PSMain(PixelIn input) : SV_Target
         {
             // Ensure that if already set the device resources
             // are correctly disposed of before recreating
-            RemoveAndDispose(ref vertexShader);
-            RemoveAndDispose(ref pixelShader);
-            RemoveAndDispose(ref pointSamplerState);
-            //RemoveAndDispose(ref indexBuffer);
+            RemoveAndDispose(ref VertexShader);
+            RemoveAndDispose(ref PixelShader);
+            RemoveAndDispose(ref PointSamplerState);
+            // RemoveAndDispose(ref indexBuffer);
 
             // Retrieve our SharpDX.Direct3D11.Device1 instance
             // Get a reference to the Device1 instance and immediate context
-            var device = DeviceManager.Direct3DDevice;
-            var context = DeviceManager.Direct3DContext;
+            Device Device = DeviceManager.Direct3DDevice;
+            DeviceContext Context = DeviceManager.Direct3DContext;
+            ShaderFlags ShaderFlags = ShaderFlags.None;
 
-            ShaderFlags shaderFlags = ShaderFlags.None;
 #if DEBUG
-            shaderFlags = ShaderFlags.Debug | ShaderFlags.SkipOptimization;
+            ShaderFlags = ShaderFlags.Debug | ShaderFlags.SkipOptimization;
 #endif
             // Use our HLSL file include handler to resolve #include directives in the HLSL source
-            //var includeHandler = new HLSLFileIncludeHandler(System.IO.Path.Combine(System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetEntryAssembly().Location), "Shaders"));
+            // var IncludeHandler = new HLSLFileIncludeHandler(System.IO.Path.Combine(System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetEntryAssembly().Location), "Shaders"));
 
             // Compile and create the vertex shader
-            using (var vertexShaderBytecode = ToDispose(ShaderBytecode.Compile(shaderCode, "VSMain", "vs_4_0", shaderFlags, EffectFlags.None, null, null)))
+            using (CompilationResult VertexShaderBytecode = ToDispose(ShaderBytecode.Compile(ShaderCode, "VSMain", "vs_4_0", ShaderFlags, EffectFlags.None, null, null)))
             {
-                vertexShader = ToDispose(new VertexShader(device, vertexShaderBytecode));
+                VertexShader = ToDispose(new VertexShader(Device, VertexShaderBytecode));
 
 
                 //// Layout from VertexShader input signature
@@ -177,10 +166,10 @@ float4 PSMain(PixelIn input) : SV_Target
             }
 
             // Compile and create the pixel shader
-            using (var bytecode = ToDispose(ShaderBytecode.Compile(shaderCode, "PSMain", "ps_5_0", shaderFlags, EffectFlags.None, null, null)))
-                pixelShader = ToDispose(new PixelShader(device, bytecode));
+            using (CompilationResult Bytecode = ToDispose(ShaderBytecode.Compile(ShaderCode, "PSMain", "ps_5_0", ShaderFlags, EffectFlags.None, null, null)))
+                PixelShader = ToDispose(new PixelShader(Device, Bytecode));
 
-            linearSampleState = ToDispose(new SamplerState(device, new SamplerStateDescription
+            LinearSampleState = ToDispose(new SamplerState(Device, new SamplerStateDescription
             {
                 Filter = Filter.MinMagMipLinear,
                 AddressU = TextureAddressMode.Wrap,
@@ -188,10 +177,10 @@ float4 PSMain(PixelIn input) : SV_Target
                 AddressW = TextureAddressMode.Wrap,
                 ComparisonFunction = Comparison.Never,
                 MinimumLod = 0,
-                MaximumLod = float.MaxValue
+                MaximumLod = Single.MaxValue
             }));
 
-            pointSamplerState = ToDispose(new SamplerState(device, new SamplerStateDescription
+            PointSamplerState = ToDispose(new SamplerState(Device, new SamplerStateDescription
             {
                 Filter = Filter.MinMagMipPoint,
                 AddressU = TextureAddressMode.Wrap,
@@ -199,13 +188,13 @@ float4 PSMain(PixelIn input) : SV_Target
                 AddressW = TextureAddressMode.Wrap,
                 ComparisonFunction = Comparison.Never,
                 MinimumLod = 0,
-                MaximumLod = float.MaxValue
+                MaximumLod = Single.MaxValue
             }));
 
-            context.Rasterizer.State = ToDispose(new RasterizerState(device, new RasterizerStateDescription()
+            Context.Rasterizer.State = ToDispose(new RasterizerState(Device, new RasterizerStateDescription()
             {
                 CullMode = CullMode.None,
-                FillMode = FillMode.Solid,                
+                FillMode = FillMode.Solid,
             }));
 
             //// Configure the depth buffer to discard pixels that are
@@ -240,32 +229,32 @@ float4 PSMain(PixelIn input) : SV_Target
 
         protected override void DoRender()
         {
-            var context = this.DeviceManager.Direct3DContext;
+            DeviceContext Context = this.DeviceManager.Direct3DContext;
 
-            //context.InputAssembler.InputLayout = vertexLayout;
-            //context.InputAssembler.PrimitiveTopology = SharpDX.Direct3D.PrimitiveTopology.TriangleStrip;
-            //context.InputAssembler.SetVertexBuffers(0, vertexBinding);
+            // Context.InputAssembler.InputLayout = vertexLayout;
+            // Context.InputAssembler.PrimitiveTopology = SharpDX.Direct3D.PrimitiveTopology.TriangleStrip;
+            // Context.InputAssembler.SetVertexBuffers(0, vertexBinding);
 
 
             // Retrieve the existing shader and IA settings
-            //using (var oldVertexLayout = context.InputAssembler.InputLayout)
-            //using (var oldSampler = context.PixelShader.GetSamplers(0, 1).FirstOrDefault())
-            //using (var oldPixelShader = context.PixelShader.Get())
-            //using (var oldVertexShader = context.VertexShader.Get())
-            //using (var oldRenderTarget = context.OutputMerger.GetRenderTargets(1).FirstOrDefault())
+            // using (var OldVertexLayout = Context.InputAssembler.InputLayout)
+            // using (var OldSampler = Context.PixelShader.GetSamplers(0, 1).FirstOrDefault())
+            // using (var OldPixelShader = Context.PixelShader.Get())
+            // using (var OldVertexShader = Context.VertexShader.Get())
+            // using (var OldRenderTarget = Context.OutputMerger.GetRenderTargets(1).FirstOrDefault())
             {
-                context.ClearRenderTargetView(RenderTargetView, Color.CornflowerBlue);
-                
+                Context.ClearRenderTargetView(RenderTargetView, Color.CornflowerBlue);
+
                 // Set sampler
-                ViewportF[] viewportf = { new ViewportF(0, 0, RenderTarget.Description.Width, RenderTarget.Description.Height, 0, 1) };
-                context.Rasterizer.SetViewports(viewportf);
-                context.PixelShader.SetSampler(0, (UseLinearSampling ? linearSampleState : pointSamplerState));
+                ViewportF[] ViewportF = { new ViewportF(0, 0, RenderTarget.Description.Width, RenderTarget.Description.Height, 0, 1) };
+                Context.Rasterizer.SetViewports(ViewportF);
+                Context.PixelShader.SetSampler(0, (UseLinearSampling ? LinearSampleState : PointSamplerState));
 
                 // Set shader resource
                 //bool isMultisampledSRV = false;
                 if (ShaderResource != null && !ShaderResource.IsDisposed)
                 {
-                    context.PixelShader.SetShaderResource(0, ShaderResource);
+                    Context.PixelShader.SetShaderResource(0, ShaderResource);
 
                     //if (ShaderResource.Description.Dimension == SharpDX.Direct3D.ShaderResourceViewDimension.Texture2DMultisampled)
                     //{
@@ -277,27 +266,27 @@ float4 PSMain(PixelIn input) : SV_Target
                 //if (isMultisampledSRV)
                 //    context.PixelShader.Set(pixelShaderMS);
                 //else
-                context.PixelShader.Set(pixelShader);
+                Context.PixelShader.Set(PixelShader);
 
                 // Set vertex shader
-                context.VertexShader.Set(vertexShader);
+                Context.VertexShader.Set(VertexShader);
 
                 // Update vertex layout to use
-                context.InputAssembler.InputLayout = null;
+                Context.InputAssembler.InputLayout = null;
 
                 // Tell the IA we are using a triangle strip
-                context.InputAssembler.PrimitiveTopology = SharpDX.Direct3D.PrimitiveTopology.TriangleStrip;
+                Context.InputAssembler.PrimitiveTopology = SharpDX.Direct3D.PrimitiveTopology.TriangleStrip;
                 // No vertices to pass (note: null as we will use SV_VertexId)
                 //context.InputAssembler.SetVertexBuffers(0, vertexBuffer);
 
                 // Set the render target
-                context.OutputMerger.SetTargets(RenderTargetView);
+                Context.OutputMerger.SetTargets(RenderTargetView);
 
                 // Draw the 4 vertices that make up the triangle strip
-                context.Draw(4, 0);
+                Context.Draw(4, 0);
 
                 // Remove the render target from the pipeline so that we can read from it if necessary
-                context.OutputMerger.SetTargets((RenderTargetView)null);
+                Context.OutputMerger.SetTargets((RenderTargetView)null);
 
                 // Restore previous shader and IA settings
                 //context.PixelShader.SetSampler(0, oldSampler);
@@ -307,5 +296,7 @@ float4 PSMain(PixelIn input) : SV_Target
                 //context.OutputMerger.SetTargets(oldRenderTarget);
             }
         }
-    }
-}
+
+    } // End class
+
+} // End namespace

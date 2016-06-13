@@ -2,6 +2,7 @@
 using Anathema.Source.SystemInternals.Graphics;
 using Anathema.Source.SystemInternals.OperatingSystems;
 using Anathema.Source.SystemInternals.Processes;
+using Anathema.Source.Utils.Extensions;
 
 namespace Anathema.Source.SystemInternals.LuaWrapper.Graphics
 {
@@ -29,7 +30,23 @@ namespace Anathema.Source.SystemInternals.LuaWrapper.Graphics
 
         public void Inject()
         {
+            this.PrintDebugTag();
+
             GraphicsInterface.Inject(Engine.Memory.GetProcess());
+        }
+
+        public void Uninject()
+        {
+            this.PrintDebugTag();
+
+            GraphicsInterface.Uninject();
+        }
+
+        public void DoRequest()
+        {
+            this.PrintDebugTag();
+
+            GraphicsInterface.DoRequest();
         }
 
     } // End class

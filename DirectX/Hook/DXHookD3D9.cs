@@ -1,179 +1,188 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-//using SlimDX.Direct3D9;
-using EasyHook;
-using System.Runtime.InteropServices;
-using System.IO;
-using System.Threading;
-using System.Drawing;
-using Capture.Interface;
+﻿using DirectXShell.Hook.Common;
+using DirectXShell.Interface;
 using SharpDX.Direct3D9;
+using System;
+using System.Collections.Generic;
+using System.Drawing;
+using System.Runtime.InteropServices;
+using System.Threading.Tasks;
+using System.Windows.Forms;
 
-namespace Capture.Hook
+namespace DirectXShell.Hook
 {
-    internal class DXHookD3D9: BaseDXHook
+    /// <summary>
+    /// The full list of IDirect3DDevice9 functions with the correct index
+    /// </summary>
+    public enum Direct3DDevice9FunctionOrdinalsEnum : Int16
     {
-        public DXHookD3D9(CaptureInterface ssInterface)
-            : base(ssInterface)
-        {
-        }
+        QueryInterface = 0,
+        AddRef = 1,
+        Release = 2,
+        TestCooperativeLevel = 3,
+        GetAvailableTextureMem = 4,
+        EvictManagedResources = 5,
+        GetDirect3D = 6,
+        GetDeviceCaps = 7,
+        GetDisplayMode = 8,
+        GetCreationParameters = 9,
+        SetCursorProperties = 10,
+        SetCursorPosition = 11,
+        ShowCursor = 12,
+        CreateAdditionalSwapChain = 13,
+        GetSwapChain = 14,
+        GetNumberOfSwapChains = 15,
+        Reset = 16,
+        Present = 17,
+        GetBackBuffer = 18,
+        GetRasterStatus = 19,
+        SetDialogBoxMode = 20,
+        SetGammaRamp = 21,
+        GetGammaRamp = 22,
+        CreateTexture = 23,
+        CreateVolumeTexture = 24,
+        CreateCubeTexture = 25,
+        CreateVertexBuffer = 26,
+        CreateIndexBuffer = 27,
+        CreateRenderTarget = 28,
+        CreateDepthStencilSurface = 29,
+        UpdateSurface = 30,
+        UpdateTexture = 31,
+        GetRenderTargetData = 32,
+        GetFrontBufferData = 33,
+        StretchRect = 34,
+        ColorFill = 35,
+        CreateOffscreenPlainSurface = 36,
+        SetRenderTarget = 37,
+        GetRenderTarget = 38,
+        SetDepthStencilSurface = 39,
+        GetDepthStencilSurface = 40,
+        BeginScene = 41,
+        EndScene = 42,
+        Clear = 43,
+        SetTransform = 44,
+        GetTransform = 45,
+        MultiplyTransform = 46,
+        SetViewport = 47,
+        GetViewport = 48,
+        SetMaterial = 49,
+        GetMaterial = 50,
+        SetLight = 51,
+        GetLight = 52,
+        LightEnable = 53,
+        GetLightEnable = 54,
+        SetClipPlane = 55,
+        GetClipPlane = 56,
+        SetRenderState = 57,
+        GetRenderState = 58,
+        CreateStateBlock = 59,
+        BeginStateBlock = 60,
+        EndStateBlock = 61,
+        SetClipStatus = 62,
+        GetClipStatus = 63,
+        GetTexture = 64,
+        SetTexture = 65,
+        GetTextureStageState = 66,
+        SetTextureStageState = 67,
+        GetSamplerState = 68,
+        SetSamplerState = 69,
+        ValidateDevice = 70,
+        SetPaletteEntries = 71,
+        GetPaletteEntries = 72,
+        SetCurrentTexturePalette = 73,
+        GetCurrentTexturePalette = 74,
+        SetScissorRect = 75,
+        GetScissorRect = 76,
+        SetSoftwareVertexProcessing = 77,
+        GetSoftwareVertexProcessing = 78,
+        SetNPatchMode = 79,
+        GetNPatchMode = 80,
+        DrawPrimitive = 81,
+        DrawIndexedPrimitive = 82,
+        DrawPrimitiveUP = 83,
+        DrawIndexedPrimitiveUP = 84,
+        ProcessVertices = 85,
+        CreateVertexDeclaration = 86,
+        SetVertexDeclaration = 87,
+        GetVertexDeclaration = 88,
+        SetFVF = 89,
+        GetFVF = 90,
+        CreateVertexShader = 91,
+        SetVertexShader = 92,
+        GetVertexShader = 93,
+        SetVertexShaderConstantF = 94,
+        GetVertexShaderConstantF = 95,
+        SetVertexShaderConstantI = 96,
+        GetVertexShaderConstantI = 97,
+        SetVertexShaderConstantB = 98,
+        GetVertexShaderConstantB = 99,
+        SetStreamSource = 100,
+        GetStreamSource = 101,
+        SetStreamSourceFreq = 102,
+        GetStreamSourceFreq = 103,
+        SetIndices = 104,
+        GetIndices = 105,
+        CreatePixelShader = 106,
+        SetPixelShader = 107,
+        GetPixelShader = 108,
+        SetPixelShaderConstantF = 109,
+        GetPixelShaderConstantF = 110,
+        SetPixelShaderConstantI = 111,
+        GetPixelShaderConstantI = 112,
+        SetPixelShaderConstantB = 113,
+        GetPixelShaderConstantB = 114,
+        DrawRectPatch = 115,
+        DrawTriPatch = 116,
+        DeletePatch = 117,
+        CreateQuery = 118,
+    }
 
-        Hook<Direct3D9Device_EndSceneDelegate> Direct3DDevice_EndSceneHook = null;
-        Hook<Direct3D9Device_ResetDelegate> Direct3DDevice_ResetHook = null;
-        Hook<Direct3D9Device_PresentDelegate> Direct3DDevice_PresentHook = null;
-        Hook<Direct3D9DeviceEx_PresentExDelegate> Direct3DDeviceEx_PresentExHook = null;
-        object _lockRenderTarget = new object();
+    public enum Direct3DDevice9ExFunctionOrdinalsEnum : Int16
+    {
+        SetConvolutionMonoKernel = 119,
+        ComposeRects = 120,
+        PresentEx = 121,
+        GetGPUThreadPriority = 122,
+        SetGPUThreadPriority = 123,
+        WaitForVBlank = 124,
+        CheckResourceResidency = 125,
+        SetMaximumFrameLatency = 126,
+        GetMaximumFrameLatency = 127,
+        CheckDeviceState_ = 128,
+        CreateRenderTargetEx = 129,
+        CreateOffscreenPlainSurfaceEx = 130,
+        CreateDepthStencilSurfaceEx = 131,
+        ResetEx = 132,
+        GetDisplayModeEx = 133,
 
-        bool _resourcesInitialised;
-        Query _query;
-        SharpDX.Direct3D9.Font _font;
-        bool _queryIssued;
-        ScreenshotRequest _requestCopy;
-        bool _renderTargetCopyLocked = false;
-        Surface _renderTargetCopy;
-        Surface _resolvedTarget;
+    }
 
-        protected override string HookName
-        {
-            get
-            {
-                return "DXHookD3D9";
-            }
-        }
+    internal class DXHookD3D9 : BaseDXHook
+    {
+        private static Int32 D3D9_DEVICE_METHOD_COUNT = Enum.GetNames(typeof(Direct3DDevice9FunctionOrdinalsEnum)).Length;
+        private static Int32 D3D9Ex_DEVICE_METHOD_COUNT = Enum.GetNames(typeof(Direct3DDevice9ExFunctionOrdinalsEnum)).Length;
 
-        List<IntPtr> id3dDeviceFunctionAddresses = new List<IntPtr>();
-        //List<IntPtr> id3dDeviceExFunctionAddresses = new List<IntPtr>();
-        const int D3D9_DEVICE_METHOD_COUNT = 119;
-        const int D3D9Ex_DEVICE_METHOD_COUNT = 15;
-        bool _supportsDirect3D9Ex = false;
-        public override void Hook()
-        {
-            this.DebugMessage("Hook: Begin");
-            // First we need to determine the function address for IDirect3DDevice9
-            Device device;
-            id3dDeviceFunctionAddresses = new List<IntPtr>();
-            //id3dDeviceExFunctionAddresses = new List<IntPtr>();
-            this.DebugMessage("Hook: Before device creation");
-            using (Direct3D d3d = new Direct3D())
-            {
-                using (var renderForm = new System.Windows.Forms.Form())
-                {
-                    using (device = new Device(d3d, 0, DeviceType.NullReference, IntPtr.Zero, CreateFlags.HardwareVertexProcessing, new PresentParameters() { BackBufferWidth = 1, BackBufferHeight = 1, DeviceWindowHandle = renderForm.Handle }))
-                    {
-                        this.DebugMessage("Hook: Device created");
-                        id3dDeviceFunctionAddresses.AddRange(GetVTblAddresses(device.NativePointer, D3D9_DEVICE_METHOD_COUNT));
-                    }
-                }
-            }
+        private Hook<Direct3D9Device_EndSceneDelegate> Direct3DDeviceEndSceneHook;
+        private Hook<Direct3D9Device_ResetDelegate> Direct3DDeviceResetHook;
+        private Hook<Direct3D9Device_PresentDelegate> Direct3DDevicePresentHook;
+        private Hook<Direct3D9DeviceEx_PresentExDelegate> Direct3DDeviceExPresentExHook;
+        private Object LockRenderObject;
 
-            try
-            {
-                using (Direct3DEx d3dEx = new Direct3DEx())
-                {
-                    this.DebugMessage("Hook: Direct3DEx...");
-                    using (var renderForm = new System.Windows.Forms.Form())
-                    {
-                        using (var deviceEx = new DeviceEx(d3dEx, 0, DeviceType.NullReference, IntPtr.Zero, CreateFlags.HardwareVertexProcessing, new PresentParameters() { BackBufferWidth = 1, BackBufferHeight = 1, DeviceWindowHandle = renderForm.Handle }, new DisplayModeEx() { Width = 800, Height = 600 }))
-                        {
-                            this.DebugMessage("Hook: DeviceEx created - PresentEx supported");
-                            id3dDeviceFunctionAddresses.AddRange(GetVTblAddresses(deviceEx.NativePointer, D3D9_DEVICE_METHOD_COUNT, D3D9Ex_DEVICE_METHOD_COUNT));
-                            _supportsDirect3D9Ex = true;
-                        }
-                    }
-                }
-            }
-            catch (Exception)
-            {
-                _supportsDirect3D9Ex = false;
-            }
+        private Boolean ResourcesInitialized;
+        private Query Query;
+        private SharpDX.Direct3D9.Font Font;
+        private Boolean QueryIssued;
+        private ScreenshotRequest RequestCopy;
+        private Boolean RenderTargetCopyLocked;
+        private Surface RenderTargetCopy;
+        private Surface ResolvedTarget;
 
-            // We want to hook each method of the IDirect3DDevice9 interface that we are interested in
+        private List<IntPtr> ID3DDeviceFunctionAddresses = new List<IntPtr>();
+        // private List<IntPtr> id3dDeviceExFunctionAddresses = new List<IntPtr>();
+        private Boolean SupportsDirect3D9Ex;
 
-            // 42 - EndScene (we will retrieve the back buffer here)
-            Direct3DDevice_EndSceneHook = new Hook<Direct3D9Device_EndSceneDelegate>(
-                id3dDeviceFunctionAddresses[(int)Direct3DDevice9FunctionOrdinals.EndScene],
-                // On Windows 7 64-bit w/ 32-bit app and d3d9 dll version 6.1.7600.16385, the address is equiv to:
-                // (IntPtr)(GetModuleHandle("d3d9").ToInt32() + 0x1ce09),
-                // A 64-bit app would use 0xff18
-                // Note: GetD3D9DeviceFunctionAddress will output these addresses to a log file
-                new Direct3D9Device_EndSceneDelegate(EndSceneHook),
-                this);
+        private DX9.DXOverlayEngine OverlayEngine;
 
-            unsafe
-            {
-                // If Direct3D9Ex is available - hook the PresentEx
-                if (_supportsDirect3D9Ex)
-                {
-                    Direct3DDeviceEx_PresentExHook = new Hook<Direct3D9DeviceEx_PresentExDelegate>(
-                        id3dDeviceFunctionAddresses[(int)Direct3DDevice9ExFunctionOrdinals.PresentEx],
-                        new Direct3D9DeviceEx_PresentExDelegate(PresentExHook),
-                        this);
-                }
-
-                // Always hook Present also (device will only call Present or PresentEx not both)
-                Direct3DDevice_PresentHook = new Hook<Direct3D9Device_PresentDelegate>(
-                    id3dDeviceFunctionAddresses[(int)Direct3DDevice9FunctionOrdinals.Present],
-                    new Direct3D9Device_PresentDelegate(PresentHook),
-                    this);
-            }
-
-            // 16 - Reset (called on resolution change or windowed/fullscreen change - we will reset some things as well)
-            Direct3DDevice_ResetHook = new Hook<Direct3D9Device_ResetDelegate>(
-                id3dDeviceFunctionAddresses[(int)Direct3DDevice9FunctionOrdinals.Reset],
-                // On Windows 7 64-bit w/ 32-bit app and d3d9 dll version 6.1.7600.16385, the address is equiv to:
-                //(IntPtr)(GetModuleHandle("d3d9").ToInt32() + 0x58dda),
-                // A 64-bit app would use 0x3b3a0
-                // Note: GetD3D9DeviceFunctionAddress will output these addresses to a log file
-                new Direct3D9Device_ResetDelegate(ResetHook),
-                this);
-
-            /*
-             * Don't forget that all hooks will start deactivated...
-             * The following ensures that all threads are intercepted:
-             * Note: you must do this for each hook.
-             */
-            
-            Direct3DDevice_EndSceneHook.Activate();
-            Hooks.Add(Direct3DDevice_EndSceneHook);
-
-            Direct3DDevice_PresentHook.Activate();
-            Hooks.Add(Direct3DDevice_PresentHook);
-
-            if (_supportsDirect3D9Ex)
-            {
-                Direct3DDeviceEx_PresentExHook.Activate();
-                Hooks.Add(Direct3DDeviceEx_PresentExHook);
-            }
-
-            Direct3DDevice_ResetHook.Activate();
-            Hooks.Add(Direct3DDevice_ResetHook);
-
-            this.DebugMessage("Hook: End");
-        }
-
-        /// <summary>
-        /// Just ensures that the surface we created is cleaned up.
-        /// </summary>
-        public override void Cleanup()
-        {
-            lock (_lockRenderTarget)
-            {
-                _resourcesInitialised = false;
-
-                RemoveAndDispose(ref _renderTargetCopy);
-                _renderTargetCopyLocked = false;
-
-                RemoveAndDispose(ref _resolvedTarget);
-                RemoveAndDispose(ref _query);
-                _queryIssued = false;
-
-                RemoveAndDispose(ref _font);
-
-                RemoveAndDispose(ref _overlayEngine);
-            }
-        }
+        private Boolean IsUsingPresent;
 
         /// <summary>
         /// The IDirect3DDevice9.EndScene function definition
@@ -186,182 +195,320 @@ namespace Capture.Hook
         /// <summary>
         /// The IDirect3DDevice9.Reset function definition
         /// </summary>
-        /// <param name="device"></param>
-        /// <param name="presentParameters"></param>
+        /// <param name="Device"></param>
+        /// <param name="PresentParameters"></param>
         /// <returns></returns>
         [UnmanagedFunctionPointer(CallingConvention.StdCall, CharSet = CharSet.Unicode, SetLastError = true)]
-        delegate int Direct3D9Device_ResetDelegate(IntPtr device, ref PresentParameters presentParameters);
+        delegate Int32 Direct3D9Device_ResetDelegate(IntPtr Device, ref PresentParameters PresentParameters);
 
         [UnmanagedFunctionPointer(CallingConvention.StdCall, CharSet = CharSet.Unicode, SetLastError = true)]
-        unsafe delegate int Direct3D9Device_PresentDelegate(IntPtr devicePtr, SharpDX.Rectangle* pSourceRect, SharpDX.Rectangle* pDestRect, IntPtr hDestWindowOverride, IntPtr pDirtyRegion);
+        unsafe delegate Int32 Direct3D9Device_PresentDelegate(IntPtr DevicePtr, SharpDX.Rectangle* PSourceRect, SharpDX.Rectangle* PDestRect, IntPtr hDestWindowOverride, IntPtr PDirtyRegion);
 
         [UnmanagedFunctionPointer(CallingConvention.StdCall, CharSet = CharSet.Unicode, SetLastError = true)]
-        unsafe delegate int Direct3D9DeviceEx_PresentExDelegate(IntPtr devicePtr, SharpDX.Rectangle* pSourceRect, SharpDX.Rectangle* pDestRect, IntPtr hDestWindowOverride, IntPtr pDirtyRegion, Present dwFlags);
-        
+        unsafe delegate Int32 Direct3D9DeviceEx_PresentExDelegate(IntPtr DevicePtr, SharpDX.Rectangle* PSourceRect, SharpDX.Rectangle* PDestRect, IntPtr hDestWindowOverride, IntPtr PDirtyRegion, Present DWFlags);
+
+
+        public DXHookD3D9(CaptureInterface CaptureInterface) : base(CaptureInterface)
+        {
+            LockRenderObject = new Object();
+
+            RenderTargetCopyLocked = false;
+            SupportsDirect3D9Ex = false;
+            IsUsingPresent = false;
+
+            Direct3DDeviceEndSceneHook = null;
+            Direct3DDeviceResetHook = null;
+            Direct3DDevicePresentHook = null;
+            Direct3DDeviceExPresentExHook = null;
+        }
+
+        protected override String HookName { get { return "DXHookD3D9"; } }
+
+        public override void Hook()
+        {
+            DebugMessage("Hook: Begin");
+
+            // First we need to determine the function address for IDirect3DDevice9
+            Device Device;
+            ID3DDeviceFunctionAddresses = new List<IntPtr>();
+            // ID3DDeviceExFunctionAddresses = new List<IntPtr>();
+
+            DebugMessage("Hook: Before device creation");
+
+            using (Direct3D D3D = new Direct3D())
+            {
+                using (Form renderForm = new Form())
+                {
+                    using (Device = new Device(D3D, 0, DeviceType.NullReference, IntPtr.Zero, CreateFlags.HardwareVertexProcessing, new PresentParameters() { BackBufferWidth = 1, BackBufferHeight = 1, DeviceWindowHandle = renderForm.Handle }))
+                    {
+                        DebugMessage("Hook: Device created");
+
+                        ID3DDeviceFunctionAddresses.AddRange(GetVirtualTableAddresses(Device.NativePointer, D3D9_DEVICE_METHOD_COUNT));
+                    }
+                }
+            }
+
+            try
+            {
+                using (Direct3DEx D3DEx = new Direct3DEx())
+                {
+                    DebugMessage("Hook: Direct3DEx...");
+
+                    using (Form RenderForm = new Form())
+                    {
+                        using (DeviceEx DeviceEx = new DeviceEx(D3DEx, 0, DeviceType.NullReference, IntPtr.Zero, CreateFlags.HardwareVertexProcessing, new PresentParameters() { BackBufferWidth = 1, BackBufferHeight = 1, DeviceWindowHandle = RenderForm.Handle }, new DisplayModeEx() { Width = 800, Height = 600 }))
+                        {
+                            DebugMessage("Hook: DeviceEx created - PresentEx supported");
+
+                            ID3DDeviceFunctionAddresses.AddRange(GetVirtualTableAddresses(DeviceEx.NativePointer, D3D9_DEVICE_METHOD_COUNT, D3D9Ex_DEVICE_METHOD_COUNT));
+                            SupportsDirect3D9Ex = true;
+                        }
+                    }
+                }
+            }
+            catch (Exception)
+            {
+                SupportsDirect3D9Ex = false;
+            }
+
+            // We want to hook each method of the IDirect3DDevice9 interface that we are interested in
+
+            // 42 - EndScene (we will retrieve the back buffer here)
+            // On Windows 7 64-bit w/ 32-bit app and d3d9 dll version 6.1.7600.16385, the address is equiv to:
+            // (IntPtr)(GetModuleHandle("d3d9").ToInt32() + 0x1ce09),
+            // A 64-bit app would use 0xff18
+            // Note: GetD3D9DeviceFunctionAddress will output these addresses to a log file
+            Direct3DDeviceEndSceneHook = new Hook<Direct3D9Device_EndSceneDelegate>(
+                ID3DDeviceFunctionAddresses[(Int32)Direct3DDevice9FunctionOrdinalsEnum.EndScene],
+                new Direct3D9Device_EndSceneDelegate(EndSceneHook), this);
+
+            unsafe
+            {
+                // If Direct3D9Ex is available - hook the PresentEx
+                if (SupportsDirect3D9Ex)
+                {
+                    Direct3DDeviceExPresentExHook = new Hook<Direct3D9DeviceEx_PresentExDelegate>(
+                        ID3DDeviceFunctionAddresses[(Int32)Direct3DDevice9ExFunctionOrdinalsEnum.PresentEx],
+                        new Direct3D9DeviceEx_PresentExDelegate(PresentExHook), this);
+                }
+
+                // Always hook Present also (device will only call Present or PresentEx not both)
+                Direct3DDevicePresentHook = new Hook<Direct3D9Device_PresentDelegate>(
+                    ID3DDeviceFunctionAddresses[(Int32)Direct3DDevice9FunctionOrdinalsEnum.Present],
+                    new Direct3D9Device_PresentDelegate(PresentHook), this);
+            }
+
+            // 16 - Reset (called on resolution change or windowed/fullscreen change - we will reset some things as well)
+            // On Windows 7 64-bit w/ 32-bit app and d3d9 dll version 6.1.7600.16385, the address is equiv to:
+            //(IntPtr)(GetModuleHandle("d3d9").ToInt32() + 0x58dda),
+            // A 64-bit app would use 0x3b3a0
+            // Note: GetD3D9DeviceFunctionAddress will output these addresses to a log file
+            Direct3DDeviceResetHook = new Hook<Direct3D9Device_ResetDelegate>(
+                ID3DDeviceFunctionAddresses[(Int32)Direct3DDevice9FunctionOrdinalsEnum.Reset],
+                new Direct3D9Device_ResetDelegate(ResetHook), this);
+
+            // The following ensures that all threads are intercepted (Note: must be done for each hook)
+            Direct3DDeviceEndSceneHook.Activate();
+            Hooks.Add(Direct3DDeviceEndSceneHook);
+
+            Direct3DDevicePresentHook.Activate();
+            Hooks.Add(Direct3DDevicePresentHook);
+
+            if (SupportsDirect3D9Ex)
+            {
+                Direct3DDeviceExPresentExHook.Activate();
+                Hooks.Add(Direct3DDeviceExPresentExHook);
+            }
+
+            Direct3DDeviceResetHook.Activate();
+            Hooks.Add(Direct3DDeviceResetHook);
+
+            DebugMessage("Hook: End");
+        }
+
+        /// <summary>
+        /// Just ensures that the surface we created is cleaned up.
+        /// </summary>
+        public override void Cleanup()
+        {
+            lock (LockRenderObject)
+            {
+                ResourcesInitialized = false;
+
+                RemoveAndDispose(ref RenderTargetCopy);
+                RenderTargetCopyLocked = false;
+
+                RemoveAndDispose(ref ResolvedTarget);
+                RemoveAndDispose(ref Query);
+                QueryIssued = false;
+
+                RemoveAndDispose(ref Font);
+
+                RemoveAndDispose(ref OverlayEngine);
+            }
+        }
 
         /// <summary>
         /// Reset the _renderTarget so that we are sure it will have the correct presentation parameters (required to support working across changes to windowed/fullscreen or resolution changes)
         /// </summary>
-        /// <param name="devicePtr"></param>
-        /// <param name="presentParameters"></param>
+        /// <param name="DevicePtr"></param>
+        /// <param name="PresentParameters"></param>
         /// <returns></returns>
-        int ResetHook(IntPtr devicePtr, ref PresentParameters presentParameters)
+        Int32 ResetHook(IntPtr DevicePtr, ref PresentParameters PresentParameters)
         {
             // Ensure certain overlay resources have performed necessary pre-reset tasks
-            if (_overlayEngine != null)
-                _overlayEngine.BeforeDeviceReset();
+            if (OverlayEngine != null)
+                OverlayEngine.BeforeDeviceReset();
 
             Cleanup();
 
-            return Direct3DDevice_ResetHook.Original(devicePtr, ref presentParameters);
+            return Direct3DDeviceResetHook.Original(DevicePtr, ref PresentParameters);
         }
-
-        bool _isUsingPresent = false;
 
         // Used in the overlay
-        unsafe int PresentExHook(IntPtr devicePtr, SharpDX.Rectangle* pSourceRect, SharpDX.Rectangle* pDestRect, IntPtr hDestWindowOverride, IntPtr pDirtyRegion, Present dwFlags)
+        unsafe Int32 PresentExHook(IntPtr DevicePtr, SharpDX.Rectangle* PSourceRect, SharpDX.Rectangle* PDestRect, IntPtr HDestWindowOverride, IntPtr PDirtyRegion, Present DWFlags)
         {
-            _isUsingPresent = true;
-            DeviceEx device = (DeviceEx)devicePtr;
+            IsUsingPresent = true;
+            DeviceEx Device = (DeviceEx)DevicePtr;
 
-            DoCaptureRenderTarget(device, "PresentEx");
+            DoCaptureRenderTarget(Device, "PresentEx");
 
-            return Direct3DDeviceEx_PresentExHook.Original(devicePtr, pSourceRect, pDestRect, hDestWindowOverride, pDirtyRegion, dwFlags);
+            return Direct3DDeviceExPresentExHook.Original(DevicePtr, PSourceRect, PDestRect, HDestWindowOverride, PDirtyRegion, DWFlags);
         }
-        
-        unsafe int PresentHook(IntPtr devicePtr, SharpDX.Rectangle* pSourceRect, SharpDX.Rectangle* pDestRect, IntPtr hDestWindowOverride, IntPtr pDirtyRegion)
+
+        unsafe Int32 PresentHook(IntPtr DevicePtr, SharpDX.Rectangle* PSourceRect, SharpDX.Rectangle* PDestRect, IntPtr HDestWindowOverride, IntPtr PDirtyRegion)
         {
-            _isUsingPresent = true;
+            IsUsingPresent = true;
+            Device Device = (Device)DevicePtr;
 
-            Device device = (Device)devicePtr;
+            DoCaptureRenderTarget(Device, "PresentHook");
 
-            DoCaptureRenderTarget(device, "PresentHook");
-
-            return Direct3DDevice_PresentHook.Original(devicePtr, pSourceRect, pDestRect, hDestWindowOverride, pDirtyRegion);
+            return Direct3DDevicePresentHook.Original(DevicePtr, PSourceRect, PDestRect, HDestWindowOverride, PDirtyRegion);
         }
 
         /// <summary>
         /// Hook for IDirect3DDevice9.EndScene
         /// </summary>
-        /// <param name="devicePtr">Pointer to the IDirect3DDevice9 instance. Note: object member functions always pass "this" as the first parameter.</param>
+        /// <param name="DevicePtr">Pointer to the IDirect3DDevice9 instance. Note: object member functions always pass "this" as the first parameter.</param>
         /// <returns>The HRESULT of the original EndScene</returns>
         /// <remarks>Remember that this is called many times a second by the Direct3D application - be mindful of memory and performance!</remarks>
-        int EndSceneHook(IntPtr devicePtr)
+        Int32 EndSceneHook(IntPtr DevicePtr)
         {
-            Device device = (Device)devicePtr;
+            Device Device = (Device)DevicePtr;
 
-            if (!_isUsingPresent)
-                DoCaptureRenderTarget(device, "EndSceneHook");
+            if (!IsUsingPresent)
+                DoCaptureRenderTarget(Device, "EndSceneHook");
 
-            return Direct3DDevice_EndSceneHook.Original(devicePtr);
+            return Direct3DDeviceEndSceneHook.Original(DevicePtr);
         }
 
-        Capture.Hook.DX9.DXOverlayEngine _overlayEngine;
 
         /// <summary>
         /// Implementation of capturing from the render target of the Direct3D9 Device (or DeviceEx)
         /// </summary>
-        /// <param name="device"></param>
-        void DoCaptureRenderTarget(Device device, string hook)
+        /// <param name="Device"></param>
+        void DoCaptureRenderTarget(Device Device, String Hook)
         {
-            this.Frame();
-            
+            Frame();
+
             try
             {
                 #region Screenshot Request
 
                 // If we have issued the command to copy data to our render target, check if it is complete
-                bool qryResult;
-                if (_queryIssued && _requestCopy != null && _query.GetData(out qryResult, false))
+                Boolean QueryResult;
+
+                if (QueryIssued && RequestCopy != null && Query.GetData(out QueryResult, false))
                 {
                     // The GPU has finished copying data to _renderTargetCopy, we can now lock
                     // the data and access it on another thread.
 
-                    _queryIssued = false;
-                    
+                    QueryIssued = false;
+
                     // Lock the render target
-                    SharpDX.Rectangle rect;
-                    SharpDX.DataRectangle lockedRect = LockRenderTarget(_renderTargetCopy, out rect);
-                    _renderTargetCopyLocked = true;
+                    SharpDX.Rectangle Rectangle;
+                    SharpDX.DataRectangle LockedRectangle = LockRenderTarget(RenderTargetCopy, out Rectangle);
+                    RenderTargetCopyLocked = true;
 
                     // Copy the data from the render target
-                    System.Threading.Tasks.Task.Factory.StartNew(() =>
+                    Task.Run(() =>
                     {
-                        lock (_lockRenderTarget)
+                        lock (LockRenderObject)
                         {
-                            ProcessCapture(rect.Width, rect.Height, lockedRect.Pitch, _renderTargetCopy.Description.Format.ToPixelFormat(), lockedRect.DataPointer, _requestCopy);
+                            ProcessCapture(Rectangle.Width, Rectangle.Height, LockedRectangle.Pitch, RenderTargetCopy.Description.Format.ToPixelFormat(), LockedRectangle.DataPointer, RequestCopy);
                         }
                     });
                 }
 
                 // Single frame capture request
-                if (this.Request != null)
+                if (Request != null)
                 {
-                    DateTime start = DateTime.Now;
+                    DateTime Start = DateTime.Now;
+
                     try
                     {
-                        using (Surface renderTarget = device.GetRenderTarget(0))
+                        using (Surface RenderTarget = Device.GetRenderTarget(0))
                         {
-                            int width, height;
+                            Int32 Width, Height;
 
                             // If resizing of the captured image, determine correct dimensions
-                            if (Request.Resize != null && (renderTarget.Description.Width > Request.Resize.Value.Width || renderTarget.Description.Height > Request.Resize.Value.Height))
+                            if (Request.Resize != null && (RenderTarget.Description.Width > Request.Resize.Value.Width || RenderTarget.Description.Height > Request.Resize.Value.Height))
                             {
-                                if (renderTarget.Description.Width > Request.Resize.Value.Width)
+                                if (RenderTarget.Description.Width > Request.Resize.Value.Width)
                                 {
-                                    width = Request.Resize.Value.Width;
-                                    height = (int)Math.Round((renderTarget.Description.Height * ((double)Request.Resize.Value.Width / (double)renderTarget.Description.Width)));
+                                    Width = Request.Resize.Value.Width;
+                                    Height = (Int32)Math.Round((RenderTarget.Description.Height * ((double)Request.Resize.Value.Width / (double)RenderTarget.Description.Width)));
                                 }
                                 else
                                 {
-                                    height = Request.Resize.Value.Height;
-                                    width = (int)Math.Round((renderTarget.Description.Width * ((double)Request.Resize.Value.Height / (double)renderTarget.Description.Height)));
+                                    Height = Request.Resize.Value.Height;
+                                    Width = (Int32)Math.Round((RenderTarget.Description.Width * ((double)Request.Resize.Value.Height / (double)RenderTarget.Description.Height)));
                                 }
                             }
                             else
                             {
-                                width = renderTarget.Description.Width;
-                                height = renderTarget.Description.Height;
+                                Width = RenderTarget.Description.Width;
+                                Height = RenderTarget.Description.Height;
                             }
 
                             // If existing _renderTargetCopy, ensure that it is the correct size and format
-                            if (_renderTargetCopy != null && (_renderTargetCopy.Description.Width != width || _renderTargetCopy.Description.Height != height || _renderTargetCopy.Description.Format != renderTarget.Description.Format))
+                            if (RenderTargetCopy != null && (RenderTargetCopy.Description.Width != Width || RenderTargetCopy.Description.Height != Height || RenderTargetCopy.Description.Format != RenderTarget.Description.Format))
                             {
                                 // Cleanup resources
                                 Cleanup();
                             }
 
                             // Ensure that we have something to put the render target data into
-                            if (!_resourcesInitialised || _renderTargetCopy == null)
+                            if (!ResourcesInitialized || RenderTargetCopy == null)
                             {
-                                CreateResources(device, width, height, renderTarget.Description.Format);
+                                CreateResources(Device, Width, Height, RenderTarget.Description.Format);
                             }
 
                             // Resize from render target Surface to resolvedSurface (also deals with resolving multi-sampling)
-                            device.StretchRectangle(renderTarget, _resolvedTarget, TextureFilter.None);
+                            Device.StretchRectangle(RenderTarget, ResolvedTarget, TextureFilter.None);
                         }
 
                         // If the render target is locked from a previous request unlock it
-                        if (_renderTargetCopyLocked)
+                        if (RenderTargetCopyLocked)
                         {
                             // Wait for the the ProcessCapture thread to finish with it
-                            lock (_lockRenderTarget)
+                            lock (LockRenderObject)
                             {
-                                if (_renderTargetCopyLocked)
+                                if (RenderTargetCopyLocked)
                                 {
-                                    _renderTargetCopy.UnlockRectangle();
-                                    _renderTargetCopyLocked = false;
+                                    RenderTargetCopy.UnlockRectangle();
+                                    RenderTargetCopyLocked = false;
                                 }
                             }
                         }
-                            
-                        // Copy data from resolved target to our render target copy
-                        device.GetRenderTargetData(_resolvedTarget, _renderTargetCopy);
 
-                        _requestCopy = Request.Clone();
-                        _query.Issue(Issue.End);
-                        _queryIssued = true;
-                        
+                        // Copy data from resolved target to our render target copy
+                        Device.GetRenderTargetData(ResolvedTarget, RenderTargetCopy);
+
+                        RequestCopy = Request.Clone();
+                        Query.Issue(Issue.End);
+                        QueryIssued = true;
+
                     }
                     finally
                     {
@@ -371,80 +518,88 @@ namespace Capture.Hook
                         //         the whole process if sending frame by frame.
                         Request = null;
                     }
-                    DateTime end = DateTime.Now;
-                    this.DebugMessage(hook + ": Capture time: " + (end - start).ToString());
+
+                    DateTime End = DateTime.Now;
+
+                    DebugMessage(Hook + ": Capture time: " + (End - Start).ToString());
                 }
 
                 #endregion
 
-                if (this.Config.ShowOverlay)
+                if (Config.ShowOverlay)
                 {
                     #region Draw Overlay
 
                     // Check if overlay needs to be initialised
-                    if (_overlayEngine == null || _overlayEngine.Device.NativePointer != device.NativePointer)
+                    if (OverlayEngine == null || OverlayEngine.Device.NativePointer != Device.NativePointer)
                     {
                         // Cleanup if necessary
-                        if (_overlayEngine != null)
-                            RemoveAndDispose(ref _overlayEngine);
+                        if (OverlayEngine != null)
+                            RemoveAndDispose(ref OverlayEngine);
 
-                        _overlayEngine = ToDispose(new DX9.DXOverlayEngine());
+                        OverlayEngine = ToDispose(new DX9.DXOverlayEngine());
+
                         // Create Overlay
-                        _overlayEngine.Overlays.Add(new Capture.Hook.Common.Overlay
+                        OverlayEngine.Overlays.Add(new Overlay
                         {
                             Elements =
                             {
                                 // Add frame rate
-                                new Capture.Hook.Common.FramesPerSecond(new System.Drawing.Font("Arial", 16, FontStyle.Bold)) { Location = new System.Drawing.Point(5,5), Color = System.Drawing.Color.Red, AntiAliased = true },
+                                new Common.FramesPerSecond(new System.Drawing.Font("Arial", 16, FontStyle.Bold)) { Location = new Point(5,5), Color = Color.Red, AntiAliased = true },
                                 // Example of adding an image to overlay (can implement semi transparency with Tint, e.g. Ting = Color.FromArgb(127, 255, 255, 255))
-                                //new Capture.Hook.Common.ImageElement(@"C:\Temp\test.bmp") { Location = new System.Drawing.Point(20, 20) }
+                                // new Common.ImageElement(@"C:\Temp\test.bmp") { Location = new Point(20, 20) }
                             }
                         });
 
-                        _overlayEngine.Initialise(device);
+                        OverlayEngine.Initialize(Device);
                     }
                     // Draw Overlay(s)
-                    else if (_overlayEngine != null)
+                    else if (OverlayEngine != null)
                     {
-                        foreach (var overlay in _overlayEngine.Overlays)
-                            overlay.Frame();
-                        _overlayEngine.Draw();
+                        foreach (IOverlay Overlay in OverlayEngine.Overlays)
+                            Overlay.Frame();
+                        OverlayEngine.Draw();
                     }
 
                     #endregion
                 }
             }
-            catch (Exception e)
+            catch (Exception Ex)
             {
-                DebugMessage(e.ToString());
+                DebugMessage(Ex.ToString());
             }
         }
 
-        private SharpDX.DataRectangle LockRenderTarget(Surface _renderTargetCopy, out SharpDX.Rectangle rect)
+        private SharpDX.DataRectangle LockRenderTarget(Surface RenderTargetCopy, out SharpDX.Rectangle Rectangle)
         {
-            if (_requestCopy.RegionToCapture.Height > 0 && _requestCopy.RegionToCapture.Width > 0)
+            if (RequestCopy.Region.Height > 0 && RequestCopy.Region.Width > 0)
             {
-                rect = new SharpDX.Rectangle(_requestCopy.RegionToCapture.Left, _requestCopy.RegionToCapture.Top, _requestCopy.RegionToCapture.Width, _requestCopy.RegionToCapture.Height);
+                Rectangle = new SharpDX.Rectangle(RequestCopy.Region.Left, RequestCopy.Region.Top, RequestCopy.Region.Width, RequestCopy.Region.Height);
             }
             else
             {
-                rect = new SharpDX.Rectangle(0, 0, _renderTargetCopy.Description.Width, _renderTargetCopy.Description.Height);
+                Rectangle = new SharpDX.Rectangle(0, 0, RenderTargetCopy.Description.Width, RenderTargetCopy.Description.Height);
             }
-            return _renderTargetCopy.LockRectangle(rect, LockFlags.ReadOnly);
+
+            return RenderTargetCopy.LockRectangle(Rectangle, LockFlags.ReadOnly);
         }
 
-        private void CreateResources(Device device, int width, int height, Format format)
+        private void CreateResources(Device Device, Int32 Width, Int32 Height, Format D3DFormat)
         {
-            if (_resourcesInitialised) return;
-            _resourcesInitialised = true;
-            
-            // Create offscreen surface to use as copy of render target data
-            _renderTargetCopy = ToDispose(Surface.CreateOffscreenPlain(device, width, height, format, Pool.SystemMemory));
-            
-            // Create our resolved surface (resizing if necessary and to resolve any multi-sampling)
-            _resolvedTarget = ToDispose(Surface.CreateRenderTarget(device, width, height, format, MultisampleType.None, 0, false));
+            if (ResourcesInitialized)
+                return;
 
-            _query = ToDispose(new Query(device, QueryType.Event));
+            ResourcesInitialized = true;
+
+            // Create offscreen surface to use as copy of render target data
+            RenderTargetCopy = ToDispose(Surface.CreateOffscreenPlain(Device, Width, Height, D3DFormat, Pool.SystemMemory));
+
+            // Create our resolved surface (resizing if necessary and to resolve any multi-sampling)
+            ResolvedTarget = ToDispose(Surface.CreateRenderTarget(Device, Width, Height, D3DFormat, MultisampleType.None, 0, false));
+
+            Query = ToDispose(new Query(Device, QueryType.Event));
         }
-    }
-}
+
+    } // End class
+
+} // End namespace

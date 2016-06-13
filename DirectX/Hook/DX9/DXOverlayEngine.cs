@@ -1,82 +1,85 @@
-﻿using Capture.Hook.Common;
+﻿using DirectXShell.Hook.Common;
 using SharpDX;
 using SharpDX.Direct3D9;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using System.Runtime.InteropServices;
-using System.Text;
 
-namespace Capture.Hook.DX9
+namespace DirectXShell.Hook.DX9
 {
     internal class DXOverlayEngine : Component
     {
         public List<IOverlay> Overlays { get; set; }
 
-        bool _initialised = false;
-        bool _initialising = false;
+        private Boolean Initialized;
+        private Boolean Initializing;
 
-        Device _device;
-        Sprite _sprite;
-        Dictionary<string, Font> _fontCache = new Dictionary<string, Font>();
-        Dictionary<Element, Texture> _imageCache = new Dictionary<Element, Texture>();
+        private Dictionary<Element, Texture> ImageCache;
+        private Dictionary<String, Font> FontCache;
 
-        public Device Device { get { return _device; } }
+        private Sprite Sprite;
+
+        private Device _Device;
+        public Device Device { get { return _Device; } }
 
         public DXOverlayEngine()
         {
+            Initialized = false;
+            Initializing = false;
+
+            ImageCache = new Dictionary<Element, Texture>();
+            FontCache = new Dictionary<String, Font>();
+
             Overlays = new List<IOverlay>();
         }
 
-        private void EnsureInitiliased()
+        private void EnsureInitiliazed()
         {
-            Debug.Assert(_initialised);
+            Debug.Assert(Initialized);
         }
 
-        public bool Initialise(Device device)
+        public Boolean Initialize(Device Device)
         {
-            Debug.Assert(!_initialised);
-            if (_initialising)
+            Debug.Assert(!Initialized);
+
+            if (Initializing)
                 return false;
 
-            _initialising = true;
+            Initializing = true;
 
             try
             {
+                _Device = Device;
+                Sprite = ToDispose(new Sprite(this.Device));
 
-                _device = device;
+                // Initialize any resources required for overlay elements
+                IntializeElementResources();
+                Initialized = true;
 
-                _sprite = ToDispose(new Sprite(_device));
-
-                // Initialise any resources required for overlay elements
-                IntialiseElementResources();
-
-                _initialised = true;
                 return true;
             }
             finally
             {
-                _initialising = false;
+                Initializing = false;
             }
         }
 
-        private void IntialiseElementResources()
+        private void IntializeElementResources()
         {
-            foreach (var overlay in Overlays)
+            foreach (IOverlay Overlay in Overlays)
             {
-                foreach (var element in overlay.Elements)
+                foreach (IOverlayElement Element in Overlay.Elements)
                 {
-                    var textElement = element as TextElement;
-                    var imageElement = element as ImageElement;
+                    TextElement TextElement = Element as TextElement;
+                    ImageElement ImageElement = Element as ImageElement;
 
-                    if (textElement != null)
+                    if (TextElement != null)
                     {
-                        GetFontForTextElement(textElement);
+                        GetFontForTextElement(TextElement);
                     }
-                    else if (imageElement != null)
+                    else if (ImageElement != null)
                     {
-                        GetImageForImageElement(imageElement);
+                        GetImageForImageElement(ImageElement);
                     }
                 }
             }
@@ -84,7 +87,7 @@ namespace Capture.Hook.DX9
 
         private void Begin()
         {
-            _sprite.Begin(SpriteFlags.AlphaBlend);
+            Sprite.Begin(SpriteFlags.AlphaBlend);
         }
 
         /// <summary>
@@ -92,31 +95,31 @@ namespace Capture.Hook.DX9
         /// </summary>
         public void Draw()
         {
-            EnsureInitiliased();
+            EnsureInitiliazed();
 
             Begin();
 
-            foreach (var overlay in Overlays)
+            foreach (IOverlay Overlay in Overlays)
             {
-                foreach (var element in overlay.Elements)
+                foreach (IOverlayElement Element in Overlay.Elements)
                 {
-                    if (element.Hidden)
+                    if (Element.Hidden)
                         continue;
 
-                    var textElement = element as TextElement;
-                    var imageElement = element as ImageElement;
+                    TextElement TextElement = Element as TextElement;
+                    ImageElement ImageElement = Element as ImageElement;
 
-                    if (textElement != null)
+                    if (TextElement != null)
                     {
-                        Font font = GetFontForTextElement(textElement);
-                        if (font != null && !String.IsNullOrEmpty(textElement.Text))
-                            font.DrawText(_sprite, textElement.Text, textElement.Location.X, textElement.Location.Y, new SharpDX.ColorBGRA(textElement.Color.R, textElement.Color.G, textElement.Color.B, textElement.Color.A));
+                        Font Font = GetFontForTextElement(TextElement);
+                        if (Font != null && !String.IsNullOrEmpty(TextElement.Text))
+                            Font.DrawText(Sprite, TextElement.Text, TextElement.Location.X, TextElement.Location.Y, new ColorBGRA(TextElement.Color.R, TextElement.Color.G, TextElement.Color.B, TextElement.Color.A));
                     }
-                    else if (imageElement != null)
+                    else if (ImageElement != null)
                     {
-                        Texture image = GetImageForImageElement(imageElement);
-                        if (image != null)
-                            _sprite.Draw(image, new SharpDX.ColorBGRA(imageElement.Tint.R, imageElement.Tint.G, imageElement.Tint.B, imageElement.Tint.A), null, null, new Vector3(imageElement.Location.X, imageElement.Location.Y, 0));
+                        Texture Image = GetImageForImageElement(ImageElement);
+                        if (Image != null)
+                            Sprite.Draw(Image, new ColorBGRA(ImageElement.Tint.R, ImageElement.Tint.G, ImageElement.Tint.B, ImageElement.Tint.A), null, null, new Vector3(ImageElement.Location.X, ImageElement.Location.Y, 0));
                     }
                 }
             }
@@ -126,7 +129,7 @@ namespace Capture.Hook.DX9
 
         private void End()
         {
-            _sprite.End();
+            Sprite.End();
         }
 
         /// <summary>
@@ -136,68 +139,68 @@ namespace Capture.Hook.DX9
         {
             try
             {
-                foreach (var item in _fontCache)
-                    item.Value.OnLostDevice();
-                
-                if (_sprite != null)
-                    _sprite.OnLostDevice();
+                foreach (KeyValuePair<String, Font> Item in FontCache)
+                    Item.Value.OnLostDevice();
+
+                if (Sprite != null)
+                    Sprite.OnLostDevice();
             }
             catch { }
         }
 
-        Font GetFontForTextElement(TextElement element)
+        Font GetFontForTextElement(TextElement Element)
         {
-            Font result = null;
+            Font Result = null;
+            String FontKey = String.Format("{0}{1}{2}", Element.Font.Name, Element.Font.Size, Element.Font.Style, Element.AntiAliased);
 
-            string fontKey = String.Format("{0}{1}{2}", element.Font.Name, element.Font.Size, element.Font.Style, element.AntiAliased);
-
-            if (!_fontCache.TryGetValue(fontKey, out result))
+            if (!FontCache.TryGetValue(FontKey, out Result))
             {
-                result = ToDispose(new Font(_device, new FontDescription { 
-                    FaceName = element.Font.Name,
-                    Italic = (element.Font.Style & System.Drawing.FontStyle.Italic) == System.Drawing.FontStyle.Italic,
-                    Quality = (element.AntiAliased ? FontQuality.Antialiased : FontQuality.Default),
-                    Weight = ((element.Font.Style & System.Drawing.FontStyle.Bold) == System.Drawing.FontStyle.Bold) ? FontWeight.Bold : FontWeight.Normal,
-                    Height = (int)element.Font.SizeInPoints
+                Result = ToDispose(new Font(_Device, new FontDescription
+                {
+                    FaceName = Element.Font.Name,
+                    Italic = (Element.Font.Style & System.Drawing.FontStyle.Italic) == System.Drawing.FontStyle.Italic,
+                    Quality = (Element.AntiAliased ? FontQuality.Antialiased : FontQuality.Default),
+                    Weight = ((Element.Font.Style & System.Drawing.FontStyle.Bold) == System.Drawing.FontStyle.Bold) ? FontWeight.Bold : FontWeight.Normal,
+                    Height = (Int32)Element.Font.SizeInPoints
                 }));
-                _fontCache[fontKey] = result;
+
+                FontCache[FontKey] = Result;
             }
-            return result;
+            return Result;
         }
 
-        Texture GetImageForImageElement(ImageElement element)
+        Texture GetImageForImageElement(ImageElement Element)
         {
-            Texture result = null;
+            Texture Result = null;
 
-            if (!String.IsNullOrEmpty(element.Filename))
+            if (!String.IsNullOrEmpty(Element.Filename))
             {
-                if (!_imageCache.TryGetValue(element, out result))
+                if (!ImageCache.TryGetValue(Element, out Result))
                 {
-                    result = ToDispose(SharpDX.Direct3D9.Texture.FromFile(_device, element.Filename));
+                    Result = ToDispose(Texture.FromFile(_Device, Element.Filename));
 
-                    _imageCache[element] = result;
+                    ImageCache[Element] = Result;
                 }
             }
-            return result;
+
+            return Result;
         }
 
         /// <summary>
         /// Releases unmanaged and optionally managed resources
         /// </summary>
         /// <param name="disposing">true if disposing both unmanaged and managed</param>
-        protected override void Dispose(bool disposing)
+        protected override void Dispose(Boolean disposing)
         {
             if (true)
-            {
-                _device = null;
-            }
+                _Device = null;
         }
 
-        void SafeDispose(DisposeBase disposableObj)
+        void SafeDispose(DisposeBase DisposableObject)
         {
-            if (disposableObj != null)
-                disposableObj.Dispose();
+            DisposableObject?.Dispose();
         }
 
-    }
-}
+    } // End class
+
+} // End namespace

@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace Capture.Interface
+﻿namespace DirectXShell.Interface
 {
     public enum MessageType
     {
@@ -11,5 +6,7 @@ namespace Capture.Interface
         Information,
         Warning,
         Error
-    }
-}
+
+    } // End class
+
+} // End namespace

@@ -1,32 +1,31 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
-namespace Capture.Hook.Common
+namespace DirectXShell.Hook.Common
 {
-    public class FramesPerSecond: TextElement
+    public class FramesPerSecond : TextElement
     {
-        string _fpsFormat = "{0:N0} fps";
-        public override string Text
+        private String FPSFormat = "{0:N0} fps";
+        public override String Text
         {
             get
             {
-                return String.Format(_fpsFormat, GetFPS());
+                return String.Format(FPSFormat, GetFPS());
             }
             set
             {
-                _fpsFormat = value;
+                FPSFormat = value;
             }
         }
 
-        int _frames = 0;
-        int _lastTickCount = 0;
-        float _lastFrameRate = 0;
+        private Int32 Frames;
+        private Int32 LastTickCount;
+        private Single LastFrameRate;
 
-        public FramesPerSecond(System.Drawing.Font font)
-            : base(font)
+        public FramesPerSecond(System.Drawing.Font font) : base(font)
         {
+            Frames = 0;
+            LastTickCount = 0;
+            LastFrameRate = 0;
         }
 
         /// <summary>
@@ -34,12 +33,13 @@ namespace Capture.Hook.Common
         /// </summary>
         public override void Frame()
         {
-            _frames++;
-            if (Math.Abs(Environment.TickCount - _lastTickCount) > 1000)
+            Frames++;
+
+            if (Math.Abs(Environment.TickCount - LastTickCount) > 1000)
             {
-                _lastFrameRate = (float)_frames * 1000 / Math.Abs(Environment.TickCount - _lastTickCount);
-                _lastTickCount = Environment.TickCount;
-                _frames = 0;
+                LastFrameRate = (Single)Frames * 1000 / Math.Abs(Environment.TickCount - LastTickCount);
+                LastTickCount = Environment.TickCount;
+                Frames = 0;
             }
         }
 
@@ -49,7 +49,9 @@ namespace Capture.Hook.Common
         /// <returns></returns>
         public float GetFPS()
         {
-            return _lastFrameRate;
+            return LastFrameRate;
         }
-    }
-}
+
+    } // End class
+
+} // End namespace

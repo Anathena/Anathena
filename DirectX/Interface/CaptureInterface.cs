@@ -1,26 +1,23 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Drawing;
 using System.Threading;
 
-namespace Capture.Interface
+namespace DirectXShell.Interface
 {
     [Serializable]
-    public delegate void RecordingStartedEvent(CaptureConfig config);
+    public delegate void RecordingStartedEvent(CaptureConfig Config);
     [Serializable]
     public delegate void RecordingStoppedEvent();
     [Serializable]
-    public delegate void MessageReceivedEvent(MessageReceivedEventArgs message);
+    public delegate void MessageReceivedEvent(MessageReceivedEventArgs Message);
     [Serializable]
-    public delegate void ScreenshotReceivedEvent(ScreenshotReceivedEventArgs response);
+    public delegate void ScreenshotReceivedEvent(ScreenshotReceivedEventArgs Response);
     [Serializable]
     public delegate void DisconnectedEvent();
     [Serializable]
-    public delegate void ScreenshotRequestedEvent(ScreenshotRequest request);
+    public delegate void ScreenshotRequestedEvent(ScreenshotRequest Request);
     [Serializable]
-    public delegate void DisplayTextEvent(DisplayTextEventArgs args);
+    public delegate void DisplayTextEvent(DisplayTextEventArgs Args);
 
     [Serializable]
     public class CaptureInterface : MarshalByRefObject
@@ -29,25 +26,39 @@ namespace Capture.Interface
         /// The client process Id
         /// </summary>
         public int ProcessId { get; set; }
+        public bool IsRecording { get; set; }
+
+        private Object AccessLock;
+        private Guid? RequestId;
+        private Action<Screenshot> CompleteScreenshot;
+        private ManualResetEvent Wait;
+
+        public CaptureInterface()
+        {
+            AccessLock = new Object();
+            RequestId = null;
+            CompleteScreenshot = null;
+            Wait = new ManualResetEvent(false);
+        }
 
         #region Events
 
         #region Server-side Events
-        
+
         /// <summary>
         /// Server event for sending debug and error information from the client to server
         /// </summary>
         public event MessageReceivedEvent RemoteMessage;
-        
+
         /// <summary>
         /// Server event for receiving screenshot image data
         /// </summary>
         public event ScreenshotReceivedEvent ScreenshotReceived;
-        
+
         #endregion
 
         #region Client-side Events
-        
+
         /// <summary>
         /// Client event used to communicate to the client that it is time to start recording
         /// </summary>
@@ -72,12 +83,11 @@ namespace Capture.Interface
         /// Client event used to display a piece of text in-game
         /// </summary>
         public event DisplayTextEvent DisplayText;
-        
-        #endregion
 
         #endregion
 
-        public bool IsRecording { get; set; }
+        #endregion
+
 
         #region Public Methods
 
@@ -86,13 +96,14 @@ namespace Capture.Interface
         /// <summary>
         /// If not <see cref="IsRecording"/> will invoke the <see cref="RecordingStarted"/> event, starting a new recording. 
         /// </summary>
-        /// <param name="config">The configuration for the recording</param>
+        /// <param name="Config">The configuration for the recording</param>
         /// <remarks>Handlers in the server and remote process will be be invoked.</remarks>
-        public void StartRecording(CaptureConfig config)
+        public void StartRecording(CaptureConfig Config)
         {
             if (IsRecording)
                 return;
-            SafeInvokeRecordingStarted(config);
+
+            SafeInvokeRecordingStarted(Config);
             IsRecording = true;
         }
 
@@ -104,6 +115,7 @@ namespace Capture.Interface
         {
             if (!IsRecording)
                 return;
+
             SafeInvokeRecordingStopped();
             IsRecording = false;
         }
@@ -112,67 +124,63 @@ namespace Capture.Interface
 
         #region Still image Capture
 
-        object _lock = new object();
-        Guid? _requestId = null;
-        Action<Screenshot> _completeScreenshot = null;
-        ManualResetEvent _wait = new ManualResetEvent(false);
 
         /// <summary>
         /// Get a fullscreen screenshot with the default timeout of 2 seconds
         /// </summary>
         public Screenshot GetScreenshot()
         {
-            return GetScreenshot(Rectangle.Empty, new TimeSpan(0, 0, 2), null, ImageFormat.Bitmap);
+            return GetScreenshot(Rectangle.Empty, new TimeSpan(0, 0, 2), null, ImageFormatEnum.Bitmap);
         }
 
         /// <summary>
         /// Get a screenshot of the specified region
         /// </summary>
-        /// <param name="region">the region to capture (x=0,y=0 is top left corner)</param>
-        /// <param name="timeout">maximum time to wait for the screenshot</param>
-        public Screenshot GetScreenshot(Rectangle region, TimeSpan timeout, Size? resize, ImageFormat format)
+        /// <param name="Region">the region to capture (x=0,y=0 is top left corner)</param>
+        /// <param name="Timeout">maximum time to wait for the screenshot</param>
+        public Screenshot GetScreenshot(Rectangle Region, TimeSpan Timeout, Size? Resize, ImageFormatEnum Format)
         {
-            lock (_lock)
+            lock (AccessLock)
             {
-                Screenshot result = null;
-                _requestId = Guid.NewGuid();
-                _wait.Reset();
+                Screenshot Result = null;
+                RequestId = Guid.NewGuid();
+                Wait.Reset();
 
-                SafeInvokeScreenshotRequested(new ScreenshotRequest(_requestId.Value, region)
+                SafeInvokeScreenshotRequested(new ScreenshotRequest(RequestId.Value, Region)
                 {
-                    Format = format,
-                    Resize = resize,
+                    Format = Format,
+                    Resize = Resize,
                 });
 
-                _completeScreenshot = (sc) =>
+                CompleteScreenshot = (sc) =>
                 {
                     try
                     {
-                        Interlocked.Exchange(ref result, sc);
+                        Interlocked.Exchange(ref Result, sc);
                     }
                     catch
                     {
                     }
-                    _wait.Set();
-                        
+                    Wait.Set();
+
                 };
 
-                _wait.WaitOne(timeout);
-                _completeScreenshot = null;
-                return result;
+                Wait.WaitOne(Timeout);
+                CompleteScreenshot = null;
+                return Result;
             }
         }
 
-        public IAsyncResult BeginGetScreenshot(Rectangle region, TimeSpan timeout, AsyncCallback callback = null, Size? resize = null, ImageFormat format = ImageFormat.Bitmap)
+        public IAsyncResult BeginGetScreenshot(Rectangle region, TimeSpan timeout, AsyncCallback callback = null, Size? resize = null, ImageFormatEnum format = ImageFormatEnum.Bitmap)
         {
-            Func<Rectangle, TimeSpan, Size?, ImageFormat, Screenshot> getScreenshot = GetScreenshot;
-            
+            Func<Rectangle, TimeSpan, Size?, ImageFormatEnum, Screenshot> getScreenshot = GetScreenshot;
+
             return getScreenshot.BeginInvoke(region, timeout, resize, format, callback, getScreenshot);
         }
 
         public Screenshot EndGetScreenshot(IAsyncResult result)
         {
-            Func<Rectangle, TimeSpan, Size?, ImageFormat, Screenshot> getScreenshot = result.AsyncState as Func<Rectangle, TimeSpan, Size?, ImageFormat, Screenshot>;
+            Func<Rectangle, TimeSpan, Size?, ImageFormatEnum, Screenshot> getScreenshot = result.AsyncState as Func<Rectangle, TimeSpan, Size?, ImageFormatEnum, Screenshot>;
             if (getScreenshot != null)
             {
                 return getScreenshot.EndInvoke(result);
@@ -183,11 +191,11 @@ namespace Capture.Interface
 
         public void SendScreenshotResponse(Screenshot screenshot)
         {
-            if (_requestId != null && screenshot != null && screenshot.RequestId == _requestId.Value)
+            if (RequestId != null && screenshot != null && screenshot.RequestId == RequestId.Value)
             {
-                if (_completeScreenshot != null)
+                if (CompleteScreenshot != null)
                 {
-                    _completeScreenshot(screenshot);
+                    CompleteScreenshot(screenshot);
                 }
             }
         }
@@ -243,26 +251,23 @@ namespace Capture.Interface
 
         #region Private: Invoke message handlers
 
-        private void SafeInvokeRecordingStarted(CaptureConfig config)
+        private void SafeInvokeRecordingStarted(CaptureConfig Config)
         {
             if (RecordingStarted == null)
-                return;         //No Listeners
+                return;
 
-            RecordingStartedEvent listener = null;
-            Delegate[] dels = RecordingStarted.GetInvocationList();
+            RecordingStartedEvent Listener = null;
 
-            foreach (Delegate del in dels)
+            foreach (Delegate Delegate in RecordingStarted.GetInvocationList())
             {
                 try
                 {
-                    listener = (RecordingStartedEvent)del;
-                    listener.Invoke(config);
+                    Listener = (RecordingStartedEvent)Delegate;
+                    Listener.Invoke(Config);
                 }
-                catch (Exception)
+                catch
                 {
-                    //Could not reach the destination, so remove it
-                    //from the list
-                    RecordingStarted -= listener;
+                    RecordingStarted -= Listener;
                 }
             }
         }
@@ -270,95 +275,85 @@ namespace Capture.Interface
         private void SafeInvokeRecordingStopped()
         {
             if (RecordingStopped == null)
-                return;         //No Listeners
+                return;
 
-            RecordingStoppedEvent listener = null;
-            Delegate[] dels = RecordingStopped.GetInvocationList();
+            RecordingStoppedEvent Listener = null;
 
-            foreach (Delegate del in dels)
+            foreach (Delegate Delegate in RecordingStopped.GetInvocationList())
             {
                 try
                 {
-                    listener = (RecordingStoppedEvent)del;
-                    listener.Invoke();
+                    Listener = (RecordingStoppedEvent)Delegate;
+                    Listener.Invoke();
                 }
-                catch (Exception)
+                catch
                 {
-                    //Could not reach the destination, so remove it
-                    //from the list
-                    RecordingStopped -= listener;
+                    RecordingStopped -= Listener;
                 }
             }
         }
 
-        private void SafeInvokeMessageRecevied(MessageReceivedEventArgs eventArgs)
+        private void SafeInvokeMessageRecevied(MessageReceivedEventArgs EventArgs)
         {
             if (RemoteMessage == null)
-                return;         //No Listeners
+                return;
 
-            MessageReceivedEvent listener = null;
-            Delegate[] dels = RemoteMessage.GetInvocationList();
+            MessageReceivedEvent Listener = null;
 
-            foreach (Delegate del in dels)
+            foreach (Delegate Delegate in RemoteMessage.GetInvocationList())
             {
                 try
                 {
-                    listener = (MessageReceivedEvent)del;
-                    listener.Invoke(eventArgs);
+                    Listener = (MessageReceivedEvent)Delegate;
+                    Listener.Invoke(EventArgs);
                 }
-                catch (Exception)
+                catch
                 {
                     //Could not reach the destination, so remove it
                     //from the list
-                    RemoteMessage -= listener;
+                    RemoteMessage -= Listener;
                 }
             }
         }
 
-        private void SafeInvokeScreenshotRequested(ScreenshotRequest eventArgs)
+        private void SafeInvokeScreenshotRequested(ScreenshotRequest EventArgs)
         {
             if (ScreenshotRequested == null)
-                return;         //No Listeners
+                return;
 
-            ScreenshotRequestedEvent listener = null;
-            Delegate[] dels = ScreenshotRequested.GetInvocationList();
+            ScreenshotRequestedEvent Listener = null;
 
-            foreach (Delegate del in dels)
+            foreach (Delegate Delegate in ScreenshotRequested.GetInvocationList())
             {
                 try
                 {
-                    listener = (ScreenshotRequestedEvent)del;
-                    listener.Invoke(eventArgs);
+                    Listener = (ScreenshotRequestedEvent)Delegate;
+                    Listener.Invoke(EventArgs);
                 }
-                catch (Exception)
+                catch
                 {
-                    //Could not reach the destination, so remove it
-                    //from the list
-                    ScreenshotRequested -= listener;
+                    ScreenshotRequested -= Listener;
                 }
             }
         }
 
-        private void SafeInvokeScreenshotReceived(ScreenshotReceivedEventArgs eventArgs)
+        private void SafeInvokeScreenshotReceived(ScreenshotReceivedEventArgs EventArgs)
         {
             if (ScreenshotReceived == null)
-                return;         //No Listeners
+                return;
 
-            ScreenshotReceivedEvent listener = null;
-            Delegate[] dels = ScreenshotReceived.GetInvocationList();
+            ScreenshotReceivedEvent Listener = null;
 
-            foreach (Delegate del in dels)
+            foreach (Delegate Delegate in ScreenshotReceived.GetInvocationList())
             {
                 try
                 {
-                    listener = (ScreenshotReceivedEvent)del;
-                    listener.Invoke(eventArgs);
+                    Listener = (ScreenshotReceivedEvent)Delegate;
+                    Listener.Invoke(EventArgs);
                 }
-                catch (Exception)
+                catch
                 {
-                    //Could not reach the destination, so remove it
-                    //from the list
-                    ScreenshotReceived -= listener;
+                    ScreenshotReceived -= Listener;
                 }
             }
         }
@@ -366,47 +361,41 @@ namespace Capture.Interface
         private void SafeInvokeDisconnected()
         {
             if (Disconnected == null)
-                return;         //No Listeners
+                return;
 
-            DisconnectedEvent listener = null;
-            Delegate[] dels = Disconnected.GetInvocationList();
+            DisconnectedEvent Listener = null;
 
-            foreach (Delegate del in dels)
+            foreach (Delegate Delegate in Disconnected.GetInvocationList())
             {
                 try
                 {
-                    listener = (DisconnectedEvent)del;
-                    listener.Invoke();
+                    Listener = (DisconnectedEvent)Delegate;
+                    Listener.Invoke();
                 }
-                catch (Exception)
+                catch
                 {
-                    //Could not reach the destination, so remove it
-                    //from the list
-                    Disconnected -= listener;
+                    Disconnected -= Listener;
                 }
             }
         }
 
-        private void SafeInvokeDisplayText(DisplayTextEventArgs displayTextEventArgs)
+        private void SafeInvokeDisplayText(DisplayTextEventArgs DisplayTextEventArgs)
         {
             if (DisplayText == null)
-                return;         //No Listeners
+                return;
 
-            DisplayTextEvent listener = null;
-            Delegate[] dels = DisplayText.GetInvocationList();
+            DisplayTextEvent Listener = null;
 
-            foreach (Delegate del in dels)
+            foreach (Delegate Delegate in DisplayText.GetInvocationList())
             {
                 try
                 {
-                    listener = (DisplayTextEvent)del;
-                    listener.Invoke(displayTextEventArgs);
+                    Listener = (DisplayTextEvent)Delegate;
+                    Listener.Invoke(DisplayTextEventArgs);
                 }
-                catch (Exception)
+                catch
                 {
-                    //Could not reach the destination, so remove it
-                    //from the list
-                    DisplayText -= listener;
+                    DisplayText -= Listener;
                 }
             }
         }
@@ -418,9 +407,10 @@ namespace Capture.Interface
         /// </summary>
         public void Ping()
         {
-            
+
         }
-    }
+
+    } // End class
 
 
     /// <summary>
@@ -459,7 +449,7 @@ namespace Capture.Interface
 
         #region Lifetime Services
 
-        public override object InitializeLifetimeService()
+        public override Object InitializeLifetimeService()
         {
             //Returning null holds the object alive
             //until it is explicitly destroyed
@@ -470,33 +460,30 @@ namespace Capture.Interface
 
         public void RecordingStartedProxyHandler(CaptureConfig config)
         {
-            if (RecordingStarted != null)
-                RecordingStarted(config);
+            RecordingStarted?.Invoke(config);
         }
 
         public void RecordingStoppedProxyHandler()
         {
-            if (RecordingStopped != null)
-                RecordingStopped();
+            RecordingStopped?.Invoke();
         }
 
 
         public void DisconnectedProxyHandler()
         {
-            if (Disconnected != null)
-                Disconnected();
+            Disconnected?.Invoke();
         }
 
-        public void ScreenshotRequestedProxyHandler(ScreenshotRequest request)
+        public void ScreenshotRequestedProxyHandler(ScreenshotRequest Request)
         {
-            if (ScreenshotRequested != null)
-                ScreenshotRequested(request);
+            ScreenshotRequested?.Invoke(Request);
         }
 
-        public void DisplayTextProxyHandler(DisplayTextEventArgs args)
+        public void DisplayTextProxyHandler(DisplayTextEventArgs Args)
         {
-            if (DisplayText != null)
-                DisplayText(args);
+            DisplayText?.Invoke(Args);
         }
-    }
-}
+
+    } // End class
+
+} // End namespace

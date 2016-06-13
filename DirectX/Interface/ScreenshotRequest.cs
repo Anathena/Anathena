@@ -1,49 +1,31 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Drawing;
 using System.Runtime.Remoting;
 using System.Security.Permissions;
 
-namespace Capture.Interface
+namespace DirectXShell.Interface
 {
     [Serializable]
-    public class ScreenshotRequest: MarshalByRefObject, IDisposable
+    public class ScreenshotRequest : MarshalByRefObject, IDisposable
     {
         public Guid RequestId { get; set; }
-        public Rectangle RegionToCapture { get; set; }
+        public Rectangle Region { get; set; }
         public Size? Resize { get; set; }
-        public ImageFormat Format { get; set; }
+        public ImageFormatEnum Format { get; set; }
 
-        public ScreenshotRequest(Rectangle region, Size resize)
-            : this(Guid.NewGuid(), region, resize)
+        public ScreenshotRequest(Rectangle Region, Size Resize) : this(Guid.NewGuid(), Region, Resize) { }
+        public ScreenshotRequest(Rectangle Region) : this(Guid.NewGuid(), Region, null) { }
+        public ScreenshotRequest(Guid RequestId, Rectangle Region) : this(RequestId, Region, null) { }
+        public ScreenshotRequest(Guid RequestId, Rectangle Region, Size? Resize)
         {
-        }
-
-        public ScreenshotRequest(Rectangle region)
-            : this(Guid.NewGuid(), region, null)
-        {
-        }
-
-        public ScreenshotRequest(Guid requestId, Rectangle region)
-            : this(requestId, region, null)
-        {
-        }
-
-        public ScreenshotRequest(Guid requestId, Rectangle region, Size? resize)
-        {
-            RequestId = requestId;
-            RegionToCapture = region;
-            Resize = resize;
+            this.RequestId = RequestId;
+            this.Region = Region;
+            this.Resize = Resize;
         }
 
         public ScreenshotRequest Clone()
         {
-            return new ScreenshotRequest(RequestId, RegionToCapture, Resize)
-            {
-                Format = Format
-            };
+            return new ScreenshotRequest(RequestId, Region, Resize) { Format = Format };
         }
 
         ~ScreenshotRequest()
@@ -51,23 +33,24 @@ namespace Capture.Interface
             Dispose(false);
         }
 
-        private bool _disposed;
+        private Boolean Disposed;
         public void Dispose()
         {
             Dispose(true);
             GC.SuppressFinalize(this);
         }
 
-        protected virtual void Dispose(bool disposing)
+        protected virtual void Dispose(Boolean Disposing)
         {
-            if (!_disposed)
+            if (Disposed)
+                return;
+
+            if (Disposing)
             {
-                if (disposing)
-                {
-                    Disconnect();
-                }
-                _disposed = true;
+                Disconnect();
             }
+
+            Disposed = true;
         }
 
         /// <summary>
@@ -79,12 +62,14 @@ namespace Capture.Interface
         }
 
         [SecurityPermissionAttribute(SecurityAction.Demand, Flags = SecurityPermissionFlag.Infrastructure)]
-        public override object InitializeLifetimeService()
+        public override Object InitializeLifetimeService()
         {
             // Returning null designates an infinite non-expiring lease.
             // We must therefore ensure that RemotingServices.Disconnect() is called when
             // it's no longer needed otherwise there will be a memory leak.
             return null;
         }
-    }
-}
+
+    } // End class
+
+} // End namespace

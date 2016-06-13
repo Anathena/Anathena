@@ -1,33 +1,48 @@
-﻿// Adapted from Frank Luna's "Sprites and Text" example here: http://www.d3dcoder.net/resources.htm 
-// checkout his books here: http://www.d3dcoder.net/default.htm
+﻿using SharpDX;
+using SharpDX.D3DCompiler;
+using SharpDX.Direct3D11;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using SharpDX.Direct3D11;
-using SharpDX;
 using System.Diagnostics;
-using SharpDX.D3DCompiler;
 using System.Runtime.InteropServices;
 
-namespace Capture.Hook.DX11
+namespace DirectXShell.Hook.DX11
 {
-
     public class DXSprite : Component
     {
-        Device _device;
-        DeviceContext _deviceContext;
+        private Device Device;
+        private DeviceContext DeviceContext;
 
-        public DXSprite(Device device, DeviceContext deviceContext)
+        private Boolean Initialized;
+        private BlendState TransparentBS;
+        private EffectTechnique SpriteTech;
+        private EffectShaderResourceVariable SpriteMap;
+        private ShaderResourceView BatchTexSRV;
+        private InputLayout InputLayout;
+        private SharpDX.Direct3D11.Buffer VBuffer;
+        private SharpDX.Direct3D11.Buffer IBuffer;
+        private Int32 TexWidth;
+        private Int32 TexHeight;
+        private List<Sprite> SpriteList;
+        private Single ScreenWidth;
+        private Single ScreenHeight;
+        private CompilationResult CompiledFX;
+        private Effect Effect;
+        private SafeHGlobal IndexBuffer;
+
+        public DXSprite(Device Device, DeviceContext DeviceContext)
         {
-            _device = device;
-            _deviceContext = deviceContext;
+            this.Device = Device;
+            this.DeviceContext = DeviceContext;
+
+            SpriteList = new List<Sprite>(128);
+            IndexBuffer = null;
         }
 
         [StructLayout(LayoutKind.Sequential)]
         internal struct SpriteVertex
         {
-            public Vector3 Pos;
+            public Vector3 Position;
             public Vector2 Tex;
             public Color4 Color;
         }
@@ -35,47 +50,32 @@ namespace Capture.Hook.DX11
         [StructLayout(LayoutKind.Sequential)]
         internal struct Sprite
         {
-            public Rectangle SrcRect;
-            public Rectangle DestRect;
+            public Rectangle SourceRectangle;
+            public Rectangle DestRectangle;
             public Color4 Color;
-            public float Z;
-            public float Angle;
-            public float Scale;
 
-            public Sprite(Rectangle sourceRect, Rectangle destRect, Color4 color)
+            public Single Z;
+            public Single Angle;
+            public Single Scale;
+
+            public Sprite(Rectangle SourceRect, Rectangle DestRect, Color4 Color)
             {
-                SrcRect = sourceRect;
-                DestRect = destRect;
-                Color = color;
+                this.SourceRectangle = SourceRect;
+                this.DestRectangle = DestRect;
+                this.Color = Color;
+
                 Z = 0.0f;
                 Angle = 0.0f;
                 Scale = 1.0f;
             }
         }
 
-        bool _initialized;
-        BlendState _transparentBS;
-        EffectTechnique _spriteTech;
-        EffectShaderResourceVariable _spriteMap;
-        ShaderResourceView _batchTexSRV;
-        InputLayout _inputLayout;
-        SharpDX.Direct3D11.Buffer _VB;
-        SharpDX.Direct3D11.Buffer _IB;
-        int _texWidth;
-        int _texHeight;
-        List<Sprite> _spriteList = new List<Sprite>(128);
-        float _screenWidth;
-        float _screenHeight;
-        CompilationResult _compiledFX;
-        Effect _effect;
-
-        SafeHGlobal _indexBuffer = null;
-        public bool Initialize()
+        public Boolean Initialize()
         {
-            Debug.Assert(!_initialized);
+            Debug.Assert(!Initialized);
 
             #region Shaders
-            string SpriteFX = @"Texture2D SpriteTex;
+            String SpriteFX = @"Texture2D SpriteTex;
 SamplerState samLinear {
     Filter = MIN_MAG_MIP_LINEAR;
     AddressU = WRAP;
@@ -112,29 +112,30 @@ technique11 SpriteTech {
 };";
             #endregion
 
-            _compiledFX = ToDispose(ShaderBytecode.Compile(SpriteFX, "SpriteTech", "fx_5_0"));
+            CompiledFX = ToDispose(ShaderBytecode.Compile(SpriteFX, "SpriteTech", "fx_5_0"));
             {
-                
-                if (_compiledFX.HasErrors)
+
+                if (CompiledFX.HasErrors)
                     return false;
 
-                _effect = ToDispose(new Effect(_device, _compiledFX));
+                Effect = ToDispose(new Effect(Device, CompiledFX));
                 {
-                    _spriteTech = ToDispose(_effect.GetTechniqueByName("SpriteTech"));
-                    _spriteMap = ToDispose(_effect.GetVariableByName("SpriteTex").AsShaderResource());
+                    SpriteTech = ToDispose(Effect.GetTechniqueByName("SpriteTech"));
+                    SpriteMap = ToDispose(Effect.GetVariableByName("SpriteTex").AsShaderResource());
 
-                    using (var pass = _spriteTech.GetPassByIndex(0))
+                    using (EffectPass EffectPas = SpriteTech.GetPassByIndex(0))
                     {
-                        InputElement[] layoutDesc = {
-                                                        new InputElement("POSITION", 0, SharpDX.DXGI.Format.R32G32B32_Float, 0, 0, InputClassification.PerVertexData, 0),
-                                                        new InputElement("TEXCOORD", 0, SharpDX.DXGI.Format.R32G32_Float, 12, 0, InputClassification.PerVertexData, 0),
-                                                        new InputElement("COLOR", 0, SharpDX.DXGI.Format.R32G32B32A32_Float, 20, 0, InputClassification.PerVertexData, 0)
-                                                    };
+                        InputElement[] layoutDesc =
+                        {
+                            new InputElement("POSITION", 0, SharpDX.DXGI.Format.R32G32B32_Float, 0, 0, InputClassification.PerVertexData, 0),
+                            new InputElement("TEXCOORD", 0, SharpDX.DXGI.Format.R32G32_Float, 12, 0, InputClassification.PerVertexData, 0),
+                            new InputElement("COLOR", 0, SharpDX.DXGI.Format.R32G32B32A32_Float, 20, 0, InputClassification.PerVertexData, 0)
+                        };
 
-                        _inputLayout = ToDispose(new InputLayout(_device, pass.Description.Signature, layoutDesc));
+                        InputLayout = ToDispose(new InputLayout(Device, EffectPas.Description.Signature, layoutDesc));
                     }
                     // Create Vertex Buffer
-                    BufferDescription vbd = new BufferDescription
+                    BufferDescription VBufferDescription = new BufferDescription
                     {
                         SizeInBytes = 2048 * Marshal.SizeOf(typeof(SpriteVertex)),
                         Usage = ResourceUsage.Dynamic,
@@ -144,284 +145,281 @@ technique11 SpriteTech {
                         StructureByteStride = 0
                     };
 
-                    _VB = ToDispose(new SharpDX.Direct3D11.Buffer(_device, vbd));
+                    VBuffer = ToDispose(new SharpDX.Direct3D11.Buffer(Device, VBufferDescription));
 
                     // Create and initialise Index Buffer
+                    Int16[] Indicies = new Int16[3072];
 
-                    short[] indices = new short[3072];
-
-                    for (ushort i = 0; i < 512; ++i)
+                    for (UInt16 Index = 0; Index < 512; ++Index)
                     {
-                        indices[i * 6] = (short)(i * 4);
-                        indices[i * 6 + 1] = (short)(i * 4 + 1);
-                        indices[i * 6 + 2] = (short)(i * 4 + 2);
-                        indices[i * 6 + 3] = (short)(i * 4);
-                        indices[i * 6 + 4] = (short)(i * 4 + 2);
-                        indices[i * 6 + 5] = (short)(i * 4 + 3);
+                        Indicies[Index * 6] = (Int16)(Index * 4);
+                        Indicies[Index * 6 + 1] = (Int16)(Index * 4 + 1);
+                        Indicies[Index * 6 + 2] = (Int16)(Index * 4 + 2);
+                        Indicies[Index * 6 + 3] = (Int16)(Index * 4);
+                        Indicies[Index * 6 + 4] = (Int16)(Index * 4 + 2);
+                        Indicies[Index * 6 + 5] = (Int16)(Index * 4 + 3);
                     }
 
-                    _indexBuffer = ToDispose(new SafeHGlobal(indices.Length * Marshal.SizeOf(indices[0])));
-                    Marshal.Copy(indices, 0, _indexBuffer.DangerousGetHandle(), indices.Length);
+                    IndexBuffer = ToDispose(new SafeHGlobal(Indicies.Length * Marshal.SizeOf(Indicies[0])));
+                    Marshal.Copy(Indicies, 0, IndexBuffer.DangerousGetHandle(), Indicies.Length);
 
-                    BufferDescription ibd = new BufferDescription
+                    BufferDescription IBufferDescription = new BufferDescription
                     {
-                        SizeInBytes = 3072 * Marshal.SizeOf(typeof(short)),
+                        SizeInBytes = 3072 * Marshal.SizeOf(typeof(Int16)),
                         Usage = ResourceUsage.Immutable,
                         BindFlags = BindFlags.IndexBuffer,
                         CpuAccessFlags = CpuAccessFlags.None,
                         OptionFlags = ResourceOptionFlags.None,
                         StructureByteStride = 0
                     };
-                    
-                    _IB = ToDispose(new SharpDX.Direct3D11.Buffer(_device, _indexBuffer.DangerousGetHandle(), ibd));
 
-                    BlendStateDescription transparentDesc = new BlendStateDescription()
+                    IBuffer = ToDispose(new SharpDX.Direct3D11.Buffer(Device, IndexBuffer.DangerousGetHandle(), IBufferDescription));
+
+                    BlendStateDescription TransparentDescription = new BlendStateDescription()
                     {
                         AlphaToCoverageEnable = false,
                         IndependentBlendEnable = false,
                     };
-                    transparentDesc.RenderTarget[0].IsBlendEnabled = true;
-                    transparentDesc.RenderTarget[0].SourceBlend = BlendOption.SourceAlpha;
-                    transparentDesc.RenderTarget[0].DestinationBlend = BlendOption.InverseSourceAlpha;
-                    transparentDesc.RenderTarget[0].BlendOperation = BlendOperation.Add;
-                    transparentDesc.RenderTarget[0].SourceAlphaBlend = BlendOption.One;
-                    transparentDesc.RenderTarget[0].DestinationAlphaBlend = BlendOption.Zero;
-                    transparentDesc.RenderTarget[0].AlphaBlendOperation = BlendOperation.Add;
-                    transparentDesc.RenderTarget[0].RenderTargetWriteMask = ColorWriteMaskFlags.All;
 
-                    _transparentBS = ToDispose(new BlendState(_device, transparentDesc));
+                    TransparentDescription.RenderTarget[0].IsBlendEnabled = true;
+                    TransparentDescription.RenderTarget[0].SourceBlend = BlendOption.SourceAlpha;
+                    TransparentDescription.RenderTarget[0].DestinationBlend = BlendOption.InverseSourceAlpha;
+                    TransparentDescription.RenderTarget[0].BlendOperation = BlendOperation.Add;
+                    TransparentDescription.RenderTarget[0].SourceAlphaBlend = BlendOption.One;
+                    TransparentDescription.RenderTarget[0].DestinationAlphaBlend = BlendOption.Zero;
+                    TransparentDescription.RenderTarget[0].AlphaBlendOperation = BlendOperation.Add;
+                    TransparentDescription.RenderTarget[0].RenderTargetWriteMask = ColorWriteMaskFlags.All;
+
+                    TransparentBS = ToDispose(new BlendState(Device, TransparentDescription));
                 }
             }
 
-            _initialized = true;
+            Initialized = true;
 
             return true;
         }
 
         internal static Color4 ToColor4(System.Drawing.Color color)
         {
-            Vector4 Vec = new Vector4(color.R > 0 ? (float)(color.R / 255.0f) : 0.0f, color.G > 0 ? (float)(color.G / 255.0f) : 0.0f, color.B > 0 ? (float)(color.B / 255.0f) : 0.0f, color.A > 0 ? (float)(color.A / 255.0f) : 0.0f);
+            Vector4 Vec = new Vector4(color.R > 0 ? (Single)(color.R / 255.0f) : 0.0f, color.G > 0 ? (Single)(color.G / 255.0f) : 0.0f, color.B > 0 ? (Single)(color.B / 255.0f) : 0.0f, color.A > 0 ? (Single)(color.A / 255.0f) : 0.0f);
             return new Color4(Vec);
         }
 
-        public void DrawImage(int x, int y, float scale, float angle, System.Drawing.Color? color, DXImage image)
+        public void DrawImage(Int32 X, Int32 Y, Single Scale, Single Angle, System.Drawing.Color? color, DXImage Image)
         {
-            Debug.Assert(_initialized);
+            Debug.Assert(Initialized);
 
-            Color4 blendFactor = new Color4(1.0f);
-            Color4 backupBlendFactor;
-            int backupMask;
-            using (var backupBlendState = _deviceContext.OutputMerger.GetBlendState(out backupBlendFactor, out backupMask))
+            Color4 BlendFactor = new Color4(1.0f);
+            Color4 BackupBlendFactor;
+            Int32 BackupMask;
+
+            using (BlendState backupBlendState = DeviceContext.OutputMerger.GetBlendState(out BackupBlendFactor, out BackupMask))
             {
-                _deviceContext.OutputMerger.SetBlendState(_transparentBS, blendFactor);
-
-                BeginBatch(image.GetSRV());
-
-                Draw(new Rectangle(x, y, (int)(scale * image.Width), (int)(scale * image.Height)), new Rectangle(0, 0, image.Width, image.Height), color.HasValue ? ToColor4(color.Value) : Color4.White, 1.0f, angle);
+                DeviceContext.OutputMerger.SetBlendState(TransparentBS, BlendFactor);
+                BeginBatch(Image.GetSRV());
+                Draw(new Rectangle(X, Y, (Int32)(Scale * Image.Width), (Int32)(Scale * Image.Height)), new Rectangle(0, 0, Image.Width, Image.Height), color.HasValue ? ToColor4(color.Value) : Color4.White, 1.0f, Angle);
 
                 EndBatch();
-                _deviceContext.OutputMerger.SetBlendState(backupBlendState, backupBlendFactor, backupMask);
+                DeviceContext.OutputMerger.SetBlendState(backupBlendState, BackupBlendFactor, BackupMask);
             }
         }
 
-        public void DrawString(int X, int Y, string text, System.Drawing.Color color, DXFont F)
+        public void DrawString(Int32 X, Int32 Y, String Text, System.Drawing.Color Color, DXFont F)
         {
-            Color4 blendFactor = new Color4(1.0f);
-            Color4 backupBlendFactor;
-            int backupMask;
-            using (var backupBlendState = _deviceContext.OutputMerger.GetBlendState(out backupBlendFactor, out backupMask))
+            Color4 BlendFactor = new Color4(1.0f);
+            Color4 BackupBlendFactor;
+            Int32 BackupMask;
+
+            using (BlendState BackupBlendState = DeviceContext.OutputMerger.GetBlendState(out BackupBlendFactor, out BackupMask))
             {
-                _deviceContext.OutputMerger.SetBlendState(_transparentBS, blendFactor);
+                DeviceContext.OutputMerger.SetBlendState(TransparentBS, BlendFactor);
 
                 BeginBatch(F.GetFontSheetSRV());
 
+                Int32 Length = Text.Length;
 
-                int length = text.Length;
+                Int32 PositionX = X;
+                Int32 PositionY = Y;
 
-                int posX = X;
-                int posY = Y;
+                Color4 Color4 = ToColor4(Color);
 
-                Color4 color4 = ToColor4(color);
-
-                for (int i = 0; i < length; ++i)
+                for (Int32 Index = 0; Index < Length; ++Index)
                 {
-                    char character = text[i];
+                    Char Character = Text[Index];
 
-                    if (character == ' ')
-                        posX += F.GetSpaceWidth();
-                    else if (character == '\n')
+                    if (Character == ' ')
+                        PositionX += F.GetSpaceWidth();
+
+                    else if (Character == '\n')
                     {
-                        posX = X;
-                        posY += F.GetCharHeight();
+                        PositionX = X;
+                        PositionY += F.GetCharHeight();
                     }
                     else
                     {
-                        Rectangle charRect = F.GetCharRect(character);
+                        Rectangle CharRectangle = F.GetCharRect(Character);
 
-                        int width = charRect.Right - charRect.Left;
-                        int height = charRect.Bottom - charRect.Top;
+                        Int32 Width = CharRectangle.Right - CharRectangle.Left;
+                        Int32 Height = CharRectangle.Bottom - CharRectangle.Top;
 
-                        Draw(new Rectangle(posX, posY, width, height), charRect, color4);
+                        Draw(new Rectangle(PositionX, PositionY, Width, Height), CharRectangle, Color4);
 
-                        posX += width + 1;
+                        PositionX += Width + 1;
                     }
                 }
 
                 EndBatch();
-                _deviceContext.OutputMerger.SetBlendState(backupBlendState, backupBlendFactor, backupMask);
+                DeviceContext.OutputMerger.SetBlendState(BackupBlendState, BackupBlendFactor, BackupMask);
             }
         }
 
-        public void BeginBatch(ShaderResourceView texSRV)
+        public void BeginBatch(ShaderResourceView TexSRV)
         {
-            Debug.Assert(_initialized);
+            Debug.Assert(Initialized);
 
-            _batchTexSRV = texSRV;
+            BatchTexSRV = TexSRV;
 
-            Texture2D tex = _batchTexSRV.ResourceAs<Texture2D>();
+            Texture2D Tex = BatchTexSRV.ResourceAs<Texture2D>();
             {
-
-                Texture2DDescription texDesc = tex.Description;
-                _texWidth = texDesc.Width;
-                _texHeight = texDesc.Height;
+                Texture2DDescription TexDesc = Tex.Description;
+                TexWidth = TexDesc.Width;
+                TexHeight = TexDesc.Height;
             }
-            _spriteList.Clear();
+
+            SpriteList.Clear();
         }
 
         public void EndBatch()
         {
-            Debug.Assert(_initialized);
+            Debug.Assert(Initialized);
 
-            ViewportF[] vp = _deviceContext.Rasterizer.GetViewports();
+            ViewportF[] ViewportF = DeviceContext.Rasterizer.GetViewports();
+            Int32 Stride = Marshal.SizeOf(typeof(SpriteVertex));
+            Int32 Offset = 0;
 
-            _screenWidth = vp[0].Width;
-            _screenHeight = vp[0].Height;
+            ScreenWidth = ViewportF[0].Width;
+            ScreenHeight = ViewportF[0].Height;
 
-            int stride = Marshal.SizeOf(typeof(SpriteVertex));
-            int offset = 0;
-            _deviceContext.InputAssembler.InputLayout = _inputLayout;
-            _deviceContext.InputAssembler.SetIndexBuffer(_IB, SharpDX.DXGI.Format.R16_UInt, 0);
-            _deviceContext.InputAssembler.SetVertexBuffers(0, new[] { _VB }, new[] { stride }, new[] { offset });
-            _deviceContext.InputAssembler.PrimitiveTopology = SharpDX.Direct3D.PrimitiveTopology.TriangleList;
-            _spriteMap.SetResource(_batchTexSRV);
 
-            using (EffectPass pass = _spriteTech.GetPassByIndex(0))
+            DeviceContext.InputAssembler.InputLayout = InputLayout;
+            DeviceContext.InputAssembler.SetIndexBuffer(IBuffer, SharpDX.DXGI.Format.R16_UInt, 0);
+            DeviceContext.InputAssembler.SetVertexBuffers(0, new[] { VBuffer }, new[] { Stride }, new[] { Offset });
+            DeviceContext.InputAssembler.PrimitiveTopology = SharpDX.Direct3D.PrimitiveTopology.TriangleList;
+            SpriteMap.SetResource(BatchTexSRV);
+
+            using (EffectPass EffectPass = SpriteTech.GetPassByIndex(0))
             {
-                pass.Apply(_deviceContext);
-                var spritesToDraw = _spriteList.Count;
-                int startIndex = 0;
-                while (spritesToDraw > 0)
+                EffectPass.Apply(DeviceContext);
+                Int32 SpritesToDraw = SpriteList.Count;
+                Int32 StartIndex = 0;
+
+                while (SpritesToDraw > 0)
                 {
-                    if (spritesToDraw <= 512)
+                    if (SpritesToDraw <= 512)
                     {
-                        DrawBatch(startIndex, spritesToDraw);
-                        spritesToDraw = 0;
+                        DrawBatch(StartIndex, SpritesToDraw);
+                        SpritesToDraw = 0;
                     }
                     else
                     {
-                        DrawBatch(startIndex, 512);
-                        startIndex += 512;
-                        spritesToDraw -= 512;
+                        DrawBatch(StartIndex, 512);
+                        StartIndex += 512;
+                        SpritesToDraw -= 512;
                     }
                 }
             }
-            _batchTexSRV = null;
+
+            BatchTexSRV = null;
         }
 
-        public void Draw(Rectangle destinationRect, Rectangle sourceRect, Color4 color, float scale = 1.0f, float angle = 0f, float z = 0f)
+        public void Draw(Rectangle DestinationRectangle, Rectangle SourceRectangle, Color4 Color, Single Scale = 1.0f, Single Angle = 0f, Single Z = 0f)
         {
-            Sprite sprite = new Sprite(
-                sourceRect,
-                destinationRect,
-                color
-            )
+            Sprite Sprite = new Sprite(SourceRectangle, DestinationRectangle, Color)
             {
-                Scale = scale,
-                Angle = angle,
-                Z = z
+                Scale = Scale,
+                Angle = Angle,
+                Z = Z
             };
 
-            _spriteList.Add(sprite);
+            SpriteList.Add(Sprite);
         }
 
-        void DrawBatch(int startSpriteIndex, int spriteCount)
+        void DrawBatch(Int32 StartSpriteIndex, Int32 SpriteCount)
         {
-            DataBox mappedData = _deviceContext.MapSubresource(_VB, 0, MapMode.WriteDiscard, MapFlags.None);
+            DataBox MappedData = DeviceContext.MapSubresource(VBuffer, 0, MapMode.WriteDiscard, MapFlags.None);
 
             // Update the vertices
             unsafe
             {
-                SpriteVertex* v = (SpriteVertex*)mappedData.DataPointer.ToPointer();
+                SpriteVertex* SpriteVertex = (SpriteVertex*)MappedData.DataPointer.ToPointer();
 
-                for (int i = 0; i < spriteCount; ++i)
+                for (Int32 Index = 0; Index < SpriteCount; ++Index)
                 {
-                    Sprite sprite = _spriteList[startSpriteIndex + i];
+                    Sprite Sprite = SpriteList[StartSpriteIndex + Index];
+                    SpriteVertex[] Quad = new SpriteVertex[4];
 
-                    SpriteVertex[] quad = new SpriteVertex[4];
+                    BuildSpriteQuad(Sprite, ref Quad);
 
-                    BuildSpriteQuad(sprite, ref quad);
-
-                    v[i * 4] = quad[0];
-                    v[i * 4 + 1] = quad[1];
-                    v[i * 4 + 2] = quad[2];
-                    v[i * 4 + 3] = quad[3];
+                    SpriteVertex[Index * 4] = Quad[0];
+                    SpriteVertex[Index * 4 + 1] = Quad[1];
+                    SpriteVertex[Index * 4 + 2] = Quad[2];
+                    SpriteVertex[Index * 4 + 3] = Quad[3];
                 }
             }
 
-            _deviceContext.UnmapSubresource(_VB, 0);
-
-            _deviceContext.DrawIndexed(spriteCount * 6, 0, 0);
+            DeviceContext.UnmapSubresource(VBuffer, 0);
+            DeviceContext.DrawIndexed(SpriteCount * 6, 0, 0);
         }
 
-        Vector3 PointToNdc(int x, int y, float z)
+        Vector3 PointToNdc(Int32 X, Int32 Y, Single Z)
         {
-            Vector3 p;
+            Vector3 P;
 
-            p.X = 2.0f * (float)x / _screenWidth - 1.0f;
-            p.Y = 1.0f - 2.0f * (float)y / _screenHeight;
-            p.Z = z;
+            P.X = 2.0f * (Single)X / ScreenWidth - 1.0f;
+            P.Y = 1.0f - 2.0f * (Single)Y / ScreenHeight;
+            P.Z = Z;
 
-            return p;
+            return P;
         }
 
-        void BuildSpriteQuad(Sprite sprite, ref SpriteVertex[] v)
+        void BuildSpriteQuad(Sprite Sprite, ref SpriteVertex[] Vertex)
         {
-            if (v.Length < 4)
-                throw new ArgumentException("must have 4 sprite vertices", "v");
+            if (Vertex.Length < 4)
+                throw new ArgumentException("Must have 4 sprite vertices", "v");
 
-            Rectangle dest = sprite.DestRect;
-            Rectangle src = sprite.SrcRect;
+            Rectangle DestinationRectangle = Sprite.DestRectangle;
+            Rectangle SourceRectangle = Sprite.SourceRectangle;
 
-            v[0].Pos = PointToNdc(dest.Left, dest.Bottom, sprite.Z);
-            v[1].Pos = PointToNdc(dest.Left, dest.Top, sprite.Z);
-            v[2].Pos = PointToNdc(dest.Right, dest.Top, sprite.Z);
-            v[3].Pos = PointToNdc(dest.Right, dest.Bottom, sprite.Z);
+            Vertex[0].Position = PointToNdc(DestinationRectangle.Left, DestinationRectangle.Bottom, Sprite.Z);
+            Vertex[1].Position = PointToNdc(DestinationRectangle.Left, DestinationRectangle.Top, Sprite.Z);
+            Vertex[2].Position = PointToNdc(DestinationRectangle.Right, DestinationRectangle.Top, Sprite.Z);
+            Vertex[3].Position = PointToNdc(DestinationRectangle.Right, DestinationRectangle.Bottom, Sprite.Z);
 
-            v[0].Tex = new Vector2((float)src.Left / _texWidth, (float)src.Bottom / _texHeight);
-            v[1].Tex = new Vector2((float)src.Left / _texWidth, (float)src.Top / _texHeight);
-            v[2].Tex = new Vector2((float)src.Right / _texWidth, (float)src.Top / _texHeight);
-            v[3].Tex = new Vector2((float)src.Right / _texWidth, (float)src.Bottom / _texHeight);
+            Vertex[0].Tex = new Vector2((Single)SourceRectangle.Left / TexWidth, (Single)SourceRectangle.Bottom / TexHeight);
+            Vertex[1].Tex = new Vector2((Single)SourceRectangle.Left / TexWidth, (Single)SourceRectangle.Top / TexHeight);
+            Vertex[2].Tex = new Vector2((Single)SourceRectangle.Right / TexWidth, (Single)SourceRectangle.Top / TexHeight);
+            Vertex[3].Tex = new Vector2((Single)SourceRectangle.Right / TexWidth, (Single)SourceRectangle.Bottom / TexHeight);
 
-            v[0].Color = sprite.Color;
-            v[1].Color = sprite.Color;
-            v[2].Color = sprite.Color;
-            v[3].Color = sprite.Color;
+            Vertex[0].Color = Sprite.Color;
+            Vertex[1].Color = Sprite.Color;
+            Vertex[2].Color = Sprite.Color;
+            Vertex[3].Color = Sprite.Color;
 
-            float tx = 0.5f * (v[0].Pos.X + v[3].Pos.X);
-            float ty = 0.5f * (v[0].Pos.Y + v[1].Pos.Y);
+            Single TX = 0.5f * (Vertex[0].Position.X + Vertex[3].Position.X);
+            Single TY = 0.5f * (Vertex[0].Position.Y + Vertex[1].Position.Y);
 
-            Vector2 origin = new Vector2(tx, ty);
-            Vector2 translation = new Vector2(0.0f, 0.0f);
+            Vector2 Origin = new Vector2(TX, TY);
+            Vector2 Translation = new Vector2(0.0f, 0.0f);
+            Matrix Transformation = Matrix.AffineTransformation2D(Sprite.Scale, Origin, Sprite.Angle, Translation);
 
-            Matrix T = Matrix.AffineTransformation2D(sprite.Scale, origin, sprite.Angle, translation);
-
-            for (int i = 0; i < 4; ++i)
+            for (Int32 Index = 0; Index < 4; ++Index)
             {
-                Vector3 p = v[i].Pos;
-                p = Vector3.TransformCoordinate(p, T);
-                v[i].Pos = p;
+                Vector3 Position = Vertex[Index].Position;
+                Position = Vector3.TransformCoordinate(Position, Transformation);
+                Vertex[Index].Position = Position;
             }
         }
-    }
-}
 
+    } // End class
+
+} // End namespace

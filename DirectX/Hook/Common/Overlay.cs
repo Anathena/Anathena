@@ -1,36 +1,30 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
-namespace Capture.Hook.Common
+namespace DirectXShell.Hook.Common
 {
-    public class Overlay: IOverlay
+    public class Overlay : IOverlay
     {
-        List<IOverlayElement> _elements = new List<IOverlayElement>();
+        public virtual bool Hidden { get; set; }
+
+        private List<IOverlayElement> _Elements = new List<IOverlayElement>();
         public virtual List<IOverlayElement> Elements
         {
-            get { return _elements; }
-            set { _elements = value; }
-        }
-
-        public virtual bool Hidden
-        {
-            get;
-            set;
+            get { return _Elements; }
+            set { _Elements = value; }
         }
 
         public virtual void Frame()
         {
-            foreach (var element in Elements)
-            {
+            foreach (IOverlayElement element in Elements)
                 element.Frame();
-            }
         }
 
-        public virtual object Clone()
+        public virtual Object Clone()
         {
             return MemberwiseClone();
         }
-    }
-}
+
+    } // End class
+
+} // End namespace

@@ -1,25 +1,24 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
-namespace Capture.Interface
+namespace DirectXShell.Interface
 {
     [Serializable]
-    public class DisplayTextEventArgs: MarshalByRefObject
+    public class DisplayTextEventArgs : MarshalByRefObject
     {
-        public string Text { get; set; }
+        public String Text { get; set; }
         public TimeSpan Duration { get; set; }
 
-        public DisplayTextEventArgs(string text, TimeSpan duration)
+        public DisplayTextEventArgs(String Text, TimeSpan Duration)
         {
-            Text = text;
-            Duration = duration;
+            this.Text = Text;
+            this.Duration = Duration;
         }
 
         public override string ToString()
         {
             return String.Format("{0}", Text);
         }
-    }
-}
+
+    } // End class
+
+} // End namespace

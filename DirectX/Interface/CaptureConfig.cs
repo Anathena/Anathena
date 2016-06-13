@@ -1,11 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Reflection;
 using System.IO;
+using System.Reflection;
 
-namespace Capture.Interface
+namespace DirectXShell.Interface
 {
     [Serializable]
     public class CaptureConfig
@@ -22,5 +19,7 @@ namespace Capture.Interface
             TargetFramesPerSecond = 5;
             TargetFolder = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
         }
-    }
-}
+
+    } // End class
+
+} // End namespace

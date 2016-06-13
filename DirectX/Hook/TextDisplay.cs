@@ -1,17 +1,18 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
-namespace Capture.Hook
+namespace DirectXShell.Hook
 {
     public class TextDisplay
     {
-        long _startTickCount = 0;
+        private Int64 StartTickCount = 0;
+        public bool Display { get; set; }
+        public String Text { get; set; }
+        public TimeSpan Duration { get; set; }
+        public float Remaining { get { return Display ? (float)Math.Abs(DateTime.Now.Ticks - StartTickCount) / (float)Duration.Ticks : 0; } }
 
         public TextDisplay()
         {
-            _startTickCount = DateTime.Now.Ticks;
+            StartTickCount = DateTime.Now.Ticks;
             Display = true;
         }
 
@@ -20,28 +21,12 @@ namespace Capture.Hook
         /// </summary>
         public void Frame()
         {
-            if (Display && Math.Abs(DateTime.Now.Ticks - _startTickCount) > Duration.Ticks)
+            if (Display && Math.Abs(DateTime.Now.Ticks - StartTickCount) > Duration.Ticks)
             {
                 Display = false;
             }
         }
 
-        public bool Display { get; set; }
-        public String Text { get; set; }
-        public TimeSpan Duration { get; set; }
-        public float Remaining
-        {
-            get
-            {
-                if (Display)
-                {
-                    return (float)Math.Abs(DateTime.Now.Ticks - _startTickCount) / (float)Duration.Ticks;
-                }
-                else
-                {
-                    return 0;
-                }
-            }
-        }
-    }
-}
+    } // End class
+
+} // End namespace

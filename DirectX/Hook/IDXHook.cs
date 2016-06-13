@@ -1,32 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Capture.Interface;
+﻿using DirectXShell.Interface;
+using System;
 
-namespace Capture.Hook
+namespace DirectXShell.Hook
 {
-    internal interface IDXHook: IDisposable
+    internal interface IDXHook : IDisposable
     {
-        CaptureInterface Interface
-        {
-            get;
-            set;
-        }
-        CaptureConfig Config
-        {
-            get;
-            set;
-        }
-
-        ScreenshotRequest Request
-        {
-            get;
-            set;
-        }
+        CaptureInterface CaptureInterface { get; set; }
+        CaptureConfig Config { get; set; }
+        ScreenshotRequest Request { get; set; }
 
         void Hook();
-
         void Cleanup();
-    }
-}
+
+    } // End class
+
+} // End namespace

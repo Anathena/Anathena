@@ -1,48 +1,29 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Drawing;
-using System.IO;
+using System.Drawing.Imaging;
 using System.Runtime.Remoting;
 using System.Security.Permissions;
-using System.Runtime.InteropServices;
 
-namespace Capture.Interface
+namespace DirectXShell.Interface
 {
     public class Screenshot : MarshalByRefObject, IDisposable
     {
-        Guid _requestId;
-        public Guid RequestId
+        public Guid RequestId { get; set; }
+
+        public ImageFormatEnum Format { get; set; }
+
+        public PixelFormat PixelFormat { get; set; }
+        public Int32 Stride { get; set; }
+        public Int32 Height { get; set; }
+        public Int32 Width { get; set; }
+
+        public Byte[] Data { get; set; }
+
+        private Boolean Disposed;
+
+        public Screenshot(Guid RequestId, Byte[] Data)
         {
-            get
-            {
-                return _requestId;
-            }
-        }
-
-        public ImageFormat Format { get; set; }
-
-        public System.Drawing.Imaging.PixelFormat PixelFormat { get; set; }
-        public int Stride { get; set; }
-        public int Height { get; set; }
-        public int Width { get; set; }
-
-        byte[] _data;
-        public byte[] Data
-        {
-            get
-            {
-                return _data;
-            }
-        }
-
-        private bool _disposed;
-
-        public Screenshot(Guid requestId, byte[] data)
-        {
-            _requestId = requestId;
-            _data = data;
+            this.RequestId = RequestId;
+            this.Data = Data;
         }
 
         ~Screenshot()
@@ -56,16 +37,15 @@ namespace Capture.Interface
             GC.SuppressFinalize(this);
         }
 
-        protected virtual void Dispose(bool disposeManagedResources)
+        protected virtual void Dispose(Boolean DisposeManagedResources)
         {
-            if (!_disposed)
-            {
-                if (disposeManagedResources)
-                {
-                    Disconnect();
-                }
-                _disposed = true;
-            }
+            if (Disposed)
+                return;
+
+            if (DisposeManagedResources)
+                Disconnect();
+
+            Disposed = true;
         }
 
         /// <summary>
@@ -77,12 +57,14 @@ namespace Capture.Interface
         }
 
         [SecurityPermissionAttribute(SecurityAction.Demand, Flags = SecurityPermissionFlag.Infrastructure)]
-        public override object InitializeLifetimeService()
+        public override Object InitializeLifetimeService()
         {
             // Returning null designates an infinite non-expiring lease.
             // We must therefore ensure that RemotingServices.Disconnect() is called when
             // it's no longer needed otherwise there will be a memory leak.
             return null;
         }
-    }
-}
+
+    } // End class
+
+} // End namespace

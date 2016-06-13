@@ -1,15 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace Capture.Interface
+﻿namespace DirectXShell.Interface
 {
-    public enum ImageFormat
+    public enum ImageFormatEnum
     {
         Bitmap,
         Jpeg,
         Png,
         PixelData,
-    }
-}
+
+    } // End enum
+
+} // End namespace

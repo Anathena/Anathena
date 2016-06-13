@@ -65,18 +65,18 @@ namespace Anathema.Source.Utils
         public void TriggerEnd()
         {
             Task.Run(() =>
-           {
-               // Wait for the task to finish
-               try
-               {
-                   CancelRequest?.Cancel();
-                   Task?.Wait(AbortTime);
-               }
-               catch (Exception) { }
+            {
+                // Wait for the task to finish
+                try
+                {
+                    CancelRequest?.Cancel();
+                    Task?.Wait(AbortTime);
+                }
+                catch (Exception) { }
 
 
-               End();
-           });
+                End();
+            });
         }
 
         protected abstract void End();

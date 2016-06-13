@@ -1,15 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Runtime.InteropServices;
-using SharpDX.DXGI;
+﻿using SharpDX.DXGI;
+using System;
 
-namespace Capture.Hook
+namespace DirectXShell.Hook
 {
     internal static class DXGI
     {
-        public enum DXGISwapChainVTbl : short
+        public enum DXGISwapChainVirtualTableEnum : Int16
         {
             // IUnknown
             QueryInterface = 0,
@@ -38,58 +34,60 @@ namespace Capture.Hook
             GetLastPresentCount = 17,
         }
 
-        public const int DXGI_SWAPCHAIN_METHOD_COUNT = 18;
+        public static Int32 DXGI_SWAPCHAIN_METHOD_COUNT = Enum.GetNames(typeof(DXGISwapChainVirtualTableEnum)).Length;
 
-        public static SharpDX.DXGI.SwapChainDescription CreateSwapChainDescription(IntPtr windowHandle)
+        public static SwapChainDescription CreateSwapChainDescription(IntPtr WindowHandle)
         {
-            return new SharpDX.DXGI.SwapChainDescription
+            return new SwapChainDescription
             {
                 BufferCount = 1,
-                Flags = SharpDX.DXGI.SwapChainFlags.None,
+                Flags = SwapChainFlags.None,
                 IsWindowed = true,
-                ModeDescription = new SharpDX.DXGI.ModeDescription(100, 100, new Rational(60, 1), SharpDX.DXGI.Format.R8G8B8A8_UNorm),
-                OutputHandle = windowHandle,
-                SampleDescription = new SharpDX.DXGI.SampleDescription(1, 0),
-                SwapEffect = SharpDX.DXGI.SwapEffect.Discard,
-                Usage = SharpDX.DXGI.Usage.RenderTargetOutput
+                ModeDescription = new ModeDescription(100, 100, new Rational(60, 1), Format.R8G8B8A8_UNorm),
+                OutputHandle = WindowHandle,
+                SampleDescription = new SampleDescription(1, 0),
+                SwapEffect = SwapEffect.Discard,
+                Usage = Usage.RenderTargetOutput
             };
         }
 
-/*
- * 
-typedef enum DXGI_MODE_SCANLINE_ORDER
-{
-DXGI_MODE_SCANLINE_ORDER_UNSPECIFIED        = 0,
-DXGI_MODE_SCANLINE_ORDER_PROGRESSIVE        = 1,
-DXGI_MODE_SCANLINE_ORDER_UPPER_FIELD_FIRST  = 2,
-DXGI_MODE_SCANLINE_ORDER_LOWER_FIELD_FIRST  = 3
-} DXGI_MODE_SCANLINE_ORDER;
+        /*
+         * 
+        typedef enum DXGI_MODE_SCANLINE_ORDER
+        {
+        DXGI_MODE_SCANLINE_ORDER_UNSPECIFIED        = 0,
+        DXGI_MODE_SCANLINE_ORDER_PROGRESSIVE        = 1,
+        DXGI_MODE_SCANLINE_ORDER_UPPER_FIELD_FIRST  = 2,
+        DXGI_MODE_SCANLINE_ORDER_LOWER_FIELD_FIRST  = 3
+        } DXGI_MODE_SCANLINE_ORDER;
 
-typedef enum DXGI_MODE_SCALING
-{
-DXGI_MODE_SCALING_UNSPECIFIED   = 0,
-DXGI_MODE_SCALING_CENTERED      = 1,
-DXGI_MODE_SCALING_STRETCHED     = 2
-} DXGI_MODE_SCALING;
+        typedef enum DXGI_MODE_SCALING
+        {
+        DXGI_MODE_SCALING_UNSPECIFIED   = 0,
+        DXGI_MODE_SCALING_CENTERED      = 1,
+        DXGI_MODE_SCALING_STRETCHED     = 2
+        } DXGI_MODE_SCALING;
 
-typedef enum DXGI_MODE_ROTATION
-{
-DXGI_MODE_ROTATION_UNSPECIFIED  = 0,
-DXGI_MODE_ROTATION_IDENTITY     = 1,
-DXGI_MODE_ROTATION_ROTATE90     = 2,
-DXGI_MODE_ROTATION_ROTATE180    = 3,
-DXGI_MODE_ROTATION_ROTATE270    = 4
-} DXGI_MODE_ROTATION;
+        typedef enum DXGI_MODE_ROTATION
+        {
+        DXGI_MODE_ROTATION_UNSPECIFIED  = 0,
+        DXGI_MODE_ROTATION_IDENTITY     = 1,
+        DXGI_MODE_ROTATION_ROTATE90     = 2,
+        DXGI_MODE_ROTATION_ROTATE180    = 3,
+        DXGI_MODE_ROTATION_ROTATE270    = 4
+        } DXGI_MODE_ROTATION;
 
-typedef struct DXGI_MODE_DESC
-{
-UINT Width;
-UINT Height;
-DXGI_RATIONAL RefreshRate;
-DXGI_FORMAT Format;
-DXGI_MODE_SCANLINE_ORDER ScanlineOrdering;
-DXGI_MODE_SCALING Scaling;
-} DXGI_MODE_DESC;
- * */
-    }
-}
+        typedef struct DXGI_MODE_DESC
+        {
+        UINT Width;
+        UINT Height;
+        DXGI_RATIONAL RefreshRate;
+        DXGI_FORMAT Format;
+        DXGI_MODE_SCANLINE_ORDER ScanlineOrdering;
+        DXGI_MODE_SCALING Scaling;
+        } DXGI_MODE_DESC;
+         * */
+
+    } // End class
+
+} // End namespace

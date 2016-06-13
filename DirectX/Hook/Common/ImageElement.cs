@@ -1,14 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
-namespace Capture.Hook.Common
+namespace DirectXShell.Hook.Common
 {
-    public class ImageElement: Element
+    public class ImageElement : Element
     {
-        public virtual System.Drawing.Bitmap Bitmap { get; set; }
-        
         /// <summary>
         /// This value is multiplied with the source color (e.g. White will result in same color as source image)
         /// </summary>
@@ -16,46 +11,45 @@ namespace Capture.Hook.Common
         /// Defaults to <see cref="System.Drawing.Color.White"/>.
         /// </remarks>
         public virtual System.Drawing.Color Tint { get; set; }
-        
+
         /// <summary>
         /// The location of where to render this image element
         /// </summary>
         public virtual System.Drawing.Point Location { get; set; }
 
-        public float Angle { get; set; }
+        public virtual System.Drawing.Bitmap Bitmap { get; set; }
+        public Single Angle { get; set; }
+        public Single Scale { get; set; }
+        public String Filename { get; set; }
+        private Boolean OwnsBitmap = false;
 
-        public float Scale { get; set; }
-
-        public string Filename { get; set; }
-
-        bool _ownsBitmap = false;
-
-        public ImageElement(string filename):
-            this(new System.Drawing.Bitmap(filename), true)
+        public ImageElement(String Filename) : this(new System.Drawing.Bitmap(Filename), true)
         {
-            Filename = filename;
+            this.Filename = Filename;
         }
 
-        public ImageElement(System.Drawing.Bitmap bitmap, bool ownsImage = false)
+        public ImageElement(System.Drawing.Bitmap Bitmap, Boolean OwnsImage = false)
         {
             Tint = System.Drawing.Color.White;
-            this.Bitmap = bitmap;
-            _ownsBitmap = ownsImage;
+            this.Bitmap = Bitmap;
+            OwnsBitmap = OwnsImage;
             Scale = 1.0f;
         }
 
-        protected override void Dispose(bool disposing)
+        protected override void Dispose(Boolean Disposing)
         {
-            base.Dispose(disposing);
+            base.Dispose(Disposing);
 
-            if (disposing)
+            if (Disposing)
             {
-                if (_ownsBitmap)
+                if (OwnsBitmap)
                 {
                     SafeDispose(this.Bitmap);
                     this.Bitmap = null;
                 }
             }
         }
-    }
-}
+
+    } // End class
+
+} // End namespace

@@ -1,49 +1,37 @@
-﻿using System;
+﻿using EasyHook;
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Diagnostics;
-using EasyHook;
 
-namespace Capture.Hook
+namespace DirectXShell.Hook
 {
     public class HookManager
     {
-        static internal List<Int32> HookedProcesses = new List<Int32>();
-
-        /*
-         * Please note that we have obtained this information with system privileges.
-         * So if you get client requests with a process ID don't try to open the process
-         * as this will fail in some cases. Just search the ID in the following list and
-         * extract information that is already there...
-         * 
-         * Of course you can change the way this list is implemented and the information
-         * it contains but you should keep the code semantic.
-         */
+        internal static List<Int32> HookedProcesses = new List<Int32>();
         internal static List<ProcessInfo> ProcessList = new List<ProcessInfo>();
         private static List<Int32> ActivePIDList = new List<Int32>();
 
-        public static void AddHookedProcess(Int32 processId)
+        public static void AddHookedProcess(Int32 ProcessId)
         {
             lock (HookedProcesses)
             {
-                HookedProcesses.Add(processId);
+                HookedProcesses.Add(ProcessId);
             }
         }
 
-        public static void RemoveHookedProcess(Int32 processId)
+        public static void RemoveHookedProcess(Int32 ProcessId)
         {
             lock (HookedProcesses)
             {
-                HookedProcesses.Remove(processId);
+                HookedProcesses.Remove(ProcessId);
             }
         }
 
-        public static bool IsHooked(Int32 processId)
+        public static Boolean IsHooked(Int32 ProcessId)
         {
             lock (HookedProcesses)
             {
-                return HookedProcesses.Contains(processId);
+                return HookedProcesses.Contains(ProcessId);
             }
         }
 
@@ -58,30 +46,30 @@ namespace Capture.Hook
 
         public static ProcessInfo[] EnumProcesses()
         {
-            List<ProcessInfo> result = new List<ProcessInfo>();
-            Process[] procList = Process.GetProcesses();
+            List<ProcessInfo> Result = new List<ProcessInfo>();
 
-            for (int i = 0; i < procList.Length; i++)
+            foreach (Process Process in Process.GetProcesses())
             {
-                Process proc = procList[i];
-
                 try
                 {
-                    ProcessInfo info = new ProcessInfo();
+                    ProcessInfo ProcessInfo = new ProcessInfo();
 
-                    info.FileName = proc.MainModule.FileName;
-                    info.Id = proc.Id;
-                    info.Is64Bit = RemoteHooking.IsX64Process(proc.Id);
-                    info.User = RemoteHooking.GetProcessIdentity(proc.Id).Name;
+                    ProcessInfo.FileName = Process.MainModule.FileName;
+                    ProcessInfo.Id = Process.Id;
+                    ProcessInfo.Is64Bit = RemoteHooking.IsX64Process(Process.Id);
+                    ProcessInfo.User = RemoteHooking.GetProcessIdentity(Process.Id).Name;
 
-                    result.Add(info);
+                    Result.Add(ProcessInfo);
                 }
                 catch
                 {
+
                 }
             }
 
-            return result.ToArray();
+            return Result.ToArray();
         }
-    }
-}
+
+    } // End class
+
+} // End namespace

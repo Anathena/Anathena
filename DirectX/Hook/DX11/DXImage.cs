@@ -1,113 +1,97 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using SharpDX;
 using SharpDX.Direct3D11;
-using SharpDX;
+using System;
 using System.Diagnostics;
 
-namespace Capture.Hook.DX11
+namespace DirectXShell.Hook.DX11
 {
     public class DXImage : Component
     {
-        Device _device;
-        DeviceContext _deviceContext;
-        Texture2D _tex;
-        ShaderResourceView _texSRV;
-        int _texWidth, _texHeight;
-        bool _initialised = false;
+        private DeviceContext DeviceContext;
+        private Texture2D Tex;
+        private ShaderResourceView TexSRV;
+        private Int32 TexWidth, TexHeight;
+        private Boolean Initialized = false;
 
-        public int Width
+        public int Width { get { return TexWidth; } }
+        public int Height { get { return TexHeight; } }
+
+        private Device _Device;
+        public Device Device { get { return _Device; } }
+
+        public DXImage(Device Device, DeviceContext deviceContext) : base("DXImage")
         {
-            get
-            {
-                return _texWidth;
-            }
+            _Device = Device;
+            DeviceContext = deviceContext;
+            Tex = null;
+            TexSRV = null;
+            TexWidth = 0;
+            TexHeight = 0;
         }
 
-        public int Height
+        public bool Initialise(System.Drawing.Bitmap Bitmap)
         {
-            get
-            {
-                return _texHeight;
-            }
-        }
-        
-        public Device Device
-        {
-            get { return _device; }
-        }
+            RemoveAndDispose(ref Tex);
+            RemoveAndDispose(ref TexSRV);
 
-        public DXImage(Device device, DeviceContext deviceContext): base("DXImage")
-        {
-            _device = device;
-            _deviceContext = deviceContext;
-            _tex = null;
-            _texSRV = null;
-            _texWidth = 0;
-            _texHeight = 0;
-        }
+            // Debug.Assert(Bitmap.PixelFormat == System.Drawing.Imaging.PixelFormat.Format32bppArgb);
+            System.Drawing.Imaging.BitmapData BitmapData;
 
-        public bool Initialise(System.Drawing.Bitmap bitmap)
-        {
-            RemoveAndDispose(ref _tex);
-            RemoveAndDispose(ref _texSRV);
+            TexWidth = Bitmap.Width;
+            TexHeight = Bitmap.Height;
 
-            //Debug.Assert(bitmap.PixelFormat == System.Drawing.Imaging.PixelFormat.Format32bppArgb);
-            System.Drawing.Imaging.BitmapData bmData;
-
-            _texWidth = bitmap.Width;
-            _texHeight = bitmap.Height;
-
-            bmData = bitmap.LockBits(new System.Drawing.Rectangle(0, 0, _texWidth, _texHeight), System.Drawing.Imaging.ImageLockMode.ReadOnly, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
+            BitmapData = Bitmap.LockBits(new System.Drawing.Rectangle(0, 0, TexWidth, TexHeight), System.Drawing.Imaging.ImageLockMode.ReadOnly, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
             try
             {
-                Texture2DDescription texDesc = new Texture2DDescription();
-                texDesc.Width = _texWidth;
-                texDesc.Height = _texHeight;
-                texDesc.MipLevels = 1;
-                texDesc.ArraySize = 1;
-                texDesc.Format = SharpDX.DXGI.Format.B8G8R8A8_UNorm;
-                texDesc.SampleDescription.Count = 1;
-                texDesc.SampleDescription.Quality = 0;
-                texDesc.Usage = ResourceUsage.Immutable;
-                texDesc.BindFlags = BindFlags.ShaderResource;
-                texDesc.CpuAccessFlags = CpuAccessFlags.None;
-                texDesc.OptionFlags = ResourceOptionFlags.None;
+                Texture2DDescription TexDescription = new Texture2DDescription();
+                TexDescription.Width = TexWidth;
+                TexDescription.Height = TexHeight;
+                TexDescription.MipLevels = 1;
+                TexDescription.ArraySize = 1;
+                TexDescription.Format = SharpDX.DXGI.Format.B8G8R8A8_UNorm;
+                TexDescription.SampleDescription.Count = 1;
+                TexDescription.SampleDescription.Quality = 0;
+                TexDescription.Usage = ResourceUsage.Immutable;
+                TexDescription.BindFlags = BindFlags.ShaderResource;
+                TexDescription.CpuAccessFlags = CpuAccessFlags.None;
+                TexDescription.OptionFlags = ResourceOptionFlags.None;
 
-                SharpDX.DataBox data;
-                data.DataPointer = bmData.Scan0;
-                data.RowPitch = bmData.Stride;// _texWidth * 4;
-                data.SlicePitch = 0;
+                DataBox Data;
+                Data.DataPointer = BitmapData.Scan0;
+                Data.RowPitch = BitmapData.Stride;// _texWidth * 4;
+                Data.SlicePitch = 0;
 
-                _tex = ToDispose(new Texture2D(_device, texDesc, new[] { data }));
-                if (_tex == null)
+                Tex = ToDispose(new Texture2D(_Device, TexDescription, new[] { Data }));
+                if (Tex == null)
                     return false;
 
-                ShaderResourceViewDescription srvDesc = new ShaderResourceViewDescription();
-                srvDesc.Format = SharpDX.DXGI.Format.B8G8R8A8_UNorm;
-                srvDesc.Dimension = SharpDX.Direct3D.ShaderResourceViewDimension.Texture2D;
-                srvDesc.Texture2D.MipLevels = 1;
-                srvDesc.Texture2D.MostDetailedMip = 0;
+                ShaderResourceViewDescription ShaderResourceViewDescription = new ShaderResourceViewDescription();
+                ShaderResourceViewDescription.Format = SharpDX.DXGI.Format.B8G8R8A8_UNorm;
+                ShaderResourceViewDescription.Dimension = SharpDX.Direct3D.ShaderResourceViewDimension.Texture2D;
+                ShaderResourceViewDescription.Texture2D.MipLevels = 1;
+                ShaderResourceViewDescription.Texture2D.MostDetailedMip = 0;
 
-                _texSRV = ToDispose(new ShaderResourceView(_device, _tex, srvDesc));
-                if (_texSRV == null)
+                TexSRV = ToDispose(new ShaderResourceView(_Device, Tex, ShaderResourceViewDescription));
+
+                if (TexSRV == null)
                     return false;
             }
             finally
             {
-                bitmap.UnlockBits(bmData);
+                Bitmap.UnlockBits(BitmapData);
             }
 
-            _initialised = true;
+            Initialized = true;
 
             return true;
         }
 
         public ShaderResourceView GetSRV()
         {
-            Debug.Assert(_initialised);
-            return _texSRV;
+            Debug.Assert(Initialized);
+            return TexSRV;
         }
-    }
-}
+
+    } // End class
+
+} // End namespace

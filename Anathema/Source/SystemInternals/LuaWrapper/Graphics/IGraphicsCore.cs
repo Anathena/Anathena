@@ -3,6 +3,8 @@
     interface IGraphicsCore
     {
         void Inject();
+        void Uninject();
+        void DoRequest();
 
     } // End interface
 

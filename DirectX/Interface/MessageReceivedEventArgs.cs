@@ -1,25 +1,24 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
-namespace Capture.Interface
+namespace DirectXShell.Interface
 {
-    [Serializable]   
-    public class MessageReceivedEventArgs: MarshalByRefObject
+    [Serializable]
+    public class MessageReceivedEventArgs : MarshalByRefObject
     {
         public MessageType MessageType { get; set; }
-        public string Message { get; set; }
+        public String Message { get; set; }
 
-        public MessageReceivedEventArgs(MessageType messageType, string message)
+        public MessageReceivedEventArgs(MessageType MessageType, String Message)
         {
-            MessageType = messageType;
-            Message = message;
+            this.MessageType = MessageType;
+            this.Message = Message;
         }
 
-        public override string ToString()
+        public override String ToString()
         {
             return String.Format("{0}: {1}", MessageType, Message);
         }
-    }
-}
+
+    } // End class
+
+} // End namespace
