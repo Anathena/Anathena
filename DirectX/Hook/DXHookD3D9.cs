@@ -208,7 +208,7 @@ namespace DirectXShell.Hook
         unsafe delegate Int32 Direct3D9DeviceEx_PresentExDelegate(IntPtr DevicePtr, SharpDX.Rectangle* PSourceRect, SharpDX.Rectangle* PDestRect, IntPtr hDestWindowOverride, IntPtr PDirtyRegion, Present DWFlags);
 
 
-        public DXHookD3D9(CaptureInterface CaptureInterface) : base(CaptureInterface)
+        public DXHookD3D9(ClientInterface CaptureInterface) : base(CaptureInterface)
         {
             LockRenderObject = new Object();
 

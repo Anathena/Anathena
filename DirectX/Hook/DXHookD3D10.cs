@@ -129,7 +129,7 @@ namespace DirectXShell.Hook
         private Hook<DXGISwapChain_PresentDelegate> DXGISwapChainPresentHook;
         private Hook<DXGISwapChain_ResizeTargetDelegate> DXGISwapChainResizeTargetHook;
 
-        public DXHookD3D10(CaptureInterface CaptureInterface) : base(CaptureInterface)
+        public DXHookD3D10(ClientInterface CaptureInterface) : base(CaptureInterface)
         {
             D3D10VirtualTableAddresses = null;
             DXGISwapChainVirtualTableAddresses = null;

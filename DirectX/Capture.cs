@@ -11,13 +11,13 @@ namespace DirectXShell
     public class Capture : IDisposable
     {
         private IpcServerChannel ScreenshotServer;
-        private CaptureInterface ServerInterface;
+        private ClientInterface ServerInterface;
         public Process Process { get; set; }
 
         private Boolean Disposed = false;
         private String ChannelName = null;
 
-        public CaptureInterface CaptureInterface
+        public ClientInterface CaptureInterface
         {
             get { return ServerInterface; }
         }
@@ -30,7 +30,7 @@ namespace DirectXShell
         /// <exception cref="ProcessAlreadyHookedException">Thrown if the <paramref name="Process"/> is already hooked</exception>
         /// <exception cref="InjectionFailedException">Thrown if the injection failed - see the InnerException for more details.</exception>
         /// <remarks>The target process will have its main window brought to the foreground after successful injection.</remarks>
-        public Capture(Process Process, CaptureConfig Config, CaptureInterface CaptureInterface)
+        public Capture(Process Process, CaptureConfig Config, ClientInterface CaptureInterface)
         {
             // If the process doesn't have a mainwindowhandle yet, skip it (we need to be able to get the hwnd to set foreground etc)
             if (Process.MainWindowHandle == IntPtr.Zero)
@@ -48,14 +48,14 @@ namespace DirectXShell
             ServerInterface = CaptureInterface;
             // ServerInterface = new CaptureInterface() { ProcessId = Process.Id };
 
-            // Initialise the IPC server (with our instance of ServerInterface)
-            ScreenshotServer = RemoteHooking.IpcCreateServer<CaptureInterface>(ref ChannelName, WellKnownObjectMode.Singleton, ServerInterface);
+            // Initialize the IPC server (with our instance of ServerInterface)
+            ScreenshotServer = RemoteHooking.IpcCreateServer<ClientInterface>(ref ChannelName, WellKnownObjectMode.Singleton, ServerInterface);
 
             try
             {
                 // Inject DLL into target process
-                RemoteHooking.Inject(Process.Id, InjectionOptions.Default, typeof(CaptureInterface).Assembly.Location,
-                    typeof(CaptureInterface).Assembly.Location, ChannelName, Config);
+                RemoteHooking.Inject(Process.Id, InjectionOptions.Default, typeof(ClientInterface).Assembly.Location,
+                    typeof(ClientInterface).Assembly.Location, ChannelName, Config);
             }
             catch (Exception Ex)
             {
@@ -71,8 +71,6 @@ namespace DirectXShell
         {
             Dispose(false);
         }
-
-        #region IDispose
 
         public void Dispose()
         {
@@ -93,8 +91,6 @@ namespace DirectXShell
 
             Disposed = true;
         }
-
-        #endregion
 
     } // End class
 

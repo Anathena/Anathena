@@ -20,7 +20,7 @@ namespace DirectXShell.Interface
     public delegate void DisplayTextEvent(DisplayTextEventArgs Args);
 
     [Serializable]
-    public class CaptureInterface : MarshalByRefObject
+    public class ClientInterface : MarshalByRefObject
     {
         /// <summary>
         /// The client process Id
@@ -33,15 +33,13 @@ namespace DirectXShell.Interface
         private Action<Screenshot> CompleteScreenshot;
         private ManualResetEvent Wait;
 
-        public CaptureInterface()
+        public ClientInterface()
         {
             AccessLock = new Object();
             RequestId = null;
             CompleteScreenshot = null;
             Wait = new ManualResetEvent(false);
         }
-
-        #region Events
 
         #region Server-side Events
 
@@ -85,11 +83,6 @@ namespace DirectXShell.Interface
         public event DisplayTextEvent DisplayText;
 
         #endregion
-
-        #endregion
-
-
-        #region Public Methods
 
         #region Video Capture
 
@@ -211,28 +204,28 @@ namespace DirectXShell.Interface
         }
 
         /// <summary>
-        /// Send a message to all handlers of <see cref="CaptureInterface.RemoteMessage"/>.
+        /// Send a message to all handlers of <see cref="ClientInterface.RemoteMessage"/>.
         /// </summary>
-        /// <param name="messageType"></param>
-        /// <param name="format"></param>
-        /// <param name="args"></param>
-        public void Message(MessageType messageType, string format, params object[] args)
+        /// <param name="MessageType"></param>
+        /// <param name="Format"></param>
+        /// <param name="Args"></param>
+        public void Message(MessageType MessageType, String Format, params Object[] Args)
         {
-            Message(messageType, String.Format(format, args));
+            Message(MessageType, String.Format(Format, Args));
         }
 
-        public void Message(MessageType messageType, string message)
+        public void Message(MessageType MessageType, String Message)
         {
-            SafeInvokeMessageRecevied(new MessageReceivedEventArgs(messageType, message));
+            SafeInvokeMessageRecevied(new MessageReceivedEventArgs(MessageType, Message));
         }
 
         /// <summary>
         /// Display text in-game for the default duration of 5 seconds
         /// </summary>
-        /// <param name="text"></param>
-        public void DisplayInGameText(string text)
+        /// <param name="Text"></param>
+        public void DisplayInGameText(String Text)
         {
-            DisplayInGameText(text, new TimeSpan(0, 0, 5));
+            DisplayInGameText(Text, new TimeSpan(0, 0, 5));
         }
 
         /// <summary>
@@ -240,14 +233,12 @@ namespace DirectXShell.Interface
         /// </summary>
         /// <param name="text"></param>
         /// <param name="duration"></param>
-        public void DisplayInGameText(string text, TimeSpan duration)
+        public void DisplayInGameText(String Text, TimeSpan Duration)
         {
-            if (duration.TotalMilliseconds <= 0)
+            if (Duration.TotalMilliseconds <= 0)
                 throw new ArgumentException("Duration must be larger than 0", "duration");
-            SafeInvokeDisplayText(new DisplayTextEventArgs(text, duration));
+            SafeInvokeDisplayText(new DisplayTextEventArgs(Text, Duration));
         }
-
-        #endregion
 
         #region Private: Invoke message handlers
 
@@ -403,12 +394,9 @@ namespace DirectXShell.Interface
         #endregion
 
         /// <summary>
-        /// Used 
+        /// Empty method to ensure we can call the client without crashing
         /// </summary>
-        public void Ping()
-        {
-
-        }
+        public void Ping() { }
 
     } // End class
 
@@ -418,8 +406,6 @@ namespace DirectXShell.Interface
     /// </summary>
     public class ClientCaptureInterfaceEventProxy : MarshalByRefObject
     {
-        #region Event Declarations
-
         /// <summary>
         /// Client event used to communicate to the client that it is time to start recording
         /// </summary>
@@ -445,10 +431,6 @@ namespace DirectXShell.Interface
         /// </summary>
         public event DisplayTextEvent DisplayText;
 
-        #endregion
-
-        #region Lifetime Services
-
         public override Object InitializeLifetimeService()
         {
             //Returning null holds the object alive
@@ -456,11 +438,9 @@ namespace DirectXShell.Interface
             return null;
         }
 
-        #endregion
-
-        public void RecordingStartedProxyHandler(CaptureConfig config)
+        public void RecordingStartedProxyHandler(CaptureConfig Config)
         {
-            RecordingStarted?.Invoke(config);
+            RecordingStarted?.Invoke(Config);
         }
 
         public void RecordingStoppedProxyHandler()

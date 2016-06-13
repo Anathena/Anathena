@@ -29,7 +29,7 @@ namespace DirectXShell.Hook
 
 
         protected TimeSpan CaptureDelay { get; set; }
-        public CaptureInterface CaptureInterface { get; set; }
+        public ClientInterface CaptureInterface { get; set; }
         private CaptureConfig _Config;
         public CaptureConfig Config
         {
@@ -62,7 +62,7 @@ namespace DirectXShell.Hook
 
         protected virtual string HookName { get { return "BaseDXHook"; } }
 
-        public BaseDXHook(CaptureInterface CaptureInterface)
+        public BaseDXHook(ClientInterface CaptureInterface)
         {
             this.CaptureInterface = CaptureInterface;
 

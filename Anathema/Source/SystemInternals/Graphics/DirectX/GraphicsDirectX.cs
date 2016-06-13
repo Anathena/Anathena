@@ -41,7 +41,7 @@ namespace Anathema.Source.SystemInternals.Graphics.DirectX
                 ShowOverlay = true
             };
 
-            CaptureInterface CaptureInterface = new CaptureInterface();
+            ClientInterface CaptureInterface = new ClientInterface();
             CaptureInterface.RemoteMessage += new MessageReceivedEvent(CaptureInterface_RemoteMessage);
             DirectXShell = new DirectXShell.Capture(Process, CaptureConfig, CaptureInterface);
         }

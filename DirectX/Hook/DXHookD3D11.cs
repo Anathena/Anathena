@@ -71,7 +71,7 @@ namespace DirectXShell.Hook
     {
         private static Int32 D3D11_DEVICE_METHOD_COUNT = Enum.GetNames(typeof(D3D11DeviceVirtualTableEnum)).Length;
 
-        public DXHookD3D11(CaptureInterface CaptureInterface) : base(CaptureInterface) { }
+        public DXHookD3D11(ClientInterface CaptureInterface) : base(CaptureInterface) { }
 
         private List<IntPtr> D3D11VirtualTableAddresses = null;
         private List<IntPtr> DXGISwapChainVirtualTableAddresses = null;

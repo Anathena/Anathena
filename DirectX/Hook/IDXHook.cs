@@ -5,7 +5,7 @@ namespace DirectXShell.Hook
 {
     internal interface IDXHook : IDisposable
     {
-        CaptureInterface CaptureInterface { get; set; }
+        ClientInterface CaptureInterface { get; set; }
         CaptureConfig Config { get; set; }
         ScreenshotRequest Request { get; set; }
 

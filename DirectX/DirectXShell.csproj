@@ -87,7 +87,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DirectXShell.cs" />
+    <Compile Include="Capture.cs" />
     <Compile Include="Exceptions.cs" />
     <Compile Include="Hook\Common\Element.cs" />
     <Compile Include="Hook\Common\FramesPerSecond.cs" />
@@ -100,7 +100,6 @@
     </Compile>
     <Compile Include="Hook\Common\Overlay.cs" />
     <Compile Include="Hook\Common\TextElement.cs" />
-    <Compile Include="Hook\DX11\ContextState.cs" />
     <Compile Include="Hook\DX11\DeviceManager.cs" />
     <Compile Include="Hook\DX11\DXImage.cs" />
     <Compile Include="Hook\DX11\DXOverlayEngine.cs" />
@@ -117,16 +116,15 @@
     <Compile Include="Hook\TextDisplay.cs" />
     <Compile Include="Interface\ScreenshotExtensions.cs" />
     <Compile Include="Interface\CaptureConfig.cs" />
-    <Compile Include="EntryPoint.cs" />
+    <Compile Include="Main.cs" />
     <Compile Include="Hook\BaseDXHook.cs" />
-    <Compile Include="Hook\D3D9.cs" />
     <Compile Include="Hook\DXGI.cs" />
     <Compile Include="Hook\DXHookD3D10.cs" />
     <Compile Include="Hook\DXHookD3D10_1.cs" />
     <Compile Include="Hook\DXHookD3D11.cs" />
     <Compile Include="Hook\DXHookD3D9.cs" />
     <Compile Include="Hook\IDXHook.cs" />
-    <Compile Include="Interface\CaptureInterface.cs" />
+    <Compile Include="Interface\ClientInterface.cs" />
     <Compile Include="Interface\Direct3DVersion.cs" />
     <Compile Include="Interface\DisplayTextEventArgs.cs" />
     <Compile Include="Interface\ImageFormat.cs" />
@@ -135,7 +133,6 @@
     <Compile Include="Interface\Screenshot.cs" />
     <Compile Include="Interface\ScreenshotReceivedEventArgs.cs" />
     <Compile Include="Interface\ScreenshotRequest.cs" />
-    <Compile Include="NativeMethods.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
