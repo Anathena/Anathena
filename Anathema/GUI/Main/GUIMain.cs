@@ -553,9 +553,12 @@ namespace Anathema.GUI
         {
             ControlThreadingHelper.InvokeControlAction(this, () =>
             {
-                this.Text = Title + " - " + ActiveTablePath;
+                this.Text = Title;
+
                 if (HasChanges)
                     this.Text += "*";
+
+                this.Text += " - " + ActiveTablePath;
             });
         }
 
