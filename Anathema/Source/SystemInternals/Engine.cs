@@ -1,6 +1,7 @@
 ﻿using Anathema.Source.Graphics;
 using Anathema.Source.SystemInternals.Architecture.Assembler;
 using Anathema.Source.SystemInternals.Architecture.Disassembler;
+using Anathema.Source.SystemInternals.Graphics;
 using System;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
@@ -18,13 +19,14 @@ namespace Anathema.Source.SystemInternals.OperatingSystems
 
         public IDisassembler Disassembler { get; private set; }
 
-        public IGraphicsInterface Graphics { get; private set; }
+        public IGraphicsConnector GraphicsConnector { get; private set; }
 
         public Engine(Process TargetProcess)
         {
             Memory = OperatingSystemFactory.GetOperatingSystem(TargetProcess);
             Assembler = AssemblerFactory.GetAssembler();
             Disassembler = DisassemblerFactory.GetDisassembler();
+            GraphicsConnector = GraphicsConnectorFactory.GetGraphicsConnector(TargetProcess);
         }
 
         /// <summary>
@@ -86,6 +88,7 @@ namespace Anathema.Source.SystemInternals.OperatingSystems
             Boolean IsWow64;
             if (!IsWow64Process(ProcessHandle, out IsWow64))
                 return false; // Error
+
             return IsWow64;
         }
 

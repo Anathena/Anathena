@@ -10,11 +10,14 @@ using System.Threading;
 
 namespace Anathema.Source.SystemInternals.Graphics.DirectX
 {
-    class GraphicsDirextX : IGraphicsInterface
+    /// <summary>
+    /// Provides capability to connect to the graphics API of another process
+    /// </summary>
+    class ConnectorDirextX : IGraphicsConnector
     {
-        private DirectXShell.Capture DirectXShell;
+        private Shell DirectXShell;
 
-        public GraphicsDirextX()
+        public ConnectorDirextX()
         {
 
         }
@@ -43,7 +46,12 @@ namespace Anathema.Source.SystemInternals.Graphics.DirectX
 
             ClientInterface CaptureInterface = new ClientInterface();
             CaptureInterface.RemoteMessage += new MessageReceivedEvent(CaptureInterface_RemoteMessage);
-            DirectXShell = new DirectXShell.Capture(Process, CaptureConfig, CaptureInterface);
+            DirectXShell = new Shell(Process, CaptureConfig, CaptureInterface);
+        }
+
+        public IGraphicsInterface GetGraphicsInterface()
+        {
+            return DirectXShell;
         }
 
         public void Uninject()

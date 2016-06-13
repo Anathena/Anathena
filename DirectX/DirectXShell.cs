@@ -1,4 +1,5 @@
-﻿using DirectXShell.Hook;
+﻿using Anathema.Source.Graphics;
+using DirectXShell.Hook;
 using DirectXShell.Interface;
 using EasyHook;
 using System;
@@ -8,7 +9,10 @@ using System.Runtime.Remoting.Channels.Ipc;
 
 namespace DirectXShell
 {
-    public class Capture : IDisposable
+    /// <summary>
+    /// Primary class that provides support for direct X manipulations over IPC
+    /// </summary>
+    public class Shell : IGraphicsInterface, IDisposable
     {
         private IpcServerChannel ScreenshotServer;
         private ClientInterface ServerInterface;
@@ -30,7 +34,7 @@ namespace DirectXShell
         /// <exception cref="ProcessAlreadyHookedException">Thrown if the <paramref name="Process"/> is already hooked</exception>
         /// <exception cref="InjectionFailedException">Thrown if the injection failed - see the InnerException for more details.</exception>
         /// <remarks>The target process will have its main window brought to the foreground after successful injection.</remarks>
-        public Capture(Process Process, CaptureConfig Config, ClientInterface CaptureInterface)
+        public Shell(Process Process, CaptureConfig Config, ClientInterface CaptureInterface)
         {
             // If the process doesn't have a mainwindowhandle yet, skip it (we need to be able to get the hwnd to set foreground etc)
             if (Process.MainWindowHandle == IntPtr.Zero)
@@ -67,7 +71,7 @@ namespace DirectXShell
             this.Process = Process;
         }
 
-        ~Capture()
+        ~Shell()
         {
             Dispose(false);
         }
@@ -84,12 +88,14 @@ namespace DirectXShell
                 return;
 
             if (Disposing)
-            {
-                // Disconnect the IPC (which causes the remote entry point to exit)
                 ServerInterface.Disconnect();
-            }
 
             Disposed = true;
+        }
+
+        public void DrawString(String Text, Int32 LocationX, Int32 LocationY)
+        {
+
         }
 
     } // End class

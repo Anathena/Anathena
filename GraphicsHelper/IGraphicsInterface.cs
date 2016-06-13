@@ -1,8 +1,8 @@
 ﻿using System;
 
-namespace Anathema.Source.SystemInternals.LuaWrapper.Graphics
+namespace Anathema.Source.Graphics
 {
-    interface IGraphicsCore
+    public interface IGraphicsInterface
     {
         void DrawString(String Text, Int32 LocationX, Int32 LocationY);
 

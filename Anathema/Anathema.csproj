@@ -266,14 +266,14 @@
     </Compile>
     <Compile Include="Source\SystemInternals\Architecture\Assembler\AssemblerFactory.cs" />
     <Compile Include="Source\SystemInternals\Architecture\Disassembler\DisassemblerFactory.cs" />
-    <Compile Include="Source\SystemInternals\Graphics\GraphicsFactory.cs" />
-    <Compile Include="Source\SystemInternals\Graphics\IGraphicsInterface.cs" />
+    <Compile Include="Source\SystemInternals\Graphics\GraphicsConnectorFactory.cs" />
+    <Compile Include="Source\SystemInternals\Graphics\IGraphicsConnector.cs" />
     <Compile Include="Source\Prefilter\ISnapshotPrefilter.cs" />
     <Compile Include="Source\Prefilter\LinkedListSnapshotPrefilter.cs" />
     <Compile Include="Source\Prefilter\QueueSnapshotPrefilter.cs" />
     <Compile Include="Source\Prefilter\SnapshotPrefilterFactory.cs" />
-    <Compile Include="Source\SystemInternals\Graphics\Ogre\GraphicsOgre.cs" />
-    <Compile Include="Source\SystemInternals\Graphics\OpenGL\GraphicsOpenGL.cs" />
+    <Compile Include="Source\SystemInternals\Graphics\Ogre\ConnectorOgre.cs" />
+    <Compile Include="Source\SystemInternals\Graphics\OpenGL\ConnectorOpenGL.cs" />
     <Compile Include="Source\SystemInternals\LuaWrapper\Graphics\LuaGraphicsCore.cs" />
     <Compile Include="Source\SystemInternals\OperatingSystems\NormalizedFlags.cs" />
     <Compile Include="Source\SystemInternals\OperatingSystems\OperatingSystemFactory.cs" />
@@ -283,7 +283,7 @@
     <Compile Include="Source\Utils\Extensions\IntPtrExtensions.cs" />
     <Compile Include="Source\Utils\Caches\ObjectCache.cs" />
     <Compile Include="Source\Utils\Extensions\PrimitiveExtensions.cs" />
-    <Compile Include="Source\SystemInternals\Graphics\DirectX\GraphicsDirectX.cs" />
+    <Compile Include="Source\SystemInternals\Graphics\DirectX\ConnectorDirectX.cs" />
     <Compile Include="Source\SystemInternals\LuaWrapper\Graphics\IGraphicsCore.cs" />
     <Compile Include="Source\SystemInternals\LuaWrapper\Memory\IMemoryCore.cs" />
     <Compile Include="Source\Utils\MessageBoxEx.cs" />
@@ -1086,6 +1086,10 @@
     <ProjectReference Include="..\GeckoFX\Geckofx-Winforms\Geckofx-Winforms.csproj">
       <Project>{d7adc901-e1c4-480e-8f6d-b1ffd5cf87e8}</Project>
       <Name>Geckofx-Winforms</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\GraphicsInterface\GraphicsInterface.csproj">
+      <Project>{b92f392d-8e38-4b68-95b1-e8bc5df22ea7}</Project>
+      <Name>GraphicsInterface</Name>
     </ProjectReference>
     <ProjectReference Include="..\ScintillaNET\ScintillaNET\ScintillaNET.csproj">
       <Project>{22ae2386-60f1-476e-9303-61cdb0aac4cf}</Project>

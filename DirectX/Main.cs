@@ -59,9 +59,9 @@ namespace DirectXShell
             // When not using GAC there can be issues with remoting assemblies resolving correctly
             // this is a workaround that ensures that the current assembly is correctly associated
             AppDomain CurrentDomain = AppDomain.CurrentDomain;
-            CurrentDomain.AssemblyResolve += (sender, args) =>
+            CurrentDomain.AssemblyResolve += (Sender, Args) =>
             {
-                return this.GetType().Assembly.FullName == args.Name ? this.GetType().Assembly : null;
+                return this.GetType().Assembly.FullName == Args.Name ? this.GetType().Assembly : null;
             };
 
             // NOTE: This is running in the target process

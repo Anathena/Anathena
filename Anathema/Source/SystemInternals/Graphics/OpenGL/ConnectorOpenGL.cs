@@ -1,8 +1,8 @@
 ﻿namespace Anathema.Source.SystemInternals.Graphics.OpenGL
 {
-    class GraphicsOpenGL
+    class ConnectorOpenGL
     {
-        public GraphicsOpenGL()
+        public ConnectorOpenGL()
         {
 
         }

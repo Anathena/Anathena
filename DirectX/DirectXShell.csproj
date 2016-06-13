@@ -87,7 +87,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Capture.cs" />
+    <Compile Include="DirectXShell.cs" />
     <Compile Include="Exceptions.cs" />
     <Compile Include="Hook\Common\Element.cs" />
     <Compile Include="Hook\Common\FramesPerSecond.cs" />
@@ -158,6 +158,12 @@
     <Content Include="sharpdx_direct3d11_effects_x86.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\GraphicsInterface\GraphicsInterface.csproj">
+      <Project>{b92f392d-8e38-4b68-95b1-e8bc5df22ea7}</Project>
+      <Name>GraphicsInterface</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\SharpDX.2.6.3\build\SharpDX.targets" Condition="Exists('..\packages\SharpDX.2.6.3\build\SharpDX.targets')" />

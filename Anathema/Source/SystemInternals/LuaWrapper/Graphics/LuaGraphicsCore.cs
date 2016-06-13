@@ -1,21 +1,21 @@
 ﻿using Anathema.Source.Graphics;
-using Anathema.Source.SystemInternals.Graphics;
 using Anathema.Source.SystemInternals.OperatingSystems;
 using Anathema.Source.SystemInternals.Processes;
 using Anathema.Source.Utils.Extensions;
+using System;
 
 namespace Anathema.Source.SystemInternals.LuaWrapper.Graphics
 {
     class LuaGraphicsCore : IGraphicsCore, IProcessObserver
     {
         private Engine Engine;
-        private IGraphicsInterface GraphicsInterface;
+        private Object AccessLock;
 
         public LuaGraphicsCore()
         {
             InitializeProcessObserver();
 
-            GraphicsInterface = GraphicsFactory.GetGraphicsInterface();
+            AccessLock = new Object();
         }
 
         public void InitializeProcessObserver()
@@ -28,25 +28,26 @@ namespace Anathema.Source.SystemInternals.LuaWrapper.Graphics
             this.Engine = Engine;
         }
 
-        public void Inject()
+        /// <summary>
+        /// Gives access to the graphics in the target process, injecting the hooks if needed
+        /// </summary>
+        /// <returns></returns>
+        private IGraphicsInterface GetGraphicsInterface()
         {
-            this.PrintDebugTag();
+            lock (AccessLock)
+            {
+                if (Engine.GraphicsConnector.GetGraphicsInterface() == null)
+                    Engine.GraphicsConnector.Inject(Engine.Memory.GetProcess());
 
-            GraphicsInterface.Inject(Engine.Memory.GetProcess());
+                return Engine.GraphicsConnector.GetGraphicsInterface();
+            }
         }
 
-        public void Uninject()
+        public void DrawString(String Text, Int32 LocationX, Int32 LocationY)
         {
             this.PrintDebugTag();
 
-            GraphicsInterface.Uninject();
-        }
-
-        public void DoRequest()
-        {
-            this.PrintDebugTag();
-
-            GraphicsInterface.DoRequest();
+            GetGraphicsInterface().DrawString(Text, LocationX, LocationY);
         }
 
     } // End class

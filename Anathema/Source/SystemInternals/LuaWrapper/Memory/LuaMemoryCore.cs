@@ -14,7 +14,7 @@ namespace Anathema.Source.SystemInternals.LuaWrapper.Memory
     {
         private Engine Engine;
 
-        private static ConcurrentDictionary<String, String> GlobalKeywords = new ConcurrentDictionary<String, String>();
+        private static ConcurrentDictionary<String, String> GlobalKeywords;
         private ConcurrentDictionary<String, String> Keywords;
         private List<UInt64> RemoteAllocations;
         private List<CodeCave> CodeCaves;
@@ -42,7 +42,8 @@ namespace Anathema.Source.SystemInternals.LuaWrapper.Memory
 
         public void Initialize()
         {
-            // Reinitialize local object collections. If the user has not deallocated all allocated memory, that is on them.
+            // Reinitialize local object collections
+            GlobalKeywords = new ConcurrentDictionary<String, String>();
             RemoteAllocations = new List<UInt64>();
             Keywords = new ConcurrentDictionary<String, String>();
             CodeCaves = new List<CodeCave>();

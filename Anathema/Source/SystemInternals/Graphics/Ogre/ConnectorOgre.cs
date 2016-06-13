@@ -1,8 +1,8 @@
 ﻿namespace Anathema.Source.SystemInternals.Graphics.Ogre
 {
-    class GraphicsOgre
+    class ConnectorOgre
     {
-        public GraphicsOgre()
+        public ConnectorOgre()
         {
 
         }
