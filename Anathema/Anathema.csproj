@@ -143,6 +143,34 @@
     <Reference Include="NLua">
       <HintPath>..\Lua\NLua.dll</HintPath>
     </Reference>
+    <Reference Include="SharpDX, Version=2.6.3.0, Culture=neutral, PublicKeyToken=b4dcf0f35e5521f1, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>$(SharpDXPackageBinDir)\SharpDX.dll</HintPath>
+    </Reference>
+    <Reference Include="SharpDX.D3DCompiler, Version=2.6.3.0, Culture=neutral, PublicKeyToken=b4dcf0f35e5521f1, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\SharpDX.2.6.3\Bin\DirectX11-Signed-net40\SharpDX.D3DCompiler.dll</HintPath>
+    </Reference>
+    <Reference Include="SharpDX.Direct3D10, Version=2.6.3.0, Culture=neutral, PublicKeyToken=b4dcf0f35e5521f1, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\SharpDX.2.6.3\Bin\DirectX11-Signed-net40\SharpDX.Direct3D10.dll</HintPath>
+    </Reference>
+    <Reference Include="SharpDX.Direct3D11, Version=2.6.3.0, Culture=neutral, PublicKeyToken=b4dcf0f35e5521f1, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\SharpDX.2.6.3\Bin\DirectX11-Signed-net40\SharpDX.Direct3D11.dll</HintPath>
+    </Reference>
+    <Reference Include="SharpDX.Direct3D11.Effects, Version=2.6.3.0, Culture=neutral, PublicKeyToken=b4dcf0f35e5521f1, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\SharpDX.2.6.3\Bin\DirectX11-Signed-net40\SharpDX.Direct3D11.Effects.dll</HintPath>
+    </Reference>
+    <Reference Include="SharpDX.Direct3D9, Version=2.6.3.0, Culture=neutral, PublicKeyToken=b4dcf0f35e5521f1, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\SharpDX.2.6.3\Bin\DirectX11-Signed-net40\SharpDX.Direct3D9.dll</HintPath>
+    </Reference>
+    <Reference Include="SharpDX.DXGI, Version=2.6.3.0, Culture=neutral, PublicKeyToken=b4dcf0f35e5521f1, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\SharpDX.2.6.3\Bin\DirectX11-Signed-net40\SharpDX.DXGI.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Deployment" />
@@ -266,12 +294,55 @@
     </Compile>
     <Compile Include="Source\SystemInternals\Architecture\Assembler\AssemblerFactory.cs" />
     <Compile Include="Source\SystemInternals\Architecture\Disassembler\DisassemblerFactory.cs" />
+    <Compile Include="Source\SystemInternals\Graphics\DirectX\Exceptions.cs" />
+    <Compile Include="Source\SystemInternals\Graphics\DirectX\GraphicsInterface.cs" />
+    <Compile Include="Source\SystemInternals\Graphics\DirectX\Hook\BaseDXHook.cs" />
+    <Compile Include="Source\SystemInternals\Graphics\DirectX\Hook\Common\Element.cs" />
+    <Compile Include="Source\SystemInternals\Graphics\DirectX\Hook\Common\FramesPerSecond.cs" />
+    <Compile Include="Source\SystemInternals\Graphics\DirectX\Hook\Common\ImageElement.cs" />
+    <Compile Include="Source\SystemInternals\Graphics\DirectX\Hook\Common\IOverlay.cs" />
+    <Compile Include="Source\SystemInternals\Graphics\DirectX\Hook\Common\IOverlayElement.cs" />
+    <Compile Include="Source\SystemInternals\Graphics\DirectX\Hook\Common\Overlay.cs" />
+    <Compile Include="Source\SystemInternals\Graphics\DirectX\Hook\Common\TextElement.cs" />
+    <Compile Include="Source\SystemInternals\Graphics\DirectX\Hook\DX11\DeviceManager.cs" />
+    <Compile Include="Source\SystemInternals\Graphics\DirectX\Hook\DX11\DXFont.cs" />
+    <Compile Include="Source\SystemInternals\Graphics\DirectX\Hook\DX11\DXImage.cs" />
+    <Compile Include="Source\SystemInternals\Graphics\DirectX\Hook\DX11\DXOverlayEngine.cs" />
+    <Compile Include="Source\SystemInternals\Graphics\DirectX\Hook\DX11\DXSprite.cs" />
+    <Compile Include="Source\SystemInternals\Graphics\DirectX\Hook\DX11\RendererBase.cs" />
+    <Compile Include="Source\SystemInternals\Graphics\DirectX\Hook\DX11\ScreenAlignedQuadRenderer.cs" />
+    <Compile Include="Source\SystemInternals\Graphics\DirectX\Hook\DX9FormatExtension.cs" />
+    <Compile Include="Source\SystemInternals\Graphics\DirectX\Hook\DX9\DXOverlayEngine.cs" />
+    <Compile Include="Source\SystemInternals\Graphics\DirectX\Hook\DXGI.cs" />
+    <Compile Include="Source\SystemInternals\Graphics\DirectX\Hook\DXHookD3D10.cs" />
+    <Compile Include="Source\SystemInternals\Graphics\DirectX\Hook\DXHookD3D10_1.cs" />
+    <Compile Include="Source\SystemInternals\Graphics\DirectX\Hook\DXHookD3D11.cs" />
+    <Compile Include="Source\SystemInternals\Graphics\DirectX\Hook\DXHookD3D9.cs" />
+    <Compile Include="Source\SystemInternals\Graphics\DirectX\Hook\FramesPerSecond.cs" />
+    <Compile Include="Source\SystemInternals\Graphics\DirectX\Hook\Hook.cs" />
+    <Compile Include="Source\SystemInternals\Graphics\DirectX\Hook\HookManager.cs" />
+    <Compile Include="Source\SystemInternals\Graphics\DirectX\Hook\IDXHook.cs" />
+    <Compile Include="Source\SystemInternals\Graphics\DirectX\Hook\SafeHGlobal.cs" />
+    <Compile Include="Source\SystemInternals\Graphics\DirectX\Hook\TextDisplay.cs" />
+    <Compile Include="Source\SystemInternals\Graphics\DirectX\Interface\CaptureConfig.cs" />
+    <Compile Include="Source\SystemInternals\Graphics\DirectX\Interface\ClientInterface.cs" />
+    <Compile Include="Source\SystemInternals\Graphics\DirectX\Interface\Direct3DVersion.cs" />
+    <Compile Include="Source\SystemInternals\Graphics\DirectX\Interface\DisplayTextEventArgs.cs" />
+    <Compile Include="Source\SystemInternals\Graphics\DirectX\Interface\ImageFormat.cs" />
+    <Compile Include="Source\SystemInternals\Graphics\DirectX\Interface\MessageReceivedEventArgs.cs" />
+    <Compile Include="Source\SystemInternals\Graphics\DirectX\Interface\MessageType.cs" />
+    <Compile Include="Source\SystemInternals\Graphics\DirectX\Interface\Screenshot.cs" />
+    <Compile Include="Source\SystemInternals\Graphics\DirectX\Interface\ScreenshotExtensions.cs" />
+    <Compile Include="Source\SystemInternals\Graphics\DirectX\Interface\ScreenshotReceivedEventArgs.cs" />
+    <Compile Include="Source\SystemInternals\Graphics\DirectX\Interface\ScreenshotRequest.cs" />
+    <Compile Include="Source\SystemInternals\Graphics\DirectX\Main.cs" />
     <Compile Include="Source\SystemInternals\Graphics\GraphicsConnectorFactory.cs" />
     <Compile Include="Source\SystemInternals\Graphics\IGraphicsConnector.cs" />
     <Compile Include="Source\Prefilter\ISnapshotPrefilter.cs" />
     <Compile Include="Source\Prefilter\LinkedListSnapshotPrefilter.cs" />
     <Compile Include="Source\Prefilter\QueueSnapshotPrefilter.cs" />
     <Compile Include="Source\Prefilter\SnapshotPrefilterFactory.cs" />
+    <Compile Include="Source\SystemInternals\Graphics\IGraphicsInterface.cs" />
     <Compile Include="Source\SystemInternals\Graphics\Ogre\ConnectorOgre.cs" />
     <Compile Include="Source\SystemInternals\Graphics\OpenGL\ConnectorOpenGL.cs" />
     <Compile Include="Source\SystemInternals\LuaWrapper\Graphics\LuaGraphicsCore.cs" />
@@ -856,6 +927,7 @@
     <Content Include="EasyHook\EasyHook64.lib" />
     <Content Include="EasyHook\EasyLoad32.lib" />
     <Content Include="EasyHook\EasyLoad64.lib" />
+    <None Include="packages.config" />
     <None Include="Properties\app.manifest" />
     <None Include="Content\Font\MonoSpace.ttf" />
     <None Include="Content\FSM\States.psd" />
@@ -890,6 +962,12 @@
     <Content Include="EasyHook\EasyHook64Svc.exe" />
     <Content Include="EasyHook\EasyLoad32.dll" />
     <Content Include="EasyHook\EasyLoad64.dll" />
+    <Content Include="Source\SystemInternals\Graphics\DirectX\sharpdx_direct3d11_effects_x64.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Source\SystemInternals\Graphics\DirectX\sharpdx_direct3d11_effects_x86.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="xulrunner-32\crashreporter.ini" />
     <Content Include="xulrunner-32\dependentlibs.list" />
     <Content Include="xulrunner-32\dictionaries\en-US.aff" />
@@ -914,6 +992,7 @@
     <Content Include="xulrunner-64\precomplete" />
     <Content Include="xulrunner-64\README.xulrunner" />
     <Content Include="xulrunner-64\softokn3.chk" />
+    <None Include="Source\SystemInternals\Graphics\DirectX\packages.config" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -1055,10 +1134,6 @@
     <Content Include="Source\Utils\InputHook\HotKeys\ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\DirectX\DirectXHook.csproj">
-      <Project>{23178a3d-2ac0-419a-b1b6-59ca45191270}</Project>
-      <Name>DirectXHook</Name>
-    </ProjectReference>
     <ProjectReference Include="..\DockingSuite\DockingSuite.csproj">
       <Project>{c75532c4-765b-418e-b09b-46d36b2abdb1}</Project>
       <Name>DockingSuite</Name>
@@ -1086,10 +1161,6 @@
     <ProjectReference Include="..\GeckoFX\Geckofx-Winforms\Geckofx-Winforms.csproj">
       <Project>{d7adc901-e1c4-480e-8f6d-b1ffd5cf87e8}</Project>
       <Name>Geckofx-Winforms</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\GraphicsInterface\GraphicsInterface.csproj">
-      <Project>{b92f392d-8e38-4b68-95b1-e8bc5df22ea7}</Project>
-      <Name>GraphicsInterface</Name>
     </ProjectReference>
     <ProjectReference Include="..\ScintillaNET\ScintillaNET\ScintillaNET.csproj">
       <Project>{22ae2386-60f1-476e-9303-61cdb0aac4cf}</Project>
@@ -2489,6 +2560,13 @@ XCOPY "$(ProjectDir)EasyHook\*.*" "$(TargetDir)" /Q /Y /C</PreBuildEvent>
     <PostBuildEvent>
     </PostBuildEvent>
   </PropertyGroup>
+  <Import Project="..\packages\SharpDX.2.6.3\build\SharpDX.targets" Condition="Exists('..\packages\SharpDX.2.6.3\build\SharpDX.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\SharpDX.2.6.3\build\SharpDX.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\SharpDX.2.6.3\build\SharpDX.targets'))" />
+  </Target>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
