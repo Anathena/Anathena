@@ -2,7 +2,7 @@
 using System.Runtime.Remoting;
 using System.Security.Permissions;
 
-namespace DirectXShell.Hook.Common
+namespace DirectXHook.Hook.Common
 {
     [Serializable]
     public abstract class Element : MarshalByRefObject, IOverlayElement, IDisposable

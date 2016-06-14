@@ -33,7 +33,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FASMSharedInterface32", "FA
 EndProject
 Project("{F088123C-0E9E-452A-89E6-6BA2F21D5CAC}") = "Diagrams", "Diagrams\Diagrams.modelproj", "{E6CA68FD-B073-42C2-8F3A-05F212BE33F7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DirectXShell", "DirectX\DirectXShell.csproj", "{23178A3D-2AC0-419A-B1B6-59CA45191270}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DirectXHook", "DirectX\DirectXHook.csproj", "{23178A3D-2AC0-419A-B1B6-59CA45191270}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Graphics", "Graphics", "{6991F822-12F2-4D8B-AF03-03DDA0DBD388}"
 EndProject

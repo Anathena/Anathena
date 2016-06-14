@@ -1,5 +1,5 @@
-﻿using DirectXShell.Hook.Common;
-using DirectXShell.Interface;
+﻿using DirectXHook.Hook.Common;
+using DirectXHook.Interface;
 using SharpDX.Direct3D9;
 using System;
 using System.Collections.Generic;
@@ -8,7 +8,7 @@ using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace DirectXShell.Hook
+namespace DirectXHook.Hook
 {
     /// <summary>
     /// The full list of IDirect3DDevice9 functions with the correct index

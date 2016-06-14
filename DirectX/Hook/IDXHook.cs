@@ -1,7 +1,7 @@
-﻿using DirectXShell.Interface;
+﻿using DirectXHook.Interface;
 using System;
 
-namespace DirectXShell.Hook
+namespace DirectXHook.Hook
 {
     internal interface IDXHook : IDisposable
     {

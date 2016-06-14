@@ -1,18 +1,18 @@
 ﻿using Anathema.Source.Graphics;
-using DirectXShell.Hook;
-using DirectXShell.Interface;
+using DirectXHook.Hook;
+using DirectXHook.Interface;
 using EasyHook;
 using System;
 using System.Diagnostics;
 using System.Runtime.Remoting;
 using System.Runtime.Remoting.Channels.Ipc;
 
-namespace DirectXShell
+namespace DirectXHook
 {
     /// <summary>
     /// Primary class that provides support for direct X manipulations over IPC
     /// </summary>
-    public class Shell : IGraphicsInterface, IDisposable
+    public class GraphicsInterface : IGraphicsInterface, IDisposable
     {
         private IpcServerChannel ScreenshotServer;
         private ClientInterface ServerInterface;
@@ -34,7 +34,7 @@ namespace DirectXShell
         /// <exception cref="ProcessAlreadyHookedException">Thrown if the <paramref name="Process"/> is already hooked</exception>
         /// <exception cref="InjectionFailedException">Thrown if the injection failed - see the InnerException for more details.</exception>
         /// <remarks>The target process will have its main window brought to the foreground after successful injection.</remarks>
-        public Shell(Process Process, CaptureConfig Config, ClientInterface CaptureInterface)
+        public GraphicsInterface(Process Process, CaptureConfig Config, ClientInterface CaptureInterface)
         {
             // If the process doesn't have a mainwindowhandle yet, skip it (we need to be able to get the hwnd to set foreground etc)
             if (Process.MainWindowHandle == IntPtr.Zero)
@@ -71,7 +71,7 @@ namespace DirectXShell
             this.Process = Process;
         }
 
-        ~Shell()
+        ~GraphicsInterface()
         {
             Dispose(false);
         }

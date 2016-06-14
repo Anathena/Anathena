@@ -87,7 +87,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DirectXShell.cs" />
+    <Compile Include="GraphicsInterface.cs" />
     <Compile Include="Exceptions.cs" />
     <Compile Include="Hook\Common\Element.cs" />
     <Compile Include="Hook\Common\FramesPerSecond.cs" />

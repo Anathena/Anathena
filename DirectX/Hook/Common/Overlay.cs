@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace DirectXShell.Hook.Common
+namespace DirectXHook.Hook.Common
 {
     public class Overlay : IOverlay
     {

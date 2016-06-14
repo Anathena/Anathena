@@ -1,7 +1,7 @@
 ﻿using SharpDX.DXGI;
 using System;
 
-namespace DirectXShell.Hook
+namespace DirectXHook.Hook
 {
     internal static class DXGI
     {

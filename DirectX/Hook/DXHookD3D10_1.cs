@@ -1,4 +1,4 @@
-﻿using DirectXShell.Interface;
+﻿using DirectXHook.Interface;
 using SharpDX;
 using SharpDX.Direct3D10;
 using SharpDX.DXGI;
@@ -9,7 +9,7 @@ using System.IO;
 using System.Runtime.InteropServices;
 using System.Threading;
 
-namespace DirectXShell.Hook
+namespace DirectXHook.Hook
 {
     enum D3D10_1DeviceVirtualTableEnum : Int16
     {

@@ -5,7 +5,7 @@ using SharpDX.Direct3D11;
 using System;
 using System.Diagnostics;
 
-namespace DirectXShell.Hook.DX11
+namespace DirectXHook.Hook.DX11
 {
     public class DXFont : IDisposable
     {

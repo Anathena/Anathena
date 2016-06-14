@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace DirectXShell
+namespace DirectXHook
 {
     /// <summary>
     /// Indicates that the provided process does not have a window handle.

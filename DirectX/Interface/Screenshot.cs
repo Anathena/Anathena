@@ -3,7 +3,7 @@ using System.Drawing.Imaging;
 using System.Runtime.Remoting;
 using System.Security.Permissions;
 
-namespace DirectXShell.Interface
+namespace DirectXHook.Interface
 {
     public class Screenshot : MarshalByRefObject, IDisposable
     {

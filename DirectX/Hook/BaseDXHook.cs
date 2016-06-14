@@ -1,4 +1,4 @@
-﻿using DirectXShell.Interface;
+﻿using DirectXHook.Interface;
 using EasyHook;
 using System;
 using System.Collections.Generic;
@@ -11,7 +11,7 @@ using System.Runtime.Remoting;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace DirectXShell.Hook
+namespace DirectXHook.Hook
 {
     internal abstract class BaseDXHook : SharpDX.Component, IDXHook
     {

@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace DirectXShell.Properties {
+namespace DirectXHook.Properties {
     using System;
     
     

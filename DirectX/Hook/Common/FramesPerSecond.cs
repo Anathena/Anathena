@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace DirectXShell.Hook.Common
+namespace DirectXHook.Hook.Common
 {
     public class FramesPerSecond : TextElement
     {

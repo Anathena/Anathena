@@ -1,11 +1,11 @@
-﻿using DirectXShell.Hook.Common;
+﻿using DirectXHook.Hook.Common;
 using SharpDX;
 using SharpDX.Direct3D9;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 
-namespace DirectXShell.Hook.DX9
+namespace DirectXHook.Hook.DX9
 {
     internal class DXOverlayEngine : Component
     {

@@ -3,7 +3,7 @@ using System;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
 
-namespace DirectXShell.Hook
+namespace DirectXHook.Hook
 {
     // Thanks to remcoros for the initial version of the following helper classes
 

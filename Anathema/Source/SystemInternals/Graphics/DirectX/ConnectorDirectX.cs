@@ -1,8 +1,8 @@
 ﻿using Anathema.Source.Graphics;
 using Anathema.Source.Utils.Extensions;
-using DirectXShell;
-using DirectXShell.Hook;
-using DirectXShell.Interface;
+using DirectXHook;
+using DirectXHook.Hook;
+using DirectXHook.Interface;
 using System;
 using System.Diagnostics;
 using System.Drawing;
@@ -15,7 +15,7 @@ namespace Anathema.Source.SystemInternals.Graphics.DirectX
     /// </summary>
     class ConnectorDirextX : IGraphicsConnector
     {
-        private Shell DirectXShell;
+        private GraphicsInterface GraphicsInterface;
 
         public ConnectorDirextX()
         {
@@ -24,7 +24,7 @@ namespace Anathema.Source.SystemInternals.Graphics.DirectX
 
         public void Inject(Process Process)
         {
-            if (DirectXShell != null)
+            if (GraphicsInterface != null)
                 return;
 
             // Must be running as Administrator to allow dynamic registration in GAC
@@ -46,22 +46,22 @@ namespace Anathema.Source.SystemInternals.Graphics.DirectX
 
             ClientInterface CaptureInterface = new ClientInterface();
             CaptureInterface.RemoteMessage += new MessageReceivedEvent(CaptureInterface_RemoteMessage);
-            DirectXShell = new Shell(Process, CaptureConfig, CaptureInterface);
+            GraphicsInterface = new GraphicsInterface(Process, CaptureConfig, CaptureInterface);
         }
 
         public IGraphicsInterface GetGraphicsInterface()
         {
-            return DirectXShell;
+            return GraphicsInterface;
         }
 
         public void Uninject()
         {
-            if (DirectXShell == null)
+            if (GraphicsInterface == null)
                 return;
 
-            HookManager.RemoveHookedProcess(DirectXShell.Process.Id);
-            DirectXShell.CaptureInterface.Disconnect();
-            DirectXShell = null;
+            HookManager.RemoveHookedProcess(GraphicsInterface.Process.Id);
+            GraphicsInterface.CaptureInterface.Disconnect();
+            GraphicsInterface = null;
         }
 
         /// <summary>
@@ -71,7 +71,7 @@ namespace Anathema.Source.SystemInternals.Graphics.DirectX
         {
             Size? resize = new Size(1000, 1000);
 
-            DirectXShell.CaptureInterface.BeginGetScreenshot(new Rectangle(0, 0, 1000, 100),
+            GraphicsInterface.CaptureInterface.BeginGetScreenshot(new Rectangle(0, 0, 1000, 100),
                 new TimeSpan(0, 0, 2), Callback, resize, ImageFormatEnum.Bitmap);
         }
 
@@ -99,14 +99,14 @@ namespace Anathema.Source.SystemInternals.Graphics.DirectX
         {
             this.PrintDebugTag();
 
-            if (DirectXShell == null)
+            if (GraphicsInterface == null)
                 return;
 
-            using (Screenshot Screenshot = DirectXShell.CaptureInterface.EndGetScreenshot(result))
+            using (Screenshot Screenshot = GraphicsInterface.CaptureInterface.EndGetScreenshot(result))
 
                 try
                 {
-                    DirectXShell.CaptureInterface.DisplayInGameText("Screenshot captured...");
+                    GraphicsInterface.CaptureInterface.DisplayInGameText("Screenshot captured...");
 
                     if (Screenshot != null && Screenshot.Data != null)
                     {

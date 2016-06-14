@@ -2,7 +2,7 @@
 using System;
 using System.Drawing.Imaging;
 
-namespace DirectXShell.Hook
+namespace DirectXHook.Hook
 {
     public static class DX9FormatExtension
     {

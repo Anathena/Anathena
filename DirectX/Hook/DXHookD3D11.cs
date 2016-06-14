@@ -1,6 +1,6 @@
-﻿using DirectXShell.Hook.Common;
-using DirectXShell.Hook.DX11;
-using DirectXShell.Interface;
+﻿using DirectXHook.Hook.Common;
+using DirectXHook.Hook.DX11;
+using DirectXHook.Interface;
 using SharpDX;
 using SharpDX.Direct3D;
 using SharpDX.Direct3D11;
@@ -12,7 +12,7 @@ using System.IO;
 using System.Runtime.InteropServices;
 using System.Threading;
 
-namespace DirectXShell.Hook
+namespace DirectXHook.Hook
 {
     enum D3D11DeviceVirtualTableEnum : Int16
     {

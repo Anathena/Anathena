@@ -2,7 +2,7 @@
 using System.IO;
 using System.Reflection;
 
-namespace DirectXShell.Interface
+namespace DirectXHook.Interface
 {
     [Serializable]
     public class CaptureConfig

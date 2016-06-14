@@ -4,7 +4,7 @@ using System.Drawing.Imaging;
 using System.IO;
 using System.Runtime.InteropServices;
 
-namespace DirectXShell.Interface
+namespace DirectXHook.Interface
 {
     public static class ScreenshotExtensions
     {

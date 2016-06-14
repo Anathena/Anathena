@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace DirectXShell.Interface
+namespace DirectXHook.Interface
 {
     [Serializable]
     public class MessageReceivedEventArgs : MarshalByRefObject

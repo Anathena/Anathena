@@ -2,7 +2,7 @@
 using System.Drawing;
 using System.Threading;
 
-namespace DirectXShell.Interface
+namespace DirectXHook.Interface
 {
     [Serializable]
     public delegate void RecordingStartedEvent(CaptureConfig Config);

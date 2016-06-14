@@ -1,4 +1,4 @@
-﻿namespace DirectXShell.Interface
+﻿namespace DirectXHook.Interface
 {
     public enum Direct3DVersionEnum
     {

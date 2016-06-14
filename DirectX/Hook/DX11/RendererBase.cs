@@ -1,7 +1,7 @@
 ﻿using SharpDX;
 using System;
 
-namespace DirectXShell.Hook.DX11
+namespace DirectXHook.Hook.DX11
 {
     public abstract class RendererBase : Component
     {

@@ -1055,9 +1055,9 @@
     <Content Include="Source\Utils\InputHook\HotKeys\ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\DirectX\DirectXShell.csproj">
+    <ProjectReference Include="..\DirectX\DirectXHook.csproj">
       <Project>{23178a3d-2ac0-419a-b1b6-59ca45191270}</Project>
-      <Name>DirectXShell</Name>
+      <Name>DirectXHook</Name>
     </ProjectReference>
     <ProjectReference Include="..\DockingSuite\DockingSuite.csproj">
       <Project>{c75532c4-765b-418e-b09b-46d36b2abdb1}</Project>

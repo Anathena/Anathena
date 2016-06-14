@@ -1,5 +1,5 @@
-﻿using DirectXShell.Hook;
-using DirectXShell.Interface;
+﻿using DirectXHook.Hook;
+using DirectXHook.Interface;
 using EasyHook;
 using System;
 using System.Collections;
@@ -12,7 +12,7 @@ using System.Runtime.Serialization.Formatters;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace DirectXShell
+namespace DirectXHook
 {
     public class Main : IEntryPoint
     {

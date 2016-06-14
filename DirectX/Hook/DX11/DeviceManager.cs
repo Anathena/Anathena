@@ -1,6 +1,6 @@
 ﻿using SharpDX.Direct3D11;
 
-namespace DirectXShell.Hook.DX11
+namespace DirectXHook.Hook.DX11
 {
     public class DeviceManager : SharpDX.Component
     {

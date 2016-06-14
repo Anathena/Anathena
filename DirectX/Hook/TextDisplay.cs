@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace DirectXShell.Hook
+namespace DirectXHook.Hook
 {
     public class TextDisplay
     {
