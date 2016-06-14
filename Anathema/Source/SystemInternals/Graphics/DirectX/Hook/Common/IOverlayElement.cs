@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace DirectXHook.Hook.Common
+namespace Anathema.Source.SystemInternals.Graphics.DirectXHook.Hook.Common
 {
     public interface IOverlayElement : ICloneable
     {

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Runtime.InteropServices;
 
-namespace DirectXHook.Hook
+namespace Anathema.Source.SystemInternals.Graphics.DirectXHook.Hook
 {
     /// <summary>
     /// Provides a safe handle around a block of unmanaged memory.

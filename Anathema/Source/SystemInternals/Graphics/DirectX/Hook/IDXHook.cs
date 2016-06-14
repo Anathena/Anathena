@@ -1,7 +1,7 @@
-﻿using DirectXHook.Interface;
+﻿using Anathema.Source.SystemInternals.Graphics.DirectXHook.Interface;
 using System;
 
-namespace DirectXHook.Hook
+namespace Anathema.Source.SystemInternals.Graphics.DirectXHook.Hook
 {
     internal interface IDXHook : IDisposable
     {

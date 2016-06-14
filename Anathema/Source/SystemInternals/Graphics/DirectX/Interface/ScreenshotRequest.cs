@@ -3,7 +3,7 @@ using System.Drawing;
 using System.Runtime.Remoting;
 using System.Security.Permissions;
 
-namespace DirectXHook.Interface
+namespace Anathema.Source.SystemInternals.Graphics.DirectXHook.Interface
 {
     [Serializable]
     public class ScreenshotRequest : MarshalByRefObject, IDisposable

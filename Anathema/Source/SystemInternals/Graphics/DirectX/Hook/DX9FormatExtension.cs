@@ -2,7 +2,7 @@
 using System;
 using System.Drawing.Imaging;
 
-namespace DirectXHook.Hook
+namespace Anathema.Source.SystemInternals.Graphics.DirectXHook.Hook
 {
     public static class DX9FormatExtension
     {

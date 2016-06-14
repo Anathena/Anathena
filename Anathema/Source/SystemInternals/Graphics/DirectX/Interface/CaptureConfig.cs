@@ -2,7 +2,7 @@
 using System.IO;
 using System.Reflection;
 
-namespace DirectXHook.Interface
+namespace Anathema.Source.SystemInternals.Graphics.DirectXHook.Interface
 {
     [Serializable]
     public class CaptureConfig

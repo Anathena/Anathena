@@ -1,13 +1,13 @@
 ﻿using Anathema.Source.Graphics;
-using DirectXHook.Hook;
-using DirectXHook.Interface;
+using Anathema.Source.SystemInternals.Graphics.DirectXHook.Hook;
+using Anathema.Source.SystemInternals.Graphics.DirectXHook.Interface;
 using EasyHook;
 using System;
 using System.Diagnostics;
 using System.Runtime.Remoting;
 using System.Runtime.Remoting.Channels.Ipc;
 
-namespace DirectXHook
+namespace Anathema.Source.SystemInternals.Graphics.DirectXHook
 {
     /// <summary>
     /// Primary class that provides support for direct X manipulations over IPC

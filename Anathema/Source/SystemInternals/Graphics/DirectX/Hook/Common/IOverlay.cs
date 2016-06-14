@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace DirectXHook.Hook.Common
+namespace Anathema.Source.SystemInternals.Graphics.DirectXHook.Hook.Common
 {
     internal interface IOverlay : IOverlayElement
     {

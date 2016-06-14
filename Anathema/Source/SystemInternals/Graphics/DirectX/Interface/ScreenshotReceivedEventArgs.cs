@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace DirectXHook.Interface
+namespace Anathema.Source.SystemInternals.Graphics.DirectXHook.Interface
 {
     [Serializable]
     public class ScreenshotReceivedEventArgs : MarshalByRefObject

@@ -4,7 +4,7 @@ using SharpDX.Direct3D11;
 using System;
 using Buffer = SharpDX.Direct3D11.Buffer; // Resolve class name conflicts by explicitly stating namespace
 
-namespace DirectXHook.Hook.DX11
+namespace Anathema.Source.SystemInternals.Graphics.DirectXHook.Hook.DX11
 {
     public class ScreenAlignedQuadRenderer : RendererBase
     {

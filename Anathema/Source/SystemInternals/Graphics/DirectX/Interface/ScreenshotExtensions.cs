@@ -4,7 +4,7 @@ using System.Drawing.Imaging;
 using System.IO;
 using System.Runtime.InteropServices;
 
-namespace DirectXHook.Interface
+namespace Anathema.Source.SystemInternals.Graphics.DirectXHook.Interface
 {
     public static class ScreenshotExtensions
     {

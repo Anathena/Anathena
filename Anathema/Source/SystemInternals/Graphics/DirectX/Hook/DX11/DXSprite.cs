@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
 
-namespace DirectXHook.Hook.DX11
+namespace Anathema.Source.SystemInternals.Graphics.DirectXHook.Hook.DX11
 {
     public class DXSprite : Component
     {

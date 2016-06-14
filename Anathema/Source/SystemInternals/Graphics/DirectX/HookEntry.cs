@@ -1,5 +1,5 @@
-﻿using DirectXHook.Hook;
-using DirectXHook.Interface;
+﻿using Anathema.Source.SystemInternals.Graphics.DirectXHook.Hook;
+using Anathema.Source.SystemInternals.Graphics.DirectXHook.Interface;
 using EasyHook;
 using System;
 using System.Collections;
@@ -12,9 +12,9 @@ using System.Runtime.Serialization.Formatters;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace DirectXHook
+namespace Anathema.Source.SystemInternals.Graphics.DirectXHook
 {
-    public class Main : IEntryPoint
+    public class HookEntry : IEntryPoint
     {
         private ClientCaptureInterfaceEventProxy ClientEventProxy;
         private IpcServerChannel ClientServerChannel;
@@ -26,7 +26,7 @@ namespace DirectXHook
 
         private Int64 StopCheckAlive;
 
-        public Main(RemoteHooking.IContext Context, String ChannelName, CaptureConfig Config)
+        public HookEntry(RemoteHooking.IContext Context, String ChannelName, CaptureConfig Config)
         {
             ClientEventProxy = new ClientCaptureInterfaceEventProxy();
             this.ClientServerChannel = null;

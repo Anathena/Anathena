@@ -2,7 +2,7 @@
 using System.Drawing;
 using System.Threading;
 
-namespace DirectXHook.Interface
+namespace Anathema.Source.SystemInternals.Graphics.DirectXHook.Interface
 {
     [Serializable]
     public delegate void RecordingStartedEvent(CaptureConfig Config);

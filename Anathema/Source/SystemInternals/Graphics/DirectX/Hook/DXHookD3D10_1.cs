@@ -1,4 +1,4 @@
-﻿using DirectXHook.Interface;
+﻿using Anathema.Source.SystemInternals.Graphics.DirectXHook.Interface;
 using SharpDX;
 using SharpDX.Direct3D10;
 using SharpDX.DXGI;
@@ -9,7 +9,7 @@ using System.IO;
 using System.Runtime.InteropServices;
 using System.Threading;
 
-namespace DirectXHook.Hook
+namespace Anathema.Source.SystemInternals.Graphics.DirectXHook.Hook
 {
     enum D3D10_1DeviceVirtualTableEnum : Int16
     {

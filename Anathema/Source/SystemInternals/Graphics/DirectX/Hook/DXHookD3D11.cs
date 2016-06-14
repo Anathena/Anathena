@@ -1,6 +1,6 @@
-﻿using DirectXHook.Hook.Common;
-using DirectXHook.Hook.DX11;
-using DirectXHook.Interface;
+﻿using Anathema.Source.SystemInternals.Graphics.DirectXHook.Hook.Common;
+using Anathema.Source.SystemInternals.Graphics.DirectXHook.Hook.DX11;
+using Anathema.Source.SystemInternals.Graphics.DirectXHook.Interface;
 using SharpDX;
 using SharpDX.Direct3D;
 using SharpDX.Direct3D11;
@@ -12,7 +12,7 @@ using System.IO;
 using System.Runtime.InteropServices;
 using System.Threading;
 
-namespace DirectXHook.Hook
+namespace Anathema.Source.SystemInternals.Graphics.DirectXHook.Hook
 {
     enum D3D11DeviceVirtualTableEnum : Int16
     {

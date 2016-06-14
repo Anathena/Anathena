@@ -1,7 +1,7 @@
 ﻿using SharpDX.DXGI;
 using System;
 
-namespace DirectXHook.Hook
+namespace Anathema.Source.SystemInternals.Graphics.DirectXHook.Hook
 {
     internal static class DXGI
     {

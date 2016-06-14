@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace DirectXHook
+namespace Anathema.Source.SystemInternals.Graphics.DirectXHook
 {
     /// <summary>
     /// Indicates that the provided process does not have a window handle.

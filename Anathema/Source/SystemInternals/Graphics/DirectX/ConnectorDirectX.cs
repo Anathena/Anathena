@@ -1,8 +1,8 @@
 ﻿using Anathema.Source.Graphics;
+using Anathema.Source.SystemInternals.Graphics.DirectXHook;
+using Anathema.Source.SystemInternals.Graphics.DirectXHook.Hook;
+using Anathema.Source.SystemInternals.Graphics.DirectXHook.Interface;
 using Anathema.Source.Utils.Extensions;
-using DirectXHook;
-using DirectXHook.Hook;
-using DirectXHook.Interface;
 using System;
 using System.Diagnostics;
 using System.Drawing;

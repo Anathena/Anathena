@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace DirectXHook.Hook
+namespace Anathema.Source.SystemInternals.Graphics.DirectXHook.Hook
 {
     public class TextDisplay
     {

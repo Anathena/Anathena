@@ -1,7 +1,7 @@
 ﻿using SharpDX;
 using System;
 
-namespace DirectXHook.Hook.DX11
+namespace Anathema.Source.SystemInternals.Graphics.DirectXHook.Hook.DX11
 {
     public abstract class RendererBase : Component
     {
