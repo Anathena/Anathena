@@ -18,7 +18,6 @@ namespace Anathema.Source.SystemInternals.Graphics.DirectX.Hook
         /// <summary>
         /// Frames Per second counter, FPS.Frame() must be called each frame
         /// </summary>
-        protected FramesPerSecond FPS { get; set; }
         protected Stopwatch Timer { get; set; }
         protected TextDisplay TextDisplay { get; set; }
         protected List<Hook> Hooks = new List<Hook>();
@@ -43,7 +42,6 @@ namespace Anathema.Source.SystemInternals.Graphics.DirectX.Hook
 
             Timer = new Stopwatch();
             Timer.Start();
-            FPS = new FramesPerSecond();
 
             this.CaptureInterface.DisplayText += InterfaceEventProxy.DisplayTextProxyHandler;
 
@@ -66,8 +64,6 @@ namespace Anathema.Source.SystemInternals.Graphics.DirectX.Hook
 
         protected void Frame()
         {
-            FPS.Frame();
-
             if (TextDisplay != null && TextDisplay.Display)
                 TextDisplay.Frame();
         }

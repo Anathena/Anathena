@@ -136,31 +136,28 @@ namespace Anathema.Source.SystemInternals.Graphics.DirectX.Hook.DX10
                 // Draw FPS
                 using (Texture2D Texture = Texture2D.FromSwapChain<SharpDX.Direct3D10.Texture2D>(SwapChain, 0))
                 {
-                    if (FPS.GetFPS() >= 1)
+                    FontDescription FontDescription = new FontDescription()
                     {
-                        FontDescription FontDescription = new FontDescription()
-                        {
-                            Height = 16,
-                            FaceName = "Arial",
-                            Italic = false,
-                            Width = 0,
-                            MipLevels = 1,
-                            CharacterSet = FontCharacterSet.Default,
-                            OutputPrecision = FontPrecision.Default,
-                            Quality = FontQuality.Antialiased,
-                            PitchAndFamily = FontPitchAndFamily.Default | FontPitchAndFamily.DontCare,
-                            Weight = FontWeight.Bold
-                        };
+                        Height = 16,
+                        FaceName = "Arial",
+                        Italic = false,
+                        Width = 0,
+                        MipLevels = 1,
+                        CharacterSet = FontCharacterSet.Default,
+                        OutputPrecision = FontPrecision.Default,
+                        Quality = FontQuality.Antialiased,
+                        PitchAndFamily = FontPitchAndFamily.Default | FontPitchAndFamily.DontCare,
+                        Weight = FontWeight.Bold
+                    };
 
-                        // TODO: Font should not be created every frame!
-                        using (Font Font = new Font(Texture.Device, FontDescription))
-                        {
-                            DrawText(Font, new Vector2(5, 5), String.Format("{0:N0} fps", FPS.GetFPS()), new Color4(Color.Red.ToColor3()));
+                    // TODO: Font should not be created every frame!
+                    using (Font Font = new Font(Texture.Device, FontDescription))
+                    {
+                        DrawText(Font, new Vector2(5, 5), "Some bullshit", new Color4(Color.Red.ToColor3()));
 
-                            if (TextDisplay != null && TextDisplay.Display)
-                            {
-                                DrawText(Font, new Vector2(5, 25), TextDisplay.Text, new Color4(Color.Red.ToColor3(), (Math.Abs(1.0f - TextDisplay.Remaining))));
-                            }
+                        if (TextDisplay != null && TextDisplay.Display)
+                        {
+                            DrawText(Font, new Vector2(5, 25), TextDisplay.Text, new Color4(Color.Red.ToColor3(), (Math.Abs(1.0f - TextDisplay.Remaining))));
                         }
                     }
 

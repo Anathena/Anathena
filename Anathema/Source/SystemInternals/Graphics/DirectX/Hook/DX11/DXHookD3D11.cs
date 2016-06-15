@@ -179,7 +179,7 @@ namespace Anathema.Source.SystemInternals.Graphics.DirectX.Hook.DX11
                         Elements =
                             {
                                 // new Common.TextElement(new System.Drawing.Font("Times New Roman", 22)) { Text = "Test", Location = new System.Drawing.Point(200, 200), Color = System.Drawing.Color.Yellow, AntiAliased = false},
-                                new Common.FramesPerSecond(new System.Drawing.Font("Arial", 16)) { Location = new System.Drawing.Point(5,5), Color = System.Drawing.Color.Red, AntiAliased = true },
+                                new TextElement(new System.Drawing.Font("Arial", 16)) { Location = new System.Drawing.Point(5,5), Color = System.Drawing.Color.Red, Text = "Some bullshit", AntiAliased = true },
                                 // new Common.ImageElement(@"C:\Temp\test.bmp") { Location = new System.Drawing.Point(20, 20) }
                             }
                     });

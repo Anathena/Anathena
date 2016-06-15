@@ -270,12 +270,11 @@ namespace Anathema.Source.SystemInternals.Graphics.DirectX.Hook.DX9
                     OverlayEngine.Overlays.Add(new Overlay
                     {
                         Elements =
-                            {
-                                // Add frame rate
-                                new Common.FramesPerSecond(new System.Drawing.Font("Arial", 16, FontStyle.Bold)) { Location = new Point(5,5), Color = Color.Red, AntiAliased = true },
-                                // Example of adding an image to overlay (can implement semi transparency with Tint, e.g. Ting = Color.FromArgb(127, 255, 255, 255))
-                                // new Common.ImageElement(@"C:\Temp\test.bmp") { Location = new Point(20, 20) }
-                            }
+                        {
+                            new TextElement(new System.Drawing.Font("Arial", 16, FontStyle.Bold)) { Location = new Point(5,5), Color = Color.Red, Text = "Some bullshit", AntiAliased = true },
+                            // Example of adding an image to overlay (can implement semi transparency with Tint, e.g. Ting = Color.FromArgb(127, 255, 255, 255))
+                            // new ImageElement(@"C:\aesthetic.PNG") { Location = new Point(20, 20) }
+                        }
                     });
 
                     OverlayEngine.Initialize(Device);
