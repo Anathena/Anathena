@@ -3,13 +3,11 @@ using EasyHook;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
 using System.Runtime.InteropServices;
 using System.Runtime.Remoting;
 using System.Threading;
-using System.Threading.Tasks;
 
 namespace Anathema.Source.SystemInternals.Graphics.DirectXHook.Hook
 {
@@ -23,31 +21,8 @@ namespace Anathema.Source.SystemInternals.Graphics.DirectXHook.Hook
         protected FramesPerSecond FPS { get; set; }
         protected Stopwatch Timer { get; set; }
         protected TextDisplay TextDisplay { get; set; }
-        protected TimeSpan LastCaptureTime { get; set; }
-
         protected List<Hook> Hooks = new List<Hook>();
-
-
-        protected TimeSpan CaptureDelay { get; set; }
         public ClientInterface CaptureInterface { get; set; }
-        private CaptureConfig _Config;
-        public CaptureConfig Config
-        {
-            get { return _Config; }
-            set
-            {
-                _Config = value;
-                CaptureDelay = new TimeSpan(0, 0, 0, 0, (Int32)((1.0 / (Double)_Config.TargetFramesPerSecond) * 1000.0));
-            }
-        }
-
-        private ScreenshotRequest _Request;
-        public ScreenshotRequest Request
-        {
-            get { return _Request; }
-            set { Interlocked.Exchange(ref _Request, value); }
-        }
-
 
         private Int32 _ProcessId = 0;
         protected Int32 ProcessId
@@ -70,10 +45,8 @@ namespace Anathema.Source.SystemInternals.Graphics.DirectXHook.Hook
             Timer.Start();
             FPS = new FramesPerSecond();
 
-            this.CaptureInterface.ScreenshotRequested += InterfaceEventProxy.ScreenshotRequestedProxyHandler;
             this.CaptureInterface.DisplayText += InterfaceEventProxy.DisplayTextProxyHandler;
 
-            InterfaceEventProxy.ScreenshotRequested += new ScreenshotRequestedEvent(InterfaceEventProxy_ScreenshotRequested);
             InterfaceEventProxy.DisplayText += new DisplayTextEvent(InterfaceEventProxy_DisplayText);
         }
 
@@ -89,12 +62,6 @@ namespace Anathema.Source.SystemInternals.Graphics.DirectXHook.Hook
                 Text = Args.Text,
                 Duration = Args.Duration
             };
-        }
-
-        protected virtual void InterfaceEventProxy_ScreenshotRequested(ScreenshotRequest Request)
-        {
-
-            this.Request = Request;
         }
 
         protected void Frame()
@@ -182,128 +149,6 @@ namespace Anathema.Source.SystemInternals.Graphics.DirectXHook.Hook
             }
         }
 
-        /// <summary>
-        /// Process the capture based on the requested format.
-        /// </summary>
-        /// <param name="Width">image width</param>
-        /// <param name="Height">image height</param>
-        /// <param name="Pitch">data pitch (bytes per row)</param>
-        /// <param name="Format">target format</param>
-        /// <param name="PBits">IntPtr to the image data</param>
-        /// <param name="Request">The original requets</param>
-        protected void ProcessCapture(Int32 Width, Int32 Height, Int32 Pitch, PixelFormat Format, IntPtr PBits, ScreenshotRequest Request)
-        {
-            if (Request == null)
-                return;
-
-            if (Format == PixelFormat.Undefined)
-            {
-                DebugMessage("Unsupported render target format");
-                return;
-            }
-
-            // Copy the image data from the buffer
-            Int32 Size = Height * Pitch;
-            Byte[] Data = new Byte[Size];
-            Marshal.Copy(PBits, Data, 0, Size);
-
-            // Prepare the response
-            Screenshot Response = null;
-
-            if (Request.Format == ImageFormatEnum.PixelData)
-            {
-                // Return the raw data
-                Response = new Screenshot(Request.RequestId, Data)
-                {
-                    Format = Request.Format,
-                    PixelFormat = Format,
-                    Height = Height,
-                    Width = Width,
-                    Stride = Pitch
-                };
-            }
-            else
-            {
-                // Return an image
-                using (Bitmap Bitmap = Data.ToBitmap(Width, Height, Pitch, Format))
-                {
-                    ImageFormat ImageFormat = ImageFormat.Bmp;
-                    switch (Request.Format)
-                    {
-                        case ImageFormatEnum.Jpeg:
-                            ImageFormat = ImageFormat.Jpeg;
-                            break;
-
-                        case ImageFormatEnum.Png:
-                            ImageFormat = ImageFormat.Png;
-                            break;
-                    }
-
-                    Response = new Screenshot(Request.RequestId, Bitmap.ToByteArray(ImageFormat))
-                    {
-                        Format = Request.Format,
-                        Height = Bitmap.Height,
-                        Width = Bitmap.Width
-                    };
-                }
-            }
-
-            // Send the response
-            SendResponse(Response);
-        }
-
-        protected void SendResponse(Screenshot Response)
-        {
-            Task.Run(() =>
-            {
-                try
-                {
-                    CaptureInterface.SendScreenshotResponse(Response);
-                    LastCaptureTime = Timer.Elapsed;
-                }
-                catch (RemotingException)
-                {
-                    // Ignore remoting exceptions
-                    // .NET Remoting will throw an exception if the host application is unreachable
-                }
-                catch (Exception Ex)
-                {
-                    DebugMessage(Ex.ToString());
-                }
-            });
-        }
-
-        protected void ProcessCapture(Stream Stream, ScreenshotRequest Request)
-        {
-            ProcessCapture(ReadFullStream(Stream), Request);
-        }
-
-        protected void ProcessCapture(Byte[] BitmapData, ScreenshotRequest Request)
-        {
-            try
-            {
-                if (Request != null)
-                {
-                    CaptureInterface.SendScreenshotResponse(new Screenshot(Request.RequestId, BitmapData)
-                    {
-                        Format = Request.Format,
-                    });
-                }
-
-                LastCaptureTime = Timer.Elapsed;
-            }
-            catch (RemotingException)
-            {
-                // Ignore remoting exceptions
-                // .NET Remoting will throw an exception if the host application is unreachable
-            }
-            catch (Exception Ex)
-            {
-                DebugMessage(Ex.ToString());
-            }
-        }
-
-
         private ImageCodecInfo GetEncoder(ImageFormat Format)
         {
             ImageCodecInfo[] Codecs = ImageCodecInfo.GetImageDecoders();
@@ -315,22 +160,6 @@ namespace Anathema.Source.SystemInternals.Graphics.DirectXHook.Hook
             }
 
             return null;
-        }
-
-        private Bitmap BitmapFromBytes(Byte[] BitmapData)
-        {
-            using (MemoryStream MemoryStream = new MemoryStream(BitmapData))
-            {
-                return (Bitmap)Image.FromStream(MemoryStream);
-            }
-        }
-
-        protected Boolean CaptureThisFrame
-        {
-            get
-            {
-                return ((Timer.Elapsed - LastCaptureTime) > CaptureDelay) || Request != null;
-            }
         }
 
         public abstract void Hook();
@@ -357,18 +186,13 @@ namespace Anathema.Source.SystemInternals.Graphics.DirectXHook.Hook
                     {
                         // First disable the hook (by excluding all threads) and wait long enough to ensure that all hooks are not active
                         foreach (Hook Hook in Hooks)
-                        {
-                            // Lets ensure that no threads will be intercepted again
                             Hook.Deactivate();
-                        }
 
                         Thread.Sleep(100);
 
                         // Now we can dispose of the hooks (which triggers the removal of the hook)
                         foreach (Hook Hook in Hooks)
-                        {
                             Hook.Dispose();
-                        }
 
                         Hooks.Clear();
                     }
@@ -376,7 +200,6 @@ namespace Anathema.Source.SystemInternals.Graphics.DirectXHook.Hook
                     try
                     {
                         // Remove the event handlers
-                        CaptureInterface.ScreenshotRequested -= InterfaceEventProxy.ScreenshotRequestedProxyHandler;
                         CaptureInterface.DisplayText -= InterfaceEventProxy.DisplayTextProxyHandler;
                     }
                     catch (RemotingException) { } // Ignore remoting exceptions (host process may have been closed)

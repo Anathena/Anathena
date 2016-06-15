@@ -4,13 +4,11 @@ using SharpDX.Direct3D10;
 using SharpDX.DXGI;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Runtime.InteropServices;
-using System.Threading;
 using System.Windows.Forms;
 using Device = SharpDX.Direct3D10.Device;
 
-namespace Anathema.Source.SystemInternals.Graphics.DirectXHook.Hook
+namespace Anathema.Source.SystemInternals.Graphics.DirectXHook.Hook.DX10
 {
     enum D3D10DeviceVirtualTableEnum : Int16
     {
@@ -240,173 +238,38 @@ namespace Anathema.Source.SystemInternals.Graphics.DirectXHook.Hook
 
             try
             {
-                #region Screenshot Request
-
-                if (Request != null)
+                // Draw FPS
+                using (Texture2D Texture = Texture2D.FromSwapChain<SharpDX.Direct3D10.Texture2D>(SwapChain, 0))
                 {
-                    try
+                    if (FPS.GetFPS() >= 1)
                     {
-                        DebugMessage("PresentHook: Request Start");
-
-                        DateTime StartTime = DateTime.Now;
-
-                        using (Texture2D Texture = Texture2D.FromSwapChain<SharpDX.Direct3D10.Texture2D>(SwapChain, 0))
+                        FontDescription FontDescription = new FontDescription()
                         {
-                            #region Determine region to capture
+                            Height = 16,
+                            FaceName = "Arial",
+                            Italic = false,
+                            Width = 0,
+                            MipLevels = 1,
+                            CharacterSet = FontCharacterSet.Default,
+                            OutputPrecision = FontPrecision.Default,
+                            Quality = FontQuality.Antialiased,
+                            PitchAndFamily = FontPitchAndFamily.Default | FontPitchAndFamily.DontCare,
+                            Weight = FontWeight.Bold
+                        };
 
-                            System.Drawing.Rectangle RegionToCapture = new System.Drawing.Rectangle(0, 0, Texture.Description.Width, Texture.Description.Height);
+                        // TODO: Font should not be created every frame!
+                        using (Font Font = new Font(Texture.Device, FontDescription))
+                        {
+                            DrawText(Font, new Vector2(5, 5), String.Format("{0:N0} fps", FPS.GetFPS()), new Color4(Color.Red.ToColor3()));
 
-                            if (base.Request.Region.Width > 0)
+                            if (TextDisplay != null && TextDisplay.Display)
                             {
-                                RegionToCapture = this.Request.Region;
-                            }
-
-                            #endregion
-
-                            Texture2D TheTexture = Texture;
-
-                            // If texture is multisampled, then we can use ResolveSubresource to copy it into a non-multisampled texture
-                            Texture2D TextureResolved = null;
-                            if (Texture.Description.SampleDescription.Count > 1)
-                            {
-                                DebugMessage("PresentHook: resolving multi-sampled texture");
-
-                                // texture is multi-sampled, lets resolve it down to single sample
-                                TextureResolved = new Texture2D(Texture.Device, new Texture2DDescription()
-                                {
-                                    CpuAccessFlags = CpuAccessFlags.None,
-                                    Format = Texture.Description.Format,
-                                    Height = Texture.Description.Height,
-                                    Usage = ResourceUsage.Default,
-                                    Width = Texture.Description.Width,
-                                    ArraySize = 1,
-                                    SampleDescription = new SampleDescription(1, 0), // Ensure single sample
-                                    BindFlags = BindFlags.None,
-                                    MipLevels = 1,
-                                    OptionFlags = Texture.Description.OptionFlags
-                                });
-
-                                // Resolve into TextureResolved
-                                Texture.Device.ResolveSubresource(Texture, 0, TextureResolved, 0, Texture.Description.Format);
-
-                                // Make "TheTexture" be the resolved texture
-                                TheTexture = TextureResolved;
-                            }
-
-                            // Create destination texture
-                            Texture2D textureDest = new Texture2D(Texture.Device, new Texture2DDescription()
-                            {
-                                CpuAccessFlags = CpuAccessFlags.None,// CpuAccessFlags.Write | CpuAccessFlags.Read,
-                                Format = Format.R8G8B8A8_UNorm, // Supports BMP/PNG
-                                Height = RegionToCapture.Height,
-                                Usage = ResourceUsage.Default, // ResourceUsage.Staging,
-                                Width = RegionToCapture.Width,
-                                ArraySize = 1, // Texture.Description.ArraySize,
-                                SampleDescription = new SharpDX.DXGI.SampleDescription(1, 0), // Texture.Description.SampleDescription,
-                                BindFlags = BindFlags.None,
-                                MipLevels = 1, // Texture.Description.MipLevels,
-                                OptionFlags = Texture.Description.OptionFlags
-                            });
-
-                            // Copy the subresource region, we are dealing with a flat 2D texture with no MipMapping, so 0 is the subresource index
-                            TheTexture.Device.CopySubresourceRegion(TheTexture, 0, new ResourceRegion()
-                            {
-                                Top = RegionToCapture.Top,
-                                Bottom = RegionToCapture.Bottom,
-                                Left = RegionToCapture.Left,
-                                Right = RegionToCapture.Right,
-                                Front = 0,
-                                Back = 1 // Must be 1 or only black will be copied
-                            }, textureDest, 0, 0, 0, 0);
-
-                            // Note: it would be possible to capture multiple frames and process them in a background thread
-
-                            // Copy to memory and send back to host process on a background thread so that we do not cause any delay in the rendering pipeline
-                            ScreenshotRequest Request = this.Request.Clone(); // this.Request gets set to null, so copy the Request for use in the thread
-                            ThreadPool.QueueUserWorkItem(delegate
-                            {
-                                //FileStream fs = new FileStream(@"c:\temp\temp.bmp", FileMode.Create);
-                                //Texture2D.ToStream(testSubResourceCopy, ImageFileFormat.Bmp, fs);
-
-                                DateTime StartCopyToSystemMemory = DateTime.Now;
-                                using (MemoryStream Stream = new MemoryStream())
-                                {
-                                    Texture2D.ToStream(textureDest, ImageFileFormat.Bmp, Stream);
-                                    Stream.Position = 0;
-
-                                    DebugMessage("PresentHook: Copy to System Memory time: " + (DateTime.Now - StartCopyToSystemMemory).ToString());
-
-                                    DateTime StartSendResponse = DateTime.Now;
-                                    ProcessCapture(Stream, Request);
-
-                                    DebugMessage("PresentHook: Send response time: " + (DateTime.Now - StartSendResponse).ToString());
-                                }
-
-                                // Free the textureDest as we no longer need it.
-                                textureDest.Dispose();
-                                textureDest = null;
-
-                                DebugMessage("PresentHook: Full Capture time: " + (DateTime.Now - StartTime).ToString());
-                            });
-
-                            // Make sure we free up the resolved texture if it was created
-                            if (TextureResolved != null)
-                            {
-                                TextureResolved.Dispose();
-                                TextureResolved = null;
+                                DrawText(Font, new Vector2(5, 25), TextDisplay.Text, new Color4(Color.Red.ToColor3(), (Math.Abs(1.0f - TextDisplay.Remaining))));
                             }
                         }
-
-                        DebugMessage("PresentHook: Copy BackBuffer time: " + (DateTime.Now - StartTime).ToString());
-                        DebugMessage("PresentHook: Request End");
-                    }
-                    finally
-                    {
-                        // Prevent the request from being processed a second time
-                        Request = null;
                     }
 
                 }
-                #endregion
-
-                #region Example: Draw overlay (after screenshot so we don't capture overlay as well)
-
-                if (Config.ShowOverlay)
-                {
-                    using (Texture2D Texture = Texture2D.FromSwapChain<SharpDX.Direct3D10.Texture2D>(SwapChain, 0))
-                    {
-                        if (FPS.GetFPS() >= 1)
-                        {
-                            FontDescription FontDescription = new FontDescription()
-                            {
-                                Height = 16,
-                                FaceName = "Arial",
-                                Italic = false,
-                                Width = 0,
-                                MipLevels = 1,
-                                CharacterSet = FontCharacterSet.Default,
-                                OutputPrecision = FontPrecision.Default,
-                                Quality = FontQuality.Antialiased,
-                                PitchAndFamily = FontPitchAndFamily.Default | FontPitchAndFamily.DontCare,
-                                Weight = FontWeight.Bold
-                            };
-
-                            // TODO: Font should not be created every frame!
-                            using (Font Font = new Font(Texture.Device, FontDescription))
-                            {
-                                DrawText(Font, new Vector2(5, 5), String.Format("{0:N0} fps", FPS.GetFPS()), new Color4(Color.Red.ToColor3()));
-
-                                if (TextDisplay != null && TextDisplay.Display)
-                                {
-                                    DrawText(Font, new Vector2(5, 25), TextDisplay.Text, new Color4(Color.Red.ToColor3(), (Math.Abs(1.0f - TextDisplay.Remaining))));
-                                }
-                            }
-                        }
-
-                    }
-                }
-
-                #endregion
             }
             catch (Exception Ex)
             {

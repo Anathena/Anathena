@@ -5,10 +5,9 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Runtime.InteropServices;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace Anathema.Source.SystemInternals.Graphics.DirectXHook.Hook
+namespace Anathema.Source.SystemInternals.Graphics.DirectXHook.Hook.DX9
 {
     /// <summary>
     /// The full list of IDirect3DDevice9 functions with the correct index
@@ -171,7 +170,6 @@ namespace Anathema.Source.SystemInternals.Graphics.DirectXHook.Hook
         private Query Query;
         private SharpDX.Direct3D9.Font Font;
         private Boolean QueryIssued;
-        private ScreenshotRequest RequestCopy;
         private Boolean RenderTargetCopyLocked;
         private Surface RenderTargetCopy;
         private Surface ResolvedTarget;
@@ -413,175 +411,41 @@ namespace Anathema.Source.SystemInternals.Graphics.DirectXHook.Hook
 
             try
             {
-                #region Screenshot Request
-
-                // If we have issued the command to copy data to our render target, check if it is complete
-                Boolean QueryResult;
-
-                if (QueryIssued && RequestCopy != null && Query.GetData(out QueryResult, false))
+                // Draw FPS
+                if (OverlayEngine == null || OverlayEngine.Device.NativePointer != Device.NativePointer)
                 {
-                    // The GPU has finished copying data to _renderTargetCopy, we can now lock
-                    // the data and access it on another thread.
+                    // Cleanup if necessary
+                    if (OverlayEngine != null)
+                        RemoveAndDispose(ref OverlayEngine);
 
-                    QueryIssued = false;
+                    OverlayEngine = ToDispose(new DX9.DXOverlayEngine());
 
-                    // Lock the render target
-                    SharpDX.Rectangle Rectangle;
-                    SharpDX.DataRectangle LockedRectangle = LockRenderTarget(RenderTargetCopy, out Rectangle);
-                    RenderTargetCopyLocked = true;
-
-                    // Copy the data from the render target
-                    Task.Run(() =>
+                    // Create Overlay
+                    OverlayEngine.Overlays.Add(new Overlay
                     {
-                        lock (LockRenderObject)
-                        {
-                            ProcessCapture(Rectangle.Width, Rectangle.Height, LockedRectangle.Pitch, RenderTargetCopy.Description.Format.ToPixelFormat(), LockedRectangle.DataPointer, RequestCopy);
-                        }
-                    });
-                }
-
-                // Single frame capture request
-                if (Request != null)
-                {
-                    DateTime Start = DateTime.Now;
-
-                    try
-                    {
-                        using (Surface RenderTarget = Device.GetRenderTarget(0))
-                        {
-                            Int32 Width, Height;
-
-                            // If resizing of the captured image, determine correct dimensions
-                            if (Request.Resize != null && (RenderTarget.Description.Width > Request.Resize.Value.Width || RenderTarget.Description.Height > Request.Resize.Value.Height))
-                            {
-                                if (RenderTarget.Description.Width > Request.Resize.Value.Width)
-                                {
-                                    Width = Request.Resize.Value.Width;
-                                    Height = (Int32)Math.Round((RenderTarget.Description.Height * ((double)Request.Resize.Value.Width / (double)RenderTarget.Description.Width)));
-                                }
-                                else
-                                {
-                                    Height = Request.Resize.Value.Height;
-                                    Width = (Int32)Math.Round((RenderTarget.Description.Width * ((double)Request.Resize.Value.Height / (double)RenderTarget.Description.Height)));
-                                }
-                            }
-                            else
-                            {
-                                Width = RenderTarget.Description.Width;
-                                Height = RenderTarget.Description.Height;
-                            }
-
-                            // If existing _renderTargetCopy, ensure that it is the correct size and format
-                            if (RenderTargetCopy != null && (RenderTargetCopy.Description.Width != Width || RenderTargetCopy.Description.Height != Height || RenderTargetCopy.Description.Format != RenderTarget.Description.Format))
-                            {
-                                // Cleanup resources
-                                Cleanup();
-                            }
-
-                            // Ensure that we have something to put the render target data into
-                            if (!ResourcesInitialized || RenderTargetCopy == null)
-                            {
-                                CreateResources(Device, Width, Height, RenderTarget.Description.Format);
-                            }
-
-                            // Resize from render target Surface to resolvedSurface (also deals with resolving multi-sampling)
-                            Device.StretchRectangle(RenderTarget, ResolvedTarget, TextureFilter.None);
-                        }
-
-                        // If the render target is locked from a previous request unlock it
-                        if (RenderTargetCopyLocked)
-                        {
-                            // Wait for the the ProcessCapture thread to finish with it
-                            lock (LockRenderObject)
-                            {
-                                if (RenderTargetCopyLocked)
-                                {
-                                    RenderTargetCopy.UnlockRectangle();
-                                    RenderTargetCopyLocked = false;
-                                }
-                            }
-                        }
-
-                        // Copy data from resolved target to our render target copy
-                        Device.GetRenderTargetData(ResolvedTarget, RenderTargetCopy);
-
-                        RequestCopy = Request.Clone();
-                        Query.Issue(Issue.End);
-                        QueryIssued = true;
-
-                    }
-                    finally
-                    {
-                        // We have completed the request - mark it as null so we do not continue to try to capture the same request
-                        // Note: If you are after high frame rates, consider implementing buffers here to capture more frequently
-                        //         and send back to the host application as needed. The IPC overhead significantly slows down 
-                        //         the whole process if sending frame by frame.
-                        Request = null;
-                    }
-
-                    DateTime End = DateTime.Now;
-
-                    DebugMessage(Hook + ": Capture time: " + (End - Start).ToString());
-                }
-
-                #endregion
-
-                if (Config.ShowOverlay)
-                {
-                    #region Draw Overlay
-
-                    // Check if overlay needs to be initialised
-                    if (OverlayEngine == null || OverlayEngine.Device.NativePointer != Device.NativePointer)
-                    {
-                        // Cleanup if necessary
-                        if (OverlayEngine != null)
-                            RemoveAndDispose(ref OverlayEngine);
-
-                        OverlayEngine = ToDispose(new DX9.DXOverlayEngine());
-
-                        // Create Overlay
-                        OverlayEngine.Overlays.Add(new Overlay
-                        {
-                            Elements =
+                        Elements =
                             {
                                 // Add frame rate
                                 new Common.FramesPerSecond(new System.Drawing.Font("Arial", 16, FontStyle.Bold)) { Location = new Point(5,5), Color = Color.Red, AntiAliased = true },
                                 // Example of adding an image to overlay (can implement semi transparency with Tint, e.g. Ting = Color.FromArgb(127, 255, 255, 255))
                                 // new Common.ImageElement(@"C:\Temp\test.bmp") { Location = new Point(20, 20) }
                             }
-                        });
+                    });
 
-                        OverlayEngine.Initialize(Device);
-                    }
-                    // Draw Overlay(s)
-                    else if (OverlayEngine != null)
-                    {
-                        foreach (IOverlay Overlay in OverlayEngine.Overlays)
-                            Overlay.Frame();
-                        OverlayEngine.Draw();
-                    }
-
-                    #endregion
+                    OverlayEngine.Initialize(Device);
+                }
+                // Draw Overlay(s)
+                else if (OverlayEngine != null)
+                {
+                    foreach (IOverlay Overlay in OverlayEngine.Overlays)
+                        Overlay.Frame();
+                    OverlayEngine.Draw();
                 }
             }
             catch (Exception Ex)
             {
                 DebugMessage(Ex.ToString());
             }
-        }
-
-        private SharpDX.DataRectangle LockRenderTarget(Surface RenderTargetCopy, out SharpDX.Rectangle Rectangle)
-        {
-            if (RequestCopy.Region.Height > 0 && RequestCopy.Region.Width > 0)
-            {
-                Rectangle = new SharpDX.Rectangle(RequestCopy.Region.Left, RequestCopy.Region.Top, RequestCopy.Region.Width, RequestCopy.Region.Height);
-            }
-            else
-            {
-                Rectangle = new SharpDX.Rectangle(0, 0, RenderTargetCopy.Description.Width, RenderTargetCopy.Description.Height);
-            }
-
-            return RenderTargetCopy.LockRectangle(Rectangle, LockFlags.ReadOnly);
         }
 
         private void CreateResources(Device Device, Int32 Width, Int32 Height, Format D3DFormat)

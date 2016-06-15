@@ -61,7 +61,7 @@ namespace Anathema.Source.SystemInternals.Graphics.DirectXHook.Hook
         /// <summary>
         /// Indicates whether the hook is currently active
         /// </summary>
-        public bool IsActive { get; private set; }
+        public Boolean IsActive { get; private set; }
 
         /// <summary>
         /// Creates a new hook at <paramref name="FuncToHook"/> redirecting to <paramref name="NewFunc"/>. The hook starts inactive so a call to <see cref="Activate"/> is required to enable the hook.

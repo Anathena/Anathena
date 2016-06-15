@@ -5,10 +5,10 @@ namespace Anathema.Source.SystemInternals.Graphics.DirectXHook.Hook
     public class TextDisplay
     {
         private Int64 StartTickCount = 0;
-        public bool Display { get; set; }
+        public Boolean Display { get; set; }
         public String Text { get; set; }
         public TimeSpan Duration { get; set; }
-        public float Remaining { get { return Display ? (float)Math.Abs(DateTime.Now.Ticks - StartTickCount) / (float)Duration.Ticks : 0; } }
+        public Single Remaining { get { return Display ? (Single)Math.Abs(DateTime.Now.Ticks - StartTickCount) / (Single)Duration.Ticks : 0; } }
 
         public TextDisplay()
         {
@@ -22,9 +22,7 @@ namespace Anathema.Source.SystemInternals.Graphics.DirectXHook.Hook
         public void Frame()
         {
             if (Display && Math.Abs(DateTime.Now.Ticks - StartTickCount) > Duration.Ticks)
-            {
                 Display = false;
-            }
         }
 
     } // End class

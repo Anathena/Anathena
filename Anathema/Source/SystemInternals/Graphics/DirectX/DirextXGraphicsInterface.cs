@@ -12,7 +12,7 @@ namespace Anathema.Source.SystemInternals.Graphics.DirectXHook
     /// <summary>
     /// Primary class that provides support for direct X manipulations over IPC
     /// </summary>
-    public class GraphicsInterface : IGraphicsInterface, IDisposable
+    public class DirextXGraphicsInterface : IGraphicsInterface, IDisposable
     {
         private IpcServerChannel ScreenshotServer;
         private ClientInterface ServerInterface;
@@ -34,7 +34,7 @@ namespace Anathema.Source.SystemInternals.Graphics.DirectXHook
         /// <exception cref="ProcessAlreadyHookedException">Thrown if the <paramref name="Process"/> is already hooked</exception>
         /// <exception cref="InjectionFailedException">Thrown if the injection failed - see the InnerException for more details.</exception>
         /// <remarks>The target process will have its main window brought to the foreground after successful injection.</remarks>
-        public GraphicsInterface(Process Process, CaptureConfig Config, ClientInterface CaptureInterface)
+        public DirextXGraphicsInterface(Process Process, ClientInterface CaptureInterface)
         {
             // If the process doesn't have a mainwindowhandle yet, skip it (we need to be able to get the hwnd to set foreground etc)
             if (Process.MainWindowHandle == IntPtr.Zero)
@@ -59,7 +59,7 @@ namespace Anathema.Source.SystemInternals.Graphics.DirectXHook
             {
                 // Inject DLL into target process
                 RemoteHooking.Inject(Process.Id, InjectionOptions.Default, typeof(ClientInterface).Assembly.Location,
-                    typeof(ClientInterface).Assembly.Location, ChannelName, Config);
+                    typeof(ClientInterface).Assembly.Location, ChannelName);
             }
             catch (Exception Ex)
             {
@@ -71,7 +71,7 @@ namespace Anathema.Source.SystemInternals.Graphics.DirectXHook
             this.Process = Process;
         }
 
-        ~GraphicsInterface()
+        ~DirextXGraphicsInterface()
         {
             Dispose(false);
         }
@@ -97,6 +97,22 @@ namespace Anathema.Source.SystemInternals.Graphics.DirectXHook
         {
 
         }
+
+    } // End class
+
+    public class ProcessHasNoWindowHandleException : Exception
+    {
+        public ProcessHasNoWindowHandleException() : base("The process does not have a window handle.") { }
+    }
+
+    public class ProcessAlreadyHookedException : Exception
+    {
+        public ProcessAlreadyHookedException() : base("The process is already hooked.") { }
+    }
+
+    public class InjectionFailedException : Exception
+    {
+        public InjectionFailedException(Exception innerException) : base("Injection failed. See InnerException for more detail.", innerException) { }
 
     } // End class
 

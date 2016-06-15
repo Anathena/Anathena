@@ -51,43 +51,6 @@ namespace Anathema.Source.SystemInternals.Graphics.DirectXHook.Hook
             };
         }
 
-        /*
-         * 
-        typedef enum DXGI_MODE_SCANLINE_ORDER
-        {
-        DXGI_MODE_SCANLINE_ORDER_UNSPECIFIED        = 0,
-        DXGI_MODE_SCANLINE_ORDER_PROGRESSIVE        = 1,
-        DXGI_MODE_SCANLINE_ORDER_UPPER_FIELD_FIRST  = 2,
-        DXGI_MODE_SCANLINE_ORDER_LOWER_FIELD_FIRST  = 3
-        } DXGI_MODE_SCANLINE_ORDER;
-
-        typedef enum DXGI_MODE_SCALING
-        {
-        DXGI_MODE_SCALING_UNSPECIFIED   = 0,
-        DXGI_MODE_SCALING_CENTERED      = 1,
-        DXGI_MODE_SCALING_STRETCHED     = 2
-        } DXGI_MODE_SCALING;
-
-        typedef enum DXGI_MODE_ROTATION
-        {
-        DXGI_MODE_ROTATION_UNSPECIFIED  = 0,
-        DXGI_MODE_ROTATION_IDENTITY     = 1,
-        DXGI_MODE_ROTATION_ROTATE90     = 2,
-        DXGI_MODE_ROTATION_ROTATE180    = 3,
-        DXGI_MODE_ROTATION_ROTATE270    = 4
-        } DXGI_MODE_ROTATION;
-
-        typedef struct DXGI_MODE_DESC
-        {
-        UINT Width;
-        UINT Height;
-        DXGI_RATIONAL RefreshRate;
-        DXGI_FORMAT Format;
-        DXGI_MODE_SCANLINE_ORDER ScanlineOrdering;
-        DXGI_MODE_SCALING Scaling;
-        } DXGI_MODE_DESC;
-         * */
-
     } // End class
 
 } // End namespace

@@ -1,4 +1,7 @@
 ﻿using Anathema.Source.SystemInternals.Graphics.DirectXHook.Hook;
+using Anathema.Source.SystemInternals.Graphics.DirectXHook.Hook.DX9;
+using Anathema.Source.SystemInternals.Graphics.DirectXHook.Hook.DX10;
+using Anathema.Source.SystemInternals.Graphics.DirectXHook.Hook.DX11;
 using Anathema.Source.SystemInternals.Graphics.DirectXHook.Interface;
 using EasyHook;
 using System;
@@ -26,7 +29,7 @@ namespace Anathema.Source.SystemInternals.Graphics.DirectXHook
 
         private Int64 StopCheckAlive;
 
-        public HookEntry(RemoteHooking.IContext Context, String ChannelName, CaptureConfig Config)
+        public HookEntry(RemoteHooking.IContext Context, String ChannelName)
         {
             ClientEventProxy = new ClientCaptureInterfaceEventProxy();
             this.ClientServerChannel = null;
@@ -54,7 +57,7 @@ namespace Anathema.Source.SystemInternals.Graphics.DirectXHook
             ChannelServices.RegisterChannel(ClientServerChannel, false);
         }
 
-        public void Run(RemoteHooking.IContext Context, String ChannelName, CaptureConfig Config)
+        public void Run(RemoteHooking.IContext Context, String ChannelName)
         {
             // When not using GAC there can be issues with remoting assemblies resolving correctly
             // this is a workaround that ensures that the current assembly is correctly associated
@@ -71,11 +74,9 @@ namespace Anathema.Source.SystemInternals.Graphics.DirectXHook
             RunWait.Reset();
             try
             {
-                // Initialise the Hook
-                if (!InitializeDirectXHook(Config))
-                {
+                // Initialize the Hook
+                if (!InitializeDirectXHook())
                     return;
-                }
 
                 ClientConnection.Disconnected += ClientEventProxy.DisconnectedProxyHandler;
 
@@ -146,10 +147,8 @@ namespace Anathema.Source.SystemInternals.Graphics.DirectXHook
             }
         }
 
-        private Boolean InitializeDirectXHook(CaptureConfig Config)
+        private Boolean InitializeDirectXHook()
         {
-            Direct3DVersionEnum Version = Config.Direct3DVersion;
-
             List<Direct3DVersionEnum> LoadedVersions = new List<Direct3DVersionEnum>();
 
             Boolean Is64BitProcess = RemoteHooking.IsX64Process(RemoteHooking.GetCurrentProcessId());
@@ -157,73 +156,67 @@ namespace Anathema.Source.SystemInternals.Graphics.DirectXHook
 
             try
             {
-                if (Version == Direct3DVersionEnum.AutoDetect || Version == Direct3DVersionEnum.Unknown)
+                Direct3DVersionEnum Version = Direct3DVersionEnum.AutoDetect;
+
+                // Attempt to determine the correct version based on loaded module.
+                // In most cases this will work fine, however it is perfectly ok for an application to use a D3D10 device along with D3D11 devices
+                // so the version might matched might not be the one you want to use
+                IntPtr D3D9Loaded = IntPtr.Zero;
+                IntPtr D3D10Loaded = IntPtr.Zero;
+                IntPtr D3D10_1Loaded = IntPtr.Zero;
+                IntPtr D3D11Loaded = IntPtr.Zero;
+                IntPtr D3D11_1Loaded = IntPtr.Zero;
+
+                Int32 DelayTime = 100;
+                Int32 RetryCount = 0;
+
+                while (D3D9Loaded == IntPtr.Zero && D3D10Loaded == IntPtr.Zero && D3D10_1Loaded == IntPtr.Zero && D3D11Loaded == IntPtr.Zero && D3D11_1Loaded == IntPtr.Zero)
                 {
-                    // Attempt to determine the correct version based on loaded module.
-                    // In most cases this will work fine, however it is perfectly ok for an application to use a D3D10 device along with D3D11 devices
-                    // so the version might matched might not be the one you want to use
-                    IntPtr D3D9Loaded = IntPtr.Zero;
-                    IntPtr D3D10Loaded = IntPtr.Zero;
-                    IntPtr D3D10_1Loaded = IntPtr.Zero;
-                    IntPtr D3D11Loaded = IntPtr.Zero;
-                    IntPtr D3D11_1Loaded = IntPtr.Zero;
+                    RetryCount++;
+                    D3D9Loaded = GetModuleHandle("d3d9.dll");
+                    D3D10Loaded = GetModuleHandle("d3d10.dll");
+                    D3D10_1Loaded = GetModuleHandle("d3d10_1.dll");
+                    D3D11Loaded = GetModuleHandle("d3d11.dll");
+                    D3D11_1Loaded = GetModuleHandle("d3d11_1.dll");
+                    Thread.Sleep(DelayTime);
 
-                    Int32 DelayTime = 100;
-                    Int32 RetryCount = 0;
-
-                    while (D3D9Loaded == IntPtr.Zero && D3D10Loaded == IntPtr.Zero && D3D10_1Loaded == IntPtr.Zero && D3D11Loaded == IntPtr.Zero && D3D11_1Loaded == IntPtr.Zero)
+                    if (RetryCount * DelayTime > 5000)
                     {
-                        RetryCount++;
-                        D3D9Loaded = GetModuleHandle("d3d9.dll");
-                        D3D10Loaded = GetModuleHandle("d3d10.dll");
-                        D3D10_1Loaded = GetModuleHandle("d3d10_1.dll");
-                        D3D11Loaded = GetModuleHandle("d3d11.dll");
-                        D3D11_1Loaded = GetModuleHandle("d3d11_1.dll");
-                        Thread.Sleep(DelayTime);
-
-                        if (RetryCount * DelayTime > 5000)
-                        {
-                            ClientConnection.Message(MessageType.Error, "Unsupported Direct3D version, or Direct3D DLL not loaded within 5 seconds.");
-                            return false;
-                        }
-                    }
-
-                    Version = Direct3DVersionEnum.Unknown;
-
-                    if (D3D11_1Loaded != IntPtr.Zero)
-                    {
-                        ClientConnection.Message(MessageType.Debug, "Autodetect found Direct3D 11.1");
-                        Version = Direct3DVersionEnum.Direct3D11_1;
-                        LoadedVersions.Add(Version);
-                    }
-                    if (D3D11Loaded != IntPtr.Zero)
-                    {
-                        ClientConnection.Message(MessageType.Debug, "Autodetect found Direct3D 11");
-                        Version = Direct3DVersionEnum.Direct3D11;
-                        LoadedVersions.Add(Version);
-                    }
-                    if (D3D10_1Loaded != IntPtr.Zero)
-                    {
-                        ClientConnection.Message(MessageType.Debug, "Autodetect found Direct3D 10.1");
-                        Version = Direct3DVersionEnum.Direct3D10_1;
-                        LoadedVersions.Add(Version);
-                    }
-                    if (D3D10Loaded != IntPtr.Zero)
-                    {
-                        ClientConnection.Message(MessageType.Debug, "Autodetect found Direct3D 10");
-                        Version = Direct3DVersionEnum.Direct3D10;
-                        LoadedVersions.Add(Version);
-                    }
-                    if (D3D9Loaded != IntPtr.Zero)
-                    {
-                        ClientConnection.Message(MessageType.Debug, "Autodetect found Direct3D 9");
-                        Version = Direct3DVersionEnum.Direct3D9;
-                        LoadedVersions.Add(Version);
+                        ClientConnection.Message(MessageType.Error, "Unsupported Direct3D version, or Direct3D DLL not loaded within 5 seconds.");
+                        return false;
                     }
                 }
-                else
+
+                Version = Direct3DVersionEnum.Unknown;
+
+                if (D3D11_1Loaded != IntPtr.Zero)
                 {
-                    // If not autodetect, assume specified version is loaded
+                    ClientConnection.Message(MessageType.Debug, "Autodetect found Direct3D 11.1");
+                    Version = Direct3DVersionEnum.Direct3D11_1;
+                    LoadedVersions.Add(Version);
+                }
+                if (D3D11Loaded != IntPtr.Zero)
+                {
+                    ClientConnection.Message(MessageType.Debug, "Autodetect found Direct3D 11");
+                    Version = Direct3DVersionEnum.Direct3D11;
+                    LoadedVersions.Add(Version);
+                }
+                if (D3D10_1Loaded != IntPtr.Zero)
+                {
+                    ClientConnection.Message(MessageType.Debug, "Autodetect found Direct3D 10.1");
+                    Version = Direct3DVersionEnum.Direct3D10_1;
+                    LoadedVersions.Add(Version);
+                }
+                if (D3D10Loaded != IntPtr.Zero)
+                {
+                    ClientConnection.Message(MessageType.Debug, "Autodetect found Direct3D 10");
+                    Version = Direct3DVersionEnum.Direct3D10;
+                    LoadedVersions.Add(Version);
+                }
+                if (D3D9Loaded != IntPtr.Zero)
+                {
+                    ClientConnection.Message(MessageType.Debug, "Autodetect found Direct3D 9");
+                    Version = Direct3DVersionEnum.Direct3D9;
                     LoadedVersions.Add(Version);
                 }
 
@@ -252,7 +245,6 @@ namespace Anathema.Source.SystemInternals.Graphics.DirectXHook
                             return false;
                     }
 
-                    DirectXHook.Config = Config;
                     DirectXHook.Hook();
 
                     DirectXHooks.Add(DirectXHook);
