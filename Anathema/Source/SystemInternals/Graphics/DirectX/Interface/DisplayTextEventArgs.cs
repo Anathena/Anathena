@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Anathema.Source.SystemInternals.Graphics.DirectXHook.Interface
+namespace Anathema.Source.SystemInternals.Graphics.DirectX.Interface
 {
     [Serializable]
     public class DisplayTextEventArgs : MarshalByRefObject

@@ -1,11 +1,11 @@
-﻿using Anathema.Source.SystemInternals.Graphics.DirectXHook.Hook.Common;
+﻿using Anathema.Source.SystemInternals.Graphics.DirectX.Hook.Common;
 using SharpDX;
 using SharpDX.Direct3D11;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 
-namespace Anathema.Source.SystemInternals.Graphics.DirectXHook.Hook.DX11
+namespace Anathema.Source.SystemInternals.Graphics.DirectX.Hook.DX11
 {
     internal class DXOverlayEngine : Component
     {

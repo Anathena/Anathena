@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Anathema.Source.SystemInternals.Graphics.DirectXHook.Interface
+namespace Anathema.Source.SystemInternals.Graphics.DirectX.Interface
 {
     [Serializable]
     public delegate void MessageReceivedEvent(MessageReceivedEventArgs Message);
@@ -17,10 +17,7 @@ namespace Anathema.Source.SystemInternals.Graphics.DirectXHook.Interface
         /// </summary>
         public int ProcessId { get; set; }
 
-        public ClientInterface()
-        {
-
-        }
+        public ClientInterface() { }
 
         #region Server-side Events
 

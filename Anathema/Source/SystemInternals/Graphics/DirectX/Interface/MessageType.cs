@@ -1,4 +1,4 @@
-﻿namespace Anathema.Source.SystemInternals.Graphics.DirectXHook.Interface
+﻿namespace Anathema.Source.SystemInternals.Graphics.DirectX.Interface
 {
     public enum MessageType
     {

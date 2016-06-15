@@ -1,4 +1,4 @@
-﻿using Anathema.Source.SystemInternals.Graphics.DirectXHook.Interface;
+﻿using Anathema.Source.SystemInternals.Graphics.DirectX.Interface;
 using EasyHook;
 using System;
 using System.Collections.Generic;
@@ -9,7 +9,7 @@ using System.Runtime.InteropServices;
 using System.Runtime.Remoting;
 using System.Threading;
 
-namespace Anathema.Source.SystemInternals.Graphics.DirectXHook.Hook
+namespace Anathema.Source.SystemInternals.Graphics.DirectX.Hook
 {
     internal abstract class BaseDXHook : SharpDX.Component, IDXHook
     {

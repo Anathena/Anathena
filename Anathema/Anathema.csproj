@@ -303,6 +303,9 @@
     <Compile Include="Source\SystemInternals\Graphics\DirectX\Hook\Common\IOverlayElement.cs" />
     <Compile Include="Source\SystemInternals\Graphics\DirectX\Hook\Common\Overlay.cs" />
     <Compile Include="Source\SystemInternals\Graphics\DirectX\Hook\Common\TextElement.cs" />
+    <Compile Include="Source\SystemInternals\Graphics\DirectX\Hook\DX10\D3D10DeviceVirtualTableEnum.cs" />
+    <Compile Include="Source\SystemInternals\Graphics\DirectX\Hook\DX10\D3D10_1DeviceVirtualTableEnum.cs" />
+    <Compile Include="Source\SystemInternals\Graphics\DirectX\Hook\DX11\D3D11DeviceVirtualTableEnum.cs" />
     <Compile Include="Source\SystemInternals\Graphics\DirectX\Hook\DX11\DeviceManager.cs" />
     <Compile Include="Source\SystemInternals\Graphics\DirectX\Hook\DX11\DXFont.cs" />
     <Compile Include="Source\SystemInternals\Graphics\DirectX\Hook\DX11\DXImage.cs" />
@@ -310,6 +313,8 @@
     <Compile Include="Source\SystemInternals\Graphics\DirectX\Hook\DX11\DXSprite.cs" />
     <Compile Include="Source\SystemInternals\Graphics\DirectX\Hook\DX11\RendererBase.cs" />
     <Compile Include="Source\SystemInternals\Graphics\DirectX\Hook\DX11\ScreenAlignedQuadRenderer.cs" />
+    <Compile Include="Source\SystemInternals\Graphics\DirectX\Hook\DX9\Direct3DDevice9ExFunctionOrdinalsEnum.cs" />
+    <Compile Include="Source\SystemInternals\Graphics\DirectX\Hook\DX9\Direct3DDevice9FunctionOrdinalsEnum.cs" />
     <Compile Include="Source\SystemInternals\Graphics\DirectX\Hook\DX9\DXOverlayEngine.cs" />
     <Compile Include="Source\SystemInternals\Graphics\DirectX\Hook\DXGI.cs" />
     <Compile Include="Source\SystemInternals\Graphics\DirectX\Hook\DX10\DXHookD3D10.cs" />
@@ -318,7 +323,6 @@
     <Compile Include="Source\SystemInternals\Graphics\DirectX\Hook\DX9\DXHookD3D9.cs" />
     <Compile Include="Source\SystemInternals\Graphics\DirectX\Hook\FramesPerSecond.cs" />
     <Compile Include="Source\SystemInternals\Graphics\DirectX\Hook\Hook.cs" />
-    <Compile Include="Source\SystemInternals\Graphics\DirectX\Hook\HookManager.cs" />
     <Compile Include="Source\SystemInternals\Graphics\DirectX\Hook\IDXHook.cs" />
     <Compile Include="Source\SystemInternals\Graphics\DirectX\Hook\SafeHGlobal.cs" />
     <Compile Include="Source\SystemInternals\Graphics\DirectX\Hook\TextDisplay.cs" />

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Anathema.Source.SystemInternals.Graphics.DirectXHook.Hook.Common
+namespace Anathema.Source.SystemInternals.Graphics.DirectX.Hook.Common
 {
     public class ImageElement : Element
     {

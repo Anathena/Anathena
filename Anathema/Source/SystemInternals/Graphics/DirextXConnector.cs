@@ -1,7 +1,6 @@
 ﻿using Anathema.Source.Graphics;
-using Anathema.Source.SystemInternals.Graphics.DirectXHook;
-using Anathema.Source.SystemInternals.Graphics.DirectXHook.Hook;
-using Anathema.Source.SystemInternals.Graphics.DirectXHook.Interface;
+using Anathema.Source.SystemInternals.Graphics.DirectX;
+using Anathema.Source.SystemInternals.Graphics.DirectX.Interface;
 using System;
 using System.Diagnostics;
 
@@ -25,7 +24,7 @@ namespace Anathema.Source.SystemInternals.Graphics
             // Config.Register("Name", "Name.dll");
 
             // Skip if the process is already hooked (and we want to hook multiple applications)
-            if (Process.MainWindowHandle == IntPtr.Zero || HookManager.IsHooked(Process.Id))
+            if (Process.MainWindowHandle == IntPtr.Zero)
                 return;
 
             ClientInterface CaptureInterface = new ClientInterface();
@@ -43,7 +42,6 @@ namespace Anathema.Source.SystemInternals.Graphics
             if (GraphicsInterface == null)
                 return;
 
-            HookManager.RemoveHookedProcess(GraphicsInterface.Process.Id);
             GraphicsInterface.CaptureInterface.Disconnect();
             GraphicsInterface = null;
         }

@@ -1,13 +1,12 @@
 ﻿using Anathema.Source.Graphics;
-using Anathema.Source.SystemInternals.Graphics.DirectXHook.Hook;
-using Anathema.Source.SystemInternals.Graphics.DirectXHook.Interface;
+using Anathema.Source.SystemInternals.Graphics.DirectX.Interface;
 using EasyHook;
 using System;
 using System.Diagnostics;
 using System.Runtime.Remoting;
 using System.Runtime.Remoting.Channels.Ipc;
 
-namespace Anathema.Source.SystemInternals.Graphics.DirectXHook
+namespace Anathema.Source.SystemInternals.Graphics.DirectX
 {
     /// <summary>
     /// Primary class that provides support for direct X manipulations over IPC
@@ -31,26 +30,16 @@ namespace Anathema.Source.SystemInternals.Graphics.DirectXHook
         /// </summary>
         /// <param name="Process">The process to inject into</param>
         /// <exception cref="ProcessHasNoWindowHandleException">Thrown if the <paramref name="Process"/> does not have a window handle. This could mean that the process does not have a UI, or that the process has not yet finished starting.</exception>
-        /// <exception cref="ProcessAlreadyHookedException">Thrown if the <paramref name="Process"/> is already hooked</exception>
         /// <exception cref="InjectionFailedException">Thrown if the injection failed - see the InnerException for more details.</exception>
         /// <remarks>The target process will have its main window brought to the foreground after successful injection.</remarks>
         public DirextXGraphicsInterface(Process Process, ClientInterface CaptureInterface)
         {
             // If the process doesn't have a mainwindowhandle yet, skip it (we need to be able to get the hwnd to set foreground etc)
             if (Process.MainWindowHandle == IntPtr.Zero)
-            {
                 throw new ProcessHasNoWindowHandleException();
-            }
-
-            // Skip if the process is already hooked (and we want to hook multiple applications)
-            if (HookManager.IsHooked(Process.Id))
-            {
-                throw new ProcessAlreadyHookedException();
-            }
 
             CaptureInterface.ProcessId = Process.Id;
             ServerInterface = CaptureInterface;
-            // ServerInterface = new CaptureInterface() { ProcessId = Process.Id };
 
             // Initialize the IPC server (with our instance of ServerInterface)
             ScreenshotServer = RemoteHooking.IpcCreateServer<ClientInterface>(ref ChannelName, WellKnownObjectMode.Singleton, ServerInterface);
@@ -65,8 +54,6 @@ namespace Anathema.Source.SystemInternals.Graphics.DirectXHook
             {
                 throw new InjectionFailedException(Ex);
             }
-
-            HookManager.AddHookedProcess(Process.Id);
 
             this.Process = Process;
         }
@@ -103,11 +90,6 @@ namespace Anathema.Source.SystemInternals.Graphics.DirectXHook
     public class ProcessHasNoWindowHandleException : Exception
     {
         public ProcessHasNoWindowHandleException() : base("The process does not have a window handle.") { }
-    }
-
-    public class ProcessAlreadyHookedException : Exception
-    {
-        public ProcessAlreadyHookedException() : base("The process is already hooked.") { }
     }
 
     public class InjectionFailedException : Exception

@@ -1,21 +1,20 @@
-﻿using Anathema.Source.SystemInternals.Graphics.DirectXHook.Hook;
-using Anathema.Source.SystemInternals.Graphics.DirectXHook.Hook.DX9;
-using Anathema.Source.SystemInternals.Graphics.DirectXHook.Hook.DX10;
-using Anathema.Source.SystemInternals.Graphics.DirectXHook.Hook.DX11;
-using Anathema.Source.SystemInternals.Graphics.DirectXHook.Interface;
+﻿using Anathema.Source.SystemInternals.Graphics.DirectX.Hook;
+using Anathema.Source.SystemInternals.Graphics.DirectX.Hook.DX10;
+using Anathema.Source.SystemInternals.Graphics.DirectX.Hook.DX11;
+using Anathema.Source.SystemInternals.Graphics.DirectX.Hook.DX9;
+using Anathema.Source.SystemInternals.Graphics.DirectX.Interface;
 using EasyHook;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
-using System.Runtime.Remoting;
 using System.Runtime.Remoting.Channels;
 using System.Runtime.Remoting.Channels.Ipc;
 using System.Runtime.Serialization.Formatters;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Anathema.Source.SystemInternals.Graphics.DirectXHook
+namespace Anathema.Source.SystemInternals.Graphics.DirectX
 {
     public class HookEntry : IEntryPoint
     {
@@ -23,21 +22,16 @@ namespace Anathema.Source.SystemInternals.Graphics.DirectXHook
         private IpcServerChannel ClientServerChannel;
         private ClientInterface ClientConnection;
 
-        private List<IDXHook> DirectXHooks;
         private IDXHook DirectXHook;
-        private ManualResetEvent RunWait;
+        private ManualResetEvent TaskRunning;
 
-        private Int64 StopCheckAlive;
+        private CancellationTokenSource CancelRequest;
 
         public HookEntry(RemoteHooking.IContext Context, String ChannelName)
         {
             ClientEventProxy = new ClientCaptureInterfaceEventProxy();
             this.ClientServerChannel = null;
-
-            DirectXHooks = new List<IDXHook>();
             DirectXHook = null;
-
-            StopCheckAlive = 0;
 
             // Get reference to IPC to host application
             ClientConnection = RemoteHooking.IpcConnectClient<ClientInterface>(ChannelName);
@@ -70,8 +64,9 @@ namespace Anathema.Source.SystemInternals.Graphics.DirectXHook
             // NOTE: This is running in the target process
             ClientConnection.Message(MessageType.Information, "Injected into process Id:{0}.", EasyHook.RemoteHooking.GetCurrentProcessId());
 
-            RunWait = new ManualResetEvent(false);
-            RunWait.Reset();
+            TaskRunning = new ManualResetEvent(false);
+            TaskRunning.Reset();
+
             try
             {
                 // Initialize the Hook
@@ -87,22 +82,12 @@ namespace Anathema.Source.SystemInternals.Graphics.DirectXHook
                 ClientEventProxy.Disconnected += () =>
                 {
                     // We can now signal the exit of the Run method
-                    RunWait.Set();
+                    TaskRunning.Set();
                 };
 
                 // We start a thread here to periodically check if the host is still running
                 // If the host process stops then we will automatically uninstall the hooks
-                StartCheckHostIsAliveThread();
-
-                // Wait until signaled for exit either when a Disconnect message from the host 
-                // or if the the check is alive has failed to Ping the host.
-                RunWait.WaitOne();
-
-                // we need to tell the check host thread to exit (if it hasn't already)
-                StopCheckHostIsAliveThread();
-
-                // Dispose of the DXHook so any installed hooks are removed correctly
-                DisposeDirectXHook();
+                MaintainConnection();
             }
             catch (Exception Ex)
             {
@@ -114,10 +99,7 @@ namespace Anathema.Source.SystemInternals.Graphics.DirectXHook
                 {
                     ClientConnection.Message(MessageType.Information, "Disconnecting from process {0}", EasyHook.RemoteHooking.GetCurrentProcessId());
                 }
-                catch
-                {
-
-                }
+                catch { }
 
                 // Remove the client server channel (that allows client event handlers)
                 ChannelServices.UnregisterChannel(ClientServerChannel);
@@ -129,127 +111,75 @@ namespace Anathema.Source.SystemInternals.Graphics.DirectXHook
 
         private void DisposeDirectXHook()
         {
-            if (DirectXHooks != null)
+            if (DirectXHook == null)
+                return;
+
+            try
             {
-                try
-                {
-                    ClientConnection.Message(MessageType.Debug, "Disposing of hooks...");
-                }
-                catch (RemotingException) { } // Ignore channel remoting errors
-
-                // Dispose of the hooks so they are removed
-                foreach (IDXHook DXHook in DirectXHooks)
-                {
-                    DXHook.Dispose();
-                }
-
-                DirectXHooks.Clear();
+                ClientConnection.Message(MessageType.Debug, "Disposing of hooks...");
             }
+            catch { }
+
+            DirectXHook.Dispose();
         }
 
         private Boolean InitializeDirectXHook()
         {
-            List<Direct3DVersionEnum> LoadedVersions = new List<Direct3DVersionEnum>();
+            Direct3DVersionEnum Version = Direct3DVersionEnum.Unknown;
 
-            Boolean Is64BitProcess = RemoteHooking.IsX64Process(RemoteHooking.GetCurrentProcessId());
-            ClientConnection.Message(MessageType.Information, "Remote process is a {0}-bit process.", Is64BitProcess ? "64" : "32");
+            Dictionary<Direct3DVersionEnum, String> DXModules = new Dictionary<Direct3DVersionEnum, String>
+            {
+                { Direct3DVersionEnum.Direct3D9, "d3d9.dll" },
+                { Direct3DVersionEnum.Direct3D10, "d3d10.dll" },
+                { Direct3DVersionEnum.Direct3D10_1, "d3d10_1.dll" },
+                { Direct3DVersionEnum.Direct3D11, "d3d11.dll" },
+                { Direct3DVersionEnum.Direct3D11_1, "d3d11_1.dll" },
+            };
 
             try
             {
-                Direct3DVersionEnum Version = Direct3DVersionEnum.AutoDetect;
+                IntPtr Handle = IntPtr.Zero;
 
-                // Attempt to determine the correct version based on loaded module.
-                // In most cases this will work fine, however it is perfectly ok for an application to use a D3D10 device along with D3D11 devices
-                // so the version might matched might not be the one you want to use
-                IntPtr D3D9Loaded = IntPtr.Zero;
-                IntPtr D3D10Loaded = IntPtr.Zero;
-                IntPtr D3D10_1Loaded = IntPtr.Zero;
-                IntPtr D3D11Loaded = IntPtr.Zero;
-                IntPtr D3D11_1Loaded = IntPtr.Zero;
-
-                Int32 DelayTime = 100;
-                Int32 RetryCount = 0;
-
-                while (D3D9Loaded == IntPtr.Zero && D3D10Loaded == IntPtr.Zero && D3D10_1Loaded == IntPtr.Zero && D3D11Loaded == IntPtr.Zero && D3D11_1Loaded == IntPtr.Zero)
+                foreach (KeyValuePair<Direct3DVersionEnum, String> Module in DXModules)
                 {
-                    RetryCount++;
-                    D3D9Loaded = GetModuleHandle("d3d9.dll");
-                    D3D10Loaded = GetModuleHandle("d3d10.dll");
-                    D3D10_1Loaded = GetModuleHandle("d3d10_1.dll");
-                    D3D11Loaded = GetModuleHandle("d3d11.dll");
-                    D3D11_1Loaded = GetModuleHandle("d3d11_1.dll");
-                    Thread.Sleep(DelayTime);
+                    Handle = GetModuleHandle(Module.Value);
 
-                    if (RetryCount * DelayTime > 5000)
+                    if (Handle != IntPtr.Zero)
                     {
-                        ClientConnection.Message(MessageType.Error, "Unsupported Direct3D version, or Direct3D DLL not loaded within 5 seconds.");
+                        Version = Module.Key;
+                        break;
+                    }
+                }
+
+                if (Handle == IntPtr.Zero)
+                {
+                    ClientConnection.Message(MessageType.Error, "Unsupported Direct3D version, or DLL not loaded");
+                    return false;
+                }
+
+                switch (Version)
+                {
+                    case Direct3DVersionEnum.Direct3D9:
+                        DirectXHook = new DXHookD3D9(ClientConnection);
+                        break;
+                    case Direct3DVersionEnum.Direct3D10:
+                        DirectXHook = new DXHookD3D10(ClientConnection);
+                        break;
+                    case Direct3DVersionEnum.Direct3D10_1:
+                        DirectXHook = new DXHookD3D10_1(ClientConnection);
+                        break;
+                    case Direct3DVersionEnum.Direct3D11:
+                        DirectXHook = new DXHookD3D11(ClientConnection);
+                        break;
+                    //case Direct3DVersion.Direct3D11_1:
+                    //    DirectXHook = new DXHookD3D11_1(ClientConnection);
+                    //    return;
+                    default:
+                        ClientConnection.Message(MessageType.Error, "Unsupported Direct3D version: {0}", Version);
                         return false;
-                    }
                 }
 
-                Version = Direct3DVersionEnum.Unknown;
-
-                if (D3D11_1Loaded != IntPtr.Zero)
-                {
-                    ClientConnection.Message(MessageType.Debug, "Autodetect found Direct3D 11.1");
-                    Version = Direct3DVersionEnum.Direct3D11_1;
-                    LoadedVersions.Add(Version);
-                }
-                if (D3D11Loaded != IntPtr.Zero)
-                {
-                    ClientConnection.Message(MessageType.Debug, "Autodetect found Direct3D 11");
-                    Version = Direct3DVersionEnum.Direct3D11;
-                    LoadedVersions.Add(Version);
-                }
-                if (D3D10_1Loaded != IntPtr.Zero)
-                {
-                    ClientConnection.Message(MessageType.Debug, "Autodetect found Direct3D 10.1");
-                    Version = Direct3DVersionEnum.Direct3D10_1;
-                    LoadedVersions.Add(Version);
-                }
-                if (D3D10Loaded != IntPtr.Zero)
-                {
-                    ClientConnection.Message(MessageType.Debug, "Autodetect found Direct3D 10");
-                    Version = Direct3DVersionEnum.Direct3D10;
-                    LoadedVersions.Add(Version);
-                }
-                if (D3D9Loaded != IntPtr.Zero)
-                {
-                    ClientConnection.Message(MessageType.Debug, "Autodetect found Direct3D 9");
-                    Version = Direct3DVersionEnum.Direct3D9;
-                    LoadedVersions.Add(Version);
-                }
-
-                foreach (Direct3DVersionEnum DXVersion in LoadedVersions)
-                {
-                    Version = DXVersion;
-                    switch (Version)
-                    {
-                        case Direct3DVersionEnum.Direct3D9:
-                            DirectXHook = new DXHookD3D9(ClientConnection);
-                            break;
-                        case Direct3DVersionEnum.Direct3D10:
-                            DirectXHook = new DXHookD3D10(ClientConnection);
-                            break;
-                        case Direct3DVersionEnum.Direct3D10_1:
-                            DirectXHook = new DXHookD3D10_1(ClientConnection);
-                            break;
-                        case Direct3DVersionEnum.Direct3D11:
-                            DirectXHook = new DXHookD3D11(ClientConnection);
-                            break;
-                        //case Direct3DVersion.Direct3D11_1:
-                        //    DirectXHook = new DXHookD3D11_1(ClientConnection);
-                        //    return;
-                        default:
-                            ClientConnection.Message(MessageType.Error, "Unsupported Direct3D version: {0}", Version);
-                            return false;
-                    }
-
-                    DirectXHook.Hook();
-
-                    DirectXHooks.Add(DirectXHook);
-                }
-
+                DirectXHook.Hook();
                 return true;
 
             }
@@ -264,34 +194,37 @@ namespace Anathema.Source.SystemInternals.Graphics.DirectXHook
         /// <summary>
         /// Begin a background thread to check periodically that the host process is still accessible on its IPC channel
         /// </summary>
-        private void StartCheckHostIsAliveThread()
+        private void MaintainConnection()
         {
-            Task.Run(() =>
-            {
-                try
-                {
-                    while (Interlocked.Read(ref StopCheckAlive) == 0)
-                    {
-                        Thread.Sleep(1000);
+            CancelRequest = new CancellationTokenSource();
 
-                        // .NET Remoting exceptions will throw RemotingException
+            Task.Run(async () =>
+            {
+                while (true)
+                {
+                    try
+                    {
                         ClientConnection.Ping();
                     }
-                }
-                catch // We will assume that any exception means that the hooks need to be removed. 
-                {
-                    // Signal the Run method so that it can exit
-                    RunWait.Set();
-                }
-            });
-        }
+                    catch
+                    {
+                        TaskRunning.Set();
+                    }
 
-        /// <summary>
-        /// Tell the _checkAlive thread that it can exit if it hasn't already
-        /// </summary>
-        private void StopCheckHostIsAliveThread()
-        {
-            Interlocked.Increment(ref StopCheckAlive);
+                    // Await with cancellation
+                    await Task.Delay(1000, CancelRequest.Token);
+                }
+
+            }, CancelRequest.Token);
+
+            // Wait until task is no longer running
+            TaskRunning.WaitOne();
+
+            // Cancel task to ensure it ends
+            CancelRequest?.Cancel();
+
+            // Clean up
+            DisposeDirectXHook();
         }
 
         [DllImport("kernel32.dll")]

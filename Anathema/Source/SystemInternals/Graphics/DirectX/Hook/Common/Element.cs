@@ -2,7 +2,7 @@
 using System.Runtime.Remoting;
 using System.Security.Permissions;
 
-namespace Anathema.Source.SystemInternals.Graphics.DirectXHook.Hook.Common
+namespace Anathema.Source.SystemInternals.Graphics.DirectX.Hook.Common
 {
     [Serializable]
     public abstract class Element : MarshalByRefObject, IOverlayElement, IDisposable

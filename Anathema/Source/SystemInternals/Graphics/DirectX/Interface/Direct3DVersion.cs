@@ -1,9 +1,8 @@
-﻿namespace Anathema.Source.SystemInternals.Graphics.DirectXHook.Interface
+﻿namespace Anathema.Source.SystemInternals.Graphics.DirectX.Interface
 {
     public enum Direct3DVersionEnum
     {
         Unknown,
-        AutoDetect,
         Direct3D9,
         Direct3D10,
         Direct3D10_1,

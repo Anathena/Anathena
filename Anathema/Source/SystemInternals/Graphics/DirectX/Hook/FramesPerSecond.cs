@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Anathema.Source.SystemInternals.Graphics.DirectXHook.Hook
+namespace Anathema.Source.SystemInternals.Graphics.DirectX.Hook
 {
     /// <summary>
     /// Used to determine the FPS

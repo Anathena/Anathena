@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Anathema.Source.SystemInternals.Graphics.DirectXHook.Hook.Common
+namespace Anathema.Source.SystemInternals.Graphics.DirectX.Hook.Common
 {
     public class Overlay : IOverlay
     {
