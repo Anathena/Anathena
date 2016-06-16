@@ -1,8 +1,10 @@
-﻿using Anathema.Source.Graphics;
+﻿using Anathema.Source.Controller;
+using Anathema.Source.Graphics;
 using Anathema.Source.SystemInternals.Graphics.DirectX;
 using Anathema.Source.SystemInternals.Graphics.DirectX.Interface;
 using System;
 using System.Diagnostics;
+using System.IO;
 
 namespace Anathema.Source.SystemInternals.Graphics
 {
@@ -20,16 +22,13 @@ namespace Anathema.Source.SystemInternals.Graphics
             if (GraphicsInterface != null)
                 return;
 
-            // Must be running as Administrator to allow dynamic registration in GAC
-            // Config.Register("Name", "Name.dll");
-
             // Skip if the process is already hooked (and we want to hook multiple applications)
             if (Process.MainWindowHandle == IntPtr.Zero)
                 return;
 
             ClientInterface CaptureInterface = new ClientInterface();
-            CaptureInterface.RemoteMessage += new MessageReceivedEvent(CaptureInterface_RemoteMessage);
-            GraphicsInterface = new DirextXGraphicsInterface(Process, CaptureInterface);
+            CaptureInterface.RemoteMessage += new MessageReceivedEvent(CaptureInterfaceRemoteMessage);
+            GraphicsInterface = new DirextXGraphicsInterface(Process, CaptureInterface, Path.GetDirectoryName(Main.GetInstance().GetProjectFilePath()));
         }
 
         public IGraphicsInterface GetGraphicsInterface()
@@ -39,10 +38,7 @@ namespace Anathema.Source.SystemInternals.Graphics
 
         public void Uninject()
         {
-            if (GraphicsInterface == null)
-                return;
-
-            GraphicsInterface.CaptureInterface.Disconnect();
+            GraphicsInterface?.Disconnect();
             GraphicsInterface = null;
         }
 
@@ -50,7 +46,7 @@ namespace Anathema.Source.SystemInternals.Graphics
         /// Display messages from the target process
         /// </summary>
         /// <param name="Message"></param>
-        public void CaptureInterface_RemoteMessage(MessageReceivedEventArgs Message)
+        public void CaptureInterfaceRemoteMessage(MessageReceivedEventArgs Message)
         {
             // Process messages that come from the injected hook
         }

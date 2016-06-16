@@ -20,24 +20,24 @@ namespace Anathema.Source.SystemInternals.Graphics.DirectX
     {
         private ClientCaptureInterfaceEventProxy ClientEventProxy;
         private IpcServerChannel ClientServerChannel;
-        private ClientInterface ClientConnection;
+        private ClientInterface ClientInterface;
 
         private IDXHook DirectXHook;
         private ManualResetEvent TaskRunning;
 
         private CancellationTokenSource CancelRequest;
 
-        public HookEntry(RemoteHooking.IContext Context, String ChannelName)
+        public HookEntry(RemoteHooking.IContext Context, String ChannelName, String ProjectDirectory)
         {
             ClientEventProxy = new ClientCaptureInterfaceEventProxy();
             this.ClientServerChannel = null;
             DirectXHook = null;
 
             // Get reference to IPC to host application
-            ClientConnection = RemoteHooking.IpcConnectClient<ClientInterface>(ChannelName);
+            ClientInterface = RemoteHooking.IpcConnectClient<ClientInterface>(ChannelName);
 
             // We try to ping immediately, if it fails then injection fails
-            ClientConnection.Ping();
+            ClientInterface.Ping();
 
             // Attempt to create a IpcServerChannel so that any event handlers on the client will function correctly
             IDictionary Properties = new Hashtable();
@@ -51,7 +51,7 @@ namespace Anathema.Source.SystemInternals.Graphics.DirectX
             ChannelServices.RegisterChannel(ClientServerChannel, false);
         }
 
-        public void Run(RemoteHooking.IContext Context, String ChannelName)
+        public void Run(RemoteHooking.IContext Context, String ChannelName, String ProjectDirectory)
         {
             // When not using GAC there can be issues with remoting assemblies resolving correctly
             // this is a workaround that ensures that the current assembly is correctly associated
@@ -61,8 +61,7 @@ namespace Anathema.Source.SystemInternals.Graphics.DirectX
                 return this.GetType().Assembly.FullName == Args.Name ? this.GetType().Assembly : null;
             };
 
-            // NOTE: This is running in the target process
-            ClientConnection.Message(MessageType.Information, "Injected into process Id:{0}.", EasyHook.RemoteHooking.GetCurrentProcessId());
+            ClientInterface.Message(MessageType.Information, "Injected into process Id:{0}.", EasyHook.RemoteHooking.GetCurrentProcessId());
 
             TaskRunning = new ManualResetEvent(false);
             TaskRunning.Reset();
@@ -73,7 +72,7 @@ namespace Anathema.Source.SystemInternals.Graphics.DirectX
                 if (!InitializeDirectXHook())
                     return;
 
-                ClientConnection.Disconnected += ClientEventProxy.DisconnectedProxyHandler;
+                ClientInterface.Disconnected += ClientEventProxy.DisconnectedProxyHandler;
 
                 // Important Note:
                 // accessing the _interface from within a _clientEventProxy event handler must always 
@@ -91,13 +90,13 @@ namespace Anathema.Source.SystemInternals.Graphics.DirectX
             }
             catch (Exception Ex)
             {
-                ClientConnection.Message(MessageType.Error, "An unexpected error occured: {0}", Ex.ToString());
+                ClientInterface.Message(MessageType.Error, "An unexpected error occured: {0}", Ex.ToString());
             }
             finally
             {
                 try
                 {
-                    ClientConnection.Message(MessageType.Information, "Disconnecting from process {0}", EasyHook.RemoteHooking.GetCurrentProcessId());
+                    ClientInterface.Message(MessageType.Information, "Disconnecting from process {0}", EasyHook.RemoteHooking.GetCurrentProcessId());
                 }
                 catch { }
 
@@ -116,7 +115,7 @@ namespace Anathema.Source.SystemInternals.Graphics.DirectX
 
             try
             {
-                ClientConnection.Message(MessageType.Debug, "Disposing of hooks...");
+                ClientInterface.Message(MessageType.Debug, "Disposing of hooks...");
             }
             catch { }
 
@@ -153,29 +152,29 @@ namespace Anathema.Source.SystemInternals.Graphics.DirectX
 
                 if (Handle == IntPtr.Zero)
                 {
-                    ClientConnection.Message(MessageType.Error, "Unsupported Direct3D version, or DLL not loaded");
+                    ClientInterface.Message(MessageType.Error, "Unsupported Direct3D version, or DLL not loaded");
                     return false;
                 }
 
                 switch (Version)
                 {
                     case Direct3DVersionEnum.Direct3D9:
-                        DirectXHook = new DXHookD3D9(ClientConnection);
+                        DirectXHook = new DXHookD3D9(ClientInterface);
                         break;
                     case Direct3DVersionEnum.Direct3D10:
-                        DirectXHook = new DXHookD3D10(ClientConnection);
+                        DirectXHook = new DXHookD3D10(ClientInterface);
                         break;
                     case Direct3DVersionEnum.Direct3D10_1:
-                        DirectXHook = new DXHookD3D10_1(ClientConnection);
+                        DirectXHook = new DXHookD3D10_1(ClientInterface);
                         break;
                     case Direct3DVersionEnum.Direct3D11:
-                        DirectXHook = new DXHookD3D11(ClientConnection);
+                        DirectXHook = new DXHookD3D11(ClientInterface);
                         break;
                     //case Direct3DVersion.Direct3D11_1:
                     //    DirectXHook = new DXHookD3D11_1(ClientConnection);
                     //    return;
                     default:
-                        ClientConnection.Message(MessageType.Error, "Unsupported Direct3D version: {0}", Version);
+                        ClientInterface.Message(MessageType.Error, "Unsupported Direct3D version: {0}", Version);
                         return false;
                 }
 
@@ -186,7 +185,7 @@ namespace Anathema.Source.SystemInternals.Graphics.DirectX
             catch (Exception Ex)
             {
                 // Notify the host/server application about this error
-                ClientConnection.Message(MessageType.Error, "Error in InitialiseHook: {0}", Ex.ToString());
+                ClientInterface.Message(MessageType.Error, "Error in InitialiseHook: {0}", Ex.ToString());
                 return false;
             }
         }
@@ -204,7 +203,7 @@ namespace Anathema.Source.SystemInternals.Graphics.DirectX
                 {
                     try
                     {
-                        ClientConnection.Ping();
+                        ClientInterface.Ping();
                     }
                     catch
                     {

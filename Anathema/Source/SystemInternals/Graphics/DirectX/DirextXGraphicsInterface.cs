@@ -14,16 +14,11 @@ namespace Anathema.Source.SystemInternals.Graphics.DirectX
     public class DirextXGraphicsInterface : IGraphicsInterface, IDisposable
     {
         private IpcServerChannel ScreenshotServer;
-        private ClientInterface ServerInterface;
+        private ClientInterface CaptureInterface;
         public Process Process { get; set; }
 
         private Boolean Disposed = false;
         private String ChannelName = null;
-
-        public ClientInterface CaptureInterface
-        {
-            get { return ServerInterface; }
-        }
 
         /// <summary>
         /// Prepares capturing in the target process. Note that the process must not already be hooked, and must have a <see cref="Process.MainWindowHandle"/>.
@@ -32,23 +27,23 @@ namespace Anathema.Source.SystemInternals.Graphics.DirectX
         /// <exception cref="ProcessHasNoWindowHandleException">Thrown if the <paramref name="Process"/> does not have a window handle. This could mean that the process does not have a UI, or that the process has not yet finished starting.</exception>
         /// <exception cref="InjectionFailedException">Thrown if the injection failed - see the InnerException for more details.</exception>
         /// <remarks>The target process will have its main window brought to the foreground after successful injection.</remarks>
-        public DirextXGraphicsInterface(Process Process, ClientInterface CaptureInterface)
+        public DirextXGraphicsInterface(Process Process, ClientInterface CaptureInterface, String ProjectDirectory)
         {
             // If the process doesn't have a mainwindowhandle yet, skip it (we need to be able to get the hwnd to set foreground etc)
             if (Process.MainWindowHandle == IntPtr.Zero)
                 throw new ProcessHasNoWindowHandleException();
 
             CaptureInterface.ProcessId = Process.Id;
-            ServerInterface = CaptureInterface;
+            CaptureInterface.ProjectDirectory = ProjectDirectory;
 
             // Initialize the IPC server (with our instance of ServerInterface)
-            ScreenshotServer = RemoteHooking.IpcCreateServer<ClientInterface>(ref ChannelName, WellKnownObjectMode.Singleton, ServerInterface);
+            ScreenshotServer = RemoteHooking.IpcCreateServer<ClientInterface>(ref ChannelName, WellKnownObjectMode.Singleton, CaptureInterface);
 
             try
             {
                 // Inject DLL into target process
                 RemoteHooking.Inject(Process.Id, InjectionOptions.Default, typeof(ClientInterface).Assembly.Location,
-                    typeof(ClientInterface).Assembly.Location, ChannelName);
+                    typeof(ClientInterface).Assembly.Location, ChannelName, ProjectDirectory);
             }
             catch (Exception Ex)
             {
@@ -75,7 +70,7 @@ namespace Anathema.Source.SystemInternals.Graphics.DirectX
                 return;
 
             if (Disposing)
-                ServerInterface.Disconnect();
+                CaptureInterface?.Disconnect();
 
             Disposed = true;
         }
@@ -83,6 +78,11 @@ namespace Anathema.Source.SystemInternals.Graphics.DirectX
         public void DrawString(String Text, Int32 LocationX, Int32 LocationY)
         {
 
+        }
+
+        public void Disconnect()
+        {
+            CaptureInterface?.Disconnect();
         }
 
     } // End class

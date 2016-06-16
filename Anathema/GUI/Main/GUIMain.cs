@@ -49,7 +49,6 @@ namespace Anathema.GUI
         private GUIRegistration GUIRegistration;
 
         // Variables
-        private String ActiveTablePath;
         private String Title;
         private Object AccessLock;
 
@@ -479,13 +478,13 @@ namespace Anathema.GUI
 
         public void BeginSaveTable()
         {
-            if (ActiveTablePath == null || ActiveTablePath == String.Empty)
+            if (MainPresenter.GetProjectFilePath() == null || MainPresenter.GetProjectFilePath() == String.Empty)
             {
                 BeginSaveAsTable();
                 return;
             }
 
-            MainPresenter.RequestSaveTable(ActiveTablePath);
+            MainPresenter.RequestSaveTable(MainPresenter.GetProjectFilePath());
         }
 
         public void BeginSaveAsTable()
@@ -495,7 +494,7 @@ namespace Anathema.GUI
             SaveFileDialog.Title = "Save Cheat File";
             SaveFileDialog.ShowDialog();
 
-            ActiveTablePath = SaveFileDialog.FileName;
+            MainPresenter.SetProjectFilePath(SaveFileDialog.FileName);
 
             MainPresenter.RequestSaveTable(SaveFileDialog.FileName);
         }
@@ -507,7 +506,7 @@ namespace Anathema.GUI
             OpenFileDialog.Title = "Open Cheat File";
             OpenFileDialog.ShowDialog();
 
-            ActiveTablePath = OpenFileDialog.FileName;
+            MainPresenter.SetProjectFilePath(OpenFileDialog.FileName);
 
             MainPresenter.RequestOpenTable(OpenFileDialog.FileName);
         }
@@ -520,8 +519,8 @@ namespace Anathema.GUI
             OpenFileDialog.ShowDialog();
 
             // Prioritize whatever is open already. If nothing, use the merge filename.
-            if (ActiveTablePath == String.Empty)
-                ActiveTablePath = OpenFileDialog.FileName;
+            if (MainPresenter.GetProjectFilePath() == String.Empty)
+                MainPresenter.SetProjectFilePath(OpenFileDialog.FileName);
 
             MainPresenter.RequestMergeTable(OpenFileDialog.FileName);
         }
@@ -558,7 +557,7 @@ namespace Anathema.GUI
                 if (HasChanges)
                     this.Text += "*";
 
-                this.Text += " - " + ActiveTablePath;
+                this.Text += " - " + MainPresenter.GetProjectFilePath();
             });
         }
 

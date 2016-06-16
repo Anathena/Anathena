@@ -39,10 +39,13 @@ namespace Anathema.Source.Controller
         void RequestOpenTable(String FilePath);
         void RequestMergeTable(String FilePath);
         void RequestSaveTable(String FilePath);
-        Boolean RequestHasChanges();
         void RequestCollectValues();
         void RequestNewScan();
         void RequestUndoScan();
+        void SetProjectFilePath(String ProjectFilePath);
+
+        Boolean RequestHasChanges();
+        String GetProjectFilePath();
     }
 
     class MainPresenter : Presenter<IMainView, IMainModel>
@@ -89,11 +92,6 @@ namespace Anathema.Source.Controller
             Model.RequestSaveTable(FilePath);
         }
 
-        public Boolean RequestHasChanges()
-        {
-            return Model.RequestHasChanges();
-        }
-
         public void RequestCollectValues()
         {
             Model.RequestCollectValues();
@@ -107,6 +105,21 @@ namespace Anathema.Source.Controller
         public void RequestUndoScan()
         {
             Model.RequestUndoScan();
+        }
+
+        public void SetProjectFilePath(String ProjectFilePath)
+        {
+            Model.SetProjectFilePath(ProjectFilePath);
+        }
+
+        public Boolean RequestHasChanges()
+        {
+            return Model.RequestHasChanges();
+        }
+
+        public String GetProjectFilePath()
+        {
+            return Model.GetProjectFilePath();
         }
 
         #endregion

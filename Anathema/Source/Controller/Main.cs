@@ -20,6 +20,8 @@ namespace Anathema.Source.Controller
         public event MainEventHandler EventOpenScriptEditor;
         public event MainEventHandler EventOpenLabelThresholder;
 
+        private String ProjectFilePath;
+
         private Main()
         {
             InitializeProcessObserver();
@@ -77,6 +79,16 @@ namespace Anathema.Source.Controller
         public void OpenLabelThresholder()
         {
             EventOpenLabelThresholder?.Invoke(this, new MainEventArgs());
+        }
+
+        public String GetProjectFilePath()
+        {
+            return ProjectFilePath;
+        }
+
+        public void SetProjectFilePath(String ProjectFilePath)
+        {
+            this.ProjectFilePath = ProjectFilePath;
         }
 
         public void RequestOpenTable(String FilePath)

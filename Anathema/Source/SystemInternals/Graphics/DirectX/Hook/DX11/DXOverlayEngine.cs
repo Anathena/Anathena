@@ -31,7 +31,7 @@ namespace Anathema.Source.SystemInternals.Graphics.DirectX.Hook.DX11
             Overlays = new List<IOverlay>();
         }
 
-        private void EnsureInitiliased()
+        private void EnsureInitiliazed()
         {
             Debug.Assert(Initialized);
         }
@@ -126,7 +126,7 @@ namespace Anathema.Source.SystemInternals.Graphics.DirectX.Hook.DX11
         /// </summary>
         public void Draw()
         {
-            EnsureInitiliased();
+            EnsureInitiliazed();
 
             Begin();
 
@@ -162,12 +162,13 @@ namespace Anathema.Source.SystemInternals.Graphics.DirectX.Hook.DX11
 
         private void End()
         {
-            if (DeferredContext)
-            {
-                var commandList = DeviceContext.FinishCommandList(true);
-                Device.ImmediateContext.ExecuteCommandList(commandList, true);
-                commandList.Dispose();
-            }
+            if (!DeferredContext)
+                return;
+
+            CommandList CommandList = DeviceContext.FinishCommandList(true);
+            Device.ImmediateContext.ExecuteCommandList(CommandList, true);
+            CommandList.Dispose();
+
         }
 
         private DXFont GetFontForTextElement(TextElement Element)

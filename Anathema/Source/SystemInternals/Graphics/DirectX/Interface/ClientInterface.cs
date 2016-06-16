@@ -15,7 +15,9 @@ namespace Anathema.Source.SystemInternals.Graphics.DirectX.Interface
         /// <summary>
         /// The client process Id
         /// </summary>
-        public int ProcessId { get; set; }
+        public Int32 ProcessId { get; set; }
+
+        public String ProjectDirectory { get; set; }
 
         public ClientInterface() { }
 
