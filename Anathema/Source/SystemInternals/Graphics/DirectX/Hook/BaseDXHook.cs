@@ -21,7 +21,7 @@ namespace Anathema.Source.SystemInternals.Graphics.DirectX.Hook
         protected Stopwatch Timer { get; set; }
         protected TextDisplay TextDisplay { get; set; }
         protected List<Hook> Hooks = new List<Hook>();
-        public ClientInterface CaptureInterface { get; set; }
+        public DirextXGraphicsInterface GraphicsInterface { get; set; }
 
         private Int32 _ProcessId = 0;
         protected Int32 ProcessId
@@ -34,18 +34,18 @@ namespace Anathema.Source.SystemInternals.Graphics.DirectX.Hook
             }
         }
 
-        protected virtual string HookName { get { return "BaseDXHook"; } }
+        protected virtual String HookName { get { return "BaseDXHook"; } }
 
-        public BaseDXHook(ClientInterface CaptureInterface)
+        public BaseDXHook(DirextXGraphicsInterface GraphicsInterface)
         {
-            this.CaptureInterface = CaptureInterface;
+            this.GraphicsInterface = GraphicsInterface;
 
             Timer = new Stopwatch();
             Timer.Start();
 
-            this.CaptureInterface.DisplayText += InterfaceEventProxy.DisplayTextProxyHandler;
+            this.GraphicsInterface.DisplayText += InterfaceEventProxy.DisplayTextProxyHandler;
 
-            InterfaceEventProxy.DisplayText += new DisplayTextEvent(InterfaceEventProxy_DisplayText);
+            InterfaceEventProxy.DisplayText += new DisplayTextEvent(InterfaceEventProxyDisplayText);
         }
 
         ~BaseDXHook()
@@ -53,7 +53,7 @@ namespace Anathema.Source.SystemInternals.Graphics.DirectX.Hook
             Dispose(false);
         }
 
-        void InterfaceEventProxy_DisplayText(DisplayTextEventArgs Args)
+        void InterfaceEventProxyDisplayText(DisplayTextEventArgs Args)
         {
             TextDisplay = new TextDisplay()
             {
@@ -74,7 +74,7 @@ namespace Anathema.Source.SystemInternals.Graphics.DirectX.Hook
 #if DEBUG
             try
             {
-                CaptureInterface.Message(MessageType.Debug, HookName + ": " + Message);
+                GraphicsInterface.Message(MessageType.Debug, HookName + ": " + Message);
             }
             catch (RemotingException)
             {
@@ -196,7 +196,7 @@ namespace Anathema.Source.SystemInternals.Graphics.DirectX.Hook
                     try
                     {
                         // Remove the event handlers
-                        CaptureInterface.DisplayText -= InterfaceEventProxy.DisplayTextProxyHandler;
+                        GraphicsInterface.DisplayText -= InterfaceEventProxy.DisplayTextProxyHandler;
                     }
                     catch (RemotingException) { } // Ignore remoting exceptions (host process may have been closed)
                 }

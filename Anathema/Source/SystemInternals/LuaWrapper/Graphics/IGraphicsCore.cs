@@ -4,7 +4,10 @@ namespace Anathema.Source.SystemInternals.LuaWrapper.Graphics
 {
     interface IGraphicsCore
     {
-        void DrawString(String Text, Int32 LocationX, Int32 LocationY);
+        Guid CreateText(String Text, Int32 LocationX, Int32 LocationY);
+        Guid CreateImage(String Path, Int32 LocationX, Int32 LocationY);
+        void ShowObject(Guid Guid);
+        void HideObject(Guid Guid);
 
     } // End interface
 

@@ -58,7 +58,7 @@ namespace Anathema.Source.SystemInternals.Graphics.DirectX.Hook.DX9
         unsafe delegate Int32 Direct3D9DeviceEx_PresentExDelegate(IntPtr DevicePtr, SharpDX.Rectangle* PSourceRect, SharpDX.Rectangle* PDestRect, IntPtr hDestWindowOverride, IntPtr PDirtyRegion, Present DWFlags);
 
 
-        public DXHookD3D9(ClientInterface CaptureInterface) : base(CaptureInterface)
+        public DXHookD3D9(DirextXGraphicsInterface GraphicsInterface) : base(GraphicsInterface)
         {
             LockRenderObject = new Object();
 

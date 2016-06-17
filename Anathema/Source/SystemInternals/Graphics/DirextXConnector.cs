@@ -1,10 +1,11 @@
 ﻿using Anathema.Source.Controller;
 using Anathema.Source.Graphics;
-using Anathema.Source.SystemInternals.Graphics.DirectX;
 using Anathema.Source.SystemInternals.Graphics.DirectX.Interface;
+using EasyHook;
 using System;
 using System.Diagnostics;
 using System.IO;
+using System.Runtime.Remoting;
 
 namespace Anathema.Source.SystemInternals.Graphics
 {
@@ -19,16 +20,31 @@ namespace Anathema.Source.SystemInternals.Graphics
 
         public void Inject(Process Process)
         {
-            if (GraphicsInterface != null)
+            // Skip if the process is already hooked, or if there is no main window
+            if (GraphicsInterface != null || Process.MainWindowHandle == IntPtr.Zero)
                 return;
 
-            // Skip if the process is already hooked (and we want to hook multiple applications)
-            if (Process.MainWindowHandle == IntPtr.Zero)
-                return;
+            String ProjectDirectory = Path.GetDirectoryName(Main.GetInstance().GetProjectFilePath());
+            String ChannelName = null;
 
-            ClientInterface CaptureInterface = new ClientInterface();
-            CaptureInterface.RemoteMessage += new MessageReceivedEvent(CaptureInterfaceRemoteMessage);
-            GraphicsInterface = new DirextXGraphicsInterface(Process, CaptureInterface, Path.GetDirectoryName(Main.GetInstance().GetProjectFilePath()));
+            GraphicsInterface = new DirextXGraphicsInterface();
+            GraphicsInterface.ProcessId = Process.Id;
+            GraphicsInterface.ProjectDirectory = ProjectDirectory;
+            GraphicsInterface.RemoteMessage += new MessageReceivedEvent(CaptureInterfaceRemoteMessage);
+
+            // Initialize the IPC server
+            RemoteHooking.IpcCreateServer<DirextXGraphicsInterface>(ref ChannelName, WellKnownObjectMode.Singleton, GraphicsInterface);
+
+            try
+            {
+                // Inject DLL into target process
+                RemoteHooking.Inject(Process.Id, InjectionOptions.Default, typeof(DirextXGraphicsInterface).Assembly.Location,
+                    typeof(DirextXGraphicsInterface).Assembly.Location, ChannelName, ProjectDirectory);
+            }
+            catch (Exception Ex)
+            {
+                throw new Exception("Unable to Inject" + Ex);
+            }
         }
 
         public IGraphicsInterface GetGraphicsInterface()
@@ -38,7 +54,6 @@ namespace Anathema.Source.SystemInternals.Graphics
 
         public void Uninject()
         {
-            GraphicsInterface?.Disconnect();
             GraphicsInterface = null;
         }
 

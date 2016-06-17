@@ -43,11 +43,32 @@ namespace Anathema.Source.SystemInternals.LuaWrapper.Graphics
             }
         }
 
-        public void DrawString(String Text, Int32 LocationX, Int32 LocationY)
+        public Guid CreateText(String Text, Int32 LocationX, Int32 LocationY)
         {
             this.PrintDebugTag();
 
-            GetGraphicsInterface().DrawString(Text, LocationX, LocationY);
+            return GetGraphicsInterface().CreateText(Text, LocationX, LocationY);
+        }
+
+        public Guid CreateImage(String Text, Int32 LocationX, Int32 LocationY)
+        {
+            this.PrintDebugTag();
+
+            return GetGraphicsInterface().CreateImage(Text, LocationX, LocationY);
+        }
+
+        public void ShowObject(Guid Guid)
+        {
+            this.PrintDebugTag();
+
+            GetGraphicsInterface().ShowObject(Guid);
+        }
+
+        public void HideObject(Guid Guid)
+        {
+            this.PrintDebugTag();
+
+            GetGraphicsInterface().HideObject(Guid);
         }
 
     } // End class

@@ -294,7 +294,6 @@
     </Compile>
     <Compile Include="Source\SystemInternals\Architecture\Assembler\AssemblerFactory.cs" />
     <Compile Include="Source\SystemInternals\Architecture\Disassembler\DisassemblerFactory.cs" />
-    <Compile Include="Source\SystemInternals\Graphics\DirectX\DirextXGraphicsInterface.cs" />
     <Compile Include="Source\SystemInternals\Graphics\DirectX\Hook\BaseDXHook.cs" />
     <Compile Include="Source\SystemInternals\Graphics\DirectX\Hook\Common\Element.cs" />
     <Compile Include="Source\SystemInternals\Graphics\DirectX\Hook\Common\ImageElement.cs" />
@@ -324,7 +323,7 @@
     <Compile Include="Source\SystemInternals\Graphics\DirectX\Hook\IDXHook.cs" />
     <Compile Include="Source\SystemInternals\Graphics\DirectX\Hook\SafeHGlobal.cs" />
     <Compile Include="Source\SystemInternals\Graphics\DirectX\Hook\TextDisplay.cs" />
-    <Compile Include="Source\SystemInternals\Graphics\DirectX\Interface\ClientInterface.cs" />
+    <Compile Include="Source\SystemInternals\Graphics\DirectX\DirextXGraphicsInterface.cs" />
     <Compile Include="Source\SystemInternals\Graphics\DirectX\Interface\Direct3DVersion.cs" />
     <Compile Include="Source\SystemInternals\Graphics\DirectX\Interface\DisplayTextEventArgs.cs" />
     <Compile Include="Source\SystemInternals\Graphics\DirectX\Interface\MessageReceivedEventArgs.cs" />

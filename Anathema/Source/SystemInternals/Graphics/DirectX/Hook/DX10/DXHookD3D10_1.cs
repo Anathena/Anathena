@@ -22,7 +22,7 @@ namespace Anathema.Source.SystemInternals.Graphics.DirectX.Hook.DX10
         private Hook<DXGISwapChain_PresentDelegate> DXGISwapChainPresentHook;
         private Hook<DXGISwapChain_ResizeTargetDelegate> DXGISwapChainResizeTargetHook;
 
-        public DXHookD3D10_1(ClientInterface CaptureInterface) : base(CaptureInterface)
+        public DXHookD3D10_1(DirextXGraphicsInterface GraphicsInterface) : base(GraphicsInterface)
         {
             D3D10_1VirtualTableAddresses = null;
             DXGISwapChainVirtualTableAddresses = null;

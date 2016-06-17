@@ -1,100 +1,221 @@
 ﻿using Anathema.Source.Graphics;
-using Anathema.Source.SystemInternals.Graphics.DirectX.Interface;
-using EasyHook;
 using System;
-using System.Diagnostics;
-using System.Runtime.Remoting;
-using System.Runtime.Remoting.Channels.Ipc;
 
-namespace Anathema.Source.SystemInternals.Graphics.DirectX
+namespace Anathema.Source.SystemInternals.Graphics.DirectX.Interface
 {
-    /// <summary>
-    /// Primary class that provides support for direct X manipulations over IPC
-    /// </summary>
-    public class DirextXGraphicsInterface : IGraphicsInterface, IDisposable
-    {
-        private IpcServerChannel ScreenshotServer;
-        private ClientInterface CaptureInterface;
-        public Process Process { get; set; }
+    [Serializable]
+    public delegate void MessageReceivedEvent(MessageReceivedEventArgs Message);
+    [Serializable]
+    public delegate void DisconnectedEvent();
+    [Serializable]
+    public delegate void DisplayTextEvent(DisplayTextEventArgs Args);
 
-        private Boolean Disposed = false;
-        private String ChannelName = null;
+    [Serializable]
+    public class DirextXGraphicsInterface : MarshalByRefObject, IGraphicsInterface
+    {
+        /// <summary>
+        /// The client process Id
+        /// </summary>
+        public Int32 ProcessId { get; set; }
+
+        public String ProjectDirectory { get; set; }
+
+        public DirextXGraphicsInterface() { }
+
+        #region Server-side Events
 
         /// <summary>
-        /// Prepares capturing in the target process. Note that the process must not already be hooked, and must have a <see cref="Process.MainWindowHandle"/>.
+        /// Server event for sending debug and error information from the client to server
         /// </summary>
-        /// <param name="Process">The process to inject into</param>
-        /// <exception cref="ProcessHasNoWindowHandleException">Thrown if the <paramref name="Process"/> does not have a window handle. This could mean that the process does not have a UI, or that the process has not yet finished starting.</exception>
-        /// <exception cref="InjectionFailedException">Thrown if the injection failed - see the InnerException for more details.</exception>
-        /// <remarks>The target process will have its main window brought to the foreground after successful injection.</remarks>
-        public DirextXGraphicsInterface(Process Process, ClientInterface CaptureInterface, String ProjectDirectory)
+        public event MessageReceivedEvent RemoteMessage;
+
+        #endregion
+
+        #region Client-side Events
+
+        /// <summary>
+        /// Client event used to notify the hook to exit
+        /// </summary>
+        public event DisconnectedEvent Disconnected;
+
+        /// <summary>
+        /// Client event used to display a piece of text in-game
+        /// </summary>
+        public event DisplayTextEvent DisplayText;
+
+        #endregion
+
+        /// <summary>
+        /// Send a message to all handlers of <see cref="DirextXGraphicsInterface.RemoteMessage"/>.
+        /// </summary>
+        /// <param name="MessageType"></param>
+        /// <param name="Format"></param>
+        /// <param name="Args"></param>
+        public void Message(MessageType MessageType, String Format, params Object[] Args)
         {
-            // If the process doesn't have a mainwindowhandle yet, skip it (we need to be able to get the hwnd to set foreground etc)
-            if (Process.MainWindowHandle == IntPtr.Zero)
-                throw new ProcessHasNoWindowHandleException();
-
-            CaptureInterface.ProcessId = Process.Id;
-            CaptureInterface.ProjectDirectory = ProjectDirectory;
-
-            // Initialize the IPC server (with our instance of ServerInterface)
-            ScreenshotServer = RemoteHooking.IpcCreateServer<ClientInterface>(ref ChannelName, WellKnownObjectMode.Singleton, CaptureInterface);
-
-            try
-            {
-                // Inject DLL into target process
-                RemoteHooking.Inject(Process.Id, InjectionOptions.Default, typeof(ClientInterface).Assembly.Location,
-                    typeof(ClientInterface).Assembly.Location, ChannelName, ProjectDirectory);
-            }
-            catch (Exception Ex)
-            {
-                throw new InjectionFailedException(Ex);
-            }
-
-            this.Process = Process;
+            Message(MessageType, String.Format(Format, Args));
         }
 
-        ~DirextXGraphicsInterface()
+        public void Message(MessageType MessageType, String Message)
         {
-            Dispose(false);
+            SafeInvokeMessageRecevied(new MessageReceivedEventArgs(MessageType, Message));
         }
 
-        public void Dispose()
+        /// <summary>
+        /// Display text in-game for the default duration of 5 seconds
+        /// </summary>
+        /// <param name="Text"></param>
+        public void DisplayInGameText(String Text)
         {
-            Dispose(true);
-            GC.SuppressFinalize(this);
+            DisplayInGameText(Text, new TimeSpan(0, 0, 5));
         }
 
-        protected virtual void Dispose(Boolean Disposing)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="text"></param>
+        /// <param name="duration"></param>
+        public void DisplayInGameText(String Text, TimeSpan Duration)
         {
-            if (Disposed)
+            if (Duration.TotalMilliseconds <= 0)
+                throw new ArgumentException("Duration must be larger than 0", "duration");
+
+            SafeInvokeDisplayText(new DisplayTextEventArgs(Text, Duration));
+        }
+
+        #region Private: Invoke message handlers
+
+        private void SafeInvokeMessageRecevied(MessageReceivedEventArgs EventArgs)
+        {
+            if (RemoteMessage == null)
                 return;
 
-            if (Disposing)
-                CaptureInterface?.Disconnect();
+            MessageReceivedEvent Listener = null;
 
-            Disposed = true;
+            foreach (Delegate Delegate in RemoteMessage.GetInvocationList())
+            {
+                try
+                {
+                    Listener = (MessageReceivedEvent)Delegate;
+                    Listener.Invoke(EventArgs);
+                }
+                catch
+                {
+                    //Could not reach the destination, so remove it
+                    //from the list
+                    RemoteMessage -= Listener;
+                }
+            }
         }
 
-        public void DrawString(String Text, Int32 LocationX, Int32 LocationY)
+        private void SafeInvokeDisconnected()
         {
+            if (Disconnected == null)
+                return;
 
+            DisconnectedEvent Listener = null;
+
+            foreach (Delegate Delegate in Disconnected.GetInvocationList())
+            {
+                try
+                {
+                    Listener = (DisconnectedEvent)Delegate;
+                    Listener.Invoke();
+                }
+                catch
+                {
+                    Disconnected -= Listener;
+                }
+            }
+        }
+
+        private void SafeInvokeDisplayText(DisplayTextEventArgs DisplayTextEventArgs)
+        {
+            if (DisplayText == null)
+                return;
+
+            DisplayTextEvent Listener = null;
+
+            foreach (Delegate Delegate in DisplayText.GetInvocationList())
+            {
+                try
+                {
+                    Listener = (DisplayTextEvent)Delegate;
+                    Listener.Invoke(DisplayTextEventArgs);
+                }
+                catch
+                {
+                    DisplayText -= Listener;
+                }
+            }
+        }
+
+        #endregion
+
+        /// <summary>
+        /// Empty method to ensure we can call the client without crashing
+        /// </summary>
+        public void Ping() { }
+
+        Guid IGraphicsInterface.CreateText(String Text, Int32 LocationX, Int32 LocationY)
+        {
+            return new Guid();
+        }
+
+        Guid IGraphicsInterface.CreateImage(String Path, Int32 LocationX, Int32 LocationY)
+        {
+            return new Guid();
+        }
+
+        public void ShowObject(Guid Guid)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void HideObject(Guid Guid)
+        {
+            throw new NotImplementedException();
         }
 
         public void Disconnect()
         {
-            CaptureInterface?.Disconnect();
+            SafeInvokeDisconnected();
         }
 
     } // End class
 
-    public class ProcessHasNoWindowHandleException : Exception
-    {
-        public ProcessHasNoWindowHandleException() : base("The process does not have a window handle.") { }
-    }
 
-    public class InjectionFailedException : Exception
+    /// <summary>
+    /// Client event proxy for marshalling event handlers
+    /// </summary>
+    public class ClientCaptureInterfaceEventProxy : MarshalByRefObject
     {
-        public InjectionFailedException(Exception innerException) : base("Injection failed. See InnerException for more detail.", innerException) { }
+        /// <summary>
+        /// Client event used to notify the hook to exit
+        /// </summary>
+        public event DisconnectedEvent Disconnected;
+
+        /// <summary>
+        /// Client event used to display in-game text
+        /// </summary>
+        public event DisplayTextEvent DisplayText;
+
+        public override Object InitializeLifetimeService()
+        {
+            //Returning null holds the object alive
+            //until it is explicitly destroyed
+            return null;
+        }
+
+        public void DisconnectedProxyHandler()
+        {
+            Disconnected?.Invoke();
+        }
+
+        public void DisplayTextProxyHandler(DisplayTextEventArgs Args)
+        {
+            DisplayText?.Invoke(Args);
+        }
 
     } // End class
 
