@@ -148,11 +148,6 @@ namespace Anathema.Source.SystemInternals.Graphics.DirectX.Interface.DX10
                         using (Font Font = new Font(Texture.Device, FontDescription))
                         {
                             DrawText(Font, new Vector2(5, 5), "Some bullshit", new Color4(Color.Red.ToColor3()));
-
-                            if (this.TextDisplay != null && this.TextDisplay.Visible)
-                            {
-                                DrawText(Font, new Vector2(5, 25), this.TextDisplay.Text, new Color4(Color.Red.ToColor3(), 1.0f));
-                            }
                         }
                     }
                 }

@@ -21,21 +21,7 @@ namespace Anathema.Source.SystemInternals.Graphics.DirectX.Interface
         /// </summary>
         public event DisconnectedEvent Disconnected;
 
-        /// <summary>
-        /// Client event used to display a piece of text in-game
-        /// </summary>
-        public event DisplayTextEvent DisplayText;
-
         #endregion
-
-        /// <summary>
-        /// Display text in-game for the default duration of 5 seconds
-        /// </summary>
-        /// <param name="Text"></param>
-        public void DisplayInGameText(String Text)
-        {
-            SafeInvokeDisplayText(new DisplayTextEventArgs(Text));
-        }
 
         #region Private: Invoke message handlers
 
@@ -59,28 +45,7 @@ namespace Anathema.Source.SystemInternals.Graphics.DirectX.Interface
                 }
             }
         }
-
-        private void SafeInvokeDisplayText(DisplayTextEventArgs DisplayTextEventArgs)
-        {
-            if (DisplayText == null)
-                return;
-
-            DisplayTextEvent Listener = null;
-
-            foreach (Delegate Delegate in DisplayText.GetInvocationList())
-            {
-                try
-                {
-                    Listener = (DisplayTextEvent)Delegate;
-                    Listener.Invoke(DisplayTextEventArgs);
-                }
-                catch
-                {
-                    DisplayText -= Listener;
-                }
-            }
-        }
-
+        
         #endregion
 
         /// <summary>
@@ -117,8 +82,6 @@ namespace Anathema.Source.SystemInternals.Graphics.DirectX.Interface
 
     [Serializable]
     public delegate void DisconnectedEvent();
-    [Serializable]
-    public delegate void DisplayTextEvent(DisplayTextEventArgs Args);
 
     /// <summary>
     /// Client event proxy for marshalling event handlers
@@ -130,11 +93,6 @@ namespace Anathema.Source.SystemInternals.Graphics.DirectX.Interface
         /// </summary>
         public event DisconnectedEvent Disconnected;
 
-        /// <summary>
-        /// Client event used to display in-game text
-        /// </summary>
-        public event DisplayTextEvent DisplayText;
-
         public override Object InitializeLifetimeService()
         {
             //Returning null holds the object alive
@@ -145,11 +103,6 @@ namespace Anathema.Source.SystemInternals.Graphics.DirectX.Interface
         public void DisconnectedProxyHandler()
         {
             Disconnected?.Invoke();
-        }
-
-        public void DisplayTextProxyHandler(DisplayTextEventArgs Args)
-        {
-            DisplayText?.Invoke(Args);
         }
 
     } // End class

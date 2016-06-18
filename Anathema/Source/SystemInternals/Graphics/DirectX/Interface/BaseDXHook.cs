@@ -14,12 +14,6 @@ namespace Anathema.Source.SystemInternals.Graphics.DirectX.Interface
     internal abstract class BaseDXHook : Component
     {
         protected readonly ClientCaptureInterfaceEventProxy InterfaceEventProxy = new ClientCaptureInterfaceEventProxy();
-
-        /// <summary>
-        /// Frames Per second counter, FPS.Frame() must be called each frame
-        /// </summary>
-        protected Stopwatch Timer { get; set; }
-        protected TextDisplay TextDisplay { get; set; }
         protected List<Hook> Hooks = new List<Hook>();
         public DirextXGraphicsInterface GraphicsInterface { get; set; }
 
@@ -39,13 +33,6 @@ namespace Anathema.Source.SystemInternals.Graphics.DirectX.Interface
         public BaseDXHook(DirextXGraphicsInterface GraphicsInterface)
         {
             this.GraphicsInterface = GraphicsInterface;
-
-            Timer = new Stopwatch();
-            Timer.Start();
-
-            this.GraphicsInterface.DisplayText += InterfaceEventProxy.DisplayTextProxyHandler;
-
-            InterfaceEventProxy.DisplayText += new DisplayTextEvent(InterfaceEventProxyDisplayText);
         }
 
         ~BaseDXHook()
@@ -53,18 +40,9 @@ namespace Anathema.Source.SystemInternals.Graphics.DirectX.Interface
             Dispose(false);
         }
 
-        private void InterfaceEventProxyDisplayText(DisplayTextEventArgs Args)
-        {
-            TextDisplay = new TextDisplay()
-            {
-                Text = Args.Text,
-            };
-        }
-
         protected void Frame()
         {
-            if (TextDisplay != null && TextDisplay.Visible)
-                TextDisplay.Frame();
+
         }
 
         protected IntPtr[] GetVirtualTableAddresses(IntPtr Pointer, Int32 NumberOfMethods)
@@ -176,13 +154,6 @@ namespace Anathema.Source.SystemInternals.Graphics.DirectX.Interface
 
                         Hooks.Clear();
                     }
-
-                    try
-                    {
-                        // Remove the event handlers
-                        GraphicsInterface.DisplayText -= InterfaceEventProxy.DisplayTextProxyHandler;
-                    }
-                    catch (RemotingException) { } // Ignore remoting exceptions (host process may have been closed)
                 }
                 catch
                 {
