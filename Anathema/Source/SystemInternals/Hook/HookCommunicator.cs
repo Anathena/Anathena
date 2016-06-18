@@ -3,23 +3,12 @@ using System;
 
 namespace Anathema.Source.SystemInternals.Hook
 {
-
     [Serializable]
-    public delegate void DisconnectedEvent();
-
-    [Serializable]
-    public class HookCommunication : MarshalByRefObject
+    public class HookCommunicator : MarshalByRefObject
     {
-        /// <summary>
-        /// The client process Id
-        /// </summary>
-        private Int32 ProcessId { get; set; }
-
-        private String ProjectDirectory { get; set; }
-
         public DirextXGraphicsInterface GraphicsInterface { get; set; }
 
-        public HookCommunication(Int32 ProcessId, String ProjectDirectory)
+        public HookCommunicator(Int32 ProcessId, String ProjectDirectory)
         {
             GraphicsInterface = new DirextXGraphicsInterface();
             GraphicsInterface.ProcessId = ProcessId;

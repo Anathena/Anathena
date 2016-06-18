@@ -13,20 +13,20 @@ using System.Runtime.Serialization.Formatters;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Anathema.Source.SystemInternals.Hook
+namespace Anathema.Source.SystemInternals.Hook.Server
 {
     /// <summary>
-    /// Entry point for a hook in the target process. Automatically loads when RemoteHook.Inject() is called.
+    /// Entry point for a hook in the target process. Automatically loads when RemoteHooking.Inject() is called.
     /// </summary>
     public class HookEntry : IEntryPoint
     {
         private IpcServerChannel IpcServerChannel;
-        private HookCommunication HookCommunication;
-
-        private BaseDXHook DirectXHook;
-        private ManualResetEvent TaskRunning;
+        private HookCommunicator HookCommunicator;
 
         private CancellationTokenSource CancelRequest;
+        private ManualResetEvent TaskRunning;
+
+        private BaseDXHook DirectXHook;
 
         public HookEntry(RemoteHooking.IContext Context, String ChannelName, String ProjectDirectory)
         {
@@ -34,20 +34,20 @@ namespace Anathema.Source.SystemInternals.Hook
             DirectXHook = null;
 
             // Get reference to IPC to host application
-            HookCommunication = RemoteHooking.IpcConnectClient<HookCommunication>(ChannelName);
+            HookCommunicator = RemoteHooking.IpcConnectClient<HookCommunicator>(ChannelName);
 
             // We try to ping immediately, if it fails then injection fails
-            HookCommunication.Ping();
+            HookCommunicator.Ping();
 
             // Attempt to create a IpcServerChannel so that any event handlers on the client will function correctly
             IDictionary Properties = new Hashtable();
             Properties["name"] = ChannelName;
             Properties["portName"] = ChannelName + Guid.NewGuid().ToString("N");
 
-            BinaryServerFormatterSinkProvider BinaryProv = new BinaryServerFormatterSinkProvider();
-            BinaryProv.TypeFilterLevel = TypeFilterLevel.Full;
+            BinaryServerFormatterSinkProvider BinaryServerFormatterSinkProvider = new BinaryServerFormatterSinkProvider();
+            BinaryServerFormatterSinkProvider.TypeFilterLevel = TypeFilterLevel.Full;
 
-            IpcServerChannel ClientServerChannel = new IpcServerChannel(Properties, BinaryProv);
+            IpcServerChannel ClientServerChannel = new IpcServerChannel(Properties, BinaryServerFormatterSinkProvider);
             ChannelServices.RegisterChannel(ClientServerChannel, false);
         }
 
@@ -98,7 +98,7 @@ namespace Anathema.Source.SystemInternals.Hook
 
         private Boolean InitializeDirectXHook()
         {
-            DirextXGraphicsInterface DirextXGraphicsInterface = new DirextXGraphicsInterface();
+            DirextXGraphicsInterface DirextXGraphicsInterface = HookCommunicator.GraphicsInterface;
             DirectXFlags.Direct3DVersionEnum Version = DirectXFlags.Direct3DVersionEnum.Unknown;
 
             Dictionary<DirectXFlags.Direct3DVersionEnum, String> DXModules = new Dictionary<DirectXFlags.Direct3DVersionEnum, String>
@@ -172,7 +172,7 @@ namespace Anathema.Source.SystemInternals.Hook
                 {
                     try
                     {
-                        HookCommunication.Ping();
+                        HookCommunicator.Ping();
                     }
                     catch
                     {

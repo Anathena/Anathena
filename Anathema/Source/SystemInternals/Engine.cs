@@ -1,6 +1,7 @@
 ﻿using Anathema.Source.SystemInternals.Architecture.Assembler;
 using Anathema.Source.SystemInternals.Architecture.Disassembler;
 using Anathema.Source.SystemInternals.Graphics;
+using Anathema.Source.SystemInternals.Hook.Client;
 using Anathema.Source.SystemInternals.SpeedHack;
 using System;
 using System.Diagnostics;
@@ -25,7 +26,7 @@ namespace Anathema.Source.SystemInternals.OperatingSystems
         /// TODO: Figure out what to do about the bullshit below
         /// </summary>
 
-        public IHookConnector HookConnector { get; private set; }
+        public IHookCreator HookCreator { get; private set; }
 
         public ISpeedHackConnector SpeedHackConnector { get; private set; }
 
@@ -34,7 +35,7 @@ namespace Anathema.Source.SystemInternals.OperatingSystems
             Memory = OperatingSystemFactory.GetOperatingSystem(TargetProcess);
             Assembler = AssemblerFactory.GetAssembler();
             Disassembler = DisassemblerFactory.GetDisassembler();
-            HookConnector = new HookConnector();
+            HookCreator = new HookCreator();
             SpeedHackConnector = new SpeedHackConnector();
         }
 

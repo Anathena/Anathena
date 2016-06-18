@@ -1,42 +1,41 @@
 ﻿using Anathema.Source.Controller;
-using Anathema.Source.SystemInternals.Hook;
+using Anathema.Source.SystemInternals.Graphics;
 using EasyHook;
 using System;
 using System.Diagnostics;
 using System.IO;
 using System.Runtime.Remoting;
 
-namespace Anathema.Source.SystemInternals.Graphics
+namespace Anathema.Source.SystemInternals.Hook.Client
 {
     /// <summary>
     /// Provides capability to access objects in the target process
     /// </summary>
-    class HookConnector : IHookConnector
+    class HookCreator : IHookCreator
     {
-        private HookCommunication HookCommunication;
+        private HookCommunicator HookCommunicator;
 
-        public HookConnector() { }
+        public HookCreator() { }
 
         public void Inject(Process Process)
         {
             // Skip if the process is already hooked, or if there is no main window
-            if (HookCommunication != null || Process.MainWindowHandle == IntPtr.Zero)
+            if (HookCommunicator != null || Process.MainWindowHandle == IntPtr.Zero)
                 return;
 
             String ProjectDirectory = Path.GetDirectoryName(Main.GetInstance().GetProjectFilePath());
             String ChannelName = null;
 
-
-            HookCommunication = new HookCommunication(Process.Id, ProjectDirectory);
+            HookCommunicator = new HookCommunicator(Process.Id, ProjectDirectory);
 
             // Initialize the IPC server
-            RemoteHooking.IpcCreateServer<HookCommunication>(ref ChannelName, WellKnownObjectMode.Singleton, HookCommunication);
+            RemoteHooking.IpcCreateServer<HookCommunicator>(ref ChannelName, WellKnownObjectMode.Singleton, HookCommunicator);
 
             try
             {
                 // Inject DLL into target process
-                RemoteHooking.Inject(Process.Id, InjectionOptions.Default, typeof(HookCommunication).Assembly.Location,
-                    typeof(HookCommunication).Assembly.Location, ChannelName, ProjectDirectory);
+                RemoteHooking.Inject(Process.Id, InjectionOptions.Default, typeof(HookCommunicator).Assembly.Location,
+                    typeof(HookCommunicator).Assembly.Location, ChannelName, ProjectDirectory);
             }
             catch (Exception Ex)
             {
@@ -46,12 +45,12 @@ namespace Anathema.Source.SystemInternals.Graphics
 
         public IGraphicsInterface GetGraphicsInterface()
         {
-            return HookCommunication?.GraphicsInterface;
+            return HookCommunicator?.GraphicsInterface;
         }
 
         public void Uninject()
         {
-            HookCommunication.GraphicsInterface = null;
+            HookCommunicator.GraphicsInterface = null;
         }
 
     } // End class

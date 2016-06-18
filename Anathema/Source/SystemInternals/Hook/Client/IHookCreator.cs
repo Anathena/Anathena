@@ -1,8 +1,9 @@
-﻿using System.Diagnostics;
+﻿using Anathema.Source.SystemInternals.Graphics;
+using System.Diagnostics;
 
-namespace Anathema.Source.SystemInternals.Graphics
+namespace Anathema.Source.SystemInternals.Hook.Client
 {
-    public interface IHookConnector
+    public interface IHookCreator
     {
         void Inject(Process Target);
 

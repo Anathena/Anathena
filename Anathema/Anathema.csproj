@@ -318,9 +318,9 @@
     <Compile Include="Source\SystemInternals\Graphics\DirectX\Interface\SafeHGlobal.cs" />
     <Compile Include="Source\SystemInternals\Graphics\DirectX\DirextXGraphicsInterface.cs" />
     <Compile Include="Source\SystemInternals\Graphics\DirectX\Interface\DirectXFlags.cs" />
-    <Compile Include="Source\SystemInternals\Hook\HookCommunication.cs" />
-    <Compile Include="Source\SystemInternals\Hook\HookEntry.cs" />
-    <Compile Include="Source\SystemInternals\Hook\IHookConnector.cs" />
+    <Compile Include="Source\SystemInternals\Hook\HookCommunicator.cs" />
+    <Compile Include="Source\SystemInternals\Hook\Server\HookEntry.cs" />
+    <Compile Include="Source\SystemInternals\Hook\Client\IHookCreator.cs" />
     <Compile Include="Source\Prefilter\ISnapshotPrefilter.cs" />
     <Compile Include="Source\Prefilter\LinkedListSnapshotPrefilter.cs" />
     <Compile Include="Source\Prefilter\QueueSnapshotPrefilter.cs" />
@@ -344,7 +344,7 @@
     <Compile Include="Source\Utils\Extensions\IntPtrExtensions.cs" />
     <Compile Include="Source\Utils\Caches\ObjectCache.cs" />
     <Compile Include="Source\Utils\Extensions\PrimitiveExtensions.cs" />
-    <Compile Include="Source\SystemInternals\Hook\HookConnector.cs" />
+    <Compile Include="Source\SystemInternals\Hook\Client\HookCreator.cs" />
     <Compile Include="Source\SystemInternals\LuaWrapper\Graphics\IGraphicsCore.cs" />
     <Compile Include="Source\SystemInternals\LuaWrapper\Memory\IMemoryCore.cs" />
     <Compile Include="Source\Utils\MessageBoxEx.cs" />
