@@ -11,8 +11,6 @@ namespace Anathema.Source.SystemInternals.Graphics
 
         void HideObject(Guid Guid);
 
-        void Disconnect();
-
     } // End interface
 
 } // End namespace

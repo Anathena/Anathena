@@ -14,9 +14,6 @@ namespace Anathema.Source.SystemInternals.Graphics.DirectX.Interface.DX11
     /// </summary>
     internal class DXHookD3D11 : BaseDXHook
     {
-        private static Int32 D3D11_DEVICE_METHOD_COUNT = Enum.GetNames(typeof(DirectXFlags.D3D11DeviceVirtualTableEnum)).Length;
-
-        public DXHookD3D11(DirextXGraphicsInterface GraphicsInterface) : base(GraphicsInterface) { }
 
         private List<IntPtr> D3D11VirtualTableAddresses = null;
         private List<IntPtr> DXGISwapChainVirtualTableAddresses = null;
@@ -45,6 +42,7 @@ namespace Anathema.Source.SystemInternals.Graphics.DirectX.Interface.DX11
         private KeyedMutex ResolvedRTKeyedMutex;
         private KeyedMutex ResolvedRTKeyedMutex_Dev2;
         // private ShaderResourceView ResolvedSRV;
+        public DXHookD3D11(DirextXGraphicsInterface GraphicsInterface) : base(GraphicsInterface) { }
 
         protected override String HookName { get { return "DXHookD3D11"; } }
 
@@ -54,8 +52,6 @@ namespace Anathema.Source.SystemInternals.Graphics.DirectX.Interface.DX11
             {
                 D3D11VirtualTableAddresses = new List<IntPtr>();
                 DXGISwapChainVirtualTableAddresses = new List<IntPtr>();
-
-                #region Get Device and SwapChain method addresses
 
                 // Create temporary device + swapchain and determine method addresses
                 RenderForm = ToDispose(new RenderForm());
@@ -67,11 +63,9 @@ namespace Anathema.Source.SystemInternals.Graphics.DirectX.Interface.DX11
 
                 if (Device != null && SwapChain != null)
                 {
-                    D3D11VirtualTableAddresses.AddRange(GetVirtualTableAddresses(Device.NativePointer, D3D11_DEVICE_METHOD_COUNT));
-                    DXGISwapChainVirtualTableAddresses.AddRange(GetVirtualTableAddresses(SwapChain.NativePointer, DXGI.DXGI_SWAPCHAIN_METHOD_COUNT));
+                    D3D11VirtualTableAddresses.AddRange(GetVirtualTableAddresses(Device.NativePointer, DirectXFlags.D3D11_DeviceMethodCount));
+                    DXGISwapChainVirtualTableAddresses.AddRange(GetVirtualTableAddresses(SwapChain.NativePointer, DirectXFlags.DXGISwapChainMethodCount));
                 }
-
-                #endregion
             }
 
             // We will capture the backbuffer here

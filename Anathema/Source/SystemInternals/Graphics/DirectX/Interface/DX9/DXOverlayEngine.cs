@@ -18,9 +18,7 @@ namespace Anathema.Source.SystemInternals.Graphics.DirectX.Interface.DX9
         private Dictionary<String, Font> FontCache;
 
         private Sprite Sprite;
-
-        private Device _Device;
-        public Device Device { get { return _Device; } }
+        public Device Device { get; private set; }
 
         public DXOverlayEngine()
         {
@@ -49,8 +47,8 @@ namespace Anathema.Source.SystemInternals.Graphics.DirectX.Interface.DX9
 
             try
             {
-                _Device = Device;
-                Sprite = ToDispose(new Sprite(this.Device));
+                this.Device = Device;
+                Sprite = ToDispose(new Sprite(Device));
 
                 // Initialize any resources required for overlay elements
                 IntializeElementResources();
@@ -155,7 +153,7 @@ namespace Anathema.Source.SystemInternals.Graphics.DirectX.Interface.DX9
 
             if (!FontCache.TryGetValue(FontKey, out Result))
             {
-                Result = ToDispose(new Font(_Device, new FontDescription
+                Result = ToDispose(new Font(Device, new FontDescription
                 {
                     FaceName = Element.Font.Name,
                     Italic = (Element.Font.Style & System.Drawing.FontStyle.Italic) == System.Drawing.FontStyle.Italic,
@@ -177,7 +175,7 @@ namespace Anathema.Source.SystemInternals.Graphics.DirectX.Interface.DX9
             {
                 if (!ImageCache.TryGetValue(Element, out Result))
                 {
-                    Result = ToDispose(Texture.FromFile(_Device, Element.Filename));
+                    Result = ToDispose(Texture.FromFile(Device, Element.Filename));
 
                     ImageCache[Element] = Result;
                 }
@@ -189,11 +187,11 @@ namespace Anathema.Source.SystemInternals.Graphics.DirectX.Interface.DX9
         /// <summary>
         /// Releases unmanaged and optionally managed resources
         /// </summary>
-        /// <param name="disposing">true if disposing both unmanaged and managed</param>
-        protected override void Dispose(Boolean disposing)
+        /// <param name="Disposing">true if disposing both unmanaged and managed</param>
+        protected override void Dispose(Boolean Disposing)
         {
             if (true)
-                _Device = null;
+                Device = null;
         }
 
         void SafeDispose(DisposeBase DisposableObject)

@@ -1,33 +1,15 @@
-﻿using EasyHook;
-using SharpDX;
+﻿using SharpDX;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.Drawing.Imaging;
-using System.IO;
 using System.Runtime.InteropServices;
-using System.Runtime.Remoting;
 using System.Threading;
 
 namespace Anathema.Source.SystemInternals.Graphics.DirectX.Interface
 {
     internal abstract class BaseDXHook : Component
     {
-        protected readonly ClientCaptureInterfaceEventProxy InterfaceEventProxy = new ClientCaptureInterfaceEventProxy();
         protected List<Hook> Hooks = new List<Hook>();
         public DirextXGraphicsInterface GraphicsInterface { get; set; }
-
-        private Int32 _ProcessId = 0;
-        protected Int32 ProcessId
-        {
-            get
-            {
-                if (_ProcessId == 0)
-                    _ProcessId = RemoteHooking.GetCurrentProcessId();
-                return _ProcessId;
-            }
-        }
-
         protected virtual String HookName { get { return "BaseDXHook"; } }
 
         public BaseDXHook(DirextXGraphicsInterface GraphicsInterface)
@@ -40,10 +22,7 @@ namespace Anathema.Source.SystemInternals.Graphics.DirectX.Interface
             Dispose(false);
         }
 
-        protected void Frame()
-        {
-
-        }
+        protected void Frame() { }
 
         protected IntPtr[] GetVirtualTableAddresses(IntPtr Pointer, Int32 NumberOfMethods)
         {
@@ -61,70 +40,9 @@ namespace Anathema.Source.SystemInternals.Graphics.DirectX.Interface
             return VirtualTableAddresses.ToArray();
         }
 
-        protected static void CopyStream(Stream InputStream, Stream OutputStream)
-        {
-            Int32 BufferSize = 32768;
-            Byte[] Buffer = new Byte[BufferSize];
-
-            while (true)
-            {
-                Int32 BytesRead = InputStream.Read(Buffer, 0, Buffer.Length);
-
-                if (BytesRead <= 0)
-                    return;
-
-                OutputStream.Write(Buffer, 0, BytesRead);
-            }
-        }
-
-        /// <summary>
-        /// Reads data from a stream until the end is reached. The
-        /// data is returned as a byte array. An IOException is
-        /// thrown if any of the underlying IO calls fail.
-        /// </summary>
-        /// <param name="Stream">The stream to read data from</param>
-        protected static Byte[] ReadFullStream(Stream Stream)
-        {
-            if (Stream is MemoryStream)
-            {
-                return ((MemoryStream)Stream).ToArray();
-            }
-
-            Byte[] buffer = new Byte[32768];
-
-            using (MemoryStream MemoryStream = new MemoryStream())
-            {
-                while (true)
-                {
-                    Int32 BytesRead = Stream.Read(buffer, 0, buffer.Length);
-
-                    if (BytesRead > 0)
-                        MemoryStream.Write(buffer, 0, BytesRead);
-
-                    if (BytesRead < buffer.Length)
-                        return MemoryStream.ToArray();
-                }
-            }
-        }
-
-        private ImageCodecInfo GetEncoder(ImageFormat Format)
-        {
-            ImageCodecInfo[] Codecs = ImageCodecInfo.GetImageDecoders();
-
-            foreach (ImageCodecInfo Codec in Codecs)
-            {
-                if (Codec.FormatID == Format.Guid)
-                    return Codec;
-            }
-
-            return null;
-        }
-
         public abstract void Hook();
 
         public abstract void Cleanup();
-
-        #region IDispose Implementation
 
         protected override void Dispose(Boolean DisposeManagedResources)
         {
@@ -163,8 +81,6 @@ namespace Anathema.Source.SystemInternals.Graphics.DirectX.Interface
 
             base.Dispose(DisposeManagedResources);
         }
-
-        #endregion
 
     } // End class
 

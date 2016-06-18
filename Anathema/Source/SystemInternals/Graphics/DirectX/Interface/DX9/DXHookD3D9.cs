@@ -10,9 +10,6 @@ namespace Anathema.Source.SystemInternals.Graphics.DirectX.Interface.DX9
 {
     internal class DXHookD3D9 : BaseDXHook
     {
-        private static Int32 D3D9_DEVICE_METHOD_COUNT = Enum.GetNames(typeof(DirectXFlags.Direct3DDevice9FunctionOrdinalsEnum)).Length;
-        private static Int32 D3D9Ex_DEVICE_METHOD_COUNT = Enum.GetNames(typeof(DirectXFlags.Direct3DDevice9ExFunctionOrdinalsEnum)).Length;
-
         private Hook<Direct3D9Device_EndSceneDelegate> Direct3DDeviceEndSceneHook;
         private Hook<Direct3D9Device_ResetDelegate> Direct3DDeviceResetHook;
         private Hook<Direct3D9Device_PresentDelegate> Direct3DDevicePresentHook;
@@ -84,7 +81,7 @@ namespace Anathema.Source.SystemInternals.Graphics.DirectX.Interface.DX9
                 {
                     using (Device = new Device(D3D, 0, DeviceType.NullReference, IntPtr.Zero, CreateFlags.HardwareVertexProcessing, new PresentParameters() { BackBufferWidth = 1, BackBufferHeight = 1, DeviceWindowHandle = renderForm.Handle }))
                     {
-                        ID3DDeviceFunctionAddresses.AddRange(GetVirtualTableAddresses(Device.NativePointer, D3D9_DEVICE_METHOD_COUNT));
+                        ID3DDeviceFunctionAddresses.AddRange(GetVirtualTableAddresses(Device.NativePointer, DirectXFlags.D3D9DeviceMethodCount));
                     }
                 }
             }
@@ -97,7 +94,7 @@ namespace Anathema.Source.SystemInternals.Graphics.DirectX.Interface.DX9
                     {
                         using (DeviceEx DeviceEx = new DeviceEx(D3DEx, 0, DeviceType.NullReference, IntPtr.Zero, CreateFlags.HardwareVertexProcessing, new PresentParameters() { BackBufferWidth = 1, BackBufferHeight = 1, DeviceWindowHandle = RenderForm.Handle }, new DisplayModeEx() { Width = 800, Height = 600 }))
                         {
-                            ID3DDeviceFunctionAddresses.AddRange(GetVirtualTableAddresses(DeviceEx.NativePointer, D3D9_DEVICE_METHOD_COUNT, D3D9Ex_DEVICE_METHOD_COUNT));
+                            ID3DDeviceFunctionAddresses.AddRange(GetVirtualTableAddresses(DeviceEx.NativePointer, DirectXFlags.D3D9DeviceMethodCount, DirectXFlags.D3D9ExDeviceMethodCount));
                             SupportsDirect3D9Ex = true;
                         }
                     }

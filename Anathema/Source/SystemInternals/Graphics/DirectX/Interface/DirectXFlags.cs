@@ -4,6 +4,13 @@ namespace Anathema.Source.SystemInternals.Graphics.DirectX.Interface
 {
     public class DirectXFlags
     {
+        public static Int32 D3D9DeviceMethodCount = Enum.GetNames(typeof(Direct3DDevice9FunctionOrdinalsEnum)).Length;
+        public static Int32 D3D9ExDeviceMethodCount = Enum.GetNames(typeof(Direct3DDevice9ExFunctionOrdinalsEnum)).Length;
+        public static Int32 D3D10DeviceMethodCount = Enum.GetNames(typeof(D3D10DeviceVirtualTableEnum)).Length;
+        public static Int32 D3D10_1DeviceMethodCount = Enum.GetNames(typeof(D3D10_1DeviceVirtualTableEnum)).Length;
+        public static Int32 D3D11_DeviceMethodCount = Enum.GetNames(typeof(D3D11DeviceVirtualTableEnum)).Length;
+        public static Int32 DXGISwapChainMethodCount = Enum.GetNames(typeof(DXGISwapChainVirtualTableEnum)).Length;
+
         /// <summary>
         /// Versions of DirectX the graphic hook supports
         /// </summary>

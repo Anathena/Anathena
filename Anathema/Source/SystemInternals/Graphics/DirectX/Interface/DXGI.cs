@@ -5,8 +5,6 @@ namespace Anathema.Source.SystemInternals.Graphics.DirectX.Interface
 {
     internal static class DXGI
     {
-        public static Int32 DXGI_SWAPCHAIN_METHOD_COUNT = Enum.GetNames(typeof(DirectXFlags.DXGISwapChainVirtualTableEnum)).Length;
-
         public static SwapChainDescription CreateSwapChainDescription(IntPtr WindowHandle)
         {
             return new SwapChainDescription

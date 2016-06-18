@@ -14,8 +14,6 @@ namespace Anathema.Source.SystemInternals.Graphics.DirectX.Interface.DX10
     /// </summary>
     internal class DXHookD3D10 : BaseDXHook
     {
-        private static Int32 D3D10_DEVICE_METHOD_COUNT = Enum.GetNames(typeof(DirectXFlags.D3D10DeviceVirtualTableEnum)).Length;
-
         private List<IntPtr> D3D10VirtualTableAddresses;
         private List<IntPtr> DXGISwapChainVirtualTableAddresses;
         private Hook<DXGISwapChain_PresentDelegate> DXGISwapChainPresentHook;
@@ -43,13 +41,13 @@ namespace Anathema.Source.SystemInternals.Graphics.DirectX.Interface.DX10
                 {
                     using (Device Device = new Device(Factory.GetAdapter(0), DeviceCreationFlags.None))
                     {
-                        D3D10VirtualTableAddresses.AddRange(GetVirtualTableAddresses(Device.NativePointer, D3D10_DEVICE_METHOD_COUNT));
+                        D3D10VirtualTableAddresses.AddRange(GetVirtualTableAddresses(Device.NativePointer, DirectXFlags.D3D10DeviceMethodCount));
 
                         using (Form RenderForm = new Form())
                         {
                             using (SwapChain SwapChain = new SwapChain(Factory, Device, DXGI.CreateSwapChainDescription(RenderForm.Handle)))
                             {
-                                DXGISwapChainVirtualTableAddresses.AddRange(GetVirtualTableAddresses(SwapChain.NativePointer, DXGI.DXGI_SWAPCHAIN_METHOD_COUNT));
+                                DXGISwapChainVirtualTableAddresses.AddRange(GetVirtualTableAddresses(SwapChain.NativePointer, DirectXFlags.DXGISwapChainMethodCount));
                             }
                         }
                     }
