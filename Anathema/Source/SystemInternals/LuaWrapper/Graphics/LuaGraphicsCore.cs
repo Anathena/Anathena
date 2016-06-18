@@ -36,10 +36,10 @@ namespace Anathema.Source.SystemInternals.LuaWrapper.Graphics
         {
             lock (AccessLock)
             {
-                if (Engine.GraphicsConnector.GetGraphicsInterface() == null)
-                    Engine.GraphicsConnector.Inject(Engine.Memory.GetProcess());
+                if (Engine.HookConnector.GetGraphicsInterface() == null)
+                    Engine.HookConnector.Inject(Engine.Memory.GetProcess());
 
-                return Engine.GraphicsConnector.GetGraphicsInterface();
+                return Engine.HookConnector.GetGraphicsInterface();
             }
         }
 

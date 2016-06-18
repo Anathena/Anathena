@@ -19,7 +19,13 @@ namespace Anathema.Source.SystemInternals.OperatingSystems
 
         public IDisassembler Disassembler { get; private set; }
 
-        public IGraphicsConnector GraphicsConnector { get; private set; }
+        public IGraphicsInterface GraphicsInterface { get; set; }
+
+        /// <summary>
+        /// TODO: Figure out what to do about the bullshit below
+        /// </summary>
+
+        public IHookConnector HookConnector { get; private set; }
 
         public ISpeedHackConnector SpeedHackConnector { get; private set; }
 
@@ -28,7 +34,7 @@ namespace Anathema.Source.SystemInternals.OperatingSystems
             Memory = OperatingSystemFactory.GetOperatingSystem(TargetProcess);
             Assembler = AssemblerFactory.GetAssembler();
             Disassembler = DisassemblerFactory.GetDisassembler();
-            GraphicsConnector = GraphicsConnectorFactory.GetGraphicsConnector(TargetProcess);
+            HookConnector = new HookConnector();
             SpeedHackConnector = new SpeedHackConnector();
         }
 
