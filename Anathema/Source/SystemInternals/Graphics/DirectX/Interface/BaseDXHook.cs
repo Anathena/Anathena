@@ -58,13 +58,12 @@ namespace Anathema.Source.SystemInternals.Graphics.DirectX.Interface
             TextDisplay = new TextDisplay()
             {
                 Text = Args.Text,
-                Duration = Args.Duration
             };
         }
 
         protected void Frame()
         {
-            if (TextDisplay != null && TextDisplay.Display)
+            if (TextDisplay != null && TextDisplay.Visible)
                 TextDisplay.Frame();
         }
 

@@ -34,20 +34,7 @@ namespace Anathema.Source.SystemInternals.Graphics.DirectX.Interface
         /// <param name="Text"></param>
         public void DisplayInGameText(String Text)
         {
-            DisplayInGameText(Text, new TimeSpan(0, 0, 5));
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="text"></param>
-        /// <param name="duration"></param>
-        public void DisplayInGameText(String Text, TimeSpan Duration)
-        {
-            if (Duration.TotalMilliseconds <= 0)
-                throw new ArgumentException("Duration must be larger than 0", "duration");
-
-            SafeInvokeDisplayText(new DisplayTextEventArgs(Text, Duration));
+            SafeInvokeDisplayText(new DisplayTextEventArgs(Text));
         }
 
         #region Private: Invoke message handlers

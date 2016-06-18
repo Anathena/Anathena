@@ -2,7 +2,6 @@
 using Anathema.Source.SystemInternals.Graphics.DirectX.Interface.DX10;
 using Anathema.Source.SystemInternals.Graphics.DirectX.Interface.DX11;
 using Anathema.Source.SystemInternals.Graphics.DirectX.Interface.DX9;
-using Anathema.Source.SystemInternals.Graphics.DirectX.Interface;
 using EasyHook;
 using System;
 using System.Collections;
@@ -110,22 +109,22 @@ namespace Anathema.Source.SystemInternals.Hook
         private Boolean InitializeDirectXHook()
         {
             DirextXGraphicsInterface DirextXGraphicsInterface = new DirextXGraphicsInterface();
-            Direct3DVersionEnum Version = Direct3DVersionEnum.Unknown;
+            DirectXFlags.Direct3DVersionEnum Version = DirectXFlags.Direct3DVersionEnum.Unknown;
 
-            Dictionary<Direct3DVersionEnum, String> DXModules = new Dictionary<Direct3DVersionEnum, String>
+            Dictionary<DirectXFlags.Direct3DVersionEnum, String> DXModules = new Dictionary<DirectXFlags.Direct3DVersionEnum, String>
             {
-                { Direct3DVersionEnum.Direct3D9, "d3d9.dll" },
-                { Direct3DVersionEnum.Direct3D10, "d3d10.dll" },
-                { Direct3DVersionEnum.Direct3D10_1, "d3d10_1.dll" },
-                { Direct3DVersionEnum.Direct3D11, "d3d11.dll" },
-                { Direct3DVersionEnum.Direct3D11_1, "d3d11_1.dll" },
+                { DirectXFlags.Direct3DVersionEnum.Direct3D9, "d3d9.dll" },
+                { DirectXFlags.Direct3DVersionEnum.Direct3D10, "d3d10.dll" },
+                { DirectXFlags.Direct3DVersionEnum.Direct3D10_1, "d3d10_1.dll" },
+                { DirectXFlags.Direct3DVersionEnum.Direct3D11, "d3d11.dll" },
+                { DirectXFlags.Direct3DVersionEnum.Direct3D11_1, "d3d11_1.dll" },
             };
 
             try
             {
                 IntPtr Handle = IntPtr.Zero;
 
-                foreach (KeyValuePair<Direct3DVersionEnum, String> Module in DXModules)
+                foreach (KeyValuePair<DirectXFlags.Direct3DVersionEnum, String> Module in DXModules)
                 {
                     Handle = GetModuleHandle(Module.Value);
 
@@ -141,16 +140,16 @@ namespace Anathema.Source.SystemInternals.Hook
 
                 switch (Version)
                 {
-                    case Direct3DVersionEnum.Direct3D9:
+                    case DirectXFlags.Direct3DVersionEnum.Direct3D9:
                         DirectXHook = new DXHookD3D9(DirextXGraphicsInterface);
                         break;
-                    case Direct3DVersionEnum.Direct3D10:
+                    case DirectXFlags.Direct3DVersionEnum.Direct3D10:
                         DirectXHook = new DXHookD3D10(DirextXGraphicsInterface);
                         break;
-                    case Direct3DVersionEnum.Direct3D10_1:
+                    case DirectXFlags.Direct3DVersionEnum.Direct3D10_1:
                         DirectXHook = new DXHookD3D10_1(DirextXGraphicsInterface);
                         break;
-                    case Direct3DVersionEnum.Direct3D11:
+                    case DirectXFlags.Direct3DVersionEnum.Direct3D11:
                         DirectXHook = new DXHookD3D11(DirextXGraphicsInterface);
                         break;
                     //case Direct3DVersion.Direct3D11_1:

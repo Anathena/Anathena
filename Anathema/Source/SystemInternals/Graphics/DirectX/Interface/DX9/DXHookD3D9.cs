@@ -10,8 +10,8 @@ namespace Anathema.Source.SystemInternals.Graphics.DirectX.Interface.DX9
 {
     internal class DXHookD3D9 : BaseDXHook
     {
-        private static Int32 D3D9_DEVICE_METHOD_COUNT = Enum.GetNames(typeof(Direct3DDevice9FunctionOrdinalsEnum)).Length;
-        private static Int32 D3D9Ex_DEVICE_METHOD_COUNT = Enum.GetNames(typeof(Direct3DDevice9ExFunctionOrdinalsEnum)).Length;
+        private static Int32 D3D9_DEVICE_METHOD_COUNT = Enum.GetNames(typeof(DirectXFlags.Direct3DDevice9FunctionOrdinalsEnum)).Length;
+        private static Int32 D3D9Ex_DEVICE_METHOD_COUNT = Enum.GetNames(typeof(DirectXFlags.Direct3DDevice9ExFunctionOrdinalsEnum)).Length;
 
         private Hook<Direct3D9Device_EndSceneDelegate> Direct3DDeviceEndSceneHook;
         private Hook<Direct3D9Device_ResetDelegate> Direct3DDeviceResetHook;
@@ -116,7 +116,7 @@ namespace Anathema.Source.SystemInternals.Graphics.DirectX.Interface.DX9
             // A 64-bit app would use 0xff18
             // Note: GetD3D9DeviceFunctionAddress will output these addresses to a log file
             Direct3DDeviceEndSceneHook = new Hook<Direct3D9Device_EndSceneDelegate>(
-                ID3DDeviceFunctionAddresses[(Int32)Direct3DDevice9FunctionOrdinalsEnum.EndScene],
+                ID3DDeviceFunctionAddresses[(Int32)DirectXFlags.Direct3DDevice9FunctionOrdinalsEnum.EndScene],
                 new Direct3D9Device_EndSceneDelegate(EndSceneHook), this);
 
             unsafe
@@ -125,13 +125,13 @@ namespace Anathema.Source.SystemInternals.Graphics.DirectX.Interface.DX9
                 if (SupportsDirect3D9Ex)
                 {
                     Direct3DDeviceExPresentExHook = new Hook<Direct3D9DeviceEx_PresentExDelegate>(
-                        ID3DDeviceFunctionAddresses[(Int32)Direct3DDevice9ExFunctionOrdinalsEnum.PresentEx],
+                        ID3DDeviceFunctionAddresses[(Int32)DirectXFlags.Direct3DDevice9ExFunctionOrdinalsEnum.PresentEx],
                         new Direct3D9DeviceEx_PresentExDelegate(PresentExHook), this);
                 }
 
                 // Always hook Present also (device will only call Present or PresentEx not both)
                 Direct3DDevicePresentHook = new Hook<Direct3D9Device_PresentDelegate>(
-                    ID3DDeviceFunctionAddresses[(Int32)Direct3DDevice9FunctionOrdinalsEnum.Present],
+                    ID3DDeviceFunctionAddresses[(Int32)DirectXFlags.Direct3DDevice9FunctionOrdinalsEnum.Present],
                     new Direct3D9Device_PresentDelegate(PresentHook), this);
             }
 
@@ -141,7 +141,7 @@ namespace Anathema.Source.SystemInternals.Graphics.DirectX.Interface.DX9
             // A 64-bit app would use 0x3b3a0
             // Note: GetD3D9DeviceFunctionAddress will output these addresses to a log file
             Direct3DDeviceResetHook = new Hook<Direct3D9Device_ResetDelegate>(
-                ID3DDeviceFunctionAddresses[(Int32)Direct3DDevice9FunctionOrdinalsEnum.Reset],
+                ID3DDeviceFunctionAddresses[(Int32)DirectXFlags.Direct3DDevice9FunctionOrdinalsEnum.Reset],
                 new Direct3D9Device_ResetDelegate(ResetHook), this);
 
             // The following ensures that all threads are intercepted (Note: must be done for each hook)

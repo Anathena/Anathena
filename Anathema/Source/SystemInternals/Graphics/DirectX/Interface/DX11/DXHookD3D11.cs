@@ -14,7 +14,7 @@ namespace Anathema.Source.SystemInternals.Graphics.DirectX.Interface.DX11
     /// </summary>
     internal class DXHookD3D11 : BaseDXHook
     {
-        private static Int32 D3D11_DEVICE_METHOD_COUNT = Enum.GetNames(typeof(D3D11DeviceVirtualTableEnum)).Length;
+        private static Int32 D3D11_DEVICE_METHOD_COUNT = Enum.GetNames(typeof(DirectXFlags.D3D11DeviceVirtualTableEnum)).Length;
 
         public DXHookD3D11(DirextXGraphicsInterface GraphicsInterface) : base(GraphicsInterface) { }
 
@@ -76,12 +76,12 @@ namespace Anathema.Source.SystemInternals.Graphics.DirectX.Interface.DX11
 
             // We will capture the backbuffer here
             DXGISwapChainPresentHook = new Hook<DXGISwapChain_PresentDelegate>(
-                DXGISwapChainVirtualTableAddresses[(Int32)DXGI.DXGISwapChainVirtualTableEnum.Present],
+                DXGISwapChainVirtualTableAddresses[(Int32)DirectXFlags.DXGISwapChainVirtualTableEnum.Present],
                 new DXGISwapChain_PresentDelegate(PresentHook), this);
 
             // We will capture target/window resizes here
             DXGISwapChainResizeTargetHook = new Hook<DXGISwapChain_ResizeTargetDelegate>(
-                DXGISwapChainVirtualTableAddresses[(Int32)DXGI.DXGISwapChainVirtualTableEnum.ResizeTarget],
+                DXGISwapChainVirtualTableAddresses[(Int32)DirectXFlags.DXGISwapChainVirtualTableEnum.ResizeTarget],
                 new DXGISwapChain_ResizeTargetDelegate(ResizeTargetHook), this);
 
             // The following ensures that all threads are intercepted: (must be done for each hook)

@@ -6,12 +6,10 @@ namespace Anathema.Source.SystemInternals.Graphics.DirectX.Interface
     public class DisplayTextEventArgs : MarshalByRefObject
     {
         public String Text { get; set; }
-        public TimeSpan Duration { get; set; }
 
-        public DisplayTextEventArgs(String Text, TimeSpan Duration)
+        public DisplayTextEventArgs(String Text)
         {
             this.Text = Text;
-            this.Duration = Duration;
         }
 
         public override string ToString()

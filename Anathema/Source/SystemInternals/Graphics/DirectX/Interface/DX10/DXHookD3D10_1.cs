@@ -13,7 +13,7 @@ namespace Anathema.Source.SystemInternals.Graphics.DirectX.Interface.DX10
     /// </summary>
     internal class DXHookD3D10_1 : BaseDXHook
     {
-        private static Int32 D3D10_1_DEVICE_METHOD_COUNT = Enum.GetNames(typeof(D3D10_1DeviceVirtualTableEnum)).Length;
+        private static Int32 D3D10_1_DEVICE_METHOD_COUNT = Enum.GetNames(typeof(DirectXFlags.D3D10_1DeviceVirtualTableEnum)).Length;
 
         private List<IntPtr> D3D10_1VirtualTableAddresses;
         private List<IntPtr> DXGISwapChainVirtualTableAddresses;
@@ -58,12 +58,12 @@ namespace Anathema.Source.SystemInternals.Graphics.DirectX.Interface.DX10
 
             // We will capture the backbuffer here
             DXGISwapChainPresentHook = new Hook<DXGISwapChain_PresentDelegate>(
-                DXGISwapChainVirtualTableAddresses[(Int32)DXGI.DXGISwapChainVirtualTableEnum.Present],
+                DXGISwapChainVirtualTableAddresses[(Int32)DirectXFlags.DXGISwapChainVirtualTableEnum.Present],
                 new DXGISwapChain_PresentDelegate(PresentHook), this);
 
             // We will capture target/window resizes here
             DXGISwapChainResizeTargetHook = new Hook<DXGISwapChain_ResizeTargetDelegate>(
-                DXGISwapChainVirtualTableAddresses[(Int32)DXGI.DXGISwapChainVirtualTableEnum.ResizeTarget],
+                DXGISwapChainVirtualTableAddresses[(Int32)DirectXFlags.DXGISwapChainVirtualTableEnum.ResizeTarget],
                 new DXGISwapChain_ResizeTargetDelegate(ResizeTargetHook), this);
 
             // The following ensures that all threads are intercepted: (Must be done for each hook)
@@ -149,9 +149,9 @@ namespace Anathema.Source.SystemInternals.Graphics.DirectX.Interface.DX10
                         {
                             DrawText(Font, new Vector2(5, 5), "Some bullshit", new Color4(Color.Red.ToColor3()));
 
-                            if (this.TextDisplay != null && this.TextDisplay.Display)
+                            if (this.TextDisplay != null && this.TextDisplay.Visible)
                             {
-                                DrawText(Font, new Vector2(5, 25), this.TextDisplay.Text, new Color4(Color.Red.ToColor3(), (Math.Abs(1.0f - TextDisplay.Remaining))));
+                                DrawText(Font, new Vector2(5, 25), this.TextDisplay.Text, new Color4(Color.Red.ToColor3(), 1.0f));
                             }
                         }
                     }
