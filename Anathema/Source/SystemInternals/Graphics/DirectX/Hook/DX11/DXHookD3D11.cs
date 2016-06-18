@@ -51,8 +51,6 @@ namespace Anathema.Source.SystemInternals.Graphics.DirectX.Hook.DX11
 
         public override void Hook()
         {
-            DebugMessage("Hook: Begin");
-
             if (D3D11VirtualTableAddresses == null)
             {
                 D3D11VirtualTableAddresses = new List<IntPtr>();
@@ -62,7 +60,6 @@ namespace Anathema.Source.SystemInternals.Graphics.DirectX.Hook.DX11
 
                 // Create temporary device + swapchain and determine method addresses
                 RenderForm = ToDispose(new RenderForm());
-                DebugMessage("Hook: Before device creation");
                 SharpDX.Direct3D11.Device.CreateWithSwapChain(DriverType.Hardware, DeviceCreationFlags.BgraSupport,
                     DXGI.CreateSwapChainDescription(RenderForm.Handle), out Device, out SwapChain);
 
@@ -71,13 +68,8 @@ namespace Anathema.Source.SystemInternals.Graphics.DirectX.Hook.DX11
 
                 if (Device != null && SwapChain != null)
                 {
-                    DebugMessage("Hook: Device created");
                     D3D11VirtualTableAddresses.AddRange(GetVirtualTableAddresses(Device.NativePointer, D3D11_DEVICE_METHOD_COUNT));
                     DXGISwapChainVirtualTableAddresses.AddRange(GetVirtualTableAddresses(SwapChain.NativePointer, DXGI.DXGI_SWAPCHAIN_METHOD_COUNT));
-                }
-                else
-                {
-                    DebugMessage("Hook: Device creation failed");
                 }
 
                 #endregion
@@ -197,11 +189,9 @@ namespace Anathema.Source.SystemInternals.Graphics.DirectX.Hook.DX11
                     OverlayEngine.Draw();
                 }
             }
-            catch (Exception Ex)
+            catch
             {
-                // If there is an error we do not want to crash the hooked application, so swallow the exception
-                this.DebugMessage("PresentHook: Exeception: " + Ex.GetType().FullName + ": " + Ex.ToString());
-                // return unchecked((Int32)0x8000FFFF); //E_UNEXPECTED
+
             }
 
             // As always we need to call the original method, note that EasyHook will automatically skip the hook and call the original method

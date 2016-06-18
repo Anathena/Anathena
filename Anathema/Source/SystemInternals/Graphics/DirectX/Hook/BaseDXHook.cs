@@ -68,21 +68,6 @@ namespace Anathema.Source.SystemInternals.Graphics.DirectX.Hook
                 TextDisplay.Frame();
         }
 
-        protected void DebugMessage(String Message)
-        {
-
-#if DEBUG
-            try
-            {
-                GraphicsInterface.Message(MessageType.Debug, HookName + ": " + Message);
-            }
-            catch (RemotingException)
-            {
-                // Ignore remoting exceptions
-            }
-#endif
-        }
-
         protected IntPtr[] GetVirtualTableAddresses(IntPtr Pointer, Int32 NumberOfMethods)
         {
             return GetVirtualTableAddresses(Pointer, 0, NumberOfMethods);

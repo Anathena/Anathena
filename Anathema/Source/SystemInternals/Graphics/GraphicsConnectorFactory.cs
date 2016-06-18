@@ -1,5 +1,4 @@
-﻿using Anathema.Source.Graphics;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 
 namespace Anathema.Source.SystemInternals.Graphics
 {

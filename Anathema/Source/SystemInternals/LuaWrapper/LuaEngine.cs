@@ -1,4 +1,5 @@
 ﻿using Anathema.Source.SystemInternals.LuaWrapper.Graphics;
+using Anathema.Source.SystemInternals.LuaWrapper.Hook;
 using Anathema.Source.SystemInternals.LuaWrapper.Memory;
 using NLua;
 using System;
@@ -10,6 +11,7 @@ namespace Anathema.Source.SystemInternals.LuaWrapper
         private Lua ScriptEngine;
         private IMemoryCore LuaMemoryCore;
         private IGraphicsCore LuaGraphicsCore;
+        private IHookCore LuaHookCore;
 
         public LuaEngine()
         {
@@ -81,6 +83,7 @@ namespace Anathema.Source.SystemInternals.LuaWrapper
             // Bind the lua functions to a user accessible object
             ScriptEngine["Memory"] = LuaMemoryCore;
             ScriptEngine["Graphics"] = LuaGraphicsCore;
+            ScriptEngine["Hook"] = LuaHookCore;
         }
 
         public Boolean RunActivationFunction(String Script)

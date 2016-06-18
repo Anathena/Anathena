@@ -1,7 +1,7 @@
-﻿using Anathema.Source.Graphics;
-using Anathema.Source.SystemInternals.Architecture.Assembler;
+﻿using Anathema.Source.SystemInternals.Architecture.Assembler;
 using Anathema.Source.SystemInternals.Architecture.Disassembler;
 using Anathema.Source.SystemInternals.Graphics;
+using Anathema.Source.SystemInternals.SpeedHack;
 using System;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
@@ -21,13 +21,18 @@ namespace Anathema.Source.SystemInternals.OperatingSystems
 
         public IGraphicsConnector GraphicsConnector { get; private set; }
 
+        public ISpeedHackConnector SpeedHackConnector { get; private set; }
+
         public Engine(Process TargetProcess)
         {
             Memory = OperatingSystemFactory.GetOperatingSystem(TargetProcess);
             Assembler = AssemblerFactory.GetAssembler();
             Disassembler = DisassemblerFactory.GetDisassembler();
             GraphicsConnector = GraphicsConnectorFactory.GetGraphicsConnector(TargetProcess);
+            SpeedHackConnector = new SpeedHackConnector();
         }
+
+        #region TODO: Move to Memory
 
         /// <summary>
         /// Determines if the OS is a 32 bit OS
@@ -105,6 +110,8 @@ namespace Anathema.Source.SystemInternals.OperatingSystems
         [DllImport("kernel32.dll", SetLastError = true, CallingConvention = CallingConvention.Winapi)]
         [return: MarshalAs(UnmanagedType.Bool)]
         private static extern bool IsWow64Process([In] IntPtr ProcessHandle, [Out, MarshalAs(UnmanagedType.Bool)] out bool Wow64Process);
+
+        #endregion
 
     } // End interface
 

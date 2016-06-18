@@ -326,8 +326,6 @@
     <Compile Include="Source\SystemInternals\Graphics\DirectX\DirextXGraphicsInterface.cs" />
     <Compile Include="Source\SystemInternals\Graphics\DirectX\Interface\Direct3DVersion.cs" />
     <Compile Include="Source\SystemInternals\Graphics\DirectX\Interface\DisplayTextEventArgs.cs" />
-    <Compile Include="Source\SystemInternals\Graphics\DirectX\Interface\MessageReceivedEventArgs.cs" />
-    <Compile Include="Source\SystemInternals\Graphics\DirectX\Interface\MessageType.cs" />
     <Compile Include="Source\SystemInternals\Graphics\DirectX\HookEntry.cs" />
     <Compile Include="Source\SystemInternals\Graphics\GraphicsConnectorFactory.cs" />
     <Compile Include="Source\SystemInternals\Graphics\IGraphicsConnector.cs" />

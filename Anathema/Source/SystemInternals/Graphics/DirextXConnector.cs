@@ -1,5 +1,4 @@
 ﻿using Anathema.Source.Controller;
-using Anathema.Source.Graphics;
 using Anathema.Source.SystemInternals.Graphics.DirectX.Interface;
 using EasyHook;
 using System;
@@ -30,7 +29,6 @@ namespace Anathema.Source.SystemInternals.Graphics
             GraphicsInterface = new DirextXGraphicsInterface();
             GraphicsInterface.ProcessId = Process.Id;
             GraphicsInterface.ProjectDirectory = ProjectDirectory;
-            GraphicsInterface.RemoteMessage += new MessageReceivedEvent(CaptureInterfaceRemoteMessage);
 
             // Initialize the IPC server
             RemoteHooking.IpcCreateServer<DirextXGraphicsInterface>(ref ChannelName, WellKnownObjectMode.Singleton, GraphicsInterface);
@@ -55,15 +53,6 @@ namespace Anathema.Source.SystemInternals.Graphics
         public void Uninject()
         {
             GraphicsInterface = null;
-        }
-
-        /// <summary>
-        /// Display messages from the target process
-        /// </summary>
-        /// <param name="Message"></param>
-        public void CaptureInterfaceRemoteMessage(MessageReceivedEventArgs Message)
-        {
-            // Process messages that come from the injected hook
         }
 
     } // End class

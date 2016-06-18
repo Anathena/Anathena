@@ -1,6 +1,6 @@
 ﻿using System.Diagnostics;
 
-namespace Anathema.Source.Graphics
+namespace Anathema.Source.SystemInternals.Graphics
 {
     public interface IGraphicsConnector
     {

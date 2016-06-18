@@ -61,8 +61,6 @@ namespace Anathema.Source.SystemInternals.Graphics.DirectX
                 return this.GetType().Assembly.FullName == Args.Name ? this.GetType().Assembly : null;
             };
 
-            GraphicsInterface.Message(MessageType.Information, "Injected into process Id:{0}.", EasyHook.RemoteHooking.GetCurrentProcessId());
-
             TaskRunning = new ManualResetEvent(false);
             TaskRunning.Reset();
 
@@ -74,10 +72,6 @@ namespace Anathema.Source.SystemInternals.Graphics.DirectX
 
                 GraphicsInterface.Disconnected += ClientEventProxy.DisconnectedProxyHandler;
 
-                // Important Note:
-                // accessing the _interface from within a _clientEventProxy event handler must always 
-                // be done on a different thread otherwise it will cause a deadlock
-
                 ClientEventProxy.Disconnected += () =>
                 {
                     // We can now signal the exit of the Run method
@@ -88,18 +82,12 @@ namespace Anathema.Source.SystemInternals.Graphics.DirectX
                 // If the host process stops then we will automatically uninstall the hooks
                 MaintainConnection();
             }
-            catch (Exception Ex)
+            catch
             {
-                GraphicsInterface.Message(MessageType.Error, "An unexpected error occured: {0}", Ex.ToString());
+
             }
             finally
             {
-                try
-                {
-                    GraphicsInterface.Message(MessageType.Information, "Disconnecting from process {0}", EasyHook.RemoteHooking.GetCurrentProcessId());
-                }
-                catch { }
-
                 // Remove the client server channel (that allows client event handlers)
                 ChannelServices.UnregisterChannel(ClientServerChannel);
 
@@ -112,12 +100,6 @@ namespace Anathema.Source.SystemInternals.Graphics.DirectX
         {
             if (DirectXHook == null)
                 return;
-
-            try
-            {
-                GraphicsInterface.Message(MessageType.Debug, "Disposing of hooks...");
-            }
-            catch { }
 
             DirectXHook.Dispose();
         }
@@ -151,10 +133,7 @@ namespace Anathema.Source.SystemInternals.Graphics.DirectX
                 }
 
                 if (Handle == IntPtr.Zero)
-                {
-                    GraphicsInterface.Message(MessageType.Error, "Unsupported Direct3D version, or DLL not loaded");
                     return false;
-                }
 
                 switch (Version)
                 {
@@ -174,7 +153,6 @@ namespace Anathema.Source.SystemInternals.Graphics.DirectX
                     //    DirectXHook = new DXHookD3D11_1(ClientConnection);
                     //    return;
                     default:
-                        GraphicsInterface.Message(MessageType.Error, "Unsupported Direct3D version: {0}", Version);
                         return false;
                 }
 
@@ -182,10 +160,8 @@ namespace Anathema.Source.SystemInternals.Graphics.DirectX
                 return true;
 
             }
-            catch (Exception Ex)
+            catch
             {
-                // Notify the host/server application about this error
-                GraphicsInterface.Message(MessageType.Error, "Error in InitialiseHook: {0}", Ex.ToString());
                 return false;
             }
         }
@@ -227,7 +203,7 @@ namespace Anathema.Source.SystemInternals.Graphics.DirectX
         }
 
         [DllImport("kernel32.dll")]
-        public static extern IntPtr GetModuleHandle(string lpModuleName);
+        public static extern IntPtr GetModuleHandle(String LPModuleName);
 
     } // End class
 

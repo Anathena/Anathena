@@ -28,28 +28,22 @@ namespace Anathema.Source.SystemInternals.Graphics.DirectX.Hook.DX10
             DXGISwapChainVirtualTableAddresses = null;
             DXGISwapChainPresentHook = null;
             DXGISwapChainResizeTargetHook = null;
-
-            DebugMessage("Create");
         }
 
         protected override String HookName { get { return "DXHookD3D10_1"; } }
 
         public override void Hook()
         {
-            DebugMessage("Hook: Begin");
-
             // Determine method addresses in Direct3D10.Device, and DXGI.SwapChain
             if (D3D10_1VirtualTableAddresses == null)
             {
                 D3D10_1VirtualTableAddresses = new List<IntPtr>();
                 DXGISwapChainVirtualTableAddresses = new List<IntPtr>();
-                DebugMessage("Hook: Before device creation");
 
                 using (Factory1 Factory = new Factory1())
                 {
                     using (SharpDX.Direct3D10.Device1 Device = new SharpDX.Direct3D10.Device1(Factory.GetAdapter(0), DeviceCreationFlags.None, FeatureLevel.Level_10_1))
                     {
-                        DebugMessage("Hook: Device created");
                         D3D10_1VirtualTableAddresses.AddRange(GetVirtualTableAddresses(Device.NativePointer, D3D10_1_DEVICE_METHOD_COUNT));
 
                         using (RenderForm RenderForm = new RenderForm())
@@ -163,10 +157,9 @@ namespace Anathema.Source.SystemInternals.Graphics.DirectX.Hook.DX10
                         }
                     }
                 }
-                catch (Exception Ex)
+                catch
                 {
-                    // If there is an error we do not want to crash the hooked application, so swallow the exception
-                    this.DebugMessage("PresentHook: Exeception: " + Ex.GetType().FullName + ": " + Ex.Message);
+
                 }
 
                 // As always we need to call the original method, note that EasyHook has already repatched the original method

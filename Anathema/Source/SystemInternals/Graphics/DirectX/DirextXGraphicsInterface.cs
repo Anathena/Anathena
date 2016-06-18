@@ -1,10 +1,7 @@
-﻿using Anathema.Source.Graphics;
-using System;
+﻿using System;
 
 namespace Anathema.Source.SystemInternals.Graphics.DirectX.Interface
 {
-    [Serializable]
-    public delegate void MessageReceivedEvent(MessageReceivedEventArgs Message);
     [Serializable]
     public delegate void DisconnectedEvent();
     [Serializable]
@@ -22,15 +19,6 @@ namespace Anathema.Source.SystemInternals.Graphics.DirectX.Interface
 
         public DirextXGraphicsInterface() { }
 
-        #region Server-side Events
-
-        /// <summary>
-        /// Server event for sending debug and error information from the client to server
-        /// </summary>
-        public event MessageReceivedEvent RemoteMessage;
-
-        #endregion
-
         #region Client-side Events
 
         /// <summary>
@@ -44,22 +32,6 @@ namespace Anathema.Source.SystemInternals.Graphics.DirectX.Interface
         public event DisplayTextEvent DisplayText;
 
         #endregion
-
-        /// <summary>
-        /// Send a message to all handlers of <see cref="DirextXGraphicsInterface.RemoteMessage"/>.
-        /// </summary>
-        /// <param name="MessageType"></param>
-        /// <param name="Format"></param>
-        /// <param name="Args"></param>
-        public void Message(MessageType MessageType, String Format, params Object[] Args)
-        {
-            Message(MessageType, String.Format(Format, Args));
-        }
-
-        public void Message(MessageType MessageType, String Message)
-        {
-            SafeInvokeMessageRecevied(new MessageReceivedEventArgs(MessageType, Message));
-        }
 
         /// <summary>
         /// Display text in-game for the default duration of 5 seconds
@@ -84,29 +56,6 @@ namespace Anathema.Source.SystemInternals.Graphics.DirectX.Interface
         }
 
         #region Private: Invoke message handlers
-
-        private void SafeInvokeMessageRecevied(MessageReceivedEventArgs EventArgs)
-        {
-            if (RemoteMessage == null)
-                return;
-
-            MessageReceivedEvent Listener = null;
-
-            foreach (Delegate Delegate in RemoteMessage.GetInvocationList())
-            {
-                try
-                {
-                    Listener = (MessageReceivedEvent)Delegate;
-                    Listener.Invoke(EventArgs);
-                }
-                catch
-                {
-                    //Could not reach the destination, so remove it
-                    //from the list
-                    RemoteMessage -= Listener;
-                }
-            }
-        }
 
         private void SafeInvokeDisconnected()
         {

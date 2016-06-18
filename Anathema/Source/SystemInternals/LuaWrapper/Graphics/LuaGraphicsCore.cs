@@ -1,4 +1,4 @@
-﻿using Anathema.Source.Graphics;
+﻿using Anathema.Source.SystemInternals.Graphics;
 using Anathema.Source.SystemInternals.OperatingSystems;
 using Anathema.Source.SystemInternals.Processes;
 using Anathema.Source.Utils.Extensions;

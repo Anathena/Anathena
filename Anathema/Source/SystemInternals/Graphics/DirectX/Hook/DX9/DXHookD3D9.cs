@@ -75,14 +75,9 @@ namespace Anathema.Source.SystemInternals.Graphics.DirectX.Hook.DX9
 
         public override void Hook()
         {
-            DebugMessage("Hook: Begin");
-
             // First we need to determine the function address for IDirect3DDevice9
             Device Device;
             ID3DDeviceFunctionAddresses = new List<IntPtr>();
-            // ID3DDeviceExFunctionAddresses = new List<IntPtr>();
-
-            DebugMessage("Hook: Before device creation");
 
             using (Direct3D D3D = new Direct3D())
             {
@@ -90,8 +85,6 @@ namespace Anathema.Source.SystemInternals.Graphics.DirectX.Hook.DX9
                 {
                     using (Device = new Device(D3D, 0, DeviceType.NullReference, IntPtr.Zero, CreateFlags.HardwareVertexProcessing, new PresentParameters() { BackBufferWidth = 1, BackBufferHeight = 1, DeviceWindowHandle = renderForm.Handle }))
                     {
-                        DebugMessage("Hook: Device created");
-
                         ID3DDeviceFunctionAddresses.AddRange(GetVirtualTableAddresses(Device.NativePointer, D3D9_DEVICE_METHOD_COUNT));
                     }
                 }
@@ -101,14 +94,10 @@ namespace Anathema.Source.SystemInternals.Graphics.DirectX.Hook.DX9
             {
                 using (Direct3DEx D3DEx = new Direct3DEx())
                 {
-                    DebugMessage("Hook: Direct3DEx...");
-
                     using (Form RenderForm = new Form())
                     {
                         using (DeviceEx DeviceEx = new DeviceEx(D3DEx, 0, DeviceType.NullReference, IntPtr.Zero, CreateFlags.HardwareVertexProcessing, new PresentParameters() { BackBufferWidth = 1, BackBufferHeight = 1, DeviceWindowHandle = RenderForm.Handle }, new DisplayModeEx() { Width = 800, Height = 600 }))
                         {
-                            DebugMessage("Hook: DeviceEx created - PresentEx supported");
-
                             ID3DDeviceFunctionAddresses.AddRange(GetVirtualTableAddresses(DeviceEx.NativePointer, D3D9_DEVICE_METHOD_COUNT, D3D9Ex_DEVICE_METHOD_COUNT));
                             SupportsDirect3D9Ex = true;
                         }
@@ -171,8 +160,6 @@ namespace Anathema.Source.SystemInternals.Graphics.DirectX.Hook.DX9
 
             Direct3DDeviceResetHook.Activate();
             Hooks.Add(Direct3DDeviceResetHook);
-
-            DebugMessage("Hook: End");
         }
 
         /// <summary>
@@ -284,12 +271,13 @@ namespace Anathema.Source.SystemInternals.Graphics.DirectX.Hook.DX9
                 {
                     foreach (IOverlay Overlay in OverlayEngine.Overlays)
                         Overlay.Frame();
+
                     OverlayEngine.Draw();
                 }
             }
-            catch (Exception Ex)
+            catch
             {
-                DebugMessage(Ex.ToString());
+
             }
         }
 
