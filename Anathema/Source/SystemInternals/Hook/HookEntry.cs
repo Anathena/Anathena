@@ -20,8 +20,7 @@ namespace Anathema.Source.SystemInternals.Hook
     /// </summary>
     public class HookEntry : IEntryPoint
     {
-        private ClientCaptureInterfaceEventProxy ClientEventProxy;
-        private IpcServerChannel ClientServerChannel;
+        private IpcServerChannel IpcServerChannel;
         private HookCommunication HookCommunication;
 
         private BaseDXHook DirectXHook;
@@ -31,8 +30,7 @@ namespace Anathema.Source.SystemInternals.Hook
 
         public HookEntry(RemoteHooking.IContext Context, String ChannelName, String ProjectDirectory)
         {
-            ClientEventProxy = new ClientCaptureInterfaceEventProxy();
-            this.ClientServerChannel = null;
+            IpcServerChannel = null;
             DirectXHook = null;
 
             // Get reference to IPC to host application
@@ -72,14 +70,6 @@ namespace Anathema.Source.SystemInternals.Hook
                 if (!InitializeDirectXHook())
                     return;
 
-                HookCommunication.Disconnected += ClientEventProxy.DisconnectedProxyHandler;
-
-                ClientEventProxy.Disconnected += () =>
-                {
-                    // We can now signal the exit of the Run method
-                    TaskRunning.Set();
-                };
-
                 // We start a thread here to periodically check if the host is still running
                 // If the host process stops then we will automatically uninstall the hooks
                 MaintainConnection();
@@ -91,7 +81,7 @@ namespace Anathema.Source.SystemInternals.Hook
             finally
             {
                 // Remove the client server channel (that allows client event handlers)
-                ChannelServices.UnregisterChannel(ClientServerChannel);
+                ChannelServices.UnregisterChannel(IpcServerChannel);
 
                 // Always sleep long enough for any remaining messages to complete sending
                 Thread.Sleep(100);
