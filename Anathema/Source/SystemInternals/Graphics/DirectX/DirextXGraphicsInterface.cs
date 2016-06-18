@@ -3,11 +3,6 @@
 namespace Anathema.Source.SystemInternals.Graphics.DirectX.Interface
 {
     [Serializable]
-    public delegate void DisconnectedEvent();
-    [Serializable]
-    public delegate void DisplayTextEvent(DisplayTextEventArgs Args);
-
-    [Serializable]
     public class DirextXGraphicsInterface : MarshalByRefObject, IGraphicsInterface
     {
         /// <summary>
@@ -133,6 +128,10 @@ namespace Anathema.Source.SystemInternals.Graphics.DirectX.Interface
 
     } // End class
 
+    [Serializable]
+    public delegate void DisconnectedEvent();
+    [Serializable]
+    public delegate void DisplayTextEvent(DisplayTextEventArgs Args);
 
     /// <summary>
     /// Client event proxy for marshalling event handlers

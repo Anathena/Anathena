@@ -23,6 +23,7 @@ namespace Anathema.Source.SystemInternals.LuaWrapper
             ScriptEngine = new Lua();
             LuaMemoryCore = new LuaMemoryCore();
             LuaGraphicsCore = new LuaGraphicsCore();
+            LuaHookCore = new LuaHookCore();
 
             BindFunctions();
             LuaMemoryCore.Initialize();

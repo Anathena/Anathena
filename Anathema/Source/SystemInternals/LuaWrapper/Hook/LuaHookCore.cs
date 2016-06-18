@@ -35,8 +35,8 @@ namespace Anathema.Source.SystemInternals.LuaWrapper.Hook
         {
             lock (AccessLock)
             {
-                if (Engine.GraphicsConnector.GetGraphicsInterface() == null)
-                    Engine.GraphicsConnector.Inject(Engine.Memory.GetProcess());
+                if (Engine.SpeedHackConnector.GetSpeedHackInterface() == null)
+                    Engine.SpeedHackConnector.Inject(Engine.Memory.GetProcess());
 
                 return Engine.SpeedHackConnector.GetSpeedHackInterface();
             }

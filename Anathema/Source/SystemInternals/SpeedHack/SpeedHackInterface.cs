@@ -1,9 +1,11 @@
 ﻿using EasyHook;
 using System;
 using System.Runtime.InteropServices;
+using System.Windows.Forms;
 
 namespace Anathema.Source.SystemInternals.SpeedHack
 {
+    [Serializable]
     public class SpeedHackInterface : MarshalByRefObject, ISpeedHackInterface
     {
         [UnmanagedFunctionPointer(CallingConvention.StdCall, CharSet = CharSet.Unicode, SetLastError = true)]
@@ -12,9 +14,13 @@ namespace Anathema.Source.SystemInternals.SpeedHack
         public Int32 ProcessId { get; set; }
         private LocalHook Hook;
 
+
+        public event DisconnectedEvent Disconnected;
+
         public SpeedHackInterface()
         {
-            Hook = LocalHook.Create(LocalHook.GetProcAddress("kernel32.dll", "QueryPerformanceCounter"), new QueryPerformanceCounter2(QueryPerformanceCounter3), this);
+            MessageBox.Show("okay then");
+            //Hook = LocalHook.Create(LocalHook.GetProcAddress("kernel32.dll", "QueryPerformanceCounter"), new QueryPerformanceCounter2(QueryPerformanceCounter3), this);
         }
 
         public void SetSpeed(Double Speed)
@@ -41,6 +47,33 @@ namespace Anathema.Source.SystemInternals.SpeedHack
         [DllImport("Kernel32.dll")]
         private static extern Boolean QueryPerformanceFrequency(out Int64 LPFrequency);
 
-    } // End interface
+    } // End class
+
+    [Serializable]
+    public delegate void DisconnectedEvent();
+
+    /// <summary>
+    /// Client event proxy for marshalling event handlers
+    /// </summary>
+    public class SpeedHackEventProxy : MarshalByRefObject
+    {
+        /// <summary>
+        /// Client event used to notify the hook to exit
+        /// </summary>
+        public event DisconnectedEvent Disconnected;
+
+        public override Object InitializeLifetimeService()
+        {
+            //Returning null holds the object alive
+            //until it is explicitly destroyed
+            return null;
+        }
+
+        public void DisconnectedProxyHandler()
+        {
+            Disconnected?.Invoke();
+        }
+
+    } // End class
 
 } // End namespace

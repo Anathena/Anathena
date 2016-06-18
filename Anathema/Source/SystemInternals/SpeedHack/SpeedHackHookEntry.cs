@@ -10,8 +10,9 @@ using System.Threading.Tasks;
 
 namespace Anathema.Source.SystemInternals.SpeedHack
 {
-    public class SpeedHackHookEntry : IEntryPoint
+    public class SpeedHackHookEntry // : IEntryPoint
     {
+        private SpeedHackEventProxy SpeedHackEventProxy;
         private IpcServerChannel ClientServerChannel;
         private ManualResetEvent TaskRunning;
         private CancellationTokenSource CancelRequest;
@@ -20,6 +21,7 @@ namespace Anathema.Source.SystemInternals.SpeedHack
 
         public SpeedHackHookEntry(RemoteHooking.IContext Context, String ChannelName)
         {
+            SpeedHackEventProxy = new SpeedHackEventProxy();
             this.ClientServerChannel = null;
 
             // Get reference to IPC to host application
@@ -55,12 +57,12 @@ namespace Anathema.Source.SystemInternals.SpeedHack
 
             try
             {
-                // GraphicsInterface.Disconnected += ClientEventProxy.DisconnectedProxyHandler;
+                SpeedHackInterface.Disconnected += SpeedHackEventProxy.DisconnectedProxyHandler;
 
-                // ClientEventProxy.Disconnected += () =>
+                SpeedHackEventProxy.Disconnected += () =>
                 {
                     // We can now signal the exit of the Run method
-                    // TaskRunning.Set();
+                    TaskRunning.Set();
                 };
 
                 // We start a thread here to periodically check if the host is still running
@@ -94,7 +96,7 @@ namespace Anathema.Source.SystemInternals.SpeedHack
                 {
                     try
                     {
-                        // GraphicsInterface.Ping();
+                        SpeedHackInterface.Ping();
                     }
                     catch
                     {

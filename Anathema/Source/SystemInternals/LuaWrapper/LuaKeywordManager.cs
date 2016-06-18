@@ -75,7 +75,7 @@ namespace Anathema.Source.SystemInternals.LuaWrapper
 
         public static String AsmInstructionKeywords { get { SortKeywords(); return _AsmInstructionKeywords; } private set { _AsmInstructionKeywords = value; } }
 
-        private static String _AnathemaKeywords = "Memory Graphics fasm nasm masm";
+        private static String _AnathemaKeywords = "Memory Graphics Hook fasm nasm masm";
         public static String AnathemaKeywords { get { SortKeywords(); return _AnathemaKeywords; } private set { _AnathemaKeywords = value; } }
 
         private static String _AllLuaKeywords = String.Empty;

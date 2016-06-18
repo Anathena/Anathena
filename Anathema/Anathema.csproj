@@ -320,13 +320,12 @@
     <Compile Include="Source\SystemInternals\Graphics\DirectX\Hook\DX11\DXHookD3D11.cs" />
     <Compile Include="Source\SystemInternals\Graphics\DirectX\Hook\DX9\DXHookD3D9.cs" />
     <Compile Include="Source\SystemInternals\Graphics\DirectX\Hook\Hook.cs" />
-    <Compile Include="Source\SystemInternals\Graphics\DirectX\Hook\IDXHook.cs" />
     <Compile Include="Source\SystemInternals\Graphics\DirectX\Hook\SafeHGlobal.cs" />
     <Compile Include="Source\SystemInternals\Graphics\DirectX\Hook\TextDisplay.cs" />
     <Compile Include="Source\SystemInternals\Graphics\DirectX\DirextXGraphicsInterface.cs" />
     <Compile Include="Source\SystemInternals\Graphics\DirectX\Interface\Direct3DVersion.cs" />
     <Compile Include="Source\SystemInternals\Graphics\DirectX\Interface\DisplayTextEventArgs.cs" />
-    <Compile Include="Source\SystemInternals\Graphics\DirectX\HookEntry.cs" />
+    <Compile Include="Source\SystemInternals\Graphics\DirectX\DirectXHookEntry.cs" />
     <Compile Include="Source\SystemInternals\Graphics\GraphicsConnectorFactory.cs" />
     <Compile Include="Source\SystemInternals\Graphics\IGraphicsConnector.cs" />
     <Compile Include="Source\Prefilter\ISnapshotPrefilter.cs" />
@@ -336,9 +335,16 @@
     <Compile Include="Source\SystemInternals\Graphics\IGraphicsInterface.cs" />
     <Compile Include="Source\SystemInternals\Graphics\Ogre\ConnectorOgre.cs" />
     <Compile Include="Source\SystemInternals\Graphics\OpenGL\ConnectorOpenGL.cs" />
+    <Compile Include="Source\SystemInternals\LuaWrapper\Hook\IHookCore.cs" />
+    <Compile Include="Source\SystemInternals\LuaWrapper\Hook\LuaHookCore.cs" />
     <Compile Include="Source\SystemInternals\LuaWrapper\Graphics\LuaGraphicsCore.cs" />
     <Compile Include="Source\SystemInternals\OperatingSystems\NormalizedFlags.cs" />
     <Compile Include="Source\SystemInternals\OperatingSystems\OperatingSystemFactory.cs" />
+    <Compile Include="Source\SystemInternals\SpeedHack\SpeedHackInterface.cs" />
+    <Compile Include="Source\SystemInternals\SpeedHack\ISpeedHackInterface.cs" />
+    <Compile Include="Source\SystemInternals\SpeedHack\ISpeedHackConnector.cs" />
+    <Compile Include="Source\SystemInternals\SpeedHack\SpeedHackConnector.cs" />
+    <Compile Include="Source\SystemInternals\SpeedHack\SpeedHackHookEntry.cs" />
     <Compile Include="Source\Utils\Browser\BrowserHelper.cs" />
     <Compile Include="Source\Utils\Extensions\IEnumerableExtensions.cs" />
     <Compile Include="Source\Utils\Extensions\IntExtensions.cs" />
@@ -915,6 +921,7 @@
       <SubType>Designer</SubType>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <Content Include="EasyHook\EasyHook32Svc.exe" />
     <Content Include="EasyHook\EasyHook64.lib" />
     <Content Include="EasyHook\EasyLoad32.lib" />
     <Content Include="EasyHook\EasyLoad64.lib" />
@@ -1164,6 +1171,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Source\Results\PointerScanResults\" />
+    <Folder Include="Source\SystemInternals\Unrandomizer\" />
     <Folder Include="Source\Utils\Debugger\" />
     <Folder Include="Source\Utils\DesignPatterns\" />
   </ItemGroup>

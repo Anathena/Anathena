@@ -1,5 +1,6 @@
 ﻿using Anathema.Source.SystemInternals.Graphics.DirectX.Interface;
 using EasyHook;
+using SharpDX;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -11,7 +12,7 @@ using System.Threading;
 
 namespace Anathema.Source.SystemInternals.Graphics.DirectX.Hook
 {
-    internal abstract class BaseDXHook : SharpDX.Component, IDXHook
+    internal abstract class BaseDXHook : Component
     {
         protected readonly ClientCaptureInterfaceEventProxy InterfaceEventProxy = new ClientCaptureInterfaceEventProxy();
 
@@ -53,7 +54,7 @@ namespace Anathema.Source.SystemInternals.Graphics.DirectX.Hook
             Dispose(false);
         }
 
-        void InterfaceEventProxyDisplayText(DisplayTextEventArgs Args)
+        private void InterfaceEventProxyDisplayText(DisplayTextEventArgs Args)
         {
             TextDisplay = new TextDisplay()
             {

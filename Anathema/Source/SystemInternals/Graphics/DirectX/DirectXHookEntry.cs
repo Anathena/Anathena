@@ -16,18 +16,18 @@ using System.Threading.Tasks;
 
 namespace Anathema.Source.SystemInternals.Graphics.DirectX
 {
-    public class HookEntry : IEntryPoint
+    public class DirectXHookEntry : IEntryPoint
     {
         private ClientCaptureInterfaceEventProxy ClientEventProxy;
         private IpcServerChannel ClientServerChannel;
         private DirextXGraphicsInterface GraphicsInterface;
 
-        private IDXHook DirectXHook;
+        private BaseDXHook DirectXHook;
         private ManualResetEvent TaskRunning;
 
         private CancellationTokenSource CancelRequest;
 
-        public HookEntry(RemoteHooking.IContext Context, String ChannelName, String ProjectDirectory)
+        public DirectXHookEntry(RemoteHooking.IContext Context, String ChannelName, String ProjectDirectory)
         {
             ClientEventProxy = new ClientCaptureInterfaceEventProxy();
             this.ClientServerChannel = null;
