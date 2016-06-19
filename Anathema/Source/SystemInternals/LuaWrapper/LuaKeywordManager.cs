@@ -1,4 +1,6 @@
-﻿using Anathema.Source.SystemInternals.LuaWrapper.Memory;
+﻿using Anathema.Source.SystemInternals.LuaWrapper.Graphics;
+using Anathema.Source.SystemInternals.LuaWrapper.Hook;
+using Anathema.Source.SystemInternals.LuaWrapper.Memory;
 using Anathema.Source.Utils.Extensions;
 using System;
 using System.Collections.Generic;
@@ -118,6 +120,8 @@ namespace Anathema.Source.SystemInternals.LuaWrapper
             // Sort Anathema keywords
             List<String> FunctionKeywords = new List<String>();
             typeof(IMemoryCore).GetMethods().ForEach(X => FunctionKeywords.Add(X.Name));
+            typeof(IGraphicsCore).GetMethods().ForEach(X => FunctionKeywords.Add(X.Name));
+            typeof(IHookCore).GetMethods().ForEach(X => FunctionKeywords.Add(X.Name));
             _AnathemaKeywords = String.Join(" ", _AnathemaKeywords.Split(' ').Concat(FunctionKeywords));
             SortedKeywords = String.Empty;
             Keywords = new List<String>(_AnathemaKeywords.Split(' '));
@@ -125,14 +129,14 @@ namespace Anathema.Source.SystemInternals.LuaWrapper
             Keywords.ForEach(x => SortedKeywords += x + " ");
             _AnathemaKeywords = SortedKeywords;
 
-            // Sort all lua keywords
+            // Sort all Lua keywords
             SortedKeywords = String.Empty;
             Keywords = new List<String>(_LuaKeywords.Split(' ').Concat(_AnathemaKeywords.Split(' ')));
             Keywords.Sort();
             Keywords.ForEach(x => SortedKeywords += x + " ");
             _AllLuaKeywords = SortedKeywords;
 
-            // Sort all asm keywords
+            // Sort all Asm keywords
             SortedKeywords = String.Empty;
             Keywords = new List<String>(_AsmRegisterKeywords.Split(' ').Concat(_AsmInstructionKeywords.Split(' ')));
             Keywords.Sort();

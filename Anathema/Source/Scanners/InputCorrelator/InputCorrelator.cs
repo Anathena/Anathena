@@ -1,8 +1,8 @@
 ﻿using Anathema.Source.Controller;
+using Anathema.Source.SystemInternals.InputCapture.MouseKeyHook;
 using Anathema.Source.Utils;
 using Anathema.Source.Utils.Setting;
 using Anathema.Source.Utils.Snapshots;
-using Gma.System.MouseKeyHook;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -39,7 +39,7 @@ namespace Anathema.Source.Scanners.InputCorrelator
             ScanProgress.SetProgressLabel("Input Correlator");
 
             // Initialize input hook
-            InputHook = Hook.GlobalEvents();
+            InputHook = MouseKeyCapture.GlobalEvents();
         }
 
         public override void SetVariableSize(int VariableSize)

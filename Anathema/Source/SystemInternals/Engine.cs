@@ -1,6 +1,7 @@
 ﻿using Anathema.Source.SystemInternals.Architecture.Assembler;
 using Anathema.Source.SystemInternals.Architecture.Disassembler;
 using Anathema.Source.SystemInternals.Hook.Client;
+using Anathema.Source.SystemInternals.InputCapture;
 using System;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
@@ -17,6 +18,8 @@ namespace Anathema.Source.SystemInternals.OperatingSystems
         public IAssembler Assembler { get; private set; }
 
         public IDisassembler Disassembler { get; private set; }
+
+        public IInputManager InputManager { get; private set; }
 
         /// <summary>
         /// TODO: Replace this with IGraphicsInterface, ISpeedHack, IUnrandomizer, etc instead of the

@@ -1,8 +1,8 @@
 ﻿using Anathema.Source.Scanners.InputCorrelator;
+using Anathema.Source.SystemInternals.InputCapture.MouseKeyHook;
 using Anathema.Source.Utils;
 using Anathema.Source.Utils.MVP;
 using Anathema.Source.Utils.Validation;
-using Gma.System.MouseKeyHook;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -28,7 +28,7 @@ namespace Anathema.GUI
             InputCorrelatorPresenter = new InputCorrelatorPresenter(this, new InputCorrelator());
             AccessLock = new Object();
 
-            InputHook = Hook.GlobalEvents();
+            InputHook = MouseKeyCapture.GlobalEvents();
 
             UpdatingInputTextBox = false;
 
