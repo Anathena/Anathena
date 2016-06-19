@@ -32,10 +32,14 @@ Anathema also features several other automated scanning features, such as a Chun
 Write sophisticated hacks with minimal effort using the user friendly scripting language LUA. Leverage the power of the FASM compiler to write your own code to replace the code in the game on the fly. 
 
 ==RELEASE STEPS==
-1) Update version number for Anathema
-2) Compile for x86 and x64 in Release mode, building all projects (except installers)
-3) Obfuscate executables in bin/{x86/x64}/Release using .Net Reactor
-4) Replace the executables in obj/{x86/x64}/Release
-5) Compile 32 bit and 64 bit installers ONLY. In build config disable ALL other projects.
-6) Test installers, open executables with Dot Peak to ensure they are obfuscated.
-7) Update Google drive installers, Update web version number.
+
+1) Update version number for Anathema in Properties -> AssemblyInfo as well as in OneClick publish settings.
+
+REPEAT FOR x86 and x64:
+2) Compile for {x86/x64}.
+3) Obfuscate executables in bin/{x86/x64}/Release using .Net Reactor.
+4) Replace the executables in bin/{x86/x64}/Release AND obj/{x86/x64}/Release.
+5) Publish for {x86/x64} in OneClick to the proper AnathemaWeb {x86/x64} release folder. ENSURE BUILD DOES NOT RECOMPILE -- otherwise we will lose obfuscation changes.
+
+6) Ensure published assemblies are obfuscated.
+7) Push assemblies to develop/master branch, deploy to elastic beanstalk.
