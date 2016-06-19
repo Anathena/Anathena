@@ -1,4 +1,5 @@
 ﻿using SharpDX.Direct3D9;
+using SharpDX.Mathematics.Interop;
 using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
@@ -45,10 +46,10 @@ namespace Anathema.Source.SystemInternals.Graphics.DirectX.Interface.DX9
         delegate Int32 Direct3D9DeviceResetDelegate(IntPtr Device, ref PresentParameters PresentParameters);
 
         [UnmanagedFunctionPointer(CallingConvention.StdCall, CharSet = CharSet.Unicode, SetLastError = true)]
-        unsafe delegate Int32 Direct3D9DevicePresentDelegate(IntPtr DevicePtr, SharpDX.Rectangle* PSourceRect, SharpDX.Rectangle* PDestRect, IntPtr hDestWindowOverride, IntPtr PDirtyRegion);
+        unsafe delegate Int32 Direct3D9DevicePresentDelegate(IntPtr DevicePtr, RawRectangle* PSourceRect, RawRectangle* PDestRect, IntPtr hDestWindowOverride, IntPtr PDirtyRegion);
 
         [UnmanagedFunctionPointer(CallingConvention.StdCall, CharSet = CharSet.Unicode, SetLastError = true)]
-        unsafe delegate Int32 Direct3D9DeviceExPresentExDelegate(IntPtr DevicePtr, SharpDX.Rectangle* PSourceRect, SharpDX.Rectangle* PDestRect, IntPtr hDestWindowOverride, IntPtr PDirtyRegion, Present DWFlags);
+        unsafe delegate Int32 Direct3D9DeviceExPresentExDelegate(IntPtr DevicePtr, RawRectangle* PSourceRect, RawRectangle* PDestRect, IntPtr hDestWindowOverride, IntPtr PDirtyRegion, Present DWFlags);
 
 
         public DXHookD3D9(DirextXGraphicsInterface GraphicsInterface) : base(GraphicsInterface)
@@ -163,12 +164,12 @@ namespace Anathema.Source.SystemInternals.Graphics.DirectX.Interface.DX9
             lock (LockRenderObject)
             {
                 ResourcesInitialized = false;
-
+                /*
                 RemoveAndDispose(ref RenderTargetCopy);
                 RemoveAndDispose(ref ResolvedTarget);
                 RemoveAndDispose(ref Query);
                 RemoveAndDispose(ref Font);
-                RemoveAndDispose(ref OverlayEngine);
+                RemoveAndDispose(ref OverlayEngine);*/
             }
         }
 
@@ -190,7 +191,7 @@ namespace Anathema.Source.SystemInternals.Graphics.DirectX.Interface.DX9
         }
 
         // Used in the overlay
-        unsafe Int32 PresentExHook(IntPtr DevicePtr, SharpDX.Rectangle* PSourceRect, SharpDX.Rectangle* PDestRect, IntPtr HDestWindowOverride, IntPtr PDirtyRegion, Present DWFlags)
+        unsafe Int32 PresentExHook(IntPtr DevicePtr, RawRectangle* PSourceRect, RawRectangle* PDestRect, IntPtr HDestWindowOverride, IntPtr PDirtyRegion, Present DWFlags)
         {
             IsUsingPresent = true;
             DeviceEx Device = (DeviceEx)DevicePtr;
@@ -200,7 +201,7 @@ namespace Anathema.Source.SystemInternals.Graphics.DirectX.Interface.DX9
             return Direct3DDeviceExPresentExHook.Original(DevicePtr, PSourceRect, PDestRect, HDestWindowOverride, PDirtyRegion, DWFlags);
         }
 
-        unsafe Int32 PresentHook(IntPtr DevicePtr, SharpDX.Rectangle* PSourceRect, SharpDX.Rectangle* PDestRect, IntPtr HDestWindowOverride, IntPtr PDirtyRegion)
+        unsafe Int32 PresentHook(IntPtr DevicePtr, RawRectangle* PSourceRect, RawRectangle* PDestRect, IntPtr HDestWindowOverride, IntPtr PDirtyRegion)
         {
             IsUsingPresent = true;
             Device Device = (Device)DevicePtr;
@@ -241,10 +242,10 @@ namespace Anathema.Source.SystemInternals.Graphics.DirectX.Interface.DX9
                 if (OverlayEngine == null || OverlayEngine.Device.NativePointer != Device.NativePointer)
                 {
                     // Cleanup if necessary
-                    if (OverlayEngine != null)
-                        RemoveAndDispose(ref OverlayEngine);
+                    // if (OverlayEngine != null)
+                    // RemoveAndDispose(ref OverlayEngine);
 
-                    OverlayEngine = ToDispose(new DXOverlayEngine(GraphicsInterface));
+                    OverlayEngine = new DXOverlayEngine(GraphicsInterface); // ToDispose()
 
                     OverlayEngine.Initialize(Device);
                 }
@@ -268,12 +269,12 @@ namespace Anathema.Source.SystemInternals.Graphics.DirectX.Interface.DX9
             ResourcesInitialized = true;
 
             // Create offscreen surface to use as copy of render target data
-            RenderTargetCopy = ToDispose(Surface.CreateOffscreenPlain(Device, Width, Height, D3DFormat, Pool.SystemMemory));
+            RenderTargetCopy = Surface.CreateOffscreenPlain(Device, Width, Height, D3DFormat, Pool.SystemMemory); //ToDispose()
 
             // Create our resolved surface (resizing if necessary and to resolve any multi-sampling)
-            ResolvedTarget = ToDispose(Surface.CreateRenderTarget(Device, Width, Height, D3DFormat, MultisampleType.None, 0, false));
+            ResolvedTarget = Surface.CreateRenderTarget(Device, Width, Height, D3DFormat, MultisampleType.None, 0, false); //ToDispose(
 
-            Query = ToDispose(new Query(Device, QueryType.Event));
+            Query = new Query(Device, QueryType.Event); //ToDispose()
         }
 
     } // End class

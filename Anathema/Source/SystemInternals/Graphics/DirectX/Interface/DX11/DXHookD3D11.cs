@@ -1,7 +1,5 @@
-﻿using SharpDX.Direct3D;
-using SharpDX.Direct3D11;
+﻿using SharpDX.Direct3D11;
 using SharpDX.DXGI;
-using SharpDX.Windows;
 using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
@@ -24,7 +22,7 @@ namespace Anathema.Source.SystemInternals.Graphics.DirectX.Interface.DX11
 
         private SharpDX.Direct3D11.Device Device;
         private SwapChain SwapChain;
-        private RenderForm RenderForm;
+        // private RenderForm RenderForm;
         private Texture2D ResolvedRTShared;
         private KeyedMutex ResolvedRTSharedKeyedMutex;
         private ShaderResourceView ResolvedSharedSRV;
@@ -53,12 +51,12 @@ namespace Anathema.Source.SystemInternals.Graphics.DirectX.Interface.DX11
                 DXGISwapChainVirtualTableAddresses = new List<IntPtr>();
 
                 // Create temporary device + swapchain and determine method addresses
-                RenderForm = ToDispose(new RenderForm());
+                /*RenderForm = ToDispose(new RenderForm());
                 SharpDX.Direct3D11.Device.CreateWithSwapChain(DriverType.Hardware, DeviceCreationFlags.BgraSupport,
                     DXGI.CreateSwapChainDescription(RenderForm.Handle), out Device, out SwapChain);
 
                 ToDispose(Device);
-                ToDispose(SwapChain);
+                ToDispose(SwapChain);*/
 
                 if (Device != null && SwapChain != null)
                 {
@@ -92,7 +90,7 @@ namespace Anathema.Source.SystemInternals.Graphics.DirectX.Interface.DX11
             {
                 if (OverlayEngine != null)
                 {
-                    OverlayEngine.Dispose();
+                    // OverlayEngine.Dispose();
                     OverlayEngine = null;
                 }
             }
@@ -130,7 +128,7 @@ namespace Anathema.Source.SystemInternals.Graphics.DirectX.Interface.DX11
             // Dispose of overlay engine (so it will be recreated with correct renderTarget view size)
             if (OverlayEngine != null)
             {
-                OverlayEngine.Dispose();
+                // OverlayEngine.Dispose();
                 OverlayEngine = null;
             }
 
@@ -154,8 +152,8 @@ namespace Anathema.Source.SystemInternals.Graphics.DirectX.Interface.DX11
                 // Draw FPS
                 if (SwapChainPointer != SwapChain.NativePointer || OverlayEngine == null)
                 {
-                    if (OverlayEngine != null)
-                        OverlayEngine.Dispose();
+                    // if (OverlayEngine != null)
+                    // OverlayEngine.Dispose();
 
                     OverlayEngine = new DXOverlayEngine();
                     OverlayEngine.Initialize(SwapChain);

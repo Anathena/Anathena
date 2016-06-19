@@ -1,4 +1,5 @@
-﻿using SharpDX;
+﻿/*
+using SharpDX;
 using SharpDX.Direct3D10;
 using SharpDX.DXGI;
 using System;
@@ -165,4 +166,4 @@ namespace Anathema.Source.SystemInternals.Graphics.DirectX.Interface.DX10
 
     } // End class
 
-} // End namespace
+} // End namespace*/

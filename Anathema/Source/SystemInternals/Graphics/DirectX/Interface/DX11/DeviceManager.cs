@@ -2,7 +2,7 @@
 
 namespace Anathema.Source.SystemInternals.Graphics.DirectX.Interface.DX11
 {
-    public class DeviceManager : SharpDX.Component
+    public class DeviceManager
     {
         // Direct3D Objects
         protected Device D3DDevice;

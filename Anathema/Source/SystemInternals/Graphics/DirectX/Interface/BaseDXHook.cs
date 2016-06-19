@@ -1,12 +1,11 @@
-﻿using SharpDX;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using System.Threading;
 
 namespace Anathema.Source.SystemInternals.Graphics.DirectX.Interface
 {
-    internal abstract class BaseDXHook : Component
+    internal abstract class BaseDXHook
     {
         protected List<Hook> Hooks = new List<Hook>();
         public DirextXGraphicsInterface GraphicsInterface { get; set; }
@@ -44,7 +43,7 @@ namespace Anathema.Source.SystemInternals.Graphics.DirectX.Interface
 
         public abstract void Cleanup();
 
-        protected override void Dispose(Boolean DisposeManagedResources)
+        protected void Dispose(Boolean DisposeManagedResources)
         {
             // Only clean up managed objects if disposing (i.e. not called from destructor)
             if (DisposeManagedResources)
@@ -79,7 +78,7 @@ namespace Anathema.Source.SystemInternals.Graphics.DirectX.Interface
                 }
             }
 
-            base.Dispose(DisposeManagedResources);
+            // base.Dispose(DisposeManagedResources);
         }
 
     } // End class

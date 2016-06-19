@@ -33,6 +33,7 @@ namespace Anathema.Source.SystemInternals.OperatingSystems
             Memory = OperatingSystemFactory.GetOperatingSystem(TargetProcess);
             Assembler = AssemblerFactory.GetAssembler();
             Disassembler = DisassemblerFactory.GetDisassembler();
+            InputManager = new InputManager();
             HookCreator = new HookCreator();
         }
 

@@ -1,17 +1,17 @@
-﻿using SharpDX;
+﻿using SharpDX.Mathematics.Interop;
 using System;
 
 namespace Anathema.Source.SystemInternals.Graphics.DirectX.Interface.DX11
 {
-    public abstract class RendererBase : Component
+    public abstract class RendererBase
     {
         public DeviceManager DeviceManager { get; protected set; }
         public virtual Boolean Show { get; set; }
-        public Matrix World;
+        public RawMatrix World;
 
         public RendererBase()
         {
-            World = Matrix.Identity;
+            // World = RawMatrix.Identity;
             Show = true;
         }
 

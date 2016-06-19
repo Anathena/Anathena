@@ -7,16 +7,22 @@ namespace Anathema.Source.SystemInternals.InputCapture
 {
     public class InputManager : IInputManager
     {
-        private IKeyboardMouseEvents CaptureEvents;
+        private IKeyboardMouseEvents KeyboardMouseEvents;
+        private IControllerEvents ControllerEvents;
+
+        public InputManager()
+        {
+            ControllerEvents = new ControllerEvents();
+            KeyboardMouseEvents = MouseKeyCapture.GlobalEvents();
+        }
 
         public IKeyboardMouseEvents GetMouseKeyHook()
         {
-            CaptureEvents = MouseKeyCapture.GlobalEvents();
 
-            CaptureEvents.KeyUp += GlobalHookKeyUp;
-            CaptureEvents.KeyDown += GlobalHookKeyDown;
+            KeyboardMouseEvents.KeyUp += GlobalHookKeyUp;
+            KeyboardMouseEvents.KeyDown += GlobalHookKeyDown;
 
-            return CaptureEvents;
+            return KeyboardMouseEvents;
         }
 
         public IControllerEvents GetControllerHook()

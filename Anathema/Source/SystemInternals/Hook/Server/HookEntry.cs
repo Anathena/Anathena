@@ -1,5 +1,4 @@
 ﻿using Anathema.Source.SystemInternals.Graphics.DirectX.Interface;
-using Anathema.Source.SystemInternals.Graphics.DirectX.Interface.DX10;
 using Anathema.Source.SystemInternals.Graphics.DirectX.Interface.DX11;
 using Anathema.Source.SystemInternals.Graphics.DirectX.Interface.DX9;
 using EasyHook;
@@ -95,7 +94,7 @@ namespace Anathema.Source.SystemInternals.Hook.Server
             if (DirectXHook == null)
                 return;
 
-            DirectXHook.Dispose();
+            // DirectXHook.Dispose();
         }
 
         private Boolean InitializeDirectXHook()
@@ -136,10 +135,10 @@ namespace Anathema.Source.SystemInternals.Hook.Server
                         DirectXHook = new DXHookD3D9(DirextXGraphicsInterface);
                         break;
                     case DirectXFlags.Direct3DVersionEnum.Direct3D10:
-                        DirectXHook = new DXHookD3D10(DirextXGraphicsInterface);
+                        // DirectXHook = new DXHookD3D10(DirextXGraphicsInterface);
                         break;
                     case DirectXFlags.Direct3DVersionEnum.Direct3D10_1:
-                        DirectXHook = new DXHookD3D10_1(DirextXGraphicsInterface);
+                        // DirectXHook = new DXHookD3D10_1(DirextXGraphicsInterface);
                         break;
                     case DirectXFlags.Direct3DVersionEnum.Direct3D11:
                         DirectXHook = new DXHookD3D11(DirextXGraphicsInterface);

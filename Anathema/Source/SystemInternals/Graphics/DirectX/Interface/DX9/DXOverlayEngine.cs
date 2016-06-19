@@ -1,13 +1,14 @@
 ﻿using Anathema.Source.SystemInternals.Graphics.DirectX.Interface.Common;
 using SharpDX;
 using SharpDX.Direct3D9;
+using SharpDX.Mathematics.Interop;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 
 namespace Anathema.Source.SystemInternals.Graphics.DirectX.Interface.DX9
 {
-    internal class DXOverlayEngine : Component
+    internal class DXOverlayEngine
     {
         private Boolean Initialized;
         private Boolean Initializing;
@@ -47,7 +48,7 @@ namespace Anathema.Source.SystemInternals.Graphics.DirectX.Interface.DX9
             try
             {
                 this.Device = Device;
-                Sprite = ToDispose(new Sprite(Device));
+                Sprite = new Sprite(Device);// ToDispose(new Sprite(Device));
 
                 // Initialize any resources required for overlay elements
                 IntializeElementResources();
@@ -90,7 +91,7 @@ namespace Anathema.Source.SystemInternals.Graphics.DirectX.Interface.DX9
 
                 Font Font = GetFontForTextElement(TextElement);
                 // TODO: Maybe offload draw into element itself, passing in whatever needed
-                Font?.DrawText(Sprite, TextElement.Text, TextElement.Location.X, TextElement.Location.Y, new ColorBGRA(TextElement.Color.R, TextElement.Color.G, TextElement.Color.B, TextElement.Color.A));
+                Font?.DrawText(Sprite, TextElement.Text, TextElement.Location.X, TextElement.Location.Y, new RawColorBGRA(TextElement.Color.B, TextElement.Color.G, TextElement.Color.R, TextElement.Color.A));
             }
 
             foreach (ImageElement ImageElement in GraphicsInterface.GetImageElements())
@@ -98,7 +99,7 @@ namespace Anathema.Source.SystemInternals.Graphics.DirectX.Interface.DX9
                 ImageElement?.Frame();
 
                 Texture Image = GetImageForImageElement(ImageElement);
-                Sprite?.Draw(Image, new ColorBGRA(Color.White.R, Color.White.G, Color.White.B, Color.White.A), null, null, new Vector3(ImageElement.Location.X, ImageElement.Location.Y, 0));
+                Sprite?.Draw(Image, new RawColorBGRA(255, 255, 255, 255), null, null, new RawVector3(ImageElement.Location.X, ImageElement.Location.Y, 0));
             }
 
             End();
@@ -132,14 +133,14 @@ namespace Anathema.Source.SystemInternals.Graphics.DirectX.Interface.DX9
 
             if (!FontCache.TryGetValue(FontKey, out Result))
             {
-                Result = ToDispose(new Font(Device, new FontDescription
+                Result = new Font(Device, new FontDescription
                 {
                     FaceName = Element.Font.Name,
                     Italic = false,
                     Quality = FontQuality.Antialiased,
                     Weight = FontWeight.Bold,
                     Height = (Int32)Element.Font.SizeInPoints
-                }));
+                }); // ToDispose()
 
                 FontCache[FontKey] = Result;
             }
@@ -154,7 +155,7 @@ namespace Anathema.Source.SystemInternals.Graphics.DirectX.Interface.DX9
             {
                 if (!ImageCache.TryGetValue(Element, out Result))
                 {
-                    Result = ToDispose(Texture.FromFile(Device, Element.Filename));
+                    Result = Texture.FromFile(Device, Element.Filename); // ToDispose()
 
                     ImageCache[Element] = Result;
                 }
@@ -167,7 +168,7 @@ namespace Anathema.Source.SystemInternals.Graphics.DirectX.Interface.DX9
         /// Releases unmanaged and optionally managed resources
         /// </summary>
         /// <param name="Disposing">true if disposing both unmanaged and managed</param>
-        protected override void Dispose(Boolean Disposing)
+        protected void Dispose(Boolean Disposing)
         {
             if (true)
                 Device = null;

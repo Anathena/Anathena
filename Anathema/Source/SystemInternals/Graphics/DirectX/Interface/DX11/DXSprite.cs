@@ -1,6 +1,7 @@
 ﻿using SharpDX;
 using SharpDX.D3DCompiler;
 using SharpDX.Direct3D11;
+using SharpDX.Mathematics.Interop;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -8,7 +9,7 @@ using System.Runtime.InteropServices;
 
 namespace Anathema.Source.SystemInternals.Graphics.DirectX.Interface.DX11
 {
-    public class DXSprite : Component
+    public class DXSprite
     {
         private Device Device;
         private DeviceContext DeviceContext;
@@ -42,23 +43,23 @@ namespace Anathema.Source.SystemInternals.Graphics.DirectX.Interface.DX11
         [StructLayout(LayoutKind.Sequential)]
         internal struct SpriteVertex
         {
-            public Vector3 Position;
-            public Vector2 Tex;
-            public Color4 Color;
+            public RawVector3 Position;
+            public RawVector2 Tex;
+            public RawColor4 Color;
         }
 
         [StructLayout(LayoutKind.Sequential)]
         internal struct Sprite
         {
-            public Rectangle SourceRectangle;
-            public Rectangle DestRectangle;
-            public Color4 Color;
+            public RawRectangle SourceRectangle;
+            public RawRectangle DestRectangle;
+            public RawColor4 Color;
 
             public Single Z;
             public Single Angle;
             public Single Scale;
 
-            public Sprite(Rectangle SourceRect, Rectangle DestRect, Color4 Color)
+            public Sprite(RawRectangle SourceRect, RawRectangle DestRect, RawColor4 Color)
             {
                 this.SourceRectangle = SourceRect;
                 this.DestRectangle = DestRect;
@@ -112,16 +113,16 @@ technique11 SpriteTech {
 };";
             #endregion
 
-            CompiledFX = ToDispose(ShaderBytecode.Compile(SpriteFX, "SpriteTech", "fx_5_0"));
+            CompiledFX = ShaderBytecode.Compile(SpriteFX, "SpriteTech", "fx_5_0"); // ToDispose()
             {
 
                 if (CompiledFX.HasErrors)
                     return false;
 
-                Effect = ToDispose(new Effect(Device, CompiledFX));
+                Effect = new Effect(Device, CompiledFX); // ToDispose()
                 {
-                    SpriteTech = ToDispose(Effect.GetTechniqueByName("SpriteTech"));
-                    SpriteMap = ToDispose(Effect.GetVariableByName("SpriteTex").AsShaderResource());
+                    SpriteTech = Effect.GetTechniqueByName("SpriteTech"); // ToDispose()
+                    SpriteMap = Effect.GetVariableByName("SpriteTex").AsShaderResource(); // ToDispose()
 
                     using (EffectPass EffectPas = SpriteTech.GetPassByIndex(0))
                     {
@@ -132,7 +133,7 @@ technique11 SpriteTech {
                             new InputElement("COLOR", 0, SharpDX.DXGI.Format.R32G32B32A32_Float, 20, 0, InputClassification.PerVertexData, 0)
                         };
 
-                        InputLayout = ToDispose(new InputLayout(Device, EffectPas.Description.Signature, layoutDesc));
+                        InputLayout = new InputLayout(Device, EffectPas.Description.Signature, layoutDesc); // ToDispose()
                     }
                     // Create Vertex Buffer
                     BufferDescription VBufferDescription = new BufferDescription
@@ -145,7 +146,7 @@ technique11 SpriteTech {
                         StructureByteStride = 0
                     };
 
-                    VBuffer = ToDispose(new SharpDX.Direct3D11.Buffer(Device, VBufferDescription));
+                    VBuffer = new SharpDX.Direct3D11.Buffer(Device, VBufferDescription); // ToDispose()
 
                     // Create and initialise Index Buffer
                     Int16[] Indicies = new Int16[3072];
@@ -160,7 +161,7 @@ technique11 SpriteTech {
                         Indicies[Index * 6 + 5] = (Int16)(Index * 4 + 3);
                     }
 
-                    IndexBuffer = ToDispose(new SafeHGlobal(Indicies.Length * Marshal.SizeOf(Indicies[0])));
+                    IndexBuffer = new SafeHGlobal(Indicies.Length * Marshal.SizeOf(Indicies[0])); // ToDispose()
                     Marshal.Copy(Indicies, 0, IndexBuffer.DangerousGetHandle(), Indicies.Length);
 
                     BufferDescription IBufferDescription = new BufferDescription
@@ -173,7 +174,7 @@ technique11 SpriteTech {
                         StructureByteStride = 0
                     };
 
-                    IBuffer = ToDispose(new SharpDX.Direct3D11.Buffer(Device, IndexBuffer.DangerousGetHandle(), IBufferDescription));
+                    IBuffer = new SharpDX.Direct3D11.Buffer(Device, IndexBuffer.DangerousGetHandle(), IBufferDescription); // ToDispose()
 
                     BlendStateDescription TransparentDescription = new BlendStateDescription()
                     {
@@ -190,7 +191,7 @@ technique11 SpriteTech {
                     TransparentDescription.RenderTarget[0].AlphaBlendOperation = BlendOperation.Add;
                     TransparentDescription.RenderTarget[0].RenderTargetWriteMask = ColorWriteMaskFlags.All;
 
-                    TransparentBS = ToDispose(new BlendState(Device, TransparentDescription));
+                    TransparentBS = new BlendState(Device, TransparentDescription); // ToDispose()
                 }
             }
 
@@ -199,25 +200,25 @@ technique11 SpriteTech {
             return true;
         }
 
-        internal static Color4 ToColor4(System.Drawing.Color color)
+        internal static RawColor4 ToColor4(System.Drawing.Color color)
         {
-            Vector4 Vec = new Vector4(color.R > 0 ? (Single)(color.R / 255.0f) : 0.0f, color.G > 0 ? (Single)(color.G / 255.0f) : 0.0f, color.B > 0 ? (Single)(color.B / 255.0f) : 0.0f, color.A > 0 ? (Single)(color.A / 255.0f) : 0.0f);
-            return new Color4(Vec);
+            RawVector4 Vec = new RawVector4(color.R > 0 ? (Single)(color.R / 255.0f) : 0.0f, color.G > 0 ? (Single)(color.G / 255.0f) : 0.0f, color.B > 0 ? (Single)(color.B / 255.0f) : 0.0f, color.A > 0 ? (Single)(color.A / 255.0f) : 0.0f);
+            return new RawColor4(Vec.W, Vec.X, Vec.Y, Vec.Z);
         }
 
         public void DrawImage(Int32 X, Int32 Y, Single Scale, Single Angle, System.Drawing.Color? color, DXImage Image)
         {
             Debug.Assert(Initialized);
 
-            Color4 BlendFactor = new Color4(1.0f);
-            Color4 BackupBlendFactor;
+            RawColor4 BlendFactor = new RawColor4(1.0f, 1.0f, 1.0f, 1.0f);
+            RawColor4 BackupBlendFactor;
             Int32 BackupMask;
 
             using (BlendState backupBlendState = DeviceContext.OutputMerger.GetBlendState(out BackupBlendFactor, out BackupMask))
             {
                 DeviceContext.OutputMerger.SetBlendState(TransparentBS, BlendFactor);
                 BeginBatch(Image.GetSRV());
-                Draw(new Rectangle(X, Y, (Int32)(Scale * Image.Width), (Int32)(Scale * Image.Height)), new Rectangle(0, 0, Image.Width, Image.Height), color.HasValue ? ToColor4(color.Value) : Color4.White, 1.0f, Angle);
+                Draw(new RawRectangle(X, Y, (Int32)(Scale * Image.Width), (Int32)(Scale * Image.Height)), new RawRectangle(0, 0, Image.Width, Image.Height), color.HasValue ? ToColor4(color.Value) : new RawColor4(), 1.0f, Angle);
 
                 EndBatch();
                 DeviceContext.OutputMerger.SetBlendState(backupBlendState, BackupBlendFactor, BackupMask);
@@ -226,8 +227,8 @@ technique11 SpriteTech {
 
         public void DrawString(Int32 X, Int32 Y, String Text, System.Drawing.Color Color, DXFont F)
         {
-            Color4 BlendFactor = new Color4(1.0f);
-            Color4 BackupBlendFactor;
+            RawColor4 BlendFactor = new RawColor4(1.0f, 1.0f, 1.0f, 1.0f);
+            RawColor4 BackupBlendFactor;
             Int32 BackupMask;
 
             using (BlendState BackupBlendState = DeviceContext.OutputMerger.GetBlendState(out BackupBlendFactor, out BackupMask))
@@ -241,7 +242,7 @@ technique11 SpriteTech {
                 Int32 PositionX = X;
                 Int32 PositionY = Y;
 
-                Color4 Color4 = ToColor4(Color);
+                RawColor4 Color4 = ToColor4(Color);
 
                 for (Int32 Index = 0; Index < Length; ++Index)
                 {
@@ -257,12 +258,12 @@ technique11 SpriteTech {
                     }
                     else
                     {
-                        Rectangle CharRectangle = F.GetCharRect(Character);
+                        RawRectangle CharRectangle = F.GetCharRect(Character);
 
                         Int32 Width = CharRectangle.Right - CharRectangle.Left;
                         Int32 Height = CharRectangle.Bottom - CharRectangle.Top;
 
-                        Draw(new Rectangle(PositionX, PositionY, Width, Height), CharRectangle, Color4);
+                        Draw(new RawRectangle(PositionX, PositionY, Width, Height), CharRectangle, Color4);
 
                         PositionX += Width + 1;
                     }
@@ -293,7 +294,7 @@ technique11 SpriteTech {
         {
             Debug.Assert(Initialized);
 
-            ViewportF[] ViewportF = DeviceContext.Rasterizer.GetViewports();
+            RawViewportF[] ViewportF = DeviceContext.Rasterizer.GetViewports<RawViewportF>();
             Int32 Stride = Marshal.SizeOf(typeof(SpriteVertex));
             Int32 Offset = 0;
 
@@ -332,7 +333,7 @@ technique11 SpriteTech {
             BatchTexSRV = null;
         }
 
-        public void Draw(Rectangle DestinationRectangle, Rectangle SourceRectangle, Color4 Color, Single Scale = 1.0f, Single Angle = 0f, Single Z = 0f)
+        public void Draw(RawRectangle DestinationRectangle, RawRectangle SourceRectangle, RawColor4 Color, Single Scale = 1.0f, Single Angle = 0f, Single Z = 0f)
         {
             Sprite Sprite = new Sprite(SourceRectangle, DestinationRectangle, Color)
             {
@@ -371,9 +372,9 @@ technique11 SpriteTech {
             DeviceContext.DrawIndexed(SpriteCount * 6, 0, 0);
         }
 
-        Vector3 PointToNdc(Int32 X, Int32 Y, Single Z)
+        RawVector3 PointToNdc(Int32 X, Int32 Y, Single Z)
         {
-            Vector3 P;
+            RawVector3 P;
 
             P.X = 2.0f * (Single)X / ScreenWidth - 1.0f;
             P.Y = 1.0f - 2.0f * (Single)Y / ScreenHeight;
@@ -387,18 +388,18 @@ technique11 SpriteTech {
             if (Vertex.Length < 4)
                 throw new ArgumentException("Must have 4 sprite vertices", "v");
 
-            Rectangle DestinationRectangle = Sprite.DestRectangle;
-            Rectangle SourceRectangle = Sprite.SourceRectangle;
+            RawRectangle DestinationRectangle = Sprite.DestRectangle;
+            RawRectangle SourceRectangle = Sprite.SourceRectangle;
 
             Vertex[0].Position = PointToNdc(DestinationRectangle.Left, DestinationRectangle.Bottom, Sprite.Z);
             Vertex[1].Position = PointToNdc(DestinationRectangle.Left, DestinationRectangle.Top, Sprite.Z);
             Vertex[2].Position = PointToNdc(DestinationRectangle.Right, DestinationRectangle.Top, Sprite.Z);
             Vertex[3].Position = PointToNdc(DestinationRectangle.Right, DestinationRectangle.Bottom, Sprite.Z);
 
-            Vertex[0].Tex = new Vector2((Single)SourceRectangle.Left / TexWidth, (Single)SourceRectangle.Bottom / TexHeight);
-            Vertex[1].Tex = new Vector2((Single)SourceRectangle.Left / TexWidth, (Single)SourceRectangle.Top / TexHeight);
-            Vertex[2].Tex = new Vector2((Single)SourceRectangle.Right / TexWidth, (Single)SourceRectangle.Top / TexHeight);
-            Vertex[3].Tex = new Vector2((Single)SourceRectangle.Right / TexWidth, (Single)SourceRectangle.Bottom / TexHeight);
+            Vertex[0].Tex = new RawVector2((Single)SourceRectangle.Left / TexWidth, (Single)SourceRectangle.Bottom / TexHeight);
+            Vertex[1].Tex = new RawVector2((Single)SourceRectangle.Left / TexWidth, (Single)SourceRectangle.Top / TexHeight);
+            Vertex[2].Tex = new RawVector2((Single)SourceRectangle.Right / TexWidth, (Single)SourceRectangle.Top / TexHeight);
+            Vertex[3].Tex = new RawVector2((Single)SourceRectangle.Right / TexWidth, (Single)SourceRectangle.Bottom / TexHeight);
 
             Vertex[0].Color = Sprite.Color;
             Vertex[1].Color = Sprite.Color;
@@ -408,14 +409,14 @@ technique11 SpriteTech {
             Single TX = 0.5f * (Vertex[0].Position.X + Vertex[3].Position.X);
             Single TY = 0.5f * (Vertex[0].Position.Y + Vertex[1].Position.Y);
 
-            Vector2 Origin = new Vector2(TX, TY);
-            Vector2 Translation = new Vector2(0.0f, 0.0f);
-            Matrix Transformation = Matrix.AffineTransformation2D(Sprite.Scale, Origin, Sprite.Angle, Translation);
+            RawVector2 Origin = new RawVector2(TX, TY);
+            RawVector2 Translation = new RawVector2(0.0f, 0.0f);
+            // RawMatrix Transformation = RawMatrix.AffineTransformation2D(Sprite.Scale, Origin, Sprite.Angle, Translation);
 
             for (Int32 Index = 0; Index < 4; ++Index)
             {
-                Vector3 Position = Vertex[Index].Position;
-                Position = Vector3.TransformCoordinate(Position, Transformation);
+                RawVector3 Position = Vertex[Index].Position;
+                // Position = RawVector3.TransformCoordinate(Position, Transformation);
                 Vertex[Index].Position = Position;
             }
         }

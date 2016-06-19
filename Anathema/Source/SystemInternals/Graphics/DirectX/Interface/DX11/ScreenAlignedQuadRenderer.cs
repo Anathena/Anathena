@@ -1,6 +1,6 @@
-﻿using SharpDX;
-using SharpDX.D3DCompiler;
+﻿using SharpDX.D3DCompiler;
 using SharpDX.Direct3D11;
+using SharpDX.Mathematics.Interop;
 using System;
 using Buffer = SharpDX.Direct3D11.Buffer; // Resolve class name conflicts by explicitly stating namespace
 
@@ -113,9 +113,9 @@ float4 PSMain(PixelIn input) : SV_Target
         {
             // Ensure that if already set the device resources
             // are correctly disposed of before recreating
-            RemoveAndDispose(ref VertexShader);
+            /*RemoveAndDispose(ref VertexShader);
             RemoveAndDispose(ref PixelShader);
-            RemoveAndDispose(ref PointSamplerState);
+            RemoveAndDispose(ref PointSamplerState);*/
             // RemoveAndDispose(ref indexBuffer);
 
             // Retrieve our SharpDX.Direct3D11.Device1 instance
@@ -131,9 +131,9 @@ float4 PSMain(PixelIn input) : SV_Target
             // var IncludeHandler = new HLSLFileIncludeHandler(System.IO.Path.Combine(System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetEntryAssembly().Location), "Shaders"));
 
             // Compile and create the vertex shader
-            using (CompilationResult VertexShaderBytecode = ToDispose(ShaderBytecode.Compile(ShaderCode, "VSMain", "vs_4_0", ShaderFlags, EffectFlags.None, null, null)))
+            using (CompilationResult VertexShaderBytecode = ShaderBytecode.Compile(ShaderCode, "VSMain", "vs_4_0", ShaderFlags, EffectFlags.None, null, null)) // ToDispose()
             {
-                VertexShader = ToDispose(new VertexShader(Device, VertexShaderBytecode));
+                VertexShader = new VertexShader(Device, VertexShaderBytecode); // ToDispose()
 
 
                 //// Layout from VertexShader input signature
@@ -166,10 +166,10 @@ float4 PSMain(PixelIn input) : SV_Target
             }
 
             // Compile and create the pixel shader
-            using (CompilationResult Bytecode = ToDispose(ShaderBytecode.Compile(ShaderCode, "PSMain", "ps_5_0", ShaderFlags, EffectFlags.None, null, null)))
-                PixelShader = ToDispose(new PixelShader(Device, Bytecode));
+            using (CompilationResult Bytecode = ShaderBytecode.Compile(ShaderCode, "PSMain", "ps_5_0", ShaderFlags, EffectFlags.None, null, null)) // ToDispose()
+                PixelShader = new PixelShader(Device, Bytecode); // ToDispose()
 
-            LinearSampleState = ToDispose(new SamplerState(Device, new SamplerStateDescription
+            LinearSampleState = new SamplerState(Device, new SamplerStateDescription // ToDispose()
             {
                 Filter = Filter.MinMagMipLinear,
                 AddressU = TextureAddressMode.Wrap,
@@ -178,9 +178,9 @@ float4 PSMain(PixelIn input) : SV_Target
                 ComparisonFunction = Comparison.Never,
                 MinimumLod = 0,
                 MaximumLod = Single.MaxValue
-            }));
+            });
 
-            PointSamplerState = ToDispose(new SamplerState(Device, new SamplerStateDescription
+            PointSamplerState = new SamplerState(Device, new SamplerStateDescription // ToDispose()
             {
                 Filter = Filter.MinMagMipPoint,
                 AddressU = TextureAddressMode.Wrap,
@@ -189,13 +189,13 @@ float4 PSMain(PixelIn input) : SV_Target
                 ComparisonFunction = Comparison.Never,
                 MinimumLod = 0,
                 MaximumLod = Single.MaxValue
-            }));
+            });
 
-            Context.Rasterizer.State = ToDispose(new RasterizerState(Device, new RasterizerStateDescription()
+            Context.Rasterizer.State = new RasterizerState(Device, new RasterizerStateDescription() // ToDispose()
             {
                 CullMode = CullMode.None,
                 FillMode = FillMode.Solid,
-            }));
+            });
 
             //// Configure the depth buffer to discard pixels that are
             //// further than the current pixel.
@@ -243,10 +243,10 @@ float4 PSMain(PixelIn input) : SV_Target
             // using (var OldVertexShader = Context.VertexShader.Get())
             // using (var OldRenderTarget = Context.OutputMerger.GetRenderTargets(1).FirstOrDefault())
             {
-                Context.ClearRenderTargetView(RenderTargetView, Color.CornflowerBlue);
+                Context.ClearRenderTargetView(RenderTargetView, new RawColor4());
 
                 // Set sampler
-                ViewportF[] ViewportF = { new ViewportF(0, 0, RenderTarget.Description.Width, RenderTarget.Description.Height, 0, 1) };
+                RawViewportF[] ViewportF = { new RawViewportF() }; // (0, 0, RenderTarget.Description.Width, RenderTarget.Description.Height, 0, 1)
                 Context.Rasterizer.SetViewports(ViewportF);
                 Context.PixelShader.SetSampler(0, (UseLinearSampling ? LinearSampleState : PointSamplerState));
 

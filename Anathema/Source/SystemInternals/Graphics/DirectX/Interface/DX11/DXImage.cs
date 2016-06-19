@@ -5,7 +5,7 @@ using System.Diagnostics;
 
 namespace Anathema.Source.SystemInternals.Graphics.DirectX.Interface.DX11
 {
-    public class DXImage : Component
+    public class DXImage
     {
         private DeviceContext DeviceContext;
         private Texture2D Tex;
@@ -19,7 +19,7 @@ namespace Anathema.Source.SystemInternals.Graphics.DirectX.Interface.DX11
         private Device _Device;
         public Device Device { get { return _Device; } }
 
-        public DXImage(Device Device, DeviceContext deviceContext) : base("DXImage")
+        public DXImage(Device Device, DeviceContext deviceContext)// : base("DXImage")
         {
             _Device = Device;
             DeviceContext = deviceContext;
@@ -29,10 +29,10 @@ namespace Anathema.Source.SystemInternals.Graphics.DirectX.Interface.DX11
             TexHeight = 0;
         }
 
-        public bool Initialise(System.Drawing.Bitmap Bitmap)
+        public Boolean Initialize(System.Drawing.Bitmap Bitmap)
         {
-            RemoveAndDispose(ref Tex);
-            RemoveAndDispose(ref TexSRV);
+            // RemoveAndDispose(ref Tex);
+            // RemoveAndDispose(ref TexSRV);
 
             // Debug.Assert(Bitmap.PixelFormat == System.Drawing.Imaging.PixelFormat.Format32bppArgb);
             System.Drawing.Imaging.BitmapData BitmapData;
@@ -61,7 +61,7 @@ namespace Anathema.Source.SystemInternals.Graphics.DirectX.Interface.DX11
                 Data.RowPitch = BitmapData.Stride;// _texWidth * 4;
                 Data.SlicePitch = 0;
 
-                Tex = ToDispose(new Texture2D(_Device, TexDescription, new[] { Data }));
+                Tex = new Texture2D(_Device, TexDescription, new[] { Data }); // ToDispose()
                 if (Tex == null)
                     return false;
 
@@ -71,7 +71,7 @@ namespace Anathema.Source.SystemInternals.Graphics.DirectX.Interface.DX11
                 ShaderResourceViewDescription.Texture2D.MipLevels = 1;
                 ShaderResourceViewDescription.Texture2D.MostDetailedMip = 0;
 
-                TexSRV = ToDispose(new ShaderResourceView(_Device, Tex, ShaderResourceViewDescription));
+                TexSRV = new ShaderResourceView(_Device, Tex, ShaderResourceViewDescription); // ToDispose()
 
                 if (TexSRV == null)
                     return false;

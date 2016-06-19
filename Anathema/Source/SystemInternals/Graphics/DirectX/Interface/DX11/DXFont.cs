@@ -2,6 +2,7 @@
 // checkout his books here: http://www.d3dcoder.net/default.htm
 using SharpDX;
 using SharpDX.Direct3D11;
+using SharpDX.Mathematics.Interop;
 using System;
 using System.Diagnostics;
 
@@ -16,7 +17,7 @@ namespace Anathema.Source.SystemInternals.Graphics.DirectX.Interface.DX11
         private DeviceContext DeviceContext;
         private Device Device;
 
-        private Rectangle[] CharRects = new Rectangle[NumChars];
+        private RawRectangle[] CharRects = new RawRectangle[NumChars];
         private ShaderResourceView FontSheetSRV;
         private Texture2D FontSheetTex;
         private Boolean Initialized;
@@ -183,7 +184,7 @@ namespace Anathema.Source.SystemInternals.Graphics.DirectX.Interface.DX11
                     FontSheetY += (Int32)(CharHeight) + 1;
                 }
 
-                CharRects[Index] = new Rectangle(FontSheetX, FontSheetY, CharWidth, CharHeight);
+                CharRects[Index] = new RawRectangle(FontSheetX, FontSheetY, CharWidth, CharHeight);
                 FontSheetGraphics.DrawImage(CharBitmap, FontSheetX, FontSheetY, new System.Drawing.Rectangle(MinX, 0, CharWidth, CharHeight), System.Drawing.GraphicsUnit.Pixel);
                 FontSheetX += CharWidth + 1;
             }
@@ -236,7 +237,7 @@ namespace Anathema.Source.SystemInternals.Graphics.DirectX.Interface.DX11
             return FontSheetSRV;
         }
 
-        public Rectangle GetCharRect(Char Char)
+        public RawRectangle GetCharRect(Char Char)
         {
             Debug.Assert(Initialized);
 

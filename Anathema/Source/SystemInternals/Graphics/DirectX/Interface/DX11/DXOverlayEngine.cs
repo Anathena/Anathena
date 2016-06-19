@@ -1,13 +1,14 @@
 ﻿using Anathema.Source.SystemInternals.Graphics.DirectX.Interface.Common;
 using SharpDX;
 using SharpDX.Direct3D11;
+using SharpDX.Mathematics.Interop;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 
 namespace Anathema.Source.SystemInternals.Graphics.DirectX.Interface.DX11
 {
-    internal class DXOverlayEngine : Component
+    internal class DXOverlayEngine
     {
         public Boolean DeferredContext { get { return DeviceContext.TypeInfo == DeviceContextType.Deferred; } }
 
@@ -55,14 +56,14 @@ namespace Anathema.Source.SystemInternals.Graphics.DirectX.Interface.DX11
 
                 try
                 {
-                    DeviceContext = ToDispose(new DeviceContext(this.Device));
+                    DeviceContext = new DeviceContext(this.Device); // ToDispose()
                 }
                 catch (SharpDXException)
                 {
                     DeviceContext = this.Device.ImmediateContext;
                 }
 
-                RenderTargetView = ToDispose(new RenderTargetView(this.Device, this.RenderTarget));
+                RenderTargetView = new RenderTargetView(this.Device, this.RenderTarget); // ToDispose()
 
                 // if (DeferredContext)
                 // {
@@ -108,7 +109,7 @@ namespace Anathema.Source.SystemInternals.Graphics.DirectX.Interface.DX11
         {
             // if (!DeferredContext)
             // {
-            ViewportF[] ViewportF = { new ViewportF(0, 0, RenderTarget.Description.Width, RenderTarget.Description.Height, 0, 1) };
+            RawViewportF[] ViewportF = { new RawViewportF() }; // (0, 0, RenderTarget.Description.Width, RenderTarget.Description.Height, 0, 1)
             DeviceContext.Rasterizer.SetViewports(ViewportF);
             DeviceContext.OutputMerger.SetTargets(RenderTargetView);
             // }
@@ -166,7 +167,7 @@ namespace Anathema.Source.SystemInternals.Graphics.DirectX.Interface.DX11
 
             if (!FontCache.TryGetValue(FontKey, out Result))
             {
-                Result = ToDispose(new DXFont(Device, DeviceContext));
+                Result = new DXFont(Device, DeviceContext); // ToDispose()
                 Result.Initialize(Element.Font.Name, Element.Font.Size, Element.Font.Style, true);
                 FontCache[FontKey] = Result;
             }
@@ -180,8 +181,8 @@ namespace Anathema.Source.SystemInternals.Graphics.DirectX.Interface.DX11
 
             if (!ImageCache.TryGetValue(Element, out Result))
             {
-                Result = ToDispose(new DXImage(Device, DeviceContext));
-                Result.Initialise(Element.Bitmap);
+                Result = new DXImage(Device, DeviceContext); // ToDispose()
+                Result.Initialize(Element.Bitmap);
                 ImageCache[Element] = Result;
             }
 
@@ -192,7 +193,7 @@ namespace Anathema.Source.SystemInternals.Graphics.DirectX.Interface.DX11
         /// Releases unmanaged and optionally managed resources
         /// </summary>
         /// <param name="disposing">true if disposing both unmanaged and managed</param>
-        protected override void Dispose(Boolean disposing)
+        protected void Dispose(Boolean Disposing)
         {
             if (true)
                 Device = null;
