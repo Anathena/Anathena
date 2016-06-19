@@ -3,13 +3,21 @@
 Anathema Engine
 
 Anathema is a modern single player game hacking engine designed to make cheating in games easy. Within minutes, create cheats such as:
+
 Godmode
+
 Teleportation
+
 Infinite Money
+
 Infinite Ammo
+
 Increased Speed
+
 Unlimited Stat Points
+
 Item Duplication
+
 
 And many, many more.
 
@@ -35,11 +43,18 @@ Write sophisticated hacks with minimal effort using the user friendly scripting 
 
 1) Update version number for Anathema in Properties -> AssemblyInfo as well as in OneClick publish settings.
 
+
 REPEAT FOR x86 and x64:
+
 2) Compile for {x86/x64}.
+
 3) Obfuscate executables in bin/{x86/x64}/Release using .Net Reactor.
+
 4) Replace the executables in bin/{x86/x64}/Release AND obj/{x86/x64}/Release.
+
 5) Publish for {x86/x64} in OneClick to the proper AnathemaWeb {x86/x64} release folder. ENSURE BUILD DOES NOT RECOMPILE -- otherwise we will lose obfuscation changes.
 
+
 6) Ensure published assemblies are obfuscated.
+
 7) Push assemblies to develop/master branch, deploy to elastic beanstalk.
