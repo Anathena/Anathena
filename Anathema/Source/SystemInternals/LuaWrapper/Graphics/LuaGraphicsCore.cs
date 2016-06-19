@@ -34,6 +34,9 @@ namespace Anathema.Source.SystemInternals.LuaWrapper.Graphics
         /// <returns></returns>
         private IGraphicsInterface GetGraphicsInterface()
         {
+            if (Engine == null)
+                return null;
+
             lock (AccessLock)
             {
                 if (Engine.HookCreator.GetGraphicsInterface() == null)
@@ -50,11 +53,11 @@ namespace Anathema.Source.SystemInternals.LuaWrapper.Graphics
             return GetGraphicsInterface().CreateText(Text, LocationX, LocationY);
         }
 
-        public Guid CreateImage(String Text, Int32 LocationX, Int32 LocationY)
+        public Guid CreateImage(String FileName, Int32 LocationX, Int32 LocationY)
         {
             this.PrintDebugTag();
 
-            return GetGraphicsInterface().CreateImage(Text, LocationX, LocationY);
+            return GetGraphicsInterface().CreateImage(FileName, LocationX, LocationY);
         }
 
         public void ShowObject(Guid Guid)

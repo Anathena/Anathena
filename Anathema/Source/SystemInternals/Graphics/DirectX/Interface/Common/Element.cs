@@ -5,9 +5,14 @@ using System.Security.Permissions;
 namespace Anathema.Source.SystemInternals.Graphics.DirectX.Interface.Common
 {
     [Serializable]
-    public abstract class Element : MarshalByRefObject, IOverlayElement, IDisposable
+    public abstract class Element : MarshalByRefObject, ICloneable, IDisposable
     {
-        public virtual Boolean Hidden { get; set; }
+        public virtual Boolean Visible { get; set; }
+
+        public Element()
+        {
+            Visible = true;
+        }
 
         ~Element()
         {
@@ -20,7 +25,6 @@ namespace Anathema.Source.SystemInternals.Graphics.DirectX.Interface.Common
         {
             return MemberwiseClone();
         }
-
 
         public void Dispose()
         {
@@ -52,7 +56,7 @@ namespace Anathema.Source.SystemInternals.Graphics.DirectX.Interface.Common
             RemotingServices.Disconnect(this);
         }
 
-        [SecurityPermissionAttribute(SecurityAction.Demand, Flags = SecurityPermissionFlag.Infrastructure)]
+        [SecurityPermission(SecurityAction.Demand, Flags = SecurityPermissionFlag.Infrastructure)]
         public override Object InitializeLifetimeService()
         {
             // Returning null designates an infinite non-expiring lease.

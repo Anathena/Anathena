@@ -1,4 +1,8 @@
-﻿using System;
+﻿using Anathema.Source.SystemInternals.Graphics.DirectX.Interface.Common;
+using System;
+using System.Collections.Generic;
+using System.Drawing;
+using System.IO;
 
 namespace Anathema.Source.SystemInternals.Graphics.DirectX.Interface
 {
@@ -12,7 +16,28 @@ namespace Anathema.Source.SystemInternals.Graphics.DirectX.Interface
 
         public String ProjectDirectory { get; set; }
 
-        public DirextXGraphicsInterface() { }
+        private Dictionary<Guid, TextElement> TextElements;
+        private Dictionary<Guid, ImageElement> ImageElements;
+
+        private Font Font;
+
+        public DirextXGraphicsInterface()
+        {
+            TextElements = new Dictionary<Guid, TextElement>();
+            ImageElements = new Dictionary<Guid, ImageElement>();
+
+            Font = new Font("Arial", 16, FontStyle.Bold);
+        }
+
+        public IEnumerable<TextElement> GetTextElements()
+        {
+            return TextElements.Values;
+        }
+
+        public IEnumerable<ImageElement> GetImageElements()
+        {
+            return ImageElements.Values;
+        }
 
         /// <summary>
         /// Empty method to ensure we can call the client without crashing
@@ -21,22 +46,37 @@ namespace Anathema.Source.SystemInternals.Graphics.DirectX.Interface
 
         Guid IGraphicsInterface.CreateText(String Text, Int32 LocationX, Int32 LocationY)
         {
-            return new Guid();
+            Guid Guid = new Guid();
+            TextElement TextElement = new TextElement(Font);
+
+            TextElement.Text = Text;
+            TextElement.Location = new Point(LocationX, LocationY);
+
+            TextElements.Add(Guid, TextElement);
+
+            return Guid;
         }
 
-        Guid IGraphicsInterface.CreateImage(String Path, Int32 LocationX, Int32 LocationY)
+        Guid IGraphicsInterface.CreateImage(String FileName, Int32 LocationX, Int32 LocationY)
         {
-            return new Guid();
+            Guid Guid = new Guid();
+            ImageElement ImageElement = new ImageElement(Path.Combine(ProjectDirectory, FileName));
+
+            ImageElement.Location = new Point(LocationX, LocationY);
+
+            ImageElements.Add(Guid, ImageElement);
+
+            return Guid;
         }
 
         public void ShowObject(Guid Guid)
         {
-            throw new NotImplementedException();
+            // GraphicObjects[Guid].Visible = true;
         }
 
         public void HideObject(Guid Guid)
         {
-            throw new NotImplementedException();
+            // GraphicObjects[Guid].Visible = false;
         }
 
     } // End class

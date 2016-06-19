@@ -9,8 +9,6 @@ namespace Anathema.Source.SystemInternals.Graphics.DirectX.Interface.DX9
 {
     internal class DXOverlayEngine : Component
     {
-        public List<IOverlay> Overlays { get; set; }
-
         private Boolean Initialized;
         private Boolean Initializing;
 
@@ -20,15 +18,16 @@ namespace Anathema.Source.SystemInternals.Graphics.DirectX.Interface.DX9
         private Sprite Sprite;
         public Device Device { get; private set; }
 
-        public DXOverlayEngine()
+        private DirextXGraphicsInterface GraphicsInterface;
+
+        public DXOverlayEngine(DirextXGraphicsInterface GraphicsInterface)
         {
+            this.GraphicsInterface = GraphicsInterface;
             Initialized = false;
             Initializing = false;
 
             ImageCache = new Dictionary<Element, Texture>();
             FontCache = new Dictionary<String, Font>();
-
-            Overlays = new List<IOverlay>();
         }
 
         private void EnsureInitiliazed()
@@ -64,23 +63,11 @@ namespace Anathema.Source.SystemInternals.Graphics.DirectX.Interface.DX9
 
         private void IntializeElementResources()
         {
-            foreach (IOverlay Overlay in Overlays)
-            {
-                foreach (IOverlayElement Element in Overlay.Elements)
-                {
-                    TextElement TextElement = Element as TextElement;
-                    ImageElement ImageElement = Element as ImageElement;
+            foreach (TextElement TextElement in GraphicsInterface.GetTextElements())
+                GetFontForTextElement(TextElement);
 
-                    if (TextElement != null)
-                    {
-                        GetFontForTextElement(TextElement);
-                    }
-                    else if (ImageElement != null)
-                    {
-                        GetImageForImageElement(ImageElement);
-                    }
-                }
-            }
+            foreach (ImageElement ImageElement in GraphicsInterface.GetImageElements())
+                GetImageForImageElement(ImageElement);
         }
 
         private void Begin()
@@ -97,29 +84,25 @@ namespace Anathema.Source.SystemInternals.Graphics.DirectX.Interface.DX9
 
             Begin();
 
-            foreach (IOverlay Overlay in Overlays)
+            foreach (TextElement TextElement in GraphicsInterface.GetTextElements())
             {
-                foreach (IOverlayElement Element in Overlay.Elements)
-                {
-                    if (Element.Hidden)
-                        continue;
+                TextElement?.Frame();
 
-                    TextElement TextElement = Element as TextElement;
-                    ImageElement ImageElement = Element as ImageElement;
+                Font Font = GetFontForTextElement(TextElement);
+                // Maybe offload draw into element itself, passing in whatever needed
+                Font?.DrawText(Sprite, TextElement.Text, TextElement.Location.X, TextElement.Location.Y, new ColorBGRA(TextElement.Color.R, TextElement.Color.G, TextElement.Color.B, TextElement.Color.A));
+            }
 
-                    if (TextElement != null)
-                    {
-                        Font Font = GetFontForTextElement(TextElement);
-                        if (Font != null && !String.IsNullOrEmpty(TextElement.Text))
-                            Font.DrawText(Sprite, TextElement.Text, TextElement.Location.X, TextElement.Location.Y, new ColorBGRA(TextElement.Color.R, TextElement.Color.G, TextElement.Color.B, TextElement.Color.A));
-                    }
-                    else if (ImageElement != null)
-                    {
-                        Texture Image = GetImageForImageElement(ImageElement);
-                        if (Image != null)
-                            Sprite.Draw(Image, new ColorBGRA(ImageElement.Tint.R, ImageElement.Tint.G, ImageElement.Tint.B, ImageElement.Tint.A), null, null, new Vector3(ImageElement.Location.X, ImageElement.Location.Y, 0));
-                    }
-                }
+            TextElement DamnIt = new TextElement(new System.Drawing.Font("Arial", 16, System.Drawing.FontStyle.Bold)) { Location = new System.Drawing.Point(5, 5), Color = System.Drawing.Color.Red, Text = "Some bullshit", AntiAliased = true };
+            Font Font66 = GetFontForTextElement(DamnIt);
+            Font66.DrawText(Sprite, "GOD DAMN IT", 0, 0, new ColorBGRA(DamnIt.Color.R, DamnIt.Color.G, DamnIt.Color.B, DamnIt.Color.A));
+
+            foreach (ImageElement ImageElement in GraphicsInterface.GetImageElements())
+            {
+                ImageElement?.Frame();
+
+                Texture Image = GetImageForImageElement(ImageElement);
+                Sprite?.Draw(Image, new ColorBGRA(Color.White.R, Color.White.G, Color.White.B, Color.White.A), null, null, new Vector3(ImageElement.Location.X, ImageElement.Location.Y, 0));
             }
 
             End();

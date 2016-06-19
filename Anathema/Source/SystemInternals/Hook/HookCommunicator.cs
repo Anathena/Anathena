@@ -1,18 +1,20 @@
-﻿using Anathema.Source.SystemInternals.Graphics.DirectX.Interface;
+﻿using Anathema.Source.SystemInternals.Graphics;
+using Anathema.Source.SystemInternals.SpeedHack;
 using System;
+using System.Diagnostics;
 
 namespace Anathema.Source.SystemInternals.Hook
 {
     [Serializable]
     public class HookCommunicator : MarshalByRefObject
     {
-        public DirextXGraphicsInterface GraphicsInterface { get; set; }
+        public IGraphicsInterface GraphicsInterface { get; set; }
+        public ISpeedHackInterface SpeedHackInterface { get; set; }
 
-        public HookCommunicator(Int32 ProcessId, String ProjectDirectory)
+        public HookCommunicator(Process Process, String ProjectDirectory)
         {
-            GraphicsInterface = new DirextXGraphicsInterface();
-            GraphicsInterface.ProcessId = ProcessId;
-            GraphicsInterface.ProjectDirectory = ProjectDirectory;
+            GraphicsInterface = GraphicsFactory.GetGraphicsInterface(Process, ProjectDirectory);
+            SpeedHackInterface = new SpeedHackInterface();
         }
 
         /// <summary>

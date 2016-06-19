@@ -1,8 +1,6 @@
 ﻿using Anathema.Source.SystemInternals.Architecture.Assembler;
 using Anathema.Source.SystemInternals.Architecture.Disassembler;
-using Anathema.Source.SystemInternals.Graphics;
 using Anathema.Source.SystemInternals.Hook.Client;
-using Anathema.Source.SystemInternals.SpeedHack;
 using System;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
@@ -20,15 +18,12 @@ namespace Anathema.Source.SystemInternals.OperatingSystems
 
         public IDisassembler Disassembler { get; private set; }
 
-        public IGraphicsInterface GraphicsInterface { get; set; }
-
         /// <summary>
-        /// TODO: Figure out what to do about the bullshit below
+        /// TODO: Replace this with IGraphicsInterface, ISpeedHack, IUnrandomizer, etc instead of the
+        /// hook creator that initializes them. Instead the hook creator can be lazy initialized when any
+        /// of the child processes are accessed
         /// </summary>
-
         public IHookCreator HookCreator { get; private set; }
-
-        public ISpeedHackConnector SpeedHackConnector { get; private set; }
 
         public Engine(Process TargetProcess)
         {
@@ -36,7 +31,6 @@ namespace Anathema.Source.SystemInternals.OperatingSystems
             Assembler = AssemblerFactory.GetAssembler();
             Disassembler = DisassemblerFactory.GetDisassembler();
             HookCreator = new HookCreator();
-            SpeedHackConnector = new SpeedHackConnector();
         }
 
         #region TODO: Move to Memory

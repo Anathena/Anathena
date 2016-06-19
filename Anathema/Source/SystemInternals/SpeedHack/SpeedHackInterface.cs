@@ -1,7 +1,6 @@
 ﻿using EasyHook;
 using System;
 using System.Runtime.InteropServices;
-using System.Windows.Forms;
 
 namespace Anathema.Source.SystemInternals.SpeedHack
 {
@@ -14,13 +13,12 @@ namespace Anathema.Source.SystemInternals.SpeedHack
         public Int32 ProcessId { get; set; }
         private LocalHook Hook;
 
-
-        public event DisconnectedEvent Disconnected;
+        private static Int64 QueryPerformanceBase;
 
         public SpeedHackInterface()
         {
-            MessageBox.Show("okay then");
-            //Hook = LocalHook.Create(LocalHook.GetProcAddress("kernel32.dll", "QueryPerformanceCounter"), new QueryPerformanceCounter2(QueryPerformanceCounter3), this);
+            QueryPerformanceCounter(out QueryPerformanceBase);
+            Hook = LocalHook.Create(LocalHook.GetProcAddress("kernel32.dll", "QueryPerformanceCounter"), new QueryPerformanceCounter2(QueryPerformanceCounter3), this);
         }
 
         public void SetSpeed(Double Speed)
@@ -37,7 +35,7 @@ namespace Anathema.Source.SystemInternals.SpeedHack
 
         private static IntPtr QueryPerformanceCounter3(out Int64 LPPerformanceCount)
         {
-            LPPerformanceCount = 0;
+            LPPerformanceCount = QueryPerformanceBase;
             return IntPtr.Zero;
         }
 

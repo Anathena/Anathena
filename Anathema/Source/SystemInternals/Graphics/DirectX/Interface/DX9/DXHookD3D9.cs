@@ -1,8 +1,6 @@
-﻿using Anathema.Source.SystemInternals.Graphics.DirectX.Interface.Common;
-using SharpDX.Direct3D9;
+﻿using SharpDX.Direct3D9;
 using System;
 using System.Collections.Generic;
-using System.Drawing;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
 
@@ -10,20 +8,19 @@ namespace Anathema.Source.SystemInternals.Graphics.DirectX.Interface.DX9
 {
     internal class DXHookD3D9 : BaseDXHook
     {
-        private Hook<Direct3D9Device_EndSceneDelegate> Direct3DDeviceEndSceneHook;
-        private Hook<Direct3D9Device_ResetDelegate> Direct3DDeviceResetHook;
-        private Hook<Direct3D9Device_PresentDelegate> Direct3DDevicePresentHook;
-        private Hook<Direct3D9DeviceEx_PresentExDelegate> Direct3DDeviceExPresentExHook;
+        private Hook<Direct3D9DeviceEndSceneDelegate> Direct3DDeviceEndSceneHook;
+        private Hook<Direct3D9DeviceResetDelegate> Direct3DDeviceResetHook;
+        private Hook<Direct3D9DevicePresentDelegate> Direct3DDevicePresentHook;
+        private Hook<Direct3D9DeviceExPresentExDelegate> Direct3DDeviceExPresentExHook;
         private Object LockRenderObject;
 
         private Boolean ResourcesInitialized;
         private Query Query;
-        private SharpDX.Direct3D9.Font Font;
+        private Font Font;
         private Surface RenderTargetCopy;
         private Surface ResolvedTarget;
 
         private List<IntPtr> ID3DDeviceFunctionAddresses = new List<IntPtr>();
-        // private List<IntPtr> id3dDeviceExFunctionAddresses = new List<IntPtr>();
         private Boolean SupportsDirect3D9Ex;
 
         private DXOverlayEngine OverlayEngine;
@@ -36,7 +33,7 @@ namespace Anathema.Source.SystemInternals.Graphics.DirectX.Interface.DX9
         /// <param name="device"></param>
         /// <returns></returns>
         [UnmanagedFunctionPointer(CallingConvention.StdCall, CharSet = CharSet.Unicode, SetLastError = true)]
-        delegate int Direct3D9Device_EndSceneDelegate(IntPtr device);
+        delegate int Direct3D9DeviceEndSceneDelegate(IntPtr device);
 
         /// <summary>
         /// The IDirect3DDevice9.Reset function definition
@@ -45,13 +42,13 @@ namespace Anathema.Source.SystemInternals.Graphics.DirectX.Interface.DX9
         /// <param name="PresentParameters"></param>
         /// <returns></returns>
         [UnmanagedFunctionPointer(CallingConvention.StdCall, CharSet = CharSet.Unicode, SetLastError = true)]
-        delegate Int32 Direct3D9Device_ResetDelegate(IntPtr Device, ref PresentParameters PresentParameters);
+        delegate Int32 Direct3D9DeviceResetDelegate(IntPtr Device, ref PresentParameters PresentParameters);
 
         [UnmanagedFunctionPointer(CallingConvention.StdCall, CharSet = CharSet.Unicode, SetLastError = true)]
-        unsafe delegate Int32 Direct3D9Device_PresentDelegate(IntPtr DevicePtr, SharpDX.Rectangle* PSourceRect, SharpDX.Rectangle* PDestRect, IntPtr hDestWindowOverride, IntPtr PDirtyRegion);
+        unsafe delegate Int32 Direct3D9DevicePresentDelegate(IntPtr DevicePtr, SharpDX.Rectangle* PSourceRect, SharpDX.Rectangle* PDestRect, IntPtr hDestWindowOverride, IntPtr PDirtyRegion);
 
         [UnmanagedFunctionPointer(CallingConvention.StdCall, CharSet = CharSet.Unicode, SetLastError = true)]
-        unsafe delegate Int32 Direct3D9DeviceEx_PresentExDelegate(IntPtr DevicePtr, SharpDX.Rectangle* PSourceRect, SharpDX.Rectangle* PDestRect, IntPtr hDestWindowOverride, IntPtr PDirtyRegion, Present DWFlags);
+        unsafe delegate Int32 Direct3D9DeviceExPresentExDelegate(IntPtr DevicePtr, SharpDX.Rectangle* PSourceRect, SharpDX.Rectangle* PDestRect, IntPtr hDestWindowOverride, IntPtr PDirtyRegion, Present DWFlags);
 
 
         public DXHookD3D9(DirextXGraphicsInterface GraphicsInterface) : base(GraphicsInterface)
@@ -112,24 +109,24 @@ namespace Anathema.Source.SystemInternals.Graphics.DirectX.Interface.DX9
             // (IntPtr)(GetModuleHandle("d3d9").ToInt32() + 0x1ce09),
             // A 64-bit app would use 0xff18
             // Note: GetD3D9DeviceFunctionAddress will output these addresses to a log file
-            Direct3DDeviceEndSceneHook = new Hook<Direct3D9Device_EndSceneDelegate>(
+            Direct3DDeviceEndSceneHook = new Hook<Direct3D9DeviceEndSceneDelegate>(
                 ID3DDeviceFunctionAddresses[(Int32)DirectXFlags.Direct3DDevice9FunctionOrdinalsEnum.EndScene],
-                new Direct3D9Device_EndSceneDelegate(EndSceneHook), this);
+                new Direct3D9DeviceEndSceneDelegate(EndSceneHook), this);
 
             unsafe
             {
                 // If Direct3D9Ex is available - hook the PresentEx
                 if (SupportsDirect3D9Ex)
                 {
-                    Direct3DDeviceExPresentExHook = new Hook<Direct3D9DeviceEx_PresentExDelegate>(
+                    Direct3DDeviceExPresentExHook = new Hook<Direct3D9DeviceExPresentExDelegate>(
                         ID3DDeviceFunctionAddresses[(Int32)DirectXFlags.Direct3DDevice9ExFunctionOrdinalsEnum.PresentEx],
-                        new Direct3D9DeviceEx_PresentExDelegate(PresentExHook), this);
+                        new Direct3D9DeviceExPresentExDelegate(PresentExHook), this);
                 }
 
                 // Always hook Present also (device will only call Present or PresentEx not both)
-                Direct3DDevicePresentHook = new Hook<Direct3D9Device_PresentDelegate>(
+                Direct3DDevicePresentHook = new Hook<Direct3D9DevicePresentDelegate>(
                     ID3DDeviceFunctionAddresses[(Int32)DirectXFlags.Direct3DDevice9FunctionOrdinalsEnum.Present],
-                    new Direct3D9Device_PresentDelegate(PresentHook), this);
+                    new Direct3D9DevicePresentDelegate(PresentHook), this);
             }
 
             // 16 - Reset (called on resolution change or windowed/fullscreen change - we will reset some things as well)
@@ -137,9 +134,9 @@ namespace Anathema.Source.SystemInternals.Graphics.DirectX.Interface.DX9
             //(IntPtr)(GetModuleHandle("d3d9").ToInt32() + 0x58dda),
             // A 64-bit app would use 0x3b3a0
             // Note: GetD3D9DeviceFunctionAddress will output these addresses to a log file
-            Direct3DDeviceResetHook = new Hook<Direct3D9Device_ResetDelegate>(
+            Direct3DDeviceResetHook = new Hook<Direct3D9DeviceResetDelegate>(
                 ID3DDeviceFunctionAddresses[(Int32)DirectXFlags.Direct3DDevice9FunctionOrdinalsEnum.Reset],
-                new Direct3D9Device_ResetDelegate(ResetHook), this);
+                new Direct3D9DeviceResetDelegate(ResetHook), this);
 
             // The following ensures that all threads are intercepted (Note: must be done for each hook)
             Direct3DDeviceEndSceneHook.Activate();
@@ -247,27 +244,13 @@ namespace Anathema.Source.SystemInternals.Graphics.DirectX.Interface.DX9
                     if (OverlayEngine != null)
                         RemoveAndDispose(ref OverlayEngine);
 
-                    OverlayEngine = ToDispose(new DX9.DXOverlayEngine());
-
-                    // Create Overlay
-                    OverlayEngine.Overlays.Add(new Overlay
-                    {
-                        Elements =
-                        {
-                            new TextElement(new System.Drawing.Font("Arial", 16, FontStyle.Bold)) { Location = new Point(5,5), Color = Color.Red, Text = "Some bullshit", AntiAliased = true },
-                            // Example of adding an image to overlay (can implement semi transparency with Tint, e.g. Ting = Color.FromArgb(127, 255, 255, 255))
-                            // new ImageElement(@"C:\aesthetic.PNG") { Location = new Point(20, 20) }
-                        }
-                    });
+                    OverlayEngine = ToDispose(new DXOverlayEngine(GraphicsInterface));
 
                     OverlayEngine.Initialize(Device);
                 }
                 // Draw Overlay(s)
                 else if (OverlayEngine != null)
                 {
-                    foreach (IOverlay Overlay in OverlayEngine.Overlays)
-                        Overlay.Frame();
-
                     OverlayEngine.Draw();
                 }
             }

@@ -1,5 +1,4 @@
-﻿using Anathema.Source.SystemInternals.Graphics.DirectX.Interface.Common;
-using SharpDX.Direct3D;
+﻿using SharpDX.Direct3D;
 using SharpDX.Direct3D11;
 using SharpDX.DXGI;
 using SharpDX.Windows;
@@ -159,15 +158,6 @@ namespace Anathema.Source.SystemInternals.Graphics.DirectX.Interface.DX11
                         OverlayEngine.Dispose();
 
                     OverlayEngine = new DXOverlayEngine();
-                    OverlayEngine.Overlays.Add(new Overlay
-                    {
-                        Elements =
-                            {
-                                // new Common.TextElement(new System.Drawing.Font("Times New Roman", 22)) { Text = "Test", Location = new System.Drawing.Point(200, 200), Color = System.Drawing.Color.Yellow, AntiAliased = false},
-                                new TextElement(new System.Drawing.Font("Arial", 16)) { Location = new System.Drawing.Point(5,5), Color = System.Drawing.Color.Red, Text = "Some bullshit", AntiAliased = true },
-                                // new Common.ImageElement(@"C:\Temp\test.bmp") { Location = new System.Drawing.Point(20, 20) }
-                            }
-                    });
                     OverlayEngine.Initialize(SwapChain);
 
                     SwapChainPointer = SwapChain.NativePointer;
@@ -176,9 +166,6 @@ namespace Anathema.Source.SystemInternals.Graphics.DirectX.Interface.DX11
                 // Draw Overlay(s)
                 else if (OverlayEngine != null)
                 {
-                    foreach (IOverlay Overlay in OverlayEngine.Overlays)
-                        Overlay.Frame();
-
                     OverlayEngine.Draw();
                 }
             }

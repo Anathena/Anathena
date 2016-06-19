@@ -1,5 +1,6 @@
 ﻿using Anathema.Source.Controller;
 using Anathema.Source.SystemInternals.Graphics;
+using Anathema.Source.SystemInternals.SpeedHack;
 using EasyHook;
 using System;
 using System.Diagnostics;
@@ -26,7 +27,7 @@ namespace Anathema.Source.SystemInternals.Hook.Client
             String ProjectDirectory = Path.GetDirectoryName(Main.GetInstance().GetProjectFilePath());
             String ChannelName = null;
 
-            HookCommunicator = new HookCommunicator(Process.Id, ProjectDirectory);
+            HookCommunicator = new HookCommunicator(Process, ProjectDirectory);
 
             // Initialize the IPC server
             RemoteHooking.IpcCreateServer<HookCommunicator>(ref ChannelName, WellKnownObjectMode.Singleton, HookCommunicator);
@@ -48,11 +49,15 @@ namespace Anathema.Source.SystemInternals.Hook.Client
             return HookCommunicator?.GraphicsInterface;
         }
 
+        public ISpeedHackInterface GetSpeedHackInterface()
+        {
+            return HookCommunicator?.SpeedHackInterface;
+        }
+
         public void Uninject()
         {
             HookCommunicator.GraphicsInterface = null;
         }
-
     } // End class
 
 } // End namespace

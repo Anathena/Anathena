@@ -35,13 +35,12 @@ namespace Anathema.Source.SystemInternals.LuaWrapper.Hook
         {
             lock (AccessLock)
             {
-                if (Engine.SpeedHackConnector.GetSpeedHackInterface() == null)
-                    Engine.SpeedHackConnector.Inject(Engine.Memory.GetProcess());
+                if (Engine.HookCreator.GetSpeedHackInterface() == null)
+                    Engine.HookCreator.Inject(Engine.Memory.GetProcess());
 
-                return Engine.SpeedHackConnector.GetSpeedHackInterface();
+                return Engine.HookCreator.GetSpeedHackInterface();
             }
         }
-
 
         public void SetSpeed(Double Speed)
         {

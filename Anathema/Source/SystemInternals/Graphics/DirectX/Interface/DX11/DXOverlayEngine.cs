@@ -9,7 +9,6 @@ namespace Anathema.Source.SystemInternals.Graphics.DirectX.Interface.DX11
 {
     internal class DXOverlayEngine : Component
     {
-        public List<IOverlay> Overlays { get; set; }
         public Boolean DeferredContext { get { return DeviceContext.TypeInfo == DeviceContextType.Deferred; } }
 
         private Boolean Initialized = false;
@@ -27,8 +26,6 @@ namespace Anathema.Source.SystemInternals.Graphics.DirectX.Interface.DX11
         {
             FontCache = new Dictionary<string, DXFont>();
             ImageCache = new Dictionary<Element, DXImage>();
-
-            Overlays = new List<IOverlay>();
         }
 
         private void EnsureInitiliazed()
@@ -92,22 +89,18 @@ namespace Anathema.Source.SystemInternals.Graphics.DirectX.Interface.DX11
 
         private void IntializeElementResources()
         {
-            foreach (IOverlay Overlay in Overlays)
-            {
-                foreach (IOverlayElement Element in Overlay.Elements)
-                {
-                    TextElement TextElement = Element as TextElement;
-                    ImageElement ImageElement = Element as ImageElement;
+            dynamic Element = null;
 
-                    if (TextElement != null)
-                    {
-                        GetFontForTextElement(TextElement);
-                    }
-                    else if (ImageElement != null)
-                    {
-                        GetImageForImageElement(ImageElement);
-                    }
-                }
+            TextElement TextElement = Element as TextElement;
+            ImageElement ImageElement = Element as ImageElement;
+
+            if (TextElement != null)
+            {
+                GetFontForTextElement(TextElement);
+            }
+            else if (ImageElement != null)
+            {
+                GetImageForImageElement(ImageElement);
             }
         }
 
@@ -130,31 +123,25 @@ namespace Anathema.Source.SystemInternals.Graphics.DirectX.Interface.DX11
 
             Begin();
 
-            foreach (IOverlay Overlay in Overlays)
+
+            dynamic Element = null;
+
+            TextElement TextElement = Element as TextElement;
+            ImageElement ImageElement = Element as ImageElement;
+
+            if (TextElement != null)
             {
-                foreach (IOverlayElement Element in Overlay.Elements)
-                {
-                    if (Element.Hidden)
-                        continue;
+                DXFont Font = GetFontForTextElement(TextElement);
 
-                    TextElement TextElement = Element as TextElement;
-                    ImageElement ImageElement = Element as ImageElement;
+                if (Font != null && !String.IsNullOrEmpty(TextElement.Text))
+                    SpriteEngine.DrawString(TextElement.Location.X, TextElement.Location.Y, TextElement.Text, TextElement.Color, Font);
+            }
+            else if (ImageElement != null)
+            {
+                DXImage Image = GetImageForImageElement(ImageElement);
 
-                    if (TextElement != null)
-                    {
-                        DXFont Font = GetFontForTextElement(TextElement);
-
-                        if (Font != null && !String.IsNullOrEmpty(TextElement.Text))
-                            SpriteEngine.DrawString(TextElement.Location.X, TextElement.Location.Y, TextElement.Text, TextElement.Color, Font);
-                    }
-                    else if (ImageElement != null)
-                    {
-                        DXImage Image = GetImageForImageElement(ImageElement);
-
-                        if (Image != null)
-                            SpriteEngine.DrawImage(ImageElement.Location.X, ImageElement.Location.Y, ImageElement.Scale, ImageElement.Angle, ImageElement.Tint, Image);
-                    }
-                }
+                if (Image != null)
+                    SpriteEngine.DrawImage(ImageElement.Location.X, ImageElement.Location.Y, ImageElement.Scale, ImageElement.Angle, System.Drawing.Color.White, Image);
             }
 
             End();

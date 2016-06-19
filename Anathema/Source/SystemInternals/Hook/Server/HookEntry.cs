@@ -26,12 +26,14 @@ namespace Anathema.Source.SystemInternals.Hook.Server
         private CancellationTokenSource CancelRequest;
         private ManualResetEvent TaskRunning;
 
+        // TODO: move this out, hide it under graphics interface or something
         private BaseDXHook DirectXHook;
 
         public HookEntry(RemoteHooking.IContext Context, String ChannelName, String ProjectDirectory)
         {
             IpcServerChannel = null;
             DirectXHook = null;
+
 
             // Get reference to IPC to host application
             HookCommunicator = RemoteHooking.IpcConnectClient<HookCommunicator>(ChannelName);
@@ -98,7 +100,7 @@ namespace Anathema.Source.SystemInternals.Hook.Server
 
         private Boolean InitializeDirectXHook()
         {
-            DirextXGraphicsInterface DirextXGraphicsInterface = HookCommunicator.GraphicsInterface;
+            DirextXGraphicsInterface DirextXGraphicsInterface = (DirextXGraphicsInterface)HookCommunicator.GraphicsInterface;
             DirectXFlags.Direct3DVersionEnum Version = DirectXFlags.Direct3DVersionEnum.Unknown;
 
             Dictionary<DirectXFlags.Direct3DVersionEnum, String> DXModules = new Dictionary<DirectXFlags.Direct3DVersionEnum, String>
