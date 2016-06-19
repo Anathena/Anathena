@@ -60,6 +60,13 @@ namespace Anathema.Source.SystemInternals.LuaWrapper.Graphics
             return GetGraphicsInterface().CreateImage(FileName, LocationX, LocationY);
         }
 
+        public void DestroyObject(Guid Guid)
+        {
+            this.PrintDebugTag();
+
+            GetGraphicsInterface().DestroyObject(Guid);
+        }
+
         public void ShowObject(Guid Guid)
         {
             this.PrintDebugTag();

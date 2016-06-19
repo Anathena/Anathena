@@ -8,6 +8,8 @@ namespace Anathema.Source.SystemInternals.Graphics
 
         Guid CreateImage(String FileName, Int32 LocationX, Int32 LocationY);
 
+        void DestroyObject(Guid Guid);
+
         void ShowObject(Guid Guid);
 
         void HideObject(Guid Guid);

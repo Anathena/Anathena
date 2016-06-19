@@ -162,12 +162,12 @@ namespace Anathema.Source.SystemInternals.Graphics.DirectX.Interface.DX11
         {
             DXFont Result = null;
 
-            String FontKey = String.Format("{0}{1}{2}", Element.Font.Name, Element.Font.Size, Element.Font.Style, Element.AntiAliased);
+            String FontKey = String.Format("{0}{1}{2}", Element.Font.Name, Element.Font.Size, Element.Font.Style, true);
 
             if (!FontCache.TryGetValue(FontKey, out Result))
             {
                 Result = ToDispose(new DXFont(Device, DeviceContext));
-                Result.Initialize(Element.Font.Name, Element.Font.Size, Element.Font.Style, Element.AntiAliased);
+                Result.Initialize(Element.Font.Name, Element.Font.Size, Element.Font.Style, true);
                 FontCache[FontKey] = Result;
             }
 

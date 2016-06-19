@@ -9,7 +9,6 @@ namespace Anathema.Source.SystemInternals.Graphics.DirectX.Interface.Common
         public virtual Font Font { get; set; }
         public virtual Color Color { get; set; }
         public virtual Point Location { get; set; }
-        public virtual Boolean AntiAliased { get; set; }
 
         public TextElement(Font Font) : base()
         {

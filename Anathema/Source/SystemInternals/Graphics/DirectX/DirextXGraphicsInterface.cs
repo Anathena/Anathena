@@ -26,7 +26,7 @@ namespace Anathema.Source.SystemInternals.Graphics.DirectX.Interface
             TextElements = new Dictionary<Guid, TextElement>();
             ImageElements = new Dictionary<Guid, ImageElement>();
 
-            Font = new Font("Arial", 16, FontStyle.Bold);
+            Font = new Font("Tahoma", 16, FontStyle.Bold);
         }
 
         public IEnumerable<TextElement> GetTextElements()
@@ -44,12 +44,13 @@ namespace Anathema.Source.SystemInternals.Graphics.DirectX.Interface
         /// </summary>
         public void Ping() { }
 
-        Guid IGraphicsInterface.CreateText(String Text, Int32 LocationX, Int32 LocationY)
+        public Guid CreateText(String Text, Int32 LocationX, Int32 LocationY)
         {
-            Guid Guid = new Guid();
+            Guid Guid = Guid.NewGuid();
             TextElement TextElement = new TextElement(Font);
 
             TextElement.Text = Text;
+            TextElement.Color = Color.Red;
             TextElement.Location = new Point(LocationX, LocationY);
 
             TextElements.Add(Guid, TextElement);
@@ -57,9 +58,9 @@ namespace Anathema.Source.SystemInternals.Graphics.DirectX.Interface
             return Guid;
         }
 
-        Guid IGraphicsInterface.CreateImage(String FileName, Int32 LocationX, Int32 LocationY)
+        public Guid CreateImage(String FileName, Int32 LocationX, Int32 LocationY)
         {
-            Guid Guid = new Guid();
+            Guid Guid = Guid.NewGuid();
             ImageElement ImageElement = new ImageElement(Path.Combine(ProjectDirectory, FileName));
 
             ImageElement.Location = new Point(LocationX, LocationY);
@@ -67,6 +68,15 @@ namespace Anathema.Source.SystemInternals.Graphics.DirectX.Interface
             ImageElements.Add(Guid, ImageElement);
 
             return Guid;
+        }
+
+        public void DestroyObject(Guid Guid)
+        {
+            if (TextElements.ContainsKey(Guid))
+                TextElements.Remove(Guid);
+
+            if (ImageElements.ContainsKey(Guid))
+                ImageElements.Remove(Guid);
         }
 
         public void ShowObject(Guid Guid)
