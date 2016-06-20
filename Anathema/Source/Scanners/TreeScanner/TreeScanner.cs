@@ -1,4 +1,4 @@
-﻿using Anathema.Source.SystemInternals.OperatingSystems;
+﻿using Anathema.Source.Engine;
 using Anathema.Source.Utils;
 using Anathema.Source.Utils.Setting;
 using Anathema.Source.Utils.Snapshots;
@@ -63,7 +63,7 @@ namespace Anathema.Source.Scanners.TreeScanner
 
         protected override void Update()
         {
-            Engine Engine = Snapshot.GetEngine();
+            EngineCore EngineCore = Snapshot.GetEngineCore();
 
             try
             {
@@ -72,7 +72,7 @@ namespace Anathema.Source.Scanners.TreeScanner
                     // Process the changes that have occurred since the last sampling for this memory page
                     try
                     {
-                        Tree.ProcessChanges(Tree.ReadAllSnapshotMemory(Engine, false), Tree.BaseAddress);
+                        Tree.ProcessChanges(Tree.ReadAllSnapshotMemory(EngineCore, false), Tree.BaseAddress);
                     }
                     catch (ScanFailedException Ex)
                     {

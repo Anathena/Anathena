@@ -1,5 +1,6 @@
-﻿using Anathema.Source.SystemInternals.OperatingSystems;
-using Anathema.Source.SystemInternals.Processes;
+﻿using Anathema.Source.Engine;
+using Anathema.Source.Engine.OperatingSystems;
+using Anathema.Source.Engine.Processes;
 using Anathema.Source.Utils.Extensions;
 using System;
 using System.Collections.Concurrent;
@@ -13,7 +14,7 @@ namespace Anathema.Source.Utils.MemoryView
     /// </summary>
     class MemoryView : IMemoryViewModel, IProcessObserver
     {
-        private Engine Engine;
+        private EngineCore EngineCore;
         private IEnumerable<NormalizedRegion> VirtualPages;
 
         private IntPtr StartReadAddress;
@@ -34,19 +35,19 @@ namespace Anathema.Source.Utils.MemoryView
             ProcessSelector.GetInstance().Subscribe(this);
         }
 
-        public void UpdateEngine(Engine Engine)
+        public void UpdateEngineCore(EngineCore EngineCore)
         {
-            this.Engine = Engine;
+            this.EngineCore = EngineCore;
 
             RefreshVirtualPages();
         }
 
         public override void RefreshVirtualPages()
         {
-            if (Engine == null)
+            if (EngineCore == null)
                 return;
 
-            VirtualPages = Engine.Memory.GetAllVirtualPages();
+            VirtualPages = EngineCore.Memory.GetAllVirtualPages();
             MemoryViewEventArgs Args = new MemoryViewEventArgs();
             Args.VirtualPages = VirtualPages;
             OnEventUpdateVirtualPages(Args);
@@ -83,10 +84,10 @@ namespace Anathema.Source.Utils.MemoryView
 
         public override void WriteToAddress(IntPtr Address, Byte Value)
         {
-            if (Engine == null)
+            if (EngineCore == null)
                 return;
 
-            Engine.Memory.Write<Byte>(Address, Value);
+            EngineCore.Memory.Write<Byte>(Address, Value);
         }
 
         public override void Begin()
@@ -98,7 +99,7 @@ namespace Anathema.Source.Utils.MemoryView
         {
             base.Update();
 
-            if (Engine == null)
+            if (EngineCore == null)
                 return;
 
             for (IntPtr Address = StartReadAddress; Address.ToUInt64() <= EndReadAddress.ToUInt64(); Address.Add(1))
@@ -108,7 +109,7 @@ namespace Anathema.Source.Utils.MemoryView
                     continue;
 
                 Boolean ReadSuccess;
-                Byte Value = Engine.Memory.Read<Byte>(Address, out ReadSuccess);
+                Byte Value = EngineCore.Memory.Read<Byte>(Address, out ReadSuccess);
 
                 if (ReadSuccess)
                     AddressValueMap[Address] = Value;

@@ -1,7 +1,8 @@
-﻿using Anathema.Source.SystemInternals.OperatingSystems;
-using Anathema.Source.SystemInternals.Processes;
-using Anathema.Source.Prefilter;
+﻿using Anathema.Source.Prefilter;
 using Anathema.Source.Scanners.ValueCollector;
+using Anathema.Source.Engine;
+using Anathema.Source.Engine.OperatingSystems;
+using Anathema.Source.Engine.Processes;
 using Anathema.Source.Utils.Extensions;
 using Anathema.Source.Utils.Setting;
 using System;
@@ -18,7 +19,7 @@ namespace Anathema.Source.Utils.Snapshots
         // Lock to ensure multiple entities do not try and update the snapshot list at the same time
         private Object AccessLock;
 
-        private Engine Engine;
+        private EngineCore EngineCore;
         private Stack<Snapshot> Snapshots;          // Snapshots being managed
         private Stack<Snapshot> DeletedSnapshots;   // Deleted snapshots for the capability of redoing after undo
 
@@ -46,9 +47,9 @@ namespace Anathema.Source.Utils.Snapshots
             ProcessSelector.GetInstance().Subscribe(this);
         }
 
-        public void UpdateEngine(Engine Engine)
+        public void UpdateEngineCore(EngineCore EngineCore)
         {
-            this.Engine = Engine;
+            this.EngineCore = EngineCore;
         }
 
         /// <summary>
@@ -93,7 +94,7 @@ namespace Anathema.Source.Utils.Snapshots
                 if (Settings.GetInstance().GetIsUserMode())
                 {
                     StartAddress = IntPtr.Zero;
-                    EndAddress = IntPtr.Zero.MaxUserMode(Engine.Memory.Is32Bit());
+                    EndAddress = IntPtr.Zero.MaxUserMode(EngineCore.Memory.Is32Bit());
                 }
                 else
                 {
@@ -105,7 +106,7 @@ namespace Anathema.Source.Utils.Snapshots
             else
             {
                 StartAddress = IntPtr.Zero;
-                EndAddress = IntPtr.Zero.MaxUserMode(Engine.Memory.Is32Bit());
+                EndAddress = IntPtr.Zero.MaxUserMode(EngineCore.Memory.Is32Bit());
                 RequiredPageFlags = 0;
                 ExcludedPageFlags = 0;
                 AllowedTypeFlags = MemoryTypeEnum.None | MemoryTypeEnum.Private | MemoryTypeEnum.Image | MemoryTypeEnum.Mapped;
@@ -113,7 +114,7 @@ namespace Anathema.Source.Utils.Snapshots
 
             // Collect virtual pages
             List<NormalizedRegion> VirtualPages = new List<NormalizedRegion>();
-            foreach (NormalizedRegion Page in Engine.Memory.GetVirtualPages(RequiredPageFlags, ExcludedPageFlags, AllowedTypeFlags, StartAddress, EndAddress))
+            foreach (NormalizedRegion Page in EngineCore.Memory.GetVirtualPages(RequiredPageFlags, ExcludedPageFlags, AllowedTypeFlags, StartAddress, EndAddress))
                 VirtualPages.Add(Page);
 
             return VirtualPages;
@@ -124,7 +125,7 @@ namespace Anathema.Source.Utils.Snapshots
         /// </summary>
         public Snapshot CollectSnapshot(Boolean UseSettings = true, Boolean UsePrefilter = true)
         {
-            if (Engine == null)
+            if (EngineCore == null)
                 return new Snapshot<Null>();
 
             if (UsePrefilter)

@@ -1,4 +1,4 @@
-﻿using Anathema.Source.SystemInternals.Processes;
+﻿using Anathema.Source.Engine.Processes;
 using Anathema.Source.Utils.MVP;
 using System;
 
@@ -83,7 +83,7 @@ namespace Anathema.Source.Tables.Scripts.Editor
 
         void EventOpenScript(Object Sender, ScriptEditorEventArgs E)
         {
-            View.OpenScript(E.ScriptItem.Script);
+            View.OpenScript(E.ScriptItem.LuaScript);
         }
 
         void EventSetScriptText(Object Sender, ScriptEditorEventArgs E)

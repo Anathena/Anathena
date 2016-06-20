@@ -1,5 +1,5 @@
-﻿using Anathema.Source.SystemInternals.OperatingSystems;
-using Anathema.Source.SystemInternals.Processes;
+﻿using Anathema.Source.Engine;
+using Anathema.Source.Engine.Processes;
 using Anathema.Source.Tables.Addresses;
 using Anathema.Source.Utils;
 using Anathema.Source.Utils.Snapshots;
@@ -17,7 +17,7 @@ namespace Anathema.Source.Results.ScanResults
         // Singleton instance of results
         private static Lazy<ScanResults> ResultsInstance = new Lazy<ScanResults>(() => { return new ScanResults(); });
 
-        private Engine Engine;
+        private EngineCore EngineCore;
         private Snapshot Snapshot;
 
         private Type ScanType;
@@ -57,9 +57,9 @@ namespace Anathema.Source.Results.ScanResults
             ProcessSelector.GetInstance().Subscribe(this);
         }
 
-        public void UpdateEngine(Engine Engine)
+        public void UpdateEngineCore(EngineCore EngineCore)
         {
-            this.Engine = Engine;
+            this.EngineCore = EngineCore;
         }
 
         public override void OnGUIOpen()
@@ -138,7 +138,7 @@ namespace Anathema.Source.Results.ScanResults
                         continue;
 
                     Boolean ReadSuccess;
-                    String Value = Engine.Memory.Read(ScanType, Snapshot[Index].BaseAddress, out ReadSuccess).ToString();
+                    String Value = EngineCore.Memory.Read(ScanType, Snapshot[Index].BaseAddress, out ReadSuccess).ToString();
 
                     IndexValueMap[Index] = Value;
                 }

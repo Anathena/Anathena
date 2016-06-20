@@ -1,6 +1,7 @@
 ﻿using Anathema.Source.Scanners.ScanConstraints;
-using Anathema.Source.SystemInternals.OperatingSystems;
-using Anathema.Source.SystemInternals.Processes;
+using Anathema.Source.Engine;
+using Anathema.Source.Engine.OperatingSystems;
+using Anathema.Source.Engine.Processes;
 using Anathema.Source.Tables.Addresses;
 using Anathema.Source.Utils.Extensions;
 using Anathema.Source.Utils.Snapshots;
@@ -31,7 +32,7 @@ namespace Anathema.Source.Scanners.PointerScanner
 
     class PointerScanner : IPointerScannerModel, IProcessObserver
     {
-        private Engine Engine;
+        private EngineCore EngineCore;
         private Snapshot<Null> Snapshot;
 
         private Int32 StartReadIndex;
@@ -79,9 +80,9 @@ namespace Anathema.Source.Scanners.PointerScanner
             ProcessSelector.GetInstance().Subscribe(this);
         }
 
-        public void UpdateEngine(Engine Engine)
+        public void UpdateEngineCore(EngineCore EngineCore)
         {
-            this.Engine = Engine;
+            this.EngineCore = EngineCore;
         }
 
         public override void UpdateReadBounds(Int32 StartReadIndex, Int32 EndReadIndex)
@@ -198,7 +199,7 @@ namespace Anathema.Source.Scanners.PointerScanner
 
             foreach (Int32 Offset in Offsets)
             {
-                Pointer = Engine.Memory.Read<IntPtr>(Pointer, out SuccessReading);
+                Pointer = EngineCore.Memory.Read<IntPtr>(Pointer, out SuccessReading);
                 Pointer = Pointer.Add(Offset);
 
                 if (!SuccessReading)
@@ -234,7 +235,7 @@ namespace Anathema.Source.Scanners.PointerScanner
 
                     for (Int32 Index = StartReadIndex; Index <= EndReadIndex; Index++)
                     {
-                        if (AcceptedPointers == null || Engine == null)
+                        if (AcceptedPointers == null || EngineCore == null)
                             break;
 
                         if (Index < 0 || Index >= AcceptedPointers.Count)
@@ -243,7 +244,7 @@ namespace Anathema.Source.Scanners.PointerScanner
                         IntPtr Pointer = ResolvePointer(AcceptedPointers[Index]);
 
                         Boolean SuccessReading;
-                        String Value = Engine.Memory.Read(ElementType, Pointer, out SuccessReading).ToString();
+                        String Value = EngineCore.Memory.Read(ElementType, Pointer, out SuccessReading).ToString();
 
                         IndexValueMap[Index] = Value;
                     }
@@ -424,10 +425,10 @@ namespace Anathema.Source.Scanners.PointerScanner
         {
             this.PrintDebugTag();
 
-            if (Engine == null)
+            if (EngineCore == null)
                 return;
 
-            IEnumerable<NormalizedModule> Modules = Engine.Memory.GetModules();
+            IEnumerable<NormalizedModule> Modules = EngineCore.Memory.GetModules();
 
             List<SnapshotRegion> AcceptedBaseRegions = new List<SnapshotRegion>();
 
@@ -449,15 +450,15 @@ namespace Anathema.Source.Scanners.PointerScanner
             Snapshot = new Snapshot<Null>(SnapshotManager.GetInstance().CollectSnapshot(false, false));
 
             // Set to type of a pointer
-            if (Engine.Memory.Is32Bit())
+            if (EngineCore.Memory.Is32Bit())
                 Snapshot.SetElementType(typeof(Int32));
             else
                 Snapshot.SetElementType(typeof(Int64));
 
 
             // As far as I can tell, no valid pointers will end up being less than 0x10000 (UInt16.MaxValue), nor higher than usermode space.
-            dynamic InvalidPointerMin = Engine.Memory.Is32Bit() ? (Int32)UInt16.MaxValue : (Int64)UInt16.MaxValue;
-            dynamic InvalidPointerMax = Engine.Memory.Is32Bit() ? Int32.MaxValue : Int64.MaxValue;
+            dynamic InvalidPointerMin = EngineCore.Memory.Is32Bit() ? (Int32)UInt16.MaxValue : (Int64)UInt16.MaxValue;
+            dynamic InvalidPointerMax = EngineCore.Memory.Is32Bit() ? Int32.MaxValue : Int64.MaxValue;
 
             // Enforce 4-byte alignment of pointers
             Snapshot.SetAlignment(sizeof(Int32));
@@ -469,7 +470,7 @@ namespace Anathema.Source.Scanners.PointerScanner
                 // Read the memory of this region
                 try
                 {
-                    Region.ReadAllSnapshotMemory(Snapshot.GetEngine(), true);
+                    Region.ReadAllSnapshotMemory(Snapshot.GetEngineCore(), true);
                 }
                 catch (ScanFailedException)
                 {

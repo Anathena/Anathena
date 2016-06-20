@@ -1,4 +1,4 @@
-﻿using Anathema.Source.SystemInternals.OperatingSystems;
+﻿using Anathema.Source.Engine;
 using Gecko;
 using System;
 using System.Collections.Generic;
@@ -42,10 +42,10 @@ namespace Anathema.Source.Utils.Browser
                 if (!RunOnce)
                     return;
 
-                if (Engine.IsAnathema32Bit())
+                if (EngineCore.IsAnathema32Bit())
                     Xpcom.Initialize(Path.Combine(Path.GetDirectoryName(Application.ExecutablePath), "xulrunner-32"));
 
-                if (Engine.IsAnathema64Bit())
+                if (EngineCore.IsAnathema64Bit())
                     Xpcom.Initialize(Path.Combine(Path.GetDirectoryName(Application.ExecutablePath), "xulrunner-64"));
 
                 RunOnce = false;

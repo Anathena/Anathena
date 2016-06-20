@@ -1,4 +1,4 @@
-﻿using Anathema.Source.SystemInternals.OperatingSystems;
+﻿using Anathema.Source.Engine;
 using Anathema.Source.Utils.Extensions;
 using Anathema.Source.Utils.Validation;
 using System;
@@ -120,12 +120,12 @@ namespace Anathema.Source.Tables.Addresses
         }
 
         [Obfuscation(Exclude = true)]
-        public void ResolveAddress(Engine Engine)
+        public void ResolveAddress(EngineCore EngineCore)
         {
             IntPtr Pointer = this.BaseAddress;
             Boolean SuccessReading = true;
 
-            if (Engine == null)
+            if (EngineCore == null)
             {
                 if (Offsets == null || Offsets.Count() == 0)
                     EffectiveAddress = Pointer;
@@ -143,7 +143,7 @@ namespace Anathema.Source.Tables.Addresses
 
             foreach (Int32 Offset in Offsets)
             {
-                Pointer = Engine.Memory.Read<IntPtr>(Pointer, out SuccessReading);
+                Pointer = EngineCore.Memory.Read<IntPtr>(Pointer, out SuccessReading);
                 Pointer = Pointer.Add(Offset);
 
                 if (!SuccessReading)

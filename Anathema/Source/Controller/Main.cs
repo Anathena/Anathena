@@ -1,6 +1,6 @@
 ﻿using Anathema.Source.Prefilter;
-using Anathema.Source.SystemInternals.OperatingSystems;
-using Anathema.Source.SystemInternals.Processes;
+using Anathema.Source.Engine;
+using Anathema.Source.Engine.Processes;
 using Anathema.Source.Tables;
 using Anathema.Source.Utils;
 using Anathema.Source.Utils.Snapshots;
@@ -11,7 +11,7 @@ namespace Anathema.Source.Controller
     class Main : IMainModel
     {
         private static Lazy<Main> MainInstance = new Lazy<Main>(() => { return new Main(); });
-        private Engine Engine;
+        private EngineCore EngineCore;
 
         public event MainEventHandler EventUpdateProcessTitle;
         public event MainEventHandler EventUpdateProgress;
@@ -41,12 +41,12 @@ namespace Anathema.Source.Controller
             ProcessSelector.GetInstance().Subscribe(this);
         }
 
-        public void UpdateEngine(Engine Engine)
+        public void UpdateEngineCore(EngineCore EngineCore)
         {
-            this.Engine = Engine;
+            this.EngineCore = EngineCore;
 
             MainEventArgs MainEventArgs = new MainEventArgs();
-            MainEventArgs.ProcessTitle = Engine.Memory.GetProcess().ProcessName;
+            MainEventArgs.ProcessTitle = EngineCore.Memory.GetProcess().ProcessName;
             EventUpdateProcessTitle?.Invoke(this, MainEventArgs);
         }
 

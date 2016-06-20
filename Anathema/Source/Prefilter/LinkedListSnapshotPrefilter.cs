@@ -1,5 +1,6 @@
-﻿using Anathema.Source.SystemInternals.OperatingSystems;
-using Anathema.Source.SystemInternals.Processes;
+﻿using Anathema.Source.Engine;
+using Anathema.Source.Engine.OperatingSystems;
+using Anathema.Source.Engine.Processes;
 using Anathema.Source.Utils;
 using Anathema.Source.Utils.Extensions;
 using Anathema.Source.Utils.Setting;
@@ -31,7 +32,7 @@ namespace Anathema.Source.Prefilter
         // Singleton instance of prefilter
         private static Lazy<ISnapshotPrefilter> SnapshotPrefilterInstance = new Lazy<ISnapshotPrefilter>(() => { return new LinkedListSnapshotPrefilter(); });
 
-        private Engine Engine;
+        private EngineCore EngineCore;
 
         private const Int32 ChunkLimit = 32768;
         private const Int32 ChunkSize = 4096;
@@ -66,9 +67,9 @@ namespace Anathema.Source.Prefilter
             ProcessSelector.GetInstance().Subscribe(this);
         }
 
-        public void UpdateEngine(Engine Engine)
+        public void UpdateEngineCore(EngineCore EngineCore)
         {
-            this.Engine = Engine;
+            this.EngineCore = EngineCore;
 
             // Clear processing queue on process update
             using (TimedLock.Lock(ChunkLock))
@@ -117,7 +118,7 @@ namespace Anathema.Source.Prefilter
 
         protected override void Update()
         {
-            if (Engine == null)
+            if (EngineCore == null)
                 return;
 
             ProcessPages();
@@ -225,7 +226,7 @@ namespace Anathema.Source.Prefilter
                     }
 
                     // Read current page data for chunk
-                    Byte[] PageData = Engine.Memory.ReadBytes(Chunk.BaseAddress, Chunk.RegionSize, out Success);
+                    Byte[] PageData = EngineCore.Memory.ReadBytes(Chunk.BaseAddress, Chunk.RegionSize, out Success);
 
                     // Read failed; Deallocated page
                     if (!Success)

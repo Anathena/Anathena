@@ -1,4 +1,4 @@
-﻿using Anathema.Source.SystemInternals.OperatingSystems;
+﻿using Anathema.Source.Engine;
 using Anathema.Source.Utils;
 using Anathema.Source.Utils.Setting;
 using Anathema.Source.Utils.Snapshots;
@@ -60,14 +60,14 @@ namespace Anathema.Source.Scanners.ChunkScanner
         {
             base.Update();
 
-            Engine Engine = Snapshot.GetEngine();
+            EngineCore EngineCore = Snapshot.GetEngineCore();
 
             Parallel.ForEach(ChunkRoots, (ChunkRoot) =>
             {
                 try
                 {
                     // Process the changes that have occurred since the last sampling for this memory page
-                    ChunkRoot.ProcessChanges(ChunkRoot.ReadAllSnapshotMemory(Engine, false));
+                    ChunkRoot.ProcessChanges(ChunkRoot.ReadAllSnapshotMemory(EngineCore, false));
                 }
                 catch (ScanFailedException)
                 {

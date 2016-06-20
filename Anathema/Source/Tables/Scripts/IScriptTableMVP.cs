@@ -76,7 +76,7 @@ namespace Anathema.Source.Tables.Scripts
 
         public String GetScriptTableScriptAt(Int32 Index)
         {
-            return Model.GetScriptItemAt(Index).Script;
+            return Model.GetScriptItemAt(Index).LuaScript;
         }
 
         public void SetScriptActivation(Int32 Index, Boolean Activated)

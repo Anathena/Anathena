@@ -1,6 +1,6 @@
-﻿using Anathema.Source.SystemInternals.LuaWrapper;
-using Anathema.Source.SystemInternals.OperatingSystems;
-using Anathema.Source.SystemInternals.Processes;
+﻿using Anathema.Source.Engine;
+using Anathema.Source.Engine.Processes;
+using Anathema.Source.LuaEngine;
 using System;
 
 namespace Anathema.Source.Tables.Scripts.Editor
@@ -10,7 +10,7 @@ namespace Anathema.Source.Tables.Scripts.Editor
         // Singleton instance of Script Editor
         private static Lazy<ScriptEditor> ScriptEditorInstance = new Lazy<ScriptEditor>(() => { return new ScriptEditor(); });
 
-        private Engine Engine;
+        private EngineCore Engine;
 
         public event ScriptEditorEventHandler EventOpenScript;
         public event ScriptEditorEventHandler EventSetScriptText;
@@ -36,7 +36,7 @@ namespace Anathema.Source.Tables.Scripts.Editor
             ProcessSelector.GetInstance().Subscribe(this);
         }
 
-        public void UpdateEngine(Engine Engine)
+        public void UpdateEngineCore(EngineCore Engine)
         {
             this.Engine = Engine;
         }
@@ -58,20 +58,20 @@ namespace Anathema.Source.Tables.Scripts.Editor
 
         public void SaveScript(String ScriptText)
         {
-            ScriptItem.Script = ScriptText;
+            ScriptItem.LuaScript = ScriptText;
             ScriptTable.GetInstance().SaveScript(ScriptItem);
         }
 
         public Boolean HasChanges(String Script)
         {
-            if (ScriptItem.Script == Script)
+            if (ScriptItem.LuaScript == Script)
                 return false;
             return true;
         }
 
         public void InsertCodeInjectionTemplate()
         {
-            String NewScript = LuaEngine.AddCodeInjectionTemplate(ScriptItem.Script, "module.exe", new IntPtr(0x1abcd));
+            String NewScript = LuaCore.AddCodeInjectionTemplate(ScriptItem.LuaScript, "module.exe", new IntPtr(0x1abcd));
             ScriptEditorEventArgs ScriptEditorEventArgs = new ScriptEditorEventArgs();
             ScriptEditorEventArgs.NewScript = NewScript;
             EventSetScriptText?.Invoke(this, ScriptEditorEventArgs);
@@ -79,7 +79,7 @@ namespace Anathema.Source.Tables.Scripts.Editor
 
         public void InsertGraphicsOverlayTemplate()
         {
-            String NewScript = LuaEngine.AddGraphicsOverlayTemplate(ScriptItem.Script);
+            String NewScript = LuaCore.AddGraphicsOverlayTemplate(ScriptItem.LuaScript);
             ScriptEditorEventArgs ScriptEditorEventArgs = new ScriptEditorEventArgs();
             ScriptEditorEventArgs.NewScript = NewScript;
             EventSetScriptText?.Invoke(this, ScriptEditorEventArgs);

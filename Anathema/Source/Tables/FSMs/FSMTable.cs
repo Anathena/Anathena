@@ -1,5 +1,5 @@
-﻿using Anathema.Source.SystemInternals.OperatingSystems;
-using Anathema.Source.Scanners.FiniteStateScanner;
+﻿using Anathema.Source.Scanners.FiniteStateScanner;
+using Anathema.Source.Engine;
 using System;
 using System.Collections.Generic;
 
@@ -52,7 +52,7 @@ namespace Anathema.Source.Tables.FSMs
             throw new NotImplementedException();
         }
 
-        public void UpdateEngine(Engine Engine)
+        public void UpdateEngineCore(EngineCore Engine)
         {
             throw new NotImplementedException();
         }

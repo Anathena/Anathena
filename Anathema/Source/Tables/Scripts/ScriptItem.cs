@@ -1,4 +1,4 @@
-﻿using Anathema.Source.SystemInternals.LuaWrapper;
+﻿using Anathema.Source.LuaEngine;
 using System;
 using System.Reflection;
 using System.Runtime.Serialization;
@@ -11,7 +11,7 @@ namespace Anathema.Source.Tables.Scripts
     public class ScriptItem : TableItem
     {
         [DataMember()]
-        public String Script
+        public String LuaScript
         {
             [Obfuscation(Exclude = true)]
             get;
@@ -20,24 +20,24 @@ namespace Anathema.Source.Tables.Scripts
         }
 
         [Obfuscation(Exclude = true)]
-        private LuaEngine LuaEngine;
+        private LuaCore LuaCore;
 
         public ScriptItem()
         {
-            LuaEngine = new LuaEngine();
+            LuaCore = null;
         }
 
-        public ScriptItem(String Script) : this()
+        public ScriptItem(String LuaScript) : this()
         {
-            this.Script = Script;
+            this.LuaScript = LuaScript;
         }
 
         [Obfuscation(Exclude = true)]
         public String GetDescription()
         {
-            if (Script != null)
+            if (LuaScript != null)
             {
-                String[] Lines = Script.Trim().Split('\n');
+                String[] Lines = LuaScript.Trim().Split('\n');
                 if (Lines.Length > 0 && Lines[0].StartsWith("--"))
                     return Lines[0].TrimStart('-').Trim();
             }
@@ -48,19 +48,21 @@ namespace Anathema.Source.Tables.Scripts
         [Obfuscation(Exclude = true)]
         public override void SetActivationState(Boolean Activated)
         {
-            if (LuaEngine == null)
-                LuaEngine = new LuaEngine();
+            if (LuaCore == null)
+                LuaCore = new LuaCore(LuaScript);
 
             if (Activated)
             {
                 // Try to run script. Will not activate on failure.
-                if (!LuaEngine.RunActivationFunction(Script))
+                if (!LuaCore.RunActivationFunction())
                     return;
+
+                LuaCore.RunUpdateFunction();
             }
             else
             {
                 // Try to deactivate script (we do not care if this fails)
-                LuaEngine.RunDeactivationFunction(Script);
+                LuaCore.RunDeactivationFunction();
             }
 
             base.SetActivationState(Activated);

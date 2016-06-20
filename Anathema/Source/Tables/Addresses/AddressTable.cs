@@ -1,5 +1,5 @@
-﻿using Anathema.Source.SystemInternals.OperatingSystems;
-using Anathema.Source.SystemInternals.Processes;
+﻿using Anathema.Source.Engine;
+using Anathema.Source.Engine.Processes;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,7 +23,7 @@ namespace Anathema.Source.Tables.Addresses
         // Singleton instance of address table
         private static Lazy<AddressTable> AddressTableInstance = new Lazy<AddressTable>(() => { return new AddressTable(); });
 
-        private Engine Engine;
+        private EngineCore EngineCore;
 
         private List<AddressItem> AddressItems;
 
@@ -58,9 +58,9 @@ namespace Anathema.Source.Tables.Addresses
             ProcessSelector.GetInstance().Subscribe(this);
         }
 
-        public void UpdateEngine(Engine Engine)
+        public void UpdateEngineCore(EngineCore EngineCore)
         {
-            this.Engine = Engine;
+            this.EngineCore = EngineCore;
         }
 
         public override void UpdateReadBounds(Int32 StartReadIndex, Int32 EndReadIndex)
@@ -71,7 +71,7 @@ namespace Anathema.Source.Tables.Addresses
 
         public override void SetAddressFrozen(Int32 Index, Boolean Activated)
         {
-            if (Engine == null)
+            if (EngineCore == null)
             {
                 // Allow disabling even if there is no valid process
                 if (!Activated)
@@ -83,8 +83,8 @@ namespace Anathema.Source.Tables.Addresses
             if (Activated)
             {
                 Boolean ReadSuccess;
-                AddressItems[Index].ResolveAddress(Engine);
-                AddressItems[Index].Value = Engine.Memory.Read(AddressItems[Index].ElementType, AddressItems[Index].EffectiveAddress, out ReadSuccess);
+                AddressItems[Index].ResolveAddress(EngineCore);
+                AddressItems[Index].Value = EngineCore.Memory.Read(AddressItems[Index].ElementType, AddressItems[Index].EffectiveAddress, out ReadSuccess);
             }
 
             AddressItems[Index].SetActivationState(Activated);
@@ -145,9 +145,9 @@ namespace Anathema.Source.Tables.Addresses
             // Write change to memory
             if (AddressItem.Value != null)
             {
-                AddressItem.ResolveAddress(Engine);
-                if (Engine != null)
-                    Engine.Memory.Write(AddressItem.ElementType, AddressItem.EffectiveAddress, AddressItem.Value);
+                AddressItem.ResolveAddress(EngineCore);
+                if (EngineCore != null)
+                    EngineCore.Memory.Write(AddressItem.ElementType, AddressItem.EffectiveAddress, AddressItem.Value);
             }
 
             UpdateAddressTableItemCount();
@@ -196,10 +196,10 @@ namespace Anathema.Source.Tables.Addresses
             {
                 if (Item.GetActivationState())
                 {
-                    Item.ResolveAddress(Engine);
+                    Item.ResolveAddress(EngineCore);
 
-                    if (Engine != null && Item.Value != null)
-                        Engine.Memory.Write(Item.ElementType, Item.EffectiveAddress, Item.Value);
+                    if (EngineCore != null && Item.Value != null)
+                        EngineCore.Memory.Write(Item.ElementType, Item.EffectiveAddress, Item.Value);
                 }
             }
 
@@ -209,10 +209,10 @@ namespace Anathema.Source.Tables.Addresses
                     continue;
 
                 Boolean ReadSuccess;
-                AddressItems[Index].ResolveAddress(Engine);
+                AddressItems[Index].ResolveAddress(EngineCore);
 
-                if (Engine != null)
-                    AddressItems[Index].Value = Engine.Memory.Read(AddressItems[Index].ElementType, AddressItems[Index].EffectiveAddress, out ReadSuccess);
+                if (EngineCore != null)
+                    AddressItems[Index].Value = EngineCore.Memory.Read(AddressItems[Index].ElementType, AddressItems[Index].EffectiveAddress, out ReadSuccess);
             }
 
             if (AddressItems.Count != 0)

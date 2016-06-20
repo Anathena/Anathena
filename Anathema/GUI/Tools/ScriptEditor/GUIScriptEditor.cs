@@ -1,4 +1,4 @@
-﻿using Anathema.Source.SystemInternals.LuaWrapper;
+﻿using Anathema.Source.LuaEngine;
 using Anathema.Source.Tables.Scripts.Editor;
 using Anathema.Source.Utils;
 using Anathema.Source.Utils.MVP;

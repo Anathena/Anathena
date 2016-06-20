@@ -1,5 +1,5 @@
 ﻿using Anathema.Source.Scanners.InputCorrelator;
-using Anathema.Source.SystemInternals.InputCapture.MouseKeyHook;
+using Anathema.Source.Engine.InputCapture.MouseKeyHook;
 using Anathema.Source.Utils;
 using Anathema.Source.Utils.MVP;
 using Anathema.Source.Utils.Validation;
