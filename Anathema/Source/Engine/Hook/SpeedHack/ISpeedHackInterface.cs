@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Anathema.Source.Engine.SpeedHack
+namespace Anathema.Source.Engine.Hook.SpeedHack
 {
     public interface ISpeedHackInterface
     {

@@ -1,6 +1,6 @@
 ﻿using Anathema.Source.Engine;
+using Anathema.Source.Engine.Hook.SpeedHack;
 using Anathema.Source.Engine.Processes;
-using Anathema.Source.Engine.SpeedHack;
 using System;
 
 namespace Anathema.Source.LuaEngine.Hook

@@ -1,5 +1,5 @@
 ﻿using Anathema.Source.Engine.Graphics;
-using Anathema.Source.Engine.SpeedHack;
+using Anathema.Source.Engine.Hook.SpeedHack;
 using System.Diagnostics;
 
 namespace Anathema.Source.Engine.Hook.Client

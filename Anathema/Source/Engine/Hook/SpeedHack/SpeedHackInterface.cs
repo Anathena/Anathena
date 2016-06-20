@@ -2,7 +2,7 @@
 using System;
 using System.Runtime.InteropServices;
 
-namespace Anathema.Source.Engine.SpeedHack
+namespace Anathema.Source.Engine.Hook.SpeedHack
 {
     [Serializable]
     public class SpeedHackInterface : MarshalByRefObject, ISpeedHackInterface

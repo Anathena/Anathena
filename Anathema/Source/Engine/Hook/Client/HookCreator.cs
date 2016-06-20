@@ -1,6 +1,6 @@
 ﻿using Anathema.Source.Controller;
 using Anathema.Source.Engine.Graphics;
-using Anathema.Source.Engine.SpeedHack;
+using Anathema.Source.Engine.Hook.SpeedHack;
 using EasyHook;
 using System;
 using System.Diagnostics;
