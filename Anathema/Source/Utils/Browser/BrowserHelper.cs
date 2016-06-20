@@ -31,7 +31,6 @@ namespace Anathema.Source.Utils.Browser
         public void InitializeBrowserStatic(params String[] NewBackGroundDownloadTags)
         {
             using (TimedLock.Lock(InitializeLock))
-            // lock (InitializeLock)
             {
                 if (NewBackGroundDownloadTags != null)
                     foreach (String Tag in NewBackGroundDownloadTags)
@@ -56,7 +55,6 @@ namespace Anathema.Source.Utils.Browser
         public String GetLastDownloadedFile()
         {
             using (TimedLock.Lock(InitializeLock))
-            // lock (InitializeLock)
             {
                 return LastDownloadedFile;
             }

@@ -1169,8 +1169,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Source\Results\PointerScanResults\" />
-    <Folder Include="Source\Utils\Debugger\" />
-    <Folder Include="Source\Utils\ProcessSelector\" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.5.2">
