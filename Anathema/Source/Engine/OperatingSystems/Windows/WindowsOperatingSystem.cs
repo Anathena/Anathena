@@ -407,7 +407,7 @@ namespace Anathema.Source.Engine.OperatingSystems.Windows
             return Native;
         }
 
-        public Boolean Is32Bit()
+        public Boolean IsProcess32Bit()
         {
             // First do the simple check if seeing if the OS is 32 bit, in which case the process wont be 64 bit
             if (!Environment.Is64BitOperatingSystem)
@@ -419,9 +419,9 @@ namespace Anathema.Source.Engine.OperatingSystems.Windows
             return IsWow64;
         }
 
-        public Boolean Is64Bit()
+        public Boolean IsProcess64Bit()
         {
-            return !Is32Bit();
+            return !IsProcess32Bit();
         }
 
         public IntPtr AllocateMemory(Int32 Size)
@@ -521,9 +521,47 @@ namespace Anathema.Source.Engine.OperatingSystems.Windows
             throw new NotImplementedException();
         }
 
+        #endregion
+        #endregion
 
-        #endregion
-        #endregion
+
+        public Boolean IsOS32Bit()
+        {
+            return !Environment.Is64BitOperatingSystem;
+        }
+
+        public Boolean IsOS64Bit()
+        {
+            return Environment.Is64BitOperatingSystem;
+        }
+
+        public Boolean IsAnathema32Bit()
+        {
+            return !Environment.Is64BitProcess;
+        }
+
+        public Boolean IsAnathema64Bit()
+        {
+            return Environment.Is64BitProcess;
+        }
+
+        public Boolean IsProcess32Bit(Process Process)
+        {
+            // First do the simple check if seeing if the OS is 32 bit, in which case the process wont be 64 bit
+            if (IsOS32Bit())
+                return true;
+
+            Boolean IsWow64;
+            if (!IsWow64Process(Process.Handle, out IsWow64))
+                return false; // Error
+
+            return IsWow64;
+        }
+
+        public Boolean IsProcess64Bit(Process Process)
+        {
+            return !IsProcess32Bit(Process);
+        }
 
     } // End class
 

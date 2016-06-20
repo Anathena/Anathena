@@ -12,7 +12,6 @@ namespace Anathema.Source.Engine.OperatingSystems
         IEnumerable<NormalizedRegion> GetVirtualPages(MemoryProtectionEnum RequiredProtection, MemoryProtectionEnum ExcludedProtection,
                                                     MemoryTypeEnum AllowedTypes, IntPtr StartAddress, IntPtr EndAddress);
         IEnumerable<NormalizedRegion> GetAllVirtualPages();
-
         IEnumerable<NormalizedModule> GetModules();
         IntPtr AllocateMemory(Int32 Size);
         void DeallocateMemory(IntPtr Address);
@@ -20,10 +19,18 @@ namespace Anathema.Source.Engine.OperatingSystems
         IntPtr GetStackAddress();
         IntPtr[] GetHeapAddresses();
 
+        // Environment
+        Boolean IsOS32Bit();
+        Boolean IsOS64Bit();
+        Boolean IsAnathema32Bit();
+        Boolean IsAnathema64Bit();
+
         // Process
-        Boolean Is32Bit();
-        Boolean Is64Bit();
         Process GetProcess();
+        Boolean IsProcess32Bit();
+        Boolean IsProcess32Bit(Process Process);
+        Boolean IsProcess64Bit();
+        Boolean IsProcess64Bit(Process Process);
 
         // Pattern
         IntPtr SearchAOB(Byte[] Bytes);

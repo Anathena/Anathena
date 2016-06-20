@@ -1,11 +1,9 @@
-﻿using Anathema.Source.Engine.OperatingSystems;
-
-namespace Anathema.Source.Engine.Processes
+﻿namespace Anathema.Source.Engine.Processes
 {
     interface IProcessObserver
     {
         void InitializeProcessObserver();
-        void UpdateEngineCore(EngineCore Engine);
+        void UpdateEngineCore(EngineCore EngineCore);
 
     } // End interface
 

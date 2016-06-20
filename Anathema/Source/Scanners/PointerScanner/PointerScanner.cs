@@ -450,15 +450,15 @@ namespace Anathema.Source.Scanners.PointerScanner
             Snapshot = new Snapshot<Null>(SnapshotManager.GetInstance().CollectSnapshot(false, false));
 
             // Set to type of a pointer
-            if (EngineCore.Memory.Is32Bit())
+            if (EngineCore.Memory.IsProcess32Bit())
                 Snapshot.SetElementType(typeof(Int32));
             else
                 Snapshot.SetElementType(typeof(Int64));
 
 
             // As far as I can tell, no valid pointers will end up being less than 0x10000 (UInt16.MaxValue), nor higher than usermode space.
-            dynamic InvalidPointerMin = EngineCore.Memory.Is32Bit() ? (Int32)UInt16.MaxValue : (Int64)UInt16.MaxValue;
-            dynamic InvalidPointerMax = EngineCore.Memory.Is32Bit() ? Int32.MaxValue : Int64.MaxValue;
+            dynamic InvalidPointerMin = EngineCore.Memory.IsProcess32Bit() ? (Int32)UInt16.MaxValue : (Int64)UInt16.MaxValue;
+            dynamic InvalidPointerMax = EngineCore.Memory.IsProcess32Bit() ? Int32.MaxValue : Int64.MaxValue;
 
             // Enforce 4-byte alignment of pointers
             Snapshot.SetAlignment(sizeof(Int32));

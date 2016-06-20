@@ -1,5 +1,4 @@
-﻿using Anathema.Source.Engine.OperatingSystems;
-using System;
+﻿using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -46,7 +45,7 @@ namespace Anathema.Source.Engine.Processes
         // Observers that must be notified of a process selection change
         private List<IProcessObserver> ProcessObservers;
 
-        private EngineCore Engine;
+        private EngineCore EngineCore;
 
         private ProcessSelector()
         {
@@ -71,11 +70,11 @@ namespace Anathema.Source.Engine.Processes
 
             ProcessObservers.Add(Observer);
 
-            if (Engine == null)
+            if (EngineCore == null)
                 return;
 
             // Notify just this observer
-            Observer.UpdateEngineCore(Engine);
+            Observer.UpdateEngineCore(EngineCore);
         }
 
         /// <summary>
@@ -98,14 +97,14 @@ namespace Anathema.Source.Engine.Processes
         {
             // Update memory editor if applicable
             if (Process != null)
-                Engine = new EngineCore(Process);
+                EngineCore = new EngineCore(Process);
 
-            if (Engine == null)
+            if (EngineCore == null)
                 return;
 
             // Notify subscribers
             foreach (IProcessObserver ProcessObserver in ProcessObservers)
-                ProcessObserver.UpdateEngineCore(Engine);
+                ProcessObserver.UpdateEngineCore(EngineCore);
         }
 
         public void SelectProcess(Int32 Index)
@@ -139,14 +138,14 @@ namespace Anathema.Source.Engine.Processes
         }
 
         // Determines if Anathema is able to perform certain actions on the target process, such as fetching icons
-        public static Boolean IsProcessOSCompatable(IntPtr ProcessHandle)
+        public Boolean IsProcessOSCompatable(Process Process)
         {
             // Always compatable if anathema is 64 bit
-            if (EngineCore.IsAnathema64Bit())
+            if (EngineCore.Memory.IsAnathema64Bit())
                 return true;
 
             // Always compatable if the target is 32 bit
-            if (EngineCore.IsProcess32Bit(ProcessHandle))
+            if (EngineCore.Memory.IsProcess32Bit(Process))
                 return true;
 
             // Target uses higher addressing than Anathema, thus Anathema is not compatable
@@ -226,7 +225,7 @@ namespace Anathema.Source.Engine.Processes
             try
             {
                 // 32-bit OS grabbing 64-bit icons isn't allowed, so we check
-                if (!IsProcessOSCompatable(TargetProcess.Handle))
+                if (!IsProcessOSCompatable(TargetProcess))
                     return null;
 
                 IntPtr IconHandle = ExtractIcon(ProcessSelectorHandle, TargetProcess.MainModule.FileName, 0);

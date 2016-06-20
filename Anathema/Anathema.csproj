@@ -318,14 +318,14 @@
     <Compile Include="Source\Engine\Hook\Server\HookEntry.cs" />
     <Compile Include="Source\Engine\Hook\Client\IHookCreator.cs" />
     <Compile Include="Source\Engine\Hook\Unrandomizer\IUnrandomizerInterface.cs" />
-    <Compile Include="Source\Engine\InputCapture\ControllerHook\IControllerObserver.cs" />
-    <Compile Include="Source\Engine\InputCapture\IInputObject.cs" />
-    <Compile Include="Source\Engine\InputCapture\KeyboardHook\IKeyboardObserver.cs" />
-    <Compile Include="Source\Engine\InputCapture\KeyboardHook\KeyboardEvents.cs" />
-    <Compile Include="Source\Engine\InputCapture\KeyboardHook\IKeyboardSubject.cs" />
-    <Compile Include="Source\Engine\InputCapture\MouseHook\IMouseSubject.cs" />
-    <Compile Include="Source\Engine\InputCapture\MouseHook\IMouseEvents.cs" />
-    <Compile Include="Source\Engine\InputCapture\MouseHook\MouseEvents.cs" />
+    <Compile Include="Source\Engine\InputCapture\ControllerCapture\IControllerObserver.cs" />
+    <Compile Include="Source\Engine\InputCapture\IInputCapture.cs" />
+    <Compile Include="Source\Engine\InputCapture\KeyboardCapture\IKeyboardObserver.cs" />
+    <Compile Include="Source\Engine\InputCapture\KeyboardCapture\KeyboardCapture.cs" />
+    <Compile Include="Source\Engine\InputCapture\KeyboardCapture\IKeyboardSubject.cs" />
+    <Compile Include="Source\Engine\InputCapture\MouseCapture\IMouseObserver.cs" />
+    <Compile Include="Source\Engine\InputCapture\MouseCapture\IMouseSubject.cs" />
+    <Compile Include="Source\Engine\InputCapture\MouseCapture\MouseCapture.cs" />
     <Compile Include="Source\Prefilter\ISnapshotPrefilter.cs" />
     <Compile Include="Source\Prefilter\LinkedListSnapshotPrefilter.cs" />
     <Compile Include="Source\Prefilter\QueueSnapshotPrefilter.cs" />
@@ -333,8 +333,8 @@
     <Compile Include="Source\Engine\Graphics\IGraphicsInterface.cs" />
     <Compile Include="Source\Engine\Graphics\Ogre\ConnectorOgre.cs" />
     <Compile Include="Source\Engine\Graphics\OpenGL\ConnectorOpenGL.cs" />
-    <Compile Include="Source\Engine\InputCapture\ControllerHook\ControllerEvents.cs" />
-    <Compile Include="Source\Engine\InputCapture\ControllerHook\IControllerSubject.cs" />
+    <Compile Include="Source\Engine\InputCapture\ControllerCapture\ControllerCapture.cs" />
+    <Compile Include="Source\Engine\InputCapture\ControllerCapture\IControllerSubject.cs" />
     <Compile Include="Source\Engine\InputCapture\InputManager.cs" />
     <Compile Include="Source\Engine\InputCapture\IInputManager.cs" />
     <Compile Include="Source\LuaEngine\Hook\IHookCore.cs" />
@@ -357,7 +357,6 @@
     <Compile Include="Source\LuaEngine\Memory\IMemoryCore.cs" />
     <Compile Include="Source\Utils\MessageBoxEx.cs" />
     <Compile Include="Source\Utils\Extensions\ObjectExtensions.cs" />
-    <Compile Include="Source\Engine\Architecture\ArchitectureInterface.cs" />
     <Compile Include="Source\Engine\OperatingSystems\NormalizedModule.cs" />
     <Compile Include="Source\Engine\OperatingSystems\NormalizedRegion.cs" />
     <Compile Include="Source\Engine\OperatingSystems\IOperatingSystem.cs" />
@@ -1171,6 +1170,7 @@
   <ItemGroup>
     <Folder Include="Source\Results\PointerScanResults\" />
     <Folder Include="Source\Utils\Debugger\" />
+    <Folder Include="Source\Utils\ProcessSelector\" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.5.2">

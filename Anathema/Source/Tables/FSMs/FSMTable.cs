@@ -52,7 +52,7 @@ namespace Anathema.Source.Tables.FSMs
             throw new NotImplementedException();
         }
 
-        public void UpdateEngineCore(EngineCore Engine)
+        public void UpdateEngineCore(EngineCore EngineCore)
         {
             throw new NotImplementedException();
         }

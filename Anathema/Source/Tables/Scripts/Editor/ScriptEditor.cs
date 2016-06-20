@@ -10,7 +10,7 @@ namespace Anathema.Source.Tables.Scripts.Editor
         // Singleton instance of Script Editor
         private static Lazy<ScriptEditor> ScriptEditorInstance = new Lazy<ScriptEditor>(() => { return new ScriptEditor(); });
 
-        private EngineCore Engine;
+        private EngineCore EngineCore;
 
         public event ScriptEditorEventHandler EventOpenScript;
         public event ScriptEditorEventHandler EventSetScriptText;
@@ -36,9 +36,9 @@ namespace Anathema.Source.Tables.Scripts.Editor
             ProcessSelector.GetInstance().Subscribe(this);
         }
 
-        public void UpdateEngineCore(EngineCore Engine)
+        public void UpdateEngineCore(EngineCore EngineCore)
         {
-            this.Engine = Engine;
+            this.EngineCore = EngineCore;
         }
 
         public void OpenScript(ScriptItem ScriptItem)

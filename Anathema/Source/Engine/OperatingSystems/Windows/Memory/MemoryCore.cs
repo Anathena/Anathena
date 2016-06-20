@@ -207,7 +207,7 @@ namespace Anathema.Source.Engine.OperatingSystems.Windows.Memory
 
             MemoryBasicInformation64 MemoryInfo64 = new MemoryBasicInformation64();
 
-            if (EngineCore.IsAnathema32Bit())
+            if (!Environment.Is64BitProcess)
             {
                 // 32 Bit struct is not the same
                 MemoryBasicInformation32 MemoryInfo32 = new MemoryBasicInformation32();
@@ -267,7 +267,7 @@ namespace Anathema.Source.Engine.OperatingSystems.Windows.Memory
                 // Allocate the structure to store information of memory
                 MemoryBasicInformation64 MemoryInfo = new MemoryBasicInformation64();
 
-                if (EngineCore.IsAnathema32Bit())
+                if (!Environment.Is64BitProcess)
                 {
                     // 32 Bit struct is not the same
                     MemoryBasicInformation32 MemoryInfo32 = new MemoryBasicInformation32();

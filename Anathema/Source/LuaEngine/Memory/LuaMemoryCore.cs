@@ -13,7 +13,7 @@ namespace Anathema.Source.LuaEngine.Memory
 {
     public class LuaMemoryCore : IMemoryCore, IProcessObserver
     {
-        private EngineCore Engine;
+        private EngineCore EngineCore;
 
         private static ConcurrentDictionary<String, String> GlobalKeywords;
         private ConcurrentDictionary<String, String> Keywords;
@@ -51,9 +51,9 @@ namespace Anathema.Source.LuaEngine.Memory
             ProcessSelector.GetInstance().Subscribe(this);
         }
 
-        public void UpdateEngineCore(EngineCore Engine)
+        public void UpdateEngineCore(EngineCore EngineCore)
         {
-            this.Engine = Engine;
+            this.EngineCore = EngineCore;
         }
 
         private String ResolveKeywords(String Assembly)
@@ -82,13 +82,13 @@ namespace Anathema.Source.LuaEngine.Memory
             // Read original bytes at code cave jump
             Boolean ReadSuccess;
 
-            Byte[] OriginalBytes = Engine.Memory.ReadBytes(Address.ToIntPtr(), Largestx86InstructionSize, out ReadSuccess);
+            Byte[] OriginalBytes = EngineCore.Memory.ReadBytes(Address.ToIntPtr(), Largestx86InstructionSize, out ReadSuccess);
 
             if (!ReadSuccess || OriginalBytes == null || OriginalBytes.Length <= 0)
                 return null;
 
             // Grab instructions at code entry point
-            List<Instruction> Instructions = Engine.Disassembler.Disassemble(OriginalBytes, Engine.Memory.Is32Bit(), Address.ToIntPtr());
+            List<Instruction> Instructions = EngineCore.Disassembler.Disassemble(OriginalBytes, EngineCore.Memory.IsProcess32Bit(), Address.ToIntPtr());
 
             // Determine size of instructions we need to overwrite
             Int32 ReplacedInstructionSize = 0;
@@ -114,7 +114,7 @@ namespace Anathema.Source.LuaEngine.Memory
 
             Assembly = ResolveKeywords(Assembly);
 
-            Byte[] Bytes = Engine.Assembler.Assemble(Engine.Memory.Is32Bit(), Assembly, Address.ToIntPtr());
+            Byte[] Bytes = EngineCore.Assembler.Assemble(EngineCore.Memory.IsProcess32Bit(), Assembly, Address.ToIntPtr());
 
             return (Bytes == null ? 0 : Bytes.Length);
         }
@@ -125,7 +125,7 @@ namespace Anathema.Source.LuaEngine.Memory
 
             Assembly = ResolveKeywords(Assembly);
 
-            return Engine.Assembler.Assemble(Engine.Memory.Is32Bit(), Assembly, Address.ToIntPtr());
+            return EngineCore.Assembler.Assemble(EngineCore.Memory.IsProcess32Bit(), Assembly, Address.ToIntPtr());
         }
 
         public UInt64 GetModuleAddress(String ModuleName)
@@ -133,7 +133,7 @@ namespace Anathema.Source.LuaEngine.Memory
             this.PrintDebugTag();
 
             UInt64 Address = 0;
-            foreach (NormalizedModule Module in Engine.Memory.GetModules())
+            foreach (NormalizedModule Module in EngineCore.Memory.GetModules())
             {
                 if (Module.Name.Equals(ModuleName, StringComparison.OrdinalIgnoreCase))
                 {
@@ -149,7 +149,7 @@ namespace Anathema.Source.LuaEngine.Memory
         {
             this.PrintDebugTag();
 
-            UInt64 Address = Engine.Memory.AllocateMemory(Size).ToUInt64();
+            UInt64 Address = EngineCore.Memory.AllocateMemory(Size).ToUInt64();
             RemoteAllocations.Add(Address);
 
             return Address;
@@ -163,7 +163,7 @@ namespace Anathema.Source.LuaEngine.Memory
             {
                 if (AllocationAddress == Address)
                 {
-                    Engine.Memory.DeallocateMemory(AllocationAddress.ToIntPtr());
+                    EngineCore.Memory.DeallocateMemory(AllocationAddress.ToIntPtr());
                     RemoteAllocations.Remove(AllocationAddress);
                     break;
                 }
@@ -177,7 +177,7 @@ namespace Anathema.Source.LuaEngine.Memory
             this.PrintDebugTag();
 
             foreach (UInt64 Address in RemoteAllocations)
-                Engine.Memory.DeallocateMemory(Address.ToIntPtr());
+                EngineCore.Memory.DeallocateMemory(Address.ToIntPtr());
 
             RemoteAllocations.Clear();
         }
@@ -201,8 +201,8 @@ namespace Anathema.Source.LuaEngine.Memory
                 // Determine number of no-ops to fill dangling bytes
                 String NoOps = (OriginalBytes.Length - AssemblySize > 0 ? "db " : String.Empty) + String.Join(" ", Enumerable.Repeat("0x90,", OriginalBytes.Length - AssemblySize)).TrimEnd(',');
 
-                Byte[] InjectionBytes = Engine.Assembler.Assemble(Engine.Memory.Is32Bit(), Assembly + "\n" + NoOps, Entry.ToIntPtr());
-                Engine.Memory.WriteBytes(Entry.ToIntPtr(), InjectionBytes);
+                Byte[] InjectionBytes = EngineCore.Assembler.Assemble(EngineCore.Memory.IsProcess32Bit(), Assembly + "\n" + NoOps, Entry.ToIntPtr());
+                EngineCore.Memory.WriteBytes(Entry.ToIntPtr(), InjectionBytes);
 
                 CodeCave CodeCave = new CodeCave(Entry, OriginalBytes, Entry);
                 CodeCaves.Add(CodeCave);
@@ -224,17 +224,17 @@ namespace Anathema.Source.LuaEngine.Memory
                 String NoOps = (OriginalBytes.Length - JumpSize > 0 ? "db " : String.Empty) + String.Join(" ", Enumerable.Repeat("0x90,", OriginalBytes.Length - JumpSize)).TrimEnd(',');
 
                 // Allocate memory
-                UInt64 RemoteAllocation = Engine.Memory.AllocateMemory(AssemblySize).ToUInt64();
+                UInt64 RemoteAllocation = EngineCore.Memory.AllocateMemory(AssemblySize).ToUInt64();
                 RemoteAllocations.Add(RemoteAllocation);
 
                 // Write injected code to new page
-                Byte[] InjectionBytes = Engine.Assembler.Assemble(Engine.Memory.Is32Bit(), Assembly, RemoteAllocation.ToIntPtr());
-                Engine.Memory.WriteBytes(RemoteAllocation.ToIntPtr(), InjectionBytes);
+                Byte[] InjectionBytes = EngineCore.Assembler.Assemble(EngineCore.Memory.IsProcess32Bit(), Assembly, RemoteAllocation.ToIntPtr());
+                EngineCore.Memory.WriteBytes(RemoteAllocation.ToIntPtr(), InjectionBytes);
 
                 // Write in the jump to the code cave
                 String CodeCaveJump = "jmp " + "0x" + Conversions.ToAddress(RemoteAllocation) + "\n" + NoOps;
-                Byte[] JumpBytes = Engine.Assembler.Assemble(Engine.Memory.Is32Bit(), CodeCaveJump, Entry.ToIntPtr());
-                Engine.Memory.WriteBytes(Entry.ToIntPtr(), JumpBytes);
+                Byte[] JumpBytes = EngineCore.Assembler.Assemble(EngineCore.Memory.IsProcess32Bit(), CodeCaveJump, Entry.ToIntPtr());
+                EngineCore.Memory.WriteBytes(Entry.ToIntPtr(), JumpBytes);
 
                 // Save this code cave for later deallocation
                 CodeCave CodeCave = new CodeCave(RemoteAllocation, OriginalBytes, Entry);
@@ -276,13 +276,13 @@ namespace Anathema.Source.LuaEngine.Memory
                 if (CodeCave.Entry != Address)
                     continue;
 
-                Engine.Memory.Write<Byte[]>(CodeCave.Entry.ToIntPtr(), CodeCave.OriginalBytes);
+                EngineCore.Memory.Write<Byte[]>(CodeCave.Entry.ToIntPtr(), CodeCave.OriginalBytes);
 
                 // If these are equal, the cave is an in-place edit and not an allocation
                 if (CodeCave.Entry == CodeCave.RemoteAllocation)
                     continue;
 
-                Engine.Memory.DeallocateMemory(CodeCave.RemoteAllocation.ToIntPtr());
+                EngineCore.Memory.DeallocateMemory(CodeCave.RemoteAllocation.ToIntPtr());
 
             }
         }
@@ -293,13 +293,13 @@ namespace Anathema.Source.LuaEngine.Memory
 
             foreach (CodeCave CodeCave in CodeCaves)
             {
-                Engine.Memory.WriteBytes(CodeCave.Entry.ToIntPtr(), CodeCave.OriginalBytes);
+                EngineCore.Memory.WriteBytes(CodeCave.Entry.ToIntPtr(), CodeCave.OriginalBytes);
 
                 // If these are equal, the cave is an in-place edit and not an allocation
                 if (CodeCave.Entry == CodeCave.RemoteAllocation)
                     continue;
 
-                Engine.Memory.DeallocateMemory(CodeCave.RemoteAllocation.ToIntPtr());
+                EngineCore.Memory.DeallocateMemory(CodeCave.RemoteAllocation.ToIntPtr());
             }
             CodeCaves.Clear();
         }
@@ -354,7 +354,7 @@ namespace Anathema.Source.LuaEngine.Memory
         {
             this.PrintDebugTag();
 
-            UInt64 Address = Engine.Memory.SearchAOB(Bytes).ToUInt64();
+            UInt64 Address = EngineCore.Memory.SearchAOB(Bytes).ToUInt64();
             return Address;
         }
 
@@ -362,13 +362,13 @@ namespace Anathema.Source.LuaEngine.Memory
         {
             this.PrintDebugTag(Pattern);
 
-            return Engine.Memory.SearchAOB(Pattern).ToUInt64();
+            return EngineCore.Memory.SearchAOB(Pattern).ToUInt64();
         }
 
         public UInt64[] SearchAllAOB(String Pattern)
         {
             this.PrintDebugTag(Pattern);
-            List<IntPtr> AOBs = new List<IntPtr>(Engine.Memory.SearchllAOB(Pattern));
+            List<IntPtr> AOBs = new List<IntPtr>(EngineCore.Memory.SearchllAOB(Pattern));
             List<UInt64> ConvertedAOBs = new List<UInt64>();
             AOBs.ForEach(x => ConvertedAOBs.Add(x.ToUInt64()));
             return ConvertedAOBs.ToArray();
@@ -379,7 +379,7 @@ namespace Anathema.Source.LuaEngine.Memory
             this.PrintDebugTag(Address.ToString("x"));
 
             Boolean Success;
-            return Engine.Memory.Read<SByte>(Address.ToIntPtr(), out Success);
+            return EngineCore.Memory.Read<SByte>(Address.ToIntPtr(), out Success);
         }
 
         public Byte ReadByte(UInt64 Address)
@@ -387,7 +387,7 @@ namespace Anathema.Source.LuaEngine.Memory
             this.PrintDebugTag(Address.ToString("x"));
 
             Boolean Success;
-            return Engine.Memory.Read<Byte>(Address.ToIntPtr(), out Success);
+            return EngineCore.Memory.Read<Byte>(Address.ToIntPtr(), out Success);
         }
 
         public Int16 ReadInt16(UInt64 Address)
@@ -395,7 +395,7 @@ namespace Anathema.Source.LuaEngine.Memory
             this.PrintDebugTag(Address.ToString("x"));
 
             Boolean Success;
-            return Engine.Memory.Read<Int16>(Address.ToIntPtr(), out Success);
+            return EngineCore.Memory.Read<Int16>(Address.ToIntPtr(), out Success);
         }
 
         public Int32 ReadInt32(UInt64 Address)
@@ -403,7 +403,7 @@ namespace Anathema.Source.LuaEngine.Memory
             this.PrintDebugTag(Address.ToString("x"));
 
             Boolean Success;
-            return Engine.Memory.Read<Int32>(Address.ToIntPtr(), out Success);
+            return EngineCore.Memory.Read<Int32>(Address.ToIntPtr(), out Success);
         }
 
         public Int64 ReadInt64(UInt64 Address)
@@ -411,7 +411,7 @@ namespace Anathema.Source.LuaEngine.Memory
             this.PrintDebugTag(Address.ToString("x"));
 
             Boolean Success;
-            return Engine.Memory.Read<Int64>(Address.ToIntPtr(), out Success);
+            return EngineCore.Memory.Read<Int64>(Address.ToIntPtr(), out Success);
         }
 
         public UInt16 ReadUInt16(UInt64 Address)
@@ -419,7 +419,7 @@ namespace Anathema.Source.LuaEngine.Memory
             this.PrintDebugTag(Address.ToString("x"));
 
             Boolean Success;
-            return Engine.Memory.Read<UInt16>(Address.ToIntPtr(), out Success);
+            return EngineCore.Memory.Read<UInt16>(Address.ToIntPtr(), out Success);
         }
 
         public UInt32 ReadUInt32(UInt64 Address)
@@ -427,7 +427,7 @@ namespace Anathema.Source.LuaEngine.Memory
             this.PrintDebugTag(Address.ToString("x"));
 
             Boolean Success;
-            return Engine.Memory.Read<UInt32>(Address.ToIntPtr(), out Success);
+            return EngineCore.Memory.Read<UInt32>(Address.ToIntPtr(), out Success);
         }
 
         public UInt64 ReadUInt64(UInt64 Address)
@@ -435,7 +435,7 @@ namespace Anathema.Source.LuaEngine.Memory
             this.PrintDebugTag(Address.ToString("x"));
 
             Boolean Success;
-            return Engine.Memory.Read<UInt64>(Address.ToIntPtr(), out Success);
+            return EngineCore.Memory.Read<UInt64>(Address.ToIntPtr(), out Success);
         }
 
         public Single ReadSingle(UInt64 Address)
@@ -443,7 +443,7 @@ namespace Anathema.Source.LuaEngine.Memory
             this.PrintDebugTag(Address.ToString("x"));
 
             Boolean Success;
-            return Engine.Memory.Read<Single>(Address.ToIntPtr(), out Success);
+            return EngineCore.Memory.Read<Single>(Address.ToIntPtr(), out Success);
         }
 
         public Double ReadDouble(UInt64 Address)
@@ -451,7 +451,7 @@ namespace Anathema.Source.LuaEngine.Memory
             this.PrintDebugTag(Address.ToString("x"));
 
             Boolean Success;
-            return Engine.Memory.Read<Double>(Address.ToIntPtr(), out Success);
+            return EngineCore.Memory.Read<Double>(Address.ToIntPtr(), out Success);
         }
 
         public Byte[] ReadBytes(UInt64 Address, Int32 Count)
@@ -459,7 +459,7 @@ namespace Anathema.Source.LuaEngine.Memory
             this.PrintDebugTag(Address.ToString("x"), Count.ToString());
 
             Boolean Success;
-            return Engine.Memory.ReadBytes(Address.ToIntPtr(), Count, out Success);
+            return EngineCore.Memory.ReadBytes(Address.ToIntPtr(), Count, out Success);
         }
 
         // Writing
@@ -467,77 +467,77 @@ namespace Anathema.Source.LuaEngine.Memory
         {
             this.PrintDebugTag(Address.ToString("x"), Value.ToString());
 
-            Engine.Memory.Write<SByte>(Address.ToIntPtr(), Value);
+            EngineCore.Memory.Write<SByte>(Address.ToIntPtr(), Value);
         }
 
         public void WriteByte(UInt64 Address, Byte Value)
         {
             this.PrintDebugTag(Address.ToString("x"), Value.ToString());
 
-            Engine.Memory.Write<Byte>(Address.ToIntPtr(), Value);
+            EngineCore.Memory.Write<Byte>(Address.ToIntPtr(), Value);
         }
 
         public void WriteInt16(UInt64 Address, Int16 Value)
         {
             this.PrintDebugTag(Address.ToString("x"), Value.ToString());
 
-            Engine.Memory.Write<Int16>(Address.ToIntPtr(), Value);
+            EngineCore.Memory.Write<Int16>(Address.ToIntPtr(), Value);
         }
 
         public void WriteInt32(UInt64 Address, Int32 Value)
         {
             this.PrintDebugTag(Address.ToString("x"), Value.ToString());
 
-            Engine.Memory.Write<Int32>(Address.ToIntPtr(), Value);
+            EngineCore.Memory.Write<Int32>(Address.ToIntPtr(), Value);
         }
 
         public void WriteInt64(UInt64 Address, Int64 Value)
         {
             this.PrintDebugTag(Address.ToString("x"), Value.ToString());
 
-            Engine.Memory.Write<Int64>(Address.ToIntPtr(), Value);
+            EngineCore.Memory.Write<Int64>(Address.ToIntPtr(), Value);
         }
 
         public void WriteUInt16(UInt64 Address, UInt16 Value)
         {
             this.PrintDebugTag(Address.ToString("x"), Value.ToString());
 
-            Engine.Memory.Write<UInt16>(Address.ToIntPtr(), Value);
+            EngineCore.Memory.Write<UInt16>(Address.ToIntPtr(), Value);
         }
 
         public void WriteUInt32(UInt64 Address, UInt32 Value)
         {
             this.PrintDebugTag(Address.ToString("x"), Value.ToString());
 
-            Engine.Memory.Write<UInt32>(Address.ToIntPtr(), Value);
+            EngineCore.Memory.Write<UInt32>(Address.ToIntPtr(), Value);
         }
 
         public void WriteUInt64(UInt64 Address, UInt64 Value)
         {
             this.PrintDebugTag(Address.ToString("x"), Value.ToString());
 
-            Engine.Memory.Write<UInt64>(Address.ToIntPtr(), Value);
+            EngineCore.Memory.Write<UInt64>(Address.ToIntPtr(), Value);
         }
 
         public void WriteSingle(UInt64 Address, Single Value)
         {
             this.PrintDebugTag(Address.ToString("x"), Value.ToString());
 
-            Engine.Memory.Write<Single>(Address.ToIntPtr(), Value);
+            EngineCore.Memory.Write<Single>(Address.ToIntPtr(), Value);
         }
 
         public void WriteDouble(UInt64 Address, Double Value)
         {
             this.PrintDebugTag(Address.ToString("x"), Value.ToString());
 
-            Engine.Memory.Write<Double>(Address.ToIntPtr(), Value);
+            EngineCore.Memory.Write<Double>(Address.ToIntPtr(), Value);
         }
 
         public void WriteBytes(UInt64 Address, Byte[] Values)
         {
             this.PrintDebugTag(Address.ToString("x"));
 
-            Engine.Memory.WriteBytes(Address.ToIntPtr(), Values);
+            EngineCore.Memory.WriteBytes(Address.ToIntPtr(), Values);
         }
 
     } // End interface

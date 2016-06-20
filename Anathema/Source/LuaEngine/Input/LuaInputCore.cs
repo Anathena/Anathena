@@ -5,7 +5,7 @@ namespace Anathema.Source.LuaEngine.Input
 {
     class LuaInputCore : IInputCore, IProcessObserver
     {
-        private EngineCore Engine;
+        private EngineCore EngineCore;
 
         public LuaInputCore()
         {
@@ -17,9 +17,9 @@ namespace Anathema.Source.LuaEngine.Input
             ProcessSelector.GetInstance().Subscribe(this);
         }
 
-        public void UpdateEngineCore(EngineCore Engine)
+        public void UpdateEngineCore(EngineCore EngineCore)
         {
-            this.Engine = Engine;
+            this.EngineCore = EngineCore;
         }
 
     } // End class

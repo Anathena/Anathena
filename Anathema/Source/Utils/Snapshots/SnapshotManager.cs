@@ -94,7 +94,7 @@ namespace Anathema.Source.Utils.Snapshots
                 if (Settings.GetInstance().GetIsUserMode())
                 {
                     StartAddress = IntPtr.Zero;
-                    EndAddress = IntPtr.Zero.MaxUserMode(EngineCore.Memory.Is32Bit());
+                    EndAddress = IntPtr.Zero.MaxUserMode(EngineCore.Memory.IsProcess32Bit());
                 }
                 else
                 {
@@ -106,7 +106,7 @@ namespace Anathema.Source.Utils.Snapshots
             else
             {
                 StartAddress = IntPtr.Zero;
-                EndAddress = IntPtr.Zero.MaxUserMode(EngineCore.Memory.Is32Bit());
+                EndAddress = IntPtr.Zero.MaxUserMode(EngineCore.Memory.IsProcess32Bit());
                 RequiredPageFlags = 0;
                 ExcludedPageFlags = 0;
                 AllowedTypeFlags = MemoryTypeEnum.None | MemoryTypeEnum.Private | MemoryTypeEnum.Image | MemoryTypeEnum.Mapped;
