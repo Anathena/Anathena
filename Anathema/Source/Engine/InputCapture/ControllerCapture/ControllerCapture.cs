@@ -3,18 +3,21 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace Anathema.Source.Engine.InputCapture.ControllerHook
+namespace Anathema.Source.Engine.InputCapture.ControllerCapture
 {
-    class ControllerEvents : IControllerEvents
+    class ControllerCapture : IControllerSubject
     {
-        public ControllerEvents()
+        private DirectInput DirectInput;
+        private Guid JoystickGuid;
+        private Joystick Joystick;
+
+        public ControllerCapture()
         {
             // Initialize DirectInput
-            DirectInput DirectInput = new DirectInput();
+            DirectInput = new DirectInput();
 
             // Find a Joystick Guid
-            Guid JoystickGuid = Guid.Empty;
-
+            JoystickGuid = Guid.Empty;
             foreach (DeviceInstance DeviceInstance in DirectInput.GetDevices(DeviceType.Gamepad, DeviceEnumerationFlags.AllDevices))
                 JoystickGuid = DeviceInstance.InstanceGuid;
 
@@ -26,24 +29,26 @@ namespace Anathema.Source.Engine.InputCapture.ControllerHook
             // If Joystick not found, throws an error
             if (JoystickGuid == Guid.Empty)
             {
-
+                // TODO: Resort to like xInput or something here??? IDK
             }
 
             // Instantiate the joystick
-            Joystick Joystick = new Joystick(DirectInput, JoystickGuid);
-
-            Console.WriteLine("Found Joystick/Gamepad with GUID: {0}", JoystickGuid);
+            Joystick = new Joystick(DirectInput, JoystickGuid);
 
             // Query all suported ForceFeedback effects
             IList<EffectInfo> AllEffects = Joystick.GetEffects();
             foreach (EffectInfo EffectInfo in AllEffects)
                 Console.WriteLine("Effect available {0}", EffectInfo.Name);
 
-            // Set BufferSize in order to use buffered data.
             Joystick.Properties.BufferSize = 128;
-
-            // Acquire the joystick
             Joystick.Acquire();
+        }
+
+        public void Update()
+        {
+            return;
+            // TODO: maybe use this object
+            var k = Joystick.GetCurrentState();
 
             // Poll events from joystick
             Task.Run(() =>

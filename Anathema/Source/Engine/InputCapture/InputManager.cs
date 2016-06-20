@@ -1,43 +1,44 @@
-﻿using Anathema.Source.Engine.InputCapture.ControllerHook;
-using Anathema.Source.Engine.InputCapture.MouseKeyHook;
-using System;
-using System.Windows.Forms;
+﻿using Anathema.Source.Engine.InputCapture.ControllerCapture;
+using Anathema.Source.Engine.InputCapture.KeyboardCapture;
+using Anathema.Source.Engine.InputCapture.MouseCapture;
 
 namespace Anathema.Source.Engine.InputCapture
 {
     public class InputManager : IInputManager
     {
-        private IKeyboardMouseEvents KeyboardMouseEvents;
-        private IControllerEvents ControllerEvents;
+        private IControllerSubject ControllerSubject;
+        private IKeyboardSubject KeyboardSubject;
+        private IMouseSubject MouseSubject;
 
         public InputManager()
         {
-            ControllerEvents = new ControllerEvents();
-            KeyboardMouseEvents = MouseKeyCapture.GlobalEvents();
+            ControllerSubject = new ControllerCapture.ControllerCapture();
+            KeyboardSubject = new KeyboardCapture.KeyboardCapture();
+            MouseSubject = new MouseCapture.MouseCapture();
+
+            Update();
         }
 
-        public IKeyboardMouseEvents GetMouseKeyHook()
+        public IControllerSubject GetControllerCapture()
         {
-
-            KeyboardMouseEvents.KeyUp += GlobalHookKeyUp;
-            KeyboardMouseEvents.KeyDown += GlobalHookKeyDown;
-
-            return KeyboardMouseEvents;
+            return ControllerSubject;
         }
 
-        public IControllerEvents GetControllerHook()
+        public IKeyboardSubject GetKeyboardCapture()
         {
-            throw new NotImplementedException();
+            return KeyboardSubject;
         }
 
-        private void GlobalHookKeyUp(Object Sender, KeyEventArgs E)
+        public IMouseSubject GetMouseCapture()
         {
-
+            return MouseSubject;
         }
 
-        private void GlobalHookKeyDown(Object Sender, KeyEventArgs E)
+        private void Update()
         {
-
+            ControllerSubject.Update();
+            KeyboardSubject.Update();
+            MouseSubject.Update();
         }
 
     } // End class

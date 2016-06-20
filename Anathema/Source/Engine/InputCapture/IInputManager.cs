@@ -1,14 +1,16 @@
-﻿using Anathema.Source.Engine.InputCapture.ControllerHook;
-using Anathema.Source.Engine.InputCapture.MouseKeyHook;
+﻿using Anathema.Source.Engine.InputCapture.ControllerCapture;
+using Anathema.Source.Engine.InputCapture.KeyboardCapture;
+using Anathema.Source.Engine.InputCapture.MouseCapture;
 
 namespace Anathema.Source.Engine.InputCapture
 {
     public interface IInputManager
     {
+        IKeyboardSubject GetKeyboardCapture();
 
-        IKeyboardMouseEvents GetMouseKeyHook();
+        IMouseSubject GetMouseCapture();
 
-        IControllerEvents GetControllerHook();
+        IControllerSubject GetControllerCapture();
 
     } // End class
 
