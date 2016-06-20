@@ -2,7 +2,6 @@
 using Anathema.Source.Utils;
 using Anathema.Source.Utils.Extensions;
 using Anathema.Source.Utils.MVP;
-using Anathema.Source.Utils.Registration;
 using System;
 using System.Deployment.Application;
 using System.Diagnostics;
@@ -45,9 +44,6 @@ namespace Anathema.GUI
         // EDIT MENU ITEMS
         private GUISettings GUISettings;
 
-        // HELP ITEMS
-        private GUIRegistration GUIRegistration;
-
         // Variables
         private String Title;
         private Object AccessLock;
@@ -63,7 +59,6 @@ namespace Anathema.GUI
             InitializeControls();
             InitializeStatus();
 
-            // CheckRegistration();
             CreateTools();
 
             this.Show();
@@ -153,28 +148,6 @@ namespace Anathema.GUI
         {
             return; // DISABLED FOR NOW
             ContentPanel.SaveAsXml(ConfigFile);
-        }
-
-        private void CheckRegistration()
-        {
-            if (RegistrationManager.GetInstance().IsRegistered())
-                return;
-
-            if (RegistrationManager.GetInstance().IsTrialMode())
-            {
-                TimeSpan RemainingTime = RegistrationManager.GetInstance().GetRemainingTime();
-
-                // Append trial mode remaining time
-                this.Text += " - Trial Mode";
-                MessageBoxEx.Show(this, RemainingTime.ToString("%d") + " days, " + RemainingTime.ToString("%h") + " hours remaining!\nPlease buy this I am broke and live with my parents.", "Trial mode");
-
-                return;
-            }
-
-            MessageBoxEx.Show(this, "Trial has expired! Please purchase Anathema to continue" + Environment.NewLine + Environment.NewLine +
-                "Buy this if you enjoy it so I can move out of my parents' house");
-            CreateRegistration();
-            Application.Exit();
         }
 
         private void CreateTools()
@@ -448,20 +421,6 @@ namespace Anathema.GUI
             });
         }
 
-        private void CreateRegistration()
-        {
-            ControlThreadingHelper.InvokeControlAction(GUIRegistration, () =>
-            {
-                using (TimedLock.Lock(AccessLock))
-                {
-                    if (GUIRegistration == null || GUIRegistration.IsDisposed)
-                        GUIRegistration = new GUIRegistration();
-
-                    GUIRegistration.ShowDialog(this);
-                }
-            });
-        }
-
         private void CreateSettings()
         {
             ControlThreadingHelper.InvokeControlAction(GUISettings, () =>
@@ -658,11 +617,6 @@ namespace Anathema.GUI
         private void SettingsToolStripMenuItem_Click(Object Sender, EventArgs E)
         {
             CreateSettings();
-        }
-
-        private void RegisterToolStripMenuItem_Click(Object Sender, EventArgs E)
-        {
-            CreateRegistration();
         }
 
         private void OpenToolStripMenuItem_Click(Object Sender, EventArgs E)
