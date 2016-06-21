@@ -1,4 +1,6 @@
-﻿using Gecko;
+﻿using Anathema.Source.Engine;
+using Anathema.Source.Engine.Processes;
+using Gecko;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -6,11 +8,12 @@ using System.Windows.Forms;
 
 namespace Anathema.Source.Utils.Browser
 {
-    class BrowserHelper
+    class BrowserHelper : IProcessObserver
     {
         // Singleton instance of Registration Manager
         private static Lazy<BrowserHelper> BrowserHelperInstance = new Lazy<BrowserHelper>(() => { return new BrowserHelper(); });
 
+        private EngineCore EngineCore;
         private static Boolean RunOnce;
         private static Object InitializeLock;
         private List<String> BackgroundDownloadTags;
@@ -21,6 +24,18 @@ namespace Anathema.Source.Utils.Browser
             InitializeLock = new Object();
             BackgroundDownloadTags = new List<String>();
             RunOnce = true;
+
+            InitializeProcessObserver();
+        }
+
+        public void InitializeProcessObserver()
+        {
+            ProcessSelector.GetInstance().Subscribe(this);
+        }
+
+        public void UpdateEngineCore(EngineCore EngineCore)
+        {
+            this.EngineCore = EngineCore;
         }
 
         public static BrowserHelper GetInstance()
@@ -40,10 +55,10 @@ namespace Anathema.Source.Utils.Browser
                 if (!RunOnce)
                     return;
 
-                if (!Environment.Is64BitProcess)
+                if (EngineCore.Memory.IsAnathema32Bit())
                     Xpcom.Initialize(Path.Combine(Path.GetDirectoryName(Application.ExecutablePath), "xulrunner-32"));
 
-                if (Environment.Is64BitProcess)
+                if (EngineCore.Memory.IsAnathema64Bit())
                     Xpcom.Initialize(Path.Combine(Path.GetDirectoryName(Application.ExecutablePath), "xulrunner-64"));
 
                 RunOnce = false;

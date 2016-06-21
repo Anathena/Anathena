@@ -87,9 +87,6 @@ namespace Anathema.Source.Engine.OperatingSystems.Windows
             // Save the reference of the process
             Native = Process;
 
-            // Open the process with all rights
-            Handle = MemoryCore.OpenProcess(ProcessAccessFlags.AllAccess, Process.Id);
-
             // Create instances of the factories
             Factories = new List<IFactory>();
             Factories.AddRange(new IFactory[]
@@ -97,6 +94,9 @@ namespace Anathema.Source.Engine.OperatingSystems.Windows
                 Memory = new MemoryFactory(this),
                 Modules = new ModuleFactory(this),
             });
+
+            // Open the process with all rights
+            Handle = MemoryCore.OpenProcess(ProcessAccessFlags.AllAccess, Process);
         }
 
         /// <summary>
@@ -126,14 +126,13 @@ namespace Anathema.Source.Engine.OperatingSystems.Windows
         public virtual void Dispose()
         {
             // Raise the event OnDispose
-            if (OnDispose != null)
-                OnDispose(this, new EventArgs());
+            OnDispose?.Invoke(this, new EventArgs());
 
             // Dispose all factories
-            Factories.ForEach(factory => factory.Dispose());
+            Factories?.ForEach(X => X.Dispose());
 
             // Close the process handle
-            Handle.Close();
+            Handle?.Close();
 
             // Avoid the finalizer
             GC.SuppressFinalize(this);
@@ -260,7 +259,7 @@ namespace Anathema.Source.Engine.OperatingSystems.Windows
         /// <param name="Address">The address where the array is read.</param>
         /// <param name="Count">The number of cells.</param>
         /// <returns>The array of bytes.</returns>
-        public byte[] ReadBytes(IntPtr Address, Int32 Count, out Boolean Success)
+        public Byte[] ReadBytes(IntPtr Address, Int32 Count, out Boolean Success)
         {
             return MemoryCore.ReadBytes(Handle, Address, Count, out Success);
         }
@@ -414,8 +413,9 @@ namespace Anathema.Source.Engine.OperatingSystems.Windows
                 return true;
 
             Boolean IsWow64;
-            if (!IsWow64Process(Native.Handle, out IsWow64))
-                return false; // Error
+            if (!IsWow64Process(Native == null ? IntPtr.Zero : Native.Handle, out IsWow64))
+                return true; // Error, assume 32 bit
+
             return IsWow64;
         }
 
@@ -482,7 +482,7 @@ namespace Anathema.Source.Engine.OperatingSystems.Windows
 
             List<RemoteVirtualPage> Pages = new List<RemoteVirtualPage>(Memory.VirtualPages(StartAddress, EndAddress, RequiredFlags, ExcludedFlags, AllowedTypes));
             List<NormalizedRegion> Regions = new List<NormalizedRegion>();
-            Pages.ForEach(x => Regions.Add(new NormalizedRegion(x.BaseAddress, (Int32)x.Information.RegionSize)));
+            Pages.ForEach(X => Regions.Add(new NormalizedRegion(X.BaseAddress, (Int32)X.Information.RegionSize)));
 
             return Regions;
         }

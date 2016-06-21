@@ -50,6 +50,7 @@ namespace Anathema.Source.Engine.Processes
         private ProcessSelector()
         {
             ProcessObservers = new List<IProcessObserver>();
+            EngineCore = new EngineCore(null);
         }
 
         public void OnGUIOpen() { }

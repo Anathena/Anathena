@@ -20,8 +20,6 @@ namespace Anathema.Source.Engine.InputCapture.KeyboardCapture
             Subjects = new List<IKeyboardObserver>();
 
             Keyboard = new Keyboard(DirectInput);
-
-            CurrentKeyboardState = Keyboard.GetCurrentState();
         }
 
         public void Subscribe(IKeyboardObserver Subject)

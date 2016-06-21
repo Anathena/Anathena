@@ -1,6 +1,5 @@
 ﻿using Anathema.Source.Engine.OperatingSystems.Windows.Native;
 using System;
-using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
 
@@ -11,23 +10,15 @@ namespace Anathema.Source.Engine.OperatingSystems.Windows.Helpers
     /// </summary>
     public static class HandleManipulator
     {
-        #region CloseHandle
         /// <summary>
         /// Closes an open object handle.
         /// </summary>
         /// <param name="Handle">A valid handle to an open object.</param>
         public static void CloseHandle(IntPtr Handle)
         {
-            // Check if the handle is valid
-            ValidateAsArgument(Handle, "handle");
-
-            // Close the handle
-            if (!NativeMethods.CloseHandle(Handle))
-                throw new Win32Exception("Couldn't close the handle correctly.");
+            NativeMethods.CloseHandle(Handle);
         }
-        #endregion
 
-        #region HandleToProcess
         /// <summary>
         /// Converts an handle into a <see cref="Process"/> object assuming this is a process handle.
         /// </summary>
@@ -38,18 +29,17 @@ namespace Anathema.Source.Engine.OperatingSystems.Windows.Helpers
             // Search the process by iterating the processes list
             return Process.GetProcesses().First(X => X.Id == HandleToProcessId(ProcessHandle));
         }
-        #endregion
 
-        #region HandleToProcessId
         /// <summary>
         /// Converts an handle into a process id assuming this is a process handle.
         /// </summary>
         /// <param name="ProcessHandle">A valid handle to an opened process.</param>
         /// <returns>A process id from the specified handle.</returns>
-        public static int HandleToProcessId(SafeMemoryHandle ProcessHandle)
+        public static Int32 HandleToProcessId(SafeMemoryHandle ProcessHandle)
         {
             // Check if the handle is valid
-            ValidateAsArgument(ProcessHandle, "processHandle");
+            if (!ValidateAsArgument(ProcessHandle))
+                return 0;
 
             // Find the process id
             Int32 ProcessID = NativeMethods.GetProcessId(ProcessHandle);
@@ -58,13 +48,9 @@ namespace Anathema.Source.Engine.OperatingSystems.Windows.Helpers
             if (ProcessID != 0)
                 return ProcessID;
 
-            // Else the function failed, throws an exception
-            throw new Win32Exception("Couldn't find the process id of the specified handle.");
+            return 0;
         }
 
-        #endregion
-
-        #region HandleToThread
         /// <summary>
         /// Converts an handle into a <see cref="ProcessThread"/> object assuming this is a thread handle.
         /// </summary>
@@ -80,21 +66,19 @@ namespace Anathema.Source.Engine.OperatingSystems.Windows.Helpers
                     return ProcessThread;
             }
 
-            // If no thread was found, throws a exception like the First() function with no element
-            throw new InvalidOperationException("Sequence contains no matching element");
+            return null;
         }
-        #endregion
 
-        #region HandleToThreadId
         /// <summary>
         /// Converts an handle into a thread id assuming this is a thread handle.
         /// </summary>
         /// <param name="ThreadHandle">A valid handle to an opened thread.</param>
         /// <returns>A thread id from the specified handle.</returns>
-        public static int HandleToThreadId(SafeMemoryHandle ThreadHandle)
+        public static Int32 HandleToThreadId(SafeMemoryHandle ThreadHandle)
         {
             // Check if the handle is valid
-            ValidateAsArgument(ThreadHandle, "threadHandle");
+            if (!ValidateAsArgument(ThreadHandle))
+                return 0;
 
             // Find the thread id
             Int32 ThreadID = NativeMethods.GetThreadId(ThreadHandle);
@@ -103,29 +87,7 @@ namespace Anathema.Source.Engine.OperatingSystems.Windows.Helpers
             if (ThreadID != 0)
                 return ThreadID;
 
-            //Else the function failed, throws an exception
-            throw new Win32Exception("Couldn't find the thread id of the specified handle.");
-        }
-
-        #endregion
-
-        #region ValidateAsArgument
-        /// <summary>
-        /// Validates an handle to fit correctly as argument.
-        /// </summary>
-        /// <param name="Handle">A handle to validate.</param>
-        /// <param name="ArgumentName">The name of the argument that represents the handle in its original function.</param>
-        public static Boolean ValidateAsArgument(IntPtr Handle, String ArgumentName)
-        {
-            // Check if the handle is not null
-            if (Handle == null)
-                return false;// throw new ArgumentNullException(argumentName);
-
-            // Check if the handle is valid
-            if (Handle == IntPtr.Zero)
-                return false;// throw new ArgumentException("The handle is not valid.", argumentName);
-
-            return true;
+            return 0;
         }
 
         /// <summary>
@@ -133,17 +95,18 @@ namespace Anathema.Source.Engine.OperatingSystems.Windows.Helpers
         /// </summary>
         /// <param name="Handle">A handle to validate.</param>
         /// <param name="ArgumentName">The name of the argument that represents the handle in its original function.</param>
-        public static void ValidateAsArgument(SafeMemoryHandle Handle, String ArgumentName)
+        public static Boolean ValidateAsArgument(SafeMemoryHandle Handle)
         {
             // Check if the handle is not null
             if (Handle == null)
-                throw new ArgumentNullException(ArgumentName);
+                return false;
 
             // Check if the handle is valid
             if (Handle.IsClosed || Handle.IsInvalid)
-                throw new ArgumentException("The handle is not valid or closed.", ArgumentName);
+                return false;
+
+            return true;
         }
-        #endregion
 
     } // End class
 

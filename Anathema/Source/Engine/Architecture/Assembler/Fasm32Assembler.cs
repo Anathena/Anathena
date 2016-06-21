@@ -16,7 +16,7 @@ namespace Anathema.Source.Engine.Architecture.Assembler
     /// </summary>
     public class Fasm32Assembler : IAssembler
     {
-        private const String FASMHelperExecutable = "FASMHelper.exe";
+        private String FASMHelperExecutable = "FASMHelper.exe";
         private Process FASMHelper;
         private IpcChannel IpcChannel;
         private ISharedAssemblyInterface FASMObj;

@@ -4,6 +4,7 @@ using Anathema.Source.Engine.OperatingSystems.Windows.Native;
 using Anathema.Source.Utils.Extensions;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace Anathema.Source.Engine.OperatingSystems.Windows.Memory
 {
@@ -12,7 +13,6 @@ namespace Anathema.Source.Engine.OperatingSystems.Windows.Memory
     /// </summary>
     public static class MemoryCore
     {
-        #region Allocate
         /// <summary>
         /// Reserves a region of memory within the virtual address space of a specified process.
         /// </summary>
@@ -24,42 +24,22 @@ namespace Anathema.Source.Engine.OperatingSystems.Windows.Memory
         public static IntPtr Allocate(SafeMemoryHandle ProcessHandle, Int32 Size, MemoryProtectionFlags ProtectionFlags = MemoryProtectionFlags.ExecuteReadWrite,
             MemoryAllocationFlags AllocationFlags = MemoryAllocationFlags.Commit)
         {
-            // Check if the handle is valid
-            HandleManipulator.ValidateAsArgument(ProcessHandle, "processHandle");
-
             // Allocate a memory page
             IntPtr Address = NativeMethods.VirtualAllocEx(ProcessHandle, IntPtr.Zero, Size, AllocationFlags, ProtectionFlags);
 
-            // Check whether the memory page is valid
-            if (Address != IntPtr.Zero)
-                return Address;
-
-            // If the pointer isn't valid, throws an exception
-            // throw new Win32Exception(String.Format("Couldn't allocate memory of {0} byte(s).", Size));
             return Address;
         }
-        #endregion
 
-        #region CloseHandle
         /// <summary>
         /// Closes an open object handle.
         /// </summary>
         /// <param name="Handle">A valid handle to an open object.</param>
         public static void CloseHandle(IntPtr Handle)
         {
-            // Check if the handle is valid
-            HandleManipulator.ValidateAsArgument(Handle, "handle");
-
             // Close the handle
-            if (!NativeMethods.CloseHandle(Handle))
-            {
-                // throw new Win32Exception(String.Format("Couldn't close he handle 0x{0}.", Handle));
-            }
+            NativeMethods.CloseHandle(Handle);
         }
 
-        #endregion
-
-        #region Free
         /// <summary>
         /// Releases a region of memory within the virtual address space of a specified process.
         /// </summary>
@@ -67,72 +47,45 @@ namespace Anathema.Source.Engine.OperatingSystems.Windows.Memory
         /// <param name="Address">A pointer to the starting address of the region of memory to be freed.</param>
         public static void Free(SafeMemoryHandle ProcessHandle, IntPtr Address)
         {
-            // Check if the handles are valid
-            HandleManipulator.ValidateAsArgument(ProcessHandle, "processHandle");
-            HandleManipulator.ValidateAsArgument(Address, "address");
-
             // Free the memory
-            if (!NativeMethods.VirtualFreeEx(ProcessHandle, Address, 0, MemoryReleaseFlags.Release))
-            {
-                // If the memory wasn't correctly freed, throws an exception
-                // throw new Win32Exception(String.Format("The memory page 0x{0} cannot be freed.", Address.ToString("X")));
-            }
+            NativeMethods.VirtualFreeEx(ProcessHandle, Address, 0, MemoryReleaseFlags.Release);
         }
-
-        #endregion
 
         #region NtQueryInformationProcess
         /// <summary>
         /// etrieves information about the specified process.
         /// </summary>
-        /// <param name="processHandle">A handle to the process to query.</param>
+        /// <param name="ProcessHandle">A handle to the process to query.</param>
         /// <returns>A <see cref="ProcessBasicInformation"/> structure containg process information.</returns>
-        public static ProcessBasicInformation NtQueryInformationProcess(SafeMemoryHandle processHandle)
+        public static ProcessBasicInformation NtQueryInformationProcess(SafeMemoryHandle ProcessHandle)
         {
-            // Check if the handle is valid
-            HandleManipulator.ValidateAsArgument(processHandle, "processHandle");
-
             // Create a structure to store process info
             ProcessBasicInformation ProcessInfo = new ProcessBasicInformation();
 
-            // Get the process info
-            Int32 Result = NativeMethods.NtQueryInformationProcess(processHandle, ProcessInformationClass.ProcessBasicInformation, ref ProcessInfo, ProcessInfo.Size, IntPtr.Zero);
-
-            // If the function succeeded
-            if (Result == 0)
+            // Check if the handle is valid
+            if (!HandleManipulator.ValidateAsArgument(ProcessHandle))
                 return ProcessInfo;
 
-            // Else, couldn't get the process info, throws an exception
-            // throw new ApplicationException(string.Format("Couldn't get the information from the process, error code '{0}'.", Result));
+            // Get the process info
+            Int32 Result = NativeMethods.NtQueryInformationProcess(ProcessHandle, ProcessInformationClass.ProcessBasicInformation, ref ProcessInfo, ProcessInfo.Size, IntPtr.Zero);
+
             return ProcessInfo;
         }
 
-        #endregion
-
-        #region OpenProcess
         /// <summary>
         /// Opens an existing local process object.
         /// </summary>
         /// <param name="AccessFlags">The access level to the process object.</param>
-        /// <param name="ProcessId">The identifier of the local process to be opened.</param>
+        /// <param name="Process">The identifier of the local process to be opened.</param>
         /// <returns>An open handle to the specified process.</returns>
-        public static SafeMemoryHandle OpenProcess(ProcessAccessFlags AccessFlags, Int32 ProcessId)
+        public static SafeMemoryHandle OpenProcess(ProcessAccessFlags AccessFlags, Process Process)
         {
             // Get an handle from the remote process
-            SafeMemoryHandle Handle = NativeMethods.OpenProcess(AccessFlags, false, ProcessId);
+            SafeMemoryHandle Handle = NativeMethods.OpenProcess(AccessFlags, false, Process == null ? 0 : Process.Id);
 
-            // Check whether the handle is valid
-            if (!Handle.IsInvalid && !Handle.IsClosed)
-                return Handle;
-
-            // Else the handle isn't valid, throws an exception
-            // throw new Win32Exception(String.Format("Couldn't open the process {0}.", ProcessId));
             return Handle;
         }
 
-        #endregion
-
-        #region ReadBytes
         /// <summary>
         /// Reads an array of bytes in the memory form the target process.
         /// </summary>
@@ -140,29 +93,18 @@ namespace Anathema.Source.Engine.OperatingSystems.Windows.Memory
         /// <param name="Address">A pointer to the base address in the specified process from which to read.</param>
         /// <param name="Size">The number of bytes to be read from the specified process.</param>
         /// <returns>The collection of read bytes.</returns>
-        public static byte[] ReadBytes(SafeMemoryHandle ProcessHandle, IntPtr Address, Int32 Size, out Boolean Success)
+        public static Byte[] ReadBytes(SafeMemoryHandle ProcessHandle, IntPtr Address, Int32 Size, out Boolean Success)
         {
-            // Check if the handles are valid
-            HandleManipulator.ValidateAsArgument(ProcessHandle, "processHandle");
-            HandleManipulator.ValidateAsArgument(Address, "address");
-
             // Allocate the buffer
             Byte[] Buffer = new Byte[Size];
             Int32 BytesRead;
 
             // Read the data from the target process
             Success = (NativeMethods.ReadProcessMemory(ProcessHandle, Address, Buffer, Size, out BytesRead) && Size == BytesRead);
-            if (Success)
-                return Buffer;
 
-            // Else the data couldn't be read, throws an exception
-            // throw new Win32Exception(string.Format("Couldn't read {0} byte(s) from 0x{1}.", size, address.ToString("X")));
             return Buffer;
         }
 
-        #endregion
-
-        #region ChangeProtection
         /// <summary>
         /// Changes the protection on a region of committed pages in the virtual address space of a specified process.
         /// </summary>
@@ -173,22 +115,12 @@ namespace Anathema.Source.Engine.OperatingSystems.Windows.Memory
         /// <returns>The old protection of the region in a <see cref="Native.MemoryBasicInformation32"/> structure.</returns>
         public static MemoryProtectionFlags ChangeProtection(SafeMemoryHandle ProcessHandle, IntPtr Address, int Size, MemoryProtectionFlags protection)
         {
-            // Check if the handles are valid
-            HandleManipulator.ValidateAsArgument(ProcessHandle, "processHandle");
-            HandleManipulator.ValidateAsArgument(Address, "address");
-
             // Create the variable storing the old protection of the memory page
             MemoryProtectionFlags OldProtection;
 
             // Change the protection in the target process
-            if (NativeMethods.VirtualProtectEx(ProcessHandle, Address, Size, protection, out OldProtection))
-            {
-                // Return the old protection
-                return OldProtection;
-            }
+            NativeMethods.VirtualProtectEx(ProcessHandle, Address, Size, protection, out OldProtection);
 
-            // Else the protection couldn't be changed, throws an exception
-            // throw new Win32Exception(string.Format("Couldn't change the protection of the memory at 0x{0} of {1} byte(s) to {2}.", address.ToString("X"), size, protection));
             return OldProtection;
         }
 
@@ -250,12 +182,9 @@ namespace Anathema.Source.Engine.OperatingSystems.Windows.Memory
         public static IEnumerable<MemoryBasicInformation64> Query(SafeMemoryHandle ProcessHandle, IntPtr StartAddress, IntPtr EndAddress,
             MemoryProtectionFlags RequiredProtection, MemoryProtectionFlags ExcludedProtection, MemoryTypeEnum AllowedTypes)
         {
-            // Check if the handle is valid
-            HandleManipulator.ValidateAsArgument(ProcessHandle, "processHandle");
-
-            // The first address must be lower than the second
-            if (StartAddress.ToUInt64() >= EndAddress.ToUInt64())
-                throw new ArgumentException("The start address must be lower than the end address");
+            // Error checking
+            if (!HandleManipulator.ValidateAsArgument(ProcessHandle) || StartAddress.ToUInt64() >= EndAddress.ToUInt64())
+                yield return new MemoryBasicInformation64();
 
             // Create the variable storing the result of the call of VirtualQueryEx
             Int32 QueryResult;
@@ -363,10 +292,6 @@ namespace Anathema.Source.Engine.OperatingSystems.Windows.Memory
         /// <returns>The number of bytes written.</returns>
         public static Int32 WriteBytes(SafeMemoryHandle ProcessHandle, IntPtr Address, Byte[] ByteArray)
         {
-            // Check if the handles are valid
-            HandleManipulator.ValidateAsArgument(ProcessHandle, "processHandle");
-            HandleManipulator.ValidateAsArgument(Address, "address");
-
             // Create the variable storing the number of bytes written
             Int32 BytesWritten;
 
@@ -378,8 +303,6 @@ namespace Anathema.Source.Engine.OperatingSystems.Windows.Memory
                     return BytesWritten;
             }
 
-            // Else the data couldn't be written, throws an exception
-            // throw new Win32Exception(string.Format("Couldn't write {0} bytes to 0x{1}", byteArray.Length, address.ToString("X")));
             return 0;
         }
 
