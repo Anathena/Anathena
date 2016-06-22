@@ -17,7 +17,7 @@
     </layer>
     <layer Id="4058aa91-102f-4a50-b51b-52aa516a8fa9" name="Anathema">
       <childLayers>
-        <layer Id="dc9db3e4-3f72-400c-8053-29fa0d99695d" name="OS Interface">
+        <layer Id="dc9db3e4-3f72-400c-8053-29fa0d99695d" name="Engine">
           <dependencyToLayers>
             <dependencyFromLayerToLayer Id="39adf485-55a5-4404-9594-43f3baa51191" direction="Forward">
               <layerMoniker Id="6615d7b3-8f9b-4f18-8d2c-f44b6d30e3b9" />

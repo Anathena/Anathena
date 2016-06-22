@@ -23,21 +23,24 @@
   <Import Project="$(VSToolsPath)\ArchitectureTools\Microsoft.VisualStudio.TeamArchitect.ModelingProject.targets" Condition="'$(VSToolsPath)' != ''" />
   <ItemGroup>
     <Folder Include="ModelDefinition\" />
+    <Content Include="Architecture.dgml">
+      <SubType>Content</SubType>
+    </Content>
     <Content Include="ModelDefinition\Diagrams.uml">
       <SubType>Content</SubType>
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <Validate Include="Architecture.layerdiagram">
+    <Validate Include="HighLevelDesign.layerdiagram">
       <SubType>Content</SubType>
     </Validate>
-    <Validate Include="Architecture.layerdiagram.layout">
+    <Validate Include="HighLevelDesign.layerdiagram.layout">
       <SubType>Content</SubType>
-      <DependentUpon>Architecture.layerdiagram</DependentUpon>
+      <DependentUpon>HighLevelDesign.layerdiagram</DependentUpon>
     </Validate>
-    <Validate Include="Architecture.layerdiagram.suppressions">
+    <Validate Include="HighLevelDesign.layerdiagram.suppressions">
       <SubType>Content</SubType>
-      <DependentUpon>Architecture.layerdiagram</DependentUpon>
+      <DependentUpon>HighLevelDesign.layerdiagram</DependentUpon>
     </Validate>
   </ItemGroup>
 </Project>
