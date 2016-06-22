@@ -1,12 +1,19 @@
 ﻿using Anathema.Source.Engine.Processes;
 using Microsoft.Diagnostics.Runtime;
-using System.Diagnostics;
+using System;
+using System.Collections.Generic;
 
 namespace Anathema.Source.Engine.DotNetProfiler
 {
+    /// <summary>
+    /// Class to walk through the managed heap of a .NET process, allowing for the easy retrieval
+    /// of fully labeled objects.
+    /// </summary>
     class DotNetProfiler : IProcessObserver
     {
+        private const Int32 AttachTimeout = 2000;
         private EngineCore EngineCore;
+        private ClrRuntime Runtime;
 
         public DotNetProfiler()
         {
@@ -22,31 +29,47 @@ namespace Anathema.Source.Engine.DotNetProfiler
         {
             this.EngineCore = EngineCore;
 
+            Initialize();
         }
 
-        private static ClrRuntime CreateRuntime(Process Target)
+        private void Initialize()
         {
-            // Create the data target.  This tells us the versions of CLR loaded in the target process.
-            //DataTarget dataTarget = DataTarget.LoadCrashDump();
+            if (EngineCore == null || EngineCore.Memory.GetProcess() == null)
+                return;
 
-            // Note I just take the first version of CLR in the process.  You can loop over every loaded
-            // CLR to handle the SxS case where both v2 and v4 are loaded in the process.
-            //ClrInfo version = dataTarget.ClrVersions[0];
+            DataTarget DataTarget = DataTarget.AttachToProcess(EngineCore.Memory.GetProcess().Id, AttachTimeout);
+            ClrInfo Version = DataTarget?.ClrVersions[0]; // TODO: Handle case where multiple CLR versions may be loaded
+            Runtime = Version.CreateRuntime();
 
-            // Now that we have the DataTarget, the version of CLR, and the right dac, we create and return a
-            // ClrRuntime instance.
-            //  return version.CreateRuntime(dac);
-            return null;
+            Update();
         }
 
-        private void CollectModules()
+        private void Update()
         {
-            ClrRuntime Runtime = CreateRuntime(EngineCore.Memory.GetProcess());
+            if (Runtime == null)
+                return;
+
             ClrHeap Heap = Runtime.GetHeap();
+
+            Stack<UInt64> Roots = new Stack<UInt64>();
+
+            foreach (ClrRoot Root in Heap.EnumerateRoots())
+            {
+                // Ignore system namespaces
+                if (Root.Name.StartsWith("System.") || Root.Name.StartsWith("Microsoft."))
+                    continue;
+
+                ClrType ObjectType = Heap.GetObjectType(Root.Address);
+                Roots.Push(Root.Object);
+            }
 
             foreach (ClrSegment Segment in Heap.Segments)
             {
-
+                for (UInt64 SegmentObject = Segment.FirstObject; SegmentObject != 0; SegmentObject = Segment.NextObject(SegmentObject))
+                {
+                    // This gets the type of the object.
+                    ClrType ObjectType = Heap.GetObjectType(SegmentObject);
+                }
             }
         }
 

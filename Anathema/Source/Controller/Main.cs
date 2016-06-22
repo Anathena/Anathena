@@ -1,4 +1,5 @@
 ﻿using Anathema.Source.Engine;
+using Anathema.Source.Engine.DotNetProfiler;
 using Anathema.Source.Engine.Processes;
 using Anathema.Source.Prefilter;
 using Anathema.Source.Tables;
@@ -27,6 +28,8 @@ namespace Anathema.Source.Controller
             InitializeProcessObserver();
 
             SnapshotPrefilterFactory.GetSnapshotPrefilter(typeof(LinkedListSnapshotPrefilter)).BeginPrefilter();
+
+            DotNetProfiler TEMPDEBUG = new DotNetProfiler();
         }
 
         public void OnGUIOpen() { }

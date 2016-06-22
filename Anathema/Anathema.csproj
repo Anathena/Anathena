@@ -326,6 +326,7 @@
     <Compile Include="Source\Engine\InputCapture\MouseCapture\IMouseObserver.cs" />
     <Compile Include="Source\Engine\InputCapture\MouseCapture\IMouseSubject.cs" />
     <Compile Include="Source\Engine\InputCapture\MouseCapture\MouseCapture.cs" />
+    <Compile Include="Source\Engine\DotNetProfiler\DotNetProfiler.cs" />
     <Compile Include="Source\Prefilter\ISnapshotPrefilter.cs" />
     <Compile Include="Source\Prefilter\LinkedListSnapshotPrefilter.cs" />
     <Compile Include="Source\Prefilter\QueueSnapshotPrefilter.cs" />
@@ -1157,6 +1158,10 @@
     <ProjectReference Include="..\GeckoFX\Geckofx-Winforms\Geckofx-Winforms.csproj">
       <Project>{d7adc901-e1c4-480e-8f6d-b1ffd5cf87e8}</Project>
       <Name>Geckofx-Winforms</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Microsoft.Diagnostics.Runtime\Microsoft.Diagnostics.Runtime.csproj">
+      <Project>{a82126ca-23aa-41f1-8586-a5938d44d0a7}</Project>
+      <Name>Microsoft.Diagnostics.Runtime</Name>
     </ProjectReference>
     <ProjectReference Include="..\ScintillaNET\ScintillaNET\ScintillaNET.csproj">
       <Project>{22ae2386-60f1-476e-9303-61cdb0aac4cf}</Project>
