@@ -1,11 +1,11 @@
 ﻿// Copyright (c) Microsoft. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
+using Microsoft.Win32.SafeHandles;
 using System;
 using System.Diagnostics;
-using System.Runtime.InteropServices;
 using System.IO;
-using Microsoft.Win32.SafeHandles;
+using System.Runtime.InteropServices;
 
 namespace Microsoft.Diagnostics.Runtime
 {
@@ -26,7 +26,7 @@ namespace Microsoft.Diagnostics.Runtime
         {
             if (_context != null)
                 return;
-            
+
             if (IntPtr.Size == 4)
             {
                 _ipOffset = 184;
@@ -468,7 +468,7 @@ namespace Microsoft.Diagnostics.Runtime
         }
         #endregion
     }
-    
+
     internal class GCDesc
     {
         private static readonly int s_GCDescSize = IntPtr.Size * 2;

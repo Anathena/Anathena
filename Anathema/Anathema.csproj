@@ -356,7 +356,7 @@
     <Compile Include="Source\Engine\Hook\SpeedHack\ISpeedHackInterface.cs" />
     <Compile Include="Source\Utils\Browser\BrowserHelper.cs" />
     <Compile Include="Source\Utils\DotNetExplorer\IDotNetExplorerMVP.cs" />
-    <Compile Include="Source\Utils\DotNetExplorer\DotNetExplorerView.cs" />
+    <Compile Include="Source\Utils\DotNetExplorer\DotNetExplorer.cs" />
     <Compile Include="Source\Utils\Extensions\IEnumerableExtensions.cs" />
     <Compile Include="Source\Utils\Extensions\IntExtensions.cs" />
     <Compile Include="Source\Utils\Extensions\IntPtrExtensions.cs" />

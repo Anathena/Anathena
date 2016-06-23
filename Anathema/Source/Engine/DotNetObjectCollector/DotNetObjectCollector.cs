@@ -14,11 +14,10 @@ namespace Anathema.Source.Engine.DotNetObjectCollector
     {
         private static Lazy<DotNetObjectCollector> DotNetObjectCollectorInstance = new Lazy<DotNetObjectCollector>(() => { return new DotNetObjectCollector(); });
 
-        private const Int32 AttachTimeout = 2000;
-        private const Int32 RescanTime = 4000;
+        private const Int32 AttachTimeout = 4000;
+        private const Int32 RescanTime = 5000;
 
         private EngineCore EngineCore;
-        private ClrHeap Heap;
 
         private List<DotNetObject> ObjectTrees;
 
@@ -46,22 +45,15 @@ namespace Anathema.Source.Engine.DotNetObjectCollector
             Initialize();
         }
 
+        public List<DotNetObject> GetObjectTrees()
+        {
+            return ObjectTrees;
+        }
+
         private void Initialize()
         {
             if (EngineCore == null || EngineCore.Memory.GetProcess() == null)
                 return;
-
-            try
-            {
-                DataTarget DataTarget = DataTarget.AttachToProcess(EngineCore.Memory.GetProcess().Id, AttachTimeout);
-                ClrInfo Version = DataTarget?.ClrVersions[0]; // TODO: Handle case where multiple CLR versions may be loaded
-                ClrRuntime Runtime = Version.CreateRuntime();
-                Heap = Runtime.GetHeap();
-            }
-            catch
-            {
-
-            }
         }
 
         public override void Begin()
@@ -73,11 +65,28 @@ namespace Anathema.Source.Engine.DotNetObjectCollector
 
         protected override void Update()
         {
+            if (EngineCore == null || EngineCore.Memory.GetProcess() == null)
+                return;
+
+            ClrHeap Heap;
+            try
+            {
+                DataTarget DataTarget = DataTarget.AttachToProcess(EngineCore.Memory.GetProcess().Id, AttachTimeout, AttachFlag.Passive);
+                ClrInfo Version = DataTarget.ClrVersions[0]; // TODO: Handle case where multiple CLR versions may be loaded
+                ClrRuntime Runtime = Version.CreateRuntime();
+                Heap = Runtime.GetHeap();
+            }
+            catch
+            {
+                return;
+            }
+
             if (Heap == null)
                 return;
 
             List<DotNetObject> ObjectTrees = new List<DotNetObject>();
             HashSet<UInt64> Visited = new HashSet<UInt64>();
+
             try
             {
                 foreach (ClrRoot Root in Heap.EnumerateRoots())
@@ -101,7 +110,7 @@ namespace Anathema.Source.Engine.DotNetObjectCollector
                         Visited.Add(Root.Object);
                         ObjectTrees.Add(RootObject);
 
-                        AddChildren(Visited, RootObject, Root.Object);
+                        RecursiveBuild(Heap, Visited, RootObject, Root.Object);
                     }
                     catch { }
                 }
@@ -110,23 +119,22 @@ namespace Anathema.Source.Engine.DotNetObjectCollector
 
             this.ObjectTrees = ObjectTrees;
         }
-        private void AddChildren(HashSet<UInt64> Visited, DotNetObject Parent, UInt64 ParentRef)
+
+        private void RecursiveBuild(ClrHeap Heap, HashSet<UInt64> Visited, DotNetObject Parent, UInt64 ParentRef)
         {
-            ClrType Type = Heap.GetObjectType(ParentRef);
-
-            if (Type == null)
-                return;
-
-            Type.EnumerateRefsOfObject(ParentRef, delegate (UInt64 ChildObjectRef, Int32 Offset)
+            unchecked
             {
-                if (ChildObjectRef == 0 || Visited.Contains(ChildObjectRef))
-                    return;
+                Heap?.GetObjectType(ParentRef)?.EnumerateRefsOfObject(ParentRef, delegate (UInt64 ChildObjectRef, Int32 Offset)
+                {
+                    if (ChildObjectRef == 0 || Visited.Contains(ChildObjectRef))
+                        return;
 
-                DotNetObject Child = new DotNetObject(ChildObjectRef, Heap.GetObjectType(ChildObjectRef)?.ToString());
-                Visited.Add(ChildObjectRef);
-                Parent.AddChild(Child);
-                AddChildren(Visited, Child, ChildObjectRef);
-            });
+                    DotNetObject Child = new DotNetObject(ChildObjectRef, Heap.GetObjectType(ChildObjectRef)?.ToString());
+                    Visited.Add(ChildObjectRef);
+                    Parent.AddChild(Child);
+                    RecursiveBuild(Heap, Visited, Child, ChildObjectRef);
+                });
+            }
         }
 
         protected override void End() { }

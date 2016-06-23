@@ -34,7 +34,10 @@
             this.RightClickMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.SelectProcessToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.RefreshToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.GUIToolStrip = new System.Windows.Forms.ToolStrip();
+            this.RefreshButton = new System.Windows.Forms.ToolStripButton();
             this.RightClickMenu.SuspendLayout();
+            this.GUIToolStrip.SuspendLayout();
             this.SuspendLayout();
             // 
             // ProcessListView
@@ -44,11 +47,11 @@
             this.ProcessListView.Dock = System.Windows.Forms.DockStyle.Fill;
             this.ProcessListView.FullRowSelect = true;
             this.ProcessListView.LabelWrap = false;
-            this.ProcessListView.Location = new System.Drawing.Point(0, 0);
+            this.ProcessListView.Location = new System.Drawing.Point(0, 25);
             this.ProcessListView.MultiSelect = false;
             this.ProcessListView.Name = "ProcessListView";
             this.ProcessListView.ShowGroups = false;
-            this.ProcessListView.Size = new System.Drawing.Size(284, 261);
+            this.ProcessListView.Size = new System.Drawing.Size(284, 236);
             this.ProcessListView.TabIndex = 123;
             this.ProcessListView.TileSize = new System.Drawing.Size(16, 16);
             this.ProcessListView.UseCompatibleStateImageBehavior = false;
@@ -77,19 +80,44 @@
             this.RefreshToolStripMenuItem.Text = "Refresh";
             this.RefreshToolStripMenuItem.Click += new System.EventHandler(this.RefreshToolStripMenuItem_Click);
             // 
+            // GUIToolStrip
+            // 
+            this.GUIToolStrip.BackColor = System.Drawing.SystemColors.Control;
+            this.GUIToolStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.RefreshButton});
+            this.GUIToolStrip.Location = new System.Drawing.Point(0, 0);
+            this.GUIToolStrip.Name = "GUIToolStrip";
+            this.GUIToolStrip.Size = new System.Drawing.Size(284, 25);
+            this.GUIToolStrip.TabIndex = 149;
+            this.GUIToolStrip.Text = "Main Tool Strip";
+            // 
+            // RefreshButton
+            // 
+            this.RefreshButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.RefreshButton.Image = global::Anathema.Properties.Resources.Undo;
+            this.RefreshButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.RefreshButton.Name = "RefreshButton";
+            this.RefreshButton.Size = new System.Drawing.Size(23, 22);
+            this.RefreshButton.Text = "Undo Scan";
+            this.RefreshButton.Click += new System.EventHandler(this.RefreshButton_Click);
+            // 
             // GUIProcessSelector
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(284, 261);
             this.Controls.Add(this.ProcessListView);
+            this.Controls.Add(this.GUIToolStrip);
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "GUIProcessSelector";
             this.Text = "Process Selector";
             this.Resize += new System.EventHandler(this.GUIProcessSelector_Resize);
             this.RightClickMenu.ResumeLayout(false);
+            this.GUIToolStrip.ResumeLayout(false);
+            this.GUIToolStrip.PerformLayout();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -99,5 +127,7 @@
         private System.Windows.Forms.ContextMenuStrip RightClickMenu;
         private System.Windows.Forms.ToolStripMenuItem SelectProcessToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem RefreshToolStripMenuItem;
+        private System.Windows.Forms.ToolStrip GUIToolStrip;
+        private System.Windows.Forms.ToolStripButton RefreshButton;
     }
 }

@@ -1,5 +1,7 @@
 ﻿using Anathema.Source.Engine;
+using Anathema.Source.Engine.DotNetObjectCollector;
 using Anathema.Source.Engine.Processes;
+using System.Collections.Generic;
 
 namespace Anathema.Source.Utils.DotNetExplorer
 {
@@ -10,11 +12,15 @@ namespace Anathema.Source.Utils.DotNetExplorer
     {
         private EngineCore EngineCore;
 
+        // Event stubs
+        public event DotNetExplorerEventHandler EventRefreshObjectTrees;
+
         public DotNetExplorer()
         {
             InitializeProcessObserver();
-            Begin();
         }
+
+        public void OnGUIOpen() { }
 
         public void InitializeProcessObserver()
         {
@@ -25,33 +31,20 @@ namespace Anathema.Source.Utils.DotNetExplorer
         {
             this.EngineCore = EngineCore;
 
-            RefreshVirtualPages();
+            RefreshObjectTrees();
         }
 
-        public override void RefreshVirtualPages()
+        public void RefreshObjectTrees()
         {
             if (EngineCore == null)
                 return;
+
+            List<DotNetObject> ObjectTrees = DotNetObjectCollector.GetInstance().GetObjectTrees();
 
             DotNetExplorerEventArgs Args = new DotNetExplorerEventArgs();
-            OnEventUpdateVirtualPages(Args);
+            Args.ObjectTrees = ObjectTrees;
+            EventRefreshObjectTrees?.Invoke(this, Args);
         }
-
-        public override void Begin()
-        {
-            base.Begin();
-        }
-
-        protected override void Update()
-        {
-            base.Update();
-
-            if (EngineCore == null)
-                return;
-
-        }
-
-        protected override void End() { }
 
     } // End class
 

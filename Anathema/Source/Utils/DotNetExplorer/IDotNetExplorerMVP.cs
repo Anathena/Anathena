@@ -1,6 +1,6 @@
 ﻿using Anathema.Source.Engine.DotNetObjectCollector;
+using Anathema.Source.Engine.Processes;
 using Anathema.Source.Utils.MVP;
-using Anathema.Source.Utils.Setting;
 using System;
 using System.Collections.Generic;
 
@@ -9,33 +9,22 @@ namespace Anathema.Source.Utils.DotNetExplorer
     delegate void DotNetExplorerEventHandler(Object Sender, DotNetExplorerEventArgs Args);
     class DotNetExplorerEventArgs : EventArgs
     {
-        public List<DotNetObject> ObjectTrees;
+        public List<DotNetObject> ObjectTrees = null;
     }
 
     interface IDotNetExplorerView : IView
     {
         // Methods invoked by the presenter (upstream)
-        void UpdateVirtualPages(List<DotNetObject> ObjectTrees);
+        void UpdateObjectTrees(List<DotNetObject> ObjectTrees);
     }
 
-    abstract class IDotNetExplorerModel : RepeatedTask, IModel
+    interface IDotNetExplorerModel : IModel, IProcessObserver
     {
-        public void OnGUIOpen() { }
-
         // Events triggered by the model (upstream)
-        public event DotNetExplorerEventHandler EventUpdateVirtualPages;
-        protected virtual void OnEventUpdateVirtualPages(DotNetExplorerEventArgs E)
-        {
-            EventUpdateVirtualPages?.Invoke(this, E);
-        }
-
-        protected override void Update()
-        {
-            UpdateInterval = Settings.GetInstance().GetResultReadInterval();
-        }
+        event DotNetExplorerEventHandler EventRefreshObjectTrees;
 
         // Functions invoked by presenter (downstream)
-        public abstract void RefreshVirtualPages();
+        void RefreshObjectTrees();
     }
 
     class DotNetExplorerPresenter : Presenter<IDotNetExplorerView, IDotNetExplorerModel>
@@ -49,25 +38,28 @@ namespace Anathema.Source.Utils.DotNetExplorer
             this.Model = Model;
 
             // Bind events triggered by the model
-            Model.EventUpdateVirtualPages += EventUpdateVirtualPages;
+            Model.EventRefreshObjectTrees += EventRefreshObjectTrees;
 
             Model.OnGUIOpen();
         }
 
         #region Method definitions called by the view (downstream)
 
-        public void RefreshVirtualPages()
+        public void RefreshObjectTrees()
         {
-            Model.RefreshVirtualPages();
+            Model.RefreshObjectTrees();
         }
 
         #endregion
 
         #region Event definitions for events triggered by the model (upstream)
 
-        private void EventUpdateVirtualPages(Object Sender, DotNetExplorerEventArgs E)
+        private void EventRefreshObjectTrees(Object Sender, DotNetExplorerEventArgs E)
         {
-            View.UpdateVirtualPages(null);
+            if (E == null || E.ObjectTrees == null)
+                return;
+
+            View.UpdateObjectTrees(E.ObjectTrees);
         }
 
         #endregion

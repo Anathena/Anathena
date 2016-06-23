@@ -2,6 +2,7 @@
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
 using Microsoft.Diagnostics.Runtime.Desktop;
+using Microsoft.Diagnostics.Runtime.ICorDebug;
 using Microsoft.Diagnostics.Runtime.Interop;
 using Microsoft.Diagnostics.Runtime.Utilities;
 using System;
@@ -12,7 +13,6 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading;
-using Microsoft.Diagnostics.Runtime.ICorDebug;
 
 namespace Microsoft.Diagnostics.Runtime
 {
@@ -74,7 +74,7 @@ namespace Microsoft.Diagnostics.Runtime
         /// This is a reduced CLR used in other projects.
         /// </summary>
         CoreCLR = 1,
-        
+
         /// <summary>
         /// Used for .Net Native.
         /// </summary>
@@ -112,7 +112,7 @@ namespace Microsoft.Diagnostics.Runtime
         /// if one could not be found.
         /// </summary>
         public string LocalMatchingDac { get { return _dacLocation; } }
-        
+
         /// <summary>
         /// Creates a runtime from the given Dac file on disk.
         /// </summary>
@@ -646,7 +646,7 @@ namespace Microsoft.Diagnostics.Runtime
         /// <param name="bytesRead">The number of bytes actually read out of the target process.</param>
         /// <returns>True if any bytes were read at all, false if the read failed (and no bytes were read).</returns>
         bool ReadMemory(ulong address, IntPtr buffer, int bytesRequested, out int bytesRead);
-        
+
         /// <summary>
         /// Returns true if the data target is a minidump (or otherwise may not contain full heap data).
         /// </summary>
@@ -1578,7 +1578,15 @@ namespace Microsoft.Diagnostics.Runtime
         public uint GetPointerSize()
         {
             SetClientInstance();
-            int hr = _control.IsPointer64Bit();
+            int hr;
+            try
+            {
+                hr = _control.IsPointer64Bit();
+            }
+            catch
+            {
+                hr = 1;
+            }
             if (hr == 0)
                 return 8;
             else if (hr == 1)
@@ -2321,7 +2329,7 @@ namespace Microsoft.Diagnostics.Runtime
         [DllImport("kernel32.dll", SetLastError = true)]
         private static extern SafeWin32Handle OpenThread(ThreadAccess dwDesiredAccess, [MarshalAs(UnmanagedType.Bool)] bool bInheritHandle, uint dwThreadId);
         #endregion
-        
+
         private enum ThreadAccess : int
         {
             THREAD_ALL_ACCESS = (0x1F03FF),

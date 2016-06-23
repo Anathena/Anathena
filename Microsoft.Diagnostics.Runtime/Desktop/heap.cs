@@ -2,10 +2,8 @@
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.IO;
 using System.Text;
 using Address = System.UInt64;
 
@@ -21,17 +19,50 @@ namespace Microsoft.Diagnostics.Runtime.Desktop
             Revision = runtime.Revision;
 
             // Prepopulate a few important method tables.
-            FreeType = GetTypeByMethodTable(DesktopRuntime.FreeMethodTable, 0, 0);
-            ((DesktopHeapType)FreeType).Shared = true;
-            ObjectType = GetTypeByMethodTable(DesktopRuntime.ObjectMethodTable, 0, 0);
-            ArrayType = GetTypeByMethodTable(DesktopRuntime.ArrayMethodTable, DesktopRuntime.ObjectMethodTable, 0);
-            ArrayType.ComponentType =  ObjectType;
-            ((BaseDesktopHeapType)FreeType).DesktopModule = (DesktopModule)ObjectType.Module;
-            StringType = GetTypeByMethodTable(DesktopRuntime.StringMethodTable, 0, 0);
-            ExceptionType = GetTypeByMethodTable(DesktopRuntime.ExceptionMethodTable, 0, 0);
-            ErrorType = new ErrorType(this);
+            // UPDATE: Threw everything in try/catch blocks since microsoft was boning us in this method
+            try
+            {
+                FreeType = GetTypeByMethodTable(DesktopRuntime.FreeMethodTable, 0, 0);
+                ((DesktopHeapType)FreeType).Shared = true;
+            }
+            catch { }
+            try
+            {
+                ObjectType = GetTypeByMethodTable(DesktopRuntime.ObjectMethodTable, 0, 0);
+            }
+            catch { }
+            try
+            {
+                ArrayType = GetTypeByMethodTable(DesktopRuntime.ArrayMethodTable, DesktopRuntime.ObjectMethodTable, 0);
+                ArrayType.ComponentType = ObjectType;
+            }
+            catch { }
+            try
+            {
+                ((BaseDesktopHeapType)FreeType).DesktopModule = (DesktopModule)ObjectType.Module;
+            }
+            catch { }
 
-            InitSegments(runtime);
+            try
+            {
+                StringType = GetTypeByMethodTable(DesktopRuntime.StringMethodTable, 0, 0);
+            }
+            catch { }
+            try
+            {
+                ExceptionType = GetTypeByMethodTable(DesktopRuntime.ExceptionMethodTable, 0, 0);
+            }
+            catch { }
+            try
+            {
+                ErrorType = new ErrorType(this);
+            }
+            catch { }
+            try
+            {
+                InitSegments(runtime);
+            }
+            catch { }
         }
 
         protected override int GetRuntimeRevision()
@@ -121,7 +152,7 @@ namespace Microsoft.Diagnostics.Runtime.Desktop
 
             return null;
         }
-        
+
         internal abstract ClrType GetTypeByMethodTable(ulong mt, ulong cmt, ulong obj);
 
 
@@ -1672,7 +1703,7 @@ namespace Microsoft.Diagnostics.Runtime.Desktop
     {
         private LastObjectType _lastObjType = new LastObjectType();
         private Dictionary<Address, int> _indices = new Dictionary<Address, int>();
-        
+
         public V46GCHeap(DesktopRuntimeBase runtime)
             : base(runtime)
         {
@@ -1706,7 +1737,7 @@ namespace Microsoft.Diagnostics.Runtime.Desktop
 
             if ((((int)mt) & 3) != 0)
                 mt &= ~3UL;
-            
+
             ClrType type = GetTypeByMethodTable(mt, 0, objRef);
             _lastObjType.Address = objRef;
             _lastObjType.Type = type;
@@ -1780,7 +1811,7 @@ namespace Microsoft.Diagnostics.Runtime.Desktop
                         return null;
 
                     ret = new DesktopHeapType(typeName, module, token, mt, mtData, this);
-                    
+
                     index = _types.Count;
                     ((DesktopHeapType)ret).SetIndex(index);
                     _indices[mt] = index;

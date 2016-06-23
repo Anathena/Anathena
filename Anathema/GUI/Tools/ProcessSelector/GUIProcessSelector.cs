@@ -108,6 +108,11 @@ namespace Anathema.GUI
             RefreshProcesses();
         }
 
+        private void RefreshButton_Click(Object Sender, EventArgs E)
+        {
+            RefreshProcesses();
+        }
+
         private void GUIProcessSelector_Resize(Object Sender, EventArgs E)
         {
             HandleResize();
