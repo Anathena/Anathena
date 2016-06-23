@@ -40,13 +40,13 @@ namespace Anathema.Source.Tables.Addresses
         public override void Begin()
         {
             // Temporary workaround until I feel like adding multiple tasks to the RepeatTask class
-            WaitTime = Math.Min(Settings.GetInstance().GetTableReadInterval(), Settings.GetInstance().GetFreezeInterval());
+            UpdateInterval = Math.Min(Settings.GetInstance().GetTableReadInterval(), Settings.GetInstance().GetFreezeInterval());
             base.Begin();
         }
 
         protected override void Update()
         {
-            WaitTime = Math.Min(Settings.GetInstance().GetTableReadInterval(), Settings.GetInstance().GetFreezeInterval());
+            UpdateInterval = Math.Min(Settings.GetInstance().GetTableReadInterval(), Settings.GetInstance().GetFreezeInterval());
         }
 
         // Functions invoked by presenter (downstream)

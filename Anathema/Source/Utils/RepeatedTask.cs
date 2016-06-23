@@ -11,7 +11,7 @@ namespace Anathema.Source.Utils
 
         protected Boolean CancelFlag;   // Flag that may be triggered in the update cycle to end the task
         protected Int32 AbortTime;      // Time to wait (in ms) before giving up when ending scan
-        protected Int32 WaitTime;       // Time to wait (in ms) for a cancel request between each scan
+        protected Int32 UpdateInterval; // Time to wait (in ms) before next update (and time to wait for cancelation)
         private Object AccessLock;
 
         private Boolean FinishedFlag;
@@ -19,8 +19,8 @@ namespace Anathema.Source.Utils
         public RepeatedTask()
         {
             AccessLock = new Object();
-            AbortTime = 3000;   // Set a default abort time
-            WaitTime = 400;     // Set a default wait time
+            AbortTime = 3000;       // Set a default abort time
+            UpdateInterval = 400;   // Set a default update interval
         }
 
         public virtual void Begin()
@@ -36,7 +36,7 @@ namespace Anathema.Source.Utils
                     UpdateController();
 
                     // Await with cancellation
-                    await Task.Delay(WaitTime, CancelRequest.Token);
+                    await Task.Delay(UpdateInterval, CancelRequest.Token);
                 }
             }, CancelRequest.Token);
         }

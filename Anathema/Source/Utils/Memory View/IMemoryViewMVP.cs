@@ -52,13 +52,13 @@ namespace Anathema.Source.Utils.MemoryView
 
         public override void Begin()
         {
-            WaitTime = Settings.GetInstance().GetResultReadInterval();
+            UpdateInterval = Settings.GetInstance().GetResultReadInterval();
             base.Begin();
         }
 
         protected override void Update()
         {
-            WaitTime = Settings.GetInstance().GetResultReadInterval();
+            UpdateInterval = Settings.GetInstance().GetResultReadInterval();
         }
 
         // Functions invoked by presenter (downstream)

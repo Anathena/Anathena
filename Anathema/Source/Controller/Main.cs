@@ -1,5 +1,5 @@
 ﻿using Anathema.Source.Engine;
-using Anathema.Source.Engine.DotNetProfiler;
+using Anathema.Source.Engine.DotNetObjectCollector;
 using Anathema.Source.Engine.Processes;
 using Anathema.Source.Prefilter;
 using Anathema.Source.Tables;
@@ -26,10 +26,7 @@ namespace Anathema.Source.Controller
         private Main()
         {
             InitializeProcessObserver();
-
-            SnapshotPrefilterFactory.GetSnapshotPrefilter(typeof(LinkedListSnapshotPrefilter)).BeginPrefilter();
-
-            DotNetProfiler TEMPDEBUG = new DotNetProfiler();
+            InitializeBackgroundTasks();
         }
 
         public void OnGUIOpen() { }
@@ -51,6 +48,12 @@ namespace Anathema.Source.Controller
             MainEventArgs MainEventArgs = new MainEventArgs();
             MainEventArgs.ProcessTitle = EngineCore.Memory.GetProcess()?.ProcessName ?? String.Empty;
             EventUpdateProcessTitle?.Invoke(this, MainEventArgs);
+        }
+
+        private void InitializeBackgroundTasks()
+        {
+            SnapshotPrefilterFactory.GetSnapshotPrefilter(typeof(LinkedListSnapshotPrefilter)).BeginPrefilter();
+            DotNetObjectCollector.GetInstance().Begin();
         }
 
         public void UpdateActionProgress(ProgressItem ProgressItem)

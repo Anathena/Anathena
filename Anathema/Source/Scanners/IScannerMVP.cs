@@ -34,14 +34,14 @@ namespace Anathema.Source.Scanners
         public override void Begin()
         {
             ScanCount = 0;
-            WaitTime = Settings.GetInstance().GetRescanInterval();
+            UpdateInterval = Settings.GetInstance().GetRescanInterval();
             base.Begin();
         }
 
         protected override void Update()
         {
             ScanCount++;
-            WaitTime = Settings.GetInstance().GetRescanInterval();
+            UpdateInterval = Settings.GetInstance().GetRescanInterval();
         }
     }
 

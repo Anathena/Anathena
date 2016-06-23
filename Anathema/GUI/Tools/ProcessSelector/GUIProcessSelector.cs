@@ -93,22 +93,22 @@ namespace Anathema.GUI
 
         #region Events
 
-        private void SelectProcessToolStripMenuItem_Click(object sender, EventArgs e)
+        private void SelectProcessToolStripMenuItem_Click(Object Sender, EventArgs E)
         {
             TrySelectingProcess();
         }
 
-        private void ProcessListView_DoubleClick(object sender, EventArgs e)
+        private void ProcessListView_DoubleClick(Object Sender, EventArgs E)
         {
             TrySelectingProcess();
         }
 
-        private void RefreshToolStripMenuItem_Click(object sender, EventArgs e)
+        private void RefreshToolStripMenuItem_Click(Object Sender, EventArgs E)
         {
             RefreshProcesses();
         }
 
-        private void GUIProcessSelector_Resize(object sender, EventArgs e)
+        private void GUIProcessSelector_Resize(Object Sender, EventArgs E)
         {
             HandleResize();
         }

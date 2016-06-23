@@ -219,6 +219,12 @@
     <Compile Include="GUI\CustomControls\TreeViews\HighlightPreservingTreeView.Designer.cs">
       <DependentUpon>HighlightPreservingTreeView.cs</DependentUpon>
     </Compile>
+    <Compile Include="GUI\Tools\DotNetExplorer\GUIDotNetExplorer.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI\Tools\DotNetExplorer\GUIDotNetExplorer.Designer.cs">
+      <DependentUpon>GUIDotNetExplorer.cs</DependentUpon>
+    </Compile>
     <Compile Include="GUI\Tools\Scanners\GUIConstraintEditor.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -292,6 +298,7 @@
     </Compile>
     <Compile Include="Source\Engine\Architecture\Assembler\AssemblerFactory.cs" />
     <Compile Include="Source\Engine\Architecture\Disassembler\DisassemblerFactory.cs" />
+    <Compile Include="Source\Engine\DotNetObjectCollector\DotNetObject.cs" />
     <Compile Include="Source\Engine\Graphics\DirectX\Interface\BaseDXHook.cs" />
     <Compile Include="Source\Engine\Graphics\DirectX\Interface\Common\Element.cs" />
     <Compile Include="Source\Engine\Graphics\DirectX\Interface\Common\ImageElement.cs" />
@@ -326,11 +333,11 @@
     <Compile Include="Source\Engine\InputCapture\MouseCapture\IMouseObserver.cs" />
     <Compile Include="Source\Engine\InputCapture\MouseCapture\IMouseSubject.cs" />
     <Compile Include="Source\Engine\InputCapture\MouseCapture\MouseCapture.cs" />
-    <Compile Include="Source\Engine\DotNetProfiler\DotNetProfiler.cs" />
-    <Compile Include="Source\Prefilter\ISnapshotPrefilter.cs" />
-    <Compile Include="Source\Prefilter\LinkedListSnapshotPrefilter.cs" />
-    <Compile Include="Source\Prefilter\QueueSnapshotPrefilter.cs" />
-    <Compile Include="Source\Prefilter\SnapshotPrefilterFactory.cs" />
+    <Compile Include="Source\Engine\DotNetObjectCollector\DotNetObjectCollector.cs" />
+    <Compile Include="Source\Prefilters\ISnapshotPrefilter.cs" />
+    <Compile Include="Source\Prefilters\LinkedListSnapshotPrefilter.cs" />
+    <Compile Include="Source\Prefilters\QueueSnapshotPrefilter.cs" />
+    <Compile Include="Source\Prefilters\SnapshotPrefilterFactory.cs" />
     <Compile Include="Source\Engine\Graphics\IGraphicsInterface.cs" />
     <Compile Include="Source\Engine\Graphics\Ogre\ConnectorOgre.cs" />
     <Compile Include="Source\Engine\Graphics\OpenGL\ConnectorOpenGL.cs" />
@@ -348,6 +355,8 @@
     <Compile Include="Source\Engine\Hook\SpeedHack\SpeedHackInterface.cs" />
     <Compile Include="Source\Engine\Hook\SpeedHack\ISpeedHackInterface.cs" />
     <Compile Include="Source\Utils\Browser\BrowserHelper.cs" />
+    <Compile Include="Source\Utils\DotNetExplorer\IDotNetExplorerMVP.cs" />
+    <Compile Include="Source\Utils\DotNetExplorer\DotNetExplorerView.cs" />
     <Compile Include="Source\Utils\Extensions\IEnumerableExtensions.cs" />
     <Compile Include="Source\Utils\Extensions\IntExtensions.cs" />
     <Compile Include="Source\Utils\Extensions\IntPtrExtensions.cs" />
@@ -845,6 +854,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\CustomControls\ListViews\FlickerFreeListView.resx">
       <DependentUpon>FlickerFreeListView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\Tools\DotNetExplorer\GUIDotNetExplorer.resx">
+      <DependentUpon>GUIDotNetExplorer.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\Tools\Scanners\GUIConstraintEditor.resx">
       <DependentUpon>GUIConstraintEditor.cs</DependentUpon>

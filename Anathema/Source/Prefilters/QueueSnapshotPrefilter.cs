@@ -27,27 +27,27 @@ namespace Anathema.Source.Prefilter
     ///     that have already changed. We can indefinitely mark them as a dynamic region.
     /// 3) On snapshot request, we can do a grow+mask operation of current chunks against the current virtual pages.
     /// </summary>
-    class LinkedListSnapshotPrefilter : RepeatedTask, ISnapshotPrefilter, IProcessObserver
+    class QueueSnapshotPrefilter : RepeatedTask, ISnapshotPrefilter, IProcessObserver
     {
         // Singleton instance of prefilter
-        private static Lazy<ISnapshotPrefilter> SnapshotPrefilterInstance = new Lazy<ISnapshotPrefilter>(() => { return new LinkedListSnapshotPrefilter(); });
+        private static Lazy<ISnapshotPrefilter> SnapshotPrefilterInstance = new Lazy<ISnapshotPrefilter>(() => { return new QueueSnapshotPrefilter(); });
 
         private EngineCore EngineCore;
 
         private const Int32 ChunkLimit = 32768;
         private const Int32 ChunkSize = 4096;
-        private const Int32 RescanTime = 800;
+        private const Int32 RescanTime = 400;
 
-        private LinkedList<RegionProperties> ChunkList;
-        private Object ChunkLock;
+        private Queue<RegionProperties> ChunkQueue;
+        private Object QueueLock;
         private Object ElementLock;
 
         private ProgressItem PrefilterProgress;
 
-        private LinkedListSnapshotPrefilter()
+        private QueueSnapshotPrefilter()
         {
-            ChunkList = new LinkedList<RegionProperties>();
-            ChunkLock = new Object();
+            ChunkQueue = new Queue<RegionProperties>();
+            QueueLock = new Object();
             ElementLock = new Object();
 
             PrefilterProgress = new ProgressItem();
@@ -72,9 +72,9 @@ namespace Anathema.Source.Prefilter
             this.EngineCore = EngineCore;
 
             // Clear processing queue on process update
-            using (TimedLock.Lock(ChunkLock))
+            using (TimedLock.Lock(QueueLock))
             {
-                ChunkList = new LinkedList<RegionProperties>();
+                ChunkQueue = new Queue<RegionProperties>();
             }
         }
 
@@ -87,9 +87,9 @@ namespace Anathema.Source.Prefilter
         {
             List<SnapshotRegion> Regions = new List<SnapshotRegion>();
 
-            using (TimedLock.Lock(ChunkLock))
+            using (TimedLock.Lock(QueueLock))
             {
-                foreach (RegionProperties VirtualPage in ChunkList)
+                foreach (RegionProperties VirtualPage in ChunkQueue)
                 {
                     if (!VirtualPage.HasChanged())
                         continue;
@@ -112,7 +112,7 @@ namespace Anathema.Source.Prefilter
 
         public override void Begin()
         {
-            this.WaitTime = RescanTime;
+            this.UpdateInterval = RescanTime;
             base.Begin();
         }
 
@@ -121,14 +121,13 @@ namespace Anathema.Source.Prefilter
             if (EngineCore == null)
                 return;
 
-            ProcessPages();
-            UpdateProgress();
+            ProcessPages(ResolvePages());
         }
 
         /// <summary>
         /// Queries virtual pages from the OS to dertermine if any allocations or deallocations have happened
         /// </summary>
-        private IEnumerable<RegionProperties> CollectNewPages()
+        private IEnumerable<RegionProperties> ResolvePages()
         {
             List<RegionProperties> NewRegions = new List<RegionProperties>();
 
@@ -143,9 +142,9 @@ namespace Anathema.Source.Prefilter
             IOrderedEnumerable<NormalizedRegion> QueriedRegionsSorted = QueriedChunkedRegions.OrderByDescending(X => X.BaseAddress.ToUInt64());
             IOrderedEnumerable<RegionProperties> CurrentRegionsSorted;
 
-            using (TimedLock.Lock(ChunkLock))
+            using (TimedLock.Lock(QueueLock))
             {
-                CurrentRegionsSorted = ChunkList.OrderByDescending(X => X.BaseAddress.ToUInt64());
+                CurrentRegionsSorted = ChunkQueue.OrderByDescending(X => X.BaseAddress.ToUInt64());
             }
 
             // Create comparison stacks
@@ -176,6 +175,12 @@ namespace Anathema.Source.Prefilter
                 // Region we have already seen
                 else
                 {
+                    // Check for deallocation + reallocation of a different size
+                    if (CurrentRegion.RegionSize != QueriedRegion.RegionSize)
+                        NewRegions.Add(new RegionProperties(QueriedRegion));
+                    else
+                        NewRegions.Add(CurrentRegion);
+
                     QueriedRegion = QueriedRegionStack.Pop();
                     CurrentRegion = CurrentRegionStack.Pop();
                 }
@@ -191,73 +196,66 @@ namespace Anathema.Source.Prefilter
             return NewRegions;
         }
 
-        /// <summary>
-        /// Processes all pages, computing checksums to determine chunks of virtual pages that have changed
-        /// </summary>
-        private void ProcessPages()
+        private void ProcessPages(IEnumerable<RegionProperties> NewPages)
         {
-            // Check for newly allocated pages
-            using (TimedLock.Lock(ChunkLock))
-            {
-                foreach (RegionProperties NewPage in CollectNewPages())
-                    ChunkList.AddFirst(NewPage);
-            }
+            UpdateProgress(NewPages);
 
-            using (TimedLock.Lock(ChunkLock))
+            Queue<RegionProperties> OriginalQueue = ChunkQueue;
+
+            // Construct queue
+            Queue<RegionProperties> NewChunkQueue = new Queue<RegionProperties>();
+            IOrderedEnumerable<RegionProperties> QueriedRegionsSorted = NewPages.OrderBy(X => X.GetLastUpdatedTimeStamp());
+            QueriedRegionsSorted.ForEach(X => NewChunkQueue.Enqueue(X));
+
+            // Process the allowed amount of chunks from the priority queue
+            Parallel.For(0, Math.Min(NewChunkQueue.Count, ChunkLimit), Index =>
             {
-                // Process the allowed amount of chunks from the priority queue
-                Parallel.For(0, Math.Min(ChunkList.Count, ChunkLimit), Index =>
+                Boolean Success;
+                RegionProperties RegionProperties;
+
+                // Search for next page that needs processing
+                using (TimedLock.Lock(ElementLock))
                 {
-                    RegionProperties Chunk;
-                    Boolean Success;
-
-                    // Grab next available element
-                    lock (ElementLock)
+                    do
                     {
-                        Chunk = ChunkList.First();
-                        ChunkList.RemoveFirst();
-
-                        // Do not process chunks that have been marked as changed
-                        if (Chunk.HasChanged())
-                        {
-                            ChunkList.AddLast(Chunk);
+                        if (NewChunkQueue.Count <= 0)
                             return;
-                        }
-                    }
 
-                    // Read current page data for chunk
-                    Byte[] PageData = EngineCore.Memory.ReadBytes(Chunk.BaseAddress, Chunk.RegionSize, out Success);
+                        RegionProperties = NewChunkQueue.Dequeue();
+                        NewChunkQueue.Enqueue(RegionProperties);
 
-                    // Read failed; Deallocated page
-                    if (!Success)
-                        return;
+                    } while (RegionProperties.HasChanged());
+                }
 
-                    // Update chunk
-                    Chunk.Update(PageData);
+                if (RegionProperties.HasChanged())
+                    return;
 
-                    // Recycle it
-                    using (TimedLock.Lock(ElementLock))
-                    {
-                        ChunkList.AddLast(Chunk);
-                    }
-                });
+                Byte[] PageData = EngineCore.Memory.ReadBytes(RegionProperties.BaseAddress, RegionProperties.RegionSize, out Success);
+
+                if (!Success)
+                    return;
+
+                RegionProperties.Update(PageData);
+            });
+
+            using (TimedLock.Lock(QueueLock))
+            {
+                if (OriginalQueue != ChunkQueue)
+                    return;
+
+                ChunkQueue = NewChunkQueue;
             }
         }
 
         protected override void End() { }
 
-        private void UpdateProgress()
+        private void UpdateProgress(IEnumerable<RegionProperties> NewPages)
         {
-            Int32 UnprocessedCount;
-            Int32 ChunkCount;
+            Int32 UnprocessedCount = 0;
 
-            using (TimedLock.Lock(ChunkLock))
-            {
-                UnprocessedCount = ChunkList.Where(X => X.IsProcessed()).Count();
-                ChunkCount = ChunkList.Count();
-            }
+            UnprocessedCount = NewPages.Where(X => X.IsProcessed()).Count();
 
-            PrefilterProgress.UpdateProgress((Double)UnprocessedCount / (Double)ChunkCount);
+            PrefilterProgress.UpdateProgress((Double)UnprocessedCount / (Double)NewPages.Count());
 
             if (PrefilterProgress.GetProgress() > 97)
                 PrefilterProgress.FinishProgress();
@@ -265,12 +263,14 @@ namespace Anathema.Source.Prefilter
 
         internal class RegionProperties : NormalizedRegion
         {
+            private DateTime LastUpdatedTimeStamp;
             private UInt64? Checksum;
             private Boolean Changed;
 
             public RegionProperties(NormalizedRegion Region) : this(Region.BaseAddress, Region.RegionSize) { }
             public RegionProperties(IntPtr BaseAddress, Int32 RegionSize) : base(BaseAddress, RegionSize)
             {
+                LastUpdatedTimeStamp = DateTime.MinValue;
                 Checksum = null;
                 Changed = false;
             }
@@ -292,6 +292,7 @@ namespace Anathema.Source.Prefilter
             {
                 UInt64 CurrentChecksum;
 
+                LastUpdatedTimeStamp = DateTime.Now;
                 CurrentChecksum = Hashing.ComputeCheckSum(Memory);
 
                 if (this.Checksum == null)
@@ -301,6 +302,11 @@ namespace Anathema.Source.Prefilter
                 }
 
                 Changed = this.Checksum != CurrentChecksum;
+            }
+
+            public DateTime GetLastUpdatedTimeStamp()
+            {
+                return LastUpdatedTimeStamp;
             }
 
         } // End class

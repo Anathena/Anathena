@@ -38,6 +38,7 @@ namespace Anathema.GUI
 
         private GUISnapshotManager GUISnapshotManager;
         private GUIResults GUIResults;
+        private GUIDotNetExplorer GUIDotNetExplorer;
         private GUIAddressTable GUIAddressTable;
         private GUIScriptTable GUIScriptTable;
 
@@ -365,6 +366,20 @@ namespace Anathema.GUI
             });
         }
 
+        private void CreateDotNetExplorer()
+        {
+            ControlThreadingHelper.InvokeControlAction(ContentPanel, () =>
+            {
+                using (TimedLock.Lock(AccessLock))
+                {
+                    if (GUIDotNetExplorer == null || GUIDotNetExplorer.IsDisposed)
+                        GUIDotNetExplorer = new GUIDotNetExplorer();
+
+                    GUIDotNetExplorer.Show(ContentPanel);
+                }
+            });
+        }
+
         private void CreateAddressTable()
         {
             ControlThreadingHelper.InvokeControlAction(ContentPanel, () =>
@@ -589,6 +604,11 @@ namespace Anathema.GUI
             CreateResults();
         }
 
+        private void DotNetExplorerToolStripMenuItem_Click(Object Sender, EventArgs E)
+        {
+            CreateDotNetExplorer();
+        }
+
         private void AddressesToolStripMenuItem_Click(Object Sender, EventArgs E)
         {
             CreateAddressTable();
@@ -679,6 +699,7 @@ namespace Anathema.GUI
                 ScriptEditorToolStripMenuItem.Checked = (GUIScriptEditor == null || GUIScriptEditor.IsDisposed) ? false : true;
                 SnapshotManagerToolStripMenuItem.Checked = (GUISnapshotManager == null || GUISnapshotManager.IsDisposed) ? false : true;
                 ResultsToolStripMenuItem.Checked = (GUIResults == null || GUIResults.IsDisposed) ? false : true;
+                DotNetExplorerToolStripMenuItem.Checked = (GUIDotNetExplorer == null || GUIDotNetExplorer.IsDisposed) ? false : true;
                 AddressesToolStripMenuItem.Checked = (GUIAddressTable == null || GUIAddressTable.IsDisposed) ? false : true;
                 ScriptsToolStripMenuItem.Checked = (GUIScriptTable == null || GUIScriptTable.IsDisposed) ? false : true;
 
