@@ -29,7 +29,7 @@ namespace Anathema.GUI
                 ObjectExplorerTreeView.Nodes.Clear();
 
                 TreeNode[] Nodes = new TreeNode[ObjectTrees.Count];
-                ObjectTrees.ForEach(X => Nodes[ObjectTrees.IndexOf(X)] = new TreeNode(X.GetObjectType()));
+                ObjectTrees.ForEach(X => Nodes[ObjectTrees.IndexOf(X)] = new TreeNode(X.GetName()));
                 ObjectTrees.ForEach(X => AddChildren(Nodes[ObjectTrees.IndexOf(X)], X));
 
                 ObjectExplorerTreeView.Nodes.AddRange(Nodes);
@@ -42,7 +42,7 @@ namespace Anathema.GUI
                 return;
 
             TreeNode[] Children = new TreeNode[DotNetObject.GetChildren().Count];
-            DotNetObject.GetChildren().ForEach(X => Children[DotNetObject.GetChildren().IndexOf(X)] = new TreeNode(X.GetObjectType()));
+            DotNetObject.GetChildren().ForEach(X => Children[DotNetObject.GetChildren().IndexOf(X)] = new TreeNode(X.GetName()));
             DotNetObject.GetChildren().ForEach(X => AddChildren(Children[DotNetObject.GetChildren().IndexOf(X)], X));
             TreeNode.Nodes.AddRange(Children);
         }

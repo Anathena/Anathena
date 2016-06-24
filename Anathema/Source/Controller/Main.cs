@@ -54,6 +54,7 @@ namespace Anathema.Source.Controller
         {
             SnapshotPrefilterFactory.GetSnapshotPrefilter(typeof(LinkedListSnapshotPrefilter)).BeginPrefilter();
             DotNetObjectCollector.GetInstance().Begin();
+            DotNetNameResolver.GetInstance().Begin();
         }
 
         public void UpdateActionProgress(ProgressItem ProgressItem)

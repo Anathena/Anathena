@@ -5,16 +5,24 @@ using System.Collections.Generic;
 
 namespace Anathema.Source.Engine.DotNetObjectCollector
 {
-    public class DotNetObject : IEnumerable
+    public class DotNetObject : IEnumerable, IComparable<DotNetObject>
     {
+        private DotNetObject Parent;
         private List<DotNetObject> Children;
         private UInt64 ObjectReference;
-        private String ObjectType;
+        private String Name;
 
-        public DotNetObject(UInt64 ObjectReference, String ObjectType)
+        public DotNetObject(DotNetObject Parent, UInt64 ObjectReference, String Name)
         {
+            this.Parent = Parent;
             this.ObjectReference = ObjectReference;
-            this.ObjectType = ObjectType;
+
+            // Trim root name from all objects if applicable
+            String RootName = GetRootName();
+            if (Name.StartsWith(RootName))
+                Name = Name.Remove(0, RootName.Length);
+
+            this.Name = Name;
 
             Children = new List<DotNetObject>();
         }
@@ -30,12 +38,12 @@ namespace Anathema.Source.Engine.DotNetObjectCollector
             return Children;
         }
 
-        public IEnumerator GetEnumerator()
+        public void SortChildren()
         {
-            return ((IEnumerable)Children).GetEnumerator();
+            Children.Sort();
         }
 
-        public IntPtr GetObjectAddress()
+        public IntPtr GetAddress()
         {
             try
             {
@@ -47,9 +55,46 @@ namespace Anathema.Source.Engine.DotNetObjectCollector
             }
         }
 
-        public String GetObjectType()
+        public String GetName()
         {
-            return ObjectType;
+            return Name == null ? String.Empty : Name;
+        }
+
+        public String GetFullName()
+        {
+            return GetFullNamespace(String.Empty);
+        }
+
+        private String GetRootName()
+        {
+            if (Parent == null)
+                return GetName();
+
+            return Parent.GetRootName();
+        }
+
+        private String GetFullNamespace(String CurrentNamespace)
+        {
+            if (Parent == null)
+                return GetRootName();
+
+            return Parent.GetFullNamespace(CurrentNamespace) + "." + Name;
+        }
+
+        public Int32 CompareTo(DotNetObject Other)
+        {
+            if (this.ObjectReference > Other.ObjectReference)
+                return 1;
+
+            if (this.ObjectReference == Other.ObjectReference)
+                return 0;
+
+            return -1;
+        }
+
+        public IEnumerator GetEnumerator()
+        {
+            return ((IEnumerable)Children).GetEnumerator();
         }
 
     } // End class

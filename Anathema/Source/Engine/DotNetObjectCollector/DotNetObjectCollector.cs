@@ -3,6 +3,7 @@ using Anathema.Source.Utils;
 using Microsoft.Diagnostics.Runtime;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Anathema.Source.Engine.DotNetObjectCollector
 {
@@ -13,6 +14,11 @@ namespace Anathema.Source.Engine.DotNetObjectCollector
     class DotNetObjectCollector : RepeatedTask, IProcessObserver
     {
         private static Lazy<DotNetObjectCollector> DotNetObjectCollectorInstance = new Lazy<DotNetObjectCollector>(() => { return new DotNetObjectCollector(); });
+        private static String[] ExcludedNameSpaces = new String[] { "System.", "Microsoft.", "<CppImplementationDetails>.","<CrtImplementationDetails>.",
+            "Newtonsoft.", "Ionic.", "SteamWorks.",
+            "Terraria.Tile", "Terraria.Item", "Terraria.UI",  "Terraria.ObjectData", "Terraria.GameContent", "Terraria.Lighting",
+            "Terraria.Graphics", "Terraria.Social", "Terraria.IO", "Terraria.DataStructures",
+            System.Reflection.Assembly.GetExecutingAssembly().GetName().Name };
 
         private const Int32 AttachTimeout = 4000;
         private const Int32 RescanTime = 5000;
@@ -95,10 +101,10 @@ namespace Anathema.Source.Engine.DotNetObjectCollector
                     if (Root == null || Root.Name == null)
                         continue;
 
-                    if (Root.Name.StartsWith("System.") || Root.Name.StartsWith("Microsoft."))
+                    if (ExcludedNameSpaces.Any(X => Root.Name.StartsWith(X, StringComparison.OrdinalIgnoreCase)))
                         continue;
 
-                    if (Root.Type.Name.StartsWith("System.") || Root.Type.Name.StartsWith("Microsoft."))
+                    if (ExcludedNameSpaces.Any(X => Root.Type.Name.StartsWith(X, StringComparison.OrdinalIgnoreCase)))
                         continue;
 
                     if (Visited.Contains(Root.Object))
@@ -106,7 +112,7 @@ namespace Anathema.Source.Engine.DotNetObjectCollector
 
                     try
                     {
-                        DotNetObject RootObject = new DotNetObject(Root.Object, Root.Type?.ToString());
+                        DotNetObject RootObject = new DotNetObject(null, Root.Object, Root.Type?.ToString());
                         Visited.Add(Root.Object);
                         ObjectTrees.Add(RootObject);
 
@@ -122,19 +128,32 @@ namespace Anathema.Source.Engine.DotNetObjectCollector
 
         private void RecursiveBuild(ClrHeap Heap, HashSet<UInt64> Visited, DotNetObject Parent, UInt64 ParentRef)
         {
-            unchecked
+            // Add all fields
+            foreach (ClrField Field in Heap.GetObjectType(ParentRef).Fields)
             {
-                Heap?.GetObjectType(ParentRef)?.EnumerateRefsOfObject(ParentRef, delegate (UInt64 ChildObjectRef, Int32 Offset)
-                {
-                    if (ChildObjectRef == 0 || Visited.Contains(ChildObjectRef))
-                        return;
-
-                    DotNetObject Child = new DotNetObject(ChildObjectRef, Heap.GetObjectType(ChildObjectRef)?.ToString());
-                    Visited.Add(ChildObjectRef);
-                    Parent.AddChild(Child);
-                    RecursiveBuild(Heap, Visited, Child, ChildObjectRef);
-                });
+                DotNetObject ChildObject = new DotNetObject(Parent, unchecked((UInt64)Field.Offset), Field?.Name);
+                Parent.AddChild(ChildObject);
             }
+
+            // Add all nested objects recursively
+            Heap?.GetObjectType(ParentRef)?.EnumerateRefsOfObject(ParentRef, delegate (UInt64 ChildObjectRef, Int32 Offset)
+            {
+                if (ChildObjectRef == 0 || Visited.Contains(ChildObjectRef))
+                    return;
+
+                Visited.Add(ChildObjectRef);
+
+                ClrType Type = Heap.GetObjectType(ChildObjectRef);
+
+                if (Type == null || ExcludedNameSpaces.Any(X => Type.Name.StartsWith(X, StringComparison.OrdinalIgnoreCase)))
+                    return;
+
+                DotNetObject Child = new DotNetObject(Parent, ChildObjectRef, Type.Name);
+                Parent.AddChild(Child);
+                RecursiveBuild(Heap, Visited, Child, ChildObjectRef);
+            });
+
+            Parent.SortChildren();
         }
 
         protected override void End() { }

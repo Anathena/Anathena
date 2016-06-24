@@ -299,6 +299,7 @@
     <Compile Include="Source\Engine\Architecture\Assembler\AssemblerFactory.cs" />
     <Compile Include="Source\Engine\Architecture\Disassembler\DisassemblerFactory.cs" />
     <Compile Include="Source\Engine\DotNetObjectCollector\DotNetObject.cs" />
+    <Compile Include="Source\Engine\DotNetObjectCollector\DotNetNameResolver.cs" />
     <Compile Include="Source\Engine\Graphics\DirectX\Interface\BaseDXHook.cs" />
     <Compile Include="Source\Engine\Graphics\DirectX\Interface\Common\Element.cs" />
     <Compile Include="Source\Engine\Graphics\DirectX\Interface\Common\ImageElement.cs" />
