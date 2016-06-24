@@ -1,10 +1,11 @@
 ﻿using Anathema.Source.Utils.Extensions;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 
 namespace Anathema.Source.Engine.DotNetObjectCollector
 {
-    public class DotNetObject
+    public class DotNetObject : IEnumerable
     {
         private List<DotNetObject> Children;
         private UInt64 ObjectReference;
@@ -27,6 +28,11 @@ namespace Anathema.Source.Engine.DotNetObjectCollector
         public List<DotNetObject> GetChildren()
         {
             return Children;
+        }
+
+        public IEnumerator GetEnumerator()
+        {
+            return ((IEnumerable)Children).GetEnumerator();
         }
 
         public IntPtr GetObjectAddress()

@@ -30,19 +30,26 @@ namespace Anathema.GUI
 
                 TreeNode[] Nodes = new TreeNode[ObjectTrees.Count];
                 ObjectTrees.ForEach(X => Nodes[ObjectTrees.IndexOf(X)] = new TreeNode(X.GetObjectType()));
+                ObjectTrees.ForEach(X => AddChildren(Nodes[ObjectTrees.IndexOf(X)], X));
 
                 ObjectExplorerTreeView.Nodes.AddRange(Nodes);
             });
         }
 
-        private void AddAllItems()
+        private void AddChildren(TreeNode TreeNode, DotNetObject DotNetObject)
         {
+            if (DotNetObject.GetChildren().Count == 0)
+                return;
 
+            TreeNode[] Children = new TreeNode[DotNetObject.GetChildren().Count];
+            DotNetObject.GetChildren().ForEach(X => Children[DotNetObject.GetChildren().IndexOf(X)] = new TreeNode(X.GetObjectType()));
+            DotNetObject.GetChildren().ForEach(X => AddChildren(Children[DotNetObject.GetChildren().IndexOf(X)], X));
+            TreeNode.Nodes.AddRange(Children);
         }
 
         #region Events
 
-        private void RefreshButton_Click(Object Sender, EventArgs Ee)
+        private void RefreshButton_Click(Object Sender, EventArgs E)
         {
             GDotNetExplorerPresenter.RefreshObjectTrees();
         }
