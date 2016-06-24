@@ -1,7 +1,7 @@
-﻿using Anathema.Source.Scanners.ScanConstraints;
-using Anathema.Source.Engine;
+﻿using Anathema.Source.Engine;
 using Anathema.Source.Engine.OperatingSystems;
 using Anathema.Source.Engine.Processes;
+using Anathema.Source.Scanners.ScanConstraints;
 using Anathema.Source.Tables.Addresses;
 using Anathema.Source.Utils.Extensions;
 using Anathema.Source.Utils.Snapshots;
@@ -150,7 +150,7 @@ namespace Anathema.Source.Scanners.PointerScanner
                 String Value = String.Empty;
                 IndexValueMap.TryGetValue(Index, out Value);
 
-                AddressTable.GetInstance().AddAddressItem(AcceptedPointers[Index].Item1, ElementType, "Pointer", AcceptedPointers[Index].Item2, Value: Value);
+                AddressTable.GetInstance().AddAddressItem(Conversions.ToAddress(AcceptedPointers[Index].Item1), ElementType, "Pointer", AcceptedPointers[Index].Item2, Value: Value);
 
                 if (++Count >= MaxAdd)
                     break;

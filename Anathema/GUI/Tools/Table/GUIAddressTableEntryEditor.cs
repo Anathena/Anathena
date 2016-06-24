@@ -56,7 +56,7 @@ namespace Anathema
             AddressItem AddressItem = AddressTable.GetInstance().GetAddressItemAt(AddressTableItemIndicies.Last());
             DescriptionTextBox.Text = AddressItem.Description;
             ValueTypeComboBox.SelectedIndex = ValueTypeComboBox.Items.IndexOf(AddressItem.ElementType.Name);
-            AddressTextBox.Text = Conversions.ToAddress(AddressItem.BaseAddress);
+            AddressTextBox.Text = AddressItem.BaseAddress;
             ValueTextBox.IsHex = AddressItem.IsHex;
 
             if (AddressItem.Offsets == null)
@@ -84,11 +84,8 @@ namespace Anathema
 
         private void AddOffsetButton_Click(Object Sender, EventArgs E)
         {
-            if (CheckSyntax.CanParseAddress(OffsetTextBox.GetValueAsHexidecimal()))
-            {
-                OffsetListBox.Items.Add(OffsetTextBox.GetValueAsHexidecimal());
-                OffsetTextBox.Text = String.Empty;
-            }
+            OffsetListBox.Items.Add(OffsetTextBox.GetValueAsHexidecimal());
+            OffsetTextBox.Text = String.Empty;
         }
 
         private void RemoveOffsetButton_Click(Object Sender, EventArgs E)
@@ -100,7 +97,7 @@ namespace Anathema
         private void OkButton_Click(Object Sender, EventArgs E)
         {
             // Accept the updated changes
-            TableAddressEntryEditorPresenter.AcceptChanges(MainSelection, AddressTableItemIndicies, DescriptionTextBox.Text, AddressTextBox.GetValueAsHexidecimal(),
+            TableAddressEntryEditorPresenter.AcceptChanges(MainSelection, AddressTableItemIndicies, DescriptionTextBox.Text, AddressTextBox.GetRawValue(),
                 ValueTypeComboBox.SelectedItem.ToString(), ValueTextBox.GetValueAsDecimal(), OffsetListBox.Items.OfType<String>(), ValueTextBox.IsHex, ItemColor);
 
             this.Close();

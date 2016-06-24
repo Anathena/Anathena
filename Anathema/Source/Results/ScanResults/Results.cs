@@ -3,6 +3,7 @@ using Anathema.Source.Engine.Processes;
 using Anathema.Source.Tables.Addresses;
 using Anathema.Source.Utils;
 using Anathema.Source.Utils.Snapshots;
+using Anathema.Source.Utils.Validation;
 using System;
 using System.Collections.Concurrent;
 using System.Threading.Tasks;
@@ -172,7 +173,7 @@ namespace Anathema.Source.Results.ScanResults
                     String Value = String.Empty;
                     IndexValueMap.TryGetValue(Index, out Value);
 
-                    AddressTable.GetInstance().AddAddressItem(ActiveSnapshot[Index].BaseAddress, ScanType, "No Description", Value: Value);
+                    AddressTable.GetInstance().AddAddressItem(Conversions.ToAddress(ActiveSnapshot[Index].BaseAddress), ScanType, "No Description", Value: Value);
 
                     if (++Count >= MaxAdd)
                         break;

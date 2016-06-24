@@ -90,7 +90,7 @@ namespace Anathema.Source.Tables.Addresses
             AddressItems[Index].SetActivationState(Activated);
         }
 
-        public override void AddAddressItem(IntPtr BaseAddress, Type ElementType, String Description, IEnumerable<Int32> Offsets = null, Boolean IsHex = false, String Value = null)
+        public override void AddAddressItem(String BaseAddress, Type ElementType, String Description, IEnumerable<Int32> Offsets = null, Boolean IsHex = false, String Value = null)
         {
             AddressItems.Add(new AddressItem(BaseAddress, ElementType, Description, Offsets, IsHex, Value));
 

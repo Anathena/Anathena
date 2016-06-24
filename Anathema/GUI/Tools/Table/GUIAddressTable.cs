@@ -2,7 +2,6 @@
 using Anathema.Source.Utils;
 using Anathema.Source.Utils.Caches;
 using Anathema.Source.Utils.MVP;
-using Anathema.Source.Utils.Validation;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -141,7 +140,7 @@ namespace Anathema
 
             Item.SubItems[AddressTableListView.Columns.IndexOf(FrozenHeader)].Text = String.Empty;
             Item.SubItems[AddressTableListView.Columns.IndexOf(DescriptionHeader)].Text = (AddressItem.Description == null ? String.Empty : AddressItem.Description);
-            Item.SubItems[AddressTableListView.Columns.IndexOf(AddressHeader)].Text = Conversions.ToAddress(AddressItem.BaseAddress);
+            Item.SubItems[AddressTableListView.Columns.IndexOf(AddressHeader)].Text = AddressItem.BaseAddress;
             Item.SubItems[AddressTableListView.Columns.IndexOf(TypeHeader)].Text = AddressItem.ElementType == null ? String.Empty : AddressItem.ElementType.Name;
             Item.SubItems[AddressTableListView.Columns.IndexOf(ValueHeader)].Text = AddressItem.GetValueString();
 

@@ -1,5 +1,4 @@
-﻿using Anathema.Source.Utils.Extensions;
-using Anathema.Source.Utils.MVP;
+﻿using Anathema.Source.Utils.MVP;
 using Anathema.Source.Utils.Validation;
 using System;
 using System.Collections.Generic;
@@ -52,7 +51,7 @@ namespace Anathema.Source.Tables.Addresses.Editor
             foreach (String Offset in Offsets)
                 OffsetsInt.Add((Int32)Conversions.AddressToValue(Offset));
 
-            AddressItem AddressItem = new AddressItem(Conversions.AddressToValue(Address).ToIntPtr(), Conversions.StringToPrimitiveType(ValueType), Description,
+            AddressItem AddressItem = new AddressItem(Address, Conversions.StringToPrimitiveType(ValueType), Description,
                  OffsetsInt, IsHex);
 
             if (CheckSyntax.CanParseValue(Conversions.StringToPrimitiveType(ValueType), Value))

@@ -1,6 +1,7 @@
 ﻿using Anathema.Source.Utils;
 using Anathema.Source.Utils.MVP;
 using Anathema.Source.Utils.Setting;
+using Anathema.Source.Utils.Validation;
 using System;
 using System.Collections.Generic;
 
@@ -57,7 +58,7 @@ namespace Anathema.Source.Tables.Addresses
 
         public abstract void ReorderItem(Int32 SourceIndex, Int32 DestinationIndex);
 
-        public abstract void AddAddressItem(IntPtr BaseAddress, Type ElementType, String Description, IEnumerable<Int32> Offsets = null, Boolean IsHex = false, String Value = null);
+        public abstract void AddAddressItem(String BaseAddress, Type ElementType, String Description, IEnumerable<Int32> Offsets = null, Boolean IsHex = false, String Value = null);
         public abstract void AddAddressItem(AddressItem AddressItem);
         public abstract void DeleteTableItems(IEnumerable<Int32> Items);
 
@@ -95,7 +96,7 @@ namespace Anathema.Source.Tables.Addresses
 
         public void AddNewAddressItem()
         {
-            Model.AddAddressItem(IntPtr.Zero, typeof(Int32), "No Description");
+            Model.AddAddressItem(Conversions.ToAddress(IntPtr.Zero), typeof(Int32), "No Description");
         }
 
         public void DeleteTableItems(IEnumerable<Int32> Indicies)

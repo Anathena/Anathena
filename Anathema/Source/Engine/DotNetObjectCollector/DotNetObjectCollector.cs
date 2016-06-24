@@ -1,5 +1,6 @@
 ﻿using Anathema.Source.Engine.Processes;
 using Anathema.Source.Utils;
+using Anathema.Source.Utils.Extensions;
 using Microsoft.Diagnostics.Runtime;
 using System;
 using System.Collections.Generic;
@@ -131,7 +132,7 @@ namespace Anathema.Source.Engine.DotNetObjectCollector
             // Add all fields
             foreach (ClrField Field in Heap.GetObjectType(ParentRef).Fields)
             {
-                DotNetObject ChildObject = new DotNetObject(Parent, unchecked((UInt64)Field.Offset), Field?.Name);
+                DotNetObject ChildObject = new DotNetObject(Parent, Parent.GetAddress().Add(Field.Offset).ToUInt64(), Field?.Name);
                 Parent.AddChild(ChildObject);
             }
 

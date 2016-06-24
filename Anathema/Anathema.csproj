@@ -355,6 +355,7 @@
     <Compile Include="Source\Engine\OperatingSystems\OperatingSystemFactory.cs" />
     <Compile Include="Source\Engine\Hook\SpeedHack\SpeedHackInterface.cs" />
     <Compile Include="Source\Engine\Hook\SpeedHack\ISpeedHackInterface.cs" />
+    <Compile Include="Source\Utils\AddressResolver\AddressResolver.cs" />
     <Compile Include="Source\Utils\Browser\BrowserHelper.cs" />
     <Compile Include="Source\Utils\DotNetExplorer\IDotNetExplorerMVP.cs" />
     <Compile Include="Source\Utils\DotNetExplorer\DotNetExplorer.cs" />

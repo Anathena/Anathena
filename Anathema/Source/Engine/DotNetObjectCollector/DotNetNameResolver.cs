@@ -26,6 +26,9 @@ namespace Anathema.Source.Engine.DotNetObjectCollector
 
         public IntPtr ResolveName(String Name)
         {
+            if (Name == null || Name == String.Empty)
+                return IntPtr.Zero;
+
             DotNetObject Result;
 
             if (NameMap.TryGetValue(Name, out Result))
@@ -46,15 +49,19 @@ namespace Anathema.Source.Engine.DotNetObjectCollector
             Dictionary<String, DotNetObject> NameMap = new Dictionary<String, DotNetObject>();
             List<DotNetObject> ObjectTrees = DotNetObjectCollector.GetInstance().GetObjectTrees();
 
-            ObjectTrees.ForEach(X => BuildNameMap(NameMap, X));
+            try
+            {
+                ObjectTrees?.ForEach(X => BuildNameMap(NameMap, X));
+            }
+            catch { }
 
             this.NameMap = NameMap;
         }
 
         private void BuildNameMap(Dictionary<String, DotNetObject> NameMap, DotNetObject CurrentObject)
         {
-            NameMap.Add(CurrentObject.GetFullName(), CurrentObject);
-            CurrentObject.GetChildren().ForEach(X => BuildNameMap(NameMap, X));
+            NameMap[CurrentObject.GetFullName()] = CurrentObject;
+            CurrentObject?.GetChildren()?.ForEach(X => BuildNameMap(NameMap, X));
         }
 
         protected override void End() { }

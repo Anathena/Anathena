@@ -1,4 +1,5 @@
 ﻿using Anathema.Source.Engine;
+using Anathema.Source.Utils.AddressResolver;
 using Anathema.Source.Utils.Extensions;
 using Anathema.Source.Utils.Validation;
 using System;
@@ -16,7 +17,7 @@ namespace Anathema.Source.Tables.Addresses
     {
         [Obfuscation(Exclude = true)]
         [DataMember()]
-        public IntPtr BaseAddress { get; set; }
+        public String BaseAddress { get; set; }
 
         [Obfuscation(Exclude = true)]
         [DataMember()]
@@ -70,7 +71,7 @@ namespace Anathema.Source.Tables.Addresses
             private set { _EffectiveAddress = value; }
         }
 
-        public AddressItem(IntPtr BaseAddress, Type ElementType, String Description = null, IEnumerable<Int32> Offsets = null, Boolean IsHex = false, String Value = null)
+        public AddressItem(String BaseAddress, Type ElementType, String Description = null, IEnumerable<Int32> Offsets = null, Boolean IsHex = false, String Value = null)
         {
             this.BaseAddress = BaseAddress;
             this.Description = Description == null ? String.Empty : Description;
@@ -82,8 +83,6 @@ namespace Anathema.Source.Tables.Addresses
                 this.Value = Conversions.ParseValue(ElementType, Value);
             else if (IsHex && CheckSyntax.CanParseHex(ElementType, Value))
                 this.Value = Conversions.ParseHexAsDec(ElementType, Value);
-
-            this.EffectiveAddress = BaseAddress;
         }
 
         [Obfuscation(Exclude = true)]
@@ -110,9 +109,6 @@ namespace Anathema.Source.Tables.Addresses
         [Obfuscation(Exclude = true)]
         public String GetAddressString()
         {
-            if (Offsets == null || Offsets.Count() == 1)
-                EffectiveAddress = BaseAddress;
-
             if (Offsets != null && Offsets.Count() > 0)
                 return "P->" + Conversions.ToAddress(EffectiveAddress);
 
@@ -122,7 +118,7 @@ namespace Anathema.Source.Tables.Addresses
         [Obfuscation(Exclude = true)]
         public void ResolveAddress(EngineCore EngineCore)
         {
-            IntPtr Pointer = this.BaseAddress;
+            IntPtr Pointer = AddressResolver.GetInstance().ResolveAddress(BaseAddress);
             Boolean SuccessReading = true;
 
             if (EngineCore == null)

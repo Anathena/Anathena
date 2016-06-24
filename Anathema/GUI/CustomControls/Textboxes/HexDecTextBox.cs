@@ -91,6 +91,11 @@ namespace Anathema.GUI
                 return Conversions.ParseDecAsHex(ElementType, Conversions.ParseValueAsDec(ElementType, this.Text));
         }
 
+        public String GetRawValue()
+        {
+            return this.Text;
+        }
+
         [Obfuscation(Exclude = true)]
         public void SetValue(dynamic Value)
         {

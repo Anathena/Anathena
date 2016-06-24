@@ -14,6 +14,7 @@ namespace Anathema.Source.Utils
         protected Int32 UpdateInterval; // Time to wait (in ms) before next update (and time to wait for cancelation)
         private Object AccessLock;
 
+        private Boolean StartedFlag;
         private Boolean FinishedFlag;
 
         public RepeatedTask()
@@ -25,6 +26,14 @@ namespace Anathema.Source.Utils
 
         public virtual void Begin()
         {
+            using (TimedLock.Lock(AccessLock))
+            {
+                if (StartedFlag)
+                    return;
+
+                StartedFlag = true;
+            }
+
             CancelFlag = false;
             FinishedFlag = false;
 
@@ -79,7 +88,10 @@ namespace Anathema.Source.Utils
             });
         }
 
-        protected abstract void End();
+        protected virtual void End()
+        {
+            StartedFlag = false;
+        }
 
     } // End class
 
