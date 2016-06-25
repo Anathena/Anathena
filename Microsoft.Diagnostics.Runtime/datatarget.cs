@@ -2134,10 +2134,18 @@ namespace Microsoft.Diagnostics.Runtime
 
         public bool ReadMemory(ulong address, byte[] buffer, int bytesRequested, out int bytesRead)
         {
+            if (IntPtr.Size == 4 && address > UInt32.MaxValue)
+            {
+                bytesRead = 0;
+                return false;
+            }
+
             try
             {
-                int res = ReadProcessMemory(_process, new IntPtr((long)address), buffer, bytesRequested, out bytesRead);
-                return res != 0;
+                IntPtr Addr = new IntPtr(IntPtr.Size == 4 ? unchecked((int)address) : unchecked((long)address));
+
+                bool res = ReadProcessMemory(_process, Addr, buffer, bytesRequested, out bytesRead);
+                return res;
             }
             catch
             {
@@ -2317,8 +2325,11 @@ namespace Microsoft.Diagnostics.Runtime
         [PreserveSig]
         public static extern uint GetModuleFileNameExA([In]IntPtr hProcess, [In]IntPtr hModule, [Out]StringBuilder lpFilename, [In][MarshalAs(UnmanagedType.U4)]int nSize);
 
-        [DllImport("kernel32.dll")]
-        private static extern int ReadProcessMemory(IntPtr hProcess, IntPtr lpBaseAddress, [Out, MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 3)] byte[] lpBuffer, int dwSize, out int lpNumberOfBytesRead);
+        [DllImport("kernel32.dll", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool ReadProcessMemory(IntPtr hProcess, IntPtr lpBaseAddress, [Out] byte[] lpBuffer, int dwSize, out int lpNumberOfBytesRead);
+        //[DllImport("kernel32.dll")]
+        //private static extern int ReadProcessMemory(IntPtr hProcess, IntPtr lpBaseAddress, [Out, MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 3)] byte[] lpBuffer, int dwSize, out int lpNumberOfBytesRead);
 
         [DllImport("kernel32.dll", SetLastError = true)]
         internal static extern int VirtualQueryEx(IntPtr hProcess, IntPtr lpAddress, ref MEMORY_BASIC_INFORMATION lpBuffer, IntPtr dwLength);

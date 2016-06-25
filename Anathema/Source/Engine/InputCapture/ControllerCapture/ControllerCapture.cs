@@ -30,6 +30,7 @@ namespace Anathema.Source.Engine.InputCapture.ControllerCapture
             if (JoystickGuid == Guid.Empty)
             {
                 // TODO: Resort to like xInput or something here??? IDK
+                return;
             }
 
             // Instantiate the joystick

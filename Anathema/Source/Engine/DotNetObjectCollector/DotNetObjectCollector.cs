@@ -99,7 +99,7 @@ namespace Anathema.Source.Engine.DotNetObjectCollector
                 foreach (ClrRoot Root in Heap.EnumerateRoots())
                 {
                     // Ignore root system namespaces
-                    if (Root == null || Root.Name == null)
+                    if (Root == null || Root.Type == null || Root.Name == null)
                         continue;
 
                     if (ExcludedNameSpaces.Any(X => Root.Name.StartsWith(X, StringComparison.OrdinalIgnoreCase)))
