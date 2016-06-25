@@ -15,7 +15,7 @@ namespace Anathema.Source.Engine.DotNetObjectCollector
         public DotNetObject(DotNetObject Parent, UInt64 ObjectReference, String Name)
         {
             this.Parent = Parent;
-            this.ObjectReference = ObjectReference;
+            this.ObjectReference = unchecked(ObjectReference);
 
             // Trim root name from all objects if applicable
             String RootName = GetRootName();

@@ -17,22 +17,22 @@ namespace Anathema.Source.Engine.OperatingSystems.Windows.Modules
         /// <summary>
         /// The reference of the <see cref="MemoryManagement.WindowsOSInterface"/> object.
         /// </summary>
-        protected readonly WindowsOperatingSystem WindowsOSInterface;
+        protected readonly WindowsOperatingSystem WindowsOperatingSystem;
 
         /// <summary>
         /// Gets the main module for the remote process.
         /// </summary>
-        public RemoteModule MainModule { get { return FetchModule(WindowsOSInterface.Native.MainModule); } }
+        public RemoteModule MainModule { get { return FetchModule(WindowsOperatingSystem?.Native?.MainModule); } }
 
         /// <summary>
         /// Gets the modules that have been loaded in the remote process.
         /// </summary>
-        public IEnumerable<RemoteModule> RemoteModules { get { return NativeModules.Select(FetchModule); } }
+        public IEnumerable<RemoteModule> RemoteModules { get { return NativeModules?.Select(FetchModule); } }
 
         /// <summary>
         /// Gets the native modules that have been loaded in the remote process.
         /// </summary>
-        internal IEnumerable<ProcessModule> NativeModules { get { return WindowsOSInterface.Native.Modules.Cast<ProcessModule>(); } }
+        internal IEnumerable<ProcessModule> NativeModules { get { return WindowsOperatingSystem?.Native?.Modules?.Cast<ProcessModule>(); } }
 
         #region This
         /// <summary>
@@ -43,7 +43,7 @@ namespace Anathema.Source.Engine.OperatingSystems.Windows.Modules
         [Obfuscation(Exclude = true)]
         public RemotePointer this[IntPtr address]
         {
-            get { return new RemotePointer(WindowsOSInterface, address); }
+            get { return new RemotePointer(WindowsOperatingSystem, address); }
         }
 
         /// <summary>
@@ -63,11 +63,11 @@ namespace Anathema.Source.Engine.OperatingSystems.Windows.Modules
         /// <summary>
         /// Initializes a new instance of the <see cref="ModuleFactory"/> class.
         /// </summary>
-        /// <param name="MemorySharp">The reference of the <see cref="MemoryManagement.WindowsOSInterface"/> object.</param>
-        internal ModuleFactory(WindowsOperatingSystem MemorySharp)
+        /// <param name="WindowsOperatingSystem">The reference of the <see cref="MemoryManagement.WindowsOSInterface"/> object.</param>
+        internal ModuleFactory(WindowsOperatingSystem WindowsOperatingSystem)
         {
             // Save the parameter
-            this.WindowsOSInterface = MemorySharp;
+            this.WindowsOperatingSystem = WindowsOperatingSystem;
         }
 
         /// <summary>
@@ -90,7 +90,7 @@ namespace Anathema.Source.Engine.OperatingSystems.Windows.Modules
             // Clean the cached functions related to this process
             foreach (var CachedFunction in RemoteModule.CachedFunctions.ToArray())
             {
-                if (CachedFunction.Key.Item2 == WindowsOSInterface.Handle)
+                if (CachedFunction.Key.Item2 == WindowsOperatingSystem.Handle)
                     RemoteModule.CachedFunctions.Remove(CachedFunction);
             }
 
@@ -117,7 +117,7 @@ namespace Anathema.Source.Engine.OperatingSystems.Windows.Modules
 
 
             // Fetch and return the module
-            return new RemoteModule(WindowsOSInterface, NativeModules.First(m => m.ModuleName.ToLower() == ModuleName));
+            return new RemoteModule(WindowsOperatingSystem, NativeModules.First(m => m.ModuleName.ToLower() == ModuleName));
         }
 
         /// <summary>

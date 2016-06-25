@@ -4,6 +4,7 @@ using Anathema.Source.Engine.Processes;
 using Anathema.Source.Prefilter;
 using Anathema.Source.Tables;
 using Anathema.Source.Utils;
+using Anathema.Source.Utils.AddressResolver;
 using Anathema.Source.Utils.Snapshots;
 using System;
 
@@ -54,7 +55,7 @@ namespace Anathema.Source.Controller
         {
             SnapshotPrefilterFactory.GetSnapshotPrefilter(typeof(LinkedListSnapshotPrefilter)).BeginPrefilter();
             DotNetObjectCollector.GetInstance().Begin();
-            DotNetNameResolver.GetInstance().Begin();
+            AddressResolver.GetInstance().Begin();
         }
 
         public void UpdateActionProgress(ProgressItem ProgressItem)

@@ -496,8 +496,7 @@ namespace Anathema.Source.Engine.OperatingSystems.Windows
         {
             List<NormalizedModule> NormalizedModules = new List<NormalizedModule>();
 
-            foreach (RemoteModule Module in Modules.RemoteModules)
-                NormalizedModules.Add(new NormalizedModule(Module.Name, Module.BaseAddress, Module.Size));
+            Modules?.RemoteModules?.ForEach(X => NormalizedModules.Add(new NormalizedModule(X.Name, X.BaseAddress, X.Size)));
 
             return NormalizedModules;
         }

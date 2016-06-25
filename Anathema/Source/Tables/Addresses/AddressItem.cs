@@ -118,7 +118,7 @@ namespace Anathema.Source.Tables.Addresses
         [Obfuscation(Exclude = true)]
         public void ResolveAddress(EngineCore EngineCore)
         {
-            IntPtr Pointer = AddressResolver.GetInstance().ResolveAddress(BaseAddress);
+            IntPtr Pointer = AddressResolver.GetInstance().ResolveExpression(BaseAddress);
             Boolean SuccessReading = true;
 
             if (EngineCore == null)

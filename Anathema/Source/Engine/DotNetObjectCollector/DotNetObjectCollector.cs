@@ -15,14 +15,18 @@ namespace Anathema.Source.Engine.DotNetObjectCollector
     class DotNetObjectCollector : RepeatedTask, IProcessObserver
     {
         private static Lazy<DotNetObjectCollector> DotNetObjectCollectorInstance = new Lazy<DotNetObjectCollector>(() => { return new DotNetObjectCollector(); });
-        private static String[] ExcludedNameSpaces = new String[] { "System.", "Microsoft.", "<CppImplementationDetails>.","<CrtImplementationDetails>.",
+        private static String[] ExcludedNameSpaces = new String[]
+        {
+            System.Reflection.Assembly.GetExecutingAssembly().GetName().Name,
+            "System.", "Microsoft.", "<CppImplementationDetails>.","<CrtImplementationDetails>.",
             "Newtonsoft.", "Ionic.", "SteamWorks.",
             "Terraria.Tile", "Terraria.Item", "Terraria.UI",  "Terraria.ObjectData", "Terraria.GameContent", "Terraria.Lighting",
-            "Terraria.Graphics", "Terraria.Social", "Terraria.IO", "Terraria.DataStructures",
-            System.Reflection.Assembly.GetExecutingAssembly().GetName().Name };
+            "Terraria.Graphics", "Terraria.Social", "Terraria.IO", "Terraria.DataStructures"
+        };
 
-        private const Int32 AttachTimeout = 4000;
-        private const Int32 RescanTime = 5000;
+        private const Int32 AttachTimeout = 5000;
+        private const Int32 InitialPollingTime = 200;
+        private const Int32 PollingTime = 10000;
 
         private EngineCore EngineCore;
 
@@ -67,13 +71,15 @@ namespace Anathema.Source.Engine.DotNetObjectCollector
         {
             base.Begin();
 
-            this.UpdateInterval = RescanTime;
+            this.UpdateInterval = InitialPollingTime;
         }
 
         protected override void Update()
         {
             if (EngineCore == null || EngineCore.Memory.GetProcess() == null)
                 return;
+
+            this.UpdateInterval = PollingTime;
 
             ClrHeap Heap;
             try
@@ -132,7 +138,7 @@ namespace Anathema.Source.Engine.DotNetObjectCollector
             // Add all fields
             foreach (ClrField Field in Heap.GetObjectType(ParentRef).Fields)
             {
-                DotNetObject ChildObject = new DotNetObject(Parent, Parent.GetAddress().Add(Field.Offset).ToUInt64(), Field?.Name);
+                DotNetObject ChildObject = new DotNetObject(Parent, Parent.GetAddress().Add(Field.Offset + 4).ToUInt64(), Field?.Name);
                 Parent.AddChild(ChildObject);
             }
 

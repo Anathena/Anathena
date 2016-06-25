@@ -299,7 +299,7 @@
     <Compile Include="Source\Engine\Architecture\Assembler\AssemblerFactory.cs" />
     <Compile Include="Source\Engine\Architecture\Disassembler\DisassemblerFactory.cs" />
     <Compile Include="Source\Engine\DotNetObjectCollector\DotNetObject.cs" />
-    <Compile Include="Source\Engine\DotNetObjectCollector\DotNetNameResolver.cs" />
+    <Compile Include="Source\Utils\AddressResolver\AddressResolver.cs" />
     <Compile Include="Source\Engine\Graphics\DirectX\Interface\BaseDXHook.cs" />
     <Compile Include="Source\Engine\Graphics\DirectX\Interface\Common\Element.cs" />
     <Compile Include="Source\Engine\Graphics\DirectX\Interface\Common\ImageElement.cs" />
@@ -355,7 +355,6 @@
     <Compile Include="Source\Engine\OperatingSystems\OperatingSystemFactory.cs" />
     <Compile Include="Source\Engine\Hook\SpeedHack\SpeedHackInterface.cs" />
     <Compile Include="Source\Engine\Hook\SpeedHack\ISpeedHackInterface.cs" />
-    <Compile Include="Source\Utils\AddressResolver\AddressResolver.cs" />
     <Compile Include="Source\Utils\Browser\BrowserHelper.cs" />
     <Compile Include="Source\Utils\DotNetExplorer\IDotNetExplorerMVP.cs" />
     <Compile Include="Source\Utils\DotNetExplorer\DotNetExplorer.cs" />
@@ -931,10 +930,6 @@
       <SubType>Designer</SubType>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <Content Include="EasyHook\EasyHook32Svc.exe" />
-    <Content Include="EasyHook\EasyHook64.lib" />
-    <Content Include="EasyHook\EasyLoad32.lib" />
-    <Content Include="EasyHook\EasyLoad64.lib" />
     <None Include="packages.config" />
     <None Include="Properties\app.manifest" />
     <None Include="Content\Font\MonoSpace.ttf" />
@@ -964,10 +959,8 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
     <Content Include="EasyHook\EasyHook.dll" />
-    <Content Include="EasyHook\easyhook.h" />
     <Content Include="EasyHook\EasyHook32.dll" />
     <Content Include="EasyHook\EasyHook64.dll" />
-    <Content Include="EasyHook\EasyHook64Svc.exe" />
     <Content Include="EasyHook\EasyLoad32.dll" />
     <Content Include="EasyHook\EasyLoad64.dll" />
     <Content Include="sharpdx_direct3d11_1_effects_arm.dll" />
