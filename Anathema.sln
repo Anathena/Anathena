@@ -1,4 +1,4 @@
-﻿
+
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
 VisualStudioVersion = 14.0.25123.0
@@ -41,43 +41,43 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AnathemaProxy32", "Anathema
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Graphics", "Graphics", "{FA99A4F6-0E68-4289-A5A8-80C8A9F694CA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharpDX", "SharpDX\SharpDX.csproj", "{6A41EAF1-67D4-43F0-B6B8-1A1395B07235}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharpDX", "SharpDX\SharpDX\SharpDX.csproj", "{6A41EAF1-67D4-43F0-B6B8-1A1395B07235}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharpDX.Animation", "SharpDX.Animation\SharpDX.Animation.csproj", "{1B2E7AC4-B206-4268-A782-53B3E3025A43}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharpDX.Animation", "SharpDX\SharpDX.Animation\SharpDX.Animation.csproj", "{1B2E7AC4-B206-4268-A782-53B3E3025A43}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharpDX.D3DCompiler", "SharpDX.D3DCompiler\SharpDX.D3DCompiler.csproj", "{0FF760B5-436B-44E5-8660-696BFA62A77B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharpDX.D3DCompiler", "SharpDX\SharpDX.D3DCompiler\SharpDX.D3DCompiler.csproj", "{0FF760B5-436B-44E5-8660-696BFA62A77B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharpDX.Desktop", "SharpDX.Desktop\SharpDX.Desktop.csproj", "{A83E25B7-D5D9-49C0-8FD6-D58213AD1E41}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharpDX.Desktop", "SharpDX\SharpDX.Desktop\SharpDX.Desktop.csproj", "{A83E25B7-D5D9-49C0-8FD6-D58213AD1E41}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharpDX.Direct2D1", "SharpDX.Direct2D1\SharpDX.Direct2D1.csproj", "{0D4673AA-44F0-4B27-B5CE-9AD5E8C9A730}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharpDX.Direct2D1", "SharpDX\SharpDX.Direct2D1\SharpDX.Direct2D1.csproj", "{0D4673AA-44F0-4B27-B5CE-9AD5E8C9A730}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharpDX.DXGI", "SharpDX.DXGI\SharpDX.DXGI.csproj", "{34134161-C8D8-4CDA-9822-AD9D954140B2}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharpDX.DXGI", "SharpDX\SharpDX.DXGI\SharpDX.DXGI.csproj", "{34134161-C8D8-4CDA-9822-AD9D954140B2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharpDX.Direct3D9", "SharpDX.Direct3D9\SharpDX.Direct3D9.csproj", "{9D67F045-EB5D-4759-8BE4-06D99A20A668}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharpDX.Direct3D9", "SharpDX\SharpDX.Direct3D9\SharpDX.Direct3D9.csproj", "{9D67F045-EB5D-4759-8BE4-06D99A20A668}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharpDX.Direct3D11", "SharpDX.Direct3D11\SharpDX.Direct3D11.csproj", "{DE53B631-199E-49B8-8B4D-FE9F3D5B28CD}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharpDX.Direct3D11", "SharpDX\SharpDX.Direct3D11\SharpDX.Direct3D11.csproj", "{DE53B631-199E-49B8-8B4D-FE9F3D5B28CD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharpDX.Direct3D11.Effects", "SharpDX.Direct3D11.Effects\SharpDX.Direct3D11.Effects.csproj", "{EFF5C0D7-E17A-4EFF-BFF4-029267B91071}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharpDX.Direct3D11.Effects", "SharpDX\SharpDX.Direct3D11.Effects\SharpDX.Direct3D11.Effects.csproj", "{EFF5C0D7-E17A-4EFF-BFF4-029267B91071}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharpDX.Direct3D12", "SharpDX.Direct3D12\SharpDX.Direct3D12.csproj", "{99391458-FE91-4E52-8E38-486F13A02829}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharpDX.Direct3D12", "SharpDX\SharpDX.Direct3D12\SharpDX.Direct3D12.csproj", "{99391458-FE91-4E52-8E38-486F13A02829}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharpDX.DirectComposition", "SharpDX.DirectComposition\SharpDX.DirectComposition.csproj", "{587DB362-8AE3-4697-86AC-CAD2F1D4F2EF}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharpDX.DirectComposition", "SharpDX\SharpDX.DirectComposition\SharpDX.DirectComposition.csproj", "{587DB362-8AE3-4697-86AC-CAD2F1D4F2EF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharpDX.DirectInput", "SharpDX.DirectInput\SharpDX.DirectInput.csproj", "{DE89F393-94D0-4A2D-A394-F0933461447B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharpDX.DirectInput", "SharpDX\SharpDX.DirectInput\SharpDX.DirectInput.csproj", "{DE89F393-94D0-4A2D-A394-F0933461447B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharpDX.DirectManipulation", "SharpDX.DirectManipulation\SharpDX.DirectManipulation.csproj", "{24AD5CD6-7091-4BE6-85B6-E352EDA5FE33}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharpDX.DirectManipulation", "SharpDX\SharpDX.DirectManipulation\SharpDX.DirectManipulation.csproj", "{24AD5CD6-7091-4BE6-85B6-E352EDA5FE33}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharpDX.DirectSound", "SharpDX.DirectSound\SharpDX.DirectSound.csproj", "{7D3DABE0-4D95-4CDF-B9DE-B798660B6CA3}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharpDX.DirectSound", "SharpDX\SharpDX.DirectSound\SharpDX.DirectSound.csproj", "{7D3DABE0-4D95-4CDF-B9DE-B798660B6CA3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharpDX.Mathematics", "SharpDX.Mathematics\SharpDX.Mathematics.csproj", "{DADC8BF0-B87D-4D2F-B9A8-C243ABDDFCEB}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharpDX.Mathematics", "SharpDX\SharpDX.Mathematics\SharpDX.Mathematics.csproj", "{DADC8BF0-B87D-4D2F-B9A8-C243ABDDFCEB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharpDX.MediaFoundation", "SharpDX.MediaFoundation\SharpDX.MediaFoundation.csproj", "{FAA17D46-B46F-45BA-978B-C299855C3B06}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharpDX.MediaFoundation", "SharpDX\SharpDX.MediaFoundation\SharpDX.MediaFoundation.csproj", "{FAA17D46-B46F-45BA-978B-C299855C3B06}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharpDX.RawInput", "SharpDX.RawInput\SharpDX.RawInput.csproj", "{149DAD81-9C63-42F8-8B0C-500645BAD9E3}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharpDX.RawInput", "SharpDX\SharpDX.RawInput\SharpDX.RawInput.csproj", "{149DAD81-9C63-42F8-8B0C-500645BAD9E3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharpDX.XAudio2", "SharpDX.XAudio2\SharpDX.XAudio2.csproj", "{032C2158-2B94-485C-A32E-B880E63F7F29}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharpDX.XAudio2", "SharpDX\SharpDX.XAudio2\SharpDX.XAudio2.csproj", "{032C2158-2B94-485C-A32E-B880E63F7F29}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharpDX.XInput", "SharpDX.XInput\SharpDX.XInput.csproj", "{7DDA3633-FB33-4187-8209-093616E50B08}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharpDX.XInput", "SharpDX\SharpDX.XInput\SharpDX.XInput.csproj", "{7DDA3633-FB33-4187-8209-093616E50B08}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
