@@ -1,4 +1,6 @@
 ﻿using SharpDX.DirectInput;
+using SharpDX.RawInput;
+using System;
 using System.Collections.Generic;
 
 namespace Anathema.Source.Engine.InputCapture.KeyboardCapture
@@ -16,10 +18,19 @@ namespace Anathema.Source.Engine.InputCapture.KeyboardCapture
         public KeyboardCapture()
         {
             // Initialize DirectInput
+            SharpDX.RawInput.Device.RegisterDevice(SharpDX.Multimedia.UsagePage.Generic, SharpDX.Multimedia.UsageId.GenericKeyboard, SharpDX.RawInput.DeviceFlags.None);
+            SharpDX.RawInput.Device.KeyboardInput += new System.EventHandler<KeyboardInputEventArgs>(Device_KeyboardInput);
+
+            /*
             DirectInput = new DirectInput();
             Subjects = new List<IKeyboardObserver>();
 
-            Keyboard = new Keyboard(DirectInput);
+            Keyboard = new Keyboard(DirectInput);*/
+        }
+
+        private void Device_KeyboardInput(Object Sender, KeyboardInputEventArgs Args)
+        {
+
         }
 
         public void Subscribe(IKeyboardObserver Subject)

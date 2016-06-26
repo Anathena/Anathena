@@ -56,12 +56,12 @@ namespace Anathema.Source.Scanners.ManualScanner
             Parallel.ForEach(Snapshot.Cast<Object>(), (RegionObject) =>
             {
                 SnapshotRegion Region = (SnapshotRegion)RegionObject;
+                Boolean Success;
 
-                try
-                {
-                    Region.ReadAllSnapshotMemory(Snapshot.GetEngineCore(), true);
-                }
-                catch (ScanFailedException Ex)
+
+                Region.ReadAllSnapshotMemory(Snapshot.GetEngineCore(), out Success, true);
+
+                if (!Success)
                 {
                     Region.MarkAllInvalid();
                     return;

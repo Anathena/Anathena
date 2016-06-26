@@ -64,14 +64,14 @@ namespace Anathema.Source.Scanners.ChunkScanner
 
             Parallel.ForEach(ChunkRoots, (ChunkRoot) =>
             {
-                try
+                Boolean Success;
+
+                // Process the changes that have occurred since the last sampling for this memory page
+                ChunkRoot.ProcessChanges(ChunkRoot.ReadAllSnapshotMemory(EngineCore, out Success, false));
+
+                if (!Success)
                 {
-                    // Process the changes that have occurred since the last sampling for this memory page
-                    ChunkRoot.ProcessChanges(ChunkRoot.ReadAllSnapshotMemory(EngineCore, false));
-                }
-                catch (ScanFailedException)
-                {
-                    // Fuck it
+                    // TODO: May be worth doing something about the dead region, honestly it doesn't matter that much
                 }
             });
 

@@ -65,26 +65,18 @@ namespace Anathema.Source.Scanners.TreeScanner
         {
             EngineCore EngineCore = Snapshot.GetEngineCore();
 
-            try
+            Parallel.ForEach(FilterTrees, (Tree) =>
             {
-                Parallel.ForEach(FilterTrees, (Tree) =>
+                Boolean Success;
+
+                // Process the changes that have occurred since the last sampling for this memory page
+                Tree.ProcessChanges(Tree.ReadAllSnapshotMemory(EngineCore, out Success, false), Tree.BaseAddress);
+
+                if (!Success)
                 {
-                    // Process the changes that have occurred since the last sampling for this memory page
-                    try
-                    {
-                        Tree.ProcessChanges(Tree.ReadAllSnapshotMemory(EngineCore, false), Tree.BaseAddress);
-                    }
-                    catch (ScanFailedException Ex)
-                    {
-                        return;
-                    }
-
-                });
-            }
-            catch (ScanFailedException)
-            {
-
-            }
+                    // TODO: May be worth doing something about the dead region, honestly it doesn't matter that much
+                }
+            });
 
             OnEventUpdateScanCount(new ScannerEventArgs(this.ScanCount));
         }

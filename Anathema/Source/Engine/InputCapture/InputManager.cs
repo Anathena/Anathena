@@ -38,7 +38,6 @@ namespace Anathema.Source.Engine.InputCapture
         private void Update()
         {
             return;
-
             ControllerSubject.Update();
             KeyboardSubject.Update();
             MouseSubject.Update();

@@ -30,10 +30,10 @@
 //------------------------------------------------------------------------------
 using System;
 using System.Runtime.InteropServices;
-using System.Security;
-namespace SharpDX.DirectInput {
+namespace SharpDX.DirectInput
+{
 
-// Disable warning : XML comment is not placed on a valid language element
+    // Disable warning : XML comment is not placed on a valid language element
 #pragma warning disable 419
 #pragma warning disable 1587
 #pragma warning disable 1574
@@ -80,27 +80,29 @@ namespace SharpDX.DirectInput {
     /// <unmanaged>IDirectInputDevice8W</unmanaged>	
     /// <unmanaged-short>IDirectInputDevice8W</unmanaged-short>	
     [Guid("54d41081-dc15-4833-a41b-748f73a38179")]
-    public partial class Device : SharpDX.ComObject {
+    public partial class Device : SharpDX.ComObject
+    {
         /// <summary>
         /// Initializes a new instance of the <see cref="SharpDX.DirectInput.Device"/> class.
         /// </summary>
         /// <param name="nativePtr">The native pointer.</param>	
-        public Device(IntPtr nativePtr) : base(nativePtr) {
+        public Device(IntPtr nativePtr) : base(nativePtr)
+        {
         }
 
-		/// <summary>
-		/// Performs an explicit conversion from <see cref="System.IntPtr"/> to <see cref="SharpDX.DirectInput.Device"/>. (This method is a shortcut to <see cref="SharpDX.CppObject.NativePointer"/>) 
-		/// </summary>
-		/// <param name="nativePointer">The native pointer.</param>
-		/// <returns>
-		/// The result of the conversion.
-		/// </returns>
-		public static explicit operator SharpDX.DirectInput.Device(IntPtr nativePointer)
-		{
-			return nativePointer == IntPtr.Zero ? null : new SharpDX.DirectInput.Device(nativePointer);
-		}
-        
-        
+        /// <summary>
+        /// Performs an explicit conversion from <see cref="System.IntPtr"/> to <see cref="SharpDX.DirectInput.Device"/>. (This method is a shortcut to <see cref="SharpDX.CppObject.NativePointer"/>) 
+        /// </summary>
+        /// <param name="nativePointer">The native pointer.</param>
+        /// <returns>
+        /// The result of the conversion.
+        /// </returns>
+        public static explicit operator SharpDX.DirectInput.Device(IntPtr nativePointer)
+        {
+            return nativePointer == IntPtr.Zero ? null : new SharpDX.DirectInput.Device(nativePointer);
+        }
+
+
         /// <summary>	
         /// Obtains the capabilities of the DirectInputDevice object.	
         /// </summary>	
@@ -112,10 +114,11 @@ namespace SharpDX.DirectInput {
         /// <unmanaged>GetCapabilities</unmanaged>	
         /// <unmanaged-short>GetCapabilities</unmanaged-short>	
         /// <unmanaged>HRESULT IDirectInputDevice8W::GetCapabilities([Out] DIDEVCAPS* arg0)</unmanaged>
-        public SharpDX.DirectInput.Capabilities Capabilities {
-                get { SharpDX.DirectInput.Capabilities __output__; GetCapabilities(out __output__); return __output__; }
+        public SharpDX.DirectInput.Capabilities Capabilities
+        {
+            get { SharpDX.DirectInput.Capabilities __output__; GetCapabilities(out __output__); return __output__; }
         }
-        
+
         /// <summary>	
         /// Obtains information about the device's identity.	
         /// </summary>	
@@ -127,10 +130,11 @@ namespace SharpDX.DirectInput {
         /// <unmanaged>GetDeviceInfo</unmanaged>	
         /// <unmanaged-short>GetDeviceInfo</unmanaged-short>	
         /// <unmanaged>HRESULT IDirectInputDevice8W::GetDeviceInfo([Out] DIDEVICEINSTANCEW* arg0)</unmanaged>
-        public SharpDX.DirectInput.DeviceInstance Information {
-                get { SharpDX.DirectInput.DeviceInstance __output__; GetInformation(out __output__); return __output__; }
+        public SharpDX.DirectInput.DeviceInstance Information
+        {
+            get { SharpDX.DirectInput.DeviceInstance __output__; GetInformation(out __output__); return __output__; }
         }
-        
+
         /// <summary>	
         /// Obtains the capabilities of the DirectInputDevice object.	
         /// </summary>	
@@ -143,18 +147,20 @@ namespace SharpDX.DirectInput {
         /// <msdn-id>microsoft.directx_sdk.idirectinputdevice8.idirectinputdevice8.getcapabilities</msdn-id>	
         /// <unmanaged>HRESULT IDirectInputDevice8W::GetCapabilities([Out] DIDEVCAPS* arg0)</unmanaged>	
         /// <unmanaged-short>IDirectInputDevice8W::GetCapabilities</unmanaged-short>	
-        internal void GetCapabilities(out SharpDX.DirectInput.Capabilities arg0) {
-            unsafe {
+        internal void GetCapabilities(out SharpDX.DirectInput.Capabilities arg0)
+        {
+            unsafe
+            {
                 var arg0_ = SharpDX.DirectInput.Capabilities.__NewNative();
                 SharpDX.Result __result__;
-                __result__= 
-				SharpDX.DirectInput.LocalInterop.Calliint(_nativePointer, &arg0_,((void**)(*(void**)_nativePointer))[3]);		
+                __result__ =
+                SharpDX.DirectInput.LocalInterop.Calliint(_nativePointer, &arg0_, ((void**)(*(void**)_nativePointer))[3]);
                 arg0 = new SharpDX.DirectInput.Capabilities();
                 arg0.__MarshalFrom(ref arg0_);
                 __result__.CheckError();
             }
         }
-        
+
         /// <summary>	
         /// Enumerates the input and output objects available on a device.	
         /// </summary>	
@@ -169,15 +175,17 @@ namespace SharpDX.DirectInput {
         /// <msdn-id>microsoft.directx_sdk.idirectinputdevice8.idirectinputdevice8.enumobjects</msdn-id>	
         /// <unmanaged>HRESULT IDirectInputDevice8W::EnumObjects([In] __function__stdcall* arg0,[In] void* arg1,[In] unsigned int arg2)</unmanaged>	
         /// <unmanaged-short>IDirectInputDevice8W::EnumObjects</unmanaged-short>	
-        internal void EnumObjects(SharpDX.FunctionCallback arg0, System.IntPtr arg1, int arg2) {
-            unsafe {
+        internal void EnumObjects(SharpDX.FunctionCallback arg0, System.IntPtr arg1, int arg2)
+        {
+            unsafe
+            {
                 SharpDX.Result __result__;
-                __result__= 
-				SharpDX.DirectInput.LocalInterop.Calliint(_nativePointer, arg0, (void*)arg1, arg2,((void**)(*(void**)_nativePointer))[4]);		
+                __result__ =
+                SharpDX.DirectInput.LocalInterop.Calliint(_nativePointer, arg0, (void*)arg1, arg2, ((void**)(*(void**)_nativePointer))[4]);
                 __result__.CheckError();
             }
         }
-        
+
         /// <summary>	
         /// Retrieves information about the input device.	
         /// </summary>	
@@ -188,15 +196,17 @@ namespace SharpDX.DirectInput {
         /// <msdn-id>microsoft.directx_sdk.idirectinputdevice8.idirectinputdevice8.getproperty</msdn-id>	
         /// <unmanaged>HRESULT IDirectInputDevice8W::GetProperty([In] const void&amp; arg0,[In] void* arg1)</unmanaged>	
         /// <unmanaged-short>IDirectInputDevice8W::GetProperty</unmanaged-short>	
-        internal void GetProperty(System.IntPtr arg0, System.IntPtr arg1) {
-            unsafe {
+        internal void GetProperty(System.IntPtr arg0, System.IntPtr arg1)
+        {
+            unsafe
+            {
                 SharpDX.Result __result__;
-                __result__= 
-				SharpDX.DirectInput.LocalInterop.Calliint(_nativePointer, (void*)arg0, (void*)arg1,((void**)(*(void**)_nativePointer))[5]);		
+                __result__ =
+                SharpDX.DirectInput.LocalInterop.Calliint(_nativePointer, (void*)arg0, (void*)arg1, ((void**)(*(void**)_nativePointer))[5]);
                 __result__.CheckError();
             }
         }
-        
+
         /// <summary>	
         /// Sets properties that define the device behavior. These properties include input buffer size and axis mode.	
         /// </summary>	
@@ -210,15 +220,17 @@ namespace SharpDX.DirectInput {
         /// <msdn-id>microsoft.directx_sdk.idirectinputdevice8.idirectinputdevice8.setproperty</msdn-id>	
         /// <unmanaged>HRESULT IDirectInputDevice8W::SetProperty([In] const void&amp; arg0,[In] const void* arg1)</unmanaged>	
         /// <unmanaged-short>IDirectInputDevice8W::SetProperty</unmanaged-short>	
-        internal void SetProperty(System.IntPtr arg0, System.IntPtr arg1) {
-            unsafe {
+        internal void SetProperty(System.IntPtr arg0, System.IntPtr arg1)
+        {
+            unsafe
+            {
                 SharpDX.Result __result__;
-                __result__= 
-				SharpDX.DirectInput.LocalInterop.Calliint(_nativePointer, (void*)arg0, (void*)arg1,((void**)(*(void**)_nativePointer))[6]);		
+                __result__ =
+                SharpDX.DirectInput.LocalInterop.Calliint(_nativePointer, (void*)arg0, (void*)arg1, ((void**)(*(void**)_nativePointer))[6]);
                 __result__.CheckError();
             }
         }
-        
+
         /// <summary>	
         /// Obtains access to the input device.	
         /// </summary>	
@@ -230,15 +242,17 @@ namespace SharpDX.DirectInput {
         /// <msdn-id>microsoft.directx_sdk.idirectinputdevice8.idirectinputdevice8.acquire</msdn-id>	
         /// <unmanaged>HRESULT IDirectInputDevice8W::Acquire()</unmanaged>	
         /// <unmanaged-short>IDirectInputDevice8W::Acquire</unmanaged-short>	
-        public void Acquire() {
-            unsafe {
+        public void Acquire()
+        {
+            unsafe
+            {
                 SharpDX.Result __result__;
-                __result__= 
-				SharpDX.DirectInput.LocalInterop.Calliint(_nativePointer,((void**)(*(void**)_nativePointer))[7]);		
+                __result__ =
+                SharpDX.DirectInput.LocalInterop.Calliint(_nativePointer, ((void**)(*(void**)_nativePointer))[7]);
                 __result__.CheckError();
             }
         }
-        
+
         /// <summary>	
         /// Releases access to the device.	
         /// </summary>	
@@ -247,15 +261,17 @@ namespace SharpDX.DirectInput {
         /// <msdn-id>microsoft.directx_sdk.idirectinputdevice8.idirectinputdevice8.unacquire</msdn-id>	
         /// <unmanaged>HRESULT IDirectInputDevice8W::Unacquire()</unmanaged>	
         /// <unmanaged-short>IDirectInputDevice8W::Unacquire</unmanaged-short>	
-        public void Unacquire() {
-            unsafe {
+        public void Unacquire()
+        {
+            unsafe
+            {
                 SharpDX.Result __result__;
-                __result__= 
-				SharpDX.DirectInput.LocalInterop.Calliint(_nativePointer,((void**)(*(void**)_nativePointer))[8]);		
+                __result__ =
+                SharpDX.DirectInput.LocalInterop.Calliint(_nativePointer, ((void**)(*(void**)_nativePointer))[8]);
                 __result__.CheckError();
             }
         }
-        
+
         /// <summary>	
         /// Retrieves immediate data from the device.	
         /// </summary>	
@@ -272,15 +288,17 @@ namespace SharpDX.DirectInput {
         /// <msdn-id>microsoft.directx_sdk.idirectinputdevice8.idirectinputdevice8.getdevicestate</msdn-id>	
         /// <unmanaged>HRESULT IDirectInputDevice8W::GetDeviceState([In] unsigned int arg0,[In] void* arg1)</unmanaged>	
         /// <unmanaged-short>IDirectInputDevice8W::GetDeviceState</unmanaged-short>	
-        internal void GetDeviceState(int arg0, System.IntPtr arg1) {
-            unsafe {
+        internal void GetDeviceState(int arg0, System.IntPtr arg1)
+        {
+            unsafe
+            {
                 SharpDX.Result __result__;
-                __result__= 
-				SharpDX.DirectInput.LocalInterop.Calliint(_nativePointer, arg0, (void*)arg1,((void**)(*(void**)_nativePointer))[9]);		
+                __result__ =
+                SharpDX.DirectInput.LocalInterop.Calliint(_nativePointer, arg0, (void*)arg1, ((void**)(*(void**)_nativePointer))[9]);
                 __result__.CheckError();
             }
         }
-        
+
         /// <summary>	
         /// Retrieves buffered data from the device.	
         /// </summary>	
@@ -313,16 +331,18 @@ namespace SharpDX.DirectInput {
         /// <msdn-id>microsoft.directx_sdk.idirectinputdevice8.idirectinputdevice8.getdevicedata</msdn-id>	
         /// <unmanaged>HRESULT IDirectInputDevice8W::GetDeviceData([In] unsigned int arg0,[In, Buffer] void* arg1,[InOut] unsigned int* arg2,[In] unsigned int arg3)</unmanaged>	
         /// <unmanaged-short>IDirectInputDevice8W::GetDeviceData</unmanaged-short>	
-        internal void GetDeviceData(int arg0, System.IntPtr arg1, ref int arg2, int arg3) {
-            unsafe {
+        internal void GetDeviceData(int arg0, System.IntPtr arg1, ref int arg2, int arg3)
+        {
+            unsafe
+            {
                 SharpDX.Result __result__;
                 fixed (void* arg2_ = &arg2)
-                    __result__= 
-    				SharpDX.DirectInput.LocalInterop.Calliint(_nativePointer, arg0, (void*)arg1, arg2_, arg3,((void**)(*(void**)_nativePointer))[10]);		
+                    __result__ =
+                    SharpDX.DirectInput.LocalInterop.Calliint(_nativePointer, arg0, (void*)arg1, arg2_, arg3, ((void**)(*(void**)_nativePointer))[10]);
                 __result__.CheckError();
             }
         }
-        
+
         /// <summary>	
         /// Sets the data format for the DirectInput  device.	
         /// </summary>	
@@ -335,18 +355,20 @@ namespace SharpDX.DirectInput {
         /// <msdn-id>microsoft.directx_sdk.idirectinputdevice8.idirectinputdevice8.setdataformat</msdn-id>	
         /// <unmanaged>HRESULT IDirectInputDevice8W::SetDataFormat([In] const DIDATAFORMAT* arg0)</unmanaged>	
         /// <unmanaged-short>IDirectInputDevice8W::SetDataFormat</unmanaged-short>	
-        internal void SetDataFormat(SharpDX.DirectInput.DataFormat arg0) {
-            unsafe {
+        internal void SetDataFormat(SharpDX.DirectInput.DataFormat arg0)
+        {
+            unsafe
+            {
                 var arg0_ = SharpDX.DirectInput.DataFormat.__NewNative();
                 arg0.__MarshalTo(ref arg0_);
                 SharpDX.Result __result__;
-                __result__= 
-				SharpDX.DirectInput.LocalInterop.Calliint(_nativePointer, &arg0_,((void**)(*(void**)_nativePointer))[11]);		
+                __result__ =
+                SharpDX.DirectInput.LocalInterop.Calliint(_nativePointer, &arg0_, ((void**)(*(void**)_nativePointer))[11]);
                 arg0.__MarshalFree(ref arg0_);
                 __result__.CheckError();
             }
         }
-        
+
         /// <summary>	
         /// Specifies an event that is to be set when the device state changes. It is also used to turn off event notification.	
         /// </summary>	
@@ -356,28 +378,32 @@ namespace SharpDX.DirectInput {
         /// <msdn-id>microsoft.directx_sdk.idirectinputdevice8.idirectinputdevice8.seteventnotification</msdn-id>	
         /// <unmanaged>HRESULT IDirectInputDevice8W::SetEventNotification([In] void* arg0)</unmanaged>	
         /// <unmanaged-short>IDirectInputDevice8W::SetEventNotification</unmanaged-short>	
-        internal void SetEventNotification(System.IntPtr arg0) {
-            unsafe {
+        internal void SetEventNotification(System.IntPtr arg0)
+        {
+            unsafe
+            {
                 SharpDX.Result __result__;
-                __result__= 
-				SharpDX.DirectInput.LocalInterop.Calliint(_nativePointer, (void*)arg0,((void**)(*(void**)_nativePointer))[12]);		
+                __result__ =
+                SharpDX.DirectInput.LocalInterop.Calliint(_nativePointer, (void*)arg0, ((void**)(*(void**)_nativePointer))[12]);
                 __result__.CheckError();
             }
         }
-        
+
         /// <include file='.\..\Documentation\CodeComments.xml' path="/comments/comment[@id='IDirectInputDevice8W::SetCooperativeLevel']/*"/>	
         /// <msdn-id>microsoft.directx_sdk.idirectinputdevice8.idirectinputdevice8.setcooperativelevel</msdn-id>	
         /// <unmanaged>HRESULT IDirectInputDevice8W::SetCooperativeLevel([In] HWND arg0,[In] DISCL arg1)</unmanaged>	
         /// <unmanaged-short>IDirectInputDevice8W::SetCooperativeLevel</unmanaged-short>	
-        public void SetCooperativeLevel(System.IntPtr arg0, SharpDX.DirectInput.CooperativeLevel arg1) {
-            unsafe {
+        public void SetCooperativeLevel(System.IntPtr arg0, SharpDX.DirectInput.CooperativeLevel arg1)
+        {
+            unsafe
+            {
                 SharpDX.Result __result__;
-                __result__= 
-				SharpDX.DirectInput.LocalInterop.Calliint(_nativePointer, (void*)arg0, unchecked((int)arg1),((void**)(*(void**)_nativePointer))[13]);		
+                __result__ =
+                SharpDX.DirectInput.LocalInterop.Calliint(_nativePointer, (void*)arg0, unchecked((int)arg1), ((void**)(*(void**)_nativePointer))[13]);
                 __result__.CheckError();
             }
         }
-        
+
         /// <summary>	
         /// Retrieves information about a device object, such as a button or axis.	
         /// </summary>	
@@ -391,20 +417,22 @@ namespace SharpDX.DirectInput {
         /// <msdn-id>microsoft.directx_sdk.idirectinputdevice8.idirectinputdevice8.getobjectinfo</msdn-id>	
         /// <unmanaged>HRESULT IDirectInputDevice8W::GetObjectInfo([Out] DIDEVICEOBJECTINSTANCEW* arg0,[In] unsigned int arg1,[In] DIPH arg2)</unmanaged>	
         /// <unmanaged-short>IDirectInputDevice8W::GetObjectInfo</unmanaged-short>	
-        internal SharpDX.DirectInput.DeviceObjectInstance GetObjectInfo(int arg1, SharpDX.DirectInput.PropertyHowType arg2) {
-            unsafe {
+        internal SharpDX.DirectInput.DeviceObjectInstance GetObjectInfo(int arg1, SharpDX.DirectInput.PropertyHowType arg2)
+        {
+            unsafe
+            {
                 SharpDX.DirectInput.DeviceObjectInstance arg0;
                 var arg0_ = SharpDX.DirectInput.DeviceObjectInstance.__NewNative();
                 SharpDX.Result __result__;
-                __result__= 
-				SharpDX.DirectInput.LocalInterop.Calliint(_nativePointer, &arg0_, arg1, unchecked((int)arg2),((void**)(*(void**)_nativePointer))[14]);		
+                __result__ =
+                SharpDX.DirectInput.LocalInterop.Calliint(_nativePointer, &arg0_, arg1, unchecked((int)arg2), ((void**)(*(void**)_nativePointer))[14]);
                 arg0 = new SharpDX.DirectInput.DeviceObjectInstance();
                 arg0.__MarshalFrom(ref arg0_);
                 __result__.CheckError();
                 return arg0;
             }
         }
-        
+
         /// <summary>	
         /// Obtains information about the device's identity.	
         /// </summary>	
@@ -417,18 +445,20 @@ namespace SharpDX.DirectInput {
         /// <msdn-id>microsoft.directx_sdk.idirectinputdevice8.idirectinputdevice8.getdeviceinfo</msdn-id>	
         /// <unmanaged>HRESULT IDirectInputDevice8W::GetDeviceInfo([Out] DIDEVICEINSTANCEW* arg0)</unmanaged>	
         /// <unmanaged-short>IDirectInputDevice8W::GetDeviceInfo</unmanaged-short>	
-        internal void GetInformation(out SharpDX.DirectInput.DeviceInstance arg0) {
-            unsafe {
+        internal void GetInformation(out SharpDX.DirectInput.DeviceInstance arg0)
+        {
+            unsafe
+            {
                 var arg0_ = SharpDX.DirectInput.DeviceInstance.__NewNative();
                 SharpDX.Result __result__;
-                __result__= 
-				SharpDX.DirectInput.LocalInterop.Calliint(_nativePointer, &arg0_,((void**)(*(void**)_nativePointer))[15]);		
+                __result__ =
+                SharpDX.DirectInput.LocalInterop.Calliint(_nativePointer, &arg0_, ((void**)(*(void**)_nativePointer))[15]);
                 arg0 = new SharpDX.DirectInput.DeviceInstance();
                 arg0.__MarshalFrom(ref arg0_);
                 __result__.CheckError();
             }
         }
-        
+
         /// <summary>	
         /// Runs the DirectInput control panel associated with this device. If the device does not have a control panel associated with it, the default device control panel is launched.	
         /// </summary>	
@@ -439,15 +469,17 @@ namespace SharpDX.DirectInput {
         /// <msdn-id>microsoft.directx_sdk.idirectinputdevice8.idirectinputdevice8.runcontrolpanel</msdn-id>	
         /// <unmanaged>HRESULT IDirectInputDevice8W::RunControlPanel([In] HWND arg0,[In] unsigned int arg1)</unmanaged>	
         /// <unmanaged-short>IDirectInputDevice8W::RunControlPanel</unmanaged-short>	
-        internal void RunControlPanel(System.IntPtr arg0, int arg1) {
-            unsafe {
+        internal void RunControlPanel(System.IntPtr arg0, int arg1)
+        {
+            unsafe
+            {
                 SharpDX.Result __result__;
-                __result__= 
-				SharpDX.DirectInput.LocalInterop.Calliint(_nativePointer, (void*)arg0, arg1,((void**)(*(void**)_nativePointer))[16]);		
+                __result__ =
+                SharpDX.DirectInput.LocalInterop.Calliint(_nativePointer, (void*)arg0, arg1, ((void**)(*(void**)_nativePointer))[16]);
                 __result__.CheckError();
             }
         }
-        
+
         /// <summary>	
         /// Initializes a DirectInputDevice object. TheIDirectInput8::CreateDevicemethod automatically initializes a device after creating it; applications normally do not need to call this method.	
         /// </summary>	
@@ -462,15 +494,17 @@ namespace SharpDX.DirectInput {
         /// <msdn-id>microsoft.directx_sdk.idirectinputdevice8.idirectinputdevice8.initialize</msdn-id>	
         /// <unmanaged>HRESULT IDirectInputDevice8W::Initialize([In] HINSTANCE arg0,[In] unsigned int arg1,[In] const GUID&amp; arg2)</unmanaged>	
         /// <unmanaged-short>IDirectInputDevice8W::Initialize</unmanaged-short>	
-        internal void Initialize(System.IntPtr arg0, int arg1, System.Guid arg2) {
-            unsafe {
+        internal void Initialize(System.IntPtr arg0, int arg1, System.Guid arg2)
+        {
+            unsafe
+            {
                 SharpDX.Result __result__;
-                __result__= 
-				SharpDX.DirectInput.LocalInterop.Calliint(_nativePointer, (void*)arg0, arg1, &arg2,((void**)(*(void**)_nativePointer))[17]);		
+                __result__ =
+                SharpDX.DirectInput.LocalInterop.Calliint(_nativePointer, (void*)arg0, arg1, &arg2, ((void**)(*(void**)_nativePointer))[17]);
                 __result__.CheckError();
             }
         }
-        
+
         /// <summary>	
         /// Creates and initializes an instance of an effect identified by the effect globally unique identifier (<see cref="System.Guid"/>).	
         /// </summary>	
@@ -486,20 +520,22 @@ namespace SharpDX.DirectInput {
         /// <msdn-id>microsoft.directx_sdk.idirectinputdevice8.idirectinputdevice8.createeffect</msdn-id>	
         /// <unmanaged>HRESULT IDirectInputDevice8W::CreateEffect([In] const GUID&amp; arg0,[In] const DIEFFECT* arg1,[Out, Fast] IDirectInputEffect** arg2,[In] IUnknown* arg3)</unmanaged>	
         /// <unmanaged-short>IDirectInputDevice8W::CreateEffect</unmanaged-short>	
-        internal void CreateEffect(System.Guid arg0, SharpDX.DirectInput.EffectParameters arg1, SharpDX.DirectInput.Effect arg2, SharpDX.ComObject arg3) {
-            unsafe {
+        internal void CreateEffect(System.Guid arg0, SharpDX.DirectInput.EffectParameters arg1, SharpDX.DirectInput.Effect arg2, SharpDX.ComObject arg3)
+        {
+            unsafe
+            {
                 var arg1_ = SharpDX.DirectInput.EffectParameters.__NewNative();
                 arg1.__MarshalTo(ref arg1_);
                 IntPtr arg2_ = IntPtr.Zero;
                 SharpDX.Result __result__;
-                __result__= 
-				SharpDX.DirectInput.LocalInterop.Calliint(_nativePointer, &arg0, &arg1_, &arg2_, (void*)((arg3 == null)?IntPtr.Zero:arg3.NativePointer),((void**)(*(void**)_nativePointer))[18]);		
+                __result__ =
+                SharpDX.DirectInput.LocalInterop.Calliint(_nativePointer, &arg0, &arg1_, &arg2_, (void*)((arg3 == null) ? IntPtr.Zero : arg3.NativePointer), ((void**)(*(void**)_nativePointer))[18]);
                 arg1.__MarshalFree(ref arg1_);
                 ((SharpDX.DirectInput.Effect)arg2).NativePointer = arg2_;
                 __result__.CheckError();
             }
         }
-        
+
         /// <summary>	
         /// Enumerates all the effects supported by the force-feedback system on the device. The enumerated GUIDs can represent predefined effects, as well as effects peculiar to the device manufacturer.	
         /// </summary>	
@@ -514,15 +550,17 @@ namespace SharpDX.DirectInput {
         /// <msdn-id>microsoft.directx_sdk.idirectinputdevice8.idirectinputdevice8.enumeffects</msdn-id>	
         /// <unmanaged>HRESULT IDirectInputDevice8W::EnumEffects([In] __function__stdcall* arg0,[In] void* arg1,[In] DIEFT arg2)</unmanaged>	
         /// <unmanaged-short>IDirectInputDevice8W::EnumEffects</unmanaged-short>	
-        internal void EnumEffects(SharpDX.FunctionCallback arg0, System.IntPtr arg1, SharpDX.DirectInput.EffectType arg2) {
-            unsafe {
+        internal void EnumEffects(SharpDX.FunctionCallback arg0, System.IntPtr arg1, SharpDX.DirectInput.EffectType arg2)
+        {
+            unsafe
+            {
                 SharpDX.Result __result__;
-                __result__= 
-				SharpDX.DirectInput.LocalInterop.Calliint(_nativePointer, arg0, (void*)arg1, unchecked((int)arg2),((void**)(*(void**)_nativePointer))[19]);		
+                __result__ =
+                SharpDX.DirectInput.LocalInterop.Calliint(_nativePointer, arg0, (void*)arg1, unchecked((int)arg2), ((void**)(*(void**)_nativePointer))[19]);
                 __result__.CheckError();
             }
         }
-        
+
         /// <summary>	
         /// Obtains information about an effect.	
         /// </summary>	
@@ -535,20 +573,22 @@ namespace SharpDX.DirectInput {
         /// <msdn-id>microsoft.directx_sdk.idirectinputdevice8.idirectinputdevice8.geteffectinfo</msdn-id>	
         /// <unmanaged>HRESULT IDirectInputDevice8W::GetEffectInfo([Out] DIEFFECTINFOW* arg0,[In] const GUID&amp; arg1)</unmanaged>	
         /// <unmanaged-short>IDirectInputDevice8W::GetEffectInfo</unmanaged-short>	
-        public SharpDX.DirectInput.EffectInfo GetEffectInfo(System.Guid arg1) {
-            unsafe {
+        public SharpDX.DirectInput.EffectInfo GetEffectInfo(System.Guid arg1)
+        {
+            unsafe
+            {
                 SharpDX.DirectInput.EffectInfo arg0;
                 var arg0_ = SharpDX.DirectInput.EffectInfo.__NewNative();
                 SharpDX.Result __result__;
-                __result__= 
-				SharpDX.DirectInput.LocalInterop.Calliint(_nativePointer, &arg0_, &arg1,((void**)(*(void**)_nativePointer))[20]);		
+                __result__ =
+                SharpDX.DirectInput.LocalInterop.Calliint(_nativePointer, &arg0_, &arg1, ((void**)(*(void**)_nativePointer))[20]);
                 arg0 = new SharpDX.DirectInput.EffectInfo();
                 arg0.__MarshalFrom(ref arg0_);
                 __result__.CheckError();
                 return arg0;
             }
         }
-        
+
         /// <summary>	
         /// Retrieves the state of the device's force-feedback system.	
         /// </summary>	
@@ -560,17 +600,19 @@ namespace SharpDX.DirectInput {
         /// <msdn-id>microsoft.directx_sdk.idirectinputdevice8.idirectinputdevice8.getforcefeedbackstate</msdn-id>	
         /// <unmanaged>HRESULT IDirectInputDevice8W::GetForceFeedbackState([Out] DIGFFS* arg0)</unmanaged>	
         /// <unmanaged-short>IDirectInputDevice8W::GetForceFeedbackState</unmanaged-short>	
-        public SharpDX.DirectInput.ForceFeedbackState GetForceFeedbackState() {
-            unsafe {
+        public SharpDX.DirectInput.ForceFeedbackState GetForceFeedbackState()
+        {
+            unsafe
+            {
                 SharpDX.DirectInput.ForceFeedbackState arg0;
                 SharpDX.Result __result__;
-                __result__= 
-				SharpDX.DirectInput.LocalInterop.Calliint(_nativePointer, &arg0,((void**)(*(void**)_nativePointer))[21]);		
+                __result__ =
+                SharpDX.DirectInput.LocalInterop.Calliint(_nativePointer, &arg0, ((void**)(*(void**)_nativePointer))[21]);
                 __result__.CheckError();
                 return arg0;
             }
         }
-        
+
         /// <summary>	
         /// Sends a command to the device's force-feedback system.	
         /// </summary>	
@@ -583,15 +625,17 @@ namespace SharpDX.DirectInput {
         /// <msdn-id>microsoft.directx_sdk.idirectinputdevice8.idirectinputdevice8.sendforcefeedbackcommand</msdn-id>	
         /// <unmanaged>HRESULT IDirectInputDevice8W::SendForceFeedbackCommand([In] DISFFC arg0)</unmanaged>	
         /// <unmanaged-short>IDirectInputDevice8W::SendForceFeedbackCommand</unmanaged-short>	
-        public void SendForceFeedbackCommand(SharpDX.DirectInput.ForceFeedbackCommand arg0) {
-            unsafe {
+        public void SendForceFeedbackCommand(SharpDX.DirectInput.ForceFeedbackCommand arg0)
+        {
+            unsafe
+            {
                 SharpDX.Result __result__;
-                __result__= 
-				SharpDX.DirectInput.LocalInterop.Calliint(_nativePointer, unchecked((int)arg0),((void**)(*(void**)_nativePointer))[22]);		
+                __result__ =
+                SharpDX.DirectInput.LocalInterop.Calliint(_nativePointer, unchecked((int)arg0), ((void**)(*(void**)_nativePointer))[22]);
                 __result__.CheckError();
             }
         }
-        
+
         /// <summary>	
         /// Enumerates all the currently created effects for this device. Effects created byIDirectInputDevice8::CreateEffectare enumerated.	
         /// </summary>	
@@ -606,15 +650,17 @@ namespace SharpDX.DirectInput {
         /// <msdn-id>microsoft.directx_sdk.idirectinputdevice8.idirectinputdevice8.enumcreatedeffectobjects</msdn-id>	
         /// <unmanaged>HRESULT IDirectInputDevice8W::EnumCreatedEffectObjects([In] __function__stdcall* arg0,[In] void* arg1,[In] unsigned int arg2)</unmanaged>	
         /// <unmanaged-short>IDirectInputDevice8W::EnumCreatedEffectObjects</unmanaged-short>	
-        internal void EnumCreatedEffectObjects(SharpDX.FunctionCallback arg0, System.IntPtr arg1, int arg2) {
-            unsafe {
+        internal void EnumCreatedEffectObjects(SharpDX.FunctionCallback arg0, System.IntPtr arg1, int arg2)
+        {
+            unsafe
+            {
                 SharpDX.Result __result__;
-                __result__= 
-				SharpDX.DirectInput.LocalInterop.Calliint(_nativePointer, arg0, (void*)arg1, arg2,((void**)(*(void**)_nativePointer))[23]);		
+                __result__ =
+                SharpDX.DirectInput.LocalInterop.Calliint(_nativePointer, arg0, (void*)arg1, arg2, ((void**)(*(void**)_nativePointer))[23]);
                 __result__.CheckError();
             }
         }
-        
+
         /// <summary>	
         /// Sends a hardware-specific command to the force-feedback driver.	
         /// </summary>	
@@ -627,16 +673,18 @@ namespace SharpDX.DirectInput {
         /// <msdn-id>microsoft.directx_sdk.idirectinputdevice8.idirectinputdevice8.escape</msdn-id>	
         /// <unmanaged>HRESULT IDirectInputDevice8W::Escape([In] DIEFFESCAPE* arg0)</unmanaged>	
         /// <unmanaged-short>IDirectInputDevice8W::Escape</unmanaged-short>	
-        internal void Escape(ref SharpDX.DirectInput.EffectEscape arg0) {
-            unsafe {
+        internal void Escape(ref SharpDX.DirectInput.EffectEscape arg0)
+        {
+            unsafe
+            {
                 SharpDX.Result __result__;
                 fixed (void* arg0_ = &arg0)
-                    __result__= 
-    				SharpDX.DirectInput.LocalInterop.Calliint(_nativePointer, arg0_,((void**)(*(void**)_nativePointer))[24]);		
+                    __result__ =
+                    SharpDX.DirectInput.LocalInterop.Calliint(_nativePointer, arg0_, ((void**)(*(void**)_nativePointer))[24]);
                 __result__.CheckError();
             }
         }
-        
+
         /// <summary>	
         /// Retrieves data from polled objects on a DirectInput device. If the device does not require polling, calling this method has no effect. If a device that requires polling is not polled periodically, no new data is received from the device. Calling this method causes DirectInput to update the device state, generate input events (if buffered data is enabled), and set notification events (if notification is enabled).	
         /// </summary>	
@@ -648,15 +696,17 @@ namespace SharpDX.DirectInput {
         /// <msdn-id>microsoft.directx_sdk.idirectinputdevice8.idirectinputdevice8.poll</msdn-id>	
         /// <unmanaged>HRESULT IDirectInputDevice8W::Poll()</unmanaged>	
         /// <unmanaged-short>IDirectInputDevice8W::Poll</unmanaged-short>	
-        public void Poll() {
-            unsafe {
+        public void Poll()
+        {
+            unsafe
+            {
                 SharpDX.Result __result__;
-                __result__= 
-				SharpDX.DirectInput.LocalInterop.Calliint(_nativePointer,((void**)(*(void**)_nativePointer))[25]);		
+                __result__ =
+                SharpDX.DirectInput.LocalInterop.Calliint(_nativePointer, ((void**)(*(void**)_nativePointer))[25]);
                 __result__.CheckError();
             }
         }
-        
+
         /// <summary>	
         /// Sends data to a device that accepts output.<table><tr><th>Note </th></tr><tr><td>There are no devices that accept output from <see cref="SharpDX.DirectInput.Device.SendDeviceData"/>.  See Remarks.</td></tr></table>	
         /// </summary>	
@@ -672,17 +722,19 @@ namespace SharpDX.DirectInput {
         /// <msdn-id>microsoft.directx_sdk.idirectinputdevice8.idirectinputdevice8.senddevicedata</msdn-id>	
         /// <unmanaged>HRESULT IDirectInputDevice8W::SendDeviceData([In] unsigned int arg0,[In, Buffer] const DIDEVICEOBJECTDATA* arg1,[InOut] unsigned int* arg2,[In] unsigned int arg3)</unmanaged>	
         /// <unmanaged-short>IDirectInputDevice8W::SendDeviceData</unmanaged-short>	
-        internal void SendDeviceData(int arg0, SharpDX.DirectInput.ObjectData[] arg1, ref int arg2, int arg3) {
-            unsafe {
+        internal void SendDeviceData(int arg0, SharpDX.DirectInput.ObjectData[] arg1, ref int arg2, int arg3)
+        {
+            unsafe
+            {
                 SharpDX.Result __result__;
                 fixed (void* arg1_ = arg1)
                     fixed (void* arg2_ = &arg2)
-                        __result__= 
-        				SharpDX.DirectInput.LocalInterop.Calliint(_nativePointer, arg0, arg1_, arg2_, arg3,((void**)(*(void**)_nativePointer))[26]);		
+                        __result__ =
+                        SharpDX.DirectInput.LocalInterop.Calliint(_nativePointer, arg0, arg1_, arg2_, arg3, ((void**)(*(void**)_nativePointer))[26]);
                 __result__.CheckError();
             }
         }
-        
+
         /// <summary>	
         /// Enumerates all the effects in a file created by the Force Editor utility or another application using the same file format.	
         /// </summary>	
@@ -698,17 +750,19 @@ namespace SharpDX.DirectInput {
         /// <msdn-id>microsoft.directx_sdk.idirectinputdevice8.idirectinputdevice8.enumeffectsinfile</msdn-id>	
         /// <unmanaged>HRESULT IDirectInputDevice8W::EnumEffectsInFile([In] const wchar_t* arg0,[In] __function__stdcall* arg1,[In] void* arg2,[In] DIFEF arg3)</unmanaged>	
         /// <unmanaged-short>IDirectInputDevice8W::EnumEffectsInFile</unmanaged-short>	
-        internal void EnumEffectsInFile(string arg0, SharpDX.FunctionCallback arg1, System.IntPtr arg2, SharpDX.DirectInput.EffectFileFlags arg3) {
-            unsafe {
+        internal void EnumEffectsInFile(string arg0, SharpDX.FunctionCallback arg1, System.IntPtr arg2, SharpDX.DirectInput.EffectFileFlags arg3)
+        {
+            unsafe
+            {
                 IntPtr arg0_ = Utilities.StringToHGlobalUni(arg0);
                 SharpDX.Result __result__;
-                __result__= 
-				SharpDX.DirectInput.LocalInterop.Calliint(_nativePointer, (void*)arg0_, arg1, (void*)arg2, unchecked((int)arg3),((void**)(*(void**)_nativePointer))[27]);		
-                Marshal.FreeHGlobal(arg0_ );
+                __result__ =
+                SharpDX.DirectInput.LocalInterop.Calliint(_nativePointer, (void*)arg0_, arg1, (void*)arg2, unchecked((int)arg3), ((void**)(*(void**)_nativePointer))[27]);
+                Marshal.FreeHGlobal(arg0_);
                 __result__.CheckError();
             }
         }
-        
+
         /// <summary>	
         /// Saves information about one or more force-feedback effects to a file that can be read by usingIDirectInputDevice8::EnumEffectsInFile. This method is chiefly of interest to those wanting to write their own force-authoring applications.	
         /// </summary>	
@@ -721,23 +775,25 @@ namespace SharpDX.DirectInput {
         /// <msdn-id>microsoft.directx_sdk.idirectinputdevice8.idirectinputdevice8.writeeffecttofile</msdn-id>	
         /// <unmanaged>HRESULT IDirectInputDevice8W::WriteEffectToFile([In] const wchar_t* arg0,[In] unsigned int arg1,[In, Buffer] DIFILEEFFECT* arg2,[In] unsigned int arg3)</unmanaged>	
         /// <unmanaged-short>IDirectInputDevice8W::WriteEffectToFile</unmanaged-short>	
-        public void WriteEffectToFile(string arg0, int arg1, SharpDX.DirectInput.EffectFile[] arg2, int arg3) {
-            unsafe {
+        public void WriteEffectToFile(string arg0, int arg1, SharpDX.DirectInput.EffectFile[] arg2, int arg3)
+        {
+            unsafe
+            {
                 IntPtr arg0_ = Utilities.StringToHGlobalUni(arg0);
                 SharpDX.DirectInput.EffectFile.__Native[] arg2__ = new SharpDX.DirectInput.EffectFile.__Native[arg2.Length];
                 for (int i = 0; i < arg2.Length; i++)
-                    arg2[i].__MarshalTo(ref arg2__[i]);				
+                    arg2[i].__MarshalTo(ref arg2__[i]);
                 SharpDX.Result __result__;
                 fixed (void* arg2_ = arg2__)
-                    __result__= 
-    				SharpDX.DirectInput.LocalInterop.Calliint(_nativePointer, (void*)arg0_, arg1, arg2_, arg3,((void**)(*(void**)_nativePointer))[28]);		
-                Marshal.FreeHGlobal(arg0_ );
+                    __result__ =
+                    SharpDX.DirectInput.LocalInterop.Calliint(_nativePointer, (void*)arg0_, arg1, arg2_, arg3, ((void**)(*(void**)_nativePointer))[28]);
+                Marshal.FreeHGlobal(arg0_);
                 for (int i = 0; i < arg2.Length; i++)
                     arg2[i].__MarshalFree(ref arg2__[i]);
                 __result__.CheckError();
             }
         }
-        
+
         /// <summary>	
         /// Builds an action map for the device and retrieves information about it.	
         /// </summary>	
@@ -752,20 +808,22 @@ namespace SharpDX.DirectInput {
         /// <msdn-id>microsoft.directx_sdk.idirectinputdevice8.idirectinputdevice8.buildactionmap</msdn-id>	
         /// <unmanaged>HRESULT IDirectInputDevice8W::BuildActionMap([In] DIACTIONFORMATW* arg0,[In] const wchar_t* arg1,[In] unsigned int arg2)</unmanaged>	
         /// <unmanaged-short>IDirectInputDevice8W::BuildActionMap</unmanaged-short>	
-        internal void BuildActionMap(ref SharpDX.DirectInput.ActionFormat arg0, string arg1, int arg2) {
-            unsafe {
+        internal void BuildActionMap(ref SharpDX.DirectInput.ActionFormat arg0, string arg1, int arg2)
+        {
+            unsafe
+            {
                 var arg0_ = new SharpDX.DirectInput.ActionFormat.__Native();
                 arg0.__MarshalTo(ref arg0_);
                 IntPtr arg1_ = Utilities.StringToHGlobalUni(arg1);
                 SharpDX.Result __result__;
-                __result__= 
-				SharpDX.DirectInput.LocalInterop.Calliint(_nativePointer, &arg0_, (void*)arg1_, arg2,((void**)(*(void**)_nativePointer))[29]);		
+                __result__ =
+                SharpDX.DirectInput.LocalInterop.Calliint(_nativePointer, &arg0_, (void*)arg1_, arg2, ((void**)(*(void**)_nativePointer))[29]);
                 arg0.__MarshalFree(ref arg0_);
-                Marshal.FreeHGlobal(arg1_ );
+                Marshal.FreeHGlobal(arg1_);
                 __result__.CheckError();
             }
         }
-        
+
         /// <summary>	
         /// Sets the data format for a device and maps application-defined actions to device objects. It also sets the buffer size for buffered data.	
         /// </summary>	
@@ -780,20 +838,22 @@ namespace SharpDX.DirectInput {
         /// <msdn-id>microsoft.directx_sdk.idirectinputdevice8.idirectinputdevice8.setactionmap</msdn-id>	
         /// <unmanaged>HRESULT IDirectInputDevice8W::SetActionMap([In] DIACTIONFORMATW* arg0,[In] const wchar_t* arg1,[In] unsigned int arg2)</unmanaged>	
         /// <unmanaged-short>IDirectInputDevice8W::SetActionMap</unmanaged-short>	
-        internal void SetActionMap(ref SharpDX.DirectInput.ActionFormat arg0, string arg1, int arg2) {
-            unsafe {
+        internal void SetActionMap(ref SharpDX.DirectInput.ActionFormat arg0, string arg1, int arg2)
+        {
+            unsafe
+            {
                 var arg0_ = new SharpDX.DirectInput.ActionFormat.__Native();
                 arg0.__MarshalTo(ref arg0_);
                 IntPtr arg1_ = Utilities.StringToHGlobalUni(arg1);
                 SharpDX.Result __result__;
-                __result__= 
-				SharpDX.DirectInput.LocalInterop.Calliint(_nativePointer, &arg0_, (void*)arg1_, arg2,((void**)(*(void**)_nativePointer))[30]);		
+                __result__ =
+                SharpDX.DirectInput.LocalInterop.Calliint(_nativePointer, &arg0_, (void*)arg1_, arg2, ((void**)(*(void**)_nativePointer))[30]);
                 arg0.__MarshalFree(ref arg0_);
-                Marshal.FreeHGlobal(arg1_ );
+                Marshal.FreeHGlobal(arg1_);
                 __result__.CheckError();
             }
         }
-        
+
         /// <summary>	
         /// Retrieves information about a device image for use in a configuration property sheet.	
         /// </summary>	
@@ -803,13 +863,15 @@ namespace SharpDX.DirectInput {
         /// <msdn-id>microsoft.directx_sdk.idirectinputdevice8.idirectinputdevice8.getimageinfo</msdn-id>	
         /// <unmanaged>HRESULT IDirectInputDevice8W::GetImageInfo([InOut] DIDEVICEIMAGEINFOHEADERW* arg0)</unmanaged>	
         /// <unmanaged-short>IDirectInputDevice8W::GetImageInfo</unmanaged-short>	
-        internal void GetImageInfo(SharpDX.DirectInput.DeviceImageHeader arg0) {
-            unsafe {
+        internal void GetImageInfo(SharpDX.DirectInput.DeviceImageHeader arg0)
+        {
+            unsafe
+            {
                 var arg0_ = SharpDX.DirectInput.DeviceImageHeader.__NewNative();
                 arg0.__MarshalTo(ref arg0_);
                 SharpDX.Result __result__;
-                __result__= 
-				SharpDX.DirectInput.LocalInterop.Calliint(_nativePointer, &arg0_,((void**)(*(void**)_nativePointer))[31]);		
+                __result__ =
+                SharpDX.DirectInput.LocalInterop.Calliint(_nativePointer, &arg0_, ((void**)(*(void**)_nativePointer))[31]);
                 arg0.__MarshalFrom(ref arg0_);
                 arg0.__MarshalFree(ref arg0_);
                 __result__.CheckError();
@@ -838,27 +900,29 @@ namespace SharpDX.DirectInput {
     /// <unmanaged>IDirectInput8W</unmanaged>	
     /// <unmanaged-short>IDirectInput8W</unmanaged-short>	
     [Guid("bf798031-483a-4da2-aa99-5d64ed369700")]
-    public partial class DirectInput : SharpDX.ComObject {
+    public partial class DirectInput : SharpDX.ComObject
+    {
         /// <summary>
         /// Initializes a new instance of the <see cref="SharpDX.DirectInput.DirectInput"/> class.
         /// </summary>
         /// <param name="nativePtr">The native pointer.</param>	
-        public DirectInput(IntPtr nativePtr) : base(nativePtr) {
+        public DirectInput(IntPtr nativePtr) : base(nativePtr)
+        {
         }
 
-		/// <summary>
-		/// Performs an explicit conversion from <see cref="System.IntPtr"/> to <see cref="SharpDX.DirectInput.DirectInput"/>. (This method is a shortcut to <see cref="SharpDX.CppObject.NativePointer"/>) 
-		/// </summary>
-		/// <param name="nativePointer">The native pointer.</param>
-		/// <returns>
-		/// The result of the conversion.
-		/// </returns>
-		public static explicit operator SharpDX.DirectInput.DirectInput(IntPtr nativePointer)
-		{
-			return nativePointer == IntPtr.Zero ? null : new SharpDX.DirectInput.DirectInput(nativePointer);
-		}
-        
-        
+        /// <summary>
+        /// Performs an explicit conversion from <see cref="System.IntPtr"/> to <see cref="SharpDX.DirectInput.DirectInput"/>. (This method is a shortcut to <see cref="SharpDX.CppObject.NativePointer"/>) 
+        /// </summary>
+        /// <param name="nativePointer">The native pointer.</param>
+        /// <returns>
+        /// The result of the conversion.
+        /// </returns>
+        public static explicit operator SharpDX.DirectInput.DirectInput(IntPtr nativePointer)
+        {
+            return nativePointer == IntPtr.Zero ? null : new SharpDX.DirectInput.DirectInput(nativePointer);
+        }
+
+
         /// <summary>	
         /// Creates and initializes an instance of a device based on a given globally unique identifier (<see cref="System.Guid"/>), and obtains anIDirectInputDevice8 Interfaceinterface.	
         /// </summary>	
@@ -873,16 +937,18 @@ namespace SharpDX.DirectInput {
         /// <msdn-id>microsoft.directx_sdk.idirectinput8.idirectinput8.createdevice</msdn-id>	
         /// <unmanaged>HRESULT IDirectInput8W::CreateDevice([In] const GUID&amp; arg0,[Out] void** arg1,[In] IUnknown* arg2)</unmanaged>	
         /// <unmanaged-short>IDirectInput8W::CreateDevice</unmanaged-short>	
-        internal void CreateDevice(System.Guid arg0, out System.IntPtr arg1, SharpDX.ComObject arg2) {
-            unsafe {
+        internal void CreateDevice(System.Guid arg0, out System.IntPtr arg1, SharpDX.ComObject arg2)
+        {
+            unsafe
+            {
                 SharpDX.Result __result__;
                 fixed (void* arg1_ = &arg1)
-                    __result__= 
-    				SharpDX.DirectInput.LocalInterop.Calliint(_nativePointer, &arg0, arg1_, (void*)((arg2 == null)?IntPtr.Zero:arg2.NativePointer),((void**)(*(void**)_nativePointer))[3]);		
+                    __result__ =
+                    SharpDX.DirectInput.LocalInterop.Calliint(_nativePointer, &arg0, arg1_, (void*)((arg2 == null) ? IntPtr.Zero : arg2.NativePointer), ((void**)(*(void**)_nativePointer))[3]);
                 __result__.CheckError();
             }
         }
-        
+
         /// <summary>	
         /// Enumerates available devices.	
         /// </summary>	
@@ -898,15 +964,17 @@ namespace SharpDX.DirectInput {
         /// <msdn-id>microsoft.directx_sdk.idirectinput8.idirectinput8.enumdevices</msdn-id>	
         /// <unmanaged>HRESULT IDirectInput8W::EnumDevices([In] unsigned int arg0,[In] __function__stdcall* arg1,[In] void* arg2,[In] DIEDFL arg3)</unmanaged>	
         /// <unmanaged-short>IDirectInput8W::EnumDevices</unmanaged-short>	
-        internal void EnumDevices(int arg0, SharpDX.FunctionCallback arg1, System.IntPtr arg2, SharpDX.DirectInput.DeviceEnumerationFlags arg3) {
-            unsafe {
+        internal void EnumDevices(int arg0, SharpDX.FunctionCallback arg1, System.IntPtr arg2, SharpDX.DirectInput.DeviceEnumerationFlags arg3)
+        {
+            unsafe
+            {
                 SharpDX.Result __result__;
-                __result__= 
-				SharpDX.DirectInput.LocalInterop.Calliint(_nativePointer, arg0, arg1, (void*)arg2, unchecked((int)arg3),((void**)(*(void**)_nativePointer))[4]);		
+                __result__ =
+                SharpDX.DirectInput.LocalInterop.Calliint(_nativePointer, arg0, arg1, (void*)arg2, unchecked((int)arg3), ((void**)(*(void**)_nativePointer))[4]);
                 __result__.CheckError();
             }
         }
-        
+
         /// <summary>	
         /// Retrieves the status of a specified device.	
         /// </summary>	
@@ -916,15 +984,17 @@ namespace SharpDX.DirectInput {
         /// <msdn-id>microsoft.directx_sdk.idirectinput8.idirectinput8.getdevicestatus</msdn-id>	
         /// <unmanaged>HRESULT IDirectInput8W::GetDeviceStatus([In] const GUID&amp; arg0)</unmanaged>	
         /// <unmanaged-short>IDirectInput8W::GetDeviceStatus</unmanaged-short>	
-        internal SharpDX.Result GetDeviceStatus(System.Guid arg0) {
-            unsafe {
+        internal SharpDX.Result GetDeviceStatus(System.Guid arg0)
+        {
+            unsafe
+            {
                 SharpDX.Result __result__;
-                __result__= 
-				SharpDX.DirectInput.LocalInterop.Calliint(_nativePointer, &arg0,((void**)(*(void**)_nativePointer))[5]);		
+                __result__ =
+                SharpDX.DirectInput.LocalInterop.Calliint(_nativePointer, &arg0, ((void**)(*(void**)_nativePointer))[5]);
                 return __result__;
             }
         }
-        
+
         /// <summary>	
         /// Runs Control Panel to enable the user to install a new input device or modify configurations.	
         /// </summary>	
@@ -935,15 +1005,17 @@ namespace SharpDX.DirectInput {
         /// <msdn-id>microsoft.directx_sdk.idirectinput8.idirectinput8.runcontrolpanel</msdn-id>	
         /// <unmanaged>HRESULT IDirectInput8W::RunControlPanel([In] HWND arg0,[In] unsigned int arg1)</unmanaged>	
         /// <unmanaged-short>IDirectInput8W::RunControlPanel</unmanaged-short>	
-        internal void RunControlPanel(System.IntPtr arg0, int arg1) {
-            unsafe {
+        internal void RunControlPanel(System.IntPtr arg0, int arg1)
+        {
+            unsafe
+            {
                 SharpDX.Result __result__;
-                __result__= 
-				SharpDX.DirectInput.LocalInterop.Calliint(_nativePointer, (void*)arg0, arg1,((void**)(*(void**)_nativePointer))[6]);		
+                __result__ =
+                SharpDX.DirectInput.LocalInterop.Calliint(_nativePointer, (void*)arg0, arg1, ((void**)(*(void**)_nativePointer))[6]);
                 __result__.CheckError();
             }
         }
-        
+
         /// <summary>	
         /// Initializes a 	
         /// DirectInput object. Applications normally do not need to call this method. TheDirectInput8Createfunction automatically initializes the DirectInput object after creating it.	
@@ -955,15 +1027,17 @@ namespace SharpDX.DirectInput {
         /// <msdn-id>microsoft.directx_sdk.idirectinput8.idirectinput8.initialize</msdn-id>	
         /// <unmanaged>HRESULT IDirectInput8W::Initialize([In] HINSTANCE arg0,[In] unsigned int arg1)</unmanaged>	
         /// <unmanaged-short>IDirectInput8W::Initialize</unmanaged-short>	
-        internal void Initialize(System.IntPtr arg0, int arg1) {
-            unsafe {
+        internal void Initialize(System.IntPtr arg0, int arg1)
+        {
+            unsafe
+            {
                 SharpDX.Result __result__;
-                __result__= 
-				SharpDX.DirectInput.LocalInterop.Calliint(_nativePointer, (void*)arg0, arg1,((void**)(*(void**)_nativePointer))[7]);		
+                __result__ =
+                SharpDX.DirectInput.LocalInterop.Calliint(_nativePointer, (void*)arg0, arg1, ((void**)(*(void**)_nativePointer))[7]);
                 __result__.CheckError();
             }
         }
-        
+
         /// <summary>	
         /// Retrieves the instance globally unique identifier (<see cref="System.Guid"/>) of a device that has been newly attached to the system. It is called in response to a Microsoft Win32  device management notification.	
         /// </summary>	
@@ -974,20 +1048,22 @@ namespace SharpDX.DirectInput {
         /// <msdn-id>microsoft.directx_sdk.idirectinput8.idirectinput8.finddevice</msdn-id>	
         /// <unmanaged>HRESULT IDirectInput8W::FindDevice([In] const GUID&amp; arg0,[In] const wchar_t* arg1,[Out] GUID* arg2)</unmanaged>	
         /// <unmanaged-short>IDirectInput8W::FindDevice</unmanaged-short>	
-        public System.Guid FindDevice(System.Guid arg0, string arg1) {
-            unsafe {
+        public System.Guid FindDevice(System.Guid arg0, string arg1)
+        {
+            unsafe
+            {
                 IntPtr arg1_ = Utilities.StringToHGlobalUni(arg1);
                 System.Guid arg2;
                 arg2 = new System.Guid();
                 SharpDX.Result __result__;
-                __result__= 
-				SharpDX.DirectInput.LocalInterop.Calliint(_nativePointer, &arg0, (void*)arg1_, &arg2,((void**)(*(void**)_nativePointer))[8]);		
-                Marshal.FreeHGlobal(arg1_ );
+                __result__ =
+                SharpDX.DirectInput.LocalInterop.Calliint(_nativePointer, &arg0, (void*)arg1_, &arg2, ((void**)(*(void**)_nativePointer))[8]);
+                Marshal.FreeHGlobal(arg1_);
                 __result__.CheckError();
                 return arg2;
             }
         }
-        
+
         /// <summary>	
         /// Enumerates devices that most closely match the application-specified action map.	
         /// </summary>	
@@ -1004,15 +1080,17 @@ namespace SharpDX.DirectInput {
         /// <msdn-id>microsoft.directx_sdk.idirectinput8.idirectinput8.enumdevicesbysemantics</msdn-id>	
         /// <unmanaged>HRESULT IDirectInput8W::EnumDevicesBySemantics([In] const wchar_t* arg0,[In] DIACTIONFORMATW* arg1,[In] __function__stdcall* arg2,[In] void* arg3,[In] unsigned int arg4)</unmanaged>	
         /// <unmanaged-short>IDirectInput8W::EnumDevicesBySemantics</unmanaged-short>	
-        internal void EnumDevicesBySemantics(string arg0, ref SharpDX.DirectInput.ActionFormat arg1, SharpDX.FunctionCallback arg2, System.IntPtr arg3, int arg4) {
-            unsafe {
+        internal void EnumDevicesBySemantics(string arg0, ref SharpDX.DirectInput.ActionFormat arg1, SharpDX.FunctionCallback arg2, System.IntPtr arg3, int arg4)
+        {
+            unsafe
+            {
                 IntPtr arg0_ = Utilities.StringToHGlobalUni(arg0);
                 var arg1_ = new SharpDX.DirectInput.ActionFormat.__Native();
                 arg1.__MarshalTo(ref arg1_);
                 SharpDX.Result __result__;
-                __result__= 
-				SharpDX.DirectInput.LocalInterop.Calliint(_nativePointer, (void*)arg0_, &arg1_, arg2, (void*)arg3, arg4,((void**)(*(void**)_nativePointer))[9]);		
-                Marshal.FreeHGlobal(arg0_ );
+                __result__ =
+                SharpDX.DirectInput.LocalInterop.Calliint(_nativePointer, (void*)arg0_, &arg1_, arg2, (void*)arg3, arg4, ((void**)(*(void**)_nativePointer))[9]);
+                Marshal.FreeHGlobal(arg0_);
                 arg1.__MarshalFree(ref arg1_);
                 __result__.CheckError();
             }
@@ -1025,27 +1103,29 @@ namespace SharpDX.DirectInput {
     /// <unmanaged>IDirectInputEffect</unmanaged>	
     /// <unmanaged-short>IDirectInputEffect</unmanaged-short>	
     [Guid("e7e1f7c0-88d2-11d0-9ad0-00a0c9a06e35")]
-    public partial class Effect : SharpDX.ComObject {
+    public partial class Effect : SharpDX.ComObject
+    {
         /// <summary>
         /// Initializes a new instance of the <see cref="SharpDX.DirectInput.Effect"/> class.
         /// </summary>
         /// <param name="nativePtr">The native pointer.</param>	
-        public Effect(IntPtr nativePtr) : base(nativePtr) {
+        public Effect(IntPtr nativePtr) : base(nativePtr)
+        {
         }
 
-		/// <summary>
-		/// Performs an explicit conversion from <see cref="System.IntPtr"/> to <see cref="SharpDX.DirectInput.Effect"/>. (This method is a shortcut to <see cref="SharpDX.CppObject.NativePointer"/>) 
-		/// </summary>
-		/// <param name="nativePointer">The native pointer.</param>
-		/// <returns>
-		/// The result of the conversion.
-		/// </returns>
-		public static explicit operator SharpDX.DirectInput.Effect(IntPtr nativePointer)
-		{
-			return nativePointer == IntPtr.Zero ? null : new SharpDX.DirectInput.Effect(nativePointer);
-		}
-        
-        
+        /// <summary>
+        /// Performs an explicit conversion from <see cref="System.IntPtr"/> to <see cref="SharpDX.DirectInput.Effect"/>. (This method is a shortcut to <see cref="SharpDX.CppObject.NativePointer"/>) 
+        /// </summary>
+        /// <param name="nativePointer">The native pointer.</param>
+        /// <returns>
+        /// The result of the conversion.
+        /// </returns>
+        public static explicit operator SharpDX.DirectInput.Effect(IntPtr nativePointer)
+        {
+            return nativePointer == IntPtr.Zero ? null : new SharpDX.DirectInput.Effect(nativePointer);
+        }
+
+
         /// <summary>	
         /// No documentation.	
         /// </summary>	
@@ -1053,10 +1133,11 @@ namespace SharpDX.DirectInput {
         /// <unmanaged>GetEffectGuid</unmanaged>	
         /// <unmanaged-short>GetEffectGuid</unmanaged-short>	
         /// <unmanaged>HRESULT IDirectInputEffect::GetEffectGuid([Out] GUID* arg0)</unmanaged>
-        public System.Guid Guid {
-                get { System.Guid __output__; GetGuid(out __output__); return __output__; }
+        public System.Guid Guid
+        {
+            get { System.Guid __output__; GetGuid(out __output__); return __output__; }
         }
-        
+
         /// <summary>	
         /// No documentation.	
         /// </summary>	
@@ -1064,10 +1145,11 @@ namespace SharpDX.DirectInput {
         /// <unmanaged>GetEffectStatus</unmanaged>	
         /// <unmanaged-short>GetEffectStatus</unmanaged-short>	
         /// <unmanaged>HRESULT IDirectInputEffect::GetEffectStatus([Out] DIEGES* arg0)</unmanaged>
-        public SharpDX.DirectInput.EffectStatus Status {
-                get { SharpDX.DirectInput.EffectStatus __output__; GetStatus(out __output__); return __output__; }
+        public SharpDX.DirectInput.EffectStatus Status
+        {
+            get { SharpDX.DirectInput.EffectStatus __output__; GetStatus(out __output__); return __output__; }
         }
-        
+
         /// <summary>	
         /// No documentation.	
         /// </summary>	
@@ -1078,15 +1160,17 @@ namespace SharpDX.DirectInput {
         /// <include file='.\..\Documentation\CodeComments.xml' path="/comments/comment[@id='IDirectInputEffect::Initialize']/*"/>	
         /// <unmanaged>HRESULT IDirectInputEffect::Initialize([In] HINSTANCE arg0,[In] unsigned int arg1,[In] const GUID&amp; arg2)</unmanaged>	
         /// <unmanaged-short>IDirectInputEffect::Initialize</unmanaged-short>	
-        internal void Initialize(System.IntPtr arg0, int arg1, System.Guid arg2) {
-            unsafe {
+        internal void Initialize(System.IntPtr arg0, int arg1, System.Guid arg2)
+        {
+            unsafe
+            {
                 SharpDX.Result __result__;
-                __result__= 
-				SharpDX.DirectInput.LocalInterop.Calliint(_nativePointer, (void*)arg0, arg1, &arg2,((void**)(*(void**)_nativePointer))[3]);		
+                __result__ =
+                SharpDX.DirectInput.LocalInterop.Calliint(_nativePointer, (void*)arg0, arg1, &arg2, ((void**)(*(void**)_nativePointer))[3]);
                 __result__.CheckError();
             }
         }
-        
+
         /// <summary>	
         /// No documentation.	
         /// </summary>	
@@ -1095,17 +1179,19 @@ namespace SharpDX.DirectInput {
         /// <include file='.\..\Documentation\CodeComments.xml' path="/comments/comment[@id='IDirectInputEffect::GetEffectGuid']/*"/>	
         /// <unmanaged>HRESULT IDirectInputEffect::GetEffectGuid([Out] GUID* arg0)</unmanaged>	
         /// <unmanaged-short>IDirectInputEffect::GetEffectGuid</unmanaged-short>	
-        internal void GetGuid(out System.Guid arg0) {
-            unsafe {
+        internal void GetGuid(out System.Guid arg0)
+        {
+            unsafe
+            {
                 arg0 = new System.Guid();
                 SharpDX.Result __result__;
                 fixed (void* arg0_ = &arg0)
-                    __result__= 
-    				SharpDX.DirectInput.LocalInterop.Calliint(_nativePointer, arg0_,((void**)(*(void**)_nativePointer))[4]);		
+                    __result__ =
+                    SharpDX.DirectInput.LocalInterop.Calliint(_nativePointer, arg0_, ((void**)(*(void**)_nativePointer))[4]);
                 __result__.CheckError();
             }
         }
-        
+
         /// <summary>	
         /// No documentation.	
         /// </summary>	
@@ -1114,20 +1200,22 @@ namespace SharpDX.DirectInput {
         /// <include file='.\..\Documentation\CodeComments.xml' path="/comments/comment[@id='IDirectInputEffect::GetParameters']/*"/>	
         /// <unmanaged>HRESULT IDirectInputEffect::GetParameters([Out] DIEFFECT* arg0,[In] DIEP arg1)</unmanaged>	
         /// <unmanaged-short>IDirectInputEffect::GetParameters</unmanaged-short>	
-        public SharpDX.DirectInput.EffectParameters GetParameters(SharpDX.DirectInput.EffectParameterFlags arg1) {
-            unsafe {
+        public SharpDX.DirectInput.EffectParameters GetParameters(SharpDX.DirectInput.EffectParameterFlags arg1)
+        {
+            unsafe
+            {
                 SharpDX.DirectInput.EffectParameters arg0;
                 var arg0_ = SharpDX.DirectInput.EffectParameters.__NewNative();
                 SharpDX.Result __result__;
-                __result__= 
-				SharpDX.DirectInput.LocalInterop.Calliint(_nativePointer, &arg0_, unchecked((int)arg1),((void**)(*(void**)_nativePointer))[5]);		
+                __result__ =
+                SharpDX.DirectInput.LocalInterop.Calliint(_nativePointer, &arg0_, unchecked((int)arg1), ((void**)(*(void**)_nativePointer))[5]);
                 arg0 = new SharpDX.DirectInput.EffectParameters();
                 arg0.__MarshalFrom(ref arg0_);
                 __result__.CheckError();
                 return arg0;
             }
         }
-        
+
         /// <summary>	
         /// No documentation.	
         /// </summary>	
@@ -1137,18 +1225,20 @@ namespace SharpDX.DirectInput {
         /// <include file='.\..\Documentation\CodeComments.xml' path="/comments/comment[@id='IDirectInputEffect::SetParameters']/*"/>	
         /// <unmanaged>HRESULT IDirectInputEffect::SetParameters([In] const DIEFFECT* arg0,[In] DIEP arg1)</unmanaged>	
         /// <unmanaged-short>IDirectInputEffect::SetParameters</unmanaged-short>	
-        public void SetParameters(SharpDX.DirectInput.EffectParameters arg0, SharpDX.DirectInput.EffectParameterFlags arg1) {
-            unsafe {
+        public void SetParameters(SharpDX.DirectInput.EffectParameters arg0, SharpDX.DirectInput.EffectParameterFlags arg1)
+        {
+            unsafe
+            {
                 var arg0_ = SharpDX.DirectInput.EffectParameters.__NewNative();
                 arg0.__MarshalTo(ref arg0_);
                 SharpDX.Result __result__;
-                __result__= 
-				SharpDX.DirectInput.LocalInterop.Calliint(_nativePointer, &arg0_, unchecked((int)arg1),((void**)(*(void**)_nativePointer))[6]);		
+                __result__ =
+                SharpDX.DirectInput.LocalInterop.Calliint(_nativePointer, &arg0_, unchecked((int)arg1), ((void**)(*(void**)_nativePointer))[6]);
                 arg0.__MarshalFree(ref arg0_);
                 __result__.CheckError();
             }
         }
-        
+
         /// <summary>	
         /// No documentation.	
         /// </summary>	
@@ -1158,15 +1248,17 @@ namespace SharpDX.DirectInput {
         /// <include file='.\..\Documentation\CodeComments.xml' path="/comments/comment[@id='IDirectInputEffect::Start']/*"/>	
         /// <unmanaged>HRESULT IDirectInputEffect::Start([In] unsigned int arg0,[In] DIES arg1)</unmanaged>	
         /// <unmanaged-short>IDirectInputEffect::Start</unmanaged-short>	
-        public void Start(int arg0, SharpDX.DirectInput.EffectPlayFlags arg1) {
-            unsafe {
+        public void Start(int arg0, SharpDX.DirectInput.EffectPlayFlags arg1)
+        {
+            unsafe
+            {
                 SharpDX.Result __result__;
-                __result__= 
-				SharpDX.DirectInput.LocalInterop.Calliint(_nativePointer, arg0, unchecked((int)arg1),((void**)(*(void**)_nativePointer))[7]);		
+                __result__ =
+                SharpDX.DirectInput.LocalInterop.Calliint(_nativePointer, arg0, unchecked((int)arg1), ((void**)(*(void**)_nativePointer))[7]);
                 __result__.CheckError();
             }
         }
-        
+
         /// <summary>	
         /// No documentation.	
         /// </summary>	
@@ -1174,15 +1266,17 @@ namespace SharpDX.DirectInput {
         /// <include file='.\..\Documentation\CodeComments.xml' path="/comments/comment[@id='IDirectInputEffect::Stop']/*"/>	
         /// <unmanaged>HRESULT IDirectInputEffect::Stop()</unmanaged>	
         /// <unmanaged-short>IDirectInputEffect::Stop</unmanaged-short>	
-        public void Stop() {
-            unsafe {
+        public void Stop()
+        {
+            unsafe
+            {
                 SharpDX.Result __result__;
-                __result__= 
-				SharpDX.DirectInput.LocalInterop.Calliint(_nativePointer,((void**)(*(void**)_nativePointer))[8]);		
+                __result__ =
+                SharpDX.DirectInput.LocalInterop.Calliint(_nativePointer, ((void**)(*(void**)_nativePointer))[8]);
                 __result__.CheckError();
             }
         }
-        
+
         /// <summary>	
         /// No documentation.	
         /// </summary>	
@@ -1191,16 +1285,18 @@ namespace SharpDX.DirectInput {
         /// <include file='.\..\Documentation\CodeComments.xml' path="/comments/comment[@id='IDirectInputEffect::GetEffectStatus']/*"/>	
         /// <unmanaged>HRESULT IDirectInputEffect::GetEffectStatus([Out] DIEGES* arg0)</unmanaged>	
         /// <unmanaged-short>IDirectInputEffect::GetEffectStatus</unmanaged-short>	
-        internal void GetStatus(out SharpDX.DirectInput.EffectStatus arg0) {
-            unsafe {
+        internal void GetStatus(out SharpDX.DirectInput.EffectStatus arg0)
+        {
+            unsafe
+            {
                 SharpDX.Result __result__;
                 fixed (void* arg0_ = &arg0)
-                    __result__= 
-    				SharpDX.DirectInput.LocalInterop.Calliint(_nativePointer, arg0_,((void**)(*(void**)_nativePointer))[9]);		
+                    __result__ =
+                    SharpDX.DirectInput.LocalInterop.Calliint(_nativePointer, arg0_, ((void**)(*(void**)_nativePointer))[9]);
                 __result__.CheckError();
             }
         }
-        
+
         /// <summary>	
         /// No documentation.	
         /// </summary>	
@@ -1208,15 +1304,17 @@ namespace SharpDX.DirectInput {
         /// <include file='.\..\Documentation\CodeComments.xml' path="/comments/comment[@id='IDirectInputEffect::Download']/*"/>	
         /// <unmanaged>HRESULT IDirectInputEffect::Download()</unmanaged>	
         /// <unmanaged-short>IDirectInputEffect::Download</unmanaged-short>	
-        public void Download() {
-            unsafe {
+        public void Download()
+        {
+            unsafe
+            {
                 SharpDX.Result __result__;
-                __result__= 
-				SharpDX.DirectInput.LocalInterop.Calliint(_nativePointer,((void**)(*(void**)_nativePointer))[10]);		
+                __result__ =
+                SharpDX.DirectInput.LocalInterop.Calliint(_nativePointer, ((void**)(*(void**)_nativePointer))[10]);
                 __result__.CheckError();
             }
         }
-        
+
         /// <summary>	
         /// No documentation.	
         /// </summary>	
@@ -1224,15 +1322,17 @@ namespace SharpDX.DirectInput {
         /// <include file='.\..\Documentation\CodeComments.xml' path="/comments/comment[@id='IDirectInputEffect::Unload']/*"/>	
         /// <unmanaged>HRESULT IDirectInputEffect::Unload()</unmanaged>	
         /// <unmanaged-short>IDirectInputEffect::Unload</unmanaged-short>	
-        public void Unload() {
-            unsafe {
+        public void Unload()
+        {
+            unsafe
+            {
                 SharpDX.Result __result__;
-                __result__= 
-				SharpDX.DirectInput.LocalInterop.Calliint(_nativePointer,((void**)(*(void**)_nativePointer))[11]);		
+                __result__ =
+                SharpDX.DirectInput.LocalInterop.Calliint(_nativePointer, ((void**)(*(void**)_nativePointer))[11]);
                 __result__.CheckError();
             }
         }
-        
+
         /// <summary>	
         /// No documentation.	
         /// </summary>	
@@ -1241,12 +1341,14 @@ namespace SharpDX.DirectInput {
         /// <include file='.\..\Documentation\CodeComments.xml' path="/comments/comment[@id='IDirectInputEffect::Escape']/*"/>	
         /// <unmanaged>HRESULT IDirectInputEffect::Escape([In] DIEFFESCAPE* arg0)</unmanaged>	
         /// <unmanaged-short>IDirectInputEffect::Escape</unmanaged-short>	
-        internal void Escape(ref SharpDX.DirectInput.EffectEscape arg0) {
-            unsafe {
+        internal void Escape(ref SharpDX.DirectInput.EffectEscape arg0)
+        {
+            unsafe
+            {
                 SharpDX.Result __result__;
                 fixed (void* arg0_ = &arg0)
-                    __result__= 
-    				SharpDX.DirectInput.LocalInterop.Calliint(_nativePointer, arg0_,((void**)(*(void**)_nativePointer))[12]);		
+                    __result__ =
+                    SharpDX.DirectInput.LocalInterop.Calliint(_nativePointer, arg0_, ((void**)(*(void**)_nativePointer))[12]);
                 __result__.CheckError();
             }
         }

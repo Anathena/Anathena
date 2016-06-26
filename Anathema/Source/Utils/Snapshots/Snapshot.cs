@@ -289,14 +289,13 @@ namespace Anathema.Source.Utils.Snapshots
             //foreach (SnapshotRegion SnapshotRegion in SnapshotRegions)
             Parallel.ForEach(SnapshotRegions, (SnapshotRegion) =>
             {
-                try
-                {
-                    SnapshotRegion.ReadAllSnapshotMemory(EngineCore);
-                }
-                catch (ScanFailedException)
+                Boolean Success;
+
+                SnapshotRegion.ReadAllSnapshotMemory(EngineCore, out Success);
+
+                if (!Success)
                 {
                     using (TimedLock.Lock(DeallocatedRegionLock))
-                    // lock (DeallocatedRegionLock)
                     {
                         if (!DeallocatedRegions.Contains(SnapshotRegion))
                             DeallocatedRegions.Add(SnapshotRegion);
@@ -313,14 +312,8 @@ namespace Anathema.Source.Utils.Snapshots
             // Attempt to collect values for the recovered regions
             foreach (SnapshotRegion SnapshotRegion in NewRegions)
             {
-                try
-                {
-                    SnapshotRegion.ReadAllSnapshotMemory(EngineCore);
-                }
-                catch (ScanFailedException)
-                {
-
-                }
+                Boolean Success;
+                SnapshotRegion.ReadAllSnapshotMemory(EngineCore, out Success);
             }
         }
 
@@ -508,20 +501,6 @@ namespace Anathema.Source.Utils.Snapshots
         {
             foreach (SnapshotRegion<LabelType> Region in this)
                 Region.SetElementLabels(Value);
-        }
-
-    } // End class
-
-    /// <summary>
-    /// Indicates a scan failed, likely due to scanning deallocated memory or memory with certain virtual page flags
-    /// </summary>
-    public class ScanFailedException : Exception
-    {
-        public SnapshotRegion[] NewRegions { get; set; }
-        public ScanFailedException() { }
-        public ScanFailedException(SnapshotRegion[] NewRegions)
-        {
-            this.NewRegions = NewRegions;
         }
 
     } // End class

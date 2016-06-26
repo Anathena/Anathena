@@ -269,7 +269,7 @@
     </Compile>
     <Compile Include="Source\Engine\Architecture\Assembler\AssemblerFactory.cs" />
     <Compile Include="Source\Engine\Architecture\Disassembler\DisassemblerFactory.cs" />
-    <Compile Include="Source\Engine\DotNetObjectCollector\DotNetObject.cs" />
+    <Compile Include="Source\Engine\ObjectCollectors\DotNetObjectCollector\DotNetObject.cs" />
     <Compile Include="Source\Utils\AddressResolver\AddressResolver.cs" />
     <Compile Include="Source\Engine\Graphics\DirectX\Interface\BaseDXHook.cs" />
     <Compile Include="Source\Engine\Graphics\DirectX\Interface\Common\Element.cs" />
@@ -305,13 +305,12 @@
     <Compile Include="Source\Engine\InputCapture\MouseCapture\IMouseObserver.cs" />
     <Compile Include="Source\Engine\InputCapture\MouseCapture\IMouseSubject.cs" />
     <Compile Include="Source\Engine\InputCapture\MouseCapture\MouseCapture.cs" />
-    <Compile Include="Source\Engine\DotNetObjectCollector\DotNetObjectCollector.cs" />
+    <Compile Include="Source\Engine\ObjectCollectors\DotNetObjectCollector\DotNetObjectCollector.cs" />
     <Compile Include="Source\Prefilters\ISnapshotPrefilter.cs" />
     <Compile Include="Source\Prefilters\LinkedListSnapshotPrefilter.cs" />
     <Compile Include="Source\Prefilters\QueueSnapshotPrefilter.cs" />
     <Compile Include="Source\Prefilters\SnapshotPrefilterFactory.cs" />
     <Compile Include="Source\Engine\Graphics\IGraphicsInterface.cs" />
-    <Compile Include="Source\Engine\Graphics\Ogre\ConnectorOgre.cs" />
     <Compile Include="Source\Engine\Graphics\OpenGL\ConnectorOpenGL.cs" />
     <Compile Include="Source\Engine\InputCapture\ControllerCapture\ControllerCapture.cs" />
     <Compile Include="Source\Engine\InputCapture\ControllerCapture\IControllerSubject.cs" />
@@ -1216,6 +1215,9 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Source\Engine\ObjectCollectors\FlashObjectCollector\" />
+    <Folder Include="Source\Engine\ObjectCollectors\JavaObjectCollector\" />
+    <Folder Include="Source\Engine\ObjectCollectors\PythonObjectCollector\" />
     <Folder Include="Source\Results\PointerScanResults\" />
   </ItemGroup>
   <ItemGroup>

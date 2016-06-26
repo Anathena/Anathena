@@ -466,16 +466,13 @@ namespace Anathema.Source.Scanners.PointerScanner
             Parallel.ForEach(Snapshot.Cast<Object>(), (RegionObject) =>
             {
                 SnapshotRegion Region = (SnapshotRegion)RegionObject;
+                Boolean Success;
 
                 // Read the memory of this region
-                try
-                {
-                    Region.ReadAllSnapshotMemory(Snapshot.GetEngineCore(), true);
-                }
-                catch (ScanFailedException)
-                {
+                Region.ReadAllSnapshotMemory(Snapshot.GetEngineCore(), out Success, true);
+
+                if (!Success)
                     return;
-                }
 
                 if (!Region.HasValues())
                     return;
