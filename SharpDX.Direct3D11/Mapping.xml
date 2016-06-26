@@ -1,0 +1,309 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+// Copyright (c) 2010-2014 SharpDX - Alexandre Mutel
+// 
+// Permission is hereby granted, free of charge, to any person obtaining a copy
+// of this software and associated documentation files (the "Software"), to deal
+// in the Software without restriction, including without limitation the rights
+// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+// copies of the Software, and to permit persons to whom the Software is
+// furnished to do so, subject to the following conditions:
+// 
+// The above copyright notice and this permission notice shall be included in
+// all copies or substantial portions of the Software.
+// 
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+// THE SOFTWARE.
+-->
+<config id="sharpdx-direct3d11" xmlns="urn:SharpGen.Config">
+  <depends>sharpdx</depends>
+  <depends>sharpdx-dxgi</depends>
+  <depends>sharpdx-d3dcompiler</depends>
+  <depends>sharpdx-direct3d1x</depends>
+
+  <namespace>SharpDX.Direct3D11</namespace>  
+  <assembly>SharpDX.Direct3D11</assembly>
+  
+  <!-- Add Effects11 include directory-->
+  <include-dir>$(THIS_CONFIG_PATH)\..\..\External\Effects11\Inc</include-dir>
+  
+  <include-prolog>
+    #define D3D11_NO_HELPERS
+  </include-prolog>
+  
+  <!-- D3D11 includes -->
+  <include file="d3d11.h" attach="true"/>
+  <include file="d3d11_1.h" attach="true" />
+  <include file="d3d11_2.h" attach="true" />
+  <include file="d3d11_3.h" attach="true" />
+  <include file="d3d11sdklayers.h" attach="true" />
+  <include file="d3d11on12.h" attach="true" />
+
+  <naming />
+
+  <context-set id="d3d11-all">
+    <context>sharpdx-direct3d11</context>
+    <context>sharpdx-direct3d11-ext</context>
+    <context>d3d11</context>
+    <context>d3d11on12</context>
+    <context>d3d11sdklayers</context>
+    <context>d3d11_1</context>
+    <context>d3d11_2</context>
+    <context>d3d11_3</context>
+  </context-set>
+
+  <!-- D3D11 extensions -->
+  <extension>
+    <context id="d3d11-all"/>
+
+    <const from-macro="D3D11_REQ_MIP_LEVELS" class="SharpDX.Direct3D11.Resource" type="int" name="MaximumMipLevels" />
+    <const from-macro="D3D11_REQ_RESOURCE_SIZE_IN_MEGABYTES_EXPRESSION_A_TERM" class="SharpDX.Direct3D11.Resource" type="int" name="ResourceSizeInMegabytes" />
+    <const from-macro="D3D11_REQ_TEXTURE1D_ARRAY_AXIS_DIMENSION" class="SharpDX.Direct3D11.Resource" type="int" name="MaximumTexture1DArraySize" />
+    <const from-macro="D3D11_REQ_TEXTURE2D_ARRAY_AXIS_DIMENSION" class="SharpDX.Direct3D11.Resource" type="int" name="MaximumTexture2DArraySize" />
+    <const from-macro="D3D11_REQ_TEXTURE1D_U_DIMENSION" class="SharpDX.Direct3D11.Resource" type="int" name="MaximumTexture1DSize" />
+    <const from-macro="D3D11_REQ_TEXTURE2D_U_OR_V_DIMENSION" class="SharpDX.Direct3D11.Resource" type="int" name="MaximumTexture2DSize" />
+    <const from-macro="D3D11_REQ_TEXTURE3D_U_V_OR_W_DIMENSION" class="SharpDX.Direct3D11.Resource" type="int" name="MaximumTexture3DSize" />
+    <const from-macro="D3D11_REQ_TEXTURECUBE_DIMENSION" class="SharpDX.Direct3D11.Resource" type="int" name="MaximumTextureCubeSize" />
+
+    <create class="ResultCode" visibility="public static" />
+    <const from-macro="D3D11_ERROR_(.*)" type="SharpDX.ResultDescriptor" cpp-type="int" name="$1" class="SharpDX.Direct3D11.ResultCode" visibility="public static readonly">new SharpDX.ResultDescriptor($1, "$3", "$0", "$2")</const>
+    <const from-macro="D3DX11_ERR_(.*)" type="SharpDX.ResultDescriptor" cpp-type="int" name="$1" class="SharpDX.Direct3D11.ResultCode" visibility="public static readonly">new SharpDX.ResultDescriptor($1, "$3", "$0", "$2")</const>
+
+    <create class="CommonShaderStage" visibility="public abstract partial" />
+    <const from-macro="D3D11_COMMONSHADER_(.*)" class="SharpDX.Direct3D11.CommonShaderStage" type="int" name="$1" />
+    <const from-macro="D3D11_IA_(.*)" class="SharpDX.Direct3D11.InputAssemblerStage" type="int" name="$1" />
+    <const from-macro="D3D11_IA_(.*)" class="SharpDX.Direct3D11.InputAssemblerStage" type="int" name="$1" />
+
+    <const from-macro="D3D11_MAX_MULTISAMPLE_SAMPLE_COUNT" class="SharpDX.Direct3D11.Device" type="int" name="MultisampleCountMaximum" />
+
+    <const from-macro="D3D11_SDK_VERSION" class="SharpDX.Direct3D11.D3D11" type="int" name="SdkVersion" />
+
+    <const from-macro="D3D11_PS_CS_UAV_REGISTER_COUNT" class="SharpDX.Direct3D11.ComputeShaderStage" type="int" name="UnorderedAccessViewSlotCount" />
+    <const from-macro="D3D11_CS_([^0-9].*)" class="SharpDX.Direct3D11.ComputeShaderStage" type="int" name="$1" />
+
+    <const from-macro="D3D11_PS_([^C][^S].*)" class="SharpDX.Direct3D11.PixelShaderStage" type="int" name="$1" />
+
+    <const from-macro="D3D11_(SIMULTANEOUS_RENDER_TARGET_COUNT)" class="SharpDX.Direct3D11.OutputMergerStage" type="int" name="$1" />
+    
+    <const from-macro="D3D11_(SO_NO_RASTERIZED_STREAM)" class="SharpDX.Direct3D11.GeometryShader" type="int" name="$1" />
+    <const from-macro="D3D11_(SO_STREAM_COUNT)" class="SharpDX.Direct3D11.GeometryShader" type="int" name="$1" />
+    <const from-macro="D3D11_(SO_OUTPUT_COMPONENT_COUNT)" class="SharpDX.Direct3D11.GeometryShader" type="int" name="$1" />
+    <const from-macro="D3D11_(SO_BUFFER_SLOT_COUNT)" class="SharpDX.Direct3D11.GeometryShader" type="int" name="$1" />
+    
+    <create-cpp enum="D3D11_DEBUG_FEATURE_FLAGS" macro="D3D11_DEBUG_FEATURE_(.*)" />    
+    <create class="D3D11" />
+    <create class="D3DX11" />
+    <create class="D3DCSX" />
+
+    <context-clear />
+  </extension>
+
+  <!-- D3D11 bindings -->
+  <bindings>
+    <bind from="ID3DX11ThreadPump" to="System.IntPtr" />
+    <bind from="D3D11_MAPPED_SUBRESOURCE" to="SharpDX.DataBox" />
+    <bind from="D3D11_SUBRESOURCE_DATA" to="SharpDX.DataBox" />
+    <bind from="DrawingSurfaceSizeF" to="SharpDX.Size2F"/>
+    <bind from="DrawingSurfaceRectF" to="SharpDX.Mathematics.Interop.RawRectangleF"/>
+    <bind from="D3D11_VIEWPORT" to="SharpDX.Mathematics.Interop.RawViewportF"/>
+  </bindings>
+
+  <!-- D3D11 mapping -->
+  <mapping>
+    <!-- WP8 DrawingSurface -->
+    <context>drawingsurfacenative</context>
+    <map interface="IDrawingSurfaceBackgroundContentProviderNative" callback="true"/>
+    <map interface="IDrawingSurfaceContentProviderNative" callback="true"/>
+    <map interface="IDrawingSurfaceRuntimeHostNative" name="DrawingSurfaceRuntimeHost" />
+    <map interface="IDrawingSurfaceSynchronizedTextureNative" name="DrawingSurfaceSynchronizedTexture" />
+    <map param="IDrawingSurfaceRuntimeHostNative::CreateSynchronizedTexture::synchronizedTexture" return="true"/>
+    <context-clear/>
+    
+    <context id="d3d11-all"/>
+    <!--
+    // *****************************************************************
+    // D3D11 Enumerations
+    // *****************************************************************
+    -->
+    <map enum="D3D11_1_(.*)" name-tmp="$1"/>
+    <map enum-item="D3D11_FEATURE_FORMAT_SUPPORT2" name="ComputeShaders" />
+    <map enum-item="D3D11_FEATURE_DOUBLES" name="ShaderDoubles" />
+    <remove enum="_D3DX11_ERR" />
+    <map enum="D3D11_DEBUG_FEATURE_FLAGS" name="DebugFeatureFlags" />
+    <map enum-item="D3D11_DEBUG_FEATURE_(.*)_OP" name-tmp="$1" />
+    <map enum="D3D11_DEBUG_FEATURE_FLAGS" flags="true" none="false" />
+    <map enum="D3D11_FORMAT_SUPPORT2" flags="true" none="true" />
+    <map enum="D3D11_FORMAT_SUPPORT2" name="ComputeShaderFormatSupport" />
+    <map enum-item="D3D11_FORMAT_SUPPORT2_UAV_(.*)" name-tmp="$1" />
+    <map enum="D3D11_RLDO_FLAGS" name="ReportingLevel" />
+    <map enum-item="D3D11_CREATE_DEVICE_PREVENT_INTERNAL_THREADING_OPTIMIZATIONS" name="PreventThreadingOptimizations" />
+    <map enum-item="D3D11_CREATE_DEVICE_SINGLETHREADED" name="SingleThreaded" />
+    <map enum="D3D11_BUFFEREX_SRV_FLAG" name="ShaderResourceViewExtendedBufferFlags" />
+    <map enum="D3DX11_FFT_DIM_MASK" name="FastFourierTransformDimensions" />
+    <map enum-item="D3DX11_FFT_DIM_MASK_(.*)" name="Dimension$1" />
+    <map enum="D3DX11_FFT_CREATE_FLAG" name="FastFourierTransformCreationFlags" />
+
+    <map enum-item="D3D11_SHADER_MIN_PRECISION_10_BIT" name="Bit10"/>    
+    <map enum-item="D3D11_SHADER_MIN_PRECISION_16_BIT" name="Bit16"/>
+    <map enum-item="D3D11_VIDEO_PROCESSOR_ITELECINE_CAPS_([0-9]+)" name="Value$1"/>
+
+    <map enum-item="D3D11_VIDEO_PROCESSOR_ROTATION_90" name="Rotation90"/>
+    <map enum-item="D3D11_VIDEO_PROCESSOR_ROTATION_180" name="Rotation180"/>
+    <map enum-item="D3D11_VIDEO_PROCESSOR_ROTATION_270" name="Rotation270"/>
+    
+    <map enum-item="D3D11_VIDEO_PROCESSOR_NOMINAL_RANGE_16_235" name="Range_16_235"/>
+    <map enum-item="D3D11_VIDEO_PROCESSOR_NOMINAL_RANGE_0_255" name="Range_0_255"/>
+
+    <map enum-item="D3D11_CONTEXT_TYPE_3D" name="ThreeDimensions" />
+    <map enum-item="D3D11_TEXTURE_LAYOUT_64K_STANDARD_SWIZZLE" name="StandardSwizzle64kb" />
+
+    <map enum-item="D3D11_(MESSAGE_ID.*)" name-tmp="$1" />
+    <map enum-item="D3D12_(MESSAGE_ID.*)" name-tmp="$1" />
+
+    <!--
+    // *****************************************************************
+    // D3D11 Struct
+    // *****************************************************************
+    -->
+
+    <map field="D3D11_RENDER_TARGET_BLEND_DESC1::LogicOpEnable" name="IsLogicOperationEnabled"/>
+    <map field="D3D11_RENDER_TARGET_BLEND_DESC1::LogicOp" name="LogicOperation"/>
+
+    <map struct="D3D11_SHADER_BUFFER_DESC" name="ConstantBufferDescription" />
+    <map field="D3D11_SHADER_DESC::Version" type="D3D11_SHADER_VERSION_TYPE" />
+    <map field="D3D11_CLASS_INSTANCE_DESC::Created" name="IsCreated" />
+    <map struct="D3D11_FEATURE_DATA_.*" visibility="internal" />
+    
+    <map struct="D3D11_FEATURE_DATA_D3D11_OPTIONS" visibility="public" />
+    <map struct="D3D11_FEATURE_DATA_D3D11_OPTIONS[123]" visibility="public" />
+    <map struct="D3D11_FEATURE_DATA_SHADER_MIN_PRECISION_SUPPORT" visibility="public" />
+
+    <map field="D3DX11_IMAGE_INFO::pSrcInfo" visibility="internal" />
+    <map struct="D3D11_INFO_QUEUE_FILTER" name="InfoQueueFilter" />
+    <map struct="D3D11_INFO_QUEUE_FILTER_DESC" name="InfoQueueFilterDescription" />
+    <map struct="D3DX11_FFT_BUFFER_INFO" name="FastFourierTransformBufferRequirements" />
+    <map field="D3DX11_FFT_BUFFER_INFO::NumTempBufferSizes" name="TemporaryBufferCount" />
+    <map field="D3DX11_FFT_BUFFER_INFO::TempBufferFloatSizes" name="TemporaryBufferSizes" />
+    <map field="D3DX11_FFT_BUFFER_INFO::NumPrecomputeBufferSizes" name="PrecomputeBufferCount" />
+    <map field="D3DX11_FFT_BUFFER_INFO::PrecomputeBufferFloatSizes" name="PrecomputeBufferSizes" />
+    <map field="D3DX11_FFT_DESC::DimensionMask" name="Dimensions" type="D3DX11_FFT_DIM_MASK" />
+    <map field="D3DX11_FFT_DESC::Type" name="DataType" />
+    <map enum="D3DX11_EFFECT_VARIABLE_FLAGS" name="EffectVariableFlags" />
+    <map field="D3DX11_EFFECT_SHADER_DESC::SODecls" visibility="internal" type="void"/>
+    <map struct="D3D11_OMAC" name="MessageAuthenticationCode" marshalto="true"/>
+    <map field="D3D11_OMAC::Omac" name="Buffer"/>
+    <!--<map field="D3DX11_EFFECT_SHADER_DESC::SODecls" visibility="internal" type="void" array="0"/>-->
+    
+    <!--
+    // *****************************************************************
+    // D3D11 Interfaces
+    // *****************************************************************
+    -->
+    <map method="ID3D11ClassLinkage::CreateClassInstance" visibility="internal" />
+    <map param="ID3D11ClassLinkage::CreateClassInstance::ppInstance" attribute="out fast" />
+    <map method="ID3D11Debug::(.*)FeatureMask" visibility="internal" property="false" name="$1FeatureFlags" />
+    <map param="ID3D11ClassLinkage::GetClassInstance::ppInstance" return="true" />
+    <map method="ID3D11Debug::(.*)PresentPerRenderOpDelay" name="$1PresentDelay" />
+    <map method="ID3D11Device::CheckFeatureSupport" visibility="internal" check="false"/>
+
+    <map param="ID3D11DeviceContext::GetPredication::ppPredicate" return="true" />
+    <map method="ID3D11DeviceContext::CSGetUnorderedAccessViews" visibility="internal" />
+    <map method="ID3D11DeviceContext::CopyResource" visibility="internal" name="CopyResource_" />
+    <map method="ID3D11DeviceContext::CopySubresourceRegion" visibility="internal" name="CopySubresourceRegion_" />
+    <map method="ID3D11DeviceContext::ResolveSubresource" visibility="internal" name="ResolveSubresource_" />
+    <map method="ID3D11DeviceContext::GetData" check="false" />
+    
+    <map method="ID3D11Resource::GetType" name="GetDimension" />
+
+    <map method="ID3DX11FFT::AttachBuffersAndPrecompute" visibility="internal" />
+    <map method="ID3DX11FFT::ForwardTransform" visibility="internal" />
+    <map param="ppOutputBuffer" type="void" />
+    <map method="ID3DX11FFT::InverseTransform" visibility="internal" />
+    <map param="ppOutputBuffer" type="void" />
+
+    <map method="ID3DX11Scan::.*" property="false" />
+    <map method="ID3DX11Scan::Scan" name="PerformScan" />
+    <map method="ID3DX11Scan::Multiscan" name="PerformMultiscan" />
+    <map method="ID3DX11SegmentedScan::.*" property="false" />
+    <map method="ID3DX11SegmentedScan::SegScan" name="PerformSegmentedScan" />
+
+    <move method="ID3D11DeviceContext::IA(.*)" to="InputAssemblerStage" property="InputAssembler" />
+    <move method="ID3D11DeviceContext::VS(.*)" to="VertexShaderStage" property="VertexShader" base="CommonShaderStage&lt;VertexShader&gt;"/>
+    <move method="ID3D11DeviceContext::PS(.*)" to="PixelShaderStage" property="PixelShader" base="CommonShaderStage&lt;PixelShader&gt;" />
+    <move method="ID3D11DeviceContext::GS(.*)" to="GeometryShaderStage" property="GeometryShader" base="CommonShaderStage&lt;GeometryShader&gt;"/>
+    <move method="ID3D11DeviceContext::SO(.*)" to="StreamOutputStage" property="StreamOutput"/>
+    <move method="ID3D11DeviceContext::RS(.*)" to="RasterizerStage" property="Rasterizer"/>
+    <move method="ID3D11DeviceContext::OM(.*)" to="OutputMergerStage" property="OutputMerger"/>
+
+    <move method="ID3D11DeviceContext::DS(.*)" to="DomainShaderStage" property="DomainShader" base="CommonShaderStage&lt;DomainShader&gt;"/>
+    <move method="ID3D11DeviceContext::HS(.*)" to="HullShaderStage" property="HullShader" base="CommonShaderStage&lt;HullShader&gt;"/>
+    <move method="ID3D11DeviceContext::CS(.*)" to="ComputeShaderStage" property="ComputeShader" base="CommonShaderStage&lt;ComputeShader&gt;"/>
+
+    <map method="ID3D11DeviceChild::GetDevice" persist="true"/>
+
+    <map method="ID3D11DeviceContext::OMSetRenderTargets" visibility="internal"/>
+    <map param="ppRenderTargetViews" type="void" attribute="in"/>
+    <map method="ID3D11DeviceContext::OMSetRenderTargetsAndUnorderedAccessViews" visibility="internal"/>
+
+    <map param="ID3D11DeviceContext::OMSetRenderTargetsAndUnorderedAccessViews::ppRenderTargetViews" type="void"/>
+    <map param="ID3D11DeviceContext::OMSetRenderTargetsAndUnorderedAccessViews::ppUnorderedAccessViews" type="void"/>
+
+    <map interface="ID3DDeviceContextState" name="DeviceContextState"/>
+    <map interface="ID3DUserDefinedAnnotation" name="UserDefinedAnnotation"/>
+    <map method="ID3DUserDefinedAnnotation::SetMarker" property="false" />
+
+    <map param="ID3D11Device1::CreateDeviceContextState::Flags" type="D3D11_1_CREATE_DEVICE_CONTEXT_STATE_FLAG"/>
+
+    <map method="ID3D11Device1::OpenSharedResourceByName" visibility="internal" />
+
+    <map param="ID3D11Device1::OpenSharedResourceByName::dwDesiredAccess" type="DXGI_SHARED_RESOURCE_FLAGS" />
+
+    <map method="ID3D11View::GetResource" property="false" visibility="internal"/>
+    <map param="ID3D11View::GetResource::ppResource" type="void"/>
+    
+    <map param="ID3D11DeviceContext::SOSetTargets::ppSOTargets" type="void"/>
+    <map param="ID3D11DeviceContext::SOSetTargets::pOffsets" type="void"/>
+
+    <map param="ID3D11DeviceContext::CSSetUnorderedAccessViews::pUAVInitialCounts" type="void"/>
+    <map param="ID3D11DeviceContext::OMSetRenderTargetsAndUnorderedAccessViews::pUAVInitialCounts" type="void"/>
+
+    <map param="ID3D11Device2::CheckMultisampleQualityLevels1::Flags" type="D3D11_CHECK_MULTISAMPLE_QUALITY_LEVELS_FLAG" />
+    <map param="ID3D11Device2::CheckMultisampleQualityLevels1::pNumQualityLevels" return="true" />
+    
+    <map param="ID3D11Device2::GetResourceTiling::pNumSubresourceTilings" attribute="inout" />
+    
+    <map method="ID3D11VideoContext::GetDecoderBuffer" visibility="internal"/>
+    <map param="ID3D11VideoContext::GetDecoderBuffer::ppBuffer" attribute="out"/>
+    
+    <map param="ID3D11DeviceContext2::.*Tile.*::Flags" type="D3D11_TILE_MAPPING_FLAG" />
+    <map param="ID3D11DeviceContext2::UpdateTileMappings::pRangeFlags" type="D3D11_TILE_RANGE_FLAG" />
+    
+    <map param="ID3D11On12Device::CreateWrappedResource::InState" type="int" />
+    <map param="ID3D11On12Device::CreateWrappedResource::OutState" type="int" />
+    <map param="ID3D11On12Device::CreateWrappedResource::ppResource11" type="ID3D11Resource" />
+
+    <!--
+    // *****************************************************************
+    // D3D11 Functions
+    // *****************************************************************
+    -->
+    <remove function="D3D11CreateDeviceAndSwapChain"/>
+
+    <map function="D3D11(.+)" name-tmp="$1" />
+    <map function="D3D11.*" dll='"d3d11.dll"' group="SharpDX.Direct3D11.D3D11" />
+    <map param="D3D11CreateDevice::ppDevice" attribute="out fast" />
+    <map function="D3D11CreateDevice" check="false"/>
+    <map function="D3D11On12CreateDevice" dll='"d3d11.dll"' group="SharpDX.Direct3D11.D3D11"/>
+    <map param="D3D11On12CreateDevice::Flags" type ="D3D11_CREATE_DEVICE_FLAG"/>
+    <map param="D3D11On12CreateDevice::ppDevice" type="ID3D11Device" attribute="out" />
+    
+    <remove function="ID3D11DeviceContext1_.*"/>
+
+    <context-clear />
+  </mapping>
+</config>

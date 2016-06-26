@@ -1,0 +1,203 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{6A41EAF1-67D4-43F0-B6B8-1A1395B07235}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>SharpDX</RootNamespace>
+    <AssemblyName>SharpDX</AssemblyName>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x64\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <OutputPath>bin\x64\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AssemblyDoc.cs" />
+    <Compile Include="CallbackBase.cs" />
+    <Compile Include="Collections\EqualityComparer.cs" />
+    <Compile Include="ComArray.cs" />
+    <Compile Include="ComBaseStreamNative.cs" />
+    <Compile Include="ComObject.cs" />
+    <Compile Include="ComObjectCallback.cs" />
+    <Compile Include="ComObjectShadow.cs" />
+    <Compile Include="Configuration.cs" />
+    <Compile Include="CppObject.cs" />
+    <Compile Include="CppObjectShadow.cs" />
+    <Compile Include="CppObjectVtbl.cs" />
+    <Compile Include="DataBox.cs" />
+    <Compile Include="DataBuffer.cs" />
+    <Compile Include="DataPointer.cs" />
+    <Compile Include="DataRectangle.cs" />
+    <Compile Include="DataStream.cs" />
+    <Compile Include="Diagnostics\NamespaceDoc.cs" />
+    <Compile Include="Diagnostics\ObjectReference.cs" />
+    <Compile Include="Diagnostics\ObjectTracker.cs" />
+    <Compile Include="Direct3D\Blob.cs" />
+    <Compile Include="Direct3D\CompilationException.cs" />
+    <Compile Include="Direct3D\CompilationResultBase.cs" />
+    <Compile Include="Direct3D\NamespaceDoc.cs" />
+    <Compile Include="Direct3D\ShaderMacro.cs" />
+    <Compile Include="DisposeBase.cs" />
+    <Compile Include="DisposeCollector.cs" />
+    <Compile Include="DisposeEventArgs.cs" />
+    <Compile Include="FunctionCallback.cs" />
+    <Compile Include="Generated\Direct3D\Enumerations.cs" />
+    <Compile Include="Generated\Direct3D\Functions.cs" />
+    <Compile Include="Generated\Direct3D\Interfaces.cs" />
+    <Compile Include="Generated\Direct3D\Structures.cs" />
+    <Compile Include="Generated\Enumerations.cs" />
+    <Compile Include="Generated\Functions.cs" />
+    <Compile Include="Generated\Interfaces.cs" />
+    <Compile Include="Generated\LocalInterop.cs" />
+    <Compile Include="Generated\Multimedia\Enumerations.cs" />
+    <Compile Include="Generated\Multimedia\Functions.cs" />
+    <Compile Include="Generated\Multimedia\Interfaces.cs" />
+    <Compile Include="Generated\Multimedia\Structures.cs" />
+    <Compile Include="Generated\Structures.cs" />
+    <Compile Include="Generated\Win32\Enumerations.cs" />
+    <Compile Include="Generated\Win32\Functions.cs" />
+    <Compile Include="Generated\Win32\Interfaces.cs" />
+    <Compile Include="Generated\Win32\Structures.cs" />
+    <Compile Include="ICallbackable.cs" />
+    <Compile Include="IInspectable.cs" />
+    <Compile Include="InspectableShadow.cs" />
+    <Compile Include="Interop.cs" />
+    <Compile Include="IO\NamespaceDoc.cs" />
+    <Compile Include="IO\NativeFile.cs" />
+    <Compile Include="IO\NativeFileAccess.cs" />
+    <Compile Include="IO\NativeFileMode.cs" />
+    <Compile Include="IO\NativeFileOptions.cs" />
+    <Compile Include="IO\NativeFileShare.cs" />
+    <Compile Include="IO\NativeFileStream.cs" />
+    <Compile Include="IUnknown.cs" />
+    <Compile Include="Mathematics\Interop\RawBool.cs" />
+    <Compile Include="Mathematics\Interop\RawBool4.cs" />
+    <Compile Include="Mathematics\Interop\RawBox.cs" />
+    <Compile Include="Mathematics\Interop\RawColor3.cs" />
+    <Compile Include="Mathematics\Interop\RawColor4.cs" />
+    <Compile Include="Mathematics\Interop\RawColorBGRA.cs" />
+    <Compile Include="Mathematics\Interop\RawInt3.cs" />
+    <Compile Include="Mathematics\Interop\RawInt4.cs" />
+    <Compile Include="Mathematics\Interop\RawMatrix.cs" />
+    <Compile Include="Mathematics\Interop\RawMatrix3x2.cs" />
+    <Compile Include="Mathematics\Interop\RawMatrix5x4.cs" />
+    <Compile Include="Mathematics\Interop\RawPlane.cs" />
+    <Compile Include="Mathematics\Interop\RawPoint.cs" />
+    <Compile Include="Mathematics\Interop\RawQuaternion.cs" />
+    <Compile Include="Mathematics\Interop\RawRectangle.cs" />
+    <Compile Include="Mathematics\Interop\RawRectangleF.cs" />
+    <Compile Include="Mathematics\Interop\RawVector2.cs" />
+    <Compile Include="Mathematics\Interop\RawVector3.cs" />
+    <Compile Include="Mathematics\Interop\RawVector4.cs" />
+    <Compile Include="Mathematics\Interop\RawViewport.cs" />
+    <Compile Include="Mathematics\Interop\RawViewportF.cs" />
+    <Compile Include="ModuleInit.cs" />
+    <Compile Include="Multimedia\AudioEndpointRole.cs" />
+    <Compile Include="Multimedia\FourCC.cs" />
+    <Compile Include="Multimedia\NamespaceDoc.cs" />
+    <Compile Include="Multimedia\RiffChunk.cs" />
+    <Compile Include="Multimedia\RiffParser.cs" />
+    <Compile Include="Multimedia\SoundStream.cs" />
+    <Compile Include="Multimedia\SpeakersExtensions.cs" />
+    <Compile Include="Multimedia\WaveFormat.cs" />
+    <Compile Include="Multimedia\WaveFormatAdpcm.cs" />
+    <Compile Include="Multimedia\WaveFormatExtensible.cs" />
+    <Compile Include="NamespaceDoc.cs" />
+    <Compile Include="PointerSize.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Reflection\ObfuscationAttributes.cs" />
+    <Compile Include="Result.cs" />
+    <Compile Include="ResultDescriptor.cs" />
+    <Compile Include="ServiceEventArgs.cs" />
+    <Compile Include="ShadowAttribute.cs" />
+    <Compile Include="ShadowContainer.cs" />
+    <Compile Include="SharpDXException.cs" />
+    <Compile Include="SharpJit.cs" />
+    <Compile Include="Size2.cs" />
+    <Compile Include="Size2F.cs" />
+    <Compile Include="TagAttribute.cs" />
+    <Compile Include="Text\ASCIIEncoding.cs" />
+    <Compile Include="Text\NamespaceDoc.cs" />
+    <Compile Include="Utilities.cs" />
+    <Compile Include="Win32\BitmapInfoHeader.cs" />
+    <Compile Include="Win32\ComStream.cs" />
+    <Compile Include="Win32\ComStreamBaseShadow.cs" />
+    <Compile Include="Win32\ComStreamProxy.cs" />
+    <Compile Include="Win32\ComStreamShadow.cs" />
+    <Compile Include="Win32\ComStringEnumerator.cs" />
+    <Compile Include="Win32\ErrorCode.cs" />
+    <Compile Include="Win32\IStream.cs" />
+    <Compile Include="Win32\IStreamBase.cs" />
+    <Compile Include="Win32\NamespaceDoc.cs" />
+    <Compile Include="Win32\NativeMessage.cs" />
+    <Compile Include="Win32\PropertyBag.cs" />
+    <Compile Include="Win32\PropertyBagKey.cs" />
+    <Compile Include="Win32\SecurityAttributes.cs" />
+    <Compile Include="Win32\Variant.cs" />
+    <Compile Include="Win32\VariantElementType.cs" />
+    <Compile Include="Win32\VariantType.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Direct3D\Mapping.xml" />
+    <Content Include="Documentation\CodeComments.xml" />
+    <Content Include="Mapping-core.xml" />
+    <Content Include="Mapping.xml" />
+    <Content Include="Multimedia\Mapping.xml" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

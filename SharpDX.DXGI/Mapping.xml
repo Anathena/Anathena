@@ -1,0 +1,255 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+// Copyright (c) 2010-2014 SharpDX - Alexandre Mutel
+// 
+// Permission is hereby granted, free of charge, to any person obtaining a copy
+// of this software and associated documentation files (the "Software"), to deal
+// in the Software without restriction, including without limitation the rights
+// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+// copies of the Software, and to permit persons to whom the Software is
+// furnished to do so, subject to the following conditions:
+// 
+// The above copyright notice and this permission notice shall be included in
+// all copies or substantial portions of the Software.
+// 
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+// THE SOFTWARE.
+-->
+<config id="sharpdx-dxgi" xmlns="urn:SharpGen.Config">
+  <depends>sharpdx</depends>
+
+  <namespace>SharpDX.DXGI</namespace>
+  <assembly>SharpDX.DXGI</assembly>
+
+  <!-- DXGI includes -->
+  <include id="dxgi" file="dxgi.h" attach="true" />
+  <include id="dxgiformat" file="dxgiformat.h" attach="true" />
+  <include id="winerror" file="winerror.h"/>
+  <include id="dxgitype" file="dxgitype.h" attach="true"/>
+  <include id="dxgi1_2" file="dxgi1_2.h" attach="true" />
+  <include id="windows.ui.xaml.media.dxinterop" file="windows.ui.xaml.media.dxinterop.h" attach="true" />
+  <include id="dxgi1_3" file="dxgi1_3.h" attach="true" />
+  <include id="dxgi1_4" file="dxgi1_4.h" attach="true" />
+
+  <context-set id="dxgi-all">
+    <context>sharpdx-dxgi</context>
+    <context>sharpdx-dxgi-ext</context>
+    <context>dxgi</context>
+    <context>dxgiformat</context>
+    <context>dxgitype</context>
+    <context>dxgi1_2</context>
+    <context>dxgi1_3</context>
+    <context>dxgi1_4</context>
+    <context>winerror</context>
+    <context>windows.ui.xaml.media.dxinterop</context>
+  </context-set>
+
+  <!-- DXGI global naming -->
+  <naming>
+    <short name="(R(\d).*)$">$1</short>
+    <short name="(B(\d).*)$">$1</short>
+    <short name="(G(\d).*)$">$1</short>
+    <short name="(A(\d).*)$">$1</short>
+    <short name="(X(\d).*)$">$1</short>
+    <short name="(BC(\d).*)$">$1</short>
+    <short name="(AYUV)$">$1</short>
+    <short name="(YUY2)$">$1</short>
+    <short name="(NV\d+)$">$1</short>
+    <short name="(AI\d+)$">$1</short>
+    <short name="(IA\d+)$">$1</short>
+  </naming>
+
+  <!-- DXGI types -->
+  <extension>
+    <context id="dxgi-all"/>
+
+    <create-cpp enum="DXGI_PRESENT_FLAGS" macro="DXGI_PRESENT_.*" />
+    <create-cpp enum="DXGI_USAGE_ENUM" macro="DXGI_USAGE_.*" />
+    <create-cpp enum="DXGI_RESOURCE_PRIORITY" macro="DXGI_RESOURCE_.*" />
+    <create-cpp enum="DXGI_MAP_FLAGS" macro="DXGI_MAP_.*" />
+    <create-cpp enum="DXGI_ENUM_MODES_FLAGS" macro="DXGI_ENUM_MODES_.*" />
+    <create-cpp enum="DXGI_MWA_FLAGS" macro="DXGI_MWA_.*" />
+    <create-cpp enum="DXGI_SHARED_RESOURCE_FLAGS" macro="DXGI_SHARED_RESOURCE_.*" />
+
+    <create class="ResultCode" visibility="public"/>
+    <const from-macro="DXGI_ERROR_(.*)" type="SharpDX.ResultDescriptor" cpp-type="int" name="$1" class="SharpDX.DXGI.ResultCode" visibility="public static readonly">new SharpDX.ResultDescriptor($1, "$3", "$0", "$2")</const>
+
+    <create-cpp enum="DXGI_STATUS" macro="DXGI_STATUS_.*" />
+    <create class="DXGI" />
+    <const from-macro="DXGI_(CREATE_FACTORY_DEBUG)" type="int" cpp-type="int" name="$1" class="SharpDX.DXGI.DXGI" />
+
+    <context-clear/>
+  </extension>
+
+  <!-- DXGI bindings -->
+  <bindings>
+    <bind from="DXGI_RGB" to="SharpDX.Mathematics.Interop.RawColor4" />
+  </bindings>
+
+  <!-- DXGI mapping rules -->
+  <mapping>
+    <context id="dxgi-all"/>
+
+    <!--
+    // *****************************************************************
+    // DXGI Enumerations
+    // *****************************************************************
+    -->
+    <map enum="DXGI(.+)" name-tmp="$1" />
+    <map enum="DXGI_USAGE_ENUM" name="Usage" flags="true" none="false" />
+    <map enum-item="DXGI_USAGE_(.+)" name-tmp="$1" />
+    <map enum-item="DXGI_FORMAT_.*" naming="underscore" />
+    <map enum="DXGI_MODE_ROTATION" name="DisplayModeRotation" />
+    <map enum="DXGI_MODE_SCALING" name="DisplayModeScaling" />
+    <map enum="DXGI_MODE_SCANLINE_ORDER" name="DisplayModeScanlineOrder" />
+    <map enum="DXGI_STATUS" name="DXGIStatus" />
+    <map enum="DXGI_ENUM_MODES_FLAGS" name="DisplayModeEnumerationFlags" flags="true" none="false"/>
+    <map enum="DXGI_MAP_FLAGS" flags="true" none="false" />
+    <map enum="DXGI_MWA_FLAGS" name="WindowAssociationFlags" />
+    <map enum-item="DXGI_MWA_NO_WINDOW_CHANGES" name="IgnoreAll" />
+    <map enum-item="DXGI_MWA_NO_ALT_ENTER" name="IgnoreAltEnter" />
+    <map enum-item="DXGI_MWA_NO_PRINT_SCREEN" name="IgnorePrintScreen" />
+    <map enum-item="DXGI_FORMAT_420_OPAQUE" name="Opaque420"/>
+
+    <!--
+    // *****************************************************************
+    // DXGI Structures
+    // *****************************************************************
+    -->
+    <map struct="DXGI(.+)" name-tmp="$1" />
+    <remove struct="DXGI_DISPLAY_COLOR_SPACE" />
+
+    <map field="DXGI_ADAPTER_DESC[12]?::AdapterLuid" name="Luid" />
+    <map field="DXGI_ADAPTER_DESC[12]?::SubSysId" name="SubsystemId" />
+    <map field="DXGI_ADAPTER_DESC[12]::Flags" type="DXGI_ADAPTER_FLAG" />
+
+    <map field="DXGI_GAMMA_CONTROL_CAPABILITIES::MaxConvertedValue" name="MaximumConvertedValue" />
+    <map field="DXGI_GAMMA_CONTROL_CAPABILITIES::MinConvertedValue" name="MinimumConvertedValue" />
+    <map field="DXGI_GAMMA_CONTROL_CAPABILITIES::NumGammaControlPoints" name="ControlPointsCount" />
+    <map field="DXGI_GAMMA_CONTROL_CAPABILITIES::ControlPointPositions" name="ControlPoints" />
+    <map field="DXGI_GAMMA_CONTROL_CAPABILITIES::ScaleAndOffsetSupported" name="IsScaleAndOffsetSupported" />
+
+    <map field="DXGI_OUTPUT_DESC::DesktopCoordinates" name="DesktopBounds" />
+    <map field="DXGI_OUTPUT_DESC::AttachedToDesktop" name="IsAttachedToDesktop" />
+    <map field="DXGI_OUTPUT_DESC::Monitor" name="MonitorHandle" />
+
+    <map field="DXGI_SWAP_CHAIN_DESC[12]?::BufferDesc" name="ModeDescription" />
+    <map field="DXGI_SWAP_CHAIN_DESC::OutputWindow" name="OutputHandle" />
+    <map field="DXGI_SWAP_CHAIN_DESC::Windowed" name="IsWindowed" />
+    <map field="DXGI_SWAP_CHAIN_DESC[12]?::BufferUsage" name="Usage" type="DXGI_USAGE_ENUM"/>
+    <map field="DXGI_SWAP_CHAIN_DESC[12]?::Flags" type="DXGI_SWAP_CHAIN_FLAG" />
+
+    <map struct="DXGI_MAPPED_RECT" visibility="internal" />
+
+    <map struct="DXGI_PRESENT_PARAMETERS" native="true" marshal="true" marshalto="true"/>
+    <map field="DXGI_PRESENT_PARAMETERS::.*" visibility="internal"/>
+    
+    <map struct="DXGI_ADAPTER_DESC" pack="4"/>
+    <map struct="DXGI_ADAPTER_DESC1" pack="4"/>
+
+    <!--
+    // *****************************************************************
+    // DXGI Interfaces
+    // *****************************************************************
+    -->
+    <map interface="IDXGI(.+)" name-tmp="$1" />
+    <map interface="IDXGIObject" name="DXGIObject" />
+    <map interface="IDXGIDeviceSubObject" name="DeviceChild" />
+
+    <map method=".*::GetPrivateData" check="false"/>
+
+    <map method="IDXGIAdapter::EnumOutputs" name="GetOutput" visibility="internal" check="false"/>
+
+    <map method="IDXGIAdapter::CheckInterfaceSupport" visibility="internal" check="false"/>
+
+    <map method="IDXGIDevice::CreateSurface" visibility="internal" />
+    <map method="IDXGIDevice::QueryResourceResidency" visibility="internal" />
+
+    <map method="IDXGIFactory::CreateSwapChain" visibility="internal" />
+    <map param="ppSwapChain" attribute="out fast"/>
+
+    <map param="IDXGIFactory::CreateSoftwareAdapter::ppAdapter" return="true" />
+    <map method="IDXGIFactory::EnumAdapters" name="GetAdapter" visibility="internal" check="false"/>
+    <map method="IDXGIFactory1::EnumAdapters1" name="GetAdapter1" visibility="internal" check="false"/>
+    <map method="IDXGIFactory::GetWindowAssociation" property="false" />
+    <map param="pWindowHandle" return="true" />
+    <map param="IDXGIFactory::MakeWindowAssociation::Flags" type="DXGI_MWA_FLAGS" />
+
+    <map method="IDXGIFactory2::Create.*" visibility="internal" />
+    <map param="IDXGIFactory2::Create.*::ppSwapChain" attribute="out fast" />
+
+    <map method="IDXGIKeyedMutex::(.*)Sync" name="$1" />
+
+    <map method="IDXGIOutput::FindClosestMatchingMode" visibility="internal" />
+    <map method="IDXGIOutput1?::GetDisplayModeList1?" visibility="internal" />
+    <map method="IDXGIOutput::SetDisplaySurface" visibility="public" property="false" />
+    <map method="IDXGIOutput::GetDisplaySurfaceData" name="CopyDisplaySurfaceTo" />
+    <map method="IDXGIOutput::WaitForVBlank" name="WaitForVerticalBlank" />
+    <map method="IDXGIOutput2::SupportsOverlays" visibility="internal" name="SupportsOverlays_" />
+
+    <map method="IDXGISurface::Map" visibility="internal" />
+    <map param="IDXGISurface1::GetDC::phdc" return="true" />
+    <map method="IDXGISurface1::ReleaseDC" visibility="internal" name="ReleaseDC_" />
+
+    <map method="IDXGISwapChain::GetBuffer" visibility="internal" />
+    <map param="IDXGISwapChain::Present::Flags" type="DXGI_PRESENT_FLAGS" />
+    <map param="IDXGISwapChain::ResizeBuffers::SwapChainFlags" type="DXGI_SWAP_CHAIN_FLAG" />
+
+    <map method="IDXGIOutputDuplication::MapDesktopSurface" visibility="internal"/>
+
+    <map method="IDXGIResource1::CreateSubresourceSurface" visibility="internal"/>
+    <map param="IDXGIResource1::CreateSubresourceSurface::ppSurface" attribute="out fast"/>
+
+    <map method="IDXGIResource1::CreateSharedHandle" visibility="internal"/>
+    <map param="IDXGIResource1::CreateSharedHandle::dwAccess" type="DXGI_SHARED_RESOURCE_FLAGS"/>
+    <map param="IDXGIResource1::CreateSharedHandle::pHandle" return="true"/>
+
+    <map method="IDXGIKeyedMutex::AcquireSync" hresult="true"/>
+
+    <ifdef name="STORE_APP">
+      <map method="IDXGIOutput1::DuplicateOutput" visibility="internal"/>
+      <map param="IDXGIOutput1::DuplicateOutput::ppOutputDuplication" type="void"/>
+    </ifdef>
+    <map param="IDXGIOutput1::DuplicateOutput::ppOutputDuplication" return="true"/>
+
+    <map param="ISurfaceImageSourceNative::BeginDraw::surface" return="true"/>
+
+    <map interface="IVirtualSurfaceUpdatesCallbackNative" visibility="internal" callback="true" callback-dual="true" />
+    <map method="IVirtualSurfaceImageSourceNative::RegisterForUpdatesNeeded" visibility="internal"/>
+
+    <map method="IVirtualSurfaceImageSourceNative::GetUpdateRectCount" visibility="internal" property="false"/>
+    <map param="IVirtualSurfaceImageSourceNative::GetUpdateRectCount::pCount" return="true"/>
+    <map param="IVirtualSurfaceImageSourceNative::GetUpdateRectCount::count" return="true"/>
+    <map method="IVirtualSurfaceImageSourceNative::GetUpdateRects" visibility="internal"/>
+
+    <map method="IDXGISwapChain1::Present1" visibility="internal"/>
+    <map param="IDXGISwapChain1::Present1::pPresentParameters" type="void"/>
+    <map param="IDXGISwapChain1::Present1::PresentFlags" type="DXGI_PRESENT_FLAGS" />
+
+    <map param="IDXGISwapChain2::GetMaximumFrameLatency::pMaxLatency" attribute="out" />
+    <map param="IDXGISwapChain2::GetMatrixTransform::pMatrix" attribute="out" />
+    <map method="IDXGISwapChain2::[GS]etSourceSize" visibility="internal" />
+    
+    <map method="IDXGIFactory4::EnumWarpAdapter" visibility="private"/>
+
+    <!--
+    // *****************************************************************
+    // DXGI Functions
+    // *****************************************************************
+    -->
+
+    <remove function="CreateDXGIFactory"/>
+    <map function="CreateDXGIFactory.*" dll='"dxgi.dll"' group="SharpDX.DXGI.DXGI" />
+    <map param="CreateDXGIFactory.*?::ppFactory" attribute="out" />
+
+    <!-- TODO: No documentation - don't know how to map it. -->
+    <remove function="DXGIGetDebugInterface1" />
+
+    <context-clear/>
+  </mapping>
+</config>

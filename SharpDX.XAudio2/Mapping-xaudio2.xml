@@ -1,0 +1,280 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+// Copyright (c) 2010-2014 SharpDX - Alexandre Mutel
+// 
+// Permission is hereby granted, free of charge, to any person obtaining a copy
+// of this software and associated documentation files (the "Software"), to deal
+// in the Software without restriction, including without limitation the rights
+// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+// copies of the Software, and to permit persons to whom the Software is
+// furnished to do so, subject to the following conditions:
+// 
+// The above copyright notice and this permission notice shall be included in
+// all copies or substantial portions of the Software.
+// 
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+// THE SOFTWARE.
+-->
+<config id="sharpdx-xaudio2" xmlns="urn:SharpGen.Config">
+  <depends>sharpdx</depends>
+  <depends>sharpdx-xapo</depends>
+  
+  <namespace>SharpDX.XAudio2</namespace>
+  <assembly>SharpDX.XAudio2</assembly>
+
+  <!-- XAudio2 includes -->
+  <include file="xaudio2.h" attach="true">
+    <filter-error>$(FILTER_PASTING_ERROR)</filter-error>
+  </include>
+  <include file="xaudio2fx.h" attach="true" namespace="SharpDX.XAudio2.Fx" output="Fx" >
+    <filter-error>$(FILTER_PASTING_ERROR)</filter-error>
+  </include>
+  
+  <naming />
+
+  <!-- XAudio2 extensions -->
+  <extension>
+    <context>sharpdx-xaudio2-ext</context>
+    <context>xaudio2</context>
+    <context>xaudio2fx</context>
+    <create-cpp enum="XAUDIO2_VOICE_SEND_FLAGS" macro="XAUDIO2_SEND_(USEFILTER)" />
+    <create-cpp enum="XAUDIO2_VOICE_FLAGS" macro="XAUDIO2_VOICE_.*" />
+    <create-cpp enum="XAUDIO2_FLAGS" macro="XAUDIO2_DEBUG_ENGINE" />
+    <create-cpp enum="XAUDIO2_PLAY_FLAGS" macro="XAUDIO2_PLAY_.*" />
+    <create-cpp enum="XAUDIO2_LOG_TYPE" macro="XAUDIO2_LOG_.*" />
+    <create-cpp enum="XAUDIO2_BUFFER_FLAGS" macro="XAUDIO2_END_OF_STREAM" />
+
+    <ifdef name="DIRECTX11_1">
+      <create-cpp enum="XAUDIO2_WINDOWS_PROCESSOR_SPECIFIER" macro="Processor[0-9]+|XAUDIO2_ANY_PROCESSOR|XAUDIO2_DEFAULT_PROCESSOR" />
+    </ifdef>
+    
+    <ifndef name="DIRECTX11_1">
+      <const from-guid="CLSID_XAudio2.*" class="SharpDX.XAudio2.XAudio2" type="System.Guid">new System.Guid("$1")</const>
+      <const from-guid="IID_IXAudio2" class="SharpDX.XAudio2.XAudio2" type="System.Guid">new System.Guid("$1")</const>
+    </ifndef>
+
+    <const from-macro="XAUDIO2_MAX_BUFFER_BYTES" type="int" cpp-type="int" name="MaximumBufferBytes" class="SharpDX.XAudio2.XAudio2" visibility="public const">unchecked((int)$1)</const>
+    <const from-macro="XAUDIO2_MAX_QUEUED_BUFFERS" type="int" cpp-type="int" name="MaximumQueuedBuffers" class="SharpDX.XAudio2.XAudio2" visibility="public const" />
+    <const from-macro="XAUDIO2_MAX_AUDIO_CHANNELS" type="int" cpp-type="int" name="MaximumAudioChannels" class="SharpDX.XAudio2.XAudio2" visibility="public const" />
+    <const from-macro="XAUDIO2_MIN_SAMPLE_RATE" type="int" cpp-type="int" name="MinimumSampleRate" class="SharpDX.XAudio2.XAudio2" visibility="public const" />
+    <const from-macro="XAUDIO2_MAX_SAMPLE_RATE" type="int" cpp-type="int" name="MaximumSampleRate" class="SharpDX.XAudio2.XAudio2" visibility="public const" />
+    <const from-macro="XAUDIO2_MAX_VOLUME_LEVEL" type="float" cpp-type="float" name="MaximumVolumeLevel" class="SharpDX.XAudio2.XAudio2" visibility="public const" />
+    <const from-macro="XAUDIO2_MIN_FREQ_RATIO" type="float" cpp-type="float" name="MinimumFrequencyRatio" class="SharpDX.XAudio2.XAudio2" visibility="public const" />
+    <const from-macro="XAUDIO2_MAX_FREQ_RATIO" type="float" cpp-type="float" name="MaximumFrequencyRatio" class="SharpDX.XAudio2.XAudio2" visibility="public const" />
+    <const from-macro="XAUDIO2_DEFAULT_FREQ_RATIO" type="float" cpp-type="float" name="DefaultFrequencyRatio" class="SharpDX.XAudio2.XAudio2" visibility="public const" />
+    <const from-macro="XAUDIO2_MAX_FILTER_ONEOVERQ" type="float" cpp-type="float" name="MaximumFilterOneOverQ" class="SharpDX.XAudio2.XAudio2" visibility="public const" />
+    <const from-macro="XAUDIO2_MAX_FILTER_FREQUENCY" type="float" cpp-type="float" name="MaximumFilterFrequency" class="SharpDX.XAudio2.XAudio2" visibility="public const" />
+    <const from-macro="XAUDIO2_MAX_LOOP_COUNT" type="int" cpp-type="int" name="MaximumLoopCount" class="SharpDX.XAudio2.XAudio2" visibility="public const" />
+    <const from-macro="XAUDIO2_COMMIT_NOW" type="int" cpp-type="int" name="CommitNow" class="SharpDX.XAudio2.XAudio2" visibility="public const" />
+    <const from-macro="XAUDIO2_COMMIT_ALL" type="int" cpp-type="int" name="CommitAll" class="SharpDX.XAudio2.XAudio2" visibility="public const" />
+    <const from-macro="XAUDIO2_NO_LOOP_REGION" type="int" cpp-type="int" name="NoLoopRegion" class="SharpDX.XAudio2.XAudio2" visibility="public const" />
+    <const from-macro="XAUDIO2_LOOP_INFINITE" type="int" cpp-type="int" name="LoopInfinite" class="SharpDX.XAudio2.AudioBuffer" visibility="public const" />
+    <const from-macro="XAUDIO2_DEFAULT_CHANNELS" type="int" cpp-type="int" name="DefaultChannels" class="SharpDX.XAudio2.XAudio2" visibility="public const" />
+    <const from-macro="XAUDIO2_DEFAULT_SAMPLERATE" type="int" cpp-type="int" name="DefaultSampleRate" class="SharpDX.XAudio2.XAudio2" visibility="public const" />
+
+    <create class="XAudio2Functions" />
+
+    <create class="ResultCode" visibility="public"/>
+    <const from-macro="XAUDIO2_E_(.*)" type="SharpDX.ResultDescriptor" cpp-type="int" name="$1" class="SharpDX.XAudio2.ResultCode" visibility="public static readonly">new SharpDX.ResultDescriptor($1, "$3", "$0", "$2")</const>
+
+    <!-- Warning, gccxml cannot parse the CLSID - Need to declare them manually
+    DEFINE_CLSID(AudioVolumeMeter, cac1105f, 619b, 4d04, 83, 1a, 44, e1, cb, f1, 2d, 57);
+    DEFINE_CLSID(AudioVolumeMeter_Debug, 2d9a0f9c, e67b, 4b24, ab, 44, 92, b3, e7, 70, c0, 20);
+    DEFINE_CLSID(AudioReverb, 6a93130e, 1d53, 41d1, a9, cf, e7, 58, 80, 0b, b1, 79);
+    DEFINE_CLSID(AudioReverb_Debug, c4f82dd4, cb4e, 4ce1, 8b, db, ee, 32, d4, 19, 82, 69);
+    
+
+    
+    <const from-guid="CLSID_Audio.*" class="SharpDX.XAudio2.Fx.XAudio2FxContants" type="System.Guid">new System.Guid("$1")</const>    
+    <create class="SharpDX.XAudio2.Fx.XAudio2FxContants" />
+    -->
+    <create class="SharpDX.XAudio2.Fx.Reverb" visibility="public"/>
+    <const from-macro="XAUDIO2FX_REVERB_MIN_WET_DRY_MIX"       type="float" cpp-type="float" name="MinWetDryMix" class="SharpDX.XAudio2.Fx.Reverb" visibility="public const" />
+    <const from-macro="XAUDIO2FX_REVERB_MIN_REFLECTIONS_DELAY" type="int"   cpp-type="int"   name="MinReflectionsDelay" class="SharpDX.XAudio2.Fx.Reverb" visibility="public const" />
+    <const from-macro="XAUDIO2FX_REVERB_MIN_REVERB_DELAY"      type="byte"  cpp-type="int"  name="MinReverbDelay" class="SharpDX.XAudio2.Fx.Reverb" visibility="public const" />
+    <const from-macro="XAUDIO2FX_REVERB_MIN_REAR_DELAY"        type="byte"  cpp-type="int"  name="MinRearDelay" class="SharpDX.XAudio2.Fx.Reverb" visibility="public const" />
+    <const from-macro="XAUDIO2FX_REVERB_MIN_POSITION"          type="byte"  cpp-type="int"  name="MinPosition" class="SharpDX.XAudio2.Fx.Reverb" visibility="public const" />
+    <const from-macro="XAUDIO2FX_REVERB_MIN_DIFFUSION"         type="byte"  cpp-type="int"  name="MinDiffusion" class="SharpDX.XAudio2.Fx.Reverb" visibility="public const" />
+    <const from-macro="XAUDIO2FX_REVERB_MIN_LOW_EQ_GAIN"       type="byte"  cpp-type="int"  name="MinLowEqGain" class="SharpDX.XAudio2.Fx.Reverb" visibility="public const" />
+    <const from-macro="XAUDIO2FX_REVERB_MIN_LOW_EQ_CUTOFF"     type="byte"  cpp-type="int"  name="MinLowEqCutoff" class="SharpDX.XAudio2.Fx.Reverb" visibility="public const" />
+    <const from-macro="XAUDIO2FX_REVERB_MIN_HIGH_EQ_GAIN"      type="byte"  cpp-type="int"  name="MinHighEqGain" class="SharpDX.XAudio2.Fx.Reverb" visibility="public const" />
+    <const from-macro="XAUDIO2FX_REVERB_MIN_HIGH_EQ_CUTOFF"    type="byte"  cpp-type="int"  name="MinHighEqCutoff" class="SharpDX.XAudio2.Fx.Reverb" visibility="public const" />
+    <const from-macro="XAUDIO2FX_REVERB_MIN_ROOM_FILTER_FREQ"  type="float" cpp-type="float" name="MinRoomFilterFreq" class="SharpDX.XAudio2.Fx.Reverb" visibility="public const" />
+    <const from-macro="XAUDIO2FX_REVERB_MIN_ROOM_FILTER_MAIN"  type="float" cpp-type="float" name="MinRoomFilterMain" class="SharpDX.XAudio2.Fx.Reverb" visibility="public const" />
+    <const from-macro="XAUDIO2FX_REVERB_MIN_ROOM_FILTER_HF"    type="float" cpp-type="float" name="MinRoomFilterHf" class="SharpDX.XAudio2.Fx.Reverb" visibility="public const" />
+    <const from-macro="XAUDIO2FX_REVERB_MIN_REFLECTIONS_GAIN"  type="float" cpp-type="float" name="MinReflectionsGain" class="SharpDX.XAudio2.Fx.Reverb" visibility="public const" />
+    <const from-macro="XAUDIO2FX_REVERB_MIN_REVERB_GAIN"       type="float" cpp-type="float" name="MinReverbGain" class="SharpDX.XAudio2.Fx.Reverb" visibility="public const" />
+    <const from-macro="XAUDIO2FX_REVERB_MIN_DECAY_TIME"        type="float" cpp-type="float" name="MinDecayTime" class="SharpDX.XAudio2.Fx.Reverb" visibility="public const" />
+    <const from-macro="XAUDIO2FX_REVERB_MIN_DENSITY"           type="float" cpp-type="float" name="MinDensity" class="SharpDX.XAudio2.Fx.Reverb" visibility="public const" />
+    <const from-macro="XAUDIO2FX_REVERB_MIN_ROOM_SIZE"         type="float" cpp-type="float" name="MinRoomSize" class="SharpDX.XAudio2.Fx.Reverb" visibility="public const" />
+
+    <const from-macro="XAUDIO2FX_REVERB_MAX_WET_DRY_MIX"       type="float" cpp-type="float" name="MaxWetDryMix" class="SharpDX.XAudio2.Fx.Reverb" visibility="public const" />
+    <const from-macro="XAUDIO2FX_REVERB_MAX_REFLECTIONS_DELAY" type="int"   cpp-type="int"   name="MaxReflectionsDelay" class="SharpDX.XAudio2.Fx.Reverb" visibility="public const" />
+    <const from-macro="XAUDIO2FX_REVERB_MAX_REVERB_DELAY"      type="byte"  cpp-type="int"  name="MaxReverbDelay" class="SharpDX.XAudio2.Fx.Reverb" visibility="public const" />
+    <const from-macro="XAUDIO2FX_REVERB_MAX_REAR_DELAY"        type="byte"  cpp-type="int"  name="MaxRearDelay" class="SharpDX.XAudio2.Fx.Reverb" visibility="public const" />
+    <const from-macro="XAUDIO2FX_REVERB_MAX_POSITION"          type="byte"  cpp-type="int"  name="MaxPosition" class="SharpDX.XAudio2.Fx.Reverb" visibility="public const" />
+    <const from-macro="XAUDIO2FX_REVERB_MAX_DIFFUSION"         type="byte"  cpp-type="int"  name="MaxDiffusion" class="SharpDX.XAudio2.Fx.Reverb" visibility="public const" />
+    <const from-macro="XAUDIO2FX_REVERB_MAX_LOW_EQ_GAIN"       type="byte"  cpp-type="int"  name="MaxLowEqGain" class="SharpDX.XAudio2.Fx.Reverb" visibility="public const" />
+    <const from-macro="XAUDIO2FX_REVERB_MAX_LOW_EQ_CUTOFF"     type="byte"  cpp-type="int"  name="MaxLowEqCutoff" class="SharpDX.XAudio2.Fx.Reverb" visibility="public const" />
+    <const from-macro="XAUDIO2FX_REVERB_MAX_HIGH_EQ_GAIN"      type="byte"  cpp-type="int"  name="MaxHighEqGain" class="SharpDX.XAudio2.Fx.Reverb" visibility="public const" />
+    <const from-macro="XAUDIO2FX_REVERB_MAX_HIGH_EQ_CUTOFF"    type="byte"  cpp-type="int"  name="MaxHighEqCutoff" class="SharpDX.XAudio2.Fx.Reverb" visibility="public const" />
+    <const from-macro="XAUDIO2FX_REVERB_MAX_ROOM_FILTER_FREQ"  type="float" cpp-type="float" name="MaxRoomFilterFreq" class="SharpDX.XAudio2.Fx.Reverb" visibility="public const" />
+    <const from-macro="XAUDIO2FX_REVERB_MAX_ROOM_FILTER_MAIN"  type="float" cpp-type="float" name="MaxRoomFilterMain" class="SharpDX.XAudio2.Fx.Reverb" visibility="public const" />
+    <const from-macro="XAUDIO2FX_REVERB_MAX_ROOM_FILTER_HF"    type="float" cpp-type="float" name="MaxRoomFilterHf" class="SharpDX.XAudio2.Fx.Reverb" visibility="public const" />
+    <const from-macro="XAUDIO2FX_REVERB_MAX_REFLECTIONS_GAIN"  type="float" cpp-type="float" name="MaxReflectionsGain" class="SharpDX.XAudio2.Fx.Reverb" visibility="public const" />
+    <const from-macro="XAUDIO2FX_REVERB_MAX_REVERB_GAIN"       type="float" cpp-type="float" name="MaxReverbGain" class="SharpDX.XAudio2.Fx.Reverb" visibility="public const" />
+    <const from-macro="XAUDIO2FX_REVERB_MAX_DECAY_TIME"        type="float" cpp-type="float" name="MaxDecayTime" class="SharpDX.XAudio2.Fx.Reverb" visibility="public const" />
+    <const from-macro="XAUDIO2FX_REVERB_MAX_DENSITY"           type="float" cpp-type="float" name="MaxDensity" class="SharpDX.XAudio2.Fx.Reverb" visibility="public const" />
+    <const from-macro="XAUDIO2FX_REVERB_MAX_ROOM_SIZE"         type="float" cpp-type="float" name="MaxRoomSize" class="SharpDX.XAudio2.Fx.Reverb" visibility="public const" />
+
+    <const from-macro="XAUDIO2FX_REVERB_DEFAULT_WET_DRY_MIX"       type="float" cpp-type="float" name="DefaultWetDryMix" class="SharpDX.XAudio2.Fx.Reverb" visibility="public const" />
+    <const from-macro="XAUDIO2FX_REVERB_DEFAULT_REFLECTIONS_DELAY" type="int"   cpp-type="int"   name="DefaultReflectionsDelay" class="SharpDX.XAudio2.Fx.Reverb" visibility="public const" />
+    <const from-macro="XAUDIO2FX_REVERB_DEFAULT_REVERB_DELAY"      type="byte"  cpp-type="int"  name="DefaultReverbDelay" class="SharpDX.XAudio2.Fx.Reverb" visibility="public const" />
+    <const from-macro="XAUDIO2FX_REVERB_DEFAULT_REAR_DELAY"        type="byte"  cpp-type="int"  name="DefaultRearDelay" class="SharpDX.XAudio2.Fx.Reverb" visibility="public const" />
+    <const from-macro="XAUDIO2FX_REVERB_DEFAULT_POSITION"          type="byte"  cpp-type="int"  name="DefaultPosition" class="SharpDX.XAudio2.Fx.Reverb" visibility="public const" />
+    <const from-macro="XAUDIO2FX_REVERB_DEFAULT_POSITION_MATRIX"   type="byte"  cpp-type="int"  name="DefaultPositionMatrix" class="SharpDX.XAudio2.Fx.Reverb" visibility="public const" />
+    <const from-macro="XAUDIO2FX_REVERB_DEFAULT_EARLY_DIFFUSION"   type="byte"  cpp-type="int"  name="DefaultEarlyDiffusion" class="SharpDX.XAudio2.Fx.Reverb" visibility="public const" />
+    <const from-macro="XAUDIO2FX_REVERB_DEFAULT_LATE_DIFFUSION"    type="byte"  cpp-type="int"  name="DefaultLateDiffusion" class="SharpDX.XAudio2.Fx.Reverb" visibility="public const" />    
+    <const from-macro="XAUDIO2FX_REVERB_DEFAULT_LOW_EQ_GAIN"       type="byte"  cpp-type="int"  name="DefaultLowEqGain" class="SharpDX.XAudio2.Fx.Reverb" visibility="public const" />
+    <const from-macro="XAUDIO2FX_REVERB_DEFAULT_LOW_EQ_CUTOFF"     type="byte"  cpp-type="int"  name="DefaultLowEqCutoff" class="SharpDX.XAudio2.Fx.Reverb" visibility="public const" />
+    <const from-macro="XAUDIO2FX_REVERB_DEFAULT_HIGH_EQ_GAIN"      type="byte"  cpp-type="int"  name="DefaultHighEqGain" class="SharpDX.XAudio2.Fx.Reverb" visibility="public const" />
+    <const from-macro="XAUDIO2FX_REVERB_DEFAULT_HIGH_EQ_CUTOFF"    type="byte"  cpp-type="int"  name="DefaultHighEqCutoff" class="SharpDX.XAudio2.Fx.Reverb" visibility="public const" />
+    <const from-macro="XAUDIO2FX_REVERB_DEFAULT_ROOM_FILTER_FREQ"  type="float" cpp-type="float" name="DefaultRoomFilterFreq" class="SharpDX.XAudio2.Fx.Reverb" visibility="public const" />
+    <const from-macro="XAUDIO2FX_REVERB_DEFAULT_ROOM_FILTER_MAIN"  type="float" cpp-type="float" name="DefaultRoomFilterMain" class="SharpDX.XAudio2.Fx.Reverb" visibility="public const" />
+    <const from-macro="XAUDIO2FX_REVERB_DEFAULT_ROOM_FILTER_HF"    type="float" cpp-type="float" name="DefaultRoomFilterHf" class="SharpDX.XAudio2.Fx.Reverb" visibility="public const" />
+    <const from-macro="XAUDIO2FX_REVERB_DEFAULT_REFLECTIONS_GAIN"  type="float" cpp-type="float" name="DefaultReflectionsGain" class="SharpDX.XAudio2.Fx.Reverb" visibility="public const" />
+    <const from-macro="XAUDIO2FX_REVERB_DEFAULT_REVERB_GAIN"       type="float" cpp-type="float" name="DefaultReverbGain" class="SharpDX.XAudio2.Fx.Reverb" visibility="public const" />
+    <const from-macro="XAUDIO2FX_REVERB_DEFAULT_DECAY_TIME"        type="float" cpp-type="float" name="DefaultDecayTime" class="SharpDX.XAudio2.Fx.Reverb" visibility="public const" />
+    <const from-macro="XAUDIO2FX_REVERB_DEFAULT_DENSITY"           type="float" cpp-type="float" name="DefaultDensity" class="SharpDX.XAudio2.Fx.Reverb" visibility="public const" />
+    <const from-macro="XAUDIO2FX_REVERB_DEFAULT_ROOM_SIZE"         type="float" cpp-type="float" name="DefaultRoomSize" class="SharpDX.XAudio2.Fx.Reverb" visibility="public const" />
+
+    <context-clear/>
+  </extension>
+
+  <!-- XAudio2 mapping -->
+  <mapping>
+    <context>sharpdx-xaudio2-ext</context>
+    <context>xaudio2</context>
+    <context>xaudio2fx</context>
+
+    <!--
+    // *****************************************************************
+    // XAudio2 Enumerations
+    // *****************************************************************
+    -->
+    <map enum="XAUDIO2_(.*)" name-tmp="$1" />
+    <map enum="XAUDIO2_FLAGS" name="XAudio2Flags" />
+    <map enum="XAUDIO2_WINDOWS_PROCESSOR_SPECIFIER" name="ProcessorSpecifier"/>
+    <map enum-item="XAUDIO2_ANY_PROCESSOR" name="AnyProcessor" />
+    <map enum-item="XAUDIO2_DEFAULT_PROCESSOR" name="DefaultProcessor" />
+
+    <map enum-item="XAUDIO2_VOICE_NOPITCH" name="NoPitch"/>
+    <map enum-item="XAUDIO2_VOICE_NOSRC" name="NoSampleRateConversion"/>
+    <map enum-item="XAUDIO2_VOICE_USEFILTER" name="UseFilter"/>
+    <map enum-item="XAUDIO2_VOICE_MUSIC" name="Music"/>
+    
+    <map enum-item="XAUDIO2_SEND_(USEFILTER)" name="UseFilter"/>
+
+    <!--
+    // *****************************************************************
+    // XAudio2 Structures
+    // *****************************************************************
+    -->
+    <map struct="XAUDIO2FX_(.*)" name-tmp="$1" />
+    <map struct="XAUDIO2_(.*)" name-tmp="$1" />
+    <map enum="XAUDIO2_LOG_TYPE" flags="true" />
+    <map struct="XAUDIO2_EFFECT_CHAIN" visibility="internal" />
+    <map struct="XAUDIO2_BUFFER" name="AudioBuffer" />
+    <map field="XAUDIO2_BUFFER::Flags" type="XAUDIO2_BUFFER_FLAGS" />
+    <map field="XAUDIO2_BUFFER::pContext" name="Context" />
+    <map struct="XAUDIO2_BUFFER" native="true" struct-to-class="true" marshal="false" new="false" />
+    <map field="XAUDIO2_BUFFER::pAudioData" name="AudioDataPointer" />
+    <map struct="XAUDIO2_SEND_DESCRIPTOR" name="VoiceSendDescriptor" />
+    <map field="XAUDIO2_SEND_DESCRIPTOR::Flags" type="XAUDIO2_VOICE_SEND_FLAGS" />
+    <map field="XAUDIO2_SEND_DESCRIPTOR::pOutputVoice" name="OutputVoicePointer" />
+    <map field="XAUDIO2_SEND_DESCRIPTOR::pOutputVoice" visibility="internal" />
+    <map field="XAUDIO2_VOICE_DETAILS::CreationFlags" type="XAUDIO2_VOICE_FLAGS" />
+    <map struct="XAUDIO2_VOICE_SENDS" visibility="internal" />
+    <map struct="XAUDIO2_VOICE_SENDS" name="VoiceSendDescriptors" />
+    <map field="XAUDIO2_VOICE_SENDS::pSends" name="SendPointer" />
+    <map field="XAUDIO2_VOICE_SENDS::pSends" visibility="internal" />
+    <map field="XAUDIO2_EFFECT_CHAIN::pEffectDescriptors" name="EffectDescriptorPointer" />
+    <map field="XAUDIO2_EFFECT_CHAIN::pEffectDescriptors" visibility="internal" />
+    <map struct="XAUDIO2_BUFFER_WMA" visibility="internal"/>
+    <map field="XAUDIO2_BUFFER_WMA::pDecodedPacketCumulativeBytes" name="DecodedPacketCumulativeBytesPointer" />
+    <map field="XAUDIO2_VOICE_STATE::pCurrentBufferContext" name="Context" />
+    <map field="XAUDIO2_VOICE_DETAILS::InputChannels" name="InputChannelCount" />
+    <map field="XAUDIO2_EFFECT_DESCRIPTOR::OutputChannels" name="OutputChannelCount" />
+    <map field="XAUDIO2_EFFECT_DESCRIPTOR::pEffect" name="EffectPointer" />
+    <map field="XAUDIO2_EFFECT_DESCRIPTOR::pEffect" visibility="internal" />
+    <map field="XAUDIO2FX_VOLUMEMETER_LEVELS::pPeakLevels" name="PeakLevelPointer" />
+    <map field="XAUDIO2FX_VOLUMEMETER_LEVELS::pPeakLevels" visibility="internal" />
+    <map field="XAUDIO2FX_VOLUMEMETER_LEVELS::pRMSLevels" name="RmsLevelsPointer" />
+    <map field="XAUDIO2FX_VOLUMEMETER_LEVELS::pRMSLevels" visibility="internal" />
+    <map struct="XAUDIO2_EFFECT_DESCRIPTOR" native="true" struct-to-class="true" marshal="false" new="false" marshalto="true" />
+    <map struct="XAUDIO2_.*" pack="4" />
+
+    <!--
+    // *****************************************************************
+    // XAudio2 Interfaces
+    // *****************************************************************
+    -->
+    <map interface="IXAudio2(.+)" name-tmp="$1" />
+    <map method="IXAudio2::.*" custom-vtbl="true"/>
+    <map interface="IXAudio2" name="XAudio2" />
+    <map method="IXAudio2::Initialize" visibility="internal" />
+    <map method="IXAudio2::GetDeviceDetails" visibility="internal" />
+    <map interface="IXAudio2EngineCallback" visibility="internal" />
+    <map method="IXAudio2Voice::SetOutputVoices" visibility="internal" />
+    <map method="IXAudio2Voice::GetEffectParameters" visibility="internal" />
+    <map method="IXAudio2Voice::SetEffectParameters" visibility="internal" />    
+    
+    <map method="IXAudio2Voice::GetEffectState" name="IsEffectEnabled"/>
+    <map param="pEnabled" return="true" />
+    
+    <map interface="IXAudio2.*Callback" callback="true" callback-dual="false" />
+    <map method="IXAudio2::Create.*" visibility="internal" />
+    <map param="IXAudio2::CreateMasteringVoice::ppMasteringVoice" attribute="out fast" />
+    <map param="IXAudio2::CreateSourceVoice::ppSourceVoice" attribute="out fast" />
+    <map param="IXAudio2::CreateSubmixVoice::ppSubmixVoice" attribute="out fast" />
+    <map param="IXAudio2::CreateSourceVoice::Flags" type="XAUDIO2_VOICE_FLAGS" />
+    <map param="IXAudio2::CreateSourceVoice::pSourceFormat" type="void" />
+    <map method="IXAudio2Voice::SetEffectChain" visibility="internal" property="false" />
+    <map param="IXAudio2::SetDebugConfiguration::pDebugConfiguration" attribute="in value"/>
+    
+    <map method="IXAudio2SourceVoice::Start" visibility="internal" />
+    <map param="IXAudio2SourceVoice::Stop::Flags" type="XAUDIO2_PLAY_FLAGS" />
+    <map method="IXAudio2SourceVoice::SubmitSourceBuffer" visibility="internal" />
+    <map param="pBufferWMA" type="void" attribute="in"/>
+    
+    <map method="IXAudio2Voice::GetVoiceDetails" property="false"/>
+    <map method="IXAudio2MasteringVoice::GetChannelMask" property="false"/>
+
+    <ifdef name="DIRECTX11_1">
+      <map method="IXAudio2SourceVoice::GetState" visibility="internal" />
+      <map param="IXAudio2SourceVoice::GetState::pVoiceState" return="true" />
+    </ifdef>
+
+    <map param="IXAudio2.*::.*::OperationSet" default="0"/>
+    
+    <!--
+    // *****************************************************************
+    // XAudio2 Functions
+    // *****************************************************************
+    -->
+    <!-- Remove these functions as they are handled manually -->
+    <remove function="XAudio2Create"/>
+    <remove function="CreateAudio.*"/>
+    
+    <!--<remove function="XAudio2Create.*"/>-->
+    <ifndef name="DIRECTX11_1">
+      <remove function="CreateAudio.*"/>
+    </ifndef>
+    <context-clear />
+  </mapping>
+</config>
