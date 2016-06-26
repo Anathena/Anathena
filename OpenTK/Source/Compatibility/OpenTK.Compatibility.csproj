@@ -106,6 +106,76 @@
   <PropertyGroup>
     <AssemblyOriginatorKeyFile>..\..\OpenTK.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x86\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE;</DefineConstants>
+    <BaseAddress>285212672</BaseAddress>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <FileAlignment>4096</FileAlignment>
+    <NoWarn>0219, 0414, 0612, 0618, 1591, 3005, 3006</NoWarn>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x86\Release\</OutputPath>
+    <DefineConstants>TRACE;</DefineConstants>
+    <BaseAddress>285212672</BaseAddress>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <Optimize>true</Optimize>
+    <FileAlignment>4096</FileAlignment>
+    <NoWarn>0219, 0414, 0612, 0618, 1591, 3005, 3006</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Documentation|x86'">
+    <OutputPath>bin\x86\Documentation\</OutputPath>
+    <DefineConstants>TRACE;</DefineConstants>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <Optimize>true</Optimize>
+    <NoWarn>0219, 0414, 0612, 0618, 1591, 3005, 3006</NoWarn>
+    <PlatformTarget>x86</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Nsis|x86'">
+    <OutputPath>bin\x86\Nsis\</OutputPath>
+    <DefineConstants>TRACE;</DefineConstants>
+    <BaseAddress>285212672</BaseAddress>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <Optimize>true</Optimize>
+    <FileAlignment>4096</FileAlignment>
+    <NoWarn>0219, 0414, 0612, 0618, 1591, 3005, 3006</NoWarn>
+    <PlatformTarget>x86</PlatformTarget>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'DebugMinimal|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x86\DebugMinimal\</OutputPath>
+    <DefineConstants>DEBUG;TRACE;</DefineConstants>
+    <BaseAddress>285212672</BaseAddress>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <FileAlignment>4096</FileAlignment>
+    <NoWarn>0219, 0414, 0612, 0618, 1591, 3005, 3006</NoWarn>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'ReleaseMinimal|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x86\ReleaseMinimal\</OutputPath>
+    <DefineConstants>TRACE;</DefineConstants>
+    <BaseAddress>285212672</BaseAddress>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <Optimize>true</Optimize>
+    <FileAlignment>4096</FileAlignment>
+    <NoWarn>0219, 0414, 0612, 0618, 1591, 3005, 3006</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System">
       <Name>System</Name>
