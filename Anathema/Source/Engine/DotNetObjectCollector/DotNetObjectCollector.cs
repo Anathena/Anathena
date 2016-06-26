@@ -119,7 +119,7 @@ namespace Anathema.Source.Engine.DotNetObjectCollector
 
                     try
                     {
-                        DotNetObject RootObject = new DotNetObject(null, Root.Object, Root.Type?.ToString());
+                        DotNetObject RootObject = new DotNetObject(null, Root.Object, Root.Type.ElementType, Root.Type.ToString());
                         Visited.Add(Root.Object);
                         ObjectTrees.Add(RootObject);
 
@@ -138,7 +138,7 @@ namespace Anathema.Source.Engine.DotNetObjectCollector
             // Add all fields
             foreach (ClrField Field in Heap.GetObjectType(ParentRef).Fields)
             {
-                DotNetObject ChildObject = new DotNetObject(Parent, Parent.GetAddress().Add(Field.Offset + 4).ToUInt64(), Field?.Name);
+                DotNetObject ChildObject = new DotNetObject(Parent, Parent.GetAddress().Add(Field.Offset + 4).ToUInt64(), Field.ElementType, Field?.Name);
                 Parent.AddChild(ChildObject);
             }
 
@@ -155,7 +155,7 @@ namespace Anathema.Source.Engine.DotNetObjectCollector
                 if (Type == null || ExcludedNameSpaces.Any(X => Type.Name.StartsWith(X, StringComparison.OrdinalIgnoreCase)))
                     return;
 
-                DotNetObject Child = new DotNetObject(Parent, ChildObjectRef, Type.Name);
+                DotNetObject Child = new DotNetObject(Parent, ChildObjectRef, Type.ElementType, Type.Name);
                 Parent.AddChild(Child);
                 RecursiveBuild(Heap, Visited, Child, ChildObjectRef);
             });

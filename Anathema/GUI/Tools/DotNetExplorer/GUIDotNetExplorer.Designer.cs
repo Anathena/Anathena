@@ -42,6 +42,7 @@
             this.ObjectExplorerTreeView.Name = "ObjectExplorerTreeView";
             this.ObjectExplorerTreeView.Size = new System.Drawing.Size(284, 236);
             this.ObjectExplorerTreeView.TabIndex = 0;
+            this.ObjectExplorerTreeView.NodeMouseDoubleClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.ObjectExplorerTreeView_NodeMouseDoubleClick);
             // 
             // GUIToolStrip
             // 

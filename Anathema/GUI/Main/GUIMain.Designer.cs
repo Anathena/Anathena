@@ -95,7 +95,7 @@
             this.GUIMenuStrip.Location = new System.Drawing.Point(0, 0);
             this.GUIMenuStrip.Name = "GUIMenuStrip";
             this.GUIMenuStrip.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
-            this.GUIMenuStrip.Size = new System.Drawing.Size(496, 24);
+            this.GUIMenuStrip.Size = new System.Drawing.Size(512, 24);
             this.GUIMenuStrip.TabIndex = 126;
             this.GUIMenuStrip.Text = "Main Menu Strip";
             this.GUIMenuStrip.MenuActivate += new System.EventHandler(this.GUIMenuStrip_MenuActivate);
@@ -378,7 +378,7 @@
             this.ProcessTitleLabel});
             this.GUIToolStrip.Location = new System.Drawing.Point(0, 24);
             this.GUIToolStrip.Name = "GUIToolStrip";
-            this.GUIToolStrip.Size = new System.Drawing.Size(496, 25);
+            this.GUIToolStrip.Size = new System.Drawing.Size(512, 25);
             this.GUIToolStrip.TabIndex = 148;
             this.GUIToolStrip.Text = "Main Tool Strip";
             // 
@@ -478,9 +478,9 @@
             this.CancelActionButton,
             this.ActionLabel,
             this.ActionProgressBar});
-            this.GUIStatusStrip.Location = new System.Drawing.Point(0, 483);
+            this.GUIStatusStrip.Location = new System.Drawing.Point(0, 507);
             this.GUIStatusStrip.Name = "GUIStatusStrip";
-            this.GUIStatusStrip.Size = new System.Drawing.Size(496, 22);
+            this.GUIStatusStrip.Size = new System.Drawing.Size(512, 22);
             this.GUIStatusStrip.TabIndex = 150;
             this.GUIStatusStrip.Text = "statusStrip1";
             // 
@@ -514,14 +514,14 @@
             this.ContentPanel.DockBackColor = System.Drawing.SystemColors.AppWorkspace;
             this.ContentPanel.Location = new System.Drawing.Point(0, 49);
             this.ContentPanel.Name = "ContentPanel";
-            this.ContentPanel.Size = new System.Drawing.Size(496, 434);
+            this.ContentPanel.Size = new System.Drawing.Size(512, 458);
             this.ContentPanel.TabIndex = 145;
             // 
             // GUIMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(496, 505);
+            this.ClientSize = new System.Drawing.Size(512, 529);
             this.Controls.Add(this.ContentPanel);
             this.Controls.Add(this.GUIToolStrip);
             this.Controls.Add(this.GUIMenuStrip);

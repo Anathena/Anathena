@@ -102,7 +102,7 @@
             this.TableToolStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.AddAddressButton});
             this.TableToolStrip.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.VerticalStackWithOverflow;
-            this.TableToolStrip.Location = new System.Drawing.Point(459, 0);
+            this.TableToolStrip.Location = new System.Drawing.Point(488, 0);
             this.TableToolStrip.Name = "TableToolStrip";
             this.TableToolStrip.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
             this.TableToolStrip.Size = new System.Drawing.Size(24, 225);
@@ -127,7 +127,7 @@
             this.AddressTableListView.Name = "AddressTableListView";
             this.AddressTableListView.OwnerDraw = true;
             this.AddressTableListView.ShowGroups = false;
-            this.AddressTableListView.Size = new System.Drawing.Size(459, 225);
+            this.AddressTableListView.Size = new System.Drawing.Size(488, 225);
             this.AddressTableListView.TabIndex = 151;
             this.AddressTableListView.UseCompatibleStateImageBehavior = false;
             this.AddressTableListView.View = System.Windows.Forms.View.Details;
@@ -157,18 +157,18 @@
             // TypeHeader
             // 
             this.TypeHeader.Text = "Type";
-            this.TypeHeader.Width = 47;
+            this.TypeHeader.Width = 73;
             // 
             // ValueHeader
             // 
             this.ValueHeader.Text = "Value";
-            this.ValueHeader.Width = 104;
+            this.ValueHeader.Width = 113;
             // 
             // GUIAddressTable
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(483, 225);
+            this.ClientSize = new System.Drawing.Size(512, 225);
             this.Controls.Add(this.AddressTableListView);
             this.Controls.Add(this.TableToolStrip);
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));

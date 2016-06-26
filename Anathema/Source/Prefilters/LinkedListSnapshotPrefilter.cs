@@ -34,7 +34,7 @@ namespace Anathema.Source.Prefilter
 
         private EngineCore EngineCore;
 
-        private const Int32 ChunkLimit = 32768;
+        private const Int32 ChunkLimit = 8192;
         private const Int32 ChunkSize = 4096;
         private const Int32 RescanTime = 800;
 

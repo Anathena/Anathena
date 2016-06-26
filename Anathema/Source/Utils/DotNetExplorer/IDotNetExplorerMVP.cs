@@ -24,6 +24,7 @@ namespace Anathema.Source.Utils.DotNetExplorer
         event DotNetExplorerEventHandler EventRefreshObjectTrees;
 
         // Functions invoked by presenter (downstream)
+        void AddToTable(DotNetObject DotNetObject);
         void RefreshObjectTrees();
     }
 
@@ -44,6 +45,11 @@ namespace Anathema.Source.Utils.DotNetExplorer
         }
 
         #region Method definitions called by the view (downstream)
+
+        public void AddToTable(DotNetObject DotNetObject)
+        {
+            Model.AddToTable(DotNetObject);
+        }
 
         public void RefreshObjectTrees()
         {

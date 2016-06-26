@@ -1,4 +1,5 @@
 ﻿using Anathema.Source.Utils.Extensions;
+using Microsoft.Diagnostics.Runtime;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -11,11 +12,13 @@ namespace Anathema.Source.Engine.DotNetObjectCollector
         private List<DotNetObject> Children;
         private UInt64 ObjectReference;
         private String Name;
+        private ClrElementType ElementType;
 
-        public DotNetObject(DotNetObject Parent, UInt64 ObjectReference, String Name)
+        public DotNetObject(DotNetObject Parent, UInt64 ObjectReference, ClrElementType ElementType, String Name)
         {
             this.Parent = Parent;
             this.ObjectReference = unchecked(ObjectReference);
+            this.ElementType = ElementType;
 
             // Trim root name from all objects if applicable
             String RootName = GetRootName();
@@ -52,6 +55,40 @@ namespace Anathema.Source.Engine.DotNetObjectCollector
             catch
             {
                 return IntPtr.Zero;
+            }
+        }
+
+        public Type GetElementType()
+        {
+            switch (ElementType)
+            {
+                case ClrElementType.Boolean:
+                    return typeof(Byte);
+                case ClrElementType.Int8:
+                    return typeof(SByte);
+                case ClrElementType.UInt8:
+                case ClrElementType.Char:
+                    return typeof(Byte);
+                case ClrElementType.UInt16:
+                    return typeof(UInt16);
+                case ClrElementType.UInt32:
+                case ClrElementType.NativeUInt:
+                    return typeof(UInt32);
+                case ClrElementType.UInt64:
+                    return typeof(UInt64);
+                case ClrElementType.Int16:
+                    return typeof(Int16);
+                case ClrElementType.Int32:
+                case ClrElementType.NativeInt:
+                    return typeof(Int32);
+                case ClrElementType.Int64:
+                    return typeof(Int64);
+                case ClrElementType.Float:
+                    return typeof(Single);
+                case ClrElementType.Double:
+                    return typeof(Double);
+                default:
+                    return typeof(Int32);
             }
         }
 
