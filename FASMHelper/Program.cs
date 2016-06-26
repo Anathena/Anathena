@@ -15,7 +15,7 @@ namespace FASMHelper
         private static SynchronizationContext MainThreadMessageQueue = null;
         private static Stream StdInput;
 
-        static void Main(String[] args)
+        static void Main(String[] Args)
         {
             InitializeAutoExit();
 
