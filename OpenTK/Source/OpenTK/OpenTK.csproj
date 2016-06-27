@@ -139,10 +139,7 @@
     <DebugType>pdbonly</DebugType>
   </PropertyGroup>
   <PropertyGroup>
-    <SignAssembly>True</SignAssembly>
-  </PropertyGroup>
-  <PropertyGroup>
-    <AssemblyOriginatorKeyFile>..\..\OpenTK.snk</AssemblyOriginatorKeyFile>
+    <SignAssembly>false</SignAssembly>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
     <DebugSymbols>true</DebugSymbols>
@@ -800,9 +797,6 @@
     <Compile Include="Audio\OpenAL\AL\ALEnums.cs">
       <SubType>Code</SubType>
     </Compile>
-    <None Include="..\..\OpenTK.snk">
-      <Link>OpenTK.snk</Link>
-    </None>
     <Compile Include="Platform\X11\X11Keyboard.cs" />
     <Compile Include="Platform\X11\X11Mouse.cs" />
     <Compile Include="Input\ButtonState.cs" />
@@ -942,18 +936,6 @@
     </PostBuildEvent>
   </PropertyGroup>
   <ItemGroup />
-  <Target Name="AfterBuild">
-    <Exec Command="$(OutputPath)..\..\Tools\Debug\Rewrite.exe $(OutputPath)OpenTK.dll ..\..\OpenTK.snk -debug" Condition="$(OS) == 'Windows_NT' and $(Configuration) == 'Debug'" />
-    <Exec Command="$(OutputPath)..\..\Tools\Release\Rewrite.exe $(OutputPath)OpenTK.dll ..\..\OpenTK.snk" Condition="$(OS) == 'Windows_NT' and $(Configuration) == 'Release'" />
-    <Exec Command="$(OutputPath)..\..\Tools\Debug\Rewrite.exe $(OutputPath)OpenTK.dll ..\..\OpenTK.snk -debug" Condition="$(OS) == 'Windows_NT' and $(Configuration) == 'DebugMinimal'" />
-    <Exec Command="$(OutputPath)..\..\Tools\Release\Rewrite.exe $(OutputPath)OpenTK.dll ..\..\OpenTK.snk" Condition="$(OS) == 'Windows_NT' and $(Configuration) == 'ReleaseMinimal'" />
-    <Exec Command="$(OutputPath)..\..\Tools\Release\Rewrite.exe $(OutputPath)OpenTK.dll ..\..\OpenTK.snk" Condition="$(OS) == 'Windows_NT' and $(Configuration) == 'Nsis'" />
-    <Exec WorkingDirectory="$(SolutionDir)Binaries/Tools/Debug" Command="mono ./Rewrite.exe $(SolutionDir)Binaries/OpenTK/Debug/OpenTK.dll $(SolutionDir)OpenTK.snk -debug" Condition="$(OS) != 'Windows_NT' and $(Configuration) == 'Debug'" />
-    <Exec WorkingDirectory="$(SolutionDir)Binaries/Tools/Debug" Command="mono ./Rewrite.exe $(SolutionDir)Binaries/OpenTK/DebugMinimal/OpenTK.dll $(SolutionDir)OpenTK.snk -debug" Condition="$(OS) != 'Windows_NT' and $(Configuration) == 'DebugMinimal'" />
-    <Exec WorkingDirectory="$(SolutionDir)Binaries/Tools/Release" Command="mono ./Rewrite.exe $(SolutionDir)Binaries/OpenTK/Release/OpenTK.dll $(SolutionDir)OpenTK.snk" Condition="$(OS) != 'Windows_NT' and $(Configuration) == 'Release'" />
-    <Exec WorkingDirectory="$(SolutionDir)Binaries/Tools/Release" Command="mono ./Rewrite.exe $(SolutionDir)Binaries/OpenTK/ReleaseMinimal/OpenTK.dll $(SolutionDir)OpenTK.snk" Condition="$(OS) != 'Windows_NT' and $(Configuration) == 'ReleaseMinimal'" />
-    <Exec WorkingDirectory="$(SolutionDir)Binaries/Tools/Release" Command="mono ./Rewrite.exe $(SolutionDir)Binaries/OpenTK/Release/OpenTK.dll $(SolutionDir)OpenTK.snk" Condition="$(OS) != 'Windows_NT' and $(Configuration) == 'Nsis'" />
-  </Target>
   <ProjectExtensions>
     <MonoDevelop>
       <Properties>

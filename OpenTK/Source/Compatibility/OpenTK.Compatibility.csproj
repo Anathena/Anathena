@@ -101,10 +101,7 @@
     <DebugType>none</DebugType>
   </PropertyGroup>
   <PropertyGroup>
-    <SignAssembly>True</SignAssembly>
-  </PropertyGroup>
-  <PropertyGroup>
-    <AssemblyOriginatorKeyFile>..\..\OpenTK.snk</AssemblyOriginatorKeyFile>
+    <SignAssembly>false</SignAssembly>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
     <DebugSymbols>true</DebugSymbols>
@@ -537,9 +534,6 @@
     <Compile Include="Tao\Platform\Windows\SimpleOpenGlControl.Designer.cs">
       <DependentUpon>SimpleOpenGlControl.cs</DependentUpon>
     </Compile>
-    <None Include="..\..\OpenTK.snk">
-      <Link>OpenTK.snk</Link>
-    </None>
     <None Include="OpenTK.Compatibility.dll.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

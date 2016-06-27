@@ -100,10 +100,7 @@
     <DebugType>none</DebugType>
   </PropertyGroup>
   <PropertyGroup>
-    <SignAssembly>True</SignAssembly>
-  </PropertyGroup>
-  <PropertyGroup>
-    <AssemblyOriginatorKeyFile>..\..\OpenTK.snk</AssemblyOriginatorKeyFile>
+    <SignAssembly>false</SignAssembly>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
     <DebugSymbols>true</DebugSymbols>
@@ -244,11 +241,6 @@
     <Compile Include="NS.cs">
       <DependentUpon>CarbonGLControl.cs</DependentUpon>
     </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="..\..\OpenTK.snk">
-      <Link>OpenTK.snk</Link>
-    </None>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

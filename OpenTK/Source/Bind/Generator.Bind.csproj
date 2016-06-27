@@ -92,10 +92,7 @@
     <DefineConstants>TRACE;</DefineConstants>
   </PropertyGroup>
   <PropertyGroup>
-    <SignAssembly>True</SignAssembly>
-  </PropertyGroup>
-  <PropertyGroup>
-    <AssemblyOriginatorKeyFile>..\..\OpenTK.snk</AssemblyOriginatorKeyFile>
+    <SignAssembly>false</SignAssembly>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
     <DebugSymbols>true</DebugSymbols>
@@ -226,9 +223,6 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="XmlSpecReader.cs" />
-    <None Include="..\..\OpenTK.snk">
-      <Link>OpenTK.snk</Link>
-    </None>
     <None Include="Specifications\GL2\gl.tm" />
     <None Include="Specifications\Glx\glx.spec">
     </None>
