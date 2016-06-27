@@ -202,6 +202,7 @@
     <Compile Include="GUI\Tools\Scanners\GUIConstraintEditor.Designer.cs">
       <DependentUpon>GUIConstraintEditor.cs</DependentUpon>
     </Compile>
+    <Compile Include="GUI\Tools\Table\AddressNode.cs" />
     <Compile Include="GUI\Tools\UserSettings\GUISettings.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -1129,6 +1130,18 @@
       <Project>{a82126ca-23aa-41f1-8586-a5938d44d0a7}</Project>
       <Name>Microsoft.Diagnostics.Runtime</Name>
     </ProjectReference>
+    <ProjectReference Include="..\OpenTK\Source\Compatibility\OpenTK.Compatibility.csproj">
+      <Project>{62c0db35-0000-0000-0000-000000000000}</Project>
+      <Name>OpenTK.Compatibility</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\OpenTK\Source\GLControl\OpenTK.GLControl.csproj">
+      <Project>{a625be88-0000-0000-0000-000000000000}</Project>
+      <Name>OpenTK.GLControl</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\OpenTK\Source\OpenTK\OpenTK.csproj">
+      <Project>{a37a7e14-0000-0000-0000-000000000000}</Project>
+      <Name>OpenTK</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ScintillaNET\ScintillaNET\ScintillaNET.csproj">
       <Project>{22ae2386-60f1-476e-9303-61cdb0aac4cf}</Project>
       <Name>ScintillaNET</Name>
@@ -1212,6 +1225,10 @@
     <ProjectReference Include="..\SharpDX\SharpDX\SharpDX.csproj">
       <Project>{6a41eaf1-67d4-43f0-b6b8-1a1395b07235}</Project>
       <Name>SharpDX</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TreeViewAdv\TreeViewAdv.csproj">
+      <Project>{e73bb233-d88b-44a7-a98f-d71ee158381d}</Project>
+      <Name>TreeViewAdv</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

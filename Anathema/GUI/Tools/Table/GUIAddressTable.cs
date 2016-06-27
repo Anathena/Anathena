@@ -1,4 +1,6 @@
-﻿using Anathema.Source.Tables.Addresses;
+﻿using Aga.Controls.Tree;
+using Aga.Controls.Tree.NodeControls;
+using Anathema.Source.Tables.Addresses;
 using Anathema.Source.Utils;
 using Anathema.Source.Utils.Caches;
 using Anathema.Source.Utils.MVP;
@@ -10,7 +12,7 @@ using System.Linq;
 using System.Windows.Forms;
 using WeifenLuo.WinFormsUI.Docking;
 
-namespace Anathema
+namespace Anathema.GUI
 {
     public partial class GUIAddressTable : DockContent, IAddressTableView
     {
@@ -26,6 +28,40 @@ namespace Anathema
             AccessLock = new Object();
 
             AddressTablePresenter = new AddressTablePresenter(this, AddressTable.GetInstance());
+
+
+            TreeModel _model = new TreeModel();
+            AddressTableTreeView.Model = _model;
+            AddressTableTreeView.BeginUpdate();
+            for (int i = 0; i < 20; i++)
+            {
+
+                Node parentNode = new AddressNode("root" + i.ToString(), "h", "k", "l", "m", "m");
+                _model.Nodes.Add(parentNode);
+
+                for (int n = 0; n < 1; n++)
+                {
+                    Node childNode = new AddressNode("child" + n.ToString(), "h", "k", "l", "m", "m");
+                    parentNode.Nodes.Add(childNode);
+                }
+
+            }
+            AddressTableTreeView.EndUpdate();
+            /*
+            DescriptionControl.IsVisibleValueNeeded += CheckIndex;
+            FrozenControl.IsEditEnabledValueNeeded += CheckIndex;
+
+            TreeModel _model = new TreeModel();
+            for (int i = 0; i < 20; i++)
+            {
+                _model.Root.Nodes.Add(new CheckableNode("node" + i.ToString()));
+            }
+            AddressTableTreeView.Model = _model;*/
+        }
+
+        void CheckIndex(object sender, NodeControlValueEventArgs e)
+        {
+            e.Value = true;
         }
 
         public void UpdateAddressTableItemCount(Int32 ItemCount)
