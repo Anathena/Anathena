@@ -53,6 +53,7 @@ namespace Anathema.Source.Tables.Addresses
         // Functions invoked by presenter (downstream)
 
         public abstract AddressItem GetAddressItemAt(Int32 Index);
+        public abstract Int32 GetAddressItemsCount();
         public abstract void SetAddressItemAt(Int32 Index, AddressItem AddressItem);
         public abstract void SetAddressFrozen(Int32 Index, Boolean Activated);
 
@@ -92,6 +93,11 @@ namespace Anathema.Source.Tables.Addresses
         public AddressItem GetAddressItemAt(Int32 Index)
         {
             return Model.GetAddressItemAt(Index);
+        }
+
+        public Int32 GetAddressItemsCount()
+        {
+            return Model.GetAddressItemsCount();
         }
 
         public void AddNewAddressItem()

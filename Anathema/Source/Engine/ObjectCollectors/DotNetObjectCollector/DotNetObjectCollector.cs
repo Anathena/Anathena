@@ -85,6 +85,10 @@ namespace Anathema.Source.Engine.DotNetObjectCollector
             try
             {
                 DataTarget DataTarget = DataTarget.AttachToProcess(EngineCore.Memory.GetProcess().Id, AttachTimeout, AttachFlag.Passive);
+
+                if (DataTarget.ClrVersions.Count <= 0)
+                    return;
+
                 ClrInfo Version = DataTarget.ClrVersions[0]; // TODO: Handle case where multiple CLR versions may be loaded
                 ClrRuntime Runtime = Version.CreateRuntime();
                 Heap = Runtime.GetHeap();

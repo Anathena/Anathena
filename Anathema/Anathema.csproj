@@ -202,7 +202,7 @@
     <Compile Include="GUI\Tools\Scanners\GUIConstraintEditor.Designer.cs">
       <DependentUpon>GUIConstraintEditor.cs</DependentUpon>
     </Compile>
-    <Compile Include="GUI\Tools\Table\AddressNode.cs" />
+    <Compile Include="GUI\CustomControls\TreeViews\AddressNode.cs" />
     <Compile Include="GUI\Tools\UserSettings\GUISettings.cs">
       <SubType>Form</SubType>
     </Compile>

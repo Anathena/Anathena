@@ -2,7 +2,7 @@
 using Aga.Controls.Tree.NodeControls;
 using Anathema.Source.Tables.Addresses;
 using Anathema.Source.Utils;
-using Anathema.Source.Utils.Caches;
+using Anathema.Source.Utils.Extensions;
 using Anathema.Source.Utils.MVP;
 using System;
 using System.Collections.Generic;
@@ -17,82 +17,92 @@ namespace Anathema.GUI
     public partial class GUIAddressTable : DockContent, IAddressTableView
     {
         private AddressTablePresenter AddressTablePresenter;
-        private ListViewCache AddressTableCache;
+        private Dictionary<AddressItem, AddressNode> Cache;
+        private static Node DummyNode = new Node();
         private Object AccessLock;
+
+        private TreeModel Model;
 
         public GUIAddressTable()
         {
             InitializeComponent();
 
-            AddressTableCache = new ListViewCache();
+            FrozenCheckBox.IsEditEnabledValueNeeded += CheckIndex;
+
+            Cache = new Dictionary<AddressItem, AddressNode>();
+            Model = new TreeModel();
             AccessLock = new Object();
 
+            AddressTableTreeView.Model = Model;
+
             AddressTablePresenter = new AddressTablePresenter(this, AddressTable.GetInstance());
-
-
-            TreeModel _model = new TreeModel();
-            AddressTableTreeView.Model = _model;
-            AddressTableTreeView.BeginUpdate();
-            for (int i = 0; i < 20; i++)
-            {
-
-                Node parentNode = new AddressNode("root" + i.ToString(), "h", "k", "l", "m", "m");
-                _model.Nodes.Add(parentNode);
-
-                for (int n = 0; n < 1; n++)
-                {
-                    Node childNode = new AddressNode("child" + n.ToString(), "h", "k", "l", "m", "m");
-                    parentNode.Nodes.Add(childNode);
-                }
-
-            }
-            AddressTableTreeView.EndUpdate();
-            /*
-            DescriptionControl.IsVisibleValueNeeded += CheckIndex;
-            FrozenControl.IsEditEnabledValueNeeded += CheckIndex;
-
-            TreeModel _model = new TreeModel();
-            for (int i = 0; i < 20; i++)
-            {
-                _model.Root.Nodes.Add(new CheckableNode("node" + i.ToString()));
-            }
-            AddressTableTreeView.Model = _model;*/
         }
 
-        void CheckIndex(object sender, NodeControlValueEventArgs e)
+        void CheckIndex(Object Sender, NodeControlValueEventArgs E)
         {
-            e.Value = true;
+            E.Value = true;
         }
 
         public void UpdateAddressTableItemCount(Int32 ItemCount)
         {
-            ControlThreadingHelper.InvokeControlAction(AddressTableListView, () =>
+            using (TimedLock.Lock(AccessLock))
             {
-                AddressTableListView.BeginUpdate();
-                AddressTableListView.SetItemCount(ItemCount);
-                AddressTableCache.FlushCache();
-                AddressTableListView.EndUpdate();
-            });
+                ControlThreadingHelper.InvokeControlAction(AddressTableTreeView, () =>
+                {
+                    AddressTableTreeView.BeginUpdate();
+                    Model.Nodes.Clear();
+                    Cache.Clear();
+                    for (Int32 Index = 0; Index < ItemCount; Index++)
+                    {
+                        AddressItem AddressItem = AddressTablePresenter.GetAddressItemAt(Index);
+                        AddressNode AddressNode = new AddressNode(AddressItem.Description, AddressItem.GetAddressString(), AddressItem.ElementType?.Name, AddressItem.GetValueString());
+                        Model.Nodes.Add(AddressNode);
+                        Cache.Add(AddressItem, AddressNode);
+                    }
+                    AddressTableTreeView.EndUpdate();
+                });
+            }
         }
 
         public void ReadValues()
         {
-            UpdateReadBounds();
-
-            ControlThreadingHelper.InvokeControlAction(AddressTableListView, () =>
+            using (TimedLock.Lock(AccessLock))
             {
-                AddressTableListView.BeginUpdate();
-                AddressTableListView.EndUpdate();
-            });
-        }
+                // Update read bounds
+                ControlThreadingHelper.InvokeControlAction(AddressTableTreeView, () =>
+                {
+                    Tuple<Int32, Int32> ReadBounds = new Tuple<Int32, Int32>(0, AddressTableTreeView.AllNodes.Count()); // AddressTableTreeView.GetReadBounds();
+                    AddressTablePresenter.UpdateReadBounds(ReadBounds.Item1, ReadBounds.Item2);
+                });
 
-        private void UpdateReadBounds()
-        {
-            ControlThreadingHelper.InvokeControlAction(AddressTableListView, () =>
-            {
-                Tuple<Int32, Int32> ReadBounds = AddressTableListView.GetReadBounds();
-                AddressTablePresenter.UpdateReadBounds(ReadBounds.Item1, ReadBounds.Item2);
-            });
+                ControlThreadingHelper.InvokeControlAction(AddressTableTreeView, () =>
+                {
+                    // Perform updates
+                    AddressTableTreeView.BeginUpdate();
+                    for (Int32 Index = 0; Index < AddressTablePresenter.GetAddressItemsCount(); Index++)
+                    {
+                        AddressItem AddressItem = AddressTablePresenter.GetAddressItemAt(Index);
+
+                        // Update existing
+                        if (Cache.ContainsKey(AddressItem))
+                        {
+                            Cache[AddressItem].EntryAddress = AddressItem.GetAddressString();
+                            Cache[AddressItem].EntryValue = AddressItem.GetValueString();
+                            Cache[AddressItem].IsChecked = AddressItem.GetActivationState();
+                        }
+                        // Otherwise create new
+                        else
+                        {
+                            AddressNode AddressNode = new AddressNode(AddressItem.Description, AddressItem.GetAddressString(), AddressItem.ElementType?.Name, AddressItem.GetValueString());
+                            Model.Nodes.Add(AddressNode);
+                            Cache.Add(AddressItem, AddressNode);
+                        }
+
+                        Model.OnNodesChanged(new TreeModelEventArgs(Model.GetPath(Cache[AddressItem]), new Object[] { }));
+                    }
+                    AddressTableTreeView.EndUpdate();
+                });
+            }
         }
 
         private void EditAddressTableEntry(Int32 SelectedItemIndex, Int32 ColumnIndex)
@@ -103,23 +113,21 @@ namespace Anathema.GUI
             {
                 List<Int32> Indicies = new List<Int32>();
 
-                foreach (Int32 Index in AddressTableListView.SelectedIndices)
-                    Indicies.Add(Index);
+                foreach (TreeNodeAdv Index in AddressTableTreeView.SelectedNodes)
+                    Indicies.Add(Index.Index);
 
                 if (Indicies.Count == 0)
                     return;
 
                 // Determine the current column selection based on column index
                 AddressTable.TableColumnEnum ColumnSelection = AddressTable.TableColumnEnum.Frozen;
-                if (ColumnIndex == AddressTableListView.Columns.IndexOf(FrozenHeader))
-                    ColumnSelection = AddressTable.TableColumnEnum.Frozen;
-                else if (ColumnIndex == AddressTableListView.Columns.IndexOf(DescriptionHeader))
+                if (ColumnIndex == AddressTableTreeView.Columns.IndexOf(EntryDescriptionColumn))
                     ColumnSelection = AddressTable.TableColumnEnum.Description;
-                else if (ColumnIndex == AddressTableListView.Columns.IndexOf(AddressHeader))
+                else if (ColumnIndex == AddressTableTreeView.Columns.IndexOf(EntryAddressColumn))
                     ColumnSelection = AddressTable.TableColumnEnum.Address;
-                else if (ColumnIndex == AddressTableListView.Columns.IndexOf(TypeHeader))
+                else if (ColumnIndex == AddressTableTreeView.Columns.IndexOf(EntryTypeColumn))
                     ColumnSelection = AddressTable.TableColumnEnum.ValueType;
-                else if (ColumnIndex == AddressTableListView.Columns.IndexOf(ValueHeader))
+                else if (ColumnIndex == AddressTableTreeView.Columns.IndexOf(EntryValueColumn))
                     ColumnSelection = AddressTable.TableColumnEnum.Value;
 
                 GUIAddressTableEntryEditor = new GUIAddressTableEntryEditor(SelectedItemIndex, Indicies, ColumnSelection);
@@ -138,10 +146,12 @@ namespace Anathema.GUI
         {
             using (TimedLock.Lock(AccessLock))
             {
-                if (AddressTableListView.SelectedIndices == null || AddressTableListView.SelectedIndices.Count <= 0)
+                if (AddressTableTreeView.SelectedNodes == null || AddressTableTreeView.SelectedNodes.Count <= 0)
                     return;
 
-                AddressTablePresenter.DeleteTableItems(AddressTableListView.SelectedIndices.Cast<Int32>());
+                List<Int32> Nodes = new List<Int32>();
+                AddressTableTreeView.SelectedNodes.ForEach(X => Nodes.Add(X.Index));
+                AddressTablePresenter.DeleteTableItems(Nodes);
             }
         }
 
@@ -154,50 +164,18 @@ namespace Anathema.GUI
 
         private Point LastRightClickLocation = Point.Empty;
 
-        private void AddressTableListView_RetrieveVirtualItem(Object Sender, RetrieveVirtualItemEventArgs E)
-        {
-            ListViewItem Item = AddressTableCache.Get((UInt64)E.ItemIndex);
-            AddressItem AddressItem = AddressTablePresenter.GetAddressItemAt(E.ItemIndex);
-
-            // Try to update and return the item if it is a valid item
-            if (Item != null &&
-                AddressTableCache.TryUpdateSubItem(E.ItemIndex, AddressTableListView.Columns.IndexOf(ValueHeader), AddressItem.GetValueString()) &&
-                AddressTableCache.TryUpdateSubItem(E.ItemIndex, AddressTableListView.Columns.IndexOf(AddressHeader), AddressItem.GetAddressString()))
-            {
-                Item.Checked = AddressItem.GetActivationState();
-                E.Item = Item;
-                return;
-            }
-
-            // Add the properties to the manager and get the list view item back
-            Item = AddressTableCache.Add(E.ItemIndex, new String[AddressTableListView.Columns.Count]);
-
-            Item.ForeColor = AddressItem.TextColor;
-
-            Item.SubItems[AddressTableListView.Columns.IndexOf(FrozenHeader)].Text = String.Empty;
-            Item.SubItems[AddressTableListView.Columns.IndexOf(DescriptionHeader)].Text = (AddressItem.Description == null ? String.Empty : AddressItem.Description);
-            Item.SubItems[AddressTableListView.Columns.IndexOf(AddressHeader)].Text = AddressItem.BaseAddress;
-            Item.SubItems[AddressTableListView.Columns.IndexOf(TypeHeader)].Text = AddressItem.ElementType == null ? String.Empty : AddressItem.ElementType.Name;
-            Item.SubItems[AddressTableListView.Columns.IndexOf(ValueHeader)].Text = AddressItem.GetValueString();
-
-            Item.Checked = AddressItem.GetActivationState();
-
-            // AddressTablePresenter.GetAddressTableItemAt(E.ItemIndex);
-            E.Item = Item;
-        }
-
         private void AddressTableListView_MouseClick(Object Sender, MouseEventArgs E)
         {
             if (E.Button == MouseButtons.Right)
                 LastRightClickLocation = E.Location;
 
-            ListViewItem ListViewItem = AddressTableListView.GetItemAt(E.X, E.Y);
+            TreeNodeAdv ListViewItem = AddressTableTreeView.GetNodeAt(E.Location);
 
             if (ListViewItem == null)
                 return;
 
-            if (E.X < (ListViewItem.Bounds.Left + 16))
-                AddressTablePresenter.SetAddressFrozen(ListViewItem.Index, !ListViewItem.Checked);  // (Has to be negated, click happens before check change)
+            // if (E.X < (ListViewItem.Bounds.Left + 16))
+            //     AddressTablePresenter.SetAddressFrozen(ListViewItem.Index, !ListViewItem.Checked);  // (Has to be negated, click happens before check change)
         }
 
         private void AddressTableListView_KeyPress(Object Sender, KeyPressEventArgs E)
@@ -205,24 +183,25 @@ namespace Anathema.GUI
             if (E.KeyChar != ' ')
                 return;
 
-            Boolean FreezeState = AddressTableListView.SelectedIndices == null ? false : !AddressTableListView.Items[AddressTableListView.SelectedIndices[0]].Checked;
+            /*Boolean FreezeState = AddressTableListView.SelectedIndices == null ? false : !AddressTableListView.Items[AddressTableListView.SelectedIndices[0]].Checked;
             foreach (Int32 Index in AddressTableListView.SelectedIndices)
-                AddressTablePresenter.SetAddressFrozen(Index, FreezeState);
+                AddressTablePresenter.SetAddressFrozen(Index, FreezeState);*/
         }
 
         private void ToggleFreezeToolStripMenuItem_Click(Object Sender, EventArgs E)
         {
-            Boolean FreezeState = AddressTableListView.SelectedIndices == null ? false : !AddressTableListView.Items[AddressTableListView.SelectedIndices[0]].Checked;
+            /*Boolean FreezeState = AddressTableListView.SelectedIndices == null ? false : !AddressTableListView.Items[AddressTableListView.SelectedIndices[0]].Checked;
             foreach (Int32 Index in AddressTableListView.SelectedIndices)
-                AddressTablePresenter.SetAddressFrozen(Index, FreezeState);
+                AddressTablePresenter.SetAddressFrozen(Index, FreezeState);*/
         }
 
         private void AddressTableListView_MouseDoubleClick(Object Sender, MouseEventArgs E)
         {
+            /*
             ListViewItem SelectedItem;
             Int32 ColumnIndex;
 
-            ListViewHitTestInfo HitTest = AddressTableListView.HitTest(E.Location);
+            ListViewHitTestInfo HitTest = AddressTableTreeView.HitTest(E.Location);
             SelectedItem = HitTest.Item;
             ColumnIndex = HitTest.Item.SubItems.IndexOf(HitTest.SubItem);
 
@@ -234,26 +213,29 @@ namespace Anathema.GUI
                 return;
 
             EditAddressTableEntry(SelectedItem.Index, ColumnIndex);
+            */
         }
-
 
         private void EditAddressEntryToolStripMenuItem_Click(Object Sender, EventArgs E)
         {
-            ListViewItem SelectedItem;
-            Int32 ColumnIndex;
+            /*
+                ListViewItem SelectedItem;
+                Int32 ColumnIndex;
 
-            ListViewHitTestInfo HitTest = AddressTableListView.HitTest(LastRightClickLocation);
-            SelectedItem = HitTest.Item;
-            ColumnIndex = HitTest.Item.SubItems.IndexOf(HitTest.SubItem);
+                ListViewHitTestInfo HitTest = AddressTableListView.HitTest(LastRightClickLocation);
+                SelectedItem = HitTest.Item;
+                ColumnIndex = HitTest.Item.SubItems.IndexOf(HitTest.SubItem);
 
-            if (SelectedItem == null)
-                return;
+                if (SelectedItem == null)
+                    return;
 
-            EditAddressTableEntry(SelectedItem.Index, ColumnIndex);
+                EditAddressTableEntry(SelectedItem.Index, ColumnIndex);
+            */
         }
 
         private void DeleteSelectionToolStripMenuItem_Click(Object Sender, EventArgs E)
         {
+            /*
             ListViewItem SelectedItem;
             Int32 ColumnIndex;
 
@@ -267,6 +249,7 @@ namespace Anathema.GUI
             DeleteAddressTableEntries(SelectedItem.Index, SelectedItem.Index);
 
             AddressTableListView.SelectedIndices.Clear();
+            */
         }
 
         private void AddNewAddressToolStripMenuItem_Click(Object Sender, EventArgs E)
@@ -278,6 +261,7 @@ namespace Anathema.GUI
         {
             // using (TimedLock.Lock(AccessLock))
             {
+                /*
                 ListViewHitTestInfo HitTest = AddressTableListView.HitTest(AddressTableListView.PointToClient(MousePosition));
                 ListViewItem SelectedItem = HitTest.Item;
 
@@ -289,6 +273,7 @@ namespace Anathema.GUI
                     AddNewAddressToolStripMenuItem.Enabled = true;
                 }
                 else
+                */
                 {
                     ToggleFreezeToolStripMenuItem.Enabled = true;
                     EditAddressEntryToolStripMenuItem.Enabled = true;
@@ -314,6 +299,7 @@ namespace Anathema.GUI
         {
             // using (TimedLock.Lock(AccessLock))
             {
+                /*
                 ListViewHitTestInfo HitTest = AddressTableListView.HitTest(AddressTableListView.PointToClient(new Point(E.X, E.Y)));
                 ListViewItem SelectedItem = HitTest.Item;
 
@@ -324,6 +310,7 @@ namespace Anathema.GUI
                     return;
 
                 AddressTablePresenter.ReorderItem(DraggedItem.Index, SelectedItem == null ? AddressTableListView.Items.Count : SelectedItem.Index);
+                */
             }
         }
 

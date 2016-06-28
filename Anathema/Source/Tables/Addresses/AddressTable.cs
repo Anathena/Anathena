@@ -122,6 +122,11 @@ namespace Anathema.Source.Tables.Addresses
             return AddressItems[Index];
         }
 
+        public override Int32 GetAddressItemsCount()
+        {
+            return AddressItems.Count;
+        }
+
         public List<AddressItem> GetAddressItems()
         {
             return AddressItems;
