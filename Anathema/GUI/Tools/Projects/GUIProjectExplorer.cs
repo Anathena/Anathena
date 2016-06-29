@@ -18,11 +18,9 @@ namespace Anathema.GUI
     public partial class GUIProjectExplorer : DockContent, IProjectExplorerTableView
     {
         private ProjectExplorerPresenter ProjectExplorerPresenter;
-        private Dictionary<AddressItem, AddressNode> Cache;
-        private static Node DummyNode = new Node();
+        private Dictionary<ProjectItem, ProjectNode> Cache;
+        private TreeModel ProjectTree;
         private Object AccessLock;
-
-        private TreeModel Model;
 
         public GUIProjectExplorer()
         {
@@ -30,11 +28,11 @@ namespace Anathema.GUI
 
             FrozenCheckBox.IsEditEnabledValueNeeded += CheckIndex;
 
-            Cache = new Dictionary<AddressItem, AddressNode>();
-            Model = new TreeModel();
+            Cache = new Dictionary<ProjectItem, ProjectNode>();
+            ProjectTree = new TreeModel();
             AccessLock = new Object();
 
-            AddressTableTreeView.Model = Model;
+            AddressTableTreeView.Model = ProjectTree;
 
             ProjectExplorerPresenter = new ProjectExplorerPresenter(this, ProjectExplorer.GetInstance());
         }
@@ -44,29 +42,46 @@ namespace Anathema.GUI
             E.Value = true;
         }
 
-        public void UpdateProjectExplorerItemCount(Int32 ItemCount)
+        public void RefreshStructure()
         {
+            if (ProjectExplorerPresenter == null)
+                return;
+
             using (TimedLock.Lock(AccessLock))
             {
                 ControlThreadingHelper.InvokeControlAction(AddressTableTreeView, () =>
                 {
                     AddressTableTreeView.BeginUpdate();
-                    Model.Nodes.Clear();
+                    ProjectTree.Nodes.Clear();
                     Cache.Clear();
-                    for (Int32 Index = 0; Index < ItemCount; Index++)
+                    for (Int32 Index = 0; Index < ProjectExplorerPresenter.GetItemCount(); Index++)
                     {
-                        AddressItem AddressItem = ProjectExplorerPresenter.GetAddressItemAt(Index);
-                        AddressNode AddressNode = new AddressNode(AddressItem.Description, AddressItem.GetAddressString(), AddressItem.ElementType?.Name, AddressItem.GetValueString());
-                        Model.Nodes.Add(AddressNode);
-                        Cache.Add(AddressItem, AddressNode);
+                        ProjectItem ProjectItem = ProjectExplorerPresenter.GetProjectItemAt(Index);
+
+                        if (ProjectItem.GetType() == typeof(AddressItem))
+                        {
+                            AddressItem AddressItem = (AddressItem)ProjectItem;
+
+                            if (AddressItem == null)
+                                continue;
+
+                            ProjectNode AddressNode = new ProjectNode(AddressItem.Description, AddressItem.GetAddressString(), AddressItem.ElementType?.Name, AddressItem.GetValueString());
+                            AddressNode.ProjectItem = AddressItem;
+
+                            ProjectTree.Nodes.Add(AddressNode);
+                            Cache.Add(AddressItem, AddressNode);
+                        }
+                        AddressTableTreeView.EndUpdate();
                     }
-                    AddressTableTreeView.EndUpdate();
                 });
             }
         }
 
         public void ReadValues()
         {
+            if (ProjectExplorerPresenter == null)
+                return;
+
             // Update read bounds
             ControlThreadingHelper.InvokeControlAction(AddressTableTreeView, () =>
             {
@@ -80,33 +95,74 @@ namespace Anathema.GUI
                 {
                     // Perform updates
                     AddressTableTreeView.BeginUpdate();
-                    for (Int32 Index = 0; Index < ProjectExplorerPresenter.GetAddressItemsCount(); Index++)
+                    for (Int32 Index = 0; Index < ProjectExplorerPresenter.GetItemCount(); Index++)
                     {
-                        AddressItem AddressItem = ProjectExplorerPresenter.GetAddressItemAt(Index);
+                        ProjectItem ProjectItem = ProjectExplorerPresenter.GetProjectItemAt(Index);
 
-                        // Update existing
-                        if (Cache.ContainsKey(AddressItem))
+                        if (ProjectItem.GetType() == typeof(AddressItem))
                         {
-                            Cache[AddressItem].EntryAddress = AddressItem.GetAddressString();
-                            Cache[AddressItem].EntryValue = AddressItem.GetValueString();
-                            // Cache[AddressItem].IsChecked = AddressItem.GetActivationState();
-                        }
-                        // Otherwise create new
-                        else
-                        {
-                            AddressNode AddressNode = new AddressNode(AddressItem.Description, AddressItem.GetAddressString(), AddressItem.ElementType?.Name, AddressItem.GetValueString());
-                            Model.Nodes.Add(AddressNode);
-                            Cache.Add(AddressItem, AddressNode);
-                        }
+                            AddressItem AddressItem = (AddressItem)ProjectItem;
 
-                        Model.OnNodesChanged(new TreeModelEventArgs(Model.GetPath(Cache[AddressItem]), new Object[] { }));
+                            // Update existing
+                            if (Cache.ContainsKey(AddressItem))
+                            {
+                                Cache[AddressItem].EntryAddress = AddressItem.GetAddressString();
+                                Cache[AddressItem].EntryValue = AddressItem.GetValueString();
+                                // Cache[AddressItem].IsChecked = AddressItem.GetActivationState();
+                            }
+                            // Otherwise create new
+                            else
+                            {
+                                ProjectNode AddressNode = new ProjectNode(AddressItem.Description, AddressItem.GetAddressString(), AddressItem.ElementType?.Name, AddressItem.GetValueString());
+                                AddressNode.ProjectItem = AddressItem;
+
+                                ProjectTree.Nodes.Add(AddressNode);
+                                Cache.Add(AddressItem, AddressNode);
+                            }
+
+                            ProjectTree.OnNodesChanged(new TreeModelEventArgs(ProjectTree.GetPath(Cache[AddressItem]), new Object[] { }));
+                        }
                     }
                     AddressTableTreeView.EndUpdate();
                 });
             }
         }
 
-        private void EditAddressTableEntry(AddressNode Target, Int32 ColumnIndex)
+        #region Events
+
+        private void AddressTableTreeView_NodeMouseDoubleClick(Object Sender, TreeNodeAdvMouseEventArgs E)
+        {
+            if (E == null || E.Node == null)
+                return;
+
+            Node Node = ProjectTree.FindNode(AddressTableTreeView.GetPath(E.Node));
+
+            if (Node == null || !typeof(ProjectNode).IsAssignableFrom(Node.GetType()))
+                return;
+
+            ProjectNode ProjectNode = (ProjectNode)Node;
+            ProjectItem ProjectItem = ProjectNode.ProjectItem;
+
+            if (ProjectItem == null)
+                return;
+
+            if (ProjectItem.GetType() == typeof(AddressItem))
+            {
+
+            }
+            else if (ProjectItem.GetType() == typeof(FolderItem))
+            {
+
+            }
+            else if (ProjectItem.GetType() == typeof(ScriptItem))
+            {
+
+            }
+        }
+
+        #endregion
+
+        private void EditAddressEntry(ProjectNode Target, Int32 ColumnIndex)
         {
             GUIAddressEditor GUIAddressEditor;
 

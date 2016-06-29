@@ -19,7 +19,7 @@ namespace Anathema.Source.Project
     {
         // Methods invoked by the presenter (upstream)
         void ReadValues();
-        void UpdateProjectExplorerItemCount(Int32 ItemCount);
+        void RefreshStructure();
     }
 
     abstract class IProjectExplorerModel : RepeatedTask, IModel
@@ -33,10 +33,10 @@ namespace Anathema.Source.Project
             EventReadValues?.Invoke(this, E);
         }
 
-        public event ProjectExplorerEventHandler EventUpdateAddressTableItemCount;
-        protected virtual void OnEventUpdateAddressTableItemCount(ProjectExplorerEventArgs E)
+        public event ProjectExplorerEventHandler EventRefreshStructure;
+        protected virtual void OnEventRefreshStructure(ProjectExplorerEventArgs E)
         {
-            EventUpdateAddressTableItemCount?.Invoke(this, E);
+            EventRefreshStructure?.Invoke(this, E);
         }
 
         public override void Begin()
@@ -52,10 +52,10 @@ namespace Anathema.Source.Project
         }
 
         // Functions invoked by presenter (downstream)
-        public abstract AddressItem GetAddressItemAt(Int32 Index);
-        public abstract Int32 GetAddressItemsCount();
+        public abstract ProjectItem GetProjectItemAt(Int32 Index);
+        public abstract Int32 GetItemCount();
         public abstract void SetAddressItemAt(Int32 Index, AddressItem AddressItem);
-        public abstract void SetAddressFrozen(Int32 Index, Boolean Activated);
+        public abstract void SetItemActivation(Int32 Index, Boolean Activated);
 
         public abstract void ReorderItem(Int32 SourceIndex, Int32 DestinationIndex);
 
@@ -78,7 +78,7 @@ namespace Anathema.Source.Project
 
             // Bind events triggered by the model
             Model.EventReadValues += EventReadValues;
-            Model.EventUpdateAddressTableItemCount += EventUpdateAddressTableItemCount;
+            Model.EventRefreshStructure += EventRefreshStructure;
 
             Model.OnGUIOpen();
         }
@@ -90,14 +90,14 @@ namespace Anathema.Source.Project
             Model.UpdateReadBounds(StartReadIndex, EndReadIndex);
         }
 
-        public AddressItem GetAddressItemAt(Int32 Index)
+        public ProjectItem GetProjectItemAt(Int32 Index)
         {
-            return Model.GetAddressItemAt(Index);
+            return Model.GetProjectItemAt(Index);
         }
 
-        public Int32 GetAddressItemsCount()
+        public Int32 GetItemCount()
         {
-            return Model.GetAddressItemsCount();
+            return Model.GetItemCount();
         }
 
         public void AddNewAddressItem()
@@ -112,7 +112,7 @@ namespace Anathema.Source.Project
 
         public void SetAddressFrozen(Int32 Index, Boolean Activated)
         {
-            Model.SetAddressFrozen(Index, Activated);
+            Model.SetItemActivation(Index, Activated);
         }
 
         public void ReorderItem(Int32 SourceIndex, Int32 DestinationIndex)
@@ -129,9 +129,9 @@ namespace Anathema.Source.Project
             View.ReadValues();
         }
 
-        private void EventUpdateAddressTableItemCount(Object Sender, ProjectExplorerEventArgs E)
+        private void EventRefreshStructure(Object Sender, ProjectExplorerEventArgs E)
         {
-            View.UpdateProjectExplorerItemCount(E.ItemCount);
+            View.RefreshStructure();
         }
 
         #endregion

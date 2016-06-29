@@ -54,17 +54,21 @@ namespace Anathema
         private void InitializeDefaultItems()
         {
             // Collect address item that was opened and set the display properties
-            AddressItem AddressItem = ProjectExplorer.GetInstance().GetAddressItemAt(AddressItemIndicies.Last());
-            DescriptionTextBox.Text = AddressItem.Description;
-            ValueTypeComboBox.SelectedIndex = ValueTypeComboBox.Items.IndexOf(AddressItem.ElementType.Name);
-            AddressTextBox.Text = AddressItem.BaseAddress;
-            ValueTextBox.IsHex = AddressItem.IsHex;
+            ProjectItem ProjectItem = ProjectExplorer.GetInstance().GetProjectItemAt(AddressItemIndicies.Last());
+            if (ProjectItem.GetType() == typeof(AddressItem))
+            {
+                AddressItem AddressItem = (AddressItem)ProjectItem;
+                DescriptionTextBox.Text = AddressItem.Description;
+                ValueTypeComboBox.SelectedIndex = ValueTypeComboBox.Items.IndexOf(AddressItem.ElementType.Name);
+                AddressTextBox.Text = AddressItem.BaseAddress;
+                ValueTextBox.IsHex = AddressItem.IsValueHex;
 
-            if (AddressItem.Offsets == null)
-                return;
+                if (AddressItem.Offsets == null)
+                    return;
 
-            foreach (Int32 Offset in AddressItem.Offsets)
-                OffsetListBox.Items.Add(Offset < 0 ? "-" + Math.Abs(Offset).ToString("X") : Offset.ToString("X"));
+                foreach (Int32 Offset in AddressItem.Offsets)
+                    OffsetListBox.Items.Add(Offset < 0 ? "-" + Math.Abs(Offset).ToString("X") : Offset.ToString("X"));
+            }
         }
 
         private void InitializeValueTypeComboBox()

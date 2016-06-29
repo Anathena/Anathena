@@ -8,7 +8,7 @@ namespace Anathema.Source.Project.ProjectItems
     [Obfuscation(ApplyToMembers = false)]
     [Obfuscation(Exclude = true)]
     [DataContract()]
-    public class ScriptItem : TableItem
+    public class ScriptItem : ProjectItem
     {
         [DataMember()]
         public String LuaScript

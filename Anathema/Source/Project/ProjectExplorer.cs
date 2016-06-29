@@ -27,15 +27,15 @@ namespace Anathema.Source.Project
 
         private EngineCore EngineCore;
 
-        private List<AddressItem> AddressItems;
+        private List<ProjectItem> ProjectItems;
 
-        private Int32 StartReadIndex;
-        private Int32 EndReadIndex;
+        private Int32 VisibleIndexStart;
+        private Int32 VisibleIndexEnd;
 
         private ProjectExplorer()
         {
             InitializeProcessObserver();
-            AddressItems = new List<AddressItem>();
+            ProjectItems = new List<ProjectItem>();
 
             Begin();
         }
@@ -65,36 +65,41 @@ namespace Anathema.Source.Project
             this.EngineCore = EngineCore;
         }
 
-        public override void UpdateReadBounds(Int32 StartReadIndex, Int32 EndReadIndex)
+        public override void UpdateReadBounds(Int32 VisibleIndexStart, Int32 VisibleIndexEnd)
         {
-            this.StartReadIndex = StartReadIndex;
-            this.EndReadIndex = EndReadIndex;
+            this.VisibleIndexStart = VisibleIndexStart;
+            this.VisibleIndexEnd = VisibleIndexEnd;
         }
 
-        public override void SetAddressFrozen(Int32 Index, Boolean Activated)
+        public override void SetItemActivation(Int32 Index, Boolean Activated)
         {
             if (EngineCore == null)
             {
                 // Allow disabling even if there is no valid process
                 if (!Activated)
-                    AddressItems[Index].SetActivationState(Activated);
+                    ProjectItems[Index].SetActivationState(Activated);
 
                 return;
             }
 
             if (Activated)
             {
-                Boolean ReadSuccess;
-                AddressItems[Index].ResolveAddress(EngineCore);
-                AddressItems[Index].Value = EngineCore.Memory.Read(AddressItems[Index].ElementType, AddressItems[Index].EffectiveAddress, out ReadSuccess);
-            }
+                ProjectItem ProjectItem = ProjectItems[Index];
 
-            AddressItems[Index].SetActivationState(Activated);
+                if (ProjectItem.GetType() == typeof(AddressItem))
+                {
+                    AddressItem AddressItem = (AddressItem)ProjectItem;
+                    Boolean ReadSuccess;
+                    AddressItem.ResolveAddress(EngineCore);
+                    AddressItem.Value = EngineCore.Memory.Read(AddressItem.ElementType, AddressItem.EffectiveAddress, out ReadSuccess);
+                }
+            }
+            ProjectItems[Index].SetActivationState(Activated);
         }
 
         public override void AddAddressItem(String BaseAddress, Type ElementType, String Description, IEnumerable<Int32> Offsets = null, Boolean IsHex = false, String Value = null)
         {
-            AddressItems.Add(new AddressItem(BaseAddress, ElementType, Description, Offsets, IsHex, Value));
+            ProjectItems.Add(new AddressItem(BaseAddress, ElementType, Description, Offsets, IsHex, Value));
 
             UpdateAddressTableItemCount();
 
@@ -103,7 +108,7 @@ namespace Anathema.Source.Project
 
         public override void AddAddressItem(AddressItem AddressItem)
         {
-            AddressItems.Add(AddressItem);
+            ProjectItems.Add(AddressItem);
             UpdateAddressTableItemCount();
 
             TableManager.GetInstance().TableChanged();
@@ -112,31 +117,31 @@ namespace Anathema.Source.Project
         public override void DeleteTableItems(IEnumerable<Int32> Indicies)
         {
             foreach (Int32 Index in Indicies.OrderByDescending(X => X))
-                AddressItems.RemoveAt(Index);
+                ProjectItems.RemoveAt(Index);
 
             UpdateAddressTableItemCount();
 
             TableManager.GetInstance().TableChanged();
         }
 
-        public override AddressItem GetAddressItemAt(Int32 Index)
+        public override ProjectItem GetProjectItemAt(Int32 Index)
         {
-            return AddressItems[Index];
+            return ProjectItems[Index];
         }
 
-        public override Int32 GetAddressItemsCount()
+        public override Int32 GetItemCount()
         {
-            return AddressItems.Count;
+            return ProjectItems.Count;
         }
 
-        public List<AddressItem> GetAddressItems()
+        public List<ProjectItem> GetProjectItems()
         {
-            return AddressItems;
+            return ProjectItems;
         }
 
-        public void SetAddressItems(List<AddressItem> AddressItems)
+        public void SetProjectItems(List<ProjectItem> AddressItems)
         {
-            this.AddressItems = AddressItems;
+            this.ProjectItems = AddressItems;
             UpdateAddressTableItemCount();
 
             TableManager.GetInstance().TableChanged();
@@ -144,7 +149,7 @@ namespace Anathema.Source.Project
 
         public override void SetAddressItemAt(Int32 Index, AddressItem AddressItem)
         {
-            AddressItems[Index] = AddressItem;
+            ProjectItems[Index] = AddressItem;
 
             // Force update of value, regardless if frozen or not
             AddressItem.ForceUpdateValue(AddressItem.Value);
@@ -165,7 +170,7 @@ namespace Anathema.Source.Project
         public override void ReorderItem(Int32 SourceIndex, Int32 DestinationIndex)
         {
             // Bounds checking
-            if (SourceIndex < 0 || SourceIndex > AddressItems.Count)
+            if (SourceIndex < 0 || SourceIndex > ProjectItems.Count)
                 return;
 
             // If an item is being removed before the destination, the destination must be shifted
@@ -173,12 +178,12 @@ namespace Anathema.Source.Project
                 DestinationIndex--;
 
             // Bounds checking
-            if (DestinationIndex < 0 || DestinationIndex > AddressItems.Count)
+            if (DestinationIndex < 0 || DestinationIndex > ProjectItems.Count)
                 return;
 
-            AddressItem Item = AddressItems[SourceIndex];
-            AddressItems.RemoveAt(SourceIndex);
-            AddressItems.Insert(DestinationIndex, Item);
+            ProjectItem Item = ProjectItems[SourceIndex];
+            ProjectItems.RemoveAt(SourceIndex);
+            ProjectItems.Insert(DestinationIndex, Item);
             UpdateAddressTableItemCount();
 
             TableManager.GetInstance().TableChanged();
@@ -187,8 +192,8 @@ namespace Anathema.Source.Project
         private void UpdateAddressTableItemCount()
         {
             ProjectExplorerEventArgs AddressTableEventArgs = new ProjectExplorerEventArgs();
-            AddressTableEventArgs.ItemCount = AddressItems.Count;
-            OnEventUpdateAddressTableItemCount(AddressTableEventArgs);
+            AddressTableEventArgs.ItemCount = ProjectItems.Count;
+            OnEventRefreshStructure(AddressTableEventArgs);
         }
 
         public override void Begin()
@@ -199,7 +204,7 @@ namespace Anathema.Source.Project
         protected override void Update()
         {
             // Freeze addresses
-            foreach (AddressItem Item in AddressItems)
+            foreach (AddressItem Item in ProjectItems)
             {
                 if (Item.GetActivationState())
                 {
@@ -210,19 +215,25 @@ namespace Anathema.Source.Project
                 }
             }
 
-            for (Int32 Index = StartReadIndex; Index < EndReadIndex; Index++)
+            for (Int32 Index = VisibleIndexStart; Index < VisibleIndexEnd; Index++)
             {
-                if (Index < 0 || Index >= AddressItems.Count)
+                if (Index < 0 || Index >= ProjectItems.Count)
                     continue;
 
-                Boolean ReadSuccess;
-                AddressItems[Index].ResolveAddress(EngineCore);
+                ProjectItem ProjectItem = ProjectItems[Index];
 
-                if (EngineCore != null)
-                    AddressItems[Index].Value = EngineCore.Memory.Read(AddressItems[Index].ElementType, AddressItems[Index].EffectiveAddress, out ReadSuccess);
+                if (ProjectItem.GetType() == typeof(AddressItem))
+                {
+                    AddressItem AddressItem = (AddressItem)ProjectItem;
+                    Boolean ReadSuccess;
+                    AddressItem.ResolveAddress(EngineCore);
+
+                    if (EngineCore != null)
+                        AddressItem.Value = EngineCore.Memory.Read(AddressItem.ElementType, AddressItem.EffectiveAddress, out ReadSuccess);
+                }
             }
 
-            if (AddressItems.Count != 0)
+            if (ProjectItems.Count != 0)
                 OnEventReadValues(new ProjectExplorerEventArgs());
         }
 

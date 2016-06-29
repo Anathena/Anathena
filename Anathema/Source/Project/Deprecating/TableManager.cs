@@ -68,7 +68,7 @@ namespace Anathema.Source.Project.Deprecating
                     DataContractJsonSerializer Serializer = new DataContractJsonSerializer(typeof(TableData));
 
                     // Gather items we need to save
-                    CurrentTableData.AddressItems = ProjectExplorer.GetInstance().GetAddressItems();
+                    CurrentTableData.ProjectItems = ProjectExplorer.GetInstance().GetProjectItems();
                     CurrentTableData.ScriptItems = ScriptTable.GetInstance().GetScriptItems();
 
                     Serializer.WriteObject(FileStream, CurrentTableData);
@@ -98,7 +98,7 @@ namespace Anathema.Source.Project.Deprecating
                     CurrentTableData = (TableData)Serializer.ReadObject(FileStream);
 
                     // Distribute loaded items to the appropriate tables
-                    ProjectExplorer.GetInstance().SetAddressItems(CurrentTableData.AddressItems);
+                    ProjectExplorer.GetInstance().SetProjectItems(CurrentTableData.ProjectItems);
                     ScriptTable.GetInstance().SetScriptItems(CurrentTableData.ScriptItems);
                 }
             }
@@ -112,7 +112,7 @@ namespace Anathema.Source.Project.Deprecating
                         CurrentTableData = (TableData)Serializer.ReadObject(FileStream);
 
                         // Distribute loaded items to the appropriate tables
-                        ProjectExplorer.GetInstance().SetAddressItems(CurrentTableData.AddressItems);
+                        ProjectExplorer.GetInstance().SetProjectItems(CurrentTableData.ProjectItems);
                         ScriptTable.GetInstance().SetScriptItems(CurrentTableData.ScriptItems);
                     }
                 }
@@ -140,7 +140,7 @@ namespace Anathema.Source.Project.Deprecating
                     CurrentTableData = (TableData)Serializer.ReadObject(FileStream);
 
                     // Distribute loaded items to the appropriate tables
-                    foreach (AddressItem Item in CurrentTableData.AddressItems)
+                    foreach (AddressItem Item in CurrentTableData.ProjectItems)
                         ProjectExplorer.GetInstance().AddAddressItem(Item);
 
                     foreach (ScriptItem Item in CurrentTableData.ScriptItems)
@@ -168,7 +168,7 @@ namespace Anathema.Source.Project.Deprecating
         {
             [Obfuscation(Exclude = true)]
             [DataMember()]
-            public List<AddressItem> AddressItems;
+            public List<ProjectItem> ProjectItems;
 
             [Obfuscation(Exclude = true)]
             [DataMember()]
@@ -179,7 +179,7 @@ namespace Anathema.Source.Project.Deprecating
 
             public TableData()
             {
-                AddressItems = new List<AddressItem>();
+                ProjectItems = new List<ProjectItem>();
                 ScriptItems = new List<ScriptItem>();
                 FiniteStateMachineItems = new List<FiniteStateMachine>();
             }

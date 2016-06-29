@@ -13,7 +13,7 @@ namespace Anathema.Source.Project.ProjectItems
     [Obfuscation(ApplyToMembers = false)]
     [Obfuscation(Exclude = true)]
     [DataContract()]
-    public class AddressItem : TableItem
+    public class AddressItem : ProjectItem
     {
         [Obfuscation(Exclude = true)]
         [DataMember()]
@@ -21,11 +21,7 @@ namespace Anathema.Source.Project.ProjectItems
 
         [Obfuscation(Exclude = true)]
         [DataMember()]
-        public String Description { get; set; }
-
-        [Obfuscation(Exclude = true)]
-        [DataMember()]
-        public Boolean IsHex { get; set; }
+        public Boolean IsValueHex { get; set; }
 
         [Obfuscation(Exclude = true)]
         [DataMember()]
@@ -71,17 +67,17 @@ namespace Anathema.Source.Project.ProjectItems
             private set { _EffectiveAddress = value; }
         }
 
-        public AddressItem(String BaseAddress, Type ElementType, String Description = null, IEnumerable<Int32> Offsets = null, Boolean IsHex = false, String Value = null)
+        public AddressItem(String BaseAddress, Type ElementType, String Description = null, IEnumerable<Int32> Offsets = null, Boolean IsValueHex = false, String Value = null)
         {
             this.BaseAddress = BaseAddress;
             this.Description = Description == null ? String.Empty : Description;
             this.ElementType = ElementType;
             this.Offsets = Offsets;
-            this.IsHex = IsHex;
+            this.IsValueHex = IsValueHex;
 
-            if (!IsHex && CheckSyntax.CanParseValue(ElementType, Value))
+            if (!IsValueHex && CheckSyntax.CanParseValue(ElementType, Value))
                 this.Value = Conversions.ParseValue(ElementType, Value);
-            else if (IsHex && CheckSyntax.CanParseHex(ElementType, Value))
+            else if (IsValueHex && CheckSyntax.CanParseHex(ElementType, Value))
                 this.Value = Conversions.ParseHexAsDec(ElementType, Value);
         }
 
@@ -91,7 +87,7 @@ namespace Anathema.Source.Project.ProjectItems
             if (Value == null)
                 return "-";
 
-            if (IsHex && CheckSyntax.CanParseValue(ElementType, Value.ToString()))
+            if (IsValueHex && CheckSyntax.CanParseValue(ElementType, Value.ToString()))
                 return Conversions.ParseDecAsHex(ElementType, Value.ToString());
 
             return Value.ToString();

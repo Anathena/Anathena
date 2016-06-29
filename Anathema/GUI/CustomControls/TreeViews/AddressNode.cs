@@ -1,4 +1,5 @@
 ﻿using Aga.Controls.Tree;
+using Anathema.Source.Project.ProjectItems;
 using System;
 
 namespace Anathema.GUI
@@ -9,7 +10,7 @@ namespace Anathema.GUI
     /// 
     /// Until then keep the public name strings in sync with the column headers for the address table
     /// </summary>
-    public class AddressNode : Node
+    public class ProjectNode : Node
     {
         public String FreezeCheckBox { get; set; }
         public String EntryIcon { get; set; }
@@ -18,6 +19,7 @@ namespace Anathema.GUI
         public String EntryType { get; set; }
         public String EntryValue { get; set; }
 
+        public ProjectItem ProjectItem { get; set; }
 
         private Boolean _Checked;
         /// <summary>
@@ -33,7 +35,7 @@ namespace Anathema.GUI
         /// Initializes a new MyNode class with a given Text property.
         /// </summary>
         /// <param name="text">String to set the text property with.</param>
-        public AddressNode(String EntryDescription, String EntryAddress, String EntryType, String EntryValue) : base(String.Empty)
+        public ProjectNode(String EntryDescription, String EntryAddress, String EntryType, String EntryValue) : base(String.Empty)
         {
             this.EntryDescription = EntryDescription;
             this.EntryAddress = EntryAddress;

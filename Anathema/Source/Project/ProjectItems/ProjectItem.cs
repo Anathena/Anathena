@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Reflection;
 using System.Runtime.Serialization;
@@ -8,17 +9,31 @@ namespace Anathema.Source.Project.ProjectItems
     [Obfuscation(ApplyToMembers = false)]
     [Obfuscation(Exclude = true)]
     [DataContract()]
-    public class TableItem
+    public class ProjectItem
     {
         [Obfuscation(Exclude = true)]
         [DataMember()]
-        public Int32 ParentDepth
+        public ProjectItem Parent
         {
             [Obfuscation(Exclude = true)]
             get;
             [Obfuscation(Exclude = true)]
             set;
         }
+
+        [Obfuscation(Exclude = true)]
+        [DataMember()]
+        public IEnumerable<ProjectItem> Children
+        {
+            [Obfuscation(Exclude = true)]
+            get;
+            [Obfuscation(Exclude = true)]
+            set;
+        }
+
+        [Obfuscation(Exclude = true)]
+        [DataMember()]
+        public String Description { get; set; }
 
         [Obfuscation(Exclude = true)]
         [DataMember()]
@@ -42,9 +57,10 @@ namespace Anathema.Source.Project.ProjectItems
         [Obfuscation(Exclude = true)]
         protected Boolean Activated;
 
-        public TableItem()
+        public ProjectItem()
         {
-            ParentDepth = 0;
+            Parent = null;
+            Children = null;
             TextColor = SystemColors.ControlText;
             Activated = false;
         }

@@ -96,7 +96,7 @@
             this.AddAddressButton.Image = global::Anathema.Properties.Resources.Increased;
             this.AddAddressButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.AddAddressButton.Name = "AddAddressButton";
-            this.AddAddressButton.Size = new System.Drawing.Size(29, 20);
+            this.AddAddressButton.Size = new System.Drawing.Size(21, 20);
             this.AddAddressButton.Text = "Add New Address";
             this.AddAddressButton.Click += new System.EventHandler(this.AddAddressButton_Click);
             // 
@@ -107,10 +107,10 @@
             this.ProjectToolStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.AddAddressButton});
             this.ProjectToolStrip.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.VerticalStackWithOverflow;
-            this.ProjectToolStrip.Location = new System.Drawing.Point(496, 0);
+            this.ProjectToolStrip.Location = new System.Drawing.Point(504, 0);
             this.ProjectToolStrip.Name = "ProjectToolStrip";
             this.ProjectToolStrip.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
-            this.ProjectToolStrip.Size = new System.Drawing.Size(32, 225);
+            this.ProjectToolStrip.Size = new System.Drawing.Size(24, 225);
             this.ProjectToolStrip.TabIndex = 150;
             // 
             // AddressTableTreeView
@@ -140,10 +140,11 @@
             this.AddressTableTreeView.SelectedNode = null;
             this.AddressTableTreeView.SelectionMode = Aga.Controls.Tree.TreeSelectionMode.Multi;
             this.AddressTableTreeView.ShowLines = false;
-            this.AddressTableTreeView.Size = new System.Drawing.Size(496, 225);
+            this.AddressTableTreeView.Size = new System.Drawing.Size(504, 225);
             this.AddressTableTreeView.TabIndex = 154;
             this.AddressTableTreeView.Text = "Address Table";
             this.AddressTableTreeView.UseColumns = true;
+            this.AddressTableTreeView.NodeMouseDoubleClick += new System.EventHandler<Aga.Controls.Tree.TreeNodeAdvMouseEventArgs>(this.AddressTableTreeView_NodeMouseDoubleClick);
             // 
             // EntryDescriptionColumn
             // 
