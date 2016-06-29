@@ -1,7 +1,8 @@
 ﻿using Anathema.Source.Engine;
 using Anathema.Source.Engine.DotNetObjectCollector;
 using Anathema.Source.Engine.Processes;
-using Anathema.Source.Tables.Addresses;
+using Anathema.Source.Project;
+using Anathema.Source.Project.ProjectItems;
 using System.Collections.Generic;
 
 namespace Anathema.Source.Utils.DotNetExplorer
@@ -37,7 +38,7 @@ namespace Anathema.Source.Utils.DotNetExplorer
         public void AddToTable(DotNetObject DotNetObject)
         {
             AddressItem AddressItem = new AddressItem(DotNetObject.GetFullName(), DotNetObject.GetElementType(), DotNetObject.GetName());
-            AddressTable.GetInstance().AddAddressItem(AddressItem);
+            ProjectExplorer.GetInstance().AddAddressItem(AddressItem);
         }
 
         public void RefreshObjectTrees()

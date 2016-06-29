@@ -1,5 +1,5 @@
 ﻿using Anathema.Source.LuaEngine;
-using Anathema.Source.Tables.Scripts.Editor;
+using Anathema.Source.Project.Editors.ScriptEditor;
 using Anathema.Source.Utils;
 using Anathema.Source.Utils.MVP;
 using ScintillaNET;

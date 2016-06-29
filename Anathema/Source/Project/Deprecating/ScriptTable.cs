@@ -1,9 +1,10 @@
 ﻿using Anathema.Source.Controller;
-using Anathema.Source.Tables.Scripts.Editor;
+using Anathema.Source.Project.Editors.ScriptEditor;
+using Anathema.Source.Project.ProjectItems;
 using System;
 using System.Collections.Generic;
 
-namespace Anathema.Source.Tables.Scripts
+namespace Anathema.Source.Project.Deprecating
 {
     /// <summary>
     /// Handles the displaying of results

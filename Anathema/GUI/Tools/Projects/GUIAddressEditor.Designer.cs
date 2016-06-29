@@ -1,6 +1,6 @@
 ﻿namespace Anathema
 {
-    partial class GUIAddressTableEntryEditor
+    partial class GUIAddressEditor
     {
         /// <summary>
         /// Required designer variable.
@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(GUIAddressTableEntryEditor));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(GUIAddressEditor));
             this.DescriptionTextBox = new System.Windows.Forms.TextBox();
             this.ValueTypeComboBox = new System.Windows.Forms.ComboBox();
             this.DescriptionLabel = new System.Windows.Forms.Label();

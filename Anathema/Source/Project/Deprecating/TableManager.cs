@@ -1,7 +1,6 @@
 ﻿using Anathema.Source.Controller;
+using Anathema.Source.Project.ProjectItems;
 using Anathema.Source.Scanners.FiniteStateScanner;
-using Anathema.Source.Tables.Addresses;
-using Anathema.Source.Tables.Scripts;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -9,7 +8,7 @@ using System.Reflection;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Json;
 
-namespace Anathema.Source.Tables
+namespace Anathema.Source.Project.Deprecating
 {
     /// <summary>
     /// Handles the displaying of results
@@ -69,7 +68,7 @@ namespace Anathema.Source.Tables
                     DataContractJsonSerializer Serializer = new DataContractJsonSerializer(typeof(TableData));
 
                     // Gather items we need to save
-                    CurrentTableData.AddressItems = AddressTable.GetInstance().GetAddressItems();
+                    CurrentTableData.AddressItems = ProjectExplorer.GetInstance().GetAddressItems();
                     CurrentTableData.ScriptItems = ScriptTable.GetInstance().GetScriptItems();
 
                     Serializer.WriteObject(FileStream, CurrentTableData);
@@ -87,6 +86,9 @@ namespace Anathema.Source.Tables
         [Obfuscation(Exclude = true)]
         public Boolean OpenTable(String Path)
         {
+            if (Path == null || Path == String.Empty)
+                return false;
+
             // DELETE XML SERIALIZER EVENTUALLY (Legacy loading scheme, switched to JSON)
             try
             {
@@ -96,7 +98,7 @@ namespace Anathema.Source.Tables
                     CurrentTableData = (TableData)Serializer.ReadObject(FileStream);
 
                     // Distribute loaded items to the appropriate tables
-                    AddressTable.GetInstance().SetAddressItems(CurrentTableData.AddressItems);
+                    ProjectExplorer.GetInstance().SetAddressItems(CurrentTableData.AddressItems);
                     ScriptTable.GetInstance().SetScriptItems(CurrentTableData.ScriptItems);
                 }
             }
@@ -110,7 +112,7 @@ namespace Anathema.Source.Tables
                         CurrentTableData = (TableData)Serializer.ReadObject(FileStream);
 
                         // Distribute loaded items to the appropriate tables
-                        AddressTable.GetInstance().SetAddressItems(CurrentTableData.AddressItems);
+                        ProjectExplorer.GetInstance().SetAddressItems(CurrentTableData.AddressItems);
                         ScriptTable.GetInstance().SetScriptItems(CurrentTableData.ScriptItems);
                     }
                 }
@@ -127,6 +129,9 @@ namespace Anathema.Source.Tables
         [Obfuscation(Exclude = true)]
         public Boolean MergeTable(String Path)
         {
+            if (Path == null || Path == String.Empty)
+                return false;
+
             try
             {
                 using (FileStream FileStream = new FileStream(Path, FileMode.Open, FileAccess.Read))
@@ -136,7 +141,7 @@ namespace Anathema.Source.Tables
 
                     // Distribute loaded items to the appropriate tables
                     foreach (AddressItem Item in CurrentTableData.AddressItems)
-                        AddressTable.GetInstance().AddAddressItem(Item);
+                        ProjectExplorer.GetInstance().AddAddressItem(Item);
 
                     foreach (ScriptItem Item in CurrentTableData.ScriptItems)
                         ScriptTable.GetInstance().AddScriptItem(Item);

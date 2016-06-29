@@ -1,5 +1,6 @@
-﻿using Anathema.Source.Tables.Addresses;
-using Anathema.Source.Tables.Addresses.Editor;
+﻿using Anathema.Source.Project;
+using Anathema.Source.Project.Editors.AddressEditor;
+using Anathema.Source.Project.ProjectItems;
 using Anathema.Source.Utils;
 using Anathema.Source.Utils.Validation;
 using System;
@@ -11,19 +12,19 @@ using System.Windows.Forms;
 
 namespace Anathema
 {
-    partial class GUIAddressTableEntryEditor : Form, ITableAddressEntryEditorView
+    partial class GUIAddressEditor : Form, IAddressEditorView
     {
-        private TableAddressEntryEditorPresenter TableAddressEntryEditorPresenter;
-        private IEnumerable<Int32> AddressTableItemIndicies;
+        private AdressEditorPresenter AdressEditorPresenter;
+        private IEnumerable<Int32> AddressItemIndicies;
         private Int32 MainSelection;
         private Color ItemColor;
 
-        public GUIAddressTableEntryEditor(Int32 MainSelection, IEnumerable<Int32> AddressTableItemIndicies, AddressTable.TableColumnEnum ColumnSelection)
+        public GUIAddressEditor(Int32 MainSelection, IEnumerable<Int32> AddressItemIndicies, ProjectExplorer.TableColumnEnum ColumnSelection)
         {
             InitializeComponent();
 
             this.MinimumSize = new Size(this.Width, this.Height);
-            this.AddressTableItemIndicies = AddressTableItemIndicies;
+            this.AddressItemIndicies = AddressItemIndicies;
             this.MainSelection = MainSelection;
 
             this.OffsetTextBox.SetElementType(typeof(Int32));
@@ -33,27 +34,27 @@ namespace Anathema
 
             switch (ColumnSelection)
             {
-                case AddressTable.TableColumnEnum.Description:
+                case ProjectExplorer.TableColumnEnum.Description:
                     DescriptionTextBox.Select();
                     break;
-                case AddressTable.TableColumnEnum.ValueType:
+                case ProjectExplorer.TableColumnEnum.ValueType:
                     ValueTypeComboBox.Select();
                     break;
-                case AddressTable.TableColumnEnum.Address:
+                case ProjectExplorer.TableColumnEnum.Address:
                     AddressTextBox.Select();
                     break;
-                case AddressTable.TableColumnEnum.Value:
+                case ProjectExplorer.TableColumnEnum.Value:
                     ValueTextBox.Select();
                     break;
             }
 
-            this.TableAddressEntryEditorPresenter = new TableAddressEntryEditorPresenter(this, new TableAddressEntryEditor());
+            this.AdressEditorPresenter = new AdressEditorPresenter(this, new TableAddressEntryEditor());
         }
 
         private void InitializeDefaultItems()
         {
             // Collect address item that was opened and set the display properties
-            AddressItem AddressItem = AddressTable.GetInstance().GetAddressItemAt(AddressTableItemIndicies.Last());
+            AddressItem AddressItem = ProjectExplorer.GetInstance().GetAddressItemAt(AddressItemIndicies.Last());
             DescriptionTextBox.Text = AddressItem.Description;
             ValueTypeComboBox.SelectedIndex = ValueTypeComboBox.Items.IndexOf(AddressItem.ElementType.Name);
             AddressTextBox.Text = AddressItem.BaseAddress;
@@ -97,7 +98,7 @@ namespace Anathema
         private void OkButton_Click(Object Sender, EventArgs E)
         {
             // Accept the updated changes
-            TableAddressEntryEditorPresenter.AcceptChanges(MainSelection, AddressTableItemIndicies, DescriptionTextBox.Text, AddressTextBox.GetRawValue(),
+            AdressEditorPresenter.AcceptChanges(MainSelection, AddressItemIndicies, DescriptionTextBox.Text, AddressTextBox.GetRawValue(),
                 ValueTypeComboBox.SelectedItem.ToString(), ValueTextBox.GetValueAsDecimal(), OffsetListBox.Items.OfType<String>(), ValueTextBox.IsHex, ItemColor);
 
             this.Close();

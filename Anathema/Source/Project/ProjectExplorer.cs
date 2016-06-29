@@ -1,15 +1,17 @@
 ﻿using Anathema.Source.Engine;
 using Anathema.Source.Engine.Processes;
+using Anathema.Source.Project.Deprecating;
+using Anathema.Source.Project.ProjectItems;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Anathema.Source.Tables.Addresses
+namespace Anathema.Source.Project
 {
     /// <summary>
     /// Handles the displaying of results
     /// </summary>
-    class AddressTable : IAddressTableModel, IProcessObserver
+    class ProjectExplorer : IProjectExplorerModel, IProcessObserver
     {
         public enum TableColumnEnum
         {
@@ -21,7 +23,7 @@ namespace Anathema.Source.Tables.Addresses
         }
 
         // Singleton instance of address table
-        private static Lazy<AddressTable> AddressTableInstance = new Lazy<AddressTable>(() => { return new AddressTable(); });
+        private static Lazy<ProjectExplorer> ProjectExplorerInstance = new Lazy<ProjectExplorer>(() => { return new ProjectExplorer(); });
 
         private EngineCore EngineCore;
 
@@ -30,7 +32,7 @@ namespace Anathema.Source.Tables.Addresses
         private Int32 StartReadIndex;
         private Int32 EndReadIndex;
 
-        private AddressTable()
+        private ProjectExplorer()
         {
             InitializeProcessObserver();
             AddressItems = new List<AddressItem>();
@@ -43,12 +45,12 @@ namespace Anathema.Source.Tables.Addresses
             UpdateAddressTableItemCount();
         }
 
-        public static AddressTable GetInstance()
+        public static ProjectExplorer GetInstance()
         {
-            return AddressTableInstance.Value;
+            return ProjectExplorerInstance.Value;
         }
 
-        ~AddressTable()
+        ~ProjectExplorer()
         {
             TriggerEnd();
         }
@@ -184,7 +186,7 @@ namespace Anathema.Source.Tables.Addresses
 
         private void UpdateAddressTableItemCount()
         {
-            AddressTableEventArgs AddressTableEventArgs = new AddressTableEventArgs();
+            ProjectExplorerEventArgs AddressTableEventArgs = new ProjectExplorerEventArgs();
             AddressTableEventArgs.ItemCount = AddressItems.Count;
             OnEventUpdateAddressTableItemCount(AddressTableEventArgs);
         }
@@ -221,7 +223,7 @@ namespace Anathema.Source.Tables.Addresses
             }
 
             if (AddressItems.Count != 0)
-                OnEventReadValues(new AddressTableEventArgs());
+                OnEventReadValues(new ProjectExplorerEventArgs());
         }
 
         protected override void End() { }

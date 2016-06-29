@@ -1,8 +1,9 @@
 ﻿using Anathema.Source.Engine.Processes;
+using Anathema.Source.Project.ProjectItems;
 using Anathema.Source.Utils.MVP;
 using System;
 
-namespace Anathema.Source.Tables.Scripts.Editor
+namespace Anathema.Source.Project.Editors.ScriptEditor
 {
     delegate void ScriptEditorEventHandler(Object Sender, ScriptEditorEventArgs Args);
     class ScriptEditorEventArgs : EventArgs

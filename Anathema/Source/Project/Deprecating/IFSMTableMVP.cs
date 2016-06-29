@@ -4,7 +4,7 @@ using Anathema.Source.Utils.MVP;
 using System;
 using System.Windows.Forms;
 
-namespace Anathema.Source.Tables.FSMs
+namespace Anathema.Source.Project.Deprecating
 {
     delegate void FSMTableEventHandler(Object Sender, FSMTableEventArgs Args);
     class FSMTableEventArgs : EventArgs

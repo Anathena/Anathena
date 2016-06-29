@@ -1,7 +1,8 @@
-﻿using Anathema.Source.Utils.MVP;
+﻿using Anathema.Source.Project.ProjectItems;
+using Anathema.Source.Utils.MVP;
 using System;
 
-namespace Anathema.Source.Tables.Scripts
+namespace Anathema.Source.Project.Deprecating
 {
     delegate void ScriptTableEventHandler(Object Sender, ScriptTableEventArgs Args);
     class ScriptTableEventArgs : EventArgs

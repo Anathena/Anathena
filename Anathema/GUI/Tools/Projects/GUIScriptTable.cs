@@ -1,4 +1,5 @@
-﻿using Anathema.Source.Tables.Scripts;
+﻿using Anathema.Source.Project.Deprecating;
+using Anathema.Source.Project.ProjectItems;
 using Anathema.Source.Utils;
 using Anathema.Source.Utils.Caches;
 using Anathema.Source.Utils.MVP;

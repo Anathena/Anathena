@@ -39,7 +39,7 @@ namespace Anathema.GUI
         private GUISnapshotManager GUISnapshotManager;
         private GUIResults GUIResults;
         private GUIDotNetExplorer GUIDotNetExplorer;
-        private GUIAddressTable GUIAddressTable;
+        private GUIProjectExplorer GUIProjectExplorer;
         private GUIScriptTable GUIScriptTable;
 
         // EDIT MENU ITEMS
@@ -176,12 +176,12 @@ namespace Anathema.GUI
             CreateInputCorrelator();
             CreateResults();
             CreateSnapshotManager();
-            CreateAddressTable();
+            CreateProjectExplorer();
             CreateScriptTable();
 
             // Force focus preferred windows with shared GUI tabs
             GUIResults.Show();
-            GUIAddressTable.Show();
+            GUIProjectExplorer.Show();
         }
 
         private void CreateCheatBrowser()
@@ -380,16 +380,16 @@ namespace Anathema.GUI
             });
         }
 
-        private void CreateAddressTable()
+        private void CreateProjectExplorer()
         {
             ControlThreadingHelper.InvokeControlAction(ContentPanel, () =>
             {
                 using (TimedLock.Lock(AccessLock))
                 {
-                    if (GUIAddressTable == null || GUIAddressTable.IsDisposed)
-                        GUIAddressTable = new GUIAddressTable();
+                    if (GUIProjectExplorer == null || GUIProjectExplorer.IsDisposed)
+                        GUIProjectExplorer = new GUIProjectExplorer();
 
-                    GUIAddressTable.Show(ContentPanel, DockState.DockBottom);
+                    GUIProjectExplorer.Show(ContentPanel, DockState.DockBottom);
                 }
             });
         }
@@ -611,7 +611,7 @@ namespace Anathema.GUI
 
         private void AddressesToolStripMenuItem_Click(Object Sender, EventArgs E)
         {
-            CreateAddressTable();
+            CreateProjectExplorer();
         }
 
         private void ScriptsToolStripMenuItem_Click(Object Sender, EventArgs E)
@@ -700,7 +700,7 @@ namespace Anathema.GUI
                 SnapshotManagerToolStripMenuItem.Checked = (GUISnapshotManager == null || GUISnapshotManager.IsDisposed) ? false : true;
                 ResultsToolStripMenuItem.Checked = (GUIResults == null || GUIResults.IsDisposed) ? false : true;
                 DotNetExplorerToolStripMenuItem.Checked = (GUIDotNetExplorer == null || GUIDotNetExplorer.IsDisposed) ? false : true;
-                AddressesToolStripMenuItem.Checked = (GUIAddressTable == null || GUIAddressTable.IsDisposed) ? false : true;
+                AddressesToolStripMenuItem.Checked = (GUIProjectExplorer == null || GUIProjectExplorer.IsDisposed) ? false : true;
                 ScriptsToolStripMenuItem.Checked = (GUIScriptTable == null || GUIScriptTable.IsDisposed) ? false : true;
 
                 CodeViewToolStripMenuItem.Checked = (GUICodeView == null || GUICodeView.IsDisposed) ? false : true;
@@ -722,12 +722,12 @@ namespace Anathema.GUI
             // Give the table a chance to ask to save changes
             using (TimedLock.Lock(AccessLock))
             {
-                if (GUIAddressTable != null && !GUIAddressTable.IsDisposed)
-                    GUIAddressTable.Close();
+                if (GUIProjectExplorer != null && !GUIProjectExplorer.IsDisposed)
+                    GUIProjectExplorer.Close();
 
                 try
                 {
-                    if (GUIAddressTable != null && !GUIAddressTable.IsDisposed)
+                    if (GUIProjectExplorer != null && !GUIProjectExplorer.IsDisposed)
                     {
                         E.Cancel = true;
                         return;

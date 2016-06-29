@@ -1,39 +1,40 @@
-﻿using Anathema.Source.Utils;
+﻿using Anathema.Source.Project.ProjectItems;
+using Anathema.Source.Utils;
 using Anathema.Source.Utils.MVP;
 using Anathema.Source.Utils.Setting;
 using Anathema.Source.Utils.Validation;
 using System;
 using System.Collections.Generic;
 
-namespace Anathema.Source.Tables.Addresses
+namespace Anathema.Source.Project
 {
-    delegate void AddressTableEventHandler(Object Sender, AddressTableEventArgs Args);
-    class AddressTableEventArgs : EventArgs
+    delegate void ProjectExplorerEventHandler(Object Sender, ProjectExplorerEventArgs Args);
+    class ProjectExplorerEventArgs : EventArgs
     {
         public Int32 ItemCount = 0;
         public Int32 ClearCacheIndex = -1;
     }
 
-    interface IAddressTableView : IView
+    interface IProjectExplorerTableView : IView
     {
         // Methods invoked by the presenter (upstream)
         void ReadValues();
-        void UpdateAddressTableItemCount(Int32 ItemCount);
+        void UpdateProjectExplorerItemCount(Int32 ItemCount);
     }
 
-    abstract class IAddressTableModel : RepeatedTask, IModel
+    abstract class IProjectExplorerModel : RepeatedTask, IModel
     {
         public virtual void OnGUIOpen() { }
 
         // Events triggered by the model (upstream)
-        public event AddressTableEventHandler EventReadValues;
-        protected virtual void OnEventReadValues(AddressTableEventArgs E)
+        public event ProjectExplorerEventHandler EventReadValues;
+        protected virtual void OnEventReadValues(ProjectExplorerEventArgs E)
         {
             EventReadValues?.Invoke(this, E);
         }
 
-        public event AddressTableEventHandler EventUpdateAddressTableItemCount;
-        protected virtual void OnEventUpdateAddressTableItemCount(AddressTableEventArgs E)
+        public event ProjectExplorerEventHandler EventUpdateAddressTableItemCount;
+        protected virtual void OnEventUpdateAddressTableItemCount(ProjectExplorerEventArgs E)
         {
             EventUpdateAddressTableItemCount?.Invoke(this, E);
         }
@@ -51,7 +52,6 @@ namespace Anathema.Source.Tables.Addresses
         }
 
         // Functions invoked by presenter (downstream)
-
         public abstract AddressItem GetAddressItemAt(Int32 Index);
         public abstract Int32 GetAddressItemsCount();
         public abstract void SetAddressItemAt(Int32 Index, AddressItem AddressItem);
@@ -66,12 +66,12 @@ namespace Anathema.Source.Tables.Addresses
         public abstract void UpdateReadBounds(Int32 StartReadIndex, Int32 EndReadIndex);
     }
 
-    class AddressTablePresenter : Presenter<IAddressTableView, IAddressTableModel>
+    class ProjectExplorerPresenter : Presenter<IProjectExplorerTableView, IProjectExplorerModel>
     {
-        private new IAddressTableView View { get; set; }
-        private new IAddressTableModel Model { get; set; }
+        private new IProjectExplorerTableView View { get; set; }
+        private new IProjectExplorerModel Model { get; set; }
 
-        public AddressTablePresenter(IAddressTableView View, IAddressTableModel Model) : base(View, Model)
+        public ProjectExplorerPresenter(IProjectExplorerTableView View, IProjectExplorerModel Model) : base(View, Model)
         {
             this.View = View;
             this.Model = Model;
@@ -124,14 +124,14 @@ namespace Anathema.Source.Tables.Addresses
 
         #region Event definitions for events triggered by the model (upstream)
 
-        private void EventReadValues(Object Sender, AddressTableEventArgs E)
+        private void EventReadValues(Object Sender, ProjectExplorerEventArgs E)
         {
             View.ReadValues();
         }
 
-        private void EventUpdateAddressTableItemCount(Object Sender, AddressTableEventArgs E)
+        private void EventUpdateAddressTableItemCount(Object Sender, ProjectExplorerEventArgs E)
         {
-            View.UpdateAddressTableItemCount(E.ItemCount);
+            View.UpdateProjectExplorerItemCount(E.ItemCount);
         }
 
         #endregion

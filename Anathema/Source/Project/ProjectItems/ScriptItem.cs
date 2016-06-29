@@ -3,7 +3,7 @@ using System;
 using System.Reflection;
 using System.Runtime.Serialization;
 
-namespace Anathema.Source.Tables.Scripts
+namespace Anathema.Source.Project.ProjectItems
 {
     [Obfuscation(ApplyToMembers = false)]
     [Obfuscation(Exclude = true)]

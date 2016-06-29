@@ -1,9 +1,9 @@
-﻿using Anathema.Source.Scanners.FiniteStateScanner;
-using Anathema.Source.Engine;
+﻿using Anathema.Source.Engine;
+using Anathema.Source.Scanners.FiniteStateScanner;
 using System;
 using System.Collections.Generic;
 
-namespace Anathema.Source.Tables.FSMs
+namespace Anathema.Source.Project.Deprecating
 {
     /// <summary>
     /// Handles the displaying of results

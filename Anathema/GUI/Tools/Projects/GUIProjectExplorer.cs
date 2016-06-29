@@ -1,6 +1,7 @@
 ﻿using Aga.Controls.Tree;
 using Aga.Controls.Tree.NodeControls;
-using Anathema.Source.Tables.Addresses;
+using Anathema.Source.Project;
+using Anathema.Source.Project.ProjectItems;
 using Anathema.Source.Utils;
 using Anathema.Source.Utils.Extensions;
 using Anathema.Source.Utils.MVP;
@@ -14,16 +15,16 @@ using WeifenLuo.WinFormsUI.Docking;
 
 namespace Anathema.GUI
 {
-    public partial class GUIAddressTable : DockContent, IAddressTableView
+    public partial class GUIProjectExplorer : DockContent, IProjectExplorerTableView
     {
-        private AddressTablePresenter AddressTablePresenter;
+        private ProjectExplorerPresenter ProjectExplorerPresenter;
         private Dictionary<AddressItem, AddressNode> Cache;
         private static Node DummyNode = new Node();
         private Object AccessLock;
 
         private TreeModel Model;
 
-        public GUIAddressTable()
+        public GUIProjectExplorer()
         {
             InitializeComponent();
 
@@ -35,7 +36,7 @@ namespace Anathema.GUI
 
             AddressTableTreeView.Model = Model;
 
-            AddressTablePresenter = new AddressTablePresenter(this, AddressTable.GetInstance());
+            ProjectExplorerPresenter = new ProjectExplorerPresenter(this, ProjectExplorer.GetInstance());
         }
 
         void CheckIndex(Object Sender, NodeControlValueEventArgs E)
@@ -43,7 +44,7 @@ namespace Anathema.GUI
             E.Value = true;
         }
 
-        public void UpdateAddressTableItemCount(Int32 ItemCount)
+        public void UpdateProjectExplorerItemCount(Int32 ItemCount)
         {
             using (TimedLock.Lock(AccessLock))
             {
@@ -54,7 +55,7 @@ namespace Anathema.GUI
                     Cache.Clear();
                     for (Int32 Index = 0; Index < ItemCount; Index++)
                     {
-                        AddressItem AddressItem = AddressTablePresenter.GetAddressItemAt(Index);
+                        AddressItem AddressItem = ProjectExplorerPresenter.GetAddressItemAt(Index);
                         AddressNode AddressNode = new AddressNode(AddressItem.Description, AddressItem.GetAddressString(), AddressItem.ElementType?.Name, AddressItem.GetValueString());
                         Model.Nodes.Add(AddressNode);
                         Cache.Add(AddressItem, AddressNode);
@@ -66,29 +67,29 @@ namespace Anathema.GUI
 
         public void ReadValues()
         {
+            // Update read bounds
+            ControlThreadingHelper.InvokeControlAction(AddressTableTreeView, () =>
+            {
+                Tuple<Int32, Int32> ReadBounds = new Tuple<Int32, Int32>(0, AddressTableTreeView.AllNodes.Count()); // AddressTableTreeView.GetReadBounds();
+                ProjectExplorerPresenter.UpdateReadBounds(ReadBounds.Item1, ReadBounds.Item2);
+            });
+
             using (TimedLock.Lock(AccessLock))
             {
-                // Update read bounds
-                ControlThreadingHelper.InvokeControlAction(AddressTableTreeView, () =>
-                {
-                    Tuple<Int32, Int32> ReadBounds = new Tuple<Int32, Int32>(0, AddressTableTreeView.AllNodes.Count()); // AddressTableTreeView.GetReadBounds();
-                    AddressTablePresenter.UpdateReadBounds(ReadBounds.Item1, ReadBounds.Item2);
-                });
-
                 ControlThreadingHelper.InvokeControlAction(AddressTableTreeView, () =>
                 {
                     // Perform updates
                     AddressTableTreeView.BeginUpdate();
-                    for (Int32 Index = 0; Index < AddressTablePresenter.GetAddressItemsCount(); Index++)
+                    for (Int32 Index = 0; Index < ProjectExplorerPresenter.GetAddressItemsCount(); Index++)
                     {
-                        AddressItem AddressItem = AddressTablePresenter.GetAddressItemAt(Index);
+                        AddressItem AddressItem = ProjectExplorerPresenter.GetAddressItemAt(Index);
 
                         // Update existing
                         if (Cache.ContainsKey(AddressItem))
                         {
                             Cache[AddressItem].EntryAddress = AddressItem.GetAddressString();
                             Cache[AddressItem].EntryValue = AddressItem.GetValueString();
-                            Cache[AddressItem].IsChecked = AddressItem.GetActivationState();
+                            // Cache[AddressItem].IsChecked = AddressItem.GetActivationState();
                         }
                         // Otherwise create new
                         else
@@ -105,9 +106,9 @@ namespace Anathema.GUI
             }
         }
 
-        private void EditAddressTableEntry(Int32 SelectedItemIndex, Int32 ColumnIndex)
+        private void EditAddressTableEntry(AddressNode Target, Int32 ColumnIndex)
         {
-            GUIAddressTableEntryEditor GUIAddressTableEntryEditor;
+            GUIAddressEditor GUIAddressEditor;
 
             using (TimedLock.Lock(AccessLock))
             {
@@ -120,26 +121,26 @@ namespace Anathema.GUI
                     return;
 
                 // Determine the current column selection based on column index
-                AddressTable.TableColumnEnum ColumnSelection = AddressTable.TableColumnEnum.Frozen;
+                ProjectExplorer.TableColumnEnum ColumnSelection = ProjectExplorer.TableColumnEnum.Frozen;
                 if (ColumnIndex == AddressTableTreeView.Columns.IndexOf(EntryDescriptionColumn))
-                    ColumnSelection = AddressTable.TableColumnEnum.Description;
+                    ColumnSelection = ProjectExplorer.TableColumnEnum.Description;
                 else if (ColumnIndex == AddressTableTreeView.Columns.IndexOf(EntryAddressColumn))
-                    ColumnSelection = AddressTable.TableColumnEnum.Address;
+                    ColumnSelection = ProjectExplorer.TableColumnEnum.Address;
                 else if (ColumnIndex == AddressTableTreeView.Columns.IndexOf(EntryTypeColumn))
-                    ColumnSelection = AddressTable.TableColumnEnum.ValueType;
+                    ColumnSelection = ProjectExplorer.TableColumnEnum.ValueType;
                 else if (ColumnIndex == AddressTableTreeView.Columns.IndexOf(EntryValueColumn))
-                    ColumnSelection = AddressTable.TableColumnEnum.Value;
+                    ColumnSelection = ProjectExplorer.TableColumnEnum.Value;
 
-                GUIAddressTableEntryEditor = new GUIAddressTableEntryEditor(SelectedItemIndex, Indicies, ColumnSelection);
+                GUIAddressEditor = new GUIAddressEditor(666, Indicies, ColumnSelection);
             }
 
             // Create editor for this entry
-            GUIAddressTableEntryEditor.ShowDialog(this);
+            GUIAddressEditor.ShowDialog(this);
         }
 
         public void AddNewAddressItem()
         {
-            AddressTablePresenter.AddNewAddressItem();
+            ProjectExplorerPresenter.AddNewAddressItem();
         }
 
         private void DeleteAddressTableEntries(Int32 StartIndex, Int32 EndIndex)
@@ -151,7 +152,7 @@ namespace Anathema.GUI
 
                 List<Int32> Nodes = new List<Int32>();
                 AddressTableTreeView.SelectedNodes.ForEach(X => Nodes.Add(X.Index));
-                AddressTablePresenter.DeleteTableItems(Nodes);
+                ProjectExplorerPresenter.DeleteTableItems(Nodes);
             }
         }
 

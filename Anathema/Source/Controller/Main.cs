@@ -2,7 +2,7 @@
 using Anathema.Source.Engine.DotNetObjectCollector;
 using Anathema.Source.Engine.Processes;
 using Anathema.Source.Prefilter;
-using Anathema.Source.Tables;
+using Anathema.Source.Project.Deprecating;
 using Anathema.Source.Utils;
 using Anathema.Source.Utils.AddressResolver;
 using Anathema.Source.Utils.Snapshots;

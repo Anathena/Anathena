@@ -1,12 +1,13 @@
-﻿using System;
+﻿using Anathema.Source.Project.ProjectItems;
+using System;
 using System.Collections.Generic;
 
-namespace Anathema.Source.Tables.Addresses.Editor
+namespace Anathema.Source.Project.Editors.AddressEditor
 {
     /// <summary>
     /// Handles the updating of address table items
     /// </summary>
-    class TableAddressEntryEditor : ITableAddressEntryEditorModel
+    class TableAddressEntryEditor : IAddressEditorModel
     {
 
         public TableAddressEntryEditor() { }
@@ -15,7 +16,7 @@ namespace Anathema.Source.Tables.Addresses.Editor
 
         public void AddTableEntryItem(Int32 MainSelection, IEnumerable<Int32> SelectedIndicies, AddressItem AddressItem)
         {
-            AddressTable.GetInstance().SetAddressItemAt(MainSelection, AddressItem);
+            ProjectExplorer.GetInstance().SetAddressItemAt(MainSelection, AddressItem);
         }
 
     } // End class

@@ -1,9 +1,11 @@
 ﻿using Anathema.Source.Engine;
 using Anathema.Source.Engine.Processes;
 using Anathema.Source.LuaEngine;
+using Anathema.Source.Project.Deprecating;
+using Anathema.Source.Project.ProjectItems;
 using System;
 
-namespace Anathema.Source.Tables.Scripts.Editor
+namespace Anathema.Source.Project.Editors.ScriptEditor
 {
     class ScriptEditor : IScriptEditorModel
     {
