@@ -128,27 +128,31 @@ namespace Anathema.GUI
             }
         }
 
+        private ProjectItem GetProjectItemFromNode(TreeNodeAdv TreeNodeAdv)
+        {
+            Node Node = ProjectTree.FindNode(AddressTableTreeView.GetPath(TreeNodeAdv));
+
+            if (Node == null || !typeof(ProjectNode).IsAssignableFrom(Node.GetType()))
+                return null;
+
+            ProjectNode ProjectNode = (ProjectNode)Node;
+            ProjectItem ProjectItem = ProjectNode.ProjectItem;
+
+            return ProjectItem;
+        }
+
         #region Events
 
         private void AddressTableTreeView_NodeMouseDoubleClick(Object Sender, TreeNodeAdvMouseEventArgs E)
         {
-            if (E == null || E.Node == null)
-                return;
-
-            Node Node = ProjectTree.FindNode(AddressTableTreeView.GetPath(E.Node));
-
-            if (Node == null || !typeof(ProjectNode).IsAssignableFrom(Node.GetType()))
-                return;
-
-            ProjectNode ProjectNode = (ProjectNode)Node;
-            ProjectItem ProjectItem = ProjectNode.ProjectItem;
+            ProjectItem ProjectItem = GetProjectItemFromNode(E?.Node);
 
             if (ProjectItem == null)
                 return;
 
             if (ProjectItem.GetType() == typeof(AddressItem))
             {
-
+                EditAddressEntry(null, 0);
             }
             else if (ProjectItem.GetType() == typeof(FolderItem))
             {
@@ -160,8 +164,24 @@ namespace Anathema.GUI
             }
         }
 
+
+        private void AddressToolStripMenuItem_Click(Object Sender, EventArgs E)
+        {
+            AddNewAddressItem();
+        }
+
+        private void FolderToolStripMenuItem_Click(Object Sender, EventArgs E)
+        {
+
+        }
+
         #endregion
 
+        /// <summary>
+        /// DEPRECATED: Will replace property editors with a standalone property editor class
+        /// </summary>
+        /// <param name="Target"></param>
+        /// <param name="ColumnIndex"></param>
         private void EditAddressEntry(ProjectNode Target, Int32 ColumnIndex)
         {
             GUIAddressEditor GUIAddressEditor;
@@ -187,7 +207,7 @@ namespace Anathema.GUI
                 else if (ColumnIndex == AddressTableTreeView.Columns.IndexOf(EntryValueColumn))
                     ColumnSelection = ProjectExplorer.TableColumnEnum.Value;
 
-                GUIAddressEditor = new GUIAddressEditor(666, Indicies, ColumnSelection);
+                GUIAddressEditor = new GUIAddressEditor(Indicies[0], Indicies, ColumnSelection);
             }
 
             // Create editor for this entry
@@ -197,6 +217,11 @@ namespace Anathema.GUI
         public void AddNewAddressItem()
         {
             ProjectExplorerPresenter.AddNewAddressItem();
+        }
+
+        public void AddNewFolderItem()
+        {
+            ProjectExplorerPresenter.AddNewFolderItem();
         }
 
         private void DeleteAddressTableEntries(Int32 StartIndex, Int32 EndIndex)

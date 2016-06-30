@@ -141,7 +141,7 @@ namespace Anathema.Source.Project.Deprecating
 
                     // Distribute loaded items to the appropriate tables
                     foreach (AddressItem Item in CurrentTableData.ProjectItems)
-                        ProjectExplorer.GetInstance().AddAddressItem(Item);
+                        ProjectExplorer.GetInstance().AddProjectItem(Item);
 
                     foreach (ScriptItem Item in CurrentTableData.ScriptItems)
                         ScriptTable.GetInstance().AddScriptItem(Item);

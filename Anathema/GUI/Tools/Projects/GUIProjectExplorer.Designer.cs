@@ -35,8 +35,6 @@
             this.EditAddressEntryToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.DeleteSelectionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.AddNewAddressToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.AddAddressButton = new System.Windows.Forms.ToolStripButton();
-            this.ProjectToolStrip = new System.Windows.Forms.ToolStrip();
             this.AddressTableTreeView = new Aga.Controls.Tree.TreeViewAdv();
             this.EntryDescriptionColumn = new Aga.Controls.Tree.TreeColumn();
             this.EntryTypeColumn = new Aga.Controls.Tree.TreeColumn();
@@ -48,6 +46,10 @@
             this.EntryAddress = new Aga.Controls.Tree.NodeControls.NodeTextBox();
             this.EntryType = new Aga.Controls.Tree.NodeControls.NodeTextBox();
             this.EntryValue = new Aga.Controls.Tree.NodeControls.NodeTextBox();
+            this.ProjectToolStrip = new System.Windows.Forms.ToolStrip();
+            this.AddItemDownButton = new System.Windows.Forms.ToolStripDropDownButton();
+            this.AddressToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.FolderToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ProjectContextMenuStrip.SuspendLayout();
             this.ProjectToolStrip.SuspendLayout();
             this.SuspendLayout();
@@ -90,29 +92,6 @@
             this.AddNewAddressToolStripMenuItem.Text = "Add New Address";
             this.AddNewAddressToolStripMenuItem.Click += new System.EventHandler(this.AddNewAddressToolStripMenuItem_Click);
             // 
-            // AddAddressButton
-            // 
-            this.AddAddressButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.AddAddressButton.Image = global::Anathema.Properties.Resources.Increased;
-            this.AddAddressButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.AddAddressButton.Name = "AddAddressButton";
-            this.AddAddressButton.Size = new System.Drawing.Size(21, 20);
-            this.AddAddressButton.Text = "Add New Address";
-            this.AddAddressButton.Click += new System.EventHandler(this.AddAddressButton_Click);
-            // 
-            // ProjectToolStrip
-            // 
-            this.ProjectToolStrip.Dock = System.Windows.Forms.DockStyle.Right;
-            this.ProjectToolStrip.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
-            this.ProjectToolStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.AddAddressButton});
-            this.ProjectToolStrip.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.VerticalStackWithOverflow;
-            this.ProjectToolStrip.Location = new System.Drawing.Point(504, 0);
-            this.ProjectToolStrip.Name = "ProjectToolStrip";
-            this.ProjectToolStrip.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
-            this.ProjectToolStrip.Size = new System.Drawing.Size(24, 225);
-            this.ProjectToolStrip.TabIndex = 150;
-            // 
             // AddressTableTreeView
             // 
             this.AddressTableTreeView.BackColor = System.Drawing.SystemColors.Window;
@@ -128,7 +107,7 @@
             this.AddressTableTreeView.FullRowSelect = true;
             this.AddressTableTreeView.GridLineStyle = Aga.Controls.Tree.GridLineStyle.Vertical;
             this.AddressTableTreeView.LineColor = System.Drawing.SystemColors.ControlDark;
-            this.AddressTableTreeView.Location = new System.Drawing.Point(0, 0);
+            this.AddressTableTreeView.Location = new System.Drawing.Point(0, 25);
             this.AddressTableTreeView.Model = null;
             this.AddressTableTreeView.Name = "AddressTableTreeView";
             this.AddressTableTreeView.NodeControls.Add(this.FrozenCheckBox);
@@ -140,7 +119,7 @@
             this.AddressTableTreeView.SelectedNode = null;
             this.AddressTableTreeView.SelectionMode = Aga.Controls.Tree.TreeSelectionMode.Multi;
             this.AddressTableTreeView.ShowLines = false;
-            this.AddressTableTreeView.Size = new System.Drawing.Size(504, 225);
+            this.AddressTableTreeView.Size = new System.Drawing.Size(528, 200);
             this.AddressTableTreeView.TabIndex = 154;
             this.AddressTableTreeView.Text = "Address Table";
             this.AddressTableTreeView.UseColumns = true;
@@ -216,6 +195,46 @@
             this.EntryValue.LeftMargin = 3;
             this.EntryValue.ParentColumn = this.EntryAddressColumn;
             // 
+            // ProjectToolStrip
+            // 
+            this.ProjectToolStrip.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
+            this.ProjectToolStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.AddItemDownButton});
+            this.ProjectToolStrip.Location = new System.Drawing.Point(0, 0);
+            this.ProjectToolStrip.Name = "ProjectToolStrip";
+            this.ProjectToolStrip.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
+            this.ProjectToolStrip.Size = new System.Drawing.Size(528, 25);
+            this.ProjectToolStrip.TabIndex = 155;
+            this.ProjectToolStrip.Text = "toolStrip1";
+            // 
+            // AddItemDownButton
+            // 
+            this.AddItemDownButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.AddItemDownButton.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.AddressToolStripMenuItem,
+            this.FolderToolStripMenuItem});
+            this.AddItemDownButton.Image = global::Anathema.Properties.Resources.Increased;
+            this.AddItemDownButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.AddItemDownButton.Name = "AddItemDownButton";
+            this.AddItemDownButton.Size = new System.Drawing.Size(29, 22);
+            this.AddItemDownButton.Text = "AddItemDropDownButton";
+            // 
+            // AddressToolStripMenuItem
+            // 
+            this.AddressToolStripMenuItem.Image = global::Anathema.Properties.Resources.CollectValues;
+            this.AddressToolStripMenuItem.Name = "AddressToolStripMenuItem";
+            this.AddressToolStripMenuItem.Size = new System.Drawing.Size(168, 22);
+            this.AddressToolStripMenuItem.Text = "Add New Address";
+            this.AddressToolStripMenuItem.Click += new System.EventHandler(this.AddressToolStripMenuItem_Click);
+            // 
+            // FolderToolStripMenuItem
+            // 
+            this.FolderToolStripMenuItem.Image = global::Anathema.Properties.Resources.Open;
+            this.FolderToolStripMenuItem.Name = "FolderToolStripMenuItem";
+            this.FolderToolStripMenuItem.Size = new System.Drawing.Size(168, 22);
+            this.FolderToolStripMenuItem.Text = "Add New Folder";
+            this.FolderToolStripMenuItem.Click += new System.EventHandler(this.FolderToolStripMenuItem_Click);
+            // 
             // GUIProjectExplorer
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -241,8 +260,6 @@
         private System.Windows.Forms.ToolStripMenuItem EditAddressEntryToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem DeleteSelectionToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem AddNewAddressToolStripMenuItem;
-        private System.Windows.Forms.ToolStripButton AddAddressButton;
-        private System.Windows.Forms.ToolStrip ProjectToolStrip;
         private Aga.Controls.Tree.TreeViewAdv AddressTableTreeView;
         private Aga.Controls.Tree.TreeColumn EntryDescriptionColumn;
         private Aga.Controls.Tree.TreeColumn EntryTypeColumn;
@@ -254,5 +271,9 @@
         private Aga.Controls.Tree.NodeControls.NodeTextBox EntryType;
         private Aga.Controls.Tree.NodeControls.NodeTextBox EntryValue;
         private Aga.Controls.Tree.NodeControls.NodeTextBox EntryAddress;
+        private System.Windows.Forms.ToolStrip ProjectToolStrip;
+        private System.Windows.Forms.ToolStripDropDownButton AddItemDownButton;
+        private System.Windows.Forms.ToolStripMenuItem AddressToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem FolderToolStripMenuItem;
     }
 }

@@ -97,6 +97,14 @@ namespace Anathema.Source.Project
             ProjectItems[Index].SetActivationState(Activated);
         }
 
+        public override void AddProjectItem(ProjectItem ProjectItem)
+        {
+            ProjectItems.Add(ProjectItem);
+            UpdateAddressTableItemCount();
+
+            TableManager.GetInstance().TableChanged();
+        }
+
         public override void AddAddressItem(String BaseAddress, Type ElementType, String Description, IEnumerable<Int32> Offsets = null, Boolean IsHex = false, String Value = null)
         {
             ProjectItems.Add(new AddressItem(BaseAddress, ElementType, Description, Offsets, IsHex, Value));
@@ -106,9 +114,9 @@ namespace Anathema.Source.Project
             TableManager.GetInstance().TableChanged();
         }
 
-        public override void AddAddressItem(AddressItem AddressItem)
+        public override void AddFolderItem(String FolderName)
         {
-            ProjectItems.Add(AddressItem);
+            ProjectItems.Add(new FolderItem(FolderName));
             UpdateAddressTableItemCount();
 
             TableManager.GetInstance().TableChanged();

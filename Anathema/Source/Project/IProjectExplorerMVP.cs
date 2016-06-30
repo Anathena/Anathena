@@ -59,8 +59,9 @@ namespace Anathema.Source.Project
 
         public abstract void ReorderItem(Int32 SourceIndex, Int32 DestinationIndex);
 
+        public abstract void AddProjectItem(ProjectItem ProjectItem);
         public abstract void AddAddressItem(String BaseAddress, Type ElementType, String Description, IEnumerable<Int32> Offsets = null, Boolean IsHex = false, String Value = null);
-        public abstract void AddAddressItem(AddressItem AddressItem);
+        public abstract void AddFolderItem(String Description);
         public abstract void DeleteTableItems(IEnumerable<Int32> Items);
 
         public abstract void UpdateReadBounds(Int32 StartReadIndex, Int32 EndReadIndex);
@@ -102,7 +103,12 @@ namespace Anathema.Source.Project
 
         public void AddNewAddressItem()
         {
-            Model.AddAddressItem(Conversions.ToAddress(IntPtr.Zero), typeof(Int32), "No Description");
+            Model.AddAddressItem(Conversions.ToAddress(IntPtr.Zero), typeof(Int32), "New Address");
+        }
+
+        public void AddNewFolderItem()
+        {
+            Model.AddFolderItem("New Folder");
         }
 
         public void DeleteTableItems(IEnumerable<Int32> Indicies)
