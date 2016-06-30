@@ -11,7 +11,7 @@ namespace Anathema.Source.Project
     /// <summary>
     /// Handles the displaying of results
     /// </summary>
-    class ProjectExplorer : IProjectExplorerModel, IProcessObserver
+    class ScratchPad : IScratchPadModel, IProcessObserver
     {
         public enum TableColumnEnum
         {
@@ -23,7 +23,7 @@ namespace Anathema.Source.Project
         }
 
         // Singleton instance of address table
-        private static Lazy<ProjectExplorer> ProjectExplorerInstance = new Lazy<ProjectExplorer>(() => { return new ProjectExplorer(); });
+        private static Lazy<ScratchPad> ScratchPadInstance = new Lazy<ScratchPad>(() => { return new ScratchPad(); });
 
         private EngineCore EngineCore;
 
@@ -32,7 +32,7 @@ namespace Anathema.Source.Project
         private Int32 VisibleIndexStart;
         private Int32 VisibleIndexEnd;
 
-        private ProjectExplorer()
+        private ScratchPad()
         {
             InitializeProcessObserver();
             ProjectItems = new List<ProjectItem>();
@@ -42,15 +42,15 @@ namespace Anathema.Source.Project
 
         public override void OnGUIOpen()
         {
-            UpdateItemCount();
+            UpdateScratchPadItemCount();
         }
 
-        public static ProjectExplorer GetInstance()
+        public static ScratchPad GetInstance()
         {
-            return ProjectExplorerInstance.Value;
+            return ScratchPadInstance.Value;
         }
 
-        ~ProjectExplorer()
+        ~ScratchPad()
         {
             TriggerEnd();
         }
@@ -100,7 +100,7 @@ namespace Anathema.Source.Project
         public override void AddProjectItem(ProjectItem ProjectItem)
         {
             ProjectItems.Add(ProjectItem);
-            UpdateItemCount();
+            UpdateScratchPadItemCount();
 
             TableManager.GetInstance().TableChanged();
         }
@@ -109,7 +109,7 @@ namespace Anathema.Source.Project
         {
             ProjectItems.Add(new AddressItem(BaseAddress, ElementType, Description, Offsets, IsHex, Value));
 
-            UpdateItemCount();
+            UpdateScratchPadItemCount();
 
             TableManager.GetInstance().TableChanged();
         }
@@ -117,7 +117,7 @@ namespace Anathema.Source.Project
         public override void AddFolderItem(String FolderName)
         {
             ProjectItems.Add(new FolderItem(FolderName));
-            UpdateItemCount();
+            UpdateScratchPadItemCount();
 
             TableManager.GetInstance().TableChanged();
         }
@@ -127,7 +127,7 @@ namespace Anathema.Source.Project
             foreach (Int32 Index in Indicies.OrderByDescending(X => X))
                 ProjectItems.RemoveAt(Index);
 
-            UpdateItemCount();
+            UpdateScratchPadItemCount();
 
             TableManager.GetInstance().TableChanged();
         }
@@ -150,7 +150,7 @@ namespace Anathema.Source.Project
         public void SetProjectItems(List<ProjectItem> AddressItems)
         {
             this.ProjectItems = AddressItems;
-            UpdateItemCount();
+            UpdateScratchPadItemCount();
 
             TableManager.GetInstance().TableChanged();
         }
@@ -170,7 +170,7 @@ namespace Anathema.Source.Project
                     EngineCore.Memory.Write(AddressItem.ElementType, AddressItem.EffectiveAddress, AddressItem.Value);
             }
 
-            UpdateItemCount();
+            UpdateScratchPadItemCount();
 
             TableManager.GetInstance().TableChanged();
         }
@@ -192,16 +192,16 @@ namespace Anathema.Source.Project
             ProjectItem Item = ProjectItems[SourceIndex];
             ProjectItems.RemoveAt(SourceIndex);
             ProjectItems.Insert(DestinationIndex, Item);
-            UpdateItemCount();
+            UpdateScratchPadItemCount();
 
             TableManager.GetInstance().TableChanged();
         }
 
-        private void UpdateItemCount()
+        private void UpdateScratchPadItemCount()
         {
-            ProjectExplorerEventArgs ProjectExplorerEventArgs = new ProjectExplorerEventArgs();
-            ProjectExplorerEventArgs.ItemCount = ProjectItems.Count;
-            OnEventRefreshStructure(ProjectExplorerEventArgs);
+            ScratchPadEventArgs ScratchPadEventArgs = new ScratchPadEventArgs();
+            ScratchPadEventArgs.ItemCount = ProjectItems.Count;
+            OnEventRefreshStructure(ScratchPadEventArgs);
         }
 
         public override void Begin()
@@ -242,7 +242,7 @@ namespace Anathema.Source.Project
             }
 
             if (ProjectItems.Count != 0)
-                OnEventReadValues(new ProjectExplorerEventArgs());
+                OnEventReadValues(new ScratchPadEventArgs());
         }
 
         protected override void End() { }

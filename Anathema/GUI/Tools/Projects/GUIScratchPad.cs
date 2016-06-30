@@ -15,14 +15,14 @@ using WeifenLuo.WinFormsUI.Docking;
 
 namespace Anathema.GUI
 {
-    public partial class GUIProjectExplorer : DockContent, IProjectExplorerView
+    public partial class GUIScratchPad : DockContent, IScratchPadView
     {
-        private ProjectExplorerPresenter ProjectExplorerPresenter;
+        private ScratchPadPresenter ScratchPadPresenter;
         private Dictionary<ProjectItem, ProjectNode> Cache;
         private TreeModel ProjectTree;
         private Object AccessLock;
 
-        public GUIProjectExplorer()
+        public GUIScratchPad()
         {
             InitializeComponent();
 
@@ -34,7 +34,7 @@ namespace Anathema.GUI
 
             AddressTableTreeView.Model = ProjectTree;
 
-            ProjectExplorerPresenter = new ProjectExplorerPresenter(this, ProjectExplorer.GetInstance());
+            ScratchPadPresenter = new ScratchPadPresenter(this, ScratchPad.GetInstance());
         }
 
         void CheckIndex(Object Sender, NodeControlValueEventArgs E)
@@ -44,7 +44,7 @@ namespace Anathema.GUI
 
         public void RefreshStructure()
         {
-            if (ProjectExplorerPresenter == null)
+            if (ScratchPadPresenter == null)
                 return;
 
             using (TimedLock.Lock(AccessLock))
@@ -54,9 +54,9 @@ namespace Anathema.GUI
                     AddressTableTreeView.BeginUpdate();
                     ProjectTree.Nodes.Clear();
                     Cache.Clear();
-                    for (Int32 Index = 0; Index < ProjectExplorerPresenter.GetItemCount(); Index++)
+                    for (Int32 Index = 0; Index < ScratchPadPresenter.GetItemCount(); Index++)
                     {
-                        ProjectItem ProjectItem = ProjectExplorerPresenter.GetProjectItemAt(Index);
+                        ProjectItem ProjectItem = ScratchPadPresenter.GetProjectItemAt(Index);
 
                         if (ProjectItem.GetType() == typeof(AddressItem))
                         {
@@ -79,14 +79,14 @@ namespace Anathema.GUI
 
         public void ReadValues()
         {
-            if (ProjectExplorerPresenter == null)
+            if (ScratchPadPresenter == null)
                 return;
 
             // Update read bounds
             ControlThreadingHelper.InvokeControlAction(AddressTableTreeView, () =>
             {
                 Tuple<Int32, Int32> ReadBounds = new Tuple<Int32, Int32>(0, AddressTableTreeView.AllNodes.Count()); // AddressTableTreeView.GetReadBounds();
-                ProjectExplorerPresenter.UpdateReadBounds(ReadBounds.Item1, ReadBounds.Item2);
+                ScratchPadPresenter.UpdateReadBounds(ReadBounds.Item1, ReadBounds.Item2);
             });
 
             using (TimedLock.Lock(AccessLock))
@@ -95,9 +95,9 @@ namespace Anathema.GUI
                 {
                     // Perform updates
                     AddressTableTreeView.BeginUpdate();
-                    for (Int32 Index = 0; Index < ProjectExplorerPresenter.GetItemCount(); Index++)
+                    for (Int32 Index = 0; Index < ScratchPadPresenter.GetItemCount(); Index++)
                     {
-                        ProjectItem ProjectItem = ProjectExplorerPresenter.GetProjectItemAt(Index);
+                        ProjectItem ProjectItem = ScratchPadPresenter.GetProjectItemAt(Index);
 
                         if (ProjectItem.GetType() == typeof(AddressItem))
                         {
@@ -216,12 +216,12 @@ namespace Anathema.GUI
 
         public void AddNewAddressItem()
         {
-            ProjectExplorerPresenter.AddNewAddressItem();
+            ScratchPadPresenter.AddNewAddressItem();
         }
 
         public void AddNewFolderItem()
         {
-            ProjectExplorerPresenter.AddNewFolderItem();
+            ScratchPadPresenter.AddNewFolderItem();
         }
 
         private void DeleteAddressTableEntries(Int32 StartIndex, Int32 EndIndex)
@@ -233,7 +233,7 @@ namespace Anathema.GUI
 
                 List<Int32> Nodes = new List<Int32>();
                 AddressTableTreeView.SelectedNodes.ForEach(X => Nodes.Add(X.Index));
-                ProjectExplorerPresenter.DeleteTableItems(Nodes);
+                ScratchPadPresenter.DeleteTableItems(Nodes);
             }
         }
 

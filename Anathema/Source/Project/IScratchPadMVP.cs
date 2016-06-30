@@ -8,33 +8,33 @@ using System.Collections.Generic;
 
 namespace Anathema.Source.Project
 {
-    delegate void ProjectExplorerEventHandler(Object Sender, ProjectExplorerEventArgs Args);
-    class ProjectExplorerEventArgs : EventArgs
+    delegate void ScratchPadEventHandler(Object Sender, ScratchPadEventArgs Args);
+    class ScratchPadEventArgs : EventArgs
     {
         public Int32 ItemCount = 0;
         public Int32 ClearCacheIndex = -1;
     }
 
-    interface IProjectExplorerView : IView
+    interface IScratchPadView : IView
     {
         // Methods invoked by the presenter (upstream)
         void ReadValues();
         void RefreshStructure();
     }
 
-    abstract class IProjectExplorerModel : RepeatedTask, IModel
+    abstract class IScratchPadModel : RepeatedTask, IModel
     {
         public virtual void OnGUIOpen() { }
 
         // Events triggered by the model (upstream)
-        public event ProjectExplorerEventHandler EventReadValues;
-        protected virtual void OnEventReadValues(ProjectExplorerEventArgs E)
+        public event ScratchPadEventHandler EventReadValues;
+        protected virtual void OnEventReadValues(ScratchPadEventArgs E)
         {
             EventReadValues?.Invoke(this, E);
         }
 
-        public event ProjectExplorerEventHandler EventRefreshStructure;
-        protected virtual void OnEventRefreshStructure(ProjectExplorerEventArgs E)
+        public event ScratchPadEventHandler EventRefreshStructure;
+        protected virtual void OnEventRefreshStructure(ScratchPadEventArgs E)
         {
             EventRefreshStructure?.Invoke(this, E);
         }
@@ -67,12 +67,12 @@ namespace Anathema.Source.Project
         public abstract void UpdateReadBounds(Int32 StartReadIndex, Int32 EndReadIndex);
     }
 
-    class ProjectExplorerPresenter : Presenter<IProjectExplorerView, IProjectExplorerModel>
+    class ScratchPadPresenter : Presenter<IScratchPadView, IScratchPadModel>
     {
-        private new IProjectExplorerView View { get; set; }
-        private new IProjectExplorerModel Model { get; set; }
+        private new IScratchPadView View { get; set; }
+        private new IScratchPadModel Model { get; set; }
 
-        public ProjectExplorerPresenter(IProjectExplorerView View, IProjectExplorerModel Model) : base(View, Model)
+        public ScratchPadPresenter(IScratchPadView View, IScratchPadModel Model) : base(View, Model)
         {
             this.View = View;
             this.Model = Model;
@@ -130,12 +130,12 @@ namespace Anathema.Source.Project
 
         #region Event definitions for events triggered by the model (upstream)
 
-        private void EventReadValues(Object Sender, ProjectExplorerEventArgs E)
+        private void EventReadValues(Object Sender, ScratchPadEventArgs E)
         {
             View.ReadValues();
         }
 
-        private void EventRefreshStructure(Object Sender, ProjectExplorerEventArgs E)
+        private void EventRefreshStructure(Object Sender, ScratchPadEventArgs E)
         {
             View.RefreshStructure();
         }
