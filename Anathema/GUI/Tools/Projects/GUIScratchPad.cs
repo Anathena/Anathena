@@ -58,7 +58,7 @@ namespace Anathema.GUI
                     {
                         ProjectItem ProjectItem = ScratchPadPresenter.GetProjectItemAt(Index);
 
-                        if (ProjectItem.GetType() == typeof(AddressItem))
+                        if (ProjectItem is AddressItem)
                         {
                             AddressItem AddressItem = (AddressItem)ProjectItem;
 
@@ -99,7 +99,7 @@ namespace Anathema.GUI
                     {
                         ProjectItem ProjectItem = ScratchPadPresenter.GetProjectItemAt(Index);
 
-                        if (ProjectItem.GetType() == typeof(AddressItem))
+                        if (ProjectItem is AddressItem)
                         {
                             AddressItem AddressItem = (AddressItem)ProjectItem;
 
@@ -150,15 +150,15 @@ namespace Anathema.GUI
             if (ProjectItem == null)
                 return;
 
-            if (ProjectItem.GetType() == typeof(AddressItem))
+            if (ProjectItem is AddressItem)
             {
                 EditAddressEntry(null, 0);
             }
-            else if (ProjectItem.GetType() == typeof(FolderItem))
+            else if (ProjectItem is FolderItem)
             {
 
             }
-            else if (ProjectItem.GetType() == typeof(ScriptItem))
+            else if (ProjectItem is ScriptItem)
             {
 
             }

@@ -55,7 +55,7 @@ namespace Anathema
         {
             // Collect address item that was opened and set the display properties
             ProjectItem ProjectItem = ProjectExplorer.GetInstance().GetProjectItemAt(AddressItemIndicies.Last());
-            if (ProjectItem.GetType() == typeof(AddressItem))
+            if (ProjectItem is AddressItem)
             {
                 AddressItem AddressItem = (AddressItem)ProjectItem;
                 DescriptionTextBox.Text = AddressItem.Description;

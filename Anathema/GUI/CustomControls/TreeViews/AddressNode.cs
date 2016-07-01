@@ -29,9 +29,6 @@ namespace Anathema.GUI
             set { _Checked = value; }
         }
 
-        /// <summary>
-        /// Icon to show address node type (.NET object, pointer, etc)
-        /// </summary>
         private Image _Icon;
         public Image Icon
         {

@@ -26,7 +26,7 @@ namespace Anathema.GUI
         {
             InitializeComponent();
 
-            FrozenCheckBox.IsEditEnabledValueNeeded += CheckIndex;
+            EntryCheckBox.IsEditEnabledValueNeeded += CheckIndex;
 
             Cache = new Dictionary<ProjectItem, ProjectNode>();
             ProjectTree = new TreeModel();
@@ -58,19 +58,26 @@ namespace Anathema.GUI
                     {
                         ProjectItem ProjectItem = ProjectExplorerPresenter.GetProjectItemAt(Index);
 
-                        if (ProjectItem.GetType() == typeof(AddressItem))
+                        if (ProjectItem == null)
+                            continue;
+
+                        Image Image = null;
+
+                        if (ProjectItem is AddressItem)
                         {
-                            AddressItem AddressItem = (AddressItem)ProjectItem;
-
-                            if (AddressItem == null)
-                                continue;
-
-                            ProjectNode ProjectNode = new ProjectNode(AddressItem.Description);
-                            ProjectNode.ProjectItem = AddressItem;
-
-                            ProjectTree.Nodes.Add(ProjectNode);
-                            Cache.Add(AddressItem, ProjectNode);
+                            Image = new Bitmap(Properties.Resources.CollectValues);
                         }
+                        else if (ProjectItem is FolderItem)
+                        {
+                            Image = new Bitmap(Properties.Resources.Open);
+                        }
+
+                        ProjectNode ProjectNode = new ProjectNode(ProjectItem.Description);
+                        ProjectNode.ProjectItem = ProjectItem;
+                        ProjectNode.EntryIcon = Image;
+
+                        ProjectTree.Nodes.Add(ProjectNode);
+                        Cache.Add(ProjectItem, ProjectNode);
                         AddressTableTreeView.EndUpdate();
                     }
                 });
@@ -99,7 +106,7 @@ namespace Anathema.GUI
                     {
                         ProjectItem ProjectItem = ProjectExplorerPresenter.GetProjectItemAt(Index);
 
-                        if (ProjectItem.GetType() == typeof(AddressItem))
+                        if (ProjectItem is AddressItem)
                         {
                             AddressItem AddressItem = (AddressItem)ProjectItem;
 
@@ -150,15 +157,15 @@ namespace Anathema.GUI
             if (ProjectItem == null)
                 return;
 
-            if (ProjectItem.GetType() == typeof(AddressItem))
+            if (ProjectItem is AddressItem)
             {
                 EditAddressEntry(null, 0);
             }
-            else if (ProjectItem.GetType() == typeof(FolderItem))
+            else if (ProjectItem is FolderItem)
             {
 
             }
-            else if (ProjectItem.GetType() == typeof(ScriptItem))
+            else if (ProjectItem is ScriptItem)
             {
 
             }
@@ -172,7 +179,7 @@ namespace Anathema.GUI
 
         private void FolderToolStripMenuItem_Click(Object Sender, EventArgs E)
         {
-
+            AddNewFolderItem();
         }
 
         #endregion

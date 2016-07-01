@@ -86,7 +86,7 @@ namespace Anathema.Source.Project
             {
                 ProjectItem ProjectItem = ProjectItems[Index];
 
-                if (ProjectItem.GetType() == typeof(AddressItem))
+                if (ProjectItem is AddressItem)
                 {
                     AddressItem AddressItem = (AddressItem)ProjectItem;
                     Boolean ReadSuccess;
@@ -117,6 +117,7 @@ namespace Anathema.Source.Project
         public override void AddFolderItem(String FolderName)
         {
             ProjectItems.Add(new FolderItem(FolderName));
+
             UpdateItemCount();
 
             TableManager.GetInstance().TableChanged();
@@ -212,14 +213,18 @@ namespace Anathema.Source.Project
         protected override void Update()
         {
             // Freeze addresses
-            foreach (AddressItem Item in ProjectItems)
+            foreach (ProjectItem ProjectItem in ProjectItems)
             {
-                if (Item.GetActivationState())
+                if (ProjectItem is AddressItem)
                 {
-                    Item.ResolveAddress(EngineCore);
+                    AddressItem AddressItem = (AddressItem)ProjectItem;
+                    if (AddressItem.GetActivationState())
+                    {
+                        AddressItem.ResolveAddress(EngineCore);
 
-                    if (EngineCore != null && Item.Value != null)
-                        EngineCore.Memory.Write(Item.ElementType, Item.EffectiveAddress, Item.Value);
+                        if (EngineCore != null && AddressItem.Value != null)
+                            EngineCore.Memory.Write(AddressItem.ElementType, AddressItem.EffectiveAddress, AddressItem.Value);
+                    }
                 }
             }
 
@@ -230,7 +235,7 @@ namespace Anathema.Source.Project
 
                 ProjectItem ProjectItem = ProjectItems[Index];
 
-                if (ProjectItem.GetType() == typeof(AddressItem))
+                if (ProjectItem is AddressItem)
                 {
                     AddressItem AddressItem = (AddressItem)ProjectItem;
                     Boolean ReadSuccess;

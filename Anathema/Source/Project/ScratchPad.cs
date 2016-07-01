@@ -86,7 +86,7 @@ namespace Anathema.Source.Project
             {
                 ProjectItem ProjectItem = ProjectItems[Index];
 
-                if (ProjectItem.GetType() == typeof(AddressItem))
+                if (ProjectItem is AddressItem)
                 {
                     AddressItem AddressItem = (AddressItem)ProjectItem;
                     Boolean ReadSuccess;
@@ -230,7 +230,7 @@ namespace Anathema.Source.Project
 
                 ProjectItem ProjectItem = ProjectItems[Index];
 
-                if (ProjectItem.GetType() == typeof(AddressItem))
+                if (ProjectItem is AddressItem)
                 {
                     AddressItem AddressItem = (AddressItem)ProjectItem;
                     Boolean ReadSuccess;

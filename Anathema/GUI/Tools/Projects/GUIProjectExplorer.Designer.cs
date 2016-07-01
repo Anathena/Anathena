@@ -36,7 +36,7 @@
             this.DeleteSelectionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.AddNewAddressToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.AddressTableTreeView = new Aga.Controls.Tree.TreeViewAdv();
-            this.FrozenCheckBox = new Aga.Controls.Tree.NodeControls.NodeCheckBox();
+            this.EntryCheckBox = new Aga.Controls.Tree.NodeControls.NodeCheckBox();
             this.EntryIcon = new Aga.Controls.Tree.NodeControls.NodeIcon();
             this.EntryDescription = new Aga.Controls.Tree.NodeControls.NodeTextBox();
             this.ProjectToolStrip = new System.Windows.Forms.ToolStrip();
@@ -99,27 +99,29 @@
             this.AddressTableTreeView.Location = new System.Drawing.Point(0, 25);
             this.AddressTableTreeView.Model = null;
             this.AddressTableTreeView.Name = "AddressTableTreeView";
-            this.AddressTableTreeView.NodeControls.Add(this.FrozenCheckBox);
+            this.AddressTableTreeView.NodeControls.Add(this.EntryCheckBox);
             this.AddressTableTreeView.NodeControls.Add(this.EntryIcon);
             this.AddressTableTreeView.NodeControls.Add(this.EntryDescription);
             this.AddressTableTreeView.SelectedNode = null;
             this.AddressTableTreeView.SelectionMode = Aga.Controls.Tree.TreeSelectionMode.Multi;
             this.AddressTableTreeView.ShowLines = false;
-            this.AddressTableTreeView.Size = new System.Drawing.Size(528, 200);
+            this.AddressTableTreeView.Size = new System.Drawing.Size(214, 319);
             this.AddressTableTreeView.TabIndex = 154;
-            this.AddressTableTreeView.Text = "Address Table";
+            this.AddressTableTreeView.Text = "Project Explorer";
             this.AddressTableTreeView.NodeMouseDoubleClick += new System.EventHandler<Aga.Controls.Tree.TreeNodeAdvMouseEventArgs>(this.AddressTableTreeView_NodeMouseDoubleClick);
             // 
-            // FrozenCheckBox
+            // EntryCheckBox
             // 
-            this.FrozenCheckBox.DataPropertyName = "IsChecked";
-            this.FrozenCheckBox.EditEnabled = true;
-            this.FrozenCheckBox.LeftMargin = 0;
+            this.EntryCheckBox.DataPropertyName = "IsChecked";
+            this.EntryCheckBox.EditEnabled = true;
+            this.EntryCheckBox.LeftMargin = 0;
+            this.EntryCheckBox.ParentColumn = null;
             // 
             // EntryIcon
             // 
             this.EntryIcon.DataPropertyName = "EntryIcon";
             this.EntryIcon.LeftMargin = 1;
+            this.EntryIcon.ParentColumn = null;
             this.EntryIcon.ScaleMode = Aga.Controls.Tree.ImageScaleMode.Clip;
             // 
             // EntryDescription
@@ -127,6 +129,7 @@
             this.EntryDescription.DataPropertyName = "EntryDescription";
             this.EntryDescription.IncrementalSearchEnabled = true;
             this.EntryDescription.LeftMargin = 3;
+            this.EntryDescription.ParentColumn = null;
             // 
             // ProjectToolStrip
             // 
@@ -136,7 +139,7 @@
             this.ProjectToolStrip.Location = new System.Drawing.Point(0, 0);
             this.ProjectToolStrip.Name = "ProjectToolStrip";
             this.ProjectToolStrip.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
-            this.ProjectToolStrip.Size = new System.Drawing.Size(528, 25);
+            this.ProjectToolStrip.Size = new System.Drawing.Size(214, 25);
             this.ProjectToolStrip.TabIndex = 155;
             this.ProjectToolStrip.Text = "toolStrip1";
             // 
@@ -172,7 +175,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(528, 225);
+            this.ClientSize = new System.Drawing.Size(214, 344);
             this.Controls.Add(this.AddressTableTreeView);
             this.Controls.Add(this.ProjectToolStrip);
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -194,7 +197,7 @@
         private System.Windows.Forms.ToolStripMenuItem DeleteSelectionToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem AddNewAddressToolStripMenuItem;
         private Aga.Controls.Tree.TreeViewAdv AddressTableTreeView;
-        private Aga.Controls.Tree.NodeControls.NodeCheckBox FrozenCheckBox;
+        private Aga.Controls.Tree.NodeControls.NodeCheckBox EntryCheckBox;
         private Aga.Controls.Tree.NodeControls.NodeIcon EntryIcon;
         private Aga.Controls.Tree.NodeControls.NodeTextBox EntryDescription;
         private System.Windows.Forms.ToolStrip ProjectToolStrip;

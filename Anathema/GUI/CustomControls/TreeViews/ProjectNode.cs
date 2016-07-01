@@ -13,27 +13,10 @@ namespace Anathema.GUI
     /// </summary>
     public class ProjectNode : Node
     {
-        public String FreezeCheckBox { get; set; }
-        public String EntryIcon { get; set; }
         public String EntryDescription { get; set; }
+        public Image EntryIcon { get; set; }
 
         public ProjectItem ProjectItem { get; set; }
-
-        private Boolean _Checked;
-        public Boolean Checked
-        {
-            get { return _Checked; }
-            set { _Checked = value; }
-        }
-
-
-        private Image _Icon;
-        public Image Icon
-        {
-            get { return _Icon; }
-            set { _Icon = value; }
-        }
-
 
         /// <summary>
         /// Initializes a new MyNode class with a given Text property.
@@ -43,8 +26,7 @@ namespace Anathema.GUI
         {
             this.EntryDescription = EntryDescription;
 
-            FreezeCheckBox = String.Empty;
-            EntryIcon = String.Empty;
+            EntryIcon = null;
         }
 
     } // End class
