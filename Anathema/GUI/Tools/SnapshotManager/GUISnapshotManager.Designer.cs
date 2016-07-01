@@ -146,7 +146,7 @@
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "GUISnapshotManager";
-            this.Text = "Snapshot Manager";
+            this.Text = "Snapshots";
             this.ScanToolStrip.ResumeLayout(false);
             this.ScanToolStrip.PerformLayout();
             this.ResumeLayout(false);

@@ -36,16 +36,9 @@
             this.DeleteSelectionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.AddNewAddressToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.AddressTableTreeView = new Aga.Controls.Tree.TreeViewAdv();
-            this.EntryDescriptionColumn = new Aga.Controls.Tree.TreeColumn();
-            this.EntryTypeColumn = new Aga.Controls.Tree.TreeColumn();
-            this.EntryValueColumn = new Aga.Controls.Tree.TreeColumn();
-            this.EntryAddressColumn = new Aga.Controls.Tree.TreeColumn();
             this.FrozenCheckBox = new Aga.Controls.Tree.NodeControls.NodeCheckBox();
             this.EntryIcon = new Aga.Controls.Tree.NodeControls.NodeIcon();
             this.EntryDescription = new Aga.Controls.Tree.NodeControls.NodeTextBox();
-            this.EntryAddress = new Aga.Controls.Tree.NodeControls.NodeTextBox();
-            this.EntryType = new Aga.Controls.Tree.NodeControls.NodeTextBox();
-            this.EntryValue = new Aga.Controls.Tree.NodeControls.NodeTextBox();
             this.ProjectToolStrip = new System.Windows.Forms.ToolStrip();
             this.AddItemDownButton = new System.Windows.Forms.ToolStripDropDownButton();
             this.AddressToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -95,10 +88,6 @@
             // AddressTableTreeView
             // 
             this.AddressTableTreeView.BackColor = System.Drawing.SystemColors.Window;
-            this.AddressTableTreeView.Columns.Add(this.EntryDescriptionColumn);
-            this.AddressTableTreeView.Columns.Add(this.EntryTypeColumn);
-            this.AddressTableTreeView.Columns.Add(this.EntryValueColumn);
-            this.AddressTableTreeView.Columns.Add(this.EntryAddressColumn);
             this.AddressTableTreeView.Cursor = System.Windows.Forms.Cursors.Default;
             this.AddressTableTreeView.DefaultToolTipProvider = null;
             this.AddressTableTreeView.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -113,58 +102,24 @@
             this.AddressTableTreeView.NodeControls.Add(this.FrozenCheckBox);
             this.AddressTableTreeView.NodeControls.Add(this.EntryIcon);
             this.AddressTableTreeView.NodeControls.Add(this.EntryDescription);
-            this.AddressTableTreeView.NodeControls.Add(this.EntryAddress);
-            this.AddressTableTreeView.NodeControls.Add(this.EntryType);
-            this.AddressTableTreeView.NodeControls.Add(this.EntryValue);
             this.AddressTableTreeView.SelectedNode = null;
             this.AddressTableTreeView.SelectionMode = Aga.Controls.Tree.TreeSelectionMode.Multi;
             this.AddressTableTreeView.ShowLines = false;
             this.AddressTableTreeView.Size = new System.Drawing.Size(528, 200);
             this.AddressTableTreeView.TabIndex = 154;
             this.AddressTableTreeView.Text = "Address Table";
-            this.AddressTableTreeView.UseColumns = true;
             this.AddressTableTreeView.NodeMouseDoubleClick += new System.EventHandler<Aga.Controls.Tree.TreeNodeAdvMouseEventArgs>(this.AddressTableTreeView_NodeMouseDoubleClick);
-            // 
-            // EntryDescriptionColumn
-            // 
-            this.EntryDescriptionColumn.Header = "Description";
-            this.EntryDescriptionColumn.SortOrder = System.Windows.Forms.SortOrder.None;
-            this.EntryDescriptionColumn.TooltipText = "Description";
-            this.EntryDescriptionColumn.Width = 160;
-            // 
-            // EntryTypeColumn
-            // 
-            this.EntryTypeColumn.Header = "Address";
-            this.EntryTypeColumn.SortOrder = System.Windows.Forms.SortOrder.None;
-            this.EntryTypeColumn.TooltipText = "Memory Address";
-            this.EntryTypeColumn.Width = 128;
-            // 
-            // EntryValueColumn
-            // 
-            this.EntryValueColumn.Header = "Type";
-            this.EntryValueColumn.SortOrder = System.Windows.Forms.SortOrder.None;
-            this.EntryValueColumn.TooltipText = "Data Type";
-            this.EntryValueColumn.Width = 72;
-            // 
-            // EntryAddressColumn
-            // 
-            this.EntryAddressColumn.Header = "Value";
-            this.EntryAddressColumn.SortOrder = System.Windows.Forms.SortOrder.None;
-            this.EntryAddressColumn.TooltipText = "Value at Address";
-            this.EntryAddressColumn.Width = 128;
             // 
             // FrozenCheckBox
             // 
             this.FrozenCheckBox.DataPropertyName = "IsChecked";
             this.FrozenCheckBox.EditEnabled = true;
             this.FrozenCheckBox.LeftMargin = 0;
-            this.FrozenCheckBox.ParentColumn = this.EntryDescriptionColumn;
             // 
             // EntryIcon
             // 
             this.EntryIcon.DataPropertyName = "EntryIcon";
             this.EntryIcon.LeftMargin = 1;
-            this.EntryIcon.ParentColumn = this.EntryDescriptionColumn;
             this.EntryIcon.ScaleMode = Aga.Controls.Tree.ImageScaleMode.Clip;
             // 
             // EntryDescription
@@ -172,28 +127,6 @@
             this.EntryDescription.DataPropertyName = "EntryDescription";
             this.EntryDescription.IncrementalSearchEnabled = true;
             this.EntryDescription.LeftMargin = 3;
-            this.EntryDescription.ParentColumn = this.EntryDescriptionColumn;
-            // 
-            // EntryAddress
-            // 
-            this.EntryAddress.DataPropertyName = "EntryAddress";
-            this.EntryAddress.IncrementalSearchEnabled = true;
-            this.EntryAddress.LeftMargin = 3;
-            this.EntryAddress.ParentColumn = this.EntryTypeColumn;
-            // 
-            // EntryType
-            // 
-            this.EntryType.DataPropertyName = "EntryType";
-            this.EntryType.IncrementalSearchEnabled = true;
-            this.EntryType.LeftMargin = 3;
-            this.EntryType.ParentColumn = this.EntryValueColumn;
-            // 
-            // EntryValue
-            // 
-            this.EntryValue.DataPropertyName = "EntryValue";
-            this.EntryValue.IncrementalSearchEnabled = true;
-            this.EntryValue.LeftMargin = 3;
-            this.EntryValue.ParentColumn = this.EntryAddressColumn;
             // 
             // ProjectToolStrip
             // 
@@ -261,16 +194,9 @@
         private System.Windows.Forms.ToolStripMenuItem DeleteSelectionToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem AddNewAddressToolStripMenuItem;
         private Aga.Controls.Tree.TreeViewAdv AddressTableTreeView;
-        private Aga.Controls.Tree.TreeColumn EntryDescriptionColumn;
-        private Aga.Controls.Tree.TreeColumn EntryTypeColumn;
-        private Aga.Controls.Tree.TreeColumn EntryValueColumn;
-        private Aga.Controls.Tree.TreeColumn EntryAddressColumn;
         private Aga.Controls.Tree.NodeControls.NodeCheckBox FrozenCheckBox;
         private Aga.Controls.Tree.NodeControls.NodeIcon EntryIcon;
         private Aga.Controls.Tree.NodeControls.NodeTextBox EntryDescription;
-        private Aga.Controls.Tree.NodeControls.NodeTextBox EntryType;
-        private Aga.Controls.Tree.NodeControls.NodeTextBox EntryValue;
-        private Aga.Controls.Tree.NodeControls.NodeTextBox EntryAddress;
         private System.Windows.Forms.ToolStrip ProjectToolStrip;
         private System.Windows.Forms.ToolStripDropDownButton AddItemDownButton;
         private System.Windows.Forms.ToolStripMenuItem AddressToolStripMenuItem;

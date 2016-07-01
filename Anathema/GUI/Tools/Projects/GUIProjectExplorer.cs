@@ -65,11 +65,11 @@ namespace Anathema.GUI
                             if (AddressItem == null)
                                 continue;
 
-                            ProjectNode AddressNode = new ProjectNode(AddressItem.Description, AddressItem.GetAddressString(), AddressItem.ElementType?.Name, AddressItem.GetValueString());
-                            AddressNode.ProjectItem = AddressItem;
+                            ProjectNode ProjectNode = new ProjectNode(AddressItem.Description);
+                            ProjectNode.ProjectItem = AddressItem;
 
-                            ProjectTree.Nodes.Add(AddressNode);
-                            Cache.Add(AddressItem, AddressNode);
+                            ProjectTree.Nodes.Add(ProjectNode);
+                            Cache.Add(AddressItem, ProjectNode);
                         }
                         AddressTableTreeView.EndUpdate();
                     }
@@ -106,18 +106,18 @@ namespace Anathema.GUI
                             // Update existing
                             if (Cache.ContainsKey(AddressItem))
                             {
-                                Cache[AddressItem].EntryAddress = AddressItem.GetAddressString();
-                                Cache[AddressItem].EntryValue = AddressItem.GetValueString();
+                                // Cache[AddressItem].EntryAddress = AddressItem.GetAddressString();
+                                // Cache[AddressItem].EntryValue = AddressItem.GetValueString();
                                 // Cache[AddressItem].IsChecked = AddressItem.GetActivationState();
                             }
                             // Otherwise create new
                             else
                             {
-                                ProjectNode AddressNode = new ProjectNode(AddressItem.Description, AddressItem.GetAddressString(), AddressItem.ElementType?.Name, AddressItem.GetValueString());
-                                AddressNode.ProjectItem = AddressItem;
+                                ProjectNode ProjectNode = new ProjectNode(AddressItem.Description);
+                                ProjectNode.ProjectItem = AddressItem;
 
-                                ProjectTree.Nodes.Add(AddressNode);
-                                Cache.Add(AddressItem, AddressNode);
+                                ProjectTree.Nodes.Add(ProjectNode);
+                                Cache.Add(AddressItem, ProjectNode);
                             }
 
                             ProjectTree.OnNodesChanged(new TreeModelEventArgs(ProjectTree.GetPath(Cache[AddressItem]), new Object[] { }));
@@ -198,14 +198,6 @@ namespace Anathema.GUI
 
                 // Determine the current column selection based on column index
                 ProjectExplorer.TableColumnEnum ColumnSelection = ProjectExplorer.TableColumnEnum.Frozen;
-                if (ColumnIndex == AddressTableTreeView.Columns.IndexOf(EntryDescriptionColumn))
-                    ColumnSelection = ProjectExplorer.TableColumnEnum.Description;
-                else if (ColumnIndex == AddressTableTreeView.Columns.IndexOf(EntryAddressColumn))
-                    ColumnSelection = ProjectExplorer.TableColumnEnum.Address;
-                else if (ColumnIndex == AddressTableTreeView.Columns.IndexOf(EntryTypeColumn))
-                    ColumnSelection = ProjectExplorer.TableColumnEnum.ValueType;
-                else if (ColumnIndex == AddressTableTreeView.Columns.IndexOf(EntryValueColumn))
-                    ColumnSelection = ProjectExplorer.TableColumnEnum.Value;
 
                 GUIAddressEditor = new GUIAddressEditor(Indicies[0], Indicies, ColumnSelection);
             }

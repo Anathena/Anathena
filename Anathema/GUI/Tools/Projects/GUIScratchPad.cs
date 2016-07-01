@@ -18,7 +18,7 @@ namespace Anathema.GUI
     public partial class GUIScratchPad : DockContent, IScratchPadView
     {
         private ScratchPadPresenter ScratchPadPresenter;
-        private Dictionary<ProjectItem, ProjectNode> Cache;
+        private Dictionary<ProjectItem, AddressNode> Cache;
         private TreeModel ProjectTree;
         private Object AccessLock;
 
@@ -28,7 +28,7 @@ namespace Anathema.GUI
 
             FrozenCheckBox.IsEditEnabledValueNeeded += CheckIndex;
 
-            Cache = new Dictionary<ProjectItem, ProjectNode>();
+            Cache = new Dictionary<ProjectItem, AddressNode>();
             ProjectTree = new TreeModel();
             AccessLock = new Object();
 
@@ -65,7 +65,7 @@ namespace Anathema.GUI
                             if (AddressItem == null)
                                 continue;
 
-                            ProjectNode AddressNode = new ProjectNode(AddressItem.Description, AddressItem.GetAddressString(), AddressItem.ElementType?.Name, AddressItem.GetValueString());
+                            AddressNode AddressNode = new AddressNode(AddressItem.Description, AddressItem.GetAddressString(), AddressItem.ElementType?.Name, AddressItem.GetValueString());
                             AddressNode.ProjectItem = AddressItem;
 
                             ProjectTree.Nodes.Add(AddressNode);
@@ -113,7 +113,7 @@ namespace Anathema.GUI
                             // Otherwise create new
                             else
                             {
-                                ProjectNode AddressNode = new ProjectNode(AddressItem.Description, AddressItem.GetAddressString(), AddressItem.ElementType?.Name, AddressItem.GetValueString());
+                                AddressNode AddressNode = new AddressNode(AddressItem.Description, AddressItem.GetAddressString(), AddressItem.ElementType?.Name, AddressItem.GetValueString());
                                 AddressNode.ProjectItem = AddressItem;
 
                                 ProjectTree.Nodes.Add(AddressNode);

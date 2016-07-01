@@ -1,6 +1,6 @@
 ﻿namespace Anathema.GUI
 {
-    partial class GUIProjectExplorer
+    partial class GUIScratchPad
     {
         /// <summary>
         /// Required designer variable.
@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(GUIProjectExplorer));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(GUIScratchPad));
             this.ProjectContextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.ToggleFreezeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.EditAddressEntryToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -235,7 +235,7 @@
             this.FolderToolStripMenuItem.Text = "Add New Folder";
             this.FolderToolStripMenuItem.Click += new System.EventHandler(this.FolderToolStripMenuItem_Click);
             // 
-            // GUIProjectExplorer
+            // GUIScratchPad
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -244,8 +244,8 @@
             this.Controls.Add(this.ProjectToolStrip);
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.Name = "GUIProjectExplorer";
-            this.Text = "Project Explorer";
+            this.Name = "GUIScratchPad";
+            this.Text = "Scratch Pad";
             this.ProjectContextMenuStrip.ResumeLayout(false);
             this.ProjectToolStrip.ResumeLayout(false);
             this.ProjectToolStrip.PerformLayout();

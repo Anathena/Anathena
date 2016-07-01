@@ -184,6 +184,7 @@
     <Compile Include="GUI\CustomControls\Textboxes\WatermarkTextBox.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="GUI\CustomControls\TreeViews\AddressNode.cs" />
     <Compile Include="GUI\CustomControls\TreeViews\HighlightPreservingTreeView.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -196,13 +197,19 @@
     <Compile Include="GUI\Tools\DotNetExplorer\GUIDotNetExplorer.Designer.cs">
       <DependentUpon>GUIDotNetExplorer.cs</DependentUpon>
     </Compile>
+    <Compile Include="GUI\Tools\Projects\GUIScratchPad.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI\Tools\Projects\GUIScratchPad.Designer.cs">
+      <DependentUpon>GUIScratchPad.cs</DependentUpon>
+    </Compile>
     <Compile Include="GUI\Tools\Scanners\GUIConstraintEditor.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="GUI\Tools\Scanners\GUIConstraintEditor.Designer.cs">
       <DependentUpon>GUIConstraintEditor.cs</DependentUpon>
     </Compile>
-    <Compile Include="GUI\CustomControls\TreeViews\AddressNode.cs" />
+    <Compile Include="GUI\CustomControls\TreeViews\ProjectNode.cs" />
     <Compile Include="GUI\Tools\UserSettings\GUISettings.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -271,6 +278,8 @@
     <Compile Include="Source\Engine\Architecture\Assembler\AssemblerFactory.cs" />
     <Compile Include="Source\Engine\Architecture\Disassembler\DisassemblerFactory.cs" />
     <Compile Include="Source\Engine\ObjectCollectors\DotNetObjectCollector\DotNetObject.cs" />
+    <Compile Include="Source\Project\IScratchPadMVP.cs" />
+    <Compile Include="Source\Project\ScratchPad.cs" />
     <Compile Include="Source\Project\ProjectItems\FolderItem.cs" />
     <Compile Include="Source\Utils\AddressResolver\AddressResolver.cs" />
     <Compile Include="Source\Engine\Graphics\DirectX\Interface\BaseDXHook.cs" />
@@ -831,6 +840,9 @@
     <EmbeddedResource Include="GUI\Tools\DotNetExplorer\GUIDotNetExplorer.resx">
       <DependentUpon>GUIDotNetExplorer.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="GUI\Tools\Projects\GUIScratchPad.resx">
+      <DependentUpon>GUIScratchPad.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="GUI\Tools\Scanners\GUIConstraintEditor.resx">
       <DependentUpon>GUIConstraintEditor.cs</DependentUpon>
     </EmbeddedResource>
@@ -1130,18 +1142,6 @@
     <ProjectReference Include="..\Microsoft.Diagnostics.Runtime\Microsoft.Diagnostics.Runtime.csproj">
       <Project>{a82126ca-23aa-41f1-8586-a5938d44d0a7}</Project>
       <Name>Microsoft.Diagnostics.Runtime</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\OpenTK\Source\Compatibility\OpenTK.Compatibility.csproj">
-      <Project>{62c0db35-0000-0000-0000-000000000000}</Project>
-      <Name>OpenTK.Compatibility</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\OpenTK\Source\GLControl\OpenTK.GLControl.csproj">
-      <Project>{a625be88-0000-0000-0000-000000000000}</Project>
-      <Name>OpenTK.GLControl</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\OpenTK\Source\OpenTK\OpenTK.csproj">
-      <Project>{a37a7e14-0000-0000-0000-000000000000}</Project>
-      <Name>OpenTK</Name>
     </ProjectReference>
     <ProjectReference Include="..\ScintillaNET\ScintillaNET\ScintillaNET.csproj">
       <Project>{22ae2386-60f1-476e-9303-61cdb0aac4cf}</Project>

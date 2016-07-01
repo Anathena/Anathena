@@ -39,8 +39,8 @@ namespace Anathema.GUI
         private GUISnapshotManager GUISnapshotManager;
         private GUIResults GUIResults;
         private GUIDotNetExplorer GUIDotNetExplorer;
+        private GUIScratchPad GUIScratchPad;
         private GUIProjectExplorer GUIProjectExplorer;
-        private GUIScriptTable GUIScriptTable;
 
         // EDIT MENU ITEMS
         private GUISettings GUISettings;
@@ -135,7 +135,8 @@ namespace Anathema.GUI
             this.ContentPanel.Theme = new VS2013BlueTheme();
 
             // Set default dock space sizes
-            ContentPanel.DockRightPortion = 0.5;
+            ContentPanel.DockRightPortion = 256;
+            ContentPanel.DockLeftPortion = 196;
             ContentPanel.DockBottomPortion = 0.4;
         }
 
@@ -174,10 +175,9 @@ namespace Anathema.GUI
         {
             CreateManualScanner();
             CreateInputCorrelator();
+            CreateProjectExplorer();
             CreateResults();
             CreateSnapshotManager();
-            CreateProjectExplorer();
-            CreateScriptTable();
 
             // Force focus preferred windows with shared GUI tabs
             GUIResults.Show();
@@ -380,6 +380,20 @@ namespace Anathema.GUI
             });
         }
 
+        private void CreateScratchPad()
+        {
+            ControlThreadingHelper.InvokeControlAction(ContentPanel, () =>
+            {
+                using (TimedLock.Lock(AccessLock))
+                {
+                    if (GUIScratchPad == null || GUIScratchPad.IsDisposed)
+                        GUIScratchPad = new GUIScratchPad();
+
+                    GUIScratchPad.Show(ContentPanel, DockState.DockBottom);
+                }
+            });
+        }
+
         private void CreateProjectExplorer()
         {
             ControlThreadingHelper.InvokeControlAction(ContentPanel, () =>
@@ -389,21 +403,7 @@ namespace Anathema.GUI
                     if (GUIProjectExplorer == null || GUIProjectExplorer.IsDisposed)
                         GUIProjectExplorer = new GUIProjectExplorer();
 
-                    GUIProjectExplorer.Show(ContentPanel, DockState.DockBottom);
-                }
-            });
-        }
-
-        private void CreateScriptTable()
-        {
-            ControlThreadingHelper.InvokeControlAction(ContentPanel, () =>
-            {
-                using (TimedLock.Lock(AccessLock))
-                {
-                    if (GUIScriptTable == null || GUIScriptTable.IsDisposed)
-                        GUIScriptTable = new GUIScriptTable();
-
-                    GUIScriptTable.Show(ContentPanel, DockState.DockBottom);
+                    GUIProjectExplorer.Show(ContentPanel, DockState.DockLeft);
                 }
             });
         }
@@ -609,14 +609,14 @@ namespace Anathema.GUI
             CreateDotNetExplorer();
         }
 
-        private void AddressesToolStripMenuItem_Click(Object Sender, EventArgs E)
+        private void ScratchPadToolStripMenuItem_Click(Object Sender, EventArgs E)
         {
-            CreateProjectExplorer();
+            CreateScratchPad();
         }
 
-        private void ScriptsToolStripMenuItem_Click(Object Sender, EventArgs E)
+        private void ProjectExplorerToolStripMenuItem_Click(Object Sender, EventArgs E)
         {
-            CreateScriptTable();
+            CreateProjectExplorer();
         }
 
         private void ProcessSelectorToolStripMenuItem_Click(Object Sender, EventArgs E)
@@ -700,8 +700,8 @@ namespace Anathema.GUI
                 SnapshotManagerToolStripMenuItem.Checked = (GUISnapshotManager == null || GUISnapshotManager.IsDisposed) ? false : true;
                 ResultsToolStripMenuItem.Checked = (GUIResults == null || GUIResults.IsDisposed) ? false : true;
                 DotNetExplorerToolStripMenuItem.Checked = (GUIDotNetExplorer == null || GUIDotNetExplorer.IsDisposed) ? false : true;
-                AddressesToolStripMenuItem.Checked = (GUIProjectExplorer == null || GUIProjectExplorer.IsDisposed) ? false : true;
-                ScriptsToolStripMenuItem.Checked = (GUIScriptTable == null || GUIScriptTable.IsDisposed) ? false : true;
+                ScratchPadToolStripMenuItem.Checked = (GUIScratchPad == null || GUIScratchPad.IsDisposed) ? false : true;
+                ProjectExplorerToolStripMenuItem.Checked = (GUIProjectExplorer == null || GUIProjectExplorer.IsDisposed) ? false : true;
 
                 CodeViewToolStripMenuItem.Checked = (GUICodeView == null || GUICodeView.IsDisposed) ? false : true;
                 MemoryViewToolStripMenuItem.Checked = (GUIMemoryView == null || GUIMemoryView.IsDisposed) ? false : true;
