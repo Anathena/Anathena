@@ -1151,6 +1151,10 @@
       <Project>{d828384e-0251-44c4-8bf2-3608fd3dd2cd}</Project>
       <Name>SharpDisasm</Name>
     </ProjectReference>
+    <ProjectReference Include="..\SharpDX\SharpCli\SharpCli.csproj">
+      <Project>{4e2d9a17-2195-4a51-aae3-924517440293}</Project>
+      <Name>SharpCli</Name>
+    </ProjectReference>
     <ProjectReference Include="..\SharpDX\SharpDX.Animation\SharpDX.Animation.csproj">
       <Project>{1b2e7ac4-b206-4268-a782-53b3e3025a43}</Project>
       <Name>SharpDX.Animation</Name>

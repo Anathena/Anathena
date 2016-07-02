@@ -19,7 +19,19 @@
 // THE SOFTWARE.
 
 using System.Reflection;
+using System.Resources;
 
 [assembly: AssemblyProduct("SharpCli")]
 [assembly: AssemblyTitle("SharpCli")]
 [assembly: AssemblyDescription("Assembly providing core tools for SharpDX Tools")]
+
+[assembly: AssemblyCompany("Alexandre Mutel")]
+[assembly: AssemblyCopyright("Copyright © 2010-2013 Alexandre Mutel")]
+
+[assembly: AssemblyTrademark("")]
+[assembly: AssemblyCulture("")]
+
+[assembly: AssemblyVersion("3.0.2")]
+[assembly: AssemblyFileVersion("3.0.2")]
+
+[assembly: NeutralResourcesLanguage("en-us")]

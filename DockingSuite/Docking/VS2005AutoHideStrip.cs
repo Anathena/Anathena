@@ -347,9 +347,9 @@ namespace WeifenLuo.WinFormsUI.Docking
                     // The DockState is DockLeftAutoHide or DockRightAutoHide, so rotate the image 90 degrees to the right. 
                     Rectangle rectTransform = RtlTransform(rectImage, dockState);
                     Point[] rotationPoints =
-                        { 
-                            new Point(rectTransform.X + rectTransform.Width, rectTransform.Y), 
-                            new Point(rectTransform.X + rectTransform.Width, rectTransform.Y + rectTransform.Height), 
+                        {
+                            new Point(rectTransform.X + rectTransform.Width, rectTransform.Y),
+                            new Point(rectTransform.X + rectTransform.Width, rectTransform.Y + rectTransform.Height),
                             new Point(rectTransform.X, rectTransform.Y)
                         };
 

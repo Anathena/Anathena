@@ -20,6 +20,7 @@
 using Mono.Cecil;
 using Mono.Cecil.Cil;
 using Mono.Cecil.Pdb;
+using SharpDX.DirectInput;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -52,15 +53,8 @@ namespace SharpCli
         {
             try
             {
-                if (Args.Length != 1)
-                {
-                    Console.WriteLine("{0} file_path is expecting one file argument", Assembly.GetExecutingAssembly().GetName().Name);
-                    Environment.Exit(1);
-                }
-
-                String File = Args[0];
                 InteropApp Program = new InteropApp();
-                Program.PatchFile(File);
+                Program.PatchFile(Assembly.GetAssembly(typeof(DirectInput)).Location);
             }
             catch (Exception ex)
             {
@@ -824,8 +818,8 @@ namespace SharpCli
 
             // Import void* and Int32 
             VoidType = AssemblyDefinition.MainModule.TypeSystem.Void.Resolve();
-            VoidPointerType = new PointerType(AssemblyDefinition.MainModule.Import(VoidType));
-            IntType = AssemblyDefinition.MainModule.Import(AssemblyDefinition.MainModule.TypeSystem.Int32.Resolve());
+            VoidPointerType = new PointerType(AssemblyDefinition.MainModule.ImportReference(VoidType));
+            IntType = AssemblyDefinition.MainModule.ImportReference(AssemblyDefinition.MainModule.TypeSystem.Int32.Resolve());
 
             // Remove CompilationRelaxationsAttribute
             for (Int32 Index = 0; Index < AssemblyDefinition.CustomAttributes.Count; Index++)
