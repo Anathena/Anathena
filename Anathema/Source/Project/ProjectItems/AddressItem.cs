@@ -67,10 +67,11 @@ namespace Anathema.Source.Project.ProjectItems
             private set { _EffectiveAddress = value; }
         }
 
-        public AddressItem(String BaseAddress, Type ElementType, String Description = null, IEnumerable<Int32> Offsets = null, Boolean IsValueHex = false, String Value = null)
+        public AddressItem() : this(Conversions.ToAddress(IntPtr.Zero), typeof(Int32), "New Address") { }
+
+        public AddressItem(String BaseAddress, Type ElementType, String Description = null, IEnumerable<Int32> Offsets = null, Boolean IsValueHex = false, String Value = null) : base(Description)
         {
             this.BaseAddress = BaseAddress;
-            this.Description = Description == null ? String.Empty : Description;
             this.ElementType = ElementType;
             this.Offsets = Offsets;
             this.IsValueHex = IsValueHex;

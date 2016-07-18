@@ -19,7 +19,7 @@ namespace Anathema
         private Int32 MainSelection;
         private Color ItemColor;
 
-        public GUIAddressEditor(Int32 MainSelection, IEnumerable<Int32> AddressItemIndicies, ProjectExplorer.TableColumnEnum ColumnSelection)
+        public GUIAddressEditor(Int32 MainSelection, IEnumerable<Int32> AddressItemIndicies)
         {
             InitializeComponent();
 
@@ -32,21 +32,7 @@ namespace Anathema
             InitializeValueTypeComboBox();
             InitializeDefaultItems();
 
-            switch (ColumnSelection)
-            {
-                case ProjectExplorer.TableColumnEnum.Description:
-                    DescriptionTextBox.Select();
-                    break;
-                case ProjectExplorer.TableColumnEnum.ValueType:
-                    ValueTypeComboBox.Select();
-                    break;
-                case ProjectExplorer.TableColumnEnum.Address:
-                    AddressTextBox.Select();
-                    break;
-                case ProjectExplorer.TableColumnEnum.Value:
-                    ValueTextBox.Select();
-                    break;
-            }
+            DescriptionTextBox.Select();
 
             this.AdressEditorPresenter = new AdressEditorPresenter(this, new TableAddressEntryEditor());
         }

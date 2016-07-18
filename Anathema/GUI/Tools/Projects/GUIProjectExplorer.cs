@@ -3,6 +3,7 @@ using Aga.Controls.Tree.NodeControls;
 using Anathema.Source.Project;
 using Anathema.Source.Project.ProjectItems;
 using Anathema.Source.Utils;
+using Anathema.Source.Utils.Caches;
 using Anathema.Source.Utils.Extensions;
 using Anathema.Source.Utils.MVP;
 using System;
@@ -18,7 +19,7 @@ namespace Anathema.GUI
     public partial class GUIProjectExplorer : DockContent, IProjectExplorerView
     {
         private ProjectExplorerPresenter ProjectExplorerPresenter;
-        private Dictionary<ProjectItem, ProjectNode> Cache;
+        private BiDictionary<ProjectItem, ProjectNode> NodeCache;
         private TreeModel ProjectTree;
         private Object AccessLock;
 
@@ -28,11 +29,11 @@ namespace Anathema.GUI
 
             EntryCheckBox.IsEditEnabledValueNeeded += CheckIndex;
 
-            Cache = new Dictionary<ProjectItem, ProjectNode>();
+            NodeCache = new BiDictionary<ProjectItem, ProjectNode>();
             ProjectTree = new TreeModel();
             AccessLock = new Object();
 
-            AddressTableTreeView.Model = ProjectTree;
+            ProjectExplorerTreeView.Model = ProjectTree;
 
             ProjectExplorerPresenter = new ProjectExplorerPresenter(this, ProjectExplorer.GetInstance());
         }
@@ -49,11 +50,12 @@ namespace Anathema.GUI
 
             using (TimedLock.Lock(AccessLock))
             {
-                ControlThreadingHelper.InvokeControlAction(AddressTableTreeView, () =>
+                ControlThreadingHelper.InvokeControlAction(ProjectExplorerTreeView, () =>
                 {
-                    AddressTableTreeView.BeginUpdate();
+                    ProjectExplorerTreeView.BeginUpdate();
                     ProjectTree.Nodes.Clear();
-                    Cache.Clear();
+                    NodeCache.Clear();
+
                     for (Int32 Index = 0; Index < ProjectExplorerPresenter.GetItemCount(); Index++)
                     {
                         ProjectItem ProjectItem = ProjectExplorerPresenter.GetProjectItemAt(Index);
@@ -77,8 +79,8 @@ namespace Anathema.GUI
                         ProjectNode.EntryIcon = Image;
 
                         ProjectTree.Nodes.Add(ProjectNode);
-                        Cache.Add(ProjectItem, ProjectNode);
-                        AddressTableTreeView.EndUpdate();
+                        NodeCache.Add(ProjectItem, ProjectNode);
+                        ProjectExplorerTreeView.EndUpdate();
                     }
                 });
             }
@@ -90,18 +92,18 @@ namespace Anathema.GUI
                 return;
 
             // Update read bounds
-            ControlThreadingHelper.InvokeControlAction(AddressTableTreeView, () =>
+            ControlThreadingHelper.InvokeControlAction(ProjectExplorerTreeView, () =>
             {
-                Tuple<Int32, Int32> ReadBounds = new Tuple<Int32, Int32>(0, AddressTableTreeView.AllNodes.Count()); // AddressTableTreeView.GetReadBounds();
+                Tuple<Int32, Int32> ReadBounds = new Tuple<Int32, Int32>(0, ProjectExplorerTreeView.AllNodes.Count()); // AddressTableTreeView.GetReadBounds();
                 ProjectExplorerPresenter.UpdateReadBounds(ReadBounds.Item1, ReadBounds.Item2);
             });
 
             using (TimedLock.Lock(AccessLock))
             {
-                ControlThreadingHelper.InvokeControlAction(AddressTableTreeView, () =>
+                ControlThreadingHelper.InvokeControlAction(ProjectExplorerTreeView, () =>
                 {
                     // Perform updates
-                    AddressTableTreeView.BeginUpdate();
+                    ProjectExplorerTreeView.BeginUpdate();
                     for (Int32 Index = 0; Index < ProjectExplorerPresenter.GetItemCount(); Index++)
                     {
                         ProjectItem ProjectItem = ProjectExplorerPresenter.GetProjectItemAt(Index);
@@ -111,7 +113,7 @@ namespace Anathema.GUI
                             AddressItem AddressItem = (AddressItem)ProjectItem;
 
                             // Update existing
-                            if (Cache.ContainsKey(AddressItem))
+                            if (NodeCache.ContainsKey(AddressItem))
                             {
                                 // Cache[AddressItem].EntryAddress = AddressItem.GetAddressString();
                                 // Cache[AddressItem].EntryValue = AddressItem.GetValueString();
@@ -124,20 +126,20 @@ namespace Anathema.GUI
                                 ProjectNode.ProjectItem = AddressItem;
 
                                 ProjectTree.Nodes.Add(ProjectNode);
-                                Cache.Add(AddressItem, ProjectNode);
+                                NodeCache.Add(AddressItem, ProjectNode);
                             }
 
-                            ProjectTree.OnNodesChanged(new TreeModelEventArgs(ProjectTree.GetPath(Cache[AddressItem]), new Object[] { }));
+                            ProjectTree.OnNodesChanged(new TreeModelEventArgs(ProjectTree.GetPath(NodeCache[AddressItem]), new Object[] { }));
                         }
                     }
-                    AddressTableTreeView.EndUpdate();
+                    ProjectExplorerTreeView.EndUpdate();
                 });
             }
         }
 
         private ProjectItem GetProjectItemFromNode(TreeNodeAdv TreeNodeAdv)
         {
-            Node Node = ProjectTree.FindNode(AddressTableTreeView.GetPath(TreeNodeAdv));
+            Node Node = ProjectTree.FindNode(ProjectExplorerTreeView.GetPath(TreeNodeAdv));
 
             if (Node == null || !typeof(ProjectNode).IsAssignableFrom(Node.GetType()))
                 return null;
@@ -150,7 +152,7 @@ namespace Anathema.GUI
 
         #region Events
 
-        private void AddressTableTreeView_NodeMouseDoubleClick(Object Sender, TreeNodeAdvMouseEventArgs E)
+        private void ProjectExplorerTreeView_NodeMouseDoubleClick(Object Sender, TreeNodeAdvMouseEventArgs E)
         {
             ProjectItem ProjectItem = GetProjectItemFromNode(E?.Node);
 
@@ -197,16 +199,13 @@ namespace Anathema.GUI
             {
                 List<Int32> Indicies = new List<Int32>();
 
-                foreach (TreeNodeAdv Index in AddressTableTreeView.SelectedNodes)
+                foreach (TreeNodeAdv Index in ProjectExplorerTreeView.SelectedNodes)
                     Indicies.Add(Index.Index);
 
                 if (Indicies.Count == 0)
                     return;
 
-                // Determine the current column selection based on column index
-                ProjectExplorer.TableColumnEnum ColumnSelection = ProjectExplorer.TableColumnEnum.Frozen;
-
-                GUIAddressEditor = new GUIAddressEditor(Indicies[0], Indicies, ColumnSelection);
+                GUIAddressEditor = new GUIAddressEditor(Indicies[0], Indicies);
             }
 
             // Create editor for this entry
@@ -215,23 +214,37 @@ namespace Anathema.GUI
 
         public void AddNewAddressItem()
         {
-            ProjectExplorerPresenter.AddNewAddressItem();
+            ProjectExplorerPresenter.AddNewAddressItem(GetSelectedItem());
         }
 
         public void AddNewFolderItem()
         {
-            ProjectExplorerPresenter.AddNewFolderItem();
+            ProjectExplorerPresenter.AddNewFolderItem(GetSelectedItem());
+        }
+
+        private ProjectItem GetSelectedItem()
+        {
+            Node SelectedNode = ProjectTree.FindNode(ProjectExplorerTreeView.GetPath(ProjectExplorerTreeView.SelectedNode));
+            ProjectItem SelectedItem = null;
+
+            if (SelectedNode != null && typeof(ProjectNode).IsAssignableFrom(SelectedNode.GetType()))
+            {
+                if (NodeCache.Reverse.ContainsKey((ProjectNode)SelectedNode))
+                    SelectedItem = NodeCache.Reverse[(ProjectNode)SelectedNode];
+            }
+
+            return SelectedItem;
         }
 
         private void DeleteAddressTableEntries(Int32 StartIndex, Int32 EndIndex)
         {
             using (TimedLock.Lock(AccessLock))
             {
-                if (AddressTableTreeView.SelectedNodes == null || AddressTableTreeView.SelectedNodes.Count <= 0)
+                if (ProjectExplorerTreeView.SelectedNodes == null || ProjectExplorerTreeView.SelectedNodes.Count <= 0)
                     return;
 
                 List<Int32> Nodes = new List<Int32>();
-                AddressTableTreeView.SelectedNodes.ForEach(X => Nodes.Add(X.Index));
+                ProjectExplorerTreeView.SelectedNodes.ForEach(X => Nodes.Add(X.Index));
                 ProjectExplorerPresenter.DeleteTableItems(Nodes);
             }
         }
@@ -250,7 +263,7 @@ namespace Anathema.GUI
             if (E.Button == MouseButtons.Right)
                 LastRightClickLocation = E.Location;
 
-            TreeNodeAdv ListViewItem = AddressTableTreeView.GetNodeAt(E.Location);
+            TreeNodeAdv ListViewItem = ProjectExplorerTreeView.GetNodeAt(E.Location);
 
             if (ListViewItem == null)
                 return;

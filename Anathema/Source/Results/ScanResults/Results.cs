@@ -1,6 +1,7 @@
 ﻿using Anathema.Source.Engine;
 using Anathema.Source.Engine.Processes;
 using Anathema.Source.Project;
+using Anathema.Source.Project.ProjectItems;
 using Anathema.Source.Utils;
 using Anathema.Source.Utils.Snapshots;
 using Anathema.Source.Utils.Validation;
@@ -173,7 +174,8 @@ namespace Anathema.Source.Results.ScanResults
                     String Value = String.Empty;
                     IndexValueMap.TryGetValue(Index, out Value);
 
-                    ProjectExplorer.GetInstance().AddAddressItem(Conversions.ToAddress(ActiveSnapshot[Index].BaseAddress), ScanType, "No Description", Value: Value);
+                    AddressItem NewAddress = new AddressItem(Conversions.ToAddress(ActiveSnapshot[Index].BaseAddress), ScanType, "No Description", Value: Value);
+                    ProjectExplorer.GetInstance().AddProjectItem(NewAddress);
 
                     if (++Count >= MaxAdd)
                         break;

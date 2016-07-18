@@ -4,7 +4,6 @@ using Anathema.Source.Project.Deprecating;
 using Anathema.Source.Project.ProjectItems;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace Anathema.Source.Project
 {
@@ -13,21 +12,12 @@ namespace Anathema.Source.Project
     /// </summary>
     class ProjectExplorer : IProjectExplorerModel, IProcessObserver
     {
-        public enum TableColumnEnum
-        {
-            Frozen,
-            Description,
-            ValueType,
-            Address,
-            Value
-        }
-
         // Singleton instance of address table
         private static Lazy<ProjectExplorer> ProjectExplorerInstance = new Lazy<ProjectExplorer>(() => { return new ProjectExplorer(); });
 
         private EngineCore EngineCore;
 
-        private List<ProjectItem> ProjectItems;
+        private ProjectItem ProjectRoot;
 
         private Int32 VisibleIndexStart;
         private Int32 VisibleIndexEnd;
@@ -35,7 +25,7 @@ namespace Anathema.Source.Project
         private ProjectExplorer()
         {
             InitializeProcessObserver();
-            ProjectItems = new List<ProjectItem>();
+            ProjectRoot = new ProjectItem();
 
             Begin();
         }
@@ -73,6 +63,7 @@ namespace Anathema.Source.Project
 
         public override void SetItemActivation(Int32 Index, Boolean Activated)
         {
+            /*
             if (EngineCore == null)
             {
                 // Allow disabling even if there is no valid process
@@ -95,28 +86,16 @@ namespace Anathema.Source.Project
                 }
             }
             ProjectItems[Index].SetActivationState(Activated);
+            */
         }
 
-        public override void AddProjectItem(ProjectItem ProjectItem)
+        public override void AddProjectItem(ProjectItem ProjectItem, ProjectItem Parent = null)
         {
-            ProjectItems.Add(ProjectItem);
-            UpdateItemCount();
+            if (Parent == null)
+                Parent = ProjectRoot;
 
-            TableManager.GetInstance().TableChanged();
-        }
-
-        public override void AddAddressItem(String BaseAddress, Type ElementType, String Description, IEnumerable<Int32> Offsets = null, Boolean IsHex = false, String Value = null)
-        {
-            ProjectItems.Add(new AddressItem(BaseAddress, ElementType, Description, Offsets, IsHex, Value));
-
-            UpdateItemCount();
-
-            TableManager.GetInstance().TableChanged();
-        }
-
-        public override void AddFolderItem(String FolderName)
-        {
-            ProjectItems.Add(new FolderItem(FolderName));
+            ProjectItem.Parent = Parent;
+            Parent.AddChild(ProjectItem);
 
             UpdateItemCount();
 
@@ -125,8 +104,8 @@ namespace Anathema.Source.Project
 
         public override void DeleteTableItems(IEnumerable<Int32> Indicies)
         {
-            foreach (Int32 Index in Indicies.OrderByDescending(X => X))
-                ProjectItems.RemoveAt(Index);
+            // foreach (Int32 Index in Indicies.OrderByDescending(X => X))
+            //    ProjectItems.RemoveAt(Index);
 
             UpdateItemCount();
 
@@ -135,22 +114,23 @@ namespace Anathema.Source.Project
 
         public override ProjectItem GetProjectItemAt(Int32 Index)
         {
-            return ProjectItems[Index];
+            return null;
+            //return ProjectItems[Index];
         }
 
         public override Int32 GetItemCount()
         {
-            return ProjectItems.Count;
+            return 0; // TODO: FIX // ProjectItems.Count;
         }
 
-        public List<ProjectItem> GetProjectItems()
+        public ProjectItem GetProjectRoot()
         {
-            return ProjectItems;
+            return ProjectRoot;
         }
 
-        public void SetProjectItems(List<ProjectItem> AddressItems)
+        public void SetProjectItems(ProjectItem ProjectRoot)
         {
-            this.ProjectItems = AddressItems;
+            this.ProjectRoot = ProjectRoot;
             UpdateItemCount();
 
             TableManager.GetInstance().TableChanged();
@@ -158,7 +138,8 @@ namespace Anathema.Source.Project
 
         public override void SetAddressItemAt(Int32 Index, AddressItem AddressItem)
         {
-            ProjectItems[Index] = AddressItem;
+            // TODO: FIX
+            // ProjectItems[Index] = AddressItem;
 
             // Force update of value, regardless if frozen or not
             AddressItem.ForceUpdateValue(AddressItem.Value);
@@ -178,6 +159,7 @@ namespace Anathema.Source.Project
 
         public override void ReorderItem(Int32 SourceIndex, Int32 DestinationIndex)
         {
+            /*
             // Bounds checking
             if (SourceIndex < 0 || SourceIndex > ProjectItems.Count)
                 return;
@@ -196,12 +178,13 @@ namespace Anathema.Source.Project
             UpdateItemCount();
 
             TableManager.GetInstance().TableChanged();
+            */
         }
 
         private void UpdateItemCount()
         {
             ProjectExplorerEventArgs ProjectExplorerEventArgs = new ProjectExplorerEventArgs();
-            ProjectExplorerEventArgs.ItemCount = ProjectItems.Count;
+            ProjectExplorerEventArgs.ItemCount = GetItemCount();
             OnEventRefreshStructure(ProjectExplorerEventArgs);
         }
 
@@ -212,6 +195,8 @@ namespace Anathema.Source.Project
 
         protected override void Update()
         {
+            // TODO: Offloading this shit elsewhere
+            /*
             // Freeze addresses
             foreach (ProjectItem ProjectItem in ProjectItems)
             {
@@ -248,6 +233,7 @@ namespace Anathema.Source.Project
 
             if (ProjectItems.Count != 0)
                 OnEventReadValues(new ProjectExplorerEventArgs());
+                */
         }
 
         protected override void End() { }

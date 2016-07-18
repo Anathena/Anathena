@@ -23,7 +23,7 @@ namespace Anathema.Source.Project.ProjectItems
 
         [Obfuscation(Exclude = true)]
         [DataMember()]
-        public IEnumerable<ProjectItem> Children
+        public List<ProjectItem> Children
         {
             [Obfuscation(Exclude = true)]
             get;
@@ -57,10 +57,14 @@ namespace Anathema.Source.Project.ProjectItems
         [Obfuscation(Exclude = true)]
         protected Boolean Activated;
 
-        public ProjectItem()
+        public ProjectItem() : this(String.Empty) { }
+
+        public ProjectItem(String Description)
         {
+            this.Description = Description == null ? String.Empty : Description;
+
             Parent = null;
-            Children = null;
+            Children = new List<ProjectItem>();
             TextColor = SystemColors.ControlText;
             Activated = false;
         }
@@ -75,6 +79,11 @@ namespace Anathema.Source.Project.ProjectItems
         public Boolean GetActivationState()
         {
             return Activated;
+        }
+
+        public void AddChild(ProjectItem Child)
+        {
+            Children.Add(Child);
         }
 
     } // End class

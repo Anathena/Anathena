@@ -197,6 +197,12 @@
     <Compile Include="GUI\Tools\DotNetExplorer\GUIDotNetExplorer.Designer.cs">
       <DependentUpon>GUIDotNetExplorer.cs</DependentUpon>
     </Compile>
+    <Compile Include="GUI\Tools\PropertyViewer\GUIPropertyViewer.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI\Tools\PropertyViewer\GUIPropertyViewer.Designer.cs">
+      <DependentUpon>GUIPropertyViewer.cs</DependentUpon>
+    </Compile>
     <Compile Include="GUI\Tools\Projects\GUIScratchPad.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -337,6 +343,7 @@
     <Compile Include="Source\Engine\Hook\SpeedHack\SpeedHackInterface.cs" />
     <Compile Include="Source\Engine\Hook\SpeedHack\ISpeedHackInterface.cs" />
     <Compile Include="Source\Utils\Browser\BrowserHelper.cs" />
+    <Compile Include="Source\Utils\Caches\BiDictionary.cs" />
     <Compile Include="Source\Utils\DotNetExplorer\IDotNetExplorerMVP.cs" />
     <Compile Include="Source\Utils\DotNetExplorer\DotNetExplorer.cs" />
     <Compile Include="Source\Utils\Extensions\IEnumerableExtensions.cs" />
@@ -839,6 +846,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\Tools\DotNetExplorer\GUIDotNetExplorer.resx">
       <DependentUpon>GUIDotNetExplorer.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\Tools\PropertyViewer\GUIPropertyViewer.resx">
+      <DependentUpon>GUIPropertyViewer.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\Tools\Projects\GUIScratchPad.resx">
       <DependentUpon>GUIScratchPad.cs</DependentUpon>

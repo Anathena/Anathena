@@ -22,14 +22,11 @@ namespace Anathema.Source.Project.Deprecating
         private static Lazy<TableManager> TableInstance = new Lazy<TableManager>(() => { return new TableManager(); });
 
         [Obfuscation(Exclude = true)]
-        private TableData CurrentTableData;
-
-        [Obfuscation(Exclude = true)]
         private Boolean Changed;
 
         private TableManager()
         {
-            CurrentTableData = new TableData();
+            Changed = false;
         }
 
         [Obfuscation(Exclude = true)]
@@ -67,11 +64,7 @@ namespace Anathema.Source.Project.Deprecating
                 {
                     DataContractJsonSerializer Serializer = new DataContractJsonSerializer(typeof(TableData));
 
-                    // Gather items we need to save
-                    CurrentTableData.ProjectItems = ProjectExplorer.GetInstance().GetProjectItems();
-                    CurrentTableData.ScriptItems = ScriptTable.GetInstance().GetScriptItems();
-
-                    Serializer.WriteObject(FileStream, CurrentTableData);
+                    Serializer.WriteObject(FileStream, ProjectExplorer.GetInstance().GetProjectRoot());
                 }
             }
             catch
@@ -94,12 +87,10 @@ namespace Anathema.Source.Project.Deprecating
             {
                 using (FileStream FileStream = new FileStream(Path, FileMode.Open, FileAccess.Read))
                 {
-                    DataContractSerializer Serializer = new DataContractSerializer(typeof(TableData));
-                    CurrentTableData = (TableData)Serializer.ReadObject(FileStream);
+                    DataContractSerializer Serializer = new DataContractSerializer(typeof(ProjectItem));
+                    ProjectItem ProjectRoot = (ProjectItem)Serializer.ReadObject(FileStream);
 
-                    // Distribute loaded items to the appropriate tables
-                    ProjectExplorer.GetInstance().SetProjectItems(CurrentTableData.ProjectItems);
-                    ScriptTable.GetInstance().SetScriptItems(CurrentTableData.ScriptItems);
+                    ProjectExplorer.GetInstance().SetProjectItems(ProjectRoot);
                 }
             }
             catch
@@ -109,11 +100,9 @@ namespace Anathema.Source.Project.Deprecating
                     using (FileStream FileStream = new FileStream(Path, FileMode.Open, FileAccess.Read))
                     {
                         DataContractJsonSerializer Serializer = new DataContractJsonSerializer(typeof(TableData));
-                        CurrentTableData = (TableData)Serializer.ReadObject(FileStream);
+                        ProjectItem ProjectRoot = (ProjectItem)Serializer.ReadObject(FileStream);
 
-                        // Distribute loaded items to the appropriate tables
-                        ProjectExplorer.GetInstance().SetProjectItems(CurrentTableData.ProjectItems);
-                        ScriptTable.GetInstance().SetScriptItems(CurrentTableData.ScriptItems);
+                        ProjectExplorer.GetInstance().SetProjectItems(ProjectRoot);
                     }
                 }
                 catch
@@ -129,6 +118,9 @@ namespace Anathema.Source.Project.Deprecating
         [Obfuscation(Exclude = true)]
         public Boolean MergeTable(String Path)
         {
+            // TODO: Re-implement this shit
+            throw new NotImplementedException();
+
             if (Path == null || Path == String.Empty)
                 return false;
 
@@ -137,14 +129,7 @@ namespace Anathema.Source.Project.Deprecating
                 using (FileStream FileStream = new FileStream(Path, FileMode.Open, FileAccess.Read))
                 {
                     DataContractSerializer Serializer = new DataContractSerializer(typeof(TableData));
-                    CurrentTableData = (TableData)Serializer.ReadObject(FileStream);
-
-                    // Distribute loaded items to the appropriate tables
-                    foreach (AddressItem Item in CurrentTableData.ProjectItems)
-                        ProjectExplorer.GetInstance().AddProjectItem(Item);
-
-                    foreach (ScriptItem Item in CurrentTableData.ScriptItems)
-                        ScriptTable.GetInstance().AddScriptItem(Item);
+                    ProjectItem ProjectRoot = (ProjectItem)Serializer.ReadObject(FileStream);
                 }
             }
             catch

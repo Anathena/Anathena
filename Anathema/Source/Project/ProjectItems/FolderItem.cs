@@ -9,7 +9,9 @@ namespace Anathema.Source.Project.ProjectItems
     [DataContract()]
     public class FolderItem : ProjectItem
     {
-        public FolderItem(String Description = null) { }
+        public FolderItem() : this("New Folder") { }
+
+        public FolderItem(String Description) : base(Description) { }
 
     } // End class
 

@@ -2,6 +2,7 @@
 using Anathema.Source.Engine.OperatingSystems;
 using Anathema.Source.Engine.Processes;
 using Anathema.Source.Project;
+using Anathema.Source.Project.ProjectItems;
 using Anathema.Source.Scanners.ScanConstraints;
 using Anathema.Source.Utils.Extensions;
 using Anathema.Source.Utils.Snapshots;
@@ -150,7 +151,8 @@ namespace Anathema.Source.Scanners.PointerScanner
                 String Value = String.Empty;
                 IndexValueMap.TryGetValue(Index, out Value);
 
-                ProjectExplorer.GetInstance().AddAddressItem(Conversions.ToAddress(AcceptedPointers[Index].Item1), ElementType, "Pointer", AcceptedPointers[Index].Item2, Value: Value);
+                AddressItem NewPointer = new AddressItem(Conversions.ToAddress(AcceptedPointers[Index].Item1), ElementType, "New Pointer", AcceptedPointers[Index].Item2, false, Value);
+                ProjectExplorer.GetInstance().AddProjectItem(NewPointer);
 
                 if (++Count >= MaxAdd)
                     break;
