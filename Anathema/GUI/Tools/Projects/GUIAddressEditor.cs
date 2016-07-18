@@ -1,6 +1,4 @@
-﻿using Anathema.Source.Project;
-using Anathema.Source.Project.Editors.AddressEditor;
-using Anathema.Source.Project.ProjectItems;
+﻿using Anathema.Source.Project.Editors.AddressEditor;
 using Anathema.Source.Utils;
 using Anathema.Source.Utils.Validation;
 using System;
@@ -40,7 +38,7 @@ namespace Anathema
         private void InitializeDefaultItems()
         {
             // Collect address item that was opened and set the display properties
-            ProjectItem ProjectItem = ProjectExplorer.GetInstance().GetProjectItemAt(AddressItemIndicies.Last());
+            /*ProjectItem ProjectItem = ProjectExplorer.GetInstance().GetProjectItemAt(AddressItemIndicies.Last());
             if (ProjectItem is AddressItem)
             {
                 AddressItem AddressItem = (AddressItem)ProjectItem;
@@ -54,7 +52,7 @@ namespace Anathema
 
                 foreach (Int32 Offset in AddressItem.Offsets)
                     OffsetListBox.Items.Add(Offset < 0 ? "-" + Math.Abs(Offset).ToString("X") : Offset.ToString("X"));
-            }
+            }*/
         }
 
         private void InitializeValueTypeComboBox()

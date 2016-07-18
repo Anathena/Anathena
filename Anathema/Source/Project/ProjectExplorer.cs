@@ -16,7 +16,6 @@ namespace Anathema.Source.Project
         private static Lazy<ProjectExplorer> ProjectExplorerInstance = new Lazy<ProjectExplorer>(() => { return new ProjectExplorer(); });
 
         private EngineCore EngineCore;
-
         private ProjectItem ProjectRoot;
 
         private Int32 VisibleIndexStart;
@@ -32,7 +31,7 @@ namespace Anathema.Source.Project
 
         public override void OnGUIOpen()
         {
-            UpdateItemCount();
+            RefreshProjectStructure();
         }
 
         public static ProjectExplorer GetInstance()
@@ -97,33 +96,22 @@ namespace Anathema.Source.Project
             ProjectItem.Parent = Parent;
             Parent.AddChild(ProjectItem);
 
-            UpdateItemCount();
+            RefreshProjectStructure();
 
             TableManager.GetInstance().TableChanged();
         }
 
-        public override void DeleteTableItems(IEnumerable<Int32> Indicies)
+        public override void DeleteProjectItems(IEnumerable<Int32> Indicies)
         {
             // foreach (Int32 Index in Indicies.OrderByDescending(X => X))
             //    ProjectItems.RemoveAt(Index);
 
-            UpdateItemCount();
+            RefreshProjectStructure();
 
             TableManager.GetInstance().TableChanged();
         }
 
-        public override ProjectItem GetProjectItemAt(Int32 Index)
-        {
-            return null;
-            //return ProjectItems[Index];
-        }
-
-        public override Int32 GetItemCount()
-        {
-            return 0; // TODO: FIX // ProjectItems.Count;
-        }
-
-        public ProjectItem GetProjectRoot()
+        public override ProjectItem GetProjectRoot()
         {
             return ProjectRoot;
         }
@@ -131,7 +119,7 @@ namespace Anathema.Source.Project
         public void SetProjectItems(ProjectItem ProjectRoot)
         {
             this.ProjectRoot = ProjectRoot;
-            UpdateItemCount();
+            RefreshProjectStructure();
 
             TableManager.GetInstance().TableChanged();
         }
@@ -152,7 +140,7 @@ namespace Anathema.Source.Project
                     EngineCore.Memory.Write(AddressItem.ElementType, AddressItem.EffectiveAddress, AddressItem.Value);
             }
 
-            UpdateItemCount();
+            RefreshProjectStructure();
 
             TableManager.GetInstance().TableChanged();
         }
@@ -181,11 +169,10 @@ namespace Anathema.Source.Project
             */
         }
 
-        private void UpdateItemCount()
+        private void RefreshProjectStructure()
         {
             ProjectExplorerEventArgs ProjectExplorerEventArgs = new ProjectExplorerEventArgs();
-            ProjectExplorerEventArgs.ItemCount = GetItemCount();
-            OnEventRefreshStructure(ProjectExplorerEventArgs);
+            OnEventRefreshProjectStructure(ProjectExplorerEventArgs);
         }
 
         public override void Begin()

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Reflection;
@@ -9,7 +10,7 @@ namespace Anathema.Source.Project.ProjectItems
     [Obfuscation(ApplyToMembers = false)]
     [Obfuscation(Exclude = true)]
     [DataContract()]
-    public class ProjectItem
+    public class ProjectItem : IEnumerable<ProjectItem>
     {
         [Obfuscation(Exclude = true)]
         [DataMember()]
@@ -86,6 +87,15 @@ namespace Anathema.Source.Project.ProjectItems
             Children.Add(Child);
         }
 
+        public IEnumerator<ProjectItem> GetEnumerator()
+        {
+            return ((IEnumerable<ProjectItem>)Children).GetEnumerator();
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return ((IEnumerable<ProjectItem>)Children).GetEnumerator();
+        }
     } // End class
 
 } // End namespace

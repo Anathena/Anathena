@@ -5,12 +5,10 @@ using Anathema.Source.Project.ProjectItems;
 using Anathema.Source.Utils;
 using Anathema.Source.Utils.Caches;
 using Anathema.Source.Utils.Extensions;
-using Anathema.Source.Utils.MVP;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
-using System.Linq;
 using System.Windows.Forms;
 using WeifenLuo.WinFormsUI.Docking;
 
@@ -45,96 +43,12 @@ namespace Anathema.GUI
 
         public void RefreshStructure()
         {
-            if (ProjectExplorerPresenter == null)
-                return;
 
-            using (TimedLock.Lock(AccessLock))
-            {
-                ControlThreadingHelper.InvokeControlAction(PropertiesView, () =>
-                {
-                    PropertiesView.BeginUpdate();
-                    ProjectTree.Nodes.Clear();
-                    NodeCache.Clear();
-
-                    for (Int32 Index = 0; Index < ProjectExplorerPresenter.GetItemCount(); Index++)
-                    {
-                        ProjectItem ProjectItem = ProjectExplorerPresenter.GetProjectItemAt(Index);
-
-                        if (ProjectItem == null)
-                            continue;
-
-                        Image Image = null;
-
-                        if (ProjectItem is AddressItem)
-                        {
-                            Image = new Bitmap(Properties.Resources.CollectValues);
-                        }
-                        else if (ProjectItem is FolderItem)
-                        {
-                            Image = new Bitmap(Properties.Resources.Open);
-                        }
-
-                        ProjectNode ProjectNode = new ProjectNode(ProjectItem.Description);
-                        ProjectNode.ProjectItem = ProjectItem;
-                        ProjectNode.EntryIcon = Image;
-
-                        ProjectTree.Nodes.Add(ProjectNode);
-                        NodeCache.Add(ProjectItem, ProjectNode);
-                        PropertiesView.EndUpdate();
-                    }
-                });
-            }
         }
 
         public void ReadValues()
         {
-            if (ProjectExplorerPresenter == null)
-                return;
 
-            // Update read bounds
-            ControlThreadingHelper.InvokeControlAction(PropertiesView, () =>
-            {
-                Tuple<Int32, Int32> ReadBounds = new Tuple<Int32, Int32>(0, PropertiesView.AllNodes.Count()); // AddressTableTreeView.GetReadBounds();
-                ProjectExplorerPresenter.UpdateReadBounds(ReadBounds.Item1, ReadBounds.Item2);
-            });
-
-            using (TimedLock.Lock(AccessLock))
-            {
-                ControlThreadingHelper.InvokeControlAction(PropertiesView, () =>
-                {
-                    // Perform updates
-                    PropertiesView.BeginUpdate();
-                    for (Int32 Index = 0; Index < ProjectExplorerPresenter.GetItemCount(); Index++)
-                    {
-                        ProjectItem ProjectItem = ProjectExplorerPresenter.GetProjectItemAt(Index);
-
-                        if (ProjectItem is AddressItem)
-                        {
-                            AddressItem AddressItem = (AddressItem)ProjectItem;
-
-                            // Update existing
-                            if (NodeCache.ContainsKey(AddressItem))
-                            {
-                                // Cache[AddressItem].EntryAddress = AddressItem.GetAddressString();
-                                // Cache[AddressItem].EntryValue = AddressItem.GetValueString();
-                                // Cache[AddressItem].IsChecked = AddressItem.GetActivationState();
-                            }
-                            // Otherwise create new
-                            else
-                            {
-                                ProjectNode ProjectNode = new ProjectNode(AddressItem.Description);
-                                ProjectNode.ProjectItem = AddressItem;
-
-                                ProjectTree.Nodes.Add(ProjectNode);
-                                NodeCache.Add(AddressItem, ProjectNode);
-                            }
-
-                            ProjectTree.OnNodesChanged(new TreeModelEventArgs(ProjectTree.GetPath(NodeCache[AddressItem]), new Object[] { }));
-                        }
-                    }
-                    PropertiesView.EndUpdate();
-                });
-            }
         }
 
         private ProjectItem GetProjectItemFromNode(TreeNodeAdv TreeNodeAdv)
@@ -245,7 +159,7 @@ namespace Anathema.GUI
 
                 List<Int32> Nodes = new List<Int32>();
                 PropertiesView.SelectedNodes.ForEach(X => Nodes.Add(X.Index));
-                ProjectExplorerPresenter.DeleteTableItems(Nodes);
+                ProjectExplorerPresenter.DeleteProjectItems(Nodes);
             }
         }
 

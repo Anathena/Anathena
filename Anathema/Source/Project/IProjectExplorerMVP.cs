@@ -17,7 +17,6 @@ namespace Anathema.Source.Project
     interface IProjectExplorerView : IView
     {
         // Methods invoked by the presenter (upstream)
-        void ReadValues();
         void RefreshStructure();
     }
 
@@ -26,16 +25,10 @@ namespace Anathema.Source.Project
         public virtual void OnGUIOpen() { }
 
         // Events triggered by the model (upstream)
-        public event ProjectExplorerEventHandler EventReadValues;
-        protected virtual void OnEventReadValues(ProjectExplorerEventArgs E)
+        public event ProjectExplorerEventHandler EventRefreshProjectStructure;
+        protected virtual void OnEventRefreshProjectStructure(ProjectExplorerEventArgs E)
         {
-            EventReadValues?.Invoke(this, E);
-        }
-
-        public event ProjectExplorerEventHandler EventRefreshStructure;
-        protected virtual void OnEventRefreshStructure(ProjectExplorerEventArgs E)
-        {
-            EventRefreshStructure?.Invoke(this, E);
+            EventRefreshProjectStructure?.Invoke(this, E);
         }
 
         public override void Begin()
@@ -51,15 +44,14 @@ namespace Anathema.Source.Project
         }
 
         // Functions invoked by presenter (downstream)
-        public abstract ProjectItem GetProjectItemAt(Int32 Index);
-        public abstract Int32 GetItemCount();
+        public abstract ProjectItem GetProjectRoot();
         public abstract void SetAddressItemAt(Int32 Index, AddressItem AddressItem);
         public abstract void SetItemActivation(Int32 Index, Boolean Activated);
 
         public abstract void ReorderItem(Int32 SourceIndex, Int32 DestinationIndex);
 
         public abstract void AddProjectItem(ProjectItem ProjectItem, ProjectItem Parent);
-        public abstract void DeleteTableItems(IEnumerable<Int32> Items);
+        public abstract void DeleteProjectItems(IEnumerable<Int32> Items);
 
         public abstract void UpdateReadBounds(Int32 StartReadIndex, Int32 EndReadIndex);
     }
@@ -75,27 +67,16 @@ namespace Anathema.Source.Project
             this.Model = Model;
 
             // Bind events triggered by the model
-            Model.EventReadValues += EventReadValues;
-            Model.EventRefreshStructure += EventRefreshStructure;
+            Model.EventRefreshProjectStructure += EventRefreshStructure;
 
             Model.OnGUIOpen();
         }
 
         #region Method definitions called by the view (downstream)
 
-        public void UpdateReadBounds(Int32 StartReadIndex, Int32 EndReadIndex)
+        public ProjectItem GetProjectRoot()
         {
-            Model.UpdateReadBounds(StartReadIndex, EndReadIndex);
-        }
-
-        public ProjectItem GetProjectItemAt(Int32 Index)
-        {
-            return Model.GetProjectItemAt(Index);
-        }
-
-        public Int32 GetItemCount()
-        {
-            return Model.GetItemCount();
+            return Model.GetProjectRoot();
         }
 
         public void AddNewAddressItem(ProjectItem Parent = null)
@@ -108,9 +89,9 @@ namespace Anathema.Source.Project
             Model.AddProjectItem(new FolderItem(), Parent);
         }
 
-        public void DeleteTableItems(IEnumerable<Int32> Indicies)
+        public void DeleteProjectItems(IEnumerable<Int32> Indicies)
         {
-            Model.DeleteTableItems(Indicies);
+            Model.DeleteProjectItems(Indicies);
         }
 
         public void SetAddressFrozen(Int32 Index, Boolean Activated)
@@ -126,11 +107,6 @@ namespace Anathema.Source.Project
         #endregion
 
         #region Event definitions for events triggered by the model (upstream)
-
-        private void EventReadValues(Object Sender, ProjectExplorerEventArgs E)
-        {
-            View.ReadValues();
-        }
 
         private void EventRefreshStructure(Object Sender, ProjectExplorerEventArgs E)
         {
