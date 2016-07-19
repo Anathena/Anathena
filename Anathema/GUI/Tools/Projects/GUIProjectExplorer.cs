@@ -55,7 +55,8 @@ namespace Anathema.GUI
                     ProjectTree.Nodes.Clear();
                     NodeCache.Clear();
 
-                    BuildNodes(ProjectExplorerPresenter.GetProjectRoot());
+                    foreach (ProjectItem Child in ProjectExplorerPresenter.GetProjectRoot())
+                        BuildNodes(Child);
 
                     ProjectExplorerTreeView.EndUpdate();
                 });
