@@ -56,7 +56,7 @@ namespace Anathema.GUI
         {
             using (TimedLock.Lock(AccessLock))
             {
-                foreach (Type Primitive in PrimitiveTypes.GetPrimitiveTypes())
+                foreach (Type Primitive in PrimitiveTypes.GetScannablePrimitiveTypes())
                     ValueTypeComboBox.Items.Add(Primitive.Name);
 
                 ValueTypeComboBox.SelectedIndex = ValueTypeComboBox.Items.IndexOf(typeof(Int32).Name);

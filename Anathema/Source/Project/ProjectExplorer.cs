@@ -2,6 +2,7 @@
 using Anathema.Source.Engine.Processes;
 using Anathema.Source.Project.Deprecating;
 using Anathema.Source.Project.ProjectItems;
+using Anathema.Source.PropertyEditor;
 using System;
 using System.Collections.Generic;
 
@@ -12,7 +13,7 @@ namespace Anathema.Source.Project
     /// </summary>
     class ProjectExplorer : IProjectExplorerModel, IProcessObserver
     {
-        // Singleton instance of address table
+        // Singleton instance of project explorer
         private static Lazy<ProjectExplorer> ProjectExplorerInstance = new Lazy<ProjectExplorer>(() => { return new ProjectExplorer(); });
 
         private EngineCore EngineCore;
@@ -101,7 +102,7 @@ namespace Anathema.Source.Project
             TableManager.GetInstance().TableChanged();
         }
 
-        public override void DeleteProjectItems(IEnumerable<Int32> Indicies)
+        public override void DeleteProjectIncicies(IEnumerable<Int32> Indicies)
         {
             // foreach (Int32 Index in Indicies.OrderByDescending(X => X))
             //    ProjectItems.RemoveAt(Index);
@@ -109,6 +110,12 @@ namespace Anathema.Source.Project
             RefreshProjectStructure();
 
             TableManager.GetInstance().TableChanged();
+        }
+
+        public override void UpdateSelectedIndicies(IEnumerable<Int32> Indicies)
+        {
+            // TODO: Smart logic for identifying the most common set of properties from the collection of trees
+            PropertyViewer.GetInstance().SetProperties(null);
         }
 
         public override ProjectItem GetProjectRoot()

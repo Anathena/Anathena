@@ -1,5 +1,7 @@
-﻿using System;
+﻿using Anathema.Source.PropertyEditor;
+using System;
 using System.Collections.Generic;
+using System.Reflection;
 using System.Runtime.CompilerServices;
 
 namespace Anathema.Source.Utils.Extensions
@@ -26,6 +28,34 @@ namespace Anathema.Source.Utils.Extensions
             Console.WriteLine(Tag);
 
             return Object;
+        }
+
+        /// <summary>
+        /// Returns a set of fields assocated with the calling object.
+        /// </summary>
+        /// <param name="Object"></param>
+        /// <returns></returns>
+        public static IEnumerable<Property> GetProperties(this Object Object)
+        {
+            FieldInfo[] FieldInfo = Object.GetType().GetFields(BindingFlags.Public | BindingFlags.Instance);
+            List<Property> Properties = new List<Property>();
+
+            foreach (FieldInfo Field in FieldInfo)
+            {
+                if (Field == null)
+                    continue;
+
+                // Type Type = Field.GetType();
+                // var A = Type.GetProperty("Id");
+                // Boolean IgnoreProperty = Attribute.IsDefined(A, typeof(IgnoreProperty));
+
+                String Name = Field.Name;
+                Object Value = Object.GetType().InvokeMember(Field.Name, BindingFlags.GetField, null, Object, null);
+
+                Properties.Add(new Property(Name, Value));
+            }
+
+            return Properties;
         }
 
     } // End calss

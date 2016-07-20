@@ -12,7 +12,7 @@ namespace Anathema.Source.Utils.Validation
     {
         public static Type StringToPrimitiveType(String Value)
         {
-            return PrimitiveTypes.GetPrimitiveTypes().Where(x => x.Name == Value).First();
+            return PrimitiveTypes.GetScannablePrimitiveTypes().Where(X => X.Name == Value).First();
         }
 
         [Obfuscation(Exclude = true)]

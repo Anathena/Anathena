@@ -287,6 +287,10 @@
     <Compile Include="Source\Project\IScratchPadMVP.cs" />
     <Compile Include="Source\Project\ScratchPad.cs" />
     <Compile Include="Source\Project\ProjectItems\FolderItem.cs" />
+    <Compile Include="Source\PropertyEditor\IPropertyViewerMVP.cs" />
+    <Compile Include="Source\PropertyEditor\Properties\Property.cs" />
+    <Compile Include="Source\PropertyEditor\Properties\ReflectionExtensions.cs" />
+    <Compile Include="Source\PropertyEditor\PropertyViewer.cs" />
     <Compile Include="Source\Utils\AddressResolver\AddressResolver.cs" />
     <Compile Include="Source\Engine\Graphics\DirectX\Interface\BaseDXHook.cs" />
     <Compile Include="Source\Engine\Graphics\DirectX\Interface\Common\Element.cs" />
@@ -667,9 +671,9 @@
     <Compile Include="Source\Project\Deprecating\IFSMTableMVP.cs" />
     <Compile Include="Source\Project\ProjectItems\AddressItem.cs" />
     <Compile Include="Source\Project\Deprecating\ScriptTable.cs" />
-    <Compile Include="Source\Project\Editors\AddressEditor\ITableAddressEntryEditorMVP.cs" />
+    <Compile Include="Source\Project\Deprecating\AddressEditor\ITableAddressEntryEditorMVP.cs" />
     <Compile Include="Source\Project\ProjectItems\ScriptItem.cs" />
-    <Compile Include="Source\Project\Editors\AddressEditor\TableAddressEntryEditor.cs" />
+    <Compile Include="Source\Project\Deprecating\AddressEditor\TableAddressEntryEditor.cs" />
     <Compile Include="Source\Project\Deprecating\TableManager.cs" />
     <Compile Include="Source\Project\ProjectItems\ProjectItem.cs" />
     <Compile Include="Source\Scanners\ScanConstraints\ScanConstraint.cs" />

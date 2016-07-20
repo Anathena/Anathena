@@ -57,7 +57,7 @@ namespace Anathema
 
         private void InitializeValueTypeComboBox()
         {
-            foreach (Type Primitive in PrimitiveTypes.GetPrimitiveTypes())
+            foreach (Type Primitive in PrimitiveTypes.GetScannablePrimitiveTypes())
                 ValueTypeComboBox.Items.Add(Primitive.Name);
         }
 

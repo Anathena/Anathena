@@ -109,6 +109,7 @@
             this.ProjectExplorerTreeView.TabIndex = 154;
             this.ProjectExplorerTreeView.Text = "Project Explorer";
             this.ProjectExplorerTreeView.NodeMouseDoubleClick += new System.EventHandler<Aga.Controls.Tree.TreeNodeAdvMouseEventArgs>(this.ProjectExplorerTreeView_NodeMouseDoubleClick);
+            this.ProjectExplorerTreeView.SelectionChanged += new System.EventHandler(this.ProjectExplorerTreeView_SelectionChanged);
             // 
             // EntryCheckBox
             // 

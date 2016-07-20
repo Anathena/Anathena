@@ -1,17 +1,15 @@
-﻿using Anathema.Source.Project.ProjectItems;
-using Anathema.Source.Utils;
+﻿using Anathema.Source.Utils;
 using Anathema.Source.Utils.MVP;
 using Anathema.Source.Utils.Setting;
 using System;
 using System.Collections.Generic;
 
-namespace Anathema.Source.PropertyViewer
+namespace Anathema.Source.PropertyEditor
 {
     delegate void PropertyViewerEventHandler(Object Sender, PropertyViewerEventArgs Args);
     class PropertyViewerEventArgs : EventArgs
     {
-        public Int32 ItemCount = 0;
-        public Int32 ClearCacheIndex = -1;
+
     }
 
     interface IPropertyViewerView : IView
@@ -25,10 +23,10 @@ namespace Anathema.Source.PropertyViewer
         public virtual void OnGUIOpen() { }
 
         // Events triggered by the model (upstream)
-        public event PropertyViewerEventHandler EventRefreshProjectStructure;
-        protected virtual void OnEventRefreshProjectStructure(PropertyViewerEventArgs E)
+        public event PropertyViewerEventHandler EventRefresh;
+        protected virtual void OnEventRefresh(PropertyViewerEventArgs E)
         {
-            EventRefreshProjectStructure?.Invoke(this, E);
+            EventRefresh?.Invoke(this, E);
         }
 
         public override void Begin()
@@ -44,16 +42,7 @@ namespace Anathema.Source.PropertyViewer
         }
 
         // Functions invoked by presenter (downstream)
-        public abstract ProjectItem GetProjectRoot();
-        public abstract void SetAddressItemAt(Int32 Index, AddressItem AddressItem);
-        public abstract void SetItemActivation(Int32 Index, Boolean Activated);
-
-        public abstract void ReorderItem(Int32 SourceIndex, Int32 DestinationIndex);
-
-        public abstract void AddProjectItem(ProjectItem ProjectItem, ProjectItem Parent);
-        public abstract void DeleteProjectItems(IEnumerable<Int32> Items);
-
-        public abstract void UpdateReadBounds(Int32 StartReadIndex, Int32 EndReadIndex);
+        public abstract void SetProperties(IEnumerable<Property> PropertySet);
     }
 
     class PropertyViewerPresenter : Presenter<IPropertyViewerView, IPropertyViewerModel>
@@ -67,48 +56,23 @@ namespace Anathema.Source.PropertyViewer
             this.Model = Model;
 
             // Bind events triggered by the model
-            Model.EventRefreshProjectStructure += EventRefreshStructure;
+            Model.EventRefresh += EventRefresh;
 
             Model.OnGUIOpen();
         }
 
         #region Method definitions called by the view (downstream)
 
-        public ProjectItem GetProjectRoot()
+        public void SetProperties(IEnumerable<Property> PropertySet)
         {
-            return Model.GetProjectRoot();
-        }
-
-        public void AddNewAddressItem(ProjectItem Parent = null)
-        {
-            Model.AddProjectItem(new AddressItem(), Parent);
-        }
-
-        public void AddNewFolderItem(ProjectItem Parent = null)
-        {
-            Model.AddProjectItem(new FolderItem(), Parent);
-        }
-
-        public void DeleteProjectItems(IEnumerable<Int32> Indicies)
-        {
-            Model.DeleteProjectItems(Indicies);
-        }
-
-        public void SetAddressFrozen(Int32 Index, Boolean Activated)
-        {
-            Model.SetItemActivation(Index, Activated);
-        }
-
-        public void ReorderItem(Int32 SourceIndex, Int32 DestinationIndex)
-        {
-            Model.ReorderItem(SourceIndex, DestinationIndex);
+            Model.SetProperties(PropertySet);
         }
 
         #endregion
 
         #region Event definitions for events triggered by the model (upstream)
 
-        private void EventRefreshStructure(Object Sender, PropertyViewerEventArgs E)
+        private void EventRefresh(Object Sender, PropertyViewerEventArgs E)
         {
             View.RefreshStructure();
         }

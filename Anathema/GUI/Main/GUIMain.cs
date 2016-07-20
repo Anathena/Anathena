@@ -116,7 +116,7 @@ namespace Anathema.GUI
 
         private void InitializeControls()
         {
-            PrimitiveTypes.GetPrimitiveTypes().ForEach(X => ValueTypeComboBox.Items.Add(X.Name));
+            PrimitiveTypes.GetScannablePrimitiveTypes().ForEach(X => ValueTypeComboBox.Items.Add(X.Name));
             ValueTypeComboBox.SelectedIndex = ValueTypeComboBox.Items.IndexOf(typeof(Int32).Name);
         }
 

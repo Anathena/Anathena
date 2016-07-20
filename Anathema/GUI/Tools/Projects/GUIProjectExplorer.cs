@@ -209,6 +209,12 @@ namespace Anathema.GUI
             AddNewAddressItem();
         }
 
+        private void ProjectExplorerTreeView_SelectionChanged(Object Sender, EventArgs E)
+        {
+            List<Int32> Nodes = new List<Int32>();
+            ProjectExplorerTreeView.SelectedNodes.ForEach(X => Nodes.Add(X.Index));
+        }
+
         private Point LastRightClickLocation = Point.Empty;
 
         private void AddressTableListView_MouseClick(Object Sender, MouseEventArgs E)
