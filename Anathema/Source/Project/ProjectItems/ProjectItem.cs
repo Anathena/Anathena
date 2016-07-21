@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Anathema.Source.PropertyEditor;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Drawing;
@@ -14,6 +15,7 @@ namespace Anathema.Source.Project.ProjectItems
     {
         [Obfuscation(Exclude = true)]
         [DataMember()]
+        [IgnoreProperty()]
         public ProjectItem Parent
         {
             [Obfuscation(Exclude = true)]
@@ -24,6 +26,7 @@ namespace Anathema.Source.Project.ProjectItems
 
         [Obfuscation(Exclude = true)]
         [DataMember()]
+        [IgnoreProperty()]
         public List<ProjectItem> Children
         {
             [Obfuscation(Exclude = true)]
@@ -38,6 +41,7 @@ namespace Anathema.Source.Project.ProjectItems
 
         [Obfuscation(Exclude = true)]
         [DataMember()]
+        [IgnoreProperty()]
         public Int32 TextColorARGB
         {
             [Obfuscation(Exclude = true)]

@@ -191,6 +191,7 @@
     <Compile Include="GUI\CustomControls\TreeViews\HighlightPreservingTreeView.Designer.cs">
       <DependentUpon>HighlightPreservingTreeView.cs</DependentUpon>
     </Compile>
+    <Compile Include="GUI\CustomControls\TreeViews\PropertyNode.cs" />
     <Compile Include="GUI\Tools\DotNetExplorer\GUIDotNetExplorer.cs">
       <SubType>Form</SubType>
     </Compile>

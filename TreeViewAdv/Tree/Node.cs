@@ -1,257 +1,259 @@
 using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Collections.ObjectModel;
-using System.Windows.Forms;
 using System.Drawing;
+using System.Windows.Forms;
 
 namespace Aga.Controls.Tree
 {
-	public class Node
-	{
-		#region NodeCollection
+    public class Node
+    {
+        #region NodeCollection
 
-		private class NodeCollection : Collection<Node>
-		{
-			private Node _owner;
+        private class NodeCollection : Collection<Node>
+        {
+            private Node _owner;
 
-			public NodeCollection(Node owner)
-			{
-				_owner = owner;
-			}
+            public NodeCollection(Node owner)
+            {
+                _owner = owner;
+            }
 
-			protected override void ClearItems()
-			{
-				while (this.Count != 0)
-					this.RemoveAt(this.Count - 1);
-			}
+            protected override void ClearItems()
+            {
+                while (this.Count != 0)
+                    this.RemoveAt(this.Count - 1);
+            }
 
-			protected override void InsertItem(int index, Node item)
-			{
-				if (item == null)
-					throw new ArgumentNullException("item");
+            protected override void InsertItem(int index, Node item)
+            {
+                if (item == null)
+                    throw new ArgumentNullException("item");
 
-				if (item.Parent != _owner)
-				{
-					if (item.Parent != null)
-						item.Parent.Nodes.Remove(item);
-					item._parent = _owner;
-					item._index = index;
-					for (int i = index; i < Count; i++)
-						this[i]._index++;
-					base.InsertItem(index, item);
+                if (item.Parent != _owner)
+                {
+                    if (item.Parent != null)
+                        item.Parent.Nodes.Remove(item);
+                    item._parent = _owner;
+                    item._index = index;
+                    for (int i = index; i < Count; i++)
+                        this[i]._index++;
+                    base.InsertItem(index, item);
 
-					TreeModel model = _owner.FindModel();
-					if (model != null)
-						model.OnNodeInserted(_owner, index, item);
-				}
-			}
+                    TreeModel model = _owner.FindModel();
+                    if (model != null)
+                        model.OnNodeInserted(_owner, index, item);
+                }
+            }
 
-			protected override void RemoveItem(int index)
-			{
-				Node item = this[index];
-				item._parent = null;
-				item._index = -1;
-				for (int i = index + 1; i < Count; i++)
-					this[i]._index--;
-				base.RemoveItem(index);
+            protected override void RemoveItem(int index)
+            {
+                Node item = this[index];
 
-				TreeModel model = _owner.FindModel();
-				if (model != null)
-					model.OnNodeRemoved(_owner, index, item);
-			}
+                if (item == null)
+                    return;
 
-			protected override void SetItem(int index, Node item)
-			{
-				if (item == null)
-					throw new ArgumentNullException("item");
+                item._parent = null;
+                item._index = -1;
+                for (int i = index + 1; i < Count; i++)
+                    this[i]._index--;
+                base.RemoveItem(index);
 
-				RemoveAt(index);
-				InsertItem(index, item);
-			}
-		}
+                TreeModel model = _owner.FindModel();
+                if (model != null)
+                    model.OnNodeRemoved(_owner, index, item);
+            }
 
-		#endregion
+            protected override void SetItem(int index, Node item)
+            {
+                if (item == null)
+                    throw new ArgumentNullException("item");
 
-		#region Properties
+                RemoveAt(index);
+                InsertItem(index, item);
+            }
+        }
 
-		private TreeModel _model;
-		internal TreeModel Model
-		{
-			get { return _model; }
-			set { _model = value; }
-		}
+        #endregion
 
-		private NodeCollection _nodes;
-		public Collection<Node> Nodes
-		{
-			get { return _nodes; }
-		}
+        #region Properties
 
-		private Node _parent;
-		public Node Parent
-		{
-			get { return _parent; }
-			set 
-			{
-				if (value != _parent)
-				{
-					if (_parent != null)
-						_parent.Nodes.Remove(this);
+        private TreeModel _model;
+        internal TreeModel Model
+        {
+            get { return _model; }
+            set { _model = value; }
+        }
 
-					if (value != null)
-						value.Nodes.Add(this);
-				}
-			}
-		}
+        private NodeCollection _nodes;
+        public Collection<Node> Nodes
+        {
+            get { return _nodes; }
+        }
 
-		private int _index = -1;
-		public int Index
-		{
-			get
-			{
-				return _index;
-			}
-		}
+        private Node _parent;
+        public Node Parent
+        {
+            get { return _parent; }
+            set
+            {
+                if (value != _parent)
+                {
+                    if (_parent != null)
+                        _parent.Nodes.Remove(this);
 
-		public Node PreviousNode
-		{
-			get
-			{
-				int index = Index;
-				if (index > 0)
-					return _parent.Nodes[index - 1];
-				else
-					return null;
-			}
-		}
+                    if (value != null)
+                        value.Nodes.Add(this);
+                }
+            }
+        }
 
-		public Node NextNode
-		{
-			get
-			{
-				int index = Index;
-				if (index >= 0 && index < _parent.Nodes.Count - 1)
-					return _parent.Nodes[index + 1];
-				else
-					return null;
-			}
-		}
+        private int _index = -1;
+        public int Index
+        {
+            get
+            {
+                return _index;
+            }
+        }
 
-		private string _text;
-		public virtual string Text
-		{
-			get { return _text; }
-			set 
-			{
-				if (_text != value)
-				{
-					_text = value;
-					NotifyModel();
-				}
-			}
-		}
+        public Node PreviousNode
+        {
+            get
+            {
+                int index = Index;
+                if (index > 0)
+                    return _parent.Nodes[index - 1];
+                else
+                    return null;
+            }
+        }
 
-		private CheckState _checkState;
-		public virtual CheckState CheckState
-		{
-			get { return _checkState; }
-			set 
-			{
-				if (_checkState != value)
-				{
-					_checkState = value;
-					NotifyModel();
-				}
-			}
-		}
+        public Node NextNode
+        {
+            get
+            {
+                int index = Index;
+                if (index >= 0 && index < _parent.Nodes.Count - 1)
+                    return _parent.Nodes[index + 1];
+                else
+                    return null;
+            }
+        }
 
-		private Image _image;
-		public Image Image
-		{
-			get { return _image; }
-			set 
-			{
-				if (_image != value)
-				{
-					_image = value;
-					NotifyModel();
-				}
-			}
-		}
+        private string _text;
+        public virtual string Text
+        {
+            get { return _text; }
+            set
+            {
+                if (_text != value)
+                {
+                    _text = value;
+                    NotifyModel();
+                }
+            }
+        }
 
-		private object _tag;
-		public object Tag
-		{
-			get { return _tag; }
-			set { _tag = value; }
-		}
+        private CheckState _checkState;
+        public virtual CheckState CheckState
+        {
+            get { return _checkState; }
+            set
+            {
+                if (_checkState != value)
+                {
+                    _checkState = value;
+                    NotifyModel();
+                }
+            }
+        }
 
-		public bool IsChecked
-		{
-			get 
-			{ 
-				return CheckState != CheckState.Unchecked;
-			}
-			set 
-			{
-				if (value)
-					CheckState = CheckState.Checked;
-				else
-					CheckState = CheckState.Unchecked;
-			}
-		}
+        private Image _image;
+        public Image Image
+        {
+            get { return _image; }
+            set
+            {
+                if (_image != value)
+                {
+                    _image = value;
+                    NotifyModel();
+                }
+            }
+        }
 
-		public virtual bool IsLeaf
-		{
-			get
-			{
-				return false;
-			}
-		}
+        private object _tag;
+        public object Tag
+        {
+            get { return _tag; }
+            set { _tag = value; }
+        }
 
-		#endregion
+        public bool IsChecked
+        {
+            get
+            {
+                return CheckState != CheckState.Unchecked;
+            }
+            set
+            {
+                if (value)
+                    CheckState = CheckState.Checked;
+                else
+                    CheckState = CheckState.Unchecked;
+            }
+        }
 
-		public Node()
-			: this(string.Empty)
-		{
-		}
+        public virtual bool IsLeaf
+        {
+            get
+            {
+                return false;
+            }
+        }
 
-		public Node(string text)
-		{
-			_text = text;
-			_nodes = new NodeCollection(this);
-		}
+        #endregion
 
-		public override string ToString()
-		{
-			return Text;
-		}
+        public Node()
+            : this(string.Empty)
+        {
+        }
 
-		private TreeModel FindModel()
-		{
-			Node node = this;
-			while (node != null)
-			{
-				if (node.Model != null)
-					return node.Model;
-				node = node.Parent;
-			}
-			return null;
-		}
+        public Node(string text)
+        {
+            _text = text;
+            _nodes = new NodeCollection(this);
+        }
 
-		protected void NotifyModel()
-		{
-			TreeModel model = FindModel();
-			if (model != null && Parent != null)
-			{
-				TreePath path = model.GetPath(Parent);
-				if (path != null)
-				{
-					TreeModelEventArgs args = new TreeModelEventArgs(path, new int[] { Index }, new object[] { this });
-					model.OnNodesChanged(args);
-				}
-			}
-		}
-	}
+        public override string ToString()
+        {
+            return Text;
+        }
+
+        private TreeModel FindModel()
+        {
+            Node node = this;
+            while (node != null)
+            {
+                if (node.Model != null)
+                    return node.Model;
+                node = node.Parent;
+            }
+            return null;
+        }
+
+        protected void NotifyModel()
+        {
+            TreeModel model = FindModel();
+            if (model != null && Parent != null)
+            {
+                TreePath path = model.GetPath(Parent);
+                if (path != null)
+                {
+                    TreeModelEventArgs args = new TreeModelEventArgs(path, new int[] { Index }, new object[] { this });
+                    model.OnNodesChanged(args);
+                }
+            }
+        }
+    }
 }

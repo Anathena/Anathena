@@ -36,22 +36,21 @@ namespace Anathema.Source.Utils.Extensions
         /// </summary>
         /// <param name="Object"></param>
         /// <returns></returns>
-        public static IEnumerable<Property> GetProperties(this Object Object)
+        public static IEnumerable<Property> GetPropertySet(this Object Object)
         {
-            IEnumerable<FieldInfo> FieldInfo = GetAllFields(Object.GetType());
+            IEnumerable<PropertyInfo> PropertyInfo = Object.GetType().GetProperties();
             List<Property> Properties = new List<Property>();
 
-            foreach (FieldInfo Field in FieldInfo)
+            foreach (PropertyInfo Property in PropertyInfo)
             {
-                if (Field == null)
+                if (Property == null)
                     continue;
 
-                // Type Type = Field.GetType();
-                // var A = Type.GetProperty("Id");
-                // Boolean IgnoreProperty = Attribute.IsDefined(A, typeof(IgnoreProperty));
+                if (Attribute.IsDefined(Property, typeof(IgnoreProperty)))
+                    continue;
 
-                String Name = Field.Name;
-                Object Value = Object.GetType().InvokeMember(Field.Name, BindingFlags.GetField, null, Object, null);
+                String Name = Property.Name;
+                Object Value = Property.GetValue(Object);
 
                 Properties.Add(new Property(Name, Value));
             }

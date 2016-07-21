@@ -6,10 +6,7 @@ using System.Drawing;
 namespace Anathema.GUI
 {
     /// <summary>
-    /// TODO: This class should not have to exist, and only is required because of a hack done by the
-    /// creators of TreeViewAdv. Fix their library for them.
-    /// 
-    /// Until then keep the public name strings in sync with the column headers for the address table
+    /// This only exists for the scratchpad implementation, which may not be kept
     /// </summary>
     public class AddressNode : Node
     {

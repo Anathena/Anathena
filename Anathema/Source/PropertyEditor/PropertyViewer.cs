@@ -54,7 +54,7 @@ namespace Anathema.Source.PropertyEditor
             // TODO: find common properties between all sets, and use this to set the current property set.
             // For example: Address items and script items might only have a "Description" property in common
             if (TargetObjects.Length > 0)
-                this.PropertySet = TargetObjects[0].GetProperties();
+                this.PropertySet = TargetObjects[0].GetPropertySet();
 
             Refresh();
         }
@@ -73,7 +73,7 @@ namespace Anathema.Source.PropertyEditor
 
         protected override void Update()
         {
-            Refresh();
+            // Refresh();
 
             // TODO: offload these to individual properties
             /*

@@ -3,7 +3,7 @@
 namespace Anathema.Source.PropertyEditor
 {
 
-    [AttributeUsage(AttributeTargets.Class | AttributeTargets.Struct)]
+    [AttributeUsage(AttributeTargets.Property)]
     public class IgnoreProperty : Attribute { public IgnoreProperty() { } }
 
     /// <summary>

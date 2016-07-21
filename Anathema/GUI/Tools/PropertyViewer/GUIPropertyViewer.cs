@@ -1,10 +1,11 @@
 ﻿using Aga.Controls.Tree;
 using Aga.Controls.Tree.NodeControls;
-using Anathema.Source.Project;
 using Anathema.Source.Project.ProjectItems;
+using Anathema.Source.PropertyEditor;
 using Anathema.Source.Utils;
 using Anathema.Source.Utils.Caches;
 using Anathema.Source.Utils.Extensions;
+using Anathema.Source.Utils.MVP;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -14,9 +15,9 @@ using WeifenLuo.WinFormsUI.Docking;
 
 namespace Anathema.GUI
 {
-    public partial class GUIPropertyViewer : DockContent, IProjectExplorerView
+    public partial class GUIPropertyViewer : DockContent, IPropertyViewerView
     {
-        private ProjectExplorerPresenter ProjectExplorerPresenter;
+        private PropertyViewerPresenter PropertyViewerPresenter;
         private BiDictionary<ProjectItem, ProjectNode> NodeCache;
         private TreeModel ProjectTree;
         private Object AccessLock;
@@ -25,30 +26,30 @@ namespace Anathema.GUI
         {
             InitializeComponent();
 
-            EntryCheckBox.IsEditEnabledValueNeeded += CheckIndex;
-
             NodeCache = new BiDictionary<ProjectItem, ProjectNode>();
             ProjectTree = new TreeModel();
             AccessLock = new Object();
 
             PropertiesView.Model = ProjectTree;
 
-            ProjectExplorerPresenter = new ProjectExplorerPresenter(this, ProjectExplorer.GetInstance());
+            PropertyViewerPresenter = new PropertyViewerPresenter(this, PropertyViewer.GetInstance());
+        }
+
+        public void RefreshStructure(IEnumerable<Property> PropertySet)
+        {
+            ControlThreadingHelper.InvokeControlAction<TreeViewAdv>(PropertiesView, () =>
+            {
+                PropertiesView.BeginUpdate();
+                ProjectTree.Nodes.Clear();
+                ProjectTree.Nodes.Add(new PropertyNode("{Property}", "{Value}"));
+
+                PropertiesView.EndUpdate();
+            });
         }
 
         void CheckIndex(Object Sender, NodeControlValueEventArgs E)
         {
             E.Value = true;
-        }
-
-        public void RefreshStructure()
-        {
-
-        }
-
-        public void ReadValues()
-        {
-
         }
 
         private ProjectItem GetProjectItemFromNode(TreeNodeAdv TreeNodeAdv)
@@ -90,25 +91,15 @@ namespace Anathema.GUI
 
         private void AddressToolStripMenuItem_Click(Object Sender, EventArgs E)
         {
-            AddNewAddressItem();
+
         }
 
         private void FolderToolStripMenuItem_Click(Object Sender, EventArgs E)
         {
-            AddNewFolderItem();
+
         }
 
         #endregion
-
-        public void AddNewAddressItem()
-        {
-            ProjectExplorerPresenter.AddNewAddressItem(GetSelectedItem());
-        }
-
-        public void AddNewFolderItem()
-        {
-            ProjectExplorerPresenter.AddNewFolderItem(GetSelectedItem());
-        }
 
         private ProjectItem GetSelectedItem()
         {
@@ -133,7 +124,6 @@ namespace Anathema.GUI
 
                 List<Int32> Nodes = new List<Int32>();
                 PropertiesView.SelectedNodes.ForEach(X => Nodes.Add(X.Index));
-                ProjectExplorerPresenter.DeleteProjectItems(Nodes);
             }
         }
 
@@ -141,7 +131,7 @@ namespace Anathema.GUI
 
         private void AddAddressButton_Click(Object Sender, EventArgs E)
         {
-            AddNewAddressItem();
+
         }
 
         private Point LastRightClickLocation = Point.Empty;
@@ -236,7 +226,7 @@ namespace Anathema.GUI
 
         private void AddNewAddressToolStripMenuItem_Click(Object Sender, EventArgs E)
         {
-            AddNewAddressItem();
+
         }
 
         private void AddressTableContextMenuStrip_Opening(Object Sender, CancelEventArgs E)

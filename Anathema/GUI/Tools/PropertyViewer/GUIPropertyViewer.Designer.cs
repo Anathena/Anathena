@@ -35,12 +35,11 @@
             this.EditAddressEntryToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.DeleteSelectionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.AddNewAddressToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.EntryCheckBox = new Aga.Controls.Tree.NodeControls.NodeCheckBox();
-            this.EntryIcon = new Aga.Controls.Tree.NodeControls.NodeIcon();
             this.EntryDescription = new Aga.Controls.Tree.NodeControls.NodeTextBox();
             this.PropertiesView = new Aga.Controls.Tree.TreeViewAdv();
             this.PropertyColumn = new Aga.Controls.Tree.TreeColumn();
             this.ValueColumn = new Aga.Controls.Tree.TreeColumn();
+            this.EntryValue = new Aga.Controls.Tree.NodeControls.NodeTextBox();
             this.ProjectContextMenuStrip.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -82,20 +81,6 @@
             this.AddNewAddressToolStripMenuItem.Text = "Add New Address";
             this.AddNewAddressToolStripMenuItem.Click += new System.EventHandler(this.AddNewAddressToolStripMenuItem_Click);
             // 
-            // EntryCheckBox
-            // 
-            this.EntryCheckBox.DataPropertyName = "IsChecked";
-            this.EntryCheckBox.EditEnabled = true;
-            this.EntryCheckBox.LeftMargin = 0;
-            this.EntryCheckBox.ParentColumn = null;
-            // 
-            // EntryIcon
-            // 
-            this.EntryIcon.DataPropertyName = "EntryIcon";
-            this.EntryIcon.LeftMargin = 1;
-            this.EntryIcon.ParentColumn = null;
-            this.EntryIcon.ScaleMode = Aga.Controls.Tree.ImageScaleMode.Clip;
-            // 
             // EntryDescription
             // 
             this.EntryDescription.DataPropertyName = "EntryDescription";
@@ -119,9 +104,8 @@
             this.PropertiesView.Location = new System.Drawing.Point(0, 0);
             this.PropertiesView.Model = null;
             this.PropertiesView.Name = "PropertiesView";
-            this.PropertiesView.NodeControls.Add(this.EntryCheckBox);
-            this.PropertiesView.NodeControls.Add(this.EntryIcon);
             this.PropertiesView.NodeControls.Add(this.EntryDescription);
+            this.PropertiesView.NodeControls.Add(this.EntryValue);
             this.PropertiesView.SelectedNode = null;
             this.PropertiesView.SelectionMode = Aga.Controls.Tree.TreeSelectionMode.Multi;
             this.PropertiesView.ShowLines = false;
@@ -145,7 +129,14 @@
             this.ValueColumn.TooltipText = null;
             this.ValueColumn.Width = 128;
             // 
-            // GUIProperties
+            // EntryValue
+            // 
+            this.EntryValue.DataPropertyName = "EntryValue";
+            this.EntryValue.IncrementalSearchEnabled = true;
+            this.EntryValue.LeftMargin = 3;
+            this.EntryValue.ParentColumn = null;
+            // 
+            // GUIPropertyViewer
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -153,7 +144,7 @@
             this.Controls.Add(this.PropertiesView);
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.Name = "GUIProperties";
+            this.Name = "GUIPropertyViewer";
             this.Text = "Properties";
             this.ProjectContextMenuStrip.ResumeLayout(false);
             this.ResumeLayout(false);
@@ -166,11 +157,10 @@
         private System.Windows.Forms.ToolStripMenuItem EditAddressEntryToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem DeleteSelectionToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem AddNewAddressToolStripMenuItem;
-        private Aga.Controls.Tree.NodeControls.NodeCheckBox EntryCheckBox;
-        private Aga.Controls.Tree.NodeControls.NodeIcon EntryIcon;
         private Aga.Controls.Tree.NodeControls.NodeTextBox EntryDescription;
         private Aga.Controls.Tree.TreeViewAdv PropertiesView;
         private Aga.Controls.Tree.TreeColumn PropertyColumn;
         private Aga.Controls.Tree.TreeColumn ValueColumn;
+        private Aga.Controls.Tree.NodeControls.NodeTextBox EntryValue;
     }
 }
