@@ -9,13 +9,13 @@ namespace Anathema.Source.PropertyEditor
     delegate void PropertyViewerEventHandler(Object Sender, PropertyViewerEventArgs Args);
     class PropertyViewerEventArgs : EventArgs
     {
-
+        public IEnumerable<Property> PropertySet;
     }
 
     interface IPropertyViewerView : IView
     {
         // Methods invoked by the presenter (upstream)
-        void RefreshStructure();
+        void RefreshStructure(IEnumerable<Property> PropertySet);
     }
 
     abstract class IPropertyViewerModel : RepeatedTask, IModel
@@ -42,7 +42,7 @@ namespace Anathema.Source.PropertyEditor
         }
 
         // Functions invoked by presenter (downstream)
-        public abstract void SetProperties(IEnumerable<Property> PropertySet);
+        public abstract void SetTargetObjects(params Object[] TargetObjects);
     }
 
     class PropertyViewerPresenter : Presenter<IPropertyViewerView, IPropertyViewerModel>
@@ -63,18 +63,13 @@ namespace Anathema.Source.PropertyEditor
 
         #region Method definitions called by the view (downstream)
 
-        public void SetProperties(IEnumerable<Property> PropertySet)
-        {
-            Model.SetProperties(PropertySet);
-        }
-
         #endregion
 
         #region Event definitions for events triggered by the model (upstream)
 
         private void EventRefresh(Object Sender, PropertyViewerEventArgs E)
         {
-            View.RefreshStructure();
+            View.RefreshStructure(E.PropertySet);
         }
 
         #endregion

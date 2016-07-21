@@ -211,8 +211,13 @@ namespace Anathema.GUI
 
         private void ProjectExplorerTreeView_SelectionChanged(Object Sender, EventArgs E)
         {
-            List<Int32> Nodes = new List<Int32>();
-            ProjectExplorerTreeView.SelectedNodes.ForEach(X => Nodes.Add(X.Index));
+            List<TreeNodeAdv> TreeNodes = new List<TreeNodeAdv>();
+            List<ProjectItem> ProjectItems = new List<ProjectItem>();
+
+            ProjectExplorerTreeView.SelectedNodes.ForEach(X => TreeNodes.Add(X));
+            TreeNodes.ForEach(X => ProjectItems.Add(GetProjectItemFromNode(X)));
+
+            ProjectExplorerPresenter.UpdateSelection(ProjectItems);
         }
 
         private Point LastRightClickLocation = Point.Empty;

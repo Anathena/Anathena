@@ -288,8 +288,7 @@
     <Compile Include="Source\Project\ScratchPad.cs" />
     <Compile Include="Source\Project\ProjectItems\FolderItem.cs" />
     <Compile Include="Source\PropertyEditor\IPropertyViewerMVP.cs" />
-    <Compile Include="Source\PropertyEditor\Properties\Property.cs" />
-    <Compile Include="Source\PropertyEditor\Properties\ReflectionExtensions.cs" />
+    <Compile Include="Source\PropertyEditor\Property.cs" />
     <Compile Include="Source\PropertyEditor\PropertyViewer.cs" />
     <Compile Include="Source\Utils\AddressResolver\AddressResolver.cs" />
     <Compile Include="Source\Engine\Graphics\DirectX\Interface\BaseDXHook.cs" />

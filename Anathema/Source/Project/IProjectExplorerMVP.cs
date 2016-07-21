@@ -49,6 +49,7 @@ namespace Anathema.Source.Project
         public abstract void SetItemActivation(Int32 Index, Boolean Activated);
 
         public abstract void ReorderItem(Int32 SourceIndex, Int32 DestinationIndex);
+        public abstract void UpdateSelection(IEnumerable<ProjectItem> ProjectItems);
 
         public abstract void AddProjectItem(ProjectItem ProjectItem, ProjectItem Parent);
         public abstract void DeleteProjectIncicies(IEnumerable<Int32> Indicies);
@@ -93,6 +94,11 @@ namespace Anathema.Source.Project
         public void DeleteProjectItems(IEnumerable<Int32> Indicies)
         {
             Model.DeleteProjectIncicies(Indicies);
+        }
+
+        public void UpdateSelection(IEnumerable<ProjectItem> ProjectItems)
+        {
+            Model.UpdateSelection(ProjectItems);
         }
 
         public void SetAddressFrozen(Int32 Index, Boolean Activated)

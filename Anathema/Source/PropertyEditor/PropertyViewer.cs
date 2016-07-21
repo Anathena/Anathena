@@ -1,5 +1,6 @@
 ﻿using Anathema.Source.Engine;
 using Anathema.Source.Engine.Processes;
+using Anathema.Source.Utils.Extensions;
 using System;
 using System.Collections.Generic;
 
@@ -12,6 +13,7 @@ namespace Anathema.Source.PropertyEditor
 
         private EngineCore EngineCore;
         private IEnumerable<Property> PropertySet;
+        private Object[] TargetObjects;
 
         private PropertyViewer()
         {
@@ -45,14 +47,22 @@ namespace Anathema.Source.PropertyEditor
             this.EngineCore = EngineCore;
         }
 
-        public override void SetProperties(IEnumerable<Property> PropertySet)
+        public override void SetTargetObjects(params Object[] TargetObjects)
         {
-            this.PropertySet = PropertySet;
+            this.TargetObjects = TargetObjects;
+
+            // TODO: find common properties between all sets, and use this to set the current property set.
+            // For example: Address items and script items might only have a "Description" property in common
+            if (TargetObjects.Length > 0)
+                this.PropertySet = TargetObjects[0].GetProperties();
+
+            Refresh();
         }
 
         private void Refresh()
         {
             PropertyViewerEventArgs PropertyViewerEventArgs = new PropertyViewerEventArgs();
+            PropertyViewerEventArgs.PropertySet = PropertySet;
             OnEventRefresh(PropertyViewerEventArgs);
         }
 

@@ -5,6 +5,7 @@ using Anathema.Source.Project.ProjectItems;
 using Anathema.Source.PropertyEditor;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Anathema.Source.Project
 {
@@ -88,6 +89,10 @@ namespace Anathema.Source.Project
             ProjectItems[Index].SetActivationState(Activated);
             */
         }
+        public override void UpdateSelection(IEnumerable<ProjectItem> ProjectItems)
+        {
+            PropertyViewer.GetInstance().SetTargetObjects(ProjectItems.ToArray());
+        }
 
         public override void AddProjectItem(ProjectItem ProjectItem, ProjectItem Parent = null)
         {
@@ -115,7 +120,7 @@ namespace Anathema.Source.Project
         public override void UpdateSelectedIndicies(IEnumerable<Int32> Indicies)
         {
             // TODO: Smart logic for identifying the most common set of properties from the collection of trees
-            PropertyViewer.GetInstance().SetProperties(null);
+            PropertyViewer.GetInstance().SetTargetObjects(null);
         }
 
         public override ProjectItem GetProjectRoot()

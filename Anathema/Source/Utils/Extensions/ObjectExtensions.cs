@@ -1,6 +1,7 @@
 ﻿using Anathema.Source.PropertyEditor;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 
@@ -37,7 +38,7 @@ namespace Anathema.Source.Utils.Extensions
         /// <returns></returns>
         public static IEnumerable<Property> GetProperties(this Object Object)
         {
-            FieldInfo[] FieldInfo = Object.GetType().GetFields(BindingFlags.Public | BindingFlags.Instance);
+            IEnumerable<FieldInfo> FieldInfo = GetAllFields(Object.GetType());
             List<Property> Properties = new List<Property>();
 
             foreach (FieldInfo Field in FieldInfo)
@@ -56,6 +57,23 @@ namespace Anathema.Source.Utils.Extensions
             }
 
             return Properties;
+        }
+
+        /// <summary>
+        /// Helper function to retrieve fields from a given object type
+        /// </summary>
+        /// <param name="Type"></param>
+        /// <returns></returns>
+        private static IEnumerable<FieldInfo> GetAllFields(Type Type)
+        {
+            if (Type == null)
+                return Enumerable.Empty<FieldInfo>();
+
+            BindingFlags Flags = BindingFlags.Public | BindingFlags.NonPublic |
+                                 BindingFlags.Static | BindingFlags.Instance |
+                                 BindingFlags.DeclaredOnly;
+
+            return Type.GetFields(Flags).Concat(GetAllFields(Type.BaseType));
         }
 
     } // End calss
