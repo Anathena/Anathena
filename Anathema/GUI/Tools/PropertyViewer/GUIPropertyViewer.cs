@@ -1,10 +1,5 @@
-﻿using Aga.Controls.Tree;
-using Aga.Controls.Tree.NodeControls;
-using Anathema.Source.Project.ProjectItems;
+﻿using Aga.Controls.Tree.NodeControls;
 using Anathema.Source.PropertyEditor;
-using Anathema.Source.Utils;
-using Anathema.Source.Utils.Caches;
-using Anathema.Source.Utils.Extensions;
 using Anathema.Source.Utils.MVP;
 using System;
 using System.Collections.Generic;
@@ -18,32 +13,28 @@ namespace Anathema.GUI
     public partial class GUIPropertyViewer : DockContent, IPropertyViewerView
     {
         private PropertyViewerPresenter PropertyViewerPresenter;
-        private BiDictionary<ProjectItem, ProjectNode> NodeCache;
-        private TreeModel ProjectTree;
         private Object AccessLock;
 
         public GUIPropertyViewer()
         {
             InitializeComponent();
 
-            NodeCache = new BiDictionary<ProjectItem, ProjectNode>();
-            ProjectTree = new TreeModel();
             AccessLock = new Object();
-
-            PropertiesView.Model = ProjectTree;
 
             PropertyViewerPresenter = new PropertyViewerPresenter(this, PropertyViewer.GetInstance());
         }
 
         public void RefreshStructure(IEnumerable<Property> PropertySet)
         {
-            ControlThreadingHelper.InvokeControlAction<TreeViewAdv>(PropertiesView, () =>
+            ControlThreadingHelper.InvokeControlAction<ListView>(PropertiesListView, () =>
             {
-                PropertiesView.BeginUpdate();
-                ProjectTree.Nodes.Clear();
-                ProjectTree.Nodes.Add(new PropertyNode("{Property}", "{Value}"));
+                PropertiesListView.BeginUpdate();
+                PropertiesListView.Items.Clear();
 
-                PropertiesView.EndUpdate();
+                ListViewItem NewItem = new ListViewItem(new String[] { "Property", "Value" });
+                PropertiesListView.Items.Add(NewItem);
+
+                PropertiesListView.EndUpdate();
             });
         }
 
@@ -52,41 +43,7 @@ namespace Anathema.GUI
             E.Value = true;
         }
 
-        private ProjectItem GetProjectItemFromNode(TreeNodeAdv TreeNodeAdv)
-        {
-            Node Node = ProjectTree.FindNode(PropertiesView.GetPath(TreeNodeAdv));
-
-            if (Node == null || !typeof(ProjectNode).IsAssignableFrom(Node.GetType()))
-                return null;
-
-            ProjectNode ProjectNode = (ProjectNode)Node;
-            ProjectItem ProjectItem = ProjectNode.ProjectItem;
-
-            return ProjectItem;
-        }
-
         #region Events
-
-        private void ProjectExplorerTreeView_NodeMouseDoubleClick(Object Sender, TreeNodeAdvMouseEventArgs E)
-        {
-            ProjectItem ProjectItem = GetProjectItemFromNode(E?.Node);
-
-            if (ProjectItem == null)
-                return;
-
-            if (ProjectItem is AddressItem)
-            {
-
-            }
-            else if (ProjectItem is FolderItem)
-            {
-
-            }
-            else if (ProjectItem is ScriptItem)
-            {
-
-            }
-        }
 
 
         private void AddressToolStripMenuItem_Click(Object Sender, EventArgs E)
@@ -101,32 +58,6 @@ namespace Anathema.GUI
 
         #endregion
 
-        private ProjectItem GetSelectedItem()
-        {
-            Node SelectedNode = ProjectTree.FindNode(PropertiesView.GetPath(PropertiesView.SelectedNode));
-            ProjectItem SelectedItem = null;
-
-            if (SelectedNode != null && typeof(ProjectNode).IsAssignableFrom(SelectedNode.GetType()))
-            {
-                if (NodeCache.Reverse.ContainsKey((ProjectNode)SelectedNode))
-                    SelectedItem = NodeCache.Reverse[(ProjectNode)SelectedNode];
-            }
-
-            return SelectedItem;
-        }
-
-        private void DeleteAddressTableEntries(Int32 StartIndex, Int32 EndIndex)
-        {
-            using (TimedLock.Lock(AccessLock))
-            {
-                if (PropertiesView.SelectedNodes == null || PropertiesView.SelectedNodes.Count <= 0)
-                    return;
-
-                List<Int32> Nodes = new List<Int32>();
-                PropertiesView.SelectedNodes.ForEach(X => Nodes.Add(X.Index));
-            }
-        }
-
         #region Events
 
         private void AddAddressButton_Click(Object Sender, EventArgs E)
@@ -140,11 +71,6 @@ namespace Anathema.GUI
         {
             if (E.Button == MouseButtons.Right)
                 LastRightClickLocation = E.Location;
-
-            TreeNodeAdv ListViewItem = PropertiesView.GetNodeAt(E.Location);
-
-            if (ListViewItem == null)
-                return;
 
             // if (E.X < (ListViewItem.Bounds.Left + 16))
             //     AddressTablePresenter.SetAddressFrozen(ListViewItem.Index, !ListViewItem.Checked);  // (Has to be negated, click happens before check change)

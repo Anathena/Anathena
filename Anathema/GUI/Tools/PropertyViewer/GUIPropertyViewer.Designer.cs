@@ -36,10 +36,12 @@
             this.DeleteSelectionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.AddNewAddressToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.EntryDescription = new Aga.Controls.Tree.NodeControls.NodeTextBox();
-            this.PropertiesView = new Aga.Controls.Tree.TreeViewAdv();
             this.PropertyColumn = new Aga.Controls.Tree.TreeColumn();
             this.ValueColumn = new Aga.Controls.Tree.TreeColumn();
             this.EntryValue = new Aga.Controls.Tree.NodeControls.NodeTextBox();
+            this.PropertiesListView = new Anathema.GUI.FlickerFreeListView();
+            this.DescriptionHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.ValueHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.ProjectContextMenuStrip.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -88,33 +90,6 @@
             this.EntryDescription.LeftMargin = 3;
             this.EntryDescription.ParentColumn = null;
             // 
-            // PropertiesView
-            // 
-            this.PropertiesView.BackColor = System.Drawing.SystemColors.Window;
-            this.PropertiesView.Columns.Add(this.PropertyColumn);
-            this.PropertiesView.Columns.Add(this.ValueColumn);
-            this.PropertiesView.Cursor = System.Windows.Forms.Cursors.Default;
-            this.PropertiesView.DefaultToolTipProvider = null;
-            this.PropertiesView.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.PropertiesView.DragDropMarkColor = System.Drawing.Color.Black;
-            this.PropertiesView.Font = new System.Drawing.Font("Courier New", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.PropertiesView.FullRowSelect = true;
-            this.PropertiesView.GridLineStyle = Aga.Controls.Tree.GridLineStyle.Vertical;
-            this.PropertiesView.LineColor = System.Drawing.SystemColors.ControlDark;
-            this.PropertiesView.Location = new System.Drawing.Point(0, 0);
-            this.PropertiesView.Model = null;
-            this.PropertiesView.Name = "PropertiesView";
-            this.PropertiesView.NodeControls.Add(this.EntryDescription);
-            this.PropertiesView.NodeControls.Add(this.EntryValue);
-            this.PropertiesView.SelectedNode = null;
-            this.PropertiesView.SelectionMode = Aga.Controls.Tree.TreeSelectionMode.Multi;
-            this.PropertiesView.ShowLines = false;
-            this.PropertiesView.Size = new System.Drawing.Size(263, 216);
-            this.PropertiesView.TabIndex = 154;
-            this.PropertiesView.Text = "Project Explorer";
-            this.PropertiesView.UseColumns = true;
-            this.PropertiesView.NodeMouseDoubleClick += new System.EventHandler<Aga.Controls.Tree.TreeNodeAdvMouseEventArgs>(this.ProjectExplorerTreeView_NodeMouseDoubleClick);
-            // 
             // PropertyColumn
             // 
             this.PropertyColumn.Header = "Property";
@@ -136,12 +111,35 @@
             this.EntryValue.LeftMargin = 3;
             this.EntryValue.ParentColumn = null;
             // 
+            // PropertiesListView
+            // 
+            this.PropertiesListView.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.DescriptionHeader,
+            this.ValueHeader});
+            this.PropertiesListView.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.PropertiesListView.Location = new System.Drawing.Point(0, 0);
+            this.PropertiesListView.Name = "PropertiesListView";
+            this.PropertiesListView.Size = new System.Drawing.Size(263, 216);
+            this.PropertiesListView.TabIndex = 1;
+            this.PropertiesListView.UseCompatibleStateImageBehavior = false;
+            this.PropertiesListView.View = System.Windows.Forms.View.Details;
+            // 
+            // DescriptionHeader
+            // 
+            this.DescriptionHeader.Text = "Description";
+            this.DescriptionHeader.Width = 128;
+            // 
+            // ValueHeader
+            // 
+            this.ValueHeader.Text = "Value";
+            this.ValueHeader.Width = 128;
+            // 
             // GUIPropertyViewer
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(263, 216);
-            this.Controls.Add(this.PropertiesView);
+            this.Controls.Add(this.PropertiesListView);
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "GUIPropertyViewer";
@@ -158,9 +156,11 @@
         private System.Windows.Forms.ToolStripMenuItem DeleteSelectionToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem AddNewAddressToolStripMenuItem;
         private Aga.Controls.Tree.NodeControls.NodeTextBox EntryDescription;
-        private Aga.Controls.Tree.TreeViewAdv PropertiesView;
         private Aga.Controls.Tree.TreeColumn PropertyColumn;
         private Aga.Controls.Tree.TreeColumn ValueColumn;
         private Aga.Controls.Tree.NodeControls.NodeTextBox EntryValue;
+        private FlickerFreeListView PropertiesListView;
+        private System.Windows.Forms.ColumnHeader DescriptionHeader;
+        private System.Windows.Forms.ColumnHeader ValueHeader;
     }
 }
