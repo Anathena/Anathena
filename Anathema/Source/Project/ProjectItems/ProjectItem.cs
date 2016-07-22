@@ -15,6 +15,7 @@ namespace Anathema.Source.Project.ProjectItems
     {
         [Obfuscation(Exclude = true)]
         [DataMember()]
+        [Browsable(false)]
         public ProjectItem Parent
         {
             [Obfuscation(Exclude = true)]
@@ -25,6 +26,7 @@ namespace Anathema.Source.Project.ProjectItems
 
         [Obfuscation(Exclude = true)]
         [DataMember()]
+        [Browsable(false)]
         public List<ProjectItem> Children
         {
             [Obfuscation(Exclude = true)]
@@ -35,11 +37,12 @@ namespace Anathema.Source.Project.ProjectItems
 
         [Obfuscation(Exclude = true)]
         [DataMember()]
-        [CategoryAttribute("Description"), DescriptionAttribute("Description of Project Item")]
+        [Category("Properties"), DisplayName("Description"), Description("Description to be shown for the Project Items")]
         public String Description { get; set; }
 
         [Obfuscation(Exclude = true)]
         [DataMember()]
+        [Browsable(false)]
         public Int32 TextColorARGB
         {
             [Obfuscation(Exclude = true)]
@@ -49,6 +52,7 @@ namespace Anathema.Source.Project.ProjectItems
         }
 
         [Obfuscation(Exclude = true)]
+        [Category("Properties"), DisplayName("Text Color"), Description("Display Color")]
         public Color TextColor
         {
             [Obfuscation(Exclude = true)]
@@ -58,6 +62,7 @@ namespace Anathema.Source.Project.ProjectItems
         }
 
         [Obfuscation(Exclude = true)]
+        [Browsable(false)]
         protected Boolean Activated;
 
         public ProjectItem() : this(String.Empty) { }

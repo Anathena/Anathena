@@ -1,5 +1,6 @@
 ﻿using Anathema.Source.LuaEngine;
 using System;
+using System.ComponentModel;
 using System.Reflection;
 using System.Runtime.Serialization;
 
@@ -11,6 +12,7 @@ namespace Anathema.Source.Project.ProjectItems
     public class ScriptItem : ProjectItem
     {
         [DataMember()]
+        [Category("Properties"), DisplayName("Script"), Description("Lua script to interface with engine")]
         public String LuaScript
         {
             [Obfuscation(Exclude = true)]

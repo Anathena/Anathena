@@ -1,8 +1,5 @@
-﻿using Anathema.Source.PropertyEditor;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
 using System.Runtime.CompilerServices;
 
 namespace Anathema.Source.Utils.Extensions
@@ -29,50 +26,6 @@ namespace Anathema.Source.Utils.Extensions
             Console.WriteLine(Tag);
 
             return Object;
-        }
-
-        /// <summary>
-        /// Returns a set of fields assocated with the calling object.
-        /// </summary>
-        /// <param name="Object"></param>
-        /// <returns></returns>
-        public static IEnumerable<Property> GetPropertySet(this Object Object)
-        {
-            IEnumerable<PropertyInfo> PropertyInfo = Object.GetType().GetProperties();
-            List<Property> Properties = new List<Property>();
-
-            foreach (PropertyInfo Property in PropertyInfo)
-            {
-                if (Property == null)
-                    continue;
-
-                if (Attribute.IsDefined(Property, typeof(IgnoreProperty)))
-                    continue;
-
-                String Name = Property.Name;
-                Object Value = Property.GetValue(Object);
-
-                Properties.Add(new Property(Name, Value));
-            }
-
-            return Properties;
-        }
-
-        /// <summary>
-        /// Helper function to retrieve fields from a given object type
-        /// </summary>
-        /// <param name="Type"></param>
-        /// <returns></returns>
-        private static IEnumerable<FieldInfo> GetAllFields(Type Type)
-        {
-            if (Type == null)
-                return Enumerable.Empty<FieldInfo>();
-
-            BindingFlags Flags = BindingFlags.Public | BindingFlags.NonPublic |
-                                 BindingFlags.Static | BindingFlags.Instance |
-                                 BindingFlags.DeclaredOnly;
-
-            return Type.GetFields(Flags).Concat(GetAllFields(Type.BaseType));
         }
 
     } // End calss

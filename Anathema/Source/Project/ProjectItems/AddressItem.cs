@@ -4,6 +4,7 @@ using Anathema.Source.Utils.Extensions;
 using Anathema.Source.Utils.Validation;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.Serialization;
@@ -17,21 +18,26 @@ namespace Anathema.Source.Project.ProjectItems
     {
         [Obfuscation(Exclude = true)]
         [DataMember()]
+        [Category("Properties"), DisplayName("Address"), Description("Base address")]
         public String BaseAddress { get; set; }
 
         [Obfuscation(Exclude = true)]
         [DataMember()]
+        [Category("Properties"), DisplayName("Hex"), Description("Whether or not to display value as hexedecimal")]
         public Boolean IsValueHex { get; set; }
 
         [Obfuscation(Exclude = true)]
         [DataMember()]
+        [Category("Properties"), DisplayName("Offsets"), Description("Address offsets")]
         public IEnumerable<Int32> Offsets { get; set; }
 
         [Obfuscation(Exclude = true)]
         [DataMember()]
+        [Browsable(false)]
         public String TypeName { get; set; }
 
         [Obfuscation(Exclude = true)]
+        [Category("Properties"), DisplayName("Type"), Description("Data type of the address")]
         public Type ElementType
         {
             [Obfuscation(Exclude = true)]
@@ -48,6 +54,7 @@ namespace Anathema.Source.Project.ProjectItems
         [Obfuscation(Exclude = true)]
         private dynamic _Value;
         [Obfuscation(Exclude = true)]
+        [Category("Properties"), DisplayName("Value"), Description("Value at the address")]
         public dynamic Value
         {
             [Obfuscation(Exclude = true)]
@@ -59,6 +66,7 @@ namespace Anathema.Source.Project.ProjectItems
         [Obfuscation(Exclude = true)]
         private IntPtr _EffectiveAddress;
         [Obfuscation(Exclude = true)]
+        [Browsable(false)]
         public IntPtr EffectiveAddress
         {
             [Obfuscation(Exclude = true)]
