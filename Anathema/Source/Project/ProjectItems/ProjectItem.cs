@@ -1,7 +1,7 @@
-﻿using Anathema.Source.PropertyEditor;
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Drawing;
 using System.Reflection;
 using System.Runtime.Serialization;
@@ -15,7 +15,6 @@ namespace Anathema.Source.Project.ProjectItems
     {
         [Obfuscation(Exclude = true)]
         [DataMember()]
-        [IgnoreProperty()]
         public ProjectItem Parent
         {
             [Obfuscation(Exclude = true)]
@@ -26,7 +25,6 @@ namespace Anathema.Source.Project.ProjectItems
 
         [Obfuscation(Exclude = true)]
         [DataMember()]
-        [IgnoreProperty()]
         public List<ProjectItem> Children
         {
             [Obfuscation(Exclude = true)]
@@ -37,11 +35,11 @@ namespace Anathema.Source.Project.ProjectItems
 
         [Obfuscation(Exclude = true)]
         [DataMember()]
+        [CategoryAttribute("Description"), DescriptionAttribute("Description of Project Item")]
         public String Description { get; set; }
 
         [Obfuscation(Exclude = true)]
         [DataMember()]
-        [IgnoreProperty()]
         public Int32 TextColorARGB
         {
             [Obfuscation(Exclude = true)]

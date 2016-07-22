@@ -9,13 +9,13 @@ namespace Anathema.Source.PropertyEditor
     delegate void PropertyViewerEventHandler(Object Sender, PropertyViewerEventArgs Args);
     class PropertyViewerEventArgs : EventArgs
     {
-        public IEnumerable<Property> PropertySet;
+        public IEnumerable<Object> SelectedObjects;
     }
 
     interface IPropertyViewerView : IView
     {
         // Methods invoked by the presenter (upstream)
-        void RefreshStructure(IEnumerable<Property> PropertySet);
+        void RefreshStructure(IEnumerable<Object> SelectedObjects);
     }
 
     abstract class IPropertyViewerModel : RepeatedTask, IModel
@@ -69,7 +69,7 @@ namespace Anathema.Source.PropertyEditor
 
         private void EventRefresh(Object Sender, PropertyViewerEventArgs E)
         {
-            View.RefreshStructure(E.PropertySet);
+            View.RefreshStructure(E.SelectedObjects);
         }
 
         #endregion

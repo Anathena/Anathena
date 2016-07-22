@@ -1,8 +1,6 @@
 ﻿using Anathema.Source.Engine;
 using Anathema.Source.Engine.Processes;
-using Anathema.Source.Utils.Extensions;
 using System;
-using System.Collections.Generic;
 
 namespace Anathema.Source.PropertyEditor
 {
@@ -12,7 +10,6 @@ namespace Anathema.Source.PropertyEditor
         private static Lazy<PropertyViewer> PropertyViewerInstance = new Lazy<PropertyViewer>(() => { return new PropertyViewer(); });
 
         private EngineCore EngineCore;
-        private IEnumerable<Property> PropertySet;
         private Object[] TargetObjects;
 
         private PropertyViewer()
@@ -51,18 +48,13 @@ namespace Anathema.Source.PropertyEditor
         {
             this.TargetObjects = TargetObjects;
 
-            // TODO: find common properties between all sets, and use this to set the current property set.
-            // For example: Address items and script items might only have a "Description" property in common
-            if (TargetObjects.Length > 0)
-                this.PropertySet = TargetObjects[0].GetPropertySet();
-
             Refresh();
         }
 
         private void Refresh()
         {
             PropertyViewerEventArgs PropertyViewerEventArgs = new PropertyViewerEventArgs();
-            PropertyViewerEventArgs.PropertySet = PropertySet;
+            PropertyViewerEventArgs.SelectedObjects = TargetObjects;
             OnEventRefresh(PropertyViewerEventArgs);
         }
 
