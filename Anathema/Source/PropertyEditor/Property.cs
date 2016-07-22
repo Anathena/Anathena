@@ -25,6 +25,14 @@ namespace Anathema.Source.PropertyEditor
             return Name;
         }
 
+        public String GetValueString()
+        {
+            if (Value == null)
+                return String.Empty;
+
+            return Value.ToString();
+        }
+
         public Object GetValue()
         {
             return Value;

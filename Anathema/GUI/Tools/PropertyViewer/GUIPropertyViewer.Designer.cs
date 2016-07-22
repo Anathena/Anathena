@@ -40,8 +40,8 @@
             this.ValueColumn = new Aga.Controls.Tree.TreeColumn();
             this.EntryValue = new Aga.Controls.Tree.NodeControls.NodeTextBox();
             this.PropertiesListView = new Anathema.GUI.FlickerFreeListView();
-            this.DescriptionHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.ValueHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.PropertyHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.ProjectContextMenuStrip.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -114,25 +114,30 @@
             // PropertiesListView
             // 
             this.PropertiesListView.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.DescriptionHeader,
-            this.ValueHeader});
+            this.ValueHeader,
+            this.PropertyHeader});
             this.PropertiesListView.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.PropertiesListView.FullRowSelect = true;
+            this.PropertiesListView.LabelEdit = true;
             this.PropertiesListView.Location = new System.Drawing.Point(0, 0);
             this.PropertiesListView.Name = "PropertiesListView";
             this.PropertiesListView.Size = new System.Drawing.Size(263, 216);
             this.PropertiesListView.TabIndex = 1;
             this.PropertiesListView.UseCompatibleStateImageBehavior = false;
             this.PropertiesListView.View = System.Windows.Forms.View.Details;
-            // 
-            // DescriptionHeader
-            // 
-            this.DescriptionHeader.Text = "Description";
-            this.DescriptionHeader.Width = 128;
+            this.PropertiesListView.MouseClick += new System.Windows.Forms.MouseEventHandler(this.PropertiesListView_MouseClick);
             // 
             // ValueHeader
             // 
+            this.ValueHeader.DisplayIndex = 1;
             this.ValueHeader.Text = "Value";
             this.ValueHeader.Width = 128;
+            // 
+            // PropertyHeader
+            // 
+            this.PropertyHeader.DisplayIndex = 0;
+            this.PropertyHeader.Text = "Property";
+            this.PropertyHeader.Width = 128;
             // 
             // GUIPropertyViewer
             // 
@@ -160,7 +165,7 @@
         private Aga.Controls.Tree.TreeColumn ValueColumn;
         private Aga.Controls.Tree.NodeControls.NodeTextBox EntryValue;
         private FlickerFreeListView PropertiesListView;
-        private System.Windows.Forms.ColumnHeader DescriptionHeader;
+        private System.Windows.Forms.ColumnHeader PropertyHeader;
         private System.Windows.Forms.ColumnHeader ValueHeader;
     }
 }

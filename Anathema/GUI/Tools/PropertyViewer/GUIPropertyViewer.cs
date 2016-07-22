@@ -1,5 +1,6 @@
 ﻿using Aga.Controls.Tree.NodeControls;
 using Anathema.Source.PropertyEditor;
+using Anathema.Source.Utils.Extensions;
 using Anathema.Source.Utils.MVP;
 using System;
 using System.Collections.Generic;
@@ -31,9 +32,20 @@ namespace Anathema.GUI
                 PropertiesListView.BeginUpdate();
                 PropertiesListView.Items.Clear();
 
-                ListViewItem NewItem = new ListViewItem(new String[] { "Property", "Value" });
-                PropertiesListView.Items.Add(NewItem);
+                if (PropertySet != null)
+                {
+                    foreach (Property Property in PropertySet)
+                    {
+                        ListViewItem NewListViewItem = new ListViewItem(new String[] { Property.GetValueString(), Property.GetName() });
 
+                        if (Property.GetValue().GetType().IsEnum)
+                        {
+
+                        }
+                    }
+
+                    PropertySet?.ForEach(X => PropertiesListView.Items.Add(new ListViewItem(new String[] { X.GetValueString(), X.GetName() })));
+                }
                 PropertiesListView.EndUpdate();
             });
         }
@@ -60,9 +72,20 @@ namespace Anathema.GUI
 
         #region Events
 
-        private void AddAddressButton_Click(Object Sender, EventArgs E)
+        private void PropertiesListView_MouseClick(Object Sender, MouseEventArgs E)
         {
+            if (E.Button != MouseButtons.Left)
+                return;
 
+            ListViewItem SelectedItem;
+            ListViewHitTestInfo HitTest = PropertiesListView.HitTest(E.Location);
+
+            SelectedItem = HitTest.Item;
+
+            if (SelectedItem == null)
+                return;
+
+            SelectedItem.BeginEdit();
         }
 
         private Point LastRightClickLocation = Point.Empty;

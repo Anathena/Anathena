@@ -6,6 +6,10 @@ namespace Anathema.GUI
 {
     class FlickerFreeListView : ListView
     {
+        private const Int32 WM_ERASEBKGND = 0x14;
+        private const Int32 WM_HSCROLL = 0x114;
+        private const Int32 WM_VSCROLL = 0x115;
+
         private const Int32 MaximumItems = 100000000;
 
         public FlickerFreeListView()
@@ -56,10 +60,8 @@ namespace Anathema.GUI
         protected override void OnNotifyMessage(Message Message)
         {
             // Filter out the WM_ERASEBKGND message
-            if (Message.Msg != 0x14)
-            {
+            if (Message.Msg != WM_ERASEBKGND)
                 base.OnNotifyMessage(Message);
-            }
         }
 
         private void InitializeComponent()
@@ -67,6 +69,23 @@ namespace Anathema.GUI
             this.SuspendLayout();
             this.VirtualMode = true;
             this.ResumeLayout(false);
+        }
+
+        /// <summary>
+        /// Override to help with embedded combo box support
+        /// </summary>
+        /// <param name="Message"></param>
+        protected override void WndProc(ref Message Message)
+        {
+            // Look for the WM_VSCROLL or the WM_HSCROLL messages.
+            if ((Message.Msg == WM_VSCROLL) || (Message.Msg == WM_HSCROLL))
+            {
+                // Move focus to the ListView to cause ComboBox to lose focus.
+                this.Focus();
+            }
+
+            // Pass message to default handler.
+            base.WndProc(ref Message);
         }
 
     } // End class
