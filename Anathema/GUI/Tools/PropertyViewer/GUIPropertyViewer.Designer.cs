@@ -39,9 +39,7 @@
             this.PropertyColumn = new Aga.Controls.Tree.TreeColumn();
             this.ValueColumn = new Aga.Controls.Tree.TreeColumn();
             this.EntryValue = new Aga.Controls.Tree.NodeControls.NodeTextBox();
-            this.PropertiesListView = new Anathema.GUI.FlickerFreeListView();
-            this.ValueHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.PropertyHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.PropertyGrid = new System.Windows.Forms.PropertyGrid();
             this.ProjectContextMenuStrip.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -111,40 +109,20 @@
             this.EntryValue.LeftMargin = 3;
             this.EntryValue.ParentColumn = null;
             // 
-            // PropertiesListView
+            // PropertyGrid
             // 
-            this.PropertiesListView.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.ValueHeader,
-            this.PropertyHeader});
-            this.PropertiesListView.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.PropertiesListView.FullRowSelect = true;
-            this.PropertiesListView.LabelEdit = true;
-            this.PropertiesListView.Location = new System.Drawing.Point(0, 0);
-            this.PropertiesListView.Name = "PropertiesListView";
-            this.PropertiesListView.Size = new System.Drawing.Size(263, 216);
-            this.PropertiesListView.TabIndex = 1;
-            this.PropertiesListView.UseCompatibleStateImageBehavior = false;
-            this.PropertiesListView.View = System.Windows.Forms.View.Details;
-            this.PropertiesListView.MouseClick += new System.Windows.Forms.MouseEventHandler(this.PropertiesListView_MouseClick);
-            // 
-            // ValueHeader
-            // 
-            this.ValueHeader.DisplayIndex = 1;
-            this.ValueHeader.Text = "Value";
-            this.ValueHeader.Width = 128;
-            // 
-            // PropertyHeader
-            // 
-            this.PropertyHeader.DisplayIndex = 0;
-            this.PropertyHeader.Text = "Property";
-            this.PropertyHeader.Width = 128;
+            this.PropertyGrid.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.PropertyGrid.Location = new System.Drawing.Point(0, 0);
+            this.PropertyGrid.Name = "PropertyGrid";
+            this.PropertyGrid.Size = new System.Drawing.Size(263, 216);
+            this.PropertyGrid.TabIndex = 3;
             // 
             // GUIPropertyViewer
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(263, 216);
-            this.Controls.Add(this.PropertiesListView);
+            this.Controls.Add(this.PropertyGrid);
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "GUIPropertyViewer";
@@ -164,8 +142,6 @@
         private Aga.Controls.Tree.TreeColumn PropertyColumn;
         private Aga.Controls.Tree.TreeColumn ValueColumn;
         private Aga.Controls.Tree.NodeControls.NodeTextBox EntryValue;
-        private FlickerFreeListView PropertiesListView;
-        private System.Windows.Forms.ColumnHeader PropertyHeader;
-        private System.Windows.Forms.ColumnHeader ValueHeader;
+        private System.Windows.Forms.PropertyGrid PropertyGrid;
     }
 }

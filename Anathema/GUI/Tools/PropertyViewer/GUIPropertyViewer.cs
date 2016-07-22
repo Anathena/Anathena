@@ -1,11 +1,11 @@
 ﻿using Aga.Controls.Tree.NodeControls;
 using Anathema.Source.PropertyEditor;
-using Anathema.Source.Utils.Extensions;
 using Anathema.Source.Utils.MVP;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
+using System.Linq;
 using System.Windows.Forms;
 using WeifenLuo.WinFormsUI.Docking;
 
@@ -25,28 +25,11 @@ namespace Anathema.GUI
             PropertyViewerPresenter = new PropertyViewerPresenter(this, PropertyViewer.GetInstance());
         }
 
-        public void RefreshStructure(IEnumerable<Property> PropertySet)
+        public void RefreshStructure(IEnumerable<Object> SelectedObjects)
         {
-            ControlThreadingHelper.InvokeControlAction<ListView>(PropertiesListView, () =>
+            ControlThreadingHelper.InvokeControlAction<PropertyGrid>(PropertyGrid, () =>
             {
-                PropertiesListView.BeginUpdate();
-                PropertiesListView.Items.Clear();
-
-                if (PropertySet != null)
-                {
-                    foreach (Property Property in PropertySet)
-                    {
-                        ListViewItem NewListViewItem = new ListViewItem(new String[] { Property.GetValueString(), Property.GetName() });
-
-                        if (Property.GetValue().GetType().IsEnum)
-                        {
-
-                        }
-                    }
-
-                    PropertySet?.ForEach(X => PropertiesListView.Items.Add(new ListViewItem(new String[] { X.GetValueString(), X.GetName() })));
-                }
-                PropertiesListView.EndUpdate();
+                PropertyGrid.SelectedObjects = SelectedObjects?.ToArray();
             });
         }
 
@@ -74,7 +57,7 @@ namespace Anathema.GUI
 
         private void PropertiesListView_MouseClick(Object Sender, MouseEventArgs E)
         {
-            if (E.Button != MouseButtons.Left)
+            /*if (E.Button != MouseButtons.Left)
                 return;
 
             ListViewItem SelectedItem;
@@ -85,7 +68,7 @@ namespace Anathema.GUI
             if (SelectedItem == null)
                 return;
 
-            SelectedItem.BeginEdit();
+            SelectedItem.BeginEdit();*/
         }
 
         private Point LastRightClickLocation = Point.Empty;
