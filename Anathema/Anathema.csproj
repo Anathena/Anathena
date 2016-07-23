@@ -285,6 +285,7 @@
     <Compile Include="Source\Engine\Architecture\Assembler\AssemblerFactory.cs" />
     <Compile Include="Source\Engine\Architecture\Disassembler\DisassemblerFactory.cs" />
     <Compile Include="Source\Engine\ObjectCollectors\DotNetObjectCollector\DotNetObject.cs" />
+    <Compile Include="Source\LuaEngine\LuaScript.cs" />
     <Compile Include="Source\Project\IScratchPadMVP.cs" />
     <Compile Include="Source\Project\ScratchPad.cs" />
     <Compile Include="Source\Project\ProjectItems\FolderItem.cs" />

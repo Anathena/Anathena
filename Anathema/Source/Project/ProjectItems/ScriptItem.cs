@@ -11,14 +11,17 @@ namespace Anathema.Source.Project.ProjectItems
     [DataContract()]
     public class ScriptItem : ProjectItem
     {
+        [Obfuscation(Exclude = true)]
+        public LuaScript _LuaScript;
+        [Obfuscation(Exclude = true)]
         [DataMember()]
         [Category("Properties"), DisplayName("Script"), Description("Lua script to interface with engine")]
-        public String LuaScript
+        public LuaScript LuaScript
         {
             [Obfuscation(Exclude = true)]
-            get;
+            get { return _LuaScript; }
             [Obfuscation(Exclude = true)]
-            set;
+            set { _LuaScript = value; OnUpdateField(); }
         }
 
         [Obfuscation(Exclude = true)]
@@ -29,22 +32,9 @@ namespace Anathema.Source.Project.ProjectItems
             LuaCore = null;
         }
 
-        public ScriptItem(String LuaScript) : this()
+        public ScriptItem(LuaScript LuaScript) : this()
         {
             this.LuaScript = LuaScript;
-        }
-
-        [Obfuscation(Exclude = true)]
-        public String GetDescription()
-        {
-            if (LuaScript != null)
-            {
-                String[] Lines = LuaScript.Trim().Split('\n');
-                if (Lines.Length > 0 && Lines[0].StartsWith("--"))
-                    return Lines[0].TrimStart('-').Trim();
-            }
-
-            return "No Description";
         }
 
         [Obfuscation(Exclude = true)]

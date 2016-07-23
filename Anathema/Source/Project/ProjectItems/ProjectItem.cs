@@ -14,42 +14,48 @@ namespace Anathema.Source.Project.ProjectItems
     public class ProjectItem : IEnumerable<ProjectItem>
     {
         [Obfuscation(Exclude = true)]
+        private ProjectItem _Parent;
+        [Obfuscation(Exclude = true)]
         [DataMember()]
         [Browsable(false)]
         public ProjectItem Parent
         {
             [Obfuscation(Exclude = true)]
-            get;
+            get { return _Parent; }
             [Obfuscation(Exclude = true)]
-            set;
+            set { _Parent = value; OnUpdateField(); }
         }
 
+        [Obfuscation(Exclude = true)]
+        private List<ProjectItem> _Children;
         [Obfuscation(Exclude = true)]
         [DataMember()]
         [Browsable(false)]
         public List<ProjectItem> Children
         {
             [Obfuscation(Exclude = true)]
-            get;
+            get { return _Children; }
             [Obfuscation(Exclude = true)]
-            set;
+            set { _Children = value; OnUpdateField(); }
         }
 
         [Obfuscation(Exclude = true)]
+        private String _Description;
+        [Obfuscation(Exclude = true)]
         [DataMember()]
         [Category("Properties"), DisplayName("Description"), Description("Description to be shown for the Project Items")]
-        public String Description { get; set; }
+        public String Description
+        {
+            [Obfuscation(Exclude = true)]
+            get { return _Description; }
+            [Obfuscation(Exclude = true)]
+            set { _Description = value; OnUpdateField(); }
+        }
 
         [Obfuscation(Exclude = true)]
         [DataMember()]
         [Browsable(false)]
-        public Int32 TextColorARGB
-        {
-            [Obfuscation(Exclude = true)]
-            get;
-            [Obfuscation(Exclude = true)]
-            set;
-        }
+        public Int32 TextColorARGB;
 
         [Obfuscation(Exclude = true)]
         [Category("Properties"), DisplayName("Text Color"), Description("Display Color")]
@@ -63,7 +69,7 @@ namespace Anathema.Source.Project.ProjectItems
 
         [Obfuscation(Exclude = true)]
         [Browsable(false)]
-        protected Boolean Activated;
+        protected Boolean Activated { get; set; }
 
         public ProjectItem() : this(String.Empty) { }
 
@@ -89,20 +95,30 @@ namespace Anathema.Source.Project.ProjectItems
             return Activated;
         }
 
+        [Obfuscation(Exclude = true)]
         public void AddChild(ProjectItem Child)
         {
             Children.Add(Child);
         }
 
+        [Obfuscation(Exclude = true)]
+        public void OnUpdateField()
+        {
+
+        }
+
+        [Obfuscation(Exclude = true)]
         public IEnumerator<ProjectItem> GetEnumerator()
         {
             return ((IEnumerable<ProjectItem>)Children).GetEnumerator();
         }
 
+        [Obfuscation(Exclude = true)]
         IEnumerator IEnumerable.GetEnumerator()
         {
             return ((IEnumerable<ProjectItem>)Children).GetEnumerator();
         }
+
     } // End class
 
 } // End namespace

@@ -60,20 +60,21 @@ namespace Anathema.Source.Project.Editors.ScriptEditor
 
         public void SaveScript(String ScriptText)
         {
-            ScriptItem.LuaScript = ScriptText;
+            ScriptItem.LuaScript.Script = ScriptText;
             ScriptTable.GetInstance().SaveScript(ScriptItem);
         }
 
         public Boolean HasChanges(String Script)
         {
-            if (ScriptItem.LuaScript == Script)
+            if (ScriptItem.LuaScript.Script == Script)
                 return false;
+
             return true;
         }
 
         public void InsertCodeInjectionTemplate()
         {
-            String NewScript = LuaCore.AddCodeInjectionTemplate(ScriptItem.LuaScript, "module.exe", new IntPtr(0x1abcd));
+            String NewScript = LuaCore.AddCodeInjectionTemplate(ScriptItem.LuaScript.Script, "module.exe", new IntPtr(0x1abcd));
             ScriptEditorEventArgs ScriptEditorEventArgs = new ScriptEditorEventArgs();
             ScriptEditorEventArgs.NewScript = NewScript;
             EventSetScriptText?.Invoke(this, ScriptEditorEventArgs);
@@ -81,7 +82,7 @@ namespace Anathema.Source.Project.Editors.ScriptEditor
 
         public void InsertGraphicsOverlayTemplate()
         {
-            String NewScript = LuaCore.AddGraphicsOverlayTemplate(ScriptItem.LuaScript);
+            String NewScript = LuaCore.AddGraphicsOverlayTemplate(ScriptItem.LuaScript.Script);
             ScriptEditorEventArgs ScriptEditorEventArgs = new ScriptEditorEventArgs();
             ScriptEditorEventArgs.NewScript = NewScript;
             EventSetScriptText?.Invoke(this, ScriptEditorEventArgs);

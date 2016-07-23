@@ -128,11 +128,11 @@ namespace Anathema
             }
         }
 
-        public void OpenScript(String ScriptText)
+        public void OpenScript(LuaScript LuaScript)
         {
             ControlThreadingHelper.InvokeControlAction(ScriptEditorTextBox, () =>
             {
-                ScriptEditorTextBox.Text = ScriptText;
+                ScriptEditorTextBox.Text = LuaScript.Script;
             });
 
             ControlThreadingHelper.InvokeControlAction(this, () =>

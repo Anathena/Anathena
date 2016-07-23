@@ -77,7 +77,7 @@ namespace Anathema.Source.Project.Deprecating
 
         public String GetScriptTableScriptAt(Int32 Index)
         {
-            return Model.GetScriptItemAt(Index).LuaScript;
+            return Model.GetScriptItemAt(Index).LuaScript.Script;
         }
 
         public void SetScriptActivation(Int32 Index, Boolean Activated)

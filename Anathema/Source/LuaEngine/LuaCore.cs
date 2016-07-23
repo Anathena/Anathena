@@ -23,16 +23,16 @@ namespace Anathema.Source.LuaEngine
         private CancellationTokenSource CancelRequest;  // Tells the task to finish
         private Task Task;                              // Event that constantly checks the target process for changes
 
-        private String LuaScript;
+        private String LuaScriptRaw;
 
         public LuaCore()
         {
             InitializeLuaEngine();
         }
 
-        public LuaCore(String LuaScript) : base()
+        public LuaCore(LuaScript LuaScript) : base()
         {
-            this.LuaScript = ReplaceTags(LuaScript);
+            this.LuaScriptRaw = ReplaceTags(LuaScript.Script);
         }
 
         private void InitializeLuaEngine()
@@ -115,7 +115,7 @@ namespace Anathema.Source.LuaEngine
 
             try
             {
-                ScriptEngine.DoString(LuaScript);
+                ScriptEngine.DoString(LuaScriptRaw);
                 LuaFunction Function = ScriptEngine["OnActivate"] as LuaFunction;
                 Function.Call();
 

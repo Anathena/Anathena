@@ -1,4 +1,5 @@
 ﻿using Anathema.Source.Engine.Processes;
+using Anathema.Source.LuaEngine;
 using Anathema.Source.Project.ProjectItems;
 using Anathema.Source.Utils.MVP;
 using System;
@@ -15,7 +16,7 @@ namespace Anathema.Source.Project.Editors.ScriptEditor
     interface IScriptEditorView : IView
     {
         // Methods invoked by the presenter (upstream)
-        void OpenScript(String ScriptText);
+        void OpenScript(LuaScript ScriptText);
         void SetScriptText(String ScriptText);
     }
 

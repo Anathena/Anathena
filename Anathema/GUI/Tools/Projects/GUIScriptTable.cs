@@ -62,7 +62,7 @@ namespace Anathema
             Item = ScriptTableCache.Add(E.ItemIndex, new String[ScriptTableListView.Columns.Count]);
 
             Item.SubItems[ScriptTableListView.Columns.IndexOf(ScriptActiveHeader)].Text = String.Empty;
-            Item.SubItems[ScriptTableListView.Columns.IndexOf(ScriptDescriptionHeader)].Text = ScriptItem.GetDescription();
+            Item.SubItems[ScriptTableListView.Columns.IndexOf(ScriptDescriptionHeader)].Text = ScriptItem.Description;
             Item.Checked = ScriptItem.GetActivationState();
 
             E.Item = Item;
