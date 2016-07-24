@@ -259,24 +259,6 @@
     <Compile Include="GUI\Tools\Projects\GUIScriptEditor.Designer.cs">
       <DependentUpon>GUIScriptEditor.cs</DependentUpon>
     </Compile>
-    <Compile Include="GUI\Tools\Projects\GUIScriptTable.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="GUI\Tools\Projects\GUIScriptTable.Designer.cs">
-      <DependentUpon>GUIScriptTable.cs</DependentUpon>
-    </Compile>
-    <Compile Include="GUI\Tools\Projects\GUIFSMTable.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="GUI\Tools\Projects\GUIFSMTable.Designer.cs">
-      <DependentUpon>GUIFSMTable.cs</DependentUpon>
-    </Compile>
-    <Compile Include="GUI\Tools\Projects\GUIAddressEditor.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="GUI\Tools\Projects\GUIAddressEditor.Designer.cs">
-      <DependentUpon>GUIAddressEditor.cs</DependentUpon>
-    </Compile>
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -667,15 +649,10 @@
     <Compile Include="Source\Utils\Snapshots\SnapshotManager.cs" />
     <Compile Include="Source\Utils\Extensions\ArrayExtensions.cs" />
     <Compile Include="Source\Project\ProjectExplorer.cs" />
-    <Compile Include="Source\Project\Deprecating\FSMTable.cs" />
-    <Compile Include="Source\Project\Deprecating\IScriptTableMVP.cs" />
     <Compile Include="Source\Project\IProjectExplorerMVP.cs" />
-    <Compile Include="Source\Project\Deprecating\IFSMTableMVP.cs" />
     <Compile Include="Source\Project\ProjectItems\AddressItem.cs" />
     <Compile Include="Source\Project\Deprecating\ScriptTable.cs" />
-    <Compile Include="Source\Project\Deprecating\AddressEditor\ITableAddressEntryEditorMVP.cs" />
     <Compile Include="Source\Project\ProjectItems\ScriptItem.cs" />
-    <Compile Include="Source\Project\Deprecating\AddressEditor\TableAddressEntryEditor.cs" />
     <Compile Include="Source\Project\Deprecating\TableManager.cs" />
     <Compile Include="Source\Project\ProjectItems\ProjectItem.cs" />
     <Compile Include="Source\Scanners\ScanConstraints\ScanConstraint.cs" />
@@ -909,15 +886,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\Tools\SnapshotManager\GUISnapshotManager.resx">
       <DependentUpon>GUISnapshotManager.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="GUI\Tools\Projects\GUIScriptTable.resx">
-      <DependentUpon>GUIScriptTable.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="GUI\Tools\Projects\GUIFSMTable.resx">
-      <DependentUpon>GUIFSMTable.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="GUI\Tools\Projects\GUIAddressEditor.resx">
-      <DependentUpon>GUIAddressEditor.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\Tools\Projects\GUIProjectExplorer.resx">
       <DependentUpon>GUIProjectExplorer.cs</DependentUpon>

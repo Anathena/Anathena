@@ -5,6 +5,7 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.Drawing;
 using System.Runtime.InteropServices;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Anathema.Source.Engine.Processes
@@ -33,8 +34,8 @@ namespace Anathema.Source.Engine.Processes
      */
     class ProcessSelector : IProcessSelectorModel
     {
-        // Singleton instance of the process selector. There is no reason to have more than one of these active at once.
-        private static Lazy<ProcessSelector> ProcessSelectorInstance = new Lazy<ProcessSelector>(() => { return new ProcessSelector(); });
+        // Singleton instance of the process selector
+        private static Lazy<ProcessSelector> ProcessSelectorInstance = new Lazy<ProcessSelector>(() => { return new ProcessSelector(); }, LazyThreadSafetyMode.PublicationOnly);
 
         // Complete list of running processes
         private List<Process> ProcessList;

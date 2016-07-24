@@ -8,6 +8,7 @@ using Anathema.Source.Utils.Snapshots;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Anathema.Source.Prefilter
@@ -29,8 +30,8 @@ namespace Anathema.Source.Prefilter
     /// </summary>
     class QueueSnapshotPrefilter : RepeatedTask, ISnapshotPrefilter, IProcessObserver
     {
-        // Singleton instance of prefilter
-        private static Lazy<ISnapshotPrefilter> SnapshotPrefilterInstance = new Lazy<ISnapshotPrefilter>(() => { return new QueueSnapshotPrefilter(); });
+        // Singleton instance of Prefilter
+        private static Lazy<ISnapshotPrefilter> SnapshotPrefilterInstance = new Lazy<ISnapshotPrefilter>(() => { return new QueueSnapshotPrefilter(); }, LazyThreadSafetyMode.PublicationOnly);
 
         private EngineCore EngineCore;
 

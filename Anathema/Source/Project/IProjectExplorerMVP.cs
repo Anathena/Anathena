@@ -44,17 +44,14 @@ namespace Anathema.Source.Project
 
         // Functions invoked by presenter (downstream)
         public abstract ProjectItem GetProjectRoot();
-        public abstract void SetAddressItemAt(Int32 Index, AddressItem AddressItem);
-        public abstract void SetItemActivation(Int32 Index, Boolean Activated);
+        public abstract void UpdateSelection(IEnumerable<ProjectItem> ProjectItems);
+        public abstract void DeleteItems(IEnumerable<ProjectItem> ProjectItems);
+        public abstract void AddProjectItem(ProjectItem ProjectItem, ProjectItem Parent);
+        public abstract void ActivateProjectItem(ProjectItem ProjectItem);
+        public abstract void SetUpdateSet(IEnumerable<ProjectItem> UpdateSet);
 
         public abstract void ReorderItem(Int32 SourceIndex, Int32 DestinationIndex);
-        public abstract void UpdateSelection(IEnumerable<ProjectItem> ProjectItems);
-
-        public abstract void AddProjectItem(ProjectItem ProjectItem, ProjectItem Parent);
-        public abstract void DeleteProjectIncicies(IEnumerable<Int32> Indicies);
         public abstract void UpdateSelectedIndicies(IEnumerable<Int32> Indicies);
-
-        public abstract void UpdateReadBounds(Int32 StartReadIndex, Int32 EndReadIndex);
     }
 
     class ProjectExplorerPresenter : Presenter<IProjectExplorerView, IProjectExplorerModel>
@@ -95,22 +92,22 @@ namespace Anathema.Source.Project
             Model.AddProjectItem(new JavaItem(), Parent);
         }
 
-        public void DeleteProjectItems(IEnumerable<Int32> Indicies)
-        {
-            Model.DeleteProjectIncicies(Indicies);
-        }
-
         public void UpdateSelection(IEnumerable<ProjectItem> ProjectItems)
         {
             Model.UpdateSelection(ProjectItems);
         }
 
-        public void SetAddressFrozen(Int32 Index, Boolean Activated)
+        public void DeleteProjectItems(IEnumerable<ProjectItem> ProjectItems)
         {
-            Model.SetItemActivation(Index, Activated);
+            Model.DeleteItems(ProjectItems);
         }
 
-        public void ReorderItem(Int32 SourceIndex, Int32 DestinationIndex)
+        public void ActivateProjectItem(ProjectItem ProjectItem)
+        {
+            Model.ActivateProjectItem(ProjectItem);
+        }
+
+        public void ReorderItemDEPRECATING(Int32 SourceIndex, Int32 DestinationIndex)
         {
             Model.ReorderItem(SourceIndex, DestinationIndex);
         }

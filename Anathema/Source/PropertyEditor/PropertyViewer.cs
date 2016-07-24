@@ -1,13 +1,14 @@
 ﻿using Anathema.Source.Engine;
 using Anathema.Source.Engine.Processes;
 using System;
+using System.Threading;
 
 namespace Anathema.Source.PropertyEditor
 {
     class PropertyViewer : IPropertyViewerModel, IProcessObserver
     {
-        // Singleton instance of project explorer
-        private static Lazy<PropertyViewer> PropertyViewerInstance = new Lazy<PropertyViewer>(() => { return new PropertyViewer(); });
+        // Singleton instance of Project Explorer
+        private static Lazy<PropertyViewer> PropertyViewerInstance = new Lazy<PropertyViewer>(() => { return new PropertyViewer(); }, LazyThreadSafetyMode.PublicationOnly);
 
         private EngineCore EngineCore;
         private Object[] TargetObjects;

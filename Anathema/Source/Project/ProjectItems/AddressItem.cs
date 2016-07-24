@@ -134,6 +134,63 @@ namespace Anathema.Source.Project.ProjectItems
         }
 
         [Obfuscation(Exclude = true)]
+        public void Update()
+        {
+            // TODO: This should be resolved here, it will just need some small refactoring
+            /*
+            AddressItem.ForceUpdateValue(AddressItem.Value);
+
+            // Write change to memory
+            if (AddressItem.Value != null)
+            {
+                AddressItem.ResolveAddress(EngineCore);
+                if (EngineCore != null)
+                    EngineCore.Memory.Write(AddressItem.ElementType, AddressItem.EffectiveAddress, AddressItem.Value);
+            }
+            */
+
+            // TODO: Taken from old address table, salvage what we can
+            /*
+            // Freeze addresses
+            foreach (ProjectItem ProjectItem in ProjectItems)
+            {
+                if (ProjectItem is AddressItem)
+                {
+                    AddressItem AddressItem = (AddressItem)ProjectItem;
+                    if (AddressItem.GetActivationState())
+                    {
+                        AddressItem.ResolveAddress(EngineCore);
+
+                        if (EngineCore != null && AddressItem.Value != null)
+                            EngineCore.Memory.Write(AddressItem.ElementType, AddressItem.EffectiveAddress, AddressItem.Value);
+                    }
+                }
+            }
+
+            for (Int32 Index = VisibleIndexStart; Index < VisibleIndexEnd; Index++)
+            {
+                if (Index < 0 || Index >= ProjectItems.Count)
+                    continue;
+
+                ProjectItem ProjectItem = ProjectItems[Index];
+
+                if (ProjectItem is AddressItem)
+                {
+                    AddressItem AddressItem = (AddressItem)ProjectItem;
+                    Boolean ReadSuccess;
+                    AddressItem.ResolveAddress(EngineCore);
+
+                    if (EngineCore != null)
+                        AddressItem.Value = EngineCore.Memory.Read(AddressItem.ElementType, AddressItem.EffectiveAddress, out ReadSuccess);
+                }
+            }
+
+            if (ProjectItems.Count != 0)
+                OnEventReadValues(new ProjectExplorerEventArgs());
+                */
+        }
+
+        [Obfuscation(Exclude = true)]
         public String GetAddressString()
         {
             if (Offsets != null && Offsets.Count() > 0)

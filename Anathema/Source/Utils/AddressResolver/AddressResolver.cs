@@ -8,12 +8,14 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using System.Threading;
 
 namespace Anathema.Source.Utils.AddressResolver
 {
     class AddressResolver : RepeatedTask, IProcessObserver
     {
-        private static Lazy<AddressResolver> AddressResolverInstance = new Lazy<AddressResolver>(() => { return new AddressResolver(); });
+        // Singleton instance of Address Resolver
+        private static Lazy<AddressResolver> AddressResolverInstance = new Lazy<AddressResolver>(() => { return new AddressResolver(); }, LazyThreadSafetyMode.PublicationOnly);
 
         private const String Addition = "+";
         private const String Subtraction = "-";

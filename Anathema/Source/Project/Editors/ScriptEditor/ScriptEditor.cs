@@ -1,16 +1,16 @@
 ﻿using Anathema.Source.Engine;
 using Anathema.Source.Engine.Processes;
 using Anathema.Source.LuaEngine;
-using Anathema.Source.Project.Deprecating;
 using Anathema.Source.Project.ProjectItems;
 using System;
+using System.Threading;
 
 namespace Anathema.Source.Project.Editors.ScriptEditor
 {
     class ScriptEditor : IScriptEditorModel
     {
         // Singleton instance of Script Editor
-        private static Lazy<ScriptEditor> ScriptEditorInstance = new Lazy<ScriptEditor>(() => { return new ScriptEditor(); });
+        private static Lazy<ScriptEditor> ScriptEditorInstance = new Lazy<ScriptEditor>(() => { return new ScriptEditor(); }, LazyThreadSafetyMode.PublicationOnly);
 
         private EngineCore EngineCore;
 
@@ -61,7 +61,7 @@ namespace Anathema.Source.Project.Editors.ScriptEditor
         public void SaveScript(String ScriptText)
         {
             ScriptItem.LuaScript.Script = ScriptText;
-            ScriptTable.GetInstance().SaveScript(ScriptItem);
+            // TODO: DEPRECATED: ScriptTable.GetInstance().SaveScript(ScriptItem);
         }
 
         public Boolean HasChanges(String Script)

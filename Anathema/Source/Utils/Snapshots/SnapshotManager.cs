@@ -1,20 +1,21 @@
-﻿using Anathema.Source.Prefilter;
-using Anathema.Source.Scanners.ValueCollector;
-using Anathema.Source.Engine;
+﻿using Anathema.Source.Engine;
 using Anathema.Source.Engine.OperatingSystems;
 using Anathema.Source.Engine.Processes;
+using Anathema.Source.Prefilter;
+using Anathema.Source.Scanners.ValueCollector;
 using Anathema.Source.Utils.Extensions;
 using Anathema.Source.Utils.Setting;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 
 namespace Anathema.Source.Utils.Snapshots
 {
     class SnapshotManager : ISnapshotManagerModel
     {
         // Singleton instance of Snapshot Manager
-        private static Lazy<SnapshotManager> SnapshotManagerInstance = new Lazy<SnapshotManager>(() => { return new SnapshotManager(); });
+        private static Lazy<SnapshotManager> SnapshotManagerInstance = new Lazy<SnapshotManager>(() => { return new SnapshotManager(); }, LazyThreadSafetyMode.PublicationOnly);
 
         // Lock to ensure multiple entities do not try and update the snapshot list at the same time
         private Object AccessLock;

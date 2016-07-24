@@ -2,17 +2,20 @@
 using Anathema.Source.Engine.DotNetObjectCollector;
 using Anathema.Source.Engine.Processes;
 using Anathema.Source.Prefilter;
-using Anathema.Source.Project.Deprecating;
+using Anathema.Source.Project;
 using Anathema.Source.Utils;
 using Anathema.Source.Utils.AddressResolver;
 using Anathema.Source.Utils.Snapshots;
 using System;
+using System.Threading;
 
 namespace Anathema.Source.Controller
 {
     class Main : IMainModel
     {
-        private static Lazy<Main> MainInstance = new Lazy<Main>(() => { return new Main(); });
+        // Singleton instance of Main
+        private static Lazy<Main> MainInstance = new Lazy<Main>(() => { return new Main(); }, LazyThreadSafetyMode.PublicationOnly);
+
         private EngineCore EngineCore;
 
         public event MainEventHandler EventUpdateProcessTitle;
@@ -101,22 +104,22 @@ namespace Anathema.Source.Controller
 
         public void RequestOpenTable(String FilePath)
         {
-            TableManager.GetInstance().OpenTable(FilePath);
+            ProjectExplorer.GetInstance().OpenTable(FilePath);
         }
 
         public void RequestMergeTable(String FilePath)
         {
-            TableManager.GetInstance().MergeTable(FilePath);
+            ProjectExplorer.GetInstance().MergeTable(FilePath);
         }
 
         public void RequestSaveTable(String FilePath)
         {
-            TableManager.GetInstance().SaveTable(FilePath);
+            ProjectExplorer.GetInstance().SaveTable(FilePath);
         }
 
         public Boolean RequestHasChanges()
         {
-            return TableManager.GetInstance().HasChanges();
+            return ProjectExplorer.GetInstance().HasChanges();
         }
 
         public void RequestCollectValues()

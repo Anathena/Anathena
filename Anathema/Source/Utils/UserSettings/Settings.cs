@@ -1,19 +1,17 @@
 ﻿using Anathema.Source.Engine.OperatingSystems;
 using System;
 using System.Reflection;
+using System.Threading;
 
 namespace Anathema.Source.Utils.Setting
 {
     [Obfuscation(Exclude = true)]
     class Settings : ISettingsModel
     {
-        // Singleton instance of settings
-        private static Lazy<Settings> SettingsInstance = new Lazy<Settings>(() => { return new Settings(); });
+        // Singleton instance of Settings
+        private static Lazy<Settings> SettingsInstance = new Lazy<Settings>(() => { return new Settings(); }, LazyThreadSafetyMode.PublicationOnly);
 
-        private Settings()
-        {
-
-        }
+        private Settings() { }
 
         public void OnGUIOpen() { }
 

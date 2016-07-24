@@ -7,6 +7,7 @@ using Anathema.Source.Utils.Snapshots;
 using Anathema.Source.Utils.Validation;
 using System;
 using System.Collections.Concurrent;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Anathema.Source.Results.ScanResults
@@ -16,8 +17,8 @@ namespace Anathema.Source.Results.ScanResults
     /// </summary>
     class ScanResults : IScanResultsModel, IProcessObserver
     {
-        // Singleton instance of results
-        private static Lazy<ScanResults> ResultsInstance = new Lazy<ScanResults>(() => { return new ScanResults(); });
+        // Singleton instance of Results
+        private static Lazy<ScanResults> ResultsInstance = new Lazy<ScanResults>(() => { return new ScanResults(); }, LazyThreadSafetyMode.PublicationOnly);
 
         private EngineCore EngineCore;
         private Snapshot Snapshot;

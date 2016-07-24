@@ -5,6 +5,7 @@ using Microsoft.Diagnostics.Runtime;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 
 namespace Anathema.Source.Engine.DotNetObjectCollector
 {
@@ -14,7 +15,9 @@ namespace Anathema.Source.Engine.DotNetObjectCollector
     /// </summary>
     class DotNetObjectCollector : RepeatedTask, IProcessObserver
     {
-        private static Lazy<DotNetObjectCollector> DotNetObjectCollectorInstance = new Lazy<DotNetObjectCollector>(() => { return new DotNetObjectCollector(); });
+        // Singleton instance of the .NET Object Collector
+        private static Lazy<DotNetObjectCollector> DotNetObjectCollectorInstance = new Lazy<DotNetObjectCollector>(() => { return new DotNetObjectCollector(); }, LazyThreadSafetyMode.PublicationOnly);
+
         private static String[] ExcludedNameSpaces = new String[]
         {
             System.Reflection.Assembly.GetExecutingAssembly().GetName().Name,

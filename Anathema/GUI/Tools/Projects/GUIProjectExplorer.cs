@@ -33,13 +33,7 @@ namespace Anathema.GUI
             AccessLock = new Object();
 
             ProjectExplorerTreeView.Model = ProjectTree;
-
             ProjectExplorerPresenter = new ProjectExplorerPresenter(this, ProjectExplorer.GetInstance());
-        }
-
-        void CheckIndex(Object Sender, NodeControlValueEventArgs E)
-        {
-            E.Value = true;
         }
 
         public void RefreshStructure(ProjectItem ProjectRoot)
@@ -62,6 +56,7 @@ namespace Anathema.GUI
                     }
 
                     ProjectExplorerTreeView.EndUpdate();
+                    ProjectExplorerTreeView.ExpandAll();
                 });
             }
         }
@@ -78,9 +73,9 @@ namespace Anathema.GUI
             else if (ProjectItem is FolderItem)
                 Image = new Bitmap(Properties.Resources.Open);
             else if (ProjectItem is DotNetItem)
-                Image = new Bitmap(Properties.Resources.StartState);
+                Image = new Bitmap(Properties.Resources.CollectValues);
             else if (ProjectItem is JavaItem)
-                Image = new Bitmap(Properties.Resources.IntermediateState);
+                Image = new Bitmap(Properties.Resources.CollectValues);
 
             // Create new node to insert
             ProjectNode ProjectNode = new ProjectNode(ProjectItem.Description);
@@ -149,15 +144,15 @@ namespace Anathema.GUI
             return SelectedItem;
         }
 
-        private void DeleteAddressTableEntries(Int32 StartIndex, Int32 EndIndex)
+        private void DeleteSelectedItems()
         {
             using (TimedLock.Lock(AccessLock))
             {
                 if (ProjectExplorerTreeView.SelectedNodes == null || ProjectExplorerTreeView.SelectedNodes.Count <= 0)
                     return;
 
-                List<Int32> Nodes = new List<Int32>();
-                ProjectExplorerTreeView.SelectedNodes.ForEach(X => Nodes.Add(X.Index));
+                List<ProjectItem> Nodes = new List<ProjectItem>();
+                ProjectExplorerTreeView.SelectedNodes.ForEach(X => Nodes.Add(GetProjectItemFromNode(X)));
                 ProjectExplorerPresenter.DeleteProjectItems(Nodes);
             }
         }
@@ -184,13 +179,12 @@ namespace Anathema.GUI
             AddNewJavaItem();
         }
 
-        #endregion
-
-        #region Events(OLD)
-
-        private void AddAddressButton_Click(Object Sender, EventArgs E)
+        private void CheckIndex(Object Sender, NodeControlValueEventArgs E)
         {
-            AddNewAddressItem();
+            if (E.Node == null)
+                return;
+
+            ProjectExplorerPresenter.ActivateProjectItem(GetProjectItemFromNode(E.Node));
         }
 
         private void ProjectExplorerTreeView_SelectionChanged(Object Sender, EventArgs E)
@@ -202,6 +196,15 @@ namespace Anathema.GUI
             TreeNodes.ForEach(X => ProjectItems.Add(GetProjectItemFromNode(X)));
 
             ProjectExplorerPresenter.UpdateSelection(ProjectItems);
+        }
+
+        #endregion
+
+        #region Events(OLD)
+
+        private void AddAddressButton_Click(Object Sender, EventArgs E)
+        {
+            AddNewAddressItem();
         }
 
         private Point LastRightClickLocation = Point.Empty;
@@ -277,21 +280,7 @@ namespace Anathema.GUI
 
         private void DeleteSelectionToolStripMenuItem_Click(Object Sender, EventArgs E)
         {
-            /*
-            ListViewItem SelectedItem;
-            Int32 ColumnIndex;
-
-            ListViewHitTestInfo HitTest = AddressTableListView.HitTest(LastRightClickLocation);
-            SelectedItem = HitTest.Item;
-            ColumnIndex = HitTest.Item.SubItems.IndexOf(HitTest.SubItem);
-
-            if (SelectedItem == null)
-                return;
-
-            DeleteAddressTableEntries(SelectedItem.Index, SelectedItem.Index);
-
-            AddressTableListView.SelectedIndices.Clear();
-            */
+            DeleteSelectedItems();
         }
 
         private void AddNewAddressToolStripMenuItem_Click(Object Sender, EventArgs E)
@@ -310,17 +299,15 @@ namespace Anathema.GUI
                 if (SelectedItem == null)
                 {
                     ToggleFreezeToolStripMenuItem.Enabled = false;
-                    EditAddressEntryToolStripMenuItem.Enabled = false;
                     DeleteSelectionToolStripMenuItem.Enabled = false;
                     AddNewAddressToolStripMenuItem.Enabled = true;
                 }
                 else
                 */
                 {
-                    ToggleFreezeToolStripMenuItem.Enabled = true;
-                    EditAddressEntryToolStripMenuItem.Enabled = true;
+                    ToggleActivationToolStripMenuItem.Enabled = true;
                     DeleteSelectionToolStripMenuItem.Enabled = true;
-                    AddNewAddressToolStripMenuItem.Enabled = true;
+                    AddNewItemToolStripMenuItem.Enabled = true;
                 }
             }
         }

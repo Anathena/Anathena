@@ -4,6 +4,7 @@ using Gecko;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Threading;
 using System.Windows.Forms;
 
 namespace Anathema.Source.Utils.Browser
@@ -11,7 +12,7 @@ namespace Anathema.Source.Utils.Browser
     class BrowserHelper : IProcessObserver
     {
         // Singleton instance of Registration Manager
-        private static Lazy<BrowserHelper> BrowserHelperInstance = new Lazy<BrowserHelper>(() => { return new BrowserHelper(); });
+        private static Lazy<BrowserHelper> BrowserHelperInstance = new Lazy<BrowserHelper>(() => { return new BrowserHelper(); }, LazyThreadSafetyMode.PublicationOnly);
 
         private EngineCore EngineCore;
         private static Boolean RunOnce;

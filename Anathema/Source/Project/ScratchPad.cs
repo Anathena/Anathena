@@ -1,10 +1,10 @@
 ﻿using Anathema.Source.Engine;
 using Anathema.Source.Engine.Processes;
-using Anathema.Source.Project.Deprecating;
 using Anathema.Source.Project.ProjectItems;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 
 namespace Anathema.Source.Project
 {
@@ -22,8 +22,8 @@ namespace Anathema.Source.Project
             Value
         }
 
-        // Singleton instance of address table
-        private static Lazy<ScratchPad> ScratchPadInstance = new Lazy<ScratchPad>(() => { return new ScratchPad(); });
+        // Singleton instance of Address Table
+        private static Lazy<ScratchPad> ScratchPadInstance = new Lazy<ScratchPad>(() => { return new ScratchPad(); }, LazyThreadSafetyMode.PublicationOnly);
 
         private EngineCore EngineCore;
 
@@ -102,7 +102,7 @@ namespace Anathema.Source.Project
             ProjectItems.Add(ProjectItem);
             UpdateScratchPadItemCount();
 
-            TableManager.GetInstance().TableChanged();
+            ProjectExplorer.GetInstance().TableChanged();
         }
 
         public override void AddAddressItem(String BaseAddress, Type ElementType, String Description, IEnumerable<Int32> Offsets = null, Boolean IsHex = false, String Value = null)
@@ -111,7 +111,7 @@ namespace Anathema.Source.Project
 
             UpdateScratchPadItemCount();
 
-            TableManager.GetInstance().TableChanged();
+            ProjectExplorer.GetInstance().TableChanged();
         }
 
         public override void AddFolderItem(String FolderName)
@@ -119,7 +119,7 @@ namespace Anathema.Source.Project
             ProjectItems.Add(new FolderItem(FolderName));
             UpdateScratchPadItemCount();
 
-            TableManager.GetInstance().TableChanged();
+            ProjectExplorer.GetInstance().TableChanged();
         }
 
         public override void DeleteTableItems(IEnumerable<Int32> Indicies)
@@ -129,7 +129,7 @@ namespace Anathema.Source.Project
 
             UpdateScratchPadItemCount();
 
-            TableManager.GetInstance().TableChanged();
+            ProjectExplorer.GetInstance().TableChanged();
         }
 
         public override ProjectItem GetProjectItemAt(Int32 Index)
@@ -152,7 +152,7 @@ namespace Anathema.Source.Project
             this.ProjectItems = AddressItems;
             UpdateScratchPadItemCount();
 
-            TableManager.GetInstance().TableChanged();
+            ProjectExplorer.GetInstance().TableChanged();
         }
 
         public override void SetAddressItemAt(Int32 Index, AddressItem AddressItem)
@@ -172,7 +172,7 @@ namespace Anathema.Source.Project
 
             UpdateScratchPadItemCount();
 
-            TableManager.GetInstance().TableChanged();
+            ProjectExplorer.GetInstance().TableChanged();
         }
 
         public override void ReorderItem(Int32 SourceIndex, Int32 DestinationIndex)
@@ -194,7 +194,7 @@ namespace Anathema.Source.Project
             ProjectItems.Insert(DestinationIndex, Item);
             UpdateScratchPadItemCount();
 
-            TableManager.GetInstance().TableChanged();
+            ProjectExplorer.GetInstance().TableChanged();
         }
 
         private void UpdateScratchPadItemCount()

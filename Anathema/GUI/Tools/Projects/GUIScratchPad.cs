@@ -150,18 +150,7 @@ namespace Anathema.GUI
             if (ProjectItem == null)
                 return;
 
-            if (ProjectItem is AddressItem)
-            {
-                EditAddressEntry(null, 0);
-            }
-            else if (ProjectItem is FolderItem)
-            {
 
-            }
-            else if (ProjectItem is ScriptItem)
-            {
-
-            }
         }
 
 
@@ -176,32 +165,6 @@ namespace Anathema.GUI
         }
 
         #endregion
-
-        /// <summary>
-        /// DEPRECATED: Will replace property editors with a standalone property editor class
-        /// </summary>
-        /// <param name="Target"></param>
-        /// <param name="ColumnIndex"></param>
-        private void EditAddressEntry(ProjectNode Target, Int32 ColumnIndex)
-        {
-            GUIAddressEditor GUIAddressEditor;
-
-            using (TimedLock.Lock(AccessLock))
-            {
-                List<Int32> Indicies = new List<Int32>();
-
-                foreach (TreeNodeAdv Index in AddressTableTreeView.SelectedNodes)
-                    Indicies.Add(Index.Index);
-
-                if (Indicies.Count == 0)
-                    return;
-
-                GUIAddressEditor = new GUIAddressEditor(Indicies[0], Indicies);
-            }
-
-            // Create editor for this entry
-            GUIAddressEditor.ShowDialog(this);
-        }
 
         public void AddNewAddressItem()
         {
