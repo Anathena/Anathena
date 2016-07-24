@@ -8,7 +8,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using System.Runtime.Serialization;
 using System.Runtime.Serialization.Json;
 using System.Threading;
 
@@ -111,7 +110,7 @@ namespace Anathema.Source.Project
 
             RefreshProjectStructure();
 
-            ProjectExplorer.GetInstance().TableChanged();
+            ProjectExplorer.GetInstance().ProjectChanged();
         }
 
         [Obfuscation(Exclude = true)]
@@ -133,7 +132,18 @@ namespace Anathema.Source.Project
             this.ProjectRoot = ProjectRoot;
             RefreshProjectStructure();
 
-            ProjectExplorer.GetInstance().TableChanged();
+            ProjectExplorer.GetInstance().ProjectChanged();
+        }
+
+        [Obfuscation(Exclude = true)]
+        private void ImportProjectItems(FolderItem ImportedProjectRoot)
+        {
+            foreach (ProjectItem Item in ImportedProjectRoot)
+                ProjectRoot.AddChild(Item);
+
+            RefreshProjectStructure();
+
+            ProjectExplorer.GetInstance().ProjectChanged();
         }
 
         [Obfuscation(Exclude = true)]
@@ -202,41 +212,21 @@ namespace Anathema.Source.Project
                 return;
 
             foreach (ProjectItem ProjectItem in UpdateSet)
-            {
-                // TODO: This is fucking ghetto and garbage, push this functionality to the individual items
-                if (ProjectItem is AddressItem)
-                {
-                    AddressItem AddressItem = (AddressItem)ProjectItem;
-
-                    Boolean ReadSuccess;
-                    AddressItem.ResolveAddress(EngineCore);
-
-                    if (EngineCore != null)
-                        AddressItem.Value = EngineCore.Memory.Read(AddressItem.ElementType, AddressItem.EffectiveAddress, out ReadSuccess);
-
-                    if (AddressItem.GetActivationState())
-                    {
-                        AddressItem.ResolveAddress(EngineCore);
-
-                        if (EngineCore != null && AddressItem.Value != null)
-                            EngineCore.Memory.Write(AddressItem.ElementType, AddressItem.EffectiveAddress, AddressItem.Value);
-                    }
-                }
-            }
+                ProjectItem.Update(EngineCore);
         }
 
         [Obfuscation(Exclude = true)]
         protected override void End() { }
 
         [Obfuscation(Exclude = true)]
-        public void TableChanged()
+        public void ProjectChanged()
         {
             Changed = true;
             Main.GetInstance().UpdateHasChanges(Changed);
         }
 
         [Obfuscation(Exclude = true)]
-        public void TableSaved()
+        public void ProjectSaved()
         {
             Changed = false;
             Main.GetInstance().UpdateHasChanges(Changed);
@@ -249,7 +239,7 @@ namespace Anathema.Source.Project
         }
 
         [Obfuscation(Exclude = true)]
-        public Boolean SaveTable(String Path)
+        public Boolean SaveProject(String Path)
         {
             try
             {
@@ -265,55 +255,13 @@ namespace Anathema.Source.Project
                 return false;
             }
 
-            TableSaved();
+            ProjectSaved();
             return true;
         }
 
         [Obfuscation(Exclude = true)]
-        public Boolean OpenTable(String Path)
+        public Boolean OpenProject(String Path)
         {
-            if (Path == null || Path == String.Empty)
-                return false;
-
-            // DELETE XML SERIALIZER EVENTUALLY (Legacy loading scheme, switched to JSON)
-            try
-            {
-                using (FileStream FileStream = new FileStream(Path, FileMode.Open, FileAccess.Read))
-                {
-                    DataContractSerializer Serializer = new DataContractSerializer(typeof(FolderItem));
-                    FolderItem ProjectRoot = (FolderItem)Serializer.ReadObject(FileStream);
-
-                    SetProjectItems(ProjectRoot);
-                }
-            }
-            catch
-            {
-                try
-                {
-                    using (FileStream FileStream = new FileStream(Path, FileMode.Open, FileAccess.Read))
-                    {
-                        DataContractJsonSerializer Serializer = new DataContractJsonSerializer(typeof(FolderItem));
-                        FolderItem ProjectRoot = (FolderItem)Serializer.ReadObject(FileStream);
-
-                        SetProjectItems(ProjectRoot);
-                    }
-                }
-                catch
-                {
-                    return false;
-                }
-            }
-
-            TableSaved();
-            return true;
-        }
-
-        [Obfuscation(Exclude = true)]
-        public Boolean MergeTable(String Path)
-        {
-            // TODO: Re-implement this shit
-            throw new NotImplementedException();
-
             if (Path == null || Path == String.Empty)
                 return false;
 
@@ -321,8 +269,8 @@ namespace Anathema.Source.Project
             {
                 using (FileStream FileStream = new FileStream(Path, FileMode.Open, FileAccess.Read))
                 {
-                    DataContractSerializer Serializer = new DataContractSerializer(typeof(FolderItem));
-                    FolderItem ProjectRoot = (FolderItem)Serializer.ReadObject(FileStream);
+                    DataContractJsonSerializer Serializer = new DataContractJsonSerializer(typeof(FolderItem));
+                    FolderItem ProjectRoot = Serializer.ReadObject(FileStream) as FolderItem;
 
                     SetProjectItems(ProjectRoot);
                 }
@@ -332,7 +280,32 @@ namespace Anathema.Source.Project
                 return false;
             }
 
-            TableChanged();
+            ProjectSaved();
+            return true;
+        }
+
+        [Obfuscation(Exclude = true)]
+        public Boolean ImportProject(String Path)
+        {
+            if (Path == null || Path == String.Empty)
+                return false;
+
+            try
+            {
+                using (FileStream FileStream = new FileStream(Path, FileMode.Open, FileAccess.Read))
+                {
+                    DataContractJsonSerializer Serializer = new DataContractJsonSerializer(typeof(FolderItem));
+                    FolderItem ImportedProjectRoot = Serializer.ReadObject(FileStream) as FolderItem;
+
+                    ImportProjectItems(ImportedProjectRoot);
+                }
+            }
+            catch
+            {
+                return false;
+            }
+
+            ProjectChanged();
             return true;
         }
 

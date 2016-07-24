@@ -77,17 +77,17 @@ namespace Anathema.Source.Controller
 
         #region Method definitions called by the view (downstream)
 
-        public void RequestOpenTable(String FilePath)
+        public void RequestOpenProject(String FilePath)
         {
             Model.RequestOpenTable(FilePath);
         }
 
-        public void RequestMergeTable(String FilePath)
+        public void RequestImportProject(String FilePath)
         {
             Model.RequestMergeTable(FilePath);
         }
 
-        public void RequestSaveTable(String FilePath)
+        public void RequestSaveProject(String FilePath)
         {
             Model.RequestSaveTable(FilePath);
         }

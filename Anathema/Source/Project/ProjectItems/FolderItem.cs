@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Anathema.Source.Engine;
+using System;
 using System.Reflection;
 using System.Runtime.Serialization;
 
@@ -12,6 +13,8 @@ namespace Anathema.Source.Project.ProjectItems
         public FolderItem() : this("New Folder") { }
 
         public FolderItem(String Description) : base(Description) { }
+
+        public override void Update(EngineCore EngineCore) { }
 
     } // End class
 

@@ -104,17 +104,17 @@ namespace Anathema.Source.Controller
 
         public void RequestOpenTable(String FilePath)
         {
-            ProjectExplorer.GetInstance().OpenTable(FilePath);
+            ProjectExplorer.GetInstance().OpenProject(FilePath);
         }
 
         public void RequestMergeTable(String FilePath)
         {
-            ProjectExplorer.GetInstance().MergeTable(FilePath);
+            ProjectExplorer.GetInstance().ImportProject(FilePath);
         }
 
         public void RequestSaveTable(String FilePath)
         {
-            ProjectExplorer.GetInstance().SaveTable(FilePath);
+            ProjectExplorer.GetInstance().SaveProject(FilePath);
         }
 
         public Boolean RequestHasChanges()

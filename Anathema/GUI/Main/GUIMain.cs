@@ -471,18 +471,18 @@ namespace Anathema.GUI
             });
         }
 
-        public void BeginSaveTable()
+        public void BeginSaveProject()
         {
             if (MainPresenter.GetProjectFilePath() == null || MainPresenter.GetProjectFilePath() == String.Empty)
             {
-                BeginSaveAsTable();
+                BeginSaveAsProject();
                 return;
             }
 
-            MainPresenter.RequestSaveTable(MainPresenter.GetProjectFilePath());
+            MainPresenter.RequestSaveProject(MainPresenter.GetProjectFilePath());
         }
 
-        public void BeginSaveAsTable()
+        public void BeginSaveAsProject()
         {
             SaveFileDialog SaveFileDialog = new SaveFileDialog();
             SaveFileDialog.Filter = "Cheat File (*.Hax)|*.hax|All files (*.*)|*.*";
@@ -491,10 +491,10 @@ namespace Anathema.GUI
 
             MainPresenter.SetProjectFilePath(SaveFileDialog.FileName);
 
-            MainPresenter.RequestSaveTable(SaveFileDialog.FileName);
+            MainPresenter.RequestSaveProject(SaveFileDialog.FileName);
         }
 
-        public void BeginOpenTable()
+        public void BeginOpenProject()
         {
             OpenFileDialog OpenFileDialog = new OpenFileDialog();
             OpenFileDialog.Filter = "Cheat File (*.Hax)|*.hax|All files (*.*)|*.*";
@@ -503,10 +503,10 @@ namespace Anathema.GUI
 
             MainPresenter.SetProjectFilePath(OpenFileDialog.FileName);
 
-            MainPresenter.RequestOpenTable(OpenFileDialog.FileName);
+            MainPresenter.RequestOpenProject(OpenFileDialog.FileName);
         }
 
-        public void BeginMergeTable()
+        public void BeginImportProject()
         {
             OpenFileDialog OpenFileDialog = new OpenFileDialog();
             OpenFileDialog.Filter = "Cheat File (*.Hax)|*.hax|All files (*.*)|*.*";
@@ -517,7 +517,7 @@ namespace Anathema.GUI
             if (MainPresenter.GetProjectFilePath() == String.Empty)
                 MainPresenter.SetProjectFilePath(OpenFileDialog.FileName);
 
-            MainPresenter.RequestMergeTable(OpenFileDialog.FileName);
+            MainPresenter.RequestImportProject(OpenFileDialog.FileName);
         }
 
         private Boolean AskSaveChanges()
@@ -531,7 +531,7 @@ namespace Anathema.GUI
             switch (Result)
             {
                 case DialogResult.Yes:
-                    BeginSaveTable();
+                    BeginSaveProject();
                     return false;
                 case DialogResult.No:
                     return false;
@@ -667,32 +667,32 @@ namespace Anathema.GUI
 
         private void OpenToolStripMenuItem_Click(Object Sender, EventArgs E)
         {
-            BeginOpenTable();
+            BeginOpenProject();
         }
 
         private void SaveToolStripMenuItem_Click(Object Sender, EventArgs E)
         {
-            BeginSaveTable();
+            BeginSaveProject();
         }
 
         private void OpenButton_Click(Object Sender, EventArgs E)
         {
-            BeginOpenTable();
+            BeginOpenProject();
         }
 
         private void SaveButton_Click(Object Sender, EventArgs E)
         {
-            BeginSaveTable();
+            BeginSaveProject();
         }
 
-        private void MergeTableToolStripMenuItem_Click(Object Sender, EventArgs E)
+        private void ImportProjectToolStripMenuItem_Click(Object Sender, EventArgs E)
         {
-            BeginMergeTable();
+            BeginImportProject();
         }
 
         private void SaveAsToolStripMenuItem_Click(Object Sender, EventArgs E)
         {
-            BeginSaveAsTable();
+            BeginSaveAsProject();
         }
 
         private void CollectValuesButton_Click(Object Sender, EventArgs E)

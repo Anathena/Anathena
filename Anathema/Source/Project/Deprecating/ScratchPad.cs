@@ -102,7 +102,7 @@ namespace Anathema.Source.Project
             ProjectItems.Add(ProjectItem);
             UpdateScratchPadItemCount();
 
-            ProjectExplorer.GetInstance().TableChanged();
+            ProjectExplorer.GetInstance().ProjectChanged();
         }
 
         public override void AddAddressItem(String BaseAddress, Type ElementType, String Description, IEnumerable<Int32> Offsets = null, Boolean IsHex = false, String Value = null)
@@ -111,7 +111,7 @@ namespace Anathema.Source.Project
 
             UpdateScratchPadItemCount();
 
-            ProjectExplorer.GetInstance().TableChanged();
+            ProjectExplorer.GetInstance().ProjectChanged();
         }
 
         public override void AddFolderItem(String FolderName)
@@ -119,7 +119,7 @@ namespace Anathema.Source.Project
             ProjectItems.Add(new FolderItem(FolderName));
             UpdateScratchPadItemCount();
 
-            ProjectExplorer.GetInstance().TableChanged();
+            ProjectExplorer.GetInstance().ProjectChanged();
         }
 
         public override void DeleteTableItems(IEnumerable<Int32> Indicies)
@@ -129,7 +129,7 @@ namespace Anathema.Source.Project
 
             UpdateScratchPadItemCount();
 
-            ProjectExplorer.GetInstance().TableChanged();
+            ProjectExplorer.GetInstance().ProjectChanged();
         }
 
         public override ProjectItem GetProjectItemAt(Int32 Index)
@@ -152,7 +152,7 @@ namespace Anathema.Source.Project
             this.ProjectItems = AddressItems;
             UpdateScratchPadItemCount();
 
-            ProjectExplorer.GetInstance().TableChanged();
+            ProjectExplorer.GetInstance().ProjectChanged();
         }
 
         public override void SetAddressItemAt(Int32 Index, AddressItem AddressItem)
@@ -172,7 +172,7 @@ namespace Anathema.Source.Project
 
             UpdateScratchPadItemCount();
 
-            ProjectExplorer.GetInstance().TableChanged();
+            ProjectExplorer.GetInstance().ProjectChanged();
         }
 
         public override void ReorderItem(Int32 SourceIndex, Int32 DestinationIndex)
@@ -194,7 +194,7 @@ namespace Anathema.Source.Project
             ProjectItems.Insert(DestinationIndex, Item);
             UpdateScratchPadItemCount();
 
-            ProjectExplorer.GetInstance().TableChanged();
+            ProjectExplorer.GetInstance().ProjectChanged();
         }
 
         private void UpdateScratchPadItemCount()

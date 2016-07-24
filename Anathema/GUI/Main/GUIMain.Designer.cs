@@ -33,7 +33,7 @@
             this.FileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.OpenToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ImportToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.MergeTableToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.ImportProjectToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.SaveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.SaveAsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ExitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -115,43 +115,43 @@
             // OpenToolStripMenuItem
             // 
             this.OpenToolStripMenuItem.Name = "OpenToolStripMenuItem";
-            this.OpenToolStripMenuItem.Size = new System.Drawing.Size(114, 22);
+            this.OpenToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.OpenToolStripMenuItem.Text = "Open";
             this.OpenToolStripMenuItem.Click += new System.EventHandler(this.OpenToolStripMenuItem_Click);
             // 
             // ImportToolStripMenuItem
             // 
             this.ImportToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.MergeTableToolStripMenuItem});
+            this.ImportProjectToolStripMenuItem});
             this.ImportToolStripMenuItem.Name = "ImportToolStripMenuItem";
-            this.ImportToolStripMenuItem.Size = new System.Drawing.Size(114, 22);
+            this.ImportToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.ImportToolStripMenuItem.Text = "Import";
             // 
-            // MergeTableToolStripMenuItem
+            // ImportProjectToolStripMenuItem
             // 
-            this.MergeTableToolStripMenuItem.Name = "MergeTableToolStripMenuItem";
-            this.MergeTableToolStripMenuItem.Size = new System.Drawing.Size(139, 22);
-            this.MergeTableToolStripMenuItem.Text = "Merge Table";
-            this.MergeTableToolStripMenuItem.Click += new System.EventHandler(this.MergeTableToolStripMenuItem_Click);
+            this.ImportProjectToolStripMenuItem.Name = "ImportProjectToolStripMenuItem";
+            this.ImportProjectToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.ImportProjectToolStripMenuItem.Text = "Import Project";
+            this.ImportProjectToolStripMenuItem.Click += new System.EventHandler(this.ImportProjectToolStripMenuItem_Click);
             // 
             // SaveToolStripMenuItem
             // 
             this.SaveToolStripMenuItem.Name = "SaveToolStripMenuItem";
-            this.SaveToolStripMenuItem.Size = new System.Drawing.Size(114, 22);
+            this.SaveToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.SaveToolStripMenuItem.Text = "Save";
             this.SaveToolStripMenuItem.Click += new System.EventHandler(this.SaveToolStripMenuItem_Click);
             // 
             // SaveAsToolStripMenuItem
             // 
             this.SaveAsToolStripMenuItem.Name = "SaveAsToolStripMenuItem";
-            this.SaveAsToolStripMenuItem.Size = new System.Drawing.Size(114, 22);
+            this.SaveAsToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.SaveAsToolStripMenuItem.Text = "Save As";
             this.SaveAsToolStripMenuItem.Click += new System.EventHandler(this.SaveAsToolStripMenuItem_Click);
             // 
             // ExitToolStripMenuItem
             // 
             this.ExitToolStripMenuItem.Name = "ExitToolStripMenuItem";
-            this.ExitToolStripMenuItem.Size = new System.Drawing.Size(114, 22);
+            this.ExitToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.ExitToolStripMenuItem.Text = "Exit";
             this.ExitToolStripMenuItem.Click += new System.EventHandler(this.ExitToolStripMenuItem_Click);
             // 
@@ -590,7 +590,7 @@
         private System.Windows.Forms.ToolStripButton SaveButton;
         private System.Windows.Forms.ToolStripMenuItem ImportToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem SaveAsToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem MergeTableToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem ImportProjectToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem DotNetExplorerToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem ScratchPadToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem PropertiesToolStripMenuItem;

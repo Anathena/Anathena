@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Anathema.Source.Engine;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -10,13 +11,18 @@ namespace Anathema.Source.Project.ProjectItems
 {
     [Obfuscation(ApplyToMembers = false)]
     [Obfuscation(Exclude = true)]
+    [KnownType(typeof(ProjectItem))]
+    [KnownType(typeof(FolderItem))]
+    [KnownType(typeof(ScriptItem))]
+    [KnownType(typeof(AddressItem))]
+    [KnownType(typeof(DotNetItem))]
+    [KnownType(typeof(JavaItem))]
     [DataContract()]
-    public class ProjectItem : IEnumerable<ProjectItem>
+    public abstract class ProjectItem : IEnumerable<ProjectItem>
     {
         [Obfuscation(Exclude = true)]
         private ProjectItem _Parent;
         [Obfuscation(Exclude = true)]
-        [DataMember()]
         [Browsable(false)]
         public ProjectItem Parent
         {
@@ -55,16 +61,16 @@ namespace Anathema.Source.Project.ProjectItems
         [Obfuscation(Exclude = true)]
         [DataMember()]
         [Browsable(false)]
-        public Int32 _TextColorARGB;
+        public UInt32 _TextColorARGB;
 
         [Obfuscation(Exclude = true)]
         [Category("Properties"), DisplayName("Text Color"), Description("Display Color")]
         public Color TextColor
         {
             [Obfuscation(Exclude = true)]
-            get { return Color.FromArgb(_TextColorARGB); }
+            get { return Color.FromArgb(unchecked((Int32)(_TextColorARGB))); }
             [Obfuscation(Exclude = true)]
-            set { _TextColorARGB = value == null ? 0 : value.ToArgb(); }
+            set { _TextColorARGB = value == null ? 0 : unchecked((UInt32)(value.ToArgb())); UpdateEntryVisual(); }
         }
 
         [Obfuscation(Exclude = true)]
@@ -78,10 +84,9 @@ namespace Anathema.Source.Project.ProjectItems
             this._Description = Description == null ? String.Empty : Description;
             this._Parent = null;
             this._Children = new List<ProjectItem>();
-            this._TextColorARGB = SystemColors.ControlText.ToArgb();
+            this._TextColorARGB = unchecked((UInt32)SystemColors.ControlText.ToArgb());
             this.Activated = false;
         }
-
 
         [Obfuscation(Exclude = true)]
         public virtual void SetActivationState(Boolean Activated)
@@ -106,6 +111,9 @@ namespace Anathema.Source.Project.ProjectItems
         {
             ProjectExplorer.GetInstance().RefreshProjectStructure();
         }
+
+        [Obfuscation(Exclude = true)]
+        public abstract void Update(EngineCore EngineCore);
 
         [Obfuscation(Exclude = true)]
         public IEnumerator<ProjectItem> GetEnumerator()

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Anathema.Source.Engine;
+using System;
 using System.ComponentModel;
 using System.Reflection;
 using System.Runtime.Serialization;
@@ -26,6 +27,11 @@ namespace Anathema.Source.Project.ProjectItems
         public JavaItem() : this("New Java Object") { }
 
         public JavaItem(String Description) : base(Description) { }
+
+        public override void Update(EngineCore EngineCore)
+        {
+            // TODO: Resolve address once we implement a resolver
+        }
 
     } // End class
 
