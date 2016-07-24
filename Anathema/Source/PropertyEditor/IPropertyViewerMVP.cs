@@ -15,7 +15,8 @@ namespace Anathema.Source.PropertyEditor
     interface IPropertyViewerView : IView
     {
         // Methods invoked by the presenter (upstream)
-        void RefreshStructure(IEnumerable<Object> SelectedObjects);
+        void SetTargetObjects(IEnumerable<Object> SelectedObjects);
+        void RefreshProperties();
     }
 
     abstract class IPropertyViewerModel : RepeatedTask, IModel
@@ -23,10 +24,16 @@ namespace Anathema.Source.PropertyEditor
         public virtual void OnGUIOpen() { }
 
         // Events triggered by the model (upstream)
-        public event PropertyViewerEventHandler EventRefresh;
-        protected virtual void OnEventRefresh(PropertyViewerEventArgs E)
+        public event PropertyViewerEventHandler EventSetTargetObjects;
+        protected virtual void OnEventSetTargetObjects(PropertyViewerEventArgs E)
         {
-            EventRefresh?.Invoke(this, E);
+            EventSetTargetObjects?.Invoke(this, E);
+        }
+
+        public event PropertyViewerEventHandler EventRefreshProperties;
+        protected virtual void OnEventRefreshProperties(PropertyViewerEventArgs E)
+        {
+            EventRefreshProperties?.Invoke(this, E);
         }
 
         public override void Begin()
@@ -56,7 +63,8 @@ namespace Anathema.Source.PropertyEditor
             this.Model = Model;
 
             // Bind events triggered by the model
-            Model.EventRefresh += EventRefresh;
+            Model.EventSetTargetObjects += EventSetTargetObjects;
+            Model.EventRefreshProperties += EventRefreshProperties;
 
             Model.OnGUIOpen();
         }
@@ -67,9 +75,14 @@ namespace Anathema.Source.PropertyEditor
 
         #region Event definitions for events triggered by the model (upstream)
 
-        private void EventRefresh(Object Sender, PropertyViewerEventArgs E)
+        private void EventSetTargetObjects(Object Sender, PropertyViewerEventArgs E)
         {
-            View.RefreshStructure(E.SelectedObjects);
+            View.SetTargetObjects(E.SelectedObjects);
+        }
+
+        private void EventRefreshProperties(Object Sender, PropertyViewerEventArgs E)
+        {
+            View.RefreshProperties();
         }
 
         #endregion

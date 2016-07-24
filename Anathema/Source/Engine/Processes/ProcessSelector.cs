@@ -34,7 +34,7 @@ namespace Anathema.Source.Engine.Processes
      */
     class ProcessSelector : IProcessSelectorModel
     {
-        // Singleton instance of the process selector
+        // Singleton instance of the Process Selector
         private static Lazy<ProcessSelector> ProcessSelectorInstance = new Lazy<ProcessSelector>(() => { return new ProcessSelector(); }, LazyThreadSafetyMode.PublicationOnly);
 
         // Complete list of running processes

@@ -268,10 +268,10 @@
     <Compile Include="Source\Engine\Architecture\Disassembler\DisassemblerFactory.cs" />
     <Compile Include="Source\Engine\ObjectCollectors\DotNetObjectCollector\DotNetObject.cs" />
     <Compile Include="Source\LuaEngine\LuaScript.cs" />
-    <Compile Include="Source\Project\IScratchPadMVP.cs" />
+    <Compile Include="Source\Project\Deprecating\IScratchPadMVP.cs" />
     <Compile Include="Source\Project\ProjectItems\JavaItem.cs" />
     <Compile Include="Source\Project\ProjectItems\DotNetItem.cs" />
-    <Compile Include="Source\Project\ScratchPad.cs" />
+    <Compile Include="Source\Project\Deprecating\ScratchPad.cs" />
     <Compile Include="Source\Project\ProjectItems\FolderItem.cs" />
     <Compile Include="Source\PropertyEditor\IPropertyViewerMVP.cs" />
     <Compile Include="Source\PropertyEditor\PropertyViewer.cs" />
@@ -651,9 +651,7 @@
     <Compile Include="Source\Project\ProjectExplorer.cs" />
     <Compile Include="Source\Project\IProjectExplorerMVP.cs" />
     <Compile Include="Source\Project\ProjectItems\AddressItem.cs" />
-    <Compile Include="Source\Project\Deprecating\ScriptTable.cs" />
     <Compile Include="Source\Project\ProjectItems\ScriptItem.cs" />
-    <Compile Include="Source\Project\Deprecating\TableManager.cs" />
     <Compile Include="Source\Project\ProjectItems\ProjectItem.cs" />
     <Compile Include="Source\Scanners\ScanConstraints\ScanConstraint.cs" />
     <EmbeddedResource Include="GUI\CheatBrowser\GUICheatBrowser.resx">

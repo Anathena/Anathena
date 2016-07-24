@@ -22,7 +22,7 @@ namespace Anathema.Source.PropertyEditor
 
         public override void OnGUIOpen()
         {
-            Refresh();
+            SetTargetObjects();
         }
 
         public static PropertyViewer GetInstance()
@@ -49,14 +49,20 @@ namespace Anathema.Source.PropertyEditor
         {
             this.TargetObjects = TargetObjects;
 
-            Refresh();
+            SetTargetObjects();
         }
 
-        private void Refresh()
+        private void SetTargetObjects()
         {
             PropertyViewerEventArgs PropertyViewerEventArgs = new PropertyViewerEventArgs();
             PropertyViewerEventArgs.SelectedObjects = TargetObjects;
-            OnEventRefresh(PropertyViewerEventArgs);
+            OnEventSetTargetObjects(PropertyViewerEventArgs);
+        }
+
+        private void RefreshProperties()
+        {
+            PropertyViewerEventArgs PropertyViewerEventArgs = new PropertyViewerEventArgs();
+            OnEventRefreshProperties(PropertyViewerEventArgs);
         }
 
         public override void Begin()
@@ -66,47 +72,7 @@ namespace Anathema.Source.PropertyEditor
 
         protected override void Update()
         {
-            // Refresh();
-
-            // TODO: offload these to individual properties
-            /*
-            // Freeze addresses
-            foreach (ProjectItem ProjectItem in ProjectItems)
-            {
-                if (ProjectItem is AddressItem)
-                {
-                    AddressItem AddressItem = (AddressItem)ProjectItem;
-                    if (AddressItem.GetActivationState())
-                    {
-                        AddressItem.ResolveAddress(EngineCore);
-
-                        if (EngineCore != null && AddressItem.Value != null)
-                            EngineCore.Memory.Write(AddressItem.ElementType, AddressItem.EffectiveAddress, AddressItem.Value);
-                    }
-                }
-            }
-
-            for (Int32 Index = VisibleIndexStart; Index < VisibleIndexEnd; Index++)
-            {
-                if (Index < 0 || Index >= ProjectItems.Count)
-                    continue;
-
-                ProjectItem ProjectItem = ProjectItems[Index];
-
-                if (ProjectItem is AddressItem)
-                {
-                    AddressItem AddressItem = (AddressItem)ProjectItem;
-                    Boolean ReadSuccess;
-                    AddressItem.ResolveAddress(EngineCore);
-
-                    if (EngineCore != null)
-                        AddressItem.Value = EngineCore.Memory.Read(AddressItem.ElementType, AddressItem.EffectiveAddress, out ReadSuccess);
-                }
-            }
-
-            if (ProjectItems.Count != 0)
-                OnEventReadValues(new ProjectExplorerEventArgs());
-                */
+            RefreshProperties();
         }
 
         protected override void End() { }

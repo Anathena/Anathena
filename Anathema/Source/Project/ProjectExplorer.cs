@@ -176,9 +176,53 @@ namespace Anathema.Source.Project
         }
 
         [Obfuscation(Exclude = true)]
+        private IEnumerable<ProjectItem> CreateUpdateSetDEPRECATED(ProjectItem ProjectItem, List<ProjectItem> CurrentSet = null)
+        {
+            if (ProjectItem == null)
+                return CurrentSet;
+
+            if (CurrentSet == null)
+                CurrentSet = new List<ProjectItem>();
+
+            foreach (ProjectItem Child in ProjectItem)
+            {
+                CurrentSet.Add(Child);
+                CreateUpdateSetDEPRECATED(Child, CurrentSet);
+            }
+
+            return CurrentSet;
+        }
+
+        [Obfuscation(Exclude = true)]
         protected override void Update()
         {
+            UpdateSet = CreateUpdateSetDEPRECATED(ProjectRoot);
 
+            if (UpdateSet == null)
+                return;
+
+            foreach (ProjectItem ProjectItem in UpdateSet)
+            {
+                // TODO: This is fucking ghetto and garbage, push this functionality to the individual items
+                if (ProjectItem is AddressItem)
+                {
+                    AddressItem AddressItem = (AddressItem)ProjectItem;
+
+                    Boolean ReadSuccess;
+                    AddressItem.ResolveAddress(EngineCore);
+
+                    if (EngineCore != null)
+                        AddressItem.Value = EngineCore.Memory.Read(AddressItem.ElementType, AddressItem.EffectiveAddress, out ReadSuccess);
+
+                    if (AddressItem.GetActivationState())
+                    {
+                        AddressItem.ResolveAddress(EngineCore);
+
+                        if (EngineCore != null && AddressItem.Value != null)
+                            EngineCore.Memory.Write(AddressItem.ElementType, AddressItem.EffectiveAddress, AddressItem.Value);
+                    }
+                }
+            }
         }
 
         [Obfuscation(Exclude = true)]

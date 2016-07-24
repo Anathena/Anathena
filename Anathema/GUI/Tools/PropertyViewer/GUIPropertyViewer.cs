@@ -1,5 +1,4 @@
-﻿using Aga.Controls.Tree.NodeControls;
-using Anathema.Source.PropertyEditor;
+﻿using Anathema.Source.PropertyEditor;
 using Anathema.Source.Utils.MVP;
 using System;
 using System.Collections.Generic;
@@ -23,7 +22,7 @@ namespace Anathema.GUI
             PropertyViewerPresenter = new PropertyViewerPresenter(this, PropertyViewer.GetInstance());
         }
 
-        public void RefreshStructure(IEnumerable<Object> SelectedObjects)
+        public void SetTargetObjects(IEnumerable<Object> SelectedObjects)
         {
             ControlThreadingHelper.InvokeControlAction<PropertyGrid>(PropertyGrid, () =>
             {
@@ -31,9 +30,29 @@ namespace Anathema.GUI
             });
         }
 
-        void CheckIndex(Object Sender, NodeControlValueEventArgs E)
+        public void RefreshProperties()
         {
-            E.Value = true;
+            ControlThreadingHelper.InvokeControlAction<PropertyGrid>(PropertyGrid, () =>
+            {
+                if (GetFocusedObjectType(this)?.Name == "GridViewEdit")
+                    return;
+
+                PropertyGrid.Refresh();
+            });
+        }
+
+        private Type GetFocusedObjectType(Control Control)
+        {
+            ContainerControl Container = Control as ContainerControl;
+
+            while (Container != null)
+            {
+                Control = Container.ActiveControl;
+                Container = Control as ContainerControl;
+            }
+
+            return Control?.GetType();
+
         }
 
     } // End class
