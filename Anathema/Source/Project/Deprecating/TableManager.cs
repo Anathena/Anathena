@@ -88,7 +88,7 @@ namespace Anathema.Source.Project.Deprecating
                 using (FileStream FileStream = new FileStream(Path, FileMode.Open, FileAccess.Read))
                 {
                     DataContractSerializer Serializer = new DataContractSerializer(typeof(ProjectItem));
-                    ProjectItem ProjectRoot = (ProjectItem)Serializer.ReadObject(FileStream);
+                    FolderItem ProjectRoot = (FolderItem)Serializer.ReadObject(FileStream);
 
                     ProjectExplorer.GetInstance().SetProjectItems(ProjectRoot);
                 }
@@ -100,7 +100,7 @@ namespace Anathema.Source.Project.Deprecating
                     using (FileStream FileStream = new FileStream(Path, FileMode.Open, FileAccess.Read))
                     {
                         DataContractJsonSerializer Serializer = new DataContractJsonSerializer(typeof(TableData));
-                        ProjectItem ProjectRoot = (ProjectItem)Serializer.ReadObject(FileStream);
+                        FolderItem ProjectRoot = (FolderItem)Serializer.ReadObject(FileStream);
 
                         ProjectExplorer.GetInstance().SetProjectItems(ProjectRoot);
                     }

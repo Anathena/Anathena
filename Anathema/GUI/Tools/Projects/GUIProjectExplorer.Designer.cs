@@ -43,6 +43,9 @@
             this.AddItemDownButton = new System.Windows.Forms.ToolStripDropDownButton();
             this.AddressToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.FolderToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.AddNewHeapObjectToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.DotNetObjectToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.JavaObjectToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ProjectContextMenuStrip.SuspendLayout();
             this.ProjectToolStrip.SuspendLayout();
             this.SuspendLayout();
@@ -94,7 +97,6 @@
             this.ProjectExplorerTreeView.DragDropMarkColor = System.Drawing.Color.Black;
             this.ProjectExplorerTreeView.Font = new System.Drawing.Font("Courier New", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.ProjectExplorerTreeView.FullRowSelect = true;
-            this.ProjectExplorerTreeView.GridLineStyle = Aga.Controls.Tree.GridLineStyle.Vertical;
             this.ProjectExplorerTreeView.LineColor = System.Drawing.SystemColors.ControlDark;
             this.ProjectExplorerTreeView.Location = new System.Drawing.Point(0, 25);
             this.ProjectExplorerTreeView.Model = null;
@@ -108,7 +110,6 @@
             this.ProjectExplorerTreeView.Size = new System.Drawing.Size(214, 319);
             this.ProjectExplorerTreeView.TabIndex = 154;
             this.ProjectExplorerTreeView.Text = "Project Explorer";
-            this.ProjectExplorerTreeView.NodeMouseDoubleClick += new System.EventHandler<Aga.Controls.Tree.TreeNodeAdvMouseEventArgs>(this.ProjectExplorerTreeView_NodeMouseDoubleClick);
             this.ProjectExplorerTreeView.SelectionChanged += new System.EventHandler(this.ProjectExplorerTreeView_SelectionChanged);
             // 
             // EntryCheckBox
@@ -149,7 +150,8 @@
             this.AddItemDownButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
             this.AddItemDownButton.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.AddressToolStripMenuItem,
-            this.FolderToolStripMenuItem});
+            this.FolderToolStripMenuItem,
+            this.AddNewHeapObjectToolStripMenuItem});
             this.AddItemDownButton.Image = global::Anathema.Properties.Resources.Increased;
             this.AddItemDownButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.AddItemDownButton.Name = "AddItemDownButton";
@@ -160,7 +162,7 @@
             // 
             this.AddressToolStripMenuItem.Image = global::Anathema.Properties.Resources.CollectValues;
             this.AddressToolStripMenuItem.Name = "AddressToolStripMenuItem";
-            this.AddressToolStripMenuItem.Size = new System.Drawing.Size(168, 22);
+            this.AddressToolStripMenuItem.Size = new System.Drawing.Size(214, 22);
             this.AddressToolStripMenuItem.Text = "Add New Address";
             this.AddressToolStripMenuItem.Click += new System.EventHandler(this.AddressToolStripMenuItem_Click);
             // 
@@ -168,9 +170,35 @@
             // 
             this.FolderToolStripMenuItem.Image = global::Anathema.Properties.Resources.Open;
             this.FolderToolStripMenuItem.Name = "FolderToolStripMenuItem";
-            this.FolderToolStripMenuItem.Size = new System.Drawing.Size(168, 22);
+            this.FolderToolStripMenuItem.Size = new System.Drawing.Size(214, 22);
             this.FolderToolStripMenuItem.Text = "Add New Folder";
             this.FolderToolStripMenuItem.Click += new System.EventHandler(this.FolderToolStripMenuItem_Click);
+            // 
+            // AddNewHeapObjectToolStripMenuItem
+            // 
+            this.AddNewHeapObjectToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.DotNetObjectToolStripMenuItem,
+            this.JavaObjectToolStripMenuItem});
+            this.AddNewHeapObjectToolStripMenuItem.Image = global::Anathema.Properties.Resources.Stop;
+            this.AddNewHeapObjectToolStripMenuItem.Name = "AddNewHeapObjectToolStripMenuItem";
+            this.AddNewHeapObjectToolStripMenuItem.Size = new System.Drawing.Size(214, 22);
+            this.AddNewHeapObjectToolStripMenuItem.Text = "Add New Managed Object";
+            // 
+            // DotNetObjectToolStripMenuItem
+            // 
+            this.DotNetObjectToolStripMenuItem.Image = global::Anathema.Properties.Resources.StartState;
+            this.DotNetObjectToolStripMenuItem.Name = "DotNetObjectToolStripMenuItem";
+            this.DotNetObjectToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.DotNetObjectToolStripMenuItem.Text = ".NET Object";
+            this.DotNetObjectToolStripMenuItem.Click += new System.EventHandler(this.DotNetObjectToolStripMenuItem_Click);
+            // 
+            // JavaObjectToolStripMenuItem
+            // 
+            this.JavaObjectToolStripMenuItem.Image = global::Anathema.Properties.Resources.IntermediateState;
+            this.JavaObjectToolStripMenuItem.Name = "JavaObjectToolStripMenuItem";
+            this.JavaObjectToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.JavaObjectToolStripMenuItem.Text = "Java Object";
+            this.JavaObjectToolStripMenuItem.Click += new System.EventHandler(this.JavaObjectToolStripMenuItem_Click);
             // 
             // GUIProjectExplorer
             // 
@@ -205,5 +233,8 @@
         private System.Windows.Forms.ToolStripDropDownButton AddItemDownButton;
         private System.Windows.Forms.ToolStripMenuItem AddressToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem FolderToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem AddNewHeapObjectToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem DotNetObjectToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem JavaObjectToolStripMenuItem;
     }
 }

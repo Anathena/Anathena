@@ -10,14 +10,13 @@ namespace Anathema.Source.Project
     delegate void ProjectExplorerEventHandler(Object Sender, ProjectExplorerEventArgs Args);
     class ProjectExplorerEventArgs : EventArgs
     {
-        public Int32 ItemCount = 0;
-        public Int32 ClearCacheIndex = -1;
+        public ProjectItem ProjectRoot = null;
     }
 
     interface IProjectExplorerView : IView
     {
         // Methods invoked by the presenter (upstream)
-        void RefreshStructure();
+        void RefreshStructure(ProjectItem ProjectRoot);
     }
 
     abstract class IProjectExplorerModel : RepeatedTask, IModel
@@ -76,11 +75,6 @@ namespace Anathema.Source.Project
 
         #region Method definitions called by the view (downstream)
 
-        public ProjectItem GetProjectRoot()
-        {
-            return Model.GetProjectRoot();
-        }
-
         public void AddNewAddressItem(ProjectItem Parent = null)
         {
             Model.AddProjectItem(new AddressItem(), Parent);
@@ -89,6 +83,16 @@ namespace Anathema.Source.Project
         public void AddNewFolderItem(ProjectItem Parent = null)
         {
             Model.AddProjectItem(new FolderItem(), Parent);
+        }
+
+        public void AddNewDotNetItem(ProjectItem Parent = null)
+        {
+            Model.AddProjectItem(new DotNetItem(), Parent);
+        }
+
+        public void AddNewJavaItem(ProjectItem Parent = null)
+        {
+            Model.AddProjectItem(new JavaItem(), Parent);
         }
 
         public void DeleteProjectItems(IEnumerable<Int32> Indicies)
@@ -117,7 +121,7 @@ namespace Anathema.Source.Project
 
         private void EventRefreshStructure(Object Sender, ProjectExplorerEventArgs E)
         {
-            View.RefreshStructure();
+            View.RefreshStructure(E.ProjectRoot);
         }
 
         #endregion

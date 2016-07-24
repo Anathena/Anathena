@@ -287,6 +287,8 @@
     <Compile Include="Source\Engine\ObjectCollectors\DotNetObjectCollector\DotNetObject.cs" />
     <Compile Include="Source\LuaEngine\LuaScript.cs" />
     <Compile Include="Source\Project\IScratchPadMVP.cs" />
+    <Compile Include="Source\Project\ProjectItems\JavaItem.cs" />
+    <Compile Include="Source\Project\ProjectItems\DotNetItem.cs" />
     <Compile Include="Source\Project\ScratchPad.cs" />
     <Compile Include="Source\Project\ProjectItems\FolderItem.cs" />
     <Compile Include="Source\PropertyEditor\IPropertyViewerMVP.cs" />

@@ -21,7 +21,7 @@ namespace Anathema.Source.Project.ProjectItems
             [Obfuscation(Exclude = true)]
             get { return _LuaScript; }
             [Obfuscation(Exclude = true)]
-            set { _LuaScript = value; OnUpdateField(); }
+            set { _LuaScript = value; }
         }
 
         [Obfuscation(Exclude = true)]

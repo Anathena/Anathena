@@ -26,7 +26,7 @@ namespace Anathema.Source.Project.ProjectItems
             [Obfuscation(Exclude = true)]
             get { return _BaseAddress; }
             [Obfuscation(Exclude = true)]
-            set { _BaseAddress = value; OnUpdateField(); }
+            set { _BaseAddress = value; }
         }
 
         [Obfuscation(Exclude = true)]
@@ -39,7 +39,7 @@ namespace Anathema.Source.Project.ProjectItems
             [Obfuscation(Exclude = true)]
             get { return _IsValueHex; }
             [Obfuscation(Exclude = true)]
-            set { _IsValueHex = value; OnUpdateField(); }
+            set { _IsValueHex = value; }
         }
 
         [Obfuscation(Exclude = true)]
@@ -52,7 +52,7 @@ namespace Anathema.Source.Project.ProjectItems
             [Obfuscation(Exclude = true)]
             get { return _Offsets; }
             [Obfuscation(Exclude = true)]
-            set { _Offsets = value; OnUpdateField(); }
+            set { _Offsets = value; }
         }
 
         [Obfuscation(Exclude = true)]
@@ -71,7 +71,6 @@ namespace Anathema.Source.Project.ProjectItems
                 String OldTypeName = this.TypeName;
                 TypeName = (value == null ? String.Empty : value.FullName);
                 _Value = (OldTypeName != TypeName) ? null : _Value;
-                OnUpdateField();
             }
         }
 
@@ -84,7 +83,7 @@ namespace Anathema.Source.Project.ProjectItems
             [Obfuscation(Exclude = true)]
             get { return _Value; }
             [Obfuscation(Exclude = true)]
-            set { if (!Activated) { _Value = value; OnUpdateField(); } }
+            set { if (!Activated) { _Value = value; } }
         }
 
         [Obfuscation(Exclude = true)]
@@ -96,22 +95,21 @@ namespace Anathema.Source.Project.ProjectItems
             [Obfuscation(Exclude = true)]
             get { return _EffectiveAddress; }
             [Obfuscation(Exclude = true)]
-            private set { _EffectiveAddress = value; OnUpdateField(); }
+            private set { _EffectiveAddress = value; }
         }
 
         public AddressItem() : this(Conversions.ToAddress(IntPtr.Zero), typeof(Int32), "New Address") { }
-
         public AddressItem(String BaseAddress, Type ElementType, String Description = null, IEnumerable<Int32> Offsets = null, Boolean IsValueHex = false, String Value = null) : base(Description)
         {
-            this.BaseAddress = BaseAddress;
+            this._BaseAddress = BaseAddress;
+            this._Offsets = Offsets;
+            this._IsValueHex = IsValueHex;
             this.ElementType = ElementType;
-            this.Offsets = Offsets;
-            this.IsValueHex = IsValueHex;
 
-            if (!IsValueHex && CheckSyntax.CanParseValue(ElementType, Value))
-                this.Value = Conversions.ParseValue(ElementType, Value);
-            else if (IsValueHex && CheckSyntax.CanParseHex(ElementType, Value))
-                this.Value = Conversions.ParseHexAsDec(ElementType, Value);
+            if (!_IsValueHex && CheckSyntax.CanParseValue(ElementType, Value))
+                this._Value = Conversions.ParseValue(ElementType, Value);
+            else if (_IsValueHex && CheckSyntax.CanParseHex(ElementType, Value))
+                this._Value = Conversions.ParseHexAsDec(ElementType, Value);
         }
 
         [Obfuscation(Exclude = true)]

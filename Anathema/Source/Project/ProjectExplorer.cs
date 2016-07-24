@@ -6,6 +6,7 @@ using Anathema.Source.PropertyEditor;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 
 namespace Anathema.Source.Project
 {
@@ -15,10 +16,10 @@ namespace Anathema.Source.Project
     class ProjectExplorer : IProjectExplorerModel, IProcessObserver
     {
         // Singleton instance of project explorer
-        private static Lazy<ProjectExplorer> ProjectExplorerInstance = new Lazy<ProjectExplorer>(() => { return new ProjectExplorer(); });
+        private static Lazy<ProjectExplorer> ProjectExplorerInstance = new Lazy<ProjectExplorer>(() => { return new ProjectExplorer(); }, LazyThreadSafetyMode.PublicationOnly);
 
         private EngineCore EngineCore;
-        private ProjectItem ProjectRoot;
+        private FolderItem ProjectRoot;
 
         private Int32 VisibleIndexStart;
         private Int32 VisibleIndexEnd;
@@ -26,7 +27,7 @@ namespace Anathema.Source.Project
         private ProjectExplorer()
         {
             InitializeProcessObserver();
-            ProjectRoot = new ProjectItem();
+            ProjectRoot = new FolderItem(String.Empty);
 
             Begin();
         }
@@ -96,6 +97,9 @@ namespace Anathema.Source.Project
 
         public override void AddProjectItem(ProjectItem ProjectItem, ProjectItem Parent = null)
         {
+            while (Parent != null && !(Parent is FolderItem))
+                Parent = Parent.Parent;
+
             if (Parent == null)
                 Parent = ProjectRoot;
 
@@ -128,7 +132,7 @@ namespace Anathema.Source.Project
             return ProjectRoot;
         }
 
-        public void SetProjectItems(ProjectItem ProjectRoot)
+        public void SetProjectItems(FolderItem ProjectRoot)
         {
             this.ProjectRoot = ProjectRoot;
             RefreshProjectStructure();
@@ -181,9 +185,10 @@ namespace Anathema.Source.Project
             */
         }
 
-        private void RefreshProjectStructure()
+        public void RefreshProjectStructure()
         {
             ProjectExplorerEventArgs ProjectExplorerEventArgs = new ProjectExplorerEventArgs();
+            ProjectExplorerEventArgs.ProjectRoot = ProjectRoot;
             OnEventRefreshProjectStructure(ProjectExplorerEventArgs);
         }
 

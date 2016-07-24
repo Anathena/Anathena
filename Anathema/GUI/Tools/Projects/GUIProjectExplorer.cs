@@ -42,7 +42,7 @@ namespace Anathema.GUI
             E.Value = true;
         }
 
-        public void RefreshStructure()
+        public void RefreshStructure(ProjectItem ProjectRoot)
         {
             if (ProjectExplorerPresenter == null)
                 return;
@@ -55,15 +55,18 @@ namespace Anathema.GUI
                     ProjectTree.Nodes.Clear();
                     NodeCache.Clear();
 
-                    foreach (ProjectItem Child in ProjectExplorerPresenter.GetProjectRoot())
-                        BuildNodes(Child);
+                    if (ProjectRoot != null)
+                    {
+                        foreach (ProjectItem Child in ProjectRoot)
+                            BuildNodes(Child);
+                    }
 
                     ProjectExplorerTreeView.EndUpdate();
                 });
             }
         }
 
-        private void BuildNodes(ProjectItem ProjectItem)
+        private void BuildNodes(ProjectItem ProjectItem, ProjectItem Parent = null)
         {
             if (ProjectItem == null)
                 return;
@@ -71,23 +74,32 @@ namespace Anathema.GUI
             Image Image = null;
 
             if (ProjectItem is AddressItem)
-            {
                 Image = new Bitmap(Properties.Resources.CollectValues);
-            }
             else if (ProjectItem is FolderItem)
-            {
                 Image = new Bitmap(Properties.Resources.Open);
-            }
+            else if (ProjectItem is DotNetItem)
+                Image = new Bitmap(Properties.Resources.StartState);
+            else if (ProjectItem is JavaItem)
+                Image = new Bitmap(Properties.Resources.IntermediateState);
 
+            // Create new node to insert
             ProjectNode ProjectNode = new ProjectNode(ProjectItem.Description);
             ProjectNode.ProjectItem = ProjectItem;
             ProjectNode.EntryIcon = Image;
 
-            ProjectTree.Nodes.Add(ProjectNode);
+            if (Parent != null && NodeCache.ContainsKey(Parent))
+            {
+                NodeCache[Parent].Nodes.Add(ProjectNode);
+            }
+            else
+            {
+                ProjectTree.Nodes.Add(ProjectNode);
+            }
+
             NodeCache.Add(ProjectItem, ProjectNode);
 
             foreach (ProjectItem Child in ProjectItem)
-                BuildNodes(Child);
+                BuildNodes(Child, ProjectItem);
         }
 
         private ProjectItem GetProjectItemFromNode(TreeNodeAdv TreeNodeAdv)
@@ -103,68 +115,6 @@ namespace Anathema.GUI
             return ProjectItem;
         }
 
-        #region Events
-
-        private void ProjectExplorerTreeView_NodeMouseDoubleClick(Object Sender, TreeNodeAdvMouseEventArgs E)
-        {
-            ProjectItem ProjectItem = GetProjectItemFromNode(E?.Node);
-
-            if (ProjectItem == null)
-                return;
-
-            if (ProjectItem is AddressItem)
-            {
-                EditAddressEntry(null, 0);
-            }
-            else if (ProjectItem is FolderItem)
-            {
-
-            }
-            else if (ProjectItem is ScriptItem)
-            {
-
-            }
-        }
-
-
-        private void AddressToolStripMenuItem_Click(Object Sender, EventArgs E)
-        {
-            AddNewAddressItem();
-        }
-
-        private void FolderToolStripMenuItem_Click(Object Sender, EventArgs E)
-        {
-            AddNewFolderItem();
-        }
-
-        #endregion
-
-        /// <summary>
-        /// DEPRECATED: Will replace property editors with a standalone property editor class
-        /// </summary>
-        /// <param name="Target"></param>
-        /// <param name="ColumnIndex"></param>
-        private void EditAddressEntry(ProjectNode Target, Int32 ColumnIndex)
-        {
-            GUIAddressEditor GUIAddressEditor;
-
-            using (TimedLock.Lock(AccessLock))
-            {
-                List<Int32> Indicies = new List<Int32>();
-
-                foreach (TreeNodeAdv Index in ProjectExplorerTreeView.SelectedNodes)
-                    Indicies.Add(Index.Index);
-
-                if (Indicies.Count == 0)
-                    return;
-
-                GUIAddressEditor = new GUIAddressEditor(Indicies[0], Indicies);
-            }
-
-            // Create editor for this entry
-            GUIAddressEditor.ShowDialog(this);
-        }
-
         public void AddNewAddressItem()
         {
             ProjectExplorerPresenter.AddNewAddressItem(GetSelectedItem());
@@ -173,6 +123,16 @@ namespace Anathema.GUI
         public void AddNewFolderItem()
         {
             ProjectExplorerPresenter.AddNewFolderItem(GetSelectedItem());
+        }
+
+        public void AddNewDotNetItem()
+        {
+            ProjectExplorerPresenter.AddNewDotNetItem(GetSelectedItem());
+        }
+
+        public void AddNewJavaItem()
+        {
+            ProjectExplorerPresenter.AddNewJavaItem(GetSelectedItem());
         }
 
         private ProjectItem GetSelectedItem()
@@ -203,6 +163,30 @@ namespace Anathema.GUI
         }
 
         #region Events
+
+        private void AddressToolStripMenuItem_Click(Object Sender, EventArgs E)
+        {
+            AddNewAddressItem();
+        }
+
+        private void FolderToolStripMenuItem_Click(Object Sender, EventArgs E)
+        {
+            AddNewFolderItem();
+        }
+
+        private void DotNetObjectToolStripMenuItem_Click(Object Sender, EventArgs E)
+        {
+            AddNewDotNetItem();
+        }
+
+        private void JavaObjectToolStripMenuItem_Click(Object Sender, EventArgs E)
+        {
+            AddNewJavaItem();
+        }
+
+        #endregion
+
+        #region Events(OLD)
 
         private void AddAddressButton_Click(Object Sender, EventArgs E)
         {
