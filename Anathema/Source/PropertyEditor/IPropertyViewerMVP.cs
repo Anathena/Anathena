@@ -82,7 +82,7 @@ namespace Anathema.Source.PropertyEditor
 
         private void EventRefreshProperties(Object Sender, PropertyViewerEventArgs E)
         {
-            View.RefreshProperties();
+            // View.RefreshProperties();
         }
 
         #endregion

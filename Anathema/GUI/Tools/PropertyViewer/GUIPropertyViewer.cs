@@ -19,7 +19,30 @@ namespace Anathema.GUI
 
             AccessLock = new Object();
 
+            MergeToolStrips();
             PropertyViewerPresenter = new PropertyViewerPresenter(this, PropertyViewer.GetInstance());
+        }
+
+        private void MergeToolStrips()
+        {
+            // Standard method of ToolStripManager.Merge does not seem to be working, so we take a manual approach
+            Controls.Remove(GUIToolStrip);
+            ToolStrip PropertyToolStrip = GetPropertyGridToolStrip();
+            List<ToolStripItem> ToolStripItems = new List<ToolStripItem>();
+
+            foreach (ToolStripItem ToolStripItem in GUIToolStrip.Items)
+                ToolStripItems.Add(ToolStripItem);
+
+            PropertyToolStrip.Items.AddRange(ToolStripItems.ToArray());
+        }
+
+        private ToolStrip GetPropertyGridToolStrip()
+        {
+            foreach (Control Control in PropertyGrid.Controls)
+                if (Control is ToolStrip)
+                    return Control as ToolStrip;
+
+            return null;
         }
 
         public void SetTargetObjects(IEnumerable<Object> SelectedObjects)
@@ -34,8 +57,8 @@ namespace Anathema.GUI
         {
             ControlThreadingHelper.InvokeControlAction<PropertyGrid>(PropertyGrid, () =>
             {
-                if (GetFocusedObjectType(this)?.Name == "GridViewEdit")
-                    return;
+                // if (GetFocusedObjectType(this)?.Name == "GridViewEdit")
+                //    return;
 
                 PropertyGrid.Refresh();
             });
@@ -54,6 +77,15 @@ namespace Anathema.GUI
             return Control?.GetType();
 
         }
+
+        #region Events
+
+        private void RefreshButton_Click(Object Sender, EventArgs E)
+        {
+            RefreshProperties();
+        }
+
+        #endregion
 
     } // End class
 

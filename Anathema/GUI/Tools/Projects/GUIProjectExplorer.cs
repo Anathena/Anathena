@@ -32,6 +32,8 @@ namespace Anathema.GUI
             ProjectTree = new TreeModel();
             AccessLock = new Object();
 
+            (ProjectExplorerTreeView.NodeControls[ProjectExplorerTreeView.NodeControls.IndexOf(EntryDescription)] as BaseTextControl).DrawText += new EventHandler<DrawEventArgs>(FolderBrowser_DrawText);
+
             ProjectExplorerTreeView.Model = ProjectTree;
             ProjectExplorerPresenter = new ProjectExplorerPresenter(this, ProjectExplorer.GetInstance());
         }
@@ -81,6 +83,8 @@ namespace Anathema.GUI
             ProjectNode ProjectNode = new ProjectNode(ProjectItem.Description);
             ProjectNode.ProjectItem = ProjectItem;
             ProjectNode.EntryIcon = Image;
+
+            TreeNodeAdv k;
 
             if (Parent != null && NodeCache.ContainsKey(Parent))
             {
@@ -196,6 +200,16 @@ namespace Anathema.GUI
             TreeNodes.ForEach(X => ProjectItems.Add(GetProjectItemFromNode(X)));
 
             ProjectExplorerPresenter.UpdateSelection(ProjectItems);
+        }
+
+        private void FolderBrowser_DrawText(Object Sender, DrawEventArgs E)
+        {
+            ProjectItem ProjectItem = GetProjectItemFromNode(E.Node);
+
+            if (ProjectItem != null)
+                E.TextColor = ProjectItem.TextColor;
+            else
+                E.TextColor = SystemColors.ControlText;
         }
 
         #endregion
