@@ -16,22 +16,17 @@ namespace Anathema.Source.Project
     /// <summary>
     /// Handles the displaying of results
     /// </summary>
-    [Obfuscation(ApplyToMembers = false)]
+    [Obfuscation(ApplyToMembers = true)]
     [Obfuscation(Exclude = true)]
     class ProjectExplorer : IProjectExplorerModel, IProcessObserver
     {
         // Singleton instance of Project Explorer
         private static Lazy<ProjectExplorer> ProjectExplorerInstance = new Lazy<ProjectExplorer>(() => { return new ProjectExplorer(); }, LazyThreadSafetyMode.PublicationOnly);
 
-        private FolderItem ProjectRoot;
-
-        [Obfuscation(Exclude = true)]
         private EngineCore EngineCore;
 
-        [Obfuscation(Exclude = true)]
+        private FolderItem ProjectRoot;
         private IEnumerable<ProjectItem> UpdateSet;
-
-        [Obfuscation(Exclude = true)]
         private Boolean Changed;
 
         private ProjectExplorer()
@@ -42,61 +37,51 @@ namespace Anathema.Source.Project
             Begin();
         }
 
-        [Obfuscation(Exclude = true)]
         public override void OnGUIOpen()
         {
             RefreshProjectStructure();
         }
 
-        [Obfuscation(Exclude = true)]
         public static ProjectExplorer GetInstance()
         {
             return ProjectExplorerInstance.Value;
         }
 
-        [Obfuscation(Exclude = true)]
         ~ProjectExplorer()
         {
             TriggerEnd();
         }
 
-        [Obfuscation(Exclude = true)]
         public void InitializeProcessObserver()
         {
             ProcessSelector.GetInstance().Subscribe(this);
         }
 
-        [Obfuscation(Exclude = true)]
         public void UpdateEngineCore(EngineCore EngineCore)
         {
             this.EngineCore = EngineCore;
         }
 
-        [Obfuscation(Exclude = true)]
         public override void ActivateProjectItem(ProjectItem ProjectItem)
         {
 
         }
 
-        [Obfuscation(Exclude = true)]
         public override void UpdateSelection(IEnumerable<ProjectItem> ProjectItems)
         {
             PropertyViewer.GetInstance().SetTargetObjects(ProjectItems.ToArray());
         }
 
-        [Obfuscation(Exclude = true)]
         public override void SetUpdateSet(IEnumerable<ProjectItem> UpdateSet)
         {
             this.UpdateSet = UpdateSet;
         }
 
-        [Obfuscation(Exclude = true)]
         public override void DeleteItems(IEnumerable<ProjectItem> ProjectItems)
         {
             RefreshProjectStructure();
         }
 
-        [Obfuscation(Exclude = true)]
         public override void AddProjectItem(ProjectItem ProjectItem, ProjectItem Parent = null)
         {
             while (Parent != null && !(Parent is FolderItem))
@@ -113,20 +98,17 @@ namespace Anathema.Source.Project
             ProjectExplorer.GetInstance().ProjectChanged();
         }
 
-        [Obfuscation(Exclude = true)]
         public override void UpdateSelectedIndicies(IEnumerable<Int32> Indicies)
         {
             // TODO: Smart logic for identifying the most common set of properties from the collection of trees
             PropertyViewer.GetInstance().SetTargetObjects(null);
         }
 
-        [Obfuscation(Exclude = true)]
         public override ProjectItem GetProjectRoot()
         {
             return ProjectRoot;
         }
 
-        [Obfuscation(Exclude = true)]
         public void SetProjectItems(FolderItem ProjectRoot)
         {
             this.ProjectRoot = ProjectRoot;
@@ -135,7 +117,6 @@ namespace Anathema.Source.Project
             ProjectExplorer.GetInstance().ProjectChanged();
         }
 
-        [Obfuscation(Exclude = true)]
         private void ImportProjectItems(FolderItem ImportedProjectRoot)
         {
             foreach (ProjectItem Item in ImportedProjectRoot)
@@ -146,7 +127,6 @@ namespace Anathema.Source.Project
             ProjectExplorer.GetInstance().ProjectChanged();
         }
 
-        [Obfuscation(Exclude = true)]
         public override void ReorderItem(Int32 SourceIndex, Int32 DestinationIndex)
         {
             /*
@@ -171,7 +151,6 @@ namespace Anathema.Source.Project
             */
         }
 
-        [Obfuscation(Exclude = true)]
         public void RefreshProjectStructure()
         {
             ProjectExplorerEventArgs ProjectExplorerEventArgs = new ProjectExplorerEventArgs();
@@ -179,13 +158,11 @@ namespace Anathema.Source.Project
             OnEventRefreshProjectStructure(ProjectExplorerEventArgs);
         }
 
-        [Obfuscation(Exclude = true)]
         public override void Begin()
         {
             base.Begin();
         }
 
-        [Obfuscation(Exclude = true)]
         private IEnumerable<ProjectItem> CreateUpdateSetDEPRECATED(ProjectItem ProjectItem, List<ProjectItem> CurrentSet = null)
         {
             if (ProjectItem == null)
@@ -203,7 +180,6 @@ namespace Anathema.Source.Project
             return CurrentSet;
         }
 
-        [Obfuscation(Exclude = true)]
         protected override void Update()
         {
             UpdateSet = CreateUpdateSetDEPRECATED(ProjectRoot);
@@ -215,30 +191,25 @@ namespace Anathema.Source.Project
                 ProjectItem.Update(EngineCore);
         }
 
-        [Obfuscation(Exclude = true)]
         protected override void End() { }
 
-        [Obfuscation(Exclude = true)]
         public void ProjectChanged()
         {
             Changed = true;
             Main.GetInstance().UpdateHasChanges(Changed);
         }
 
-        [Obfuscation(Exclude = true)]
         public void ProjectSaved()
         {
             Changed = false;
             Main.GetInstance().UpdateHasChanges(Changed);
         }
 
-        [Obfuscation(Exclude = true)]
         public Boolean HasChanges()
         {
             return Changed;
         }
 
-        [Obfuscation(Exclude = true)]
         public Boolean SaveProject(String Path)
         {
             try
@@ -259,7 +230,6 @@ namespace Anathema.Source.Project
             return true;
         }
 
-        [Obfuscation(Exclude = true)]
         public Boolean OpenProject(String Path)
         {
             if (Path == null || Path == String.Empty)
@@ -284,7 +254,6 @@ namespace Anathema.Source.Project
             return true;
         }
 
-        [Obfuscation(Exclude = true)]
         public Boolean ImportProject(String Path)
         {
             if (Path == null || Path == String.Empty)

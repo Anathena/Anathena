@@ -6,21 +6,17 @@ using System.Runtime.Serialization;
 
 namespace Anathema.Source.Project.ProjectItems
 {
-    [Obfuscation(ApplyToMembers = false)]
+    [Obfuscation(ApplyToMembers = true)]
     [Obfuscation(Exclude = true)]
     [DataContract()]
     public class JavaItem : ProjectItem
     {
-        [Obfuscation(Exclude = true)]
         private String _DotNetObject;
-        [Obfuscation(Exclude = true)]
         [DataMember()]
         [Category("Properties"), DisplayName("Java Object"), Description("Full object path including namespaces")]
         public String DotNetObject
         {
-            [Obfuscation(Exclude = true)]
             get { return _DotNetObject; }
-            [Obfuscation(Exclude = true)]
             set { _DotNetObject = value; }
         }
 

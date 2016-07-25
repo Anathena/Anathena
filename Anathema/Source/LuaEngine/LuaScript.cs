@@ -5,13 +5,13 @@ using System.Runtime.Serialization;
 
 namespace Anathema.Source.LuaEngine
 {
+    [Obfuscation(ApplyToMembers = true)]
+    [Obfuscation(Exclude = true)]
     [DataContract()]
     public class LuaScript
     {
-        [Obfuscation(Exclude = true)]
         [Browsable(false)]
         private String _Script;
-        [Obfuscation(Exclude = true)]
         [DataMember()]
         [Browsable(false)]
         public String Script

@@ -5,7 +5,7 @@ using System.Runtime.Serialization;
 
 namespace Anathema.Source.Project.ProjectItems
 {
-    [Obfuscation(ApplyToMembers = false)]
+    [Obfuscation(ApplyToMembers = true)]
     [Obfuscation(Exclude = true)]
     [DataContract()]
     public class FolderItem : ProjectItem

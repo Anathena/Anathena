@@ -9,7 +9,7 @@ using System.Runtime.Serialization;
 
 namespace Anathema.Source.Project.ProjectItems
 {
-    [Obfuscation(ApplyToMembers = false)]
+    [Obfuscation(ApplyToMembers = true)]
     [Obfuscation(Exclude = true)]
     [KnownType(typeof(ProjectItem))]
     [KnownType(typeof(FolderItem))]
@@ -20,34 +20,24 @@ namespace Anathema.Source.Project.ProjectItems
     [DataContract()]
     public abstract class ProjectItem : IEnumerable<ProjectItem>
     {
-        [Obfuscation(Exclude = true)]
         private ProjectItem _Parent;
-        [Obfuscation(Exclude = true)]
         [Browsable(false)]
         public ProjectItem Parent
         {
-            [Obfuscation(Exclude = true)]
             get { return _Parent; }
-            [Obfuscation(Exclude = true)]
             set { _Parent = value; }
         }
 
-        [Obfuscation(Exclude = true)]
         private List<ProjectItem> _Children;
-        [Obfuscation(Exclude = true)]
         [DataMember()]
         [Browsable(false)]
         public List<ProjectItem> Children
         {
-            [Obfuscation(Exclude = true)]
             get { return _Children; }
-            [Obfuscation(Exclude = true)]
             set { _Children = value; }
         }
 
-        [Obfuscation(Exclude = true)]
         private String _Description;
-        [Obfuscation(Exclude = true)]
         [DataMember()]
         [Category("Properties"), DisplayName("Description"), Description("Description to be shown for the Project Items")]
         public String Description
@@ -58,12 +48,10 @@ namespace Anathema.Source.Project.ProjectItems
             set { _Description = value; UpdateEntryVisual(); }
         }
 
-        [Obfuscation(Exclude = true)]
         [DataMember()]
         [Browsable(false)]
         public UInt32 _TextColorARGB;
 
-        [Obfuscation(Exclude = true)]
         [Category("Properties"), DisplayName("Text Color"), Description("Display Color")]
         public Color TextColor
         {
@@ -73,7 +61,6 @@ namespace Anathema.Source.Project.ProjectItems
             set { _TextColorARGB = value == null ? 0 : unchecked((UInt32)(value.ToArgb())); UpdateEntryVisual(); }
         }
 
-        [Obfuscation(Exclude = true)]
         [Browsable(false)]
         protected Boolean Activated { get; set; }
 
@@ -88,40 +75,33 @@ namespace Anathema.Source.Project.ProjectItems
             this.Activated = false;
         }
 
-        [Obfuscation(Exclude = true)]
         public virtual void SetActivationState(Boolean Activated)
         {
             this.Activated = Activated;
         }
 
-        [Obfuscation(Exclude = true)]
         public Boolean GetActivationState()
         {
             return Activated;
         }
 
-        [Obfuscation(Exclude = true)]
         public void AddChild(ProjectItem Child)
         {
             Children.Add(Child);
         }
 
-        [Obfuscation(Exclude = true)]
         private void UpdateEntryVisual()
         {
             ProjectExplorer.GetInstance().RefreshProjectStructure();
         }
 
-        [Obfuscation(Exclude = true)]
         public abstract void Update(EngineCore EngineCore);
 
-        [Obfuscation(Exclude = true)]
         public IEnumerator<ProjectItem> GetEnumerator()
         {
             return ((IEnumerable<ProjectItem>)Children)?.GetEnumerator();
         }
 
-        [Obfuscation(Exclude = true)]
         IEnumerator IEnumerable.GetEnumerator()
         {
             return ((IEnumerable<ProjectItem>)Children)?.GetEnumerator();

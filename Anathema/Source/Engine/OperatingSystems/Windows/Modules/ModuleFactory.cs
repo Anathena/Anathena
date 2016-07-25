@@ -1,11 +1,11 @@
 ﻿using Anathema.Source.Engine.OperatingSystems.Windows.Internals;
 using Anathema.Source.Engine.OperatingSystems.Windows.Memory;
+using Anathema.Source.Engine.OperatingSystems.Windows.Native;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Reflection;
 
 namespace Anathema.Source.Engine.OperatingSystems.Windows.Modules
 {
@@ -38,23 +38,21 @@ namespace Anathema.Source.Engine.OperatingSystems.Windows.Modules
         /// <summary>
         /// Gets a pointer from the remote process.
         /// </summary>
-        /// <param name="address">The address of the pointer.</param>
+        /// <param name="Address">The address of the pointer.</param>
         /// <returns>A new instance of a <see cref="RemotePointer"/> class.</returns>
-        [Obfuscation(Exclude = true)]
-        public RemotePointer this[IntPtr address]
+        public RemotePointer this[IntPtr Address]
         {
-            get { return new RemotePointer(WindowsOperatingSystem, address); }
+            get { return new RemotePointer(WindowsOperatingSystem, Address); }
         }
 
         /// <summary>
         /// Gets the specified module in the remote process.
         /// </summary>
-        /// <param name="moduleName">The name of module (not case sensitive).</param>
+        /// <param name="ModuleName">The name of module (not case sensitive).</param>
         /// <returns>A new instance of a <see cref="RemoteModule"/> class.</returns>
-        [Obfuscation(Exclude = true)]
-        public RemoteModule this[string moduleName]
+        public RemoteModule this[String ModuleName]
         {
-            get { return FetchModule(moduleName); }
+            get { return FetchModule(ModuleName); }
         }
 
         #endregion
@@ -88,7 +86,7 @@ namespace Anathema.Source.Engine.OperatingSystems.Windows.Modules
         public virtual void Dispose()
         {
             // Clean the cached functions related to this process
-            foreach (var CachedFunction in RemoteModule.CachedFunctions.ToArray())
+            foreach (KeyValuePair<Tuple<String, SafeMemoryHandle>, RemoteFunction> CachedFunction in RemoteModule.CachedFunctions.ToArray())
             {
                 if (CachedFunction.Key.Item2 == WindowsOperatingSystem.Handle)
                     RemoteModule.CachedFunctions.Remove(CachedFunction);

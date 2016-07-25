@@ -7,25 +7,20 @@ using System.Runtime.Serialization;
 
 namespace Anathema.Source.Project.ProjectItems
 {
-    [Obfuscation(ApplyToMembers = false)]
+    [Obfuscation(ApplyToMembers = true)]
     [Obfuscation(Exclude = true)]
     [DataContract()]
     public class ScriptItem : ProjectItem
     {
-        [Obfuscation(Exclude = true)]
         public LuaScript _LuaScript;
-        [Obfuscation(Exclude = true)]
         [DataMember()]
         [Category("Properties"), DisplayName("Script"), Description("Lua script to interface with engine")]
         public LuaScript LuaScript
         {
-            [Obfuscation(Exclude = true)]
             get { return _LuaScript; }
-            [Obfuscation(Exclude = true)]
             set { _LuaScript = value; }
         }
 
-        [Obfuscation(Exclude = true)]
         private LuaCore LuaCore;
 
         public ScriptItem()
@@ -38,7 +33,6 @@ namespace Anathema.Source.Project.ProjectItems
             this.LuaScript = LuaScript;
         }
 
-        [Obfuscation(Exclude = true)]
         public override void SetActivationState(Boolean Activated)
         {
             if (LuaCore == null)

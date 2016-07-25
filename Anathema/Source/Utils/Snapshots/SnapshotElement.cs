@@ -8,6 +8,8 @@ namespace Anathema.Source.Utils.Snapshots
     /// <summary>
     /// Class used by SnapshotRegion as a wrapper for indexing into the raw collection of data
     /// </summary>
+    [Obfuscation(ApplyToMembers = true)]
+    [Obfuscation(Exclude = true)]
     public abstract class SnapshotElement
     {
         // Variables required for committing changes back to the region from which this element comes
@@ -74,7 +76,6 @@ namespace Anathema.Source.Utils.Snapshots
             PreviousValuePointer += Alignment;
         }
 
-        [Obfuscation(Exclude = true)]
         private unsafe dynamic GetValue(Byte* Array)
         {
             switch (CurrentType)
@@ -118,70 +119,60 @@ namespace Anathema.Source.Utils.Snapshots
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        [Obfuscation(Exclude = true)]
         public unsafe Boolean EqualToValue(dynamic Value)
         {
             return (GetValue(CurrentValuePointer) == Value);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        [Obfuscation(Exclude = true)]
         public unsafe Boolean NotEqualToValue(dynamic Value)
         {
             return (GetValue(CurrentValuePointer) != Value);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        [Obfuscation(Exclude = true)]
         public unsafe Boolean GreaterThanValue(dynamic Value)
         {
             return (GetValue(CurrentValuePointer) > Value);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        [Obfuscation(Exclude = true)]
         public unsafe Boolean GreaterThanOrEqualToValue(dynamic Value)
         {
             return (GetValue(CurrentValuePointer) >= Value);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        [Obfuscation(Exclude = true)]
         public unsafe Boolean LessThanValue(dynamic Value)
         {
             return (GetValue(CurrentValuePointer) < Value);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        [Obfuscation(Exclude = true)]
         public unsafe Boolean LessThanOrEqualToValue(dynamic Value)
         {
             return (GetValue(CurrentValuePointer) <= Value);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        [Obfuscation(Exclude = true)]
         public unsafe Boolean IncreasedByValue(dynamic Value)
         {
             return (GetValue(CurrentValuePointer) == unchecked(GetValue(PreviousValuePointer) + Value));
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        [Obfuscation(Exclude = true)]
         public unsafe Boolean DecreasedByValue(dynamic Value)
         {
             return (GetValue(CurrentValuePointer) == unchecked(GetValue(PreviousValuePointer) - Value));
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        [Obfuscation(Exclude = true)]
         public unsafe Boolean IsScientificNotation()
         {
             return ((String)GetValue(CurrentValuePointer).ToString()).ToLower().Contains('e');
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        [Obfuscation(Exclude = true)]
         public unsafe dynamic GetValue()
         {
             return (GetValue(CurrentValuePointer));
