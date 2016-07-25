@@ -60,7 +60,6 @@ namespace Anathema.Source.Engine.OperatingSystems.Windows
         /// </summary>
         /// <param name="ModuleName">The name of module (not case sensitive).</param>
         /// <returns>A new instance of a <see cref="RemoteModule"/> class.</returns>
-        [Obfuscation(Exclude = true)]
         public RemoteModule this[String ModuleName]
         {
             get { return Modules[ModuleName]; }
@@ -71,7 +70,6 @@ namespace Anathema.Source.Engine.OperatingSystems.Windows
         /// </summary>
         /// <param name="Address">The address pointed.</param>
         /// <returns>A new instance of a <see cref="RemotePointer"/> class.</returns>
-        [Obfuscation(Exclude = true)]
         public RemotePointer this[IntPtr Address]
         {
             get { return new RemotePointer(this, Address); }

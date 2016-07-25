@@ -64,7 +64,6 @@ namespace Anathema.Source.Engine.OperatingSystems.Windows.Modules
         /// </summary>
         /// <param name="functionName">The name of the function.</param>
         /// <returns>A new instance of a <see cref="RemoteFunction"/> class.</returns>
-        [Obfuscation(Exclude = true)]
         public RemoteFunction this[string functionName]
         {
             get { return FindFunction(functionName); }

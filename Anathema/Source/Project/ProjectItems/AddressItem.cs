@@ -45,7 +45,7 @@ namespace Anathema.Source.Project.ProjectItems
 
         [DataMember()]
         [Browsable(false)]
-        public String TypeName;
+        private String TypeName;
         [Category("Properties"), DisplayName("Type"), Description("Data type of the address")]
         public Type ElementType
         {

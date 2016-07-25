@@ -12,7 +12,7 @@ namespace Anathema.Source.Project.ProjectItems
     [DataContract()]
     public class ScriptItem : ProjectItem
     {
-        public LuaScript _LuaScript;
+        private LuaScript _LuaScript;
         [DataMember()]
         [Category("Properties"), DisplayName("Script"), Description("Lua script to interface with engine")]
         public LuaScript LuaScript

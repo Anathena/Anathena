@@ -42,22 +42,18 @@ namespace Anathema.Source.Project.ProjectItems
         [Category("Properties"), DisplayName("Description"), Description("Description to be shown for the Project Items")]
         public String Description
         {
-            [Obfuscation(Exclude = true)]
             get { return _Description; }
-            [Obfuscation(Exclude = true)]
             set { _Description = value; UpdateEntryVisual(); }
         }
 
         [DataMember()]
         [Browsable(false)]
-        public UInt32 _TextColorARGB;
+        private UInt32 _TextColorARGB;
 
         [Category("Properties"), DisplayName("Text Color"), Description("Display Color")]
         public Color TextColor
         {
-            [Obfuscation(Exclude = true)]
             get { return Color.FromArgb(unchecked((Int32)(_TextColorARGB))); }
-            [Obfuscation(Exclude = true)]
             set { _TextColorARGB = value == null ? 0 : unchecked((UInt32)(value.ToArgb())); UpdateEntryVisual(); }
         }
 
