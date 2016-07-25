@@ -15,8 +15,6 @@ namespace Anathema.Source.Project.ProjectItems
     [KnownType(typeof(FolderItem))]
     [KnownType(typeof(ScriptItem))]
     [KnownType(typeof(AddressItem))]
-    [KnownType(typeof(DotNetItem))]
-    [KnownType(typeof(JavaItem))]
     [DataContract()]
     public abstract class ProjectItem : IEnumerable<ProjectItem>
     {
@@ -57,8 +55,9 @@ namespace Anathema.Source.Project.ProjectItems
             set { _TextColorARGB = value == null ? 0 : unchecked((UInt32)(value.ToArgb())); UpdateEntryVisual(); }
         }
 
-        [Browsable(false)]
-        protected Boolean Activated { get; set; }
+        // [Browsable(false)]
+        [Category("Properties"), DisplayName("DEBUG"), Description("DEBUG - Dont foreget to set this shit back to protected")]
+        public Boolean Activated { get; set; }
 
         public ProjectItem() : this(String.Empty) { }
         public ProjectItem(String Description)

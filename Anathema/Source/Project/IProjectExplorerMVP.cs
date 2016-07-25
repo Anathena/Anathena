@@ -47,7 +47,7 @@ namespace Anathema.Source.Project
         public abstract void UpdateSelection(IEnumerable<ProjectItem> ProjectItems);
         public abstract void DeleteItems(IEnumerable<ProjectItem> ProjectItems);
         public abstract void AddProjectItem(ProjectItem ProjectItem, ProjectItem Parent);
-        public abstract void ActivateProjectItem(ProjectItem ProjectItem);
+        public abstract void ActivateProjectItems(IEnumerable<ProjectItem> ProjectItem, Boolean ActivationState);
         public abstract void SetUpdateSet(IEnumerable<ProjectItem> UpdateSet);
 
         public abstract void ReorderItem(Int32 SourceIndex, Int32 DestinationIndex);
@@ -82,16 +82,6 @@ namespace Anathema.Source.Project
             Model.AddProjectItem(new FolderItem(), Parent);
         }
 
-        public void AddNewDotNetItem(ProjectItem Parent = null)
-        {
-            Model.AddProjectItem(new DotNetItem(), Parent);
-        }
-
-        public void AddNewJavaItem(ProjectItem Parent = null)
-        {
-            Model.AddProjectItem(new JavaItem(), Parent);
-        }
-
         public void UpdateSelection(IEnumerable<ProjectItem> ProjectItems)
         {
             Model.UpdateSelection(ProjectItems);
@@ -102,9 +92,14 @@ namespace Anathema.Source.Project
             Model.DeleteItems(ProjectItems);
         }
 
-        public void ActivateProjectItem(ProjectItem ProjectItem)
+        public void ActivateProjectItem(ProjectItem ProjectItem, Boolean ActivationState)
         {
-            Model.ActivateProjectItem(ProjectItem);
+            Model.ActivateProjectItems(new ProjectItem[] { ProjectItem }, ActivationState);
+        }
+
+        public void ActivateProjectItems(IEnumerable<ProjectItem> ProjectItems, Boolean ActivationState)
+        {
+            Model.ActivateProjectItems(ProjectItems, ActivationState);
         }
 
         public void ReorderItemDEPRECATING(Int32 SourceIndex, Int32 DestinationIndex)

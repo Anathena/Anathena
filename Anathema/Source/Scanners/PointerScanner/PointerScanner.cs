@@ -151,7 +151,7 @@ namespace Anathema.Source.Scanners.PointerScanner
                 String Value = String.Empty;
                 IndexValueMap.TryGetValue(Index, out Value);
 
-                AddressItem NewPointer = new AddressItem(Conversions.ToAddress(AcceptedPointers[Index].Item1), ElementType, "New Pointer", AcceptedPointers[Index].Item2, false, Value);
+                AddressItem NewPointer = new AddressItem(AcceptedPointers[Index].Item1, ElementType, "New Pointer", AddressItem.ResolveTypeEnum.Module, String.Empty, AcceptedPointers[Index].Item2, false, Value);
                 ProjectExplorer.GetInstance().AddProjectItem(NewPointer);
 
                 if (++Count >= MaxAdd)

@@ -1,5 +1,4 @@
 ﻿using Anathema.Source.Engine;
-using Anathema.Source.Utils.AddressResolver;
 using Anathema.Source.Utils.Extensions;
 using Anathema.Source.Utils.Validation;
 using System;
@@ -16,27 +15,43 @@ namespace Anathema.Source.Project.ProjectItems
     [DataContract()]
     public class AddressItem : ProjectItem
     {
-        private String _BaseAddress;
+        public enum ResolveTypeEnum
+        {
+            Module,
+            DotNet,
+            Java
+        }
+
+        private ResolveTypeEnum _ResolveType;
+        [DataMember()]
+        [Category("Properties"), DisplayName("Resolve Type"), Description("Method to use for resolving the address base. If there is an identifier to resolve, the address is treated as an offset.")]
+        public ResolveTypeEnum ResolveType
+        {
+            get { return _ResolveType; }
+            set { _ResolveType = value; }
+        }
+
+        private String _BaseIdentifier;
+        [DataMember()]
+        [Category("Properties"), DisplayName("Resolve Identifier"), Description("Text identifier to use when resolving the base address, such as a module or .NET Object name")]
+        public String BaseIdentifier
+        {
+            get { return _BaseIdentifier; }
+            set { _BaseIdentifier = value == null ? String.Empty : value; }
+        }
+
+        private IntPtr _BaseAddress;
         [DataMember()]
         [Category("Properties"), DisplayName("Address"), Description("Base address")]
-        public String BaseAddress
+        public IntPtr BaseOffset
         {
             get { return _BaseAddress; }
             set { _BaseAddress = value; }
         }
 
-        private Boolean _IsValueHex;
-        [DataMember()]
-        [Category("Properties"), DisplayName("Hex"), Description("Whether or not to display value as hexedecimal")]
-        public Boolean IsValueHex
-        {
-            get { return _IsValueHex; }
-            set { _IsValueHex = value; }
-        }
-
         private IEnumerable<Int32> _Offsets;
         [DataMember()]
-        [Category("Properties"), DisplayName("Offsets"), Description("Address offsets")]
+        [Category("Properties"), DisplayName("Address Offsets"), Description("Address offsets")]
         public IEnumerable<Int32> Offsets
         {
             get { return _Offsets; }
@@ -46,7 +61,7 @@ namespace Anathema.Source.Project.ProjectItems
         [DataMember()]
         [Browsable(false)]
         private String TypeName;
-        [Category("Properties"), DisplayName("Type"), Description("Data type of the address")]
+        [Category("Properties"), DisplayName("Value Type"), Description("Data type of the address")]
         public Type ElementType
         {
             get { return Type.GetType(TypeName); }
@@ -66,6 +81,15 @@ namespace Anathema.Source.Project.ProjectItems
             set { if (!Activated) { _Value = value; } }
         }
 
+        private Boolean _IsValueHex;
+        [DataMember()]
+        [Category("Properties"), DisplayName("Value as Hex"), Description("Whether or not to display value as hexedecimal")]
+        public Boolean IsValueHex
+        {
+            get { return _IsValueHex; }
+            set { _IsValueHex = value; }
+        }
+
         private IntPtr _EffectiveAddress;
         [Browsable(false)]
         public IntPtr EffectiveAddress
@@ -74,13 +98,16 @@ namespace Anathema.Source.Project.ProjectItems
             private set { _EffectiveAddress = value; }
         }
 
-        public AddressItem() : this(Conversions.ToAddress(IntPtr.Zero), typeof(Int32), "New Address") { }
-        public AddressItem(String BaseAddress, Type ElementType, String Description = null, IEnumerable<Int32> Offsets = null, Boolean IsValueHex = false, String Value = null) : base(Description)
+        public AddressItem() : this(IntPtr.Zero, typeof(Int32), "New Address") { }
+        public AddressItem(IntPtr BaseAddress, Type ElementType, String Description = null, ResolveTypeEnum ResolveType = ResolveTypeEnum.Module, String BaseIdentifier = null,
+            IEnumerable<Int32> Offsets = null, Boolean IsValueHex = false, String Value = null) : base(Description)
         {
             this._BaseAddress = BaseAddress;
+            this.ElementType = ElementType;
+            this._ResolveType = ResolveType;
+            this._BaseIdentifier = BaseIdentifier;
             this._Offsets = Offsets;
             this._IsValueHex = IsValueHex;
-            this.ElementType = ElementType;
 
             if (!_IsValueHex && CheckSyntax.CanParseValue(ElementType, Value))
                 this._Value = Conversions.ParseValue(ElementType, Value);
@@ -139,7 +166,7 @@ namespace Anathema.Source.Project.ProjectItems
 
         public void ResolveAddress(EngineCore EngineCore)
         {
-            IntPtr Pointer = AddressResolver.GetInstance().ResolveExpression(BaseAddress);
+            IntPtr Pointer = IntPtr.Zero; // AddressResolver.GetInstance().ResolveExpression(BaseOffset);
             Boolean SuccessReading = true;
 
             if (EngineCore == null)

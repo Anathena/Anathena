@@ -3,6 +3,7 @@ using Anathema.Source.Engine.DotNetObjectCollector;
 using Anathema.Source.Engine.Processes;
 using Anathema.Source.Project;
 using Anathema.Source.Project.ProjectItems;
+using System;
 using System.Collections.Generic;
 
 namespace Anathema.Source.Utils.DotNetExplorer
@@ -37,7 +38,7 @@ namespace Anathema.Source.Utils.DotNetExplorer
         }
         public void AddToTable(DotNetObject DotNetObject)
         {
-            AddressItem AddressItem = new AddressItem(DotNetObject.GetFullName(), DotNetObject.GetElementType(), DotNetObject.GetName());
+            AddressItem AddressItem = new AddressItem(IntPtr.Zero /*DotNetObject.GetFullName()*/, DotNetObject.GetElementType(), DotNetObject.GetName());
             ProjectExplorer.GetInstance().AddProjectItem(AddressItem);
         }
 

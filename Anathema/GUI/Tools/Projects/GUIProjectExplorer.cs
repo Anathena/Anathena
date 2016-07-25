@@ -2,7 +2,6 @@
 using Aga.Controls.Tree.NodeControls;
 using Anathema.Source.Project;
 using Anathema.Source.Project.ProjectItems;
-using Anathema.Source.Utils;
 using Anathema.Source.Utils.Caches;
 using Anathema.Source.Utils.Extensions;
 using Anathema.Source.Utils.MVP;
@@ -10,6 +9,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
+using System.Linq;
 using System.Windows.Forms;
 using WeifenLuo.WinFormsUI.Docking;
 
@@ -18,9 +18,12 @@ namespace Anathema.GUI
     public partial class GUIProjectExplorer : DockContent, IProjectExplorerView
     {
         private ProjectExplorerPresenter ProjectExplorerPresenter;
+
         private BiDictionary<ProjectItem, ProjectNode> NodeCache;
         private TreeModel ProjectTree;
         private Object AccessLock;
+
+        private ProjectItem ProjectRootTEMPORARY_WORKAROUND;
 
         public GUIProjectExplorer()
         {
@@ -43,24 +46,23 @@ namespace Anathema.GUI
             if (ProjectExplorerPresenter == null)
                 return;
 
-            using (TimedLock.Lock(AccessLock))
+            ControlThreadingHelper.InvokeControlAction(ProjectExplorerTreeView, () =>
             {
-                ControlThreadingHelper.InvokeControlAction(ProjectExplorerTreeView, () =>
+                ProjectRootTEMPORARY_WORKAROUND = ProjectRoot;
+
+                ProjectExplorerTreeView.BeginUpdate();
+                ProjectTree.Nodes.Clear();
+                NodeCache.Clear();
+
+                if (ProjectRoot != null)
                 {
-                    ProjectExplorerTreeView.BeginUpdate();
-                    ProjectTree.Nodes.Clear();
-                    NodeCache.Clear();
+                    foreach (ProjectItem Child in ProjectRoot)
+                        BuildNodes(Child);
+                }
 
-                    if (ProjectRoot != null)
-                    {
-                        foreach (ProjectItem Child in ProjectRoot)
-                            BuildNodes(Child);
-                    }
-
-                    ProjectExplorerTreeView.EndUpdate();
-                    ProjectExplorerTreeView.ExpandAll();
-                });
-            }
+                ProjectExplorerTreeView.EndUpdate();
+                ProjectExplorerTreeView.ExpandAll();
+            });
         }
 
         private void BuildNodes(ProjectItem ProjectItem, ProjectItem Parent = null)
@@ -74,17 +76,12 @@ namespace Anathema.GUI
                 Image = new Bitmap(Properties.Resources.CollectValues);
             else if (ProjectItem is FolderItem)
                 Image = new Bitmap(Properties.Resources.Open);
-            else if (ProjectItem is DotNetItem)
-                Image = new Bitmap(Properties.Resources.CollectValues);
-            else if (ProjectItem is JavaItem)
-                Image = new Bitmap(Properties.Resources.CollectValues);
 
             // Create new node to insert
             ProjectNode ProjectNode = new ProjectNode(ProjectItem.Description);
             ProjectNode.ProjectItem = ProjectItem;
             ProjectNode.EntryIcon = Image;
-
-            TreeNodeAdv k;
+            ProjectNode.IsChecked = ProjectItem.GetActivationState();
 
             if (Parent != null && NodeCache.ContainsKey(Parent))
             {
@@ -108,7 +105,7 @@ namespace Anathema.GUI
             if (Node == null || !typeof(ProjectNode).IsAssignableFrom(Node.GetType()))
                 return null;
 
-            ProjectNode ProjectNode = (ProjectNode)Node;
+            ProjectNode ProjectNode = Node as ProjectNode;
             ProjectItem ProjectItem = ProjectNode.ProjectItem;
 
             return ProjectItem;
@@ -122,16 +119,6 @@ namespace Anathema.GUI
         public void AddNewFolderItem()
         {
             ProjectExplorerPresenter.AddNewFolderItem(GetSelectedItem());
-        }
-
-        public void AddNewDotNetItem()
-        {
-            ProjectExplorerPresenter.AddNewDotNetItem(GetSelectedItem());
-        }
-
-        public void AddNewJavaItem()
-        {
-            ProjectExplorerPresenter.AddNewJavaItem(GetSelectedItem());
         }
 
         private ProjectItem GetSelectedItem()
@@ -148,9 +135,29 @@ namespace Anathema.GUI
             return SelectedItem;
         }
 
+        private void ActivateSelectedItems()
+        {
+            ControlThreadingHelper.InvokeControlAction(ProjectExplorerTreeView, () =>
+            {
+                if (ProjectExplorerTreeView.SelectedNodes == null || ProjectExplorerTreeView.SelectedNodes.Count <= 0)
+                    return;
+
+                List<ProjectItem> Nodes = new List<ProjectItem>();
+                ProjectExplorerTreeView.SelectedNodes.ForEach(X => Nodes.Add(GetProjectItemFromNode(X)));
+
+                if (Nodes.Count <= 0)
+                    return;
+
+                ProjectExplorerPresenter.ActivateProjectItems(Nodes, !Nodes.First().GetActivationState());
+                ProjectExplorerTreeView.SelectedNodes.ForEach(X => NodeCache[GetProjectItemFromNode(X)].IsChecked = GetProjectItemFromNode(X).GetActivationState());
+
+                RefreshStructure(ProjectRootTEMPORARY_WORKAROUND);
+            });
+        }
+
         private void DeleteSelectedItems()
         {
-            using (TimedLock.Lock(AccessLock))
+            ControlThreadingHelper.InvokeControlAction(ProjectExplorerTreeView, () =>
             {
                 if (ProjectExplorerTreeView.SelectedNodes == null || ProjectExplorerTreeView.SelectedNodes.Count <= 0)
                     return;
@@ -158,7 +165,9 @@ namespace Anathema.GUI
                 List<ProjectItem> Nodes = new List<ProjectItem>();
                 ProjectExplorerTreeView.SelectedNodes.ForEach(X => Nodes.Add(GetProjectItemFromNode(X)));
                 ProjectExplorerPresenter.DeleteProjectItems(Nodes);
-            }
+
+                RefreshStructure(ProjectRootTEMPORARY_WORKAROUND);
+            });
         }
 
         #region Events
@@ -173,22 +182,71 @@ namespace Anathema.GUI
             AddNewFolderItem();
         }
 
-        private void DotNetObjectToolStripMenuItem_Click(Object Sender, EventArgs E)
+        private void AddressRightClickToolStripMenuItem_Click(Object Sender, EventArgs E)
         {
-            AddNewDotNetItem();
+            AddNewAddressItem();
         }
 
-        private void JavaObjectToolStripMenuItem_Click(Object Sender, EventArgs E)
+        private void FolderRightClickToolStripMenuItem_Click(Object Sender, EventArgs E)
         {
-            AddNewJavaItem();
+            AddNewFolderItem();
+        }
+
+        private void DeleteSelectionToolStripMenuItem_Click(Object Sender, EventArgs E)
+        {
+            DeleteSelectedItems();
+        }
+
+        private void ToggleFreezeToolStripMenuItem_Click(Object Sender, EventArgs E)
+        {
+            ActivateSelectedItems();
+        }
+
+        private void ProjectExplorerTreeView_KeyPress(Object Sender, KeyPressEventArgs E)
+        {
+            if (E.KeyChar != ' ')
+                return;
+
+            ActivateSelectedItems();
+        }
+
+        private void ProjectContextMenuStrip_Opening(Object Sender, CancelEventArgs E)
+        {
+            ControlThreadingHelper.InvokeControlAction(ProjectExplorerTreeView, () =>
+            {
+                if (ProjectExplorerTreeView.SelectedNodes == null || ProjectExplorerTreeView.SelectedNodes.Count <= 0)
+                {
+                    ToggleActivationToolStripMenuItem.Enabled = false;
+                    DeleteSelectionToolStripMenuItem.Enabled = false;
+                    AddNewItemToolStripMenuItem.Enabled = true;
+                }
+                else
+                {
+                    ToggleActivationToolStripMenuItem.Enabled = true;
+                    DeleteSelectionToolStripMenuItem.Enabled = true;
+                    AddNewItemToolStripMenuItem.Enabled = true;
+                }
+            });
         }
 
         private void CheckIndex(Object Sender, NodeControlValueEventArgs E)
         {
-            if (E.Node == null)
-                return;
+            ControlThreadingHelper.InvokeControlAction(ProjectExplorerTreeView, () =>
+            {
+                if (E.Node == null)
+                    return;
 
-            ProjectExplorerPresenter.ActivateProjectItem(GetProjectItemFromNode(E.Node));
+                ProjectItem ProjectItem = GetProjectItemFromNode(E.Node);
+
+                if (ProjectItem == null)
+                    return;
+
+                ProjectExplorerPresenter.ActivateProjectItem(ProjectItem, !ProjectItem.GetActivationState());
+                NodeCache[ProjectItem].IsChecked = ProjectItem.GetActivationState();
+                ProjectExplorerTreeView.Refresh();
+
+                RefreshStructure(ProjectRootTEMPORARY_WORKAROUND);
+            });
         }
 
         private void ProjectExplorerTreeView_SelectionChanged(Object Sender, EventArgs E)
@@ -216,18 +274,8 @@ namespace Anathema.GUI
 
         #region Events(OLD)
 
-        private void AddAddressButton_Click(Object Sender, EventArgs E)
-        {
-            AddNewAddressItem();
-        }
-
-        private Point LastRightClickLocation = Point.Empty;
-
         private void AddressTableListView_MouseClick(Object Sender, MouseEventArgs E)
         {
-            if (E.Button == MouseButtons.Right)
-                LastRightClickLocation = E.Location;
-
             TreeNodeAdv ListViewItem = ProjectExplorerTreeView.GetNodeAt(E.Location);
 
             if (ListViewItem == null)
@@ -235,95 +283,6 @@ namespace Anathema.GUI
 
             // if (E.X < (ListViewItem.Bounds.Left + 16))
             //     AddressTablePresenter.SetAddressFrozen(ListViewItem.Index, !ListViewItem.Checked);  // (Has to be negated, click happens before check change)
-        }
-
-        private void AddressTableListView_KeyPress(Object Sender, KeyPressEventArgs E)
-        {
-            if (E.KeyChar != ' ')
-                return;
-
-            /*Boolean FreezeState = AddressTableListView.SelectedIndices == null ? false : !AddressTableListView.Items[AddressTableListView.SelectedIndices[0]].Checked;
-            foreach (Int32 Index in AddressTableListView.SelectedIndices)
-                AddressTablePresenter.SetAddressFrozen(Index, FreezeState);*/
-        }
-
-        private void ToggleFreezeToolStripMenuItem_Click(Object Sender, EventArgs E)
-        {
-            /*Boolean FreezeState = AddressTableListView.SelectedIndices == null ? false : !AddressTableListView.Items[AddressTableListView.SelectedIndices[0]].Checked;
-            foreach (Int32 Index in AddressTableListView.SelectedIndices)
-                AddressTablePresenter.SetAddressFrozen(Index, FreezeState);*/
-        }
-
-        private void AddressTableListView_MouseDoubleClick(Object Sender, MouseEventArgs E)
-        {
-            /*
-            ListViewItem SelectedItem;
-            Int32 ColumnIndex;
-
-            ListViewHitTestInfo HitTest = AddressTableTreeView.HitTest(E.Location);
-            SelectedItem = HitTest.Item;
-            ColumnIndex = HitTest.Item.SubItems.IndexOf(HitTest.SubItem);
-
-            // Do not bring up edit menu on double clicks to checkbox
-            if (ColumnIndex == AddressTableListView.Columns.IndexOf(FrozenHeader))
-                return;
-
-            if (SelectedItem == null)
-                return;
-
-            EditAddressTableEntry(SelectedItem.Index, ColumnIndex);
-            */
-        }
-
-        private void EditAddressEntryToolStripMenuItem_Click(Object Sender, EventArgs E)
-        {
-            /*
-                ListViewItem SelectedItem;
-                Int32 ColumnIndex;
-
-                ListViewHitTestInfo HitTest = AddressTableListView.HitTest(LastRightClickLocation);
-                SelectedItem = HitTest.Item;
-                ColumnIndex = HitTest.Item.SubItems.IndexOf(HitTest.SubItem);
-
-                if (SelectedItem == null)
-                    return;
-
-                EditAddressTableEntry(SelectedItem.Index, ColumnIndex);
-            */
-        }
-
-        private void DeleteSelectionToolStripMenuItem_Click(Object Sender, EventArgs E)
-        {
-            DeleteSelectedItems();
-        }
-
-        private void AddNewAddressToolStripMenuItem_Click(Object Sender, EventArgs E)
-        {
-            AddNewAddressItem();
-        }
-
-        private void AddressTableContextMenuStrip_Opening(Object Sender, CancelEventArgs E)
-        {
-            // using (TimedLock.Lock(AccessLock))
-            {
-                /*
-                ListViewHitTestInfo HitTest = AddressTableListView.HitTest(AddressTableListView.PointToClient(MousePosition));
-                ListViewItem SelectedItem = HitTest.Item;
-
-                if (SelectedItem == null)
-                {
-                    ToggleFreezeToolStripMenuItem.Enabled = false;
-                    DeleteSelectionToolStripMenuItem.Enabled = false;
-                    AddNewAddressToolStripMenuItem.Enabled = true;
-                }
-                else
-                */
-                {
-                    ToggleActivationToolStripMenuItem.Enabled = true;
-                    DeleteSelectionToolStripMenuItem.Enabled = true;
-                    AddNewItemToolStripMenuItem.Enabled = true;
-                }
-            }
         }
 
         private ListViewItem DraggedItem;

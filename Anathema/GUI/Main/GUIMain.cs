@@ -39,7 +39,6 @@ namespace Anathema.GUI
         private GUISnapshotManager GUISnapshotManager;
         private GUIResults GUIResults;
         private GUIPropertyViewer GUIPropertyViewer;
-        private GUIScratchPad GUIScratchPad;
         private GUIDotNetExplorer GUIDotNetExplorer;
         private GUIProjectExplorer GUIProjectExplorer;
 
@@ -398,20 +397,6 @@ namespace Anathema.GUI
             });
         }
 
-        private void CreateScratchPad()
-        {
-            ControlThreadingHelper.InvokeControlAction(ContentPanel, () =>
-            {
-                using (TimedLock.Lock(AccessLock))
-                {
-                    if (GUIScratchPad == null || GUIScratchPad.IsDisposed)
-                        GUIScratchPad = new GUIScratchPad();
-
-                    GUIScratchPad.Show(ContentPanel, DockState.DockBottom);
-                }
-            });
-        }
-
         private void CreateProjectExplorer()
         {
             ControlThreadingHelper.InvokeControlAction(ContentPanel, () =>
@@ -635,11 +620,6 @@ namespace Anathema.GUI
             CreateDotNetExplorer();
         }
 
-        private void ScratchPadToolStripMenuItem_Click(Object Sender, EventArgs E)
-        {
-            CreateScratchPad();
-        }
-
         private void ProjectExplorerToolStripMenuItem_Click(Object Sender, EventArgs E)
         {
             CreateProjectExplorer();
@@ -724,7 +704,6 @@ namespace Anathema.GUI
                 ProcessSelectorToolStripMenuItem.Checked = (GUIProcessSelector == null || GUIProcessSelector.IsDisposed) ? false : true;
                 ScriptEditorToolStripMenuItem.Checked = (GUIScriptEditor == null || GUIScriptEditor.IsDisposed) ? false : true;
                 SnapshotManagerToolStripMenuItem.Checked = (GUISnapshotManager == null || GUISnapshotManager.IsDisposed) ? false : true;
-                ScratchPadToolStripMenuItem.Checked = (GUIScratchPad == null || GUIScratchPad.IsDisposed) ? false : true;
                 PropertiesToolStripMenuItem.Checked = (GUIPropertyViewer == null || GUIPropertyViewer.IsDisposed) ? false : true;
                 ResultsToolStripMenuItem.Checked = (GUIResults == null || GUIResults.IsDisposed) ? false : true;
                 DotNetExplorerToolStripMenuItem.Checked = (GUIDotNetExplorer == null || GUIDotNetExplorer.IsDisposed) ? false : true;

@@ -62,11 +62,6 @@ namespace Anathema.Source.Project
             this.EngineCore = EngineCore;
         }
 
-        public override void ActivateProjectItem(ProjectItem ProjectItem)
-        {
-
-        }
-
         public override void UpdateSelection(IEnumerable<ProjectItem> ProjectItems)
         {
             PropertyViewer.GetInstance().SetTargetObjects(ProjectItems.ToArray());
@@ -77,8 +72,16 @@ namespace Anathema.Source.Project
             this.UpdateSet = UpdateSet;
         }
 
+        public override void ActivateProjectItems(IEnumerable<ProjectItem> ProjectItems, Boolean ActivationState)
+        {
+            foreach (ProjectItem ProjectItem in ProjectItems)
+                ProjectItem.SetActivationState(ActivationState);
+        }
+
         public override void DeleteItems(IEnumerable<ProjectItem> ProjectItems)
         {
+            throw new NotImplementedException();
+
             RefreshProjectStructure();
         }
 
@@ -100,7 +103,6 @@ namespace Anathema.Source.Project
 
         public override void UpdateSelectedIndicies(IEnumerable<Int32> Indicies)
         {
-            // TODO: Smart logic for identifying the most common set of properties from the collection of trees
             PropertyViewer.GetInstance().SetTargetObjects(null);
         }
 
@@ -163,7 +165,13 @@ namespace Anathema.Source.Project
             base.Begin();
         }
 
-        private IEnumerable<ProjectItem> CreateUpdateSetDEPRECATED(ProjectItem ProjectItem, List<ProjectItem> CurrentSet = null)
+        /// <summary>
+        /// Eventually we want the update set just to be the visible nodes in the display, note very single node
+        /// </summary>
+        /// <param name="ProjectItem"></param>
+        /// <param name="CurrentSet"></param>
+        /// <returns></returns>
+        private IEnumerable<ProjectItem> CreateUpdateSet_TEMPORARY_REPLACE_ME(ProjectItem ProjectItem, List<ProjectItem> CurrentSet = null)
         {
             if (ProjectItem == null)
                 return CurrentSet;
@@ -174,7 +182,7 @@ namespace Anathema.Source.Project
             foreach (ProjectItem Child in ProjectItem)
             {
                 CurrentSet.Add(Child);
-                CreateUpdateSetDEPRECATED(Child, CurrentSet);
+                CreateUpdateSet_TEMPORARY_REPLACE_ME(Child, CurrentSet);
             }
 
             return CurrentSet;
@@ -182,7 +190,7 @@ namespace Anathema.Source.Project
 
         protected override void Update()
         {
-            UpdateSet = CreateUpdateSetDEPRECATED(ProjectRoot);
+            UpdateSet = CreateUpdateSet_TEMPORARY_REPLACE_ME(ProjectRoot);
 
             if (UpdateSet == null)
                 return;

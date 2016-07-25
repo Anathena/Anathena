@@ -204,12 +204,6 @@
     <Compile Include="GUI\Tools\PropertyViewer\GUIPropertyViewer.Designer.cs">
       <DependentUpon>GUIPropertyViewer.cs</DependentUpon>
     </Compile>
-    <Compile Include="GUI\Tools\Projects\GUIScratchPad.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="GUI\Tools\Projects\GUIScratchPad.Designer.cs">
-      <DependentUpon>GUIScratchPad.cs</DependentUpon>
-    </Compile>
     <Compile Include="GUI\Tools\Scanners\GUIConstraintEditor.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -268,10 +262,6 @@
     <Compile Include="Source\Engine\Architecture\Disassembler\DisassemblerFactory.cs" />
     <Compile Include="Source\Engine\ObjectCollectors\DotNetObjectCollector\DotNetObject.cs" />
     <Compile Include="Source\LuaEngine\LuaScript.cs" />
-    <Compile Include="Source\Project\Deprecating\IScratchPadMVP.cs" />
-    <Compile Include="Source\Project\ProjectItems\JavaItem.cs" />
-    <Compile Include="Source\Project\ProjectItems\DotNetItem.cs" />
-    <Compile Include="Source\Project\Deprecating\ScratchPad.cs" />
     <Compile Include="Source\Project\ProjectItems\FolderItem.cs" />
     <Compile Include="Source\PropertyEditor\IPropertyViewerMVP.cs" />
     <Compile Include="Source\PropertyEditor\PropertyViewer.cs" />
@@ -830,9 +820,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\Tools\PropertyViewer\GUIPropertyViewer.resx">
       <DependentUpon>GUIPropertyViewer.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="GUI\Tools\Projects\GUIScratchPad.resx">
-      <DependentUpon>GUIScratchPad.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\Tools\Scanners\GUIConstraintEditor.resx">
       <DependentUpon>GUIConstraintEditor.cs</DependentUpon>

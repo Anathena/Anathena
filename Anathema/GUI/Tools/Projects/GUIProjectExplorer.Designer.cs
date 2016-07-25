@@ -34,6 +34,8 @@
             this.ToggleActivationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.DeleteSelectionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.AddNewItemToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.AddressRightClickToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.FolderRightClickToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ProjectExplorerTreeView = new Aga.Controls.Tree.TreeViewAdv();
             this.EntryCheckBox = new Aga.Controls.Tree.NodeControls.NodeCheckBox();
             this.EntryIcon = new Aga.Controls.Tree.NodeControls.NodeIcon();
@@ -42,13 +44,6 @@
             this.AddItemDownButton = new System.Windows.Forms.ToolStripDropDownButton();
             this.AddressToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.FolderToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.AddNewHeapObjectToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.DotNetObjectToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.JavaObjectToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.addressToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
-            this.folderToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
-            this.nETObjectToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.javaObjectToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.ProjectContextMenuStrip.SuspendLayout();
             this.ProjectToolStrip.SuspendLayout();
             this.SuspendLayout();
@@ -61,35 +56,49 @@
             this.AddNewItemToolStripMenuItem});
             this.ProjectContextMenuStrip.Name = "RightClickMenu";
             this.ProjectContextMenuStrip.Size = new System.Drawing.Size(168, 70);
+            this.ProjectContextMenuStrip.Opening += new System.ComponentModel.CancelEventHandler(this.ProjectContextMenuStrip_Opening);
             // 
             // ToggleActivationToolStripMenuItem
             // 
             this.ToggleActivationToolStripMenuItem.Name = "ToggleActivationToolStripMenuItem";
-            this.ToggleActivationToolStripMenuItem.Size = new System.Drawing.Size(168, 22);
+            this.ToggleActivationToolStripMenuItem.Size = new System.Drawing.Size(167, 22);
             this.ToggleActivationToolStripMenuItem.Text = "Toggle Activation";
             this.ToggleActivationToolStripMenuItem.Click += new System.EventHandler(this.ToggleFreezeToolStripMenuItem_Click);
             // 
             // DeleteSelectionToolStripMenuItem
             // 
             this.DeleteSelectionToolStripMenuItem.Name = "DeleteSelectionToolStripMenuItem";
-            this.DeleteSelectionToolStripMenuItem.Size = new System.Drawing.Size(168, 22);
+            this.DeleteSelectionToolStripMenuItem.Size = new System.Drawing.Size(167, 22);
             this.DeleteSelectionToolStripMenuItem.Text = "Delete Selection";
             this.DeleteSelectionToolStripMenuItem.Click += new System.EventHandler(this.DeleteSelectionToolStripMenuItem_Click);
             // 
             // AddNewItemToolStripMenuItem
             // 
             this.AddNewItemToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.addressToolStripMenuItem1,
-            this.folderToolStripMenuItem1,
-            this.nETObjectToolStripMenuItem,
-            this.javaObjectToolStripMenuItem1});
+            this.AddressRightClickToolStripMenuItem,
+            this.FolderRightClickToolStripMenuItem});
             this.AddNewItemToolStripMenuItem.Name = "AddNewItemToolStripMenuItem";
             this.AddNewItemToolStripMenuItem.Size = new System.Drawing.Size(167, 22);
             this.AddNewItemToolStripMenuItem.Text = "Add New...";
             // 
+            // AddressRightClickToolStripMenuItem
+            // 
+            this.AddressRightClickToolStripMenuItem.Name = "AddressRightClickToolStripMenuItem";
+            this.AddressRightClickToolStripMenuItem.Size = new System.Drawing.Size(116, 22);
+            this.AddressRightClickToolStripMenuItem.Text = "Address";
+            this.AddressRightClickToolStripMenuItem.Click += new System.EventHandler(this.AddressRightClickToolStripMenuItem_Click);
+            // 
+            // FolderRightClickToolStripMenuItem
+            // 
+            this.FolderRightClickToolStripMenuItem.Name = "FolderRightClickToolStripMenuItem";
+            this.FolderRightClickToolStripMenuItem.Size = new System.Drawing.Size(116, 22);
+            this.FolderRightClickToolStripMenuItem.Text = "Folder";
+            this.FolderRightClickToolStripMenuItem.Click += new System.EventHandler(this.FolderRightClickToolStripMenuItem_Click);
+            // 
             // ProjectExplorerTreeView
             // 
             this.ProjectExplorerTreeView.BackColor = System.Drawing.SystemColors.Window;
+            this.ProjectExplorerTreeView.ContextMenuStrip = this.ProjectContextMenuStrip;
             this.ProjectExplorerTreeView.Cursor = System.Windows.Forms.Cursors.Default;
             this.ProjectExplorerTreeView.DefaultToolTipProvider = null;
             this.ProjectExplorerTreeView.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -110,6 +119,7 @@
             this.ProjectExplorerTreeView.TabIndex = 154;
             this.ProjectExplorerTreeView.Text = "Project Explorer";
             this.ProjectExplorerTreeView.SelectionChanged += new System.EventHandler(this.ProjectExplorerTreeView_SelectionChanged);
+            this.ProjectExplorerTreeView.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.ProjectExplorerTreeView_KeyPress);
             // 
             // EntryCheckBox
             // 
@@ -149,8 +159,7 @@
             this.AddItemDownButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
             this.AddItemDownButton.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.AddressToolStripMenuItem,
-            this.FolderToolStripMenuItem,
-            this.AddNewHeapObjectToolStripMenuItem});
+            this.FolderToolStripMenuItem});
             this.AddItemDownButton.Image = global::Anathema.Properties.Resources.Increased;
             this.AddItemDownButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.AddItemDownButton.Name = "AddItemDownButton";
@@ -161,7 +170,7 @@
             // 
             this.AddressToolStripMenuItem.Image = global::Anathema.Properties.Resources.CollectValues;
             this.AddressToolStripMenuItem.Name = "AddressToolStripMenuItem";
-            this.AddressToolStripMenuItem.Size = new System.Drawing.Size(214, 22);
+            this.AddressToolStripMenuItem.Size = new System.Drawing.Size(168, 22);
             this.AddressToolStripMenuItem.Text = "Add New Address";
             this.AddressToolStripMenuItem.Click += new System.EventHandler(this.AddressToolStripMenuItem_Click);
             // 
@@ -169,59 +178,9 @@
             // 
             this.FolderToolStripMenuItem.Image = global::Anathema.Properties.Resources.Open;
             this.FolderToolStripMenuItem.Name = "FolderToolStripMenuItem";
-            this.FolderToolStripMenuItem.Size = new System.Drawing.Size(214, 22);
+            this.FolderToolStripMenuItem.Size = new System.Drawing.Size(168, 22);
             this.FolderToolStripMenuItem.Text = "Add New Folder";
             this.FolderToolStripMenuItem.Click += new System.EventHandler(this.FolderToolStripMenuItem_Click);
-            // 
-            // AddNewHeapObjectToolStripMenuItem
-            // 
-            this.AddNewHeapObjectToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.DotNetObjectToolStripMenuItem,
-            this.JavaObjectToolStripMenuItem});
-            this.AddNewHeapObjectToolStripMenuItem.Image = global::Anathema.Properties.Resources.Stop;
-            this.AddNewHeapObjectToolStripMenuItem.Name = "AddNewHeapObjectToolStripMenuItem";
-            this.AddNewHeapObjectToolStripMenuItem.Size = new System.Drawing.Size(214, 22);
-            this.AddNewHeapObjectToolStripMenuItem.Text = "Add New Managed Object";
-            // 
-            // DotNetObjectToolStripMenuItem
-            // 
-            this.DotNetObjectToolStripMenuItem.Image = global::Anathema.Properties.Resources.StartState;
-            this.DotNetObjectToolStripMenuItem.Name = "DotNetObjectToolStripMenuItem";
-            this.DotNetObjectToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.DotNetObjectToolStripMenuItem.Text = ".NET Object";
-            this.DotNetObjectToolStripMenuItem.Click += new System.EventHandler(this.DotNetObjectToolStripMenuItem_Click);
-            // 
-            // JavaObjectToolStripMenuItem
-            // 
-            this.JavaObjectToolStripMenuItem.Image = global::Anathema.Properties.Resources.IntermediateState;
-            this.JavaObjectToolStripMenuItem.Name = "JavaObjectToolStripMenuItem";
-            this.JavaObjectToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.JavaObjectToolStripMenuItem.Text = "Java Object";
-            this.JavaObjectToolStripMenuItem.Click += new System.EventHandler(this.JavaObjectToolStripMenuItem_Click);
-            // 
-            // addressToolStripMenuItem1
-            // 
-            this.addressToolStripMenuItem1.Name = "addressToolStripMenuItem1";
-            this.addressToolStripMenuItem1.Size = new System.Drawing.Size(152, 22);
-            this.addressToolStripMenuItem1.Text = "Address";
-            // 
-            // folderToolStripMenuItem1
-            // 
-            this.folderToolStripMenuItem1.Name = "folderToolStripMenuItem1";
-            this.folderToolStripMenuItem1.Size = new System.Drawing.Size(152, 22);
-            this.folderToolStripMenuItem1.Text = "Folder";
-            // 
-            // nETObjectToolStripMenuItem
-            // 
-            this.nETObjectToolStripMenuItem.Name = "nETObjectToolStripMenuItem";
-            this.nETObjectToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.nETObjectToolStripMenuItem.Text = ".NET Object";
-            // 
-            // javaObjectToolStripMenuItem1
-            // 
-            this.javaObjectToolStripMenuItem1.Name = "javaObjectToolStripMenuItem1";
-            this.javaObjectToolStripMenuItem1.Size = new System.Drawing.Size(152, 22);
-            this.javaObjectToolStripMenuItem1.Text = "Java Object";
             // 
             // GUIProjectExplorer
             // 
@@ -255,12 +214,7 @@
         private System.Windows.Forms.ToolStripDropDownButton AddItemDownButton;
         private System.Windows.Forms.ToolStripMenuItem AddressToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem FolderToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem AddNewHeapObjectToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem DotNetObjectToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem JavaObjectToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem addressToolStripMenuItem1;
-        private System.Windows.Forms.ToolStripMenuItem folderToolStripMenuItem1;
-        private System.Windows.Forms.ToolStripMenuItem nETObjectToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem javaObjectToolStripMenuItem1;
+        private System.Windows.Forms.ToolStripMenuItem AddressRightClickToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem FolderRightClickToolStripMenuItem;
     }
 }

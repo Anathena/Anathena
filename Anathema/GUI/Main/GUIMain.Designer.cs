@@ -43,7 +43,6 @@
             this.CheatBrowserToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ProcessSelectorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ProjectExplorerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.ScratchPadToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ScansToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ChunkScannerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.TreeScannerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -115,7 +114,7 @@
             // OpenToolStripMenuItem
             // 
             this.OpenToolStripMenuItem.Name = "OpenToolStripMenuItem";
-            this.OpenToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.OpenToolStripMenuItem.Size = new System.Drawing.Size(114, 22);
             this.OpenToolStripMenuItem.Text = "Open";
             this.OpenToolStripMenuItem.Click += new System.EventHandler(this.OpenToolStripMenuItem_Click);
             // 
@@ -124,34 +123,34 @@
             this.ImportToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.ImportProjectToolStripMenuItem});
             this.ImportToolStripMenuItem.Name = "ImportToolStripMenuItem";
-            this.ImportToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.ImportToolStripMenuItem.Size = new System.Drawing.Size(114, 22);
             this.ImportToolStripMenuItem.Text = "Import";
             // 
             // ImportProjectToolStripMenuItem
             // 
             this.ImportProjectToolStripMenuItem.Name = "ImportProjectToolStripMenuItem";
-            this.ImportProjectToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.ImportProjectToolStripMenuItem.Size = new System.Drawing.Size(150, 22);
             this.ImportProjectToolStripMenuItem.Text = "Import Project";
             this.ImportProjectToolStripMenuItem.Click += new System.EventHandler(this.ImportProjectToolStripMenuItem_Click);
             // 
             // SaveToolStripMenuItem
             // 
             this.SaveToolStripMenuItem.Name = "SaveToolStripMenuItem";
-            this.SaveToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.SaveToolStripMenuItem.Size = new System.Drawing.Size(114, 22);
             this.SaveToolStripMenuItem.Text = "Save";
             this.SaveToolStripMenuItem.Click += new System.EventHandler(this.SaveToolStripMenuItem_Click);
             // 
             // SaveAsToolStripMenuItem
             // 
             this.SaveAsToolStripMenuItem.Name = "SaveAsToolStripMenuItem";
-            this.SaveAsToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.SaveAsToolStripMenuItem.Size = new System.Drawing.Size(114, 22);
             this.SaveAsToolStripMenuItem.Text = "Save As";
             this.SaveAsToolStripMenuItem.Click += new System.EventHandler(this.SaveAsToolStripMenuItem_Click);
             // 
             // ExitToolStripMenuItem
             // 
             this.ExitToolStripMenuItem.Name = "ExitToolStripMenuItem";
-            this.ExitToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.ExitToolStripMenuItem.Size = new System.Drawing.Size(114, 22);
             this.ExitToolStripMenuItem.Text = "Exit";
             this.ExitToolStripMenuItem.Click += new System.EventHandler(this.ExitToolStripMenuItem_Click);
             // 
@@ -176,7 +175,6 @@
             this.CheatBrowserToolStripMenuItem,
             this.ProcessSelectorToolStripMenuItem,
             this.ProjectExplorerToolStripMenuItem,
-            this.ScratchPadToolStripMenuItem,
             this.ScansToolStripMenuItem,
             this.PropertiesToolStripMenuItem,
             this.ResultsToolStripMenuItem,
@@ -208,13 +206,6 @@
             this.ProjectExplorerToolStripMenuItem.Size = new System.Drawing.Size(173, 22);
             this.ProjectExplorerToolStripMenuItem.Text = "Project Explorer";
             this.ProjectExplorerToolStripMenuItem.Click += new System.EventHandler(this.ProjectExplorerToolStripMenuItem_Click);
-            // 
-            // ScratchPadToolStripMenuItem
-            // 
-            this.ScratchPadToolStripMenuItem.Name = "ScratchPadToolStripMenuItem";
-            this.ScratchPadToolStripMenuItem.Size = new System.Drawing.Size(173, 22);
-            this.ScratchPadToolStripMenuItem.Text = "Scratch Pad";
-            this.ScratchPadToolStripMenuItem.Click += new System.EventHandler(this.ScratchPadToolStripMenuItem_Click);
             // 
             // ScansToolStripMenuItem
             // 
@@ -478,7 +469,7 @@
             this.CancelActionButton,
             this.ActionLabel,
             this.ActionProgressBar});
-            this.GUIStatusStrip.Location = new System.Drawing.Point(0, 579);
+            this.GUIStatusStrip.Location = new System.Drawing.Point(0, 611);
             this.GUIStatusStrip.Name = "GUIStatusStrip";
             this.GUIStatusStrip.Size = new System.Drawing.Size(560, 22);
             this.GUIStatusStrip.TabIndex = 150;
@@ -514,14 +505,14 @@
             this.ContentPanel.DockBackColor = System.Drawing.SystemColors.AppWorkspace;
             this.ContentPanel.Location = new System.Drawing.Point(0, 49);
             this.ContentPanel.Name = "ContentPanel";
-            this.ContentPanel.Size = new System.Drawing.Size(560, 530);
+            this.ContentPanel.Size = new System.Drawing.Size(560, 562);
             this.ContentPanel.TabIndex = 145;
             // 
             // GUIMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(560, 601);
+            this.ClientSize = new System.Drawing.Size(560, 633);
             this.Controls.Add(this.ContentPanel);
             this.Controls.Add(this.GUIToolStrip);
             this.Controls.Add(this.GUIMenuStrip);
@@ -592,7 +583,6 @@
         private System.Windows.Forms.ToolStripMenuItem SaveAsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem ImportProjectToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem DotNetExplorerToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem ScratchPadToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem PropertiesToolStripMenuItem;
     }
 }
