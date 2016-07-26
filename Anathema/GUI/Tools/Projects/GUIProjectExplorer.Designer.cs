@@ -35,6 +35,7 @@
             this.DeleteSelectionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.AddNewItemToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.AddressRightClickToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.ScriptRightClickToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.FolderRightClickToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ProjectExplorerTreeView = new Aga.Controls.Tree.TreeViewAdv();
             this.EntryCheckBox = new Aga.Controls.Tree.NodeControls.NodeCheckBox();
@@ -43,9 +44,8 @@
             this.ProjectToolStrip = new System.Windows.Forms.ToolStrip();
             this.AddItemDownButton = new System.Windows.Forms.ToolStripDropDownButton();
             this.AddressToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.FolderToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.AddNewScriptToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.ScriptRightClickToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.FolderToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ProjectContextMenuStrip.SuspendLayout();
             this.ProjectToolStrip.SuspendLayout();
             this.SuspendLayout();
@@ -57,7 +57,7 @@
             this.DeleteSelectionToolStripMenuItem,
             this.AddNewItemToolStripMenuItem});
             this.ProjectContextMenuStrip.Name = "RightClickMenu";
-            this.ProjectContextMenuStrip.Size = new System.Drawing.Size(168, 92);
+            this.ProjectContextMenuStrip.Size = new System.Drawing.Size(168, 70);
             this.ProjectContextMenuStrip.Opening += new System.ComponentModel.CancelEventHandler(this.ProjectContextMenuStrip_Opening);
             // 
             // ToggleActivationToolStripMenuItem
@@ -88,20 +88,29 @@
             // 
             this.AddressRightClickToolStripMenuItem.Image = global::Anathema.Properties.Resources.CollectValues;
             this.AddressRightClickToolStripMenuItem.Name = "AddressRightClickToolStripMenuItem";
-            this.AddressRightClickToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.AddressRightClickToolStripMenuItem.Size = new System.Drawing.Size(116, 22);
             this.AddressRightClickToolStripMenuItem.Text = "Address";
             this.AddressRightClickToolStripMenuItem.Click += new System.EventHandler(this.AddressRightClickToolStripMenuItem_Click);
+            // 
+            // ScriptRightClickToolStripMenuItem
+            // 
+            this.ScriptRightClickToolStripMenuItem.Image = global::Anathema.Properties.Resources.CollectValues;
+            this.ScriptRightClickToolStripMenuItem.Name = "ScriptRightClickToolStripMenuItem";
+            this.ScriptRightClickToolStripMenuItem.Size = new System.Drawing.Size(116, 22);
+            this.ScriptRightClickToolStripMenuItem.Text = "Script";
+            this.ScriptRightClickToolStripMenuItem.Click += new System.EventHandler(this.ScriptRightClickToolStripMenuItem_Click);
             // 
             // FolderRightClickToolStripMenuItem
             // 
             this.FolderRightClickToolStripMenuItem.Image = global::Anathema.Properties.Resources.Open;
             this.FolderRightClickToolStripMenuItem.Name = "FolderRightClickToolStripMenuItem";
-            this.FolderRightClickToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.FolderRightClickToolStripMenuItem.Size = new System.Drawing.Size(116, 22);
             this.FolderRightClickToolStripMenuItem.Text = "Folder";
             this.FolderRightClickToolStripMenuItem.Click += new System.EventHandler(this.FolderRightClickToolStripMenuItem_Click);
             // 
             // ProjectExplorerTreeView
             // 
+            this.ProjectExplorerTreeView.AllowDrop = true;
             this.ProjectExplorerTreeView.BackColor = System.Drawing.SystemColors.Window;
             this.ProjectExplorerTreeView.ContextMenuStrip = this.ProjectContextMenuStrip;
             this.ProjectExplorerTreeView.Cursor = System.Windows.Forms.Cursors.Default;
@@ -123,7 +132,11 @@
             this.ProjectExplorerTreeView.Size = new System.Drawing.Size(214, 319);
             this.ProjectExplorerTreeView.TabIndex = 154;
             this.ProjectExplorerTreeView.Text = "Project Explorer";
+            this.ProjectExplorerTreeView.ItemDrag += new System.Windows.Forms.ItemDragEventHandler(this.ProjectExplorerTreeView_ItemDrag);
             this.ProjectExplorerTreeView.SelectionChanged += new System.EventHandler(this.ProjectExplorerTreeView_SelectionChanged);
+            this.ProjectExplorerTreeView.DragDrop += new System.Windows.Forms.DragEventHandler(this.ProjectExplorerTreeView_DragDrop);
+            this.ProjectExplorerTreeView.DragEnter += new System.Windows.Forms.DragEventHandler(this.ProjectExplorerTreeView_DragEnter);
+            this.ProjectExplorerTreeView.DragOver += new System.Windows.Forms.DragEventHandler(this.ProjectExplorerTreeView_DragOver);
             this.ProjectExplorerTreeView.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.ProjectExplorerTreeView_KeyPress);
             // 
             // EntryCheckBox
@@ -180,14 +193,6 @@
             this.AddressToolStripMenuItem.Text = "Add New Address";
             this.AddressToolStripMenuItem.Click += new System.EventHandler(this.AddressToolStripMenuItem_Click);
             // 
-            // FolderToolStripMenuItem
-            // 
-            this.FolderToolStripMenuItem.Image = global::Anathema.Properties.Resources.Open;
-            this.FolderToolStripMenuItem.Name = "FolderToolStripMenuItem";
-            this.FolderToolStripMenuItem.Size = new System.Drawing.Size(168, 22);
-            this.FolderToolStripMenuItem.Text = "Add New Folder";
-            this.FolderToolStripMenuItem.Click += new System.EventHandler(this.FolderToolStripMenuItem_Click);
-            // 
             // AddNewScriptToolStripMenuItem
             // 
             this.AddNewScriptToolStripMenuItem.Image = global::Anathema.Properties.Resources.CollectValues;
@@ -196,13 +201,13 @@
             this.AddNewScriptToolStripMenuItem.Text = "Add New Script";
             this.AddNewScriptToolStripMenuItem.Click += new System.EventHandler(this.AddNewScriptToolStripMenuItem_Click);
             // 
-            // ScriptRightClickToolStripMenuItem
+            // FolderToolStripMenuItem
             // 
-            this.ScriptRightClickToolStripMenuItem.Image = global::Anathema.Properties.Resources.CollectValues;
-            this.ScriptRightClickToolStripMenuItem.Name = "ScriptRightClickToolStripMenuItem";
-            this.ScriptRightClickToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.ScriptRightClickToolStripMenuItem.Text = "Script";
-            this.ScriptRightClickToolStripMenuItem.Click += new System.EventHandler(this.ScriptRightClickToolStripMenuItem_Click);
+            this.FolderToolStripMenuItem.Image = global::Anathema.Properties.Resources.Open;
+            this.FolderToolStripMenuItem.Name = "FolderToolStripMenuItem";
+            this.FolderToolStripMenuItem.Size = new System.Drawing.Size(168, 22);
+            this.FolderToolStripMenuItem.Text = "Add New Folder";
+            this.FolderToolStripMenuItem.Click += new System.EventHandler(this.FolderToolStripMenuItem_Click);
             // 
             // GUIProjectExplorer
             // 

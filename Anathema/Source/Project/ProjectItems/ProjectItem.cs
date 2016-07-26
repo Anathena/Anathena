@@ -1,6 +1,5 @@
 ﻿using Anathema.Source.Engine;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
@@ -16,7 +15,7 @@ namespace Anathema.Source.Project.ProjectItems
     [KnownType(typeof(ScriptItem))]
     [KnownType(typeof(AddressItem))]
     [DataContract()]
-    public abstract class ProjectItem : IEnumerable<ProjectItem>
+    public abstract class ProjectItem
     {
         private ProjectItem _Parent;
         [Browsable(false)]
@@ -79,9 +78,75 @@ namespace Anathema.Source.Project.ProjectItems
             return Activated;
         }
 
-        public void AddChild(ProjectItem Child)
+        public void AddChild(ProjectItem ProjectItem)
         {
-            Children.Add(Child);
+            ProjectItem.Parent = this;
+            Children.Add(ProjectItem);
+        }
+
+        public void AddSibling(ProjectItem ProjectItem)
+        {
+            ProjectItem.Parent = this.Parent;
+            Parent.Children.Add(ProjectItem);
+        }
+
+        public Boolean HasNode(ProjectItem ProjectItem)
+        {
+            if (Children.Contains(ProjectItem))
+                return true;
+
+            foreach (ProjectItem Child in Children)
+            {
+                if (Child.HasNode(ProjectItem))
+                    return true;
+            }
+
+            return false;
+        }
+
+        public Boolean RemoveNode(ProjectItem ProjectItem)
+        {
+            if (ProjectItem == null)
+                return false;
+
+            if (Children.Contains(ProjectItem))
+            {
+                ProjectItem.Parent = null;
+                Children.Remove(ProjectItem);
+                return true;
+            }
+            else
+            {
+                foreach (ProjectItem Child in Children)
+                {
+                    if (Child.RemoveNode(ProjectItem))
+                        return true;
+                }
+            }
+
+            return false;
+        }
+
+        public void BubbleDown(ProjectItem BubbleTowards)
+        {
+            foreach (ProjectItem Child in Children)
+            {
+                if (Child == BubbleTowards || Child.HasNode(BubbleTowards))
+                {
+                    // Update parent object to point at the right child
+                    Parent.Children.Remove(this);
+                    Parent.Children.Add(Child);
+
+                    // Swap children and parent objects
+                    ProjectItem TempParent = Parent;
+                    List<ProjectItem> TempChildren = Children;
+                    this.Parent = Child.Parent;
+                    this.Children = Child.Children;
+                    Child.Parent = TempParent;
+                    Child.Children = TempChildren;
+                    return;
+                }
+            }
         }
 
         private void UpdateEntryVisual()
@@ -90,16 +155,6 @@ namespace Anathema.Source.Project.ProjectItems
         }
 
         public abstract void Update(EngineCore EngineCore);
-
-        public IEnumerator<ProjectItem> GetEnumerator()
-        {
-            return ((IEnumerable<ProjectItem>)Children)?.GetEnumerator();
-        }
-
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return ((IEnumerable<ProjectItem>)Children)?.GetEnumerator();
-        }
 
     } // End class
 

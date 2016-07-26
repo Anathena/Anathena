@@ -21,9 +21,9 @@ namespace Anathema.GUI
 
         private BiDictionary<ProjectItem, ProjectNode> NodeCache;
         private TreeModel ProjectTree;
+        private ProjectItem ProjectRoot;
+        private TreeNodeAdv DraggedItem;
         private Object AccessLock;
-
-        private ProjectItem ProjectRootTEMPORARY_WORKAROUND;
 
         public GUIProjectExplorer()
         {
@@ -48,7 +48,7 @@ namespace Anathema.GUI
 
             ControlThreadingHelper.InvokeControlAction(ProjectExplorerTreeView, () =>
             {
-                ProjectRootTEMPORARY_WORKAROUND = ProjectRoot;
+                this.ProjectRoot = ProjectRoot;
 
                 ProjectExplorerTreeView.BeginUpdate();
                 ProjectTree.Nodes.Clear();
@@ -56,7 +56,7 @@ namespace Anathema.GUI
 
                 if (ProjectRoot != null)
                 {
-                    foreach (ProjectItem Child in ProjectRoot)
+                    foreach (ProjectItem Child in ProjectRoot.Children)
                         BuildNodes(Child);
                 }
 
@@ -92,11 +92,11 @@ namespace Anathema.GUI
 
             NodeCache.Add(ProjectItem, ProjectNode);
 
-            foreach (ProjectItem Child in ProjectItem)
+            foreach (ProjectItem Child in ProjectItem.Children)
                 BuildNodes(Child, ProjectItem);
         }
 
-        private ProjectItem GetProjectItemFromNode(TreeNodeAdv TreeNodeAdv)
+        private ProjectNode GetProjectNodeFromTreeNodeAdv(TreeNodeAdv TreeNodeAdv)
         {
             Node Node = ProjectTree.FindNode(ProjectExplorerTreeView.GetPath(TreeNodeAdv));
 
@@ -104,9 +104,13 @@ namespace Anathema.GUI
                 return null;
 
             ProjectNode ProjectNode = Node as ProjectNode;
-            ProjectItem ProjectItem = ProjectNode.ProjectItem;
 
-            return ProjectItem;
+            return ProjectNode;
+        }
+
+        private ProjectItem GetProjectItemFromNode(TreeNodeAdv TreeNodeAdv)
+        {
+            return GetProjectNodeFromTreeNodeAdv(TreeNodeAdv)?.ProjectItem;
         }
 
         public void AddNewAddressItem()
@@ -156,7 +160,7 @@ namespace Anathema.GUI
                 ProjectExplorerPresenter.ActivateProjectItems(Nodes, !Nodes.First().GetActivationState());
                 ProjectExplorerTreeView.SelectedNodes.ForEach(X => NodeCache[GetProjectItemFromNode(X)].IsChecked = GetProjectItemFromNode(X).GetActivationState());
 
-                RefreshStructure(ProjectRootTEMPORARY_WORKAROUND);
+                RefreshStructure(ProjectRoot);
             });
         }
 
@@ -171,7 +175,7 @@ namespace Anathema.GUI
                 ProjectExplorerTreeView.SelectedNodes.ForEach(X => Nodes.Add(GetProjectItemFromNode(X)));
                 ProjectExplorerPresenter.DeleteProjectItems(Nodes);
 
-                RefreshStructure(ProjectRootTEMPORARY_WORKAROUND);
+                RefreshStructure(ProjectRoot);
             });
         }
 
@@ -186,7 +190,7 @@ namespace Anathema.GUI
             if (!(ProjectItem is FolderItem))
                 return;
 
-            foreach (ProjectItem Child in ProjectItem)
+            foreach (ProjectItem Child in ProjectItem.Children)
                 DoCheck(Child, Activated);
         }
 
@@ -273,7 +277,7 @@ namespace Anathema.GUI
 
                 DoCheck(ProjectItem, !ProjectItem.GetActivationState());
 
-                RefreshStructure(ProjectRootTEMPORARY_WORKAROUND);
+                RefreshStructure(ProjectRoot);
             });
         }
 
@@ -298,38 +302,62 @@ namespace Anathema.GUI
                 E.TextColor = SystemColors.ControlText;
         }
 
-        #endregion
-
-        #region Events(DEPRECATED - PLEASE REIMPLEMENT THIS SHIT SO I CAN DELETE IT)
-
-        private ListViewItem DraggedItem;
-        private void AddressTableListView_ItemDrag(Object Sender, ItemDragEventArgs E)
+        private void ProjectExplorerTreeView_ItemDrag(Object Sender, ItemDragEventArgs E)
         {
-            DraggedItem = (ListViewItem)E.Item;
+            DraggedItem = E.Item as TreeNodeAdv;
             DoDragDrop(E.Item, DragDropEffects.All);
         }
 
-        private void AddressTableListView_DragOver(Object Sender, DragEventArgs E)
+        private void ProjectExplorerTreeView_DragOver(Object Sender, DragEventArgs E)
         {
             E.Effect = DragDropEffects.All;
         }
 
-        private void AddressTableListView_DragDrop(Object Sender, DragEventArgs E)
+        private void ProjectExplorerTreeView_DragEnter(Object Sender, DragEventArgs E)
         {
-            // using (TimedLock.Lock(AccessLock))
+            E.Effect = DragDropEffects.All;
+        }
+
+        private void ProjectExplorerTreeView_DragDrop(Object Sender, DragEventArgs E)
+        {
+
+            // Retrieve the client coordinates of the drop location.
+            Point TargetPoint = ProjectExplorerTreeView.PointToClient(new Point(E.X, E.Y));
+
+            // Retrieve the node at the drop location.
+            TreeNodeAdv TargetNodeAdv = ProjectExplorerTreeView.GetNodeAt(TargetPoint);
+
+            // Retrieve the node that was dragged.
+            TreeNodeAdv[] DraggedNodesAdv = E.Data.GetData(typeof(TreeNodeAdv[])) as TreeNodeAdv[];
+
+            if (DraggedNodesAdv.Count() <= 0)
+                return;
+
+            TreeNodeAdv DraggedNodeAdv = DraggedNodesAdv[0];
+
+            if (DraggedNodeAdv != null && TargetNodeAdv != null && DraggedNodeAdv != TargetNodeAdv)
             {
-                /*
-                ListViewHitTestInfo HitTest = AddressTableListView.HitTest(AddressTableListView.PointToClient(new Point(E.X, E.Y)));
-                ListViewItem SelectedItem = HitTest.Item;
+                ProjectItem DraggedItem = GetProjectItemFromNode(DraggedNodeAdv);
+                ProjectItem TargetItem = GetProjectItemFromNode(TargetNodeAdv);
 
-                if (DraggedItem == null || DraggedItem == SelectedItem)
-                    return;
+                // Handle case where node is being dropped onto its own child
+                if (DraggedItem.HasNode(TargetItem))
+                {
+                    foreach (ProjectItem Child in DraggedItem.Children)
+                        DraggedItem.Parent.AddSibling(Child);
 
-                if ((SelectedItem != null && SelectedItem.GetType() != typeof(ListViewItem)) || DraggedItem.GetType() != typeof(ListViewItem))
-                    return;
+                    DraggedItem.Children.Clear();
+                    DraggedItem.Parent.RemoveNode(DraggedItem);
+                    TargetItem.AddSibling(DraggedItem);
+                }
+                // Simple add/remove node
+                else
+                {
+                    ProjectRoot.RemoveNode(DraggedItem);
+                    TargetItem.AddSibling(DraggedItem);
+                }
 
-                AddressTablePresenter.ReorderItem(DraggedItem.Index, SelectedItem == null ? AddressTableListView.Items.Count : SelectedItem.Index);
-                */
+                RefreshStructure(ProjectRoot);
             }
         }
 

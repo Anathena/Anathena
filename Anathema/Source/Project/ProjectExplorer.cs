@@ -121,7 +121,7 @@ namespace Anathema.Source.Project
 
         private void ImportProjectItems(FolderItem ImportedProjectRoot)
         {
-            foreach (ProjectItem Item in ImportedProjectRoot)
+            foreach (ProjectItem Item in ImportedProjectRoot.Children)
                 ProjectRoot.AddChild(Item);
 
             RefreshProjectStructure();
@@ -179,7 +179,7 @@ namespace Anathema.Source.Project
             if (CurrentSet == null)
                 CurrentSet = new List<ProjectItem>();
 
-            foreach (ProjectItem Child in ProjectItem)
+            foreach (ProjectItem Child in ProjectItem.Children)
             {
                 CurrentSet.Add(Child);
                 CreateUpdateSet_TEMPORARY_REPLACE_ME(Child, CurrentSet);
