@@ -77,6 +77,11 @@ namespace Anathema.Source.Project
             Model.AddProjectItem(new AddressItem(), Parent);
         }
 
+        public void AddNewScriptItem(ProjectItem Parent = null)
+        {
+            Model.AddProjectItem(new ScriptItem(), Parent);
+        }
+
         public void AddNewFolderItem(ProjectItem Parent = null)
         {
             Model.AddProjectItem(new FolderItem(), Parent);

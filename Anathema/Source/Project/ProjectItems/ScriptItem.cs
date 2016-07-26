@@ -23,14 +23,12 @@ namespace Anathema.Source.Project.ProjectItems
 
         private LuaCore LuaCore;
 
-        public ScriptItem()
-        {
-            LuaCore = null;
-        }
-
-        public ScriptItem(LuaScript LuaScript) : this()
+        public ScriptItem() : this("New Script", null) { }
+        public ScriptItem(String Description, LuaScript LuaScript) : base(Description)
         {
             this.LuaScript = LuaScript;
+
+            LuaCore = null;
         }
 
         public override void SetActivationState(Boolean Activated)

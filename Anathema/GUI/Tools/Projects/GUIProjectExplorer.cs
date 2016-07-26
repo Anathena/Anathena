@@ -74,6 +74,8 @@ namespace Anathema.GUI
 
             if (ProjectItem is AddressItem)
                 Image = new Bitmap(Properties.Resources.CollectValues);
+            else if (ProjectItem is ScriptItem)
+                Image = new Bitmap(Properties.Resources.CollectValues);
             else if (ProjectItem is FolderItem)
                 Image = new Bitmap(Properties.Resources.Open);
 
@@ -84,13 +86,9 @@ namespace Anathema.GUI
             ProjectNode.IsChecked = ProjectItem.GetActivationState();
 
             if (Parent != null && NodeCache.ContainsKey(Parent))
-            {
                 NodeCache[Parent].Nodes.Add(ProjectNode);
-            }
             else
-            {
                 ProjectTree.Nodes.Add(ProjectNode);
-            }
 
             NodeCache.Add(ProjectItem, ProjectNode);
 
@@ -114,6 +112,11 @@ namespace Anathema.GUI
         public void AddNewAddressItem()
         {
             ProjectExplorerPresenter.AddNewAddressItem(GetSelectedItem());
+        }
+
+        public void AddNewScriptItem()
+        {
+            ProjectExplorerPresenter.AddNewScriptItem(GetSelectedItem());
         }
 
         public void AddNewFolderItem()
@@ -148,6 +151,8 @@ namespace Anathema.GUI
                 if (Nodes.Count <= 0)
                     return;
 
+                // Behavior here is undefined, we could check only the selected items, or enforce the recursive rules of folders
+                // Nodes.ForEach(X => DoCheck(X, !X.GetActivationState()));
                 ProjectExplorerPresenter.ActivateProjectItems(Nodes, !Nodes.First().GetActivationState());
                 ProjectExplorerTreeView.SelectedNodes.ForEach(X => NodeCache[GetProjectItemFromNode(X)].IsChecked = GetProjectItemFromNode(X).GetActivationState());
 
@@ -170,11 +175,31 @@ namespace Anathema.GUI
             });
         }
 
+        private void DoCheck(ProjectItem ProjectItem, Boolean Activated)
+        {
+            if (ProjectItem == null)
+                return;
+
+            ProjectExplorerPresenter.ActivateProjectItem(ProjectItem, Activated);
+            NodeCache[ProjectItem].IsChecked = ProjectItem.GetActivationState();
+
+            if (!(ProjectItem is FolderItem))
+                return;
+
+            foreach (ProjectItem Child in ProjectItem)
+                DoCheck(Child, Activated);
+        }
+
         #region Events
 
         private void AddressToolStripMenuItem_Click(Object Sender, EventArgs E)
         {
             AddNewAddressItem();
+        }
+
+        private void AddNewScriptToolStripMenuItem_Click(Object Sender, EventArgs E)
+        {
+            AddNewScriptItem();
         }
 
         private void FolderToolStripMenuItem_Click(Object Sender, EventArgs E)
@@ -185,6 +210,11 @@ namespace Anathema.GUI
         private void AddressRightClickToolStripMenuItem_Click(Object Sender, EventArgs E)
         {
             AddNewAddressItem();
+        }
+
+        private void ScriptRightClickToolStripMenuItem_Click(Object Sender, EventArgs E)
+        {
+            AddNewScriptItem();
         }
 
         private void FolderRightClickToolStripMenuItem_Click(Object Sender, EventArgs E)
@@ -241,9 +271,7 @@ namespace Anathema.GUI
                 if (ProjectItem == null)
                     return;
 
-                ProjectExplorerPresenter.ActivateProjectItem(ProjectItem, !ProjectItem.GetActivationState());
-                NodeCache[ProjectItem].IsChecked = ProjectItem.GetActivationState();
-                ProjectExplorerTreeView.Refresh();
+                DoCheck(ProjectItem, !ProjectItem.GetActivationState());
 
                 RefreshStructure(ProjectRootTEMPORARY_WORKAROUND);
             });
@@ -272,18 +300,7 @@ namespace Anathema.GUI
 
         #endregion
 
-        #region Events(OLD)
-
-        private void AddressTableListView_MouseClick(Object Sender, MouseEventArgs E)
-        {
-            TreeNodeAdv ListViewItem = ProjectExplorerTreeView.GetNodeAt(E.Location);
-
-            if (ListViewItem == null)
-                return;
-
-            // if (E.X < (ListViewItem.Bounds.Left + 16))
-            //     AddressTablePresenter.SetAddressFrozen(ListViewItem.Index, !ListViewItem.Checked);  // (Has to be negated, click happens before check change)
-        }
+        #region Events(DEPRECATED - PLEASE REIMPLEMENT THIS SHIT SO I CAN DELETE IT)
 
         private ListViewItem DraggedItem;
         private void AddressTableListView_ItemDrag(Object Sender, ItemDragEventArgs E)

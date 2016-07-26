@@ -32,7 +32,7 @@ namespace Anathema.Source.LuaEngine
 
         public LuaCore(LuaScript LuaScript) : base()
         {
-            this.LuaScriptRaw = ReplaceTags(LuaScript.Script);
+            this.LuaScriptRaw = ReplaceTags(LuaScript?.Script);
         }
 
         private void InitializeLuaEngine()
@@ -205,6 +205,9 @@ namespace Anathema.Source.LuaEngine
 
         private String ReplaceTags(String Script)
         {
+            if (Script == null)
+                return String.Empty;
+
             // Removes the assembly tags and instead places a string body.
             // This is done such that the LUA frontend can do its syntax highlighting with minmal effort
             // Script = Regex.Replace(Script, "\\[fasm\\]", "[[", RegexOptions.IgnoreCase);
