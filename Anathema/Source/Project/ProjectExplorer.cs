@@ -114,6 +114,7 @@ namespace Anathema.Source.Project
         public void SetProjectItems(FolderItem ProjectRoot)
         {
             this.ProjectRoot = ProjectRoot;
+
             RefreshProjectStructure();
 
             ProjectExplorer.GetInstance().ProjectChanged();
@@ -155,6 +156,7 @@ namespace Anathema.Source.Project
 
         public void RefreshProjectStructure()
         {
+            ProjectRoot.BuildParents();
             ProjectExplorerEventArgs ProjectExplorerEventArgs = new ProjectExplorerEventArgs();
             ProjectExplorerEventArgs.ProjectRoot = ProjectRoot;
             OnEventRefreshProjectStructure(ProjectExplorerEventArgs);

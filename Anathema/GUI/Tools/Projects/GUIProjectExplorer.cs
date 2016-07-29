@@ -305,22 +305,21 @@ namespace Anathema.GUI
         private void ProjectExplorerTreeView_ItemDrag(Object Sender, ItemDragEventArgs E)
         {
             DraggedItem = E.Item as TreeNodeAdv;
-            DoDragDrop(E.Item, DragDropEffects.All);
+            DoDragDrop(E.Item, DragDropEffects.Move);
         }
 
         private void ProjectExplorerTreeView_DragOver(Object Sender, DragEventArgs E)
         {
-            E.Effect = DragDropEffects.All;
+            E.Effect = DragDropEffects.Move;
         }
 
         private void ProjectExplorerTreeView_DragEnter(Object Sender, DragEventArgs E)
         {
-            E.Effect = DragDropEffects.All;
+            E.Effect = DragDropEffects.Move;
         }
 
         private void ProjectExplorerTreeView_DragDrop(Object Sender, DragEventArgs E)
         {
-
             // Retrieve the client coordinates of the drop location.
             Point TargetPoint = ProjectExplorerTreeView.PointToClient(new Point(E.X, E.Y));
 
@@ -340,21 +339,29 @@ namespace Anathema.GUI
                 ProjectItem DraggedItem = GetProjectItemFromNode(DraggedNodeAdv);
                 ProjectItem TargetItem = GetProjectItemFromNode(TargetNodeAdv);
 
-                // Handle case where node is being dropped onto its own child
-                if (DraggedItem.HasNode(TargetItem))
+                switch (ProjectExplorerTreeView.DropPosition.Position)
                 {
-                    foreach (ProjectItem Child in DraggedItem.Children)
-                        DraggedItem.Parent.AddSibling(Child);
-
-                    DraggedItem.Children.Clear();
-                    DraggedItem.Parent.RemoveNode(DraggedItem);
-                    TargetItem.AddSibling(DraggedItem);
-                }
-                // Simple add/remove node
-                else
-                {
-                    ProjectRoot.RemoveNode(DraggedItem);
-                    TargetItem.AddSibling(DraggedItem);
+                    case NodePosition.Before:
+                        if (!DraggedItem.HasNode(TargetItem))
+                        {
+                            ProjectRoot.RemoveNode(DraggedItem);
+                            TargetItem.AddSibling(DraggedItem, false);
+                        }
+                        break;
+                    case NodePosition.Inside:
+                        if (!DraggedItem.HasNode(TargetItem))
+                        {
+                            ProjectRoot.RemoveNode(DraggedItem);
+                            TargetItem.AddChild(DraggedItem);
+                        }
+                        break;
+                    case NodePosition.After:
+                        if (!DraggedItem.HasNode(TargetItem))
+                        {
+                            ProjectRoot.RemoveNode(DraggedItem);
+                            TargetItem.AddSibling(DraggedItem, true);
+                        }
+                        break;
                 }
 
                 RefreshStructure(ProjectRoot);

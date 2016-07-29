@@ -84,10 +84,23 @@ namespace Anathema.Source.Project.ProjectItems
             Children.Add(ProjectItem);
         }
 
-        public void AddSibling(ProjectItem ProjectItem)
+        public void AddSibling(ProjectItem ProjectItem, Boolean After)
         {
             ProjectItem.Parent = this.Parent;
-            Parent.Children.Add(ProjectItem);
+
+            if (After)
+                Parent?.Children?.Insert(Parent.Children.IndexOf(this) + 1, ProjectItem);
+            else
+                Parent?.Children?.Insert(Parent.Children.IndexOf(this), ProjectItem);
+
+        }
+
+        public void BuildParents(ProjectItem Parent = null)
+        {
+            this.Parent = Parent;
+
+            foreach (ProjectItem Child in Children)
+                Child.BuildParents(this);
         }
 
         public Boolean HasNode(ProjectItem ProjectItem)
@@ -125,28 +138,6 @@ namespace Anathema.Source.Project.ProjectItems
             }
 
             return false;
-        }
-
-        public void BubbleDown(ProjectItem BubbleTowards)
-        {
-            foreach (ProjectItem Child in Children)
-            {
-                if (Child == BubbleTowards || Child.HasNode(BubbleTowards))
-                {
-                    // Update parent object to point at the right child
-                    Parent.Children.Remove(this);
-                    Parent.Children.Add(Child);
-
-                    // Swap children and parent objects
-                    ProjectItem TempParent = Parent;
-                    List<ProjectItem> TempChildren = Children;
-                    this.Parent = Child.Parent;
-                    this.Children = Child.Children;
-                    Child.Parent = TempParent;
-                    Child.Children = TempChildren;
-                    return;
-                }
-            }
         }
 
         private void UpdateEntryVisual()
