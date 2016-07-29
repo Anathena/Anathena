@@ -81,6 +81,10 @@ namespace Anathema.Source.Project.ProjectItems
         public void AddChild(ProjectItem ProjectItem)
         {
             ProjectItem.Parent = this;
+
+            if (Children == null)
+                Children = new List<ProjectItem>();
+
             Children.Add(ProjectItem);
         }
 

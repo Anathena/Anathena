@@ -263,6 +263,7 @@
     <Compile Include="Source\Engine\ObjectCollectors\DotNetObjectCollector\DotNetObject.cs" />
     <Compile Include="Source\LuaEngine\LuaScript.cs" />
     <Compile Include="Source\Project\ProjectItems\FolderItem.cs" />
+    <Compile Include="Source\Project\ProjectItems\TypeConverters\IntPtrConverter.cs" />
     <Compile Include="Source\PropertyEditor\IPropertyViewerMVP.cs" />
     <Compile Include="Source\PropertyEditor\PropertyViewer.cs" />
     <Compile Include="Source\Utils\AddressResolver\AddressResolver.cs" />

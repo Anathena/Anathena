@@ -1,4 +1,5 @@
 ﻿using Anathema.Source.Engine;
+using Anathema.Source.Project.ProjectItems.TypeConverters;
 using Anathema.Source.Utils.Extensions;
 using Anathema.Source.Utils.Validation;
 using System;
@@ -42,6 +43,7 @@ namespace Anathema.Source.Project.ProjectItems
 
         private IntPtr _BaseAddress;
         [DataMember()]
+        [TypeConverter(typeof(IntPtrConverter))]
         [Category("Properties"), DisplayName("Address"), Description("Base address")]
         public IntPtr BaseOffset
         {
@@ -166,7 +168,7 @@ namespace Anathema.Source.Project.ProjectItems
 
         public void ResolveAddress(EngineCore EngineCore)
         {
-            IntPtr Pointer = IntPtr.Zero; // AddressResolver.GetInstance().ResolveExpression(BaseOffset);
+            IntPtr Pointer = BaseOffset;
             Boolean SuccessReading = true;
 
             if (EngineCore == null)
