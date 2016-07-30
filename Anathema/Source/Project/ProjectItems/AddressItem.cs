@@ -202,6 +202,10 @@ namespace Anathema.Source.Project.ProjectItems
             foreach (Int32 Offset in Offsets)
             {
                 Pointer = EngineCore.Memory.Read<IntPtr>(Pointer, out SuccessReading);
+
+                if (Pointer == IntPtr.Zero)
+                    break;
+
                 Pointer = Pointer.Add(Offset);
 
                 if (!SuccessReading)

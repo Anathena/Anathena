@@ -22,19 +22,15 @@ namespace Anathema.GUI.Tools.Projects.TypeEditors
         public override Object EditValue(ITypeDescriptorContext Context, System.IServiceProvider Provider, Object Value)
         {
             IWindowsFormsEditorService Service = Provider.GetService(typeof(IWindowsFormsEditorService)) as IWindowsFormsEditorService;
-            IEnumerable<Int32> Array = Value as IEnumerable<Int32>;
+            List<Int32> Array = Value as List<Int32>;
 
             if (Service == null)
                 return Value;
 
-            using (GUIArrayEditor Form = new GUIArrayEditor())
+            using (GUIArrayEditor Form = new GUIArrayEditor(Array))
             {
-                Form.Value = Array;
-
                 if (Service.ShowDialog(Form) == DialogResult.OK)
-                {
-                    Array = Form.Value;
-                }
+                    return Form.Offsets;
             }
 
             return Value;
