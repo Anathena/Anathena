@@ -1,10 +1,12 @@
-﻿using Anathema.Source.Engine;
+﻿using Anathema.GUI.Tools.Projects.TypeEditors;
+using Anathema.Source.Engine;
 using Anathema.Source.Project.ProjectItems.TypeConverters;
 using Anathema.Source.Utils.Extensions;
 using Anathema.Source.Utils.Validation;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Drawing.Design;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.Serialization;
@@ -25,6 +27,7 @@ namespace Anathema.Source.Project.ProjectItems
 
         private ResolveTypeEnum _ResolveType;
         [DataMember()]
+        [RefreshProperties(RefreshProperties.All)]
         [Category("Properties"), DisplayName("Resolve Type"), Description("Method to use for resolving the address base. If there is an identifier to resolve, the address is treated as an offset.")]
         public ResolveTypeEnum ResolveType
         {
@@ -34,7 +37,8 @@ namespace Anathema.Source.Project.ProjectItems
 
         private String _BaseIdentifier;
         [DataMember()]
-        [Category("Properties"), DisplayName("Resolve Identifier"), Description("Text identifier to use when resolving the base address, such as a module or .NET Object name")]
+        [RefreshProperties(RefreshProperties.All)]
+        [Category("Properties"), DisplayName("Resolve Id"), Description("Text identifier to use when resolving the base address, such as a module or .NET Object name")]
         public String BaseIdentifier
         {
             get { return _BaseIdentifier; }
@@ -44,15 +48,19 @@ namespace Anathema.Source.Project.ProjectItems
         private IntPtr _BaseAddress;
         [DataMember()]
         [TypeConverter(typeof(IntPtrConverter))]
-        [Category("Properties"), DisplayName("Address"), Description("Base address")]
+        [RefreshProperties(RefreshProperties.All)]
+        [Category("Properties"), DisplayName("Address Base"), Description("Base address")]
         public IntPtr BaseOffset
         {
             get { return _BaseAddress; }
-            set { _BaseAddress = value; }
+            set { EffectiveAddress = value; _BaseAddress = value; }
         }
 
         private IEnumerable<Int32> _Offsets;
         [DataMember()]
+        [RefreshProperties(RefreshProperties.All)]
+        [TypeConverter(typeof(ExpandableObjectConverter))]
+        [Editor(typeof(ArrayEditor), typeof(UITypeEditor))]
         [Category("Properties"), DisplayName("Address Offsets"), Description("Address offsets")]
         public IEnumerable<Int32> Offsets
         {
@@ -63,6 +71,7 @@ namespace Anathema.Source.Project.ProjectItems
         [DataMember()]
         [Browsable(false)]
         private String TypeName;
+        [RefreshProperties(RefreshProperties.All)]
         [Category("Properties"), DisplayName("Value Type"), Description("Data type of the address")]
         public Type ElementType
         {
@@ -85,6 +94,7 @@ namespace Anathema.Source.Project.ProjectItems
 
         private Boolean _IsValueHex;
         [DataMember()]
+        [RefreshProperties(RefreshProperties.All)]
         [Category("Properties"), DisplayName("Value as Hex"), Description("Whether or not to display value as hexedecimal")]
         public Boolean IsValueHex
         {
@@ -93,7 +103,9 @@ namespace Anathema.Source.Project.ProjectItems
         }
 
         private IntPtr _EffectiveAddress;
-        [Browsable(false)]
+        [ReadOnly(true)]
+        [TypeConverter(typeof(IntPtrConverter))]
+        [Category("Properties"), DisplayName("Address"), Description("Effective address")]
         public IntPtr EffectiveAddress
         {
             get { return _EffectiveAddress; }

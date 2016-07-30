@@ -198,6 +198,13 @@
     <Compile Include="GUI\Tools\DotNetExplorer\GUIDotNetExplorer.Designer.cs">
       <DependentUpon>GUIDotNetExplorer.cs</DependentUpon>
     </Compile>
+    <Compile Include="GUI\Tools\Projects\TypeEditors\ArrayEditor.cs" />
+    <Compile Include="GUI\Tools\Projects\TypeEditors\GUIArrayEditor.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI\Tools\Projects\TypeEditors\GUIArrayEditor.Designer.cs">
+      <DependentUpon>GUIArrayEditor.cs</DependentUpon>
+    </Compile>
     <Compile Include="GUI\Tools\PropertyViewer\GUIPropertyViewer.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -818,6 +825,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\Tools\DotNetExplorer\GUIDotNetExplorer.resx">
       <DependentUpon>GUIDotNetExplorer.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\Tools\Projects\TypeEditors\GUIArrayEditor.resx">
+      <DependentUpon>GUIArrayEditor.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\Tools\PropertyViewer\GUIPropertyViewer.resx">
       <DependentUpon>GUIPropertyViewer.cs</DependentUpon>
