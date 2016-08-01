@@ -5,16 +5,14 @@ using System.Reflection;
 
 namespace Anathema.Source.Utils.Setting
 {
-    [Obfuscation(ApplyToMembers = true)]
-    [Obfuscation(Exclude = true)]
+    [Obfuscation(ApplyToMembers = true, Exclude = true)]
     interface ISettingsView : IView
     {
         // Methods invoked by the presenter (upstream)
 
     }
 
-    [Obfuscation(ApplyToMembers = true)]
-    [Obfuscation(Exclude = true)]
+    [Obfuscation(ApplyToMembers = true, Exclude = true)]
     interface ISettingsModel : IModel
     {
         // Events triggered by the model (upstream)
@@ -50,8 +48,7 @@ namespace Anathema.Source.Utils.Setting
         Int32 GetInputCorrelatorTimeOutInterval();
     }
 
-    [Obfuscation(ApplyToMembers = true)]
-    [Obfuscation(Exclude = true)]
+    [Obfuscation(ApplyToMembers = true, Exclude = true)]
     class SettingsPresenter : Presenter<ISettingsView, ISettingsModel>
     {
         private new ISettingsView View { get; set; }

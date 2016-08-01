@@ -3,13 +3,12 @@ using System.Linq;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 
-namespace Anathema.Source.Utils.Snapshots
+namespace Anathema.Source.Snapshots
 {
     /// <summary>
     /// Class used by SnapshotRegion as a wrapper for indexing into the raw collection of data
     /// </summary>
-    [Obfuscation(ApplyToMembers = true)]
-    [Obfuscation(Exclude = true)]
+    [Obfuscation(ApplyToMembers = true, Exclude = true)]
     public abstract class SnapshotElement
     {
         // Variables required for committing changes back to the region from which this element comes

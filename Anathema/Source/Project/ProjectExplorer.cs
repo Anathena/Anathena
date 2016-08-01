@@ -16,8 +16,7 @@ namespace Anathema.Source.Project
     /// <summary>
     /// Handles the displaying of results
     /// </summary>
-    [Obfuscation(ApplyToMembers = true)]
-    [Obfuscation(Exclude = true)]
+    [Obfuscation(ApplyToMembers = true, Exclude = true)]
     class ProjectExplorer : IProjectExplorerModel, IProcessObserver
     {
         // Singleton instance of Project Explorer

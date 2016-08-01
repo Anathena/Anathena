@@ -2,8 +2,8 @@
 using Anathema.Source.Engine.Processes;
 using Anathema.Source.Project;
 using Anathema.Source.Project.ProjectItems;
+using Anathema.Source.Snapshots;
 using Anathema.Source.Utils;
-using Anathema.Source.Utils.Snapshots;
 using System;
 using System.Collections.Concurrent;
 using System.Threading;

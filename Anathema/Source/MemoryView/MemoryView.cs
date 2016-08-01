@@ -7,7 +7,7 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Anathema.Source.Utils.MemoryView
+namespace Anathema.Source.MemoryView
 {
     /// <summary>
     /// Handles the displaying of results

@@ -1,5 +1,6 @@
 ﻿using Anathema.Source.Engine;
 using Anathema.Source.Engine.Processes;
+using Anathema.Source.Utils;
 using Anathema.Source.Utils.Extensions;
 using System;
 using System.Collections;
@@ -8,7 +9,7 @@ using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 
-namespace Anathema.Source.Utils.Snapshots
+namespace Anathema.Source.Snapshots
 {
     /// <summary>
     /// Defines data contained in a single snapshot

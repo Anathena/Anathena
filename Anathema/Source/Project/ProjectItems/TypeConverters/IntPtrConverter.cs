@@ -11,7 +11,7 @@ namespace Anathema.Source.Project.ProjectItems.TypeConverters
         public override Object ConvertTo(ITypeDescriptorContext Context, CultureInfo Culture, Object Value, Type DestinationType)
         {
             if (CheckSyntax.CanParseValue(typeof(UInt64), Value.ToString()))
-                return Conversions.ToAddress(Conversions.ParseValue(typeof(UInt64), Value.ToString()));
+                return Conversions.ToAddress(Conversions.ParseDecStringAsValue(typeof(UInt64), Value.ToString()));
 
             return base.ConvertTo(Context, Culture, Value, DestinationType);
         }

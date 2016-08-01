@@ -1,11 +1,11 @@
 ﻿using Anathema.Source.Engine;
-using Anathema.Source.Engine.DotNetObjectCollector;
+using Anathema.Source.Engine.AddressResolver;
+using Anathema.Source.Engine.AddressResolver.DotNet;
 using Anathema.Source.Engine.Processes;
 using Anathema.Source.Prefilter;
 using Anathema.Source.Project;
+using Anathema.Source.Snapshots;
 using Anathema.Source.Utils;
-using Anathema.Source.Utils.AddressResolver;
-using Anathema.Source.Utils.Snapshots;
 using System;
 using System.Threading;
 

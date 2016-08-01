@@ -97,7 +97,7 @@ namespace Anathema.Source.Scanners.ScanConstraints
                 case ConstraintsEnum.IncreasedByX:
                 case ConstraintsEnum.DecreasedByX:
                     if (CheckSyntax.CanParseValue(Model.GetElementType(), ValueString))
-                        Value = Conversions.ParseValue(Model.GetElementType(), ValueString);
+                        Value = Conversions.ParseDecStringAsValue(Model.GetElementType(), ValueString);
                     else
                         return;
                     break;
@@ -130,7 +130,7 @@ namespace Anathema.Source.Scanners.ScanConstraints
                 case ConstraintsEnum.IncreasedByX:
                 case ConstraintsEnum.DecreasedByX:
                     if (CheckSyntax.CanParseValue(Model.GetElementType(), ValueString))
-                        Value = Conversions.ParseValue(Model.GetElementType(), ValueString);
+                        Value = Conversions.ParseDecStringAsValue(Model.GetElementType(), ValueString);
                     else
                         return false;
                     break;

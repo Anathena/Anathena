@@ -1,6 +1,6 @@
 ﻿using Anathema.Source.Scanners.ScanConstraints;
-using Anathema.Source.Utils.Setting;
-using Anathema.Source.Utils.Snapshots;
+using Anathema.Source.Snapshots;
+using Anathema.Source.UserSettings;
 using System;
 using System.Collections.Generic;
 using System.Linq;

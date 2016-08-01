@@ -37,7 +37,7 @@ namespace Anathema.GUI.Tools.Projects.TypeEditors
         {
             if (CheckSyntax.CanParseAddress(OffsetHexDecTextBox.GetValueAsHexidecimal()))
             {
-                Offsets.Add(Conversions.ParseValue(typeof(Int32), OffsetHexDecTextBox.GetValueAsDecimal()));
+                Offsets.Add(Conversions.ParseDecStringAsValue(typeof(Int32), OffsetHexDecTextBox.GetValueAsDecimal()));
                 OffsetHexDecTextBox.Text = String.Empty;
             }
 

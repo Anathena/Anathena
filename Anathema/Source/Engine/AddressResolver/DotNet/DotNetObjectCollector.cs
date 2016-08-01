@@ -7,7 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 
-namespace Anathema.Source.Engine.DotNetObjectCollector
+namespace Anathema.Source.Engine.AddressResolver.DotNet
 {
     /// <summary>
     /// Class to walk through the managed heap of a .NET process, allowing for the easy retrieval

@@ -1,13 +1,14 @@
 ﻿using Anathema.Source.Engine.OperatingSystems;
+using Anathema.Source.UserSettings;
+using Anathema.Source.Utils;
 using Anathema.Source.Utils.Caches;
 using Anathema.Source.Utils.Extensions;
 using Anathema.Source.Utils.MVP;
-using Anathema.Source.Utils.Setting;
 using Be.Windows.Forms;
 using System;
 using System.Collections.Generic;
 
-namespace Anathema.Source.Utils.MemoryView
+namespace Anathema.Source.MemoryView
 {
     delegate void MemoryViewEventHandler(Object Sender, MemoryViewEventArgs Args);
     class MemoryViewEventArgs : EventArgs

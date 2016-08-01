@@ -15,7 +15,7 @@ namespace Anathema.Source.Project.ProjectItems.TypeConverters
             if (Value != null && Value.GetType().GetInterfaces().Contains(typeof(IEnumerable)))
             {
                 IEnumerable<Object> TrueValue = (Value as IEnumerable).Cast<Object>();
-                return String.Join(", ", TrueValue.Select(X => Conversions.ParseDecAsHex(typeof(UInt64), X.ToString())));
+                return String.Join(", ", TrueValue.Select(X => Conversions.ParseDecStringAsHexString(typeof(UInt64), X.ToString())));
             }
 
             return base.ConvertTo(Context, Culture, Value, DestinationType);

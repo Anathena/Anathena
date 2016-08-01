@@ -1,8 +1,8 @@
 ﻿using Anathema.Source.Controller;
 using Anathema.Source.Engine.InputCapture.MouseKeyHook;
+using Anathema.Source.Snapshots;
+using Anathema.Source.UserSettings;
 using Anathema.Source.Utils;
-using Anathema.Source.Utils.Setting;
-using Anathema.Source.Utils.Snapshots;
 using System;
 using System.Collections.Generic;
 using System.Linq;

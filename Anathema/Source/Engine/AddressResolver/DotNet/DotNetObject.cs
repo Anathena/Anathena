@@ -4,7 +4,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 
-namespace Anathema.Source.Engine.DotNetObjectCollector
+namespace Anathema.Source.Engine.AddressResolver.DotNet
 {
     public class DotNetObject : IEnumerable, IComparable<DotNetObject>
     {

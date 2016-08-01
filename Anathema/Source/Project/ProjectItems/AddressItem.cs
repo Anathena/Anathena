@@ -13,8 +13,7 @@ using System.Runtime.Serialization;
 
 namespace Anathema.Source.Project.ProjectItems
 {
-    [Obfuscation(ApplyToMembers = true)]
-    [Obfuscation(Exclude = true)]
+    [Obfuscation(ApplyToMembers = true, Exclude = true)]
     [DataContract()]
     public class AddressItem : ProjectItem
     {
@@ -128,9 +127,9 @@ namespace Anathema.Source.Project.ProjectItems
             this._IsValueHex = IsValueHex;
 
             if (!_IsValueHex && CheckSyntax.CanParseValue(ElementType, Value))
-                this._Value = Conversions.ParseValue(ElementType, Value);
+                this._Value = Conversions.ParseDecStringAsValue(ElementType, Value);
             else if (_IsValueHex && CheckSyntax.CanParseHex(ElementType, Value))
-                this._Value = Conversions.ParseHexAsDec(ElementType, Value);
+                this._Value = Conversions.ParseHexStringAsDecString(ElementType, Value);
         }
 
         private void WriteValue(dynamic NewValue)

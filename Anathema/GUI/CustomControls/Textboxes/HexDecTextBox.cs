@@ -75,7 +75,7 @@ namespace Anathema.GUI
                 return null;
 
             if (IsHex)
-                return Conversions.ParseValueAsDec(ElementType, Conversions.ParseHexAsDec(ElementType, this.Text));
+                return Conversions.ParseValueAsDec(ElementType, Conversions.ParseHexStringAsDecString(ElementType, this.Text));
             else
                 return Conversions.ParseValueAsDec(ElementType, this.Text);
         }
@@ -86,9 +86,9 @@ namespace Anathema.GUI
                 return null;
 
             if (IsHex)
-                return Conversions.ParseDecAsHex(ElementType, Conversions.ParseHexAsDec(ElementType, this.Text));
+                return Conversions.ParseDecStringAsHexString(ElementType, Conversions.ParseHexStringAsDecString(ElementType, this.Text));
             else
-                return Conversions.ParseDecAsHex(ElementType, Conversions.ParseValueAsDec(ElementType, this.Text));
+                return Conversions.ParseDecStringAsHexString(ElementType, Conversions.ParseValueAsDec(ElementType, this.Text));
         }
 
         public String GetRawValue()
@@ -108,7 +108,7 @@ namespace Anathema.GUI
                 return;
 
             if (IsHex)
-                this.Text = Conversions.ParseDecAsHex(ElementType, ValueString);
+                this.Text = Conversions.ParseDecStringAsHexString(ElementType, ValueString);
             else
                 this.Text = Conversions.ParseValueAsDec(ElementType, ValueString);
         }
@@ -136,7 +136,7 @@ namespace Anathema.GUI
         private void ConvertToHexMenuItem_Click(Object Sender, EventArgs E)
         {
             if (CheckSyntax.CanParseValue(ElementType, this.Text))
-                this.Text = Conversions.ParseDecAsHex(ElementType, this.Text);
+                this.Text = Conversions.ParseDecStringAsHexString(ElementType, this.Text);
 
             this.IsHex = true;
         }
@@ -144,7 +144,7 @@ namespace Anathema.GUI
         private void ConvertToDecMenuItem_Click(Object Sender, EventArgs E)
         {
             if (CheckSyntax.CanParseHex(ElementType, this.Text))
-                this.Text = Conversions.ParseHexAsDec(ElementType, this.Text);
+                this.Text = Conversions.ParseHexStringAsDecString(ElementType, this.Text);
 
             this.IsHex = false;
         }

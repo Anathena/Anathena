@@ -5,8 +5,7 @@ using System.Runtime.Serialization;
 
 namespace Anathema.Source.LuaEngine
 {
-    [Obfuscation(ApplyToMembers = true)]
-    [Obfuscation(Exclude = true)]
+    [Obfuscation(ApplyToMembers = true, Exclude = true)]
     [DataContract()]
     public class LuaScript
     {

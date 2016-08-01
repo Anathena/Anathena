@@ -3,14 +3,15 @@ using Anathema.Source.Engine.OperatingSystems;
 using Anathema.Source.Engine.Processes;
 using Anathema.Source.Prefilter;
 using Anathema.Source.Scanners.ValueCollector;
+using Anathema.Source.UserSettings;
+using Anathema.Source.Utils;
 using Anathema.Source.Utils.Extensions;
-using Anathema.Source.Utils.Setting;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 
-namespace Anathema.Source.Utils.Snapshots
+namespace Anathema.Source.Snapshots
 {
     class SnapshotManager : ISnapshotManagerModel
     {

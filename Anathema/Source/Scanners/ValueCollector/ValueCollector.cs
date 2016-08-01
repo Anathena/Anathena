@@ -1,5 +1,5 @@
-﻿using Anathema.Source.Utils.Setting;
-using Anathema.Source.Utils.Snapshots;
+﻿using Anathema.Source.Snapshots;
+using Anathema.Source.UserSettings;
 using System;
 
 namespace Anathema.Source.Scanners.ValueCollector
@@ -8,10 +8,7 @@ namespace Anathema.Source.Scanners.ValueCollector
     {
         private Snapshot<Null> Snapshot;
 
-        public ValueCollector()
-        {
-
-        }
+        public ValueCollector() { }
 
         public override void Begin()
         {

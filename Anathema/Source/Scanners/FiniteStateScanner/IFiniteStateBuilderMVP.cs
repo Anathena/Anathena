@@ -110,7 +110,7 @@ namespace Anathema.Source.Scanners.FiniteStateScanner
         {
             if (CheckSyntax.CanParseValue(Model.GetElementType(), ValueText))
             {
-                Model.SetCurrentValue(Conversions.ParseValue(Model.GetElementType(), ValueText));
+                Model.SetCurrentValue(Conversions.ParseDecStringAsValue(Model.GetElementType(), ValueText));
                 return true;
             }
             return false;

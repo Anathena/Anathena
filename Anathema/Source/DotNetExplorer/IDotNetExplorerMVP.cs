@@ -1,10 +1,10 @@
-﻿using Anathema.Source.Engine.DotNetObjectCollector;
+﻿using Anathema.Source.Engine.AddressResolver.DotNet;
 using Anathema.Source.Engine.Processes;
 using Anathema.Source.Utils.MVP;
 using System;
 using System.Collections.Generic;
 
-namespace Anathema.Source.Utils.DotNetExplorer
+namespace Anathema.Source.DotNetExplorer
 {
     delegate void DotNetExplorerEventHandler(Object Sender, DotNetExplorerEventArgs Args);
     class DotNetExplorerEventArgs : EventArgs

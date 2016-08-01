@@ -1,4 +1,4 @@
-﻿using Anathema.Source.Utils.Snapshots;
+﻿using Anathema.Source.Snapshots;
 
 namespace Anathema.Source.Prefilter
 {

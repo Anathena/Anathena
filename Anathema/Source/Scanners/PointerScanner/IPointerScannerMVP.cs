@@ -150,7 +150,7 @@ namespace Anathema.Source.Scanners.PointerScanner
             if (!CheckSyntax.CanParseValue(typeof(Int32), MaxPointerLevel))
                 return;
 
-            Model.SetMaxPointerLevel(Conversions.ParseValue(typeof(Int32), MaxPointerLevel));
+            Model.SetMaxPointerLevel(Conversions.ParseDecStringAsValue(typeof(Int32), MaxPointerLevel));
         }
 
         public void SetMaxPointerOffset(String MaxPointerOffset)
@@ -158,7 +158,7 @@ namespace Anathema.Source.Scanners.PointerScanner
             if (!CheckSyntax.CanParseValue(typeof(Int32), MaxPointerOffset))
                 return;
 
-            Model.SetMaxPointerOffset(Conversions.ParseValue(typeof(Int32), MaxPointerOffset));
+            Model.SetMaxPointerOffset(Conversions.ParseDecStringAsValue(typeof(Int32), MaxPointerOffset));
             return;
         }
 

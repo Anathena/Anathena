@@ -1,12 +1,12 @@
 ﻿using Anathema.Source.Engine;
-using Anathema.Source.Engine.DotNetObjectCollector;
+using Anathema.Source.Engine.AddressResolver.DotNet;
 using Anathema.Source.Engine.Processes;
 using Anathema.Source.Project;
 using Anathema.Source.Project.ProjectItems;
 using System;
 using System.Collections.Generic;
 
-namespace Anathema.Source.Utils.DotNetExplorer
+namespace Anathema.Source.DotNetExplorer
 {
     /// <summary>
     /// Handles the displaying of results

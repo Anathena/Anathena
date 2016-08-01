@@ -5,8 +5,7 @@ using System.Threading;
 
 namespace Anathema.Source.Utils.Setting
 {
-    [Obfuscation(ApplyToMembers = true)]
-    [Obfuscation(Exclude = true)]
+    [Obfuscation(ApplyToMembers = true, Exclude = true)]
     class Settings : ISettingsModel
     {
         // Singleton instance of Settings

@@ -1,5 +1,5 @@
 ﻿using Anathema.Source.Engine.OperatingSystems;
-using Anathema.Source.Utils.Setting;
+using Anathema.Source.UserSettings;
 using Anathema.Source.Utils.Validation;
 using System;
 using System.Windows.Forms;
@@ -111,15 +111,15 @@ namespace Anathema
             SettingsPresenter.UpdateExcludedProtectionSettings(ExcludedWriteCheckBox.Checked, ExcludedExecuteCheckBox.Checked, ExcludedCopyOnWriteCheckBox.Checked);
 
             if (AlignmentTextBox.IsValid())
-                SettingsPresenter.UpdateAlignmentSettings(Conversions.ParseValue(typeof(Int32), AlignmentTextBox.GetValueAsDecimal()));
+                SettingsPresenter.UpdateAlignmentSettings(Conversions.ParseDecStringAsValue(typeof(Int32), AlignmentTextBox.GetValueAsDecimal()));
 
             SettingsPresenter.SetScanUserMode(ScanUserModeRadioButton.Checked);
 
             if (StartAddressTextBox.IsValid())
-                SettingsPresenter.UpdateStartAddress(Conversions.ParseValue(typeof(UInt64), StartAddressTextBox.GetValueAsDecimal()));
+                SettingsPresenter.UpdateStartAddress(Conversions.ParseDecStringAsValue(typeof(UInt64), StartAddressTextBox.GetValueAsDecimal()));
 
             if (EndAddressTextBox.IsValid())
-                SettingsPresenter.UpdateEndAddress(Conversions.ParseValue(typeof(UInt64), EndAddressTextBox.GetValueAsDecimal()));
+                SettingsPresenter.UpdateEndAddress(Conversions.ParseDecStringAsValue(typeof(UInt64), EndAddressTextBox.GetValueAsDecimal()));
         }
 
         #region Events

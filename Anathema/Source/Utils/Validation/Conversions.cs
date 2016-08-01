@@ -8,15 +8,15 @@ namespace Anathema.Source.Utils.Validation
     /// <summary>
     /// Converts a value from one format to another format. No validation checking is done, see CheckSyntax class for this
     /// </summary>
+    [Obfuscation(ApplyToMembers = true, Exclude = true)]
     class Conversions
     {
         public static Type StringToPrimitiveType(String Value)
         {
-            return PrimitiveTypes.GetScannablePrimitiveTypes().Where(X => X.Name == Value).First();
+            return PrimitiveTypes.GetPrimitiveTypes().Where(X => X.Name == Value).First();
         }
 
-        [Obfuscation(Exclude = true)]
-        public static dynamic ParseValue(Type ValueType, String Value)
+        public static dynamic ParseDecStringAsValue(Type ValueType, String Value)
         {
             switch (Type.GetTypeCode(ValueType))
             {
@@ -34,19 +34,24 @@ namespace Anathema.Source.Utils.Validation
             }
         }
 
-        public static String ParseValueAsDec(Type ValueType, String Value)
+        public static dynamic ParseHexStringAsValue(Type ValueType, String Value)
         {
-            return ParseValue(ValueType, Value).ToString();
+            return ParseDecStringAsValue(ValueType, ParseHexStringAsDecString(ValueType, Value));
         }
 
-        public static String ParseValueAsHex(Type ValueType, String Value)
+        public static String ParseValueAsDec(Type ValueType, dynamic Value)
         {
-            return ParseValue(ValueType, Value).ToString("X");
+            return ParseDecStringAsValue(ValueType, Value?.ToString()).ToString();
         }
 
-        public static String ParseDecAsHex(Type ValueType, String Value)
+        public static String ParseValueAsHex(Type ValueType, dynamic Value)
         {
-            dynamic RealValue = ParseValue(ValueType, Value);
+            return ParseDecStringAsValue(ValueType, Value?.ToString()).ToString("X");
+        }
+
+        public static String ParseDecStringAsHexString(Type ValueType, String Value)
+        {
+            dynamic RealValue = ParseDecStringAsValue(ValueType, Value);
 
             switch (Type.GetTypeCode(ValueType))
             {
@@ -64,7 +69,7 @@ namespace Anathema.Source.Utils.Validation
             }
         }
 
-        public static String ParseHexAsDec(Type ValueType, String Value)
+        public static String ParseHexStringAsDecString(Type ValueType, String Value)
         {
             UInt64 RealValue = AddressToValue(Value);
 
@@ -98,13 +103,12 @@ namespace Anathema.Source.Utils.Validation
             else if (CheckSyntax.IsInt32(ValueString))
                 return String.Format("{0:X8}", unchecked((UInt32)(Convert.ToInt32(Value))));
             else
-                return "!!";
+                return String.Empty;
         }
 
         public static String ToAddress(Int64 Value)
         {
-            return ToAddress(unchecked(
-                Value));
+            return ToAddress(unchecked(Value));
         }
 
         public static String ToAddress(UInt64 Value)
@@ -120,7 +124,7 @@ namespace Anathema.Source.Utils.Validation
             else if (CheckSyntax.IsInt64(ValueString))
                 return String.Format("{0:X16}", unchecked((UInt64)(Convert.ToInt64(Value))));
             else
-                return "!!";
+                return String.Empty;
         }
 
         public static String ToAddress(IntPtr Value)
@@ -146,7 +150,8 @@ namespace Anathema.Source.Utils.Validation
 
         public static String BytesToMetric<T>(T ByteCount)
         {
-            string[] Suffix = { "B", "KB", "MB", "GB", "TB", "PB", "EB" }; // Longs run out around EB
+            // Note: UInt64s run out around EB
+            String[] Suffix = { "B", "KB", "MB", "GB", "TB", "PB", "EB" };
 
             UInt64 RealByteCount = (UInt64)Convert.ChangeType(ByteCount, typeof(UInt64));
 

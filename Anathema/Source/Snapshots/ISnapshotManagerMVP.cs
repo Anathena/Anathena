@@ -2,7 +2,7 @@
 using Anathema.Source.Utils.MVP;
 using System;
 
-namespace Anathema.Source.Utils.Snapshots
+namespace Anathema.Source.Snapshots
 {
     delegate void SnapshotManagerEventHandler(Object Sender, SnapshotManagerEventArgs Args);
     class SnapshotManagerEventArgs : EventArgs

@@ -1,6 +1,6 @@
 ﻿using Anathema.Source.Results.ScanResults;
+using Anathema.Source.Snapshots;
 using Anathema.Source.Utils;
-using Anathema.Source.Utils.Snapshots;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;

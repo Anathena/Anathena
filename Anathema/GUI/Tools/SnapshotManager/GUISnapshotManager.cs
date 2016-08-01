@@ -1,7 +1,7 @@
-﻿using Anathema.Source.Utils;
+﻿using Anathema.Source.Snapshots;
+using Anathema.Source.Utils;
 using Anathema.Source.Utils.Caches;
 using Anathema.Source.Utils.MVP;
-using Anathema.Source.Utils.Snapshots;
 using Anathema.Source.Utils.Validation;
 using System;
 using System.Drawing;

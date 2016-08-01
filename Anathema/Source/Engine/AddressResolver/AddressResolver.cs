@@ -1,7 +1,7 @@
-﻿using Anathema.Source.Engine;
-using Anathema.Source.Engine.DotNetObjectCollector;
+﻿using Anathema.Source.Engine.AddressResolver.DotNet;
 using Anathema.Source.Engine.OperatingSystems;
 using Anathema.Source.Engine.Processes;
+using Anathema.Source.Utils;
 using Anathema.Source.Utils.Extensions;
 using Anathema.Source.Utils.Validation;
 using System;
@@ -10,7 +10,7 @@ using System.Globalization;
 using System.Linq;
 using System.Threading;
 
-namespace Anathema.Source.Utils.AddressResolver
+namespace Anathema.Source.Engine.AddressResolver
 {
     class AddressResolver : RepeatedTask, IProcessObserver
     {

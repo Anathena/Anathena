@@ -1,6 +1,6 @@
-﻿using Anathema.Source.Utils;
+﻿using Anathema.Source.UserSettings;
+using Anathema.Source.Utils;
 using Anathema.Source.Utils.MVP;
-using Anathema.Source.Utils.Setting;
 using System;
 
 namespace Anathema.Source.Scanners
