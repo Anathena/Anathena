@@ -1,4 +1,5 @@
 ﻿using Anathema.Source.Engine;
+using Anathema.Source.Engine.Processes;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -15,7 +16,7 @@ namespace Anathema.Source.Project.ProjectItems
     [KnownType(typeof(ScriptItem))]
     [KnownType(typeof(AddressItem))]
     [DataContract()]
-    public abstract class ProjectItem
+    public abstract class ProjectItem : IProcessObserver
     {
         private ProjectItem _Parent;
         [Browsable(false)]
@@ -57,6 +58,9 @@ namespace Anathema.Source.Project.ProjectItems
         [Browsable(false)]
         protected Boolean Activated { get; set; }
 
+        [Browsable(false)]
+        protected EngineCore EngineCore;
+
         public ProjectItem() : this(String.Empty) { }
         public ProjectItem(String Description)
         {
@@ -66,6 +70,24 @@ namespace Anathema.Source.Project.ProjectItems
             this._Children = new List<ProjectItem>();
             this._TextColorARGB = unchecked((UInt32)SystemColors.ControlText.ToArgb());
             this.Activated = false;
+
+            InitializeProcessObserver();
+        }
+
+        [OnDeserialized]
+        public void OnDeserialized(StreamingContext c)
+        {
+            InitializeProcessObserver();
+        }
+
+        public void InitializeProcessObserver()
+        {
+            ProcessSelector.GetInstance().Subscribe(this);
+        }
+
+        public void UpdateEngineCore(EngineCore EngineCore)
+        {
+            this.EngineCore = EngineCore;
         }
 
         public virtual void SetActivationState(Boolean Activated)
@@ -149,7 +171,7 @@ namespace Anathema.Source.Project.ProjectItems
             ProjectExplorer.GetInstance().RefreshProjectStructure();
         }
 
-        public abstract void Update(EngineCore EngineCore);
+        public abstract void Update();
 
     } // End class
 

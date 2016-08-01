@@ -50,7 +50,6 @@ namespace Anathema.Source.Project
         public abstract void ActivateProjectItems(IEnumerable<ProjectItem> ProjectItem, Boolean ActivationState);
         public abstract void SetUpdateSet(IEnumerable<ProjectItem> UpdateSet);
 
-        public abstract void ReorderItem(Int32 SourceIndex, Int32 DestinationIndex);
         public abstract void UpdateSelectedIndicies(IEnumerable<Int32> Indicies);
     }
 
@@ -105,11 +104,6 @@ namespace Anathema.Source.Project
         public void ActivateProjectItems(IEnumerable<ProjectItem> ProjectItems, Boolean ActivationState)
         {
             Model.ActivateProjectItems(ProjectItems, ActivationState);
-        }
-
-        public void ReorderItemDEPRECATING(Int32 SourceIndex, Int32 DestinationIndex)
-        {
-            Model.ReorderItem(SourceIndex, DestinationIndex);
         }
 
         #endregion

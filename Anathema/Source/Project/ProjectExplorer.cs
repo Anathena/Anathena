@@ -130,30 +130,6 @@ namespace Anathema.Source.Project
             ProjectExplorer.GetInstance().ProjectChanged();
         }
 
-        public override void ReorderItem(Int32 SourceIndex, Int32 DestinationIndex)
-        {
-            /*
-            // Bounds checking
-            if (SourceIndex < 0 || SourceIndex > ProjectItems.Count)
-                return;
-
-            // If an item is being removed before the destination, the destination must be shifted
-            if (DestinationIndex > SourceIndex)
-                DestinationIndex--;
-
-            // Bounds checking
-            if (DestinationIndex < 0 || DestinationIndex > ProjectItems.Count)
-                return;
-
-            ProjectItem Item = ProjectItems[SourceIndex];
-            ProjectItems.RemoveAt(SourceIndex);
-            ProjectItems.Insert(DestinationIndex, Item);
-            UpdateItemCount();
-
-            TableManager.GetInstance().TableChanged();
-            */
-        }
-
         public void RefreshProjectStructure()
         {
             ProjectRoot.BuildParents();
@@ -198,7 +174,7 @@ namespace Anathema.Source.Project
                 return;
 
             foreach (ProjectItem ProjectItem in UpdateSet)
-                ProjectItem.Update(EngineCore);
+                ProjectItem.Update();
         }
 
         protected override void End() { }

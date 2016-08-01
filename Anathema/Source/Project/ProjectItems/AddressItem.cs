@@ -18,6 +18,7 @@ namespace Anathema.Source.Project.ProjectItems
     [DataContract()]
     public class AddressItem : ProjectItem
     {
+        // TODO: Move to engine once resolvers are moved there
         public enum ResolveTypeEnum
         {
             Module,
@@ -59,7 +60,7 @@ namespace Anathema.Source.Project.ProjectItems
         private IEnumerable<Int32> _Offsets;
         [DataMember()]
         [RefreshProperties(RefreshProperties.All)]
-        [TypeConverter(typeof(ExpandableObjectConverter))]
+        [TypeConverter(typeof(HexArrayConverter))]
         [Editor(typeof(ArrayEditor), typeof(UITypeEditor))]
         [Category("Properties"), DisplayName("Address Offsets"), Description("Address offsets")]
         public IEnumerable<Int32> Offsets
@@ -72,6 +73,7 @@ namespace Anathema.Source.Project.ProjectItems
         [Browsable(false)]
         private String TypeName;
         [RefreshProperties(RefreshProperties.All)]
+        [TypeConverter(typeof(ValueTypeConverter))]
         [Category("Properties"), DisplayName("Value Type"), Description("Data type of the address")]
         public Type ElementType
         {
@@ -85,11 +87,12 @@ namespace Anathema.Source.Project.ProjectItems
         }
 
         private dynamic _Value;
+        [TypeConverter(typeof(DynamicConverter))]
         [Category("Properties"), DisplayName("Value"), Description("Value at the address")]
         public dynamic Value
         {
             get { return _Value; }
-            set { if (!Activated) { _Value = value; } }
+            set { _Value = value; WriteValue(value); }
         }
 
         private Boolean _IsValueHex;
@@ -129,7 +132,7 @@ namespace Anathema.Source.Project.ProjectItems
                 this._Value = Conversions.ParseHexAsDec(ElementType, Value);
         }
 
-        public String GetValueString()
+        public String GetValueStringUNUSED()
         {
             if (Value == null)
                 return "-";
@@ -140,34 +143,29 @@ namespace Anathema.Source.Project.ProjectItems
             return Value.ToString();
         }
 
-        public void ForceUpdateValue(dynamic Value)
+        private void WriteValue(dynamic NewValue)
         {
-            if (Value == null)
+            if (EngineCore == null || NewValue == null)
                 return;
 
-            this._Value = Value;
+            EngineCore.Memory.Write(ElementType, EffectiveAddress, NewValue);
         }
 
-        public override void Update(EngineCore EngineCore)
+        public override void Update()
         {
             Boolean ReadSuccess;
-
-            ResolveAddress(EngineCore);
 
             if (EngineCore == null)
                 return;
 
+            ResolveAddress();
+
+            // Freeze current value if this entry is activated
             if (GetActivationState())
-            {
-                // Freeze current value if this entry is activated
-                if (Value != null)
-                    EngineCore.Memory.Write(ElementType, EffectiveAddress, Value);
-            }
+                WriteValue(Value);
+            // Otherwise we read as normal
             else
-            {
-                // Otherwise we read as normal
-                Value = EngineCore.Memory.Read(ElementType, EffectiveAddress, out ReadSuccess);
-            }
+                _Value = EngineCore.Memory.Read(ElementType, EffectiveAddress, out ReadSuccess);
         }
 
         public String GetAddressString()
@@ -178,7 +176,7 @@ namespace Anathema.Source.Project.ProjectItems
             return Conversions.ToAddress(EffectiveAddress);
         }
 
-        public void ResolveAddress(EngineCore EngineCore)
+        public void ResolveAddress()
         {
             IntPtr Pointer = BaseOffset;
             Boolean SuccessReading = true;

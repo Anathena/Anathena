@@ -1,5 +1,4 @@
-﻿using Anathema.Source.Engine;
-using Anathema.Source.LuaEngine;
+﻿using Anathema.Source.LuaEngine;
 using System;
 using System.ComponentModel;
 using System.Reflection;
@@ -53,7 +52,7 @@ namespace Anathema.Source.Project.ProjectItems
             base.SetActivationState(Activated);
         }
 
-        public override void Update(EngineCore EngineCore) { }
+        public override void Update() { }
 
     } // End class
 
