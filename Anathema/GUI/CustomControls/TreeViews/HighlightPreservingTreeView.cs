@@ -2,7 +2,7 @@
 using System.Drawing;
 using System.Windows.Forms;
 
-namespace Anathema.GUI
+namespace Anathema.GUI.CustomControls.TreeViews
 {
     public partial class HighlightPreservingTreeView : TreeView
     {

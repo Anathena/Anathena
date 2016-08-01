@@ -4,7 +4,7 @@ using System.Drawing;
 using System.Reflection;
 using System.Windows.Forms;
 
-namespace Anathema.GUI
+namespace Anathema.GUI.CustomControls.TextBoxes
 {
     /// <summary>
     /// A textbox that allows for hex and dec values to be stored, validated, and colored. Extends WatermarkTextBox.

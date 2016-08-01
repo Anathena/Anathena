@@ -1,4 +1,4 @@
-﻿namespace Anathema.GUI
+﻿namespace Anathema.GUI.Tools.Scanners
 {
     partial class GUILabelThresholder
     {
@@ -71,7 +71,7 @@
             // 
             // MaxValueTrackBar
             // 
-            this.MaxValueTrackBar.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.MaxValueTrackBar.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.MaxValueTrackBar.AutoSize = false;
             this.MaxValueTrackBar.Location = new System.Drawing.Point(94, 36);
@@ -84,7 +84,7 @@
             // 
             // MinValueTrackBar
             // 
-            this.MinValueTrackBar.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.MinValueTrackBar.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.MinValueTrackBar.AutoSize = false;
             this.MinValueTrackBar.Location = new System.Drawing.Point(94, 6);

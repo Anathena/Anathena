@@ -1,4 +1,4 @@
-﻿namespace Anathema.GUI
+﻿namespace Anathema.GUI.CustomControls.TreeViews
 {
     partial class HighlightPreservingTreeView
     {

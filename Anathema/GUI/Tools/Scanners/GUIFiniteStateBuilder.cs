@@ -9,7 +9,7 @@ using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
 
-namespace Anathema.GUI
+namespace Anathema.GUI.Tools.Scanners
 {
     public partial class GUIFiniteStateBuilder : UserControl, IFiniteStateBuilderView
     {

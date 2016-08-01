@@ -3,7 +3,7 @@ using Anathema.Source.Project.ProjectItems;
 using System;
 using System.Drawing;
 
-namespace Anathema.GUI
+namespace Anathema.GUI.CustomControls.TreeViews
 {
     /// <summary>
     /// This only exists for the scratchpad implementation, which may not be kept

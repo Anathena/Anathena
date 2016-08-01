@@ -4,7 +4,7 @@ using Anathema.Source.Utils.MVP;
 using System;
 using WeifenLuo.WinFormsUI.Docking;
 
-namespace Anathema.GUI
+namespace Anathema.GUI.Tools.Scanners
 {
     public partial class GUIFiniteStateScanner : DockContent, IFiniteStateScannerView
     {

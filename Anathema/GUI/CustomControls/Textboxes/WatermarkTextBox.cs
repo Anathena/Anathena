@@ -2,7 +2,7 @@
 using System.Drawing;
 using System.Windows.Forms;
 
-namespace Anathema.GUI
+namespace Anathema.GUI.CustomControls.TextBoxes
 {
     /// <summary>
     /// A textbox that supports a watermak hint.
@@ -49,7 +49,7 @@ namespace Anathema.GUI
                 this.Invalidate();
             }
         }
-        
+
         public WatermarkTextBox()
         {
             // Set defaults
@@ -59,12 +59,12 @@ namespace Anathema.GUI
 
             // Draw the watermark, so we can see it in design time
             DrawWaterMark();
-            
+
             this.Enter += new EventHandler(ThisHasFocus);
             this.Leave += new EventHandler(ThisWasLeaved);
             this.TextChanged += new EventHandler(ThisTextChanged);
         }
-        
+
         /// <summary>
         /// Removes the watermark if it should
         /// </summary>
@@ -103,7 +103,7 @@ namespace Anathema.GUI
             WaterMarkContainer.Height = this.Height;                            // Height should be the same as its parent
             WaterMarkContainer.Width = this.Width;                              // same goes for width and the parent
             WaterMarkContainer.Anchor = AnchorStyles.Left | AnchorStyles.Right; // makes sure that it resizes with the parent control
-            
+
             if (this.ContainsFocus)
             {
                 // If focused use normal color
@@ -119,7 +119,7 @@ namespace Anathema.GUI
             // Drawing the string into the panel 
             E.Graphics.DrawString(this._WatermarkText, _WaterMarkFont, WaterMarkBrush, new PointF(-2f, 1f));
         }
-        
+
         private void ThisHasFocus(Object Sender, EventArgs E)
         {
             // If focused use focus color
@@ -178,7 +178,7 @@ namespace Anathema.GUI
                 // If there is a watermark it should also be invalidated();
                 WaterMarkContainer.Invalidate();
         }
-       
+
     } // End class
 
 } // End namespace

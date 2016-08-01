@@ -6,7 +6,7 @@ using System;
 using System.Drawing;
 using WeifenLuo.WinFormsUI.Docking;
 
-namespace Anathema.GUI
+namespace Anathema.GUI.Tools.Scanners
 {
     public partial class GUIChangeCounter : DockContent, IChangeCounterView
     {

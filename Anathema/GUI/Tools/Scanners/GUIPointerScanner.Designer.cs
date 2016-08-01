@@ -1,4 +1,7 @@
-﻿namespace Anathema.GUI
+﻿using Anathema.GUI.CustomControls.ListViews;
+using Anathema.GUI.CustomControls.TextBoxes;
+
+namespace Anathema.GUI.Tools.Scanners
 {
     partial class GUIPointerScanner
     {
@@ -43,13 +46,13 @@
             this.ValueTypeLabel = new System.Windows.Forms.Label();
             this.ValueModeRadioButton = new System.Windows.Forms.RadioButton();
             this.AddressModeRadioButton = new System.Windows.Forms.RadioButton();
-            this.GUIConstraintEditor = new Anathema.GUI.GUIConstraintEditor();
+            this.GUIConstraintEditor = new GUIConstraintEditor();
             this.ValueTypeComboBox = new System.Windows.Forms.ComboBox();
-            this.MaxLevelTextBox = new Anathema.GUI.HexDecTextBox();
-            this.MaxOffsetTextBox = new Anathema.GUI.HexDecTextBox();
-            this.AddressTextBox = new Anathema.GUI.HexDecTextBox();
+            this.MaxLevelTextBox = new HexDecTextBox();
+            this.MaxOffsetTextBox = new HexDecTextBox();
+            this.AddressTextBox = new HexDecTextBox();
             this.ResultsTabPage = new System.Windows.Forms.TabPage();
-            this.PointerListView = new Anathema.GUI.FlickerFreeListView();
+            this.PointerListView = new FlickerFreeListView();
             this.ValueHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.BaseHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.ScanToolStrip.SuspendLayout();
@@ -208,7 +211,7 @@
             // 
             // GUIConstraintEditor
             // 
-            this.GUIConstraintEditor.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.GUIConstraintEditor.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.GUIConstraintEditor.HideElementType = true;
             this.GUIConstraintEditor.Location = new System.Drawing.Point(206, 6);
@@ -275,8 +278,8 @@
             // 
             // PointerListView
             // 
-            this.PointerListView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
+            this.PointerListView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.PointerListView.BackColor = System.Drawing.SystemColors.Window;
             this.PointerListView.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
@@ -332,7 +335,7 @@
         private System.Windows.Forms.Label TargetAddressLabel;
         private System.Windows.Forms.Label MaxOffsetLabel;
         private System.Windows.Forms.Label MaxLevelLabel;
-        private GUI.FlickerFreeListView PointerListView;
+        private FlickerFreeListView PointerListView;
         private System.Windows.Forms.ColumnHeader ValueHeader;
         private System.Windows.Forms.ToolStripButton RebuildPointersButton;
         private System.Windows.Forms.ColumnHeader BaseHeader;
@@ -341,9 +344,9 @@
         private System.Windows.Forms.TabControl PointerScanTabControl;
         private System.Windows.Forms.TabPage SettingsTabPage;
         private System.Windows.Forms.TabPage ResultsTabPage;
-        private GUI.HexDecTextBox AddressTextBox;
-        private GUI.HexDecTextBox MaxOffsetTextBox;
-        private GUI.HexDecTextBox MaxLevelTextBox;
+        private HexDecTextBox AddressTextBox;
+        private HexDecTextBox MaxOffsetTextBox;
+        private HexDecTextBox MaxLevelTextBox;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
         private System.Windows.Forms.ComboBox ValueTypeComboBox;
         private System.Windows.Forms.RadioButton ValueModeRadioButton;

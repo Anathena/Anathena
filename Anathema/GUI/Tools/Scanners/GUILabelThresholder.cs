@@ -8,7 +8,7 @@ using System.Drawing;
 using System.Reflection;
 using WeifenLuo.WinFormsUI.Docking;
 
-namespace Anathema.GUI
+namespace Anathema.GUI.Tools.Scanners
 {
     public partial class GUILabelThresholder : DockContent, ILabelThresholderView
     {

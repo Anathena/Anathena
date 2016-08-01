@@ -1,4 +1,4 @@
-﻿namespace Anathema.GUI
+﻿namespace Anathema.GUI.Tools.Scanners
 {
     partial class GUIFiniteStateScanner
     {
@@ -33,7 +33,7 @@
             this.StartScanButton = new System.Windows.Forms.ToolStripButton();
             this.StopScanButton = new System.Windows.Forms.ToolStripButton();
             this.ScanCountLabel = new System.Windows.Forms.ToolStripLabel();
-            this.GUIFiniteStateBuilder = new Anathema.GUI.GUIFiniteStateBuilder();
+            this.GUIFiniteStateBuilder = new GUIFiniteStateBuilder();
             this.ScanToolStrip.SuspendLayout();
             this.SuspendLayout();
             // 

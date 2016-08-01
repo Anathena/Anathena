@@ -1,4 +1,4 @@
-﻿namespace Anathema.GUI
+﻿namespace Anathema.GUI.Tools.Scanners
 {
     partial class GUITreeScanner
     {

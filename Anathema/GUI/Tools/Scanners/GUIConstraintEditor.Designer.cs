@@ -1,4 +1,6 @@
-﻿namespace Anathema.GUI
+﻿using Anathema.GUI.CustomControls.TextBoxes;
+
+namespace Anathema.GUI.Tools.Scanners
 {
     partial class GUIConstraintEditor
     {
@@ -52,7 +54,7 @@
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.RemoveConstraintButton = new System.Windows.Forms.ToolStripButton();
             this.ClearConstraintsButton = new System.Windows.Forms.ToolStripButton();
-            this.ValueTextBox = new Anathema.GUI.HexDecTextBox();
+            this.ValueTextBox = new HexDecTextBox();
             this.ConstraintContextMenuStrip.SuspendLayout();
             this.ConstraintToolStrip.SuspendLayout();
             this.SuspendLayout();
@@ -70,8 +72,8 @@
             // 
             // ConstraintsListView
             // 
-            this.ConstraintsListView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
+            this.ConstraintsListView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.ConstraintsListView.ContextMenuStrip = this.ConstraintContextMenuStrip;
             this.ConstraintsListView.FullRowSelect = true;
@@ -278,7 +280,7 @@
             // 
             // ValueTextBox
             // 
-            this.ValueTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.ValueTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.ValueTextBox.ForeColor = System.Drawing.Color.Red;
             this.ValueTextBox.IsHex = false;

@@ -1,4 +1,7 @@
-﻿namespace Anathema.GUI
+﻿using Anathema.GUI.CustomControls.TextBoxes;
+using Anathema.GUI.CustomControls.TreeViews;
+
+namespace Anathema.GUI.Tools.Scanners
 {
     partial class GUIInputCorrelator
     {
@@ -48,8 +51,8 @@
             this.ScanCountLabel = new System.Windows.Forms.ToolStripLabel();
             this.InputContextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.DeleteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.InputTextBox = new Anathema.GUI.WatermarkTextBox();
-            this.InputTreeView = new Anathema.GUI.HighlightPreservingTreeView();
+            this.InputTextBox = new WatermarkTextBox();
+            this.InputTreeView = new HighlightPreservingTreeView();
             ((System.ComponentModel.ISupportInitialize)(this.VariableSizeTrackBar)).BeginInit();
             this.ScanToolStrip.SuspendLayout();
             this.InputContextMenuStrip.SuspendLayout();
@@ -241,8 +244,8 @@
             // 
             // InputTreeView
             // 
-            this.InputTreeView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
+            this.InputTreeView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.InputTreeView.Location = new System.Drawing.Point(12, 113);
             this.InputTreeView.Name = "InputTreeView";
@@ -281,8 +284,8 @@
         private System.Windows.Forms.ToolStrip ScanToolStrip;
         private System.Windows.Forms.ToolStripButton StartScanButton;
         private System.Windows.Forms.ToolStripButton StopScanButton;
-        private GUI.HighlightPreservingTreeView InputTreeView;
-        private GUI.WatermarkTextBox InputTextBox;
+        private HighlightPreservingTreeView InputTreeView;
+        private WatermarkTextBox InputTextBox;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.ToolStripButton DeleteNodeButton;
         private System.Windows.Forms.ToolStripButton ClearInputsButton;

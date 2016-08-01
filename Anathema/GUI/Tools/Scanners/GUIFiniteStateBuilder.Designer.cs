@@ -1,4 +1,6 @@
-﻿namespace Anathema.GUI
+﻿using Anathema.GUI.CustomControls.Panels;
+
+namespace Anathema.GUI.Tools.Scanners
 {
     partial class GUIFiniteStateBuilder
     {
@@ -39,7 +41,7 @@
             this.EndScanToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.DeleteStateToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ControlPanel = new System.Windows.Forms.Panel();
-            this.GUIConstraintEditor = new GUI.GUIConstraintEditor();
+            this.GUIConstraintEditor = new GUIConstraintEditor();
             this.FSMBuilderPanel = new FlickerFreePanel();
             this.ScanToolStrip.SuspendLayout();
             this.StateContextMenuStrip.SuspendLayout();

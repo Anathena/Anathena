@@ -5,7 +5,7 @@ using System;
 using System.Windows.Forms;
 using WeifenLuo.WinFormsUI.Docking;
 
-namespace Anathema.GUI
+namespace Anathema.GUI.Tools.Scanners
 {
     public partial class GUIManualScanner : DockContent, IManualScannerView
     {

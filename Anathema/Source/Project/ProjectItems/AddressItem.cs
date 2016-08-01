@@ -1,4 +1,4 @@
-﻿using Anathema.GUI.Tools.Projects.TypeEditors;
+﻿using Anathema.GUI.Tools.TypeEditors;
 using Anathema.Source.Engine;
 using Anathema.Source.Project.ProjectItems.TypeConverters;
 using Anathema.Source.Utils.Extensions;

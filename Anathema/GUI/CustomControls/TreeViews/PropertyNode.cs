@@ -2,7 +2,7 @@
 using Anathema.Source.Project.ProjectItems;
 using System;
 
-namespace Anathema.GUI
+namespace Anathema.GUI.CustomControls.TreeViews
 {
     /// <summary>
     /// Defines a node in the property viewer

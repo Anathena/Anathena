@@ -1,5 +1,5 @@
-﻿using Anathema.Source.Scanners.InputCorrelator;
-using Anathema.Source.Engine.InputCapture.MouseKeyHook;
+﻿using Anathema.Source.Engine.InputCapture.MouseKeyHook;
+using Anathema.Source.Scanners.InputCorrelator;
 using Anathema.Source.Utils;
 using Anathema.Source.Utils.MVP;
 using Anathema.Source.Utils.Validation;
@@ -9,7 +9,7 @@ using System.ComponentModel;
 using System.Windows.Forms;
 using WeifenLuo.WinFormsUI.Docking;
 
-namespace Anathema.GUI
+namespace Anathema.GUI.Tools.Scanners
 {
     public partial class GUIInputCorrelator : DockContent, IInputCorrelatorView
     {

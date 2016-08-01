@@ -1,6 +1,6 @@
 ﻿using System.Windows.Forms;
 
-namespace Anathema.GUI
+namespace Anathema.GUI.CustomControls.Panels
 {
     class FlickerFreePanel : Panel
     {
