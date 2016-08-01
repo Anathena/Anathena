@@ -119,6 +119,7 @@ namespace Anathema.Source.Project.ProjectItems
         public AddressItem(IntPtr BaseAddress, Type ElementType, String Description = null, ResolveTypeEnum ResolveType = ResolveTypeEnum.Module, String BaseIdentifier = null,
             IEnumerable<Int32> Offsets = null, Boolean IsValueHex = false, String Value = null) : base(Description)
         {
+            // Bypass setters to avoid running setter code
             this._BaseAddress = BaseAddress;
             this.ElementType = ElementType;
             this._ResolveType = ResolveType;
@@ -130,17 +131,6 @@ namespace Anathema.Source.Project.ProjectItems
                 this._Value = Conversions.ParseValue(ElementType, Value);
             else if (_IsValueHex && CheckSyntax.CanParseHex(ElementType, Value))
                 this._Value = Conversions.ParseHexAsDec(ElementType, Value);
-        }
-
-        public String GetValueStringUNUSED()
-        {
-            if (Value == null)
-                return "-";
-
-            if (IsValueHex && CheckSyntax.CanParseValue(ElementType, Value.ToString()))
-                return Conversions.ParseDecAsHex(ElementType, Value.ToString());
-
-            return Value.ToString();
         }
 
         private void WriteValue(dynamic NewValue)
@@ -163,7 +153,7 @@ namespace Anathema.Source.Project.ProjectItems
             // Freeze current value if this entry is activated
             if (GetActivationState())
                 WriteValue(Value);
-            // Otherwise we read as normal
+            // Otherwise we read as normal (bypass value setter and set value directly to avoid a write-back to memory)
             else
                 _Value = EngineCore.Memory.Read(ElementType, EffectiveAddress, out ReadSuccess);
         }

@@ -80,7 +80,7 @@ namespace Anathema.Source.Project
 
         public override void DeleteItems(IEnumerable<ProjectItem> ProjectItems)
         {
-            throw new NotImplementedException();
+            ProjectRoot.Delete(ProjectItems);
 
             RefreshProjectStructure();
         }
