@@ -1,6 +1,4 @@
-﻿using Anathema.Source.Snapshots;
-
-namespace Anathema.Source.Prefilter
+﻿namespace Anathema.Source.Snapshots.Prefilter
 {
     /// <summary>
     /// Interface defining methods that a snapshot prefilter must implement

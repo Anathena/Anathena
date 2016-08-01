@@ -1,8 +1,8 @@
 ﻿using Anathema.Source.Engine;
 using Anathema.Source.Engine.OperatingSystems;
 using Anathema.Source.Engine.Processes;
-using Anathema.Source.Prefilter;
 using Anathema.Source.Scanners.ValueCollector;
+using Anathema.Source.Snapshots.Prefilter;
 using Anathema.Source.UserSettings;
 using Anathema.Source.Utils;
 using Anathema.Source.Utils.Extensions;

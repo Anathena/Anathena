@@ -3,7 +3,7 @@ using System;
 using System.Reflection;
 using System.Threading;
 
-namespace Anathema.Source.Utils.Setting
+namespace Anathema.Source.UserSettings
 {
     [Obfuscation(ApplyToMembers = true, Exclude = true)]
     class Settings : ISettingsModel

@@ -2,9 +2,9 @@
 using Anathema.Source.Engine.AddressResolver;
 using Anathema.Source.Engine.AddressResolver.DotNet;
 using Anathema.Source.Engine.Processes;
-using Anathema.Source.Prefilter;
 using Anathema.Source.Project;
 using Anathema.Source.Snapshots;
+using Anathema.Source.Snapshots.Prefilter;
 using Anathema.Source.Utils;
 using System;
 using System.Threading;

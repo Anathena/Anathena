@@ -1,5 +1,5 @@
-﻿using Anathema.Source.Engine.DotNetObjectCollector;
-using Anathema.Source.Utils.DotNetExplorer;
+﻿using Anathema.Source.DotNetExplorer;
+using Anathema.Source.Engine.AddressResolver.DotNet;
 using Anathema.Source.Utils.MVP;
 using System;
 using System.Collections.Generic;

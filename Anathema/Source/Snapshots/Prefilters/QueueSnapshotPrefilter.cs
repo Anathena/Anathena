@@ -1,7 +1,6 @@
 ﻿using Anathema.Source.Engine;
 using Anathema.Source.Engine.OperatingSystems;
 using Anathema.Source.Engine.Processes;
-using Anathema.Source.Snapshots;
 using Anathema.Source.UserSettings;
 using Anathema.Source.Utils;
 using Anathema.Source.Utils.Extensions;
@@ -11,7 +10,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Anathema.Source.Prefilter
+namespace Anathema.Source.Snapshots.Prefilter
 {
     /// <summary>
     /// SnapshotPrefilter is a heuristic process that drastically improves scan speed. It capitalizes on the fact that

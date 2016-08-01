@@ -3,7 +3,7 @@ using Anathema.Source.Utils.MVP;
 using System;
 using System.Reflection;
 
-namespace Anathema.Source.Utils.Setting
+namespace Anathema.Source.UserSettings
 {
     [Obfuscation(ApplyToMembers = true, Exclude = true)]
     interface ISettingsView : IView

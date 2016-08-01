@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Anathema.Source.Prefilter
+namespace Anathema.Source.Snapshots.Prefilter
 {
     static class SnapshotPrefilterFactory
     {
