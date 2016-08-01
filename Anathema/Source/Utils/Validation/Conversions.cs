@@ -39,6 +39,11 @@ namespace Anathema.Source.Utils.Validation
             return ParseValue(ValueType, Value).ToString();
         }
 
+        public static String ParseValueAsHex(Type ValueType, String Value)
+        {
+            return ParseValue(ValueType, Value).ToString("X");
+        }
+
         public static String ParseDecAsHex(Type ValueType, String Value)
         {
             dynamic RealValue = ParseValue(ValueType, Value);
