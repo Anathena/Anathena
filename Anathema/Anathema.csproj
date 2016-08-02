@@ -61,6 +61,7 @@
     <WarningLevel>4</WarningLevel>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <CodeAnalysisRuleSet />
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
     <DebugSymbols>true</DebugSymbols>
@@ -1095,6 +1096,10 @@
     <Content Include="Source\Engine\InputCapture\MouseKeyHook%28Deprecating%29\HotKeys\ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\AnathemaProxy32\AnathemaProxy32.csproj">
+      <Project>{51ac9959-afee-4f91-8a19-03cf0528ab62}</Project>
+      <Name>AnathemaProxy32</Name>
+    </ProjectReference>
     <ProjectReference Include="..\DockingSuite\DockingSuite.csproj">
       <Project>{c75532c4-765b-418e-b09b-46d36b2abdb1}</Project>
       <Name>DockingSuite</Name>
