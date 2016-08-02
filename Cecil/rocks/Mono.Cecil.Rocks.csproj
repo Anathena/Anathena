@@ -16,7 +16,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)' == 'net_4_0_Debug'">
     <Prefer32Bit>false</Prefer32Bit>
-    <DefineConstants>;INSIDE_ROCKS;DEBUG;TRACE;;NET_4_0;</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;INSIDE_ROCKS;NET_4_0;</DefineConstants>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)' == 'net_4_0_Release'">
     <Prefer32Bit>false</Prefer32Bit>
