@@ -1,0 +1,15 @@
+bin
+obj
+*.suo
+*.iml
+*.user
+*.pidb
+*.userprefs
+*.xml
+*.nupkg
+**/test-results/*
+*Resharper*
+Mono.Cecil.sln.ide*
+TestResults
+project.lock.json
+

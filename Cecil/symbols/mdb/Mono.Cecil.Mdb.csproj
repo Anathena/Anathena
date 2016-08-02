@@ -1,0 +1,46 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <ProjectGuid>{8559DD7F-A16F-46D0-A05A-9139FAEBA8FD}</ProjectGuid>
+    <RootNamespace>Mono.Cecil.Mdb</RootNamespace>
+    <AssemblyName>Mono.Cecil.Mdb</AssemblyName>
+    <DefineConstants>$(DefineConstants);CECIL</DefineConstants>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)' == 'net_3_5_Debug'">
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)' == 'net_3_5_Release'">
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)' == 'net_4_0_Debug'">
+    <Prefer32Bit>false</Prefer32Bit>
+    <DefineConstants>;CECIL;DEBUG;TRACE;;NET_4_0;</DefineConstants>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)' == 'net_4_0_Release'">
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>false</SignAssembly>
+  </PropertyGroup>
+  <ItemGroup Condition=" '$(TargetFrameworkVersion)' != 'v2.0' ">
+    <Reference Include="System.Core" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Mono.Cecil.csproj">
+      <Project>{D68133BD-1E63-496E-9EDE-4FBDBF77B486}</Project>
+      <Name>Mono.Cecil</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\..\ProjectInfo.cs" />
+    <Compile Include="Mono.Cecil.Mdb\*.cs" />
+    <Compile Include="Mono.CompilerServices.SymbolWriter\*.cs" />
+  </ItemGroup>
+  <Import Project="..\..\Mono.Cecil.props" />
+  <Import Project="$(MSBuildCSharpTargets)" />
+</Project>
