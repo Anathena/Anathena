@@ -80,12 +80,6 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Mono.Cecil">
-      <HintPath>..\..\Mono\Mono.Cecil.dll</HintPath>
-    </Reference>
-    <Reference Include="Mono.Cecil.Pdb">
-      <HintPath>..\..\Mono\Mono.Cecil.Pdb.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
@@ -96,6 +90,14 @@
     <None Include="app.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Cecil\Mono.Cecil.csproj">
+      <Project>{d68133bd-1e63-496e-9ede-4fbdbf77b486}</Project>
+      <Name>Mono.Cecil</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Cecil\symbols\pdb\Mono.Cecil.Pdb.csproj">
+      <Project>{63e6915c-7ea4-4d76-ab28-0d7191eea626}</Project>
+      <Name>Mono.Cecil.Pdb</Name>
+    </ProjectReference>
     <ProjectReference Include="..\SharpDX.DirectInput\SharpDX.DirectInput.csproj">
       <Project>{de89f393-94d0-4a2d-a394-f0933461447b}</Project>
       <Name>SharpDX.DirectInput</Name>

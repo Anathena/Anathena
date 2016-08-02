@@ -14,15 +14,13 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+using Mono.Cecil;
+using Mono.Cecil.Cil;
+using Mono.Cecil.Rocks;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
-
-using Mono.Cecil;
-using Mono.Cecil.Cil;
-using Mono.Cecil.Rocks;
 
 namespace OpenTK.Rewrite
 {
@@ -546,7 +544,7 @@ namespace OpenTK.Rewrite
 
             // IntPtr ptr;
             var variable_name = parameter.Name + " _sb_ptr";
-            body.Variables.Add(new VariableDefinition(variable_name, TypeIntPtr));
+            body.Variables.Add(new VariableDefinition(TypeIntPtr));
             int index = body.Variables.Count - 1;
 
             // ptr = Marshal.AllocHGlobal(sb.Capacity + 1);
@@ -582,7 +580,8 @@ namespace OpenTK.Rewrite
                 block.TryStart = body.Instructions[0];
 
                 var variable_name = parameter.Name + " _sb_ptr";
-                var v = body.Variables.First(m => m.Name == variable_name);
+                throw new Exception("DEPRECATED: m => m.Name == variable_name");
+                var v = body.Variables.First();
                 il.Emit(OpCodes.Ldloc, v.Index);
                 il.Emit(OpCodes.Ldarg, parameter.Index);
                 il.Emit(OpCodes.Call, ptr_to_sb);
@@ -609,7 +608,7 @@ namespace OpenTK.Rewrite
 
             // IntPtr ptr;
             var variable_name = parameter.Name + "_string_ptr";
-            body.Variables.Add(new VariableDefinition(variable_name, TypeIntPtr));
+            body.Variables.Add(new VariableDefinition(TypeIntPtr));
             int index = body.Variables.Count - 1;
 
             // ptr = Marshal.StringToHGlobalAnsi(str);
@@ -627,7 +626,8 @@ namespace OpenTK.Rewrite
 
             // FreeStringPtr(ptr)
             var variable_name = parameter.Name + "_string_ptr";
-            var v = body.Variables.First(m => m.Name == variable_name);
+            throw new Exception("DEPRECATED: m => m.Name == variable_name");
+            var v = body.Variables.First();
             il.Emit(OpCodes.Ldloc, v.Index);
             il.Emit(OpCodes.Call, free);
         }
@@ -644,7 +644,7 @@ namespace OpenTK.Rewrite
 
             // IntPtr ptr;
             var variable_name = parameter.Name + "_string_array_ptr";
-            body.Variables.Add(new VariableDefinition(variable_name, TypeIntPtr));
+            body.Variables.Add(new VariableDefinition(TypeIntPtr));
             int index = body.Variables.Count - 1;
 
             // ptr = MarshalStringArrayToPtr(strings);
@@ -664,7 +664,8 @@ namespace OpenTK.Rewrite
 
             // FreeStringArrayPtr(string_array_ptr, string_array.Length)
             var variable_name = parameter.Name + "_string_array_ptr";
-            var v = body.Variables.First(m => m.Name == variable_name);
+            throw new Exception("DEPRECATED: m => m.Name == variable_name");
+            var v = body.Variables.First();
 
             // load string_array_ptr
             il.Emit(OpCodes.Ldloc, v.Index);

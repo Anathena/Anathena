@@ -163,7 +163,7 @@ namespace SharpCli
 
             // Preparing locals
             // local(0) T*
-            Method.Body.Variables.Add(new VariableDefinition("pin", new PinnedType(new ByReferenceType(ParamT))));
+            Method.Body.Variables.Add(new VariableDefinition(new PinnedType(new ByReferenceType(ParamT))));
 
             Int32 Index = Method.Body.Variables.Count - 1;
 
@@ -264,7 +264,7 @@ namespace SharpCli
 
             // Preparing locals
             // local(0) T*
-            Method.Body.Variables.Add(new VariableDefinition("pin", new PinnedType(new ByReferenceType(ParamT))));
+            Method.Body.Variables.Add(new VariableDefinition(new PinnedType(new ByReferenceType(ParamT))));
 
             Int32 Index = Method.Body.Variables.Count - 1;
 
