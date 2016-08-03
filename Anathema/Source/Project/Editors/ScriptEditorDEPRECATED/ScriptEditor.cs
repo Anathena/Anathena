@@ -1,5 +1,6 @@
 ﻿using Anathema.Source.Engine;
 using Anathema.Source.Engine.Processes;
+using Anathema.Source.LuaEngine;
 using Anathema.Source.Project.ProjectItems;
 using Anathema.Source.Project.ProjectItems.ScriptTemplates;
 using System;
@@ -18,6 +19,7 @@ namespace Anathema.Source.Project.Editors.ScriptEditor
         public event ScriptEditorEventHandler EventSetScriptText;
 
         private ScriptItem ScriptItem;
+        private LuaScript LuaScript;
 
         private ScriptEditor()
         {

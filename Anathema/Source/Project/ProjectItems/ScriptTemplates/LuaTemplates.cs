@@ -6,22 +6,22 @@ namespace Anathema.Source.Project.ProjectItems.ScriptTemplates
     {
         public static String AddCodeInjectionTemplate(String CurrentScript, String ModuleName, IntPtr ModuleOffset)
         {
-            String CodeInjection =
+            String TemplateCode =
                 "function OnActivate()" + "\n\t\n" +
-                "\t" + "CheatA()" + "\n\t\n" +
+                "\t" + "MyCheat()" + "\n\t\n" +
                 "end" + "\n\t\n" +
 
-                "function CheatA()" + "\n\t\n" +
-                "\t" + "local Entry = Memory:GetModuleAddress(\"" + ModuleName + "\") + 0x" + ModuleOffset.ToString("x") + "\n" +
-                "\t" + "Memory:SetKeyword(\"exit\", Memory:GetCaveExitAddress(Entry))" + "\n\t\n" +
+                "function MyCheat()" + "\n\t\n" +
+                "\t" + "local entry = Memory:GetModuleAddress(\"" + ModuleName + "\") + 0x" + ModuleOffset.ToString("x") + "\n" +
+                "\t" + "Memory:SetKeyword(\"exit\", Memory:GetCaveExitAddress(entry))" + "\n\t\n" +
 
-                "\t" + "local Assembly = (" + "\n" +
+                "\t" + "local assembly = (" + "\n" +
                 "\t" + "[fasm]" + "\n" +
                 "\t" + "\n" +
                 "\t" + "jmp exit" + "\n" +
                 "\t" + "[/fasm])" + "\n\t\n" +
 
-                "\t" + "Memory:CreateCodeCave(Entry, Assembly)" + "\n" +
+                "\t" + "Memory:CreateCodeCave(entry, assembly)" + "\n" +
                 "end" + "\n\t\n" +
 
                 "function OnDeactivate()" + "\n\t\n" +
@@ -29,25 +29,24 @@ namespace Anathema.Source.Project.ProjectItems.ScriptTemplates
                 "\t" + "Memory:RemoveAllCodeCaves()" + "\n\t\n" +
                 "end";
 
-            return CurrentScript + CodeInjection;
+            return CurrentScript + TemplateCode;
         }
 
         public static String AddGraphicsOverlayTemplate(String CurrentScript)
         {
-            String CodeInjection =
-                "-- No Description" + "\n\t\n" +
+            String TemplateCode =
                 "function OnActivate()" + "\n\t\n" +
-                "\t" + "OverlayA()" + "\n\t\n" +
+                "\t" + "MyOverlay()" + "\n\t\n" +
                 "end" + "\n\t\n" +
 
-                "function OverlayA()" + "\n\t\n" +
+                "function MyOverlay()" + "\n\t\n" +
                 "\t" + "Graphics:Inject()" + "\n\t\n" +
                 "end" + "\n\t\n" +
 
                 "function OnDeactivate()" + "\n\t\n" +
                 "end";
 
-            return CurrentScript + CodeInjection;
+            return CurrentScript + TemplateCode;
         }
 
     } // End class

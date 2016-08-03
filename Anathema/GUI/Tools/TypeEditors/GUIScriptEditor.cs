@@ -216,13 +216,13 @@ namespace Anathema.GUI.Tools.TypeEditors
 
                 ScriptEditorTextBox.SearchFlags = SearchFlags.None;
 
-                // Search for closest preceeding [asm] tag to determine if we are writing inside the tag
+                // Search for closest preceeding [fasm] tag to determine if we are writing inside the tag
                 ScriptEditorTextBox.TargetStart = 0;
                 ScriptEditorTextBox.TargetEnd = ScriptEditorTextBox.CurrentPosition;
                 Int32 StartTagPosition = -1;
                 while (true)
                 {
-                    Int32 Next = ScriptEditorTextBox.SearchInTarget("[asm]");
+                    Int32 Next = ScriptEditorTextBox.SearchInTarget("[fasm]");
 
                     if (Next == -1)
                         break;
@@ -233,18 +233,18 @@ namespace Anathema.GUI.Tools.TypeEditors
                     ScriptEditorTextBox.TargetEnd = ScriptEditorTextBox.CurrentPosition;
                 }
 
-                // Search for next [asm] tag to ensure the [/asm] does not pass it
+                // Search for next [fasm] tag to ensure the [/fasm] does not pass it
                 ScriptEditorTextBox.TargetStart = ScriptEditorTextBox.CurrentPosition;
                 ScriptEditorTextBox.TargetEnd = ScriptEditorTextBox.TextLength;
-                Int32 NextTagPosition = ScriptEditorTextBox.SearchInTarget("[asm]");
+                Int32 NextTagPosition = ScriptEditorTextBox.SearchInTarget("[fasm]");
 
-                // Search for next [/asm] tag and see if we are inside it
+                // Search for next [/fasm] tag and see if we are inside it
                 ScriptEditorTextBox.TargetStart = ScriptEditorTextBox.CurrentPosition;
                 ScriptEditorTextBox.TargetEnd = ScriptEditorTextBox.TextLength;
 
                 if (StartTagPosition != -1)
                 {
-                    Int32 EndTagPositon = ScriptEditorTextBox.SearchInTarget("[/asm]");
+                    Int32 EndTagPositon = ScriptEditorTextBox.SearchInTarget("[/fasm]");
                     if (EndTagPositon != -1 && (NextTagPosition == -1 || EndTagPositon < NextTagPosition))
                         AsmMode = true;
                 }

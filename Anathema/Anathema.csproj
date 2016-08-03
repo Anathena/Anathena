@@ -383,8 +383,8 @@
     <Compile Include="Source\Scanners\ManualScanner\IManualScannerMVP.cs" />
     <Compile Include="Source\Scanners\ManualScanner\ManualScanner.cs" />
     <Compile Include="Source\Scanners\InputCorrelator\IInputCorrelatorMVP.cs" />
-    <Compile Include="Source\Project\Editors\ScriptEditorDEPRECATED\IScriptEditorMVP.cs" />
-    <Compile Include="Source\Project\Editors\ScriptEditorDEPRECATED\ScriptEditor.cs" />
+    <Compile Include="Source\Project\Editors\ScriptEditor\IScriptEditorMVP.cs" />
+    <Compile Include="Source\Project\Editors\ScriptEditor\ScriptEditor.cs" />
     <Compile Include="Source\Snapshots\SnapshotRegion.cs" />
     <Compile Include="Source\Snapshots\SnapshotElement.cs" />
     <Compile Include="Source\Utils\Hashing.cs" />
