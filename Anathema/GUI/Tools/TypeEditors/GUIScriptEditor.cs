@@ -1,5 +1,5 @@
 ﻿using Anathema.Source.LuaEngine;
-using Anathema.Source.Project.Editors.ScriptEditor;
+using Anathema.Source.Project.ProjectItems.ScriptTemplates;
 using Anathema.Source.Utils;
 using Anathema.Source.Utils.MVP;
 using ScintillaNET;
@@ -11,19 +11,18 @@ using WeifenLuo.WinFormsUI.Docking;
 
 namespace Anathema.GUI.Tools.TypeEditors
 {
-    public partial class GUIScriptEditor : DockContent, IScriptEditorView
+    public partial class GUIScriptEditor : DockContent
     {
         private static Scintilla StaticEditor = new Scintilla();
-        private ScriptEditorPresenter ScriptEditorPresenter;
         private Object AccessLock;
-
         private String DocumentTitle;
+        private LuaScript LuaScript;
 
-        public GUIScriptEditor()
+        public GUIScriptEditor(LuaScript LuaScript)
         {
             InitializeComponent();
 
-            ScriptEditorPresenter = new ScriptEditorPresenter(this, ScriptEditor.GetInstance());
+            this.LuaScript = LuaScript;
             AccessLock = new Object();
 
             DocumentTitle = this.Text;
@@ -33,6 +32,12 @@ namespace Anathema.GUI.Tools.TypeEditors
 
             ScriptEditorTextBox.TextChanged += ScriptEditorTextBox_TextChanged;
             ScriptEditorTextBox.CharAdded += ScriptEditorTextBox_CharAdded;
+            ScriptEditorTextBox.Text = LuaScript?.Script;
+        }
+
+        public LuaScript GetScript()
+        {
+            return LuaScript;
         }
 
         private void FixScintilla()
@@ -63,7 +68,7 @@ namespace Anathema.GUI.Tools.TypeEditors
             {
                 ControlThreadingHelper.InvokeControlAction(ScriptEditorTextBox, () =>
                 {
-                    ScriptEditorTextBox.Lexer = ScintillaNET.Lexer.Lua;
+                    ScriptEditorTextBox.Lexer = Lexer.Lua;
                     ScriptEditorTextBox.IndentWidth = 4;
                     ScriptEditorTextBox.Margins[0].Width = 16;
                     ScriptEditorTextBox.AutoCIgnoreCase = true;
@@ -128,22 +133,6 @@ namespace Anathema.GUI.Tools.TypeEditors
             }
         }
 
-        public void OpenScript(LuaScript LuaScript)
-        {
-            ControlThreadingHelper.InvokeControlAction(ScriptEditorTextBox, () =>
-            {
-                ScriptEditorTextBox.Text = LuaScript.Script;
-            });
-
-            ControlThreadingHelper.InvokeControlAction(this, () =>
-            {
-                this.Text = DocumentTitle;
-
-                if (!this.Visible)
-                    this.Show();
-            });
-        }
-
         public void SetScriptText(String ScriptText)
         {
             ControlThreadingHelper.InvokeControlAction(ScriptEditorTextBox, () =>
@@ -156,15 +145,22 @@ namespace Anathema.GUI.Tools.TypeEditors
         {
             using (TimedLock.Lock(AccessLock))
             {
-                ScriptEditorPresenter.SaveScript(ScriptEditorTextBox.Text);
-                this.Text = DocumentTitle;
+                ControlThreadingHelper.InvokeControlAction(ScriptEditorTextBox, () =>
+                {
+                    if (LuaScript == null)
+                        LuaScript = new LuaScript(ScriptEditorTextBox?.Text);
+                    else
+                        LuaScript.Script = ScriptEditorTextBox?.Text;
+
+                    this.Text = DocumentTitle;
+                });
             }
         }
 
         private Boolean AskSaveChanges()
         {
             // Check if there are even changes to save
-            if (!ScriptEditorPresenter.HasChanges(ScriptEditorTextBox.Text))
+            if (ScriptEditorTextBox?.Text == LuaScript?.Script)
                 return false;
 
             DialogResult Result = MessageBoxEx.Show(this, "This script has not been saved, save the changes to the table before closing?", "Save Changes?", MessageBoxButtons.YesNoCancel);
@@ -257,7 +253,7 @@ namespace Anathema.GUI.Tools.TypeEditors
             if (AsmMode)
             {
                 EnableAsmHighlighting();
-                //ScriptEditorTextBox.AutoCShow(Length, LuaKeywordManager.AllAsmKeywords);
+                // ScriptEditorTextBox.AutoCShow(Length, LuaKeywordManager.AllAsmKeywords);
             }
             else
             {
@@ -271,20 +267,29 @@ namespace Anathema.GUI.Tools.TypeEditors
         {
             using (TimedLock.Lock(AccessLock))
             {
-                if (ScriptEditorPresenter.HasChanges(ScriptEditorTextBox.Text))
-                    this.Text = DocumentTitle + "*";
-                else
-                    this.Text = DocumentTitle;
+                ControlThreadingHelper.InvokeControlAction(ScriptEditorTextBox, () =>
+                {
+                    if (ScriptEditorTextBox?.Text == LuaScript?.Script)
+                        this.Text = DocumentTitle;
+                    else
+                        this.Text = DocumentTitle + "*";
+                });
             }
         }
 
         private void CodeInjectionToolStripMenuItem_Click(Object Sender, EventArgs E)
         {
-            ScriptEditorPresenter.InsertCodeInjectionTemplate();
+            ControlThreadingHelper.InvokeControlAction(ScriptEditorTextBox, () =>
+            {
+                ScriptEditorTextBox.Text = LuaTemplates.AddCodeInjectionTemplate(ScriptEditorTextBox.Text, "module.exe", new IntPtr(0xabcde));
+            });
         }
         private void GraphicsOverlayToolStripMenuItem_Click(Object Sender, EventArgs E)
         {
-            ScriptEditorPresenter.InsertGraphicsOverlayTemplate();
+            ControlThreadingHelper.InvokeControlAction(ScriptEditorTextBox, () =>
+            {
+                ScriptEditorTextBox.Text = LuaTemplates.AddGraphicsOverlayTemplate(ScriptEditorTextBox.Text);
+            });
         }
 
         protected override Boolean ProcessCmdKey(ref Message Message, Keys Keys)
@@ -300,7 +305,7 @@ namespace Anathema.GUI.Tools.TypeEditors
                 return true;
             }
 
-            /* ScintillaNet will insert garbage with certain command keys, this filters those out */
+            // ScintillaNet will insert garbage with certain command keys, this filters those out
             else if (Keys == (Keys.Control | Keys.B)) return true;
             else if (Keys == (Keys.Control | Keys.D)) return true;
             else if (Keys == (Keys.Control | Keys.E)) return true;
@@ -317,15 +322,6 @@ namespace Anathema.GUI.Tools.TypeEditors
             return base.ProcessCmdKey(ref Message, Keys);
         }
 
-        private void NewToolStripMenuItem_Click(Object Sender, EventArgs E)
-        {
-            // Ask to save changes or cancel
-            if (AskSaveChanges())
-                return;
-
-            ScriptEditorPresenter.OpenNewScript();
-        }
-
         private void SaveToolStripMenuItem_Click(Object Sender, EventArgs E)
         {
             SaveChanges();
@@ -333,6 +329,8 @@ namespace Anathema.GUI.Tools.TypeEditors
 
         private void GUIScriptEditor_FormClosing(Object Sender, FormClosingEventArgs E)
         {
+            DialogResult = DialogResult.OK;
+
             if (AskSaveChanges())
             {
                 E.Cancel = true;

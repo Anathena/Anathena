@@ -21,7 +21,6 @@ namespace Anathema.Source.Controller
         void UpdateProgress(ProgressItem ProgressItem);
         void UpdateHasChanges(Boolean Changed);
 
-        void OpenScriptEditor();
         void OpenLabelThresholder();
     }
 
@@ -69,7 +68,6 @@ namespace Anathema.Source.Controller
             Model.EventUpdateProgress += EventUpdateProgress;
             Model.EventUpdateHasChanges += EventUpdateHasChanges;
             Model.EventFinishProgress += EventFinishProgress;
-            Model.EventOpenScriptEditor += EventOpenScriptEditor;
             Model.EventOpenLabelThresholder += EventOpenLabelThresholder;
 
             Model.OnGUIOpen();
@@ -163,11 +161,6 @@ namespace Anathema.Source.Controller
                 else
                     View.UpdateProgress(null);
             }
-        }
-
-        private void EventOpenScriptEditor(Object Sender, MainEventArgs E)
-        {
-            View.OpenScriptEditor();
         }
 
         private void EventOpenLabelThresholder(Object Sender, MainEventArgs E)

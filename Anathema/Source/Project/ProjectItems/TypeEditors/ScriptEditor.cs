@@ -1,18 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using Anathema.GUI.Tools.TypeEditors;
+using Anathema.Source.LuaEngine;
+using System;
 using System.ComponentModel;
 using System.Drawing.Design;
 using System.Windows.Forms;
 using System.Windows.Forms.Design;
 
-namespace Anathema.GUI.Tools.TypeEditors
+namespace Anathema.Source.Project.ProjectItems.TypeEditors
 {
-    class ArrayEditor : UITypeEditor
+    class ScriptEditor : UITypeEditor
     {
-        public ArrayEditor()
-        {
-
-        }
+        public ScriptEditor() { }
 
         public override UITypeEditorEditStyle GetEditStyle(ITypeDescriptorContext Context)
         {
@@ -22,15 +20,15 @@ namespace Anathema.GUI.Tools.TypeEditors
         public override Object EditValue(ITypeDescriptorContext Context, System.IServiceProvider Provider, Object Value)
         {
             IWindowsFormsEditorService Service = Provider.GetService(typeof(IWindowsFormsEditorService)) as IWindowsFormsEditorService;
-            List<Int32> Array = Value as List<Int32>;
+            LuaScript LuaScript = Value as LuaScript;
 
             if (Service == null)
                 return Value;
 
-            using (GUIArrayEditor Form = new GUIArrayEditor(Array))
+            using (GUIScriptEditor Form = new GUIScriptEditor(LuaScript))
             {
                 if (Service.ShowDialog(Form) == DialogResult.OK)
-                    return Form.Offsets;
+                    return Form.GetScript();
             }
 
             return Value;

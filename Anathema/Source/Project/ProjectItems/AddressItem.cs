@@ -1,6 +1,6 @@
-﻿using Anathema.GUI.Tools.TypeEditors;
-using Anathema.Source.Engine;
+﻿using Anathema.Source.Engine;
 using Anathema.Source.Project.ProjectItems.TypeConverters;
+using Anathema.Source.Project.ProjectItems.TypeEditors;
 using Anathema.Source.Utils.Extensions;
 using Anathema.Source.Utils.Validation;
 using System;
@@ -47,7 +47,7 @@ namespace Anathema.Source.Project.ProjectItems
 
         private IntPtr _BaseAddress;
         [DataMember()]
-        [TypeConverter(typeof(IntPtrConverter))]
+        [TypeConverter(typeof(AddressConverter))]
         [RefreshProperties(RefreshProperties.All)]
         [Category("Properties"), DisplayName("Address Base"), Description("Base address")]
         public IntPtr BaseOffset
@@ -59,7 +59,7 @@ namespace Anathema.Source.Project.ProjectItems
         private IEnumerable<Int32> _Offsets;
         [DataMember()]
         [RefreshProperties(RefreshProperties.All)]
-        [TypeConverter(typeof(HexArrayConverter))]
+        [TypeConverter(typeof(OffsetConverter))]
         [Editor(typeof(ArrayEditor), typeof(UITypeEditor))]
         [Category("Properties"), DisplayName("Address Offsets"), Description("Address offsets")]
         public IEnumerable<Int32> Offsets
@@ -106,7 +106,7 @@ namespace Anathema.Source.Project.ProjectItems
 
         private IntPtr _EffectiveAddress;
         [ReadOnly(true)]
-        [TypeConverter(typeof(IntPtrConverter))]
+        [TypeConverter(typeof(AddressConverter))]
         [Category("Properties"), DisplayName("Address"), Description("Effective address")]
         public IntPtr EffectiveAddress
         {

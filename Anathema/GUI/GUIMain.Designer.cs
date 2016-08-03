@@ -319,7 +319,6 @@
             this.ScriptEditorToolStripMenuItem.Name = "ScriptEditorToolStripMenuItem";
             this.ScriptEditorToolStripMenuItem.Size = new System.Drawing.Size(173, 22);
             this.ScriptEditorToolStripMenuItem.Text = "Script Editor";
-            this.ScriptEditorToolStripMenuItem.Click += new System.EventHandler(this.ScriptEditorToolStripMenuItem_Click);
             // 
             // DotNetExplorerToolStripMenuItem
             // 

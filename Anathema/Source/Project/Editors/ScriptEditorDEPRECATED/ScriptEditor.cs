@@ -1,7 +1,7 @@
 ﻿using Anathema.Source.Engine;
 using Anathema.Source.Engine.Processes;
-using Anathema.Source.LuaEngine;
 using Anathema.Source.Project.ProjectItems;
+using Anathema.Source.Project.ProjectItems.ScriptTemplates;
 using System;
 using System.Threading;
 
@@ -74,7 +74,7 @@ namespace Anathema.Source.Project.Editors.ScriptEditor
 
         public void InsertCodeInjectionTemplate()
         {
-            String NewScript = LuaCore.AddCodeInjectionTemplate(ScriptItem.LuaScript.Script, "module.exe", new IntPtr(0x1abcd));
+            String NewScript = LuaTemplates.AddCodeInjectionTemplate(ScriptItem.LuaScript.Script, "module.exe", new IntPtr(0x1abcd));
             ScriptEditorEventArgs ScriptEditorEventArgs = new ScriptEditorEventArgs();
             ScriptEditorEventArgs.NewScript = NewScript;
             EventSetScriptText?.Invoke(this, ScriptEditorEventArgs);
@@ -82,7 +82,7 @@ namespace Anathema.Source.Project.Editors.ScriptEditor
 
         public void InsertGraphicsOverlayTemplate()
         {
-            String NewScript = LuaCore.AddGraphicsOverlayTemplate(ScriptItem.LuaScript.Script);
+            String NewScript = LuaTemplates.AddGraphicsOverlayTemplate(ScriptItem.LuaScript.Script);
             ScriptEditorEventArgs ScriptEditorEventArgs = new ScriptEditorEventArgs();
             ScriptEditorEventArgs.NewScript = NewScript;
             EventSetScriptText?.Invoke(this, ScriptEditorEventArgs);

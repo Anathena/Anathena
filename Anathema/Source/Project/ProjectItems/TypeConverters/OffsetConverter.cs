@@ -8,11 +8,14 @@ using System.Linq;
 
 namespace Anathema.Source.Project.ProjectItems.TypeConverters
 {
-    class HexArrayConverter : StringConverter
+    class OffsetConverter : StringConverter
     {
         public override Object ConvertTo(ITypeDescriptorContext Context, CultureInfo Culture, Object Value, Type DestinationType)
         {
-            if (Value != null && Value.GetType().GetInterfaces().Contains(typeof(IEnumerable)))
+            if (Value == null)
+                return "(None)";
+
+            if (Value.GetType().GetInterfaces().Contains(typeof(IEnumerable)))
             {
                 IEnumerable<Object> TrueValue = (Value as IEnumerable).Cast<Object>();
                 return String.Join(", ", TrueValue.Select(X => Conversions.ParseDecStringAsHexString(typeof(UInt64), X.ToString())));

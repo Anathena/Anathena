@@ -6,7 +6,7 @@ using System.Globalization;
 
 namespace Anathema.Source.Project.ProjectItems.TypeConverters
 {
-    class IntPtrConverter : StringConverter
+    class AddressConverter : StringConverter
     {
         public override Object ConvertTo(ITypeDescriptorContext Context, CultureInfo Culture, Object Value, Type DestinationType)
         {

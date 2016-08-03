@@ -102,11 +102,6 @@ namespace Anathema.GUI
             });
         }
 
-        public void OpenScriptEditor()
-        {
-            CreateScriptEditor();
-        }
-
         public void OpenLabelThresholder()
         {
             CreateLabelThresholder();
@@ -431,20 +426,6 @@ namespace Anathema.GUI
             });
         }
 
-        private void CreateScriptEditor()
-        {
-            ControlThreadingHelper.InvokeControlAction(this, () =>
-            {
-                using (TimedLock.Lock(AccessLock))
-                {
-                    if (GUIScriptEditor == null || GUIScriptEditor.IsDisposed)
-                        GUIScriptEditor = new GUIScriptEditor();
-
-                    GUIScriptEditor.Show(ContentPanel);
-                }
-            });
-        }
-
         private void CreateSettings()
         {
             ControlThreadingHelper.InvokeControlAction(GUISettings, () =>
@@ -636,11 +617,6 @@ namespace Anathema.GUI
         private void ProcessSelectorButton_Click(Object Sender, EventArgs E)
         {
             CreateProcessSelector();
-        }
-
-        private void ScriptEditorToolStripMenuItem_Click(Object Sender, EventArgs E)
-        {
-            CreateScriptEditor();
         }
 
         private void SettingsToolStripMenuItem_Click(Object Sender, EventArgs E)

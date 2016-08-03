@@ -1,6 +1,9 @@
 ﻿using Anathema.Source.LuaEngine;
+using Anathema.Source.Project.ProjectItems.TypeConverters;
+using Anathema.Source.Project.ProjectItems.TypeEditors;
 using System;
 using System.ComponentModel;
+using System.Drawing.Design;
 using System.Reflection;
 using System.Runtime.Serialization;
 
@@ -12,6 +15,8 @@ namespace Anathema.Source.Project.ProjectItems
     {
         private LuaScript _LuaScript;
         [DataMember()]
+        [TypeConverter(typeof(LuaScriptConverter))]
+        [Editor(typeof(ScriptEditor), typeof(UITypeEditor))]
         [Category("Properties"), DisplayName("Script"), Description("Lua script to interface with engine")]
         public LuaScript LuaScript
         {

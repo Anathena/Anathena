@@ -199,7 +199,10 @@
     <Compile Include="GUI\Tools\GUIDotNetExplorer.Designer.cs">
       <DependentUpon>GUIDotNetExplorer.cs</DependentUpon>
     </Compile>
-    <Compile Include="GUI\Tools\TypeEditors\ArrayEditor.cs" />
+    <Compile Include="Source\Project\ProjectItems\ScriptTemplates\LuaTemplates.cs" />
+    <Compile Include="Source\Project\ProjectItems\TypeConverters\LuaScriptConverter.cs" />
+    <Compile Include="Source\Project\ProjectItems\TypeEditors\ScriptEditor.cs" />
+    <Compile Include="Source\Project\ProjectItems\TypeEditors\ArrayEditor.cs" />
     <Compile Include="GUI\Tools\TypeEditors\GUIArrayEditor.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -271,10 +274,10 @@
     <Compile Include="Source\Engine\AddressResolver\DotNet\DotNetObject.cs" />
     <Compile Include="Source\LuaEngine\LuaScript.cs" />
     <Compile Include="Source\Project\ProjectItems\FolderItem.cs" />
-    <Compile Include="Source\Project\ProjectItems\TypeConverters\HexArrayConverter.cs" />
+    <Compile Include="Source\Project\ProjectItems\TypeConverters\OffsetConverter.cs" />
     <Compile Include="Source\Project\ProjectItems\TypeConverters\DynamicConverter.cs" />
     <Compile Include="Source\Project\ProjectItems\TypeConverters\ValueTypeConverter.cs" />
-    <Compile Include="Source\Project\ProjectItems\TypeConverters\IntPtrConverter.cs" />
+    <Compile Include="Source\Project\ProjectItems\TypeConverters\AddressConverter.cs" />
     <Compile Include="Source\PropertyEditor\IPropertyViewerMVP.cs" />
     <Compile Include="Source\PropertyEditor\PropertyViewer.cs" />
     <Compile Include="Source\Engine\AddressResolver\AddressResolver.cs" />
@@ -380,8 +383,8 @@
     <Compile Include="Source\Scanners\ManualScanner\IManualScannerMVP.cs" />
     <Compile Include="Source\Scanners\ManualScanner\ManualScanner.cs" />
     <Compile Include="Source\Scanners\InputCorrelator\IInputCorrelatorMVP.cs" />
-    <Compile Include="Source\Project\Editors\ScriptEditor\IScriptEditorMVP.cs" />
-    <Compile Include="Source\Project\Editors\ScriptEditor\ScriptEditor.cs" />
+    <Compile Include="Source\Project\Editors\ScriptEditorDEPRECATED\IScriptEditorMVP.cs" />
+    <Compile Include="Source\Project\Editors\ScriptEditorDEPRECATED\ScriptEditor.cs" />
     <Compile Include="Source\Snapshots\SnapshotRegion.cs" />
     <Compile Include="Source\Snapshots\SnapshotElement.cs" />
     <Compile Include="Source\Utils\Hashing.cs" />
