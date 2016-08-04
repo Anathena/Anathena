@@ -22,6 +22,8 @@ namespace Mono.Cecil.Cil {
 		internal Instruction previous;
 		internal Instruction next;
 
+		SequencePoint sequence_point;
+
 		public int Offset {
 			get { return offset; }
 			set { offset = value; }
@@ -45,6 +47,11 @@ namespace Mono.Cecil.Cil {
 		public Instruction Next {
 			get { return next; }
 			set { next = value; }
+		}
+
+		public SequencePoint SequencePoint {
+			get { return sequence_point; }
+			set { sequence_point = value; }
 		}
 
 		internal Instruction (int offset, OpCode opCode)

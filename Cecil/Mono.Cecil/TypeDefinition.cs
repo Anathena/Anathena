@@ -25,7 +25,7 @@ namespace Mono.Cecil {
 		short packing_size = Mixin.NotResolvedMarker;
 		int class_size = Mixin.NotResolvedMarker;
 
-		InterfaceImplementationCollection interfaces;
+		Collection<TypeReference> interfaces;
 		Collection<TypeDefinition> nested_types;
 		Collection<MethodDefinition> methods;
 		Collection<FieldDefinition> fields;
@@ -36,27 +36,12 @@ namespace Mono.Cecil {
 
 		public TypeAttributes Attributes {
 			get { return (TypeAttributes) attributes; }
-			set {
-				if (IsWindowsRuntimeProjection && (ushort) value != attributes)
-					throw new InvalidOperationException ();
-
-				attributes = (uint) value;
-			}
+			set { attributes = (uint) value; }
 		}
 
 		public TypeReference BaseType {
 			get { return base_type; }
 			set { base_type = value; }
-		}
-
-		public override string Name {
-			get { return base.Name; }
-			set {
-				if (IsWindowsRuntimeProjection && value != base.Name)
-					throw new InvalidOperationException ();
-
-				base.Name = value;
-			}
 		}
 
 		void ResolveLayout ()
@@ -120,7 +105,7 @@ namespace Mono.Cecil {
 			}
 		}
 
-		public Collection<InterfaceImplementation> Interfaces {
+		public Collection<TypeReference> Interfaces {
 			get {
 				if (interfaces != null)
 					return interfaces;
@@ -128,7 +113,7 @@ namespace Mono.Cecil {
 				if (HasImage)
 					return Module.Read (ref interfaces, this, (type, reader) => reader.ReadInterfaces (type));
 
-				return interfaces = new InterfaceImplementationCollection (this);
+				return interfaces = new Collection<TypeReference> ();
 			}
 		}
 
@@ -444,11 +429,6 @@ namespace Mono.Cecil {
 			set { base.DeclaringType = value; }
 		}
 
-		internal new TypeDefinitionProjection WindowsRuntimeProjection {
-			get { return (TypeDefinitionProjection) projection; }
-			set { projection = value; }
-		}
-
 		public TypeDefinition (string @namespace, string name, TypeAttributes attributes)
 			: base (@namespace, name)
 		{
@@ -462,113 +442,9 @@ namespace Mono.Cecil {
 			this.BaseType = baseType;
 		}
 
-		protected override void ClearFullName ()
-		{
-			base.ClearFullName ();
-
-			if (!HasNestedTypes)
-				return;
-
-			var nested_types = this.NestedTypes;
-
-			for (int i = 0; i < nested_types.Count; i++)
-				nested_types [i].ClearFullName ();
-		}
-
 		public override TypeDefinition Resolve ()
 		{
 			return this;
-		}
-	}
-
-	public sealed class InterfaceImplementation : ICustomAttributeProvider
-	{
-		internal TypeDefinition type;
-		internal MetadataToken token;
-
-		TypeReference interface_type;
-		Collection<CustomAttribute> custom_attributes;
-
-		public TypeReference InterfaceType {
-			get { return interface_type; }
-			set { interface_type = value; }
-		}
-
-		public bool HasCustomAttributes {
-			get {
-				if (custom_attributes != null)
-					return custom_attributes.Count > 0;
-
-				if (type == null)
-					return false;
-
-				return this.GetHasCustomAttributes (type.Module);
-			}
-		}
-
-		public Collection<CustomAttribute> CustomAttributes {
-			get {
-				if (type == null)
-					return custom_attributes = new Collection<CustomAttribute> ();
-
-				return custom_attributes ?? (this.GetCustomAttributes (ref custom_attributes, type.Module));
-			}
-		}
-
-		public MetadataToken MetadataToken {
-			get { return token; }
-			set { token = value; }
-		}
-
-		internal InterfaceImplementation (TypeReference interfaceType, MetadataToken token)
-		{
-			this.interface_type = interfaceType;
-			this.token = token;
-		}
-
-		public InterfaceImplementation (TypeReference interfaceType)
-		{
-			if (interfaceType == null)
-				throw new ArgumentNullException ("interfaceType");
-
-			this.interface_type = interfaceType;
-			this.token = new MetadataToken (TokenType.InterfaceImpl);
-		}
-	}
-
-    public class InterfaceImplementationCollection : Collection<InterfaceImplementation>
-	{
-		readonly TypeDefinition type;
-
-		internal InterfaceImplementationCollection (TypeDefinition type)
-		{
-			this.type = type;
-		}
-
-		internal InterfaceImplementationCollection (TypeDefinition type, int length)
-			: base (length)
-		{
-			this.type = type;
-		}
-
-		protected override void OnAdd (InterfaceImplementation item, int index)
-		{
-			item.type = type;
-		}
-
-		protected override void OnInsert (InterfaceImplementation item, int index)
-		{
-			item.type = type;
-		}
-
-		protected override void OnSet (InterfaceImplementation item, int index)
-		{
-			item.type = type;
-		}
-
-		protected override void OnRemove (InterfaceImplementation item, int index)
-		{
-			item.type = null;
 		}
 	}
 

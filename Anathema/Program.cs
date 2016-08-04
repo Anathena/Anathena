@@ -1,6 +1,8 @@
 ﻿using Anathema.GUI;
 using ScintillaNET;
+using SharpCli;
 using System;
+using System.IO;
 using System.Windows.Forms;
 
 namespace Anathema
@@ -18,6 +20,10 @@ namespace Anathema
 
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
+
+            // Get SharpCli to patch all SharpDX DLLs to implement generated functions 
+            InteropApp InteropApp = new InteropApp(Path.GetDirectoryName(Application.ExecutablePath));
+            InteropApp.PatchAll();
 
             GUIMain GUIMain = new GUIMain();
             if (GUIMain != null && !GUIMain.IsDisposed)

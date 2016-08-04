@@ -161,6 +161,7 @@ namespace Mono.Collections.Generic {
 			OnRemove (item, index);
 
 			Shift (index, -1);
+			Array.Clear (items, size, 1);
 			version++;
 		}
 
@@ -173,6 +174,7 @@ namespace Mono.Collections.Generic {
 			OnRemove (item, index);
 
 			Shift (index, -1);
+			Array.Clear (items, size, 1);
 			version++;
 
 			return true;

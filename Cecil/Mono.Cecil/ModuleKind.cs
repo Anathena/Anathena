@@ -19,12 +19,6 @@ namespace Mono.Cecil {
 		NetModule,
 	}
 
-	public enum MetadataKind {
-		Ecma335,
-		WindowsMetadata,
-		ManagedWindowsMetadata,
-	}
-
 	public enum TargetArchitecture {
 		I386,
 		AMD64,

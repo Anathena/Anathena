@@ -38,55 +38,69 @@ namespace Mono.Cecil.Pdb {
 			return true;
 		}
 
-		public void Write (MethodDebugInformation info)
+		public void Write (MethodBody body)
 		{
-			var method_token = info.method.MetadataToken;
+			var method_token = body.Method.MetadataToken;
 			var sym_token = new SymbolToken (method_token.ToInt32 ());
 
+			var instructions = CollectInstructions (body);
+			if (instructions.Count == 0)
+				return;
+
+			var start_offset = 0;
+			var end_offset = body.CodeSize;
+
 			writer.OpenMethod (sym_token);
+			writer.OpenScope (start_offset);
 
-			DefineSequencePoints (info.sequence_points);
+			DefineSequencePoints (instructions);
+			DefineVariables (body, start_offset, end_offset);
 
-			if (info.scope != null)
-				DefineScope (info.scope, info);
-
+			writer.CloseScope (end_offset);
 			writer.CloseMethod ();
 		}
 
-		void DefineScope (ScopeDebugInformation scope, MethodDebugInformation info)
+		Collection<Instruction> CollectInstructions (MethodBody body)
 		{
-			var start_offset = scope.Start.Offset;
-			var end_offset = scope.End.IsEndOfMethod
-				? info.code_size
-				: scope.End.Offset;
+			var collection = new Collection<Instruction> ();
+			var instructions = body.Instructions;
 
-			writer.OpenScope (start_offset);
+			for (int i = 0; i < instructions.Count; i++) {
+				var instruction = instructions [i];
+				var sequence_point = instruction.SequencePoint;
+				if (sequence_point == null)
+					continue;
 
-			var sym_token = new SymbolToken (info.local_var_token.ToInt32 ());
-
-			if (!scope.variables.IsNullOrEmpty ()) {
-				for (int i = 0; i < scope.variables.Count; i++) {
-					var variable = scope.variables [i];
-					CreateLocalVariable (variable, sym_token, start_offset, end_offset);
-				}
+				GetDocument (sequence_point.Document);
+				collection.Add (instruction);
 			}
 
-			if (!scope.scopes.IsNullOrEmpty ()) {
-				for (int i = 0; i < scope.scopes.Count; i++)
-					DefineScope (scope.scopes [i], info);
-			}
-
-			writer.CloseScope (end_offset);
+			return collection;
 		}
 
-		void DefineSequencePoints (Collection<SequencePoint> sequence_points)
+		void DefineVariables (MethodBody body, int start_offset, int end_offset)
 		{
-			for (int i = 0; i < sequence_points.Count; i++) {
-				var sequence_point = sequence_points [i];
+			if (!body.HasVariables)
+				return;
+
+			var sym_token = new SymbolToken (body.LocalVarToken.ToInt32 ());
+
+			var variables = body.Variables;
+			for (int i = 0; i < variables.Count; i++) {
+				var variable = variables [i];
+				CreateLocalVariable (variable, sym_token, start_offset, end_offset);
+			}
+		}
+
+		void DefineSequencePoints (Collection<Instruction> instructions)
+		{
+			for (int i = 0; i < instructions.Count; i++) {
+				var instruction = instructions [i];
+				var sequence_point = instruction.SequencePoint;
 
 				writer.DefineSequencePoints (
 					GetDocument (sequence_point.Document),
-					new [] { sequence_point.Offset },
+					new [] { instruction.Offset },
 					new [] { sequence_point.StartLine },
 					new [] { sequence_point.StartColumn },
 					new [] { sequence_point.EndLine },
@@ -94,11 +108,11 @@ namespace Mono.Cecil.Pdb {
 			}
 		}
 
-		void CreateLocalVariable (VariableDebugInformation variable, SymbolToken local_var_token, int start_offset, int end_offset)
+		void CreateLocalVariable (VariableDefinition variable, SymbolToken local_var_token, int start_offset, int end_offset)
 		{
 			writer.DefineLocalVariable2 (
 				variable.Name,
-				variable.Attributes,
+				0,
 				local_var_token,
 				SymAddressKind.ILOffset,
 				variable.Index,
@@ -125,6 +139,55 @@ namespace Mono.Cecil.Pdb {
 
 			documents [document.Url] = doc_writer;
 			return doc_writer;
+		}
+
+		public void Write (MethodSymbols symbols)
+		{
+			var sym_token = new SymbolToken (symbols.MethodToken.ToInt32 ());
+
+			var start_offset = 0;
+			var end_offset = symbols.CodeSize;
+
+			writer.OpenMethod (sym_token);
+			writer.OpenScope (start_offset);
+
+			DefineSequencePoints (symbols);
+			DefineVariables (symbols, start_offset, end_offset);
+
+			writer.CloseScope (end_offset);
+			writer.CloseMethod ();
+		}
+
+		void DefineSequencePoints (MethodSymbols symbols)
+		{
+			var instructions = symbols.instructions;
+
+			for (int i = 0; i < instructions.Count; i++) {
+				var instruction = instructions [i];
+				var sequence_point = instruction.SequencePoint;
+
+				writer.DefineSequencePoints (
+					GetDocument (sequence_point.Document),
+					new [] { instruction.Offset },
+					new [] { sequence_point.StartLine },
+					new [] { sequence_point.StartColumn },
+					new [] { sequence_point.EndLine },
+					new [] { sequence_point.EndColumn });
+			}
+		}
+
+		void DefineVariables (MethodSymbols symbols, int start_offset, int end_offset)
+		{
+			if (!symbols.HasVariables)
+				return;
+
+			var sym_token = new SymbolToken (symbols.LocalVarToken.ToInt32 ());
+
+			var variables = symbols.Variables;
+			for (int i = 0; i < variables.Count; i++) {
+				var variable = variables [i];
+				CreateLocalVariable (variable, sym_token, start_offset, end_offset);
+			}
 		}
 
 		public void Dispose ()

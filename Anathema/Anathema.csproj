@@ -136,6 +136,9 @@
   <PropertyGroup>
     <DelaySign>false</DelaySign>
   </PropertyGroup>
+  <PropertyGroup>
+    <RunPostBuildEvent>OnOutputUpdated</RunPostBuildEvent>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="EasyHook, Version=2.7.5870.0, Culture=neutral, PublicKeyToken=4b580fca19d0b0c5, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -383,8 +386,8 @@
     <Compile Include="Source\Scanners\ManualScanner\IManualScannerMVP.cs" />
     <Compile Include="Source\Scanners\ManualScanner\ManualScanner.cs" />
     <Compile Include="Source\Scanners\InputCorrelator\IInputCorrelatorMVP.cs" />
-    <Compile Include="Source\Project\Editors\ScriptEditor\IScriptEditorMVP.cs" />
-    <Compile Include="Source\Project\Editors\ScriptEditor\ScriptEditor.cs" />
+    <Compile Include="Source\Project\Editors\ScriptEditorDEPRECATED\IScriptEditorMVP.cs" />
+    <Compile Include="Source\Project\Editors\ScriptEditorDEPRECATED\ScriptEditor.cs" />
     <Compile Include="Source\Snapshots\SnapshotRegion.cs" />
     <Compile Include="Source\Snapshots\SnapshotElement.cs" />
     <Compile Include="Source\Utils\Hashing.cs" />

@@ -21,7 +21,6 @@ namespace Mono.Cecil.Cil {
 		None,
 		MD5,
 		SHA1,
-		SHA256,
 	}
 
 	public enum DocumentLanguage {
@@ -45,7 +44,7 @@ namespace Mono.Cecil.Cil {
 		Microsoft,
 	}
 
-	public sealed class Document : DebugInformation {
+	public sealed class Document {
 
 		string url;
 
@@ -90,7 +89,6 @@ namespace Mono.Cecil.Cil {
 		{
 			this.url = url;
 			this.hash = Empty<byte>.Array;
-			this.token = new MetadataToken (TokenType.Document);
 		}
 	}
 }

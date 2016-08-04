@@ -19,13 +19,10 @@ using Mono.CompilerServices.SymbolWriter;
 namespace Mono.Cecil.Mdb {
 
 #if !READ_ONLY
-	public sealed class MdbWriterProvider : ISymbolWriterProvider {
+	public class MdbWriterProvider : ISymbolWriterProvider {
 
 		public ISymbolWriter GetSymbolWriter (ModuleDefinition module, string fileName)
 		{
-			Mixin.CheckModule (module);
-			Mixin.CheckFileName (fileName);
-
 			return new MdbWriter (module.Mvid, fileName);
 		}
 
@@ -35,7 +32,7 @@ namespace Mono.Cecil.Mdb {
 		}
 	}
 
-	public sealed class MdbWriter : ISymbolWriter {
+	public class MdbWriter : ISymbolWriter {
 
 		readonly Guid mvid;
 		readonly MonoSymbolWriter writer;
@@ -46,6 +43,16 @@ namespace Mono.Cecil.Mdb {
 			this.mvid = mvid;
 			this.writer = new MonoSymbolWriter (assembly);
 			this.source_files = new Dictionary<string, SourceFile> ();
+		}
+
+		static Collection<Instruction> GetInstructions (MethodBody body)
+		{
+			var instructions = new Collection<Instruction> ();
+			foreach (var instruction in body.Instructions)
+				if (instruction.SequencePoint != null)
+					instructions.Add (instruction);
+
+			return instructions;
 		}
 
 		SourceFile GetSourceFile (Document document)
@@ -64,15 +71,16 @@ namespace Mono.Cecil.Mdb {
 			return source_file;
 		}
 
-		void Populate (Collection<SequencePoint> sequencePoints, int [] offsets,
+		void Populate (Collection<Instruction> instructions, int [] offsets,
 			int [] startRows, int [] endRows, int [] startCols, int [] endCols, out SourceFile file)
 		{
 			SourceFile source_file = null;
 
-			for (int i = 0; i < sequencePoints.Count; i++) {
-				var sequence_point = sequencePoints [i];
-				offsets [i] = sequence_point.Offset;
+			for (int i = 0; i < instructions.Count; i++) {
+				var instruction = instructions [i];
+				offsets [i] = instruction.Offset;
 
+				var sequence_point = instruction.SequencePoint;
 				if (source_file == null)
 					source_file = GetSourceFile (sequence_point.Document);
 
@@ -85,12 +93,12 @@ namespace Mono.Cecil.Mdb {
 			file = source_file;
 		}
 
-		public void Write (MethodDebugInformation info)
+		public void Write (MethodBody body)
 		{
-			var method = new SourceMethod (info.method);
+			var method = new SourceMethod (body.Method);
 
-			var sequence_points = info.SequencePoints;
-			int count = sequence_points.Count;
+			var instructions = GetInstructions (body);
+			int count = instructions.Count;
 			if (count == 0)
 				return;
 
@@ -101,7 +109,7 @@ namespace Mono.Cecil.Mdb {
 			var end_cols = new int [count];
 
 			SourceFile file;
-			Populate (sequence_points, offsets, start_rows, end_rows, start_cols, end_cols, out file);
+			Populate (instructions, offsets, start_rows, end_rows, start_cols, end_cols, out file);
 
 			var builder = writer.OpenMethod (file.CompilationUnit, 0, method);
 
@@ -110,47 +118,43 @@ namespace Mono.Cecil.Mdb {
 					offsets [i],
 					file.CompilationUnit.SourceFile,
 					start_rows [i],
-					start_cols [i],
 					end_rows [i],
+					start_cols [i],
 					end_cols [i],
 					false);
 			}
 
-			if (info.scope != null)
-				WriteScope (info.scope);
+			if (body.Scope != null && body.Scope.HasScopes)
+				WriteScope (body.Scope, true);
+			else 
+				if (body.HasVariables)
+					AddVariables (body.Variables);
 
 			writer.CloseMethod ();
 		}
 
-		void WriteScope (ScopeDebugInformation scope)
+		private void WriteScope (Scope scope, bool root)
 		{
-			if (scope.Start.Offset == scope.End.Offset)
-				return;
+			if (scope.Start.Offset == scope.End.Offset) return;
+			writer.OpenScope (scope.Start.Offset);
 
-			writer.OpenScope(scope.Start.Offset);
 
-			WriteScopeVariables (scope);
+			if (scope.HasVariables)
+			{
+				foreach (var el in scope.Variables)
+				{
+					if (!String.IsNullOrEmpty (el.Name))
+						writer.DefineLocalVariable (el.Index, el.Name);
+				}
+			}
 
 			if (scope.HasScopes)
-				WriteScopes (scope.Scopes);
+			{
+				foreach (var el in scope.Scopes)
+					WriteScope (el, false);
+			}
 
-			writer.CloseScope(scope.End.Offset);
-		}
-
-		void WriteScopes (Collection<ScopeDebugInformation> scopes)
-		{
-			for (int i = 0; i < scopes.Count; i++)
-				WriteScope (scopes [i]);
-		}
-
-		void WriteScopeVariables (ScopeDebugInformation scope)
-		{
-			if (!scope.HasVariables)
-				return;
-
-			foreach (var variable in scope.variables)
-				if (!string.IsNullOrEmpty (variable.Name))
-					writer.DefineLocalVariable (variable.Index, variable.Name);
+			writer.CloseScope (scope.End.Offset + scope.End.GetSize());
 		}
 
 		readonly static byte [] empty_header = new byte [0];
@@ -162,12 +166,40 @@ namespace Mono.Cecil.Mdb {
 			return false;
 		}
 
-		void AddVariables (IList<VariableDebugInformation> variables)
+		void AddVariables (IList<VariableDefinition> variables)
 		{
 			for (int i = 0; i < variables.Count; i++) {
 				var variable = variables [i];
 				writer.DefineLocalVariable (i, variable.Name);
 			}
+		}
+
+		public void Write (MethodSymbols symbols)
+		{
+			var method = new SourceMethodSymbol (symbols);
+
+			var file = GetSourceFile (symbols.Instructions [0].SequencePoint.Document);
+			var builder = writer.OpenMethod (file.CompilationUnit, 0, method);
+			var count = symbols.Instructions.Count;
+
+			for (int i = 0; i < count; i++) {
+				var instruction = symbols.Instructions [i];
+				var sequence_point = instruction.SequencePoint;
+
+				builder.MarkSequencePoint (
+					instruction.Offset,
+					GetSourceFile (sequence_point.Document).CompilationUnit.SourceFile,
+					sequence_point.StartLine,
+					sequence_point.EndLine,
+					sequence_point.StartColumn,
+					sequence_point.EndColumn,
+					false);
+			}
+
+			if (symbols.HasVariables)
+				AddVariables (symbols.Variables);
+
+			writer.CloseMethod ();
 		}
 
 		public void Dispose ()
@@ -192,6 +224,26 @@ namespace Mono.Cecil.Mdb {
 			{
 				this.compilation_unit = comp_unit;
 				this.entry = entry;
+			}
+		}
+
+		class SourceMethodSymbol : IMethodDef {
+
+			readonly string name;
+			readonly int token;
+
+			public string Name {
+				get { return name;}
+			}
+
+			public int Token {
+				get { return token; }
+			}
+
+			public SourceMethodSymbol (MethodSymbols symbols)
+			{
+				name = symbols.MethodName;
+				token = symbols.MethodToken.ToInt32 ();
 			}
 		}
 

@@ -36,11 +36,6 @@ namespace Mono.Cecil {
 			property_type = propertyType;
 		}
 
-		protected override IMemberDefinition ResolveDefinition ()
-		{
-			return this.Resolve ();
-		}
-
-		public new abstract PropertyDefinition Resolve ();
+		public abstract PropertyDefinition Resolve ();
 	}
 }

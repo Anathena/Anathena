@@ -8,47 +8,35 @@
 // Licensed under the MIT/X11 license.
 //
 
+using Mono.Cecil.PE;
 using System;
 
-namespace Mono.Cecil.Metadata {
+namespace Mono.Cecil.Metadata
+{
 
-    public sealed class BlobHeap : Heap {
+    public sealed class BlobHeap : Heap
+    {
 
-		public BlobHeap (byte [] data)
-			: base (data)
-		{
-		}
+        public BlobHeap(Section section, uint start, uint size)
+            : base(section, start, size)
+        {
+        }
 
-		public byte [] Read (uint index)
-		{
-			if (index == 0 || index > this.data.Length - 1)
-				return Empty<byte>.Array;
+        public byte[] Read(uint index)
+        {
+            if (index == 0 || index > Size - 1)
+                return Empty<byte>.Array;
 
-			int position = (int) index;
-			int length = (int) data.ReadCompressedUInt32 (ref position);
+            var data = Section.Data;
 
-			if (length > data.Length - position)
-				return Empty<byte>.Array;
+            int position = (int)(index + Offset);
+            int length = (int)data.ReadCompressedUInt32(ref position);
 
-			var buffer = new byte [length];
+            var buffer = new byte[length];
 
-			Buffer.BlockCopy (data, position, buffer, 0, length);
+            Buffer.BlockCopy(data, position, buffer, 0, length);
 
-			return buffer;
-		}
-
-		public void GetView (uint signature, out byte [] buffer, out int index, out int length)
-		{
-			if (signature == 0 || signature > data.Length - 1) {
-				buffer = null;
-				index = length = 0;
-				return;
-			}
-
-			buffer = data;
-
-			index = (int) signature;
-			length = (int) buffer.ReadCompressedUInt32 (ref index);
-		}
-	}
+            return buffer;
+        }
+    }
 }

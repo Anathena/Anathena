@@ -49,8 +49,8 @@ namespace Mono.Cecil {
 		public Version Version {
 			get { return version; }
 			set {
-				version = Mixin.CheckVersion (value);
-				full_name = null;
+				 version = value;
+				 full_name = null;
 			}
 		}
 
@@ -109,27 +109,29 @@ namespace Mono.Cecil {
 
 		byte [] HashPublicKey ()
 		{
-#if !PCL
 			HashAlgorithm algorithm;
 
 			switch (hash_algorithm) {
 			case AssemblyHashAlgorithm.Reserved:
+#if SILVERLIGHT
+				throw new NotSupportedException ();
+#else
 				algorithm = MD5.Create ();
 				break;
+#endif
 			default:
 				// None default to SHA1
+#if SILVERLIGHT
+				algorithm = new SHA1Managed ();
+				break;
+#else
 				algorithm = SHA1.Create ();
 				break;
+#endif
 			}
 
 			using (algorithm)
 				return algorithm.ComputeHash (public_key);
-#else
-			if (hash_algorithm != AssemblyHashAlgorithm.SHA1)
-				throw new NotSupportedException ();
-
-			return new SHA1Managed ().ComputeHash (public_key);
-#endif
 		}
 
 		public virtual MetadataScopeType MetadataScopeType {
@@ -145,9 +147,11 @@ namespace Mono.Cecil {
 
 				var builder = new StringBuilder ();
 				builder.Append (name);
-				builder.Append (sep);
-				builder.Append ("Version=");
-				builder.Append (version.ToString (fieldCount: 4));
+				if (version != null) {
+					builder.Append (sep);
+					builder.Append ("Version=");
+					builder.Append (version.ToString ());
+				}
 				builder.Append (sep);
 				builder.Append ("Culture=");
 				builder.Append (string.IsNullOrEmpty (culture) ? "neutral" : culture);
@@ -161,11 +165,6 @@ namespace Mono.Cecil {
 					}
 				} else
 					builder.Append ("null");
-
-				if (IsRetargetable) {
-					builder.Append (sep);
-					builder.Append ("Retargetable=Yes");
-				}
 
 				return full_name = builder.ToString ();
 			}
@@ -197,7 +196,7 @@ namespace Mono.Cecil {
 					name.Version = new Version (parts [1]);
 					break;
 				case "culture":
-					name.Culture = parts [1] == "neutral" ? "" : parts [1];
+					name.Culture = parts [1];
 					break;
 				case "publickeytoken":
 					var pk_token = parts [1];
@@ -232,8 +231,6 @@ namespace Mono.Cecil {
 
 		internal AssemblyNameReference ()
 		{
-			this.version = Mixin.ZeroVersion;
-			this.token = new MetadataToken (TokenType.AssemblyRef);
 		}
 
 		public AssemblyNameReference (string name, Version version)
@@ -242,7 +239,7 @@ namespace Mono.Cecil {
 				throw new ArgumentNullException ("name");
 
 			this.name = name;
-			this.version = Mixin.CheckVersion (version);
+			this.version = version;
 			this.hash_algorithm = AssemblyHashAlgorithm.None;
 			this.token = new MetadataToken (TokenType.AssemblyRef);
 		}
@@ -250,25 +247,6 @@ namespace Mono.Cecil {
 		public override string ToString ()
 		{
 			return this.FullName;
-		}
-	}
-
-	partial class Mixin {
-
-		public static Version ZeroVersion = new Version (0, 0, 0 ,0);
-
-		public static Version CheckVersion (Version version)
-		{
-			if (version == null)
-				return ZeroVersion;
-
-			if (version.Build == -1)
-				return new Version (version.Major, version.Minor, 0, 0);
-
-			if (version.Revision == -1)
-				return new Version (version.Major, version.Minor, version.Build, 0);
-
-			return version;
 		}
 	}
 }

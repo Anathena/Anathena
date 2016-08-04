@@ -20,18 +20,16 @@ using RVA = System.UInt32;
 
 namespace Mono.Cecil.Metadata {
 
-    public sealed class TableHeapBuffer : HeapBuffer {
+	sealed class TableHeapBuffer : HeapBuffer {
 
 		readonly ModuleDefinition module;
 		readonly MetadataBuilder metadata;
 
-        public MetadataTable [] tables = new MetadataTable [Mixin.TableCount];
+		internal MetadataTable [] tables = new MetadataTable [45];
 
 		bool large_string;
 		bool large_blob;
-		bool large_guid;
-
-		readonly int [] coded_index_sizes = new int [Mixin.CodedIndexCount];
+		readonly int [] coded_index_sizes = new int [13];
 		readonly Func<Table, int> counter;
 
 		public override bool IsEmpty {
@@ -89,11 +87,6 @@ namespace Mono.Cecil.Metadata {
 			WriteBySize (blob, large_blob);
 		}
 
-		public void WriteGuid (uint guid)
-		{
-			WriteBySize (guid, large_guid);
-		}
-
 		public void WriteRID (uint rid, Table table)
 		{
 			var md_table = tables [(int) table];
@@ -123,7 +116,7 @@ namespace Mono.Cecil.Metadata {
 			WriteByte (GetHeapSizes ());		// HeapSizes
 			WriteByte (10);						// Reserved2
 			WriteUInt64 (GetValid ());			// Valid
-			WriteUInt64 (0xc416003301fa00);		// Sorted
+			WriteUInt64 (0x0016003301fa00);		// Sorted
 
 			WriteRowCount ();
 			WriteTables ();
@@ -174,11 +167,6 @@ namespace Mono.Cecil.Metadata {
 			if (metadata.string_heap.IsLarge) {
 				large_string = true;
 				heap_sizes |= 0x01;
-			}
-
-			if (metadata.guid_heap.IsLarge) {
-				large_guid = true;
-				heap_sizes |= 0x02;
 			}
 
 			if (metadata.blob_heap.IsLarge) {
@@ -252,7 +240,7 @@ namespace Mono.Cecil.Metadata {
 		}
 	}
 
-    public abstract class HeapBuffer : ByteBuffer {
+	abstract class HeapBuffer : ByteBuffer {
 
 		public bool IsLarge {
 			get { return base.length > 65535; }
@@ -263,37 +251,6 @@ namespace Mono.Cecil.Metadata {
 		protected HeapBuffer (int length)
 			: base (length)
 		{
-		}
-	}
-
-	sealed class GuidHeapBuffer : HeapBuffer {
-
-		readonly Dictionary<Guid, uint> guids = new Dictionary<Guid, uint> ();
-
-		public override bool IsEmpty {
-			get { return length == 0; }
-		}
-
-		public GuidHeapBuffer ()
-			: base (16)
-		{
-		}
-
-		public uint GetGuidIndex (Guid guid)
-		{
-			uint index;
-			if (guids.TryGetValue (guid, out index))
-				return index;
-
-			index = (uint) guids.Count + 1;
-			WriteGuid (guid);
-			guids.Add (guid, index);
-			return index;
-		}
-
-		void WriteGuid (Guid guid)
-		{
-			WriteBytes (guid.ToByteArray ());
 		}
 	}
 
@@ -391,18 +348,6 @@ namespace Mono.Cecil.Metadata {
 			}
 
 			WriteByte (special);
-		}
-	}
-
-	sealed class PdbHeapBuffer : HeapBuffer {
-
-		public override bool IsEmpty {
-			get { return false; }
-		}
-
-		public PdbHeapBuffer ()
-			: base (0)
-		{
 		}
 	}
 }

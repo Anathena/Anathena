@@ -10,23 +10,20 @@
 //-----------------------------------------------------------------------------
 using System;
 
-namespace Microsoft.Cci.Pdb
-{
-    public class PdbSource
-    {
-        //public uint index;
-        public string name;
-        public Guid doctype;
-        public Guid language;
-        public Guid vendor;
+namespace Microsoft.Cci.Pdb {
+  internal class PdbSource {
+    //internal uint index;
+    internal string name;
+    internal Guid doctype;
+    internal Guid language;
+    internal Guid vendor;
 
-        public PdbSource(/*uint index, */string name, Guid doctype, Guid language, Guid vendor)
-        {
-            //this.index = index;
-            this.name = name;
-            this.doctype = doctype;
-            this.language = language;
-            this.vendor = vendor;
-        }
+    internal PdbSource(/*uint index, */string name, Guid doctype, Guid language, Guid vendor) {
+      //this.index = index;
+      this.name = name;
+      this.doctype = doctype;
+      this.language = language;
+      this.vendor = vendor;
     }
+  }
 }

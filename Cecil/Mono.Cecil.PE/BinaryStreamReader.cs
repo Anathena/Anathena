@@ -13,33 +13,19 @@ using System.IO;
 
 namespace Mono.Cecil.PE {
 
-    public class BinaryStreamReader : BinaryReader {
-
-		public int Position {
-			get { return (int) BaseStream.Position; }
-			set { BaseStream.Position = value; }
-		}
-
-		public int Length {
-			get { return (int) BaseStream.Length; }
-		}
+	class BinaryStreamReader : BinaryReader {
 
 		public BinaryStreamReader (Stream stream)
 			: base (stream)
 		{
 		}
 
-		public void Advance (int bytes)
+		protected void Advance (int bytes)
 		{
 			BaseStream.Seek (bytes, SeekOrigin.Current);
 		}
 
-		public void MoveTo (uint position)
-		{
-			BaseStream.Seek (position, SeekOrigin.Begin);
-		}
-
-		public DataDirectory ReadDataDirectory ()
+		protected DataDirectory ReadDataDirectory ()
 		{
 			return new DataDirectory (ReadUInt32 (), ReadUInt32 ());
 		}

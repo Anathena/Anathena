@@ -8,8 +8,6 @@
 // Licensed under the MIT/X11 license.
 //
 
-using System;
-
 namespace Mono.Cecil.Cil {
 
 	public enum FlowControl {
@@ -88,7 +86,7 @@ namespace Mono.Cecil.Cil {
 		Varpush,
 	}
 
-	public struct OpCode : IEquatable<OpCode> {
+	public struct OpCode {
 
 		readonly byte op1;
 		readonly byte op2;

@@ -31,7 +31,6 @@ namespace Mono.Cecil.PE {
 		UserStringHeap,
 		GuidHeap,
 		BlobHeap,
-		PdbHeap,
 		// End Metadata
 
 		DebugDirectory,
@@ -42,7 +41,7 @@ namespace Mono.Cecil.PE {
 
 	sealed class TextMap {
 
-		readonly Range [] map = new Range [17 /*Enum.GetValues (typeof (TextSegment)).Length*/];
+		readonly Range [] map = new Range [16 /*Enum.GetValues (typeof (TextSegment)).Length*/];
 
 		public void AddMap (TextSegment segment, int length)
 		{

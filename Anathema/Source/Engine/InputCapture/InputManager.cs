@@ -12,7 +12,6 @@ namespace Anathema.Source.Engine.InputCapture
 
         public InputManager()
         {
-            return;
             ControllerSubject = new ControllerCapture.ControllerCapture();
             KeyboardSubject = new KeyboardCapture.KeyboardCapture();
             MouseSubject = new MouseCapture.MouseCapture();

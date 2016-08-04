@@ -8,29 +8,35 @@
 // Licensed under the MIT/X11 license.
 //
 
+using Mono.Cecil.PE;
 using System;
 
-namespace Mono.Cecil.Metadata {
+namespace Mono.Cecil.Metadata
+{
 
-    public sealed class GuidHeap : Heap {
+    public sealed class GuidHeap : Heap
+    {
 
-		public GuidHeap (byte [] data)
-			: base (data)
-		{
-		}
+        public GuidHeap(Section section, uint start, uint size)
+            : base(section, start, size)
+        {
+        }
 
-		public Guid Read (uint index)
-		{
-			const int guid_size = 16;
+        public Guid Read(uint index)
+        {
+            if (index == 0)
+                return new Guid();
 
-			if (index == 0 || ((index - 1) + guid_size) > data.Length)
-				return new Guid ();
+            const int guid_size = 16;
 
-			var buffer = new byte [guid_size];
+            var buffer = new byte[guid_size];
 
-			Buffer.BlockCopy (this.data, (int) ((index - 1) * guid_size), buffer, 0, guid_size);
+            index--;
 
-			return new Guid (buffer);
-		}
-	}
+            Buffer.BlockCopy(Section.Data, (int)(Offset + index), buffer, 0, guid_size);
+
+            return new Guid(buffer);
+
+        }
+    }
 }

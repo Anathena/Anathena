@@ -8,11 +8,9 @@
 // Licensed under the MIT/X11 license.
 //
 
-using System;
-
 namespace Mono.Cecil {
 
-	public struct MetadataToken : IEquatable<MetadataToken> {
+	public struct MetadataToken {
 
 		readonly uint token;
 
@@ -59,11 +57,6 @@ namespace Mono.Cecil {
 		public override int GetHashCode ()
 		{
 			return (int) token;
-		}
-
-		public bool Equals (MetadataToken other)
-		{
-			return other.token == token;
 		}
 
 		public override bool Equals (object obj)

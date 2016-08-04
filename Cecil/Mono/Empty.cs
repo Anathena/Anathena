@@ -8,47 +8,46 @@
 // Licensed under the MIT/X11 license.
 //
 
-using System;
 using Mono.Collections.Generic;
+using System;
 
-namespace Mono {
+namespace Mono
+{
 
-    public static class Empty<T> {
+    public static class Empty<T>
+    {
 
-		public static readonly T [] Array = new T [0];
-	}
+        public static readonly T[] Array = new T[0];
+    }
 }
 
-namespace Mono.Cecil {
+namespace Mono.Cecil
+{
 
-	static partial class Mixin {
+    static partial class Mixin
+    {
 
-		public static bool IsNullOrEmpty<T> (this T [] self)
-		{
-			return self == null || self.Length == 0;
-		}
+        public static bool IsNullOrEmpty<T>(this T[] self)
+        {
+            return self == null || self.Length == 0;
+        }
 
-		public static bool IsNullOrEmpty<T> (this Collection<T> self)
-		{
-			return self == null || self.size == 0;
-		}
+        public static bool IsNullOrEmpty<T>(this Collection<T> self)
+        {
+            return self == null || self.size == 0;
+        }
 
-		public static T [] Resize<T> (this T [] self, int length)
-		{
-			Array.Resize (ref self, length);
-			return self;
-		}
+        public static T[] Resize<T>(this T[] self, int length)
+        {
+#if !CF
+            Array.Resize(ref self, length);
+#else
+			var copy = new T [length];
+			Array.Copy (self, copy, self.Length);
+			self = copy;
+#endif
 
-		public static T [] Add<T> (this T [] self, T item)
-		{
-			if (self == null) {
-				self = new [] { item };
-				return self;
-			}
-
-			self = self.Resize (self.Length + 1);
-			self [self.Length - 1] = item;
-			return self;
-		}
-	}
+            return self;
+        }
+    }
 }

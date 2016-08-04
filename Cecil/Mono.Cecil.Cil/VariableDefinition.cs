@@ -21,6 +21,11 @@ namespace Mono.Cecil.Cil {
 		{
 		}
 
+		public VariableDefinition (string name, TypeReference variableType)
+			: base (name, variableType)
+		{
+		}
+
 		public override VariableDefinition Resolve ()
 		{
 			return this;

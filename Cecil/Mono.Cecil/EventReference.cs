@@ -34,11 +34,6 @@ namespace Mono.Cecil {
 			event_type = eventType;
 		}
 
-		protected override IMemberDefinition ResolveDefinition ()
-		{
-			return this.Resolve ();
-		}
-
-		public new abstract EventDefinition Resolve ();
+		public abstract EventDefinition Resolve ();
 	}
 }

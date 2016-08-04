@@ -25,9 +25,6 @@ namespace Mono.Cecil.PE {
 		readonly ModuleDefinition module;
 		readonly MetadataBuilder metadata;
 		readonly TextMap text_map;
-		readonly internal Disposable<Stream> stream;
-
-		readonly string runtime_version;
 
 		ImageDebugDirectory debug_directory;
 		byte [] debug_data;
@@ -44,6 +41,7 @@ namespace Mono.Cecil.PE {
 
 		readonly bool pe64;
 		readonly bool has_reloc;
+		readonly uint time_stamp;
 
 		internal Section text;
 		internal Section rsrc;
@@ -51,23 +49,18 @@ namespace Mono.Cecil.PE {
 
 		ushort sections;
 
-		ImageWriter (ModuleDefinition module, string runtime_version, MetadataBuilder metadata, Disposable<Stream> stream, bool metadataOnly = false)
-			: base (stream.value)
+		ImageWriter (ModuleDefinition module, MetadataBuilder metadata, Stream stream)
+			: base (stream)
 		{
 			this.module = module;
-			this.runtime_version = runtime_version;
-			this.text_map = metadata.text_map;
-			this.stream = stream;
 			this.metadata = metadata;
-			if (metadataOnly)
-				return;
-
 			this.pe64 = module.Architecture == TargetArchitecture.AMD64 || module.Architecture == TargetArchitecture.IA64;
 			this.has_reloc = module.Architecture == TargetArchitecture.I386;
 			this.GetDebugHeader ();
 			this.GetWin32Resources ();
-			this.BuildTextMap ();
+			this.text_map = BuildTextMap ();
 			this.sections = (ushort) (has_reloc ? 2 : 1); // text + reloc?
+			this.time_stamp = (uint) DateTime.UtcNow.Subtract (new DateTime (1970, 1, 1)).TotalSeconds;
 		}
 
 		void GetDebugHeader ()
@@ -86,8 +79,9 @@ namespace Mono.Cecil.PE {
 			if (rsrc == null)
 				return;
 
-			var reader = module.Image.GetReaderAt (rsrc.VirtualAddress);
-			win32_resources = new ByteBuffer (reader.ReadBytes ((int) rsrc.SizeOfRawData));
+			var raw_resources = new byte [rsrc.Data.Length];
+			Buffer.BlockCopy (rsrc.Data, 0, raw_resources, 0, rsrc.Data.Length);
+			win32_resources = new ByteBuffer (raw_resources);
 		}
 
 		Section GetImageResourceSection ()
@@ -100,18 +94,10 @@ namespace Mono.Cecil.PE {
 			return module.Image.GetSection (rsrc_section);
 		}
 
-		public static ImageWriter CreateWriter (ModuleDefinition module, MetadataBuilder metadata, Disposable<Stream> stream)
+		public static ImageWriter CreateWriter (ModuleDefinition module, MetadataBuilder metadata, Stream stream)
 		{
-			var writer = new ImageWriter (module, module.runtime_version, metadata, stream);
+			var writer = new ImageWriter (module, metadata, stream);
 			writer.BuildSections ();
-			return writer;
-		}
-
-		public static ImageWriter CreateDebugWriter (ModuleDefinition module, MetadataBuilder metadata, Disposable<Stream> stream)
-		{
-			var writer = new ImageWriter (module, "PDB V1.0", metadata, stream, metadataOnly: true);
-			var length = metadata.text_map.GetLength ();
-			writer.text = new Section { SizeOfRawData = length, VirtualSize = length };
 			return writer;
 		}
 
@@ -195,7 +181,7 @@ namespace Mono.Cecil.PE {
 			WriteUInt32 (0x00004550);		// Magic
 			WriteUInt16 (GetMachine ());	// Machine
 			WriteUInt16 (sections);			// NumberOfSections
-			WriteUInt32 (metadata.time_stamp);
+			WriteUInt32 (time_stamp);
 			WriteUInt32 (0);	// PointerToSymbolTable
 			WriteUInt32 (0);	// NumberOfSymbols
 			WriteUInt16 (SizeOfOptionalHeader ());	// SizeOfOptionalHeader
@@ -498,14 +484,14 @@ namespace Mono.Cecil.PE {
 			return text_map.GetRVA (TextSegment.DebugDirectory) - text_map.GetRVA (TextSegment.MetadataHeader);
 		}
 
-		public void WriteMetadataHeader ()
+		void WriteMetadataHeader ()
 		{
 			WriteUInt32 (0x424a5342);	// Signature
 			WriteUInt16 (1);	// MajorVersion
 			WriteUInt16 (1);	// MinorVersion
 			WriteUInt32 (0);	// Reserved
 
-			var version = GetZeroTerminatedString (runtime_version);
+			var version = GetZeroTerminatedString (module.runtime_version);
 			WriteUInt32 ((uint) version.Length);
 			WriteBytes (version);
 			WriteUInt16 (0);	// Flags
@@ -518,7 +504,6 @@ namespace Mono.Cecil.PE {
 			WriteStreamHeader (ref offset, TextSegment.UserStringHeap, "#US");
 			WriteStreamHeader (ref offset, TextSegment.GuidHeap, "#GUID");
 			WriteStreamHeader (ref offset, TextSegment.BlobHeap, "#Blob");
-			WriteStreamHeader (ref offset, TextSegment.PdbHeap, "#Pdb");
 		}
 
 		ushort GetStreamCount ()
@@ -528,8 +513,7 @@ namespace Mono.Cecil.PE {
 				+ 1	// #Strings
 				+ (metadata.user_string_heap.IsEmpty ? 0 : 1)	// #US
 				+ 1	// GUID
-				+ (metadata.blob_heap.IsEmpty ? 0 : 1)
-				+ (metadata.pdb_heap == null ? 0 : 1));	// #Blob
+				+ (metadata.blob_heap.IsEmpty ? 0 : 1));	// #Blob
 		}
 
 		void WriteStreamHeader (ref uint offset, TextSegment heap, string name)
@@ -544,14 +528,9 @@ namespace Mono.Cecil.PE {
 			offset += length;
 		}
 
-		static int GetZeroTerminatedStringLength (string @string)
-		{
-			return (@string.Length + 1 + 3) & ~3;
-		}
-
 		static byte [] GetZeroTerminatedString (string @string)
 		{
-			return GetString (@string, GetZeroTerminatedStringLength (@string));
+			return GetString (@string, (@string.Length + 1 + 3) & ~3);
 		}
 
 		static byte [] GetSimpleString (string @string)
@@ -568,29 +547,34 @@ namespace Mono.Cecil.PE {
 			return bytes;
 		}
 
-		public void WriteMetadata ()
+		void WriteMetadata ()
 		{
 			WriteHeap (TextSegment.TableHeap, metadata.table_heap);
 			WriteHeap (TextSegment.StringHeap, metadata.string_heap);
 			WriteHeap (TextSegment.UserStringHeap, metadata.user_string_heap);
-			WriteHeap (TextSegment.GuidHeap, metadata.guid_heap);
+			WriteGuidHeap ();
 			WriteHeap (TextSegment.BlobHeap, metadata.blob_heap);
-			WriteHeap (TextSegment.PdbHeap, metadata.pdb_heap);
 		}
 
 		void WriteHeap (TextSegment heap, HeapBuffer buffer)
 		{
-			if (buffer == null || buffer.IsEmpty)
+			if (buffer.IsEmpty)
 				return;
 
 			MoveToRVA (heap);
 			WriteBuffer (buffer);
 		}
 
+		void WriteGuidHeap ()
+		{
+			MoveToRVA (TextSegment.GuidHeap);
+			WriteBytes (module.Mvid.ToByteArray ());
+		}
+
 		void WriteDebugDirectory ()
 		{
 			WriteInt32 (debug_directory.Characteristics);
-			WriteUInt32 (metadata.time_stamp);
+			WriteUInt32 (time_stamp);
 			WriteInt16 (debug_directory.MajorVersion);
 			WriteInt16 (debug_directory.MinorVersion);
 			WriteInt32 (debug_directory.Type);
@@ -681,9 +665,9 @@ namespace Mono.Cecil.PE {
 				WriteReloc ();
 		}
 
-		void BuildTextMap ()
+		TextMap BuildTextMap ()
 		{
-			var map = text_map;
+			var map = metadata.text_map;
 
 			map.AddMap (TextSegment.Code, metadata.code.length, !pe64 ? 4 : 16);
 			map.AddMap (TextSegment.Resources, metadata.resources.length, 8);
@@ -692,7 +676,12 @@ namespace Mono.Cecil.PE {
 				metadata.table_heap.FixupData (map.GetRVA (TextSegment.Data));
 			map.AddMap (TextSegment.StrongNameSignature, GetStrongNameLength (), 4);
 
-			BuildMetadataTextMap ();
+			map.AddMap (TextSegment.MetadataHeader, GetMetadataHeaderLength ());
+			map.AddMap (TextSegment.TableHeap, metadata.table_heap.length, 4);
+			map.AddMap (TextSegment.StringHeap, metadata.string_heap.length, 4);
+			map.AddMap (TextSegment.UserStringHeap, metadata.user_string_heap.IsEmpty ? 0 : metadata.user_string_heap.length, 4);
+			map.AddMap (TextSegment.GuidHeap, 16);
+			map.AddMap (TextSegment.BlobHeap, metadata.blob_heap.IsEmpty ? 0 : metadata.blob_heap.length, 4);
 
 			int debug_dir_len = 0;
 			if (!debug_data.IsNullOrEmpty ()) {
@@ -709,7 +698,7 @@ namespace Mono.Cecil.PE {
 				map.AddMap (TextSegment.ImportDirectory, new Range (start, 0));
 				map.AddMap (TextSegment.ImportHintNameTable, new Range (start, 0));
 				map.AddMap (TextSegment.StartupStub, new Range (start, 0));
-				return;
+				return map;
 			}
 
 			RVA import_dir_rva = map.GetNextRVA (TextSegment.DebugDirectory);
@@ -725,19 +714,8 @@ namespace Mono.Cecil.PE {
 			map.AddMap (TextSegment.ImportDirectory, new Range (import_dir_rva, import_dir_len));
 			map.AddMap (TextSegment.ImportHintNameTable, new Range (import_hnt_rva, 0));
 			map.AddMap (TextSegment.StartupStub, new Range (startup_stub_rva, GetStartupStubLength ()));
-		}
 
-		public void BuildMetadataTextMap ()
-		{
-			var map = text_map;
-
-			map.AddMap (TextSegment.MetadataHeader, GetMetadataHeaderLength (module.RuntimeVersion));
-			map.AddMap (TextSegment.TableHeap, metadata.table_heap.length, 4);
-			map.AddMap (TextSegment.StringHeap, metadata.string_heap.length, 4);
-			map.AddMap (TextSegment.UserStringHeap, metadata.user_string_heap.IsEmpty ? 0 : metadata.user_string_heap.length, 4);
-			map.AddMap (TextSegment.GuidHeap, metadata.guid_heap.length, 4);
-			map.AddMap (TextSegment.BlobHeap, metadata.blob_heap.IsEmpty ? 0 : metadata.blob_heap.length, 4);
-			map.AddMap (TextSegment.PdbHeap, metadata.pdb_heap == null ? 0 : metadata.pdb_heap.length, 4);
+			return map;
 		}
 
 		uint GetStartupStubLength ()
@@ -750,11 +728,11 @@ namespace Mono.Cecil.PE {
 			}
 		}
 
-		int GetMetadataHeaderLength (string runtimeVersion)
+		int GetMetadataHeaderLength ()
 		{
 			return
 				// MetadataHeader
-				20 + GetZeroTerminatedStringLength (runtimeVersion)
+				40
 				// #~ header
 				+ 12
 				// #Strings header
@@ -764,9 +742,7 @@ namespace Mono.Cecil.PE {
 				// #GUID header
 				+ 16
 				// #Blob header
-				+ (metadata.blob_heap.IsEmpty ? 0 : 16)
-				//
-				+ (metadata.pdb_heap == null ? 0 : 16);
+				+ (metadata.blob_heap.IsEmpty ? 0 : 16);
 		}
 
 		int GetStrongNameLength ()

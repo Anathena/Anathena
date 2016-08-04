@@ -27,14 +27,14 @@ namespace Mono.Cecil {
 		Method
 	}
 
-    public interface IGenericContext {
+	interface IGenericContext {
 
 		bool IsDefinition { get; }
 		IGenericParameterProvider Type { get; }
 		IGenericParameterProvider Method { get; }
 	}
 
-    public static partial class Mixin {
+	static partial class Mixin {
 
 		public static bool GetHasGenericParameters (
 			this IGenericParameterProvider self,

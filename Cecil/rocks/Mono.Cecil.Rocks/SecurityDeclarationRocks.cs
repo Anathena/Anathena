@@ -8,148 +8,149 @@
 // Licensed under the MIT/X11 license.
 //
 
-// using System;
-// using SSP = System.Security.Permissions;
+#if !SILVERLIGHT && !CF
 
-namespace Mono.Cecil.Rocks
-{
+using System;
+using System.Security;
+using SSP = System.Security.Permissions;
 
-    public static class SecurityDeclarationRocks
-    {
-        /*
-        public static PermissionSet ToPermissionSet(this SecurityDeclaration self)
-        {
-            if (self == null)
-                throw new ArgumentNullException("self");
+namespace Mono.Cecil.Rocks {
 
-            PermissionSet set;
-            if (TryProcessPermissionSetAttribute(self, out set))
-                return set;
+#if INSIDE_ROCKS
+	public
+#endif
+	static class SecurityDeclarationRocks {
 
-            return CreatePermissionSet(self);
-        }
+		public static PermissionSet ToPermissionSet (this SecurityDeclaration self)
+		{
+			if (self == null)
+				throw new ArgumentNullException ("self");
 
-        static bool TryProcessPermissionSetAttribute(SecurityDeclaration declaration, out PermissionSet set)
-        {
-            set = null;
+			PermissionSet set;
+			if (TryProcessPermissionSetAttribute (self, out set))
+				return set;
 
-            if (!declaration.HasSecurityAttributes && declaration.SecurityAttributes.Count != 1)
-                return false;
+			return CreatePermissionSet (self);
+		}
 
-            var security_attribute = declaration.SecurityAttributes[0];
-            if (!security_attribute.AttributeType.IsTypeOf("System.Security.Permissions", "PermissionSetAttribute"))
-                return false;
+		static bool TryProcessPermissionSetAttribute (SecurityDeclaration declaration, out PermissionSet set)
+		{
+			set = null;
 
-            var attribute = new SSP.PermissionSetAttribute((SSP.SecurityAction)declaration.Action);
+			if (!declaration.HasSecurityAttributes && declaration.SecurityAttributes.Count != 1)
+				return false;
 
-            var named_argument = security_attribute.Properties[0];
-            string value = (string)named_argument.Argument.Value;
-            switch (named_argument.Name)
-            {
-                case "XML":
-                    attribute.XML = value;
-                    break;
-                case "Name":
-                    attribute.Name = value;
-                    break;
-                default:
-                    throw new NotImplementedException(named_argument.Name);
-            }
+			var security_attribute = declaration.SecurityAttributes [0];
+			if (!security_attribute.AttributeType.IsTypeOf ("System.Security.Permissions", "PermissionSetAttribute"))
+				return false;
 
-            set = attribute.CreatePermissionSet();
-            return true;
-        }
+			var attribute = new SSP.PermissionSetAttribute ((SSP.SecurityAction) declaration.Action);
 
-        static PermissionSet CreatePermissionSet(SecurityDeclaration declaration)
-        {
-            var set = new PermissionSet(SSP.PermissionState.None);
+			var named_argument = security_attribute.Properties [0];
+			string value = (string) named_argument.Argument.Value;
+			switch (named_argument.Name) {
+			case "XML":
+				attribute.XML = value;
+				break;
+			case "Name":
+				attribute.Name = value;
+				break;
+			default:
+				throw new NotImplementedException (named_argument.Name);
+			}
 
-            foreach (var attribute in declaration.SecurityAttributes)
-            {
-                var permission = CreatePermission(declaration, attribute);
-                set.AddPermission(permission);
-            }
+			set = attribute.CreatePermissionSet ();
+			return true;
+		}
 
-            return set;
-        }
+		static PermissionSet CreatePermissionSet (SecurityDeclaration declaration)
+		{
+			var set = new PermissionSet (SSP.PermissionState.None);
 
-        static IPermission CreatePermission(SecurityDeclaration declaration, SecurityAttribute attribute)
-        {
-            var attribute_type = Type.GetType(attribute.AttributeType.FullName);
-            if (attribute_type == null)
-                throw new ArgumentException("attribute");
+			foreach (var attribute in declaration.SecurityAttributes) {
+				var permission = CreatePermission (declaration, attribute);
+				set.AddPermission (permission);
+			}
 
-            var security_attribute = CreateSecurityAttribute(attribute_type, declaration);
-            if (security_attribute == null)
-                throw new InvalidOperationException();
+			return set;
+		}
 
-            CompleteSecurityAttribute(security_attribute, attribute);
+		static IPermission CreatePermission (SecurityDeclaration declaration, SecurityAttribute attribute)
+		{
+			var attribute_type = Type.GetType (attribute.AttributeType.FullName);
+			if (attribute_type == null)
+				throw new ArgumentException ("attribute");
 
-            return security_attribute.CreatePermission();
-        }
+			var security_attribute = CreateSecurityAttribute (attribute_type, declaration);
+			if (security_attribute == null)
+				throw new InvalidOperationException ();
 
-        static void CompleteSecurityAttribute(SSP.SecurityAttribute security_attribute, SecurityAttribute attribute)
-        {
-            if (attribute.HasFields)
-                CompleteSecurityAttributeFields(security_attribute, attribute);
+			CompleteSecurityAttribute (security_attribute, attribute);
 
-            if (attribute.HasProperties)
-                CompleteSecurityAttributeProperties(security_attribute, attribute);
-        }
+			return security_attribute.CreatePermission ();
+		}
 
-        static void CompleteSecurityAttributeFields(SSP.SecurityAttribute security_attribute, SecurityAttribute attribute)
-        {
-            var type = security_attribute.GetType();
+		static void CompleteSecurityAttribute (SSP.SecurityAttribute security_attribute, SecurityAttribute attribute)
+		{
+			if (attribute.HasFields)
+				CompleteSecurityAttributeFields (security_attribute, attribute);
 
-            foreach (var named_argument in attribute.Fields)
-                type.GetField(named_argument.Name).SetValue(security_attribute, named_argument.Argument.Value);
-        }
+			if (attribute.HasProperties)
+				CompleteSecurityAttributeProperties (security_attribute, attribute);
+		}
 
-        static void CompleteSecurityAttributeProperties(SSP.SecurityAttribute security_attribute, SecurityAttribute attribute)
-        {
-            var type = security_attribute.GetType();
+		static void CompleteSecurityAttributeFields (SSP.SecurityAttribute security_attribute, SecurityAttribute attribute)
+		{
+			var type = security_attribute.GetType ();
 
-            foreach (var named_argument in attribute.Properties)
-                type.GetProperty(named_argument.Name).SetValue(security_attribute, named_argument.Argument.Value, null);
-        }
+			foreach (var named_argument in attribute.Fields)
+				type.GetField (named_argument.Name).SetValue (security_attribute, named_argument.Argument.Value);
+		}
 
-        static SSP.SecurityAttribute CreateSecurityAttribute(Type attribute_type, SecurityDeclaration declaration)
-        {
-            SSP.SecurityAttribute security_attribute;
-            try
-            {
-                security_attribute = (SSP.SecurityAttribute)Activator.CreateInstance(
-                    attribute_type, new object[] { (SSP.SecurityAction)declaration.Action });
-            }
-            catch (MissingMethodException)
-            {
-                security_attribute = (SSP.SecurityAttribute)Activator.CreateInstance(attribute_type, new object[0]);
-            }
+		static void CompleteSecurityAttributeProperties (SSP.SecurityAttribute security_attribute, SecurityAttribute attribute)
+		{
+			var type = security_attribute.GetType ();
 
-            return security_attribute;
-        }
+			foreach (var named_argument in attribute.Properties)
+				type.GetProperty (named_argument.Name).SetValue (security_attribute, named_argument.Argument.Value, null);
+		}
 
-        public static SecurityDeclaration ToSecurityDeclaration(this PermissionSet self, SecurityAction action, ModuleDefinition module)
-        {
-            if (self == null)
-                throw new ArgumentNullException("self");
-            if (module == null)
-                throw new ArgumentNullException("module");
+		static SSP.SecurityAttribute CreateSecurityAttribute (Type attribute_type, SecurityDeclaration declaration)
+		{
+			SSP.SecurityAttribute security_attribute;
+			try {
+				security_attribute = (SSP.SecurityAttribute) Activator.CreateInstance (
+					attribute_type, new object [] { (SSP.SecurityAction) declaration.Action });
+			} catch (MissingMethodException) {
+				security_attribute = (SSP.SecurityAttribute) Activator.CreateInstance (attribute_type, new object [0]);
+			}
 
-            var declaration = new SecurityDeclaration(action);
+			return security_attribute;
+		}
 
-            var attribute = new SecurityAttribute(
-                module.TypeSystem.LookupType("System.Security.Permissions", "PermissionSetAttribute"));
+		public static SecurityDeclaration ToSecurityDeclaration (this PermissionSet self, SecurityAction action, ModuleDefinition module)
+		{
+			if (self == null)
+				throw new ArgumentNullException ("self");
+			if (module == null)
+				throw new ArgumentNullException ("module");
 
-            attribute.Properties.Add(
-                new CustomAttributeNamedArgument(
-                    "XML",
-                    new CustomAttributeArgument(
-                        module.TypeSystem.String, self.ToXml().ToString())));
+			var declaration = new SecurityDeclaration (action);
 
-            declaration.SecurityAttributes.Add(attribute);
+			var attribute = new SecurityAttribute (
+				module.TypeSystem.LookupType ("System.Security.Permissions", "PermissionSetAttribute"));
 
-            return declaration;
-        }*/
-    }
+			attribute.Properties.Add (
+				new CustomAttributeNamedArgument (
+					"XML",
+					new CustomAttributeArgument (
+						module.TypeSystem.String, self.ToXml ().ToString ())));
+
+			declaration.SecurityAttributes.Add (attribute);
+
+			return declaration;
+		}
+	}
 }
+
+#endif
