@@ -1,11 +1,10 @@
 ﻿using AnathemaProxy;
 using System;
 
-namespace AnathemaProxy32
+namespace AnathemaProxy64
 {
     /// <summary>
-    /// Program to handle operations that are required to be run in 32 bit mode.
-    /// This is needed when Ana is running in 64 bit and editing a 32 bit application
+    /// While technically unneeded, this mirrors the required Proxy32 service
     /// </summary>
     class Program
     {

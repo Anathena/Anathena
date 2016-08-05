@@ -1237,6 +1237,7 @@
     <Folder Include="GUI\Tools\UserSettings\" />
     <Folder Include="Source\Engine\AddressResolver\Java\" />
     <Folder Include="Source\Engine\AddressResolver\Python\" />
+    <Folder Include="Source\Engine\Proxy\" />
     <Folder Include="Source\Results\PointerScanResults\" />
   </ItemGroup>
   <ItemGroup>
