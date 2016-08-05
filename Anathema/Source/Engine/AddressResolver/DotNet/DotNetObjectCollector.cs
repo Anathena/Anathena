@@ -5,6 +5,7 @@ using Microsoft.Diagnostics.Runtime;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Threading;
 
 namespace Anathema.Source.Engine.AddressResolver.DotNet
@@ -20,7 +21,7 @@ namespace Anathema.Source.Engine.AddressResolver.DotNet
 
         private static String[] ExcludedNameSpaces = new String[]
         {
-            System.Reflection.Assembly.GetExecutingAssembly().GetName().Name,
+            Assembly.GetExecutingAssembly().GetName().Name,
             "System.", "Microsoft.", "<CppImplementationDetails>.","<CrtImplementationDetails>.",
             "Newtonsoft.", "Ionic.", "SteamWorks.",
             "Terraria.Tile", "Terraria.Item", "Terraria.UI",  "Terraria.ObjectData", "Terraria.GameContent", "Terraria.Lighting",
@@ -84,7 +85,11 @@ namespace Anathema.Source.Engine.AddressResolver.DotNet
 
             this.UpdateInterval = PollingTime;
 
-            ClrHeap Heap;
+            // ProxyCommunicator ProxyCommunicator = ProxyCommunicator.GetInstance();
+            // IClrServiceInterface ClrService = ProxyCommunicator.GetClrService(EngineCore.Memory.IsProcess32Bit());
+            ClrHeap Heap = null;// ClrService.GetProcessClrHeap(EngineCore.Memory.GetProcess());
+
+            /*
             try
             {
                 DataTarget DataTarget = DataTarget.AttachToProcess(EngineCore.Memory.GetProcess().Id, AttachTimeout, AttachFlag.Passive);
@@ -99,7 +104,7 @@ namespace Anathema.Source.Engine.AddressResolver.DotNet
             catch
             {
                 return;
-            }
+            }*/
 
             if (Heap == null)
                 return;

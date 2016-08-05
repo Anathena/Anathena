@@ -203,6 +203,7 @@
       <DependentUpon>GUIDotNetExplorer.cs</DependentUpon>
     </Compile>
     <Compile Include="Source\Engine\InputCapture\Hotkey.cs" />
+    <Compile Include="Source\Engine\Proxy\ProxyCommunicator.cs" />
     <Compile Include="Source\Project\ProjectItems\ScriptTemplates\LuaTemplates.cs" />
     <Compile Include="Source\Project\ProjectItems\TypeConverters\LuaScriptConverter.cs" />
     <Compile Include="Source\Project\ProjectItems\TypeEditors\ScriptEditor.cs" />
@@ -1103,9 +1104,17 @@
     <Content Include="Source\Engine\InputCapture\MouseKeyHook%28Deprecating%29\HotKeys\ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\AnathemaProxy32\AnathemaProxy32.csproj">
+    <ProjectReference Include="..\AnathemaProxy32\AnathenaProxy32.csproj">
       <Project>{51ac9959-afee-4f91-8a19-03cf0528ab62}</Project>
-      <Name>AnathemaProxy32</Name>
+      <Name>AnathenaProxy32</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\AnathemaProxy64\AnathenaProxy64.csproj">
+      <Project>{65eec6df-ccc8-46ab-b9fb-00d5a624fe94}</Project>
+      <Name>AnathenaProxy64</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\AnathemaProxy\AnathenaProxy.csproj">
+      <Project>{2f739124-dda6-45cf-ad05-1b94a04643f1}</Project>
+      <Name>AnathenaProxy</Name>
     </ProjectReference>
     <ProjectReference Include="..\DockingSuite\DockingSuite.csproj">
       <Project>{c75532c4-765b-418e-b09b-46d36b2abdb1}</Project>
@@ -1114,14 +1123,6 @@
     <ProjectReference Include="..\DockingSuite\ThemeVS2013Blue.csproj">
       <Project>{245e07f6-10d5-4cfa-b003-0deb06b223da}</Project>
       <Name>ThemeVS2013Blue</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\FASMHelper\FASMHelper.csproj">
-      <Project>{b347c942-bf75-4c80-abfb-fb44a4831267}</Project>
-      <Name>FASMHelper</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\FASMSharedInterface\FASMSharedInterface.csproj">
-      <Project>{4ad837f8-42ad-4bfd-87af-33640a7c652f}</Project>
-      <Name>FASMSharedInterface</Name>
     </ProjectReference>
     <ProjectReference Include="..\Fasm\Fasm.NET\Fasm.NET.vcxproj">
       <Project>{2dac1a31-ef28-499a-b67a-963b5343d778}</Project>
@@ -1237,7 +1238,6 @@
     <Folder Include="GUI\Tools\UserSettings\" />
     <Folder Include="Source\Engine\AddressResolver\Java\" />
     <Folder Include="Source\Engine\AddressResolver\Python\" />
-    <Folder Include="Source\Engine\Proxy\" />
     <Folder Include="Source\Results\PointerScanResults\" />
   </ItemGroup>
   <ItemGroup>

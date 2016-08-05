@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace FASMSharedInterface
+namespace AnathenaProxy
 {
     public interface ISharedAssemblyInterface
     {

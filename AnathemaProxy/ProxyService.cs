@@ -1,31 +1,43 @@
 ﻿using System;
 using System.IO;
+using System.Runtime.Remoting;
 using System.Runtime.Remoting.Channels;
 using System.Runtime.Remoting.Channels.Ipc;
 using System.Threading;
 
-namespace AnathemaProxy
+namespace AnathenaProxy
 {
+    /// <summary>
+    /// Proxy service to be contained by a 32 and 64 bit service, with services exposed via IPC. Useful for certain things that
+    /// Anathena requires, such as:
+    /// - FASM Compiler, which can only be run in 32 bit mode
+    /// - Microsoft.Diagnostics.Runtime, which can only be used on processes of the same bitness
+    /// </summary>
     public class ProxyService
     {
         private static EventWaitHandle ProcessStartingEvent;
-        private static SynchronizationContext MainThreadMessageQueue = null;
+        private static SynchronizationContext MainThreadMessageQueue;
         private static Stream StdInput;
 
-        public ProxyService()
+        public ProxyService(String ChannelName)
         {
             InitializeAutoExit();
 
             // Create an event to have the client wait until we are finished starting the FASM service
-            ProcessStartingEvent = new EventWaitHandle(false, EventResetMode.ManualReset, @"Global\FASMServerStarted");
+            ProcessStartingEvent = new EventWaitHandle(false, EventResetMode.ManualReset, @"Global\Anathena");
 
-            // Start the FASM service
-            IpcChannel IpcChannel = new IpcChannel("FASMChannel");
+            // Create the IPC channel for communication
+            IpcChannel IpcChannel = new IpcChannel(ChannelName);
             ChannelServices.RegisterChannel(IpcChannel, true);
-            // RemotingConfiguration.RegisterWellKnownServiceType(typeof(FASMAssembler), "FASMObj", WellKnownObjectMode.SingleCall);
-            Console.WriteLine("Anathema FASM helper service to assemble x86/x64 instructions.");
 
-            // Indicate that the FASM console is ready to receive commands
+            // Register sub services
+            RemotingConfiguration.RegisterWellKnownServiceType(typeof(ClrService), typeof(ClrService).Name, WellKnownObjectMode.SingleCall);
+            RemotingConfiguration.RegisterWellKnownServiceType(typeof(FasmService), typeof(FasmService).Name, WellKnownObjectMode.SingleCall);
+            RemotingConfiguration.RegisterWellKnownServiceType(typeof(FASMAssembler), typeof(FASMAssembler).Name, WellKnownObjectMode.SingleCall);
+
+            Console.WriteLine("Anathena proxy library loaded");
+
+            // Indicate that the service is ready to receive commands
             ProcessStartingEvent.Set();
 
             // Keep console open

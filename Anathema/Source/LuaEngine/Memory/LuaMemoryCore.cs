@@ -251,7 +251,7 @@ namespace Anathema.Source.LuaEngine.Memory
             Byte[] OriginalBytes = GetInstructionBytes(Address, JumpSize);
             Int32 OriginalByteSize;
 
-            if (OriginalBytes != null || OriginalBytes.Length < JumpSize)
+            if (OriginalBytes != null && OriginalBytes.Length < JumpSize)
             {
                 // Determine the size of the minimum number of instructions we will be overwriting
                 OriginalByteSize = OriginalBytes.Length;

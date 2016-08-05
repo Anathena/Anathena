@@ -1,7 +1,7 @@
-﻿using AnathemaProxy;
+﻿using AnathenaProxy;
 using System;
 
-namespace AnathemaProxy32
+namespace AnathenaProxy32
 {
     /// <summary>
     /// Program to handle operations that are required to be run in 32 bit mode.
@@ -13,7 +13,11 @@ namespace AnathemaProxy32
 
         static void Main(String[] Args)
         {
-            ProxyService = new ProxyService();
+            if (Args.Length < 1)
+                return;
+
+            Console.WriteLine("Initialized Anathena 32-bit helper process with channel name: " + Args[0]);
+            ProxyService = new ProxyService(Args[0]);
         }
 
     } // End class

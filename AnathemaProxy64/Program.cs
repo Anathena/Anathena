@@ -1,7 +1,7 @@
-﻿using AnathemaProxy;
+﻿using AnathenaProxy;
 using System;
 
-namespace AnathemaProxy64
+namespace AnathenaProxy64
 {
     /// <summary>
     /// While technically unneeded, this mirrors the required Proxy32 service
@@ -12,7 +12,11 @@ namespace AnathemaProxy64
 
         static void Main(String[] Args)
         {
-            ProxyService = new ProxyService();
+            if (Args.Length < 1)
+                return;
+
+            Console.WriteLine("Initialized Anathena 64-bit helper process with channel name: " + Args[0]);
+            ProxyService = new ProxyService(Args[0]);
         }
 
     } // End class

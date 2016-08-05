@@ -2,6 +2,7 @@
 using Anathema.Source.Engine.AddressResolver;
 using Anathema.Source.Engine.AddressResolver.DotNet;
 using Anathema.Source.Engine.Processes;
+using Anathema.Source.Engine.Proxy;
 using Anathema.Source.Project;
 using Anathema.Source.Snapshots;
 using Anathema.Source.Snapshots.Prefilter;
@@ -56,6 +57,8 @@ namespace Anathema.Source.Controller
 
         private void InitializeBackgroundTasks()
         {
+            ProxyCommunicator.GetInstance().InitializeServices();
+
             SnapshotPrefilterFactory.GetSnapshotPrefilter(typeof(LinkedListSnapshotPrefilter)).BeginPrefilter();
             DotNetObjectCollector.GetInstance().Begin();
             AddressResolver.GetInstance().Begin();
