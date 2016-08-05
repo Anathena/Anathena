@@ -1,9 +1,8 @@
 ﻿using SharpDX.DirectInput;
 using System;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 
-namespace Anathema.Source.Engine.InputCapture.ControllerCapture
+namespace Anathema.Source.Engine.InputCapture.Controller
 {
     class ControllerCapture : IControllerSubject
     {
@@ -47,21 +46,14 @@ namespace Anathema.Source.Engine.InputCapture.ControllerCapture
 
         public void Update()
         {
-            return;
             // TODO: maybe use this object
-            var k = Joystick.GetCurrentState();
+            JoystickState JoystickState = Joystick.GetCurrentState();
 
             // Poll events from joystick
-            Task.Run(() =>
-            {
-                while (true)
-                {
-                    Joystick.Poll();
-                    JoystickUpdate[] Data = Joystick.GetBufferedData();
-                    foreach (JoystickUpdate State in Data)
-                        Console.WriteLine(State);
-                }
-            });
+            Joystick.Poll();
+            JoystickUpdate[] Data = Joystick.GetBufferedData();
+            foreach (JoystickUpdate State in Data)
+                Console.WriteLine(State);
         }
 
     } // End class

@@ -2,11 +2,8 @@
 using Anathema.Source.Engine.OperatingSystems;
 using Anathema.Source.Engine.Processes;
 using Anathema.Source.Utils;
-using Anathema.Source.Utils.Extensions;
-using Anathema.Source.Utils.Validation;
 using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
 using System.Threading;
 
@@ -17,18 +14,12 @@ namespace Anathema.Source.Engine.AddressResolver
         // Singleton instance of Address Resolver
         private static Lazy<AddressResolver> AddressResolverInstance = new Lazy<AddressResolver>(() => { return new AddressResolver(); }, LazyThreadSafetyMode.PublicationOnly);
 
-        private const String Addition = "+";
-        private const String Subtraction = "-";
-        private readonly Char[] AdditionArray = new Char[] { Addition[0] };
-        private readonly Char[] SubtractionArray = new Char[] { Subtraction[0] };
-        private readonly Char[] AllOperations = new Char[] { Addition[0], Subtraction[0] };
-
         private EngineCore EngineCore;
 
         private const Int32 ResolveIntervalInitial = 200;
         private const Int32 ResolveInterval = 5000;
 
-        private Dictionary<String, DotNetObject> NameMap;
+        private Dictionary<String, DotNetObject> DotNetNameMap;
         private IEnumerable<NormalizedModule> Modules;
 
         private enum PendingOperationEnum
@@ -42,7 +33,7 @@ namespace Anathema.Source.Engine.AddressResolver
         {
             InitializeProcessObserver();
 
-            NameMap = new Dictionary<String, DotNetObject>();
+            DotNetNameMap = new Dictionary<String, DotNetObject>();
             Modules = new List<NormalizedModule>();
 
             this.Begin();
@@ -52,6 +43,7 @@ namespace Anathema.Source.Engine.AddressResolver
         {
             return AddressResolverInstance.Value;
         }
+
         public void InitializeProcessObserver()
         {
             ProcessSelector.GetInstance().Subscribe(this);
@@ -62,98 +54,13 @@ namespace Anathema.Source.Engine.AddressResolver
             this.EngineCore = EngineCore;
         }
 
-        /// <summary>
-        /// Resolves a given address expression, which may include addresses, modules, .NET objects, and arethmetic
-        /// </summary>
-        /// <param name="Expression"></param>
-        /// <returns></returns>
-        public IntPtr ResolveExpression(String Expression)
+        public IntPtr ResolveDotNetObject(String Identifier)
         {
-            if (Expression == null || Expression == String.Empty)
-                return IntPtr.Zero;
-
-            return ResolveTokenizedExpression(TokenizeExpression(Expression), IntPtr.Zero);
-        }
-
-        private IntPtr ResolveTokenizedExpression(IEnumerable<String> Tokens, IntPtr PendingValue, PendingOperationEnum PendingOperation = PendingOperationEnum.None)
-        {
-            if (Tokens == null || Tokens.Count() == 0)
-                return IntPtr.Zero;
-
-            // Handle operator tokens
-            switch (Tokens.First())
-            {
-                case Addition:
-                    return ResolveTokenizedExpression(Tokens.Skip(1), PendingValue, PendingOperationEnum.Addition);
-                case Subtraction:
-                    return ResolveTokenizedExpression(Tokens.Skip(1), PendingValue, PendingOperationEnum.Subtraction);
-                default:
-                    break;
-            }
-
-            IntPtr Result = PendingValue;
-
-            // Try to resolve as raw address
-            if (CheckSyntax.CanParseAddress(Tokens.First()))
-                Result = Conversions.AddressToValue(Tokens.First()).ToIntPtr();
-
-            // Try to resolve as module
-            foreach (NormalizedModule Module in Modules)
-                if (String.Compare(Module?.Name, Tokens.First(), StringComparison.OrdinalIgnoreCase) == 0)
-                    Result = Module.BaseAddress;
-
-            // Try to resolve as .NET object
+            IntPtr Result = IntPtr.Zero;
             DotNetObject DotNetObject;
-            if (NameMap.TryGetValue(Tokens.First(), out DotNetObject))
+
+            if (DotNetNameMap.TryGetValue(Identifier, out DotNetObject))
                 Result = DotNetObject.GetAddress();
-
-            // Execute any pending operations
-            switch (PendingOperation)
-            {
-                case PendingOperationEnum.Addition:
-                    Result = PendingValue.Add(Result);
-                    break;
-                case PendingOperationEnum.Subtraction:
-                    Result = PendingValue.Subtract(Result);
-                    break;
-                case PendingOperationEnum.None:
-                    break;
-            }
-
-            if (Tokens.Count() == 1)
-                return Result;
-
-            return ResolveTokenizedExpression(Tokens.Skip(1), Result);
-        }
-
-        public IEnumerable<String> TokenizeExpression(String Expression)
-        {
-            List<String> Result = new List<String>();
-            String Buffer = String.Empty;
-
-            // Clean input -- trailing white space and quotes are ignored
-            Expression = Expression.Trim().Replace("\"", "");
-
-            foreach (Char Char in Expression)
-            {
-                if (AllOperations.Contains(Char))
-                {
-                    if (Buffer.Length > 0)
-                        Result.Add(Buffer);
-
-                    Result.Add(Char.ToString(CultureInfo.InvariantCulture));
-                    Buffer = String.Empty;
-                }
-                else
-                {
-                    Buffer += Char;
-                }
-            }
-
-            if (Buffer != String.Empty)
-                Result.Add(Buffer);
-
-            Result.ForEach(X => X = X.Trim());
 
             return Result;
         }
@@ -175,7 +82,7 @@ namespace Anathema.Source.Engine.AddressResolver
 
             // Build .NET object list
             ObjectTrees?.ForEach(X => BuildNameMap(NameMap, X));
-            this.NameMap = NameMap;
+            this.DotNetNameMap = NameMap;
 
             // After we have successfully grabbed information from the process, slow the update interval
             if ((Modules != null && Modules.Count() != 0) || ObjectTrees != null)

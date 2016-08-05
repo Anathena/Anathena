@@ -1,4 +1,4 @@
-﻿namespace Anathema.Source.Engine.InputCapture.MouseCapture
+﻿namespace Anathema.Source.Engine.InputCapture.Mouse
 {
     public interface IMouseSubject : IInputCapture
     {

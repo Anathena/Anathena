@@ -1,4 +1,4 @@
-﻿namespace Anathema.Source.Engine.InputCapture.ControllerCapture
+﻿namespace Anathema.Source.Engine.InputCapture.Controller
 {
     public interface IControllerSubject : IInputCapture
     {

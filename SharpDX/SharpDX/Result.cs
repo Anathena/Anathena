@@ -138,7 +138,7 @@ namespace SharpDX
         {
             if (!(obj is Result))
                 return false;
-            return Equals((Result) obj);
+            return Equals((Result)obj);
         }
 
         /// <summary>
@@ -215,7 +215,7 @@ namespace SharpDX
         {
             const int FACILITY_WIN32 = 7;
             return win32Error <= 0 ? win32Error : (int)((win32Error & 0x0000FFFF) | (FACILITY_WIN32 << 16) | 0x80000000);
-        } 
+        }
 
         /// <summary>
         /// Result code Ok

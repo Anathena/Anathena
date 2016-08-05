@@ -1,4 +1,5 @@
 ﻿using Anathema.Source.Engine;
+using Anathema.Source.Engine.AddressResolver;
 using Anathema.Source.Project.ProjectItems.TypeConverters;
 using Anathema.Source.Project.ProjectItems.TypeEditors;
 using Anathema.Source.Utils.Extensions;
@@ -22,7 +23,7 @@ namespace Anathema.Source.Project.ProjectItems
         {
             Module,
             DotNet,
-            Java
+            // Java
         }
 
         private ResolveTypeEnum _ResolveType;
@@ -147,7 +148,7 @@ namespace Anathema.Source.Project.ProjectItems
             if (EngineCore == null)
                 return;
 
-            ResolveAddress();
+            EffectiveAddress = ResolveAddress();
 
             // Freeze current value if this entry is activated
             if (GetActivationState())
@@ -165,26 +166,33 @@ namespace Anathema.Source.Project.ProjectItems
             return Conversions.ToAddress(EffectiveAddress);
         }
 
-        public void ResolveAddress()
+        public IntPtr ResolveAddress()
         {
-            IntPtr Pointer = BaseOffset;
+            IntPtr Pointer = IntPtr.Zero;
             Boolean SuccessReading = true;
+
+            switch (ResolveType)
+            {
+                case ResolveTypeEnum.Module:
+                    Pointer = BaseOffset;
+                    break;
+                case ResolveTypeEnum.DotNet:
+                    Pointer = AddressResolver.GetInstance().ResolveDotNetObject(BaseIdentifier);
+                    Pointer = Pointer.Add(BaseOffset);
+                    break;
+            }
+
 
             if (EngineCore == null)
             {
-                if (Offsets == null || Offsets.Count() == 0)
-                    EffectiveAddress = Pointer;
-                else
-                    EffectiveAddress = IntPtr.Zero;
+                if (Offsets != null && Offsets.Count() > 0)
+                    Pointer = IntPtr.Zero;
 
-                return;
+                return Pointer;
             }
 
             if (Offsets == null || Offsets.Count() == 0)
-            {
-                this.EffectiveAddress = Pointer;
-                return;
-            }
+                return Pointer;
 
             foreach (Int32 Offset in Offsets)
             {
@@ -199,7 +207,7 @@ namespace Anathema.Source.Project.ProjectItems
                     break;
             }
 
-            this.EffectiveAddress = Pointer;
+            return Pointer;
         }
 
     } // End class

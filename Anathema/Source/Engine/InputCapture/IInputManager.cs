@@ -1,6 +1,6 @@
-﻿using Anathema.Source.Engine.InputCapture.ControllerCapture;
-using Anathema.Source.Engine.InputCapture.KeyboardCapture;
-using Anathema.Source.Engine.InputCapture.MouseCapture;
+﻿using Anathema.Source.Engine.InputCapture.Controller;
+using Anathema.Source.Engine.InputCapture.Keyboard;
+using Anathema.Source.Engine.InputCapture.Mouse;
 
 namespace Anathema.Source.Engine.InputCapture
 {
@@ -11,6 +11,8 @@ namespace Anathema.Source.Engine.InputCapture
         IMouseSubject GetMouseCapture();
 
         IControllerSubject GetControllerCapture();
+
+        void RegisterHotkey(InputBinding HotKey);
 
     } // End class
 

@@ -1,6 +1,6 @@
 ﻿using SharpDX.DirectInput;
 
-namespace Anathema.Source.Engine.InputCapture.KeyboardCapture
+namespace Anathema.Source.Engine.InputCapture.Keyboard
 {
     public interface IKeyboardObserver
     {

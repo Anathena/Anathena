@@ -38,7 +38,8 @@ namespace Anathema.Source.DotNetExplorer
         }
         public void AddToTable(DotNetObject DotNetObject)
         {
-            AddressItem AddressItem = new AddressItem(IntPtr.Zero /*DotNetObject.GetFullName()*/, DotNetObject.GetElementType(), DotNetObject.GetName());
+            AddressItem AddressItem = new AddressItem(IntPtr.Zero, DotNetObject.GetElementType(),
+                DotNetObject.GetName(), AddressItem.ResolveTypeEnum.DotNet, DotNetObject.GetFullName());
             ProjectExplorer.GetInstance().AddProjectItem(AddressItem);
         }
 

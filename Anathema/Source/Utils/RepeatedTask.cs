@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 
 namespace Anathema.Source.Utils
 {
-    abstract class RepeatedTask
+    public abstract class RepeatedTask
     {
         private CancellationTokenSource CancelRequest;  // Tells the task to finish
         private Task Task;                              // Event that constantly checks the target process for changes

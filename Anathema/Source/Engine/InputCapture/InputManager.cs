@@ -1,22 +1,40 @@
-﻿using Anathema.Source.Engine.InputCapture.ControllerCapture;
-using Anathema.Source.Engine.InputCapture.KeyboardCapture;
-using Anathema.Source.Engine.InputCapture.MouseCapture;
+﻿using Anathema.Source.Engine.InputCapture.Controller;
+using Anathema.Source.Engine.InputCapture.Keyboard;
+using Anathema.Source.Engine.InputCapture.Mouse;
+using Anathema.Source.Utils;
+using System;
 
 namespace Anathema.Source.Engine.InputCapture
 {
-    public class InputManager : IInputManager
+    public class InputManager : RepeatedTask, IInputManager
     {
         private IControllerSubject ControllerSubject;
         private IKeyboardSubject KeyboardSubject;
         private IMouseSubject MouseSubject;
 
+        private const Int32 InputCollectionInterval = 200;
+
         public InputManager()
         {
-            ControllerSubject = new ControllerCapture.ControllerCapture();
-            KeyboardSubject = new KeyboardCapture.KeyboardCapture();
-            MouseSubject = new MouseCapture.MouseCapture();
+            ControllerSubject = new ControllerCapture();
+            KeyboardSubject = new KeyboardCapture();
+            MouseSubject = new MouseCapture();
 
-            Update();
+            Begin();
+        }
+
+        public override void Begin()
+        {
+            this.UpdateInterval = InputCollectionInterval;
+
+            base.Begin();
+        }
+
+        protected override void Update()
+        {
+            ControllerSubject.Update();
+            KeyboardSubject.Update();
+            MouseSubject.Update();
         }
 
         public IControllerSubject GetControllerCapture()
@@ -34,12 +52,9 @@ namespace Anathema.Source.Engine.InputCapture
             return MouseSubject;
         }
 
-        private void Update()
+        public void RegisterHotkey(InputBinding HotKey)
         {
-            return;
-            ControllerSubject.Update();
-            KeyboardSubject.Update();
-            MouseSubject.Update();
+
         }
 
     } // End class
