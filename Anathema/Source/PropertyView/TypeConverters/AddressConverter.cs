@@ -4,7 +4,7 @@ using System;
 using System.ComponentModel;
 using System.Globalization;
 
-namespace Anathema.Source.Project.ProjectItems.TypeConverters
+namespace Anathema.Source.Project.PropertyView.TypeConverters
 {
     class AddressConverter : StringConverter
     {

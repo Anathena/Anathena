@@ -6,7 +6,7 @@ using System.ComponentModel;
 using System.Globalization;
 using System.Linq;
 
-namespace Anathema.Source.Project.ProjectItems.TypeConverters
+namespace Anathema.Source.Project.PropertyView.TypeConverters
 {
     class OffsetConverter : StringConverter
     {

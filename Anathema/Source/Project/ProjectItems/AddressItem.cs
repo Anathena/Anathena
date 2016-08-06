@@ -1,7 +1,7 @@
 ﻿using Anathema.Source.Engine;
 using Anathema.Source.Engine.AddressResolver;
-using Anathema.Source.Project.ProjectItems.TypeConverters;
 using Anathema.Source.Project.ProjectItems.TypeEditors;
+using Anathema.Source.Project.PropertyView.TypeConverters;
 using Anathema.Source.Utils.Extensions;
 using Anathema.Source.Utils.Validation;
 using System;
@@ -18,19 +18,11 @@ namespace Anathema.Source.Project.ProjectItems
     [DataContract()]
     public class AddressItem : ProjectItem
     {
-        // TODO: Move to engine once resolvers are moved there
-        public enum ResolveTypeEnum
-        {
-            Module,
-            DotNet,
-            // Java
-        }
-
-        private ResolveTypeEnum _ResolveType;
+        private AddressResolver.ResolveTypeEnum _ResolveType;
         [DataMember()]
         [RefreshProperties(RefreshProperties.All)]
         [Category("Properties"), DisplayName("Resolve Type"), Description("Method to use for resolving the address base. If there is an identifier to resolve, the address is treated as an offset.")]
-        public ResolveTypeEnum ResolveType
+        public AddressResolver.ResolveTypeEnum ResolveType
         {
             get { return _ResolveType; }
             set { _ResolveType = value; }
@@ -116,8 +108,8 @@ namespace Anathema.Source.Project.ProjectItems
         }
 
         public AddressItem() : this(IntPtr.Zero, typeof(Int32), "New Address") { }
-        public AddressItem(IntPtr BaseAddress, Type ElementType, String Description = null, ResolveTypeEnum ResolveType = ResolveTypeEnum.Module, String BaseIdentifier = null,
-            IEnumerable<Int32> Offsets = null, Boolean IsValueHex = false, String Value = null) : base(Description)
+        public AddressItem(IntPtr BaseAddress, Type ElementType, String Description = null, AddressResolver.ResolveTypeEnum ResolveType = AddressResolver.ResolveTypeEnum.Module,
+            String BaseIdentifier = null, IEnumerable<Int32> Offsets = null, Boolean IsValueHex = false, String Value = null) : base(Description)
         {
             // Bypass setters to avoid running setter code
             this._BaseAddress = BaseAddress;
@@ -173,10 +165,10 @@ namespace Anathema.Source.Project.ProjectItems
 
             switch (ResolveType)
             {
-                case ResolveTypeEnum.Module:
+                case AddressResolver.ResolveTypeEnum.Module:
                     Pointer = BaseOffset;
                     break;
-                case ResolveTypeEnum.DotNet:
+                case AddressResolver.ResolveTypeEnum.DotNet:
                     Pointer = AddressResolver.GetInstance().ResolveDotNetObject(BaseIdentifier);
                     Pointer = Pointer.Add(BaseOffset);
                     break;

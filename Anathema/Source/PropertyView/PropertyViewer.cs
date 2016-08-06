@@ -3,7 +3,7 @@ using Anathema.Source.Engine.Processes;
 using System;
 using System.Threading;
 
-namespace Anathema.Source.PropertyEditor
+namespace Anathema.Source.PropertyView
 {
     class PropertyViewer : IPropertyViewerModel, IProcessObserver
     {

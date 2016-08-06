@@ -4,7 +4,7 @@ using Anathema.Source.Utils.MVP;
 using System;
 using System.Collections.Generic;
 
-namespace Anathema.Source.PropertyEditor
+namespace Anathema.Source.PropertyView
 {
     delegate void PropertyViewerEventHandler(Object Sender, PropertyViewerEventArgs Args);
     class PropertyViewerEventArgs : EventArgs

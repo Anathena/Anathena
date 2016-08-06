@@ -1,9 +1,12 @@
-﻿using Anathema.Source.DotNetExplorer;
+﻿using Aga.Controls.Tree;
+using Anathema.GUI.CustomControls.TreeViews;
+using Anathema.Source.DotNetExplorer;
 using Anathema.Source.Engine.AddressResolver.DotNet;
+using Anathema.Source.Utils.Caches;
+using Anathema.Source.Utils.Extensions;
 using Anathema.Source.Utils.MVP;
 using System;
 using System.Collections.Generic;
-using System.Windows.Forms;
 using WeifenLuo.WinFormsUI.Docking;
 
 namespace Anathema.GUI.Tools
@@ -11,50 +14,80 @@ namespace Anathema.GUI.Tools
     public partial class GUIDotNetExplorer : DockContent, IDotNetExplorerView
     {
         private DotNetExplorerPresenter DotNetExplorerPresenter;
-        private Dictionary<TreeNode, DotNetObject> TreeObjectMapping;
+        private BiDictionary<DotNetObject, DotNetNode> NodeCache;
+        private TreeModel ProjectTree;
 
         public GUIDotNetExplorer()
         {
             InitializeComponent();
 
+            NodeCache = new BiDictionary<DotNetObject, DotNetNode>();
+            ProjectTree = new TreeModel();
+
             // Initialize presenter
             DotNetExplorerPresenter = new DotNetExplorerPresenter(this, new DotNetExplorer());
-            TreeObjectMapping = new Dictionary<TreeNode, DotNetObject>();
 
+            ObjectExplorerTreeView.Model = ProjectTree;
             DotNetExplorerPresenter.RefreshObjectTrees();
         }
 
+
         public void UpdateObjectTrees(List<DotNetObject> ObjectTrees)
         {
+            if (DotNetExplorerPresenter == null)
+                return;
+
             ControlThreadingHelper.InvokeControlAction(ObjectExplorerTreeView, () =>
             {
-                TreeObjectMapping.Clear();
-                ObjectExplorerTreeView.Nodes.Clear();
+                ObjectExplorerTreeView.BeginUpdate();
+                ProjectTree.Nodes.Clear();
+                NodeCache.Clear();
 
-                TreeNode[] Nodes = new TreeNode[ObjectTrees.Count];
-                ObjectTrees.ForEach(X => Nodes[ObjectTrees.IndexOf(X)] = CreateNodeFromDotNetObject(X));
-                ObjectTrees.ForEach(X => AddChildren(Nodes[ObjectTrees.IndexOf(X)], X));
+                if (ObjectTrees != null)
+                {
+                    foreach (DotNetObject DotNetObject in ObjectTrees)
+                        BuildNodes(DotNetObject);
+                }
 
-                ObjectExplorerTreeView.Nodes.AddRange(Nodes);
+                ObjectExplorerTreeView.EndUpdate();
             });
         }
 
-        private void AddChildren(TreeNode TreeNode, DotNetObject DotNetObject)
+        private void BuildNodes(DotNetObject DotNetObject, DotNetObject Parent = null)
         {
-            if (DotNetObject.GetChildren().Count == 0)
+            if (DotNetObject == null)
                 return;
 
-            TreeNode[] Children = new TreeNode[DotNetObject.GetChildren().Count];
-            DotNetObject.GetChildren().ForEach(X => Children[DotNetObject.GetChildren().IndexOf(X)] = CreateNodeFromDotNetObject(X));
-            DotNetObject.GetChildren().ForEach(X => AddChildren(Children[DotNetObject.GetChildren().IndexOf(X)], X));
-            TreeNode.Nodes.AddRange(Children);
+            // Create new node to insert
+            DotNetNode ProjectNode = new DotNetNode(DotNetObject.GetName());
+            ProjectNode.DotNetObject = DotNetObject;
+
+            if (Parent != null && NodeCache.ContainsKey(Parent))
+                NodeCache[Parent].Nodes.Add(ProjectNode);
+            else
+                ProjectTree.Nodes.Add(ProjectNode);
+
+            NodeCache.Add(DotNetObject, ProjectNode);
+
+            foreach (DotNetObject Child in DotNetObject.GetChildren())
+                BuildNodes(Child, DotNetObject);
         }
 
-        private TreeNode CreateNodeFromDotNetObject(DotNetObject DotNetObject)
+        private DotNetNode GetDotNetNodeFromTreeNodeAdv(TreeNodeAdv TreeNodeAdv)
         {
-            TreeNode TreeNode = new TreeNode(DotNetObject?.GetName());
-            TreeObjectMapping[TreeNode] = DotNetObject;
-            return TreeNode;
+            Node Node = ProjectTree.FindNode(ObjectExplorerTreeView.GetPath(TreeNodeAdv));
+
+            if (Node == null || !typeof(DotNetNode).IsAssignableFrom(Node.GetType()))
+                return null;
+
+            DotNetNode DotNetNode = Node as DotNetNode;
+
+            return DotNetNode;
+        }
+
+        private DotNetObject GetProjectItemFromNode(TreeNodeAdv TreeNodeAdv)
+        {
+            return GetDotNetNodeFromTreeNodeAdv(TreeNodeAdv)?.DotNetObject;
         }
 
         #region Events
@@ -64,16 +97,31 @@ namespace Anathema.GUI.Tools
             DotNetExplorerPresenter.RefreshObjectTrees();
         }
 
-        #endregion
-
-        private void ObjectExplorerTreeView_NodeMouseDoubleClick(Object Sender, TreeNodeMouseClickEventArgs E)
+        private void ObjectExplorerTreeView_NodeMouseDoubleClick(Object Sender, TreeNodeAdvMouseEventArgs E)
         {
-            DotNetObject DotNetObject;
-            if (!TreeObjectMapping.TryGetValue(E.Node, out DotNetObject))
+            DotNetNode Node = GetDotNetNodeFromTreeNodeAdv(E.Node);
+
+            if (Node == null)
                 return;
 
-            DotNetExplorerPresenter.AddToTable(DotNetObject);
+            if (!NodeCache.Reverse.ContainsKey(Node))
+                return;
+
+            DotNetExplorerPresenter.AddToTable(NodeCache.Reverse[Node]);
         }
+
+        private void ObjectExplorerTreeView_SelectionChanged(Object Sender, EventArgs E)
+        {
+            List<TreeNodeAdv> TreeNodes = new List<TreeNodeAdv>();
+            List<DotNetObject> DotNetObjects = new List<DotNetObject>();
+
+            ObjectExplorerTreeView.SelectedNodes.ForEach(X => TreeNodes.Add(X));
+            TreeNodes.ForEach(X => DotNetObjects.Add(GetProjectItemFromNode(X)));
+
+            DotNetExplorerPresenter.UpdateSelection(DotNetObjects);
+        }
+
+        #endregion
 
     } // End class
 

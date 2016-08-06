@@ -1,4 +1,4 @@
-﻿using Anathema.Source.PropertyEditor;
+﻿using Anathema.Source.PropertyView;
 using Anathema.Source.Utils.MVP;
 using System;
 using System.Collections.Generic;

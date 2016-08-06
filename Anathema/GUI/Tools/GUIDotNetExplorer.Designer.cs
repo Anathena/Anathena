@@ -29,20 +29,12 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(GUIDotNetExplorer));
-            this.ObjectExplorerTreeView = new System.Windows.Forms.TreeView();
             this.GUIToolStrip = new System.Windows.Forms.ToolStrip();
             this.RefreshButton = new System.Windows.Forms.ToolStripButton();
+            this.ObjectExplorerTreeView = new Aga.Controls.Tree.TreeViewAdv();
+            this.EntryName = new Aga.Controls.Tree.NodeControls.NodeTextBox();
             this.GUIToolStrip.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // ObjectExplorerTreeView
-            // 
-            this.ObjectExplorerTreeView.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.ObjectExplorerTreeView.Location = new System.Drawing.Point(0, 25);
-            this.ObjectExplorerTreeView.Name = "ObjectExplorerTreeView";
-            this.ObjectExplorerTreeView.Size = new System.Drawing.Size(284, 236);
-            this.ObjectExplorerTreeView.TabIndex = 0;
-            this.ObjectExplorerTreeView.NodeMouseDoubleClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.ObjectExplorerTreeView_NodeMouseDoubleClick);
             // 
             // GUIToolStrip
             // 
@@ -65,6 +57,30 @@
             this.RefreshButton.Text = "Refresh";
             this.RefreshButton.Click += new System.EventHandler(this.RefreshButton_Click);
             // 
+            // ObjectExplorerTreeView
+            // 
+            this.ObjectExplorerTreeView.BackColor = System.Drawing.SystemColors.Window;
+            this.ObjectExplorerTreeView.DefaultToolTipProvider = null;
+            this.ObjectExplorerTreeView.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.ObjectExplorerTreeView.DragDropMarkColor = System.Drawing.Color.Black;
+            this.ObjectExplorerTreeView.LineColor = System.Drawing.SystemColors.ControlDark;
+            this.ObjectExplorerTreeView.Location = new System.Drawing.Point(0, 25);
+            this.ObjectExplorerTreeView.Model = null;
+            this.ObjectExplorerTreeView.Name = "ObjectExplorerTreeView";
+            this.ObjectExplorerTreeView.NodeControls.Add(this.EntryName);
+            this.ObjectExplorerTreeView.SelectedNode = null;
+            this.ObjectExplorerTreeView.Size = new System.Drawing.Size(284, 236);
+            this.ObjectExplorerTreeView.TabIndex = 151;
+            this.ObjectExplorerTreeView.NodeMouseDoubleClick += new System.EventHandler<Aga.Controls.Tree.TreeNodeAdvMouseEventArgs>(this.ObjectExplorerTreeView_NodeMouseDoubleClick);
+            this.ObjectExplorerTreeView.SelectionChanged += new System.EventHandler(this.ObjectExplorerTreeView_SelectionChanged);
+            // 
+            // EntryName
+            // 
+            this.EntryName.DataPropertyName = "EntryName";
+            this.EntryName.IncrementalSearchEnabled = true;
+            this.EntryName.LeftMargin = 3;
+            this.EntryName.ParentColumn = null;
+            // 
             // GUIDotNetExplorer
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -84,9 +100,9 @@
         }
 
         #endregion
-
-        private System.Windows.Forms.TreeView ObjectExplorerTreeView;
         private System.Windows.Forms.ToolStrip GUIToolStrip;
         private System.Windows.Forms.ToolStripButton RefreshButton;
+        private Aga.Controls.Tree.TreeViewAdv ObjectExplorerTreeView;
+        private Aga.Controls.Tree.NodeControls.NodeTextBox EntryName;
     }
 }

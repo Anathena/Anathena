@@ -1,6 +1,6 @@
 ﻿using Anathema.Source.LuaEngine;
-using Anathema.Source.Project.ProjectItems.TypeConverters;
 using Anathema.Source.Project.ProjectItems.TypeEditors;
+using Anathema.Source.Project.PropertyView.TypeConverters;
 using System;
 using System.ComponentModel;
 using System.Drawing.Design;

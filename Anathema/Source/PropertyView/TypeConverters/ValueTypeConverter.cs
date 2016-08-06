@@ -4,7 +4,7 @@ using System.ComponentModel;
 using System.Globalization;
 using System.Linq;
 
-namespace Anathema.Source.Project.ProjectItems.TypeConverters
+namespace Anathema.Source.Project.PropertyView.TypeConverters
 {
     class ValueTypeConverter : StringConverter
     {
@@ -15,7 +15,7 @@ namespace Anathema.Source.Project.ProjectItems.TypeConverters
 
         public override Boolean CanConvertFrom(ITypeDescriptorContext Context, Type SourceType)
         {
-            if (SourceType == typeof(String))
+            if (SourceType == null || SourceType == typeof(String))
                 return true;
 
             return base.CanConvertFrom(Context, SourceType);

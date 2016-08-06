@@ -25,6 +25,7 @@ namespace Anathema.Source.DotNetExplorer
 
         // Functions invoked by presenter (downstream)
         void AddToTable(DotNetObject DotNetObject);
+        void UpdateSelection(IEnumerable<DotNetObject> DotNetObjects);
         void RefreshObjectTrees();
     }
 
@@ -49,6 +50,11 @@ namespace Anathema.Source.DotNetExplorer
         public void AddToTable(DotNetObject DotNetObject)
         {
             Model.AddToTable(DotNetObject);
+        }
+
+        public void UpdateSelection(IEnumerable<DotNetObject> DotNetObjects)
+        {
+            Model.UpdateSelection(DotNetObjects);
         }
 
         public void RefreshObjectTrees()

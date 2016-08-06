@@ -1,17 +1,33 @@
-﻿using Anathema.Source.Utils.Extensions;
+﻿using Anathema.Source.Project.PropertyView.TypeConverters;
+using Anathema.Source.Utils.Extensions;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel;
 
 namespace Anathema.Source.Engine.AddressResolver.DotNet
 {
     public class DotNetObject : IEnumerable, IComparable<DotNetObject>
     {
-        private DotNetObject Parent;
-        private List<DotNetObject> Children;
-        private UInt64 ObjectReference;
-        private String Name;
-        private Type ElementType;
+        [Browsable(false)]
+        private DotNetObject Parent { get; set; }
+
+        [Browsable(false)]
+        private List<DotNetObject> Children { get; set; }
+
+        [ReadOnly(true)]
+        [TypeConverter(typeof(AddressConverter))]
+        [Category("Properties"), DisplayName("Address"), Description("Address of the object. The CLR can change this at any time")]
+        public UInt64 ObjectReference { get; set; }
+
+        [ReadOnly(true)]
+        [Category("Properties"), DisplayName("Name"), Description("Name of the .NET object")]
+        public String Name { get; set; }
+
+        [ReadOnly(true)]
+        [TypeConverter(typeof(ValueTypeConverter))]
+        [Category("Properties"), DisplayName("Value Type"), Description("Data type of the address")]
+        public Type ElementType { get; set; }
 
         public DotNetObject(DotNetObject Parent, UInt64 ObjectReference, Type ElementType, String Name)
         {

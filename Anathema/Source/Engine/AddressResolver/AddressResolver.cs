@@ -9,7 +9,7 @@ using System.Threading;
 
 namespace Anathema.Source.Engine.AddressResolver
 {
-    class AddressResolver : RepeatedTask, IProcessObserver
+    public class AddressResolver : RepeatedTask, IProcessObserver
     {
         // Singleton instance of Address Resolver
         private static Lazy<AddressResolver> AddressResolverInstance = new Lazy<AddressResolver>(() => { return new AddressResolver(); }, LazyThreadSafetyMode.PublicationOnly);
@@ -22,11 +22,11 @@ namespace Anathema.Source.Engine.AddressResolver
         private Dictionary<String, DotNetObject> DotNetNameMap;
         private IEnumerable<NormalizedModule> Modules;
 
-        private enum PendingOperationEnum
+        public enum ResolveTypeEnum
         {
-            None,
-            Addition,
-            Subtraction
+            Module,
+            DotNet,
+            // Java
         }
 
         private AddressResolver()

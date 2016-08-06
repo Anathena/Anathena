@@ -168,6 +168,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="GUI\CustomControls\TreeViews\DotNetNode.cs" />
     <Compile Include="GUI\Tools\GUICheatBrowser.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -206,7 +207,7 @@
     <Compile Include="Source\Engine\InputCapture\Hotkey.cs" />
     <Compile Include="Source\Engine\Proxy\ProxyCommunicator.cs" />
     <Compile Include="Source\Project\ProjectItems\ScriptTemplates\LuaTemplates.cs" />
-    <Compile Include="Source\Project\ProjectItems\TypeConverters\LuaScriptConverter.cs" />
+    <Compile Include="Source\PropertyView\TypeConverters\LuaScriptConverter.cs" />
     <Compile Include="Source\Project\ProjectItems\TypeEditors\ScriptEditor.cs" />
     <Compile Include="Source\Project\ProjectItems\TypeEditors\ArrayEditor.cs" />
     <Compile Include="GUI\Tools\TypeEditors\GUIArrayEditor.cs">
@@ -280,12 +281,12 @@
     <Compile Include="Source\Engine\AddressResolver\DotNet\DotNetObject.cs" />
     <Compile Include="Source\LuaEngine\LuaScript.cs" />
     <Compile Include="Source\Project\ProjectItems\FolderItem.cs" />
-    <Compile Include="Source\Project\ProjectItems\TypeConverters\OffsetConverter.cs" />
-    <Compile Include="Source\Project\ProjectItems\TypeConverters\DynamicConverter.cs" />
-    <Compile Include="Source\Project\ProjectItems\TypeConverters\ValueTypeConverter.cs" />
-    <Compile Include="Source\Project\ProjectItems\TypeConverters\AddressConverter.cs" />
-    <Compile Include="Source\PropertyEditor\IPropertyViewerMVP.cs" />
-    <Compile Include="Source\PropertyEditor\PropertyViewer.cs" />
+    <Compile Include="Source\PropertyView\TypeConverters\OffsetConverter.cs" />
+    <Compile Include="Source\PropertyView\TypeConverters\DynamicConverter.cs" />
+    <Compile Include="Source\PropertyView\TypeConverters\ValueTypeConverter.cs" />
+    <Compile Include="Source\PropertyView\TypeConverters\AddressConverter.cs" />
+    <Compile Include="Source\PropertyView\IPropertyViewerMVP.cs" />
+    <Compile Include="Source\PropertyView\PropertyViewer.cs" />
     <Compile Include="Source\Engine\AddressResolver\AddressResolver.cs" />
     <Compile Include="Source\Engine\Graphics\DirectX\Interface\BaseDXHook.cs" />
     <Compile Include="Source\Engine\Graphics\DirectX\Interface\Common\Element.cs" />

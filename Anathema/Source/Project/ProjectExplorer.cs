@@ -2,7 +2,7 @@
 using Anathema.Source.Engine;
 using Anathema.Source.Engine.Processes;
 using Anathema.Source.Project.ProjectItems;
-using Anathema.Source.PropertyEditor;
+using Anathema.Source.PropertyView;
 using System;
 using System.Collections.Generic;
 using System.IO;

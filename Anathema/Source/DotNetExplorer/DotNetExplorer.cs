@@ -3,8 +3,10 @@ using Anathema.Source.Engine.AddressResolver.DotNet;
 using Anathema.Source.Engine.Processes;
 using Anathema.Source.Project;
 using Anathema.Source.Project.ProjectItems;
+using Anathema.Source.PropertyView;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Anathema.Source.DotNetExplorer
 {
@@ -42,6 +44,11 @@ namespace Anathema.Source.DotNetExplorer
             AddressItem AddressItem = new AddressItem(IntPtr.Zero, DotNetObject.GetElementType(),
                 DotNetObject.GetName(), AddressItem.ResolveTypeEnum.DotNet, DotNetObject.GetFullName());
             ProjectExplorer.GetInstance().AddProjectItem(AddressItem);
+        }
+
+        public void UpdateSelection(IEnumerable<DotNetObject> DotNetObjects)
+        {
+            PropertyViewer.GetInstance().SetTargetObjects(DotNetObjects.ToArray());
         }
 
         public void RefreshObjectTrees()
