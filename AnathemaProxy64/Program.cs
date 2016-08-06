@@ -1,5 +1,4 @@
-﻿using AnathenaProxy;
-using System;
+﻿using System;
 
 namespace AnathenaProxy64
 {
@@ -8,7 +7,7 @@ namespace AnathenaProxy64
     /// </summary>
     class Program
     {
-        private static ProxyService ProxyService;
+        private static AnathenaProxy.AnathenaProxy AnathenaProxy;
 
         static void Main(String[] Args)
         {
@@ -16,7 +15,7 @@ namespace AnathenaProxy64
                 return;
 
             Console.WriteLine("Initialized Anathena 64-bit helper process");
-            ProxyService = new ProxyService(Args[0], Args[1]);
+            AnathenaProxy = new AnathenaProxy.AnathenaProxy(Args[0], Args[1]);
         }
 
     } // End class

@@ -2,8 +2,7 @@
 using System;
 using System.Diagnostics;
 using System.IO;
-using System.Runtime.Remoting.Channels;
-using System.Runtime.Remoting.Channels.Ipc;
+using System.ServiceModel;
 using System.Threading;
 using System.Windows.Forms;
 
@@ -17,10 +16,8 @@ namespace Anathema.Source.Engine.Proxy
         private const String AnathenaProxy64Executable = "AnathenaProxy64.exe";
         private const String WaitEventName = @"Global\Anathena";
 
-        private String AnathenaProxy32ChannelClient;
-        private String AnathenaProxy32ChannelServer;
-        private String AnathenaProxy64ChannelClient;
-        private String AnathenaProxy64ChannelServer;
+        private IProxyService AnathenaProxy32;
+        private IProxyService AnathenaProxy64;
 
         private ProxyCommunicator() { }
 
@@ -32,50 +29,44 @@ namespace Anathema.Source.Engine.Proxy
         public void InitializeServices()
         {
             // Initialize channel names
-            AnathenaProxy32ChannelClient = Guid.NewGuid().ToString();
-            AnathenaProxy32ChannelServer = Guid.NewGuid().ToString();
-            AnathenaProxy64ChannelClient = Guid.NewGuid().ToString();
-            AnathenaProxy64ChannelServer = Guid.NewGuid().ToString();
+            String UriPrefix = "net.pipe://localhost/";
+            String AnathenaProxy32ServerName = UriPrefix + Guid.NewGuid().ToString();
+            String AnathenaProxy64ServerName = UriPrefix + Guid.NewGuid().ToString();
 
             // Start 32 and 64 bit proxy services
-            StartProxyService(AnathenaProxy32Executable, AnathenaProxy32ChannelClient, AnathenaProxy32ChannelServer);
-            // StartProxyService(AnathenaProxy64Executable, AnathenaProxy64ChannelClient, AnathenaProxy64ChannelServer);
+            AnathenaProxy32 = StartProxyService(AnathenaProxy32Executable, AnathenaProxy32ServerName);
+            // AnathenaProxy64 = StartProxyService(AnathenaProxy64Executable, AnathenaProxy64ServerName);
         }
 
-        private void StartProxyService(String ExecutableName, String ChannelNameClient, String ChannelNameServer)
+        private IProxyService StartProxyService(String ExecutableName, String ChannelServerName)
         {
+            // Start the proxy service
             EventWaitHandle ProcessStartEvent = new EventWaitHandle(false, EventResetMode.ManualReset, WaitEventName);
             ProcessStartInfo ProcessInfo = new ProcessStartInfo(Path.Combine(Path.GetDirectoryName(Application.ExecutablePath), ExecutableName));
-            ProcessInfo.Arguments = ChannelNameServer + " " + WaitEventName;
-            // ProcessInfo.RedirectStandardInput = true;
+            ProcessInfo.Arguments = ChannelServerName + " " + WaitEventName;
+            //ProcessInfo.RedirectStandardInput = true;
             ProcessInfo.UseShellExecute = false;
-            // ProcessInfo.CreateNoWindow = true;
+            //ProcessInfo.CreateNoWindow = true;
             Process.Start(ProcessInfo);
             ProcessStartEvent.WaitOne();
 
-            // Create client connection to service
-            IpcChannel IpcChannel = new IpcChannel(ChannelNameClient);
-            ChannelServices.RegisterChannel(IpcChannel, true);
+            // Create connection
+            NetNamedPipeBinding Binding = new NetNamedPipeBinding(NetNamedPipeSecurityMode.None);
+            EndpointAddress Endpoint = new EndpointAddress(ChannelServerName);
+            IProxyService ProxyService = ChannelFactory<IProxyService>.CreateChannel(Binding, Endpoint);
+
+            return ProxyService;
         }
 
-        public IFasmServiceInterface GetFasmService()
-        {
-            // Fasm service exclusively runs on the 32 bit executable, this library has no 64 bit version
-            String ObjectUri = String.Format("ipc://{0}/{1}", AnathenaProxy32ChannelServer, typeof(FasmService).Name);
-            return (IFasmServiceInterface)Activator.GetObject(typeof(IFasmServiceInterface), ObjectUri);
-        }
-
-        public IClrServiceInterface GetClrService(Boolean Is32Bit)
+        public IProxyService GetProxyService(Boolean Is32Bit)
         {
             if (Is32Bit)
             {
-                String ObjectUri = String.Format("ipc://{0}/{1}", AnathenaProxy32ChannelServer, typeof(ClrService).Name);
-                return (IClrServiceInterface)Activator.GetObject(typeof(IClrServiceInterface), ObjectUri);
+                return AnathenaProxy32;
             }
             else
             {
-                String ObjectUri = String.Format("ipc://{0}/{1}", AnathenaProxy64ChannelServer, typeof(ClrService).Name);
-                return (IClrServiceInterface)Activator.GetObject(typeof(IClrServiceInterface), ObjectUri);
+                return AnathenaProxy64;
             }
         }
 

@@ -39,6 +39,7 @@
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Runtime.Remoting" />
+    <Reference Include="System.ServiceModel" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -48,10 +49,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Clr\ClrService.cs" />
-    <Compile Include="Fasm\FasmService.cs" />
-    <Compile Include="Fasm\IFasmServiceInterface.cs" />
-    <Compile Include="Clr\IClrServiceInterface.cs" />
+    <Compile Include="IProxyService.cs" />
+    <Compile Include="AnathenaProxy.cs" />
     <Compile Include="ProxyService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

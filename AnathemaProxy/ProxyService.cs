@@ -1,9 +1,8 @@
-﻿using System;
-using System.IO;
-using System.Runtime.Remoting;
-using System.Runtime.Remoting.Channels;
-using System.Runtime.Remoting.Channels.Ipc;
-using System.Threading;
+﻿using Anathema.Assemblers.Fasm;
+using Microsoft.Diagnostics.Runtime;
+using System;
+using System.Diagnostics;
+using System.ServiceModel;
 
 namespace AnathenaProxy
 {
@@ -13,97 +12,65 @@ namespace AnathenaProxy
     /// - FASM Compiler, which can only be run in 32 bit mode
     /// - Microsoft.Diagnostics.Runtime, which can only be used on processes of the same bitness
     /// </summary>
-    public class ProxyService
+    [ServiceBehavior(InstanceContextMode = InstanceContextMode.PerSession)]
+    public class ProxyService : IProxyService
     {
-        private static EventWaitHandle ProcessStartingEvent;
-        private static SynchronizationContext MainThreadMessageQueue;
-        private static Stream StdInput;
+        private const Int32 AttachTimeout = 5000;
 
-        public ProxyService(String ChannelName, String WaitEventName)
+        public ProxyService() { }
+
+        public Byte[] Assemble(Boolean IsProcess32Bit, String Assembly, UInt64 BaseAddress)
         {
-            // Create an event to have the client wait until we are finished starting the FASM service
-            ProcessStartingEvent = new EventWaitHandle(false, EventResetMode.ManualReset, WaitEventName);
+            if (Assembly == null)
+                return null;
 
-            InitializeAutoExit();
-
-            Console.WriteLine("Channel name: " + ChannelName);
-            Console.WriteLine("Wait event name: " + WaitEventName);
-
-            // Create the IPC channel for communication
-            IpcChannel IpcChannel = new IpcChannel(ChannelName);
-            ChannelServices.RegisterChannel(IpcChannel, true);
-
-            // Register sub services
-            RemotingConfiguration.RegisterWellKnownServiceType(typeof(ClrService), typeof(ClrService).Name, WellKnownObjectMode.SingleCall);
-            RemotingConfiguration.RegisterWellKnownServiceType(typeof(FasmService), typeof(FasmService).Name, WellKnownObjectMode.SingleCall);
-
-            Console.WriteLine("Anathena proxy library loaded");
-
-            // Indicate that the service is ready to receive commands
-            ProcessStartingEvent.Set();
-
-            // Keep console open
-            Console.ReadLine();
-        }
-
-        #region Automatic exiting logic for when parent process dies
-
-        private static void InitializeAutoExit()
-        {
-            StdInput = Console.OpenStandardInput();
-
-            // Feel free to use a better way to post to the message loop from here if you know one ;)    
-            System.Windows.Forms.Timer HandoffToMessageLoopTimer = new System.Windows.Forms.Timer();
-            HandoffToMessageLoopTimer.Interval = 100;
-            HandoffToMessageLoopTimer.Tick += new EventHandler((Sender, Args) => { PostMessageLoopInitialization(HandoffToMessageLoopTimer); });
-            HandoffToMessageLoopTimer.Start();
-        }
-
-        private static void PostMessageLoopInitialization(System.Windows.Forms.Timer Timer)
-        {
-            if (MainThreadMessageQueue == null)
-            {
-                Timer.Stop();
-                MainThreadMessageQueue = SynchronizationContext.Current;
-            }
-
-            // constantly monitor standard input on a background thread that will signal the main thread when stuff happens.
-            BeginMonitoringStdIn(null);
-        }
-
-        private static void BeginMonitoringStdIn(Object State)
-        {
-            if (SynchronizationContext.Current == MainThreadMessageQueue)
-            {
-                // we're already running on the main thread - proceed.
-                Byte[] buffer = new Byte[128];
-
-                StdInput.BeginRead(buffer, 0, buffer.Length, (AsyncResult) =>
-                {
-                    if (StdInput.EndRead(AsyncResult) == 0)
-                    {
-                        MainThreadMessageQueue.Post(new SendOrPostCallback(ApplicationTeardown), null);
-                    }
-                    else
-                    {
-                        BeginMonitoringStdIn(null);
-                    }
-                }, null);
-            }
+            // Add header information about process
+            if (IsProcess32Bit)
+                Assembly = String.Format("use32\n" + "org 0x{0:X8}\n", BaseAddress) + Assembly;
             else
+                Assembly = String.Format("use64\n" + "org 0x{0:X16}\n", BaseAddress) + Assembly;
+
+            // Print fully assembly to console
+            Console.WriteLine("\n" + Assembly + "\n");
+
+            Byte[] Result;
+            try
             {
-                // Not invoked from the main thread, dispatch another call to this method on the main thread and return
-                MainThreadMessageQueue.Post(new SendOrPostCallback(BeginMonitoringStdIn), null);
+                // Call C++ FASM wrapper which will call the 32-bit FASM library which can assemble all x86/x64 instructions
+                Result = FasmNet.Assemble(Assembly);
+
+                // Print bytes to console
+                Array.ForEach(Result, (X => Console.Write(X.ToString() + " ")));
             }
+            catch
+            {
+                Result = null;
+            }
+            return Result;
         }
 
-        private static void ApplicationTeardown(Object State)
+        public ClrHeap GetProcessClrHeap(Process TargetProcess)
         {
-            // Tear down your application gracefully here
-            StdInput.Close();
-        }
+            ClrHeap Heap = null;
 
-        #endregion
+            try
+            {
+                if (TargetProcess == null)
+                    return null;
+
+                DataTarget DataTarget = DataTarget.AttachToProcess(TargetProcess.Id, AttachTimeout, AttachFlag.Passive);
+
+                if (DataTarget.ClrVersions.Count <= 0)
+                    return null;
+
+                ClrInfo Version = DataTarget.ClrVersions[0];
+                ClrRuntime Runtime = Version.CreateRuntime();
+                Heap = Runtime.GetHeap();
+            }
+            catch { }
+
+            return Heap;
+        }
 
     } // End class
 

@@ -26,7 +26,8 @@ namespace Anathema.Source.Engine.Architecture.Assembler
         public Byte[] Assemble(Boolean IsProcess32Bit, String Assembly, IntPtr BaseAddress)
         {
             // Call proxy service, which simply passes the asm code to Fasm.net to assemble the instructions
-            return ProxyCommunicator.GetInstance().GetFasmService().Assemble(IsProcess32Bit, Assembly, BaseAddress.ToUInt64());
+            // return ProxyCommunicator.GetInstance().GetFasmService().Assemble(IsProcess32Bit, Assembly, BaseAddress.ToUInt64());
+            return ProxyCommunicator.GetInstance().GetProxyService(IsProcess32Bit).Assemble(IsProcess32Bit, Assembly, BaseAddress.ToUInt64());
         }
 
     } // End class
