@@ -19,12 +19,15 @@ namespace AnathenaProxy
         private static SynchronizationContext MainThreadMessageQueue;
         private static Stream StdInput;
 
-        public ProxyService(String ChannelName)
+        public ProxyService(String ChannelName, String WaitEventName)
         {
+            // Create an event to have the client wait until we are finished starting the FASM service
+            ProcessStartingEvent = new EventWaitHandle(false, EventResetMode.ManualReset, WaitEventName);
+
             InitializeAutoExit();
 
-            // Create an event to have the client wait until we are finished starting the FASM service
-            ProcessStartingEvent = new EventWaitHandle(false, EventResetMode.ManualReset, @"Global\Anathena");
+            Console.WriteLine("Channel name: " + ChannelName);
+            Console.WriteLine("Wait event name: " + WaitEventName);
 
             // Create the IPC channel for communication
             IpcChannel IpcChannel = new IpcChannel(ChannelName);
@@ -33,7 +36,6 @@ namespace AnathenaProxy
             // Register sub services
             RemotingConfiguration.RegisterWellKnownServiceType(typeof(ClrService), typeof(ClrService).Name, WellKnownObjectMode.SingleCall);
             RemotingConfiguration.RegisterWellKnownServiceType(typeof(FasmService), typeof(FasmService).Name, WellKnownObjectMode.SingleCall);
-            RemotingConfiguration.RegisterWellKnownServiceType(typeof(FASMAssembler), typeof(FASMAssembler).Name, WellKnownObjectMode.SingleCall);
 
             Console.WriteLine("Anathena proxy library loaded");
 

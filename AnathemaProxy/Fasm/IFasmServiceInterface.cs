@@ -4,7 +4,7 @@ namespace AnathenaProxy
 {
     public interface IFasmServiceInterface
     {
-        Byte[] Assemble(String Assembly);
+        Byte[] Assemble(Boolean IsProcess32Bit, String Assembly, UInt64 BaseAddress);
 
     } // End interface
 

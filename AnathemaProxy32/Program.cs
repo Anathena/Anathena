@@ -13,11 +13,11 @@ namespace AnathenaProxy32
 
         static void Main(String[] Args)
         {
-            if (Args.Length < 1)
+            if (Args.Length < 2)
                 return;
 
-            Console.WriteLine("Initialized Anathena 32-bit helper process with channel name: " + Args[0]);
-            ProxyService = new ProxyService(Args[0]);
+            Console.WriteLine("Initialized Anathena 32-bit helper process");
+            ProxyService = new ProxyService(Args[0], Args[1]);
         }
 
     } // End class

@@ -7,27 +7,6 @@ namespace AnathenaProxy
     {
         public FasmService() { }
 
-        public Byte[] Assemble(String Assembly)
-        {
-            Byte[] Result;
-            try
-            {
-                // Call C++ FASM wrapper which will call the 32-bit FASM library which can assemble all x86/x64 instructions
-                Result = FasmNet.Assemble(Assembly);
-            }
-            catch
-            {
-                Result = null;
-            }
-            return Result;
-        }
-
-    } // End class
-
-    public class FASMAssembler : MarshalByRefObject, ISharedAssemblyInterface
-    {
-        public FASMAssembler() { }
-
         public Byte[] Assemble(Boolean IsProcess32Bit, String Assembly, UInt64 BaseAddress)
         {
             if (Assembly == null)

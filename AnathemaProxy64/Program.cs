@@ -15,8 +15,8 @@ namespace AnathenaProxy64
             if (Args.Length < 1)
                 return;
 
-            Console.WriteLine("Initialized Anathena 64-bit helper process with channel name: " + Args[0]);
-            ProxyService = new ProxyService(Args[0]);
+            Console.WriteLine("Initialized Anathena 64-bit helper process");
+            ProxyService = new ProxyService(Args[0], Args[1]);
         }
 
     } // End class

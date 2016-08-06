@@ -15,6 +15,7 @@ namespace Anathema.Source.Engine.Proxy
 
         private const String AnathenaProxy32Executable = "AnathenaProxy32.exe";
         private const String AnathenaProxy64Executable = "AnathenaProxy64.exe";
+        private const String WaitEventName = @"Global\Anathena";
 
         private String AnathenaProxy32ChannelClient;
         private String AnathenaProxy32ChannelServer;
@@ -43,9 +44,9 @@ namespace Anathema.Source.Engine.Proxy
 
         private void StartProxyService(String ExecutableName, String ChannelNameClient, String ChannelNameServer)
         {
-            EventWaitHandle ProcessStartEvent = new EventWaitHandle(false, EventResetMode.ManualReset, @"Global\Anathena");
+            EventWaitHandle ProcessStartEvent = new EventWaitHandle(false, EventResetMode.ManualReset, WaitEventName);
             ProcessStartInfo ProcessInfo = new ProcessStartInfo(Path.Combine(Path.GetDirectoryName(Application.ExecutablePath), ExecutableName));
-            ProcessInfo.Arguments = ChannelNameServer;
+            ProcessInfo.Arguments = ChannelNameServer + " " + WaitEventName;
             // ProcessInfo.RedirectStandardInput = true;
             ProcessInfo.UseShellExecute = false;
             // ProcessInfo.CreateNoWindow = true;
@@ -62,13 +63,6 @@ namespace Anathema.Source.Engine.Proxy
             // Fasm service exclusively runs on the 32 bit executable, this library has no 64 bit version
             String ObjectUri = String.Format("ipc://{0}/{1}", AnathenaProxy32ChannelServer, typeof(FasmService).Name);
             return (IFasmServiceInterface)Activator.GetObject(typeof(IFasmServiceInterface), ObjectUri);
-        }
-
-        public ISharedAssemblyInterface GetFasmWhatever()
-        {
-            // Fasm service exclusively runs on the 32 bit executable, this library has no 64 bit version
-            String ObjectUri = String.Format("ipc://{0}/{1}", AnathenaProxy32ChannelServer, typeof(FASMAssembler).Name);
-            return (ISharedAssemblyInterface)Activator.GetObject(typeof(ISharedAssemblyInterface), ObjectUri);
         }
 
         public IClrServiceInterface GetClrService(Boolean Is32Bit)

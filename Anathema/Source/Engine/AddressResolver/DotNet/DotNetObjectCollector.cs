@@ -1,6 +1,8 @@
 ﻿using Anathema.Source.Engine.Processes;
+using Anathema.Source.Engine.Proxy;
 using Anathema.Source.Utils;
 using Anathema.Source.Utils.Extensions;
+using AnathenaProxy;
 using Microsoft.Diagnostics.Runtime;
 using System;
 using System.Collections.Generic;
@@ -85,26 +87,9 @@ namespace Anathema.Source.Engine.AddressResolver.DotNet
 
             this.UpdateInterval = PollingTime;
 
-            // ProxyCommunicator ProxyCommunicator = ProxyCommunicator.GetInstance();
-            // IClrServiceInterface ClrService = ProxyCommunicator.GetClrService(EngineCore.Memory.IsProcess32Bit());
-            ClrHeap Heap = null;// ClrService.GetProcessClrHeap(EngineCore.Memory.GetProcess());
-
-            /*
-            try
-            {
-                DataTarget DataTarget = DataTarget.AttachToProcess(EngineCore.Memory.GetProcess().Id, AttachTimeout, AttachFlag.Passive);
-
-                if (DataTarget.ClrVersions.Count <= 0)
-                    return;
-
-                ClrInfo Version = DataTarget.ClrVersions[0]; // TODO: Handle case where multiple CLR versions may be loaded
-                ClrRuntime Runtime = Version.CreateRuntime();
-                Heap = Runtime.GetHeap();
-            }
-            catch
-            {
-                return;
-            }*/
+            ProxyCommunicator ProxyCommunicator = ProxyCommunicator.GetInstance();
+            IClrServiceInterface ClrService = ProxyCommunicator.GetClrService(EngineCore.Memory.IsProcess32Bit());
+            ClrHeap Heap = ClrService.GetProcessClrHeap(EngineCore.Memory.GetProcess());
 
             if (Heap == null)
                 return;

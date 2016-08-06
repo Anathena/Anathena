@@ -48,11 +48,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ClrService.cs" />
-    <Compile Include="FasmService.cs" />
-    <Compile Include="ISharedAssemblyInterface.cs" />
-    <Compile Include="IClrServiceInterface.cs" />
-    <Compile Include="IFasmServiceInterface.cs" />
+    <Compile Include="Clr\ClrService.cs" />
+    <Compile Include="Fasm\FasmService.cs" />
+    <Compile Include="Fasm\IFasmServiceInterface.cs" />
+    <Compile Include="Clr\IClrServiceInterface.cs" />
     <Compile Include="ProxyService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
