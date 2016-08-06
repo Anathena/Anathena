@@ -15,6 +15,7 @@ namespace Anathema.Source.Engine.Proxy
         private const String AnathenaProxy32Executable = "AnathenaProxy32.exe";
         private const String AnathenaProxy64Executable = "AnathenaProxy64.exe";
         private const String WaitEventName = @"Global\Anathena";
+        private const String UriPrefix = "net.pipe://localhost/";
 
         private IProxyService AnathenaProxy32;
         private IProxyService AnathenaProxy64;
@@ -29,13 +30,12 @@ namespace Anathema.Source.Engine.Proxy
         public void InitializeServices()
         {
             // Initialize channel names
-            String UriPrefix = "net.pipe://localhost/";
             String AnathenaProxy32ServerName = UriPrefix + Guid.NewGuid().ToString();
             String AnathenaProxy64ServerName = UriPrefix + Guid.NewGuid().ToString();
 
             // Start 32 and 64 bit proxy services
             AnathenaProxy32 = StartProxyService(AnathenaProxy32Executable, AnathenaProxy32ServerName);
-            // AnathenaProxy64 = StartProxyService(AnathenaProxy64Executable, AnathenaProxy64ServerName);
+            AnathenaProxy64 = StartProxyService(AnathenaProxy64Executable, AnathenaProxy64ServerName);
         }
 
         private IProxyService StartProxyService(String ExecutableName, String ChannelServerName)
