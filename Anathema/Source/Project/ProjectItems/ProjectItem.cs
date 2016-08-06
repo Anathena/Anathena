@@ -1,9 +1,13 @@
 ﻿using Anathema.Source.Engine;
+using Anathema.Source.Engine.InputCapture;
 using Anathema.Source.Engine.Processes;
+using Anathema.Source.Project.ProjectItems.TypeEditors;
+using Anathema.Source.Project.PropertyView.TypeConverters;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
+using System.Drawing.Design;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.Serialization;
@@ -42,6 +46,17 @@ namespace Anathema.Source.Project.ProjectItems
         {
             get { return _Description; }
             set { _Description = value; UpdateEntryVisual(); }
+        }
+
+        private InputBinding _HotKey;
+        [DataMember()]
+        [TypeConverter(typeof(HotKeyConverter))]
+        [Editor(typeof(HotKeyEditor), typeof(UITypeEditor))]
+        [Category("Properties"), DisplayName("Hot Key"), Description("Hot key to activate item")]
+        public InputBinding HotKey
+        {
+            get { return _HotKey; }
+            set { _HotKey = value; }
         }
 
         [DataMember()]

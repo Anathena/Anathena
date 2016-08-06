@@ -204,9 +204,16 @@
     <Compile Include="GUI\Tools\GUIDotNetExplorer.Designer.cs">
       <DependentUpon>GUIDotNetExplorer.cs</DependentUpon>
     </Compile>
+    <Compile Include="GUI\Tools\TypeEditors\GUIHotKeyEditor.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI\Tools\TypeEditors\GUIHotKeyEditor.Designer.cs">
+      <DependentUpon>GUIHotKeyEditor.cs</DependentUpon>
+    </Compile>
     <Compile Include="Source\Engine\InputCapture\Hotkey.cs" />
     <Compile Include="Source\Engine\Proxy\ProxyCommunicator.cs" />
     <Compile Include="Source\Project\ProjectItems\ScriptTemplates\LuaTemplates.cs" />
+    <Compile Include="Source\Project\ProjectItems\TypeEditors\HotKeyEditor.cs" />
     <Compile Include="Source\PropertyView\TypeConverters\LuaScriptConverter.cs" />
     <Compile Include="Source\Project\ProjectItems\TypeEditors\ScriptEditor.cs" />
     <Compile Include="Source\Project\ProjectItems\TypeEditors\ArrayEditor.cs" />
@@ -281,6 +288,7 @@
     <Compile Include="Source\Engine\AddressResolver\DotNet\DotNetObject.cs" />
     <Compile Include="Source\LuaEngine\LuaScript.cs" />
     <Compile Include="Source\Project\ProjectItems\FolderItem.cs" />
+    <Compile Include="Source\PropertyView\TypeConverters\HotKeyConverter.cs" />
     <Compile Include="Source\PropertyView\TypeConverters\OffsetConverter.cs" />
     <Compile Include="Source\PropertyView\TypeConverters\DynamicConverter.cs" />
     <Compile Include="Source\PropertyView\TypeConverters\ValueTypeConverter.cs" />
@@ -839,6 +847,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\Tools\GUIDotNetExplorer.resx">
       <DependentUpon>GUIDotNetExplorer.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\Tools\TypeEditors\GUIHotKeyEditor.resx">
+      <DependentUpon>GUIHotKeyEditor.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\Tools\TypeEditors\GUIArrayEditor.resx">
       <DependentUpon>GUIArrayEditor.cs</DependentUpon>
