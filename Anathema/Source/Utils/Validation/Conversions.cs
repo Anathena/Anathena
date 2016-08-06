@@ -148,6 +148,35 @@ namespace Anathema.Source.Utils.Validation
             return UInt64.Parse(Address, System.Globalization.NumberStyles.HexNumber);
         }
 
+        public static Type TypeCodeToType(TypeCode? Code)
+        {
+            if (Code == null)
+                return null;
+
+            switch (Code)
+            {
+                case TypeCode.Boolean: return typeof(Boolean);
+                case TypeCode.Byte: return typeof(Byte);
+                case TypeCode.Char: return typeof(Char);
+                case TypeCode.DateTime: return typeof(DateTime);
+                case TypeCode.DBNull: return typeof(DBNull);
+                case TypeCode.Decimal: return typeof(Decimal);
+                case TypeCode.Double: return typeof(Double);
+                case TypeCode.Int16: return typeof(Int16);
+                case TypeCode.Int32: return typeof(Int32);
+                case TypeCode.Int64: return typeof(Int64);
+                case TypeCode.Object: return typeof(Object);
+                case TypeCode.SByte: return typeof(SByte);
+                case TypeCode.Single: return typeof(Single);
+                case TypeCode.String: return typeof(String);
+                case TypeCode.UInt16: return typeof(UInt16);
+                case TypeCode.UInt32: return typeof(UInt32);
+                case TypeCode.UInt64: return typeof(UInt64);
+                case TypeCode.Empty: return null;
+            }
+            return null;
+        }
+
         public static String BytesToMetric<T>(T ByteCount)
         {
             // Note: UInt64s run out around EB

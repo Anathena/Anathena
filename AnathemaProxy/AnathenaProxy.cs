@@ -1,7 +1,9 @@
 ﻿using System;
-using System.IO;
+using System.Diagnostics;
 using System.ServiceModel;
+using System.ServiceModel.Description;
 using System.Threading;
+using System.Threading.Tasks;
 
 namespace AnathenaProxy
 {
@@ -13,18 +15,18 @@ namespace AnathenaProxy
     /// </summary>
     public class AnathenaProxy
     {
-        private static EventWaitHandle ProcessStartingEvent;
-        private static SynchronizationContext MainThreadMessageQueue;
-        private static Stream StdInput;
+        private const Int32 ParentCheckDelayMs = 500;
 
-        public AnathenaProxy(String PipeName, String WaitEventName)
+        public AnathenaProxy(Int32 ParentProcessId, String PipeName, String WaitEventName)
         {
             // Create an event to have the client wait until we are finished starting the service
-            ProcessStartingEvent = new EventWaitHandle(false, EventResetMode.ManualReset, WaitEventName);
+            EventWaitHandle ProcessStartingEvent = new EventWaitHandle(false, EventResetMode.ManualReset, WaitEventName);
 
-            InitializeAutoExit();
+            InitializeAutoExit(ParentProcessId);
 
             ServiceHost ServiceHost = new ServiceHost(typeof(ProxyService));
+            ServiceHost.Description.Behaviors.Remove(typeof(ServiceDebugBehavior));
+            ServiceHost.Description.Behaviors.Add(new ServiceDebugBehavior { IncludeExceptionDetailInFaults = true });
             NetNamedPipeBinding Binding = new NetNamedPipeBinding(NetNamedPipeSecurityMode.None);
             ServiceHost.AddServiceEndpoint(typeof(IProxyService), Binding, PipeName);
             ServiceHost.Open();
@@ -35,64 +37,35 @@ namespace AnathenaProxy
             Console.ReadLine();
         }
 
-        #region Automatic exiting logic for when parent process dies
-
-        private static void InitializeAutoExit()
+        public static Boolean IsRunning(Int32 ParentProcessId)
         {
-            StdInput = Console.OpenStandardInput();
-
-            // Feel free to use a better way to post to the message loop from here if you know one ;)    
-            System.Windows.Forms.Timer HandoffToMessageLoopTimer = new System.Windows.Forms.Timer();
-            HandoffToMessageLoopTimer.Interval = 100;
-            HandoffToMessageLoopTimer.Tick += new EventHandler((Sender, Args) => { PostMessageLoopInitialization(HandoffToMessageLoopTimer); });
-            HandoffToMessageLoopTimer.Start();
-        }
-
-        private static void PostMessageLoopInitialization(System.Windows.Forms.Timer Timer)
-        {
-            if (MainThreadMessageQueue == null)
+            try
             {
-                Timer.Stop();
-                MainThreadMessageQueue = SynchronizationContext.Current;
+                Process.GetProcessById(ParentProcessId);
+            }
+            catch (ArgumentException)
+            {
+                return false;
             }
 
-            // constantly monitor standard input on a background thread that will signal the main thread when stuff happens.
-            BeginMonitoringStdIn(null);
+            return true;
         }
 
-        private static void BeginMonitoringStdIn(Object State)
+        private void InitializeAutoExit(Int32 ParentProcessId)
         {
-            if (SynchronizationContext.Current == MainThreadMessageQueue)
+            Task.Run(() =>
             {
-                // we're already running on the main thread - proceed.
-                Byte[] buffer = new Byte[128];
-
-                StdInput.BeginRead(buffer, 0, buffer.Length, (AsyncResult) =>
+                while (true)
                 {
-                    if (StdInput.EndRead(AsyncResult) == 0)
-                    {
-                        MainThreadMessageQueue.Post(new SendOrPostCallback(ApplicationTeardown), null);
-                    }
-                    else
-                    {
-                        BeginMonitoringStdIn(null);
-                    }
-                }, null);
-            }
-            else
-            {
-                // Not invoked from the main thread, dispatch another call to this method on the main thread and return
-                MainThreadMessageQueue.Post(new SendOrPostCallback(BeginMonitoringStdIn), null);
-            }
-        }
+                    if (!IsRunning(ParentProcessId))
+                        break;
 
-        private static void ApplicationTeardown(Object State)
-        {
-            // Tear down your application gracefully here
-            StdInput.Close();
-        }
+                    Thread.Sleep(ParentCheckDelayMs);
+                }
 
-        #endregion
+                Environment.Exit(0);
+            });
+        }
 
     } // End class
 

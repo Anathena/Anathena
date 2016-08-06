@@ -40,7 +40,6 @@
     <Reference Include="System.Core" />
     <Reference Include="System.Runtime.Remoting" />
     <Reference Include="System.ServiceModel" />
-    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />

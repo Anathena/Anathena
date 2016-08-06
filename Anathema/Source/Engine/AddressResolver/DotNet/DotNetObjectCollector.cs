@@ -2,7 +2,8 @@
 using Anathema.Source.Engine.Proxy;
 using Anathema.Source.Utils;
 using Anathema.Source.Utils.Extensions;
-using Microsoft.Diagnostics.Runtime;
+using Anathema.Source.Utils.Validation;
+using AnathenaProxy;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,10 +24,16 @@ namespace Anathema.Source.Engine.AddressResolver.DotNet
         private static String[] ExcludedNameSpaces = new String[]
         {
             Assembly.GetExecutingAssembly().GetName().Name,
+            "finalization handle", "strong handle", "pinned handle", "RefCount handle", "local var",
             "System.", "Microsoft.", "<CppImplementationDetails>.","<CrtImplementationDetails>.",
             "Newtonsoft.", "Ionic.", "SteamWorks.",
             "Terraria.Tile", "Terraria.Item", "Terraria.UI",  "Terraria.ObjectData", "Terraria.GameContent", "Terraria.Lighting",
             "Terraria.Graphics", "Terraria.Social", "Terraria.IO", "Terraria.DataStructures"
+        };
+
+        private static String[] ExcludedPrefixes = new String[]
+        {
+             "static var"
         };
 
         private const Int32 AttachTimeout = 5000;
@@ -86,11 +93,13 @@ namespace Anathema.Source.Engine.AddressResolver.DotNet
 
             this.UpdateInterval = PollingTime;
 
-
             ProxyCommunicator ProxyCommunicator = ProxyCommunicator.GetInstance();
-            ClrHeap Heap = null;// ProxyCommunicator.GetProxyService(EngineCore.Memory.IsProcess32Bit()).GetProcessClrHeap(EngineCore.Memory.GetProcess());
+            IProxyService ProxyService = ProxyCommunicator.GetProxyService(EngineCore.Memory.IsProcess32Bit());
 
-            if (Heap == null)
+            if (ProxyService == null)
+                return;
+
+            if (!ProxyService.RefreshHeap(EngineCore.Memory.GetProcess().Id))
                 return;
 
             List<DotNetObject> ObjectTrees = new List<DotNetObject>();
@@ -98,28 +107,39 @@ namespace Anathema.Source.Engine.AddressResolver.DotNet
 
             try
             {
-                foreach (ClrRoot Root in Heap.EnumerateRoots())
+                foreach (UInt64 RootRef in ProxyService.GetRoots())
                 {
-                    // Ignore root system namespaces
-                    if (Root == null || Root.Type == null || Root.Name == null)
+                    String RootName = ProxyService.GetRootName(RootRef);
+                    Type RootType = Conversions.TypeCodeToType((TypeCode)ProxyService.GetRootType(RootRef));
+
+                    if (RootRef == 0 || RootName == null)
                         continue;
 
-                    if (ExcludedNameSpaces.Any(X => Root.Name.StartsWith(X, StringComparison.OrdinalIgnoreCase)))
+                    foreach (String ExcludedPrefix in ExcludedPrefixes)
+                    {
+                        if (RootName.StartsWith(ExcludedPrefix, StringComparison.OrdinalIgnoreCase))
+                            RootName = RootName.Substring(ExcludedPrefix.Length, RootName.Length - ExcludedPrefix.Length).Trim();
+                    }
+
+                    if (ExcludedNameSpaces.Any(X => RootName.StartsWith(X, StringComparison.OrdinalIgnoreCase)))
                         continue;
 
-                    if (ExcludedNameSpaces.Any(X => Root.Type.Name.StartsWith(X, StringComparison.OrdinalIgnoreCase)))
-                        continue;
+                    if (RootType != null)
+                    {
+                        if (ExcludedNameSpaces.Any(X => RootType.Name.StartsWith(X, StringComparison.OrdinalIgnoreCase)))
+                            continue;
+                    }
 
-                    if (Visited.Contains(Root.Object))
+                    if (Visited.Contains(RootRef))
                         continue;
 
                     try
                     {
-                        DotNetObject RootObject = new DotNetObject(null, Root.Object, Root.Type.ElementType, Root.Type.ToString());
-                        Visited.Add(Root.Object);
+                        DotNetObject RootObject = new DotNetObject(null, RootRef, RootType, RootName);
+                        Visited.Add(RootRef);
                         ObjectTrees.Add(RootObject);
 
-                        RecursiveBuild(Heap, Visited, RootObject, Root.Object);
+                        RecursiveBuild(ProxyService, Visited, RootObject, RootRef);
                     }
                     catch { }
                 }
@@ -129,32 +149,33 @@ namespace Anathema.Source.Engine.AddressResolver.DotNet
             this.ObjectTrees = ObjectTrees;
         }
 
-        private void RecursiveBuild(ClrHeap Heap, HashSet<UInt64> Visited, DotNetObject Parent, UInt64 ParentRef)
+        private void RecursiveBuild(IProxyService ProxyService, HashSet<UInt64> Visited, DotNetObject Parent, UInt64 ParentRef)
         {
             // Add all fields
-            foreach (ClrField Field in Heap.GetObjectType(ParentRef).Fields)
+            foreach (UInt64 FieldRef in ProxyService.GetObjectFields(ParentRef))
             {
-                DotNetObject ChildObject = new DotNetObject(Parent, Parent.GetAddress().Add(Field.Offset + 4).ToUInt64(), Field.ElementType, Field?.Name);
+                DotNetObject ChildObject = new DotNetObject(Parent, Parent.GetAddress().Add(ProxyService.GetFieldOffset(FieldRef)).ToUInt64(),
+                    Conversions.TypeCodeToType((TypeCode)ProxyService.GetFieldType(FieldRef)), ProxyService.GetFieldName(FieldRef));
                 Parent.AddChild(ChildObject);
             }
 
             // Add all nested objects recursively
-            Heap?.GetObjectType(ParentRef)?.EnumerateRefsOfObject(ParentRef, delegate (UInt64 ChildObjectRef, Int32 Offset)
+            foreach (UInt64 ChildObjectRef in ProxyService.GetObjectChildren(ParentRef))
             {
                 if (ChildObjectRef == 0 || Visited.Contains(ChildObjectRef))
                     return;
 
                 Visited.Add(ChildObjectRef);
 
-                ClrType Type = Heap.GetObjectType(ChildObjectRef);
+                Type Type = Conversions.TypeCodeToType((TypeCode)ProxyService.GetObjectType(ChildObjectRef));
 
                 if (Type == null || ExcludedNameSpaces.Any(X => Type.Name.StartsWith(X, StringComparison.OrdinalIgnoreCase)))
                     return;
 
-                DotNetObject Child = new DotNetObject(Parent, ChildObjectRef, Type.ElementType, Type.Name);
+                DotNetObject Child = new DotNetObject(Parent, ChildObjectRef, Type, Type.Name);
                 Parent.AddChild(Child);
-                RecursiveBuild(Heap, Visited, Child, ChildObjectRef);
-            });
+                RecursiveBuild(ProxyService, Visited, Child, ChildObjectRef);
+            }
 
             Parent.SortChildren();
         }

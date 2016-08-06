@@ -36,6 +36,7 @@ namespace Anathema.Source.DotNetExplorer
 
             RefreshObjectTrees();
         }
+
         public void AddToTable(DotNetObject DotNetObject)
         {
             AddressItem AddressItem = new AddressItem(IntPtr.Zero, DotNetObject.GetElementType(),

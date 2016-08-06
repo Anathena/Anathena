@@ -1,14 +1,11 @@
 ﻿// Copyright (c) Microsoft. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
+using Microsoft.Diagnostics.Runtime.Desktop;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.IO;
-using System.Threading;
-using Microsoft.Diagnostics.Runtime.Utilities;
 using Address = System.UInt64;
-using Microsoft.Diagnostics.Runtime.Desktop;
 
 namespace Microsoft.Diagnostics.Runtime
 {
@@ -16,7 +13,7 @@ namespace Microsoft.Diagnostics.Runtime
     /// A ClrHeap is a abstraction for the whole GC Heap.   Subclasses allow you to implement this for 
     /// a particular kind of heap (whether live,
     /// </summary>
-    public abstract class ClrHeap
+    public abstract class ClrHeap : MarshalByRefObject
     {
         /// <summary>
         /// And the ability to take an address of an object and fetch its type (The type alows further exploration)

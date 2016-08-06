@@ -11,11 +11,11 @@ namespace AnathenaProxy64
 
         static void Main(String[] Args)
         {
-            if (Args.Length < 1)
+            if (Args.Length < 3)
                 return;
 
             Console.WriteLine("Initialized Anathena 64-bit helper process");
-            AnathenaProxy = new AnathenaProxy.AnathenaProxy(Args[0], Args[1]);
+            AnathenaProxy = new AnathenaProxy.AnathenaProxy(Int32.Parse(Args[0]), Args[1], Args[2]);
         }
 
     } // End class

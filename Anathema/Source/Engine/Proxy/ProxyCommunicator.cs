@@ -43,10 +43,9 @@ namespace Anathema.Source.Engine.Proxy
             // Start the proxy service
             EventWaitHandle ProcessStartEvent = new EventWaitHandle(false, EventResetMode.ManualReset, WaitEventName);
             ProcessStartInfo ProcessInfo = new ProcessStartInfo(Path.Combine(Path.GetDirectoryName(Application.ExecutablePath), ExecutableName));
-            ProcessInfo.Arguments = ChannelServerName + " " + WaitEventName;
-            //ProcessInfo.RedirectStandardInput = true;
+            ProcessInfo.Arguments = Process.GetCurrentProcess().Id.ToString() + " " + ChannelServerName + " " + WaitEventName;
             ProcessInfo.UseShellExecute = false;
-            //ProcessInfo.CreateNoWindow = true;
+            ProcessInfo.CreateNoWindow = true;
             Process.Start(ProcessInfo);
             ProcessStartEvent.WaitOne();
 
@@ -61,13 +60,9 @@ namespace Anathema.Source.Engine.Proxy
         public IProxyService GetProxyService(Boolean Is32Bit)
         {
             if (Is32Bit)
-            {
                 return AnathenaProxy32;
-            }
             else
-            {
                 return AnathenaProxy64;
-            }
         }
 
     } // End class
