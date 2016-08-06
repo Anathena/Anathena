@@ -21,6 +21,7 @@ namespace Anathema.Source.Utils.Validation
             switch (Type.GetTypeCode(ValueType))
             {
                 case TypeCode.Byte: return Byte.Parse(Value);
+                case TypeCode.Char: return Byte.Parse(Value);
                 case TypeCode.SByte: return SByte.Parse(Value);
                 case TypeCode.Int16: return Int16.Parse(Value);
                 case TypeCode.Int32: return Int32.Parse(Value);
@@ -46,7 +47,7 @@ namespace Anathema.Source.Utils.Validation
 
         public static String ParseValueAsHex(Type ValueType, dynamic Value)
         {
-            return ParseDecStringAsValue(ValueType, Value?.ToString()).ToString("X");
+            return ParseDecStringAsHexString(ValueType, Value?.ToString());
         }
 
         public static String ParseDecStringAsHexString(Type ValueType, String Value)
@@ -56,6 +57,7 @@ namespace Anathema.Source.Utils.Validation
             switch (Type.GetTypeCode(ValueType))
             {
                 case TypeCode.Byte: return RealValue.ToString("X");
+                case TypeCode.Char: return RealValue.ToString("X");
                 case TypeCode.SByte: return RealValue.ToString("X");
                 case TypeCode.Int16: return RealValue.ToString("X");
                 case TypeCode.Int32: return RealValue.ToString("X");
@@ -76,6 +78,7 @@ namespace Anathema.Source.Utils.Validation
             switch (Type.GetTypeCode(ValueType))
             {
                 case TypeCode.Byte: return RealValue.ToString();
+                case TypeCode.Char: return RealValue.ToString();
                 case TypeCode.SByte: return unchecked((SByte)(RealValue)).ToString();
                 case TypeCode.Int16: return unchecked((Int16)(RealValue)).ToString();
                 case TypeCode.Int32: return unchecked((Int32)(RealValue)).ToString();

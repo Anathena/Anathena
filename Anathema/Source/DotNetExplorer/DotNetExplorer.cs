@@ -1,4 +1,5 @@
 ﻿using Anathema.Source.Engine;
+using Anathema.Source.Engine.AddressResolver;
 using Anathema.Source.Engine.AddressResolver.DotNet;
 using Anathema.Source.Engine.Processes;
 using Anathema.Source.Project;
@@ -42,7 +43,7 @@ namespace Anathema.Source.DotNetExplorer
         public void AddToTable(DotNetObject DotNetObject)
         {
             AddressItem AddressItem = new AddressItem(IntPtr.Zero, DotNetObject.GetElementType(),
-                DotNetObject.GetName(), AddressItem.ResolveTypeEnum.DotNet, DotNetObject.GetFullName());
+                DotNetObject.GetName(), AddressResolver.ResolveTypeEnum.DotNet, DotNetObject.GetFullName());
             ProjectExplorer.GetInstance().AddProjectItem(AddressItem);
         }
 

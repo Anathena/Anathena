@@ -17,7 +17,7 @@ namespace Anathema.Source.Project.PropertyView.TypeConverters
             if (Context.Instance.GetType().IsAssignableFrom(typeof(AddressItem)))
                 IsHex = (Context.Instance as AddressItem).IsValueHex;
 
-            if (Value == null || !(IsHex ? CheckSyntax.CanParseHex(ValueType, ValueString) : CheckSyntax.CanParseValue(ValueType, ValueString)))
+            if (Value == null || !CheckSyntax.CanParseValue(ValueType, ValueString))
                 return base.ConvertTo(Context, Culture, Value, DestinationType);
 
             return IsHex ? Conversions.ParseValueAsHex(ValueType, ValueString) : Conversions.ParseValueAsDec(ValueType, ValueString);
