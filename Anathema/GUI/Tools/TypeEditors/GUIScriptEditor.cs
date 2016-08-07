@@ -1,4 +1,5 @@
 ﻿using Anathema.Source.LuaEngine;
+using Anathema.Source.Project;
 using Anathema.Source.Project.ProjectItems.ScriptTemplates;
 using Anathema.Source.Utils;
 using Anathema.Source.Utils.MVP;
@@ -11,55 +12,49 @@ using WeifenLuo.WinFormsUI.Docking;
 
 namespace Anathema.GUI.Tools.TypeEditors
 {
-    public partial class GUIScriptEditor : DockContent
+    partial class GUIScriptEditor : DockContent, IScriptEditorView
     {
         private static Scintilla StaticEditor = new Scintilla();
+        private ScriptEditorPresenter ScriptEditorPresenter;
         private Object AccessLock;
         private String DocumentTitle;
-        private LuaScript LuaScript;
 
-        public GUIScriptEditor(LuaScript LuaScript)
+        public GUIScriptEditor(ScriptEditorPresenter ScriptEditorPresenter)
         {
             InitializeComponent();
 
-            this.LuaScript = LuaScript;
             AccessLock = new Object();
-
             DocumentTitle = this.Text;
+
+            this.ScriptEditorPresenter = ScriptEditorPresenter;
 
             FixScintilla();
             InitializeScriptEditor();
-
-            ScriptEditorTextBox.TextChanged += ScriptEditorTextBox_TextChanged;
-            ScriptEditorTextBox.CharAdded += ScriptEditorTextBox_CharAdded;
-            ScriptEditorTextBox.Text = LuaScript?.Script;
-        }
-
-        public LuaScript GetScript()
-        {
-            return LuaScript;
         }
 
         private void FixScintilla()
         {
+            // Disabled due to current implementation, where the editor is no longer dockable. If this changes, this fix will need to be reinstated.
+            return;
+
             // Work around to a fatal bug in scintilla where the handle of the editor is changed, and scintilla does not expect it.
             using (TimedLock.Lock(AccessLock))
             {
                 ControlThreadingHelper.InvokeControlAction(ScriptEditorTextBox, () =>
                 {
-                    this.Controls.Remove(ScriptEditorTextBox);
+                    if (this.Controls.Contains(ScriptEditorTextBox))
+                        this.Controls.Remove(ScriptEditorTextBox);
                     ScriptEditorTextBox = StaticEditor;
                     ScriptEditorTextBox.Dock = DockStyle.Fill;
                 });
 
                 ControlThreadingHelper.InvokeControlAction(ScriptEditorTextBox, () =>
                 {
-                    this.Controls.Add(ScriptEditorTextBox);
+                    if (!this.Controls.Contains(ScriptEditorTextBox))
+                        this.Controls.Add(ScriptEditorTextBox);
                     this.Controls.SetChildIndex(ScriptEditorTextBox, 0);
                 });
             }
-
-            InitializeScriptEditor();
         }
 
         private void InitializeScriptEditor()
@@ -88,8 +83,13 @@ namespace Anathema.GUI.Tools.TypeEditors
                     ScriptEditorTextBox.Styles[Style.Lua.Identifier].ForeColor = Color.Black;
 
                     ScriptEditorTextBox.Styles[Style.Lua.Label].ForeColor = Color.Blue;
+
+                    // Bind events
+                    ScriptEditorTextBox.TextChanged += ScriptEditorTextBox_TextChanged;
+                    ScriptEditorTextBox.CharAdded += ScriptEditorTextBox_CharAdded;
                 });
             }
+
             EnableLuaHighlighting();
         }
 
@@ -133,11 +133,11 @@ namespace Anathema.GUI.Tools.TypeEditors
             }
         }
 
-        public void SetScriptText(String ScriptText)
+        public void RefreshScript(String NewScript)
         {
             ControlThreadingHelper.InvokeControlAction(ScriptEditorTextBox, () =>
             {
-                ScriptEditorTextBox.Text = ScriptText;
+                ScriptEditorTextBox.Text = NewScript;
             });
         }
 
@@ -147,10 +147,7 @@ namespace Anathema.GUI.Tools.TypeEditors
             {
                 ControlThreadingHelper.InvokeControlAction(ScriptEditorTextBox, () =>
                 {
-                    if (LuaScript == null)
-                        LuaScript = new LuaScript(ScriptEditorTextBox?.Text);
-                    else
-                        LuaScript.Script = ScriptEditorTextBox?.Text;
+                    ScriptEditorPresenter.SaveChanges(ScriptEditorTextBox.Text);
 
                     this.Text = DocumentTitle;
                 });
@@ -160,7 +157,7 @@ namespace Anathema.GUI.Tools.TypeEditors
         private Boolean AskSaveChanges()
         {
             // Check if there are even changes to save
-            if (ScriptEditorTextBox?.Text == LuaScript?.Script)
+            if (!ScriptEditorPresenter.HasChanges(ScriptEditorTextBox.Text))
                 return false;
 
             DialogResult Result = MessageBoxEx.Show(this, "This script has not been saved, save the changes to the table before closing?", "Save Changes?", MessageBoxButtons.YesNoCancel);
@@ -184,10 +181,11 @@ namespace Anathema.GUI.Tools.TypeEditors
         {
             using (TimedLock.Lock(AccessLock))
             {
+                StaticEditor.ClearAll();
+
                 // Remove the static editor so that it does not get disposed
                 if (this.Controls.Contains(StaticEditor))
                     this.Controls.Remove(StaticEditor);
-                StaticEditor.ClearAll();
             }
         }
 
@@ -269,10 +267,10 @@ namespace Anathema.GUI.Tools.TypeEditors
             {
                 ControlThreadingHelper.InvokeControlAction(ScriptEditorTextBox, () =>
                 {
-                    if (ScriptEditorTextBox?.Text == LuaScript?.Script)
-                        this.Text = DocumentTitle;
-                    else
+                    if (ScriptEditorPresenter.HasChanges(ScriptEditorTextBox?.Text))
                         this.Text = DocumentTitle + "*";
+                    else
+                        this.Text = DocumentTitle;
                 });
             }
         }

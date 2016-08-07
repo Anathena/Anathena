@@ -1,37 +1,75 @@
-﻿using Anathema.GUI.Tools.TypeEditors;
-using Anathema.Source.LuaEngine;
+﻿using Anathema.Source.LuaEngine;
 using System;
 using System.ComponentModel;
 using System.Drawing.Design;
 using System.Windows.Forms;
-using System.Windows.Forms.Design;
 
 namespace Anathema.Source.Project.ProjectItems.TypeEditors
 {
-    class ScriptEditor : UITypeEditor
+    class ScriptEditor : UITypeEditor, IScriptEditorModel
     {
-        public ScriptEditor() { }
+        private LuaScript LuaScript;
+        private InputRequest.InputRequestDelegate InputRequest;
+
+        public event ScriptEditorEventHandler EventUpdateScript;
+
+        public ScriptEditor()
+        {
+            LuaScript = new LuaScript();
+
+            ScriptEditorPresenter ScriptEditorPresenter = new ScriptEditorPresenter(null, this);
+            InputRequest = ScriptEditorPresenter.GetInputRequestCallBack();
+        }
+
+        public void OnGUIOpen()
+        {
+            UpdateGUI();
+        }
+
+        private void UpdateGUI()
+        {
+            ScriptEditorEventArgs Args = new ScriptEditorEventArgs();
+            Args.Script = LuaScript.Script;
+            EventUpdateScript?.Invoke(this, Args);
+        }
 
         public override UITypeEditorEditStyle GetEditStyle(ITypeDescriptorContext Context)
         {
             return UITypeEditorEditStyle.Modal;
         }
 
-        public override Object EditValue(ITypeDescriptorContext Context, System.IServiceProvider Provider, Object Value)
+        public override Object EditValue(ITypeDescriptorContext Context, IServiceProvider Provider, Object Value)
         {
-            IWindowsFormsEditorService Service = Provider.GetService(typeof(IWindowsFormsEditorService)) as IWindowsFormsEditorService;
-            LuaScript LuaScript = Value as LuaScript;
-
-            if (Service == null)
+            if (InputRequest == null || (Value != null && !Value.GetType().IsAssignableFrom(typeof(LuaScript))))
                 return Value;
 
-            using (GUIScriptEditor Form = new GUIScriptEditor(LuaScript))
-            {
-                if (Service.ShowDialog(Form) == DialogResult.OK)
-                    return Form.GetScript();
-            }
+            LuaScript = Value == null ? new LuaScript() : (Value as LuaScript);
+
+            UpdateGUI();
+
+            // Call delegate function to request the script be edited by the user
+            if (InputRequest != null && InputRequest() == DialogResult.OK)
+                return LuaScript;
 
             return Value;
+        }
+
+        public LuaScript GetScript()
+        {
+            return LuaScript;
+        }
+
+        public void SaveChanges(String NewScript)
+        {
+            LuaScript.Script = NewScript;
+        }
+
+        public Boolean HasChanges(String NewScript)
+        {
+            if (NewScript != LuaScript.Script)
+                return true;
+
+            return false;
         }
 
     } // End class

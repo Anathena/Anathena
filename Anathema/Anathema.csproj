@@ -212,6 +212,7 @@
     </Compile>
     <Compile Include="Source\Engine\InputCapture\HotKeys.cs" />
     <Compile Include="Source\Engine\Proxy\ProxyCommunicator.cs" />
+    <Compile Include="Source\Project\ProjectItems\TypeEditors\IScriptEditorMVP.cs" />
     <Compile Include="Source\Project\ProjectItems\TypeEditors\IOffsetEditorMVP.cs" />
     <Compile Include="Source\Project\ProjectItems\TypeEditors\InputRequest.cs" />
     <Compile Include="Source\Project\ProjectItems\ScriptTemplates\LuaTemplates.cs" />

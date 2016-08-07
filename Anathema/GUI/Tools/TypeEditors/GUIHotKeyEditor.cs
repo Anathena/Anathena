@@ -22,7 +22,7 @@ namespace Anathema.GUI.Tools.TypeEditors
 
         private void UpdateListBox()
         {
-            OffsetsListView.Items.Clear();
+            HotKeyListView.Items.Clear();
         }
 
         private void AddOffset()
@@ -32,7 +32,7 @@ namespace Anathema.GUI.Tools.TypeEditors
 
         private void DeleteSelection()
         {
-            if (OffsetsListView.SelectedIndices.Count <= 0)
+            if (HotKeyListView.SelectedIndices.Count <= 0)
                 return;
 
             UpdateListBox();

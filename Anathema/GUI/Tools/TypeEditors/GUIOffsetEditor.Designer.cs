@@ -39,9 +39,9 @@ namespace Anathema.GUI.Tools.TypeEditors
             this.OffsetsListView = new Anathema.GUI.CustomControls.ListViews.FlickerFreeListView();
             this.HexHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.DecimalHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.OffsetHexDecTextBox = new Anathema.GUI.CustomControls.TextBoxes.HexDecTextBox();
             this.OffsetsContextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.DeleteSelectionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.OffsetHexDecTextBox = new Anathema.GUI.CustomControls.TextBoxes.HexDecTextBox();
             this.OffsetsContextMenuStrip.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -93,6 +93,9 @@ namespace Anathema.GUI.Tools.TypeEditors
             // 
             // OffsetsListView
             // 
+            this.OffsetsListView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.OffsetsListView.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.HexHeader,
             this.DecimalHeader});
@@ -115,9 +118,23 @@ namespace Anathema.GUI.Tools.TypeEditors
             this.DecimalHeader.Text = "Decimal";
             this.DecimalHeader.Width = 96;
             // 
+            // OffsetsContextMenuStrip
+            // 
+            this.OffsetsContextMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.DeleteSelectionToolStripMenuItem});
+            this.OffsetsContextMenuStrip.Name = "OffsetsContextMenuStrip";
+            this.OffsetsContextMenuStrip.Size = new System.Drawing.Size(159, 26);
+            // 
+            // DeleteSelectionToolStripMenuItem
+            // 
+            this.DeleteSelectionToolStripMenuItem.Name = "DeleteSelectionToolStripMenuItem";
+            this.DeleteSelectionToolStripMenuItem.Size = new System.Drawing.Size(158, 22);
+            this.DeleteSelectionToolStripMenuItem.Text = "Delete Selection";
+            this.DeleteSelectionToolStripMenuItem.Click += new System.EventHandler(this.DeleteSelectionToolStripMenuItem_Click);
+            // 
             // OffsetHexDecTextBox
             // 
-            this.OffsetHexDecTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+            this.OffsetHexDecTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.OffsetHexDecTextBox.ForeColor = System.Drawing.Color.Red;
             this.OffsetHexDecTextBox.IsHex = true;
@@ -129,21 +146,7 @@ namespace Anathema.GUI.Tools.TypeEditors
             this.OffsetHexDecTextBox.WaterMarkFont = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.OffsetHexDecTextBox.WaterMarkText = null;
             // 
-            // OffsetsContextMenuStrip
-            // 
-            this.OffsetsContextMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.DeleteSelectionToolStripMenuItem});
-            this.OffsetsContextMenuStrip.Name = "OffsetsContextMenuStrip";
-            this.OffsetsContextMenuStrip.Size = new System.Drawing.Size(159, 48);
-            // 
-            // DeleteSelectionToolStripMenuItem
-            // 
-            this.DeleteSelectionToolStripMenuItem.Name = "DeleteSelectionToolStripMenuItem";
-            this.DeleteSelectionToolStripMenuItem.Size = new System.Drawing.Size(158, 22);
-            this.DeleteSelectionToolStripMenuItem.Text = "Delete Selection";
-            this.DeleteSelectionToolStripMenuItem.Click += new System.EventHandler(this.DeleteSelectionToolStripMenuItem_Click);
-            // 
-            // GUIArrayEditor
+            // GUIOffsetEditor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -154,7 +157,7 @@ namespace Anathema.GUI.Tools.TypeEditors
             this.Controls.Add(this.RemoveOffsetButton);
             this.Controls.Add(this.OffsetHexDecTextBox);
             this.Controls.Add(this.AddOffsetButton);
-            this.Name = "GUIArrayEditor";
+            this.Name = "GUIOffsetEditor";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Offset Editor";
             this.OffsetsContextMenuStrip.ResumeLayout(false);

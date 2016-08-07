@@ -27,7 +27,9 @@ namespace Anathema.Source.Project
         event HotKeyEditorEventHandler EventUpdateHotKeys;
 
         // Functions invoked by presenter (downstream)
-
+        void BeginRecordInput();
+        void ApplyCurrentSet();
+        void EndRecordInput();
     }
 
     class HotKeyEditorPresenter : Presenter<IHotKeyEditorView, IHotKeyEditorModel>
@@ -54,6 +56,21 @@ namespace Anathema.Source.Project
         }
 
         #region Method definitions called by the view (downstream)
+
+        public void BeginRecordInput()
+        {
+            Model.BeginRecordInput();
+        }
+
+        void ApplyCurrentSet()
+        {
+            Model.ApplyCurrentSet();
+        }
+
+        void EndRecordInput()
+        {
+            Model.EndRecordInput();
+        }
 
         #endregion
 

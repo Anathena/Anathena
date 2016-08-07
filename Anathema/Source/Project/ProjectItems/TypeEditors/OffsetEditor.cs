@@ -4,16 +4,14 @@ using System.ComponentModel;
 using System.Drawing.Design;
 using System.Linq;
 using System.Windows.Forms;
-using System.Windows.Forms.Design;
 
 namespace Anathema.Source.Project.ProjectItems.TypeEditors
 {
     class OffsetEditor : UITypeEditor, IOffsetEditorModel
     {
-        private InputRequest.InputRequestDelegate InputRequest;
-
         public event OffsetEditorEventHandler EventUpdateOffsets;
 
+        private InputRequest.InputRequestDelegate InputRequest;
         private List<Int32> Offsets;
 
         public OffsetEditor()
@@ -42,14 +40,16 @@ namespace Anathema.Source.Project.ProjectItems.TypeEditors
             return UITypeEditorEditStyle.Modal;
         }
 
-        public override Object EditValue(ITypeDescriptorContext Context, System.IServiceProvider Provider, Object Value)
+        public override Object EditValue(ITypeDescriptorContext Context, IServiceProvider Provider, Object Value)
         {
-            IWindowsFormsEditorService Service = Provider.GetService(typeof(IWindowsFormsEditorService)) as IWindowsFormsEditorService;
-            List<Int32> Array = Value as List<Int32>;
-
-            if (Service == null)
+            if (InputRequest == null || (Value != null && !Value.GetType().IsAssignableFrom(typeof(IEnumerable<Int32>))))
                 return Value;
 
+            Offsets = Value == null ? new List<Int32>() : (Value as IEnumerable<Int32>).ToList();
+
+            UpdateGUI();
+
+            // Call delegate function to request the offsets be edited by the user
             if (InputRequest() == DialogResult.OK)
                 return Offsets;
 

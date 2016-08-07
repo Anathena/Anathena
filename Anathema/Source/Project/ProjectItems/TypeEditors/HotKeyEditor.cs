@@ -8,7 +8,6 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing.Design;
 using System.Windows.Forms;
-using System.Windows.Forms.Design;
 
 namespace Anathema.Source.Project.ProjectItems.TypeEditors
 {
@@ -49,7 +48,14 @@ namespace Anathema.Source.Project.ProjectItems.TypeEditors
 
         public void OnGUIOpen()
         {
-            RefreshGUI();
+            UpdateGUI();
+        }
+
+        private void UpdateGUI()
+        {
+            HotKeyEditorEventArgs Args = new HotKeyEditorEventArgs();
+            Args.HotKeys = HotKeys;
+            EventUpdateHotKeys?.Invoke(this, Args);
         }
 
         public override UITypeEditorEditStyle GetEditStyle(ITypeDescriptorContext Context)
@@ -57,15 +63,17 @@ namespace Anathema.Source.Project.ProjectItems.TypeEditors
             return UITypeEditorEditStyle.Modal;
         }
 
-        public override Object EditValue(ITypeDescriptorContext Context, System.IServiceProvider Provider, Object Value)
+        public override Object EditValue(ITypeDescriptorContext Context, IServiceProvider Provider, Object Value)
         {
-            IWindowsFormsEditorService Service = Provider.GetService(typeof(IWindowsFormsEditorService)) as IWindowsFormsEditorService;
-            HotKeys HotKeys = Value as HotKeys;
-
-            if (InputRequest == null || Service == null)
+            if (InputRequest == null || (Value != null && !Value.GetType().IsAssignableFrom(typeof(HotKeys))))
                 return Value;
 
-            if (InputRequest() == DialogResult.OK)
+            HotKeys = Value == null ? new HotKeys() : (Value as HotKeys);
+
+            UpdateGUI();
+
+            // Call delegate function to request the hotkeys be edited by the user
+            if (InputRequest != null && InputRequest() == DialogResult.OK)
                 return HotKeys;
 
             return Value;
@@ -86,13 +94,6 @@ namespace Anathema.Source.Project.ProjectItems.TypeEditors
         public void EndRecordInput()
         {
             IsRecording = false;
-        }
-
-        private void RefreshGUI()
-        {
-            HotKeyEditorEventArgs Args = new HotKeyEditorEventArgs();
-            Args.HotKeys = HotKeys;
-            EventUpdateHotKeys?.Invoke(this, Args);
         }
 
         public void OnKeyDown(Key Key) { }

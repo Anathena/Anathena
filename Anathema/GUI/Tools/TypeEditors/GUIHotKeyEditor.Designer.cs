@@ -36,19 +36,19 @@ namespace Anathema.GUI.Tools.TypeEditors
             this.RemoveOffsetButton = new System.Windows.Forms.Button();
             this.OkayButton = new System.Windows.Forms.Button();
             this.CancelButton = new System.Windows.Forms.Button();
-            this.OffsetsListView = new Anathema.GUI.CustomControls.ListViews.FlickerFreeListView();
-            this.HexHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.DecimalHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.OffsetHexDecTextBox = new Anathema.GUI.CustomControls.TextBoxes.HexDecTextBox();
+            this.HotKeyListView = new Anathema.GUI.CustomControls.ListViews.FlickerFreeListView();
+            this.HotKeyHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.ActionHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.OffsetsContextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.DeleteSelectionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.HotKeyTextBox = new Anathema.GUI.CustomControls.TextBoxes.WatermarkTextBox();
             this.OffsetsContextMenuStrip.SuspendLayout();
             this.SuspendLayout();
             // 
             // AddOffsetButton
             // 
             this.AddOffsetButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.AddOffsetButton.Location = new System.Drawing.Point(89, 9);
+            this.AddOffsetButton.Location = new System.Drawing.Point(136, 9);
             this.AddOffsetButton.Name = "AddOffsetButton";
             this.AddOffsetButton.Size = new System.Drawing.Size(75, 23);
             this.AddOffsetButton.TabIndex = 1;
@@ -59,7 +59,7 @@ namespace Anathema.GUI.Tools.TypeEditors
             // RemoveOffsetButton
             // 
             this.RemoveOffsetButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.RemoveOffsetButton.Location = new System.Drawing.Point(170, 9);
+            this.RemoveOffsetButton.Location = new System.Drawing.Point(217, 9);
             this.RemoveOffsetButton.Name = "RemoveOffsetButton";
             this.RemoveOffsetButton.Size = new System.Drawing.Size(75, 23);
             this.RemoveOffsetButton.TabIndex = 3;
@@ -71,7 +71,7 @@ namespace Anathema.GUI.Tools.TypeEditors
             // 
             this.OkayButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.OkayButton.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.OkayButton.Location = new System.Drawing.Point(170, 163);
+            this.OkayButton.Location = new System.Drawing.Point(217, 150);
             this.OkayButton.Name = "OkayButton";
             this.OkayButton.Size = new System.Drawing.Size(75, 23);
             this.OkayButton.TabIndex = 4;
@@ -83,7 +83,7 @@ namespace Anathema.GUI.Tools.TypeEditors
             // 
             this.CancelButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.CancelButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.CancelButton.Location = new System.Drawing.Point(12, 163);
+            this.CancelButton.Location = new System.Drawing.Point(12, 150);
             this.CancelButton.Name = "CancelButton";
             this.CancelButton.Size = new System.Drawing.Size(75, 23);
             this.CancelButton.TabIndex = 5;
@@ -91,50 +91,39 @@ namespace Anathema.GUI.Tools.TypeEditors
             this.CancelButton.UseVisualStyleBackColor = true;
             this.CancelButton.Click += new System.EventHandler(this.CancelButton_Click);
             // 
-            // OffsetsListView
+            // HotKeyListView
             // 
-            this.OffsetsListView.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.HexHeader,
-            this.DecimalHeader});
-            this.OffsetsListView.ContextMenuStrip = this.OffsetsContextMenuStrip;
-            this.OffsetsListView.FullRowSelect = true;
-            this.OffsetsListView.Location = new System.Drawing.Point(12, 38);
-            this.OffsetsListView.Name = "OffsetsListView";
-            this.OffsetsListView.Size = new System.Drawing.Size(233, 119);
-            this.OffsetsListView.TabIndex = 6;
-            this.OffsetsListView.UseCompatibleStateImageBehavior = false;
-            this.OffsetsListView.View = System.Windows.Forms.View.Details;
-            // 
-            // HexHeader
-            // 
-            this.HexHeader.Text = "Hex";
-            this.HexHeader.Width = 96;
-            // 
-            // DecimalHeader
-            // 
-            this.DecimalHeader.Text = "Decimal";
-            this.DecimalHeader.Width = 96;
-            // 
-            // OffsetHexDecTextBox
-            // 
-            this.OffsetHexDecTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+            this.HotKeyListView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.OffsetHexDecTextBox.ForeColor = System.Drawing.Color.Red;
-            this.OffsetHexDecTextBox.IsHex = true;
-            this.OffsetHexDecTextBox.Location = new System.Drawing.Point(12, 11);
-            this.OffsetHexDecTextBox.Name = "OffsetHexDecTextBox";
-            this.OffsetHexDecTextBox.Size = new System.Drawing.Size(71, 20);
-            this.OffsetHexDecTextBox.TabIndex = 2;
-            this.OffsetHexDecTextBox.WatermarkColor = System.Drawing.Color.LightGray;
-            this.OffsetHexDecTextBox.WaterMarkFont = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.OffsetHexDecTextBox.WaterMarkText = null;
+            this.HotKeyListView.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.HotKeyHeader,
+            this.ActionHeader});
+            this.HotKeyListView.ContextMenuStrip = this.OffsetsContextMenuStrip;
+            this.HotKeyListView.FullRowSelect = true;
+            this.HotKeyListView.Location = new System.Drawing.Point(12, 38);
+            this.HotKeyListView.Name = "HotKeyListView";
+            this.HotKeyListView.Size = new System.Drawing.Size(280, 106);
+            this.HotKeyListView.TabIndex = 6;
+            this.HotKeyListView.UseCompatibleStateImageBehavior = false;
+            this.HotKeyListView.View = System.Windows.Forms.View.Details;
+            // 
+            // HotKeyHeader
+            // 
+            this.HotKeyHeader.Text = "Hot Key";
+            this.HotKeyHeader.Width = 128;
+            // 
+            // ActionHeader
+            // 
+            this.ActionHeader.Text = "Action";
+            this.ActionHeader.Width = 128;
             // 
             // OffsetsContextMenuStrip
             // 
             this.OffsetsContextMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.DeleteSelectionToolStripMenuItem});
             this.OffsetsContextMenuStrip.Name = "OffsetsContextMenuStrip";
-            this.OffsetsContextMenuStrip.Size = new System.Drawing.Size(159, 48);
+            this.OffsetsContextMenuStrip.Size = new System.Drawing.Size(159, 26);
             // 
             // DeleteSelectionToolStripMenuItem
             // 
@@ -143,20 +132,32 @@ namespace Anathema.GUI.Tools.TypeEditors
             this.DeleteSelectionToolStripMenuItem.Text = "Delete Selection";
             this.DeleteSelectionToolStripMenuItem.Click += new System.EventHandler(this.DeleteSelectionToolStripMenuItem_Click);
             // 
-            // GUIArrayEditor
+            // HotKeyTextBox
+            // 
+            this.HotKeyTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.HotKeyTextBox.Location = new System.Drawing.Point(12, 11);
+            this.HotKeyTextBox.Name = "HotKeyTextBox";
+            this.HotKeyTextBox.Size = new System.Drawing.Size(118, 20);
+            this.HotKeyTextBox.TabIndex = 7;
+            this.HotKeyTextBox.WatermarkColor = System.Drawing.Color.LightGray;
+            this.HotKeyTextBox.WaterMarkFont = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.HotKeyTextBox.WaterMarkText = null;
+            // 
+            // GUIHotKeyEditor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(257, 198);
-            this.Controls.Add(this.OffsetsListView);
+            this.ClientSize = new System.Drawing.Size(304, 185);
+            this.Controls.Add(this.HotKeyTextBox);
+            this.Controls.Add(this.HotKeyListView);
             this.Controls.Add(this.CancelButton);
             this.Controls.Add(this.OkayButton);
             this.Controls.Add(this.RemoveOffsetButton);
-            this.Controls.Add(this.OffsetHexDecTextBox);
             this.Controls.Add(this.AddOffsetButton);
-            this.Name = "GUIArrayEditor";
+            this.Name = "GUIHotKeyEditor";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            this.Text = "Offset Editor";
+            this.Text = "HotKey Editor";
             this.OffsetsContextMenuStrip.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -165,14 +166,14 @@ namespace Anathema.GUI.Tools.TypeEditors
 
         #endregion
         private System.Windows.Forms.Button AddOffsetButton;
-        private HexDecTextBox OffsetHexDecTextBox;
         private System.Windows.Forms.Button RemoveOffsetButton;
         private System.Windows.Forms.Button OkayButton;
         private System.Windows.Forms.Button CancelButton;
-        private FlickerFreeListView OffsetsListView;
-        private System.Windows.Forms.ColumnHeader DecimalHeader;
-        private System.Windows.Forms.ColumnHeader HexHeader;
+        private FlickerFreeListView HotKeyListView;
+        private System.Windows.Forms.ColumnHeader ActionHeader;
+        private System.Windows.Forms.ColumnHeader HotKeyHeader;
         private System.Windows.Forms.ContextMenuStrip OffsetsContextMenuStrip;
         private System.Windows.Forms.ToolStripMenuItem DeleteSelectionToolStripMenuItem;
+        private WatermarkTextBox HotKeyTextBox;
     }
 }
