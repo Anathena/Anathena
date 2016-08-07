@@ -1,22 +1,23 @@
 ﻿using Anathema.Source.Engine.InputCapture;
+using Anathema.Source.Project;
 using System;
+using System.Collections.Generic;
 using System.Windows.Forms;
 
 namespace Anathema.GUI.Tools.TypeEditors
 {
-    public partial class GUIHotKeyEditor : Form
+    partial class GUIHotKeyEditor : Form, IHotKeyEditorView
     {
-        private InputBinding _HotKeys { get; set; }
-        public InputBinding HotKeys { get { return _HotKeys; } private set { _HotKeys = (value == null ? new InputBinding() : value); } }
+        private HotKeys _HotKeys { get; set; }
+        public HotKeys HotKeys { get { return _HotKeys; } private set { _HotKeys = (value == null ? new HotKeys() : value); } }
 
-        public GUIHotKeyEditor(InputBinding HotKeys)
+        private HotKeyEditorPresenter HotKeyEditorPresenter;
+
+        public GUIHotKeyEditor(HotKeyEditorPresenter HotKeyEditorPresenter)
         {
             InitializeComponent();
 
-            // Clone input offsets rather than grabbing a reference
-            this.HotKeys = HotKeys;
-
-            UpdateListBox();
+            this.HotKeyEditorPresenter = HotKeyEditorPresenter;
         }
 
         private void UpdateListBox()
@@ -35,6 +36,11 @@ namespace Anathema.GUI.Tools.TypeEditors
                 return;
 
             UpdateListBox();
+        }
+
+        public void SetHotKeyList(IEnumerable<String> HotKeyList)
+        {
+
         }
 
         #region Events

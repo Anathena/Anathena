@@ -53,7 +53,7 @@ namespace Anathema.Source.Project.ProjectItems
         [DataMember()]
         [RefreshProperties(RefreshProperties.All)]
         [TypeConverter(typeof(OffsetConverter))]
-        [Editor(typeof(ArrayEditor), typeof(UITypeEditor))]
+        [Editor(typeof(OffsetEditor), typeof(UITypeEditor))]
         [Category("Properties"), DisplayName("Address Offsets"), Description("Address offsets")]
         public IEnumerable<Int32> Offsets
         {

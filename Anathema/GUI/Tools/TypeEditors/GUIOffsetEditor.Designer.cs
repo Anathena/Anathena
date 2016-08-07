@@ -3,7 +3,7 @@ using Anathema.GUI.CustomControls.TextBoxes;
 
 namespace Anathema.GUI.Tools.TypeEditors
 {
-    partial class GUIArrayEditor
+    partial class GUIOffsetEditor
     {
         /// <summary>
         /// Required designer variable.

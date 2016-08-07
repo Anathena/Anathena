@@ -52,7 +52,7 @@ namespace Anathema.Source.Engine.InputCapture
             return MouseSubject;
         }
 
-        public void RegisterHotkey(InputBinding HotKey)
+        public void RegisterHotkey(HotKeys HotKey)
         {
 
         }

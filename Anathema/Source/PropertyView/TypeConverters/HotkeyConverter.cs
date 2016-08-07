@@ -13,9 +13,9 @@ namespace Anathema.Source.Project.PropertyView.TypeConverters
             if (Value == null)
                 return "(None)";
 
-            if (Value.GetType().GetInterfaces().Contains(typeof(InputBinding)))
+            if (Value.GetType().GetInterfaces().Contains(typeof(HotKeys)))
             {
-                InputBinding TrueValue = Value as InputBinding;
+                HotKeys TrueValue = Value as HotKeys;
                 // TODO: Display hotkey preview
                 return "(HotKey)";
             }

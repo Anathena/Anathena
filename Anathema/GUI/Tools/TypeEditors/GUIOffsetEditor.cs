@@ -1,4 +1,6 @@
-﻿using Anathema.Source.Utils.Validation;
+﻿using Anathema.Source.Project;
+using Anathema.Source.Utils.MVP;
+using Anathema.Source.Utils.Validation;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,42 +8,37 @@ using System.Windows.Forms;
 
 namespace Anathema.GUI.Tools.TypeEditors
 {
-    public partial class GUIArrayEditor : Form
+    partial class GUIOffsetEditor : Form, IOffsetEditorView
     {
-        private List<Int32> _Offsets { get; set; }
-        public List<Int32> Offsets { get { return _Offsets; } private set { _Offsets = (value == null ? new List<Int32>() : value); } }
+        private OffsetEditorPresenter OffsetEditorPresenter;
 
-        public GUIArrayEditor(List<Int32> Offsets)
+        public GUIOffsetEditor(OffsetEditorPresenter OffsetEditorPresenter)
         {
             InitializeComponent();
 
-            // Clone input offsets rather than grabbing a reference
-            this.Offsets = Offsets?.Select(X => X).ToList();
-
-            UpdateListBox();
+            this.OffsetEditorPresenter = OffsetEditorPresenter;
         }
 
-        private void UpdateListBox()
+        public void SetOffsets(IEnumerable<Tuple<String, String>> HexDecOffsets)
         {
-            OffsetsListView.Items.Clear();
-
-            foreach (Int32 Offset in Offsets)
+            ControlThreadingHelper.InvokeControlAction(OffsetsListView, () =>
             {
-                String Decimal = Offset.ToString();
-                String Hexadecimal = Offset < 0 ? "-" + Math.Abs(Offset).ToString("X") : Offset.ToString("X");
-                OffsetsListView.Items.Add(new ListViewItem(new String[] { Hexadecimal, Decimal }));
-            }
+                OffsetsListView.Items.Clear();
+
+                foreach (Tuple<String, String> HexDecOffset in HexDecOffsets)
+                {
+                    OffsetsListView.Items.Add(new ListViewItem(new String[] { HexDecOffset.Item1, HexDecOffset.Item2 }));
+                }
+            });
         }
 
         private void AddOffset()
         {
             if (CheckSyntax.CanParseAddress(OffsetHexDecTextBox.GetValueAsHexidecimal()))
             {
-                Offsets.Add(Conversions.ParseDecStringAsValue(typeof(Int32), OffsetHexDecTextBox.GetValueAsDecimal()));
+                OffsetEditorPresenter.AddOffset(Conversions.ParseDecStringAsValue(typeof(Int32), OffsetHexDecTextBox.GetValueAsDecimal()));
                 OffsetHexDecTextBox.Text = String.Empty;
             }
-
-            UpdateListBox();
         }
 
         private void DeleteSelection()
@@ -49,10 +46,7 @@ namespace Anathema.GUI.Tools.TypeEditors
             if (OffsetsListView.SelectedIndices.Count <= 0)
                 return;
 
-            foreach (Int32 Item in OffsetsListView.SelectedIndices.OfType<Int32>().Reverse())
-                Offsets.RemoveAt(Item);
-
-            UpdateListBox();
+            OffsetEditorPresenter.DeleteOffsets(OffsetsListView.SelectedIndices.OfType<Int32>());
         }
 
         #region Events

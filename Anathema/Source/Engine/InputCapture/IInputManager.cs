@@ -12,7 +12,7 @@ namespace Anathema.Source.Engine.InputCapture
 
         IControllerSubject GetControllerCapture();
 
-        void RegisterHotkey(InputBinding HotKey);
+        void RegisterHotkey(HotKeys HotKey);
 
     } // End class
 

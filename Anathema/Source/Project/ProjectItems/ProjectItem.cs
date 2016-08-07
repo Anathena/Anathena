@@ -48,12 +48,12 @@ namespace Anathema.Source.Project.ProjectItems
             set { _Description = value; UpdateEntryVisual(); }
         }
 
-        private InputBinding _HotKey;
+        private HotKeys _HotKey;
         [DataMember()]
         [TypeConverter(typeof(HotKeyConverter))]
         [Editor(typeof(HotKeyEditor), typeof(UITypeEditor))]
         [Category("Properties"), DisplayName("Hot Key"), Description("Hot key to activate item")]
-        public InputBinding HotKey
+        public HotKeys HotKey
         {
             get { return _HotKey; }
             set { _HotKey = value; }

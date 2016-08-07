@@ -210,18 +210,21 @@
     <Compile Include="GUI\Tools\TypeEditors\GUIHotKeyEditor.Designer.cs">
       <DependentUpon>GUIHotKeyEditor.cs</DependentUpon>
     </Compile>
-    <Compile Include="Source\Engine\InputCapture\Hotkey.cs" />
+    <Compile Include="Source\Engine\InputCapture\HotKeys.cs" />
     <Compile Include="Source\Engine\Proxy\ProxyCommunicator.cs" />
+    <Compile Include="Source\Project\ProjectItems\TypeEditors\IOffsetEditorMVP.cs" />
+    <Compile Include="Source\Project\ProjectItems\TypeEditors\InputRequest.cs" />
     <Compile Include="Source\Project\ProjectItems\ScriptTemplates\LuaTemplates.cs" />
     <Compile Include="Source\Project\ProjectItems\TypeEditors\HotKeyEditor.cs" />
+    <Compile Include="Source\Project\ProjectItems\TypeEditors\IHotKeyEditorMVP.cs" />
     <Compile Include="Source\PropertyView\TypeConverters\LuaScriptConverter.cs" />
     <Compile Include="Source\Project\ProjectItems\TypeEditors\ScriptEditor.cs" />
-    <Compile Include="Source\Project\ProjectItems\TypeEditors\ArrayEditor.cs" />
-    <Compile Include="GUI\Tools\TypeEditors\GUIArrayEditor.cs">
+    <Compile Include="Source\Project\ProjectItems\TypeEditors\OffsetEditor.cs" />
+    <Compile Include="GUI\Tools\TypeEditors\GUIOffsetEditor.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="GUI\Tools\TypeEditors\GUIArrayEditor.Designer.cs">
-      <DependentUpon>GUIArrayEditor.cs</DependentUpon>
+    <Compile Include="GUI\Tools\TypeEditors\GUIOffsetEditor.Designer.cs">
+      <DependentUpon>GUIOffsetEditor.cs</DependentUpon>
     </Compile>
     <Compile Include="GUI\Tools\GUIPropertyViewer.cs">
       <SubType>Form</SubType>
@@ -851,8 +854,8 @@
     <EmbeddedResource Include="GUI\Tools\TypeEditors\GUIHotKeyEditor.resx">
       <DependentUpon>GUIHotKeyEditor.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="GUI\Tools\TypeEditors\GUIArrayEditor.resx">
-      <DependentUpon>GUIArrayEditor.cs</DependentUpon>
+    <EmbeddedResource Include="GUI\Tools\TypeEditors\GUIOffsetEditor.resx">
+      <DependentUpon>GUIOffsetEditor.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\Tools\GUIPropertyViewer.resx">
       <DependentUpon>GUIPropertyViewer.cs</DependentUpon>
