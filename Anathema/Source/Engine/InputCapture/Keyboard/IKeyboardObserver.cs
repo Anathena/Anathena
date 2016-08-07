@@ -6,9 +6,9 @@ namespace Anathema.Source.Engine.InputCapture.Keyboard
     {
         void OnKeyPress(Key Key);
 
-        void OnKeyDown(Key Key);
+        void OnKeyRelease(Key Key);
 
-        void OnKeyUp(Key Key);
+        void OnKeyDown(Key Key);
 
     } // End interface
 

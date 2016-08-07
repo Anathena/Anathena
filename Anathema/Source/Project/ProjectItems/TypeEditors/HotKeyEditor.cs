@@ -14,19 +14,18 @@ namespace Anathema.Source.Project.ProjectItems.TypeEditors
     class HotKeyEditor : UITypeEditor, IProcessObserver, IKeyboardObserver, IHotKeyEditorModel
     {
         public event HotKeyEditorEventHandler EventUpdateHotKeys;
+        public event HotKeyEditorEventHandler EventUpdatePendingKeys;
 
         private EngineCore EngineCore;
 
         private InputRequest.InputRequestDelegate InputRequest;
         private HashSet<Key> PendingKeys;
         private HotKeys HotKeys;
-        private Boolean IsRecording;
 
         public HotKeyEditor()
         {
             HotKeys = new HotKeys();
             PendingKeys = new HashSet<Key>();
-            IsRecording = false;
 
             InitializeProcessObserver();
 
@@ -48,14 +47,22 @@ namespace Anathema.Source.Project.ProjectItems.TypeEditors
 
         public void OnGUIOpen()
         {
-            UpdateGUI();
+            OnUpdateHotKeys();
+            OnUpdatePendingKeys();
         }
 
-        private void UpdateGUI()
+        private void OnUpdateHotKeys()
         {
             HotKeyEditorEventArgs Args = new HotKeyEditorEventArgs();
             Args.HotKeys = HotKeys;
             EventUpdateHotKeys?.Invoke(this, Args);
+        }
+
+        private void OnUpdatePendingKeys()
+        {
+            HotKeyEditorEventArgs Args = new HotKeyEditorEventArgs();
+            Args.PendingKeys = PendingKeys;
+            EventUpdatePendingKeys?.Invoke(this, Args);
         }
 
         public override UITypeEditorEditStyle GetEditStyle(ITypeDescriptorContext Context)
@@ -70,7 +77,8 @@ namespace Anathema.Source.Project.ProjectItems.TypeEditors
 
             HotKeys = Value == null ? new HotKeys() : (Value as HotKeys);
 
-            UpdateGUI();
+            OnUpdateHotKeys();
+            OnUpdatePendingKeys();
 
             // Call delegate function to request the hotkeys be edited by the user
             if (InputRequest != null && InputRequest() == DialogResult.OK)
@@ -79,33 +87,30 @@ namespace Anathema.Source.Project.ProjectItems.TypeEditors
             return Value;
         }
 
-        public void BeginRecordInput()
-        {
-            IsRecording = true;
-        }
-
-        public void ApplyCurrentSet()
+        public void AddHotKey()
         {
             HotKeys.SetActivationKeys(PendingKeys);
 
-            EndRecordInput();
+            ClearInput();
+            OnUpdateHotKeys();
+            OnUpdatePendingKeys();
         }
 
-        public void EndRecordInput()
+        public void ClearInput()
         {
-            IsRecording = false;
+            PendingKeys.Clear();
+            OnUpdatePendingKeys();
         }
+
+        public void OnKeyRelease(Key Key) { }
 
         public void OnKeyDown(Key Key) { }
 
-        public void OnKeyUp(Key Key) { }
-
         public void OnKeyPress(Key Key)
         {
-            if (!IsRecording)
-                return;
-
             PendingKeys.Add(Key);
+
+            OnUpdatePendingKeys();
         }
 
     } // End class

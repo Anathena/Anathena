@@ -45,6 +45,30 @@ namespace Anathema.Source.Engine.InputCapture.Keyboard
             {
                 CurrentKeyboardState = Keyboard.GetCurrentState();
 
+                if (PreviousKeyboardState == null)
+                {
+                    PreviousKeyboardState = CurrentKeyboardState;
+                    return;
+                }
+
+                if (CurrentKeyboardState == null || PreviousKeyboardState == null)
+                    return;
+
+                HashSet<Key> PressedKeys = new HashSet<Key>(CurrentKeyboardState.PressedKeys);
+                HashSet<Key> ReleasedKeys = new HashSet<Key>(PreviousKeyboardState.PressedKeys);
+
+                PressedKeys.ExceptWith(PreviousKeyboardState.PressedKeys);
+                ReleasedKeys.ExceptWith(CurrentKeyboardState.PressedKeys);
+
+                foreach (Key Key in PressedKeys)
+                    NotifyKeyPress(Key);
+
+                foreach (Key Key in ReleasedKeys)
+                    NotifyKeyRelease(Key);
+
+                foreach (Key Key in CurrentKeyboardState.PressedKeys)
+                    NotifyKeyDown(Key);
+
                 PreviousKeyboardState = CurrentKeyboardState;
             }
             catch (SharpDXException)
@@ -61,16 +85,16 @@ namespace Anathema.Source.Engine.InputCapture.Keyboard
                 KeySubject.OnKeyPress(Key);
         }
 
+        public void NotifyKeyRelease(Key Key)
+        {
+            foreach (IKeyboardObserver KeySubject in Subjects)
+                KeySubject.OnKeyRelease(Key);
+        }
+
         public void NotifyKeyDown(Key Key)
         {
             foreach (IKeyboardObserver KeySubject in Subjects)
                 KeySubject.OnKeyDown(Key);
-        }
-
-        public void NotifyKeyUp(Key Key)
-        {
-            foreach (IKeyboardObserver KeySubject in Subjects)
-                KeySubject.OnKeyUp(Key);
         }
 
         #endregion

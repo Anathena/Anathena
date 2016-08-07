@@ -2,9 +2,9 @@
 using Anathema.Source.Engine.InputCapture;
 using Anathema.Source.Project.ProjectItems.TypeEditors;
 using Anathema.Source.Utils.MVP;
+using SharpDX.DirectInput;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Windows.Forms;
 
 namespace Anathema.Source.Project
@@ -13,23 +13,25 @@ namespace Anathema.Source.Project
     class HotKeyEditorEventArgs : EventArgs
     {
         public HotKeys HotKeys;
+        public HashSet<Key> PendingKeys;
     }
 
     interface IHotKeyEditorView : IView
     {
         // Methods invoked by the presenter (upstream)
-        void SetHotKeyList(IEnumerable<String> HotKeyList);
+        void SetPendingKeys(String PendingKeys);
+        void SetHotKeyList(IEnumerable<Tuple<String, String>> HotKeyList);
     }
 
     interface IHotKeyEditorModel : IModel
     {
         // Events triggered by the model (upstream)
+        event HotKeyEditorEventHandler EventUpdatePendingKeys;
         event HotKeyEditorEventHandler EventUpdateHotKeys;
 
         // Functions invoked by presenter (downstream)
-        void BeginRecordInput();
-        void ApplyCurrentSet();
-        void EndRecordInput();
+        void AddHotKey();
+        void ClearInput();
     }
 
     class HotKeyEditorPresenter : Presenter<IHotKeyEditorView, IHotKeyEditorModel>
@@ -46,6 +48,7 @@ namespace Anathema.Source.Project
 
             // Bind events triggered by the model
             Model.EventUpdateHotKeys += EventUpdateHotKeys;
+            Model.EventUpdatePendingKeys += EventUpdatePendingKeys;
 
             Model.OnGUIOpen();
         }
@@ -57,19 +60,14 @@ namespace Anathema.Source.Project
 
         #region Method definitions called by the view (downstream)
 
-        public void BeginRecordInput()
+        public void AddHotKey()
         {
-            Model.BeginRecordInput();
+            Model.AddHotKey();
         }
 
-        void ApplyCurrentSet()
+        public void ClearInput()
         {
-            Model.ApplyCurrentSet();
-        }
-
-        void EndRecordInput()
-        {
-            Model.EndRecordInput();
+            Model.ClearInput();
         }
 
         #endregion
@@ -81,9 +79,34 @@ namespace Anathema.Source.Project
             return GUIHotKeyEditor.ShowDialog();
         }
 
+        private void EventUpdatePendingKeys(Object Sender, HotKeyEditorEventArgs E)
+        {
+            String PendingKeys = String.Empty;
+
+            if (E == null)
+                return;
+
+            foreach (Key Key in E.PendingKeys)
+            {
+                PendingKeys += Key.ToString() + "+";
+            }
+
+            View?.SetPendingKeys(PendingKeys.Trim('+'));
+        }
+
         private void EventUpdateHotKeys(Object Sender, HotKeyEditorEventArgs E)
         {
-            View?.SetHotKeyList(E?.HotKeys?.GetActivationKeys()?.Select(X => X.ToString())?.ToList());
+            List<Tuple<String, String>> HotKeyActionPairs = new List<Tuple<String, String>>();
+
+            if (E == null || E.HotKeys == null)
+                return;
+
+            foreach (Key Key in E.HotKeys.GetActivationKeys())
+            {
+                HotKeyActionPairs.Add(new Tuple<String, String>(Key.ToString(), "Action"));
+            }
+
+            View?.SetHotKeyList(HotKeyActionPairs);
         }
 
         #endregion

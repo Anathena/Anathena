@@ -12,8 +12,6 @@ namespace Anathema.Source.Engine.InputCapture
 
         IControllerSubject GetControllerCapture();
 
-        void RegisterHotkey(HotKeys HotKey);
-
     } // End class
 
 } // End namespace

@@ -25,10 +25,10 @@ namespace Anathema.Source.Project.ProjectItems.TypeEditors
 
         public void OnGUIOpen()
         {
-            UpdateGUI();
+            OnUpdateOffsets();
         }
 
-        private void UpdateGUI()
+        private void OnUpdateOffsets()
         {
             OffsetEditorEventArgs Args = new OffsetEditorEventArgs();
             Args.Offsets = Offsets;
@@ -47,7 +47,7 @@ namespace Anathema.Source.Project.ProjectItems.TypeEditors
 
             Offsets = Value == null ? new List<Int32>() : (Value as IEnumerable<Int32>).ToList();
 
-            UpdateGUI();
+            OnUpdateOffsets();
 
             // Call delegate function to request the offsets be edited by the user
             if (InputRequest() == DialogResult.OK)
@@ -64,14 +64,14 @@ namespace Anathema.Source.Project.ProjectItems.TypeEditors
                     Offsets.RemoveAt(Index);
             }
 
-            UpdateGUI();
+            OnUpdateOffsets();
         }
 
         public void AddOffset(Int32 Offset)
         {
             Offsets.Add(Offset);
 
-            UpdateGUI();
+            OnUpdateOffsets();
         }
 
     } // End class

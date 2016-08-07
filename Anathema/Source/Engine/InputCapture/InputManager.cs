@@ -12,7 +12,8 @@ namespace Anathema.Source.Engine.InputCapture
         private IKeyboardSubject KeyboardSubject;
         private IMouseSubject MouseSubject;
 
-        private const Int32 InputCollectionInterval = 200;
+        // Collect input ~60 times per second
+        private const Int32 InputCollectionIntervalMs = 17;
 
         public InputManager()
         {
@@ -25,7 +26,7 @@ namespace Anathema.Source.Engine.InputCapture
 
         public override void Begin()
         {
-            this.UpdateInterval = InputCollectionInterval;
+            this.UpdateInterval = InputCollectionIntervalMs;
 
             base.Begin();
         }
@@ -50,11 +51,6 @@ namespace Anathema.Source.Engine.InputCapture
         public IMouseSubject GetMouseCapture()
         {
             return MouseSubject;
-        }
-
-        public void RegisterHotkey(HotKeys HotKey)
-        {
-
         }
 
     } // End class

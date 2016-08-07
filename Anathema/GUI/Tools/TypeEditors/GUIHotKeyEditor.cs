@@ -1,5 +1,6 @@
 ﻿using Anathema.Source.Engine.InputCapture;
 using Anathema.Source.Project;
+using Anathema.Source.Utils.MVP;
 using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
@@ -25,32 +26,59 @@ namespace Anathema.GUI.Tools.TypeEditors
             HotKeyListView.Items.Clear();
         }
 
-        private void AddOffset()
+        public void SetHotKeyList(IEnumerable<Tuple<String, String>> HotKeyList)
         {
-            UpdateListBox();
+            ControlThreadingHelper.InvokeControlAction(HotKeyListView, () =>
+            {
+                HotKeyListView.Items.Clear();
+
+                if (HotKeyList == null)
+                    return;
+
+                foreach (Tuple<String, String> HotKeyItem in HotKeyList)
+                {
+                    HotKeyListView.Items.Add(new ListViewItem(new String[] { HotKeyItem.Item1, HotKeyItem.Item2 }));
+                }
+            });
+        }
+
+        public void SetPendingKeys(String PendingKeys)
+        {
+            ControlThreadingHelper.InvokeControlAction(HotKeyTextBox, () =>
+            {
+                HotKeyTextBox.Text = PendingKeys;
+            });
+        }
+
+        private void ClearInput()
+        {
+            HotKeyEditorPresenter.ClearInput();
+        }
+
+        private void AddHotKey()
+        {
+            HotKeyEditorPresenter.AddHotKey();
         }
 
         private void DeleteSelection()
         {
             if (HotKeyListView.SelectedIndices.Count <= 0)
                 return;
-
-            UpdateListBox();
-        }
-
-        public void SetHotKeyList(IEnumerable<String> HotKeyList)
-        {
-
         }
 
         #region Events
 
-        private void AddOffsetButton_Click(Object Sender, EventArgs E)
+        private void ClearHotKeyButton_Click(Object Sender, EventArgs E)
         {
-            AddOffset();
+            ClearInput();
         }
 
-        private void RemoveOffsetButton_Click(Object Sender, EventArgs E)
+        private void AddHotKeyButton_Click(Object Sender, EventArgs E)
+        {
+            AddHotKey();
+        }
+
+        private void RemoveHotKeyButton_Click(Object Sender, EventArgs E)
         {
             DeleteSelection();
         }

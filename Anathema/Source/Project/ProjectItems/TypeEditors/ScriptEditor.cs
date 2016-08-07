@@ -23,10 +23,10 @@ namespace Anathema.Source.Project.ProjectItems.TypeEditors
 
         public void OnGUIOpen()
         {
-            UpdateGUI();
+            OnUpdateScript();
         }
 
-        private void UpdateGUI()
+        private void OnUpdateScript()
         {
             ScriptEditorEventArgs Args = new ScriptEditorEventArgs();
             Args.Script = LuaScript.Script;
@@ -45,7 +45,7 @@ namespace Anathema.Source.Project.ProjectItems.TypeEditors
 
             LuaScript = Value == null ? new LuaScript() : (Value as LuaScript);
 
-            UpdateGUI();
+            OnUpdateScript();
 
             // Call delegate function to request the script be edited by the user
             if (InputRequest != null && InputRequest() == DialogResult.OK)

@@ -8,11 +8,11 @@ namespace Anathema.Source.Engine.InputCapture.Keyboard
 
         void Unsubscribe(IKeyboardObserver Subject);
 
-        void NotifyKeyDown(Key Key);
+        void NotifyKeyRelease(Key Key);
 
         void NotifyKeyPress(Key Key);
 
-        void NotifyKeyUp(Key Key);
+        void NotifyKeyDown(Key Key);
 
     } // End interface
 

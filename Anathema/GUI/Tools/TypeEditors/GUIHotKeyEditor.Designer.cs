@@ -32,8 +32,8 @@ namespace Anathema.GUI.Tools.TypeEditors
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            this.AddOffsetButton = new System.Windows.Forms.Button();
-            this.RemoveOffsetButton = new System.Windows.Forms.Button();
+            this.AddHotKeyButton = new System.Windows.Forms.Button();
+            this.RemoveHotKeyButton = new System.Windows.Forms.Button();
             this.OkayButton = new System.Windows.Forms.Button();
             this.CancelButton = new System.Windows.Forms.Button();
             this.HotKeyListView = new Anathema.GUI.CustomControls.ListViews.FlickerFreeListView();
@@ -42,36 +42,37 @@ namespace Anathema.GUI.Tools.TypeEditors
             this.OffsetsContextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.DeleteSelectionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.HotKeyTextBox = new Anathema.GUI.CustomControls.TextBoxes.WatermarkTextBox();
+            this.ClearHotKeyButton = new System.Windows.Forms.Button();
             this.OffsetsContextMenuStrip.SuspendLayout();
             this.SuspendLayout();
             // 
-            // AddOffsetButton
+            // AddHotKeyButton
             // 
-            this.AddOffsetButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.AddOffsetButton.Location = new System.Drawing.Point(136, 9);
-            this.AddOffsetButton.Name = "AddOffsetButton";
-            this.AddOffsetButton.Size = new System.Drawing.Size(75, 23);
-            this.AddOffsetButton.TabIndex = 1;
-            this.AddOffsetButton.Text = "Add";
-            this.AddOffsetButton.UseVisualStyleBackColor = true;
-            this.AddOffsetButton.Click += new System.EventHandler(this.AddOffsetButton_Click);
+            this.AddHotKeyButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.AddHotKeyButton.Location = new System.Drawing.Point(148, 9);
+            this.AddHotKeyButton.Name = "AddHotKeyButton";
+            this.AddHotKeyButton.Size = new System.Drawing.Size(75, 23);
+            this.AddHotKeyButton.TabIndex = 1;
+            this.AddHotKeyButton.Text = "Add";
+            this.AddHotKeyButton.UseVisualStyleBackColor = true;
+            this.AddHotKeyButton.Click += new System.EventHandler(this.AddHotKeyButton_Click);
             // 
-            // RemoveOffsetButton
+            // RemoveHotKeyButton
             // 
-            this.RemoveOffsetButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.RemoveOffsetButton.Location = new System.Drawing.Point(217, 9);
-            this.RemoveOffsetButton.Name = "RemoveOffsetButton";
-            this.RemoveOffsetButton.Size = new System.Drawing.Size(75, 23);
-            this.RemoveOffsetButton.TabIndex = 3;
-            this.RemoveOffsetButton.Text = "Remove";
-            this.RemoveOffsetButton.UseVisualStyleBackColor = true;
-            this.RemoveOffsetButton.Click += new System.EventHandler(this.RemoveOffsetButton_Click);
+            this.RemoveHotKeyButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.RemoveHotKeyButton.Location = new System.Drawing.Point(12, 150);
+            this.RemoveHotKeyButton.Name = "RemoveHotKeyButton";
+            this.RemoveHotKeyButton.Size = new System.Drawing.Size(75, 23);
+            this.RemoveHotKeyButton.TabIndex = 3;
+            this.RemoveHotKeyButton.Text = "Remove";
+            this.RemoveHotKeyButton.UseVisualStyleBackColor = true;
+            this.RemoveHotKeyButton.Click += new System.EventHandler(this.RemoveHotKeyButton_Click);
             // 
             // OkayButton
             // 
             this.OkayButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.OkayButton.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.OkayButton.Location = new System.Drawing.Point(217, 150);
+            this.OkayButton.Location = new System.Drawing.Point(229, 150);
             this.OkayButton.Name = "OkayButton";
             this.OkayButton.Size = new System.Drawing.Size(75, 23);
             this.OkayButton.TabIndex = 4;
@@ -81,9 +82,9 @@ namespace Anathema.GUI.Tools.TypeEditors
             // 
             // CancelButton
             // 
-            this.CancelButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.CancelButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.CancelButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.CancelButton.Location = new System.Drawing.Point(12, 150);
+            this.CancelButton.Location = new System.Drawing.Point(148, 150);
             this.CancelButton.Name = "CancelButton";
             this.CancelButton.Size = new System.Drawing.Size(75, 23);
             this.CancelButton.TabIndex = 5;
@@ -103,7 +104,7 @@ namespace Anathema.GUI.Tools.TypeEditors
             this.HotKeyListView.FullRowSelect = true;
             this.HotKeyListView.Location = new System.Drawing.Point(12, 38);
             this.HotKeyListView.Name = "HotKeyListView";
-            this.HotKeyListView.Size = new System.Drawing.Size(280, 106);
+            this.HotKeyListView.Size = new System.Drawing.Size(292, 106);
             this.HotKeyListView.TabIndex = 6;
             this.HotKeyListView.UseCompatibleStateImageBehavior = false;
             this.HotKeyListView.View = System.Windows.Forms.View.Details;
@@ -138,23 +139,35 @@ namespace Anathema.GUI.Tools.TypeEditors
             | System.Windows.Forms.AnchorStyles.Right)));
             this.HotKeyTextBox.Location = new System.Drawing.Point(12, 11);
             this.HotKeyTextBox.Name = "HotKeyTextBox";
-            this.HotKeyTextBox.Size = new System.Drawing.Size(118, 20);
+            this.HotKeyTextBox.Size = new System.Drawing.Size(130, 20);
             this.HotKeyTextBox.TabIndex = 7;
             this.HotKeyTextBox.WatermarkColor = System.Drawing.Color.LightGray;
             this.HotKeyTextBox.WaterMarkFont = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.HotKeyTextBox.WaterMarkText = null;
             // 
+            // ClearHotKeyButton
+            // 
+            this.ClearHotKeyButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.ClearHotKeyButton.Location = new System.Drawing.Point(229, 9);
+            this.ClearHotKeyButton.Name = "ClearHotKeyButton";
+            this.ClearHotKeyButton.Size = new System.Drawing.Size(75, 23);
+            this.ClearHotKeyButton.TabIndex = 8;
+            this.ClearHotKeyButton.Text = "Clear";
+            this.ClearHotKeyButton.UseVisualStyleBackColor = true;
+            this.ClearHotKeyButton.Click += new System.EventHandler(this.ClearHotKeyButton_Click);
+            // 
             // GUIHotKeyEditor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(304, 185);
+            this.ClientSize = new System.Drawing.Size(316, 185);
+            this.Controls.Add(this.ClearHotKeyButton);
             this.Controls.Add(this.HotKeyTextBox);
             this.Controls.Add(this.HotKeyListView);
             this.Controls.Add(this.CancelButton);
             this.Controls.Add(this.OkayButton);
-            this.Controls.Add(this.RemoveOffsetButton);
-            this.Controls.Add(this.AddOffsetButton);
+            this.Controls.Add(this.RemoveHotKeyButton);
+            this.Controls.Add(this.AddHotKeyButton);
             this.Name = "GUIHotKeyEditor";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "HotKey Editor";
@@ -165,8 +178,8 @@ namespace Anathema.GUI.Tools.TypeEditors
         }
 
         #endregion
-        private System.Windows.Forms.Button AddOffsetButton;
-        private System.Windows.Forms.Button RemoveOffsetButton;
+        private System.Windows.Forms.Button AddHotKeyButton;
+        private System.Windows.Forms.Button RemoveHotKeyButton;
         private System.Windows.Forms.Button OkayButton;
         private System.Windows.Forms.Button CancelButton;
         private FlickerFreeListView HotKeyListView;
@@ -175,5 +188,6 @@ namespace Anathema.GUI.Tools.TypeEditors
         private System.Windows.Forms.ContextMenuStrip OffsetsContextMenuStrip;
         private System.Windows.Forms.ToolStripMenuItem DeleteSelectionToolStripMenuItem;
         private WatermarkTextBox HotKeyTextBox;
+        private System.Windows.Forms.Button ClearHotKeyButton;
     }
 }

@@ -15,9 +15,9 @@ namespace Anathema.Source.Engine.InputCapture
             ActivationKeys = new HashSet<Key>();
         }
 
-        public void SetActivationKeys(HashSet<Key> ActivationKeys)
+        public void SetActivationKeys(IEnumerable<Key> ActivationKeys)
         {
-            this.ActivationKeys = ActivationKeys;
+            this.ActivationKeys = new HashSet<Key>(ActivationKeys);
         }
 
         public HashSet<Key> GetActivationKeys()

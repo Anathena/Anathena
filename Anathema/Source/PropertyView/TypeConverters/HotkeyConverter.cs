@@ -2,7 +2,6 @@
 using System;
 using System.ComponentModel;
 using System.Globalization;
-using System.Linq;
 
 namespace Anathema.Source.Project.PropertyView.TypeConverters
 {
@@ -13,7 +12,7 @@ namespace Anathema.Source.Project.PropertyView.TypeConverters
             if (Value == null)
                 return "(None)";
 
-            if (Value.GetType().GetInterfaces().Contains(typeof(HotKeys)))
+            if (Value.GetType().IsAssignableFrom(typeof(HotKeys)))
             {
                 HotKeys TrueValue = Value as HotKeys;
                 // TODO: Display hotkey preview
