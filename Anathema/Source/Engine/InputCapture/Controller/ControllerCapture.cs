@@ -56,6 +56,16 @@ namespace Anathema.Source.Engine.InputCapture.Controller
                 Console.WriteLine(State);
         }
 
+        public void Subscribe(IControllerObserver Subject)
+        {
+
+        }
+
+        public void Unsubscribe(IControllerObserver Subject)
+        {
+
+        }
+
     } // End class
 
 } // End namespace

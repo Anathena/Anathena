@@ -1,5 +1,5 @@
 ﻿using Anathema.Source.Engine;
-using Anathema.Source.Engine.InputCapture;
+using Anathema.Source.Engine.InputCapture.HotKeys;
 using Anathema.Source.Engine.InputCapture.Keyboard;
 using Anathema.Source.Engine.Processes;
 using SharpDX.DirectInput;
@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing.Design;
+using System.Linq;
 using System.Windows.Forms;
 
 namespace Anathema.Source.Project.ProjectItems.TypeEditors
@@ -15,17 +16,16 @@ namespace Anathema.Source.Project.ProjectItems.TypeEditors
     {
         public event HotKeyEditorEventHandler EventUpdateHotKeys;
         public event HotKeyEditorEventHandler EventUpdatePendingKeys;
+        private InputRequest.InputRequestDelegate InputRequest;
 
         private EngineCore EngineCore;
 
-        private InputRequest.InputRequestDelegate InputRequest;
-        private HashSet<Key> PendingKeys;
-        private HotKeys HotKeys;
+        private List<IHotKey> HotKeys;
+        private IHotKey PendingHotKey;
 
         public HotKeyEditor()
         {
-            HotKeys = new HotKeys();
-            PendingKeys = new HashSet<Key>();
+            HotKeys = new List<IHotKey>();
 
             InitializeProcessObserver();
 
@@ -49,6 +49,15 @@ namespace Anathema.Source.Project.ProjectItems.TypeEditors
         {
             OnUpdateHotKeys();
             OnUpdatePendingKeys();
+
+            if (EngineCore != null)
+                EngineCore.InputManager.GetKeyboardCapture().Subscribe(this);
+        }
+
+        public void OnClose()
+        {
+            if (EngineCore != null)
+                EngineCore.InputManager.GetKeyboardCapture().Unsubscribe(this);
         }
 
         private void OnUpdateHotKeys()
@@ -61,7 +70,7 @@ namespace Anathema.Source.Project.ProjectItems.TypeEditors
         private void OnUpdatePendingKeys()
         {
             HotKeyEditorEventArgs Args = new HotKeyEditorEventArgs();
-            Args.PendingKeys = PendingKeys;
+            Args.PendingHotKey = PendingHotKey;
             EventUpdatePendingKeys?.Invoke(this, Args);
         }
 
@@ -72,11 +81,15 @@ namespace Anathema.Source.Project.ProjectItems.TypeEditors
 
         public override Object EditValue(ITypeDescriptorContext Context, IServiceProvider Provider, Object Value)
         {
-            if (InputRequest == null || (Value != null && !Value.GetType().IsAssignableFrom(typeof(HotKeys))))
+            if (InputRequest == null || (Value != null && !Value.GetType().GetInterfaces().Any(X => X.IsAssignableFrom(typeof(IEnumerable<IHotKey>)))))
                 return Value;
 
-            HotKeys = Value == null ? new HotKeys() : (Value as HotKeys);
+            if (Value == null)
+                HotKeys = new List<IHotKey>();
+            else
+                HotKeys = (Value as IEnumerable<IHotKey>).ToList();
 
+            ClearInput();
             OnUpdateHotKeys();
             OnUpdatePendingKeys();
 
@@ -89,18 +102,31 @@ namespace Anathema.Source.Project.ProjectItems.TypeEditors
 
         public void AddHotKey()
         {
-            HotKeys.SetActivationKeys(PendingKeys);
+            if (PendingHotKey == null)
+                return;
+
+            HotKeys.Add(PendingHotKey);
 
             ClearInput();
             OnUpdateHotKeys();
             OnUpdatePendingKeys();
         }
 
+        public void DeleteHotKeys(IEnumerable<Int32> Indicies)
+        {
+            foreach (Int32 Index in Indicies.OrderByDescending(X => X))
+                HotKeys.RemoveAt(Index);
+
+            OnUpdateHotKeys();
+        }
+
         public void ClearInput()
         {
-            PendingKeys.Clear();
+            PendingHotKey = null;
             OnUpdatePendingKeys();
         }
+
+        public void OnUpdateAllDownKeys(HashSet<Key> DownKeys) { }
 
         public void OnKeyRelease(Key Key) { }
 
@@ -108,7 +134,15 @@ namespace Anathema.Source.Project.ProjectItems.TypeEditors
 
         public void OnKeyPress(Key Key)
         {
-            PendingKeys.Add(Key);
+            if (PendingHotKey == null || !PendingHotKey.GetType().IsAssignableFrom(typeof(KeyboardHotKey)))
+                PendingHotKey = new KeyboardHotKey();
+
+            KeyboardHotKey KeyboardHotKey = PendingHotKey as KeyboardHotKey;
+
+            // Update hotkey to contain new pressed key
+            HashSet<Key> ActivationKeys = KeyboardHotKey.GetActivationKeys();
+            ActivationKeys.Add(Key);
+            KeyboardHotKey.SetActivationKeys(ActivationKeys);
 
             OnUpdatePendingKeys();
         }

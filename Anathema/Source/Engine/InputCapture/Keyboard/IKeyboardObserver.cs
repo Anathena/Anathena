@@ -1,4 +1,5 @@
 ﻿using SharpDX.DirectInput;
+using System.Collections.Generic;
 
 namespace Anathema.Source.Engine.InputCapture.Keyboard
 {
@@ -9,6 +10,8 @@ namespace Anathema.Source.Engine.InputCapture.Keyboard
         void OnKeyRelease(Key Key);
 
         void OnKeyDown(Key Key);
+
+        void OnUpdateAllDownKeys(HashSet<Key> PressedKeys);
 
     } // End interface
 

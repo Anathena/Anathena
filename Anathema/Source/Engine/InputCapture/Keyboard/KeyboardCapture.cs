@@ -57,6 +57,8 @@ namespace Anathema.Source.Engine.InputCapture.Keyboard
                 HashSet<Key> PressedKeys = new HashSet<Key>(CurrentKeyboardState.PressedKeys);
                 HashSet<Key> ReleasedKeys = new HashSet<Key>(PreviousKeyboardState.PressedKeys);
 
+                NotifyAllDownKeys(PressedKeys);
+
                 PressedKeys.ExceptWith(PreviousKeyboardState.PressedKeys);
                 ReleasedKeys.ExceptWith(CurrentKeyboardState.PressedKeys);
 
@@ -95,6 +97,12 @@ namespace Anathema.Source.Engine.InputCapture.Keyboard
         {
             foreach (IKeyboardObserver KeySubject in Subjects)
                 KeySubject.OnKeyDown(Key);
+        }
+
+        public void NotifyAllDownKeys(HashSet<Key> DownKeys)
+        {
+            foreach (IKeyboardObserver KeySubject in Subjects)
+                KeySubject.OnUpdateAllDownKeys(DownKeys);
         }
 
         #endregion

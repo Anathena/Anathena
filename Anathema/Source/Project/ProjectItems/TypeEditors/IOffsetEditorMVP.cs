@@ -70,6 +70,7 @@ namespace Anathema.Source.Project
 
         private DialogResult InputRequest()
         {
+            Model.OnGUIOpen();
             return GUIOffsetEditor.ShowDialog();
         }
 

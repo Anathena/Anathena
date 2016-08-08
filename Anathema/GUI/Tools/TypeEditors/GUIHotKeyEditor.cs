@@ -1,17 +1,14 @@
-﻿using Anathema.Source.Engine.InputCapture;
-using Anathema.Source.Project;
+﻿using Anathema.Source.Project;
 using Anathema.Source.Utils.MVP;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Windows.Forms;
 
 namespace Anathema.GUI.Tools.TypeEditors
 {
     partial class GUIHotKeyEditor : Form, IHotKeyEditorView
     {
-        private HotKeys _HotKeys { get; set; }
-        public HotKeys HotKeys { get { return _HotKeys; } private set { _HotKeys = (value == null ? new HotKeys() : value); } }
-
         private HotKeyEditorPresenter HotKeyEditorPresenter;
 
         public GUIHotKeyEditor(HotKeyEditorPresenter HotKeyEditorPresenter)
@@ -26,7 +23,7 @@ namespace Anathema.GUI.Tools.TypeEditors
             HotKeyListView.Items.Clear();
         }
 
-        public void SetHotKeyList(IEnumerable<Tuple<String, String>> HotKeyList)
+        public void SetHotKeyList(IEnumerable<String> HotKeyList)
         {
             ControlThreadingHelper.InvokeControlAction(HotKeyListView, () =>
             {
@@ -35,9 +32,9 @@ namespace Anathema.GUI.Tools.TypeEditors
                 if (HotKeyList == null)
                     return;
 
-                foreach (Tuple<String, String> HotKeyItem in HotKeyList)
+                foreach (String HotKeyItem in HotKeyList)
                 {
-                    HotKeyListView.Items.Add(new ListViewItem(new String[] { HotKeyItem.Item1, HotKeyItem.Item2 }));
+                    HotKeyListView.Items.Add(new ListViewItem(new String[] { HotKeyItem }));
                 }
             });
         }
@@ -64,9 +61,16 @@ namespace Anathema.GUI.Tools.TypeEditors
         {
             if (HotKeyListView.SelectedIndices.Count <= 0)
                 return;
+
+            HotKeyEditorPresenter.DeleteHotKeys(HotKeyListView.SelectedIndices.Cast<Int32>());
         }
 
         #region Events
+
+        private void GUIHotKeyEditor_FormClosed(Object Sender, FormClosedEventArgs E)
+        {
+            HotKeyEditorPresenter.OnClose();
+        }
 
         private void ClearHotKeyButton_Click(Object Sender, EventArgs E)
         {

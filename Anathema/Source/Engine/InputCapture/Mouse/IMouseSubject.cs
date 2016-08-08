@@ -2,6 +2,9 @@
 {
     public interface IMouseSubject : IInputCapture
     {
+        void Subscribe(IMouseObserver Subject);
+
+        void Unsubscribe(IMouseObserver Subject);
 
     } // End interface
 

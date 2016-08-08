@@ -1,4 +1,5 @@
 ﻿using SharpDX.DirectInput;
+using System.Collections.Generic;
 
 namespace Anathema.Source.Engine.InputCapture.Keyboard
 {
@@ -13,6 +14,8 @@ namespace Anathema.Source.Engine.InputCapture.Keyboard
         void NotifyKeyPress(Key Key);
 
         void NotifyKeyDown(Key Key);
+
+        void NotifyAllDownKeys(HashSet<Key> DownKeys);
 
     } // End interface
 

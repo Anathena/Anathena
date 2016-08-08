@@ -1,8 +1,12 @@
 ﻿using Anathema.Source.Engine;
-using Anathema.Source.Engine.InputCapture;
+using Anathema.Source.Engine.InputCapture.Controller;
+using Anathema.Source.Engine.InputCapture.HotKeys;
+using Anathema.Source.Engine.InputCapture.Keyboard;
+using Anathema.Source.Engine.InputCapture.Mouse;
 using Anathema.Source.Engine.Processes;
 using Anathema.Source.Project.ProjectItems.TypeEditors;
 using Anathema.Source.Project.PropertyView.TypeConverters;
+using SharpDX.DirectInput;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -20,8 +24,14 @@ namespace Anathema.Source.Project.ProjectItems
     [KnownType(typeof(ScriptItem))]
     [KnownType(typeof(AddressItem))]
     [DataContract()]
-    public abstract class ProjectItem : IProcessObserver
+    public abstract class ProjectItem : IProcessObserver, IKeyboardObserver, IControllerObserver, IMouseObserver
     {
+        [Browsable(false)]
+        private const Int32 HotKeyDelay = 400;
+
+        [Browsable(false)]
+        private DateTime LastActivated;
+
         private ProjectItem _Parent;
         [Browsable(false)]
         public ProjectItem Parent
@@ -48,15 +58,15 @@ namespace Anathema.Source.Project.ProjectItems
             set { _Description = value; UpdateEntryVisual(); }
         }
 
-        private HotKeys _HotKey;
+        private IEnumerable<IHotKey> _HotKeys;
         [DataMember()]
         [TypeConverter(typeof(HotKeyConverter))]
         [Editor(typeof(HotKeyEditor), typeof(UITypeEditor))]
-        [Category("Properties"), DisplayName("Hot Key"), Description("Hot key to activate item")]
-        public HotKeys HotKey
+        [Category("Properties"), DisplayName("HotKeys"), Description("Hot key to activate item")]
+        public IEnumerable<IHotKey> HotKeys
         {
-            get { return _HotKey; }
-            set { _HotKey = value; }
+            get { return _HotKeys; }
+            set { _HotKeys = value; UpdateHotKeyListeners(); }
         }
 
         [DataMember()]
@@ -85,6 +95,8 @@ namespace Anathema.Source.Project.ProjectItems
             this._Children = new List<ProjectItem>();
             this._TextColorARGB = unchecked((UInt32)SystemColors.ControlText.ToArgb());
             this.Activated = false;
+
+            LastActivated = DateTime.MinValue;
 
             InitializeProcessObserver();
         }
@@ -243,6 +255,55 @@ namespace Anathema.Source.Project.ProjectItems
         }
 
         public abstract void Update();
+
+        private void UpdateHotKeyListeners()
+        {
+            if (EngineCore == null)
+                return;
+
+            // Determine if any hotkeys we have are keyboard events
+            if (HotKeys != null && HotKeys.Any(X => X.GetType().IsAssignableFrom(typeof(KeyboardHotKey))))
+                EngineCore.InputManager.GetKeyboardCapture().Subscribe(this);
+            else
+                EngineCore.InputManager.GetKeyboardCapture().Unsubscribe(this);
+
+            // Determine if any hotkeys we have are controller events
+            if (HotKeys != null && HotKeys.Any(X => X.GetType().IsAssignableFrom(typeof(ControllerHotKey))))
+                EngineCore.InputManager.GetControllerCapture().Subscribe(this);
+            else
+                EngineCore.InputManager.GetControllerCapture().Unsubscribe(this);
+
+            // Determine if any hotkeys we have are mouse events
+            if (HotKeys != null && HotKeys.Any(X => X.GetType().IsAssignableFrom(typeof(MouseHotKey))))
+                EngineCore.InputManager.GetMouseCapture().Subscribe(this);
+            else
+                EngineCore.InputManager.GetMouseCapture().Unsubscribe(this);
+        }
+
+        public void OnKeyPress(Key Key) { }
+
+        public void OnKeyDown(Key Key) { }
+
+        public void OnKeyRelease(Key Key)
+        {
+            // Reset hotkey delay if any of the hotkey keys are released
+            if (HotKeys.Where(X => X.GetType().IsAssignableFrom(typeof(KeyboardHotKey))).Cast<KeyboardHotKey>().Any(X => X.GetActivationKeys().Any(Y => Key == Y)))
+                LastActivated = DateTime.MinValue;
+        }
+
+        public void OnUpdateAllDownKeys(HashSet<Key> PressedKeys)
+        {
+            if ((DateTime.Now - LastActivated).Milliseconds < HotKeyDelay)
+                return;
+
+            // If any of our keyboard hotkeys include the current set of pressed keys, trigger activation/deactivation
+            if (HotKeys.Where(X => X.GetType().IsAssignableFrom(typeof(KeyboardHotKey))).Cast<KeyboardHotKey>().Any(X => X.GetActivationKeys().All(Y => PressedKeys.Contains(Y))))
+            {
+                LastActivated = DateTime.Now;
+                SetActivationState(!Activated);
+                UpdateEntryVisual();
+            }
+        }
 
     } // End class
 

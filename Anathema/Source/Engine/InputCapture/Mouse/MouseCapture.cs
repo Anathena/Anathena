@@ -92,6 +92,16 @@ namespace Anathema.Source.Engine.InputCapture.Mouse
             }
         }
 
+        public void Subscribe(IMouseObserver Subject)
+        {
+
+        }
+
+        public void Unsubscribe(IMouseObserver Subject)
+        {
+
+        }
+
         #endregion
 
     } // End class

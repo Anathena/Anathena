@@ -1,7 +1,9 @@
-﻿using Anathema.Source.Engine.InputCapture;
+﻿using Anathema.Source.Engine.InputCapture.HotKeys;
 using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Globalization;
+using System.Linq;
 
 namespace Anathema.Source.Project.PropertyView.TypeConverters
 {
@@ -12,12 +14,8 @@ namespace Anathema.Source.Project.PropertyView.TypeConverters
             if (Value == null)
                 return "(None)";
 
-            if (Value.GetType().IsAssignableFrom(typeof(HotKeys)))
-            {
-                HotKeys TrueValue = Value as HotKeys;
-                // TODO: Display hotkey preview
+            if (Value.GetType().GetInterfaces().Any(X => X.IsAssignableFrom(typeof(IEnumerable<IHotKey>))))
                 return "(HotKey)";
-            }
 
             return base.ConvertTo(Context, Culture, Value, DestinationType);
         }

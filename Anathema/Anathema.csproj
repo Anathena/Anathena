@@ -210,7 +210,10 @@
     <Compile Include="GUI\Tools\TypeEditors\GUIHotKeyEditor.Designer.cs">
       <DependentUpon>GUIHotKeyEditor.cs</DependentUpon>
     </Compile>
-    <Compile Include="Source\Engine\InputCapture\HotKeys.cs" />
+    <Compile Include="Source\Engine\InputCapture\HotKeys\IHotKey.cs" />
+    <Compile Include="Source\Engine\InputCapture\HotKeys\ControllerHotKey.cs" />
+    <Compile Include="Source\Engine\InputCapture\HotKeys\MouseHotKey.cs" />
+    <Compile Include="Source\Engine\InputCapture\HotKeys\KeyboardHotKey.cs" />
     <Compile Include="Source\Engine\Proxy\ProxyCommunicator.cs" />
     <Compile Include="Source\Project\ProjectItems\TypeEditors\IScriptEditorMVP.cs" />
     <Compile Include="Source\Project\ProjectItems\TypeEditors\IOffsetEditorMVP.cs" />

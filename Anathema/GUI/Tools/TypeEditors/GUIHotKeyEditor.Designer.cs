@@ -38,7 +38,6 @@ namespace Anathema.GUI.Tools.TypeEditors
             this.CancelButton = new System.Windows.Forms.Button();
             this.HotKeyListView = new Anathema.GUI.CustomControls.ListViews.FlickerFreeListView();
             this.HotKeyHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.ActionHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.OffsetsContextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.DeleteSelectionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.HotKeyTextBox = new Anathema.GUI.CustomControls.TextBoxes.WatermarkTextBox();
@@ -98,8 +97,7 @@ namespace Anathema.GUI.Tools.TypeEditors
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.HotKeyListView.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.HotKeyHeader,
-            this.ActionHeader});
+            this.HotKeyHeader});
             this.HotKeyListView.ContextMenuStrip = this.OffsetsContextMenuStrip;
             this.HotKeyListView.FullRowSelect = true;
             this.HotKeyListView.Location = new System.Drawing.Point(12, 38);
@@ -112,12 +110,7 @@ namespace Anathema.GUI.Tools.TypeEditors
             // HotKeyHeader
             // 
             this.HotKeyHeader.Text = "Hot Key";
-            this.HotKeyHeader.Width = 128;
-            // 
-            // ActionHeader
-            // 
-            this.ActionHeader.Text = "Action";
-            this.ActionHeader.Width = 128;
+            this.HotKeyHeader.Width = 256;
             // 
             // OffsetsContextMenuStrip
             // 
@@ -171,6 +164,7 @@ namespace Anathema.GUI.Tools.TypeEditors
             this.Name = "GUIHotKeyEditor";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "HotKey Editor";
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.GUIHotKeyEditor_FormClosed);
             this.OffsetsContextMenuStrip.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -183,7 +177,6 @@ namespace Anathema.GUI.Tools.TypeEditors
         private System.Windows.Forms.Button OkayButton;
         private System.Windows.Forms.Button CancelButton;
         private FlickerFreeListView HotKeyListView;
-        private System.Windows.Forms.ColumnHeader ActionHeader;
         private System.Windows.Forms.ColumnHeader HotKeyHeader;
         private System.Windows.Forms.ContextMenuStrip OffsetsContextMenuStrip;
         private System.Windows.Forms.ToolStripMenuItem DeleteSelectionToolStripMenuItem;

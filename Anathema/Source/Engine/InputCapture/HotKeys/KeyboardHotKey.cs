@@ -1,16 +1,14 @@
 ﻿using SharpDX.DirectInput;
+using System;
 using System.Collections.Generic;
 
-namespace Anathema.Source.Engine.InputCapture
+namespace Anathema.Source.Engine.InputCapture.HotKeys
 {
-    /// <summary>
-    /// Defines a keyboard, controller, or mouse binding
-    /// </summary>
-    public class HotKeys
+    public class KeyboardHotKey : IHotKey
     {
         private HashSet<Key> ActivationKeys;
 
-        public HotKeys()
+        public KeyboardHotKey()
         {
             ActivationKeys = new HashSet<Key>();
         }
@@ -23,6 +21,19 @@ namespace Anathema.Source.Engine.InputCapture
         public HashSet<Key> GetActivationKeys()
         {
             return ActivationKeys;
+        }
+
+        public override String ToString()
+        {
+            String HotKeyString = String.Empty;
+
+            if (ActivationKeys == null)
+                return HotKeyString;
+
+            foreach (Key Key in ActivationKeys)
+                HotKeyString += Key.ToString() + "+";
+
+            return HotKeyString.TrimEnd('+');
         }
 
     } // End class
