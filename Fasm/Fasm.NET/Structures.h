@@ -4,7 +4,7 @@
 
 using namespace System::Runtime::InteropServices;
 
-namespace Anathema
+namespace Anathena
 {
 	namespace Assemblers
 	{

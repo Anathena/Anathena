@@ -3,7 +3,7 @@
 
 using namespace System;
 
-namespace Anathema
+namespace Anathena
 {
 	namespace Assemblers
 	{

@@ -1,6 +1,6 @@
 #pragma once
 
-namespace Anathema
+namespace Anathena
 {
 	namespace Assemblers
 	{

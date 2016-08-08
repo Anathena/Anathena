@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "Fasm.NET.h"
 
-namespace Anathema
+namespace Anathena
 {
 	namespace Assemblers
 	{

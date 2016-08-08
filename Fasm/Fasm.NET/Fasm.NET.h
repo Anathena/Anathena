@@ -14,7 +14,7 @@ using namespace System::IO;
 using namespace System::Runtime::InteropServices;
 using namespace System::Text;
 
-namespace Anathema
+namespace Anathena
 {
 	namespace Assemblers
 	{

@@ -1,8 +1,8 @@
-# Anathema
+# Anathena
 
-Anathema Engine
+Anathena
 
-Anathema is a modern single player game hacking engine designed to make cheating in games easy. Within minutes, create cheats such as:
+Anathena is a modern single player game hacking engine designed to make cheating in games easy. Within minutes, create cheats such as:
 
 Godmode
 
@@ -27,13 +27,13 @@ Search for cheats that others have already discovered, or discover your own and 
 
 ==Traditional Memory Scanning Features==
 
-Anathema has all of the traditional memory scanning features with added touches, including the ability to scan with multiple constraints at once, such as a value that has both increased and is greater than zero.
+Anathena has all of the traditional memory scanning features with added touches, including the ability to scan with multiple constraints at once, such as a value that has both increased and is greater than zero.
 
 ==Automated Memory Scanning==
 
-Automatically discover hacks without doing all of the work. Let Anathema correlate your key presses with memory changes to automatically find useful cheats, such as the player's position or ammo.
+Automatically discover hacks without doing all of the work. Let Anathena correlate your key presses with memory changes to automatically find useful cheats, such as the player's position or ammo.
 
-Anathema also features several other automated scanning features, such as a Chunk Scanner to quickly locate useful memory, or the Change Counter to determine what memory changes frequently, or infrequently.
+Anathena also features several other automated scanning features, such as a Chunk Scanner to quickly locate useful memory, or the Change Counter to determine what memory changes frequently, or infrequently.
 
 ==LUA Scripting==
 
@@ -41,7 +41,7 @@ Write sophisticated hacks with minimal effort using the user friendly scripting 
 
 ==RELEASE STEPS==
 
-1) Update version number for Anathema in Properties -> AssemblyInfo as well as in OneClick publish settings.
+1) Update version number for Anathena in Properties -> AssemblyInfo as well as in OneClick publish settings.
 
 
 REPEAT FOR x86 and x64:
@@ -52,7 +52,7 @@ REPEAT FOR x86 and x64:
 
 4) Replace the executables in bin/{x86/x64}/Release AND obj/{x86/x64}/Release.
 
-5) Publish for {x86/x64} in OneClick to the proper AnathemaWeb {x86/x64} release folder. ENSURE BUILD DOES NOT RECOMPILE -- otherwise we will lose obfuscation changes.
+5) Publish for {x86/x64} in OneClick to the proper AnathenaWeb {x86/x64} release folder. ENSURE BUILD DOES NOT RECOMPILE -- otherwise we will lose obfuscation changes.
 
 
 6) Ensure published assemblies are obfuscated.

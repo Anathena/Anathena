@@ -135,7 +135,6 @@
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utils\SaveImageElement.cs" />
-    <Compile Include="Linux\X11Structs.cs" />
     <Compile Include="Utils\WindowsImageCreator.cs" />
   </ItemGroup>
   <ItemGroup>
