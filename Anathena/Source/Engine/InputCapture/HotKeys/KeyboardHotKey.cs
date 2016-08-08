@@ -1,12 +1,17 @@
 ﻿using SharpDX.DirectInput;
 using System;
 using System.Collections.Generic;
+using System.Reflection;
+using System.Runtime.Serialization;
 
 namespace Anathena.Source.Engine.InputCapture.HotKeys
 {
+    [DataContract()]
+    [Obfuscation(Exclude = true, ApplyToMembers = true)]
     public class KeyboardHotKey : IHotKey
     {
-        private HashSet<Key> ActivationKeys;
+        [DataMember()]
+        public HashSet<Key> ActivationKeys;
 
         public KeyboardHotKey()
         {

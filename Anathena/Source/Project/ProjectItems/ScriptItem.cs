@@ -13,7 +13,9 @@ namespace Anathena.Source.Project.ProjectItems
     [DataContract()]
     public class ScriptItem : ProjectItem
     {
+        [Browsable(false)]
         private LuaScript _LuaScript;
+
         [DataMember()]
         [TypeConverter(typeof(LuaScriptConverter))]
         [Editor(typeof(ScriptEditor), typeof(UITypeEditor))]
@@ -24,6 +26,7 @@ namespace Anathena.Source.Project.ProjectItems
             set { _LuaScript = value; }
         }
 
+        [Browsable(false)]
         private LuaCore LuaCore;
 
         public ScriptItem() : this("New Script", null) { }

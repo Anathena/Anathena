@@ -18,7 +18,9 @@ namespace Anathena.Source.Project.ProjectItems
     [DataContract()]
     public class AddressItem : ProjectItem
     {
+        [Browsable(false)]
         private AddressResolver.ResolveTypeEnum _ResolveType;
+
         [DataMember()]
         [RefreshProperties(RefreshProperties.All)]
         [Category("Properties"), DisplayName("Resolve Type"), Description("Method to use for resolving the address base. If there is an identifier to resolve, the address is treated as an offset.")]
@@ -28,7 +30,9 @@ namespace Anathena.Source.Project.ProjectItems
             set { _ResolveType = value; }
         }
 
+        [Browsable(false)]
         private String _BaseIdentifier;
+
         [DataMember()]
         [RefreshProperties(RefreshProperties.All)]
         [Category("Properties"), DisplayName("Resolve Id"), Description("Text identifier to use when resolving the base address, such as a module or .NET Object name")]
@@ -38,18 +42,22 @@ namespace Anathena.Source.Project.ProjectItems
             set { _BaseIdentifier = value == null ? String.Empty : value; }
         }
 
+        [Browsable(false)]
         private IntPtr _BaseAddress;
+
         [DataMember()]
         [TypeConverter(typeof(AddressConverter))]
         [RefreshProperties(RefreshProperties.All)]
         [Category("Properties"), DisplayName("Address Base"), Description("Base address")]
-        public IntPtr BaseOffset
+        public IntPtr BaseAddress
         {
             get { return _BaseAddress; }
             set { EffectiveAddress = value; _BaseAddress = value; }
         }
 
+        [Browsable(false)]
         private IEnumerable<Int32> _Offsets;
+
         [DataMember()]
         [RefreshProperties(RefreshProperties.All)]
         [TypeConverter(typeof(OffsetConverter))]
@@ -64,6 +72,7 @@ namespace Anathena.Source.Project.ProjectItems
         [DataMember()]
         [Browsable(false)]
         private String TypeName;
+
         [RefreshProperties(RefreshProperties.All)]
         [TypeConverter(typeof(ValueTypeConverter))]
         [Category("Properties"), DisplayName("Value Type"), Description("Data type of the address")]
@@ -78,7 +87,9 @@ namespace Anathena.Source.Project.ProjectItems
             }
         }
 
+        [Browsable(false)]
         private dynamic _Value;
+
         [TypeConverter(typeof(DynamicConverter))]
         [Category("Properties"), DisplayName("Value"), Description("Value at the address")]
         public dynamic Value
@@ -87,7 +98,9 @@ namespace Anathena.Source.Project.ProjectItems
             set { _Value = value; WriteValue(value); }
         }
 
+        [Browsable(false)]
         private Boolean _IsValueHex;
+
         [DataMember()]
         [RefreshProperties(RefreshProperties.All)]
         [Category("Properties"), DisplayName("Value as Hex"), Description("Whether or not to display value as hexedecimal")]
@@ -97,7 +110,9 @@ namespace Anathena.Source.Project.ProjectItems
             set { _IsValueHex = value; }
         }
 
+        [Browsable(false)]
         private IntPtr _EffectiveAddress;
+
         [ReadOnly(true)]
         [TypeConverter(typeof(AddressConverter))]
         [Category("Properties"), DisplayName("Address"), Description("Effective address")]
@@ -166,11 +181,11 @@ namespace Anathena.Source.Project.ProjectItems
             switch (ResolveType)
             {
                 case AddressResolver.ResolveTypeEnum.Module:
-                    Pointer = BaseOffset;
+                    Pointer = BaseAddress;
                     break;
                 case AddressResolver.ResolveTypeEnum.DotNet:
                     Pointer = AddressResolver.GetInstance().ResolveDotNetObject(BaseIdentifier);
-                    Pointer = Pointer.Add(BaseOffset);
+                    Pointer = Pointer.Add(BaseAddress);
                     break;
             }
 

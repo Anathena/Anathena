@@ -23,6 +23,10 @@ namespace Anathena.Source.Project.ProjectItems
     [KnownType(typeof(FolderItem))]
     [KnownType(typeof(ScriptItem))]
     [KnownType(typeof(AddressItem))]
+    [KnownType(typeof(IHotKey))]
+    [KnownType(typeof(KeyboardHotKey))]
+    [KnownType(typeof(ControllerHotKey))]
+    [KnownType(typeof(MouseHotKey))]
     [DataContract()]
     public abstract class ProjectItem : IProcessObserver, IKeyboardObserver, IControllerObserver, IMouseObserver
     {
@@ -32,7 +36,9 @@ namespace Anathena.Source.Project.ProjectItems
         [Browsable(false)]
         private DateTime LastActivated;
 
+        [Browsable(false)]
         private ProjectItem _Parent;
+
         [Browsable(false)]
         public ProjectItem Parent
         {
@@ -40,7 +46,9 @@ namespace Anathena.Source.Project.ProjectItems
             set { _Parent = value; }
         }
 
+        [Browsable(false)]
         private List<ProjectItem> _Children;
+
         [DataMember()]
         [Browsable(false)]
         public List<ProjectItem> Children
@@ -49,7 +57,9 @@ namespace Anathena.Source.Project.ProjectItems
             set { _Children = value; }
         }
 
+        [Browsable(false)]
         private String _Description;
+
         [DataMember()]
         [Category("Properties"), DisplayName("Description"), Description("Description to be shown for the Project Items")]
         public String Description
@@ -58,7 +68,9 @@ namespace Anathena.Source.Project.ProjectItems
             set { _Description = value; UpdateEntryVisual(); }
         }
 
+        [Browsable(false)]
         private IEnumerable<IHotKey> _HotKeys;
+
         [DataMember()]
         [TypeConverter(typeof(HotKeyConverter))]
         [Editor(typeof(HotKeyEditor), typeof(UITypeEditor))]

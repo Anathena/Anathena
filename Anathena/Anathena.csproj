@@ -904,9 +904,9 @@
     <None Include="GUI\CustomControls\HexEditor\HexBox\HexBox.snk" />
     <EmbeddedResource Include="GUI\CustomControls\HexEditor\Resources\ThanksTo.rtf" />
     <None Include="GUI\CustomControls\HexEditor\Properties\Settings.settings" />
-    <None Include="license.rtf">
+    <Content Include="license.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
+    </Content>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

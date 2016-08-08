@@ -1,11 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Reflection;
+using System.Runtime.Serialization;
 
 namespace Anathena.Source.Engine.InputCapture.HotKeys
 {
+    [DataContract()]
+    [Obfuscation(Exclude = true, ApplyToMembers = true)]
     public class ControllerHotKey : IHotKey
     {
-        private HashSet<Int32> ActivationKeys;
+        [DataMember()]
+        public HashSet<Int32> ActivationKeys;
 
         public ControllerHotKey()
         {
