@@ -16,7 +16,7 @@ namespace Anathema.Source.Project
     interface IProjectExplorerView : IView
     {
         // Methods invoked by the presenter (upstream)
-        void RefreshStructure(ProjectItem ProjectRoot);
+        void EventRefreshProjectStructure(ProjectItem ProjectRoot);
     }
 
     abstract class IProjectExplorerModel : RepeatedTask, IModel
@@ -64,7 +64,7 @@ namespace Anathema.Source.Project
             this.Model = Model;
 
             // Bind events triggered by the model
-            Model.EventRefreshProjectStructure += EventRefreshStructure;
+            Model.EventRefreshProjectStructure += EventRefreshProjectStructure;
 
             Model.OnGUIOpen();
         }
@@ -110,9 +110,9 @@ namespace Anathema.Source.Project
 
         #region Event definitions for events triggered by the model (upstream)
 
-        private void EventRefreshStructure(Object Sender, ProjectExplorerEventArgs E)
+        private void EventRefreshProjectStructure(Object Sender, ProjectExplorerEventArgs E)
         {
-            View.RefreshStructure(E.ProjectRoot);
+            View.EventRefreshProjectStructure(E.ProjectRoot);
         }
 
         #endregion

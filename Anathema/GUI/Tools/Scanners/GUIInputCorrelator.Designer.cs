@@ -1,7 +1,4 @@
-﻿using Anathema.GUI.CustomControls.TextBoxes;
-using Anathema.GUI.CustomControls.TreeViews;
-
-namespace Anathema.GUI.Tools.Scanners
+﻿namespace Anathema.GUI.Tools.Scanners
 {
     partial class GUIInputCorrelator
     {
@@ -31,7 +28,6 @@ namespace Anathema.GUI.Tools.Scanners
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(GUIInputCorrelator));
             this.VariableSizeValueLabel = new System.Windows.Forms.Label();
             this.VariableSizeLabel = new System.Windows.Forms.Label();
@@ -40,29 +36,18 @@ namespace Anathema.GUI.Tools.Scanners
             this.StartScanButton = new System.Windows.Forms.ToolStripButton();
             this.StopScanButton = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
-            this.DeleteNodeButton = new System.Windows.Forms.ToolStripButton();
-            this.ClearInputsButton = new System.Windows.Forms.ToolStripButton();
-            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
-            this.toolStripDropDownButton1 = new System.Windows.Forms.ToolStripDropDownButton();
-            this.AddInputToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.AddLogicalORToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.AddLogicalANDToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.AddLogicalNOTToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ScanCountLabel = new System.Windows.Forms.ToolStripLabel();
-            this.InputContextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.DeleteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.InputTextBox = new WatermarkTextBox();
-            this.InputTreeView = new HighlightPreservingTreeView();
+            this.EditKeysButton = new System.Windows.Forms.Button();
+            this.HotKeyListView = new Anathema.GUI.CustomControls.ListViews.FlickerFreeListView();
+            this.HotKeyHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             ((System.ComponentModel.ISupportInitialize)(this.VariableSizeTrackBar)).BeginInit();
             this.ScanToolStrip.SuspendLayout();
-            this.InputContextMenuStrip.SuspendLayout();
             this.SuspendLayout();
             // 
             // VariableSizeValueLabel
             // 
-            this.VariableSizeValueLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.VariableSizeValueLabel.AutoSize = true;
-            this.VariableSizeValueLabel.Location = new System.Drawing.Point(328, 64);
+            this.VariableSizeValueLabel.Location = new System.Drawing.Point(86, 60);
             this.VariableSizeValueLabel.Name = "VariableSizeValueLabel";
             this.VariableSizeValueLabel.Size = new System.Drawing.Size(20, 13);
             this.VariableSizeValueLabel.TabIndex = 152;
@@ -70,9 +55,8 @@ namespace Anathema.GUI.Tools.Scanners
             // 
             // VariableSizeLabel
             // 
-            this.VariableSizeLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.VariableSizeLabel.AutoSize = true;
-            this.VariableSizeLabel.Location = new System.Drawing.Point(261, 64);
+            this.VariableSizeLabel.Location = new System.Drawing.Point(19, 60);
             this.VariableSizeLabel.Name = "VariableSizeLabel";
             this.VariableSizeLabel.Size = new System.Drawing.Size(71, 13);
             this.VariableSizeLabel.TabIndex = 151;
@@ -80,9 +64,8 @@ namespace Anathema.GUI.Tools.Scanners
             // 
             // VariableSizeTrackBar
             // 
-            this.VariableSizeTrackBar.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.VariableSizeTrackBar.LargeChange = 2;
-            this.VariableSizeTrackBar.Location = new System.Drawing.Point(264, 34);
+            this.VariableSizeTrackBar.Location = new System.Drawing.Point(12, 28);
             this.VariableSizeTrackBar.Maximum = 3;
             this.VariableSizeTrackBar.Name = "VariableSizeTrackBar";
             this.VariableSizeTrackBar.Size = new System.Drawing.Size(146, 45);
@@ -97,15 +80,11 @@ namespace Anathema.GUI.Tools.Scanners
             this.StartScanButton,
             this.StopScanButton,
             this.toolStripSeparator1,
-            this.DeleteNodeButton,
-            this.ClearInputsButton,
-            this.toolStripSeparator2,
-            this.toolStripDropDownButton1,
             this.ScanCountLabel});
             this.ScanToolStrip.Location = new System.Drawing.Point(0, 0);
             this.ScanToolStrip.Name = "ScanToolStrip";
             this.ScanToolStrip.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
-            this.ScanToolStrip.Size = new System.Drawing.Size(422, 25);
+            this.ScanToolStrip.Size = new System.Drawing.Size(304, 25);
             this.ScanToolStrip.TabIndex = 150;
             this.ScanToolStrip.Text = "toolStrip1";
             // 
@@ -134,131 +113,49 @@ namespace Anathema.GUI.Tools.Scanners
             this.toolStripSeparator1.Name = "toolStripSeparator1";
             this.toolStripSeparator1.Size = new System.Drawing.Size(6, 25);
             // 
-            // DeleteNodeButton
-            // 
-            this.DeleteNodeButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.DeleteNodeButton.Image = global::Anathema.Properties.Resources.X;
-            this.DeleteNodeButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.DeleteNodeButton.Name = "DeleteNodeButton";
-            this.DeleteNodeButton.Size = new System.Drawing.Size(23, 22);
-            this.DeleteNodeButton.Text = "Delete Selection";
-            this.DeleteNodeButton.Click += new System.EventHandler(this.DeleteNodeButton_Click);
-            // 
-            // ClearInputsButton
-            // 
-            this.ClearInputsButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.ClearInputsButton.Image = global::Anathema.Properties.Resources.Cancel;
-            this.ClearInputsButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.ClearInputsButton.Name = "ClearInputsButton";
-            this.ClearInputsButton.Size = new System.Drawing.Size(23, 22);
-            this.ClearInputsButton.Text = "Clear Inputs";
-            this.ClearInputsButton.Click += new System.EventHandler(this.ClearInputsButton_Click);
-            // 
-            // toolStripSeparator2
-            // 
-            this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(6, 25);
-            // 
-            // toolStripDropDownButton1
-            // 
-            this.toolStripDropDownButton1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripDropDownButton1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.AddInputToolStripMenuItem,
-            this.AddLogicalORToolStripMenuItem,
-            this.AddLogicalANDToolStripMenuItem,
-            this.AddLogicalNOTToolStripMenuItem});
-            this.toolStripDropDownButton1.Image = global::Anathema.Properties.Resources.DownArrows;
-            this.toolStripDropDownButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripDropDownButton1.Name = "toolStripDropDownButton1";
-            this.toolStripDropDownButton1.Size = new System.Drawing.Size(29, 22);
-            this.toolStripDropDownButton1.Text = "Add Item";
-            // 
-            // AddInputToolStripMenuItem
-            // 
-            this.AddInputToolStripMenuItem.Image = global::Anathema.Properties.Resources.Increased;
-            this.AddInputToolStripMenuItem.Name = "AddInputToolStripMenuItem";
-            this.AddInputToolStripMenuItem.Size = new System.Drawing.Size(165, 22);
-            this.AddInputToolStripMenuItem.Text = "Add Input";
-            this.AddInputToolStripMenuItem.Click += new System.EventHandler(this.AddInputToolStripMenuItem_Click);
-            // 
-            // AddLogicalORToolStripMenuItem
-            // 
-            this.AddLogicalORToolStripMenuItem.Image = global::Anathema.Properties.Resources.LogicalOR;
-            this.AddLogicalORToolStripMenuItem.Name = "AddLogicalORToolStripMenuItem";
-            this.AddLogicalORToolStripMenuItem.Size = new System.Drawing.Size(165, 22);
-            this.AddLogicalORToolStripMenuItem.Text = "Add Logical OR";
-            this.AddLogicalORToolStripMenuItem.Click += new System.EventHandler(this.AddLogicalORToolStripMenuItem_Click);
-            // 
-            // AddLogicalANDToolStripMenuItem
-            // 
-            this.AddLogicalANDToolStripMenuItem.Image = global::Anathema.Properties.Resources.LogicalAND;
-            this.AddLogicalANDToolStripMenuItem.Name = "AddLogicalANDToolStripMenuItem";
-            this.AddLogicalANDToolStripMenuItem.Size = new System.Drawing.Size(165, 22);
-            this.AddLogicalANDToolStripMenuItem.Text = "Add Logical AND";
-            this.AddLogicalANDToolStripMenuItem.Click += new System.EventHandler(this.AddLogicalANDToolStripMenuItem_Click);
-            // 
-            // AddLogicalNOTToolStripMenuItem
-            // 
-            this.AddLogicalNOTToolStripMenuItem.Image = global::Anathema.Properties.Resources.Negation;
-            this.AddLogicalNOTToolStripMenuItem.Name = "AddLogicalNOTToolStripMenuItem";
-            this.AddLogicalNOTToolStripMenuItem.Size = new System.Drawing.Size(165, 22);
-            this.AddLogicalNOTToolStripMenuItem.Text = "Add Logical NOT";
-            this.AddLogicalNOTToolStripMenuItem.Click += new System.EventHandler(this.AddLogicalNOTToolStripMenuItem_Click);
-            // 
             // ScanCountLabel
             // 
             this.ScanCountLabel.Name = "ScanCountLabel";
             this.ScanCountLabel.Size = new System.Drawing.Size(80, 22);
             this.ScanCountLabel.Text = "Scan Count: 0";
             // 
-            // InputContextMenuStrip
+            // EditKeysButton
             // 
-            this.InputContextMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.DeleteToolStripMenuItem});
-            this.InputContextMenuStrip.Name = "InputContextMenuStrip";
-            this.InputContextMenuStrip.Size = new System.Drawing.Size(108, 26);
-            this.InputContextMenuStrip.Opening += new System.ComponentModel.CancelEventHandler(this.InputContextMenuStrip_Opening);
+            this.EditKeysButton.Location = new System.Drawing.Point(164, 28);
+            this.EditKeysButton.Name = "EditKeysButton";
+            this.EditKeysButton.Size = new System.Drawing.Size(75, 23);
+            this.EditKeysButton.TabIndex = 177;
+            this.EditKeysButton.Text = "Edit Keys";
+            this.EditKeysButton.UseVisualStyleBackColor = true;
+            this.EditKeysButton.Click += new System.EventHandler(this.EditKeysButton_Click);
             // 
-            // DeleteToolStripMenuItem
+            // HotKeyListView
             // 
-            this.DeleteToolStripMenuItem.Name = "DeleteToolStripMenuItem";
-            this.DeleteToolStripMenuItem.Size = new System.Drawing.Size(107, 22);
-            this.DeleteToolStripMenuItem.Text = "Delete";
-            this.DeleteToolStripMenuItem.Click += new System.EventHandler(this.DeleteToolStripMenuItem_Click);
-            // 
-            // InputTextBox
-            // 
-            this.InputTextBox.AcceptsReturn = true;
-            this.InputTextBox.AcceptsTab = true;
-            this.InputTextBox.Location = new System.Drawing.Point(12, 34);
-            this.InputTextBox.Multiline = true;
-            this.InputTextBox.Name = "InputTextBox";
-            this.InputTextBox.Size = new System.Drawing.Size(159, 20);
-            this.InputTextBox.TabIndex = 176;
-            this.InputTextBox.WatermarkColor = System.Drawing.Color.LightGray;
-            this.InputTextBox.WaterMarkFont = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.InputTextBox.WaterMarkText = "Press a Key";
-            this.InputTextBox.TextChanged += new System.EventHandler(this.InputTextBox_TextChanged);
-            this.InputTextBox.Enter += new System.EventHandler(this.InputTextBox_Enter);
-            this.InputTextBox.Leave += new System.EventHandler(this.InputTextBox_Leave);
-            // 
-            // InputTreeView
-            // 
-            this.InputTreeView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            this.HotKeyListView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
             | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.InputTreeView.Location = new System.Drawing.Point(12, 113);
-            this.InputTreeView.Name = "InputTreeView";
-            this.InputTreeView.Size = new System.Drawing.Size(398, 172);
-            this.InputTreeView.TabIndex = 171;
+            this.HotKeyListView.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.HotKeyHeader});
+            this.HotKeyListView.FullRowSelect = true;
+            this.HotKeyListView.Location = new System.Drawing.Point(12, 79);
+            this.HotKeyListView.Name = "HotKeyListView";
+            this.HotKeyListView.Size = new System.Drawing.Size(280, 94);
+            this.HotKeyListView.TabIndex = 178;
+            this.HotKeyListView.UseCompatibleStateImageBehavior = false;
+            this.HotKeyListView.View = System.Windows.Forms.View.Details;
+            // 
+            // HotKeyHeader
+            // 
+            this.HotKeyHeader.Text = "Hot Key";
+            this.HotKeyHeader.Width = 256;
             // 
             // GUIInputCorrelator
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(422, 297);
-            this.Controls.Add(this.InputTextBox);
-            this.Controls.Add(this.InputTreeView);
+            this.ClientSize = new System.Drawing.Size(304, 185);
+            this.Controls.Add(this.HotKeyListView);
+            this.Controls.Add(this.EditKeysButton);
             this.Controls.Add(this.VariableSizeValueLabel);
             this.Controls.Add(this.VariableSizeLabel);
             this.Controls.Add(this.VariableSizeTrackBar);
@@ -267,11 +164,9 @@ namespace Anathema.GUI.Tools.Scanners
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "GUIInputCorrelator";
             this.Text = "Correlator";
-            this.Resize += new System.EventHandler(this.GUILabelerInputCorrelator_Resize);
             ((System.ComponentModel.ISupportInitialize)(this.VariableSizeTrackBar)).EndInit();
             this.ScanToolStrip.ResumeLayout(false);
             this.ScanToolStrip.PerformLayout();
-            this.InputContextMenuStrip.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -284,19 +179,10 @@ namespace Anathema.GUI.Tools.Scanners
         private System.Windows.Forms.ToolStrip ScanToolStrip;
         private System.Windows.Forms.ToolStripButton StartScanButton;
         private System.Windows.Forms.ToolStripButton StopScanButton;
-        private HighlightPreservingTreeView InputTreeView;
-        private WatermarkTextBox InputTextBox;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
-        private System.Windows.Forms.ToolStripButton DeleteNodeButton;
-        private System.Windows.Forms.ToolStripButton ClearInputsButton;
-        private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
-        private System.Windows.Forms.ContextMenuStrip InputContextMenuStrip;
-        private System.Windows.Forms.ToolStripMenuItem DeleteToolStripMenuItem;
-        private System.Windows.Forms.ToolStripDropDownButton toolStripDropDownButton1;
-        private System.Windows.Forms.ToolStripMenuItem AddInputToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem AddLogicalORToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem AddLogicalANDToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem AddLogicalNOTToolStripMenuItem;
         private System.Windows.Forms.ToolStripLabel ScanCountLabel;
+        private System.Windows.Forms.Button EditKeysButton;
+        private CustomControls.ListViews.FlickerFreeListView HotKeyListView;
+        private System.Windows.Forms.ColumnHeader HotKeyHeader;
     }
 }

@@ -293,7 +293,7 @@ namespace Anathema.Source.Project.ProjectItems
 
         public void OnUpdateAllDownKeys(HashSet<Key> PressedKeys)
         {
-            if ((DateTime.Now - LastActivated).Milliseconds < HotKeyDelay)
+            if ((DateTime.Now - LastActivated).TotalMilliseconds < HotKeyDelay)
                 return;
 
             // If any of our keyboard hotkeys include the current set of pressed keys, trigger activation/deactivation

@@ -1,5 +1,5 @@
 ﻿using Anathema.GUI.Tools.TypeEditors;
-using Anathema.Source.Project.ProjectItems.TypeEditors;
+using Anathema.Source.Utils;
 using Anathema.Source.Utils.MVP;
 using System;
 using System.Windows.Forms;

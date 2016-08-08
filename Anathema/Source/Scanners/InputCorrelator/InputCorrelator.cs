@@ -1,8 +1,15 @@
 ﻿using Anathema.Source.Controller;
-using Anathema.Source.Engine.InputCapture.MouseKeyHook;
+using Anathema.Source.Engine;
+using Anathema.Source.Engine.InputCapture.Controller;
+using Anathema.Source.Engine.InputCapture.HotKeys;
+using Anathema.Source.Engine.InputCapture.Keyboard;
+using Anathema.Source.Engine.InputCapture.Mouse;
+using Anathema.Source.Engine.Processes;
+using Anathema.Source.Project.ProjectItems.TypeEditors;
 using Anathema.Source.Snapshots;
 using Anathema.Source.UserSettings;
 using Anathema.Source.Utils;
+using SharpDX.DirectInput;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,116 +18,74 @@ using System.Windows.Forms;
 
 namespace Anathema.Source.Scanners.InputCorrelator
 {
-    // I Originally thought these might be a good idea:
-    // http://www.ucl.ac.uk/english-usage/staff/sean/resources/phimeasures.pdf
-    // https://en.wikipedia.org/wiki/Contingency_table#Measures_of_association
-    // It turns out a simple pentalty/reward system works fine
-    class InputCorrelator : IInputCorrelatorModel
+    /// <summary>
+    /// I Originally thought these might be a good idea:
+    /// http://www.ucl.ac.uk/english-usage/staff/sean/resources/phimeasures.pdf
+    /// https://en.wikipedia.org/wiki/Contingency_table#Measures_of_association
+    /// It turns out a simple pentalty/reward system works fine
+    /// </summary>
+    class InputCorrelator : IInputCorrelatorModel, IProcessObserver, IKeyboardObserver, IControllerObserver, IMouseObserver
     {
+        private EngineCore EngineCore;
         private Snapshot<Int16> Snapshot;
 
-        private readonly IKeyboardMouseEvents InputHook;    // Input capturing class
+        private List<IHotKey> _HotKeys;
+        public List<IHotKey> HotKeys { get { return _HotKeys; } set { _HotKeys = value; OnUpdateHotKeys(); } }
 
-        private Dictionary<Keys, DateTime> KeyBoardDown;    // List of keyboard down events
-        private Dictionary<Keys, DateTime> KeyBoardUp;      // List of keyboard up events
-
-        private Int32 VariableSize;     // Number of bytes to correlate at a time
-        private Int32 TimeOutInterval;  // ms to consider a fired key event as active
-
-        private InputNode InputConditionTree;
-
+        private Int32 VariableSize;         // Number of bytes to correlate at a time
+        private Int32 TimeOutIntervalMs;    // Time to consider a fired key event as active
         private ProgressItem ScanProgress;
-        private Object ProgressLock;
+        private DateTime LastActivated;
 
         public InputCorrelator()
         {
-            ScanProgress = new ProgressItem();
-            ProgressLock = new Object();
-            ScanProgress.SetProgressLabel("Input Correlator");
-
-            // Initialize input hook
-            InputHook = MouseKeyCapture.GlobalEvents();
+            InitializeProcessObserver();
         }
 
-        public override void SetVariableSize(int VariableSize)
+        private void InitializeObjects()
+        {
+            ScanProgress = new ProgressItem();
+            LastActivated = DateTime.MinValue;
+
+            ScanProgress.SetProgressLabel("Input Correlator");
+            InitializeListeners();
+        }
+
+        public void InitializeProcessObserver()
+        {
+            ProcessSelector.GetInstance().Subscribe(this);
+        }
+
+        public void UpdateEngineCore(EngineCore EngineCore)
+        {
+            this.EngineCore = EngineCore;
+        }
+
+        public override void EditKeys()
+        {
+            HotKeyEditor HotKeyEditor = new HotKeyEditor();
+            HotKeyEditor.SetHotKeys(HotKeys);
+
+            if (HotKeyEditor.ShowDialog() == DialogResult.OK)
+                HotKeys = new List<IHotKey>(HotKeyEditor.GetHotKeys());
+        }
+
+        public override void SetVariableSize(Int32 VariableSize)
         {
             this.VariableSize = VariableSize;
         }
 
-        private void UpdateDisplay()
+        private void OnUpdateHotKeys()
         {
-            if (InputConditionTree != null)
-                InputConditionTree.EvaluateText();
-
-            InputCorrelatorEventArgs InputCorrelatorEventArgs = new InputCorrelatorEventArgs();
-            InputCorrelatorEventArgs.Root = InputConditionTree;
-            OnEventUpdateDisplay(InputCorrelatorEventArgs);
-        }
-
-        public override void AddInputNode(Stack<int> Indicies, Keys Key)
-        {
-            AddNode(Indicies, new InputNode(Key));
-        }
-
-        public override void AddNode(Stack<Int32> Indicies, InputNode Node)
-        {
-            if (InputConditionTree == null)
-            {
-                InputConditionTree = Node;
-                UpdateDisplay();
-                return;
-            }
-
-            if (Indicies.Count == 0)
-                return;
-
-            // We only allow a single root, so pop the root from this stack
-            Indicies.Pop();
-
-            // Determine the node the user is attempting to add a child to
-            InputNode TargetNode = InputConditionTree;
-            while (Indicies.Count > 0)
-                TargetNode = TargetNode.GetChildAtIndex(Indicies.Pop());
-
-            // Add the child
-            if (TargetNode.CanAddChild(Node))
-                InputConditionTree = TargetNode.AddChild(Node);
-
-            UpdateDisplay();
-        }
-
-        public override void ClearNodes()
-        {
-            if (InputConditionTree != null)
-                InputConditionTree.Nodes.Clear();
-            InputConditionTree = null;
-            UpdateDisplay();
-        }
-
-        public override void DeleteNode(Stack<Int32> Indicies)
-        {
-            if (Indicies.Count == 0)
-                return;
-
-            // We only allow a single root, so pop the root from this stack
-            Indicies.Pop();
-
-            // Determine the node the user is attempting to delete
-            InputNode TargetNode = InputConditionTree;
-            while (Indicies.Count > 0)
-                TargetNode = TargetNode.GetChildAtIndex(Indicies.Pop());
-
-            // Delete the node and all children under it
-            if (TargetNode == InputConditionTree)
-                InputConditionTree = null;
-            else
-                TargetNode.DeleteNode();
-
-            UpdateDisplay();
+            InputCorrelatorEventArgs Args = new InputCorrelatorEventArgs();
+            Args.HotKeys = HotKeys;
+            OnEventUpdateHotKeys(Args);
         }
 
         public override void Begin()
         {
+            InitializeObjects();
+
             // Initialize labeled snapshot
             Snapshot = new Snapshot<Int16>(SnapshotManager.GetInstance().GetActiveSnapshot());
 
@@ -132,16 +97,7 @@ namespace Anathema.Source.Scanners.InputCorrelator
 
             // Initialize with no correlation
             Snapshot.SetElementLabels(0);
-            TimeOutInterval = Settings.GetInstance().GetInputCorrelatorTimeOutInterval();
-
-            // Initialize input dictionaries
-            KeyBoardUp = new Dictionary<Keys, DateTime>();
-            KeyBoardDown = new Dictionary<Keys, DateTime>();
-
-            // Create input hook events
-            //InputHook.MouseDownExt += GlobalHookMouseDownExt;
-            InputHook.KeyUp += GlobalHookKeyUp;
-            InputHook.KeyDown += GlobalHookKeyDown;
+            TimeOutIntervalMs = Settings.GetInstance().GetInputCorrelatorTimeOutInterval();
 
             base.Begin();
         }
@@ -153,55 +109,63 @@ namespace Anathema.Source.Scanners.InputCorrelator
             // Read memory to update previous and current values
             Snapshot.ReadAllSnapshotMemory();
 
-            Boolean ConditionValid = InputConditionTree.EvaluateCondition(KeyBoardDown, Snapshot.GetTimeStamp(), TimeOutInterval);
+            Boolean ConditionValid = IsInputConditionValid(Snapshot.GetTimeStamp());
 
-            Parallel.ForEach(Snapshot.Cast<Object>(), (RegionObject) =>
+            // Note the duplicated code here is an optimization to minimize comparisons done per iteration
+            if (ConditionValid)
             {
-                SnapshotRegion<Int16> Region = (SnapshotRegion<Int16>)RegionObject;
-
-                if (!Region.CanCompare())
-                    return;
-
-                foreach (SnapshotElement<Int16> Element in Region)
+                Parallel.ForEach(Snapshot.Cast<Object>(), (RegionObject) =>
                 {
-                    if (Element.Changed())
+                    SnapshotRegion<Int16> Region = (SnapshotRegion<Int16>)RegionObject;
+
+                    if (!Region.CanCompare())
+                        return;
+
+                    foreach (SnapshotElement<Int16> Element in Region)
                     {
-                        if (ConditionValid)
+                        if (Element.Changed())
                             Element.ElementLabel++;
-                        else
+                    }
+                });
+            }
+            else
+            {
+                Parallel.ForEach(Snapshot.Cast<Object>(), (RegionObject) =>
+                {
+                    SnapshotRegion<Int16> Region = (SnapshotRegion<Int16>)RegionObject;
+
+                    if (!Region.CanCompare())
+                        return;
+
+                    foreach (SnapshotElement<Int16> Element in Region)
+                    {
+                        if (Element.Changed())
                             Element.ElementLabel--;
                     }
-                }
-            });
+                });
+            }
 
             ScanProgress.FinishProgress();
 
             OnEventUpdateScanCount(new ScannerEventArgs(this.ScanCount));
         }
 
+        private Boolean IsInputConditionValid(DateTime UpdateTime)
+        {
+            if ((UpdateTime - LastActivated).TotalMilliseconds < TimeOutIntervalMs)
+                return true;
+
+            return false;
+        }
+
         protected override void End()
         {
-            // Cleanup for the input hook
-            //InputHook.MouseDownExt -= GlobalHookMouseDownExt;
-            InputHook.KeyUp -= GlobalHookKeyUp;
-            InputHook.KeyDown -= GlobalHookKeyDown;
-
             // Prefilter items with negative penalties (ie constantly changing variables)
             Snapshot.MarkAllInvalid();
-            IntPtr whatever = new IntPtr(0x84896c);
             foreach (SnapshotRegion<Int16> Region in Snapshot)
                 foreach (SnapshotElement<Int16> Element in Region)
-                {
                     if (Element.ElementLabel.Value > 0)
                         Element.Valid = true;
-
-                    if (Element.BaseAddress == whatever)
-                    {
-                        int breakpoint = 1;
-                        breakpoint++;
-                    }
-                }
-
 
             Snapshot.DiscardInvalidRegions();
             Snapshot.SetScanMethod("Input Correlator");
@@ -213,38 +177,39 @@ namespace Anathema.Source.Scanners.InputCorrelator
             Main.GetInstance().OpenLabelThresholder();
         }
 
+        private void InitializeListeners()
+        {
+            if (EngineCore == null)
+                return;
+
+            EngineCore.InputManager.GetKeyboardCapture().Subscribe(this);
+            EngineCore.InputManager.GetControllerCapture().Subscribe(this);
+            EngineCore.InputManager.GetMouseCapture().Subscribe(this);
+        }
+
         private void CleanUp()
         {
             Snapshot = null;
+
+            if (EngineCore == null)
+                return;
+
+            EngineCore.InputManager.GetKeyboardCapture().Unsubscribe(this);
+            EngineCore.InputManager.GetControllerCapture().Unsubscribe(this);
+            EngineCore.InputManager.GetMouseCapture().Unsubscribe(this);
         }
 
-        private void RegisterKey(Keys Key)
+        public void OnKeyPress(Key Key) { }
+
+        public void OnKeyDown(Key Key) { }
+
+        public void OnKeyRelease(Key Key) { }
+
+        public void OnUpdateAllDownKeys(HashSet<Key> PressedKeys)
         {
-            if (!KeyBoardDown.ContainsKey(Key))
-                KeyBoardDown.Add(Key, DateTime.MinValue);
-
-            if (!KeyBoardUp.ContainsKey(Key))
-                KeyBoardUp.Add(Key, DateTime.MinValue);
-        }
-
-        private void GlobalHookKeyUp(Object Sender, KeyEventArgs E)
-        {
-            RegisterKey(E.KeyCode);
-            KeyBoardUp[E.KeyCode] = DateTime.Now;
-        }
-
-        private void GlobalHookKeyDown(Object Sender, KeyEventArgs E)
-        {
-            RegisterKey(E.KeyCode);
-            KeyBoardDown[E.KeyCode] = DateTime.Now;
-        }
-
-        private void GlobalHookMouseDownExt(Object Sender, MouseEventExtArgs E)
-        {
-            Console.WriteLine("MouseDown: \t{0}; \t System Timestamp: \t{1}", E.Button, E.Timestamp);
-
-            // uncommenting the following line will suppress the middle mouse button click
-            // if (e.Buttons == MouseButtons.Middle) { e.Handled = true; }
+            // If any of our keyboard hotkeys include the current set of pressed keys, trigger activation/deactivation
+            if (HotKeys.Where(X => X.GetType().IsAssignableFrom(typeof(KeyboardHotKey))).Cast<KeyboardHotKey>().Any(X => X.GetActivationKeys().All(Y => PressedKeys.Contains(Y))))
+                LastActivated = DateTime.Now;
         }
 
     } // End class

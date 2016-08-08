@@ -111,7 +111,7 @@ namespace Anathema.Source.LuaEngine
                         ElapsedTime = CurrentTime - PreviousTime;
 
                         // Call the update function, giving the elapsed milliseconds since the previous call
-                        Function.Call(ElapsedTime.Milliseconds);
+                        Function.Call(ElapsedTime.TotalMilliseconds);
 
                         PreviousTime = CurrentTime;
 

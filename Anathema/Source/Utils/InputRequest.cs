@@ -1,6 +1,6 @@
 ﻿using System.Windows.Forms;
 
-namespace Anathema.Source.Project.ProjectItems.TypeEditors
+namespace Anathema.Source.Utils
 {
     public class InputRequest
     {

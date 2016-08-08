@@ -2,6 +2,7 @@
 using Anathema.Source.Engine.InputCapture.HotKeys;
 using Anathema.Source.Engine.InputCapture.Keyboard;
 using Anathema.Source.Engine.Processes;
+using Anathema.Source.Utils;
 using SharpDX.DirectInput;
 using System;
 using System.Collections.Generic;
@@ -89,15 +90,38 @@ namespace Anathema.Source.Project.ProjectItems.TypeEditors
             else
                 HotKeys = (Value as IEnumerable<IHotKey>).ToList();
 
+            if (ShowDialog() == DialogResult.OK)
+                return HotKeys;
+
+            return Value;
+        }
+
+        public DialogResult ShowDialog()
+        {
             ClearInput();
             OnUpdateHotKeys();
             OnUpdatePendingKeys();
 
             // Call delegate function to request the hotkeys be edited by the user
-            if (InputRequest != null && InputRequest() == DialogResult.OK)
-                return HotKeys;
+            if (InputRequest == null)
+                return DialogResult.Cancel;
 
-            return Value;
+            return InputRequest();
+        }
+
+        public void SetHotKeys(IEnumerable<IHotKey> HotKeys)
+        {
+            if (HotKeys == null)
+                this.HotKeys = new List<IHotKey>();
+            else
+                this.HotKeys = new List<IHotKey>(HotKeys);
+
+            OnUpdateHotKeys();
+        }
+
+        public IEnumerable<IHotKey> GetHotKeys()
+        {
+            return HotKeys;
         }
 
         public void AddHotKey()

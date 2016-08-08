@@ -42,7 +42,7 @@ namespace Anathema.GUI.Tools
             ProjectExplorerPresenter = new ProjectExplorerPresenter(this, ProjectExplorer.GetInstance());
         }
 
-        public void RefreshStructure(ProjectItem ProjectRoot)
+        public void EventRefreshProjectStructure(ProjectItem ProjectRoot)
         {
             if (ProjectExplorerPresenter == null)
                 return;
@@ -161,7 +161,7 @@ namespace Anathema.GUI.Tools
                 ProjectExplorerPresenter.ActivateProjectItems(Nodes, !Nodes.First().GetActivationState());
                 ProjectExplorerTreeView.SelectedNodes.ForEach(X => NodeCache[GetProjectItemFromNode(X)].IsChecked = GetProjectItemFromNode(X).GetActivationState());
 
-                RefreshStructure(ProjectRoot);
+                EventRefreshProjectStructure(ProjectRoot);
             });
         }
 
@@ -176,7 +176,7 @@ namespace Anathema.GUI.Tools
                 ProjectExplorerTreeView.SelectedNodes.ForEach(X => Nodes.Add(GetProjectItemFromNode(X)));
                 ProjectExplorerPresenter.DeleteProjectItems(Nodes);
 
-                RefreshStructure(ProjectRoot);
+                EventRefreshProjectStructure(ProjectRoot);
             });
         }
 
@@ -278,7 +278,7 @@ namespace Anathema.GUI.Tools
 
                 DoCheck(ProjectItem, !ProjectItem.GetActivationState());
 
-                RefreshStructure(ProjectRoot);
+                EventRefreshProjectStructure(ProjectRoot);
             });
         }
 
@@ -365,7 +365,7 @@ namespace Anathema.GUI.Tools
                         break;
                 }
 
-                RefreshStructure(ProjectRoot);
+                EventRefreshProjectStructure(ProjectRoot);
             }
         }
 

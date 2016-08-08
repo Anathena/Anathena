@@ -38,11 +38,11 @@ namespace Anathema.GUI.Tools.TypeEditors
             this.CancelButton = new System.Windows.Forms.Button();
             this.HotKeyListView = new Anathema.GUI.CustomControls.ListViews.FlickerFreeListView();
             this.HotKeyHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.OffsetsContextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.HotKeyContextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.DeleteSelectionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.HotKeyTextBox = new Anathema.GUI.CustomControls.TextBoxes.WatermarkTextBox();
             this.ClearHotKeyButton = new System.Windows.Forms.Button();
-            this.OffsetsContextMenuStrip.SuspendLayout();
+            this.HotKeyContextMenuStrip.SuspendLayout();
             this.SuspendLayout();
             // 
             // AddHotKeyButton
@@ -71,7 +71,7 @@ namespace Anathema.GUI.Tools.TypeEditors
             // 
             this.OkayButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.OkayButton.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.OkayButton.Location = new System.Drawing.Point(229, 150);
+            this.OkayButton.Location = new System.Drawing.Point(148, 150);
             this.OkayButton.Name = "OkayButton";
             this.OkayButton.Size = new System.Drawing.Size(75, 23);
             this.OkayButton.TabIndex = 4;
@@ -83,7 +83,7 @@ namespace Anathema.GUI.Tools.TypeEditors
             // 
             this.CancelButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.CancelButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.CancelButton.Location = new System.Drawing.Point(148, 150);
+            this.CancelButton.Location = new System.Drawing.Point(229, 150);
             this.CancelButton.Name = "CancelButton";
             this.CancelButton.Size = new System.Drawing.Size(75, 23);
             this.CancelButton.TabIndex = 5;
@@ -98,7 +98,7 @@ namespace Anathema.GUI.Tools.TypeEditors
             | System.Windows.Forms.AnchorStyles.Right)));
             this.HotKeyListView.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.HotKeyHeader});
-            this.HotKeyListView.ContextMenuStrip = this.OffsetsContextMenuStrip;
+            this.HotKeyListView.ContextMenuStrip = this.HotKeyContextMenuStrip;
             this.HotKeyListView.FullRowSelect = true;
             this.HotKeyListView.Location = new System.Drawing.Point(12, 38);
             this.HotKeyListView.Name = "HotKeyListView";
@@ -112,12 +112,12 @@ namespace Anathema.GUI.Tools.TypeEditors
             this.HotKeyHeader.Text = "Hot Key";
             this.HotKeyHeader.Width = 256;
             // 
-            // OffsetsContextMenuStrip
+            // HotKeyContextMenuStrip
             // 
-            this.OffsetsContextMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.HotKeyContextMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.DeleteSelectionToolStripMenuItem});
-            this.OffsetsContextMenuStrip.Name = "OffsetsContextMenuStrip";
-            this.OffsetsContextMenuStrip.Size = new System.Drawing.Size(159, 26);
+            this.HotKeyContextMenuStrip.Name = "OffsetsContextMenuStrip";
+            this.HotKeyContextMenuStrip.Size = new System.Drawing.Size(159, 26);
             // 
             // DeleteSelectionToolStripMenuItem
             // 
@@ -136,7 +136,7 @@ namespace Anathema.GUI.Tools.TypeEditors
             this.HotKeyTextBox.TabIndex = 7;
             this.HotKeyTextBox.WatermarkColor = System.Drawing.Color.LightGray;
             this.HotKeyTextBox.WaterMarkFont = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.HotKeyTextBox.WaterMarkText = null;
+            this.HotKeyTextBox.WaterMarkText = "(Press any key)";
             // 
             // ClearHotKeyButton
             // 
@@ -165,7 +165,7 @@ namespace Anathema.GUI.Tools.TypeEditors
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "HotKey Editor";
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.GUIHotKeyEditor_FormClosed);
-            this.OffsetsContextMenuStrip.ResumeLayout(false);
+            this.HotKeyContextMenuStrip.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -178,7 +178,7 @@ namespace Anathema.GUI.Tools.TypeEditors
         private System.Windows.Forms.Button CancelButton;
         private FlickerFreeListView HotKeyListView;
         private System.Windows.Forms.ColumnHeader HotKeyHeader;
-        private System.Windows.Forms.ContextMenuStrip OffsetsContextMenuStrip;
+        private System.Windows.Forms.ContextMenuStrip HotKeyContextMenuStrip;
         private System.Windows.Forms.ToolStripMenuItem DeleteSelectionToolStripMenuItem;
         private WatermarkTextBox HotKeyTextBox;
         private System.Windows.Forms.Button ClearHotKeyButton;

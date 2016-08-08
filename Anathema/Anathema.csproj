@@ -217,7 +217,7 @@
     <Compile Include="Source\Engine\Proxy\ProxyCommunicator.cs" />
     <Compile Include="Source\Project\ProjectItems\TypeEditors\IScriptEditorMVP.cs" />
     <Compile Include="Source\Project\ProjectItems\TypeEditors\IOffsetEditorMVP.cs" />
-    <Compile Include="Source\Project\ProjectItems\TypeEditors\InputRequest.cs" />
+    <Compile Include="Source\Utils\InputRequest.cs" />
     <Compile Include="Source\Project\ProjectItems\ScriptTemplates\LuaTemplates.cs" />
     <Compile Include="Source\Project\ProjectItems\TypeEditors\HotKeyEditor.cs" />
     <Compile Include="Source\Project\ProjectItems\TypeEditors\IHotKeyEditorMVP.cs" />
@@ -390,7 +390,6 @@
     <Compile Include="Source\Scanners\ValueCollector\ValueCollector.cs" />
     <Compile Include="Source\Scanners\FiniteStateScanner\FiniteStateBuilder.cs" />
     <Compile Include="Source\Scanners\FiniteStateScanner\IFiniteStateScannerMVP.cs" />
-    <Compile Include="Source\Scanners\InputCorrelator\InputNode.cs" />
     <Compile Include="Source\Scanners\LabelThresholder\ILabelThresholderMVP.cs" />
     <Compile Include="Source\Scanners\LabelThresholder\LabelThresholder.cs" />
     <Compile Include="Source\Scanners\PointerScanner\IPointerScannerMVP.cs" />
@@ -627,45 +626,6 @@
     <Compile Include="Source\Utils\TimedLock.cs" />
     <Compile Include="Source\Utils\Validation\CheckSyntax.cs" />
     <Compile Include="Source\Scanners\InputCorrelator\InputCorrelator.cs" />
-    <Compile Include="Source\Engine\InputCapture\MouseKeyHook%28Deprecating%29\MouseKeyCapture.cs" />
-    <Compile Include="Source\Engine\InputCapture\MouseKeyHook%28Deprecating%29\HotKeys\HotKeyArgs.cs" />
-    <Compile Include="Source\Engine\InputCapture\MouseKeyHook%28Deprecating%29\HotKeys\HotKeySet.cs" />
-    <Compile Include="Source\Engine\InputCapture\MouseKeyHook%28Deprecating%29\HotKeys\HotKeySetCollection.cs" />
-    <Compile Include="Source\Engine\InputCapture\MouseKeyHook%28Deprecating%29\IKeyboardEvents.cs" />
-    <Compile Include="Source\Engine\InputCapture\MouseKeyHook%28Deprecating%29\IKeyboardMouseEvents.cs" />
-    <Compile Include="Source\Engine\InputCapture\MouseKeyHook%28Deprecating%29\IMouseEvents.cs" />
-    <Compile Include="Source\Engine\InputCapture\MouseKeyHook%28Deprecating%29\Implementation\AppEventFacade.cs" />
-    <Compile Include="Source\Engine\InputCapture\MouseKeyHook%28Deprecating%29\Implementation\AppKeyListener.cs" />
-    <Compile Include="Source\Engine\InputCapture\MouseKeyHook%28Deprecating%29\Implementation\AppMouseListener.cs" />
-    <Compile Include="Source\Engine\InputCapture\MouseKeyHook%28Deprecating%29\Implementation\BaseListener.cs" />
-    <Compile Include="Source\Engine\InputCapture\MouseKeyHook%28Deprecating%29\Implementation\ButtonSet.cs" />
-    <Compile Include="Source\Engine\InputCapture\MouseKeyHook%28Deprecating%29\Implementation\Callback.cs" />
-    <Compile Include="Source\Engine\InputCapture\MouseKeyHook%28Deprecating%29\Implementation\EventFacade.cs" />
-    <Compile Include="Source\Engine\InputCapture\MouseKeyHook%28Deprecating%29\Implementation\GlobalEventFacade.cs" />
-    <Compile Include="Source\Engine\InputCapture\MouseKeyHook%28Deprecating%29\Implementation\GlobalKeyListener.cs" />
-    <Compile Include="Source\Engine\InputCapture\MouseKeyHook%28Deprecating%29\Implementation\GlobalMouseListener.cs" />
-    <Compile Include="Source\Engine\InputCapture\MouseKeyHook%28Deprecating%29\Implementation\KeyboardState.cs" />
-    <Compile Include="Source\Engine\InputCapture\MouseKeyHook%28Deprecating%29\Implementation\KeyListener.cs" />
-    <Compile Include="Source\Engine\InputCapture\MouseKeyHook%28Deprecating%29\Implementation\MouseListener.cs" />
-    <Compile Include="Source\Engine\InputCapture\MouseKeyHook%28Deprecating%29\Implementation\Subscribe.cs" />
-    <Compile Include="Source\Engine\InputCapture\MouseKeyHook%28Deprecating%29\KeyEventArgsExt.cs" />
-    <Compile Include="Source\Engine\InputCapture\MouseKeyHook%28Deprecating%29\KeyPressEventArgsExt.cs" />
-    <Compile Include="Source\Engine\InputCapture\MouseKeyHook%28Deprecating%29\MouseEventExtArgs.cs" />
-    <Compile Include="Source\Engine\InputCapture\MouseKeyHook%28Deprecating%29\WinApi\AppMouseStruct.cs" />
-    <Compile Include="Source\Engine\InputCapture\MouseKeyHook%28Deprecating%29\WinApi\CallbackData.cs" />
-    <Compile Include="Source\Engine\InputCapture\MouseKeyHook%28Deprecating%29\WinApi\HookHelper.cs" />
-    <Compile Include="Source\Engine\InputCapture\MouseKeyHook%28Deprecating%29\WinApi\HookIds.cs" />
-    <Compile Include="Source\Engine\InputCapture\MouseKeyHook%28Deprecating%29\WinApi\HookNativeMethods.cs" />
-    <Compile Include="Source\Engine\InputCapture\MouseKeyHook%28Deprecating%29\WinApi\HookProcedure.cs" />
-    <Compile Include="Source\Engine\InputCapture\MouseKeyHook%28Deprecating%29\WinApi\HookProcedureHandle.cs" />
-    <Compile Include="Source\Engine\InputCapture\MouseKeyHook%28Deprecating%29\WinApi\HookResult.cs" />
-    <Compile Include="Source\Engine\InputCapture\MouseKeyHook%28Deprecating%29\WinApi\KeyboardHookStruct.cs" />
-    <Compile Include="Source\Engine\InputCapture\MouseKeyHook%28Deprecating%29\WinApi\KeyboardNativeMethods.cs" />
-    <Compile Include="Source\Engine\InputCapture\MouseKeyHook%28Deprecating%29\WinApi\Messages.cs" />
-    <Compile Include="Source\Engine\InputCapture\MouseKeyHook%28Deprecating%29\WinApi\MouseNativeMethods.cs" />
-    <Compile Include="Source\Engine\InputCapture\MouseKeyHook%28Deprecating%29\WinApi\MouseStruct.cs" />
-    <Compile Include="Source\Engine\InputCapture\MouseKeyHook%28Deprecating%29\WinApi\Point.cs" />
-    <Compile Include="Source\Engine\InputCapture\MouseKeyHook%28Deprecating%29\WinApi\ThreadNativeMethods.cs" />
     <Compile Include="Source\Scanners\TreeScanner\TreeScanner.cs" />
     <Compile Include="Source\Utils\Validation\Conversions.cs" />
     <Compile Include="Source\Controller\IMainMVP.cs" />
@@ -1121,7 +1081,6 @@
     <Content Include="Content\Icons\UnknownValue.png" />
     <Content Include="Content\Icons\X.png" />
     <Content Include="MainIconSmall.ico" />
-    <Content Include="Source\Engine\InputCapture\MouseKeyHook%28Deprecating%29\HotKeys\ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\AnathemaProxy32\AnathenaProxy32.csproj">
@@ -1255,7 +1214,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="GUI\Main\" />
-    <Folder Include="GUI\Tools\UserSettings\" />
     <Folder Include="Source\Engine\AddressResolver\Java\" />
     <Folder Include="Source\Engine\AddressResolver\Python\" />
     <Folder Include="Source\Results\PointerScanResults\" />

@@ -1,6 +1,6 @@
 ﻿using Anathema.GUI.Tools.TypeEditors;
 using Anathema.Source.Engine.InputCapture.HotKeys;
-using Anathema.Source.Project.ProjectItems.TypeEditors;
+using Anathema.Source.Utils;
 using Anathema.Source.Utils.MVP;
 using System;
 using System.Collections.Generic;
@@ -144,10 +144,14 @@ namespace Anathema.Source.Project
                 else if (HotKey.GetType().IsAssignableFrom(typeof(ControllerHotKey)))
                 {
                     ControllerHotKey ControllerHotKey = HotKey as ControllerHotKey;
+
+                    HotKeyStrings.Add(ControllerHotKey.ToString());
                 }
                 else if (HotKey.GetType().IsAssignableFrom(typeof(MouseHotKey)))
                 {
                     MouseHotKey MouseHotKey = HotKey as MouseHotKey;
+
+                    HotKeyStrings.Add(MouseHotKey.ToString());
                 }
             }
 

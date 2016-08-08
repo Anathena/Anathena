@@ -1,37 +1,33 @@
-﻿using System;
+﻿using Anathema.Source.Engine.InputCapture.HotKeys;
+using System;
 using System.Collections.Generic;
-using System.Windows.Forms;
 
 namespace Anathema.Source.Scanners.InputCorrelator
 {
     delegate void InputCorrelatorEventHandler(Object Sender, InputCorrelatorEventArgs Args);
     class InputCorrelatorEventArgs : EventArgs
     {
-        public InputNode Root = null;
+        public IEnumerable<IHotKey> HotKeys;
     }
 
     interface IInputCorrelatorView : IScannerView
     {
         // Methods invoked by the presenter (upstream)
-        void UpdateDisplay(TreeNode Root);
-        void ClearDisplay();
+        void SetHotKeyList(IEnumerable<String> HotKeyList);
     }
 
     abstract class IInputCorrelatorModel : IScannerModel
     {
         // Events triggered by the model (upstream)
-        public event InputCorrelatorEventHandler EventUpdateDisplay;
-        protected virtual void OnEventUpdateDisplay(InputCorrelatorEventArgs E)
+        public event InputCorrelatorEventHandler EventUpdateHotKeys;
+        protected virtual void OnEventUpdateHotKeys(InputCorrelatorEventArgs E)
         {
-            EventUpdateDisplay?.Invoke(this, E);
+            EventUpdateHotKeys?.Invoke(this, E);
         }
 
         // Functions invoked by presenter (downstream)
+        public abstract void EditKeys();
         public abstract void SetVariableSize(Int32 VariableSize);
-        public abstract void AddNode(Stack<Int32> Indicies, InputNode Node);
-        public abstract void AddInputNode(Stack<Int32> Indicies, Keys Key);
-        public abstract void DeleteNode(Stack<Int32> Indicies);
-        public abstract void ClearNodes();
     }
 
     class InputCorrelatorPresenter : ScannerPresenter
@@ -39,22 +35,23 @@ namespace Anathema.Source.Scanners.InputCorrelator
         private new IInputCorrelatorView View { get; set; }
         private new IInputCorrelatorModel Model { get; set; }
 
-        private Keys Key;
-
         public InputCorrelatorPresenter(IInputCorrelatorView View, IInputCorrelatorModel Model) : base(View, Model)
         {
             this.View = View;
             this.Model = Model;
 
-            Key = Keys.None;
-
             // Bind events triggered by the model
-            Model.EventUpdateDisplay += EventUpdateDisplay;
+            Model.EventUpdateHotKeys += EventUpdateHotKeys;
 
             Model.OnGUIOpen();
         }
 
         #region Method definitions called by the view (downstream)
+
+        public void EditKeys()
+        {
+            Model.EditKeys();
+        }
 
         public void SetVariableSize(Int32 VariableSize)
         {
@@ -64,56 +61,43 @@ namespace Anathema.Source.Scanners.InputCorrelator
             Model.SetVariableSize(VariableSize);
         }
 
-        public void SetCurrentKey(Keys Key)
-        {
-            this.Key = Key;
-        }
-
-        public void AddInput(Stack<Int32> Indicies)
-        {
-            if (Key == Keys.None)
-                return;
-
-            View.ClearDisplay();
-            Model.AddInputNode(Indicies, Key);
-        }
-
-        public void ClearNodes()
-        {
-            Model.ClearNodes();
-        }
-
-        public void DeleteNode(Stack<Int32> Indicies)
-        {
-            View.ClearDisplay();
-            Model.DeleteNode(Indicies);
-        }
-
-        public void AddAND(Stack<Int32> Indicies)
-        {
-            View.ClearDisplay();
-            Model.AddNode(Indicies, new InputNode(InputNode.NodeTypeEnum.AND));
-        }
-
-        public void AddOR(Stack<Int32> Indicies)
-        {
-            View.ClearDisplay();
-            Model.AddNode(Indicies, new InputNode(InputNode.NodeTypeEnum.OR));
-        }
-
-        public void AddNOT(Stack<Int32> Indicies)
-        {
-            View.ClearDisplay();
-            Model.AddNode(Indicies, new InputNode(InputNode.NodeTypeEnum.NOT));
-        }
-
         #endregion
 
         #region Event definitions for events triggered by the model (upstream)
 
-        public void EventUpdateDisplay(Object Sender, InputCorrelatorEventArgs E)
+        private void EventUpdateHotKeys(Object Sender, InputCorrelatorEventArgs E)
         {
-            View.UpdateDisplay(E.Root);
+            List<String> HotKeyStrings = new List<String>();
+
+            if (E == null || E.HotKeys == null)
+            {
+                View?.SetHotKeyList(HotKeyStrings);
+                return;
+            }
+
+            foreach (IHotKey HotKey in E.HotKeys)
+            {
+                if (HotKey.GetType().IsAssignableFrom(typeof(KeyboardHotKey)))
+                {
+                    KeyboardHotKey KeyboardHotKey = HotKey as KeyboardHotKey;
+
+                    HotKeyStrings.Add(KeyboardHotKey.ToString());
+                }
+                else if (HotKey.GetType().IsAssignableFrom(typeof(ControllerHotKey)))
+                {
+                    ControllerHotKey ControllerHotKey = HotKey as ControllerHotKey;
+
+                    HotKeyStrings.Add(ControllerHotKey.ToString());
+                }
+                else if (HotKey.GetType().IsAssignableFrom(typeof(MouseHotKey)))
+                {
+                    MouseHotKey MouseHotKey = HotKey as MouseHotKey;
+
+                    HotKeyStrings.Add(MouseHotKey.ToString());
+                }
+            }
+
+            View?.SetHotKeyList(HotKeyStrings);
         }
 
         #endregion
