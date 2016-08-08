@@ -75,7 +75,10 @@ namespace Anathema.Source.PropertyView
             RefreshProperties();
         }
 
-        protected override void End() { }
+        protected override void End()
+        {
+            base.End();
+        }
 
     } // End class
 

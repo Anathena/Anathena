@@ -118,7 +118,10 @@ namespace Anathema.Source.MemoryView
             OnEventReadValues(new MemoryViewEventArgs());
         }
 
-        protected override void End() { }
+        protected override void End()
+        {
+            base.End();
+        }
 
         public override Byte GetValueAtAddress(IntPtr Address)
         {

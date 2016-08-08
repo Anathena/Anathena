@@ -168,6 +168,8 @@ namespace Anathema.Source.Scanners.FiniteStateScanner
 
         protected override void End()
         {
+            base.End();
+
             Snapshot.DiscardInvalidRegions();
             Snapshot.SetScanMethod("Manual Scan");
 

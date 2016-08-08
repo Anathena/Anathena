@@ -244,7 +244,10 @@ namespace Anathema.Source.Snapshots.Prefilter
             }
         }
 
-        protected override void End() { }
+        protected override void End()
+        {
+            base.End();
+        }
 
         private void UpdateProgress()
         {

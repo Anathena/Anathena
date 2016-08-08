@@ -149,7 +149,10 @@ namespace Anathema.Source.Results.ScanResults
             OnEventReadValues(new ScanResultsEventArgs());
         }
 
-        protected override void End() { }
+        protected override void End()
+        {
+            base.End();
+        }
 
         public override void AddSelectionToTable(Int32 MinIndex, Int32 MaxIndex)
         {

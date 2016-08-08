@@ -80,6 +80,8 @@ namespace Anathema.Source.Scanners.ChunkScanner
 
         protected override void End()
         {
+            base.End();
+
             // Collect the pages that have changed
             List<SnapshotRegion> FilteredRegions = new List<SnapshotRegion>();
             for (Int32 Index = 0; Index < ChunkRoots.Count; Index++)

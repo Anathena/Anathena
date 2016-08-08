@@ -180,7 +180,10 @@ namespace Anathema.Source.Engine.AddressResolver.DotNet
             Parent.SortChildren();
         }
 
-        protected override void End() { }
+        protected override void End()
+        {
+            base.End();
+        }
 
     } // End class
 

@@ -30,6 +30,8 @@ namespace Anathema.Source.Scanners.ValueCollector
 
         protected override void End()
         {
+            base.End();
+
             Snapshot.SetScanMethod("Value Collector");
 
             // Save result

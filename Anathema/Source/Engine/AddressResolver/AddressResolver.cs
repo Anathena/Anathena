@@ -98,7 +98,10 @@ namespace Anathema.Source.Engine.AddressResolver
             CurrentObject?.GetChildren()?.ForEach(X => BuildNameMap(NameMap, X));
         }
 
-        protected override void End() { }
+        protected override void End()
+        {
+            base.End();
+        }
 
     } // End class
 

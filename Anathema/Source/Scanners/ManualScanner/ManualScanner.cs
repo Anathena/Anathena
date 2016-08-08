@@ -155,6 +155,8 @@ namespace Anathema.Source.Scanners.ManualScanner
 
         protected override void End()
         {
+            base.End();
+
             Snapshot.DiscardInvalidRegions();
             Snapshot.SetScanMethod("Manual Scan");
 

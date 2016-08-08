@@ -176,7 +176,10 @@ namespace Anathema.Source.Project
                 ProjectItem.Update();
         }
 
-        protected override void End() { }
+        protected override void End()
+        {
+            base.End();
+        }
 
         public void ProjectChanged()
         {

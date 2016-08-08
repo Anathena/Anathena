@@ -160,6 +160,8 @@ namespace Anathema.Source.Scanners.InputCorrelator
 
         protected override void End()
         {
+            base.End();
+
             // Prefilter items with negative penalties (ie constantly changing variables)
             Snapshot.MarkAllInvalid();
             foreach (SnapshotRegion<Int16> Region in Snapshot)

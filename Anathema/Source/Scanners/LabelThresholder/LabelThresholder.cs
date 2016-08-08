@@ -95,7 +95,10 @@ namespace Anathema.Source.Scanners.LabelThresholder
             CancelFlag = true;
         }
 
-        protected override void End() { }
+        protected override void End()
+        {
+            base.End();
+        }
 
         public override void ApplyThreshold()
         {

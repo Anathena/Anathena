@@ -98,6 +98,8 @@ namespace Anathema.Source.Scanners.ChangeCounter
 
         protected override void End()
         {
+            base.End();
+
             // Mark regions as valid or invalid based on number of changes
             Snapshot.MarkAllInvalid();
 
