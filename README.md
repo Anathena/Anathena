@@ -41,20 +41,16 @@ Write sophisticated hacks with minimal effort using the user friendly scripting 
 
 ==RELEASE STEPS==
 
-1) Update version number for Anathena in Properties -> AssemblyInfo as well as in OneClick publish settings.
+1) Update version number for Anathena in Properties -> AssemblyInfo, and for Anathena.csproj Publish settings under Publish version AND in the Updates button menu
 
+2) Compile for Release as AnyCPU
 
-REPEAT FOR x86 and x64:
+3) Obfuscate executables in bin/Release using .Net Reactor
 
-2) Compile for {x86/x64}.
+4) Replace the main executable in obj/Release
 
-3) Obfuscate executables in bin/{x86/x64}/Release using .Net Reactor.
+5) Publish for Release in OneClick to the proper AnathenaWeb release folder. ENSURE BUILD DOES NOT RECOMPILE -- otherwise we will lose obfuscation changes. If there are any changes to the Anathena properties page, they will be auto-saved, and the project will recompile and one will have to start again.
 
-4) Replace the executables in bin/{x86/x64}/Release AND obj/{x86/x64}/Release.
-
-5) Publish for {x86/x64} in OneClick to the proper AnathenaWeb {x86/x64} release folder. ENSURE BUILD DOES NOT RECOMPILE -- otherwise we will lose obfuscation changes.
-
-
-6) Ensure published assemblies are obfuscated.
+6) Ensure published assemblies are obfuscated (file size check in publish folder, as well as checking that no rebuild has started will suffice)
 
 7) Push assemblies to develop/master branch, deploy to elastic beanstalk.
