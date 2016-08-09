@@ -1,4 +1,4 @@
-﻿using SharpDisasm;
+﻿using Anathena.Source.Engine.Architecture.Disassembler.SharpDisasm;
 using System;
 using System.Collections.Generic;
 

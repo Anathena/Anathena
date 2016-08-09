@@ -212,6 +212,36 @@
     <Compile Include="GUI\Tools\TypeEditors\GUIHotKeyEditor.Designer.cs">
       <DependentUpon>GUIHotKeyEditor.cs</DependentUpon>
     </Compile>
+    <Compile Include="Source\Engine\Architecture\Disassembler\SharpDisasm\ArchitectureMode.cs" />
+    <Compile Include="Source\Engine\Architecture\Disassembler\SharpDisasm\AutoPinner.cs" />
+    <Compile Include="Source\Engine\Architecture\Disassembler\SharpDisasm\Disassembler.cs" />
+    <Compile Include="Source\Engine\Architecture\Disassembler\SharpDisasm\Instruction.cs" />
+    <Compile Include="Source\Engine\Architecture\Disassembler\SharpDisasm\Operand.cs" />
+    <Compile Include="Source\Engine\Architecture\Disassembler\SharpDisasm\Translators\ATTTranslator.cs" />
+    <Compile Include="Source\Engine\Architecture\Disassembler\SharpDisasm\Translators\IntelTranslator.cs" />
+    <Compile Include="Source\Engine\Architecture\Disassembler\SharpDisasm\Translators\SymbolResolverDelegate.cs" />
+    <Compile Include="Source\Engine\Architecture\Disassembler\SharpDisasm\Translators\Translator.cs" />
+    <Compile Include="Source\Engine\Architecture\Disassembler\SharpDisasm\Udis86\BitOps.cs" />
+    <Compile Include="Source\Engine\Architecture\Disassembler\SharpDisasm\Udis86\Decode.cs" />
+    <Compile Include="Source\Engine\Architecture\Disassembler\SharpDisasm\Udis86\OpTable.cs">
+      <DependentUpon>OpTable.tt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Source\Engine\Architecture\Disassembler\SharpDisasm\Udis86\reg_class.cs" />
+    <Compile Include="Source\Engine\Architecture\Disassembler\SharpDisasm\Udis86\syn.cs" />
+    <Compile Include="Source\Engine\Architecture\Disassembler\SharpDisasm\Udis86\syn_intel.cs" />
+    <Compile Include="Source\Engine\Architecture\Disassembler\SharpDisasm\Udis86\ud.cs" />
+    <Compile Include="Source\Engine\Architecture\Disassembler\SharpDisasm\Udis86\udis86.cs" />
+    <Compile Include="Source\Engine\Architecture\Disassembler\SharpDisasm\Udis86\ud_itab_entry.cs" />
+    <Compile Include="Source\Engine\Architecture\Disassembler\SharpDisasm\Udis86\ud_itab_entry_operand.cs" />
+    <Compile Include="Source\Engine\Architecture\Disassembler\SharpDisasm\Udis86\ud_lookup_table_list_entry.cs" />
+    <Compile Include="Source\Engine\Architecture\Disassembler\SharpDisasm\Udis86\ud_lval.cs" />
+    <Compile Include="Source\Engine\Architecture\Disassembler\SharpDisasm\Udis86\ud_operand.cs" />
+    <Compile Include="Source\Engine\Architecture\Disassembler\SharpDisasm\Udis86\ud_operand_code.cs" />
+    <Compile Include="Source\Engine\Architecture\Disassembler\SharpDisasm\Udis86\ud_operand_size.cs" />
+    <Compile Include="Source\Engine\Architecture\Disassembler\SharpDisasm\Udis86\ud_type.cs" />
+    <Compile Include="Source\Engine\Architecture\Disassembler\SharpDisasm\Vendor.cs" />
     <Compile Include="Source\Engine\InputCapture\HotKeys\IHotKey.cs" />
     <Compile Include="Source\Engine\InputCapture\HotKeys\ControllerHotKey.cs" />
     <Compile Include="Source\Engine\InputCapture\HotKeys\MouseHotKey.cs" />
@@ -921,6 +951,14 @@
     <Content Include="EasyHook\EasyHook64.dll" />
     <Content Include="EasyHook\EasyLoad32.dll" />
     <Content Include="EasyHook\EasyLoad64.dll" />
+    <None Include="Source\Engine\Architecture\Disassembler\SharpDisasm\Udis86\OpTable.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>OpTable.cs</LastGenOutput>
+    </None>
+    <None Include="Source\Engine\Architecture\Disassembler\SharpDisasm\Udis86\optable.xml">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Source\Engine\Architecture\Disassembler\SharpDisasm\Udis86\optable.xsl" />
     <Content Include="xulrunner-32\crashreporter.ini" />
     <Content Include="xulrunner-32\dependentlibs.list" />
     <Content Include="xulrunner-32\dictionaries\en-US.aff" />
@@ -1085,6 +1123,10 @@
     <Content Include="MainIconSmall.ico" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\AnathenaHook\AnathenaHook.csproj">
+      <Project>{118c8743-0037-4894-a798-6475e1f79bd7}</Project>
+      <Name>AnathenaHook</Name>
+    </ProjectReference>
     <ProjectReference Include="..\AnathenaProxy32\AnathenaProxy32.csproj">
       <Project>{51ac9959-afee-4f91-8a19-03cf0528ab62}</Project>
       <Name>AnathenaProxy32</Name>
@@ -1124,10 +1166,6 @@
     <ProjectReference Include="..\ScintillaNET\ScintillaNET\ScintillaNET.csproj">
       <Project>{22ae2386-60f1-476e-9303-61cdb0aac4cf}</Project>
       <Name>ScintillaNET</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\SharpDisasm\SharpDisasm\SharpDisasm.csproj">
-      <Project>{d828384e-0251-44c4-8bf2-3608fd3dd2cd}</Project>
-      <Name>SharpDisasm</Name>
     </ProjectReference>
     <ProjectReference Include="..\SharpDX\SharpCli\SharpCli.csproj">
       <Project>{4e2d9a17-2195-4a51-aae3-924517440293}</Project>
@@ -2911,6 +2949,9 @@
       <IncludeHash>False</IncludeHash>
       <FileType>Satellite</FileType>
     </PublishFile>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

@@ -1,9 +1,9 @@
 ﻿using Anathena.Source.Engine;
+using Anathena.Source.Engine.Architecture.Disassembler.SharpDisasm;
 using Anathena.Source.Engine.OperatingSystems;
 using Anathena.Source.Engine.Processes;
 using Anathena.Source.Utils.Extensions;
 using Anathena.Source.Utils.Validation;
-using SharpDisasm;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;

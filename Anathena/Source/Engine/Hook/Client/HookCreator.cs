@@ -21,7 +21,7 @@ namespace Anathena.Source.Engine.Hook.Client
         public void Inject(Process Process)
         {
             // Skip if the process is already hooked, or if there is no main window
-            if (HookCommunicator != null || Process.MainWindowHandle == IntPtr.Zero)
+            if (HookCommunicator != null || (Process == null || Process.MainWindowHandle == IntPtr.Zero))
                 return;
 
             String ProjectDirectory = Path.GetDirectoryName(Main.GetInstance().GetProjectFilePath());

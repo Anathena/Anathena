@@ -70,6 +70,10 @@ namespace Anathena.Source.LuaEngine
             {
                 ScriptEngine.DoString(LuaScriptRaw);
                 LuaFunction Function = ScriptEngine["OnActivate"] as LuaFunction;
+
+                if (Function == null)
+                    return false;
+
                 Function.Call();
 
                 // Indicate successful activation

@@ -1,5 +1,5 @@
-﻿using Anathena.Source.Utils.Extensions;
-using SharpDisasm;
+﻿using Anathena.Source.Engine.Architecture.Disassembler.SharpDisasm;
+using Anathena.Source.Utils.Extensions;
 using System;
 using System.Collections.Generic;
 

@@ -285,11 +285,8 @@ namespace Anathena.GUI.Tools.Scanners
         private void GUIPointerScanner_Resize(Object Sender, EventArgs E)
         {
             // Ensure tabs take up the entire width of the control
-            using (TimedLock.Lock(AccessLock))
-            {
-                const Int32 TabBoarderOffset = 3;
-                PointerScanTabControl.ItemSize = new Size(Math.Max(0, (PointerScanTabControl.Width - TabBoarderOffset)) / Math.Max(1, PointerScanTabControl.TabCount), 0);
-            }
+            const Int32 TabBoarderOffset = 3;
+            PointerScanTabControl.ItemSize = new Size(Math.Max(0, (PointerScanTabControl.Width - TabBoarderOffset)) / Math.Max(1, PointerScanTabControl.TabCount), 0);
         }
 
         #endregion
