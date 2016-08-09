@@ -51,6 +51,9 @@ namespace Anathena.Source.Engine.Proxy
 
             // Create connection
             NetNamedPipeBinding Binding = new NetNamedPipeBinding(NetNamedPipeSecurityMode.None);
+            Binding.MaxReceivedMessageSize = Int32.MaxValue;
+            Binding.MaxBufferSize = Int32.MaxValue;
+
             EndpointAddress Endpoint = new EndpointAddress(ChannelServerName);
             IProxyService ProxyService = ChannelFactory<IProxyService>.CreateChannel(Binding, Endpoint);
 
