@@ -1147,6 +1147,10 @@
       <Project>{245e07f6-10d5-4cfa-b003-0deb06b223da}</Project>
       <Name>ThemeVS2013Blue</Name>
     </ProjectReference>
+    <ProjectReference Include="..\DockingSuite\ThemeVS2015Dark.csproj">
+      <Project>{b0aa7772-1eac-448c-ab0b-f5e1e2f7efe0}</Project>
+      <Name>ThemeVS2015Dark</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Fasm\Fasm.NET\Fasm.NET.vcxproj">
       <Project>{2dac1a31-ef28-499a-b67a-963b5343d778}</Project>
       <Name>Fasm.NET</Name>
@@ -1253,7 +1257,6 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="GUI\Main\" />
     <Folder Include="Source\Engine\AddressResolver\Java\" />
     <Folder Include="Source\Engine\AddressResolver\Python\" />
     <Folder Include="Source\Results\PointerScanResults\" />
