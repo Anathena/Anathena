@@ -234,7 +234,7 @@ namespace Anathena.Source.Snapshots
         /// <param name="SnapshotRegions"></param>
         public Snapshot(IEnumerable<SnapshotRegion> SnapshotRegions)
         {
-            this.SnapshotRegions = SnapshotRegions == null ? null : SnapshotRegions.Select(x => (SnapshotRegion<LabelType>)x);
+            this.SnapshotRegions = SnapshotRegions == null ? null : SnapshotRegions.Select(X => (SnapshotRegion<LabelType>)X);
             Initialize();
         }
 
@@ -287,7 +287,12 @@ namespace Anathena.Source.Snapshots
             if (SnapshotRegions == null || SnapshotRegions.Count() <= 0)
                 return;
 
-            //foreach (SnapshotRegion SnapshotRegion in SnapshotRegions)
+            // Mask this snapshot regions against active virtual pages in the target
+            List<SnapshotRegion<Null>> ActiveRegions = new List<SnapshotRegion<Null>>();
+            EngineCore.Memory.GetAllVirtualPages().ForEach(X => ActiveRegions.Add(new SnapshotRegion<Null>(X)));
+            ActiveRegions.ForEach(X => X.SetAlignment(this.Alignment));
+            SnapshotRegions = MaskRegions(new Snapshot<LabelType>(ActiveRegions), this.GetSnapshotRegions());
+
             Parallel.ForEach(SnapshotRegions, (SnapshotRegion) =>
             {
                 Boolean Success;
@@ -364,14 +369,14 @@ namespace Anathena.Source.Snapshots
                 return null;
 
             // Build candidate region queue from target region array
-            foreach (SnapshotRegion<LabelType> Region in TargetRegions)
+            foreach (SnapshotRegion<LabelType> Region in TargetRegions.OrderBy(X => X.BaseAddress.ToUInt64()))
                 CandidateRegions.Enqueue(Region);
 
             // Build masking region queue from snapshot
-            foreach (SnapshotRegion<LabelType> MaskRegion in Mask)
+            foreach (SnapshotRegion<LabelType> MaskRegion in Mask.GetSnapshotRegions().OrderBy(X => X.BaseAddress.ToUInt64()))
                 MaskingRegions.Enqueue(MaskRegion);
 
-            if (CandidateRegions.Count == 0 || MaskingRegions.Count == 0)
+            if (CandidateRegions.Count <= 0 || MaskingRegions.Count <= 0)
                 return null;
 
             SnapshotRegion<LabelType> CurrentRegion;
@@ -402,15 +407,15 @@ namespace Anathena.Source.Snapshots
                 if (CurrentMask.BaseAddress.ToUInt64() > CurrentRegion.BaseAddress.ToUInt64())
                     BaseOffset = CurrentMask.BaseAddress.Subtract(CurrentRegion.BaseAddress).ToInt32();
 
-                var NewRegion = new SnapshotRegion<LabelType>(CurrentRegion);
-                ResultRegions.Add(NewRegion);
+                SnapshotRegion<LabelType> NewRegion = new SnapshotRegion<LabelType>(CurrentRegion);
                 NewRegion.BaseAddress = CurrentRegion.BaseAddress + BaseOffset;
                 NewRegion.EndAddress = Math.Min(CurrentMask.EndAddress.ToUInt64(), CurrentRegion.EndAddress.ToUInt64()).ToIntPtr();
-                NewRegion.SetCurrentValues(CurrentRegion.GetCurrentValues().LargestSubArray(BaseOffset, ResultRegions.Last().RegionSize + NewRegion.GetRegionExtension()));
-                NewRegion.SetPreviousValues(CurrentRegion.GetPreviousValues().LargestSubArray(BaseOffset, ResultRegions.Last().RegionSize + NewRegion.GetRegionExtension()));
-                NewRegion.SetElementLabels(CurrentRegion.GetElementLabels().LargestSubArray(BaseOffset, ResultRegions.Last().RegionSize + NewRegion.GetRegionExtension()));
+                NewRegion.SetCurrentValues(CurrentRegion.GetCurrentValues().LargestSubArray(BaseOffset, NewRegion.RegionSize + NewRegion.GetRegionExtension()));
+                NewRegion.SetPreviousValues(CurrentRegion.GetPreviousValues().LargestSubArray(BaseOffset, NewRegion.RegionSize + NewRegion.GetRegionExtension()));
+                NewRegion.SetElementLabels(CurrentRegion.GetElementLabels().LargestSubArray(BaseOffset, NewRegion.RegionSize + NewRegion.GetRegionExtension()));
                 NewRegion.SetElementType(CurrentRegion.GetElementType());
                 NewRegion.SetAlignment(CurrentRegion.GetAlignment());
+                ResultRegions.Add(NewRegion);
             }
 
             return ResultRegions.Count == 0 ? null : ResultRegions;
