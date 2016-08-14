@@ -1,10 +1,10 @@
-﻿using Anathena.Source.Engine.Graphics.DirectX.Interface.Common;
+﻿using Anathena.Source.Engine.Hook.Graphics.DirectX.Interface.Elements;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 
-namespace Anathena.Source.Engine.Graphics.DirectX.Interface
+namespace Anathena.Source.Engine.Hook.Graphics.DirectX.Interface
 {
     [Serializable]
     public class DirextXGraphicsInterface : MarshalByRefObject, IGraphicsInterface
@@ -38,11 +38,6 @@ namespace Anathena.Source.Engine.Graphics.DirectX.Interface
         {
             return ImageElements.Values;
         }
-
-        /// <summary>
-        /// Empty method to ensure we can call the client without crashing
-        /// </summary>
-        public void Ping() { }
 
         public Guid CreateText(String Text, Int32 LocationX, Int32 LocationY)
         {

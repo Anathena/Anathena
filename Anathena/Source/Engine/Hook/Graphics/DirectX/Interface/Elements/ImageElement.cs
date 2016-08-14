@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Drawing;
 
-namespace Anathena.Source.Engine.Graphics.DirectX.Interface.Common
+namespace Anathena.Source.Engine.Hook.Graphics.DirectX.Interface.Elements
 {
     public class ImageElement : Element
     {

@@ -1,7 +1,7 @@
 ﻿using SharpDX.Mathematics.Interop;
 using System;
 
-namespace Anathena.Source.Engine.Graphics.DirectX.Interface.DX11
+namespace Anathena.Source.Engine.Hook.Graphics.DirectX.Interface.DX11
 {
     public abstract class RendererBase
     {

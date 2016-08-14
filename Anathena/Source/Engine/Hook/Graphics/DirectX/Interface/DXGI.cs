@@ -1,7 +1,7 @@
 ﻿using SharpDX.DXGI;
 using System;
 
-namespace Anathena.Source.Engine.Graphics.DirectX.Interface
+namespace Anathena.Source.Engine.Hook.Graphics.DirectX.Interface
 {
     internal static class DXGI
     {

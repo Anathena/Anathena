@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Anathena.Source.Engine.Graphics
+namespace Anathena.Source.Engine.Hook.Graphics
 {
     public interface IGraphicsInterface
     {

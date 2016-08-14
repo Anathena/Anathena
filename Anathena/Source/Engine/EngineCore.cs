@@ -25,7 +25,7 @@ namespace Anathena.Source.Engine
         /// hook creator that initializes them. Instead the hook creator can be lazy initialized when any
         /// of the child processes are accessed
         /// </summary>
-        public IHookCreator HookCreator { get; private set; }
+        public IHookClient HookCreator { get; private set; }
 
         public EngineCore(Process TargetProcess)
         {
@@ -33,7 +33,7 @@ namespace Anathena.Source.Engine
             Assembler = AssemblerFactory.GetAssembler();
             Disassembler = DisassemblerFactory.GetDisassembler();
             InputManager = new InputManager();
-            HookCreator = new HookCreator();
+            HookCreator = new HookClient();
         }
 
     } // End interface

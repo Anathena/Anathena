@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 
-namespace Anathena.Source.Engine.Graphics.DirectX.Interface.DX11
+namespace Anathena.Source.Engine.Hook.Graphics.DirectX.Interface.DX11
 {
     /// <summary>
     /// Direct3D 11 Hook - this hooks the SwapChain.Present to take screenshots

@@ -4,7 +4,7 @@ using SharpDX.Mathematics.Interop;
 using System;
 using Buffer = SharpDX.Direct3D11.Buffer; // Resolve class name conflicts by explicitly stating namespace
 
-namespace Anathena.Source.Engine.Graphics.DirectX.Interface.DX11
+namespace Anathena.Source.Engine.Hook.Graphics.DirectX.Interface.DX11
 {
     public class ScreenAlignedQuadRenderer : RendererBase
     {

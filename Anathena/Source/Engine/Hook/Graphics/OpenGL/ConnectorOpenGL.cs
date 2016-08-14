@@ -1,4 +1,4 @@
-﻿namespace Anathena.Source.Engine.Graphics.OpenGL
+﻿namespace Anathena.Source.Engine.Graphics.Hook.OpenGL
 {
     class ConnectorOpenGL
     {

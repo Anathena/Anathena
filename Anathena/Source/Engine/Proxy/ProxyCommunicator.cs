@@ -8,6 +8,9 @@ using System.Windows.Forms;
 
 namespace Anathena.Source.Engine.Proxy
 {
+    /// <summary>
+    /// Communicates with proxy services. These issue commands that require 32 or 64 bit specifically.
+    /// </summary>
     class ProxyCommunicator
     {
         private static Lazy<ProxyCommunicator> ProxyCommunicatorInstance = new Lazy<ProxyCommunicator>(() => { return new ProxyCommunicator(); }, LazyThreadSafetyMode.PublicationOnly);

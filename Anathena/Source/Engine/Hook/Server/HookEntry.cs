@@ -1,6 +1,7 @@
-﻿using Anathena.Source.Engine.Graphics.DirectX.Interface;
-using Anathena.Source.Engine.Graphics.DirectX.Interface.DX11;
-using Anathena.Source.Engine.Graphics.DirectX.Interface.DX9;
+﻿using Anathena.Source.Engine.Hook.Client;
+using Anathena.Source.Engine.Hook.Graphics.DirectX.Interface;
+using Anathena.Source.Engine.Hook.Graphics.DirectX.Interface.DX11;
+using Anathena.Source.Engine.Hook.Graphics.DirectX.Interface.DX9;
 using EasyHook;
 using System;
 using System.Collections;
@@ -20,7 +21,7 @@ namespace Anathena.Source.Engine.Hook.Server
     public class HookEntry : IEntryPoint
     {
         private IpcServerChannel IpcServerChannel;
-        private HookCommunicator HookCommunicator;
+        private HookClient HookClient;
 
         private CancellationTokenSource CancelRequest;
         private ManualResetEvent TaskRunning;
@@ -35,10 +36,10 @@ namespace Anathena.Source.Engine.Hook.Server
 
 
             // Get reference to IPC to host application
-            HookCommunicator = RemoteHooking.IpcConnectClient<HookCommunicator>(ChannelName);
+            HookClient = RemoteHooking.IpcConnectClient<HookClient>(ChannelName);
 
             // We try to ping immediately, if it fails then injection fails
-            HookCommunicator.Ping();
+            HookClient.Ping();
 
             // Attempt to create a IpcServerChannel so that any event handlers on the client will function correctly
             IDictionary Properties = new Hashtable();
@@ -99,7 +100,7 @@ namespace Anathena.Source.Engine.Hook.Server
 
         private Boolean InitializeDirectXHook()
         {
-            DirextXGraphicsInterface DirextXGraphicsInterface = (DirextXGraphicsInterface)HookCommunicator.GraphicsInterface;
+            DirextXGraphicsInterface DirextXGraphicsInterface = (DirextXGraphicsInterface)HookClient.GraphicsInterface;
             DirectXFlags.Direct3DVersionEnum Version = DirectXFlags.Direct3DVersionEnum.Unknown;
 
             Dictionary<DirectXFlags.Direct3DVersionEnum, String> DXModules = new Dictionary<DirectXFlags.Direct3DVersionEnum, String>
@@ -173,7 +174,7 @@ namespace Anathena.Source.Engine.Hook.Server
                 {
                     try
                     {
-                        HookCommunicator.Ping();
+                        HookClient.Ping();
                     }
                     catch
                     {

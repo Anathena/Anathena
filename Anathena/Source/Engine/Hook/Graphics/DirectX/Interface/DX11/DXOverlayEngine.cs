@@ -1,4 +1,4 @@
-﻿using Anathena.Source.Engine.Graphics.DirectX.Interface.Common;
+﻿using Anathena.Source.Engine.Hook.Graphics.DirectX.Interface.Elements;
 using SharpDX;
 using SharpDX.Direct3D11;
 using SharpDX.Mathematics.Interop;
@@ -6,7 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 
-namespace Anathena.Source.Engine.Graphics.DirectX.Interface.DX11
+namespace Anathena.Source.Engine.Hook.Graphics.DirectX.Interface.DX11
 {
     internal class DXOverlayEngine
     {

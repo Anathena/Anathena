@@ -1,11 +1,12 @@
-﻿using Anathena.Source.Engine.Graphics.DirectX.Interface.Common;
+﻿
+using Anathena.Source.Engine.Hook.Graphics.DirectX.Interface.Elements;
 using SharpDX;
 using SharpDX.Direct3D9;
 using SharpDX.Mathematics.Interop;
 using System;
 using System.Collections.Generic;
 
-namespace Anathena.Source.Engine.Graphics.DirectX.Interface.DX9
+namespace Anathena.Source.Engine.Hook.Graphics.DirectX.Interface.DX9
 {
     internal class DXOverlayEngine : IDisposable
     {

@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
 
-namespace Anathena.Source.Engine.Graphics.DirectX.Interface.DX9
+namespace Anathena.Source.Engine.Hook.Graphics.DirectX.Interface.DX9
 {
     internal class DXHookD3D9 : BaseDXHook
     {
