@@ -43,7 +43,12 @@ namespace Anathena.Source.Project.ProjectItems
         public ProjectItem Parent
         {
             get { return _Parent; }
-            set { _Parent = value; }
+            set
+            {
+                _Parent = value;
+
+                ProjectExplorer.GetInstance().ProjectChanged();
+            }
         }
 
         [Browsable(false)]
@@ -54,7 +59,12 @@ namespace Anathena.Source.Project.ProjectItems
         public List<ProjectItem> Children
         {
             get { return _Children; }
-            set { _Children = value; }
+            set
+            {
+                _Children = value;
+
+                ProjectExplorer.GetInstance().ProjectChanged();
+            }
         }
 
         [Browsable(false)]
@@ -65,7 +75,12 @@ namespace Anathena.Source.Project.ProjectItems
         public String Description
         {
             get { return _Description; }
-            set { _Description = value; UpdateEntryVisual(); }
+            set
+            {
+                _Description = value; UpdateEntryVisual();
+
+                ProjectExplorer.GetInstance().ProjectChanged();
+            }
         }
 
         [Browsable(false)]
@@ -78,7 +93,12 @@ namespace Anathena.Source.Project.ProjectItems
         public IEnumerable<IHotKey> HotKeys
         {
             get { return _HotKeys; }
-            set { _HotKeys = value; UpdateHotKeyListeners(); }
+            set
+            {
+                _HotKeys = value; UpdateHotKeyListeners();
+
+                ProjectExplorer.GetInstance().ProjectChanged();
+            }
         }
 
         [DataMember()]
@@ -89,7 +109,12 @@ namespace Anathena.Source.Project.ProjectItems
         public Color TextColor
         {
             get { return Color.FromArgb(unchecked((Int32)(_TextColorARGB))); }
-            set { _TextColorARGB = value == null ? 0 : unchecked((UInt32)(value.ToArgb())); UpdateEntryVisual(); }
+            set
+            {
+                _TextColorARGB = value == null ? 0 : unchecked((UInt32)(value.ToArgb())); UpdateEntryVisual();
+
+                ProjectExplorer.GetInstance().ProjectChanged();
+            }
         }
 
         [Browsable(false)]

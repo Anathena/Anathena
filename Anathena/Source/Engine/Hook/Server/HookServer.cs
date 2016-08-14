@@ -18,7 +18,7 @@ namespace Anathena.Source.Engine.Hook.Server
     /// <summary>
     /// Entry point for a hook in the target process. Automatically loads when RemoteHooking.Inject() is called.
     /// </summary>
-    public class HookEntry : IEntryPoint
+    public class HookServer : IEntryPoint
     {
         private IpcServerChannel IpcServerChannel;
         private HookClient HookClient;
@@ -29,11 +29,10 @@ namespace Anathena.Source.Engine.Hook.Server
         // TODO: move this out, hide it under graphics interface or something
         private BaseDXHook DirectXHook;
 
-        public HookEntry(RemoteHooking.IContext Context, String ChannelName, String ProjectDirectory)
+        public HookServer(RemoteHooking.IContext Context, String ChannelName, String ProjectDirectory)
         {
             IpcServerChannel = null;
             DirectXHook = null;
-
 
             // Get reference to IPC to host application
             HookClient = RemoteHooking.IpcConnectClient<HookClient>(ChannelName);

@@ -143,12 +143,12 @@ namespace Anathena.Source.Project
         }
 
         /// <summary>
-        /// Eventually we want the update set just to be the visible nodes in the display, note very single node
+        /// Eventually we want the update set just to be the visible nodes in the display, not every single node
         /// </summary>
         /// <param name="ProjectItem"></param>
         /// <param name="CurrentSet"></param>
         /// <returns></returns>
-        private IEnumerable<ProjectItem> CreateUpdateSet_TEMPORARY_REPLACE_ME(ProjectItem ProjectItem, List<ProjectItem> CurrentSet = null)
+        private IEnumerable<ProjectItem> CreateUpdateSet_TODO_REPLACE_ME(ProjectItem ProjectItem, List<ProjectItem> CurrentSet = null)
         {
             if (ProjectItem == null)
                 return CurrentSet;
@@ -159,7 +159,7 @@ namespace Anathena.Source.Project
             foreach (ProjectItem Child in ProjectItem.Children)
             {
                 CurrentSet.Add(Child);
-                CreateUpdateSet_TEMPORARY_REPLACE_ME(Child, CurrentSet);
+                CreateUpdateSet_TODO_REPLACE_ME(Child, CurrentSet);
             }
 
             return CurrentSet;
@@ -167,7 +167,7 @@ namespace Anathena.Source.Project
 
         protected override void Update()
         {
-            UpdateSet = CreateUpdateSet_TEMPORARY_REPLACE_ME(ProjectRoot);
+            UpdateSet = CreateUpdateSet_TODO_REPLACE_ME(ProjectRoot);
 
             if (UpdateSet == null)
                 return;

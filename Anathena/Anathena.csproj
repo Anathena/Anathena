@@ -357,7 +357,7 @@
     <Compile Include="Source\Engine\Hook\Graphics\DirectX\DirextXGraphicsInterface.cs" />
     <Compile Include="Source\Engine\Hook\Graphics\DirectX\Interface\DirectXFlags.cs" />
     <Compile Include="Source\Engine\Hook\Graphics\GraphicsFactory.cs" />
-    <Compile Include="Source\Engine\Hook\Server\HookEntry.cs" />
+    <Compile Include="Source\Engine\Hook\Server\HookServer.cs" />
     <Compile Include="Source\Engine\Hook\Client\IHookClient.cs" />
     <Compile Include="Source\Engine\Hook\Unrandomizer\IUnrandomizerInterface.cs" />
     <Compile Include="Source\Engine\InputCapture\Controller\IControllerObserver.cs" />
@@ -435,8 +435,6 @@
     <Compile Include="Source\Scanners\ManualScanner\IManualScannerMVP.cs" />
     <Compile Include="Source\Scanners\ManualScanner\ManualScanner.cs" />
     <Compile Include="Source\Scanners\InputCorrelator\IInputCorrelatorMVP.cs" />
-    <Compile Include="Source\Project\Editors\ScriptEditorDEPRECATED\IScriptEditorMVP.cs" />
-    <Compile Include="Source\Project\Editors\ScriptEditorDEPRECATED\ScriptEditor.cs" />
     <Compile Include="Source\Snapshots\SnapshotRegion.cs" />
     <Compile Include="Source\Snapshots\SnapshotElement.cs" />
     <Compile Include="Source\Utils\Hashing.cs" />

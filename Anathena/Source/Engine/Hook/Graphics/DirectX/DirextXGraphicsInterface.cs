@@ -9,20 +9,17 @@ namespace Anathena.Source.Engine.Hook.Graphics.DirectX.Interface
     [Serializable]
     public class DirextXGraphicsInterface : MarshalByRefObject, IGraphicsInterface
     {
-        /// <summary>
-        /// The client process Id
-        /// </summary>
-        public Int32 ProcessId { get; set; }
-
-        public String ProjectDirectory { get; set; }
+        private String ProjectDirectory { get; set; }
 
         private Dictionary<Guid, TextElement> TextElements;
         private Dictionary<Guid, ImageElement> ImageElements;
 
         private Font Font;
 
-        public DirextXGraphicsInterface()
+        public DirextXGraphicsInterface(String ProjectDirectory)
         {
+            this.ProjectDirectory = ProjectDirectory;
+
             TextElements = new Dictionary<Guid, TextElement>();
             ImageElements = new Dictionary<Guid, ImageElement>();
 

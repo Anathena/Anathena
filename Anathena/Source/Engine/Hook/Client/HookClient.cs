@@ -36,10 +36,10 @@ namespace Anathena.Source.Engine.Hook.Client
             String ProjectDirectory = Path.GetDirectoryName(Main.GetInstance().GetProjectFilePath());
             String ChannelName = null;
 
-            GraphicsInterface = GraphicsFactory.GetGraphicsInterface(Process, ProjectDirectory);
+            GraphicsInterface = GraphicsFactory.GetGraphicsInterface(ProjectDirectory);
             SpeedHackInterface = new SpeedHackInterface();
 
-            // Initialize the IPC server
+            // Initialize the IPC server, giving the server access to the interfaces defined here
             RemoteHooking.IpcCreateServer<HookClient>(ref ChannelName, WellKnownObjectMode.Singleton, this);
 
             try

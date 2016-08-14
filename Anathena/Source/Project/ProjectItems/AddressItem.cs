@@ -27,7 +27,11 @@ namespace Anathena.Source.Project.ProjectItems
         public AddressResolver.ResolveTypeEnum ResolveType
         {
             get { return _ResolveType; }
-            set { _ResolveType = value; }
+            set
+            {
+                _ResolveType = value;
+                ProjectExplorer.GetInstance().ProjectChanged();
+            }
         }
 
         [Browsable(false)]
@@ -39,7 +43,12 @@ namespace Anathena.Source.Project.ProjectItems
         public String BaseIdentifier
         {
             get { return _BaseIdentifier; }
-            set { _BaseIdentifier = value == null ? String.Empty : value; }
+            set
+            {
+                _BaseIdentifier = value == null ? String.Empty : value;
+
+                ProjectExplorer.GetInstance().ProjectChanged();
+            }
         }
 
         [Browsable(false)]
@@ -52,7 +61,12 @@ namespace Anathena.Source.Project.ProjectItems
         public IntPtr BaseAddress
         {
             get { return _BaseAddress; }
-            set { EffectiveAddress = value; _BaseAddress = value; }
+            set
+            {
+                EffectiveAddress = value; _BaseAddress = value;
+
+                ProjectExplorer.GetInstance().ProjectChanged();
+            }
         }
 
         [Browsable(false)]
@@ -66,7 +80,12 @@ namespace Anathena.Source.Project.ProjectItems
         public IEnumerable<Int32> Offsets
         {
             get { return _Offsets; }
-            set { _Offsets = value; }
+            set
+            {
+                _Offsets = value;
+
+                ProjectExplorer.GetInstance().ProjectChanged();
+            }
         }
 
         [DataMember()]
@@ -84,6 +103,8 @@ namespace Anathena.Source.Project.ProjectItems
                 String OldTypeName = this.TypeName;
                 TypeName = (value == null ? String.Empty : value.FullName);
                 _Value = (OldTypeName != TypeName) ? null : _Value;
+
+                ProjectExplorer.GetInstance().ProjectChanged();
             }
         }
 
@@ -107,7 +128,12 @@ namespace Anathena.Source.Project.ProjectItems
         public Boolean IsValueHex
         {
             get { return _IsValueHex; }
-            set { _IsValueHex = value; }
+            set
+            {
+                _IsValueHex = value;
+
+                ProjectExplorer.GetInstance().ProjectChanged();
+            }
         }
 
         [Browsable(false)]
