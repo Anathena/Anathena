@@ -268,7 +268,7 @@ namespace Anathena.GUI.Tools
         {
             ControlThreadingHelper.InvokeControlAction(ProjectExplorerTreeView, () =>
             {
-                if (E.Node == null)
+                if (E == null || E.Node == null)
                     return;
 
                 ProjectItem ProjectItem = GetProjectItemFromNode(E.Node);
@@ -280,6 +280,15 @@ namespace Anathena.GUI.Tools
 
                 EventRefreshProjectStructure(ProjectRoot);
             });
+        }
+
+        private void ProjectExplorerTreeView_NodeMouseDoubleClick(Object Sender, TreeNodeAdvMouseEventArgs E)
+        {
+            if (E == null || E.Node == null)
+                return;
+
+            ProjectItem ProjectItem = GetProjectItemFromNode(E.Node);
+            ProjectExplorerPresenter.PerformDefaultAction(ProjectItem);
         }
 
         private void ProjectExplorerTreeView_SelectionChanged(Object Sender, EventArgs E)

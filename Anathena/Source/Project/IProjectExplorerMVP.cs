@@ -48,6 +48,7 @@ namespace Anathena.Source.Project
         public abstract void DeleteItems(IEnumerable<ProjectItem> ProjectItems);
         public abstract void AddProjectItem(ProjectItem ProjectItem, ProjectItem Parent);
         public abstract void ActivateProjectItems(IEnumerable<ProjectItem> ProjectItem, Boolean ActivationState);
+        public abstract void PerformDefaultAction(ProjectItem ProjectItem);
         public abstract void SetUpdateSet(IEnumerable<ProjectItem> UpdateSet);
 
         public abstract void UpdateSelectedIndicies(IEnumerable<Int32> Indicies);
@@ -104,6 +105,14 @@ namespace Anathena.Source.Project
         public void ActivateProjectItems(IEnumerable<ProjectItem> ProjectItems, Boolean ActivationState)
         {
             Model.ActivateProjectItems(ProjectItems, ActivationState);
+        }
+
+        public void PerformDefaultAction(ProjectItem ProjectItem)
+        {
+            if (ProjectItem == null)
+                return;
+
+            Model.PerformDefaultAction(ProjectItem);
         }
 
         #endregion

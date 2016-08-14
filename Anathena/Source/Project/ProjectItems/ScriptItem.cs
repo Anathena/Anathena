@@ -26,6 +26,7 @@ namespace Anathena.Source.Project.ProjectItems
             set
             {
                 _LuaScript = value;
+
                 ProjectExplorer.GetInstance().ProjectChanged();
             }
         }

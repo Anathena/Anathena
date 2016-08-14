@@ -62,7 +62,12 @@ namespace Anathena.Source.Project.ProjectItems.TypeEditors
 
         public void SaveChanges(String NewScript)
         {
+            if (!HasChanges(NewScript))
+                return;
+
             LuaScript.Script = NewScript;
+
+            ProjectExplorer.GetInstance().ProjectChanged();
         }
 
         public Boolean HasChanges(String NewScript)

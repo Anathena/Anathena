@@ -2,6 +2,7 @@
 using Anathena.Source.Engine;
 using Anathena.Source.Engine.Processes;
 using Anathena.Source.Project.ProjectItems;
+using Anathena.Source.Project.ProjectItems.TypeEditors;
 using Anathena.Source.PropertyView;
 using System;
 using System.Collections.Generic;
@@ -75,6 +76,15 @@ namespace Anathena.Source.Project
         {
             foreach (ProjectItem ProjectItem in ProjectItems)
                 ProjectItem.SetActivationState(ActivationState);
+        }
+
+        public override void PerformDefaultAction(ProjectItem ProjectItem)
+        {
+            if (ProjectItem is ScriptItem)
+            {
+                ScriptEditor ScriptEditor = new ScriptEditor();
+                ScriptEditor.EditValue(null, (ProjectItem as ScriptItem).LuaScript);
+            }
         }
 
         public override void DeleteItems(IEnumerable<ProjectItem> ProjectItems)

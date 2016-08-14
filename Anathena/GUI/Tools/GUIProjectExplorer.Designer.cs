@@ -133,6 +133,7 @@
             this.ProjectExplorerTreeView.TabIndex = 154;
             this.ProjectExplorerTreeView.Text = "Project Explorer";
             this.ProjectExplorerTreeView.ItemDrag += new System.Windows.Forms.ItemDragEventHandler(this.ProjectExplorerTreeView_ItemDrag);
+            this.ProjectExplorerTreeView.NodeMouseDoubleClick += new System.EventHandler<Aga.Controls.Tree.TreeNodeAdvMouseEventArgs>(this.ProjectExplorerTreeView_NodeMouseDoubleClick);
             this.ProjectExplorerTreeView.SelectionChanged += new System.EventHandler(this.ProjectExplorerTreeView_SelectionChanged);
             this.ProjectExplorerTreeView.DragDrop += new System.Windows.Forms.DragEventHandler(this.ProjectExplorerTreeView_DragDrop);
             this.ProjectExplorerTreeView.DragEnter += new System.Windows.Forms.DragEventHandler(this.ProjectExplorerTreeView_DragEnter);
