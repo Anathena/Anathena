@@ -18,6 +18,10 @@ namespace Anathena.Source.Project.PropertyView.TypeConverters
             if (Value.GetType().GetInterfaces().Contains(typeof(IEnumerable)))
             {
                 IEnumerable<Object> TrueValue = (Value as IEnumerable).Cast<Object>();
+
+                if (TrueValue.Count() <= 0)
+                    return "(None)";
+
                 return String.Join(", ", TrueValue.Select(X => Conversions.ParseDecStringAsHexString(typeof(UInt64), X.ToString())));
             }
 
