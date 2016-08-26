@@ -7,6 +7,8 @@
     {
         void ProcessRegion(SnapshotRegion Region);
 
+        void FinishedAllRegions();
+
     } // End interface
 
 } // End namespace

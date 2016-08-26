@@ -11,7 +11,7 @@ namespace Anathena.GUI.Tools
     public partial class GUICheatBrowser : DockContent
     {
         // private ChromiumWebBrowser Browser;
-        private const String AnathenaCheatBrowseURL = "www.anathenaengine.com/browser/browser.php";
+        private const String AnathenaCheatBrowseURL = "http://www.anathena.com/browser/browser.php";
 
         private GeckoWebBrowser Browser;
         private Object AccessLock;
