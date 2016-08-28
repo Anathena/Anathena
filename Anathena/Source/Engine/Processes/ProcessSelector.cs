@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Anathena.Source.Utils;
+using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -48,10 +49,14 @@ namespace Anathena.Source.Engine.Processes
 
         private EngineCore EngineCore;
 
+        private Object ProcessLock;
+
         private ProcessSelector()
         {
             ProcessObservers = new List<IProcessObserver>();
             EngineCore = new EngineCore(null);
+
+            ProcessLock = new Object();
         }
 
         public void OnGUIOpen() { }
@@ -67,13 +72,16 @@ namespace Anathena.Source.Engine.Processes
         /// <param name="Observer"></param>
         public void Subscribe(IProcessObserver Observer)
         {
-            if (ProcessObservers.Contains(Observer))
-                return;
+            using (TimedLock.Lock(ProcessLock))
+            {
+                if (ProcessObservers.Contains(Observer))
+                    return;
 
-            ProcessObservers.Add(Observer);
+                ProcessObservers.Add(Observer);
 
-            if (EngineCore == null)
-                return;
+                if (EngineCore == null)
+                    return;
+            }
 
             // Notify just this observer
             Observer.UpdateEngineCore(EngineCore);
@@ -85,10 +93,13 @@ namespace Anathena.Source.Engine.Processes
         /// <param name="Observer"></param>
         public void Unsubscribe(IProcessObserver Observer)
         {
-            if (!ProcessObservers.Contains(Observer))
-                return;
+            using (TimedLock.Lock(ProcessLock))
+            {
+                if (!ProcessObservers.Contains(Observer))
+                    return;
 
-            ProcessObservers.Remove(Observer);
+                ProcessObservers.Remove(Observer);
+            }
         }
 
         /// <summary>
@@ -97,16 +108,19 @@ namespace Anathena.Source.Engine.Processes
         /// <param name="Process"></param>
         public void Notify(Process Process = null)
         {
-            // Update memory editor if applicable
-            if (Process != null)
-                EngineCore = new EngineCore(Process);
+            using (TimedLock.Lock(ProcessLock))
+            {
+                // Update memory editor if applicable
+                if (Process != null)
+                    EngineCore = new EngineCore(Process);
 
-            if (EngineCore == null)
-                return;
+                if (EngineCore == null || ProcessObservers == null)
+                    return;
 
-            // Notify subscribers
-            foreach (IProcessObserver ProcessObserver in ProcessObservers)
-                ProcessObserver.UpdateEngineCore(EngineCore);
+                // Notify subscribers
+                foreach (IProcessObserver ProcessObserver in ProcessObservers)
+                    ProcessObserver.UpdateEngineCore(EngineCore);
+            }
         }
 
         public void SelectProcess(Int32 Index)

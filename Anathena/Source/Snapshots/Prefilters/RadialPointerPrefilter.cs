@@ -27,7 +27,7 @@ namespace Anathena.Source.Snapshots.Prefilter
 
         // private ConcurrentDictionary<IntPtr, IntPtr> PointerPool;
         private LinkedList<SnapshotRegion> RegionList;
-        private Snapshot FilteredSnapshot;
+        private Snapshot<Null> FilteredSnapshot;
 
         private Object RegionLock;
         private Object ElementLock;
@@ -46,6 +46,8 @@ namespace Anathena.Source.Snapshots.Prefilter
             PrefilterProgress = new ProgressItem();
             PrefilterProgress.SetProgressLabel("Prefiltering");
             PrefilterProgress.RestrictProgress();
+
+            FilteredSnapshot.SetAlignment(Settings.GetInstance().GetAlignmentSettings());
 
             InitializeProcessObserver();
         }
@@ -69,7 +71,7 @@ namespace Anathena.Source.Snapshots.Prefilter
             {
                 // PointerPool = new ConcurrentDictionary<IntPtr, IntPtr>();
                 RegionList = new LinkedList<SnapshotRegion>();
-                FilteredSnapshot = new Snapshot<Null>();
+                FilteredSnapshot.ClearSnapshotRegions();
             }
         }
 
@@ -80,24 +82,18 @@ namespace Anathena.Source.Snapshots.Prefilter
 
         public Snapshot GetPrefilteredSnapshot()
         {
-            List<SnapshotRegion> Regions = new List<SnapshotRegion>();
-
             lock (RegionLock)
             {
-                // Add regions at the destination of each collected pointer (TODO: radial pointers, rather than just forward?)
-                // foreach (KeyValuePair<IntPtr, IntPtr> Pointer in PointerPool)
-                //     Regions.Add(new SnapshotRegion<Null>(Pointer.Value, PointerRadius));
+                List<SnapshotRegion<Null>> Regions = new List<SnapshotRegion<Null>>();
 
                 // Static bases are also considered valid
                 foreach (NormalizedModule NormalizedModule in EngineCore.Memory.GetModules())
                     Regions.Add(new SnapshotRegion<Null>(NormalizedModule.BaseAddress, NormalizedModule.RegionSize));
+
+                FilteredSnapshot.AddSnapshotRegions(Regions);
+
+                return new Snapshot<Null>(FilteredSnapshot);
             }
-
-            // Create snapshot from constructed regions
-            Snapshot<Null> PrefilteredSnapshot = new Snapshot<Null>(Regions);
-            PrefilteredSnapshot.SetAlignment(Settings.GetInstance().GetAlignmentSettings());
-
-            return PrefilteredSnapshot;
         }
 
         public override void Begin()
@@ -192,7 +188,7 @@ namespace Anathena.Source.Snapshots.Prefilter
             Snapshot<Null> Snapshot = new Snapshot<Null>(SnapshotManager.GetInstance().CollectSnapshot(UseSettings: false, UsePrefilter: false));
             dynamic InvalidPointerMin = EngineCore.Memory.IsProcess32Bit() ? (UInt32)UInt16.MaxValue : (UInt64)UInt16.MaxValue;
             dynamic InvalidPointerMax = EngineCore.Memory.IsProcess32Bit() ? Int32.MaxValue : Int64.MaxValue;
-            ConcurrentBag<SnapshotRegion> FoundRegions = new ConcurrentBag<SnapshotRegion>();
+            ConcurrentBag<SnapshotRegion<Null>> FoundRegions = new ConcurrentBag<SnapshotRegion<Null>>();
 
             using (TimedLock.Lock(RegionLock))
             {
@@ -252,6 +248,8 @@ namespace Anathena.Source.Snapshots.Prefilter
                         RegionList.AddLast(Region);
                     }
                 });
+
+                FilteredSnapshot.AddSnapshotRegions(FoundRegions);
             }
         }
 

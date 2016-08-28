@@ -288,8 +288,8 @@ namespace Anathena.Source.Snapshots
                 return;
 
             // Mask this snapshot regions against active virtual pages in the target
-            List<SnapshotRegion<Null>> ActiveRegions = new List<SnapshotRegion<Null>>();
-            EngineCore.Memory.GetAllVirtualPages().ForEach(X => ActiveRegions.Add(new SnapshotRegion<Null>(X)));
+            List<SnapshotRegion<LabelType>> ActiveRegions = new List<SnapshotRegion<LabelType>>();
+            EngineCore.Memory.GetAllVirtualPages().ForEach(X => ActiveRegions.Add(new SnapshotRegion<LabelType>(X)));
             ActiveRegions.ForEach(X => X.SetAlignment(this.Alignment));
             SnapshotRegions = MaskRegions(new Snapshot<LabelType>(ActiveRegions), this.GetSnapshotRegions());
 
@@ -419,6 +419,20 @@ namespace Anathena.Source.Snapshots
             }
 
             return ResultRegions.Count == 0 ? null : ResultRegions;
+        }
+
+        public void ClearSnapshotRegions()
+        {
+            this.SnapshotRegions = null;
+        }
+
+        public void AddSnapshotRegions(IEnumerable<SnapshotRegion<LabelType>> SnapshotRegions)
+        {
+            List<SnapshotRegion<LabelType>> NewRegions = this.SnapshotRegions == null ? new List<SnapshotRegion<LabelType>>() : ((IEnumerable<SnapshotRegion<LabelType>>)this.SnapshotRegions).ToList();
+            NewRegions.AddRange(SnapshotRegions);
+            this.SnapshotRegions = NewRegions;
+
+            MergeRegions();
         }
 
         /// <summary>
