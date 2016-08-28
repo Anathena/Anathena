@@ -59,7 +59,7 @@ namespace Anathena.Source.Scanners.ManualScanner
                 Boolean Success;
 
 
-                Region.ReadAllSnapshotMemory(Snapshot.GetEngineCore(), out Success, true);
+                Region.ReadAllRegionMemory(Snapshot.GetEngineCore(), out Success, true);
 
                 if (!Success)
                 {

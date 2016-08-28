@@ -454,13 +454,13 @@ namespace Anathena.Source.Scanners.PointerScanner
             PointerPool.Clear();
 
             // Collect memory regions
-            Snapshot = new Snapshot<Null>(SnapshotManager.GetInstance().CollectSnapshot(false, false));
+            Snapshot = new Snapshot<Null>(SnapshotManager.GetInstance().CollectSnapshot(UseSettings: false, UsePrefilter: false));
 
             // Set to type of a pointer
             if (EngineCore.Memory.IsProcess32Bit())
-                Snapshot.SetElementType(typeof(Int32));
+                Snapshot.SetElementType(typeof(UInt32));
             else
-                Snapshot.SetElementType(typeof(Int64));
+                Snapshot.SetElementType(typeof(UInt64));
 
 
             // As far as I can tell, no valid pointers will end up being less than 0x10000 (UInt16.MaxValue), nor higher than usermode space.
@@ -476,7 +476,7 @@ namespace Anathena.Source.Scanners.PointerScanner
                 Boolean Success;
 
                 // Read the memory of this region
-                Region.ReadAllSnapshotMemory(Snapshot.GetEngineCore(), out Success, true);
+                Region.ReadAllRegionMemory(Snapshot.GetEngineCore(), out Success, true);
 
                 if (!Success)
                     return;

@@ -249,6 +249,7 @@
     <Compile Include="Source\Engine\Proxy\ProxyCommunicator.cs" />
     <Compile Include="Source\Project\ProjectItems\TypeEditors\IScriptEditorMVP.cs" />
     <Compile Include="Source\Project\ProjectItems\TypeEditors\IOffsetEditorMVP.cs" />
+    <Compile Include="Source\Snapshots\Prefilters\RadialPointerPrefilter.cs" />
     <Compile Include="Source\Snapshots\RegionProcessor\ByteFrequencyProcessor.cs" />
     <Compile Include="Source\Snapshots\RegionProcessor\PointerScraper.cs" />
     <Compile Include="Source\Snapshots\RegionProcessor\RegionProcessorManager.cs" />
@@ -373,10 +374,10 @@
     <Compile Include="Source\Engine\InputCapture\Mouse\IMouseSubject.cs" />
     <Compile Include="Source\Engine\InputCapture\Mouse\MouseCapture.cs" />
     <Compile Include="Source\Engine\AddressResolver\DotNet\DotNetObjectCollector.cs" />
-    <Compile Include="Source\Snapshots\PrefiltersDEPRECATING\ISnapshotPrefilter.cs" />
-    <Compile Include="Source\Snapshots\PrefiltersDEPRECATING\LinkedListSnapshotPrefilter.cs" />
-    <Compile Include="Source\Snapshots\PrefiltersDEPRECATING\QueueSnapshotPrefilter.cs" />
-    <Compile Include="Source\Snapshots\PrefiltersDEPRECATING\SnapshotPrefilterFactory.cs" />
+    <Compile Include="Source\Snapshots\Prefilters\ISnapshotPrefilter.cs" />
+    <Compile Include="Source\Snapshots\Prefilters\LinkedListSnapshotPrefilter.cs" />
+    <Compile Include="Source\Snapshots\Prefilters\QueueSnapshotPrefilter.cs" />
+    <Compile Include="Source\Snapshots\Prefilters\SnapshotPrefilterFactory.cs" />
     <Compile Include="Source\Engine\Hook\Graphics\IGraphicsInterface.cs" />
     <Compile Include="Source\Engine\Hook\Graphics\OpenGL\ConnectorOpenGL.cs" />
     <Compile Include="Source\Engine\InputCapture\Controller\ControllerCapture.cs" />

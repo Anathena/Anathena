@@ -70,7 +70,7 @@ namespace Anathena.Source.Scanners.TreeScanner
                 Boolean Success;
 
                 // Process the changes that have occurred since the last sampling for this memory page
-                Tree.ProcessChanges(Tree.ReadAllSnapshotMemory(EngineCore, out Success, false), Tree.BaseAddress);
+                Tree.ProcessChanges(Tree.ReadAllRegionMemory(EngineCore, out Success, false), Tree.BaseAddress);
 
                 if (!Success)
                 {

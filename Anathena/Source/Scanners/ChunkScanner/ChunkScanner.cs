@@ -67,7 +67,7 @@ namespace Anathena.Source.Scanners.ChunkScanner
                 Boolean Success;
 
                 // Process the changes that have occurred since the last sampling for this memory page
-                ChunkRoot.ProcessChanges(ChunkRoot.ReadAllSnapshotMemory(EngineCore, out Success, false));
+                ChunkRoot.ProcessChanges(ChunkRoot.ReadAllRegionMemory(EngineCore, out Success, false));
 
                 if (!Success)
                 {

@@ -10,6 +10,8 @@ namespace Anathena.Source.Snapshots.Prefilter
                 return LinkedListSnapshotPrefilter.GetInstance();
             else if (PrefilterClass == typeof(QueueSnapshotPrefilter))
                 return QueueSnapshotPrefilter.GetInstance();
+            else if (PrefilterClass == typeof(RadialPointerPrefilter))
+                return RadialPointerPrefilter.GetInstance();
 
             throw new Exception(PrefilterClass?.ToString() + " - Type is not a valid prefilter");
         }

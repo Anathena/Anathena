@@ -192,10 +192,10 @@ namespace Anathena.Source.Snapshots
             return true;
         }
 
-        public Byte[] ReadAllSnapshotMemory(EngineCore Engine, out Boolean Success, Boolean KeepValues = true)
+        public Byte[] ReadAllRegionMemory(EngineCore EngineCore, out Boolean Success, Boolean KeepValues = true)
         {
             Success = false;
-            Byte[] CurrentValues = Engine.Memory.ReadBytes(this.BaseAddress, this.RegionSize + RegionExtension, out Success);
+            Byte[] CurrentValues = EngineCore.Memory.ReadBytes(this.BaseAddress, this.RegionSize + RegionExtension, out Success);
 
             if (!Success)
                 return null;

@@ -297,7 +297,7 @@ namespace Anathena.Source.Snapshots
             {
                 Boolean Success;
 
-                SnapshotRegion.ReadAllSnapshotMemory(EngineCore, out Success);
+                SnapshotRegion.ReadAllRegionMemory(EngineCore, out Success);
 
                 if (!Success)
                 {
@@ -319,7 +319,7 @@ namespace Anathena.Source.Snapshots
             foreach (SnapshotRegion SnapshotRegion in NewRegions)
             {
                 Boolean Success;
-                SnapshotRegion.ReadAllSnapshotMemory(EngineCore, out Success);
+                SnapshotRegion.ReadAllRegionMemory(EngineCore, out Success);
             }
         }
 
@@ -485,7 +485,7 @@ namespace Anathena.Source.Snapshots
                 NewSnapshotRegions.Remove(Region);
 
             // Get current memory regions
-            Snapshot<LabelType> Mask = new Snapshot<LabelType>(SnapshotManager.GetInstance().CollectSnapshot(false, false));
+            Snapshot<LabelType> Mask = new Snapshot<LabelType>(SnapshotManager.GetInstance().CollectSnapshot(UseSettings: false, UsePrefilter: false));
 
             // Mask each region against the current virtual memory regions
             IEnumerable<SnapshotRegion<LabelType>> MaskedRegions = MaskRegions(Mask, DeallocatedRegions);

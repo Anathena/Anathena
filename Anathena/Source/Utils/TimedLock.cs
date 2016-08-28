@@ -8,7 +8,7 @@ namespace Anathena.Source.Utils
         public static TimedLock Lock(Object Object)
         {
 #if DEBUG
-            return Lock(Object, TimeSpan.FromSeconds(10));
+            return Lock(Object, TimeSpan.FromSeconds(120));
 #else
             return Lock(Object, TimeSpan.FromSeconds(1000));
 #endif
