@@ -288,10 +288,9 @@ namespace Anathena.Source.Snapshots
                 return;
 
             // Mask this snapshot regions against active virtual pages in the target
-            List<SnapshotRegion<LabelType>> ActiveRegions = new List<SnapshotRegion<LabelType>>();
-            EngineCore.Memory.GetAllVirtualPages().ForEach(X => ActiveRegions.Add(new SnapshotRegion<LabelType>(X)));
-            ActiveRegions.ForEach(X => X.SetAlignment(this.Alignment));
-            SnapshotRegions = MaskRegions(new Snapshot<LabelType>(ActiveRegions), this.GetSnapshotRegions());
+            // TODO: Debug this shit, apparently it isn't working correctly
+            // Snapshot<LabelType> Mask = new Snapshot<LabelType>(SnapshotManager.GetInstance().CollectSnapshot(UseSettings: false, UsePrefilter: false));
+            // SnapshotRegions = MaskRegions(Mask, this.GetSnapshotRegions());
 
             Parallel.ForEach(SnapshotRegions, (SnapshotRegion) =>
             {

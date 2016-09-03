@@ -33,7 +33,7 @@ namespace Anathena.Source.Snapshots
             CurrentType = Type.GetTypeCode(Parent.ElementType);
 
             Byte[] CurrentValues = Parent.GetCurrentValues();
-            if (CurrentValues != null)
+            if (CurrentValues != null && CurrentValues.Count() > 0)
             {
                 fixed (Byte* Base = &CurrentValues[Index])
                 {
@@ -46,7 +46,7 @@ namespace Anathena.Source.Snapshots
             }
 
             Byte[] PreviousValues = Parent.GetPreviousValues();
-            if (PreviousValues != null)
+            if (PreviousValues != null && PreviousValues.Count() > 0)
             {
                 fixed (Byte* Base = &PreviousValues[Index])
                 {

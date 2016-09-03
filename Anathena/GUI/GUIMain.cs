@@ -428,7 +428,7 @@ namespace Anathena.GUI
 
         private void CreateSettings()
         {
-            ControlThreadingHelper.InvokeControlAction(GUISettings, () =>
+            ControlThreadingHelper.InvokeControlAction(ContentPanel, () =>
             {
                 using (TimedLock.Lock(AccessLock))
                 {

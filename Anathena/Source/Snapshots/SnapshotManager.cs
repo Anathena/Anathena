@@ -131,7 +131,7 @@ namespace Anathena.Source.Snapshots
                 return new Snapshot<Null>();
 
             if (UsePrefilter)
-                return SnapshotPrefilterFactory.GetSnapshotPrefilter(typeof(RadialPointerPrefilter)).GetPrefilteredSnapshot();
+                return SnapshotPrefilterFactory.GetSnapshotPrefilter(typeof(ShallowPointerPrefilter)).GetPrefilteredSnapshot();
 
             IEnumerable<NormalizedRegion> VirtualPages = CollectSnapshotRegions(UseSettings);
 

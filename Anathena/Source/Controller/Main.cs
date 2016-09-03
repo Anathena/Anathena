@@ -59,7 +59,7 @@ namespace Anathena.Source.Controller
         {
             ProxyCommunicator.GetInstance().InitializeServices();
 
-            SnapshotPrefilterFactory.GetSnapshotPrefilter(typeof(RadialPointerPrefilter)).BeginPrefilter();
+            SnapshotPrefilterFactory.GetSnapshotPrefilter(typeof(ShallowPointerPrefilter)).BeginPrefilter();
             DotNetObjectCollector.GetInstance().Begin();
             AddressResolver.GetInstance().Begin();
         }

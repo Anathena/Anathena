@@ -93,6 +93,7 @@ namespace Anathena.Source.Scanners.ChunkScanner
 
             // Grow regions by the size of the largest standard variable and mask this with the original memory list.
             Snapshot.ExpandAllRegionsOutward(PrimitiveTypes.GetLargestPrimitiveSize() - 1);
+            // TODO: this is wrong usage, but this class is deprecated anyways so whatever
             Snapshot = new Snapshot<Null>(Snapshot.MaskRegions(Snapshot, Snapshot.GetSnapshotRegions()));
             Snapshot.SetAlignment(Settings.GetInstance().GetAlignmentSettings());
 
