@@ -3,7 +3,7 @@ using Aga.Controls.Tree.NodeControls;
 using Anathena.GUI.CustomControls.TreeViews;
 using Anathena.Source.Project;
 using Anathena.Source.Project.ProjectItems;
-using Anathena.Source.Utils.Caches;
+using Anathena.Source.Utils.DataStructures;
 using Anathena.Source.Utils.Extensions;
 using Anathena.Source.Utils.MVP;
 using System;

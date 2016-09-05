@@ -1,6 +1,6 @@
 ﻿using Anathena.Source.Snapshots;
 using Anathena.Source.Utils;
-using Anathena.Source.Utils.Caches;
+using Anathena.Source.Utils.DataStructures;
 using Anathena.Source.Utils.MVP;
 using Anathena.Source.Utils.Validation;
 using System;

@@ -1,7 +1,7 @@
 ﻿using Anathena.Source.Engine.OperatingSystems;
 using Anathena.Source.UserSettings;
 using Anathena.Source.Utils;
-using Anathena.Source.Utils.Caches;
+using Anathena.Source.Utils.DataStructures;
 using Anathena.Source.Utils.Extensions;
 using Anathena.Source.Utils.MVP;
 using Be.Windows.Forms;

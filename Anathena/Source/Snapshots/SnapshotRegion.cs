@@ -26,6 +26,8 @@ namespace Anathena.Source.Snapshots
         public BitArray Valid;                          // Valid bits for use in filtering scans
         public SnapshotElement CurrentSnapshotElement;  // Regions only access one element at a time, so it is held here to avoid uneccessary memory usage
 
+        public DateTime TimeSinceLastRead { get; private set; }
+
         public SnapshotRegion(IntPtr BaseAddress, Int32 RegionSize) : base(BaseAddress, RegionSize) { RegionExtension = 0; }
         public SnapshotRegion(NormalizedRegion RemoteRegion) : base(RemoteRegion.BaseAddress, RemoteRegion.RegionSize) { RegionExtension = 0; }
         public SnapshotRegion(SnapshotRegion SnapshotRegion) : base(SnapshotRegion.BaseAddress, SnapshotRegion.RegionSize) { this.RegionExtension = SnapshotRegion.RegionExtension; }
@@ -194,6 +196,8 @@ namespace Anathena.Source.Snapshots
 
         public Byte[] ReadAllRegionMemory(EngineCore EngineCore, out Boolean Success, Boolean KeepValues = true)
         {
+            TimeSinceLastRead = DateTime.Now;
+
             Success = false;
             Byte[] CurrentValues = EngineCore.Memory.ReadBytes(this.BaseAddress, this.RegionSize + RegionExtension, out Success);
 

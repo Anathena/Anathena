@@ -1,6 +1,6 @@
 ﻿using Anathena.Source.Results.ScanResults;
 using Anathena.Source.Utils;
-using Anathena.Source.Utils.Caches;
+using Anathena.Source.Utils.DataStructures;
 using Anathena.Source.Utils.MVP;
 using System;
 using System.Windows.Forms;

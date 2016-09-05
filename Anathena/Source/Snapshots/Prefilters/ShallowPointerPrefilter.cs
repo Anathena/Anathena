@@ -3,9 +3,9 @@ using Anathena.Source.Engine.OperatingSystems;
 using Anathena.Source.Engine.Processes;
 using Anathena.Source.UserSettings;
 using Anathena.Source.Utils;
+using Anathena.Source.Utils.DataStructures;
 using Anathena.Source.Utils.Extensions;
 using System;
-using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
@@ -26,27 +26,23 @@ namespace Anathena.Source.Snapshots.Prefilter
         private EngineCore EngineCore;
 
         private const Int32 PointerRadius = 2048;
-        private const Int32 RegionLimit = 16;
+        private const Int32 RegionLimit = 8192;
         private const Int32 RescanTime = 4096;
         private const Int32 CompletionThreshold = 97;
 
         private Int64 ProcessedCount;
 
-        private LinkedList<SnapshotRegion> RegionList;
         private Snapshot<Null> FilteredSnapshot;
 
         private Object RegionLock;
-        private Object ElementLock;
 
         private ProgressItem PrefilterProgress;
 
         private ShallowPointerPrefilter()
         {
-            RegionList = new LinkedList<SnapshotRegion>();
             FilteredSnapshot = new Snapshot<Null>();
 
             RegionLock = new Object();
-            ElementLock = new Object();
             ProcessedCount = 0;
 
             PrefilterProgress = new ProgressItem();
@@ -75,18 +71,8 @@ namespace Anathena.Source.Snapshots.Prefilter
             // Clear processing queue on process update
             using (TimedLock.Lock(RegionLock))
             {
-                RegionList = new LinkedList<SnapshotRegion>();
                 FilteredSnapshot.ClearSnapshotRegions();
                 ProcessedCount = 0;
-
-                // Add static bases
-                List<SnapshotRegion<Null>> Regions = new List<SnapshotRegion<Null>>();
-                foreach (NormalizedModule NormalizedModule in EngineCore.Memory.GetModules())
-                {
-                    Regions.Add(new SnapshotRegion<Null>(NormalizedModule.BaseAddress, NormalizedModule.RegionSize));
-                    RegionList.AddFirst(new SnapshotRegion<Null>(NormalizedModule.BaseAddress, NormalizedModule.RegionSize));
-                }
-                FilteredSnapshot.AddSnapshotRegions(Regions);
             }
         }
 
@@ -126,24 +112,25 @@ namespace Anathena.Source.Snapshots.Prefilter
             Snapshot<Null> Snapshot = new Snapshot<Null>(SnapshotManager.GetInstance().CollectSnapshot(UseSettings: false, UsePrefilter: false));
             dynamic InvalidPointerMin = EngineCore.Memory.IsProcess32Bit() ? (UInt32)UInt16.MaxValue : (UInt64)UInt16.MaxValue;
             dynamic InvalidPointerMax = EngineCore.Memory.IsProcess32Bit() ? Int32.MaxValue : Int64.MaxValue;
-            ConcurrentBag<SnapshotRegion<Null>> FoundRegions = new ConcurrentBag<SnapshotRegion<Null>>();
+            ConcurrentHashSet<IntPtr> FoundPointers = new ConcurrentHashSet<IntPtr>();
+
+            // Add static bases
+            List<SnapshotRegion<Null>> BaseRegions = new List<SnapshotRegion<Null>>();
+            foreach (NormalizedModule NormalizedModule in EngineCore.Memory.GetModules())
+                BaseRegions.Add(new SnapshotRegion<Null>(NormalizedModule.BaseAddress, NormalizedModule.RegionSize));
+            FilteredSnapshot.AddSnapshotRegions(BaseRegions);
 
             using (TimedLock.Lock(RegionLock))
             {
+                List<SnapshotRegion> FilteredRegions = new List<SnapshotRegion>(FilteredSnapshot.GetSnapshotRegions().OrderBy(X => X.TimeSinceLastRead));
+
                 // Process the allowed amount of chunks from the priority queue
-                Parallel.For(0, Math.Min(RegionList.Count, RegionLimit), Index =>
+                Parallel.For(0, Math.Min(FilteredRegions.Count, RegionLimit), Index =>
                 {
                     Interlocked.Increment(ref ProcessedCount);
 
-                    SnapshotRegion Region;
+                    SnapshotRegion Region = FilteredRegions[Index];
                     Boolean Success;
-
-                    // Grab next available element
-                    lock (ElementLock)
-                    {
-                        Region = RegionList.First();
-                        RegionList.RemoveFirst();
-                    }
 
                     // Set to type of a pointer
                     Region.SetElementType(EngineCore.Memory.IsProcess32Bit() ? typeof(UInt32) : typeof(UInt64));
@@ -175,18 +162,16 @@ namespace Anathena.Source.Snapshots.Prefilter
 
                         // Check if it is possible that this pointer is valid, if so keep it
                         if (Snapshot.ContainsAddress(Value))
-                            FoundRegions.Add(new SnapshotRegion<Null>(Value.Subtract(PointerRadius), PointerRadius * 2));
+                            FoundPointers.Add(Value);
                     }
 
                     // Clear the saved values, we do not need them now
                     Region.SetCurrentValues(null);
-
-                    // Put at the end of our processing list -- this region now has the lowest priority
-                    using (TimedLock.Lock(ElementLock))
-                    {
-                        RegionList.AddLast(Region);
-                    }
                 });
+
+                List<SnapshotRegion<Null>> FoundRegions = new List<SnapshotRegion<Null>>();
+                foreach (IntPtr Pointer in FoundPointers)
+                    FoundRegions.Add(new SnapshotRegion<Null>(Pointer.Subtract(PointerRadius), PointerRadius * 2));
 
                 FilteredSnapshot.AddSnapshotRegions(FoundRegions);
                 ProcessedCount = Math.Max(ProcessedCount, FilteredSnapshot.GetRegionCount());

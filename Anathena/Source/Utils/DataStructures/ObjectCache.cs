@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Windows.Forms;
 
-namespace Anathena.Source.Utils.Caches
+namespace Anathena.Source.Utils.DataStructures
 {
     class ObjectCache<T>
     {

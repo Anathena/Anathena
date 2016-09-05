@@ -251,6 +251,7 @@
     <Compile Include="Source\Project\ProjectItems\TypeEditors\IOffsetEditorMVP.cs" />
     <Compile Include="Source\Snapshots\Prefilters\ShallowPointerPrefilter.cs" />
     <Compile Include="Source\Snapshots\Prefilters\PointerPoolPrefilter.cs" />
+    <Compile Include="Source\Utils\DataStructures\ConcurrentHashSet.cs" />
     <Compile Include="Source\Utils\InputRequest.cs" />
     <Compile Include="Source\Project\ProjectItems\ScriptTemplates\LuaTemplates.cs" />
     <Compile Include="Source\Project\ProjectItems\TypeEditors\HotKeyEditor.cs" />
@@ -391,13 +392,13 @@
     <Compile Include="Source\Engine\Hook\SpeedHack\SpeedHackInterface.cs" />
     <Compile Include="Source\Engine\Hook\SpeedHack\ISpeedHackInterface.cs" />
     <Compile Include="Source\Utils\Browser\BrowserHelper.cs" />
-    <Compile Include="Source\Utils\Caches\BiDictionary.cs" />
+    <Compile Include="Source\Utils\DataStructures\BiDictionary.cs" />
     <Compile Include="Source\DotNetExplorer\IDotNetExplorerMVP.cs" />
     <Compile Include="Source\DotNetExplorer\DotNetExplorer.cs" />
     <Compile Include="Source\Utils\Extensions\IEnumerableExtensions.cs" />
     <Compile Include="Source\Utils\Extensions\IntExtensions.cs" />
     <Compile Include="Source\Utils\Extensions\IntPtrExtensions.cs" />
-    <Compile Include="Source\Utils\Caches\ObjectCache.cs" />
+    <Compile Include="Source\Utils\DataStructures\ObjectCache.cs" />
     <Compile Include="Source\Utils\Extensions\PrimitiveExtensions.cs" />
     <Compile Include="Source\Engine\Hook\Client\HookClient.cs" />
     <Compile Include="Source\LuaEngine\Graphics\IGraphicsCore.cs" />
@@ -409,7 +410,7 @@
     <Compile Include="Source\Engine\OperatingSystems\IOperatingSystem.cs" />
     <Compile Include="Source\LuaEngine\LuaCore.cs" />
     <Compile Include="Properties\Settings.cs" />
-    <Compile Include="Source\Utils\Caches\ListViewCache.cs" />
+    <Compile Include="Source\Utils\DataStructures\ListViewCache.cs" />
     <Compile Include="Source\Utils\ProgressItem.cs" />
     <Compile Include="Source\Utils\RepeatedTask.cs" />
     <Compile Include="Source\LuaEngine\LuaKeywordManager.cs" />
@@ -536,12 +537,6 @@
     </Compile>
     <Compile Include="GUI\CustomControls\HexEditor\Util.cs" />
     <Compile Include="GUI\CustomControls\HexEditor\W32.cs" />
-    <Compile Include="GUI\Tools\Scanners\GUIChunkScanner.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="GUI\Tools\Scanners\GUIChunkScanner.Designer.cs">
-      <DependentUpon>GUIChunkScanner.cs</DependentUpon>
-    </Compile>
     <Compile Include="Source\Controller\Main.cs" />
     <Compile Include="Source\Engine\Architecture\Assembler\Fasm32Assembler.cs" />
     <Compile Include="Source\Engine\Architecture\Assembler\IAssembler.cs" />
@@ -578,9 +573,6 @@
     <Compile Include="Source\Engine\OperatingSystems\Windows\Native\NativeMethods.cs" />
     <Compile Include="Source\Engine\OperatingSystems\Windows\Native\SafeMemoryHandle.cs" />
     <Compile Include="Source\Engine\OperatingSystems\Windows\Native\Structures.cs" />
-    <Compile Include="Source\Scanners\ChunkScanner\ChunkScanner.cs" />
-    <Compile Include="Source\Scanners\ChunkScanner\IChunkScannerMVP.cs" />
-    <Compile Include="Source\Scanners\TreeScanner\ITreeScannerMVP.cs" />
     <Compile Include="Source\Scanners\ChangeCounter\ChangeCounter.cs" />
     <Compile Include="Source\Scanners\ChangeCounter\IChangeCounterMVP.cs" />
     <Compile Include="Source\Engine\Processes\IProcessObserver.cs" />
@@ -598,12 +590,6 @@
     </Compile>
     <Compile Include="GUI\Tools\GUIProcessSelector.Designer.cs">
       <DependentUpon>GUIProcessSelector.cs</DependentUpon>
-    </Compile>
-    <Compile Include="GUI\Tools\Scanners\GUITreeScanner.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="GUI\Tools\Scanners\GUITreeScanner.Designer.cs">
-      <DependentUpon>GUITreeScanner.cs</DependentUpon>
     </Compile>
     <Compile Include="GUI\Tools\Scanners\GUIManualScanner.cs">
       <SubType>Form</SubType>
@@ -657,7 +643,6 @@
     <Compile Include="Source\Utils\TimedLock.cs" />
     <Compile Include="Source\Utils\Validation\CheckSyntax.cs" />
     <Compile Include="Source\Scanners\InputCorrelator\InputCorrelator.cs" />
-    <Compile Include="Source\Scanners\TreeScanner\TreeScanner.cs" />
     <Compile Include="Source\Utils\Validation\Conversions.cs" />
     <Compile Include="Source\Controller\IMainMVP.cs" />
     <Compile Include="Source\Engine\Processes\IProcessSubject.cs" />
@@ -867,9 +852,6 @@
     <EmbeddedResource Include="GUI\Tools\GUIMemoryView.resx">
       <DependentUpon>GUIMemoryView.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="GUI\Tools\Scanners\GUIChunkScanner.resx">
-      <DependentUpon>GUIChunkScanner.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="GUI\Tools\Scanners\GUIFiniteStateBuilder.resx">
       <DependentUpon>GUIFiniteStateBuilder.cs</DependentUpon>
     </EmbeddedResource>
@@ -881,9 +863,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\Tools\GUIProcessSelector.resx">
       <DependentUpon>GUIProcessSelector.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="GUI\Tools\Scanners\GUITreeScanner.resx">
-      <DependentUpon>GUITreeScanner.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\Tools\Scanners\GUIManualScanner.resx">
       <DependentUpon>GUIManualScanner.cs</DependentUpon>

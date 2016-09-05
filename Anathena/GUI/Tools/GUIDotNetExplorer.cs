@@ -2,7 +2,7 @@
 using Anathena.GUI.CustomControls.TreeViews;
 using Anathena.Source.DotNetExplorer;
 using Anathena.Source.Engine.AddressResolver.DotNet;
-using Anathena.Source.Utils.Caches;
+using Anathena.Source.Utils.DataStructures;
 using Anathena.Source.Utils.Extensions;
 using Anathena.Source.Utils.MVP;
 using System;

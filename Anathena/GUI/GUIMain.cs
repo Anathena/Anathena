@@ -1,6 +1,5 @@
 ﻿using Anathena.GUI.Tools;
 using Anathena.GUI.Tools.Scanners;
-using Anathena.GUI.Tools.TypeEditors;
 using Anathena.Source.Controller;
 using Anathena.Source.Utils;
 using Anathena.Source.Utils.Extensions;
@@ -28,12 +27,9 @@ namespace Anathena.GUI
         private GUIProcessSelector GUIProcessSelector;
         private GUICodeView GUICodeView;
         private GUIMemoryView GUIMemoryView;
-        private GUIScriptEditor GUIScriptEditor;
 
         private GUIFiniteStateScanner GUIFiniteStateScanner;
         private GUIManualScanner GUIManualScanner;
-        private GUITreeScanner GUITreeScanner;
-        private GUIChunkScanner GUIChunkScanner;
         private GUIChangeCounter GUIChangeCounter;
         private GUILabelThresholder GUILabelThresholder;
         private GUIInputCorrelator GUIInputCorrelator;
@@ -248,34 +244,6 @@ namespace Anathena.GUI
                         GUIManualScanner = new GUIManualScanner();
 
                     GUIManualScanner.Show(ContentPanel);
-                }
-            });
-        }
-
-        private void CreateTreeScanner()
-        {
-            ControlThreadingHelper.InvokeControlAction(ContentPanel, () =>
-            {
-                using (TimedLock.Lock(AccessLock))
-                {
-                    if (GUITreeScanner == null || GUITreeScanner.IsDisposed)
-                        GUITreeScanner = new GUITreeScanner();
-
-                    GUITreeScanner.Show(ContentPanel);
-                }
-            });
-        }
-
-        private void CreateChunkScanner()
-        {
-            ControlThreadingHelper.InvokeControlAction(ContentPanel, () =>
-            {
-                using (TimedLock.Lock(AccessLock))
-                {
-                    if (GUIChunkScanner == null || GUIChunkScanner.IsDisposed)
-                        GUIChunkScanner = new GUIChunkScanner();
-
-                    GUIChunkScanner.Show(ContentPanel);
                 }
             });
         }
@@ -554,16 +522,6 @@ namespace Anathena.GUI
             CreateManualScanner();
         }
 
-        private void TreeScannerToolStripMenuItem_Click(Object Sender, EventArgs E)
-        {
-            CreateTreeScanner();
-        }
-
-        private void ChunkScannerToolStripMenuItem_Click(Object Sender, EventArgs E)
-        {
-            CreateChunkScanner();
-        }
-
         private void InputCorrelatorToolStripMenuItem_Click(Object Sender, EventArgs E)
         {
             CreateInputCorrelator();
@@ -692,8 +650,6 @@ namespace Anathena.GUI
 
                 FiniteStateScannerToolStripMenuItem.Checked = (GUIFiniteStateScanner == null || GUIFiniteStateScanner.IsDisposed) ? false : true;
                 ManualScannerToolStripMenuItem.Checked = (GUIManualScanner == null || GUIManualScanner.IsDisposed) ? false : true;
-                TreeScannerToolStripMenuItem.Checked = (GUITreeScanner == null || GUITreeScanner.IsDisposed) ? false : true;
-                ChunkScannerToolStripMenuItem.Checked = (GUIChunkScanner == null || GUIChunkScanner.IsDisposed) ? false : true;
                 ChangeCounterToolStripMenuItem.Checked = (GUIChangeCounter == null || GUIChangeCounter.IsDisposed) ? false : true;
                 LabelThresholderToolStripMenuItem.Checked = (GUILabelThresholder == null || GUILabelThresholder.IsDisposed) ? false : true;
                 InputCorrelatorToolStripMenuItem.Checked = (GUIInputCorrelator == null || GUIInputCorrelator.IsDisposed) ? false : true;

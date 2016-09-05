@@ -429,13 +429,20 @@ namespace Anathena.Source.Snapshots
         {
             List<SnapshotRegion<LabelType>> NewRegions = this.SnapshotRegions == null ? new List<SnapshotRegion<LabelType>>() : ((IEnumerable<SnapshotRegion<LabelType>>)this.SnapshotRegions).ToList();
             NewRegions.AddRange(SnapshotRegions);
-            this.SnapshotRegions = NewRegions;
+            this.SnapshotRegions = NewRegions.ToArray();
+            Array.Sort((SnapshotRegion<LabelType>[])this.SnapshotRegions, (X, Y) => (X.BaseAddress.ToUInt64()).CompareTo(Y.BaseAddress.ToUInt64()));
 
             MergeRegions();
+
+            if (this.ContainsAddress(new IntPtr(0x00805468)))
+            {
+                int i = 0;
+                i++;
+            }
         }
 
         /// <summary>
-        /// Merges labeled, non-overlapping regions in the current list of memory regions using a fast stack based algorithm O(nlogn + n)
+        /// Merges regions in the current list of memory regions using a fast stack based algorithm O(nlogn + n)
         /// </summary>
         private void MergeRegions()
         {
@@ -444,11 +451,11 @@ namespace Anathena.Source.Snapshots
 
             SnapshotRegion<LabelType>[] SnapshotRegionArray = ((IEnumerable<SnapshotRegion<LabelType>>)this.SnapshotRegions).ToArray();
 
-            if (SnapshotRegionArray == null || SnapshotRegionArray.Length == 0)
+            if (SnapshotRegionArray == null || SnapshotRegionArray.Length <= 0)
                 return;
 
             // First, sort by start address
-            Array.Sort(SnapshotRegionArray, (x, y) => (x.BaseAddress.ToUInt64()).CompareTo(y.BaseAddress.ToUInt64()));
+            Array.Sort(SnapshotRegionArray, (X, Y) => (X.BaseAddress.ToUInt64()).CompareTo(Y.BaseAddress.ToUInt64()));
 
             // Create and initialize the stack with the first region
             Stack<SnapshotRegion<LabelType>> CombinedRegions = new Stack<SnapshotRegion<LabelType>>();
@@ -479,7 +486,7 @@ namespace Anathena.Source.Snapshots
 
             // Replace memory regions with merged memory regions
             this.SnapshotRegions = CombinedRegions.ToArray();
-            Array.Sort((SnapshotRegion<LabelType>[])this.SnapshotRegions, (x, y) => (x.BaseAddress.ToUInt64()).CompareTo(y.BaseAddress.ToUInt64()));
+            Array.Sort((SnapshotRegion<LabelType>[])this.SnapshotRegions, (X, Y) => (X.BaseAddress.ToUInt64()).CompareTo(Y.BaseAddress.ToUInt64()));
         }
 
         /// <summary>
