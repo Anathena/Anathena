@@ -1,11 +1,11 @@
-﻿namespace Anna.Source.ViewModel
+﻿namespace Anna.Source.MVVM.ViewModel
 
 open System
 open System.Windows
 open System.Windows.Input
 open System.ComponentModel
 
-type RelayCommand (canExecute:(obj -> bool), action:(obj -> unit)) =
+type RelayCommand (canExecute:(Object -> Boolean), action:(Object -> Unit)) =
     let event = new DelegateEvent<EventHandler>()
     interface ICommand with
         [<CLIEvent>]

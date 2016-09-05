@@ -1,6 +1,6 @@
-﻿namespace Anna.Source.Repository
+﻿namespace Anna.Source.MVVM.Repository
 
-open Anna.Source.Model
+open Anna.Source.MVVM.Model
 
 type ExpenseReportRepository() =
     member x.GetAll() =

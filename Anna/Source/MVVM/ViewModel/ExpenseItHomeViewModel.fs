@@ -1,4 +1,4 @@
-﻿namespace Anna.Source.ViewModel
+﻿namespace Anna.Source.MVVM.ViewModel
 
 open System
 open System.Xml
@@ -7,8 +7,8 @@ open System.Windows.Data
 open System.Windows.Input
 open System.ComponentModel
 open System.Collections.ObjectModel
-open Anna.Source.Model
-open Anna.Source.Repository
+open Anna.Source.MVVM.Model
+open Anna.Source.MVVM.Repository
 open System.Reflection
 
 type ApprovalStatus =

@@ -1,4 +1,4 @@
-﻿module ConverterBase
+﻿module Anna.Source.MVVM.Behavior
 
 open System;
 open System.Windows
@@ -23,12 +23,12 @@ type ConverterBase(convertFunction, convertBackFunction) =
             this.ConvertBack value targetType parameter culture
     
     /// abstract member that allows the convert function to be overridden
-    abstract member Convert : (obj -> Type -> obj -> Globalization.CultureInfo -> obj)
+    abstract member Convert : (Object -> Type -> Object -> Globalization.CultureInfo -> Object)
     /// default Convert implementation
     default this.Convert = convertFunction
 
     /// abstract member that allows the convert back function to be overridden
-    abstract member ConvertBack : (obj -> Type -> obj -> Globalization.CultureInfo -> obj)
+    abstract member ConvertBack : (Object -> Type -> Object -> Globalization.CultureInfo -> Object)
     /// default ConvertBack implementation 
     default this.ConvertBack = convertBackFunction
 

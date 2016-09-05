@@ -4,7 +4,7 @@ open System
 open System.Windows
 open System.Windows.Controls
 open System.Windows.Markup
-open Anna.Source.ViewModel
+open Anna.Source.MVVM.ViewModel
 
 // Create the View and bind it to the View Model
 let mainWindowViewModel = Application.LoadComponent(

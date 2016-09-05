@@ -1,4 +1,4 @@
-﻿namespace Anna.Source.ViewModel
+﻿namespace Anna.Source.MVVM.ViewModel
 
 open System
 open System.Collections.ObjectModel

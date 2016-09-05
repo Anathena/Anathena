@@ -1,4 +1,4 @@
-﻿namespace Anna.Source.Behavior
+﻿namespace Anna.Source.MVVM.Behavior
 
 open System
 open System.Windows

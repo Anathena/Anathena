@@ -11,8 +11,9 @@
     <AssemblyName>App</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <Name>App</Name>
-    <TargetFSharpCoreVersion>4.3.0.0</TargetFSharpCoreVersion>
+    <TargetFSharpCoreVersion>4.4.0.0</TargetFSharpCoreVersion>
     <MinimumVisualStudioVersion Condition="'$(MinimumVisualStudioVersion)' == ''">11</MinimumVisualStudioVersion>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
     <DebugSymbols>true</DebugSymbols>
@@ -49,17 +50,20 @@
   </Choose>
   <Import Project="$(FSharpTargetsPath)" Condition="Exists('$(FSharpTargetsPath)')" />
   <ItemGroup>
-    <Compile Include="NameSpace.fs" />
-    <Compile Include="Source\Behavior\ConverterBase.fs" />
-    <Compile Include="Source\Behavior\EventToCommand.fs" />
-    <Compile Include="Source\Behavior\StringExistsToVisibilityConverter.fs" />
-    <Compile Include="Source\Model\Expense.fs" />
-    <Compile Include="Source\Model\ExpenseReport.fs" />
-    <Compile Include="Source\Repository\ExpenseReportRepository.fs" />
-    <Compile Include="Source\ViewModel\ViewModelBase.fs" />
-    <Compile Include="Source\ViewModel\RelayCommand.fs" />
-    <Compile Include="Source\ViewModel\ExpenseItHomeViewModel.fs" />
-    <Compile Include="Source\ViewModel\MainWindowViewModel.fs" />
+    <Compile Include="Source\Engine\OperatingSystems\Windows\Processes\Processes.fs" />
+    <Compile Include="Source\Engine\OperatingSystems\NormalizedProcess.fs" />
+    <Compile Include="Source\Engine\EngineCore.fs" />
+    <Compile Include="Source\MVVM\Behavior\ConverterBase.fs" />
+    <Compile Include="Source\MVVM\Behavior\EventToCommand.fs" />
+    <Compile Include="Source\MVVM\Behavior\StringExistsToVisibilityConverter.fs" />
+    <Compile Include="Source\MVVM\Repository\ExpenseReportRepository.fs" />
+    <Compile Include="Source\MVVM\Model\Expense.fs" />
+    <Compile Include="Source\MVVM\Model\ExpenseReport.fs" />
+    <Compile Include="Source\MVVM\ViewModel\ViewModelBase.fs" />
+    <Compile Include="Source\MVVM\ViewModel\RelayCommand.fs" />
+    <Compile Include="Source\MVVM\ViewModel\ExpenseItHomeViewModel.fs" />
+    <Compile Include="Source\MVVM\ViewModel\MainWindowViewModel.fs" />
+    <Compile Include="Source\ProcessSelector\ProcessSelector.fs" />
     <Resource Include="GUI\ApplicationResources.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -73,6 +77,9 @@
       <SubType>Designer</SubType>
     </Resource>
     <Compile Include="App.fs" />
+    <Content Include="App.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Accessibility" />

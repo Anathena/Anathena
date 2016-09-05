@@ -113,6 +113,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Proxy", "Proxy", "{F844473E
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ThemeVS2015Dark", "DockingSuite\ThemeVS2015Dark.csproj", "{B0AA7772-1EAC-448C-AB0B-F5E1E2F7EFE0}"
 EndProject
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Anna", "Anna\Anna.fsproj", "{30597BE9-08F8-4832-8AB7-009C00A6A2F2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -651,6 +653,14 @@ Global
 		{B0AA7772-1EAC-448C-AB0B-F5E1E2F7EFE0}.Release|x64.Build.0 = Release|Any CPU
 		{B0AA7772-1EAC-448C-AB0B-F5E1E2F7EFE0}.Release|x86.ActiveCfg = Release|Any CPU
 		{B0AA7772-1EAC-448C-AB0B-F5E1E2F7EFE0}.Release|x86.Build.0 = Release|Any CPU
+		{30597BE9-08F8-4832-8AB7-009C00A6A2F2}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{30597BE9-08F8-4832-8AB7-009C00A6A2F2}.Debug|x64.ActiveCfg = Debug|x86
+		{30597BE9-08F8-4832-8AB7-009C00A6A2F2}.Debug|x86.ActiveCfg = Debug|x86
+		{30597BE9-08F8-4832-8AB7-009C00A6A2F2}.Debug|x86.Build.0 = Debug|x86
+		{30597BE9-08F8-4832-8AB7-009C00A6A2F2}.Release|Any CPU.ActiveCfg = Release|x86
+		{30597BE9-08F8-4832-8AB7-009C00A6A2F2}.Release|x64.ActiveCfg = Release|x86
+		{30597BE9-08F8-4832-8AB7-009C00A6A2F2}.Release|x86.ActiveCfg = Release|x86
+		{30597BE9-08F8-4832-8AB7-009C00A6A2F2}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,4 +1,4 @@
-﻿namespace Anna.Source.ViewModel
+﻿namespace Anna.Source.MVVM.ViewModel
 
 open System
 open System.Windows
@@ -12,4 +12,3 @@ type ViewModelBase() =
         member x.PropertyChanged = propertyChangedEvent.Publish
     member x.OnPropertyChanged propertyName = 
         propertyChangedEvent.Trigger([| x; new PropertyChangedEventArgs(propertyName) |])
-        
