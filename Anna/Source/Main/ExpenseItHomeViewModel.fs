@@ -1,4 +1,4 @@
-﻿namespace Anna.Source.VestigialExampleCode
+﻿namespace Anna.Source.Main
 
 open System
 open System.Xml
@@ -14,7 +14,7 @@ type ApprovalStatus =
     | Approved
     | Rejected
 
-type ExpenseItHomeViewModel(expenseReportRepository : ExpenseReportRepository) =   
+type ExpenseItHomeViewModel(expenseReportModel : ExpenseReportModel) =   
     inherit ViewModelBase()
     let mutable lastApprovalDisplayMessage = ""
     let mutable selectedExpenseReport = 
@@ -25,10 +25,18 @@ type ExpenseItHomeViewModel(expenseReportRepository : ExpenseReportRepository) =
             this.LastApprovalDisplayMessage <- sprintf "Expense report approved for %s" name
         | ApprovalStatus.Rejected ->
             this.LastApprovalDisplayMessage <- sprintf "Expense report rejected for %s" name
-    new () = ExpenseItHomeViewModel(ExpenseReportRepository())
+    new () = ExpenseItHomeViewModel(ExpenseReportModel())
+
+    member x.OpenProcessSelector = 
+        new RelayCommand ((fun canExecute -> true), 
+            (fun action ->
+                let mainWindowViewModel = Application.LoadComponent(new System.Uri("/App;component/GUI/Main.xaml", UriKind.Relative)) :?> Window
+                mainWindowViewModel.DataContext <- new MainWindowViewModel()
+                mainWindowViewModel.Show() ))
+
     member x.ExpenseReports = 
         new ObservableCollection<ExpenseReport>(
-            expenseReportRepository.GetAll())
+            expenseReportModel.GetAll())
     member x.SelectedExpenseReport 
         with get () = selectedExpenseReport
         and set value = selectedExpenseReport <- value

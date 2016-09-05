@@ -4,7 +4,7 @@ open System
 open System.Windows
 open System.Windows.Controls
 open System.Windows.Markup
-open Anna.Source.VestigialExampleCode
+open Anna.Source.Main
 
 module Entry = 
     // Create the View and bind it to the View Model

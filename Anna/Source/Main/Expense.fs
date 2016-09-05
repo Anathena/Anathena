@@ -1,4 +1,4 @@
-﻿namespace Anna.Source.VestigialExampleCode
+﻿namespace Anna.Source.Main
 
 open System
 

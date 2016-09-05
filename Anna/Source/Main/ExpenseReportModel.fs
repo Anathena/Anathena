@@ -1,6 +1,6 @@
-﻿namespace Anna.Source.VestigialExampleCode
+﻿namespace Anna.Source.Main
 
-type ExpenseReportRepository() =
+type ExpenseReportModel() =
     member x.GetAll() =
         seq{ yield {Name="Mike" 
                     Department="Legal" 

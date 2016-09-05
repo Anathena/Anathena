@@ -104,11 +104,11 @@
     <Compile Include="Source\ProcessSelector\ProcessObject.fs" />
     <Compile Include="Source\ProcessSelector\ProcessSelectorPreviewItems.fs" />
     <Compile Include="Source\ProcessSelector\ProcessSelectorViewModel.fs" />
-    <Compile Include="Source\VestigialExampleCode\Expense.fs" />
-    <Compile Include="Source\VestigialExampleCode\ExpenseReport.fs" />
-    <Compile Include="Source\VestigialExampleCode\ExpenseReportRepository.fs" />
-    <Compile Include="Source\VestigialExampleCode\ExpenseItHomeViewModel.fs" />
-    <Compile Include="Source\VestigialExampleCode\MainWindowViewModel.fs" />
+    <Compile Include="Source\Main\MainWindowViewModel.fs" />
+    <Compile Include="Source\Main\Expense.fs" />
+    <Compile Include="Source\Main\ExpenseReport.fs" />
+    <Compile Include="Source\Main\ExpenseReportModel.fs" />
+    <Compile Include="Source\Main\ExpenseItHomeViewModel.fs" />
     <Resource Include="GUI\ApplicationResources.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

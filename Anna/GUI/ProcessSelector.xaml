@@ -19,8 +19,8 @@
             <DataTemplate x:Key="nameItemTemplate">
                 <Label Content="{Binding Path=Name}"/>
             </DataTemplate>
-            <!-- Expense Type template -->
-            <DataTemplate x:Key="typeItemTemplate">
+            <!-- Icon template -->
+            <DataTemplate x:Key="iconTemplate">
                 <Label Content="{Binding Path=Icon}"/>
             </DataTemplate>
             <!-- Amount item template -->
