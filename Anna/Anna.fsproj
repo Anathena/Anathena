@@ -36,6 +36,48 @@
     <PlatformTarget>x86</PlatformTarget>
     <DocumentationFile>bin\Release\App.XML</DocumentationFile>
   </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <Tailcalls>false</Tailcalls>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <WarningLevel>5</WarningLevel>
+    <DocumentationFile>bin\Debug\App.XML</DocumentationFile>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <Tailcalls>true</Tailcalls>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <WarningLevel>3</WarningLevel>
+    <DocumentationFile>bin\Release\App.XML</DocumentationFile>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x64' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <Tailcalls>false</Tailcalls>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <WarningLevel>3</WarningLevel>
+    <DocumentationFile>bin\Debug\App.XML</DocumentationFile>
+    <PlatformTarget>x64</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x64' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <Tailcalls>true</Tailcalls>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <WarningLevel>3</WarningLevel>
+    <DocumentationFile>bin\Release\App.XML</DocumentationFile>
+    <PlatformTarget>x64</PlatformTarget>
+  </PropertyGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '11.0'">
       <PropertyGroup>
@@ -50,29 +92,36 @@
   </Choose>
   <Import Project="$(FSharpTargetsPath)" Condition="Exists('$(FSharpTargetsPath)')" />
   <ItemGroup>
-    <Compile Include="Source\Engine\OperatingSystems\Windows\Processes\Processes.fs" />
+    <Compile Include="Source\MVVM\Behavior\ConverterBase.fs" />
+    <Compile Include="Source\MVVM\Behavior\StringExistsToVisibilityConverter.fs" />
+    <Compile Include="Source\MVVM\Model\ModelBase.fs" />
+    <Compile Include="Source\MVVM\ViewModel\RelayCommand.fs" />
+    <Compile Include="Source\MVVM\ViewModel\ViewModelBase.fs" />
+    <Compile Include="Source\Engine\OperatingSystems\Windows\Processes\ProcessCollector.fs" />
     <Compile Include="Source\Engine\OperatingSystems\NormalizedProcess.fs" />
     <Compile Include="Source\Engine\EngineCore.fs" />
-    <Compile Include="Source\MVVM\Behavior\ConverterBase.fs" />
-    <Compile Include="Source\MVVM\Behavior\EventToCommand.fs" />
-    <Compile Include="Source\MVVM\Behavior\StringExistsToVisibilityConverter.fs" />
-    <Compile Include="Source\MVVM\Repository\ExpenseReportRepository.fs" />
-    <Compile Include="Source\MVVM\Model\Expense.fs" />
-    <Compile Include="Source\MVVM\Model\ExpenseReport.fs" />
-    <Compile Include="Source\MVVM\ViewModel\ViewModelBase.fs" />
-    <Compile Include="Source\MVVM\ViewModel\RelayCommand.fs" />
-    <Compile Include="Source\MVVM\ViewModel\ExpenseItHomeViewModel.fs" />
-    <Compile Include="Source\MVVM\ViewModel\MainWindowViewModel.fs" />
-    <Compile Include="Source\ProcessSelector\ProcessSelector.fs" />
+    <Compile Include="Source\ProcessSelector\ProcessSelectorModel.fs" />
+    <Compile Include="Source\ProcessSelector\ProcessObject.fs" />
+    <Compile Include="Source\ProcessSelector\ProcessSelectorPreviewItems.fs" />
+    <Compile Include="Source\ProcessSelector\ProcessSelectorViewModel.fs" />
+    <Compile Include="Source\VestigialExampleCode\Expense.fs" />
+    <Compile Include="Source\VestigialExampleCode\ExpenseReport.fs" />
+    <Compile Include="Source\VestigialExampleCode\ExpenseReportRepository.fs" />
+    <Compile Include="Source\VestigialExampleCode\ExpenseItHomeViewModel.fs" />
+    <Compile Include="Source\VestigialExampleCode\MainWindowViewModel.fs" />
     <Resource Include="GUI\ApplicationResources.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Resource>
-    <Resource Include="GUI\MainWindow.xaml">
+    <Resource Include="GUI\Main.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Resource>
-    <Resource Include="GUI\ExpenseItHome.xaml">
+    <Resource Include="GUI\MainContent.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Resource>
+    <Resource Include="GUI\ProcessSelector.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Resource>

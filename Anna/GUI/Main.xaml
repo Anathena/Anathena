@@ -1,6 +1,6 @@
 <Window
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="ExpenseIt" Height="450" Width="500">
-    <Frame Source="ExpenseItHome.xaml" />
+        Title="Anna" Height="450" Width="500">
+    <Frame Source="/App;component/GUI/ProcessSelector.xaml" />
 </Window>

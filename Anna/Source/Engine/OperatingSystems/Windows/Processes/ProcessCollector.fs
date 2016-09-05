@@ -22,7 +22,7 @@
     * Further implamentations:
     * - Icon fetching for session0 items (~3-5 have icons)
 *)
-type Processes() = 
+type ProcessCollector() = 
     let x = 0
     member this.whatever = 5
 

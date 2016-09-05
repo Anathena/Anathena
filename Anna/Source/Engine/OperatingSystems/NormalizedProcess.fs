@@ -1,4 +1,7 @@
 ﻿namespace Anna.Source.Engine.OperatingSystems
 
-module NormalizedProcess =
-    let x = 0
+open System
+
+type NormalizedProcess =
+    { Icon : String
+      ProcessName : String}

@@ -1,5 +1,4 @@
-﻿namespace Anna.Source.MVVM.ViewModel
-
+﻿namespace Anna.Source.ProcessSelector
 open System
 open System.Xml
 open System.Windows
@@ -7,29 +6,29 @@ open System.Windows.Data
 open System.Windows.Input
 open System.ComponentModel
 open System.Collections.ObjectModel
-open Anna.Source.MVVM.Model
-open Anna.Source.MVVM.Repository
 open System.Reflection
+open Anna.Source.MVVM.ViewModel
+open Anna.Source.Engine.OperatingSystems
 
 type ApprovalStatus =
     | Approved
     | Rejected
 
-type ExpenseItHomeViewModel(expenseReportRepository : ExpenseReportRepository) =   
+type ProcessSelectorViewModel(processSelectorPreviewItems : ProcessSelectorPreviewItems) =   
     inherit ViewModelBase()
     let mutable lastApprovalDisplayMessage = ""
     let mutable selectedExpenseReport = 
         {Name=""; Department=""; ExpenseLineItems = []}
-    let handleApprovalAction (this:ExpenseItHomeViewModel) approvalStatus name =
+    let handleApprovalAction (this:ProcessSelectorViewModel) approvalStatus name =
         match approvalStatus with
         | ApprovalStatus.Approved -> 
             this.LastApprovalDisplayMessage <- sprintf "Expense report approved for %s" name
         | ApprovalStatus.Rejected ->
             this.LastApprovalDisplayMessage <- sprintf "Expense report rejected for %s" name
-    new () = ExpenseItHomeViewModel(ExpenseReportRepository())
+    new () = ProcessSelectorViewModel(ProcessSelectorPreviewItems())
     member x.ExpenseReports = 
         new ObservableCollection<ExpenseReport>(
-            expenseReportRepository.GetAll())
+            processSelectorPreviewItems.GetAll())
     member x.SelectedExpenseReport 
         with get () = selectedExpenseReport
         and set value = selectedExpenseReport <- value

@@ -1,4 +1,4 @@
-﻿namespace Anna.Source.MVVM.Model
+﻿namespace Anna.Source.VestigialExampleCode
 
 open System
 
