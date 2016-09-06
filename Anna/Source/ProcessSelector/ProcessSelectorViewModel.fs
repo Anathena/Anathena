@@ -10,17 +10,17 @@ open System.Reflection
 open Anna.Source.MVVM.ViewModel
 open Anna.Source.Engine.OperatingSystems
 
-type ApprovalStatus =
-    | Approved
-    | Rejected
+open Anna.Source.Engine.OperatingSystems.Windows.Processes
 
-type ProcessSelectorViewModel(processSelectorPreviewItems : ProcessSelectorPreviewItems) =   
+type ProcessSelectorViewModel(processSelectorModel : ProcessSelectorModel) =   
     inherit ViewModelBase()
+
     let mutable selectedProcessObject = 
-        {Name=""; Department=""; ProcessObjectLineItems = []}
+        {Icon=""; ProcessName="";}
 
-    new () = ProcessSelectorViewModel(ProcessSelectorPreviewItems())
+    new () = ProcessSelectorViewModel(ProcessSelectorModel())
 
-    member x.ProcessObjects = 
-        new ObservableCollection<ProcessObject>(
-            processSelectorPreviewItems.GetAll())
+    member this.ProcessObjects = 
+        new ObservableCollection<NormalizedProcess>(
+            //processSelectorModel.GetAll())
+            (new ProcessCollector()).GetProcesses())

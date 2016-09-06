@@ -98,12 +98,10 @@
     <Compile Include="Source\MVVM\Model\ModelBase.fs" />
     <Compile Include="Source\MVVM\ViewModel\RelayCommand.fs" />
     <Compile Include="Source\MVVM\ViewModel\ViewModelBase.fs" />
-    <Compile Include="Source\Engine\OperatingSystems\Windows\Processes\ProcessCollector.fs" />
     <Compile Include="Source\Engine\OperatingSystems\NormalizedProcess.fs" />
+    <Compile Include="Source\Engine\OperatingSystems\Windows\Processes\ProcessCollector.fs" />
     <Compile Include="Source\Engine\EngineCore.fs" />
     <Compile Include="Source\ProcessSelector\ProcessSelectorModel.fs" />
-    <Compile Include="Source\ProcessSelector\ProcessObject.fs" />
-    <Compile Include="Source\ProcessSelector\ProcessSelectorPreviewItems.fs" />
     <Compile Include="Source\ProcessSelector\ProcessSelectorViewModel.fs" />
     <Compile Include="Source\Main\MainModel.fs" />
     <Compile Include="Source\Main\MainWindowViewModel.fs" />

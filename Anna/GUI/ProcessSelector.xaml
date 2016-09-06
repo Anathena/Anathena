@@ -35,8 +35,8 @@
                 <ListView ItemsSource="{Binding ProcessObjects}">
                     <ListView.View>
                         <GridView>
-                            <GridViewColumn Header="" DisplayMemberBinding="{Binding Path=Name}" />
-                            <GridViewColumn Header="Process Name" DisplayMemberBinding="{Binding Path=Department}" />
+                            <GridViewColumn Header="" DisplayMemberBinding="{Binding Path=Icon}" />
+                            <GridViewColumn Header="Process Name" DisplayMemberBinding="{Binding Path=ProcessName}" />
                         </GridView>
                     </ListView.View>
                 </ListView>

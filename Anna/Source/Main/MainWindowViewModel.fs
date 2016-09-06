@@ -12,7 +12,7 @@ open Anna.Source
 type MainWindowViewModel() =
     inherit ViewModelBase()
 
-    member x.OpenProcessSelector = 
+    member this.OpenProcessSelector = 
         new RelayCommand ((fun canExecute -> true), 
             (fun action ->
                 let mainWindowViewModel = Application.LoadComponent(ViewUris.processSelectorView) :?> Window

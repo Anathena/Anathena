@@ -22,9 +22,21 @@
     * Further implamentations:
     * - Icon fetching for session0 items (~3-5 have icons)
 *)
+
+open System
+open System.Collections
+open System.Diagnostics
+open Anna.Source.Engine.OperatingSystems
+
 type ProcessCollector() = 
-    let x = 0
-    member this.whatever = 5
+    // Retrieves all running processes
+    member this.GetProcesses() =
+        Process.GetProcesses() |>
+        Seq.map(fun (externalProcess) ->
+        {
+            Icon="{}"
+            ProcessName=externalProcess.ProcessName
+        })
 
 (*
 class ProcessSelector : IProcessSelectorModel
