@@ -3,13 +3,26 @@
 open Anna.Source.Engine.OperatingSystems
 
 type ProcessSelectorModel() =
-    member x.GetAll() =
-        seq{ yield {Icon="{}" 
-                    ProcessName="We are eternal"}
-             yield {Icon="{}"
-                    ProcessName="All this"}    
-             yield {Icon="{}" 
-                    ProcessName="Pain is"}
-             yield {Icon="{}"
-                    ProcessName="An Illusion"}
-           }
+    member this.GetAll() =
+        seq {
+            yield {
+                processId = 0
+                processName="We are eternal"
+                icon=null
+            }
+            yield {
+                processId = 0
+                processName="All this"
+                icon=null
+            }
+            yield {
+                processId = 0
+                processName="Pain is"
+                icon=null
+            }
+            yield {
+                processId = 0
+                processName="An Illusion"
+                icon=null
+            }
+        }

@@ -15,33 +15,16 @@
             <ResourceDictionary Source="/App;component/GUI/ApplicationResources.xaml" />
         </UserControl.Resources>
         <Grid Margin="10,0,10,10" VerticalAlignment="Stretch">
-
-            <Grid.Resources>
-                <Behavior:StringExistsToVisibilityConverter x:Key="StringExistsToVisibility"/>
-                <!-- Name item template -->
-                <DataTemplate x:Key="nameItemTemplate">
-                    <Label Content="{Binding Path=Name}"/>
-                </DataTemplate>
-                <!-- Icon template -->
-                <DataTemplate x:Key="iconTemplate">
-                    <Label Content="{Binding Path=Icon}"/>
-                </DataTemplate>
-                <!-- Amount item template -->
-                <DataTemplate x:Key="amountItemTemplate">
-                    <Label Content="{Binding Path=ProcessName}"/>
-                </DataTemplate>
-            </Grid.Resources>
             <Grid Margin="10" Grid.Column="0" Grid.Row="1" VerticalAlignment="Top">
                 <ListView ItemsSource="{Binding ProcessObjects}">
                     <ListView.View>
                         <GridView>
-                            <GridViewColumn Header="" DisplayMemberBinding="{Binding Path=Icon}" />
-                            <GridViewColumn Header="Process Name" DisplayMemberBinding="{Binding Path=ProcessName}" />
+                            <GridViewColumn Header="" DisplayMemberBinding="{Binding Path=icon}" />
+                            <GridViewColumn Header="Process Name" DisplayMemberBinding="{Binding Path=processName}" />
                         </GridView>
                     </ListView.View>
                 </ListView>
             </Grid>
-            <TextBlock Grid.Row="3" HorizontalAlignment="Center" Margin="0,10,0,0" FontSize="12" FontWeight="Bold" Grid.ColumnSpan="2" Text="{Binding LastApprovalDisplayMessage}" Visibility="{Binding Path=LastApprovalDisplayMessage, Converter={StaticResource StringExistsToVisibility}}" />
         </Grid>
     </UserControl>
 </Window>

@@ -15,9 +15,6 @@ open Anna.Source.Engine.OperatingSystems.Windows.Processes
 type ProcessSelectorViewModel(processSelectorModel : ProcessSelectorModel) =   
     inherit ViewModelBase()
 
-    let mutable selectedProcessObject = 
-        {Icon=""; ProcessName="";}
-
     new () = ProcessSelectorViewModel(ProcessSelectorModel())
 
     member this.ProcessObjects = 

@@ -99,6 +99,7 @@
     <Compile Include="Source\MVVM\ViewModel\RelayCommand.fs" />
     <Compile Include="Source\MVVM\ViewModel\ViewModelBase.fs" />
     <Compile Include="Source\Engine\OperatingSystems\NormalizedProcess.fs" />
+    <Compile Include="Source\Engine\OperatingSystems\Windows\Native.fs" />
     <Compile Include="Source\Engine\OperatingSystems\Windows\Processes\ProcessCollector.fs" />
     <Compile Include="Source\Engine\EngineCore.fs" />
     <Compile Include="Source\ProcessSelector\ProcessSelectorModel.fs" />

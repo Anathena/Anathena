@@ -26,7 +26,9 @@
 open System
 open System.Collections
 open System.Diagnostics
+open System.Drawing
 open Anna.Source.Engine.OperatingSystems
+open Anna.Source.Engine.OperatingSystems.Windows
 
 type ProcessCollector() = 
     // Retrieves all running processes
@@ -34,130 +36,38 @@ type ProcessCollector() =
         Process.GetProcesses() |>
         Seq.map(fun (externalProcess) ->
         {
-            Icon="{}"
-            ProcessName=externalProcess.ProcessName
+            processId= externalProcess.Id
+            processName= externalProcess.ProcessName
+            icon = this.GetIcon(externalProcess)
         })
 
+    // Fetches the icon associated with the provided process
+    member this.GetIcon(externalProcess: Process) = 
+        let noIcon: Icon = null
+        // TODO: Check process bitness compatability
+        let isSystemProcess = (externalProcess.SessionId = 0 || externalProcess.BasePriority = 13)
+        if isSystemProcess then noIcon
+        else
+            try
+                // Accessing this field will cause an access exception for system processes. This saves
+                // time because handling the exception is faster than failing to fetch the icon later
+                ignore externalProcess.PriorityBoostEnabled
+
+                let iconHandle = Native.ExtractIcon(externalProcess.Handle, externalProcess.MainModule.FileName, 0)
+                if (iconHandle.Equals(IntPtr.Zero)) then noIcon else Icon.FromHandle(iconHandle)
+            with
+                | _ -> noIcon
 (*
 class ProcessSelector : IProcessSelectorModel
 {
-    // Singleton instance of the Process Selector
-    private static Lazy<ProcessSelector> ProcessSelectorInstance = new Lazy<ProcessSelector>(() => { return new ProcessSelector(); }, LazyThreadSafetyMode.PublicationOnly);
-
-    // Complete list of running processes
-    private List<Process> ProcessList;
-
-    public event ProcessSelectorEventHandler EventDisplayProcesses;
-    public event ProcessSelectorEventHandler EventSelectProcess;
-
-    // Observers that must be notified of a process selection change
-    private List<IProcessObserver> ProcessObservers;
-
-    private EngineCore EngineCore;
-
-    private Object ProcessLock;
-
-    private ProcessSelector()
-    {
-        ProcessObservers = new List<IProcessObserver>();
-        EngineCore = new EngineCore(null);
-
-        ProcessLock = new Object();
-    }
-
+    private ProcessSelector();
     public void OnGUIOpen() { }
-
-    public static ProcessSelector GetInstance()
-    {
-        return ProcessSelectorInstance.Value;
-    }
-
-    /// <summary>
-    /// Adds an observer to the notification list
-    /// </summary>
-    /// <param name="Observer"></param>
-    public void Subscribe(IProcessObserver Observer)
-    {
-        using (TimedLock.Lock(ProcessLock))
-        {
-            if (ProcessObservers.Contains(Observer))
-                return;
-
-            ProcessObservers.Add(Observer);
-
-            if (EngineCore == null)
-                return;
-        }
-
-        // Notify just this observer
-        Observer.UpdateEngineCore(EngineCore);
-    }
-
-    /// <summary>
-    /// Removes an observer from the notification list
-    /// </summary>
-    /// <param name="Observer"></param>
-    public void Unsubscribe(IProcessObserver Observer)
-    {
-        using (TimedLock.Lock(ProcessLock))
-        {
-            if (!ProcessObservers.Contains(Observer))
-                return;
-
-            ProcessObservers.Remove(Observer);
-        }
-    }
-
-    /// <summary>
-    /// Notifies all observers that the process has changed, supplying the new OSInterface instance
-    /// </summary>
-    /// <param name="Process"></param>
-    public void Notify(Process Process = null)
-    {
-        using (TimedLock.Lock(ProcessLock))
-        {
-            // Update memory editor if applicable
-            if (Process != null)
-                EngineCore = new EngineCore(Process);
-
-            if (EngineCore == null || ProcessObservers == null)
-                return;
-
-            // Notify subscribers
-            foreach (IProcessObserver ProcessObserver in ProcessObservers)
-                ProcessObserver.UpdateEngineCore(EngineCore);
-        }
-    }
-
-    public void SelectProcess(Int32 Index)
-    {
-        // Check if this is a valid index into the process list
-        if (ProcessList == null || Index < 0 || Index >= ProcessList.Count)
-            return;
-
-        // Raise event that we have selected a process
-        ProcessSelectorEventArgs ProcessSelectorEventArgs = new ProcessSelectorEventArgs();
-        ProcessSelectorEventArgs.SelectedProcess = ProcessList[Index];
-        EventSelectProcess(this, ProcessSelectorEventArgs);
-
-        Notify(ProcessList[Index]);
-    }
-
-    public void RefreshProcesses(IntPtr ProcessSelectorHandle)
-    {
-        ProcessSelectorEventArgs ProcessSelectorEventArgs = new ProcessSelectorEventArgs();
-        List<Process> StandardProcessList;
-
-        // Get the process list
-        ProcessList = FetchAllProcesses(out StandardProcessList);
-        ProcessSelectorEventArgs.ProcessList = ProcessList;
-
-        // Grab icons for the just the standard processes (system processes tend not to allow this and are slow)
-        ProcessSelectorEventArgs.ProcessIcons = FetchIcons(ProcessSelectorHandle, StandardProcessList);
-
-        // Signal the new lists to the presenter
-        EventDisplayProcesses(this, ProcessSelectorEventArgs);
-    }
+    public static ProcessSelector GetInstance();
+    public void Subscribe(IProcessObserver Observer);
+    public void Unsubscribe(IProcessObserver Observer);
+    public void Notify(Process Process = null);
+    public void SelectProcess(Int32 Index);
+    public void RefreshProcesses(IntPtr ProcessSelectorHandle);
 
     // Determines if Anathena is able to perform certain actions on the target process, such as fetching icons
     public Boolean IsProcessOSCompatable(Process Process)
@@ -263,43 +173,5 @@ class ProcessSelector : IProcessSelectorModel
     [DllImport("shell32.dll", SetLastError = true)]
     public static extern IntPtr ExtractIcon(IntPtr hInst, string lpszExeFileName, int nIconIndex);
 
-} // End class
-
-#region Process comparer classes
-
-// Class that can sort processes by time since execution
-class ProcessTimeComparer : IComparer<Process>
-{
-    public static readonly ProcessTimeComparer Default = new ProcessTimeComparer();
-    public ProcessTimeComparer() { }
-
-    public int Compare(Process ProcessA, Process ProcessB)
-    {
-        try
-        {
-            return DateTime.Compare(ProcessB.StartTime, ProcessA.StartTime);
-        }
-        catch (InvalidOperationException)
-        {
-            return 0;
-        }
-    }
-} // End class
-
-// Class that can sort processes by ID
-class ProcessIDComparer : IComparer<Process>
-{
-    public static readonly ProcessIDComparer Default = new ProcessIDComparer();
-    public ProcessIDComparer() { }
-
-    public int Compare(Process ProcessA, Process ProcessB)
-    {
-        if (ProcessA.Id < ProcessB.Id)
-            return 1;
-        else if (ProcessA.Id > ProcessB.Id)
-            return -1;
-        else
-            return 0;
-    }
 } // End class
 *)
