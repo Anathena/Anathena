@@ -21,8 +21,7 @@ type NormalizedProcess =
     interface System.IComparable with
         member this.CompareTo otherObject =
             match otherObject with
-                | :? NormalizedProcess as otherProcess -> 
-                    this.processId .CompareTo(otherProcess.processId)
+                | :? NormalizedProcess as otherProcess -> this.processId .CompareTo(otherProcess.processId)
                 | _ -> invalidArg "otherProcess" "Objects do not have the same type" 
 (*
 

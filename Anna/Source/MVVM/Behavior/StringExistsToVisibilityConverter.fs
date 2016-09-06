@@ -9,8 +9,9 @@ open ConverterBase
 /// Returns Visibility.Visible if the string is not null or empty
 type StringExistsToVisibilityConverter() =
     inherit ConverterBase()
-    let convertFunc = fun (v: Object) _ _ _ ->         
-        match String.IsNullOrEmpty(string v) with
+
+    let convertFunc = fun (inputString: Object) _ _ _ ->         
+        match String.IsNullOrEmpty(string inputString) with
         | false -> Visibility.Visible
         | _ -> Visibility.Collapsed
         :> Object

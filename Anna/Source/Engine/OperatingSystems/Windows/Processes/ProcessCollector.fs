@@ -54,7 +54,7 @@ type ProcessCollector() =
                 ignore externalProcess.PriorityBoostEnabled
 
                 let iconHandle = Native.ExtractIcon(externalProcess.Handle, externalProcess.MainModule.FileName, 0)
-                if (iconHandle.Equals(IntPtr.Zero)) then noIcon else Icon.FromHandle(iconHandle)
+                if (iconHandle = IntPtr.Zero) then noIcon else Icon.FromHandle(iconHandle)
             with
                 | _ -> noIcon
 (*

@@ -95,6 +95,7 @@
     <Compile Include="Source\ViewUris.fs" />
     <Compile Include="Source\MVVM\Behavior\ConverterBase.fs" />
     <Compile Include="Source\MVVM\Behavior\StringExistsToVisibilityConverter.fs" />
+    <Compile Include="Source\MVVM\Behavior\IconConverter.fs" />
     <Compile Include="Source\MVVM\Model\ModelBase.fs" />
     <Compile Include="Source\MVVM\ViewModel\RelayCommand.fs" />
     <Compile Include="Source\MVVM\ViewModel\ViewModelBase.fs" />

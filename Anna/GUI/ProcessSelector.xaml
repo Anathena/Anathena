@@ -11,16 +11,19 @@
         <UserControl.DataContext>
             <ViewModel:ProcessSelectorViewModel/>
         </UserControl.DataContext>
-        <UserControl.Resources>
-            <ResourceDictionary Source="/App;component/GUI/ApplicationResources.xaml" />
-        </UserControl.Resources>
         <Grid Margin="10,0,10,10" VerticalAlignment="Stretch">
             <Grid Margin="10" Grid.Column="0" Grid.Row="1" VerticalAlignment="Top">
                 <ListView ItemsSource="{Binding ProcessObjects}">
+                    <ListView.Resources>
+                        <Behavior:IconConverter x:Key="IconConverter"/>
+                        <DataTemplate x:Key="Template">
+                            <Image Source="{Binding Path=icon, Converter={StaticResource IconConverter}}" Width="16" Height="16"/>
+                        </DataTemplate>
+                    </ListView.Resources>
                     <ListView.View>
                         <GridView>
-                            <GridViewColumn Header="" DisplayMemberBinding="{Binding Path=icon}" />
-                            <GridViewColumn Header="Process Name" DisplayMemberBinding="{Binding Path=processName}" />
+                            <GridViewColumn Header="Icon" CellTemplate="{StaticResource Template}"/>
+                            <GridViewColumn Header="Process Name" DisplayMemberBinding="{Binding Path=processName}"/>
                         </GridView>
                     </ListView.View>
                 </ListView>

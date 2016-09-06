@@ -5,7 +5,6 @@ open System.Windows
 open System.Windows.Data
 
 module ConverterBase =
-
     let nullFunction = fun value target param culture -> value
 
     [<AbstractClass>]
