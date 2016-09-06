@@ -168,7 +168,7 @@ namespace Anathena.Source.Engine.OperatingSystems.Windows.Native
         /// <summary>
         /// The size of the region beginning at the base address in which all pages have identical attributes, in bytes.
         /// </summary>
-        public int RegionSize;
+        public Int32 RegionSize;
         /// <summary>
         /// The state of the pages in the region.
         /// </summary>
@@ -200,11 +200,11 @@ namespace Anathena.Source.Engine.OperatingSystems.Windows.Native
         /// <summary>
         /// Required in the 64 bit struct. Blame Windows.
         /// </summary>
-        public UInt32 __alignment1;
+        public UInt32 Alignment1;
         /// <summary>
         /// The size of the region beginning at the base address in which all pages have identical attributes, in bytes.
         /// </summary>
-        public long RegionSize;
+        public Int64 RegionSize;
         /// <summary>
         /// The state of the pages in the region.
         /// </summary>
@@ -220,7 +220,7 @@ namespace Anathena.Source.Engine.OperatingSystems.Windows.Native
         /// <summary>
         /// Required in the 64 bit struct. Blame Windows.
         /// </summary>
-        public UInt32 __alignment2;
+        public UInt32 Alignment2;
     };
     #endregion
 

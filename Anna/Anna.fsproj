@@ -92,6 +92,7 @@
   </Choose>
   <Import Project="$(FSharpTargetsPath)" Condition="Exists('$(FSharpTargetsPath)')" />
   <ItemGroup>
+    <Compile Include="Source\ViewUris.fs" />
     <Compile Include="Source\MVVM\Behavior\ConverterBase.fs" />
     <Compile Include="Source\MVVM\Behavior\StringExistsToVisibilityConverter.fs" />
     <Compile Include="Source\MVVM\Model\ModelBase.fs" />
@@ -104,20 +105,13 @@
     <Compile Include="Source\ProcessSelector\ProcessObject.fs" />
     <Compile Include="Source\ProcessSelector\ProcessSelectorPreviewItems.fs" />
     <Compile Include="Source\ProcessSelector\ProcessSelectorViewModel.fs" />
+    <Compile Include="Source\Main\MainModel.fs" />
     <Compile Include="Source\Main\MainWindowViewModel.fs" />
-    <Compile Include="Source\Main\Expense.fs" />
-    <Compile Include="Source\Main\ExpenseReport.fs" />
-    <Compile Include="Source\Main\ExpenseReportModel.fs" />
-    <Compile Include="Source\Main\ExpenseItHomeViewModel.fs" />
     <Resource Include="GUI\ApplicationResources.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Resource>
     <Resource Include="GUI\Main.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Resource>
-    <Resource Include="GUI\MainContent.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Resource>

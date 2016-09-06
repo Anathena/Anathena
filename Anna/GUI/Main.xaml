@@ -1,6 +1,64 @@
-<Window
-        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="Anna" Height="450" Width="500">
-    <Frame Source="/App;component/GUI/MainContent.xaml" />
+<Window xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    Title="Anna" Height="720" Width="608">
+    <UserControl xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:scm="clr-namespace:System.ComponentModel;assembly=WindowsBase" 
+      xmlns:ViewModel="clr-namespace:Anna.Source.Main;assembly=App" 
+      xmlns:Behavior="clr-namespace:Anna.Source.MVVM.Behavior;assembly=App"
+      mc:Ignorable="d" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" d:DesignWidth="424">
+        <UserControl.DataContext>
+            <ViewModel:MainWindowViewModel/>
+        </UserControl.DataContext>
+        <UserControl.Resources>
+            <ResourceDictionary Source="/App;component/GUI/ApplicationResources.xaml" />
+        </UserControl.Resources>
+        <Grid Margin="10,0,10,10" VerticalAlignment="Stretch">
+
+            <Grid.Resources>
+                <Behavior:StringExistsToVisibilityConverter x:Key="StringExistsToVisibility"/>
+                <!-- Name item template -->
+                <DataTemplate x:Key="nameItemTemplate">
+                    <Label Content="{Binding Path=Name}"/>
+                </DataTemplate>
+                <!-- Expense Type template -->
+                <DataTemplate x:Key="typeItemTemplate">
+                    <Label Content="{Binding Path=ExpenseType}"/>
+                </DataTemplate>
+                <!-- Amount item template -->
+                <DataTemplate x:Key="amountItemTemplate">
+                    <Label Content="{Binding Path=ExpenseAmount}"/>
+                </DataTemplate>
+            </Grid.Resources>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+            </Grid.RowDefinitions>
+            <Menu>
+                <MenuItem Header="File">
+                    <MenuItem Header="Open"/>
+                    <MenuItem Header="Import"/>
+                    <MenuItem Header="Save"/>
+                    <MenuItem Header="Save As"/>
+                    <Separator/>
+                    <MenuItem Header="Exit"/>
+                </MenuItem>
+                <MenuItem Header="Edit">
+                    <MenuItem Command="ApplicationCommands.Copy"/>
+                    <MenuItem Command="ApplicationCommands.Cut"/>
+                    <MenuItem Command="ApplicationCommands.Paste"/>
+                </MenuItem>
+            </Menu>
+            <Grid Margin="10" Grid.Column="0" Grid.Row="1" VerticalAlignment="Top">
+                <Button Command="{Binding Path=OpenProcessSelector}" Content="Select Process" HorizontalAlignment="Left" Grid.Row="1" VerticalAlignment="Top"/>
+            </Grid>
+        </Grid>
+    </UserControl>
 </Window>

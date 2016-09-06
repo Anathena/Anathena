@@ -3,7 +3,7 @@
 open System
 open Anna.Source.Engine.OperatingSystems
 
-type ExpenseReport =
+type ProcessObject =
     { Name : String
       Department : String
-      ExpenseLineItems : seq<NormalizedProcess>}
+      ProcessObjectLineItems : seq<NormalizedProcess>}

@@ -809,9 +809,9 @@ namespace Anathena.Source.Engine.OperatingSystems.Windows.Native
         /// If the function fails, the return value is zero. To get extended error information, call <see cref="Marshal.GetLastWin32Error"/>.
         /// </returns>
         [DllImport("kernel32.dll", SetLastError = true)]
-        public static extern int VirtualQueryEx(SafeMemoryHandle hProcess, IntPtr lpAddress, out MemoryBasicInformation32 lpBuffer, int dwLength);
+        public static extern Int32 VirtualQueryEx(SafeMemoryHandle hProcess, IntPtr lpAddress, out MemoryBasicInformation32 lpBuffer, Int32 dwLength);
         [DllImport("kernel32.dll", SetLastError = true)]
-        public static extern int VirtualQueryEx(SafeMemoryHandle hProcess, IntPtr lpAddress, out MemoryBasicInformation64 lpBuffer, int dwLength);
+        public static extern Int32 VirtualQueryEx(SafeMemoryHandle hProcess, IntPtr lpAddress, out MemoryBasicInformation64 lpBuffer, Int32 dwLength);
         #endregion
 
         #region WaitForSingleObject
