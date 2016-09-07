@@ -30,29 +30,51 @@ open System.Drawing
 open Anna.Source.Engine.OperatingSystems
 open Anna.Source.Engine.OperatingSystems.Windows
 
+// Temporary structure for constructing process list
+[<NoComparison>]
+type IntermediateProcess ={ isSystemProcess: Boolean; externalProcess: Process }
+
 type ProcessCollector() = 
     // Retrieves all running processes
     member this.GetProcesses() =
         Process.GetProcesses() |>
         Seq.map(fun (externalProcess) ->
         {
-            processId= externalProcess.Id
-            processName= externalProcess.ProcessName
-            icon = this.GetIcon(externalProcess)
-        })
+            isSystemProcess = this.IsProcessSystemProcess(externalProcess)
+            externalProcess = externalProcess
+        }) |>
+        Seq.map(fun (filteredProcess) ->
+        {
+            processId= filteredProcess.externalProcess.Id
+            processName= filteredProcess.externalProcess.ProcessName
+            startTime = 
+                try if filteredProcess.isSystemProcess then DateTime.MinValue else filteredProcess.externalProcess.StartTime
+                with | _ -> DateTime.MinValue
+            isSystemProcess= filteredProcess.isSystemProcess
+            icon = this.GetIcon(filteredProcess.externalProcess, filteredProcess.isSystemProcess)
+        }) |>
+        Seq.sort
 
     // Fetches the icon associated with the provided process
-    member this.GetIcon(externalProcess: Process) = 
-        let noIcon: Icon = null
-        // TODO: Check process bitness compatability
-        let isSystemProcess = (externalProcess.SessionId = 0 || externalProcess.BasePriority = 13)
-        if isSystemProcess then noIcon
+    member this.IsProcessSystemProcess(externalProcess: Process) = 
+        if (externalProcess.SessionId = 0 || externalProcess.BasePriority = 13) then true
         else
             try
                 // Accessing this field will cause an access exception for system processes. This saves
                 // time because handling the exception is faster than failing to fetch the icon later
                 ignore externalProcess.PriorityBoostEnabled
 
+                false
+            with
+                | _ -> true
+
+    // Fetches the icon associated with the provided process
+    member this.GetIcon(externalProcess: Process, isSystemProcess: Boolean) = 
+        let noIcon: Icon = null
+        // TODO: Check process bitness compatability
+        if isSystemProcess then noIcon
+        else
+            try
                 let iconHandle = Native.ExtractIcon(externalProcess.Handle, externalProcess.MainModule.FileName, 0)
                 if (iconHandle = IntPtr.Zero) then noIcon else Icon.FromHandle(iconHandle)
             with

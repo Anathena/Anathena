@@ -6,7 +6,9 @@ open System.Windows.Data
 open System.Windows.Media
 open ConverterBase
 
+/// <summary>
 /// Returns Visibility.Visible if the string is not null or empty
+/// </summary>
 type StringExistsToVisibilityConverter() =
     inherit ConverterBase()
 

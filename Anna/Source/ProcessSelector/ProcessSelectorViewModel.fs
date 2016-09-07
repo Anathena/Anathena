@@ -21,3 +21,8 @@ type ProcessSelectorViewModel(processSelectorModel : ProcessSelectorModel) =
         new ObservableCollection<NormalizedProcess>(
             //processSelectorModel.GetAll())
             (new ProcessCollector()).GetProcesses())
+
+    member this.GodDamn =
+        fun action ->
+            let k:Exception = new Exception("fuck")
+            raise k

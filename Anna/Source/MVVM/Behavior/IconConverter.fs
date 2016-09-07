@@ -8,7 +8,6 @@ open System.Windows.Interop
 open System.Windows.Media.Imaging
 open ConverterBase
 
-/// Returns Visibility.Visible if the string is not null or empty
 type IconConverter() =
     inherit ConverterBase()
 

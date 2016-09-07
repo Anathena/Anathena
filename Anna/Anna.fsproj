@@ -93,16 +93,17 @@
   <Import Project="$(FSharpTargetsPath)" Condition="Exists('$(FSharpTargetsPath)')" />
   <ItemGroup>
     <Compile Include="Source\ViewUris.fs" />
-    <Compile Include="Source\MVVM\Behavior\ConverterBase.fs" />
-    <Compile Include="Source\MVVM\Behavior\StringExistsToVisibilityConverter.fs" />
-    <Compile Include="Source\MVVM\Behavior\IconConverter.fs" />
-    <Compile Include="Source\MVVM\Model\ModelBase.fs" />
-    <Compile Include="Source\MVVM\ViewModel\RelayCommand.fs" />
-    <Compile Include="Source\MVVM\ViewModel\ViewModelBase.fs" />
     <Compile Include="Source\Engine\OperatingSystems\NormalizedProcess.fs" />
     <Compile Include="Source\Engine\OperatingSystems\Windows\Native.fs" />
     <Compile Include="Source\Engine\OperatingSystems\Windows\Processes\ProcessCollector.fs" />
     <Compile Include="Source\Engine\EngineCore.fs" />
+    <Compile Include="Source\MVVM\Behavior\ConverterBase.fs" />
+    <Compile Include="Source\MVVM\Behavior\StringExistsToVisibilityConverter.fs" />
+    <Compile Include="Source\MVVM\Behavior\IconConverter.fs" />
+    <Compile Include="Source\MVVM\Behavior\MouseDoubleClick.fs" />
+    <Compile Include="Source\MVVM\Model\ModelBase.fs" />
+    <Compile Include="Source\MVVM\ViewModel\RelayCommand.fs" />
+    <Compile Include="Source\MVVM\ViewModel\ViewModelBase.fs" />
     <Compile Include="Source\ProcessSelector\ProcessSelectorModel.fs" />
     <Compile Include="Source\ProcessSelector\ProcessSelectorViewModel.fs" />
     <Compile Include="Source\Main\MainModel.fs" />
