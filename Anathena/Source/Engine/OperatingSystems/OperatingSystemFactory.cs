@@ -5,7 +5,6 @@ namespace Anathena.Source.Engine.OperatingSystems
 {
     class OperatingSystemFactory
     {
-
         public static IOperatingSystem GetOperatingSystem(Process Target)
         {
             return new WindowsOperatingSystem(Target);

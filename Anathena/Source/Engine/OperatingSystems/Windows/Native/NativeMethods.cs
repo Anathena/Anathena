@@ -9,6 +9,10 @@ namespace Anathena.Source.Engine.OperatingSystems.Windows.Native
     /// </summary>
     public static class NativeMethods
     {
+        [DllImport("psapi.dll")]
+        public static extern int EnumProcessModulesEx(IntPtr hProcess, [Out] IntPtr lphModule, UInt32 cb, out UInt32 lpcbNeeded, UIntPtr dwFilterFlags);
+
+
         #region CloseHandle
         /// <summary>
         /// Closes an open object handle.

@@ -1,5 +1,4 @@
-﻿using Anathena.Source.Engine.OperatingSystems.Windows.Internals;
-using Anathena.Source.Engine.OperatingSystems.Windows.Native;
+﻿using Anathena.Source.Engine.OperatingSystems.Windows.Native;
 using Anathena.Source.Utils.Extensions;
 using System;
 using System.Collections.Generic;
@@ -10,7 +9,7 @@ namespace Anathena.Source.Engine.OperatingSystems.Windows.Memory
     /// <summary>
     /// Class providing tools for manipulating memory space.
     /// </summary>
-    public class MemoryFactory : IFactory
+    public class MemoryFactory : IDisposable
     {
         /// <summary>
         /// The reference of the <see cref="WindowsOperatingSystem"/> object.

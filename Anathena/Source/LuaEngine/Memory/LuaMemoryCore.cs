@@ -276,7 +276,7 @@ namespace Anathena.Source.LuaEngine.Memory
                 if (CodeCave.Entry != Address)
                     continue;
 
-                EngineCore.Memory.Write<Byte[]>(CodeCave.Entry.ToIntPtr(), CodeCave.OriginalBytes);
+                EngineCore.Memory.WriteBytes(CodeCave.Entry.ToIntPtr(), CodeCave.OriginalBytes);
 
                 // If these are equal, the cave is an in-place edit and not an allocation
                 if (CodeCave.Entry == CodeCave.RemoteAllocation)

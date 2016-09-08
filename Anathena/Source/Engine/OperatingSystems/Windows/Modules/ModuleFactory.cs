@@ -1,5 +1,4 @@
-﻿using Anathena.Source.Engine.OperatingSystems.Windows.Internals;
-using Anathena.Source.Engine.OperatingSystems.Windows.Memory;
+﻿using Anathena.Source.Engine.OperatingSystems.Windows.Memory;
 using Anathena.Source.Engine.OperatingSystems.Windows.Native;
 using System;
 using System.Collections.Generic;
@@ -12,7 +11,7 @@ namespace Anathena.Source.Engine.OperatingSystems.Windows.Modules
     /// <summary>
     /// Class providing tools for manipulating modules and libraries.
     /// </summary>
-    public class ModuleFactory : IFactory
+    public class ModuleFactory : IDisposable
     {
         /// <summary>
         /// The reference of the <see cref="MemoryManagement.WindowsOSInterface"/> object.

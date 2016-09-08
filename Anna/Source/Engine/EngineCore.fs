@@ -1,4 +1,7 @@
 ﻿namespace Anna.Source.Engine
 
-module EngineCore = 
-    let x = 0
+open System.Diagnostics
+
+type EngineCore(externalProcess: Process) = 
+    member this.getProcesses() =
+        0

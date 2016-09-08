@@ -6,7 +6,7 @@
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{30597be9-08f8-4832-8ab7-009c00a6a2f2}</ProjectGuid>
-    <OutputType>WinExe</OutputType>
+    <OutputType>Library</OutputType>
     <RootNamespace>FSharpWpfMvvmTemplate.App</RootNamespace>
     <AssemblyName>App</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
@@ -92,38 +92,19 @@
   </Choose>
   <Import Project="$(FSharpTargetsPath)" Condition="Exists('$(FSharpTargetsPath)')" />
   <ItemGroup>
-    <Compile Include="Source\ViewUris.fs" />
-    <Compile Include="Source\Engine\OperatingSystems\NormalizedProcess.fs" />
-    <Compile Include="Source\Engine\OperatingSystems\Windows\Native.fs" />
-    <Compile Include="Source\Engine\OperatingSystems\Windows\Processes\ProcessCollector.fs" />
-    <Compile Include="Source\Engine\EngineCore.fs" />
-    <Compile Include="Source\MVVM\Behavior\ConverterBase.fs" />
-    <Compile Include="Source\MVVM\Behavior\StringExistsToVisibilityConverter.fs" />
-    <Compile Include="Source\MVVM\Behavior\IconConverter.fs" />
-    <Compile Include="Source\MVVM\Behavior\MouseDoubleClick.fs" />
-    <Compile Include="Source\MVVM\Model\ModelBase.fs" />
-    <Compile Include="Source\MVVM\ViewModel\RelayCommand.fs" />
-    <Compile Include="Source\MVVM\ViewModel\ViewModelBase.fs" />
-    <Compile Include="Source\ProcessSelector\ProcessSelectorModel.fs" />
-    <Compile Include="Source\ProcessSelector\ProcessSelectorViewModel.fs" />
-    <Compile Include="Source\Main\MainModel.fs" />
-    <Compile Include="Source\Main\MainWindowViewModel.fs" />
-    <Resource Include="GUI\ApplicationResources.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Resource>
-    <Resource Include="GUI\Main.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Resource>
-    <Resource Include="GUI\ProcessSelector.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Resource>
-    <Compile Include="App.fs" />
     <Content Include="App.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Compile Include="Source\Engine\OperatingSystems\IOperatingSystem.fs" />
+    <Compile Include="Source\Engine\OperatingSystems\NormalizedFlags.fs" />
+    <Compile Include="Source\Engine\OperatingSystems\NormalizedProcess.fs" />
+    <Compile Include="Source\Engine\OperatingSystems\NormalizedRegion.fs" />
+    <Compile Include="Source\Engine\OperatingSystems\Windows\Native.fs" />
+    <Compile Include="Source\Engine\OperatingSystems\Windows\Processes\ProcessCollector.fs" />
+    <Compile Include="Source\Engine\OperatingSystems\OperatingSystemFactory.fs" />
+    <Compile Include="Source\Engine\EngineCore.fs" />
+    <Compile Include="Source\Snapshots\File1.fs" />
+    <Compile Include="Source\Scanners\File2.fs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Accessibility" />

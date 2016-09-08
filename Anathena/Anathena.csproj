@@ -246,6 +246,10 @@
     <Compile Include="Source\Engine\InputCapture\HotKeys\ControllerHotKey.cs" />
     <Compile Include="Source\Engine\InputCapture\HotKeys\MouseHotKey.cs" />
     <Compile Include="Source\Engine\InputCapture\HotKeys\KeyboardHotKey.cs" />
+    <Compile Include="Source\Engine\OperatingSystems\Windows\Modules\ModuleCore.cs" />
+    <Compile Include="Source\Engine\OperatingSystems\Windows\Modules\ModuleFactory.cs" />
+    <Compile Include="Source\Engine\OperatingSystems\Windows\Modules\RemoteFunction.cs" />
+    <Compile Include="Source\Engine\OperatingSystems\Windows\Modules\RemoteModule.cs" />
     <Compile Include="Source\Engine\Proxy\ProxyCommunicator.cs" />
     <Compile Include="Source\Project\ProjectItems\TypeEditors\IScriptEditorMVP.cs" />
     <Compile Include="Source\Project\ProjectItems\TypeEditors\IOffsetEditorMVP.cs" />
@@ -540,22 +544,8 @@
     <Compile Include="Source\Controller\Main.cs" />
     <Compile Include="Source\Engine\Architecture\Assembler\Fasm32Assembler.cs" />
     <Compile Include="Source\Engine\Architecture\Assembler\IAssembler.cs" />
-    <Compile Include="Source\Engine\OperatingSystems\Windows\Debugger\Debugger.cs" />
-    <Compile Include="Source\Engine\OperatingSystems\Windows\Debugger\DebuggerException.cs" />
-    <Compile Include="Source\Engine\OperatingSystems\Windows\Debugger\DebuggerSettings.cs" />
-    <Compile Include="Source\Engine\OperatingSystems\Windows\Debugger\ErrorCode.cs" />
-    <Compile Include="Source\Engine\OperatingSystems\Windows\Helpers\ApplicationFinder.cs" />
-    <Compile Include="Source\Engine\OperatingSystems\Windows\Helpers\HandleManipulator.cs" />
-    <Compile Include="Source\Engine\OperatingSystems\Windows\Helpers\Randomizer.cs" />
-    <Compile Include="Source\Engine\OperatingSystems\Windows\Helpers\SerializationHelper.cs" />
-    <Compile Include="Source\Engine\OperatingSystems\Windows\Internals\IApplicableElement.cs" />
     <Compile Include="Source\Engine\OperatingSystems\Windows\Internals\IDisposableState.cs" />
-    <Compile Include="Source\Engine\OperatingSystems\Windows\Internals\IFactory.cs" />
-    <Compile Include="Source\Engine\OperatingSystems\Windows\Internals\IMarshalledValue.cs" />
-    <Compile Include="Source\Engine\OperatingSystems\Windows\Internals\INamedElement.cs" />
-    <Compile Include="Source\Engine\OperatingSystems\Windows\Internals\Manager.cs" />
     <Compile Include="Source\Engine\OperatingSystems\Windows\Internals\MarshalType.cs" />
-    <Compile Include="Source\Engine\OperatingSystems\Windows\Internals\MarshalValue.cs" />
     <Compile Include="Source\Engine\OperatingSystems\Windows\WindowsOperatingSystem.cs" />
     <Compile Include="Source\Engine\OperatingSystems\Windows\Memory\LocalUnmanagedMemory.cs" />
     <Compile Include="Source\Engine\OperatingSystems\Windows\Memory\MemoryCore.cs" />
@@ -565,10 +555,6 @@
     <Compile Include="Source\Engine\OperatingSystems\Windows\Memory\RemotePointer.cs" />
     <Compile Include="Source\Engine\OperatingSystems\Windows\Memory\RemoteRegion.cs" />
     <Compile Include="Source\Engine\OperatingSystems\Windows\Memory\RemoteVirtualPage.cs" />
-    <Compile Include="Source\Engine\OperatingSystems\Windows\Modules\ModuleCore.cs" />
-    <Compile Include="Source\Engine\OperatingSystems\Windows\Modules\ModuleFactory.cs" />
-    <Compile Include="Source\Engine\OperatingSystems\Windows\Modules\RemoteFunction.cs" />
-    <Compile Include="Source\Engine\OperatingSystems\Windows\Modules\RemoteModule.cs" />
     <Compile Include="Source\Engine\OperatingSystems\Windows\Native\Enumerations.cs" />
     <Compile Include="Source\Engine\OperatingSystems\Windows\Native\NativeMethods.cs" />
     <Compile Include="Source\Engine\OperatingSystems\Windows\Native\SafeMemoryHandle.cs" />
@@ -896,7 +882,6 @@
       <SubType>Designer</SubType>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <None Include="ClassDiagram1.cd" />
     <None Include="Properties\app.manifest" />
     <None Include="Content\Font\MonoSpace.ttf" />
     <None Include="Content\FSM\States.psd" />
@@ -1118,6 +1103,10 @@
     <ProjectReference Include="..\AnathenaProxy\AnathenaProxy.csproj">
       <Project>{2f739124-dda6-45cf-ad05-1b94a04643f1}</Project>
       <Name>AnathenaProxy</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Anna\Anna.fsproj">
+      <Project>{30597be9-08f8-4832-8ab7-009c00a6a2f2}</Project>
+      <Name>Anna</Name>
     </ProjectReference>
     <ProjectReference Include="..\DockingSuite\DockingSuite.csproj">
       <Project>{c75532c4-765b-418e-b09b-46d36b2abdb1}</Project>

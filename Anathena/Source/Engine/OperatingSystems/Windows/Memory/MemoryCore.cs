@@ -1,10 +1,9 @@
-﻿using Anathena.Source.Engine.OperatingSystems.Windows.Helpers;
-using Anathena.Source.Engine.OperatingSystems.Windows.Internals;
-using Anathena.Source.Engine.OperatingSystems.Windows.Native;
+﻿using Anathena.Source.Engine.OperatingSystems.Windows.Native;
 using Anathena.Source.Utils.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Runtime.InteropServices;
 
 namespace Anathena.Source.Engine.OperatingSystems.Windows.Memory
 {
@@ -62,10 +61,6 @@ namespace Anathena.Source.Engine.OperatingSystems.Windows.Memory
             // Create a structure to store process info
             ProcessBasicInformation ProcessInfo = new ProcessBasicInformation();
 
-            // Check if the handle is valid
-            if (!HandleManipulator.ValidateAsArgument(ProcessHandle))
-                return ProcessInfo;
-
             // Get the process info
             Int32 Result = NativeMethods.NtQueryInformationProcess(ProcessHandle, ProcessInformationClass.ProcessBasicInformation, ref ProcessInfo, ProcessInfo.Size, IntPtr.Zero);
 
@@ -84,25 +79,6 @@ namespace Anathena.Source.Engine.OperatingSystems.Windows.Memory
             SafeMemoryHandle Handle = NativeMethods.OpenProcess(AccessFlags, false, Process == null ? 0 : Process.Id);
 
             return Handle;
-        }
-
-        /// <summary>
-        /// Reads an array of bytes in the memory form the target process.
-        /// </summary>
-        /// <param name="ProcessHandle">A handle to the process with memory that is being read.</param>
-        /// <param name="Address">A pointer to the base address in the specified process from which to read.</param>
-        /// <param name="Size">The number of bytes to be read from the specified process.</param>
-        /// <returns>The collection of read bytes.</returns>
-        public static Byte[] ReadBytes(SafeMemoryHandle ProcessHandle, IntPtr Address, Int32 Size, out Boolean Success)
-        {
-            // Allocate the buffer
-            Byte[] Buffer = new Byte[Size];
-            Int32 BytesRead;
-
-            // Read the data from the target process
-            Success = (NativeMethods.ReadProcessMemory(ProcessHandle, Address, Buffer, Size, out BytesRead) && Size == BytesRead);
-
-            return Buffer;
         }
 
         /// <summary>
@@ -135,8 +111,19 @@ namespace Anathena.Source.Engine.OperatingSystems.Windows.Memory
         /// <returns>A <see cref="Native.MemoryBasicInformation64"/> structures in which information about the specified page range is returned.</returns>
         public static MemoryBasicInformation64 Query(SafeMemoryHandle ProcessHandle, IntPtr BaseAddress)
         {
-            // Allocate the structure to store information of memory
+            Int32 QueryResult;
+            return Query(ProcessHandle, BaseAddress, out QueryResult);
+        }
 
+        /// <summary>
+        /// Retrieves information about a range of pages within the virtual address space of a specified process.
+        /// </summary>
+        /// <param name="ProcessHandle">A handle to the process whose memory information is queried.</param>
+        /// <param name="BaseAddress">A pointer to the base address of the region of pages to be queried.</param>
+        /// <returns>A <see cref="Native.MemoryBasicInformation64"/> structures in which information about the specified page range is returned.</returns>
+        public static MemoryBasicInformation64 Query(SafeMemoryHandle ProcessHandle, IntPtr BaseAddress, out Int32 QueryResult)
+        {
+            // Allocate the structure to store information of memory
             MemoryBasicInformation64 MemoryInfo64 = new MemoryBasicInformation64();
 
             if (!Environment.Is64BitProcess)
@@ -145,33 +132,26 @@ namespace Anathena.Source.Engine.OperatingSystems.Windows.Memory
                 MemoryBasicInformation32 MemoryInfo32 = new MemoryBasicInformation32();
 
                 // Query the memory region
-                if (NativeMethods.VirtualQueryEx(ProcessHandle, BaseAddress, out MemoryInfo32, MarshalType<MemoryBasicInformation32>.Size) != 0)
-                {
-                    // Copy from the 32 bit struct to the 64 bit struct
-                    MemoryInfo64.AllocationBase = MemoryInfo32.AllocationBase;
-                    MemoryInfo64.AllocationProtect = MemoryInfo32.AllocationProtect;
-                    MemoryInfo64.BaseAddress = MemoryInfo32.BaseAddress;
-                    MemoryInfo64.Protect = MemoryInfo32.Protect;
-                    MemoryInfo64.RegionSize = MemoryInfo32.RegionSize;
-                    MemoryInfo64.State = MemoryInfo32.State;
-                    MemoryInfo64.Type = MemoryInfo32.Type;
+                QueryResult = NativeMethods.VirtualQueryEx(ProcessHandle, BaseAddress, out MemoryInfo32, Marshal.SizeOf(MemoryInfo32));
 
-                    return MemoryInfo64;
-                }
+                // Copy from the 32 bit struct to the 64 bit struct
+                MemoryInfo64.AllocationBase = MemoryInfo32.AllocationBase;
+                MemoryInfo64.AllocationProtect = MemoryInfo32.AllocationProtect;
+                MemoryInfo64.BaseAddress = MemoryInfo32.BaseAddress;
+                MemoryInfo64.Protect = MemoryInfo32.Protect;
+                MemoryInfo64.RegionSize = MemoryInfo32.RegionSize;
+                MemoryInfo64.State = MemoryInfo32.State;
+                MemoryInfo64.Type = MemoryInfo32.Type;
             }
             else
             {
                 // Query the memory region
-                if (NativeMethods.VirtualQueryEx(ProcessHandle, BaseAddress, out MemoryInfo64, MarshalType<MemoryBasicInformation64>.Size) != 0)
-                {
-                    return MemoryInfo64;
-                }
+                QueryResult = NativeMethods.VirtualQueryEx(ProcessHandle, BaseAddress, out MemoryInfo64, Marshal.SizeOf(MemoryInfo64));
             }
 
-            // Could not retrieve information
-            // throw new Win32Exception(string.Format("Couldn't query information about the memory region 0x{0}", BaseAddress.ToString("X")));
             return MemoryInfo64;
         }
+
         /// <summary>
         /// Retrieves information about a range of pages within the virtual address space of a specified process.
         /// </summary>
@@ -182,8 +162,7 @@ namespace Anathena.Source.Engine.OperatingSystems.Windows.Memory
         public static IEnumerable<MemoryBasicInformation64> Query(SafeMemoryHandle ProcessHandle, IntPtr StartAddress, IntPtr EndAddress,
             MemoryProtectionFlags RequiredProtection, MemoryProtectionFlags ExcludedProtection, MemoryTypeEnum AllowedTypes)
         {
-            // Error checking
-            if (!HandleManipulator.ValidateAsArgument(ProcessHandle) || StartAddress.ToUInt64() >= EndAddress.ToUInt64())
+            if (StartAddress.ToUInt64() >= EndAddress.ToUInt64())
                 yield return new MemoryBasicInformation64();
 
             // Create the variable storing the result of the call of VirtualQueryEx
@@ -194,36 +173,7 @@ namespace Anathena.Source.Engine.OperatingSystems.Windows.Memory
             do
             {
                 // Allocate the structure to store information of memory
-                MemoryBasicInformation64 MemoryInfo = new MemoryBasicInformation64();
-
-                if (!Environment.Is64BitProcess)
-                {
-                    // 32 Bit struct is not the same
-                    MemoryBasicInformation32 MemoryInfo32 = new MemoryBasicInformation32();
-
-                    // Get the next memory page
-                    QueryResult = NativeMethods.VirtualQueryEx(ProcessHandle, StartAddress, out MemoryInfo32, MarshalType<MemoryBasicInformation32>.Size);
-
-                    // Copy from the 32 bit struct to the 64 bit struct
-                    MemoryInfo.AllocationBase = MemoryInfo32.AllocationBase;
-                    MemoryInfo.AllocationProtect = MemoryInfo32.AllocationProtect;
-                    MemoryInfo.BaseAddress = MemoryInfo32.BaseAddress;
-                    MemoryInfo.Protect = MemoryInfo32.Protect;
-                    MemoryInfo.RegionSize = MemoryInfo32.RegionSize;
-                    MemoryInfo.State = MemoryInfo32.State;
-                    MemoryInfo.Type = MemoryInfo32.Type;
-                }
-                else
-                {
-                    // Query the memory region
-                    QueryResult = NativeMethods.VirtualQueryEx(ProcessHandle, StartAddress, out MemoryInfo, MarshalType<MemoryBasicInformation64>.Size);
-                }
-
-                if (StartAddress.ToUInt64() >= 2147450000)
-                {
-                    int i = 0;
-                    i++;
-                }
+                MemoryBasicInformation64 MemoryInfo = Query(ProcessHandle, StartAddress, out QueryResult);
 
                 // Increment the starting address with the size of the page
                 IntPtr PreviousFrom = StartAddress;
@@ -282,7 +232,31 @@ namespace Anathena.Source.Engine.OperatingSystems.Windows.Memory
 
         #endregion
 
-        #region WriteBytes
+        #region Read
+
+        /// <summary>
+        /// Reads an array of bytes in the memory form the target process.
+        /// </summary>
+        /// <param name="ProcessHandle">A handle to the process with memory that is being read.</param>
+        /// <param name="Address">A pointer to the base address in the specified process from which to read.</param>
+        /// <param name="Size">The number of bytes to be read from the specified process.</param>
+        /// <returns>The collection of read bytes.</returns>
+        public static Byte[] ReadBytes(SafeMemoryHandle ProcessHandle, IntPtr Address, Int32 Size, out Boolean Success)
+        {
+            // Allocate the buffer
+            Byte[] Buffer = new Byte[Size];
+            Int32 BytesRead;
+
+            // Read the data from the target process
+            Success = (NativeMethods.ReadProcessMemory(ProcessHandle, Address, Buffer, Size, out BytesRead) && Size == BytesRead);
+
+            return Buffer;
+        }
+
+        #endregion
+
+        #region Write
+
         /// <summary>
         /// Writes data to an area of memory in a specified process.
         /// </summary>

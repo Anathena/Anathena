@@ -51,7 +51,7 @@ namespace Anathena.GUI
         public GUIMain()
         {
             InitializeComponent();
-
+            
             MainPresenter = new MainPresenter(this, Main.GetInstance());
             AccessLock = new Object();
 

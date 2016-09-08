@@ -1,5 +1,4 @@
-﻿using Anathena.Source.Engine.OperatingSystems.Windows.Helpers;
-using Anathena.Source.Engine.OperatingSystems.Windows.Internals;
+﻿using Anathena.Source.Engine.OperatingSystems.Windows.Internals;
 using Anathena.Source.Engine.OperatingSystems.Windows.Memory;
 using Anathena.Source.Engine.OperatingSystems.Windows.Modules;
 using Anathena.Source.Engine.OperatingSystems.Windows.Native;
@@ -26,7 +25,7 @@ namespace Anathena.Source.Engine.OperatingSystems.Windows
         /// <summary>
         /// The factories embedded inside the library.
         /// </summary>
-        protected List<IFactory> Factories;
+        protected List<IDisposable> Factories;
 
         /// <summary>
         /// State if the process is running.
@@ -54,7 +53,7 @@ namespace Anathena.Source.Engine.OperatingSystems.Windows
         /// <summary>
         /// Gets the unique identifier for the remote process.
         /// </summary>
-        public int Pid { get { return Native.Id; } }
+        public Int32 PId { get { return Native.Id; } }
         /// <summary>
         /// Gets the specified module in the remote process.
         /// </summary>
@@ -86,8 +85,8 @@ namespace Anathena.Source.Engine.OperatingSystems.Windows
             Native = Process;
 
             // Create instances of the factories
-            Factories = new List<IFactory>();
-            Factories.AddRange(new IFactory[]
+            Factories = new List<IDisposable>();
+            Factories.AddRange(new IDisposable[]
             {
                 Memory = new MemoryFactory(this),
                 Modules = new ModuleFactory(this),
@@ -95,15 +94,6 @@ namespace Anathena.Source.Engine.OperatingSystems.Windows
 
             // Open the process with all rights
             Handle = MemoryCore.OpenProcess(ProcessAccessFlags.AllAccess, Process);
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="WindowsOperatingSystem"/> class.
-        /// </summary>
-        /// <param name="ProcessId">Process id of the process to open.</param>
-        public WindowsOperatingSystem(Int32 ProcessId) : this(ApplicationFinder.FromProcessId(ProcessId))
-        {
-
         }
 
         /// <summary>
@@ -328,21 +318,6 @@ namespace Anathena.Source.Engine.OperatingSystems.Windows
         }
 
         /// <summary>
-        /// Writes an array of a specified type in the remote process.
-        /// </summary>
-        /// <typeparam name="T">The type of the values.</typeparam>
-        /// <param name="Address">The address where the values is written.</param>
-        /// <param name="Array">The array to write.</param>
-        public void Write<T>(IntPtr Address, T[] Array)
-        {
-            // Write the array in the remote process
-            for (Int32 Index = 0; Index < Array.Length; Index++)
-            {
-                Write(Address + MarshalType<T>.Size * Index, Array[Index]);
-            }
-        }
-
-        /// <summary>
         /// Write an array of bytes in the remote process.
         /// </summary>
         /// <param name="Address">The address where the array is written.</param>
@@ -350,7 +325,7 @@ namespace Anathena.Source.Engine.OperatingSystems.Windows
         public void WriteBytes(IntPtr Address, Byte[] ByteArray)
         {
             // Change the protection of the memory to allow writable
-            using (new MemoryProtection(this, Address, MarshalType<byte>.Size * ByteArray.Length))
+            using (new MemoryProtection(this, Address, ByteArray.Length))
             {
                 // Write the byte array
                 MemoryCore.WriteBytes(Handle, Address, ByteArray);
