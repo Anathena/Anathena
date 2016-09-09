@@ -1,6 +1,4 @@
-﻿using Anathena.Source.Engine.OperatingSystems.Windows.Memory;
-using Anathena.Source.Engine.OperatingSystems.Windows.Native;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -11,7 +9,7 @@ namespace Anathena.Source.Engine.OperatingSystems.Windows.Modules
     /// <summary>
     /// Class providing tools for manipulating modules and libraries.
     /// </summary>
-    public class ModuleFactory : IDisposable
+    public class ModuleFactory
     {
         /// <summary>
         /// The reference of the <see cref="MemoryManagement.WindowsOSInterface"/> object.
@@ -33,17 +31,6 @@ namespace Anathena.Source.Engine.OperatingSystems.Windows.Modules
         /// </summary>
         internal IEnumerable<ProcessModule> NativeModules { get { return WindowsOperatingSystem?.Native?.Modules?.Cast<ProcessModule>(); } }
 
-        #region This
-        /// <summary>
-        /// Gets a pointer from the remote process.
-        /// </summary>
-        /// <param name="Address">The address of the pointer.</param>
-        /// <returns>A new instance of a <see cref="RemotePointer"/> class.</returns>
-        public RemotePointer this[IntPtr Address]
-        {
-            get { return new RemotePointer(WindowsOperatingSystem, Address); }
-        }
-
         /// <summary>
         /// Gets the specified module in the remote process.
         /// </summary>
@@ -54,9 +41,6 @@ namespace Anathena.Source.Engine.OperatingSystems.Windows.Modules
             get { return FetchModule(ModuleName); }
         }
 
-        #endregion
-
-        #region Constructor/Destructor
         /// <summary>
         /// Initializes a new instance of the <see cref="ModuleFactory"/> class.
         /// </summary>
@@ -67,37 +51,6 @@ namespace Anathena.Source.Engine.OperatingSystems.Windows.Modules
             this.WindowsOperatingSystem = WindowsOperatingSystem;
         }
 
-        /// <summary>
-        /// Frees resources and perform other cleanup operations before it is reclaimed by garbage collection.
-        /// </summary>
-        ~ModuleFactory()
-        {
-            Dispose();
-        }
-
-        #endregion
-
-        #region Methods
-        #region Dispose (implementation of IFactory)
-        /// <summary>
-        /// Releases all resources used by the <see cref="ModuleFactory"/> object.
-        /// </summary>
-        public virtual void Dispose()
-        {
-            // Clean the cached functions related to this process
-            foreach (KeyValuePair<Tuple<String, SafeMemoryHandle>, RemoteFunction> CachedFunction in RemoteModule.CachedFunctions.ToArray())
-            {
-                if (CachedFunction.Key.Item2 == WindowsOperatingSystem.Handle)
-                    RemoteModule.CachedFunctions.Remove(CachedFunction);
-            }
-
-            // Avoid the finalizer
-            GC.SuppressFinalize(this);
-        }
-
-        #endregion
-
-        #region FetchModule (protected)
         /// <summary>
         /// Fetches a module from the remote process.
         /// </summary>
@@ -112,9 +65,8 @@ namespace Anathena.Source.Engine.OperatingSystems.Windows.Modules
             if (!Path.HasExtension(ModuleName))
                 ModuleName += ".dll";
 
-
             // Fetch and return the module
-            return new RemoteModule(WindowsOperatingSystem, NativeModules.First(m => m.ModuleName.ToLower() == ModuleName));
+            return new RemoteModule(NativeModules.First(X => X.ModuleName.ToLower() == ModuleName));
         }
 
         /// <summary>
@@ -126,9 +78,6 @@ namespace Anathena.Source.Engine.OperatingSystems.Windows.Modules
         {
             return FetchModule(Module.ModuleName);
         }
-
-        #endregion
-        #endregion
 
     } // End class
 

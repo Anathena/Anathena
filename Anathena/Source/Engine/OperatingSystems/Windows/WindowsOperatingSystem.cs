@@ -7,7 +7,6 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Reflection;
-using System.Runtime.InteropServices;
 using System.Text;
 
 namespace Anathena.Source.Engine.OperatingSystems.Windows
@@ -15,33 +14,12 @@ namespace Anathena.Source.Engine.OperatingSystems.Windows
     /// <summary>
     /// Class for memory editing a remote process.
     /// </summary>
-    public class WindowsOperatingSystem : IOperatingSystem, IDisposable, IEquatable<WindowsOperatingSystem>
+    public class WindowsOperatingSystem : IOperatingSystem
     {
-        /// <summary>
-        /// Raises when the <see cref="WindowsOperatingSystem"/> object is disposed.
-        /// </summary>
-        public event EventHandler OnDispose;
-
-        /// <summary>
-        /// The factories embedded inside the library.
-        /// </summary>
-        protected List<IDisposable> Factories;
-
-        /// <summary>
-        /// State if the process is running.
-        /// </summary>
-        public bool IsRunning
-        {
-            get { return !Handle.IsInvalid && !Handle.IsClosed && !Native.HasExited; }
-        }
         /// <summary>
         /// The remote process handle opened with all rights.
         /// </summary>
-        public SafeMemoryHandle Handle { get; private set; }
-        /// <summary>
-        /// Factory for manipulating memory space.
-        /// </summary>
-        public MemoryFactory Memory { get; protected set; }
+        public IntPtr Handle { get; private set; }
         /// <summary>
         /// Factory for manipulating modules and libraries.
         /// </summary>
@@ -65,17 +43,6 @@ namespace Anathena.Source.Engine.OperatingSystems.Windows
         }
 
         /// <summary>
-        /// Gets a pointer to the specified address in the remote process.
-        /// </summary>
-        /// <param name="Address">The address pointed.</param>
-        /// <returns>A new instance of a <see cref="RemotePointer"/> class.</returns>
-        public RemotePointer this[IntPtr Address]
-        {
-            get { return new RemotePointer(this, Address); }
-        }
-
-        #region Constructors/Destructor
-        /// <summary>
         /// Initializes a new instance of the <see cref="WindowsOperatingSystem"/> class.
         /// </summary>
         /// <param name="Process">Process to open.</param>
@@ -84,92 +51,11 @@ namespace Anathena.Source.Engine.OperatingSystems.Windows
             // Save the reference of the process
             Native = Process;
 
-            // Create instances of the factories
-            Factories = new List<IDisposable>();
-            Factories.AddRange(new IDisposable[]
-            {
-                Memory = new MemoryFactory(this),
-                Modules = new ModuleFactory(this),
-            });
+            Modules = new ModuleFactory(this);
 
-            // Open the process with all rights
             Handle = MemoryCore.OpenProcess(ProcessAccessFlags.AllAccess, Process);
         }
 
-        /// <summary>
-        /// Frees resources and perform other cleanup operations before it is reclaimed by garbage collection. 
-        /// </summary>
-        ~WindowsOperatingSystem()
-        {
-            Dispose();
-        }
-
-        #endregion
-
-        #region Methods
-        #region Dispose (implementation of IDisposable)
-        /// <summary>
-        /// Releases all resources used by the <see cref="WindowsOperatingSystem"/> object.
-        /// </summary>
-        public virtual void Dispose()
-        {
-            // Raise the event OnDispose
-            OnDispose?.Invoke(this, new EventArgs());
-
-            // Dispose all factories
-            Factories?.ForEach(X => X.Dispose());
-
-            // Close the process handle
-            Handle?.Close();
-
-            // Avoid the finalizer
-            GC.SuppressFinalize(this);
-        }
-
-        #endregion
-        #region Equals (override)
-        /// <summary>
-        /// Determines whether the specified object is equal to the current object.
-        /// </summary>
-        public override Boolean Equals(Object Object)
-        {
-            if (ReferenceEquals(null, Object)) return false;
-            if (ReferenceEquals(this, Object)) return true;
-            return Object.GetType() == GetType() && Equals((WindowsOperatingSystem)Object);
-        }
-
-        /// <summary>
-        /// Returns a value indicating whether this instance is equal to a specified object.
-        /// </summary>
-        public Boolean Equals(WindowsOperatingSystem Other)
-        {
-            if (ReferenceEquals(null, Other)) return false;
-            return ReferenceEquals(this, Other) || Handle.Equals(Other.Handle);
-        }
-
-        #endregion
-        #region GetHashCode (override)
-        /// <summary>
-        /// Serves as a hash function for a particular type. 
-        /// </summary>
-        public override Int32 GetHashCode()
-        {
-            return Handle.GetHashCode();
-        }
-
-        #endregion
-        #region Operator (override)
-        public static Boolean operator ==(WindowsOperatingSystem Left, WindowsOperatingSystem Right)
-        {
-            return Equals(Left, Right);
-        }
-
-        public static Boolean operator !=(WindowsOperatingSystem Left, WindowsOperatingSystem Right)
-        {
-            return !Equals(Left, Right);
-        }
-
-        #endregion
         #region Read
 
         /// <summary>
@@ -218,30 +104,6 @@ namespace Anathena.Source.Engine.OperatingSystems.Windows
         }
 
         /// <summary>
-        /// Reads an array of a specified type in the remote process.
-        /// </summary>
-        /// <typeparam name="T">The type of the values.</typeparam>
-        /// <param name="Address">The address where the values is read.</param>
-        /// <param name="Count">The number of cells in the array.</param>
-        /// <returns>An array.</returns>
-        public T[] Read<T>(IntPtr Address, Int32 Count, out Boolean Success)
-        {
-            // Allocate an array to store the results
-            T[] Array = new T[Count];
-            Success = true;
-
-            // Read the array in the remote process
-            for (Int32 Index = 0; Index < Count; Index++)
-            {
-                Boolean Result;
-                Array[Index] = Read<T>(Address + MarshalType<T>.Size * Index, out Result);
-                Success &= Result;
-            }
-
-            return Array;
-        }
-
-        /// <summary>
         /// Reads an array of bytes in the remote process.
         /// </summary>
         /// <param name="Address">The address where the array is read.</param>
@@ -252,8 +114,6 @@ namespace Anathena.Source.Engine.OperatingSystems.Windows
             return MemoryCore.ReadBytes(Handle, Address, Count, out Success);
         }
 
-        #endregion
-        #region ReadString
         /// <summary>
         /// Reads a string with a specified encoding in the remote process.
         /// </summary>
@@ -271,17 +131,6 @@ namespace Anathena.Source.Engine.OperatingSystems.Windows
 
             // Crop the string with this end
             return Data.Substring(0, End);
-        }
-
-        /// <summary>
-        /// Reads a string using the encoding UTF8 in the remote process.
-        /// </summary>
-        /// <param name="Address">The address where the string is read.</param>
-        /// <param name="MaxLength">[Optional] The number of maximum bytes to read. The string is automatically cropped at this end ('\0' char).</param>
-        /// <returns>The string.</returns>
-        public string ReadString(IntPtr Address, out Boolean Success, Int32 MaxLength = 512)
-        {
-            return ReadString(Address, Encoding.UTF8, out Success, MaxLength);
         }
 
         #endregion
@@ -312,9 +161,24 @@ namespace Anathena.Source.Engine.OperatingSystems.Windows
         /// <typeparam name="T">The type of the value.</typeparam>
         /// <param name="Address">The address where the value is written.</param>
         /// <param name="Value">The value to write.</param>
-        public void Write<T>(IntPtr Address, T Value)
+        public unsafe void Write<T>(IntPtr Address, T Value)
         {
-            WriteBytes(Address, MarshalType<T>.ObjectToByteArray(Value));
+            Byte[] Bytes;
+            switch (Type.GetTypeCode(typeof(T)))
+            {
+                case TypeCode.Boolean: Bytes = BitConverter.GetBytes((Boolean)(Object)Value); break;
+                case TypeCode.Char: Bytes = Encoding.UTF8.GetBytes(new[] { (Char)(Object)Value }); break;
+                case TypeCode.Double: Bytes = BitConverter.GetBytes((Double)(Object)Value); break;
+                case TypeCode.Int16: Bytes = BitConverter.GetBytes((Int16)(Object)Value); break;
+                case TypeCode.Int32: Bytes = BitConverter.GetBytes((Int32)(Object)Value); break;
+                case TypeCode.Int64: Bytes = BitConverter.GetBytes((Int64)(Object)Value); break;
+                case TypeCode.Single: Bytes = BitConverter.GetBytes((Single)(Object)Value); break;
+                case TypeCode.UInt16: Bytes = BitConverter.GetBytes((UInt16)(Object)Value); break;
+                case TypeCode.UInt32: Bytes = BitConverter.GetBytes((UInt32)(Object)Value); break;
+                case TypeCode.UInt64: Bytes = BitConverter.GetBytes((UInt64)(Object)Value); break;
+                default: throw new ArgumentException("Invalid type provided");
+            }
+            WriteBytes(Address, Bytes);
         }
 
         /// <summary>
@@ -324,16 +188,10 @@ namespace Anathena.Source.Engine.OperatingSystems.Windows
         /// <param name="ByteArray">The array of bytes to write.</param>
         public void WriteBytes(IntPtr Address, Byte[] ByteArray)
         {
-            // Change the protection of the memory to allow writable
-            using (new MemoryProtection(this, Address, ByteArray.Length))
-            {
-                // Write the byte array
-                MemoryCore.WriteBytes(Handle, Address, ByteArray);
-            }
+            // Write the byte array
+            MemoryCore.WriteBytes(Handle, Address, ByteArray);
         }
 
-        #endregion
-        #region WriteString
         /// <summary>
         /// Writes a string with a specified encoding in the remote process.
         /// </summary>
@@ -344,16 +202,6 @@ namespace Anathena.Source.Engine.OperatingSystems.Windows
         {
             // Write the text
             WriteBytes(Address, Encoding.GetBytes(Text + '\0'));
-        }
-
-        /// <summary>
-        /// Writes a string using the encoding UTF8 in the remote process.
-        /// </summary>
-        /// <param name="Address">The address where the string is written.</param>
-        /// <param name="Text">The text to write.</param>
-        public void WriteString(IntPtr Address, String Text)
-        {
-            WriteString(Address, Text, Encoding.UTF8);
         }
 
         /// <summary>
@@ -386,7 +234,7 @@ namespace Anathena.Source.Engine.OperatingSystems.Windows
                 return true;
 
             Boolean IsWow64;
-            if (!IsWow64Process(Native == null ? IntPtr.Zero : Native.Handle, out IsWow64))
+            if (!NativeMethods.IsWow64Process(Native == null ? IntPtr.Zero : Native.Handle, out IsWow64))
                 return true; // Error, assume 32 bit
 
             return IsWow64;
@@ -453,9 +301,9 @@ namespace Anathena.Source.Engine.OperatingSystems.Windows
                 ExcludedFlags |= MemoryProtectionFlags.ExecuteWriteCopy;
             }
 
-            List<RemoteVirtualPage> Pages = new List<RemoteVirtualPage>(Memory.VirtualPages(StartAddress, EndAddress, RequiredFlags, ExcludedFlags, AllowedTypes));
+            List<RemoteVirtualPage> Pages = new List<RemoteVirtualPage>(MemoryCore.VirtualPages(Handle, StartAddress, EndAddress, RequiredFlags, ExcludedFlags, AllowedTypes));
             List<NormalizedRegion> Regions = new List<NormalizedRegion>();
-            Pages.ForEach(X => Regions.Add(new NormalizedRegion(X.BaseAddress, (Int32)X.Information.RegionSize)));
+            Pages.ForEach(X => Regions.Add(new NormalizedRegion(X.BaseAddress, (Int32)MemoryCore.Query(Handle, X.BaseAddress).RegionSize)));
 
             return Regions;
         }
@@ -474,26 +322,21 @@ namespace Anathena.Source.Engine.OperatingSystems.Windows
             return NormalizedModules;
         }
 
-        [DllImport("kernel32.dll", SetLastError = true, CallingConvention = CallingConvention.Winapi)]
-        [return: MarshalAs(UnmanagedType.Bool)]
-        private static extern bool IsWow64Process([In] IntPtr ProcessHandle, [Out, MarshalAs(UnmanagedType.Bool)] out bool Wow64Process);
-
-        public IntPtr SearchAOB(byte[] Bytes)
+        public IntPtr SearchAOB(Byte[] Bytes)
         {
             throw new NotImplementedException();
         }
 
-        public IntPtr SearchAOB(string Pattern)
+        public IntPtr SearchAOB(String Pattern)
         {
             throw new NotImplementedException();
         }
 
-        public IntPtr[] SearchllAOB(string Pattern)
+        public IntPtr[] SearchllAOB(String Pattern)
         {
             throw new NotImplementedException();
         }
 
-        #endregion
         #endregion
 
 
@@ -524,7 +367,7 @@ namespace Anathena.Source.Engine.OperatingSystems.Windows
                 return true;
 
             Boolean IsWow64;
-            if (!IsWow64Process(Process.Handle, out IsWow64))
+            if (!NativeMethods.IsWow64Process(Process.Handle, out IsWow64))
                 return false; // Error
 
             return IsWow64;
