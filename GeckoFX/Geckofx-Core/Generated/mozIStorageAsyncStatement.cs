@@ -58,7 +58,9 @@ namespace Gecko
         /// close on the connection if any statements have been used asynchronously.
         /// </summary>
 		[MethodImpl(MethodImplOptions.InternalCall, MethodCodeType=MethodCodeType.Runtime)]
+#pragma warning disable CS0465 // Introducing a 'Finalize' method can interfere with destructor invocation
 		new void Finalize();
+#pragma warning restore CS0465 // Introducing a 'Finalize' method can interfere with destructor invocation
 		
 		/// <summary>
         /// Bind the given value at the given numeric index.

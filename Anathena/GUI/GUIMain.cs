@@ -51,7 +51,7 @@ namespace Anathena.GUI
         public GUIMain()
         {
             InitializeComponent();
-            
+
             MainPresenter = new MainPresenter(this, Main.GetInstance());
             AccessLock = new Object();
 
@@ -142,7 +142,7 @@ namespace Anathena.GUI
         private void SaveConfiguration()
         {
             return; // DISABLED FOR NOW
-            ContentPanel.SaveAsXml(ConfigFile);
+            // ContentPanel.SaveAsXml(ConfigFile);
         }
 
         private void CreateTools()
@@ -154,8 +154,8 @@ namespace Anathena.GUI
                     // DISABLED FOR NOW
                     if (false)
                     {
-                        ContentPanel.LoadFromXml(ConfigFile, DockContentDeserializer);
-                        return;
+                        // ContentPanel.LoadFromXml(ConfigFile, DockContentDeserializer);
+                        // return;
                     }
                 }
                 catch { }

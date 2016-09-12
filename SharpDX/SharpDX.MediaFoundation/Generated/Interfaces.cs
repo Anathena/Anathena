@@ -25085,6 +25085,7 @@ namespace SharpDX.MediaFoundation
             }
         }
 
+#pragma warning disable CS0465 // Introducing a 'Finalize' method can interfere with destructor invocation
         /// <summary>	
         /// <p>Completes all writing operations on the sink writer.</p>	
         /// </summary>	
@@ -25097,6 +25098,7 @@ namespace SharpDX.MediaFoundation
         /// <unmanaged>HRESULT IMFSinkWriter::Finalize()</unmanaged>	
         /// <unmanaged-short>IMFSinkWriter::Finalize</unmanaged-short>	
         public void Finalize()
+#pragma warning restore CS0465 // Introducing a 'Finalize' method can interfere with destructor invocation
         {
             unsafe
             {

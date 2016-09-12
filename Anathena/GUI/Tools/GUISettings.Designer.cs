@@ -31,8 +31,8 @@ namespace Anathena.GUI.Tools
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(GUISettings));
-            this.AcceptButton = new System.Windows.Forms.Button();
-            this.CancelButton = new System.Windows.Forms.Button();
+            this.AcceptSettingsButton = new System.Windows.Forms.Button();
+            this.CancelSettingsButton = new System.Windows.Forms.Button();
             this.SettingsTabControl = new System.Windows.Forms.TabControl();
             this.ScanTabPage = new System.Windows.Forms.TabPage();
             this.ExcludedProtectionFlagsGroupBox = new System.Windows.Forms.GroupBox();
@@ -79,25 +79,25 @@ namespace Anathena.GUI.Tools
             // 
             // AcceptButton
             // 
-            this.AcceptButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.AcceptButton.Location = new System.Drawing.Point(285, 302);
-            this.AcceptButton.Name = "AcceptButton";
-            this.AcceptButton.Size = new System.Drawing.Size(75, 23);
-            this.AcceptButton.TabIndex = 13;
-            this.AcceptButton.Text = "Accept";
-            this.AcceptButton.UseVisualStyleBackColor = true;
-            this.AcceptButton.Click += new System.EventHandler(this.AcceptButton_Click);
+            this.AcceptSettingsButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.AcceptSettingsButton.Location = new System.Drawing.Point(285, 302);
+            this.AcceptSettingsButton.Name = "AcceptButton";
+            this.AcceptSettingsButton.Size = new System.Drawing.Size(75, 23);
+            this.AcceptSettingsButton.TabIndex = 13;
+            this.AcceptSettingsButton.Text = "Accept";
+            this.AcceptSettingsButton.UseVisualStyleBackColor = true;
+            this.AcceptSettingsButton.Click += new System.EventHandler(this.AcceptSettingsButton_Click);
             // 
             // CancelButton
             // 
-            this.CancelButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.CancelButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.CancelButton.Location = new System.Drawing.Point(366, 302);
-            this.CancelButton.Name = "CancelButton";
-            this.CancelButton.Size = new System.Drawing.Size(75, 23);
-            this.CancelButton.TabIndex = 14;
-            this.CancelButton.Text = "Cancel";
-            this.CancelButton.UseVisualStyleBackColor = true;
+            this.CancelSettingsButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.CancelSettingsButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+            this.CancelSettingsButton.Location = new System.Drawing.Point(366, 302);
+            this.CancelSettingsButton.Name = "CancelButton";
+            this.CancelSettingsButton.Size = new System.Drawing.Size(75, 23);
+            this.CancelSettingsButton.TabIndex = 14;
+            this.CancelSettingsButton.Text = "Cancel";
+            this.CancelSettingsButton.UseVisualStyleBackColor = true;
             // 
             // SettingsTabControl
             // 
@@ -501,8 +501,8 @@ namespace Anathena.GUI.Tools
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(453, 329);
             this.Controls.Add(this.SettingsTabControl);
-            this.Controls.Add(this.CancelButton);
-            this.Controls.Add(this.AcceptButton);
+            this.Controls.Add(this.CancelSettingsButton);
+            this.Controls.Add(this.AcceptSettingsButton);
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "GUISettings";
@@ -526,8 +526,8 @@ namespace Anathena.GUI.Tools
         }
 
         #endregion
-        private System.Windows.Forms.Button AcceptButton;
-        private System.Windows.Forms.Button CancelButton;
+        private System.Windows.Forms.Button AcceptSettingsButton;
+        private System.Windows.Forms.Button CancelSettingsButton;
         private System.Windows.Forms.TabControl SettingsTabControl;
         private System.Windows.Forms.TabPage GeneralTabPage;
         private System.Windows.Forms.TabPage ScanTabPage;

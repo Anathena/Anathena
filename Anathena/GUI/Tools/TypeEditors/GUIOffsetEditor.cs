@@ -61,7 +61,7 @@ namespace Anathena.GUI.Tools.TypeEditors
             DeleteSelection();
         }
 
-        private void CancelButton_Click(Object Sender, EventArgs E)
+        private void CancelOffsetsButton_Click(Object Sender, EventArgs E)
         {
             DialogResult = DialogResult.Cancel;
             Close();

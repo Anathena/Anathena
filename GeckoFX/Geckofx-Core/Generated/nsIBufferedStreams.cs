@@ -30,48 +30,48 @@ namespace Gecko
     /// stream so that fewer accesses to the underlying stream are necessary.
     /// </summary>
     [ComImport()]
-	[Guid("616f5b48-da09-11d3-8cda-0060b0fc14a3")]
-	public interface nsIBufferedInputStream : nsIInputStream
-	{
-		
-		/// <summary>
+    [Guid("616f5b48-da09-11d3-8cda-0060b0fc14a3")]
+    public interface nsIBufferedInputStream : nsIInputStream
+    {
+
+        /// <summary>
         /// @param fillFromStream - add buffering to this stream
         /// @param bufferSize     - specifies the maximum buffer size
         /// </summary>
-		[MethodImpl(MethodImplOptions.InternalCall, MethodCodeType=MethodCodeType.Runtime)]
-		void Init([MarshalAs(UnmanagedType.Interface)] nsIInputStream fillFromStream, uint bufferSize);
-	}
-	
-	/// <summary>
+        [MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime)]
+        void Init([MarshalAs(UnmanagedType.Interface)] nsIInputStream fillFromStream, uint bufferSize);
+    }
+
+    /// <summary>
     /// An output stream that stores up data to write out to another output stream
     /// and does the entire write only when the buffer is full, so that fewer writes
     /// to the underlying output stream are necessary.
     /// </summary>
-	[ComImport()]
-	[InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
-	[Guid("6476378a-da09-11d3-8cda-0060b0fc14a3")]
-	public interface nsIBufferedOutputStream : nsIOutputStream
-	{
-		
-		/// <summary>
+    [ComImport()]
+    [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
+    [Guid("6476378a-da09-11d3-8cda-0060b0fc14a3")]
+    public interface nsIBufferedOutputStream : nsIOutputStream
+    {
+
+        /// <summary>
         /// Close the stream. Forces the output stream to flush any buffered data.
         ///
         /// @throws NS_BASE_STREAM_WOULD_BLOCK if unable to flush without blocking
         /// the calling thread (non-blocking mode only)
         /// </summary>
-		[MethodImpl(MethodImplOptions.InternalCall, MethodCodeType=MethodCodeType.Runtime)]
-		new void Close();
-		
-		/// <summary>
+        [MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime)]
+        new void Close();
+
+        /// <summary>
         /// Flush the stream.
         ///
         /// @throws NS_BASE_STREAM_WOULD_BLOCK if unable to flush without blocking
         /// the calling thread (non-blocking mode only)
         /// </summary>
-		[MethodImpl(MethodImplOptions.InternalCall, MethodCodeType=MethodCodeType.Runtime)]
-		new void Flush();
-		
-		/// <summary>
+        [MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime)]
+        new void Flush();
+
+        /// <summary>
         /// Write data into the stream.
         ///
         /// @param aBuf the buffer containing the data to be written
@@ -83,10 +83,10 @@ namespace Gecko
         /// block the calling thread (non-blocking mode only)
         /// @throws <other-error> on failure
         /// </summary>
-		[MethodImpl(MethodImplOptions.InternalCall, MethodCodeType=MethodCodeType.Runtime)]
-		new uint Write([MarshalAs(UnmanagedType.LPStr)] string aBuf, uint aCount);
-		
-		/// <summary>
+        [MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime)]
+        uint Write([MarshalAs(UnmanagedType.LPStr)] string aBuf, uint aCount);
+
+        /// <summary>
         /// Writes data into the stream from an input stream.
         ///
         /// @param aFromStream the stream containing the data to be written
@@ -104,10 +104,10 @@ namespace Gecko
         /// facility, a separate char* buffer would need to be used in order to call
         /// the output stream's other Write method.
         /// </summary>
-		[MethodImpl(MethodImplOptions.InternalCall, MethodCodeType=MethodCodeType.Runtime)]
-		new uint WriteFrom([MarshalAs(UnmanagedType.Interface)] nsIInputStream aFromStream, uint aCount);
-		
-		/// <summary>
+        [MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime)]
+        new uint WriteFrom([MarshalAs(UnmanagedType.Interface)] nsIInputStream aFromStream, uint aCount);
+
+        /// <summary>
         /// Low-level write method that has access to the stream's underlying buffer.
         /// The reader function may be called multiple times for segmented buffers.
         /// WriteSegments is expected to keep calling the reader until either there
@@ -128,10 +128,10 @@ namespace Gecko
         /// NOTE: this function may be unimplemented if a stream has no underlying
         /// buffer (e.g., socket output stream).
         /// </summary>
-		[MethodImpl(MethodImplOptions.InternalCall, MethodCodeType=MethodCodeType.Runtime)]
-		new uint WriteSegments(System.IntPtr aReader, System.IntPtr aClosure, uint aCount);
-		
-		/// <summary>
+        [MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime)]
+        new uint WriteSegments(System.IntPtr aReader, System.IntPtr aClosure, uint aCount);
+
+        /// <summary>
         /// @return true if stream is non-blocking
         ///
         /// NOTE: writing to a blocking output stream will block the calling thread
@@ -141,15 +141,15 @@ namespace Gecko
         /// provide consumers with a way to wait for the stream to accept more data
         /// once its write method is unable to accept any data without blocking.
         /// </summary>
-		[return: MarshalAs(UnmanagedType.U1)]
-		[MethodImpl(MethodImplOptions.InternalCall, MethodCodeType=MethodCodeType.Runtime)]
-		new bool IsNonBlocking();
-		
-		/// <summary>
+        [return: MarshalAs(UnmanagedType.U1)]
+        [MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime)]
+        new bool IsNonBlocking();
+
+        /// <summary>
         /// @param sinkToStream - add buffering to this stream
         /// @param bufferSize   - specifies the maximum buffer size
         /// </summary>
-		[MethodImpl(MethodImplOptions.InternalCall, MethodCodeType=MethodCodeType.Runtime)]
-		void Init([MarshalAs(UnmanagedType.Interface)] nsIOutputStream sinkToStream, uint bufferSize);
-	}
+        [MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime)]
+        void Init([MarshalAs(UnmanagedType.Interface)] nsIOutputStream sinkToStream, uint bufferSize);
+    }
 }

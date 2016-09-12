@@ -124,7 +124,7 @@ namespace Anathena.GUI.Tools
 
         #region Events
 
-        private void AcceptButton_Click(Object Sender, EventArgs E)
+        private void AcceptSettingsButton_Click(Object Sender, EventArgs E)
         {
             SaveSettings();
             this.Close();

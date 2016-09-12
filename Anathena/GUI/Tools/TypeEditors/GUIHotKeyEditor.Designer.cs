@@ -35,7 +35,7 @@ namespace Anathena.GUI.Tools.TypeEditors
             this.AddHotKeyButton = new System.Windows.Forms.Button();
             this.RemoveHotKeyButton = new System.Windows.Forms.Button();
             this.OkayButton = new System.Windows.Forms.Button();
-            this.CancelButton = new System.Windows.Forms.Button();
+            this.CancelHotKeyButton = new System.Windows.Forms.Button();
             this.HotKeyListView = new Anathena.GUI.CustomControls.ListViews.FlickerFreeListView();
             this.HotKeyHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.HotKeyContextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
@@ -81,20 +81,20 @@ namespace Anathena.GUI.Tools.TypeEditors
             // 
             // CancelButton
             // 
-            this.CancelButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.CancelButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.CancelButton.Location = new System.Drawing.Point(229, 150);
-            this.CancelButton.Name = "CancelButton";
-            this.CancelButton.Size = new System.Drawing.Size(75, 23);
-            this.CancelButton.TabIndex = 5;
-            this.CancelButton.Text = "Cancel";
-            this.CancelButton.UseVisualStyleBackColor = true;
-            this.CancelButton.Click += new System.EventHandler(this.CancelButton_Click);
+            this.CancelHotKeyButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.CancelHotKeyButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+            this.CancelHotKeyButton.Location = new System.Drawing.Point(229, 150);
+            this.CancelHotKeyButton.Name = "CancelButton";
+            this.CancelHotKeyButton.Size = new System.Drawing.Size(75, 23);
+            this.CancelHotKeyButton.TabIndex = 5;
+            this.CancelHotKeyButton.Text = "Cancel";
+            this.CancelHotKeyButton.UseVisualStyleBackColor = true;
+            this.CancelHotKeyButton.Click += new System.EventHandler(this.CancelHotKeyButton_Click);
             // 
             // HotKeyListView
             // 
-            this.HotKeyListView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
+            this.HotKeyListView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.HotKeyListView.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.HotKeyHeader});
@@ -128,7 +128,7 @@ namespace Anathena.GUI.Tools.TypeEditors
             // 
             // HotKeyTextBox
             // 
-            this.HotKeyTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.HotKeyTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.HotKeyTextBox.Location = new System.Drawing.Point(12, 11);
             this.HotKeyTextBox.Name = "HotKeyTextBox";
@@ -157,7 +157,7 @@ namespace Anathena.GUI.Tools.TypeEditors
             this.Controls.Add(this.ClearHotKeyButton);
             this.Controls.Add(this.HotKeyTextBox);
             this.Controls.Add(this.HotKeyListView);
-            this.Controls.Add(this.CancelButton);
+            this.Controls.Add(this.CancelHotKeyButton);
             this.Controls.Add(this.OkayButton);
             this.Controls.Add(this.RemoveHotKeyButton);
             this.Controls.Add(this.AddHotKeyButton);
@@ -175,7 +175,7 @@ namespace Anathena.GUI.Tools.TypeEditors
         private System.Windows.Forms.Button AddHotKeyButton;
         private System.Windows.Forms.Button RemoveHotKeyButton;
         private System.Windows.Forms.Button OkayButton;
-        private System.Windows.Forms.Button CancelButton;
+        private System.Windows.Forms.Button CancelHotKeyButton;
         private FlickerFreeListView HotKeyListView;
         private System.Windows.Forms.ColumnHeader HotKeyHeader;
         private System.Windows.Forms.ContextMenuStrip HotKeyContextMenuStrip;

@@ -29,11 +29,11 @@ namespace Gecko
     /// An input stream that allows you to read from a file.
     /// </summary>
     [ComImport()]
-	[Guid("e3d56a20-c7ec-11d3-8cda-0060b0fc14a3")]
-	public interface nsIFileInputStream : nsIInputStream
-	{
-		
-		/// <summary>
+    [Guid("e3d56a20-c7ec-11d3-8cda-0060b0fc14a3")]
+    public interface nsIFileInputStream : nsIInputStream
+    {
+
+        /// <summary>
         /// @param file          file to read from
         /// @param ioFlags       file open flags listed in prio.h (see
         /// PR_Open documentation) or -1 to open the
@@ -43,15 +43,15 @@ namespace Gecko
         /// @param behaviorFlags flags specifying various behaviors of the class
         /// (see enumerations in the class)
         /// </summary>
-		[MethodImpl(MethodImplOptions.InternalCall, MethodCodeType=MethodCodeType.Runtime)]
-		void Init([MarshalAs(UnmanagedType.Interface)] nsIFile file, int ioFlags, int perm, int behaviorFlags);
-	}
-	
-	/// <summary>nsIFileInputStreamConsts </summary>
-	public class nsIFileInputStreamConsts
-	{
-		
-		// <summary>
+        [MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime)]
+        void Init([MarshalAs(UnmanagedType.Interface)] nsIFile file, int ioFlags, int perm, int behaviorFlags);
+    }
+
+    /// <summary>nsIFileInputStreamConsts </summary>
+    public class nsIFileInputStreamConsts
+    {
+
+        // <summary>
         // If this is set, the file will be deleted by the time the stream is
         // closed.  It may be removed before the stream is closed if it is possible
         // to delete it and still read from it.
@@ -59,24 +59,24 @@ namespace Gecko
         // If OPEN_ON_READ is defined, and the file was recreated after the first
         // delete, the file will be deleted again when it is closed again.
         // </summary>
-		public const long DELETE_ON_CLOSE = 1<<1;
-		
-		// <summary>
+        public const long DELETE_ON_CLOSE = 1 << 1;
+
+        // <summary>
         // If this is set, the file will close automatically when the end of the
         // file is reached.
         // </summary>
-		public const long CLOSE_ON_EOF = 1<<2;
-		
-		// <summary>
+        public const long CLOSE_ON_EOF = 1 << 2;
+
+        // <summary>
         // If this is set, the file will be reopened whenever we reach the start of
         // the file, either by doing a Seek(0, NS_SEEK_CUR), or by doing a relative
         // seek that happen to reach the beginning of the file. If the file is
         // already open and the seek occurs, it will happen naturally.  (The file
         // will only be reopened if it is closed for some reason.)
         // </summary>
-		public const long REOPEN_ON_REWIND = 1<<3;
-		
-		// <summary>
+        public const long REOPEN_ON_REWIND = 1 << 3;
+
+        // <summary>
         // If this is set, the file will be opened (i.e., a call to
         // PR_Open done) only when we do an actual operation on the stream,
         // or more specifically, when one of the following is called:
@@ -97,37 +97,37 @@ namespace Gecko
         // first read.  Also, the file is not locked when Init is called,
         // so it might be deleted before we try to read from it.
         // </summary>
-		public const long DEFER_OPEN = 1<<4;
-	}
-	
-	/// <summary>
+        public const long DEFER_OPEN = 1 << 4;
+    }
+
+    /// <summary>
     /// An output stream that lets you stream to a file.
     /// </summary>
-	[ComImport()]
-	[InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
-	[Guid("e6f68040-c7ec-11d3-8cda-0060b0fc14a3")]
-	public interface nsIFileOutputStream : nsIOutputStream
-	{
-		
-		/// <summary>
+    [ComImport()]
+    [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
+    [Guid("e6f68040-c7ec-11d3-8cda-0060b0fc14a3")]
+    public interface nsIFileOutputStream : nsIOutputStream
+    {
+
+        /// <summary>
         /// Close the stream. Forces the output stream to flush any buffered data.
         ///
         /// @throws NS_BASE_STREAM_WOULD_BLOCK if unable to flush without blocking
         /// the calling thread (non-blocking mode only)
         /// </summary>
-		[MethodImpl(MethodImplOptions.InternalCall, MethodCodeType=MethodCodeType.Runtime)]
-		new void Close();
-		
-		/// <summary>
+        [MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime)]
+        new void Close();
+
+        /// <summary>
         /// Flush the stream.
         ///
         /// @throws NS_BASE_STREAM_WOULD_BLOCK if unable to flush without blocking
         /// the calling thread (non-blocking mode only)
         /// </summary>
-		[MethodImpl(MethodImplOptions.InternalCall, MethodCodeType=MethodCodeType.Runtime)]
-		new void Flush();
-		
-		/// <summary>
+        [MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime)]
+        new void Flush();
+
+        /// <summary>
         /// Write data into the stream.
         ///
         /// @param aBuf the buffer containing the data to be written
@@ -139,10 +139,10 @@ namespace Gecko
         /// block the calling thread (non-blocking mode only)
         /// @throws <other-error> on failure
         /// </summary>
-		[MethodImpl(MethodImplOptions.InternalCall, MethodCodeType=MethodCodeType.Runtime)]
-		new uint Write([MarshalAs(UnmanagedType.LPStr)] string aBuf, uint aCount);
-		
-		/// <summary>
+        [MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime)]
+        uint Write([MarshalAs(UnmanagedType.LPStr)] string aBuf, uint aCount);
+
+        /// <summary>
         /// Writes data into the stream from an input stream.
         ///
         /// @param aFromStream the stream containing the data to be written
@@ -160,10 +160,10 @@ namespace Gecko
         /// facility, a separate char* buffer would need to be used in order to call
         /// the output stream's other Write method.
         /// </summary>
-		[MethodImpl(MethodImplOptions.InternalCall, MethodCodeType=MethodCodeType.Runtime)]
-		new uint WriteFrom([MarshalAs(UnmanagedType.Interface)] nsIInputStream aFromStream, uint aCount);
-		
-		/// <summary>
+        [MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime)]
+        new uint WriteFrom([MarshalAs(UnmanagedType.Interface)] nsIInputStream aFromStream, uint aCount);
+
+        /// <summary>
         /// Low-level write method that has access to the stream's underlying buffer.
         /// The reader function may be called multiple times for segmented buffers.
         /// WriteSegments is expected to keep calling the reader until either there
@@ -184,10 +184,10 @@ namespace Gecko
         /// NOTE: this function may be unimplemented if a stream has no underlying
         /// buffer (e.g., socket output stream).
         /// </summary>
-		[MethodImpl(MethodImplOptions.InternalCall, MethodCodeType=MethodCodeType.Runtime)]
-		new uint WriteSegments(System.IntPtr aReader, System.IntPtr aClosure, uint aCount);
-		
-		/// <summary>
+        [MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime)]
+        new uint WriteSegments(System.IntPtr aReader, System.IntPtr aClosure, uint aCount);
+
+        /// <summary>
         /// @return true if stream is non-blocking
         ///
         /// NOTE: writing to a blocking output stream will block the calling thread
@@ -197,11 +197,11 @@ namespace Gecko
         /// provide consumers with a way to wait for the stream to accept more data
         /// once its write method is unable to accept any data without blocking.
         /// </summary>
-		[return: MarshalAs(UnmanagedType.U1)]
-		[MethodImpl(MethodImplOptions.InternalCall, MethodCodeType=MethodCodeType.Runtime)]
-		new bool IsNonBlocking();
-		
-		/// <summary>
+        [return: MarshalAs(UnmanagedType.U1)]
+        [MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime)]
+        new bool IsNonBlocking();
+
+        /// <summary>
         /// @param file          file to write to
         /// @param ioFlags       file open flags listed in prio.h (see
         /// PR_Open documentation) or -1 to open the
@@ -212,15 +212,15 @@ namespace Gecko
         /// @param behaviorFlags flags specifying various behaviors of the class
         /// (currently none supported)
         /// </summary>
-		[MethodImpl(MethodImplOptions.InternalCall, MethodCodeType=MethodCodeType.Runtime)]
-		void Init([MarshalAs(UnmanagedType.Interface)] nsIFile file, int ioFlags, int perm, int behaviorFlags);
-	}
-	
-	/// <summary>nsIFileOutputStreamConsts </summary>
-	public class nsIFileOutputStreamConsts
-	{
-		
-		// <summary>
+        [MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime)]
+        void Init([MarshalAs(UnmanagedType.Interface)] nsIFile file, int ioFlags, int perm, int behaviorFlags);
+    }
+
+    /// <summary>nsIFileOutputStreamConsts </summary>
+    public class nsIFileOutputStreamConsts
+    {
+
+        // <summary>
         // See the same constant in nsIFileInputStream. The deferred open will
         // be performed when one of the following is called:
         // - Seek
@@ -235,19 +235,19 @@ namespace Gecko
         // first write, and if the file is to be created, then it will not
         // appear on the disk until the first write.
         // </summary>
-		public const long DEFER_OPEN = 1<<0;
-	}
-	
-	/// <summary>
+        public const long DEFER_OPEN = 1 << 0;
+    }
+
+    /// <summary>
     /// An input stream that allows you to read from a slice of a file.
     /// </summary>
-	[ComImport()]
-	[InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
-	[Guid("3ce03a2f-97f7-4375-b6bb-1788a60cad3b")]
-	public interface nsIPartialFileInputStream
-	{
-		
-		/// <summary>
+    [ComImport()]
+    [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
+    [Guid("3ce03a2f-97f7-4375-b6bb-1788a60cad3b")]
+    public interface nsIPartialFileInputStream
+    {
+
+        /// <summary>
         /// Initialize with a file and new start/end positions. Both start and
         /// start+length must be smaller than the size of the file. Not doing so
         /// will lead to undefined behavior.
@@ -267,20 +267,20 @@ namespace Gecko
         /// @param behaviorFlags flags specifying various behaviors of the class
         /// (see enumerations in nsIFileInputStream)
         /// </summary>
-		[MethodImpl(MethodImplOptions.InternalCall, MethodCodeType=MethodCodeType.Runtime)]
-		void Init([MarshalAs(UnmanagedType.Interface)] nsIFile file, ulong start, ulong length, int ioFlags, int perm, int behaviorFlags);
-	}
-	
-	/// <summary>
+        [MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime)]
+        void Init([MarshalAs(UnmanagedType.Interface)] nsIFile file, ulong start, ulong length, int ioFlags, int perm, int behaviorFlags);
+    }
+
+    /// <summary>
     /// A stream that allows you to read from a file or stream to a file.
     /// </summary>
-	[ComImport()]
-	[InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
-	[Guid("82cf605a-8393-4550-83ab-43cd5578e006")]
-	public interface nsIFileStream
-	{
-		
-		/// <summary>
+    [ComImport()]
+    [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
+    [Guid("82cf605a-8393-4550-83ab-43cd5578e006")]
+    public interface nsIFileStream
+    {
+
+        /// <summary>
         /// @param file          file to read from or stream to
         /// @param ioFlags       file open flags listed in prio.h (see
         /// PR_Open documentation) or -1 to open the
@@ -290,15 +290,15 @@ namespace Gecko
         /// @param behaviorFlags flags specifying various behaviors of the class
         /// (see enumerations in the class)
         /// </summary>
-		[MethodImpl(MethodImplOptions.InternalCall, MethodCodeType=MethodCodeType.Runtime)]
-		void Init([MarshalAs(UnmanagedType.Interface)] nsIFile file, int ioFlags, int perm, int behaviorFlags);
-	}
-	
-	/// <summary>nsIFileStreamConsts </summary>
-	public class nsIFileStreamConsts
-	{
-		
-		// <summary>
+        [MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime)]
+        void Init([MarshalAs(UnmanagedType.Interface)] nsIFile file, int ioFlags, int perm, int behaviorFlags);
+    }
+
+    /// <summary>nsIFileStreamConsts </summary>
+    public class nsIFileStreamConsts
+    {
+
+        // <summary>
         // See the same constant in nsIFileInputStream. The deferred open will
         // be performed when one of the following is called:
         // - Seek
@@ -319,30 +319,30 @@ namespace Gecko
         // file is to be created, then it will not appear on the disk until
         // the first write.
         // </summary>
-		public const long DEFER_OPEN = 1<<0;
-	}
-	
-	/// <summary>
+        public const long DEFER_OPEN = 1 << 0;
+    }
+
+    /// <summary>
     /// An interface that allows you to get some metadata like file size and
     /// file last modified time.
     /// </summary>
-	[ComImport()]
-	[InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
-	[Guid("07f679e4-9601-4bd1-b510-cd3852edb881")]
-	public interface nsIFileMetadata
-	{
-		
-		/// <summary>
+    [ComImport()]
+    [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
+    [Guid("07f679e4-9601-4bd1-b510-cd3852edb881")]
+    public interface nsIFileMetadata
+    {
+
+        /// <summary>
         /// File size in bytes;
         /// </summary>
-		[MethodImpl(MethodImplOptions.InternalCall, MethodCodeType=MethodCodeType.Runtime)]
-		long GetSizeAttribute();
-		
-		/// <summary>
+        [MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime)]
+        long GetSizeAttribute();
+
+        /// <summary>
         /// File last modified time in milliseconds from midnight (00:00:00),
         /// January 1, 1970 Greenwich Mean Time (GMT).
         /// </summary>
-		[MethodImpl(MethodImplOptions.InternalCall, MethodCodeType=MethodCodeType.Runtime)]
-		long GetLastModifiedAttribute();
-	}
+        [MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime)]
+        long GetLastModifiedAttribute();
+    }
 }

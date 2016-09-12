@@ -2,6 +2,7 @@
 using System.Drawing;
 using System.Runtime.InteropServices;
 using System.Text;
+using System.Threading;
 using System.Windows.Forms;
 
 namespace Anathena.Source.Utils
@@ -166,7 +167,7 @@ namespace Anathena.Source.Utils
 
             if (_owner != null)
             {
-                _hHook = SetWindowsHookEx(WH_CALLWNDPROCRET, _hookProc, IntPtr.Zero, AppDomain.GetCurrentThreadId());
+                _hHook = SetWindowsHookEx(WH_CALLWNDPROCRET, _hookProc, IntPtr.Zero, Thread.CurrentThread.ManagedThreadId); // AppDomain.GetCurrentThreadId());
             }
         }
 

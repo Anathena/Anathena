@@ -38,7 +38,7 @@ namespace Anathena.GUI.Tools.TypeEditors
             return;
 
             // Work around to a fatal bug in scintilla where the handle of the editor is changed, and scintilla does not expect it.
-            using (TimedLock.Lock(AccessLock))
+            /* using (TimedLock.Lock(AccessLock))
             {
                 ControlThreadingHelper.InvokeControlAction(ScriptEditorTextBox, () =>
                 {
@@ -54,7 +54,7 @@ namespace Anathena.GUI.Tools.TypeEditors
                         this.Controls.Add(ScriptEditorTextBox);
                     this.Controls.SetChildIndex(ScriptEditorTextBox, 0);
                 });
-            }
+            }*/
         }
 
         private void InitializeScriptEditor()

@@ -38,30 +38,30 @@ namespace Gecko
     /// nsIAsyncOutputStream.
     /// </summary>
     [ComImport()]
-	[InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
-	[Guid("beb632d3-d77a-4e90-9134-f9ece69e8200")]
-	public interface nsIAsyncOutputStream : nsIOutputStream
-	{
-		
-		/// <summary>
+    [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
+    [Guid("beb632d3-d77a-4e90-9134-f9ece69e8200")]
+    public interface nsIAsyncOutputStream : nsIOutputStream
+    {
+
+        /// <summary>
         /// Close the stream. Forces the output stream to flush any buffered data.
         ///
         /// @throws NS_BASE_STREAM_WOULD_BLOCK if unable to flush without blocking
         /// the calling thread (non-blocking mode only)
         /// </summary>
-		[MethodImpl(MethodImplOptions.InternalCall, MethodCodeType=MethodCodeType.Runtime)]
-		new void Close();
-		
-		/// <summary>
+        [MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime)]
+        new void Close();
+
+        /// <summary>
         /// Flush the stream.
         ///
         /// @throws NS_BASE_STREAM_WOULD_BLOCK if unable to flush without blocking
         /// the calling thread (non-blocking mode only)
         /// </summary>
-		[MethodImpl(MethodImplOptions.InternalCall, MethodCodeType=MethodCodeType.Runtime)]
-		new void Flush();
-		
-		/// <summary>
+        [MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime)]
+        new void Flush();
+
+        /// <summary>
         /// Write data into the stream.
         ///
         /// @param aBuf the buffer containing the data to be written
@@ -73,10 +73,10 @@ namespace Gecko
         /// block the calling thread (non-blocking mode only)
         /// @throws <other-error> on failure
         /// </summary>
-		[MethodImpl(MethodImplOptions.InternalCall, MethodCodeType=MethodCodeType.Runtime)]
-		new uint Write([MarshalAs(UnmanagedType.LPStr)] string aBuf, uint aCount);
-		
-		/// <summary>
+        [MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime)]
+        uint Write([MarshalAs(UnmanagedType.LPStr)] string aBuf, uint aCount);
+
+        /// <summary>
         /// Writes data into the stream from an input stream.
         ///
         /// @param aFromStream the stream containing the data to be written
@@ -94,10 +94,10 @@ namespace Gecko
         /// facility, a separate char* buffer would need to be used in order to call
         /// the output stream's other Write method.
         /// </summary>
-		[MethodImpl(MethodImplOptions.InternalCall, MethodCodeType=MethodCodeType.Runtime)]
-		new uint WriteFrom([MarshalAs(UnmanagedType.Interface)] nsIInputStream aFromStream, uint aCount);
-		
-		/// <summary>
+        [MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime)]
+        new uint WriteFrom([MarshalAs(UnmanagedType.Interface)] nsIInputStream aFromStream, uint aCount);
+
+        /// <summary>
         /// Low-level write method that has access to the stream's underlying buffer.
         /// The reader function may be called multiple times for segmented buffers.
         /// WriteSegments is expected to keep calling the reader until either there
@@ -118,10 +118,10 @@ namespace Gecko
         /// NOTE: this function may be unimplemented if a stream has no underlying
         /// buffer (e.g., socket output stream).
         /// </summary>
-		[MethodImpl(MethodImplOptions.InternalCall, MethodCodeType=MethodCodeType.Runtime)]
-		new uint WriteSegments(System.IntPtr aReader, System.IntPtr aClosure, uint aCount);
-		
-		/// <summary>
+        [MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime)]
+        new uint WriteSegments(System.IntPtr aReader, System.IntPtr aClosure, uint aCount);
+
+        /// <summary>
         /// @return true if stream is non-blocking
         ///
         /// NOTE: writing to a blocking output stream will block the calling thread
@@ -131,11 +131,11 @@ namespace Gecko
         /// provide consumers with a way to wait for the stream to accept more data
         /// once its write method is unable to accept any data without blocking.
         /// </summary>
-		[return: MarshalAs(UnmanagedType.U1)]
-		[MethodImpl(MethodImplOptions.InternalCall, MethodCodeType=MethodCodeType.Runtime)]
-		new bool IsNonBlocking();
-		
-		/// <summary>
+        [return: MarshalAs(UnmanagedType.U1)]
+        [MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime)]
+        new bool IsNonBlocking();
+
+        /// <summary>
         /// This method closes the stream and sets its internal status.  If the
         /// stream is already closed, then this method is ignored.  Once the stream
         /// is closed, the stream's status cannot be changed.  Any successful status
@@ -153,10 +153,10 @@ namespace Gecko
         /// The error that will be reported if this stream is accessed after
         /// it has been closed.
         /// </summary>
-		[MethodImpl(MethodImplOptions.InternalCall, MethodCodeType=MethodCodeType.Runtime)]
-		void CloseWithStatus(int reason);
-		
-		/// <summary>
+        [MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime)]
+        void CloseWithStatus(int reason);
+
+        /// <summary>
         /// Asynchronously wait for the stream to be writable or closed.  The
         /// notification is one-shot, meaning that each asyncWait call will result
         /// in exactly one notification callback.  After the OnOutputStreamReady event
@@ -187,40 +187,40 @@ namespace Gecko
         /// specify that the notification be delivered to a specific event
         /// target.
         /// </summary>
-		[MethodImpl(MethodImplOptions.InternalCall, MethodCodeType=MethodCodeType.Runtime)]
-		void AsyncWait([MarshalAs(UnmanagedType.Interface)] nsIOutputStreamCallback aCallback, uint aFlags, uint aRequestedCount, [MarshalAs(UnmanagedType.Interface)] nsIEventTarget aEventTarget);
-	}
-	
-	/// <summary>nsIAsyncOutputStreamConsts </summary>
-	public class nsIAsyncOutputStreamConsts
-	{
-		
-		// <summary>
+        [MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime)]
+        void AsyncWait([MarshalAs(UnmanagedType.Interface)] nsIOutputStreamCallback aCallback, uint aFlags, uint aRequestedCount, [MarshalAs(UnmanagedType.Interface)] nsIEventTarget aEventTarget);
+    }
+
+    /// <summary>nsIAsyncOutputStreamConsts </summary>
+    public class nsIAsyncOutputStreamConsts
+    {
+
+        // <summary>
         // If passed to asyncWait, this flag overrides the default behavior,
         // causing the OnOutputStreamReady notification to be suppressed until the
         // stream becomes closed (either as a result of closeWithStatus/close being
         // called on the stream or possibly due to some error in the underlying
         // stream).
         // </summary>
-		public const ulong WAIT_CLOSURE_ONLY = (1<<0);
-	}
-	
-	/// <summary>
+        public const ulong WAIT_CLOSURE_ONLY = (1 << 0);
+    }
+
+    /// <summary>
     /// This is a companion interface for nsIAsyncOutputStream::asyncWait.
     /// </summary>
-	[ComImport()]
-	[InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
-	[Guid("40dbcdff-9053-42c5-a57c-3ec910d0f148")]
-	public interface nsIOutputStreamCallback
-	{
-		
-		/// <summary>
+    [ComImport()]
+    [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
+    [Guid("40dbcdff-9053-42c5-a57c-3ec910d0f148")]
+    public interface nsIOutputStreamCallback
+    {
+
+        /// <summary>
         /// Called to indicate that the stream is either writable or closed.
         ///
         /// @param aStream
         /// The stream whose asyncWait method was called.
         /// </summary>
-		[MethodImpl(MethodImplOptions.InternalCall, MethodCodeType=MethodCodeType.Runtime)]
-		void OnOutputStreamReady([MarshalAs(UnmanagedType.Interface)] nsIAsyncOutputStream aStream);
-	}
+        [MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime)]
+        void OnOutputStreamReady([MarshalAs(UnmanagedType.Interface)] nsIAsyncOutputStream aStream);
+    }
 }

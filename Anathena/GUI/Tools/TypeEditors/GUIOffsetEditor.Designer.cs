@@ -35,7 +35,7 @@ namespace Anathena.GUI.Tools.TypeEditors
             this.AddOffsetButton = new System.Windows.Forms.Button();
             this.RemoveOffsetButton = new System.Windows.Forms.Button();
             this.OkayButton = new System.Windows.Forms.Button();
-            this.CancelButton = new System.Windows.Forms.Button();
+            this.CancelOffsetsButton = new System.Windows.Forms.Button();
             this.OffsetsListView = new Anathena.GUI.CustomControls.ListViews.FlickerFreeListView();
             this.HexHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.DecimalHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
@@ -81,20 +81,20 @@ namespace Anathena.GUI.Tools.TypeEditors
             // 
             // CancelButton
             // 
-            this.CancelButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.CancelButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.CancelButton.Location = new System.Drawing.Point(12, 163);
-            this.CancelButton.Name = "CancelButton";
-            this.CancelButton.Size = new System.Drawing.Size(75, 23);
-            this.CancelButton.TabIndex = 5;
-            this.CancelButton.Text = "Cancel";
-            this.CancelButton.UseVisualStyleBackColor = true;
-            this.CancelButton.Click += new System.EventHandler(this.CancelButton_Click);
+            this.CancelOffsetsButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.CancelOffsetsButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+            this.CancelOffsetsButton.Location = new System.Drawing.Point(12, 163);
+            this.CancelOffsetsButton.Name = "CancelButton";
+            this.CancelOffsetsButton.Size = new System.Drawing.Size(75, 23);
+            this.CancelOffsetsButton.TabIndex = 5;
+            this.CancelOffsetsButton.Text = "Cancel";
+            this.CancelOffsetsButton.UseVisualStyleBackColor = true;
+            this.CancelOffsetsButton.Click += new System.EventHandler(this.CancelOffsetsButton_Click);
             // 
             // OffsetsListView
             // 
-            this.OffsetsListView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
+            this.OffsetsListView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.OffsetsListView.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.HexHeader,
@@ -134,7 +134,7 @@ namespace Anathena.GUI.Tools.TypeEditors
             // 
             // OffsetHexDecTextBox
             // 
-            this.OffsetHexDecTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.OffsetHexDecTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.OffsetHexDecTextBox.ForeColor = System.Drawing.Color.Red;
             this.OffsetHexDecTextBox.IsHex = true;
@@ -152,7 +152,7 @@ namespace Anathena.GUI.Tools.TypeEditors
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(257, 198);
             this.Controls.Add(this.OffsetsListView);
-            this.Controls.Add(this.CancelButton);
+            this.Controls.Add(this.CancelOffsetsButton);
             this.Controls.Add(this.OkayButton);
             this.Controls.Add(this.RemoveOffsetButton);
             this.Controls.Add(this.OffsetHexDecTextBox);
@@ -171,7 +171,7 @@ namespace Anathena.GUI.Tools.TypeEditors
         private HexDecTextBox OffsetHexDecTextBox;
         private System.Windows.Forms.Button RemoveOffsetButton;
         private System.Windows.Forms.Button OkayButton;
-        private System.Windows.Forms.Button CancelButton;
+        private System.Windows.Forms.Button CancelOffsetsButton;
         private FlickerFreeListView OffsetsListView;
         private System.Windows.Forms.ColumnHeader DecimalHeader;
         private System.Windows.Forms.ColumnHeader HexHeader;
