@@ -124,16 +124,20 @@ namespace OpenTK
         /// <summary>
         /// Gets or sets the value at the index of the Vector.
         /// </summary>
-        public float this[int index] {
-            get{
-                if(index == 0) return X;
-                else if(index == 1) return Y;
-                else if(index == 2) return Z;
+        public float this[int index]
+        {
+            get
+            {
+                if (index == 0) return X;
+                else if (index == 1) return Y;
+                else if (index == 2) return Z;
                 throw new IndexOutOfRangeException("You tried to access this vector at index: " + index);
-            } set{
-                if(index == 0) X = value;
-                else if(index == 1) Y = value;
-                else if(index == 2) Z = value;
+            }
+            set
+            {
+                if (index == 0) X = value;
+                else if (index == 1) Y = value;
+                else if (index == 2) Z = value;
                 else throw new IndexOutOfRangeException("You tried to set this vector at index: " + index);
             }
         }
@@ -1270,10 +1274,10 @@ namespace OpenTK
         {
             Vector4 result;
 
-            result.X = 
-                vector.X * worldViewProjection.M11 + 
-                vector.Y * worldViewProjection.M21 + 
-                vector.Z * worldViewProjection.M31 + 
+            result.X =
+                vector.X * worldViewProjection.M11 +
+                vector.Y * worldViewProjection.M21 +
+                vector.Z * worldViewProjection.M31 +
                 worldViewProjection.M41;
 
             result.Y =
@@ -1317,7 +1321,7 @@ namespace OpenTK
         /// <param name="height">The height of the viewport.</param>
         /// <param name="minZ">The minimum depth of the viewport.</param>
         /// <param name="maxZ">The maximum depth of the viewport.</param>
-        /// <param name="worldViewProjection">The inverse of the world-view-projection matrix.</param>
+        /// <param name="inverseWorldViewProjection">The inverse of the world-view-projection matrix.</param>
         /// <returns>The vector in object space.</returns>
         /// <remarks>
         /// To project from normalized device coordinates (NDC) use the following parameters:

@@ -581,6 +581,7 @@ namespace OpenTK.Rewrite
 
                 var variable_name = parameter.Name + " _sb_ptr";
                 throw new Exception("DEPRECATED: m => m.Name == variable_name");
+                /*
                 var v = body.Variables.First();
                 il.Emit(OpCodes.Ldloc, v.Index);
                 il.Emit(OpCodes.Ldarg, parameter.Index);
@@ -592,7 +593,7 @@ namespace OpenTK.Rewrite
                 il.Emit(OpCodes.Ldloc, v.Index);
                 il.Emit(OpCodes.Call, free_hglobal);
 
-                block.HandlerEnd = body.Instructions.Last();
+                block.HandlerEnd = body.Instructions.Last();*/
             }
         }
 
@@ -627,9 +628,9 @@ namespace OpenTK.Rewrite
             // FreeStringPtr(ptr)
             var variable_name = parameter.Name + "_string_ptr";
             throw new Exception("DEPRECATED: m => m.Name == variable_name");
-            var v = body.Variables.First();
+            /*var v = body.Variables.First();
             il.Emit(OpCodes.Ldloc, v.Index);
-            il.Emit(OpCodes.Call, free);
+            il.Emit(OpCodes.Call, free);*/
         }
 
         static void EmitStringArrayParameter(MethodDefinition wrapper, ParameterDefinition parameter, MethodBody body, ILProcessor il)
@@ -665,7 +666,7 @@ namespace OpenTK.Rewrite
             // FreeStringArrayPtr(string_array_ptr, string_array.Length)
             var variable_name = parameter.Name + "_string_array_ptr";
             throw new Exception("DEPRECATED: m => m.Name == variable_name");
-            var v = body.Variables.First();
+            /*var v = body.Variables.First();
 
             // load string_array_ptr
             il.Emit(OpCodes.Ldloc, v.Index);
@@ -676,7 +677,7 @@ namespace OpenTK.Rewrite
             il.Emit(OpCodes.Conv_I4);
 
             // call FreeStringArrayPtr
-            il.Emit(OpCodes.Call, free);
+            il.Emit(OpCodes.Call, free);*/
         }
 
         static void EmitConvenienceWrapper(MethodDefinition wrapper,

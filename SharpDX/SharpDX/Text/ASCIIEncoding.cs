@@ -28,13 +28,13 @@ namespace SharpDX.Text
         /// Returns an encoding for the ASCII character set. The returned encoding
         ///  will be an instance of the ASCIIEncoding class.
         /// </summary>
-        public static readonly ASCIIEncoding ASCII = new ASCIIEncoding();
+        public static new readonly ASCIIEncoding ASCII = new ASCIIEncoding();
     }
 
     /// <summary>
     /// Provides a basic implementation to replace <see cref="System.Text.ASCIIEncoding"/> (not available on Win8 Modern App).
     /// </summary>
-    public class ASCIIEncoding : Encoding 
+    public class ASCIIEncoding : Encoding
     {
         public override int GetByteCount(char[] chars, int index, int count)
         {
@@ -70,7 +70,7 @@ namespace SharpDX.Text
             return byteCount;
         }
 
-        public string GetString(byte[] bytes)
+        public new string GetString(byte[] bytes)
         {
             return base.GetString(bytes, 0, bytes.Length);
         }

@@ -17,9 +17,6 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace SharpDX.Direct2D1.Effects
 {
@@ -39,7 +36,7 @@ namespace SharpDX.Direct2D1.Effects
         /// <summary>
         /// Multiplies the intensity of the selected channel from the displacement image. The higher you set this property, the more the effect displaces the pixels
         /// </summary>
-        public float Scale
+        public new float Scale
         {
             get
             {

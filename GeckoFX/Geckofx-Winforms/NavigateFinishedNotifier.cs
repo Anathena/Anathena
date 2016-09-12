@@ -6,7 +6,6 @@ namespace Gecko
     /// <summary>
     /// Use the DocumentCompleted event instead of the NavigateFinished event.
     /// </summary>
-    [Obsolete("Use the DocumentCompleted event instead of the NavigateFinished event.", false)]
     public class NavigateFinishedNotifier : IDisposable
     {
         GeckoWebBrowser m_browser;
@@ -33,7 +32,6 @@ namespace Gecko
             }
         }
 
-        [Obsolete("Use the DocumentCompleted event instead")]
         public event EventHandler NavigateFinished;
 
         public void Dispose()

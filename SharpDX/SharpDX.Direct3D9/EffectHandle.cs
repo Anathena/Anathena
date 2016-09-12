@@ -191,7 +191,7 @@ namespace SharpDX.Direct3D9
             }
             else
             {
-                value = Marshal.StringToHGlobalAnsi(name);
+                // value = Marshal.StringToHGlobalAnsi(name);
             }
 
             return value;
@@ -232,7 +232,7 @@ namespace SharpDX.Direct3D9
         /// <returns>
         /// The result of the conversion.
         /// </returns>
-        public static unsafe implicit operator void*(EffectHandle value)
+        public static unsafe implicit operator void* (EffectHandle value)
         {
             return (void*)value.pointer;
         }
@@ -282,7 +282,7 @@ namespace SharpDX.Direct3D9
                 return new __Native() { Pointer = value };
             }
 
-            public static unsafe implicit operator void*(__Native value)
+            public static unsafe implicit operator void* (__Native value)
             {
                 return (void*)value.Pointer;
             }

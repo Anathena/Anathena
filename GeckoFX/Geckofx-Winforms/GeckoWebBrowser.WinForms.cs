@@ -268,7 +268,7 @@ namespace Gecko
             const int WM_IME_SETCONTEXT = 0x0281;
             const int WM_PAINT = 0x000F;
             const int WM_SETFOCUS = 0x0007;
-            const int WM_KILLFOCUS = 0x0008;
+            // const int WM_KILLFOCUS = 0x0008;
 
 
             const int ISC_SHOWUICOMPOSITIONWINDOW = unchecked((int)0x80000000);
@@ -545,7 +545,7 @@ namespace Gecko
             {
                 action();
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 System.Diagnostics.Debug.WriteLine(string.Format("Invoking exception"));
             }
@@ -579,7 +579,7 @@ namespace Gecko
             {
                 ret = func();
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 System.Diagnostics.Debug.WriteLine(string.Format("Invoking exception"));
             }

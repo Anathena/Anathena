@@ -30,10 +30,10 @@
 //------------------------------------------------------------------------------
 using System;
 using System.Runtime.InteropServices;
-using System.Security;
-namespace SharpDX.DirectWrite {
+namespace SharpDX.DirectWrite
+{
 
-// Disable warning : XML comment is not placed on a valid language element
+    // Disable warning : XML comment is not placed on a valid language element
 #pragma warning disable 419
 #pragma warning disable 1587
 #pragma warning disable 1574
@@ -51,27 +51,29 @@ namespace SharpDX.DirectWrite {
     /// <unmanaged>IDWriteBitmapRenderTarget</unmanaged>	
     /// <unmanaged-short>IDWriteBitmapRenderTarget</unmanaged-short>	
     [Guid("5e5a32a3-8dff-4773-9ff6-0696eab77267")]
-    public partial class BitmapRenderTarget : SharpDX.ComObject {
+    public partial class BitmapRenderTarget : SharpDX.ComObject
+    {
         /// <summary>
         /// Initializes a new instance of the <see cref="SharpDX.DirectWrite.BitmapRenderTarget"/> class.
         /// </summary>
         /// <param name="nativePtr">The native pointer.</param>	
-        public BitmapRenderTarget(IntPtr nativePtr) : base(nativePtr) {
+        public BitmapRenderTarget(IntPtr nativePtr) : base(nativePtr)
+        {
         }
 
-		/// <summary>
-		/// Performs an explicit conversion from <see cref="System.IntPtr"/> to <see cref="SharpDX.DirectWrite.BitmapRenderTarget"/>. (This method is a shortcut to <see cref="SharpDX.CppObject.NativePointer"/>) 
-		/// </summary>
-		/// <param name="nativePointer">The native pointer.</param>
-		/// <returns>
-		/// The result of the conversion.
-		/// </returns>
-		public static explicit operator SharpDX.DirectWrite.BitmapRenderTarget(IntPtr nativePointer)
-		{
-			return nativePointer == IntPtr.Zero ? null : new SharpDX.DirectWrite.BitmapRenderTarget(nativePointer);
-		}
-        
-        
+        /// <summary>
+        /// Performs an explicit conversion from <see cref="System.IntPtr"/> to <see cref="SharpDX.DirectWrite.BitmapRenderTarget"/>. (This method is a shortcut to <see cref="SharpDX.CppObject.NativePointer"/>) 
+        /// </summary>
+        /// <param name="nativePointer">The native pointer.</param>
+        /// <returns>
+        /// The result of the conversion.
+        /// </returns>
+        public static explicit operator SharpDX.DirectWrite.BitmapRenderTarget(IntPtr nativePointer)
+        {
+            return nativePointer == IntPtr.Zero ? null : new SharpDX.DirectWrite.BitmapRenderTarget(nativePointer);
+        }
+
+
         /// <summary>	
         /// <p> Gets a handle to the memory device context. </p>	
         /// </summary>	
@@ -84,10 +86,11 @@ namespace SharpDX.DirectWrite {
         /// <unmanaged>GetMemoryDC</unmanaged>	
         /// <unmanaged-short>GetMemoryDC</unmanaged-short>	
         /// <unmanaged>HDC IDWriteBitmapRenderTarget::GetMemoryDC()</unmanaged>
-        public System.IntPtr MemoryDC {
-                get { return GetMemoryDC(); }
+        public System.IntPtr MemoryDC
+        {
+            get { return GetMemoryDC(); }
         }
-        
+
         /// <summary>	
         /// <p>Gets or sets the number of bitmap pixels per DIP.  </p>	
         /// </summary>	
@@ -99,11 +102,12 @@ namespace SharpDX.DirectWrite {
         /// <unmanaged>GetPixelsPerDip / SetPixelsPerDip</unmanaged>	
         /// <unmanaged-short>GetPixelsPerDip</unmanaged-short>	
         /// <unmanaged>float IDWriteBitmapRenderTarget::GetPixelsPerDip()</unmanaged>
-        public float PixelsPerDip {
-                get { return GetPixelsPerDip(); }
-                set { SetPixelsPerDip(value); }
+        public float PixelsPerDip
+        {
+            get { return GetPixelsPerDip(); }
+            set { SetPixelsPerDip(value); }
         }
-        
+
         /// <summary>	
         /// <p>Gets or sets the transform that maps abstract coordinates to DIPs. By default this is the identity  transform. Note that this is unrelated to the world transform of the underlying device context. </p>	
         /// </summary>	
@@ -112,11 +116,12 @@ namespace SharpDX.DirectWrite {
         /// <unmanaged>GetCurrentTransform / SetCurrentTransform</unmanaged>	
         /// <unmanaged-short>GetCurrentTransform</unmanaged-short>	
         /// <unmanaged>HRESULT IDWriteBitmapRenderTarget::GetCurrentTransform([Out] DWRITE_MATRIX* transform)</unmanaged>
-        public SharpDX.Mathematics.Interop.RawMatrix3x2 CurrentTransform {
-                get { SharpDX.Mathematics.Interop.RawMatrix3x2 __output__; GetCurrentTransform(out __output__); return __output__; }
-                set { SetCurrentTransform(value); }
+        public SharpDX.Mathematics.Interop.RawMatrix3x2 CurrentTransform
+        {
+            get { SharpDX.Mathematics.Interop.RawMatrix3x2 __output__; GetCurrentTransform(out __output__); return __output__; }
+            set { SetCurrentTransform(value); }
         }
-        
+
         /// <summary>	
         /// <p> Gets the dimensions of the target bitmap. </p>	
         /// </summary>	
@@ -125,10 +130,11 @@ namespace SharpDX.DirectWrite {
         /// <unmanaged>GetSize</unmanaged>	
         /// <unmanaged-short>GetSize</unmanaged-short>	
         /// <unmanaged>HRESULT IDWriteBitmapRenderTarget::GetSize([Out] SIZE* size)</unmanaged>
-        public SharpDX.Size2 Size {
-                get { SharpDX.Size2 __output__; GetSize(out __output__); return __output__; }
+        public SharpDX.Size2 Size
+        {
+            get { SharpDX.Size2 __output__; GetSize(out __output__); return __output__; }
         }
-        
+
         /// <summary>	
         /// <p> Draws a run of glyphs to a bitmap target at the specified position.</p>	
         /// </summary>	
@@ -150,20 +156,22 @@ namespace SharpDX.DirectWrite {
         /// <msdn-id>dd368167</msdn-id>	
         /// <unmanaged>HRESULT IDWriteBitmapRenderTarget::DrawGlyphRun([In] float baselineOriginX,[In] float baselineOriginY,[In] DWRITE_MEASURING_MODE measuringMode,[In] const DWRITE_GLYPH_RUN* glyphRun,[In] IDWriteRenderingParams* renderingParams,[In] int textColor,[Out, Optional] RECT* blackBoxRect)</unmanaged>	
         /// <unmanaged-short>IDWriteBitmapRenderTarget::DrawGlyphRun</unmanaged-short>	
-        private void DrawGlyphRun(float baselineOriginX, float baselineOriginY, SharpDX.Direct2D1.MeasuringMode measuringMode, SharpDX.DirectWrite.GlyphRun glyphRun, SharpDX.DirectWrite.RenderingParams renderingParams, int textColor, out SharpDX.Mathematics.Interop.RawRectangle blackBoxRect) {
-            unsafe {
+        private void DrawGlyphRun(float baselineOriginX, float baselineOriginY, SharpDX.Direct2D1.MeasuringMode measuringMode, SharpDX.DirectWrite.GlyphRun glyphRun, SharpDX.DirectWrite.RenderingParams renderingParams, int textColor, out SharpDX.Mathematics.Interop.RawRectangle blackBoxRect)
+        {
+            unsafe
+            {
                 var glyphRun_ = new SharpDX.DirectWrite.GlyphRun.__Native();
                 glyphRun.__MarshalTo(ref glyphRun_);
                 blackBoxRect = new SharpDX.Mathematics.Interop.RawRectangle();
                 SharpDX.Result __result__;
                 fixed (void* blackBoxRect_ = &blackBoxRect)
-                    __result__= 
-    				SharpDX.Direct2D1.LocalInterop.Calliint(_nativePointer, baselineOriginX, baselineOriginY, unchecked((int)measuringMode), &glyphRun_, (void*)((renderingParams == null)?IntPtr.Zero:renderingParams.NativePointer), textColor, blackBoxRect_,((void**)(*(void**)_nativePointer))[3]);		
+                    __result__ =
+                    SharpDX.Direct2D1.LocalInterop.Calliint(_nativePointer, baselineOriginX, baselineOriginY, unchecked((int)measuringMode), &glyphRun_, (void*)((renderingParams == null) ? IntPtr.Zero : renderingParams.NativePointer), textColor, blackBoxRect_, ((void**)(*(void**)_nativePointer))[3]);
                 glyphRun.__MarshalFree(ref glyphRun_);
                 __result__.CheckError();
             }
         }
-        
+
         /// <summary>	
         /// <p> Gets a handle to the memory device context. </p>	
         /// </summary>	
@@ -176,15 +184,17 @@ namespace SharpDX.DirectWrite {
         /// <msdn-id>dd368171</msdn-id>	
         /// <unmanaged>HDC IDWriteBitmapRenderTarget::GetMemoryDC()</unmanaged>	
         /// <unmanaged-short>IDWriteBitmapRenderTarget::GetMemoryDC</unmanaged-short>	
-        internal System.IntPtr GetMemoryDC() {
-            unsafe {
+        internal System.IntPtr GetMemoryDC()
+        {
+            unsafe
+            {
                 System.IntPtr __result__;
-                __result__= 
-				SharpDX.Direct2D1.LocalInterop.CalliSystemIntPtr(_nativePointer,((void**)(*(void**)_nativePointer))[4]);		
+                __result__ =
+                SharpDX.Direct2D1.LocalInterop.CalliSystemIntPtr(_nativePointer, ((void**)(*(void**)_nativePointer))[4]);
                 return __result__;
             }
         }
-        
+
         /// <summary>	
         /// <p> Gets the number of bitmap pixels per DIP.  </p>	
         /// </summary>	
@@ -196,15 +206,17 @@ namespace SharpDX.DirectWrite {
         /// <msdn-id>dd368173</msdn-id>	
         /// <unmanaged>float IDWriteBitmapRenderTarget::GetPixelsPerDip()</unmanaged>	
         /// <unmanaged-short>IDWriteBitmapRenderTarget::GetPixelsPerDip</unmanaged-short>	
-        internal float GetPixelsPerDip() {
-            unsafe {
+        internal float GetPixelsPerDip()
+        {
+            unsafe
+            {
                 float __result__;
-                __result__= 
-				SharpDX.Direct2D1.LocalInterop.Callifloat(_nativePointer,((void**)(*(void**)_nativePointer))[5]);		
+                __result__ =
+                SharpDX.Direct2D1.LocalInterop.Callifloat(_nativePointer, ((void**)(*(void**)_nativePointer))[5]);
                 return __result__;
             }
         }
-        
+
         /// <summary>	
         /// <p> Sets the number of bitmap pixels per DIP (device-independent pixel). A DIP is 1/96 inch, so this value is the number if pixels per inch divided by 96. </p>	
         /// </summary>	
@@ -214,15 +226,17 @@ namespace SharpDX.DirectWrite {
         /// <msdn-id>dd368182</msdn-id>	
         /// <unmanaged>HRESULT IDWriteBitmapRenderTarget::SetPixelsPerDip([In] float pixelsPerDip)</unmanaged>	
         /// <unmanaged-short>IDWriteBitmapRenderTarget::SetPixelsPerDip</unmanaged-short>	
-        internal void SetPixelsPerDip(float pixelsPerDip) {
-            unsafe {
+        internal void SetPixelsPerDip(float pixelsPerDip)
+        {
+            unsafe
+            {
                 SharpDX.Result __result__;
-                __result__= 
-				SharpDX.Direct2D1.LocalInterop.Calliint(_nativePointer, pixelsPerDip,((void**)(*(void**)_nativePointer))[6]);		
+                __result__ =
+                SharpDX.Direct2D1.LocalInterop.Calliint(_nativePointer, pixelsPerDip, ((void**)(*(void**)_nativePointer))[6]);
                 __result__.CheckError();
             }
         }
-        
+
         /// <summary>	
         /// <p> Gets the transform that maps abstract coordinates to DIPs. By default this is the identity  transform. Note that this is unrelated to the world transform of the underlying device context. </p>	
         /// </summary>	
@@ -232,17 +246,19 @@ namespace SharpDX.DirectWrite {
         /// <msdn-id>dd368169</msdn-id>	
         /// <unmanaged>HRESULT IDWriteBitmapRenderTarget::GetCurrentTransform([Out] DWRITE_MATRIX* transform)</unmanaged>	
         /// <unmanaged-short>IDWriteBitmapRenderTarget::GetCurrentTransform</unmanaged-short>	
-        internal void GetCurrentTransform(out SharpDX.Mathematics.Interop.RawMatrix3x2 transform) {
-            unsafe {
+        internal void GetCurrentTransform(out SharpDX.Mathematics.Interop.RawMatrix3x2 transform)
+        {
+            unsafe
+            {
                 transform = new SharpDX.Mathematics.Interop.RawMatrix3x2();
                 SharpDX.Result __result__;
                 fixed (void* transform_ = &transform)
-                    __result__= 
-    				SharpDX.Direct2D1.LocalInterop.Calliint(_nativePointer, transform_,((void**)(*(void**)_nativePointer))[7]);		
+                    __result__ =
+                    SharpDX.Direct2D1.LocalInterop.Calliint(_nativePointer, transform_, ((void**)(*(void**)_nativePointer))[7]);
                 __result__.CheckError();
             }
         }
-        
+
         /// <summary>	
         /// <p> Sets the transform that maps abstract coordinate to DIPs (device-independent pixel). This does not affect the world transform of the underlying device context. </p>	
         /// </summary>	
@@ -252,18 +268,20 @@ namespace SharpDX.DirectWrite {
         /// <msdn-id>dd368179</msdn-id>	
         /// <unmanaged>HRESULT IDWriteBitmapRenderTarget::SetCurrentTransform([In, Optional] const DWRITE_MATRIX* transform)</unmanaged>	
         /// <unmanaged-short>IDWriteBitmapRenderTarget::SetCurrentTransform</unmanaged-short>	
-        internal void SetCurrentTransform(SharpDX.Mathematics.Interop.RawMatrix3x2? transform) {
-            unsafe {
+        internal void SetCurrentTransform(SharpDX.Mathematics.Interop.RawMatrix3x2? transform)
+        {
+            unsafe
+            {
                 SharpDX.Mathematics.Interop.RawMatrix3x2 transform_;
                 if (transform.HasValue)
-                    transform_ = transform.Value;				
+                    transform_ = transform.Value;
                 SharpDX.Result __result__;
-                __result__= 
-				SharpDX.Direct2D1.LocalInterop.Calliint(_nativePointer, (transform.HasValue)?&transform_:(void*)IntPtr.Zero,((void**)(*(void**)_nativePointer))[8]);		
+                __result__ =
+                SharpDX.Direct2D1.LocalInterop.Calliint(_nativePointer, (transform.HasValue) ? &transform_ : (void*)IntPtr.Zero, ((void**)(*(void**)_nativePointer))[8]);
                 __result__.CheckError();
             }
         }
-        
+
         /// <summary>	
         /// <p> Gets the dimensions of the target bitmap. </p>	
         /// </summary>	
@@ -273,17 +291,19 @@ namespace SharpDX.DirectWrite {
         /// <msdn-id>dd368176</msdn-id>	
         /// <unmanaged>HRESULT IDWriteBitmapRenderTarget::GetSize([Out] SIZE* size)</unmanaged>	
         /// <unmanaged-short>IDWriteBitmapRenderTarget::GetSize</unmanaged-short>	
-        internal void GetSize(out SharpDX.Size2 size) {
-            unsafe {
+        internal void GetSize(out SharpDX.Size2 size)
+        {
+            unsafe
+            {
                 size = new SharpDX.Size2();
                 SharpDX.Result __result__;
                 fixed (void* size_ = &size)
-                    __result__= 
-    				SharpDX.Direct2D1.LocalInterop.Calliint(_nativePointer, size_,((void**)(*(void**)_nativePointer))[9]);		
+                    __result__ =
+                    SharpDX.Direct2D1.LocalInterop.Calliint(_nativePointer, size_, ((void**)(*(void**)_nativePointer))[9]);
                 __result__.CheckError();
             }
         }
-        
+
         /// <summary>	
         /// <p> Resizes the bitmap. </p>	
         /// </summary>	
@@ -294,11 +314,13 @@ namespace SharpDX.DirectWrite {
         /// <msdn-id>dd368177</msdn-id>	
         /// <unmanaged>HRESULT IDWriteBitmapRenderTarget::Resize([In] unsigned int width,[In] unsigned int height)</unmanaged>	
         /// <unmanaged-short>IDWriteBitmapRenderTarget::Resize</unmanaged-short>	
-        public void Resize(int width, int height) {
-            unsafe {
+        public void Resize(int width, int height)
+        {
+            unsafe
+            {
                 SharpDX.Result __result__;
-                __result__= 
-				SharpDX.Direct2D1.LocalInterop.Calliint(_nativePointer, width, height,((void**)(*(void**)_nativePointer))[10]);		
+                __result__ =
+                SharpDX.Direct2D1.LocalInterop.Calliint(_nativePointer, width, height, ((void**)(*(void**)_nativePointer))[10]);
                 __result__.CheckError();
             }
         }
@@ -311,27 +333,29 @@ namespace SharpDX.DirectWrite {
     /// <unmanaged>IDWriteBitmapRenderTarget1</unmanaged>	
     /// <unmanaged-short>IDWriteBitmapRenderTarget1</unmanaged-short>	
     [Guid("791e8298-3ef3-4230-9880-c9bdecc42064")]
-    public partial class BitmapRenderTarget1 : SharpDX.DirectWrite.BitmapRenderTarget {
+    public partial class BitmapRenderTarget1 : SharpDX.DirectWrite.BitmapRenderTarget
+    {
         /// <summary>
         /// Initializes a new instance of the <see cref="SharpDX.DirectWrite.BitmapRenderTarget1"/> class.
         /// </summary>
         /// <param name="nativePtr">The native pointer.</param>	
-        public BitmapRenderTarget1(IntPtr nativePtr) : base(nativePtr) {
+        public BitmapRenderTarget1(IntPtr nativePtr) : base(nativePtr)
+        {
         }
 
-		/// <summary>
-		/// Performs an explicit conversion from <see cref="System.IntPtr"/> to <see cref="SharpDX.DirectWrite.BitmapRenderTarget1"/>. (This method is a shortcut to <see cref="SharpDX.CppObject.NativePointer"/>) 
-		/// </summary>
-		/// <param name="nativePointer">The native pointer.</param>
-		/// <returns>
-		/// The result of the conversion.
-		/// </returns>
-		public static explicit operator SharpDX.DirectWrite.BitmapRenderTarget1(IntPtr nativePointer)
-		{
-			return nativePointer == IntPtr.Zero ? null : new SharpDX.DirectWrite.BitmapRenderTarget1(nativePointer);
-		}
-        
-        
+        /// <summary>
+        /// Performs an explicit conversion from <see cref="System.IntPtr"/> to <see cref="SharpDX.DirectWrite.BitmapRenderTarget1"/>. (This method is a shortcut to <see cref="SharpDX.CppObject.NativePointer"/>) 
+        /// </summary>
+        /// <param name="nativePointer">The native pointer.</param>
+        /// <returns>
+        /// The result of the conversion.
+        /// </returns>
+        public static explicit operator SharpDX.DirectWrite.BitmapRenderTarget1(IntPtr nativePointer)
+        {
+            return nativePointer == IntPtr.Zero ? null : new SharpDX.DirectWrite.BitmapRenderTarget1(nativePointer);
+        }
+
+
         /// <summary>	
         /// <p>Gets or sets the current text antialiasing mode of the bitmap render target.</p>	
         /// </summary>	
@@ -340,11 +364,12 @@ namespace SharpDX.DirectWrite {
         /// <unmanaged>GetTextAntialiasMode / SetTextAntialiasMode</unmanaged>	
         /// <unmanaged-short>GetTextAntialiasMode</unmanaged-short>	
         /// <unmanaged>DWRITE_TEXT_ANTIALIAS_MODE IDWriteBitmapRenderTarget1::GetTextAntialiasMode()</unmanaged>
-        public SharpDX.DirectWrite.TextAntialiasMode TextAntialiasMode {
-                get { return GetTextAntialiasMode(); }
-                set { SetTextAntialiasMode(value); }
+        public SharpDX.DirectWrite.TextAntialiasMode TextAntialiasMode
+        {
+            get { return GetTextAntialiasMode(); }
+            set { SetTextAntialiasMode(value); }
         }
-        
+
         /// <summary>	
         /// <p>Gets the current text antialiasing mode of the bitmap render target.</p>	
         /// </summary>	
@@ -353,15 +378,17 @@ namespace SharpDX.DirectWrite {
         /// <msdn-id>Hh780399</msdn-id>	
         /// <unmanaged>DWRITE_TEXT_ANTIALIAS_MODE IDWriteBitmapRenderTarget1::GetTextAntialiasMode()</unmanaged>	
         /// <unmanaged-short>IDWriteBitmapRenderTarget1::GetTextAntialiasMode</unmanaged-short>	
-        internal SharpDX.DirectWrite.TextAntialiasMode GetTextAntialiasMode() {
-            unsafe {
+        internal SharpDX.DirectWrite.TextAntialiasMode GetTextAntialiasMode()
+        {
+            unsafe
+            {
                 SharpDX.DirectWrite.TextAntialiasMode __result__;
-                __result__= 
-				SharpDX.Direct2D1.LocalInterop.CalliSharpDXDirectWriteTextAntialiasMode(_nativePointer,((void**)(*(void**)_nativePointer))[11]);		
+                __result__ =
+                SharpDX.Direct2D1.LocalInterop.CalliSharpDXDirectWriteTextAntialiasMode(_nativePointer, ((void**)(*(void**)_nativePointer))[11]);
                 return __result__;
             }
         }
-        
+
         /// <summary>	
         /// <p>Sets the current text antialiasing mode of the bitmap render target.</p>	
         /// </summary>	
@@ -374,11 +401,13 @@ namespace SharpDX.DirectWrite {
         /// <msdn-id>Hh780400</msdn-id>	
         /// <unmanaged>HRESULT IDWriteBitmapRenderTarget1::SetTextAntialiasMode([In] DWRITE_TEXT_ANTIALIAS_MODE antialiasMode)</unmanaged>	
         /// <unmanaged-short>IDWriteBitmapRenderTarget1::SetTextAntialiasMode</unmanaged-short>	
-        internal void SetTextAntialiasMode(SharpDX.DirectWrite.TextAntialiasMode antialiasMode) {
-            unsafe {
+        internal void SetTextAntialiasMode(SharpDX.DirectWrite.TextAntialiasMode antialiasMode)
+        {
+            unsafe
+            {
                 SharpDX.Result __result__;
-                __result__= 
-				SharpDX.Direct2D1.LocalInterop.Calliint(_nativePointer, unchecked((int)antialiasMode),((void**)(*(void**)_nativePointer))[12]);		
+                __result__ =
+                SharpDX.Direct2D1.LocalInterop.Calliint(_nativePointer, unchecked((int)antialiasMode), ((void**)(*(void**)_nativePointer))[12]);
                 __result__.CheckError();
             }
         }
@@ -396,27 +425,29 @@ namespace SharpDX.DirectWrite {
     /// <unmanaged>IDWriteFactory</unmanaged>	
     /// <unmanaged-short>IDWriteFactory</unmanaged-short>	
     [Guid("b859ee5a-d838-4b5b-a2e8-1adc7d93db48")]
-    public partial class Factory : SharpDX.ComObject {
+    public partial class Factory : SharpDX.ComObject
+    {
         /// <summary>
         /// Initializes a new instance of the <see cref="SharpDX.DirectWrite.Factory"/> class.
         /// </summary>
         /// <param name="nativePtr">The native pointer.</param>	
-        public Factory(IntPtr nativePtr) : base(nativePtr) {
+        public Factory(IntPtr nativePtr) : base(nativePtr)
+        {
         }
 
-		/// <summary>
-		/// Performs an explicit conversion from <see cref="System.IntPtr"/> to <see cref="SharpDX.DirectWrite.Factory"/>. (This method is a shortcut to <see cref="SharpDX.CppObject.NativePointer"/>) 
-		/// </summary>
-		/// <param name="nativePointer">The native pointer.</param>
-		/// <returns>
-		/// The result of the conversion.
-		/// </returns>
-		public static explicit operator SharpDX.DirectWrite.Factory(IntPtr nativePointer)
-		{
-			return nativePointer == IntPtr.Zero ? null : new SharpDX.DirectWrite.Factory(nativePointer);
-		}
-        
-        
+        /// <summary>
+        /// Performs an explicit conversion from <see cref="System.IntPtr"/> to <see cref="SharpDX.DirectWrite.Factory"/>. (This method is a shortcut to <see cref="SharpDX.CppObject.NativePointer"/>) 
+        /// </summary>
+        /// <param name="nativePointer">The native pointer.</param>
+        /// <returns>
+        /// The result of the conversion.
+        /// </returns>
+        public static explicit operator SharpDX.DirectWrite.Factory(IntPtr nativePointer)
+        {
+            return nativePointer == IntPtr.Zero ? null : new SharpDX.DirectWrite.Factory(nativePointer);
+        }
+
+
         /// <summary>	
         /// <p> Creates an object that is used for interoperability with GDI. </p>	
         /// </summary>	
@@ -425,10 +456,11 @@ namespace SharpDX.DirectWrite {
         /// <unmanaged>GetGdiInterop</unmanaged>	
         /// <unmanaged-short>GetGdiInterop</unmanaged-short>	
         /// <unmanaged>HRESULT IDWriteFactory::GetGdiInterop([Out] IDWriteGdiInterop** gdiInterop)</unmanaged>
-        public SharpDX.DirectWrite.GdiInterop GdiInterop {
-                get { SharpDX.DirectWrite.GdiInterop __output__; GetGdiInterop(out __output__); return __output__; }
+        public SharpDX.DirectWrite.GdiInterop GdiInterop
+        {
+            get { SharpDX.DirectWrite.GdiInterop __output__; GetGdiInterop(out __output__); return __output__; }
         }
-        
+
         /// <summary>	
         /// <p> Gets an object which represents the set of installed fonts. </p>	
         /// </summary>	
@@ -438,19 +470,21 @@ namespace SharpDX.DirectWrite {
         /// <msdn-id>dd368208</msdn-id>	
         /// <unmanaged>HRESULT IDWriteFactory::GetSystemFontCollection([Out] IDWriteFontCollection** fontCollection,[In] BOOL checkForUpdates)</unmanaged>	
         /// <unmanaged-short>IDWriteFactory::GetSystemFontCollection</unmanaged-short>	
-        public SharpDX.DirectWrite.FontCollection GetSystemFontCollection(SharpDX.Mathematics.Interop.RawBool checkForUpdates) {
-            unsafe {
+        public SharpDX.DirectWrite.FontCollection GetSystemFontCollection(SharpDX.Mathematics.Interop.RawBool checkForUpdates)
+        {
+            unsafe
+            {
                 SharpDX.DirectWrite.FontCollection fontCollection;
                 IntPtr fontCollection_ = IntPtr.Zero;
                 SharpDX.Result __result__;
-                __result__= 
-				SharpDX.Direct2D1.LocalInterop.Calliint162(_nativePointer, &fontCollection_, checkForUpdates,((void**)(*(void**)_nativePointer))[3]);		
-                fontCollection= (fontCollection_ == IntPtr.Zero)?null:new SharpDX.DirectWrite.FontCollection(fontCollection_);	
+                __result__ =
+                SharpDX.Direct2D1.LocalInterop.Calliint162(_nativePointer, &fontCollection_, checkForUpdates, ((void**)(*(void**)_nativePointer))[3]);
+                fontCollection = (fontCollection_ == IntPtr.Zero) ? null : new SharpDX.DirectWrite.FontCollection(fontCollection_);
                 __result__.CheckError();
                 return fontCollection;
             }
         }
-        
+
         /// <summary>	
         /// <p> Creates a font collection using a custom font collection loader. </p>	
         /// </summary>	
@@ -463,17 +497,19 @@ namespace SharpDX.DirectWrite {
         /// <msdn-id>dd368186</msdn-id>	
         /// <unmanaged>HRESULT IDWriteFactory::CreateCustomFontCollection([In] IDWriteFontCollectionLoader* collectionLoader,[In, Buffer] const void* collectionKey,[In] unsigned int collectionKeySize,[Out, Fast] IDWriteFontCollection** fontCollection)</unmanaged>	
         /// <unmanaged-short>IDWriteFactory::CreateCustomFontCollection</unmanaged-short>	
-        internal void CreateCustomFontCollection_(System.IntPtr collectionLoader, System.IntPtr collectionKey, int collectionKeySize, SharpDX.DirectWrite.FontCollection fontCollection) {
-            unsafe {
+        internal void CreateCustomFontCollection_(System.IntPtr collectionLoader, System.IntPtr collectionKey, int collectionKeySize, SharpDX.DirectWrite.FontCollection fontCollection)
+        {
+            unsafe
+            {
                 IntPtr fontCollection_ = IntPtr.Zero;
                 SharpDX.Result __result__;
-                __result__= 
-				SharpDX.Direct2D1.LocalInterop.Calliint(_nativePointer, (void*)collectionLoader, (void*)collectionKey, collectionKeySize, &fontCollection_,((void**)(*(void**)_nativePointer))[4]);		
+                __result__ =
+                SharpDX.Direct2D1.LocalInterop.Calliint(_nativePointer, (void*)collectionLoader, (void*)collectionKey, collectionKeySize, &fontCollection_, ((void**)(*(void**)_nativePointer))[4]);
                 ((SharpDX.DirectWrite.FontCollection)fontCollection).NativePointer = fontCollection_;
                 __result__.CheckError();
             }
         }
-        
+
         /// <summary>	
         /// <p> Registers a custom font collection loader with the factory object. </p>	
         /// </summary>	
@@ -486,15 +522,17 @@ namespace SharpDX.DirectWrite {
         /// <msdn-id>dd368209</msdn-id>	
         /// <unmanaged>HRESULT IDWriteFactory::RegisterFontCollectionLoader([In] IDWriteFontCollectionLoader* fontCollectionLoader)</unmanaged>	
         /// <unmanaged-short>IDWriteFactory::RegisterFontCollectionLoader</unmanaged-short>	
-        internal void RegisterFontCollectionLoader_(System.IntPtr fontCollectionLoader) {
-            unsafe {
+        internal void RegisterFontCollectionLoader_(System.IntPtr fontCollectionLoader)
+        {
+            unsafe
+            {
                 SharpDX.Result __result__;
-                __result__= 
-				SharpDX.Direct2D1.LocalInterop.Calliint(_nativePointer, (void*)fontCollectionLoader,((void**)(*(void**)_nativePointer))[5]);		
+                __result__ =
+                SharpDX.Direct2D1.LocalInterop.Calliint(_nativePointer, (void*)fontCollectionLoader, ((void**)(*(void**)_nativePointer))[5]);
                 __result__.CheckError();
             }
         }
-        
+
         /// <summary>	
         /// <p> Unregisters a custom font collection loader that was previously registered using <strong>RegisterFontCollectionLoader</strong>. </p>	
         /// </summary>	
@@ -504,15 +542,17 @@ namespace SharpDX.DirectWrite {
         /// <msdn-id>dd368211</msdn-id>	
         /// <unmanaged>HRESULT IDWriteFactory::UnregisterFontCollectionLoader([In] IDWriteFontCollectionLoader* fontCollectionLoader)</unmanaged>	
         /// <unmanaged-short>IDWriteFactory::UnregisterFontCollectionLoader</unmanaged-short>	
-        internal void UnregisterFontCollectionLoader_(System.IntPtr fontCollectionLoader) {
-            unsafe {
+        internal void UnregisterFontCollectionLoader_(System.IntPtr fontCollectionLoader)
+        {
+            unsafe
+            {
                 SharpDX.Result __result__;
-                __result__= 
-				SharpDX.Direct2D1.LocalInterop.Calliint(_nativePointer, (void*)fontCollectionLoader,((void**)(*(void**)_nativePointer))[6]);		
+                __result__ =
+                SharpDX.Direct2D1.LocalInterop.Calliint(_nativePointer, (void*)fontCollectionLoader, ((void**)(*(void**)_nativePointer))[6]);
                 __result__.CheckError();
             }
         }
-        
+
         /// <summary>	
         /// <p> Creates a font file reference object from a local font file. </p>	
         /// </summary>	
@@ -524,22 +564,24 @@ namespace SharpDX.DirectWrite {
         /// <msdn-id>dd368197</msdn-id>	
         /// <unmanaged>HRESULT IDWriteFactory::CreateFontFileReference([In] const wchar_t* filePath,[In, Optional] const FILETIME* lastWriteTime,[Out, Fast] IDWriteFontFile** fontFile)</unmanaged>	
         /// <unmanaged-short>IDWriteFactory::CreateFontFileReference</unmanaged-short>	
-        internal void CreateFontFileReference(string filePath, long? lastWriteTime, SharpDX.DirectWrite.FontFile fontFile) {
-            unsafe {
+        internal void CreateFontFileReference(string filePath, long? lastWriteTime, SharpDX.DirectWrite.FontFile fontFile)
+        {
+            unsafe
+            {
                 IntPtr filePath_ = Utilities.StringToHGlobalUni(filePath);
                 long lastWriteTime_;
                 if (lastWriteTime.HasValue)
-                    lastWriteTime_ = lastWriteTime.Value;				
+                    lastWriteTime_ = lastWriteTime.Value;
                 IntPtr fontFile_ = IntPtr.Zero;
                 SharpDX.Result __result__;
-                __result__= 
-				SharpDX.Direct2D1.LocalInterop.Calliint(_nativePointer, (void*)filePath_, (lastWriteTime.HasValue)?&lastWriteTime_:(void*)IntPtr.Zero, &fontFile_,((void**)(*(void**)_nativePointer))[7]);		
-                Marshal.FreeHGlobal(filePath_ );
+                __result__ =
+                SharpDX.Direct2D1.LocalInterop.Calliint(_nativePointer, (void*)filePath_, (lastWriteTime.HasValue) ? &lastWriteTime_ : (void*)IntPtr.Zero, &fontFile_, ((void**)(*(void**)_nativePointer))[7]);
+                Marshal.FreeHGlobal(filePath_);
                 ((SharpDX.DirectWrite.FontFile)fontFile).NativePointer = fontFile_;
                 __result__.CheckError();
             }
         }
-        
+
         /// <summary>	
         /// <p> Creates a reference to an application-specific font file resource. </p>	
         /// </summary>	
@@ -555,17 +597,19 @@ namespace SharpDX.DirectWrite {
         /// <msdn-id>dd368188</msdn-id>	
         /// <unmanaged>HRESULT IDWriteFactory::CreateCustomFontFileReference([In, Buffer] const void* fontFileReferenceKey,[In] unsigned int fontFileReferenceKeySize,[In] IDWriteFontFileLoader* fontFileLoader,[Out, Fast] IDWriteFontFile** fontFile)</unmanaged>	
         /// <unmanaged-short>IDWriteFactory::CreateCustomFontFileReference</unmanaged-short>	
-        internal void CreateCustomFontFileReference_(System.IntPtr fontFileReferenceKey, int fontFileReferenceKeySize, System.IntPtr fontFileLoader, SharpDX.DirectWrite.FontFile fontFile) {
-            unsafe {
+        internal void CreateCustomFontFileReference_(System.IntPtr fontFileReferenceKey, int fontFileReferenceKeySize, System.IntPtr fontFileLoader, SharpDX.DirectWrite.FontFile fontFile)
+        {
+            unsafe
+            {
                 IntPtr fontFile_ = IntPtr.Zero;
                 SharpDX.Result __result__;
-                __result__= 
-				SharpDX.Direct2D1.LocalInterop.Calliint(_nativePointer, (void*)fontFileReferenceKey, fontFileReferenceKeySize, (void*)fontFileLoader, &fontFile_,((void**)(*(void**)_nativePointer))[8]);		
+                __result__ =
+                SharpDX.Direct2D1.LocalInterop.Calliint(_nativePointer, (void*)fontFileReferenceKey, fontFileReferenceKeySize, (void*)fontFileLoader, &fontFile_, ((void**)(*(void**)_nativePointer))[8]);
                 ((SharpDX.DirectWrite.FontFile)fontFile).NativePointer = fontFile_;
                 __result__.CheckError();
             }
         }
-        
+
         /// <summary>	
         /// <p> Creates an object that represents a font face. </p>	
         /// </summary>	
@@ -580,24 +624,27 @@ namespace SharpDX.DirectWrite {
         /// <msdn-id>dd368196</msdn-id>	
         /// <unmanaged>HRESULT IDWriteFactory::CreateFontFace([In] DWRITE_FONT_FACE_TYPE fontFaceType,[In] unsigned int numberOfFiles,[In, Buffer] const IDWriteFontFile** fontFiles,[In] unsigned int faceIndex,[In] DWRITE_FONT_SIMULATIONS fontFaceSimulationFlags,[Out, Fast] IDWriteFontFace** fontFace)</unmanaged>	
         /// <unmanaged-short>IDWriteFactory::CreateFontFace</unmanaged-short>	
-        internal void CreateFontFace(SharpDX.DirectWrite.FontFaceType fontFaceType, int numberOfFiles, SharpDX.DirectWrite.FontFile[] fontFiles, int faceIndex, SharpDX.DirectWrite.FontSimulations fontFaceSimulationFlags, SharpDX.DirectWrite.FontFace fontFace) {
-            unsafe {
+        internal void CreateFontFace(SharpDX.DirectWrite.FontFaceType fontFaceType, int numberOfFiles, SharpDX.DirectWrite.FontFile[] fontFiles, int faceIndex, SharpDX.DirectWrite.FontSimulations fontFaceSimulationFlags, SharpDX.DirectWrite.FontFace fontFace)
+        {
+            unsafe
+            {
                 IntPtr* fontFiles_ = (IntPtr*)0;
-                if ( fontFiles != null ) {
+                if (fontFiles != null)
+                {
                     IntPtr* fontFiles__ = stackalloc IntPtr[fontFiles.Length];
                     fontFiles_ = fontFiles__;
-                    for (int i = 0; i < fontFiles.Length; i++)                        
-                        fontFiles_[i] =  (fontFiles[i] == null)? IntPtr.Zero : fontFiles[i].NativePointer;
+                    for (int i = 0; i < fontFiles.Length; i++)
+                        fontFiles_[i] = (fontFiles[i] == null) ? IntPtr.Zero : fontFiles[i].NativePointer;
                 }
                 IntPtr fontFace_ = IntPtr.Zero;
                 SharpDX.Result __result__;
-                __result__= 
-				SharpDX.Direct2D1.LocalInterop.Calliint(_nativePointer, unchecked((int)fontFaceType), numberOfFiles, fontFiles_, faceIndex, unchecked((int)fontFaceSimulationFlags), &fontFace_,((void**)(*(void**)_nativePointer))[9]);		
+                __result__ =
+                SharpDX.Direct2D1.LocalInterop.Calliint(_nativePointer, unchecked((int)fontFaceType), numberOfFiles, fontFiles_, faceIndex, unchecked((int)fontFaceSimulationFlags), &fontFace_, ((void**)(*(void**)_nativePointer))[9]);
                 ((SharpDX.DirectWrite.FontFace)fontFace).NativePointer = fontFace_;
                 __result__.CheckError();
             }
         }
-        
+
         /// <summary>	
         /// <p> Creates an object that represents a font face. </p>	
         /// </summary>	
@@ -612,17 +659,19 @@ namespace SharpDX.DirectWrite {
         /// <msdn-id>dd368196</msdn-id>	
         /// <unmanaged>HRESULT IDWriteFactory::CreateFontFace([In] DWRITE_FONT_FACE_TYPE fontFaceType,[In] unsigned int numberOfFiles,[In, Buffer] const IDWriteFontFile** fontFiles,[In] unsigned int faceIndex,[In] DWRITE_FONT_SIMULATIONS fontFaceSimulationFlags,[Out, Fast] IDWriteFontFace** fontFace)</unmanaged>	
         /// <unmanaged-short>IDWriteFactory::CreateFontFace</unmanaged-short>	
-        internal void CreateFontFace(SharpDX.DirectWrite.FontFaceType fontFaceType, int numberOfFiles, SharpDX.ComArray<SharpDX.DirectWrite.FontFile> fontFiles, int faceIndex, SharpDX.DirectWrite.FontSimulations fontFaceSimulationFlags, SharpDX.DirectWrite.FontFace fontFace) {
-            unsafe {
+        internal void CreateFontFace(SharpDX.DirectWrite.FontFaceType fontFaceType, int numberOfFiles, SharpDX.ComArray<SharpDX.DirectWrite.FontFile> fontFiles, int faceIndex, SharpDX.DirectWrite.FontSimulations fontFaceSimulationFlags, SharpDX.DirectWrite.FontFace fontFace)
+        {
+            unsafe
+            {
                 IntPtr fontFace_ = IntPtr.Zero;
                 SharpDX.Result __result__;
-                __result__= 
-				SharpDX.Direct2D1.LocalInterop.Calliint(_nativePointer, unchecked((int)fontFaceType), numberOfFiles, (void*)((fontFiles == null)?IntPtr.Zero:fontFiles.NativePointer), faceIndex, unchecked((int)fontFaceSimulationFlags), &fontFace_,((void**)(*(void**)_nativePointer))[9]);		
+                __result__ =
+                SharpDX.Direct2D1.LocalInterop.Calliint(_nativePointer, unchecked((int)fontFaceType), numberOfFiles, (void*)((fontFiles == null) ? IntPtr.Zero : fontFiles.NativePointer), faceIndex, unchecked((int)fontFaceSimulationFlags), &fontFace_, ((void**)(*(void**)_nativePointer))[9]);
                 ((SharpDX.DirectWrite.FontFace)fontFace).NativePointer = fontFace_;
                 __result__.CheckError();
             }
         }
-        
+
         /// <summary>	
         /// <p> Creates an object that represents a font face. </p>	
         /// </summary>	
@@ -637,15 +686,17 @@ namespace SharpDX.DirectWrite {
         /// <msdn-id>dd368196</msdn-id>	
         /// <unmanaged>HRESULT IDWriteFactory::CreateFontFace([In] DWRITE_FONT_FACE_TYPE fontFaceType,[In] unsigned int numberOfFiles,[In, Buffer] const IDWriteFontFile** fontFiles,[In] unsigned int faceIndex,[In] DWRITE_FONT_SIMULATIONS fontFaceSimulationFlags,[Out, Fast] IDWriteFontFace** fontFace)</unmanaged>	
         /// <unmanaged-short>IDWriteFactory::CreateFontFace</unmanaged-short>	
-        private void CreateFontFace(SharpDX.DirectWrite.FontFaceType fontFaceType, int numberOfFiles, System.IntPtr fontFiles, int faceIndex, SharpDX.DirectWrite.FontSimulations fontFaceSimulationFlags, System.IntPtr fontFace) {
-            unsafe {
+        private void CreateFontFace(SharpDX.DirectWrite.FontFaceType fontFaceType, int numberOfFiles, System.IntPtr fontFiles, int faceIndex, SharpDX.DirectWrite.FontSimulations fontFaceSimulationFlags, System.IntPtr fontFace)
+        {
+            unsafe
+            {
                 SharpDX.Result __result__;
-                __result__= 
-				SharpDX.Direct2D1.LocalInterop.Calliint(_nativePointer, unchecked((int)fontFaceType), numberOfFiles, (void*)fontFiles, faceIndex, unchecked((int)fontFaceSimulationFlags), (void*)fontFace,((void**)(*(void**)_nativePointer))[9]);		
+                __result__ =
+                SharpDX.Direct2D1.LocalInterop.Calliint(_nativePointer, unchecked((int)fontFaceType), numberOfFiles, (void*)fontFiles, faceIndex, unchecked((int)fontFaceSimulationFlags), (void*)fontFace, ((void**)(*(void**)_nativePointer))[9]);
                 __result__.CheckError();
             }
         }
-        
+
         /// <summary>	
         /// <p> Creates a rendering parameters object with default settings for the primary monitor. Different monitors may have different rendering parameters, for more information see the How to Add Support for Multiple Monitors topic.</p>	
         /// </summary>	
@@ -655,17 +706,19 @@ namespace SharpDX.DirectWrite {
         /// <msdn-id>dd368201</msdn-id>	
         /// <unmanaged>HRESULT IDWriteFactory::CreateRenderingParams([Out, Fast] IDWriteRenderingParams** renderingParams)</unmanaged>	
         /// <unmanaged-short>IDWriteFactory::CreateRenderingParams</unmanaged-short>	
-        internal void CreateRenderingParams(SharpDX.DirectWrite.RenderingParams renderingParams) {
-            unsafe {
+        internal void CreateRenderingParams(SharpDX.DirectWrite.RenderingParams renderingParams)
+        {
+            unsafe
+            {
                 IntPtr renderingParams_ = IntPtr.Zero;
                 SharpDX.Result __result__;
-                __result__= 
-				SharpDX.Direct2D1.LocalInterop.Calliint(_nativePointer, &renderingParams_,((void**)(*(void**)_nativePointer))[10]);		
+                __result__ =
+                SharpDX.Direct2D1.LocalInterop.Calliint(_nativePointer, &renderingParams_, ((void**)(*(void**)_nativePointer))[10]);
                 ((SharpDX.DirectWrite.RenderingParams)renderingParams).NativePointer = renderingParams_;
                 __result__.CheckError();
             }
         }
-        
+
         /// <summary>	
         /// <p> Creates a rendering parameters object with default settings for the specified monitor. In most cases, this is the preferred way to create a rendering parameters object.</p>	
         /// </summary>	
@@ -676,17 +729,19 @@ namespace SharpDX.DirectWrite {
         /// <msdn-id>dd368199</msdn-id>	
         /// <unmanaged>HRESULT IDWriteFactory::CreateMonitorRenderingParams([In] HMONITOR monitor,[Out, Fast] IDWriteRenderingParams** renderingParams)</unmanaged>	
         /// <unmanaged-short>IDWriteFactory::CreateMonitorRenderingParams</unmanaged-short>	
-        internal void CreateMonitorRenderingParams(System.IntPtr monitor, SharpDX.DirectWrite.RenderingParams renderingParams) {
-            unsafe {
+        internal void CreateMonitorRenderingParams(System.IntPtr monitor, SharpDX.DirectWrite.RenderingParams renderingParams)
+        {
+            unsafe
+            {
                 IntPtr renderingParams_ = IntPtr.Zero;
                 SharpDX.Result __result__;
-                __result__= 
-				SharpDX.Direct2D1.LocalInterop.Calliint(_nativePointer, (void*)monitor, &renderingParams_,((void**)(*(void**)_nativePointer))[11]);		
+                __result__ =
+                SharpDX.Direct2D1.LocalInterop.Calliint(_nativePointer, (void*)monitor, &renderingParams_, ((void**)(*(void**)_nativePointer))[11]);
                 ((SharpDX.DirectWrite.RenderingParams)renderingParams).NativePointer = renderingParams_;
                 __result__.CheckError();
             }
         }
-        
+
         /// <summary>	
         /// <p> Creates a rendering parameters object with the specified properties. </p>	
         /// </summary>	
@@ -701,17 +756,19 @@ namespace SharpDX.DirectWrite {
         /// <msdn-id>dd368190</msdn-id>	
         /// <unmanaged>HRESULT IDWriteFactory::CreateCustomRenderingParams([In] float gamma,[In] float enhancedContrast,[In] float clearTypeLevel,[In] DWRITE_PIXEL_GEOMETRY pixelGeometry,[In] DWRITE_RENDERING_MODE renderingMode,[Out, Fast] IDWriteRenderingParams** renderingParams)</unmanaged>	
         /// <unmanaged-short>IDWriteFactory::CreateCustomRenderingParams</unmanaged-short>	
-        internal void CreateCustomRenderingParams(float gamma, float enhancedContrast, float clearTypeLevel, SharpDX.DirectWrite.PixelGeometry pixelGeometry, SharpDX.DirectWrite.RenderingMode renderingMode, SharpDX.DirectWrite.RenderingParams renderingParams) {
-            unsafe {
+        internal void CreateCustomRenderingParams(float gamma, float enhancedContrast, float clearTypeLevel, SharpDX.DirectWrite.PixelGeometry pixelGeometry, SharpDX.DirectWrite.RenderingMode renderingMode, SharpDX.DirectWrite.RenderingParams renderingParams)
+        {
+            unsafe
+            {
                 IntPtr renderingParams_ = IntPtr.Zero;
                 SharpDX.Result __result__;
-                __result__= 
-				SharpDX.Direct2D1.LocalInterop.Calliint(_nativePointer, gamma, enhancedContrast, clearTypeLevel, unchecked((int)pixelGeometry), unchecked((int)renderingMode), &renderingParams_,((void**)(*(void**)_nativePointer))[12]);		
+                __result__ =
+                SharpDX.Direct2D1.LocalInterop.Calliint(_nativePointer, gamma, enhancedContrast, clearTypeLevel, unchecked((int)pixelGeometry), unchecked((int)renderingMode), &renderingParams_, ((void**)(*(void**)_nativePointer))[12]);
                 ((SharpDX.DirectWrite.RenderingParams)renderingParams).NativePointer = renderingParams_;
                 __result__.CheckError();
             }
         }
-        
+
         /// <summary>	
         /// <p> Registers a font file loader with DirectWrite. </p>	
         /// </summary>	
@@ -724,15 +781,17 @@ namespace SharpDX.DirectWrite {
         /// <msdn-id>dd368210</msdn-id>	
         /// <unmanaged>HRESULT IDWriteFactory::RegisterFontFileLoader([In] IDWriteFontFileLoader* fontFileLoader)</unmanaged>	
         /// <unmanaged-short>IDWriteFactory::RegisterFontFileLoader</unmanaged-short>	
-        internal void RegisterFontFileLoader_(System.IntPtr fontFileLoader) {
-            unsafe {
+        internal void RegisterFontFileLoader_(System.IntPtr fontFileLoader)
+        {
+            unsafe
+            {
                 SharpDX.Result __result__;
-                __result__= 
-				SharpDX.Direct2D1.LocalInterop.Calliint(_nativePointer, (void*)fontFileLoader,((void**)(*(void**)_nativePointer))[13]);		
+                __result__ =
+                SharpDX.Direct2D1.LocalInterop.Calliint(_nativePointer, (void*)fontFileLoader, ((void**)(*(void**)_nativePointer))[13]);
                 __result__.CheckError();
             }
         }
-        
+
         /// <summary>	
         /// <p> Unregisters a font file loader that was previously registered with the DirectWrite font system using <strong>RegisterFontFileLoader</strong>. </p>	
         /// </summary>	
@@ -745,15 +804,17 @@ namespace SharpDX.DirectWrite {
         /// <msdn-id>dd368212</msdn-id>	
         /// <unmanaged>HRESULT IDWriteFactory::UnregisterFontFileLoader([In] IDWriteFontFileLoader* fontFileLoader)</unmanaged>	
         /// <unmanaged-short>IDWriteFactory::UnregisterFontFileLoader</unmanaged-short>	
-        internal void UnregisterFontFileLoader_(System.IntPtr fontFileLoader) {
-            unsafe {
+        internal void UnregisterFontFileLoader_(System.IntPtr fontFileLoader)
+        {
+            unsafe
+            {
                 SharpDX.Result __result__;
-                __result__= 
-				SharpDX.Direct2D1.LocalInterop.Calliint(_nativePointer, (void*)fontFileLoader,((void**)(*(void**)_nativePointer))[14]);		
+                __result__ =
+                SharpDX.Direct2D1.LocalInterop.Calliint(_nativePointer, (void*)fontFileLoader, ((void**)(*(void**)_nativePointer))[14]);
                 __result__.CheckError();
             }
         }
-        
+
         /// <summary>	
         /// <p> Creates a text format object used for text layout. </p>	
         /// </summary>	
@@ -770,21 +831,23 @@ namespace SharpDX.DirectWrite {
         /// <msdn-id>dd368203</msdn-id>	
         /// <unmanaged>HRESULT IDWriteFactory::CreateTextFormat([In] const wchar_t* fontFamilyName,[In, Optional] IDWriteFontCollection* fontCollection,[In] DWRITE_FONT_WEIGHT fontWeight,[In] DWRITE_FONT_STYLE fontStyle,[In] DWRITE_FONT_STRETCH fontStretch,[In] float fontSize,[In] const wchar_t* localeName,[Out, Fast] IDWriteTextFormat** textFormat)</unmanaged>	
         /// <unmanaged-short>IDWriteFactory::CreateTextFormat</unmanaged-short>	
-        internal void CreateTextFormat(string fontFamilyName, SharpDX.DirectWrite.FontCollection fontCollection, SharpDX.DirectWrite.FontWeight fontWeight, SharpDX.DirectWrite.FontStyle fontStyle, SharpDX.DirectWrite.FontStretch fontStretch, float fontSize, string localeName, SharpDX.DirectWrite.TextFormat textFormat) {
-            unsafe {
+        internal void CreateTextFormat(string fontFamilyName, SharpDX.DirectWrite.FontCollection fontCollection, SharpDX.DirectWrite.FontWeight fontWeight, SharpDX.DirectWrite.FontStyle fontStyle, SharpDX.DirectWrite.FontStretch fontStretch, float fontSize, string localeName, SharpDX.DirectWrite.TextFormat textFormat)
+        {
+            unsafe
+            {
                 IntPtr fontFamilyName_ = Utilities.StringToHGlobalUni(fontFamilyName);
                 IntPtr localeName_ = Utilities.StringToHGlobalUni(localeName);
                 IntPtr textFormat_ = IntPtr.Zero;
                 SharpDX.Result __result__;
-                __result__= 
-				SharpDX.Direct2D1.LocalInterop.Calliint(_nativePointer, (void*)fontFamilyName_, (void*)((fontCollection == null)?IntPtr.Zero:fontCollection.NativePointer), unchecked((int)fontWeight), unchecked((int)fontStyle), unchecked((int)fontStretch), fontSize, (void*)localeName_, &textFormat_,((void**)(*(void**)_nativePointer))[15]);		
-                Marshal.FreeHGlobal(fontFamilyName_ );
-                Marshal.FreeHGlobal(localeName_ );
+                __result__ =
+                SharpDX.Direct2D1.LocalInterop.Calliint(_nativePointer, (void*)fontFamilyName_, (void*)((fontCollection == null) ? IntPtr.Zero : fontCollection.NativePointer), unchecked((int)fontWeight), unchecked((int)fontStyle), unchecked((int)fontStretch), fontSize, (void*)localeName_, &textFormat_, ((void**)(*(void**)_nativePointer))[15]);
+                Marshal.FreeHGlobal(fontFamilyName_);
+                Marshal.FreeHGlobal(localeName_);
                 ((SharpDX.DirectWrite.TextFormat)textFormat).NativePointer = textFormat_;
                 __result__.CheckError();
             }
         }
-        
+
         /// <summary>	
         /// <p> Creates a typography object for use in a text layout. </p>	
         /// </summary>	
@@ -794,17 +857,19 @@ namespace SharpDX.DirectWrite {
         /// <msdn-id>dd368206</msdn-id>	
         /// <unmanaged>HRESULT IDWriteFactory::CreateTypography([Out, Fast] IDWriteTypography** typography)</unmanaged>	
         /// <unmanaged-short>IDWriteFactory::CreateTypography</unmanaged-short>	
-        internal void CreateTypography(SharpDX.DirectWrite.Typography typography) {
-            unsafe {
+        internal void CreateTypography(SharpDX.DirectWrite.Typography typography)
+        {
+            unsafe
+            {
                 IntPtr typography_ = IntPtr.Zero;
                 SharpDX.Result __result__;
-                __result__= 
-				SharpDX.Direct2D1.LocalInterop.Calliint(_nativePointer, &typography_,((void**)(*(void**)_nativePointer))[16]);		
+                __result__ =
+                SharpDX.Direct2D1.LocalInterop.Calliint(_nativePointer, &typography_, ((void**)(*(void**)_nativePointer))[16]);
                 ((SharpDX.DirectWrite.Typography)typography).NativePointer = typography_;
                 __result__.CheckError();
             }
         }
-        
+
         /// <summary>	
         /// <p> Creates an object that is used for interoperability with GDI. </p>	
         /// </summary>	
@@ -814,17 +879,19 @@ namespace SharpDX.DirectWrite {
         /// <msdn-id>dd368207</msdn-id>	
         /// <unmanaged>HRESULT IDWriteFactory::GetGdiInterop([Out] IDWriteGdiInterop** gdiInterop)</unmanaged>	
         /// <unmanaged-short>IDWriteFactory::GetGdiInterop</unmanaged-short>	
-        internal void GetGdiInterop(out SharpDX.DirectWrite.GdiInterop gdiInterop) {
-            unsafe {
+        internal void GetGdiInterop(out SharpDX.DirectWrite.GdiInterop gdiInterop)
+        {
+            unsafe
+            {
                 IntPtr gdiInterop_ = IntPtr.Zero;
                 SharpDX.Result __result__;
-                __result__= 
-				SharpDX.Direct2D1.LocalInterop.Calliint(_nativePointer, &gdiInterop_,((void**)(*(void**)_nativePointer))[17]);		
-                gdiInterop= (gdiInterop_ == IntPtr.Zero)?null:new SharpDX.DirectWrite.GdiInterop(gdiInterop_);	
+                __result__ =
+                SharpDX.Direct2D1.LocalInterop.Calliint(_nativePointer, &gdiInterop_, ((void**)(*(void**)_nativePointer))[17]);
+                gdiInterop = (gdiInterop_ == IntPtr.Zero) ? null : new SharpDX.DirectWrite.GdiInterop(gdiInterop_);
                 __result__.CheckError();
             }
         }
-        
+
         /// <summary>	
         /// <p> Takes a string, text format, and associated constraints, and produces an object that represents the fully analyzed and formatted result. </p>	
         /// </summary>	
@@ -839,19 +906,21 @@ namespace SharpDX.DirectWrite {
         /// <msdn-id>dd368205</msdn-id>	
         /// <unmanaged>HRESULT IDWriteFactory::CreateTextLayout([In, Buffer] const wchar_t* string,[In] unsigned int stringLength,[In] IDWriteTextFormat* textFormat,[In] float maxWidth,[In] float maxHeight,[Out, Fast] IDWriteTextLayout** textLayout)</unmanaged>	
         /// <unmanaged-short>IDWriteFactory::CreateTextLayout</unmanaged-short>	
-        internal void CreateTextLayout(string text, int stringLength, SharpDX.DirectWrite.TextFormat textFormat, float maxWidth, float maxHeight, SharpDX.DirectWrite.TextLayout textLayout) {
-            unsafe {
+        internal void CreateTextLayout(string text, int stringLength, SharpDX.DirectWrite.TextFormat textFormat, float maxWidth, float maxHeight, SharpDX.DirectWrite.TextLayout textLayout)
+        {
+            unsafe
+            {
                 IntPtr text_ = Utilities.StringToHGlobalUni(text);
                 IntPtr textLayout_ = IntPtr.Zero;
                 SharpDX.Result __result__;
-                __result__= 
-				SharpDX.Direct2D1.LocalInterop.Calliint(_nativePointer, (void*)text_, stringLength, (void*)((textFormat == null)?IntPtr.Zero:textFormat.NativePointer), maxWidth, maxHeight, &textLayout_,((void**)(*(void**)_nativePointer))[18]);		
-                Marshal.FreeHGlobal(text_ );
+                __result__ =
+                SharpDX.Direct2D1.LocalInterop.Calliint(_nativePointer, (void*)text_, stringLength, (void*)((textFormat == null) ? IntPtr.Zero : textFormat.NativePointer), maxWidth, maxHeight, &textLayout_, ((void**)(*(void**)_nativePointer))[18]);
+                Marshal.FreeHGlobal(text_);
                 ((SharpDX.DirectWrite.TextLayout)textLayout).NativePointer = textLayout_;
                 __result__.CheckError();
             }
         }
-        
+
         /// <summary>	
         /// <p> Takes a string, format, and associated constraints, and produces an object representing the result, formatted for a particular display resolution and measuring mode.  </p>	
         /// </summary>	
@@ -872,22 +941,24 @@ namespace SharpDX.DirectWrite {
         /// <msdn-id>dd368192</msdn-id>	
         /// <unmanaged>HRESULT IDWriteFactory::CreateGdiCompatibleTextLayout([In, Buffer] const wchar_t* string,[In] unsigned int stringLength,[In] IDWriteTextFormat* textFormat,[In] float layoutWidth,[In] float layoutHeight,[In] float pixelsPerDip,[In, Optional] const DWRITE_MATRIX* transform,[In] BOOL useGdiNatural,[Out, Fast] IDWriteTextLayout** textLayout)</unmanaged>	
         /// <unmanaged-short>IDWriteFactory::CreateGdiCompatibleTextLayout</unmanaged-short>	
-        internal void CreateGdiCompatibleTextLayout(string text, int stringLength, SharpDX.DirectWrite.TextFormat textFormat, float layoutWidth, float layoutHeight, float pixelsPerDip, SharpDX.Mathematics.Interop.RawMatrix3x2? transform, SharpDX.Mathematics.Interop.RawBool useGdiNatural, SharpDX.DirectWrite.TextLayout textLayout) {
-            unsafe {
+        internal void CreateGdiCompatibleTextLayout(string text, int stringLength, SharpDX.DirectWrite.TextFormat textFormat, float layoutWidth, float layoutHeight, float pixelsPerDip, SharpDX.Mathematics.Interop.RawMatrix3x2? transform, SharpDX.Mathematics.Interop.RawBool useGdiNatural, SharpDX.DirectWrite.TextLayout textLayout)
+        {
+            unsafe
+            {
                 IntPtr text_ = Utilities.StringToHGlobalUni(text);
                 SharpDX.Mathematics.Interop.RawMatrix3x2 transform_;
                 if (transform.HasValue)
-                    transform_ = transform.Value;				
+                    transform_ = transform.Value;
                 IntPtr textLayout_ = IntPtr.Zero;
                 SharpDX.Result __result__;
-                __result__= 
-				SharpDX.Direct2D1.LocalInterop.Calliint167(_nativePointer, (void*)text_, stringLength, (void*)((textFormat == null)?IntPtr.Zero:textFormat.NativePointer), layoutWidth, layoutHeight, pixelsPerDip, (transform.HasValue)?&transform_:(void*)IntPtr.Zero, useGdiNatural, &textLayout_,((void**)(*(void**)_nativePointer))[19]);		
-                Marshal.FreeHGlobal(text_ );
+                __result__ =
+                SharpDX.Direct2D1.LocalInterop.Calliint167(_nativePointer, (void*)text_, stringLength, (void*)((textFormat == null) ? IntPtr.Zero : textFormat.NativePointer), layoutWidth, layoutHeight, pixelsPerDip, (transform.HasValue) ? &transform_ : (void*)IntPtr.Zero, useGdiNatural, &textLayout_, ((void**)(*(void**)_nativePointer))[19]);
+                Marshal.FreeHGlobal(text_);
                 ((SharpDX.DirectWrite.TextLayout)textLayout).NativePointer = textLayout_;
                 __result__.CheckError();
             }
         }
-        
+
         /// <summary>	
         /// <p> Creates an inline object for trimming, using an ellipsis as the omission sign. </p>	
         /// </summary>	
@@ -901,17 +972,19 @@ namespace SharpDX.DirectWrite {
         /// <msdn-id>dd368194</msdn-id>	
         /// <unmanaged>HRESULT IDWriteFactory::CreateEllipsisTrimmingSign([In] IDWriteTextFormat* textFormat,[Out, Fast] IDWriteInlineObject** trimmingSign)</unmanaged>	
         /// <unmanaged-short>IDWriteFactory::CreateEllipsisTrimmingSign</unmanaged-short>	
-        internal void CreateEllipsisTrimmingSign(SharpDX.DirectWrite.TextFormat textFormat, SharpDX.DirectWrite.InlineObject trimmingSign) {
-            unsafe {
+        internal void CreateEllipsisTrimmingSign(SharpDX.DirectWrite.TextFormat textFormat, SharpDX.DirectWrite.InlineObject trimmingSign)
+        {
+            unsafe
+            {
                 IntPtr trimmingSign_ = IntPtr.Zero;
                 SharpDX.Result __result__;
-                __result__= 
-				SharpDX.Direct2D1.LocalInterop.Calliint(_nativePointer, (void*)((textFormat == null)?IntPtr.Zero:textFormat.NativePointer), &trimmingSign_,((void**)(*(void**)_nativePointer))[20]);		
+                __result__ =
+                SharpDX.Direct2D1.LocalInterop.Calliint(_nativePointer, (void*)((textFormat == null) ? IntPtr.Zero : textFormat.NativePointer), &trimmingSign_, ((void**)(*(void**)_nativePointer))[20]);
                 ((SharpDX.DirectWrite.InlineObjectNative)trimmingSign).NativePointer = trimmingSign_;
                 __result__.CheckError();
             }
         }
-        
+
         /// <summary>	
         /// <p> Returns an interface for performing text analysis. </p>	
         /// </summary>	
@@ -921,17 +994,19 @@ namespace SharpDX.DirectWrite {
         /// <msdn-id>dd368202</msdn-id>	
         /// <unmanaged>HRESULT IDWriteFactory::CreateTextAnalyzer([Out, Fast] IDWriteTextAnalyzer** textAnalyzer)</unmanaged>	
         /// <unmanaged-short>IDWriteFactory::CreateTextAnalyzer</unmanaged-short>	
-        internal void CreateTextAnalyzer(SharpDX.DirectWrite.TextAnalyzer textAnalyzer) {
-            unsafe {
+        internal void CreateTextAnalyzer(SharpDX.DirectWrite.TextAnalyzer textAnalyzer)
+        {
+            unsafe
+            {
                 IntPtr textAnalyzer_ = IntPtr.Zero;
                 SharpDX.Result __result__;
-                __result__= 
-				SharpDX.Direct2D1.LocalInterop.Calliint(_nativePointer, &textAnalyzer_,((void**)(*(void**)_nativePointer))[21]);		
+                __result__ =
+                SharpDX.Direct2D1.LocalInterop.Calliint(_nativePointer, &textAnalyzer_, ((void**)(*(void**)_nativePointer))[21]);
                 ((SharpDX.DirectWrite.TextAnalyzer)textAnalyzer).NativePointer = textAnalyzer_;
                 __result__.CheckError();
             }
         }
-        
+
         /// <summary>	
         /// <p> Creates a number substitution object using a locale name, substitution method, and an indicator  whether to ignore user overrides (use NLS defaults for the given culture instead). </p>	
         /// </summary>	
@@ -944,19 +1019,21 @@ namespace SharpDX.DirectWrite {
         /// <msdn-id>dd368200</msdn-id>	
         /// <unmanaged>HRESULT IDWriteFactory::CreateNumberSubstitution([In] DWRITE_NUMBER_SUBSTITUTION_METHOD substitutionMethod,[In] const wchar_t* localeName,[In] BOOL ignoreUserOverride,[Out, Fast] IDWriteNumberSubstitution** numberSubstitution)</unmanaged>	
         /// <unmanaged-short>IDWriteFactory::CreateNumberSubstitution</unmanaged-short>	
-        internal void CreateNumberSubstitution(SharpDX.DirectWrite.NumberSubstitutionMethod substitutionMethod, string localeName, SharpDX.Mathematics.Interop.RawBool ignoreUserOverride, SharpDX.DirectWrite.NumberSubstitution numberSubstitution) {
-            unsafe {
+        internal void CreateNumberSubstitution(SharpDX.DirectWrite.NumberSubstitutionMethod substitutionMethod, string localeName, SharpDX.Mathematics.Interop.RawBool ignoreUserOverride, SharpDX.DirectWrite.NumberSubstitution numberSubstitution)
+        {
+            unsafe
+            {
                 IntPtr localeName_ = Utilities.StringToHGlobalUni(localeName);
                 IntPtr numberSubstitution_ = IntPtr.Zero;
                 SharpDX.Result __result__;
-                __result__= 
-				SharpDX.Direct2D1.LocalInterop.Calliint168(_nativePointer, unchecked((int)substitutionMethod), (void*)localeName_, ignoreUserOverride, &numberSubstitution_,((void**)(*(void**)_nativePointer))[22]);		
-                Marshal.FreeHGlobal(localeName_ );
+                __result__ =
+                SharpDX.Direct2D1.LocalInterop.Calliint168(_nativePointer, unchecked((int)substitutionMethod), (void*)localeName_, ignoreUserOverride, &numberSubstitution_, ((void**)(*(void**)_nativePointer))[22]);
+                Marshal.FreeHGlobal(localeName_);
                 ((SharpDX.DirectWrite.NumberSubstitution)numberSubstitution).NativePointer = numberSubstitution_;
                 __result__.CheckError();
             }
         }
-        
+
         /// <summary>	
         /// <p> Creates a glyph run analysis object, which encapsulates information used to render a glyph run. </p>	
         /// </summary>	
@@ -976,17 +1053,19 @@ namespace SharpDX.DirectWrite {
         /// <msdn-id>dd368198</msdn-id>	
         /// <unmanaged>HRESULT IDWriteFactory::CreateGlyphRunAnalysis([In] const DWRITE_GLYPH_RUN* glyphRun,[In] float pixelsPerDip,[In, Optional] const DWRITE_MATRIX* transform,[In] DWRITE_RENDERING_MODE renderingMode,[In] DWRITE_MEASURING_MODE measuringMode,[In] float baselineOriginX,[In] float baselineOriginY,[Out, Fast] IDWriteGlyphRunAnalysis** glyphRunAnalysis)</unmanaged>	
         /// <unmanaged-short>IDWriteFactory::CreateGlyphRunAnalysis</unmanaged-short>	
-        internal void CreateGlyphRunAnalysis(SharpDX.DirectWrite.GlyphRun glyphRun, float pixelsPerDip, SharpDX.Mathematics.Interop.RawMatrix3x2? transform, SharpDX.DirectWrite.RenderingMode renderingMode, SharpDX.Direct2D1.MeasuringMode measuringMode, float baselineOriginX, float baselineOriginY, SharpDX.DirectWrite.GlyphRunAnalysis glyphRunAnalysis) {
-            unsafe {
+        internal void CreateGlyphRunAnalysis(SharpDX.DirectWrite.GlyphRun glyphRun, float pixelsPerDip, SharpDX.Mathematics.Interop.RawMatrix3x2? transform, SharpDX.DirectWrite.RenderingMode renderingMode, SharpDX.Direct2D1.MeasuringMode measuringMode, float baselineOriginX, float baselineOriginY, SharpDX.DirectWrite.GlyphRunAnalysis glyphRunAnalysis)
+        {
+            unsafe
+            {
                 var glyphRun_ = new SharpDX.DirectWrite.GlyphRun.__Native();
                 glyphRun.__MarshalTo(ref glyphRun_);
                 SharpDX.Mathematics.Interop.RawMatrix3x2 transform_;
                 if (transform.HasValue)
-                    transform_ = transform.Value;				
+                    transform_ = transform.Value;
                 IntPtr glyphRunAnalysis_ = IntPtr.Zero;
                 SharpDX.Result __result__;
-                __result__= 
-				SharpDX.Direct2D1.LocalInterop.Calliint(_nativePointer, &glyphRun_, pixelsPerDip, (transform.HasValue)?&transform_:(void*)IntPtr.Zero, unchecked((int)renderingMode), unchecked((int)measuringMode), baselineOriginX, baselineOriginY, &glyphRunAnalysis_,((void**)(*(void**)_nativePointer))[23]);		
+                __result__ =
+                SharpDX.Direct2D1.LocalInterop.Calliint(_nativePointer, &glyphRun_, pixelsPerDip, (transform.HasValue) ? &transform_ : (void*)IntPtr.Zero, unchecked((int)renderingMode), unchecked((int)measuringMode), baselineOriginX, baselineOriginY, &glyphRunAnalysis_, ((void**)(*(void**)_nativePointer))[23]);
                 glyphRun.__MarshalFree(ref glyphRun_);
                 ((SharpDX.DirectWrite.GlyphRunAnalysis)glyphRunAnalysis).NativePointer = glyphRunAnalysis_;
                 __result__.CheckError();
@@ -1001,27 +1080,29 @@ namespace SharpDX.DirectWrite {
     /// <unmanaged>IDWriteFactory1</unmanaged>	
     /// <unmanaged-short>IDWriteFactory1</unmanaged-short>	
     [Guid("30572f99-dac6-41db-a16e-0486307e606a")]
-    public partial class Factory1 : SharpDX.DirectWrite.Factory {
+    public partial class Factory1 : SharpDX.DirectWrite.Factory
+    {
         /// <summary>
         /// Initializes a new instance of the <see cref="SharpDX.DirectWrite.Factory1"/> class.
         /// </summary>
         /// <param name="nativePtr">The native pointer.</param>	
-        public Factory1(IntPtr nativePtr) : base(nativePtr) {
+        public Factory1(IntPtr nativePtr) : base(nativePtr)
+        {
         }
 
-		/// <summary>
-		/// Performs an explicit conversion from <see cref="System.IntPtr"/> to <see cref="SharpDX.DirectWrite.Factory1"/>. (This method is a shortcut to <see cref="SharpDX.CppObject.NativePointer"/>) 
-		/// </summary>
-		/// <param name="nativePointer">The native pointer.</param>
-		/// <returns>
-		/// The result of the conversion.
-		/// </returns>
-		public static explicit operator SharpDX.DirectWrite.Factory1(IntPtr nativePointer)
-		{
-			return nativePointer == IntPtr.Zero ? null : new SharpDX.DirectWrite.Factory1(nativePointer);
-		}
-        
-        
+        /// <summary>
+        /// Performs an explicit conversion from <see cref="System.IntPtr"/> to <see cref="SharpDX.DirectWrite.Factory1"/>. (This method is a shortcut to <see cref="SharpDX.CppObject.NativePointer"/>) 
+        /// </summary>
+        /// <param name="nativePointer">The native pointer.</param>
+        /// <returns>
+        /// The result of the conversion.
+        /// </returns>
+        public static explicit operator SharpDX.DirectWrite.Factory1(IntPtr nativePointer)
+        {
+            return nativePointer == IntPtr.Zero ? null : new SharpDX.DirectWrite.Factory1(nativePointer);
+        }
+
+
         /// <summary>	
         /// <p>Gets a font collection representing the set of EUDC (end-user defined characters) fonts.</p>	
         /// </summary>	
@@ -1035,17 +1116,19 @@ namespace SharpDX.DirectWrite {
         /// <msdn-id>hh780403</msdn-id>	
         /// <unmanaged>HRESULT IDWriteFactory1::GetEudcFontCollection([Out] IDWriteFontCollection** fontCollection,[In] BOOL checkForUpdates)</unmanaged>	
         /// <unmanaged-short>IDWriteFactory1::GetEudcFontCollection</unmanaged-short>	
-        public void GetEudcFontCollection(out SharpDX.DirectWrite.FontCollection fontCollection, SharpDX.Mathematics.Interop.RawBool checkForUpdates) {
-            unsafe {
+        public void GetEudcFontCollection(out SharpDX.DirectWrite.FontCollection fontCollection, SharpDX.Mathematics.Interop.RawBool checkForUpdates)
+        {
+            unsafe
+            {
                 IntPtr fontCollection_ = IntPtr.Zero;
                 SharpDX.Result __result__;
-                __result__= 
-				SharpDX.Direct2D1.LocalInterop.Calliint162(_nativePointer, &fontCollection_, checkForUpdates,((void**)(*(void**)_nativePointer))[24]);		
-                fontCollection= (fontCollection_ == IntPtr.Zero)?null:new SharpDX.DirectWrite.FontCollection(fontCollection_);	
+                __result__ =
+                SharpDX.Direct2D1.LocalInterop.Calliint162(_nativePointer, &fontCollection_, checkForUpdates, ((void**)(*(void**)_nativePointer))[24]);
+                fontCollection = (fontCollection_ == IntPtr.Zero) ? null : new SharpDX.DirectWrite.FontCollection(fontCollection_);
                 __result__.CheckError();
             }
         }
-        
+
         /// <summary>	
         /// <p>Creates a rendering parameters object with the specified properties.</p>	
         /// </summary>	
@@ -1061,13 +1144,15 @@ namespace SharpDX.DirectWrite {
         /// <msdn-id>Hh780402</msdn-id>	
         /// <unmanaged>HRESULT IDWriteFactory1::CreateCustomRenderingParams([In] float gamma,[In] float enhancedContrast,[In] float enhancedContrastGrayscale,[In] float clearTypeLevel,[In] DWRITE_PIXEL_GEOMETRY pixelGeometry,[In] DWRITE_RENDERING_MODE renderingMode,[Out] IDWriteRenderingParams1** renderingParams)</unmanaged>	
         /// <unmanaged-short>IDWriteFactory1::CreateCustomRenderingParams</unmanaged-short>	
-        public void CreateCustomRenderingParams(float gamma, float enhancedContrast, float enhancedContrastGrayscale, float clearTypeLevel, SharpDX.DirectWrite.PixelGeometry pixelGeometry, SharpDX.DirectWrite.RenderingMode renderingMode, out SharpDX.DirectWrite.RenderingParams1 renderingParams) {
-            unsafe {
+        public void CreateCustomRenderingParams(float gamma, float enhancedContrast, float enhancedContrastGrayscale, float clearTypeLevel, SharpDX.DirectWrite.PixelGeometry pixelGeometry, SharpDX.DirectWrite.RenderingMode renderingMode, out SharpDX.DirectWrite.RenderingParams1 renderingParams)
+        {
+            unsafe
+            {
                 IntPtr renderingParams_ = IntPtr.Zero;
                 SharpDX.Result __result__;
-                __result__= 
-				SharpDX.Direct2D1.LocalInterop.Calliint(_nativePointer, gamma, enhancedContrast, enhancedContrastGrayscale, clearTypeLevel, unchecked((int)pixelGeometry), unchecked((int)renderingMode), &renderingParams_,((void**)(*(void**)_nativePointer))[25]);		
-                renderingParams= (renderingParams_ == IntPtr.Zero)?null:new SharpDX.DirectWrite.RenderingParams1(renderingParams_);	
+                __result__ =
+                SharpDX.Direct2D1.LocalInterop.Calliint(_nativePointer, gamma, enhancedContrast, enhancedContrastGrayscale, clearTypeLevel, unchecked((int)pixelGeometry), unchecked((int)renderingMode), &renderingParams_, ((void**)(*(void**)_nativePointer))[25]);
+                renderingParams = (renderingParams_ == IntPtr.Zero) ? null : new SharpDX.DirectWrite.RenderingParams1(renderingParams_);
                 __result__.CheckError();
             }
         }
@@ -1080,27 +1165,29 @@ namespace SharpDX.DirectWrite {
     /// <unmanaged>IDWriteFont</unmanaged>	
     /// <unmanaged-short>IDWriteFont</unmanaged-short>	
     [Guid("acd16696-8c14-4f5d-877e-fe3fc1d32737")]
-    public partial class Font : SharpDX.ComObject {
+    public partial class Font : SharpDX.ComObject
+    {
         /// <summary>
         /// Initializes a new instance of the <see cref="SharpDX.DirectWrite.Font"/> class.
         /// </summary>
         /// <param name="nativePtr">The native pointer.</param>	
-        public Font(IntPtr nativePtr) : base(nativePtr) {
+        public Font(IntPtr nativePtr) : base(nativePtr)
+        {
         }
 
-		/// <summary>
-		/// Performs an explicit conversion from <see cref="System.IntPtr"/> to <see cref="SharpDX.DirectWrite.Font"/>. (This method is a shortcut to <see cref="SharpDX.CppObject.NativePointer"/>) 
-		/// </summary>
-		/// <param name="nativePointer">The native pointer.</param>
-		/// <returns>
-		/// The result of the conversion.
-		/// </returns>
-		public static explicit operator SharpDX.DirectWrite.Font(IntPtr nativePointer)
-		{
-			return nativePointer == IntPtr.Zero ? null : new SharpDX.DirectWrite.Font(nativePointer);
-		}
-        
-        
+        /// <summary>
+        /// Performs an explicit conversion from <see cref="System.IntPtr"/> to <see cref="SharpDX.DirectWrite.Font"/>. (This method is a shortcut to <see cref="SharpDX.CppObject.NativePointer"/>) 
+        /// </summary>
+        /// <param name="nativePointer">The native pointer.</param>
+        /// <returns>
+        /// The result of the conversion.
+        /// </returns>
+        public static explicit operator SharpDX.DirectWrite.Font(IntPtr nativePointer)
+        {
+            return nativePointer == IntPtr.Zero ? null : new SharpDX.DirectWrite.Font(nativePointer);
+        }
+
+
         /// <summary>	
         /// <p> Gets the font family to which the specified font belongs. </p>	
         /// </summary>	
@@ -1109,10 +1196,11 @@ namespace SharpDX.DirectWrite {
         /// <unmanaged>GetFontFamily</unmanaged>	
         /// <unmanaged-short>GetFontFamily</unmanaged-short>	
         /// <unmanaged>HRESULT IDWriteFont::GetFontFamily([Out] IDWriteFontFamily** fontFamily)</unmanaged>
-        public SharpDX.DirectWrite.FontFamily FontFamily {
-                get { SharpDX.DirectWrite.FontFamily __output__; GetFontFamily(out __output__); return __output__; }
+        public SharpDX.DirectWrite.FontFamily FontFamily
+        {
+            get { SharpDX.DirectWrite.FontFamily __output__; GetFontFamily(out __output__); return __output__; }
         }
-        
+
         /// <summary>	
         /// <p> Gets the weight, or stroke thickness, of the specified font. </p>	
         /// </summary>	
@@ -1121,10 +1209,11 @@ namespace SharpDX.DirectWrite {
         /// <unmanaged>GetWeight</unmanaged>	
         /// <unmanaged-short>GetWeight</unmanaged-short>	
         /// <unmanaged>DWRITE_FONT_WEIGHT IDWriteFont::GetWeight()</unmanaged>
-        public SharpDX.DirectWrite.FontWeight Weight {
-                get { return GetWeight(); }
+        public SharpDX.DirectWrite.FontWeight Weight
+        {
+            get { return GetWeight(); }
         }
-        
+
         /// <summary>	
         /// <p> Gets the stretch, or width, of the specified font. </p>	
         /// </summary>	
@@ -1133,10 +1222,11 @@ namespace SharpDX.DirectWrite {
         /// <unmanaged>GetStretch</unmanaged>	
         /// <unmanaged-short>GetStretch</unmanaged-short>	
         /// <unmanaged>DWRITE_FONT_STRETCH IDWriteFont::GetStretch()</unmanaged>
-        public SharpDX.DirectWrite.FontStretch Stretch {
-                get { return GetStretch(); }
+        public SharpDX.DirectWrite.FontStretch Stretch
+        {
+            get { return GetStretch(); }
         }
-        
+
         /// <summary>	
         /// <p> Gets the style, or slope, of the specified font. </p>	
         /// </summary>	
@@ -1145,10 +1235,11 @@ namespace SharpDX.DirectWrite {
         /// <unmanaged>GetStyle</unmanaged>	
         /// <unmanaged-short>GetStyle</unmanaged-short>	
         /// <unmanaged>DWRITE_FONT_STYLE IDWriteFont::GetStyle()</unmanaged>
-        public SharpDX.DirectWrite.FontStyle Style {
-                get { return GetStyle(); }
+        public SharpDX.DirectWrite.FontStyle Style
+        {
+            get { return GetStyle(); }
         }
-        
+
         /// <summary>	
         /// <p> Determines whether the font is a symbol font. </p>	
         /// </summary>	
@@ -1157,10 +1248,11 @@ namespace SharpDX.DirectWrite {
         /// <unmanaged>IsSymbolFont</unmanaged>	
         /// <unmanaged-short>IsSymbolFont</unmanaged-short>	
         /// <unmanaged>BOOL IDWriteFont::IsSymbolFont()</unmanaged>
-        public SharpDX.Mathematics.Interop.RawBool IsSymbolFont {
-                get { return IsSymbolFont_(); }
+        public SharpDX.Mathematics.Interop.RawBool IsSymbolFont
+        {
+            get { return IsSymbolFont_(); }
         }
-        
+
         /// <summary>	
         /// <p> Gets a localized strings collection containing the face names for the font (such as Regular or Bold), indexed by locale name. </p>	
         /// </summary>	
@@ -1169,10 +1261,11 @@ namespace SharpDX.DirectWrite {
         /// <unmanaged>GetFaceNames</unmanaged>	
         /// <unmanaged-short>GetFaceNames</unmanaged-short>	
         /// <unmanaged>HRESULT IDWriteFont::GetFaceNames([Out] IDWriteLocalizedStrings** names)</unmanaged>
-        public SharpDX.DirectWrite.LocalizedStrings FaceNames {
-                get { SharpDX.DirectWrite.LocalizedStrings __output__; GetFaceNames(out __output__); return __output__; }
+        public SharpDX.DirectWrite.LocalizedStrings FaceNames
+        {
+            get { SharpDX.DirectWrite.LocalizedStrings __output__; GetFaceNames(out __output__); return __output__; }
         }
-        
+
         /// <summary>	
         /// <p> Gets a value that indicates what simulations are applied to the specified font. </p>	
         /// </summary>	
@@ -1181,10 +1274,11 @@ namespace SharpDX.DirectWrite {
         /// <unmanaged>GetSimulations</unmanaged>	
         /// <unmanaged-short>GetSimulations</unmanaged-short>	
         /// <unmanaged>DWRITE_FONT_SIMULATIONS IDWriteFont::GetSimulations()</unmanaged>
-        public SharpDX.DirectWrite.FontSimulations Simulations {
-                get { return GetSimulations(); }
+        public SharpDX.DirectWrite.FontSimulations Simulations
+        {
+            get { return GetSimulations(); }
         }
-        
+
         /// <summary>	
         /// <p> Obtains design units and common metrics for the font face. These metrics are applicable to all the glyphs within a font face and are used by applications for layout calculations. </p>	
         /// </summary>	
@@ -1193,10 +1287,11 @@ namespace SharpDX.DirectWrite {
         /// <unmanaged>GetMetrics</unmanaged>	
         /// <unmanaged-short>GetMetrics</unmanaged-short>	
         /// <unmanaged>void IDWriteFont::GetMetrics([Out] DWRITE_FONT_METRICS* fontMetrics)</unmanaged>
-        public SharpDX.DirectWrite.FontMetrics Metrics {
-                get { SharpDX.DirectWrite.FontMetrics __output__; GetMetrics(out __output__); return __output__; }
+        public SharpDX.DirectWrite.FontMetrics Metrics
+        {
+            get { SharpDX.DirectWrite.FontMetrics __output__; GetMetrics(out __output__); return __output__; }
         }
-        
+
         /// <summary>	
         /// <p> Gets the font family to which the specified font belongs. </p>	
         /// </summary>	
@@ -1206,17 +1301,19 @@ namespace SharpDX.DirectWrite {
         /// <msdn-id>dd371143</msdn-id>	
         /// <unmanaged>HRESULT IDWriteFont::GetFontFamily([Out] IDWriteFontFamily** fontFamily)</unmanaged>	
         /// <unmanaged-short>IDWriteFont::GetFontFamily</unmanaged-short>	
-        internal void GetFontFamily(out SharpDX.DirectWrite.FontFamily fontFamily) {
-            unsafe {
+        internal void GetFontFamily(out SharpDX.DirectWrite.FontFamily fontFamily)
+        {
+            unsafe
+            {
                 IntPtr fontFamily_ = IntPtr.Zero;
                 SharpDX.Result __result__;
-                __result__= 
-				SharpDX.Direct2D1.LocalInterop.Calliint(_nativePointer, &fontFamily_,((void**)(*(void**)_nativePointer))[3]);		
-                fontFamily= (fontFamily_ == IntPtr.Zero)?null:new SharpDX.DirectWrite.FontFamily(fontFamily_);	
+                __result__ =
+                SharpDX.Direct2D1.LocalInterop.Calliint(_nativePointer, &fontFamily_, ((void**)(*(void**)_nativePointer))[3]);
+                fontFamily = (fontFamily_ == IntPtr.Zero) ? null : new SharpDX.DirectWrite.FontFamily(fontFamily_);
                 __result__.CheckError();
             }
         }
-        
+
         /// <summary>	
         /// <p> Gets the weight, or stroke thickness, of the specified font. </p>	
         /// </summary>	
@@ -1225,15 +1322,17 @@ namespace SharpDX.DirectWrite {
         /// <msdn-id>dd371162</msdn-id>	
         /// <unmanaged>DWRITE_FONT_WEIGHT IDWriteFont::GetWeight()</unmanaged>	
         /// <unmanaged-short>IDWriteFont::GetWeight</unmanaged-short>	
-        internal SharpDX.DirectWrite.FontWeight GetWeight() {
-            unsafe {
+        internal SharpDX.DirectWrite.FontWeight GetWeight()
+        {
+            unsafe
+            {
                 SharpDX.DirectWrite.FontWeight __result__;
-                __result__= 
-				SharpDX.Direct2D1.LocalInterop.CalliSharpDXDirectWriteFontWeight(_nativePointer,((void**)(*(void**)_nativePointer))[4]);		
+                __result__ =
+                SharpDX.Direct2D1.LocalInterop.CalliSharpDXDirectWriteFontWeight(_nativePointer, ((void**)(*(void**)_nativePointer))[4]);
                 return __result__;
             }
         }
-        
+
         /// <summary>	
         /// <p> Gets the stretch, or width, of the specified font. </p>	
         /// </summary>	
@@ -1242,15 +1341,17 @@ namespace SharpDX.DirectWrite {
         /// <msdn-id>dd371156</msdn-id>	
         /// <unmanaged>DWRITE_FONT_STRETCH IDWriteFont::GetStretch()</unmanaged>	
         /// <unmanaged-short>IDWriteFont::GetStretch</unmanaged-short>	
-        internal SharpDX.DirectWrite.FontStretch GetStretch() {
-            unsafe {
+        internal SharpDX.DirectWrite.FontStretch GetStretch()
+        {
+            unsafe
+            {
                 SharpDX.DirectWrite.FontStretch __result__;
-                __result__= 
-				SharpDX.Direct2D1.LocalInterop.CalliSharpDXDirectWriteFontStretch(_nativePointer,((void**)(*(void**)_nativePointer))[5]);		
+                __result__ =
+                SharpDX.Direct2D1.LocalInterop.CalliSharpDXDirectWriteFontStretch(_nativePointer, ((void**)(*(void**)_nativePointer))[5]);
                 return __result__;
             }
         }
-        
+
         /// <summary>	
         /// <p> Gets the style, or slope, of the specified font. </p>	
         /// </summary>	
@@ -1259,15 +1360,17 @@ namespace SharpDX.DirectWrite {
         /// <msdn-id>dd371159</msdn-id>	
         /// <unmanaged>DWRITE_FONT_STYLE IDWriteFont::GetStyle()</unmanaged>	
         /// <unmanaged-short>IDWriteFont::GetStyle</unmanaged-short>	
-        internal SharpDX.DirectWrite.FontStyle GetStyle() {
-            unsafe {
+        internal SharpDX.DirectWrite.FontStyle GetStyle()
+        {
+            unsafe
+            {
                 SharpDX.DirectWrite.FontStyle __result__;
-                __result__= 
-				SharpDX.Direct2D1.LocalInterop.CalliSharpDXDirectWriteFontStyle(_nativePointer,((void**)(*(void**)_nativePointer))[6]);		
+                __result__ =
+                SharpDX.Direct2D1.LocalInterop.CalliSharpDXDirectWriteFontStyle(_nativePointer, ((void**)(*(void**)_nativePointer))[6]);
                 return __result__;
             }
         }
-        
+
         /// <summary>	
         /// <p> Determines whether the font is a symbol font. </p>	
         /// </summary>	
@@ -1276,15 +1379,17 @@ namespace SharpDX.DirectWrite {
         /// <msdn-id>dd371168</msdn-id>	
         /// <unmanaged>BOOL IDWriteFont::IsSymbolFont()</unmanaged>	
         /// <unmanaged-short>IDWriteFont::IsSymbolFont</unmanaged-short>	
-        internal SharpDX.Mathematics.Interop.RawBool IsSymbolFont_() {
-            unsafe {
+        internal SharpDX.Mathematics.Interop.RawBool IsSymbolFont_()
+        {
+            unsafe
+            {
                 SharpDX.Mathematics.Interop.RawBool __result__;
-                __result__= 
-				SharpDX.Direct2D1.LocalInterop.CalliSharpDXMathematicsInteropRawBool(_nativePointer,((void**)(*(void**)_nativePointer))[7]);		
+                __result__ =
+                SharpDX.Direct2D1.LocalInterop.CalliSharpDXMathematicsInteropRawBool(_nativePointer, ((void**)(*(void**)_nativePointer))[7]);
                 return __result__;
             }
         }
-        
+
         /// <summary>	
         /// <p> Gets a localized strings collection containing the face names for the font (such as Regular or Bold), indexed by locale name. </p>	
         /// </summary>	
@@ -1294,17 +1399,19 @@ namespace SharpDX.DirectWrite {
         /// <msdn-id>dd371140</msdn-id>	
         /// <unmanaged>HRESULT IDWriteFont::GetFaceNames([Out] IDWriteLocalizedStrings** names)</unmanaged>	
         /// <unmanaged-short>IDWriteFont::GetFaceNames</unmanaged-short>	
-        internal void GetFaceNames(out SharpDX.DirectWrite.LocalizedStrings names) {
-            unsafe {
+        internal void GetFaceNames(out SharpDX.DirectWrite.LocalizedStrings names)
+        {
+            unsafe
+            {
                 IntPtr names_ = IntPtr.Zero;
                 SharpDX.Result __result__;
-                __result__= 
-				SharpDX.Direct2D1.LocalInterop.Calliint(_nativePointer, &names_,((void**)(*(void**)_nativePointer))[8]);		
-                names= (names_ == IntPtr.Zero)?null:new SharpDX.DirectWrite.LocalizedStrings(names_);	
+                __result__ =
+                SharpDX.Direct2D1.LocalInterop.Calliint(_nativePointer, &names_, ((void**)(*(void**)_nativePointer))[8]);
+                names = (names_ == IntPtr.Zero) ? null : new SharpDX.DirectWrite.LocalizedStrings(names_);
                 __result__.CheckError();
             }
         }
-        
+
         /// <summary>	
         /// <p> Gets a localized strings collection containing the specified informational strings, indexed by locale name. </p>	
         /// </summary>	
@@ -1318,20 +1425,22 @@ namespace SharpDX.DirectWrite {
         /// <msdn-id>dd371147</msdn-id>	
         /// <unmanaged>HRESULT IDWriteFont::GetInformationalStrings([In] DWRITE_INFORMATIONAL_STRING_ID informationalStringID,[Out, Optional] IDWriteLocalizedStrings** informationalStrings,[Out] BOOL* exists)</unmanaged>	
         /// <unmanaged-short>IDWriteFont::GetInformationalStrings</unmanaged-short>	
-        public SharpDX.Mathematics.Interop.RawBool GetInformationalStrings(SharpDX.DirectWrite.InformationalStringId informationalStringID, out SharpDX.DirectWrite.LocalizedStrings informationalStrings) {
-            unsafe {
+        public SharpDX.Mathematics.Interop.RawBool GetInformationalStrings(SharpDX.DirectWrite.InformationalStringId informationalStringID, out SharpDX.DirectWrite.LocalizedStrings informationalStrings)
+        {
+            unsafe
+            {
                 IntPtr informationalStrings_ = IntPtr.Zero;
                 SharpDX.Mathematics.Interop.RawBool exists;
                 exists = new SharpDX.Mathematics.Interop.RawBool();
                 SharpDX.Result __result__;
-                __result__= 
-				SharpDX.Direct2D1.LocalInterop.Calliint(_nativePointer, unchecked((int)informationalStringID), &informationalStrings_, &exists,((void**)(*(void**)_nativePointer))[9]);		
-                informationalStrings= (informationalStrings_ == IntPtr.Zero)?null:new SharpDX.DirectWrite.LocalizedStrings(informationalStrings_);	
+                __result__ =
+                SharpDX.Direct2D1.LocalInterop.Calliint(_nativePointer, unchecked((int)informationalStringID), &informationalStrings_, &exists, ((void**)(*(void**)_nativePointer))[9]);
+                informationalStrings = (informationalStrings_ == IntPtr.Zero) ? null : new SharpDX.DirectWrite.LocalizedStrings(informationalStrings_);
                 __result__.CheckError();
                 return exists;
             }
         }
-        
+
         /// <summary>	
         /// <p> Gets a value that indicates what simulations are applied to the specified font. </p>	
         /// </summary>	
@@ -1340,15 +1449,17 @@ namespace SharpDX.DirectWrite {
         /// <msdn-id>dd371153</msdn-id>	
         /// <unmanaged>DWRITE_FONT_SIMULATIONS IDWriteFont::GetSimulations()</unmanaged>	
         /// <unmanaged-short>IDWriteFont::GetSimulations</unmanaged-short>	
-        internal SharpDX.DirectWrite.FontSimulations GetSimulations() {
-            unsafe {
+        internal SharpDX.DirectWrite.FontSimulations GetSimulations()
+        {
+            unsafe
+            {
                 SharpDX.DirectWrite.FontSimulations __result__;
-                __result__= 
-				SharpDX.Direct2D1.LocalInterop.CalliSharpDXDirectWriteFontSimulations(_nativePointer,((void**)(*(void**)_nativePointer))[10]);		
+                __result__ =
+                SharpDX.Direct2D1.LocalInterop.CalliSharpDXDirectWriteFontSimulations(_nativePointer, ((void**)(*(void**)_nativePointer))[10]);
                 return __result__;
             }
         }
-        
+
         /// <summary>	
         /// <p> Obtains design units and common metrics for the font face. These metrics are applicable to all the glyphs within a font face and are used by applications for layout calculations. </p>	
         /// </summary>	
@@ -1357,14 +1468,16 @@ namespace SharpDX.DirectWrite {
         /// <msdn-id>dd371149</msdn-id>	
         /// <unmanaged>void IDWriteFont::GetMetrics([Out] DWRITE_FONT_METRICS* fontMetrics)</unmanaged>	
         /// <unmanaged-short>IDWriteFont::GetMetrics</unmanaged-short>	
-        internal void GetMetrics(out SharpDX.DirectWrite.FontMetrics fontMetrics) {
-            unsafe {
+        internal void GetMetrics(out SharpDX.DirectWrite.FontMetrics fontMetrics)
+        {
+            unsafe
+            {
                 fontMetrics = new SharpDX.DirectWrite.FontMetrics();
                 fixed (void* fontMetrics_ = &fontMetrics)
-                    SharpDX.Direct2D1.LocalInterop.Callivoid(_nativePointer, fontMetrics_,((void**)(*(void**)_nativePointer))[11]);		
+                    SharpDX.Direct2D1.LocalInterop.Callivoid(_nativePointer, fontMetrics_, ((void**)(*(void**)_nativePointer))[11]);
             }
         }
-        
+
         /// <summary>	
         /// <p> Determines whether the font supports a specified character. </p>	
         /// </summary>	
@@ -1374,18 +1487,20 @@ namespace SharpDX.DirectWrite {
         /// <msdn-id>dd371165</msdn-id>	
         /// <unmanaged>HRESULT IDWriteFont::HasCharacter([In] unsigned int unicodeValue,[Out] BOOL* exists)</unmanaged>	
         /// <unmanaged-short>IDWriteFont::HasCharacter</unmanaged-short>	
-        public SharpDX.Mathematics.Interop.RawBool HasCharacter(int unicodeValue) {
-            unsafe {
+        public SharpDX.Mathematics.Interop.RawBool HasCharacter(int unicodeValue)
+        {
+            unsafe
+            {
                 SharpDX.Mathematics.Interop.RawBool exists;
                 exists = new SharpDX.Mathematics.Interop.RawBool();
                 SharpDX.Result __result__;
-                __result__= 
-				SharpDX.Direct2D1.LocalInterop.Calliint(_nativePointer, unicodeValue, &exists,((void**)(*(void**)_nativePointer))[12]);		
+                __result__ =
+                SharpDX.Direct2D1.LocalInterop.Calliint(_nativePointer, unicodeValue, &exists, ((void**)(*(void**)_nativePointer))[12]);
                 __result__.CheckError();
                 return exists;
             }
         }
-        
+
         /// <summary>	
         /// <p> Creates a font face object for the font. </p>	
         /// </summary>	
@@ -1395,12 +1510,14 @@ namespace SharpDX.DirectWrite {
         /// <msdn-id>dd371137</msdn-id>	
         /// <unmanaged>HRESULT IDWriteFont::CreateFontFace([Out, Fast] IDWriteFontFace** fontFace)</unmanaged>	
         /// <unmanaged-short>IDWriteFont::CreateFontFace</unmanaged-short>	
-        internal void CreateFontFace(SharpDX.DirectWrite.FontFace fontFace) {
-            unsafe {
+        internal void CreateFontFace(SharpDX.DirectWrite.FontFace fontFace)
+        {
+            unsafe
+            {
                 IntPtr fontFace_ = IntPtr.Zero;
                 SharpDX.Result __result__;
-                __result__= 
-				SharpDX.Direct2D1.LocalInterop.Calliint(_nativePointer, &fontFace_,((void**)(*(void**)_nativePointer))[13]);		
+                __result__ =
+                SharpDX.Direct2D1.LocalInterop.Calliint(_nativePointer, &fontFace_, ((void**)(*(void**)_nativePointer))[13]);
                 ((SharpDX.DirectWrite.FontFace)fontFace).NativePointer = fontFace_;
                 __result__.CheckError();
             }
@@ -1414,27 +1531,29 @@ namespace SharpDX.DirectWrite {
     /// <unmanaged>IDWriteFont1</unmanaged>	
     /// <unmanaged-short>IDWriteFont1</unmanaged-short>	
     [Guid("acd16696-8c14-4f5d-877e-fe3fc1d32738")]
-    public partial class Font1 : SharpDX.DirectWrite.Font {
+    public partial class Font1 : SharpDX.DirectWrite.Font
+    {
         /// <summary>
         /// Initializes a new instance of the <see cref="SharpDX.DirectWrite.Font1"/> class.
         /// </summary>
         /// <param name="nativePtr">The native pointer.</param>	
-        public Font1(IntPtr nativePtr) : base(nativePtr) {
+        public Font1(IntPtr nativePtr) : base(nativePtr)
+        {
         }
 
-		/// <summary>
-		/// Performs an explicit conversion from <see cref="System.IntPtr"/> to <see cref="SharpDX.DirectWrite.Font1"/>. (This method is a shortcut to <see cref="SharpDX.CppObject.NativePointer"/>) 
-		/// </summary>
-		/// <param name="nativePointer">The native pointer.</param>
-		/// <returns>
-		/// The result of the conversion.
-		/// </returns>
-		public static explicit operator SharpDX.DirectWrite.Font1(IntPtr nativePointer)
-		{
-			return nativePointer == IntPtr.Zero ? null : new SharpDX.DirectWrite.Font1(nativePointer);
-		}
-        
-        
+        /// <summary>
+        /// Performs an explicit conversion from <see cref="System.IntPtr"/> to <see cref="SharpDX.DirectWrite.Font1"/>. (This method is a shortcut to <see cref="SharpDX.CppObject.NativePointer"/>) 
+        /// </summary>
+        /// <param name="nativePointer">The native pointer.</param>
+        /// <returns>
+        /// The result of the conversion.
+        /// </returns>
+        public static explicit operator SharpDX.DirectWrite.Font1(IntPtr nativePointer)
+        {
+            return nativePointer == IntPtr.Zero ? null : new SharpDX.DirectWrite.Font1(nativePointer);
+        }
+
+
         /// <summary>	
         /// <p> Obtains design units and common metrics for the font face. These metrics are applicable to all the glyphs within a font face and are used by applications for layout calculations. </p>	
         /// </summary>	
@@ -1443,10 +1562,11 @@ namespace SharpDX.DirectWrite {
         /// <unmanaged>GetMetrics</unmanaged>	
         /// <unmanaged-short>GetMetrics</unmanaged-short>	
         /// <unmanaged>void IDWriteFont1::GetMetrics([Out] DWRITE_FONT_METRICS1* fontMetrics)</unmanaged>
-        public SharpDX.DirectWrite.FontMetrics1 Metrics {
-                get { SharpDX.DirectWrite.FontMetrics1 __output__; GetMetrics(out __output__); return __output__; }
+        public new SharpDX.DirectWrite.FontMetrics1 Metrics
+        {
+            get { SharpDX.DirectWrite.FontMetrics1 __output__; GetMetrics(out __output__); return __output__; }
         }
-        
+
         /// <summary>	
         /// <p>Gets the PANOSE values from the font and is used for font selection and matching.</p>	
         /// </summary>	
@@ -1458,10 +1578,11 @@ namespace SharpDX.DirectWrite {
         /// <unmanaged>GetPanose</unmanaged>	
         /// <unmanaged-short>GetPanose</unmanaged-short>	
         /// <unmanaged>void IDWriteFont1::GetPanose([Out] DWRITE_PANOSE* panose)</unmanaged>
-        public SharpDX.DirectWrite.Panose Panose {
-                get { SharpDX.DirectWrite.Panose __output__; GetPanose(out __output__); return __output__; }
+        public SharpDX.DirectWrite.Panose Panose
+        {
+            get { SharpDX.DirectWrite.Panose __output__; GetPanose(out __output__); return __output__; }
         }
-        
+
         /// <summary>	
         /// <p>Determines if the font is monospaced, that is, the characters are the same fixed-pitch width (non-proportional).</p>	
         /// </summary>	
@@ -1470,10 +1591,11 @@ namespace SharpDX.DirectWrite {
         /// <unmanaged>IsMonospacedFont</unmanaged>	
         /// <unmanaged-short>IsMonospacedFont</unmanaged-short>	
         /// <unmanaged>BOOL IDWriteFont1::IsMonospacedFont()</unmanaged>
-        public SharpDX.Mathematics.Interop.RawBool IsMonospacedFont {
-                get { return IsMonospacedFont_(); }
+        public SharpDX.Mathematics.Interop.RawBool IsMonospacedFont
+        {
+            get { return IsMonospacedFont_(); }
         }
-        
+
         /// <summary>	
         /// <p> Obtains design units and common metrics for the font face. These metrics are applicable to all the glyphs within a font face and are used by applications for layout calculations. </p>	
         /// </summary>	
@@ -1482,14 +1604,16 @@ namespace SharpDX.DirectWrite {
         /// <msdn-id>Hh780405</msdn-id>	
         /// <unmanaged>void IDWriteFont1::GetMetrics([Out] DWRITE_FONT_METRICS1* fontMetrics)</unmanaged>	
         /// <unmanaged-short>IDWriteFont1::GetMetrics</unmanaged-short>	
-        internal void GetMetrics(out SharpDX.DirectWrite.FontMetrics1 fontMetrics) {
-            unsafe {
+        internal void GetMetrics(out SharpDX.DirectWrite.FontMetrics1 fontMetrics)
+        {
+            unsafe
+            {
                 fontMetrics = new SharpDX.DirectWrite.FontMetrics1();
                 fixed (void* fontMetrics_ = &fontMetrics)
-                    SharpDX.Direct2D1.LocalInterop.Callivoid(_nativePointer, fontMetrics_,((void**)(*(void**)_nativePointer))[14]);		
+                    SharpDX.Direct2D1.LocalInterop.Callivoid(_nativePointer, fontMetrics_, ((void**)(*(void**)_nativePointer))[14]);
             }
         }
-        
+
         /// <summary>	
         /// <p>Gets the PANOSE values from the font and is used for font selection and matching.</p>	
         /// </summary>	
@@ -1501,15 +1625,17 @@ namespace SharpDX.DirectWrite {
         /// <msdn-id>Hh780406</msdn-id>	
         /// <unmanaged>void IDWriteFont1::GetPanose([Out] DWRITE_PANOSE* panose)</unmanaged>	
         /// <unmanaged-short>IDWriteFont1::GetPanose</unmanaged-short>	
-        internal void GetPanose(out SharpDX.DirectWrite.Panose anoseRef) {
-            unsafe {
+        internal void GetPanose(out SharpDX.DirectWrite.Panose anoseRef)
+        {
+            unsafe
+            {
                 var anoseRef_ = new SharpDX.DirectWrite.Panose.__Native();
-                SharpDX.Direct2D1.LocalInterop.Callivoid(_nativePointer, &anoseRef_,((void**)(*(void**)_nativePointer))[15]);		
+                SharpDX.Direct2D1.LocalInterop.Callivoid(_nativePointer, &anoseRef_, ((void**)(*(void**)_nativePointer))[15]);
                 anoseRef = new SharpDX.DirectWrite.Panose();
                 anoseRef.__MarshalFrom(ref anoseRef_);
             }
         }
-        
+
         /// <summary>	
         /// <p>Retrieves the list of character ranges supported by a font.</p>	
         /// </summary>	
@@ -1524,18 +1650,20 @@ namespace SharpDX.DirectWrite {
         /// <msdn-id>Hh780407</msdn-id>	
         /// <unmanaged>HRESULT IDWriteFont1::GetUnicodeRanges([In] unsigned int maxRangeCount,[Out, Buffer, Optional] DWRITE_UNICODE_RANGE* unicodeRanges,[Out] unsigned int* actualRangeCount)</unmanaged>	
         /// <unmanaged-short>IDWriteFont1::GetUnicodeRanges</unmanaged-short>	
-        public void GetUnicodeRanges(int maxRangeCount, SharpDX.DirectWrite.UnicodeRange[] unicodeRanges, out int actualRangeCount) {
-            unsafe {
+        public void GetUnicodeRanges(int maxRangeCount, SharpDX.DirectWrite.UnicodeRange[] unicodeRanges, out int actualRangeCount)
+        {
+            unsafe
+            {
                 SharpDX.DirectWrite.UnicodeRange[] unicodeRanges__ = unicodeRanges;
                 SharpDX.Result __result__;
                 fixed (void* unicodeRanges_ = unicodeRanges__)
                     fixed (void* actualRangeCount_ = &actualRangeCount)
-                        __result__= 
-        				SharpDX.Direct2D1.LocalInterop.Calliint(_nativePointer, maxRangeCount, unicodeRanges_, actualRangeCount_,((void**)(*(void**)_nativePointer))[16]);		
+                        __result__ =
+                        SharpDX.Direct2D1.LocalInterop.Calliint(_nativePointer, maxRangeCount, unicodeRanges_, actualRangeCount_, ((void**)(*(void**)_nativePointer))[16]);
                 __result__.CheckError();
             }
         }
-        
+
         /// <summary>	
         /// <p>Determines if the font is monospaced, that is, the characters are the same fixed-pitch width (non-proportional).</p>	
         /// </summary>	
@@ -1544,11 +1672,13 @@ namespace SharpDX.DirectWrite {
         /// <msdn-id>Hh780408</msdn-id>	
         /// <unmanaged>BOOL IDWriteFont1::IsMonospacedFont()</unmanaged>	
         /// <unmanaged-short>IDWriteFont1::IsMonospacedFont</unmanaged-short>	
-        internal SharpDX.Mathematics.Interop.RawBool IsMonospacedFont_() {
-            unsafe {
+        internal SharpDX.Mathematics.Interop.RawBool IsMonospacedFont_()
+        {
+            unsafe
+            {
                 SharpDX.Mathematics.Interop.RawBool __result__;
-                __result__= 
-				SharpDX.Direct2D1.LocalInterop.CalliSharpDXMathematicsInteropRawBool(_nativePointer,((void**)(*(void**)_nativePointer))[17]);		
+                __result__ =
+                SharpDX.Direct2D1.LocalInterop.CalliSharpDXMathematicsInteropRawBool(_nativePointer, ((void**)(*(void**)_nativePointer))[17]);
                 return __result__;
             }
         }
@@ -1576,27 +1706,29 @@ namespace SharpDX.DirectWrite {
     /// <unmanaged>IDWriteFontCollection</unmanaged>	
     /// <unmanaged-short>IDWriteFontCollection</unmanaged-short>	
     [Guid("a84cee02-3eea-4eee-a827-87c1a02a0fcc")]
-    public partial class FontCollection : SharpDX.ComObject {
+    public partial class FontCollection : SharpDX.ComObject
+    {
         /// <summary>
         /// Initializes a new instance of the <see cref="SharpDX.DirectWrite.FontCollection"/> class.
         /// </summary>
         /// <param name="nativePtr">The native pointer.</param>	
-        public FontCollection(IntPtr nativePtr) : base(nativePtr) {
+        public FontCollection(IntPtr nativePtr) : base(nativePtr)
+        {
         }
 
-		/// <summary>
-		/// Performs an explicit conversion from <see cref="System.IntPtr"/> to <see cref="SharpDX.DirectWrite.FontCollection"/>. (This method is a shortcut to <see cref="SharpDX.CppObject.NativePointer"/>) 
-		/// </summary>
-		/// <param name="nativePointer">The native pointer.</param>
-		/// <returns>
-		/// The result of the conversion.
-		/// </returns>
-		public static explicit operator SharpDX.DirectWrite.FontCollection(IntPtr nativePointer)
-		{
-			return nativePointer == IntPtr.Zero ? null : new SharpDX.DirectWrite.FontCollection(nativePointer);
-		}
-        
-        
+        /// <summary>
+        /// Performs an explicit conversion from <see cref="System.IntPtr"/> to <see cref="SharpDX.DirectWrite.FontCollection"/>. (This method is a shortcut to <see cref="SharpDX.CppObject.NativePointer"/>) 
+        /// </summary>
+        /// <param name="nativePointer">The native pointer.</param>
+        /// <returns>
+        /// The result of the conversion.
+        /// </returns>
+        public static explicit operator SharpDX.DirectWrite.FontCollection(IntPtr nativePointer)
+        {
+            return nativePointer == IntPtr.Zero ? null : new SharpDX.DirectWrite.FontCollection(nativePointer);
+        }
+
+
         /// <summary>	
         /// <p> Gets the number of font families in the collection. </p>	
         /// </summary>	
@@ -1605,10 +1737,11 @@ namespace SharpDX.DirectWrite {
         /// <unmanaged>GetFontFamilyCount</unmanaged>	
         /// <unmanaged-short>GetFontFamilyCount</unmanaged-short>	
         /// <unmanaged>unsigned int IDWriteFontCollection::GetFontFamilyCount()</unmanaged>
-        public int FontFamilyCount {
-                get { return GetFontFamilyCount(); }
+        public int FontFamilyCount
+        {
+            get { return GetFontFamilyCount(); }
         }
-        
+
         /// <summary>	
         /// <p> Gets the number of font families in the collection. </p>	
         /// </summary>	
@@ -1617,15 +1750,17 @@ namespace SharpDX.DirectWrite {
         /// <msdn-id>dd370974</msdn-id>	
         /// <unmanaged>unsigned int IDWriteFontCollection::GetFontFamilyCount()</unmanaged>	
         /// <unmanaged-short>IDWriteFontCollection::GetFontFamilyCount</unmanaged-short>	
-        internal int GetFontFamilyCount() {
-            unsafe {
+        internal int GetFontFamilyCount()
+        {
+            unsafe
+            {
                 int __result__;
-                __result__= 
-				SharpDX.Direct2D1.LocalInterop.Calliint(_nativePointer,((void**)(*(void**)_nativePointer))[3]);		
+                __result__ =
+                SharpDX.Direct2D1.LocalInterop.Calliint(_nativePointer, ((void**)(*(void**)_nativePointer))[3]);
                 return __result__;
             }
         }
-        
+
         /// <summary>	
         /// <p> Creates a font family object given a zero-based font family index. </p>	
         /// </summary>	
@@ -1635,19 +1770,21 @@ namespace SharpDX.DirectWrite {
         /// <msdn-id>dd370970</msdn-id>	
         /// <unmanaged>HRESULT IDWriteFontCollection::GetFontFamily([In] unsigned int index,[Out] IDWriteFontFamily** fontFamily)</unmanaged>	
         /// <unmanaged-short>IDWriteFontCollection::GetFontFamily</unmanaged-short>	
-        public SharpDX.DirectWrite.FontFamily GetFontFamily(int index) {
-            unsafe {
+        public SharpDX.DirectWrite.FontFamily GetFontFamily(int index)
+        {
+            unsafe
+            {
                 SharpDX.DirectWrite.FontFamily fontFamily;
                 IntPtr fontFamily_ = IntPtr.Zero;
                 SharpDX.Result __result__;
-                __result__= 
-				SharpDX.Direct2D1.LocalInterop.Calliint(_nativePointer, index, &fontFamily_,((void**)(*(void**)_nativePointer))[4]);		
-                fontFamily= (fontFamily_ == IntPtr.Zero)?null:new SharpDX.DirectWrite.FontFamily(fontFamily_);	
+                __result__ =
+                SharpDX.Direct2D1.LocalInterop.Calliint(_nativePointer, index, &fontFamily_, ((void**)(*(void**)_nativePointer))[4]);
+                fontFamily = (fontFamily_ == IntPtr.Zero) ? null : new SharpDX.DirectWrite.FontFamily(fontFamily_);
                 __result__.CheckError();
                 return fontFamily;
             }
         }
-        
+
         /// <summary>	
         /// <p> Finds the font family with the specified family name. </p>	
         /// </summary>	
@@ -1658,21 +1795,23 @@ namespace SharpDX.DirectWrite {
         /// <msdn-id>dd368217</msdn-id>	
         /// <unmanaged>HRESULT IDWriteFontCollection::FindFamilyName([In] const wchar_t* familyName,[Out] unsigned int* index,[Out] BOOL* exists)</unmanaged>	
         /// <unmanaged-short>IDWriteFontCollection::FindFamilyName</unmanaged-short>	
-        public SharpDX.Mathematics.Interop.RawBool FindFamilyName(string familyName, out int index) {
-            unsafe {
+        public SharpDX.Mathematics.Interop.RawBool FindFamilyName(string familyName, out int index)
+        {
+            unsafe
+            {
                 IntPtr familyName_ = Utilities.StringToHGlobalUni(familyName);
                 SharpDX.Mathematics.Interop.RawBool exists;
                 exists = new SharpDX.Mathematics.Interop.RawBool();
                 SharpDX.Result __result__;
                 fixed (void* index_ = &index)
-                    __result__= 
-    				SharpDX.Direct2D1.LocalInterop.Calliint(_nativePointer, (void*)familyName_, index_, &exists,((void**)(*(void**)_nativePointer))[5]);		
-                Marshal.FreeHGlobal(familyName_ );
+                    __result__ =
+                    SharpDX.Direct2D1.LocalInterop.Calliint(_nativePointer, (void*)familyName_, index_, &exists, ((void**)(*(void**)_nativePointer))[5]);
+                Marshal.FreeHGlobal(familyName_);
                 __result__.CheckError();
                 return exists;
             }
         }
-        
+
         /// <summary>	
         /// <p> Gets the font object that corresponds to the same physical font as the specified font face object. The specified physical font must belong  to the font collection. </p>	
         /// </summary>	
@@ -1682,14 +1821,16 @@ namespace SharpDX.DirectWrite {
         /// <msdn-id>dd370978</msdn-id>	
         /// <unmanaged>HRESULT IDWriteFontCollection::GetFontFromFontFace([In] IDWriteFontFace* fontFace,[Out] IDWriteFont** font)</unmanaged>	
         /// <unmanaged-short>IDWriteFontCollection::GetFontFromFontFace</unmanaged-short>	
-        public SharpDX.DirectWrite.Font GetFontFromFontFace(SharpDX.DirectWrite.FontFace fontFace) {
-            unsafe {
+        public SharpDX.DirectWrite.Font GetFontFromFontFace(SharpDX.DirectWrite.FontFace fontFace)
+        {
+            unsafe
+            {
                 SharpDX.DirectWrite.Font font;
                 IntPtr font_ = IntPtr.Zero;
                 SharpDX.Result __result__;
-                __result__= 
-				SharpDX.Direct2D1.LocalInterop.Calliint(_nativePointer, (void*)((fontFace == null)?IntPtr.Zero:fontFace.NativePointer), &font_,((void**)(*(void**)_nativePointer))[6]);		
-                font= (font_ == IntPtr.Zero)?null:new SharpDX.DirectWrite.Font(font_);	
+                __result__ =
+                SharpDX.Direct2D1.LocalInterop.Calliint(_nativePointer, (void*)((fontFace == null) ? IntPtr.Zero : fontFace.NativePointer), &font_, ((void**)(*(void**)_nativePointer))[6]);
+                font = (font_ == IntPtr.Zero) ? null : new SharpDX.DirectWrite.Font(font_);
                 __result__.CheckError();
                 return font;
             }
@@ -1706,9 +1847,10 @@ namespace SharpDX.DirectWrite {
     /// <unmanaged>IDWriteFontCollectionLoader</unmanaged>	
     /// <unmanaged-short>IDWriteFontCollectionLoader</unmanaged-short>	
     [Guid("cca920e4-52f0-492b-bfa8-29c72ee0a468")]
-    public partial interface FontCollectionLoader : SharpDX.ICallbackable {
-        
-        
+    public partial interface FontCollectionLoader : SharpDX.ICallbackable
+    {
+
+
         /// <summary>	
         /// <p> Creates a font file enumerator object that encapsulates a collection of font files. The font system calls back to this interface to create a font collection. </p>	
         /// </summary>	
@@ -1731,27 +1873,29 @@ namespace SharpDX.DirectWrite {
     /// <unmanaged>IDWriteFontFace</unmanaged>	
     /// <unmanaged-short>IDWriteFontFace</unmanaged-short>	
     [Guid("5f49804d-7024-4d43-bfa9-d25984f53849")]
-    public partial class FontFace : SharpDX.ComObject {
+    public partial class FontFace : SharpDX.ComObject
+    {
         /// <summary>
         /// Initializes a new instance of the <see cref="SharpDX.DirectWrite.FontFace"/> class.
         /// </summary>
         /// <param name="nativePtr">The native pointer.</param>	
-        public FontFace(IntPtr nativePtr) : base(nativePtr) {
+        public FontFace(IntPtr nativePtr) : base(nativePtr)
+        {
         }
 
-		/// <summary>
-		/// Performs an explicit conversion from <see cref="System.IntPtr"/> to <see cref="SharpDX.DirectWrite.FontFace"/>. (This method is a shortcut to <see cref="SharpDX.CppObject.NativePointer"/>) 
-		/// </summary>
-		/// <param name="nativePointer">The native pointer.</param>
-		/// <returns>
-		/// The result of the conversion.
-		/// </returns>
-		public static explicit operator SharpDX.DirectWrite.FontFace(IntPtr nativePointer)
-		{
-			return nativePointer == IntPtr.Zero ? null : new SharpDX.DirectWrite.FontFace(nativePointer);
-		}
-        
-        
+        /// <summary>
+        /// Performs an explicit conversion from <see cref="System.IntPtr"/> to <see cref="SharpDX.DirectWrite.FontFace"/>. (This method is a shortcut to <see cref="SharpDX.CppObject.NativePointer"/>) 
+        /// </summary>
+        /// <param name="nativePointer">The native pointer.</param>
+        /// <returns>
+        /// The result of the conversion.
+        /// </returns>
+        public static explicit operator SharpDX.DirectWrite.FontFace(IntPtr nativePointer)
+        {
+            return nativePointer == IntPtr.Zero ? null : new SharpDX.DirectWrite.FontFace(nativePointer);
+        }
+
+
         /// <summary>	
         /// <p> Obtains the file format type of a font face. </p>	
         /// </summary>	
@@ -1760,10 +1904,11 @@ namespace SharpDX.DirectWrite {
         /// <unmanaged>GetType</unmanaged>	
         /// <unmanaged-short>GetType</unmanaged-short>	
         /// <unmanaged>DWRITE_FONT_FACE_TYPE IDWriteFontFace::GetType()</unmanaged>
-        public SharpDX.DirectWrite.FontFaceType FaceType {
-                get { return GetFaceType(); }
+        public SharpDX.DirectWrite.FontFaceType FaceType
+        {
+            get { return GetFaceType(); }
         }
-        
+
         /// <summary>	
         /// <p> Obtains the index of a font face in the context of its font files. </p>	
         /// </summary>	
@@ -1772,10 +1917,11 @@ namespace SharpDX.DirectWrite {
         /// <unmanaged>GetIndex</unmanaged>	
         /// <unmanaged-short>GetIndex</unmanaged-short>	
         /// <unmanaged>unsigned int IDWriteFontFace::GetIndex()</unmanaged>
-        public int Index {
-                get { return GetIndex(); }
+        public int Index
+        {
+            get { return GetIndex(); }
         }
-        
+
         /// <summary>	
         /// <p> Obtains the algorithmic style simulation flags of a font face. </p>	
         /// </summary>	
@@ -1784,10 +1930,11 @@ namespace SharpDX.DirectWrite {
         /// <unmanaged>GetSimulations</unmanaged>	
         /// <unmanaged-short>GetSimulations</unmanaged-short>	
         /// <unmanaged>DWRITE_FONT_SIMULATIONS IDWriteFontFace::GetSimulations()</unmanaged>
-        public SharpDX.DirectWrite.FontSimulations Simulations {
-                get { return GetSimulations(); }
+        public SharpDX.DirectWrite.FontSimulations Simulations
+        {
+            get { return GetSimulations(); }
         }
-        
+
         /// <summary>	
         /// <p> Determines whether the font is a symbol font. </p>	
         /// </summary>	
@@ -1796,10 +1943,11 @@ namespace SharpDX.DirectWrite {
         /// <unmanaged>IsSymbolFont</unmanaged>	
         /// <unmanaged-short>IsSymbolFont</unmanaged-short>	
         /// <unmanaged>BOOL IDWriteFontFace::IsSymbolFont()</unmanaged>
-        public SharpDX.Mathematics.Interop.RawBool IsSymbolFont {
-                get { return IsSymbolFont_(); }
+        public SharpDX.Mathematics.Interop.RawBool IsSymbolFont
+        {
+            get { return IsSymbolFont_(); }
         }
-        
+
         /// <summary>	
         /// <p> Obtains design units and common metrics for the font face. These metrics are applicable to all the glyphs within a font face and are used by applications for layout calculations. </p>	
         /// </summary>	
@@ -1808,10 +1956,11 @@ namespace SharpDX.DirectWrite {
         /// <unmanaged>GetMetrics</unmanaged>	
         /// <unmanaged-short>GetMetrics</unmanaged-short>	
         /// <unmanaged>void IDWriteFontFace::GetMetrics([Out] DWRITE_FONT_METRICS* fontFaceMetrics)</unmanaged>
-        public SharpDX.DirectWrite.FontMetrics Metrics {
-                get { SharpDX.DirectWrite.FontMetrics __output__; GetMetrics(out __output__); return __output__; }
+        public SharpDX.DirectWrite.FontMetrics Metrics
+        {
+            get { SharpDX.DirectWrite.FontMetrics __output__; GetMetrics(out __output__); return __output__; }
         }
-        
+
         /// <summary>	
         /// <p> Obtains the number of glyphs in the font face. </p>	
         /// </summary>	
@@ -1820,10 +1969,11 @@ namespace SharpDX.DirectWrite {
         /// <unmanaged>GetGlyphCount</unmanaged>	
         /// <unmanaged-short>GetGlyphCount</unmanaged-short>	
         /// <unmanaged>unsigned short IDWriteFontFace::GetGlyphCount()</unmanaged>
-        public short GlyphCount {
-                get { return GetGlyphCount(); }
+        public short GlyphCount
+        {
+            get { return GetGlyphCount(); }
         }
-        
+
         /// <summary>	
         /// <p> Obtains the file format type of a font face. </p>	
         /// </summary>	
@@ -1832,15 +1982,17 @@ namespace SharpDX.DirectWrite {
         /// <msdn-id>dd371031</msdn-id>	
         /// <unmanaged>DWRITE_FONT_FACE_TYPE IDWriteFontFace::GetType()</unmanaged>	
         /// <unmanaged-short>IDWriteFontFace::GetType</unmanaged-short>	
-        internal SharpDX.DirectWrite.FontFaceType GetFaceType() {
-            unsafe {
+        internal SharpDX.DirectWrite.FontFaceType GetFaceType()
+        {
+            unsafe
+            {
                 SharpDX.DirectWrite.FontFaceType __result__;
-                __result__= 
-				SharpDX.Direct2D1.LocalInterop.CalliSharpDXDirectWriteFontFaceType(_nativePointer,((void**)(*(void**)_nativePointer))[3]);		
+                __result__ =
+                SharpDX.Direct2D1.LocalInterop.CalliSharpDXDirectWriteFontFaceType(_nativePointer, ((void**)(*(void**)_nativePointer))[3]);
                 return __result__;
             }
         }
-        
+
         /// <summary>	
         /// <p> Obtains the font files representing a font face. </p>	
         /// </summary>	
@@ -1854,20 +2006,22 @@ namespace SharpDX.DirectWrite {
         /// <msdn-id>dd370989</msdn-id>	
         /// <unmanaged>HRESULT IDWriteFontFace::GetFiles([InOut] unsigned int* numberOfFiles,[Out, Buffer, Optional] IDWriteFontFile** fontFiles)</unmanaged>	
         /// <unmanaged-short>IDWriteFontFace::GetFiles</unmanaged-short>	
-        internal void GetFiles(ref int numberOfFiles, SharpDX.DirectWrite.FontFile[] fontFiles) {
-            unsafe {
+        internal void GetFiles(ref int numberOfFiles, SharpDX.DirectWrite.FontFile[] fontFiles)
+        {
+            unsafe
+            {
                 IntPtr* fontFiles_ = stackalloc IntPtr[fontFiles == null ? 0 : fontFiles.Length];
                 SharpDX.Result __result__;
                 fixed (void* numberOfFiles_ = &numberOfFiles)
-                    __result__= 
-    				SharpDX.Direct2D1.LocalInterop.Calliint(_nativePointer, numberOfFiles_, fontFiles==null?(void*)0:fontFiles_,((void**)(*(void**)_nativePointer))[4]);		
+                    __result__ =
+                    SharpDX.Direct2D1.LocalInterop.Calliint(_nativePointer, numberOfFiles_, fontFiles == null ? (void*)0 : fontFiles_, ((void**)(*(void**)_nativePointer))[4]);
                 if (fontFiles != null)
-                for (int i = 0; i < fontFiles.Length; i++)
-                    fontFiles[i] = (fontFiles_[i] == IntPtr.Zero)?null:new SharpDX.DirectWrite.FontFile(fontFiles_[i]);	
+                    for (int i = 0; i < fontFiles.Length; i++)
+                        fontFiles[i] = (fontFiles_[i] == IntPtr.Zero) ? null : new SharpDX.DirectWrite.FontFile(fontFiles_[i]);
                 __result__.CheckError();
             }
         }
-        
+
         /// <summary>	
         /// <p> Obtains the index of a font face in the context of its font files. </p>	
         /// </summary>	
@@ -1876,15 +2030,17 @@ namespace SharpDX.DirectWrite {
         /// <msdn-id>dd371007</msdn-id>	
         /// <unmanaged>unsigned int IDWriteFontFace::GetIndex()</unmanaged>	
         /// <unmanaged-short>IDWriteFontFace::GetIndex</unmanaged-short>	
-        internal int GetIndex() {
-            unsafe {
+        internal int GetIndex()
+        {
+            unsafe
+            {
                 int __result__;
-                __result__= 
-				SharpDX.Direct2D1.LocalInterop.Calliint(_nativePointer,((void**)(*(void**)_nativePointer))[5]);		
+                __result__ =
+                SharpDX.Direct2D1.LocalInterop.Calliint(_nativePointer, ((void**)(*(void**)_nativePointer))[5]);
                 return __result__;
             }
         }
-        
+
         /// <summary>	
         /// <p> Obtains the algorithmic style simulation flags of a font face. </p>	
         /// </summary>	
@@ -1893,15 +2049,17 @@ namespace SharpDX.DirectWrite {
         /// <msdn-id>dd371018</msdn-id>	
         /// <unmanaged>DWRITE_FONT_SIMULATIONS IDWriteFontFace::GetSimulations()</unmanaged>	
         /// <unmanaged-short>IDWriteFontFace::GetSimulations</unmanaged-short>	
-        internal SharpDX.DirectWrite.FontSimulations GetSimulations() {
-            unsafe {
+        internal SharpDX.DirectWrite.FontSimulations GetSimulations()
+        {
+            unsafe
+            {
                 SharpDX.DirectWrite.FontSimulations __result__;
-                __result__= 
-				SharpDX.Direct2D1.LocalInterop.CalliSharpDXDirectWriteFontSimulations(_nativePointer,((void**)(*(void**)_nativePointer))[6]);		
+                __result__ =
+                SharpDX.Direct2D1.LocalInterop.CalliSharpDXDirectWriteFontSimulations(_nativePointer, ((void**)(*(void**)_nativePointer))[6]);
                 return __result__;
             }
         }
-        
+
         /// <summary>	
         /// <p> Determines whether the font is a symbol font. </p>	
         /// </summary>	
@@ -1910,15 +2068,17 @@ namespace SharpDX.DirectWrite {
         /// <msdn-id>dd371034</msdn-id>	
         /// <unmanaged>BOOL IDWriteFontFace::IsSymbolFont()</unmanaged>	
         /// <unmanaged-short>IDWriteFontFace::IsSymbolFont</unmanaged-short>	
-        internal SharpDX.Mathematics.Interop.RawBool IsSymbolFont_() {
-            unsafe {
+        internal SharpDX.Mathematics.Interop.RawBool IsSymbolFont_()
+        {
+            unsafe
+            {
                 SharpDX.Mathematics.Interop.RawBool __result__;
-                __result__= 
-				SharpDX.Direct2D1.LocalInterop.CalliSharpDXMathematicsInteropRawBool(_nativePointer,((void**)(*(void**)_nativePointer))[7]);		
+                __result__ =
+                SharpDX.Direct2D1.LocalInterop.CalliSharpDXMathematicsInteropRawBool(_nativePointer, ((void**)(*(void**)_nativePointer))[7]);
                 return __result__;
             }
         }
-        
+
         /// <summary>	
         /// <p> Obtains design units and common metrics for the font face. These metrics are applicable to all the glyphs within a font face and are used by applications for layout calculations. </p>	
         /// </summary>	
@@ -1927,14 +2087,16 @@ namespace SharpDX.DirectWrite {
         /// <msdn-id>dd371011</msdn-id>	
         /// <unmanaged>void IDWriteFontFace::GetMetrics([Out] DWRITE_FONT_METRICS* fontFaceMetrics)</unmanaged>	
         /// <unmanaged-short>IDWriteFontFace::GetMetrics</unmanaged-short>	
-        internal void GetMetrics(out SharpDX.DirectWrite.FontMetrics fontFaceMetrics) {
-            unsafe {
+        internal void GetMetrics(out SharpDX.DirectWrite.FontMetrics fontFaceMetrics)
+        {
+            unsafe
+            {
                 fontFaceMetrics = new SharpDX.DirectWrite.FontMetrics();
                 fixed (void* fontFaceMetrics_ = &fontFaceMetrics)
-                    SharpDX.Direct2D1.LocalInterop.Callivoid(_nativePointer, fontFaceMetrics_,((void**)(*(void**)_nativePointer))[8]);		
+                    SharpDX.Direct2D1.LocalInterop.Callivoid(_nativePointer, fontFaceMetrics_, ((void**)(*(void**)_nativePointer))[8]);
             }
         }
-        
+
         /// <summary>	
         /// <p> Obtains the number of glyphs in the font face. </p>	
         /// </summary>	
@@ -1943,15 +2105,17 @@ namespace SharpDX.DirectWrite {
         /// <msdn-id>dd370993</msdn-id>	
         /// <unmanaged>unsigned short IDWriteFontFace::GetGlyphCount()</unmanaged>	
         /// <unmanaged-short>IDWriteFontFace::GetGlyphCount</unmanaged-short>	
-        internal short GetGlyphCount() {
-            unsafe {
+        internal short GetGlyphCount()
+        {
+            unsafe
+            {
                 short __result__;
-                __result__= 
-				SharpDX.Direct2D1.LocalInterop.Callishort(_nativePointer,((void**)(*(void**)_nativePointer))[9]);		
+                __result__ =
+                SharpDX.Direct2D1.LocalInterop.Callishort(_nativePointer, ((void**)(*(void**)_nativePointer))[9]);
                 return __result__;
             }
         }
-        
+
         /// <summary>	
         /// <p> Obtains ideal (resolution-independent) glyph metrics in font design units.  </p>	
         /// </summary>	
@@ -1967,17 +2131,19 @@ namespace SharpDX.DirectWrite {
         /// <msdn-id>dd370986</msdn-id>	
         /// <unmanaged>HRESULT IDWriteFontFace::GetDesignGlyphMetrics([In, Buffer] const unsigned short* glyphIndices,[In] unsigned int glyphCount,[Out, Buffer] DWRITE_GLYPH_METRICS* glyphMetrics,[In] BOOL isSideways)</unmanaged>	
         /// <unmanaged-short>IDWriteFontFace::GetDesignGlyphMetrics</unmanaged-short>	
-        internal void GetDesignGlyphMetrics(short[] glyphIndices, int glyphCount, SharpDX.DirectWrite.GlyphMetrics[] glyphMetrics, SharpDX.Mathematics.Interop.RawBool isSideways) {
-            unsafe {
+        internal void GetDesignGlyphMetrics(short[] glyphIndices, int glyphCount, SharpDX.DirectWrite.GlyphMetrics[] glyphMetrics, SharpDX.Mathematics.Interop.RawBool isSideways)
+        {
+            unsafe
+            {
                 SharpDX.Result __result__;
                 fixed (void* glyphIndices_ = glyphIndices)
                     fixed (void* glyphMetrics_ = glyphMetrics)
-                        __result__= 
-        				SharpDX.Direct2D1.LocalInterop.Calliint148(_nativePointer, glyphIndices_, glyphCount, glyphMetrics_, isSideways,((void**)(*(void**)_nativePointer))[10]);		
+                        __result__ =
+                        SharpDX.Direct2D1.LocalInterop.Calliint148(_nativePointer, glyphIndices_, glyphCount, glyphMetrics_, isSideways, ((void**)(*(void**)_nativePointer))[10]);
                 __result__.CheckError();
             }
         }
-        
+
         /// <summary>	
         /// <p> Returns the nominal mapping of UCS4 Unicode code points to glyph indices as defined by the font 'CMAP' table. </p>	
         /// </summary>	
@@ -1992,17 +2158,19 @@ namespace SharpDX.DirectWrite {
         /// <msdn-id>dd370998</msdn-id>	
         /// <unmanaged>HRESULT IDWriteFontFace::GetGlyphIndicesW([In, Buffer] const unsigned int* codePoints,[In] unsigned int codePointCount,[Out, Buffer] unsigned short* glyphIndices)</unmanaged>	
         /// <unmanaged-short>IDWriteFontFace::GetGlyphIndicesW</unmanaged-short>	
-        internal void GetGlyphIndices(int[] codePoints, int codePointCount, short[] glyphIndices) {
-            unsafe {
+        internal void GetGlyphIndices(int[] codePoints, int codePointCount, short[] glyphIndices)
+        {
+            unsafe
+            {
                 SharpDX.Result __result__;
                 fixed (void* codePoints_ = codePoints)
                     fixed (void* glyphIndices_ = glyphIndices)
-                        __result__= 
-        				SharpDX.Direct2D1.LocalInterop.Calliint(_nativePointer, codePoints_, codePointCount, glyphIndices_,((void**)(*(void**)_nativePointer))[11]);		
+                        __result__ =
+                        SharpDX.Direct2D1.LocalInterop.Calliint(_nativePointer, codePoints_, codePointCount, glyphIndices_, ((void**)(*(void**)_nativePointer))[11]);
                 __result__.CheckError();
             }
         }
-        
+
         /// <summary>	
         /// <p> Finds the specified OpenType font table if it exists and returns a reference to it. The function accesses the underlying font data through the <strong><see cref="SharpDX.DirectWrite.FontFileStream"/></strong> interface implemented by the font file loader. </p>	
         /// </summary>	
@@ -2019,19 +2187,21 @@ namespace SharpDX.DirectWrite {
         /// <msdn-id>dd371039</msdn-id>	
         /// <unmanaged>HRESULT IDWriteFontFace::TryGetFontTable([In] unsigned int openTypeTableTag,[Out, Buffer] const void** tableData,[Out] unsigned int* tableSize,[Out] void** tableContext,[Out] BOOL* exists)</unmanaged>	
         /// <unmanaged-short>IDWriteFontFace::TryGetFontTable</unmanaged-short>	
-        internal void TryGetFontTable(int openTypeTableTag, System.IntPtr tableData, out int tableSize, out System.IntPtr tableContext, out SharpDX.Mathematics.Interop.RawBool exists) {
-            unsafe {
+        internal void TryGetFontTable(int openTypeTableTag, System.IntPtr tableData, out int tableSize, out System.IntPtr tableContext, out SharpDX.Mathematics.Interop.RawBool exists)
+        {
+            unsafe
+            {
                 exists = new SharpDX.Mathematics.Interop.RawBool();
                 SharpDX.Result __result__;
                 fixed (void* tableSize_ = &tableSize)
                     fixed (void* tableContext_ = &tableContext)
                         fixed (void* exists_ = &exists)
-                            __result__= 
-            				SharpDX.Direct2D1.LocalInterop.Calliint(_nativePointer, openTypeTableTag, (void*)tableData, tableSize_, tableContext_, exists_,((void**)(*(void**)_nativePointer))[12]);		
+                            __result__ =
+                            SharpDX.Direct2D1.LocalInterop.Calliint(_nativePointer, openTypeTableTag, (void*)tableData, tableSize_, tableContext_, exists_, ((void**)(*(void**)_nativePointer))[12]);
                 __result__.CheckError();
             }
         }
-        
+
         /// <summary>	
         /// <p> Releases the table obtained earlier from <strong>TryGetFontTable</strong>. </p>	
         /// </summary>	
@@ -2040,12 +2210,14 @@ namespace SharpDX.DirectWrite {
         /// <msdn-id>dd371036</msdn-id>	
         /// <unmanaged>void IDWriteFontFace::ReleaseFontTable([In] void* tableContext)</unmanaged>	
         /// <unmanaged-short>IDWriteFontFace::ReleaseFontTable</unmanaged-short>	
-        public void ReleaseFontTable(System.IntPtr tableContext) {
-            unsafe {
-                SharpDX.Direct2D1.LocalInterop.Callivoid(_nativePointer, (void*)tableContext,((void**)(*(void**)_nativePointer))[13]);		
+        public void ReleaseFontTable(System.IntPtr tableContext)
+        {
+            unsafe
+            {
+                SharpDX.Direct2D1.LocalInterop.Callivoid(_nativePointer, (void*)tableContext, ((void**)(*(void**)_nativePointer))[13]);
             }
         }
-        
+
         /// <summary>	
         /// <p> Computes the outline of a run of glyphs by calling back to the outline sink interface. </p>	
         /// </summary>	
@@ -2062,20 +2234,22 @@ namespace SharpDX.DirectWrite {
         /// <msdn-id>dd371003</msdn-id>	
         /// <unmanaged>HRESULT IDWriteFontFace::GetGlyphRunOutline([In] float emSize,[In, Buffer] const unsigned short* glyphIndices,[In, Buffer, Optional] const float* glyphAdvances,[In, Buffer, Optional] const DWRITE_GLYPH_OFFSET* glyphOffsets,[In] unsigned int glyphCount,[In] BOOL isSideways,[In] BOOL isRightToLeft,[In] ID2D1SimplifiedGeometrySink* geometrySink)</unmanaged>	
         /// <unmanaged-short>IDWriteFontFace::GetGlyphRunOutline</unmanaged-short>	
-        internal void GetGlyphRunOutline_(float emSize, short[] glyphIndices, float[] glyphAdvances, SharpDX.DirectWrite.GlyphOffset[] glyphOffsets, int glyphCount, SharpDX.Mathematics.Interop.RawBool isSideways, SharpDX.Mathematics.Interop.RawBool isRightToLeft, System.IntPtr geometrySink) {
-            unsafe {
+        internal void GetGlyphRunOutline_(float emSize, short[] glyphIndices, float[] glyphAdvances, SharpDX.DirectWrite.GlyphOffset[] glyphOffsets, int glyphCount, SharpDX.Mathematics.Interop.RawBool isSideways, SharpDX.Mathematics.Interop.RawBool isRightToLeft, System.IntPtr geometrySink)
+        {
+            unsafe
+            {
                 float[] glyphAdvances__ = glyphAdvances;
                 SharpDX.DirectWrite.GlyphOffset[] glyphOffsets__ = glyphOffsets;
                 SharpDX.Result __result__;
                 fixed (void* glyphIndices_ = glyphIndices)
                     fixed (void* glyphAdvances_ = glyphAdvances__)
                         fixed (void* glyphOffsets_ = glyphOffsets__)
-                            __result__= 
-            				SharpDX.Direct2D1.LocalInterop.Calliint150(_nativePointer, emSize, glyphIndices_, glyphAdvances_, glyphOffsets_, glyphCount, isSideways, isRightToLeft, (void*)geometrySink,((void**)(*(void**)_nativePointer))[14]);		
+                            __result__ =
+                            SharpDX.Direct2D1.LocalInterop.Calliint150(_nativePointer, emSize, glyphIndices_, glyphAdvances_, glyphOffsets_, glyphCount, isSideways, isRightToLeft, (void*)geometrySink, ((void**)(*(void**)_nativePointer))[14]);
                 __result__.CheckError();
             }
         }
-        
+
         /// <summary>	
         /// <p> Determines the recommended rendering mode for the font, using the specified size and rendering parameters. </p>	
         /// </summary>	
@@ -2088,17 +2262,19 @@ namespace SharpDX.DirectWrite {
         /// <msdn-id>dd371015</msdn-id>	
         /// <unmanaged>HRESULT IDWriteFontFace::GetRecommendedRenderingMode([In] float emSize,[In] float pixelsPerDip,[In] DWRITE_MEASURING_MODE measuringMode,[In] IDWriteRenderingParams* renderingParams,[Out] DWRITE_RENDERING_MODE* renderingMode)</unmanaged>	
         /// <unmanaged-short>IDWriteFontFace::GetRecommendedRenderingMode</unmanaged-short>	
-        public SharpDX.DirectWrite.RenderingMode GetRecommendedRenderingMode(float emSize, float pixelsPerDip, SharpDX.Direct2D1.MeasuringMode measuringMode, SharpDX.DirectWrite.RenderingParams renderingParams) {
-            unsafe {
+        public SharpDX.DirectWrite.RenderingMode GetRecommendedRenderingMode(float emSize, float pixelsPerDip, SharpDX.Direct2D1.MeasuringMode measuringMode, SharpDX.DirectWrite.RenderingParams renderingParams)
+        {
+            unsafe
+            {
                 SharpDX.DirectWrite.RenderingMode renderingMode;
                 SharpDX.Result __result__;
-                __result__= 
-				SharpDX.Direct2D1.LocalInterop.Calliint(_nativePointer, emSize, pixelsPerDip, unchecked((int)measuringMode), (void*)((renderingParams == null)?IntPtr.Zero:renderingParams.NativePointer), &renderingMode,((void**)(*(void**)_nativePointer))[15]);		
+                __result__ =
+                SharpDX.Direct2D1.LocalInterop.Calliint(_nativePointer, emSize, pixelsPerDip, unchecked((int)measuringMode), (void*)((renderingParams == null) ? IntPtr.Zero : renderingParams.NativePointer), &renderingMode, ((void**)(*(void**)_nativePointer))[15]);
                 __result__.CheckError();
                 return renderingMode;
             }
         }
-        
+
         /// <summary>	
         /// <p>Obtains design units and common metrics for the font face. These metrics are applicable to all the glyphs within a fontface and are used by applications for layout calculations.</p>	
         /// </summary>	
@@ -2110,21 +2286,23 @@ namespace SharpDX.DirectWrite {
         /// <msdn-id>dd941789</msdn-id>	
         /// <unmanaged>HRESULT IDWriteFontFace::GetGdiCompatibleMetrics([In] float emSize,[In] float pixelsPerDip,[In, Optional] const DWRITE_MATRIX* transform,[Out] DWRITE_FONT_METRICS* fontFaceMetrics)</unmanaged>	
         /// <unmanaged-short>IDWriteFontFace::GetGdiCompatibleMetrics</unmanaged-short>	
-        public SharpDX.DirectWrite.FontMetrics GetGdiCompatibleMetrics(float emSize, float pixelsPerDip, SharpDX.Mathematics.Interop.RawMatrix3x2? transform) {
-            unsafe {
+        public SharpDX.DirectWrite.FontMetrics GetGdiCompatibleMetrics(float emSize, float pixelsPerDip, SharpDX.Mathematics.Interop.RawMatrix3x2? transform)
+        {
+            unsafe
+            {
                 SharpDX.Mathematics.Interop.RawMatrix3x2 transform_;
                 if (transform.HasValue)
-                    transform_ = transform.Value;				
+                    transform_ = transform.Value;
                 SharpDX.DirectWrite.FontMetrics fontFaceMetrics;
                 fontFaceMetrics = new SharpDX.DirectWrite.FontMetrics();
                 SharpDX.Result __result__;
-                __result__= 
-				SharpDX.Direct2D1.LocalInterop.Calliint(_nativePointer, emSize, pixelsPerDip, (transform.HasValue)?&transform_:(void*)IntPtr.Zero, &fontFaceMetrics,((void**)(*(void**)_nativePointer))[16]);		
+                __result__ =
+                SharpDX.Direct2D1.LocalInterop.Calliint(_nativePointer, emSize, pixelsPerDip, (transform.HasValue) ? &transform_ : (void*)IntPtr.Zero, &fontFaceMetrics, ((void**)(*(void**)_nativePointer))[16]);
                 __result__.CheckError();
                 return fontFaceMetrics;
             }
         }
-        
+
         /// <summary>	
         /// <p>Obtains glyph metrics in font design units with the return values compatible with what GDI would produce.</p>	
         /// </summary>	
@@ -2141,16 +2319,18 @@ namespace SharpDX.DirectWrite {
         /// <msdn-id>dd941788</msdn-id>	
         /// <unmanaged>HRESULT IDWriteFontFace::GetGdiCompatibleGlyphMetrics([In] float emSize,[In] float pixelsPerDip,[In, Optional] const DWRITE_MATRIX* transform,[In] BOOL useGdiNatural,[In, Buffer] const unsigned short* glyphIndices,[In] unsigned int glyphCount,[Out, Buffer] DWRITE_GLYPH_METRICS* glyphMetrics,[In] BOOL isSideways)</unmanaged>	
         /// <unmanaged-short>IDWriteFontFace::GetGdiCompatibleGlyphMetrics</unmanaged-short>	
-        internal void GetGdiCompatibleGlyphMetrics(float emSize, float pixelsPerDip, SharpDX.Mathematics.Interop.RawMatrix3x2? transform, SharpDX.Mathematics.Interop.RawBool useGdiNatural, short[] glyphIndices, int glyphCount, SharpDX.DirectWrite.GlyphMetrics[] glyphMetrics, SharpDX.Mathematics.Interop.RawBool isSideways) {
-            unsafe {
+        internal void GetGdiCompatibleGlyphMetrics(float emSize, float pixelsPerDip, SharpDX.Mathematics.Interop.RawMatrix3x2? transform, SharpDX.Mathematics.Interop.RawBool useGdiNatural, short[] glyphIndices, int glyphCount, SharpDX.DirectWrite.GlyphMetrics[] glyphMetrics, SharpDX.Mathematics.Interop.RawBool isSideways)
+        {
+            unsafe
+            {
                 SharpDX.Mathematics.Interop.RawMatrix3x2 transform_;
                 if (transform.HasValue)
-                    transform_ = transform.Value;				
+                    transform_ = transform.Value;
                 SharpDX.Result __result__;
                 fixed (void* glyphIndices_ = glyphIndices)
                     fixed (void* glyphMetrics_ = glyphMetrics)
-                        __result__= 
-        				SharpDX.Direct2D1.LocalInterop.Calliint153(_nativePointer, emSize, pixelsPerDip, (transform.HasValue)?&transform_:(void*)IntPtr.Zero, useGdiNatural, glyphIndices_, glyphCount, glyphMetrics_, isSideways,((void**)(*(void**)_nativePointer))[17]);		
+                        __result__ =
+                        SharpDX.Direct2D1.LocalInterop.Calliint153(_nativePointer, emSize, pixelsPerDip, (transform.HasValue) ? &transform_ : (void*)IntPtr.Zero, useGdiNatural, glyphIndices_, glyphCount, glyphMetrics_, isSideways, ((void**)(*(void**)_nativePointer))[17]);
                 __result__.CheckError();
             }
         }
@@ -2163,27 +2343,29 @@ namespace SharpDX.DirectWrite {
     /// <unmanaged>IDWriteFontFace1</unmanaged>	
     /// <unmanaged-short>IDWriteFontFace1</unmanaged-short>	
     [Guid("a71efdb4-9fdb-4838-ad90-cfc3be8c3daf")]
-    public partial class FontFace1 : SharpDX.DirectWrite.FontFace {
+    public partial class FontFace1 : SharpDX.DirectWrite.FontFace
+    {
         /// <summary>
         /// Initializes a new instance of the <see cref="SharpDX.DirectWrite.FontFace1"/> class.
         /// </summary>
         /// <param name="nativePtr">The native pointer.</param>	
-        public FontFace1(IntPtr nativePtr) : base(nativePtr) {
+        public FontFace1(IntPtr nativePtr) : base(nativePtr)
+        {
         }
 
-		/// <summary>
-		/// Performs an explicit conversion from <see cref="System.IntPtr"/> to <see cref="SharpDX.DirectWrite.FontFace1"/>. (This method is a shortcut to <see cref="SharpDX.CppObject.NativePointer"/>) 
-		/// </summary>
-		/// <param name="nativePointer">The native pointer.</param>
-		/// <returns>
-		/// The result of the conversion.
-		/// </returns>
-		public static explicit operator SharpDX.DirectWrite.FontFace1(IntPtr nativePointer)
-		{
-			return nativePointer == IntPtr.Zero ? null : new SharpDX.DirectWrite.FontFace1(nativePointer);
-		}
-        
-        
+        /// <summary>
+        /// Performs an explicit conversion from <see cref="System.IntPtr"/> to <see cref="SharpDX.DirectWrite.FontFace1"/>. (This method is a shortcut to <see cref="SharpDX.CppObject.NativePointer"/>) 
+        /// </summary>
+        /// <param name="nativePointer">The native pointer.</param>
+        /// <returns>
+        /// The result of the conversion.
+        /// </returns>
+        public static explicit operator SharpDX.DirectWrite.FontFace1(IntPtr nativePointer)
+        {
+            return nativePointer == IntPtr.Zero ? null : new SharpDX.DirectWrite.FontFace1(nativePointer);
+        }
+
+
         /// <summary>	
         /// <p> Obtains design units and common metrics for the font face. These metrics are applicable to all the glyphs within a font face and are used by applications for layout calculations. </p>	
         /// </summary>	
@@ -2192,10 +2374,11 @@ namespace SharpDX.DirectWrite {
         /// <unmanaged>GetMetrics</unmanaged>	
         /// <unmanaged-short>GetMetrics</unmanaged-short>	
         /// <unmanaged>void IDWriteFontFace1::GetMetrics([Out] DWRITE_FONT_METRICS1* fontMetrics)</unmanaged>
-        public SharpDX.DirectWrite.FontMetrics1 Metrics {
-                get { SharpDX.DirectWrite.FontMetrics1 __output__; GetMetrics(out __output__); return __output__; }
+        public new SharpDX.DirectWrite.FontMetrics1 Metrics
+        {
+            get { SharpDX.DirectWrite.FontMetrics1 __output__; GetMetrics(out __output__); return __output__; }
         }
-        
+
         /// <summary>	
         /// <p>Gets caret metrics for the font in design units.</p>	
         /// </summary>	
@@ -2207,10 +2390,11 @@ namespace SharpDX.DirectWrite {
         /// <unmanaged>GetCaretMetrics</unmanaged>	
         /// <unmanaged-short>GetCaretMetrics</unmanaged-short>	
         /// <unmanaged>void IDWriteFontFace1::GetCaretMetrics([Out] DWRITE_CARET_METRICS* caretMetrics)</unmanaged>
-        public SharpDX.DirectWrite.CaretMetrics CaretMetrics {
-                get { SharpDX.DirectWrite.CaretMetrics __output__; GetCaretMetrics(out __output__); return __output__; }
+        public SharpDX.DirectWrite.CaretMetrics CaretMetrics
+        {
+            get { SharpDX.DirectWrite.CaretMetrics __output__; GetCaretMetrics(out __output__); return __output__; }
         }
-        
+
         /// <summary>	
         /// <p>Determines whether the font of a text range is monospaced, that is, the font characters are the same fixed-pitch width.</p>	
         /// </summary>	
@@ -2219,10 +2403,11 @@ namespace SharpDX.DirectWrite {
         /// <unmanaged>IsMonospacedFont</unmanaged>	
         /// <unmanaged-short>IsMonospacedFont</unmanaged-short>	
         /// <unmanaged>BOOL IDWriteFontFace1::IsMonospacedFont()</unmanaged>
-        public SharpDX.Mathematics.Interop.RawBool IsMonospacedFont {
-                get { return IsMonospacedFont_(); }
+        public SharpDX.Mathematics.Interop.RawBool IsMonospacedFont
+        {
+            get { return IsMonospacedFont_(); }
         }
-        
+
         /// <summary>	
         /// <p> Obtains design units and common metrics for the font face. These metrics are applicable to all the glyphs within a font face and are used by applications for layout calculations. </p>	
         /// </summary>	
@@ -2231,14 +2416,16 @@ namespace SharpDX.DirectWrite {
         /// <msdn-id>Hh780415</msdn-id>	
         /// <unmanaged>void IDWriteFontFace1::GetMetrics([Out] DWRITE_FONT_METRICS1* fontMetrics)</unmanaged>	
         /// <unmanaged-short>IDWriteFontFace1::GetMetrics</unmanaged-short>	
-        internal void GetMetrics(out SharpDX.DirectWrite.FontMetrics1 fontMetrics) {
-            unsafe {
+        internal void GetMetrics(out SharpDX.DirectWrite.FontMetrics1 fontMetrics)
+        {
+            unsafe
+            {
                 fontMetrics = new SharpDX.DirectWrite.FontMetrics1();
                 fixed (void* fontMetrics_ = &fontMetrics)
-                    SharpDX.Direct2D1.LocalInterop.Callivoid(_nativePointer, fontMetrics_,((void**)(*(void**)_nativePointer))[18]);		
+                    SharpDX.Direct2D1.LocalInterop.Callivoid(_nativePointer, fontMetrics_, ((void**)(*(void**)_nativePointer))[18]);
             }
         }
-        
+
         /// <summary>	
         /// <p>Obtains design units and common metrics for the font face. These metrics are applicable to all the glyphs within a fontface and are used by applications for layout calculations.</p>	
         /// </summary>	
@@ -2251,20 +2438,22 @@ namespace SharpDX.DirectWrite {
         /// <msdn-id>Hh780413</msdn-id>	
         /// <unmanaged>HRESULT IDWriteFontFace1::GetGdiCompatibleMetrics([In] float emSize,[In] float pixelsPerDip,[In, Optional] const DWRITE_MATRIX* transform,[Out] DWRITE_FONT_METRICS1* fontMetrics)</unmanaged>	
         /// <unmanaged-short>IDWriteFontFace1::GetGdiCompatibleMetrics</unmanaged-short>	
-        public void GetGdiCompatibleMetrics(float emSize, float pixelsPerDip, SharpDX.Mathematics.Interop.RawMatrix3x2? transform, out SharpDX.DirectWrite.FontMetrics1 fontMetrics) {
-            unsafe {
+        public void GetGdiCompatibleMetrics(float emSize, float pixelsPerDip, SharpDX.Mathematics.Interop.RawMatrix3x2? transform, out SharpDX.DirectWrite.FontMetrics1 fontMetrics)
+        {
+            unsafe
+            {
                 SharpDX.Mathematics.Interop.RawMatrix3x2 transform_;
                 if (transform.HasValue)
-                    transform_ = transform.Value;				
+                    transform_ = transform.Value;
                 fontMetrics = new SharpDX.DirectWrite.FontMetrics1();
                 SharpDX.Result __result__;
                 fixed (void* fontMetrics_ = &fontMetrics)
-                    __result__= 
-    				SharpDX.Direct2D1.LocalInterop.Calliint(_nativePointer, emSize, pixelsPerDip, (transform.HasValue)?&transform_:(void*)IntPtr.Zero, fontMetrics_,((void**)(*(void**)_nativePointer))[19]);		
+                    __result__ =
+                    SharpDX.Direct2D1.LocalInterop.Calliint(_nativePointer, emSize, pixelsPerDip, (transform.HasValue) ? &transform_ : (void*)IntPtr.Zero, fontMetrics_, ((void**)(*(void**)_nativePointer))[19]);
                 __result__.CheckError();
             }
         }
-        
+
         /// <summary>	
         /// <p>Gets caret metrics for the font in design units.</p>	
         /// </summary>	
@@ -2276,14 +2465,16 @@ namespace SharpDX.DirectWrite {
         /// <msdn-id>Hh780410</msdn-id>	
         /// <unmanaged>void IDWriteFontFace1::GetCaretMetrics([Out] DWRITE_CARET_METRICS* caretMetrics)</unmanaged>	
         /// <unmanaged-short>IDWriteFontFace1::GetCaretMetrics</unmanaged-short>	
-        internal void GetCaretMetrics(out SharpDX.DirectWrite.CaretMetrics caretMetrics) {
-            unsafe {
+        internal void GetCaretMetrics(out SharpDX.DirectWrite.CaretMetrics caretMetrics)
+        {
+            unsafe
+            {
                 caretMetrics = new SharpDX.DirectWrite.CaretMetrics();
                 fixed (void* caretMetrics_ = &caretMetrics)
-                    SharpDX.Direct2D1.LocalInterop.Callivoid(_nativePointer, caretMetrics_,((void**)(*(void**)_nativePointer))[20]);		
+                    SharpDX.Direct2D1.LocalInterop.Callivoid(_nativePointer, caretMetrics_, ((void**)(*(void**)_nativePointer))[20]);
             }
         }
-        
+
         /// <summary>	
         /// <p>Retrieves a list of character ranges supported by a font.</p>	
         /// </summary>	
@@ -2298,18 +2489,20 @@ namespace SharpDX.DirectWrite {
         /// <msdn-id>Hh780417</msdn-id>	
         /// <unmanaged>HRESULT IDWriteFontFace1::GetUnicodeRanges([In] unsigned int maxRangeCount,[Out, Buffer, Optional] DWRITE_UNICODE_RANGE* unicodeRanges,[Out] unsigned int* actualRangeCount)</unmanaged>	
         /// <unmanaged-short>IDWriteFontFace1::GetUnicodeRanges</unmanaged-short>	
-        public void GetUnicodeRanges(int maxRangeCount, SharpDX.DirectWrite.UnicodeRange[] unicodeRanges, out int actualRangeCount) {
-            unsafe {
+        public void GetUnicodeRanges(int maxRangeCount, SharpDX.DirectWrite.UnicodeRange[] unicodeRanges, out int actualRangeCount)
+        {
+            unsafe
+            {
                 SharpDX.DirectWrite.UnicodeRange[] unicodeRanges__ = unicodeRanges;
                 SharpDX.Result __result__;
                 fixed (void* unicodeRanges_ = unicodeRanges__)
                     fixed (void* actualRangeCount_ = &actualRangeCount)
-                        __result__= 
-        				SharpDX.Direct2D1.LocalInterop.Calliint(_nativePointer, maxRangeCount, unicodeRanges_, actualRangeCount_,((void**)(*(void**)_nativePointer))[21]);		
+                        __result__ =
+                        SharpDX.Direct2D1.LocalInterop.Calliint(_nativePointer, maxRangeCount, unicodeRanges_, actualRangeCount_, ((void**)(*(void**)_nativePointer))[21]);
                 __result__.CheckError();
             }
         }
-        
+
         /// <summary>	
         /// <p>Determines whether the font of a text range is monospaced, that is, the font characters are the same fixed-pitch width.</p>	
         /// </summary>	
@@ -2318,15 +2511,17 @@ namespace SharpDX.DirectWrite {
         /// <msdn-id>Hh780421</msdn-id>	
         /// <unmanaged>BOOL IDWriteFontFace1::IsMonospacedFont()</unmanaged>	
         /// <unmanaged-short>IDWriteFontFace1::IsMonospacedFont</unmanaged-short>	
-        internal SharpDX.Mathematics.Interop.RawBool IsMonospacedFont_() {
-            unsafe {
+        internal SharpDX.Mathematics.Interop.RawBool IsMonospacedFont_()
+        {
+            unsafe
+            {
                 SharpDX.Mathematics.Interop.RawBool __result__;
-                __result__= 
-				SharpDX.Direct2D1.LocalInterop.CalliSharpDXMathematicsInteropRawBool(_nativePointer,((void**)(*(void**)_nativePointer))[22]);		
+                __result__ =
+                SharpDX.Direct2D1.LocalInterop.CalliSharpDXMathematicsInteropRawBool(_nativePointer, ((void**)(*(void**)_nativePointer))[22]);
                 return __result__;
             }
         }
-        
+
         /// <summary>	
         /// <p>Retrieves the advances in design units for a sequences of glyphs.</p>	
         /// </summary>	
@@ -2342,17 +2537,19 @@ namespace SharpDX.DirectWrite {
         /// <msdn-id>Hh780411</msdn-id>	
         /// <unmanaged>HRESULT IDWriteFontFace1::GetDesignGlyphAdvances([In] unsigned int glyphCount,[In, Buffer] const unsigned short* glyphIndices,[Out, Buffer] int* glyphAdvances,[In] BOOL isSideways)</unmanaged>	
         /// <unmanaged-short>IDWriteFontFace1::GetDesignGlyphAdvances</unmanaged-short>	
-        public void GetDesignGlyphAdvances(int glyphCount, short[] glyphIndices, int[] glyphAdvances, SharpDX.Mathematics.Interop.RawBool isSideways) {
-            unsafe {
+        public void GetDesignGlyphAdvances(int glyphCount, short[] glyphIndices, int[] glyphAdvances, SharpDX.Mathematics.Interop.RawBool isSideways)
+        {
+            unsafe
+            {
                 SharpDX.Result __result__;
                 fixed (void* glyphIndices_ = glyphIndices)
                     fixed (void* glyphAdvances_ = glyphAdvances)
-                        __result__= 
-        				SharpDX.Direct2D1.LocalInterop.Calliint175(_nativePointer, glyphCount, glyphIndices_, glyphAdvances_, isSideways,((void**)(*(void**)_nativePointer))[23]);		
+                        __result__ =
+                        SharpDX.Direct2D1.LocalInterop.Calliint175(_nativePointer, glyphCount, glyphIndices_, glyphAdvances_, isSideways, ((void**)(*(void**)_nativePointer))[23]);
                 __result__.CheckError();
             }
         }
-        
+
         /// <summary>	
         /// <p>Returns the pixel-aligned advances for a sequences of glyphs.</p>	
         /// </summary>	
@@ -2372,20 +2569,22 @@ namespace SharpDX.DirectWrite {
         /// <msdn-id>Hh780412</msdn-id>	
         /// <unmanaged>HRESULT IDWriteFontFace1::GetGdiCompatibleGlyphAdvances([In] float emSize,[In] float pixelsPerDip,[In, Optional] const DWRITE_MATRIX* transform,[In] BOOL useGdiNatural,[In] BOOL isSideways,[In] unsigned int glyphCount,[In, Buffer] const unsigned short* glyphIndices,[Out, Buffer] int* glyphAdvances)</unmanaged>	
         /// <unmanaged-short>IDWriteFontFace1::GetGdiCompatibleGlyphAdvances</unmanaged-short>	
-        public void GetGdiCompatibleGlyphAdvances(float emSize, float pixelsPerDip, SharpDX.Mathematics.Interop.RawMatrix3x2? transform, SharpDX.Mathematics.Interop.RawBool useGdiNatural, SharpDX.Mathematics.Interop.RawBool isSideways, int glyphCount, short[] glyphIndices, int[] glyphAdvances) {
-            unsafe {
+        public void GetGdiCompatibleGlyphAdvances(float emSize, float pixelsPerDip, SharpDX.Mathematics.Interop.RawMatrix3x2? transform, SharpDX.Mathematics.Interop.RawBool useGdiNatural, SharpDX.Mathematics.Interop.RawBool isSideways, int glyphCount, short[] glyphIndices, int[] glyphAdvances)
+        {
+            unsafe
+            {
                 SharpDX.Mathematics.Interop.RawMatrix3x2 transform_;
                 if (transform.HasValue)
-                    transform_ = transform.Value;				
+                    transform_ = transform.Value;
                 SharpDX.Result __result__;
                 fixed (void* glyphIndices_ = glyphIndices)
                     fixed (void* glyphAdvances_ = glyphAdvances)
-                        __result__= 
-        				SharpDX.Direct2D1.LocalInterop.Calliint176(_nativePointer, emSize, pixelsPerDip, (transform.HasValue)?&transform_:(void*)IntPtr.Zero, useGdiNatural, isSideways, glyphCount, glyphIndices_, glyphAdvances_,((void**)(*(void**)_nativePointer))[24]);		
+                        __result__ =
+                        SharpDX.Direct2D1.LocalInterop.Calliint176(_nativePointer, emSize, pixelsPerDip, (transform.HasValue) ? &transform_ : (void*)IntPtr.Zero, useGdiNatural, isSideways, glyphCount, glyphIndices_, glyphAdvances_, ((void**)(*(void**)_nativePointer))[24]);
                 __result__.CheckError();
             }
         }
-        
+
         /// <summary>	
         /// <p>Retrieves the kerning pair adjustments from the font's kern table.</p>	
         /// </summary>	
@@ -2400,17 +2599,19 @@ namespace SharpDX.DirectWrite {
         /// <msdn-id>Hh780414</msdn-id>	
         /// <unmanaged>HRESULT IDWriteFontFace1::GetKerningPairAdjustments([In] unsigned int glyphCount,[In, Buffer] const unsigned short* glyphIndices,[Out, Buffer] int* glyphAdvanceAdjustments)</unmanaged>	
         /// <unmanaged-short>IDWriteFontFace1::GetKerningPairAdjustments</unmanaged-short>	
-        public void GetKerningPairAdjustments(int glyphCount, short[] glyphIndices, int[] glyphAdvanceAdjustments) {
-            unsafe {
+        public void GetKerningPairAdjustments(int glyphCount, short[] glyphIndices, int[] glyphAdvanceAdjustments)
+        {
+            unsafe
+            {
                 SharpDX.Result __result__;
                 fixed (void* glyphIndices_ = glyphIndices)
                     fixed (void* glyphAdvanceAdjustments_ = glyphAdvanceAdjustments)
-                        __result__= 
-        				SharpDX.Direct2D1.LocalInterop.Calliint(_nativePointer, glyphCount, glyphIndices_, glyphAdvanceAdjustments_,((void**)(*(void**)_nativePointer))[25]);		
+                        __result__ =
+                        SharpDX.Direct2D1.LocalInterop.Calliint(_nativePointer, glyphCount, glyphIndices_, glyphAdvanceAdjustments_, ((void**)(*(void**)_nativePointer))[25]);
                 __result__.CheckError();
             }
         }
-        
+
         /// <summary>	
         /// <p>Determines whether the font supports pair-kerning.</p>	
         /// </summary>	
@@ -2422,15 +2623,17 @@ namespace SharpDX.DirectWrite {
         /// <msdn-id>Hh780419</msdn-id>	
         /// <unmanaged>BOOL IDWriteFontFace1::HasKerningPairs()</unmanaged>	
         /// <unmanaged-short>IDWriteFontFace1::HasKerningPairs</unmanaged-short>	
-        public SharpDX.Mathematics.Interop.RawBool HasKerningPairs() {
-            unsafe {
+        public SharpDX.Mathematics.Interop.RawBool HasKerningPairs()
+        {
+            unsafe
+            {
                 SharpDX.Mathematics.Interop.RawBool __result__;
-                __result__= 
-				SharpDX.Direct2D1.LocalInterop.CalliSharpDXMathematicsInteropRawBool(_nativePointer,((void**)(*(void**)_nativePointer))[26]);		
+                __result__ =
+                SharpDX.Direct2D1.LocalInterop.CalliSharpDXMathematicsInteropRawBool(_nativePointer, ((void**)(*(void**)_nativePointer))[26]);
                 return __result__;
             }
         }
-        
+
         /// <summary>	
         /// <p> Determines the recommended rendering mode for the font, using the specified size and rendering parameters. </p>	
         /// </summary>	
@@ -2450,19 +2653,21 @@ namespace SharpDX.DirectWrite {
         /// <msdn-id>Hh780416</msdn-id>	
         /// <unmanaged>HRESULT IDWriteFontFace1::GetRecommendedRenderingMode([In] float fontEmSize,[In] float dpiX,[In] float dpiY,[In, Optional] const DWRITE_MATRIX* transform,[In] BOOL isSideways,[In] DWRITE_OUTLINE_THRESHOLD outlineThreshold,[In] DWRITE_MEASURING_MODE measuringMode,[Out] DWRITE_RENDERING_MODE* renderingMode)</unmanaged>	
         /// <unmanaged-short>IDWriteFontFace1::GetRecommendedRenderingMode</unmanaged-short>	
-        public void GetRecommendedRenderingMode(float fontEmSize, float dpiX, float dpiY, SharpDX.Mathematics.Interop.RawMatrix3x2? transform, SharpDX.Mathematics.Interop.RawBool isSideways, SharpDX.DirectWrite.OutlineThreshold outlineThreshold, SharpDX.Direct2D1.MeasuringMode measuringMode, out SharpDX.DirectWrite.RenderingMode renderingMode) {
-            unsafe {
+        public void GetRecommendedRenderingMode(float fontEmSize, float dpiX, float dpiY, SharpDX.Mathematics.Interop.RawMatrix3x2? transform, SharpDX.Mathematics.Interop.RawBool isSideways, SharpDX.DirectWrite.OutlineThreshold outlineThreshold, SharpDX.Direct2D1.MeasuringMode measuringMode, out SharpDX.DirectWrite.RenderingMode renderingMode)
+        {
+            unsafe
+            {
                 SharpDX.Mathematics.Interop.RawMatrix3x2 transform_;
                 if (transform.HasValue)
-                    transform_ = transform.Value;				
+                    transform_ = transform.Value;
                 SharpDX.Result __result__;
                 fixed (void* renderingMode_ = &renderingMode)
-                    __result__= 
-    				SharpDX.Direct2D1.LocalInterop.Calliint177(_nativePointer, fontEmSize, dpiX, dpiY, (transform.HasValue)?&transform_:(void*)IntPtr.Zero, isSideways, unchecked((int)outlineThreshold), unchecked((int)measuringMode), renderingMode_,((void**)(*(void**)_nativePointer))[27]);		
+                    __result__ =
+                    SharpDX.Direct2D1.LocalInterop.Calliint177(_nativePointer, fontEmSize, dpiX, dpiY, (transform.HasValue) ? &transform_ : (void*)IntPtr.Zero, isSideways, unchecked((int)outlineThreshold), unchecked((int)measuringMode), renderingMode_, ((void**)(*(void**)_nativePointer))[27]);
                 __result__.CheckError();
             }
         }
-        
+
         /// <summary>	
         /// <p>Retrieves the vertical forms of the nominal glyphs retrieved from GetGlyphIndices.</p>	
         /// </summary>	
@@ -2478,17 +2683,19 @@ namespace SharpDX.DirectWrite {
         /// <msdn-id>hh780418</msdn-id>	
         /// <unmanaged>HRESULT IDWriteFontFace1::GetVerticalGlyphVariants([In] unsigned int glyphCount,[In, Buffer] const unsigned short* nominalGlyphIndices,[Out, Buffer] unsigned short* verticalGlyphIndices)</unmanaged>	
         /// <unmanaged-short>IDWriteFontFace1::GetVerticalGlyphVariants</unmanaged-short>	
-        public void GetVerticalGlyphVariants(int glyphCount, short[] nominalGlyphIndices, short[] verticalGlyphIndices) {
-            unsafe {
+        public void GetVerticalGlyphVariants(int glyphCount, short[] nominalGlyphIndices, short[] verticalGlyphIndices)
+        {
+            unsafe
+            {
                 SharpDX.Result __result__;
                 fixed (void* nominalGlyphIndices_ = nominalGlyphIndices)
                     fixed (void* verticalGlyphIndices_ = verticalGlyphIndices)
-                        __result__= 
-        				SharpDX.Direct2D1.LocalInterop.Calliint(_nativePointer, glyphCount, nominalGlyphIndices_, verticalGlyphIndices_,((void**)(*(void**)_nativePointer))[28]);		
+                        __result__ =
+                        SharpDX.Direct2D1.LocalInterop.Calliint(_nativePointer, glyphCount, nominalGlyphIndices_, verticalGlyphIndices_, ((void**)(*(void**)_nativePointer))[28]);
                 __result__.CheckError();
             }
         }
-        
+
         /// <summary>	
         /// <p>Determines whether the font has any vertical glyph variants.</p>	
         /// </summary>	
@@ -2500,11 +2707,13 @@ namespace SharpDX.DirectWrite {
         /// <msdn-id>hh780420</msdn-id>	
         /// <unmanaged>BOOL IDWriteFontFace1::HasVerticalGlyphVariants()</unmanaged>	
         /// <unmanaged-short>IDWriteFontFace1::HasVerticalGlyphVariants</unmanaged-short>	
-        public SharpDX.Mathematics.Interop.RawBool HasVerticalGlyphVariants() {
-            unsafe {
+        public SharpDX.Mathematics.Interop.RawBool HasVerticalGlyphVariants()
+        {
+            unsafe
+            {
                 SharpDX.Mathematics.Interop.RawBool __result__;
-                __result__= 
-				SharpDX.Direct2D1.LocalInterop.CalliSharpDXMathematicsInteropRawBool(_nativePointer,((void**)(*(void**)_nativePointer))[29]);		
+                __result__ =
+                SharpDX.Direct2D1.LocalInterop.CalliSharpDXMathematicsInteropRawBool(_nativePointer, ((void**)(*(void**)_nativePointer))[29]);
                 return __result__;
             }
         }
@@ -2538,27 +2747,29 @@ namespace SharpDX.DirectWrite {
     /// <unmanaged>IDWriteFontFamily</unmanaged>	
     /// <unmanaged-short>IDWriteFontFamily</unmanaged-short>	
     [Guid("da20d8ef-812a-4c43-9802-62ec4abd7add")]
-    public partial class FontFamily : SharpDX.DirectWrite.FontList {
+    public partial class FontFamily : SharpDX.DirectWrite.FontList
+    {
         /// <summary>
         /// Initializes a new instance of the <see cref="SharpDX.DirectWrite.FontFamily"/> class.
         /// </summary>
         /// <param name="nativePtr">The native pointer.</param>	
-        public FontFamily(IntPtr nativePtr) : base(nativePtr) {
+        public FontFamily(IntPtr nativePtr) : base(nativePtr)
+        {
         }
 
-		/// <summary>
-		/// Performs an explicit conversion from <see cref="System.IntPtr"/> to <see cref="SharpDX.DirectWrite.FontFamily"/>. (This method is a shortcut to <see cref="SharpDX.CppObject.NativePointer"/>) 
-		/// </summary>
-		/// <param name="nativePointer">The native pointer.</param>
-		/// <returns>
-		/// The result of the conversion.
-		/// </returns>
-		public static explicit operator SharpDX.DirectWrite.FontFamily(IntPtr nativePointer)
-		{
-			return nativePointer == IntPtr.Zero ? null : new SharpDX.DirectWrite.FontFamily(nativePointer);
-		}
-        
-        
+        /// <summary>
+        /// Performs an explicit conversion from <see cref="System.IntPtr"/> to <see cref="SharpDX.DirectWrite.FontFamily"/>. (This method is a shortcut to <see cref="SharpDX.CppObject.NativePointer"/>) 
+        /// </summary>
+        /// <param name="nativePointer">The native pointer.</param>
+        /// <returns>
+        /// The result of the conversion.
+        /// </returns>
+        public static explicit operator SharpDX.DirectWrite.FontFamily(IntPtr nativePointer)
+        {
+            return nativePointer == IntPtr.Zero ? null : new SharpDX.DirectWrite.FontFamily(nativePointer);
+        }
+
+
         /// <summary>	
         /// <p> Creates a localized strings object that contains the family names for the font family, indexed by locale name. </p>	
         /// </summary>	
@@ -2588,10 +2799,11 @@ namespace SharpDX.DirectWrite {
         /// <unmanaged>GetFamilyNames</unmanaged>	
         /// <unmanaged-short>GetFamilyNames</unmanaged-short>	
         /// <unmanaged>HRESULT IDWriteFontFamily::GetFamilyNames([Out] IDWriteLocalizedStrings** names)</unmanaged>
-        public SharpDX.DirectWrite.LocalizedStrings FamilyNames {
-                get { SharpDX.DirectWrite.LocalizedStrings __output__; GetFamilyNames(out __output__); return __output__; }
+        public SharpDX.DirectWrite.LocalizedStrings FamilyNames
+        {
+            get { SharpDX.DirectWrite.LocalizedStrings __output__; GetFamilyNames(out __output__); return __output__; }
         }
-        
+
         /// <summary>	
         /// <p> Creates a localized strings object that contains the family names for the font family, indexed by locale name. </p>	
         /// </summary>	
@@ -2622,17 +2834,19 @@ namespace SharpDX.DirectWrite {
         /// <msdn-id>dd371047</msdn-id>	
         /// <unmanaged>HRESULT IDWriteFontFamily::GetFamilyNames([Out] IDWriteLocalizedStrings** names)</unmanaged>	
         /// <unmanaged-short>IDWriteFontFamily::GetFamilyNames</unmanaged-short>	
-        internal void GetFamilyNames(out SharpDX.DirectWrite.LocalizedStrings names) {
-            unsafe {
+        internal void GetFamilyNames(out SharpDX.DirectWrite.LocalizedStrings names)
+        {
+            unsafe
+            {
                 IntPtr names_ = IntPtr.Zero;
                 SharpDX.Result __result__;
-                __result__= 
-				SharpDX.Direct2D1.LocalInterop.Calliint(_nativePointer, &names_,((void**)(*(void**)_nativePointer))[6]);		
-                names= (names_ == IntPtr.Zero)?null:new SharpDX.DirectWrite.LocalizedStrings(names_);	
+                __result__ =
+                SharpDX.Direct2D1.LocalInterop.Calliint(_nativePointer, &names_, ((void**)(*(void**)_nativePointer))[6]);
+                names = (names_ == IntPtr.Zero) ? null : new SharpDX.DirectWrite.LocalizedStrings(names_);
                 __result__.CheckError();
             }
         }
-        
+
         /// <summary>	
         /// <p> Gets the font that best matches the specified properties. </p>	
         /// </summary>	
@@ -2644,19 +2858,21 @@ namespace SharpDX.DirectWrite {
         /// <msdn-id>dd371051</msdn-id>	
         /// <unmanaged>HRESULT IDWriteFontFamily::GetFirstMatchingFont([In] DWRITE_FONT_WEIGHT weight,[In] DWRITE_FONT_STRETCH stretch,[In] DWRITE_FONT_STYLE style,[Out] IDWriteFont** matchingFont)</unmanaged>	
         /// <unmanaged-short>IDWriteFontFamily::GetFirstMatchingFont</unmanaged-short>	
-        public SharpDX.DirectWrite.Font GetFirstMatchingFont(SharpDX.DirectWrite.FontWeight weight, SharpDX.DirectWrite.FontStretch stretch, SharpDX.DirectWrite.FontStyle style) {
-            unsafe {
+        public SharpDX.DirectWrite.Font GetFirstMatchingFont(SharpDX.DirectWrite.FontWeight weight, SharpDX.DirectWrite.FontStretch stretch, SharpDX.DirectWrite.FontStyle style)
+        {
+            unsafe
+            {
                 SharpDX.DirectWrite.Font matchingFont;
                 IntPtr matchingFont_ = IntPtr.Zero;
                 SharpDX.Result __result__;
-                __result__= 
-				SharpDX.Direct2D1.LocalInterop.Calliint(_nativePointer, unchecked((int)weight), unchecked((int)stretch), unchecked((int)style), &matchingFont_,((void**)(*(void**)_nativePointer))[7]);		
-                matchingFont= (matchingFont_ == IntPtr.Zero)?null:new SharpDX.DirectWrite.Font(matchingFont_);	
+                __result__ =
+                SharpDX.Direct2D1.LocalInterop.Calliint(_nativePointer, unchecked((int)weight), unchecked((int)stretch), unchecked((int)style), &matchingFont_, ((void**)(*(void**)_nativePointer))[7]);
+                matchingFont = (matchingFont_ == IntPtr.Zero) ? null : new SharpDX.DirectWrite.Font(matchingFont_);
                 __result__.CheckError();
                 return matchingFont;
             }
         }
-        
+
         /// <summary>	
         /// <p> Gets a list of fonts in the font family ranked in order of how well they match the specified properties. </p>	
         /// </summary>	
@@ -2668,14 +2884,16 @@ namespace SharpDX.DirectWrite {
         /// <msdn-id>dd371056</msdn-id>	
         /// <unmanaged>HRESULT IDWriteFontFamily::GetMatchingFonts([In] DWRITE_FONT_WEIGHT weight,[In] DWRITE_FONT_STRETCH stretch,[In] DWRITE_FONT_STYLE style,[Out] IDWriteFontList** matchingFonts)</unmanaged>	
         /// <unmanaged-short>IDWriteFontFamily::GetMatchingFonts</unmanaged-short>	
-        public SharpDX.DirectWrite.FontList GetMatchingFonts(SharpDX.DirectWrite.FontWeight weight, SharpDX.DirectWrite.FontStretch stretch, SharpDX.DirectWrite.FontStyle style) {
-            unsafe {
+        public SharpDX.DirectWrite.FontList GetMatchingFonts(SharpDX.DirectWrite.FontWeight weight, SharpDX.DirectWrite.FontStretch stretch, SharpDX.DirectWrite.FontStyle style)
+        {
+            unsafe
+            {
                 SharpDX.DirectWrite.FontList matchingFonts;
                 IntPtr matchingFonts_ = IntPtr.Zero;
                 SharpDX.Result __result__;
-                __result__= 
-				SharpDX.Direct2D1.LocalInterop.Calliint(_nativePointer, unchecked((int)weight), unchecked((int)stretch), unchecked((int)style), &matchingFonts_,((void**)(*(void**)_nativePointer))[8]);		
-                matchingFonts= (matchingFonts_ == IntPtr.Zero)?null:new SharpDX.DirectWrite.FontList(matchingFonts_);	
+                __result__ =
+                SharpDX.Direct2D1.LocalInterop.Calliint(_nativePointer, unchecked((int)weight), unchecked((int)stretch), unchecked((int)style), &matchingFonts_, ((void**)(*(void**)_nativePointer))[8]);
+                matchingFonts = (matchingFonts_ == IntPtr.Zero) ? null : new SharpDX.DirectWrite.FontList(matchingFonts_);
                 __result__.CheckError();
                 return matchingFonts;
             }
@@ -2689,27 +2907,29 @@ namespace SharpDX.DirectWrite {
     /// <unmanaged>IDWriteFontFile</unmanaged>	
     /// <unmanaged-short>IDWriteFontFile</unmanaged-short>	
     [Guid("739d886a-cef5-47dc-8769-1a8b41bebbb0")]
-    public partial class FontFile : SharpDX.ComObject {
+    public partial class FontFile : SharpDX.ComObject
+    {
         /// <summary>
         /// Initializes a new instance of the <see cref="SharpDX.DirectWrite.FontFile"/> class.
         /// </summary>
         /// <param name="nativePtr">The native pointer.</param>	
-        public FontFile(IntPtr nativePtr) : base(nativePtr) {
+        public FontFile(IntPtr nativePtr) : base(nativePtr)
+        {
         }
 
-		/// <summary>
-		/// Performs an explicit conversion from <see cref="System.IntPtr"/> to <see cref="SharpDX.DirectWrite.FontFile"/>. (This method is a shortcut to <see cref="SharpDX.CppObject.NativePointer"/>) 
-		/// </summary>
-		/// <param name="nativePointer">The native pointer.</param>
-		/// <returns>
-		/// The result of the conversion.
-		/// </returns>
-		public static explicit operator SharpDX.DirectWrite.FontFile(IntPtr nativePointer)
-		{
-			return nativePointer == IntPtr.Zero ? null : new SharpDX.DirectWrite.FontFile(nativePointer);
-		}
-        
-        
+        /// <summary>
+        /// Performs an explicit conversion from <see cref="System.IntPtr"/> to <see cref="SharpDX.DirectWrite.FontFile"/>. (This method is a shortcut to <see cref="SharpDX.CppObject.NativePointer"/>) 
+        /// </summary>
+        /// <param name="nativePointer">The native pointer.</param>
+        /// <returns>
+        /// The result of the conversion.
+        /// </returns>
+        public static explicit operator SharpDX.DirectWrite.FontFile(IntPtr nativePointer)
+        {
+            return nativePointer == IntPtr.Zero ? null : new SharpDX.DirectWrite.FontFile(nativePointer);
+        }
+
+
         /// <summary>	
         /// <p> Obtains the reference to the reference key of a font file. The returned reference is valid until the font file object is released.  </p>	
         /// </summary>	
@@ -2720,16 +2940,18 @@ namespace SharpDX.DirectWrite {
         /// <msdn-id>dd371108</msdn-id>	
         /// <unmanaged>HRESULT IDWriteFontFile::GetReferenceKey([Out, Buffer] const void** fontFileReferenceKey,[Out] unsigned int* fontFileReferenceKeySize)</unmanaged>	
         /// <unmanaged-short>IDWriteFontFile::GetReferenceKey</unmanaged-short>	
-        internal void GetReferenceKey(System.IntPtr fontFileReferenceKey, out int fontFileReferenceKeySize) {
-            unsafe {
+        internal void GetReferenceKey(System.IntPtr fontFileReferenceKey, out int fontFileReferenceKeySize)
+        {
+            unsafe
+            {
                 SharpDX.Result __result__;
                 fixed (void* fontFileReferenceKeySize_ = &fontFileReferenceKeySize)
-                    __result__= 
-    				SharpDX.Direct2D1.LocalInterop.Calliint(_nativePointer, (void*)fontFileReferenceKey, fontFileReferenceKeySize_,((void**)(*(void**)_nativePointer))[3]);		
+                    __result__ =
+                    SharpDX.Direct2D1.LocalInterop.Calliint(_nativePointer, (void*)fontFileReferenceKey, fontFileReferenceKeySize_, ((void**)(*(void**)_nativePointer))[3]);
                 __result__.CheckError();
             }
         }
-        
+
         /// <summary>	
         /// <p> Obtains the file loader associated with a font file object. </p>	
         /// </summary>	
@@ -2739,17 +2961,19 @@ namespace SharpDX.DirectWrite {
         /// <msdn-id>dd371104</msdn-id>	
         /// <unmanaged>HRESULT IDWriteFontFile::GetLoader([Out] IDWriteFontFileLoader** fontFileLoader)</unmanaged>	
         /// <unmanaged-short>IDWriteFontFile::GetLoader</unmanaged-short>	
-        internal void GetLoader(out SharpDX.DirectWrite.FontFileLoader fontFileLoader) {
-            unsafe {
+        internal void GetLoader(out SharpDX.DirectWrite.FontFileLoader fontFileLoader)
+        {
+            unsafe
+            {
                 IntPtr fontFileLoader_ = IntPtr.Zero;
                 SharpDX.Result __result__;
-                __result__= 
-				SharpDX.Direct2D1.LocalInterop.Calliint(_nativePointer, &fontFileLoader_,((void**)(*(void**)_nativePointer))[4]);		
-                fontFileLoader= (fontFileLoader_ == IntPtr.Zero)?null:new SharpDX.DirectWrite.FontFileLoaderNative(fontFileLoader_);	
+                __result__ =
+                SharpDX.Direct2D1.LocalInterop.Calliint(_nativePointer, &fontFileLoader_, ((void**)(*(void**)_nativePointer))[4]);
+                fontFileLoader = (fontFileLoader_ == IntPtr.Zero) ? null : new SharpDX.DirectWrite.FontFileLoaderNative(fontFileLoader_);
                 __result__.CheckError();
             }
         }
-        
+
         /// <summary>	
         /// <p> Analyzes a file and returns whether it represents a font, and whether the font type is supported by the font system. </p>	
         /// </summary>	
@@ -2765,16 +2989,18 @@ namespace SharpDX.DirectWrite {
         /// <msdn-id>dd371099</msdn-id>	
         /// <unmanaged>HRESULT IDWriteFontFile::Analyze([Out] BOOL* isSupportedFontType,[Out] DWRITE_FONT_FILE_TYPE* fontFileType,[Out, Optional] DWRITE_FONT_FACE_TYPE* fontFaceType,[Out] unsigned int* numberOfFaces)</unmanaged>	
         /// <unmanaged-short>IDWriteFontFile::Analyze</unmanaged-short>	
-        public void Analyze(out SharpDX.Mathematics.Interop.RawBool isSupportedFontType, out SharpDX.DirectWrite.FontFileType fontFileType, out SharpDX.DirectWrite.FontFaceType fontFaceType, out int numberOfFaces) {
-            unsafe {
+        public void Analyze(out SharpDX.Mathematics.Interop.RawBool isSupportedFontType, out SharpDX.DirectWrite.FontFileType fontFileType, out SharpDX.DirectWrite.FontFaceType fontFaceType, out int numberOfFaces)
+        {
+            unsafe
+            {
                 isSupportedFontType = new SharpDX.Mathematics.Interop.RawBool();
                 SharpDX.Result __result__;
                 fixed (void* isSupportedFontType_ = &isSupportedFontType)
                     fixed (void* fontFileType_ = &fontFileType)
                         fixed (void* fontFaceType_ = &fontFaceType)
                             fixed (void* numberOfFaces_ = &numberOfFaces)
-                                __result__= 
-                				SharpDX.Direct2D1.LocalInterop.Calliint(_nativePointer, isSupportedFontType_, fontFileType_, fontFaceType_, numberOfFaces_,((void**)(*(void**)_nativePointer))[5]);		
+                                __result__ =
+                                SharpDX.Direct2D1.LocalInterop.Calliint(_nativePointer, isSupportedFontType_, fontFileType_, fontFaceType_, numberOfFaces_, ((void**)(*(void**)_nativePointer))[5]);
                 __result__.CheckError();
             }
         }
@@ -2787,9 +3013,10 @@ namespace SharpDX.DirectWrite {
     /// <unmanaged>IDWriteFontFileEnumerator</unmanaged>	
     /// <unmanaged-short>IDWriteFontFileEnumerator</unmanaged-short>	
     [Guid("72755049-5ff7-435d-8348-4be97cfa6c7c")]
-    public partial interface FontFileEnumerator : SharpDX.ICallbackable {
-        
-        
+    public partial interface FontFileEnumerator : SharpDX.ICallbackable
+    {
+
+
         /// <summary>	
         /// <p> Advances to the next font file in the collection. When it is first created, the enumerator is positioned before the first element of the collection and the first call to <strong>MoveNext</strong> advances to the first file. </p>	
         /// </summary>	
@@ -2800,7 +3027,7 @@ namespace SharpDX.DirectWrite {
         /// <unmanaged>HRESULT IDWriteFontFileEnumerator::MoveNext([Out] BOOL* hasCurrentFile)</unmanaged>	
         /// <unmanaged-short>IDWriteFontFileEnumerator::MoveNext</unmanaged-short>	
         /* public void MoveNext(out SharpDX.Mathematics.Interop.RawBool hasCurrentFile) */
-        
+
         /// <summary>	
         /// <p> Gets a reference to the current font file. </p>	
         /// </summary>	
@@ -2823,9 +3050,10 @@ namespace SharpDX.DirectWrite {
     /// <unmanaged>IDWriteFontFileLoader</unmanaged>	
     /// <unmanaged-short>IDWriteFontFileLoader</unmanaged-short>	
     [Guid("727cad4e-d6af-4c9e-8a08-d695b11caa49")]
-    public partial interface FontFileLoader : SharpDX.ICallbackable {
-        
-        
+    public partial interface FontFileLoader : SharpDX.ICallbackable
+    {
+
+
         /// <summary>	
         /// <p> Creates a font file stream object that encapsulates an open file resource. </p>	
         /// </summary>	
@@ -2853,27 +3081,29 @@ namespace SharpDX.DirectWrite {
     /// <unmanaged>IDWriteFontFileLoader</unmanaged>	
     /// <unmanaged-short>IDWriteFontFileLoader</unmanaged-short>	
     [Guid("727cad4e-d6af-4c9e-8a08-d695b11caa49")]
-    public partial class FontFileLoaderNative : SharpDX.ComObjectCallback, SharpDX.DirectWrite.FontFileLoader {
+    public partial class FontFileLoaderNative : SharpDX.ComObjectCallback, SharpDX.DirectWrite.FontFileLoader
+    {
         /// <summary>
         /// Initializes a new instance of the <see cref="SharpDX.DirectWrite.FontFileLoaderNative"/> class.
         /// </summary>
         /// <param name="nativePtr">The native pointer.</param>	
-        public FontFileLoaderNative(IntPtr nativePtr) : base(nativePtr) {
+        public FontFileLoaderNative(IntPtr nativePtr) : base(nativePtr)
+        {
         }
 
-		/// <summary>
-		/// Performs an explicit conversion from <see cref="System.IntPtr"/> to <see cref="SharpDX.DirectWrite.FontFileLoaderNative"/>. (This method is a shortcut to <see cref="SharpDX.CppObject.NativePointer"/>) 
-		/// </summary>
-		/// <param name="nativePointer">The native pointer.</param>
-		/// <returns>
-		/// The result of the conversion.
-		/// </returns>
-		public static explicit operator SharpDX.DirectWrite.FontFileLoaderNative(IntPtr nativePointer)
-		{
-			return nativePointer == IntPtr.Zero ? null : new SharpDX.DirectWrite.FontFileLoaderNative(nativePointer);
-		}
-        
-        
+        /// <summary>
+        /// Performs an explicit conversion from <see cref="System.IntPtr"/> to <see cref="SharpDX.DirectWrite.FontFileLoaderNative"/>. (This method is a shortcut to <see cref="SharpDX.CppObject.NativePointer"/>) 
+        /// </summary>
+        /// <param name="nativePointer">The native pointer.</param>
+        /// <returns>
+        /// The result of the conversion.
+        /// </returns>
+        public static explicit operator SharpDX.DirectWrite.FontFileLoaderNative(IntPtr nativePointer)
+        {
+            return nativePointer == IntPtr.Zero ? null : new SharpDX.DirectWrite.FontFileLoaderNative(nativePointer);
+        }
+
+
         /// <summary>	
         /// <p> Creates a font file stream object that encapsulates an open file resource. </p>	
         /// </summary>	
@@ -2888,13 +3118,15 @@ namespace SharpDX.DirectWrite {
         /// <msdn-id>dd371077</msdn-id>	
         /// <unmanaged>HRESULT IDWriteFontFileLoader::CreateStreamFromKey([In, Buffer] const void* fontFileReferenceKey,[In] unsigned int fontFileReferenceKeySize,[Out] IDWriteFontFileStream** fontFileStream)</unmanaged>	
         /// <unmanaged-short>IDWriteFontFileLoader::CreateStreamFromKey</unmanaged-short>	
-        internal void CreateStreamFromKey_(System.IntPtr fontFileReferenceKey, int fontFileReferenceKeySize, out SharpDX.DirectWrite.FontFileStream fontFileStream) {
-            unsafe {
+        internal void CreateStreamFromKey_(System.IntPtr fontFileReferenceKey, int fontFileReferenceKeySize, out SharpDX.DirectWrite.FontFileStream fontFileStream)
+        {
+            unsafe
+            {
                 IntPtr fontFileStream_ = IntPtr.Zero;
                 SharpDX.Result __result__;
-                __result__= 
-				SharpDX.Direct2D1.LocalInterop.Calliint(_nativePointer, (void*)fontFileReferenceKey, fontFileReferenceKeySize, &fontFileStream_,((void**)(*(void**)_nativePointer))[3]);		
-                fontFileStream= (fontFileStream_ == IntPtr.Zero)?null:new SharpDX.DirectWrite.FontFileStreamNative(fontFileStream_);	
+                __result__ =
+                SharpDX.Direct2D1.LocalInterop.Calliint(_nativePointer, (void*)fontFileReferenceKey, fontFileReferenceKeySize, &fontFileStream_, ((void**)(*(void**)_nativePointer))[3]);
+                fontFileStream = (fontFileStream_ == IntPtr.Zero) ? null : new SharpDX.DirectWrite.FontFileStreamNative(fontFileStream_);
                 __result__.CheckError();
             }
         }
@@ -2907,9 +3139,10 @@ namespace SharpDX.DirectWrite {
     /// <unmanaged>IDWriteFontFileStream</unmanaged>	
     /// <unmanaged-short>IDWriteFontFileStream</unmanaged-short>	
     [Guid("6d4865fe-0ab8-4d91-8f62-5dd6be34a3e0")]
-    public partial interface FontFileStream : SharpDX.ICallbackable {
-        
-        
+    public partial interface FontFileStream : SharpDX.ICallbackable
+    {
+
+
         /// <summary>	
         /// <p> Reads a fragment from a font file. </p>	
         /// </summary>	
@@ -2926,7 +3159,7 @@ namespace SharpDX.DirectWrite {
         /// <unmanaged>HRESULT IDWriteFontFileStream::ReadFileFragment([Out] const void** fragmentStart,[In] unsigned longlong fileOffset,[In] unsigned longlong fragmentSize,[Out] void** fragmentContext)</unmanaged>	
         /// <unmanaged-short>IDWriteFontFileStream::ReadFileFragment</unmanaged-short>	
         /* public void ReadFileFragment(out System.IntPtr fragmentStart, long fileOffset, long fragmentSize, out System.IntPtr fragmentContext) */
-        
+
         /// <summary>	
         /// <p> Releases a fragment from a file. </p>	
         /// </summary>	
@@ -2936,7 +3169,7 @@ namespace SharpDX.DirectWrite {
         /// <unmanaged>void IDWriteFontFileStream::ReleaseFileFragment([In] void* fragmentContext)</unmanaged>	
         /// <unmanaged-short>IDWriteFontFileStream::ReleaseFileFragment</unmanaged-short>	
         /* public void ReleaseFileFragment(System.IntPtr fragmentContext) */
-        
+
         /// <summary>	
         /// <p> Obtains the total size of a file. </p>	
         /// </summary>	
@@ -2950,7 +3183,7 @@ namespace SharpDX.DirectWrite {
         /// <unmanaged>HRESULT IDWriteFontFileStream::GetFileSize([Out] unsigned longlong* fileSize)</unmanaged>	
         /// <unmanaged-short>IDWriteFontFileStream::GetFileSize</unmanaged-short>	
         /* public void GetFileSize(out long fileSize) */
-        
+
         /// <summary>	
         /// <p> Obtains the last modified time of the file.  </p>	
         /// </summary>	
@@ -2973,27 +3206,29 @@ namespace SharpDX.DirectWrite {
     /// <unmanaged>IDWriteFontFileStream</unmanaged>	
     /// <unmanaged-short>IDWriteFontFileStream</unmanaged-short>	
     [Guid("6d4865fe-0ab8-4d91-8f62-5dd6be34a3e0")]
-    public partial class FontFileStreamNative : SharpDX.ComObjectCallback, SharpDX.DirectWrite.FontFileStream {
+    public partial class FontFileStreamNative : SharpDX.ComObjectCallback, SharpDX.DirectWrite.FontFileStream
+    {
         /// <summary>
         /// Initializes a new instance of the <see cref="SharpDX.DirectWrite.FontFileStreamNative"/> class.
         /// </summary>
         /// <param name="nativePtr">The native pointer.</param>	
-        public FontFileStreamNative(IntPtr nativePtr) : base(nativePtr) {
+        public FontFileStreamNative(IntPtr nativePtr) : base(nativePtr)
+        {
         }
 
-		/// <summary>
-		/// Performs an explicit conversion from <see cref="System.IntPtr"/> to <see cref="SharpDX.DirectWrite.FontFileStreamNative"/>. (This method is a shortcut to <see cref="SharpDX.CppObject.NativePointer"/>) 
-		/// </summary>
-		/// <param name="nativePointer">The native pointer.</param>
-		/// <returns>
-		/// The result of the conversion.
-		/// </returns>
-		public static explicit operator SharpDX.DirectWrite.FontFileStreamNative(IntPtr nativePointer)
-		{
-			return nativePointer == IntPtr.Zero ? null : new SharpDX.DirectWrite.FontFileStreamNative(nativePointer);
-		}
-        
-        
+        /// <summary>
+        /// Performs an explicit conversion from <see cref="System.IntPtr"/> to <see cref="SharpDX.DirectWrite.FontFileStreamNative"/>. (This method is a shortcut to <see cref="SharpDX.CppObject.NativePointer"/>) 
+        /// </summary>
+        /// <param name="nativePointer">The native pointer.</param>
+        /// <returns>
+        /// The result of the conversion.
+        /// </returns>
+        public static explicit operator SharpDX.DirectWrite.FontFileStreamNative(IntPtr nativePointer)
+        {
+            return nativePointer == IntPtr.Zero ? null : new SharpDX.DirectWrite.FontFileStreamNative(nativePointer);
+        }
+
+
         /// <summary>	
         /// <p> Reads a fragment from a font file. </p>	
         /// </summary>	
@@ -3009,17 +3244,19 @@ namespace SharpDX.DirectWrite {
         /// <msdn-id>dd371091</msdn-id>	
         /// <unmanaged>HRESULT IDWriteFontFileStream::ReadFileFragment([Out] const void** fragmentStart,[In] unsigned longlong fileOffset,[In] unsigned longlong fragmentSize,[Out] void** fragmentContext)</unmanaged>	
         /// <unmanaged-short>IDWriteFontFileStream::ReadFileFragment</unmanaged-short>	
-        internal void ReadFileFragment_(out System.IntPtr fragmentStart, long fileOffset, long fragmentSize, out System.IntPtr fragmentContext) {
-            unsafe {
+        internal void ReadFileFragment_(out System.IntPtr fragmentStart, long fileOffset, long fragmentSize, out System.IntPtr fragmentContext)
+        {
+            unsafe
+            {
                 SharpDX.Result __result__;
                 fixed (void* fragmentStart_ = &fragmentStart)
                     fixed (void* fragmentContext_ = &fragmentContext)
-                        __result__= 
-        				SharpDX.Direct2D1.LocalInterop.Calliint(_nativePointer, fragmentStart_, fileOffset, fragmentSize, fragmentContext_,((void**)(*(void**)_nativePointer))[3]);		
+                        __result__ =
+                        SharpDX.Direct2D1.LocalInterop.Calliint(_nativePointer, fragmentStart_, fileOffset, fragmentSize, fragmentContext_, ((void**)(*(void**)_nativePointer))[3]);
                 __result__.CheckError();
             }
         }
-        
+
         /// <summary>	
         /// <p> Releases a fragment from a file. </p>	
         /// </summary>	
@@ -3028,12 +3265,14 @@ namespace SharpDX.DirectWrite {
         /// <msdn-id>dd371095</msdn-id>	
         /// <unmanaged>void IDWriteFontFileStream::ReleaseFileFragment([In] void* fragmentContext)</unmanaged>	
         /// <unmanaged-short>IDWriteFontFileStream::ReleaseFileFragment</unmanaged-short>	
-        internal void ReleaseFileFragment_(System.IntPtr fragmentContext) {
-            unsafe {
-                SharpDX.Direct2D1.LocalInterop.Callivoid(_nativePointer, (void*)fragmentContext,((void**)(*(void**)_nativePointer))[4]);		
+        internal void ReleaseFileFragment_(System.IntPtr fragmentContext)
+        {
+            unsafe
+            {
+                SharpDX.Direct2D1.LocalInterop.Callivoid(_nativePointer, (void*)fragmentContext, ((void**)(*(void**)_nativePointer))[4]);
             }
         }
-        
+
         /// <summary>	
         /// <p> Obtains the total size of a file. </p>	
         /// </summary>	
@@ -3046,16 +3285,18 @@ namespace SharpDX.DirectWrite {
         /// <msdn-id>dd371084</msdn-id>	
         /// <unmanaged>HRESULT IDWriteFontFileStream::GetFileSize([Out] unsigned longlong* fileSize)</unmanaged>	
         /// <unmanaged-short>IDWriteFontFileStream::GetFileSize</unmanaged-short>	
-        internal void GetFileSize_(out long fileSize) {
-            unsafe {
+        internal void GetFileSize_(out long fileSize)
+        {
+            unsafe
+            {
                 SharpDX.Result __result__;
                 fixed (void* fileSize_ = &fileSize)
-                    __result__= 
-    				SharpDX.Direct2D1.LocalInterop.Calliint(_nativePointer, fileSize_,((void**)(*(void**)_nativePointer))[5]);		
+                    __result__ =
+                    SharpDX.Direct2D1.LocalInterop.Calliint(_nativePointer, fileSize_, ((void**)(*(void**)_nativePointer))[5]);
                 __result__.CheckError();
             }
         }
-        
+
         /// <summary>	
         /// <p> Obtains the last modified time of the file.  </p>	
         /// </summary>	
@@ -3068,12 +3309,14 @@ namespace SharpDX.DirectWrite {
         /// <msdn-id>dd371089</msdn-id>	
         /// <unmanaged>HRESULT IDWriteFontFileStream::GetLastWriteTime([Out] unsigned longlong* lastWriteTime)</unmanaged>	
         /// <unmanaged-short>IDWriteFontFileStream::GetLastWriteTime</unmanaged-short>	
-        internal void GetLastWriteTime_(out long lastWriteTime) {
-            unsafe {
+        internal void GetLastWriteTime_(out long lastWriteTime)
+        {
+            unsafe
+            {
                 SharpDX.Result __result__;
                 fixed (void* lastWriteTime_ = &lastWriteTime)
-                    __result__= 
-    				SharpDX.Direct2D1.LocalInterop.Calliint(_nativePointer, lastWriteTime_,((void**)(*(void**)_nativePointer))[6]);		
+                    __result__ =
+                    SharpDX.Direct2D1.LocalInterop.Calliint(_nativePointer, lastWriteTime_, ((void**)(*(void**)_nativePointer))[6]);
                 __result__.CheckError();
             }
         }
@@ -3086,27 +3329,29 @@ namespace SharpDX.DirectWrite {
     /// <unmanaged>IDWriteFontList</unmanaged>	
     /// <unmanaged-short>IDWriteFontList</unmanaged-short>	
     [Guid("1a0d8438-1d97-4ec1-aef9-a2fb86ed6acb")]
-    public partial class FontList : SharpDX.ComObject {
+    public partial class FontList : SharpDX.ComObject
+    {
         /// <summary>
         /// Initializes a new instance of the <see cref="SharpDX.DirectWrite.FontList"/> class.
         /// </summary>
         /// <param name="nativePtr">The native pointer.</param>	
-        public FontList(IntPtr nativePtr) : base(nativePtr) {
+        public FontList(IntPtr nativePtr) : base(nativePtr)
+        {
         }
 
-		/// <summary>
-		/// Performs an explicit conversion from <see cref="System.IntPtr"/> to <see cref="SharpDX.DirectWrite.FontList"/>. (This method is a shortcut to <see cref="SharpDX.CppObject.NativePointer"/>) 
-		/// </summary>
-		/// <param name="nativePointer">The native pointer.</param>
-		/// <returns>
-		/// The result of the conversion.
-		/// </returns>
-		public static explicit operator SharpDX.DirectWrite.FontList(IntPtr nativePointer)
-		{
-			return nativePointer == IntPtr.Zero ? null : new SharpDX.DirectWrite.FontList(nativePointer);
-		}
-        
-        
+        /// <summary>
+        /// Performs an explicit conversion from <see cref="System.IntPtr"/> to <see cref="SharpDX.DirectWrite.FontList"/>. (This method is a shortcut to <see cref="SharpDX.CppObject.NativePointer"/>) 
+        /// </summary>
+        /// <param name="nativePointer">The native pointer.</param>
+        /// <returns>
+        /// The result of the conversion.
+        /// </returns>
+        public static explicit operator SharpDX.DirectWrite.FontList(IntPtr nativePointer)
+        {
+            return nativePointer == IntPtr.Zero ? null : new SharpDX.DirectWrite.FontList(nativePointer);
+        }
+
+
         /// <summary>	
         /// <p> Gets the font collection that contains the fonts in the font list.</p>	
         /// </summary>	
@@ -3115,10 +3360,11 @@ namespace SharpDX.DirectWrite {
         /// <unmanaged>GetFontCollection</unmanaged>	
         /// <unmanaged-short>GetFontCollection</unmanaged-short>	
         /// <unmanaged>HRESULT IDWriteFontList::GetFontCollection([Out] IDWriteFontCollection** fontCollection)</unmanaged>
-        public SharpDX.DirectWrite.FontCollection FontCollection {
-                get { SharpDX.DirectWrite.FontCollection __output__; GetFontCollection(out __output__); return __output__; }
+        public SharpDX.DirectWrite.FontCollection FontCollection
+        {
+            get { SharpDX.DirectWrite.FontCollection __output__; GetFontCollection(out __output__); return __output__; }
         }
-        
+
         /// <summary>	
         /// <p> Gets the number of fonts in the font list. </p>	
         /// </summary>	
@@ -3127,10 +3373,11 @@ namespace SharpDX.DirectWrite {
         /// <unmanaged>GetFontCount</unmanaged>	
         /// <unmanaged-short>GetFontCount</unmanaged-short>	
         /// <unmanaged>unsigned int IDWriteFontList::GetFontCount()</unmanaged>
-        public int FontCount {
-                get { return GetFontCount(); }
+        public int FontCount
+        {
+            get { return GetFontCount(); }
         }
-        
+
         /// <summary>	
         /// <p> Gets the font collection that contains the fonts in the font list.</p>	
         /// </summary>	
@@ -3140,17 +3387,19 @@ namespace SharpDX.DirectWrite {
         /// <msdn-id>dd371129</msdn-id>	
         /// <unmanaged>HRESULT IDWriteFontList::GetFontCollection([Out] IDWriteFontCollection** fontCollection)</unmanaged>	
         /// <unmanaged-short>IDWriteFontList::GetFontCollection</unmanaged-short>	
-        internal void GetFontCollection(out SharpDX.DirectWrite.FontCollection fontCollection) {
-            unsafe {
+        internal void GetFontCollection(out SharpDX.DirectWrite.FontCollection fontCollection)
+        {
+            unsafe
+            {
                 IntPtr fontCollection_ = IntPtr.Zero;
                 SharpDX.Result __result__;
-                __result__= 
-				SharpDX.Direct2D1.LocalInterop.Calliint(_nativePointer, &fontCollection_,((void**)(*(void**)_nativePointer))[3]);		
-                fontCollection= (fontCollection_ == IntPtr.Zero)?null:new SharpDX.DirectWrite.FontCollection(fontCollection_);	
+                __result__ =
+                SharpDX.Direct2D1.LocalInterop.Calliint(_nativePointer, &fontCollection_, ((void**)(*(void**)_nativePointer))[3]);
+                fontCollection = (fontCollection_ == IntPtr.Zero) ? null : new SharpDX.DirectWrite.FontCollection(fontCollection_);
                 __result__.CheckError();
             }
         }
-        
+
         /// <summary>	
         /// <p> Gets the number of fonts in the font list. </p>	
         /// </summary>	
@@ -3159,15 +3408,17 @@ namespace SharpDX.DirectWrite {
         /// <msdn-id>dd371133</msdn-id>	
         /// <unmanaged>unsigned int IDWriteFontList::GetFontCount()</unmanaged>	
         /// <unmanaged-short>IDWriteFontList::GetFontCount</unmanaged-short>	
-        internal int GetFontCount() {
-            unsafe {
+        internal int GetFontCount()
+        {
+            unsafe
+            {
                 int __result__;
-                __result__= 
-				SharpDX.Direct2D1.LocalInterop.Calliint(_nativePointer,((void**)(*(void**)_nativePointer))[4]);		
+                __result__ =
+                SharpDX.Direct2D1.LocalInterop.Calliint(_nativePointer, ((void**)(*(void**)_nativePointer))[4]);
                 return __result__;
             }
         }
-        
+
         /// <summary>	
         /// <p> Gets a font given its zero-based index. </p>	
         /// </summary>	
@@ -3177,14 +3428,16 @@ namespace SharpDX.DirectWrite {
         /// <msdn-id>dd371125</msdn-id>	
         /// <unmanaged>HRESULT IDWriteFontList::GetFont([In] unsigned int index,[Out] IDWriteFont** font)</unmanaged>	
         /// <unmanaged-short>IDWriteFontList::GetFont</unmanaged-short>	
-        public SharpDX.DirectWrite.Font GetFont(int index) {
-            unsafe {
+        public SharpDX.DirectWrite.Font GetFont(int index)
+        {
+            unsafe
+            {
                 SharpDX.DirectWrite.Font font;
                 IntPtr font_ = IntPtr.Zero;
                 SharpDX.Result __result__;
-                __result__= 
-				SharpDX.Direct2D1.LocalInterop.Calliint(_nativePointer, index, &font_,((void**)(*(void**)_nativePointer))[5]);		
-                font= (font_ == IntPtr.Zero)?null:new SharpDX.DirectWrite.Font(font_);	
+                __result__ =
+                SharpDX.Direct2D1.LocalInterop.Calliint(_nativePointer, index, &font_, ((void**)(*(void**)_nativePointer))[5]);
+                font = (font_ == IntPtr.Zero) ? null : new SharpDX.DirectWrite.Font(font_);
                 __result__.CheckError();
                 return font;
             }
@@ -3198,27 +3451,29 @@ namespace SharpDX.DirectWrite {
     /// <unmanaged>IDWriteGdiInterop</unmanaged>	
     /// <unmanaged-short>IDWriteGdiInterop</unmanaged-short>	
     [Guid("1edd9491-9853-4299-898f-6432983b6f3a")]
-    public partial class GdiInterop : SharpDX.ComObject {
+    public partial class GdiInterop : SharpDX.ComObject
+    {
         /// <summary>
         /// Initializes a new instance of the <see cref="SharpDX.DirectWrite.GdiInterop"/> class.
         /// </summary>
         /// <param name="nativePtr">The native pointer.</param>	
-        public GdiInterop(IntPtr nativePtr) : base(nativePtr) {
+        public GdiInterop(IntPtr nativePtr) : base(nativePtr)
+        {
         }
 
-		/// <summary>
-		/// Performs an explicit conversion from <see cref="System.IntPtr"/> to <see cref="SharpDX.DirectWrite.GdiInterop"/>. (This method is a shortcut to <see cref="SharpDX.CppObject.NativePointer"/>) 
-		/// </summary>
-		/// <param name="nativePointer">The native pointer.</param>
-		/// <returns>
-		/// The result of the conversion.
-		/// </returns>
-		public static explicit operator SharpDX.DirectWrite.GdiInterop(IntPtr nativePointer)
-		{
-			return nativePointer == IntPtr.Zero ? null : new SharpDX.DirectWrite.GdiInterop(nativePointer);
-		}
-        
-        
+        /// <summary>
+        /// Performs an explicit conversion from <see cref="System.IntPtr"/> to <see cref="SharpDX.DirectWrite.GdiInterop"/>. (This method is a shortcut to <see cref="SharpDX.CppObject.NativePointer"/>) 
+        /// </summary>
+        /// <param name="nativePointer">The native pointer.</param>
+        /// <returns>
+        /// The result of the conversion.
+        /// </returns>
+        public static explicit operator SharpDX.DirectWrite.GdiInterop(IntPtr nativePointer)
+        {
+            return nativePointer == IntPtr.Zero ? null : new SharpDX.DirectWrite.GdiInterop(nativePointer);
+        }
+
+
         /// <summary>	
         /// <p> Creates a font object that matches the properties specified by the <strong><see cref="SharpDX.DirectWrite.GdiInterop.LogFont"/></strong> structure. </p>	
         /// </summary>	
@@ -3229,17 +3484,19 @@ namespace SharpDX.DirectWrite {
         /// <msdn-id>dd371187</msdn-id>	
         /// <unmanaged>HRESULT IDWriteGdiInterop::CreateFontFromLOGFONT([In] const void* logFont,[Out] IDWriteFont** font)</unmanaged>	
         /// <unmanaged-short>IDWriteGdiInterop::CreateFontFromLOGFONT</unmanaged-short>	
-        internal void CreateFontFromLOGFONT(System.IntPtr logFont, out SharpDX.DirectWrite.Font font) {
-            unsafe {
+        internal void CreateFontFromLOGFONT(System.IntPtr logFont, out SharpDX.DirectWrite.Font font)
+        {
+            unsafe
+            {
                 IntPtr font_ = IntPtr.Zero;
                 SharpDX.Result __result__;
-                __result__= 
-				SharpDX.Direct2D1.LocalInterop.Calliint(_nativePointer, (void*)logFont, &font_,((void**)(*(void**)_nativePointer))[3]);		
-                font= (font_ == IntPtr.Zero)?null:new SharpDX.DirectWrite.Font(font_);	
+                __result__ =
+                SharpDX.Direct2D1.LocalInterop.Calliint(_nativePointer, (void*)logFont, &font_, ((void**)(*(void**)_nativePointer))[3]);
+                font = (font_ == IntPtr.Zero) ? null : new SharpDX.DirectWrite.Font(font_);
                 __result__.CheckError();
             }
         }
-        
+
         /// <summary>	
         /// <p> Initializes a <strong><see cref="SharpDX.DirectWrite.GdiInterop.LogFont"/></strong> structure based on the GDI-compatible properties of the specified font. </p>	
         /// </summary>	
@@ -3254,17 +3511,19 @@ namespace SharpDX.DirectWrite {
         /// <msdn-id>dd371177</msdn-id>	
         /// <unmanaged>HRESULT IDWriteGdiInterop::ConvertFontToLOGFONT([In] IDWriteFont* font,[In] void* logFont,[Out] BOOL* isSystemFont)</unmanaged>	
         /// <unmanaged-short>IDWriteGdiInterop::ConvertFontToLOGFONT</unmanaged-short>	
-        internal void ConvertFontToLOGFONT(SharpDX.DirectWrite.Font font, System.IntPtr logFont, out SharpDX.Mathematics.Interop.RawBool isSystemFont) {
-            unsafe {
+        internal void ConvertFontToLOGFONT(SharpDX.DirectWrite.Font font, System.IntPtr logFont, out SharpDX.Mathematics.Interop.RawBool isSystemFont)
+        {
+            unsafe
+            {
                 isSystemFont = new SharpDX.Mathematics.Interop.RawBool();
                 SharpDX.Result __result__;
                 fixed (void* isSystemFont_ = &isSystemFont)
-                    __result__= 
-    				SharpDX.Direct2D1.LocalInterop.Calliint(_nativePointer, (void*)((font == null)?IntPtr.Zero:font.NativePointer), (void*)logFont, isSystemFont_,((void**)(*(void**)_nativePointer))[4]);		
+                    __result__ =
+                    SharpDX.Direct2D1.LocalInterop.Calliint(_nativePointer, (void*)((font == null) ? IntPtr.Zero : font.NativePointer), (void*)logFont, isSystemFont_, ((void**)(*(void**)_nativePointer))[4]);
                 __result__.CheckError();
             }
         }
-        
+
         /// <summary>	
         /// <p> Initializes a <see cref="SharpDX.DirectWrite.GdiInterop.LogFont"/> structure based on the GDI-compatible properties of the specified font. </p>	
         /// </summary>	
@@ -3278,15 +3537,17 @@ namespace SharpDX.DirectWrite {
         /// <msdn-id>dd371175</msdn-id>	
         /// <unmanaged>HRESULT IDWriteGdiInterop::ConvertFontFaceToLOGFONT([In] IDWriteFontFace* font,[In] void* logFont)</unmanaged>	
         /// <unmanaged-short>IDWriteGdiInterop::ConvertFontFaceToLOGFONT</unmanaged-short>	
-        internal void ConvertFontFaceToLOGFONT(SharpDX.DirectWrite.FontFace font, System.IntPtr logFont) {
-            unsafe {
+        internal void ConvertFontFaceToLOGFONT(SharpDX.DirectWrite.FontFace font, System.IntPtr logFont)
+        {
+            unsafe
+            {
                 SharpDX.Result __result__;
-                __result__= 
-				SharpDX.Direct2D1.LocalInterop.Calliint(_nativePointer, (void*)((font == null)?IntPtr.Zero:font.NativePointer), (void*)logFont,((void**)(*(void**)_nativePointer))[5]);		
+                __result__ =
+                SharpDX.Direct2D1.LocalInterop.Calliint(_nativePointer, (void*)((font == null) ? IntPtr.Zero : font.NativePointer), (void*)logFont, ((void**)(*(void**)_nativePointer))[5]);
                 __result__.CheckError();
             }
         }
-        
+
         /// <summary>	
         /// <p> Creates an <strong><see cref="SharpDX.DirectWrite.FontFace"/></strong> object that corresponds to the currently selected <strong>HFONT</strong> of the specified <strong><see cref="System.IntPtr"/></strong>. </p>	
         /// </summary>	
@@ -3299,19 +3560,21 @@ namespace SharpDX.DirectWrite {
         /// <msdn-id>dd371185</msdn-id>	
         /// <unmanaged>HRESULT IDWriteGdiInterop::CreateFontFaceFromHdc([In] HDC hdc,[Out] IDWriteFontFace** fontFace)</unmanaged>	
         /// <unmanaged-short>IDWriteGdiInterop::CreateFontFaceFromHdc</unmanaged-short>	
-        public SharpDX.DirectWrite.FontFace CreateFontFaceFromHdc(System.IntPtr hdc) {
-            unsafe {
+        public SharpDX.DirectWrite.FontFace CreateFontFaceFromHdc(System.IntPtr hdc)
+        {
+            unsafe
+            {
                 SharpDX.DirectWrite.FontFace fontFace;
                 IntPtr fontFace_ = IntPtr.Zero;
                 SharpDX.Result __result__;
-                __result__= 
-				SharpDX.Direct2D1.LocalInterop.Calliint(_nativePointer, (void*)hdc, &fontFace_,((void**)(*(void**)_nativePointer))[6]);		
-                fontFace= (fontFace_ == IntPtr.Zero)?null:new SharpDX.DirectWrite.FontFace(fontFace_);	
+                __result__ =
+                SharpDX.Direct2D1.LocalInterop.Calliint(_nativePointer, (void*)hdc, &fontFace_, ((void**)(*(void**)_nativePointer))[6]);
+                fontFace = (fontFace_ == IntPtr.Zero) ? null : new SharpDX.DirectWrite.FontFace(fontFace_);
                 __result__.CheckError();
                 return fontFace;
             }
         }
-        
+
         /// <summary>	
         /// <p> Creates an object that encapsulates a bitmap and memory DC (device context) which can be used for rendering glyphs. </p>	
         /// </summary>	
@@ -3323,14 +3586,16 @@ namespace SharpDX.DirectWrite {
         /// <msdn-id>dd371182</msdn-id>	
         /// <unmanaged>HRESULT IDWriteGdiInterop::CreateBitmapRenderTarget([In, Optional] HDC hdc,[In] unsigned int width,[In] unsigned int height,[Out] IDWriteBitmapRenderTarget** renderTarget)</unmanaged>	
         /// <unmanaged-short>IDWriteGdiInterop::CreateBitmapRenderTarget</unmanaged-short>	
-        public SharpDX.DirectWrite.BitmapRenderTarget CreateBitmapRenderTarget(System.IntPtr hdc, int width, int height) {
-            unsafe {
+        public SharpDX.DirectWrite.BitmapRenderTarget CreateBitmapRenderTarget(System.IntPtr hdc, int width, int height)
+        {
+            unsafe
+            {
                 SharpDX.DirectWrite.BitmapRenderTarget renderTarget;
                 IntPtr renderTarget_ = IntPtr.Zero;
                 SharpDX.Result __result__;
-                __result__= 
-				SharpDX.Direct2D1.LocalInterop.Calliint(_nativePointer, (void*)hdc, width, height, &renderTarget_,((void**)(*(void**)_nativePointer))[7]);		
-                renderTarget= (renderTarget_ == IntPtr.Zero)?null:new SharpDX.DirectWrite.BitmapRenderTarget(renderTarget_);	
+                __result__ =
+                SharpDX.Direct2D1.LocalInterop.Calliint(_nativePointer, (void*)hdc, width, height, &renderTarget_, ((void**)(*(void**)_nativePointer))[7]);
+                renderTarget = (renderTarget_ == IntPtr.Zero) ? null : new SharpDX.DirectWrite.BitmapRenderTarget(renderTarget_);
                 __result__.CheckError();
                 return renderTarget;
             }
@@ -3347,27 +3612,29 @@ namespace SharpDX.DirectWrite {
     /// <unmanaged>IDWriteGlyphRunAnalysis</unmanaged>	
     /// <unmanaged-short>IDWriteGlyphRunAnalysis</unmanaged-short>	
     [Guid("7d97dbf7-e085-42d4-81e3-6a883bded118")]
-    public partial class GlyphRunAnalysis : SharpDX.ComObject {
+    public partial class GlyphRunAnalysis : SharpDX.ComObject
+    {
         /// <summary>
         /// Initializes a new instance of the <see cref="SharpDX.DirectWrite.GlyphRunAnalysis"/> class.
         /// </summary>
         /// <param name="nativePtr">The native pointer.</param>	
-        public GlyphRunAnalysis(IntPtr nativePtr) : base(nativePtr) {
+        public GlyphRunAnalysis(IntPtr nativePtr) : base(nativePtr)
+        {
         }
 
-		/// <summary>
-		/// Performs an explicit conversion from <see cref="System.IntPtr"/> to <see cref="SharpDX.DirectWrite.GlyphRunAnalysis"/>. (This method is a shortcut to <see cref="SharpDX.CppObject.NativePointer"/>) 
-		/// </summary>
-		/// <param name="nativePointer">The native pointer.</param>
-		/// <returns>
-		/// The result of the conversion.
-		/// </returns>
-		public static explicit operator SharpDX.DirectWrite.GlyphRunAnalysis(IntPtr nativePointer)
-		{
-			return nativePointer == IntPtr.Zero ? null : new SharpDX.DirectWrite.GlyphRunAnalysis(nativePointer);
-		}
-        
-        
+        /// <summary>
+        /// Performs an explicit conversion from <see cref="System.IntPtr"/> to <see cref="SharpDX.DirectWrite.GlyphRunAnalysis"/>. (This method is a shortcut to <see cref="SharpDX.CppObject.NativePointer"/>) 
+        /// </summary>
+        /// <param name="nativePointer">The native pointer.</param>
+        /// <returns>
+        /// The result of the conversion.
+        /// </returns>
+        public static explicit operator SharpDX.DirectWrite.GlyphRunAnalysis(IntPtr nativePointer)
+        {
+            return nativePointer == IntPtr.Zero ? null : new SharpDX.DirectWrite.GlyphRunAnalysis(nativePointer);
+        }
+
+
         /// <summary>	
         /// <p> Gets the bounding rectangle of the physical pixels affected by the glyph run. </p>	
         /// </summary>	
@@ -3377,18 +3644,20 @@ namespace SharpDX.DirectWrite {
         /// <msdn-id>dd371215</msdn-id>	
         /// <unmanaged>HRESULT IDWriteGlyphRunAnalysis::GetAlphaTextureBounds([In] DWRITE_TEXTURE_TYPE textureType,[Out] RECT* textureBounds)</unmanaged>	
         /// <unmanaged-short>IDWriteGlyphRunAnalysis::GetAlphaTextureBounds</unmanaged-short>	
-        public SharpDX.Mathematics.Interop.RawRectangle GetAlphaTextureBounds(SharpDX.DirectWrite.TextureType textureType) {
-            unsafe {
+        public SharpDX.Mathematics.Interop.RawRectangle GetAlphaTextureBounds(SharpDX.DirectWrite.TextureType textureType)
+        {
+            unsafe
+            {
                 SharpDX.Mathematics.Interop.RawRectangle textureBounds;
                 textureBounds = new SharpDX.Mathematics.Interop.RawRectangle();
                 SharpDX.Result __result__;
-                __result__= 
-				SharpDX.Direct2D1.LocalInterop.Calliint(_nativePointer, unchecked((int)textureType), &textureBounds,((void**)(*(void**)_nativePointer))[3]);		
+                __result__ =
+                SharpDX.Direct2D1.LocalInterop.Calliint(_nativePointer, unchecked((int)textureType), &textureBounds, ((void**)(*(void**)_nativePointer))[3]);
                 __result__.CheckError();
                 return textureBounds;
             }
         }
-        
+
         /// <summary>	
         /// <p> Creates an alpha texture of the specified type for glyphs within a specified bounding rectangle. </p>	
         /// </summary>	
@@ -3401,16 +3670,18 @@ namespace SharpDX.DirectWrite {
         /// <msdn-id>dd371189</msdn-id>	
         /// <unmanaged>HRESULT IDWriteGlyphRunAnalysis::CreateAlphaTexture([In] DWRITE_TEXTURE_TYPE textureType,[In] const RECT* textureBounds,[Out, Buffer] unsigned char* alphaValues,[In] unsigned int bufferSize)</unmanaged>	
         /// <unmanaged-short>IDWriteGlyphRunAnalysis::CreateAlphaTexture</unmanaged-short>	
-        public void CreateAlphaTexture(SharpDX.DirectWrite.TextureType textureType, SharpDX.Mathematics.Interop.RawRectangle textureBounds, byte[] alphaValues, int bufferSize) {
-            unsafe {
+        public void CreateAlphaTexture(SharpDX.DirectWrite.TextureType textureType, SharpDX.Mathematics.Interop.RawRectangle textureBounds, byte[] alphaValues, int bufferSize)
+        {
+            unsafe
+            {
                 SharpDX.Result __result__;
                 fixed (void* alphaValues_ = alphaValues)
-                    __result__= 
-    				SharpDX.Direct2D1.LocalInterop.Calliint(_nativePointer, unchecked((int)textureType), &textureBounds, alphaValues_, bufferSize,((void**)(*(void**)_nativePointer))[4]);		
+                    __result__ =
+                    SharpDX.Direct2D1.LocalInterop.Calliint(_nativePointer, unchecked((int)textureType), &textureBounds, alphaValues_, bufferSize, ((void**)(*(void**)_nativePointer))[4]);
                 __result__.CheckError();
             }
         }
-        
+
         /// <summary>	
         /// <p> Gets alpha blending properties required for ClearType blending. </p>	
         /// </summary>	
@@ -3423,14 +3694,16 @@ namespace SharpDX.DirectWrite {
         /// <msdn-id>dd371190</msdn-id>	
         /// <unmanaged>HRESULT IDWriteGlyphRunAnalysis::GetAlphaBlendParams([In] IDWriteRenderingParams* renderingParams,[Out] float* blendGamma,[Out] float* blendEnhancedContrast,[Out] float* blendClearTypeLevel)</unmanaged>	
         /// <unmanaged-short>IDWriteGlyphRunAnalysis::GetAlphaBlendParams</unmanaged-short>	
-        public void GetAlphaBlendParams(SharpDX.DirectWrite.RenderingParams renderingParams, out float blendGamma, out float blendEnhancedContrast, out float blendClearTypeLevel) {
-            unsafe {
+        public void GetAlphaBlendParams(SharpDX.DirectWrite.RenderingParams renderingParams, out float blendGamma, out float blendEnhancedContrast, out float blendClearTypeLevel)
+        {
+            unsafe
+            {
                 SharpDX.Result __result__;
                 fixed (void* blendGamma_ = &blendGamma)
                     fixed (void* blendEnhancedContrast_ = &blendEnhancedContrast)
                         fixed (void* blendClearTypeLevel_ = &blendClearTypeLevel)
-                            __result__= 
-            				SharpDX.Direct2D1.LocalInterop.Calliint(_nativePointer, (void*)((renderingParams == null)?IntPtr.Zero:renderingParams.NativePointer), blendGamma_, blendEnhancedContrast_, blendClearTypeLevel_,((void**)(*(void**)_nativePointer))[5]);		
+                            __result__ =
+                            SharpDX.Direct2D1.LocalInterop.Calliint(_nativePointer, (void*)((renderingParams == null) ? IntPtr.Zero : renderingParams.NativePointer), blendGamma_, blendEnhancedContrast_, blendClearTypeLevel_, ((void**)(*(void**)_nativePointer))[5]);
                 __result__.CheckError();
             }
         }
@@ -3443,9 +3716,10 @@ namespace SharpDX.DirectWrite {
     /// <unmanaged>IDWriteInlineObject</unmanaged>	
     /// <unmanaged-short>IDWriteInlineObject</unmanaged-short>	
     [Guid("8339FDE3-106F-47ab-8373-1C6295EB10B3")]
-    public partial interface InlineObject : SharpDX.ICallbackable {
-        
-        
+    public partial interface InlineObject : SharpDX.ICallbackable
+    {
+
+
         /// <summary>	
         /// <p> The application implemented rendering callback (<strong><see cref="SharpDX.DirectWrite.TextRenderer.DrawInlineObject_"/></strong>) can use this to draw the inline object without needing to cast or query the object type. The text layout does not call this method directly. </p>	
         /// </summary>	
@@ -3462,7 +3736,7 @@ namespace SharpDX.DirectWrite {
         /// <unmanaged>HRESULT IDWriteInlineObject::Draw([In, Optional] void* clientDrawingContext,[In] IDWriteTextRenderer* renderer,[In] float originX,[In] float originY,[In] BOOL isSideways,[In] BOOL isRightToLeft,[In, Optional] void* clientDrawingEffect)</unmanaged>	
         /// <unmanaged-short>IDWriteInlineObject::Draw</unmanaged-short>	
         /* internal void Draw_(System.IntPtr clientDrawingContext, System.IntPtr renderer, float originX, float originY, SharpDX.Mathematics.Interop.RawBool isSideways, SharpDX.Mathematics.Interop.RawBool isRightToLeft, System.IntPtr clientDrawingEffect) */
-        
+
         /// <summary>	
         /// <p> <strong><see cref="SharpDX.DirectWrite.TextLayout"/></strong> calls this callback function to get the measurement of the inline object. </p>	
         /// </summary>	
@@ -3473,7 +3747,7 @@ namespace SharpDX.DirectWrite {
         /// <unmanaged>HRESULT IDWriteInlineObject::GetMetrics([Out] DWRITE_INLINE_OBJECT_METRICS* metrics)</unmanaged>	
         /// <unmanaged-short>IDWriteInlineObject::GetMetrics</unmanaged-short>	
         /* public void GetMetrics(out SharpDX.DirectWrite.InlineObjectMetrics metrics) */
-        
+
         /// <summary>	
         /// <p> <strong><see cref="SharpDX.DirectWrite.TextLayout"/></strong> calls this callback function to get the visible extents (in DIPs) of the inline object. In the case of a simple bitmap, with no padding and no overhang, all the overhangs will simply be zeroes.</p><p>The overhangs should be returned relative to the reported size of the object (see <strong><see cref="SharpDX.DirectWrite.InlineObjectMetrics"/></strong>), and should not be baseline adjusted.</p>	
         /// </summary>	
@@ -3484,7 +3758,7 @@ namespace SharpDX.DirectWrite {
         /// <unmanaged>HRESULT IDWriteInlineObject::GetOverhangMetrics([Out] DWRITE_OVERHANG_METRICS* overhangs)</unmanaged>	
         /// <unmanaged-short>IDWriteInlineObject::GetOverhangMetrics</unmanaged-short>	
         /* public void GetOverhangMetrics(out SharpDX.DirectWrite.OverhangMetrics overhangs) */
-        
+
         /// <summary>	
         /// <p> Layout uses this to determine the line-breaking behavior of the inline object among the text. </p>	
         /// </summary>	
@@ -3505,27 +3779,29 @@ namespace SharpDX.DirectWrite {
     /// <unmanaged>IDWriteInlineObject</unmanaged>	
     /// <unmanaged-short>IDWriteInlineObject</unmanaged-short>	
     [Guid("8339FDE3-106F-47ab-8373-1C6295EB10B3")]
-    public partial class InlineObjectNative : SharpDX.ComObjectCallback, SharpDX.DirectWrite.InlineObject {
+    public partial class InlineObjectNative : SharpDX.ComObjectCallback, SharpDX.DirectWrite.InlineObject
+    {
         /// <summary>
         /// Initializes a new instance of the <see cref="SharpDX.DirectWrite.InlineObjectNative"/> class.
         /// </summary>
         /// <param name="nativePtr">The native pointer.</param>	
-        public InlineObjectNative(IntPtr nativePtr) : base(nativePtr) {
+        public InlineObjectNative(IntPtr nativePtr) : base(nativePtr)
+        {
         }
 
-		/// <summary>
-		/// Performs an explicit conversion from <see cref="System.IntPtr"/> to <see cref="SharpDX.DirectWrite.InlineObjectNative"/>. (This method is a shortcut to <see cref="SharpDX.CppObject.NativePointer"/>) 
-		/// </summary>
-		/// <param name="nativePointer">The native pointer.</param>
-		/// <returns>
-		/// The result of the conversion.
-		/// </returns>
-		public static explicit operator SharpDX.DirectWrite.InlineObjectNative(IntPtr nativePointer)
-		{
-			return nativePointer == IntPtr.Zero ? null : new SharpDX.DirectWrite.InlineObjectNative(nativePointer);
-		}
-        
-        
+        /// <summary>
+        /// Performs an explicit conversion from <see cref="System.IntPtr"/> to <see cref="SharpDX.DirectWrite.InlineObjectNative"/>. (This method is a shortcut to <see cref="SharpDX.CppObject.NativePointer"/>) 
+        /// </summary>
+        /// <param name="nativePointer">The native pointer.</param>
+        /// <returns>
+        /// The result of the conversion.
+        /// </returns>
+        public static explicit operator SharpDX.DirectWrite.InlineObjectNative(IntPtr nativePointer)
+        {
+            return nativePointer == IntPtr.Zero ? null : new SharpDX.DirectWrite.InlineObjectNative(nativePointer);
+        }
+
+
         /// <summary>	
         /// <p> The application implemented rendering callback (<strong><see cref="SharpDX.DirectWrite.TextRenderer.DrawInlineObject_"/></strong>) can use this to draw the inline object without needing to cast or query the object type. The text layout does not call this method directly. </p>	
         /// </summary>	
@@ -3541,15 +3817,17 @@ namespace SharpDX.DirectWrite {
         /// <msdn-id>dd371225</msdn-id>	
         /// <unmanaged>HRESULT IDWriteInlineObject::Draw([In, Optional] void* clientDrawingContext,[In] IDWriteTextRenderer* renderer,[In] float originX,[In] float originY,[In] BOOL isSideways,[In] BOOL isRightToLeft,[In, Optional] void* clientDrawingEffect)</unmanaged>	
         /// <unmanaged-short>IDWriteInlineObject::Draw</unmanaged-short>	
-        internal void Draw__(System.IntPtr clientDrawingContext, System.IntPtr renderer, float originX, float originY, SharpDX.Mathematics.Interop.RawBool isSideways, SharpDX.Mathematics.Interop.RawBool isRightToLeft, System.IntPtr clientDrawingEffect) {
-            unsafe {
+        internal void Draw__(System.IntPtr clientDrawingContext, System.IntPtr renderer, float originX, float originY, SharpDX.Mathematics.Interop.RawBool isSideways, SharpDX.Mathematics.Interop.RawBool isRightToLeft, System.IntPtr clientDrawingEffect)
+        {
+            unsafe
+            {
                 SharpDX.Result __result__;
-                __result__= 
-				SharpDX.Direct2D1.LocalInterop.Calliint154(_nativePointer, (void*)clientDrawingContext, (void*)renderer, originX, originY, isSideways, isRightToLeft, (void*)clientDrawingEffect,((void**)(*(void**)_nativePointer))[3]);		
+                __result__ =
+                SharpDX.Direct2D1.LocalInterop.Calliint154(_nativePointer, (void*)clientDrawingContext, (void*)renderer, originX, originY, isSideways, isRightToLeft, (void*)clientDrawingEffect, ((void**)(*(void**)_nativePointer))[3]);
                 __result__.CheckError();
             }
         }
-        
+
         /// <summary>	
         /// <p> <strong><see cref="SharpDX.DirectWrite.TextLayout"/></strong> calls this callback function to get the measurement of the inline object. </p>	
         /// </summary>	
@@ -3559,17 +3837,19 @@ namespace SharpDX.DirectWrite {
         /// <msdn-id>dd371232</msdn-id>	
         /// <unmanaged>HRESULT IDWriteInlineObject::GetMetrics([Out] DWRITE_INLINE_OBJECT_METRICS* metrics)</unmanaged>	
         /// <unmanaged-short>IDWriteInlineObject::GetMetrics</unmanaged-short>	
-        internal void GetMetrics_(out SharpDX.DirectWrite.InlineObjectMetrics metrics) {
-            unsafe {
+        internal void GetMetrics_(out SharpDX.DirectWrite.InlineObjectMetrics metrics)
+        {
+            unsafe
+            {
                 metrics = new SharpDX.DirectWrite.InlineObjectMetrics();
                 SharpDX.Result __result__;
                 fixed (void* metrics_ = &metrics)
-                    __result__= 
-    				SharpDX.Direct2D1.LocalInterop.Calliint(_nativePointer, metrics_,((void**)(*(void**)_nativePointer))[4]);		
+                    __result__ =
+                    SharpDX.Direct2D1.LocalInterop.Calliint(_nativePointer, metrics_, ((void**)(*(void**)_nativePointer))[4]);
                 __result__.CheckError();
             }
         }
-        
+
         /// <summary>	
         /// <p> <strong><see cref="SharpDX.DirectWrite.TextLayout"/></strong> calls this callback function to get the visible extents (in DIPs) of the inline object. In the case of a simple bitmap, with no padding and no overhang, all the overhangs will simply be zeroes.</p><p>The overhangs should be returned relative to the reported size of the object (see <strong><see cref="SharpDX.DirectWrite.InlineObjectMetrics"/></strong>), and should not be baseline adjusted.</p>	
         /// </summary>	
@@ -3579,17 +3859,19 @@ namespace SharpDX.DirectWrite {
         /// <msdn-id>dd371235</msdn-id>	
         /// <unmanaged>HRESULT IDWriteInlineObject::GetOverhangMetrics([Out] DWRITE_OVERHANG_METRICS* overhangs)</unmanaged>	
         /// <unmanaged-short>IDWriteInlineObject::GetOverhangMetrics</unmanaged-short>	
-        internal void GetOverhangMetrics_(out SharpDX.DirectWrite.OverhangMetrics overhangs) {
-            unsafe {
+        internal void GetOverhangMetrics_(out SharpDX.DirectWrite.OverhangMetrics overhangs)
+        {
+            unsafe
+            {
                 overhangs = new SharpDX.DirectWrite.OverhangMetrics();
                 SharpDX.Result __result__;
                 fixed (void* overhangs_ = &overhangs)
-                    __result__= 
-    				SharpDX.Direct2D1.LocalInterop.Calliint(_nativePointer, overhangs_,((void**)(*(void**)_nativePointer))[5]);		
+                    __result__ =
+                    SharpDX.Direct2D1.LocalInterop.Calliint(_nativePointer, overhangs_, ((void**)(*(void**)_nativePointer))[5]);
                 __result__.CheckError();
             }
         }
-        
+
         /// <summary>	
         /// <p> Layout uses this to determine the line-breaking behavior of the inline object among the text. </p>	
         /// </summary>	
@@ -3600,13 +3882,15 @@ namespace SharpDX.DirectWrite {
         /// <msdn-id>dd371229</msdn-id>	
         /// <unmanaged>HRESULT IDWriteInlineObject::GetBreakConditions([Out] DWRITE_BREAK_CONDITION* breakConditionBefore,[Out] DWRITE_BREAK_CONDITION* breakConditionAfter)</unmanaged>	
         /// <unmanaged-short>IDWriteInlineObject::GetBreakConditions</unmanaged-short>	
-        internal void GetBreakConditions_(out SharpDX.DirectWrite.BreakCondition breakConditionBefore, out SharpDX.DirectWrite.BreakCondition breakConditionAfter) {
-            unsafe {
+        internal void GetBreakConditions_(out SharpDX.DirectWrite.BreakCondition breakConditionBefore, out SharpDX.DirectWrite.BreakCondition breakConditionAfter)
+        {
+            unsafe
+            {
                 SharpDX.Result __result__;
                 fixed (void* breakConditionBefore_ = &breakConditionBefore)
                     fixed (void* breakConditionAfter_ = &breakConditionAfter)
-                        __result__= 
-        				SharpDX.Direct2D1.LocalInterop.Calliint(_nativePointer, breakConditionBefore_, breakConditionAfter_,((void**)(*(void**)_nativePointer))[6]);		
+                        __result__ =
+                        SharpDX.Direct2D1.LocalInterop.Calliint(_nativePointer, breakConditionBefore_, breakConditionAfter_, ((void**)(*(void**)_nativePointer))[6]);
                 __result__.CheckError();
             }
         }
@@ -3620,27 +3904,29 @@ namespace SharpDX.DirectWrite {
     /// <unmanaged>IDWriteLocalFontFileLoader</unmanaged>	
     /// <unmanaged-short>IDWriteLocalFontFileLoader</unmanaged-short>	
     [Guid("b2d9f3ec-c9fe-4a11-a2ec-d86208f7c0a2")]
-    public partial class LocalFontFileLoader : SharpDX.DirectWrite.FontFileLoaderNative {
+    public partial class LocalFontFileLoader : SharpDX.DirectWrite.FontFileLoaderNative
+    {
         /// <summary>
         /// Initializes a new instance of the <see cref="SharpDX.DirectWrite.LocalFontFileLoader"/> class.
         /// </summary>
         /// <param name="nativePtr">The native pointer.</param>	
-        public LocalFontFileLoader(IntPtr nativePtr) : base(nativePtr) {
+        public LocalFontFileLoader(IntPtr nativePtr) : base(nativePtr)
+        {
         }
 
-		/// <summary>
-		/// Performs an explicit conversion from <see cref="System.IntPtr"/> to <see cref="SharpDX.DirectWrite.LocalFontFileLoader"/>. (This method is a shortcut to <see cref="SharpDX.CppObject.NativePointer"/>) 
-		/// </summary>
-		/// <param name="nativePointer">The native pointer.</param>
-		/// <returns>
-		/// The result of the conversion.
-		/// </returns>
-		public static explicit operator SharpDX.DirectWrite.LocalFontFileLoader(IntPtr nativePointer)
-		{
-			return nativePointer == IntPtr.Zero ? null : new SharpDX.DirectWrite.LocalFontFileLoader(nativePointer);
-		}
-        
-        
+        /// <summary>
+        /// Performs an explicit conversion from <see cref="System.IntPtr"/> to <see cref="SharpDX.DirectWrite.LocalFontFileLoader"/>. (This method is a shortcut to <see cref="SharpDX.CppObject.NativePointer"/>) 
+        /// </summary>
+        /// <param name="nativePointer">The native pointer.</param>
+        /// <returns>
+        /// The result of the conversion.
+        /// </returns>
+        public static explicit operator SharpDX.DirectWrite.LocalFontFileLoader(IntPtr nativePointer)
+        {
+            return nativePointer == IntPtr.Zero ? null : new SharpDX.DirectWrite.LocalFontFileLoader(nativePointer);
+        }
+
+
         /// <summary>	
         /// <p>Obtains the length of the absolute file path from the font file reference key.</p>	
         /// </summary>	
@@ -3651,17 +3937,19 @@ namespace SharpDX.DirectWrite {
         /// <msdn-id>dd371244</msdn-id>	
         /// <unmanaged>HRESULT IDWriteLocalFontFileLoader::GetFilePathLengthFromKey([In, Buffer] const void* fontFileReferenceKey,[In] unsigned int fontFileReferenceKeySize,[Out] unsigned int* filePathLength)</unmanaged>	
         /// <unmanaged-short>IDWriteLocalFontFileLoader::GetFilePathLengthFromKey</unmanaged-short>	
-        internal int GetFilePathLengthFromKey(System.IntPtr fontFileReferenceKey, int fontFileReferenceKeySize) {
-            unsafe {
+        internal int GetFilePathLengthFromKey(System.IntPtr fontFileReferenceKey, int fontFileReferenceKeySize)
+        {
+            unsafe
+            {
                 int filePathLength;
                 SharpDX.Result __result__;
-                __result__= 
-				SharpDX.Direct2D1.LocalInterop.Calliint(_nativePointer, (void*)fontFileReferenceKey, fontFileReferenceKeySize, &filePathLength,((void**)(*(void**)_nativePointer))[4]);		
+                __result__ =
+                SharpDX.Direct2D1.LocalInterop.Calliint(_nativePointer, (void*)fontFileReferenceKey, fontFileReferenceKeySize, &filePathLength, ((void**)(*(void**)_nativePointer))[4]);
                 __result__.CheckError();
                 return filePathLength;
             }
         }
-        
+
         /// <summary>	
         /// <p>Obtains the absolute font file path from the font file reference key.</p>	
         /// </summary>	
@@ -3674,15 +3962,17 @@ namespace SharpDX.DirectWrite {
         /// <msdn-id>dd371241</msdn-id>	
         /// <unmanaged>HRESULT IDWriteLocalFontFileLoader::GetFilePathFromKey([In, Buffer] const void* fontFileReferenceKey,[In] unsigned int fontFileReferenceKeySize,[Out, Buffer] wchar_t* filePath,[In] unsigned int filePathSize)</unmanaged>	
         /// <unmanaged-short>IDWriteLocalFontFileLoader::GetFilePathFromKey</unmanaged-short>	
-        internal void GetFilePathFromKey(System.IntPtr fontFileReferenceKey, int fontFileReferenceKeySize, System.IntPtr filePath, int filePathSize) {
-            unsafe {
+        internal void GetFilePathFromKey(System.IntPtr fontFileReferenceKey, int fontFileReferenceKeySize, System.IntPtr filePath, int filePathSize)
+        {
+            unsafe
+            {
                 SharpDX.Result __result__;
-                __result__= 
-				SharpDX.Direct2D1.LocalInterop.Calliint(_nativePointer, (void*)fontFileReferenceKey, fontFileReferenceKeySize, (void*)filePath, filePathSize,((void**)(*(void**)_nativePointer))[5]);		
+                __result__ =
+                SharpDX.Direct2D1.LocalInterop.Calliint(_nativePointer, (void*)fontFileReferenceKey, fontFileReferenceKeySize, (void*)filePath, filePathSize, ((void**)(*(void**)_nativePointer))[5]);
                 __result__.CheckError();
             }
         }
-        
+
         /// <summary>	
         /// <p>Obtains the last write time of the file from the font file reference key.</p>	
         /// </summary>	
@@ -3693,12 +3983,14 @@ namespace SharpDX.DirectWrite {
         /// <msdn-id>dd371247</msdn-id>	
         /// <unmanaged>HRESULT IDWriteLocalFontFileLoader::GetLastWriteTimeFromKey([In, Buffer] const void* fontFileReferenceKey,[In] unsigned int fontFileReferenceKeySize,[Out] FILETIME* lastWriteTime)</unmanaged>	
         /// <unmanaged-short>IDWriteLocalFontFileLoader::GetLastWriteTimeFromKey</unmanaged-short>	
-        internal long GetLastWriteTimeFromKey(System.IntPtr fontFileReferenceKey, int fontFileReferenceKeySize) {
-            unsafe {
+        internal long GetLastWriteTimeFromKey(System.IntPtr fontFileReferenceKey, int fontFileReferenceKeySize)
+        {
+            unsafe
+            {
                 long lastWriteTime;
                 SharpDX.Result __result__;
-                __result__= 
-				SharpDX.Direct2D1.LocalInterop.Calliint(_nativePointer, (void*)fontFileReferenceKey, fontFileReferenceKeySize, &lastWriteTime,((void**)(*(void**)_nativePointer))[6]);		
+                __result__ =
+                SharpDX.Direct2D1.LocalInterop.Calliint(_nativePointer, (void*)fontFileReferenceKey, fontFileReferenceKeySize, &lastWriteTime, ((void**)(*(void**)_nativePointer))[6]);
                 __result__.CheckError();
                 return lastWriteTime;
             }
@@ -3733,27 +4025,29 @@ namespace SharpDX.DirectWrite {
     /// <unmanaged>IDWriteLocalizedStrings</unmanaged>	
     /// <unmanaged-short>IDWriteLocalizedStrings</unmanaged-short>	
     [Guid("08256209-099a-4b34-b86d-c22b110e7771")]
-    public partial class LocalizedStrings : SharpDX.ComObject {
+    public partial class LocalizedStrings : SharpDX.ComObject
+    {
         /// <summary>
         /// Initializes a new instance of the <see cref="SharpDX.DirectWrite.LocalizedStrings"/> class.
         /// </summary>
         /// <param name="nativePtr">The native pointer.</param>	
-        public LocalizedStrings(IntPtr nativePtr) : base(nativePtr) {
+        public LocalizedStrings(IntPtr nativePtr) : base(nativePtr)
+        {
         }
 
-		/// <summary>
-		/// Performs an explicit conversion from <see cref="System.IntPtr"/> to <see cref="SharpDX.DirectWrite.LocalizedStrings"/>. (This method is a shortcut to <see cref="SharpDX.CppObject.NativePointer"/>) 
-		/// </summary>
-		/// <param name="nativePointer">The native pointer.</param>
-		/// <returns>
-		/// The result of the conversion.
-		/// </returns>
-		public static explicit operator SharpDX.DirectWrite.LocalizedStrings(IntPtr nativePointer)
-		{
-			return nativePointer == IntPtr.Zero ? null : new SharpDX.DirectWrite.LocalizedStrings(nativePointer);
-		}
-        
-        
+        /// <summary>
+        /// Performs an explicit conversion from <see cref="System.IntPtr"/> to <see cref="SharpDX.DirectWrite.LocalizedStrings"/>. (This method is a shortcut to <see cref="SharpDX.CppObject.NativePointer"/>) 
+        /// </summary>
+        /// <param name="nativePointer">The native pointer.</param>
+        /// <returns>
+        /// The result of the conversion.
+        /// </returns>
+        public static explicit operator SharpDX.DirectWrite.LocalizedStrings(IntPtr nativePointer)
+        {
+            return nativePointer == IntPtr.Zero ? null : new SharpDX.DirectWrite.LocalizedStrings(nativePointer);
+        }
+
+
         /// <summary>	
         /// <p> Gets the number of language/string pairs. </p>	
         /// </summary>	
@@ -3762,10 +4056,11 @@ namespace SharpDX.DirectWrite {
         /// <unmanaged>GetCount</unmanaged>	
         /// <unmanaged-short>GetCount</unmanaged-short>	
         /// <unmanaged>unsigned int IDWriteLocalizedStrings::GetCount()</unmanaged>
-        public int Count {
-                get { return GetCount(); }
+        public int Count
+        {
+            get { return GetCount(); }
         }
-        
+
         /// <summary>	
         /// <p> Gets the number of language/string pairs. </p>	
         /// </summary>	
@@ -3774,15 +4069,17 @@ namespace SharpDX.DirectWrite {
         /// <msdn-id>dd371256</msdn-id>	
         /// <unmanaged>unsigned int IDWriteLocalizedStrings::GetCount()</unmanaged>	
         /// <unmanaged-short>IDWriteLocalizedStrings::GetCount</unmanaged-short>	
-        internal int GetCount() {
-            unsafe {
+        internal int GetCount()
+        {
+            unsafe
+            {
                 int __result__;
-                __result__= 
-				SharpDX.Direct2D1.LocalInterop.Calliint(_nativePointer,((void**)(*(void**)_nativePointer))[3]);		
+                __result__ =
+                SharpDX.Direct2D1.LocalInterop.Calliint(_nativePointer, ((void**)(*(void**)_nativePointer))[3]);
                 return __result__;
             }
         }
-        
+
         /// <summary>	
         /// <p> Gets the zero-based index of the locale name/string pair with the specified locale name. </p>	
         /// </summary>	
@@ -3801,21 +4098,23 @@ namespace SharpDX.DirectWrite {
         /// <msdn-id>dd371254</msdn-id>	
         /// <unmanaged>HRESULT IDWriteLocalizedStrings::FindLocaleName([In] const wchar_t* localeName,[Out] unsigned int* index,[Out] BOOL* exists)</unmanaged>	
         /// <unmanaged-short>IDWriteLocalizedStrings::FindLocaleName</unmanaged-short>	
-        public SharpDX.Mathematics.Interop.RawBool FindLocaleName(string localeName, out int index) {
-            unsafe {
+        public SharpDX.Mathematics.Interop.RawBool FindLocaleName(string localeName, out int index)
+        {
+            unsafe
+            {
                 IntPtr localeName_ = Utilities.StringToHGlobalUni(localeName);
                 SharpDX.Mathematics.Interop.RawBool exists;
                 exists = new SharpDX.Mathematics.Interop.RawBool();
                 SharpDX.Result __result__;
                 fixed (void* index_ = &index)
-                    __result__= 
-    				SharpDX.Direct2D1.LocalInterop.Calliint(_nativePointer, (void*)localeName_, index_, &exists,((void**)(*(void**)_nativePointer))[4]);		
-                Marshal.FreeHGlobal(localeName_ );
+                    __result__ =
+                    SharpDX.Direct2D1.LocalInterop.Calliint(_nativePointer, (void*)localeName_, index_, &exists, ((void**)(*(void**)_nativePointer))[4]);
+                Marshal.FreeHGlobal(localeName_);
                 __result__.CheckError();
                 return exists;
             }
         }
-        
+
         /// <summary>	
         /// <p> Gets the length in characters (not including the null terminator) of the locale name with the specified index. </p>	
         /// </summary>	
@@ -3826,16 +4125,18 @@ namespace SharpDX.DirectWrite {
         /// <msdn-id>dd371262</msdn-id>	
         /// <unmanaged>HRESULT IDWriteLocalizedStrings::GetLocaleNameLength([In] unsigned int index,[Out] unsigned int* length)</unmanaged>	
         /// <unmanaged-short>IDWriteLocalizedStrings::GetLocaleNameLength</unmanaged-short>	
-        internal void GetLocaleNameLength(int index, out int length) {
-            unsafe {
+        internal void GetLocaleNameLength(int index, out int length)
+        {
+            unsafe
+            {
                 SharpDX.Result __result__;
                 fixed (void* length_ = &length)
-                    __result__= 
-    				SharpDX.Direct2D1.LocalInterop.Calliint(_nativePointer, index, length_,((void**)(*(void**)_nativePointer))[5]);		
+                    __result__ =
+                    SharpDX.Direct2D1.LocalInterop.Calliint(_nativePointer, index, length_, ((void**)(*(void**)_nativePointer))[5]);
                 __result__.CheckError();
             }
         }
-        
+
         /// <summary>	
         /// <p> Copies the locale name with the specified index to the specified array. </p>	
         /// </summary>	
@@ -3847,15 +4148,17 @@ namespace SharpDX.DirectWrite {
         /// <msdn-id>dd371259</msdn-id>	
         /// <unmanaged>HRESULT IDWriteLocalizedStrings::GetLocaleName([In] unsigned int index,[Out, Buffer] wchar_t* localeName,[In] unsigned int size)</unmanaged>	
         /// <unmanaged-short>IDWriteLocalizedStrings::GetLocaleName</unmanaged-short>	
-        internal void GetLocaleName(int index, System.IntPtr localeName, int size) {
-            unsafe {
+        internal void GetLocaleName(int index, System.IntPtr localeName, int size)
+        {
+            unsafe
+            {
                 SharpDX.Result __result__;
-                __result__= 
-				SharpDX.Direct2D1.LocalInterop.Calliint(_nativePointer, index, (void*)localeName, size,((void**)(*(void**)_nativePointer))[6]);		
+                __result__ =
+                SharpDX.Direct2D1.LocalInterop.Calliint(_nativePointer, index, (void*)localeName, size, ((void**)(*(void**)_nativePointer))[6]);
                 __result__.CheckError();
             }
         }
-        
+
         /// <summary>	
         /// <p> Gets the length in characters (not including the null terminator) of the string with the specified index. </p>	
         /// </summary>	
@@ -3880,16 +4183,18 @@ namespace SharpDX.DirectWrite {
         /// <msdn-id>dd371269</msdn-id>	
         /// <unmanaged>HRESULT IDWriteLocalizedStrings::GetStringLength([In] unsigned int index,[Out] unsigned int* length)</unmanaged>	
         /// <unmanaged-short>IDWriteLocalizedStrings::GetStringLength</unmanaged-short>	
-        internal void GetStringLength(int index, out int length) {
-            unsafe {
+        internal void GetStringLength(int index, out int length)
+        {
+            unsafe
+            {
                 SharpDX.Result __result__;
                 fixed (void* length_ = &length)
-                    __result__= 
-    				SharpDX.Direct2D1.LocalInterop.Calliint(_nativePointer, index, length_,((void**)(*(void**)_nativePointer))[7]);		
+                    __result__ =
+                    SharpDX.Direct2D1.LocalInterop.Calliint(_nativePointer, index, length_, ((void**)(*(void**)_nativePointer))[7]);
                 __result__.CheckError();
             }
         }
-        
+
         /// <summary>	
         /// <p> Copies the string with the specified index to the specified array. </p>	
         /// </summary>	
@@ -3915,11 +4220,13 @@ namespace SharpDX.DirectWrite {
         /// <msdn-id>dd371267</msdn-id>	
         /// <unmanaged>HRESULT IDWriteLocalizedStrings::GetString([In] unsigned int index,[Out, Buffer] wchar_t* stringBuffer,[In] unsigned int size)</unmanaged>	
         /// <unmanaged-short>IDWriteLocalizedStrings::GetString</unmanaged-short>	
-        internal void GetString(int index, System.IntPtr stringBuffer, int size) {
-            unsafe {
+        internal void GetString(int index, System.IntPtr stringBuffer, int size)
+        {
+            unsafe
+            {
                 SharpDX.Result __result__;
-                __result__= 
-				SharpDX.Direct2D1.LocalInterop.Calliint(_nativePointer, index, (void*)stringBuffer, size,((void**)(*(void**)_nativePointer))[8]);		
+                __result__ =
+                SharpDX.Direct2D1.LocalInterop.Calliint(_nativePointer, index, (void*)stringBuffer, size, ((void**)(*(void**)_nativePointer))[8]);
                 __result__.CheckError();
             }
         }
@@ -3932,26 +4239,28 @@ namespace SharpDX.DirectWrite {
     /// <unmanaged>IDWriteNumberSubstitution</unmanaged>	
     /// <unmanaged-short>IDWriteNumberSubstitution</unmanaged-short>	
     [Guid("14885CC9-BAB0-4f90-B6ED-5C366A2CD03D")]
-    public partial class NumberSubstitution : SharpDX.ComObject {
+    public partial class NumberSubstitution : SharpDX.ComObject
+    {
         /// <summary>
         /// Initializes a new instance of the <see cref="SharpDX.DirectWrite.NumberSubstitution"/> class.
         /// </summary>
         /// <param name="nativePtr">The native pointer.</param>	
-        public NumberSubstitution(IntPtr nativePtr) : base(nativePtr) {
+        public NumberSubstitution(IntPtr nativePtr) : base(nativePtr)
+        {
         }
 
-		/// <summary>
-		/// Performs an explicit conversion from <see cref="System.IntPtr"/> to <see cref="SharpDX.DirectWrite.NumberSubstitution"/>. (This method is a shortcut to <see cref="SharpDX.CppObject.NativePointer"/>) 
-		/// </summary>
-		/// <param name="nativePointer">The native pointer.</param>
-		/// <returns>
-		/// The result of the conversion.
-		/// </returns>
-		public static explicit operator SharpDX.DirectWrite.NumberSubstitution(IntPtr nativePointer)
-		{
-			return nativePointer == IntPtr.Zero ? null : new SharpDX.DirectWrite.NumberSubstitution(nativePointer);
-		}
-        
+        /// <summary>
+        /// Performs an explicit conversion from <see cref="System.IntPtr"/> to <see cref="SharpDX.DirectWrite.NumberSubstitution"/>. (This method is a shortcut to <see cref="SharpDX.CppObject.NativePointer"/>) 
+        /// </summary>
+        /// <param name="nativePointer">The native pointer.</param>
+        /// <returns>
+        /// The result of the conversion.
+        /// </returns>
+        public static explicit operator SharpDX.DirectWrite.NumberSubstitution(IntPtr nativePointer)
+        {
+            return nativePointer == IntPtr.Zero ? null : new SharpDX.DirectWrite.NumberSubstitution(nativePointer);
+        }
+
     }
     /// <summary>	
     /// <p>Defines the pixel snapping properties such as pixels per DIP(device-independent pixel) and the current transform matrix of a text renderer.</p>	
@@ -3961,9 +4270,10 @@ namespace SharpDX.DirectWrite {
     /// <unmanaged>IDWritePixelSnapping</unmanaged>	
     /// <unmanaged-short>IDWritePixelSnapping</unmanaged-short>	
     [Guid("eaf3a2da-ecf4-4d24-b644-b34f6842024b")]
-    public partial interface PixelSnapping : SharpDX.ICallbackable {
-        
-        
+    public partial interface PixelSnapping : SharpDX.ICallbackable
+    {
+
+
         /// <summary>	
         /// <p>Defines the pixel snapping properties such as pixels per DIP(device-independent pixel) and the current transform matrix of a text renderer.</p>	
         /// </summary>	
@@ -3975,7 +4285,7 @@ namespace SharpDX.DirectWrite {
         /// <unmanaged>HRESULT IDWritePixelSnapping::IsPixelSnappingDisabled([In, Optional] void* clientDrawingContext,[Out] BOOL* isDisabled)</unmanaged>	
         /// <unmanaged-short>IDWritePixelSnapping::IsPixelSnappingDisabled</unmanaged-short>	
         /* public void IsPixelSnappingDisabled(System.IntPtr clientDrawingContext, out SharpDX.Mathematics.Interop.RawBool isDisabled) */
-        
+
         /// <summary>	
         /// <p> Gets a transform that maps abstract coordinates to DIPs. </p>	
         /// </summary>	
@@ -3987,7 +4297,7 @@ namespace SharpDX.DirectWrite {
         /// <unmanaged>HRESULT IDWritePixelSnapping::GetCurrentTransform([In, Optional] void* clientDrawingContext,[Out] DWRITE_MATRIX* transform)</unmanaged>	
         /// <unmanaged-short>IDWritePixelSnapping::GetCurrentTransform</unmanaged-short>	
         /* public void GetCurrentTransform(System.IntPtr clientDrawingContext, out SharpDX.Mathematics.Interop.RawMatrix3x2 transform) */
-        
+
         /// <summary>	
         /// <p> Gets the number of physical pixels per DIP. </p>	
         /// </summary>	
@@ -4011,27 +4321,29 @@ namespace SharpDX.DirectWrite {
     /// <unmanaged>IDWriteRenderingParams</unmanaged>	
     /// <unmanaged-short>IDWriteRenderingParams</unmanaged-short>	
     [Guid("2f0da53a-2add-47cd-82ee-d9ec34688e75")]
-    public partial class RenderingParams : SharpDX.ComObject {
+    public partial class RenderingParams : SharpDX.ComObject
+    {
         /// <summary>
         /// Initializes a new instance of the <see cref="SharpDX.DirectWrite.RenderingParams"/> class.
         /// </summary>
         /// <param name="nativePtr">The native pointer.</param>	
-        public RenderingParams(IntPtr nativePtr) : base(nativePtr) {
+        public RenderingParams(IntPtr nativePtr) : base(nativePtr)
+        {
         }
 
-		/// <summary>
-		/// Performs an explicit conversion from <see cref="System.IntPtr"/> to <see cref="SharpDX.DirectWrite.RenderingParams"/>. (This method is a shortcut to <see cref="SharpDX.CppObject.NativePointer"/>) 
-		/// </summary>
-		/// <param name="nativePointer">The native pointer.</param>
-		/// <returns>
-		/// The result of the conversion.
-		/// </returns>
-		public static explicit operator SharpDX.DirectWrite.RenderingParams(IntPtr nativePointer)
-		{
-			return nativePointer == IntPtr.Zero ? null : new SharpDX.DirectWrite.RenderingParams(nativePointer);
-		}
-        
-        
+        /// <summary>
+        /// Performs an explicit conversion from <see cref="System.IntPtr"/> to <see cref="SharpDX.DirectWrite.RenderingParams"/>. (This method is a shortcut to <see cref="SharpDX.CppObject.NativePointer"/>) 
+        /// </summary>
+        /// <param name="nativePointer">The native pointer.</param>
+        /// <returns>
+        /// The result of the conversion.
+        /// </returns>
+        public static explicit operator SharpDX.DirectWrite.RenderingParams(IntPtr nativePointer)
+        {
+            return nativePointer == IntPtr.Zero ? null : new SharpDX.DirectWrite.RenderingParams(nativePointer);
+        }
+
+
         /// <summary>	
         /// <p>Gets the gamma value used for gamma correction. Valid values must be greater than zero and cannot exceed 256.</p>	
         /// </summary>	
@@ -4043,10 +4355,11 @@ namespace SharpDX.DirectWrite {
         /// <unmanaged>GetGamma</unmanaged>	
         /// <unmanaged-short>GetGamma</unmanaged-short>	
         /// <unmanaged>float IDWriteRenderingParams::GetGamma()</unmanaged>
-        public float Gamma {
-                get { return GetGamma(); }
+        public float Gamma
+        {
+            get { return GetGamma(); }
         }
-        
+
         /// <summary>	
         /// <p>Gets the enhanced contrast property of the rendering parameters object. Valid values are greater than or equal to zero.</p>	
         /// </summary>	
@@ -4058,10 +4371,11 @@ namespace SharpDX.DirectWrite {
         /// <unmanaged>GetEnhancedContrast</unmanaged>	
         /// <unmanaged-short>GetEnhancedContrast</unmanaged-short>	
         /// <unmanaged>float IDWriteRenderingParams::GetEnhancedContrast()</unmanaged>
-        public float EnhancedContrast {
-                get { return GetEnhancedContrast(); }
+        public float EnhancedContrast
+        {
+            get { return GetEnhancedContrast(); }
         }
-        
+
         /// <summary>	
         /// <p>Gets the ClearType level of the rendering parameters object. </p>	
         /// </summary>	
@@ -4073,10 +4387,11 @@ namespace SharpDX.DirectWrite {
         /// <unmanaged>GetClearTypeLevel</unmanaged>	
         /// <unmanaged-short>GetClearTypeLevel</unmanaged-short>	
         /// <unmanaged>float IDWriteRenderingParams::GetClearTypeLevel()</unmanaged>
-        public float ClearTypeLevel {
-                get { return GetClearTypeLevel(); }
+        public float ClearTypeLevel
+        {
+            get { return GetClearTypeLevel(); }
         }
-        
+
         /// <summary>	
         /// <p>Gets the pixel geometry of the rendering parameters object.</p>	
         /// </summary>	
@@ -4085,10 +4400,11 @@ namespace SharpDX.DirectWrite {
         /// <unmanaged>GetPixelGeometry</unmanaged>	
         /// <unmanaged-short>GetPixelGeometry</unmanaged-short>	
         /// <unmanaged>DWRITE_PIXEL_GEOMETRY IDWriteRenderingParams::GetPixelGeometry()</unmanaged>
-        public SharpDX.DirectWrite.PixelGeometry PixelGeometry {
-                get { return GetPixelGeometry(); }
+        public SharpDX.DirectWrite.PixelGeometry PixelGeometry
+        {
+            get { return GetPixelGeometry(); }
         }
-        
+
         /// <summary>	
         /// <p>Gets the rendering mode of the rendering parameters object.</p>	
         /// </summary>	
@@ -4100,10 +4416,11 @@ namespace SharpDX.DirectWrite {
         /// <unmanaged>GetRenderingMode</unmanaged>	
         /// <unmanaged-short>GetRenderingMode</unmanaged-short>	
         /// <unmanaged>DWRITE_RENDERING_MODE IDWriteRenderingParams::GetRenderingMode()</unmanaged>
-        public SharpDX.DirectWrite.RenderingMode RenderingMode {
-                get { return GetRenderingMode(); }
+        public SharpDX.DirectWrite.RenderingMode RenderingMode
+        {
+            get { return GetRenderingMode(); }
         }
-        
+
         /// <summary>	
         /// <p>Gets the gamma value used for gamma correction. Valid values must be greater than zero and cannot exceed 256.</p>	
         /// </summary>	
@@ -4115,15 +4432,17 @@ namespace SharpDX.DirectWrite {
         /// <msdn-id>dd371295</msdn-id>	
         /// <unmanaged>float IDWriteRenderingParams::GetGamma()</unmanaged>	
         /// <unmanaged-short>IDWriteRenderingParams::GetGamma</unmanaged-short>	
-        internal float GetGamma() {
-            unsafe {
+        internal float GetGamma()
+        {
+            unsafe
+            {
                 float __result__;
-                __result__= 
-				SharpDX.Direct2D1.LocalInterop.Callifloat(_nativePointer,((void**)(*(void**)_nativePointer))[3]);		
+                __result__ =
+                SharpDX.Direct2D1.LocalInterop.Callifloat(_nativePointer, ((void**)(*(void**)_nativePointer))[3]);
                 return __result__;
             }
         }
-        
+
         /// <summary>	
         /// <p>Gets the enhanced contrast property of the rendering parameters object. Valid values are greater than or equal to zero.</p>	
         /// </summary>	
@@ -4135,15 +4454,17 @@ namespace SharpDX.DirectWrite {
         /// <msdn-id>dd371290</msdn-id>	
         /// <unmanaged>float IDWriteRenderingParams::GetEnhancedContrast()</unmanaged>	
         /// <unmanaged-short>IDWriteRenderingParams::GetEnhancedContrast</unmanaged-short>	
-        internal float GetEnhancedContrast() {
-            unsafe {
+        internal float GetEnhancedContrast()
+        {
+            unsafe
+            {
                 float __result__;
-                __result__= 
-				SharpDX.Direct2D1.LocalInterop.Callifloat(_nativePointer,((void**)(*(void**)_nativePointer))[4]);		
+                __result__ =
+                SharpDX.Direct2D1.LocalInterop.Callifloat(_nativePointer, ((void**)(*(void**)_nativePointer))[4]);
                 return __result__;
             }
         }
-        
+
         /// <summary>	
         /// <p>Gets the ClearType level of the rendering parameters object. </p>	
         /// </summary>	
@@ -4155,15 +4476,17 @@ namespace SharpDX.DirectWrite {
         /// <msdn-id>dd371288</msdn-id>	
         /// <unmanaged>float IDWriteRenderingParams::GetClearTypeLevel()</unmanaged>	
         /// <unmanaged-short>IDWriteRenderingParams::GetClearTypeLevel</unmanaged-short>	
-        internal float GetClearTypeLevel() {
-            unsafe {
+        internal float GetClearTypeLevel()
+        {
+            unsafe
+            {
                 float __result__;
-                __result__= 
-				SharpDX.Direct2D1.LocalInterop.Callifloat(_nativePointer,((void**)(*(void**)_nativePointer))[5]);		
+                __result__ =
+                SharpDX.Direct2D1.LocalInterop.Callifloat(_nativePointer, ((void**)(*(void**)_nativePointer))[5]);
                 return __result__;
             }
         }
-        
+
         /// <summary>	
         /// <p>Gets the pixel geometry of the rendering parameters object.</p>	
         /// </summary>	
@@ -4172,15 +4495,17 @@ namespace SharpDX.DirectWrite {
         /// <msdn-id>dd371297</msdn-id>	
         /// <unmanaged>DWRITE_PIXEL_GEOMETRY IDWriteRenderingParams::GetPixelGeometry()</unmanaged>	
         /// <unmanaged-short>IDWriteRenderingParams::GetPixelGeometry</unmanaged-short>	
-        internal SharpDX.DirectWrite.PixelGeometry GetPixelGeometry() {
-            unsafe {
+        internal SharpDX.DirectWrite.PixelGeometry GetPixelGeometry()
+        {
+            unsafe
+            {
                 SharpDX.DirectWrite.PixelGeometry __result__;
-                __result__= 
-				SharpDX.Direct2D1.LocalInterop.CalliSharpDXDirectWritePixelGeometry(_nativePointer,((void**)(*(void**)_nativePointer))[6]);		
+                __result__ =
+                SharpDX.Direct2D1.LocalInterop.CalliSharpDXDirectWritePixelGeometry(_nativePointer, ((void**)(*(void**)_nativePointer))[6]);
                 return __result__;
             }
         }
-        
+
         /// <summary>	
         /// <p>Gets the rendering mode of the rendering parameters object.</p>	
         /// </summary>	
@@ -4192,11 +4517,13 @@ namespace SharpDX.DirectWrite {
         /// <msdn-id>dd371300</msdn-id>	
         /// <unmanaged>DWRITE_RENDERING_MODE IDWriteRenderingParams::GetRenderingMode()</unmanaged>	
         /// <unmanaged-short>IDWriteRenderingParams::GetRenderingMode</unmanaged-short>	
-        internal SharpDX.DirectWrite.RenderingMode GetRenderingMode() {
-            unsafe {
+        internal SharpDX.DirectWrite.RenderingMode GetRenderingMode()
+        {
+            unsafe
+            {
                 SharpDX.DirectWrite.RenderingMode __result__;
-                __result__= 
-				SharpDX.Direct2D1.LocalInterop.CalliSharpDXDirectWriteRenderingMode(_nativePointer,((void**)(*(void**)_nativePointer))[7]);		
+                __result__ =
+                SharpDX.Direct2D1.LocalInterop.CalliSharpDXDirectWriteRenderingMode(_nativePointer, ((void**)(*(void**)_nativePointer))[7]);
                 return __result__;
             }
         }
@@ -4209,27 +4536,29 @@ namespace SharpDX.DirectWrite {
     /// <unmanaged>IDWriteRenderingParams1</unmanaged>	
     /// <unmanaged-short>IDWriteRenderingParams1</unmanaged-short>	
     [Guid("94413cf4-a6fc-4248-8b50-6674348fcad3")]
-    public partial class RenderingParams1 : SharpDX.DirectWrite.RenderingParams {
+    public partial class RenderingParams1 : SharpDX.DirectWrite.RenderingParams
+    {
         /// <summary>
         /// Initializes a new instance of the <see cref="SharpDX.DirectWrite.RenderingParams1"/> class.
         /// </summary>
         /// <param name="nativePtr">The native pointer.</param>	
-        public RenderingParams1(IntPtr nativePtr) : base(nativePtr) {
+        public RenderingParams1(IntPtr nativePtr) : base(nativePtr)
+        {
         }
 
-		/// <summary>
-		/// Performs an explicit conversion from <see cref="System.IntPtr"/> to <see cref="SharpDX.DirectWrite.RenderingParams1"/>. (This method is a shortcut to <see cref="SharpDX.CppObject.NativePointer"/>) 
-		/// </summary>
-		/// <param name="nativePointer">The native pointer.</param>
-		/// <returns>
-		/// The result of the conversion.
-		/// </returns>
-		public static explicit operator SharpDX.DirectWrite.RenderingParams1(IntPtr nativePointer)
-		{
-			return nativePointer == IntPtr.Zero ? null : new SharpDX.DirectWrite.RenderingParams1(nativePointer);
-		}
-        
-        
+        /// <summary>
+        /// Performs an explicit conversion from <see cref="System.IntPtr"/> to <see cref="SharpDX.DirectWrite.RenderingParams1"/>. (This method is a shortcut to <see cref="SharpDX.CppObject.NativePointer"/>) 
+        /// </summary>
+        /// <param name="nativePointer">The native pointer.</param>
+        /// <returns>
+        /// The result of the conversion.
+        /// </returns>
+        public static explicit operator SharpDX.DirectWrite.RenderingParams1(IntPtr nativePointer)
+        {
+            return nativePointer == IntPtr.Zero ? null : new SharpDX.DirectWrite.RenderingParams1(nativePointer);
+        }
+
+
         /// <summary>	
         /// <p>Gets the amount of contrast enhancement to use for grayscale antialiasing.</p>	
         /// </summary>	
@@ -4238,10 +4567,11 @@ namespace SharpDX.DirectWrite {
         /// <unmanaged>GetGrayscaleEnhancedContrast</unmanaged>	
         /// <unmanaged-short>GetGrayscaleEnhancedContrast</unmanaged-short>	
         /// <unmanaged>float IDWriteRenderingParams1::GetGrayscaleEnhancedContrast()</unmanaged>
-        public float GrayscaleEnhancedContrast {
-                get { return GetGrayscaleEnhancedContrast(); }
+        public float GrayscaleEnhancedContrast
+        {
+            get { return GetGrayscaleEnhancedContrast(); }
         }
-        
+
         /// <summary>	
         /// <p>Gets the amount of contrast enhancement to use for grayscale antialiasing.</p>	
         /// </summary>	
@@ -4250,11 +4580,13 @@ namespace SharpDX.DirectWrite {
         /// <msdn-id>Hh780423</msdn-id>	
         /// <unmanaged>float IDWriteRenderingParams1::GetGrayscaleEnhancedContrast()</unmanaged>	
         /// <unmanaged-short>IDWriteRenderingParams1::GetGrayscaleEnhancedContrast</unmanaged-short>	
-        internal float GetGrayscaleEnhancedContrast() {
-            unsafe {
+        internal float GetGrayscaleEnhancedContrast()
+        {
+            unsafe
+            {
                 float __result__;
-                __result__= 
-				SharpDX.Direct2D1.LocalInterop.Callifloat(_nativePointer,((void**)(*(void**)_nativePointer))[8]);		
+                __result__ =
+                SharpDX.Direct2D1.LocalInterop.Callifloat(_nativePointer, ((void**)(*(void**)_nativePointer))[8]);
                 return __result__;
             }
         }
@@ -4270,9 +4602,10 @@ namespace SharpDX.DirectWrite {
     /// <unmanaged>IDWriteTextAnalysisSink</unmanaged>	
     /// <unmanaged-short>IDWriteTextAnalysisSink</unmanaged-short>	
     [Guid("5810cd44-0ca0-4701-b3fa-bec5182ae4f6")]
-    public partial interface TextAnalysisSink : SharpDX.ICallbackable {
-        
-        
+    public partial interface TextAnalysisSink : SharpDX.ICallbackable
+    {
+
+
         /// <summary>	
         /// <p>Reports script analysis for the specified text range.</p>	
         /// </summary>	
@@ -4285,7 +4618,7 @@ namespace SharpDX.DirectWrite {
         /// <unmanaged>HRESULT IDWriteTextAnalysisSink::SetScriptAnalysis([In] unsigned int textPosition,[In] unsigned int textLength,[In] const DWRITE_SCRIPT_ANALYSIS* scriptAnalysis)</unmanaged>	
         /// <unmanaged-short>IDWriteTextAnalysisSink::SetScriptAnalysis</unmanaged-short>	
         /* public void SetScriptAnalysis(int textPosition, int textLength, SharpDX.DirectWrite.ScriptAnalysis scriptAnalysis) */
-        
+
         /// <summary>	
         /// <p>Sets line-break opportunities for each character, starting from the specified position.</p>	
         /// </summary>	
@@ -4298,7 +4631,7 @@ namespace SharpDX.DirectWrite {
         /// <unmanaged>HRESULT IDWriteTextAnalysisSink::SetLineBreakpoints([In] unsigned int textPosition,[In] unsigned int textLength,[In, Buffer] const DWRITE_LINE_BREAKPOINT* lineBreakpoints)</unmanaged>	
         /// <unmanaged-short>IDWriteTextAnalysisSink::SetLineBreakpoints</unmanaged-short>	
         /* public void SetLineBreakpoints(int textPosition, int textLength, SharpDX.DirectWrite.LineBreakpoint[] lineBreakpoints) */
-        
+
         /// <summary>	
         /// <p>Sets a bidirectional level on the range, which is  called once per  run change (either explicit or resolved implicit).</p>	
         /// </summary>	
@@ -4312,7 +4645,7 @@ namespace SharpDX.DirectWrite {
         /// <unmanaged>HRESULT IDWriteTextAnalysisSink::SetBidiLevel([In] unsigned int textPosition,[In] unsigned int textLength,[In] unsigned char explicitLevel,[In] unsigned char resolvedLevel)</unmanaged>	
         /// <unmanaged-short>IDWriteTextAnalysisSink::SetBidiLevel</unmanaged-short>	
         /* public void SetBidiLevel(int textPosition, int textLength, byte explicitLevel, byte resolvedLevel) */
-        
+
         /// <summary>	
         /// <p>Sets the number substitution on the text range affected by the text analysis.</p>	
         /// </summary>	
@@ -4334,9 +4667,10 @@ namespace SharpDX.DirectWrite {
     /// <unmanaged>IDWriteTextAnalysisSink1</unmanaged>	
     /// <unmanaged-short>IDWriteTextAnalysisSink1</unmanaged-short>	
     [Guid("B0D941A0-85E7-4D8B-9FD3-5CED9934482A")]
-    public partial interface TextAnalysisSink1 : SharpDX.DirectWrite.TextAnalysisSink {
-        
-        
+    public partial interface TextAnalysisSink1 : SharpDX.DirectWrite.TextAnalysisSink
+    {
+
+
         /// <summary>	
         /// <p>The text analyzer calls back to this to report the actual orientation of each character for shaping and drawing.</p>	
         /// </summary>	
@@ -4364,9 +4698,10 @@ namespace SharpDX.DirectWrite {
     /// <unmanaged>IDWriteTextAnalysisSource</unmanaged>	
     /// <unmanaged-short>IDWriteTextAnalysisSource</unmanaged-short>	
     [Guid("688e1a58-5094-47c8-adc8-fbcea60ae92b")]
-    public partial interface TextAnalysisSource : SharpDX.ICallbackable {
-        
-        
+    public partial interface TextAnalysisSource : SharpDX.ICallbackable
+    {
+
+
         /// <summary>	
         /// <p>Gets a block of text starting at the specified text position. </p>	
         /// </summary>	
@@ -4382,7 +4717,7 @@ namespace SharpDX.DirectWrite {
         /// <unmanaged>HRESULT IDWriteTextAnalysisSource::GetTextAtPosition([In] unsigned int textPosition,[Out, Buffer] const wchar_t** textString,[Out] unsigned int* textLength)</unmanaged>	
         /// <unmanaged-short>IDWriteTextAnalysisSource::GetTextAtPosition</unmanaged-short>	
         /* public void GetTextAtPosition(int textPosition, System.IntPtr textString, out int textLength) */
-        
+
         /// <summary>	
         /// <p>Gets a block of text immediately preceding the specified position.</p>	
         /// </summary>	
@@ -4398,7 +4733,7 @@ namespace SharpDX.DirectWrite {
         /// <unmanaged>HRESULT IDWriteTextAnalysisSource::GetTextBeforePosition([In] unsigned int textPosition,[Out, Buffer] const wchar_t** textString,[Out] unsigned int* textLength)</unmanaged>	
         /// <unmanaged-short>IDWriteTextAnalysisSource::GetTextBeforePosition</unmanaged-short>	
         /* public void GetTextBeforePosition(int textPosition, System.IntPtr textString, out int textLength) */
-        
+
         /// <summary>	
         /// <p>Gets the paragraph reading direction.</p>	
         /// </summary>	
@@ -4408,7 +4743,7 @@ namespace SharpDX.DirectWrite {
         /// <unmanaged>DWRITE_READING_DIRECTION IDWriteTextAnalysisSource::GetParagraphReadingDirection()</unmanaged>	
         /// <unmanaged-short>IDWriteTextAnalysisSource::GetParagraphReadingDirection</unmanaged-short>	
         /* internal SharpDX.DirectWrite.ReadingDirection GetParagraphReadingDirection() */
-        
+
         /// <summary>	
         /// <p>Gets the locale name on the range affected by the text analysis.</p>	
         /// </summary>	
@@ -4424,7 +4759,7 @@ namespace SharpDX.DirectWrite {
         /// <unmanaged>HRESULT IDWriteTextAnalysisSource::GetLocaleName([In] unsigned int textPosition,[Out] unsigned int* textLength,[Out] const wchar_t** localeName)</unmanaged>	
         /// <unmanaged-short>IDWriteTextAnalysisSource::GetLocaleName</unmanaged-short>	
         /* public void GetLocaleName(int textPosition, out int textLength, System.IntPtr localeName) */
-        
+
         /// <summary>	
         /// <p>Gets the number substitution from the text range affected by the text analysis.</p>	
         /// </summary>	
@@ -4449,9 +4784,10 @@ namespace SharpDX.DirectWrite {
     /// <unmanaged>IDWriteTextAnalysisSource1</unmanaged>	
     /// <unmanaged-short>IDWriteTextAnalysisSource1</unmanaged-short>	
     [Guid("639CFAD8-0FB4-4B21-A58A-067920120009")]
-    public partial interface TextAnalysisSource1 : SharpDX.DirectWrite.TextAnalysisSource {
-        
-        
+    public partial interface TextAnalysisSource1 : SharpDX.DirectWrite.TextAnalysisSource
+    {
+
+
         /// <summary>	
         /// <p>Used by the text analyzer to obtain the desired glyph orientation and resolved bidi level.</p>	
         /// </summary>	
@@ -4477,27 +4813,29 @@ namespace SharpDX.DirectWrite {
     /// <unmanaged>IDWriteTextAnalyzer</unmanaged>	
     /// <unmanaged-short>IDWriteTextAnalyzer</unmanaged-short>	
     [Guid("b7e6163e-7f46-43b4-84b3-e4e6249c365d")]
-    public partial class TextAnalyzer : SharpDX.ComObject {
+    public partial class TextAnalyzer : SharpDX.ComObject
+    {
         /// <summary>
         /// Initializes a new instance of the <see cref="SharpDX.DirectWrite.TextAnalyzer"/> class.
         /// </summary>
         /// <param name="nativePtr">The native pointer.</param>	
-        public TextAnalyzer(IntPtr nativePtr) : base(nativePtr) {
+        public TextAnalyzer(IntPtr nativePtr) : base(nativePtr)
+        {
         }
 
-		/// <summary>
-		/// Performs an explicit conversion from <see cref="System.IntPtr"/> to <see cref="SharpDX.DirectWrite.TextAnalyzer"/>. (This method is a shortcut to <see cref="SharpDX.CppObject.NativePointer"/>) 
-		/// </summary>
-		/// <param name="nativePointer">The native pointer.</param>
-		/// <returns>
-		/// The result of the conversion.
-		/// </returns>
-		public static explicit operator SharpDX.DirectWrite.TextAnalyzer(IntPtr nativePointer)
-		{
-			return nativePointer == IntPtr.Zero ? null : new SharpDX.DirectWrite.TextAnalyzer(nativePointer);
-		}
-        
-        
+        /// <summary>
+        /// Performs an explicit conversion from <see cref="System.IntPtr"/> to <see cref="SharpDX.DirectWrite.TextAnalyzer"/>. (This method is a shortcut to <see cref="SharpDX.CppObject.NativePointer"/>) 
+        /// </summary>
+        /// <param name="nativePointer">The native pointer.</param>
+        /// <returns>
+        /// The result of the conversion.
+        /// </returns>
+        public static explicit operator SharpDX.DirectWrite.TextAnalyzer(IntPtr nativePointer)
+        {
+            return nativePointer == IntPtr.Zero ? null : new SharpDX.DirectWrite.TextAnalyzer(nativePointer);
+        }
+
+
         /// <summary>	
         /// <p> Analyzes a text range for script boundaries, reading text attributes from the source and reporting the Unicode script ID to the sink  callback <strong>SetScript</strong>. </p>	
         /// </summary>	
@@ -4510,15 +4848,17 @@ namespace SharpDX.DirectWrite {
         /// <msdn-id>dd316620</msdn-id>	
         /// <unmanaged>HRESULT IDWriteTextAnalyzer::AnalyzeScript([In] IDWriteTextAnalysisSource* analysisSource,[In] unsigned int textPosition,[In] unsigned int textLength,[In] IDWriteTextAnalysisSink* analysisSink)</unmanaged>	
         /// <unmanaged-short>IDWriteTextAnalyzer::AnalyzeScript</unmanaged-short>	
-        internal void AnalyzeScript__(System.IntPtr analysisSource, int textPosition, int textLength, System.IntPtr analysisSink) {
-            unsafe {
+        internal void AnalyzeScript__(System.IntPtr analysisSource, int textPosition, int textLength, System.IntPtr analysisSink)
+        {
+            unsafe
+            {
                 SharpDX.Result __result__;
-                __result__= 
-				SharpDX.Direct2D1.LocalInterop.Calliint(_nativePointer, (void*)analysisSource, textPosition, textLength, (void*)analysisSink,((void**)(*(void**)_nativePointer))[3]);		
+                __result__ =
+                SharpDX.Direct2D1.LocalInterop.Calliint(_nativePointer, (void*)analysisSource, textPosition, textLength, (void*)analysisSink, ((void**)(*(void**)_nativePointer))[3]);
                 __result__.CheckError();
             }
         }
-        
+
         /// <summary>	
         /// <p> Analyzes a text range for script directionality, reading attributes from the source and reporting levels to the sink callback <strong>SetBidiLevel</strong>. </p>	
         /// </summary>	
@@ -4534,15 +4874,17 @@ namespace SharpDX.DirectWrite {
         /// <msdn-id>dd316610</msdn-id>	
         /// <unmanaged>HRESULT IDWriteTextAnalyzer::AnalyzeBidi([In] IDWriteTextAnalysisSource* analysisSource,[In] unsigned int textPosition,[In] unsigned int textLength,[In] IDWriteTextAnalysisSink* analysisSink)</unmanaged>	
         /// <unmanaged-short>IDWriteTextAnalyzer::AnalyzeBidi</unmanaged-short>	
-        internal void AnalyzeBidi__(System.IntPtr analysisSource, int textPosition, int textLength, System.IntPtr analysisSink) {
-            unsafe {
+        internal void AnalyzeBidi__(System.IntPtr analysisSource, int textPosition, int textLength, System.IntPtr analysisSink)
+        {
+            unsafe
+            {
                 SharpDX.Result __result__;
-                __result__= 
-				SharpDX.Direct2D1.LocalInterop.Calliint(_nativePointer, (void*)analysisSource, textPosition, textLength, (void*)analysisSink,((void**)(*(void**)_nativePointer))[4]);		
+                __result__ =
+                SharpDX.Direct2D1.LocalInterop.Calliint(_nativePointer, (void*)analysisSource, textPosition, textLength, (void*)analysisSink, ((void**)(*(void**)_nativePointer))[4]);
                 __result__.CheckError();
             }
         }
-        
+
         /// <summary>	
         /// <p> Analyzes a text range for spans where number substitution is applicable, reading attributes from the source and reporting substitutable ranges to the sink callback <strong>SetNumberSubstitution</strong>. </p>	
         /// </summary>	
@@ -4558,15 +4900,17 @@ namespace SharpDX.DirectWrite {
         /// <msdn-id>dd316616</msdn-id>	
         /// <unmanaged>HRESULT IDWriteTextAnalyzer::AnalyzeNumberSubstitution([In] IDWriteTextAnalysisSource* analysisSource,[In] unsigned int textPosition,[In] unsigned int textLength,[In] IDWriteTextAnalysisSink* analysisSink)</unmanaged>	
         /// <unmanaged-short>IDWriteTextAnalyzer::AnalyzeNumberSubstitution</unmanaged-short>	
-        internal void AnalyzeNumberSubstitution__(System.IntPtr analysisSource, int textPosition, int textLength, System.IntPtr analysisSink) {
-            unsafe {
+        internal void AnalyzeNumberSubstitution__(System.IntPtr analysisSource, int textPosition, int textLength, System.IntPtr analysisSink)
+        {
+            unsafe
+            {
                 SharpDX.Result __result__;
-                __result__= 
-				SharpDX.Direct2D1.LocalInterop.Calliint(_nativePointer, (void*)analysisSource, textPosition, textLength, (void*)analysisSink,((void**)(*(void**)_nativePointer))[5]);		
+                __result__ =
+                SharpDX.Direct2D1.LocalInterop.Calliint(_nativePointer, (void*)analysisSource, textPosition, textLength, (void*)analysisSink, ((void**)(*(void**)_nativePointer))[5]);
                 __result__.CheckError();
             }
         }
-        
+
         /// <summary>	
         /// <p> Analyzes a text range for potential breakpoint opportunities, reading attributes from the source and reporting breakpoint opportunities to the sink callback <strong>SetLineBreakpoints</strong>. </p>	
         /// </summary>	
@@ -4582,15 +4926,17 @@ namespace SharpDX.DirectWrite {
         /// <msdn-id>dd316613</msdn-id>	
         /// <unmanaged>HRESULT IDWriteTextAnalyzer::AnalyzeLineBreakpoints([In] IDWriteTextAnalysisSource* analysisSource,[In] unsigned int textPosition,[In] unsigned int textLength,[In] IDWriteTextAnalysisSink* analysisSink)</unmanaged>	
         /// <unmanaged-short>IDWriteTextAnalyzer::AnalyzeLineBreakpoints</unmanaged-short>	
-        internal void AnalyzeLineBreakpoints__(System.IntPtr analysisSource, int textPosition, int textLength, System.IntPtr analysisSink) {
-            unsafe {
+        internal void AnalyzeLineBreakpoints__(System.IntPtr analysisSource, int textPosition, int textLength, System.IntPtr analysisSink)
+        {
+            unsafe
+            {
                 SharpDX.Result __result__;
-                __result__= 
-				SharpDX.Direct2D1.LocalInterop.Calliint(_nativePointer, (void*)analysisSource, textPosition, textLength, (void*)analysisSink,((void**)(*(void**)_nativePointer))[6]);		
+                __result__ =
+                SharpDX.Direct2D1.LocalInterop.Calliint(_nativePointer, (void*)analysisSource, textPosition, textLength, (void*)analysisSink, ((void**)(*(void**)_nativePointer))[6]);
                 __result__.CheckError();
             }
         }
-        
+
         /// <summary>	
         /// <p> Parses the input text string and maps it to the set of glyphs and associated glyph data according to the font and the writing system's rendering rules. </p>	
         /// </summary>	
@@ -4619,8 +4965,10 @@ namespace SharpDX.DirectWrite {
         /// <msdn-id>dd316625</msdn-id>	
         /// <unmanaged>HRESULT IDWriteTextAnalyzer::GetGlyphs([In, Buffer] const wchar_t* textString,[In] unsigned int textLength,[In] IDWriteFontFace* fontFace,[In] BOOL isSideways,[In] BOOL isRightToLeft,[In] const DWRITE_SCRIPT_ANALYSIS* scriptAnalysis,[In, Optional] const wchar_t* localeName,[In, Optional] IDWriteNumberSubstitution* numberSubstitution,[In, Optional] const void** features,[In, Buffer, Optional] const unsigned int* featureRangeLengths,[In] unsigned int featureRanges,[In] unsigned int maxGlyphCount,[Out, Buffer] unsigned short* clusterMap,[Out, Buffer] DWRITE_SHAPING_TEXT_PROPERTIES* textProps,[Out, Buffer] unsigned short* glyphIndices,[Out, Buffer] DWRITE_SHAPING_GLYPH_PROPERTIES* glyphProps,[Out] unsigned int* actualGlyphCount)</unmanaged>	
         /// <unmanaged-short>IDWriteTextAnalyzer::GetGlyphs</unmanaged-short>	
-        internal void GetGlyphs(string textString, int textLength, SharpDX.DirectWrite.FontFace fontFace, SharpDX.Mathematics.Interop.RawBool isSideways, SharpDX.Mathematics.Interop.RawBool isRightToLeft, SharpDX.DirectWrite.ScriptAnalysis scriptAnalysis, string localeName, SharpDX.DirectWrite.NumberSubstitution numberSubstitution, System.IntPtr features, int[] featureRangeLengths, int featureRanges, int maxGlyphCount, short[] clusterMap, SharpDX.DirectWrite.ShapingTextProperties[] textProps, short[] glyphIndices, SharpDX.DirectWrite.ShapingGlyphProperties[] glyphProps, out int actualGlyphCount) {
-            unsafe {
+        internal void GetGlyphs(string textString, int textLength, SharpDX.DirectWrite.FontFace fontFace, SharpDX.Mathematics.Interop.RawBool isSideways, SharpDX.Mathematics.Interop.RawBool isRightToLeft, SharpDX.DirectWrite.ScriptAnalysis scriptAnalysis, string localeName, SharpDX.DirectWrite.NumberSubstitution numberSubstitution, System.IntPtr features, int[] featureRangeLengths, int featureRanges, int maxGlyphCount, short[] clusterMap, SharpDX.DirectWrite.ShapingTextProperties[] textProps, short[] glyphIndices, SharpDX.DirectWrite.ShapingGlyphProperties[] glyphProps, out int actualGlyphCount)
+        {
+            unsafe
+            {
                 IntPtr textString_ = Utilities.StringToHGlobalUni(textString);
                 IntPtr localeName_ = Utilities.StringToHGlobalUni(localeName);
                 int[] featureRangeLengths__ = featureRangeLengths;
@@ -4631,14 +4979,14 @@ namespace SharpDX.DirectWrite {
                             fixed (void* glyphIndices_ = glyphIndices)
                                 fixed (void* glyphProps_ = glyphProps)
                                     fixed (void* actualGlyphCount_ = &actualGlyphCount)
-                                        __result__= 
-                        				SharpDX.Direct2D1.LocalInterop.Calliint170(_nativePointer, (void*)textString_, textLength, (void*)((fontFace == null)?IntPtr.Zero:fontFace.NativePointer), isSideways, isRightToLeft, &scriptAnalysis, (void*)localeName_, (void*)((numberSubstitution == null)?IntPtr.Zero:numberSubstitution.NativePointer), (void*)features, featureRangeLengths_, featureRanges, maxGlyphCount, clusterMap_, textProps_, glyphIndices_, glyphProps_, actualGlyphCount_,((void**)(*(void**)_nativePointer))[7]);		
-                Marshal.FreeHGlobal(textString_ );
-                Marshal.FreeHGlobal(localeName_ );
+                                        __result__ =
+                                        SharpDX.Direct2D1.LocalInterop.Calliint170(_nativePointer, (void*)textString_, textLength, (void*)((fontFace == null) ? IntPtr.Zero : fontFace.NativePointer), isSideways, isRightToLeft, &scriptAnalysis, (void*)localeName_, (void*)((numberSubstitution == null) ? IntPtr.Zero : numberSubstitution.NativePointer), (void*)features, featureRangeLengths_, featureRanges, maxGlyphCount, clusterMap_, textProps_, glyphIndices_, glyphProps_, actualGlyphCount_, ((void**)(*(void**)_nativePointer))[7]);
+                Marshal.FreeHGlobal(textString_);
+                Marshal.FreeHGlobal(localeName_);
                 __result__.CheckError();
             }
         }
-        
+
         /// <summary>	
         /// <p> Places glyphs output from the <strong>GetGlyphs</strong> method according to the font  and the writing system's rendering rules. </p>	
         /// </summary>	
@@ -4665,8 +5013,10 @@ namespace SharpDX.DirectWrite {
         /// <msdn-id>dd316622</msdn-id>	
         /// <unmanaged>HRESULT IDWriteTextAnalyzer::GetGlyphPlacements([In, Buffer] const wchar_t* textString,[In, Buffer] const unsigned short* clusterMap,[In, Buffer] DWRITE_SHAPING_TEXT_PROPERTIES* textProps,[In] unsigned int textLength,[In, Buffer] const unsigned short* glyphIndices,[In, Buffer] const DWRITE_SHAPING_GLYPH_PROPERTIES* glyphProps,[In] unsigned int glyphCount,[In] IDWriteFontFace* fontFace,[In] float fontEmSize,[In] BOOL isSideways,[In] BOOL isRightToLeft,[In] const DWRITE_SCRIPT_ANALYSIS* scriptAnalysis,[In, Optional] const wchar_t* localeName,[In, Optional] const void** features,[In, Buffer, Optional] const unsigned int* featureRangeLengths,[In] unsigned int featureRanges,[Out, Buffer] float* glyphAdvances,[Out, Buffer] DWRITE_GLYPH_OFFSET* glyphOffsets)</unmanaged>	
         /// <unmanaged-short>IDWriteTextAnalyzer::GetGlyphPlacements</unmanaged-short>	
-        internal void GetGlyphPlacements(string textString, short[] clusterMap, SharpDX.DirectWrite.ShapingTextProperties[] textProps, int textLength, short[] glyphIndices, SharpDX.DirectWrite.ShapingGlyphProperties[] glyphProps, int glyphCount, SharpDX.DirectWrite.FontFace fontFace, float fontEmSize, SharpDX.Mathematics.Interop.RawBool isSideways, SharpDX.Mathematics.Interop.RawBool isRightToLeft, SharpDX.DirectWrite.ScriptAnalysis scriptAnalysis, string localeName, System.IntPtr features, int[] featureRangeLengths, int featureRanges, float[] glyphAdvances, SharpDX.DirectWrite.GlyphOffset[] glyphOffsets) {
-            unsafe {
+        internal void GetGlyphPlacements(string textString, short[] clusterMap, SharpDX.DirectWrite.ShapingTextProperties[] textProps, int textLength, short[] glyphIndices, SharpDX.DirectWrite.ShapingGlyphProperties[] glyphProps, int glyphCount, SharpDX.DirectWrite.FontFace fontFace, float fontEmSize, SharpDX.Mathematics.Interop.RawBool isSideways, SharpDX.Mathematics.Interop.RawBool isRightToLeft, SharpDX.DirectWrite.ScriptAnalysis scriptAnalysis, string localeName, System.IntPtr features, int[] featureRangeLengths, int featureRanges, float[] glyphAdvances, SharpDX.DirectWrite.GlyphOffset[] glyphOffsets)
+        {
+            unsafe
+            {
                 IntPtr textString_ = Utilities.StringToHGlobalUni(textString);
                 IntPtr localeName_ = Utilities.StringToHGlobalUni(localeName);
                 int[] featureRangeLengths__ = featureRangeLengths;
@@ -4678,14 +5028,14 @@ namespace SharpDX.DirectWrite {
                                 fixed (void* featureRangeLengths_ = featureRangeLengths__)
                                     fixed (void* glyphAdvances_ = glyphAdvances)
                                         fixed (void* glyphOffsets_ = glyphOffsets)
-                                            __result__= 
-                            				SharpDX.Direct2D1.LocalInterop.Calliint171(_nativePointer, (void*)textString_, clusterMap_, textProps_, textLength, glyphIndices_, glyphProps_, glyphCount, (void*)((fontFace == null)?IntPtr.Zero:fontFace.NativePointer), fontEmSize, isSideways, isRightToLeft, &scriptAnalysis, (void*)localeName_, (void*)features, featureRangeLengths_, featureRanges, glyphAdvances_, glyphOffsets_,((void**)(*(void**)_nativePointer))[8]);		
-                Marshal.FreeHGlobal(textString_ );
-                Marshal.FreeHGlobal(localeName_ );
+                                            __result__ =
+                                            SharpDX.Direct2D1.LocalInterop.Calliint171(_nativePointer, (void*)textString_, clusterMap_, textProps_, textLength, glyphIndices_, glyphProps_, glyphCount, (void*)((fontFace == null) ? IntPtr.Zero : fontFace.NativePointer), fontEmSize, isSideways, isRightToLeft, &scriptAnalysis, (void*)localeName_, (void*)features, featureRangeLengths_, featureRanges, glyphAdvances_, glyphOffsets_, ((void**)(*(void**)_nativePointer))[8]);
+                Marshal.FreeHGlobal(textString_);
+                Marshal.FreeHGlobal(localeName_);
                 __result__.CheckError();
             }
         }
-        
+
         /// <summary>	
         /// <p>Place glyphs output from the <strong>GetGlyphs</strong> method according to the font  and the writing system's rendering rules.</p>	
         /// </summary>	
@@ -4715,12 +5065,14 @@ namespace SharpDX.DirectWrite {
         /// <msdn-id>dd941790</msdn-id>	
         /// <unmanaged>HRESULT IDWriteTextAnalyzer::GetGdiCompatibleGlyphPlacements([In, Buffer] const wchar_t* textString,[In, Buffer] const unsigned short* clusterMap,[In, Buffer] DWRITE_SHAPING_TEXT_PROPERTIES* textProps,[In] unsigned int textLength,[In, Buffer] const unsigned short* glyphIndices,[In, Buffer] const DWRITE_SHAPING_GLYPH_PROPERTIES* glyphProps,[In] unsigned int glyphCount,[In] IDWriteFontFace* fontFace,[In] float fontEmSize,[In] float pixelsPerDip,[In, Optional] const DWRITE_MATRIX* transform,[In] BOOL useGdiNatural,[In] BOOL isSideways,[In] BOOL isRightToLeft,[In] const DWRITE_SCRIPT_ANALYSIS* scriptAnalysis,[In, Optional] const wchar_t* localeName,[In, Optional] const void** features,[In, Buffer, Optional] const unsigned int* featureRangeLengths,[In] unsigned int featureRanges,[Out, Buffer] float* glyphAdvances,[Out, Buffer] DWRITE_GLYPH_OFFSET* glyphOffsets)</unmanaged>	
         /// <unmanaged-short>IDWriteTextAnalyzer::GetGdiCompatibleGlyphPlacements</unmanaged-short>	
-        internal void GetGdiCompatibleGlyphPlacements(string textString, short[] clusterMap, SharpDX.DirectWrite.ShapingTextProperties[] textProps, int textLength, short[] glyphIndices, SharpDX.DirectWrite.ShapingGlyphProperties[] glyphProps, int glyphCount, SharpDX.DirectWrite.FontFace fontFace, float fontEmSize, float pixelsPerDip, SharpDX.Mathematics.Interop.RawMatrix3x2? transform, SharpDX.Mathematics.Interop.RawBool useGdiNatural, SharpDX.Mathematics.Interop.RawBool isSideways, SharpDX.Mathematics.Interop.RawBool isRightToLeft, SharpDX.DirectWrite.ScriptAnalysis scriptAnalysis, string localeName, System.IntPtr features, int[] featureRangeLengths, int featureRanges, float[] glyphAdvances, SharpDX.DirectWrite.GlyphOffset[] glyphOffsets) {
-            unsafe {
+        internal void GetGdiCompatibleGlyphPlacements(string textString, short[] clusterMap, SharpDX.DirectWrite.ShapingTextProperties[] textProps, int textLength, short[] glyphIndices, SharpDX.DirectWrite.ShapingGlyphProperties[] glyphProps, int glyphCount, SharpDX.DirectWrite.FontFace fontFace, float fontEmSize, float pixelsPerDip, SharpDX.Mathematics.Interop.RawMatrix3x2? transform, SharpDX.Mathematics.Interop.RawBool useGdiNatural, SharpDX.Mathematics.Interop.RawBool isSideways, SharpDX.Mathematics.Interop.RawBool isRightToLeft, SharpDX.DirectWrite.ScriptAnalysis scriptAnalysis, string localeName, System.IntPtr features, int[] featureRangeLengths, int featureRanges, float[] glyphAdvances, SharpDX.DirectWrite.GlyphOffset[] glyphOffsets)
+        {
+            unsafe
+            {
                 IntPtr textString_ = Utilities.StringToHGlobalUni(textString);
                 SharpDX.Mathematics.Interop.RawMatrix3x2 transform_;
                 if (transform.HasValue)
-                    transform_ = transform.Value;				
+                    transform_ = transform.Value;
                 IntPtr localeName_ = Utilities.StringToHGlobalUni(localeName);
                 int[] featureRangeLengths__ = featureRangeLengths;
                 SharpDX.Result __result__;
@@ -4731,10 +5083,10 @@ namespace SharpDX.DirectWrite {
                                 fixed (void* featureRangeLengths_ = featureRangeLengths__)
                                     fixed (void* glyphAdvances_ = glyphAdvances)
                                         fixed (void* glyphOffsets_ = glyphOffsets)
-                                            __result__= 
-                            				SharpDX.Direct2D1.LocalInterop.Calliint172(_nativePointer, (void*)textString_, clusterMap_, textProps_, textLength, glyphIndices_, glyphProps_, glyphCount, (void*)((fontFace == null)?IntPtr.Zero:fontFace.NativePointer), fontEmSize, pixelsPerDip, (transform.HasValue)?&transform_:(void*)IntPtr.Zero, useGdiNatural, isSideways, isRightToLeft, &scriptAnalysis, (void*)localeName_, (void*)features, featureRangeLengths_, featureRanges, glyphAdvances_, glyphOffsets_,((void**)(*(void**)_nativePointer))[9]);		
-                Marshal.FreeHGlobal(textString_ );
-                Marshal.FreeHGlobal(localeName_ );
+                                            __result__ =
+                                            SharpDX.Direct2D1.LocalInterop.Calliint172(_nativePointer, (void*)textString_, clusterMap_, textProps_, textLength, glyphIndices_, glyphProps_, glyphCount, (void*)((fontFace == null) ? IntPtr.Zero : fontFace.NativePointer), fontEmSize, pixelsPerDip, (transform.HasValue) ? &transform_ : (void*)IntPtr.Zero, useGdiNatural, isSideways, isRightToLeft, &scriptAnalysis, (void*)localeName_, (void*)features, featureRangeLengths_, featureRanges, glyphAdvances_, glyphOffsets_, ((void**)(*(void**)_nativePointer))[9]);
+                Marshal.FreeHGlobal(textString_);
+                Marshal.FreeHGlobal(localeName_);
                 __result__.CheckError();
             }
         }
@@ -4747,27 +5099,29 @@ namespace SharpDX.DirectWrite {
     /// <unmanaged>IDWriteTextAnalyzer1</unmanaged>	
     /// <unmanaged-short>IDWriteTextAnalyzer1</unmanaged-short>	
     [Guid("80DAD800-E21F-4E83-96CE-BFCCE500DB7C")]
-    public partial class TextAnalyzer1 : SharpDX.DirectWrite.TextAnalyzer {
+    public partial class TextAnalyzer1 : SharpDX.DirectWrite.TextAnalyzer
+    {
         /// <summary>
         /// Initializes a new instance of the <see cref="SharpDX.DirectWrite.TextAnalyzer1"/> class.
         /// </summary>
         /// <param name="nativePtr">The native pointer.</param>	
-        public TextAnalyzer1(IntPtr nativePtr) : base(nativePtr) {
+        public TextAnalyzer1(IntPtr nativePtr) : base(nativePtr)
+        {
         }
 
-		/// <summary>
-		/// Performs an explicit conversion from <see cref="System.IntPtr"/> to <see cref="SharpDX.DirectWrite.TextAnalyzer1"/>. (This method is a shortcut to <see cref="SharpDX.CppObject.NativePointer"/>) 
-		/// </summary>
-		/// <param name="nativePointer">The native pointer.</param>
-		/// <returns>
-		/// The result of the conversion.
-		/// </returns>
-		public static explicit operator SharpDX.DirectWrite.TextAnalyzer1(IntPtr nativePointer)
-		{
-			return nativePointer == IntPtr.Zero ? null : new SharpDX.DirectWrite.TextAnalyzer1(nativePointer);
-		}
-        
-        
+        /// <summary>
+        /// Performs an explicit conversion from <see cref="System.IntPtr"/> to <see cref="SharpDX.DirectWrite.TextAnalyzer1"/>. (This method is a shortcut to <see cref="SharpDX.CppObject.NativePointer"/>) 
+        /// </summary>
+        /// <param name="nativePointer">The native pointer.</param>
+        /// <returns>
+        /// The result of the conversion.
+        /// </returns>
+        public static explicit operator SharpDX.DirectWrite.TextAnalyzer1(IntPtr nativePointer)
+        {
+            return nativePointer == IntPtr.Zero ? null : new SharpDX.DirectWrite.TextAnalyzer1(nativePointer);
+        }
+
+
         /// <summary>	
         /// <p>Applies spacing between characters, properly adjusting glyph clusters and diacritics.</p>	
         /// </summary>	
@@ -4790,8 +5144,10 @@ namespace SharpDX.DirectWrite {
         /// <msdn-id>Hh780430</msdn-id>	
         /// <unmanaged>HRESULT IDWriteTextAnalyzer1::ApplyCharacterSpacing([In] float leadingSpacing,[In] float trailingSpacing,[In] float minimumAdvanceWidth,[In] unsigned int textLength,[In] unsigned int glyphCount,[In, Buffer] const unsigned short* clusterMap,[In, Buffer] const float* glyphAdvances,[In, Buffer] const DWRITE_GLYPH_OFFSET* glyphOffsets,[In, Buffer] const DWRITE_SHAPING_GLYPH_PROPERTIES* glyphProperties,[Out, Buffer] float* modifiedGlyphAdvances,[Out, Buffer] DWRITE_GLYPH_OFFSET* modifiedGlyphOffsets)</unmanaged>	
         /// <unmanaged-short>IDWriteTextAnalyzer1::ApplyCharacterSpacing</unmanaged-short>	
-        public void ApplyCharacterSpacing(float leadingSpacing, float trailingSpacing, float minimumAdvanceWidth, int textLength, int glyphCount, short[] clusterMap, float[] glyphAdvances, SharpDX.DirectWrite.GlyphOffset[] glyphOffsets, SharpDX.DirectWrite.ShapingGlyphProperties[] glyphProperties, float[] modifiedGlyphAdvances, SharpDX.DirectWrite.GlyphOffset[] modifiedGlyphOffsets) {
-            unsafe {
+        public void ApplyCharacterSpacing(float leadingSpacing, float trailingSpacing, float minimumAdvanceWidth, int textLength, int glyphCount, short[] clusterMap, float[] glyphAdvances, SharpDX.DirectWrite.GlyphOffset[] glyphOffsets, SharpDX.DirectWrite.ShapingGlyphProperties[] glyphProperties, float[] modifiedGlyphAdvances, SharpDX.DirectWrite.GlyphOffset[] modifiedGlyphOffsets)
+        {
+            unsafe
+            {
                 SharpDX.Result __result__;
                 fixed (void* clusterMap_ = clusterMap)
                     fixed (void* glyphAdvances_ = glyphAdvances)
@@ -4799,12 +5155,12 @@ namespace SharpDX.DirectWrite {
                             fixed (void* glyphProperties_ = glyphProperties)
                                 fixed (void* modifiedGlyphAdvances_ = modifiedGlyphAdvances)
                                     fixed (void* modifiedGlyphOffsets_ = modifiedGlyphOffsets)
-                                        __result__= 
-                        				SharpDX.Direct2D1.LocalInterop.Calliint(_nativePointer, leadingSpacing, trailingSpacing, minimumAdvanceWidth, textLength, glyphCount, clusterMap_, glyphAdvances_, glyphOffsets_, glyphProperties_, modifiedGlyphAdvances_, modifiedGlyphOffsets_,((void**)(*(void**)_nativePointer))[10]);		
+                                        __result__ =
+                                        SharpDX.Direct2D1.LocalInterop.Calliint(_nativePointer, leadingSpacing, trailingSpacing, minimumAdvanceWidth, textLength, glyphCount, clusterMap_, glyphAdvances_, glyphOffsets_, glyphProperties_, modifiedGlyphAdvances_, modifiedGlyphOffsets_, ((void**)(*(void**)_nativePointer))[10]);
                 __result__.CheckError();
             }
         }
-        
+
         /// <summary>	
         /// <p>Retrieves the given baseline from the font.</p>	
         /// </summary>	
@@ -4824,20 +5180,22 @@ namespace SharpDX.DirectWrite {
         /// <msdn-id>Hh780431</msdn-id>	
         /// <unmanaged>HRESULT IDWriteTextAnalyzer1::GetBaseline([In] IDWriteFontFace* fontFace,[In] DWRITE_BASELINE baseline,[In] BOOL isVertical,[In] BOOL isSimulationAllowed,[In] DWRITE_SCRIPT_ANALYSIS scriptAnalysis,[In, Optional] const wchar_t* localeName,[Out] int* baselineCoordinate,[Out] BOOL* exists)</unmanaged>	
         /// <unmanaged-short>IDWriteTextAnalyzer1::GetBaseline</unmanaged-short>	
-        public void GetBaseline(SharpDX.DirectWrite.FontFace fontFace, SharpDX.DirectWrite.Baseline baseline, SharpDX.Mathematics.Interop.RawBool isVertical, SharpDX.Mathematics.Interop.RawBool isSimulationAllowed, SharpDX.DirectWrite.ScriptAnalysis scriptAnalysis, string localeName, out int baselineCoordinate, out SharpDX.Mathematics.Interop.RawBool exists) {
-            unsafe {
+        public void GetBaseline(SharpDX.DirectWrite.FontFace fontFace, SharpDX.DirectWrite.Baseline baseline, SharpDX.Mathematics.Interop.RawBool isVertical, SharpDX.Mathematics.Interop.RawBool isSimulationAllowed, SharpDX.DirectWrite.ScriptAnalysis scriptAnalysis, string localeName, out int baselineCoordinate, out SharpDX.Mathematics.Interop.RawBool exists)
+        {
+            unsafe
+            {
                 IntPtr localeName_ = Utilities.StringToHGlobalUni(localeName);
                 exists = new SharpDX.Mathematics.Interop.RawBool();
                 SharpDX.Result __result__;
                 fixed (void* baselineCoordinate_ = &baselineCoordinate)
                     fixed (void* exists_ = &exists)
-                        __result__= 
-        				SharpDX.Direct2D1.LocalInterop.Calliint182(_nativePointer, (void*)((fontFace == null)?IntPtr.Zero:fontFace.NativePointer), unchecked((int)baseline), isVertical, isSimulationAllowed, scriptAnalysis, (void*)localeName_, baselineCoordinate_, exists_,((void**)(*(void**)_nativePointer))[11]);		
-                Marshal.FreeHGlobal(localeName_ );
+                        __result__ =
+                        SharpDX.Direct2D1.LocalInterop.Calliint182(_nativePointer, (void*)((fontFace == null) ? IntPtr.Zero : fontFace.NativePointer), unchecked((int)baseline), isVertical, isSimulationAllowed, scriptAnalysis, (void*)localeName_, baselineCoordinate_, exists_, ((void**)(*(void**)_nativePointer))[11]);
+                Marshal.FreeHGlobal(localeName_);
                 __result__.CheckError();
             }
         }
-        
+
         /// <summary>	
         /// <p>Analyzes a text range for script orientation, reading text and attributes from the source and reporting results to the sink callback <strong>SetGlyphOrientation</strong>.</p>	
         /// </summary>	
@@ -4850,15 +5208,17 @@ namespace SharpDX.DirectWrite {
         /// <msdn-id>Hh780429</msdn-id>	
         /// <unmanaged>HRESULT IDWriteTextAnalyzer1::AnalyzeVerticalGlyphOrientation([In] IDWriteTextAnalysisSource1* analysisSource,[In] unsigned int textPosition,[In] unsigned int textLength,[In] IDWriteTextAnalysisSink1* analysisSink)</unmanaged>	
         /// <unmanaged-short>IDWriteTextAnalyzer1::AnalyzeVerticalGlyphOrientation</unmanaged-short>	
-        internal void AnalyzeVerticalGlyphOrientation__(System.IntPtr analysisSource, int textPosition, int textLength, System.IntPtr analysisSink) {
-            unsafe {
+        internal void AnalyzeVerticalGlyphOrientation__(System.IntPtr analysisSource, int textPosition, int textLength, System.IntPtr analysisSink)
+        {
+            unsafe
+            {
                 SharpDX.Result __result__;
-                __result__= 
-				SharpDX.Direct2D1.LocalInterop.Calliint(_nativePointer, (void*)analysisSource, textPosition, textLength, (void*)analysisSink,((void**)(*(void**)_nativePointer))[12]);		
+                __result__ =
+                SharpDX.Direct2D1.LocalInterop.Calliint(_nativePointer, (void*)analysisSource, textPosition, textLength, (void*)analysisSink, ((void**)(*(void**)_nativePointer))[12]);
                 __result__.CheckError();
             }
         }
-        
+
         /// <summary>	
         /// <p>Returns 2x3 transform matrix for the respective angle to draw the glyph run.</p>	
         /// </summary>	
@@ -4873,17 +5233,19 @@ namespace SharpDX.DirectWrite {
         /// <msdn-id>Hh780432</msdn-id>	
         /// <unmanaged>HRESULT IDWriteTextAnalyzer1::GetGlyphOrientationTransform([In] DWRITE_GLYPH_ORIENTATION_ANGLE glyphOrientationAngle,[In] BOOL isSideways,[Out] DWRITE_MATRIX* transform)</unmanaged>	
         /// <unmanaged-short>IDWriteTextAnalyzer1::GetGlyphOrientationTransform</unmanaged-short>	
-        public void GetGlyphOrientationTransform(SharpDX.DirectWrite.GlyphOrientationAngle glyphOrientationAngle, SharpDX.Mathematics.Interop.RawBool isSideways, out SharpDX.Mathematics.Interop.RawMatrix3x2 transform) {
-            unsafe {
+        public void GetGlyphOrientationTransform(SharpDX.DirectWrite.GlyphOrientationAngle glyphOrientationAngle, SharpDX.Mathematics.Interop.RawBool isSideways, out SharpDX.Mathematics.Interop.RawMatrix3x2 transform)
+        {
+            unsafe
+            {
                 transform = new SharpDX.Mathematics.Interop.RawMatrix3x2();
                 SharpDX.Result __result__;
                 fixed (void* transform_ = &transform)
-                    __result__= 
-    				SharpDX.Direct2D1.LocalInterop.Calliint183(_nativePointer, unchecked((int)glyphOrientationAngle), isSideways, transform_,((void**)(*(void**)_nativePointer))[13]);		
+                    __result__ =
+                    SharpDX.Direct2D1.LocalInterop.Calliint183(_nativePointer, unchecked((int)glyphOrientationAngle), isSideways, transform_, ((void**)(*(void**)_nativePointer))[13]);
                 __result__.CheckError();
             }
         }
-        
+
         /// <summary>	
         /// <p>Retrieves the properties for a given script.</p>	
         /// </summary>	
@@ -4894,17 +5256,19 @@ namespace SharpDX.DirectWrite {
         /// <msdn-id>Hh780435</msdn-id>	
         /// <unmanaged>HRESULT IDWriteTextAnalyzer1::GetScriptProperties([In] DWRITE_SCRIPT_ANALYSIS scriptAnalysis,[Out] DWRITE_SCRIPT_PROPERTIES* scriptProperties)</unmanaged>	
         /// <unmanaged-short>IDWriteTextAnalyzer1::GetScriptProperties</unmanaged-short>	
-        public void GetScriptProperties(SharpDX.DirectWrite.ScriptAnalysis scriptAnalysis, out SharpDX.DirectWrite.ScriptProperties scriptProperties) {
-            unsafe {
+        public void GetScriptProperties(SharpDX.DirectWrite.ScriptAnalysis scriptAnalysis, out SharpDX.DirectWrite.ScriptProperties scriptProperties)
+        {
+            unsafe
+            {
                 scriptProperties = new SharpDX.DirectWrite.ScriptProperties();
                 SharpDX.Result __result__;
                 fixed (void* scriptProperties_ = &scriptProperties)
-                    __result__= 
-    				SharpDX.Direct2D1.LocalInterop.Calliint184(_nativePointer, scriptAnalysis, scriptProperties_,((void**)(*(void**)_nativePointer))[14]);		
+                    __result__ =
+                    SharpDX.Direct2D1.LocalInterop.Calliint184(_nativePointer, scriptAnalysis, scriptProperties_, ((void**)(*(void**)_nativePointer))[14]);
                 __result__.CheckError();
             }
         }
-        
+
         /// <summary>	
         /// <p>Determines the complexity of text, and whether you need to call <strong><see cref="SharpDX.DirectWrite.TextAnalyzer.GetGlyphs"/></strong> for full script shaping. </p>	
         /// </summary>	
@@ -4922,21 +5286,23 @@ namespace SharpDX.DirectWrite {
         /// <msdn-id>Hh780436</msdn-id>	
         /// <unmanaged>HRESULT IDWriteTextAnalyzer1::GetTextComplexity([In, Buffer] const wchar_t* textString,[In] unsigned int textLength,[In] IDWriteFontFace* fontFace,[Out] BOOL* isTextSimple,[In] unsigned int* textLengthRead,[Out, Buffer, Optional] unsigned short* glyphIndices)</unmanaged>	
         /// <unmanaged-short>IDWriteTextAnalyzer1::GetTextComplexity</unmanaged-short>	
-        public void GetTextComplexity(string textString, int textLength, SharpDX.DirectWrite.FontFace fontFace, out SharpDX.Mathematics.Interop.RawBool isTextSimple, int textLengthRead, short[] glyphIndices) {
-            unsafe {
+        public void GetTextComplexity(string textString, int textLength, SharpDX.DirectWrite.FontFace fontFace, out SharpDX.Mathematics.Interop.RawBool isTextSimple, int textLengthRead, short[] glyphIndices)
+        {
+            unsafe
+            {
                 IntPtr textString_ = Utilities.StringToHGlobalUni(textString);
                 isTextSimple = new SharpDX.Mathematics.Interop.RawBool();
                 short[] glyphIndices__ = glyphIndices;
                 SharpDX.Result __result__;
                 fixed (void* isTextSimple_ = &isTextSimple)
                     fixed (void* glyphIndices_ = glyphIndices__)
-                        __result__= 
-        				SharpDX.Direct2D1.LocalInterop.Calliint(_nativePointer, (void*)textString_, textLength, (void*)((fontFace == null)?IntPtr.Zero:fontFace.NativePointer), isTextSimple_, &textLengthRead, glyphIndices_,((void**)(*(void**)_nativePointer))[15]);		
-                Marshal.FreeHGlobal(textString_ );
+                        __result__ =
+                        SharpDX.Direct2D1.LocalInterop.Calliint(_nativePointer, (void*)textString_, textLength, (void*)((fontFace == null) ? IntPtr.Zero : fontFace.NativePointer), isTextSimple_, &textLengthRead, glyphIndices_, ((void**)(*(void**)_nativePointer))[15]);
+                Marshal.FreeHGlobal(textString_);
                 __result__.CheckError();
             }
         }
-        
+
         /// <summary>	
         /// <p>Retrieves justification opportunity information for each of the glyphs given the text and shaping glyph properties.</p>	
         /// </summary>	
@@ -4957,20 +5323,22 @@ namespace SharpDX.DirectWrite {
         /// <msdn-id>Hh780433</msdn-id>	
         /// <unmanaged>HRESULT IDWriteTextAnalyzer1::GetJustificationOpportunities([In, Optional] IDWriteFontFace* fontFace,[In] float fontEmSize,[In] DWRITE_SCRIPT_ANALYSIS scriptAnalysis,[In] unsigned int textLength,[In] unsigned int glyphCount,[In, Buffer] const wchar_t* textString,[In, Buffer] const unsigned short* clusterMap,[In, Buffer] const DWRITE_SHAPING_GLYPH_PROPERTIES* glyphProperties,[Out, Buffer] DWRITE_JUSTIFICATION_OPPORTUNITY* justificationOpportunities)</unmanaged>	
         /// <unmanaged-short>IDWriteTextAnalyzer1::GetJustificationOpportunities</unmanaged-short>	
-        public void GetJustificationOpportunities(SharpDX.DirectWrite.FontFace fontFace, float fontEmSize, SharpDX.DirectWrite.ScriptAnalysis scriptAnalysis, int textLength, int glyphCount, string textString, short[] clusterMap, SharpDX.DirectWrite.ShapingGlyphProperties[] glyphProperties, SharpDX.DirectWrite.JustificationOpportunity[] justificationOpportunities) {
-            unsafe {
+        public void GetJustificationOpportunities(SharpDX.DirectWrite.FontFace fontFace, float fontEmSize, SharpDX.DirectWrite.ScriptAnalysis scriptAnalysis, int textLength, int glyphCount, string textString, short[] clusterMap, SharpDX.DirectWrite.ShapingGlyphProperties[] glyphProperties, SharpDX.DirectWrite.JustificationOpportunity[] justificationOpportunities)
+        {
+            unsafe
+            {
                 IntPtr textString_ = Utilities.StringToHGlobalUni(textString);
                 SharpDX.Result __result__;
                 fixed (void* clusterMap_ = clusterMap)
                     fixed (void* glyphProperties_ = glyphProperties)
                         fixed (void* justificationOpportunities_ = justificationOpportunities)
-                            __result__= 
-            				SharpDX.Direct2D1.LocalInterop.Calliint186(_nativePointer, (void*)((fontFace == null)?IntPtr.Zero:fontFace.NativePointer), fontEmSize, scriptAnalysis, textLength, glyphCount, (void*)textString_, clusterMap_, glyphProperties_, justificationOpportunities_,((void**)(*(void**)_nativePointer))[16]);		
-                Marshal.FreeHGlobal(textString_ );
+                            __result__ =
+                            SharpDX.Direct2D1.LocalInterop.Calliint186(_nativePointer, (void*)((fontFace == null) ? IntPtr.Zero : fontFace.NativePointer), fontEmSize, scriptAnalysis, textLength, glyphCount, (void*)textString_, clusterMap_, glyphProperties_, justificationOpportunities_, ((void**)(*(void**)_nativePointer))[16]);
+                Marshal.FreeHGlobal(textString_);
                 __result__.CheckError();
             }
         }
-        
+
         /// <summary>	
         /// <p>Justifies an array of glyph advances to fit the line width.</p>	
         /// </summary>	
@@ -4989,8 +5357,10 @@ namespace SharpDX.DirectWrite {
         /// <msdn-id>Hh780437</msdn-id>	
         /// <unmanaged>HRESULT IDWriteTextAnalyzer1::JustifyGlyphAdvances([In] float lineWidth,[In] unsigned int glyphCount,[In, Buffer] const DWRITE_JUSTIFICATION_OPPORTUNITY* justificationOpportunities,[In, Buffer] const float* glyphAdvances,[In, Buffer] const DWRITE_GLYPH_OFFSET* glyphOffsets,[Out, Buffer] float* justifiedGlyphAdvances,[Out, Buffer, Optional] DWRITE_GLYPH_OFFSET* justifiedGlyphOffsets)</unmanaged>	
         /// <unmanaged-short>IDWriteTextAnalyzer1::JustifyGlyphAdvances</unmanaged-short>	
-        public void JustifyGlyphAdvances(float lineWidth, int glyphCount, SharpDX.DirectWrite.JustificationOpportunity[] justificationOpportunities, float[] glyphAdvances, SharpDX.DirectWrite.GlyphOffset[] glyphOffsets, float[] justifiedGlyphAdvances, SharpDX.DirectWrite.GlyphOffset[] justifiedGlyphOffsets) {
-            unsafe {
+        public void JustifyGlyphAdvances(float lineWidth, int glyphCount, SharpDX.DirectWrite.JustificationOpportunity[] justificationOpportunities, float[] glyphAdvances, SharpDX.DirectWrite.GlyphOffset[] glyphOffsets, float[] justifiedGlyphAdvances, SharpDX.DirectWrite.GlyphOffset[] justifiedGlyphOffsets)
+        {
+            unsafe
+            {
                 SharpDX.DirectWrite.GlyphOffset[] justifiedGlyphOffsets__ = justifiedGlyphOffsets;
                 SharpDX.Result __result__;
                 fixed (void* justificationOpportunities_ = justificationOpportunities)
@@ -4998,12 +5368,12 @@ namespace SharpDX.DirectWrite {
                         fixed (void* glyphOffsets_ = glyphOffsets)
                             fixed (void* justifiedGlyphAdvances_ = justifiedGlyphAdvances)
                                 fixed (void* justifiedGlyphOffsets_ = justifiedGlyphOffsets__)
-                                    __result__= 
-                    				SharpDX.Direct2D1.LocalInterop.Calliint(_nativePointer, lineWidth, glyphCount, justificationOpportunities_, glyphAdvances_, glyphOffsets_, justifiedGlyphAdvances_, justifiedGlyphOffsets_,((void**)(*(void**)_nativePointer))[17]);		
+                                    __result__ =
+                                    SharpDX.Direct2D1.LocalInterop.Calliint(_nativePointer, lineWidth, glyphCount, justificationOpportunities_, glyphAdvances_, glyphOffsets_, justifiedGlyphAdvances_, justifiedGlyphOffsets_, ((void**)(*(void**)_nativePointer))[17]);
                 __result__.CheckError();
             }
         }
-        
+
         /// <summary>	
         /// <p>Fills in new glyphs for complex scripts where justification increased the advances of glyphs, such as Arabic with kashida.</p>	
         /// </summary>	
@@ -5032,8 +5402,10 @@ namespace SharpDX.DirectWrite {
         /// <msdn-id>Hh780434</msdn-id>	
         /// <unmanaged>HRESULT IDWriteTextAnalyzer1::GetJustifiedGlyphs([In, Optional] IDWriteFontFace* fontFace,[In] float fontEmSize,[In] DWRITE_SCRIPT_ANALYSIS scriptAnalysis,[In] unsigned int textLength,[In] unsigned int glyphCount,[In] unsigned int maxGlyphCount,[In, Buffer, Optional] const unsigned short* clusterMap,[In, Buffer] const unsigned short* glyphIndices,[In, Buffer] const float* glyphAdvances,[In, Buffer] const float* justifiedGlyphAdvances,[In, Buffer] const DWRITE_GLYPH_OFFSET* justifiedGlyphOffsets,[In, Buffer] const DWRITE_SHAPING_GLYPH_PROPERTIES* glyphProperties,[In] unsigned int* actualGlyphCount,[Out, Buffer, Optional] unsigned short* modifiedClusterMap,[Out, Buffer] unsigned short* modifiedGlyphIndices,[Out, Buffer] float* modifiedGlyphAdvances,[Out, Buffer] DWRITE_GLYPH_OFFSET* modifiedGlyphOffsets)</unmanaged>	
         /// <unmanaged-short>IDWriteTextAnalyzer1::GetJustifiedGlyphs</unmanaged-short>	
-        public void GetJustifiedGlyphs(SharpDX.DirectWrite.FontFace fontFace, float fontEmSize, SharpDX.DirectWrite.ScriptAnalysis scriptAnalysis, int textLength, int glyphCount, int maxGlyphCount, short[] clusterMap, short[] glyphIndices, float[] glyphAdvances, float[] justifiedGlyphAdvances, SharpDX.DirectWrite.GlyphOffset[] justifiedGlyphOffsets, SharpDX.DirectWrite.ShapingGlyphProperties[] glyphProperties, int actualGlyphCount, short[] modifiedClusterMap, short[] modifiedGlyphIndices, float[] modifiedGlyphAdvances, SharpDX.DirectWrite.GlyphOffset[] modifiedGlyphOffsets) {
-            unsafe {
+        public void GetJustifiedGlyphs(SharpDX.DirectWrite.FontFace fontFace, float fontEmSize, SharpDX.DirectWrite.ScriptAnalysis scriptAnalysis, int textLength, int glyphCount, int maxGlyphCount, short[] clusterMap, short[] glyphIndices, float[] glyphAdvances, float[] justifiedGlyphAdvances, SharpDX.DirectWrite.GlyphOffset[] justifiedGlyphOffsets, SharpDX.DirectWrite.ShapingGlyphProperties[] glyphProperties, int actualGlyphCount, short[] modifiedClusterMap, short[] modifiedGlyphIndices, float[] modifiedGlyphAdvances, SharpDX.DirectWrite.GlyphOffset[] modifiedGlyphOffsets)
+        {
+            unsafe
+            {
                 short[] clusterMap__ = clusterMap;
                 short[] modifiedClusterMap__ = modifiedClusterMap;
                 SharpDX.Result __result__;
@@ -5047,8 +5419,8 @@ namespace SharpDX.DirectWrite {
                                             fixed (void* modifiedGlyphIndices_ = modifiedGlyphIndices)
                                                 fixed (void* modifiedGlyphAdvances_ = modifiedGlyphAdvances)
                                                     fixed (void* modifiedGlyphOffsets_ = modifiedGlyphOffsets)
-                                                        __result__= 
-                                        				SharpDX.Direct2D1.LocalInterop.Calliint188(_nativePointer, (void*)((fontFace == null)?IntPtr.Zero:fontFace.NativePointer), fontEmSize, scriptAnalysis, textLength, glyphCount, maxGlyphCount, clusterMap_, glyphIndices_, glyphAdvances_, justifiedGlyphAdvances_, justifiedGlyphOffsets_, glyphProperties_, &actualGlyphCount, modifiedClusterMap_, modifiedGlyphIndices_, modifiedGlyphAdvances_, modifiedGlyphOffsets_,((void**)(*(void**)_nativePointer))[18]);		
+                                                        __result__ =
+                                                        SharpDX.Direct2D1.LocalInterop.Calliint188(_nativePointer, (void*)((fontFace == null) ? IntPtr.Zero : fontFace.NativePointer), fontEmSize, scriptAnalysis, textLength, glyphCount, maxGlyphCount, clusterMap_, glyphIndices_, glyphAdvances_, justifiedGlyphAdvances_, justifiedGlyphOffsets_, glyphProperties_, &actualGlyphCount, modifiedClusterMap_, modifiedGlyphIndices_, modifiedGlyphAdvances_, modifiedGlyphOffsets_, ((void**)(*(void**)_nativePointer))[18]);
                 __result__.CheckError();
             }
         }
@@ -5066,27 +5438,29 @@ namespace SharpDX.DirectWrite {
     /// <unmanaged>IDWriteTextFormat</unmanaged>	
     /// <unmanaged-short>IDWriteTextFormat</unmanaged-short>	
     [Guid("9c906818-31d7-4fd3-a151-7c5e225db55a")]
-    public partial class TextFormat : SharpDX.ComObject {
+    public partial class TextFormat : SharpDX.ComObject
+    {
         /// <summary>
         /// Initializes a new instance of the <see cref="SharpDX.DirectWrite.TextFormat"/> class.
         /// </summary>
         /// <param name="nativePtr">The native pointer.</param>	
-        public TextFormat(IntPtr nativePtr) : base(nativePtr) {
+        public TextFormat(IntPtr nativePtr) : base(nativePtr)
+        {
         }
 
-		/// <summary>
-		/// Performs an explicit conversion from <see cref="System.IntPtr"/> to <see cref="SharpDX.DirectWrite.TextFormat"/>. (This method is a shortcut to <see cref="SharpDX.CppObject.NativePointer"/>) 
-		/// </summary>
-		/// <param name="nativePointer">The native pointer.</param>
-		/// <returns>
-		/// The result of the conversion.
-		/// </returns>
-		public static explicit operator SharpDX.DirectWrite.TextFormat(IntPtr nativePointer)
-		{
-			return nativePointer == IntPtr.Zero ? null : new SharpDX.DirectWrite.TextFormat(nativePointer);
-		}
-        
-        
+        /// <summary>
+        /// Performs an explicit conversion from <see cref="System.IntPtr"/> to <see cref="SharpDX.DirectWrite.TextFormat"/>. (This method is a shortcut to <see cref="SharpDX.CppObject.NativePointer"/>) 
+        /// </summary>
+        /// <param name="nativePointer">The native pointer.</param>
+        /// <returns>
+        /// The result of the conversion.
+        /// </returns>
+        public static explicit operator SharpDX.DirectWrite.TextFormat(IntPtr nativePointer)
+        {
+            return nativePointer == IntPtr.Zero ? null : new SharpDX.DirectWrite.TextFormat(nativePointer);
+        }
+
+
         /// <summary>	
         /// <p>Gets or sets the alignment option of text relative to the layout box's leading and trailing edge. </p>	
         /// </summary>	
@@ -5095,11 +5469,12 @@ namespace SharpDX.DirectWrite {
         /// <unmanaged>GetTextAlignment / SetTextAlignment</unmanaged>	
         /// <unmanaged-short>GetTextAlignment</unmanaged-short>	
         /// <unmanaged>DWRITE_TEXT_ALIGNMENT IDWriteTextFormat::GetTextAlignment()</unmanaged>
-        public SharpDX.DirectWrite.TextAlignment TextAlignment {
-                get { return GetTextAlignment(); }
-                set { SetTextAlignment(value); }
+        public SharpDX.DirectWrite.TextAlignment TextAlignment
+        {
+            get { return GetTextAlignment(); }
+            set { SetTextAlignment(value); }
         }
-        
+
         /// <summary>	
         /// <p>Gets or sets the alignment option of a paragraph which is  relative to the top and bottom edges of a layout box. </p>	
         /// </summary>	
@@ -5108,11 +5483,12 @@ namespace SharpDX.DirectWrite {
         /// <unmanaged>GetParagraphAlignment / SetParagraphAlignment</unmanaged>	
         /// <unmanaged-short>GetParagraphAlignment</unmanaged-short>	
         /// <unmanaged>DWRITE_PARAGRAPH_ALIGNMENT IDWriteTextFormat::GetParagraphAlignment()</unmanaged>
-        public SharpDX.DirectWrite.ParagraphAlignment ParagraphAlignment {
-                get { return GetParagraphAlignment(); }
-                set { SetParagraphAlignment(value); }
+        public SharpDX.DirectWrite.ParagraphAlignment ParagraphAlignment
+        {
+            get { return GetParagraphAlignment(); }
+            set { SetParagraphAlignment(value); }
         }
-        
+
         /// <summary>	
         /// <p>Gets or sets the word wrapping option. </p>	
         /// </summary>	
@@ -5121,11 +5497,12 @@ namespace SharpDX.DirectWrite {
         /// <unmanaged>GetWordWrapping / SetWordWrapping</unmanaged>	
         /// <unmanaged-short>GetWordWrapping</unmanaged-short>	
         /// <unmanaged>DWRITE_WORD_WRAPPING IDWriteTextFormat::GetWordWrapping()</unmanaged>
-        public SharpDX.DirectWrite.WordWrapping WordWrapping {
-                get { return GetWordWrapping(); }
-                set { SetWordWrapping(value); }
+        public SharpDX.DirectWrite.WordWrapping WordWrapping
+        {
+            get { return GetWordWrapping(); }
+            set { SetWordWrapping(value); }
         }
-        
+
         /// <summary>	
         /// <p>Gets or sets the  current reading direction for text in a paragraph. </p>	
         /// </summary>	
@@ -5134,11 +5511,12 @@ namespace SharpDX.DirectWrite {
         /// <unmanaged>GetReadingDirection / SetReadingDirection</unmanaged>	
         /// <unmanaged-short>GetReadingDirection</unmanaged-short>	
         /// <unmanaged>DWRITE_READING_DIRECTION IDWriteTextFormat::GetReadingDirection()</unmanaged>
-        public SharpDX.DirectWrite.ReadingDirection ReadingDirection {
-                get { return GetReadingDirection(); }
-                set { SetReadingDirection(value); }
+        public SharpDX.DirectWrite.ReadingDirection ReadingDirection
+        {
+            get { return GetReadingDirection(); }
+            set { SetReadingDirection(value); }
         }
-        
+
         /// <summary>	
         /// <p>Gets or sets the direction that text lines flow. </p>	
         /// </summary>	
@@ -5147,11 +5525,12 @@ namespace SharpDX.DirectWrite {
         /// <unmanaged>GetFlowDirection / SetFlowDirection</unmanaged>	
         /// <unmanaged-short>GetFlowDirection</unmanaged-short>	
         /// <unmanaged>DWRITE_FLOW_DIRECTION IDWriteTextFormat::GetFlowDirection()</unmanaged>
-        public SharpDX.DirectWrite.FlowDirection FlowDirection {
-                get { return GetFlowDirection(); }
-                set { SetFlowDirection(value); }
+        public SharpDX.DirectWrite.FlowDirection FlowDirection
+        {
+            get { return GetFlowDirection(); }
+            set { SetFlowDirection(value); }
         }
-        
+
         /// <summary>	
         /// <p>Gets or sets the  incremental tab stop position. </p>	
         /// </summary>	
@@ -5160,11 +5539,12 @@ namespace SharpDX.DirectWrite {
         /// <unmanaged>GetIncrementalTabStop / SetIncrementalTabStop</unmanaged>	
         /// <unmanaged-short>GetIncrementalTabStop</unmanaged-short>	
         /// <unmanaged>float IDWriteTextFormat::GetIncrementalTabStop()</unmanaged>
-        public float IncrementalTabStop {
-                get { return GetIncrementalTabStop(); }
-                set { SetIncrementalTabStop(value); }
+        public float IncrementalTabStop
+        {
+            get { return GetIncrementalTabStop(); }
+            set { SetIncrementalTabStop(value); }
         }
-        
+
         /// <summary>	
         /// <p> Gets the current font collection. </p>	
         /// </summary>	
@@ -5173,10 +5553,11 @@ namespace SharpDX.DirectWrite {
         /// <unmanaged>GetFontCollection</unmanaged>	
         /// <unmanaged-short>GetFontCollection</unmanaged-short>	
         /// <unmanaged>HRESULT IDWriteTextFormat::GetFontCollection([Out] IDWriteFontCollection** fontCollection)</unmanaged>
-        public SharpDX.DirectWrite.FontCollection FontCollection {
-                get { SharpDX.DirectWrite.FontCollection __output__; GetFontCollection(out __output__); return __output__; }
+        public SharpDX.DirectWrite.FontCollection FontCollection
+        {
+            get { SharpDX.DirectWrite.FontCollection __output__; GetFontCollection(out __output__); return __output__; }
         }
-        
+
         /// <summary>	
         /// <p> Gets the font weight of the text. </p>	
         /// </summary>	
@@ -5185,10 +5566,11 @@ namespace SharpDX.DirectWrite {
         /// <unmanaged>GetFontWeight</unmanaged>	
         /// <unmanaged-short>GetFontWeight</unmanaged-short>	
         /// <unmanaged>DWRITE_FONT_WEIGHT IDWriteTextFormat::GetFontWeight()</unmanaged>
-        public SharpDX.DirectWrite.FontWeight FontWeight {
-                get { return GetFontWeight(); }
+        public SharpDX.DirectWrite.FontWeight FontWeight
+        {
+            get { return GetFontWeight(); }
         }
-        
+
         /// <summary>	
         /// <p> Gets the font style of the text.</p>	
         /// </summary>	
@@ -5197,10 +5579,11 @@ namespace SharpDX.DirectWrite {
         /// <unmanaged>GetFontStyle</unmanaged>	
         /// <unmanaged-short>GetFontStyle</unmanaged-short>	
         /// <unmanaged>DWRITE_FONT_STYLE IDWriteTextFormat::GetFontStyle()</unmanaged>
-        public SharpDX.DirectWrite.FontStyle FontStyle {
-                get { return GetFontStyle(); }
+        public SharpDX.DirectWrite.FontStyle FontStyle
+        {
+            get { return GetFontStyle(); }
         }
-        
+
         /// <summary>	
         /// <p> Gets the font stretch of the text. </p>	
         /// </summary>	
@@ -5209,10 +5592,11 @@ namespace SharpDX.DirectWrite {
         /// <unmanaged>GetFontStretch</unmanaged>	
         /// <unmanaged-short>GetFontStretch</unmanaged-short>	
         /// <unmanaged>DWRITE_FONT_STRETCH IDWriteTextFormat::GetFontStretch()</unmanaged>
-        public SharpDX.DirectWrite.FontStretch FontStretch {
-                get { return GetFontStretch(); }
+        public SharpDX.DirectWrite.FontStretch FontStretch
+        {
+            get { return GetFontStretch(); }
         }
-        
+
         /// <summary>	
         /// <p> Gets the font  size in DIP unites. </p>	
         /// </summary>	
@@ -5221,10 +5605,11 @@ namespace SharpDX.DirectWrite {
         /// <unmanaged>GetFontSize</unmanaged>	
         /// <unmanaged-short>GetFontSize</unmanaged-short>	
         /// <unmanaged>float IDWriteTextFormat::GetFontSize()</unmanaged>
-        public float FontSize {
-                get { return GetFontSize(); }
+        public float FontSize
+        {
+            get { return GetFontSize(); }
         }
-        
+
         /// <summary>	
         /// <p>Sets the alignment of text in a paragraph, relative to the leading and trailing edge of a layout box for a <strong><see cref="SharpDX.DirectWrite.TextFormat"/></strong> interface.</p>	
         /// </summary>	
@@ -5237,15 +5622,17 @@ namespace SharpDX.DirectWrite {
         /// <msdn-id>dd316709</msdn-id>	
         /// <unmanaged>HRESULT IDWriteTextFormat::SetTextAlignment([In] DWRITE_TEXT_ALIGNMENT textAlignment)</unmanaged>	
         /// <unmanaged-short>IDWriteTextFormat::SetTextAlignment</unmanaged-short>	
-        internal void SetTextAlignment(SharpDX.DirectWrite.TextAlignment textAlignment) {
-            unsafe {
+        internal void SetTextAlignment(SharpDX.DirectWrite.TextAlignment textAlignment)
+        {
+            unsafe
+            {
                 SharpDX.Result __result__;
-                __result__= 
-				SharpDX.Direct2D1.LocalInterop.Calliint(_nativePointer, unchecked((int)textAlignment),((void**)(*(void**)_nativePointer))[3]);		
+                __result__ =
+                SharpDX.Direct2D1.LocalInterop.Calliint(_nativePointer, unchecked((int)textAlignment), ((void**)(*(void**)_nativePointer))[3]);
                 __result__.CheckError();
             }
         }
-        
+
         /// <summary>	
         /// <p> Sets the alignment option of a paragraph relative to the layout box's top and bottom edge. </p>	
         /// </summary>	
@@ -5255,15 +5642,17 @@ namespace SharpDX.DirectWrite {
         /// <msdn-id>dd316702</msdn-id>	
         /// <unmanaged>HRESULT IDWriteTextFormat::SetParagraphAlignment([In] DWRITE_PARAGRAPH_ALIGNMENT paragraphAlignment)</unmanaged>	
         /// <unmanaged-short>IDWriteTextFormat::SetParagraphAlignment</unmanaged-short>	
-        internal void SetParagraphAlignment(SharpDX.DirectWrite.ParagraphAlignment paragraphAlignment) {
-            unsafe {
+        internal void SetParagraphAlignment(SharpDX.DirectWrite.ParagraphAlignment paragraphAlignment)
+        {
+            unsafe
+            {
                 SharpDX.Result __result__;
-                __result__= 
-				SharpDX.Direct2D1.LocalInterop.Calliint(_nativePointer, unchecked((int)paragraphAlignment),((void**)(*(void**)_nativePointer))[4]);		
+                __result__ =
+                SharpDX.Direct2D1.LocalInterop.Calliint(_nativePointer, unchecked((int)paragraphAlignment), ((void**)(*(void**)_nativePointer))[4]);
                 __result__.CheckError();
             }
         }
-        
+
         /// <summary>	
         /// <p> Sets the word wrapping option. </p>	
         /// </summary>	
@@ -5273,15 +5662,17 @@ namespace SharpDX.DirectWrite {
         /// <msdn-id>dd316715</msdn-id>	
         /// <unmanaged>HRESULT IDWriteTextFormat::SetWordWrapping([In] DWRITE_WORD_WRAPPING wordWrapping)</unmanaged>	
         /// <unmanaged-short>IDWriteTextFormat::SetWordWrapping</unmanaged-short>	
-        internal void SetWordWrapping(SharpDX.DirectWrite.WordWrapping wordWrapping) {
-            unsafe {
+        internal void SetWordWrapping(SharpDX.DirectWrite.WordWrapping wordWrapping)
+        {
+            unsafe
+            {
                 SharpDX.Result __result__;
-                __result__= 
-				SharpDX.Direct2D1.LocalInterop.Calliint(_nativePointer, unchecked((int)wordWrapping),((void**)(*(void**)_nativePointer))[5]);		
+                __result__ =
+                SharpDX.Direct2D1.LocalInterop.Calliint(_nativePointer, unchecked((int)wordWrapping), ((void**)(*(void**)_nativePointer))[5]);
                 __result__.CheckError();
             }
         }
-        
+
         /// <summary>	
         /// <p> Sets the paragraph reading direction. </p>	
         /// </summary>	
@@ -5291,15 +5682,17 @@ namespace SharpDX.DirectWrite {
         /// <msdn-id>dd316705</msdn-id>	
         /// <unmanaged>HRESULT IDWriteTextFormat::SetReadingDirection([In] DWRITE_READING_DIRECTION readingDirection)</unmanaged>	
         /// <unmanaged-short>IDWriteTextFormat::SetReadingDirection</unmanaged-short>	
-        internal void SetReadingDirection(SharpDX.DirectWrite.ReadingDirection readingDirection) {
-            unsafe {
+        internal void SetReadingDirection(SharpDX.DirectWrite.ReadingDirection readingDirection)
+        {
+            unsafe
+            {
                 SharpDX.Result __result__;
-                __result__= 
-				SharpDX.Direct2D1.LocalInterop.Calliint(_nativePointer, unchecked((int)readingDirection),((void**)(*(void**)_nativePointer))[6]);		
+                __result__ =
+                SharpDX.Direct2D1.LocalInterop.Calliint(_nativePointer, unchecked((int)readingDirection), ((void**)(*(void**)_nativePointer))[6]);
                 __result__.CheckError();
             }
         }
-        
+
         /// <summary>	
         /// <p> Sets the  paragraph flow direction. </p>	
         /// </summary>	
@@ -5309,15 +5702,17 @@ namespace SharpDX.DirectWrite {
         /// <msdn-id>dd316691</msdn-id>	
         /// <unmanaged>HRESULT IDWriteTextFormat::SetFlowDirection([In] DWRITE_FLOW_DIRECTION flowDirection)</unmanaged>	
         /// <unmanaged-short>IDWriteTextFormat::SetFlowDirection</unmanaged-short>	
-        internal void SetFlowDirection(SharpDX.DirectWrite.FlowDirection flowDirection) {
-            unsafe {
+        internal void SetFlowDirection(SharpDX.DirectWrite.FlowDirection flowDirection)
+        {
+            unsafe
+            {
                 SharpDX.Result __result__;
-                __result__= 
-				SharpDX.Direct2D1.LocalInterop.Calliint(_nativePointer, unchecked((int)flowDirection),((void**)(*(void**)_nativePointer))[7]);		
+                __result__ =
+                SharpDX.Direct2D1.LocalInterop.Calliint(_nativePointer, unchecked((int)flowDirection), ((void**)(*(void**)_nativePointer))[7]);
                 __result__.CheckError();
             }
         }
-        
+
         /// <summary>	
         /// <p> Sets a fixed distance between two adjacent tab stops. </p>	
         /// </summary>	
@@ -5327,15 +5722,17 @@ namespace SharpDX.DirectWrite {
         /// <msdn-id>dd316695</msdn-id>	
         /// <unmanaged>HRESULT IDWriteTextFormat::SetIncrementalTabStop([In] float incrementalTabStop)</unmanaged>	
         /// <unmanaged-short>IDWriteTextFormat::SetIncrementalTabStop</unmanaged-short>	
-        internal void SetIncrementalTabStop(float incrementalTabStop) {
-            unsafe {
+        internal void SetIncrementalTabStop(float incrementalTabStop)
+        {
+            unsafe
+            {
                 SharpDX.Result __result__;
-                __result__= 
-				SharpDX.Direct2D1.LocalInterop.Calliint(_nativePointer, incrementalTabStop,((void**)(*(void**)_nativePointer))[8]);		
+                __result__ =
+                SharpDX.Direct2D1.LocalInterop.Calliint(_nativePointer, incrementalTabStop, ((void**)(*(void**)_nativePointer))[8]);
                 __result__.CheckError();
             }
         }
-        
+
         /// <summary>	
         /// <p> Sets trimming options for text overflowing the layout width. </p>	
         /// </summary>	
@@ -5346,15 +5743,17 @@ namespace SharpDX.DirectWrite {
         /// <msdn-id>dd316712</msdn-id>	
         /// <unmanaged>HRESULT IDWriteTextFormat::SetTrimming([In] const DWRITE_TRIMMING* trimmingOptions,[In, Optional] IDWriteInlineObject* trimmingSign)</unmanaged>	
         /// <unmanaged-short>IDWriteTextFormat::SetTrimming</unmanaged-short>	
-        internal void SetTrimming_(SharpDX.DirectWrite.Trimming trimmingOptions, System.IntPtr trimmingSign) {
-            unsafe {
+        internal void SetTrimming_(SharpDX.DirectWrite.Trimming trimmingOptions, System.IntPtr trimmingSign)
+        {
+            unsafe
+            {
                 SharpDX.Result __result__;
-                __result__= 
-				SharpDX.Direct2D1.LocalInterop.Calliint(_nativePointer, &trimmingOptions, (void*)trimmingSign,((void**)(*(void**)_nativePointer))[9]);		
+                __result__ =
+                SharpDX.Direct2D1.LocalInterop.Calliint(_nativePointer, &trimmingOptions, (void*)trimmingSign, ((void**)(*(void**)_nativePointer))[9]);
                 __result__.CheckError();
             }
         }
-        
+
         /// <summary>	
         /// <p> Sets the  line spacing. </p>	
         /// </summary>	
@@ -5369,15 +5768,17 @@ namespace SharpDX.DirectWrite {
         /// <msdn-id>dd316698</msdn-id>	
         /// <unmanaged>HRESULT IDWriteTextFormat::SetLineSpacing([In] DWRITE_LINE_SPACING_METHOD lineSpacingMethod,[In] float lineSpacing,[In] float baseline)</unmanaged>	
         /// <unmanaged-short>IDWriteTextFormat::SetLineSpacing</unmanaged-short>	
-        public void SetLineSpacing(SharpDX.DirectWrite.LineSpacingMethod lineSpacingMethod, float lineSpacing, float baseline) {
-            unsafe {
+        public void SetLineSpacing(SharpDX.DirectWrite.LineSpacingMethod lineSpacingMethod, float lineSpacing, float baseline)
+        {
+            unsafe
+            {
                 SharpDX.Result __result__;
-                __result__= 
-				SharpDX.Direct2D1.LocalInterop.Calliint(_nativePointer, unchecked((int)lineSpacingMethod), lineSpacing, baseline,((void**)(*(void**)_nativePointer))[10]);		
+                __result__ =
+                SharpDX.Direct2D1.LocalInterop.Calliint(_nativePointer, unchecked((int)lineSpacingMethod), lineSpacing, baseline, ((void**)(*(void**)_nativePointer))[10]);
                 __result__.CheckError();
             }
         }
-        
+
         /// <summary>	
         /// <p> Gets the alignment option of text relative to the layout box's leading and trailing edge. </p>	
         /// </summary>	
@@ -5386,15 +5787,17 @@ namespace SharpDX.DirectWrite {
         /// <msdn-id>dd316681</msdn-id>	
         /// <unmanaged>DWRITE_TEXT_ALIGNMENT IDWriteTextFormat::GetTextAlignment()</unmanaged>	
         /// <unmanaged-short>IDWriteTextFormat::GetTextAlignment</unmanaged-short>	
-        internal SharpDX.DirectWrite.TextAlignment GetTextAlignment() {
-            unsafe {
+        internal SharpDX.DirectWrite.TextAlignment GetTextAlignment()
+        {
+            unsafe
+            {
                 SharpDX.DirectWrite.TextAlignment __result__;
-                __result__= 
-				SharpDX.Direct2D1.LocalInterop.CalliSharpDXDirectWriteTextAlignment(_nativePointer,((void**)(*(void**)_nativePointer))[11]);		
+                __result__ =
+                SharpDX.Direct2D1.LocalInterop.CalliSharpDXDirectWriteTextAlignment(_nativePointer, ((void**)(*(void**)_nativePointer))[11]);
                 return __result__;
             }
         }
-        
+
         /// <summary>	
         /// <p> Gets the alignment option of a paragraph which is  relative to the top and bottom edges of a layout box. </p>	
         /// </summary>	
@@ -5403,15 +5806,17 @@ namespace SharpDX.DirectWrite {
         /// <msdn-id>dd316675</msdn-id>	
         /// <unmanaged>DWRITE_PARAGRAPH_ALIGNMENT IDWriteTextFormat::GetParagraphAlignment()</unmanaged>	
         /// <unmanaged-short>IDWriteTextFormat::GetParagraphAlignment</unmanaged-short>	
-        internal SharpDX.DirectWrite.ParagraphAlignment GetParagraphAlignment() {
-            unsafe {
+        internal SharpDX.DirectWrite.ParagraphAlignment GetParagraphAlignment()
+        {
+            unsafe
+            {
                 SharpDX.DirectWrite.ParagraphAlignment __result__;
-                __result__= 
-				SharpDX.Direct2D1.LocalInterop.CalliSharpDXDirectWriteParagraphAlignment(_nativePointer,((void**)(*(void**)_nativePointer))[12]);		
+                __result__ =
+                SharpDX.Direct2D1.LocalInterop.CalliSharpDXDirectWriteParagraphAlignment(_nativePointer, ((void**)(*(void**)_nativePointer))[12]);
                 return __result__;
             }
         }
-        
+
         /// <summary>	
         /// <p> Gets the word wrapping option. </p>	
         /// </summary>	
@@ -5420,15 +5825,17 @@ namespace SharpDX.DirectWrite {
         /// <msdn-id>dd316688</msdn-id>	
         /// <unmanaged>DWRITE_WORD_WRAPPING IDWriteTextFormat::GetWordWrapping()</unmanaged>	
         /// <unmanaged-short>IDWriteTextFormat::GetWordWrapping</unmanaged-short>	
-        internal SharpDX.DirectWrite.WordWrapping GetWordWrapping() {
-            unsafe {
+        internal SharpDX.DirectWrite.WordWrapping GetWordWrapping()
+        {
+            unsafe
+            {
                 SharpDX.DirectWrite.WordWrapping __result__;
-                __result__= 
-				SharpDX.Direct2D1.LocalInterop.CalliSharpDXDirectWriteWordWrapping(_nativePointer,((void**)(*(void**)_nativePointer))[13]);		
+                __result__ =
+                SharpDX.Direct2D1.LocalInterop.CalliSharpDXDirectWriteWordWrapping(_nativePointer, ((void**)(*(void**)_nativePointer))[13]);
                 return __result__;
             }
         }
-        
+
         /// <summary>	
         /// <p> Gets the  current reading direction for text in a paragraph. </p>	
         /// </summary>	
@@ -5437,15 +5844,17 @@ namespace SharpDX.DirectWrite {
         /// <msdn-id>dd316678</msdn-id>	
         /// <unmanaged>DWRITE_READING_DIRECTION IDWriteTextFormat::GetReadingDirection()</unmanaged>	
         /// <unmanaged-short>IDWriteTextFormat::GetReadingDirection</unmanaged-short>	
-        internal SharpDX.DirectWrite.ReadingDirection GetReadingDirection() {
-            unsafe {
+        internal SharpDX.DirectWrite.ReadingDirection GetReadingDirection()
+        {
+            unsafe
+            {
                 SharpDX.DirectWrite.ReadingDirection __result__;
-                __result__= 
-				SharpDX.Direct2D1.LocalInterop.CalliSharpDXDirectWriteReadingDirection(_nativePointer,((void**)(*(void**)_nativePointer))[14]);		
+                __result__ =
+                SharpDX.Direct2D1.LocalInterop.CalliSharpDXDirectWriteReadingDirection(_nativePointer, ((void**)(*(void**)_nativePointer))[14]);
                 return __result__;
             }
         }
-        
+
         /// <summary>	
         /// <p> Gets the direction that text lines flow. </p>	
         /// </summary>	
@@ -5454,15 +5863,17 @@ namespace SharpDX.DirectWrite {
         /// <msdn-id>dd316631</msdn-id>	
         /// <unmanaged>DWRITE_FLOW_DIRECTION IDWriteTextFormat::GetFlowDirection()</unmanaged>	
         /// <unmanaged-short>IDWriteTextFormat::GetFlowDirection</unmanaged-short>	
-        internal SharpDX.DirectWrite.FlowDirection GetFlowDirection() {
-            unsafe {
+        internal SharpDX.DirectWrite.FlowDirection GetFlowDirection()
+        {
+            unsafe
+            {
                 SharpDX.DirectWrite.FlowDirection __result__;
-                __result__= 
-				SharpDX.Direct2D1.LocalInterop.CalliSharpDXDirectWriteFlowDirection(_nativePointer,((void**)(*(void**)_nativePointer))[15]);		
+                __result__ =
+                SharpDX.Direct2D1.LocalInterop.CalliSharpDXDirectWriteFlowDirection(_nativePointer, ((void**)(*(void**)_nativePointer))[15]);
                 return __result__;
             }
         }
-        
+
         /// <summary>	
         /// <p> Gets the  incremental tab stop position. </p>	
         /// </summary>	
@@ -5471,15 +5882,17 @@ namespace SharpDX.DirectWrite {
         /// <msdn-id>dd316655</msdn-id>	
         /// <unmanaged>float IDWriteTextFormat::GetIncrementalTabStop()</unmanaged>	
         /// <unmanaged-short>IDWriteTextFormat::GetIncrementalTabStop</unmanaged-short>	
-        internal float GetIncrementalTabStop() {
-            unsafe {
+        internal float GetIncrementalTabStop()
+        {
+            unsafe
+            {
                 float __result__;
-                __result__= 
-				SharpDX.Direct2D1.LocalInterop.Callifloat(_nativePointer,((void**)(*(void**)_nativePointer))[16]);		
+                __result__ =
+                SharpDX.Direct2D1.LocalInterop.Callifloat(_nativePointer, ((void**)(*(void**)_nativePointer))[16]);
                 return __result__;
             }
         }
-        
+
         /// <summary>	
         /// <p> Gets the trimming options for text that overflows the layout box. </p>	
         /// </summary>	
@@ -5490,19 +5903,21 @@ namespace SharpDX.DirectWrite {
         /// <msdn-id>dd316684</msdn-id>	
         /// <unmanaged>HRESULT IDWriteTextFormat::GetTrimming([Out] DWRITE_TRIMMING* trimmingOptions,[Out] IDWriteInlineObject** trimmingSign)</unmanaged>	
         /// <unmanaged-short>IDWriteTextFormat::GetTrimming</unmanaged-short>	
-        public void GetTrimming(out SharpDX.DirectWrite.Trimming trimmingOptions, out SharpDX.DirectWrite.InlineObject trimmingSign) {
-            unsafe {
+        public void GetTrimming(out SharpDX.DirectWrite.Trimming trimmingOptions, out SharpDX.DirectWrite.InlineObject trimmingSign)
+        {
+            unsafe
+            {
                 trimmingOptions = new SharpDX.DirectWrite.Trimming();
                 IntPtr trimmingSign_ = IntPtr.Zero;
                 SharpDX.Result __result__;
                 fixed (void* trimmingOptions_ = &trimmingOptions)
-                    __result__= 
-    				SharpDX.Direct2D1.LocalInterop.Calliint(_nativePointer, trimmingOptions_, &trimmingSign_,((void**)(*(void**)_nativePointer))[17]);		
-                trimmingSign= (trimmingSign_ == IntPtr.Zero)?null:new SharpDX.DirectWrite.InlineObjectNative(trimmingSign_);	
+                    __result__ =
+                    SharpDX.Direct2D1.LocalInterop.Calliint(_nativePointer, trimmingOptions_, &trimmingSign_, ((void**)(*(void**)_nativePointer))[17]);
+                trimmingSign = (trimmingSign_ == IntPtr.Zero) ? null : new SharpDX.DirectWrite.InlineObjectNative(trimmingSign_);
                 __result__.CheckError();
             }
         }
-        
+
         /// <summary>	
         /// <p> Gets the line spacing adjustment set for a multiline text paragraph. </p>	
         /// </summary>	
@@ -5514,18 +5929,20 @@ namespace SharpDX.DirectWrite {
         /// <msdn-id>dd316657</msdn-id>	
         /// <unmanaged>HRESULT IDWriteTextFormat::GetLineSpacing([Out] DWRITE_LINE_SPACING_METHOD* lineSpacingMethod,[Out] float* lineSpacing,[Out] float* baseline)</unmanaged>	
         /// <unmanaged-short>IDWriteTextFormat::GetLineSpacing</unmanaged-short>	
-        public void GetLineSpacing(out SharpDX.DirectWrite.LineSpacingMethod lineSpacingMethod, out float lineSpacing, out float baseline) {
-            unsafe {
+        public void GetLineSpacing(out SharpDX.DirectWrite.LineSpacingMethod lineSpacingMethod, out float lineSpacing, out float baseline)
+        {
+            unsafe
+            {
                 SharpDX.Result __result__;
                 fixed (void* lineSpacingMethod_ = &lineSpacingMethod)
                     fixed (void* lineSpacing_ = &lineSpacing)
                         fixed (void* baseline_ = &baseline)
-                            __result__= 
-            				SharpDX.Direct2D1.LocalInterop.Calliint(_nativePointer, lineSpacingMethod_, lineSpacing_, baseline_,((void**)(*(void**)_nativePointer))[18]);		
+                            __result__ =
+                            SharpDX.Direct2D1.LocalInterop.Calliint(_nativePointer, lineSpacingMethod_, lineSpacing_, baseline_, ((void**)(*(void**)_nativePointer))[18]);
                 __result__.CheckError();
             }
         }
-        
+
         /// <summary>	
         /// <p> Gets the current font collection. </p>	
         /// </summary>	
@@ -5535,17 +5952,19 @@ namespace SharpDX.DirectWrite {
         /// <msdn-id>dd316633</msdn-id>	
         /// <unmanaged>HRESULT IDWriteTextFormat::GetFontCollection([Out] IDWriteFontCollection** fontCollection)</unmanaged>	
         /// <unmanaged-short>IDWriteTextFormat::GetFontCollection</unmanaged-short>	
-        internal void GetFontCollection(out SharpDX.DirectWrite.FontCollection fontCollection) {
-            unsafe {
+        internal void GetFontCollection(out SharpDX.DirectWrite.FontCollection fontCollection)
+        {
+            unsafe
+            {
                 IntPtr fontCollection_ = IntPtr.Zero;
                 SharpDX.Result __result__;
-                __result__= 
-				SharpDX.Direct2D1.LocalInterop.Calliint(_nativePointer, &fontCollection_,((void**)(*(void**)_nativePointer))[19]);		
-                fontCollection= (fontCollection_ == IntPtr.Zero)?null:new SharpDX.DirectWrite.FontCollection(fontCollection_);	
+                __result__ =
+                SharpDX.Direct2D1.LocalInterop.Calliint(_nativePointer, &fontCollection_, ((void**)(*(void**)_nativePointer))[19]);
+                fontCollection = (fontCollection_ == IntPtr.Zero) ? null : new SharpDX.DirectWrite.FontCollection(fontCollection_);
                 __result__.CheckError();
             }
         }
-        
+
         /// <summary>	
         /// <p> Gets the length of the font family name. </p>	
         /// </summary>	
@@ -5554,15 +5973,17 @@ namespace SharpDX.DirectWrite {
         /// <msdn-id>dd316640</msdn-id>	
         /// <unmanaged>unsigned int IDWriteTextFormat::GetFontFamilyNameLength()</unmanaged>	
         /// <unmanaged-short>IDWriteTextFormat::GetFontFamilyNameLength</unmanaged-short>	
-        internal int GetFontFamilyNameLength() {
-            unsafe {
+        internal int GetFontFamilyNameLength()
+        {
+            unsafe
+            {
                 int __result__;
-                __result__= 
-				SharpDX.Direct2D1.LocalInterop.Calliint(_nativePointer,((void**)(*(void**)_nativePointer))[20]);		
+                __result__ =
+                SharpDX.Direct2D1.LocalInterop.Calliint(_nativePointer, ((void**)(*(void**)_nativePointer))[20]);
                 return __result__;
             }
         }
-        
+
         /// <summary>	
         /// <p> Gets a copy of the font family name. </p>	
         /// </summary>	
@@ -5573,15 +5994,17 @@ namespace SharpDX.DirectWrite {
         /// <msdn-id>dd316636</msdn-id>	
         /// <unmanaged>HRESULT IDWriteTextFormat::GetFontFamilyName([Out, Buffer] wchar_t* fontFamilyName,[In] unsigned int nameSize)</unmanaged>	
         /// <unmanaged-short>IDWriteTextFormat::GetFontFamilyName</unmanaged-short>	
-        internal void GetFontFamilyName(System.IntPtr fontFamilyName, int nameSize) {
-            unsafe {
+        internal void GetFontFamilyName(System.IntPtr fontFamilyName, int nameSize)
+        {
+            unsafe
+            {
                 SharpDX.Result __result__;
-                __result__= 
-				SharpDX.Direct2D1.LocalInterop.Calliint(_nativePointer, (void*)fontFamilyName, nameSize,((void**)(*(void**)_nativePointer))[21]);		
+                __result__ =
+                SharpDX.Direct2D1.LocalInterop.Calliint(_nativePointer, (void*)fontFamilyName, nameSize, ((void**)(*(void**)_nativePointer))[21]);
                 __result__.CheckError();
             }
         }
-        
+
         /// <summary>	
         /// <p> Gets the font weight of the text. </p>	
         /// </summary>	
@@ -5590,15 +6013,17 @@ namespace SharpDX.DirectWrite {
         /// <msdn-id>dd316652</msdn-id>	
         /// <unmanaged>DWRITE_FONT_WEIGHT IDWriteTextFormat::GetFontWeight()</unmanaged>	
         /// <unmanaged-short>IDWriteTextFormat::GetFontWeight</unmanaged-short>	
-        internal SharpDX.DirectWrite.FontWeight GetFontWeight() {
-            unsafe {
+        internal SharpDX.DirectWrite.FontWeight GetFontWeight()
+        {
+            unsafe
+            {
                 SharpDX.DirectWrite.FontWeight __result__;
-                __result__= 
-				SharpDX.Direct2D1.LocalInterop.CalliSharpDXDirectWriteFontWeight(_nativePointer,((void**)(*(void**)_nativePointer))[22]);		
+                __result__ =
+                SharpDX.Direct2D1.LocalInterop.CalliSharpDXDirectWriteFontWeight(_nativePointer, ((void**)(*(void**)_nativePointer))[22]);
                 return __result__;
             }
         }
-        
+
         /// <summary>	
         /// <p> Gets the font style of the text.</p>	
         /// </summary>	
@@ -5607,15 +6032,17 @@ namespace SharpDX.DirectWrite {
         /// <msdn-id>dd316649</msdn-id>	
         /// <unmanaged>DWRITE_FONT_STYLE IDWriteTextFormat::GetFontStyle()</unmanaged>	
         /// <unmanaged-short>IDWriteTextFormat::GetFontStyle</unmanaged-short>	
-        internal SharpDX.DirectWrite.FontStyle GetFontStyle() {
-            unsafe {
+        internal SharpDX.DirectWrite.FontStyle GetFontStyle()
+        {
+            unsafe
+            {
                 SharpDX.DirectWrite.FontStyle __result__;
-                __result__= 
-				SharpDX.Direct2D1.LocalInterop.CalliSharpDXDirectWriteFontStyle(_nativePointer,((void**)(*(void**)_nativePointer))[23]);		
+                __result__ =
+                SharpDX.Direct2D1.LocalInterop.CalliSharpDXDirectWriteFontStyle(_nativePointer, ((void**)(*(void**)_nativePointer))[23]);
                 return __result__;
             }
         }
-        
+
         /// <summary>	
         /// <p> Gets the font stretch of the text. </p>	
         /// </summary>	
@@ -5624,15 +6051,17 @@ namespace SharpDX.DirectWrite {
         /// <msdn-id>dd316646</msdn-id>	
         /// <unmanaged>DWRITE_FONT_STRETCH IDWriteTextFormat::GetFontStretch()</unmanaged>	
         /// <unmanaged-short>IDWriteTextFormat::GetFontStretch</unmanaged-short>	
-        internal SharpDX.DirectWrite.FontStretch GetFontStretch() {
-            unsafe {
+        internal SharpDX.DirectWrite.FontStretch GetFontStretch()
+        {
+            unsafe
+            {
                 SharpDX.DirectWrite.FontStretch __result__;
-                __result__= 
-				SharpDX.Direct2D1.LocalInterop.CalliSharpDXDirectWriteFontStretch(_nativePointer,((void**)(*(void**)_nativePointer))[24]);		
+                __result__ =
+                SharpDX.Direct2D1.LocalInterop.CalliSharpDXDirectWriteFontStretch(_nativePointer, ((void**)(*(void**)_nativePointer))[24]);
                 return __result__;
             }
         }
-        
+
         /// <summary>	
         /// <p> Gets the font  size in DIP unites. </p>	
         /// </summary>	
@@ -5641,15 +6070,17 @@ namespace SharpDX.DirectWrite {
         /// <msdn-id>dd316643</msdn-id>	
         /// <unmanaged>float IDWriteTextFormat::GetFontSize()</unmanaged>	
         /// <unmanaged-short>IDWriteTextFormat::GetFontSize</unmanaged-short>	
-        internal float GetFontSize() {
-            unsafe {
+        internal float GetFontSize()
+        {
+            unsafe
+            {
                 float __result__;
-                __result__= 
-				SharpDX.Direct2D1.LocalInterop.Callifloat(_nativePointer,((void**)(*(void**)_nativePointer))[25]);		
+                __result__ =
+                SharpDX.Direct2D1.LocalInterop.Callifloat(_nativePointer, ((void**)(*(void**)_nativePointer))[25]);
                 return __result__;
             }
         }
-        
+
         /// <summary>	
         /// <p> Gets the length of the locale name. </p>	
         /// </summary>	
@@ -5658,15 +6089,17 @@ namespace SharpDX.DirectWrite {
         /// <msdn-id>dd316674</msdn-id>	
         /// <unmanaged>unsigned int IDWriteTextFormat::GetLocaleNameLength()</unmanaged>	
         /// <unmanaged-short>IDWriteTextFormat::GetLocaleNameLength</unmanaged-short>	
-        internal int GetLocaleNameLength() {
-            unsafe {
+        internal int GetLocaleNameLength()
+        {
+            unsafe
+            {
                 int __result__;
-                __result__= 
-				SharpDX.Direct2D1.LocalInterop.Calliint(_nativePointer,((void**)(*(void**)_nativePointer))[26]);		
+                __result__ =
+                SharpDX.Direct2D1.LocalInterop.Calliint(_nativePointer, ((void**)(*(void**)_nativePointer))[26]);
                 return __result__;
             }
         }
-        
+
         /// <summary>	
         /// <p> Gets a copy of the locale name. </p>	
         /// </summary>	
@@ -5677,11 +6110,13 @@ namespace SharpDX.DirectWrite {
         /// <msdn-id>dd316659</msdn-id>	
         /// <unmanaged>HRESULT IDWriteTextFormat::GetLocaleName([Out, Buffer] wchar_t* localeName,[In] unsigned int nameSize)</unmanaged>	
         /// <unmanaged-short>IDWriteTextFormat::GetLocaleName</unmanaged-short>	
-        internal void GetLocaleName(System.IntPtr localeName, int nameSize) {
-            unsafe {
+        internal void GetLocaleName(System.IntPtr localeName, int nameSize)
+        {
+            unsafe
+            {
                 SharpDX.Result __result__;
-                __result__= 
-				SharpDX.Direct2D1.LocalInterop.Calliint(_nativePointer, (void*)localeName, nameSize,((void**)(*(void**)_nativePointer))[27]);		
+                __result__ =
+                SharpDX.Direct2D1.LocalInterop.Calliint(_nativePointer, (void*)localeName, nameSize, ((void**)(*(void**)_nativePointer))[27]);
                 __result__.CheckError();
             }
         }
@@ -5703,27 +6138,29 @@ namespace SharpDX.DirectWrite {
     /// <unmanaged>IDWriteTextLayout</unmanaged>	
     /// <unmanaged-short>IDWriteTextLayout</unmanaged-short>	
     [Guid("53737037-6d14-410b-9bfe-0b182bb70961")]
-    public partial class TextLayout : SharpDX.DirectWrite.TextFormat {
+    public partial class TextLayout : SharpDX.DirectWrite.TextFormat
+    {
         /// <summary>
         /// Initializes a new instance of the <see cref="SharpDX.DirectWrite.TextLayout"/> class.
         /// </summary>
         /// <param name="nativePtr">The native pointer.</param>	
-        public TextLayout(IntPtr nativePtr) : base(nativePtr) {
+        public TextLayout(IntPtr nativePtr) : base(nativePtr)
+        {
         }
 
-		/// <summary>
-		/// Performs an explicit conversion from <see cref="System.IntPtr"/> to <see cref="SharpDX.DirectWrite.TextLayout"/>. (This method is a shortcut to <see cref="SharpDX.CppObject.NativePointer"/>) 
-		/// </summary>
-		/// <param name="nativePointer">The native pointer.</param>
-		/// <returns>
-		/// The result of the conversion.
-		/// </returns>
-		public static explicit operator SharpDX.DirectWrite.TextLayout(IntPtr nativePointer)
-		{
-			return nativePointer == IntPtr.Zero ? null : new SharpDX.DirectWrite.TextLayout(nativePointer);
-		}
-        
-        
+        /// <summary>
+        /// Performs an explicit conversion from <see cref="System.IntPtr"/> to <see cref="SharpDX.DirectWrite.TextLayout"/>. (This method is a shortcut to <see cref="SharpDX.CppObject.NativePointer"/>) 
+        /// </summary>
+        /// <param name="nativePointer">The native pointer.</param>
+        /// <returns>
+        /// The result of the conversion.
+        /// </returns>
+        public static explicit operator SharpDX.DirectWrite.TextLayout(IntPtr nativePointer)
+        {
+            return nativePointer == IntPtr.Zero ? null : new SharpDX.DirectWrite.TextLayout(nativePointer);
+        }
+
+
         /// <summary>	
         /// <p>Gets or sets the layout maximum width. </p>	
         /// </summary>	
@@ -5732,11 +6169,12 @@ namespace SharpDX.DirectWrite {
         /// <unmanaged>GetMaxWidth / SetMaxWidth</unmanaged>	
         /// <unmanaged-short>GetMaxWidth</unmanaged-short>	
         /// <unmanaged>float IDWriteTextLayout::GetMaxWidth()</unmanaged>
-        public float MaxWidth {
-                get { return GetMaxWidth(); }
-                set { SetMaxWidth(value); }
+        public float MaxWidth
+        {
+            get { return GetMaxWidth(); }
+            set { SetMaxWidth(value); }
         }
-        
+
         /// <summary>	
         /// <p>Gets or sets the layout maximum height. </p>	
         /// </summary>	
@@ -5745,11 +6183,12 @@ namespace SharpDX.DirectWrite {
         /// <unmanaged>GetMaxHeight / SetMaxHeight</unmanaged>	
         /// <unmanaged-short>GetMaxHeight</unmanaged-short>	
         /// <unmanaged>float IDWriteTextLayout::GetMaxHeight()</unmanaged>
-        public float MaxHeight {
-                get { return GetMaxHeight(); }
-                set { SetMaxHeight(value); }
+        public float MaxHeight
+        {
+            get { return GetMaxHeight(); }
+            set { SetMaxHeight(value); }
         }
-        
+
         /// <summary>	
         /// <p> Retrieves overall metrics for the formatted string. </p>	
         /// </summary>	
@@ -5758,10 +6197,11 @@ namespace SharpDX.DirectWrite {
         /// <unmanaged>GetMetrics</unmanaged>	
         /// <unmanaged-short>GetMetrics</unmanaged-short>	
         /// <unmanaged>HRESULT IDWriteTextLayout::GetMetrics([Out] DWRITE_TEXT_METRICS* textMetrics)</unmanaged>
-        public SharpDX.DirectWrite.TextMetrics Metrics {
-                get { SharpDX.DirectWrite.TextMetrics __output__; GetMetrics(out __output__); return __output__; }
+        public SharpDX.DirectWrite.TextMetrics Metrics
+        {
+            get { SharpDX.DirectWrite.TextMetrics __output__; GetMetrics(out __output__); return __output__; }
         }
-        
+
         /// <summary>	
         /// <p>Returns the overhangs (in DIPs) of the layout and all objects contained in it, including text glyphs and inline objects.</p>	
         /// </summary>	
@@ -5773,10 +6213,11 @@ namespace SharpDX.DirectWrite {
         /// <unmanaged>GetOverhangMetrics</unmanaged>	
         /// <unmanaged-short>GetOverhangMetrics</unmanaged-short>	
         /// <unmanaged>HRESULT IDWriteTextLayout::GetOverhangMetrics([Out] DWRITE_OVERHANG_METRICS* overhangs)</unmanaged>
-        public SharpDX.DirectWrite.OverhangMetrics OverhangMetrics {
-                get { SharpDX.DirectWrite.OverhangMetrics __output__; GetOverhangMetrics(out __output__); return __output__; }
+        public SharpDX.DirectWrite.OverhangMetrics OverhangMetrics
+        {
+            get { SharpDX.DirectWrite.OverhangMetrics __output__; GetOverhangMetrics(out __output__); return __output__; }
         }
-        
+
         /// <summary>	
         /// <p> Sets the layout maximum width.</p>	
         /// </summary>	
@@ -5786,15 +6227,17 @@ namespace SharpDX.DirectWrite {
         /// <msdn-id>dd371511</msdn-id>	
         /// <unmanaged>HRESULT IDWriteTextLayout::SetMaxWidth([In] float maxWidth)</unmanaged>	
         /// <unmanaged-short>IDWriteTextLayout::SetMaxWidth</unmanaged-short>	
-        internal void SetMaxWidth(float maxWidth) {
-            unsafe {
+        internal void SetMaxWidth(float maxWidth)
+        {
+            unsafe
+            {
                 SharpDX.Result __result__;
-                __result__= 
-				SharpDX.Direct2D1.LocalInterop.Calliint(_nativePointer, maxWidth,((void**)(*(void**)_nativePointer))[28]);		
+                __result__ =
+                SharpDX.Direct2D1.LocalInterop.Calliint(_nativePointer, maxWidth, ((void**)(*(void**)_nativePointer))[28]);
                 __result__.CheckError();
             }
         }
-        
+
         /// <summary>	
         /// <p> Sets the layout maximum height. </p>	
         /// </summary>	
@@ -5804,15 +6247,17 @@ namespace SharpDX.DirectWrite {
         /// <msdn-id>dd371507</msdn-id>	
         /// <unmanaged>HRESULT IDWriteTextLayout::SetMaxHeight([In] float maxHeight)</unmanaged>	
         /// <unmanaged-short>IDWriteTextLayout::SetMaxHeight</unmanaged-short>	
-        internal void SetMaxHeight(float maxHeight) {
-            unsafe {
+        internal void SetMaxHeight(float maxHeight)
+        {
+            unsafe
+            {
                 SharpDX.Result __result__;
-                __result__= 
-				SharpDX.Direct2D1.LocalInterop.Calliint(_nativePointer, maxHeight,((void**)(*(void**)_nativePointer))[29]);		
+                __result__ =
+                SharpDX.Direct2D1.LocalInterop.Calliint(_nativePointer, maxHeight, ((void**)(*(void**)_nativePointer))[29]);
                 __result__.CheckError();
             }
         }
-        
+
         /// <summary>	
         /// <p> Sets the font collection. </p>	
         /// </summary>	
@@ -5823,15 +6268,17 @@ namespace SharpDX.DirectWrite {
         /// <msdn-id>dd371481</msdn-id>	
         /// <unmanaged>HRESULT IDWriteTextLayout::SetFontCollection([In] IDWriteFontCollection* fontCollection,[In] DWRITE_TEXT_RANGE textRange)</unmanaged>	
         /// <unmanaged-short>IDWriteTextLayout::SetFontCollection</unmanaged-short>	
-        public void SetFontCollection(SharpDX.DirectWrite.FontCollection fontCollection, SharpDX.DirectWrite.TextRange textRange) {
-            unsafe {
+        public void SetFontCollection(SharpDX.DirectWrite.FontCollection fontCollection, SharpDX.DirectWrite.TextRange textRange)
+        {
+            unsafe
+            {
                 SharpDX.Result __result__;
-                __result__= 
-				SharpDX.Direct2D1.LocalInterop.Calliint138(_nativePointer, (void*)((fontCollection == null)?IntPtr.Zero:fontCollection.NativePointer), textRange,((void**)(*(void**)_nativePointer))[30]);		
+                __result__ =
+                SharpDX.Direct2D1.LocalInterop.Calliint138(_nativePointer, (void*)((fontCollection == null) ? IntPtr.Zero : fontCollection.NativePointer), textRange, ((void**)(*(void**)_nativePointer))[30]);
                 __result__.CheckError();
             }
         }
-        
+
         /// <summary>	
         /// <p> Sets null-terminated font family name for text within a specified  text range. </p>	
         /// </summary>	
@@ -5842,17 +6289,19 @@ namespace SharpDX.DirectWrite {
         /// <msdn-id>dd371487</msdn-id>	
         /// <unmanaged>HRESULT IDWriteTextLayout::SetFontFamilyName([In] const wchar_t* fontFamilyName,[In] DWRITE_TEXT_RANGE textRange)</unmanaged>	
         /// <unmanaged-short>IDWriteTextLayout::SetFontFamilyName</unmanaged-short>	
-        public void SetFontFamilyName(string fontFamilyName, SharpDX.DirectWrite.TextRange textRange) {
-            unsafe {
+        public void SetFontFamilyName(string fontFamilyName, SharpDX.DirectWrite.TextRange textRange)
+        {
+            unsafe
+            {
                 IntPtr fontFamilyName_ = Utilities.StringToHGlobalUni(fontFamilyName);
                 SharpDX.Result __result__;
-                __result__= 
-				SharpDX.Direct2D1.LocalInterop.Calliint138(_nativePointer, (void*)fontFamilyName_, textRange,((void**)(*(void**)_nativePointer))[31]);		
-                Marshal.FreeHGlobal(fontFamilyName_ );
+                __result__ =
+                SharpDX.Direct2D1.LocalInterop.Calliint138(_nativePointer, (void*)fontFamilyName_, textRange, ((void**)(*(void**)_nativePointer))[31]);
+                Marshal.FreeHGlobal(fontFamilyName_);
                 __result__.CheckError();
             }
         }
-        
+
         /// <summary>	
         /// <p> Sets the font weight for text within a text range specified by a <strong><see cref="SharpDX.DirectWrite.TextRange"/></strong> structure. </p>	
         /// </summary>	
@@ -5866,15 +6315,17 @@ namespace SharpDX.DirectWrite {
         /// <msdn-id>dd371498</msdn-id>	
         /// <unmanaged>HRESULT IDWriteTextLayout::SetFontWeight([In] DWRITE_FONT_WEIGHT fontWeight,[In] DWRITE_TEXT_RANGE textRange)</unmanaged>	
         /// <unmanaged-short>IDWriteTextLayout::SetFontWeight</unmanaged-short>	
-        public void SetFontWeight(SharpDX.DirectWrite.FontWeight fontWeight, SharpDX.DirectWrite.TextRange textRange) {
-            unsafe {
+        public void SetFontWeight(SharpDX.DirectWrite.FontWeight fontWeight, SharpDX.DirectWrite.TextRange textRange)
+        {
+            unsafe
+            {
                 SharpDX.Result __result__;
-                __result__= 
-				SharpDX.Direct2D1.LocalInterop.Calliint139(_nativePointer, unchecked((int)fontWeight), textRange,((void**)(*(void**)_nativePointer))[32]);		
+                __result__ =
+                SharpDX.Direct2D1.LocalInterop.Calliint139(_nativePointer, unchecked((int)fontWeight), textRange, ((void**)(*(void**)_nativePointer))[32]);
                 __result__.CheckError();
             }
         }
-        
+
         /// <summary>	
         /// <p> Sets the font style for  text within a text range specified by a <strong><see cref="SharpDX.DirectWrite.TextRange"/></strong> structure.</p>	
         /// </summary>	
@@ -5888,15 +6339,17 @@ namespace SharpDX.DirectWrite {
         /// <msdn-id>dd371495</msdn-id>	
         /// <unmanaged>HRESULT IDWriteTextLayout::SetFontStyle([In] DWRITE_FONT_STYLE fontStyle,[In] DWRITE_TEXT_RANGE textRange)</unmanaged>	
         /// <unmanaged-short>IDWriteTextLayout::SetFontStyle</unmanaged-short>	
-        public void SetFontStyle(SharpDX.DirectWrite.FontStyle fontStyle, SharpDX.DirectWrite.TextRange textRange) {
-            unsafe {
+        public void SetFontStyle(SharpDX.DirectWrite.FontStyle fontStyle, SharpDX.DirectWrite.TextRange textRange)
+        {
+            unsafe
+            {
                 SharpDX.Result __result__;
-                __result__= 
-				SharpDX.Direct2D1.LocalInterop.Calliint139(_nativePointer, unchecked((int)fontStyle), textRange,((void**)(*(void**)_nativePointer))[33]);		
+                __result__ =
+                SharpDX.Direct2D1.LocalInterop.Calliint139(_nativePointer, unchecked((int)fontStyle), textRange, ((void**)(*(void**)_nativePointer))[33]);
                 __result__.CheckError();
             }
         }
-        
+
         /// <summary>	
         /// <p> Sets the  font stretch for text within a specified text range. </p>	
         /// </summary>	
@@ -5907,15 +6360,17 @@ namespace SharpDX.DirectWrite {
         /// <msdn-id>dd371493</msdn-id>	
         /// <unmanaged>HRESULT IDWriteTextLayout::SetFontStretch([In] DWRITE_FONT_STRETCH fontStretch,[In] DWRITE_TEXT_RANGE textRange)</unmanaged>	
         /// <unmanaged-short>IDWriteTextLayout::SetFontStretch</unmanaged-short>	
-        public void SetFontStretch(SharpDX.DirectWrite.FontStretch fontStretch, SharpDX.DirectWrite.TextRange textRange) {
-            unsafe {
+        public void SetFontStretch(SharpDX.DirectWrite.FontStretch fontStretch, SharpDX.DirectWrite.TextRange textRange)
+        {
+            unsafe
+            {
                 SharpDX.Result __result__;
-                __result__= 
-				SharpDX.Direct2D1.LocalInterop.Calliint139(_nativePointer, unchecked((int)fontStretch), textRange,((void**)(*(void**)_nativePointer))[34]);		
+                __result__ =
+                SharpDX.Direct2D1.LocalInterop.Calliint139(_nativePointer, unchecked((int)fontStretch), textRange, ((void**)(*(void**)_nativePointer))[34]);
                 __result__.CheckError();
             }
         }
-        
+
         /// <summary>	
         /// <p>Sets the font size in DIP units for text within a specified text range. </p>	
         /// </summary>	
@@ -5926,15 +6381,17 @@ namespace SharpDX.DirectWrite {
         /// <msdn-id>dd371490</msdn-id>	
         /// <unmanaged>HRESULT IDWriteTextLayout::SetFontSize([In] float fontSize,[In] DWRITE_TEXT_RANGE textRange)</unmanaged>	
         /// <unmanaged-short>IDWriteTextLayout::SetFontSize</unmanaged-short>	
-        public void SetFontSize(float fontSize, SharpDX.DirectWrite.TextRange textRange) {
-            unsafe {
+        public void SetFontSize(float fontSize, SharpDX.DirectWrite.TextRange textRange)
+        {
+            unsafe
+            {
                 SharpDX.Result __result__;
-                __result__= 
-				SharpDX.Direct2D1.LocalInterop.Calliint140(_nativePointer, fontSize, textRange,((void**)(*(void**)_nativePointer))[35]);		
+                __result__ =
+                SharpDX.Direct2D1.LocalInterop.Calliint140(_nativePointer, fontSize, textRange, ((void**)(*(void**)_nativePointer))[35]);
                 __result__.CheckError();
             }
         }
-        
+
         /// <summary>	
         /// <p>Sets underlining for text within a specified text range. </p>	
         /// </summary>	
@@ -5945,15 +6402,17 @@ namespace SharpDX.DirectWrite {
         /// <msdn-id>dd371518</msdn-id>	
         /// <unmanaged>HRESULT IDWriteTextLayout::SetUnderline([In] BOOL hasUnderline,[In] DWRITE_TEXT_RANGE textRange)</unmanaged>	
         /// <unmanaged-short>IDWriteTextLayout::SetUnderline</unmanaged-short>	
-        public void SetUnderline(SharpDX.Mathematics.Interop.RawBool hasUnderline, SharpDX.DirectWrite.TextRange textRange) {
-            unsafe {
+        public void SetUnderline(SharpDX.Mathematics.Interop.RawBool hasUnderline, SharpDX.DirectWrite.TextRange textRange)
+        {
+            unsafe
+            {
                 SharpDX.Result __result__;
-                __result__= 
-				SharpDX.Direct2D1.LocalInterop.Calliint141(_nativePointer, hasUnderline, textRange,((void**)(*(void**)_nativePointer))[36]);		
+                __result__ =
+                SharpDX.Direct2D1.LocalInterop.Calliint141(_nativePointer, hasUnderline, textRange, ((void**)(*(void**)_nativePointer))[36]);
                 __result__.CheckError();
             }
         }
-        
+
         /// <summary>	
         /// <p>Sets strikethrough for text within a specified text range. </p>	
         /// </summary>	
@@ -5964,15 +6423,17 @@ namespace SharpDX.DirectWrite {
         /// <msdn-id>dd371514</msdn-id>	
         /// <unmanaged>HRESULT IDWriteTextLayout::SetStrikethrough([In] BOOL hasStrikethrough,[In] DWRITE_TEXT_RANGE textRange)</unmanaged>	
         /// <unmanaged-short>IDWriteTextLayout::SetStrikethrough</unmanaged-short>	
-        public void SetStrikethrough(SharpDX.Mathematics.Interop.RawBool hasStrikethrough, SharpDX.DirectWrite.TextRange textRange) {
-            unsafe {
+        public void SetStrikethrough(SharpDX.Mathematics.Interop.RawBool hasStrikethrough, SharpDX.DirectWrite.TextRange textRange)
+        {
+            unsafe
+            {
                 SharpDX.Result __result__;
-                __result__= 
-				SharpDX.Direct2D1.LocalInterop.Calliint141(_nativePointer, hasStrikethrough, textRange,((void**)(*(void**)_nativePointer))[37]);		
+                __result__ =
+                SharpDX.Direct2D1.LocalInterop.Calliint141(_nativePointer, hasStrikethrough, textRange, ((void**)(*(void**)_nativePointer))[37]);
                 __result__.CheckError();
             }
         }
-        
+
         /// <summary>	
         /// <p> Sets the application-defined drawing effect. </p>	
         /// </summary>	
@@ -5986,15 +6447,17 @@ namespace SharpDX.DirectWrite {
         /// <msdn-id>dd371477</msdn-id>	
         /// <unmanaged>HRESULT IDWriteTextLayout::SetDrawingEffect([In] void* drawingEffect,[In] DWRITE_TEXT_RANGE textRange)</unmanaged>	
         /// <unmanaged-short>IDWriteTextLayout::SetDrawingEffect</unmanaged-short>	
-        internal void SetDrawingEffect_(System.IntPtr drawingEffect, SharpDX.DirectWrite.TextRange textRange) {
-            unsafe {
+        internal void SetDrawingEffect_(System.IntPtr drawingEffect, SharpDX.DirectWrite.TextRange textRange)
+        {
+            unsafe
+            {
                 SharpDX.Result __result__;
-                __result__= 
-				SharpDX.Direct2D1.LocalInterop.Calliint138(_nativePointer, (void*)drawingEffect, textRange,((void**)(*(void**)_nativePointer))[38]);		
+                __result__ =
+                SharpDX.Direct2D1.LocalInterop.Calliint138(_nativePointer, (void*)drawingEffect, textRange, ((void**)(*(void**)_nativePointer))[38]);
                 __result__.CheckError();
             }
         }
-        
+
         /// <summary>	
         /// <p> Sets the inline object. </p>	
         /// </summary>	
@@ -6008,15 +6471,17 @@ namespace SharpDX.DirectWrite {
         /// <msdn-id>dd371500</msdn-id>	
         /// <unmanaged>HRESULT IDWriteTextLayout::SetInlineObject([In] IDWriteInlineObject* inlineObject,[In] DWRITE_TEXT_RANGE textRange)</unmanaged>	
         /// <unmanaged-short>IDWriteTextLayout::SetInlineObject</unmanaged-short>	
-        internal void SetInlineObject_(System.IntPtr inlineObject, SharpDX.DirectWrite.TextRange textRange) {
-            unsafe {
+        internal void SetInlineObject_(System.IntPtr inlineObject, SharpDX.DirectWrite.TextRange textRange)
+        {
+            unsafe
+            {
                 SharpDX.Result __result__;
-                __result__= 
-				SharpDX.Direct2D1.LocalInterop.Calliint138(_nativePointer, (void*)inlineObject, textRange,((void**)(*(void**)_nativePointer))[39]);		
+                __result__ =
+                SharpDX.Direct2D1.LocalInterop.Calliint138(_nativePointer, (void*)inlineObject, textRange, ((void**)(*(void**)_nativePointer))[39]);
                 __result__.CheckError();
             }
         }
-        
+
         /// <summary>	
         /// <p> Sets  font typography features for text within a specified text range. </p>	
         /// </summary>	
@@ -6027,15 +6492,17 @@ namespace SharpDX.DirectWrite {
         /// <msdn-id>dd371517</msdn-id>	
         /// <unmanaged>HRESULT IDWriteTextLayout::SetTypography([In] IDWriteTypography* typography,[In] DWRITE_TEXT_RANGE textRange)</unmanaged>	
         /// <unmanaged-short>IDWriteTextLayout::SetTypography</unmanaged-short>	
-        public void SetTypography(SharpDX.DirectWrite.Typography typography, SharpDX.DirectWrite.TextRange textRange) {
-            unsafe {
+        public void SetTypography(SharpDX.DirectWrite.Typography typography, SharpDX.DirectWrite.TextRange textRange)
+        {
+            unsafe
+            {
                 SharpDX.Result __result__;
-                __result__= 
-				SharpDX.Direct2D1.LocalInterop.Calliint138(_nativePointer, (void*)((typography == null)?IntPtr.Zero:typography.NativePointer), textRange,((void**)(*(void**)_nativePointer))[40]);		
+                __result__ =
+                SharpDX.Direct2D1.LocalInterop.Calliint138(_nativePointer, (void*)((typography == null) ? IntPtr.Zero : typography.NativePointer), textRange, ((void**)(*(void**)_nativePointer))[40]);
                 __result__.CheckError();
             }
         }
-        
+
         /// <summary>	
         /// <p> Sets the locale name for text within a specified text range.</p>	
         /// </summary>	
@@ -6046,17 +6513,19 @@ namespace SharpDX.DirectWrite {
         /// <msdn-id>dd371503</msdn-id>	
         /// <unmanaged>HRESULT IDWriteTextLayout::SetLocaleName([In] const wchar_t* localeName,[In] DWRITE_TEXT_RANGE textRange)</unmanaged>	
         /// <unmanaged-short>IDWriteTextLayout::SetLocaleName</unmanaged-short>	
-        public void SetLocaleName(string localeName, SharpDX.DirectWrite.TextRange textRange) {
-            unsafe {
+        public void SetLocaleName(string localeName, SharpDX.DirectWrite.TextRange textRange)
+        {
+            unsafe
+            {
                 IntPtr localeName_ = Utilities.StringToHGlobalUni(localeName);
                 SharpDX.Result __result__;
-                __result__= 
-				SharpDX.Direct2D1.LocalInterop.Calliint138(_nativePointer, (void*)localeName_, textRange,((void**)(*(void**)_nativePointer))[41]);		
-                Marshal.FreeHGlobal(localeName_ );
+                __result__ =
+                SharpDX.Direct2D1.LocalInterop.Calliint138(_nativePointer, (void*)localeName_, textRange, ((void**)(*(void**)_nativePointer))[41]);
+                Marshal.FreeHGlobal(localeName_);
                 __result__.CheckError();
             }
         }
-        
+
         /// <summary>	
         /// <p> Gets the layout maximum width. </p>	
         /// </summary>	
@@ -6065,15 +6534,17 @@ namespace SharpDX.DirectWrite {
         /// <msdn-id>dd316781</msdn-id>	
         /// <unmanaged>float IDWriteTextLayout::GetMaxWidth()</unmanaged>	
         /// <unmanaged-short>IDWriteTextLayout::GetMaxWidth</unmanaged-short>	
-        internal float GetMaxWidth() {
-            unsafe {
+        internal float GetMaxWidth()
+        {
+            unsafe
+            {
                 float __result__;
-                __result__= 
-				SharpDX.Direct2D1.LocalInterop.Callifloat(_nativePointer,((void**)(*(void**)_nativePointer))[42]);		
+                __result__ =
+                SharpDX.Direct2D1.LocalInterop.Callifloat(_nativePointer, ((void**)(*(void**)_nativePointer))[42]);
                 return __result__;
             }
         }
-        
+
         /// <summary>	
         /// <p> Gets the layout maximum height. </p>	
         /// </summary>	
@@ -6082,15 +6553,17 @@ namespace SharpDX.DirectWrite {
         /// <msdn-id>dd316776</msdn-id>	
         /// <unmanaged>float IDWriteTextLayout::GetMaxHeight()</unmanaged>	
         /// <unmanaged-short>IDWriteTextLayout::GetMaxHeight</unmanaged-short>	
-        internal float GetMaxHeight() {
-            unsafe {
+        internal float GetMaxHeight()
+        {
+            unsafe
+            {
                 float __result__;
-                __result__= 
-				SharpDX.Direct2D1.LocalInterop.Callifloat(_nativePointer,((void**)(*(void**)_nativePointer))[43]);		
+                __result__ =
+                SharpDX.Direct2D1.LocalInterop.Callifloat(_nativePointer, ((void**)(*(void**)_nativePointer))[43]);
                 return __result__;
             }
         }
-        
+
         /// <summary>	
         /// <p> Gets the font collection associated with the text at the specified position. </p>	
         /// </summary>	
@@ -6101,21 +6574,23 @@ namespace SharpDX.DirectWrite {
         /// <msdn-id>dd316735</msdn-id>	
         /// <unmanaged>HRESULT IDWriteTextLayout::GetFontCollection([In] unsigned int currentPosition,[Out] IDWriteFontCollection** fontCollection,[Out, Optional] DWRITE_TEXT_RANGE* textRange)</unmanaged>	
         /// <unmanaged-short>IDWriteTextLayout::GetFontCollection</unmanaged-short>	
-        public SharpDX.DirectWrite.FontCollection GetFontCollection(int currentPosition, out SharpDX.DirectWrite.TextRange textRange) {
-            unsafe {
+        public SharpDX.DirectWrite.FontCollection GetFontCollection(int currentPosition, out SharpDX.DirectWrite.TextRange textRange)
+        {
+            unsafe
+            {
                 SharpDX.DirectWrite.FontCollection fontCollection;
                 IntPtr fontCollection_ = IntPtr.Zero;
                 textRange = new SharpDX.DirectWrite.TextRange();
                 SharpDX.Result __result__;
                 fixed (void* textRange_ = &textRange)
-                    __result__= 
-    				SharpDX.Direct2D1.LocalInterop.Calliint(_nativePointer, currentPosition, &fontCollection_, textRange_,((void**)(*(void**)_nativePointer))[44]);		
-                fontCollection= (fontCollection_ == IntPtr.Zero)?null:new SharpDX.DirectWrite.FontCollection(fontCollection_);	
+                    __result__ =
+                    SharpDX.Direct2D1.LocalInterop.Calliint(_nativePointer, currentPosition, &fontCollection_, textRange_, ((void**)(*(void**)_nativePointer))[44]);
+                fontCollection = (fontCollection_ == IntPtr.Zero) ? null : new SharpDX.DirectWrite.FontCollection(fontCollection_);
                 __result__.CheckError();
                 return fontCollection;
             }
         }
-        
+
         /// <summary>	
         /// <p> Get the length of the font family name at the current position. </p>	
         /// </summary>	
@@ -6127,18 +6602,20 @@ namespace SharpDX.DirectWrite {
         /// <msdn-id>dd316741</msdn-id>	
         /// <unmanaged>HRESULT IDWriteTextLayout::GetFontFamilyNameLength([In] unsigned int currentPosition,[Out] unsigned int* nameLength,[Out, Optional] DWRITE_TEXT_RANGE* textRange)</unmanaged>	
         /// <unmanaged-short>IDWriteTextLayout::GetFontFamilyNameLength</unmanaged-short>	
-        internal void GetFontFamilyNameLength(int currentPosition, out int nameLength, out SharpDX.DirectWrite.TextRange textRange) {
-            unsafe {
+        internal void GetFontFamilyNameLength(int currentPosition, out int nameLength, out SharpDX.DirectWrite.TextRange textRange)
+        {
+            unsafe
+            {
                 textRange = new SharpDX.DirectWrite.TextRange();
                 SharpDX.Result __result__;
                 fixed (void* nameLength_ = &nameLength)
                     fixed (void* textRange_ = &textRange)
-                        __result__= 
-        				SharpDX.Direct2D1.LocalInterop.Calliint(_nativePointer, currentPosition, nameLength_, textRange_,((void**)(*(void**)_nativePointer))[45]);		
+                        __result__ =
+                        SharpDX.Direct2D1.LocalInterop.Calliint(_nativePointer, currentPosition, nameLength_, textRange_, ((void**)(*(void**)_nativePointer))[45]);
                 __result__.CheckError();
             }
         }
-        
+
         /// <summary>	
         /// <p> Copies the font family name of the text at the specified position. </p>	
         /// </summary>	
@@ -6151,17 +6628,19 @@ namespace SharpDX.DirectWrite {
         /// <msdn-id>dd316738</msdn-id>	
         /// <unmanaged>HRESULT IDWriteTextLayout::GetFontFamilyName([In] unsigned int currentPosition,[Out, Buffer] wchar_t* fontFamilyName,[In] unsigned int nameSize,[Out, Optional] DWRITE_TEXT_RANGE* textRange)</unmanaged>	
         /// <unmanaged-short>IDWriteTextLayout::GetFontFamilyName</unmanaged-short>	
-        internal void GetFontFamilyName(int currentPosition, System.IntPtr fontFamilyName, int nameSize, out SharpDX.DirectWrite.TextRange textRange) {
-            unsafe {
+        internal void GetFontFamilyName(int currentPosition, System.IntPtr fontFamilyName, int nameSize, out SharpDX.DirectWrite.TextRange textRange)
+        {
+            unsafe
+            {
                 textRange = new SharpDX.DirectWrite.TextRange();
                 SharpDX.Result __result__;
                 fixed (void* textRange_ = &textRange)
-                    __result__= 
-    				SharpDX.Direct2D1.LocalInterop.Calliint(_nativePointer, currentPosition, (void*)fontFamilyName, nameSize, textRange_,((void**)(*(void**)_nativePointer))[46]);		
+                    __result__ =
+                    SharpDX.Direct2D1.LocalInterop.Calliint(_nativePointer, currentPosition, (void*)fontFamilyName, nameSize, textRange_, ((void**)(*(void**)_nativePointer))[46]);
                 __result__.CheckError();
             }
         }
-        
+
         /// <summary>	
         /// <p> Gets the font weight of the text at the specified position. </p>	
         /// </summary>	
@@ -6172,19 +6651,21 @@ namespace SharpDX.DirectWrite {
         /// <msdn-id>dd316753</msdn-id>	
         /// <unmanaged>HRESULT IDWriteTextLayout::GetFontWeight([In] unsigned int currentPosition,[Out] DWRITE_FONT_WEIGHT* fontWeight,[Out, Optional] DWRITE_TEXT_RANGE* textRange)</unmanaged>	
         /// <unmanaged-short>IDWriteTextLayout::GetFontWeight</unmanaged-short>	
-        public SharpDX.DirectWrite.FontWeight GetFontWeight(int currentPosition, out SharpDX.DirectWrite.TextRange textRange) {
-            unsafe {
+        public SharpDX.DirectWrite.FontWeight GetFontWeight(int currentPosition, out SharpDX.DirectWrite.TextRange textRange)
+        {
+            unsafe
+            {
                 SharpDX.DirectWrite.FontWeight fontWeight;
                 textRange = new SharpDX.DirectWrite.TextRange();
                 SharpDX.Result __result__;
                 fixed (void* textRange_ = &textRange)
-                    __result__= 
-    				SharpDX.Direct2D1.LocalInterop.Calliint(_nativePointer, currentPosition, &fontWeight, textRange_,((void**)(*(void**)_nativePointer))[47]);		
+                    __result__ =
+                    SharpDX.Direct2D1.LocalInterop.Calliint(_nativePointer, currentPosition, &fontWeight, textRange_, ((void**)(*(void**)_nativePointer))[47]);
                 __result__.CheckError();
                 return fontWeight;
             }
         }
-        
+
         /// <summary>	
         /// <p> Gets the font style (also known as slope) of the text at the specified position. </p>	
         /// </summary>	
@@ -6195,19 +6676,21 @@ namespace SharpDX.DirectWrite {
         /// <msdn-id>dd316750</msdn-id>	
         /// <unmanaged>HRESULT IDWriteTextLayout::GetFontStyle([In] unsigned int currentPosition,[Out] DWRITE_FONT_STYLE* fontStyle,[Out, Optional] DWRITE_TEXT_RANGE* textRange)</unmanaged>	
         /// <unmanaged-short>IDWriteTextLayout::GetFontStyle</unmanaged-short>	
-        public SharpDX.DirectWrite.FontStyle GetFontStyle(int currentPosition, out SharpDX.DirectWrite.TextRange textRange) {
-            unsafe {
+        public SharpDX.DirectWrite.FontStyle GetFontStyle(int currentPosition, out SharpDX.DirectWrite.TextRange textRange)
+        {
+            unsafe
+            {
                 SharpDX.DirectWrite.FontStyle fontStyle;
                 textRange = new SharpDX.DirectWrite.TextRange();
                 SharpDX.Result __result__;
                 fixed (void* textRange_ = &textRange)
-                    __result__= 
-    				SharpDX.Direct2D1.LocalInterop.Calliint(_nativePointer, currentPosition, &fontStyle, textRange_,((void**)(*(void**)_nativePointer))[48]);		
+                    __result__ =
+                    SharpDX.Direct2D1.LocalInterop.Calliint(_nativePointer, currentPosition, &fontStyle, textRange_, ((void**)(*(void**)_nativePointer))[48]);
                 __result__.CheckError();
                 return fontStyle;
             }
         }
-        
+
         /// <summary>	
         /// <p> Gets the font stretch of the text at the specified position. </p>	
         /// </summary>	
@@ -6218,19 +6701,21 @@ namespace SharpDX.DirectWrite {
         /// <msdn-id>dd316747</msdn-id>	
         /// <unmanaged>HRESULT IDWriteTextLayout::GetFontStretch([In] unsigned int currentPosition,[Out] DWRITE_FONT_STRETCH* fontStretch,[Out, Optional] DWRITE_TEXT_RANGE* textRange)</unmanaged>	
         /// <unmanaged-short>IDWriteTextLayout::GetFontStretch</unmanaged-short>	
-        public SharpDX.DirectWrite.FontStretch GetFontStretch(int currentPosition, out SharpDX.DirectWrite.TextRange textRange) {
-            unsafe {
+        public SharpDX.DirectWrite.FontStretch GetFontStretch(int currentPosition, out SharpDX.DirectWrite.TextRange textRange)
+        {
+            unsafe
+            {
                 SharpDX.DirectWrite.FontStretch fontStretch;
                 textRange = new SharpDX.DirectWrite.TextRange();
                 SharpDX.Result __result__;
                 fixed (void* textRange_ = &textRange)
-                    __result__= 
-    				SharpDX.Direct2D1.LocalInterop.Calliint(_nativePointer, currentPosition, &fontStretch, textRange_,((void**)(*(void**)_nativePointer))[49]);		
+                    __result__ =
+                    SharpDX.Direct2D1.LocalInterop.Calliint(_nativePointer, currentPosition, &fontStretch, textRange_, ((void**)(*(void**)_nativePointer))[49]);
                 __result__.CheckError();
                 return fontStretch;
             }
         }
-        
+
         /// <summary>	
         /// <p> Gets the font em height of the text at the specified position. </p>	
         /// </summary>	
@@ -6241,19 +6726,21 @@ namespace SharpDX.DirectWrite {
         /// <msdn-id>dd316745</msdn-id>	
         /// <unmanaged>HRESULT IDWriteTextLayout::GetFontSize([In] unsigned int currentPosition,[Out] float* fontSize,[Out, Optional] DWRITE_TEXT_RANGE* textRange)</unmanaged>	
         /// <unmanaged-short>IDWriteTextLayout::GetFontSize</unmanaged-short>	
-        public float GetFontSize(int currentPosition, out SharpDX.DirectWrite.TextRange textRange) {
-            unsafe {
+        public float GetFontSize(int currentPosition, out SharpDX.DirectWrite.TextRange textRange)
+        {
+            unsafe
+            {
                 float fontSize;
                 textRange = new SharpDX.DirectWrite.TextRange();
                 SharpDX.Result __result__;
                 fixed (void* textRange_ = &textRange)
-                    __result__= 
-    				SharpDX.Direct2D1.LocalInterop.Calliint(_nativePointer, currentPosition, &fontSize, textRange_,((void**)(*(void**)_nativePointer))[50]);		
+                    __result__ =
+                    SharpDX.Direct2D1.LocalInterop.Calliint(_nativePointer, currentPosition, &fontSize, textRange_, ((void**)(*(void**)_nativePointer))[50]);
                 __result__.CheckError();
                 return fontSize;
             }
         }
-        
+
         /// <summary>	
         /// <p> Gets the underline presence of the text at the specified position. </p>	
         /// </summary>	
@@ -6264,20 +6751,22 @@ namespace SharpDX.DirectWrite {
         /// <msdn-id>dd371463</msdn-id>	
         /// <unmanaged>HRESULT IDWriteTextLayout::GetUnderline([In] unsigned int currentPosition,[Out] BOOL* hasUnderline,[Out, Optional] DWRITE_TEXT_RANGE* textRange)</unmanaged>	
         /// <unmanaged-short>IDWriteTextLayout::GetUnderline</unmanaged-short>	
-        public SharpDX.Mathematics.Interop.RawBool HasUnderline(int currentPosition, out SharpDX.DirectWrite.TextRange textRange) {
-            unsafe {
+        public SharpDX.Mathematics.Interop.RawBool HasUnderline(int currentPosition, out SharpDX.DirectWrite.TextRange textRange)
+        {
+            unsafe
+            {
                 SharpDX.Mathematics.Interop.RawBool hasUnderline;
                 hasUnderline = new SharpDX.Mathematics.Interop.RawBool();
                 textRange = new SharpDX.DirectWrite.TextRange();
                 SharpDX.Result __result__;
                 fixed (void* textRange_ = &textRange)
-                    __result__= 
-    				SharpDX.Direct2D1.LocalInterop.Calliint(_nativePointer, currentPosition, &hasUnderline, textRange_,((void**)(*(void**)_nativePointer))[51]);		
+                    __result__ =
+                    SharpDX.Direct2D1.LocalInterop.Calliint(_nativePointer, currentPosition, &hasUnderline, textRange_, ((void**)(*(void**)_nativePointer))[51]);
                 __result__.CheckError();
                 return hasUnderline;
             }
         }
-        
+
         /// <summary>	
         /// <p> Get the strikethrough presence of the text at the specified position. </p>	
         /// </summary>	
@@ -6288,20 +6777,22 @@ namespace SharpDX.DirectWrite {
         /// <msdn-id>dd316793</msdn-id>	
         /// <unmanaged>HRESULT IDWriteTextLayout::GetStrikethrough([In] unsigned int currentPosition,[Out] BOOL* hasStrikethrough,[Out, Optional] DWRITE_TEXT_RANGE* textRange)</unmanaged>	
         /// <unmanaged-short>IDWriteTextLayout::GetStrikethrough</unmanaged-short>	
-        public SharpDX.Mathematics.Interop.RawBool HasStrikethrough(int currentPosition, out SharpDX.DirectWrite.TextRange textRange) {
-            unsafe {
+        public SharpDX.Mathematics.Interop.RawBool HasStrikethrough(int currentPosition, out SharpDX.DirectWrite.TextRange textRange)
+        {
+            unsafe
+            {
                 SharpDX.Mathematics.Interop.RawBool hasStrikethrough;
                 hasStrikethrough = new SharpDX.Mathematics.Interop.RawBool();
                 textRange = new SharpDX.DirectWrite.TextRange();
                 SharpDX.Result __result__;
                 fixed (void* textRange_ = &textRange)
-                    __result__= 
-    				SharpDX.Direct2D1.LocalInterop.Calliint(_nativePointer, currentPosition, &hasStrikethrough, textRange_,((void**)(*(void**)_nativePointer))[52]);		
+                    __result__ =
+                    SharpDX.Direct2D1.LocalInterop.Calliint(_nativePointer, currentPosition, &hasStrikethrough, textRange_, ((void**)(*(void**)_nativePointer))[52]);
                 __result__.CheckError();
                 return hasStrikethrough;
             }
         }
-        
+
         /// <summary>	
         /// <p> Gets the application-defined drawing effect at the specified text position. </p>	
         /// </summary>	
@@ -6312,19 +6803,21 @@ namespace SharpDX.DirectWrite {
         /// <msdn-id>dd316732</msdn-id>	
         /// <unmanaged>HRESULT IDWriteTextLayout::GetDrawingEffect([In] unsigned int currentPosition,[Out] void** drawingEffect,[Out, Optional] DWRITE_TEXT_RANGE* textRange)</unmanaged>	
         /// <unmanaged-short>IDWriteTextLayout::GetDrawingEffect</unmanaged-short>	
-        internal System.IntPtr GetDrawingEffect_(int currentPosition, out SharpDX.DirectWrite.TextRange textRange) {
-            unsafe {
+        internal System.IntPtr GetDrawingEffect_(int currentPosition, out SharpDX.DirectWrite.TextRange textRange)
+        {
+            unsafe
+            {
                 System.IntPtr drawingEffect;
                 textRange = new SharpDX.DirectWrite.TextRange();
                 SharpDX.Result __result__;
                 fixed (void* textRange_ = &textRange)
-                    __result__= 
-    				SharpDX.Direct2D1.LocalInterop.Calliint(_nativePointer, currentPosition, &drawingEffect, textRange_,((void**)(*(void**)_nativePointer))[53]);		
+                    __result__ =
+                    SharpDX.Direct2D1.LocalInterop.Calliint(_nativePointer, currentPosition, &drawingEffect, textRange_, ((void**)(*(void**)_nativePointer))[53]);
                 __result__.CheckError();
                 return drawingEffect;
             }
         }
-        
+
         /// <summary>	
         /// <p> Gets the inline object at the specified position. </p>	
         /// </summary>	
@@ -6335,21 +6828,23 @@ namespace SharpDX.DirectWrite {
         /// <msdn-id>dd316758</msdn-id>	
         /// <unmanaged>HRESULT IDWriteTextLayout::GetInlineObject([In] unsigned int currentPosition,[Out] IDWriteInlineObject** inlineObject,[Out, Optional] DWRITE_TEXT_RANGE* textRange)</unmanaged>	
         /// <unmanaged-short>IDWriteTextLayout::GetInlineObject</unmanaged-short>	
-        public SharpDX.DirectWrite.InlineObject GetInlineObject(int currentPosition, out SharpDX.DirectWrite.TextRange textRange) {
-            unsafe {
+        public SharpDX.DirectWrite.InlineObject GetInlineObject(int currentPosition, out SharpDX.DirectWrite.TextRange textRange)
+        {
+            unsafe
+            {
                 SharpDX.DirectWrite.InlineObject inlineObject;
                 IntPtr inlineObject_ = IntPtr.Zero;
                 textRange = new SharpDX.DirectWrite.TextRange();
                 SharpDX.Result __result__;
                 fixed (void* textRange_ = &textRange)
-                    __result__= 
-    				SharpDX.Direct2D1.LocalInterop.Calliint(_nativePointer, currentPosition, &inlineObject_, textRange_,((void**)(*(void**)_nativePointer))[54]);		
-                inlineObject= (inlineObject_ == IntPtr.Zero)?null:new SharpDX.DirectWrite.InlineObjectNative(inlineObject_);	
+                    __result__ =
+                    SharpDX.Direct2D1.LocalInterop.Calliint(_nativePointer, currentPosition, &inlineObject_, textRange_, ((void**)(*(void**)_nativePointer))[54]);
+                inlineObject = (inlineObject_ == IntPtr.Zero) ? null : new SharpDX.DirectWrite.InlineObjectNative(inlineObject_);
                 __result__.CheckError();
                 return inlineObject;
             }
         }
-        
+
         /// <summary>	
         /// <p> Gets the typography setting of the text at the specified position. </p>	
         /// </summary>	
@@ -6360,21 +6855,23 @@ namespace SharpDX.DirectWrite {
         /// <msdn-id>dd371459</msdn-id>	
         /// <unmanaged>HRESULT IDWriteTextLayout::GetTypography([In] unsigned int currentPosition,[Out] IDWriteTypography** typography,[Out, Optional] DWRITE_TEXT_RANGE* textRange)</unmanaged>	
         /// <unmanaged-short>IDWriteTextLayout::GetTypography</unmanaged-short>	
-        public SharpDX.DirectWrite.Typography GetTypography(int currentPosition, out SharpDX.DirectWrite.TextRange textRange) {
-            unsafe {
+        public SharpDX.DirectWrite.Typography GetTypography(int currentPosition, out SharpDX.DirectWrite.TextRange textRange)
+        {
+            unsafe
+            {
                 SharpDX.DirectWrite.Typography typography;
                 IntPtr typography_ = IntPtr.Zero;
                 textRange = new SharpDX.DirectWrite.TextRange();
                 SharpDX.Result __result__;
                 fixed (void* textRange_ = &textRange)
-                    __result__= 
-    				SharpDX.Direct2D1.LocalInterop.Calliint(_nativePointer, currentPosition, &typography_, textRange_,((void**)(*(void**)_nativePointer))[55]);		
-                typography= (typography_ == IntPtr.Zero)?null:new SharpDX.DirectWrite.Typography(typography_);	
+                    __result__ =
+                    SharpDX.Direct2D1.LocalInterop.Calliint(_nativePointer, currentPosition, &typography_, textRange_, ((void**)(*(void**)_nativePointer))[55]);
+                typography = (typography_ == IntPtr.Zero) ? null : new SharpDX.DirectWrite.Typography(typography_);
                 __result__.CheckError();
                 return typography;
             }
         }
-        
+
         /// <summary>	
         /// <p> Gets the length of the locale name of the text at the specified position. </p>	
         /// </summary>	
@@ -6386,18 +6883,20 @@ namespace SharpDX.DirectWrite {
         /// <msdn-id>dd316771</msdn-id>	
         /// <unmanaged>HRESULT IDWriteTextLayout::GetLocaleNameLength([In] unsigned int currentPosition,[Out] unsigned int* nameLength,[Out, Optional] DWRITE_TEXT_RANGE* textRange)</unmanaged>	
         /// <unmanaged-short>IDWriteTextLayout::GetLocaleNameLength</unmanaged-short>	
-        internal void GetLocaleNameLength(int currentPosition, out int nameLength, out SharpDX.DirectWrite.TextRange textRange) {
-            unsafe {
+        internal void GetLocaleNameLength(int currentPosition, out int nameLength, out SharpDX.DirectWrite.TextRange textRange)
+        {
+            unsafe
+            {
                 textRange = new SharpDX.DirectWrite.TextRange();
                 SharpDX.Result __result__;
                 fixed (void* nameLength_ = &nameLength)
                     fixed (void* textRange_ = &textRange)
-                        __result__= 
-        				SharpDX.Direct2D1.LocalInterop.Calliint(_nativePointer, currentPosition, nameLength_, textRange_,((void**)(*(void**)_nativePointer))[56]);		
+                        __result__ =
+                        SharpDX.Direct2D1.LocalInterop.Calliint(_nativePointer, currentPosition, nameLength_, textRange_, ((void**)(*(void**)_nativePointer))[56]);
                 __result__.CheckError();
             }
         }
-        
+
         /// <summary>	
         /// <p> Gets the locale name of the text at the specified position. </p>	
         /// </summary>	
@@ -6410,17 +6909,19 @@ namespace SharpDX.DirectWrite {
         /// <msdn-id>dd316767</msdn-id>	
         /// <unmanaged>HRESULT IDWriteTextLayout::GetLocaleName([In] unsigned int currentPosition,[Out, Buffer] wchar_t* localeName,[In] unsigned int nameSize,[Out, Optional] DWRITE_TEXT_RANGE* textRange)</unmanaged>	
         /// <unmanaged-short>IDWriteTextLayout::GetLocaleName</unmanaged-short>	
-        internal void GetLocaleName(int currentPosition, System.IntPtr localeName, int nameSize, out SharpDX.DirectWrite.TextRange textRange) {
-            unsafe {
+        internal void GetLocaleName(int currentPosition, System.IntPtr localeName, int nameSize, out SharpDX.DirectWrite.TextRange textRange)
+        {
+            unsafe
+            {
                 textRange = new SharpDX.DirectWrite.TextRange();
                 SharpDX.Result __result__;
                 fixed (void* textRange_ = &textRange)
-                    __result__= 
-    				SharpDX.Direct2D1.LocalInterop.Calliint(_nativePointer, currentPosition, (void*)localeName, nameSize, textRange_,((void**)(*(void**)_nativePointer))[57]);		
+                    __result__ =
+                    SharpDX.Direct2D1.LocalInterop.Calliint(_nativePointer, currentPosition, (void*)localeName, nameSize, textRange_, ((void**)(*(void**)_nativePointer))[57]);
                 __result__.CheckError();
             }
         }
-        
+
         /// <summary>	
         /// <p> Draws text using the specified client drawing context.</p>	
         /// </summary>	
@@ -6436,15 +6937,17 @@ namespace SharpDX.DirectWrite {
         /// <msdn-id>dd316726</msdn-id>	
         /// <unmanaged>HRESULT IDWriteTextLayout::Draw([In, Optional] void* clientDrawingContext,[In] IDWriteTextRenderer* renderer,[In] float originX,[In] float originY)</unmanaged>	
         /// <unmanaged-short>IDWriteTextLayout::Draw</unmanaged-short>	
-        internal void Draw_(System.IntPtr clientDrawingContext, System.IntPtr renderer, float originX, float originY) {
-            unsafe {
+        internal void Draw_(System.IntPtr clientDrawingContext, System.IntPtr renderer, float originX, float originY)
+        {
+            unsafe
+            {
                 SharpDX.Result __result__;
-                __result__= 
-				SharpDX.Direct2D1.LocalInterop.Calliint(_nativePointer, (void*)clientDrawingContext, (void*)renderer, originX, originY,((void**)(*(void**)_nativePointer))[58]);		
+                __result__ =
+                SharpDX.Direct2D1.LocalInterop.Calliint(_nativePointer, (void*)clientDrawingContext, (void*)renderer, originX, originY, ((void**)(*(void**)_nativePointer))[58]);
                 __result__.CheckError();
             }
         }
-        
+
         /// <summary>	
         /// <p> Retrieves the information about each individual text line of the  text string. </p>	
         /// </summary>	
@@ -6459,18 +6962,20 @@ namespace SharpDX.DirectWrite {
         /// <msdn-id>dd316763</msdn-id>	
         /// <unmanaged>HRESULT IDWriteTextLayout::GetLineMetrics([Out, Buffer, Optional] DWRITE_LINE_METRICS* lineMetrics,[In] unsigned int maxLineCount,[Out] unsigned int* actualLineCount)</unmanaged>	
         /// <unmanaged-short>IDWriteTextLayout::GetLineMetrics</unmanaged-short>	
-        internal SharpDX.Result GetLineMetrics(SharpDX.DirectWrite.LineMetrics[] lineMetrics, int maxLineCount, out int actualLineCount) {
-            unsafe {
+        internal SharpDX.Result GetLineMetrics(SharpDX.DirectWrite.LineMetrics[] lineMetrics, int maxLineCount, out int actualLineCount)
+        {
+            unsafe
+            {
                 SharpDX.DirectWrite.LineMetrics[] lineMetrics__ = lineMetrics;
                 SharpDX.Result __result__;
                 fixed (void* lineMetrics_ = lineMetrics__)
                     fixed (void* actualLineCount_ = &actualLineCount)
-                        __result__= 
-        				SharpDX.Direct2D1.LocalInterop.Calliint(_nativePointer, lineMetrics_, maxLineCount, actualLineCount_,((void**)(*(void**)_nativePointer))[59]);		
+                        __result__ =
+                        SharpDX.Direct2D1.LocalInterop.Calliint(_nativePointer, lineMetrics_, maxLineCount, actualLineCount_, ((void**)(*(void**)_nativePointer))[59]);
                 return __result__;
             }
         }
-        
+
         /// <summary>	
         /// <p> Retrieves overall metrics for the formatted string. </p>	
         /// </summary>	
@@ -6480,17 +6985,19 @@ namespace SharpDX.DirectWrite {
         /// <msdn-id>dd316785</msdn-id>	
         /// <unmanaged>HRESULT IDWriteTextLayout::GetMetrics([Out] DWRITE_TEXT_METRICS* textMetrics)</unmanaged>	
         /// <unmanaged-short>IDWriteTextLayout::GetMetrics</unmanaged-short>	
-        internal void GetMetrics(out SharpDX.DirectWrite.TextMetrics textMetrics) {
-            unsafe {
+        internal void GetMetrics(out SharpDX.DirectWrite.TextMetrics textMetrics)
+        {
+            unsafe
+            {
                 textMetrics = new SharpDX.DirectWrite.TextMetrics();
                 SharpDX.Result __result__;
                 fixed (void* textMetrics_ = &textMetrics)
-                    __result__= 
-    				SharpDX.Direct2D1.LocalInterop.Calliint(_nativePointer, textMetrics_,((void**)(*(void**)_nativePointer))[60]);		
+                    __result__ =
+                    SharpDX.Direct2D1.LocalInterop.Calliint(_nativePointer, textMetrics_, ((void**)(*(void**)_nativePointer))[60]);
                 __result__.CheckError();
             }
         }
-        
+
         /// <summary>	
         /// <p>Returns the overhangs (in DIPs) of the layout and all objects contained in it, including text glyphs and inline objects.</p>	
         /// </summary>	
@@ -6503,17 +7010,19 @@ namespace SharpDX.DirectWrite {
         /// <msdn-id>dd316790</msdn-id>	
         /// <unmanaged>HRESULT IDWriteTextLayout::GetOverhangMetrics([Out] DWRITE_OVERHANG_METRICS* overhangs)</unmanaged>	
         /// <unmanaged-short>IDWriteTextLayout::GetOverhangMetrics</unmanaged-short>	
-        internal void GetOverhangMetrics(out SharpDX.DirectWrite.OverhangMetrics overhangs) {
-            unsafe {
+        internal void GetOverhangMetrics(out SharpDX.DirectWrite.OverhangMetrics overhangs)
+        {
+            unsafe
+            {
                 overhangs = new SharpDX.DirectWrite.OverhangMetrics();
                 SharpDX.Result __result__;
                 fixed (void* overhangs_ = &overhangs)
-                    __result__= 
-    				SharpDX.Direct2D1.LocalInterop.Calliint(_nativePointer, overhangs_,((void**)(*(void**)_nativePointer))[61]);		
+                    __result__ =
+                    SharpDX.Direct2D1.LocalInterop.Calliint(_nativePointer, overhangs_, ((void**)(*(void**)_nativePointer))[61]);
                 __result__.CheckError();
             }
         }
-        
+
         /// <summary>	
         /// <p> Retrieves logical properties and measurements of each glyph cluster. </p>	
         /// </summary>	
@@ -6528,18 +7037,20 @@ namespace SharpDX.DirectWrite {
         /// <msdn-id>dd316729</msdn-id>	
         /// <unmanaged>HRESULT IDWriteTextLayout::GetClusterMetrics([Out, Buffer, Optional] DWRITE_CLUSTER_METRICS* clusterMetrics,[In] unsigned int maxClusterCount,[Out] unsigned int* actualClusterCount)</unmanaged>	
         /// <unmanaged-short>IDWriteTextLayout::GetClusterMetrics</unmanaged-short>	
-        internal SharpDX.Result GetClusterMetrics(SharpDX.DirectWrite.ClusterMetrics[] clusterMetrics, int maxClusterCount, out int actualClusterCount) {
-            unsafe {
+        internal SharpDX.Result GetClusterMetrics(SharpDX.DirectWrite.ClusterMetrics[] clusterMetrics, int maxClusterCount, out int actualClusterCount)
+        {
+            unsafe
+            {
                 SharpDX.DirectWrite.ClusterMetrics[] clusterMetrics__ = clusterMetrics;
                 SharpDX.Result __result__;
                 fixed (void* clusterMetrics_ = clusterMetrics__)
                     fixed (void* actualClusterCount_ = &actualClusterCount)
-                        __result__= 
-        				SharpDX.Direct2D1.LocalInterop.Calliint(_nativePointer, clusterMetrics_, maxClusterCount, actualClusterCount_,((void**)(*(void**)_nativePointer))[62]);		
+                        __result__ =
+                        SharpDX.Direct2D1.LocalInterop.Calliint(_nativePointer, clusterMetrics_, maxClusterCount, actualClusterCount_, ((void**)(*(void**)_nativePointer))[62]);
                 return __result__;
             }
         }
-        
+
         /// <summary>	
         /// <p>Determines the minimum possible width the layout can be set to without emergency breaking between the characters of whole words occurring.</p>	
         /// </summary>	
@@ -6548,17 +7059,19 @@ namespace SharpDX.DirectWrite {
         /// <msdn-id>dd316723</msdn-id>	
         /// <unmanaged>HRESULT IDWriteTextLayout::DetermineMinWidth([Out] float* minWidth)</unmanaged>	
         /// <unmanaged-short>IDWriteTextLayout::DetermineMinWidth</unmanaged-short>	
-        public float DetermineMinWidth() {
-            unsafe {
+        public float DetermineMinWidth()
+        {
+            unsafe
+            {
                 float minWidth;
                 SharpDX.Result __result__;
-                __result__= 
-				SharpDX.Direct2D1.LocalInterop.Calliint(_nativePointer, &minWidth,((void**)(*(void**)_nativePointer))[63]);		
+                __result__ =
+                SharpDX.Direct2D1.LocalInterop.Calliint(_nativePointer, &minWidth, ((void**)(*(void**)_nativePointer))[63]);
                 __result__.CheckError();
                 return minWidth;
             }
         }
-        
+
         /// <summary>	
         /// <p> The application calls this function passing in a specific pixel location relative to the top-left location of the layout box and obtains the information about the correspondent hit-test metrics of the text string where the hit-test has occurred. When the specified pixel location is outside the text string, the function sets the output value <em>*isInside</em> to <strong><see cref="SharpDX.Result.False"/></strong>. </p>	
         /// </summary>	
@@ -6571,8 +7084,10 @@ namespace SharpDX.DirectWrite {
         /// <msdn-id>dd371464</msdn-id>	
         /// <unmanaged>HRESULT IDWriteTextLayout::HitTestPoint([In] float pointX,[In] float pointY,[Out] BOOL* isTrailingHit,[Out] BOOL* isInside,[Out] DWRITE_HIT_TEST_METRICS* hitTestMetrics)</unmanaged>	
         /// <unmanaged-short>IDWriteTextLayout::HitTestPoint</unmanaged-short>	
-        public SharpDX.DirectWrite.HitTestMetrics HitTestPoint(float pointX, float pointY, out SharpDX.Mathematics.Interop.RawBool isTrailingHit, out SharpDX.Mathematics.Interop.RawBool isInside) {
-            unsafe {
+        public SharpDX.DirectWrite.HitTestMetrics HitTestPoint(float pointX, float pointY, out SharpDX.Mathematics.Interop.RawBool isTrailingHit, out SharpDX.Mathematics.Interop.RawBool isInside)
+        {
+            unsafe
+            {
                 isTrailingHit = new SharpDX.Mathematics.Interop.RawBool();
                 isInside = new SharpDX.Mathematics.Interop.RawBool();
                 SharpDX.DirectWrite.HitTestMetrics hitTestMetrics;
@@ -6580,13 +7095,13 @@ namespace SharpDX.DirectWrite {
                 SharpDX.Result __result__;
                 fixed (void* isTrailingHit_ = &isTrailingHit)
                     fixed (void* isInside_ = &isInside)
-                        __result__= 
-        				SharpDX.Direct2D1.LocalInterop.Calliint(_nativePointer, pointX, pointY, isTrailingHit_, isInside_, &hitTestMetrics,((void**)(*(void**)_nativePointer))[64]);		
+                        __result__ =
+                        SharpDX.Direct2D1.LocalInterop.Calliint(_nativePointer, pointX, pointY, isTrailingHit_, isInside_, &hitTestMetrics, ((void**)(*(void**)_nativePointer))[64]);
                 __result__.CheckError();
                 return hitTestMetrics;
             }
         }
-        
+
         /// <summary>	
         /// <p> The application calls this function to get the pixel location relative to the top-left of the layout box given the text position and the logical side of the position. This function is normally used as part of caret positioning of text where the caret is drawn at the location corresponding to the current text editing position. It may also be used as a way to programmatically obtain the geometry of a particular text position in UI automation. </p>	
         /// </summary>	
@@ -6599,20 +7114,22 @@ namespace SharpDX.DirectWrite {
         /// <msdn-id>dd371469</msdn-id>	
         /// <unmanaged>HRESULT IDWriteTextLayout::HitTestTextPosition([In] unsigned int textPosition,[In] BOOL isTrailingHit,[Out] float* pointX,[Out] float* pointY,[Out] DWRITE_HIT_TEST_METRICS* hitTestMetrics)</unmanaged>	
         /// <unmanaged-short>IDWriteTextLayout::HitTestTextPosition</unmanaged-short>	
-        public SharpDX.DirectWrite.HitTestMetrics HitTestTextPosition(int textPosition, SharpDX.Mathematics.Interop.RawBool isTrailingHit, out float ointXRef, out float ointYRef) {
-            unsafe {
+        public SharpDX.DirectWrite.HitTestMetrics HitTestTextPosition(int textPosition, SharpDX.Mathematics.Interop.RawBool isTrailingHit, out float ointXRef, out float ointYRef)
+        {
+            unsafe
+            {
                 SharpDX.DirectWrite.HitTestMetrics hitTestMetrics;
                 hitTestMetrics = new SharpDX.DirectWrite.HitTestMetrics();
                 SharpDX.Result __result__;
                 fixed (void* ointXRef_ = &ointXRef)
                     fixed (void* ointYRef_ = &ointYRef)
-                        __result__= 
-        				SharpDX.Direct2D1.LocalInterop.Calliint144(_nativePointer, textPosition, isTrailingHit, ointXRef_, ointYRef_, &hitTestMetrics,((void**)(*(void**)_nativePointer))[65]);		
+                        __result__ =
+                        SharpDX.Direct2D1.LocalInterop.Calliint144(_nativePointer, textPosition, isTrailingHit, ointXRef_, ointYRef_, &hitTestMetrics, ((void**)(*(void**)_nativePointer))[65]);
                 __result__.CheckError();
                 return hitTestMetrics;
             }
         }
-        
+
         /// <summary>	
         /// <p> The application calls this function to get a set of hit-test metrics corresponding to a range of text positions. One of the main usages is to implement highlight selection of the text string. The function returns E_NOT_SUFFICIENT_BUFFER, which is equivalent to HRESULT_FROM_WIN32(<see cref="SharpDX.Win32.ErrorCode.InsufficientBuffer"/>), when the buffer size of hitTestMetrics is too small to hold all the regions calculated by the function. In this situation, the function sets the output value *actualHitTestMetricsCount to the number of geometries calculated. The application is responsible for allocating a new buffer of greater size and calling the function again. A good value to use as an initial value for maxHitTestMetricsCount may be calculated from the following equation: maxHitTestMetricsCount = lineCount * maxBidiReorderingDepth where lineCount is obtained from the value of the output argument *actualLineCount (from the function <strong><see cref="SharpDX.DirectWrite.TextLayout"/></strong>::GetLineLengths), and the maxBidiReorderingDepth value from the <strong><see cref="SharpDX.DirectWrite.TextMetrics"/></strong> structure of the output argument *textMetrics (from the function <strong><see cref="SharpDX.DirectWrite.Factory"/></strong>::<strong>CreateTextLayout</strong>). </p>	
         /// </summary>	
@@ -6628,14 +7145,16 @@ namespace SharpDX.DirectWrite {
         /// <msdn-id>dd371473</msdn-id>	
         /// <unmanaged>HRESULT IDWriteTextLayout::HitTestTextRange([In] unsigned int textPosition,[In] unsigned int textLength,[In] float originX,[In] float originY,[Out, Buffer, Optional] DWRITE_HIT_TEST_METRICS* hitTestMetrics,[In] unsigned int maxHitTestMetricsCount,[Out] unsigned int* actualHitTestMetricsCount)</unmanaged>	
         /// <unmanaged-short>IDWriteTextLayout::HitTestTextRange</unmanaged-short>	
-        internal SharpDX.Result HitTestTextRange(int textPosition, int textLength, float originX, float originY, SharpDX.DirectWrite.HitTestMetrics[] hitTestMetrics, int maxHitTestMetricsCount, out int actualHitTestMetricsCount) {
-            unsafe {
+        internal SharpDX.Result HitTestTextRange(int textPosition, int textLength, float originX, float originY, SharpDX.DirectWrite.HitTestMetrics[] hitTestMetrics, int maxHitTestMetricsCount, out int actualHitTestMetricsCount)
+        {
+            unsafe
+            {
                 SharpDX.DirectWrite.HitTestMetrics[] hitTestMetrics__ = hitTestMetrics;
                 SharpDX.Result __result__;
                 fixed (void* hitTestMetrics_ = hitTestMetrics__)
                     fixed (void* actualHitTestMetricsCount_ = &actualHitTestMetricsCount)
-                        __result__= 
-        				SharpDX.Direct2D1.LocalInterop.Calliint(_nativePointer, textPosition, textLength, originX, originY, hitTestMetrics_, maxHitTestMetricsCount, actualHitTestMetricsCount_,((void**)(*(void**)_nativePointer))[66]);		
+                        __result__ =
+                        SharpDX.Direct2D1.LocalInterop.Calliint(_nativePointer, textPosition, textLength, originX, originY, hitTestMetrics_, maxHitTestMetricsCount, actualHitTestMetricsCount_, ((void**)(*(void**)_nativePointer))[66]);
                 return __result__;
             }
         }
@@ -6648,27 +7167,29 @@ namespace SharpDX.DirectWrite {
     /// <unmanaged>IDWriteTextLayout1</unmanaged>	
     /// <unmanaged-short>IDWriteTextLayout1</unmanaged-short>	
     [Guid("9064D822-80A7-465C-A986-DF65F78B8FEB")]
-    public partial class TextLayout1 : SharpDX.DirectWrite.TextLayout {
+    public partial class TextLayout1 : SharpDX.DirectWrite.TextLayout
+    {
         /// <summary>
         /// Initializes a new instance of the <see cref="SharpDX.DirectWrite.TextLayout1"/> class.
         /// </summary>
         /// <param name="nativePtr">The native pointer.</param>	
-        public TextLayout1(IntPtr nativePtr) : base(nativePtr) {
+        public TextLayout1(IntPtr nativePtr) : base(nativePtr)
+        {
         }
 
-		/// <summary>
-		/// Performs an explicit conversion from <see cref="System.IntPtr"/> to <see cref="SharpDX.DirectWrite.TextLayout1"/>. (This method is a shortcut to <see cref="SharpDX.CppObject.NativePointer"/>) 
-		/// </summary>
-		/// <param name="nativePointer">The native pointer.</param>
-		/// <returns>
-		/// The result of the conversion.
-		/// </returns>
-		public static explicit operator SharpDX.DirectWrite.TextLayout1(IntPtr nativePointer)
-		{
-			return nativePointer == IntPtr.Zero ? null : new SharpDX.DirectWrite.TextLayout1(nativePointer);
-		}
-        
-        
+        /// <summary>
+        /// Performs an explicit conversion from <see cref="System.IntPtr"/> to <see cref="SharpDX.DirectWrite.TextLayout1"/>. (This method is a shortcut to <see cref="SharpDX.CppObject.NativePointer"/>) 
+        /// </summary>
+        /// <param name="nativePointer">The native pointer.</param>
+        /// <returns>
+        /// The result of the conversion.
+        /// </returns>
+        public static explicit operator SharpDX.DirectWrite.TextLayout1(IntPtr nativePointer)
+        {
+            return nativePointer == IntPtr.Zero ? null : new SharpDX.DirectWrite.TextLayout1(nativePointer);
+        }
+
+
         /// <summary>	
         /// <p>Enables or disables pair-kerning on a given text range.</p>	
         /// </summary>	
@@ -6679,15 +7200,17 @@ namespace SharpDX.DirectWrite {
         /// <msdn-id>Hh780442</msdn-id>	
         /// <unmanaged>HRESULT IDWriteTextLayout1::SetPairKerning([In] BOOL isPairKerningEnabled,[In] DWRITE_TEXT_RANGE textRange)</unmanaged>	
         /// <unmanaged-short>IDWriteTextLayout1::SetPairKerning</unmanaged-short>	
-        public void SetPairKerning(SharpDX.Mathematics.Interop.RawBool isPairKerningEnabled, SharpDX.DirectWrite.TextRange textRange) {
-            unsafe {
+        public void SetPairKerning(SharpDX.Mathematics.Interop.RawBool isPairKerningEnabled, SharpDX.DirectWrite.TextRange textRange)
+        {
+            unsafe
+            {
                 SharpDX.Result __result__;
-                __result__= 
-				SharpDX.Direct2D1.LocalInterop.Calliint141(_nativePointer, isPairKerningEnabled, textRange,((void**)(*(void**)_nativePointer))[67]);		
+                __result__ =
+                SharpDX.Direct2D1.LocalInterop.Calliint141(_nativePointer, isPairKerningEnabled, textRange, ((void**)(*(void**)_nativePointer))[67]);
                 __result__.CheckError();
             }
         }
-        
+
         /// <summary>	
         /// <p>Gets whether or not pair-kerning is enabled at given position.</p>	
         /// </summary>	
@@ -6699,19 +7222,21 @@ namespace SharpDX.DirectWrite {
         /// <msdn-id>Hh780440</msdn-id>	
         /// <unmanaged>HRESULT IDWriteTextLayout1::GetPairKerning([In] unsigned int currentPosition,[Out] BOOL* isPairKerningEnabled,[Out, Optional] DWRITE_TEXT_RANGE* textRange)</unmanaged>	
         /// <unmanaged-short>IDWriteTextLayout1::GetPairKerning</unmanaged-short>	
-        public void GetPairKerning(int currentPosition, out SharpDX.Mathematics.Interop.RawBool isPairKerningEnabled, out SharpDX.DirectWrite.TextRange textRange) {
-            unsafe {
+        public void GetPairKerning(int currentPosition, out SharpDX.Mathematics.Interop.RawBool isPairKerningEnabled, out SharpDX.DirectWrite.TextRange textRange)
+        {
+            unsafe
+            {
                 isPairKerningEnabled = new SharpDX.Mathematics.Interop.RawBool();
                 textRange = new SharpDX.DirectWrite.TextRange();
                 SharpDX.Result __result__;
                 fixed (void* isPairKerningEnabled_ = &isPairKerningEnabled)
                     fixed (void* textRange_ = &textRange)
-                        __result__= 
-        				SharpDX.Direct2D1.LocalInterop.Calliint(_nativePointer, currentPosition, isPairKerningEnabled_, textRange_,((void**)(*(void**)_nativePointer))[68]);		
+                        __result__ =
+                        SharpDX.Direct2D1.LocalInterop.Calliint(_nativePointer, currentPosition, isPairKerningEnabled_, textRange_, ((void**)(*(void**)_nativePointer))[68]);
                 __result__.CheckError();
             }
         }
-        
+
         /// <summary>	
         /// <p>Sets the spacing between characters.</p>	
         /// </summary>	
@@ -6724,15 +7249,17 @@ namespace SharpDX.DirectWrite {
         /// <msdn-id>Hh780441</msdn-id>	
         /// <unmanaged>HRESULT IDWriteTextLayout1::SetCharacterSpacing([In] float leadingSpacing,[In] float trailingSpacing,[In] float minimumAdvanceWidth,[In] DWRITE_TEXT_RANGE textRange)</unmanaged>	
         /// <unmanaged-short>IDWriteTextLayout1::SetCharacterSpacing</unmanaged-short>	
-        public void SetCharacterSpacing(float leadingSpacing, float trailingSpacing, float minimumAdvanceWidth, SharpDX.DirectWrite.TextRange textRange) {
-            unsafe {
+        public void SetCharacterSpacing(float leadingSpacing, float trailingSpacing, float minimumAdvanceWidth, SharpDX.DirectWrite.TextRange textRange)
+        {
+            unsafe
+            {
                 SharpDX.Result __result__;
-                __result__= 
-				SharpDX.Direct2D1.LocalInterop.Calliint179(_nativePointer, leadingSpacing, trailingSpacing, minimumAdvanceWidth, textRange,((void**)(*(void**)_nativePointer))[69]);		
+                __result__ =
+                SharpDX.Direct2D1.LocalInterop.Calliint179(_nativePointer, leadingSpacing, trailingSpacing, minimumAdvanceWidth, textRange, ((void**)(*(void**)_nativePointer))[69]);
                 __result__.CheckError();
             }
         }
-        
+
         /// <summary>	
         /// <p>Gets the spacing between characters.</p>	
         /// </summary>	
@@ -6746,16 +7273,18 @@ namespace SharpDX.DirectWrite {
         /// <msdn-id>Hh780439</msdn-id>	
         /// <unmanaged>HRESULT IDWriteTextLayout1::GetCharacterSpacing([In] unsigned int currentPosition,[Out] float* leadingSpacing,[Out] float* trailingSpacing,[Out] float* minimumAdvanceWidth,[Out, Optional] DWRITE_TEXT_RANGE* textRange)</unmanaged>	
         /// <unmanaged-short>IDWriteTextLayout1::GetCharacterSpacing</unmanaged-short>	
-        public void GetCharacterSpacing(int currentPosition, out float leadingSpacing, out float trailingSpacing, out float minimumAdvanceWidth, out SharpDX.DirectWrite.TextRange textRange) {
-            unsafe {
+        public void GetCharacterSpacing(int currentPosition, out float leadingSpacing, out float trailingSpacing, out float minimumAdvanceWidth, out SharpDX.DirectWrite.TextRange textRange)
+        {
+            unsafe
+            {
                 textRange = new SharpDX.DirectWrite.TextRange();
                 SharpDX.Result __result__;
                 fixed (void* leadingSpacing_ = &leadingSpacing)
                     fixed (void* trailingSpacing_ = &trailingSpacing)
                         fixed (void* minimumAdvanceWidth_ = &minimumAdvanceWidth)
                             fixed (void* textRange_ = &textRange)
-                                __result__= 
-                				SharpDX.Direct2D1.LocalInterop.Calliint(_nativePointer, currentPosition, leadingSpacing_, trailingSpacing_, minimumAdvanceWidth_, textRange_,((void**)(*(void**)_nativePointer))[70]);		
+                                __result__ =
+                                SharpDX.Direct2D1.LocalInterop.Calliint(_nativePointer, currentPosition, leadingSpacing_, trailingSpacing_, minimumAdvanceWidth_, textRange_, ((void**)(*(void**)_nativePointer))[70]);
                 __result__.CheckError();
             }
         }
@@ -6768,9 +7297,10 @@ namespace SharpDX.DirectWrite {
     /// <unmanaged>IDWriteTextRenderer</unmanaged>	
     /// <unmanaged-short>IDWriteTextRenderer</unmanaged-short>	
     [Guid("ef8a8135-5cc6-45fe-8825-c5a0724eb819")]
-    public partial interface TextRenderer : SharpDX.DirectWrite.PixelSnapping {
-        
-        
+    public partial interface TextRenderer : SharpDX.DirectWrite.PixelSnapping
+    {
+
+
         /// <summary>	
         /// <p> IDWriteTextLayout::<strong>Draw</strong> calls this function to instruct the client to render a run of glyphs. </p>	
         /// </summary>	
@@ -6790,7 +7320,7 @@ namespace SharpDX.DirectWrite {
         /// <unmanaged>HRESULT IDWriteTextRenderer::DrawGlyphRun([In, Optional] void* clientDrawingContext,[In] float baselineOriginX,[In] float baselineOriginY,[In] DWRITE_MEASURING_MODE measuringMode,[In] const DWRITE_GLYPH_RUN* glyphRun,[In] const DWRITE_GLYPH_RUN_DESCRIPTION* glyphRunDescription,[In, Optional] IUnknown* clientDrawingEffect)</unmanaged>	
         /// <unmanaged-short>IDWriteTextRenderer::DrawGlyphRun</unmanaged-short>	
         /* public void DrawGlyphRun(System.IntPtr clientDrawingContext, float baselineOriginX, float baselineOriginY, SharpDX.Direct2D1.MeasuringMode measuringMode, SharpDX.DirectWrite.GlyphRun glyphRun, SharpDX.DirectWrite.GlyphRunDescription glyphRunDescription, SharpDX.ComObject clientDrawingEffect) */
-        
+
         /// <summary>	
         /// <p> IDWriteTextLayout::<strong>Draw</strong> calls this function to instruct the client to draw an underline. </p>	
         /// </summary>	
@@ -6808,7 +7338,7 @@ namespace SharpDX.DirectWrite {
         /// <unmanaged>HRESULT IDWriteTextRenderer::DrawUnderline([In, Optional] void* clientDrawingContext,[In] float baselineOriginX,[In] float baselineOriginY,[In] const DWRITE_UNDERLINE* underline,[In, Optional] IUnknown* clientDrawingEffect)</unmanaged>	
         /// <unmanaged-short>IDWriteTextRenderer::DrawUnderline</unmanaged-short>	
         /* public void DrawUnderline(System.IntPtr clientDrawingContext, float baselineOriginX, float baselineOriginY, ref SharpDX.DirectWrite.Underline underline, SharpDX.ComObject clientDrawingEffect) */
-        
+
         /// <summary>	
         /// <p> IDWriteTextLayout::<strong>Draw</strong> calls this function to instruct the client to draw a strikethrough. </p>	
         /// </summary>	
@@ -6826,7 +7356,7 @@ namespace SharpDX.DirectWrite {
         /// <unmanaged>HRESULT IDWriteTextRenderer::DrawStrikethrough([In, Optional] void* clientDrawingContext,[In] float baselineOriginX,[In] float baselineOriginY,[In] const DWRITE_STRIKETHROUGH* strikethrough,[In, Optional] IUnknown* clientDrawingEffect)</unmanaged>	
         /// <unmanaged-short>IDWriteTextRenderer::DrawStrikethrough</unmanaged-short>	
         /* public void DrawStrikethrough(System.IntPtr clientDrawingContext, float baselineOriginX, float baselineOriginY, ref SharpDX.DirectWrite.Strikethrough strikethrough, SharpDX.ComObject clientDrawingEffect) */
-        
+
         /// <summary>	
         /// <p> IDWriteTextLayout::<strong>Draw</strong> calls this application callback when it needs to draw an inline object. </p>	
         /// </summary>	
@@ -6852,27 +7382,29 @@ namespace SharpDX.DirectWrite {
     /// <unmanaged>IDWriteTypography</unmanaged>	
     /// <unmanaged-short>IDWriteTypography</unmanaged-short>	
     [Guid("55f1112b-1dc2-4b3c-9541-f46894ed85b6")]
-    public partial class Typography : SharpDX.ComObject {
+    public partial class Typography : SharpDX.ComObject
+    {
         /// <summary>
         /// Initializes a new instance of the <see cref="SharpDX.DirectWrite.Typography"/> class.
         /// </summary>
         /// <param name="nativePtr">The native pointer.</param>	
-        public Typography(IntPtr nativePtr) : base(nativePtr) {
+        public Typography(IntPtr nativePtr) : base(nativePtr)
+        {
         }
 
-		/// <summary>
-		/// Performs an explicit conversion from <see cref="System.IntPtr"/> to <see cref="SharpDX.DirectWrite.Typography"/>. (This method is a shortcut to <see cref="SharpDX.CppObject.NativePointer"/>) 
-		/// </summary>
-		/// <param name="nativePointer">The native pointer.</param>
-		/// <returns>
-		/// The result of the conversion.
-		/// </returns>
-		public static explicit operator SharpDX.DirectWrite.Typography(IntPtr nativePointer)
-		{
-			return nativePointer == IntPtr.Zero ? null : new SharpDX.DirectWrite.Typography(nativePointer);
-		}
-        
-        
+        /// <summary>
+        /// Performs an explicit conversion from <see cref="System.IntPtr"/> to <see cref="SharpDX.DirectWrite.Typography"/>. (This method is a shortcut to <see cref="SharpDX.CppObject.NativePointer"/>) 
+        /// </summary>
+        /// <param name="nativePointer">The native pointer.</param>
+        /// <returns>
+        /// The result of the conversion.
+        /// </returns>
+        public static explicit operator SharpDX.DirectWrite.Typography(IntPtr nativePointer)
+        {
+            return nativePointer == IntPtr.Zero ? null : new SharpDX.DirectWrite.Typography(nativePointer);
+        }
+
+
         /// <summary>	
         /// <p> Gets the number of OpenType font features for the current font. </p>	
         /// </summary>	
@@ -6884,10 +7416,11 @@ namespace SharpDX.DirectWrite {
         /// <unmanaged>GetFontFeatureCount</unmanaged>	
         /// <unmanaged-short>GetFontFeatureCount</unmanaged-short>	
         /// <unmanaged>unsigned int IDWriteTypography::GetFontFeatureCount()</unmanaged>
-        public int FontFeatureCount {
-                get { return GetFontFeatureCount(); }
+        public int FontFeatureCount
+        {
+            get { return GetFontFeatureCount(); }
         }
-        
+
         /// <summary>	
         /// <p> Adds an OpenType font feature. </p>	
         /// </summary>	
@@ -6897,15 +7430,17 @@ namespace SharpDX.DirectWrite {
         /// <msdn-id>dd371545</msdn-id>	
         /// <unmanaged>HRESULT IDWriteTypography::AddFontFeature([In] DWRITE_FONT_FEATURE fontFeature)</unmanaged>	
         /// <unmanaged-short>IDWriteTypography::AddFontFeature</unmanaged-short>	
-        public void AddFontFeature(SharpDX.DirectWrite.FontFeature fontFeature) {
-            unsafe {
+        public void AddFontFeature(SharpDX.DirectWrite.FontFeature fontFeature)
+        {
+            unsafe
+            {
                 SharpDX.Result __result__;
-                __result__= 
-				SharpDX.Direct2D1.LocalInterop.Calliint174(_nativePointer, fontFeature,((void**)(*(void**)_nativePointer))[3]);		
+                __result__ =
+                SharpDX.Direct2D1.LocalInterop.Calliint174(_nativePointer, fontFeature, ((void**)(*(void**)_nativePointer))[3]);
                 __result__.CheckError();
             }
         }
-        
+
         /// <summary>	
         /// <p> Gets the number of OpenType font features for the current font. </p>	
         /// </summary>	
@@ -6917,15 +7452,17 @@ namespace SharpDX.DirectWrite {
         /// <msdn-id>dd371549</msdn-id>	
         /// <unmanaged>unsigned int IDWriteTypography::GetFontFeatureCount()</unmanaged>	
         /// <unmanaged-short>IDWriteTypography::GetFontFeatureCount</unmanaged-short>	
-        internal int GetFontFeatureCount() {
-            unsafe {
+        internal int GetFontFeatureCount()
+        {
+            unsafe
+            {
                 int __result__;
-                __result__= 
-				SharpDX.Direct2D1.LocalInterop.Calliint(_nativePointer,((void**)(*(void**)_nativePointer))[4]);		
+                __result__ =
+                SharpDX.Direct2D1.LocalInterop.Calliint(_nativePointer, ((void**)(*(void**)_nativePointer))[4]);
                 return __result__;
             }
         }
-        
+
         /// <summary>	
         /// <p> Gets the font feature at the specified index. </p>	
         /// </summary>	
@@ -6938,13 +7475,15 @@ namespace SharpDX.DirectWrite {
         /// <msdn-id>dd371546</msdn-id>	
         /// <unmanaged>HRESULT IDWriteTypography::GetFontFeature([In] unsigned int fontFeatureIndex,[Out] DWRITE_FONT_FEATURE* fontFeature)</unmanaged>	
         /// <unmanaged-short>IDWriteTypography::GetFontFeature</unmanaged-short>	
-        public SharpDX.DirectWrite.FontFeature GetFontFeature(int fontFeatureIndex) {
-            unsafe {
+        public SharpDX.DirectWrite.FontFeature GetFontFeature(int fontFeatureIndex)
+        {
+            unsafe
+            {
                 SharpDX.DirectWrite.FontFeature fontFeature;
                 fontFeature = new SharpDX.DirectWrite.FontFeature();
                 SharpDX.Result __result__;
-                __result__= 
-				SharpDX.Direct2D1.LocalInterop.Calliint(_nativePointer, fontFeatureIndex, &fontFeature,((void**)(*(void**)_nativePointer))[5]);		
+                __result__ =
+                SharpDX.Direct2D1.LocalInterop.Calliint(_nativePointer, fontFeatureIndex, &fontFeature, ((void**)(*(void**)_nativePointer))[5]);
                 __result__.CheckError();
                 return fontFeature;
             }
