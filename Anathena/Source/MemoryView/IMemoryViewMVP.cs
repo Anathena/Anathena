@@ -132,7 +132,7 @@ namespace Anathena.Source.MemoryView
         public Boolean SupportsWriteByte() { return true; }
 
         #region Irrelevant Features
-        public event EventHandler Changed, LengthChanged;
+        public event EventHandler Changed, LengthChanged = null;
         public void DeleteBytes(Int64 Index, Int64 Length) { throw new NotImplementedException(); }
         public void InsertBytes(Int64 Index, Byte[] BS) { throw new NotImplementedException(); }
         public Boolean SupportsDeleteBytes() { return false; }

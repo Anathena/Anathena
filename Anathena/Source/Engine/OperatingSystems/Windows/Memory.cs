@@ -6,13 +6,65 @@ using System.Diagnostics;
 using System.Linq;
 using System.Runtime.InteropServices;
 
-namespace Anathena.Source.Engine.OperatingSystems.Windows.Memory
+namespace Anathena.Source.Engine.OperatingSystems.Windows
 {
     /// <summary>
-    /// Static core class providing tools for memory editing.
+    /// Static class providing tools for windows memory editing internals
     /// </summary>
-    public static class MemoryCore
+    public static class Memory
     {
+
+
+        #region Read
+
+        /// <summary>
+        /// Reads an array of bytes in the memory form the target process.
+        /// </summary>
+        /// <param name="ProcessHandle">A handle to the process with memory that is being read.</param>
+        /// <param name="Address">A pointer to the base address in the specified process from which to read.</param>
+        /// <param name="Size">The number of bytes to be read from the specified process.</param>
+        /// <returns>The collection of read bytes.</returns>
+        public static Byte[] ReadBytes(IntPtr ProcessHandle, IntPtr Address, Int32 Size, out Boolean Success)
+        {
+            // Allocate the buffer
+            Byte[] Buffer = new Byte[Size];
+            Int32 BytesRead;
+
+            // Read the data from the target process
+            Success = (NativeMethods.ReadProcessMemory(ProcessHandle, Address, Buffer, Size, out BytesRead) && Size == BytesRead);
+
+            return Buffer;
+        }
+
+        #endregion
+
+        #region Write
+
+        /// <summary>
+        /// Writes data to an area of memory in a specified process.
+        /// </summary>
+        /// <param name="ProcessHandle">A handle to the process memory to be modified.</param>
+        /// <param name="Address">A pointer to the base address in the specified process to which data is written.</param>
+        /// <param name="ByteArray">A buffer that contains data to be written in the address space of the specified process.</param>
+        /// <returns>The number of bytes written.</returns>
+        public static Int32 WriteBytes(IntPtr ProcessHandle, IntPtr Address, Byte[] ByteArray)
+        {
+            // Create the variable storing the number of bytes written
+            Int32 BytesWritten;
+
+            // Write the data to the target process
+            if (NativeMethods.WriteProcessMemory(ProcessHandle, Address, ByteArray, ByteArray.Length, out BytesWritten))
+            {
+                // Check whether the length of the data written is equal to the inital array
+                if (BytesWritten == ByteArray.Length)
+                    return BytesWritten;
+            }
+
+            return 0;
+        }
+
+        #endregion
+
         /// <summary>
         /// Reserves a region of memory within the virtual address space of a specified process.
         /// </summary>
@@ -28,6 +80,17 @@ namespace Anathena.Source.Engine.OperatingSystems.Windows.Memory
             IntPtr Address = NativeMethods.VirtualAllocEx(ProcessHandle, IntPtr.Zero, Size, AllocationFlags, ProtectionFlags);
 
             return Address;
+        }
+
+        /// <summary>
+        /// Opens an existing local process object.
+        /// </summary>
+        /// <param name="AccessFlags">The access level to the process object.</param>
+        /// <param name="Process">The identifier of the local process to be opened.</param>
+        /// <returns>An open handle to the specified process.</returns>
+        public static IntPtr OpenProcess(ProcessAccessFlags AccessFlags, Process Process)
+        {
+            return NativeMethods.OpenProcess(AccessFlags, false, Process == null ? 0 : Process.Id);
         }
 
         /// <summary>
@@ -52,20 +115,6 @@ namespace Anathena.Source.Engine.OperatingSystems.Windows.Memory
         }
 
         /// <summary>
-        /// Opens an existing local process object.
-        /// </summary>
-        /// <param name="AccessFlags">The access level to the process object.</param>
-        /// <param name="Process">The identifier of the local process to be opened.</param>
-        /// <returns>An open handle to the specified process.</returns>
-        public static IntPtr OpenProcess(ProcessAccessFlags AccessFlags, Process Process)
-        {
-            // Get an handle from the remote process
-            IntPtr Handle = NativeMethods.OpenProcess(AccessFlags, false, Process == null ? 0 : Process.Id);
-
-            return Handle;
-        }
-
-        /// <summary>
         /// Changes the protection on a region of committed pages in the virtual address space of a specified process.
         /// </summary>
         /// <param name="ProcessHandle">A handle to the process whose memory protection is to be changed.</param>
@@ -87,16 +136,16 @@ namespace Anathena.Source.Engine.OperatingSystems.Windows.Memory
         /// <summary>
         /// Gets all blocks of memory allocated in the remote process.
         /// </summary>
-        public static IEnumerable<RemoteVirtualPage> VirtualPages(IntPtr Handle, IntPtr StartAddress, IntPtr EndAddress,
+        public static IEnumerable<IntPtr> VirtualPages(IntPtr Handle, IntPtr StartAddress, IntPtr EndAddress,
             MemoryProtectionFlags RequiredProtection, MemoryProtectionFlags ExcludedProtection, MemoryTypeEnum AllowedTypes)
         {
-            return Query(Handle, StartAddress, EndAddress, RequiredProtection, ExcludedProtection, AllowedTypes).Select(X => new RemoteVirtualPage(X.BaseAddress));
+            return Query(Handle, StartAddress, EndAddress, RequiredProtection, ExcludedProtection, AllowedTypes).Select(X => X.BaseAddress);
         }
 
-        public static IEnumerable<RemoteVirtualPage> AllVirtualPages(IntPtr Handle)
+        public static IEnumerable<IntPtr> AllVirtualPages(IntPtr Handle)
         {
             return Query(Handle, IntPtr.Zero, IntPtr.Zero.MaxValue(), 0, 0,
-                MemoryTypeEnum.None | MemoryTypeEnum.Private | MemoryTypeEnum.Image | MemoryTypeEnum.Mapped).Select(X => new RemoteVirtualPage(X.BaseAddress));
+                MemoryTypeEnum.None | MemoryTypeEnum.Private | MemoryTypeEnum.Image | MemoryTypeEnum.Mapped).Select(X => X.BaseAddress);
         }
 
         /// <summary>
@@ -225,56 +274,6 @@ namespace Anathena.Source.Engine.OperatingSystems.Windows.Memory
 
             } while (StartAddress.ToUInt64() < EndAddress.ToUInt64() && QueryResult != 0 && !WrappedAround);
         }
-
-        #region Read
-
-        /// <summary>
-        /// Reads an array of bytes in the memory form the target process.
-        /// </summary>
-        /// <param name="ProcessHandle">A handle to the process with memory that is being read.</param>
-        /// <param name="Address">A pointer to the base address in the specified process from which to read.</param>
-        /// <param name="Size">The number of bytes to be read from the specified process.</param>
-        /// <returns>The collection of read bytes.</returns>
-        public static Byte[] ReadBytes(IntPtr ProcessHandle, IntPtr Address, Int32 Size, out Boolean Success)
-        {
-            // Allocate the buffer
-            Byte[] Buffer = new Byte[Size];
-            Int32 BytesRead;
-
-            // Read the data from the target process
-            Success = (NativeMethods.ReadProcessMemory(ProcessHandle, Address, Buffer, Size, out BytesRead) && Size == BytesRead);
-
-            return Buffer;
-        }
-
-        #endregion
-
-        #region Write
-
-        /// <summary>
-        /// Writes data to an area of memory in a specified process.
-        /// </summary>
-        /// <param name="ProcessHandle">A handle to the process memory to be modified.</param>
-        /// <param name="Address">A pointer to the base address in the specified process to which data is written.</param>
-        /// <param name="ByteArray">A buffer that contains data to be written in the address space of the specified process.</param>
-        /// <returns>The number of bytes written.</returns>
-        public static Int32 WriteBytes(IntPtr ProcessHandle, IntPtr Address, Byte[] ByteArray)
-        {
-            // Create the variable storing the number of bytes written
-            Int32 BytesWritten;
-
-            // Write the data to the target process
-            if (NativeMethods.WriteProcessMemory(ProcessHandle, Address, ByteArray, ByteArray.Length, out BytesWritten))
-            {
-                // Check whether the length of the data written is equal to the inital array
-                if (BytesWritten == ByteArray.Length)
-                    return BytesWritten;
-            }
-
-            return 0;
-        }
-
-        #endregion
 
     } // End class
 

@@ -246,8 +246,6 @@
     <Compile Include="Source\Engine\InputCapture\HotKeys\ControllerHotKey.cs" />
     <Compile Include="Source\Engine\InputCapture\HotKeys\MouseHotKey.cs" />
     <Compile Include="Source\Engine\InputCapture\HotKeys\KeyboardHotKey.cs" />
-    <Compile Include="Source\Engine\OperatingSystems\Windows\Modules\ModuleFactory.cs" />
-    <Compile Include="Source\Engine\OperatingSystems\Windows\Modules\RemoteModule.cs" />
     <Compile Include="Source\Engine\Proxy\ProxyCommunicator.cs" />
     <Compile Include="Source\Project\ProjectItems\TypeEditors\IScriptEditorMVP.cs" />
     <Compile Include="Source\Project\ProjectItems\TypeEditors\IOffsetEditorMVP.cs" />
@@ -542,11 +540,8 @@
     <Compile Include="Source\Controller\Main.cs" />
     <Compile Include="Source\Engine\Architecture\Assembler\Fasm32Assembler.cs" />
     <Compile Include="Source\Engine\Architecture\Assembler\IAssembler.cs" />
-    <Compile Include="Source\Engine\OperatingSystems\Windows\Internals\MarshalType.cs" />
-    <Compile Include="Source\Engine\OperatingSystems\Windows\WindowsOperatingSystem.cs" />
-    <Compile Include="Source\Engine\OperatingSystems\Windows\Memory\MemoryCore.cs" />
-    <Compile Include="Source\Engine\OperatingSystems\Windows\Memory\MemoryProtection.cs" />
-    <Compile Include="Source\Engine\OperatingSystems\Windows\Memory\RemoteVirtualPage.cs" />
+    <Compile Include="Source\Engine\OperatingSystems\Windows\WindowsAdapter.cs" />
+    <Compile Include="Source\Engine\OperatingSystems\Windows\Memory.cs" />
     <Compile Include="Source\Engine\OperatingSystems\Windows\Native\Enumerations.cs" />
     <Compile Include="Source\Engine\OperatingSystems\Windows\Native\NativeMethods.cs" />
     <Compile Include="Source\Engine\OperatingSystems\Windows\Native\Structures.cs" />
@@ -1079,10 +1074,6 @@
     <Content Include="MainIconSmall.ico" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\AnathenaHook\AnathenaHook.csproj">
-      <Project>{118c8743-0037-4894-a798-6475e1f79bd7}</Project>
-      <Name>AnathenaHook</Name>
-    </ProjectReference>
     <ProjectReference Include="..\AnathenaProxy32\AnathenaProxy32.csproj">
       <Project>{51ac9959-afee-4f91-8a19-03cf0528ab62}</Project>
       <Name>AnathenaProxy32</Name>

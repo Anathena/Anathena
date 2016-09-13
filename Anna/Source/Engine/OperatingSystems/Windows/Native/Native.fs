@@ -1,4 +1,4 @@
-﻿namespace Anna.Source.Engine.OperatingSystems.Windows
+﻿namespace Anna.Source.Engine.OperatingSystems.Windows.Native
 
 open System
 open System.Runtime.InteropServices

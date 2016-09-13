@@ -1,11 +1,10 @@
-﻿using Anathena.Source.Engine.OperatingSystems.Windows.Internals;
-using Anathena.Source.Engine.OperatingSystems.Windows.Memory;
-using Anathena.Source.Engine.OperatingSystems.Windows.Modules;
-using Anathena.Source.Engine.OperatingSystems.Windows.Native;
+﻿using Anathena.Source.Engine.OperatingSystems.Windows.Native;
 using Anathena.Source.Utils.Extensions;
+using Anathena.Source.Utils.Validation;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using System.Reflection;
 using System.Text;
 
@@ -14,50 +13,30 @@ namespace Anathena.Source.Engine.OperatingSystems.Windows
     /// <summary>
     /// Class for memory editing a remote process.
     /// </summary>
-    public class WindowsOperatingSystem : IOperatingSystem
+    public class WindowsAdapter : IOperatingSystem
     {
         /// <summary>
         /// The remote process handle opened with all rights.
         /// </summary>
         public IntPtr Handle { get; private set; }
         /// <summary>
-        /// Factory for manipulating modules and libraries.
-        /// </summary>
-        public ModuleFactory Modules { get; protected set; }
-        /// <summary>
         /// Provide access to the opened process.
         /// </summary>
-        public Process Native { get; private set; }
-        /// <summary>
-        /// Gets the unique identifier for the remote process.
-        /// </summary>
-        public Int32 PId { get { return Native.Id; } }
-        /// <summary>
-        /// Gets the specified module in the remote process.
-        /// </summary>
-        /// <param name="ModuleName">The name of module (not case sensitive).</param>
-        /// <returns>A new instance of a <see cref="RemoteModule"/> class.</returns>
-        public RemoteModule this[String ModuleName]
-        {
-            get { return Modules[ModuleName]; }
-        }
+        public Process Process { get; private set; }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="WindowsOperatingSystem"/> class.
+        /// Initializes a new instance of the <see cref="WindowsAdapter"/> class.
         /// </summary>
         /// <param name="Process">Process to open.</param>
-        public WindowsOperatingSystem(Process Process)
+        public WindowsAdapter(Process Process)
         {
             // Save the reference of the process
-            Native = Process;
+            this.Process = Process;
 
-            Modules = new ModuleFactory(this);
-
-            Handle = MemoryCore.OpenProcess(ProcessAccessFlags.AllAccess, Process);
+            Handle = Memory.OpenProcess(ProcessAccessFlags.AllAccess, Process);
         }
 
         #region Read
-
         /// <summary>
         /// Reads the value of a specified type in the remote process.
         /// </summary>
@@ -100,7 +79,8 @@ namespace Anathena.Source.Engine.OperatingSystems.Windows
         /// <returns>A value.</returns>
         public T Read<T>(IntPtr Address, out Boolean Success)
         {
-            return MarshalType<T>.ByteArrayToObject(ReadBytes(Address, MarshalType<T>.Size, out Success));
+            Byte[] ByteArray = ReadBytes(Address, Conversions.GetTypeSize<T>(), out Success);
+            return Conversions.BytesToObject<T>(ByteArray);
         }
 
         /// <summary>
@@ -111,7 +91,7 @@ namespace Anathena.Source.Engine.OperatingSystems.Windows
         /// <returns>The array of bytes.</returns>
         public Byte[] ReadBytes(IntPtr Address, Int32 Count, out Boolean Success)
         {
-            return MemoryCore.ReadBytes(Handle, Address, Count, out Success);
+            return Memory.ReadBytes(Handle, Address, Count, out Success);
         }
 
         /// <summary>
@@ -189,7 +169,7 @@ namespace Anathena.Source.Engine.OperatingSystems.Windows
         public void WriteBytes(IntPtr Address, Byte[] ByteArray)
         {
             // Write the byte array
-            MemoryCore.WriteBytes(Handle, Address, ByteArray);
+            Memory.WriteBytes(Handle, Address, ByteArray);
         }
 
         /// <summary>
@@ -224,7 +204,7 @@ namespace Anathena.Source.Engine.OperatingSystems.Windows
 
         public Process GetProcess()
         {
-            return Native;
+            return Process;
         }
 
         public Boolean IsProcess32Bit()
@@ -234,7 +214,7 @@ namespace Anathena.Source.Engine.OperatingSystems.Windows
                 return true;
 
             Boolean IsWow64;
-            if (!NativeMethods.IsWow64Process(Native == null ? IntPtr.Zero : Native.Handle, out IsWow64))
+            if (!NativeMethods.IsWow64Process(Process == null ? IntPtr.Zero : Process.Handle, out IsWow64))
                 return true; // Error, assume 32 bit
 
             return IsWow64;
@@ -247,12 +227,12 @@ namespace Anathena.Source.Engine.OperatingSystems.Windows
 
         public IntPtr AllocateMemory(Int32 Size)
         {
-            return MemoryCore.Allocate(Handle, Size);
+            return Memory.Allocate(Handle, Size);
         }
 
         public void DeallocateMemory(IntPtr Address)
         {
-            MemoryCore.Free(Handle, Address);
+            Memory.Free(Handle, Address);
         }
 
         public IEnumerable<NormalizedRegion> GetVirtualPages(MemoryProtectionEnum RequiredProtection, MemoryProtectionEnum ExcludedProtection,
@@ -301,9 +281,9 @@ namespace Anathena.Source.Engine.OperatingSystems.Windows
                 ExcludedFlags |= MemoryProtectionFlags.ExecuteWriteCopy;
             }
 
-            List<RemoteVirtualPage> Pages = new List<RemoteVirtualPage>(MemoryCore.VirtualPages(Handle, StartAddress, EndAddress, RequiredFlags, ExcludedFlags, AllowedTypes));
+            List<IntPtr> Pages = new List<IntPtr>(Memory.VirtualPages(Handle, StartAddress, EndAddress, RequiredFlags, ExcludedFlags, AllowedTypes));
             List<NormalizedRegion> Regions = new List<NormalizedRegion>();
-            Pages.ForEach(X => Regions.Add(new NormalizedRegion(X.BaseAddress, (Int32)MemoryCore.Query(Handle, X.BaseAddress).RegionSize)));
+            Pages.ForEach(X => Regions.Add(new NormalizedRegion(X, (Int32)Memory.Query(Handle, X).RegionSize)));
 
             return Regions;
         }
@@ -316,8 +296,7 @@ namespace Anathena.Source.Engine.OperatingSystems.Windows
         public IEnumerable<NormalizedModule> GetModules()
         {
             List<NormalizedModule> NormalizedModules = new List<NormalizedModule>();
-
-            Modules?.RemoteModules?.ForEach(X => NormalizedModules.Add(new NormalizedModule(X.Name, X.BaseAddress, X.Size)));
+            Process?.Modules?.Cast<ProcessModule>().ForEach(X => NormalizedModules.Add(new NormalizedModule(X.ModuleName, X.BaseAddress, X.ModuleMemorySize)));
 
             return NormalizedModules;
         }

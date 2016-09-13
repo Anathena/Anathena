@@ -99,9 +99,11 @@
     <Compile Include="Source\Engine\OperatingSystems\NormalizedFlags.fs" />
     <Compile Include="Source\Engine\OperatingSystems\NormalizedProcess.fs" />
     <Compile Include="Source\Engine\OperatingSystems\NormalizedRegion.fs" />
-    <Compile Include="Source\Engine\OperatingSystems\Windows\Native.fs" />
-    <Compile Include="Source\Engine\OperatingSystems\Windows\Processes\ProcessCollector.fs" />
     <Compile Include="Source\Engine\OperatingSystems\OperatingSystemFactory.fs" />
+    <Compile Include="Source\Engine\OperatingSystems\Windows\Native\Enumerations.fs" />
+    <Compile Include="Source\Engine\OperatingSystems\Windows\Native\Native.fs" />
+    <Compile Include="Source\Engine\OperatingSystems\Windows\Native\Structures.fs" />
+    <Compile Include="Source\Engine\OperatingSystems\Windows\Processes\ProcessCollector.fs" />
     <Compile Include="Source\Engine\EngineCore.fs" />
     <Compile Include="Source\Snapshots\File1.fs" />
     <Compile Include="Source\Scanners\File2.fs" />

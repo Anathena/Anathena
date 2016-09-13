@@ -28,7 +28,7 @@ open System.Collections
 open System.Diagnostics
 open System.Drawing
 open Anna.Source.Engine.OperatingSystems
-open Anna.Source.Engine.OperatingSystems.Windows
+open Anna.Source.Engine.OperatingSystems.Windows.Native
 
 // Temporary structure for constructing process list
 [<NoComparison>]

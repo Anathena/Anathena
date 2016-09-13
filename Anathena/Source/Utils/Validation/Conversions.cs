@@ -2,6 +2,7 @@
 using System;
 using System.Linq;
 using System.Reflection;
+using System.Text;
 
 namespace Anathena.Source.Utils.Validation
 {
@@ -193,6 +194,58 @@ namespace Anathena.Source.Utils.Validation
             Int32 Place = Convert.ToInt32(Math.Floor(Math.Log(RealByteCount, 1024)));
             Double Number = Math.Round(RealByteCount / Math.Pow(1024, Place), 1);
             return (Number.ToString() + Suffix[Place]);
+        }
+
+        public static Int32 GetTypeSize<T>()
+        {
+            switch (Type.GetTypeCode(typeof(T)))
+            {
+                case TypeCode.Boolean: return sizeof(Boolean);
+                case TypeCode.Byte: return sizeof(Byte);
+                case TypeCode.Char: return sizeof(Char);
+                case TypeCode.Decimal: return sizeof(Decimal);
+                case TypeCode.Double: return sizeof(Double);
+                case TypeCode.Int16: return sizeof(Int16);
+                case TypeCode.Int32: return sizeof(Int32);
+                case TypeCode.Int64: return sizeof(Int64);
+                case TypeCode.SByte: return sizeof(SByte);
+                case TypeCode.Single: return sizeof(Single);
+                case TypeCode.UInt16: return sizeof(UInt16);
+                case TypeCode.UInt32: return sizeof(UInt32);
+                case TypeCode.UInt64: return sizeof(UInt64);
+                default: throw new Exception("Type is not a primitive");
+            }
+        }
+
+        public static T BytesToObject<T>(Byte[] ByteArray)
+        {
+            switch (Type.GetTypeCode(typeof(T)))
+            {
+                case TypeCode.Boolean:
+                    return (T)(Object)BitConverter.ToBoolean(ByteArray, 0);
+                case TypeCode.Byte:
+                    return (T)(Object)ByteArray[0];
+                case TypeCode.Char:
+                    return (T)(Object)Encoding.UTF8.GetChars(ByteArray)[0]; // BitConverter.ToChar(ByteArray, 0);
+                case TypeCode.Double:
+                    return (T)(Object)BitConverter.ToDouble(ByteArray, 0);
+                case TypeCode.Int16:
+                    return (T)(Object)BitConverter.ToInt16(ByteArray, 0);
+                case TypeCode.Int32:
+                    return (T)(Object)BitConverter.ToInt32(ByteArray, 0);
+                case TypeCode.Int64:
+                    return (T)(Object)BitConverter.ToInt64(ByteArray, 0);
+                case TypeCode.Single:
+                    return (T)(Object)BitConverter.ToSingle(ByteArray, 0);
+                case TypeCode.UInt16:
+                    return (T)(Object)BitConverter.ToUInt16(ByteArray, 0);
+                case TypeCode.UInt32:
+                    return (T)(Object)BitConverter.ToUInt32(ByteArray, 0);
+                case TypeCode.UInt64:
+                    return (T)(Object)BitConverter.ToUInt64(ByteArray, 0);
+                default:
+                    throw new ArgumentException("Invalid type provided");
+            }
         }
 
     } // End class

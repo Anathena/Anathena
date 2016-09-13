@@ -7,7 +7,7 @@ namespace Anathena.Source.Engine.OperatingSystems
     {
         public static IOperatingSystem GetOperatingSystem(Process Target)
         {
-            return new WindowsOperatingSystem(Target);
+            return new WindowsAdapter(Target);
         }
 
     } // End class
