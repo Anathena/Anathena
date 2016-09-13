@@ -8,6 +8,16 @@ namespace Anathena.Source.Engine.OperatingSystems.Windows.Native
     /// </summary>
     public static class NativeMethods
     {
+        /// <summary>
+        /// Determines whether the specified process is running under WOW64
+        /// </summary>
+        /// <param name="ProcessHandle"></param>
+        /// <param name="Wow64Process"></param>
+        /// <returns>
+        /// A pointer to a value that is set to TRUE if the process is running under WOW64.
+        /// If the process is running under 32-bit Windows, the value is set to FALSE.
+        /// If the process is a 64-bit application running under 64-bit Windows, the value is also set to FALSE.
+        /// </returns>
         [DllImport("kernel32.dll", SetLastError = true, CallingConvention = CallingConvention.Winapi)]
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern Boolean IsWow64Process([In] IntPtr ProcessHandle, [Out, MarshalAs(UnmanagedType.Bool)] out bool Wow64Process);
@@ -15,14 +25,14 @@ namespace Anathena.Source.Engine.OperatingSystems.Windows.Native
         /// <summary>
         /// Closes an open object handle.
         /// </summary>
-        /// <param name="hObject">A valid handle to an open object.</param>
+        /// <param name="HObject">A valid handle to an open object.</param>
         /// <returns>
         /// If the function succeeds, the return value is nonzero. 
         /// If the function fails, the return value is zero. To get extended error information, call <see cref="Marshal.GetLastWin32Error"/>.
         /// </returns>
         [DllImport("kernel32.dll", SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern Boolean CloseHandle(IntPtr hObject);
+        public static extern Boolean CloseHandle(IntPtr HObject);
 
         /// <summary>
         /// Frees the loaded dynamic-link library (DLL) module and, if necessary, decrements its reference count. 
@@ -109,15 +119,15 @@ namespace Anathena.Source.Engine.OperatingSystems.Windows.Native
         /// <summary>
         /// Reads data from an area of memory in a specified process. The entire area to be read must be accessible or the operation fails.
         /// </summary>
-        /// <param name="hProcess">A handle to the process with memory that is being read. The handle must have PROCESS_VM_READ access to the process.</param>
-        /// <param name="lpBaseAddress">
+        /// <param name="HProcess">A handle to the process with memory that is being read. The handle must have PROCESS_VM_READ access to the process.</param>
+        /// <param name="LpBaseAddress">
         /// A pointer to the base address in the specified process from which to read. Before any data transfer occurs, 
         /// the system verifies that all data in the base address and memory of the specified size is accessible for read access, 
         /// and if it is not accessible the function fails.
         /// </param>
-        /// <param name="lpBuffer">[Out] A pointer to a buffer that receives the contents from the address space of the specified process.</param>
-        /// <param name="dwSize">The number of bytes to be read from the specified process.</param>
-        /// <param name="lpNumberOfBytesRead">
+        /// <param name="LpBuffer">[Out] A pointer to a buffer that receives the contents from the address space of the specified process.</param>
+        /// <param name="DwSize">The number of bytes to be read from the specified process.</param>
+        /// <param name="LpNumberOfBytesRead">
         /// [Out] A pointer to a variable that receives the number of bytes transferred into the specified buffer. If lpNumberOfBytesRead is NULL, the parameter is ignored.
         /// </param>
         /// <returns>
@@ -126,7 +136,7 @@ namespace Anathena.Source.Engine.OperatingSystems.Windows.Native
         /// </returns>
         [DllImport("kernel32.dll", SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool ReadProcessMemory(IntPtr hProcess, IntPtr lpBaseAddress, [Out] byte[] lpBuffer, int dwSize, out int lpNumberOfBytesRead);
+        public static extern Boolean ReadProcessMemory(IntPtr HProcess, IntPtr LpBaseAddress, [Out] Byte[] LpBuffer, Int32 DwSize, out Int32 LpNumberOfBytesRead);
 
         /// <summary>
         /// Reserves or commits a region of memory within the virtual address space of a specified process. The function initializes the memory it allocates to zero, unless MEM_RESET is used.

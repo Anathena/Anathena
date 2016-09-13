@@ -75,7 +75,7 @@ type ProcessCollector() =
         if isSystemProcess then noIcon
         else
             try
-                let iconHandle = Native.ExtractIcon(externalProcess.Handle, externalProcess.MainModule.FileName, 0)
+                let iconHandle = NativeMethods.ExtractIcon(externalProcess.Handle, externalProcess.MainModule.FileName, 0)
                 if (iconHandle = IntPtr.Zero) then noIcon else Icon.FromHandle(iconHandle)
             with
                 | _ -> noIcon
