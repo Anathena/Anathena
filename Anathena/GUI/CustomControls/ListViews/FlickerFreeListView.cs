@@ -10,7 +10,7 @@ namespace Anathena.GUI.CustomControls.ListViews
         private const Int32 WM_HSCROLL = 0x114;
         private const Int32 WM_VSCROLL = 0x115;
 
-        private const Int32 MaximumItems = 100000000;
+        private const Int32 maximumItems = 100000000;
 
         public FlickerFreeListView()
         {
@@ -21,47 +21,47 @@ namespace Anathena.GUI.CustomControls.ListViews
             this.SetStyle(ControlStyles.EnableNotifyMessage, true);
         }
 
-        public void SetItemCount(Int32 ItemCount)
+        public void SetItemCount(Int32 itemCount)
         {
-            this.VirtualListSize = Math.Min(MaximumItems, ItemCount);
+            this.VirtualListSize = Math.Min(maximumItems, itemCount);
         }
 
         public Tuple<Int32, Int32> GetReadBounds()
         {
-            const Int32 BoundsLimit = 128;
-            const Int32 OverRead = 48;
+            const Int32 boundsLimit = 128;
+            const Int32 overRead = 48;
 
-            Int32 StartReadIndex = 0;
-            Int32 EndReadIndex = 0;
+            Int32 startReadIndex = 0;
+            Int32 endReadIndex = 0;
 
             ControlThreadingHelper.InvokeControlAction(this, () =>
             {
-                StartReadIndex = this.TopItem == null ? 0 : this.TopItem.Index;
+                startReadIndex = this.TopItem == null ? 0 : this.TopItem.Index;
 
-                ListViewItem LastVisibleItem = this.TopItem;
-                for (Int32 Index = StartReadIndex; Index < this.Items.Count; Index++)
+                ListViewItem lastVisibleItem = this.TopItem;
+                for (Int32 Index = startReadIndex; Index < this.Items.Count; Index++)
                 {
-                    if (Index - StartReadIndex > BoundsLimit)
+                    if (Index - startReadIndex > boundsLimit)
                         break;
 
                     if (this.ClientRectangle.IntersectsWith(this.Items[Index].Bounds))
-                        LastVisibleItem = this.Items[Index];
+                        lastVisibleItem = this.Items[Index];
                     else
                         break;
                 }
 
-                StartReadIndex -= OverRead;
-                EndReadIndex = LastVisibleItem == null ? 0 : LastVisibleItem.Index + 1 + OverRead;
+                startReadIndex -= overRead;
+                endReadIndex = lastVisibleItem == null ? 0 : lastVisibleItem.Index + 1 + overRead;
             });
 
-            return new Tuple<Int32, Int32>(StartReadIndex, EndReadIndex);
+            return new Tuple<Int32, Int32>(startReadIndex, endReadIndex);
         }
 
-        protected override void OnNotifyMessage(Message Message)
+        protected override void OnNotifyMessage(Message message)
         {
             // Filter out the WM_ERASEBKGND message
-            if (Message.Msg != WM_ERASEBKGND)
-                base.OnNotifyMessage(Message);
+            if (message.Msg != WM_ERASEBKGND)
+                base.OnNotifyMessage(message);
         }
 
         private void InitializeComponent()
@@ -74,18 +74,18 @@ namespace Anathena.GUI.CustomControls.ListViews
         /// <summary>
         /// Override to help with embedded combo box support
         /// </summary>
-        /// <param name="Message"></param>
-        protected override void WndProc(ref Message Message)
+        /// <param name="message"></param>
+        protected override void WndProc(ref Message message)
         {
             // Look for the WM_VSCROLL or the WM_HSCROLL messages.
-            if ((Message.Msg == WM_VSCROLL) || (Message.Msg == WM_HSCROLL))
+            if ((message.Msg == WM_VSCROLL) || (message.Msg == WM_HSCROLL))
             {
                 // Move focus to the ListView to cause ComboBox to lose focus.
                 this.Focus();
             }
 
             // Pass message to default handler.
-            base.WndProc(ref Message);
+            base.WndProc(ref message);
         }
 
     } // End class

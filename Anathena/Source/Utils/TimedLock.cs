@@ -5,22 +5,22 @@ namespace Anathena.Source.Utils
 {
     public struct TimedLock : IDisposable
     {
-        public static TimedLock Lock(Object Object)
+        public static TimedLock Lock(Object lockObject)
         {
 #if DEBUG
-            return Lock(Object, TimeSpan.FromSeconds(120));
+            return Lock(lockObject, TimeSpan.FromSeconds(120));
 #else
-            return Lock(Object, TimeSpan.FromSeconds(1000));
+            return Lock(lockObject, TimeSpan.FromSeconds(1000));
 #endif
         }
 
-        public static TimedLock Lock(Object Object, TimeSpan Timeout)
+        public static TimedLock Lock(Object lockObject, TimeSpan Timeout)
         {
-            TimedLock TimedLock = new TimedLock(Object);
-            if (!Monitor.TryEnter(Object, Timeout))
+            TimedLock TimedLock = new TimedLock(lockObject);
+            if (!Monitor.TryEnter(lockObject, Timeout))
             {
 #if DEBUG
-                System.GC.SuppressFinalize(TimedLock.LeakDetector);
+                System.GC.SuppressFinalize(TimedLock.leakDetector);
 #endif
                 throw new LockTimeoutException();
             }
@@ -28,27 +28,27 @@ namespace Anathena.Source.Utils
             return TimedLock;
         }
 
-        private TimedLock(Object Object)
+        private TimedLock(Object lockObject)
         {
-            Target = Object;
+            targetObject = lockObject;
 #if DEBUG
-            LeakDetector = new Sentinel();
+            leakDetector = new Sentinel();
 #endif
         }
-        private object Target;
+        private Object targetObject;
 
         public void Dispose()
         {
-            if (Target != null)
-                Monitor.Exit(Target);
+            if (targetObject != null)
+                Monitor.Exit(targetObject);
 
             // It's a bad error if someone forgets to call Dispose,
             // so in Debug builds, we put a finalizer in to detect
             // the error. If Dispose is called, we suppress the
             // finalizer.
 #if DEBUG
-            if (LeakDetector != null)
-                GC.SuppressFinalize(LeakDetector);
+            if (leakDetector != null)
+                GC.SuppressFinalize(leakDetector);
 #endif
         }
 
@@ -65,10 +65,11 @@ namespace Anathena.Source.Utils
                 System.Diagnostics.Debug.Fail("Undisposed lock");
             }
         }
-        private Sentinel LeakDetector;
+        private Sentinel leakDetector;
 #endif
 
     }
+
     public class LockTimeoutException : ApplicationException
     {
         public LockTimeoutException() : base("Timeout waiting for lock") { }

@@ -16,44 +16,44 @@ namespace Anathena.GUI
 {
     partial class GUIMain : Form, IMainView
     {
-        private static readonly String ConfigFile = Path.Combine(Path.GetDirectoryName(Application.ExecutablePath), "AnathenaLayout.config");
+        private static readonly String configFile = Path.Combine(Path.GetDirectoryName(Application.ExecutablePath), "AnathenaLayout.config");
 
-        private DeserializeDockContent DockContentDeserializer;
+        private DeserializeDockContent cockContentDeserializer;
 
-        private MainPresenter MainPresenter;
+        private MainPresenter mainPresenter;
 
         // VIEW MENU ITEMS
-        private GUICheatBrowser GUICheatBrowser;
-        private GUIProcessSelector GUIProcessSelector;
-        private GUICodeView GUICodeView;
-        private GUIMemoryView GUIMemoryView;
+        private GUICheatBrowser guiCheatBrowser;
+        private GUIProcessSelector guiProcessSelector;
+        private GUICodeView guiCodeView;
+        private GUIMemoryView guiMemoryView;
 
-        private GUIFiniteStateScanner GUIFiniteStateScanner;
-        private GUIManualScanner GUIManualScanner;
-        private GUIChangeCounter GUIChangeCounter;
-        private GUILabelThresholder GUILabelThresholder;
-        private GUIInputCorrelator GUIInputCorrelator;
-        private GUIPointerScanner GUIPointerScanner;
+        private GUIFiniteStateScanner guiFiniteStateScanner;
+        private GUIManualScanner guiManualScanner;
+        private GUIChangeCounter guiChangeCounter;
+        private GUILabelThresholder guiLabelThresholder;
+        private GUIInputCorrelator guiInputCorrelator;
+        private GUIPointerScanner guiPointerScanner;
 
-        private GUISnapshotManager GUISnapshotManager;
-        private GUIResults GUIResults;
-        private GUIPropertyViewer GUIPropertyViewer;
-        private GUIDotNetExplorer GUIDotNetExplorer;
-        private GUIProjectExplorer GUIProjectExplorer;
+        private GUISnapshotManager guiSnapshotManager;
+        private GUIResults guiResults;
+        private GUIPropertyViewer guiPropertyViewer;
+        private GUIDotNetExplorer guiDotNetExplorer;
+        private GUIProjectExplorer guiProjectExplorer;
 
         // EDIT MENU ITEMS
-        private GUISettings GUISettings;
+        private GUISettings guiSettings;
 
         // Variables
-        private String Title;
-        private Object AccessLock;
+        private String title;
+        private Object accessLock;
 
         public GUIMain()
         {
             InitializeComponent();
 
-            MainPresenter = new MainPresenter(this, Main.GetInstance());
-            AccessLock = new Object();
+            mainPresenter = new MainPresenter(this, Main.GetInstance());
+            accessLock = new Object();
 
             InitializeTheme();
             InitializeControls();
@@ -69,31 +69,31 @@ namespace Anathena.GUI
         /// <summary>
         /// Update the target process 
         /// </summary>
-        /// <param name="ProcessTitle"></param>
-        public void UpdateProcessTitle(String ProcessTitle)
+        /// <param name="processTitle"></param>
+        public void UpdateProcessTitle(String processTitle)
         {
             // Update process text
             ControlThreadingHelper.InvokeControlAction(GUIToolStrip, () =>
             {
-                this.ProcessTitleLabel.Text = ProcessTitle;
+                this.ProcessTitleLabel.Text = processTitle;
             });
         }
 
-        public void UpdateProgress(ProgressItem ProgressItem)
+        public void UpdateProgress(ProgressItem progressItem)
         {
             ControlThreadingHelper.InvokeControlAction(GUIStatusStrip, () =>
             {
-                using (TimedLock.Lock(AccessLock))
+                using (TimedLock.Lock(accessLock))
                 {
-                    if (ProgressItem == null)
+                    if (progressItem == null)
                     {
                         this.ActionProgressBar.ProgressBar.Value = 0;
                         this.ActionLabel.Text = String.Empty;
                         return;
                     }
 
-                    this.ActionProgressBar.ProgressBar.Value = ProgressItem.GetProgress();
-                    this.ActionLabel.Text = ProgressItem.GetProgressLabel();
+                    this.ActionProgressBar.ProgressBar.Value = progressItem.GetProgress();
+                    this.ActionLabel.Text = progressItem.GetProgressLabel();
                 }
             });
         }
@@ -109,21 +109,21 @@ namespace Anathena.GUI
 
         private void InitializeControls()
         {
-            PrimitiveTypes.GetScannablePrimitiveTypes().ForEach(X => ValueTypeComboBox.Items.Add(X.Name));
+            PrimitiveTypes.GetScannablePrimitiveTypes().ForEach(x => ValueTypeComboBox.Items.Add(x.Name));
             ValueTypeComboBox.SelectedIndex = ValueTypeComboBox.Items.IndexOf(typeof(Int32).Name);
         }
 
         private void InitializeTheme()
         {
-            String Version;
+            String version;
 
             if (!Debugger.IsAttached && ApplicationDeployment.IsNetworkDeployed)
-                Version = ApplicationDeployment.CurrentDeployment.CurrentVersion.ToString();
+                version = ApplicationDeployment.CurrentDeployment.CurrentVersion.ToString();
             else
-                Version = ProductVersion;
+                version = ProductVersion;
 
-            this.Text += " " + Version + " " + "Beta";
-            Title = this.Text;
+            this.Text += " " + version + " " + "Beta";
+            title = this.Text;
 
             // Update theme so that everything looks cool
             this.ContentPanel.Theme = new VS2013BlueTheme();
@@ -147,7 +147,7 @@ namespace Anathena.GUI
 
         private void CreateTools()
         {
-            if (File.Exists(ConfigFile))
+            if (File.Exists(configFile))
             {
                 try
                 {
@@ -174,20 +174,20 @@ namespace Anathena.GUI
             CreatePropertyViewer();
 
             // Force focus preferred windows with shared GUI tabs
-            GUIResults.Show();
-            GUIProjectExplorer.Show();
+            guiResults.Show();
+            guiProjectExplorer.Show();
         }
 
         private void CreateCheatBrowser()
         {
             ControlThreadingHelper.InvokeControlAction(ContentPanel, () =>
             {
-                using (TimedLock.Lock(AccessLock))
+                using (TimedLock.Lock(accessLock))
                 {
-                    if (GUICheatBrowser == null || GUICheatBrowser.IsDisposed)
-                        GUICheatBrowser = new GUICheatBrowser();
+                    if (guiCheatBrowser == null || guiCheatBrowser.IsDisposed)
+                        guiCheatBrowser = new GUICheatBrowser();
 
-                    GUICheatBrowser.Show(ContentPanel, new Rectangle(PointToScreen(ContentPanel.Location), GUICheatBrowser.Size));
+                    guiCheatBrowser.Show(ContentPanel, new Rectangle(PointToScreen(ContentPanel.Location), guiCheatBrowser.Size));
                 }
             });
         }
@@ -196,12 +196,12 @@ namespace Anathena.GUI
         {
             ControlThreadingHelper.InvokeControlAction(ContentPanel, () =>
             {
-                using (TimedLock.Lock(AccessLock))
+                using (TimedLock.Lock(accessLock))
                 {
-                    if (GUICodeView == null || GUICodeView.IsDisposed)
-                        GUICodeView = new GUICodeView();
+                    if (guiCodeView == null || guiCodeView.IsDisposed)
+                        guiCodeView = new GUICodeView();
 
-                    GUICodeView.Show(ContentPanel);
+                    guiCodeView.Show(ContentPanel);
                 }
             });
         }
@@ -210,12 +210,12 @@ namespace Anathena.GUI
         {
             ControlThreadingHelper.InvokeControlAction(ContentPanel, () =>
             {
-                using (TimedLock.Lock(AccessLock))
+                using (TimedLock.Lock(accessLock))
                 {
-                    if (GUIMemoryView == null || GUIMemoryView.IsDisposed)
-                        GUIMemoryView = new GUIMemoryView();
+                    if (guiMemoryView == null || guiMemoryView.IsDisposed)
+                        guiMemoryView = new GUIMemoryView();
 
-                    GUIMemoryView.Show(ContentPanel);
+                    guiMemoryView.Show(ContentPanel);
                 }
             });
         }
@@ -224,12 +224,12 @@ namespace Anathena.GUI
         {
             ControlThreadingHelper.InvokeControlAction(ContentPanel, () =>
             {
-                using (TimedLock.Lock(AccessLock))
+                using (TimedLock.Lock(accessLock))
                 {
-                    if (GUIFiniteStateScanner == null || GUIFiniteStateScanner.IsDisposed)
-                        GUIFiniteStateScanner = new GUIFiniteStateScanner();
+                    if (guiFiniteStateScanner == null || guiFiniteStateScanner.IsDisposed)
+                        guiFiniteStateScanner = new GUIFiniteStateScanner();
 
-                    GUIFiniteStateScanner.Show(ContentPanel);
+                    guiFiniteStateScanner.Show(ContentPanel);
                 }
             });
         }
@@ -238,12 +238,12 @@ namespace Anathena.GUI
         {
             ControlThreadingHelper.InvokeControlAction(ContentPanel, () =>
             {
-                using (TimedLock.Lock(AccessLock))
+                using (TimedLock.Lock(accessLock))
                 {
-                    if (GUIManualScanner == null || GUIManualScanner.IsDisposed)
-                        GUIManualScanner = new GUIManualScanner();
+                    if (guiManualScanner == null || guiManualScanner.IsDisposed)
+                        guiManualScanner = new GUIManualScanner();
 
-                    GUIManualScanner.Show(ContentPanel);
+                    guiManualScanner.Show(ContentPanel);
                 }
             });
         }
@@ -252,12 +252,12 @@ namespace Anathena.GUI
         {
             ControlThreadingHelper.InvokeControlAction(ContentPanel, () =>
             {
-                using (TimedLock.Lock(AccessLock))
+                using (TimedLock.Lock(accessLock))
                 {
-                    if (GUIInputCorrelator == null || GUIInputCorrelator.IsDisposed)
-                        GUIInputCorrelator = new GUIInputCorrelator();
+                    if (guiInputCorrelator == null || guiInputCorrelator.IsDisposed)
+                        guiInputCorrelator = new GUIInputCorrelator();
 
-                    GUIInputCorrelator.Show(ContentPanel);
+                    guiInputCorrelator.Show(ContentPanel);
                 }
             });
         }
@@ -266,12 +266,12 @@ namespace Anathena.GUI
         {
             ControlThreadingHelper.InvokeControlAction(ContentPanel, () =>
             {
-                using (TimedLock.Lock(AccessLock))
+                using (TimedLock.Lock(accessLock))
                 {
-                    if (GUIChangeCounter == null || GUIChangeCounter.IsDisposed)
-                        GUIChangeCounter = new GUIChangeCounter();
+                    if (guiChangeCounter == null || guiChangeCounter.IsDisposed)
+                        guiChangeCounter = new GUIChangeCounter();
 
-                    GUIChangeCounter.Show(ContentPanel);
+                    guiChangeCounter.Show(ContentPanel);
                 }
             });
         }
@@ -280,12 +280,12 @@ namespace Anathena.GUI
         {
             ControlThreadingHelper.InvokeControlAction(ContentPanel, () =>
             {
-                using (TimedLock.Lock(AccessLock))
+                using (TimedLock.Lock(accessLock))
                 {
-                    if (GUILabelThresholder == null || GUILabelThresholder.IsDisposed)
-                        GUILabelThresholder = new GUILabelThresholder();
+                    if (guiLabelThresholder == null || guiLabelThresholder.IsDisposed)
+                        guiLabelThresholder = new GUILabelThresholder();
 
-                    GUILabelThresholder.Show(ContentPanel);
+                    guiLabelThresholder.Show(ContentPanel);
                 }
             });
         }
@@ -294,12 +294,12 @@ namespace Anathena.GUI
         {
             ControlThreadingHelper.InvokeControlAction(ContentPanel, () =>
             {
-                using (TimedLock.Lock(AccessLock))
+                using (TimedLock.Lock(accessLock))
                 {
-                    if (GUIPointerScanner == null || GUIPointerScanner.IsDisposed)
-                        GUIPointerScanner = new GUIPointerScanner();
+                    if (guiPointerScanner == null || guiPointerScanner.IsDisposed)
+                        guiPointerScanner = new GUIPointerScanner();
 
-                    GUIPointerScanner.Show(ContentPanel);
+                    guiPointerScanner.Show(ContentPanel);
                 }
             });
         }
@@ -308,12 +308,12 @@ namespace Anathena.GUI
         {
             ControlThreadingHelper.InvokeControlAction(ContentPanel, () =>
             {
-                using (TimedLock.Lock(AccessLock))
+                using (TimedLock.Lock(accessLock))
                 {
-                    if (GUISnapshotManager == null || GUISnapshotManager.IsDisposed)
-                        GUISnapshotManager = new GUISnapshotManager();
+                    if (guiSnapshotManager == null || guiSnapshotManager.IsDisposed)
+                        guiSnapshotManager = new GUISnapshotManager();
 
-                    GUISnapshotManager.Show(ContentPanel, DockState.DockRight);
+                    guiSnapshotManager.Show(ContentPanel, DockState.DockRight);
                 }
             });
         }
@@ -322,15 +322,15 @@ namespace Anathena.GUI
         {
             ControlThreadingHelper.InvokeControlAction(ContentPanel, () =>
             {
-                using (TimedLock.Lock(AccessLock))
+                using (TimedLock.Lock(accessLock))
                 {
-                    if (GUIPropertyViewer == null || GUIPropertyViewer.IsDisposed)
-                        GUIPropertyViewer = new GUIPropertyViewer();
+                    if (guiPropertyViewer == null || guiPropertyViewer.IsDisposed)
+                        guiPropertyViewer = new GUIPropertyViewer();
 
-                    if (GUIResults != null)
-                        GUIPropertyViewer.Show(GUIResults.Pane, DockAlignment.Bottom, 0.5);
+                    if (guiResults != null)
+                        guiPropertyViewer.Show(guiResults.Pane, DockAlignment.Bottom, 0.5);
                     else
-                        GUIPropertyViewer.Show(ContentPanel, DockState.DockBottom);
+                        guiPropertyViewer.Show(ContentPanel, DockState.DockBottom);
                 }
             });
         }
@@ -339,12 +339,12 @@ namespace Anathena.GUI
         {
             ControlThreadingHelper.InvokeControlAction(ContentPanel, () =>
             {
-                using (TimedLock.Lock(AccessLock))
+                using (TimedLock.Lock(accessLock))
                 {
-                    if (GUIResults == null || GUIResults.IsDisposed)
-                        GUIResults = new GUIResults();
+                    if (guiResults == null || guiResults.IsDisposed)
+                        guiResults = new GUIResults();
 
-                    GUIResults.Show(ContentPanel, DockState.DockRight);
+                    guiResults.Show(ContentPanel, DockState.DockRight);
                 }
             });
         }
@@ -353,12 +353,12 @@ namespace Anathena.GUI
         {
             ControlThreadingHelper.InvokeControlAction(ContentPanel, () =>
             {
-                using (TimedLock.Lock(AccessLock))
+                using (TimedLock.Lock(accessLock))
                 {
-                    if (GUIDotNetExplorer == null || GUIDotNetExplorer.IsDisposed)
-                        GUIDotNetExplorer = new GUIDotNetExplorer();
+                    if (guiDotNetExplorer == null || guiDotNetExplorer.IsDisposed)
+                        guiDotNetExplorer = new GUIDotNetExplorer();
 
-                    GUIDotNetExplorer.Show(ContentPanel);
+                    guiDotNetExplorer.Show(ContentPanel);
                 }
             });
         }
@@ -367,15 +367,15 @@ namespace Anathena.GUI
         {
             ControlThreadingHelper.InvokeControlAction(ContentPanel, () =>
             {
-                using (TimedLock.Lock(AccessLock))
+                using (TimedLock.Lock(accessLock))
                 {
-                    if (GUIProjectExplorer == null || GUIProjectExplorer.IsDisposed)
-                        GUIProjectExplorer = new GUIProjectExplorer();
+                    if (guiProjectExplorer == null || guiProjectExplorer.IsDisposed)
+                        guiProjectExplorer = new GUIProjectExplorer();
 
-                    if (GUIManualScanner != null)
-                        GUIProjectExplorer.Show(GUIManualScanner.Pane, DockAlignment.Bottom, 0.5);
+                    if (guiManualScanner != null)
+                        guiProjectExplorer.Show(guiManualScanner.Pane, DockAlignment.Bottom, 0.5);
                     else
-                        GUIProjectExplorer.Show(ContentPanel, DockState.DockRight);
+                        guiProjectExplorer.Show(ContentPanel, DockState.DockRight);
                 }
             });
         }
@@ -384,12 +384,12 @@ namespace Anathena.GUI
         {
             ControlThreadingHelper.InvokeControlAction(ContentPanel, () =>
             {
-                using (TimedLock.Lock(AccessLock))
+                using (TimedLock.Lock(accessLock))
                 {
-                    if (GUIProcessSelector == null || GUIProcessSelector.IsDisposed)
-                        GUIProcessSelector = new GUIProcessSelector();
+                    if (guiProcessSelector == null || guiProcessSelector.IsDisposed)
+                        guiProcessSelector = new GUIProcessSelector();
 
-                    GUIProcessSelector.Show(ContentPanel);
+                    guiProcessSelector.Show(ContentPanel);
                 }
             });
         }
@@ -398,74 +398,74 @@ namespace Anathena.GUI
         {
             ControlThreadingHelper.InvokeControlAction(ContentPanel, () =>
             {
-                using (TimedLock.Lock(AccessLock))
+                using (TimedLock.Lock(accessLock))
                 {
-                    if (GUISettings == null || GUISettings.IsDisposed)
-                        GUISettings = new GUISettings();
+                    if (guiSettings == null || guiSettings.IsDisposed)
+                        guiSettings = new GUISettings();
 
-                    GUISettings.ShowDialog(this);
+                    guiSettings.ShowDialog(this);
                 }
             });
         }
 
         public void BeginSaveProject()
         {
-            if (MainPresenter.GetProjectFilePath() == null || MainPresenter.GetProjectFilePath() == String.Empty)
+            if (mainPresenter.GetProjectFilePath() == null || mainPresenter.GetProjectFilePath() == String.Empty)
             {
                 BeginSaveAsProject();
                 return;
             }
 
-            MainPresenter.RequestSaveProject(MainPresenter.GetProjectFilePath());
+            mainPresenter.RequestSaveProject(mainPresenter.GetProjectFilePath());
         }
 
         public void BeginSaveAsProject()
         {
-            SaveFileDialog SaveFileDialog = new SaveFileDialog();
-            SaveFileDialog.Filter = "Cheat File (*.Hax)|*.hax|All files (*.*)|*.*";
-            SaveFileDialog.Title = "Save Cheat File";
-            SaveFileDialog.ShowDialog();
+            SaveFileDialog saveFileDialog = new SaveFileDialog();
+            saveFileDialog.Filter = "Cheat File (*.Hax)|*.hax|All files (*.*)|*.*";
+            saveFileDialog.Title = "Save Cheat File";
+            saveFileDialog.ShowDialog();
 
-            MainPresenter.SetProjectFilePath(SaveFileDialog.FileName);
+            mainPresenter.SetProjectFilePath(saveFileDialog.FileName);
 
-            MainPresenter.RequestSaveProject(SaveFileDialog.FileName);
+            mainPresenter.RequestSaveProject(saveFileDialog.FileName);
         }
 
         public void BeginOpenProject()
         {
-            OpenFileDialog OpenFileDialog = new OpenFileDialog();
-            OpenFileDialog.Filter = "Cheat File (*.Hax)|*.hax|All files (*.*)|*.*";
-            OpenFileDialog.Title = "Open Cheat File";
-            OpenFileDialog.ShowDialog();
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.Filter = "Cheat File (*.Hax)|*.hax|All files (*.*)|*.*";
+            openFileDialog.Title = "Open Cheat File";
+            openFileDialog.ShowDialog();
 
-            MainPresenter.SetProjectFilePath(OpenFileDialog.FileName);
+            mainPresenter.SetProjectFilePath(openFileDialog.FileName);
 
-            MainPresenter.RequestOpenProject(OpenFileDialog.FileName);
+            mainPresenter.RequestOpenProject(openFileDialog.FileName);
         }
 
         public void BeginImportProject()
         {
-            OpenFileDialog OpenFileDialog = new OpenFileDialog();
-            OpenFileDialog.Filter = "Cheat File (*.Hax)|*.hax|All files (*.*)|*.*";
-            OpenFileDialog.Title = "Open and Merge Cheat File";
-            OpenFileDialog.ShowDialog();
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.Filter = "Cheat File (*.Hax)|*.hax|All files (*.*)|*.*";
+            openFileDialog.Title = "Open and Merge Cheat File";
+            openFileDialog.ShowDialog();
 
             // Prioritize whatever is open already. If nothing, use the merge filename.
-            if (MainPresenter.GetProjectFilePath() == String.Empty)
-                MainPresenter.SetProjectFilePath(OpenFileDialog.FileName);
+            if (mainPresenter.GetProjectFilePath() == String.Empty)
+                mainPresenter.SetProjectFilePath(openFileDialog.FileName);
 
-            MainPresenter.RequestImportProject(OpenFileDialog.FileName);
+            mainPresenter.RequestImportProject(openFileDialog.FileName);
         }
 
         private Boolean AskSaveChanges()
         {
             // Check if there are even changes to save
-            if (!MainPresenter.RequestHasChanges())
+            if (!mainPresenter.RequestHasChanges())
                 return false;
 
-            DialogResult Result = MessageBoxEx.Show(this, "This table has not been saved. Save the changes before closing?", "Save Changes?", MessageBoxButtons.YesNoCancel);
+            DialogResult result = MessageBoxEx.Show(this, "This table has not been saved. Save the changes before closing?", "Save Changes?", MessageBoxButtons.YesNoCancel);
 
-            switch (Result)
+            switch (result)
             {
                 case DialogResult.Yes:
                     BeginSaveProject();
@@ -480,16 +480,16 @@ namespace Anathena.GUI
             return true;
         }
 
-        public void UpdateHasChanges(Boolean HasChanges)
+        public void UpdateHasChanges(Boolean hasChanges)
         {
             ControlThreadingHelper.InvokeControlAction(this, () =>
             {
-                this.Text = Title;
+                this.Text = title;
 
-                if (HasChanges)
+                if (hasChanges)
                     this.Text += "*";
 
-                this.Text += " - " + MainPresenter.GetProjectFilePath();
+                this.Text += " - " + mainPresenter.GetProjectFilePath();
             });
         }
 
@@ -497,179 +497,179 @@ namespace Anathena.GUI
 
         #region Events
 
-        private void CheatBrowserToolStripMenuItem_Click(Object Sender, EventArgs E)
+        private void CheatBrowserToolStripMenuItem_Click(Object sender, EventArgs e)
         {
             CreateCheatBrowser();
         }
 
-        private void CodeViewToolStripMenuItem_Click(Object Sender, EventArgs E)
+        private void CodeViewToolStripMenuItem_Click(Object sender, EventArgs e)
         {
             CreateCodeView();
         }
 
-        private void MemoryViewToolStripMenuItem_Click(Object Sender, EventArgs E)
+        private void MemoryViewToolStripMenuItem_Click(Object sender, EventArgs e)
         {
             CreateMemoryView();
         }
 
-        private void FiniteStateScannerToolStripMenuItem_Click(Object Sender, EventArgs E)
+        private void FiniteStateScannerToolStripMenuItem_Click(Object sender, EventArgs e)
         {
             CreateFiniteStateScanner();
         }
 
-        private void ManualScannerToolStripMenuItem_Click(Object Sender, EventArgs E)
+        private void ManualScannerToolStripMenuItem_Click(Object sender, EventArgs e)
         {
             CreateManualScanner();
         }
 
-        private void InputCorrelatorToolStripMenuItem_Click(Object Sender, EventArgs E)
+        private void InputCorrelatorToolStripMenuItem_Click(Object sender, EventArgs e)
         {
             CreateInputCorrelator();
         }
 
-        private void ChangeCounterToolStripMenuItem_Click(Object Sender, EventArgs E)
+        private void ChangeCounterToolStripMenuItem_Click(Object sender, EventArgs e)
         {
             CreateChangeCounter();
         }
 
-        private void LabelThresholderToolStripMenuItem_Click(Object Sender, EventArgs E)
+        private void LabelThresholderToolStripMenuItem_Click(Object sender, EventArgs e)
         {
             CreateLabelThresholder();
         }
 
-        private void PointerScannerToolStripMenuItem_Click(Object Sender, EventArgs E)
+        private void PointerScannerToolStripMenuItem_Click(Object sender, EventArgs e)
         {
             CreatePointerScanner();
         }
 
-        private void SnapshotManagerToolStripMenuItem_Click(Object Sender, EventArgs E)
+        private void SnapshotManagerToolStripMenuItem_Click(Object sender, EventArgs e)
         {
             CreateSnapshotManager();
         }
 
-        private void PropertiesToolStripMenuItem_Click(Object Sender, EventArgs E)
+        private void PropertiesToolStripMenuItem_Click(Object sender, EventArgs e)
         {
             CreatePropertyViewer();
         }
 
-        private void ResultsToolStripMenuItem_Click(Object Sender, EventArgs E)
+        private void ResultsToolStripMenuItem_Click(Object sender, EventArgs e)
         {
             CreateResults();
         }
 
-        private void DotNetExplorerToolStripMenuItem_Click(Object Sender, EventArgs E)
+        private void DotNetExplorerToolStripMenuItem_Click(Object sender, EventArgs e)
         {
             CreateDotNetExplorer();
         }
 
-        private void ProjectExplorerToolStripMenuItem_Click(Object Sender, EventArgs E)
+        private void ProjectExplorerToolStripMenuItem_Click(Object sender, EventArgs e)
         {
             CreateProjectExplorer();
         }
 
-        private void ProcessSelectorToolStripMenuItem_Click(Object Sender, EventArgs E)
+        private void ProcessSelectorToolStripMenuItem_Click(Object sender, EventArgs e)
         {
             CreateProcessSelector();
         }
 
-        private void ProcessSelectorButton_Click(Object Sender, EventArgs E)
+        private void ProcessSelectorButton_Click(Object sender, EventArgs e)
         {
             CreateProcessSelector();
         }
 
-        private void SettingsToolStripMenuItem_Click(Object Sender, EventArgs E)
+        private void SettingsToolStripMenuItem_Click(Object sender, EventArgs e)
         {
             CreateSettings();
         }
 
-        private void OpenToolStripMenuItem_Click(Object Sender, EventArgs E)
+        private void OpenToolStripMenuItem_Click(Object sender, EventArgs e)
         {
             BeginOpenProject();
         }
 
-        private void SaveToolStripMenuItem_Click(Object Sender, EventArgs E)
+        private void SaveToolStripMenuItem_Click(Object sender, EventArgs e)
         {
             BeginSaveProject();
         }
 
-        private void OpenButton_Click(Object Sender, EventArgs E)
+        private void OpenButton_Click(Object sender, EventArgs e)
         {
             BeginOpenProject();
         }
 
-        private void SaveButton_Click(Object Sender, EventArgs E)
+        private void SaveButton_Click(Object sender, EventArgs e)
         {
             BeginSaveProject();
         }
 
-        private void ImportProjectToolStripMenuItem_Click(Object Sender, EventArgs E)
+        private void ImportProjectToolStripMenuItem_Click(Object sender, EventArgs e)
         {
             BeginImportProject();
         }
 
-        private void SaveAsToolStripMenuItem_Click(Object Sender, EventArgs E)
+        private void SaveAsToolStripMenuItem_Click(Object sender, EventArgs e)
         {
             BeginSaveAsProject();
         }
 
-        private void CollectValuesButton_Click(Object Sender, EventArgs E)
+        private void CollectValuesButton_Click(Object sender, EventArgs e)
         {
-            MainPresenter.RequestCollectValues();
+            mainPresenter.RequestCollectValues();
         }
 
-        private void NewScanButton_Click(Object Sender, EventArgs E)
+        private void NewScanButton_Click(Object sender, EventArgs e)
         {
-            MainPresenter.RequestNewScan();
+            mainPresenter.RequestNewScan();
         }
 
-        private void UndoScanButton_Click(Object Sender, EventArgs E)
+        private void UndoScanButton_Click(Object sender, EventArgs e)
         {
-            MainPresenter.RequestUndoScan();
+            mainPresenter.RequestUndoScan();
         }
 
-        private void ExitToolStripMenuItem_Click(Object Sender, EventArgs E)
+        private void ExitToolStripMenuItem_Click(Object sender, EventArgs e)
         {
             this.Close();
         }
 
-        private void GUIMenuStrip_MenuActivate(Object Sender, EventArgs E)
+        private void GUIMenuStrip_MenuActivate(Object sender, EventArgs e)
         {
             // Check / uncheck items if the windows are open
-            using (TimedLock.Lock(AccessLock))
+            using (TimedLock.Lock(accessLock))
             {
-                CheatBrowserToolStripMenuItem.Checked = (GUICheatBrowser == null || GUICheatBrowser.IsDisposed) ? false : true;
-                ProcessSelectorToolStripMenuItem.Checked = (GUIProcessSelector == null || GUIProcessSelector.IsDisposed) ? false : true;
-                SnapshotManagerToolStripMenuItem.Checked = (GUISnapshotManager == null || GUISnapshotManager.IsDisposed) ? false : true;
-                PropertiesToolStripMenuItem.Checked = (GUIPropertyViewer == null || GUIPropertyViewer.IsDisposed) ? false : true;
-                ResultsToolStripMenuItem.Checked = (GUIResults == null || GUIResults.IsDisposed) ? false : true;
-                DotNetExplorerToolStripMenuItem.Checked = (GUIDotNetExplorer == null || GUIDotNetExplorer.IsDisposed) ? false : true;
-                ProjectExplorerToolStripMenuItem.Checked = (GUIProjectExplorer == null || GUIProjectExplorer.IsDisposed) ? false : true;
+                CheatBrowserToolStripMenuItem.Checked = (guiCheatBrowser == null || guiCheatBrowser.IsDisposed) ? false : true;
+                ProcessSelectorToolStripMenuItem.Checked = (guiProcessSelector == null || guiProcessSelector.IsDisposed) ? false : true;
+                SnapshotManagerToolStripMenuItem.Checked = (guiSnapshotManager == null || guiSnapshotManager.IsDisposed) ? false : true;
+                PropertiesToolStripMenuItem.Checked = (guiPropertyViewer == null || guiPropertyViewer.IsDisposed) ? false : true;
+                ResultsToolStripMenuItem.Checked = (guiResults == null || guiResults.IsDisposed) ? false : true;
+                DotNetExplorerToolStripMenuItem.Checked = (guiDotNetExplorer == null || guiDotNetExplorer.IsDisposed) ? false : true;
+                ProjectExplorerToolStripMenuItem.Checked = (guiProjectExplorer == null || guiProjectExplorer.IsDisposed) ? false : true;
 
-                CodeViewToolStripMenuItem.Checked = (GUICodeView == null || GUICodeView.IsDisposed) ? false : true;
-                MemoryViewToolStripMenuItem.Checked = (GUIMemoryView == null || GUIMemoryView.IsDisposed) ? false : true;
+                CodeViewToolStripMenuItem.Checked = (guiCodeView == null || guiCodeView.IsDisposed) ? false : true;
+                MemoryViewToolStripMenuItem.Checked = (guiMemoryView == null || guiMemoryView.IsDisposed) ? false : true;
 
-                FiniteStateScannerToolStripMenuItem.Checked = (GUIFiniteStateScanner == null || GUIFiniteStateScanner.IsDisposed) ? false : true;
-                ManualScannerToolStripMenuItem.Checked = (GUIManualScanner == null || GUIManualScanner.IsDisposed) ? false : true;
-                ChangeCounterToolStripMenuItem.Checked = (GUIChangeCounter == null || GUIChangeCounter.IsDisposed) ? false : true;
-                LabelThresholderToolStripMenuItem.Checked = (GUILabelThresholder == null || GUILabelThresholder.IsDisposed) ? false : true;
-                InputCorrelatorToolStripMenuItem.Checked = (GUIInputCorrelator == null || GUIInputCorrelator.IsDisposed) ? false : true;
-                PointerScannerToolStripMenuItem.Checked = (GUIPointerScanner == null || GUIPointerScanner.IsDisposed) ? false : true;
+                FiniteStateScannerToolStripMenuItem.Checked = (guiFiniteStateScanner == null || guiFiniteStateScanner.IsDisposed) ? false : true;
+                ManualScannerToolStripMenuItem.Checked = (guiManualScanner == null || guiManualScanner.IsDisposed) ? false : true;
+                ChangeCounterToolStripMenuItem.Checked = (guiChangeCounter == null || guiChangeCounter.IsDisposed) ? false : true;
+                LabelThresholderToolStripMenuItem.Checked = (guiLabelThresholder == null || guiLabelThresholder.IsDisposed) ? false : true;
+                InputCorrelatorToolStripMenuItem.Checked = (guiInputCorrelator == null || guiInputCorrelator.IsDisposed) ? false : true;
+                PointerScannerToolStripMenuItem.Checked = (guiPointerScanner == null || guiPointerScanner.IsDisposed) ? false : true;
             }
         }
 
-        private void GUIMain_FormClosing(Object Sender, FormClosingEventArgs E)
+        private void GUIMain_FormClosing(Object sender, FormClosingEventArgs e)
         {
             // Give the table a chance to ask to save changes
-            using (TimedLock.Lock(AccessLock))
+            using (TimedLock.Lock(accessLock))
             {
-                if (GUIProjectExplorer != null && !GUIProjectExplorer.IsDisposed)
-                    GUIProjectExplorer.Close();
+                if (guiProjectExplorer != null && !guiProjectExplorer.IsDisposed)
+                    guiProjectExplorer.Close();
 
                 try
                 {
-                    if (GUIProjectExplorer != null && !GUIProjectExplorer.IsDisposed)
+                    if (guiProjectExplorer != null && !guiProjectExplorer.IsDisposed)
                     {
-                        E.Cancel = true;
+                        e.Cancel = true;
                         return;
                     }
                 }

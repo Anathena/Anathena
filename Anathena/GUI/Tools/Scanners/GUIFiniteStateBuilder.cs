@@ -14,39 +14,39 @@ namespace Anathena.GUI.Tools.Scanners
     public partial class GUIFiniteStateBuilder : UserControl, IFiniteStateBuilderView
     {
         // Drawing Variables:
-        private static Font DrawFont = new Font(FontFamily.GenericSerif, 10.0f);
-        private static Pen TransitionLine = new Pen(Color.Black, 3);
-        private static Pen PendingLine = new Pen(Color.Red, 2);
-        private static Int32 StateRadius = Resources.StateHighlighted.Width / 2;
-        private static Int32 LineOffset = (Int32)TransitionLine.Width / 2;
-        private const Int32 StateEdgeSize = 8;
-        private const Int32 LineFloatOffset = 8;
-        private const Int32 VariableBorderSize = 4;
-        private const Int32 ArrowSize = 4;
+        private static Font drawFont = new Font(FontFamily.GenericSerif, 10.0f);
+        private static Pen transitionLine = new Pen(Color.Black, 3);
+        private static Pen pendingLine = new Pen(Color.Red, 2);
+        private static Int32 stateRadius = Resources.StateHighlighted.Width / 2;
+        private static Int32 lineOffset = (Int32)transitionLine.Width / 2;
+        private const Int32 stateEdgeSize = 8;
+        private const Int32 lineFloatOffset = 8;
+        private const Int32 variableBorderSize = 4;
+        private const Int32 arrowSize = 4;
 
-        private Boolean BlockNextMouseEvent;
+        private Boolean blockNextMouseEvent;
 
-        private FiniteStateBuilderPresenter FiniteStateBuilderPresenter;
-        private Object AccessLock;
+        private FiniteStateBuilderPresenter finiteStateBuilderPresenter;
+        private Object accessLock;
 
         public GUIFiniteStateBuilder()
         {
             InitializeComponent();
 
-            FiniteStateBuilderPresenter = new FiniteStateBuilderPresenter(this, new FiniteStateBuilder());
-            AccessLock = new Object();
+            finiteStateBuilderPresenter = new FiniteStateBuilderPresenter(this, new FiniteStateBuilder());
+            accessLock = new Object();
 
-            FiniteStateBuilderPresenter.SetStateRadius(StateRadius);
-            FiniteStateBuilderPresenter.SetStateEdgeSize(StateEdgeSize);
+            finiteStateBuilderPresenter.SetStateRadius(stateRadius);
+            finiteStateBuilderPresenter.SetStateEdgeSize(stateEdgeSize);
 
-            BlockNextMouseEvent = false;
+            blockNextMouseEvent = false;
 
             this.Paint += new PaintEventHandler(FSMBuilderPanel_Paint);
         }
 
         public void UpdateDisplay()
         {
-            using (TimedLock.Lock(AccessLock))
+            using (TimedLock.Lock(accessLock))
             {
                 ControlThreadingHelper.InvokeControlAction(FSMBuilderPanel, () =>
                 {
@@ -57,207 +57,173 @@ namespace Anathena.GUI.Tools.Scanners
 
         #region Events
 
-        private void StateContextMenuStrip_Closed(Object Sender, ToolStripDropDownClosedEventArgs E)
+        private void StateContextMenuStrip_Closed(Object sender, ToolStripDropDownClosedEventArgs e)
         {
-            using (TimedLock.Lock(AccessLock))
+            using (TimedLock.Lock(accessLock))
             {
-                if (E.CloseReason == ToolStripDropDownCloseReason.AppClicked)
+                if (e.CloseReason == ToolStripDropDownCloseReason.AppClicked)
                 {
                     if (FSMBuilderPanel.Bounds.Contains(FSMBuilderPanel.PointToClient(Cursor.Position)))
-                        BlockNextMouseEvent = true;
+                        blockNextMouseEvent = true;
                 }
             }
         }
 
-        private void FSMBuilderPanel_MouseDown(Object Sender, MouseEventArgs E)
+        private void FSMBuilderPanel_MouseDown(Object sender, MouseEventArgs e)
         {
-            using (TimedLock.Lock(AccessLock))
+            using (TimedLock.Lock(accessLock))
             {
-                if (BlockNextMouseEvent)
+                if (blockNextMouseEvent)
                 {
-                    BlockNextMouseEvent = false;
+                    blockNextMouseEvent = false;
                     return;
                 }
 
-                if (E.Button != MouseButtons.Left)
+                if (e.Button != MouseButtons.Left)
                     return;
 
-                FiniteStateBuilderPresenter.BeginAction(E.Location);
+                finiteStateBuilderPresenter.BeginAction(e.Location);
             }
         }
 
-        private void FSMBuilderPanel_MouseMove(Object Sender, MouseEventArgs E)
+        private void FSMBuilderPanel_MouseMove(Object sender, MouseEventArgs e)
         {
-            using (TimedLock.Lock(AccessLock))
+            using (TimedLock.Lock(accessLock))
             {
-                FiniteStateBuilderPresenter.UpdateAction(E.Location);
+                finiteStateBuilderPresenter.UpdateAction(e.Location);
             }
         }
 
-        private void FSMBuilderPanel_MouseUp(Object Sender, MouseEventArgs E)
+        private void FSMBuilderPanel_MouseUp(Object sender, MouseEventArgs e)
         {
-            using (TimedLock.Lock(AccessLock))
+            using (TimedLock.Lock(accessLock))
             {
-                if (E.Button != MouseButtons.Left)
+                if (e.Button != MouseButtons.Left)
                     return;
 
-                FiniteStateBuilderPresenter.FinishAction(E.Location);
+                finiteStateBuilderPresenter.FinishAction(e.Location);
             }
         }
 
-        private void DragModeButton_Click(Object Sender, EventArgs E)
+        private void DragModeButton_Click(Object sender, EventArgs e)
         {
 
         }
 
-        private void StateContextMenuStrip_Opening(Object Sender, CancelEventArgs E)
+        private void StateContextMenuStrip_Opening(Object sender, CancelEventArgs e)
         {
-            /*
-            RightClickLocation = FSMBuilderPanel.PointToClient(Cursor.Position);
-            if (!FiniteStateBuilderPresenter.IsStateAtPoint(RightClickLocation))
-                E.Cancel = true;
 
-            foreach (ToolStripMenuItem Item in StateContextMenuStrip.Items)
-            {
-                Item.Enabled = true;
-                Item.Checked = false;
-            }
-
-            if (FiniteStateBuilderPresenter.IsStateAtPointStartState(RightClickLocation))
-            {
-                foreach (ToolStripMenuItem Item in StateContextMenuStrip.Items)
-                    Item.Enabled = false;
-
-                ((ToolStripMenuItem)StateContextMenuStrip.Items[StateContextMenuStrip.Items.IndexOf(MarkValidToolStripMenuItem)]).Enabled = true;
-                ((ToolStripMenuItem)StateContextMenuStrip.Items[StateContextMenuStrip.Items.IndexOf(MarkInvalidToolStripMenuItem)]).Enabled = true;
-            }
-
-            switch (FiniteStateBuilderPresenter.GetStateEventAtPoint(RightClickLocation))
-            {
-                case FiniteState.StateEventEnum.None:
-                    ((ToolStripMenuItem)StateContextMenuStrip.Items[StateContextMenuStrip.Items.IndexOf(NoEventToolStripMenuItem)]).Checked = true;
-                    break;
-                case FiniteState.StateEventEnum.MarkValid:
-                    ((ToolStripMenuItem)StateContextMenuStrip.Items[StateContextMenuStrip.Items.IndexOf(MarkValidToolStripMenuItem)]).Checked = true;
-                    break;
-                case FiniteState.StateEventEnum.MarkInvalid:
-                    ((ToolStripMenuItem)StateContextMenuStrip.Items[StateContextMenuStrip.Items.IndexOf(MarkInvalidToolStripMenuItem)]).Checked = true;
-                    break;
-                case FiniteState.StateEventEnum.EndScan:
-                    ((ToolStripMenuItem)StateContextMenuStrip.Items[StateContextMenuStrip.Items.IndexOf(EndScanToolStripMenuItem)]).Checked = true;
-                    break;
-            }*/
         }
 
-        protected void FSMBuilderPanel_Paint(Object Sender, PaintEventArgs E)
+        protected void FSMBuilderPanel_Paint(Object sender, PaintEventArgs e)
         {
-            Draw(E.Graphics);
+            Draw(e.Graphics);
         }
 
         #endregion
 
-        private void Draw(Graphics Graphics)
+        private void Draw(Graphics graphics)
         {
-            using (TimedLock.Lock(AccessLock))
+            using (TimedLock.Lock(accessLock))
             {
-                if (FiniteStateBuilderPresenter.GetFiniteStateMachine() == null)
+                if (finiteStateBuilderPresenter.GetFiniteStateMachine() == null)
                     return;
 
-                foreach (FiniteState State in FiniteStateBuilderPresenter.GetFiniteStateMachine())
+                foreach (FiniteState state in finiteStateBuilderPresenter.GetFiniteStateMachine())
                 {
-                    Image DrawImage;
+                    Image drawImage;
 
-                    if (State == FiniteStateBuilderPresenter.GetFiniteStateMachine().GetStartState())
-                        DrawImage = Resources.StartState;
+                    if (state == finiteStateBuilderPresenter.GetFiniteStateMachine().GetStartState())
+                        drawImage = Resources.StartState;
                     else
-                        DrawImage = Resources.IntermediateState;
+                        drawImage = Resources.IntermediateState;
 
-                    Graphics.DrawImage(DrawImage, State.Location.X - StateRadius, State.Location.Y - StateRadius, DrawImage.Width, DrawImage.Height);
+                    graphics.DrawImage(drawImage, state.Location.X - stateRadius, state.Location.Y - stateRadius, drawImage.Width, drawImage.Height);
 
-                    DrawImage = null;
-                    switch (State.GetStateEvent())
+                    drawImage = null;
+                    switch (state.GetStateEvent())
                     {
                         case FiniteState.StateEventEnum.MarkValid:
-                            DrawImage = Resources.Valid;
+                            drawImage = Resources.Valid;
                             break;
                         case FiniteState.StateEventEnum.MarkInvalid:
-                            DrawImage = Resources.Invalid;
+                            drawImage = Resources.Invalid;
                             break;
                     }
 
-                    if (DrawImage != null)
-                        Graphics.DrawImage(DrawImage, State.Location.X - StateRadius, State.Location.Y - StateRadius, DrawImage.Width, DrawImage.Height);
+                    if (drawImage != null)
+                        graphics.DrawImage(drawImage, state.Location.X - stateRadius, state.Location.Y - stateRadius, drawImage.Width, drawImage.Height);
 
                 }
 
-                if (FiniteStateBuilderPresenter.GetMousedOverState() != null)
-                    Graphics.DrawImage(Resources.StateHighlighted, FiniteStateBuilderPresenter.GetMousedOverState().Location.X - StateRadius, FiniteStateBuilderPresenter.GetMousedOverState().Location.Y - StateRadius, Resources.StateHighlighted.Width, Resources.StateHighlighted.Height);
+                if (finiteStateBuilderPresenter.GetMousedOverState() != null)
+                    graphics.DrawImage(Resources.StateHighlighted, finiteStateBuilderPresenter.GetMousedOverState().Location.X - stateRadius, finiteStateBuilderPresenter.GetMousedOverState().Location.Y - stateRadius, Resources.StateHighlighted.Width, Resources.StateHighlighted.Height);
 
-                if (FiniteStateBuilderPresenter.GetSelectionLine() != null && FiniteStateBuilderPresenter.GetSelectionLine().Length == 2)
-                    Graphics.DrawLine(PendingLine, FiniteStateBuilderPresenter.GetSelectionLine()[0], FiniteStateBuilderPresenter.GetSelectionLine()[1]);
+                if (finiteStateBuilderPresenter.GetSelectionLine() != null && finiteStateBuilderPresenter.GetSelectionLine().Length == 2)
+                    graphics.DrawLine(pendingLine, finiteStateBuilderPresenter.GetSelectionLine()[0], finiteStateBuilderPresenter.GetSelectionLine()[1]);
 
-                foreach (FiniteState State in FiniteStateBuilderPresenter.GetFiniteStateMachine())
+                foreach (FiniteState state in finiteStateBuilderPresenter.GetFiniteStateMachine())
                 {
-                    foreach (KeyValuePair<ScanConstraint, FiniteState> Transition in State)
+                    foreach (KeyValuePair<ScanConstraint, FiniteState> transition in state)
                     {
                         // Calculate start and end points of the transitio line
-                        Point StartPoint = State.GetEdgePoint(Transition.Value.Location, StateRadius);
-                        Point EndPoint = Transition.Value.GetEdgePoint(State.Location, StateRadius);
-                        StartPoint.Y += LineOffset;
-                        EndPoint.Y += LineOffset;
+                        Point startPoint = state.GetEdgePoint(transition.Value.Location, stateRadius);
+                        Point endPoint = transition.Value.GetEdgePoint(state.Location, stateRadius);
+                        startPoint.Y += lineOffset;
+                        endPoint.Y += lineOffset;
 
                         // Draw transition line
-                        Point MidPoint = new Point((StartPoint.X + EndPoint.X) / 2, (StartPoint.Y + EndPoint.Y) / 2);
-                        Graphics.DrawLine(TransitionLine, StartPoint, EndPoint);
+                        Point midPoint = new Point((startPoint.X + endPoint.X) / 2, (startPoint.Y + endPoint.Y) / 2);
+                        graphics.DrawLine(transitionLine, startPoint, endPoint);
 
                         // Draw arrow head
-                        //Point[] ArrowHeadPoints = new Point[3];
-                        //ArrowHeadPoints[0] = EndPoint;
-                        //ArrowHeadPoints[1] = EndPoint;
-                        //ArrowHeadPoints[2] = EndPoint;
-                        Graphics.FillEllipse(Brushes.Black, EndPoint.X - ArrowSize, EndPoint.Y - ArrowSize, ArrowSize * 2, ArrowSize * 2);
+                        // Point[] arrowHeadPoints = new Point[3];
+                        // arrowHeadPoints[0] = EndPoint;
+                        // arrowHeadPoints[1] = EndPoint;
+                        // arrowHeadPoints[2] = EndPoint;
+                        graphics.FillEllipse(Brushes.Black, endPoint.X - arrowSize, endPoint.Y - arrowSize, arrowSize * 2, arrowSize * 2);
 
                         // Draw comparison image
-                        Point ImageLocation = new Point(MidPoint.X - Resources.Equal.Width / 2, MidPoint.Y - Resources.Equal.Height - LineFloatOffset);
-                        switch (Transition.Key.Constraint)
+                        Point imageLocation = new Point(midPoint.X - Resources.Equal.Width / 2, midPoint.Y - Resources.Equal.Height - lineFloatOffset);
+                        switch (transition.Key.Constraint)
                         {
-                            case ConstraintsEnum.Changed: Graphics.DrawImage(Resources.Changed, ImageLocation.X, ImageLocation.Y, Resources.Changed.Width, Resources.Changed.Height); break;
-                            case ConstraintsEnum.Unchanged: Graphics.DrawImage(Resources.Unchanged, ImageLocation.X, ImageLocation.Y, Resources.Unchanged.Width, Resources.Unchanged.Height); break;
-                            case ConstraintsEnum.Decreased: Graphics.DrawImage(Resources.Decreased, ImageLocation.X, ImageLocation.Y, Resources.Decreased.Width, Resources.Decreased.Height); break;
-                            case ConstraintsEnum.Increased: Graphics.DrawImage(Resources.Increased, ImageLocation.X, ImageLocation.Y, Resources.Increased.Width, Resources.Increased.Height); break;
-                            case ConstraintsEnum.GreaterThan: Graphics.DrawImage(Resources.GreaterThan, ImageLocation.X, ImageLocation.Y, Resources.GreaterThan.Width, Resources.GreaterThan.Height); break;
-                            case ConstraintsEnum.GreaterThanOrEqual: Graphics.DrawImage(Resources.GreaterThanOrEqual, ImageLocation.X, ImageLocation.Y, Resources.GreaterThanOrEqual.Width, Resources.GreaterThanOrEqual.Height); break;
-                            case ConstraintsEnum.LessThan: Graphics.DrawImage(Resources.LessThan, ImageLocation.X, ImageLocation.Y, Resources.LessThan.Width, Resources.LessThan.Height); break;
-                            case ConstraintsEnum.LessThanOrEqual: Graphics.DrawImage(Resources.LessThanOrEqual, ImageLocation.X, ImageLocation.Y, Resources.LessThanOrEqual.Width, Resources.LessThanOrEqual.Height); break;
-                            case ConstraintsEnum.Equal: Graphics.DrawImage(Resources.Equal, ImageLocation.X, ImageLocation.Y, Resources.Equal.Width, Resources.Equal.Height); break;
-                            case ConstraintsEnum.NotEqual: Graphics.DrawImage(Resources.NotEqual, ImageLocation.X, ImageLocation.Y, Resources.NotEqual.Width, Resources.NotEqual.Height); break;
-                            case ConstraintsEnum.IncreasedByX: Graphics.DrawImage(Resources.PlusX, ImageLocation.X, ImageLocation.Y, Resources.PlusX.Width, Resources.PlusX.Height); break;
-                            case ConstraintsEnum.DecreasedByX: Graphics.DrawImage(Resources.MinusX, ImageLocation.X, ImageLocation.Y, Resources.MinusX.Width, Resources.MinusX.Height); break;
-                            case ConstraintsEnum.NotScientificNotation: Graphics.DrawImage(Resources.Intersection, ImageLocation.X, ImageLocation.Y, Resources.Intersection.Width, Resources.Intersection.Height); break;
+                            case ConstraintsEnum.Changed: graphics.DrawImage(Resources.Changed, imageLocation.X, imageLocation.Y, Resources.Changed.Width, Resources.Changed.Height); break;
+                            case ConstraintsEnum.Unchanged: graphics.DrawImage(Resources.Unchanged, imageLocation.X, imageLocation.Y, Resources.Unchanged.Width, Resources.Unchanged.Height); break;
+                            case ConstraintsEnum.Decreased: graphics.DrawImage(Resources.Decreased, imageLocation.X, imageLocation.Y, Resources.Decreased.Width, Resources.Decreased.Height); break;
+                            case ConstraintsEnum.Increased: graphics.DrawImage(Resources.Increased, imageLocation.X, imageLocation.Y, Resources.Increased.Width, Resources.Increased.Height); break;
+                            case ConstraintsEnum.GreaterThan: graphics.DrawImage(Resources.GreaterThan, imageLocation.X, imageLocation.Y, Resources.GreaterThan.Width, Resources.GreaterThan.Height); break;
+                            case ConstraintsEnum.GreaterThanOrEqual: graphics.DrawImage(Resources.GreaterThanOrEqual, imageLocation.X, imageLocation.Y, Resources.GreaterThanOrEqual.Width, Resources.GreaterThanOrEqual.Height); break;
+                            case ConstraintsEnum.LessThan: graphics.DrawImage(Resources.LessThan, imageLocation.X, imageLocation.Y, Resources.LessThan.Width, Resources.LessThan.Height); break;
+                            case ConstraintsEnum.LessThanOrEqual: graphics.DrawImage(Resources.LessThanOrEqual, imageLocation.X, imageLocation.Y, Resources.LessThanOrEqual.Width, Resources.LessThanOrEqual.Height); break;
+                            case ConstraintsEnum.Equal: graphics.DrawImage(Resources.Equal, imageLocation.X, imageLocation.Y, Resources.Equal.Width, Resources.Equal.Height); break;
+                            case ConstraintsEnum.NotEqual: graphics.DrawImage(Resources.NotEqual, imageLocation.X, imageLocation.Y, Resources.NotEqual.Width, Resources.NotEqual.Height); break;
+                            case ConstraintsEnum.IncreasedByX: graphics.DrawImage(Resources.PlusX, imageLocation.X, imageLocation.Y, Resources.PlusX.Width, Resources.PlusX.Height); break;
+                            case ConstraintsEnum.DecreasedByX: graphics.DrawImage(Resources.MinusX, imageLocation.X, imageLocation.Y, Resources.MinusX.Width, Resources.MinusX.Height); break;
+                            case ConstraintsEnum.NotScientificNotation: graphics.DrawImage(Resources.Intersection, imageLocation.X, imageLocation.Y, Resources.Intersection.Width, Resources.Intersection.Height); break;
                             default: case ConstraintsEnum.Invalid: break;
                         }
 
                         // Draw transition value if applicable
-                        if (Transition.Key.Value != null)
+                        if (transition.Key.Value != null)
                         {
-                            String DrawText = Transition.Key.Value.ToString();
-                            SizeF TextSize = Graphics.MeasureString(DrawText, DrawFont);
-                            PointF TextLocation = new PointF(MidPoint.X - TextSize.Width / 2, MidPoint.Y + LineFloatOffset);
-                            Graphics.FillEllipse(Brushes.Black, TextLocation.X - VariableBorderSize, TextLocation.Y - VariableBorderSize, TextSize.Width + VariableBorderSize * 2, TextSize.Height + VariableBorderSize);
-                            Graphics.DrawString(DrawText, DrawFont, Brushes.White, TextLocation);
+                            String DrawText = transition.Key.Value.ToString();
+                            SizeF TextSize = graphics.MeasureString(DrawText, drawFont);
+                            PointF TextLocation = new PointF(midPoint.X - TextSize.Width / 2, midPoint.Y + lineFloatOffset);
+                            graphics.FillEllipse(Brushes.Black, TextLocation.X - variableBorderSize, TextLocation.Y - variableBorderSize, TextSize.Width + variableBorderSize * 2, TextSize.Height + variableBorderSize);
+                            graphics.DrawString(DrawText, drawFont, Brushes.White, TextLocation);
                         }
                     }
                 }
 
-                foreach (FiniteState State in FiniteStateBuilderPresenter.GetFiniteStateMachine())
+                foreach (FiniteState state in finiteStateBuilderPresenter.GetFiniteStateMachine())
                 {
                     // Draw transition value if applicable
-                    if (State.StateCount != 0)
+                    if (state.StateCount != 0)
                     {
-                        String DrawText = State.StateCount.ToString();
-                        SizeF TextSize = Graphics.MeasureString(DrawText, DrawFont);
-                        PointF TextLocation = new PointF(State.Location.X - TextSize.Width / 2, State.Location.Y - StateRadius - TextSize.Height);
-                        Graphics.DrawString(DrawText, DrawFont, Brushes.White, TextLocation);
+                        String drawText = state.StateCount.ToString();
+                        SizeF textSize = graphics.MeasureString(drawText, drawFont);
+                        PointF textLocation = new PointF(state.Location.X - textSize.Width / 2, state.Location.Y - stateRadius - textSize.Height);
+                        graphics.DrawString(drawText, drawFont, Brushes.White, textLocation);
                     }
                 }
             }

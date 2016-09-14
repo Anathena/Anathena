@@ -11,10 +11,10 @@ namespace Anathena.GUI.Tools
     public partial class GUICheatBrowser : DockContent
     {
         // private ChromiumWebBrowser Browser;
-        private const String AnathenaCheatBrowseURL = "http://www.anathena.com/browser/browser.php";
+        private const String anathenaCheatBrowseURL = "http://www.anathena.com/browser/browser.php";
 
-        private GeckoWebBrowser Browser;
-        private Object AccessLock;
+        private GeckoWebBrowser browser;
+        private Object accessLock;
 
         public GUICheatBrowser()
         {
@@ -22,56 +22,55 @@ namespace Anathena.GUI.Tools
 
             // Initialize presenter
             // (No presenter currently, since the browser object does all the work)
-            AccessLock = new Object();
+            accessLock = new Object();
 
             WindowState = FormWindowState.Maximized;
         }
 
         // Browser initialization done on load event rather than constructor to reduce visual lag
-        private void GUICheatBrowser_Load(Object Sender, EventArgs E)
+        private void GUICheatBrowser_Load(Object sender, EventArgs e)
         {
             InitializeBrowser();
         }
 
         private void InitializeBrowser()
         {
-
             BrowserHelper.GetInstance().InitializeBrowserStatic();
 
             ControlThreadingHelper.InvokeControlAction(ContentPanel, () =>
             {
-                using (TimedLock.Lock(AccessLock))
+                using (TimedLock.Lock(accessLock))
                 {
-                    Browser = new GeckoWebBrowser();
-                    Browser.Navigate(AnathenaCheatBrowseURL);
-                    Browser.Dock = DockStyle.Fill;
-                    ContentPanel.Controls.Add(Browser);
+                    browser = new GeckoWebBrowser();
+                    browser.Navigate(anathenaCheatBrowseURL);
+                    browser.Dock = DockStyle.Fill;
+                    ContentPanel.Controls.Add(browser);
                 }
             });
         }
 
         #region Events
 
-        private void BackButton_Click(Object Sender, EventArgs E)
+        private void BackButton_Click(Object sender, EventArgs e)
         {
-            ControlThreadingHelper.InvokeControlAction(Browser, () =>
+            ControlThreadingHelper.InvokeControlAction(browser, () =>
             {
-                using (TimedLock.Lock(AccessLock))
+                using (TimedLock.Lock(accessLock))
                 {
-                    if (Browser.CanGoBack)
-                        Browser.GoBack();
+                    if (browser.CanGoBack)
+                        browser.GoBack();
                 }
             });
         }
 
-        private void ForwardButton_Click(Object Sender, EventArgs E)
+        private void ForwardButton_Click(Object sender, EventArgs e)
         {
-            ControlThreadingHelper.InvokeControlAction(Browser, () =>
+            ControlThreadingHelper.InvokeControlAction(browser, () =>
             {
-                using (TimedLock.Lock(AccessLock))
+                using (TimedLock.Lock(accessLock))
                 {
-                    if (Browser.CanGoForward)
-                        Browser.GoForward();
+                    if (browser.CanGoForward)
+                        browser.GoForward();
                 }
             });
         }

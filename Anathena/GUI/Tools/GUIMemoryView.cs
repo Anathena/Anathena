@@ -12,21 +12,21 @@ namespace Anathena.GUI.Tools
 {
     public partial class GUIMemoryView : DockContent, IMemoryViewView
     {
-        private MemoryViewPresenter MemoryViewPresenter;
-        private Object AccessLock;
+        private MemoryViewPresenter memoryViewPresenter;
+        private Object accessLock;
 
-        private const Int32 MaxHorizontalBytes = 64;
-        private const Int32 HexBoxChunkSize = 2;
-        private Int64 BaseLine;
+        private const Int32 maxHorizontalBytes = 64;
+        private const Int32 hexBoxChunkSize = 2;
+        private Int64 baseLine;
 
         public GUIMemoryView()
         {
             InitializeComponent();
 
-            MemoryViewPresenter = new MemoryViewPresenter(this, new MemoryView());
-            AccessLock = new Object();
+            memoryViewPresenter = new MemoryViewPresenter(this, new MemoryView());
+            accessLock = new Object();
 
-            MemoryViewPresenter.RefreshVirtualPages();
+            memoryViewPresenter.RefreshVirtualPages();
 
             InitializeHexBox();
             UpdateHexBoxChunks();
@@ -37,16 +37,16 @@ namespace Anathena.GUI.Tools
         {
             ControlThreadingHelper.InvokeControlAction<Control>(HexEditorBox, () =>
             {
-                using (TimedLock.Lock(AccessLock))
+                using (TimedLock.Lock(accessLock))
                 {
-                    HexEditorBox.ByteProvider = MemoryViewPresenter;
+                    HexEditorBox.ByteProvider = memoryViewPresenter;
                     HexEditorBox.ByteCharConverter = new DefaultByteCharConverter();
                     HexEditorBox.LineInfoOffset = 0;
                     HexEditorBox.UseFixedBytesPerLine = true;
                     HexEditorBox.Select(HexEditorBox.ByteProvider.Length / 2, 1);
-                    BaseLine = HexEditorBox.CurrentLine;
+                    baseLine = HexEditorBox.CurrentLine;
 
-                    MemoryViewPresenter.QuickNavigate(QuickNavComboBox.SelectedIndex);
+                    memoryViewPresenter.QuickNavigate(QuickNavComboBox.SelectedIndex);
                 }
             });
         }
@@ -55,7 +55,7 @@ namespace Anathena.GUI.Tools
         {
             ControlThreadingHelper.InvokeControlAction<Control>(HexEditorBox, () =>
             {
-                using (TimedLock.Lock(AccessLock))
+                using (TimedLock.Lock(accessLock))
                 {
                     HexEditorBox.Invalidate();
                 }
@@ -66,27 +66,27 @@ namespace Anathena.GUI.Tools
         {
             ControlThreadingHelper.InvokeControlAction<Control>(HexEditorBox, () =>
             {
-                using (TimedLock.Lock(AccessLock))
+                using (TimedLock.Lock(accessLock))
                 {
                     if (HexEditorBox.ByteProvider == null)
                         return;
 
                     HexEditorBox.LineInfoOffset = (Address.Subtract(HexEditorBox.ByteProvider.Length / 2).Subtract(Address.Mod(HexEditorBox.HorizontalByteCount)).ToInt64());
-                    BaseLine = HexEditorBox.TopLine;
+                    baseLine = HexEditorBox.TopLine;
                 }
             });
 
             UpdateDisplayRange();
         }
 
-        public void UpdateVirtualPages(IEnumerable<String> VirtualPages)
+        public void UpdateVirtualPages(IEnumerable<String> virtualPages)
         {
             ControlThreadingHelper.InvokeControlAction<Control>(GUIToolStrip, () =>
             {
-                using (TimedLock.Lock(AccessLock))
+                using (TimedLock.Lock(accessLock))
                 {
                     QuickNavComboBox.Items.Clear();
-                    VirtualPages?.ForEach(X => QuickNavComboBox.Items.Add(X));
+                    virtualPages?.ForEach(X => QuickNavComboBox.Items.Add(X));
 
                     if (QuickNavComboBox.Items.Count > 0)
                         QuickNavComboBox.SelectedIndex = 0;
@@ -98,15 +98,15 @@ namespace Anathena.GUI.Tools
         {
             ControlThreadingHelper.InvokeControlAction<Control>(GUIToolStrip, () =>
             {
-                using (TimedLock.Lock(AccessLock))
+                using (TimedLock.Lock(accessLock))
                 {
-                    HexEditorBox.LineInfoOffset = unchecked(HexEditorBox.LineInfoOffset + (HexEditorBox.TopLine - BaseLine) * HexEditorBox.HorizontalByteCount);
+                    HexEditorBox.LineInfoOffset = unchecked(HexEditorBox.LineInfoOffset + (HexEditorBox.TopLine - baseLine) * HexEditorBox.HorizontalByteCount);
                     HexEditorBox.ScrollByteIntoCenter(HexEditorBox.ByteProvider.Length / 2);
 
-                    BaseLine = HexEditorBox.TopLine;
+                    baseLine = HexEditorBox.TopLine;
 
-                    MemoryViewPresenter.UpdateBaseAddress(HexEditorBox.LineInfoOffset.ToIntPtr());
-                    MemoryViewPresenter.UpdateStartReadAddress(HexEditorBox.LineInfoOffset.ToIntPtr().Add(HexEditorBox.TopIndex));
+                    memoryViewPresenter.UpdateBaseAddress(HexEditorBox.LineInfoOffset.ToIntPtr());
+                    memoryViewPresenter.UpdateStartReadAddress(HexEditorBox.LineInfoOffset.ToIntPtr().Add(HexEditorBox.TopIndex));
                 }
             });
         }
@@ -115,19 +115,19 @@ namespace Anathena.GUI.Tools
         {
             ControlThreadingHelper.InvokeControlAction<Control>(GUIToolStrip, () =>
             {
-                using (TimedLock.Lock(AccessLock))
+                using (TimedLock.Lock(accessLock))
                 {
-                    MemoryViewPresenter.UpdateReadLength(HexEditorBox.HorizontalByteCount * HexEditorBox.VerticalByteCount);
+                    memoryViewPresenter.UpdateReadLength(HexEditorBox.HorizontalByteCount * HexEditorBox.VerticalByteCount);
 
                     // Assume the maximum number of bytes we can display
-                    HexEditorBox.BytesPerLine = MaxHorizontalBytes;
+                    HexEditorBox.BytesPerLine = maxHorizontalBytes;
 
                     // Decrease this value iteratively until we can fit the content on the screen
                     while (HexEditorBox.Width < HexEditorBox.RequiredWidth)
                     {
-                        if (HexEditorBox.BytesPerLine <= HexBoxChunkSize)
+                        if (HexEditorBox.BytesPerLine <= hexBoxChunkSize)
                             break;
-                        HexEditorBox.BytesPerLine -= HexBoxChunkSize;
+                        HexEditorBox.BytesPerLine -= hexBoxChunkSize;
                     }
                 }
             });
@@ -135,22 +135,22 @@ namespace Anathena.GUI.Tools
 
         #region Events
 
-        private void RefreshNavigationButton_Click(Object Sender, EventArgs E)
+        private void RefreshNavigationButton_Click(Object sender, EventArgs e)
         {
-            MemoryViewPresenter.RefreshVirtualPages();
+            memoryViewPresenter.RefreshVirtualPages();
         }
 
-        private void QuickNavComboBox_SelectedIndexChanged(Object Sender, EventArgs E)
+        private void QuickNavComboBox_SelectedIndexChanged(Object sender, EventArgs e)
         {
-            MemoryViewPresenter.QuickNavigate(QuickNavComboBox.SelectedIndex);
+            memoryViewPresenter.QuickNavigate(QuickNavComboBox.SelectedIndex);
         }
 
-        private void HexEditorBox_Resize(Object Sender, EventArgs E)
+        private void HexEditorBox_Resize(Object sender, EventArgs e)
         {
             UpdateHexBoxChunks();
         }
 
-        private void HexEditorBox_EndScroll(object sender, EventArgs e)
+        private void HexEditorBox_EndScroll(Object sender, EventArgs e)
         {
             UpdateDisplayRange();
         }

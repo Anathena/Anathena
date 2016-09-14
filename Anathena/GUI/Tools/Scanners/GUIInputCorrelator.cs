@@ -10,57 +10,57 @@ namespace Anathena.GUI.Tools.Scanners
 {
     public partial class GUIInputCorrelator : DockContent, IInputCorrelatorView
     {
-        private InputCorrelatorPresenter InputCorrelatorPresenter;
-        private Object AccessLock;
+        private InputCorrelatorPresenter inputCorrelatorPresenter;
+        private Object accessLock;
 
         public GUIInputCorrelator()
         {
             InitializeComponent();
 
-            InputCorrelatorPresenter = new InputCorrelatorPresenter(this, new InputCorrelator());
-            AccessLock = new Object();
+            inputCorrelatorPresenter = new InputCorrelatorPresenter(this, new InputCorrelator());
+            accessLock = new Object();
 
             SetVariableSize();
             EnableGUI();
         }
 
 
-        public void SetHotKeyList(IEnumerable<String> HotKeyList)
+        public void SetHotKeyList(IEnumerable<String> hotKeyList)
         {
             ControlThreadingHelper.InvokeControlAction(HotKeyListView, () =>
             {
                 HotKeyListView.Items.Clear();
 
-                foreach (String HotKey in HotKeyList)
-                    HotKeyListView.Items.Add(HotKey);
+                foreach (String hotKey in hotKeyList)
+                    HotKeyListView.Items.Add(hotKey);
             });
         }
 
-        public void DisplayScanCount(Int32 ScanCount)
+        public void DisplayScanCount(Int32 scanCount)
         {
-            using (TimedLock.Lock(AccessLock))
+            using (TimedLock.Lock(accessLock))
             {
-                ControlThreadingHelper.InvokeControlAction(ScanToolStrip, () =>
+                ControlThreadingHelper.InvokeControlAction(scanToolStrip, () =>
                 {
-                    ScanCountLabel.Text = "Scan Count: " + ScanCount.ToString();
+                    ScanCountLabel.Text = "Scan Count: " + scanCount.ToString();
                 });
             }
         }
 
         private void SetVariableSize()
         {
-            using (TimedLock.Lock(AccessLock))
+            using (TimedLock.Lock(accessLock))
             {
-                Int32 VariableSize = (Int32)Math.Pow(2, VariableSizeTrackBar.Value);
-                VariableSizeValueLabel.Text = Conversions.BytesToMetric(VariableSize).ToString();
+                Int32 variableSize = (Int32)Math.Pow(2, VariableSizeTrackBar.Value);
+                VariableSizeValueLabel.Text = Conversions.BytesToMetric(variableSize).ToString();
 
-                InputCorrelatorPresenter.SetVariableSize(VariableSize);
+                inputCorrelatorPresenter.SetVariableSize(variableSize);
             }
         }
 
         private void EnableGUI()
         {
-            using (TimedLock.Lock(AccessLock))
+            using (TimedLock.Lock(accessLock))
             {
                 StartScanButton.Enabled = true;
                 StopScanButton.Enabled = false;
@@ -70,7 +70,7 @@ namespace Anathena.GUI.Tools.Scanners
 
         private void DisableGUI()
         {
-            using (TimedLock.Lock(AccessLock))
+            using (TimedLock.Lock(accessLock))
             {
                 StartScanButton.Enabled = false;
                 StopScanButton.Enabled = true;
@@ -80,24 +80,24 @@ namespace Anathena.GUI.Tools.Scanners
 
         #region Events
 
-        private void EditKeysButton_Click(Object Sender, EventArgs E)
+        private void EditKeysButton_Click(Object sender, EventArgs e)
         {
-            InputCorrelatorPresenter.EditKeys();
+            inputCorrelatorPresenter.EditKeys();
         }
 
-        private void StartScanButton_Click(Object Sender, EventArgs E)
+        private void StartScanButton_Click(Object sender, EventArgs e)
         {
             DisableGUI();
-            InputCorrelatorPresenter.BeginScan();
+            inputCorrelatorPresenter.BeginScan();
         }
 
-        private void StopScanButton_Click(Object Sender, EventArgs E)
+        private void StopScanButton_Click(Object sender, EventArgs e)
         {
             EnableGUI();
-            InputCorrelatorPresenter.EndScan();
+            inputCorrelatorPresenter.EndScan();
         }
 
-        private void VariableSizeTrackBar_Scroll(Object Sender, EventArgs E)
+        private void VariableSizeTrackBar_Scroll(Object sender, EventArgs e)
         {
             SetVariableSize();
         }

@@ -8,15 +8,15 @@ namespace Anathena.GUI.Tools
 {
     public partial class GUISettings : Form, ISettingsView
     {
-        private SettingsPresenter SettingsPresenter;
-        private Object AccessLock;
+        private SettingsPresenter settingsPresenter;
+        private Object accessLock;
 
         public GUISettings()
         {
             InitializeComponent();
 
-            SettingsPresenter = new SettingsPresenter(this, Settings.GetInstance());
-            AccessLock = new Object();
+            settingsPresenter = new SettingsPresenter(this, Settings.GetInstance());
+            accessLock = new Object();
 
             AlignmentTextBox.SetElementType(typeof(Int32));
             StartAddressTextBox.SetElementType(typeof(UInt64));
@@ -39,40 +39,40 @@ namespace Anathena.GUI.Tools
 
         private void FetchScanSettings()
         {
-            MemoryTypeEnum RequiredTypeSettings = SettingsPresenter.GetAllowedTypeSettings();
-            NoneCheckBox.Checked = (RequiredTypeSettings & MemoryTypeEnum.None) != 0;
-            PrivateCheckBox.Checked = (RequiredTypeSettings & MemoryTypeEnum.Private) != 0;
-            MappedCheckBox.Checked = (RequiredTypeSettings & MemoryTypeEnum.Mapped) != 0;
-            ImageCheckBox.Checked = (RequiredTypeSettings & MemoryTypeEnum.Image) != 0;
+            MemoryTypeEnum requiredTypeSettings = settingsPresenter.GetAllowedTypeSettings();
+            NoneCheckBox.Checked = (requiredTypeSettings & MemoryTypeEnum.None) != 0;
+            PrivateCheckBox.Checked = (requiredTypeSettings & MemoryTypeEnum.Private) != 0;
+            MappedCheckBox.Checked = (requiredTypeSettings & MemoryTypeEnum.Mapped) != 0;
+            ImageCheckBox.Checked = (requiredTypeSettings & MemoryTypeEnum.Image) != 0;
 
-            MemoryProtectionEnum RequiredProtectionSettings = SettingsPresenter.GetRequiredProtectionSettings();
-            RequiredWriteCheckBox.Checked = (RequiredProtectionSettings & MemoryProtectionEnum.Write) != 0;
-            RequiredExecuteCheckBox.Checked = (RequiredProtectionSettings & MemoryProtectionEnum.Execute) != 0;
-            RequiredCopyOnWriteCheckBox.Checked = (RequiredProtectionSettings & MemoryProtectionEnum.CopyOnWrite) != 0;
+            MemoryProtectionEnum requiredProtectionSettings = settingsPresenter.GetRequiredProtectionSettings();
+            RequiredWriteCheckBox.Checked = (requiredProtectionSettings & MemoryProtectionEnum.Write) != 0;
+            RequiredExecuteCheckBox.Checked = (requiredProtectionSettings & MemoryProtectionEnum.Execute) != 0;
+            RequiredCopyOnWriteCheckBox.Checked = (requiredProtectionSettings & MemoryProtectionEnum.CopyOnWrite) != 0;
 
-            MemoryProtectionEnum IgnoredProtectionSettings = SettingsPresenter.GetExcludedProtectionSettings();
-            ExcludedWriteCheckBox.Checked = (IgnoredProtectionSettings & MemoryProtectionEnum.Write) != 0;
-            ExcludedExecuteCheckBox.Checked = (IgnoredProtectionSettings & MemoryProtectionEnum.Execute) != 0;
-            ExcludedCopyOnWriteCheckBox.Checked = (IgnoredProtectionSettings & MemoryProtectionEnum.CopyOnWrite) != 0;
+            MemoryProtectionEnum ignoredProtectionSettings = settingsPresenter.GetExcludedProtectionSettings();
+            ExcludedWriteCheckBox.Checked = (ignoredProtectionSettings & MemoryProtectionEnum.Write) != 0;
+            ExcludedExecuteCheckBox.Checked = (ignoredProtectionSettings & MemoryProtectionEnum.Execute) != 0;
+            ExcludedCopyOnWriteCheckBox.Checked = (ignoredProtectionSettings & MemoryProtectionEnum.CopyOnWrite) != 0;
 
-            AlignmentTextBox.SetValue(SettingsPresenter.GetAlignmentSettings());
+            AlignmentTextBox.SetValue(settingsPresenter.GetAlignmentSettings());
 
-            if (SettingsPresenter.GetIsUserMode())
+            if (settingsPresenter.GetIsUserMode())
                 ScanUserModeRadioButton.Checked = true;
             else
                 ScanCustomRangeRadioButton.Checked = true;
 
-            StartAddressTextBox.SetValue(SettingsPresenter.GetStartAddress());
-            EndAddressTextBox.SetValue(SettingsPresenter.GetEndAddress());
+            StartAddressTextBox.SetValue(settingsPresenter.GetStartAddress());
+            EndAddressTextBox.SetValue(settingsPresenter.GetEndAddress());
         }
 
         private void FetchGeneralSettings()
         {
-            FreezeIntervalTextBox.SetValue(SettingsPresenter.GetFreezeInterval());
-            RescanIntervalTextBox.SetValue(SettingsPresenter.GetRescanInterval());
-            TableReadIntervalTextBox.SetValue(SettingsPresenter.GetTableReadInterval());
-            ResultsReadIntervalTextBox.SetValue(SettingsPresenter.GetResultReadInterval());
-            InputCorrelatorTimeOutIntervalTextBox.SetValue(SettingsPresenter.GetInputCorrelatorTimeOutInterval());
+            FreezeIntervalTextBox.SetValue(settingsPresenter.GetFreezeInterval());
+            RescanIntervalTextBox.SetValue(settingsPresenter.GetRescanInterval());
+            TableReadIntervalTextBox.SetValue(settingsPresenter.GetTableReadInterval());
+            ResultsReadIntervalTextBox.SetValue(settingsPresenter.GetResultReadInterval());
+            InputCorrelatorTimeOutIntervalTextBox.SetValue(settingsPresenter.GetInputCorrelatorTimeOutInterval());
         }
 
         private void SaveSettings()
@@ -84,53 +84,53 @@ namespace Anathena.GUI.Tools
         private void SaveGeneralSettings()
         {
             if (FreezeIntervalTextBox.IsValid())
-                SettingsPresenter.UpdateFreezeInterval(FreezeIntervalTextBox.GetValueAsDecimal());
+                settingsPresenter.UpdateFreezeInterval(FreezeIntervalTextBox.GetValueAsDecimal());
 
             if (RescanIntervalTextBox.IsValid())
-                SettingsPresenter.UpdateRescanInterval(RescanIntervalTextBox.GetValueAsDecimal());
+                settingsPresenter.UpdateRescanInterval(RescanIntervalTextBox.GetValueAsDecimal());
 
             if (TableReadIntervalTextBox.IsValid())
-                SettingsPresenter.UpdateTableReadInterval(TableReadIntervalTextBox.GetValueAsDecimal());
+                settingsPresenter.UpdateTableReadInterval(TableReadIntervalTextBox.GetValueAsDecimal());
 
             if (ResultsReadIntervalTextBox.IsValid())
-                SettingsPresenter.UpdateResultReadInterval(ResultsReadIntervalTextBox.GetValueAsDecimal());
+                settingsPresenter.UpdateResultReadInterval(ResultsReadIntervalTextBox.GetValueAsDecimal());
 
             if (InputCorrelatorTimeOutIntervalTextBox.IsValid())
-                SettingsPresenter.UpdateInputCorrelatorTimeOutInterval(InputCorrelatorTimeOutIntervalTextBox.GetValueAsDecimal());
+                settingsPresenter.UpdateInputCorrelatorTimeOutInterval(InputCorrelatorTimeOutIntervalTextBox.GetValueAsDecimal());
 
             if (ScanUserModeRadioButton.Checked)
-                SettingsPresenter.SetScanUserMode(true);
+                settingsPresenter.SetScanUserMode(true);
             else
-                SettingsPresenter.SetScanUserMode(true);
+                settingsPresenter.SetScanUserMode(true);
         }
 
         private void SaveScanSettings()
         {
-            SettingsPresenter.UpdateTypeSettings(NoneCheckBox.Checked, PrivateCheckBox.Checked, MappedCheckBox.Checked, ImageCheckBox.Checked);
-            SettingsPresenter.UpdateRequiredProtectionSettings(RequiredWriteCheckBox.Checked, RequiredExecuteCheckBox.Checked, RequiredCopyOnWriteCheckBox.Checked);
-            SettingsPresenter.UpdateExcludedProtectionSettings(ExcludedWriteCheckBox.Checked, ExcludedExecuteCheckBox.Checked, ExcludedCopyOnWriteCheckBox.Checked);
+            settingsPresenter.UpdateTypeSettings(NoneCheckBox.Checked, PrivateCheckBox.Checked, MappedCheckBox.Checked, ImageCheckBox.Checked);
+            settingsPresenter.UpdateRequiredProtectionSettings(RequiredWriteCheckBox.Checked, RequiredExecuteCheckBox.Checked, RequiredCopyOnWriteCheckBox.Checked);
+            settingsPresenter.UpdateExcludedProtectionSettings(ExcludedWriteCheckBox.Checked, ExcludedExecuteCheckBox.Checked, ExcludedCopyOnWriteCheckBox.Checked);
 
             if (AlignmentTextBox.IsValid())
-                SettingsPresenter.UpdateAlignmentSettings(Conversions.ParseDecStringAsValue(typeof(Int32), AlignmentTextBox.GetValueAsDecimal()));
+                settingsPresenter.UpdateAlignmentSettings(Conversions.ParseDecStringAsValue(typeof(Int32), AlignmentTextBox.GetValueAsDecimal()));
 
-            SettingsPresenter.SetScanUserMode(ScanUserModeRadioButton.Checked);
+            settingsPresenter.SetScanUserMode(ScanUserModeRadioButton.Checked);
 
             if (StartAddressTextBox.IsValid())
-                SettingsPresenter.UpdateStartAddress(Conversions.ParseDecStringAsValue(typeof(UInt64), StartAddressTextBox.GetValueAsDecimal()));
+                settingsPresenter.UpdateStartAddress(Conversions.ParseDecStringAsValue(typeof(UInt64), StartAddressTextBox.GetValueAsDecimal()));
 
             if (EndAddressTextBox.IsValid())
-                SettingsPresenter.UpdateEndAddress(Conversions.ParseDecStringAsValue(typeof(UInt64), EndAddressTextBox.GetValueAsDecimal()));
+                settingsPresenter.UpdateEndAddress(Conversions.ParseDecStringAsValue(typeof(UInt64), EndAddressTextBox.GetValueAsDecimal()));
         }
 
         #region Events
 
-        private void AcceptSettingsButton_Click(Object Sender, EventArgs E)
+        private void AcceptSettingsButton_Click(Object sender, EventArgs e)
         {
             SaveSettings();
             this.Close();
         }
 
-        private void ScanUserModeRadioButton_CheckedChanged(Object Sender, EventArgs E)
+        private void ScanUserModeRadioButton_CheckedChanged(Object sender, EventArgs e)
         {
             if (ScanUserModeRadioButton.Checked == true)
             {
@@ -144,7 +144,7 @@ namespace Anathena.GUI.Tools
             }
         }
 
-        private void ScanCustomRangeRadioButton_CheckedChanged(Object Sender, EventArgs E)
+        private void ScanCustomRangeRadioButton_CheckedChanged(Object sender, EventArgs e)
         {
             if (ScanCustomRangeRadioButton.Checked == true)
             {
@@ -158,37 +158,37 @@ namespace Anathena.GUI.Tools
             }
         }
 
-        private void RequiredWriteCheckBox_CheckedChanged(Object Sender, EventArgs E)
+        private void RequiredWriteCheckBox_CheckedChanged(Object sender, EventArgs e)
         {
             if (RequiredWriteCheckBox.Checked)
                 ExcludedWriteCheckBox.Checked = !RequiredWriteCheckBox.Checked;
         }
 
-        private void RequiredExecuteCheckBox_CheckedChanged(Object Sender, EventArgs E)
+        private void RequiredExecuteCheckBox_CheckedChanged(Object sender, EventArgs e)
         {
             if (RequiredExecuteCheckBox.Checked)
                 ExcludedExecuteCheckBox.Checked = !RequiredExecuteCheckBox.Checked;
         }
 
-        private void RequiredCopyOnWriteCheckBox_CheckedChanged(Object Sender, EventArgs E)
+        private void RequiredCopyOnWriteCheckBox_CheckedChanged(Object sender, EventArgs e)
         {
             if (RequiredCopyOnWriteCheckBox.Checked)
                 ExcludedCopyOnWriteCheckBox.Checked = !RequiredCopyOnWriteCheckBox.Checked;
         }
 
-        private void ExcludedWriteCheckBox_CheckedChanged(Object Sender, EventArgs E)
+        private void ExcludedWriteCheckBox_CheckedChanged(Object sender, EventArgs e)
         {
             if (ExcludedWriteCheckBox.Checked)
                 RequiredWriteCheckBox.Checked = !ExcludedWriteCheckBox.Checked;
         }
 
-        private void ExcludedExecuteCheckBox_CheckedChanged(Object Sender, EventArgs E)
+        private void ExcludedExecuteCheckBox_CheckedChanged(Object sender, EventArgs e)
         {
             if (ExcludedExecuteCheckBox.Checked)
                 RequiredExecuteCheckBox.Checked = !ExcludedExecuteCheckBox.Checked;
         }
 
-        private void ExcludedCopyOnWriteCheckBox_CheckedChanged(Object Sender, EventArgs E)
+        private void ExcludedCopyOnWriteCheckBox_CheckedChanged(Object sender, EventArgs e)
         {
             if (ExcludedCopyOnWriteCheckBox.Checked)
                 RequiredCopyOnWriteCheckBox.Checked = !ExcludedCopyOnWriteCheckBox.Checked;

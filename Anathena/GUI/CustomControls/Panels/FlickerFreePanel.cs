@@ -13,13 +13,11 @@ namespace Anathena.GUI.CustomControls.Panels
             this.SetStyle(ControlStyles.EnableNotifyMessage, true);
         }
 
-        protected override void OnNotifyMessage(Message Message)
+        protected override void OnNotifyMessage(Message message)
         {
             // Filter out the WM_ERASEBKGND message
-            if (Message.Msg != 0x14)
-            {
-                base.OnNotifyMessage(Message);
-            }
+            if (message.Msg != 0x14)
+                base.OnNotifyMessage(message);
         }
 
     } // End class

@@ -6,7 +6,7 @@ namespace Anathena.GUI.CustomControls.TreeViews
 {
     public partial class HighlightPreservingTreeView : TreeView
     {
-        private TreeNode PreviouslySelectedNode = null;
+        private TreeNode previouslySelectedNode = null;
 
         public HighlightPreservingTreeView()
         {
@@ -16,28 +16,28 @@ namespace Anathena.GUI.CustomControls.TreeViews
             this.AfterSelect += HighlightPreservingTreeView_AfterSelect;
         }
 
-        private void HighlightPreservingTreeView_Validating(Object Sender, EventArgs E)
+        private void HighlightPreservingTreeView_Validating(Object sender, EventArgs e)
         {
             if (SelectedNode == null)
                 return;
 
             this.SelectedNode.BackColor = SystemColors.Highlight;
             this.SelectedNode.ForeColor = Color.White;
-            PreviouslySelectedNode = this.SelectedNode;
+            previouslySelectedNode = this.SelectedNode;
         }
 
-        private void HighlightPreservingTreeView_AfterSelect(Object Sender, TreeViewEventArgs E)
+        private void HighlightPreservingTreeView_AfterSelect(Object sender, TreeViewEventArgs e)
         {
-            if (PreviouslySelectedNode != null)
+            if (previouslySelectedNode != null)
             {
-                PreviouslySelectedNode.BackColor = this.BackColor;
-                PreviouslySelectedNode.ForeColor = this.ForeColor;
+                previouslySelectedNode.BackColor = this.BackColor;
+                previouslySelectedNode.ForeColor = this.ForeColor;
             }
         }
 
-        public void SetSelection(TreeNode Node)
+        public void SetSelection(TreeNode node)
         {
-            this.SelectedNode = Node;
+            this.SelectedNode = node;
             HighlightPreservingTreeView_AfterSelect(null, null);
             HighlightPreservingTreeView_Validating(null, null);
         }

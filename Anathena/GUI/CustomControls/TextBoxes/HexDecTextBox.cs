@@ -11,61 +11,61 @@ namespace Anathena.GUI.CustomControls.TextBoxes
     /// </summary>
     public class HexDecTextBox : WatermarkTextBox
     {
-        protected Boolean _IsHex;
+        protected Boolean _isHex;
         public Boolean IsHex
         {
-            get { return this._IsHex; }
+            get { return this._isHex; }
             set
             {
-                this._IsHex = value;
+                this._isHex = value;
                 UpdateValidity();
             }
         }
 
-        private Boolean _TextValid;
+        private Boolean _textValid;
         private Boolean TextValid
         {
-            get { return this._TextValid; }
+            get { return this._textValid; }
             set
             {
-                this._TextValid = value;
+                this._textValid = value;
                 UpdateColor();
             }
         }
 
-        private Type ElementType { get; set; }
+        private Type elementType { get; set; }
 
-        private MenuItem DecimalMenuItem;
-        private MenuItem HexidecimalMenuItem;
-        private MenuItem ConvertToDecMenuItem;
-        private MenuItem ConvertToHexMenuItem;
-        private ContextMenu RightClickMenu;
+        private MenuItem decimalMenuItem;
+        private MenuItem hexidecimalMenuItem;
+        private MenuItem convertToDecMenuItem;
+        private MenuItem convertToHexMenuItem;
+        private ContextMenu rightClickMenu;
 
         public HexDecTextBox()
         {
-            DecimalMenuItem = new MenuItem("Decimal");
-            HexidecimalMenuItem = new MenuItem("Hexidecimal");
-            ConvertToDecMenuItem = new MenuItem("Convert to Dec");
-            ConvertToHexMenuItem = new MenuItem("Convert to Hex");
+            decimalMenuItem = new MenuItem("Decimal");
+            hexidecimalMenuItem = new MenuItem("Hexidecimal");
+            convertToDecMenuItem = new MenuItem("Convert to Dec");
+            convertToHexMenuItem = new MenuItem("Convert to Hex");
 
-            RightClickMenu = new ContextMenu(new MenuItem[] { DecimalMenuItem, HexidecimalMenuItem, new MenuItem("-"), ConvertToDecMenuItem, ConvertToHexMenuItem });
+            rightClickMenu = new ContextMenu(new MenuItem[] { decimalMenuItem, hexidecimalMenuItem, new MenuItem("-"), convertToDecMenuItem, convertToHexMenuItem });
 
-            RightClickMenu.Popup += RightClickMenu_Popup;
-            DecimalMenuItem.Click += DecimalMenuItem_Click;
-            HexidecimalMenuItem.Click += HexidecimalMenuItem_Click;
+            rightClickMenu.Popup += RightClickMenu_Popup;
+            decimalMenuItem.Click += DecimalMenuItem_Click;
+            hexidecimalMenuItem.Click += HexidecimalMenuItem_Click;
 
-            ConvertToDecMenuItem.Click += ConvertToDecMenuItem_Click;
-            ConvertToHexMenuItem.Click += ConvertToHexMenuItem_Click;
+            convertToDecMenuItem.Click += ConvertToDecMenuItem_Click;
+            convertToHexMenuItem.Click += ConvertToHexMenuItem_Click;
 
-            this.ContextMenu = RightClickMenu;
+            this.ContextMenu = rightClickMenu;
             this.TextChanged += HexDecTextChanged;
 
-            this.ElementType = typeof(UInt64);
+            this.elementType = typeof(UInt64);
         }
 
-        public void SetElementType(Type ElementType)
+        public void SetElementType(Type elementType)
         {
-            this.ElementType = ElementType;
+            this.elementType = elementType;
             UpdateValidity();
         }
 
@@ -75,9 +75,9 @@ namespace Anathena.GUI.CustomControls.TextBoxes
                 return null;
 
             if (IsHex)
-                return Conversions.ParseValueAsDec(ElementType, Conversions.ParseHexStringAsDecString(ElementType, this.Text));
+                return Conversions.ParseValueAsDec(elementType, Conversions.ParseHexStringAsDecString(elementType, this.Text));
             else
-                return Conversions.ParseValueAsDec(ElementType, this.Text);
+                return Conversions.ParseValueAsDec(elementType, this.Text);
         }
 
         public String GetValueAsHexidecimal()
@@ -86,9 +86,9 @@ namespace Anathena.GUI.CustomControls.TextBoxes
                 return null;
 
             if (IsHex)
-                return Conversions.ParseDecStringAsHexString(ElementType, Conversions.ParseHexStringAsDecString(ElementType, this.Text));
+                return Conversions.ParseDecStringAsHexString(elementType, Conversions.ParseHexStringAsDecString(elementType, this.Text));
             else
-                return Conversions.ParseDecStringAsHexString(ElementType, Conversions.ParseValueAsDec(ElementType, this.Text));
+                return Conversions.ParseDecStringAsHexString(elementType, Conversions.ParseValueAsDec(elementType, this.Text));
         }
 
         public String GetRawValue()
@@ -97,25 +97,25 @@ namespace Anathena.GUI.CustomControls.TextBoxes
         }
 
         [Obfuscation(Exclude = true)]
-        public void SetValue(dynamic Value)
+        public void SetValue(dynamic value)
         {
-            if (Value == null)
+            if (value == null)
                 return;
 
-            String ValueString = Value.ToString();
+            String ValueString = value.ToString();
 
-            if (!CheckSyntax.CanParseValue(ElementType, ValueString))
+            if (!CheckSyntax.CanParseValue(elementType, ValueString))
                 return;
 
             if (IsHex)
-                this.Text = Conversions.ParseDecStringAsHexString(ElementType, ValueString);
+                this.Text = Conversions.ParseDecStringAsHexString(elementType, ValueString);
             else
-                this.Text = Conversions.ParseValueAsDec(ElementType, ValueString);
+                this.Text = Conversions.ParseValueAsDec(elementType, ValueString);
         }
 
-        public void SetText(String Value)
+        public void SetText(String value)
         {
-            this.Text = Value;
+            this.Text = value;
         }
 
         public Boolean IsValid()
@@ -123,39 +123,39 @@ namespace Anathena.GUI.CustomControls.TextBoxes
             return TextValid;
         }
 
-        private void HexidecimalMenuItem_Click(Object Sender, EventArgs E)
+        private void HexidecimalMenuItem_Click(Object sender, EventArgs e)
         {
             this.IsHex = true;
         }
 
-        private void DecimalMenuItem_Click(Object Sender, EventArgs E)
+        private void DecimalMenuItem_Click(Object sender, EventArgs e)
         {
             this.IsHex = false;
         }
 
-        private void ConvertToHexMenuItem_Click(Object Sender, EventArgs E)
+        private void ConvertToHexMenuItem_Click(Object sender, EventArgs e)
         {
-            if (CheckSyntax.CanParseValue(ElementType, this.Text))
-                this.Text = Conversions.ParseDecStringAsHexString(ElementType, this.Text);
+            if (CheckSyntax.CanParseValue(elementType, this.Text))
+                this.Text = Conversions.ParseDecStringAsHexString(elementType, this.Text);
 
             this.IsHex = true;
         }
 
-        private void ConvertToDecMenuItem_Click(Object Sender, EventArgs E)
+        private void ConvertToDecMenuItem_Click(Object sender, EventArgs e)
         {
-            if (CheckSyntax.CanParseHex(ElementType, this.Text))
-                this.Text = Conversions.ParseHexStringAsDecString(ElementType, this.Text);
+            if (CheckSyntax.CanParseHex(elementType, this.Text))
+                this.Text = Conversions.ParseHexStringAsDecString(elementType, this.Text);
 
             this.IsHex = false;
         }
 
-        private void RightClickMenu_Popup(Object Sender, EventArgs E)
+        private void RightClickMenu_Popup(Object sender, EventArgs e)
         {
-            DecimalMenuItem.Checked = IsHex ? false : true;
-            HexidecimalMenuItem.Checked = IsHex ? true : false;
+            decimalMenuItem.Checked = IsHex ? false : true;
+            hexidecimalMenuItem.Checked = IsHex ? true : false;
         }
 
-        private void HexDecTextChanged(Object Sender, EventArgs E)
+        private void HexDecTextChanged(Object sender, EventArgs e)
         {
             UpdateValidity();
         }
@@ -164,7 +164,7 @@ namespace Anathena.GUI.CustomControls.TextBoxes
         {
             if (IsHex)
             {
-                if ((CheckSyntax.CanParseHex(ElementType, this.Text)))
+                if ((CheckSyntax.CanParseHex(elementType, this.Text)))
                 {
                     TextValid = true;
                     return;
@@ -172,7 +172,7 @@ namespace Anathena.GUI.CustomControls.TextBoxes
             }
             else
             {
-                if (CheckSyntax.CanParseValue(ElementType, this.Text))
+                if (CheckSyntax.CanParseValue(elementType, this.Text))
                 {
                     TextValid = true;
                     return;

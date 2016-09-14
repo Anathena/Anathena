@@ -10,24 +10,24 @@ namespace Anathena.GUI.Tools.TypeEditors
 {
     partial class GUIOffsetEditor : Form, IOffsetEditorView
     {
-        private OffsetEditorPresenter OffsetEditorPresenter;
+        private OffsetEditorPresenter offsetEditorPresenter;
 
-        public GUIOffsetEditor(OffsetEditorPresenter OffsetEditorPresenter)
+        public GUIOffsetEditor(OffsetEditorPresenter offsetEditorPresenter)
         {
             InitializeComponent();
 
-            this.OffsetEditorPresenter = OffsetEditorPresenter;
+            this.offsetEditorPresenter = offsetEditorPresenter;
         }
 
-        public void SetOffsets(IEnumerable<Tuple<String, String>> HexDecOffsets)
+        public void SetOffsets(IEnumerable<Tuple<String, String>> hexDecOffsets)
         {
             ControlThreadingHelper.InvokeControlAction(OffsetsListView, () =>
             {
                 OffsetsListView.Items.Clear();
 
-                foreach (Tuple<String, String> HexDecOffset in HexDecOffsets)
+                foreach (Tuple<String, String> hexDecOffset in hexDecOffsets)
                 {
-                    OffsetsListView.Items.Add(new ListViewItem(new String[] { HexDecOffset.Item1, HexDecOffset.Item2 }));
+                    OffsetsListView.Items.Add(new ListViewItem(new String[] { hexDecOffset.Item1, hexDecOffset.Item2 }));
                 }
             });
         }
@@ -36,7 +36,7 @@ namespace Anathena.GUI.Tools.TypeEditors
         {
             if (CheckSyntax.CanParseAddress(OffsetHexDecTextBox.GetValueAsHexidecimal()))
             {
-                OffsetEditorPresenter.AddOffset(Conversions.ParseDecStringAsValue(typeof(Int32), OffsetHexDecTextBox.GetValueAsDecimal()));
+                offsetEditorPresenter.AddOffset(Conversions.ParseDecStringAsValue(typeof(Int32), OffsetHexDecTextBox.GetValueAsDecimal()));
                 OffsetHexDecTextBox.Text = String.Empty;
             }
         }
@@ -46,34 +46,34 @@ namespace Anathena.GUI.Tools.TypeEditors
             if (OffsetsListView.SelectedIndices.Count <= 0)
                 return;
 
-            OffsetEditorPresenter.DeleteOffsets(OffsetsListView.SelectedIndices.OfType<Int32>());
+            offsetEditorPresenter.DeleteOffsets(OffsetsListView.SelectedIndices.OfType<Int32>());
         }
 
         #region Events
 
-        private void AddOffsetButton_Click(Object Sender, EventArgs E)
+        private void AddOffsetButton_Click(Object sender, EventArgs e)
         {
             AddOffset();
         }
 
-        private void RemoveOffsetButton_Click(Object Sender, EventArgs E)
+        private void RemoveOffsetButton_Click(Object sender, EventArgs e)
         {
             DeleteSelection();
         }
 
-        private void CancelOffsetsButton_Click(Object Sender, EventArgs E)
+        private void CancelOffsetsButton_Click(Object sender, EventArgs e)
         {
             DialogResult = DialogResult.Cancel;
             Close();
         }
 
-        private void OkayButton_Click(Object Sender, EventArgs E)
+        private void OkayButton_Click(Object sender, EventArgs e)
         {
             DialogResult = DialogResult.OK;
             Close();
         }
 
-        private void DeleteSelectionToolStripMenuItem_Click(Object Sender, EventArgs E)
+        private void DeleteSelectionToolStripMenuItem_Click(Object sender, EventArgs e)
         {
             DeleteSelection();
         }

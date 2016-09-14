@@ -36,7 +36,7 @@ namespace Anathena.GUI.Tools.TypeEditors
             this.RemoveHotKeyButton = new System.Windows.Forms.Button();
             this.OkayButton = new System.Windows.Forms.Button();
             this.CancelHotKeyButton = new System.Windows.Forms.Button();
-            this.HotKeyListView = new Anathena.GUI.CustomControls.ListViews.FlickerFreeListView();
+            this.hotKeyListView = new Anathena.GUI.CustomControls.ListViews.FlickerFreeListView();
             this.HotKeyHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.HotKeyContextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.DeleteSelectionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -93,19 +93,19 @@ namespace Anathena.GUI.Tools.TypeEditors
             // 
             // HotKeyListView
             // 
-            this.HotKeyListView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            this.hotKeyListView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
             | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.HotKeyListView.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.hotKeyListView.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.HotKeyHeader});
-            this.HotKeyListView.ContextMenuStrip = this.HotKeyContextMenuStrip;
-            this.HotKeyListView.FullRowSelect = true;
-            this.HotKeyListView.Location = new System.Drawing.Point(12, 38);
-            this.HotKeyListView.Name = "HotKeyListView";
-            this.HotKeyListView.Size = new System.Drawing.Size(292, 106);
-            this.HotKeyListView.TabIndex = 6;
-            this.HotKeyListView.UseCompatibleStateImageBehavior = false;
-            this.HotKeyListView.View = System.Windows.Forms.View.Details;
+            this.hotKeyListView.ContextMenuStrip = this.HotKeyContextMenuStrip;
+            this.hotKeyListView.FullRowSelect = true;
+            this.hotKeyListView.Location = new System.Drawing.Point(12, 38);
+            this.hotKeyListView.Name = "HotKeyListView";
+            this.hotKeyListView.Size = new System.Drawing.Size(292, 106);
+            this.hotKeyListView.TabIndex = 6;
+            this.hotKeyListView.UseCompatibleStateImageBehavior = false;
+            this.hotKeyListView.View = System.Windows.Forms.View.Details;
             // 
             // HotKeyHeader
             // 
@@ -156,7 +156,7 @@ namespace Anathena.GUI.Tools.TypeEditors
             this.ClientSize = new System.Drawing.Size(316, 185);
             this.Controls.Add(this.ClearHotKeyButton);
             this.Controls.Add(this.HotKeyTextBox);
-            this.Controls.Add(this.HotKeyListView);
+            this.Controls.Add(this.hotKeyListView);
             this.Controls.Add(this.CancelHotKeyButton);
             this.Controls.Add(this.OkayButton);
             this.Controls.Add(this.RemoveHotKeyButton);
@@ -176,7 +176,7 @@ namespace Anathena.GUI.Tools.TypeEditors
         private System.Windows.Forms.Button RemoveHotKeyButton;
         private System.Windows.Forms.Button OkayButton;
         private System.Windows.Forms.Button CancelHotKeyButton;
-        private FlickerFreeListView HotKeyListView;
+        private FlickerFreeListView hotKeyListView;
         private System.Windows.Forms.ColumnHeader HotKeyHeader;
         private System.Windows.Forms.ContextMenuStrip HotKeyContextMenuStrip;
         private System.Windows.Forms.ToolStripMenuItem DeleteSelectionToolStripMenuItem;

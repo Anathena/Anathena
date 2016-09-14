@@ -19,18 +19,18 @@ namespace Anathena.GUI.CustomControls.TreeViews
 
         public ProjectItem ProjectItem { get; set; }
 
-        private Boolean _Checked;
+        private Boolean _checked;
         public Boolean Checked
         {
-            get { return _Checked; }
-            set { _Checked = value; }
+            get { return _checked; }
+            set { _checked = value; }
         }
 
-        private Image _Icon;
+        private Image _icon;
         public Image Icon
         {
-            get { return _Icon; }
-            set { _Icon = value; }
+            get { return _icon; }
+            set { _icon = value; }
         }
 
 
@@ -38,12 +38,12 @@ namespace Anathena.GUI.CustomControls.TreeViews
         /// Initializes a new MyNode class with a given Text property.
         /// </summary>
         /// <param name="text">String to set the text property with.</param>
-        public AddressNode(String EntryDescription, String EntryAddress, String EntryType, String EntryValue) : base(String.Empty)
+        public AddressNode(String entryDescription, String entryAddress, String entryType, String entryValue) : base(String.Empty)
         {
-            this.EntryDescription = EntryDescription;
-            this.EntryAddress = EntryAddress;
-            this.EntryType = EntryType;
-            this.EntryValue = EntryValue;
+            this.EntryDescription = entryDescription;
+            this.EntryAddress = entryAddress;
+            this.EntryType = entryType;
+            this.EntryValue = entryValue;
 
             FreezeCheckBox = String.Empty;
             EntryIcon = String.Empty;

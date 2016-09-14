@@ -14,23 +14,21 @@ namespace Anathena.GUI.Tools.Scanners
 {
     public partial class GUIPointerScanner : DockContent, IPointerScannerView
     {
-        private PointerScannerPresenter PointerScannerPresenter;
-        private ListViewCache ListViewCache;
-        private Object AccessLock;
+        private PointerScannerPresenter pointerScannerPresenter;
+        private ListViewCache listViewCache;
+        private Object accessLock;
 
-        private const Int32 DefaultLevel = 3;
-        private const Int32 DefaultOffset = 2048;
-
-
-        private const String EmptyValue = "-";
+        private const Int32 defaultLevel = 3;
+        private const Int32 defaultOffset = 2048;
+        private const String emptyValue = "-";
 
         public GUIPointerScanner()
         {
             InitializeComponent();
 
-            PointerScannerPresenter = new PointerScannerPresenter(this, new PointerScanner());
-            ListViewCache = new ListViewCache();
-            AccessLock = new Object();
+            pointerScannerPresenter = new PointerScannerPresenter(this, new PointerScanner());
+            listViewCache = new ListViewCache();
+            accessLock = new Object();
 
             GUIConstraintEditor.RemoveRelativeScans();
 
@@ -42,19 +40,19 @@ namespace Anathena.GUI.Tools.Scanners
 
         private void InitializeDefaults()
         {
-            using (TimedLock.Lock(AccessLock))
+            using (TimedLock.Lock(accessLock))
             {
                 MaxOffsetTextBox.SetElementType(typeof(Int32));
                 MaxLevelTextBox.SetElementType(typeof(Int32));
 
-                MaxLevelTextBox.SetValue(DefaultLevel);
-                MaxOffsetTextBox.SetValue(DefaultOffset);
+                MaxLevelTextBox.SetValue(defaultLevel);
+                MaxOffsetTextBox.SetValue(defaultOffset);
             }
         }
 
         private void InitializeValueTypeComboBox()
         {
-            using (TimedLock.Lock(AccessLock))
+            using (TimedLock.Lock(accessLock))
             {
                 foreach (Type Primitive in PrimitiveTypes.GetScannablePrimitiveTypes())
                     ValueTypeComboBox.Items.Add(Primitive.Name);
@@ -63,11 +61,11 @@ namespace Anathena.GUI.Tools.Scanners
             }
         }
 
-        public void DisplayScanCount(Int32 ScanCount) { }
+        public void DisplayScanCount(Int32 scanCount) { }
 
-        public void ScanFinished(Int32 ItemCount, Int32 MaxPointerLevel)
+        public void ScanFinished(Int32 itemCount, Int32 maxPointerLevel)
         {
-            using (TimedLock.Lock(AccessLock))
+            using (TimedLock.Lock(accessLock))
             {
                 ControlThreadingHelper.InvokeControlAction<Control>(PointerListView, () =>
                 {
@@ -78,10 +76,10 @@ namespace Anathena.GUI.Tools.Scanners
                         PointerListView.Columns.RemoveAt(2);
 
                     // Create offset columns based on max level
-                    for (Int32 OffsetIndex = 0; OffsetIndex < MaxPointerLevel; OffsetIndex++)
+                    for (Int32 OffsetIndex = 0; OffsetIndex < maxPointerLevel; OffsetIndex++)
                         PointerListView.Columns.Add("Offset " + OffsetIndex.ToString());
 
-                    PointerListView.SetItemCount(ItemCount);
+                    PointerListView.SetItemCount(itemCount);
                 });
             }
             EnableGUI();
@@ -91,7 +89,7 @@ namespace Anathena.GUI.Tools.Scanners
         {
             UpdateReadBounds();
 
-            using (TimedLock.Lock(AccessLock))
+            using (TimedLock.Lock(accessLock))
             {
                 ControlThreadingHelper.InvokeControlAction<Control>(PointerListView, () =>
                 {
@@ -102,30 +100,30 @@ namespace Anathena.GUI.Tools.Scanners
         }
         private void UpdateReadBounds()
         {
-            using (TimedLock.Lock(AccessLock))
+            using (TimedLock.Lock(accessLock))
             {
                 ControlThreadingHelper.InvokeControlAction(PointerListView, () =>
                 {
                     Tuple<Int32, Int32> ReadBounds = PointerListView.GetReadBounds();
-                    PointerScannerPresenter.UpdateReadBounds(ReadBounds.Item1, ReadBounds.Item2);
+                    pointerScannerPresenter.UpdateReadBounds(ReadBounds.Item1, ReadBounds.Item2);
                 });
             }
         }
 
         private void AddSelectedElements()
         {
-            using (TimedLock.Lock(AccessLock))
+            using (TimedLock.Lock(accessLock))
             {
                 if (PointerListView.SelectedIndices.Count <= 0)
                     return;
 
-                PointerScannerPresenter.AddSelectionToTable(PointerListView.SelectedIndices[0], PointerListView.SelectedIndices[PointerListView.SelectedIndices.Count - 1]);
+                pointerScannerPresenter.AddSelectionToTable(PointerListView.SelectedIndices[0], PointerListView.SelectedIndices[PointerListView.SelectedIndices.Count - 1]);
             }
         }
 
         private void DisableGUI()
         {
-            using (TimedLock.Lock(AccessLock))
+            using (TimedLock.Lock(accessLock))
             {
                 ControlThreadingHelper.InvokeControlAction<Control>(PointerListView, () =>
                 {
@@ -144,7 +142,7 @@ namespace Anathena.GUI.Tools.Scanners
 
         private void EnableGUI()
         {
-            using (TimedLock.Lock(AccessLock))
+            using (TimedLock.Lock(accessLock))
             {
                 ControlThreadingHelper.InvokeControlAction<Control>(PointerListView, () =>
                 {
@@ -163,28 +161,28 @@ namespace Anathena.GUI.Tools.Scanners
 
         private void UpdateRescanMode()
         {
-            using (TimedLock.Lock(AccessLock))
+            using (TimedLock.Lock(accessLock))
             {
                 if (AddressModeRadioButton.Checked)
                 {
                     AddressTextBox.Enabled = true;
                     GUIConstraintEditor.Enabled = false;
-                    PointerScannerPresenter.SetRescanMode(true);
+                    pointerScannerPresenter.SetRescanMode(true);
                 }
                 else if (ValueModeRadioButton.Checked)
                 {
                     AddressTextBox.Enabled = false;
                     GUIConstraintEditor.Enabled = true;
-                    PointerScannerPresenter.SetRescanMode(false);
+                    pointerScannerPresenter.SetRescanMode(false);
                 }
             }
         }
 
         #region Events
 
-        private void StartScanButton_Click(Object Sender, EventArgs E)
+        private void StartScanButton_Click(Object sender, EventArgs e)
         {
-            using (TimedLock.Lock(AccessLock))
+            using (TimedLock.Lock(accessLock))
             {
                 if (ValueModeRadioButton.Checked)
                     return;
@@ -194,21 +192,21 @@ namespace Anathena.GUI.Tools.Scanners
                     return;
 
                 // Apply settings
-                PointerScannerPresenter.SetTargetAddress(AddressTextBox.GetValueAsHexidecimal());
-                PointerScannerPresenter.SetMaxPointerLevel(MaxLevelTextBox.GetValueAsDecimal());
-                PointerScannerPresenter.SetMaxPointerOffset(MaxOffsetTextBox.GetValueAsDecimal());
+                pointerScannerPresenter.SetTargetAddress(AddressTextBox.GetValueAsHexidecimal());
+                pointerScannerPresenter.SetMaxPointerLevel(MaxLevelTextBox.GetValueAsDecimal());
+                pointerScannerPresenter.SetMaxPointerOffset(MaxOffsetTextBox.GetValueAsDecimal());
             }
 
             // Start scan
             DisableGUI();
-            PointerScannerPresenter.BeginPointerScan();
+            pointerScannerPresenter.BeginPointerScan();
         }
 
-        private void RebuildPointersButton_Click(Object Sender, EventArgs E)
+        private void RebuildPointersButton_Click(Object sender, EventArgs e)
         {
             DisableGUI();
 
-            using (TimedLock.Lock(AccessLock))
+            using (TimedLock.Lock(accessLock))
             {
                 if (AddressModeRadioButton.Checked)
                 {
@@ -216,77 +214,77 @@ namespace Anathena.GUI.Tools.Scanners
                     if (!AddressTextBox.IsValid())
                         return;
 
-                    PointerScannerPresenter.SetTargetAddress(AddressTextBox.GetValueAsHexidecimal());
+                    pointerScannerPresenter.SetTargetAddress(AddressTextBox.GetValueAsHexidecimal());
                 }
                 else
                 {
                     // Value mode -- gather scan constraints
-                    PointerScannerPresenter.SetScanConstraintManager(GUIConstraintEditor.GetScanConstraintManager());
+                    pointerScannerPresenter.SetScanConstraintManager(GUIConstraintEditor.GetScanConstraintManager());
                 }
 
-                PointerScannerPresenter.BeginPointerRescan();
+                pointerScannerPresenter.BeginPointerRescan();
             }
         }
 
-        private void PointerListView_RetrieveVirtualItem(Object Sender, RetrieveVirtualItemEventArgs E)
+        private void PointerListView_RetrieveVirtualItem(Object sender, RetrieveVirtualItemEventArgs e)
         {
-            ListViewItem Item = ListViewCache.Get((UInt64)E.ItemIndex);
+            ListViewItem item = listViewCache.Get((UInt64)e.ItemIndex);
 
             // Try to update and return the item if it is a valid item
-            if (Item != null && ListViewCache.TryUpdateSubItem(E.ItemIndex, PointerListView.Columns.IndexOf(ValueHeader), PointerScannerPresenter.GetValueAtIndex(E.ItemIndex)))
+            if (item != null && listViewCache.TryUpdateSubItem(e.ItemIndex, PointerListView.Columns.IndexOf(ValueHeader), pointerScannerPresenter.GetValueAtIndex(e.ItemIndex)))
             {
-                E.Item = Item;
+                e.Item = item;
                 return;
             }
 
-            IEnumerable<String> Offsets = PointerScannerPresenter.GetOffsetsAtIndex(E.ItemIndex);
-            Int32 OffsetStartIndex = PointerListView.Columns.IndexOf(BaseHeader) + 1;
+            IEnumerable<String> offsets = pointerScannerPresenter.GetOffsetsAtIndex(e.ItemIndex);
+            Int32 offsetStartIndex = PointerListView.Columns.IndexOf(BaseHeader) + 1;
 
             // Add the properties to the cache and get the list view item back
-            Item = ListViewCache.Add(E.ItemIndex, new String[OffsetStartIndex + PointerScannerPresenter.GetMaxPointerLevel()]);
+            item = listViewCache.Add(e.ItemIndex, new String[offsetStartIndex + pointerScannerPresenter.GetMaxPointerLevel()]);
 
-            Item.SubItems[PointerListView.Columns.IndexOf(ValueHeader)].Text = EmptyValue;
-            Item.SubItems[PointerListView.Columns.IndexOf(BaseHeader)].Text = PointerScannerPresenter.GetAddressAtIndex(E.ItemIndex);
-            Offsets?.ForEach(X => Item.SubItems[OffsetStartIndex++].Text = X);
+            item.SubItems[PointerListView.Columns.IndexOf(ValueHeader)].Text = emptyValue;
+            item.SubItems[PointerListView.Columns.IndexOf(BaseHeader)].Text = pointerScannerPresenter.GetAddressAtIndex(e.ItemIndex);
+            offsets?.ForEach(X => item.SubItems[offsetStartIndex++].Text = X);
 
-            E.Item = Item;
+            e.Item = item;
         }
 
-        private void ValueTypeComboBox_SelectedIndexChanged(Object Sender, EventArgs E)
+        private void ValueTypeComboBox_SelectedIndexChanged(Object sender, EventArgs e)
         {
-            using (TimedLock.Lock(AccessLock))
+            using (TimedLock.Lock(accessLock))
             {
-                Type ElementType = Conversions.StringToPrimitiveType(ValueTypeComboBox.SelectedItem.ToString());
-                PointerScannerPresenter.SetElementType(ElementType);
-                GUIConstraintEditor.SetElementType(ElementType);
+                Type elementType = Conversions.StringToPrimitiveType(ValueTypeComboBox.SelectedItem.ToString());
+                pointerScannerPresenter.SetElementType(elementType);
+                GUIConstraintEditor.SetElementType(elementType);
             }
         }
 
-        private void AddSelectedResultsButton_Click(Object Sender, EventArgs E)
+        private void AddSelectedResultsButton_Click(Object sender, EventArgs e)
         {
             AddSelectedElements();
         }
 
-        private void PointerListView_DoubleClick(Object Sender, EventArgs E)
+        private void PointerListView_DoubleClick(Object sender, EventArgs e)
         {
             AddSelectedElements();
         }
 
-        private void AddressModeRadioButton_CheckedChanged(Object Sender, EventArgs E)
+        private void AddressModeRadioButton_CheckedChanged(Object sender, EventArgs e)
         {
             UpdateRescanMode();
         }
 
-        private void ValueModeRadioButton_CheckedChanged(Object Sender, EventArgs E)
+        private void ValueModeRadioButton_CheckedChanged(Object sender, EventArgs e)
         {
             UpdateRescanMode();
         }
 
-        private void GUIPointerScanner_Resize(Object Sender, EventArgs E)
+        private void GUIPointerScanner_Resize(Object sender, EventArgs e)
         {
             // Ensure tabs take up the entire width of the control
-            const Int32 TabBoarderOffset = 3;
-            PointerScanTabControl.ItemSize = new Size(Math.Max(0, (PointerScanTabControl.Width - TabBoarderOffset)) / Math.Max(1, PointerScanTabControl.TabCount), 0);
+            const Int32 tabBoarderOffset = 3;
+            PointerScanTabControl.ItemSize = new Size(Math.Max(0, (PointerScanTabControl.Width - tabBoarderOffset)) / Math.Max(1, PointerScanTabControl.TabCount), 0);
         }
 
         #endregion

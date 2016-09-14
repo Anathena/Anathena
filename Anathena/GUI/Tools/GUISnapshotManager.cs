@@ -12,35 +12,35 @@ namespace Anathena.GUI.Tools
 {
     public partial class GUISnapshotManager : DockContent, ISnapshotManagerView
     {
-        private SnapshotManagerPresenter SnapshotManagerPresenter;
-        private ListViewCache ListViewCache;
-        private Object AccessLock;
+        private SnapshotManagerPresenter snapshotManagerPresenter;
+        private ListViewCache listViewCache;
+        private Object accessLock;
 
-        private const String NewScanText = "NewScan";
-        private const String EmptyEntry = "-";
+        private const String newScanText = "NewScan";
+        private const String emptyEntry = "-";
 
-        private Int32 SnapshotCount;
+        private Int32 snapshotCount;
 
         public GUISnapshotManager()
         {
             InitializeComponent();
 
-            SnapshotManagerPresenter = new SnapshotManagerPresenter(this, SnapshotManager.GetInstance());
-            ListViewCache = new ListViewCache();
-            AccessLock = new Object();
+            snapshotManagerPresenter = new SnapshotManagerPresenter(this, SnapshotManager.GetInstance());
+            listViewCache = new ListViewCache();
+            accessLock = new Object();
         }
 
         public void UpdateSnapshotCount(Int32 SnapshotCount, Int32 DeletedSnapshotCount)
         {
-            using (TimedLock.Lock(AccessLock))
+            using (TimedLock.Lock(accessLock))
             {
-                this.SnapshotCount = SnapshotCount;
+                this.snapshotCount = SnapshotCount;
 
                 ControlThreadingHelper.InvokeControlAction(SnapshotListView, () =>
                 {
                     SnapshotListView.BeginUpdate();
                     SnapshotListView.SetItemCount(SnapshotCount + DeletedSnapshotCount);
-                    ListViewCache.FlushCache();
+                    listViewCache.FlushCache();
                     SnapshotListView.EndUpdate();
                 });
             }
@@ -48,76 +48,76 @@ namespace Anathena.GUI.Tools
 
         private void CreateNewSnapshot()
         {
-            SnapshotManagerPresenter.CreateNewSnapshot();
+            snapshotManagerPresenter.CreateNewSnapshot();
         }
 
         private void UndoSnapshot()
         {
-            SnapshotManagerPresenter.UndoSnapshot();
+            snapshotManagerPresenter.UndoSnapshot();
         }
 
         private void RedoSnapshot()
         {
-            SnapshotManagerPresenter.RedoSnapshot();
+            snapshotManagerPresenter.RedoSnapshot();
         }
 
         private void ClearSnapshots()
         {
-            SnapshotManagerPresenter.ClearSnapshots();
+            snapshotManagerPresenter.ClearSnapshots();
         }
 
         #region Events
 
-        private void SnapshotListView_RetrieveVirtualItem(Object Sender, RetrieveVirtualItemEventArgs E)
+        private void SnapshotListView_RetrieveVirtualItem(Object sender, RetrieveVirtualItemEventArgs e)
         {
-            ListViewItem Item = ListViewCache.Get((UInt64)E.ItemIndex);
+            ListViewItem item = listViewCache.Get((UInt64)e.ItemIndex);
 
-            if (Item != null)
+            if (item != null)
             {
-                E.Item = Item;
+                e.Item = item;
                 return;
             }
 
-            Snapshot Snapshot = SnapshotManagerPresenter.GetSnapshotAtIndex(E.ItemIndex);
+            Snapshot snapshot = snapshotManagerPresenter.GetSnapshotAtIndex(e.ItemIndex);
 
 
-            Item = ListViewCache.Add(E.ItemIndex, new String[SnapshotListView.Columns.Count]);
+            item = listViewCache.Add(e.ItemIndex, new String[SnapshotListView.Columns.Count]);
 
-            Item.ForeColor = (E.ItemIndex + 1 > SnapshotCount) ? Color.LightGray : SystemColors.ControlText;
-            Item.BackColor = (E.ItemIndex + 1 == SnapshotCount) ? SystemColors.Highlight : SystemColors.Control;
+            item.ForeColor = (e.ItemIndex + 1 > snapshotCount) ? Color.LightGray : SystemColors.ControlText;
+            item.BackColor = (e.ItemIndex + 1 == snapshotCount) ? SystemColors.Highlight : SystemColors.Control;
 
-            if (Snapshot == null)
+            if (snapshot == null)
             {
-                Item.SubItems[SnapshotListView.Columns.IndexOf(ScanMethodHeader)].Text = NewScanText;
-                Item.SubItems[SnapshotListView.Columns.IndexOf(SizeHeader)].Text = EmptyEntry;
-                Item.SubItems[SnapshotListView.Columns.IndexOf(TimeStampHeader)].Text = EmptyEntry;
+                item.SubItems[SnapshotListView.Columns.IndexOf(ScanMethodHeader)].Text = newScanText;
+                item.SubItems[SnapshotListView.Columns.IndexOf(SizeHeader)].Text = emptyEntry;
+                item.SubItems[SnapshotListView.Columns.IndexOf(TimeStampHeader)].Text = emptyEntry;
             }
             else
             {
-                Item.SubItems[SnapshotListView.Columns.IndexOf(ScanMethodHeader)].Text = Snapshot.GetScanMethod();
-                Item.SubItems[SnapshotListView.Columns.IndexOf(SizeHeader)].Text = Conversions.BytesToMetric(Snapshot.GetMemorySize());
-                Item.SubItems[SnapshotListView.Columns.IndexOf(TimeStampHeader)].Text = Snapshot.GetTimeStamp().ToLongTimeString();
+                item.SubItems[SnapshotListView.Columns.IndexOf(ScanMethodHeader)].Text = snapshot.GetScanMethod();
+                item.SubItems[SnapshotListView.Columns.IndexOf(SizeHeader)].Text = Conversions.BytesToMetric(snapshot.GetMemorySize());
+                item.SubItems[SnapshotListView.Columns.IndexOf(TimeStampHeader)].Text = snapshot.GetTimeStamp().ToLongTimeString();
             }
 
-            E.Item = Item;
+            e.Item = item;
         }
 
-        private void NewSnapshotButton_Click(Object Sender, EventArgs E)
+        private void NewSnapshotButton_Click(Object sender, EventArgs e)
         {
             CreateNewSnapshot();
         }
 
-        private void UndoSnapshotButton_Click(Object Sender, EventArgs E)
+        private void UndoSnapshotButton_Click(Object sender, EventArgs e)
         {
             UndoSnapshot();
         }
 
-        private void RedoSnapshotButton_Click(Object Sender, EventArgs E)
+        private void RedoSnapshotButton_Click(Object sender, EventArgs e)
         {
             RedoSnapshot();
         }
 
-        private void ClearSnapshotsButton_Click(Object Sender, EventArgs E)
+        private void ClearSnapshotsButton_Click(Object sender, EventArgs e)
         {
             ClearSnapshots();
         }

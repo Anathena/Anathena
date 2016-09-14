@@ -9,21 +9,21 @@ namespace Anathena.GUI.Tools.Scanners
 {
     public partial class GUIManualScanner : DockContent, IManualScannerView
     {
-        private ManualScannerPresenter ManualScannerPresenter;
-        private Object AccessLock;
+        private ManualScannerPresenter manualScannerPresenter;
+        private Object accessLock;
 
         public GUIManualScanner()
         {
             InitializeComponent();
 
-            ManualScannerPresenter = new ManualScannerPresenter(this, new ManualScanner());
-            AccessLock = new Object();
+            manualScannerPresenter = new ManualScannerPresenter(this, new ManualScanner());
+            accessLock = new Object();
 
             ToolStripManager.Merge(GUIConstraintEditor.AcquireToolStrip(), ScanToolStrip);
             EnableGUI();
         }
 
-        public void DisplayScanCount(Int32 ScanCount) { /* Manual scan will always have 1 scan so we need not implement this */ }
+        public void DisplayScanCount(Int32 scanCount) { /* Manual scan will always have 1 scan so we need not implement this */ }
 
         public void ScanFinished()
         {
@@ -32,7 +32,7 @@ namespace Anathena.GUI.Tools.Scanners
 
         private void EnableGUI()
         {
-            using (TimedLock.Lock(AccessLock))
+            using (TimedLock.Lock(accessLock))
             {
                 ControlThreadingHelper.InvokeControlAction(ScanToolStrip, () =>
                 {
@@ -43,7 +43,7 @@ namespace Anathena.GUI.Tools.Scanners
 
         private void DisableGUI()
         {
-            using (TimedLock.Lock(AccessLock))
+            using (TimedLock.Lock(accessLock))
             {
                 ControlThreadingHelper.InvokeControlAction(ScanToolStrip, () =>
                 {
@@ -54,11 +54,11 @@ namespace Anathena.GUI.Tools.Scanners
 
         #region Events
 
-        private void StartScanButton_Click(Object Sender, EventArgs E)
+        private void StartScanButton_Click(Object sender, EventArgs e)
         {
             DisableGUI();
-            ManualScannerPresenter.SetScanConstraintManager(GUIConstraintEditor.GetScanConstraintManager());
-            ManualScannerPresenter.BeginScan();
+            manualScannerPresenter.SetScanConstraintManager(GUIConstraintEditor.GetScanConstraintManager());
+            manualScannerPresenter.BeginScan();
         }
 
         #endregion

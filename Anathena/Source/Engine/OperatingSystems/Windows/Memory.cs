@@ -13,8 +13,6 @@ namespace Anathena.Source.Engine.OperatingSystems.Windows
     /// </summary>
     public static class Memory
     {
-
-
         #region Read
 
         /// <summary>
@@ -200,79 +198,79 @@ namespace Anathena.Source.Engine.OperatingSystems.Windows
         /// <summary>
         /// Retrieves information about a range of pages within the virtual address space of a specified process.
         /// </summary>
-        /// <param name="ProcessHandle">A handle to the process whose memory information is queried.</param>
-        /// <param name="StartAddress">A pointer to the starting address of the region of pages to be queried.</param>
-        /// <param name="EndAddress">A pointer to the ending address of the region of pages to be queried.</param>
+        /// <param name="processHandle">A handle to the process whose memory information is queried.</param>
+        /// <param name="startAddress">A pointer to the starting address of the region of pages to be queried.</param>
+        /// <param name="endAddress">A pointer to the ending address of the region of pages to be queried.</param>
         /// <returns>A collection of <see cref="Native.MemoryBasicInformation64"/> structures.</returns>
-        public static IEnumerable<MemoryBasicInformation64> Query(IntPtr ProcessHandle, IntPtr StartAddress, IntPtr EndAddress,
-            MemoryProtectionFlags RequiredProtection, MemoryProtectionFlags ExcludedProtection, MemoryTypeEnum AllowedTypes)
+        public static IEnumerable<MemoryBasicInformation64> Query(IntPtr processHandle, IntPtr startAddress, IntPtr endAddress,
+            MemoryProtectionFlags requiredProtection, MemoryProtectionFlags excludedProtection, MemoryTypeEnum allowedTypes)
         {
-            if (StartAddress.ToUInt64() >= EndAddress.ToUInt64())
+            if (startAddress.ToUInt64() >= endAddress.ToUInt64())
                 yield return new MemoryBasicInformation64();
 
             // Create the variable storing the result of the call of VirtualQueryEx
-            Int32 QueryResult;
-            Boolean WrappedAround = false;
+            Int32 queryResult;
+            Boolean wrappedAround = false;
 
             // Enumerate the memory pages
             do
             {
                 // Allocate the structure to store information of memory
-                MemoryBasicInformation64 MemoryInfo = Query(ProcessHandle, StartAddress, out QueryResult);
+                MemoryBasicInformation64 memoryInfo = Query(processHandle, startAddress, out queryResult);
 
                 // Increment the starting address with the size of the page
-                IntPtr PreviousFrom = StartAddress;
-                StartAddress = StartAddress.Add(MemoryInfo.RegionSize);
+                IntPtr PreviousFrom = startAddress;
+                startAddress = startAddress.Add(memoryInfo.RegionSize);
 
-                if (PreviousFrom.ToUInt64() > StartAddress.ToUInt64())
-                    WrappedAround = true;
+                if (PreviousFrom.ToUInt64() > startAddress.ToUInt64())
+                    wrappedAround = true;
 
                 // Ignore free memory. These are unallocated memory regions.
-                if ((MemoryInfo.State & MemoryStateFlags.Free) != 0)
+                if ((memoryInfo.State & MemoryStateFlags.Free) != 0)
                     continue;
 
                 // At least one readable memory flag is required
-                if ((MemoryInfo.Protect & MemoryProtectionFlags.ReadOnly) == 0 && (MemoryInfo.Protect & MemoryProtectionFlags.ExecuteRead) == 0 &&
-                    (MemoryInfo.Protect & MemoryProtectionFlags.ExecuteReadWrite) == 0 && (MemoryInfo.Protect & MemoryProtectionFlags.ReadWrite) == 0)
+                if ((memoryInfo.Protect & MemoryProtectionFlags.ReadOnly) == 0 && (memoryInfo.Protect & MemoryProtectionFlags.ExecuteRead) == 0 &&
+                    (memoryInfo.Protect & MemoryProtectionFlags.ExecuteReadWrite) == 0 && (memoryInfo.Protect & MemoryProtectionFlags.ReadWrite) == 0)
                     continue;
 
                 // Do not bother with this shit, this memory is not worth scanning
-                if ((MemoryInfo.Protect & MemoryProtectionFlags.ZeroAccess) != 0 || (MemoryInfo.Protect & MemoryProtectionFlags.NoAccess) != 0 || (MemoryInfo.Protect & MemoryProtectionFlags.Guard) != 0)
+                if ((memoryInfo.Protect & MemoryProtectionFlags.ZeroAccess) != 0 || (memoryInfo.Protect & MemoryProtectionFlags.NoAccess) != 0 || (memoryInfo.Protect & MemoryProtectionFlags.Guard) != 0)
                     continue;
 
                 // Enforce allowed types
-                switch (MemoryInfo.Type)
+                switch (memoryInfo.Type)
                 {
                     case MemoryTypeFlags.None:
-                        if ((AllowedTypes & MemoryTypeEnum.None) == 0)
+                        if ((allowedTypes & MemoryTypeEnum.None) == 0)
                             continue;
                         break;
                     case MemoryTypeFlags.Private:
-                        if ((AllowedTypes & MemoryTypeEnum.Private) == 0)
+                        if ((allowedTypes & MemoryTypeEnum.Private) == 0)
                             continue;
                         break;
                     case MemoryTypeFlags.Image:
-                        if ((AllowedTypes & MemoryTypeEnum.Image) == 0)
+                        if ((allowedTypes & MemoryTypeEnum.Image) == 0)
                             continue;
                         break;
                     case MemoryTypeFlags.Mapped:
-                        if ((AllowedTypes & MemoryTypeEnum.Mapped) == 0)
+                        if ((allowedTypes & MemoryTypeEnum.Mapped) == 0)
                             continue;
                         break;
                 }
 
                 // Ensure at least one required protection flag is set
-                if (RequiredProtection != 0 && (MemoryInfo.Protect & RequiredProtection) == 0)
+                if (requiredProtection != 0 && (memoryInfo.Protect & requiredProtection) == 0)
                     continue;
 
                 // Ensure no ignored protection flags are set
-                if (ExcludedProtection != 0 && (MemoryInfo.Protect & ExcludedProtection) != 0)
+                if (excludedProtection != 0 && (memoryInfo.Protect & excludedProtection) != 0)
                     continue;
 
                 // Return the memory page
-                yield return MemoryInfo;
+                yield return memoryInfo;
 
-            } while (StartAddress.ToUInt64() < EndAddress.ToUInt64() && QueryResult != 0 && !WrappedAround);
+            } while (startAddress.ToUInt64() < endAddress.ToUInt64() && queryResult != 0 && !wrappedAround);
         }
 
     } // End class

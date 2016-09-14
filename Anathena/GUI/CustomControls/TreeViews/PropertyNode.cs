@@ -18,10 +18,10 @@ namespace Anathena.GUI.CustomControls.TreeViews
         /// Initializes a new MyNode class with a given Text property.
         /// </summary>
         /// <param name="text">String to set the text property with.</param>
-        public PropertyNode(String EntryDescription, String EntryValue) : base(String.Empty)
+        public PropertyNode(String entryDescription, String entryValue) : base(String.Empty)
         {
-            this.EntryDescription = EntryDescription;
-            this.EntryValue = EntryValue;
+            this.EntryDescription = entryDescription;
+            this.EntryValue = entryValue;
         }
 
     } // End class

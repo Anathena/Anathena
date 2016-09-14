@@ -18,13 +18,13 @@ namespace Anathena.GUI.Tools
 {
     public partial class GUIProjectExplorer : DockContent, IProjectExplorerView
     {
-        private ProjectExplorerPresenter ProjectExplorerPresenter;
+        private ProjectExplorerPresenter projectExplorerPresenter;
 
-        private BiDictionary<ProjectItem, ProjectNode> NodeCache;
-        private TreeModel ProjectTree;
-        private ProjectItem ProjectRoot;
-        private TreeNodeAdv DraggedItem;
-        private Object AccessLock;
+        private BiDictionary<ProjectItem, ProjectNode> nodeCache;
+        private TreeModel projectTree;
+        private ProjectItem projectRoot;
+        private TreeNodeAdv draggedItem;
+        private Object accessLock;
 
         public GUIProjectExplorer()
         {
@@ -32,32 +32,32 @@ namespace Anathena.GUI.Tools
 
             EntryCheckBox.IsEditEnabledValueNeeded += CheckIndex;
 
-            NodeCache = new BiDictionary<ProjectItem, ProjectNode>();
-            ProjectTree = new TreeModel();
-            AccessLock = new Object();
+            nodeCache = new BiDictionary<ProjectItem, ProjectNode>();
+            projectTree = new TreeModel();
+            accessLock = new Object();
 
             (ProjectExplorerTreeView.NodeControls[ProjectExplorerTreeView.NodeControls.IndexOf(EntryDescription)] as BaseTextControl).DrawText += new EventHandler<DrawEventArgs>(FolderBrowser_DrawText);
 
-            ProjectExplorerTreeView.Model = ProjectTree;
-            ProjectExplorerPresenter = new ProjectExplorerPresenter(this, ProjectExplorer.GetInstance());
+            ProjectExplorerTreeView.Model = projectTree;
+            projectExplorerPresenter = new ProjectExplorerPresenter(this, ProjectExplorer.GetInstance());
         }
 
-        public void EventRefreshProjectStructure(ProjectItem ProjectRoot)
+        public void EventRefreshProjectStructure(ProjectItem projectRoot)
         {
-            if (ProjectExplorerPresenter == null)
+            if (projectExplorerPresenter == null)
                 return;
 
             ControlThreadingHelper.InvokeControlAction(ProjectExplorerTreeView, () =>
             {
-                this.ProjectRoot = ProjectRoot;
+                this.projectRoot = projectRoot;
 
                 ProjectExplorerTreeView.BeginUpdate();
-                ProjectTree.Nodes.Clear();
-                NodeCache.Clear();
+                projectTree.Nodes.Clear();
+                nodeCache.Clear();
 
-                if (ProjectRoot != null)
+                if (projectRoot != null)
                 {
-                    foreach (ProjectItem Child in ProjectRoot.Children)
+                    foreach (ProjectItem Child in projectRoot.Children)
                         BuildNodes(Child);
                 }
 
@@ -66,78 +66,78 @@ namespace Anathena.GUI.Tools
             });
         }
 
-        private void BuildNodes(ProjectItem ProjectItem, ProjectItem Parent = null)
+        private void BuildNodes(ProjectItem projectItem, ProjectItem parent = null)
         {
-            if (ProjectItem == null)
+            if (projectItem == null)
                 return;
 
-            Image Image = null;
+            Image image = null;
 
-            if (ProjectItem is AddressItem)
-                Image = new Bitmap(Properties.Resources.CollectValues);
-            else if (ProjectItem is ScriptItem)
-                Image = new Bitmap(Properties.Resources.CollectValues);
-            else if (ProjectItem is FolderItem)
-                Image = new Bitmap(Properties.Resources.Open);
+            if (projectItem is AddressItem)
+                image = new Bitmap(Properties.Resources.CollectValues);
+            else if (projectItem is ScriptItem)
+                image = new Bitmap(Properties.Resources.CollectValues);
+            else if (projectItem is FolderItem)
+                image = new Bitmap(Properties.Resources.Open);
 
             // Create new node to insert
-            ProjectNode ProjectNode = new ProjectNode(ProjectItem.Description);
-            ProjectNode.ProjectItem = ProjectItem;
-            ProjectNode.EntryIcon = Image;
-            ProjectNode.IsChecked = ProjectItem.GetActivationState();
+            ProjectNode ProjectNode = new ProjectNode(projectItem.Description);
+            ProjectNode.ProjectItem = projectItem;
+            ProjectNode.EntryIcon = image;
+            ProjectNode.IsChecked = projectItem.GetActivationState();
 
-            if (Parent != null && NodeCache.ContainsKey(Parent))
-                NodeCache[Parent].Nodes.Add(ProjectNode);
+            if (parent != null && nodeCache.ContainsKey(parent))
+                nodeCache[parent].Nodes.Add(ProjectNode);
             else
-                ProjectTree.Nodes.Add(ProjectNode);
+                projectTree.Nodes.Add(ProjectNode);
 
-            NodeCache.Add(ProjectItem, ProjectNode);
+            nodeCache.Add(projectItem, ProjectNode);
 
-            foreach (ProjectItem Child in ProjectItem.Children)
-                BuildNodes(Child, ProjectItem);
+            foreach (ProjectItem Child in projectItem.Children)
+                BuildNodes(Child, projectItem);
         }
 
-        private ProjectNode GetProjectNodeFromTreeNodeAdv(TreeNodeAdv TreeNodeAdv)
+        private ProjectNode GetProjectNodeFromTreeNodeAdv(TreeNodeAdv treeNodeAdv)
         {
-            Node Node = ProjectTree.FindNode(ProjectExplorerTreeView.GetPath(TreeNodeAdv));
+            Node node = projectTree.FindNode(ProjectExplorerTreeView.GetPath(treeNodeAdv));
 
-            if (Node == null || !typeof(ProjectNode).IsAssignableFrom(Node.GetType()))
+            if (node == null || !typeof(ProjectNode).IsAssignableFrom(node.GetType()))
                 return null;
 
-            ProjectNode ProjectNode = Node as ProjectNode;
+            ProjectNode projectNode = node as ProjectNode;
 
-            return ProjectNode;
+            return projectNode;
         }
 
-        private ProjectItem GetProjectItemFromNode(TreeNodeAdv TreeNodeAdv)
+        private ProjectItem GetProjectItemFromNode(TreeNodeAdv treeNodeAdv)
         {
-            return GetProjectNodeFromTreeNodeAdv(TreeNodeAdv)?.ProjectItem;
+            return GetProjectNodeFromTreeNodeAdv(treeNodeAdv)?.ProjectItem;
         }
 
         public void AddNewAddressItem()
         {
-            ProjectExplorerPresenter.AddNewAddressItem(GetSelectedItem());
+            projectExplorerPresenter.AddNewAddressItem(GetSelectedItem());
         }
 
         public void AddNewScriptItem()
         {
-            ProjectExplorerPresenter.AddNewScriptItem(GetSelectedItem());
+            projectExplorerPresenter.AddNewScriptItem(GetSelectedItem());
         }
 
         public void AddNewFolderItem()
         {
-            ProjectExplorerPresenter.AddNewFolderItem(GetSelectedItem());
+            projectExplorerPresenter.AddNewFolderItem(GetSelectedItem());
         }
 
         private ProjectItem GetSelectedItem()
         {
-            Node SelectedNode = ProjectTree.FindNode(ProjectExplorerTreeView.GetPath(ProjectExplorerTreeView.SelectedNode));
+            Node selectedNode = projectTree.FindNode(ProjectExplorerTreeView.GetPath(ProjectExplorerTreeView.SelectedNode));
             ProjectItem SelectedItem = null;
 
-            if (SelectedNode != null && typeof(ProjectNode).IsAssignableFrom(SelectedNode.GetType()))
+            if (selectedNode != null && typeof(ProjectNode).IsAssignableFrom(selectedNode.GetType()))
             {
-                if (NodeCache.Reverse.ContainsKey((ProjectNode)SelectedNode))
-                    SelectedItem = NodeCache.Reverse[(ProjectNode)SelectedNode];
+                if (nodeCache.Reverse.ContainsKey((ProjectNode)selectedNode))
+                    SelectedItem = nodeCache.Reverse[(ProjectNode)selectedNode];
             }
 
             return SelectedItem;
@@ -150,18 +150,18 @@ namespace Anathena.GUI.Tools
                 if (ProjectExplorerTreeView.SelectedNodes == null || ProjectExplorerTreeView.SelectedNodes.Count <= 0)
                     return;
 
-                List<ProjectItem> Nodes = new List<ProjectItem>();
-                ProjectExplorerTreeView.SelectedNodes.ForEach(X => Nodes.Add(GetProjectItemFromNode(X)));
+                List<ProjectItem> nodes = new List<ProjectItem>();
+                ProjectExplorerTreeView.SelectedNodes.ForEach(x => nodes.Add(GetProjectItemFromNode(x)));
 
-                if (Nodes.Count <= 0)
+                if (nodes.Count <= 0)
                     return;
 
                 // Behavior here is undefined, we could check only the selected items, or enforce the recursive rules of folders
-                // Nodes.ForEach(X => DoCheck(X, !X.GetActivationState()));
-                ProjectExplorerPresenter.ActivateProjectItems(Nodes, !Nodes.First().GetActivationState());
-                ProjectExplorerTreeView.SelectedNodes.ForEach(X => NodeCache[GetProjectItemFromNode(X)].IsChecked = GetProjectItemFromNode(X).GetActivationState());
+                // Nodes.ForEach(x => DoCheck(x, !x.GetActivationState()));
+                projectExplorerPresenter.ActivateProjectItems(nodes, !nodes.First().GetActivationState());
+                ProjectExplorerTreeView.SelectedNodes.ForEach(x => nodeCache[GetProjectItemFromNode(x)].IsChecked = GetProjectItemFromNode(x).GetActivationState());
 
-                EventRefreshProjectStructure(ProjectRoot);
+                EventRefreshProjectStructure(projectRoot);
             });
         }
 
@@ -173,79 +173,79 @@ namespace Anathena.GUI.Tools
                     return;
 
                 List<ProjectItem> Nodes = new List<ProjectItem>();
-                ProjectExplorerTreeView.SelectedNodes.ForEach(X => Nodes.Add(GetProjectItemFromNode(X)));
-                ProjectExplorerPresenter.DeleteProjectItems(Nodes);
+                ProjectExplorerTreeView.SelectedNodes.ForEach(x => Nodes.Add(GetProjectItemFromNode(x)));
+                projectExplorerPresenter.DeleteProjectItems(Nodes);
 
-                EventRefreshProjectStructure(ProjectRoot);
+                EventRefreshProjectStructure(projectRoot);
             });
         }
 
-        private void DoCheck(ProjectItem ProjectItem, Boolean Activated)
+        private void DoCheck(ProjectItem projectItem, Boolean activated)
         {
-            if (ProjectItem == null)
+            if (projectItem == null)
                 return;
 
-            ProjectExplorerPresenter.ActivateProjectItem(ProjectItem, Activated);
-            NodeCache[ProjectItem].IsChecked = ProjectItem.GetActivationState();
+            projectExplorerPresenter.ActivateProjectItem(projectItem, activated);
+            nodeCache[projectItem].IsChecked = projectItem.GetActivationState();
 
-            if (!(ProjectItem is FolderItem))
+            if (!(projectItem is FolderItem))
                 return;
 
-            foreach (ProjectItem Child in ProjectItem.Children)
-                DoCheck(Child, Activated);
+            foreach (ProjectItem child in projectItem.Children)
+                DoCheck(child, activated);
         }
 
         #region Events
 
-        private void AddressToolStripMenuItem_Click(Object Sender, EventArgs E)
+        private void AddressToolStripMenuItem_Click(Object sender, EventArgs e)
         {
             AddNewAddressItem();
         }
 
-        private void AddNewScriptToolStripMenuItem_Click(Object Sender, EventArgs E)
+        private void AddNewScriptToolStripMenuItem_Click(Object sender, EventArgs e)
         {
             AddNewScriptItem();
         }
 
-        private void FolderToolStripMenuItem_Click(Object Sender, EventArgs E)
+        private void FolderToolStripMenuItem_Click(Object sender, EventArgs e)
         {
             AddNewFolderItem();
         }
 
-        private void AddressRightClickToolStripMenuItem_Click(Object Sender, EventArgs E)
+        private void AddressRightClickToolStripMenuItem_Click(Object sender, EventArgs e)
         {
             AddNewAddressItem();
         }
 
-        private void ScriptRightClickToolStripMenuItem_Click(Object Sender, EventArgs E)
+        private void ScriptRightClickToolStripMenuItem_Click(Object sender, EventArgs e)
         {
             AddNewScriptItem();
         }
 
-        private void FolderRightClickToolStripMenuItem_Click(Object Sender, EventArgs E)
+        private void FolderRightClickToolStripMenuItem_Click(Object sender, EventArgs e)
         {
             AddNewFolderItem();
         }
 
-        private void DeleteSelectionToolStripMenuItem_Click(Object Sender, EventArgs E)
+        private void DeleteSelectionToolStripMenuItem_Click(Object sender, EventArgs e)
         {
             DeleteSelectedItems();
         }
 
-        private void ToggleFreezeToolStripMenuItem_Click(Object Sender, EventArgs E)
+        private void ToggleFreezeToolStripMenuItem_Click(Object sender, EventArgs e)
         {
             ActivateSelectedItems();
         }
 
-        private void ProjectExplorerTreeView_KeyPress(Object Sender, KeyPressEventArgs E)
+        private void ProjectExplorerTreeView_KeyPress(Object sender, KeyPressEventArgs e)
         {
-            if (E.KeyChar != ' ')
+            if (e.KeyChar != ' ')
                 return;
 
             ActivateSelectedItems();
         }
 
-        private void ProjectContextMenuStrip_Opening(Object Sender, CancelEventArgs E)
+        private void ProjectContextMenuStrip_Opening(Object sender, CancelEventArgs e)
         {
             ControlThreadingHelper.InvokeControlAction(ProjectExplorerTreeView, () =>
             {
@@ -264,117 +264,117 @@ namespace Anathena.GUI.Tools
             });
         }
 
-        private void CheckIndex(Object Sender, NodeControlValueEventArgs E)
+        private void CheckIndex(Object sender, NodeControlValueEventArgs e)
         {
             ControlThreadingHelper.InvokeControlAction(ProjectExplorerTreeView, () =>
             {
-                if (E == null || E.Node == null)
+                if (e == null || e.Node == null)
                     return;
 
-                ProjectItem ProjectItem = GetProjectItemFromNode(E.Node);
+                ProjectItem projectItem = GetProjectItemFromNode(e.Node);
 
-                if (ProjectItem == null)
+                if (projectItem == null)
                     return;
 
-                DoCheck(ProjectItem, !ProjectItem.GetActivationState());
+                DoCheck(projectItem, !projectItem.GetActivationState());
 
-                EventRefreshProjectStructure(ProjectRoot);
+                EventRefreshProjectStructure(projectRoot);
             });
         }
 
-        private void ProjectExplorerTreeView_NodeMouseDoubleClick(Object Sender, TreeNodeAdvMouseEventArgs E)
+        private void ProjectExplorerTreeView_NodeMouseDoubleClick(Object sender, TreeNodeAdvMouseEventArgs e)
         {
-            if (E == null || E.Node == null)
+            if (e == null || e.Node == null)
                 return;
 
-            ProjectItem ProjectItem = GetProjectItemFromNode(E.Node);
-            ProjectExplorerPresenter.PerformDefaultAction(ProjectItem);
+            ProjectItem projectItem = GetProjectItemFromNode(e.Node);
+            projectExplorerPresenter.PerformDefaultAction(projectItem);
         }
 
-        private void ProjectExplorerTreeView_SelectionChanged(Object Sender, EventArgs E)
+        private void ProjectExplorerTreeView_SelectionChanged(Object sender, EventArgs e)
         {
-            List<TreeNodeAdv> TreeNodes = new List<TreeNodeAdv>();
-            List<ProjectItem> ProjectItems = new List<ProjectItem>();
+            List<TreeNodeAdv> treeNodes = new List<TreeNodeAdv>();
+            List<ProjectItem> projectItems = new List<ProjectItem>();
 
-            ProjectExplorerTreeView.SelectedNodes.ForEach(X => TreeNodes.Add(X));
-            TreeNodes.ForEach(X => ProjectItems.Add(GetProjectItemFromNode(X)));
+            ProjectExplorerTreeView.SelectedNodes.ForEach(X => treeNodes.Add(X));
+            treeNodes.ForEach(x => projectItems.Add(GetProjectItemFromNode(x)));
 
-            ProjectExplorerPresenter.UpdateSelection(ProjectItems);
+            projectExplorerPresenter.UpdateSelection(projectItems);
         }
 
-        private void FolderBrowser_DrawText(Object Sender, DrawEventArgs E)
+        private void FolderBrowser_DrawText(Object sender, DrawEventArgs e)
         {
-            ProjectItem ProjectItem = GetProjectItemFromNode(E.Node);
+            ProjectItem projectItem = GetProjectItemFromNode(e.Node);
 
-            if (ProjectItem != null)
-                E.TextColor = ProjectItem.TextColor;
+            if (projectItem != null)
+                e.TextColor = projectItem.TextColor;
             else
-                E.TextColor = SystemColors.ControlText;
+                e.TextColor = SystemColors.ControlText;
         }
 
-        private void ProjectExplorerTreeView_ItemDrag(Object Sender, ItemDragEventArgs E)
+        private void ProjectExplorerTreeView_ItemDrag(Object sender, ItemDragEventArgs e)
         {
-            DraggedItem = E.Item as TreeNodeAdv;
-            DoDragDrop(E.Item, DragDropEffects.Move);
+            draggedItem = e.Item as TreeNodeAdv;
+            DoDragDrop(e.Item, DragDropEffects.Move);
         }
 
-        private void ProjectExplorerTreeView_DragOver(Object Sender, DragEventArgs E)
+        private void ProjectExplorerTreeView_DragOver(Object sender, DragEventArgs e)
         {
-            E.Effect = DragDropEffects.Move;
+            e.Effect = DragDropEffects.Move;
         }
 
-        private void ProjectExplorerTreeView_DragEnter(Object Sender, DragEventArgs E)
+        private void ProjectExplorerTreeView_DragEnter(Object sender, DragEventArgs e)
         {
-            E.Effect = DragDropEffects.Move;
+            e.Effect = DragDropEffects.Move;
         }
 
-        private void ProjectExplorerTreeView_DragDrop(Object Sender, DragEventArgs E)
+        private void ProjectExplorerTreeView_DragDrop(Object sender, DragEventArgs e)
         {
             // Retrieve the client coordinates of the drop location.
-            Point TargetPoint = ProjectExplorerTreeView.PointToClient(new Point(E.X, E.Y));
+            Point targetPoint = ProjectExplorerTreeView.PointToClient(new Point(e.X, e.Y));
 
             // Retrieve the node at the drop location.
-            TreeNodeAdv TargetNodeAdv = ProjectExplorerTreeView.GetNodeAt(TargetPoint);
+            TreeNodeAdv targetNodeAdv = ProjectExplorerTreeView.GetNodeAt(targetPoint);
 
             // Retrieve the node that was dragged.
-            TreeNodeAdv[] DraggedNodesAdv = E.Data.GetData(typeof(TreeNodeAdv[])) as TreeNodeAdv[];
+            TreeNodeAdv[] draggedNodesAdv = e.Data.GetData(typeof(TreeNodeAdv[])) as TreeNodeAdv[];
 
-            if (DraggedNodesAdv.Count() <= 0)
+            if (draggedNodesAdv.Count() <= 0)
                 return;
 
-            TreeNodeAdv DraggedNodeAdv = DraggedNodesAdv[0];
+            TreeNodeAdv draggedNodeAdv = draggedNodesAdv[0];
 
-            if (DraggedNodeAdv != null && TargetNodeAdv != null && DraggedNodeAdv != TargetNodeAdv)
+            if (draggedNodeAdv != null && targetNodeAdv != null && draggedNodeAdv != targetNodeAdv)
             {
-                ProjectItem DraggedItem = GetProjectItemFromNode(DraggedNodeAdv);
-                ProjectItem TargetItem = GetProjectItemFromNode(TargetNodeAdv);
+                ProjectItem draggedItem = GetProjectItemFromNode(draggedNodeAdv);
+                ProjectItem targetItem = GetProjectItemFromNode(targetNodeAdv);
 
                 switch (ProjectExplorerTreeView.DropPosition.Position)
                 {
                     case NodePosition.Before:
-                        if (!DraggedItem.HasNode(TargetItem))
+                        if (!draggedItem.HasNode(targetItem))
                         {
-                            ProjectRoot.RemoveNode(DraggedItem);
-                            TargetItem.AddSibling(DraggedItem, false);
+                            projectRoot.RemoveNode(draggedItem);
+                            targetItem.AddSibling(draggedItem, false);
                         }
                         break;
                     case NodePosition.Inside:
-                        if (!DraggedItem.HasNode(TargetItem))
+                        if (!draggedItem.HasNode(targetItem))
                         {
-                            ProjectRoot.RemoveNode(DraggedItem);
-                            TargetItem.AddChild(DraggedItem);
+                            projectRoot.RemoveNode(draggedItem);
+                            targetItem.AddChild(draggedItem);
                         }
                         break;
                     case NodePosition.After:
-                        if (!DraggedItem.HasNode(TargetItem))
+                        if (!draggedItem.HasNode(targetItem))
                         {
-                            ProjectRoot.RemoveNode(DraggedItem);
-                            TargetItem.AddSibling(DraggedItem, true);
+                            projectRoot.RemoveNode(draggedItem);
+                            targetItem.AddSibling(draggedItem, true);
                         }
                         break;
                 }
 
-                EventRefreshProjectStructure(ProjectRoot);
+                EventRefreshProjectStructure(projectRoot);
             }
         }
 

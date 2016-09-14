@@ -12,29 +12,29 @@ namespace Anathena.GUI.Tools
 {
     public partial class GUIProcessSelector : DockContent, IProcessSelectorView
     {
-        private ProcessSelectorPresenter ProcessSelectorPresenter;
-        private Object AccessLock;
+        private ProcessSelectorPresenter processSelectorPresenter;
+        private Object accessLock;
 
         // Column text alignment. Without this the column title lines up with the icon rather than text
-        private const string Alignment = "     ";
+        private const String alignment = "     ";
 
         public GUIProcessSelector()
         {
             InitializeComponent();
 
             // Set custom properties for our process List View
-            ProcessListView.Columns.Add(Alignment + "Processes");
+            ProcessListView.Columns.Add(alignment + "Processes");
             ProcessListView.View = View.Details;
 
             // Initialize presenter
-            ProcessSelectorPresenter = new ProcessSelectorPresenter(this, ProcessSelector.GetInstance());
-            AccessLock = new Object();
+            processSelectorPresenter = new ProcessSelectorPresenter(this, ProcessSelector.GetInstance());
+            accessLock = new Object();
 
             // Initialize process list
             RefreshProcesses();
         }
 
-        public void SelectProcess(Process TargetProcess)
+        public void SelectProcess(Process targetProcess)
         {
             ControlThreadingHelper.InvokeControlAction(this, () =>
             {
@@ -44,18 +44,18 @@ namespace Anathena.GUI.Tools
             });
         }
 
-        public void DisplayProcesses(IEnumerable<ListViewItem> Items, ImageList ImageList)
+        public void DisplayProcesses(IEnumerable<ListViewItem> items, ImageList imageList)
         {
             ControlThreadingHelper.InvokeControlAction(ProcessListView, () =>
             {
-                using (TimedLock.Lock(AccessLock))
+                using (TimedLock.Lock(accessLock))
                 {
                     // Clear the old items in the process list
                     ProcessListView.Items.Clear();
 
                     // Add all of the new items
-                    Items?.ForEach(X => ProcessListView.Items.Add(X));
-                    ProcessListView.SmallImageList = ImageList;
+                    items?.ForEach(x => ProcessListView.Items.Add(x));
+                    ProcessListView.SmallImageList = imageList;
                 }
             });
         }
@@ -64,14 +64,14 @@ namespace Anathena.GUI.Tools
         {
             ControlThreadingHelper.InvokeControlAction(ProcessListView, () =>
             {
-                using (TimedLock.Lock(AccessLock))
+                using (TimedLock.Lock(accessLock))
                 {
                     if (ProcessListView.SelectedIndices.Count <= 0)
                         return;
 
                     try
                     {
-                        ProcessSelectorPresenter.SelectProcess(ProcessListView.SelectedIndices[0]);
+                        processSelectorPresenter.SelectProcess(ProcessListView.SelectedIndices[0]);
                     }
                     catch (Exception Ex)
                     {
@@ -88,32 +88,32 @@ namespace Anathena.GUI.Tools
 
         private void RefreshProcesses()
         {
-            ProcessSelectorPresenter.RefreshProcesses(this.Handle);
+            processSelectorPresenter.RefreshProcesses(this.Handle);
         }
 
         #region Events
 
-        private void SelectProcessToolStripMenuItem_Click(Object Sender, EventArgs E)
+        private void SelectProcessToolStripMenuItem_Click(Object sender, EventArgs e)
         {
             TrySelectingProcess();
         }
 
-        private void ProcessListView_DoubleClick(Object Sender, EventArgs E)
+        private void ProcessListView_DoubleClick(Object sender, EventArgs e)
         {
             TrySelectingProcess();
         }
 
-        private void RefreshToolStripMenuItem_Click(Object Sender, EventArgs E)
+        private void RefreshToolStripMenuItem_Click(Object sender, EventArgs e)
         {
             RefreshProcesses();
         }
 
-        private void RefreshButton_Click(Object Sender, EventArgs E)
+        private void RefreshButton_Click(Object sender, EventArgs e)
         {
             RefreshProcesses();
         }
 
-        private void GUIProcessSelector_Resize(Object Sender, EventArgs E)
+        private void GUIProcessSelector_Resize(Object sender, EventArgs e)
         {
             HandleResize();
         }

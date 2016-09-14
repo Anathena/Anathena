@@ -2,7 +2,6 @@
 
 namespace Anathena.Source.Engine.OperatingSystems
 {
-
     [Flags]
     public enum MemoryProtectionEnum
     {

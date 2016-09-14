@@ -32,7 +32,7 @@
             this.VariableSizeValueLabel = new System.Windows.Forms.Label();
             this.VariableSizeLabel = new System.Windows.Forms.Label();
             this.VariableSizeTrackBar = new System.Windows.Forms.TrackBar();
-            this.ScanToolStrip = new System.Windows.Forms.ToolStrip();
+            this.scanToolStrip = new System.Windows.Forms.ToolStrip();
             this.StartScanButton = new System.Windows.Forms.ToolStripButton();
             this.StopScanButton = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
@@ -41,7 +41,7 @@
             this.HotKeyListView = new Anathena.GUI.CustomControls.ListViews.FlickerFreeListView();
             this.HotKeyHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             ((System.ComponentModel.ISupportInitialize)(this.VariableSizeTrackBar)).BeginInit();
-            this.ScanToolStrip.SuspendLayout();
+            this.scanToolStrip.SuspendLayout();
             this.SuspendLayout();
             // 
             // VariableSizeValueLabel
@@ -75,18 +75,18 @@
             // 
             // ScanToolStrip
             // 
-            this.ScanToolStrip.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
-            this.ScanToolStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.scanToolStrip.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
+            this.scanToolStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.StartScanButton,
             this.StopScanButton,
             this.toolStripSeparator1,
             this.ScanCountLabel});
-            this.ScanToolStrip.Location = new System.Drawing.Point(0, 0);
-            this.ScanToolStrip.Name = "ScanToolStrip";
-            this.ScanToolStrip.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
-            this.ScanToolStrip.Size = new System.Drawing.Size(304, 25);
-            this.ScanToolStrip.TabIndex = 150;
-            this.ScanToolStrip.Text = "toolStrip1";
+            this.scanToolStrip.Location = new System.Drawing.Point(0, 0);
+            this.scanToolStrip.Name = "ScanToolStrip";
+            this.scanToolStrip.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
+            this.scanToolStrip.Size = new System.Drawing.Size(304, 25);
+            this.scanToolStrip.TabIndex = 150;
+            this.scanToolStrip.Text = "toolStrip1";
             // 
             // StartScanButton
             // 
@@ -159,14 +159,14 @@
             this.Controls.Add(this.VariableSizeValueLabel);
             this.Controls.Add(this.VariableSizeLabel);
             this.Controls.Add(this.VariableSizeTrackBar);
-            this.Controls.Add(this.ScanToolStrip);
+            this.Controls.Add(this.scanToolStrip);
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "GUIInputCorrelator";
             this.Text = "Correlator";
             ((System.ComponentModel.ISupportInitialize)(this.VariableSizeTrackBar)).EndInit();
-            this.ScanToolStrip.ResumeLayout(false);
-            this.ScanToolStrip.PerformLayout();
+            this.scanToolStrip.ResumeLayout(false);
+            this.scanToolStrip.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -176,7 +176,7 @@
         private System.Windows.Forms.Label VariableSizeValueLabel;
         private System.Windows.Forms.Label VariableSizeLabel;
         private System.Windows.Forms.TrackBar VariableSizeTrackBar;
-        private System.Windows.Forms.ToolStrip ScanToolStrip;
+        private System.Windows.Forms.ToolStrip scanToolStrip;
         private System.Windows.Forms.ToolStripButton StartScanButton;
         private System.Windows.Forms.ToolStripButton StopScanButton;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;

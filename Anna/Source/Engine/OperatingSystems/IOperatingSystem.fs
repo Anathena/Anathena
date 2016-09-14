@@ -1,6 +1,9 @@
 ﻿namespace Anna.Source.Engine.OperatingSystems
 
-type IOperatingSystem2 = interface end
+open System
+
+type IOperatingSystem2 =
+    abstract member IsOS32Bit: Boolean
 
 (*
 // Virtual pages

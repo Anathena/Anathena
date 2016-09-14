@@ -10,7 +10,7 @@ namespace Anathena.GUI.CustomControls.ListViews
     /// </summary>
     class CheckableListView : FlickerFreeListView
     {
-        const Int32 CheckBoxSize = 16;
+        const Int32 checkBoxSize = 16;
 
         public CheckableListView()
         {
@@ -23,41 +23,41 @@ namespace Anathena.GUI.CustomControls.ListViews
             this.MouseDoubleClick += new MouseEventHandler(CheckableListView_MouseDoubleClick);
         }
 
-        private void CheckableListView_DrawColumnHeader(Object Sender, DrawListViewColumnHeaderEventArgs E)
+        private void CheckableListView_DrawColumnHeader(Object sender, DrawListViewColumnHeaderEventArgs e)
         {
-            E.DrawDefault = true;
+            e.DrawDefault = true;
         }
 
-        void CheckableListView_DrawItem(Object Sender, DrawListViewItemEventArgs E)
+        void CheckableListView_DrawItem(Object sender, DrawListViewItemEventArgs e)
         {
-            E.DrawDefault = true;
+            e.DrawDefault = true;
 
-            if (!E.Item.Checked)
+            if (!e.Item.Checked)
             {
-                E.Item.Checked = true;
-                E.Item.Checked = false;
+                e.Item.Checked = true;
+                e.Item.Checked = false;
             }
         }
 
-        void CheckableListView_MouseClick(Object Sender, MouseEventArgs E)
+        void CheckableListView_MouseClick(Object sender, MouseEventArgs e)
         {
-            ListViewItem ListViewItem = this.GetItemAt(E.X, E.Y);
+            ListViewItem listViewItem = this.GetItemAt(e.X, e.Y);
 
-            if (ListViewItem == null)
+            if (listViewItem == null)
                 return;
 
-            if (E.X < (ListViewItem.Bounds.Left + CheckBoxSize))
+            if (e.X < (listViewItem.Bounds.Left + checkBoxSize))
             {
-                ListViewItem.Checked = !ListViewItem.Checked;
-                this.Invalidate(ListViewItem.Bounds);
+                listViewItem.Checked = !listViewItem.Checked;
+                this.Invalidate(listViewItem.Bounds);
             }
         }
 
-        void CheckableListView_MouseDoubleClick(Object Sender, MouseEventArgs E)
+        void CheckableListView_MouseDoubleClick(Object sender, MouseEventArgs e)
         {
-            ListViewItem ListViewItem = this.GetItemAt(E.X, E.Y);
-            if (ListViewItem != null)
-                this.Invalidate(ListViewItem.Bounds);
+            ListViewItem listViewItem = this.GetItemAt(e.X, e.Y);
+            if (listViewItem != null)
+                this.Invalidate(listViewItem.Bounds);
         }
 
     } // End class

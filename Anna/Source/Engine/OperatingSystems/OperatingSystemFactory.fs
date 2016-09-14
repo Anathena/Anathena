@@ -1,10 +1,9 @@
 ﻿namespace Anna.Source.Engine.OperatingSystems
 
-type OperatingSystemFactory2() = class end
+open System.Diagnostics
 
-(*
-public static IOperatingSystem GetOperatingSystem(Process Target)
-{
-    return new WindowsOperatingSystem(Target);
-}
-*)
+open Anna.Source.Engine.OperatingSystems.Windows
+
+type OperatingSystemFactory2() = 
+    member this.GetOperatingSystem(externalProcess: Process) =
+        new WindowsAdapter(externalProcess);

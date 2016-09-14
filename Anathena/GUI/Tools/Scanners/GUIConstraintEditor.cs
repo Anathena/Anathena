@@ -15,30 +15,30 @@ namespace Anathena.GUI.Tools.Scanners
 {
     public partial class GUIConstraintEditor : UserControl, IScanConstraintEditorView
     {
-        private ScanConstraintEditorPresenter ScanConstraintEditorPresenter;
-        private Object AccessLock;
+        private ScanConstraintEditorPresenter scanConstraintEditorPresenter;
+        private Object accessLock;
 
-        private Boolean ValueRequired;
+        private Boolean valueRequired;
 
-        private Boolean _HideElementType;
+        private Boolean _hideElementType;
         public Boolean HideElementType
         {
-            get { return _HideElementType; }
+            get { return _hideElementType; }
             set
             {
-                using (TimedLock.Lock(AccessLock))
+                using (TimedLock.Lock(accessLock))
                 {
-                    _HideElementType = value;
-                    if (_HideElementType)
+                    _hideElementType = value;
+                    if (_hideElementType)
                     {
                         ValueTypeComboBox.Visible = false;
                         ValueTextBox.Width = ValueTypeComboBox.Location.X + ValueTypeComboBox.Width - ValueTextBox.Location.X;
                     }
                     else
                     {
-                        const Int32 Spacing = 6;
+                        const Int32 spacing = 6;
                         ValueTypeComboBox.Visible = true;
-                        ValueTextBox.Width = ValueTypeComboBox.Location.X - Spacing - ValueTextBox.Location.X;
+                        ValueTextBox.Width = ValueTypeComboBox.Location.X - spacing - ValueTextBox.Location.X;
                     }
                 }
                 Invalidate();
@@ -49,8 +49,8 @@ namespace Anathena.GUI.Tools.Scanners
         {
             InitializeComponent();
 
-            ScanConstraintEditorPresenter = new ScanConstraintEditorPresenter(this, new ScanConstraintEditor());
-            AccessLock = new Object();
+            scanConstraintEditorPresenter = new ScanConstraintEditorPresenter(this, new ScanConstraintEditor());
+            accessLock = new Object();
 
             InitializeValueTypeComboBox();
             UpdateScanOptions(EqualToToolStripMenuItem, ConstraintsEnum.Equal, false);
@@ -58,22 +58,22 @@ namespace Anathena.GUI.Tools.Scanners
 
         private void InitializeValueTypeComboBox()
         {
-            foreach (Type Primitive in PrimitiveTypes.GetScannablePrimitiveTypes())
-                ValueTypeComboBox.Items.Add(Primitive.Name);
+            foreach (Type primitive in PrimitiveTypes.GetScannablePrimitiveTypes())
+                ValueTypeComboBox.Items.Add(primitive.Name);
 
             ValueTypeComboBox.SelectedIndex = ValueTypeComboBox.Items.IndexOf(typeof(Int32).Name);
         }
 
-        private void UpdateScanOptions(ToolStripMenuItem Sender, ConstraintsEnum ValueConstraint, Boolean AddNewConstraint = true)
+        private void UpdateScanOptions(ToolStripMenuItem sender, ConstraintsEnum valueConstraint, Boolean addNewConstraint = true)
         {
-            switch (ValueConstraint)
+            switch (valueConstraint)
             {
                 case ConstraintsEnum.Changed:
                 case ConstraintsEnum.Unchanged:
                 case ConstraintsEnum.Decreased:
                 case ConstraintsEnum.Increased:
                 case ConstraintsEnum.NotScientificNotation:
-                    ValueRequired = false;
+                    valueRequired = false;
                     break;
                 case ConstraintsEnum.Invalid:
                 case ConstraintsEnum.GreaterThan:
@@ -84,25 +84,25 @@ namespace Anathena.GUI.Tools.Scanners
                 case ConstraintsEnum.NotEqual:
                 case ConstraintsEnum.IncreasedByX:
                 case ConstraintsEnum.DecreasedByX:
-                    ValueRequired = true;
+                    valueRequired = true;
                     break;
             }
 
-            ScanConstraintEditorPresenter.SetCurrentValueConstraint(ValueConstraint);
+            scanConstraintEditorPresenter.SetCurrentValueConstraint(valueConstraint);
 
-            if (AddNewConstraint)
+            if (addNewConstraint)
                 AddConstraint();
         }
 
-        public void UpdateDisplay(IEnumerable<ListViewItem> ListViewItems, ImageList ImageList)
+        public void UpdateDisplay(IEnumerable<ListViewItem> listViewItems, ImageList imageList)
         {
             ControlThreadingHelper.InvokeControlAction(ConstraintsListView, () =>
             {
-                using (TimedLock.Lock(AccessLock))
+                using (TimedLock.Lock(accessLock))
                 {
                     ConstraintsListView.Items.Clear();
-                    ListViewItems?.ForEach(X => ConstraintsListView.Items.Add(X));
-                    ConstraintsListView.SmallImageList = ImageList;
+                    listViewItems?.ForEach(X => ConstraintsListView.Items.Add(X));
+                    ConstraintsListView.SmallImageList = imageList;
                 }
             });
         }
@@ -111,7 +111,7 @@ namespace Anathena.GUI.Tools.Scanners
         {
             ControlThreadingHelper.InvokeControlAction(ConstraintToolStrip, () =>
             {
-                using (TimedLock.Lock(AccessLock))
+                using (TimedLock.Lock(accessLock))
                 {
                     ScanOptionsToolStripDropDownButton.DropDownItems.Remove(ChangedToolStripMenuItem);
                     ScanOptionsToolStripDropDownButton.DropDownItems.Remove(UnchangedToolStripMenuItem);
@@ -125,14 +125,14 @@ namespace Anathena.GUI.Tools.Scanners
 
         public ToolStrip AcquireToolStrip()
         {
-            using (TimedLock.Lock(AccessLock))
+            using (TimedLock.Lock(accessLock))
             {
                 if (!this.Controls.Contains(ConstraintToolStrip))
                     return null;
 
                 ControlThreadingHelper.InvokeControlAction(this, () =>
                 {
-                    using (TimedLock.Lock(AccessLock))
+                    using (TimedLock.Lock(accessLock))
                     {
                         this.Controls.Remove(ConstraintToolStrip);
 
@@ -149,17 +149,17 @@ namespace Anathena.GUI.Tools.Scanners
 
         public ScanConstraintManager GetScanConstraintManager()
         {
-            return ScanConstraintEditorPresenter.GetScanConstraintManager();
+            return scanConstraintEditorPresenter.GetScanConstraintManager();
         }
 
-        public void SetElementType(Type ElementType)
+        public void SetElementType(Type elementType)
         {
             ControlThreadingHelper.InvokeControlAction(ValueTextBox, () =>
             {
-                using (TimedLock.Lock(AccessLock))
+                using (TimedLock.Lock(accessLock))
                 {
-                    ScanConstraintEditorPresenter.SetElementType(ElementType);
-                    ValueTextBox.SetElementType(ElementType);
+                    scanConstraintEditorPresenter.SetElementType(elementType);
+                    ValueTextBox.SetElementType(elementType);
                 }
             });
         }
@@ -168,31 +168,31 @@ namespace Anathena.GUI.Tools.Scanners
         {
             ControlThreadingHelper.InvokeControlAction(ValueTextBox, () =>
             {
-                using (TimedLock.Lock(AccessLock))
+                using (TimedLock.Lock(accessLock))
                 {
-                    if (!ValueRequired || ValueTextBox.IsValid())
-                        ScanConstraintEditorPresenter.AddConstraint(ValueTextBox.GetValueAsDecimal());
+                    if (!valueRequired || ValueTextBox.IsValid())
+                        scanConstraintEditorPresenter.AddConstraint(ValueTextBox.GetValueAsDecimal());
                 }
             });
         }
 
         #region Events
 
-        private Point RightClickLocation = Point.Empty;
+        private Point rightClickLocation = Point.Empty;
 
-        private void ConstraintsListView_MouseClick(Object Sender, MouseEventArgs E)
+        private void ConstraintsListView_MouseClick(Object sender, MouseEventArgs e)
         {
-            if (E.Button != MouseButtons.Right)
+            if (e.Button != MouseButtons.Right)
                 return;
 
-            RightClickLocation = E.Location;
+            rightClickLocation = e.Location;
         }
 
-        private void ConstraintsListView_MouseDoubleClick(Object Sender, MouseEventArgs E)
+        private void ConstraintsListView_MouseDoubleClick(Object sender, MouseEventArgs e)
         {
-            using (TimedLock.Lock(AccessLock))
+            using (TimedLock.Lock(accessLock))
             {
-                ListViewHitTestInfo HitTest = ConstraintsListView.HitTest(E.Location);
+                ListViewHitTestInfo HitTest = ConstraintsListView.HitTest(e.Location);
                 ListViewItem SelectedItem = HitTest.Item;
 
                 if (SelectedItem == null)
@@ -202,23 +202,23 @@ namespace Anathena.GUI.Tools.Scanners
             }
         }
 
-        private void ConstraintContextMenuStrip_Opening(Object Sender, CancelEventArgs E)
+        private void ConstraintContextMenuStrip_Opening(Object sender, CancelEventArgs e)
         {
-            using (TimedLock.Lock(AccessLock))
+            using (TimedLock.Lock(accessLock))
             {
-                ListViewHitTestInfo HitTest = ConstraintsListView.HitTest(RightClickLocation);
+                ListViewHitTestInfo HitTest = ConstraintsListView.HitTest(rightClickLocation);
                 ListViewItem SelectedItem = HitTest.Item;
 
                 if (SelectedItem == null)
-                    E.Cancel = true;
+                    e.Cancel = true;
             }
         }
 
-        private void EditConstraintToolStripMenuItem_Click(Object Sender, EventArgs E)
+        private void EditConstraintToolStripMenuItem_Click(Object sender, EventArgs e)
         {
-            using (TimedLock.Lock(AccessLock))
+            using (TimedLock.Lock(accessLock))
             {
-                ListViewHitTestInfo HitTest = ConstraintsListView.HitTest(RightClickLocation);
+                ListViewHitTestInfo HitTest = ConstraintsListView.HitTest(rightClickLocation);
                 ListViewItem SelectedItem = HitTest.Item;
 
                 if (SelectedItem == null)
@@ -228,121 +228,121 @@ namespace Anathena.GUI.Tools.Scanners
             }
         }
 
-        private void DeleteToolStripMenuItem_Click(Object Sender, EventArgs E)
+        private void DeleteToolStripMenuItem_Click(Object sender, EventArgs e)
         {
-            using (TimedLock.Lock(AccessLock))
+            using (TimedLock.Lock(accessLock))
             {
-                ListViewHitTestInfo HitTest = ConstraintsListView.HitTest(RightClickLocation);
+                ListViewHitTestInfo HitTest = ConstraintsListView.HitTest(rightClickLocation);
                 ListViewItem SelectedItem = HitTest.Item;
 
                 if (SelectedItem == null)
                     return;
 
-                ScanConstraintEditorPresenter.RemoveConstraints(SelectedItem.Index);
+                scanConstraintEditorPresenter.RemoveConstraints(SelectedItem.Index);
             }
         }
 
-        private void ConstraintsListView_AfterLabelEdit(Object Sender, LabelEditEventArgs E)
+        private void ConstraintsListView_AfterLabelEdit(Object sender, LabelEditEventArgs e)
         {
-            using (TimedLock.Lock(AccessLock))
+            using (TimedLock.Lock(accessLock))
             {
                 // Does not support hex, highlighting, nor GetValueAsDec like adding constraints. Just try and see if it fails.
-                if (ScanConstraintEditorPresenter.TryUpdateConstraint(E.Item, E.Label))
+                if (scanConstraintEditorPresenter.TryUpdateConstraint(e.Item, e.Label))
                     return;
 
                 // Could not update constraint, revert changes.
-                E.CancelEdit = true;
+                e.CancelEdit = true;
             }
         }
 
-        private void RemoveConstraintButton_Click(Object Sender, EventArgs E)
+        private void RemoveConstraintButton_Click(Object sender, EventArgs e)
         {
-            using (TimedLock.Lock(AccessLock))
+            using (TimedLock.Lock(accessLock))
             {
-                ScanConstraintEditorPresenter.RemoveConstraints(ConstraintsListView.SelectedIndices.Cast<Int32>());
+                scanConstraintEditorPresenter.RemoveConstraints(ConstraintsListView.SelectedIndices.Cast<Int32>());
             }
         }
 
-        private void ClearConstraintsButton_Click(Object Sender, EventArgs E)
+        private void ClearConstraintsButton_Click(Object sender, EventArgs e)
         {
-            using (TimedLock.Lock(AccessLock))
+            using (TimedLock.Lock(accessLock))
             {
-                ScanConstraintEditorPresenter.ClearConstraints();
+                scanConstraintEditorPresenter.ClearConstraints();
             }
         }
 
-        private void ValueTypeComboBox_SelectedIndexChanged(Object Sender, EventArgs E)
+        private void ValueTypeComboBox_SelectedIndexChanged(Object sender, EventArgs e)
         {
-            using (TimedLock.Lock(AccessLock))
+            using (TimedLock.Lock(accessLock))
             {
                 Type ElementType = Conversions.StringToPrimitiveType(ValueTypeComboBox.SelectedItem.ToString());
                 SetElementType(ElementType);
             }
         }
 
-        private void ChangedToolStripMenuItem_Click(Object Sender, EventArgs E)
+        private void ChangedToolStripMenuItem_Click(Object sender, EventArgs e)
         {
-            UpdateScanOptions((ToolStripMenuItem)Sender, ConstraintsEnum.Changed);
+            UpdateScanOptions((ToolStripMenuItem)sender, ConstraintsEnum.Changed);
         }
 
-        private void UnchangedToolStripMenuItem_Click(Object Sender, EventArgs E)
+        private void UnchangedToolStripMenuItem_Click(Object sender, EventArgs e)
         {
-            UpdateScanOptions((ToolStripMenuItem)Sender, ConstraintsEnum.Unchanged);
+            UpdateScanOptions((ToolStripMenuItem)sender, ConstraintsEnum.Unchanged);
         }
 
-        private void IncreasedToolStripMenuItem_Click(Object Sender, EventArgs E)
+        private void IncreasedToolStripMenuItem_Click(Object sender, EventArgs e)
         {
-            UpdateScanOptions((ToolStripMenuItem)Sender, ConstraintsEnum.Increased);
+            UpdateScanOptions((ToolStripMenuItem)sender, ConstraintsEnum.Increased);
         }
 
-        private void DecreasedToolStripMenuItem_Click(Object Sender, EventArgs E)
+        private void DecreasedToolStripMenuItem_Click(Object sender, EventArgs e)
         {
-            UpdateScanOptions((ToolStripMenuItem)Sender, ConstraintsEnum.Decreased);
+            UpdateScanOptions((ToolStripMenuItem)sender, ConstraintsEnum.Decreased);
         }
 
-        private void EqualToToolStripMenuItem_Click(Object Sender, EventArgs E)
+        private void EqualToToolStripMenuItem_Click(Object sender, EventArgs e)
         {
-            UpdateScanOptions((ToolStripMenuItem)Sender, ConstraintsEnum.Equal);
+            UpdateScanOptions((ToolStripMenuItem)sender, ConstraintsEnum.Equal);
         }
 
-        private void NotEqualToToolStripMenuItem_Click(Object Sender, EventArgs E)
+        private void NotEqualToToolStripMenuItem_Click(Object sender, EventArgs e)
         {
-            UpdateScanOptions((ToolStripMenuItem)Sender, ConstraintsEnum.NotEqual);
+            UpdateScanOptions((ToolStripMenuItem)sender, ConstraintsEnum.NotEqual);
         }
 
-        private void IncreasedByToolStripMenuItem_Click(Object Sender, EventArgs E)
+        private void IncreasedByToolStripMenuItem_Click(Object sender, EventArgs e)
         {
-            UpdateScanOptions((ToolStripMenuItem)Sender, ConstraintsEnum.IncreasedByX);
+            UpdateScanOptions((ToolStripMenuItem)sender, ConstraintsEnum.IncreasedByX);
         }
 
-        private void DecreasedByToolStripMenuItem_Click(Object Sender, EventArgs E)
+        private void DecreasedByToolStripMenuItem_Click(Object sender, EventArgs e)
         {
-            UpdateScanOptions((ToolStripMenuItem)Sender, ConstraintsEnum.DecreasedByX);
+            UpdateScanOptions((ToolStripMenuItem)sender, ConstraintsEnum.DecreasedByX);
         }
 
-        private void GreaterThanToolStripMenuItem_Click(Object Sender, EventArgs E)
+        private void GreaterThanToolStripMenuItem_Click(Object sender, EventArgs e)
         {
-            UpdateScanOptions((ToolStripMenuItem)Sender, ConstraintsEnum.GreaterThan);
+            UpdateScanOptions((ToolStripMenuItem)sender, ConstraintsEnum.GreaterThan);
         }
 
-        private void GreaterThanOrEqualToToolStripMenuItem_Click(Object Sender, EventArgs E)
+        private void GreaterThanOrEqualToToolStripMenuItem_Click(Object sender, EventArgs e)
         {
-            UpdateScanOptions((ToolStripMenuItem)Sender, ConstraintsEnum.GreaterThanOrEqual);
+            UpdateScanOptions((ToolStripMenuItem)sender, ConstraintsEnum.GreaterThanOrEqual);
         }
 
-        private void LessThanToolStripMenuItem_Click(Object Sender, EventArgs E)
+        private void LessThanToolStripMenuItem_Click(Object sender, EventArgs e)
         {
-            UpdateScanOptions((ToolStripMenuItem)Sender, ConstraintsEnum.LessThan);
+            UpdateScanOptions((ToolStripMenuItem)sender, ConstraintsEnum.LessThan);
         }
 
-        private void LessThanOrEqualToToolStripMenuItem_Click(Object Sender, EventArgs E)
+        private void LessThanOrEqualToToolStripMenuItem_Click(Object sender, EventArgs e)
         {
-            UpdateScanOptions((ToolStripMenuItem)Sender, ConstraintsEnum.LessThanOrEqual);
+            UpdateScanOptions((ToolStripMenuItem)sender, ConstraintsEnum.LessThanOrEqual);
         }
 
-        private void NotScientificNotationToolStripMenuItem_Click(Object Sender, EventArgs E)
+        private void NotScientificNotationToolStripMenuItem_Click(Object sender, EventArgs e)
         {
-            UpdateScanOptions((ToolStripMenuItem)Sender, ConstraintsEnum.NotScientificNotation);
+            UpdateScanOptions((ToolStripMenuItem)sender, ConstraintsEnum.NotScientificNotation);
         }
 
         #endregion

@@ -9,97 +9,95 @@ namespace Anathena.GUI.Tools.TypeEditors
 {
     partial class GUIHotKeyEditor : Form, IHotKeyEditorView
     {
-        private HotKeyEditorPresenter HotKeyEditorPresenter;
+        private HotKeyEditorPresenter hotKeyEditorPresenter;
 
-        public GUIHotKeyEditor(HotKeyEditorPresenter HotKeyEditorPresenter)
+        public GUIHotKeyEditor(HotKeyEditorPresenter hotKeyEditorPresenter)
         {
             InitializeComponent();
 
-            this.HotKeyEditorPresenter = HotKeyEditorPresenter;
+            this.hotKeyEditorPresenter = hotKeyEditorPresenter;
         }
 
         private void UpdateListBox()
         {
-            HotKeyListView.Items.Clear();
+            hotKeyListView.Items.Clear();
         }
 
-        public void SetHotKeyList(IEnumerable<String> HotKeyList)
+        public void SetHotKeyList(IEnumerable<String> hotKeyList)
         {
-            ControlThreadingHelper.InvokeControlAction(HotKeyListView, () =>
+            ControlThreadingHelper.InvokeControlAction(hotKeyListView, () =>
             {
-                HotKeyListView.Items.Clear();
+                hotKeyListView.Items.Clear();
 
-                if (HotKeyList == null)
+                if (hotKeyList == null)
                     return;
 
-                foreach (String HotKeyItem in HotKeyList)
-                {
-                    HotKeyListView.Items.Add(new ListViewItem(new String[] { HotKeyItem }));
-                }
+                foreach (String hotKeyItem in hotKeyList)
+                    hotKeyListView.Items.Add(new ListViewItem(new String[] { hotKeyItem }));
             });
         }
 
-        public void SetPendingKeys(String PendingKeys)
+        public void SetPendingKeys(String pendingKeys)
         {
             ControlThreadingHelper.InvokeControlAction(HotKeyTextBox, () =>
             {
-                HotKeyTextBox.Text = PendingKeys;
+                HotKeyTextBox.Text = pendingKeys;
             });
         }
 
         private void ClearInput()
         {
-            HotKeyEditorPresenter.ClearInput();
+            hotKeyEditorPresenter.ClearInput();
         }
 
         private void AddHotKey()
         {
-            HotKeyEditorPresenter.AddHotKey();
+            hotKeyEditorPresenter.AddHotKey();
         }
 
         private void DeleteSelection()
         {
-            if (HotKeyListView.SelectedIndices.Count <= 0)
+            if (hotKeyListView.SelectedIndices.Count <= 0)
                 return;
 
-            HotKeyEditorPresenter.DeleteHotKeys(HotKeyListView.SelectedIndices.Cast<Int32>());
+            hotKeyEditorPresenter.DeleteHotKeys(hotKeyListView.SelectedIndices.Cast<Int32>());
         }
 
         #region Events
 
-        private void GUIHotKeyEditor_FormClosed(Object Sender, FormClosedEventArgs E)
+        private void GUIHotKeyEditor_FormClosed(Object sender, FormClosedEventArgs e)
         {
-            HotKeyEditorPresenter.OnClose();
+            hotKeyEditorPresenter.OnClose();
         }
 
-        private void ClearHotKeyButton_Click(Object Sender, EventArgs E)
+        private void ClearHotKeyButton_Click(Object sender, EventArgs e)
         {
             ClearInput();
         }
 
-        private void AddHotKeyButton_Click(Object Sender, EventArgs E)
+        private void AddHotKeyButton_Click(Object sender, EventArgs e)
         {
             AddHotKey();
         }
 
-        private void RemoveHotKeyButton_Click(Object Sender, EventArgs E)
+        private void RemoveHotKeyButton_Click(Object sender, EventArgs e)
         {
             DeleteSelection();
         }
 
-        private void CancelHotKeyButton_Click(Object Sender, EventArgs E)
+        private void CancelHotKeyButton_Click(Object sender, EventArgs e)
         {
             DialogResult = DialogResult.Cancel;
             Close();
         }
 
-        private void OkayButton_Click(Object Sender, EventArgs E)
+        private void OkayButton_Click(Object sender, EventArgs e)
         {
             DialogResult = DialogResult.OK;
             Close();
         }
 
-        private void DeleteSelectionToolStripMenuItem_Click(Object Sender, EventArgs E)
+        private void DeleteSelectionToolStripMenuItem_Click(Object sender, EventArgs e)
         {
             DeleteSelection();
         }

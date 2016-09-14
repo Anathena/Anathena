@@ -14,19 +14,19 @@ namespace Anathena.GUI.Tools.TypeEditors
 {
     partial class GUIScriptEditor : DockContent, IScriptEditorView
     {
-        private static Scintilla StaticEditor = new Scintilla();
-        private ScriptEditorPresenter ScriptEditorPresenter;
-        private Object AccessLock;
-        private String DocumentTitle;
+        private static Scintilla staticEditor = new Scintilla();
+        private ScriptEditorPresenter scriptEditorPresenter;
+        private Object accessLock;
+        private String documentTitle;
 
-        public GUIScriptEditor(ScriptEditorPresenter ScriptEditorPresenter)
+        public GUIScriptEditor(ScriptEditorPresenter scriptEditorPresenter)
         {
             InitializeComponent();
 
-            AccessLock = new Object();
-            DocumentTitle = this.Text;
+            accessLock = new Object();
+            documentTitle = this.Text;
 
-            this.ScriptEditorPresenter = ScriptEditorPresenter;
+            this.scriptEditorPresenter = scriptEditorPresenter;
 
             FixScintilla();
             InitializeScriptEditor();
@@ -38,7 +38,7 @@ namespace Anathena.GUI.Tools.TypeEditors
             return;
 
             // Work around to a fatal bug in scintilla where the handle of the editor is changed, and scintilla does not expect it.
-            /* using (TimedLock.Lock(AccessLock))
+            /* using (TimedLock.Lock(accessLock))
             {
                 ControlThreadingHelper.InvokeControlAction(ScriptEditorTextBox, () =>
                 {
@@ -59,7 +59,7 @@ namespace Anathena.GUI.Tools.TypeEditors
 
         private void InitializeScriptEditor()
         {
-            using (TimedLock.Lock(AccessLock))
+            using (TimedLock.Lock(accessLock))
             {
                 ControlThreadingHelper.InvokeControlAction(ScriptEditorTextBox, () =>
                 {
@@ -95,7 +95,7 @@ namespace Anathena.GUI.Tools.TypeEditors
 
         private void EnableLuaHighlighting()
         {
-            using (TimedLock.Lock(AccessLock))
+            using (TimedLock.Lock(accessLock))
             {
                 ControlThreadingHelper.InvokeControlAction(ScriptEditorTextBox, () =>
                 {
@@ -115,7 +115,7 @@ namespace Anathena.GUI.Tools.TypeEditors
 
         private void EnableAsmHighlighting()
         {
-            using (TimedLock.Lock(AccessLock))
+            using (TimedLock.Lock(accessLock))
             {
                 ControlThreadingHelper.InvokeControlAction(ScriptEditorTextBox, () =>
                 {
@@ -133,23 +133,23 @@ namespace Anathena.GUI.Tools.TypeEditors
             }
         }
 
-        public void RefreshScript(String NewScript)
+        public void RefreshScript(String newScript)
         {
             ControlThreadingHelper.InvokeControlAction(ScriptEditorTextBox, () =>
             {
-                ScriptEditorTextBox.Text = NewScript;
+                ScriptEditorTextBox.Text = newScript;
             });
         }
 
         private void SaveChanges()
         {
-            using (TimedLock.Lock(AccessLock))
+            using (TimedLock.Lock(accessLock))
             {
                 ControlThreadingHelper.InvokeControlAction(ScriptEditorTextBox, () =>
                 {
-                    ScriptEditorPresenter.SaveChanges(ScriptEditorTextBox.Text);
+                    scriptEditorPresenter.SaveChanges(ScriptEditorTextBox.Text);
 
-                    this.Text = DocumentTitle;
+                    this.Text = documentTitle;
                 });
             }
         }
@@ -157,12 +157,12 @@ namespace Anathena.GUI.Tools.TypeEditors
         private Boolean AskSaveChanges()
         {
             // Check if there are even changes to save
-            if (!ScriptEditorPresenter.HasChanges(ScriptEditorTextBox.Text))
+            if (!scriptEditorPresenter.HasChanges(ScriptEditorTextBox.Text))
                 return false;
 
-            DialogResult Result = MessageBoxEx.Show(this, "This script has not been saved, save the changes to the table before closing?", "Save Changes?", MessageBoxButtons.YesNoCancel);
+            DialogResult result = MessageBoxEx.Show(this, "This script has not been saved, save the changes to the table before closing?", "Save Changes?", MessageBoxButtons.YesNoCancel);
 
-            switch (Result)
+            switch (result)
             {
                 case DialogResult.Yes:
                     SaveChanges();
@@ -179,26 +179,26 @@ namespace Anathena.GUI.Tools.TypeEditors
 
         private void CleanUp()
         {
-            using (TimedLock.Lock(AccessLock))
+            using (TimedLock.Lock(accessLock))
             {
-                StaticEditor.ClearAll();
+                staticEditor.ClearAll();
 
                 // Remove the static editor so that it does not get disposed
-                if (this.Controls.Contains(StaticEditor))
-                    this.Controls.Remove(StaticEditor);
+                if (this.Controls.Contains(staticEditor))
+                    this.Controls.Remove(staticEditor);
             }
         }
 
         #region Events
 
-        private void ScriptEditorTextBox_CharAdded(Object Sender, CharAddedEventArgs E)
+        private void ScriptEditorTextBox_CharAdded(Object sender, CharAddedEventArgs e)
         {
-            Boolean AsmMode = false;
-            Int32 Length;
+            Boolean asmMode = false;
+            Int32 length;
 
-            using (TimedLock.Lock(AccessLock))
+            using (TimedLock.Lock(accessLock))
             {
-                if (E.Char == '\n')
+                if (e.Char == '\n')
                 {
                     Int32 Indentation = (ScriptEditorTextBox.Lines[ScriptEditorTextBox.CurrentLine == 0 ? 0 : ScriptEditorTextBox.CurrentLine - 1].Indentation) / ScriptEditorTextBox.IndentWidth;
 
@@ -207,9 +207,9 @@ namespace Anathena.GUI.Tools.TypeEditors
                     ScriptEditorTextBox.AnchorPosition = ScriptEditorTextBox.CurrentPosition;
                 }
 
-                Length = ScriptEditorTextBox.CurrentPosition - ScriptEditorTextBox.WordStartPosition(ScriptEditorTextBox.CurrentPosition, true);
+                length = ScriptEditorTextBox.CurrentPosition - ScriptEditorTextBox.WordStartPosition(ScriptEditorTextBox.CurrentPosition, true);
 
-                if (Length <= 0)
+                if (length <= 0)
                     return;
 
                 ScriptEditorTextBox.SearchFlags = SearchFlags.None;
@@ -217,15 +217,15 @@ namespace Anathena.GUI.Tools.TypeEditors
                 // Search for closest preceeding [fasm] tag to determine if we are writing inside the tag
                 ScriptEditorTextBox.TargetStart = 0;
                 ScriptEditorTextBox.TargetEnd = ScriptEditorTextBox.CurrentPosition;
-                Int32 StartTagPosition = -1;
+                Int32 startTagPosition = -1;
                 while (true)
                 {
-                    Int32 Next = ScriptEditorTextBox.SearchInTarget("[fasm]");
+                    Int32 next = ScriptEditorTextBox.SearchInTarget("[fasm]");
 
-                    if (Next == -1)
+                    if (next == -1)
                         break;
 
-                    StartTagPosition = Next;
+                    startTagPosition = next;
 
                     ScriptEditorTextBox.TargetStart = ScriptEditorTextBox.TargetEnd;
                     ScriptEditorTextBox.TargetEnd = ScriptEditorTextBox.CurrentPosition;
@@ -234,55 +234,55 @@ namespace Anathena.GUI.Tools.TypeEditors
                 // Search for next [fasm] tag to ensure the [/fasm] does not pass it
                 ScriptEditorTextBox.TargetStart = ScriptEditorTextBox.CurrentPosition;
                 ScriptEditorTextBox.TargetEnd = ScriptEditorTextBox.TextLength;
-                Int32 NextTagPosition = ScriptEditorTextBox.SearchInTarget("[fasm]");
+                Int32 nextTagPosition = ScriptEditorTextBox.SearchInTarget("[fasm]");
 
                 // Search for next [/fasm] tag and see if we are inside it
                 ScriptEditorTextBox.TargetStart = ScriptEditorTextBox.CurrentPosition;
                 ScriptEditorTextBox.TargetEnd = ScriptEditorTextBox.TextLength;
 
-                if (StartTagPosition != -1)
+                if (startTagPosition != -1)
                 {
-                    Int32 EndTagPositon = ScriptEditorTextBox.SearchInTarget("[/fasm]");
-                    if (EndTagPositon != -1 && (NextTagPosition == -1 || EndTagPositon < NextTagPosition))
-                        AsmMode = true;
+                    Int32 endTagPositon = ScriptEditorTextBox.SearchInTarget("[/fasm]");
+                    if (endTagPositon != -1 && (nextTagPosition == -1 || endTagPositon < nextTagPosition))
+                        asmMode = true;
                 }
             }
 
-            if (AsmMode)
+            if (asmMode)
             {
                 EnableAsmHighlighting();
-                // ScriptEditorTextBox.AutoCShow(Length, LuaKeywordManager.AllAsmKeywords);
+                // ScriptEditorTextBox.AutoCShow(length, LuaKeywordManager.AllAsmKeywords);
             }
             else
             {
                 EnableLuaHighlighting();
-                ScriptEditorTextBox.AutoCShow(Length, LuaKeywordManager.AllLuaKeywords);
+                ScriptEditorTextBox.AutoCShow(length, LuaKeywordManager.AllLuaKeywords);
             }
 
         }
 
-        private void ScriptEditorTextBox_TextChanged(Object Sender, EventArgs E)
+        private void ScriptEditorTextBox_TextChanged(Object sender, EventArgs e)
         {
-            using (TimedLock.Lock(AccessLock))
+            using (TimedLock.Lock(accessLock))
             {
                 ControlThreadingHelper.InvokeControlAction(ScriptEditorTextBox, () =>
                 {
-                    if (ScriptEditorPresenter.HasChanges(ScriptEditorTextBox?.Text))
-                        this.Text = DocumentTitle + "*";
+                    if (scriptEditorPresenter.HasChanges(ScriptEditorTextBox?.Text))
+                        this.Text = documentTitle + "*";
                     else
-                        this.Text = DocumentTitle;
+                        this.Text = documentTitle;
                 });
             }
         }
 
-        private void CodeInjectionToolStripMenuItem_Click(Object Sender, EventArgs E)
+        private void CodeInjectionToolStripMenuItem_Click(Object sender, EventArgs e)
         {
             ControlThreadingHelper.InvokeControlAction(ScriptEditorTextBox, () =>
             {
                 ScriptEditorTextBox.Text = LuaTemplates.AddCodeInjectionTemplate(ScriptEditorTextBox.Text, "module.exe", new IntPtr(0xabcde));
             });
         }
-        private void GraphicsOverlayToolStripMenuItem_Click(Object Sender, EventArgs E)
+        private void GraphicsOverlayToolStripMenuItem_Click(Object sender, EventArgs e)
         {
             ControlThreadingHelper.InvokeControlAction(ScriptEditorTextBox, () =>
             {
@@ -290,48 +290,48 @@ namespace Anathena.GUI.Tools.TypeEditors
             });
         }
 
-        protected override Boolean ProcessCmdKey(ref Message Message, Keys Keys)
+        protected override Boolean ProcessCmdKey(ref Message message, Keys keys)
         {
-            if (Keys == (Keys.Control | Keys.S))
+            if (keys == (Keys.Control | Keys.S))
             {
                 SaveChanges();
                 return true;
             }
-            else if (Keys == (Keys.Control | Keys.W))
+            else if (keys == (Keys.Control | Keys.W))
             {
                 Close();
                 return true;
             }
 
             // ScintillaNet will insert garbage with certain command keys, this filters those out
-            else if (Keys == (Keys.Control | Keys.B)) return true;
-            else if (Keys == (Keys.Control | Keys.D)) return true;
-            else if (Keys == (Keys.Control | Keys.E)) return true;
-            else if (Keys == (Keys.Control | Keys.F)) return true;
-            else if (Keys == (Keys.Control | Keys.G)) return true;
-            else if (Keys == (Keys.Control | Keys.H)) return true;
-            else if (Keys == (Keys.Control | Keys.K)) return true;
-            else if (Keys == (Keys.Control | Keys.N)) return true;
-            else if (Keys == (Keys.Control | Keys.O)) return true;
-            else if (Keys == (Keys.Control | Keys.P)) return true;
-            else if (Keys == (Keys.Control | Keys.Q)) return true;
-            else if (Keys == (Keys.Control | Keys.R)) return true;
+            else if (keys == (Keys.Control | Keys.B)) return true;
+            else if (keys == (Keys.Control | Keys.D)) return true;
+            else if (keys == (Keys.Control | Keys.E)) return true;
+            else if (keys == (Keys.Control | Keys.F)) return true;
+            else if (keys == (Keys.Control | Keys.G)) return true;
+            else if (keys == (Keys.Control | Keys.H)) return true;
+            else if (keys == (Keys.Control | Keys.K)) return true;
+            else if (keys == (Keys.Control | Keys.N)) return true;
+            else if (keys == (Keys.Control | Keys.O)) return true;
+            else if (keys == (Keys.Control | Keys.P)) return true;
+            else if (keys == (Keys.Control | Keys.Q)) return true;
+            else if (keys == (Keys.Control | Keys.R)) return true;
 
-            return base.ProcessCmdKey(ref Message, Keys);
+            return base.ProcessCmdKey(ref message, keys);
         }
 
-        private void SaveToolStripMenuItem_Click(Object Sender, EventArgs E)
+        private void SaveToolStripMenuItem_Click(Object sender, EventArgs e)
         {
             SaveChanges();
         }
 
-        private void GUIScriptEditor_FormClosing(Object Sender, FormClosingEventArgs E)
+        private void GUIScriptEditor_FormClosing(Object sender, FormClosingEventArgs e)
         {
             DialogResult = DialogResult.OK;
 
             if (AskSaveChanges())
             {
-                E.Cancel = true;
+                e.Cancel = true;
                 return;
             }
 

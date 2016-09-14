@@ -8,35 +8,35 @@ namespace Anathena.GUI.Tools.Scanners
 {
     public partial class GUIFiniteStateScanner : DockContent, IFiniteStateScannerView
     {
-        private FiniteStateScannerPresenter FiniteStateScannerPresenter;
-        private Object AccessLock;
+        private FiniteStateScannerPresenter finiteStateScannerPresenter;
+        private Object accessLock;
 
-        private FiniteStateMachine FiniteStateMachine;
+        private FiniteStateMachine finiteStateMachine;
 
         public GUIFiniteStateScanner()
         {
             InitializeComponent();
 
-            FiniteStateScannerPresenter = new FiniteStateScannerPresenter(this, new FiniteStateScanner());
-            AccessLock = new Object();
+            finiteStateScannerPresenter = new FiniteStateScannerPresenter(this, new FiniteStateScanner());
+            accessLock = new Object();
 
             EnableGUI();
         }
 
-        public void DisplayScanCount(Int32 ScanCount)
+        public void DisplayScanCount(Int32 scanCount)
         {
-            using (TimedLock.Lock(AccessLock))
+            using (TimedLock.Lock(accessLock))
             {
                 ControlThreadingHelper.InvokeControlAction(ScanToolStrip, () =>
                 {
-                    ScanCountLabel.Text = "Scan Count: " + ScanCount.ToString();
+                    ScanCountLabel.Text = "Scan Count: " + scanCount.ToString();
                 });
             }
         }
 
         private void DisableGUI()
         {
-            using (TimedLock.Lock(AccessLock))
+            using (TimedLock.Lock(accessLock))
             {
                 StartScanButton.Enabled = false;
                 StopScanButton.Enabled = true;
@@ -45,7 +45,7 @@ namespace Anathena.GUI.Tools.Scanners
 
         private void EnableGUI()
         {
-            using (TimedLock.Lock(AccessLock))
+            using (TimedLock.Lock(accessLock))
             {
                 StartScanButton.Enabled = true;
                 StopScanButton.Enabled = false;
@@ -54,15 +54,15 @@ namespace Anathena.GUI.Tools.Scanners
 
         #region Events
 
-        private void StartScanButton_Click(Object Sender, EventArgs E)
+        private void StartScanButton_Click(Object sender, EventArgs e)
         {
-            FiniteStateScannerPresenter.BeginScan();
+            finiteStateScannerPresenter.BeginScan();
             DisableGUI();
         }
 
-        private void StopScanButton_Click(Object Sender, EventArgs E)
+        private void StopScanButton_Click(Object sender, EventArgs e)
         {
-            FiniteStateScannerPresenter.EndScan();
+            finiteStateScannerPresenter.EndScan();
             EnableGUI();
         }
 

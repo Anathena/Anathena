@@ -10,15 +10,15 @@ namespace Anathena.GUI.Tools.Scanners
 {
     public partial class GUIChangeCounter : DockContent, IChangeCounterView
     {
-        private ChangeCounterPresenter ChangeCounterPresenter;
-        private Object AccessLock;
+        private ChangeCounterPresenter changeCounterPresenter;
+        private Object accessLock;
 
         public GUIChangeCounter()
         {
             InitializeComponent();
 
-            ChangeCounterPresenter = new ChangeCounterPresenter(this, new ChangeCounter());
-            AccessLock = new Object();
+            changeCounterPresenter = new ChangeCounterPresenter(this, new ChangeCounter());
+            accessLock = new Object();
 
             SetMinChanges();
             SetMaxChanges();
@@ -27,61 +27,61 @@ namespace Anathena.GUI.Tools.Scanners
             EnableGUI();
         }
 
-        public void DisplayScanCount(Int32 ScanCount)
+        public void DisplayScanCount(Int32 scanCount)
         {
             ControlThreadingHelper.InvokeControlAction(ScanToolStrip, () =>
             {
-                ScanCountLabel.Text = "Scan Count: " + ScanCount.ToString();
+                ScanCountLabel.Text = "Scan Count: " + scanCount.ToString();
             });
         }
 
         private void SetMinChanges()
         {
-            using (TimedLock.Lock(AccessLock))
+            using (TimedLock.Lock(accessLock))
             {
                 if (MaxChangesTrackBar.Value < MinChangesTrackBar.Value)
                     MinChangesTrackBar.Value = MaxChangesTrackBar.Value;
 
                 UInt16 MinChanges = (UInt16)MinChangesTrackBar.Value;
                 MinChangesValueLabel.Text = MinChanges.ToString();
-                ChangeCounterPresenter.SetMinChanges(MinChanges);
+                changeCounterPresenter.SetMinChanges(MinChanges);
             }
         }
 
         private void SetMaxChanges()
         {
-            using (TimedLock.Lock(AccessLock))
+            using (TimedLock.Lock(accessLock))
             {
                 if (MinChangesTrackBar.Value > MaxChangesTrackBar.Value)
                     MaxChangesTrackBar.Value = MinChangesTrackBar.Value;
 
-                UInt16 MaxChanges = (UInt16)MaxChangesTrackBar.Value;
-                String MaxChangesString = MaxChanges.ToString();
+                UInt16 maxChanges = (UInt16)MaxChangesTrackBar.Value;
+                String maxChangesString = maxChanges.ToString();
 
-                if (MaxChanges == MaxChangesTrackBar.Maximum)
+                if (maxChanges == MaxChangesTrackBar.Maximum)
                 {
-                    MaxChanges = UInt16.MaxValue;
-                    MaxChangesString = "Inf";
+                    maxChanges = UInt16.MaxValue;
+                    maxChangesString = "Inf";
                 }
 
-                MaxChangesValueLabel.Text = MaxChangesString;
-                ChangeCounterPresenter.SetMaxChanges(MaxChanges);
+                MaxChangesValueLabel.Text = maxChangesString;
+                changeCounterPresenter.SetMaxChanges(maxChanges);
             }
         }
 
         private void SetVariableSize()
         {
-            using (TimedLock.Lock(AccessLock))
+            using (TimedLock.Lock(accessLock))
             {
                 Int32 VariableSize = (Int32)Math.Pow(2, VariableSizeTrackBar.Value);
                 VariableSizeValueLabel.Text = Conversions.BytesToMetric(VariableSize);
-                ChangeCounterPresenter.SetVariableSize(VariableSize);
+                changeCounterPresenter.SetVariableSize(VariableSize);
             }
         }
 
         private void EnableGUI()
         {
-            using (TimedLock.Lock(AccessLock))
+            using (TimedLock.Lock(accessLock))
             {
                 StartScanButton.Enabled = true;
                 StopScanButton.Enabled = false;
@@ -93,7 +93,7 @@ namespace Anathena.GUI.Tools.Scanners
 
         private void DisableGUI()
         {
-            using (TimedLock.Lock(AccessLock))
+            using (TimedLock.Lock(accessLock))
             {
                 StartScanButton.Enabled = false;
                 StopScanButton.Enabled = true;
@@ -114,37 +114,37 @@ namespace Anathena.GUI.Tools.Scanners
 
         #region Events
 
-        private void MinChangesTrackBar_Scroll(Object Sender, EventArgs E)
+        private void MinChangesTrackBar_Scroll(Object sender, EventArgs e)
         {
             SetMaxChanges();
             SetMinChanges();
         }
 
-        private void MaxChangesTrackBar_Scroll(Object Sender, EventArgs E)
+        private void MaxChangesTrackBar_Scroll(Object sender, EventArgs e)
         {
             SetMinChanges();
             SetMaxChanges();
         }
 
-        private void VariableSizeTrackBar_Scroll(Object Sender, EventArgs E)
+        private void VariableSizeTrackBar_Scroll(Object sender, EventArgs e)
         {
             SetVariableSize();
         }
 
-        private void GUILabelerChangeCounter_Resize(Object Sender, EventArgs E)
+        private void GUILabelerChangeCounter_Resize(Object sender, EventArgs e)
         {
             HandleResize();
         }
 
-        private void StartScanButton_Click(object sender, EventArgs e)
+        private void StartScanButton_Click(Object sender, EventArgs e)
         {
-            ChangeCounterPresenter.BeginScan();
+            changeCounterPresenter.BeginScan();
             DisableGUI();
         }
 
-        private void StopScanButton_Click(object sender, EventArgs e)
+        private void StopScanButton_Click(Object sender, EventArgs e)
         {
-            ChangeCounterPresenter.EndScan();
+            changeCounterPresenter.EndScan();
             EnableGUI();
         }
 

@@ -12,16 +12,15 @@ namespace Anathena.GUI.CustomControls.TreeViews
     {
         public String EntryDescription { get; set; }
         public Image EntryIcon { get; set; }
-
         public ProjectItem ProjectItem { get; set; }
 
         /// <summary>
         /// Initializes a new MyNode class with a given Text property.
         /// </summary>
         /// <param name="text">String to set the text property with.</param>
-        public ProjectNode(String EntryDescription) : base(String.Empty)
+        public ProjectNode(String entryDescription) : base(String.Empty)
         {
-            this.EntryDescription = EntryDescription;
+            this.EntryDescription = entryDescription;
 
             EntryIcon = null;
         }

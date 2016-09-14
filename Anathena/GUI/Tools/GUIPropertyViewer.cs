@@ -10,46 +10,46 @@ namespace Anathena.GUI.Tools
 {
     public partial class GUIPropertyViewer : DockContent, IPropertyViewerView
     {
-        private PropertyViewerPresenter PropertyViewerPresenter;
-        private Object AccessLock;
+        private PropertyViewerPresenter propertyViewerPresenter;
+        private Object accessLock;
 
         public GUIPropertyViewer()
         {
             InitializeComponent();
 
-            AccessLock = new Object();
+            accessLock = new Object();
 
             MergeToolStrips();
-            PropertyViewerPresenter = new PropertyViewerPresenter(this, PropertyViewer.GetInstance());
+            propertyViewerPresenter = new PropertyViewerPresenter(this, PropertyViewer.GetInstance());
         }
 
         private void MergeToolStrips()
         {
             // Standard method of ToolStripManager.Merge does not seem to be working, so we take a manual approach
             Controls.Remove(GUIToolStrip);
-            ToolStrip PropertyToolStrip = GetPropertyGridToolStrip();
-            List<ToolStripItem> ToolStripItems = new List<ToolStripItem>();
+            ToolStrip propertyToolStrip = GetPropertyGridToolStrip();
+            List<ToolStripItem> toolStripItems = new List<ToolStripItem>();
 
-            foreach (ToolStripItem ToolStripItem in GUIToolStrip.Items)
-                ToolStripItems.Add(ToolStripItem);
+            foreach (ToolStripItem toolStripItem in GUIToolStrip.Items)
+                toolStripItems.Add(toolStripItem);
 
-            PropertyToolStrip.Items.AddRange(ToolStripItems.ToArray());
+            propertyToolStrip.Items.AddRange(toolStripItems.ToArray());
         }
 
         private ToolStrip GetPropertyGridToolStrip()
         {
-            foreach (Control Control in PropertyGrid.Controls)
-                if (Control is ToolStrip)
-                    return Control as ToolStrip;
+            foreach (Control control in PropertyGrid.Controls)
+                if (control is ToolStrip)
+                    return control as ToolStrip;
 
             return null;
         }
 
-        public void SetTargetObjects(IEnumerable<Object> SelectedObjects)
+        public void SetTargetObjects(IEnumerable<Object> selectedObjects)
         {
             ControlThreadingHelper.InvokeControlAction<PropertyGrid>(PropertyGrid, () =>
             {
-                PropertyGrid.SelectedObjects = SelectedObjects?.ToArray();
+                PropertyGrid.SelectedObjects = selectedObjects?.ToArray();
             });
         }
 
@@ -64,23 +64,23 @@ namespace Anathena.GUI.Tools
             });
         }
 
-        private Type GetFocusedObjectType(Control Control)
+        private Type GetFocusedObjectType(Control control)
         {
-            ContainerControl Container = Control as ContainerControl;
+            ContainerControl container = control as ContainerControl;
 
-            while (Container != null)
+            while (container != null)
             {
-                Control = Container.ActiveControl;
-                Container = Control as ContainerControl;
+                control = container.ActiveControl;
+                container = control as ContainerControl;
             }
 
-            return Control?.GetType();
+            return control?.GetType();
 
         }
 
         #region Events
 
-        private void RefreshButton_Click(Object Sender, EventArgs E)
+        private void RefreshButton_Click(Object sender, EventArgs e)
         {
             RefreshProperties();
         }
