@@ -19,9 +19,9 @@ namespace Anathena.Source.Engine.AddressResolver.DotNet
     class DotNetObjectCollector : RepeatedTask, IProcessObserver
     {
         // Singleton instance of the .NET Object Collector
-        private static Lazy<DotNetObjectCollector> DotNetObjectCollectorInstance = new Lazy<DotNetObjectCollector>(() => { return new DotNetObjectCollector(); }, LazyThreadSafetyMode.PublicationOnly);
+        private static Lazy<DotNetObjectCollector> dotNetObjectCollectorInstance = new Lazy<DotNetObjectCollector>(() => { return new DotNetObjectCollector(); }, LazyThreadSafetyMode.PublicationOnly);
 
-        private static String[] ExcludedNameSpaces = new String[]
+        private static String[] excludedNameSpaces = new String[]
         {
             Assembly.GetExecutingAssembly().GetName().Name,
             "finalization handle", "strong handle", "pinned handle", "RefCount handle", "local var",
@@ -31,18 +31,18 @@ namespace Anathena.Source.Engine.AddressResolver.DotNet
             "Terraria.Graphics", "Terraria.Social", "Terraria.IO", "Terraria.DataStructures"
         };
 
-        private static String[] ExcludedPrefixes = new String[]
+        private static String[] excludedPrefixes = new String[]
         {
              "static var"
         };
 
-        private const Int32 AttachTimeout = 5000;
-        private const Int32 InitialPollingTime = 200;
-        private const Int32 PollingTime = 10000;
+        private const Int32 attachTimeout = 5000;
+        private const Int32 initialPollingTime = 200;
+        private const Int32 pollingTime = 10000;
 
-        private EngineCore EngineCore;
+        private EngineCore engineCore;
 
-        private List<DotNetObject> ObjectTrees;
+        private List<DotNetObject> objectTrees;
 
         private DotNetObjectCollector()
         {
@@ -53,7 +53,7 @@ namespace Anathena.Source.Engine.AddressResolver.DotNet
 
         public static DotNetObjectCollector GetInstance()
         {
-            return DotNetObjectCollectorInstance.Value;
+            return dotNetObjectCollectorInstance.Value;
         }
 
         public void InitializeProcessObserver()
@@ -63,19 +63,19 @@ namespace Anathena.Source.Engine.AddressResolver.DotNet
 
         public void UpdateEngineCore(EngineCore EngineCore)
         {
-            this.EngineCore = EngineCore;
+            this.engineCore = EngineCore;
 
             Initialize();
         }
 
         public List<DotNetObject> GetObjectTrees()
         {
-            return ObjectTrees;
+            return objectTrees;
         }
 
         private void Initialize()
         {
-            if (EngineCore == null || EngineCore.Memory.GetProcess() == null)
+            if (engineCore == null || engineCore.Memory.GetProcess() == null)
                 return;
         }
 
@@ -83,101 +83,101 @@ namespace Anathena.Source.Engine.AddressResolver.DotNet
         {
             base.Begin();
 
-            this.UpdateInterval = InitialPollingTime;
+            this.UpdateInterval = initialPollingTime;
         }
 
         protected override void Update()
         {
-            if (EngineCore == null || EngineCore.Memory.GetProcess() == null)
+            if (engineCore == null || engineCore.Memory.GetProcess() == null)
                 return;
 
-            this.UpdateInterval = PollingTime;
+            this.UpdateInterval = pollingTime;
 
-            ProxyCommunicator ProxyCommunicator = ProxyCommunicator.GetInstance();
-            IProxyService ProxyService = ProxyCommunicator.GetProxyService(EngineCore.Memory.IsProcess32Bit());
+            ProxyCommunicator proxyCommunicator = ProxyCommunicator.GetInstance();
+            IProxyService proxyService = proxyCommunicator.GetProxyService(engineCore.Memory.IsProcess32Bit());
 
-            if (ProxyService == null)
+            if (proxyService == null)
                 return;
 
-            if (!ProxyService.RefreshHeap(EngineCore.Memory.GetProcess().Id))
+            if (!proxyService.RefreshHeap(engineCore.Memory.GetProcess().Id))
                 return;
 
-            List<DotNetObject> ObjectTrees = new List<DotNetObject>();
-            HashSet<UInt64> Visited = new HashSet<UInt64>();
+            List<DotNetObject> objectTrees = new List<DotNetObject>();
+            HashSet<UInt64> visited = new HashSet<UInt64>();
 
             try
             {
-                foreach (UInt64 RootRef in ProxyService.GetRoots())
+                foreach (UInt64 rootRef in proxyService.GetRoots())
                 {
-                    String RootName = ProxyService.GetRootName(RootRef);
-                    Type RootType = Conversions.TypeCodeToType((TypeCode)ProxyService.GetRootType(RootRef));
+                    String rootName = proxyService.GetRootName(rootRef);
+                    Type rootType = Conversions.TypeCodeToType((TypeCode)proxyService.GetRootType(rootRef));
 
-                    if (RootRef == 0 || RootName == null)
+                    if (rootRef == 0 || rootName == null)
                         continue;
 
-                    foreach (String ExcludedPrefix in ExcludedPrefixes)
+                    foreach (String ExcludedPrefix in excludedPrefixes)
                     {
-                        if (RootName.StartsWith(ExcludedPrefix, StringComparison.OrdinalIgnoreCase))
-                            RootName = RootName.Substring(ExcludedPrefix.Length, RootName.Length - ExcludedPrefix.Length).Trim();
+                        if (rootName.StartsWith(ExcludedPrefix, StringComparison.OrdinalIgnoreCase))
+                            rootName = rootName.Substring(ExcludedPrefix.Length, rootName.Length - ExcludedPrefix.Length).Trim();
                     }
 
-                    if (ExcludedNameSpaces.Any(X => RootName.StartsWith(X, StringComparison.OrdinalIgnoreCase)))
+                    if (excludedNameSpaces.Any(x => rootName.StartsWith(x, StringComparison.OrdinalIgnoreCase)))
                         continue;
 
-                    if (RootType != null)
+                    if (rootType != null)
                     {
-                        if (ExcludedNameSpaces.Any(X => RootType.Name.StartsWith(X, StringComparison.OrdinalIgnoreCase)))
+                        if (excludedNameSpaces.Any(x => rootType.Name.StartsWith(x, StringComparison.OrdinalIgnoreCase)))
                             continue;
                     }
 
-                    if (Visited.Contains(RootRef))
+                    if (visited.Contains(rootRef))
                         continue;
 
                     try
                     {
-                        DotNetObject RootObject = new DotNetObject(null, RootRef, RootType, RootName);
-                        Visited.Add(RootRef);
-                        ObjectTrees.Add(RootObject);
+                        DotNetObject rootObject = new DotNetObject(null, rootRef, rootType, rootName);
+                        visited.Add(rootRef);
+                        objectTrees.Add(rootObject);
 
-                        RecursiveBuild(ProxyService, Visited, RootObject, RootRef);
+                        RecursiveBuild(proxyService, visited, rootObject, rootRef);
                     }
                     catch { }
                 }
             }
             catch { }
 
-            this.ObjectTrees = ObjectTrees;
+            this.objectTrees = objectTrees;
         }
 
-        private void RecursiveBuild(IProxyService ProxyService, HashSet<UInt64> Visited, DotNetObject Parent, UInt64 ParentRef)
+        private void RecursiveBuild(IProxyService proxyService, HashSet<UInt64> visited, DotNetObject parent, UInt64 parentRef)
         {
             // Add all fields
-            foreach (UInt64 FieldRef in ProxyService.GetObjectFields(ParentRef))
+            foreach (UInt64 FieldRef in proxyService.GetObjectFields(parentRef))
             {
-                DotNetObject ChildObject = new DotNetObject(Parent, Parent.GetAddress().Add(ProxyService.GetFieldOffset(FieldRef)).ToUInt64(),
-                    Conversions.TypeCodeToType((TypeCode)ProxyService.GetFieldType(FieldRef)), ProxyService.GetFieldName(FieldRef));
-                Parent.AddChild(ChildObject);
+                DotNetObject childObject = new DotNetObject(parent, parent.GetAddress().Add(proxyService.GetFieldOffset(FieldRef)).ToUInt64(),
+                    Conversions.TypeCodeToType((TypeCode)proxyService.GetFieldType(FieldRef)), proxyService.GetFieldName(FieldRef));
+                parent.AddChild(childObject);
             }
 
             // Add all nested objects recursively
-            foreach (UInt64 ChildObjectRef in ProxyService.GetObjectChildren(ParentRef))
+            foreach (UInt64 childObjectRef in proxyService.GetObjectChildren(parentRef))
             {
-                if (ChildObjectRef == 0 || Visited.Contains(ChildObjectRef))
+                if (childObjectRef == 0 || visited.Contains(childObjectRef))
                     return;
 
-                Visited.Add(ChildObjectRef);
+                visited.Add(childObjectRef);
 
-                Type Type = Conversions.TypeCodeToType((TypeCode)ProxyService.GetObjectType(ChildObjectRef));
+                Type type = Conversions.TypeCodeToType((TypeCode)proxyService.GetObjectType(childObjectRef));
 
-                if (Type == null || ExcludedNameSpaces.Any(X => Type.Name.StartsWith(X, StringComparison.OrdinalIgnoreCase)))
+                if (type == null || excludedNameSpaces.Any(X => type.Name.StartsWith(X, StringComparison.OrdinalIgnoreCase)))
                     return;
 
-                DotNetObject Child = new DotNetObject(Parent, ChildObjectRef, Type, Type.Name);
-                Parent.AddChild(Child);
-                RecursiveBuild(ProxyService, Visited, Child, ChildObjectRef);
+                DotNetObject child = new DotNetObject(parent, childObjectRef, type, type.Name);
+                parent.AddChild(child);
+                RecursiveBuild(proxyService, visited, child, childObjectRef);
             }
 
-            Parent.SortChildren();
+            parent.SortChildren();
         }
 
         protected override void End()
@@ -185,6 +185,7 @@ namespace Anathena.Source.Engine.AddressResolver.DotNet
             base.End();
         }
 
-    } // End class
-
-} // End namespace
+    }
+    // End class
+}
+// End namespace

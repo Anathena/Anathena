@@ -12,15 +12,15 @@ namespace Anathena.Source.Engine.AddressResolver
     public class AddressResolver : RepeatedTask, IProcessObserver
     {
         // Singleton instance of Address Resolver
-        private static Lazy<AddressResolver> AddressResolverInstance = new Lazy<AddressResolver>(() => { return new AddressResolver(); }, LazyThreadSafetyMode.PublicationOnly);
+        private static Lazy<AddressResolver> addressResolverInstance = new Lazy<AddressResolver>(() => { return new AddressResolver(); }, LazyThreadSafetyMode.PublicationOnly);
 
-        private EngineCore EngineCore;
+        private EngineCore engineCore;
 
-        private const Int32 ResolveIntervalInitial = 200;
-        private const Int32 ResolveInterval = 5000;
+        private const Int32 resolveIntervalInitial = 200;
+        private const Int32 resolveInterval = 5000;
 
-        private Dictionary<String, DotNetObject> DotNetNameMap;
-        private IEnumerable<NormalizedModule> Modules;
+        private Dictionary<String, DotNetObject> dotNetNameMap;
+        private IEnumerable<NormalizedModule> modules;
 
         public enum ResolveTypeEnum
         {
@@ -33,15 +33,15 @@ namespace Anathena.Source.Engine.AddressResolver
         {
             InitializeProcessObserver();
 
-            DotNetNameMap = new Dictionary<String, DotNetObject>();
-            Modules = new List<NormalizedModule>();
+            dotNetNameMap = new Dictionary<String, DotNetObject>();
+            modules = new List<NormalizedModule>();
 
             this.Begin();
         }
 
         public static AddressResolver GetInstance()
         {
-            return AddressResolverInstance.Value;
+            return addressResolverInstance.Value;
         }
 
         public void InitializeProcessObserver()
@@ -49,60 +49,60 @@ namespace Anathena.Source.Engine.AddressResolver
             ProcessSelector.GetInstance().Subscribe(this);
         }
 
-        public void UpdateEngineCore(EngineCore EngineCore)
+        public void UpdateEngineCore(EngineCore engineCore)
         {
-            this.EngineCore = EngineCore;
+            this.engineCore = engineCore;
         }
 
-        public IntPtr ResolveDotNetObject(String Identifier)
+        public IntPtr ResolveDotNetObject(String identifier)
         {
-            IntPtr Result = IntPtr.Zero;
-            DotNetObject DotNetObject;
+            IntPtr result = IntPtr.Zero;
+            DotNetObject dotNetObject;
 
-            if (DotNetNameMap.TryGetValue(Identifier, out DotNetObject))
-                Result = DotNetObject.GetAddress();
+            if (dotNetNameMap.TryGetValue(identifier, out dotNetObject))
+                result = dotNetObject.GetAddress();
 
-            return Result;
+            return result;
         }
 
         public override void Begin()
         {
             base.Begin();
 
-            this.UpdateInterval = ResolveIntervalInitial;
+            this.UpdateInterval = resolveIntervalInitial;
         }
 
         protected override void Update()
         {
-            Dictionary<String, DotNetObject> NameMap = new Dictionary<String, DotNetObject>();
-            List<DotNetObject> ObjectTrees = DotNetObjectCollector.GetInstance().GetObjectTrees();
+            Dictionary<String, DotNetObject> nameMap = new Dictionary<String, DotNetObject>();
+            List<DotNetObject> objectTrees = DotNetObjectCollector.GetInstance().GetObjectTrees();
 
             // Build module list
-            Modules = EngineCore?.Memory?.GetModules();
+            modules = engineCore?.Memory?.GetModules();
 
             // Build .NET object list
-            ObjectTrees?.ForEach(X => BuildNameMap(NameMap, X));
-            this.DotNetNameMap = NameMap;
+            objectTrees?.ForEach(x => BuildNameMap(nameMap, x));
+            this.dotNetNameMap = nameMap;
 
             // After we have successfully grabbed information from the process, slow the update interval
-            if ((Modules != null && Modules.Count() != 0) || ObjectTrees != null)
-                this.UpdateInterval = ResolveInterval;
+            if ((modules != null && modules.Count() != 0) || objectTrees != null)
+                this.UpdateInterval = resolveInterval;
         }
 
-        private void BuildNameMap(Dictionary<String, DotNetObject> NameMap, DotNetObject CurrentObject)
+        private void BuildNameMap(Dictionary<String, DotNetObject> nameMap, DotNetObject currentObject)
         {
-            if (CurrentObject == null || CurrentObject.GetFullName() == null)
+            if (currentObject == null || currentObject.GetFullName() == null)
                 return;
 
-            NameMap[CurrentObject.GetFullName()] = CurrentObject;
-            CurrentObject?.GetChildren()?.ForEach(X => BuildNameMap(NameMap, X));
+            nameMap[currentObject.GetFullName()] = currentObject;
+            currentObject?.GetChildren()?.ForEach(x => BuildNameMap(nameMap, x));
         }
 
         protected override void End()
         {
             base.End();
         }
-
-    } // End class
-
-} // End namespace
+    }
+    //// End class
+}
+//// End namespace

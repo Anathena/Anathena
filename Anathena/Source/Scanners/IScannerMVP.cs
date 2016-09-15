@@ -47,28 +47,28 @@ namespace Anathena.Source.Scanners
 
     class ScannerPresenter : Presenter<IScannerView, IScannerModel>
     {
-        private new IScannerView View { get; set; }
-        private new IScannerModel Model { get; set; }
+        private new IScannerView view { get; set; }
+        private new IScannerModel model { get; set; }
 
-        public ScannerPresenter(IScannerView View, IScannerModel Model) : base(View, Model)
+        public ScannerPresenter(IScannerView view, IScannerModel model) : base(view, model)
         {
-            this.View = View;
-            this.Model = Model;
+            this.view = view;
+            this.model = model;
 
             // Bind events triggered by the model
-            Model.EventUpdateScanCount += EventDisplayScanCount;
+            model.EventUpdateScanCount += EventDisplayScanCount;
         }
 
         #region Method definitions called by the view (downstream)
 
         public void BeginScan()
         {
-            Model.Begin();
+            model.Begin();
         }
 
         public void EndScan()
         {
-            Model.TriggerEnd();
+            model.TriggerEnd();
         }
 
         #endregion
@@ -77,7 +77,7 @@ namespace Anathena.Source.Scanners
 
         protected void EventDisplayScanCount(Object Sender, ScannerEventArgs E)
         {
-            View.DisplayScanCount(E.ScanCount);
+            view.DisplayScanCount(E.ScanCount);
         }
 
         #endregion

@@ -9,12 +9,6 @@ namespace Anathena.Source.Engine.AddressResolver.DotNet
 {
     public class DotNetObject : IEnumerable, IComparable<DotNetObject>
     {
-        [Browsable(false)]
-        private DotNetObject Parent { get; set; }
-
-        [Browsable(false)]
-        private List<DotNetObject> Children { get; set; }
-
         [ReadOnly(true)]
         [TypeConverter(typeof(AddressConverter))]
         [Category("Properties"), DisplayName("Address"), Description("Address of the object. The CLR can change this at any time")]
@@ -29,36 +23,39 @@ namespace Anathena.Source.Engine.AddressResolver.DotNet
         [Category("Properties"), DisplayName("Value Type"), Description("Data type of the address")]
         public Type ElementType { get; set; }
 
-        public DotNetObject(DotNetObject Parent, UInt64 ObjectReference, Type ElementType, String Name)
+        private DotNetObject parent { get; set; }
+        private List<DotNetObject> children { get; set; }
+
+        public DotNetObject(DotNetObject parent, UInt64 objectReference, Type elementType, String name)
         {
-            this.Parent = Parent;
-            this.ObjectReference = unchecked(ObjectReference);
-            this.ElementType = ElementType;
+            this.parent = parent;
+            this.ObjectReference = unchecked(objectReference);
+            this.ElementType = elementType;
 
             // Trim root name from all objects if applicable
-            String RootName = GetRootName();
-            if (Name.StartsWith(RootName))
-                Name = Name.Remove(0, RootName.Length);
+            String rootName = GetRootName();
+            if (name.StartsWith(rootName))
+                name = name.Remove(0, rootName.Length);
 
-            this.Name = Name;
+            this.Name = name;
 
-            Children = new List<DotNetObject>();
+            children = new List<DotNetObject>();
         }
 
-        public void AddChild(DotNetObject ObjectNode)
+        public void AddChild(DotNetObject objectNode)
         {
-            if (!Children.Contains(ObjectNode))
-                Children.Add(ObjectNode);
+            if (!children.Contains(objectNode))
+                children.Add(objectNode);
         }
 
         public List<DotNetObject> GetChildren()
         {
-            return Children;
+            return children;
         }
 
         public void SortChildren()
         {
-            Children.Sort();
+            children.Sort();
         }
 
         public IntPtr GetAddress()
@@ -90,26 +87,26 @@ namespace Anathena.Source.Engine.AddressResolver.DotNet
 
         private String GetRootName()
         {
-            if (Parent == null)
+            if (parent == null)
                 return GetName();
 
-            return Parent.GetRootName();
+            return parent.GetRootName();
         }
 
         private String GetFullNamespace(String CurrentNamespace)
         {
-            if (Parent == null)
+            if (parent == null)
                 return GetRootName();
 
-            return Parent.GetFullNamespace(CurrentNamespace) + "." + Name;
+            return parent.GetFullNamespace(CurrentNamespace) + "." + Name;
         }
 
-        public Int32 CompareTo(DotNetObject Other)
+        public Int32 CompareTo(DotNetObject other)
         {
-            if (this.ObjectReference > Other.ObjectReference)
+            if (this.ObjectReference > other.ObjectReference)
                 return 1;
 
-            if (this.ObjectReference == Other.ObjectReference)
+            if (this.ObjectReference == other.ObjectReference)
                 return 0;
 
             return -1;
@@ -117,7 +114,7 @@ namespace Anathena.Source.Engine.AddressResolver.DotNet
 
         public IEnumerator GetEnumerator()
         {
-            return ((IEnumerable)Children).GetEnumerator();
+            return ((IEnumerable)children).GetEnumerator();
         }
 
     } // End class

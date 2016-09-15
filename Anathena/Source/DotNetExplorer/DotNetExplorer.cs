@@ -16,7 +16,7 @@ namespace Anathena.Source.DotNetExplorer
     /// </summary>
     class DotNetExplorer : IDotNetExplorerModel, IProcessObserver
     {
-        private EngineCore EngineCore;
+        private EngineCore engineCore;
 
         // Event stubs
         public event DotNetExplorerEventHandler EventRefreshObjectTrees;
@@ -33,35 +33,35 @@ namespace Anathena.Source.DotNetExplorer
             ProcessSelector.GetInstance().Subscribe(this);
         }
 
-        public void UpdateEngineCore(EngineCore EngineCore)
+        public void UpdateEngineCore(EngineCore engineCore)
         {
-            this.EngineCore = EngineCore;
+            this.engineCore = engineCore;
 
             RefreshObjectTrees();
         }
 
-        public void AddToTable(DotNetObject DotNetObject)
+        public void AddToTable(DotNetObject dotNetObject)
         {
-            AddressItem AddressItem = new AddressItem(IntPtr.Zero, DotNetObject.GetElementType(),
-                DotNetObject.GetName(), AddressResolver.ResolveTypeEnum.DotNet, DotNetObject.GetFullName());
-            ProjectExplorer.GetInstance().AddProjectItem(AddressItem);
+            AddressItem addressItem = new AddressItem(IntPtr.Zero, dotNetObject.GetElementType(),
+                dotNetObject.GetName(), AddressResolver.ResolveTypeEnum.DotNet, dotNetObject.GetFullName());
+            ProjectExplorer.GetInstance().AddProjectItem(addressItem);
         }
 
-        public void UpdateSelection(IEnumerable<DotNetObject> DotNetObjects)
+        public void UpdateSelection(IEnumerable<DotNetObject> dotNetObjects)
         {
-            PropertyViewer.GetInstance().SetTargetObjects(DotNetObjects.ToArray());
+            PropertyViewer.GetInstance().SetTargetObjects(dotNetObjects.ToArray());
         }
 
         public void RefreshObjectTrees()
         {
-            if (EngineCore == null)
+            if (engineCore == null)
                 return;
 
-            List<DotNetObject> ObjectTrees = DotNetObjectCollector.GetInstance().GetObjectTrees();
+            List<DotNetObject> objectTrees = DotNetObjectCollector.GetInstance().GetObjectTrees();
 
-            DotNetExplorerEventArgs Args = new DotNetExplorerEventArgs();
-            Args.ObjectTrees = ObjectTrees;
-            EventRefreshObjectTrees?.Invoke(this, Args);
+            DotNetExplorerEventArgs args = new DotNetExplorerEventArgs();
+            args.objectTrees = objectTrees;
+            EventRefreshObjectTrees?.Invoke(this, args);
         }
 
     } // End class

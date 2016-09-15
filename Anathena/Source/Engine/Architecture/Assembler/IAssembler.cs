@@ -1,7 +1,7 @@
-﻿using System;
-
-namespace Anathena.Source.Engine.Architecture.Assembler
+﻿namespace Anathena.Source.Engine.Architecture.Assembler
 {
+    using System;
+
     /// <summary>
     /// Interface defining an assembler.
     /// </summary>
@@ -10,17 +10,18 @@ namespace Anathena.Source.Engine.Architecture.Assembler
         /// <summary>
         /// Assemble the specified assembly code.
         /// </summary>
-        /// <param name="Asm">The assembly code.</param>
+        /// <param name="asm">The assembly code.</param>
         /// <returns>An array of bytes containing the assembly code.</returns>
-        Byte[] Assemble(Boolean IsProcess32Bit, String Asm);
+        Byte[] Assemble(Boolean isProcess32Bit, String asm);
+
         /// <summary>
         /// Assemble the specified assembly code at a base address.
         /// </summary>
-        /// <param name="Asm">The assembly code.</param>
-        /// <param name="BaseAddress">The address where the code is rebased.</param>
+        /// <param name="asm">The assembly code.</param>
+        /// <param name="baseAddress">The address where the code is rebased.</param>
         /// <returns>An array of bytes containing the assembly code.</returns>
-        Byte[] Assemble(Boolean IsProcess32Bit, String Asm, IntPtr BaseAddress);
-
-    } // End interface
-
-} // End namespace
+        Byte[] Assemble(Boolean isProcess32Bit, String asm, IntPtr baseAddress);
+    }
+    //// End interface
+}
+//// End namespace

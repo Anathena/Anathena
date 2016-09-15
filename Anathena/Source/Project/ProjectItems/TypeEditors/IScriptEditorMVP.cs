@@ -31,19 +31,19 @@ namespace Anathena.Source.Project
     class ScriptEditorPresenter : Presenter<IScriptEditorView, IScriptEditorModel>
     {
         private GUIScriptEditor GUIScriptEditor;
-        private new IScriptEditorView View { get; set; }
-        private new IScriptEditorModel Model { get; set; }
+        private new IScriptEditorView view { get; set; }
+        private new IScriptEditorModel model { get; set; }
 
-        public ScriptEditorPresenter(IScriptEditorView View, IScriptEditorModel Model) : base(View, Model)
+        public ScriptEditorPresenter(IScriptEditorView view, IScriptEditorModel model) : base(view, model)
         {
             GUIScriptEditor = new GUIScriptEditor(this);
-            this.View = GUIScriptEditor;
-            this.Model = Model;
+            this.view = GUIScriptEditor;
+            this.model = model;
 
             // Bind events triggered by the model
-            Model.EventUpdateScript += EventUpdateScript;
+            model.EventUpdateScript += EventUpdateScript;
 
-            Model.OnGUIOpen();
+            model.OnGUIOpen();
         }
 
         public InputRequest.InputRequestDelegate GetInputRequestCallBack()
@@ -55,12 +55,12 @@ namespace Anathena.Source.Project
 
         public void SaveChanges(String NewScript)
         {
-            Model.SaveChanges(NewScript == null ? String.Empty : NewScript);
+            model.SaveChanges(NewScript == null ? String.Empty : NewScript);
         }
 
         public Boolean HasChanges(String NewScript)
         {
-            return Model.HasChanges(NewScript == null ? String.Empty : NewScript);
+            return model.HasChanges(NewScript == null ? String.Empty : NewScript);
         }
 
         #endregion
@@ -69,13 +69,13 @@ namespace Anathena.Source.Project
 
         private DialogResult InputRequest()
         {
-            Model.OnGUIOpen();
+            model.OnGUIOpen();
             return GUIScriptEditor.ShowDialog();
         }
 
         private void EventUpdateScript(Object Sender, ScriptEditorEventArgs E)
         {
-            View.RefreshScript(E?.Script == null ? String.Empty : E.Script);
+            view.RefreshScript(E?.Script == null ? String.Empty : E.Script);
         }
 
         #endregion

@@ -323,7 +323,7 @@ namespace Anathena.Source.Engine.Architecture.Disassembler.SharpDisasm.Udis86
         /// <param name="opr"></param>
         /// <returns></returns>
         public static bool
-        ud_opr_is_sreg(ref ud_operand opr)
+        ud_opr_is_sreg(ud_operand opr)
         {
             return opr.type == ud_type.UD_OP_REG &&
                    opr.@base >= ud_type.UD_R_ES &&

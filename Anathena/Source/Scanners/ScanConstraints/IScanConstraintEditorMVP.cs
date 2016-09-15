@@ -42,27 +42,27 @@ namespace Anathena.Source.Scanners.ScanConstraints
 
     class ScanConstraintEditorPresenter : Presenter<IScanConstraintEditorView, IScanConstraintEditorModel>
     {
-        private new IScanConstraintEditorView View { get; set; }
-        private new IScanConstraintEditorModel Model { get; set; }
+        private new IScanConstraintEditorView view { get; set; }
+        private new IScanConstraintEditorModel model { get; set; }
 
         private ConstraintsEnum ValueConstraint;
 
-        public ScanConstraintEditorPresenter(IScanConstraintEditorView View, IScanConstraintEditorModel Model) : base(View, Model)
+        public ScanConstraintEditorPresenter(IScanConstraintEditorView view, IScanConstraintEditorModel model) : base(view, model)
         {
-            this.View = View;
-            this.Model = Model;
+            this.view = view;
+            this.model = model;
 
             // Bind events triggered by the model
-            Model.EventUpdateDisplay += EventUpdateDisplay;
+            model.EventUpdateDisplay += EventUpdateDisplay;
 
-            Model.OnGUIOpen();
+            model.OnGUIOpen();
         }
 
         #region Method definitions called by the view (downstream)
 
         public ScanConstraintManager GetScanConstraintManager()
         {
-            return Model.GetScanConstraintManager();
+            return model.GetScanConstraintManager();
         }
 
         public void SetCurrentValueConstraint(ConstraintsEnum ValueConstraint)
@@ -72,7 +72,7 @@ namespace Anathena.Source.Scanners.ScanConstraints
 
         public void SetElementType(Type ElementType)
         {
-            Model.SetElementType(ElementType);
+            model.SetElementType(ElementType);
         }
 
         public void AddConstraint(String ValueString)
@@ -96,21 +96,21 @@ namespace Anathena.Source.Scanners.ScanConstraints
                 case ConstraintsEnum.NotEqual:
                 case ConstraintsEnum.IncreasedByX:
                 case ConstraintsEnum.DecreasedByX:
-                    if (CheckSyntax.CanParseValue(Model.GetElementType(), ValueString))
-                        Value = Conversions.ParseDecStringAsValue(Model.GetElementType(), ValueString);
+                    if (CheckSyntax.CanParseValue(model.GetElementType(), ValueString))
+                        Value = Conversions.ParseDecStringAsValue(model.GetElementType(), ValueString);
                     else
                         return;
                     break;
             }
 
-            Model.AddConstraint(ValueConstraint, Value);
+            model.AddConstraint(ValueConstraint, Value);
         }
 
         public Boolean TryUpdateConstraint(Int32 Index, String ValueString)
         {
             dynamic Value = null;
 
-            switch (Model.GetConstraintAt(Index).Constraint)
+            switch (model.GetConstraintAt(Index).Constraint)
             {
                 case ConstraintsEnum.Changed:
                 case ConstraintsEnum.Unchanged:
@@ -129,30 +129,30 @@ namespace Anathena.Source.Scanners.ScanConstraints
                 case ConstraintsEnum.NotEqual:
                 case ConstraintsEnum.IncreasedByX:
                 case ConstraintsEnum.DecreasedByX:
-                    if (CheckSyntax.CanParseValue(Model.GetElementType(), ValueString))
-                        Value = Conversions.ParseDecStringAsValue(Model.GetElementType(), ValueString);
+                    if (CheckSyntax.CanParseValue(model.GetElementType(), ValueString))
+                        Value = Conversions.ParseDecStringAsValue(model.GetElementType(), ValueString);
                     else
                         return false;
                     break;
             }
 
-            Model.UpdateConstraint(Index, Value);
+            model.UpdateConstraint(Index, Value);
             return true;
         }
 
         public void RemoveConstraints(params Int32[] ConstraintIndicies)
         {
-            Model.RemoveConstraints(ConstraintIndicies);
+            model.RemoveConstraints(ConstraintIndicies);
         }
 
         public void RemoveConstraints(IEnumerable<Int32> ConstraintIndicies)
         {
-            Model.RemoveConstraints(ConstraintIndicies);
+            model.RemoveConstraints(ConstraintIndicies);
         }
 
         public void ClearConstraints()
         {
-            Model.ClearConstraints();
+            model.ClearConstraints();
         }
 
         #endregion
@@ -191,7 +191,7 @@ namespace Anathena.Source.Scanners.ScanConstraints
                 ScanConstraintItems.Last().ImageIndex = ImageIndex++;
             }
 
-            View.UpdateDisplay(ScanConstraintItems, ImageList);
+            view.UpdateDisplay(ScanConstraintItems, ImageList);
         }
 
         #endregion

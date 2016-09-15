@@ -9,17 +9,24 @@ namespace Anathena.Source.Controller
     delegate void MainEventHandler(Object Sender, MainEventArgs Args);
     class MainEventArgs : EventArgs
     {
-        public String ProcessTitle = String.Empty;
-        public ProgressItem ProgressItem = null;
-        public Boolean Changed = false;
+        public String ProcessTitle { get; set; }
+        public ProgressItem ProgressItem { get; set; }
+        public Boolean Changed { get; set; }
+
+        public MainEventArgs()
+        {
+            ProcessTitle = String.Empty;
+            ProgressItem = null;
+            Changed = false;
+        }
     }
 
     interface IMainView : IView
     {
         // Methods invoked by the presenter (upstream)
-        void UpdateProcessTitle(String ProcessTitle);
-        void UpdateProgress(ProgressItem ProgressItem);
-        void UpdateHasChanges(Boolean Changed);
+        void UpdateProcessTitle(String processTitle);
+        void UpdateProgress(ProgressItem progressItem);
+        void UpdateHasChanges(Boolean changed);
 
         void OpenLabelThresholder();
     }
@@ -35,13 +42,13 @@ namespace Anathena.Source.Controller
         event MainEventHandler EventOpenLabelThresholder;
 
         // Functions invoked by presenter (downstream)
-        void RequestOpenTable(String FilePath);
-        void RequestMergeTable(String FilePath);
-        void RequestSaveTable(String FilePath);
+        void RequestOpenTable(String filePath);
+        void RequestMergeTable(String filePath);
+        void RequestSaveTable(String filePath);
         void RequestCollectValues();
         void RequestNewScan();
         void RequestUndoScan();
-        void SetProjectFilePath(String ProjectFilePath);
+        void SetProjectFilePath(String projectFilePath);
 
         Boolean RequestHasChanges();
         String GetProjectFilePath();
@@ -49,123 +56,123 @@ namespace Anathena.Source.Controller
 
     class MainPresenter : Presenter<IMainView, IMainModel>
     {
-        private new IMainView View { get; set; }
-        private new IMainModel Model { get; set; }
+        private new IMainView view { get; set; }
+        private new IMainModel model { get; set; }
 
-        private List<ProgressItem> PendingActions;
-        private Object AccessLock;
+        private List<ProgressItem> pendingActions;
+        private Object accessLock;
 
-        public MainPresenter(IMainView View, IMainModel Model) : base(View, Model)
+        public MainPresenter(IMainView view, IMainModel model) : base(view, model)
         {
-            this.View = View;
-            this.Model = Model;
+            this.view = view;
+            this.model = model;
 
-            PendingActions = new List<ProgressItem>();
-            AccessLock = new Object();
+            pendingActions = new List<ProgressItem>();
+            accessLock = new Object();
 
             // Bind events triggered by the model
-            Model.EventUpdateProcessTitle += EventUpdateProcessTitle;
-            Model.EventUpdateProgress += EventUpdateProgress;
-            Model.EventUpdateHasChanges += EventUpdateHasChanges;
-            Model.EventFinishProgress += EventFinishProgress;
-            Model.EventOpenLabelThresholder += EventOpenLabelThresholder;
+            model.EventUpdateProcessTitle += EventUpdateProcessTitle;
+            model.EventUpdateProgress += EventUpdateProgress;
+            model.EventUpdateHasChanges += EventUpdateHasChanges;
+            model.EventFinishProgress += EventFinishProgress;
+            model.EventOpenLabelThresholder += EventOpenLabelThresholder;
 
-            Model.OnGUIOpen();
+            model.OnGUIOpen();
         }
 
         #region Method definitions called by the view (downstream)
 
-        public void RequestOpenProject(String FilePath)
+        public void RequestOpenProject(String filePath)
         {
-            Model.RequestOpenTable(FilePath);
+            model.RequestOpenTable(filePath);
         }
 
-        public void RequestImportProject(String FilePath)
+        public void RequestImportProject(String filePath)
         {
-            Model.RequestMergeTable(FilePath);
+            model.RequestMergeTable(filePath);
         }
 
-        public void RequestSaveProject(String FilePath)
+        public void RequestSaveProject(String filePath)
         {
-            Model.RequestSaveTable(FilePath);
+            model.RequestSaveTable(filePath);
         }
 
         public void RequestCollectValues()
         {
-            Model.RequestCollectValues();
+            model.RequestCollectValues();
         }
 
         public void RequestNewScan()
         {
-            Model.RequestNewScan();
+            model.RequestNewScan();
         }
 
         public void RequestUndoScan()
         {
-            Model.RequestUndoScan();
+            model.RequestUndoScan();
         }
 
-        public void SetProjectFilePath(String ProjectFilePath)
+        public void SetProjectFilePath(String projectFilePath)
         {
-            Model.SetProjectFilePath(ProjectFilePath);
+            model.SetProjectFilePath(projectFilePath);
         }
 
         public Boolean RequestHasChanges()
         {
-            return Model.RequestHasChanges();
+            return model.RequestHasChanges();
         }
 
         public String GetProjectFilePath()
         {
-            return Model.GetProjectFilePath();
+            return model.GetProjectFilePath();
         }
 
         #endregion
 
         #region Event definitions for events triggered by the model (upstream)
 
-        private void EventUpdateProcessTitle(Object Sender, MainEventArgs E)
+        private void EventUpdateProcessTitle(Object sender, MainEventArgs e)
         {
-            View.UpdateProcessTitle(E.ProcessTitle);
+            view.UpdateProcessTitle(e.ProcessTitle);
         }
 
-        private void EventUpdateProgress(Object Sender, MainEventArgs E)
+        private void EventUpdateProgress(Object sender, MainEventArgs e)
         {
-            using (TimedLock.Lock(AccessLock))
+            using (TimedLock.Lock(accessLock))
             {
-                if (!PendingActions.Contains(E.ProgressItem))
-                    PendingActions.Add(E.ProgressItem);
+                if (!pendingActions.Contains(e.ProgressItem))
+                    pendingActions.Add(e.ProgressItem);
 
-                if (PendingActions.Count > 0)
-                    View.UpdateProgress(PendingActions[0]);
+                if (pendingActions.Count > 0)
+                    view.UpdateProgress(pendingActions[0]);
                 else
-                    View.UpdateProgress(null);
+                    view.UpdateProgress(null);
             }
 
         }
 
-        private void EventUpdateHasChanges(Object Sender, MainEventArgs E)
+        private void EventUpdateHasChanges(Object sender, MainEventArgs e)
         {
-            View.UpdateHasChanges(E.Changed);
+            view.UpdateHasChanges(e.Changed);
         }
 
-        private void EventFinishProgress(Object Sender, MainEventArgs E)
+        private void EventFinishProgress(Object sender, MainEventArgs e)
         {
-            using (TimedLock.Lock(AccessLock))
+            using (TimedLock.Lock(accessLock))
             {
-                if (PendingActions.Contains(E.ProgressItem))
-                    PendingActions.Remove(E.ProgressItem);
+                if (pendingActions.Contains(e.ProgressItem))
+                    pendingActions.Remove(e.ProgressItem);
 
-                if (PendingActions.Count > 0)
-                    View.UpdateProgress(PendingActions[0]);
+                if (pendingActions.Count > 0)
+                    view.UpdateProgress(pendingActions[0]);
                 else
-                    View.UpdateProgress(null);
+                    view.UpdateProgress(null);
             }
         }
 
-        private void EventOpenLabelThresholder(Object Sender, MainEventArgs E)
+        private void EventOpenLabelThresholder(Object sender, MainEventArgs e)
         {
-            View.OpenLabelThresholder();
+            view.OpenLabelThresholder();
         }
 
         #endregion

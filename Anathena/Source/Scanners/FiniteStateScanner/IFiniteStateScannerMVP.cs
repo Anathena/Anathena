@@ -16,17 +16,17 @@
 
     class FiniteStateScannerPresenter : ScannerPresenter
     {
-        private new IFiniteStateScannerView View { get; set; }
-        private new IFiniteStateScannerModel Model { get; set; }
+        private new IFiniteStateScannerView view { get; set; }
+        private new IFiniteStateScannerModel model { get; set; }
 
-        public FiniteStateScannerPresenter(IFiniteStateScannerView View, IFiniteStateScannerModel Model) : base(View, Model)
+        public FiniteStateScannerPresenter(IFiniteStateScannerView view, IFiniteStateScannerModel model) : base(view, model)
         {
-            this.View = View;
-            this.Model = Model;
+            this.view = view;
+            this.model = model;
 
             // Bind events triggered by the model
 
-            Model.OnGUIOpen();
+            model.OnGUIOpen();
         }
 
         #region Method definitions called by the view (downstream)

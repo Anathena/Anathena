@@ -32,25 +32,25 @@ namespace Anathena.Source.Scanners.InputCorrelator
 
     class InputCorrelatorPresenter : ScannerPresenter
     {
-        private new IInputCorrelatorView View { get; set; }
-        private new IInputCorrelatorModel Model { get; set; }
+        private new IInputCorrelatorView view { get; set; }
+        private new IInputCorrelatorModel model { get; set; }
 
-        public InputCorrelatorPresenter(IInputCorrelatorView View, IInputCorrelatorModel Model) : base(View, Model)
+        public InputCorrelatorPresenter(IInputCorrelatorView view, IInputCorrelatorModel model) : base(view, model)
         {
-            this.View = View;
-            this.Model = Model;
+            this.view = view;
+            this.model = model;
 
             // Bind events triggered by the model
-            Model.EventUpdateHotKeys += EventUpdateHotKeys;
+            model.EventUpdateHotKeys += EventUpdateHotKeys;
 
-            Model.OnGUIOpen();
+            model.OnGUIOpen();
         }
 
         #region Method definitions called by the view (downstream)
 
         public void EditKeys()
         {
-            Model.EditKeys();
+            model.EditKeys();
         }
 
         public void SetVariableSize(Int32 VariableSize)
@@ -58,7 +58,7 @@ namespace Anathena.Source.Scanners.InputCorrelator
             if (VariableSize <= 0)
                 return;
 
-            Model.SetVariableSize(VariableSize);
+            model.SetVariableSize(VariableSize);
         }
 
         #endregion
@@ -71,7 +71,7 @@ namespace Anathena.Source.Scanners.InputCorrelator
 
             if (E == null || E.HotKeys == null)
             {
-                View?.SetHotKeyList(HotKeyStrings);
+                view?.SetHotKeyList(HotKeyStrings);
                 return;
             }
 
@@ -97,7 +97,7 @@ namespace Anathena.Source.Scanners.InputCorrelator
                 }
             }
 
-            View?.SetHotKeyList(HotKeyStrings);
+            view?.SetHotKeyList(HotKeyStrings);
         }
 
         #endregion

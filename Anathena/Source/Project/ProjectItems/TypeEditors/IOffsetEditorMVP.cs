@@ -32,19 +32,19 @@ namespace Anathena.Source.Project
     class OffsetEditorPresenter : Presenter<IOffsetEditorView, IOffsetEditorModel>
     {
         private GUIOffsetEditor GUIOffsetEditor;
-        private new IOffsetEditorView View { get; set; }
-        private new IOffsetEditorModel Model { get; set; }
+        private new IOffsetEditorView view { get; set; }
+        private new IOffsetEditorModel model { get; set; }
 
-        public OffsetEditorPresenter(IOffsetEditorView View, IOffsetEditorModel Model) : base(View, Model)
+        public OffsetEditorPresenter(IOffsetEditorView view, IOffsetEditorModel model) : base(view, model)
         {
             GUIOffsetEditor = new GUIOffsetEditor(this);
-            this.View = GUIOffsetEditor;
-            this.Model = Model;
+            this.view = GUIOffsetEditor;
+            this.model = model;
 
             // Bind events triggered by the model
-            Model.EventUpdateOffsets += EventUpdateOffsets;
+            model.EventUpdateOffsets += EventUpdateOffsets;
 
-            Model.OnGUIOpen();
+            model.OnGUIOpen();
         }
 
         public InputRequest.InputRequestDelegate GetInputRequestCallBack()
@@ -56,12 +56,12 @@ namespace Anathena.Source.Project
 
         public void DeleteOffsets(IEnumerable<Int32> Indicies)
         {
-            Model.DeleteOffsets(Indicies);
+            model.DeleteOffsets(Indicies);
         }
 
         public void AddOffset(Int32 Offset)
         {
-            Model.AddOffset(Offset);
+            model.AddOffset(Offset);
         }
 
         #endregion
@@ -70,7 +70,7 @@ namespace Anathena.Source.Project
 
         private DialogResult InputRequest()
         {
-            Model.OnGUIOpen();
+            model.OnGUIOpen();
             return GUIOffsetEditor.ShowDialog();
         }
 
@@ -85,7 +85,7 @@ namespace Anathena.Source.Project
                 HexDecOffsets.Add(new Tuple<String, String>(Hexadecimal, Decimal));
             }
 
-            View?.SetOffsets(HexDecOffsets);
+            view?.SetOffsets(HexDecOffsets);
         }
 
         #endregion

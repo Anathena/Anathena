@@ -6,7 +6,7 @@
         {
             return new Fasm32Assembler();
         }
-
-    } // End class
-
-} // End namespace
+    }
+    //// End class
+}
+//// End namespace

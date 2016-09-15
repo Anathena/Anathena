@@ -54,19 +54,19 @@ namespace Anathena.Source.PropertyView
 
     class PropertyViewerPresenter : Presenter<IPropertyViewerView, IPropertyViewerModel>
     {
-        private new IPropertyViewerView View { get; set; }
-        private new IPropertyViewerModel Model { get; set; }
+        private new IPropertyViewerView view { get; set; }
+        private new IPropertyViewerModel model { get; set; }
 
-        public PropertyViewerPresenter(IPropertyViewerView View, IPropertyViewerModel Model) : base(View, Model)
+        public PropertyViewerPresenter(IPropertyViewerView view, IPropertyViewerModel model) : base(view, model)
         {
-            this.View = View;
-            this.Model = Model;
+            this.view = view;
+            this.model = model;
 
             // Bind events triggered by the model
-            Model.EventSetTargetObjects += EventSetTargetObjects;
-            Model.EventRefreshProperties += EventRefreshProperties;
+            model.EventSetTargetObjects += EventSetTargetObjects;
+            model.EventRefreshProperties += EventRefreshProperties;
 
-            Model.OnGUIOpen();
+            model.OnGUIOpen();
         }
 
         #region Method definitions called by the view (downstream)
@@ -77,7 +77,7 @@ namespace Anathena.Source.PropertyView
 
         private void EventSetTargetObjects(Object Sender, PropertyViewerEventArgs E)
         {
-            View.SetTargetObjects(E.SelectedObjects);
+            view.SetTargetObjects(E.SelectedObjects);
         }
 
         private void EventRefreshProperties(Object Sender, PropertyViewerEventArgs E)

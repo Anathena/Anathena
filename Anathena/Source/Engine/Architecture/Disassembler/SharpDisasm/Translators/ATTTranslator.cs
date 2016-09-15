@@ -1,13 +1,13 @@
-﻿using Anathena.Source.Engine.Architecture.Disassembler.SharpDisasm.Udis86;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace Anathena.Source.Engine.Architecture.Disassembler.SharpDisasm.Translators
+﻿namespace Anathena.Source.Engine.Architecture.Disassembler.SharpDisasm.Translators
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Text;
+    using Udis86;
+
     /// <summary>
-    /// Translates to AT&amp;T syntax
+    /// Translates to ATT syntax
     /// </summary>
     public class ATTTranslator : Translator
     {
@@ -16,23 +16,33 @@ namespace Anathena.Source.Engine.Architecture.Disassembler.SharpDisasm.Translato
         /// </summary>
         /// <param name="insns"></param>
         /// <returns></returns>
-        public override string Translate(IEnumerable<Instruction> insns)
+        public override String Translate(IEnumerable<Instruction> insns)
         {
-            Content = new StringBuilder();
-            bool first = true;
-            foreach (var insn in insns)
+            Boolean first = true;
+            this.Content = new StringBuilder();
+
+            foreach (Instruction insn in insns)
             {
                 if (first)
+                {
                     first = false;
+                }
                 else
+                {
                     Content.Append(Environment.NewLine);
+                }
 
-                if (IncludeAddress)
-                    WriteAddress(insn);
-                if (IncludeBinary)
-                    WriteBinary(insn);
+                if (this.IncludeAddress)
+                {
+                    this.WriteAddress(insn);
+                }
 
-                ud_translate_att(insn);
+                if (this.IncludeBinary)
+                {
+                    this.WriteBinary(insn);
+                }
+
+                this.Ud_translate_att(insn);
             }
 
             return Content.ToString();
@@ -43,31 +53,31 @@ namespace Anathena.Source.Engine.Architecture.Disassembler.SharpDisasm.Translato
         /// </summary>
         /// <param name="insn"></param>
         /// <returns></returns>
-        public override string Translate(Instruction insn)
+        public override String Translate(Instruction insn)
         {
-            Content = new StringBuilder();
+            this.Content = new StringBuilder();
 
-            if (IncludeAddress)
-                WriteAddress(insn);
-            if (IncludeBinary)
-                WriteBinary(insn);
-            ud_translate_att(insn);
+            if (this.IncludeAddress)
+            {
+                this.WriteAddress(insn);
+            }
+
+            if (this.IncludeBinary)
+            {
+                this.WriteBinary(insn);
+            }
+
+            this.Ud_translate_att(insn);
 
             return Content.ToString();
         }
 
-
-        /* -----------------------------------------------------------------------------
-         * opr_cast() - Prints an operand cast.
-         * -----------------------------------------------------------------------------
-         */
         /// <summary>
         /// Prints an operand cast.
         /// </summary>
         /// <param name="insn"></param>
         /// <param name="op"></param>
-        void
-        opr_cast(Instruction insn, Operand op)
+        private void Opr_cast(Instruction insn, Operand op)
         {
             switch (op.Size)
             {
@@ -79,112 +89,104 @@ namespace Anathena.Source.Engine.Architecture.Disassembler.SharpDisasm.Translato
             }
         }
 
-        /* -----------------------------------------------------------------------------
-         * gen_operand() - Generates assembly output for each operand.
-         * -----------------------------------------------------------------------------
-         */
         /// <summary>
         /// Generates assembly output for each operand
         /// </summary>
         /// <param name="u"></param>
         /// <param name="op"></param>
-        void
-        gen_operand(Instruction u, Operand op)
+        private void Gen_operand(Instruction u, Operand op)
         {
             switch (op.Type)
             {
                 case ud_type.UD_OP_CONST:
-                    Content.AppendFormat("$0x{0:x4}", op.LvalUDWord);
+                    this.Content.AppendFormat("$0x{0:x4}", op.LvalUDWord);
                     break;
-
                 case ud_type.UD_OP_REG:
-                    Content.AppendFormat("%{0}", RegisterForType(op.Base));
+                    this.Content.AppendFormat("%{0}", this.RegisterForType(op.Base));
                     break;
-
                 case ud_type.UD_OP_MEM:
-                    if (u.br_far != 0)
+                    if (u.BrFar != 0)
                     {
-                        opr_cast(u, op);
+                        this.Opr_cast(u, op);
                     }
-                    if (u.pfx_seg != 0)
+
+                    if (u.PfxSeg != 0)
                     {
-                        Content.AppendFormat("%{0}:", RegisterForType((ud_type)u.pfx_seg));
+                        this.Content.AppendFormat("%{0}:", this.RegisterForType((ud_type)u.PfxSeg));
                     }
+
                     if (op.Offset != 0)
                     {
-                        ud_syn_print_mem_disp(u, op, 0);
+                        this.Ud_syn_print_mem_disp(u, op, 0);
                     }
+
                     if (op.Base != ud_type.UD_NONE)
                     {
-                        Content.AppendFormat("(%{0}", RegisterForType(op.Base));
+                        this.Content.AppendFormat("(%{0}", this.RegisterForType(op.Base));
                     }
+
                     if (op.Index != ud_type.UD_NONE)
                     {
                         if (op.Base != ud_type.UD_NONE)
                         {
-                            Content.AppendFormat(",");
+                            this.Content.AppendFormat(",");
                         }
                         else
                         {
-                            Content.AppendFormat("(");
+                            this.Content.AppendFormat("(");
                         }
-                        Content.AppendFormat("%{0}", RegisterForType(op.Index));
+
+                        this.Content.AppendFormat("%{0}", this.RegisterForType(op.Index));
                     }
+
                     if (op.Scale != 0)
                     {
-                        Content.AppendFormat(",{0}", op.Scale);
+                        this.Content.AppendFormat(",{0}", op.Scale);
                     }
-                    if (op.Base != Udis86.ud_type.UD_NONE || op.Index != Udis86.ud_type.UD_NONE)
+
+                    if (op.Base != ud_type.UD_NONE || op.Index != ud_type.UD_NONE)
                     {
-                        Content.AppendFormat(")");
+                        this.Content.AppendFormat(")");
                     }
-                    break;
 
-                case Udis86.ud_type.UD_OP_IMM:
-                    Content.AppendFormat("$");
-                    ud_syn_print_imm(u, op);
                     break;
-
-                case Udis86.ud_type.UD_OP_JIMM:
-                    ud_syn_print_addr(u, (long)ud_syn_rel_target(u, op));
+                case ud_type.UD_OP_IMM:
+                    this.Content.AppendFormat("$");
+                    this.Ud_syn_print_imm(u, op);
                     break;
-
-                case Udis86.ud_type.UD_OP_PTR:
+                case ud_type.UD_OP_JIMM:
+                    this.Ud_syn_print_addr(u, (Int64)this.Ud_syn_rel_target(u, op));
+                    break;
+                case ud_type.UD_OP_PTR:
                     switch (op.Size)
                     {
                         case 32:
-                            Content.AppendFormat("$0x{0:x}, $0x{1:x}", op.PtrSegment,
-                              op.PtrOffset & 0xFFFF);
+                            this.Content.AppendFormat("$0x{0:x}, $0x{1:x}", op.PtrSegment, op.PtrOffset & 0xFFFF);
                             break;
                         case 48:
-                            Content.AppendFormat("$0x{0:x}, $0x{1:x}", op.PtrSegment,
-                              op.PtrOffset);
+                            this.Content.AppendFormat("$0x{0:x}, $0x{1:x}", op.PtrSegment, op.PtrOffset);
                             break;
                     }
-                    break;
 
-                default: return;
+                    break;
+                default:
+                    return;
             }
         }
 
-        /* =============================================================================
-         * translates to AT&T syntax 
-         * =============================================================================
-         */
         /// <summary>
-        /// Translates to AT&amp;T syntax 
+        /// Translates to ATT syntax 
         /// </summary>
         /// <param name="u"></param>
-        void
-        ud_translate_att(Instruction u)
+        private void Ud_translate_att(Instruction u)
         {
-            int size = 0;
-            bool star = false;
+            Int32 size = 0;
+            Boolean star = false;
 
-            /* check if P_OSO prefix is used */
-            if (SharpDisasm.Udis86.BitOps.P_OSO(u.itab_entry.Prefix) == 0 && u.pfx_opr != 0)
+            // check if P_OSO prefix is used
+            if (BitOps.P_OSO(u.ItabEntry.Prefix) == 0 && u.PfxOpr != 0)
             {
-                switch (u.dis_mode)
+                switch (u.DisMode)
                 {
                     case ArchitectureMode.x86_16:
                         Content.AppendFormat("o32 ");
@@ -196,10 +198,10 @@ namespace Anathena.Source.Engine.Architecture.Disassembler.SharpDisasm.Translato
                 }
             }
 
-            /* check if P_ASO prefix was used */
-            if (SharpDisasm.Udis86.BitOps.P_ASO(u.itab_entry.Prefix) == 0 && u.pfx_adr != 0)
+            // check if P_ASO prefix was used
+            if (BitOps.P_ASO(u.ItabEntry.Prefix) == 0 && u.PfxAdr != 0)
             {
-                switch (u.dis_mode)
+                switch (u.DisMode)
                 {
                     case ArchitectureMode.x86_16:
                         Content.AppendFormat("a32 ");
@@ -213,61 +215,72 @@ namespace Anathena.Source.Engine.Architecture.Disassembler.SharpDisasm.Translato
                 }
             }
 
-            if (u.pfx_lock != 0)
+            if (u.PfxLock != 0)
+            {
                 Content.AppendFormat("lock ");
-            if (u.pfx_rep != 0)
+            }
+
+            if (u.PfxRep != 0)
             {
                 Content.AppendFormat("rep ");
             }
-            else if (u.pfx_repe != 0)
+            else if (u.PfxRepe != 0)
             {
                 Content.AppendFormat("repe ");
             }
-            else if (u.pfx_repne != 0)
+            else if (u.PfxRepne != 0)
             {
                 Content.AppendFormat("repne ");
             }
 
-            /* special instructions */
+            // special instructions
             switch (u.Mnemonic)
             {
-                case Udis86.ud_mnemonic_code.UD_Iretf:
+                case ud_mnemonic_code.UD_Iretf:
                     Content.AppendFormat("lret ");
                     size = -1;
                     break;
-                case Udis86.ud_mnemonic_code.UD_Idb:
+                case ud_mnemonic_code.UD_Idb:
                     Content.AppendFormat(".byte 0x{0:x2}", u.Operands[0].LvalByte);
                     return;
-                case Udis86.ud_mnemonic_code.UD_Ijmp:
-                case Udis86.ud_mnemonic_code.UD_Icall:
-                    if (u.br_far != 0)
+                case ud_mnemonic_code.UD_Ijmp:
+                case ud_mnemonic_code.UD_Icall:
+                    if (u.BrFar != 0)
                     {
                         Content.AppendFormat("l");
                         size = -1;
                     }
-                    if (u.Operands[0].Type == Udis86.ud_type.UD_OP_REG)
+
+                    if (u.Operands[0].Type == ud_type.UD_OP_REG)
                     {
                         star = true;
                     }
-                    Content.AppendFormat("{0}", Udis86.udis86.ud_lookup_mnemonic(u.Mnemonic));
+
+                    this.Content.AppendFormat("{0}", udis86.ud_lookup_mnemonic(u.Mnemonic));
                     break;
-                case Udis86.ud_mnemonic_code.UD_Ibound:
-                case Udis86.ud_mnemonic_code.UD_Ienter:
-                    if (u.Operands.Length > 0 && u.Operands[0].Type != Udis86.ud_type.UD_NONE)
-                        gen_operand(u, u.Operands[0]);
-                    if (u.Operands.Length > 1 && u.Operands[1].Type != Udis86.ud_type.UD_NONE)
+                case ud_mnemonic_code.UD_Ibound:
+                case ud_mnemonic_code.UD_Ienter:
+                    if (u.Operands.Length > 0 && u.Operands[0].Type != ud_type.UD_NONE)
                     {
-                        Content.AppendFormat(",");
-                        gen_operand(u, u.Operands[1]);
+                        this.Gen_operand(u, u.Operands[0]);
                     }
+
+                    if (u.Operands.Length > 1 && u.Operands[1].Type != ud_type.UD_NONE)
+                    {
+                        this.Content.AppendFormat(",");
+                        this.Gen_operand(u, u.Operands[1]);
+                    }
+
                     return;
                 default:
-                    Content.AppendFormat("{0}", Udis86.udis86.ud_lookup_mnemonic(u.Mnemonic));
+                    this.Content.AppendFormat("{0}", udis86.ud_lookup_mnemonic(u.Mnemonic));
                     break;
             }
 
-            if (size != -1 && u.Operands.Length > 0 && u.Operands.Any(o => o.Type == Udis86.ud_type.UD_OP_MEM))
+            if (size != -1 && u.Operands.Length > 0 && u.Operands.Any(o => o.Type == ud_type.UD_OP_MEM))
+            {
                 size = u.Operands[0].Size;
+            }
 
             if (size == 8)
             {
@@ -299,27 +312,30 @@ namespace Anathena.Source.Engine.Architecture.Disassembler.SharpDisasm.Translato
                 Content.AppendFormat(" ");
             }
 
-            if (u.Operands.Length > 3 && u.Operands[3].Type != Udis86.ud_type.UD_NONE)
+            if (u.Operands.Length > 3 && u.Operands[3].Type != ud_type.UD_NONE)
             {
-                gen_operand(u, u.Operands[3]);
+                this.Gen_operand(u, u.Operands[3]);
                 Content.AppendFormat(", ");
             }
-            if (u.Operands.Length > 2 && u.Operands[2].Type != Udis86.ud_type.UD_NONE)
+
+            if (u.Operands.Length > 2 && u.Operands[2].Type != ud_type.UD_NONE)
             {
-                gen_operand(u, u.Operands[2]);
+                this.Gen_operand(u, u.Operands[2]);
                 Content.AppendFormat(", ");
             }
-            if (u.Operands.Length > 1 && u.Operands[1].Type != Udis86.ud_type.UD_NONE)
+
+            if (u.Operands.Length > 1 && u.Operands[1].Type != ud_type.UD_NONE)
             {
-                gen_operand(u, u.Operands[1]);
-                Content.AppendFormat(", ");
+                this.Gen_operand(u, u.Operands[1]);
+                this.Content.AppendFormat(", ");
             }
-            if (u.Operands.Length > 0 && u.Operands[0].Type != Udis86.ud_type.UD_NONE)
+
+            if (u.Operands.Length > 0 && u.Operands[0].Type != ud_type.UD_NONE)
             {
-                gen_operand(u, u.Operands[0]);
+                this.Gen_operand(u, u.Operands[0]);
             }
         }
-
-    } // End class
-
-} // End namespace
+    }
+    //// End class
+}
+//// End namespace

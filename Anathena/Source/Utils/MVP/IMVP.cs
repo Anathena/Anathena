@@ -22,13 +22,13 @@
     /// <typeparam name="TView"></typeparam>
     public class Presenter<TView, TModel> where TView : class, IView where TModel : class, IModel
     {
-        protected TView View { get; private set; }
-        protected TModel Model { get; private set; }
+        protected TView view { get; private set; }
+        protected TModel model { get; private set; }
 
-        public Presenter(TView View, TModel Model)
+        public Presenter(TView view, TModel model)
         {
-            this.View = View;
-            this.Model = Model;
+            this.view = view;
+            this.model = model;
         }
 
     } // End class

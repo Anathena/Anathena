@@ -36,19 +36,19 @@ namespace Anathena.Source.Engine.Processes
 
     class ProcessSelectorPresenter : Presenter<IProcessSelectorView, IProcessSelectorModel>
     {
-        private new IProcessSelectorView View { get; set; }
-        private new IProcessSelectorModel Model { get; set; }
+        private new IProcessSelectorView view { get; set; }
+        private new IProcessSelectorModel model { get; set; }
 
-        public ProcessSelectorPresenter(IProcessSelectorView View, IProcessSelectorModel Model) : base(View, Model)
+        public ProcessSelectorPresenter(IProcessSelectorView view, IProcessSelectorModel model) : base(view, model)
         {
-            this.View = View;
-            this.Model = Model;
+            this.view = view;
+            this.model = model;
 
             // Bind events triggered by the model
-            Model.EventDisplayProcesses += EventDisplayProcesses;
-            Model.EventSelectProcess += EventSelectProcess;
+            model.EventDisplayProcesses += EventDisplayProcesses;
+            model.EventSelectProcess += EventSelectProcess;
 
-            Model.OnGUIOpen();
+            model.OnGUIOpen();
         }
 
         private IEnumerable<ListViewItem> GetProcessListViewItems(List<Process> Processes, List<Icon> ProcessIcons, out ImageList ImageList)
@@ -98,12 +98,12 @@ namespace Anathena.Source.Engine.Processes
 
         public void RefreshProcesses(IntPtr ProcessSelectorHandle)
         {
-            Model.RefreshProcesses(ProcessSelectorHandle);
+            model.RefreshProcesses(ProcessSelectorHandle);
         }
 
         public void SelectProcess(Int32 Index)
         {
-            Model.SelectProcess(Index);
+            model.SelectProcess(Index);
         }
 
         #endregion
@@ -112,12 +112,12 @@ namespace Anathena.Source.Engine.Processes
         public void EventDisplayProcesses(Object Sender, ProcessSelectorEventArgs E)
         {
             ImageList ImageList = null;
-            View.DisplayProcesses(GetProcessListViewItems(E.ProcessList, E.ProcessIcons, out ImageList), ImageList);
+            view.DisplayProcesses(GetProcessListViewItems(E.ProcessList, E.ProcessIcons, out ImageList), ImageList);
         }
 
         public void EventSelectProcess(Object Sender, ProcessSelectorEventArgs E)
         {
-            View.SelectProcess(E.SelectedProcess);
+            view.SelectProcess(E.SelectedProcess);
         }
 
         #endregion

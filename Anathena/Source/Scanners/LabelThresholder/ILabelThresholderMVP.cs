@@ -35,48 +35,48 @@ namespace Anathena.Source.Scanners.LabelThresholder
 
     class LabelThresholderPresenter : Presenter<ILabelThresholderView, ILabelThresholderModel>
     {
-        private new ILabelThresholderView View { get; set; }
-        private new ILabelThresholderModel Model { get; set; }
+        private new ILabelThresholderView view { get; set; }
+        private new ILabelThresholderModel model { get; set; }
 
-        public LabelThresholderPresenter(ILabelThresholderView View, ILabelThresholderModel Model) : base(View, Model)
+        public LabelThresholderPresenter(ILabelThresholderView view, ILabelThresholderModel model) : base(view, model)
         {
-            this.View = View;
-            this.Model = Model;
+            this.view = view;
+            this.model = model;
 
             // Bind events triggered by the model
-            Model.EventUpdateHistogram += EventUpdateHistogram;
+            model.EventUpdateHistogram += EventUpdateHistogram;
 
-            Model.OnGUIOpen();
+            model.OnGUIOpen();
         }
 
         #region Method definitions called by the view (downstream)
 
         public void Begin()
         {
-            Model.Begin();
+            model.Begin();
         }
 
         public void ApplyThreshold()
         {
-            Model.ApplyThreshold();
+            model.ApplyThreshold();
         }
 
         public void UpdateThreshold(Int32 MinimumIndex, Int32 MaximumIndex)
         {
-            Model.UpdateThreshold(MinimumIndex, MaximumIndex);
+            model.UpdateThreshold(MinimumIndex, MaximumIndex);
         }
 
         public void SetInverted(Boolean Inverted)
         {
-            Model.SetInverted(Inverted);
+            model.SetInverted(Inverted);
         }
 
         public Int32 GetElementSize()
         {
-            if (Model.GetElementType() == null)
+            if (model.GetElementType() == null)
                 return 0;
 
-            return Marshal.SizeOf(Model.GetElementType());
+            return Marshal.SizeOf(model.GetElementType());
         }
 
         #endregion
@@ -85,7 +85,7 @@ namespace Anathena.Source.Scanners.LabelThresholder
 
         void EventUpdateHistogram(Object Sender, LabelThresholderEventArgs E)
         {
-            View.DisplayHistogram(E.SortedDictionary);
+            view.DisplayHistogram(E.SortedDictionary);
         }
 
         #endregion

@@ -45,72 +45,72 @@ namespace Anathena.Source.Scanners.FiniteStateScanner
 
     class FiniteStateBuilderPresenter : Presenter<IFiniteStateBuilderView, IFiniteStateBuilderModel>
     {
-        private new IFiniteStateBuilderView View { get; set; }
-        private new IFiniteStateBuilderModel Model { get; set; }
+        private new IFiniteStateBuilderView view { get; set; }
+        private new IFiniteStateBuilderModel model { get; set; }
 
-        public FiniteStateBuilderPresenter(IFiniteStateBuilderView View, IFiniteStateBuilderModel Model) : base(View, Model)
+        public FiniteStateBuilderPresenter(IFiniteStateBuilderView view, IFiniteStateBuilderModel model) : base(view, model)
         {
-            this.View = View;
-            this.Model = Model;
+            this.view = view;
+            this.model = model;
 
             // Bind events triggered by the model
-            Model.EventUpdateDisplay += EventUpdateDisplay;
+            model.EventUpdateDisplay += EventUpdateDisplay;
 
-            Model.OnGUIOpen();
+            model.OnGUIOpen();
         }
 
         #region Method definitions called by the view (downstream)
 
         public void BeginAction(Point Location)
         {
-            Model.BeginAction(Location);
+            model.BeginAction(Location);
         }
 
         public void UpdateAction(Point Location)
         {
-            Model.UpdateAction(Location);
+            model.UpdateAction(Location);
         }
 
         public void FinishAction(Point Location)
         {
-            Model.FinishAction(Location);
+            model.FinishAction(Location);
         }
 
         public FiniteStateMachine GetFiniteStateMachine()
         {
-            return Model.GetFiniteStateMachine();
+            return model.GetFiniteStateMachine();
         }
 
         public FiniteState GetMousedOverState()
         {
-            return Model.GetMousedOverState();
+            return model.GetMousedOverState();
         }
 
         public Point[] GetSelectionLine()
         {
-            return Model.GetSelectionLine();
+            return model.GetSelectionLine();
         }
 
         public void SetStateRadius(Int32 StateRadius)
         {
-            Model.SetStateRadius(StateRadius);
+            model.SetStateRadius(StateRadius);
         }
 
         public void SetStateEdgeSize(Int32 StateEdgeSize)
         {
-            Model.SetStateEdgeSize(StateEdgeSize);
+            model.SetStateEdgeSize(StateEdgeSize);
         }
 
         public void SetCurrentValueConstraint(ConstraintsEnum CurrentValueConstraint)
         {
-            Model.SetCurrentValueConstraint(CurrentValueConstraint);
+            model.SetCurrentValueConstraint(CurrentValueConstraint);
         }
 
         public Boolean TrySetValue(String ValueText)
         {
-            if (CheckSyntax.CanParseValue(Model.GetElementType(), ValueText))
+            if (CheckSyntax.CanParseValue(model.GetElementType(), ValueText))
             {
-                Model.SetCurrentValue(Conversions.ParseDecStringAsValue(Model.GetElementType(), ValueText));
+                model.SetCurrentValue(Conversions.ParseDecStringAsValue(model.GetElementType(), ValueText));
                 return true;
             }
             return false;
@@ -118,7 +118,7 @@ namespace Anathena.Source.Scanners.FiniteStateScanner
 
         public void SetElementType(String ElementType)
         {
-            Model.SetElementType(Conversions.StringToPrimitiveType(ElementType));
+            model.SetElementType(Conversions.StringToPrimitiveType(ElementType));
         }
 
         #endregion
@@ -127,7 +127,7 @@ namespace Anathena.Source.Scanners.FiniteStateScanner
 
         public void EventUpdateDisplay(Object Sender, FiniteStateBuilderEventArgs E)
         {
-            View.UpdateDisplay();
+            view.UpdateDisplay();
         }
 
         #endregion

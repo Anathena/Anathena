@@ -230,7 +230,7 @@ namespace Anathena.Source.Engine.Architecture.Disassembler.SharpDisasm.Udis86
                 ud_asmprintf(ref u, ", ");
                 if (u.operand[1].type == ud_type.UD_OP_MEM &&
                     u.operand[0].size != u.operand[1].size &&
-                    !udis86.ud_opr_is_sreg(ref u.operand[0]))
+                    !udis86.ud_opr_is_sreg(u.operand[0]))
                 {
                     cast = 1;
                 }

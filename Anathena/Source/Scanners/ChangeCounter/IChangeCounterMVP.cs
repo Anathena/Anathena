@@ -19,30 +19,30 @@ namespace Anathena.Source.Scanners.ChangeCounter
 
     class ChangeCounterPresenter : ScannerPresenter
     {
-        private new IChangeCounterView View { get; set; }
-        private new IChangeCounterModel Model { get; set; }
+        private new IChangeCounterView view { get; set; }
+        private new IChangeCounterModel model { get; set; }
 
-        public ChangeCounterPresenter(IChangeCounterView View, IChangeCounterModel Model) : base(View, Model)
+        public ChangeCounterPresenter(IChangeCounterView view, IChangeCounterModel model) : base(view, model)
         {
-            this.View = View;
-            this.Model = Model;
+            this.view = view;
+            this.model = model;
 
             // Bind events triggered by the model
 
 
-            Model.OnGUIOpen();
+            model.OnGUIOpen();
         }
 
         #region Method definitions called by the view (downstream)
 
         public void SetMinChanges(UInt16 MinChanges)
         {
-            Model.SetMinChanges(MinChanges);
+            model.SetMinChanges(MinChanges);
         }
 
         public void SetMaxChanges(UInt16 MaxChanges)
         {
-            Model.SetMaxChanges(MaxChanges);
+            model.SetMaxChanges(MaxChanges);
         }
 
         public void SetVariableSize(Int32 VariableSize)
@@ -50,7 +50,7 @@ namespace Anathena.Source.Scanners.ChangeCounter
             if (VariableSize <= 0)
                 return;
 
-            Model.SetVariableSize(VariableSize);
+            model.SetVariableSize(VariableSize);
         }
 
         #endregion

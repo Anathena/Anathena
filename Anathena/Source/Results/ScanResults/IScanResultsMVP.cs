@@ -78,48 +78,48 @@ namespace Anathena.Source.Results.ScanResults
 
     class ScanResultsPresenter : Presenter<IScanResultsView, IScanResultsModel>
     {
-        private new IScanResultsView View { get; set; }
-        private new IScanResultsModel Model { get; set; }
+        private new IScanResultsView view { get; set; }
+        private new IScanResultsModel model { get; set; }
 
-        public ScanResultsPresenter(IScanResultsView View, IScanResultsModel Model) : base(View, Model)
+        public ScanResultsPresenter(IScanResultsView view, IScanResultsModel model) : base(view, model)
         {
-            this.View = View;
-            this.Model = Model;
+            this.view = view;
+            this.model = model;
 
             // Bind events triggered by the model
-            Model.EventReadValues += EventReadValues;
-            Model.EventEnableResults += EventEnableResults;
-            Model.EventDisableResults += EventDisableResults;
-            Model.EventUpdateItemCounts += EventUpdateItemCounts;
+            model.EventReadValues += EventReadValues;
+            model.EventEnableResults += EventEnableResults;
+            model.EventDisableResults += EventDisableResults;
+            model.EventUpdateItemCounts += EventUpdateItemCounts;
 
-            Model.OnGUIOpen();
+            model.OnGUIOpen();
         }
 
         #region Method definitions called by the view (downstream)
 
         public void UpdateReadBounds(Int32 StartReadIndex, Int32 EndReadIndex)
         {
-            Model.UpdateReadBounds(StartReadIndex, EndReadIndex);
+            model.UpdateReadBounds(StartReadIndex, EndReadIndex);
         }
 
         public String GetValueAtIndex(Int32 Index)
         {
-            return Model.GetValueAtIndex(Index);
+            return model.GetValueAtIndex(Index);
         }
 
         public String GetAddressAtIndex(Int32 Index)
         {
-            return Conversions.ToAddress(Model.GetAddressAtIndex(Index));
+            return Conversions.ToAddress(model.GetAddressAtIndex(Index));
         }
 
         public String GetLabelAtIndex(Int32 Index)
         {
-            return Model.GetLabelAtIndex(Index);
+            return model.GetLabelAtIndex(Index);
         }
 
         public void AddSelectionToTable(Int32 MinIndex, Int32 MaxIndex)
         {
-            Model.AddSelectionToTable(MinIndex, MaxIndex);
+            model.AddSelectionToTable(MinIndex, MaxIndex);
         }
 
         public void UpdateScanType(Type ScanType)
@@ -128,8 +128,8 @@ namespace Anathena.Source.Results.ScanResults
                 throw new Exception("Invalid type. ScanType parameter assumes signed type.");
 
             // Apply type change
-            Type PreviousScanType = Model.GetScanType();
-            Model.SetScanType(ScanType);
+            Type PreviousScanType = model.GetScanType();
+            model.SetScanType(ScanType);
 
             switch (Type.GetTypeCode(ScanType))
             {
@@ -145,7 +145,7 @@ namespace Anathena.Source.Results.ScanResults
 
         public void ChangeSign()
         {
-            Type ScanType = Model.GetScanType();
+            Type ScanType = model.GetScanType();
 
             switch (Type.GetTypeCode(ScanType))
             {
@@ -160,7 +160,7 @@ namespace Anathena.Source.Results.ScanResults
                 default: return;
             }
 
-            Model.SetScanType(ScanType);
+            model.SetScanType(ScanType);
         }
 
         #endregion
@@ -169,23 +169,23 @@ namespace Anathena.Source.Results.ScanResults
 
         private void EventReadValues(Object Sender, ScanResultsEventArgs E)
         {
-            View.ReadValues();
+            view.ReadValues();
         }
 
         private void EventEnableResults(Object Sender, ScanResultsEventArgs E)
         {
-            View.SetEnabled(true);
+            view.SetEnabled(true);
         }
 
         private void EventDisableResults(Object Sender, ScanResultsEventArgs E)
         {
-            View.SetEnabled(false);
+            view.SetEnabled(false);
         }
 
         private void EventUpdateItemCounts(Object Sender, ScanResultsEventArgs E)
         {
-            View.UpdateMemorySizeLabel(Conversions.BytesToMetric(E.MemorySize), E.ElementCount.ToString());
-            View.UpdateItemCount((Int32)Math.Min(E.ElementCount, (UInt64)Int32.MaxValue));
+            view.UpdateMemorySizeLabel(Conversions.BytesToMetric(E.MemorySize), E.ElementCount.ToString());
+            view.UpdateItemCount((Int32)Math.Min(E.ElementCount, (UInt64)Int32.MaxValue));
         }
 
         #endregion

@@ -30,25 +30,25 @@ namespace Anathena.Source.Scanners.ManualScanner
 
     class ManualScannerPresenter : ScannerPresenter
     {
-        private new IManualScannerView View { get; set; }
-        private new IManualScannerModel Model { get; set; }
+        private new IManualScannerView view { get; set; }
+        private new IManualScannerModel model { get; set; }
 
-        public ManualScannerPresenter(IManualScannerView View, IManualScannerModel Model) : base(View, Model)
+        public ManualScannerPresenter(IManualScannerView view, IManualScannerModel model) : base(view, model)
         {
-            this.View = View;
-            this.Model = Model;
+            this.view = view;
+            this.model = model;
 
             // Bind events triggered by the model
-            Model.EventScanFinished += EventScanFinished;
+            model.EventScanFinished += EventScanFinished;
 
-            Model.OnGUIOpen();
+            model.OnGUIOpen();
         }
 
         #region Method definitions called by the view (downstream)
 
         public void SetScanConstraintManager(ScanConstraintManager ScanConstraintManager)
         {
-            Model.SetScanConstraintManager(ScanConstraintManager);
+            model.SetScanConstraintManager(ScanConstraintManager);
         }
 
         #endregion
@@ -57,7 +57,7 @@ namespace Anathena.Source.Scanners.ManualScanner
 
         public void EventScanFinished(Object Sender, ManualScannerEventArgs E)
         {
-            View.ScanFinished();
+            view.ScanFinished();
         }
 
         #endregion

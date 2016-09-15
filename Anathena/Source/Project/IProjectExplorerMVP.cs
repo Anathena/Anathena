@@ -56,55 +56,55 @@ namespace Anathena.Source.Project
 
     class ProjectExplorerPresenter : Presenter<IProjectExplorerView, IProjectExplorerModel>
     {
-        private new IProjectExplorerView View { get; set; }
-        private new IProjectExplorerModel Model { get; set; }
+        private new IProjectExplorerView view { get; set; }
+        private new IProjectExplorerModel model { get; set; }
 
-        public ProjectExplorerPresenter(IProjectExplorerView View, IProjectExplorerModel Model) : base(View, Model)
+        public ProjectExplorerPresenter(IProjectExplorerView view, IProjectExplorerModel model) : base(view, model)
         {
-            this.View = View;
-            this.Model = Model;
+            this.view = view;
+            this.model = model;
 
             // Bind events triggered by the model
-            Model.EventRefreshProjectStructure += EventRefreshProjectStructure;
+            model.EventRefreshProjectStructure += EventRefreshProjectStructure;
 
-            Model.OnGUIOpen();
+            model.OnGUIOpen();
         }
 
         #region Method definitions called by the view (downstream)
 
         public void AddNewAddressItem(ProjectItem Parent = null)
         {
-            Model.AddProjectItem(new AddressItem(), Parent);
+            model.AddProjectItem(new AddressItem(), Parent);
         }
 
         public void AddNewScriptItem(ProjectItem Parent = null)
         {
-            Model.AddProjectItem(new ScriptItem(), Parent);
+            model.AddProjectItem(new ScriptItem(), Parent);
         }
 
         public void AddNewFolderItem(ProjectItem Parent = null)
         {
-            Model.AddProjectItem(new FolderItem(), Parent);
+            model.AddProjectItem(new FolderItem(), Parent);
         }
 
         public void UpdateSelection(IEnumerable<ProjectItem> ProjectItems)
         {
-            Model.UpdateSelection(ProjectItems);
+            model.UpdateSelection(ProjectItems);
         }
 
         public void DeleteProjectItems(IEnumerable<ProjectItem> ProjectItems)
         {
-            Model.DeleteItems(ProjectItems);
+            model.DeleteItems(ProjectItems);
         }
 
         public void ActivateProjectItem(ProjectItem ProjectItem, Boolean ActivationState)
         {
-            Model.ActivateProjectItems(new ProjectItem[] { ProjectItem }, ActivationState);
+            model.ActivateProjectItems(new ProjectItem[] { ProjectItem }, ActivationState);
         }
 
         public void ActivateProjectItems(IEnumerable<ProjectItem> ProjectItems, Boolean ActivationState)
         {
-            Model.ActivateProjectItems(ProjectItems, ActivationState);
+            model.ActivateProjectItems(ProjectItems, ActivationState);
         }
 
         public void PerformDefaultAction(ProjectItem ProjectItem)
@@ -112,7 +112,7 @@ namespace Anathena.Source.Project
             if (ProjectItem == null)
                 return;
 
-            Model.PerformDefaultAction(ProjectItem);
+            model.PerformDefaultAction(ProjectItem);
         }
 
         #endregion
@@ -121,7 +121,7 @@ namespace Anathena.Source.Project
 
         private void EventRefreshProjectStructure(Object Sender, ProjectExplorerEventArgs E)
         {
-            View.EventRefreshProjectStructure(E.ProjectRoot);
+            view.EventRefreshProjectStructure(E.ProjectRoot);
         }
 
         #endregion

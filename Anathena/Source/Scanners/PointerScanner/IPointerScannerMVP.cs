@@ -60,76 +60,76 @@ namespace Anathena.Source.Scanners.PointerScanner
 
     class PointerScannerPresenter : ScannerPresenter
     {
-        private new IPointerScannerView View { get; set; }
-        private new IPointerScannerModel Model { get; set; }
+        private new IPointerScannerView view { get; set; }
+        private new IPointerScannerModel model { get; set; }
 
-        public PointerScannerPresenter(IPointerScannerView View, IPointerScannerModel Model) : base(View, Model)
+        public PointerScannerPresenter(IPointerScannerView view, IPointerScannerModel model) : base(view, model)
         {
-            this.View = View;
-            this.Model = Model;
+            this.view = view;
+            this.model = model;
 
             // Bind events triggered by the model
-            Model.EventReadValues += EventReadValues;
-            Model.EventUpdateItemCount += EventScanFinished;
+            model.EventReadValues += EventReadValues;
+            model.EventUpdateItemCount += EventScanFinished;
 
-            Model.OnGUIOpen();
+            model.OnGUIOpen();
         }
 
         #region Method definitions called by the view (downstream)
 
         public void UpdateReadBounds(Int32 StartReadIndex, Int32 EndReadIndex)
         {
-            Model.UpdateReadBounds(StartReadIndex, EndReadIndex);
+            model.UpdateReadBounds(StartReadIndex, EndReadIndex);
         }
 
         public void BeginPointerScan()
         {
-            Model.BeginPointerScan();
+            model.BeginPointerScan();
         }
 
         public void BeginPointerRescan()
         {
-            Model.BeginPointerRescan();
+            model.BeginPointerRescan();
         }
 
         public void SetElementType(Type ElementType)
         {
-            Model.SetElementType(ElementType);
+            model.SetElementType(ElementType);
         }
 
         public void SetRescanMode(Boolean IsAddressMode)
         {
-            Model.SetRescanMode(IsAddressMode);
+            model.SetRescanMode(IsAddressMode);
         }
 
         public String GetValueAtIndex(Int32 Index)
         {
-            return Model.GetValueAtIndex(Index);
+            return model.GetValueAtIndex(Index);
         }
 
         public String GetAddressAtIndex(Int32 Index)
         {
-            return Model.GetAddressAtIndex(Index);
+            return model.GetAddressAtIndex(Index);
         }
 
         public IEnumerable<String> GetOffsetsAtIndex(Int32 Index)
         {
-            return Model.GetOffsetsAtIndex(Index);
+            return model.GetOffsetsAtIndex(Index);
         }
 
         public Int32 GetMaxPointerLevel()
         {
-            return Model.GetMaxPointerLevel();
+            return model.GetMaxPointerLevel();
         }
 
         public Int32 GetMaxPointerOffset()
         {
-            return Model.GetMaxPointerOffset();
+            return model.GetMaxPointerOffset();
         }
 
         public void AddSelectionToTable(Int32 MinIndex, Int32 MaxIndex)
         {
-            Model.AddSelectionToTable(MinIndex, MaxIndex);
+            model.AddSelectionToTable(MinIndex, MaxIndex);
         }
 
         public void SetTargetAddress(String TargetAddress)
@@ -137,12 +137,12 @@ namespace Anathena.Source.Scanners.PointerScanner
             if (!CheckSyntax.CanParseAddress(TargetAddress))
                 return;
 
-            Model.SetTargetAddress(Conversions.AddressToValue(TargetAddress).ToIntPtr());
+            model.SetTargetAddress(Conversions.AddressToValue(TargetAddress).ToIntPtr());
         }
 
         public void SetScanConstraintManager(ScanConstraintManager ScanConstraintManager)
         {
-            Model.SetScanConstraintManager(ScanConstraintManager);
+            model.SetScanConstraintManager(ScanConstraintManager);
         }
 
         public void SetMaxPointerLevel(String MaxPointerLevel)
@@ -150,7 +150,7 @@ namespace Anathena.Source.Scanners.PointerScanner
             if (!CheckSyntax.CanParseValue(typeof(Int32), MaxPointerLevel))
                 return;
 
-            Model.SetMaxPointerLevel(Conversions.ParseDecStringAsValue(typeof(Int32), MaxPointerLevel));
+            model.SetMaxPointerLevel(Conversions.ParseDecStringAsValue(typeof(Int32), MaxPointerLevel));
         }
 
         public void SetMaxPointerOffset(String MaxPointerOffset)
@@ -158,7 +158,7 @@ namespace Anathena.Source.Scanners.PointerScanner
             if (!CheckSyntax.CanParseValue(typeof(Int32), MaxPointerOffset))
                 return;
 
-            Model.SetMaxPointerOffset(Conversions.ParseDecStringAsValue(typeof(Int32), MaxPointerOffset));
+            model.SetMaxPointerOffset(Conversions.ParseDecStringAsValue(typeof(Int32), MaxPointerOffset));
             return;
         }
 
@@ -168,12 +168,12 @@ namespace Anathena.Source.Scanners.PointerScanner
 
         private void EventReadValues(Object Sender, PointerScannerEventArgs E)
         {
-            View.ReadValues();
+            view.ReadValues();
         }
 
         private void EventScanFinished(Object Sender, PointerScannerEventArgs E)
         {
-            View.ScanFinished(E.ItemCount, E.MaxPointerLevel);
+            view.ScanFinished(E.ItemCount, E.MaxPointerLevel);
         }
 
         #endregion

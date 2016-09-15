@@ -15,9 +15,10 @@ namespace Anathena.Source.Controller
     class Main : IMainModel
     {
         // Singleton instance of Main
-        private static Lazy<Main> MainInstance = new Lazy<Main>(() => { return new Main(); }, LazyThreadSafetyMode.PublicationOnly);
+        private static Lazy<Main> mainInstance = new Lazy<Main>(() => { return new Main(); }, LazyThreadSafetyMode.PublicationOnly);
 
-        private EngineCore EngineCore;
+        private EngineCore engineCore;
+        private String projectFilePath;
 
         public event MainEventHandler EventUpdateProcessTitle;
         public event MainEventHandler EventUpdateProgress;
@@ -25,8 +26,6 @@ namespace Anathena.Source.Controller
         public event MainEventHandler EventFinishProgress;
         public event MainEventHandler EventOpenScriptEditor;
         public event MainEventHandler EventOpenLabelThresholder;
-
-        private String ProjectFilePath;
 
         private Main()
         {
@@ -38,7 +37,7 @@ namespace Anathena.Source.Controller
 
         public static Main GetInstance()
         {
-            return MainInstance.Value;
+            return mainInstance.Value;
         }
 
         public void InitializeProcessObserver()
@@ -46,12 +45,12 @@ namespace Anathena.Source.Controller
             ProcessSelector.GetInstance().Subscribe(this);
         }
 
-        public void UpdateEngineCore(EngineCore EngineCore)
+        public void UpdateEngineCore(EngineCore engineCore)
         {
-            this.EngineCore = EngineCore;
+            this.engineCore = engineCore;
 
             MainEventArgs MainEventArgs = new MainEventArgs();
-            MainEventArgs.ProcessTitle = EngineCore.Memory.GetProcess()?.ProcessName ?? String.Empty;
+            MainEventArgs.ProcessTitle = engineCore.Memory.GetProcess()?.ProcessName ?? String.Empty;
             EventUpdateProcessTitle?.Invoke(this, MainEventArgs);
         }
 
@@ -64,25 +63,25 @@ namespace Anathena.Source.Controller
             AddressResolver.GetInstance().Begin();
         }
 
-        public void UpdateActionProgress(ProgressItem ProgressItem)
+        public void UpdateActionProgress(ProgressItem progressItem)
         {
-            MainEventArgs MainEventArgs = new MainEventArgs();
-            MainEventArgs.ProgressItem = ProgressItem;
-            EventUpdateProgress?.Invoke(this, MainEventArgs);
+            MainEventArgs mainEventArgs = new MainEventArgs();
+            mainEventArgs.ProgressItem = progressItem;
+            EventUpdateProgress?.Invoke(this, mainEventArgs);
         }
 
-        public void UpdateHasChanges(Boolean Changed)
+        public void UpdateHasChanges(Boolean changed)
         {
-            MainEventArgs MainEventArgs = new MainEventArgs();
-            MainEventArgs.Changed = Changed;
-            EventUpdateHasChanges?.Invoke(this, MainEventArgs);
+            MainEventArgs mainEventArgs = new MainEventArgs();
+            mainEventArgs.Changed = changed;
+            EventUpdateHasChanges?.Invoke(this, mainEventArgs);
         }
 
-        public void FinishActionProgress(ProgressItem ProgressItem)
+        public void FinishActionProgress(ProgressItem progressItem)
         {
-            MainEventArgs MainEventArgs = new MainEventArgs();
-            MainEventArgs.ProgressItem = ProgressItem;
-            EventFinishProgress?.Invoke(this, MainEventArgs);
+            MainEventArgs mainEventArgs = new MainEventArgs();
+            mainEventArgs.ProgressItem = progressItem;
+            EventFinishProgress?.Invoke(this, mainEventArgs);
         }
 
         public void OpenScriptEditor()
@@ -97,27 +96,27 @@ namespace Anathena.Source.Controller
 
         public String GetProjectFilePath()
         {
-            return ProjectFilePath;
+            return projectFilePath;
         }
 
-        public void SetProjectFilePath(String ProjectFilePath)
+        public void SetProjectFilePath(String projectFilePath)
         {
-            this.ProjectFilePath = ProjectFilePath;
+            this.projectFilePath = projectFilePath;
         }
 
-        public void RequestOpenTable(String FilePath)
+        public void RequestOpenTable(String filePath)
         {
-            ProjectExplorer.GetInstance().OpenProject(FilePath);
+            ProjectExplorer.GetInstance().OpenProject(filePath);
         }
 
-        public void RequestMergeTable(String FilePath)
+        public void RequestMergeTable(String filePath)
         {
-            ProjectExplorer.GetInstance().ImportProject(FilePath);
+            ProjectExplorer.GetInstance().ImportProject(filePath);
         }
 
-        public void RequestSaveTable(String FilePath)
+        public void RequestSaveTable(String filePath)
         {
-            ProjectExplorer.GetInstance().SaveProject(FilePath);
+            ProjectExplorer.GetInstance().SaveProject(filePath);
         }
 
         public Boolean RequestHasChanges()

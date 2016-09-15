@@ -51,145 +51,145 @@ namespace Anathena.Source.UserSettings
     [Obfuscation(ApplyToMembers = true, Exclude = true)]
     class SettingsPresenter : Presenter<ISettingsView, ISettingsModel>
     {
-        private new ISettingsView View { get; set; }
-        private new ISettingsModel Model { get; set; }
+        private new ISettingsView view { get; set; }
+        private new ISettingsModel model { get; set; }
 
-        public SettingsPresenter(ISettingsView View, ISettingsModel Model) : base(View, Model)
+        public SettingsPresenter(ISettingsView view, ISettingsModel model) : base(view, model)
         {
-            this.View = View;
-            this.Model = Model;
+            this.view = view;
+            this.model = model;
 
             // Bind events triggered by the model
 
 
-            Model.OnGUIOpen();
+            model.OnGUIOpen();
         }
 
         #region Method definitions called by the view (downstream)
 
         public void UpdateTypeSettings(Boolean None, Boolean Private, Boolean Mapped, Boolean Image)
         {
-            Model.UpdateTypeSettings(None, Private, Mapped, Image);
+            model.UpdateTypeSettings(None, Private, Mapped, Image);
         }
 
         public void UpdateRequiredProtectionSettings(Boolean RequiredWrite, Boolean RequiredExecute, Boolean RequiredCopyOnWrite)
         {
-            Model.UpdateRequiredProtectionSettings(RequiredWrite, RequiredExecute, RequiredCopyOnWrite);
+            model.UpdateRequiredProtectionSettings(RequiredWrite, RequiredExecute, RequiredCopyOnWrite);
         }
 
         public void UpdateExcludedProtectionSettings(Boolean ExcludedWrite, Boolean ExcludedExecute, Boolean ExcludedCopyOnWrite)
         {
-            Model.UpdateIgnoredProtectionSettings(ExcludedWrite, ExcludedExecute, ExcludedCopyOnWrite);
+            model.UpdateIgnoredProtectionSettings(ExcludedWrite, ExcludedExecute, ExcludedCopyOnWrite);
         }
 
         public void UpdateAlignmentSettings(Int32 Alignment)
         {
-            Model.UpdateAlignmentSettings(Alignment);
+            model.UpdateAlignmentSettings(Alignment);
         }
 
         public void UpdateIsUserMode(Boolean IsUserMode)
         {
-            Model.UpdateIsUserMode(IsUserMode);
+            model.UpdateIsUserMode(IsUserMode);
         }
 
         public void UpdateStartAddress(UInt64 StartAddress)
         {
-            Model.UpdateStartAddress(StartAddress);
+            model.UpdateStartAddress(StartAddress);
         }
 
         public void UpdateEndAddress(UInt64 EndAddress)
         {
-            Model.UpdateEndAddress(EndAddress);
+            model.UpdateEndAddress(EndAddress);
         }
 
         public virtual void SetScanUserMode(Boolean IsUserMode)
         {
-            Model.UpdateIsUserMode(IsUserMode);
+            model.UpdateIsUserMode(IsUserMode);
         }
 
         public void UpdateFreezeInterval(String FreezeInterval)
         {
-            Model.UpdateFreezeInterval(Int32.Parse(FreezeInterval));
+            model.UpdateFreezeInterval(Int32.Parse(FreezeInterval));
         }
 
         public void UpdateRescanInterval(String RescanInterval)
         {
-            Model.UpdateRescanInterval(Int32.Parse(RescanInterval));
+            model.UpdateRescanInterval(Int32.Parse(RescanInterval));
         }
 
         public void UpdateResultReadInterval(String ResultReadInterval)
         {
-            Model.UpdateResultReadInterval(Int32.Parse(ResultReadInterval));
+            model.UpdateResultReadInterval(Int32.Parse(ResultReadInterval));
         }
 
         public void UpdateTableReadInterval(String TableReadInterval)
         {
-            Model.UpdateTableReadInterval(Int32.Parse(TableReadInterval));
+            model.UpdateTableReadInterval(Int32.Parse(TableReadInterval));
         }
 
         public void UpdateInputCorrelatorTimeOutInterval(String InputCorrelatorTimeOutInterval)
         {
-            Model.UpdateInputCorrelatorTimeOutInterval(Int32.Parse(InputCorrelatorTimeOutInterval));
+            model.UpdateInputCorrelatorTimeOutInterval(Int32.Parse(InputCorrelatorTimeOutInterval));
         }
 
         public MemoryTypeEnum GetAllowedTypeSettings()
         {
-            return Model.GetAllowedTypeSettings();
+            return model.GetAllowedTypeSettings();
         }
 
         public MemoryProtectionEnum GetRequiredProtectionSettings()
         {
-            return Model.GetRequiredProtectionSettings();
+            return model.GetRequiredProtectionSettings();
         }
 
         public MemoryProtectionEnum GetExcludedProtectionSettings()
         {
-            return Model.GetExcludedProtectionSettings();
+            return model.GetExcludedProtectionSettings();
         }
 
         public Int32 GetAlignmentSettings()
         {
-            return Model.GetAlignmentSettings();
+            return model.GetAlignmentSettings();
         }
 
         public Boolean GetIsUserMode()
         {
-            return Model.GetIsUserMode();
+            return model.GetIsUserMode();
         }
 
         public UInt64 GetStartAddress()
         {
-            return Model.GetStartAddress();
+            return model.GetStartAddress();
         }
 
         public UInt64 GetEndAddress()
         {
-            return Model.GetEndAddress();
+            return model.GetEndAddress();
         }
 
         public Int32 GetFreezeInterval()
         {
-            return Model.GetFreezeInterval();
+            return model.GetFreezeInterval();
         }
 
         public Int32 GetRescanInterval()
         {
-            return Model.GetRescanInterval();
+            return model.GetRescanInterval();
         }
 
         public Int32 GetResultReadInterval()
         {
-            return Model.GetResultReadInterval();
+            return model.GetResultReadInterval();
         }
 
         public Int32 GetTableReadInterval()
         {
-            return Model.GetTableReadInterval();
+            return model.GetTableReadInterval();
         }
 
         public Int32 GetInputCorrelatorTimeOutInterval()
         {
-            return Model.GetInputCorrelatorTimeOutInterval();
+            return model.GetInputCorrelatorTimeOutInterval();
         }
 
         #endregion

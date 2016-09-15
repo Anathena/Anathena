@@ -39,20 +39,20 @@ namespace Anathena.Source.Project
     class HotKeyEditorPresenter : Presenter<IHotKeyEditorView, IHotKeyEditorModel>
     {
         private GUIHotKeyEditor GUIHotKeyEditor;
-        private new IHotKeyEditorView View { get; set; }
-        private new IHotKeyEditorModel Model { get; set; }
+        private new IHotKeyEditorView view { get; set; }
+        private new IHotKeyEditorModel model { get; set; }
 
-        public HotKeyEditorPresenter(IHotKeyEditorView View, IHotKeyEditorModel Model) : base(View, Model)
+        public HotKeyEditorPresenter(IHotKeyEditorView view, IHotKeyEditorModel model) : base(view, model)
         {
             GUIHotKeyEditor = new GUIHotKeyEditor(this);
-            this.View = GUIHotKeyEditor;
-            this.Model = Model;
+            this.view = GUIHotKeyEditor;
+            this.model = model;
 
             // Bind events triggered by the model
-            Model.EventUpdateHotKeys += EventUpdateHotKeys;
-            Model.EventUpdatePendingKeys += EventUpdatePendingKeys;
+            model.EventUpdateHotKeys += EventUpdateHotKeys;
+            model.EventUpdatePendingKeys += EventUpdatePendingKeys;
 
-            Model.OnGUIOpen();
+            model.OnGUIOpen();
         }
 
         public InputRequest.InputRequestDelegate GetInputRequestCallBack()
@@ -64,12 +64,12 @@ namespace Anathena.Source.Project
 
         public void OnClose()
         {
-            Model.OnClose();
+            model.OnClose();
         }
 
         public void AddHotKey()
         {
-            Model.AddHotKey();
+            model.AddHotKey();
         }
 
         public void DeleteHotKeys(IEnumerable<Int32> Indicies)
@@ -77,12 +77,12 @@ namespace Anathena.Source.Project
             if (Indicies == null || Indicies.Count() <= 0)
                 return;
 
-            Model.DeleteHotKeys(Indicies);
+            model.DeleteHotKeys(Indicies);
         }
 
         public void ClearInput()
         {
-            Model.ClearInput();
+            model.ClearInput();
         }
 
         #endregion
@@ -91,7 +91,7 @@ namespace Anathena.Source.Project
 
         private DialogResult InputRequest()
         {
-            Model.OnGUIOpen();
+            model.OnGUIOpen();
             return GUIHotKeyEditor.ShowDialog();
         }
 
@@ -101,7 +101,7 @@ namespace Anathena.Source.Project
 
             if (E == null || E.PendingHotKey == null)
             {
-                View?.SetPendingKeys(HotKeyString);
+                view?.SetPendingKeys(HotKeyString);
                 return;
             }
 
@@ -120,7 +120,7 @@ namespace Anathena.Source.Project
                 MouseHotKey MouseHotKey = E.PendingHotKey as MouseHotKey;
             }
 
-            View?.SetPendingKeys(HotKeyString);
+            view?.SetPendingKeys(HotKeyString);
         }
 
         private void EventUpdateHotKeys(Object Sender, HotKeyEditorEventArgs E)
@@ -129,7 +129,7 @@ namespace Anathena.Source.Project
 
             if (E == null || E.HotKeys == null)
             {
-                View?.SetHotKeyList(HotKeyStrings);
+                view?.SetHotKeyList(HotKeyStrings);
                 return;
             }
 
@@ -155,7 +155,7 @@ namespace Anathena.Source.Project
                 }
             }
 
-            View?.SetHotKeyList(HotKeyStrings);
+            view?.SetHotKeyList(HotKeyStrings);
         }
 
         #endregion

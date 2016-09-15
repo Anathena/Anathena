@@ -9,13 +9,13 @@ namespace Anathena.Source.DotNetExplorer
     delegate void DotNetExplorerEventHandler(Object Sender, DotNetExplorerEventArgs Args);
     class DotNetExplorerEventArgs : EventArgs
     {
-        public List<DotNetObject> ObjectTrees = null;
+        public List<DotNetObject> objectTrees = null;
     }
 
     interface IDotNetExplorerView : IView
     {
         // Methods invoked by the presenter (upstream)
-        void UpdateObjectTrees(List<DotNetObject> ObjectTrees);
+        void UpdateObjectTrees(List<DotNetObject> objectTrees);
     }
 
     interface IDotNetExplorerModel : IModel, IProcessObserver
@@ -24,54 +24,54 @@ namespace Anathena.Source.DotNetExplorer
         event DotNetExplorerEventHandler EventRefreshObjectTrees;
 
         // Functions invoked by presenter (downstream)
-        void AddToTable(DotNetObject DotNetObject);
-        void UpdateSelection(IEnumerable<DotNetObject> DotNetObjects);
+        void AddToTable(DotNetObject dotNetObject);
+        void UpdateSelection(IEnumerable<DotNetObject> dotNetObjects);
         void RefreshObjectTrees();
     }
 
     class DotNetExplorerPresenter : Presenter<IDotNetExplorerView, IDotNetExplorerModel>
     {
-        private new IDotNetExplorerView View { get; set; }
-        private new IDotNetExplorerModel Model { get; set; }
+        private new IDotNetExplorerView view { get; set; }
+        private new IDotNetExplorerModel model { get; set; }
 
-        public DotNetExplorerPresenter(IDotNetExplorerView View, IDotNetExplorerModel Model) : base(View, Model)
+        public DotNetExplorerPresenter(IDotNetExplorerView view, IDotNetExplorerModel model) : base(view, model)
         {
-            this.View = View;
-            this.Model = Model;
+            this.view = view;
+            this.model = model;
 
             // Bind events triggered by the model
-            Model.EventRefreshObjectTrees += EventRefreshObjectTrees;
+            model.EventRefreshObjectTrees += EventRefreshObjectTrees;
 
-            Model.OnGUIOpen();
+            model.OnGUIOpen();
         }
 
         #region Method definitions called by the view (downstream)
 
-        public void AddToTable(DotNetObject DotNetObject)
+        public void AddToTable(DotNetObject dotNetObject)
         {
-            Model.AddToTable(DotNetObject);
+            model.AddToTable(dotNetObject);
         }
 
-        public void UpdateSelection(IEnumerable<DotNetObject> DotNetObjects)
+        public void UpdateSelection(IEnumerable<DotNetObject> dotNetObjects)
         {
-            Model.UpdateSelection(DotNetObjects);
+            model.UpdateSelection(dotNetObjects);
         }
 
         public void RefreshObjectTrees()
         {
-            Model.RefreshObjectTrees();
+            model.RefreshObjectTrees();
         }
 
         #endregion
 
         #region Event definitions for events triggered by the model (upstream)
 
-        private void EventRefreshObjectTrees(Object Sender, DotNetExplorerEventArgs E)
+        private void EventRefreshObjectTrees(Object sender, DotNetExplorerEventArgs e)
         {
-            if (E == null || E.ObjectTrees == null)
+            if (e == null || e.objectTrees == null)
                 return;
 
-            View.UpdateObjectTrees(E.ObjectTrees);
+            view.UpdateObjectTrees(e.objectTrees);
         }
 
         #endregion

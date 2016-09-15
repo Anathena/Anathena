@@ -1,254 +1,234 @@
-﻿// --------------------------------------------------------------------------------
-// SharpDisasm (File: SharpDisasm\operand.cs)
-// Copyright (c) 2014-2015 Justin Stenning
-// http://spazzarama.com
-// https://github.com/spazzarama/SharpDisasm
-// https://sharpdisasm.codeplex.com/
-//
-// SharpDisasm is distributed under the 2-clause "Simplified BSD License".
-//
-// Portions of SharpDisasm are ported to C# from udis86 a C disassembler project
-// also distributed under the terms of the 2-clause "Simplified BSD License" and
-// Copyright (c) 2002-2012, Vivek Thampi <vivek.mt@gmail.com>
-// All rights reserved.
-// UDIS86: https://github.com/vmt/udis86
-//
-// Redistribution and use in source and binary forms, with or without modification, 
-// are permitted provided that the following conditions are met:
-// 
-// 1. Redistributions of source code must retain the above copyright notice, 
-//    this list of conditions and the following disclaimer.
-// 2. Redistributions in binary form must reproduce the above copyright notice, 
-//    this list of conditions and the following disclaimer in the documentation 
-//    and/or other materials provided with the distribution.
-// 
-// THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
-// ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED 
-// WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE 
-// DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR 
-// ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES 
-// (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; 
-// LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON 
-// ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT 
-// (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS 
-// SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-// --------------------------------------------------------------------------------
-
-using Anathena.Source.Engine.Architecture.Disassembler.SharpDisasm.Udis86;
-using System;
-using System.Diagnostics;
-
-
-namespace Anathena.Source.Engine.Architecture.Disassembler.SharpDisasm
+﻿namespace Anathena.Source.Engine.Architecture.Disassembler.SharpDisasm
 {
+    using System;
+    using System.Diagnostics;
+    using Udis86;
+
     /// <summary>
     /// Represents an operand for an <see cref="Instruction"/>
     /// </summary>
     public class Operand
     {
-        internal ud_operand UdOperand;
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Operand" /> class.
+        /// </summary>
+        /// <param name="operand">Disassembled operand</param>
         internal Operand(ud_operand operand)
         {
-            UdOperand = operand;
+            this.UdOperand = operand;
         }
 
         /// <summary>
-        /// The value of the memory displacement portion of the operand (if applicable) converted to Int64. See the Lval* properties for original value.
+        /// Gets the value of the memory displacement portion of the operand (if applicable) converted to Int64. See the Lval* properties for original value.
         /// </summary>
-        public long Value
+        public Int64 Value
         {
             get
             {
-                return Convert.ToInt64(RawValue);
+                return Convert.ToInt64(this.RawValue);
             }
         }
 
         /// <summary>
-        /// <para>Returns the operand displacement value as its raw type (e.g. sbyte, byte, short, ushort, Int32, UInt32, long, ulong) depending on the operand type.</para>
+        /// <para>Gets the operand displacement value as its raw type (e.g. sbyte, byte, short, ushort, Int32, UInt32, long, ulong) depending on the operand type.</para>
         /// <para>If a memory operand, and no base/index registers, the result will be unsigned and contain <see cref="Offset"/> bits, otherwise if there is a base and/or index register the value is signed with <see cref="Offset"/> bits.</para>
         /// <para>If an immediate mode operand the value will be signed and the contain <see cref="Size"/> bits.</para>
         /// <para>Otherwise the result will be unsigned and if <see cref="Offset"/> is > 0 will contain <see cref="Offset"/> bits otherwise <see cref="Size"/> bits.</para>
         /// </summary>
-        public object RawValue
+        public Object RawValue
         {
             get
             {
-                if (Type == ud_type.UD_OP_MEM) // Accessing memory
+                if (this.Type == ud_type.UD_OP_MEM)
                 {
-                    if (Base == ud_type.UD_NONE && Index == ud_type.UD_NONE)
+                    // Accessing memory
+                    if (this.Base == ud_type.UD_NONE && this.Index == ud_type.UD_NONE)
                     {
-                        return GetRawValue(Offset, false);
+                        return this.GetRawValue(this.Offset, false);
                     }
                     else
                     {
-                        return GetRawValue(Offset, true);
+                        return this.GetRawValue(this.Offset, true);
                     }
                 }
-                else if (Type == ud_type.UD_OP_IMM)  // Immediate Mode (memory is not accessed)
+                else if (this.Type == ud_type.UD_OP_IMM)
                 {
-                    return GetRawValue(Size, true);
+                    // Immediate Mode (memory is not accessed)
+                    return this.GetRawValue(this.Size, true);
                 }
 
-                return GetRawValue((Offset == 0 ? Size : Offset), false);
+                return this.GetRawValue(this.Offset == 0 ? this.Size : this.Offset, false);
             }
         }
 
-        private object GetRawValue(int size, bool signed = true)
+        /// <summary>
+        /// Gets the operand code
+        /// </summary>
+        public ud_operand_code Opcode
         {
-            switch (size)
-            {
-                case 8:
-                    return (signed ? (object)UdOperand.lval.@sbyte : (object)UdOperand.lval.ubyte);
-                case 16:
-                    return (signed ? (object)UdOperand.lval.sword : (object)UdOperand.lval.uword);
-                case 32:
-                    return (signed ? (object)UdOperand.lval.sdword : (object)UdOperand.lval.udword);
-                case 64:
-                    return (signed ? (object)UdOperand.lval.sqword : (object)UdOperand.lval.uqword);
-                default:
-                    return (long)0;
-            }
+            get { return this.UdOperand._oprcode; }
         }
 
         /// <summary>
-        /// The operand code
+        /// Gets the operand type (UD_OP_REG, UD_OP_MEM, UD_OP_PTR, UD_OP_IMM, UD_OP_JIMM, UD_OP_CONST)
         /// </summary>
-        public ud_operand_code Opcode { get { return UdOperand._oprcode; } }
+        public ud_type Type
+        {
+            get { return this.UdOperand.type; }
+        }
 
         /// <summary>
-        /// The operand type (UD_OP_REG, UD_OP_MEM, UD_OP_PTR, UD_OP_IMM, UD_OP_JIMM, UD_OP_CONST)
+        /// Gets the size of the result of the operand
         /// </summary>
-        public ud_type Type { get { return UdOperand.type; } }
+        public UInt16 Size
+        {
+            get { return this.UdOperand.size; }
+        }
 
         /// <summary>
-        /// Size of the result of the operand
+        /// Gets the base register
         /// </summary>
-        public ushort Size { get { return UdOperand.size; } }
+        public ud_type Base
+        {
+            get { return this.UdOperand.@base; }
+        }
 
         /// <summary>
-        /// Base register
+        /// Gets the index register
         /// </summary>
-        public ud_type Base { get { return UdOperand.@base; } }
+        public ud_type Index
+        {
+            get { return this.UdOperand.index; }
+        }
 
         /// <summary>
-        /// Index register
+        /// Gets the scale applied to index register (2, 4, or 8). 0 == 1 == does nothing
         /// </summary>
-        public ud_type Index { get { return UdOperand.index; } }
+        public Byte Scale
+        {
+            get { return this.UdOperand.scale; }
+        }
 
         /// <summary>
-        /// Scale applied to index register (2, 4, or 8). 0 == 1 == does nothing
-        /// </summary>
-        public byte Scale { get { return UdOperand.scale; } }
-
-        /// <summary>
-        /// For UD_OP_MEM operands, this represents the size of the memory displacement value (e.g. 8-, 16-, 32-, or 64- bits).
+        /// Gets the size of the memory displacement value for UD_OP_MEM operands (e.g. 8-, 16-, 32-, or 64- bits).
         /// This helps determine which "Lval*" value should be read (e.g. if Offset is 8 and operand type is UD_OP_MEM and Base register is not UD_NONE, read LvalSByte)
         /// </summary>
         /// <remarks>
         /// <see cref="RawValue"/> for more detail about the rules governing which value is read.
         /// </remarks>
-        public byte Offset { get { return UdOperand.offset; } }
-
-        /// <summary>
-        /// Segment component of PTR operand
-        /// </summary>
-        public ushort PtrSegment
+        public Byte Offset
         {
-            get { return UdOperand.lval.ptr_seg; }
+            get { return this.UdOperand.offset; }
         }
 
         /// <summary>
-        /// Offset component of PTR operand
+        /// Gets the segment component of PTR operand
         /// </summary>
-        public uint PtrOffset
+        public UInt16 PtrSegment
         {
-            get { return UdOperand.lval.ptr_off; }
-        }
-
-        #region Lval - displacement value as various sizes
-
-        private long Lval { get { return UdOperand.lval.sqword; } }
-
-        /// <summary>
-        /// The displacement value as <see cref="sbyte"/>
-        /// </summary>
-        public sbyte LvalSByte
-        {
-            get { return (sbyte)Lval; }
+            get { return this.UdOperand.lval.ptr_seg; }
         }
 
         /// <summary>
-        /// The displacement value as <see cref="byte"/>
+        /// Gets the offset component of PTR operand
         /// </summary>
-        public byte LvalByte
+        public UInt32 PtrOffset
         {
-            get { return (byte)Lval; }
+            get { return this.UdOperand.lval.ptr_off; }
         }
 
         /// <summary>
-        /// The displacement value as <see cref="short"/>
+        /// Gets the displacement value as <see cref="SByte"/>
         /// </summary>
-        public short LvalSWord
+        public SByte LvalSByte
         {
-            get { return (short)Lval; }
+            get { return (SByte)this.Lval; }
         }
 
         /// <summary>
-        /// The displacement value as <see cref="ushort"/>
+        /// Gets the displacement value as <see cref="Byte"/>
         /// </summary>
-        public ushort LvalUWord
+        public Byte LvalByte
         {
-            get { return (ushort)Lval; }
+            get { return (Byte)this.Lval; }
         }
 
         /// <summary>
-        /// The displacement value as <see cref="Int32"/>
+        /// Gets the displacement value as <see cref="Int16"/>
+        /// </summary>
+        public Int16 LvalSWord
+        {
+            get { return (Int16)this.Lval; }
+        }
+
+        /// <summary>
+        /// Gets the displacement value as <see cref="UInt16"/>
+        /// </summary>
+        public UInt16 LvalUWord
+        {
+            get { return (UInt16)this.Lval; }
+        }
+
+        /// <summary>
+        /// Gets the displacement value as <see cref="Int32"/>
         /// </summary>
         public Int32 LvalSDWord
         {
-            get { return (int)Lval; }
+            get { return (Int32)this.Lval; }
         }
 
         /// <summary>
-        /// The displacement value as <see cref="UInt32"/>
+        /// Gets the displacement value as <see cref="UInt32"/>
         /// </summary>
         public UInt32 LvalUDWord
         {
-            get { return (uint)Lval; }
+            get { return (UInt32)this.Lval; }
         }
 
         /// <summary>
-        /// The displacement value as <see cref="long"/>
+        /// Gets the displacement value as <see cref="Int64"/>
         /// </summary>
-        public long LvalSQWord
+        public Int64 LvalSQWord
         {
-            get { return Lval; }
+            get { return this.Lval; }
         }
 
         /// <summary>
-        /// The displacement value as <see cref="ulong"/>
+        /// Gets the displacement value as <see cref="UInt64"/>
         /// </summary>
-        public ulong LvalUQWord
+        public UInt64 LvalUQWord
         {
-            get { return (ulong)Lval; }
+            get { return (UInt64)this.Lval; }
         }
 
-        #endregion
+        /// <summary>
+        /// Gets or sets the disassembled instruction operand
+        /// </summary>
+        internal ud_operand UdOperand { get; set; }
+
+        /// <summary>
+        /// Gets the Lval as <see cref="Int64"/>
+        /// </summary>
+        private Int64 Lval
+        {
+            get { return this.UdOperand.lval.sqword; }
+        }
 
         /// <summary>
         /// Converts the key components of the operand to a string.
         /// </summary>
         /// <returns>The operand in string format suitable for diagnostics.</returns>
-        public override string ToString()
+        public override String ToString()
         {
-            if (Type == ud_type.UD_OP_REG)
+            if (this.Type == ud_type.UD_OP_REG)
             {
-                return String.Format("{0,-10}", String.Format("{0},", Base));
+                return String.Format("{0,-10}", String.Format("{0},", this.Base));
             }
-            else if (Type == ud_type.UD_OP_MEM)
+            else if (this.Type == ud_type.UD_OP_MEM)
             {
-                string memSize = "";
-                switch (Size)
+                String memSize = String.Empty;
+
+                switch (this.Size)
                 {
                     case 8:
                         memSize = "BYTE ";
@@ -264,55 +244,103 @@ namespace Anathena.Source.Engine.Architecture.Disassembler.SharpDisasm
                         break;
                 }
 
-                return String.Format("{0}{4}[{1}{2}{3:x}],", "", (Base == ud_type.UD_NONE ? "" : String.Format("{0}+", Base)), (Index == ud_type.UD_NONE ? "" : String.Format("({0}*{1})", Index, (Scale == 0 ? 1 : Scale))), PrintDisplacementAddress(), memSize);
+                return String.Format("{0}{4}[{1}{2}{3:x}],", String.Empty, this.Base == ud_type.UD_NONE ? String.Empty : String.Format("{0}+", this.Base), this.Index == ud_type.UD_NONE ? String.Empty : String.Format("({0}*{1})", this.Index, this.Scale == 0 ? 1 : this.Scale), this.PrintDisplacementAddress(), memSize);
             }
             else
-                return String.Format("{0}{1}{2}{3:x},", "", (Base == ud_type.UD_NONE ? "" : String.Format("{0}+", Base)), (Index == ud_type.UD_NONE ? "" : String.Format("({0}*{1})", Index, (Scale == 0 ? 1 : Scale))), RawValue);
+            {
+                return String.Format("{0}{1}{2}{3:x},", String.Empty, this.Base == ud_type.UD_NONE ? String.Empty : String.Format("{0}+", this.Base), this.Index == ud_type.UD_NONE ? String.Empty : String.Format("({0}*{1})", this.Index, this.Scale == 0 ? 1 : this.Scale), this.RawValue);
+            }
         }
 
-        private string PrintDisplacementAddress()
+        /// <summary>
+        /// Returns a string representing the displacement address
+        /// </summary>
+        /// <returns>The displacement address as a string</returns>
+        private String PrintDisplacementAddress()
         {
-            if (Base == ud_type.UD_NONE && Index == ud_type.UD_NONE)
+            if (this.Base == ud_type.UD_NONE && this.Index == ud_type.UD_NONE)
             {
-                ulong v;
-                Debug.Assert(Scale == 0 && Offset != 8);
-                /* unsigned mem-offset */
-                switch (Offset)
+                UInt64 v;
+                Debug.Assert(this.Scale == 0 && this.Offset != 8, "TODO: REASON");
+
+                // unsigned mem-offset
+                switch (this.Offset)
                 {
-                    case 16: v = LvalUWord; break;
-                    case 32: v = LvalUDWord; break;
-                    case 64: v = LvalUQWord; break;
+                    case 16:
+                        v = this.LvalUWord;
+                        break;
+                    case 32:
+                        v = this.LvalUDWord;
+                        break;
+                    case 64:
+                        v = this.LvalUQWord;
+                        break;
                     default:
-                        Debug.Assert(false, "invalid offset"); v = 0; /* keep cc happy */
+                        Debug.Assert(false, "invalid offset");
+                        v = 0; // keep cc happy
                         break;
                 }
+
                 return String.Format("0x{0:x}", v);
             }
             else
             {
-                long v;
-                Debug.Assert(Offset != 64);
-                switch (Offset)
+                Int64 v;
+                Debug.Assert(this.Offset != 64, "TODO: REASON");
+
+                switch (this.Offset)
                 {
-                    case 8: v = LvalSByte; break;
-                    case 16: v = LvalSWord; break;
-                    case 32: v = LvalSDWord; break;
+                    case 8:
+                        v = this.LvalSByte;
+                        break;
+                    case 16:
+                        v = this.LvalSWord;
+                        break;
+                    case 32:
+                        v = this.LvalSDWord;
+                        break;
                     default:
-                        Debug.Assert(false, "invalid offset"); v = 0; /* keep cc happy */
+                        Debug.Assert(false, "invalid offset");
+                        v = 0; // keep cc happy
                         break;
                 }
+
                 if (v < 0)
                 {
                     return String.Format("-0x{0:x}", -v);
                 }
                 else if (v > 0)
                 {
-                    return String.Format("{0}0x{1:x}", (Index != ud_type.UD_NONE || Base != ud_type.UD_NONE ? "+" : ""), v);
+                    return String.Format("{0}0x{1:x}", this.Index != ud_type.UD_NONE || this.Base != ud_type.UD_NONE ? "+" : String.Empty, v);
                 }
             }
-            return "";
+
+            return String.Empty;
         }
 
-    } // End class
-
-} // End namespace
+        /// <summary>
+        /// Converts the stored value to its raw value of the appropriate size and sign
+        /// </summary>
+        /// <param name="size">Data type size</param>
+        /// <param name="signed">Should return value be signed</param>
+        /// <returns>A converted operand lval of the appropriate size and sign</returns>
+        private Object GetRawValue(Int32 size, Boolean signed = true)
+        {
+            switch (size)
+            {
+                case 8:
+                    return signed ? (Object)this.UdOperand.lval.@sbyte : (Object)this.UdOperand.lval.ubyte;
+                case 16:
+                    return signed ? (Object)this.UdOperand.lval.sword : (Object)this.UdOperand.lval.uword;
+                case 32:
+                    return signed ? (Object)this.UdOperand.lval.sdword : (Object)this.UdOperand.lval.udword;
+                case 64:
+                    return signed ? (Object)this.UdOperand.lval.sqword : (Object)this.UdOperand.lval.uqword;
+                default:
+                    return (Int64)0;
+            }
+        }
+    }
+    //// End class
+}
+//// End namespace

@@ -33,45 +33,45 @@ namespace Anathena.Source.Snapshots
 
     class SnapshotManagerPresenter : Presenter<ISnapshotManagerView, ISnapshotManagerModel>
     {
-        private new ISnapshotManagerView View { get; set; }
-        private new ISnapshotManagerModel Model { get; set; }
+        private new ISnapshotManagerView view { get; set; }
+        private new ISnapshotManagerModel model { get; set; }
 
-        public SnapshotManagerPresenter(ISnapshotManagerView View, ISnapshotManagerModel Model) : base(View, Model)
+        public SnapshotManagerPresenter(ISnapshotManagerView view, ISnapshotManagerModel model) : base(view, model)
         {
-            this.View = View;
-            this.Model = Model;
+            this.view = view;
+            this.model = model;
 
             // Bind events triggered by the model
-            Model.UpdateSnapshotCount += UpdateSnapshotCount;
+            model.UpdateSnapshotCount += UpdateSnapshotCount;
 
-            Model.OnGUIOpen();
+            model.OnGUIOpen();
         }
 
         #region Method definitions called by the view (downstream)
 
         public Snapshot GetSnapshotAtIndex(Int32 Index)
         {
-            return Model.GetSnapshotAtIndex(Index);
+            return model.GetSnapshotAtIndex(Index);
         }
 
         public void CreateNewSnapshot()
         {
-            Model.CreateNewSnapshot();
+            model.CreateNewSnapshot();
         }
 
         public void RedoSnapshot()
         {
-            Model.RedoSnapshot();
+            model.RedoSnapshot();
         }
 
         public void UndoSnapshot()
         {
-            Model.UndoSnapshot();
+            model.UndoSnapshot();
         }
 
         public void ClearSnapshots()
         {
-            Model.ClearSnapshots();
+            model.ClearSnapshots();
         }
 
         #endregion
@@ -80,7 +80,7 @@ namespace Anathena.Source.Snapshots
 
         private void UpdateSnapshotCount(Object Sender, SnapshotManagerEventArgs E)
         {
-            View.UpdateSnapshotCount(E.SnapshotCount, E.DeletedSnapshotCount);
+            view.UpdateSnapshotCount(E.SnapshotCount, E.DeletedSnapshotCount);
         }
 
         #endregion

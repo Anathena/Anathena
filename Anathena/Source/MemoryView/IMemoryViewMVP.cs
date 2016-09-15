@@ -77,28 +77,28 @@ namespace Anathena.Source.MemoryView
 
     class MemoryViewPresenter : Presenter<IMemoryViewView, IMemoryViewModel>, IByteProvider
     {
-        private new IMemoryViewView View { get; set; }
-        private new IMemoryViewModel Model { get; set; }
+        private new IMemoryViewView view { get; set; }
+        private new IMemoryViewModel model { get; set; }
 
         private const Int32 ViewRange = UInt16.MaxValue;
 
         private ObjectCache<Byte> ByteCache;
         private IntPtr BaseAddress;
 
-        public MemoryViewPresenter(IMemoryViewView View, IMemoryViewModel Model) : base(View, Model)
+        public MemoryViewPresenter(IMemoryViewView view, IMemoryViewModel model) : base(view, model)
         {
-            this.View = View;
-            this.Model = Model;
+            this.view = view;
+            this.model = model;
 
             ByteCache = new ObjectCache<Byte>();
 
             // Bind events triggered by the model
-            Model.EventUpdateVirtualPages += EventUpdateVirtualPages;
-            Model.EventGoToAddress += EventGoToAddress;
-            Model.EventReadValues += EventReadValues;
-            Model.EventFlushCache += EventFlushCache;
+            model.EventUpdateVirtualPages += EventUpdateVirtualPages;
+            model.EventGoToAddress += EventGoToAddress;
+            model.EventReadValues += EventReadValues;
+            model.EventFlushCache += EventFlushCache;
 
-            Model.OnGUIOpen();
+            model.OnGUIOpen();
         }
 
         #region ByteProvider
@@ -111,7 +111,7 @@ namespace Anathena.Source.MemoryView
             Byte Item = ByteCache.Get(EffectiveAddress.ToUInt64());
 
             // Try to update and return the item if it is a valid item
-            if (ByteCache.TryUpdateItem(EffectiveAddress.ToUInt64(), Model.GetValueAtAddress(EffectiveAddress)))
+            if (ByteCache.TryUpdateItem(EffectiveAddress.ToUInt64(), model.GetValueAtAddress(EffectiveAddress)))
                 return ByteCache.Get(EffectiveAddress.ToUInt64());
 
             Item = 0; // null;
@@ -123,9 +123,9 @@ namespace Anathena.Source.MemoryView
         public void WriteByte(Int64 Index, Byte Value)
         {
             IntPtr EffectiveAddress = BaseAddress.Add(Index);
-            Model.WriteToAddress(EffectiveAddress, Value);
+            model.WriteToAddress(EffectiveAddress, Value);
             ByteCache.TryUpdateItem(EffectiveAddress.ToUInt64(), Value);
-            Model.SetValueAtAddress(EffectiveAddress, Value);
+            model.SetValueAtAddress(EffectiveAddress, Value);
         }
 
         public void ApplyChanges() { }
@@ -146,12 +146,12 @@ namespace Anathena.Source.MemoryView
 
         public void UpdateStartReadAddress(IntPtr StartReadAddress)
         {
-            Model.UpdateStartReadAddress(StartReadAddress);
+            model.UpdateStartReadAddress(StartReadAddress);
         }
 
         public void UpdateReadLength(Int32 ReadLength)
         {
-            Model.UpdateReadLength(ReadLength);
+            model.UpdateReadLength(ReadLength);
         }
 
         public void UpdateBaseAddress(IntPtr BaseAddress)
@@ -161,12 +161,12 @@ namespace Anathena.Source.MemoryView
 
         public void QuickNavigate(Int32 VirtualPageIndex)
         {
-            Model.QuickNavigate(VirtualPageIndex);
+            model.QuickNavigate(VirtualPageIndex);
         }
 
         public void RefreshVirtualPages()
         {
-            Model.RefreshVirtualPages();
+            model.RefreshVirtualPages();
         }
 
         #endregion
@@ -180,17 +180,17 @@ namespace Anathena.Source.MemoryView
             if (E.VirtualPages != null)
                 E.VirtualPages.ForEach(x => VirtualPages.Add(x.BaseAddress.ToString("X")));
 
-            View.UpdateVirtualPages(VirtualPages);
+            view.UpdateVirtualPages(VirtualPages);
         }
 
         private void EventGoToAddress(Object Sender, MemoryViewEventArgs E)
         {
-            View.GoToAddress(E.Address);
+            view.GoToAddress(E.Address);
         }
 
         private void EventReadValues(Object Sender, MemoryViewEventArgs E)
         {
-            View.ReadValues();
+            view.ReadValues();
         }
 
         private void EventFlushCache(Object Sender, MemoryViewEventArgs E)
