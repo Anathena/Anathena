@@ -222,25 +222,31 @@
     <Compile Include="Source\Engine\Architecture\Disassembler\SharpDisasm\Translators\SymbolResolverDelegate.cs" />
     <Compile Include="Source\Engine\Architecture\Disassembler\SharpDisasm\Translators\Translator.cs" />
     <Compile Include="Source\Engine\Architecture\Disassembler\SharpDisasm\Udis86\BitOps.cs" />
-    <Compile Include="Source\Engine\Architecture\Disassembler\SharpDisasm\Udis86\Decode.cs" />
+    <Compile Include="Source\Engine\Architecture\Disassembler\SharpDisasm\Udis86\Decode.cs">
+      <ExcludeFromStyleCop>False</ExcludeFromStyleCop>
+    </Compile>
     <Compile Include="Source\Engine\Architecture\Disassembler\SharpDisasm\Udis86\OpTable.cs">
       <DependentUpon>OpTable.tt</DependentUpon>
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>
-    <Compile Include="Source\Engine\Architecture\Disassembler\SharpDisasm\Udis86\reg_class.cs" />
-    <Compile Include="Source\Engine\Architecture\Disassembler\SharpDisasm\Udis86\syn.cs" />
-    <Compile Include="Source\Engine\Architecture\Disassembler\SharpDisasm\Udis86\syn_intel.cs" />
-    <Compile Include="Source\Engine\Architecture\Disassembler\SharpDisasm\Udis86\ud.cs" />
-    <Compile Include="Source\Engine\Architecture\Disassembler\SharpDisasm\Udis86\udis86.cs" />
-    <Compile Include="Source\Engine\Architecture\Disassembler\SharpDisasm\Udis86\ud_itab_entry.cs" />
-    <Compile Include="Source\Engine\Architecture\Disassembler\SharpDisasm\Udis86\ud_itab_entry_operand.cs" />
-    <Compile Include="Source\Engine\Architecture\Disassembler\SharpDisasm\Udis86\ud_lookup_table_list_entry.cs" />
-    <Compile Include="Source\Engine\Architecture\Disassembler\SharpDisasm\Udis86\ud_lval.cs" />
-    <Compile Include="Source\Engine\Architecture\Disassembler\SharpDisasm\Udis86\ud_operand.cs" />
-    <Compile Include="Source\Engine\Architecture\Disassembler\SharpDisasm\Udis86\ud_operand_code.cs" />
-    <Compile Include="Source\Engine\Architecture\Disassembler\SharpDisasm\Udis86\ud_operand_size.cs" />
-    <Compile Include="Source\Engine\Architecture\Disassembler\SharpDisasm\Udis86\ud_type.cs" />
+    <Compile Include="Source\Engine\Architecture\Disassembler\SharpDisasm\Udis86\RegClass.cs" />
+    <Compile Include="Source\Engine\Architecture\Disassembler\SharpDisasm\Udis86\Syn.cs" />
+    <Compile Include="Source\Engine\Architecture\Disassembler\SharpDisasm\Udis86\SynIntel.cs" />
+    <Compile Include="Source\Engine\Architecture\Disassembler\SharpDisasm\Udis86\Ud.cs" />
+    <Compile Include="Source\Engine\Architecture\Disassembler\SharpDisasm\Udis86\Udis86.cs">
+      <ExcludeFromStyleCop>False</ExcludeFromStyleCop>
+    </Compile>
+    <Compile Include="Source\Engine\Architecture\Disassembler\SharpDisasm\Udis86\UdItabEntry.cs" />
+    <Compile Include="Source\Engine\Architecture\Disassembler\SharpDisasm\Udis86\UdItabEntryOperand.cs">
+      <ExcludeFromStyleCop>False</ExcludeFromStyleCop>
+    </Compile>
+    <Compile Include="Source\Engine\Architecture\Disassembler\SharpDisasm\Udis86\UdLookupTableListEntry.cs" />
+    <Compile Include="Source\Engine\Architecture\Disassembler\SharpDisasm\Udis86\UdLval.cs" />
+    <Compile Include="Source\Engine\Architecture\Disassembler\SharpDisasm\Udis86\UdOperand.cs" />
+    <Compile Include="Source\Engine\Architecture\Disassembler\SharpDisasm\Udis86\UdOperandCode.cs" />
+    <Compile Include="Source\Engine\Architecture\Disassembler\SharpDisasm\Udis86\UdOperandSize.cs" />
+    <Compile Include="Source\Engine\Architecture\Disassembler\SharpDisasm\Udis86\UdType.cs" />
     <Compile Include="Source\Engine\Architecture\Disassembler\SharpDisasm\Vendor.cs" />
     <Compile Include="Source\Engine\InputCapture\HotKeys\IHotKey.cs" />
     <Compile Include="Source\Engine\InputCapture\HotKeys\ControllerHotKey.cs" />
@@ -394,7 +400,9 @@
     <Compile Include="Source\Utils\Browser\BrowserHelper.cs" />
     <Compile Include="Source\Utils\DataStructures\BiDictionary.cs" />
     <Compile Include="Source\DotNetExplorer\IDotNetExplorerMVP.cs" />
-    <Compile Include="Source\DotNetExplorer\DotNetExplorer.cs" />
+    <Compile Include="Source\DotNetExplorer\DotNetExplorer.cs">
+      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
+    </Compile>
     <Compile Include="Source\Utils\Extensions\IEnumerableExtensions.cs" />
     <Compile Include="Source\Utils\Extensions\IntExtensions.cs" />
     <Compile Include="Source\Utils\Extensions\IntPtrExtensions.cs" />

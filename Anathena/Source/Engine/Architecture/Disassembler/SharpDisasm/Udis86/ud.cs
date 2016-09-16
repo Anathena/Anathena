@@ -1,169 +1,176 @@
-﻿// --------------------------------------------------------------------------------
-// SharpDisasm (File: SharpDisasm\ud.cs)
-// Copyright (c) 2014-2015 Justin Stenning
-// http://spazzarama.com
-// https://github.com/spazzarama/SharpDisasm
-// https://sharpdisasm.codeplex.com/
-//
-// SharpDisasm is distributed under the 2-clause "Simplified BSD License".
-//
-// Portions of SharpDisasm are ported to C# from udis86 a C disassembler project
-// also distributed under the terms of the 2-clause "Simplified BSD License" and
-// Copyright (c) 2002-2012, Vivek Thampi <vivek.mt@gmail.com>
-// All rights reserved.
-// UDIS86: https://github.com/vmt/udis86
-//
-// Redistribution and use in source and binary forms, with or without modification, 
-// are permitted provided that the following conditions are met:
-// 
-// 1. Redistributions of source code must retain the above copyright notice, 
-//    this list of conditions and the following disclaimer.
-// 2. Redistributions in binary form must reproduce the above copyright notice, 
-//    this list of conditions and the following disclaimer in the documentation 
-//    and/or other materials provided with the distribution.
-// 
-// THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
-// ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED 
-// WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE 
-// DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR 
-// ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES 
-// (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; 
-// LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON 
-// ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT 
-// (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS 
-// SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-// --------------------------------------------------------------------------------
-
-using System;
-
-namespace Anathena.Source.Engine.Architecture.Disassembler.SharpDisasm.Udis86
+﻿namespace Anathena.Source.Engine.Architecture.Disassembler.SharpDisasm.Udis86
 {
-    public delegate void UdTranslatorDelegate(ref ud ud);
-    public delegate string UdSymbolResolverDelegate(ref ud ud, long addr, ref long offset);
-    public delegate int UdInputCallback(ref ud ud);
+    using System;
+    using System.IO;
 
-    public sealed unsafe class ud : IDisposable
+    public delegate void UdTranslatorDelegate(ref Ud ud);
+
+    public delegate String UdSymbolResolverDelegate(ref Ud ud, Int64 addr, ref Int64 offset);
+
+    public delegate Int32 UdInputCallback(ref Ud ud);
+
+    public sealed unsafe class Ud : IDisposable
     {
-        /*
-         * input buffering
-         */
-        //public int (*inp_hook) (struct ud*);
-        public UdInputCallback inp_hook;
+        public Ud()
+        {
+            this.InputBuffer = null;
+            this.InputFile = null;
+            this.InputSession = new Byte[64];
+            this.AsmBufferInt = new Char[128];
+            this.Operand = new UdOperand[4];
+            this.InputSessionPinner = new AutoPinner(this.InputSession);
+        }
+
+        ~Ud()
+        {
+            this.Dispose();
+        }
+
+        public UdInputCallback InputHook { get; set; }
 
         /// <summary>
-        /// Returns a pointer to the source buffer (either inp_buf or inp_sess)
+        /// Gets a pointer to the source buffer
         /// </summary>
-        public IntPtr inp_bufPtr
+        public IntPtr InputBufferPointer
         {
             get
             {
-                if (inp_buf != null)
+                if (this.InputBuffer != null)
                 {
-                    return new IntPtr(inp_buf);
+                    return new IntPtr(this.InputBuffer);
                 }
                 else
                 {
-                    return _inputSessionPinner;
+                    return this.InputSessionPinner;
                 }
             }
         }
-        internal byte* inp_buf = null;
-        public System.IO.FileStream inp_file = null;
-        public int inp_buf_size;
-        public int inp_buf_index;
-        public byte inp_curr;
-        public int inp_ctr;
-        public byte[] inp_sess = new byte[64];
-        public int inp_end;
-        public int inp_peek;
 
-        //void      (*translator)(struct ud*);
-        public UdTranslatorDelegate translator;
+        public FileStream InputFile { get; set; }
 
-        public ulong insn_offset;
-        //public char[] insn_hexcode = new char[64];
+        public Int32 InputBufferSize { get; set; }
 
-        /*
-        * Assembly output buffer
-        */
-        public char[] asm_buf;
-        public int asm_buf_size;
-        public int asm_buf_fill;
-        public char[] asm_buf_int = new char[128];
+        public Int32 InputBufferIndex { get; set; }
 
-        /*
-        * Symbol resolver for use in the translation phase.
-        */
-        //const char* (*sym_resolver)(struct ud*, uint64_t addr, int64_t *offset);
-        public UdSymbolResolverDelegate sym_resolver;
+        public Byte InputCur { get; set; }
 
-        public byte dis_mode;
-        public UInt64 pc;
-        public byte vendor;
-        public ud_mnemonic_code mnemonic;
-        public ud_operand[] operand = new ud_operand[4];
-        public byte error;
-        public string errorMessage;
-        public byte _rex;
-        public byte pfx_rex;
-        public byte pfx_seg;
-        public byte pfx_opr;
-        public byte pfx_adr;
-        public byte pfx_lock;
-        public byte pfx_str;
-        public byte pfx_rep;
-        public byte pfx_repe;
-        public byte pfx_repne;
-        public byte opr_mode;
-        public byte adr_mode;
-        public byte br_far;
-        public byte br_near;
-        public byte have_modrm;
-        public byte modrm;
-        public byte modrm_offset;
-        public byte vex_op;
-        public byte vex_b1;
-        public byte vex_b2;
-        public byte primary_opcode;
-        public IntPtr user_opaque_data;
-        public ud_itab_entry itab_entry;
-        public ud_lookup_table_list_entry le;
+        public Int32 InputCtr { get; set; }
 
-        public ud()
-        {
-            _inputSessionPinner = new AutoPinner(inp_sess);
-        }
+        public Byte[] InputSession { get; set; }
+
+        public Int32 InputEnd { get; set; }
+
+        public Int32 InputPeek { get; set; }
+
+        public UdTranslatorDelegate Translator { get; set; }
+
+        public UInt64 InstructionOffset { get; set; }
 
         /// <summary>
-        /// Keeps a reference to the input session array
+        /// Gets or sets the assembly output buffer
         /// </summary>
-        internal AutoPinner _inputSessionPinner;
+        public Char[] AsmBuffer { get; set; }
+
+        public Int32 AsmBufferSize { get; set; }
+
+        public Int32 AsmBufferFill { get; set; }
+
+        public Char[] AsmBufferInt { get; set; }
 
         /// <summary>
-        /// Frees the pinned buffer
+        /// Gets or sets the symbol resolver for use in the translation phase
         /// </summary>
-        void CleanupPinners()
-        {
-            if (_inputSessionPinner != null)
-            {
-                _inputSessionPinner.Dispose();
-                _inputSessionPinner = null;
-            }
-        }
+        public UdSymbolResolverDelegate SymResolver { get; set; }
 
-        ~ud()
-        {
-            Dispose();
-        }
+        public Byte DisMode { get; set; }
+
+        public UInt64 Pc { get; set; }
+
+        public Byte Vendor { get; set; }
+
+        public UdMnemonicCode Mnemonic { get; set; }
+
+        public UdOperand[] Operand { get; set; }
+
+        public Byte Error { get; set; }
+
+        public String ErrorMessage { get; set; }
+
+        public Byte Rex { get; set; }
+
+        public Byte PfxRex { get; set; }
+
+        public Byte PfxSeg { get; set; }
+
+        public Byte PfxOpr { get; set; }
+
+        public Byte PfxAdr { get; set; }
+
+        public Byte PfxLock { get; set; }
+
+        public Byte PfxStr { get; set; }
+
+        public Byte PfxRep { get; set; }
+
+        public Byte PfxRepe { get; set; }
+
+        public Byte PfxRepne { get; set; }
+
+        public Byte OprMode { get; set; }
+
+        public Byte AddressMode { get; set; }
+
+        public Byte BrFar { get; set; }
+
+        public Byte BrNear { get; set; }
+
+        public Byte HaveModrm { get; set; }
+
+        public Byte Modrm { get; set; }
+
+        public Byte ModrmOffset { get; set; }
+
+        public Byte VexOp { get; set; }
+
+        public Byte VexB1 { get; set; }
+
+        public Byte VexB2 { get; set; }
+
+        public Byte PrimaryOpcode { get; set; }
+
+        public IntPtr UserOpaqueData { get; set; }
+
+        public UdItabEntry ItabEntry { get; set; }
+
+        public UdLookupTableListEntry Le { get; set; }
+
+        internal Byte* InputBuffer { get; set; }
+
+        /// <summary>
+        /// Gets or sets a reference to the input session array
+        /// </summary>
+        internal AutoPinner InputSessionPinner { get; set; }
 
         /// <summary>
         /// Cleanup unmanaged resources
         /// </summary>
         public void Dispose()
         {
-            CleanupPinners();
+            this.CleanupPinners();
         }
 
-    } // End class
-
-} // End namespace
+        /// <summary>
+        /// Frees the pinned buffer
+        /// </summary>
+        private void CleanupPinners()
+        {
+            if (this.InputSessionPinner != null)
+            {
+                this.InputSessionPinner.Dispose();
+                this.InputSessionPinner = null;
+            }
+        }
+    }
+    //// End class
+}
+//// End namespace

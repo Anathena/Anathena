@@ -16,26 +16,26 @@
         /// </summary>
         /// <param name="u"></param>
         /// <param name="keepBinary"></param>
-        internal Instruction(ref ud u, Boolean keepBinary)
+        internal Instruction(ref Ud u, Boolean keepBinary)
         {
-            this.Offset = u.insn_offset;
-            this.PC = u.pc;
-            this.Mnemonic = u.mnemonic;
+            this.Offset = u.InstructionOffset;
+            this.PC = u.Pc;
+            this.Mnemonic = u.Mnemonic;
 
             // Add operands
             List<Operand> operands = new List<Operand>(4);
-            if (u.operand[0].type != ud_type.UD_NONE)
+            if (u.Operand[0].UdType != UdType.UD_NONE)
             {
-                operands.Add(new Operand(u.operand[0]));
-                if (u.operand[1].type != ud_type.UD_NONE)
+                operands.Add(new Operand(u.Operand[0]));
+                if (u.Operand[1].UdType != UdType.UD_NONE)
                 {
-                    operands.Add(new Operand(u.operand[1]));
-                    if (u.operand[2].type != ud_type.UD_NONE)
+                    operands.Add(new Operand(u.Operand[1]));
+                    if (u.Operand[2].UdType != UdType.UD_NONE)
                     {
-                        operands.Add(new Operand(u.operand[2]));
-                        if (u.operand[3].type != ud_type.UD_NONE)
+                        operands.Add(new Operand(u.Operand[2]));
+                        if (u.Operand[3].UdType != UdType.UD_NONE)
                         {
-                            operands.Add(new Operand(u.operand[3]));
+                            operands.Add(new Operand(u.Operand[3]));
                         }
                     }
                 }
@@ -43,44 +43,44 @@
 
             this.Operands = operands.ToArray();
 
-            this.Length = u.inp_ctr;
+            this.Length = u.InputCtr;
 
             // Copy the instruction bytes
             if (keepBinary)
             {
                 this.Bytes = new Byte[this.Length];
-                Marshal.Copy((IntPtr)(u.inp_bufPtr.ToInt64() + u.inp_buf_index - this.Length), this.Bytes, 0, this.Length);
+                Marshal.Copy((IntPtr)(u.InputBufferPointer.ToInt64() + u.InputBufferIndex - this.Length), this.Bytes, 0, this.Length);
             }
 
-            if (u.error > 0)
+            if (u.Error > 0)
             {
                 this.Error = true;
-                this.ErrorMessage = u.errorMessage;
+                this.ErrorMessage = u.ErrorMessage;
             }
-            else if (this.Mnemonic == ud_mnemonic_code.UD_Iinvalid)
+            else if (this.Mnemonic == UdMnemonicCode.UD_Iinvalid)
             {
                 this.Error = true;
                 this.ErrorMessage = "Invalid instruction";
             }
 
-            this.ItabEntry = u.itab_entry;
-            this.DisMode = (ArchitectureMode)u.dis_mode;
-            this.PfxRex = u.pfx_rex;
-            this.PfxSeg = u.pfx_seg;
-            this.PfxOpr = u.pfx_opr;
-            this.PfxAdr = u.pfx_adr;
-            this.PfxLock = u.pfx_lock;
-            this.PfxStr = u.pfx_str;
-            this.PfxRep = u.pfx_rep;
-            this.PfxRepe = u.pfx_repe;
-            this.PfxRepne = u.pfx_repne;
-            this.OprMode = u.opr_mode;
-            this.AdrMode = u.adr_mode;
-            this.BrFar = u.br_far;
-            this.BrNear = u.br_near;
-            this.HaveModrm = u.have_modrm;
-            this.Modrm = u.modrm;
-            this.PrimaryOpcode = u.primary_opcode;
+            this.ItabEntry = u.ItabEntry;
+            this.DisMode = (ArchitectureMode)u.DisMode;
+            this.PfxRex = u.PfxRex;
+            this.PfxSeg = u.PfxSeg;
+            this.PfxOpr = u.PfxOpr;
+            this.PfxAdr = u.PfxAdr;
+            this.PfxLock = u.PfxLock;
+            this.PfxStr = u.PfxStr;
+            this.PfxRep = u.PfxRep;
+            this.PfxRepe = u.PfxRepe;
+            this.PfxRepne = u.PfxRepne;
+            this.OprMode = u.OprMode;
+            this.AdrMode = u.AddressMode;
+            this.BrFar = u.BrFar;
+            this.BrNear = u.BrNear;
+            this.HaveModrm = u.HaveModrm;
+            this.Modrm = u.Modrm;
+            this.PrimaryOpcode = u.PrimaryOpcode;
         }
 
         /// <summary>
@@ -101,7 +101,7 @@
         /// <summary>
         /// Gets the mnemonic
         /// </summary>
-        public ud_mnemonic_code Mnemonic { get; private set; }
+        public UdMnemonicCode Mnemonic { get; private set; }
 
         /// <summary>
         /// Gets the instruction operands (maximum 3)
@@ -215,7 +215,7 @@
         /// <summary>
         /// Gets the instruction table entry that applies to this instruction
         /// </summary>
-        public ud_itab_entry ItabEntry { get; private set; }
+        public UdItabEntry ItabEntry { get; private set; }
 
         /// <summary>
         /// Output the instruction using the <see cref="Translators.Translator"/> assigned to <see cref="Disassembler.Translator"/>.

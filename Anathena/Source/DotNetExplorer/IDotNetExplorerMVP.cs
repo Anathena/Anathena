@@ -6,8 +6,8 @@ using System.Collections.Generic;
 
 namespace Anathena.Source.DotNetExplorer
 {
-    delegate void DotNetExplorerEventHandler(Object Sender, DotNetExplorerEventArgs Args);
-    class DotNetExplorerEventArgs : EventArgs
+    public delegate void DotNetExplorerEventHandler(Object Sender, DotNetExplorerEventArgs Args);
+    public class DotNetExplorerEventArgs : EventArgs
     {
         public List<DotNetObject> objectTrees = null;
     }

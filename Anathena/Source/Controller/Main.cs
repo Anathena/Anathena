@@ -49,9 +49,9 @@ namespace Anathena.Source.Controller
         {
             this.engineCore = engineCore;
 
-            MainEventArgs MainEventArgs = new MainEventArgs();
-            MainEventArgs.ProcessTitle = engineCore.Memory.GetProcess()?.ProcessName ?? String.Empty;
-            EventUpdateProcessTitle?.Invoke(this, MainEventArgs);
+            MainEventArgs mainEventArgs = new MainEventArgs();
+            mainEventArgs.ProcessTitle = engineCore.Memory.GetProcess()?.ProcessName ?? String.Empty;
+            EventUpdateProcessTitle?.Invoke(this, mainEventArgs);
         }
 
         private void InitializeBackgroundTasks()
@@ -138,7 +138,7 @@ namespace Anathena.Source.Controller
         {
             SnapshotManager.GetInstance().UndoSnapshot();
         }
-
-    } // End class
-
-} // End namespace
+    }
+    //// End class
+}
+//// End namespace

@@ -174,9 +174,8 @@ namespace Anathena.Source.Controller
         {
             view.OpenLabelThresholder();
         }
-
         #endregion
-
-    } // End class
-
-} // End namespace
+    }
+    //// End class
+}
+//// End namespace

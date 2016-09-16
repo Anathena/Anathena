@@ -13,7 +13,7 @@
         /// Initializes a new instance of the <see cref="Operand" /> class.
         /// </summary>
         /// <param name="operand">Disassembled operand</param>
-        internal Operand(ud_operand operand)
+        internal Operand(UdOperand operand)
         {
             this.UdOperand = operand;
         }
@@ -30,7 +30,7 @@
         }
 
         /// <summary>
-        /// <para>Gets the operand displacement value as its raw type (e.g. sbyte, byte, short, ushort, Int32, UInt32, long, ulong) depending on the operand type.</para>
+        /// <para>Gets the operand displacement value as its raw type (e.g. SByte, Byte, Int16, UInt16, Int32, UInt32, Int64, UInt64) depending on the operand type.</para>
         /// <para>If a memory operand, and no base/index registers, the result will be unsigned and contain <see cref="Offset"/> bits, otherwise if there is a base and/or index register the value is signed with <see cref="Offset"/> bits.</para>
         /// <para>If an immediate mode operand the value will be signed and the contain <see cref="Size"/> bits.</para>
         /// <para>Otherwise the result will be unsigned and if <see cref="Offset"/> is > 0 will contain <see cref="Offset"/> bits otherwise <see cref="Size"/> bits.</para>
@@ -39,10 +39,10 @@
         {
             get
             {
-                if (this.Type == ud_type.UD_OP_MEM)
+                if (this.Type == UdType.UD_OP_MEM)
                 {
                     // Accessing memory
-                    if (this.Base == ud_type.UD_NONE && this.Index == ud_type.UD_NONE)
+                    if (this.Base == UdType.UD_NONE && this.Index == UdType.UD_NONE)
                     {
                         return this.GetRawValue(this.Offset, false);
                     }
@@ -51,7 +51,7 @@
                         return this.GetRawValue(this.Offset, true);
                     }
                 }
-                else if (this.Type == ud_type.UD_OP_IMM)
+                else if (this.Type == UdType.UD_OP_IMM)
                 {
                     // Immediate Mode (memory is not accessed)
                     return this.GetRawValue(this.Size, true);
@@ -64,17 +64,17 @@
         /// <summary>
         /// Gets the operand code
         /// </summary>
-        public ud_operand_code Opcode
+        public UdOperandCode Opcode
         {
-            get { return this.UdOperand._oprcode; }
+            get { return this.UdOperand.OperandCode; }
         }
 
         /// <summary>
         /// Gets the operand type (UD_OP_REG, UD_OP_MEM, UD_OP_PTR, UD_OP_IMM, UD_OP_JIMM, UD_OP_CONST)
         /// </summary>
-        public ud_type Type
+        public UdType Type
         {
-            get { return this.UdOperand.type; }
+            get { return this.UdOperand.UdType; }
         }
 
         /// <summary>
@@ -82,23 +82,23 @@
         /// </summary>
         public UInt16 Size
         {
-            get { return this.UdOperand.size; }
+            get { return this.UdOperand.Size; }
         }
 
         /// <summary>
         /// Gets the base register
         /// </summary>
-        public ud_type Base
+        public UdType Base
         {
-            get { return this.UdOperand.@base; }
+            get { return this.UdOperand.Base; }
         }
 
         /// <summary>
         /// Gets the index register
         /// </summary>
-        public ud_type Index
+        public UdType Index
         {
-            get { return this.UdOperand.index; }
+            get { return this.UdOperand.Index; }
         }
 
         /// <summary>
@@ -106,7 +106,7 @@
         /// </summary>
         public Byte Scale
         {
-            get { return this.UdOperand.scale; }
+            get { return this.UdOperand.Scale; }
         }
 
         /// <summary>
@@ -118,7 +118,7 @@
         /// </remarks>
         public Byte Offset
         {
-            get { return this.UdOperand.offset; }
+            get { return this.UdOperand.Offset; }
         }
 
         /// <summary>
@@ -126,7 +126,7 @@
         /// </summary>
         public UInt16 PtrSegment
         {
-            get { return this.UdOperand.lval.ptr_seg; }
+            get { return this.UdOperand.Lval.PtrSeg; }
         }
 
         /// <summary>
@@ -134,7 +134,7 @@
         /// </summary>
         public UInt32 PtrOffset
         {
-            get { return this.UdOperand.lval.ptr_off; }
+            get { return this.UdOperand.Lval.PtrOff; }
         }
 
         /// <summary>
@@ -204,14 +204,14 @@
         /// <summary>
         /// Gets or sets the disassembled instruction operand
         /// </summary>
-        internal ud_operand UdOperand { get; set; }
+        internal UdOperand UdOperand { get; set; }
 
         /// <summary>
         /// Gets the Lval as <see cref="Int64"/>
         /// </summary>
         private Int64 Lval
         {
-            get { return this.UdOperand.lval.sqword; }
+            get { return this.UdOperand.Lval.SqWord; }
         }
 
         /// <summary>
@@ -220,11 +220,11 @@
         /// <returns>The operand in string format suitable for diagnostics.</returns>
         public override String ToString()
         {
-            if (this.Type == ud_type.UD_OP_REG)
+            if (this.Type == UdType.UD_OP_REG)
             {
                 return String.Format("{0,-10}", String.Format("{0},", this.Base));
             }
-            else if (this.Type == ud_type.UD_OP_MEM)
+            else if (this.Type == UdType.UD_OP_MEM)
             {
                 String memSize = String.Empty;
 
@@ -244,11 +244,11 @@
                         break;
                 }
 
-                return String.Format("{0}{4}[{1}{2}{3:x}],", String.Empty, this.Base == ud_type.UD_NONE ? String.Empty : String.Format("{0}+", this.Base), this.Index == ud_type.UD_NONE ? String.Empty : String.Format("({0}*{1})", this.Index, this.Scale == 0 ? 1 : this.Scale), this.PrintDisplacementAddress(), memSize);
+                return String.Format("{0}{4}[{1}{2}{3:x}],", String.Empty, this.Base == UdType.UD_NONE ? String.Empty : String.Format("{0}+", this.Base), this.Index == UdType.UD_NONE ? String.Empty : String.Format("({0}*{1})", this.Index, this.Scale == 0 ? 1 : this.Scale), this.PrintDisplacementAddress(), memSize);
             }
             else
             {
-                return String.Format("{0}{1}{2}{3:x},", String.Empty, this.Base == ud_type.UD_NONE ? String.Empty : String.Format("{0}+", this.Base), this.Index == ud_type.UD_NONE ? String.Empty : String.Format("({0}*{1})", this.Index, this.Scale == 0 ? 1 : this.Scale), this.RawValue);
+                return String.Format("{0}{1}{2}{3:x},", String.Empty, this.Base == UdType.UD_NONE ? String.Empty : String.Format("{0}+", this.Base), this.Index == UdType.UD_NONE ? String.Empty : String.Format("({0}*{1})", this.Index, this.Scale == 0 ? 1 : this.Scale), this.RawValue);
             }
         }
 
@@ -258,7 +258,7 @@
         /// <returns>The displacement address as a string</returns>
         private String PrintDisplacementAddress()
         {
-            if (this.Base == ud_type.UD_NONE && this.Index == ud_type.UD_NONE)
+            if (this.Base == UdType.UD_NONE && this.Index == UdType.UD_NONE)
             {
                 UInt64 v;
                 Debug.Assert(this.Scale == 0 && this.Offset != 8, "TODO: REASON");
@@ -311,7 +311,7 @@
                 }
                 else if (v > 0)
                 {
-                    return String.Format("{0}0x{1:x}", this.Index != ud_type.UD_NONE || this.Base != ud_type.UD_NONE ? "+" : String.Empty, v);
+                    return String.Format("{0}0x{1:x}", this.Index != UdType.UD_NONE || this.Base != UdType.UD_NONE ? "+" : String.Empty, v);
                 }
             }
 
@@ -329,13 +329,13 @@
             switch (size)
             {
                 case 8:
-                    return signed ? (Object)this.UdOperand.lval.@sbyte : (Object)this.UdOperand.lval.ubyte;
+                    return signed ? (Object)this.UdOperand.Lval.SByte : (Object)this.UdOperand.Lval.UByte;
                 case 16:
-                    return signed ? (Object)this.UdOperand.lval.sword : (Object)this.UdOperand.lval.uword;
+                    return signed ? (Object)this.UdOperand.Lval.SWord : (Object)this.UdOperand.Lval.UWord;
                 case 32:
-                    return signed ? (Object)this.UdOperand.lval.sdword : (Object)this.UdOperand.lval.udword;
+                    return signed ? (Object)this.UdOperand.Lval.SdWord : (Object)this.UdOperand.Lval.UdWord;
                 case 64:
-                    return signed ? (Object)this.UdOperand.lval.sqword : (Object)this.UdOperand.lval.uqword;
+                    return signed ? (Object)this.UdOperand.Lval.SqWord : (Object)this.UdOperand.Lval.UqWord;
                 default:
                     return (Int64)0;
             }

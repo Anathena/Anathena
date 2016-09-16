@@ -98,13 +98,13 @@
         {
             switch (op.Type)
             {
-                case ud_type.UD_OP_CONST:
+                case UdType.UD_OP_CONST:
                     this.Content.AppendFormat("$0x{0:x4}", op.LvalUDWord);
                     break;
-                case ud_type.UD_OP_REG:
+                case UdType.UD_OP_REG:
                     this.Content.AppendFormat("%{0}", this.RegisterForType(op.Base));
                     break;
-                case ud_type.UD_OP_MEM:
+                case UdType.UD_OP_MEM:
                     if (u.BrFar != 0)
                     {
                         this.Opr_cast(u, op);
@@ -112,7 +112,7 @@
 
                     if (u.PfxSeg != 0)
                     {
-                        this.Content.AppendFormat("%{0}:", this.RegisterForType((ud_type)u.PfxSeg));
+                        this.Content.AppendFormat("%{0}:", this.RegisterForType((UdType)u.PfxSeg));
                     }
 
                     if (op.Offset != 0)
@@ -120,14 +120,14 @@
                         this.Ud_syn_print_mem_disp(u, op, 0);
                     }
 
-                    if (op.Base != ud_type.UD_NONE)
+                    if (op.Base != UdType.UD_NONE)
                     {
                         this.Content.AppendFormat("(%{0}", this.RegisterForType(op.Base));
                     }
 
-                    if (op.Index != ud_type.UD_NONE)
+                    if (op.Index != UdType.UD_NONE)
                     {
-                        if (op.Base != ud_type.UD_NONE)
+                        if (op.Base != UdType.UD_NONE)
                         {
                             this.Content.AppendFormat(",");
                         }
@@ -144,20 +144,20 @@
                         this.Content.AppendFormat(",{0}", op.Scale);
                     }
 
-                    if (op.Base != ud_type.UD_NONE || op.Index != ud_type.UD_NONE)
+                    if (op.Base != UdType.UD_NONE || op.Index != UdType.UD_NONE)
                     {
                         this.Content.AppendFormat(")");
                     }
 
                     break;
-                case ud_type.UD_OP_IMM:
+                case UdType.UD_OP_IMM:
                     this.Content.AppendFormat("$");
                     this.Ud_syn_print_imm(u, op);
                     break;
-                case ud_type.UD_OP_JIMM:
+                case UdType.UD_OP_JIMM:
                     this.Ud_syn_print_addr(u, (Int64)this.Ud_syn_rel_target(u, op));
                     break;
-                case ud_type.UD_OP_PTR:
+                case UdType.UD_OP_PTR:
                     switch (op.Size)
                     {
                         case 32:
@@ -236,36 +236,36 @@
             // special instructions
             switch (u.Mnemonic)
             {
-                case ud_mnemonic_code.UD_Iretf:
+                case UdMnemonicCode.UD_Iretf:
                     Content.AppendFormat("lret ");
                     size = -1;
                     break;
-                case ud_mnemonic_code.UD_Idb:
+                case UdMnemonicCode.UD_Idb:
                     Content.AppendFormat(".byte 0x{0:x2}", u.Operands[0].LvalByte);
                     return;
-                case ud_mnemonic_code.UD_Ijmp:
-                case ud_mnemonic_code.UD_Icall:
+                case UdMnemonicCode.UD_Ijmp:
+                case UdMnemonicCode.UD_Icall:
                     if (u.BrFar != 0)
                     {
                         Content.AppendFormat("l");
                         size = -1;
                     }
 
-                    if (u.Operands[0].Type == ud_type.UD_OP_REG)
+                    if (u.Operands[0].Type == UdType.UD_OP_REG)
                     {
                         star = true;
                     }
 
-                    this.Content.AppendFormat("{0}", udis86.ud_lookup_mnemonic(u.Mnemonic));
+                    this.Content.AppendFormat("{0}", Udis86.UdLookupMnemonic(u.Mnemonic));
                     break;
-                case ud_mnemonic_code.UD_Ibound:
-                case ud_mnemonic_code.UD_Ienter:
-                    if (u.Operands.Length > 0 && u.Operands[0].Type != ud_type.UD_NONE)
+                case UdMnemonicCode.UD_Ibound:
+                case UdMnemonicCode.UD_Ienter:
+                    if (u.Operands.Length > 0 && u.Operands[0].Type != UdType.UD_NONE)
                     {
                         this.Gen_operand(u, u.Operands[0]);
                     }
 
-                    if (u.Operands.Length > 1 && u.Operands[1].Type != ud_type.UD_NONE)
+                    if (u.Operands.Length > 1 && u.Operands[1].Type != UdType.UD_NONE)
                     {
                         this.Content.AppendFormat(",");
                         this.Gen_operand(u, u.Operands[1]);
@@ -273,11 +273,11 @@
 
                     return;
                 default:
-                    this.Content.AppendFormat("{0}", udis86.ud_lookup_mnemonic(u.Mnemonic));
+                    this.Content.AppendFormat("{0}", Udis86.UdLookupMnemonic(u.Mnemonic));
                     break;
             }
 
-            if (size != -1 && u.Operands.Length > 0 && u.Operands.Any(o => o.Type == ud_type.UD_OP_MEM))
+            if (size != -1 && u.Operands.Length > 0 && u.Operands.Any(o => o.Type == UdType.UD_OP_MEM))
             {
                 size = u.Operands[0].Size;
             }
@@ -312,25 +312,25 @@
                 Content.AppendFormat(" ");
             }
 
-            if (u.Operands.Length > 3 && u.Operands[3].Type != ud_type.UD_NONE)
+            if (u.Operands.Length > 3 && u.Operands[3].Type != UdType.UD_NONE)
             {
                 this.Gen_operand(u, u.Operands[3]);
                 Content.AppendFormat(", ");
             }
 
-            if (u.Operands.Length > 2 && u.Operands[2].Type != ud_type.UD_NONE)
+            if (u.Operands.Length > 2 && u.Operands[2].Type != UdType.UD_NONE)
             {
                 this.Gen_operand(u, u.Operands[2]);
                 Content.AppendFormat(", ");
             }
 
-            if (u.Operands.Length > 1 && u.Operands[1].Type != ud_type.UD_NONE)
+            if (u.Operands.Length > 1 && u.Operands[1].Type != UdType.UD_NONE)
             {
                 this.Gen_operand(u, u.Operands[1]);
                 this.Content.AppendFormat(", ");
             }
 
-            if (u.Operands.Length > 0 && u.Operands[0].Type != ud_type.UD_NONE)
+            if (u.Operands.Length > 0 && u.Operands[0].Type != UdType.UD_NONE)
             {
                 this.Gen_operand(u, u.Operands[0]);
             }

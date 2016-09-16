@@ -48,7 +48,7 @@
         /// <summary>
         /// The udis86 ud structure used during disassembly.
         /// </summary>
-        private ud ud = new ud();
+        private Ud ud = new Ud();
 
         /// <summary>
         /// Used to pin the <see cref="code"/> byte array (if provided).
@@ -149,7 +149,7 @@
         {
             this.InitUdis86();
             this.BytesDecoded = 0;
-            this.ud.inp_buf_index = 0;
+            this.ud.InputBufferIndex = 0;
         }
 
         /// <summary>
@@ -159,7 +159,7 @@
         public Instruction NextInstruction()
         {
             Int32 length = 0;
-            if ((length = udis86.ud_disassemble(ref this.ud)) > 0)
+            if ((length = Udis86.Udis86.UdDisassemble(ref this.ud)) > 0)
             {
                 Instruction instruction = new Instruction(ref this.ud, this.CopyBinaryToInstruction);
                 if (!instruction.Error)
@@ -191,19 +191,19 @@
         private void InitUdis86()
         {
             // reset _u and initialise
-            udis86.ud_init(ref this.ud);
+            Udis86.Udis86.UdInit(ref this.ud);
 
             // set input buffer
-            udis86.ud_set_input_buffer(ref this.ud, this.codePtr, this.codeLength);
+            Udis86.Udis86.UdSetInputBuffer(ref this.ud, this.codePtr, this.codeLength);
 
             // set architecture
-            udis86.ud_set_mode(ref this.ud, (Byte)this.Architecture);
+            Udis86.Udis86.UdSetMode(ref this.ud, (Byte)this.Architecture);
 
             // set program counter
-            udis86.ud_set_pc(ref this.ud, this.Address);
+            Udis86.Udis86.UdSetPc(ref this.ud, this.Address);
 
             // set the vendor
-            udis86.ud_set_vendor(ref this.ud, (Int32)this.Vendor);
+            Udis86.Udis86.UdSetVendor(ref this.ud, (Int32)this.Vendor);
         }
     }
     //// End class

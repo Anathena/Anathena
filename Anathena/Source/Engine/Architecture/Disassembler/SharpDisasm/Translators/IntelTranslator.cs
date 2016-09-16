@@ -119,11 +119,11 @@
         {
             switch (op.Type)
             {
-                case ud_type.UD_OP_REG:
+                case UdType.UD_OP_REG:
                     this.Content.AppendFormat("{0}", this.RegisterForType(op.Base));
                     break;
 
-                case ud_type.UD_OP_MEM:
+                case UdType.UD_OP_MEM:
                     if (syn_cast > 0)
                     {
                         this.Opr_cast(insn, op);
@@ -132,7 +132,7 @@
                     this.Content.AppendFormat("[");
                     if (insn.PfxSeg > 0)
                     {
-                        this.Content.AppendFormat("{0}:", this.RegisterForType((ud_type)insn.PfxSeg));
+                        this.Content.AppendFormat("{0}:", this.RegisterForType((UdType)insn.PfxSeg));
                     }
 
                     if (op.Base > 0)
@@ -142,7 +142,7 @@
 
                     if (op.Index > 0)
                     {
-                        this.Content.AppendFormat("{0}{1}", op.Base != ud_type.UD_NONE ? "+" : String.Empty, this.RegisterForType(op.Index));
+                        this.Content.AppendFormat("{0}{1}", op.Base != UdType.UD_NONE ? "+" : String.Empty, this.RegisterForType(op.Index));
                         if (op.Scale > 0)
                         {
                             this.Content.AppendFormat("*{0}", op.Scale);
@@ -151,18 +151,18 @@
 
                     if (op.Offset != 0)
                     {
-                        this.Ud_syn_print_mem_disp(insn, op, (op.Base != ud_type.UD_NONE || op.Index != ud_type.UD_NONE) ? 1 : 0);
+                        this.Ud_syn_print_mem_disp(insn, op, (op.Base != UdType.UD_NONE || op.Index != UdType.UD_NONE) ? 1 : 0);
                     }
 
                     this.Content.AppendFormat("]");
                     break;
-                case ud_type.UD_OP_IMM:
+                case UdType.UD_OP_IMM:
                     this.Ud_syn_print_imm(insn, op);
                     break;
-                case ud_type.UD_OP_JIMM:
+                case UdType.UD_OP_JIMM:
                     this.Ud_syn_print_addr(insn, (long)Ud_syn_rel_target(insn, op));
                     break;
-                case ud_type.UD_OP_PTR:
+                case UdType.UD_OP_PTR:
                     switch (op.Size)
                     {
                         case 32:
@@ -174,7 +174,7 @@
                     }
 
                     break;
-                case ud_type.UD_OP_CONST:
+                case UdType.UD_OP_CONST:
                     if (syn_cast > 0)
                     {
                         this.Opr_cast(insn, op);
@@ -226,10 +226,10 @@
             }
 
             if (insn.PfxSeg > 0 &&
-                insn.Operands[0].Type != ud_type.UD_OP_MEM &&
-                insn.Operands[1].Type != ud_type.UD_OP_MEM)
+                insn.Operands[0].Type != UdType.UD_OP_MEM &&
+                insn.Operands[1].Type != UdType.UD_OP_MEM)
             {
-                this.Content.AppendFormat("{0} ", this.RegisterForType((ud_type)insn.PfxSeg));
+                this.Content.AppendFormat("{0} ", this.RegisterForType((UdType)insn.PfxSeg));
             }
 
             if (insn.PfxLock > 0)
@@ -251,36 +251,36 @@
             }
 
             // Print the instruction mnemonic
-            this.Content.AppendFormat("{0}", Udis86.udis86.ud_lookup_mnemonic(insn.Mnemonic));
+            this.Content.AppendFormat("{0}", SharpDisasm.Udis86.Udis86.UdLookupMnemonic(insn.Mnemonic));
 
-            if (insn.Operands.Length > 0 && insn.Operands[0].Type != ud_type.UD_NONE)
+            if (insn.Operands.Length > 0 && insn.Operands[0].Type != UdType.UD_NONE)
             {
                 Int32 cast = 0;
                 Content.AppendFormat(" ");
-                if (insn.Operands[0].Type == ud_type.UD_OP_MEM)
+                if (insn.Operands[0].Type == UdType.UD_OP_MEM)
                 {
                     if ((insn.Operands.Length > 1 &&
-                        (insn.Operands[1].Type == ud_type.UD_OP_IMM ||
-                        insn.Operands[1].Type == ud_type.UD_OP_CONST)) ||
+                        (insn.Operands[1].Type == UdType.UD_OP_IMM ||
+                        insn.Operands[1].Type == UdType.UD_OP_CONST)) ||
                         insn.Operands.Length < 2 || ////insn.Operands[1].Type == ud_type.UD_NONE) ||
                         (insn.Operands.Length > 1 &&
                          insn.Operands[0].Size != insn.Operands[1].Size &&
-                         insn.Operands[1].Type != ud_type.UD_OP_REG))
+                         insn.Operands[1].Type != UdType.UD_OP_REG))
                     {
                         cast = 1;
                     }
-                    else if (insn.Operands[1].Type == ud_type.UD_OP_REG &&
-                             insn.Operands[1].Base == ud_type.UD_R_CL)
+                    else if (insn.Operands[1].Type == UdType.UD_OP_REG &&
+                             insn.Operands[1].Base == UdType.UD_R_CL)
                     {
                         switch (insn.Mnemonic)
                         {
-                            case ud_mnemonic_code.UD_Ircl:
-                            case ud_mnemonic_code.UD_Irol:
-                            case ud_mnemonic_code.UD_Iror:
-                            case ud_mnemonic_code.UD_Ircr:
-                            case ud_mnemonic_code.UD_Ishl:
-                            case ud_mnemonic_code.UD_Ishr:
-                            case ud_mnemonic_code.UD_Isar:
+                            case UdMnemonicCode.UD_Ircl:
+                            case UdMnemonicCode.UD_Irol:
+                            case UdMnemonicCode.UD_Iror:
+                            case UdMnemonicCode.UD_Ircr:
+                            case UdMnemonicCode.UD_Ishl:
+                            case UdMnemonicCode.UD_Ishr:
+                            case UdMnemonicCode.UD_Isar:
                                 cast = 1;
                                 break;
                             default:
@@ -292,13 +292,13 @@
                 this.Gen_operand(insn, insn.Operands[0], cast);
             }
 
-            if (insn.Operands.Length > 1 && insn.Operands[1].Type != ud_type.UD_NONE)
+            if (insn.Operands.Length > 1 && insn.Operands[1].Type != UdType.UD_NONE)
             {
                 Int32 cast = 0;
                 Content.AppendFormat(", ");
-                if (insn.Operands[1].Type == ud_type.UD_OP_MEM &&
+                if (insn.Operands[1].Type == UdType.UD_OP_MEM &&
                     insn.Operands[0].Size != insn.Operands[1].Size &&
-                    !udis86.ud_opr_is_sreg(insn.Operands[0].UdOperand))
+                    !Udis86.UdOprIsSeg(insn.Operands[0].UdOperand))
                 {
                     cast = 1;
                 }
@@ -306,11 +306,11 @@
                 this.Gen_operand(insn, insn.Operands[1], cast);
             }
 
-            if (insn.Operands.Length > 2 && insn.Operands[1].Type != ud_type.UD_NONE)
+            if (insn.Operands.Length > 2 && insn.Operands[1].Type != UdType.UD_NONE)
             {
                 Int32 cast = 0;
                 Content.AppendFormat(", ");
-                if (insn.Operands[2].Type == ud_type.UD_OP_MEM && insn.Operands[2].Size != insn.Operands[1].Size)
+                if (insn.Operands[2].Type == UdType.UD_OP_MEM && insn.Operands[2].Size != insn.Operands[1].Size)
                 {
                     cast = 1;
                 }
@@ -318,7 +318,7 @@
                 this.Gen_operand(insn, insn.Operands[2], cast);
             }
 
-            if (insn.Operands.Length > 3 && insn.Operands[3].Type != ud_type.UD_NONE)
+            if (insn.Operands.Length > 3 && insn.Operands[3].Type != UdType.UD_NONE)
             {
                 Content.AppendFormat(", ");
                 this.Gen_operand(insn, insn.Operands[3], 0);

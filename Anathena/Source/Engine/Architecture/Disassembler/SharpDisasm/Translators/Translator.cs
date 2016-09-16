@@ -16,7 +16,7 @@
         /// <summary>
         /// A list of all registers names
         /// </summary>
-        protected static readonly String[] Registers = syn.ud_reg_tab;
+        protected static readonly String[] Registers = Syn.UdRegTab;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Translator" /> class
@@ -61,14 +61,14 @@
         public abstract String Translate(Instruction insn);
 
         /// <summary>
-        /// Converts a <see cref="ud_type"/> into an index into <see cref="Registers"/> and returns the result.
+        /// Converts a <see cref="UdType"/> into an index into <see cref="Registers"/> and returns the result.
         /// </summary>
-        /// <param name="type">The register <see cref="ud_type"/> to retrieve the corresponding string for. Note: only the UD_R_* types will result in a valid index.</param>
+        /// <param name="type">The register <see cref="UdType"/> to retrieve the corresponding string for. Note: only the UD_R_* types will result in a valid index.</param>
         /// <returns>The corresponding string value for the register.</returns>
-        protected String RegisterForType(ud_type type)
+        protected String RegisterForType(UdType type)
         {
             // Adjust to be zero based (i.e. the first register in ud_type starts at 1 == UD_R_AL)
-            Int32 indx = type - ud_type.UD_R_AL;
+            Int32 indx = type - UdType.UD_R_AL;
             return Registers[indx];
         }
 
@@ -163,7 +163,7 @@
         protected void Ud_syn_print_imm(Instruction insn, Operand op)
         {
             UInt64 v;
-            if (op.Opcode == ud_operand_code.OP_sI && op.Size != insn.OprMode)
+            if (op.Opcode == UdOperandCode.OP_sI && op.Size != insn.OprMode)
             {
                 if (op.Size == 8)
                 {
@@ -215,7 +215,7 @@
         protected void Ud_syn_print_mem_disp(Instruction insn, Operand op, Int32 sign)
         {
             Debug.Assert(op.Offset != 0, "Offset must be non-zero");
-            if (op.Base == ud_type.UD_NONE && op.Index == ud_type.UD_NONE)
+            if (op.Base == UdType.UD_NONE && op.Index == UdType.UD_NONE)
             {
                 UInt64 v;
                 Debug.Assert(op.Scale == 0 && op.Offset != 8, "TODO: REASON");
