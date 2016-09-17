@@ -1,0 +1,32 @@
+﻿<Window x:Class="Ana.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Mvvm Light Example"
+        Width="525"
+        Height="350"
+        DataContext="{Binding Main, Source={StaticResource Locator}}"
+        ResizeMode="NoResize"
+        SizeToContent="WidthAndHeight">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="Auto" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="257*" />
+        </Grid.RowDefinitions>
+        <Button Command="{Binding ShowPopUp}" Content="Show Pop Up" />
+        <Button Grid.Row="1"
+                Command="{Binding IncrementValue}"
+                Content="Increment value" />
+        <TextBlock Grid.Row="1"
+                   Grid.Column="1"
+                   MinWidth="50"
+                   HorizontalAlignment="Center"
+                   VerticalAlignment="Center"
+                   Text="{Binding ExampleValue}"
+                   TextAlignment="Center" />
+    </Grid>
+</Window>
