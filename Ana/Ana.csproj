@@ -37,6 +37,7 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -55,9 +56,41 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Source\Main\MainModel.cs" />
     <Compile Include="Source\Main\MainViewModel.cs" />
-    <Compile Include="Source\MVVM\ViewModelLocator.cs" />
-    <Page Include="GUI\MainWindow.xaml">
+    <Compile Include="Source\Mvvm\Command\EventToCommand.cs" />
+    <Compile Include="Source\Mvvm\Command\IEventArgsConverter.cs" />
+    <Compile Include="Source\Mvvm\Command\RelayCommand.cs" />
+    <Compile Include="Source\Mvvm\Command\RelayCommandGeneric.cs" />
+    <Compile Include="Source\Mvvm\Helpers\DesignerPlatformLibrary.cs" />
+    <Compile Include="Source\Mvvm\Helpers\Empty.cs" />
+    <Compile Include="Source\Mvvm\Helpers\FeatureDetection.cs" />
+    <Compile Include="Source\Mvvm\Helpers\IExecuteWithObject.cs" />
+    <Compile Include="Source\Mvvm\Helpers\IExecuteWithObjectAndResult.cs" />
+    <Compile Include="Source\Mvvm\Helpers\WeakAction.cs" />
+    <Compile Include="Source\Mvvm\Helpers\WeakActionGeneric.cs" />
+    <Compile Include="Source\Mvvm\Helpers\WeakFunc.cs" />
+    <Compile Include="Source\Mvvm\Helpers\WeakFuncGeneric.cs" />
+    <Compile Include="Source\Mvvm\ICleanup.cs" />
+    <Compile Include="Source\Mvvm\Messaging\DialogMessage.cs" />
+    <Compile Include="Source\Mvvm\Messaging\GenericMessage.cs" />
+    <Compile Include="Source\Mvvm\Messaging\IMessenger.cs" />
+    <Compile Include="Source\Mvvm\Messaging\MessageBase.cs" />
+    <Compile Include="Source\Mvvm\Messaging\Messenger.cs" />
+    <Compile Include="Source\Mvvm\Messaging\NotificationMessage.cs" />
+    <Compile Include="Source\Mvvm\Messaging\NotificationMessageAction.cs" />
+    <Compile Include="Source\Mvvm\Messaging\NotificationMessageActionGeneric.cs" />
+    <Compile Include="Source\Mvvm\Messaging\NotificationMessageGeneric.cs" />
+    <Compile Include="Source\Mvvm\Messaging\NotificationMessageWithCallback.cs" />
+    <Compile Include="Source\Mvvm\Messaging\PropertyChangedMessage.cs" />
+    <Compile Include="Source\Mvvm\Messaging\PropertyChangedMessageBase.cs" />
+    <Compile Include="Source\Mvvm\ObservableObject.cs" />
+    <Compile Include="Source\Mvvm\Threading\DispatcherHelper.cs" />
+    <Compile Include="Source\Mvvm\ViewModelBase.cs" />
+    <Compile Include="Source\Mvvm\ViewModelLocator.cs" />
+    <Compile Include="Source\Mvvm\Views\IDialogService.cs" />
+    <Compile Include="Source\Mvvm\Views\INavigationService.cs" />
+    <Page Include="Gui\MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -65,7 +98,7 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="GUI\MainWindow.xaml.cs">
+    <Compile Include="Gui\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
@@ -96,12 +129,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\MvvmLight\MvvmLight.csproj">
-      <Project>{0722b3db-76cd-4562-bea9-5c5c416b6a39}</Project>
-      <Name>MvvmLight</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

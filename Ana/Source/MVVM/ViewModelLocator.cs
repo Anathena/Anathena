@@ -1,6 +1,7 @@
-﻿namespace Ana.Source.MVVM
+﻿namespace Ana.Source.Mvvm
 {
     using Main;
+    using System.Diagnostics.CodeAnalysis;
 
     /// <summary>
     /// This class contains static references to all the view models in the
@@ -24,7 +25,7 @@
         /// <summary>
         /// Gets the Main property which defines the main view model
         /// </summary>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1822:MarkMembersAsStatic", Justification = "This non-static member is needed for data binding purposes.")]
+        [SuppressMessage("Microsoft.Performance", "CA1822:MarkMembersAsStatic", Justification = "This non-static member is needed for data binding purposes.")]
         public MainViewModel Main
         {
             get
