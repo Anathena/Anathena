@@ -54,7 +54,7 @@
                 }
 
                 this.mainModel.ExampleValue = value;
-                this.RaisePropertyChanged(nameof(ExampleValue));
+                this.RaisePropertyChanged(nameof(this.ExampleValue));
             }
         }
 

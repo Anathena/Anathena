@@ -12,16 +12,17 @@
     /// Execute and CanExecute callback methods.
     /// </summary>
     /// <typeparam name="T">The type of the command parameter.</typeparam>
-    /// <remarks>If you are using this class in WPF4.5 or above, you need to use the 
-    /// GalaSoft.MvvmLight.CommandWpf namespace (instead of GalaSoft.MvvmLight.Command).
-    /// This will enable (or restore) the CommandManager class which handles
-    /// automatic enabling/disabling of controls based on the CanExecute delegate.</remarks>
-    ////[ClassInfo(typeof(RelayCommand))]
     public class RelayCommand<T> : ICommand
     {
-        private readonly WeakAction<T> _execute;
+        /// <summary>
+        /// TODO TODO
+        /// </summary>
+        private readonly WeakAction<T> execute;
 
-        private readonly WeakFunc<T, bool> _canExecute;
+        /// <summary>
+        /// TODO TODO
+        /// </summary>
+        private readonly WeakFunc<T, Boolean> canExecute;
 
         /// <summary>
         /// Initializes a new instance of the RelayCommand class that 
@@ -30,8 +31,7 @@
         /// <param name="execute">The execution logic. IMPORTANT: Note that closures are not supported at the moment
         /// due to the use of WeakActions (see http://stackoverflow.com/questions/25730530/). </param>
         /// <exception cref="ArgumentNullException">If the execute argument is null.</exception>
-        public RelayCommand(Action<T> execute)
-            : this(execute, null)
+        public RelayCommand(Action<T> execute) : this(execute, null)
         {
         }
 
@@ -43,18 +43,18 @@
         /// <param name="canExecute">The execution status logic. IMPORTANT: Note that closures are not supported at the moment
         /// due to the use of WeakActions (see http://stackoverflow.com/questions/25730530/). </param>
         /// <exception cref="ArgumentNullException">If the execute argument is null.</exception>
-        public RelayCommand(Action<T> execute, Func<T, bool> canExecute)
+        public RelayCommand(Action<T> execute, Func<T, Boolean> canExecute)
         {
             if (execute == null)
             {
                 throw new ArgumentNullException("execute");
             }
 
-            _execute = new WeakAction<T>(execute);
+            this.execute = new WeakAction<T>(execute);
 
             if (canExecute != null)
             {
-                _canExecute = new WeakFunc<T, bool>(canExecute);
+                this.canExecute = new WeakFunc<T, Boolean>(canExecute);
             }
         }
 
@@ -65,7 +65,7 @@
         {
             add
             {
-                if (_canExecute != null)
+                if (this.canExecute != null)
                 {
                     CommandManager.RequerySuggested += value;
                 }
@@ -73,7 +73,7 @@
 
             remove
             {
-                if (_canExecute != null)
+                if (this.canExecute != null)
                 {
                     CommandManager.RequerySuggested -= value;
                 }
@@ -83,14 +83,8 @@
         /// <summary>
         /// Raises the <see cref="CanExecuteChanged" /> event.
         /// </summary>
-        [SuppressMessage(
-            "Microsoft.Performance",
-            "CA1822:MarkMembersAsStatic",
-            Justification = "The this keyword is used in the Silverlight version")]
-        [SuppressMessage(
-            "Microsoft.Design",
-            "CA1030:UseEventsWhereAppropriate",
-            Justification = "This cannot be an event")]
+        [SuppressMessage("Microsoft.Performance", "CA1822:MarkMembersAsStatic", Justification = "The this keyword is used in the Silverlight version")]
+        [SuppressMessage("Microsoft.Design", "CA1030:UseEventsWhereAppropriate", Justification = "This cannot be an event")]
         public void RaiseCanExecuteChanged()
         {
             CommandManager.InvalidateRequerySuggested();
@@ -102,23 +96,23 @@
         /// <param name="parameter">Data used by the command. If the command does not require data 
         /// to be passed, this object can be set to a null reference</param>
         /// <returns>true if this command can be executed; otherwise, false.</returns>
-        public bool CanExecute(object parameter)
+        public Boolean CanExecute(Object parameter)
         {
-            if (_canExecute == null)
+            if (this.canExecute == null)
             {
                 return true;
             }
 
-            if (_canExecute.IsStatic || _canExecute.IsAlive)
+            if (this.canExecute.IsStatic || this.canExecute.IsAlive)
             {
                 if (parameter == null && typeof(T).IsValueType)
                 {
-                    return _canExecute.Execute(default(T));
+                    return this.canExecute.Execute(default(T));
                 }
 
                 if (parameter == null || parameter is T)
                 {
-                    return (_canExecute.Execute((T)parameter));
+                    return this.canExecute.Execute((T)parameter);
                 }
             }
 
@@ -130,12 +124,11 @@
         /// </summary>
         /// <param name="parameter">Data used by the command. If the command does not require data 
         /// to be passed, this object can be set to a null reference</param>
-        public virtual void Execute(object parameter)
+        public virtual void Execute(Object parameter)
         {
-            var val = parameter;
+            Object val = parameter;
 
-            if (parameter != null
-                && parameter.GetType() != typeof(T))
+            if (parameter != null && parameter.GetType() != typeof(T))
             {
                 if (parameter is IConvertible)
                 {
@@ -143,28 +136,26 @@
                 }
             }
 
-            if (CanExecute(val)
-                && _execute != null
-                && (_execute.IsStatic || _execute.IsAlive))
+            if (this.CanExecute(val) && this.execute != null && (this.execute.IsStatic || this.execute.IsAlive))
             {
                 if (val == null)
                 {
                     if (typeof(T).IsValueType)
                     {
-                        _execute.Execute(default(T));
+                        this.execute.Execute(default(T));
                     }
                     else
                     {
-                        // ReSharper disable ExpressionIsAlwaysNull
-                        _execute.Execute((T)val);
-                        // ReSharper restore ExpressionIsAlwaysNull
+                        this.execute.Execute((T)val);
                     }
                 }
                 else
                 {
-                    _execute.Execute((T)val);
+                    this.execute.Execute((T)val);
                 }
             }
         }
     }
+    //// End class
 }
+//// End namespace

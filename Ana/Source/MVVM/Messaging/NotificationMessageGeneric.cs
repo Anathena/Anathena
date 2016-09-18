@@ -1,10 +1,11 @@
 ﻿namespace Ana.Source.Mvvm.Messaging
 {
+    using System;
+
     /// <summary>
     /// Passes a string message (Notification) and a generic value (Content) to a recipient.
     /// </summary>
     /// <typeparam name="T">The type of the Content property.</typeparam>
-    ////[ClassInfo(typeof(Messenger))]
     public class NotificationMessage<T> : GenericMessage<T>
     {
         /// <summary>
@@ -13,10 +14,9 @@
         /// <param name="content">A value to be passed to recipient(s).</param>
         /// <param name="notification">A string containing any arbitrary message to be
         /// passed to recipient(s)</param>
-        public NotificationMessage(T content, string notification)
-            : base(content)
+        public NotificationMessage(T content, String notification) : base(content)
         {
-            Notification = notification;
+            this.Notification = notification;
         }
 
         /// <summary>
@@ -26,10 +26,9 @@
         /// <param name="content">A value to be passed to recipient(s).</param>
         /// <param name="notification">A string containing any arbitrary message to be
         /// passed to recipient(s)</param>
-        public NotificationMessage(object sender, T content, string notification)
-            : base(sender, content)
+        public NotificationMessage(Object sender, T content, String notification) : base(sender, content)
         {
-            Notification = notification;
+            this.Notification = notification;
         }
 
         /// <summary>
@@ -42,21 +41,16 @@
         /// <param name="content">A value to be passed to recipient(s).</param>
         /// <param name="notification">A string containing any arbitrary message to be
         /// passed to recipient(s)</param>
-        public NotificationMessage(object sender, object target, T content, string notification)
-            : base(sender, target, content)
+        public NotificationMessage(Object sender, Object target, T content, String notification) : base(sender, target, content)
         {
-            Notification = notification;
+            this.Notification = notification;
         }
 
         /// <summary>
         /// Gets a string containing any arbitrary message to be
         /// passed to recipient(s).
         /// </summary>
-        public string Notification
-        {
-            get;
-            private set;
-        }
+        public String Notification { get; private set; }
     }
     //// End class
 }

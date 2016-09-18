@@ -1,29 +1,18 @@
 ﻿namespace Ana.Source.Mvvm.Threading
 {
     using System;
-    using System.Text;
     using System.Windows.Threading;
 
     /// <summary>
     /// Helper class for dispatcher operations on the UI thread.
     /// </summary>
-    //// [ClassInfo(typeof(DispatcherHelper),
-    ////  VersionString = "5.2.8",
-    ////  DateString = "201504252130",
-    ////  Description = "Helper class for dispatcher operations on the UI thread.",
-    ////  UrlContacts = "http://www.galasoft.ch/contact_en.html",
-    ////  Email = "laurent@galasoft.ch")]
     public static class DispatcherHelper
     {
         /// <summary>
         /// Gets a reference to the UI thread's dispatcher, after the
         /// <see cref="Initialize" /> method has been called on the UI thread.
         /// </summary>
-        public static Dispatcher UIDispatcher
-        {
-            get;
-            private set;
-        }
+        public static Dispatcher UIDispatcher { get; private set; }
 
         /// <summary>
         /// Executes an action on the UI thread. If this method is called
@@ -55,29 +44,19 @@
             }
         }
 
-        private static void CheckDispatcher()
-        {
-            if (UIDispatcher == null)
-            {
-                var error = new StringBuilder("The DispatcherHelper is not initialized.");
-                error.AppendLine();
-                error.Append("Call DispatcherHelper.Initialize() in the static App constructor.");
-
-                throw new InvalidOperationException(error.ToString());
-            }
-        }
-
         /// <summary>
         /// Invokes an action asynchronously on the UI thread.
         /// </summary>
         /// <param name="action">The action that must be executed.</param>
-        /// <returns>An object, which is returned immediately after BeginInvoke is called, that can be used to interact
-        ///  with the delegate as it is pending execution in the event queue.</returns>
+        /// <returns>
+        /// An object, which is returned immediately after BeginInvoke is called, that can be used to interact
+        /// with the delegate as it is pending execution in the event queue.
+        /// </returns>
         public static DispatcherOperation RunAsync(Action action)
         {
             CheckDispatcher();
 
-            return UIDispatcher.BeginInvoke(action);
+            return DispatcherHelper.UIDispatcher.BeginInvoke(action);
         }
 
         /// <summary>
@@ -94,7 +73,7 @@
                 return;
             }
 
-            UIDispatcher = Dispatcher.CurrentDispatcher;
+            DispatcherHelper.UIDispatcher = Dispatcher.CurrentDispatcher;
         }
 
         /// <summary>
@@ -102,7 +81,18 @@
         /// </summary>
         public static void Reset()
         {
-            UIDispatcher = null;
+            DispatcherHelper.UIDispatcher = null;
+        }
+
+        /// <summary>
+        /// Ensures the dispatcher is non-null
+        /// </summary>
+        private static void CheckDispatcher()
+        {
+            if (UIDispatcher == null)
+            {
+                throw new InvalidOperationException("The DispatcherHelper is not initialized." + Environment.NewLine + "Call DispatcherHelper.Initialize() in the static App constructor.");
+            }
         }
     }
     //// End class

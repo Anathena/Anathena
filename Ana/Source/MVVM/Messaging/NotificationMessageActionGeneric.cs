@@ -11,7 +11,6 @@
     /// </summary>
     /// <typeparam name="TCallbackParameter">The type of the callback method's
     /// only parameter.</typeparam>
-    ////[ClassInfo(typeof(Messenger))]
     public class NotificationMessageAction<TCallbackParameter> : NotificationMessageWithCallback
     {
         /// <summary>
@@ -23,8 +22,7 @@
         /// <param name="callback">The callback method that can be executed
         /// by the recipient to notify the sender that the message has been
         /// processed.</param>
-        public NotificationMessageAction(string notification, Action<TCallbackParameter> callback)
-            : base(notification, callback)
+        public NotificationMessageAction(String notification, Action<TCallbackParameter> callback) : base(notification, callback)
         {
         }
 
@@ -38,8 +36,7 @@
         /// <param name="callback">The callback method that can be executed
         /// by the recipient to notify the sender that the message has been
         /// processed.</param>
-        public NotificationMessageAction(object sender, string notification, Action<TCallbackParameter> callback)
-            : base(sender, notification, callback)
+        public NotificationMessageAction(Object sender, String notification, Action<TCallbackParameter> callback) : base(sender, notification, callback)
         {
         }
 
@@ -56,12 +53,7 @@
         /// <param name="callback">The callback method that can be executed
         /// by the recipient to notify the sender that the message has been
         /// processed.</param>
-        public NotificationMessageAction(
-            object sender,
-            object target,
-            string notification,
-            Action<TCallbackParameter> callback)
-            : base(sender, target, notification, callback)
+        public NotificationMessageAction(Object sender, Object target, String notification, Action<TCallbackParameter> callback) : base(sender, target, notification, callback)
         {
         }
 

@@ -8,7 +8,6 @@
     /// notify the sender that it is done. Use the <see cref="Execute" />
     /// method to execute the callback.
     /// </summary>
-    ////[ClassInfo(typeof(Messenger))]
     public class NotificationMessageAction : NotificationMessageWithCallback
     {
         /// <summary>
@@ -20,8 +19,7 @@
         /// <param name="callback">The callback method that can be executed
         /// by the recipient to notify the sender that the message has been
         /// processed.</param>
-        public NotificationMessageAction(string notification, Action callback)
-            : base(notification, callback)
+        public NotificationMessageAction(String notification, Action callback) : base(notification, callback)
         {
         }
 
@@ -35,8 +33,7 @@
         /// <param name="callback">The callback method that can be executed
         /// by the recipient to notify the sender that the message has been
         /// processed.</param>
-        public NotificationMessageAction(object sender, string notification, Action callback)
-            : base(sender, notification, callback)
+        public NotificationMessageAction(Object sender, String notification, Action callback) : base(sender, notification, callback)
         {
         }
 
@@ -53,8 +50,7 @@
         /// <param name="callback">The callback method that can be executed
         /// by the recipient to notify the sender that the message has been
         /// processed.</param>
-        public NotificationMessageAction(object sender, object target, string notification, Action callback)
-            : base(sender, target, notification, callback)
+        public NotificationMessageAction(Object sender, Object target, String notification, Action callback) : base(sender, target, notification, callback)
         {
         }
 

@@ -1,11 +1,12 @@
 ﻿namespace Ana.Source.Mvvm.Messaging
 {
+    using System;
+
     /// <summary>
     /// Basis class for the <see cref="PropertyChangedMessage{T}" /> class. This
     /// class allows a recipient to register for all PropertyChangedMessages without
     /// having to specify the type T.
     /// </summary>
-    ////[ClassInfo(typeof(Messenger))]
     public abstract class PropertyChangedMessageBase : MessageBase
     {
         /// <summary>
@@ -13,10 +14,9 @@
         /// </summary>
         /// <param name="sender">The message's sender.</param>
         /// <param name="propertyName">The name of the property that changed.</param>
-        protected PropertyChangedMessageBase(object sender, string propertyName)
-            : base(sender)
+        protected PropertyChangedMessageBase(Object sender, String propertyName) : base(sender)
         {
-            PropertyName = propertyName;
+            this.PropertyName = propertyName;
         }
 
         /// <summary>
@@ -27,29 +27,24 @@
         /// to give an indication as to whom the message was intended for. Of course
         /// this is only an indication, amd may be null.</param>
         /// <param name="propertyName">The name of the property that changed.</param>
-        protected PropertyChangedMessageBase(object sender, object target, string propertyName)
-            : base(sender, target)
+        protected PropertyChangedMessageBase(Object sender, Object target, String propertyName) : base(sender, target)
         {
-            PropertyName = propertyName;
+            this.PropertyName = propertyName;
         }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="PropertyChangedMessageBase" /> class.
         /// </summary>
         /// <param name="propertyName">The name of the property that changed.</param>
-        protected PropertyChangedMessageBase(string propertyName)
+        protected PropertyChangedMessageBase(String propertyName)
         {
-            PropertyName = propertyName;
+            this.PropertyName = propertyName;
         }
 
         /// <summary>
         /// Gets or sets the name of the property that changed.
         /// </summary>
-        public string PropertyName
-        {
-            get;
-            protected set;
-        }
+        public String PropertyName { get; protected set; }
     }
     //// End class
 }

@@ -1,5 +1,7 @@
 ﻿namespace Ana.Source.Mvvm.Views
 {
+    using System;
+
     /// <summary>
     /// An interface defining how navigation between pages should
     /// be performed in various frameworks such as Windows, 
@@ -8,12 +10,9 @@
     public interface INavigationService
     {
         /// <summary>
-        /// The key corresponding to the currently displayed page.
+        /// Gets the key corresponding to the currently displayed page.
         /// </summary>
-        string CurrentPageKey
-        {
-            get;
-        }
+        String CurrentPageKey { get; }
 
         /// <summary>
         /// If possible, instructs the navigation service
@@ -30,7 +29,7 @@
         /// </summary>
         /// <param name="pageKey">The key corresponding to the page
         /// that should be displayed.</param>
-        void NavigateTo(string pageKey);
+        void NavigateTo(String pageKey);
 
         /// <summary>
         /// Instructs the navigation service to display a new page
@@ -43,7 +42,7 @@
         /// that should be displayed.</param>
         /// <param name="parameter">The parameter that should be passed
         /// to the new page.</param>
-        void NavigateTo(string pageKey, object parameter);
+        void NavigateTo(String pageKey, Object parameter);
     }
     //// End class
 }

@@ -21,7 +21,7 @@
         /// <param name="action">The action that will be executed when a message
         /// of type TMessage is sent. IMPORTANT: Note that closures are not supported at the moment
         /// due to the use of WeakActions (see http://stackoverflow.com/questions/25730530/). </param>
-        void Register<TMessage>(object recipient, Action<TMessage> action);
+        void Register<TMessage>(Object recipient, Action<TMessage> action);
 
         /// <summary>
         /// Registers a recipient for a type of message TMessage.
@@ -44,7 +44,7 @@
         /// <param name="action">The action that will be executed when a message
         /// of type TMessage is sent. IMPORTANT: Note that closures are not supported at the moment
         /// due to the use of WeakActions (see http://stackoverflow.com/questions/25730530/). </param>
-        void Register<TMessage>(object recipient, object token, Action<TMessage> action);
+        void Register<TMessage>(Object recipient, Object token, Action<TMessage> action);
 
         /// <summary>
         /// Registers a recipient for a type of message TMessage.
@@ -78,7 +78,7 @@
         /// <param name="action">The action that will be executed when a message
         /// of type TMessage is sent. IMPORTANT: Note that closures are not supported at the moment
         /// due to the use of WeakActions (see http://stackoverflow.com/questions/25730530/). </param>
-        void Register<TMessage>(object recipient, object token, bool receiveDerivedMessagesToo, Action<TMessage> action);
+        void Register<TMessage>(Object recipient, Object token, Boolean receiveDerivedMessagesToo, Action<TMessage> action);
 
         /// <summary>
         /// Registers a recipient for a type of message TMessage.
@@ -106,7 +106,7 @@
         /// <param name="action">The action that will be executed when a message
         /// of type TMessage is sent. IMPORTANT: Note that closures are not supported at the moment
         /// due to the use of WeakActions (see http://stackoverflow.com/questions/25730530/). </param>
-        void Register<TMessage>(object recipient, bool receiveDerivedMessagesToo, Action<TMessage> action);
+        void Register<TMessage>(Object recipient, Boolean receiveDerivedMessagesToo, Action<TMessage> action);
 
         /// <summary>
         /// Sends a message to registered recipients. The message will
@@ -147,14 +147,14 @@
         /// use a token when registering (or who used a different token) will not
         /// get the message. Similarly, messages sent without any token, or with a different
         /// token, will not be delivered to that recipient.</param>
-        void Send<TMessage>(TMessage message, object token);
+        void Send<TMessage>(TMessage message, Object token);
 
         /// <summary>
         /// Unregisters a messager recipient completely. After this method
         /// is executed, the recipient will not receive any messages anymore.
         /// </summary>
         /// <param name="recipient">The recipient that must be unregistered.</param>
-        void Unregister(object recipient);
+        void Unregister(Object recipient);
 
         /// <summary>
         /// Unregisters a message recipient for a given type of messages only. 
@@ -169,7 +169,7 @@
             "Microsoft.Design",
             "CA1004:GenericMethodsShouldProvideTypeParameter",
             Justification = "This syntax is more convenient than other alternatives.")]
-        void Unregister<TMessage>(object recipient);
+        void Unregister<TMessage>(Object recipient);
 
         /// <summary>
         /// Unregisters a message recipient for a given type of messages only and for a given token. 
@@ -185,7 +185,7 @@
             "Microsoft.Design",
             "CA1004:GenericMethodsShouldProvideTypeParameter",
             Justification = "This syntax is more convenient than other alternatives.")]
-        void Unregister<TMessage>(object recipient, object token);
+        void Unregister<TMessage>(Object recipient, Object token);
 
         /// <summary>
         /// Unregisters a message recipient for a given type of messages and for
@@ -199,7 +199,7 @@
         /// <param name="recipient">The recipient that must be unregistered.</param>
         /// <param name="action">The action that must be unregistered for
         /// the recipient and for the message type TMessage.</param>
-        void Unregister<TMessage>(object recipient, Action<TMessage> action);
+        void Unregister<TMessage>(Object recipient, Action<TMessage> action);
 
         /// <summary>
         /// Unregisters a message recipient for a given type of messages, for
@@ -214,7 +214,7 @@
         /// <param name="token">The token for which the recipient must be unregistered.</param>
         /// <param name="action">The action that must be unregistered for
         /// the recipient and for the message type TMessage.</param>
-        void Unregister<TMessage>(object recipient, object token, Action<TMessage> action);
+        void Unregister<TMessage>(Object recipient, Object token, Action<TMessage> action);
     }
     //// End class
 }

@@ -6,7 +6,6 @@
     /// implementing ICleanup can be cleaned up without being
     /// disposed and garbage collected.
     /// </summary>
-    //// [ClassInfo(typeof(ViewModelBase))]
     public interface ICleanup
     {
         /// <summary>

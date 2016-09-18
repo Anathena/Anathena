@@ -1,12 +1,13 @@
 ﻿namespace Ana.Source.Mvvm.Messaging
 {
+    using System;
+
     /// <summary>
     /// Passes a string message (Notification) to a recipient.
     /// <para>Typically, notifications are defined as unique strings in a static class. To define
     /// a unique string, you can use Guid.NewGuid().ToString() or any other unique
     /// identifier.</para>
     /// </summary>
-    ////[ClassInfo(typeof(Messenger))]
     public class NotificationMessage : MessageBase
     {
         /// <summary>
@@ -14,9 +15,9 @@
         /// </summary>
         /// <param name="notification">A string containing any arbitrary message to be
         /// passed to recipient(s)</param>
-        public NotificationMessage(string notification)
+        public NotificationMessage(String notification)
         {
-            Notification = notification;
+            this.Notification = notification;
         }
 
         /// <summary>
@@ -25,10 +26,9 @@
         /// <param name="sender">The message's sender.</param>
         /// <param name="notification">A string containing any arbitrary message to be
         /// passed to recipient(s)</param>
-        public NotificationMessage(object sender, string notification)
-            : base(sender)
+        public NotificationMessage(Object sender, String notification) : base(sender)
         {
-            Notification = notification;
+            this.Notification = notification;
         }
 
         /// <summary>
@@ -40,21 +40,16 @@
         /// this is only an indication, amd may be null.</param>
         /// <param name="notification">A string containing any arbitrary message to be
         /// passed to recipient(s)</param>
-        public NotificationMessage(object sender, object target, string notification)
-            : base(sender, target)
+        public NotificationMessage(Object sender, Object target, String notification) : base(sender, target)
         {
-            Notification = notification;
+            this.Notification = notification;
         }
 
         /// <summary>
         /// Gets a string containing any arbitrary message to be
         /// passed to recipient(s).
         /// </summary>
-        public string Notification
-        {
-            get;
-            private set;
-        }
+        public String Notification { get; private set; }
     }
     //// End class
 }

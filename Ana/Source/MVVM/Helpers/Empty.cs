@@ -8,6 +8,9 @@ namespace Ana.Source.Mvvm.Helpers
     /// </summary>
     public static class Empty
     {
+        /// <summary>
+        /// An empty task object
+        /// </summary>
         private static readonly Task ConcreteTask = new Task(
             () =>
             {

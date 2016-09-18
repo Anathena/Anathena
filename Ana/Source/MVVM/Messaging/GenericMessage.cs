@@ -13,7 +13,7 @@
         /// <param name="content">The message content.</param>
         public GenericMessage(T content)
         {
-            Content = content;
+            this.Content = content;
         }
 
         /// <summary>
@@ -21,10 +21,9 @@
         /// </summary>
         /// <param name="sender">The message's sender.</param>
         /// <param name="content">The message content.</param>
-        public GenericMessage(object sender, T content)
-            : base(sender)
+        public GenericMessage(object sender, T content) : base(sender)
         {
-            Content = content;
+            this.Content = content;
         }
 
         /// <summary>
@@ -35,20 +34,15 @@
         /// to give an indication as to whom the message was intended for. Of course
         /// this is only an indication, amd may be null.</param>
         /// <param name="content">The message content.</param>
-        public GenericMessage(object sender, object target, T content)
-            : base(sender, target)
+        public GenericMessage(object sender, object target, T content) : base(sender, target)
         {
-            Content = content;
+            this.Content = content;
         }
 
         /// <summary>
         /// Gets or sets the message's content.
         /// </summary>
-        public T Content
-        {
-            get;
-            protected set;
-        }
+        public T Content { get; protected set; }
     }
     //// End class
 }

@@ -1,5 +1,7 @@
 ﻿namespace Ana.Source.Mvvm.Messaging
 {
+    using System;
+
     /// <summary>
     /// Passes a string property name (PropertyName) and a generic value
     /// (<see cref="OldValue" /> and <see cref="NewValue" />) to a recipient.
@@ -7,7 +9,6 @@
     /// a recipient using the messenging system.
     /// </summary>
     /// <typeparam name="T">The type of the OldValue and NewValue property.</typeparam>
-    ////[ClassInfo(typeof(Messenger))]
     public class PropertyChangedMessage<T> : PropertyChangedMessageBase
     {
         /// <summary>
@@ -17,11 +18,10 @@
         /// <param name="oldValue">The property's value before the change occurred.</param>
         /// <param name="newValue">The property's value after the change occurred.</param>
         /// <param name="propertyName">The name of the property that changed.</param>
-        public PropertyChangedMessage(object sender, T oldValue, T newValue, string propertyName)
-            : base(sender, propertyName)
+        public PropertyChangedMessage(Object sender, T oldValue, T newValue, String propertyName) : base(sender, propertyName)
         {
-            OldValue = oldValue;
-            NewValue = newValue;
+            this.OldValue = oldValue;
+            this.NewValue = newValue;
         }
 
         /// <summary>
@@ -30,11 +30,11 @@
         /// <param name="oldValue">The property's value before the change occurred.</param>
         /// <param name="newValue">The property's value after the change occurred.</param>
         /// <param name="propertyName">The name of the property that changed.</param>
-        public PropertyChangedMessage(T oldValue, T newValue, string propertyName)
+        public PropertyChangedMessage(T oldValue, T newValue, String propertyName)
             : base(propertyName)
         {
-            OldValue = oldValue;
-            NewValue = newValue;
+            this.OldValue = oldValue;
+            this.NewValue = newValue;
         }
 
         /// <summary>
@@ -50,27 +50,19 @@
         public PropertyChangedMessage(object sender, object target, T oldValue, T newValue, string propertyName)
             : base(sender, target, propertyName)
         {
-            OldValue = oldValue;
-            NewValue = newValue;
+            this.OldValue = oldValue;
+            this.NewValue = newValue;
         }
 
         /// <summary>
         /// Gets the value that the property has after the change.
         /// </summary>
-        public T NewValue
-        {
-            get;
-            private set;
-        }
+        public T NewValue { get; private set; }
 
         /// <summary>
         /// Gets the value that the property had before the change.
         /// </summary>
-        public T OldValue
-        {
-            get;
-            private set;
-        }
+        public T OldValue { get; private set; }
     }
     //// End class
 }

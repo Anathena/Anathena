@@ -20,7 +20,7 @@
         /// <param name="afterHideCallback">A callback that should be executed after
         /// the dialog box is closed by the user.</param>
         /// <returns>A Task allowing this async method to be awaited.</returns>
-        Task ShowError(string message, string title, string buttonText, Action afterHideCallback);
+        Task ShowError(String message, String title, String buttonText, Action afterHideCallback);
 
         /// <summary>
         /// Displays information about an error.
@@ -32,7 +32,7 @@
         /// <param name="afterHideCallback">A callback that should be executed after
         /// the dialog box is closed by the user.</param>
         /// <returns>A Task allowing this async method to be awaited.</returns>
-        Task ShowError(Exception error, string title, string buttonText, Action afterHideCallback);
+        Task ShowError(Exception error, String title, String buttonText, Action afterHideCallback);
 
         /// <summary>
         /// Displays information to the user. The dialog box will have only
@@ -41,7 +41,7 @@
         /// <param name="message">The message to be shown to the user.</param>
         /// <param name="title">The title of the dialog box. This may be null.</param>
         /// <returns>A Task allowing this async method to be awaited.</returns>
-        Task ShowMessage(string message, string title);
+        Task ShowMessage(String message, String title);
 
         /// <summary>
         /// Displays information to the user. The dialog box will have only
@@ -54,7 +54,7 @@
         /// <param name="afterHideCallback">A callback that should be executed after
         /// the dialog box is closed by the user.</param>
         /// <returns>A Task allowing this async method to be awaited.</returns>
-        Task ShowMessage(string message, string title, string buttonText, Action afterHideCallback);
+        Task ShowMessage(String message, String title, String buttonText, Action afterHideCallback);
 
         /// <summary>
         /// Displays information to the user. The dialog box will have only
@@ -72,7 +72,7 @@
         /// (false) was pressed by the user.</param>
         /// <returns>A Task allowing this async method to be awaited. The task will return
         /// true or false depending on the dialog result.</returns>
-        Task<bool> ShowMessage(string message, string title, string buttonConfirmText, string buttonCancelText, Action<bool> afterHideCallback);
+        Task<bool> ShowMessage(String message, String title, String buttonConfirmText, String buttonCancelText, Action<Boolean> afterHideCallback);
 
         /// <summary>
         /// Displays information to the user in a simple dialog box. The dialog box will have only
@@ -81,7 +81,7 @@
         /// <param name="message">The message to be shown to the user.</param>
         /// <param name="title">The title of the dialog box. This may be null.</param>
         /// <returns>A Task allowing this async method to be awaited.</returns>
-        Task ShowMessageBox(string message, string title);
+        Task ShowMessageBox(String message, String title);
     }
     //// End class
 }

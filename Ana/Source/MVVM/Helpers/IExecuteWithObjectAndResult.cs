@@ -1,5 +1,7 @@
 ﻿namespace Ana.Source.Mvvm.Helpers
 {
+    using System;
+
     /// <summary>
     /// This interface is meant for the <see cref="WeakFunc{T}" /> class and can be 
     /// useful if you store multiple WeakFunc{T} instances but don't know in advance
@@ -14,7 +16,7 @@
         /// <param name="parameter">A parameter passed as an object,
         /// to be casted to the appropriate type.</param>
         /// <returns>The result of the operation.</returns>
-        object ExecuteWithObject(object parameter);
+        Object ExecuteWithObject(Object parameter);
     }
     //// End class
 }

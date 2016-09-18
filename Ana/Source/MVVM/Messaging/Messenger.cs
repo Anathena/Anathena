@@ -12,11 +12,35 @@
     /// </summary>
     public class Messenger : IMessenger
     {
-        private static readonly object CreationLock = new object();
-        private static IMessenger _defaultInstance;
-        private readonly object _registerLock = new object();
-        private Dictionary<Type, List<WeakActionAndToken>> _recipientsOfSubclassesAction;
-        private Dictionary<Type, List<WeakActionAndToken>> _recipientsStrictAction;
+        /// <summary>
+        /// Gets or sets TODO TODO
+        /// </summary>
+        private static readonly Object CreationLock = new Object();
+
+        /// <summary>
+        /// Gets or sets TODO TODO
+        /// </summary>
+        private static IMessenger defaultInstance;
+
+        /// <summary>
+        /// Gets or sets TODO TODO
+        /// </summary>
+        private readonly Object registerLock = new Object();
+
+        /// <summary>
+        /// Gets or sets TODO TODO
+        /// </summary>
+        private Dictionary<Type, List<WeakActionAndToken>> recipientsOfSubclassesAction;
+
+        /// <summary>
+        /// Gets or sets TODO TODO
+        /// </summary>
+        private Dictionary<Type, List<WeakActionAndToken>> recipientsStrictAction;
+
+        /// <summary>
+        /// Gets or sets TODO TODO
+        /// </summary>
+        private Boolean isCleanupRegistered;
 
         /// <summary>
         /// Gets the Messenger's default instance, allowing
@@ -26,22 +50,38 @@
         {
             get
             {
-                if (_defaultInstance == null)
+                if (defaultInstance == null)
                 {
                     lock (CreationLock)
                     {
-                        if (_defaultInstance == null)
+                        if (defaultInstance == null)
                         {
-                            _defaultInstance = new Messenger();
+                            defaultInstance = new Messenger();
                         }
                     }
                 }
 
-                return _defaultInstance;
+                return defaultInstance;
             }
         }
 
-        #region IMessenger Members
+        /// <summary>
+        /// Provides a way to override the Messenger.Default instance with
+        /// a custom instance, for example for unit testing purposes.
+        /// </summary>
+        /// <param name="newMessenger">The instance that will be used as Messenger.Default.</param>
+        public static void OverrideDefault(IMessenger newMessenger)
+        {
+            defaultInstance = newMessenger;
+        }
+
+        /// <summary>
+        /// Sets the Messenger's default (static) instance to null.
+        /// </summary>
+        public static void Reset()
+        {
+            defaultInstance = null;
+        }
 
         /// <summary>
         /// Registers a recipient for a type of message TMessage. The action
@@ -55,7 +95,7 @@
         /// <param name="action">The action that will be executed when a message
         /// of type TMessage is sent. IMPORTANT: Note that closures are not supported at the moment
         /// due to the use of WeakActions (see http://stackoverflow.com/questions/25730530/). </param>
-        public virtual void Register<TMessage>(object recipient, Action<TMessage> action)
+        public virtual void Register<TMessage>(Object recipient, Action<TMessage> action)
         {
             Register(recipient, null, false, action);
         }
@@ -86,7 +126,7 @@
         /// <param name="action">The action that will be executed when a message
         /// of type TMessage is sent. IMPORTANT: Note that closures are not supported at the moment
         /// due to the use of WeakActions (see http://stackoverflow.com/questions/25730530/). </param>
-        public virtual void Register<TMessage>(object recipient, bool receiveDerivedMessagesToo, Action<TMessage> action)
+        public virtual void Register<TMessage>(Object recipient, Boolean receiveDerivedMessagesToo, Action<TMessage> action)
         {
             Register(recipient, null, receiveDerivedMessagesToo, action);
         }
@@ -110,7 +150,7 @@
         /// <param name="action">The action that will be executed when a message
         /// of type TMessage is sent. IMPORTANT: Note that closures are not supported at the moment
         /// due to the use of WeakActions (see http://stackoverflow.com/questions/25730530/). </param>
-        public virtual void Register<TMessage>(object recipient, object token, Action<TMessage> action)
+        public virtual void Register<TMessage>(Object recipient, Object token, Action<TMessage> action)
         {
             Register(recipient, token, false, action);
         }
@@ -147,35 +187,31 @@
         /// <param name="action">The action that will be executed when a message
         /// of type TMessage is sent. IMPORTANT: Note that closures are not supported at the moment
         /// due to the use of WeakActions (see http://stackoverflow.com/questions/25730530/). </param>
-        public virtual void Register<TMessage>(
-            object recipient,
-            object token,
-            bool receiveDerivedMessagesToo,
-            Action<TMessage> action)
+        public virtual void Register<TMessage>(Object recipient, Object token, Boolean receiveDerivedMessagesToo, Action<TMessage> action)
         {
-            lock (_registerLock)
+            lock (this.registerLock)
             {
-                var messageType = typeof(TMessage);
+                Type messageType = typeof(TMessage);
 
                 Dictionary<Type, List<WeakActionAndToken>> recipients;
 
                 if (receiveDerivedMessagesToo)
                 {
-                    if (_recipientsOfSubclassesAction == null)
+                    if (this.recipientsOfSubclassesAction == null)
                     {
-                        _recipientsOfSubclassesAction = new Dictionary<Type, List<WeakActionAndToken>>();
+                        this.recipientsOfSubclassesAction = new Dictionary<Type, List<WeakActionAndToken>>();
                     }
 
-                    recipients = _recipientsOfSubclassesAction;
+                    recipients = this.recipientsOfSubclassesAction;
                 }
                 else
                 {
-                    if (_recipientsStrictAction == null)
+                    if (this.recipientsStrictAction == null)
                     {
-                        _recipientsStrictAction = new Dictionary<Type, List<WeakActionAndToken>>();
+                        this.recipientsStrictAction = new Dictionary<Type, List<WeakActionAndToken>>();
                     }
 
-                    recipients = _recipientsStrictAction;
+                    recipients = this.recipientsStrictAction;
                 }
 
                 lock (recipients)
@@ -192,9 +228,9 @@
                         list = recipients[messageType];
                     }
 
-                    var weakAction = new WeakAction<TMessage>(recipient, action);
+                    WeakAction<TMessage> weakAction = new WeakAction<TMessage>(recipient, action);
 
-                    var item = new WeakActionAndToken
+                    WeakActionAndToken item = new WeakActionAndToken
                     {
                         Action = weakAction,
                         Token = token
@@ -204,10 +240,8 @@
                 }
             }
 
-            RequestCleanup();
+            this.RequestCleanup();
         }
-
-        private bool _isCleanupRegistered;
 
         /// <summary>
         /// Sends a message to registered recipients. The message will
@@ -218,7 +252,7 @@
         /// <param name="message">The message to send to registered recipients.</param>
         public virtual void Send<TMessage>(TMessage message)
         {
-            SendToTargetOrType(message, null, null);
+            this.SendToTargetOrType(message, null, null);
         }
 
         /// <summary>
@@ -254,7 +288,7 @@
         /// use a token when registering (or who used a different token) will not
         /// get the message. Similarly, messages sent without any token, or with a different
         /// token, will not be delivered to that recipient.</param>
-        public virtual void Send<TMessage>(TMessage message, object token)
+        public virtual void Send<TMessage>(TMessage message, Object token)
         {
             SendToTargetOrType(message, null, token);
         }
@@ -264,10 +298,10 @@
         /// is executed, the recipient will not receive any messages anymore.
         /// </summary>
         /// <param name="recipient">The recipient that must be unregistered.</param>
-        public virtual void Unregister(object recipient)
+        public virtual void Unregister(Object recipient)
         {
-            UnregisterFromLists(recipient, _recipientsOfSubclassesAction);
-            UnregisterFromLists(recipient, _recipientsStrictAction);
+            UnregisterFromLists(recipient, this.recipientsOfSubclassesAction);
+            UnregisterFromLists(recipient, this.recipientsStrictAction);
         }
 
         /// <summary>
@@ -283,9 +317,9 @@
             "Microsoft.Design",
             "CA1004:GenericMethodsShouldProvideTypeParameter",
             Justification = "This syntax is more convenient than other alternatives.")]
-        public virtual void Unregister<TMessage>(object recipient)
+        public virtual void Unregister<TMessage>(Object recipient)
         {
-            Unregister<TMessage>(recipient, null, null);
+            this.Unregister<TMessage>(recipient, null, null);
         }
 
         /// <summary>
@@ -302,9 +336,9 @@
             "Microsoft.Design",
             "CA1004:GenericMethodsShouldProvideTypeParameter",
             Justification = "This syntax is more convenient than other alternatives.")]
-        public virtual void Unregister<TMessage>(object recipient, object token)
+        public virtual void Unregister<TMessage>(Object recipient, Object token)
         {
-            Unregister<TMessage>(recipient, token, null);
+            this.Unregister<TMessage>(recipient, token, null);
         }
 
         /// <summary>
@@ -319,9 +353,9 @@
         /// <param name="recipient">The recipient that must be unregistered.</param>
         /// <param name="action">The action that must be unregistered for
         /// the recipient and for the message type TMessage.</param>
-        public virtual void Unregister<TMessage>(object recipient, Action<TMessage> action)
+        public virtual void Unregister<TMessage>(Object recipient, Action<TMessage> action)
         {
-            Unregister(recipient, null, action);
+            this.Unregister(recipient, null, action);
         }
 
         /// <summary>
@@ -337,31 +371,11 @@
         /// <param name="token">The token for which the recipient must be unregistered.</param>
         /// <param name="action">The action that must be unregistered for
         /// the recipient and for the message type TMessage.</param>
-        public virtual void Unregister<TMessage>(object recipient, object token, Action<TMessage> action)
+        public virtual void Unregister<TMessage>(Object recipient, Object token, Action<TMessage> action)
         {
-            UnregisterFromLists(recipient, token, action, _recipientsStrictAction);
-            UnregisterFromLists(recipient, token, action, _recipientsOfSubclassesAction);
-            RequestCleanup();
-        }
-
-        #endregion
-
-        /// <summary>
-        /// Provides a way to override the Messenger.Default instance with
-        /// a custom instance, for example for unit testing purposes.
-        /// </summary>
-        /// <param name="newMessenger">The instance that will be used as Messenger.Default.</param>
-        public static void OverrideDefault(IMessenger newMessenger)
-        {
-            _defaultInstance = newMessenger;
-        }
-
-        /// <summary>
-        /// Sets the Messenger's default (static) instance to null.
-        /// </summary>
-        public static void Reset()
-        {
-            _defaultInstance = null;
+            Messenger.UnregisterFromLists(recipient, token, action, this.recipientsStrictAction);
+            Messenger.UnregisterFromLists(recipient, token, action, this.recipientsOfSubclassesAction);
+            this.RequestCleanup();
         }
 
         /// <summary>
@@ -372,124 +386,6 @@
         public void ResetAll()
         {
             Reset();
-        }
-
-        private static void CleanupList(IDictionary<Type, List<WeakActionAndToken>> lists)
-        {
-            if (lists == null)
-            {
-                return;
-            }
-
-            lock (lists)
-            {
-                var listsToRemove = new List<Type>();
-                foreach (var list in lists)
-                {
-                    var recipientsToRemove = list.Value
-                        .Where(item => item.Action == null || !item.Action.IsAlive)
-                        .ToList();
-
-                    foreach (var recipient in recipientsToRemove)
-                    {
-                        list.Value.Remove(recipient);
-                    }
-
-                    if (list.Value.Count == 0)
-                    {
-                        listsToRemove.Add(list.Key);
-                    }
-                }
-
-                foreach (var key in listsToRemove)
-                {
-                    lists.Remove(key);
-                }
-            }
-        }
-
-        private static void SendToList<TMessage>(TMessage message, IEnumerable<WeakActionAndToken> weakActionsAndTokens, Type messageTargetType, object token)
-        {
-            if (weakActionsAndTokens != null)
-            {
-                // Clone to protect from people registering in a "receive message" method
-                // Correction Messaging BL0004.007
-                var list = weakActionsAndTokens.ToList();
-                var listClone = list.Take(list.Count()).ToList();
-
-                foreach (var item in listClone)
-                {
-                    var executeAction = item.Action as IExecuteWithObject;
-
-                    if (executeAction != null
-                        && item.Action.IsAlive
-                        && item.Action.Target != null
-                        && (messageTargetType == null
-                            || item.Action.Target.GetType() == messageTargetType
-                            || messageTargetType.IsAssignableFrom(item.Action.Target.GetType()))
-                        && ((item.Token == null && token == null)
-                            || item.Token != null && item.Token.Equals(token)))
-                    {
-                        executeAction.ExecuteWithObject(message);
-                    }
-                }
-            }
-        }
-
-        private static void UnregisterFromLists(object recipient, Dictionary<Type, List<WeakActionAndToken>> lists)
-        {
-            if (recipient == null || lists == null || lists.Count == 0)
-            {
-                return;
-            }
-
-            lock (lists)
-            {
-                foreach (var messageType in lists.Keys)
-                {
-                    foreach (var item in lists[messageType])
-                    {
-                        var weakAction = (IExecuteWithObject)item.Action;
-
-                        if (weakAction != null
-                            && recipient == weakAction.Target)
-                        {
-                            weakAction.MarkForDeletion();
-                        }
-                    }
-                }
-            }
-        }
-
-        private static void UnregisterFromLists<TMessage>(object recipient, object token, Action<TMessage> action, Dictionary<Type, List<WeakActionAndToken>> lists)
-        {
-            var messageType = typeof(TMessage);
-
-            if (recipient == null
-                || lists == null
-                || lists.Count == 0
-                || !lists.ContainsKey(messageType))
-            {
-                return;
-            }
-
-            lock (lists)
-            {
-                foreach (var item in lists[messageType])
-                {
-                    var weakActionCasted = item.Action as WeakAction<TMessage>;
-
-                    if (weakActionCasted != null
-                        && recipient == weakActionCasted.Target
-                        && (action == null
-                            || action.Method.Name == weakActionCasted.MethodName)
-                        && (token == null
-                            || token.Equals(item.Token)))
-                    {
-                        item.Action.MarkForDeletion();
-                    }
-                }
-            }
         }
 
         /// <summary>
@@ -506,15 +402,11 @@
         /// </summary>
         public void RequestCleanup()
         {
-            if (!_isCleanupRegistered)
+            if (!this.isCleanupRegistered)
             {
-                Action cleanupAction = Cleanup;
-
-                Dispatcher.CurrentDispatcher.BeginInvoke(
-                    cleanupAction,
-                    DispatcherPriority.ApplicationIdle,
-                    null);
-                _isCleanupRegistered = true;
+                Action cleanupAction = this.Cleanup;
+                Dispatcher.CurrentDispatcher.BeginInvoke(cleanupAction, DispatcherPriority.ApplicationIdle, null);
+                this.isCleanupRegistered = true;
             }
         }
 
@@ -531,21 +423,159 @@
         /// </summary>
         public void Cleanup()
         {
-            CleanupList(_recipientsOfSubclassesAction);
-            CleanupList(_recipientsStrictAction);
-            _isCleanupRegistered = false;
+            Messenger.CleanupList(this.recipientsOfSubclassesAction);
+            Messenger.CleanupList(this.recipientsStrictAction);
+            this.isCleanupRegistered = false;
         }
 
+        /// <summary>
+        /// TODO TODO
+        /// </summary>
+        /// <param name="lists">TODO lists</param>
+        private static void CleanupList(IDictionary<Type, List<WeakActionAndToken>> lists)
+        {
+            if (lists == null)
+            {
+                return;
+            }
+
+            lock (lists)
+            {
+                List<Type> listsToRemove = new List<Type>();
+                foreach (KeyValuePair<Type, List<WeakActionAndToken>> list in lists)
+                {
+                    List<WeakActionAndToken> recipientsToRemove = list.Value.Where(item => item.Action == null || !item.Action.IsAlive).ToList();
+
+                    foreach (WeakActionAndToken recipient in recipientsToRemove)
+                    {
+                        list.Value.Remove(recipient);
+                    }
+
+                    if (list.Value.Count == 0)
+                    {
+                        listsToRemove.Add(list.Key);
+                    }
+                }
+
+                foreach (Type key in listsToRemove)
+                {
+                    lists.Remove(key);
+                }
+            }
+        }
+
+        /// <summary>
+        /// TODO TODO
+        /// </summary>
+        /// <typeparam name="TMessage">TODO TMessage</typeparam>
+        /// <param name="message">TODO message</param>
+        /// <param name="weakActionsAndTokens">TODO weakActionsAndTokens</param>
+        /// <param name="messageTargetType">TODO messageTargetType</param>
+        /// <param name="token">TODO token</param>
+        private static void SendToList<TMessage>(TMessage message, IEnumerable<WeakActionAndToken> weakActionsAndTokens, Type messageTargetType, Object token)
+        {
+            if (weakActionsAndTokens != null)
+            {
+                // Clone to protect from people registering in a "receive message" method Correction Messaging BL0004.007
+                List<WeakActionAndToken> list = weakActionsAndTokens.ToList();
+                List<WeakActionAndToken> listClone = list.Take(list.Count()).ToList();
+
+                foreach (WeakActionAndToken item in listClone)
+                {
+                    IExecuteWithObject executeAction = item.Action as IExecuteWithObject;
+
+                    if (executeAction != null
+                        && item.Action.IsAlive
+                        && item.Action.Target != null
+                        && (messageTargetType == null || item.Action.Target.GetType() == messageTargetType || messageTargetType.IsAssignableFrom(item.Action.Target.GetType()))
+                        && (((item.Token == null && token == null) || item.Token != null) && item.Token.Equals(token)))
+                    {
+                        executeAction.ExecuteWithObject(message);
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// TODO TODO
+        /// </summary>
+        /// <param name="recipient">TODO recipient</param>
+        /// <param name="lists">TODO lists</param>
+        private static void UnregisterFromLists(object recipient, Dictionary<Type, List<WeakActionAndToken>> lists)
+        {
+            if (recipient == null || lists == null || lists.Count == 0)
+            {
+                return;
+            }
+
+            lock (lists)
+            {
+                foreach (Type messageType in lists.Keys)
+                {
+                    foreach (WeakActionAndToken item in lists[messageType])
+                    {
+                        IExecuteWithObject weakAction = (IExecuteWithObject)item.Action;
+
+                        if (weakAction != null && recipient == weakAction.Target)
+                        {
+                            weakAction.MarkForDeletion();
+                        }
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// TODO TODO
+        /// </summary>
+        /// <typeparam name="TMessage">TODO TMessage</typeparam>
+        /// <param name="recipient">TODO recipient</param>
+        /// <param name="token">TODO token</param>
+        /// <param name="action">TODO action</param>
+        /// <param name="lists">TODO lists</param>
+        private static void UnregisterFromLists<TMessage>(object recipient, object token, Action<TMessage> action, Dictionary<Type, List<WeakActionAndToken>> lists)
+        {
+            Type messageType = typeof(TMessage);
+
+            if (recipient == null || lists == null || lists.Count == 0 || !lists.ContainsKey(messageType))
+            {
+                return;
+            }
+
+            lock (lists)
+            {
+                foreach (WeakActionAndToken item in lists[messageType])
+                {
+                    WeakAction<TMessage> weakActionCasted = item.Action as WeakAction<TMessage>;
+
+                    if (weakActionCasted != null
+                        && recipient == weakActionCasted.Target
+                        && (action == null
+                            || action.Method.Name == weakActionCasted.MethodName)
+                        && (token == null
+                            || token.Equals(item.Token)))
+                    {
+                        item.Action.MarkForDeletion();
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// TODO TODO
+        /// </summary>
+        /// <typeparam name="TMessage">TODO TMessage</typeparam>
+        /// <param name="message">TODO message</param>
+        /// <param name="messageTargetType">TODO messageTargetType</param>
+        /// <param name="token">TODO token</param>
         private void SendToTargetOrType<TMessage>(TMessage message, Type messageTargetType, object token)
         {
             var messageType = typeof(TMessage);
 
-            if (_recipientsOfSubclassesAction != null)
+            if (this.recipientsOfSubclassesAction != null)
             {
-                // Clone to protect from people registering in a "receive message" method
-                // Correction Messaging BL0008.002
-                var listClone =
-                    _recipientsOfSubclassesAction.Keys.Take(_recipientsOfSubclassesAction.Count()).ToList();
+                // Clone to protect from people registering in a "receive message" method Correction Messaging BL0008.002
+                var listClone = this.recipientsOfSubclassesAction.Keys.Take(this.recipientsOfSubclassesAction.Count()).ToList();
 
                 foreach (var type in listClone)
                 {
@@ -553,49 +583,52 @@
 
                     if (messageType == type || messageType.IsSubclassOf(type) || type.IsAssignableFrom(messageType))
                     {
-                        lock (_recipientsOfSubclassesAction)
+                        lock (this.recipientsOfSubclassesAction)
                         {
-                            list = _recipientsOfSubclassesAction[type].Take(_recipientsOfSubclassesAction[type].Count()).ToList();
+                            list = this.recipientsOfSubclassesAction[type].Take(this.recipientsOfSubclassesAction[type].Count()).ToList();
                         }
                     }
 
-                    SendToList(message, list, messageTargetType, token);
+                    Messenger.SendToList(message, list, messageTargetType, token);
                 }
             }
 
-            if (_recipientsStrictAction != null)
+            if (this.recipientsStrictAction != null)
             {
                 List<WeakActionAndToken> list = null;
 
-                lock (_recipientsStrictAction)
+                lock (this.recipientsStrictAction)
                 {
-                    if (_recipientsStrictAction.ContainsKey(messageType))
+                    if (this.recipientsStrictAction.ContainsKey(messageType))
                     {
-                        list = _recipientsStrictAction[messageType]
-                            .Take(_recipientsStrictAction[messageType].Count())
-                            .ToList();
+                        list = this.recipientsStrictAction[messageType].Take(this.recipientsStrictAction[messageType].Count()).ToList();
                     }
                 }
 
                 if (list != null)
                 {
-                    SendToList(message, list, messageTargetType, token);
+                    Messenger.SendToList(message, list, messageTargetType, token);
                 }
             }
 
-            RequestCleanup();
+            this.RequestCleanup();
         }
 
-        #region Nested type: WeakActionAndToken
-
+        /// <summary>
+        /// Struct containing a weak action and a TODO: What the hell is a token here
+        /// </summary>
         private struct WeakActionAndToken
         {
-            public WeakAction Action;
+            /// <summary>
+            /// Gets or sets TODO TODO
+            /// </summary>
+            public WeakAction Action { get; set; }
 
-            public object Token;
+            /// <summary>
+            /// Gets or sets TODO TODO
+            /// </summary>
+            public Object Token { get; set; }
         }
-
-        #endregion
     }
     //// End class
 }

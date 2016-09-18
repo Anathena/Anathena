@@ -21,7 +21,7 @@
         /// of the message box to the object that sent the message.</param>
         public DialogMessage(string content, Action<MessageBoxResult> callback) : base(content)
         {
-            Callback = callback;
+            this.Callback = callback;
         }
 
         /// <summary>
@@ -31,9 +31,9 @@
         /// <param name="content">The text displayed by the message box.</param>
         /// <param name="callback">A callback method that should be executed to deliver the result
         /// of the message box to the object that sent the message.</param>
-        public DialogMessage(object sender, string content, Action<MessageBoxResult> callback) : base(sender, content)
+        public DialogMessage(Object sender, String content, Action<MessageBoxResult> callback) : base(sender, content)
         {
-            Callback = callback;
+            this.Callback = callback;
         }
 
         /// <summary>
@@ -46,65 +46,41 @@
         /// <param name="content">The text displayed by the message box.</param>
         /// <param name="callback">A callback method that should be executed to deliver the result
         /// of the message box to the object that sent the message.</param>
-        public DialogMessage(object sender, object target, string content, Action<MessageBoxResult> callback) : base(sender, target, content)
+        public DialogMessage(Object sender, Object target, String content, Action<MessageBoxResult> callback) : base(sender, target, content)
         {
-            Callback = callback;
+            this.Callback = callback;
         }
 
         /// <summary>
         /// Gets or sets the buttons displayed by the message box.
         /// </summary>
-        public MessageBoxButton Button
-        {
-            get;
-            set;
-        }
+        public MessageBoxButton Button { get; set; }
 
         /// <summary>
         /// Gets a callback method that should be executed to deliver the result
         /// of the message box to the object that sent the message.
         /// </summary>
-        public Action<MessageBoxResult> Callback
-        {
-            get;
-            private set;
-        }
+        public Action<MessageBoxResult> Callback { get; private set; }
 
         /// <summary>
         /// Gets or sets the caption for the message box.
         /// </summary>
-        public string Caption
-        {
-            get;
-            set;
-        }
+        public string Caption { get; set; }
 
         /// <summary>
         /// Gets or sets which result is the default in the message box.
         /// </summary>
-        public MessageBoxResult DefaultResult
-        {
-            get;
-            set;
-        }
+        public MessageBoxResult DefaultResult { get; set; }
 
         /// <summary>
         /// Gets or sets the icon for the message box.
         /// </summary>
-        public MessageBoxImage Icon
-        {
-            get;
-            set;
-        }
+        public MessageBoxImage Icon { get; set; }
 
         /// <summary>
         /// Gets or sets the options for the message box.
         /// </summary>
-        public MessageBoxOptions Options
-        {
-            get;
-            set;
-        }
+        public MessageBoxOptions Options { get; set; }
 
         /// <summary>
         /// Utility method, checks if the <see cref="Callback" /> property is
@@ -114,7 +90,7 @@
         /// to the dialog message caller.</param>
         public void ProcessCallback(MessageBoxResult result)
         {
-            Callback?.Invoke(result);
+            this.Callback?.Invoke(result);
         }
     }
     //// End class

@@ -8,60 +8,18 @@
     /// to be created to the Action's owner. The owner can be garbage collected at any time.
     /// </summary>
     /// <typeparam name="T">The type of the Action's parameter.</typeparam>
-    ////[ClassInfo(typeof(WeakAction))]
     public class WeakAction<T> : WeakAction, IExecuteWithObject
     {
-        private Action<T> _staticAction;
-
         /// <summary>
-        /// Gets the name of the method that this WeakAction represents.
+        /// TODO TODO
         /// </summary>
-        public override string MethodName
-        {
-            get
-            {
-                if (_staticAction != null)
-                {
-                    return _staticAction.Method.Name;
-                }
-                return Method.Name;
-            }
-        }
-
-        /// <summary>
-        /// Gets a value indicating whether the Action's owner is still alive, or if it was collected
-        /// by the Garbage Collector already.
-        /// </summary>
-        public override bool IsAlive
-        {
-            get
-            {
-                if (_staticAction == null
-                    && Reference == null)
-                {
-                    return false;
-                }
-
-                if (_staticAction != null)
-                {
-                    if (Reference != null)
-                    {
-                        return Reference.IsAlive;
-                    }
-
-                    return true;
-                }
-
-                return Reference.IsAlive;
-            }
-        }
+        private Action<T> staticAction;
 
         /// <summary>
         /// Initializes a new instance of the WeakAction class.
         /// </summary>
         /// <param name="action">The action that will be associated to this instance.</param>
-        public WeakAction(Action<T> action)
-            : this(action == null ? null : action.Target, action)
+        public WeakAction(Action<T> action) : this(action == null ? null : action.Target, action)
         {
         }
 
@@ -75,26 +33,68 @@
             "CA1062:Validate arguments of public methods",
             MessageId = "1",
             Justification = "Method should fail with an exception if action is null.")]
-        public WeakAction(object target, Action<T> action)
+        public WeakAction(Object target, Action<T> action)
         {
             if (action.Method.IsStatic)
             {
-                _staticAction = action;
+                this.staticAction = action;
 
                 if (target != null)
                 {
-                    // Keep a reference to the target to control the
-                    // WeakAction's lifetime.
-                    Reference = new WeakReference(target);
+                    // Keep a reference to the target to control the WeakAction's lifetime.
+                    this.Reference = new WeakReference(target);
                 }
 
                 return;
             }
 
-            Method = action.Method;
-            ActionReference = new WeakReference(action.Target);
+            this.Method = action.Method;
+            this.ActionReference = new WeakReference(action.Target);
 
-            Reference = new WeakReference(target);
+            this.Reference = new WeakReference(target);
+        }
+
+        /// <summary>
+        /// Gets the name of the method that this WeakAction represents.
+        /// </summary>
+        public override String MethodName
+        {
+            get
+            {
+                if (this.staticAction != null)
+                {
+                    return this.staticAction.Method.Name;
+                }
+
+                return this.Method.Name;
+            }
+        }
+
+        /// <summary>
+        /// Gets a value indicating whether the Action's owner is still alive, or if it was collected
+        /// by the Garbage Collector already.
+        /// </summary>
+        public override Boolean IsAlive
+        {
+            get
+            {
+                if (this.staticAction == null && this.Reference == null)
+                {
+                    return false;
+                }
+
+                if (this.staticAction != null)
+                {
+                    if (this.Reference != null)
+                    {
+                        return this.Reference.IsAlive;
+                    }
+
+                    return true;
+                }
+
+                return this.Reference.IsAlive;
+            }
         }
 
         /// <summary>
@@ -103,7 +103,7 @@
         /// </summary>
         public new void Execute()
         {
-            Execute(default(T));
+            this.Execute(default(T));
         }
 
         /// <summary>
@@ -113,26 +113,19 @@
         /// <param name="parameter">A parameter to be passed to the action.</param>
         public void Execute(T parameter)
         {
-            if (_staticAction != null)
+            if (this.staticAction != null)
             {
-                _staticAction(parameter);
+                this.staticAction(parameter);
                 return;
             }
 
-            var actionTarget = ActionTarget;
+            var actionTarget = this.ActionTarget;
 
-            if (IsAlive)
+            if (this.IsAlive)
             {
-                if (Method != null
-                    && ActionReference != null
-                    && actionTarget != null)
+                if (this.Method != null && this.ActionReference != null && actionTarget != null)
                 {
-                    Method.Invoke(
-                        actionTarget,
-                        new object[]
-                        {
-                            parameter
-                        });
+                    Method.Invoke(actionTarget, new Object[] { parameter });
                 }
             }
         }
@@ -145,10 +138,9 @@
         /// </summary>
         /// <param name="parameter">The parameter that will be passed to the action after
         /// being casted to T.</param>
-        public void ExecuteWithObject(object parameter)
+        public void ExecuteWithObject(Object parameter)
         {
-            var parameterCasted = (T)parameter;
-            Execute(parameterCasted);
+            this.Execute((T)parameter);
         }
 
         /// <summary>
@@ -158,7 +150,7 @@
         /// </summary>
         public new void MarkForDeletion()
         {
-            _staticAction = null;
+            this.staticAction = null;
             base.MarkForDeletion();
         }
     }

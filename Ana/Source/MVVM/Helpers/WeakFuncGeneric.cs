@@ -9,54 +9,12 @@
     /// </summary>
     /// <typeparam name="T">The type of the Func's parameter.</typeparam>
     /// <typeparam name="TResult">The type of the Func's return value.</typeparam>
-    ////[ClassInfo(typeof(WeakAction))]
     public class WeakFunc<T, TResult> : WeakFunc<TResult>, IExecuteWithObjectAndResult
     {
-        private Func<T, TResult> _staticFunc;
-
         /// <summary>
-        /// Gets or sets the name of the method that this WeakFunc represents.
+        /// TODO TODO
         /// </summary>
-        public override string MethodName
-        {
-            get
-            {
-                if (_staticFunc != null)
-                {
-                    return _staticFunc.Method.Name;
-                }
-
-                return Method.Name;
-            }
-        }
-
-        /// <summary>
-        /// Gets a value indicating whether the Func's owner is still alive, or if it was collected
-        /// by the Garbage Collector already.
-        /// </summary>
-        public override bool IsAlive
-        {
-            get
-            {
-                if (_staticFunc == null
-                    && Reference == null)
-                {
-                    return false;
-                }
-
-                if (_staticFunc != null)
-                {
-                    if (Reference != null)
-                    {
-                        return Reference.IsAlive;
-                    }
-
-                    return true;
-                }
-
-                return Reference.IsAlive;
-            }
-        }
+        private Func<T, TResult> staticFunc;
 
         /// <summary>
         /// Initializes a new instance of the WeakFunc class.
@@ -81,21 +39,63 @@
         {
             if (func.Method.IsStatic)
             {
-                _staticFunc = func;
+                this.staticFunc = func;
 
                 if (target != null)
                 {
-                    // Keep a reference to the target to control the
-                    // WeakAction's lifetime.
-                    Reference = new WeakReference(target);
+                    // Keep a reference to the target to control the WeakAction's lifetime.
+                    this.Reference = new WeakReference(target);
                 }
 
                 return;
             }
 
-            Method = func.Method;
-            FuncReference = new WeakReference(func.Target);
-            Reference = new WeakReference(target);
+            this.Method = func.Method;
+            this.FuncReference = new WeakReference(func.Target);
+            this.Reference = new WeakReference(target);
+        }
+
+        /// <summary>
+        /// Gets or sets the name of the method that this WeakFunc represents.
+        /// </summary>
+        public override String MethodName
+        {
+            get
+            {
+                if (this.staticFunc != null)
+                {
+                    return this.staticFunc.Method.Name;
+                }
+
+                return Method.Name;
+            }
+        }
+
+        /// <summary>
+        /// Gets a value indicating whether the Func's owner is still alive, or if it was collected
+        /// by the Garbage Collector already.
+        /// </summary>
+        public override Boolean IsAlive
+        {
+            get
+            {
+                if (this.staticFunc == null && this.Reference == null)
+                {
+                    return false;
+                }
+
+                if (this.staticFunc != null)
+                {
+                    if (this.Reference != null)
+                    {
+                        return this.Reference.IsAlive;
+                    }
+
+                    return true;
+                }
+
+                return Reference.IsAlive;
+            }
         }
 
         /// <summary>
@@ -105,7 +105,7 @@
         /// <returns>The result of the Func stored as reference.</returns>
         public new TResult Execute()
         {
-            return Execute(default(T));
+            return this.Execute(default(T));
         }
 
         /// <summary>
@@ -116,25 +116,18 @@
         /// <returns>The result of the Func stored as reference.</returns>
         public TResult Execute(T parameter)
         {
-            if (_staticFunc != null)
+            if (this.staticFunc != null)
             {
-                return _staticFunc(parameter);
+                return this.staticFunc(parameter);
             }
 
-            var funcTarget = FuncTarget;
+            Object funcTarget = FuncTarget;
 
-            if (IsAlive)
+            if (this.IsAlive)
             {
-                if (Method != null
-                    && FuncReference != null
-                    && funcTarget != null)
+                if (this.Method != null && this.FuncReference != null && funcTarget != null)
                 {
-                    return (TResult)Method.Invoke(
-                        funcTarget,
-                        new object[]
-                        {
-                            parameter
-                        });
+                    return (TResult)this.Method.Invoke(funcTarget, new Object[] { parameter });
                 }
             }
 
@@ -150,10 +143,9 @@
         /// <param name="parameter">The parameter that will be passed to the Func after
         /// being casted to T.</param>
         /// <returns>The result of the execution as object, to be casted to T.</returns>
-        public object ExecuteWithObject(object parameter)
+        public Object ExecuteWithObject(Object parameter)
         {
-            var parameterCasted = (T)parameter;
-            return Execute(parameterCasted);
+            return this.Execute((T)parameter);
         }
 
         /// <summary>
@@ -163,7 +155,7 @@
         /// </summary>
         public new void MarkForDeletion()
         {
-            _staticFunc = null;
+            this.staticFunc = null;
             base.MarkForDeletion();
         }
     }

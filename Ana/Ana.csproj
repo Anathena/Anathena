@@ -62,9 +62,7 @@
     <Compile Include="Source\Mvvm\Command\IEventArgsConverter.cs" />
     <Compile Include="Source\Mvvm\Command\RelayCommand.cs" />
     <Compile Include="Source\Mvvm\Command\RelayCommandGeneric.cs" />
-    <Compile Include="Source\Mvvm\Helpers\DesignerPlatformLibrary.cs" />
     <Compile Include="Source\Mvvm\Helpers\Empty.cs" />
-    <Compile Include="Source\Mvvm\Helpers\FeatureDetection.cs" />
     <Compile Include="Source\Mvvm\Helpers\IExecuteWithObject.cs" />
     <Compile Include="Source\Mvvm\Helpers\IExecuteWithObjectAndResult.cs" />
     <Compile Include="Source\Mvvm\Helpers\WeakAction.cs" />
@@ -86,7 +84,9 @@
     <Compile Include="Source\Mvvm\Messaging\PropertyChangedMessageBase.cs" />
     <Compile Include="Source\Mvvm\ObservableObject.cs" />
     <Compile Include="Source\Mvvm\Threading\DispatcherHelper.cs" />
-    <Compile Include="Source\Mvvm\ViewModelBase.cs" />
+    <Compile Include="Source\Mvvm\ViewModelBase.cs">
+      <ExcludeFromStyleCop>False</ExcludeFromStyleCop>
+    </Compile>
     <Compile Include="Source\Mvvm\ViewModelLocator.cs" />
     <Compile Include="Source\Mvvm\Views\IDialogService.cs" />
     <Compile Include="Source\Mvvm\Views\INavigationService.cs" />

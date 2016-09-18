@@ -12,38 +12,37 @@
     /// <summary>
     /// A base class for objects of which the properties must be observable.
     /// </summary>
-    //// [ClassInfo(typeof(ViewModelBase))]
     public class ObservableObject : INotifyPropertyChanged /*, INotifyPropertyChanging*/
     {
-        /// <summary>
-        /// Occurs after a property value changes.
-        /// </summary>
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        /// <summary>
-        /// Provides access to the PropertyChanged event handler to derived classes.
-        /// </summary>
-        protected PropertyChangedEventHandler PropertyChangedHandler
-        {
-            get
-            {
-                return PropertyChanged;
-            }
-        }
-
         /// <summary>
         /// Occurs before a property value changes.
         /// </summary>
         public event PropertyChangingEventHandler PropertyChanging;
 
         /// <summary>
-        /// Provides access to the PropertyChanging event handler to derived classes.
+        /// Occurs after a property value changes.
+        /// </summary>
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        /// <summary>
+        /// Gets an object that provides access to the PropertyChanged event handler to derived classes.
+        /// </summary>
+        protected PropertyChangedEventHandler PropertyChangedHandler
+        {
+            get
+            {
+                return this.PropertyChanged;
+            }
+        }
+
+        /// <summary>
+        /// Gets an object that provides access to the PropertyChanging event handler to derived classes.
         /// </summary>
         protected PropertyChangingEventHandler PropertyChangingHandler
         {
             get
             {
-                return PropertyChanging;
+                return this.PropertyChanging;
             }
         }
 
@@ -58,20 +57,17 @@
         /// checked.</param>
         [Conditional("DEBUG")]
         [DebuggerStepThrough]
-        public void VerifyPropertyName(string propertyName)
+        public void VerifyPropertyName(String propertyName)
         {
-            var myType = GetType();
+            Type myType = GetType();
 
-            if (!string.IsNullOrEmpty(propertyName)
-                && myType.GetProperty(propertyName) == null)
+            if (!String.IsNullOrEmpty(propertyName) && myType.GetProperty(propertyName) == null)
             {
-                var descriptor = this as ICustomTypeDescriptor;
+                ICustomTypeDescriptor descriptor = this as ICustomTypeDescriptor;
 
                 if (descriptor != null)
                 {
-                    if (descriptor.GetProperties()
-                        .Cast<PropertyDescriptor>()
-                        .Any(property => property.Name == propertyName))
+                    if (descriptor.GetProperties().Cast<PropertyDescriptor>().Any(property => property.Name == propertyName))
                     {
                         return;
                     }
@@ -92,9 +88,9 @@
         [SuppressMessage("Microsoft.Design", "CA1030:UseEventsWhereAppropriate", Justification = "This cannot be an event")]
         public virtual void RaisePropertyChanging(string propertyName)
         {
-            VerifyPropertyName(propertyName);
+            this.VerifyPropertyName(propertyName);
 
-            PropertyChanging?.Invoke(this, new PropertyChangingEventArgs(propertyName));
+            this.PropertyChanging?.Invoke(this, new PropertyChangingEventArgs(propertyName));
         }
 
         /// <summary>
@@ -108,9 +104,9 @@
         [SuppressMessage("Microsoft.Design", "CA1030:UseEventsWhereAppropriate", Justification = "This cannot be an event")]
         public virtual void RaisePropertyChanged(string propertyName)
         {
-            VerifyPropertyName(propertyName);
+            this.VerifyPropertyName(propertyName);
 
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+            this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
         /// <summary>
@@ -130,10 +126,10 @@
             Justification = "This syntax is more convenient than other alternatives.")]
         public virtual void RaisePropertyChanging<T>(Expression<Func<T>> propertyExpression)
         {
-            var handler = PropertyChanging;
+            PropertyChangingEventHandler handler = this.PropertyChanging;
             if (handler != null)
             {
-                var propertyName = GetPropertyName(propertyExpression);
+                String propertyName = GetPropertyName(propertyExpression);
                 handler(this, new PropertyChangingEventArgs(propertyName));
             }
         }
@@ -149,16 +145,15 @@
         [SuppressMessage("Microsoft.Design", "CA1006:GenericMethodsShouldProvideTypeParameter", Justification = "This syntax is more convenient than other alternatives.")]
         public virtual void RaisePropertyChanged<T>(Expression<Func<T>> propertyExpression)
         {
-            var handler = PropertyChanged;
+            PropertyChangedEventHandler handler = this.PropertyChanged;
 
             if (handler != null)
             {
-                var propertyName = GetPropertyName(propertyExpression);
+                String propertyName = GetPropertyName(propertyExpression);
 
-                if (!string.IsNullOrEmpty(propertyName))
+                if (!String.IsNullOrEmpty(propertyName))
                 {
-                    // ReSharper disable once ExplicitCallerInfoArgument
-                    RaisePropertyChanged(propertyName);
+                    this.RaisePropertyChanged(propertyName);
                 }
             }
         }
@@ -180,14 +175,14 @@
                 throw new ArgumentNullException("propertyExpression");
             }
 
-            var body = propertyExpression.Body as MemberExpression;
+            MemberExpression body = propertyExpression.Body as MemberExpression;
 
             if (body == null)
             {
                 throw new ArgumentException("Invalid argument", "propertyExpression");
             }
 
-            var property = body.Member as PropertyInfo;
+            PropertyInfo property = body.Member as PropertyInfo;
 
             if (property == null)
             {
@@ -220,9 +215,9 @@
                 return false;
             }
 
-            RaisePropertyChanging(propertyExpression);
+            this.RaisePropertyChanging(propertyExpression);
             field = newValue;
-            RaisePropertyChanged(propertyExpression);
+            this.RaisePropertyChanged(propertyExpression);
             return true;
         }
 
@@ -241,19 +236,16 @@
         /// false otherwise. The event is not raised if the old
         /// value is equal to the new value.</returns>
         [SuppressMessage("Microsoft.Design", "CA1045:DoNotPassTypesByReference", MessageId = "1#", Justification = "This syntax is more convenient than the alternatives.")]
-        protected bool Set<T>(string propertyName, ref T field, T newValue)
+        protected bool Set<T>(String propertyName, ref T field, T newValue)
         {
             if (EqualityComparer<T>.Default.Equals(field, newValue))
             {
                 return false;
             }
 
-            RaisePropertyChanging(propertyName);
+            this.RaisePropertyChanging(propertyName);
             field = newValue;
-
-            // ReSharper disable ExplicitCallerInfoArgument
-            RaisePropertyChanged(propertyName);
-            // ReSharper restore ExplicitCallerInfoArgument
+            this.RaisePropertyChanged(propertyName);
 
             return true;
         }

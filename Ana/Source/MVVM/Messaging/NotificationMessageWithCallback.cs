@@ -10,10 +10,12 @@
     /// <seealso cref="NotificationMessageAction"/> and
     /// <seealso cref="NotificationMessageAction&lt;TCallbackParameter&gt;"/>.
     /// </summary>
-    ////[ClassInfo(typeof(Messenger))]
     public class NotificationMessageWithCallback : NotificationMessage
     {
-        private readonly Delegate _callback;
+        /// <summary>
+        /// TODO TODO
+        /// </summary>
+        private readonly Delegate callback;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="NotificationMessageWithCallback" /> class.
@@ -23,11 +25,10 @@
         /// <param name="callback">The callback method that can be executed
         /// by the recipient to notify the sender that the message has been
         /// processed.</param>
-        public NotificationMessageWithCallback(string notification, Delegate callback)
-            : base(notification)
+        public NotificationMessageWithCallback(string notification, Delegate callback) : base(notification)
         {
-            CheckCallback(callback);
-            _callback = callback;
+            NotificationMessageWithCallback.CheckCallback(callback);
+            this.callback = callback;
         }
 
         /// <summary>
@@ -39,11 +40,10 @@
         /// <param name="callback">The callback method that can be executed
         /// by the recipient to notify the sender that the message has been
         /// processed.</param>
-        public NotificationMessageWithCallback(object sender, string notification, Delegate callback)
-            : base(sender, notification)
+        public NotificationMessageWithCallback(Object sender, String notification, Delegate callback) : base(sender, notification)
         {
-            CheckCallback(callback);
-            _callback = callback;
+            NotificationMessageWithCallback.CheckCallback(callback);
+            this.callback = callback;
         }
 
         /// <summary>
@@ -58,11 +58,10 @@
         /// <param name="callback">The callback method that can be executed
         /// by the recipient to notify the sender that the message has been
         /// processed.</param>
-        public NotificationMessageWithCallback(object sender, object target, string notification, Delegate callback)
-            : base(sender, target, notification)
+        public NotificationMessageWithCallback(Object sender, Object target, String notification, Delegate callback) : base(sender, target, notification)
         {
-            CheckCallback(callback);
-            _callback = callback;
+            NotificationMessageWithCallback.CheckCallback(callback);
+            this.callback = callback;
         }
 
         /// <summary>
@@ -72,11 +71,15 @@
         /// <param name="arguments">A  number of parameters that will
         /// be passed to the callback method.</param>
         /// <returns>The object returned by the callback method.</returns>
-        public virtual object Execute(params object[] arguments)
+        public virtual Object Execute(params Object[] arguments)
         {
-            return _callback.DynamicInvoke(arguments);
+            return this.callback.DynamicInvoke(arguments);
         }
 
+        /// <summary>
+        /// Ensures the provided callback is not null
+        /// </summary>
+        /// <param name="callback">Provided callback delegate function</param>
         private static void CheckCallback(Delegate callback)
         {
             if (callback == null)

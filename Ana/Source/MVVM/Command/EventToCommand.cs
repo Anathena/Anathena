@@ -17,11 +17,21 @@
     public class EventToCommand : TriggerAction<DependencyObject>
     {
         /// <summary>
+        /// The <see cref="EventArgsConverterParameter" /> dependency property's name
+        /// </summary>
+        public const String EventArgsConverterParameterPropertyName = "EventArgsConverterParameter";
+
+        /// <summary>
+        /// The <see cref="AlwaysInvokeCommand" /> dependency property's name
+        /// </summary>
+        public const String AlwaysInvokeCommandPropertyName = "AlwaysInvokeCommand";
+
+        /// <summary>
         /// Identifies the <see cref="CommandParameter" /> dependency property
         /// </summary>
         public static readonly DependencyProperty CommandParameterProperty = DependencyProperty.Register(
             "CommandParameter",
-            typeof(object),
+            typeof(Object),
             typeof(EventToCommand),
             new PropertyMetadata(
                 null,
@@ -48,16 +58,14 @@
             "Command",
             typeof(ICommand),
             typeof(EventToCommand),
-            new PropertyMetadata(
-                null,
-                (s, e) => OnCommandChanged(s as EventToCommand, e)));
+            new PropertyMetadata(null, (s, e) => OnCommandChanged(s as EventToCommand, e)));
 
         /// <summary>
         /// Identifies the <see cref="MustToggleIsEnabled" /> dependency property
         /// </summary>
         public static readonly DependencyProperty MustToggleIsEnabledProperty = DependencyProperty.Register(
             "MustToggleIsEnabled",
-            typeof(bool),
+            typeof(Boolean),
             typeof(EventToCommand),
             new PropertyMetadata(
                 false,
@@ -77,13 +85,36 @@
                     sender.EnableDisableElement();
                 }));
 
-        private object _commandParameterValue;
-
-        private bool? _mustToggleValue;
+        /// <summary>
+        /// Identifies the <see cref="AlwaysInvokeCommand" /> dependency property
+        /// </summary>
+        public static readonly DependencyProperty AlwaysInvokeCommandProperty = DependencyProperty.Register(
+            AlwaysInvokeCommandPropertyName,
+            typeof(Boolean),
+            typeof(EventToCommand),
+            new PropertyMetadata(false));
 
         /// <summary>
-        /// Gets or sets the ICommand that this trigger is bound to. This
-        /// is a DependencyProperty.
+        /// Identifies the <see cref="EventArgsConverterParameter" /> dependency property
+        /// </summary>
+        public static readonly DependencyProperty EventArgsConverterParameterProperty = DependencyProperty.Register(
+            EventArgsConverterParameterPropertyName,
+            typeof(object),
+            typeof(EventToCommand),
+            new PropertyMetadata(null));
+
+        /// <summary>
+        /// Refer to <see cref="CommandParameterValue" /> property
+        /// </summary>
+        private Object commandParameterValue;
+
+        /// <summary>
+        /// Refer to <see cref="MustToggleIsEnabled" /> property
+        /// </summary>
+        private Boolean? mustToggleValue;
+
+        /// <summary>
+        /// Gets or sets the ICommand that this trigger is bound to. This is a DependencyProperty
         /// </summary>
         public ICommand Command
         {
@@ -94,7 +125,7 @@
 
             set
             {
-                SetValue(CommandProperty, value);
+                this.SetValue(CommandProperty, value);
             }
         }
 
@@ -102,16 +133,16 @@
         /// Gets or sets an object that will be passed to the <see cref="Command" />
         /// attached to this trigger. This is a DependencyProperty.
         /// </summary>
-        public object CommandParameter
+        public Object CommandParameter
         {
             get
             {
-                return GetValue(CommandParameterProperty);
+                return this.GetValue(CommandParameterProperty);
             }
 
             set
             {
-                SetValue(CommandParameterProperty, value);
+                this.SetValue(CommandParameterProperty, value);
             }
         }
 
@@ -119,19 +150,19 @@
         /// Gets or sets an object that will be passed to the <see cref="Command" />
         /// attached to this trigger. This property is here for compatibility
         /// with the Silverlight version. This is NOT a DependencyProperty.
-        /// For databinding, use the <see cref="CommandParameter" /> property.
+        /// For data binding, use the <see cref="CommandParameter" /> property.
         /// </summary>
-        public object CommandParameterValue
+        public Object CommandParameterValue
         {
             get
             {
-                return _commandParameterValue ?? CommandParameter;
+                return this.commandParameterValue ?? this.CommandParameter;
             }
 
             set
             {
-                _commandParameterValue = value;
-                EnableDisableElement();
+                this.commandParameterValue = value;
+                this.EnableDisableElement();
             }
         }
 
@@ -143,16 +174,16 @@
         /// is false, the element will not be disabled when the command's
         /// CanExecute method changes. This is a DependencyProperty.
         /// </summary>
-        public bool MustToggleIsEnabled
+        public Boolean MustToggleIsEnabled
         {
             get
             {
-                return (bool)GetValue(MustToggleIsEnabledProperty);
+                return (Boolean)GetValue(EventToCommand.MustToggleIsEnabledProperty);
             }
 
             set
             {
-                SetValue(MustToggleIsEnabledProperty, value);
+                this.SetValue(EventToCommand.MustToggleIsEnabledProperty, value);
             }
         }
 
@@ -162,22 +193,79 @@
         /// event fires. If this property is true, and the command's CanExecute 
         /// method returns false, the element will be disabled. This property is here for
         /// compatibility with the Silverlight version. This is NOT a DependencyProperty.
-        /// For databinding, use the <see cref="MustToggleIsEnabled" /> property.
+        /// For data binding, use the <see cref="MustToggleIsEnabled" /> property.
         /// </summary>
-        public bool MustToggleIsEnabledValue
+        public Boolean MustToggleIsEnabledValue
         {
             get
             {
-                return _mustToggleValue == null
-                           ? MustToggleIsEnabled
-                           : _mustToggleValue.Value;
+                return this.mustToggleValue == null ? this.MustToggleIsEnabled : this.mustToggleValue.Value;
             }
 
             set
             {
-                _mustToggleValue = value;
-                EnableDisableElement();
+                this.mustToggleValue = value;
+                this.EnableDisableElement();
             }
+        }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether the EventArgs of the event that triggered this
+        /// action should be passed to the bound RelayCommand. If this is true,
+        /// the command should accept arguments of the corresponding
+        /// type (for example RelayCommand&lt;MouseButtonEventArgs&gt;).
+        /// </summary>
+        public Boolean PassEventArgsToCommand { get; set; }
+
+        /// <summary>
+        /// Gets or sets a converter used to convert the EventArgs when using
+        /// <see cref="PassEventArgsToCommand"/>. If PassEventArgsToCommand is false,
+        /// this property is never used.
+        /// </summary>
+        public IEventArgsConverter EventArgsConverter { get; set; }
+
+        /// <summary>
+        /// Gets or sets a parameters for the converter used to convert the EventArgs when using
+        /// <see cref="PassEventArgsToCommand"/>. If PassEventArgsToCommand is false,
+        /// this property is never used. This is a dependency property.
+        /// </summary>
+        public Object EventArgsConverterParameter
+        {
+            get
+            {
+                return this.GetValue(EventToCommand.EventArgsConverterParameterProperty);
+            }
+
+            set
+            {
+                this.SetValue(EventToCommand.EventArgsConverterParameterProperty, value);
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether the command should be invoked even
+        /// if the attached control is disabled. This is a dependency property.
+        /// </summary>
+        public Boolean AlwaysInvokeCommand
+        {
+            get
+            {
+                return (Boolean)GetValue(EventToCommand.AlwaysInvokeCommandProperty);
+            }
+
+            set
+            {
+                this.SetValue(EventToCommand.AlwaysInvokeCommandProperty, value);
+            }
+        }
+
+        /// <summary>
+        /// Provides a simple way to invoke this trigger programmatically
+        /// without any EventArgs.
+        /// </summary>
+        public void Invoke()
+        {
+            this.Invoke(null);
         }
 
         /// <summary>
@@ -186,123 +274,7 @@
         protected override void OnAttached()
         {
             base.OnAttached();
-            EnableDisableElement();
-        }
-
-        /// <summary>
-        /// This method is here for compatibility
-        /// with the Silverlight version.
-        /// </summary>
-        /// <returns>The FrameworkElement to which this trigger
-        /// is attached.</returns>
-        private FrameworkElement GetAssociatedObject()
-        {
-            return AssociatedObject as FrameworkElement;
-        }
-
-        /// <summary>
-        /// This method is here for compatibility
-        /// with the Silverlight 3 version.
-        /// </summary>
-        /// <returns>The command that must be executed when
-        /// this trigger is invoked.</returns>
-        private ICommand GetCommand()
-        {
-            return Command;
-        }
-
-        /// <summary>
-        /// Specifies whether the EventArgs of the event that triggered this
-        /// action should be passed to the bound RelayCommand. If this is true,
-        /// the command should accept arguments of the corresponding
-        /// type (for example RelayCommand&lt;MouseButtonEventArgs&gt;).
-        /// </summary>
-        public bool PassEventArgsToCommand
-        {
-            get;
-            set;
-        }
-
-        /// <summary>
-        /// Gets or sets a converter used to convert the EventArgs when using
-        /// <see cref="PassEventArgsToCommand"/>. If PassEventArgsToCommand is false,
-        /// this property is never used.
-        /// </summary>
-        public IEventArgsConverter EventArgsConverter
-        {
-            get;
-            set;
-        }
-
-        /// <summary>
-        /// The <see cref="EventArgsConverterParameter" /> dependency property's name.
-        /// </summary>
-        public const string EventArgsConverterParameterPropertyName = "EventArgsConverterParameter";
-
-        /// <summary>
-        /// Gets or sets a parameters for the converter used to convert the EventArgs when using
-        /// <see cref="PassEventArgsToCommand"/>. If PassEventArgsToCommand is false,
-        /// this property is never used. This is a dependency property.
-        /// </summary>
-        public object EventArgsConverterParameter
-        {
-            get
-            {
-                return GetValue(EventArgsConverterParameterProperty);
-            }
-            set
-            {
-                SetValue(EventArgsConverterParameterProperty, value);
-            }
-        }
-
-        /// <summary>
-        /// Identifies the <see cref="EventArgsConverterParameter" /> dependency property.
-        /// </summary>
-        public static readonly DependencyProperty EventArgsConverterParameterProperty = DependencyProperty.Register(
-            EventArgsConverterParameterPropertyName,
-            typeof(object),
-            typeof(EventToCommand),
-            new PropertyMetadata(null));
-
-        /// <summary>
-        /// The <see cref="AlwaysInvokeCommand" /> dependency property's name.
-        /// </summary>
-        public const string AlwaysInvokeCommandPropertyName = "AlwaysInvokeCommand";
-
-        /// <summary>
-        /// Gets or sets a value indicating if the command should be invoked even
-        /// if the attached control is disabled. This is a dependency property.
-        /// </summary>
-        public bool AlwaysInvokeCommand
-        {
-            get
-            {
-                return (bool)GetValue(AlwaysInvokeCommandProperty);
-            }
-            set
-            {
-                SetValue(AlwaysInvokeCommandProperty, value);
-            }
-        }
-
-        /// <summary>
-        /// Identifies the <see cref="AlwaysInvokeCommand" /> dependency property.
-        /// </summary>
-        public static readonly DependencyProperty AlwaysInvokeCommandProperty = DependencyProperty.Register(
-            AlwaysInvokeCommandPropertyName,
-            typeof(bool),
-            typeof(EventToCommand),
-            new PropertyMetadata(false));
-
-
-        /// <summary>
-        /// Provides a simple way to invoke this trigger programatically
-        /// without any EventArgs.
-        /// </summary>
-        public void Invoke()
-        {
-            Invoke(null);
+            this.EnableDisableElement();
         }
 
         /// <summary>
@@ -311,35 +283,33 @@
         /// and leave the CommandParameter and CommandParameterValue empty!</para>
         /// </summary>
         /// <param name="parameter">The EventArgs of the fired event.</param>
-        protected override void Invoke(object parameter)
+        protected override void Invoke(Object parameter)
         {
-            if (AssociatedElementIsDisabled()
-                && !AlwaysInvokeCommand)
+            if (this.AssociatedElementIsDisabled() && !this.AlwaysInvokeCommand)
             {
                 return;
             }
 
-            var command = GetCommand();
-            var commandParameter = CommandParameterValue;
+            ICommand command = this.GetCommand();
+            Object commandParameter = this.CommandParameterValue;
 
-            if (commandParameter == null
-                && PassEventArgsToCommand)
+            if (commandParameter == null && this.PassEventArgsToCommand)
             {
-                commandParameter = EventArgsConverter == null
-                    ? parameter
-                    : EventArgsConverter.Convert(parameter, EventArgsConverterParameter);
+                commandParameter = this.EventArgsConverter == null ? parameter : this.EventArgsConverter.Convert(parameter, this.EventArgsConverterParameter);
             }
 
-            if (command != null
-                && command.CanExecute(commandParameter))
+            if (command != null && command.CanExecute(commandParameter))
             {
                 command.Execute(commandParameter);
             }
         }
 
-        private static void OnCommandChanged(
-            EventToCommand element,
-            DependencyPropertyChangedEventArgs e)
+        /// <summary>
+        /// Event indicating a command has changed
+        /// </summary>
+        /// <param name="element">Element binding framework element to ICommand</param>
+        /// <param name="e">Event arguments</param>
+        private static void OnCommandChanged(EventToCommand element, DependencyPropertyChangedEventArgs e)
         {
             if (element == null)
             {
@@ -351,7 +321,7 @@
                 ((ICommand)e.OldValue).CanExecuteChanged -= element.OnCommandCanExecuteChanged;
             }
 
-            var command = (ICommand)e.NewValue;
+            ICommand command = (ICommand)e.NewValue;
 
             if (command != null)
             {
@@ -361,36 +331,67 @@
             element.EnableDisableElement();
         }
 
-        private bool AssociatedElementIsDisabled()
+        /// <summary>
+        /// This method is here for compatibility with the Silverlight version.
+        /// </summary>
+        /// <returns>The FrameworkElement to which this trigger
+        /// is attached.
+        /// </returns>
+        private FrameworkElement GetAssociatedObject()
         {
-            var element = GetAssociatedObject();
-
-            return AssociatedObject == null
-                || (element != null
-                   && !element.IsEnabled);
+            return AssociatedObject as FrameworkElement;
         }
 
+        /// <summary>
+        /// This method is here for compatibility with the Silverlight 3 version.
+        /// </summary>
+        /// <returns>The command that must be executed when
+        /// this trigger is invoked.
+        /// </returns>
+        private ICommand GetCommand()
+        {
+            return this.Command;
+        }
+
+        /// <summary>
+        /// Determines if the associated element is disabled
+        /// </summary>
+        /// <returns>True if disabled, otherwise false</returns>
+        private Boolean AssociatedElementIsDisabled()
+        {
+            FrameworkElement element = this.GetAssociatedObject();
+
+            return this.AssociatedObject == null || (element != null && !element.IsEnabled);
+        }
+
+        /// <summary>
+        /// Enables or disables the associated object
+        /// </summary>
         private void EnableDisableElement()
         {
-            var element = GetAssociatedObject();
+            FrameworkElement element = this.GetAssociatedObject();
 
             if (element == null)
             {
                 return;
             }
 
-            var command = GetCommand();
+            ICommand command = this.GetCommand();
 
-            if (MustToggleIsEnabledValue
-                && command != null)
+            if (this.MustToggleIsEnabledValue && command != null)
             {
-                element.IsEnabled = command.CanExecute(CommandParameterValue);
+                element.IsEnabled = command.CanExecute(this.CommandParameterValue);
             }
         }
 
-        private void OnCommandCanExecuteChanged(object sender, EventArgs e)
+        /// <summary>
+        /// Event raised when the command can execute property changes
+        /// </summary>
+        /// <param name="sender">Event sender</param>
+        /// <param name="e">Event arguments</param>
+        private void OnCommandCanExecuteChanged(Object sender, EventArgs e)
         {
-            EnableDisableElement();
+            this.EnableDisableElement();
         }
     }
     //// End class
