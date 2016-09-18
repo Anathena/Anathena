@@ -73,6 +73,11 @@
         {
             this.ExampleValue += 1;
         }
+
+        private void InitializeLayoutShit()
+        {
+
+        }
     }
     //// End class
 }

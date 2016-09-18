@@ -56,6 +56,14 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Source\Docking\ActiveDocumentConverter.cs" />
+    <Compile Include="Source\Docking\FileStatsViewModel.cs" />
+    <Compile Include="Source\Docking\FileViewModel.cs" />
+    <Compile Include="Source\Docking\LayoutInitializer.cs" />
+    <Compile Include="Source\Docking\PanesStyleSelector.cs" />
+    <Compile Include="Source\Docking\PanesTemplateSelector.cs" />
+    <Compile Include="Source\Docking\PaneViewModel.cs" />
+    <Compile Include="Source\Docking\RelayCommand.cs" />
     <Compile Include="Source\Main\MainModel.cs" />
     <Compile Include="Source\Main\MainViewModel.cs" />
     <Compile Include="Source\Mvvm\Command\EventToCommand.cs" />
@@ -90,18 +98,12 @@
     <Compile Include="Source\Mvvm\ViewModelLocator.cs" />
     <Compile Include="Source\Mvvm\Views\IDialogService.cs" />
     <Compile Include="Source\Mvvm\Views\INavigationService.cs" />
+    <Compile Include="Source\Docking\ToolViewModel.cs" />
+    <Compile Include="Source\Docking\Workspace.cs" />
     <Page Include="Gui\MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Compile Include="App.xaml.cs">
-      <DependentUpon>App.xaml</DependentUpon>
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Gui\MainWindow.xaml.cs">
-      <DependentUpon>MainWindow.xaml</DependentUpon>
-      <SubType>Code</SubType>
-    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -126,9 +128,16 @@
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
     <AppDesigner Include="Properties\" />
+    <None Include="Settings.StyleCop" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\AvalonDock\AvalonDock.csproj">
+      <Project>{db81988f-e0f2-45a0-a1fd-8c37f3d35244}</Project>
+      <Name>AvalonDock</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

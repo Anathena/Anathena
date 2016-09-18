@@ -1,5 +1,6 @@
 ﻿namespace Ana.Source.Mvvm
 {
+    using Docking;
     using Main;
     using System.Diagnostics.CodeAnalysis;
 
@@ -7,7 +8,7 @@
     /// This class contains static references to all the view models in the
     /// application and provides an entry point for the bindings.
     /// </summary>
-    public class ViewModelLocator
+    internal class ViewModelLocator
     {
         /// <summary>
         /// Main view model
@@ -15,10 +16,16 @@
         private static MainViewModel mainViewModel;
 
         /// <summary>
+        /// Main view model
+        /// </summary>
+        private static Workspace workspace;
+
+        /// <summary>
         /// Initializes a new instance of the ViewModelLocator class.
         /// </summary>
         public ViewModelLocator()
         {
+            workspace = Workspace.This;
             mainViewModel = new MainViewModel();
         }
 
@@ -31,6 +38,18 @@
             get
             {
                 return mainViewModel;
+            }
+        }
+
+        /// <summary>
+        /// Gets the Main property which defines the main view model
+        /// </summary>
+        [SuppressMessage("Microsoft.Performance", "CA1822:MarkMembersAsStatic", Justification = "This non-static member is needed for data binding purposes.")]
+        public Workspace Workspace
+        {
+            get
+            {
+                return workspace;
             }
         }
     }
