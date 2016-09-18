@@ -1,5 +1,6 @@
 ﻿namespace Ana.Source.Docking
 {
+    using System;
     using System.Windows;
     using System.Windows.Controls;
     using Xceed.Wpf.AvalonDock.Layout;
@@ -8,33 +9,29 @@
     {
         public PanesTemplateSelector()
         {
-
         }
 
+        public DataTemplate FileViewTemplate { get; set; }
 
-        public DataTemplate FileViewTemplate
-        {
-            get;
-            set;
-        }
+        public DataTemplate FileStatsViewTemplate { get; set; }
 
-        public DataTemplate FileStatsViewTemplate
+        public override DataTemplate SelectTemplate(Object item, DependencyObject container)
         {
-            get;
-            set;
-        }
-
-        public override System.Windows.DataTemplate SelectTemplate(object item, System.Windows.DependencyObject container)
-        {
-            var itemAsLayoutContent = item as LayoutContent;
+            LayoutContent itemAsLayoutContent = item as LayoutContent;
 
             if (item is FileViewModel)
-                return FileViewTemplate;
+            {
+                return this.FileViewTemplate;
+            }
 
             if (item is FileStatsViewModel)
-                return FileStatsViewTemplate;
+            {
+                return this.FileStatsViewTemplate;
+            }
 
             return base.SelectTemplate(item, container);
         }
     }
+    //// End class
 }
+//// End namespace

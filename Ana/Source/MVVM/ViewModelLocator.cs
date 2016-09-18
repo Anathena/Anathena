@@ -25,7 +25,7 @@
         /// </summary>
         public ViewModelLocator()
         {
-            workspace = Workspace.This;
+            workspace = Workspace.GetInstance();
             mainViewModel = new MainViewModel();
         }
 

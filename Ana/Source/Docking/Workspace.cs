@@ -2,6 +2,7 @@
 {
     using Microsoft.Win32;
     using Mvvm;
+    using Mvvm.Command;
     using System;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
@@ -12,149 +13,151 @@
 
     internal class Workspace : ViewModelBase
     {
-        protected Workspace()
-        {
+        public event EventHandler ActiveDocumentChanged;
 
+        private static Workspace Instance = new Workspace();
+
+        private ObservableCollection<FileViewModel> files;
+        private ReadOnlyObservableCollection<FileViewModel> readonyFiles;
+        private ToolViewModel[] tools;
+        private FileStatsViewModel fileStats;
+        private RelayCommand openCommand;
+        private RelayCommand newCommand;
+        private FileViewModel activeDocument;
+
+        private Workspace()
+        {
+            files = new ObservableCollection<FileViewModel>();
+            readonyFiles = null;
+            tools = null;
+            fileStats = null;
+            openCommand = null;
+            newCommand = null;
+            activeDocument = null;
         }
 
-        static Workspace _this = new Workspace();
-
-        public static Workspace This
+        public static Workspace GetInstance()
         {
-            get { return _this; }
+            return Instance;
         }
 
-
-        ObservableCollection<FileViewModel> _files = new ObservableCollection<FileViewModel>();
-        ReadOnlyObservableCollection<FileViewModel> _readonyFiles = null;
         public ReadOnlyObservableCollection<FileViewModel> Files
         {
             get
             {
-                if (_readonyFiles == null)
-                    _readonyFiles = new ReadOnlyObservableCollection<FileViewModel>(_files);
+                if (readonyFiles == null)
+                    readonyFiles = new ReadOnlyObservableCollection<FileViewModel>(files);
 
-                return _readonyFiles;
+                return readonyFiles;
             }
         }
-
-        ToolViewModel[] _tools = null;
 
         public IEnumerable<ToolViewModel> Tools
         {
             get
             {
-                if (_tools == null)
-                    _tools = new ToolViewModel[] { FileStats };
-                return _tools;
+                if (tools == null)
+                {
+                    tools = new ToolViewModel[] { FileStats };
+                }
+
+                return tools;
             }
         }
 
-        FileStatsViewModel _fileStats = null;
         public FileStatsViewModel FileStats
         {
             get
             {
-                if (_fileStats == null)
-                    _fileStats = new FileStatsViewModel();
+                if (fileStats == null)
+                    fileStats = new FileStatsViewModel();
 
-                return _fileStats;
+                return fileStats;
             }
         }
 
-        #region OpenCommand
-        RelayCommand _openCommand = null;
         public ICommand OpenCommand
         {
             get
             {
-                if (_openCommand == null)
+                if (openCommand == null)
                 {
-                    _openCommand = new RelayCommand((p) => OnOpen(p), (p) => CanOpen(p));
+                    openCommand = new RelayCommand(OnOpen, CanOpen);
                 }
 
-                return _openCommand;
+                return openCommand;
             }
         }
 
-        private bool CanOpen(object parameter)
+        private Boolean CanOpen()
         {
             return true;
         }
 
-        private void OnOpen(object parameter)
+        private void OnOpen()
         {
-            var dlg = new OpenFileDialog();
-            if (dlg.ShowDialog().GetValueOrDefault())
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            if (openFileDialog.ShowDialog().GetValueOrDefault())
             {
-                var fileViewModel = Open(dlg.FileName);
+                FileViewModel fileViewModel = Open(openFileDialog.FileName);
                 ActiveDocument = fileViewModel;
             }
         }
 
         public FileViewModel Open(string filepath)
         {
-            var fileViewModel = _files.FirstOrDefault(fm => fm.FilePath == filepath);
+            FileViewModel fileViewModel = files.FirstOrDefault(file => file.FilePath == filepath);
             if (fileViewModel != null)
+            {
                 return fileViewModel;
+            }
 
             fileViewModel = new FileViewModel(filepath);
-            _files.Add(fileViewModel);
+            files.Add(fileViewModel);
             return fileViewModel;
         }
 
-        #endregion 
-
-        #region NewCommand
-        RelayCommand _newCommand = null;
         public ICommand NewCommand
         {
             get
             {
-                if (_newCommand == null)
+                if (newCommand == null)
                 {
-                    _newCommand = new RelayCommand((p) => OnNew(p), (p) => CanNew(p));
+                    newCommand = new RelayCommand(OnNew, CanNew);
                 }
 
-                return _newCommand;
+                return newCommand;
             }
         }
 
-        private bool CanNew(object parameter)
+        private Boolean CanNew()
         {
             return true;
         }
 
-        private void OnNew(object parameter)
+        private void OnNew()
         {
-            _files.Add(new FileViewModel());
-            ActiveDocument = _files.Last();
+            files.Add(new FileViewModel());
+            ActiveDocument = files.Last();
         }
 
-        #endregion 
-
-        #region ActiveDocument
-
-        private FileViewModel _activeDocument = null;
         public FileViewModel ActiveDocument
         {
-            get { return _activeDocument; }
+            get
+            {
+                return activeDocument;
+            }
+
             set
             {
-                if (_activeDocument != value)
+                if (activeDocument != value)
                 {
-                    _activeDocument = value;
+                    activeDocument = value;
                     RaisePropertyChanged("ActiveDocument");
-                    if (ActiveDocumentChanged != null)
-                        ActiveDocumentChanged(this, EventArgs.Empty);
+                    ActiveDocumentChanged?.Invoke(this, EventArgs.Empty);
                 }
             }
         }
-
-        public event EventHandler ActiveDocumentChanged;
-
-        #endregion
-
 
         internal void Close(FileViewModel fileToClose)
         {
@@ -162,30 +165,32 @@
             {
                 var res = MessageBox.Show(string.Format("Save changes for file '{0}'?", fileToClose.FileName), "AvalonDock Test App", MessageBoxButton.YesNoCancel);
                 if (res == MessageBoxResult.Cancel)
+                {
                     return;
+                }
+
                 if (res == MessageBoxResult.Yes)
                 {
                     Save(fileToClose);
                 }
             }
 
-            _files.Remove(fileToClose);
+            files.Remove(fileToClose);
         }
 
-        internal void Save(FileViewModel fileToSave, bool saveAsFlag = false)
+        internal void Save(FileViewModel fileToSave, Boolean saveAsFlag = false)
         {
             if (fileToSave.FilePath == null || saveAsFlag)
             {
-                var dlg = new SaveFileDialog();
-                if (dlg.ShowDialog().GetValueOrDefault())
-                    fileToSave.FilePath = dlg.SafeFileName;
+                SaveFileDialog saveFileDialog = new SaveFileDialog();
+                if (saveFileDialog.ShowDialog().GetValueOrDefault())
+                    fileToSave.FilePath = saveFileDialog.SafeFileName;
             }
 
             File.WriteAllText(fileToSave.FilePath, fileToSave.TextContent);
             ActiveDocument.IsDirty = false;
         }
-
-
-
     }
+    //// End class
 }
+//// End namesapce

@@ -1,38 +1,36 @@
 ﻿namespace Ana.Source.Docking
 {
+    using System;
+
     internal class ToolViewModel : PaneViewModel
     {
-        public ToolViewModel(string name)
+        private Boolean isVisible = true;
+
+        public ToolViewModel(String name)
         {
-            Name = name;
-            Title = name;
+            this.Name = name;
+            this.Title = name;
         }
 
-        public string Name
+        public String Name { get; private set; }
+
+        public Boolean IsVisible
         {
-            get;
-            private set;
-        }
+            get
+            {
+                return this.isVisible;
+            }
 
-
-        #region IsVisible
-
-        private bool _isVisible = true;
-        public bool IsVisible
-        {
-            get { return _isVisible; }
             set
             {
-                if (_isVisible != value)
+                if (this.isVisible != value)
                 {
-                    _isVisible = value;
-                    RaisePropertyChanged("IsVisible");
+                    this.isVisible = value;
+                    this.RaisePropertyChanged("IsVisible");
                 }
             }
         }
-
-        #endregion
-
-
     }
+    //// End class
 }
+//// End namespace

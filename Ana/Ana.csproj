@@ -63,7 +63,6 @@
     <Compile Include="Source\Docking\PanesStyleSelector.cs" />
     <Compile Include="Source\Docking\PanesTemplateSelector.cs" />
     <Compile Include="Source\Docking\PaneViewModel.cs" />
-    <Compile Include="Source\Docking\RelayCommand.cs" />
     <Compile Include="Source\Main\MainModel.cs" />
     <Compile Include="Source\Main\MainViewModel.cs" />
     <Compile Include="Source\Mvvm\Command\EventToCommand.cs" />
@@ -138,6 +137,9 @@
       <Project>{db81988f-e0f2-45a0-a1fd-8c37f3d35244}</Project>
       <Name>AvalonDock</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Content\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

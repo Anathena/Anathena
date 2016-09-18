@@ -1,92 +1,90 @@
 ﻿namespace Ana.Source.Docking
 {
     using Mvvm;
+    using System;
     using System.Windows.Media;
 
     internal class PaneViewModel : ViewModelBase
     {
+        private String title = null;
+        private String contentId = null;
+        private Boolean isSelected = false;
+        private Boolean isActive = false;
+
         public PaneViewModel()
-        { }
-
-
-        #region Title
-
-        private string _title = null;
-        public string Title
         {
-            get { return _title; }
+        }
+
+        public String Title
+        {
+            get
+            {
+                return this.title;
+            }
+
             set
             {
-                if (_title != value)
+                if (this.title != value)
                 {
-                    _title = value;
-                    RaisePropertyChanged("Title");
+                    this.title = value;
+                    this.RaisePropertyChanged("Title");
                 }
             }
         }
 
-        #endregion
+        public ImageSource IconSource { get; protected set; }
 
-        public ImageSource IconSource
+        public String ContentId
         {
-            get;
-            protected set;
-        }
+            get
+            {
+                return this.contentId;
+            }
 
-        #region ContentId
-
-        private string _contentId = null;
-        public string ContentId
-        {
-            get { return _contentId; }
             set
             {
-                if (_contentId != value)
+                if (this.contentId != value)
                 {
-                    _contentId = value;
-                    RaisePropertyChanged("ContentId");
+                    this.contentId = value;
+                    this.RaisePropertyChanged("ContentId");
                 }
             }
         }
 
-        #endregion
-
-        #region IsSelected
-
-        private bool _isSelected = false;
-        public bool IsSelected
+        public Boolean IsSelected
         {
-            get { return _isSelected; }
+            get
+            {
+                return this.isSelected;
+            }
+
             set
             {
-                if (_isSelected != value)
+                if (this.isSelected != value)
                 {
-                    _isSelected = value;
-                    RaisePropertyChanged("IsSelected");
+                    this.isSelected = value;
+                    this.RaisePropertyChanged("IsSelected");
                 }
             }
         }
 
-        #endregion
-
-        #region IsActive
-
-        private bool _isActive = false;
-        public bool IsActive
+        public Boolean IsActive
         {
-            get { return _isActive; }
+            get
+            {
+                return this.isActive;
+            }
+
             set
             {
-                if (_isActive != value)
+                if (this.isActive != value)
                 {
-                    _isActive = value;
-                    RaisePropertyChanged("IsActive");
+                    this.isActive = value;
+                    this.RaisePropertyChanged("IsActive");
                 }
             }
         }
-
-        #endregion
-
-
     }
+    //// End class
 }
+//// End namespace

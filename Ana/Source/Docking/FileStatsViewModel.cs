@@ -5,30 +5,31 @@
 
     internal class FileStatsViewModel : ToolViewModel
     {
-        public FileStatsViewModel()
-            : base("File Stats")
+        public FileStatsViewModel() : base("File Stats")
         {
-            Workspace.This.ActiveDocumentChanged += new EventHandler(OnActiveDocumentChanged);
+            Workspace.GetInstance().ActiveDocumentChanged += new EventHandler(OnActiveDocumentChanged);
             ContentId = ToolContentId;
 
-            /*BitmapImage bi = new BitmapImage();
-            bi.BeginInit();
-            bi.UriSource = new Uri("pack://application:,,/Images/property-blue.png");
-            bi.EndInit();
-            IconSource = bi;*/
+            /*
+             * BitmapImage bi = new BitmapImage();
+             * bi.BeginInit();
+             * bi.UriSource = new Uri("pack://application:,,/Images/property-blue.png");
+             * bi.EndInit();
+             * IconSource = bi;
+            */
         }
 
-        public const string ToolContentId = "FileStatsTool";
+        public const String ToolContentId = "FileStatsTool";
 
-        void OnActiveDocumentChanged(object sender, EventArgs e)
+        void OnActiveDocumentChanged(Object sender, EventArgs e)
         {
-            if (Workspace.This.ActiveDocument != null &&
-                Workspace.This.ActiveDocument.FilePath != null &&
-                File.Exists(Workspace.This.ActiveDocument.FilePath))
+            if (Workspace.GetInstance().ActiveDocument != null &&
+                Workspace.GetInstance().ActiveDocument.FilePath != null &&
+                File.Exists(Workspace.GetInstance().ActiveDocument.FilePath))
             {
-                var fi = new FileInfo(Workspace.This.ActiveDocument.FilePath);
-                FileSize = fi.Length;
-                LastModified = fi.LastWriteTime;
+                FileInfo fileInfo = new FileInfo(Workspace.GetInstance().ActiveDocument.FilePath);
+                FileSize = fileInfo.Length;
+                LastModified = fileInfo.LastWriteTime;
             }
             else
             {
@@ -37,44 +38,34 @@
             }
         }
 
-        #region FileSize
-
-        private long _fileSize;
-        public long FileSize
+        private Int64 fileSize;
+        public Int64 FileSize
         {
-            get { return _fileSize; }
+            get { return fileSize; }
             set
             {
-                if (_fileSize != value)
+                if (fileSize != value)
                 {
-                    _fileSize = value;
+                    fileSize = value;
                     RaisePropertyChanged("FileSize");
                 }
             }
         }
 
-        #endregion
-
-        #region LastModified
-
-        private DateTime _lastModified;
+        private DateTime lastModified;
         public DateTime LastModified
         {
-            get { return _lastModified; }
+            get { return lastModified; }
             set
             {
-                if (_lastModified != value)
+                if (lastModified != value)
                 {
-                    _lastModified = value;
+                    lastModified = value;
                     RaisePropertyChanged("LastModified");
                 }
             }
         }
-
-        #endregion
-
-
-
-
     }
+    //// End class
 }
+//// End namespace

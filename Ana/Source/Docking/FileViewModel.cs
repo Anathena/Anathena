@@ -1,19 +1,34 @@
 ﻿namespace Ana.Source.Docking
 {
+    using Mvvm.Command;
+    using System;
     using System.IO;
     using System.Windows.Input;
     using System.Windows.Media;
 
     internal class FileViewModel : PaneViewModel
     {
-        static ImageSourceConverter ISC = new ImageSourceConverter();
-        public FileViewModel(string filePath)
-        {
-            FilePath = filePath;
-            Title = FileName;
+        private static ImageSourceConverter imageSourceConverter = new ImageSourceConverter();
+        private String filePath;
+        private String textContent;
+        private Boolean isDirty;
+        private RelayCommand saveCommand;
+        private RelayCommand saveAsCommand;
+        private RelayCommand closeCommand;
 
-            //Set the icon only for open documents (just a test)
-            IconSource = ISC.ConvertFromInvariantString(@"pack://application:,,/Images/document.png") as ImageSource;
+        public FileViewModel(String filePath)
+        {
+            this.FilePath = filePath;
+            this.Title = FileName;
+
+            this.textContent = String.Empty;
+            this.isDirty = false;
+            this.saveCommand = null;
+            this.saveAsCommand = null;
+            this.closeCommand = null;
+
+            // Set the icon only for open documents (just a test)
+            this.IconSource = imageSourceConverter.ConvertFromInvariantString(@"pack://application:,,/Images/document.png") as ImageSource;
         }
 
         public FileViewModel()
@@ -22,161 +37,147 @@
             Title = FileName;
         }
 
-        #region FilePath
-        private string _filePath = null;
-        public string FilePath
+        public String FilePath
         {
-            get { return _filePath; }
+            get
+            {
+                return filePath;
+            }
+
             set
             {
-                if (_filePath != value)
+                if (filePath != value)
                 {
-                    _filePath = value;
+                    filePath = value;
                     RaisePropertyChanged("FilePath");
                     RaisePropertyChanged("FileName");
                     RaisePropertyChanged("Title");
 
-                    if (File.Exists(_filePath))
+                    if (File.Exists(filePath))
                     {
-                        _textContent = File.ReadAllText(_filePath);
-                        ContentId = _filePath;
+                        textContent = File.ReadAllText(filePath);
+                        ContentId = filePath;
                     }
                 }
             }
         }
-        #endregion
 
-
-        public string FileName
+        public String FileName
         {
             get
             {
                 if (FilePath == null)
-                    return "Noname" + (IsDirty ? "*" : "");
+                    return "Noname" + (IsDirty ? "*" : String.Empty);
 
-                return System.IO.Path.GetFileName(FilePath) + (IsDirty ? "*" : "");
+                return Path.GetFileName(FilePath) + (IsDirty ? "*" : String.Empty);
             }
         }
 
-
-
-        #region TextContent
-
-        private string _textContent = string.Empty;
-        public string TextContent
+        public String TextContent
         {
-            get { return _textContent; }
+            get
+            {
+                return textContent;
+            }
+
             set
             {
-                if (_textContent != value)
+                if (textContent != value)
                 {
-                    _textContent = value;
+                    textContent = value;
                     RaisePropertyChanged("TextContent");
                     IsDirty = true;
                 }
             }
         }
 
-        #endregion
-
-        #region IsDirty
-
-        private bool _isDirty = false;
-        public bool IsDirty
+        public Boolean IsDirty
         {
-            get { return _isDirty; }
+            get
+            {
+                return isDirty;
+            }
+
             set
             {
-                if (_isDirty != value)
+                if (isDirty != value)
                 {
-                    _isDirty = value;
+                    isDirty = value;
                     RaisePropertyChanged("IsDirty");
                     RaisePropertyChanged("FileName");
                 }
             }
         }
 
-        #endregion
-
-        #region SaveCommand
-        RelayCommand _saveCommand = null;
         public ICommand SaveCommand
         {
             get
             {
-                if (_saveCommand == null)
+                if (saveCommand == null)
                 {
-                    _saveCommand = new RelayCommand((p) => OnSave(p), (p) => CanSave(p));
+                    saveCommand = new RelayCommand(OnSave, CanSave);
                 }
 
-                return _saveCommand;
+                return saveCommand;
             }
         }
 
-        private bool CanSave(object parameter)
-        {
-            return IsDirty;
-        }
-
-        private void OnSave(object parameter)
-        {
-            Workspace.This.Save(this, false);
-        }
-
-        #endregion
-
-        #region SaveAsCommand
-        RelayCommand _saveAsCommand = null;
         public ICommand SaveAsCommand
         {
             get
             {
-                if (_saveAsCommand == null)
+                if (saveAsCommand == null)
                 {
-                    _saveAsCommand = new RelayCommand((p) => OnSaveAs(p), (p) => CanSaveAs(p));
+                    saveAsCommand = new RelayCommand(OnSaveAs, CanSaveAs);
                 }
 
-                return _saveAsCommand;
+                return saveAsCommand;
             }
         }
 
-        private bool CanSaveAs(object parameter)
-        {
-            return IsDirty;
-        }
-
-        private void OnSaveAs(object parameter)
-        {
-            Workspace.This.Save(this, true);
-        }
-
-        #endregion
-
-        #region CloseCommand
-        RelayCommand _closeCommand = null;
         public ICommand CloseCommand
         {
             get
             {
-                if (_closeCommand == null)
+                if (closeCommand == null)
                 {
-                    _closeCommand = new RelayCommand((p) => OnClose(), (p) => CanClose());
+                    closeCommand = new RelayCommand(OnClose, CanClose);
                 }
 
-                return _closeCommand;
+                return closeCommand;
             }
         }
 
-        private bool CanClose()
+        private Boolean CanSave()
+        {
+            return IsDirty;
+        }
+
+        private void OnSave()
+        {
+            Workspace.GetInstance().Save(this, false);
+        }
+
+        private Boolean CanSaveAs()
+        {
+            return IsDirty;
+        }
+
+        private void OnSaveAs()
+        {
+            Workspace.GetInstance().Save(this, true);
+        }
+
+        private Boolean CanClose()
         {
             return true;
         }
 
         private void OnClose()
         {
-            Workspace.This.Close(this);
+            Workspace.GetInstance().Close(this);
         }
-        #endregion
-
     }
+    //// End class
 }
+//// End namespace
