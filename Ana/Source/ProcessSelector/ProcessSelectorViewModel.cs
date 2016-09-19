@@ -1,5 +1,6 @@
-﻿namespace Ana.Source.Docking
+﻿namespace Ana.Source.ProcessSelector
 {
+    using Docking;
     using System;
 
     internal class ProcessSelectorViewModel : ToolViewModel

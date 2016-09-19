@@ -1,5 +1,6 @@
 ﻿namespace Ana.Source.Docking
 {
+    using ProcessSelector;
     using System;
     using System.Windows;
     using System.Windows.Controls;

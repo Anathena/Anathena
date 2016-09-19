@@ -3,6 +3,7 @@
     using Docking;
     using Mvvm;
     using Mvvm.Command;
+    using ProcessSelector;
     using System.Collections.Generic;
     using System.Windows.Input;
 

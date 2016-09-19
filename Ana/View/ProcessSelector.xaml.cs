@@ -1,6 +1,6 @@
 ﻿using System.Windows.Controls;
 
-namespace Ana.Gui
+namespace Ana.View
 {
     /// <summary>
     /// Interaction logic for ProcessSelector.xaml

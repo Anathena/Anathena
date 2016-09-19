@@ -1,7 +1,7 @@
-﻿namespace Ana.Gui
+﻿namespace Ana.Source.Docking
 {
-    using Source.Docking;
-    using Source.Main;
+    using Main;
+    using ProcessSelector;
     using System.Diagnostics.CodeAnalysis;
 
     /// <summary>
