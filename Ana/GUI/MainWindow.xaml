@@ -14,17 +14,19 @@
 
   **********************************************************************************-->
 
-<Window x:Class="Ana.MainWindow"
+<Window x:Class="Ana.Gui.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:avalonDock="http://schemas.xceed.com/wpf/xaml/avalondock"
-        xmlns:shell="clr-namespace:Microsoft.Windows.Shell;assembly=AvalonDock"
-        xmlns:local="clr-namespace:Ana.Source.Docking"
         xmlns:sys="clr-namespace:System;assembly=mscorlib"
         xmlns:sysWindows="clr-namespace:System.Windows;assembly=PresentationCore"
         x:Name="mainWindow"
-        DataContext="{Binding Workspace, Source={StaticResource Locator}}"
-        Title="MainWindow" Height="350" Width="525">
+        
+        DataContext="{Binding MainViewModel, Source={StaticResource Locator}}"
+        xmlns:avalonDock="http://schemas.xceed.com/wpf/xaml/avalondock"
+        xmlns:shell="clr-namespace:Microsoft.Windows.Shell;assembly=AvalonDock"
+        xmlns:local="clr-namespace:Ana.Source.Docking"
+        xmlns:view="clr-namespace:Ana.Gui"
+        Title="MainWindow" Height="640" Width="512">
     <Window.Resources>
         <local:ActiveDocumentConverter x:Key="ActiveDocumentConverter"/>
         <avalonDock:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
@@ -45,7 +47,15 @@
                 <MenuItem Header="Close" Command="{Binding ActiveDocument.CloseCommand}"/>
             </MenuItem>
             <MenuItem Header="Tools">
-                <MenuItem Header="Properties" IsChecked="{Binding FileStats.IsVisible, Mode=TwoWay}" IsCheckable="True"/>
+                <MenuItem Header="Cheat Browser" IsChecked="{Binding ProcessSelectorViewModel.IsVisible, Mode=TwoWay}" IsCheckable="True"/>
+                <MenuItem Header="Process Selector" IsChecked="{Binding ProcessSelectorViewModel.IsVisible, Mode=TwoWay}" IsCheckable="True"/>
+                <MenuItem Header="Project Explorer" IsChecked="{Binding ProcessSelectorViewModel.IsVisible, Mode=TwoWay}" IsCheckable="True"/>
+                <MenuItem Header="Scans" IsChecked="{Binding ProcessSelectorViewModel.IsVisible, Mode=TwoWay}" IsCheckable="True"/>
+                <MenuItem Header="Properties" IsChecked="{Binding ProcessSelectorViewModel.IsVisible, Mode=TwoWay}" IsCheckable="True"/>
+                <MenuItem Header="Results" IsChecked="{Binding ProcessSelectorViewModel.IsVisible, Mode=TwoWay}" IsCheckable="True"/>
+                <MenuItem Header="Snapshot Manager" IsChecked="{Binding ProcessSelectorViewModel.IsVisible, Mode=TwoWay}" IsCheckable="True"/>
+                <MenuItem Header=".Net Explorer" IsChecked="{Binding ProcessSelectorViewModel.IsVisible, Mode=TwoWay}" IsCheckable="True"/>
+                <MenuItem Header="Debugger" IsChecked="{Binding ProcessSelectorViewModel.IsVisible, Mode=TwoWay}" IsCheckable="True"/>
             </MenuItem>
             <MenuItem Header="Layout">
                 <MenuItem Header="Load" Command="{Binding LoadLayoutCommand, ElementName=mainWindow}"/>
@@ -60,30 +70,37 @@
                                    DocumentsSource="{Binding Files}"
                                    ActiveContent="{Binding ActiveDocument, Mode=TwoWay, Converter={StaticResource ActiveDocumentConverter}}"
                                    Grid.Row="1">
+            <!-- Theme -->
             <avalonDock:DockingManager.Theme>
                 <avalonDock:ExpressionDarkTheme/>
             </avalonDock:DockingManager.Theme>
+            
+            <!-- Something something -->
             <avalonDock:DockingManager.LayoutItemTemplateSelector>
                 <local:PanesTemplateSelector>
-                    <local:PanesTemplateSelector.FileViewTemplate>
+                    <local:PanesTemplateSelector.ProcessSelectorViewTemplate>
                         <DataTemplate>
-                            <TextBox Text="{Binding TextContent, UpdateSourceTrigger=PropertyChanged}"/>
+                            <view:ProcessSelector/>
                         </DataTemplate>
-                    </local:PanesTemplateSelector.FileViewTemplate>
-                    <local:PanesTemplateSelector.FileStatsViewTemplate>
-                        <DataTemplate>
-                            <StackPanel Orientation="Vertical">
-                                <TextBlock Text="{Binding FileSize}"/>
-                                <TextBlock Text="{Binding LastModified}"/>
-                                <TextBox Text="test"/>
-                            </StackPanel>
-                        </DataTemplate>
-                    </local:PanesTemplateSelector.FileStatsViewTemplate>
+                    </local:PanesTemplateSelector.ProcessSelectorViewTemplate>
                 </local:PanesTemplateSelector>
             </avalonDock:DockingManager.LayoutItemTemplateSelector>
 
+            <!-- Container Style -->
             <avalonDock:DockingManager.LayoutItemContainerStyleSelector>
                 <local:PanesStyleSelector>
+                    <!-- Process Selector -->
+                    <local:PanesStyleSelector.ProcessSelectorStyle>
+                        <Style TargetType="{x:Type avalonDock:LayoutItem}">
+                            <Setter Property="Title" Value="{Binding Model.Title}"/>
+                            <Setter Property="IconSource" Value="{Binding Model.IconSource}"/>
+                            <Setter Property="Visibility" Value="{Binding Model.IsVisible, Mode=TwoWay, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter={x:Static Visibility.Hidden}}"/>
+                            <Setter Property="ToolTip" Value="{Binding Model.FilePath}"/>
+                            <Setter Property="CloseCommand" Value="{Binding Model.CloseCommand}"/>
+                            <Setter Property="ContentId" Value="{Binding Model.ContentId}"/>
+                        </Style>
+                    </local:PanesStyleSelector.ProcessSelectorStyle>
+                    <!-- General Docking Tools -->
                     <local:PanesStyleSelector.ToolStyle>
                         <Style TargetType="{x:Type avalonDock:LayoutAnchorableItem}">
                             <Setter Property="Title" Value="{Binding Model.Title}"/>
@@ -94,23 +111,15 @@
                             <Setter Property="IsActive" Value="{Binding Model.IsActive, Mode=TwoWay}"/>
                         </Style>
                     </local:PanesStyleSelector.ToolStyle>
-                    <local:PanesStyleSelector.FileStyle>
-                        <Style TargetType="{x:Type avalonDock:LayoutItem}">
-                            <Setter Property="Title" Value="{Binding Model.Title}"/>
-                            <Setter Property="ToolTip" Value="{Binding Model.FilePath}"/>
-                            <Setter Property="CloseCommand" Value="{Binding Model.CloseCommand}"/>
-                            <Setter Property="IconSource" Value="{Binding Model.IconSource}"/>
-                            <Setter Property="ContentId" Value="{Binding Model.ContentId}"/>
-                        </Style>
-                    </local:PanesStyleSelector.FileStyle>
                 </local:PanesStyleSelector>
             </avalonDock:DockingManager.LayoutItemContainerStyleSelector>
 
+            <!-- Layout Style -->
             <avalonDock:LayoutRoot>
                 <avalonDock:LayoutPanel Orientation="Vertical">
-                    <!--<avalonDock:LayoutDocumentPane/>
+                    <avalonDock:LayoutDocumentPane/>
                     <avalonDock:LayoutAnchorablePane Name="ToolsPane" DockHeight="150">
-                    </avalonDock:LayoutAnchorablePane>-->
+                    </avalonDock:LayoutAnchorablePane>
                 </avalonDock:LayoutPanel>
             </avalonDock:LayoutRoot>
         </avalonDock:DockingManager>

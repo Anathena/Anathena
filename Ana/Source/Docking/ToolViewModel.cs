@@ -26,7 +26,7 @@
                 if (this.isVisible != value)
                 {
                     this.isVisible = value;
-                    this.RaisePropertyChanged("IsVisible");
+                    this.RaisePropertyChanged(nameof(this.IsVisible));
                 }
             }
         }

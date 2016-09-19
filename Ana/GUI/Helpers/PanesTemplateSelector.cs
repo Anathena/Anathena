@@ -11,22 +11,15 @@
         {
         }
 
-        public DataTemplate FileViewTemplate { get; set; }
-
-        public DataTemplate FileStatsViewTemplate { get; set; }
+        public DataTemplate ProcessSelectorViewTemplate { get; set; }
 
         public override DataTemplate SelectTemplate(Object item, DependencyObject container)
         {
             LayoutContent itemAsLayoutContent = item as LayoutContent;
 
-            if (item is FileViewModel)
+            if (item is ProcessSelectorViewModel)
             {
-                return this.FileViewTemplate;
-            }
-
-            if (item is FileStatsViewModel)
-            {
-                return this.FileStatsViewTemplate;
+                return this.ProcessSelectorViewTemplate;
             }
 
             return base.SelectTemplate(item, container);

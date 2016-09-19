@@ -8,18 +8,18 @@
     {
         public Style ToolStyle { get; set; }
 
-        public Style FileStyle { get; set; }
+        public Style ProcessSelectorStyle { get; set; }
 
         public override Style SelectStyle(Object item, DependencyObject container)
         {
+            if (item is ProcessSelectorViewModel)
+            {
+                return this.ProcessSelectorStyle;
+            }
+
             if (item is ToolViewModel)
             {
                 return this.ToolStyle;
-            }
-
-            if (item is FileViewModel)
-            {
-                return this.FileStyle;
             }
 
             return base.SelectStyle(item, container);

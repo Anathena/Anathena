@@ -1,7 +1,7 @@
-﻿namespace Ana.Source.Mvvm
+﻿namespace Ana.Gui
 {
-    using Docking;
-    using Main;
+    using Source.Docking;
+    using Source.Main;
     using System.Diagnostics.CodeAnalysis;
 
     /// <summary>
@@ -16,24 +16,24 @@
         private static MainViewModel mainViewModel;
 
         /// <summary>
-        /// Main view model
+        /// Process selector view model
         /// </summary>
-        private static Workspace workspace;
+        private static ProcessSelectorViewModel processSelectorViewModel;
 
         /// <summary>
         /// Initializes a new instance of the ViewModelLocator class.
         /// </summary>
         public ViewModelLocator()
         {
-            workspace = Workspace.GetInstance();
             mainViewModel = new MainViewModel();
+            processSelectorViewModel = new ProcessSelectorViewModel();
         }
 
         /// <summary>
         /// Gets the Main property which defines the main view model
         /// </summary>
         [SuppressMessage("Microsoft.Performance", "CA1822:MarkMembersAsStatic", Justification = "This non-static member is needed for data binding purposes.")]
-        public MainViewModel Main
+        public MainViewModel MainViewModel
         {
             get
             {
@@ -45,11 +45,11 @@
         /// Gets the Main property which defines the main view model
         /// </summary>
         [SuppressMessage("Microsoft.Performance", "CA1822:MarkMembersAsStatic", Justification = "This non-static member is needed for data binding purposes.")]
-        public Workspace Workspace
+        public ProcessSelectorViewModel ProcessSelectorViewModel
         {
             get
             {
-                return workspace;
+                return processSelectorViewModel;
             }
         }
     }

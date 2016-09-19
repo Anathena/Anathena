@@ -27,7 +27,7 @@
                 if (this.title != value)
                 {
                     this.title = value;
-                    this.RaisePropertyChanged("Title");
+                    this.RaisePropertyChanged(nameof(this.Title));
                 }
             }
         }
@@ -46,7 +46,7 @@
                 if (this.contentId != value)
                 {
                     this.contentId = value;
-                    this.RaisePropertyChanged("ContentId");
+                    this.RaisePropertyChanged(nameof(this.ContentId));
                 }
             }
         }
@@ -63,7 +63,7 @@
                 if (this.isSelected != value)
                 {
                     this.isSelected = value;
-                    this.RaisePropertyChanged("IsSelected");
+                    this.RaisePropertyChanged(nameof(this.IsSelected));
                 }
             }
         }
@@ -80,7 +80,7 @@
                 if (this.isActive != value)
                 {
                     this.isActive = value;
-                    this.RaisePropertyChanged("IsActive");
+                    this.RaisePropertyChanged(nameof(this.IsActive));
                 }
             }
         }

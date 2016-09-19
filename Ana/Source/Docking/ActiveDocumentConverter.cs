@@ -8,16 +8,16 @@
     {
         public Object Convert(Object value, Type targetType, Object parameter, CultureInfo culture)
         {
-            if (value is FileViewModel)
-                return value;
+            //// if (value is FileViewModel)
+            ////     return value;
 
             return Binding.DoNothing;
         }
 
         public Object ConvertBack(Object value, Type targetType, Object parameter, CultureInfo culture)
         {
-            if (value is FileViewModel)
-                return value;
+            //// if (value is FileViewModel)
+            ////     return value;
 
             return Binding.DoNothing;
         }

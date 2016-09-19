@@ -56,15 +56,19 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Gui\ProcessSelector.xaml.cs">
+      <DependentUpon>ProcessSelector.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Source\Docking\ActiveDocumentConverter.cs" />
-    <Compile Include="Source\Docking\FileStatsViewModel.cs" />
-    <Compile Include="Source\Docking\FileViewModel.cs" />
-    <Compile Include="Source\Docking\LayoutInitializer.cs" />
-    <Compile Include="Source\Docking\PanesStyleSelector.cs" />
-    <Compile Include="Source\Docking\PanesTemplateSelector.cs" />
+    <Compile Include="Source\ProcessSelector\ProcessSelector.cs" />
+    <Compile Include="Source\ProcessSelector\ProcessSelectorViewModel.cs" />
+    <Compile Include="Gui\Helpers\LayoutInitializer.cs">
+      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
+    </Compile>
+    <Compile Include="Gui\Helpers\PanesStyleSelector.cs" />
+    <Compile Include="Gui\Helpers\PanesTemplateSelector.cs" />
     <Compile Include="Source\Docking\PaneViewModel.cs" />
     <Compile Include="Source\Main\MainModel.cs" />
-    <Compile Include="Source\Main\MainViewModel.cs" />
     <Compile Include="Source\Mvvm\Command\EventToCommand.cs" />
     <Compile Include="Source\Mvvm\Command\IEventArgsConverter.cs" />
     <Compile Include="Source\Mvvm\Command\RelayCommand.cs" />
@@ -94,14 +98,25 @@
     <Compile Include="Source\Mvvm\ViewModelBase.cs">
       <ExcludeFromStyleCop>False</ExcludeFromStyleCop>
     </Compile>
-    <Compile Include="Source\Mvvm\ViewModelLocator.cs" />
+    <Compile Include="Gui\Helpers\ViewModelLocator.cs" />
     <Compile Include="Source\Mvvm\Views\IDialogService.cs" />
     <Compile Include="Source\Mvvm\Views\INavigationService.cs" />
     <Compile Include="Source\Docking\ToolViewModel.cs" />
-    <Compile Include="Source\Docking\Workspace.cs" />
+    <Compile Include="Source\Main\MainViewModel.cs" />
+    <Compile Include="UserControl1.xaml.cs">
+      <DependentUpon>UserControl1.xaml</DependentUpon>
+    </Compile>
     <Page Include="Gui\MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Gui\ProcessSelector.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControl1.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
   <ItemGroup>

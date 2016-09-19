@@ -1,84 +1,60 @@
 ﻿namespace Ana.Source.Main
 {
+    using Docking;
     using Mvvm;
     using Mvvm.Command;
-    using System;
-    using System.Windows;
+    using System.Collections.Generic;
     using System.Windows.Input;
 
-    /// <summary>
-    /// This class contains properties that the main View can data bind to
-    /// </summary>
-    public class MainViewModel : ViewModelBase
+    internal class MainViewModel : ViewModelBase
     {
-        /// <summary>
-        /// Trash or whatever
-        /// </summary>
-        private MainModel mainModel;
+        private ProcessSelectorViewModel processSelectorViewModel;
+        private ToolViewModel[] tools;
 
-        /// <summary>
-        /// Initializes a new instance of the MainViewModel class
-        /// </summary>
         public MainViewModel()
         {
-            this.mainModel = new MainModel();
-            this.ShowPopUp = new RelayCommand(() => this.ShowPopUpExecute(), () => true);
-            this.IncrementValue = new RelayCommand(() => this.IncrementValueExecute(), () => true);
+            this.tools = null;
+            this.processSelectorViewModel = null;
+
+            this.OpenProject = new RelayCommand(() => this.OpenProjectExecute(), () => true);
         }
 
         /// <summary>
         /// Gets the command to create a pop up
         /// </summary>
-        public ICommand ShowPopUp { get; private set; }
+        public ICommand OpenProject { get; private set; }
 
-        /// <summary>
-        /// Gets the command to increment display value
-        /// </summary>
-        public ICommand IncrementValue { get; private set; }
-
-        /// <summary>
-        /// Gets or sets value of whatever
-        /// </summary>
-        public Int32 ExampleValue
+        public IEnumerable<ToolViewModel> Tools
         {
             get
             {
-                return this.mainModel.ExampleValue;
-            }
-
-            set
-            {
-                if (this.mainModel.ExampleValue == value)
+                if (this.tools == null)
                 {
-                    return;
+                    this.tools = new ToolViewModel[] { this.ProcessSelectorViewModel };
                 }
 
-                this.mainModel.ExampleValue = value;
-                this.RaisePropertyChanged(nameof(this.ExampleValue));
+                return this.tools;
             }
         }
 
-        /// <summary>
-        /// Command to show le popup
-        /// </summary>
-        private void ShowPopUpExecute()
+        public ProcessSelectorViewModel ProcessSelectorViewModel
         {
-            MessageBox.Show("Hello World!");
+            get
+            {
+                if (this.processSelectorViewModel == null)
+                {
+                    this.processSelectorViewModel = new ProcessSelectorViewModel();
+                }
+
+                return this.processSelectorViewModel;
+            }
         }
 
-        /// <summary>
-        /// Command to increment le value
-        /// </summary>
-        private void IncrementValueExecute()
-        {
-            this.ExampleValue += 1;
-        }
-
-        private void InitializeLayoutShit()
+        private void OpenProjectExecute()
         {
 
         }
     }
     //// End class
 }
-//// End namespace
+//// End namesapce
