@@ -1,9 +1,8 @@
-﻿namespace Ana.Source.Docking
-{
-    using Main;
-    using ProcessSelector;
-    using System.Diagnostics.CodeAnalysis;
+﻿using Ana.Source.Main;
+using Ana.Source.ProcessSelector;
 
+namespace Ana.View
+{
     /// <summary>
     /// This class contains static references to all the view models in the
     /// application and provides an entry point for the bindings.
@@ -32,7 +31,6 @@
         /// <summary>
         /// Gets the Main property which defines the main view model
         /// </summary>
-        [SuppressMessage("Microsoft.Performance", "CA1822:MarkMembersAsStatic", Justification = "This non-static member is needed for data binding purposes.")]
         public MainViewModel MainViewModel
         {
             get
@@ -44,7 +42,6 @@
         /// <summary>
         /// Gets the Main property which defines the main view model
         /// </summary>
-        [SuppressMessage("Microsoft.Performance", "CA1822:MarkMembersAsStatic", Justification = "This non-static member is needed for data binding purposes.")]
         public ProcessSelectorViewModel ProcessSelectorViewModel
         {
             get

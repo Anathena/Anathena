@@ -26,9 +26,8 @@
         xmlns:shell="clr-namespace:Microsoft.Windows.Shell;assembly=AvalonDock"
         xmlns:local="clr-namespace:Ana.Source.Docking"
         xmlns:view="clr-namespace:Ana.View"
-        Title="MainWindow" Height="640" Width="512">
+        Title="Anathena" Height="640" Width="512">
     <Window.Resources>
-        <local:ActiveDocumentConverter x:Key="ActiveDocumentConverter"/>
         <avalonDock:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
     </Window.Resources>
     <Grid>
@@ -68,7 +67,6 @@
         <!-- Docking Panel AnchorablesSource="{Binding Tools}"-->
         <avalonDock:DockingManager x:Name="dockManager"
                                    AnchorablesSource="{Binding Tools}" 
-                                   ActiveContent="{Binding ActiveDocument, Mode=TwoWay, Converter={StaticResource ActiveDocumentConverter}}"
                                    Grid.Row="1">
             <!-- Theme -->
             <avalonDock:DockingManager.Theme>

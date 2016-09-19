@@ -56,14 +56,13 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Source\Utils\ImageLoader.cs" />
     <Compile Include="View\ProcessSelector.xaml.cs">
       <DependentUpon>ProcessSelector.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Source\Docking\ActiveDocumentConverter.cs" />
-    <Compile Include="Source\ProcessSelector\ProcessSelector.cs" />
-    <Compile Include="Source\ProcessSelector\ProcessSelectorViewModel.cs" />
-    <Compile Include="Source\Docking\LayoutInitializer.cs">
-      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
+    <Compile Include="Source\ProcessSelector\ProcessSelectorModel.cs" />
+    <Compile Include="Source\ProcessSelector\ProcessSelectorViewModel.cs">
+      <ExcludeFromStyleCop>False</ExcludeFromStyleCop>
     </Compile>
     <Compile Include="Source\Docking\PanesStyleSelector.cs" />
     <Compile Include="Source\Docking\PanesTemplateSelector.cs" />
@@ -98,7 +97,7 @@
     <Compile Include="Source\Mvvm\ViewModelBase.cs">
       <ExcludeFromStyleCop>False</ExcludeFromStyleCop>
     </Compile>
-    <Compile Include="Source\Docking\ViewModelLocator.cs" />
+    <Compile Include="View\ViewModelLocator.cs" />
     <Compile Include="Source\Mvvm\Views\IDialogService.cs" />
     <Compile Include="Source\Mvvm\Views\INavigationService.cs" />
     <Compile Include="Source\Docking\ToolViewModel.cs" />
@@ -146,8 +145,9 @@
       <Name>AvalonDock</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
-    <Folder Include="Content\" />
+    <Resource Include="Content\Icons\SelectProcess.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

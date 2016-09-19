@@ -2,7 +2,11 @@
 {
     using Docking;
     using System;
+    using Utils;
 
+    /// <summary>
+    /// View model for the Process Selector
+    /// </summary>
     internal class ProcessSelectorViewModel : ToolViewModel
     {
         public const String ToolContentId = "FileStatsTool";
@@ -12,14 +16,7 @@
         public ProcessSelectorViewModel() : base("Process Selector")
         {
             this.ContentId = ToolContentId;
-
-            /*
-             * BitmapImage bi = new BitmapImage();
-             * bi.BeginInit();
-             * bi.UriSource = new Uri("pack://application:,,/Images/property-blue.png");
-             * bi.EndInit();
-             * IconSource = bi;
-            */
+            this.IconSource = ImageLoader.LoadImage("Content/Icons/SelectProcess.png");
         }
 
         public Int64 FileSize
