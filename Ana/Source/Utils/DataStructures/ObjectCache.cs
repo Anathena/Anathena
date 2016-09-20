@@ -8,75 +8,75 @@ namespace Ana.Source.Utils.DataStructures
         protected const Int32 DefaultCacheSize = 1024;
 
         protected readonly Dictionary<UInt64, T> Cache;
-        protected readonly LinkedList<UInt64> LRUList;
+        protected readonly LinkedList<UInt64> LruList;
         protected readonly Object AccessLock;
 
         public Int32 CacheSize { get; private set; }
 
-        public ObjectCache(Int32 CacheSize = DefaultCacheSize)
+        public ObjectCache(Int32 cacheSize = DefaultCacheSize)
         {
-            this.CacheSize = CacheSize;
+            this.CacheSize = cacheSize;
 
-            Cache = new Dictionary<UInt64, T>(CacheSize);
-            LRUList = new LinkedList<UInt64>();
+            Cache = new Dictionary<UInt64, T>(cacheSize);
+            LruList = new LinkedList<UInt64>();
             AccessLock = new Object();
         }
 
-        public Boolean TryUpdateItem(UInt64 Index, T Item)
+        public Boolean TryUpdateItem(UInt64 index, T item)
         {
             using (TimedLock.Lock(AccessLock))
             {
-                if (!Cache.ContainsKey(Index))
+                if (!Cache.ContainsKey(index))
                     return false;
 
-                Cache[Index] = Item;
+                Cache[index] = item;
                 return true;
             }
         }
 
-        public virtual T Add(UInt64 Index, T Item)
+        public virtual T Add(UInt64 index, T item)
         {
             using (TimedLock.Lock(AccessLock))
             {
                 if (Cache.Count == CacheSize)
                 {
                     // Cache full, enforce LRU policy
-                    Cache.Remove(LRUList.First.Value);
-                    LRUList.RemoveFirst();
+                    Cache.Remove(LruList.First.Value);
+                    LruList.RemoveFirst();
                 }
 
-                LRUList.AddLast(Index);
-                Cache[Index] = Item;
-                return Cache[Index];
+                LruList.AddLast(index);
+                Cache[index] = item;
+                return Cache[index];
             }
         }
 
-        public virtual void Delete(UInt64 Index)
+        public virtual void Delete(UInt64 index)
         {
             using (TimedLock.Lock(AccessLock))
             {
-                if (Cache.ContainsKey(Index))
-                    Cache.Remove(Index);
-                if (LRUList.Contains(Index))
-                    LRUList.Remove(Index);
+                if (Cache.ContainsKey(index))
+                    Cache.Remove(index);
+                if (LruList.Contains(index))
+                    LruList.Remove(index);
             }
         }
 
-        public T Get(UInt64 Index)
+        public T Get(UInt64 index)
         {
             using (TimedLock.Lock(AccessLock))
             {
-                T Item;
-                if (Cache.TryGetValue(Index, out Item))
+                T item;
+                if (Cache.TryGetValue(index, out item))
                 {
-                    LRUList.Remove(Index);
-                    LRUList.AddLast(Index);
+                    LruList.Remove(index);
+                    LruList.AddLast(index);
                 }
                 else
                 {
                     return (T)Convert.ChangeType(0, typeof(T));
                 }
-                return Item;
+                return item;
             }
         }
 
@@ -85,10 +85,11 @@ namespace Ana.Source.Utils.DataStructures
             using (TimedLock.Lock(AccessLock))
             {
                 Cache.Clear();
-                LRUList.Clear();
+                LruList.Clear();
             }
         }
 
-    } // End class
-
-} // End namespace
+    }
+    //// End class
+}
+//// End namespace

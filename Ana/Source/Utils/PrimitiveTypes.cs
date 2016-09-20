@@ -1,38 +1,42 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.InteropServices;
-
-namespace Ana.Source.Utils
+﻿namespace Ana.Source.Utils
 {
-    class PrimitiveTypes
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Runtime.InteropServices;
+
+    internal class PrimitiveTypes
     {
-        private static Type[] ExcludedTypes = new Type[] { typeof(IntPtr), typeof(UIntPtr), typeof(Boolean) };
+        private static Type[] excludedTypes = new Type[] { typeof(IntPtr), typeof(UIntPtr), typeof(Boolean) };
 
         public static IEnumerable<Type> GetPrimitiveTypes()
         {
-            return typeof(Int32).Assembly.GetTypes().Where(X => X.IsPrimitive);
+            return typeof(Int32).Assembly.GetTypes().Where(x => x.IsPrimitive);
         }
 
         public static IEnumerable<Type> GetScannablePrimitiveTypes()
         {
-            return typeof(Int32).Assembly.GetTypes().Where(X => X.IsPrimitive && !ExcludedTypes.Contains(X));
+            return typeof(Int32).Assembly.GetTypes().Where(x => x.IsPrimitive && !excludedTypes.Contains(x));
         }
 
-        public static Boolean IsPrimitive(Type Type)
+        public static Boolean IsPrimitive(Type type)
         {
-            foreach (Type PrimitiveType in GetPrimitiveTypes())
-                if (Type == PrimitiveType)
+            foreach (Type primitiveType in GetPrimitiveTypes())
+            {
+                if (type == primitiveType)
+                {
                     return true;
+                }
+            }
 
             return false;
         }
 
         public static Int32 GetLargestPrimitiveSize()
         {
-            return GetScannablePrimitiveTypes().Select(X => Marshal.SizeOf(X)).Max();
+            return GetScannablePrimitiveTypes().Select(x => Marshal.SizeOf(x)).Max();
         }
-
-    } // End class
-
-} // End namespace
+    }
+    //// End class
+}
+//// End namespace

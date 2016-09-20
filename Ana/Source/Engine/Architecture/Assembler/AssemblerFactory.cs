@@ -2,8 +2,16 @@
 {
     using System;
 
+    /// <summary>
+    /// A factory that returns an assembler based on the system architecture
+    /// </summary>
     class AssemblerFactory
     {
+        /// <summary>
+        /// Gets an assembler based on the system architecture
+        /// </summary>
+        /// <param name="architectureType"></param>
+        /// <returns>An object implementing IAssembler based on the system architecture</returns>
         public static IAssembler GetAssembler(ArchitectureType architectureType)
         {
             switch (architectureType)

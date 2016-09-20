@@ -1,7 +1,7 @@
-﻿using System;
-
-namespace Ana.Source.Utils.Extensions
+﻿namespace Ana.Source.Utils.Extensions
 {
+    using System;
+
     public static class IntPtrExtensions
     {
         #region Conversions

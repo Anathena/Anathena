@@ -5,6 +5,8 @@ namespace Ana.Source.Utils
 {
     public struct TimedLock : IDisposable
     {
+        private Object targetObject;
+
         public static TimedLock Lock(Object lockObject)
         {
 #if DEBUG
@@ -14,13 +16,13 @@ namespace Ana.Source.Utils
 #endif
         }
 
-        public static TimedLock Lock(Object lockObject, TimeSpan Timeout)
+        public static TimedLock Lock(Object lockObject, TimeSpan timeout)
         {
             TimedLock TimedLock = new TimedLock(lockObject);
-            if (!Monitor.TryEnter(lockObject, Timeout))
+            if (!Monitor.TryEnter(lockObject, timeout))
             {
 #if DEBUG
-                System.GC.SuppressFinalize(TimedLock.leakDetector);
+                GC.SuppressFinalize(TimedLock.leakDetector);
 #endif
                 throw new LockTimeoutException();
             }
@@ -35,7 +37,6 @@ namespace Ana.Source.Utils
             leakDetector = new Sentinel();
 #endif
         }
-        private Object targetObject;
 
         public void Dispose()
         {
@@ -48,20 +49,22 @@ namespace Ana.Source.Utils
             // finalizer.
 #if DEBUG
             if (leakDetector != null)
+            {
                 GC.SuppressFinalize(leakDetector);
+            }
 #endif
         }
 
 #if DEBUG
-        // (In Debug mode, we make it a class so that we can add a finalizer
-        // in order to detect when the object is not freed.)
+        /// <summary>
+        /// (In Debug mode, we make it a class so that we can add a finalizer in order to detect when the object is not freed.)
+        /// </summary>
         private class Sentinel
         {
             ~Sentinel()
             {
                 // If this finalizer runs, someone somewhere failed to
-                // call Dispose, which means we've failed to leave
-                // a monitor!
+                // call Dispose, which means we've failed to leave a monitor!
                 System.Diagnostics.Debug.Fail("Undisposed lock");
             }
         }
@@ -74,6 +77,7 @@ namespace Ana.Source.Utils
     {
         public LockTimeoutException() : base("Timeout waiting for lock") { }
 
-    } // End class
-
-} // End namespace
+    }
+    //// End class
+}
+//// End namespace

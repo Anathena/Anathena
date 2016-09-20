@@ -8,58 +8,62 @@ namespace Ana.Source.Utils.DataStructures
 
     public class ConcurrentHashSet<T> : IEnumerable, IDisposable
     {
-        private readonly ReaderWriterLockSlim Lock = new ReaderWriterLockSlim(LockRecursionPolicy.SupportsRecursion);
-        private readonly HashSet<T> HashSet = new HashSet<T>();
+        private readonly ReaderWriterLockSlim lockSlim = new ReaderWriterLockSlim(LockRecursionPolicy.SupportsRecursion);
+        private readonly HashSet<T> hashSet = new HashSet<T>();
 
         public Boolean Add(T item)
         {
-            Lock.EnterWriteLock();
+            lockSlim.EnterWriteLock();
+
             try
             {
-                return HashSet.Add(item);
+                return hashSet.Add(item);
             }
             finally
             {
-                if (Lock.IsWriteLockHeld) Lock.ExitWriteLock();
+                if (lockSlim.IsWriteLockHeld) lockSlim.ExitWriteLock();
             }
         }
 
         public void Clear()
         {
-            Lock.EnterWriteLock();
+            lockSlim.EnterWriteLock();
+
             try
             {
-                HashSet.Clear();
+                hashSet.Clear();
             }
             finally
             {
-                if (Lock.IsWriteLockHeld) Lock.ExitWriteLock();
+                if (lockSlim.IsWriteLockHeld) lockSlim.ExitWriteLock();
             }
         }
 
         public Boolean Contains(T item)
         {
-            Lock.EnterReadLock();
+            lockSlim.EnterReadLock();
+
             try
             {
-                return HashSet.Contains(item);
+                return hashSet.Contains(item);
             }
             finally
             {
-                if (Lock.IsReadLockHeld) Lock.ExitReadLock();
+                if (lockSlim.IsReadLockHeld) lockSlim.ExitReadLock();
             }
         }
 
         public Boolean Remove(T item)
         {
-            Lock.EnterWriteLock();
+            lockSlim.EnterWriteLock();
+
             try
             {
-                return HashSet.Remove(item);
+                return hashSet.Remove(item);
             }
             finally
             {
-                if (Lock.IsWriteLockHeld) Lock.ExitWriteLock();
+                if (lockSlim.IsWriteLockHeld) lockSlim.ExitWriteLock();
             }
         }
 
@@ -67,14 +71,15 @@ namespace Ana.Source.Utils.DataStructures
         {
             get
             {
-                Lock.EnterReadLock();
+                lockSlim.EnterReadLock();
+
                 try
                 {
-                    return HashSet.Count;
+                    return hashSet.Count;
                 }
                 finally
                 {
-                    if (Lock.IsReadLockHeld) Lock.ExitReadLock();
+                    if (lockSlim.IsReadLockHeld) lockSlim.ExitReadLock();
                 }
             }
         }
@@ -85,16 +90,20 @@ namespace Ana.Source.Utils.DataStructures
             GC.SuppressFinalize(this);
         }
 
-        protected virtual void Dispose(Boolean Disposing)
+        protected virtual void Dispose(Boolean disposing)
         {
-            if (Disposing)
-                if (Lock != null)
-                    Lock.Dispose();
+            if (disposing)
+            {
+                if (lockSlim != null)
+                {
+                    lockSlim.Dispose();
+                }
+            }
         }
 
         public IEnumerator GetEnumerator()
         {
-            return ((IEnumerable)HashSet).GetEnumerator();
+            return ((IEnumerable)hashSet).GetEnumerator();
         }
 
         ~ConcurrentHashSet()

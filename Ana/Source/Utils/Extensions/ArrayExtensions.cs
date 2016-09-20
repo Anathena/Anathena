@@ -2,59 +2,94 @@
 
 namespace Ana.Source.Utils.Extensions
 {
+    /// <summary>
+    /// Extension methods for arrays
+    /// </summary>
     static class ArrayExtensions
     {
         /// <summary>
         /// Returns the specified subarray. Returns null if the specified index is out of bounds.
         /// </summary>
         /// <typeparam name="T"></typeparam>
-        /// <param name="ArrayA"></param>
-        /// <param name="Index"></param>
-        /// <param name="Length"></param>
+        /// <param name="arrayA"></param>
+        /// <param name="index"></param>
+        /// <param name="length"></param>
         /// <returns></returns>
-        public static T[] SubArray<T>(this T[] ArrayA, Int32 Index, Int32 Length)
+        public static T[] SubArray<T>(this T[] arrayA, Int32 index, Int32 length)
         {
-            if (ArrayA == null || ArrayA.Length - Index < Length)
+            if (arrayA == null || arrayA.Length - index < length)
+            {
                 return null;
+            }
 
-            T[] Result = new T[Length];
-            Array.Copy(ArrayA, Index, Result, 0, Length);
-            return Result;
+            T[] result = new T[length];
+            Array.Copy(arrayA, index, result, 0, length);
+
+            return result;
         }
+
         /// <summary>
         /// Returns the specified subarray. Attempts to return a smaller subarray if the specified length is out of bounds.
         /// </summary>
         /// <typeparam name="T"></typeparam>
-        /// <param name="ArrayA"></param>
-        /// <param name="Index"></param>
-        /// <param name="Length"></param>
+        /// <param name="arrayA"></param>
+        /// <param name="index"></param>
+        /// <param name="length"></param>
         /// <returns></returns>
-        public static T[] LargestSubArray<T>(this T[] ArrayA, Int32 Index, Int32 Length)
+        public static T[] LargestSubArray<T>(this T[] arrayA, Int32 index, Int32 length)
         {
-            if (ArrayA == null)
+            if (arrayA == null)
+            {
                 return null;
+            }
 
-            if (ArrayA.Length - Index < Length)
-                Length = ArrayA.Length - Index;
+            if (arrayA.Length - index < length)
+            {
+                length = arrayA.Length - index;
+            }
 
-            if (Length == 0)
+            if (length == 0)
+            {
                 return null;
+            }
 
-            T[] Result = new T[Length];
-            Array.Copy(ArrayA, Index, Result, 0, Length);
-            return Result;
+            T[] result = new T[length];
+            Array.Copy(arrayA, index, result, 0, length);
+
+            return result;
         }
 
-        public static T[] Concat<T>(this T[] ArrayA, T[] ArrayB)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="arrayA"></param>
+        /// <param name="arrayB"></param>
+        /// <returns></returns>
+        public static T[] Concat<T>(this T[] arrayA, T[] arrayB)
         {
-            if (ArrayA == null && ArrayB == null) return null;
-            if (ArrayA == null) return ArrayB;
-            if (ArrayB == null) return ArrayA;
+            if (arrayA == null && arrayB == null)
+            {
+                return null;
+            }
 
-            int OldLength = ArrayA.Length;
-            Array.Resize<T>(ref ArrayA, ArrayA.Length + ArrayB.Length);
-            Array.Copy(ArrayB, 0, ArrayA, OldLength, ArrayB.Length);
-            return ArrayA;
+            if (arrayA == null)
+            {
+                return arrayB;
+            }
+
+            if (arrayB == null)
+            {
+                return arrayA;
+            }
+
+            Int32 oldLength = arrayA.Length;
+            Array.Resize<T>(ref arrayA, arrayA.Length + arrayB.Length);
+            Array.Copy(arrayB, 0, arrayA, oldLength, arrayB.Length);
+
+            return arrayA;
         }
     }
+    //// End class
 }
+//// End namespace

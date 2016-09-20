@@ -1,7 +1,7 @@
-﻿using System;
-
-namespace Ana.Source.Utils.Extensions
+﻿namespace Ana.Source.Utils.Extensions
 {
+    using System;
+
     public static class Int64Extensions
     {
         public static IntPtr ToIntPtr(this Int64 Int64)

@@ -39,6 +39,7 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
@@ -58,6 +59,8 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Source\Engine\Architecture\ArchitectureFactory.cs" />
+    <Compile Include="Source\Engine\Architecture\ArchitectureTypes.cs" />
     <Compile Include="Source\Engine\Architecture\Assembler\AssemblerFactory.cs" />
     <Compile Include="Source\Engine\Architecture\Assembler\Fasm32Assembler.cs" />
     <Compile Include="Source\Engine\Architecture\Assembler\IAssembler.cs" />
@@ -94,22 +97,27 @@
     <Compile Include="Source\Engine\Architecture\Disassembler\SharpDisasm\Udis86\UdType.cs" />
     <Compile Include="Source\Engine\Architecture\Disassembler\SharpDisasm\Vendor.cs" />
     <Compile Include="Source\Engine\Architecture\Disassembler\SharpDisassembler.cs" />
+    <Compile Include="Source\Engine\Architecture\IArchitecture.cs" />
+    <Compile Include="Source\Engine\Architecture\x86_64Architecture.cs" />
     <Compile Include="Source\Engine\EngineCore.cs" />
-    <Compile Include="Source\Engine\OperatingSystems\IOperatingSystem.cs" />
+    <Compile Include="Source\Engine\ManagedObjectResolver\IManagedObjectResolver.cs" />
+    <Compile Include="Source\Engine\OperatingSystems\IOperatingSystemAdapter.cs" />
     <Compile Include="Source\Engine\OperatingSystems\NormalizedFlags.cs" />
     <Compile Include="Source\Engine\OperatingSystems\NormalizedModule.cs" />
     <Compile Include="Source\Engine\OperatingSystems\NormalizedRegion.cs" />
-    <Compile Include="Source\Engine\OperatingSystems\OperatingSystemFactory.cs" />
+    <Compile Include="Source\Engine\OperatingSystems\OperatingSystemAdapterFactory.cs" />
     <Compile Include="Source\Engine\OperatingSystems\Windows\Memory.cs" />
     <Compile Include="Source\Engine\OperatingSystems\Windows\Native\Enumerations.cs" />
     <Compile Include="Source\Engine\OperatingSystems\Windows\Native\NativeMethods.cs" />
     <Compile Include="Source\Engine\OperatingSystems\Windows\Native\Structures.cs" />
     <Compile Include="Source\Engine\OperatingSystems\Windows\WindowsAdapter.cs" />
     <Compile Include="Source\Engine\Processes\IProcessObserver.cs" />
-    <Compile Include="Source\Engine\Processes\IProcessSelectorMVP.cs" />
     <Compile Include="Source\Engine\Processes\IProcessSubject.cs" />
+    <Compile Include="Source\Engine\Processes\NormalizedProcess.cs" />
+    <Compile Include="Source\Engine\Processes\ProcessCollector.cs" />
     <Compile Include="Source\Engine\Processes\ProcessSelector.cs" />
-    <Compile Include="Source\Engine\Proxy\ProxyCommunicator.cs" />
+    <Compile Include="Source\Engine\SpeedManipulator\ISpeedManipulator.cs" />
+    <Compile Include="Source\Engine\Unrandomizer\IUnrandomizer.cs" />
     <Compile Include="Source\Utils\DataStructures\BiDictionary.cs" />
     <Compile Include="Source\Utils\DataStructures\ConcurrentHashSet.cs" />
     <Compile Include="Source\Utils\DataStructures\ObjectCache.cs" />
@@ -119,7 +127,6 @@
     <Compile Include="Source\Utils\Extensions\IntPtrExtensions.cs" />
     <Compile Include="Source\Utils\Extensions\ObjectExtensions.cs" />
     <Compile Include="Source\Utils\Extensions\PrimitiveExtensions.cs" />
-    <Compile Include="Source\Utils\Hashing.cs" />
     <Compile Include="Source\Utils\ImageLoader.cs" />
     <Compile Include="Source\Utils\PrimitiveTypes.cs" />
     <Compile Include="Source\Utils\RepeatedTask.cs" />
@@ -217,6 +224,7 @@
   <ItemGroup>
     <Folder Include="Source\Engine\AddressResolver\Java\" />
     <Folder Include="Source\Engine\AddressResolver\Python\" />
+    <Folder Include="Source\Engine\Proxy\" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Content\Icons\SelectProcess.png" />

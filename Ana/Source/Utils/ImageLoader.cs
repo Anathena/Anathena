@@ -3,15 +3,25 @@
     using System;
     using System.Windows.Media.Imaging;
 
+    /// <summary>
+    /// Static class for loading images from the project content
+    /// </summary>
     public static class ImageLoader
     {
-        public static BitmapImage LoadImage(String contentPath)
+        /// <summary>
+        /// Loads an image from the given uri
+        /// </summary>
+        /// <param name="uri">The uri specifying from where to load the image</param>
+        /// <returns>The bitmap image loaded from the given uri</returns>
+        public static BitmapImage LoadImage(String uri)
         {
-            BitmapImage BitmapImage = new BitmapImage();
-            BitmapImage.BeginInit();
-            BitmapImage.UriSource = new Uri(contentPath);
-            BitmapImage.EndInit();
-            return BitmapImage;
+            BitmapImage bitmapImage = new BitmapImage();
+
+            bitmapImage.BeginInit();
+            bitmapImage.UriSource = new Uri(uri);
+            bitmapImage.EndInit();
+
+            return bitmapImage;
         }
     }
     //// End class

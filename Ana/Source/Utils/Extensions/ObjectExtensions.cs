@@ -1,9 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Runtime.CompilerServices;
-
-namespace Ana.Source.Utils.Extensions
+﻿namespace Ana.Source.Utils.Extensions
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Runtime.CompilerServices;
+
+    /// <summary>
+    /// Extension methods for all objects
+    /// </summary>
     public static class ObjectExtensions
     {
         /// <summary>
@@ -11,23 +14,23 @@ namespace Ana.Source.Utils.Extensions
         /// Returns the same object being operated on, allowing for lock(Object.PrintDebugTag()) for lock debugging.
         /// TODO: Debug channel specification
         /// </summary>
-        /// <param name="Object"></param>
-        /// <param name="Params"></param>
+        /// <param name="self"></param>
+        /// <param name="parameters"></param>
         /// <returns></returns>
-        public static Object PrintDebugTag(this Object Object, [CallerMemberName] String CallerName = "", params String[] Params)
+        public static Object PrintDebugTag(this Object self, [CallerMemberName] String callerName = "", params String[] parameters)
         {
             // Write calling class and method name
-            String Tag = "[" + Object.GetType().Name + "] - " + CallerName;
+            String Tag = "[" + self.GetType().Name + "] - " + callerName;
 
             // Write parameters
-            if (Params.Length > 0)
-                (new List<String>(Params)).ForEach(x => Tag += " " + x);
+            if (parameters.Length > 0)
+                (new List<String>(parameters)).ForEach(x => Tag += " " + x);
 
             Console.WriteLine(Tag);
 
-            return Object;
+            return self;
         }
-
-    } // End calss
-
-} // End namespace
+    }
+    //// End calss
+}
+//// End namespace

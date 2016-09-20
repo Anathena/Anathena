@@ -1,6 +1,9 @@
 ﻿namespace Ana.Source.Engine.SpeedManipulator
 {
-    interface ISpeedManipulator
+    /// <summary>
+    /// An interface for an object that manipulates thread speed in a target process
+    /// </summary>
+    public interface ISpeedManipulator
     {
     }
     //// End interface

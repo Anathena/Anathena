@@ -1,20 +1,20 @@
-﻿using Ana.Source.Utils.Extensions;
-using System;
-using System.Linq;
-using System.Reflection;
-using System.Text;
-
-namespace Ana.Source.Utils.Validation
+﻿namespace Ana.Source.Utils.Validation
 {
+    using Extensions;
+    using System;
+    using System.Linq;
+    using System.Reflection;
+    using System.Text;
+
     /// <summary>
-    /// Converts a value from one format to another format. No validation checking is done, see CheckSyntax class for this
+    /// Converts a value from one format to another format
     /// </summary>
     [Obfuscation(ApplyToMembers = true, Exclude = true)]
     class Conversions
     {
-        public static Type StringToPrimitiveType(String Value)
+        public static Type StringToPrimitiveType(String value)
         {
-            return PrimitiveTypes.GetPrimitiveTypes().Where(X => X.Name == Value).First();
+            return PrimitiveTypes.GetPrimitiveTypes().Where(x => x.Name == value).First();
         }
 
         public static dynamic ParseDecStringAsValue(Type ValueType, String Value)
@@ -36,128 +36,134 @@ namespace Ana.Source.Utils.Validation
             }
         }
 
-        public static dynamic ParseHexStringAsValue(Type ValueType, String Value)
+        public static dynamic ParseHexStringAsValue(Type valueType, String value)
         {
-            return ParseDecStringAsValue(ValueType, ParseHexStringAsDecString(ValueType, Value));
+            return ParseDecStringAsValue(valueType, ParseHexStringAsDecString(valueType, value));
         }
 
-        public static String ParseValueAsDec(Type ValueType, dynamic Value)
+        public static String ParseValueAsDec(Type valueType, dynamic value)
         {
-            return ParseDecStringAsValue(ValueType, Value?.ToString()).ToString();
+            return ParseDecStringAsValue(valueType, value?.ToString()).ToString();
         }
 
-        public static String ParseValueAsHex(Type ValueType, dynamic Value)
+        public static String ParseValueAsHex(Type valueType, dynamic value)
         {
-            return ParseDecStringAsHexString(ValueType, Value?.ToString());
+            return ParseDecStringAsHexString(valueType, value?.ToString());
         }
 
-        public static String ParseDecStringAsHexString(Type ValueType, String Value)
+        public static String ParseDecStringAsHexString(Type valueType, String value)
         {
-            dynamic RealValue = ParseDecStringAsValue(ValueType, Value);
+            dynamic vealValue = ParseDecStringAsValue(valueType, value);
 
-            switch (Type.GetTypeCode(ValueType))
+            switch (Type.GetTypeCode(valueType))
             {
-                case TypeCode.Byte: return RealValue.ToString("X");
-                case TypeCode.Char: return RealValue.ToString("X");
-                case TypeCode.SByte: return RealValue.ToString("X");
-                case TypeCode.Int16: return RealValue.ToString("X");
-                case TypeCode.Int32: return RealValue.ToString("X");
-                case TypeCode.Int64: return RealValue.ToString("X");
-                case TypeCode.UInt16: return RealValue.ToString("X");
-                case TypeCode.UInt32: return RealValue.ToString("X");
-                case TypeCode.UInt64: return RealValue.ToString("X");
-                case TypeCode.Single: return BitConverter.ToUInt32(BitConverter.GetBytes(RealValue), 0).ToString("X");
-                case TypeCode.Double: return BitConverter.ToUInt64(BitConverter.GetBytes(RealValue), 0).ToString("X");
+                case TypeCode.Byte: return vealValue.ToString("X");
+                case TypeCode.Char: return vealValue.ToString("X");
+                case TypeCode.SByte: return vealValue.ToString("X");
+                case TypeCode.Int16: return vealValue.ToString("X");
+                case TypeCode.Int32: return vealValue.ToString("X");
+                case TypeCode.Int64: return vealValue.ToString("X");
+                case TypeCode.UInt16: return vealValue.ToString("X");
+                case TypeCode.UInt32: return vealValue.ToString("X");
+                case TypeCode.UInt64: return vealValue.ToString("X");
+                case TypeCode.Single: return BitConverter.ToUInt32(BitConverter.GetBytes(vealValue), 0).ToString("X");
+                case TypeCode.Double: return BitConverter.ToUInt64(BitConverter.GetBytes(vealValue), 0).ToString("X");
                 default: return null;
             }
         }
 
-        public static String ParseHexStringAsDecString(Type ValueType, String Value)
+        public static String ParseHexStringAsDecString(Type valueType, String value)
         {
-            UInt64 RealValue = AddressToValue(Value);
+            UInt64 realValue = AddressToValue(value);
 
-            switch (Type.GetTypeCode(ValueType))
+            switch (Type.GetTypeCode(valueType))
             {
-                case TypeCode.Byte: return RealValue.ToString();
-                case TypeCode.Char: return RealValue.ToString();
-                case TypeCode.SByte: return unchecked((SByte)(RealValue)).ToString();
-                case TypeCode.Int16: return unchecked((Int16)(RealValue)).ToString();
-                case TypeCode.Int32: return unchecked((Int32)(RealValue)).ToString();
-                case TypeCode.Int64: return unchecked((Int64)(RealValue)).ToString();
-                case TypeCode.UInt16: return RealValue.ToString();
-                case TypeCode.UInt32: return RealValue.ToString();
-                case TypeCode.UInt64: return RealValue.ToString();
-                case TypeCode.Single: return BitConverter.ToSingle(BitConverter.GetBytes(unchecked((UInt32)RealValue)), 0).ToString();
-                case TypeCode.Double: return BitConverter.ToDouble(BitConverter.GetBytes(RealValue), 0).ToString();
+                case TypeCode.Byte: return realValue.ToString();
+                case TypeCode.Char: return realValue.ToString();
+                case TypeCode.SByte: return unchecked((SByte)(realValue)).ToString();
+                case TypeCode.Int16: return unchecked((Int16)(realValue)).ToString();
+                case TypeCode.Int32: return unchecked((Int32)(realValue)).ToString();
+                case TypeCode.Int64: return unchecked((Int64)(realValue)).ToString();
+                case TypeCode.UInt16: return realValue.ToString();
+                case TypeCode.UInt32: return realValue.ToString();
+                case TypeCode.UInt64: return realValue.ToString();
+                case TypeCode.Single: return BitConverter.ToSingle(BitConverter.GetBytes(unchecked((UInt32)realValue)), 0).ToString();
+                case TypeCode.Double: return BitConverter.ToDouble(BitConverter.GetBytes(realValue), 0).ToString();
                 default: return null;
             }
         }
 
-        public static String ToAddress(Int32 Value)
+        public static String ToAddress(Int32 value)
         {
-            return ToAddress(unchecked((UInt32)Value));
+            return ToAddress(unchecked((UInt32)value));
         }
 
-        public static String ToAddress(UInt32 Value)
+        public static String ToAddress(UInt32 value)
         {
-            String ValueString = Value.ToString();
+            String valueString = value.ToString();
 
-            if (CheckSyntax.IsUInt32(ValueString))
-                return String.Format("{0:X8}", Convert.ToUInt32(Value));
-            else if (CheckSyntax.IsInt32(ValueString))
-                return String.Format("{0:X8}", unchecked((UInt32)(Convert.ToInt32(Value))));
+            if (CheckSyntax.IsUInt32(valueString))
+                return String.Format("{0:X8}", Convert.ToUInt32(value));
+            else if (CheckSyntax.IsInt32(valueString))
+                return String.Format("{0:X8}", unchecked((UInt32)(Convert.ToInt32(value))));
             else
                 return String.Empty;
         }
 
-        public static String ToAddress(Int64 Value)
+        public static String ToAddress(Int64 value)
         {
-            return ToAddress(unchecked(Value));
+            return ToAddress(unchecked(value));
         }
 
-        public static String ToAddress(UInt64 Value)
+        public static String ToAddress(UInt64 value)
         {
-            String ValueString = Value.ToString();
+            String valueString = value.ToString();
 
-            if (CheckSyntax.IsUInt32(ValueString))
-                return String.Format("{0:X8}", Convert.ToUInt32(Value));
-            else if (CheckSyntax.IsInt32(ValueString))
-                return String.Format("{0:X8}", unchecked((UInt32)(Convert.ToInt32(Value))));
-            else if (CheckSyntax.IsUInt64(ValueString))
-                return String.Format("{0:X16}", Convert.ToUInt64(Value));
-            else if (CheckSyntax.IsInt64(ValueString))
-                return String.Format("{0:X16}", unchecked((UInt64)(Convert.ToInt64(Value))));
+            if (CheckSyntax.IsUInt32(valueString))
+                return String.Format("{0:X8}", Convert.ToUInt32(value));
+            else if (CheckSyntax.IsInt32(valueString))
+                return String.Format("{0:X8}", unchecked((UInt32)(Convert.ToInt32(value))));
+            else if (CheckSyntax.IsUInt64(valueString))
+                return String.Format("{0:X16}", Convert.ToUInt64(value));
+            else if (CheckSyntax.IsInt64(valueString))
+                return String.Format("{0:X16}", unchecked((UInt64)(Convert.ToInt64(value))));
             else
                 return String.Empty;
         }
 
-        public static String ToAddress(IntPtr Value)
+        public static String ToAddress(IntPtr value)
         {
-            return ToAddress(Value.ToUInt64());
+            return ToAddress(value.ToUInt64());
         }
 
-        public static String ToAddress(UIntPtr Value)
+        public static String ToAddress(UIntPtr value)
         {
-            return ToAddress(Value.ToUInt64());
+            return ToAddress(value.ToUInt64());
         }
 
-        public static UInt64 AddressToValue(String Address)
+        public static UInt64 AddressToValue(String address)
         {
-            if (Address.StartsWith("0x", StringComparison.OrdinalIgnoreCase))
-                Address = Address.Substring(2);
+            if (address.StartsWith("0x", StringComparison.OrdinalIgnoreCase))
+            {
+                address = address.Substring(2);
+            }
 
-            while (Address.StartsWith("0") && Address.Length > 1)
-                Address = Address.Substring(1);
+            while (address.StartsWith("0") && address.Length > 1)
+            {
+                address = address.Substring(1);
+            }
 
-            return UInt64.Parse(Address, System.Globalization.NumberStyles.HexNumber);
+            return UInt64.Parse(address, System.Globalization.NumberStyles.HexNumber);
         }
 
-        public static Type TypeCodeToType(TypeCode? Code)
+        public static Type TypeCodeToType(TypeCode? typeCode)
         {
-            if (Code == null)
+            if (typeCode == null)
+            {
                 return null;
+            }
 
-            switch (Code)
+            switch (typeCode)
             {
                 case TypeCode.Boolean: return typeof(Boolean);
                 case TypeCode.Byte: return typeof(Byte);
@@ -178,22 +184,25 @@ namespace Ana.Source.Utils.Validation
                 case TypeCode.UInt64: return typeof(UInt64);
                 case TypeCode.Empty: return null;
             }
+
             return null;
         }
 
-        public static String BytesToMetric<T>(T ByteCount)
+        public static String BytesToMetric<T>(T byteCount)
         {
             // Note: UInt64s run out around EB
-            String[] Suffix = { "B", "KB", "MB", "GB", "TB", "PB", "EB" };
+            String[] suffix = { "B", "KB", "MB", "GB", "TB", "PB", "EB" };
 
-            UInt64 RealByteCount = (UInt64)Convert.ChangeType(ByteCount, typeof(UInt64));
+            UInt64 realByteCount = (UInt64)Convert.ChangeType(byteCount, typeof(UInt64));
 
-            if (RealByteCount == 0)
-                return "0" + Suffix[0];
+            if (realByteCount == 0)
+            {
+                return "0" + suffix[0];
+            }
 
-            Int32 Place = Convert.ToInt32(Math.Floor(Math.Log(RealByteCount, 1024)));
-            Double Number = Math.Round(RealByteCount / Math.Pow(1024, Place), 1);
-            return (Number.ToString() + Suffix[Place]);
+            Int32 place = Convert.ToInt32(Math.Floor(Math.Log(realByteCount, 1024)));
+            Double number = Math.Round(realByteCount / Math.Pow(1024, place), 1);
+            return (number.ToString() + suffix[place]);
         }
 
         public static Int32 GetTypeSize<T>()
@@ -217,37 +226,38 @@ namespace Ana.Source.Utils.Validation
             }
         }
 
-        public static T BytesToObject<T>(Byte[] ByteArray)
+        public static T BytesToObject<T>(Byte[] byteArray)
         {
             switch (Type.GetTypeCode(typeof(T)))
             {
                 case TypeCode.Boolean:
-                    return (T)(Object)BitConverter.ToBoolean(ByteArray, 0);
+                    return (T)(Object)BitConverter.ToBoolean(byteArray, 0);
                 case TypeCode.Byte:
-                    return (T)(Object)ByteArray[0];
+                    return (T)(Object)byteArray[0];
                 case TypeCode.Char:
-                    return (T)(Object)Encoding.UTF8.GetChars(ByteArray)[0]; // BitConverter.ToChar(ByteArray, 0);
+                    return (T)(Object)Encoding.UTF8.GetChars(byteArray)[0]; // BitConverter.ToChar(byteArray, 0);
                 case TypeCode.Double:
-                    return (T)(Object)BitConverter.ToDouble(ByteArray, 0);
+                    return (T)(Object)BitConverter.ToDouble(byteArray, 0);
                 case TypeCode.Int16:
-                    return (T)(Object)BitConverter.ToInt16(ByteArray, 0);
+                    return (T)(Object)BitConverter.ToInt16(byteArray, 0);
                 case TypeCode.Int32:
-                    return (T)(Object)BitConverter.ToInt32(ByteArray, 0);
+                    return (T)(Object)BitConverter.ToInt32(byteArray, 0);
                 case TypeCode.Int64:
-                    return (T)(Object)BitConverter.ToInt64(ByteArray, 0);
+                    return (T)(Object)BitConverter.ToInt64(byteArray, 0);
                 case TypeCode.Single:
-                    return (T)(Object)BitConverter.ToSingle(ByteArray, 0);
+                    return (T)(Object)BitConverter.ToSingle(byteArray, 0);
                 case TypeCode.UInt16:
-                    return (T)(Object)BitConverter.ToUInt16(ByteArray, 0);
+                    return (T)(Object)BitConverter.ToUInt16(byteArray, 0);
                 case TypeCode.UInt32:
-                    return (T)(Object)BitConverter.ToUInt32(ByteArray, 0);
+                    return (T)(Object)BitConverter.ToUInt32(byteArray, 0);
                 case TypeCode.UInt64:
-                    return (T)(Object)BitConverter.ToUInt64(ByteArray, 0);
+                    return (T)(Object)BitConverter.ToUInt64(byteArray, 0);
                 default:
                     throw new ArgumentException("Invalid type provided");
             }
         }
 
-    } // End class
-
-} // End namespace
+    }
+    //// End class
+}
+//// End namespace
