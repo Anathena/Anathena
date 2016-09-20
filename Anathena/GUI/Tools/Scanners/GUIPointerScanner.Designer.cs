@@ -1,7 +1,7 @@
-﻿using Anathena.GUI.CustomControls.ListViews;
-using Anathena.GUI.CustomControls.TextBoxes;
+﻿using Ana.GUI.CustomControls.ListViews;
+using Ana.GUI.CustomControls.TextBoxes;
 
-namespace Anathena.GUI.Tools.Scanners
+namespace Ana.GUI.Tools.Scanners
 {
     partial class GUIPointerScanner
     {
@@ -79,7 +79,7 @@ namespace Anathena.GUI.Tools.Scanners
             // StartScanButton
             // 
             this.StartScanButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.StartScanButton.Image = global::Anathena.Properties.Resources.RightArrow;
+            this.StartScanButton.Image = global::Ana.Properties.Resources.RightArrow;
             this.StartScanButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.StartScanButton.Name = "StartScanButton";
             this.StartScanButton.Size = new System.Drawing.Size(23, 22);
@@ -89,7 +89,7 @@ namespace Anathena.GUI.Tools.Scanners
             // RebuildPointersButton
             // 
             this.RebuildPointersButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.RebuildPointersButton.Image = global::Anathena.Properties.Resources.NextScan1;
+            this.RebuildPointersButton.Image = global::Ana.Properties.Resources.NextScan1;
             this.RebuildPointersButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.RebuildPointersButton.Name = "RebuildPointersButton";
             this.RebuildPointersButton.Size = new System.Drawing.Size(23, 22);
@@ -104,7 +104,7 @@ namespace Anathena.GUI.Tools.Scanners
             // AddSelectedResultsButton
             // 
             this.AddSelectedResultsButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.AddSelectedResultsButton.Image = global::Anathena.Properties.Resources.DownArrows;
+            this.AddSelectedResultsButton.Image = global::Ana.Properties.Resources.DownArrows;
             this.AddSelectedResultsButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.AddSelectedResultsButton.Name = "AddSelectedResultsButton";
             this.AddSelectedResultsButton.Size = new System.Drawing.Size(23, 22);

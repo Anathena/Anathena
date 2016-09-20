@@ -1,6 +1,6 @@
-﻿using Anathena.GUI.CustomControls.TextBoxes;
+﻿using Ana.GUI.CustomControls.TextBoxes;
 
-namespace Anathena.GUI.Tools.Scanners
+namespace Ana.GUI.Tools.Scanners
 {
     partial class GUIConstraintEditor
     {
@@ -143,7 +143,7 @@ namespace Anathena.GUI.Tools.Scanners
             this.LessThanToolStripMenuItem,
             this.LessThanOrEqualToToolStripMenuItem,
             this.NotScientificNotationToolStripMenuItem});
-            this.ScanOptionsToolStripDropDownButton.Image = global::Anathena.Properties.Resources.DownArrows;
+            this.ScanOptionsToolStripDropDownButton.Image = global::Ana.Properties.Resources.DownArrows;
             this.ScanOptionsToolStripDropDownButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.ScanOptionsToolStripDropDownButton.Name = "ScanOptionsToolStripDropDownButton";
             this.ScanOptionsToolStripDropDownButton.Size = new System.Drawing.Size(29, 22);
@@ -151,7 +151,7 @@ namespace Anathena.GUI.Tools.Scanners
             // 
             // ChangedToolStripMenuItem
             // 
-            this.ChangedToolStripMenuItem.Image = global::Anathena.Properties.Resources.Changed;
+            this.ChangedToolStripMenuItem.Image = global::Ana.Properties.Resources.Changed;
             this.ChangedToolStripMenuItem.Name = "ChangedToolStripMenuItem";
             this.ChangedToolStripMenuItem.Size = new System.Drawing.Size(202, 22);
             this.ChangedToolStripMenuItem.Text = "Changed";
@@ -159,7 +159,7 @@ namespace Anathena.GUI.Tools.Scanners
             // 
             // UnchangedToolStripMenuItem
             // 
-            this.UnchangedToolStripMenuItem.Image = global::Anathena.Properties.Resources.Unchanged;
+            this.UnchangedToolStripMenuItem.Image = global::Ana.Properties.Resources.Unchanged;
             this.UnchangedToolStripMenuItem.Name = "UnchangedToolStripMenuItem";
             this.UnchangedToolStripMenuItem.Size = new System.Drawing.Size(202, 22);
             this.UnchangedToolStripMenuItem.Text = "Unchanged";
@@ -167,7 +167,7 @@ namespace Anathena.GUI.Tools.Scanners
             // 
             // IncreasedToolStripMenuItem
             // 
-            this.IncreasedToolStripMenuItem.Image = global::Anathena.Properties.Resources.Increased;
+            this.IncreasedToolStripMenuItem.Image = global::Ana.Properties.Resources.Increased;
             this.IncreasedToolStripMenuItem.Name = "IncreasedToolStripMenuItem";
             this.IncreasedToolStripMenuItem.Size = new System.Drawing.Size(202, 22);
             this.IncreasedToolStripMenuItem.Text = "Increased";
@@ -175,7 +175,7 @@ namespace Anathena.GUI.Tools.Scanners
             // 
             // DecreasedToolStripMenuItem
             // 
-            this.DecreasedToolStripMenuItem.Image = global::Anathena.Properties.Resources.Decreased;
+            this.DecreasedToolStripMenuItem.Image = global::Ana.Properties.Resources.Decreased;
             this.DecreasedToolStripMenuItem.Name = "DecreasedToolStripMenuItem";
             this.DecreasedToolStripMenuItem.Size = new System.Drawing.Size(202, 22);
             this.DecreasedToolStripMenuItem.Text = "Decreased";
@@ -183,7 +183,7 @@ namespace Anathena.GUI.Tools.Scanners
             // 
             // EqualToToolStripMenuItem
             // 
-            this.EqualToToolStripMenuItem.Image = global::Anathena.Properties.Resources.Equal;
+            this.EqualToToolStripMenuItem.Image = global::Ana.Properties.Resources.Equal;
             this.EqualToToolStripMenuItem.Name = "EqualToToolStripMenuItem";
             this.EqualToToolStripMenuItem.Size = new System.Drawing.Size(202, 22);
             this.EqualToToolStripMenuItem.Text = "Equal to";
@@ -191,7 +191,7 @@ namespace Anathena.GUI.Tools.Scanners
             // 
             // NotEqualToToolStripMenuItem
             // 
-            this.NotEqualToToolStripMenuItem.Image = global::Anathena.Properties.Resources.NotEqual;
+            this.NotEqualToToolStripMenuItem.Image = global::Ana.Properties.Resources.NotEqual;
             this.NotEqualToToolStripMenuItem.Name = "NotEqualToToolStripMenuItem";
             this.NotEqualToToolStripMenuItem.Size = new System.Drawing.Size(202, 22);
             this.NotEqualToToolStripMenuItem.Text = "Not Equal to";
@@ -199,7 +199,7 @@ namespace Anathena.GUI.Tools.Scanners
             // 
             // IncreasedByToolStripMenuItem
             // 
-            this.IncreasedByToolStripMenuItem.Image = global::Anathena.Properties.Resources.PlusX;
+            this.IncreasedByToolStripMenuItem.Image = global::Ana.Properties.Resources.PlusX;
             this.IncreasedByToolStripMenuItem.Name = "IncreasedByToolStripMenuItem";
             this.IncreasedByToolStripMenuItem.Size = new System.Drawing.Size(202, 22);
             this.IncreasedByToolStripMenuItem.Text = "Increased by";
@@ -207,7 +207,7 @@ namespace Anathena.GUI.Tools.Scanners
             // 
             // DecreasedByToolStripMenuItem
             // 
-            this.DecreasedByToolStripMenuItem.Image = global::Anathena.Properties.Resources.MinusX;
+            this.DecreasedByToolStripMenuItem.Image = global::Ana.Properties.Resources.MinusX;
             this.DecreasedByToolStripMenuItem.Name = "DecreasedByToolStripMenuItem";
             this.DecreasedByToolStripMenuItem.Size = new System.Drawing.Size(202, 22);
             this.DecreasedByToolStripMenuItem.Text = "Decreased by";
@@ -215,7 +215,7 @@ namespace Anathena.GUI.Tools.Scanners
             // 
             // GreaterThanToolStripMenuItem
             // 
-            this.GreaterThanToolStripMenuItem.Image = global::Anathena.Properties.Resources.GreaterThan;
+            this.GreaterThanToolStripMenuItem.Image = global::Ana.Properties.Resources.GreaterThan;
             this.GreaterThanToolStripMenuItem.Name = "GreaterThanToolStripMenuItem";
             this.GreaterThanToolStripMenuItem.Size = new System.Drawing.Size(202, 22);
             this.GreaterThanToolStripMenuItem.Text = "Greater Than";
@@ -223,7 +223,7 @@ namespace Anathena.GUI.Tools.Scanners
             // 
             // GreaterThanOrEqualToToolStripMenuItem
             // 
-            this.GreaterThanOrEqualToToolStripMenuItem.Image = global::Anathena.Properties.Resources.GreaterThanOrEqual;
+            this.GreaterThanOrEqualToToolStripMenuItem.Image = global::Ana.Properties.Resources.GreaterThanOrEqual;
             this.GreaterThanOrEqualToToolStripMenuItem.Name = "GreaterThanOrEqualToToolStripMenuItem";
             this.GreaterThanOrEqualToToolStripMenuItem.Size = new System.Drawing.Size(202, 22);
             this.GreaterThanOrEqualToToolStripMenuItem.Text = "Greater Than or Equal to";
@@ -231,7 +231,7 @@ namespace Anathena.GUI.Tools.Scanners
             // 
             // LessThanToolStripMenuItem
             // 
-            this.LessThanToolStripMenuItem.Image = global::Anathena.Properties.Resources.LessThan;
+            this.LessThanToolStripMenuItem.Image = global::Ana.Properties.Resources.LessThan;
             this.LessThanToolStripMenuItem.Name = "LessThanToolStripMenuItem";
             this.LessThanToolStripMenuItem.Size = new System.Drawing.Size(202, 22);
             this.LessThanToolStripMenuItem.Text = "Less Than";
@@ -239,7 +239,7 @@ namespace Anathena.GUI.Tools.Scanners
             // 
             // LessThanOrEqualToToolStripMenuItem
             // 
-            this.LessThanOrEqualToToolStripMenuItem.Image = global::Anathena.Properties.Resources.LessThanOrEqual;
+            this.LessThanOrEqualToToolStripMenuItem.Image = global::Ana.Properties.Resources.LessThanOrEqual;
             this.LessThanOrEqualToToolStripMenuItem.Name = "LessThanOrEqualToToolStripMenuItem";
             this.LessThanOrEqualToToolStripMenuItem.Size = new System.Drawing.Size(202, 22);
             this.LessThanOrEqualToToolStripMenuItem.Text = "Less Than or Equal to";
@@ -247,7 +247,7 @@ namespace Anathena.GUI.Tools.Scanners
             // 
             // NotScientificNotationToolStripMenuItem
             // 
-            this.NotScientificNotationToolStripMenuItem.Image = global::Anathena.Properties.Resources.ENotation;
+            this.NotScientificNotationToolStripMenuItem.Image = global::Ana.Properties.Resources.ENotation;
             this.NotScientificNotationToolStripMenuItem.Name = "NotScientificNotationToolStripMenuItem";
             this.NotScientificNotationToolStripMenuItem.Size = new System.Drawing.Size(202, 22);
             this.NotScientificNotationToolStripMenuItem.Text = "Not Scientific Notation";
@@ -261,7 +261,7 @@ namespace Anathena.GUI.Tools.Scanners
             // RemoveConstraintButton
             // 
             this.RemoveConstraintButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.RemoveConstraintButton.Image = global::Anathena.Properties.Resources.X;
+            this.RemoveConstraintButton.Image = global::Ana.Properties.Resources.X;
             this.RemoveConstraintButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.RemoveConstraintButton.Name = "RemoveConstraintButton";
             this.RemoveConstraintButton.Size = new System.Drawing.Size(23, 22);
@@ -271,7 +271,7 @@ namespace Anathena.GUI.Tools.Scanners
             // ClearConstraintsButton
             // 
             this.ClearConstraintsButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.ClearConstraintsButton.Image = global::Anathena.Properties.Resources.Cancel;
+            this.ClearConstraintsButton.Image = global::Ana.Properties.Resources.Cancel;
             this.ClearConstraintsButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.ClearConstraintsButton.Name = "ClearConstraintsButton";
             this.ClearConstraintsButton.Size = new System.Drawing.Size(23, 22);

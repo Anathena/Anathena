@@ -1,9 +1,9 @@
-﻿using Anathena.Source.Controller;
-using Anathena.Source.Engine;
-using Anathena.Source.Engine.Processes;
-using Anathena.Source.Project.ProjectItems;
-using Anathena.Source.Project.ProjectItems.TypeEditors;
-using Anathena.Source.PropertyView;
+﻿using Ana.Source.Controller;
+using Ana.Source.Engine;
+using Ana.Source.Engine.Processes;
+using Ana.Source.Project.ProjectItems;
+using Ana.Source.Project.ProjectItems.TypeEditors;
+using Ana.Source.PropertyView;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -12,7 +12,7 @@ using System.Reflection;
 using System.Runtime.Serialization.Json;
 using System.Threading;
 
-namespace Anathena.Source.Project
+namespace Ana.Source.Project
 {
     /// <summary>
     /// Handles the displaying of results

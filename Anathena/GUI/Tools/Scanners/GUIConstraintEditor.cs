@@ -1,8 +1,8 @@
-﻿using Anathena.Source.Scanners.ScanConstraints;
-using Anathena.Source.Utils;
-using Anathena.Source.Utils.Extensions;
-using Anathena.Source.Utils.MVP;
-using Anathena.Source.Utils.Validation;
+﻿using Ana.Source.Scanners.ScanConstraints;
+using Ana.Source.Utils;
+using Ana.Source.Utils.Extensions;
+using Ana.Source.Utils.MVP;
+using Ana.Source.Utils.Validation;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -11,7 +11,7 @@ using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 
-namespace Anathena.GUI.Tools.Scanners
+namespace Ana.GUI.Tools.Scanners
 {
     public partial class GUIConstraintEditor : UserControl, IScanConstraintEditorView
     {

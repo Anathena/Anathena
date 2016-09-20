@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Runtime.InteropServices;
 
-namespace Anathena.Source.Engine.OperatingSystems.Windows.Native
+namespace Ana.Source.Engine.OperatingSystems.Windows.Native
 {
     /// <summary>
     /// Contains information about a range of pages in the virtual address space of a process. The VirtualQuery and <see cref="NativeMethods.VirtualQueryEx"/> functions use this structure.

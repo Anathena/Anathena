@@ -3,7 +3,7 @@ using System.Linq;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 
-namespace Anathena.Source.Snapshots
+namespace Ana.Source.Snapshots
 {
     /// <summary>
     /// Class used by SnapshotRegion as a wrapper for indexing into the raw collection of data

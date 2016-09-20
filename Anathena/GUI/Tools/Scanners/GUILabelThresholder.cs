@@ -1,14 +1,14 @@
-﻿using Anathena.Source.Scanners.LabelThresholder;
-using Anathena.Source.Utils;
-using Anathena.Source.Utils.MVP;
-using Anathena.Source.Utils.Validation;
+﻿using Ana.Source.Scanners.LabelThresholder;
+using Ana.Source.Utils;
+using Ana.Source.Utils.MVP;
+using Ana.Source.Utils.Validation;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Reflection;
 using WeifenLuo.WinFormsUI.Docking;
 
-namespace Anathena.GUI.Tools.Scanners
+namespace Ana.GUI.Tools.Scanners
 {
     public partial class GUILabelThresholder : DockContent, ILabelThresholderView
     {

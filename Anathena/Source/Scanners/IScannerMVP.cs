@@ -1,9 +1,9 @@
-﻿using Anathena.Source.UserSettings;
-using Anathena.Source.Utils;
-using Anathena.Source.Utils.MVP;
+﻿using Ana.Source.UserSettings;
+using Ana.Source.Utils;
+using Ana.Source.Utils.MVP;
 using System;
 
-namespace Anathena.Source.Scanners
+namespace Ana.Source.Scanners
 {
     delegate void ScannerEventHandler(Object Sender, ScannerEventArgs Args);
     class ScannerEventArgs : EventArgs

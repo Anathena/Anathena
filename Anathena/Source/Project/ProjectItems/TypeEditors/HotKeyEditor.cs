@@ -1,8 +1,8 @@
-﻿using Anathena.Source.Engine;
-using Anathena.Source.Engine.InputCapture.HotKeys;
-using Anathena.Source.Engine.InputCapture.Keyboard;
-using Anathena.Source.Engine.Processes;
-using Anathena.Source.Utils;
+﻿using Ana.Source.Engine;
+using Ana.Source.Engine.InputCapture.HotKeys;
+using Ana.Source.Engine.InputCapture.Keyboard;
+using Ana.Source.Engine.Processes;
+using Ana.Source.Utils;
 using SharpDX.DirectInput;
 using System;
 using System.Collections.Generic;
@@ -11,7 +11,7 @@ using System.Drawing.Design;
 using System.Linq;
 using System.Windows.Forms;
 
-namespace Anathena.Source.Project.ProjectItems.TypeEditors
+namespace Ana.Source.Project.ProjectItems.TypeEditors
 {
     class HotKeyEditor : UITypeEditor, IProcessObserver, IKeyboardObserver, IHotKeyEditorModel
     {

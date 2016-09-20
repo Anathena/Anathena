@@ -1,4 +1,4 @@
-﻿namespace Anathena.Source.Engine.Architecture.Disassembler.SharpDisasm.Translators
+﻿namespace Ana.Source.Engine.Architecture.Disassembler.SharpDisasm.Translators
 {
     using System;
     using System.Collections.Generic;

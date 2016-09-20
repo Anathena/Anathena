@@ -1,12 +1,12 @@
-﻿using Anathena.Source.Results.ScanResults;
-using Anathena.Source.Utils;
-using Anathena.Source.Utils.DataStructures;
-using Anathena.Source.Utils.MVP;
+﻿using Ana.Source.Results.ScanResults;
+using Ana.Source.Utils;
+using Ana.Source.Utils.DataStructures;
+using Ana.Source.Utils.MVP;
 using System;
 using System.Windows.Forms;
 using WeifenLuo.WinFormsUI.Docking;
 
-namespace Anathena.GUI.Tools
+namespace Ana.GUI.Tools
 {
     public partial class GUIResults : DockContent, IScanResultsView
     {

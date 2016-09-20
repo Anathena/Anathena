@@ -1,8 +1,8 @@
-﻿using Anathena.Source.LuaEngine;
-using Anathena.Source.Project;
-using Anathena.Source.Project.ProjectItems.ScriptTemplates;
-using Anathena.Source.Utils;
-using Anathena.Source.Utils.MVP;
+﻿using Ana.Source.LuaEngine;
+using Ana.Source.Project;
+using Ana.Source.Project.ProjectItems.ScriptTemplates;
+using Ana.Source.Utils;
+using Ana.Source.Utils.MVP;
 using ScintillaNET;
 using System;
 using System.Drawing;
@@ -10,7 +10,7 @@ using System.Linq;
 using System.Windows.Forms;
 using WeifenLuo.WinFormsUI.Docking;
 
-namespace Anathena.GUI.Tools.TypeEditors
+namespace Ana.GUI.Tools.TypeEditors
 {
     partial class GUIScriptEditor : DockContent, IScriptEditorView
     {

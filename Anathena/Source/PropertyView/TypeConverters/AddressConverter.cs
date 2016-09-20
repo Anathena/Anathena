@@ -1,10 +1,10 @@
-﻿using Anathena.Source.Utils.Extensions;
-using Anathena.Source.Utils.Validation;
+﻿using Ana.Source.Utils.Extensions;
+using Ana.Source.Utils.Validation;
 using System;
 using System.ComponentModel;
 using System.Globalization;
 
-namespace Anathena.Source.Project.PropertyView.TypeConverters
+namespace Ana.Source.Project.PropertyView.TypeConverters
 {
     class AddressConverter : StringConverter
     {

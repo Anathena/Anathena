@@ -1,10 +1,10 @@
-﻿using Anathena.Source.Project.ProjectItems;
-using Anathena.Source.Utils.Validation;
+﻿using Ana.Source.Project.ProjectItems;
+using Ana.Source.Utils.Validation;
 using System;
 using System.ComponentModel;
 using System.Globalization;
 
-namespace Anathena.Source.Project.PropertyView.TypeConverters
+namespace Ana.Source.Project.PropertyView.TypeConverters
 {
     class DynamicConverter : StringConverter
     {

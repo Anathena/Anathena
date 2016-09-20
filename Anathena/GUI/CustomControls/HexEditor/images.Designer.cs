@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Anathena.GUI.CustomControls.HexEditor {
+namespace Ana.GUI.CustomControls.HexEditor {
     using System;
     
     

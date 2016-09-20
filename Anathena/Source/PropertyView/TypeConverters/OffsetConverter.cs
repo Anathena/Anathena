@@ -1,4 +1,4 @@
-﻿using Anathena.Source.Utils.Validation;
+﻿using Ana.Source.Utils.Validation;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -6,7 +6,7 @@ using System.ComponentModel;
 using System.Globalization;
 using System.Linq;
 
-namespace Anathena.Source.Project.PropertyView.TypeConverters
+namespace Ana.Source.Project.PropertyView.TypeConverters
 {
     class OffsetConverter : StringConverter
     {

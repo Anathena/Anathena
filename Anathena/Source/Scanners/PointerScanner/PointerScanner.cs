@@ -1,13 +1,13 @@
-﻿using Anathena.Source.Engine;
-using Anathena.Source.Engine.AddressResolver;
-using Anathena.Source.Engine.OperatingSystems;
-using Anathena.Source.Engine.Processes;
-using Anathena.Source.Project;
-using Anathena.Source.Project.ProjectItems;
-using Anathena.Source.Scanners.ScanConstraints;
-using Anathena.Source.Snapshots;
-using Anathena.Source.Utils.Extensions;
-using Anathena.Source.Utils.Validation;
+﻿using Ana.Source.Engine;
+using Ana.Source.Engine.AddressResolver;
+using Ana.Source.Engine.OperatingSystems;
+using Ana.Source.Engine.Processes;
+using Ana.Source.Project;
+using Ana.Source.Project.ProjectItems;
+using Ana.Source.Scanners.ScanConstraints;
+using Ana.Source.Snapshots;
+using Ana.Source.Utils.Extensions;
+using Ana.Source.Utils.Validation;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
@@ -15,7 +15,7 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 
-namespace Anathena.Source.Scanners.PointerScanner
+namespace Ana.Source.Scanners.PointerScanner
 {
     /*
     Trace-Retrace Algorithm:

@@ -1,15 +1,15 @@
-﻿using Anathena.Source.Engine;
-using Anathena.Source.Engine.Architecture.Disassembler.SharpDisasm;
-using Anathena.Source.Engine.OperatingSystems;
-using Anathena.Source.Engine.Processes;
-using Anathena.Source.Utils.Extensions;
-using Anathena.Source.Utils.Validation;
+﻿using Ana.Source.Engine;
+using Ana.Source.Engine.Architecture.Disassembler.SharpDisasm;
+using Ana.Source.Engine.OperatingSystems;
+using Ana.Source.Engine.Processes;
+using Ana.Source.Utils.Extensions;
+using Ana.Source.Utils.Validation;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Anathena.Source.LuaEngine.Memory
+namespace Ana.Source.LuaEngine.Memory
 {
     public class LuaMemoryCore : IMemoryCore, IProcessObserver
     {

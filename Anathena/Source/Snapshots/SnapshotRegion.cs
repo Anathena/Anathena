@@ -1,6 +1,6 @@
-﻿using Anathena.Source.Engine;
-using Anathena.Source.Engine.OperatingSystems;
-using Anathena.Source.Utils.Extensions;
+﻿using Ana.Source.Engine;
+using Ana.Source.Engine.OperatingSystems;
+using Ana.Source.Utils.Extensions;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -8,7 +8,7 @@ using System.Linq;
 using System.Reflection;
 using System.Runtime.InteropServices;
 
-namespace Anathena.Source.Snapshots
+namespace Ana.Source.Snapshots
 {
     /// <summary>
     /// Defines a snapshot of memory in an external process.

@@ -1,10 +1,10 @@
-﻿using Anathena.Source.UserSettings;
-using Anathena.Source.Utils;
-using Anathena.Source.Utils.MVP;
+﻿using Ana.Source.UserSettings;
+using Ana.Source.Utils;
+using Ana.Source.Utils.MVP;
 using System;
 using System.Collections.Generic;
 
-namespace Anathena.Source.PropertyView
+namespace Ana.Source.PropertyView
 {
     delegate void PropertyViewerEventHandler(Object Sender, PropertyViewerEventArgs Args);
     class PropertyViewerEventArgs : EventArgs

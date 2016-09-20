@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Anathena.Source.Engine.Hook.Unrandomizer
+namespace Ana.Source.Engine.Hook.Unrandomizer
 {
     public interface IUnrandomizerInterface
     {

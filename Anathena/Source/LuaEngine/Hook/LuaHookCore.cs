@@ -1,9 +1,9 @@
-﻿using Anathena.Source.Engine;
-using Anathena.Source.Engine.Hook.SpeedHack;
-using Anathena.Source.Engine.Processes;
+﻿using Ana.Source.Engine;
+using Ana.Source.Engine.Hook.SpeedHack;
+using Ana.Source.Engine.Processes;
 using System;
 
-namespace Anathena.Source.LuaEngine.Hook
+namespace Ana.Source.LuaEngine.Hook
 {
     class LuaHookCore : IHookCore, IProcessObserver
     {

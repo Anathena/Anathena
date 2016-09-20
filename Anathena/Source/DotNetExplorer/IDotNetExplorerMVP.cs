@@ -1,10 +1,10 @@
-﻿using Anathena.Source.Engine.AddressResolver.DotNet;
-using Anathena.Source.Engine.Processes;
-using Anathena.Source.Utils.MVP;
+﻿using Ana.Source.Engine.AddressResolver.DotNet;
+using Ana.Source.Engine.Processes;
+using Ana.Source.Utils.MVP;
 using System;
 using System.Collections.Generic;
 
-namespace Anathena.Source.DotNetExplorer
+namespace Ana.Source.DotNetExplorer
 {
     public delegate void DotNetExplorerEventHandler(Object Sender, DotNetExplorerEventArgs Args);
     public class DotNetExplorerEventArgs : EventArgs

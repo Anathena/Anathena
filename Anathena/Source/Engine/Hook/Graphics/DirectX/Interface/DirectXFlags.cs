@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Anathena.Source.Engine.Hook.Graphics.DirectX.Interface
+namespace Ana.Source.Engine.Hook.Graphics.DirectX.Interface
 {
     public class DirectXFlags
     {

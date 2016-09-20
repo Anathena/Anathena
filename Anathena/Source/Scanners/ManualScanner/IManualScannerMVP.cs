@@ -1,7 +1,7 @@
-﻿using Anathena.Source.Scanners.ScanConstraints;
+﻿using Ana.Source.Scanners.ScanConstraints;
 using System;
 
-namespace Anathena.Source.Scanners.ManualScanner
+namespace Ana.Source.Scanners.ManualScanner
 {
     delegate void ManualScannerEventHandler(Object Sender, ManualScannerEventArgs Args);
     class ManualScannerEventArgs : EventArgs

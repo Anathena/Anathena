@@ -1,7 +1,7 @@
-﻿using Anathena.GUI.CustomControls.ListViews;
-using Anathena.GUI.CustomControls.TextBoxes;
+﻿using Ana.GUI.CustomControls.ListViews;
+using Ana.GUI.CustomControls.TextBoxes;
 
-namespace Anathena.GUI.Tools.TypeEditors
+namespace Ana.GUI.Tools.TypeEditors
 {
     partial class GUIOffsetEditor
     {
@@ -36,12 +36,12 @@ namespace Anathena.GUI.Tools.TypeEditors
             this.RemoveOffsetButton = new System.Windows.Forms.Button();
             this.OkayButton = new System.Windows.Forms.Button();
             this.CancelOffsetsButton = new System.Windows.Forms.Button();
-            this.OffsetsListView = new Anathena.GUI.CustomControls.ListViews.FlickerFreeListView();
+            this.OffsetsListView = new Ana.GUI.CustomControls.ListViews.FlickerFreeListView();
             this.HexHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.DecimalHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.OffsetsContextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.DeleteSelectionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.OffsetHexDecTextBox = new Anathena.GUI.CustomControls.TextBoxes.HexDecTextBox();
+            this.OffsetHexDecTextBox = new Ana.GUI.CustomControls.TextBoxes.HexDecTextBox();
             this.OffsetsContextMenuStrip.SuspendLayout();
             this.SuspendLayout();
             // 

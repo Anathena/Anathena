@@ -1,4 +1,4 @@
-﻿namespace Anathena.GUI.Tools
+﻿namespace Ana.GUI.Tools
 {
     partial class GUICodeView
     {
@@ -115,7 +115,7 @@
             // RefreshNavigationButton
             // 
             this.RefreshNavigationButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.RefreshNavigationButton.Image = global::Anathena.Properties.Resources.Undo;
+            this.RefreshNavigationButton.Image = global::Ana.Properties.Resources.Undo;
             this.RefreshNavigationButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.RefreshNavigationButton.Name = "RefreshNavigationButton";
             this.RefreshNavigationButton.Size = new System.Drawing.Size(23, 22);

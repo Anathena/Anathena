@@ -1,4 +1,4 @@
-﻿namespace Anathena.Properties
+﻿namespace Ana.Properties
 {
 
 

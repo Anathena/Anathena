@@ -2,7 +2,7 @@
 using System.Drawing;
 using System.Windows.Forms;
 
-namespace Anathena.GUI.CustomControls.TreeViews
+namespace Ana.GUI.CustomControls.TreeViews
 {
     public partial class HighlightPreservingTreeView : TreeView
     {

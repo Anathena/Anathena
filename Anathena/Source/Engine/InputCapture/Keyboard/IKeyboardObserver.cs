@@ -1,7 +1,7 @@
 ﻿using SharpDX.DirectInput;
 using System.Collections.Generic;
 
-namespace Anathena.Source.Engine.InputCapture.Keyboard
+namespace Ana.Source.Engine.InputCapture.Keyboard
 {
     public interface IKeyboardObserver
     {

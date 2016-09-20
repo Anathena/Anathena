@@ -1,4 +1,4 @@
-﻿namespace Anathena.Source.Engine.Architecture.Disassembler
+﻿namespace Ana.Source.Engine.Architecture.Disassembler
 {
     class DisassemblerFactory
     {

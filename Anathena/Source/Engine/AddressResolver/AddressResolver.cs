@@ -1,13 +1,13 @@
-﻿using Anathena.Source.Engine.AddressResolver.DotNet;
-using Anathena.Source.Engine.OperatingSystems;
-using Anathena.Source.Engine.Processes;
-using Anathena.Source.Utils;
+﻿using Ana.Source.Engine.AddressResolver.DotNet;
+using Ana.Source.Engine.OperatingSystems;
+using Ana.Source.Engine.Processes;
+using Ana.Source.Utils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 
-namespace Anathena.Source.Engine.AddressResolver
+namespace Ana.Source.Engine.AddressResolver
 {
     public class AddressResolver : RepeatedTask, IProcessObserver
     {

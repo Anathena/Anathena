@@ -1,8 +1,8 @@
-﻿using Anathena.Source.Engine.Processes;
-using Anathena.Source.Utils.MVP;
+﻿using Ana.Source.Engine.Processes;
+using Ana.Source.Utils.MVP;
 using System;
 
-namespace Anathena.Source.Snapshots
+namespace Ana.Source.Snapshots
 {
     delegate void SnapshotManagerEventHandler(Object Sender, SnapshotManagerEventArgs Args);
     class SnapshotManagerEventArgs : EventArgs

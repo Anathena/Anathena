@@ -1,11 +1,11 @@
-﻿using Anathena.Source.Scanners.ManualScanner;
-using Anathena.Source.Utils;
-using Anathena.Source.Utils.MVP;
+﻿using Ana.Source.Scanners.ManualScanner;
+using Ana.Source.Utils;
+using Ana.Source.Utils.MVP;
 using System;
 using System.Windows.Forms;
 using WeifenLuo.WinFormsUI.Docking;
 
-namespace Anathena.GUI.Tools.Scanners
+namespace Ana.GUI.Tools.Scanners
 {
     public partial class GUIManualScanner : DockContent, IManualScannerView
     {

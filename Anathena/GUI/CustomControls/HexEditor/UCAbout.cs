@@ -195,7 +195,7 @@ namespace Be.HexEditor
             // 
             // pictureBox1
             // 
-            this.pictureBox1.Image = global::Anathena.GUI.CustomControls.HexEditor.images.Logo;
+            this.pictureBox1.Image = global::Ana.GUI.CustomControls.HexEditor.images.Logo;
             resources.ApplyResources(this.pictureBox1, "pictureBox1");
             this.pictureBox1.Name = "pictureBox1";
             this.pictureBox1.TabStop = false;

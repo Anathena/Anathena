@@ -1,5 +1,5 @@
-﻿using Anathena.Source.Engine;
-using Anathena.Source.Engine.Processes;
+﻿using Ana.Source.Engine;
+using Ana.Source.Engine.Processes;
 using Gecko;
 using System;
 using System.Collections.Generic;
@@ -7,7 +7,7 @@ using System.IO;
 using System.Threading;
 using System.Windows.Forms;
 
-namespace Anathena.Source.Utils.Browser
+namespace Ana.Source.Utils.Browser
 {
     class BrowserHelper : IProcessObserver
     {

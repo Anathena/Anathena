@@ -1,17 +1,17 @@
-﻿using Anathena.Source.Engine;
-using Anathena.Source.Engine.OperatingSystems;
-using Anathena.Source.Engine.Processes;
-using Anathena.Source.Scanners.ValueCollector;
-using Anathena.Source.Snapshots.Prefilter;
-using Anathena.Source.UserSettings;
-using Anathena.Source.Utils;
-using Anathena.Source.Utils.Extensions;
+﻿using Ana.Source.Engine;
+using Ana.Source.Engine.OperatingSystems;
+using Ana.Source.Engine.Processes;
+using Ana.Source.Scanners.ValueCollector;
+using Ana.Source.Snapshots.Prefilter;
+using Ana.Source.UserSettings;
+using Ana.Source.Utils;
+using Ana.Source.Utils.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 
-namespace Anathena.Source.Snapshots
+namespace Ana.Source.Snapshots
 {
     class SnapshotManager : ISnapshotManagerModel
     {

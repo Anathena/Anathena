@@ -1,6 +1,6 @@
-﻿using Anathena.Source.Results.ScanResults;
-using Anathena.Source.Snapshots;
-using Anathena.Source.Utils;
+﻿using Ana.Source.Results.ScanResults;
+using Ana.Source.Snapshots;
+using Ana.Source.Utils;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
@@ -8,7 +8,7 @@ using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 
-namespace Anathena.Source.Scanners.LabelThresholder
+namespace Ana.Source.Scanners.LabelThresholder
 {
     class LabelThresholder : ILabelThresholderModel
     {

@@ -2,7 +2,7 @@
 using System.Drawing;
 using System.Windows.Forms;
 
-namespace Anathena.GUI.CustomControls.TextBoxes
+namespace Ana.GUI.CustomControls.TextBoxes
 {
     /// <summary>
     /// A textbox that supports a watermak hint.

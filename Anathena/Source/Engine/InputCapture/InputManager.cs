@@ -1,10 +1,10 @@
-﻿using Anathena.Source.Engine.InputCapture.Controller;
-using Anathena.Source.Engine.InputCapture.Keyboard;
-using Anathena.Source.Engine.InputCapture.Mouse;
-using Anathena.Source.Utils;
+﻿using Ana.Source.Engine.InputCapture.Controller;
+using Ana.Source.Engine.InputCapture.Keyboard;
+using Ana.Source.Engine.InputCapture.Mouse;
+using Ana.Source.Utils;
 using System;
 
-namespace Anathena.Source.Engine.InputCapture
+namespace Ana.Source.Engine.InputCapture
 {
     public class InputManager : RepeatedTask, IInputManager
     {

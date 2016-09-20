@@ -1,10 +1,10 @@
-﻿using Anathena.Source.Utils;
+﻿using Ana.Source.Utils;
 using System;
 using System.ComponentModel;
 using System.Globalization;
 using System.Linq;
 
-namespace Anathena.Source.Project.PropertyView.TypeConverters
+namespace Ana.Source.Project.PropertyView.TypeConverters
 {
     class ValueTypeConverter : StringConverter
     {

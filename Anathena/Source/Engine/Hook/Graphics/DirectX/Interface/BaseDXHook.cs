@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using System.Threading;
 
-namespace Anathena.Source.Engine.Hook.Graphics.DirectX.Interface
+namespace Ana.Source.Engine.Hook.Graphics.DirectX.Interface
 {
     internal abstract class BaseDXHook
     {

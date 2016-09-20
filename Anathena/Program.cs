@@ -1,11 +1,11 @@
-﻿using Anathena.GUI;
+﻿using Ana.GUI;
 using ScintillaNET;
 using SharpCli;
 using System;
 using System.IO;
 using System.Windows.Forms;
 
-namespace Anathena
+namespace Ana
 {
     static class Program
     {

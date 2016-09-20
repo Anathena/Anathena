@@ -3,7 +3,7 @@ using System.ComponentModel;
 using System.Reflection;
 using System.Runtime.Serialization;
 
-namespace Anathena.Source.LuaEngine
+namespace Ana.Source.LuaEngine
 {
     [Obfuscation(ApplyToMembers = true, Exclude = true)]
     [DataContract()]

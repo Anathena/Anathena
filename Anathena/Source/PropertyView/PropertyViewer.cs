@@ -1,9 +1,9 @@
-﻿using Anathena.Source.Engine;
-using Anathena.Source.Engine.Processes;
+﻿using Ana.Source.Engine;
+using Ana.Source.Engine.Processes;
 using System;
 using System.Threading;
 
-namespace Anathena.Source.PropertyView
+namespace Ana.Source.PropertyView
 {
     class PropertyViewer : IPropertyViewerModel, IProcessObserver
     {

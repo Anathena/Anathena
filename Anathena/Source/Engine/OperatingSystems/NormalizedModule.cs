@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Anathena.Source.Engine.OperatingSystems
+namespace Ana.Source.Engine.OperatingSystems
 {
     /// <summary>
     /// Defines an OS independent module region and attributes

@@ -1,4 +1,4 @@
-﻿namespace Anathena.GUI.Tools.Scanners
+﻿namespace Ana.GUI.Tools.Scanners
 {
     partial class GUILabelThresholder
     {
@@ -112,7 +112,7 @@
             // ApplyThresholdButton
             // 
             this.ApplyThresholdButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.ApplyThresholdButton.Image = global::Anathena.Properties.Resources.RightArrow;
+            this.ApplyThresholdButton.Image = global::Ana.Properties.Resources.RightArrow;
             this.ApplyThresholdButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.ApplyThresholdButton.Name = "ApplyThresholdButton";
             this.ApplyThresholdButton.Size = new System.Drawing.Size(23, 22);
@@ -122,7 +122,7 @@
             // RefreshButton
             // 
             this.RefreshButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.RefreshButton.Image = global::Anathena.Properties.Resources.Undo;
+            this.RefreshButton.Image = global::Ana.Properties.Resources.Undo;
             this.RefreshButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.RefreshButton.Name = "RefreshButton";
             this.RefreshButton.Size = new System.Drawing.Size(23, 22);
@@ -133,7 +133,7 @@
             // 
             this.InvertSelectionButton.CheckOnClick = true;
             this.InvertSelectionButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.InvertSelectionButton.Image = global::Anathena.Properties.Resources.Invert;
+            this.InvertSelectionButton.Image = global::Ana.Properties.Resources.Invert;
             this.InvertSelectionButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.InvertSelectionButton.Name = "InvertSelectionButton";
             this.InvertSelectionButton.Size = new System.Drawing.Size(23, 22);

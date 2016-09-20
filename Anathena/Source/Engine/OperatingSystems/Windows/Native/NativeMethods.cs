@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Runtime.InteropServices;
 
-namespace Anathena.Source.Engine.OperatingSystems.Windows.Native
+namespace Ana.Source.Engine.OperatingSystems.Windows.Native
 {
     /// <summary>
     /// Static class referencing all P/Invoked functions used by the library.

@@ -1,8 +1,8 @@
-﻿using Anathena.Source.Engine.Architecture.Disassembler.SharpDisasm;
+﻿using Ana.Source.Engine.Architecture.Disassembler.SharpDisasm;
 using System;
 using System.Collections.Generic;
 
-namespace Anathena.Source.Engine.Architecture.Disassembler
+namespace Ana.Source.Engine.Architecture.Disassembler
 {
     /// <summary>
     /// Interface defining a disassembler.

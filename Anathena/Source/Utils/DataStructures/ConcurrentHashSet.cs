@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Anathena.Source.Utils.DataStructures
+namespace Ana.Source.Utils.DataStructures
 {
     using System.Collections;
     using System.Collections.Generic;

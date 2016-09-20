@@ -1,14 +1,14 @@
-﻿using Anathena.Source.Snapshots;
-using Anathena.Source.Utils;
-using Anathena.Source.Utils.DataStructures;
-using Anathena.Source.Utils.MVP;
-using Anathena.Source.Utils.Validation;
+﻿using Ana.Source.Snapshots;
+using Ana.Source.Utils;
+using Ana.Source.Utils.DataStructures;
+using Ana.Source.Utils.MVP;
+using Ana.Source.Utils.Validation;
 using System;
 using System.Drawing;
 using System.Windows.Forms;
 using WeifenLuo.WinFormsUI.Docking;
 
-namespace Anathena.GUI.Tools
+namespace Ana.GUI.Tools
 {
     public partial class GUISnapshotManager : DockContent, ISnapshotManagerView
     {

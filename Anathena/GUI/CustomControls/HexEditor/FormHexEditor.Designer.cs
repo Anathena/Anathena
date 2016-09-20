@@ -114,10 +114,10 @@ namespace Be.HexEditor
             // 
             // openToolStripMenuItem
             // 
-            this.openToolStripMenuItem.Image = global::Anathena.GUI.CustomControls.HexEditor.ScalingImages.FolderOpen_16;
-            this.openToolStripMenuItem.Image16 = global::Anathena.GUI.CustomControls.HexEditor.ScalingImages.FolderOpen_16;
-            this.openToolStripMenuItem.Image24 = global::Anathena.GUI.CustomControls.HexEditor.ScalingImages.FolderOpen_24;
-            this.openToolStripMenuItem.Image32 = global::Anathena.GUI.CustomControls.HexEditor.ScalingImages.FolderOpen_32;
+            this.openToolStripMenuItem.Image = global::Ana.GUI.CustomControls.HexEditor.ScalingImages.FolderOpen_16;
+            this.openToolStripMenuItem.Image16 = global::Ana.GUI.CustomControls.HexEditor.ScalingImages.FolderOpen_16;
+            this.openToolStripMenuItem.Image24 = global::Ana.GUI.CustomControls.HexEditor.ScalingImages.FolderOpen_24;
+            this.openToolStripMenuItem.Image32 = global::Ana.GUI.CustomControls.HexEditor.ScalingImages.FolderOpen_32;
             resources.ApplyResources(this.openToolStripMenuItem, "openToolStripMenuItem");
             this.openToolStripMenuItem.Name = "openToolStripMenuItem";
             this.openToolStripMenuItem.Click += new System.EventHandler(this.open_Click);
@@ -129,10 +129,10 @@ namespace Be.HexEditor
             // 
             // saveToolStripMenuItem
             // 
-            this.saveToolStripMenuItem.Image = global::Anathena.GUI.CustomControls.HexEditor.ScalingImages.save16;
-            this.saveToolStripMenuItem.Image16 = global::Anathena.GUI.CustomControls.HexEditor.ScalingImages.save16;
-            this.saveToolStripMenuItem.Image24 = global::Anathena.GUI.CustomControls.HexEditor.ScalingImages.Save24;
-            this.saveToolStripMenuItem.Image32 = global::Anathena.GUI.CustomControls.HexEditor.ScalingImages.Save32;
+            this.saveToolStripMenuItem.Image = global::Ana.GUI.CustomControls.HexEditor.ScalingImages.save16;
+            this.saveToolStripMenuItem.Image16 = global::Ana.GUI.CustomControls.HexEditor.ScalingImages.save16;
+            this.saveToolStripMenuItem.Image24 = global::Ana.GUI.CustomControls.HexEditor.ScalingImages.Save24;
+            this.saveToolStripMenuItem.Image32 = global::Ana.GUI.CustomControls.HexEditor.ScalingImages.Save32;
             resources.ApplyResources(this.saveToolStripMenuItem, "saveToolStripMenuItem");
             this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
             this.saveToolStripMenuItem.Click += new System.EventHandler(this.save_Click);
@@ -179,30 +179,30 @@ namespace Be.HexEditor
             // 
             // cutToolStripMenuItem
             // 
-            this.cutToolStripMenuItem.Image = global::Anathena.GUI.CustomControls.HexEditor.ScalingImages.Cut16;
-            this.cutToolStripMenuItem.Image16 = global::Anathena.GUI.CustomControls.HexEditor.ScalingImages.Copy16;
-            this.cutToolStripMenuItem.Image24 = global::Anathena.GUI.CustomControls.HexEditor.ScalingImages.Copy24;
-            this.cutToolStripMenuItem.Image32 = global::Anathena.GUI.CustomControls.HexEditor.ScalingImages.Copy32;
+            this.cutToolStripMenuItem.Image = global::Ana.GUI.CustomControls.HexEditor.ScalingImages.Cut16;
+            this.cutToolStripMenuItem.Image16 = global::Ana.GUI.CustomControls.HexEditor.ScalingImages.Copy16;
+            this.cutToolStripMenuItem.Image24 = global::Ana.GUI.CustomControls.HexEditor.ScalingImages.Copy24;
+            this.cutToolStripMenuItem.Image32 = global::Ana.GUI.CustomControls.HexEditor.ScalingImages.Copy32;
             resources.ApplyResources(this.cutToolStripMenuItem, "cutToolStripMenuItem");
             this.cutToolStripMenuItem.Name = "cutToolStripMenuItem";
             this.cutToolStripMenuItem.Click += new System.EventHandler(this.cut_Click);
             // 
             // copyToolStripMenuItem
             // 
-            this.copyToolStripMenuItem.Image = global::Anathena.GUI.CustomControls.HexEditor.ScalingImages.Copy16;
-            this.copyToolStripMenuItem.Image16 = global::Anathena.GUI.CustomControls.HexEditor.ScalingImages.Copy16;
-            this.copyToolStripMenuItem.Image24 = global::Anathena.GUI.CustomControls.HexEditor.ScalingImages.Copy24;
-            this.copyToolStripMenuItem.Image32 = global::Anathena.GUI.CustomControls.HexEditor.ScalingImages.Copy32;
+            this.copyToolStripMenuItem.Image = global::Ana.GUI.CustomControls.HexEditor.ScalingImages.Copy16;
+            this.copyToolStripMenuItem.Image16 = global::Ana.GUI.CustomControls.HexEditor.ScalingImages.Copy16;
+            this.copyToolStripMenuItem.Image24 = global::Ana.GUI.CustomControls.HexEditor.ScalingImages.Copy24;
+            this.copyToolStripMenuItem.Image32 = global::Ana.GUI.CustomControls.HexEditor.ScalingImages.Copy32;
             resources.ApplyResources(this.copyToolStripMenuItem, "copyToolStripMenuItem");
             this.copyToolStripMenuItem.Name = "copyToolStripMenuItem";
             this.copyToolStripMenuItem.Click += new System.EventHandler(this.copy_Click);
             // 
             // pasteToolStripMenuItem
             // 
-            this.pasteToolStripMenuItem.Image = global::Anathena.GUI.CustomControls.HexEditor.ScalingImages.Paste16;
-            this.pasteToolStripMenuItem.Image16 = global::Anathena.GUI.CustomControls.HexEditor.ScalingImages.Paste16;
-            this.pasteToolStripMenuItem.Image24 = global::Anathena.GUI.CustomControls.HexEditor.ScalingImages.Paste24;
-            this.pasteToolStripMenuItem.Image32 = global::Anathena.GUI.CustomControls.HexEditor.ScalingImages.Paste32;
+            this.pasteToolStripMenuItem.Image = global::Ana.GUI.CustomControls.HexEditor.ScalingImages.Paste16;
+            this.pasteToolStripMenuItem.Image16 = global::Ana.GUI.CustomControls.HexEditor.ScalingImages.Paste16;
+            this.pasteToolStripMenuItem.Image24 = global::Ana.GUI.CustomControls.HexEditor.ScalingImages.Paste24;
+            this.pasteToolStripMenuItem.Image32 = global::Ana.GUI.CustomControls.HexEditor.ScalingImages.Paste32;
             resources.ApplyResources(this.pasteToolStripMenuItem, "pasteToolStripMenuItem");
             this.pasteToolStripMenuItem.Name = "pasteToolStripMenuItem";
             this.pasteToolStripMenuItem.Click += new System.EventHandler(this.paste_Click);
@@ -231,20 +231,20 @@ namespace Be.HexEditor
             // 
             // findToolStripMenuItem
             // 
-            this.findToolStripMenuItem.Image = global::Anathena.GUI.CustomControls.HexEditor.ScalingImages.Find16;
-            this.findToolStripMenuItem.Image16 = global::Anathena.GUI.CustomControls.HexEditor.ScalingImages.Find16;
-            this.findToolStripMenuItem.Image24 = global::Anathena.GUI.CustomControls.HexEditor.ScalingImages.Find24;
-            this.findToolStripMenuItem.Image32 = global::Anathena.GUI.CustomControls.HexEditor.ScalingImages.Find32;
+            this.findToolStripMenuItem.Image = global::Ana.GUI.CustomControls.HexEditor.ScalingImages.Find16;
+            this.findToolStripMenuItem.Image16 = global::Ana.GUI.CustomControls.HexEditor.ScalingImages.Find16;
+            this.findToolStripMenuItem.Image24 = global::Ana.GUI.CustomControls.HexEditor.ScalingImages.Find24;
+            this.findToolStripMenuItem.Image32 = global::Ana.GUI.CustomControls.HexEditor.ScalingImages.Find32;
             this.findToolStripMenuItem.Name = "findToolStripMenuItem";
             resources.ApplyResources(this.findToolStripMenuItem, "findToolStripMenuItem");
             this.findToolStripMenuItem.Click += new System.EventHandler(this.find_Click);
             // 
             // findNextToolStripMenuItem
             // 
-            this.findNextToolStripMenuItem.Image = global::Anathena.GUI.CustomControls.HexEditor.ScalingImages.FindNext16;
-            this.findNextToolStripMenuItem.Image16 = global::Anathena.GUI.CustomControls.HexEditor.ScalingImages.FindNext16;
-            this.findNextToolStripMenuItem.Image24 = global::Anathena.GUI.CustomControls.HexEditor.ScalingImages.FindNext24;
-            this.findNextToolStripMenuItem.Image32 = global::Anathena.GUI.CustomControls.HexEditor.ScalingImages.FindNext32;
+            this.findNextToolStripMenuItem.Image = global::Ana.GUI.CustomControls.HexEditor.ScalingImages.FindNext16;
+            this.findNextToolStripMenuItem.Image16 = global::Ana.GUI.CustomControls.HexEditor.ScalingImages.FindNext16;
+            this.findNextToolStripMenuItem.Image24 = global::Ana.GUI.CustomControls.HexEditor.ScalingImages.FindNext24;
+            this.findNextToolStripMenuItem.Image32 = global::Ana.GUI.CustomControls.HexEditor.ScalingImages.FindNext32;
             this.findNextToolStripMenuItem.Name = "findNextToolStripMenuItem";
             resources.ApplyResources(this.findNextToolStripMenuItem, "findNextToolStripMenuItem");
             this.findNextToolStripMenuItem.Click += new System.EventHandler(this.findNext_Click);
@@ -330,10 +330,10 @@ namespace Be.HexEditor
             // openToolStripButton
             // 
             this.openToolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.openToolStripButton.Image = global::Anathena.GUI.CustomControls.HexEditor.images.openHS;
-            this.openToolStripButton.Image16 = global::Anathena.GUI.CustomControls.HexEditor.ScalingImages.FolderOpen_16;
-            this.openToolStripButton.Image24 = global::Anathena.GUI.CustomControls.HexEditor.ScalingImages.FolderOpen_24;
-            this.openToolStripButton.Image32 = global::Anathena.GUI.CustomControls.HexEditor.ScalingImages.FolderOpen_32;
+            this.openToolStripButton.Image = global::Ana.GUI.CustomControls.HexEditor.images.openHS;
+            this.openToolStripButton.Image16 = global::Ana.GUI.CustomControls.HexEditor.ScalingImages.FolderOpen_16;
+            this.openToolStripButton.Image24 = global::Ana.GUI.CustomControls.HexEditor.ScalingImages.FolderOpen_24;
+            this.openToolStripButton.Image32 = global::Ana.GUI.CustomControls.HexEditor.ScalingImages.FolderOpen_32;
             resources.ApplyResources(this.openToolStripButton, "openToolStripButton");
             this.openToolStripButton.Name = "openToolStripButton";
             this.openToolStripButton.Click += new System.EventHandler(this.open_Click);
@@ -341,10 +341,10 @@ namespace Be.HexEditor
             // saveToolStripButton
             // 
             this.saveToolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.saveToolStripButton.Image = global::Anathena.GUI.CustomControls.HexEditor.images.saveHS;
-            this.saveToolStripButton.Image16 = global::Anathena.GUI.CustomControls.HexEditor.ScalingImages.save16;
-            this.saveToolStripButton.Image24 = global::Anathena.GUI.CustomControls.HexEditor.ScalingImages.Save24;
-            this.saveToolStripButton.Image32 = global::Anathena.GUI.CustomControls.HexEditor.ScalingImages.Save32;
+            this.saveToolStripButton.Image = global::Ana.GUI.CustomControls.HexEditor.images.saveHS;
+            this.saveToolStripButton.Image16 = global::Ana.GUI.CustomControls.HexEditor.ScalingImages.save16;
+            this.saveToolStripButton.Image24 = global::Ana.GUI.CustomControls.HexEditor.ScalingImages.Save24;
+            this.saveToolStripButton.Image32 = global::Ana.GUI.CustomControls.HexEditor.ScalingImages.Save32;
             resources.ApplyResources(this.saveToolStripButton, "saveToolStripButton");
             this.saveToolStripButton.Name = "saveToolStripButton";
             this.saveToolStripButton.Click += new System.EventHandler(this.save_Click);
@@ -357,10 +357,10 @@ namespace Be.HexEditor
             // cutToolStripButton
             // 
             this.cutToolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.cutToolStripButton.Image = global::Anathena.GUI.CustomControls.HexEditor.images.CutHS;
-            this.cutToolStripButton.Image16 = global::Anathena.GUI.CustomControls.HexEditor.ScalingImages.Cut16;
-            this.cutToolStripButton.Image24 = global::Anathena.GUI.CustomControls.HexEditor.ScalingImages.Copy24;
-            this.cutToolStripButton.Image32 = global::Anathena.GUI.CustomControls.HexEditor.ScalingImages.Copy32;
+            this.cutToolStripButton.Image = global::Ana.GUI.CustomControls.HexEditor.images.CutHS;
+            this.cutToolStripButton.Image16 = global::Ana.GUI.CustomControls.HexEditor.ScalingImages.Cut16;
+            this.cutToolStripButton.Image24 = global::Ana.GUI.CustomControls.HexEditor.ScalingImages.Copy24;
+            this.cutToolStripButton.Image32 = global::Ana.GUI.CustomControls.HexEditor.ScalingImages.Copy32;
             resources.ApplyResources(this.cutToolStripButton, "cutToolStripButton");
             this.cutToolStripButton.Name = "cutToolStripButton";
             this.cutToolStripButton.Click += new System.EventHandler(this.cut_Click);
@@ -372,24 +372,24 @@ namespace Be.HexEditor
             this.copyToolStripMenuItem1,
             this.copyHexToolStripMenuItem1});
             this.copyToolStripSplitButton.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.copyToolStripSplitButton.Image = global::Anathena.GUI.CustomControls.HexEditor.ScalingImages.Copy16;
-            this.copyToolStripSplitButton.Image16 = global::Anathena.GUI.CustomControls.HexEditor.ScalingImages.Copy16;
-            this.copyToolStripSplitButton.Image24 = global::Anathena.GUI.CustomControls.HexEditor.ScalingImages.Copy24;
-            this.copyToolStripSplitButton.Image32 = global::Anathena.GUI.CustomControls.HexEditor.ScalingImages.Copy32;
+            this.copyToolStripSplitButton.Image = global::Ana.GUI.CustomControls.HexEditor.ScalingImages.Copy16;
+            this.copyToolStripSplitButton.Image16 = global::Ana.GUI.CustomControls.HexEditor.ScalingImages.Copy16;
+            this.copyToolStripSplitButton.Image24 = global::Ana.GUI.CustomControls.HexEditor.ScalingImages.Copy24;
+            this.copyToolStripSplitButton.Image32 = global::Ana.GUI.CustomControls.HexEditor.ScalingImages.Copy32;
             resources.ApplyResources(this.copyToolStripSplitButton, "copyToolStripSplitButton");
             this.copyToolStripSplitButton.Name = "copyToolStripSplitButton";
             this.copyToolStripSplitButton.ButtonClick += new System.EventHandler(this.copy_Click);
             // 
             // copyToolStripMenuItem1
             // 
-            this.copyToolStripMenuItem1.Image = global::Anathena.GUI.CustomControls.HexEditor.images.CopyHS;
+            this.copyToolStripMenuItem1.Image = global::Ana.GUI.CustomControls.HexEditor.images.CopyHS;
             this.copyToolStripMenuItem1.Name = "copyToolStripMenuItem1";
             resources.ApplyResources(this.copyToolStripMenuItem1, "copyToolStripMenuItem1");
             this.copyToolStripMenuItem1.Click += new System.EventHandler(this.copy_Click);
             // 
             // copyHexToolStripMenuItem1
             // 
-            this.copyHexToolStripMenuItem1.Image = global::Anathena.GUI.CustomControls.HexEditor.images.CopyHS;
+            this.copyHexToolStripMenuItem1.Image = global::Ana.GUI.CustomControls.HexEditor.images.CopyHS;
             this.copyHexToolStripMenuItem1.Name = "copyHexToolStripMenuItem1";
             resources.ApplyResources(this.copyHexToolStripMenuItem1, "copyHexToolStripMenuItem1");
             this.copyHexToolStripMenuItem1.Click += new System.EventHandler(this.copyHex_Click);
@@ -400,10 +400,10 @@ namespace Be.HexEditor
             this.pasteToolStripSplitButton.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.pasteToolStripMenuItem1,
             this.pasteHexToolStripMenuItem1});
-            this.pasteToolStripSplitButton.Image = global::Anathena.GUI.CustomControls.HexEditor.ScalingImages.Paste16;
-            this.pasteToolStripSplitButton.Image16 = global::Anathena.GUI.CustomControls.HexEditor.ScalingImages.Paste16;
-            this.pasteToolStripSplitButton.Image24 = global::Anathena.GUI.CustomControls.HexEditor.ScalingImages.Paste24;
-            this.pasteToolStripSplitButton.Image32 = global::Anathena.GUI.CustomControls.HexEditor.ScalingImages.Paste32;
+            this.pasteToolStripSplitButton.Image = global::Ana.GUI.CustomControls.HexEditor.ScalingImages.Paste16;
+            this.pasteToolStripSplitButton.Image16 = global::Ana.GUI.CustomControls.HexEditor.ScalingImages.Paste16;
+            this.pasteToolStripSplitButton.Image24 = global::Ana.GUI.CustomControls.HexEditor.ScalingImages.Paste24;
+            this.pasteToolStripSplitButton.Image32 = global::Ana.GUI.CustomControls.HexEditor.ScalingImages.Paste32;
             resources.ApplyResources(this.pasteToolStripSplitButton, "pasteToolStripSplitButton");
             this.pasteToolStripSplitButton.Name = "pasteToolStripSplitButton";
             this.pasteToolStripSplitButton.ButtonClick += new System.EventHandler(this.paste_Click);
@@ -474,11 +474,11 @@ namespace Be.HexEditor
             // 
             // 
             // 
-            this.hexBox.BuiltInContextMenu.CopyMenuItemImage = global::Anathena.GUI.CustomControls.HexEditor.images.CopyHS;
+            this.hexBox.BuiltInContextMenu.CopyMenuItemImage = global::Ana.GUI.CustomControls.HexEditor.images.CopyHS;
             this.hexBox.BuiltInContextMenu.CopyMenuItemText = resources.GetString("hexBox.BuiltInContextMenu.CopyMenuItemText");
-            this.hexBox.BuiltInContextMenu.CutMenuItemImage = global::Anathena.GUI.CustomControls.HexEditor.images.CutHS;
+            this.hexBox.BuiltInContextMenu.CutMenuItemImage = global::Ana.GUI.CustomControls.HexEditor.images.CutHS;
             this.hexBox.BuiltInContextMenu.CutMenuItemText = resources.GetString("hexBox.BuiltInContextMenu.CutMenuItemText");
-            this.hexBox.BuiltInContextMenu.PasteMenuItemImage = global::Anathena.GUI.CustomControls.HexEditor.images.PasteHS;
+            this.hexBox.BuiltInContextMenu.PasteMenuItemImage = global::Ana.GUI.CustomControls.HexEditor.images.PasteHS;
             this.hexBox.BuiltInContextMenu.PasteMenuItemText = resources.GetString("hexBox.BuiltInContextMenu.PasteMenuItemText");
             this.hexBox.BuiltInContextMenu.SelectAllMenuItemText = resources.GetString("hexBox.BuiltInContextMenu.SelectAllMenuItemText");
             this.hexBox.ColumnInfoVisible = true;

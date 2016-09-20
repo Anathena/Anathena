@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Reflection;
 
-namespace Anathena.Source.Scanners.ScanConstraints
+namespace Ana.Source.Scanners.ScanConstraints
 {
     class ScanConstraintEditor : IScanConstraintEditorModel
     {

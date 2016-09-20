@@ -1,10 +1,10 @@
-﻿using Anathena.Source.Engine.Hook.Graphics.DirectX.Interface.Elements;
+﻿using Ana.Source.Engine.Hook.Graphics.DirectX.Interface.Elements;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 
-namespace Anathena.Source.Engine.Hook.Graphics.DirectX.Interface
+namespace Ana.Source.Engine.Hook.Graphics.DirectX.Interface
 {
     [Serializable]
     public class DirextXGraphicsInterface : MarshalByRefObject, IGraphicsInterface

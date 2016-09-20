@@ -1,4 +1,4 @@
-﻿namespace Anathena.Source.Engine.Processes
+﻿namespace Ana.Source.Engine.Processes
 {
     interface IProcessObserver
     {

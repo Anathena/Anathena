@@ -1,11 +1,11 @@
-﻿using Anathena.Source.Project.ProjectItems;
-using Anathena.Source.UserSettings;
-using Anathena.Source.Utils;
-using Anathena.Source.Utils.MVP;
+﻿using Ana.Source.Project.ProjectItems;
+using Ana.Source.UserSettings;
+using Ana.Source.Utils;
+using Ana.Source.Utils.MVP;
 using System;
 using System.Collections.Generic;
 
-namespace Anathena.Source.Project
+namespace Ana.Source.Project
 {
     delegate void ProjectExplorerEventHandler(Object Sender, ProjectExplorerEventArgs Args);
     class ProjectExplorerEventArgs : EventArgs

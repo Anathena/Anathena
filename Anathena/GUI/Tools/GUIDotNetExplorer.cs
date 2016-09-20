@@ -1,15 +1,15 @@
 ﻿using Aga.Controls.Tree;
-using Anathena.GUI.CustomControls.TreeViews;
-using Anathena.Source.DotNetExplorer;
-using Anathena.Source.Engine.AddressResolver.DotNet;
-using Anathena.Source.Utils.DataStructures;
-using Anathena.Source.Utils.Extensions;
-using Anathena.Source.Utils.MVP;
+using Ana.GUI.CustomControls.TreeViews;
+using Ana.Source.DotNetExplorer;
+using Ana.Source.Engine.AddressResolver.DotNet;
+using Ana.Source.Utils.DataStructures;
+using Ana.Source.Utils.Extensions;
+using Ana.Source.Utils.MVP;
 using System;
 using System.Collections.Generic;
 using WeifenLuo.WinFormsUI.Docking;
 
-namespace Anathena.GUI.Tools
+namespace Ana.GUI.Tools
 {
     public partial class GUIDotNetExplorer : DockContent, IDotNetExplorerView
     {

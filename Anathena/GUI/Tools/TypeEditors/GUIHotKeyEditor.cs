@@ -1,11 +1,11 @@
-﻿using Anathena.Source.Project;
-using Anathena.Source.Utils.MVP;
+﻿using Ana.Source.Project;
+using Ana.Source.Utils.MVP;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
 
-namespace Anathena.GUI.Tools.TypeEditors
+namespace Ana.GUI.Tools.TypeEditors
 {
     partial class GUIHotKeyEditor : Form, IHotKeyEditorView
     {

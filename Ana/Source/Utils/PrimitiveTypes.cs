@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices;
 
-namespace Anathena.Source.Utils
+namespace Ana.Source.Utils
 {
     class PrimitiveTypes
     {

@@ -1,12 +1,12 @@
-﻿using Anathena.Source.Project;
-using Anathena.Source.Utils.MVP;
-using Anathena.Source.Utils.Validation;
+﻿using Ana.Source.Project;
+using Ana.Source.Utils.MVP;
+using Ana.Source.Utils.Validation;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
 
-namespace Anathena.GUI.Tools.TypeEditors
+namespace Ana.GUI.Tools.TypeEditors
 {
     partial class GUIOffsetEditor : Form, IOffsetEditorView
     {

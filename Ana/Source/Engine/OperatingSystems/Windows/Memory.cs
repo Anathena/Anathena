@@ -1,12 +1,12 @@
-﻿using Anathena.Source.Engine.OperatingSystems.Windows.Native;
-using Anathena.Source.Utils.Extensions;
+﻿using Ana.Source.Engine.OperatingSystems.Windows.Native;
+using Ana.Source.Utils.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Runtime.InteropServices;
 
-namespace Anathena.Source.Engine.OperatingSystems.Windows
+namespace Ana.Source.Engine.OperatingSystems.Windows
 {
     /// <summary>
     /// Static class providing tools for windows memory editing internals

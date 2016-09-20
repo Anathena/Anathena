@@ -1,11 +1,11 @@
-﻿using Anathena.Source.Project.PropertyView.TypeConverters;
-using Anathena.Source.Utils.Extensions;
+﻿using Ana.Source.Project.PropertyView.TypeConverters;
+using Ana.Source.Utils.Extensions;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 
-namespace Anathena.Source.Engine.AddressResolver.DotNet
+namespace Ana.Source.Engine.AddressResolver.DotNet
 {
     public class DotNetObject : IEnumerable, IComparable<DotNetObject>
     {

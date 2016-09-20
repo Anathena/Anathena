@@ -1,11 +1,11 @@
-﻿using Anathena.Source.Engine.Architecture.Assembler;
-using Anathena.Source.Engine.Architecture.Disassembler;
-using Anathena.Source.Engine.Hook.Client;
-using Anathena.Source.Engine.InputCapture;
-using Anathena.Source.Engine.OperatingSystems;
+﻿using Ana.Source.Engine.Architecture.Assembler;
+using Ana.Source.Engine.Architecture.Disassembler;
+using Ana.Source.Engine.Hook.Client;
+using Ana.Source.Engine.InputCapture;
+using Ana.Source.Engine.OperatingSystems;
 using System.Diagnostics;
 
-namespace Anathena.Source.Engine
+namespace Ana.Source.Engine
 {
     /// <summary>
     /// Abstraction of the OS, providing access to assembly functions and target process functions

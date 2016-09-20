@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Anathena.Source.Utils.Extensions
+namespace Ana.Source.Utils.Extensions
 {
     public static class PrimitiveExtensions
     {

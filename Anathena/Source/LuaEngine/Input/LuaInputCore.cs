@@ -1,7 +1,7 @@
-﻿using Anathena.Source.Engine;
-using Anathena.Source.Engine.Processes;
+﻿using Ana.Source.Engine;
+using Ana.Source.Engine.Processes;
 
-namespace Anathena.Source.LuaEngine.Input
+namespace Ana.Source.LuaEngine.Input
 {
     class LuaInputCore : IInputCore, IProcessObserver
     {

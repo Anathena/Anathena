@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 
-namespace Anathena.Source.Utils.Extensions
+namespace Ana.Source.Utils.Extensions
 {
     public static class ObjectExtensions
     {

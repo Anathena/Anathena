@@ -1,4 +1,4 @@
-﻿namespace Anathena.Source.Engine.Architecture.Disassembler.SharpDisasm
+﻿namespace Ana.Source.Engine.Architecture.Disassembler.SharpDisasm
 {
     /// <summary>
     /// The CPU architecture mode

@@ -1,11 +1,11 @@
-﻿using Anathena.Source.Engine;
-using Anathena.Source.Engine.InputCapture.Controller;
-using Anathena.Source.Engine.InputCapture.HotKeys;
-using Anathena.Source.Engine.InputCapture.Keyboard;
-using Anathena.Source.Engine.InputCapture.Mouse;
-using Anathena.Source.Engine.Processes;
-using Anathena.Source.Project.ProjectItems.TypeEditors;
-using Anathena.Source.Project.PropertyView.TypeConverters;
+﻿using Ana.Source.Engine;
+using Ana.Source.Engine.InputCapture.Controller;
+using Ana.Source.Engine.InputCapture.HotKeys;
+using Ana.Source.Engine.InputCapture.Keyboard;
+using Ana.Source.Engine.InputCapture.Mouse;
+using Ana.Source.Engine.Processes;
+using Ana.Source.Project.ProjectItems.TypeEditors;
+using Ana.Source.Project.PropertyView.TypeConverters;
 using SharpDX.DirectInput;
 using System;
 using System.Collections.Generic;
@@ -16,7 +16,7 @@ using System.Linq;
 using System.Reflection;
 using System.Runtime.Serialization;
 
-namespace Anathena.Source.Project.ProjectItems
+namespace Ana.Source.Project.ProjectItems
 {
     [Obfuscation(ApplyToMembers = true, Exclude = true)]
     [KnownType(typeof(ProjectItem))]

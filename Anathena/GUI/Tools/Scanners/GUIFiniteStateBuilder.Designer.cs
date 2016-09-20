@@ -1,6 +1,6 @@
-﻿using Anathena.GUI.CustomControls.Panels;
+﻿using Ana.GUI.CustomControls.Panels;
 
-namespace Anathena.GUI.Tools.Scanners
+namespace Ana.GUI.Tools.Scanners
 {
     partial class GUIFiniteStateBuilder
     {
@@ -68,7 +68,7 @@ namespace Anathena.GUI.Tools.Scanners
             // 
             this.DragModeButton.CheckOnClick = true;
             this.DragModeButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.DragModeButton.Image = global::Anathena.Properties.Resources.Valid;
+            this.DragModeButton.Image = global::Ana.Properties.Resources.Valid;
             this.DragModeButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.DragModeButton.Name = "DragModeButton";
             this.DragModeButton.Size = new System.Drawing.Size(31, 20);

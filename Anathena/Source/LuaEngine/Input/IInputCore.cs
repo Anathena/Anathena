@@ -1,4 +1,4 @@
-﻿namespace Anathena.Source.LuaEngine.Input
+﻿namespace Ana.Source.LuaEngine.Input
 {
     interface IInputCore
     {

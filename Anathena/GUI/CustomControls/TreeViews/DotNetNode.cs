@@ -1,8 +1,8 @@
 ﻿using Aga.Controls.Tree;
-using Anathena.Source.Engine.AddressResolver.DotNet;
+using Ana.Source.Engine.AddressResolver.DotNet;
 using System;
 
-namespace Anathena.GUI.CustomControls.TreeViews
+namespace Ana.GUI.CustomControls.TreeViews
 {
     /// <summary>
     /// Node to be shown in the DotNet Explorer

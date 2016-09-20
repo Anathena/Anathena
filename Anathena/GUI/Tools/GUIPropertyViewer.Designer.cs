@@ -1,4 +1,4 @@
-﻿namespace Anathena.GUI.Tools
+﻿namespace Ana.GUI.Tools
 {
     partial class GUIPropertyViewer
     {
@@ -90,7 +90,7 @@
             // RefreshButton
             // 
             this.RefreshButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.RefreshButton.Image = global::Anathena.Properties.Resources.Undo;
+            this.RefreshButton.Image = global::Ana.Properties.Resources.Undo;
             this.RefreshButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.RefreshButton.Name = "RefreshButton";
             this.RefreshButton.Size = new System.Drawing.Size(23, 22);

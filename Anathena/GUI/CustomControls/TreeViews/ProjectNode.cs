@@ -1,9 +1,9 @@
 ﻿using Aga.Controls.Tree;
-using Anathena.Source.Project.ProjectItems;
+using Ana.Source.Project.ProjectItems;
 using System;
 using System.Drawing;
 
-namespace Anathena.GUI.CustomControls.TreeViews
+namespace Ana.GUI.CustomControls.TreeViews
 {
     /// <summary>
     /// Defines a node in the project explorer

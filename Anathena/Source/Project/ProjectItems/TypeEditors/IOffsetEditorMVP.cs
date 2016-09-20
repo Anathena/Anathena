@@ -1,11 +1,11 @@
-﻿using Anathena.GUI.Tools.TypeEditors;
-using Anathena.Source.Utils;
-using Anathena.Source.Utils.MVP;
+﻿using Ana.GUI.Tools.TypeEditors;
+using Ana.Source.Utils;
+using Ana.Source.Utils.MVP;
 using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
 
-namespace Anathena.Source.Project
+namespace Ana.Source.Project
 {
     delegate void OffsetEditorEventHandler(Object Sender, OffsetEditorEventArgs Args);
     class OffsetEditorEventArgs : EventArgs

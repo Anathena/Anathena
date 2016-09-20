@@ -1,4 +1,4 @@
-﻿using Anathena.Source.Utils;
+﻿using Ana.Source.Utils;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
@@ -9,7 +9,7 @@ using System.Runtime.InteropServices;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Anathena.Source.Engine.Processes
+namespace Ana.Source.Engine.Processes
 {
     /* In this class we fetch a process and store it in the target process passed by reference. The method of grabbing
      * processes and sorting them based on time since execution is as follows:
@@ -33,16 +33,13 @@ namespace Anathena.Source.Engine.Processes
      * Further implamentations:
      * - Icon fetching for session0 items (~3-5 have icons)
      */
-    class ProcessSelector : IProcessSelectorModel
+    class ProcessSelector
     {
         // Singleton instance of the Process Selector
         private static Lazy<ProcessSelector> ProcessSelectorInstance = new Lazy<ProcessSelector>(() => { return new ProcessSelector(); }, LazyThreadSafetyMode.PublicationOnly);
 
         // Complete list of running processes
         private List<Process> ProcessList;
-
-        public event ProcessSelectorEventHandler EventDisplayProcesses;
-        public event ProcessSelectorEventHandler EventSelectProcess;
 
         // Observers that must be notified of a process selection change
         private List<IProcessObserver> ProcessObservers;
@@ -129,28 +126,15 @@ namespace Anathena.Source.Engine.Processes
             if (ProcessList == null || Index < 0 || Index >= ProcessList.Count)
                 return;
 
-            // Raise event that we have selected a process
-            ProcessSelectorEventArgs ProcessSelectorEventArgs = new ProcessSelectorEventArgs();
-            ProcessSelectorEventArgs.SelectedProcess = ProcessList[Index];
-            EventSelectProcess(this, ProcessSelectorEventArgs);
-
             Notify(ProcessList[Index]);
         }
 
         public void RefreshProcesses(IntPtr ProcessSelectorHandle)
         {
-            ProcessSelectorEventArgs ProcessSelectorEventArgs = new ProcessSelectorEventArgs();
             List<Process> StandardProcessList;
 
             // Get the process list
             ProcessList = FetchAllProcesses(out StandardProcessList);
-            ProcessSelectorEventArgs.ProcessList = ProcessList;
-
-            // Grab icons for the just the standard processes (system processes tend not to allow this and are slow)
-            ProcessSelectorEventArgs.ProcessIcons = FetchIcons(ProcessSelectorHandle, StandardProcessList);
-
-            // Signal the new lists to the presenter
-            EventDisplayProcesses(this, ProcessSelectorEventArgs);
         }
 
         // Determines if Anathena is able to perform certain actions on the target process, such as fetching icons

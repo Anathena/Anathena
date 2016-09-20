@@ -1,7 +1,7 @@
 ﻿using System;
 using WeifenLuo.WinFormsUI.Docking;
 
-namespace Anathena.GUI.Tools
+namespace Ana.GUI.Tools
 {
     public partial class GUICodeView : DockContent
     {

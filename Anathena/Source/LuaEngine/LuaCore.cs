@@ -1,13 +1,13 @@
-﻿using Anathena.Source.LuaEngine.Graphics;
-using Anathena.Source.LuaEngine.Hook;
-using Anathena.Source.LuaEngine.Input;
-using Anathena.Source.LuaEngine.Memory;
+﻿using Ana.Source.LuaEngine.Graphics;
+using Ana.Source.LuaEngine.Hook;
+using Ana.Source.LuaEngine.Input;
+using Ana.Source.LuaEngine.Memory;
 using NLua;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Anathena.Source.LuaEngine
+namespace Ana.Source.LuaEngine
 {
     public class LuaCore
     {

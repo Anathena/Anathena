@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Anathena.Source.Project.ProjectItems.ScriptTemplates
+namespace Ana.Source.Project.ProjectItems.ScriptTemplates
 {
     class LuaTemplates
     {

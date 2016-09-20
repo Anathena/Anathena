@@ -1,9 +1,9 @@
-﻿using Anathena.Source.Scanners.ScanConstraints;
+﻿using Ana.Source.Scanners.ScanConstraints;
 using System;
 using System.Drawing;
 using System.Reflection;
 
-namespace Anathena.Source.Scanners.FiniteStateScanner
+namespace Ana.Source.Scanners.FiniteStateScanner
 {
     class FiniteStateBuilder : IFiniteStateBuilderModel
     {

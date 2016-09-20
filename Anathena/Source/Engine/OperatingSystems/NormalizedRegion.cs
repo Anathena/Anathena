@@ -1,8 +1,8 @@
-﻿using Anathena.Source.Utils.Extensions;
+﻿using Ana.Source.Utils.Extensions;
 using System;
 using System.Collections.Generic;
 
-namespace Anathena.Source.Engine.OperatingSystems
+namespace Ana.Source.Engine.OperatingSystems
 {
     /// <summary>
     /// Defines an OS independent region in process memory space

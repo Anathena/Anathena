@@ -1,12 +1,12 @@
-﻿using Anathena.Source.LuaEngine.Graphics;
-using Anathena.Source.LuaEngine.Hook;
-using Anathena.Source.LuaEngine.Memory;
-using Anathena.Source.Utils.Extensions;
+﻿using Ana.Source.LuaEngine.Graphics;
+using Ana.Source.LuaEngine.Hook;
+using Ana.Source.LuaEngine.Memory;
+using Ana.Source.Utils.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Anathena.Source.LuaEngine
+namespace Ana.Source.LuaEngine
 {
     class LuaKeywordManager
     {

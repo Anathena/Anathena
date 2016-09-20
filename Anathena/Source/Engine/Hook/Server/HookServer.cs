@@ -1,7 +1,7 @@
-﻿using Anathena.Source.Engine.Hook.Client;
-using Anathena.Source.Engine.Hook.Graphics.DirectX.Interface;
-using Anathena.Source.Engine.Hook.Graphics.DirectX.Interface.DX11;
-using Anathena.Source.Engine.Hook.Graphics.DirectX.Interface.DX9;
+﻿using Ana.Source.Engine.Hook.Client;
+using Ana.Source.Engine.Hook.Graphics.DirectX.Interface;
+using Ana.Source.Engine.Hook.Graphics.DirectX.Interface.DX11;
+using Ana.Source.Engine.Hook.Graphics.DirectX.Interface.DX9;
 using EasyHook;
 using System;
 using System.Collections;
@@ -13,7 +13,7 @@ using System.Runtime.Serialization.Formatters;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Anathena.Source.Engine.Hook.Server
+namespace Ana.Source.Engine.Hook.Server
 {
     /// <summary>
     /// Entry point for a hook in the target process. Automatically loads when RemoteHooking.Inject() is called.

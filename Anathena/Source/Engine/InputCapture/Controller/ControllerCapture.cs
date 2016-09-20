@@ -2,7 +2,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace Anathena.Source.Engine.InputCapture.Controller
+namespace Ana.Source.Engine.InputCapture.Controller
 {
     class ControllerCapture : IControllerSubject
     {

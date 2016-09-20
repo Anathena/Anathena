@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Anathena.Source.Utils.DataStructures
+namespace Ana.Source.Utils.DataStructures
 {
     class ObjectCache<T>
     {

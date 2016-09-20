@@ -1,14 +1,14 @@
-﻿using Anathena.Source.Engine.OperatingSystems;
-using Anathena.Source.UserSettings;
-using Anathena.Source.Utils;
-using Anathena.Source.Utils.DataStructures;
-using Anathena.Source.Utils.Extensions;
-using Anathena.Source.Utils.MVP;
+﻿using Ana.Source.Engine.OperatingSystems;
+using Ana.Source.UserSettings;
+using Ana.Source.Utils;
+using Ana.Source.Utils.DataStructures;
+using Ana.Source.Utils.Extensions;
+using Ana.Source.Utils.MVP;
 using Be.Windows.Forms;
 using System;
 using System.Collections.Generic;
 
-namespace Anathena.Source.MemoryView
+namespace Ana.Source.MemoryView
 {
     delegate void MemoryViewEventHandler(Object Sender, MemoryViewEventArgs Args);
     class MemoryViewEventArgs : EventArgs

@@ -1,4 +1,4 @@
-﻿using Anathena.Source.Utils;
+﻿using Ana.Source.Utils;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
@@ -9,7 +9,7 @@ using System.Runtime.InteropServices;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Anathena.Source.Engine.Processes
+namespace Ana.Source.Engine.Processes
 {
     /* In this class we fetch a process and store it in the target process passed by reference. The method of grabbing
      * processes and sorting them based on time since execution is as follows:

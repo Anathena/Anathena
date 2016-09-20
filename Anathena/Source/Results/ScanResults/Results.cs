@@ -1,15 +1,15 @@
-﻿using Anathena.Source.Engine;
-using Anathena.Source.Engine.Processes;
-using Anathena.Source.Project;
-using Anathena.Source.Project.ProjectItems;
-using Anathena.Source.Snapshots;
-using Anathena.Source.Utils;
+﻿using Ana.Source.Engine;
+using Ana.Source.Engine.Processes;
+using Ana.Source.Project;
+using Ana.Source.Project.ProjectItems;
+using Ana.Source.Snapshots;
+using Ana.Source.Utils;
 using System;
 using System.Collections.Concurrent;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Anathena.Source.Results.ScanResults
+namespace Ana.Source.Results.ScanResults
 {
     /// <summary>
     /// Handles the displaying of results

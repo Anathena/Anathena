@@ -1,10 +1,10 @@
-﻿using Anathena.Source.Scanners.ScanConstraints;
-using Anathena.Source.Utils.Extensions;
-using Anathena.Source.Utils.Validation;
+﻿using Ana.Source.Scanners.ScanConstraints;
+using Ana.Source.Utils.Extensions;
+using Ana.Source.Utils.Validation;
 using System;
 using System.Collections.Generic;
 
-namespace Anathena.Source.Scanners.PointerScanner
+namespace Ana.Source.Scanners.PointerScanner
 {
     delegate void PointerScannerEventHandler(Object Sender, PointerScannerEventArgs Args);
     class PointerScannerEventArgs : EventArgs

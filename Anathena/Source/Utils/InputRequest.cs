@@ -1,6 +1,6 @@
 ﻿using System.Windows.Forms;
 
-namespace Anathena.Source.Utils
+namespace Ana.Source.Utils
 {
     /// <summary>
     /// Helper class to request input from the user via a GUI based editor (ie script editor, offset editor, etc)

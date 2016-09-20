@@ -1,14 +1,14 @@
-﻿using Anathena.Source.Controller;
-using Anathena.Source.Engine;
-using Anathena.Source.Engine.InputCapture.Controller;
-using Anathena.Source.Engine.InputCapture.HotKeys;
-using Anathena.Source.Engine.InputCapture.Keyboard;
-using Anathena.Source.Engine.InputCapture.Mouse;
-using Anathena.Source.Engine.Processes;
-using Anathena.Source.Project.ProjectItems.TypeEditors;
-using Anathena.Source.Snapshots;
-using Anathena.Source.UserSettings;
-using Anathena.Source.Utils;
+﻿using Ana.Source.Controller;
+using Ana.Source.Engine;
+using Ana.Source.Engine.InputCapture.Controller;
+using Ana.Source.Engine.InputCapture.HotKeys;
+using Ana.Source.Engine.InputCapture.Keyboard;
+using Ana.Source.Engine.InputCapture.Mouse;
+using Ana.Source.Engine.Processes;
+using Ana.Source.Project.ProjectItems.TypeEditors;
+using Ana.Source.Snapshots;
+using Ana.Source.UserSettings;
+using Ana.Source.Utils;
 using SharpDX.DirectInput;
 using System;
 using System.Collections.Generic;
@@ -16,7 +16,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace Anathena.Source.Scanners.InputCorrelator
+namespace Ana.Source.Scanners.InputCorrelator
 {
     /// <summary>
     /// I Originally thought these might be a good idea:

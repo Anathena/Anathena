@@ -2,7 +2,7 @@
 using SharpDX.DirectInput;
 using System;
 
-namespace Anathena.Source.Engine.InputCapture.Mouse
+namespace Ana.Source.Engine.InputCapture.Mouse
 {
     class MouseCapture : IMouseSubject
     {

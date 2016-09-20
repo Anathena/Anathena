@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Anathena.Source.Utils.Extensions
+namespace Ana.Source.Utils.Extensions
 {
     static class IEnumerableExtensions
     {

@@ -1,6 +1,6 @@
-﻿using Anathena.GUI.CustomControls.ListViews;
+﻿using Ana.GUI.CustomControls.ListViews;
 
-namespace Anathena.GUI.Tools
+namespace Ana.GUI.Tools
 {
     partial class GUIResults
     {
@@ -150,7 +150,7 @@ namespace Anathena.GUI.Tools
             // AddSelectedResultsButton
             // 
             this.AddSelectedResultsButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.AddSelectedResultsButton.Image = global::Anathena.Properties.Resources.DownArrows;
+            this.AddSelectedResultsButton.Image = global::Ana.Properties.Resources.DownArrows;
             this.AddSelectedResultsButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.AddSelectedResultsButton.Name = "AddSelectedResultsButton";
             this.AddSelectedResultsButton.Size = new System.Drawing.Size(23, 22);

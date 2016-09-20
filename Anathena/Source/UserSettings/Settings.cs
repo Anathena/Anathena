@@ -1,9 +1,9 @@
-﻿using Anathena.Source.Engine.OperatingSystems;
+﻿using Ana.Source.Engine.OperatingSystems;
 using System;
 using System.Reflection;
 using System.Threading;
 
-namespace Anathena.Source.UserSettings
+namespace Ana.Source.UserSettings
 {
     [Obfuscation(ApplyToMembers = true, Exclude = true)]
     class Settings : ISettingsModel

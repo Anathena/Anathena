@@ -1,6 +1,6 @@
-﻿using Anathena.GUI.CustomControls.TextBoxes;
+﻿using Ana.GUI.CustomControls.TextBoxes;
 
-namespace Anathena.GUI.Tools
+namespace Ana.GUI.Tools
 {
     partial class GUISettings
     {

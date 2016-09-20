@@ -1,4 +1,4 @@
-﻿namespace Anathena.GUI.Tools
+﻿namespace Ana.GUI.Tools
 {
     partial class GUICheatBrowser
     {
@@ -60,7 +60,7 @@
             // BackButton
             // 
             this.BackButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.BackButton.Image = global::Anathena.Properties.Resources.MoveLeft;
+            this.BackButton.Image = global::Ana.Properties.Resources.MoveLeft;
             this.BackButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.BackButton.Name = "BackButton";
             this.BackButton.Size = new System.Drawing.Size(23, 22);
@@ -70,7 +70,7 @@
             // ForwardButton
             // 
             this.ForwardButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.ForwardButton.Image = global::Anathena.Properties.Resources.MoveRight;
+            this.ForwardButton.Image = global::Ana.Properties.Resources.MoveRight;
             this.ForwardButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.ForwardButton.Name = "ForwardButton";
             this.ForwardButton.Size = new System.Drawing.Size(23, 22);

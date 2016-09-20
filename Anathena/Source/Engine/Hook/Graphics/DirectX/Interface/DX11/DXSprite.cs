@@ -7,7 +7,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
 
-namespace Anathena.Source.Engine.Hook.Graphics.DirectX.Interface.DX11
+namespace Ana.Source.Engine.Hook.Graphics.DirectX.Interface.DX11
 {
     public class DXSprite
     {

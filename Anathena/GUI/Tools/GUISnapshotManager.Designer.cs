@@ -1,6 +1,6 @@
-﻿using Anathena.GUI.CustomControls.ListViews;
+﻿using Ana.GUI.CustomControls.ListViews;
 
-namespace Anathena.GUI.Tools
+namespace Ana.GUI.Tools
 {
     partial class GUISnapshotManager
     {

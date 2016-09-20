@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Reflection;
 
-namespace Anathena.Source.Engine.OperatingSystems
+namespace Ana.Source.Engine.OperatingSystems
 {
 
     public interface IOperatingSystem

@@ -1,11 +1,11 @@
-﻿using Anathena.Source.Scanners.ScanConstraints;
-using Anathena.Source.Utils.MVP;
-using Anathena.Source.Utils.Validation;
+﻿using Ana.Source.Scanners.ScanConstraints;
+using Ana.Source.Utils.MVP;
+using Ana.Source.Utils.Validation;
 using System;
 using System.Drawing;
 using System.Reflection;
 
-namespace Anathena.Source.Scanners.FiniteStateScanner
+namespace Ana.Source.Scanners.FiniteStateScanner
 {
     delegate void FiniteStateBuilderEventHandler(Object Sender, FiniteStateBuilderEventArgs Args);
     class FiniteStateBuilderEventArgs : EventArgs

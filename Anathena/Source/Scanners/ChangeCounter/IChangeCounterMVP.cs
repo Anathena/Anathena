@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Anathena.Source.Scanners.ChangeCounter
+namespace Ana.Source.Scanners.ChangeCounter
 {
     interface IChangeCounterView : IScannerView
     {

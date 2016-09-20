@@ -1,4 +1,4 @@
-﻿namespace Anathena.Source.Engine.InputCapture
+﻿namespace Ana.Source.Engine.InputCapture
 {
     public interface IInputCapture
     {

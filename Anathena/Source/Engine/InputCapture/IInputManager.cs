@@ -1,8 +1,8 @@
-﻿using Anathena.Source.Engine.InputCapture.Controller;
-using Anathena.Source.Engine.InputCapture.Keyboard;
-using Anathena.Source.Engine.InputCapture.Mouse;
+﻿using Ana.Source.Engine.InputCapture.Controller;
+using Ana.Source.Engine.InputCapture.Keyboard;
+using Ana.Source.Engine.InputCapture.Mouse;
 
-namespace Anathena.Source.Engine.InputCapture
+namespace Ana.Source.Engine.InputCapture
 {
     public interface IInputManager
     {

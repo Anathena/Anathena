@@ -1,16 +1,16 @@
-﻿using Anathena.Source.Engine;
-using Anathena.Source.Engine.AddressResolver;
-using Anathena.Source.Engine.AddressResolver.DotNet;
-using Anathena.Source.Engine.Processes;
-using Anathena.Source.Engine.Proxy;
-using Anathena.Source.Project;
-using Anathena.Source.Snapshots;
-using Anathena.Source.Snapshots.Prefilter;
-using Anathena.Source.Utils;
+﻿using Ana.Source.Engine;
+using Ana.Source.Engine.AddressResolver;
+using Ana.Source.Engine.AddressResolver.DotNet;
+using Ana.Source.Engine.Processes;
+using Ana.Source.Engine.Proxy;
+using Ana.Source.Project;
+using Ana.Source.Snapshots;
+using Ana.Source.Snapshots.Prefilter;
+using Ana.Source.Utils;
 using System;
 using System.Threading;
 
-namespace Anathena.Source.Controller
+namespace Ana.Source.Controller
 {
     class Main : IMainModel
     {

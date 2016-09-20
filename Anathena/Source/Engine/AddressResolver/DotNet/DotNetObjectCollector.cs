@@ -1,8 +1,8 @@
-﻿using Anathena.Source.Engine.Processes;
-using Anathena.Source.Engine.Proxy;
-using Anathena.Source.Utils;
-using Anathena.Source.Utils.Extensions;
-using Anathena.Source.Utils.Validation;
+﻿using Ana.Source.Engine.Processes;
+using Ana.Source.Engine.Proxy;
+using Ana.Source.Utils;
+using Ana.Source.Utils.Extensions;
+using Ana.Source.Utils.Validation;
 using AnathenaProxy;
 using System;
 using System.Collections.Generic;
@@ -10,7 +10,7 @@ using System.Linq;
 using System.Reflection;
 using System.Threading;
 
-namespace Anathena.Source.Engine.AddressResolver.DotNet
+namespace Ana.Source.Engine.AddressResolver.DotNet
 {
     /// <summary>
     /// Class to walk through the managed heap of a .NET process, allowing for the easy retrieval

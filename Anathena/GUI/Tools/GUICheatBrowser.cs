@@ -1,12 +1,12 @@
-﻿using Anathena.Source.Utils;
-using Anathena.Source.Utils.Browser;
-using Anathena.Source.Utils.MVP;
+﻿using Ana.Source.Utils;
+using Ana.Source.Utils.Browser;
+using Ana.Source.Utils.MVP;
 using Gecko;
 using System;
 using System.Windows.Forms;
 using WeifenLuo.WinFormsUI.Docking;
 
-namespace Anathena.GUI.Tools
+namespace Ana.GUI.Tools
 {
     public partial class GUICheatBrowser : DockContent
     {

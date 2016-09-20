@@ -1,8 +1,8 @@
-﻿using Anathena.Source.Engine.InputCapture.HotKeys;
+﻿using Ana.Source.Engine.InputCapture.HotKeys;
 using System;
 using System.Collections.Generic;
 
-namespace Anathena.Source.Scanners.InputCorrelator
+namespace Ana.Source.Scanners.InputCorrelator
 {
     delegate void InputCorrelatorEventHandler(Object Sender, InputCorrelatorEventArgs Args);
     class InputCorrelatorEventArgs : EventArgs

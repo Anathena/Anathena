@@ -1,4 +1,4 @@
-﻿namespace Anathena.Source.Utils.MVP
+﻿namespace Ana.Source.Utils.MVP
 {
     /// <summary>
     /// Interface for GUI components

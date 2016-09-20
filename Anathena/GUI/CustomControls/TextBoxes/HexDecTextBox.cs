@@ -1,10 +1,10 @@
-﻿using Anathena.Source.Utils.Validation;
+﻿using Ana.Source.Utils.Validation;
 using System;
 using System.Drawing;
 using System.Reflection;
 using System.Windows.Forms;
 
-namespace Anathena.GUI.CustomControls.TextBoxes
+namespace Ana.GUI.CustomControls.TextBoxes
 {
     /// <summary>
     /// A textbox that allows for hex and dec values to be stored, validated, and colored. Extends WatermarkTextBox.

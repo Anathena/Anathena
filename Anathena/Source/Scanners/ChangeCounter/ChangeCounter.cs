@@ -1,12 +1,12 @@
-﻿using Anathena.Source.Controller;
-using Anathena.Source.Snapshots;
-using Anathena.Source.UserSettings;
-using Anathena.Source.Utils;
+﻿using Ana.Source.Controller;
+using Ana.Source.Snapshots;
+using Ana.Source.UserSettings;
+using Ana.Source.Utils;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Anathena.Source.Scanners.ChangeCounter
+namespace Ana.Source.Scanners.ChangeCounter
 {
     class ChangeCounter : IChangeCounterModel
     {

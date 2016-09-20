@@ -1,12 +1,12 @@
-﻿using Anathena.Source.Scanners.ScanConstraints;
-using Anathena.Source.Snapshots;
-using Anathena.Source.UserSettings;
-using Anathena.Source.Utils;
+﻿using Ana.Source.Scanners.ScanConstraints;
+using Ana.Source.Snapshots;
+using Ana.Source.UserSettings;
+using Ana.Source.Utils;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Anathena.Source.Scanners.ManualScanner
+namespace Ana.Source.Scanners.ManualScanner
 {
     class ManualScanner : IManualScannerModel
     {

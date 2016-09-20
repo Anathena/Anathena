@@ -2,7 +2,7 @@
 using System.Runtime.Remoting;
 using System.Security.Permissions;
 
-namespace Anathena.Source.Engine.Hook.Graphics.DirectX.Interface.Elements
+namespace Ana.Source.Engine.Hook.Graphics.DirectX.Interface.Elements
 {
     [Serializable]
     public abstract class Element : MarshalByRefObject, ICloneable, IDisposable

@@ -1,9 +1,9 @@
-﻿using Anathena.Source.Engine.OperatingSystems;
-using Anathena.Source.Utils.MVP;
+﻿using Ana.Source.Engine.OperatingSystems;
+using Ana.Source.Utils.MVP;
 using System;
 using System.Reflection;
 
-namespace Anathena.Source.UserSettings
+namespace Ana.Source.UserSettings
 {
     [Obfuscation(ApplyToMembers = true, Exclude = true)]
     interface ISettingsView : IView

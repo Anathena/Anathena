@@ -1,7 +1,7 @@
-﻿using Anathena.Source.Engine.OperatingSystems.Windows;
+﻿using Ana.Source.Engine.OperatingSystems.Windows;
 using System.Diagnostics;
 
-namespace Anathena.Source.Engine.OperatingSystems
+namespace Ana.Source.Engine.OperatingSystems
 {
     class OperatingSystemFactory
     {

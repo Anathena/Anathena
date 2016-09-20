@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Anathena.Source.LuaEngine.Hook
+namespace Ana.Source.LuaEngine.Hook
 {
     interface IHookCore
     {

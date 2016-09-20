@@ -1,9 +1,9 @@
-﻿using Anathena.Source.Engine;
-using Anathena.Source.Engine.AddressResolver;
-using Anathena.Source.Project.ProjectItems.TypeEditors;
-using Anathena.Source.Project.PropertyView.TypeConverters;
-using Anathena.Source.Utils.Extensions;
-using Anathena.Source.Utils.Validation;
+﻿using Ana.Source.Engine;
+using Ana.Source.Engine.AddressResolver;
+using Ana.Source.Project.ProjectItems.TypeEditors;
+using Ana.Source.Project.PropertyView.TypeConverters;
+using Ana.Source.Utils.Extensions;
+using Ana.Source.Utils.Validation;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -12,7 +12,7 @@ using System.Linq;
 using System.Reflection;
 using System.Runtime.Serialization;
 
-namespace Anathena.Source.Project.ProjectItems
+namespace Ana.Source.Project.ProjectItems
 {
     [Obfuscation(ApplyToMembers = true, Exclude = true)]
     [DataContract()]

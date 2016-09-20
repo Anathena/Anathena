@@ -1,4 +1,4 @@
-﻿namespace Anathena.GUI.Tools.TypeEditors
+﻿namespace Ana.GUI.Tools.TypeEditors
 {
     partial class GUIScriptEditor
     {

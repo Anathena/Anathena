@@ -1,10 +1,10 @@
-﻿using Anathena.Source.UserSettings;
-using Anathena.Source.Utils;
-using Anathena.Source.Utils.MVP;
-using Anathena.Source.Utils.Validation;
+﻿using Ana.Source.UserSettings;
+using Ana.Source.Utils;
+using Ana.Source.Utils.MVP;
+using Ana.Source.Utils.Validation;
 using System;
 
-namespace Anathena.Source.Results.ScanResults
+namespace Ana.Source.Results.ScanResults
 {
     delegate void ScanResultsEventHandler(Object Sender, ScanResultsEventArgs Args);
     class ScanResultsEventArgs : EventArgs

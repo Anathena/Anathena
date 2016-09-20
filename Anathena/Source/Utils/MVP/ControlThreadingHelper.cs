@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
 
-namespace Anathena.Source.Utils.MVP
+namespace Ana.Source.Utils.MVP
 {
     /// <summary>
     /// Class that allows threads outside of a windows form (Presenter in an MVP) to update controls in the windows form

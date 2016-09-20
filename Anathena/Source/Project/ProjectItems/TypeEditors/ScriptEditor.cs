@@ -1,11 +1,11 @@
-﻿using Anathena.Source.LuaEngine;
-using Anathena.Source.Utils;
+﻿using Ana.Source.LuaEngine;
+using Ana.Source.Utils;
 using System;
 using System.ComponentModel;
 using System.Drawing.Design;
 using System.Windows.Forms;
 
-namespace Anathena.Source.Project.ProjectItems.TypeEditors
+namespace Ana.Source.Project.ProjectItems.TypeEditors
 {
     class ScriptEditor : UITypeEditor, IScriptEditorModel
     {

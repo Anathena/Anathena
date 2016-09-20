@@ -1,9 +1,9 @@
-﻿using Anathena.Source.Engine.Architecture.Disassembler.SharpDisasm;
-using Anathena.Source.Utils.Extensions;
+﻿using Ana.Source.Engine.Architecture.Disassembler.SharpDisasm;
+using Ana.Source.Utils.Extensions;
 using System;
 using System.Collections.Generic;
 
-namespace Anathena.Source.Engine.Architecture.Disassembler
+namespace Ana.Source.Engine.Architecture.Disassembler
 {
     /// <summary>
     /// Implements Fasm.NET compiler for 32-bit development.

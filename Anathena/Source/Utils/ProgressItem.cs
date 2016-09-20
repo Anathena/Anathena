@@ -1,8 +1,8 @@
-﻿using Anathena.Source.Controller;
-using Anathena.Source.Utils.Extensions;
+﻿using Ana.Source.Controller;
+using Ana.Source.Utils.Extensions;
 using System;
 
-namespace Anathena.Source.Utils
+namespace Ana.Source.Utils
 {
     class ProgressItem
     {

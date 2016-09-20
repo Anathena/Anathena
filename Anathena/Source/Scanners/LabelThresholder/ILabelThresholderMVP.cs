@@ -1,9 +1,9 @@
-﻿using Anathena.Source.Utils.MVP;
+﻿using Ana.Source.Utils.MVP;
 using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 
-namespace Anathena.Source.Scanners.LabelThresholder
+namespace Ana.Source.Scanners.LabelThresholder
 {
     delegate void LabelThresholderEventHandler(Object Sender, LabelThresholderEventArgs Args);
     class LabelThresholderEventArgs : EventArgs

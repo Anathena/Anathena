@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Forms;
 
-namespace Anathena.GUI.CustomControls.ListViews
+namespace Ana.GUI.CustomControls.ListViews
 {
     /// <summary>
     /// Virtual list views are not checkable by default, so we can fix that.

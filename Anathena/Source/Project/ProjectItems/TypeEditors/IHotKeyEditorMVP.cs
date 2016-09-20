@@ -1,13 +1,13 @@
-﻿using Anathena.GUI.Tools.TypeEditors;
-using Anathena.Source.Engine.InputCapture.HotKeys;
-using Anathena.Source.Utils;
-using Anathena.Source.Utils.MVP;
+﻿using Ana.GUI.Tools.TypeEditors;
+using Ana.Source.Engine.InputCapture.HotKeys;
+using Ana.Source.Utils;
+using Ana.Source.Utils.MVP;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
 
-namespace Anathena.Source.Project
+namespace Ana.Source.Project
 {
     delegate void HotKeyEditorEventHandler(Object Sender, HotKeyEditorEventArgs Args);
     class HotKeyEditorEventArgs : EventArgs

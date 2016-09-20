@@ -1,8 +1,8 @@
-﻿using Anathena.Source.Snapshots;
-using Anathena.Source.UserSettings;
+﻿using Ana.Source.Snapshots;
+using Ana.Source.UserSettings;
 using System;
 
-namespace Anathena.Source.Scanners.ValueCollector
+namespace Ana.Source.Scanners.ValueCollector
 {
     class ValueCollector : IScannerModel
     {

@@ -1,10 +1,10 @@
-﻿using Anathena.Source.Utils.Extensions;
+﻿using Ana.Source.Utils.Extensions;
 using System;
 using System.Linq;
 using System.Reflection;
 using System.Text;
 
-namespace Anathena.Source.Utils.Validation
+namespace Ana.Source.Utils.Validation
 {
     /// <summary>
     /// Converts a value from one format to another format. No validation checking is done, see CheckSyntax class for this

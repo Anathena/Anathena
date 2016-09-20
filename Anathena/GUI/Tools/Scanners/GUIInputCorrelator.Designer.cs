@@ -1,4 +1,4 @@
-﻿namespace Anathena.GUI.Tools.Scanners
+﻿namespace Ana.GUI.Tools.Scanners
 {
     partial class GUIInputCorrelator
     {
@@ -38,7 +38,7 @@
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.ScanCountLabel = new System.Windows.Forms.ToolStripLabel();
             this.EditKeysButton = new System.Windows.Forms.Button();
-            this.HotKeyListView = new Anathena.GUI.CustomControls.ListViews.FlickerFreeListView();
+            this.HotKeyListView = new Ana.GUI.CustomControls.ListViews.FlickerFreeListView();
             this.HotKeyHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             ((System.ComponentModel.ISupportInitialize)(this.VariableSizeTrackBar)).BeginInit();
             this.scanToolStrip.SuspendLayout();
@@ -91,7 +91,7 @@
             // StartScanButton
             // 
             this.StartScanButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.StartScanButton.Image = global::Anathena.Properties.Resources.RightArrow;
+            this.StartScanButton.Image = global::Ana.Properties.Resources.RightArrow;
             this.StartScanButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.StartScanButton.Name = "StartScanButton";
             this.StartScanButton.Size = new System.Drawing.Size(23, 22);
@@ -101,7 +101,7 @@
             // StopScanButton
             // 
             this.StopScanButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.StopScanButton.Image = global::Anathena.Properties.Resources.Stop;
+            this.StopScanButton.Image = global::Ana.Properties.Resources.Stop;
             this.StopScanButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.StopScanButton.Name = "StopScanButton";
             this.StopScanButton.Size = new System.Drawing.Size(23, 22);

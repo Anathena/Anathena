@@ -1,8 +1,8 @@
 ﻿using Aga.Controls.Tree;
-using Anathena.Source.Project.ProjectItems;
+using Ana.Source.Project.ProjectItems;
 using System;
 
-namespace Anathena.GUI.CustomControls.TreeViews
+namespace Ana.GUI.CustomControls.TreeViews
 {
     /// <summary>
     /// Defines a node in the property viewer

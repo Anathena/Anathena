@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Reflection;
 using System.Runtime.Serialization;
 
-namespace Anathena.Source.Engine.InputCapture.HotKeys
+namespace Ana.Source.Engine.InputCapture.HotKeys
 {
     [DataContract()]
     [Obfuscation(Exclude = true, ApplyToMembers = true)]

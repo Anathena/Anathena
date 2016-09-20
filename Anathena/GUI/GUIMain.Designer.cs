@@ -1,4 +1,4 @@
-﻿namespace Anathena.GUI
+﻿namespace Ana.GUI
 {
     partial class GUIMain
     {
@@ -363,7 +363,7 @@
             // OpenButton
             // 
             this.OpenButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.OpenButton.Image = global::Anathena.Properties.Resources.Open;
+            this.OpenButton.Image = global::Ana.Properties.Resources.Open;
             this.OpenButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.OpenButton.Name = "OpenButton";
             this.OpenButton.Size = new System.Drawing.Size(23, 22);
@@ -373,7 +373,7 @@
             // SaveButton
             // 
             this.SaveButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.SaveButton.Image = global::Anathena.Properties.Resources.Save;
+            this.SaveButton.Image = global::Ana.Properties.Resources.Save;
             this.SaveButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.SaveButton.Name = "SaveButton";
             this.SaveButton.Size = new System.Drawing.Size(23, 22);
@@ -389,7 +389,7 @@
             // NewScanButton
             // 
             this.NewScanButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.NewScanButton.Image = global::Anathena.Properties.Resources.New;
+            this.NewScanButton.Image = global::Ana.Properties.Resources.New;
             this.NewScanButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.NewScanButton.Name = "NewScanButton";
             this.NewScanButton.Size = new System.Drawing.Size(23, 22);
@@ -399,7 +399,7 @@
             // CollectValuesButton
             // 
             this.CollectValuesButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.CollectValuesButton.Image = global::Anathena.Properties.Resources.CollectValues;
+            this.CollectValuesButton.Image = global::Ana.Properties.Resources.CollectValues;
             this.CollectValuesButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.CollectValuesButton.Name = "CollectValuesButton";
             this.CollectValuesButton.Size = new System.Drawing.Size(23, 22);
@@ -409,7 +409,7 @@
             // UndoScanButton
             // 
             this.UndoScanButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.UndoScanButton.Image = global::Anathena.Properties.Resources.Undo;
+            this.UndoScanButton.Image = global::Ana.Properties.Resources.Undo;
             this.UndoScanButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.UndoScanButton.Name = "UndoScanButton";
             this.UndoScanButton.Size = new System.Drawing.Size(23, 22);
@@ -449,7 +449,7 @@
             // CancelActionButton
             // 
             this.CancelActionButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.CancelActionButton.Image = global::Anathena.Properties.Resources.Cancel;
+            this.CancelActionButton.Image = global::Ana.Properties.Resources.Cancel;
             this.CancelActionButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.CancelActionButton.Name = "CancelActionButton";
             this.CancelActionButton.ShowDropDownArrow = false;

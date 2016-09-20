@@ -1,12 +1,12 @@
-﻿using Anathena.Source.Scanners.ChangeCounter;
-using Anathena.Source.Utils;
-using Anathena.Source.Utils.MVP;
-using Anathena.Source.Utils.Validation;
+﻿using Ana.Source.Scanners.ChangeCounter;
+using Ana.Source.Utils;
+using Ana.Source.Utils.MVP;
+using Ana.Source.Utils.Validation;
 using System;
 using System.Drawing;
 using WeifenLuo.WinFormsUI.Docking;
 
-namespace Anathena.GUI.Tools.Scanners
+namespace Ana.GUI.Tools.Scanners
 {
     public partial class GUIChangeCounter : DockContent, IChangeCounterView
     {

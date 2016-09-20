@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading;
 using System.Windows.Forms;
 
-namespace Anathena.Source.Utils
+namespace Ana.Source.Utils
 {
     public class MessageBoxEx
     {

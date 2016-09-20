@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Anathena.Source.LuaEngine.Graphics
+namespace Ana.Source.LuaEngine.Graphics
 {
     interface IGraphicsCore
     {

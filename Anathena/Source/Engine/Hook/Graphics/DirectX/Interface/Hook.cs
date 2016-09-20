@@ -3,7 +3,7 @@ using System;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
 
-namespace Anathena.Source.Engine.Hook.Graphics.DirectX.Interface
+namespace Ana.Source.Engine.Hook.Graphics.DirectX.Interface
 {
     // Thanks to remcoros for the initial version of the following helper classes
 

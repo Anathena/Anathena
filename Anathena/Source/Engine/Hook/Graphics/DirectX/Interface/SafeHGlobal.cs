@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Runtime.InteropServices;
 
-namespace Anathena.Source.Engine.Hook.Graphics.DirectX.Interface
+namespace Ana.Source.Engine.Hook.Graphics.DirectX.Interface
 {
     /// <summary>
     /// Provides a safe handle around a block of unmanaged memory.

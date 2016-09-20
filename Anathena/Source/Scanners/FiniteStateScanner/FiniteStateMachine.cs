@@ -1,4 +1,4 @@
-﻿using Anathena.Source.Scanners.ScanConstraints;
+﻿using Ana.Source.Scanners.ScanConstraints;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -6,7 +6,7 @@ using System.Drawing;
 using System.Linq;
 using System.Reflection;
 
-namespace Anathena.Source.Scanners.FiniteStateScanner
+namespace Ana.Source.Scanners.FiniteStateScanner
 {
     /// <summary>
     /// Class to define a collection of states that represent a finite state machine for FSM scans

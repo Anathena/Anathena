@@ -156,11 +156,11 @@ namespace Be.HexEditor
             // 
             // 
             // 
-            this.hexFind.BuiltInContextMenu.CopyMenuItemImage = global::Anathena.GUI.CustomControls.HexEditor.images.CopyHS;
+            this.hexFind.BuiltInContextMenu.CopyMenuItemImage = global::Ana.GUI.CustomControls.HexEditor.images.CopyHS;
             this.hexFind.BuiltInContextMenu.CopyMenuItemText = resources.GetString("hexFind.BuiltInContextMenu.CopyMenuItemText");
-            this.hexFind.BuiltInContextMenu.CutMenuItemImage = global::Anathena.GUI.CustomControls.HexEditor.images.CutHS;
+            this.hexFind.BuiltInContextMenu.CutMenuItemImage = global::Ana.GUI.CustomControls.HexEditor.images.CutHS;
             this.hexFind.BuiltInContextMenu.CutMenuItemText = resources.GetString("hexFind.BuiltInContextMenu.CutMenuItemText");
-            this.hexFind.BuiltInContextMenu.PasteMenuItemImage = global::Anathena.GUI.CustomControls.HexEditor.images.PasteHS;
+            this.hexFind.BuiltInContextMenu.PasteMenuItemImage = global::Ana.GUI.CustomControls.HexEditor.images.PasteHS;
             this.hexFind.BuiltInContextMenu.PasteMenuItemText = resources.GetString("hexFind.BuiltInContextMenu.PasteMenuItemText");
             this.hexFind.BuiltInContextMenu.SelectAllMenuItemText = resources.GetString("hexFind.BuiltInContextMenu.SelectAllMenuItemText");
             this.hexFind.InfoForeColor = System.Drawing.Color.Empty;

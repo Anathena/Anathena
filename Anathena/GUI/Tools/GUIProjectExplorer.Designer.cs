@@ -1,4 +1,4 @@
-﻿namespace Anathena.GUI.Tools
+﻿namespace Ana.GUI.Tools
 {
     partial class GUIProjectExplorer
     {
@@ -86,7 +86,7 @@
             // 
             // AddressRightClickToolStripMenuItem
             // 
-            this.AddressRightClickToolStripMenuItem.Image = global::Anathena.Properties.Resources.CollectValues;
+            this.AddressRightClickToolStripMenuItem.Image = global::Ana.Properties.Resources.CollectValues;
             this.AddressRightClickToolStripMenuItem.Name = "AddressRightClickToolStripMenuItem";
             this.AddressRightClickToolStripMenuItem.Size = new System.Drawing.Size(116, 22);
             this.AddressRightClickToolStripMenuItem.Text = "Address";
@@ -94,7 +94,7 @@
             // 
             // ScriptRightClickToolStripMenuItem
             // 
-            this.ScriptRightClickToolStripMenuItem.Image = global::Anathena.Properties.Resources.CollectValues;
+            this.ScriptRightClickToolStripMenuItem.Image = global::Ana.Properties.Resources.CollectValues;
             this.ScriptRightClickToolStripMenuItem.Name = "ScriptRightClickToolStripMenuItem";
             this.ScriptRightClickToolStripMenuItem.Size = new System.Drawing.Size(116, 22);
             this.ScriptRightClickToolStripMenuItem.Text = "Script";
@@ -102,7 +102,7 @@
             // 
             // FolderRightClickToolStripMenuItem
             // 
-            this.FolderRightClickToolStripMenuItem.Image = global::Anathena.Properties.Resources.Open;
+            this.FolderRightClickToolStripMenuItem.Image = global::Ana.Properties.Resources.Open;
             this.FolderRightClickToolStripMenuItem.Name = "FolderRightClickToolStripMenuItem";
             this.FolderRightClickToolStripMenuItem.Size = new System.Drawing.Size(116, 22);
             this.FolderRightClickToolStripMenuItem.Text = "Folder";
@@ -180,7 +180,7 @@
             this.AddressToolStripMenuItem,
             this.AddNewScriptToolStripMenuItem,
             this.FolderToolStripMenuItem});
-            this.AddItemDownButton.Image = global::Anathena.Properties.Resources.Increased;
+            this.AddItemDownButton.Image = global::Ana.Properties.Resources.Increased;
             this.AddItemDownButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.AddItemDownButton.Name = "AddItemDownButton";
             this.AddItemDownButton.Size = new System.Drawing.Size(29, 22);
@@ -188,7 +188,7 @@
             // 
             // AddressToolStripMenuItem
             // 
-            this.AddressToolStripMenuItem.Image = global::Anathena.Properties.Resources.CollectValues;
+            this.AddressToolStripMenuItem.Image = global::Ana.Properties.Resources.CollectValues;
             this.AddressToolStripMenuItem.Name = "AddressToolStripMenuItem";
             this.AddressToolStripMenuItem.Size = new System.Drawing.Size(168, 22);
             this.AddressToolStripMenuItem.Text = "Add New Address";
@@ -196,7 +196,7 @@
             // 
             // AddNewScriptToolStripMenuItem
             // 
-            this.AddNewScriptToolStripMenuItem.Image = global::Anathena.Properties.Resources.CollectValues;
+            this.AddNewScriptToolStripMenuItem.Image = global::Ana.Properties.Resources.CollectValues;
             this.AddNewScriptToolStripMenuItem.Name = "AddNewScriptToolStripMenuItem";
             this.AddNewScriptToolStripMenuItem.Size = new System.Drawing.Size(168, 22);
             this.AddNewScriptToolStripMenuItem.Text = "Add New Script";
@@ -204,7 +204,7 @@
             // 
             // FolderToolStripMenuItem
             // 
-            this.FolderToolStripMenuItem.Image = global::Anathena.Properties.Resources.Open;
+            this.FolderToolStripMenuItem.Image = global::Ana.Properties.Resources.Open;
             this.FolderToolStripMenuItem.Name = "FolderToolStripMenuItem";
             this.FolderToolStripMenuItem.Size = new System.Drawing.Size(168, 22);
             this.FolderToolStripMenuItem.Text = "Add New Folder";

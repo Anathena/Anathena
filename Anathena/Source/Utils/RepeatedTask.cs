@@ -2,7 +2,7 @@
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Anathena.Source.Utils
+namespace Ana.Source.Utils
 {
     public abstract class RepeatedTask
     {

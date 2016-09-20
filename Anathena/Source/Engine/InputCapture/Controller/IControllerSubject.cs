@@ -1,4 +1,4 @@
-﻿namespace Anathena.Source.Engine.InputCapture.Controller
+﻿namespace Ana.Source.Engine.InputCapture.Controller
 {
     public interface IControllerSubject : IInputCapture
     {

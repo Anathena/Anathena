@@ -6,7 +6,7 @@ using System.ServiceModel;
 using System.Threading;
 using System.Windows.Forms;
 
-namespace Anathena.Source.Engine.Proxy
+namespace Ana.Source.Engine.Proxy
 {
     /// <summary>
     /// Communicates with proxy services. These issue commands that require 32 or 64 bit specifically.

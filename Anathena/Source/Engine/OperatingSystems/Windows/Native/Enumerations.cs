@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Anathena.Source.Engine.OperatingSystems.Windows.Native
+namespace Ana.Source.Engine.OperatingSystems.Windows.Native
 {
     /// <summary>
     /// Memory-allocation options list.

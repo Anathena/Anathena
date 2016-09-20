@@ -1,14 +1,14 @@
-﻿using Anathena.Source.MemoryView;
-using Anathena.Source.Utils;
-using Anathena.Source.Utils.Extensions;
-using Anathena.Source.Utils.MVP;
+﻿using Ana.Source.MemoryView;
+using Ana.Source.Utils;
+using Ana.Source.Utils.Extensions;
+using Ana.Source.Utils.MVP;
 using Be.Windows.Forms;
 using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
 using WeifenLuo.WinFormsUI.Docking;
 
-namespace Anathena.GUI.Tools
+namespace Ana.GUI.Tools
 {
     public partial class GUIMemoryView : DockContent, IMemoryViewView
     {

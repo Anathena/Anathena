@@ -1,4 +1,4 @@
-﻿namespace Anathena.Source.Scanners.FiniteStateScanner
+﻿namespace Ana.Source.Scanners.FiniteStateScanner
 {
     interface IFiniteStateScannerView : IScannerView
     {

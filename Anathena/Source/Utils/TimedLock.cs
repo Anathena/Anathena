@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading;
 
-namespace Anathena.Source.Utils
+namespace Ana.Source.Utils
 {
     public struct TimedLock : IDisposable
     {

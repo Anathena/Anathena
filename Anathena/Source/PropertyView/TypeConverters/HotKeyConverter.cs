@@ -1,11 +1,11 @@
-﻿using Anathena.Source.Engine.InputCapture.HotKeys;
+﻿using Ana.Source.Engine.InputCapture.HotKeys;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Globalization;
 using System.Linq;
 
-namespace Anathena.Source.Project.PropertyView.TypeConverters
+namespace Ana.Source.Project.PropertyView.TypeConverters
 {
     class HotKeyConverter : StringConverter
     {

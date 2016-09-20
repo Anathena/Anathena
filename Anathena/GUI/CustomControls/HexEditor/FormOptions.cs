@@ -1,4 +1,4 @@
-﻿using Anathena.GUI.CustomControls.HexEditor;
+﻿using Ana.GUI.CustomControls.HexEditor;
 using Be.HexEditor.Properties;
 using System;
 using System.Data;

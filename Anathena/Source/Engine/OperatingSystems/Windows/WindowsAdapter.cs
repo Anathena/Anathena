@@ -1,6 +1,6 @@
-﻿using Anathena.Source.Engine.OperatingSystems.Windows.Native;
-using Anathena.Source.Utils.Extensions;
-using Anathena.Source.Utils.Validation;
+﻿using Ana.Source.Engine.OperatingSystems.Windows.Native;
+using Ana.Source.Utils.Extensions;
+using Ana.Source.Utils.Validation;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -8,7 +8,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 
-namespace Anathena.Source.Engine.OperatingSystems.Windows
+namespace Ana.Source.Engine.OperatingSystems.Windows
 {
     /// <summary>
     /// Class for memory editing a remote process.

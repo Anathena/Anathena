@@ -1,7 +1,7 @@
-﻿using Anathena.GUI.CustomControls.ListViews;
-using Anathena.GUI.CustomControls.TextBoxes;
+﻿using Ana.GUI.CustomControls.ListViews;
+using Ana.GUI.CustomControls.TextBoxes;
 
-namespace Anathena.GUI.Tools.TypeEditors
+namespace Ana.GUI.Tools.TypeEditors
 {
     partial class GUIHotKeyEditor
     {
@@ -36,11 +36,11 @@ namespace Anathena.GUI.Tools.TypeEditors
             this.RemoveHotKeyButton = new System.Windows.Forms.Button();
             this.OkayButton = new System.Windows.Forms.Button();
             this.CancelHotKeyButton = new System.Windows.Forms.Button();
-            this.hotKeyListView = new Anathena.GUI.CustomControls.ListViews.FlickerFreeListView();
+            this.hotKeyListView = new Ana.GUI.CustomControls.ListViews.FlickerFreeListView();
             this.HotKeyHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.HotKeyContextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.DeleteSelectionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.HotKeyTextBox = new Anathena.GUI.CustomControls.TextBoxes.WatermarkTextBox();
+            this.HotKeyTextBox = new Ana.GUI.CustomControls.TextBoxes.WatermarkTextBox();
             this.ClearHotKeyButton = new System.Windows.Forms.Button();
             this.HotKeyContextMenuStrip.SuspendLayout();
             this.SuspendLayout();

@@ -1,16 +1,16 @@
-﻿using Anathena.Source.Engine;
-using Anathena.Source.Engine.OperatingSystems;
-using Anathena.Source.Engine.Processes;
-using Anathena.Source.UserSettings;
-using Anathena.Source.Utils;
-using Anathena.Source.Utils.Extensions;
+﻿using Ana.Source.Engine;
+using Ana.Source.Engine.OperatingSystems;
+using Ana.Source.Engine.Processes;
+using Ana.Source.UserSettings;
+using Ana.Source.Utils;
+using Ana.Source.Utils.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Anathena.Source.Snapshots.Prefilter
+namespace Ana.Source.Snapshots.Prefilter
 {
     /// <summary>
     /// SnapshotPrefilter is a heuristic process that drastically improves scan speed. It capitalizes on the fact that

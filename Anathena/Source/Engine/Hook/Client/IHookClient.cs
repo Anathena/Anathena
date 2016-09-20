@@ -1,8 +1,8 @@
-﻿using Anathena.Source.Engine.Hook.Graphics;
-using Anathena.Source.Engine.Hook.SpeedHack;
+﻿using Ana.Source.Engine.Hook.Graphics;
+using Ana.Source.Engine.Hook.SpeedHack;
 using System.Diagnostics;
 
-namespace Anathena.Source.Engine.Hook.Client
+namespace Ana.Source.Engine.Hook.Client
 {
     public interface IHookClient
     {

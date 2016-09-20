@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Reflection;
 
-namespace Anathena.Source.Scanners.ScanConstraints
+namespace Ana.Source.Scanners.ScanConstraints
 {
     public enum ConstraintsEnum
     {

@@ -1,7 +1,7 @@
-﻿using Anathena.Source.Engine;
-using Anathena.Source.Engine.Processes;
-using Anathena.Source.Utils;
-using Anathena.Source.Utils.Extensions;
+﻿using Ana.Source.Engine;
+using Ana.Source.Engine.Processes;
+using Ana.Source.Utils;
+using Ana.Source.Utils.Extensions;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -9,7 +9,7 @@ using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 
-namespace Anathena.Source.Snapshots
+namespace Ana.Source.Snapshots
 {
     /// <summary>
     /// Defines data contained in a single snapshot

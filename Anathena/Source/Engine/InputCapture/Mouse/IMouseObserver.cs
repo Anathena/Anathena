@@ -1,4 +1,4 @@
-﻿namespace Anathena.Source.Engine.InputCapture.Mouse
+﻿namespace Ana.Source.Engine.InputCapture.Mouse
 {
     public interface IMouseObserver
     {

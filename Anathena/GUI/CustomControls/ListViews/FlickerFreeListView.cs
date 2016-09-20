@@ -1,8 +1,8 @@
-﻿using Anathena.Source.Utils.MVP;
+﻿using Ana.Source.Utils.MVP;
 using System;
 using System.Windows.Forms;
 
-namespace Anathena.GUI.CustomControls.ListViews
+namespace Ana.GUI.CustomControls.ListViews
 {
     class FlickerFreeListView : ListView
     {

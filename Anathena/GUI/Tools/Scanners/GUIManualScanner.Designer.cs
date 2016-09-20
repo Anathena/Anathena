@@ -1,4 +1,4 @@
-﻿namespace Anathena.GUI.Tools.Scanners
+﻿namespace Ana.GUI.Tools.Scanners
 {
     partial class GUIManualScanner
     {
@@ -39,7 +39,7 @@
             // StartScanButton
             // 
             this.StartScanButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.StartScanButton.Image = global::Anathena.Properties.Resources.RightArrow;
+            this.StartScanButton.Image = global::Ana.Properties.Resources.RightArrow;
             this.StartScanButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.StartScanButton.Name = "StartScanButton";
             this.StartScanButton.Size = new System.Drawing.Size(23, 22);

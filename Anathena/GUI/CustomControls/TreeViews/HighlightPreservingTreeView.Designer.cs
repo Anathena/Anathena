@@ -1,4 +1,4 @@
-﻿namespace Anathena.GUI.CustomControls.TreeViews
+﻿namespace Ana.GUI.CustomControls.TreeViews
 {
     partial class HighlightPreservingTreeView
     {

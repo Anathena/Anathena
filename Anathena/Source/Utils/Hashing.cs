@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Anathena.Source.Utils
+namespace Ana.Source.Utils
 {
     class Hashing
     {

@@ -1,13 +1,13 @@
-﻿using Anathena.Properties;
-using Anathena.Source.Utils.MVP;
-using Anathena.Source.Utils.Validation;
+﻿using Ana.Properties;
+using Ana.Source.Utils.MVP;
+using Ana.Source.Utils.Validation;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Windows.Forms;
 
-namespace Anathena.Source.Scanners.ScanConstraints
+namespace Ana.Source.Scanners.ScanConstraints
 {
     delegate void ScanConstraintEditorEventHandler(Object Sender, ScanConstraintEditorEventArgs Args);
     class ScanConstraintEditorEventArgs : EventArgs

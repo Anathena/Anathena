@@ -1,7 +1,7 @@
-﻿using Anathena.Source.Engine.Hook.Graphics.DirectX.Interface;
+﻿using Ana.Source.Engine.Hook.Graphics.DirectX.Interface;
 using System;
 
-namespace Anathena.Source.Engine.Hook.Graphics
+namespace Ana.Source.Engine.Hook.Graphics
 {
     public class GraphicsFactory
     {

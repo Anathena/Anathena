@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 
-namespace Anathena.Source.Scanners.ScanConstraints
+namespace Ana.Source.Scanners.ScanConstraints
 {
     /// <summary>
     /// Class for storing a collection of constraints to be used in a scan that applies more than one constraint per update

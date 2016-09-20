@@ -2,7 +2,7 @@
 using System.Reflection;
 using System.Runtime.Serialization;
 
-namespace Anathena.Source.Project.ProjectItems
+namespace Ana.Source.Project.ProjectItems
 {
     [Obfuscation(ApplyToMembers = true, Exclude = true)]
     [DataContract()]

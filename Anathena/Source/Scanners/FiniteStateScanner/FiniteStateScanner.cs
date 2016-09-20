@@ -1,13 +1,13 @@
-﻿using Anathena.Source.Scanners.ScanConstraints;
-using Anathena.Source.Snapshots;
-using Anathena.Source.UserSettings;
+﻿using Ana.Source.Scanners.ScanConstraints;
+using Ana.Source.Snapshots;
+using Ana.Source.UserSettings;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Anathena.Source.Scanners.FiniteStateScanner
+namespace Ana.Source.Scanners.FiniteStateScanner
 {
     class FiniteStateScanner : IFiniteStateScannerModel
     {

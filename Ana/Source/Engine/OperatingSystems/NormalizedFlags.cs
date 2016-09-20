@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Anathena.Source.Engine.OperatingSystems
+namespace Ana.Source.Engine.OperatingSystems
 {
     [Flags]
     public enum MemoryProtectionEnum

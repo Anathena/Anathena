@@ -1,4 +1,4 @@
-﻿namespace Anathena.Source.DotNetExplorer
+﻿namespace Ana.Source.DotNetExplorer
 {
     using Engine;
     using Engine.AddressResolver;

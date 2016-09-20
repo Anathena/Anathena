@@ -1,10 +1,10 @@
-﻿using Anathena.Source.Engine.OperatingSystems;
-using Anathena.Source.UserSettings;
-using Anathena.Source.Utils.Validation;
+﻿using Ana.Source.Engine.OperatingSystems;
+using Ana.Source.UserSettings;
+using Ana.Source.Utils.Validation;
 using System;
 using System.Windows.Forms;
 
-namespace Anathena.GUI.Tools
+namespace Ana.GUI.Tools
 {
     public partial class GUISettings : Form, ISettingsView
     {

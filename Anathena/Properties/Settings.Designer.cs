@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Anathena.Properties {
+namespace Ana.Properties {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]

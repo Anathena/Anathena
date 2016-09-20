@@ -1,10 +1,10 @@
-﻿using Anathena.Source.Scanners.ScanConstraints;
+﻿using Ana.Source.Scanners.ScanConstraints;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Drawing;
 
-namespace Anathena.Source.Scanners.FiniteStateScanner
+namespace Ana.Source.Scanners.FiniteStateScanner
 {
     /// <summary>
     /// Extension of scan constraints, however this keeps track of transitions and their resulting actions for FSM scans

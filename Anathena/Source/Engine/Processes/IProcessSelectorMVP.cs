@@ -1,12 +1,12 @@
-﻿using Anathena.Source.Utils.MVP;
-using Anathena.Source.Utils.Validation;
+﻿using Ana.Source.Utils.MVP;
+using Ana.Source.Utils.Validation;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
 using System.Windows.Forms;
 
-namespace Anathena.Source.Engine.Processes
+namespace Ana.Source.Engine.Processes
 {
     delegate void ProcessSelectorEventHandler(Object Sender, ProcessSelectorEventArgs Args);
     class ProcessSelectorEventArgs : EventArgs

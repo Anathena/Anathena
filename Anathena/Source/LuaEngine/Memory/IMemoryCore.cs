@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Anathena.Source.LuaEngine.Memory
+namespace Ana.Source.LuaEngine.Memory
 {
     public interface IMemoryCore
     {

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Anathena.Source.Utils.Validation
+namespace Ana.Source.Utils.Validation
 {
     public static class CheckSyntax
     {

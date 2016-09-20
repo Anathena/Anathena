@@ -1,9 +1,9 @@
-﻿using Anathena.GUI.Tools;
-using Anathena.GUI.Tools.Scanners;
-using Anathena.Source.Controller;
-using Anathena.Source.Utils;
-using Anathena.Source.Utils.Extensions;
-using Anathena.Source.Utils.MVP;
+﻿using Ana.GUI.Tools;
+using Ana.GUI.Tools.Scanners;
+using Ana.Source.Controller;
+using Ana.Source.Utils;
+using Ana.Source.Utils.Extensions;
+using Ana.Source.Utils.MVP;
 using System;
 using System.Deployment.Application;
 using System.Diagnostics;
@@ -12,7 +12,7 @@ using System.IO;
 using System.Windows.Forms;
 using WeifenLuo.WinFormsUI.Docking;
 
-namespace Anathena.GUI
+namespace Ana.GUI
 {
     partial class GUIMain : Form, IMainView
     {

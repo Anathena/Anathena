@@ -1,12 +1,12 @@
-﻿using Anathena.Source.PropertyView;
-using Anathena.Source.Utils.MVP;
+﻿using Ana.Source.PropertyView;
+using Ana.Source.Utils.MVP;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
 using WeifenLuo.WinFormsUI.Docking;
 
-namespace Anathena.GUI.Tools
+namespace Ana.GUI.Tools
 {
     public partial class GUIPropertyViewer : DockContent, IPropertyViewerView
     {

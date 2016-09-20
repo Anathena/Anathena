@@ -1,13 +1,13 @@
-﻿using Anathena.Source.Controller;
-using Anathena.Source.Engine.Hook.Graphics;
-using Anathena.Source.Engine.Hook.SpeedHack;
+﻿using Ana.Source.Controller;
+using Ana.Source.Engine.Hook.Graphics;
+using Ana.Source.Engine.Hook.SpeedHack;
 using EasyHook;
 using System;
 using System.Diagnostics;
 using System.IO;
 using System.Runtime.Remoting;
 
-namespace Anathena.Source.Engine.Hook.Client
+namespace Ana.Source.Engine.Hook.Client
 {
     /// <summary>
     /// Provides capability to access objects in the target process

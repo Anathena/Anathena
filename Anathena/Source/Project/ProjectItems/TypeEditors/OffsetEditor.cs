@@ -1,4 +1,4 @@
-﻿using Anathena.Source.Utils;
+﻿using Ana.Source.Utils;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -6,7 +6,7 @@ using System.Drawing.Design;
 using System.Linq;
 using System.Windows.Forms;
 
-namespace Anathena.Source.Project.ProjectItems.TypeEditors
+namespace Ana.Source.Project.ProjectItems.TypeEditors
 {
     class OffsetEditor : UITypeEditor, IOffsetEditorModel
     {
