@@ -1,7 +1,9 @@
 ﻿namespace Ana.Source.ProcessSelector
 {
     using Docking;
+    using Main;
     using System;
+    using System.Collections.Generic;
     using Utils;
 
     /// <summary>
@@ -10,13 +12,27 @@
     internal class ProcessSelectorViewModel : ToolViewModel
     {
         public const String ToolContentId = "FileStatsTool";
-        private Int64 fileSize;
         private DateTime lastModified;
+        private Int64 fileSize;
 
         public ProcessSelectorViewModel() : base("Process Selector")
         {
             this.ContentId = ToolContentId;
-            this.IconSource = ImageLoader.LoadImage("Content/Icons/SelectProcess.png");
+            this.IconSource = ImageLoader.LoadImage("pack://application:,,/Content/Icons/SelectProcess.png");
+
+            MainViewModel.GetInstance().Subscribe(this);
+        }
+
+        public IEnumerable<Int64> GetProcesses
+        {
+            get
+            {
+                return null;
+            }
+
+            set
+            {
+            }
         }
 
         public Int64 FileSize

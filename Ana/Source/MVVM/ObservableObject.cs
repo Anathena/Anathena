@@ -116,14 +116,8 @@
         /// changes.</typeparam>
         /// <param name="propertyExpression">An expression identifying the property
         /// that changes.</param>
-        [SuppressMessage(
-            "Microsoft.Design",
-            "CA1030:UseEventsWhereAppropriate",
-            Justification = "This cannot be an event")]
-        [SuppressMessage(
-            "Microsoft.Design",
-            "CA1006:GenericMethodsShouldProvideTypeParameter",
-            Justification = "This syntax is more convenient than other alternatives.")]
+        [SuppressMessage("Microsoft.Design", "CA1030:UseEventsWhereAppropriate", Justification = "This cannot be an event")]
+        [SuppressMessage("Microsoft.Design", "CA1006:GenericMethodsShouldProvideTypeParameter", Justification = "This syntax is more convenient than other alternatives.")]
         public virtual void RaisePropertyChanging<T>(Expression<Func<T>> propertyExpression)
         {
             PropertyChangingEventHandler handler = this.PropertyChanging;
@@ -166,8 +160,8 @@
         /// <returns>The name of the property returned by the expression.</returns>
         /// <exception cref="ArgumentNullException">If the expression is null.</exception>
         /// <exception cref="ArgumentException">If the expression does not represent a property.</exception>
-        [SuppressMessage("Microsoft.Design", "CA1011:ConsiderPassingBaseTypesAsParameters", Justification = "This syntax is more convenient than the alternatives."),
-         SuppressMessage("Microsoft.Design", "CA1006:DoNotNestGenericTypesInMemberSignatures", Justification = "This syntax is more convenient than the alternatives.")]
+        [SuppressMessage("Microsoft.Design", "CA1011:ConsiderPassingBaseTypesAsParameters", Justification = "This syntax is more convenient than the alternatives.")]
+        [SuppressMessage("Microsoft.Design", "CA1006:DoNotNestGenericTypesInMemberSignatures", Justification = "This syntax is more convenient than the alternatives.")]
         protected static string GetPropertyName<T>(Expression<Func<T>> propertyExpression)
         {
             if (propertyExpression == null)
@@ -206,8 +200,8 @@
         /// <returns>True if the PropertyChanged event has been raised,
         /// false otherwise. The event is not raised if the old
         /// value is equal to the new value.</returns>
-        [SuppressMessage("Microsoft.Design", "CA1006:DoNotNestGenericTypesInMemberSignatures", Justification = "This syntax is more convenient than the alternatives."),
-         SuppressMessage("Microsoft.Design", "CA1045:DoNotPassTypesByReference", MessageId = "1#", Justification = "This syntax is more convenient than the alternatives.")]
+        [SuppressMessage("Microsoft.Design", "CA1006:DoNotNestGenericTypesInMemberSignatures", Justification = "This syntax is more convenient than the alternatives.")]
+        [SuppressMessage("Microsoft.Design", "CA1045:DoNotPassTypesByReference", MessageId = "1#", Justification = "This syntax is more convenient than the alternatives.")]
         protected bool Set<T>(Expression<Func<T>> propertyExpression, ref T field, T newValue)
         {
             if (EqualityComparer<T>.Default.Equals(field, newValue))

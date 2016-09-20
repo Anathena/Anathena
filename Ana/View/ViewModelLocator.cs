@@ -24,7 +24,8 @@ namespace Ana.View
         /// </summary>
         public ViewModelLocator()
         {
-            mainViewModel = new MainViewModel();
+            // TODO: Figure out how to remove these without WPF glitching out like a piece of shit
+            mainViewModel = MainViewModel.GetInstance();
             processSelectorViewModel = new ProcessSelectorViewModel();
         }
 
@@ -35,6 +36,11 @@ namespace Ana.View
         {
             get
             {
+                if (mainViewModel == null)
+                {
+                    mainViewModel = MainViewModel.GetInstance();
+                }
+
                 return mainViewModel;
             }
         }
@@ -46,6 +52,11 @@ namespace Ana.View
         {
             get
             {
+                if (processSelectorViewModel == null)
+                {
+                    processSelectorViewModel = new ProcessSelectorViewModel();
+                }
+
                 return processSelectorViewModel;
             }
         }

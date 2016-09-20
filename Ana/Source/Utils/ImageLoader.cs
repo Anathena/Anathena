@@ -1,7 +1,6 @@
 ﻿namespace Ana.Source.Utils
 {
     using System;
-    using System.IO;
     using System.Windows.Media.Imaging;
 
     public static class ImageLoader
@@ -10,7 +9,7 @@
         {
             BitmapImage BitmapImage = new BitmapImage();
             BitmapImage.BeginInit();
-            BitmapImage.UriSource = new Uri(Path.Combine("pack://application:,,/", contentPath));
+            BitmapImage.UriSource = new Uri(contentPath);
             BitmapImage.EndInit();
             return BitmapImage;
         }

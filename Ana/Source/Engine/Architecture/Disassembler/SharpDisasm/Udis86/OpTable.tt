@@ -1,0 +1,1323 @@
+﻿// --------------------------------------------------------------------------------
+// SharpDisasm (File: SharpDisasm\optable.tt)
+// Copyright (c) 2014-2015 Justin Stenning
+// http://spazzarama.com
+// https://github.com/spazzarama/SharpDisasm
+// https://sharpdisasm.codeplex.com/
+//
+// SharpDisasm is distributed under the 2-clause "Simplified BSD License".
+//
+// Portions of SharpDisasm are ported to C# from udis86 a C disassembler project
+// also distributed under the terms of the 2-clause "Simplified BSD License" and
+// Copyright (c) 2002-2012, Vivek Thampi <vivek.mt@gmail.com>
+// All rights reserved.
+// UDIS86: https://github.com/vmt/udis86
+//
+// Redistribution and use in source and binary forms, with or without modification, 
+// are permitted provided that the following conditions are met:
+// 
+// 1. Redistributions of source code must retain the above copyright notice, 
+//    this list of conditions and the following disclaimer.
+// 2. Redistributions in binary form must reproduce the above copyright notice, 
+//    this list of conditions and the following disclaimer in the documentation 
+//    and/or other materials provided with the distribution.
+// 
+// THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
+// ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED 
+// WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE 
+// DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR 
+// ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES 
+// (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; 
+// LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON 
+// ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT 
+// (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS 
+// SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+// --------------------------------------------------------------------------------
+
+<#@ template debug="true" hostspecific="true" language="C#" #>
+<#@ assembly name="System.Core" #>
+<#@ assembly name="System.Xml" #>
+<#@ assembly name="System.Xml.Linq" #>
+<#@ import namespace="System.Xml.Linq" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Text" #>
+<#@ import namespace="System.IO" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ output extension=".cs" #>
+<# string fileName = this.Host.ResolvePath(System.IO.Path.ChangeExtension(System.IO.Path.GetFileName(this.Host.TemplateFile), ".xml")); #>
+<# 
+//OptableXmlParse(System.IO.File.OpenText(fileName).ReadToEnd(), AddInsnDef); 
+//UdItabGenerator();
+    UdOpcodeTable.Error = Error;
+    UdOpcodeTables.Error = Error;
+    UdItabGenerator.Error = Error;
+    UdItabGenerator.ClearIndent = ClearIndent;
+    UdItabGenerator.PushIndent = PushIndent;
+    UdItabGenerator.Write = Write;
+
+    UdOpcodeTables tables = new UdOpcodeTables(System.IO.File.OpenText(fileName).ReadToEnd());
+    UdItabGenerator gen = new UdItabGenerator(tables);
+#>
+// Do not edit. File generated from optable.xml on <#= DateTime.Now.ToString("dd-MMM-yyyy hh:mm tt") #>
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+
+#pragma warning disable 1591
+namespace SharpDisasm.Udis86
+{
+<#
+    gen.GenCSharpCode();
+#>
+}
+#pragma warning restore 1591
+<#+
+        #region GENERATOR
+        // copied from GENERATOR region in OpTable.tt
+
+        public delegate void ErrorDelegate(string text);
+        /// <summary>
+        /// Represents the equivalent method available within .tt
+        /// </summary>
+        /// <param name="message"></param>
+        /// <param name="args"></param>
+        public delegate void WriteDelegate(string message, params object[] args);
+
+        /// <summary>
+        /// Represents the equivalent method available within .tt
+        /// </summary>
+        /// <param name="indent"></param>
+        public delegate void PushIndentDelegate(string indent);
+
+        /// <summary>
+        /// Represents the equivalent method available within .tt
+        /// </summary>
+        public delegate void ClearIndentDelegate();
+
+
+        /* Begin translation from ud_opcode.py */
+
+        public class UdInsnDef
+        {
+            public string Mnemonic;
+            public List<String> Prefixes = new List<string>();
+            public List<String> Opcodes = new List<string>();
+            public List<String> Operands = new List<string>();
+            public List<String> CpuIds = new List<string>();
+            public Dictionary<String, String> OpcExts = new Dictionary<string, string>();
+
+            public UdInsnDef(string mnemonic, string[] prefixes, string[] opcodes, string[] operands, string[] cpuid)
+            {
+                Mnemonic = mnemonic;
+                Prefixes.AddRange(prefixes);
+                Opcodes.AddRange(opcodes);
+                Operands.AddRange(operands);
+                CpuIds.AddRange(cpuid);
+
+                // Set opc exts
+                foreach (var opc in this.Opcodes)
+                {
+                    if (opc.StartsWith("/"))
+                    {
+                        var split = opc.Split('=');
+                        this.OpcExts[split[0]] = split[1];
+                    }
+                }
+            }
+
+            public UdInsnDef(string mnemonic, string[] pfx, string[] opcs, string[] opr, string vendor, string[] cpuid)
+            {
+                Mnemonic = mnemonic;
+                Prefixes.AddRange(pfx);
+                Opcodes.AddRange(opcs);
+                Operands.AddRange(opr);
+                CpuIds.AddRange(cpuid);
+                this.Vendor = vendor;
+
+                // Set opc exts
+                foreach (var opc in this.Opcodes)
+                {
+                    if (opc.StartsWith("/"))
+                    {
+                        var split = opc.Split('=');
+                        this.OpcExts[split[0]] = split[1];
+                    }
+                }
+            }
+
+            private string GetOpcExts(string name)
+            {
+                if (OpcExts.ContainsKey(name))
+                    return OpcExts[name];
+                else
+                    return null;
+            }
+
+            string _vendor;
+            public string Vendor { get { return _vendor ?? GetOpcExts("/vendor"); } private set { _vendor = value; } }
+
+            public string Mode { get { return GetOpcExts("/m"); } }
+            public string OSize { get { return GetOpcExts("/o"); } }
+            public bool IsDef64()
+            {
+                return this.Prefixes.Contains("def64");
+            }
+            public override string ToString()
+            {
+                return Mnemonic + " " + String.Join(", ", Operands.ToArray()) + " " + String.Join(" ", Opcodes.ToArray());
+            }
+
+            public bool LookupPrefix(string prefix)
+            {
+                return Prefixes.Contains(prefix);
+            }
+        }
+
+        /// <summary>
+        /// A single table of instruction definitions, indexed by a decode field.
+        /// </summary>
+        public class UdOpcodeTable
+        {
+            public class CollisionException : Exception
+            {
+                public CollisionException()
+                    : base()
+                {
+
+                }
+                public CollisionException(string message)
+                    : base(message)
+                {
+
+                }
+            }
+
+            public static ErrorDelegate Error;
+
+            // IndexError -> IndexOutOfRangeException
+            // vendor2idx -> uses OpcExtMap and OpcExtIndex instead
+            // vex2idx    -> uses OpcExtMap and OpcExtIndex instead
+
+            static Dictionary<string, Dictionary<string, string>> OpcExtIndex = new Dictionary<string, Dictionary<string, string>>()
+            {
+                // ssef2, ssef3, sse66
+                {"sse", new Dictionary<string, string>() {
+                    {"none", "00"},
+                    {"f2"   , "01"}, 
+                    {"f3"   , "02"}, 
+                    {"66"   , "03"}
+                }},
+                // /mod=
+                {"mod", new Dictionary<string, string>() {
+                    {"!11"   , "00"}, 
+                    {"11"    , "01"}
+                }},
+
+                // /m=, /o=, /a=
+                {"mode", new Dictionary<string, string>() { 
+                    {"16"    , "00"}, 
+                    {"32"    , "01"}, 
+                    {"64"    , "02"}
+                }},
+
+                {"vendor" , new Dictionary<string, string>() {
+                    {"amd"   , "00"},
+                    {"intel" , "01"},
+                    {"any"   , "02"}
+                }},
+
+                {"vex", new Dictionary<string, string>() {
+                    {"none"   , "00"}, 
+                    {"0f"     , "01"}, 
+                    {"0f38"   , "02"}, 
+                    {"0f3a"   , "03"},
+                    {"66"     , "04"}, 
+                    {"66_0f"  , "05"}, 
+                    {"66_0f38", "06"}, 
+                    {"66_0f3a", "07"},
+                    {"f3"     , "08"}, 
+                    {"f3_0f"  , "09"}, 
+                    {"f3_0f38", "0a"}, 
+                    {"f3_0f3a", "0b"},
+                    {"f2"     , "0c"}, 
+                    {"f2_0f"  , "0d"}, 
+                    {"f2_0f38", "0e"}, 
+                    {"f2_0f3a", "0f"},
+                }},
+            };
+
+            /// <summary>
+            /// A mapping of opcode extensions to their representational values used in the opcode map.
+            /// </summary>
+            public static Dictionary<string, Func<string, string>> OpcExtMap = new Dictionary<string, Func<string, string>>
+                {
+                    {"/rm",     (v) => String.Format("{0:x2}", Int32.Parse(v, System.Globalization.NumberStyles.HexNumber))},
+                    {"/x87",    (v) => String.Format("{0:x2}", Int32.Parse(v, System.Globalization.NumberStyles.HexNumber))},
+                    {"/3dnow",  (v) => String.Format("{0:x2}", Int32.Parse(v, System.Globalization.NumberStyles.HexNumber))},
+                    {"/reg",    (v) => String.Format("{0:x2}", Int32.Parse(v, System.Globalization.NumberStyles.HexNumber))},
+                    // modrm.mod
+                    // (!11, 11) => (00, 01)
+                    {"/mod",    (v) => (v == "!11" ? "00" : "01")},
+                    // Mode extensions:
+                    // (16, 32, 64) => (00, 01, 02)
+                    {"/o",      (v) => String.Format("{0:x2}", Int32.Parse(v) / 32)},
+                    {"/a",      (v) => String.Format("{0:x2}", Int32.Parse(v) / 32)},
+                    // Disassembly mode
+                    // (!64, 64) => (00b, 01b)
+                    {"/m",      (v) => (v == "64" ? "01" : "00")},
+                    // SSE
+                    // none => 0
+                    // f2   => 1
+                    // f3   => 2
+                    // 66   => 3
+                    {"/sse",    (v) => OpcExtIndex["sse"][v]},
+                    // AVX
+                    {"/vex",    (v) => {
+                        if (!String.IsNullOrEmpty(v) && v.StartsWith("none_"))
+                            v = v.Substring(5);
+                        return OpcExtIndex["vex"][v];
+                    }},
+                    {"/vexw",   (v) => (v == "0" ? "00" : "01")},
+                    {"/vexl",   (v) => (v == "0" ? "00" : "01")},
+                    // Vendor
+                    {"/vendor", (v) => OpcExtIndex["vendor"][v]},
+                };
+
+            struct TableInfo
+            {
+                public string Name;
+                public int Size;
+
+                public TableInfo(string name, int size)
+                {
+                    this.Name = name;
+                    this.Size = size;
+                }
+            }
+
+            static Dictionary<string, TableInfo> _TableInfo = new Dictionary<string, TableInfo>() {
+                {"opctbl"    , new TableInfo("UD_TAB__OPC_TABLE",  256) },
+                {"/sse"      , new TableInfo("UD_TAB__OPC_SSE",    4) },
+                {"/reg"      , new TableInfo("UD_TAB__OPC_REG",    8) },
+                {"/rm"       , new TableInfo("UD_TAB__OPC_RM",     8) },
+                {"/mod"      , new TableInfo("UD_TAB__OPC_MOD",    2) },
+                {"/m"        , new TableInfo("UD_TAB__OPC_MODE",   2) },
+                {"/x87"      , new TableInfo("UD_TAB__OPC_X87",    64) },
+                {"/a"        , new TableInfo("UD_TAB__OPC_ASIZE",  3) },
+                {"/o"        , new TableInfo("UD_TAB__OPC_OSIZE",  3) },
+                {"/3dnow"    , new TableInfo("UD_TAB__OPC_3DNOW",  256) },
+                {"/vendor"   , new TableInfo("UD_TAB__OPC_VENDOR", 3) },
+                {"/vex"      , new TableInfo("UD_TAB__OPC_VEX",    16)},
+                {"/vexw"     , new TableInfo("UD_TAB__OPC_VEX_W",  2) },
+                {"/vexl"     , new TableInfo("UD_TAB__OPC_VEX_L",  2) },
+            };
+
+            public UdOpcodeTable(string type)
+            {
+                if (!_TableInfo.ContainsKey(type))
+                    Error("_TableInfo does not contain " + type);
+                this.Type = type;
+                this.Entries = new SortedDictionary<string, object>(new HexStringComparer());
+            }
+
+            private class HexStringComparer : IComparer<String>
+            {
+                public int Compare(String x, String y)
+                {
+                    int xInt = Int32.Parse(x, System.Globalization.NumberStyles.HexNumber);
+                    int yInt = Int32.Parse(y, System.Globalization.NumberStyles.HexNumber);
+
+                    return xInt.CompareTo(yInt);
+                }
+            }
+
+            public SortedDictionary<string, object> Entries { get; private set; }
+
+            public int Size { get { return _TableInfo[this.Type].Size; } }
+            //public IEnumerable<KeyValuePair<string, object>> Entries { get { return _entries; } }
+            public int NumEntries { get { return Entries.Keys.Count; } }
+            public string Label { get { return _TableInfo[this.Type].Name; } }
+            public string Type { get; private set; }
+            public string Meta { get { return Type; } }
+            public override string ToString()
+            {
+                return String.Format("table-{0}", Type);
+            }
+
+            public void Add(string opc, object obj)
+            {
+                string type = UdOpcodeTable.GetOpcodeType(opc);
+                string idx = UdOpcodeTable.GetOpcodeIdx(opc);
+                if (this.Type != type || Entries.ContainsKey(idx))
+                    throw new CollisionException();
+                Entries[idx] = obj;
+            }
+
+            public object Lookup(string opc)
+            {
+                string type = UdOpcodeTable.GetOpcodeType(opc);
+                string idx = UdOpcodeTable.GetOpcodeIdx(opc);
+                if (this.Type != type)
+                    throw new CollisionException(String.Format("{0} <-> {1}", this.Type, type));
+                if (Entries.ContainsKey(idx))
+                    return Entries[idx];
+                else
+                    return null;
+            }
+
+            public object EntryAt(int index)
+            {
+                var key = String.Format("{0:x2}", index);
+                if (Entries.ContainsKey(key))
+                    return Entries[key];
+                else
+                    return null;
+            }
+
+            public void SetEntryAt(int index, object obj)
+            {
+                var keys = Entries.Keys.OrderBy(k => Int32.Parse(k, System.Globalization.NumberStyles.HexNumber)).ToArray();
+                Entries[keys[index]] = obj;
+            }
+
+            public static string GetOpcodeType(string opc)
+            {
+                if (opc.StartsWith("/"))
+                    return opc.Split('=')[0];
+                else
+                    return "opctbl";
+            }
+
+            public static string GetOpcodeIdx(string opc)
+            {
+                if (opc.StartsWith("/"))
+                {
+                    var split = opc.Split('=');
+                    return OpcExtMap[split[0]](split[1]);
+                }
+                else
+                {
+                    return String.Format("{0:x2}", Int32.Parse(opc, System.Globalization.NumberStyles.HexNumber));
+                }
+            }
+            public static List<string> GetLabels()
+            {
+                return (from kv in _TableInfo
+                        select kv.Value.Name).ToList();
+            }
+        }
+
+        /// <summary>
+        /// Collection of opcode tables
+        /// </summary>
+        public class UdOpcodeTables
+        {
+            public static ErrorDelegate Error;
+
+            public class CollisionException : Exception
+            {
+                public CollisionException()
+                    : base()
+                {
+
+                }
+                public CollisionException(string message)
+                    : base(message)
+                {
+
+                }
+            }
+
+
+            /// <summary>
+            /// Create a new opcode table of a given type.
+            /// </summary>
+            /// <param name="type"></param>
+            /// <returns></returns>
+            private UdOpcodeTable NewTable(string type)
+            {
+                var tbl = new UdOpcodeTable(type);
+                _tables.Add(tbl);
+                return tbl;
+            }
+
+            /// <summary>
+            /// Recursively construct a tree entry mapping an array of opcodes to an object
+            /// </summary>
+            /// <param name="opcodes"></param>
+            /// <param name="obj"></param>
+            /// <returns></returns>
+            private object MakeTree(string[] opcodes, object obj)
+            {
+                if (opcodes == null || opcodes.Length == 0)
+                    return obj;
+
+                var opc = opcodes[0];
+                var tbl = NewTable(UdOpcodeTable.GetOpcodeType(opc));
+                tbl.Add(opc, MakeTree(opcodes.Skip(1).ToArray(), obj));
+                return tbl;
+            }
+
+            /// <summary>
+            /// Walk down the opcode tree, starting at a given opcode table, given a string of opcodes.
+            /// Return null if unable to walk, otherwise return the object at the leaf.
+            /// </summary>
+            /// <param name="tbl"></param>
+            /// <param name="opcodes"></param>
+            /// <returns></returns>
+            private object Walk(UdOpcodeTable tbl, string[] opcodes)
+            {
+                var opc = opcodes[0];
+                var e = tbl.Lookup(opc);
+                if (e == null)
+                    return null;
+                else if (e is UdOpcodeTable && opcodes.Length > 1)
+                    return Walk((UdOpcodeTable)e, opcodes.Skip(1).ToArray());
+                return e;
+            }
+
+            /// <summary>
+            /// Create a mapping from a given array of opcodes to an object in
+            /// the opcode tree. Constructs tree branches as needed.
+            /// </summary>
+            /// <param name="tbl"></param>
+            /// <param name="opcodes"></param>
+            /// <param name="obj"></param>
+            private void Map(UdOpcodeTable tbl, string[] opcodes, object obj)
+            {
+                var opc = opcodes[0];
+                var e = tbl.Lookup(opc);
+                if (e == null)
+                    tbl.Add(opc, MakeTree(opcodes.Skip(1).ToArray(), obj));
+                else
+                {
+                    if (opcodes.Length <= 1 || !(e is UdOpcodeTable))
+                        throw new CollisionException();
+                    Map((UdOpcodeTable)e, opcodes.Skip(1).ToArray(), obj);
+                }
+            }
+
+            UdInsnDef _invalidInsn;
+            public UdOpcodeTable Root;
+            List<UdOpcodeTable> _tables = new List<UdOpcodeTable>();
+            List<UdInsnDef> _insns = new List<UdInsnDef>();
+            Dictionary<string, List<UdInsnDef>> _mnemonics = new Dictionary<string, List<UdInsnDef>>();
+
+            public UdOpcodeTables(string xml)
+            {
+                // The root table is always a 256 entry opctbl, indexed by a plain opcode byte
+                Root = new UdOpcodeTable("opctbl");
+
+                // Add an invalid instruction entry without any mappings in the opcode tables.
+                _invalidInsn = new UdInsnDef("invalid", new string[] { }, new string[] { }, new string[] { }, new string[] { });
+                _insns.Add(_invalidInsn);
+
+                // Construct UdOpcodeTables object from the given udis86 optable.xml
+                foreach (UdInsnDef insn in ParseOptableXml(xml))
+                {
+                    AddInsnDef(insn);
+                }
+                PatchAvx2Byte();
+                MergeSSENone();
+                PrintStats();
+            }
+
+            private void PrintStats()
+            {
+                var tables = GetTableList();
+                Log("stats:");
+                Log(String.Format("  Num tables    = {0}", tables.Count));
+                Log(String.Format("  Num insnDefs  = {0}", GetInsnList().Count));
+                Log(String.Format("  Num insns     = {0}", GetMnemonicList().Count));
+
+                var totalSize = 0;
+                var totalEntries = 0;
+                foreach (var table in tables)
+                {
+                    totalSize += table.Size;
+                    totalEntries += table.NumEntries;
+                }
+                Log(String.Format("  Packing Ratio = {0}%", ((totalEntries * 100.0) / totalSize)));
+                Log("--------------------");
+
+                Pprint();
+            }
+
+            private void Pprint()
+            {
+                Action<UdOpcodeTable, string> printWalk = null;
+                printWalk = (tbl, indent) =>
+                {
+                    var entries = tbl.Entries;
+                    foreach (var kv in entries)
+                    {
+                        if (kv.Value is UdOpcodeTable)
+                        {
+                            Log(String.Format("{0}    |-<{1}> {2}", indent, kv.Key, kv.Value));
+                            printWalk(kv.Value as UdOpcodeTable, indent + "    |");
+                        }
+                        else if (kv.Value is UdInsnDef)
+                        {
+                            Log(String.Format("{0}    |-<{1}> {2}", indent, kv.Key, kv.Value));
+                        }
+                    }
+                };
+                printWalk(Root, "");
+            }
+
+            /// <summary>
+            /// Merge sse tables with only one entry for /sse=none
+            /// </summary>
+            private void MergeSSENone()
+            {
+                foreach (var table in _tables)
+                {
+                    List<string> keys = new List<String>();
+                    List<object> sse = new List<object>();
+
+                    foreach (var kv in table.Entries)
+                    {
+                        var e = kv.Value as UdOpcodeTable;
+                        if (e != null && e.Type == "/sse")
+                        {
+                            if (e.NumEntries == 1)
+                            {
+                                var sseTbl = e.Lookup("/sse=none");
+                                if (sseTbl != null)
+                                {
+                                    sse.Add(sseTbl);
+                                    keys.Add(kv.Key);
+                                }
+                            }
+                        }
+                    }
+
+                    for (var i = 0; i < keys.Count; i++)
+                    {
+                        table.Entries[keys[i]] = sse[i];
+                    }
+                }
+                List<UdOpcodeTable> uniqTables = new List<UdOpcodeTable>();
+                Action<UdOpcodeTable> genTableList = null;
+                genTableList = (tbl) =>
+                {
+                    if (!uniqTables.Contains(tbl))
+                    {
+                        _tables.Add(tbl);
+                    }
+                    uniqTables.Add(tbl);
+                    var keys = tbl.Entries.Keys.OrderBy(k => Int32.Parse(k, System.Globalization.NumberStyles.HexNumber)).ToArray();
+                    foreach (var k in keys)
+                    {
+                        var e = tbl.Entries[k] as UdOpcodeTable;
+                        if (e != null)
+                            genTableList(e);
+                    }
+                };
+                _tables = new List<UdOpcodeTable>();
+                genTableList(Root);
+            }
+
+            private void PatchAvx2Byte()
+            {
+                // create avx tables
+                foreach (var pp in new string[] { null, "f2", "f3", "66" })
+                    foreach (var m in new string[] { null, "0f", "0f38", "0f3a" })
+                    {
+                        string vex = String.Empty;
+                        if (pp == null && m == null)
+                            continue;
+                        if (pp == null)
+                            vex = m;
+                        else if (m == null)
+                            vex = pp;
+                        else
+                            vex = pp + "_" + m;
+                        var table = Walk(Root, new string[] { "c4", "/vex=" + vex });
+                        Map(Root, new string[] { "c5", "/vex=" + vex }, table);
+                    }
+            }
+
+            private void AddInsn(UdInsnDef insnDef, Dictionary<string, string> opcexts)
+            {
+                //var opcodes = insnDef.Opcodes;
+
+                // Re-order vex
+                if (opcexts.ContainsKey("/vex"))
+                {
+                    if (insnDef.Opcodes[0] == "c4" || insnDef.Opcodes[0] == "c5")
+                        insnDef.Opcodes.Insert(1, "/vex=" + opcexts["/vex"]);
+                    else
+                        Error("Expected either c$ or c5 opcode along with /vex extension");
+                }
+
+                // Add extensions. The order is important, and determines how
+                // well the opcode table is packed. Also note, /sse must be
+                // before /o, because /sse may consume operand size prefix and
+                // affect the outcome of /o.
+                foreach (var ext in new string[] {"/mod", "/x87", "/reg", "/rm", "/sse", "/o", "/a", "/m",
+                    "/vexw", "/vexl", "/3dnow", "/vendor"})
+                {
+                    if (opcexts.ContainsKey(ext))
+                    {
+                        insnDef.Opcodes.Add(ext + "=" + opcexts[ext]);
+                    }
+                }
+
+                // Re-create instruction now that opcodes and opcode extensions have been sorted out
+                // note: Opcodes currently contains both opcodes and opcexts and will be split within
+                //       the constructor
+                insnDef = new UdInsnDef(
+                    insnDef.Mnemonic,
+                    insnDef.Prefixes.ToArray(),
+                    insnDef.Opcodes.ToArray(),
+                    insnDef.Operands.ToArray(),
+                    insnDef.CpuIds.ToArray());
+
+                Map(Root, insnDef.Opcodes.ToArray(), insnDef);
+
+                _insns.Add(insnDef);
+                // Add to lookup by mnemonic structure
+                if (!_mnemonics.ContainsKey(insnDef.Mnemonic))
+                    _mnemonics[insnDef.Mnemonic] = new List<UdInsnDef>(new UdInsnDef[] { insnDef });
+                else
+                    _mnemonics[insnDef.Mnemonic].Add(insnDef);
+            }
+
+            private void AddInsnDef(UdInsnDef insnDef)
+            {
+                List<string> opcodes = new List<string>();
+                Dictionary<string, string> opcexts = new Dictionary<string, string>();
+
+                // pack plain opcodes first, and collect opcode extensions
+                foreach (var opc in insnDef.Opcodes)
+                {
+                    if (!opc.StartsWith("/"))
+                    {
+                        opcodes.Add(opc);
+                    }
+                    else
+                    {
+                        var split = opc.Split('=');
+                        opcexts[split[0]] = split[1];
+                    }
+                }
+
+                // Treat vendor as an opcode extension
+                if (!String.IsNullOrEmpty(insnDef.Vendor))
+                {
+                    opcexts["/vendor"] = insnDef.Vendor;
+                }
+
+                if (insnDef.Mnemonic == "lds" || insnDef.Mnemonic == "les")
+                {
+                    // Massage lds and les, which share the same prefix as AVX instructions
+                    // in order to work well with the opcode tree.
+                    opcexts["/vex"] = "none";
+                }
+                else if (opcexts.ContainsKey("/vex"))
+                {
+                    // A proper avx instruction definition, make sure there are
+                    // no legacy opcode extensions
+                    if (opcexts.ContainsKey("/sse"))
+                        Error("/sse can't be combined with /vex");
+
+                    // make sure the opcode definitions don't already include
+                    // the avx prefixes
+                    if (opcodes.Count > 0 && (opcodes[0] == "c4" || opcodes[0] == "c5"))
+                        Error("Cannot apply /vex as already includes the c4 or c5 prefix");
+
+                    // An AVX only instruction is defined by the /vex= opcode
+                    // extension. They do not include the c4 (long form) or
+                    // c5 (short form) prefix. As part of opcode table generate,
+                    // here we create the long form definition, and then patch
+                    // the table for c5 in a later stage.
+                    // Construct a long-form definition of the avx instruction
+                    opcodes.Insert(0, "c4");
+                }
+                else if (!opcexts.ContainsKey("/sse") && (opcodes.Count > 0 && opcodes[0] == "0f") && (opcodes.Count < 2 || opcodes[1] != "0f"))
+                {
+                    // Make all 2-byte opcode form instructions play nice with sse opcode maps
+                    opcexts["/sse"] = "none";
+                }
+
+                insnDef.Opcodes.Clear();
+                insnDef.Opcodes.AddRange(opcodes);
+
+                // Legacy sse defs that get promoted to avx
+                Action<UdInsnDef, Dictionary<string, string>> fn = AddInsn;
+                if (insnDef.CpuIds.Contains("avx") && opcexts.ContainsKey("/sse"))
+                    fn = AddSSE2AVXInsn;
+
+                fn(insnDef, opcexts);
+            }
+
+            /// <summary>
+            /// Add an instruction definition containing an avx cpuid bit, but 
+            /// declared in its legacy SSE form. The function splits the definition to create two new
+            /// definitions, one for SSE and one promoted to an AVX form.
+            /// </summary>
+            /// <param name="insnDef"></param>
+            /// <param name="opcexts"></param>
+            private void AddSSE2AVXInsn(UdInsnDef insnDef, Dictionary<string, string> opcexts)
+            {
+                // SSE
+                var sseMnemonic = insnDef.Mnemonic;
+                var sseOpcodes = insnDef.Opcodes.ToArray();
+                // Remove vex opcode extensions
+                var sseOpcexts = new Dictionary<string, string>();
+                foreach (var kv in opcexts)
+                {
+                    if (!kv.Key.StartsWith("/vex"))
+                        sseOpcexts.Add(kv.Key, kv.Value);
+                }
+                // strip out avx operands, preserving relative ordering
+                // of remaining operands
+                var sseOperands = (from opr in insnDef.Operands
+                                   where opr != "H" && opr != "L"
+                                   select opr).ToArray();
+                // strip out avx prefixes
+                var ssePrefixes = (from pfx in insnDef.Prefixes
+                                   where !pfx.StartsWith("vex")
+                                   select pfx).ToArray();
+                // strip out avx bits from cpuid
+                var sseCpuid = (from cpu in insnDef.CpuIds
+                                where !cpu.StartsWith("avx")
+                                select cpu).ToArray();
+
+                AddInsn(new UdInsnDef(sseMnemonic, ssePrefixes, sseOpcodes, sseOperands, sseCpuid), sseOpcexts);
+
+                // AVX
+                var vexMnemonic = "v" + insnDef.Mnemonic;
+                var vexPrefixes = insnDef.Prefixes.ToArray();
+                var vexopcodes = new string[] { "c4" };
+                var vexopcexts = new Dictionary<string, string>();
+                foreach (var kv in opcexts)
+                {
+                    if (!kv.Key.StartsWith("/sse"))
+                        vexopcexts[kv.Key] = kv.Value;
+                }
+                vexopcexts["/vex"] = opcexts["/sse"] + "_" + "0f";
+                if (insnDef.Opcodes.Count > 1 && (insnDef.Opcodes[1] == "38" || insnDef.Opcodes[1] == "3a"))
+                {
+                    vexopcexts["/vex"] += insnDef.Opcodes[1];
+                    vexopcodes = vexopcodes.Concat(insnDef.Opcodes.Skip(2).ToArray()).ToArray();
+                }
+                else
+                {
+                    vexopcodes = vexopcodes.Concat(insnDef.Opcodes.Skip(1).ToArray()).ToArray();
+                }
+                var vexoperands = new List<String>();
+                foreach (var o in insnDef.Operands)
+                {
+                    var opr = o;
+                    // make the operand size explicit: x
+                    if (new string[] { "V", "W", "H", "U" }.Contains(opr))
+                        opr = opr + "x";
+                    vexoperands.Add(opr);
+                }
+                var vexcpuid = (from cpu in insnDef.CpuIds
+                                where !cpu.StartsWith("sse")
+                                select cpu).ToArray();
+
+                AddInsn(new UdInsnDef(vexMnemonic, vexPrefixes, vexopcodes, vexoperands.ToArray(), vexcpuid), vexopcexts);
+            }
+
+            /// <summary>
+            /// Returns a list of all instructions in the collection
+            /// </summary>
+            /// <returns></returns>
+            public List<UdInsnDef> GetInsnList()
+            {
+                return _insns;
+            }
+
+            /// <summary>
+            /// Returns a list of all tables in the collection
+            /// </summary>
+            /// <returns></returns>
+            public List<UdOpcodeTable> GetTableList()
+            {
+                return _tables;
+            }
+
+            public List<string> GetMnemonicList()
+            {
+                return (from kv in _mnemonics
+                        orderby kv.Key ascending
+                        select kv.Key).ToList();
+            }
+
+            public static bool LogEnabled = false;
+            private void Log(string s)
+            {
+                if (LogEnabled)
+                    System.IO.File.AppendAllText("opcodeTables.log", s + "\r\n");
+            }
+
+            /// <summary>
+            /// Parse udis86 optable.xml file and return list of instruction definitions
+            /// </summary>
+            /// <param name="xml"></param>
+            /// <returns></returns>
+            private static IEnumerable<UdInsnDef> ParseOptableXml(string xml)
+            {
+                XDocument doc = XDocument.Parse(xml);
+
+                XNode topNode = doc.FirstNode;
+
+                while (topNode != null && ((topNode as XElement) == null || (topNode as XElement).Name != "x86optable"))
+                    topNode = topNode.NextNode;
+
+                if (topNode as XElement != null)
+                {
+                    foreach (var instruction in (topNode as XElement).Elements())
+                    {
+                        if (String.IsNullOrEmpty(instruction.Name.ToString()))
+                            continue;
+
+                        if (instruction.Name != "instruction")
+                        {
+                            Error("Invalid instruction node in XML - " + instruction.Name);
+                            continue;
+                        }
+
+                        string mnemonic = (from n in instruction.Elements(XName.Get("mnemonic", ""))
+                                           select n.Value).FirstOrDefault();
+                        string vendor = String.Empty;
+                        string[] cpuid = new string[] { };
+
+                        foreach (var node in instruction.Elements())
+                        {
+                            if (node.Name == "vendor")
+                                vendor = node.Value;
+                            else if (node.Name == "cpuid")
+                                cpuid = node.Value.Split(' ');
+                        }
+
+                        foreach (var node in instruction.Elements())
+                        {
+                            if (node.Name == "def")
+                            {
+                                string[] pfx = new string[] { };
+                                string[] opc = new string[] { };
+                                string[] opr = new string[] { };
+
+                                string localVendor = null;
+                                string[] localCpuid = null;
+                                foreach (var def in node.Elements())
+                                {
+                                    if (def.Name == "pfx")
+                                        pfx = def.Value.Split(' ');
+                                    else if (def.Name == "opc")
+                                        opc = def.Value.Split(' ');
+                                    else if (def.Name == "opr")
+                                        opr = def.Value.Split(' ');
+                                    else if (def.Name == "mode")
+                                        pfx = pfx.Concat(def.Value.Split(' ')).ToArray();
+                                    else if (def.Name == "cpuid")
+                                        localCpuid = def.Value.Split(' ');
+                                    else if (def.Name == "vendor")
+                                        localVendor = def.Value;
+                                }
+                                yield return new UdInsnDef(mnemonic, pfx, opc, opr, localVendor ?? vendor, localCpuid ?? cpuid);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        /* Begin translation from ud_itab.py */
+
+        public class UdItabGenerator
+        {
+            #region Dictionaries and static data
+
+            #region OperandDict
+            public static Dictionary<string, string[]> OperandDict = new Dictionary<string, string[]>() {
+                {"Av"       , new string[] {    "OP_A"        , "SZ_V"     }},
+                {"E"        , new string[] {    "OP_E"        , "SZ_NA"    }},
+                {"Eb"       , new string[] {    "OP_E"        , "SZ_B"     }},
+                {"Ew"       , new string[] {    "OP_E"        , "SZ_W"     }},
+                {"Ev"       , new string[] {    "OP_E"        , "SZ_V"     }},
+                {"Ed"       , new string[] {    "OP_E"        , "SZ_D"     }},
+                {"Ey"       , new string[] {    "OP_E"        , "SZ_Y"     }},
+                {"Eq"       , new string[] {    "OP_E"        , "SZ_Q"     }},
+                {"Ez"       , new string[] {    "OP_E"        , "SZ_Z"     }},
+                {"Fv"       , new string[] {    "OP_F"        , "SZ_V"     }},
+                {"G"        , new string[] {    "OP_G"        , "SZ_NA"    }},
+                {"Gb"       , new string[] {    "OP_G"        , "SZ_B"     }},
+                {"Gw"       , new string[] {    "OP_G"        , "SZ_W"     }},
+                {"Gv"       , new string[] {    "OP_G"        , "SZ_V"     }},
+                {"Gy"       , new string[] {    "OP_G"        , "SZ_Y"     }},
+                {"Gd"       , new string[] {    "OP_G"        , "SZ_D"     }},
+                {"Gq"       , new string[] {    "OP_G"        , "SZ_Q"     }},
+                {"Gz"       , new string[] {    "OP_G"        , "SZ_Z"     }},
+                {"M"        , new string[] {    "OP_M"        , "SZ_NA"    }},
+                {"Mb"       , new string[] {    "OP_M"        , "SZ_B"     }},
+                {"Mw"       , new string[] {    "OP_M"        , "SZ_W"     }},
+                {"Ms"       , new string[] {    "OP_M"        , "SZ_W"     }},
+                {"Md"       , new string[] {    "OP_M"        , "SZ_D"     }},
+                {"Mq"       , new string[] {    "OP_M"        , "SZ_Q"     }},
+                {"Mdq"      , new string[] {    "OP_M"        , "SZ_DQ"    }},
+                {"Mv"       , new string[] {    "OP_M"        , "SZ_V"     }},
+                {"Mt"       , new string[] {    "OP_M"        , "SZ_T"     }},
+                {"Mo"       , new string[] {    "OP_M"        , "SZ_O"     }},
+                {"MbRd"     , new string[] {    "OP_MR"       , "SZ_BD"    }},
+                {"MbRv"     , new string[] {    "OP_MR"       , "SZ_BV"    }},
+                {"MwRv"     , new string[] {    "OP_MR"       , "SZ_WV"    }},
+                {"MwRd"     , new string[] {    "OP_MR"       , "SZ_WD"    }},
+                {"MwRy"     , new string[] {    "OP_MR"       , "SZ_WY"    }},
+                {"MdRy"     , new string[] {    "OP_MR"       , "SZ_DY"    }},
+                {"I1"       , new string[] {    "OP_I1"       , "SZ_NA"    }},
+                {"I3"       , new string[] {    "OP_I3"       , "SZ_NA"    }},
+                {"Ib"       , new string[] {    "OP_I"        , "SZ_B"     }},
+                {"Iw"       , new string[] {    "OP_I"        , "SZ_W"     }},
+                {"Iv"       , new string[] {    "OP_I"        , "SZ_V"     }},
+                {"Iz"       , new string[] {    "OP_I"        , "SZ_Z"     }},
+                {"sIb"      , new string[] {    "OP_sI"       , "SZ_B"     }},
+                {"sIz"      , new string[] {    "OP_sI"       , "SZ_Z"     }},
+                {"sIv"      , new string[] {    "OP_sI"       , "SZ_V"     }},
+                {"Jv"       , new string[] {    "OP_J"        , "SZ_V"     }},
+                {"Jz"       , new string[] {    "OP_J"        , "SZ_Z"     }},
+                {"Jb"       , new string[] {    "OP_J"        , "SZ_B"     }},
+                {"R"        , new string[] {    "OP_R"        , "SZ_RDQ"   }}, 
+                {"C"        , new string[] {    "OP_C"        , "SZ_NA"    }},
+                {"D"        , new string[] {    "OP_D"        , "SZ_NA"    }},
+                {"S"        , new string[] {    "OP_S"        , "SZ_W"     }},
+                {"Ob"       , new string[] {    "OP_O"        , "SZ_B"     }},
+                {"Ow"       , new string[] {    "OP_O"        , "SZ_W"     }},
+                {"Ov"       , new string[] {    "OP_O"        , "SZ_V"     }},
+                {"U"        , new string[] {    "OP_U"        , "SZ_O"     }},
+                {"Ux"       , new string[] {    "OP_U"        , "SZ_X"     }},
+                {"V"        , new string[] {    "OP_V"        , "SZ_DQ"    }},
+                {"Vdq"      , new string[] {    "OP_V"        , "SZ_DQ"    }},
+                {"Vqq"      , new string[] {    "OP_V"        , "SZ_QQ"    }},
+                {"Vsd"      , new string[] {    "OP_V"        , "SZ_Q"     }},
+                {"Vx"       , new string[] {    "OP_V"        , "SZ_X"     }},
+                {"H"        , new string[] {    "OP_H"        , "SZ_X"     }},
+                {"Hx"       , new string[] {    "OP_H"        , "SZ_X"     }},
+                {"Hqq"      , new string[] {    "OP_H"        , "SZ_QQ"    }},
+                {"W"        , new string[] {    "OP_W"        , "SZ_DQ"    }},
+                {"Wdq"      , new string[] {    "OP_W"        , "SZ_DQ"    }},
+                {"Wqq"      , new string[] {    "OP_W"        , "SZ_QQ"    }},
+                {"Wsd"      , new string[] {    "OP_W"        , "SZ_Q"     }},
+                {"Wx"       , new string[] {    "OP_W"        , "SZ_X"     }},
+                {"L"        , new string[] {    "OP_L"        , "SZ_O"     }},
+                {"Lx"       , new string[] {    "OP_L"        , "SZ_X"     }},
+                {"MwU"      , new string[] {    "OP_MU"       , "SZ_WO"    }},
+                {"MdU"      , new string[] {    "OP_MU"       , "SZ_DO"    }},
+                {"MqU"      , new string[] {    "OP_MU"       , "SZ_QO"    }},
+                {"N"        , new string[] {    "OP_N"        , "SZ_Q"     }},
+                {"P"        , new string[] {    "OP_P"        , "SZ_Q"     }},
+                {"Q"        , new string[] {    "OP_Q"        , "SZ_Q"     }},
+                {"AL"       , new string[] {    "OP_AL"       , "SZ_B"     }},
+                {"AX"       , new string[] {    "OP_AX"       , "SZ_W"     }},
+                {"eAX"      , new string[] {    "OP_eAX"      , "SZ_Z"     }},
+                {"rAX"      , new string[] {    "OP_rAX"      , "SZ_V"     }},
+                {"CL"       , new string[] {    "OP_CL"       , "SZ_B"     }},
+                {"CX"       , new string[] {    "OP_CX"       , "SZ_W"     }},
+                {"eCX"      , new string[] {    "OP_eCX"      , "SZ_Z"     }},
+                {"rCX"      , new string[] {    "OP_rCX"      , "SZ_V"     }},
+                {"DL"       , new string[] {    "OP_DL"       , "SZ_B"     }},
+                {"DX"       , new string[] {    "OP_DX"       , "SZ_W"     }},
+                {"eDX"      , new string[] {    "OP_eDX"      , "SZ_Z"     }},
+                {"rDX"      , new string[] {    "OP_rDX"      , "SZ_V"     }},
+                {"R0b"      , new string[] {    "OP_R0"       , "SZ_B"     }},
+                {"R1b"      , new string[] {    "OP_R1"       , "SZ_B"     }},
+                {"R2b"      , new string[] {    "OP_R2"       , "SZ_B"     }},
+                {"R3b"      , new string[] {    "OP_R3"       , "SZ_B"     }},
+                {"R4b"      , new string[] {    "OP_R4"       , "SZ_B"     }},
+                {"R5b"      , new string[] {    "OP_R5"       , "SZ_B"     }},
+                {"R6b"      , new string[] {    "OP_R6"       , "SZ_B"     }},
+                {"R7b"      , new string[] {    "OP_R7"       , "SZ_B"     }},
+                {"R0w"      , new string[] {    "OP_R0"       , "SZ_W"     }},
+                {"R1w"      , new string[] {    "OP_R1"       , "SZ_W"     }},
+                {"R2w"      , new string[] {    "OP_R2"       , "SZ_W"     }},
+                {"R3w"      , new string[] {    "OP_R3"       , "SZ_W"     }},
+                {"R4w"      , new string[] {    "OP_R4"       , "SZ_W"     }},
+                {"R5w"      , new string[] {    "OP_R5"       , "SZ_W"     }},
+                {"R6w"      , new string[] {    "OP_R6"       , "SZ_W"     }},
+                {"R7w"      , new string[] {    "OP_R7"       , "SZ_W"     }},
+                {"R0v"      , new string[] {    "OP_R0"       , "SZ_V"     }},
+                {"R1v"      , new string[] {    "OP_R1"       , "SZ_V"     }},
+                {"R2v"      , new string[] {    "OP_R2"       , "SZ_V"     }},
+                {"R3v"      , new string[] {    "OP_R3"       , "SZ_V"     }},
+                {"R4v"      , new string[] {    "OP_R4"       , "SZ_V"     }},
+                {"R5v"      , new string[] {    "OP_R5"       , "SZ_V"     }},
+                {"R6v"      , new string[] {    "OP_R6"       , "SZ_V"     }},
+                {"R7v"      , new string[] {    "OP_R7"       , "SZ_V"     }},
+                {"R0z"      , new string[] {    "OP_R0"       , "SZ_Z"     }},
+                {"R1z"      , new string[] {    "OP_R1"       , "SZ_Z"     }},
+                {"R2z"      , new string[] {    "OP_R2"       , "SZ_Z"     }},
+                {"R3z"      , new string[] {    "OP_R3"       , "SZ_Z"     }},
+                {"R4z"      , new string[] {    "OP_R4"       , "SZ_Z"     }},
+                {"R5z"      , new string[] {    "OP_R5"       , "SZ_Z"     }},
+                {"R6z"      , new string[] {    "OP_R6"       , "SZ_Z"     }},
+                {"R7z"      , new string[] {    "OP_R7"       , "SZ_Z"     }},
+                {"R0y"      , new string[] {    "OP_R0"       , "SZ_Y"     }},
+                {"R1y"      , new string[] {    "OP_R1"       , "SZ_Y"     }},
+                {"R2y"      , new string[] {    "OP_R2"       , "SZ_Y"     }},
+                {"R3y"      , new string[] {    "OP_R3"       , "SZ_Y"     }},
+                {"R4y"      , new string[] {    "OP_R4"       , "SZ_Y"     }},
+                {"R5y"      , new string[] {    "OP_R5"       , "SZ_Y"     }},
+                {"R6y"      , new string[] {    "OP_R6"       , "SZ_Y"     }},
+                {"R7y"      , new string[] {    "OP_R7"       , "SZ_Y"     }},
+                {"ES"       , new string[] {    "OP_ES"       , "SZ_NA"    }},
+                {"CS"       , new string[] {    "OP_CS"       , "SZ_NA"    }},
+                {"DS"       , new string[] {    "OP_DS"       , "SZ_NA"    }},
+                {"SS"       , new string[] {    "OP_SS"       , "SZ_NA"    }},
+                {"GS"       , new string[] {    "OP_GS"       , "SZ_NA"    }},
+                {"FS"       , new string[] {    "OP_FS"       , "SZ_NA"    }},
+                {"ST0"      , new string[] {    "OP_ST0"      , "SZ_NA"    }},
+                {"ST1"      , new string[] {    "OP_ST1"      , "SZ_NA"    }},
+                {"ST2"      , new string[] {    "OP_ST2"      , "SZ_NA"    }},
+                {"ST3"      , new string[] {    "OP_ST3"      , "SZ_NA"    }},
+                {"ST4"      , new string[] {    "OP_ST4"      , "SZ_NA"    }},
+                {"ST5"      , new string[] {    "OP_ST5"      , "SZ_NA"    }},
+                {"ST6"      , new string[] {    "OP_ST6"      , "SZ_NA"    }},
+                {"ST7"      , new string[] {    "OP_ST7"      , "SZ_NA"    }},
+                {"NONE"     , new string[] {    "OP_NONE"     , "SZ_NA"    }}
+            };
+            #endregion
+
+            // opcode prefix dictionary
+            public static Dictionary<string, string> PrefixDict = new Dictionary<string, string>() 
+            { 
+                {"rep"      , "P_str"},   
+                {"repz"     , "P_strz"},   
+                {"aso"      , "P_aso"},   
+                {"oso"      , "P_oso"},   
+                {"rexw"     , "P_rexw"}, 
+                {"rexb"     , "P_rexb"},  
+                {"rexx"     , "P_rexx"},  
+                {"rexr"     , "P_rexr"},
+                {"vexl"     , "P_vexl"},
+                {"vexw"     , "P_vexw"},
+                {"seg"      , "P_seg"},
+                {"inv64"    , "P_inv64"}, 
+                {"def64"    , "P_def64"}, 
+                {"cast"     , "P_cast"}
+            };
+
+            static List<String> MnemonicAliases = new List<string>(new string[] { "invalid", "3dnow", "none", "db", "pause" });
+
+            #endregion
+
+            #region Emit delegates
+            public static ClearIndentDelegate ClearIndent;
+            public static PushIndentDelegate PushIndent;
+            public static WriteDelegate Write;
+            public static ErrorDelegate Error;
+            #endregion
+
+            UdOpcodeTables _tables;
+            Dictionary<UdInsnDef, int> _insnIndexMap = new Dictionary<UdInsnDef, int>();
+            Dictionary<UdOpcodeTable, int> _tableIndexMap = new Dictionary<UdOpcodeTable, int>();
+            public UdItabGenerator(UdOpcodeTables tables)
+            {
+                _tables = tables;
+
+                int i = 0;
+                foreach (var insn in tables.GetInsnList())
+                {
+                    _insnIndexMap[insn] = i++;
+                }
+                i = 0;
+                foreach (var table in tables.GetTableList())
+                {
+                    _tableIndexMap[table] = i++;
+                }
+            }
+
+            int GetInsnIndex(UdInsnDef insn)
+            {
+                return _insnIndexMap[insn];
+            }
+
+            int GetTableIndex(UdOpcodeTable table)
+            {
+                return _tableIndexMap[table];
+            }
+
+            string GetTableName(UdOpcodeTable table)
+            {
+                return String.Format("ud_itab__{0}", GetTableIndex(table));
+            }
+
+            /// <summary>
+            /// Emit Opcode Table in C#
+            /// </summary>
+            /// <param name="table"></param>
+            /// <param name="isGlobal"></param>
+            private void GenOpcodeTable(UdOpcodeTable table, bool isGlobal = false)
+            {
+                Write("\r\n");
+                //if (!isGlobal)
+                //    Write("static ");
+                Write("internal static readonly ushort[] {0} = {{\r\n", GetTableName(table));
+                for (var i = 0; i < table.Size; i++)
+                {
+                    if (i > 0 && i % 4 == 0)
+                        Write("\r\n");
+                    if (i % 4 == 0)
+                        Write("  /* {0:x2} */", i);
+                    var e = table.EntryAt(i);
+                    if (e == null)
+                        Write("{0,12},", "INVALID");
+                    else if (e is UdOpcodeTable)
+                        Write("{0,12},", String.Format("0x8000|{0}", GetTableIndex(e as UdOpcodeTable)));
+                    else if (e is UdInsnDef)
+                        Write("{0,12},", GetInsnIndex(e as UdInsnDef));
+                }
+                Write("\r\n");
+                Write("}};\r\n");
+            }
+
+            public void GenOpcodeTables()
+            {
+                var tables = _tables.GetTableList();
+                foreach (var table in tables)
+                    GenOpcodeTable(table, table == _tables.Root);
+            }
+
+            public void GenOpcodeTablesLookupIndex()
+            {
+                Write("\r\n");
+                Write("internal static readonly ud_lookup_table_list_entry[] ud_lookup_table_list = new ud_lookup_table_list_entry[] {{\r\n");
+                foreach (var table in _tables.GetTableList())
+                {
+                    var f0 = GetTableName(table);
+                    var f1 = table.Label;// NameOfTable(GroupTableMeta[i]["type"]);
+                    var f2 = String.Format("\"{0}\"", table.Meta);
+                    // /* 000 */ new ud_lookup_table_list_entry( ud_itab__0, ud_table_type.UD_TAB__OPC_TABLE, "table0" ),
+                    Write("    /* {0:D3} */ new ud_lookup_table_list_entry( {1}, ud_table_type.{2}, {3} ),\r\n", GetTableIndex(table), f0, f1, f2);
+                }
+                Write("}};");
+            }
+
+            public void GenInsnTable()
+            {
+                Write("internal static readonly ud_itab_entry[] ud_itab = new ud_itab_entry[]\r\n{{\r\n");
+                foreach (var e in _tables.GetInsnList())
+                {
+                    string[] opr_c = new string[] { "O_NONE", "O_NONE", "O_NONE", "O_NONE" }; // OpDefs
+                    List<string> pfx_c = new List<string>();
+                    var opr = e.Operands;
+                    for (var i = 0; i < Math.Min(4, opr.Count); i++)
+                    {
+                        if (!OperandDict.ContainsKey(opr[i]))
+                            Error(String.Format("Error: invalid operand declaration: {0}", opr[i]));
+                        opr_c[i] = "O_" + opr[i];
+                    }
+                    var opr_s = String.Format("OpDefs.{0}, OpDefs.{1}, OpDefs.{2}, OpDefs.{3}", opr_c[0], opr_c[1], opr_c[2], opr_c[3]);
+
+                    foreach (var p in e.Prefixes)
+                    {
+                        if (!PrefixDict.ContainsKey(p))
+                            Error(String.Format("Error: invalid prefix specification: {0}", p));
+                        else
+                            pfx_c.Add("BitOps." + PrefixDict[p]);
+                    }
+                    if (e.Prefixes.Count == 0)
+                        pfx_c.Add("BitOps.P_none");
+                    var pfx_s = String.Join("|", pfx_c.ToArray());
+
+                    Write("    /* {0:D4} */ new ud_itab_entry( ud_mnemonic_code.UD_I{1}, {2}, {3} ),\r\n", GetInsnIndex(e), e.Mnemonic, opr_s, pfx_s);
+                }
+
+                Write("}};\r\n");
+            }
+
+            public List<String> GetMnemonicsList()
+            {
+                var mnemonics = _tables.GetMnemonicList();
+                return mnemonics.Concat(MnemonicAliases).ToList();
+            }
+
+            public void GenMnemonicsList()
+            {
+                var mnemonics = GetMnemonicsList();
+                Write("\r\n\r\n");
+                Write("internal static readonly string[] ud_mnemonics_str = new string[]\r\n{{\r\n");
+                Write(String.Join(",\r\n", (from s in mnemonics select String.Format("    \"{0}\"", s)).ToArray()));
+                Write("\r\n}};\r\n");
+            }
+
+            public void GenCSharpCode()
+            {
+                #region static class InstructionTables
+                PushIndent("    ");
+                Write("internal static class InstructionTables\r\n{{\r\n");
+                PushIndent("    ");
+                Write("#region Lookup Tables\r\n");
+                Write("public const int INVALID = 0;\r\n");
+                GenOpcodeTables();
+                //ClearIndent();
+                Write("#endregion\r\n");
+                Write("\r\n");
+                Write("#region Lookup Table List\r\n");
+                //PushIndent("        ");
+                GenOpcodeTablesLookupIndex();
+                //ClearIndent();
+                Write("\r\n");
+                Write("#endregion\r\n");
+                Write("\r\n");
+                Write("#region Operand Definitions\r\n");
+                Write("\r\n");
+                Write("/// <summary>\r\n");
+                Write("/// itab entry operand definitions (for readability)\r\n");
+                Write("/// </summary>\r\n");
+                Write("internal static class OpDefs\r\n");
+                Write("{{\r\n");
+                // OpDefs (short-names for operands)
+                var operands = (from k in OperandDict.Keys
+                                orderby k ascending
+                                select k).ToArray();
+
+                foreach (var op in operands)
+                {
+                    Write("    internal static readonly ud_itab_entry_operand O_{0,-5} = new ud_itab_entry_operand(ud_operand_code.{1,-8}, ud_operand_size.{2,-7});\r\n", op, OperandDict[op][0], OperandDict[op][1]);
+                }
+                Write("}}\r\n");
+                Write("#endregion\r\n");
+                Write("\r\n");
+                Write("#region Instruction Table and Mnemonics\r\n");
+                GenInsnTable();
+                GenMnemonicsList();
+                Write("#endregion\r\n");
+                ClearIndent();
+                PushIndent("    ");
+                Write("}}\r\n"); // end class InstructionTables
+                #endregion
+                Write("\r\n");
+                Write("#region Enums\r\n");
+                Write("\r\n");
+                Write("public enum ud_table_type\r\n");
+                Write("{{\r\n");
+                PushIndent("    ");
+                Write(String.Join(",\r\n", (from l in UdOpcodeTable.GetLabels()
+                                            select l).ToArray()));
+                Write("\r\n");
+                ClearIndent();
+                PushIndent("    ");
+                Write("}}\r\n");
+                Write("\r\n");
+                Write("public enum ud_mnemonic_code\r\n");
+                Write("{{\r\n");
+                PushIndent("    ");
+                Write(String.Join(",\r\n", (from m in GetMnemonicsList() select "UD_I" + m).ToArray()));
+                Write(",\r\nUD_MAX_MNEMONIC_CODE\r\n");
+                ClearIndent();
+                PushIndent("    ");
+                Write("}}\r\n");
+                Write("\r\n");
+                Write("#endregion\r\n");
+                ClearIndent();
+            }
+        }
+
+        #endregion
+#>

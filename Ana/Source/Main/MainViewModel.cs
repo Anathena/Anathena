@@ -3,8 +3,9 @@
     using Docking;
     using Mvvm;
     using Mvvm.Command;
-    using ProcessSelector;
+    using System;
     using System.Collections.Generic;
+    using System.Threading;
     using System.Windows.Input;
 
     /// <summary>
@@ -13,23 +14,23 @@
     internal class MainViewModel : ViewModelBase
     {
         /// <summary>
-        /// View model for the Process Selector
+        /// Singleton instance of the <see cref="MainViewModel" /> class
         /// </summary>
-        private ProcessSelectorViewModel processSelectorViewModel;
+        private static Lazy<MainViewModel> mainViewModelInstance = new Lazy<MainViewModel>(
+                () => { return new MainViewModel(); },
+                LazyThreadSafetyMode.PublicationOnly);
 
         /// <summary>
         /// Collection of tools contained in the main docking panel
         /// </summary>
-        private ToolViewModel[] tools;
+        private HashSet<ToolViewModel> tools;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="MainViewModel" /> class
+        /// Prevents a default instance of the <see cref="MainViewModel" /> class from being created
         /// </summary>
-        public MainViewModel()
+        private MainViewModel()
         {
-            this.tools = null;
-            this.processSelectorViewModel = null;
-
+            this.tools = new HashSet<ToolViewModel>();
             this.OpenProject = new RelayCommand(() => this.OpenProjectExecute(), () => true);
         }
 
@@ -47,7 +48,7 @@
             {
                 if (this.tools == null)
                 {
-                    this.tools = new ToolViewModel[] { this.ProcessSelectorViewModel };
+                    this.tools = new HashSet<ToolViewModel>();
                 }
 
                 return this.tools;
@@ -55,18 +56,35 @@
         }
 
         /// <summary>
-        /// Gets the view model for the Process Selector
+        /// Gets the singleton instance of the <see cref="MainViewModel" /> class
         /// </summary>
-        public ProcessSelectorViewModel ProcessSelectorViewModel
+        /// <returns>The singleton instance of the <see cref="MainViewModel" /> class</returns>
+        public static MainViewModel GetInstance()
         {
-            get
-            {
-                if (this.processSelectorViewModel == null)
-                {
-                    this.processSelectorViewModel = new ProcessSelectorViewModel();
-                }
+            return mainViewModelInstance.Value;
+        }
 
-                return this.processSelectorViewModel;
+        /// <summary>
+        /// Adds a tool to the list of tools controlled by the main view model
+        /// </summary>
+        /// <param name="toolViewModel">The tool to be added</param>
+        public void Subscribe(ToolViewModel toolViewModel)
+        {
+            if (toolViewModel != null && !this.tools.Contains(toolViewModel))
+            {
+                this.tools?.Add(toolViewModel);
+            }
+        }
+
+        /// <summary>
+        /// Removes a tool from the list of tools controlled by the main view model
+        /// </summary>
+        /// <param name="toolViewModel">The tool to be added</param>
+        public void Unsubscribe(ToolViewModel toolViewModel)
+        {
+            if (toolViewModel != null && this.tools.Contains(toolViewModel))
+            {
+                this.tools?.Remove(toolViewModel);
             }
         }
 
