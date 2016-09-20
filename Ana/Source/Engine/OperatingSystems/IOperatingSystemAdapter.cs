@@ -6,7 +6,7 @@ using System.Reflection;
 namespace Ana.Source.Engine.OperatingSystems
 {
 
-    public interface IOperatingSystem
+    public interface IOperatingSystemAdapter
     {
         // Virtual pages
         IEnumerable<NormalizedRegion> GetVirtualPages(MemoryProtectionEnum RequiredProtection, MemoryProtectionEnum ExcludedProtection,

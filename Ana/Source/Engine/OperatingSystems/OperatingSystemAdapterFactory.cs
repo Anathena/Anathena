@@ -3,9 +3,9 @@ using System.Diagnostics;
 
 namespace Ana.Source.Engine.OperatingSystems
 {
-    class OperatingSystemFactory
+    class OperatingSystemAdapterFactory
     {
-        public static IOperatingSystem GetOperatingSystem(Process Target)
+        public static IOperatingSystemAdapter GetOperatingSystemAdapter(Process Target)
         {
             return new WindowsAdapter(Target);
         }

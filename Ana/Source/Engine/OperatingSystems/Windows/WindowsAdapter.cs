@@ -13,7 +13,7 @@ namespace Ana.Source.Engine.OperatingSystems.Windows
     /// <summary>
     /// Class for memory editing a remote process.
     /// </summary>
-    public class WindowsAdapter : IOperatingSystem
+    public class WindowsAdapter : IOperatingSystemAdapter
     {
         /// <summary>
         /// The remote process handle opened with all rights.

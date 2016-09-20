@@ -1,13 +1,20 @@
 ﻿namespace Ana.Source.Engine.Architecture.Disassembler
 {
+    using System;
+
     class DisassemblerFactory
     {
-
-        public static IDisassembler GetDisassembler()
+        public static IDisassembler GetDisassembler(ArchitectureType architectureType)
         {
-            return new SharpDisassembler();
+            switch (architectureType)
+            {
+                case ArchitectureType.x86_64:
+                    return new SharpDisassembler();
+                default:
+                    throw new Exception("Assembler not supported for specified architecture");
+            }
         }
-
-    } // End class
-
-} // End namespace
+    }
+    //// End class
+}
+//// End namespace

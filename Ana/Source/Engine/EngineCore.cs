@@ -1,6 +1,7 @@
-﻿using Ana.Source.Engine.Architecture.Assembler;
-using Ana.Source.Engine.Architecture.Disassembler;
+﻿using Ana.Source.Engine.Architecture;
 using Ana.Source.Engine.OperatingSystems;
+using Ana.Source.Engine.SpeedManipulator;
+using Ana.Source.Engine.Unrandomizer;
 using System.Diagnostics;
 
 namespace Ana.Source.Engine
@@ -10,17 +11,22 @@ namespace Ana.Source.Engine
     /// </summary>
     public class EngineCore
     {
-        public IOperatingSystem Memory { get; private set; }
+        public IOperatingSystemAdapter Memory { get; private set; }
 
-        public IAssembler Assembler { get; private set; }
+        public IArchitecture Architecture { get; private set; }
 
-        public IDisassembler Disassembler { get; private set; }
+        public ISpeedManipulator SpeedManipulator { get; private set; }
+
+        public IUnrandomizer Unrandomizer { get; private set; }
+
+        // public IGraphics Graphics { get; private set; }
+
+        // public IInput Input { get; private set; }
 
         public EngineCore(Process TargetProcess)
         {
-            Memory = OperatingSystemFactory.GetOperatingSystem(TargetProcess);
-            Assembler = AssemblerFactory.GetAssembler();
-            Disassembler = DisassemblerFactory.GetDisassembler();
+            Architecture = ArchitectureFactory.GetArchitecture();
+            Memory = OperatingSystemAdapterFactory.GetOperatingSystemAdapter(TargetProcess);
         }
 
     } // End interface
