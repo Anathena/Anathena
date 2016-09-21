@@ -107,9 +107,9 @@
         /// <summary>
         /// TODO: document and rename ported translator methods
         /// </summary>
-        /// <param name="insn"></param>
-        /// <param name="opr"></param>
-        /// <returns></returns>
+        /// <param name="insn">TODO insn</param>
+        /// <param name="opr">TODO opr</param>
+        /// <returns>TODO TODO</returns>
         protected UInt64 Ud_syn_rel_target(Instruction insn, Operand opr)
         {
             UInt64 trunc_mask = 0xffffffffffffffff >> (64 - insn.OprMode);
@@ -127,8 +127,8 @@
         /// <summary>
         /// TODO: document and rename ported translator methods
         /// </summary>
-        /// <param name="insn"></param>
-        /// <param name="addr"></param>
+        /// <param name="insn">TODO insn</param>
+        /// <param name="addr">TODO addr</param>
         protected void Ud_syn_print_addr(Instruction insn, Int64 addr)
         {
             String name = null;
@@ -158,9 +158,9 @@
         /// <summary>
         /// TODO: document and rename ported translator methods
         /// </summary>
-        /// <param name="insn"></param>
-        /// <param name="op"></param>
-        protected void Ud_syn_print_imm(Instruction insn, Operand op)
+        /// <param name="insn">TODO insn</param>
+        /// <param name="op">TODO op</param>
+        protected void UdSynPrintImm(Instruction insn, Operand op)
         {
             UInt64 v;
             if (op.Opcode == UdOperandCode.OP_sI && op.Size != insn.OprMode)
@@ -209,10 +209,10 @@
         /// <summary>
         /// TODO: document and rename ported translator methods
         /// </summary>
-        /// <param name="insn"></param>
-        /// <param name="op"></param>
-        /// <param name="sign"></param>
-        protected void Ud_syn_print_mem_disp(Instruction insn, Operand op, Int32 sign)
+        /// <param name="insn">TODO insn</param>
+        /// <param name="op">TODO op</param>
+        /// <param name="sign">TODO sign</param>
+        protected void UdSynPrintMemDisp(Instruction insn, Operand op, Int32 sign)
         {
             Debug.Assert(op.Offset != 0, "Offset must be non-zero");
             if (op.Base == UdType.UD_NONE && op.Index == UdType.UD_NONE)

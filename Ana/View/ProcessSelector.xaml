@@ -8,10 +8,25 @@
     xmlns:sys="clr-namespace:System;assembly=mscorlib"
     xmlns:sysWindows="clr-namespace:System.Windows;assembly=PresentationCore"
     xmlns:local="clr-namespace:Ana"
+    xmlns:converters="clr-namespace:Ana.Source.Mvvm.Converters"
     mc:Ignorable="d"
     d:DesignHeight="300" d:DesignWidth="300">
 
     <StackPanel>
+        <ListView ItemsSource="{Binding ProcessObjects}">
+            <ListView.Resources>
+                <converters:IconConverter x:Key="IconConverter"/>
+                <DataTemplate x:Key="Template">
+                    <Image Source="{Binding Path=icon, Converter={StaticResource IconConverter}}" Width="16" Height="16"/>
+                </DataTemplate>
+            </ListView.Resources>
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Header="Icon" CellTemplate="{StaticResource Template}"/>
+                    <GridViewColumn Header="Process Name" DisplayMemberBinding="{Binding Path=processName}"/>
+                </GridView>
+            </ListView.View>
+        </ListView>
         <TextBlock Text="{Binding FileSize}"/>
         <TextBlock Text="{Binding LastModified}"/>
         <TextBox Text="test"/>

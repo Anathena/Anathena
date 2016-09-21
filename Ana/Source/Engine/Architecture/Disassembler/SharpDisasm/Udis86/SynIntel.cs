@@ -2,13 +2,16 @@
 {
     using System;
 
+    /// <summary>
+    /// TODO TODO
+    /// </summary>
     public class SynIntel : Syn
     {
         /// <summary>
         /// Prints an operand cast.
         /// </summary>
-        /// <param name="u"></param>
-        /// <param name="op"></param>
+        /// <param name="u">TODO u</param>
+        /// <param name="op">TODO op</param>
         public void OperandCast(ref Ud u, ref UdOperand op)
         {
             if (u.BrFar > 0)
@@ -41,7 +44,7 @@
         /// <summary>
         /// translates to intel syntax 
         /// </summary>
-        /// <param name="u"></param>
+        /// <param name="u">TODO u</param>
         public void UdTranslateIntel(ref Ud u)
         {
             // Check if P_OSO prefix is used
@@ -178,9 +181,9 @@
         /// <summary>
         /// Generates assembly output for each operand.
         /// </summary>
-        /// <param name="u"></param>
-        /// <param name="op"></param>
-        /// <param name="synCast"></param>
+        /// <param name="u">TODO u</param>
+        /// <param name="op">TODO op</param>
+        /// <param name="synCast">TODO synCast</param>
         private void GenOperand(ref Ud u, ref UdOperand op, Int32 synCast)
         {
             switch (op.UdType)

@@ -14,8 +14,8 @@
         /// <summary>
         /// Translate a list of instructions separated by <see cref="Environment.NewLine"/>.
         /// </summary>
-        /// <param name="insns"></param>
-        /// <returns></returns>
+        /// <param name="insns">TODO insns</param>
+        /// <returns>TODO TODO</returns>
         public override String Translate(IEnumerable<Instruction> insns)
         {
             Boolean first = true;
@@ -51,8 +51,8 @@
         /// <summary>
         /// Translate a single instruction
         /// </summary>
-        /// <param name="insn"></param>
-        /// <returns></returns>
+        /// <param name="insn">TODO insn</param>
+        /// <returns>TODO TODO</returns>
         public override String Translate(Instruction insn)
         {
             this.Content = new StringBuilder();
@@ -75,8 +75,8 @@
         /// <summary>
         /// Prints an operand cast.
         /// </summary>
-        /// <param name="insn"></param>
-        /// <param name="op"></param>
+        /// <param name="insn">TODO insn</param>
+        /// <param name="op">TODO op</param>
         private void Opr_cast(Instruction insn, Operand op)
         {
             switch (op.Size)
@@ -92,8 +92,8 @@
         /// <summary>
         /// Generates assembly output for each operand
         /// </summary>
-        /// <param name="u"></param>
-        /// <param name="op"></param>
+        /// <param name="u">TODO u</param>
+        /// <param name="op">TODO op</param>
         private void Gen_operand(Instruction u, Operand op)
         {
             switch (op.Type)
@@ -117,7 +117,7 @@
 
                     if (op.Offset != 0)
                     {
-                        this.Ud_syn_print_mem_disp(u, op, 0);
+                        this.UdSynPrintMemDisp(u, op, 0);
                     }
 
                     if (op.Base != UdType.UD_NONE)
@@ -152,7 +152,7 @@
                     break;
                 case UdType.UD_OP_IMM:
                     this.Content.AppendFormat("$");
-                    this.Ud_syn_print_imm(u, op);
+                    this.UdSynPrintImm(u, op);
                     break;
                 case UdType.UD_OP_JIMM:
                     this.Ud_syn_print_addr(u, (Int64)this.Ud_syn_rel_target(u, op));
@@ -177,7 +177,7 @@
         /// <summary>
         /// Translates to ATT syntax 
         /// </summary>
-        /// <param name="u"></param>
+        /// <param name="u">TODO u</param>
         private void Ud_translate_att(Instruction u)
         {
             Int32 size = 0;

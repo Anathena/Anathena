@@ -1,6 +1,7 @@
 ﻿namespace Ana.Source.ProcessSelector
 {
     using Docking;
+    using Engine.Processes;
     using Main;
     using System;
     using System.Collections.Generic;
@@ -23,11 +24,11 @@
             MainViewModel.GetInstance().Subscribe(this);
         }
 
-        public IEnumerable<Int64> GetProcesses
+        public IEnumerable<NormalizedProcess> ProcessObjects
         {
             get
             {
-                return null;
+                return ProcessCollector.GetProcesses();
             }
 
             set

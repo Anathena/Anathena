@@ -10,22 +10,22 @@
     /// <summary>
     /// A class responsible for collecting all running processes on the system
     /// </summary>
-    public class ProcessCollector
+    internal static class ProcessCollector
     {
         /// <summary>
         /// Retrieves all running processes
         /// </summary>
         /// <returns>A collection of normalized processes</returns>
-        public IEnumerable<NormalizedProcess> GetProcesses()
+        public static IEnumerable<NormalizedProcess> GetProcesses()
         {
             return Process.GetProcesses()
-                .Select(externalProcess => new IntermediateProcess(this.IsProcessSystemProcess(externalProcess), externalProcess))
+                .Select(externalProcess => new IntermediateProcess(ProcessCollector.IsProcessSystemProcess(externalProcess), externalProcess))
                 .Select(intermediateProcess => new NormalizedProcess(
                         intermediateProcess.ExternalProcess.Id,
                         intermediateProcess.ExternalProcess.ProcessName,
-                        intermediateProcess.ExternalProcess.StartTime,
+                        intermediateProcess.IsSystemProcess ? DateTime.MinValue : intermediateProcess.ExternalProcess.StartTime,
                         intermediateProcess.IsSystemProcess,
-                        this.GetIcon(intermediateProcess)))
+                        ProcessCollector.GetIcon(intermediateProcess)))
                 .OrderByDescending(normalizedProcess => normalizedProcess.processId);
         }
 
@@ -34,7 +34,7 @@
         /// </summary>
         /// <param name="externalProcess">The process to check</param>
         /// <returns>A value indicating whether or not the given process is a system process</returns>
-        private Boolean IsProcessSystemProcess(Process externalProcess)
+        private static Boolean IsProcessSystemProcess(Process externalProcess)
         {
             if (externalProcess.SessionId == 0 || externalProcess.BasePriority == 13)
             {
@@ -62,7 +62,7 @@
         /// </summary>
         /// <param name="intermediateProcess">An intermediate process structure</param>
         /// <returns>An Icon associated with the given process. Returns null if there is no icon</returns>
-        private Icon GetIcon(IntermediateProcess intermediateProcess)
+        private static Icon GetIcon(IntermediateProcess intermediateProcess)
         {
             const Icon NoIcon = null;
 

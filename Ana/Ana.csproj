@@ -71,7 +71,9 @@
     <Compile Include="Source\Engine\Architecture\Disassembler\SharpDisasm\Disassembler.cs" />
     <Compile Include="Source\Engine\Architecture\Disassembler\SharpDisasm\Instruction.cs" />
     <Compile Include="Source\Engine\Architecture\Disassembler\SharpDisasm\Operand.cs" />
-    <Compile Include="Source\Engine\Architecture\Disassembler\SharpDisasm\Translators\ATTTranslator.cs" />
+    <Compile Include="Source\Engine\Architecture\Disassembler\SharpDisasm\Translators\ATTTranslator.cs">
+      <ExcludeFromStyleCop>False</ExcludeFromStyleCop>
+    </Compile>
     <Compile Include="Source\Engine\Architecture\Disassembler\SharpDisasm\Translators\IntelTranslator.cs" />
     <Compile Include="Source\Engine\Architecture\Disassembler\SharpDisasm\Translators\SymbolResolverDelegate.cs" />
     <Compile Include="Source\Engine\Architecture\Disassembler\SharpDisasm\Translators\Translator.cs" />
@@ -83,9 +85,11 @@
       <DesignTime>True</DesignTime>
     </Compile>
     <Compile Include="Source\Engine\Architecture\Disassembler\SharpDisasm\Udis86\RegClass.cs" />
-    <Compile Include="Source\Engine\Architecture\Disassembler\SharpDisasm\Udis86\syn.cs" />
+    <Compile Include="Source\Engine\Architecture\Disassembler\SharpDisasm\Udis86\Syn.cs" />
     <Compile Include="Source\Engine\Architecture\Disassembler\SharpDisasm\Udis86\SynIntel.cs" />
-    <Compile Include="Source\Engine\Architecture\Disassembler\SharpDisasm\Udis86\Ud.cs" />
+    <Compile Include="Source\Engine\Architecture\Disassembler\SharpDisasm\Udis86\Ud.cs">
+      <ExcludeFromStyleCop>False</ExcludeFromStyleCop>
+    </Compile>
     <Compile Include="Source\Engine\Architecture\Disassembler\SharpDisasm\Udis86\Udis86.cs" />
     <Compile Include="Source\Engine\Architecture\Disassembler\SharpDisasm\Udis86\UdItabEntry.cs" />
     <Compile Include="Source\Engine\Architecture\Disassembler\SharpDisasm\Udis86\UdItabEntryOperand.cs" />
@@ -98,7 +102,7 @@
     <Compile Include="Source\Engine\Architecture\Disassembler\SharpDisasm\Vendor.cs" />
     <Compile Include="Source\Engine\Architecture\Disassembler\SharpDisassembler.cs" />
     <Compile Include="Source\Engine\Architecture\IArchitecture.cs" />
-    <Compile Include="Source\Engine\Architecture\x86_64Architecture.cs" />
+    <Compile Include="Source\Engine\Architecture\Architecture86_64.cs" />
     <Compile Include="Source\Engine\EngineCore.cs" />
     <Compile Include="Source\Engine\ManagedObjectResolver\IManagedObjectResolver.cs" />
     <Compile Include="Source\Engine\OperatingSystems\IOperatingSystemAdapter.cs" />
@@ -115,9 +119,9 @@
     <Compile Include="Source\Engine\Processes\IProcessSubject.cs" />
     <Compile Include="Source\Engine\Processes\NormalizedProcess.cs" />
     <Compile Include="Source\Engine\Processes\ProcessCollector.cs" />
-    <Compile Include="Source\Engine\Processes\ProcessSelector.cs" />
     <Compile Include="Source\Engine\SpeedManipulator\ISpeedManipulator.cs" />
     <Compile Include="Source\Engine\Unrandomizer\IUnrandomizer.cs" />
+    <Compile Include="Source\Mvvm\Converters\IconConverter.cs" />
     <Compile Include="Source\Utils\DataStructures\BiDictionary.cs" />
     <Compile Include="Source\Utils\DataStructures\ConcurrentHashSet.cs" />
     <Compile Include="Source\Utils\DataStructures\ObjectCache.cs" />

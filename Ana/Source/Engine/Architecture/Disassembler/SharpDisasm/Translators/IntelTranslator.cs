@@ -11,7 +11,7 @@
     public class IntelTranslator : Translator
     {
         /// <summary>
-        /// Translate a list of instructions separated by <see cref="Environment.NewLine"/>.
+        /// Translate a list of instructions separated by <see cref="Environment.NewLine"/>
         /// </summary>
         /// <param name="insns">The instructions to translate</param>
         /// <returns>Each instruction as Intel ASM syntax separated by <see cref="Environment.NewLine"/></returns>
@@ -41,7 +41,7 @@
                     this.WriteBinary(insn);
                 }
 
-                this.Ud_translate_intel(insn);
+                this.UdTranslateIntel(insn);
             }
 
             String result = Content.ToString();
@@ -53,8 +53,8 @@
         /// <summary>
         /// Translate a single instruction
         /// </summary>
-        /// <param name="insn"></param>
-        /// <returns></returns>
+        /// <param name="insn">TODO insn</param>
+        /// <returns>TODO TODO</returns>
         public override String Translate(Instruction insn)
         {
             Content.Length = 0;
@@ -68,7 +68,7 @@
                 this.WriteBinary(insn);
             }
 
-            this.Ud_translate_intel(insn);
+            this.UdTranslateIntel(insn);
 
             String result = Content.ToString();
             Content.Length = 0;
@@ -77,11 +77,11 @@
         }
 
         /// <summary>
-        /// Prints an operand cast.
+        /// Prints an operand cast
         /// </summary>
-        /// <param name="insn"></param>
-        /// <param name="op"></param>
-        private void Opr_cast(Instruction insn, Operand op)
+        /// <param name="insn">TODO insn</param>
+        /// <param name="op">TODO op</param>
+        private void OprCast(Instruction insn, Operand op)
         {
             if (insn.BrFar > 0)
             {
@@ -110,12 +110,12 @@
         }
 
         /// <summary>
-        /// Generates assembly output for each operand.
+        /// Generates assembly output for each operand
         /// </summary>
-        /// <param name="insn"></param>
-        /// <param name="op"></param>
-        /// <param name="syn_cast"></param>
-        private void Gen_operand(Instruction insn, Operand op, Int32 syn_cast)
+        /// <param name="insn">TODO insn</param>
+        /// <param name="op">TODO op</param>
+        /// <param name="synCast">TODO synCast</param>
+        private void Gen_operand(Instruction insn, Operand op, Int32 synCast)
         {
             switch (op.Type)
             {
@@ -124,9 +124,9 @@
                     break;
 
                 case UdType.UD_OP_MEM:
-                    if (syn_cast > 0)
+                    if (synCast > 0)
                     {
-                        this.Opr_cast(insn, op);
+                        this.OprCast(insn, op);
                     }
 
                     this.Content.AppendFormat("[");
@@ -151,13 +151,13 @@
 
                     if (op.Offset != 0)
                     {
-                        this.Ud_syn_print_mem_disp(insn, op, (op.Base != UdType.UD_NONE || op.Index != UdType.UD_NONE) ? 1 : 0);
+                        this.UdSynPrintMemDisp(insn, op, (op.Base != UdType.UD_NONE || op.Index != UdType.UD_NONE) ? 1 : 0);
                     }
 
                     this.Content.AppendFormat("]");
                     break;
                 case UdType.UD_OP_IMM:
-                    this.Ud_syn_print_imm(insn, op);
+                    this.UdSynPrintImm(insn, op);
                     break;
                 case UdType.UD_OP_JIMM:
                     this.Ud_syn_print_addr(insn, (long)Ud_syn_rel_target(insn, op));
@@ -175,9 +175,9 @@
 
                     break;
                 case UdType.UD_OP_CONST:
-                    if (syn_cast > 0)
+                    if (synCast > 0)
                     {
-                        this.Opr_cast(insn, op);
+                        this.OprCast(insn, op);
                     }
 
                     this.Content.AppendFormat("{0}", op.LvalUDWord);
@@ -188,10 +188,10 @@
         }
 
         /// <summary>
-        /// translates to intel syntax
+        /// Translates to intel syntax
         /// </summary>
-        /// <param name="insn"></param>
-        private void Ud_translate_intel(Instruction insn)
+        /// <param name="insn">TODO insn</param>
+        private void UdTranslateIntel(Instruction insn)
         {
             /* check if P_OSO prefix is used */
             if (BitOps.P_OSO(insn.ItabEntry.Prefix) == 0 && insn.PfxOpr > 0)
