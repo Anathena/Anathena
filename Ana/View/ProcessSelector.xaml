@@ -13,7 +13,6 @@
     xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
     mc:Ignorable="d"
     d:DesignHeight="300" d:DesignWidth="300">
-
     <StackPanel>
         <ListView ItemsSource="{Binding ProcessObjects}">
             <ListView.Resources>

@@ -21,7 +21,7 @@
             this.ContentId = ProcessSelectorContentId;
             this.IconSource = ImageLoader.LoadImage("pack://application:,,/Content/Icons/SelectProcess.png");
 
-            this.SelectProcessCommand = new RelayCommand<Object>((process) => this.SelectProcess(process), (process) => true);
+            this.SelectProcessCommand = new RelayCommand<NormalizedProcess>((process) => this.SelectProcess(process), (process) => true);
 
             MainViewModel.GetInstance().Subscribe(this);
         }
@@ -40,15 +40,14 @@
             }
         }
 
-        private void SelectProcess(Object process)
+        private void SelectProcess(NormalizedProcess process)
         {
-            if (process == null || !(process is NormalizedProcess))
+            if (process == null)
             {
                 return;
             }
 
-            NormalizedProcess normalizedProcess = process as NormalizedProcess;
-
+            this.IsVisible = false;
         }
     }
     //// End class

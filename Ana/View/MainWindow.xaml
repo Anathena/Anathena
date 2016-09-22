@@ -25,15 +25,8 @@
         <Grid Grid.Row="0">
             <Menu>
                 <MenuItem Header="File">
-                    <MenuItem Header="New" Command="{Binding NewCommand}"/>
-                    <MenuItem Header="Open" Command="{Binding OpenCommand}"/>
-                    <Separator/>
-                    <MenuItem Header="Save" Command="{Binding ActiveDocument.SaveCommand}"/>
-                    <MenuItem Header="Save As..." Command="{Binding ActiveDocument.SaveAsCommand}"/>
-                    <Separator/>
-                    <MenuItem Header="Close" Command="{Binding ActiveDocument.CloseCommand}"/>
                 </MenuItem>
-                <MenuItem Header="Tools">
+                <MenuItem Header="Tools" DataContext="{Binding Source={StaticResource ViewModelLocator}}">
                     <MenuItem Header="Cheat Browser" IsChecked="{Binding ProcessSelectorViewModel.IsVisible, Mode=TwoWay}" IsCheckable="True"/>
                     <MenuItem Header="Process Selector" IsChecked="{Binding ProcessSelectorViewModel.IsVisible, Mode=TwoWay}" IsCheckable="True"/>
                     <MenuItem Header="Project Explorer" IsChecked="{Binding ProcessSelectorViewModel.IsVisible, Mode=TwoWay}" IsCheckable="True"/>
