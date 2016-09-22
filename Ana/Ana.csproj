@@ -104,6 +104,7 @@
     <Compile Include="Source\Engine\Architecture\IArchitecture.cs" />
     <Compile Include="Source\Engine\Architecture\Architecture86_64.cs" />
     <Compile Include="Source\Engine\EngineCore.cs" />
+    <Compile Include="Source\Engine\Graphics\IGraphics.cs" />
     <Compile Include="Source\Engine\ManagedObjectResolver\IManagedObjectResolver.cs" />
     <Compile Include="Source\Engine\OperatingSystems\IOperatingSystemAdapter.cs" />
     <Compile Include="Source\Engine\OperatingSystems\NormalizedFlags.cs" />
@@ -121,7 +122,6 @@
     <Compile Include="Source\Engine\Processes\ProcessCollector.cs" />
     <Compile Include="Source\Engine\SpeedManipulator\ISpeedManipulator.cs" />
     <Compile Include="Source\Engine\Unrandomizer\IUnrandomizer.cs" />
-    <Compile Include="Source\Mvvm\Converters\BoolToVisibilityConverter.cs" />
     <Compile Include="Source\Mvvm\Converters\IconConverter.cs" />
     <Compile Include="Source\Utils\DataStructures\BiDictionary.cs" />
     <Compile Include="Source\Utils\DataStructures\ConcurrentHashSet.cs" />

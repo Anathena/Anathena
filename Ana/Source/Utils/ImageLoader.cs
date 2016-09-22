@@ -6,7 +6,7 @@
     /// <summary>
     /// Static class for loading images from the project content
     /// </summary>
-    public static class ImageLoader
+    internal static class ImageLoader
     {
         /// <summary>
         /// Loads an image from the given uri

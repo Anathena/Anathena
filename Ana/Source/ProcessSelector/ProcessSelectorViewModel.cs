@@ -14,8 +14,14 @@
     /// </summary>
     internal class ProcessSelectorViewModel : ToolViewModel
     {
-        public const String ProcessSelectorContentId = "ProcessSelector";
+        /// <summary>
+        /// The content id for the docking library associated with this view model
+        /// </summary>
+        public const String ProcessSelectorContentId = nameof(ProcessSelectorViewModel);
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ProcessSelectorViewModel" /> class
+        /// </summary>
         public ProcessSelectorViewModel() : base("Process Selector")
         {
             this.ContentId = ProcessSelectorContentId;
@@ -26,20 +32,26 @@
             MainViewModel.GetInstance().Subscribe(this);
         }
 
+        /// <summary>
+        /// Gets the command to select a target process
+        /// </summary>
         public ICommand SelectProcessCommand { get; private set; }
 
-        public IEnumerable<NormalizedProcess> ProcessObjects
+        /// <summary>
+        /// Gets the processes running on the machine
+        /// </summary>
+        public IEnumerable<NormalizedProcess> ProcessList
         {
             get
             {
                 return ProcessCollector.GetProcesses();
             }
-
-            set
-            {
-            }
         }
 
+        /// <summary>
+        /// Makes the target process selection
+        /// </summary>
+        /// <param name="process">The process being selected</param>
         private void SelectProcess(NormalizedProcess process)
         {
             if (process == null)

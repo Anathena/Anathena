@@ -15,7 +15,7 @@
     public abstract class ViewModelBase : ObservableObject, ICleanup
     {
         /// <summary>
-        /// TODO TODO
+        /// Indicates if the view model is running in design time
         /// </summary>
         private static Boolean? isInDesignMode;
 
@@ -44,8 +44,7 @@
         }
 
         /// <summary>
-        /// Gets a value indicating whether the control is in design mode
-        /// (running in Blend or Visual Studio).
+        /// Gets a value indicating whether the control is in design mode (running in Blend or Visual Studio).
         /// </summary>
         [SuppressMessage("Microsoft.Security", "CA2122:DoNotIndirectlyExposeMethodsWithLinkDemands", Justification = "The security risk here is neglectible.")]
         public static Boolean IsInDesignModeStatic

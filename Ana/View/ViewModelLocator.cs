@@ -1,8 +1,8 @@
-﻿using Ana.Source.Main;
-using Ana.Source.ProcessSelector;
-
-namespace Ana.View
+﻿namespace Ana.View
 {
+    using Source.Main;
+    using Source.ProcessSelector;
+
     /// <summary>
     /// This class contains static references to all the view models in the
     /// application and provides an entry point for the bindings.

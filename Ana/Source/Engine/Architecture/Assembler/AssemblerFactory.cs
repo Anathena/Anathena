@@ -5,12 +5,12 @@
     /// <summary>
     /// A factory that returns an assembler based on the system architecture
     /// </summary>
-    class AssemblerFactory
+    internal class AssemblerFactory
     {
         /// <summary>
         /// Gets an assembler based on the system architecture
         /// </summary>
-        /// <param name="architectureType"></param>
+        /// <param name="architectureType">The system architecture</param>
         /// <returns>An object implementing IAssembler based on the system architecture</returns>
         public static IAssembler GetAssembler(ArchitectureType architectureType)
         {

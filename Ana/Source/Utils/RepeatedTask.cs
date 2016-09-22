@@ -4,7 +4,7 @@
     using System.Threading;
     using System.Threading.Tasks;
 
-    public abstract class RepeatedTask
+    internal abstract class RepeatedTask
     {
         private CancellationTokenSource cancelRequest;  // Tells the task to finish
         private Task task;                              // Event that constantly checks the target process for changes

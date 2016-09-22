@@ -1,34 +1,71 @@
-﻿using Ana.Source.Engine.Architecture;
-using Ana.Source.Engine.OperatingSystems;
-using Ana.Source.Engine.SpeedManipulator;
-using Ana.Source.Engine.Unrandomizer;
-using System.Diagnostics;
-
-namespace Ana.Source.Engine
+﻿namespace Ana.Source.Engine
 {
+    using Architecture;
+    using Graphics;
+    using Input;
+    using OperatingSystems;
+    using Processes;
+    using SpeedManipulator;
+    using System;
+    using System.Threading;
+    using Unrandomizer;
+
     /// <summary>
-    /// Abstraction of the OS, providing access to assembly functions and target process functions
+    /// Abstraction of the system, providing the ability to easily manipulate system internals regardless of the platform
     /// </summary>
     public class EngineCore
     {
-        public IOperatingSystemAdapter Memory { get; private set; }
+        /// <summary>
+        /// Singleton instance of the <see cref="MainViewModel" /> class
+        /// </summary>
+        private static Lazy<EngineCore> mainViewModelInstance = new Lazy<EngineCore>(
+                () => { return new EngineCore(); },
+                LazyThreadSafetyMode.PublicationOnly);
 
-        public IArchitecture Architecture { get; private set; }
-
-        public ISpeedManipulator SpeedManipulator { get; private set; }
-
-        public IUnrandomizer Unrandomizer { get; private set; }
-
-        // public IGraphics Graphics { get; private set; }
-
-        // public IInput Input { get; private set; }
-
-        public EngineCore(Process TargetProcess)
+        /// <summary>
+        /// Prevents a default instance of the <see cref="EngineCore" /> class from being created
+        /// </summary>
+        private EngineCore()
         {
-            Architecture = ArchitectureFactory.GetArchitecture();
-            Memory = OperatingSystemAdapterFactory.GetOperatingSystemAdapter(TargetProcess);
+            this.Architecture = ArchitectureFactory.GetArchitecture();
+            //// this.OperatingSystemAdapter = OperatingSystemAdapterFactory.GetOperatingSystemAdapter(TargetProcess);
         }
 
-    } // End interface
+        /// <summary>
+        /// Gets an object that provides access to target process manipulations
+        /// </summary>
+        public IProcesses Processes { get; private set; }
 
-} // End namespace
+        /// <summary>
+        /// Gets an object that provides access to target memory manipulations
+        /// </summary>
+        public IOperatingSystemAdapter OperatingSystemAdapter { get; private set; }
+
+        /// <summary>
+        /// Gets an object that provides access to an assembler and disassembler
+        /// </summary>
+        public IArchitecture Architecture { get; private set; }
+
+        /// <summary>
+        /// Gets an object that provides access to target execution speed manipulations
+        /// </summary>
+        public ISpeedManipulator SpeedManipulator { get; private set; }
+
+        /// <summary>
+        /// Gets an object that provides access to target random library manipulations
+        /// </summary>
+        public IUnrandomizer Unrandomizer { get; private set; }
+
+        /// <summary>
+        /// Gets an object that provides access to target graphics library manipulations
+        /// </summary>
+        public IGraphics Graphics { get; private set; }
+
+        /// <summary>
+        /// Gets an object that provides access to system input for mouse, keyboard, and controllers
+        /// </summary>
+        public IInput Input { get; private set; }
+    }
+    //// End interface
+}
+//// End namespace
