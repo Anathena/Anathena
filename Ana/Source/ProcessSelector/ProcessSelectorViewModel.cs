@@ -3,8 +3,10 @@
     using Docking;
     using Engine.Processes;
     using Main;
+    using Mvvm.Command;
     using System;
     using System.Collections.Generic;
+    using System.Windows.Input;
     using Utils;
 
     /// <summary>
@@ -12,17 +14,19 @@
     /// </summary>
     internal class ProcessSelectorViewModel : ToolViewModel
     {
-        public const String ToolContentId = "FileStatsTool";
-        private DateTime lastModified;
-        private Int64 fileSize;
+        public const String ProcessSelectorContentId = "ProcessSelector";
 
         public ProcessSelectorViewModel() : base("Process Selector")
         {
-            this.ContentId = ToolContentId;
+            this.ContentId = ProcessSelectorContentId;
             this.IconSource = ImageLoader.LoadImage("pack://application:,,/Content/Icons/SelectProcess.png");
+
+            this.SelectProcessCommand = new RelayCommand<Object>((process) => this.SelectProcess(process), (process) => true);
 
             MainViewModel.GetInstance().Subscribe(this);
         }
+
+        public ICommand SelectProcessCommand { get; private set; }
 
         public IEnumerable<NormalizedProcess> ProcessObjects
         {
@@ -36,38 +40,15 @@
             }
         }
 
-        public Int64 FileSize
+        private void SelectProcess(Object process)
         {
-            get
+            if (process == null || !(process is NormalizedProcess))
             {
-                return this.fileSize;
+                return;
             }
 
-            set
-            {
-                if (this.fileSize != value)
-                {
-                    this.fileSize = value;
-                    this.RaisePropertyChanged(nameof(this.FileSize));
-                }
-            }
-        }
+            NormalizedProcess normalizedProcess = process as NormalizedProcess;
 
-        public DateTime LastModified
-        {
-            get
-            {
-                return this.lastModified;
-            }
-
-            set
-            {
-                if (this.lastModified != value)
-                {
-                    this.lastModified = value;
-                    this.RaisePropertyChanged(nameof(this.LastModified));
-                }
-            }
         }
     }
     //// End class

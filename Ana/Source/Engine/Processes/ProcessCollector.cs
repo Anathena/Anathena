@@ -47,14 +47,15 @@
                 {
                     // Accessing this field will cause an access exception for system processes. This saves
                     // time because handling the exception is faster than failing to fetch the icon later
+                    return false;
                 }
-
-                return false;
             }
             catch
             {
                 return true;
             }
+
+            return false;
         }
 
         /// <summary>
